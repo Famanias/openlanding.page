@@ -161,7 +161,6 @@ export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
           <div className="absolute top-3 left-3 pointer-events-none z-10">
             <Badge
               variant="overlay"
-              dot
               data-testid="model-tag"
               className="px-2.5 py-1 text-xs shadow-md"
             >

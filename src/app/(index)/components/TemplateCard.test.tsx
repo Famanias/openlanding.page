@@ -52,10 +52,12 @@ describe("TemplateCard", () => {
     expect(html).toContain('rel="noopener noreferrer"');
   });
 
-  it("renders model tag overlay in top-left of preview frame with correct AI model", () => {
+  it("renders model tag overlay in top-left of preview frame with correct AI model and without indicator dot", () => {
     const orreryHtml = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={true} />);
     expect(orreryHtml).toContain("Claude Opus 5.5 High");
     expect(orreryHtml).toContain('data-testid="model-tag"');
+    expect(orreryHtml).not.toContain("animate-pulse");
+    expect(orreryHtml).not.toContain("bg-emerald-400");
 
     const trace = TEMPLATES.find((t) => t.slug === "trace")!;
     const traceHtml = renderToStaticMarkup(<TemplateCard template={trace} isEager={false} />);
