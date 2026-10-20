@@ -18,7 +18,9 @@ const STEP_LOCK_MS = 650;
 
 export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?: (tone: "bone" | "ink") => void }) {
   const [state, dispatch] = useReducer(deckReducer, { index: 0, count: slides.length });
-  const [keynote, setKeynote] = useState(false);
+  // "unknown" until the first effect runs, so neither mode's listeners start against the wrong layout.
+  const [mode, setMode] = useState<"unknown" | "keynote" | "flow">("unknown");
+  const keynote = mode === "keynote";
   const [ready, setReady] = useState(false);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const lockedUntil = useRef(0);
@@ -26,7 +28,7 @@ export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?:
   // Track which mode we're in.
   useEffect(() => {
     const mq = window.matchMedia(KEYNOTE_QUERY);
-    const sync = () => setKeynote(mq.matches);
+    const sync = () => setMode(mq.matches ? "keynote" : "flow");
     sync();
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
@@ -60,6 +62,9 @@ export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?:
     if (!keynote) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
+      // Typing in a form field must never change slides.
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable]:not([contenteditable='false'])")) return;
       const map: Record<string, "next" | "prev" | "first" | "last"> = {
         ArrowDown: "next",
         ArrowRight: "next",
@@ -103,7 +108,7 @@ export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?:
 
   // Flow mode: the counter follows whichever slide fills most of the viewport.
   useEffect(() => {
-    if (keynote) return;
+    if (mode !== "flow") return;
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -117,7 +122,7 @@ export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?:
     );
     sectionRefs.current.forEach((el) => el && io.observe(el));
     return () => io.disconnect();
-  }, [keynote]);
+  }, [mode]);
 
   // Keep the hash in sync with the active slide in keynote mode.
   useEffect(() => {

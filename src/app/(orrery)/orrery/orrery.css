@@ -698,6 +698,323 @@ kbd {
   font-size: 0.975rem;
 }
 
+
+/* ───────────────────────── 06 Results ───────────────────────── */
+.orr-results__grid {
+  display: grid;
+  gap: 32px;
+}
+
+.orr-figure {
+  border-top: 1px solid var(--color-ink);
+  padding-top: 20px;
+}
+
+.orr-figure__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 9vw, 9rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.orr-figure__label {
+  margin: 14px 0 0;
+  max-width: 26ch;
+  color: var(--ink-muted);
+}
+
+.orr-results__note {
+  color: var(--ink-muted);
+}
+
+/* ───────────────────────── 07 Quotes ───────────────────────── */
+.orr-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.orr-quotes__lead {
+  position: relative;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.orr-quotes__texture {
+  position: absolute;
+  inset: -12% auto auto -6%;
+  width: min(42vw, 520px);
+  aspect-ratio: 1;
+  opacity: 0.22;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.orr-quotes__lead blockquote,
+.orr-quotes__lead figcaption {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.orr-quotes__big {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(2rem, 3.8vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.orr-quotes figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.orr-quotes figcaption .orr-label {
+  color: var(--ink-muted);
+}
+
+.orr-quotes__name {
+  font-weight: 600;
+}
+
+.orr-quotes__rest {
+  display: grid;
+  gap: 28px;
+}
+
+.orr-quotes__small {
+  margin: 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--ink-line);
+}
+
+.orr-quotes__small blockquote {
+  margin: 0 0 16px;
+}
+
+.orr-quotes__small p {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+/* ───────────────────────── 08 Pricing ───────────────────────── */
+.orr-tiers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.orr-tier {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  border: 1px solid var(--ink-line);
+  border-radius: 4px;
+}
+
+.orr-tier[data-featured] {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  border-color: var(--color-ink);
+}
+
+.orr-tier__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orr-tier__head h3 {
+  margin: 0;
+}
+
+.orr-tier__badge {
+  color: var(--color-amber);
+}
+
+.orr-tier__price {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 4.4vw, 4.5rem);
+  line-height: 1;
+}
+
+.orr-tier__price .orr-label {
+  font-family: var(--font-mono);
+  color: var(--ink-muted);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.orr-tier[data-featured] .orr-tier__price .orr-label,
+.orr-tier[data-featured] .orr-tier__blurb {
+  color: var(--bone-muted);
+}
+
+.orr-tier__blurb {
+  margin: 0;
+  color: var(--ink-muted);
+}
+
+.orr-tier__features {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  flex: 1;
+}
+
+.orr-tier__features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.orr-tier__features svg {
+  color: var(--color-ultramarine);
+  flex: none;
+}
+
+.orr-tier[data-featured] .orr-tier__features svg {
+  color: var(--color-amber);
+}
+
+.orr-tier .orr-btn {
+  align-self: flex-start;
+}
+
+/* ───────────────────────── 09 Security ───────────────────────── */
+.orr-claims {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0 32px;
+}
+
+.orr-claims li {
+  padding: 18px 0;
+  border-top: 1px solid var(--bone-line);
+}
+
+.orr-claims__title {
+  margin: 0 0 4px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.0625rem;
+}
+
+.orr-claims p {
+  margin: 0;
+  color: var(--bone-muted);
+}
+
+.orr-security__texture {
+  display: none;
+}
+
+/* ───────────────────────── 10 CTA ───────────────────────── */
+.orr-cta__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.orr-cta__title {
+  font-size: clamp(3.5rem, 8vw, 8.5rem);
+}
+
+.orr-form {
+  display: grid;
+  gap: 18px;
+  padding: 28px;
+  border: 1px solid var(--color-ink);
+  border-radius: 4px;
+  background: var(--color-bone);
+}
+
+.orr-form--sent {
+  gap: 12px;
+  min-height: 260px;
+  align-content: center;
+}
+
+.orr-field {
+  display: grid;
+  gap: 8px;
+}
+
+.orr-field label {
+  color: var(--ink-muted);
+}
+
+.orr-field input {
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--ink-line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--color-ink);
+  font: inherit;
+  transition: border-color 160ms var(--ease-out);
+}
+
+.orr-field input:focus-visible {
+  outline: none;
+  border-color: var(--color-ultramarine);
+  box-shadow: 0 0 0 1px var(--color-ultramarine);
+}
+
+.orr-field[data-invalid] input {
+  border-color: var(--color-ink);
+}
+
+.orr-field__error {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-ultramarine);
+}
+
+.orr-form__submit {
+  justify-self: start;
+  margin-top: 6px;
+}
+
+.orr-cta__footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: var(--ink-muted);
+  padding-top: 20px;
+  border-top: 1px solid var(--ink-line);
+}
+
+.orr-cta__footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.orr-cta__footer a:hover {
+  color: var(--color-ink);
+}
+
 /* ───────────────────────── Desktop layouts ───────────────────────── */
 @media (min-width: 900px) {
   .orr-title__copy {
@@ -749,6 +1066,58 @@ kbd {
   .orr-cases__list {
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+  }
+
+  .orr-results__title {
+    grid-column: 1 / span 9;
+  }
+  .orr-results__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .orr-quotes__lead {
+    grid-column: 1 / span 7;
+    align-self: center;
+  }
+  .orr-quotes__rest {
+    grid-column: 9 / -1;
+    align-self: center;
+  }
+
+  .orr-pricing__title {
+    grid-column: 1 / span 9;
+  }
+  .orr-tiers {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .orr-security__title {
+    grid-column: 1 / span 7;
+  }
+  .orr-claims {
+    grid-column: 1 / span 8;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .orr-security__texture {
+    display: block;
+    grid-column: 9 / -1;
+    grid-row: 2 / span 2;
+    align-self: stretch;
+    min-height: 100%;
+  }
+  .orr-security__texture img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .orr-cta__copy {
+    grid-column: 1 / span 6;
+    align-self: center;
+  }
+  .orr-cta__form {
+    grid-column: 8 / -1;
+    align-self: center;
   }
 }
 
