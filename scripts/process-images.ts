@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import sharp from "sharp";
+import sharp, { type Sharp } from "sharp";
 import type { TemplateSlug } from "./templates.config";
 
 const WIDTHS = [800, 1600] as const;
@@ -43,7 +43,7 @@ export async function processImages(slug: TemplateSlug, paths: ProcessPaths): Pr
 
   for (const file of inputs) {
     const key = file.replace(INPUT, "");
-    let image = sharp(path.join(paths.incoming, file)).rotate();
+    let image: Sharp = sharp(path.join(paths.incoming, file)).rotate();
     if (slug === "cairn") image = await applyTritone(image);
     const meta = await image.clone().metadata();
     assets[key] = { w: meta.width ?? 0, h: meta.height ?? 0 };
@@ -61,7 +61,7 @@ export async function processImages(slug: TemplateSlug, paths: ProcessPaths): Pr
 }
 
 /** Map every pixel's Rec.709 luma through the tritone, so no hue survives. */
-async function applyTritone(image: sharp.Sharp): Promise<sharp.Sharp> {
+async function applyTritone(image: Sharp): Promise<Sharp> {
   const { data, info } = await image.removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const out = Buffer.alloc(info.width * info.height * 3);
   for (let p = 0, q = 0; p < data.length; p += info.channels, q += 3) {
