@@ -1,5 +1,5 @@
 import React from "react";
-import { GithubLogo, ArrowUpRight } from "@phosphor-icons/react";
+import { GithubLogo, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 
 export function Footer() {
   return (

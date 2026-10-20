@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowDown } from "@phosphor-icons/react";
+import { ArrowDown } from "@phosphor-icons/react/dist/ssr";
 import { Badge } from "./ui/Badge";
 
 export function Hero() {

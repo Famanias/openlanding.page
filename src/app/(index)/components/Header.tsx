@@ -1,5 +1,5 @@
 import React from "react";
-import { GithubLogo } from "@phosphor-icons/react";
+import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
 
 export function Header() {
   return (
@@ -17,13 +17,13 @@ export function Header() {
         <nav className="flex items-center gap-4 sm:gap-6 text-sm font-sans" aria-label="Main Navigation">
           <a
             href="#gallery"
-            className="text-neutral-400 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md px-1.5 py-1"
+            className="hidden sm:inline-flex text-neutral-400 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md px-1.5 py-1"
           >
             Gallery
           </a>
           <a
             href="#how-it-works"
-            className="text-neutral-400 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md px-1.5 py-1"
+            className="hidden sm:inline-flex text-neutral-400 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md px-1.5 py-1"
           >
             How it works
           </a>

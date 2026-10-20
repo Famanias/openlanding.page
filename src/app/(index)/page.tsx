@@ -1,22 +1,21 @@
-const TEMPLATES = [
-  { name: "Orrery", href: "/orrery", theme: "AI company · presentation-style" },
-  { name: "Cairn", href: "/cairn", theme: "Mountaineering apparel · showcase" },
-  { name: "KŌJI", href: "/koji", theme: "Japanese restaurant · 3D-focused" },
-];
+import { Header } from "./components/Header";
+import { Hero } from "./components/Hero";
+import { GalleryShell } from "./components/GalleryShell";
+import { HowItWorks } from "./components/HowItWorks";
+import { Footer } from "./components/Footer";
 
-export default function IndexPage() {
+export default async function IndexPage() {
+  "use cache";
+
   return (
-    <main className="index">
-      <h1>Templateflow</h1>
-      <p>Landing-page templates for design inspiration.</p>
-      <ul>
-        {TEMPLATES.map((t) => (
-          <li key={t.href}>
-            <a href={t.href}>{t.name}</a>
-            <span>{t.theme}</span>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <div className="min-h-screen flex flex-col bg-[#0C0D0E] text-[#ededed]">
+      <Header />
+      <main className="flex-1">
+        <Hero />
+        <GalleryShell />
+        <HowItWorks />
+      </main>
+      <Footer />
+    </div>
   );
 }

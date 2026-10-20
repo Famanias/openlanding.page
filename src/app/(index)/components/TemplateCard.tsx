@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Copy, Code, ArrowUpRight } from "@phosphor-icons/react";
+import { Copy, Code, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
 import { Button } from "./ui/Button";
 import { Badge } from "./ui/Badge";
