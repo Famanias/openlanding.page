@@ -11,8 +11,3 @@ test("index lists the three templates", async ({ page }) => {
   }
 });
 
-// Temporary (removed in Task 18): proves the heavy client deps load in a production build.
-test("heavy client dependencies load", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.locator('[data-deps="ok"]')).toBeAttached({ timeout: 5_000 });
-});

@@ -51,7 +51,7 @@
 .orr-display {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(4rem, 11vw, 11.5rem);
+  font-size: clamp(3.5rem, 11vw, 11.5rem);
   line-height: 0.88;
   letter-spacing: -0.025em;
   margin: 0;
@@ -70,6 +70,12 @@
 .orr-h2 em,
 .orr-display em {
   font-style: italic;
+}
+
+/* Explicit headline lines never re-wrap, so the fallback font can't change the line count (no layout shift). */
+.orr-line {
+  display: block;
+  white-space: nowrap;
 }
 
 .orr-h3 {

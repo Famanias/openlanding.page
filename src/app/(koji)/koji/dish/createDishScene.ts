@@ -1,5 +1,4 @@
 import * as THREE from "three/webgpu";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { buildNigiri } from "./nigiri";
 
 const AUTO_SPIN = 0.15; // rad/s
@@ -26,16 +25,15 @@ export async function createDishScene(
   await renderer.init();
   renderer.onDeviceLost = () => opts.onLost();
 
+  // No environment map: PMREM generation is the single most expensive start-up step. A soft fill light
+  // above and the clearcoat's direct highlights carry the glaze instead.
   const scene = new THREE.Scene();
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.45;
 
   // Low raking key light from the left, like late sun across the counter.
   const key = new THREE.DirectionalLight(0xffe2c0, 4.2);
   key.position.set(-3.6, 3.2, 2.6);
   key.castShadow = true;
-  key.shadow.mapSize.set(1024, 1024);
+  key.shadow.mapSize.set(768, 768);
   key.shadow.camera.left = -3;
   key.shadow.camera.right = 3;
   key.shadow.camera.top = 3;
@@ -47,7 +45,10 @@ export async function createDishScene(
   const rim = new THREE.DirectionalLight(0xc9d4ff, 1.6);
   rim.position.set(2.5, 2.5, -4);
   scene.add(rim);
-  scene.add(new THREE.HemisphereLight(0xfff1e0, 0x1a1918, 0.35));
+  scene.add(new THREE.HemisphereLight(0xfff1e0, 0x1a1918, 0.6));
+  const fill = new THREE.DirectionalLight(0xfff4e6, 0.9); // soft top fill for the glaze highlight
+  fill.position.set(0.5, 5, 3);
+  scene.add(fill);
 
   const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
   camera.position.set(0, 2.25, 5.6);
@@ -132,7 +133,6 @@ export async function createDishScene(
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerup", onUp);
       canvas.removeEventListener("pointercancel", onUp);
-      pmrem.dispose();
       dish.traverse((o) => {
         const mesh = o as THREE.Mesh;
         mesh.geometry?.dispose();

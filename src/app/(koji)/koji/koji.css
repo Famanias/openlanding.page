@@ -399,6 +399,18 @@ html:has(.kj-body) {
   opacity: 0;
 }
 
+.kj-dish__start {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.kj-dish__start:active {
+  transform: translateX(-50%) scale(0.97);
+}
+
 .kj-dish__hint {
   position: absolute;
   left: 50%;
@@ -410,7 +422,19 @@ html:has(.kj-body) {
   transition: opacity 400ms var(--ease-out) 600ms;
 }
 
-.kj-dish[data-ready] .kj-dish__hint {
+.kj-dish[data-ready] .kj-dish__start {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.kj-dish__start:active {
+  transform: translateX(-50%) scale(0.97);
+}
+
+.kj-dish__hint {
   opacity: 1;
 }
 

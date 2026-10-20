@@ -72,3 +72,16 @@ test.describe("KŌJI food flight", () => {
       .toBeGreaterThan(0);
   });
 });
+
+test.describe("KŌJI hero dish on phones", () => {
+  test.use({ viewport: { width: 375, height: 812 }, hasTouch: true, isMobile: true });
+
+  test("waits for a tap before loading 3D", async ({ page }) => {
+    await page.goto("/koji");
+    await expect(page.locator("#dish [data-asset='hero-dish-poster']")).toBeVisible();
+    await page.waitForTimeout(1500);
+    await expect(page.locator("#dish canvas")).toHaveCount(0);
+    await page.getByRole("button", { name: "View the dish in 3D" }).click();
+    await expect(page.locator('#dish canvas[data-ready="true"]')).toBeAttached({ timeout: 10_000 });
+  });
+});

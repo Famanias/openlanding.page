@@ -10,9 +10,8 @@ export function TitleSlide() {
           The orchestration layer for AI agents
         </p>
         <h1 className="orr-display orr-reveal" style={rv(1)}>
-          Many agents,
-          <br />
-          <em>one clockwork.</em>
+          <span className="orr-line">Many agents,</span>
+          <em className="orr-line">one clockwork.</em>
         </h1>
         <p className="orr-lead orr-reveal" style={rv(2)}>
           Orrery runs teams of specialised AI agents the way an orrery moves its planets. Each one keeps its own

@@ -1,5 +1,3 @@
-import { DepsSmoke } from "./deps-smoke";
-
 const TEMPLATES = [
   { name: "Orrery", href: "/orrery", theme: "AI company · presentation-style" },
   { name: "Cairn", href: "/cairn", theme: "Mountaineering apparel · showcase" },
@@ -19,7 +17,6 @@ export default function IndexPage() {
           </li>
         ))}
       </ul>
-      <DepsSmoke />
     </main>
   );
 }
