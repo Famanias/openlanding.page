@@ -162,8 +162,13 @@ export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?:
           );
         })}
       </div>
-      <SlideCounter index={state.index} count={slides.length} />
-      <ChapterRail chapters={slides.map((s) => s.chapter)} active={state.index} onSelect={goTo} />
+      <SlideCounter index={state.index} count={slides.length} tone={slides[state.index].tone ?? "bone"} />
+      <ChapterRail
+        chapters={slides.map((s) => s.chapter)}
+        active={state.index}
+        tone={slides[state.index].tone ?? "bone"}
+        onSelect={goTo}
+      />
     </>
   );
 }

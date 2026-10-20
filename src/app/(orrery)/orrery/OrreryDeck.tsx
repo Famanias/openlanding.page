@@ -3,6 +3,11 @@
 import { useCallback, useState } from "react";
 import { Logo } from "./brand/Logo";
 import { Deck, type Slide } from "./deck/Deck";
+import { HowSlide } from "./slides/HowSlide";
+import { OrrerySlide } from "./slides/OrrerySlide";
+import { ProblemSlide } from "./slides/ProblemSlide";
+import { TitleSlide } from "./slides/TitleSlide";
+import { UseCasesSlide } from "./slides/UseCasesSlide";
 
 type Chapter = { id: string; chapter: string; title: string; tone?: "bone" | "ink" };
 
@@ -33,11 +38,19 @@ function PlaceholderSlide({ index, chapter }: { index: number; chapter: Chapter 
   );
 }
 
+const BUILT: Record<string, Slide["render"]> = {
+  title: () => <TitleSlide />,
+  problem: () => <ProblemSlide />,
+  orrery: (active) => <OrrerySlide active={active} />,
+  how: () => <HowSlide />,
+  "use-cases": () => <UseCasesSlide />,
+};
+
 const SLIDES: Slide[] = CHAPTERS.map((chapter, index) => ({
   id: chapter.id,
   chapter: chapter.chapter,
   tone: chapter.tone,
-  render: () => <PlaceholderSlide index={index} chapter={chapter} />,
+  render: BUILT[chapter.id] ?? (() => <PlaceholderSlide index={index} chapter={chapter} />),
 }));
 
 export function OrreryDeck() {

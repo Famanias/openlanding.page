@@ -26,3 +26,21 @@ test.describe("Orrery deck (desktop)", () => {
     await expect(page.getByTestId("slide-counter")).toHaveText("08 / 10");
   });
 });
+
+test.describe("Orrery orbit diagram", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("builds to its final step on the orrery slide", async ({ page }) => {
+    await page.goto("/orrery#orrery");
+    await expect(page.locator('[data-orbit-step="4"]')).toBeAttached({ timeout: 3_000 });
+  });
+});
+
+test.describe("Orrery orbit diagram (reduced motion)", () => {
+  test.use({ reducedMotion: "reduce" });
+
+  test("renders fully built immediately", async ({ page }) => {
+    await page.goto("/orrery#orrery");
+    await expect(page.locator('[data-orbit-step="4"]')).toBeAttached({ timeout: 500 });
+  });
+});

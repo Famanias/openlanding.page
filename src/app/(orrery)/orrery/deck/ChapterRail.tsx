@@ -1,14 +1,16 @@
 export function ChapterRail({
   chapters,
   active,
+  tone,
   onSelect,
 }: {
   chapters: string[];
   active: number;
+  tone: "bone" | "ink";
   onSelect: (index: number) => void;
 }) {
   return (
-    <nav className="orr-rail" aria-label="Chapters">
+    <nav className="orr-rail" data-tone={tone} aria-label="Chapters">
       <ol>
         {chapters.map((chapter, i) => (
           <li key={chapter}>
