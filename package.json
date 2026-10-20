@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "check": "tsx scripts/check-isolation.ts && tsx scripts/check-palette.ts"
+    "check": "tsx scripts/check-isolation.ts && tsx scripts/check-palette.ts",
+    "images": "tsx scripts/process-images.ts"
   },
   "dependencies": {
     "next": "16.4.2",
@@ -25,6 +26,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
     "fast-glob": "^3.3.3",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5",
