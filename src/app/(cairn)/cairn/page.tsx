@@ -5,7 +5,10 @@ import { Logo } from "./brand/Logo";
 import { BaseCamp } from "./chapters/BaseCamp";
 import { BaseLayers } from "./chapters/BaseLayers";
 import { Chapter } from "./chapters/Chapter";
+import { Down } from "./chapters/Down";
+import { HandsFeet } from "./chapters/HandsFeet";
 import { MidLayers } from "./chapters/MidLayers";
+import { Shells } from "./chapters/Shells";
 import { SmoothScroll } from "./SmoothScroll";
 
 function ChapterPlaceholder({ camp }: { camp: CampId }) {
@@ -68,9 +71,9 @@ export default function CairnPage() {
           <BaseCamp />
           <BaseLayers />
           <MidLayers />
-          <ChapterPlaceholder camp="c3" />
-          <ChapterPlaceholder camp="c4" />
-          <ChapterPlaceholder camp="bottleneck" />
+          <Shells />
+          <Down />
+          <HandsFeet />
           <ChapterPlaceholder camp="summit" />
         </AscentStage>
       </main>

@@ -47,3 +47,26 @@ test.describe("Cairn reload mid-climb", () => {
     await expect(page.getByTestId("active-camp")).toHaveText(new RegExp(`^${expected.name}$`, "i"));
   });
 });
+
+test.describe("Cairn shell showcase", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("the colourway swatches switch the hero image from the keyboard", async ({ page }) => {
+    await page.goto("/cairn#c3");
+    const group = page.getByRole("radiogroup", { name: /colourway/i });
+    await group.getByRole("radio", { name: "Black" }).focus();
+    await page.keyboard.press("ArrowRight"); // navy
+    await page.keyboard.press("ArrowRight"); // white
+    await expect(group.getByRole("radio", { name: "White" })).toBeChecked();
+    await expect(page.getByTestId("colourway-image").locator("[data-asset]").last()).toHaveAttribute(
+      "data-asset",
+      "product-shell-white",
+    );
+  });
+
+  test("the shell's spec sheet lists its waterproof rating", async ({ page }) => {
+    await page.goto("/cairn#c3");
+    const sheet = page.getByRole("group", { name: "Summit Shell 3L specifications" });
+    await expect(sheet.getByText("28,000 mm", { exact: true })).toBeVisible();
+  });
+});
