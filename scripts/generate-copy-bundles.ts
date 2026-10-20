@@ -1,0 +1,126 @@
+import fs from "node:fs";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
+import fg from "fast-glob";
+import { readTemplateFiles } from "./template-files";
+import { TEMPLATES, type SourceFile, type TemplateSlug } from "./templates.config";
+
+export const TEMPLATE_METADATA: Record<
+  TemplateSlug,
+  { name: string; dependencies: string[] }
+> = {
+  orrery: {
+    name: "Orrery",
+    dependencies: ["gsap", "motion"],
+  },
+  cairn: {
+    name: "Cairn",
+    dependencies: ["gsap", "lenis"],
+  },
+  koji: {
+    name: "KŌJI",
+    dependencies: ["three", "motion"],
+  },
+};
+
+export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
+  try {
+    const targetPath = packageJsonPath ?? path.resolve(process.cwd(), "package.json");
+    if (fs.existsSync(targetPath)) {
+      const raw = fs.readFileSync(targetPath, "utf8");
+      const parsed = JSON.parse(raw);
+      return { ...(parsed.dependencies || {}), ...(parsed.devDependencies || {}) };
+    }
+  } catch {
+    // fallback
+  }
+  return {};
+}
+
+export function resolveDependencyVersions(
+  dependencies: string[] | Record<string, string>,
+  packageJsonPath?: string
+): Record<string, string> {
+  if (!Array.isArray(dependencies)) {
+    return dependencies;
+  }
+  const pkgDeps = getPackageDependencies(packageJsonPath);
+  const resolved: Record<string, string> = {};
+  for (const dep of dependencies) {
+    resolved[dep] = pkgDeps[dep] ?? "*";
+  }
+  return resolved;
+}
+
+export function formatRepomixBundle(
+  slug: string,
+  name: string,
+  files: Array<{ path: string; source: string }>,
+  dependencies: string[] | Record<string, string>
+): string {
+  const resolvedDeps = resolveDependencyVersions(dependencies);
+  const depsJson = JSON.stringify({ dependencies: resolvedDeps }, null, 2);
+  const indentedDeps = depsJson
+    .split("\n")
+    .map((line) => `    ${line}`)
+    .join("\n");
+
+  const filesXml = files
+    .map((file) => {
+      const posixPath = file.path.replace(/\\/g, "/");
+      const escaped = file.source.replace(/\]\]>/g, "]]]]><![CDATA[>");
+      return `    <file path="${posixPath}">\n<![CDATA[${escaped}]]>\n    </file>`;
+    })
+    .join("\n");
+
+  return `<template slug="${slug}" name="${name}">
+  <dependencies>
+${indentedDeps}
+  </dependencies>
+  <instructions>
+    Recreate the following files in your Next.js App Router project preserving relative paths.
+  </instructions>
+  <files>
+${filesXml}
+  </files>
+</template>
+`;
+}
+
+export function readTemplatePrompt(slug: string): string {
+  const directPath = path.join(process.cwd(), "src", "app", `(${slug})`, slug, "PROMPT.md");
+  if (fs.existsSync(directPath)) {
+    return fs.readFileSync(directPath, "utf8");
+  }
+  const matches = fg.sync(`src/app/\\(${slug}\\)/**/PROMPT.md`, { dot: false });
+  if (matches.length > 0) {
+    return fs.readFileSync(matches[0], "utf8");
+  }
+  return "";
+}
+
+export function generateCopyBundles(outputDir = path.resolve(process.cwd(), "public/copy")): void {
+  fs.mkdirSync(outputDir, { recursive: true });
+
+  const slugs = Object.keys(TEMPLATES) as TemplateSlug[];
+  for (const slug of slugs) {
+    const meta = TEMPLATE_METADATA[slug] ?? {
+      name: slug.charAt(0).toUpperCase() + slug.slice(1),
+      dependencies: [],
+    };
+    const files = readTemplateFiles(slug);
+    const bundleXml = formatRepomixBundle(slug, meta.name, files, meta.dependencies);
+
+    const bundlePath = path.join(outputDir, `${slug}.md`);
+    fs.writeFileSync(bundlePath, bundleXml, "utf8");
+
+    const promptContent = readTemplatePrompt(slug);
+    const promptPath = path.join(outputDir, `${slug}-prompt.md`);
+    fs.writeFileSync(promptPath, promptContent, "utf8");
+  }
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  generateCopyBundles();
+  console.log("copy bundles: generated");
+}
