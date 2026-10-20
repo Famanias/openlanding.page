@@ -1,18 +1,18 @@
 import { Picture } from "./assets";
 import { AscentStage } from "./ascent/AscentStage";
-import { CAMPS } from "./ascent/camps";
+import { CAMPS, type CampId } from "./ascent/camps";
 import { Logo } from "./brand/Logo";
+import { BaseCamp } from "./chapters/BaseCamp";
+import { BaseLayers } from "./chapters/BaseLayers";
+import { Chapter } from "./chapters/Chapter";
+import { MidLayers } from "./chapters/MidLayers";
 import { SmoothScroll } from "./SmoothScroll";
 
-function ChapterPlaceholder({ index }: { index: number }) {
-  const camp = CAMPS[index];
+function ChapterPlaceholder({ camp }: { camp: CampId }) {
   return (
-    <section className="crn-chapter" id={camp.id} data-camp={camp.id}>
-      <p className="crn-label crn-chapter__alt">
-        {camp.altitude.toLocaleString("en-US")} m · {camp.name}
-      </p>
-      <h2 className="crn-h2">{camp.name}</h2>
-    </section>
+    <Chapter camp={camp}>
+      <h2 className="crn-h2">{CAMPS.find((c) => c.id === camp)!.name}</h2>
+    </Chapter>
   );
 }
 
@@ -65,9 +65,13 @@ export default function CairnPage() {
         </section>
 
         <AscentStage>
-          {CAMPS.map((_, i) => (
-            <ChapterPlaceholder key={CAMPS[i].id} index={i} />
-          ))}
+          <BaseCamp />
+          <BaseLayers />
+          <MidLayers />
+          <ChapterPlaceholder camp="c3" />
+          <ChapterPlaceholder camp="c4" />
+          <ChapterPlaceholder camp="bottleneck" />
+          <ChapterPlaceholder camp="summit" />
         </AscentStage>
       </main>
 
