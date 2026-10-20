@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { GithubLogo, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 
 export function Footer() {
@@ -8,14 +9,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand info */}
           <div className="md:col-span-2 flex flex-col gap-3">
-            <a
+            <Link
               href="/"
               className="flex items-center gap-2.5 text-white font-sans font-bold text-lg tracking-[-0.03em] hover:opacity-90 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
               aria-label="templateflow home"
             >
               <span className="size-2 rounded-full bg-white" aria-hidden="true" />
               <span>templateflow</span>
-            </a>
+            </Link>
             <p className="text-sm text-neutral-400 max-w-sm leading-relaxed">
               Award-grade web designs with mathematical design briefs and complete source code bundles ready for AI coding agents.
             </p>

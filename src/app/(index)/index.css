@@ -46,33 +46,3 @@ body {
   outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
-
-/* Legacy fallback for temporary index page */
-.index {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 64px 16px;
-}
-
-.index ul {
-  list-style: none;
-  padding: 0;
-  margin: 32px 0 0;
-}
-
-.index li {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 14px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.index a {
-  color: inherit;
-  font-weight: 600;
-}
-
-.index span {
-  color: #888888;
-}

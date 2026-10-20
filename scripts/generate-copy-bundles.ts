@@ -3,7 +3,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import fg from "fast-glob";
 import { readTemplateFiles } from "./template-files";
-import { TEMPLATES, type SourceFile, type TemplateSlug } from "./templates.config";
+import { TEMPLATES, type TemplateSlug } from "./templates.config";
 
 export const TEMPLATE_METADATA: Record<
   TemplateSlug,

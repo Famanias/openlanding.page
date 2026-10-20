@@ -17,7 +17,7 @@ export function GalleryShell() {
       const categoryParam = params.get("category");
       if (categoryParam && CATEGORIES.some((c) => c.id === categoryParam)) {
         setActiveCategory(categoryParam as CategoryId);
-      } else if (!categoryParam) {
+      } else {
         setActiveCategory("all");
       }
     };

@@ -2,6 +2,8 @@ export type TemplateSlug = "orrery" | "cairn" | "koji";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu";
 
+export type TemplateCategory = Exclude<CategoryId, "all">;
+
 export interface Category {
   id: CategoryId;
   label: string;
@@ -11,7 +13,7 @@ export interface TemplateItem {
   slug: TemplateSlug;
   title: string;
   description: string;
-  category: CategoryId;
+  category: TemplateCategory;
   industry: string;
   stack: string;
   badges: string[];

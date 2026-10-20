@@ -26,20 +26,24 @@ export function FilterBar({
     e: React.KeyboardEvent<HTMLButtonElement>,
     index: number
   ) => {
+    const tablist = e.currentTarget.closest<HTMLElement>('[role="tablist"]');
+    const buttons = tablist?.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+
+    let targetIndex = -1;
     if (e.key === "ArrowRight") {
-      e.preventDefault();
-      const nextIndex = (index + 1) % CATEGORIES.length;
-      onSelectCategory(CATEGORIES[nextIndex].id);
-      const container = e.currentTarget.parentElement;
-      const buttons = container?.querySelectorAll<HTMLButtonElement>('[role="tab"]');
-      buttons?.[nextIndex]?.focus();
+      targetIndex = (index + 1) % CATEGORIES.length;
     } else if (e.key === "ArrowLeft") {
+      targetIndex = (index - 1 + CATEGORIES.length) % CATEGORIES.length;
+    } else if (e.key === "Home") {
+      targetIndex = 0;
+    } else if (e.key === "End") {
+      targetIndex = CATEGORIES.length - 1;
+    }
+
+    if (targetIndex >= 0) {
       e.preventDefault();
-      const prevIndex = (index - 1 + CATEGORIES.length) % CATEGORIES.length;
-      onSelectCategory(CATEGORIES[prevIndex].id);
-      const container = e.currentTarget.parentElement;
-      const buttons = container?.querySelectorAll<HTMLButtonElement>('[role="tab"]');
-      buttons?.[prevIndex]?.focus();
+      onSelectCategory(CATEGORIES[targetIndex].id);
+      buttons?.[targetIndex]?.focus();
     }
   };
 

@@ -82,9 +82,10 @@ export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
   };
 
   const copyText = async (text: string) => {
-    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(text);
+    if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) {
+      throw new Error("Clipboard API unavailable");
     }
+    await navigator.clipboard.writeText(text);
   };
 
   const handleCopyPrompt = async () => {
@@ -107,10 +108,11 @@ export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
           copyBundleCache.set(url, content);
         }
       }
-      if (content) {
-        await copyText(content);
-        setCopiedAction("website");
+      if (!content) {
+        throw new Error(`Failed to load copy bundle for ${template.slug}`);
       }
+      await copyText(content);
+      setCopiedAction("website");
     } catch (err) {
       console.error(`Failed to copy website bundle for ${template.slug}:`, err);
     }
@@ -173,7 +175,8 @@ export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
             href={`/${template.slug}`}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Open live ${template.title} demo in new tab`}
+            tabIndex={-1}
+            aria-hidden="true"
             className="text-neutral-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white rounded p-0.5"
           >
             <ArrowUpRight className="size-4 shrink-0" aria-hidden="true" />

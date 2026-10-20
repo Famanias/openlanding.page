@@ -1,18 +1,19 @@
 import React from "react";
+import Link from "next/link";
 import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
 
 export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#0C0D0E]/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a
+        <Link
           href="/"
           className="flex items-center gap-2.5 text-white font-sans font-bold text-lg tracking-[-0.03em] hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
           aria-label="templateflow home"
         >
           <span className="size-2 rounded-full bg-white" aria-hidden="true" />
           <span>templateflow</span>
-        </a>
+        </Link>
 
         <nav className="flex items-center gap-4 sm:gap-6 text-sm font-sans" aria-label="Main Navigation">
           <a

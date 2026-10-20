@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { TEMPLATES, CATEGORIES, type TemplateItem, type Category } from "./templates";
+import { TEMPLATES, CATEGORIES } from "./templates";
 import fs from "node:fs";
 import path from "node:path";
 

@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("templateflow gallery index", () => {
-  test("index lists the three templates and navigates to live sites", async ({ page }) => {
+  test("index lists the three templates with valid links to live sites", async ({ page }) => {
     await page.goto("/");
 
     const expectedTemplates = [
@@ -18,11 +18,15 @@ test.describe("templateflow gallery index", () => {
       const titleLink = card.getByRole("link", { name, exact: true });
       await expect(titleLink).toHaveAttribute("href", href);
 
-      // Verify the demo icon link
-      const demoLink = card.getByRole("link", {
-        name: new RegExp(`Open live ${name} demo in new tab`, "i"),
+      // Verify the preview link inside the 16:10 frame
+      const previewLink = card.getByRole("link", {
+        name: new RegExp(`Open live ${name} template in new tab`, "i"),
       });
-      await expect(demoLink).toHaveAttribute("href", href);
+      await expect(previewLink).toHaveAttribute("href", href);
+
+      // Verify the secondary arrow icon link is present with tabindex -1
+      const arrowLink = card.locator(`a[href="${href}"][aria-hidden="true"]`);
+      await expect(arrowLink).toHaveAttribute("tabindex", "-1");
     }
   });
 
