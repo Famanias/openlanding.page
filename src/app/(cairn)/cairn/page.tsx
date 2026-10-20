@@ -1,23 +1,14 @@
 import { Picture } from "./assets";
 import { AscentStage } from "./ascent/AscentStage";
-import { CAMPS, type CampId } from "./ascent/camps";
 import { Logo } from "./brand/Logo";
 import { BaseCamp } from "./chapters/BaseCamp";
 import { BaseLayers } from "./chapters/BaseLayers";
-import { Chapter } from "./chapters/Chapter";
 import { Down } from "./chapters/Down";
 import { HandsFeet } from "./chapters/HandsFeet";
 import { MidLayers } from "./chapters/MidLayers";
 import { Shells } from "./chapters/Shells";
+import { Summit } from "./chapters/Summit";
 import { SmoothScroll } from "./SmoothScroll";
-
-function ChapterPlaceholder({ camp }: { camp: CampId }) {
-  return (
-    <Chapter camp={camp}>
-      <h2 className="crn-h2">{CAMPS.find((c) => c.id === camp)!.name}</h2>
-    </Chapter>
-  );
-}
 
 export default function CairnPage() {
   return (
@@ -74,7 +65,7 @@ export default function CairnPage() {
           <Shells />
           <Down />
           <HandsFeet />
-          <ChapterPlaceholder camp="summit" />
+          <Summit />
         </AscentStage>
       </main>
 

@@ -70,3 +70,27 @@ test.describe("Cairn shell showcase", () => {
     await expect(sheet.getByText("28,000 mm", { exact: true })).toBeVisible();
   });
 });
+
+test.describe("Cairn summit", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("a lookbook hotspot reveals the product it marks", async ({ page }) => {
+    await page.goto("/cairn#summit");
+    const first = page.getByTestId("lookbook").getByRole("button", { name: /^Show / }).first();
+    const productName = (await first.getAttribute("aria-label"))!.replace(/^Show /, "");
+    await first.click();
+    await expect(page.getByTestId("lookbook").getByRole("heading", { name: productName })).toBeVisible();
+  });
+
+  test("a valid signup shows the success state without a network request", async ({ page }) => {
+    await page.goto("/cairn#summit");
+    const requests: string[] = [];
+    await page.getByLabel("Email").fill("climber@cairn.equipment");
+    page.on("request", (r) => {
+      if (!/\.(woff2?|png|webp|avif|svg|css|js)(\?|$)/.test(r.url())) requests.push(r.url());
+    });
+    await page.getByRole("button", { name: "Join the expedition list" }).click();
+    await expect(page.getByText("You're on the list.")).toBeVisible();
+    expect(requests).toEqual([]);
+  });
+});
