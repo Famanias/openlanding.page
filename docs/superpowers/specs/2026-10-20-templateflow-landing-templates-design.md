@@ -1,7 +1,7 @@
 # Templateflow: three landing-page templates
 
 Date: 2026-10-20
-Status: awaiting owner approval
+Status: approved by owner (2026-10-20)
 
 ## 1. Intent
 
