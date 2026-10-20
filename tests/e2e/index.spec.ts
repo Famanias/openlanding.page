@@ -6,7 +6,7 @@ test.describe("templateflow gallery index", () => {
 
     const expectedTemplates = [
       { name: "Orrery", href: "/orrery" },
-      { name: "Cairn", href: "/cairn" },
+      { name: "KEYTU", href: "/keytu" },
       { name: "KŌJI", href: "/koji" },
     ];
 
@@ -90,7 +90,7 @@ test.describe("templateflow gallery index", () => {
     await expect(page.locator("article").filter({ hasText: "TRACE" })).toBeVisible();
     await expect(page.locator("article").filter({ hasText: "VECTOR/90" })).toBeVisible();
     await expect(page.locator("article").filter({ hasText: "Orrery" })).toHaveCount(0);
-    await expect(page.locator("article").filter({ hasText: "Cairn" })).toHaveCount(0);
+    await expect(page.locator("article").filter({ hasText: "KEYTU" })).toHaveCount(0);
 
     // Counter updates to "Showing 3 of 8 templates"
     await expect(page.getByText("Showing 3 of 8 templates")).toBeVisible();

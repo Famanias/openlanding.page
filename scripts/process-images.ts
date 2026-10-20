@@ -44,7 +44,7 @@ export async function processImages(slug: TemplateSlug, paths: ProcessPaths): Pr
   for (const file of inputs) {
     const key = file.replace(INPUT, "");
     let image: Sharp = sharp(path.join(paths.incoming, file)).rotate();
-    if (slug === "cairn") image = await applyTritone(image);
+    if (slug === "keytu" || (slug as string) === "cairn") image = await applyTritone(image);
     const meta = await image.clone().metadata();
     assets[key] = { w: meta.width ?? 0, h: meta.height ?? 0 };
 
@@ -76,8 +76,8 @@ async function applyTritone(image: Sharp): Promise<Sharp> {
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const slug = process.argv[2] as TemplateSlug | undefined;
-  if (!slug || !["orrery", "cairn", "koji"].includes(slug)) {
-    console.error("usage: npm run images -- <orrery|cairn|koji>");
+  if (!slug || !["orrery", "keytu", "cairn", "koji"].includes(slug)) {
+    console.error("usage: npm run images -- <orrery|keytu|koji>");
     process.exit(1);
   }
   processImages(slug, {

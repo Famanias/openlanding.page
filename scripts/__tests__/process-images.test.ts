@@ -44,9 +44,9 @@ describe("processImages", () => {
     expect(readFileSync(f.assetsModule, "utf8")).toContain('"swatch": { "w": 40, "h": 20 }');
   });
 
-  test("cairn output contains only colours on the tritone curve", async () => {
-    const f = await fixture("cairn");
-    await processImages("cairn", f);
+  test("keytu output contains only colours on the tritone curve", async () => {
+    const f = await fixture("keytu");
+    await processImages("keytu", f);
     const { data } = await sharp(path.join(f.publicDir, "swatch-800.webp")).raw().toBuffer({ resolveWithObject: true });
     const [r, g, b] = [data[0], data[1], data[2]];
     // Pure red has Rec.709 luma ≈ 0.2126 → between black and navy stops; webp is lossy, allow ±3.

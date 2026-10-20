@@ -13,6 +13,20 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/cairn",
+        destination: "/keytu",
+        permanent: true,
+      },
+      {
+        source: "/cairn/:path*",
+        destination: "/keytu/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

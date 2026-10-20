@@ -41,7 +41,7 @@ describe("generate-copy-bundles", () => {
     try {
       generateCopyBundles(tempDir);
 
-      for (const slug of ["orrery", "cairn", "koji"]) {
+      for (const slug of ["orrery", "keytu", "koji"]) {
         const bundlePath = path.join(tempDir, `${slug}.md`);
         const promptPath = path.join(tempDir, `${slug}-prompt.md`);
 
@@ -66,11 +66,11 @@ describe("generate-copy-bundles", () => {
       expect(orreryBundle).toContain('"motion"');
       expect(orreryBundle).toContain('"@phosphor-icons/react"');
 
-      const cairnBundle = fs.readFileSync(path.join(tempDir, "cairn.md"), "utf8");
-      expect(cairnBundle).toContain('"gsap"');
-      expect(cairnBundle).toContain('"lenis"');
-      expect(cairnBundle).toContain('"motion"');
-      expect(cairnBundle).toContain('"@phosphor-icons/react"');
+      const keytuBundle = fs.readFileSync(path.join(tempDir, "keytu.md"), "utf8");
+      expect(keytuBundle).toContain('"gsap"');
+      expect(keytuBundle).toContain('"lenis"');
+      expect(keytuBundle).toContain('"motion"');
+      expect(keytuBundle).toContain('"@phosphor-icons/react"');
 
       const kojiBundle = fs.readFileSync(path.join(tempDir, "koji.md"), "utf8");
       expect(kojiBundle).toContain('"three"');

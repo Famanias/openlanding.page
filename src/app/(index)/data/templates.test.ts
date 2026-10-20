@@ -7,7 +7,7 @@ describe("gallery template data", () => {
   it("contains all eight seed templates with required metadata", () => {
     expect(TEMPLATES).toHaveLength(8);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "cairn", "koji", "trace", "calder", "vector", "morrow", "loophouse"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {

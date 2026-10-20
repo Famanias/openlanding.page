@@ -23,7 +23,7 @@ describe("GalleryShell", () => {
   it("renders all 8 initial template cards", () => {
     const html = renderToStaticMarkup(<GalleryShell />);
     expect(html).toContain('href="/orrery"');
-    expect(html).toContain('href="/cairn"');
+    expect(html).toContain('href="/keytu"');
     expect(html).toContain('href="/koji"');
     expect(html).toContain('href="/trace"');
     expect(html).toContain('href="/calder"');
@@ -31,7 +31,7 @@ describe("GalleryShell", () => {
     expect(html).toContain('href="/morrow"');
     expect(html).toContain('href="/loophouse"');
     expect(html).toContain("Orrery");
-    expect(html).toContain("Cairn");
+    expect(html).toContain("KEYTU");
     expect(html).toContain("KŌJI");
     expect(html).toContain("TRACE");
     expect(html).toContain("CALDER &amp; ROWE");

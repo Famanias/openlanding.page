@@ -13,8 +13,8 @@ export const TEMPLATE_METADATA: Record<
     name: "Orrery",
     dependencies: ["gsap", "motion", "@phosphor-icons/react"],
   },
-  cairn: {
-    name: "Cairn",
+  keytu: {
+    name: "KEYTU",
     dependencies: ["gsap", "lenis", "motion", "@phosphor-icons/react"],
   },
   koji: {

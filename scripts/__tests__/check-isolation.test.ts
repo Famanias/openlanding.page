@@ -4,23 +4,23 @@ import { findIsolationViolations } from "../check-isolation";
 describe("findIsolationViolations", () => {
   test("flags alias imports and imports that leave the template folder", () => {
     expect(
-      findIsolationViolations("cairn", [
+      findIsolationViolations("keytu", [
         {
-          path: "src/app/(cairn)/cairn/page.tsx",
+          path: "src/app/(keytu)/keytu/page.tsx",
           source: `import x from '@/lib/x'; import y from '../../(orrery)/a'; import z from './z'; import gsap from 'gsap'`,
         },
       ]),
     ).toEqual([
-      { path: "src/app/(cairn)/cairn/page.tsx", specifier: "@/lib/x" },
-      { path: "src/app/(cairn)/cairn/page.tsx", specifier: "../../(orrery)/a" },
+      { path: "src/app/(keytu)/keytu/page.tsx", specifier: "@/lib/x" },
+      { path: "src/app/(keytu)/keytu/page.tsx", specifier: "../../(orrery)/a" },
     ]);
   });
 
   test("allows relative imports that stay inside the route group, including from its layout", () => {
     expect(
-      findIsolationViolations("cairn", [
-        { path: "src/app/(cairn)/layout.tsx", source: `import "./cairn/cairn.css"; import { Logo } from "./cairn/brand/Logo";` },
-        { path: "src/app/(cairn)/cairn/ascent/Stage.tsx", source: `import { CAMPS } from "../route";` },
+      findIsolationViolations("keytu", [
+        { path: "src/app/(keytu)/layout.tsx", source: `import "./keytu/keytu.css"; import { Logo } from "./keytu/brand/Logo";` },
+        { path: "src/app/(keytu)/keytu/ascent/Stage.tsx", source: `import { CAMPS } from "../route";` },
       ]),
     ).toEqual([]);
   });

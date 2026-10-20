@@ -3,7 +3,7 @@
 There is one prompt file per template:
 
 - [orrery.md](orrery.md): 8 images
-- [cairn.md](cairn.md): 15 images
+- [keytu.md](keytu.md): 15 images
 - [koji.md](koji.md): 11 images
 
 KŌJI's 9 video clips have their own relay file, `koji-clips.md`. It's written later, once the 5 KŌJI flight stills exist.
@@ -16,13 +16,13 @@ KŌJI's 9 video clips have their own relay file, `koji-clips.md`. It's written l
 4. Download the **largest size** Gemini offers, as PNG if possible. JPG is fine too.
 5. **Rename the file to the exact filename in the table** and save it into the template's folder:
    - `assets/incoming/orrery/`
-   - `assets/incoming/cairn/`
+   - `assets/incoming/keytu/`
    - `assets/incoming/koji/`
 6. **Re-roll anything off-style.** Typical reasons are a different colour palette, visible text or logos, extra fingers, a cartoon look, or (for Orrery) anything that looks like a robot, a brain, neon or purple.
 
 ## What happens next
 
-When a template's folder is complete, I process the images. That means sizing, WebP/AVIF, and for Cairn the navy tritone that removes all colour. I then show you a contact sheet to approve before the images go into the page.
+When a template's folder is complete, I process the images. That means sizing, WebP/AVIF, and for KEYTU the navy tritone that removes all colour. I then show you a contact sheet to approve before the images go into the page.
 
 Until then, the pages show labelled placeholder blocks, so nothing is blocked while you generate.
 

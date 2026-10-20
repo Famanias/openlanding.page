@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "cairn" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse";
 
 export type TemplateConfig = {
   palette: string[];
@@ -10,7 +10,7 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   orrery: {
     palette: ["#0E0F13", "#F2EFE8", "#2F3BFF", "#FFB000"],
   },
-  cairn: {
+  keytu: {
     palette: ["#0B0C0E", "#0F1E33", "#F5F6F7", "#16294A", "#2A3D5E", "#56657F", "#A5AEBD", "#DDE1E7"],
   },
   koji: {

@@ -11,7 +11,7 @@ describe("IndexPage", () => {
     expect(html).toContain('id="gallery"');
     expect(html).toContain('id="how-it-works"');
     expect(html).toContain("Orrery");
-    expect(html).toContain("Cairn");
+    expect(html).toContain("KEYTU");
     expect(html).toContain("KŌJI");
     expect(html).toContain("TRACE");
     expect(html).toContain("CALDER &amp; ROWE");

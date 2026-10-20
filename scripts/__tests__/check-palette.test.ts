@@ -4,12 +4,12 @@ import { findPaletteViolations } from "../check-palette";
 describe("findPaletteViolations", () => {
   test("flags hexes outside the palette, case-insensitively", () => {
     expect(
-      findPaletteViolations("cairn", [{ path: "a.css", source: "color:#E8542B;background:#0f1e33" }]),
+      findPaletteViolations("keytu", [{ path: "a.css", source: "color:#E8542B;background:#0f1e33" }]),
     ).toEqual([{ path: "a.css", hex: "#E8542B" }]);
   });
 
   test("expands 3-digit hex before comparing", () => {
-    expect(findPaletteViolations("cairn", [{ path: "a.css", source: "color:#fff" }])).toEqual([
+    expect(findPaletteViolations("keytu", [{ path: "a.css", source: "color:#fff" }])).toEqual([
       { path: "a.css", hex: "#fff" },
     ]);
   });
