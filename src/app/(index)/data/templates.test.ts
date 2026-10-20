@@ -51,6 +51,18 @@ describe("gallery template data", () => {
       expect(t.stack).toBeTruthy();
       expect(Array.isArray(t.badges)).toBe(true);
       expect(t.badges.length).toBeGreaterThan(0);
+      expect(t.model).toBeTruthy();
+    }
+  });
+
+  it("assigns the exact specified model tag to each template", () => {
+    const claudeSlugs = ["orrery", "keytu", "koji"];
+    for (const t of TEMPLATES) {
+      if (claudeSlugs.includes(t.slug)) {
+        expect(t.model).toBe("Claude Opus 5.5 High");
+      } else {
+        expect(t.model).toBe("GPT-6 Astra Max");
+      }
     }
   });
 

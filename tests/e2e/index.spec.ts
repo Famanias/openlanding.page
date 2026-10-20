@@ -5,14 +5,18 @@ test.describe("templateflow gallery index", () => {
     await page.goto("/");
 
     const expectedTemplates = [
-      { name: "Orrery", href: "/orrery" },
-      { name: "KEYTU", href: "/keytu" },
-      { name: "KŌJI", href: "/koji" },
+      { name: "Orrery", href: "/orrery", model: "Claude Opus 5.5 High" },
+      { name: "KEYTU", href: "/keytu", model: "Claude Opus 5.5 High" },
+      { name: "KŌJI", href: "/koji", model: "Claude Opus 5.5 High" },
     ];
 
-    for (const { name, href } of expectedTemplates) {
+    for (const { name, href, model } of expectedTemplates) {
       const card = page.locator("article").filter({ hasText: name });
       await expect(card).toBeVisible();
+
+      // Verify model tag in the top-left of the preview frame
+      const modelTag = card.getByTestId("model-tag");
+      await expect(modelTag).toHaveText(new RegExp(model));
 
       // Verify the title link inside the card
       const titleLink = card.getByRole("link", { name, exact: true });

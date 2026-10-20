@@ -20,6 +20,7 @@ export interface TemplateItem {
   previewImage: string;
   videoClip?: string;
   promptMarkdown: string;
+  model: string;
 }
 
 export const CATEGORIES: Category[] = [
@@ -122,6 +123,7 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Keynote Deck", "GSAP", "Keyboard Nav"],
     previewImage: "/templates/orrery/title-orbits-1600.webp",
     promptMarkdown: ORRERY_PROMPT,
+    model: "Claude Opus 5.5 High",
   },
   {
     slug: "keytu",
@@ -134,6 +136,7 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Scroll Journey", "Altitude Meter", "Tritone Photos"],
     previewImage: "/templates/keytu/hero-k2-1600.webp",
     promptMarkdown: KEYTU_PROMPT,
+    model: "Claude Opus 5.5 High",
   },
   {
     slug: "koji",
@@ -147,6 +150,7 @@ export const TEMPLATES: TemplateItem[] = [
     previewImage: "/templates/koji/hero-dish-poster-1600.webp",
     videoClip: "/templates/koji/clips/dive-2-m.mp4",
     promptMarkdown: KOJI_PROMPT,
+    model: "Claude Opus 5.5 High",
   },
   {
     slug: "trace",
@@ -159,6 +163,7 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Scroll Field", "Three.js 3D", "Parallax Type"],
     previewImage: "/templates/trace/trace-preview.svg",
     promptMarkdown: TRACE_PROMPT,
+    model: "GPT-6 Astra Max",
   },
   {
     slug: "calder",
@@ -171,6 +176,7 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Editorial Scroll", "Case Files", "Senior Counsel"],
     previewImage: "/templates/calder/calder-preview.svg",
     promptMarkdown: CALDER_PROMPT,
+    model: "GPT-6 Astra Max",
   },
   {
     slug: "vector",
@@ -183,6 +189,7 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Retro CGI", "Runtime Maps", "Three.js Scene"],
     previewImage: "/templates/vector/vector-preview.svg",
     promptMarkdown: VECTOR_PROMPT,
+    model: "GPT-6 Astra Max",
   },
   {
     slug: "morrow",
@@ -195,6 +202,7 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Local Network", "Price Calculator", "Editorial Flow"],
     previewImage: "/templates/morrow/morrow-preview.svg",
     promptMarkdown: MORROW_PROMPT,
+    model: "GPT-6 Astra Max",
   },
   {
     slug: "loophouse",
@@ -207,5 +215,6 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Tool Library", "Community Flow", "Price Calculator"],
     previewImage: "/templates/loophouse/loophouse-preview.svg",
     promptMarkdown: LOOPHOUSE_PROMPT,
+    model: "GPT-6 Astra Max",
   },
 ];

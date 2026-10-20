@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 
-export type BadgeVariant = "mono" | "emerald";
+export type BadgeVariant = "mono" | "emerald" | "overlay";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: BadgeVariant;
@@ -10,6 +10,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 const variantStyles: Record<BadgeVariant, string> = {
   mono: "bg-white/5 text-neutral-300 border border-white/10",
   emerald: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
+  overlay: "bg-black/75 text-neutral-200 border border-white/15 backdrop-blur-md shadow-sm",
 };
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
@@ -27,7 +28,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         {dot && (
           <span
             className={`size-1.5 rounded-full animate-pulse ${
-              variant === "emerald" ? "bg-emerald-400" : "bg-neutral-400"
+              variant === "emerald" || variant === "overlay" ? "bg-emerald-400" : "bg-neutral-400"
             }`}
             aria-hidden="true"
           />

@@ -51,4 +51,15 @@ describe("TemplateCard", () => {
     expect(html).toContain('target="_blank"');
     expect(html).toContain('rel="noopener noreferrer"');
   });
+
+  it("renders model tag overlay in top-left of preview frame with correct AI model", () => {
+    const orreryHtml = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={true} />);
+    expect(orreryHtml).toContain("Claude Opus 5.5 High");
+    expect(orreryHtml).toContain('data-testid="model-tag"');
+
+    const trace = TEMPLATES.find((t) => t.slug === "trace")!;
+    const traceHtml = renderToStaticMarkup(<TemplateCard template={trace} isEager={false} />);
+    expect(traceHtml).toContain("GPT-6 Astra Max");
+    expect(traceHtml).toContain('data-testid="model-tag"');
+  });
 });

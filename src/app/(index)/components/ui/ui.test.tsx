@@ -48,4 +48,11 @@ describe("gallery UI primitives", () => {
     expect(html).toContain("animate-pulse");
     expect(html).toContain("Live");
   });
+
+  it("renders Badge with overlay variant for card overlays", () => {
+    const html = renderToStaticMarkup(<Badge variant="overlay" dot>Claude Opus 5.5 High</Badge>);
+    expect(html).toContain("backdrop-blur-md");
+    expect(html).toContain("Claude Opus 5.5 High");
+    expect(html).toContain("animate-pulse");
+  });
 });
