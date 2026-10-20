@@ -1063,6 +1063,7 @@ html:has(.crn-body) {
 }
 
 .crn-hotspot__dot {
+  position: relative;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -1070,26 +1071,33 @@ html:has(.crn-body) {
   padding: 0;
   cursor: pointer;
   background: radial-gradient(circle, var(--color-white) 0 7px, color-mix(in oklab, var(--color-white) 25%, transparent) 8px 21px, transparent 22px);
-  transition: transform 160ms var(--ease-out);
 }
 
-.crn-hotspot__dot[aria-expanded="true"] {
-  transform: scale(0.9);
+/* The pulse lives on a ring behind the button, so the click target itself never moves. */
+.crn-hotspot__dot::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--color-white);
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .crn-hotspot__dot[aria-expanded="false"] {
+  .crn-hotspot__dot[aria-expanded="false"]::after {
     animation: crn-beacon 2.4s var(--ease-out) infinite;
   }
 }
 
 @keyframes crn-beacon {
-  0%,
-  100% {
-    transform: scale(1);
+  from {
+    transform: scale(0.6);
+    opacity: 0.8;
   }
-  50% {
-    transform: scale(1.12);
+  to {
+    transform: scale(1.5);
+    opacity: 0;
   }
 }
 
