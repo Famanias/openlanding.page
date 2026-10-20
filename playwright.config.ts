@@ -3,6 +3,8 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "tests/e2e",
   fullyParallel: true,
+  // Several Chromium pages render WebGL at once; cap parallelism so shared machines don't run out of memory.
+  workers: 3,
   reporter: [["list"]],
   use: {
     baseURL: "http://localhost:3100",
@@ -13,6 +15,7 @@ export default defineConfig({
     command: "npm run build && npm run start -- -p 3100",
     url: "http://localhost:3100",
     reuseExistingServer: false,
+    env: { NODE_OPTIONS: "--max-old-space-size=4096" },
     timeout: 300_000,
   },
 });

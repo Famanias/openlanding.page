@@ -110,6 +110,7 @@ test.describe("Cairn lookbook drag", () => {
   test("a mouse drag moves the strip with the pointer", async ({ page }) => {
     await page.goto("/cairn#summit");
     const track = page.locator(".crn-lookbook__track");
+    await track.scrollIntoViewIfNeeded();
     const box = (await track.boundingBox())!;
     const y = box.y + box.height * 0.9; // below the hotspots
     await page.mouse.move(box.x + box.width * 0.7, y);

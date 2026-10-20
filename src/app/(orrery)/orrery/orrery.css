@@ -756,8 +756,10 @@ kbd {
 
 .orr-quotes__texture {
   position: absolute;
-  inset: -12% auto auto -6%;
-  width: min(42vw, 520px);
+  top: 50%;
+  left: -6%;
+  transform: translateY(-50%);
+  width: min(42vw, 520px, 58vh); /* capped by height too, so it never hangs past the slide */
   aspect-ratio: 1;
   opacity: 0.22;
   z-index: 0;
