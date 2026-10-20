@@ -59,6 +59,22 @@ describe("generate-copy-bundles", () => {
         expect(promptContent).toContain("# Prompt:");
         expect(promptContent.length).toBeGreaterThan(100);
       }
+
+      // Verify specific accurate dependencies per template
+      const orreryBundle = fs.readFileSync(path.join(tempDir, "orrery.md"), "utf8");
+      expect(orreryBundle).toContain('"gsap"');
+      expect(orreryBundle).toContain('"motion"');
+      expect(orreryBundle).toContain('"@phosphor-icons/react"');
+
+      const cairnBundle = fs.readFileSync(path.join(tempDir, "cairn.md"), "utf8");
+      expect(cairnBundle).toContain('"gsap"');
+      expect(cairnBundle).toContain('"lenis"');
+      expect(cairnBundle).toContain('"motion"');
+      expect(cairnBundle).toContain('"@phosphor-icons/react"');
+
+      const kojiBundle = fs.readFileSync(path.join(tempDir, "koji.md"), "utf8");
+      expect(kojiBundle).toContain('"three"');
+      expect(kojiBundle).not.toContain('"motion"');
     } finally {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }

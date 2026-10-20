@@ -11,15 +11,15 @@ export const TEMPLATE_METADATA: Record<
 > = {
   orrery: {
     name: "Orrery",
-    dependencies: ["gsap", "motion"],
+    dependencies: ["gsap", "motion", "@phosphor-icons/react"],
   },
   cairn: {
     name: "Cairn",
-    dependencies: ["gsap", "lenis"],
+    dependencies: ["gsap", "lenis", "motion", "@phosphor-icons/react"],
   },
   koji: {
     name: "KŌJI",
-    dependencies: ["three", "motion"],
+    dependencies: ["three"],
   },
 };
 

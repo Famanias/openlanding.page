@@ -3,7 +3,9 @@
     {
       "dependencies": {
         "gsap": "^3.15.0",
-        "lenis": "^1.3.27"
+        "lenis": "^1.3.27",
+        "motion": "^14.4.0",
+        "@phosphor-icons/react": "^2.1.10"
       }
     }
   </dependencies>

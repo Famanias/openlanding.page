@@ -2,8 +2,7 @@
   <dependencies>
     {
       "dependencies": {
-        "three": "^0.186.1",
-        "motion": "^14.4.0"
+        "three": "^0.186.1"
       }
     }
   </dependencies>
