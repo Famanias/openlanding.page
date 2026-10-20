@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect x="2" y="2" width="60" height="60" rx="6" fill="#C8331F"/>
+  <rect x="7" y="7" width="50" height="50" rx="2" fill="none" stroke="#EDEAE4" stroke-width="2.5"/>
+  <text x="32" y="45" text-anchor="middle" font-size="34" font-family="'Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif" font-weight="700" fill="#EDEAE4">麹</text>
+</svg>

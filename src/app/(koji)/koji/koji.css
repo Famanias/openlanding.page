@@ -1,0 +1,743 @@
+@import "tailwindcss";
+
+/* ─────────────── KŌJI design tokens: concrete, plus one signal ─────────────── */
+@theme {
+  --color-sumi: #1A1918; /* ink-black: hero, omakase, chef, footer */
+  --color-shadow: #4A4743; /* concrete in shade: rules, slab wipe */
+  --color-beton: #8E8A83; /* béton brut: kitchen and reservation slabs */
+  --color-washi: #EDEAE4; /* paper: text on dark, building slab */
+  --color-shu: #C8331F; /* vermilion seal red: the only accent */
+
+  --font-display: var(--font-dela-gothic), "Arial Black", sans-serif;
+  --font-body: var(--font-zen-kaku), system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+:root {
+  --gutter: clamp(16px, 4vw, 64px);
+  --topbar: 72px;
+  --rule: 3px solid var(--color-sumi);
+  /* Board-marked concrete: horizontal formwork boards plus faint vertical grain. */
+  --board-marks:
+    repeating-linear-gradient(180deg, transparent 0 58px, color-mix(in oklab, var(--color-sumi) 14%, transparent) 58px 60px),
+    repeating-linear-gradient(90deg, transparent 0 3px, color-mix(in oklab, var(--color-washi) 5%, transparent) 3px 4px, transparent 4px 11px);
+}
+
+html:has(.kj-body) {
+  scroll-padding-top: var(--topbar);
+}
+
+/* ─────────────── Base ─────────────── */
+.kj-body {
+  margin: 0;
+  background: var(--color-sumi);
+  color: var(--color-washi);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.kj-body ::selection {
+  background: var(--color-shu);
+  color: var(--color-washi);
+}
+
+.kj-body :focus-visible {
+  outline: 3px solid var(--color-shu);
+  outline-offset: 2px;
+}
+
+.kj-mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.kj-shu {
+  color: var(--color-shu);
+}
+
+.kj-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.kj-h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.2vw, 2.25rem);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.kj-lead {
+  font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
+  max-width: 48ch;
+  margin: 0;
+}
+
+.kj-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  padding: 0 26px;
+  border: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--ease-out),
+    color 160ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.kj-btn:active {
+  transform: scale(0.97);
+}
+
+.kj-btn--shu {
+  background: var(--color-shu);
+  color: var(--color-washi);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kj-btn--shu:hover {
+    background: var(--color-washi);
+    color: var(--color-sumi);
+  }
+}
+
+.kj-placeholder {
+  display: grid;
+  background: var(--board-marks), var(--color-shadow);
+  border: 2px dashed color-mix(in oklab, var(--color-washi) 35%, transparent);
+  color: var(--color-washi);
+}
+
+.kj-placeholder .kj-mono {
+  align-self: start;
+  justify-self: start;
+  padding: 12px 14px;
+  opacity: 0.75;
+}
+
+.kj-photo {
+  display: block;
+  overflow: hidden;
+}
+
+.kj-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─────────────── Top bar + noren ─────────────── */
+.kj-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: var(--topbar);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 16px;
+  padding-left: var(--gutter);
+  background: var(--color-sumi);
+  border-bottom: var(--rule);
+  border-bottom-color: var(--color-shadow);
+}
+
+.kj-topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-washi);
+  text-decoration: none;
+}
+
+.kj-noren {
+  display: flex;
+  gap: 4px;
+  padding: 0 var(--gutter) 0 0;
+}
+
+.kj-noren__panel {
+  position: relative;
+  display: grid;
+  align-content: end;
+  justify-items: center;
+  gap: 2px;
+  width: clamp(44px, 9vw, 112px);
+  padding: 0 4px 10px;
+  background: var(--color-shadow);
+  color: var(--color-washi);
+  text-decoration: none;
+  border-bottom: 4px solid var(--color-shu);
+  transform-origin: top center;
+  transition:
+    background-color 200ms var(--ease-out),
+    transform 260ms var(--ease-out);
+}
+
+.kj-noren__jp {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.kj-noren__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kj-noren__panel:hover {
+    background: var(--color-shu);
+    transform: translateY(4px);
+  }
+}
+
+@media (min-width: 900px) {
+  .kj-noren__label {
+    display: block;
+  }
+}
+
+@media (max-width: 599px) {
+  .kj-topbar__brand .kj-mono {
+    display: none;
+  }
+  .kj-noren__panel {
+    width: 52px;
+  }
+}
+
+/* ─────────────── Hero ─────────────── */
+.kj-hero {
+  position: relative;
+  background: var(--color-sumi);
+  overflow: hidden;
+}
+
+.kj-hero__grid {
+  position: relative;
+  display: grid;
+  gap: 32px;
+  padding: 48px var(--gutter) 56px;
+  min-height: calc(100svh - var(--topbar) - 56px);
+  box-sizing: border-box;
+}
+
+.kj-hero__copy {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 24px;
+  align-content: end;
+  justify-items: start;
+}
+
+.kj-hero__kicker {
+  color: var(--color-beton);
+}
+
+.kj-wordmark {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.kj-hero__wordmark {
+  font-size: clamp(6rem, 21vw, 22rem); /* phones: as wide as the screen allows */
+  color: var(--color-washi);
+}
+
+.kj-wordmark__o {
+  color: var(--color-shu);
+}
+
+.kj-hero__lead {
+  max-width: 34ch;
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.4vw, 1.3rem);
+  color: var(--color-washi);
+}
+
+.kj-hero__dish {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1;
+  width: min(100%, 560px);
+  justify-self: center;
+}
+
+.kj-dish-poster {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.kj-dish-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kj-hero__kanji {
+  position: absolute;
+  right: var(--gutter);
+  top: 24px;
+  margin: 0;
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 24vw, 26rem);
+  line-height: 1;
+  color: color-mix(in oklab, var(--color-washi) 7%, var(--color-sumi));
+  pointer-events: none;
+  user-select: none;
+}
+
+.kj-signage {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--gutter);
+  min-height: 56px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 28px;
+  background: var(--color-shu);
+  color: var(--color-washi);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+}
+
+.kj-signage li {
+  padding: 16px 0;
+}
+
+@media (min-width: 900px) {
+  .kj-hero__grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.85fr) auto;
+    align-items: end;
+    column-gap: clamp(24px, 3vw, 48px);
+  }
+  .kj-hero__wordmark {
+    font-size: clamp(6rem, 13.5vw, 14rem);
+  }
+  .kj-hero__dish {
+    align-self: center;
+  }
+  /* Desktop: the vertical 麹 becomes its own column beside the dish. */
+  .kj-hero__kanji {
+    position: static;
+    align-self: start;
+    font-size: clamp(6rem, 10vw, 11rem);
+    color: color-mix(in oklab, var(--color-washi) 14%, var(--color-sumi));
+  }
+}
+
+/* ─────────────── Slabs ─────────────── */
+.kj-slab {
+  position: relative;
+  padding: clamp(64px, 9vw, 128px) var(--gutter);
+  border-top: var(--rule);
+}
+
+.kj-slab--beton {
+  background: var(--board-marks), var(--color-beton);
+  color: var(--color-sumi);
+}
+
+.kj-slab--sumi {
+  background: var(--color-sumi);
+  color: var(--color-washi);
+  border-top-color: var(--color-shadow);
+}
+
+.kj-slab--washi {
+  background: var(--color-washi);
+  color: var(--color-sumi);
+}
+
+.kj-section-head {
+  display: grid;
+  gap: 18px;
+  margin-bottom: clamp(40px, 6vw, 72px);
+}
+
+/* Kitchen */
+.kj-pillars {
+  list-style: none;
+  margin: 0 0 48px;
+  padding: 0;
+  display: grid;
+  border-top: var(--rule);
+}
+
+.kj-pillar {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 20px;
+  row-gap: 6px;
+  padding: 28px 0;
+  border-bottom: var(--rule);
+}
+
+.kj-pillar__kanji {
+  grid-row: span 2;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 1;
+  min-width: 1.2em;
+}
+
+.kj-pillar p {
+  margin: 0;
+  max-width: 44ch;
+}
+
+.kj-kitchen__photos {
+  display: grid;
+  gap: 16px;
+}
+
+.kj-photo--wide {
+  aspect-ratio: 16 / 9;
+}
+
+.kj-photo--tall {
+  aspect-ratio: 4 / 5;
+}
+
+.kj-photo--square {
+  aspect-ratio: 1;
+  max-width: 280px;
+}
+
+/* Omakase */
+.kj-omakase {
+  display: grid;
+  gap: 40px;
+}
+
+.kj-omakase .kj-section-head {
+  margin-bottom: 0;
+}
+
+.kj-flight-slot {
+  aspect-ratio: 16 / 9;
+}
+
+.kj-menu {
+  border: 2px solid var(--color-shadow);
+  padding: 24px;
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+
+.kj-menu__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--color-beton);
+}
+
+.kj-menu__groups,
+.kj-menu__courses {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.kj-menu__group {
+  padding: 14px 0;
+  border-top: 1px solid var(--color-shadow);
+  transition: color 300ms var(--ease-out);
+}
+
+.kj-menu__group[data-active] {
+  color: var(--color-washi);
+}
+
+.kj-menu__group[data-active] .kj-menu__group-name {
+  color: var(--color-shu);
+}
+
+.kj-menu__group-name {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.kj-menu__courses li {
+  display: grid;
+  grid-template-columns: 2.5ch 7.5rem 1fr;
+  gap: 12px;
+  padding: 4px 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
+
+.kj-menu__n {
+  color: var(--color-shu);
+}
+
+.kj-menu__detail {
+  color: var(--color-beton);
+}
+
+/* Building */
+.kj-building {
+  display: grid;
+  gap: 40px;
+}
+
+.kj-building__photo {
+  aspect-ratio: 3 / 4;
+}
+
+.kj-building__copy {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+}
+
+.kj-facts {
+  margin: 0;
+  display: grid;
+  border-top: var(--rule);
+}
+
+.kj-facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-beton);
+}
+
+.kj-facts dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 500;
+}
+
+/* Chef */
+.kj-chef {
+  display: grid;
+  gap: 40px;
+}
+
+.kj-chef__copy {
+  display: grid;
+  gap: 24px;
+  align-content: center;
+}
+
+.kj-quote {
+  margin: 0;
+  padding-left: 20px;
+  border-left: 6px solid var(--color-shu);
+}
+
+.kj-quote p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.kj-chef__bio {
+  margin: 0;
+  color: var(--color-beton);
+  max-width: 48ch;
+}
+
+.kj-chef__photo {
+  aspect-ratio: 4 / 5;
+}
+
+/* Reservation */
+.kj-form {
+  display: grid;
+  gap: 20px;
+  max-width: 920px;
+  padding: 28px;
+  background: var(--color-washi);
+  border: var(--rule);
+  box-shadow: 10px 10px 0 var(--color-sumi);
+  color: var(--color-sumi);
+}
+
+.kj-form--held {
+  gap: 12px;
+  min-height: 220px;
+  align-content: center;
+}
+
+.kj-form__row {
+  display: grid;
+  gap: 16px;
+}
+
+.kj-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.kj-field input,
+.kj-field select {
+  height: 52px;
+  padding: 0 14px;
+  border: 2px solid var(--color-sumi);
+  border-radius: 0;
+  background: var(--color-washi);
+  color: var(--color-sumi);
+  font: inherit;
+  min-width: 0;
+}
+
+.kj-field input:focus-visible,
+.kj-field select:focus-visible {
+  outline: 3px solid var(--color-shu);
+  outline-offset: 0;
+}
+
+.kj-field[data-invalid] input,
+.kj-field[data-invalid] select {
+  border-color: var(--color-shu);
+}
+
+.kj-field__error {
+  color: var(--color-shu);
+}
+
+.kj-form .kj-btn {
+  justify-self: start;
+}
+
+/* Footer */
+.kj-footer {
+  display: grid;
+  gap: 32px;
+  padding: 56px var(--gutter);
+  background: var(--color-sumi);
+  border-top: var(--rule);
+  border-top-color: var(--color-shu);
+}
+
+.kj-footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.kj-footer__wordmark {
+  font-size: clamp(3rem, 8vw, 6rem);
+}
+
+.kj-footer__info {
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.kj-footer__info dt {
+  color: var(--color-beton);
+  margin-bottom: 4px;
+}
+
+.kj-footer__info dd {
+  margin: 0;
+}
+
+.kj-footer__legal {
+  color: var(--color-shadow);
+}
+
+.kj-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 900px) {
+  .kj-pillars {
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 0;
+  }
+  .kj-pillar {
+    grid-template-columns: 1fr;
+    border-top: var(--rule);
+    border-bottom: 0;
+    padding-right: 24px;
+  }
+  .kj-pillar__kanji {
+    grid-row: auto;
+  }
+  .kj-kitchen__photos {
+    grid-template-columns: 2fr 1fr;
+    align-items: end;
+  }
+  .kj-omakase {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    column-gap: 32px;
+  }
+  .kj-omakase .kj-section-head {
+    grid-column: 1 / -1;
+  }
+  .kj-building {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    column-gap: clamp(32px, 5vw, 80px);
+  }
+  .kj-chef {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    column-gap: clamp(32px, 5vw, 80px);
+  }
+  .kj-form__row {
+    grid-template-columns: 1.4fr 1fr 0.8fr;
+  }
+  .kj-form__row--two {
+    grid-template-columns: 1fr 1fr;
+  }
+  .kj-footer {
+    grid-template-columns: 1fr 1.2fr;
+    align-items: end;
+  }
+  .kj-footer__info {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .kj-footer__legal {
+    grid-column: 1 / -1;
+  }
+}
