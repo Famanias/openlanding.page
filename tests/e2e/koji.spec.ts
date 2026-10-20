@@ -85,3 +85,22 @@ test.describe("KŌJI hero dish on phones", () => {
     await expect(page.locator('#dish canvas[data-ready="true"]')).toBeAttached({ timeout: 10_000 });
   });
 });
+
+test.describe("KŌJI food flight (reduced motion)", () => {
+  test.use({ reducedMotion: "reduce" });
+
+  test("never mounts the scrub engine", async ({ page, request }) => {
+    const clip = await request.head("/templates/koji/clips/dive-1.mp4");
+    test.skip(!clip.ok(), "only meaningful once clips exist");
+    await page.goto("/koji#omakase");
+    await page.waitForTimeout(2000);
+    await expect(page.locator(".sw-root")).toHaveCount(0);
+    await expect(page.locator('#flight [data-flight="static"]')).toBeVisible();
+    // A detached engine would still leave its scroll listener (and animation loop) on window.
+    const cdp = await page.context().newCDPSession(page);
+    const { result } = await cdp.send("Runtime.evaluate", { expression: "window" });
+    const { listeners } = await cdp.send("DOMDebugger.getEventListeners", { objectId: result.objectId! });
+    const scroll = listeners.filter((l) => l.type === "scroll");
+    expect(scroll).toHaveLength(0);
+  });
+});

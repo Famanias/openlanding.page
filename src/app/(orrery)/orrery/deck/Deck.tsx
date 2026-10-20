@@ -12,8 +12,11 @@ export type Slide = {
   render: (active: boolean) => ReactNode;
 };
 
-/** Keynote mode runs only on wide screens without reduced motion; it matches the CSS media query in orrery.css. */
-export const KEYNOTE_QUERY = "(min-width: 900px) and (prefers-reduced-motion: no-preference)";
+/**
+ * Keynote mode runs only on screens wide AND tall enough to fit a full slide, without reduced motion.
+ * Keep in sync with the two `@media` blocks marked KEYNOTE in orrery.css.
+ */
+export const KEYNOTE_QUERY = "(min-width: 900px) and (min-height: 760px) and (prefers-reduced-motion: no-preference)";
 const STEP_LOCK_MS = 650;
 
 export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?: (tone: "bone" | "ink") => void }) {
@@ -65,6 +68,8 @@ export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?:
       // Typing in a form field must never change slides.
       const target = e.target as HTMLElement | null;
       if (target?.closest("input, textarea, select, [contenteditable]:not([contenteditable='false'])")) return;
+      // Space and Enter on a focused control press that control.
+      if ((e.key === " " || e.key === "Enter") && target?.closest("button, a[href], summary, [role='button']")) return;
       const map: Record<string, "next" | "prev" | "first" | "last"> = {
         ArrowDown: "next",
         ArrowRight: "next",
@@ -106,7 +111,7 @@ export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?:
     };
   }, [keynote, step]);
 
-  // Flow mode: the counter follows whichever slide fills most of the viewport.
+  // Flow mode: the counter follows whichever slide crosses the middle of the viewport (works for tall slides too).
   useEffect(() => {
     if (mode !== "flow") return;
     const io = new IntersectionObserver(
@@ -118,7 +123,7 @@ export function Deck({ slides, onToneChange }: { slides: Slide[]; onToneChange?:
           }
         }
       },
-      { threshold: 0.5 },
+      { rootMargin: "-50% 0px -50% 0px", threshold: 0 },
     );
     sectionRefs.current.forEach((el) => el && io.observe(el));
     return () => io.disconnect();

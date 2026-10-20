@@ -28,10 +28,11 @@ export function AltitudeMeter({ progress }: { progress: number }) {
         </ol>
       </div>
       <div className="crn-readout">
-        <p className="crn-readout__alt" data-testid="altitude-readout" aria-live="polite">
+        {/* The number changes on every scroll frame, so it is not announced; the camp name is. */}
+        <p className="crn-readout__alt" data-testid="altitude-readout">
           {formatAltitude(altitude)}
         </p>
-        <p className="crn-label crn-readout__camp" data-testid="active-camp">
+        <p className="crn-label crn-readout__camp" data-testid="active-camp" aria-live="polite">
           {CAMPS[current].name}
         </p>
       </div>

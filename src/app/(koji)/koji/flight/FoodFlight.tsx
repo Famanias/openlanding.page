@@ -91,11 +91,15 @@ function ScrubFlight() {
   );
 }
 
-/** Scrubbed video when all five dives exist and motion is allowed; otherwise the still sequence. */
+/**
+ * Scrubbed video when all five dives exist and motion is allowed; otherwise the still sequence.
+ * The still sequence renders until reduced motion is known, so the engine never mounts for visitors who
+ * asked for less motion.
+ */
 export function FoodFlight() {
-  const [reduce, setReduce] = useState(false);
+  const [scrub, setScrub] = useState(false);
   useEffect(() => {
-    setReduce(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    setScrub(ALL_DIVES && !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
-  return ALL_DIVES && !reduce ? <ScrubFlight /> : <StaticFlight />;
+  return scrub ? <ScrubFlight /> : <StaticFlight />;
 }

@@ -91,3 +91,61 @@ test.describe("Orrery deep links are reliable", () => {
     }
   });
 });
+
+// ─── Final-review fixes ───
+for (const viewport of [
+  { width: 1366, height: 657 },
+  { width: 1536, height: 730 },
+  { width: 1440, height: 790 },
+]) {
+  test.describe(`Orrery fits a ${viewport.width}×${viewport.height} laptop`, () => {
+    test.use({ viewport });
+
+    test("no slide's content is cut off", async ({ page }) => {
+      await page.goto("/orrery");
+      await page.waitForTimeout(300);
+      const clipped = await page.evaluate(() =>
+        Array.from(document.querySelectorAll<HTMLElement>(".orr-slide"))
+          .map((s) => ({ id: s.id, over: s.scrollHeight - s.clientHeight }))
+          .filter((s) => s.over > 1),
+      );
+      expect(clipped).toEqual([]);
+    });
+  });
+}
+
+test.describe("Orrery keyboard on buttons", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("Space on a chapter-rail button presses the button instead of advancing", async ({ page }) => {
+    await page.goto("/orrery");
+    await page.getByRole("navigation", { name: "Chapters" }).getByRole("button", { name: /Pricing/ }).focus();
+    await page.keyboard.press("Space");
+    await expect(page.getByTestId("slide-counter")).toHaveText("08 / 10");
+  });
+});
+
+test.describe("Orrery flow-mode counter", () => {
+  test.use({ viewport: { width: 800, height: 700 } });
+
+  test("follows the slide crossing the middle of the screen, even tall ones", async ({ page }) => {
+    await page.goto("/orrery");
+    for (const [id, label] of [["problem", "02 / 10"], ["use-cases", "05 / 10"], ["pricing", "08 / 10"]]) {
+      await page.evaluate((i) => {
+        const s = document.getElementById(i)!;
+        window.scrollTo({ top: s.getBoundingClientRect().top + window.scrollY + 40, behavior: "instant" as ScrollBehavior });
+      }, id);
+      await expect(page.getByTestId("slide-counter")).toHaveText(label);
+    }
+  });
+});
+
+test.describe("Orrery results for screen readers", () => {
+  test("each figure's final value is in the accessible text", async ({ page }) => {
+    await page.goto("/orrery#results");
+    const results = page.locator("#results");
+    for (const v of ["4.2×", "63%", "99.6%"]) {
+      await expect(results.locator(".orr-visually-hidden", { hasText: v })).toHaveCount(1);
+    }
+  });
+});

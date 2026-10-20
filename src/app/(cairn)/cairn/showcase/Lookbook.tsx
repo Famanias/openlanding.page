@@ -17,7 +17,7 @@ export type LookbookFrame = {
  */
 export function Lookbook({ frames }: { frames: LookbookFrame[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null);
+  const drag = useRef<{ x: number; left: number } | null>(null);
   const [open, setOpen] = useState<string | null>(null); // `${frame}:${index}`
 
   const page = (dir: 1 | -1) => {
@@ -29,17 +29,25 @@ export function Lookbook({ frames }: { frames: LookbookFrame[] }) {
 
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "mouse" || (e.target as HTMLElement).closest("button")) return;
-    drag.current = { x: e.clientX, left: trackRef.current!.scrollLeft, moved: false };
-    trackRef.current!.setPointerCapture(e.pointerId);
+    const track = trackRef.current!;
+    drag.current = { x: e.clientX, left: track.scrollLeft };
+    track.dataset.dragging = ""; // turns scroll-snap off so the strip follows the pointer
+    track.setPointerCapture(e.pointerId);
   };
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
     if (!drag.current) return;
-    const dx = e.clientX - drag.current.x;
-    if (Math.abs(dx) > 4) drag.current.moved = true;
-    trackRef.current!.scrollLeft = drag.current.left - dx;
+    trackRef.current!.scrollLeft = drag.current.left - (e.clientX - drag.current.x);
   };
   const endDrag = () => {
+    const track = trackRef.current;
+    if (!drag.current || !track) return;
     drag.current = null;
+    // Settle on the nearest frame, then hand control back to scroll-snap.
+    const frame = track.firstElementChild as HTMLElement | null;
+    const step = frame ? frame.offsetWidth + (parseFloat(getComputedStyle(track).columnGap) || 0) : track.clientWidth;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    track.scrollTo({ left: Math.round(track.scrollLeft / step) * step, behavior: reduce ? "auto" : "smooth" });
+    window.setTimeout(() => delete track.dataset.dragging, reduce ? 0 : 350);
   };
 
   return (

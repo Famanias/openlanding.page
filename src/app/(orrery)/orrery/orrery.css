@@ -51,7 +51,7 @@
 .orr-display {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(3.5rem, 11vw, 11.5rem);
+  font-size: clamp(3.5rem, min(11vw, 17vh), 11.5rem);
   line-height: 0.88;
   letter-spacing: -0.025em;
   margin: 0;
@@ -60,7 +60,7 @@
 .orr-h2 {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(2.75rem, 6.2vw, 6.75rem);
+  font-size: clamp(2.75rem, min(6.2vw, 9vh), 6.75rem);
   line-height: 0.95;
   letter-spacing: -0.02em;
   margin: 0;
@@ -358,7 +358,8 @@
 }
 
 /* Desktop keynote mode: slides stack in place and wipe in. */
-@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+/* KEYNOTE: keep in sync with KEYNOTE_QUERY in deck/Deck.tsx */
+@media (min-width: 900px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {
   html:has(.orr-deck) {
     overflow: hidden;
     overscroll-behavior: none;
@@ -719,7 +720,7 @@ kbd {
 .orr-figure__value {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(4.5rem, 9vw, 9rem);
+  font-size: clamp(4.5rem, min(9vw, 13vh), 9rem);
   line-height: 0.9;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
@@ -942,7 +943,7 @@ kbd {
 }
 
 .orr-cta__title {
-  font-size: clamp(3.5rem, 8vw, 8.5rem);
+  font-size: clamp(3.5rem, min(8vw, 12vh), 8.5rem);
 }
 
 .orr-form {
@@ -1128,7 +1129,8 @@ kbd {
 }
 
 /* Keynote mode: slide content builds in after the wipe. */
-@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+/* KEYNOTE: keep in sync with KEYNOTE_QUERY in deck/Deck.tsx */
+@media (min-width: 900px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {
   .orr-reveal {
     transition:
       opacity 600ms var(--ease-out),

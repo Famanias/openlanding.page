@@ -94,3 +94,29 @@ test.describe("Cairn summit", () => {
     expect(requests).toEqual([]);
   });
 });
+
+// ─── Final-review fixes ───
+test.describe("Cairn screen-reader announcements", () => {
+  test("the altitude number is not a live region; only the camp name is", async ({ page }) => {
+    await page.goto("/cairn");
+    await expect(page.getByTestId("altitude-readout")).not.toHaveAttribute("aria-live", /.+/);
+    await expect(page.getByTestId("active-camp")).toHaveAttribute("aria-live", "polite");
+  });
+});
+
+test.describe("Cairn lookbook drag", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("a mouse drag moves the strip with the pointer", async ({ page }) => {
+    await page.goto("/cairn#summit");
+    const track = page.locator(".crn-lookbook__track");
+    const box = (await track.boundingBox())!;
+    const y = box.y + box.height * 0.9; // below the hotspots
+    await page.mouse.move(box.x + box.width * 0.7, y);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width * 0.7 - 120, y, { steps: 6 });
+    const mid = await track.evaluate((t) => t.scrollLeft);
+    await page.mouse.up();
+    expect(mid).toBeGreaterThan(80);
+  });
+});

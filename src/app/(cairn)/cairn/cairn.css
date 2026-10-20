@@ -1025,8 +1025,13 @@ html:has(.crn-body) {
   cursor: grab;
 }
 
-.crn-lookbook__track:active {
+.crn-lookbook__track:active,
+.crn-lookbook__track[data-dragging] {
   cursor: grabbing;
+}
+
+.crn-lookbook__track[data-dragging] {
+  scroll-snap-type: none;
 }
 
 .crn-lookbook__frame {

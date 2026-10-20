@@ -42,7 +42,11 @@ function Figure({ value, decimals, suffix, label, active }: (typeof RESULTS)[num
   const shown = useCountUp(value, active);
   return (
     <div className="orr-figure">
-      <p className="orr-figure__value" aria-label={`${value}${suffix}`}>
+      <p className="orr-figure__value">
+        <span className="orr-visually-hidden">
+          {value}
+          {suffix}
+        </span>
         <span aria-hidden="true">
           {shown.toFixed(decimals)}
           <span className="orr-accent">{suffix}</span>
