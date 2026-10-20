@@ -15,7 +15,10 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   },
   koji: {
     palette: ["#1A1918", "#4A4743", "#8E8A83", "#EDEAE4", "#C8331F"],
-    paletteExempt: ["src/app/(koji)/koji/dish/"],
+    paletteExempt: [
+      "src/app/(koji)/koji/dish/", // 3D food colours are content, like a photo
+      "src/app/(koji)/koji/flight/scrub-engine.js", // vendored engine; its default theme is overridden by --sw-* tokens
+    ],
   },
 };
 

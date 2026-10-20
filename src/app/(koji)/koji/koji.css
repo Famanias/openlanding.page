@@ -566,6 +566,114 @@ html:has(.kj-body) {
   color: var(--color-beton);
 }
 
+
+/* ─────────────── Food flight ─────────────── */
+/* Static sequence: before clips exist, and under reduced motion. */
+.kj-flight-static {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+  background: var(--color-shadow);
+  border: 2px solid var(--color-shadow);
+}
+
+.kj-flight-static__scene {
+  display: grid;
+  background: var(--color-sumi);
+}
+
+.kj-flight-static__still {
+  aspect-ratio: 16 / 9;
+}
+
+.kj-flight-static__copy {
+  display: grid;
+  gap: 6px;
+  padding: 16px 20px 20px;
+}
+
+.kj-flight-static__copy .kj-mono {
+  color: var(--color-shu);
+}
+
+.kj-flight-static__copy p:last-child {
+  margin: 0;
+  color: var(--color-beton);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+/* Scrubbed flight: a tall track with a sticky, transformed stage the engine's fixed layers pin to. */
+.kj-flight {
+  position: relative;
+  height: calc(var(--flight-height) * 100vh);
+}
+
+.kj-flight__sticky {
+  position: sticky;
+  top: var(--topbar);
+  height: calc(100vh - var(--topbar));
+  overflow: hidden;
+  transform: translateZ(0); /* makes position: fixed children relative to this box */
+}
+
+.kj-flight__engine {
+  position: absolute;
+  inset: 0;
+  /* scroll-world theme */
+  --sw-bg: var(--color-sumi);
+  --sw-ink: var(--color-washi);
+  --sw-ink-soft: var(--color-beton);
+  --sw-accent: var(--color-shu);
+  --sw-font-display: var(--font-display);
+  --sw-font-body: var(--font-body);
+}
+
+.kj-flight__engine .sw-route__label {
+  background: var(--color-washi);
+  color: var(--color-sumi);
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.kj-flight__engine .sw-track,
+.kj-flight__engine .sw-scrollbar,
+.kj-flight__engine .sw-topbar {
+  display: none;
+}
+
+.kj-slabwipe {
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  background: var(--board-marks), var(--color-shadow);
+  transform: translateX(-101%);
+  animation: kj-slab 450ms var(--ease-in-out) forwards;
+  pointer-events: none;
+}
+
+@keyframes kj-slab {
+  0% {
+    transform: translateX(-101%);
+  }
+  45%,
+  55% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(101%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kj-slabwipe {
+    display: none;
+  }
+}
+
 /* Building */
 .kj-building {
   display: grid;
@@ -768,6 +876,9 @@ html:has(.kj-body) {
     column-gap: 32px;
   }
   .kj-omakase .kj-section-head {
+    grid-column: 1 / -1;
+  }
+  .kj-omakase__flight:has([data-flight="scrub"]) {
     grid-column: 1 / -1;
   }
   .kj-building {

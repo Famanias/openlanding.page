@@ -2,6 +2,7 @@ import { Picture } from "./assets";
 import { Hanko } from "./brand/Hanko";
 import { Noren } from "./brand/Noren";
 import { HeroDish } from "./dish/HeroDish";
+import { FoodFlight } from "./flight/FoodFlight";
 import { Building } from "./sections/Building";
 import { Chef } from "./sections/Chef";
 import { Footer } from "./sections/Footer";
@@ -37,7 +38,7 @@ export default function KojiPage() {
           }
         />
         <Kitchen />
-        <Omakase flight={<div className="kj-placeholder kj-flight-slot" role="img" aria-label="Food flight"><span className="kj-mono">food flight</span></div>} />
+        <Omakase flight={<FoodFlight />} />
         <Building />
         <Chef />
         <Reservation />

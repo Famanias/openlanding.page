@@ -47,3 +47,28 @@ test.describe("KŌJI hero dish (3D)", () => {
     await expect(page.locator('#dish canvas[data-ready="true"]')).toBeAttached({ timeout: 8_000 });
   });
 });
+
+test.describe("KŌJI food flight", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("without clips, the five scene stills render as a static sequence", async ({ page, request }) => {
+    const clip = await request.head("/templates/koji/clips/dive-1.mp4");
+    test.skip(clip.ok(), "clips are present; the scrubbed flight is tested instead");
+    await page.goto("/koji#omakase");
+    const flight = page.locator('#flight [data-flight="static"]');
+    await expect(flight.locator("[data-asset^='flight-']")).toHaveCount(5);
+  });
+
+  test("with clips, scrolling through the flight advances the video", async ({ page, request }) => {
+    const clip = await request.head("/templates/koji/clips/dive-1.mp4");
+    test.skip(!clip.ok(), "clips not generated yet");
+    await page.goto("/koji");
+    await page.evaluate(() => {
+      const f = document.querySelector<HTMLElement>("#flight")!;
+      window.scrollTo({ top: f.getBoundingClientRect().top + window.scrollY + window.innerHeight * 0.6, behavior: "instant" as ScrollBehavior });
+    });
+    await expect
+      .poll(() => page.evaluate(() => Math.max(...Array.from(document.querySelectorAll("#flight video")).map((v) => (v as HTMLVideoElement).currentTime))), { timeout: 8_000 })
+      .toBeGreaterThan(0);
+  });
+});
