@@ -360,6 +360,60 @@ html:has(.kj-body) {
   }
 }
 
+
+/* ─────────────── Hero dish: poster, then the real-time canvas ─────────────── */
+.kj-dish {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.kj-dish__poster,
+.kj-dish__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.kj-dish__poster {
+  transition: opacity 400ms var(--ease-out);
+}
+
+.kj-dish__canvas {
+  opacity: 0;
+  cursor: grab;
+  touch-action: pan-y;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.kj-dish__canvas:active {
+  cursor: grabbing;
+}
+
+.kj-dish[data-ready] .kj-dish__canvas {
+  opacity: 1;
+}
+
+.kj-dish[data-ready] .kj-dish__poster {
+  opacity: 0;
+}
+
+.kj-dish__hint {
+  position: absolute;
+  left: 50%;
+  bottom: -28px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: var(--color-beton);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out) 600ms;
+}
+
+.kj-dish[data-ready] .kj-dish__hint {
+  opacity: 1;
+}
+
 /* ─────────────── Slabs ─────────────── */
 .kj-slab {
   position: relative;

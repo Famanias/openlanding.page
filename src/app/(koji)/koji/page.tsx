@@ -1,6 +1,7 @@
 import { Picture } from "./assets";
 import { Hanko } from "./brand/Hanko";
 import { Noren } from "./brand/Noren";
+import { HeroDish } from "./dish/HeroDish";
 import { Building } from "./sections/Building";
 import { Chef } from "./sections/Chef";
 import { Footer } from "./sections/Footer";
@@ -22,12 +23,16 @@ export default function KojiPage() {
       <main id="top">
         <Hero
           dish={
-            <Picture
-              assetKey="hero-dish-poster"
-              alt="A single piece of miso-glazed nigiri on dark speckled stoneware"
-              className="kj-dish-poster"
-              sizes="(min-width: 900px) 40vw, 90vw"
-              priority
+            <HeroDish
+              poster={
+                <Picture
+                  assetKey="hero-dish-poster"
+                  alt="A single piece of miso-glazed nigiri on dark speckled stoneware"
+                  className="kj-dish-poster"
+                  sizes="(min-width: 900px) 40vw, 90vw"
+                  priority
+                />
+              }
             />
           }
         />

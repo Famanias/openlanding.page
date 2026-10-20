@@ -27,3 +27,23 @@ test.describe("KŌJI reservation", () => {
     await expect(page.getByText("12 SEATS")).toBeVisible();
   });
 });
+
+test.describe("KŌJI hero dish (reduced motion)", () => {
+  test.use({ reducedMotion: "reduce" });
+
+  test("shows the static poster and no canvas", async ({ page }) => {
+    await page.goto("/koji");
+    await expect(page.locator("#dish [data-asset='hero-dish-poster']")).toBeVisible();
+    await page.waitForTimeout(1500);
+    await expect(page.locator("#dish canvas")).toHaveCount(0);
+  });
+});
+
+test.describe("KŌJI hero dish (3D)", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test("renders the real-time dish", async ({ page }) => {
+    await page.goto("/koji");
+    await expect(page.locator('#dish canvas[data-ready="true"]')).toBeAttached({ timeout: 8_000 });
+  });
+});
