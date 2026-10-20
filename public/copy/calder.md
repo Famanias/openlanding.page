@@ -1,0 +1,419 @@
+<template slug="calder" name="CALDER & ROWE">
+  <dependencies>
+    {
+      "dependencies": {}
+    }
+  </dependencies>
+  <instructions>
+    Recreate the following files in your Next.js App Router project preserving relative paths.
+  </instructions>
+  <files>
+    <file path="src/app/(calder)/layout.tsx">
+<![CDATA[import type { Metadata } from "next";
+import { Cormorant_Garamond, Lato, Source_Serif_4 } from "next/font/google";
+import "./calder/calder.css";
+
+const display = Cormorant_Garamond({
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-calder-display-source",
+});
+
+const body = Source_Serif_4({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-calder-body-source",
+});
+
+const sans = Lato({ weight: ["400", "700"], subsets: ["latin"], variable: "--font-calder-sans-source" });
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://templateflow-blond.vercel.app"),
+  title: "CALDER & ROWE — Counsel for consequential decisions",
+  description: "An independent law firm for the decisions that change the record.",
+  icons: { icon: "/templates/calder/icon.svg" },
+};
+
+export default function CalderLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className={`${display.variable} ${body.variable} ${sans.variable}`}>
+      <body className="calder-body">{children}</body>
+    </html>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(calder)/calder/calder.css">
+<![CDATA[@import "tailwindcss";
+
+@theme {
+  --color-calder-navy: #102B3F;
+  --color-calder-paper: #FFFFFF;
+  --color-calder-red: #102B3F;
+  --color-calder-muted: rgba(16,43,63,.68);
+  --color-calder-line: rgba(16,43,63,.2);
+  --font-calder-display: var(--font-calder-display-source), Georgia, serif;
+  --font-calder-body: var(--font-calder-body-source), Georgia, serif;
+  --font-calder-sans: var(--font-calder-sans-source), Arial, sans-serif;
+}
+
+:root { --calder-gutter: clamp(20px, 5vw, 84px); --calder-topbar: 78px; }
+html:has(.calder-body) { scroll-behavior: smooth; scroll-padding-top: var(--calder-topbar); }
+.calder-body { margin: 0; background: #FFFFFF; color: #102B3F; font-family: var(--font-calder-body); -webkit-font-smoothing: antialiased; }
+.calder-body ::selection { color: #FFFFFF; background: #102B3F; }
+.calder-body :focus-visible { outline: 2px solid #102B3F; outline-offset: 3px; }
+.calder-site { overflow: clip; }
+.calder-wrap { width: min(1280px, calc(100% - (var(--calder-gutter) * 2))); margin: 0 auto; }
+.calder-skip { position: fixed; left: 12px; top: -100px; z-index: 50; padding: 10px 14px; background: #102B3F; color: #FFFFFF; font-family: var(--font-calder-sans); font-size: 10px; text-transform: uppercase; }
+.calder-skip:focus { top: 12px; }
+.calder-topbar { position: sticky; top: 0; z-index: 30; min-height: var(--calder-topbar); display: flex; align-items: center; gap: 30px; padding: 14px var(--calder-gutter); background: #FFFFFF; border-bottom: 1px solid rgba(16,43,63,.2); }
+.calder-wordmark { display: inline-flex; align-items: center; gap: 11px; color: #102B3F; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: .14em; white-space: nowrap; }
+.calder-wordmark-name { display: grid; gap: 2px; }
+.calder-wordmark-name b { color: #102B3F; font-family: var(--font-calder-display); font-weight: 400; }
+.calder-wordmark small { display: block; color: rgba(16,43,63,.68); font-family: var(--font-calder-sans); font-size: 7px; font-weight: 700; letter-spacing: .2em; }
+.calder-mark { width: 34px; height: 34px; display: inline-grid; grid-template-columns: 1fr auto 1fr; align-items: center; justify-items: center; border: 1px solid #102B3F; border-radius: 2px; color: #102B3F; font-family: var(--font-calder-display); font-size: 16px; letter-spacing: -.08em; }
+.calder-mark span { margin: 0; font-family: var(--font-calder-display); font-size: 16px; line-height: 1; }
+.calder-mark i { color: #102B3F; font-family: var(--font-calder-sans); font-size: 7px; font-style: normal; letter-spacing: 0; }
+.calder-nav { display: flex; align-items: center; gap: 25px; margin-left: auto; }
+.calder-nav a, .calder-phone, .calder-top-cta, .calder-eyebrow, .calder-trust-grid span, .calder-practice-number, .calder-footer, .calder-footer-label, .calder-form-note { font-family: var(--font-calder-sans); text-transform: uppercase; letter-spacing: .09em; }
+.calder-nav a { color: rgba(16,43,63,.68); text-decoration: none; font-size: 10px; }
+.calder-nav a:hover, .calder-phone:hover { color: #102B3F; }
+.calder-top-contact { display: flex; align-items: center; gap: 18px; }
+.calder-phone { color: #102B3F; text-decoration: none; font-size: 10px; white-space: nowrap; }
+.calder-top-cta, .calder-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 20px; padding: 13px 16px; border: 1px solid #102B3F; color: #102B3F; text-decoration: none; font-size: 10px; transition: background-color 180ms ease, color 180ms ease, transform 180ms ease, border-color 180ms ease; }
+.calder-top-cta:hover, .calder-button:hover { background: #102B3F; color: #FFFFFF; }
+.calder-button:hover { transform: translateY(-2px); }
+.calder-button-primary { background: #102B3F; color: #FFFFFF; }
+.calder-button-primary:hover { background: #102B3F; border-color: #102B3F; }
+
+.calder-hero { background: #FFFFFF; border-bottom: 1px solid rgba(16,43,63,.2); }
+.calder-hero-grid { min-height: 670px; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(340px, .75fr); gap: 9vw; align-items: center; padding-top: 84px; padding-bottom: 100px; }
+.calder-eyebrow { margin: 0 0 25px; color: #102B3F; font-size: 10px; line-height: 1.5; }
+.calder-hero h1, .calder-section h2, .calder-contact h2 { margin: 0; font-family: var(--font-calder-display); font-weight: 400; letter-spacing: -.055em; line-height: .98; text-wrap: balance; }
+.calder-hero h1 { max-width: 720px; font-size: clamp(4rem, 7.7vw, 8.4rem); }
+.calder-hero-lead { max-width: 49ch; margin: 30px 0 32px; color: rgba(16,43,63,.68); font-size: clamp(1.05rem, 1.4vw, 1.25rem); line-height: 1.65; }
+.calder-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 25px; }
+.calder-text-link { display: inline-flex; align-items: center; gap: 10px; color: #102B3F; text-decoration: none; font-family: var(--font-calder-sans); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.calder-text-link:hover { color: #102B3F; }
+.calder-hero-visual { min-height: 440px; display: flex; flex-direction: column; justify-content: space-between; padding: 22px; background: #102B3F; color: #FFFFFF; }
+.calder-visual-top, .calder-visual-bottom { display: flex; justify-content: space-between; gap: 14px; font-family: var(--font-calder-sans); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+.calder-visual-top { color: rgba(255,255,255,.7); }
+.calder-visual-bottom { align-items: end; color: rgba(255,255,255,.7); line-height: 1.5; }
+.calder-visual-bottom strong { color: #FFFFFF; font-family: var(--font-calder-display); font-size: 27px; font-weight: 400; letter-spacing: -.03em; line-height: 1.05; text-transform: none; }
+.calder-visual-architecture { position: relative; flex: 1; display: flex; align-items: stretch; gap: 8px; margin: 28px 0; padding: 20px 0; }
+.calder-visual-architecture::before { content: ""; position: absolute; left: 16%; top: 50%; right: -10%; height: 1px; background: rgba(255,255,255,.7); }
+.calder-visual-architecture span { display: block; width: 24%; border-left: 1px solid rgba(255,255,255,.36); border-right: 1px solid rgba(255,255,255,.16); transform: skewY(-20deg); }
+.calder-visual-architecture span:nth-child(2) { margin-top: 12%; }
+.calder-visual-architecture span:nth-child(3) { margin-top: 25%; }
+.calder-visual-architecture span:nth-child(4) { margin-top: 8%; }
+
+.calder-trust-strip { background: #102B3F; color: #FFFFFF; }
+.calder-trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.calder-trust-grid > div { display: grid; gap: 9px; padding: 25px 20px 27px 0; border-right: 1px solid rgba(247,246,242,.22); }
+.calder-trust-grid > div + div { padding-left: 20px; }
+.calder-trust-grid > div:last-child { border-right: 0; }
+.calder-trust-grid span { color: rgba(255,255,255,.7); font-size: 9px; }
+.calder-trust-grid strong, .calder-trust-grid a { color: #FFFFFF; font-size: 14px; font-weight: 500; text-decoration: none; }
+
+.calder-section { padding: 125px 0; }
+.calder-services { background: #FFFFFF; }
+.calder-section-intro { display: grid; grid-template-columns: minmax(180px, .5fr) minmax(0, 1.5fr); column-gap: 5vw; align-items: start; margin-bottom: 70px; }
+.calder-section-intro .calder-eyebrow { margin-top: 12px; }
+.calder-section h2, .calder-contact h2 { font-size: clamp(3rem, 5.3vw, 6.2rem); }
+.calder-section-intro > p:last-child { grid-column: 2; max-width: 44ch; margin: 24px 0 0; color: rgba(16,43,63,.68); line-height: 1.6; }
+.calder-practice-list { border-top: 1px solid rgba(16,43,63,.2); }
+.calder-practice-row { display: grid; grid-template-columns: 80px minmax(0, 1fr) auto; gap: 24px; align-items: start; padding: 28px 0 30px; border-bottom: 1px solid rgba(16,43,63,.2); }
+.calder-practice-number { padding-top: 5px; color: #102B3F; font-size: 10px; }
+.calder-practice-row h3 { margin: 0 0 8px; color: #102B3F; font-family: var(--font-calder-display); font-size: clamp(1.75rem, 2.5vw, 2.8rem); font-weight: 400; letter-spacing: -.04em; }
+.calder-practice-row p { max-width: 52ch; margin: 0; color: rgba(16,43,63,.68); line-height: 1.55; }
+.calder-practice-row a { align-self: center; color: #102B3F; text-decoration: none; font-family: var(--font-calder-sans); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.calder-practice-row a:hover { color: #102B3F; }
+
+.calder-firm { background: #FFFFFF; }
+.calder-firm-grid { display: grid; grid-template-columns: minmax(280px, .85fr) minmax(0, 1.15fr); gap: 10vw; align-items: center; }
+.calder-attorney-card { min-height: 520px; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; background: rgba(16,43,63,.2); color: #102B3F; }
+.calder-attorney-monogram { display: grid; place-items: center; flex: 1; color: #102B3F; font-family: var(--font-calder-display); font-size: clamp(8rem, 17vw, 14rem); letter-spacing: -.14em; }
+.calder-attorney-caption { display: grid; gap: 5px; padding-top: 18px; border-top: 1px solid rgba(17,39,58,.32); font-family: var(--font-calder-sans); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+.calder-attorney-caption strong { color: #102B3F; font-family: var(--font-calder-display); font-size: 25px; font-weight: 400; letter-spacing: -.04em; text-transform: none; }
+.calder-attorney-caption span { color: rgba(16,43,63,.68); }
+.calder-firm-copy > p:not(.calder-eyebrow) { max-width: 48ch; margin: 28px 0 28px; color: rgba(16,43,63,.68); line-height: 1.65; }
+.calder-firm-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 62px 0 0; padding-top: 18px; border-top: 1px solid rgba(16,43,63,.2); }
+.calder-firm-facts div { display: grid; gap: 8px; }
+.calder-firm-facts dt { color: #102B3F; font-family: var(--font-calder-display); font-size: 38px; line-height: .8; }
+.calder-firm-facts dd { margin: 0; color: rgba(16,43,63,.68); font-family: var(--font-calder-sans); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+
+.calder-proof { background: #102B3F; color: #FFFFFF; }
+.calder-proof-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .9fr); gap: 12vw; align-items: center; }
+.calder-proof h2 { max-width: 610px; }
+.calder-proof h2 em { color: #102B3F; }
+.calder-proof-quote { border-left: 3px solid #102B3F; padding-left: 28px; }
+.calder-proof-quote blockquote { margin: 0 0 25px; font-family: var(--font-calder-display); font-size: clamp(2rem, 3.3vw, 3.6rem); letter-spacing: -.045em; line-height: 1.05; }
+.calder-proof-quote cite { color: rgba(255,255,255,.7); font-family: var(--font-calder-sans); font-size: 10px; font-style: normal; line-height: 1.5; text-transform: uppercase; letter-spacing: .08em; }
+
+.calder-faq { background: #FFFFFF; }
+.calder-faq-grid { display: grid; grid-template-columns: minmax(200px, .7fr) minmax(0, 1.3fr); gap: 10vw; align-items: start; }
+.calder-faq-grid > * { min-width: 0; }
+.calder-faq .calder-section-intro { display: block; min-width: 0; margin-bottom: 0; }
+.calder-faq .calder-section-intro .calder-eyebrow { margin-top: 12px; }
+.calder-faq .calder-section-intro h2 { max-width: 8ch; overflow-wrap: break-word; }
+.calder-faq-list { border-top: 1px solid rgba(16,43,63,.2); }
+.calder-faq-item { border-bottom: 1px solid rgba(16,43,63,.2); }
+.calder-faq-item summary { display: flex; justify-content: space-between; gap: 20px; padding: 22px 0; color: #102B3F; cursor: pointer; font-family: var(--font-calder-display); font-size: clamp(1.3rem, 2vw, 2rem); list-style: none; }
+.calder-faq-item summary::-webkit-details-marker { display: none; }
+.calder-faq-item summary::after { content: "+"; color: #102B3F; font-family: var(--font-calder-body); font-size: 22px; }
+.calder-faq-item[open] summary::after { content: "−"; }
+.calder-faq-item p { max-width: 55ch; margin: -4px 40px 24px 0; color: rgba(16,43,63,.68); line-height: 1.6; }
+
+.calder-contact { padding: 125px 0 110px; background: #102B3F; color: #FFFFFF; }
+.calder-contact-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(340px, .8fr); gap: 10vw; align-items: start; }
+.calder-contact .calder-eyebrow { color: #FFFFFF; }
+.calder-contact h2 { max-width: 600px; }
+.calder-contact-copy > p:not(.calder-eyebrow) { max-width: 38ch; margin: 28px 0; font-size: 1.1rem; line-height: 1.6; }
+.calder-contact-details { display: grid; gap: 7px; margin-top: 45px; font-family: var(--font-calder-sans); font-size: 10px; line-height: 1.55; text-transform: uppercase; letter-spacing: .08em; }
+.calder-contact-details a { color: #FFFFFF; text-decoration: none; }
+.calder-contact-details span { margin-top: 8px; opacity: .8; }
+.calder-form { display: grid; gap: 18px; padding: 27px; background: #FFFFFF; color: #102B3F; }
+.calder-form label { display: grid; gap: 8px; color: rgba(16,43,63,.68); font-family: var(--font-calder-sans); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.calder-form input, .calder-form textarea { width: 100%; box-sizing: border-box; border: 1px solid rgba(16,43,63,.2); border-radius: 0; background: #FFFFFF; color: #102B3F; padding: 12px; font: inherit; }
+.calder-form input { height: 46px; }
+.calder-form textarea { resize: vertical; }
+.calder-form input:focus, .calder-form textarea:focus { border-color: #102B3F; outline: 2px solid rgba(178,76,60,.18); outline-offset: 1px; }
+.calder-form .calder-button { width: 100%; border-color: #102B3F; cursor: pointer; }
+.calder-form-note { margin: 0; color: rgba(16,43,63,.68); font-size: 8px; line-height: 1.5; text-transform: none; letter-spacing: .02em; }
+.calder-form-success { display: grid; gap: 14px; align-content: center; min-height: 330px; }
+.calder-success-mark { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #102B3F; color: #FFFFFF; }
+.calder-form-success h3 { margin: 0; font-family: var(--font-calder-display); font-size: 3rem; font-weight: 400; letter-spacing: -.04em; }
+.calder-form-success p { max-width: 35ch; margin: 0; color: rgba(16,43,63,.68); line-height: 1.6; }
+.calder-form-success button { width: fit-content; padding: 0; border: 0; border-bottom: 1px solid #102B3F; background: transparent; color: #102B3F; cursor: pointer; font-family: var(--font-calder-sans); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+
+.calder-footer { padding: 60px 0 28px; background: #102B3F; color: #FFFFFF; }
+.calder-footer-grid { display: grid; grid-template-columns: 1.5fr .6fr .6fr; gap: 8vw; padding-bottom: 55px; }
+.calder-footer .calder-wordmark { color: #FFFFFF; }
+.calder-footer p { max-width: 33ch; margin: 22px 0 0; color: rgba(255,255,255,.7); font-size: 14px; line-height: 1.6; }
+.calder-footer-grid > div:not(:first-child) { display: grid; align-content: start; gap: 10px; }
+.calder-footer-label { margin-bottom: 8px; color: #FFFFFF; font-size: 9px; }
+.calder-footer a:not(.calder-wordmark) { color: rgba(255,255,255,.7); text-decoration: none; font-size: 13px; }
+.calder-footer a:not(.calder-wordmark):hover { color: #FFFFFF; }
+.calder-footer-bottom { width: min(1280px, calc(100% - (var(--calder-gutter) * 2))); display: flex; justify-content: space-between; gap: 18px; margin: 0 auto; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.7); font-family: var(--font-calder-sans); font-size: 9px; line-height: 1.5; text-transform: uppercase; letter-spacing: .08em; }
+
+.calder-reveal { opacity: 0; transform: translateY(24px); transition: opacity 650ms cubic-bezier(.23,1,.32,1), transform 700ms cubic-bezier(.23,1,.32,1); }
+.calder-reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 1050px) {
+  .calder-nav { gap: 16px; }
+  .calder-phone { display: none; }
+}
+@media (max-width: 800px) {
+  :root { --calder-topbar: 68px; }
+  .calder-topbar { gap: 12px; }
+  .calder-nav { display: none; }
+  .calder-top-contact { margin-left: auto; }
+  .calder-top-cta { padding: 11px 12px; }
+  .calder-hero-grid, .calder-firm-grid, .calder-proof-grid, .calder-faq-grid, .calder-contact-grid { grid-template-columns: 1fr; gap: 50px; }
+  .calder-hero-grid { min-height: auto; padding: 82px 0 76px; }
+  .calder-hero-visual { min-height: 360px; }
+  .calder-trust-grid { grid-template-columns: repeat(2, 1fr); }
+  .calder-trust-grid > div:nth-child(2) { border-right: 0; }
+  .calder-trust-grid > div:nth-child(3), .calder-trust-grid > div:nth-child(4) { border-top: 1px solid rgba(247,246,242,.22); }
+  .calder-section { padding: 86px 0; }
+  .calder-section-intro { grid-template-columns: 1fr; gap: 15px; margin-bottom: 45px; }
+  .calder-section-intro .calder-eyebrow { margin-top: 0; }
+  .calder-section-intro > p:last-child { grid-column: auto; margin-top: 7px; }
+  .calder-practice-row { grid-template-columns: 42px 1fr; gap: 14px; }
+  .calder-practice-row a { grid-column: 2; justify-self: start; margin-top: 8px; }
+  .calder-attorney-card { min-height: 420px; }
+  .calder-firm-facts { margin-top: 40px; }
+  .calder-footer-grid { grid-template-columns: 1fr 1fr; gap: 38px; }
+  .calder-footer-grid > div:first-child { grid-column: 1 / -1; }
+  .calder-footer-bottom { display: grid; }
+}
+@media (max-width: 500px) {
+  .calder-wordmark { font-size: 11px; letter-spacing: .1em; }
+  .calder-mark { width: 28px; height: 28px; }
+  .calder-hero h1 { font-size: clamp(3.3rem, 14vw, 5.7rem); }
+  .calder-section h2, .calder-contact h2 { font-size: clamp(2.8rem, 12vw, 5rem); }
+  .calder-trust-grid { grid-template-columns: 1fr; }
+  .calder-trust-grid > div, .calder-trust-grid > div + div { padding: 16px 0; border-right: 0; border-top: 1px solid rgba(247,246,242,.22); }
+  .calder-trust-grid > div:first-child { border-top: 0; }
+  .calder-firm-facts { grid-template-columns: 1fr; gap: 18px; }
+  .calder-footer-grid { grid-template-columns: 1fr; }
+  .calder-footer-grid > div:first-child { grid-column: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has(.calder-body) { scroll-behavior: auto; }
+  .calder-reveal { opacity: 1; transform: none; transition: none; }
+  .calder-button, .calder-nav a { transition: none; }
+}
+]]>
+    </file>
+    <file path="src/app/(calder)/calder/CalderLanding.tsx">
+<![CDATA["use client";
+
+import { useEffect, useState } from "react";
+
+const practices = [
+  ["01", "Business formation & contracts", "Practical agreements, operating documents, and counsel for the decisions that keep a company moving."],
+  ["02", "Commercial disputes", "Focused representation for contract disputes, shareholder matters, and business litigation."],
+  ["03", "Employment matters", "Clear guidance for executives and employers navigating agreements, exits, and workplace risk."],
+  ["04", "Trusts & estates", "Thoughtful planning for the people, property, and responsibilities you want to protect."],
+];
+
+function CalderMark() {
+  return <span className="calder-mark" aria-hidden="true"><span>C</span><i>&amp;</i><span>R</span></span>;
+}
+
+export function CalderLanding() {
+  const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.target.classList.toggle("is-visible", entry.isIntersecting)),
+      { threshold: 0.14 },
+    );
+    document.querySelectorAll(".calder-reveal").forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSent(true);
+  };
+
+  return (
+    <div className="calder-site">
+      <a className="calder-skip" href="#main">Skip to content</a>
+      <header className="calder-topbar">
+        <a className="calder-wordmark" href="#top" aria-label="Calder and Rowe home">
+          <CalderMark />
+          <span className="calder-wordmark-name">CALDER <b>&amp;</b> ROWE <small>ATTORNEYS AT LAW</small></span>
+        </a>
+        <nav className="calder-nav" aria-label="Primary navigation">
+          <a href="#services">Legal services</a>
+          <a href="#firm">Our firm</a>
+          <a href="#faq">FAQs</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div className="calder-top-contact">
+          <a className="calder-phone" href="tel:+12125550187">212 555 0187</a>
+          <a className="calder-top-cta" href="#contact">Schedule a consultation</a>
+        </div>
+      </header>
+
+      <main id="main">
+        <section id="top" className="calder-hero" aria-labelledby="calder-title">
+          <div className="calder-wrap calder-hero-grid">
+            <div className="calder-hero-copy calder-reveal">
+              <p className="calder-eyebrow">Business law · New York, NY</p>
+              <h1 id="calder-title">Practical counsel for difficult decisions.</h1>
+              <p className="calder-hero-lead">Calder &amp; Rowe LLP helps business owners, executives, and families make sound decisions when the answer matters.</p>
+              <div className="calder-actions">
+                <a className="calder-button calder-button-primary" href="#contact">Schedule a consultation <span aria-hidden="true">→</span></a>
+                <a className="calder-text-link" href="#services">View legal services <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+            <div className="calder-hero-visual calder-reveal" aria-label="Calder and Rowe office details">
+              <div className="calder-visual-top"><span>CALDER &amp; ROWE LLP</span><span>EST. 1987</span></div>
+              <div className="calder-visual-architecture" aria-hidden="true"><span /><span /><span /><span /></div>
+              <div className="calder-visual-bottom"><strong>Clear advice.<br />Steady representation.</strong><span>Manhattan · Brooklyn · Westchester</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section className="calder-trust-strip" aria-label="Firm details">
+          <div className="calder-wrap calder-trust-grid">
+            <div><span>Direct line</span><a href="tel:+12125550187">212 555 0187</a></div>
+            <div><span>Our approach</span><strong>Clear, practical advice</strong></div>
+            <div><span>Serving clients</span><strong>Since 1987</strong></div>
+            <div><span>Confidentiality</span><strong>Always protected</strong></div>
+          </div>
+        </section>
+
+        <section id="services" className="calder-section calder-services" aria-labelledby="services-title">
+          <div className="calder-wrap">
+            <div className="calder-section-intro calder-reveal">
+              <p className="calder-eyebrow">Legal services</p>
+              <h2 id="services-title">Focused advice for the matters in front of you.</h2>
+              <p>We explain the issue, outline your options, and stay close to the decision until it is resolved.</p>
+            </div>
+            <div className="calder-practice-list">
+              {practices.map(([number, title, copy]) => (
+                <article className="calder-practice-row calder-reveal" key={number}>
+                  <span className="calder-practice-number">{number}</span>
+                  <div><h3>{title}</h3><p>{copy}</p></div>
+                  <a href="#contact" aria-label={`Ask about ${title}`}>Learn more <span aria-hidden="true">↗</span></a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="firm" className="calder-section calder-firm" aria-labelledby="firm-title">
+          <div className="calder-wrap calder-firm-grid">
+            <div className="calder-attorney-card calder-reveal">
+              <div className="calder-attorney-monogram" aria-hidden="true">CR</div>
+              <div className="calder-attorney-caption"><strong>Mara Calder</strong><span>Founding partner</span><span>New York, NY</span></div>
+            </div>
+            <div className="calder-firm-copy calder-reveal">
+              <p className="calder-eyebrow">Our firm</p>
+              <h2 id="firm-title">A smaller firm by design.</h2>
+              <p>Clients work directly with the attorneys handling their matter. That means fewer layers, faster answers, and advice grounded in the realities of your business and your life.</p>
+              <a className="calder-text-link" href="#contact">Meet the firm <span aria-hidden="true">↗</span></a>
+              <dl className="calder-firm-facts"><div><dt>38</dt><dd>Years serving clients</dd></div><div><dt>4.9/5</dt><dd>Client satisfaction</dd></div><div><dt>1:1</dt><dd>Attorney attention</dd></div></dl>
+            </div>
+          </div>
+        </section>
+
+        <section className="calder-section calder-proof" aria-labelledby="proof-title">
+          <div className="calder-wrap calder-proof-grid">
+            <div className="calder-proof-copy calder-reveal"><p className="calder-eyebrow">Why clients call us</p><h2 id="proof-title">Legal advice that helps you move forward.</h2></div>
+            <div className="calder-proof-quote calder-reveal"><blockquote>“Mara gave us a plan we could understand and act on. We felt represented from the first call.”</blockquote><cite>— Founder, private technology company</cite></div>
+          </div>
+        </section>
+
+        <section id="faq" className="calder-section calder-faq" aria-labelledby="faq-title">
+          <div className="calder-wrap calder-faq-grid">
+            <div className="calder-section-intro calder-reveal"><p className="calder-eyebrow">Before we speak</p><h2 id="faq-title">Common questions.</h2></div>
+            <div className="calder-faq-list">
+              <details className="calder-faq-item calder-reveal"><summary>What happens in a consultation?</summary><p>We listen to the facts, clarify what you need to decide, and explain the next practical steps. You leave with a clearer sense of your options.</p></details>
+              <details className="calder-faq-item calder-reveal"><summary>Do you work with individuals or businesses?</summary><p>Both. Our work spans small businesses, founders, executives, and families who need thoughtful legal guidance.</p></details>
+              <details className="calder-faq-item calder-reveal"><summary>Where do you meet with clients?</summary><p>Our office is in Midtown Manhattan. We also meet by video and serve clients throughout New York.</p></details>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="calder-contact" aria-labelledby="contact-title">
+          <div className="calder-wrap calder-contact-grid">
+            <div className="calder-contact-copy calder-reveal"><p className="calder-eyebrow">Contact Calder &amp; Rowe</p><h2 id="contact-title">Start with a conversation.</h2><p>Tell us a little about what you are facing. We will respond within one business day.</p><div className="calder-contact-details"><a href="tel:+12125550187">212 555 0187</a><a href="mailto:hello@calderrowe.com">hello@calderrowe.com</a><span>130 Madison Avenue, 12th Floor<br />New York, NY 10016</span></div></div>
+            <form className="calder-form calder-reveal" onSubmit={handleSubmit}>
+              {sent ? <div className="calder-form-success"><span className="calder-success-mark">✓</span><h3>Thank you.</h3><p>Your message has been noted. A member of our team will be in touch within one business day.</p><button type="button" onClick={() => setSent(false)}>Send another message</button></div> : <><label>Name<input name="name" type="text" autoComplete="name" required /></label><label>Email<input name="email" type="email" autoComplete="email" required /></label><label>How can we help?<textarea name="message" rows={4} required /></label><button className="calder-button calder-button-primary" type="submit">Request a consultation <span aria-hidden="true">→</span></button><p className="calder-form-note">Information submitted here is for general inquiries only and does not create an attorney-client relationship.</p></>}
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer className="calder-footer"><div className="calder-wrap calder-footer-grid"><div><a className="calder-wordmark" href="#top"><CalderMark /><span className="calder-wordmark-name">CALDER <b>&amp;</b> ROWE <small>ATTORNEYS AT LAW</small></span></a><p>Business law, litigation, and estate planning for New York clients.</p></div><div><span className="calder-footer-label">Explore</span><a href="#services">Legal services</a><a href="#firm">Our firm</a><a href="#contact">Contact</a></div><div><span className="calder-footer-label">Legal</span><a href="#faq">FAQs</a><a href="#top">Privacy policy</a><a href="#top">Disclaimer</a></div></div><div className="calder-footer-bottom"><span>© 2026 Calder &amp; Rowe LLP</span><span>Attorney advertising. Prior results do not guarantee a similar outcome.</span></div></footer>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(calder)/calder/icon.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="32" fill="#FFFFFF"/>
+  <circle cx="32" cy="32" r="22" stroke="#102B3F"/>
+  <path d="M24 25.5C25.5 22.8 28.2 21.5 31.5 21.5C36.8 21.5 40 25.2 40 31.7C40 38.5 36.8 42.5 31.2 42.5C27.5 42.5 24.8 40.9 23.5 38.2" stroke="#102B3F" stroke-width="2"/>
+  <path d="M35 22.5L39.5 40.5" stroke="#102B3F" stroke-width="2"/>
+</svg>
+]]>
+    </file>
+    <file path="src/app/(calder)/calder/page.tsx">
+<![CDATA[import { CalderLanding } from "./CalderLanding";
+
+export default function CalderPage() {
+  return <CalderLanding />;
+}
+]]>
+    </file>
+  </files>
+</template>

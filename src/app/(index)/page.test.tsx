@@ -13,6 +13,11 @@ describe("IndexPage", () => {
     expect(html).toContain("Orrery");
     expect(html).toContain("Cairn");
     expect(html).toContain("KŌJI");
+    expect(html).toContain("TRACE");
+    expect(html).toContain("CALDER &amp; ROWE");
+    expect(html).toContain("VECTOR/90");
+    expect(html).toContain("MORROW");
+    expect(html).toContain("LOOPHOUSE");
     expect(html).toContain("GitHub");
   });
 });

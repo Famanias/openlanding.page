@@ -75,43 +75,45 @@ test.describe("templateflow gallery index", () => {
   test("category filter chips filter templates and update result counter", async ({ page }) => {
     await page.goto("/");
 
-    // Initially all 3 templates are displayed
-    await expect(page.locator("article")).toHaveCount(3);
-    await expect(page.getByText("Showing 3 of 3 templates")).toBeVisible();
+    // Initially all 8 templates are displayed
+    await expect(page.locator("article")).toHaveCount(8);
+    await expect(page.getByText("Showing 8 of 8 templates")).toBeVisible();
 
     // Click category chip "3D & WebGPU"
     const webgpuTab = page.getByRole("tab", { name: /3D & WebGPU/i });
     await expect(webgpuTab).toBeVisible();
     await webgpuTab.click();
 
-    // Assert only KŌJI is visible
-    await expect(page.locator("article")).toHaveCount(1);
+    // Assert only 3D & WebGPU templates are visible (KŌJI, TRACE, VECTOR/90)
+    await expect(page.locator("article")).toHaveCount(3);
     await expect(page.locator("article").filter({ hasText: "KŌJI" })).toBeVisible();
+    await expect(page.locator("article").filter({ hasText: "TRACE" })).toBeVisible();
+    await expect(page.locator("article").filter({ hasText: "VECTOR/90" })).toBeVisible();
     await expect(page.locator("article").filter({ hasText: "Orrery" })).toHaveCount(0);
     await expect(page.locator("article").filter({ hasText: "Cairn" })).toHaveCount(0);
 
-    // Counter updates to "Showing 1 of 3 templates"
-    await expect(page.getByText("Showing 1 of 3 templates")).toBeVisible();
+    // Counter updates to "Showing 3 of 8 templates"
+    await expect(page.getByText("Showing 3 of 8 templates")).toBeVisible();
 
     // Click "Reset filters" button (aria-label="Reset category filters")
     const resetBtn = page.getByRole("button", { name: /reset category filters/i });
     await expect(resetBtn).toBeVisible();
     await resetBtn.click();
 
-    // All 3 return
-    await expect(page.locator("article")).toHaveCount(3);
-    await expect(page.getByText("Showing 3 of 3 templates")).toBeVisible();
+    // All 8 return
+    await expect(page.locator("article")).toHaveCount(8);
+    await expect(page.getByText("Showing 8 of 8 templates")).toBeVisible();
 
     // Also test clicking the "All" tab after filtering
     const keynoteTab = page.getByRole("tab", { name: /Keynote & Deck/i });
     await keynoteTab.click();
     await expect(page.locator("article")).toHaveCount(1);
-    await expect(page.getByText("Showing 1 of 3 templates")).toBeVisible();
+    await expect(page.getByText("Showing 1 of 8 templates")).toBeVisible();
 
     const allTab = page.getByRole("tab", { name: /^All/i });
     await allTab.click();
-    await expect(page.locator("article")).toHaveCount(3);
-    await expect(page.getByText("Showing 3 of 3 templates")).toBeVisible();
+    await expect(page.locator("article")).toHaveCount(8);
+    await expect(page.getByText("Showing 8 of 8 templates")).toBeVisible();
   });
 
   test("mobile viewport at 375px has zero horizontal overflow", async ({ page }) => {

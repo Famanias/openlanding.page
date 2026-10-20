@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all three seed templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(3);
+  it("contains all eight seed templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(8);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "cairn", "koji"]);
+    expect(slugs).toEqual(["orrery", "cairn", "koji", "trace", "calder", "vector", "morrow", "loophouse"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {

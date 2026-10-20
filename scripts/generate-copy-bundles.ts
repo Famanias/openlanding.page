@@ -21,6 +21,26 @@ export const TEMPLATE_METADATA: Record<
     name: "KŌJI",
     dependencies: ["three"],
   },
+  trace: {
+    name: "TRACE",
+    dependencies: ["three"],
+  },
+  calder: {
+    name: "CALDER & ROWE",
+    dependencies: [],
+  },
+  vector: {
+    name: "VECTOR/90",
+    dependencies: ["three"],
+  },
+  morrow: {
+    name: "MORROW",
+    dependencies: [],
+  },
+  loophouse: {
+    name: "LOOPHOUSE",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

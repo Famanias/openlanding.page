@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "cairn" | "koji";
+export type TemplateSlug = "orrery" | "cairn" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse";
 
 export type TemplateConfig = {
   palette: string[];
@@ -19,6 +19,21 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
       "src/app/(koji)/koji/dish/", // 3D food colours are content, like a photo
       "src/app/(koji)/koji/flight/scrub-engine.js", // vendored engine; its default theme is overridden by --sw-* tokens
     ],
+  },
+  trace: {
+    palette: ["#081115", "#E7ECE7", "#C9F458", "#849694"],
+  },
+  calder: {
+    palette: ["#000000", "#102B3F", "#FFFFFF"],
+  },
+  vector: {
+    palette: ["#030706", "#071713", "#51F6D3", "#B8FF57", "#123B38"],
+  },
+  morrow: {
+    palette: ["#F5EBDD", "#1C2A26", "#B65344", "#DFA75B", "#D7C5AF", "#68736B", "#E9D6BB"],
+  },
+  loophouse: {
+    palette: ["#EFF3E4", "#17272A", "#2F6F67", "#E3A52A", "#CBD7C4", "#60716B", "#E2EBD4"],
   },
 };
 

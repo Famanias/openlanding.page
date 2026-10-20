@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+  <rect width="1600" height="1000" fill="#FFFFFF"/>
+  <rect x="1070" width="530" height="1000" fill="#102B3F"/>
+  <path d="M1130 170h380M1130 240h380M1130 310h380M1130 380h380M1130 450h380M1130 520h380M1130 590h380M1130 660h380M1130 730h380" stroke="#FFFFFF" stroke-opacity=".18"/>
+  <text x="120" y="160" fill="#102B3F" font-family="monospace" font-size="18" letter-spacing="4">BUSINESS LAW · NEW YORK, NY</text>
+  <text x="112" y="420" fill="#102B3F" font-family="Georgia, serif" font-size="106" letter-spacing="-5">Practical</text>
+  <text x="112" y="530" fill="#102B3F" font-family="Georgia, serif" font-size="106" letter-spacing="-5">counsel.</text>
+  <text x="120" y="850" fill="#FFFFFF" font-family="monospace" font-size="16" letter-spacing="3">CALDER &amp; ROWE LLP · EST. 1987</text>
+  <text x="1335" y="250" fill="#FFFFFF" font-family="monospace" font-size="16" text-anchor="middle" letter-spacing="3">CLEAR ADVICE</text>
+  <text x="1335" y="780" fill="#102B3F" font-family="Georgia, serif" font-size="88" text-anchor="middle">CR</text>
+</svg>
