@@ -23,6 +23,8 @@ export type EngineSection = {
   label: string;
   still: string;
   clip: string;
+  /** 720p, tighter-GOP encode the engine loads on phones. */
+  clipMobile: string;
   eyebrow: string;
   title: string;
   body: string;
@@ -32,6 +34,7 @@ export type EngineSection = {
 export type EngineConfig = {
   sections: EngineSection[];
   connectors: (string | null)[];
+  connectorsMobile: (string | null)[];
   diveScroll: number;
   connScroll: number;
   nav: false;
@@ -48,12 +51,14 @@ export function toEngineConfig(f: Flight, base: string, stillBase = "/templates/
       label: s.label,
       still: `${stillBase}/flight-${s.id}-1600.webp`,
       clip: `${base}/dive-${i + 1}.mp4`,
+      clipMobile: `${base}/dive-${i + 1}-m.mp4`,
       eyebrow: `${s.jp} · Courses ${s.courses.map((c) => String(c.n).padStart(2, "0")).join(", ")}`,
       title: uniqueNames(s).join(" · "),
       body: s.courses.map((c) => c.detail).join(" / "),
       accent: "var(--color-shu)",
     })),
     connectors: f.seams.map((seam, i) => (seam === "clip" ? `${base}/conn-${i + 1}-${i + 2}.mp4` : null)),
+    connectorsMobile: f.seams.map((seam, i) => (seam === "clip" ? `${base}/conn-${i + 1}-${i + 2}-m.mp4` : null)),
     diveScroll: DIVE_SCROLL,
     connScroll: CONN_SCROLL,
     nav: false,

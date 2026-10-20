@@ -5,6 +5,7 @@
 #
 # In:  assets/incoming/koji/clips/dive-1..5.mp4, conn-1-2..conn-4-5.mp4 (from the Veo relay)
 # Out: public/templates/koji/clips/<same names>.mp4  (H.264, crf 20, GOP 8 — scroll-world's desktop settings)
+#      public/templates/koji/clips/<name>-m.mp4     (720p, crf 23, GOP 4 — the engine's phone variant)
 #      src/app/(koji)/koji/flight/clips.generated.ts  (which clips are present)
 set -euo pipefail
 
@@ -16,7 +17,11 @@ mkdir -p "$out"
 encode() { # src dst
   ffmpeg -v error -y -i "$1" -c:v libx264 -preset slow -crf 20 -pix_fmt yuv420p \
     -g 8 -keyint_min 8 -sc_threshold 0 -an -movflags +faststart "$2"
-  echo "encoded $(basename "$2") ($(du -h "$2" | cut -f1))"
+  # Phone variant: a phone decoder's seek cost is frames-from-keyframe, so smaller + tighter GOP.
+  local m="${2%.mp4}-m.mp4"
+  ffmpeg -v error -y -i "$1" -vf "scale=-2:720:flags=lanczos" -c:v libx264 -preset slow -crf 23 -pix_fmt yuv420p \
+    -g 4 -keyint_min 4 -sc_threshold 0 -an -movflags +faststart "$m"
+  echo "encoded $(basename "$2") ($(du -h "$2" | cut -f1)), $(basename "$m") ($(du -h "$m" | cut -f1))"
 }
 
 dives=()

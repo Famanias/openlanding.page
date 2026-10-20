@@ -28,6 +28,17 @@ describe("toEngineConfig", () => {
     expect(cfg.sections[0].eyebrow).toContain("先付");
     expect(cfg.sections[3].title).toBe("Nimono · Agemono · Sunomono");
   });
+
+  test("phones get the lighter -m encodes, and a slab-wipe seam stays null there too", () => {
+    const cfg = toEngineConfig({ ...withWipe, seams: [...withWipe.seams] }, "/templates/koji/clips");
+    expect(cfg.sections[2].clipMobile).toBe("/templates/koji/clips/dive-3-m.mp4");
+    expect(cfg.connectorsMobile).toEqual([
+      "/templates/koji/clips/conn-1-2-m.mp4",
+      null,
+      "/templates/koji/clips/conn-3-4-m.mp4",
+      "/templates/koji/clips/conn-4-5-m.mp4",
+    ]);
+  });
 });
 
 describe("scroll geometry", () => {

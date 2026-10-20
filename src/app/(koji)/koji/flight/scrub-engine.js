@@ -1,9 +1,10 @@
 /* KŌJI vendored copy of scroll-world's scrub engine — https://github.com/oso95/scroll-world (MIT).
-   Three KŌJI patches, each marked "KŌJI patch":
+   Four KŌJI patches, each marked "KŌJI patch":
      1. config.scrollY() — scroll position measured from the flight's own top, so the engine can live
         mid-page instead of owning the whole document.
      2. config.originY() — added to jumpTo() targets for the same reason.
      3. Dropped the injected html,body{overflow-x:hidden} rule, which broke position: sticky on the host page.
+     4. Route dots carry an aria-label: their visible label is display:none on phones, leaving unnamed buttons.
    The engine's fixed layers are pinned to a sticky, transformed wrapper (see FoodFlight.tsx), and its
    theme comes from --sw-* custom properties set in koji.css. */
 /* ============================================================================
@@ -168,6 +169,7 @@ function mountScrollWorld(container, config) {
     copylayer.appendChild(c); copies.push(c);
 
     const dot = el('button', 'sw-route__dot'); dot.style.setProperty('--sw-accent', s.accent || '');
+    dot.setAttribute('aria-label', s.label || ''); // KŌJI patch 4
     dot.innerHTML = `<span class="sw-route__label">${esc(s.label || '')}</span><i></i>`;
     dot.addEventListener('click', () => jumpTo(i)); route.appendChild(dot); dots.push(dot);
 

@@ -61,9 +61,19 @@ function ScrubFlight() {
     const originY = () => outer.getBoundingClientRect().top + window.scrollY - topbar;
     const scrollY = () => window.scrollY - originY();
 
-    import("./scrub-engine.js").then(({ mountScrollWorld }) => {
-      mountScrollWorld(mount, { ...toEngineConfig(flight, CLIP_BASE), scrollY, originY });
-    });
+    // The engine fetches every clip on mount, so it waits until the flight is a viewport away;
+    // the hero then paints without competing for bandwidth.
+    const near = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        near.disconnect();
+        import("./scrub-engine.js").then(({ mountScrollWorld }) => {
+          mountScrollWorld(mount, { ...toEngineConfig(flight, CLIP_BASE), scrollY, originY });
+        });
+      },
+      { rootMargin: "100% 0px" },
+    );
+    near.observe(outer);
 
     // Slab wipes: replay whenever the scroll position crosses a cut, in either direction.
     let last = scrollY() / window.innerHeight;
@@ -73,7 +83,10 @@ function ScrubFlight() {
       last = now;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      near.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
   }, [flight, wipes]);
 
   return (

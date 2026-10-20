@@ -71,6 +71,37 @@ test.describe("KŌJI food flight", () => {
       .poll(() => page.evaluate(() => Math.max(...Array.from(document.querySelectorAll("#flight video")).map((v) => (v as HTMLVideoElement).currentTime))), { timeout: 8_000 })
       .toBeGreaterThan(0);
   });
+
+  test("the engine and its clips wait until the visitor scrolls near the flight", async ({ page, request }) => {
+    const clip = await request.head("/templates/koji/clips/dive-1.mp4");
+    test.skip(!clip.ok(), "clips not generated yet");
+    const fetched: string[] = [];
+    page.on("request", (r) => {
+      if (r.url().includes("/templates/koji/clips/")) fetched.push(r.url());
+    });
+    await page.goto("/koji");
+    await page.waitForTimeout(2000);
+    expect(fetched).toEqual([]);
+    await expect(page.locator(".sw-root")).toHaveCount(0);
+    await page.locator("#flight").scrollIntoViewIfNeeded();
+    await expect(page.locator(".sw-root")).toHaveCount(1, { timeout: 5_000 });
+  });
+});
+
+test.describe("KŌJI food flight on phones", () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  test("every route dot has an accessible name", async ({ page, request }) => {
+    const clip = await request.head("/templates/koji/clips/dive-1.mp4");
+    test.skip(!clip.ok(), "clips not generated yet");
+    await page.goto("/koji");
+    await page.locator("#flight").scrollIntoViewIfNeeded();
+    const dots = page.locator(".sw-route__dot");
+    await expect(dots).toHaveCount(5, { timeout: 5_000 });
+    for (const name of ["Sakizuke", "Mukōzuke", "Yakimono", "Nimono", "Shokuji"]) {
+      await expect(page.getByRole("button", { name, exact: true })).toHaveCount(1);
+    }
+  });
 });
 
 test.describe("KŌJI hero dish on phones", () => {

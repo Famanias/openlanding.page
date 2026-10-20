@@ -39,6 +39,7 @@ export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 
         height={h}
         alt={alt}
         loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : undefined}
         decoding="async"
         data-asset={assetKey}
       />
