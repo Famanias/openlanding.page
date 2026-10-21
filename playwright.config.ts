@@ -13,7 +13,7 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: "npm run build && npm run start -- -p 3100",
+    command: "bun run build && bun run start -- -p 3100",
     url: "http://localhost:3100",
     reuseExistingServer: false,
     env: { NODE_OPTIONS: "--max-old-space-size=4096" },
