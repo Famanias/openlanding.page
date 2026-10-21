@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "check": "tsx scripts/check-isolation.ts && tsx scripts/check-palette.ts",
-    "images": "tsx scripts/process-images.ts"
+    "images": "tsx scripts/process-images.ts",
+    "process-images": "tsx scripts/process-images.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
