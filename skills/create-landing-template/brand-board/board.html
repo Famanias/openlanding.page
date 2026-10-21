@@ -1,0 +1,318 @@
+<!doctype html>
+<!--
+  Brand board skeleton for create-landing-template.
+  Copy to .openlanding-page/<slug>/board/index.html and replace every double-brace placeholder. Keep the
+  board chrome (the neutral frame) as is. When done, a grep for the opening double brace must find nothing.
+  Brand tokens live in :root under "BRAND". Everything the user is approving is drawn from those tokens.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{BRAND_NAME}} brand board</title>
+  <!-- The template's real Google Fonts (same families and weights as layout.tsx will use). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="{{GOOGLE_FONTS_CSS_URL}}" />
+  <style>
+    :root {
+      /* ── BRAND (replace) ───────────────────────────── */
+      --ink: {{INK_HEX}};
+      --paper: {{PAPER_HEX}};
+      --accent: {{ACCENT_HEX}};
+      --display: {{DISPLAY_FAMILY_CSS}}; /* e.g. "Fraunces", Georgia, serif */
+      --body: {{BODY_FAMILY_CSS}};
+      --mono: {{MONO_FAMILY_CSS}};
+
+      /* ── Board chrome (keep) ───────────────────────── */
+      --b-bg: #f4f4f2;
+      --b-fg: #161616;
+      --b-dim: #6b6b6b;
+      --b-rule: #d9d9d4;
+      --b-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --b-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { margin: 0; background: var(--b-bg); color: var(--b-fg); font: 15px/1.55 var(--b-sans); }
+    a { color: inherit; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px); }
+
+    /* Board header + index */
+    .b-head { border-bottom: 1px solid var(--b-rule); padding: 28px 0 20px; }
+    .b-head__row { display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: baseline; justify-content: space-between; }
+    .b-kicker { font: 12px/1 var(--b-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--b-dim); }
+    .b-title { margin: 6px 0 0; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -.02em; }
+    .b-index { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 18px 0 0; padding: 0; list-style: none; font: 12px/1 var(--b-mono); text-transform: uppercase; letter-spacing: .06em; }
+    .b-index a { text-decoration: none; color: var(--b-dim); }
+    .b-index a:hover, .b-index a:focus-visible { color: var(--b-fg); }
+
+    section.b-sec { padding: 56px 0; border-bottom: 1px solid var(--b-rule); scroll-margin-top: 12px; }
+    .b-sec__label { display: flex; gap: 14px; align-items: baseline; margin: 0 0 24px; }
+    .b-sec__label span { font: 12px/1 var(--b-mono); color: var(--b-dim); }
+    .b-sec__label h2 { margin: 0; font-size: 22px; letter-spacing: -.01em; }
+    .b-note { color: var(--b-dim); max-width: 64ch; margin: -12px 0 24px; }
+    .grid { display: grid; gap: 16px; }
+    .g2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+    .g3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+    .tile { border: 1px solid var(--b-rule); background: #fff; min-height: 220px; display: grid; place-items: center; padding: 28px; position: relative; overflow: hidden; }
+    .tile__cap { position: absolute; left: 12px; bottom: 10px; font: 11px/1 var(--b-mono); letter-spacing: .06em; text-transform: uppercase; opacity: .7; }
+    .on-ink { background: var(--ink); color: var(--paper); }
+    .on-paper { background: var(--paper); color: var(--ink); }
+    .on-accent { background: var(--accent); color: var(--paper); }
+
+    /* 01 Logo */
+    .logo-lockup svg { width: min(100%, 420px); height: auto; }
+    .logo-mark svg { width: 120px; height: 120px; }
+    .sizes { display: flex; gap: 18px; align-items: end; }
+    .sizes svg:nth-child(1) { width: 64px; height: 64px; }
+    .sizes svg:nth-child(2) { width: 32px; height: 32px; }
+    .sizes svg:nth-child(3) { width: 16px; height: 16px; }
+
+    /* 02 Voice */
+    .motto { font-family: var(--display); font-size: clamp(36px, 6vw, 84px); line-height: .95; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+    .voice { display: grid; gap: 10px; margin-top: 24px; }
+    .voice dt { font: 11px/1 var(--b-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--b-dim); }
+    .voice dd { margin: 0 0 12px; font-family: var(--body); font-size: 18px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+    .chips li { border: 1px solid var(--b-rule); padding: 6px 10px; font: 12px/1 var(--b-mono); background: #fff; }
+    .chips.no li { text-decoration: line-through; color: var(--b-dim); }
+
+    /* 03 Palette */
+    .swatches { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+    .sw { border: 1px solid var(--b-rule); background: #fff; }
+    .sw__chip { height: 140px; }
+    .sw__meta { padding: 12px; font: 12px/1.5 var(--b-mono); }
+    .sw__meta b { display: block; font: 600 14px/1.3 var(--b-sans); }
+    .sw__aa { display: inline-block; margin-top: 6px; padding: 2px 6px; border: 1px solid currentColor; }
+    .ratio-bar { display: flex; height: 18px; margin-top: 16px; border: 1px solid var(--b-rule); }
+
+    /* 04 Type */
+    .spec { border: 1px solid var(--b-rule); background: #fff; padding: 28px; }
+    .spec + .spec { margin-top: 16px; }
+    .spec__role { font: 11px/1 var(--b-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--b-dim); }
+    .spec__name { font: 600 14px/1.4 var(--b-sans); margin: 6px 0 18px; }
+    .t-display { font-family: var(--display); }
+    .t-body { font-family: var(--body); }
+    .t-mono { font-family: var(--mono); }
+    .scale p { margin: 0 0 8px; line-height: 1.05; overflow-wrap: anywhere; }
+
+    /* 05 Imagery */
+    .mood { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+    .mood .tile { min-height: 260px; align-items: end; place-items: stretch; }
+    .mood__txt { align-self: end; font: 13px/1.45 var(--body); max-width: 34ch; }
+
+    /* 06 Mechanic */
+    .mech { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+    .mech svg { width: 100%; height: auto; border: 1px solid var(--b-rule); background: #fff; }
+    .mech ol { margin: 0; padding-left: 20px; }
+
+    /* 07 Applied */
+    .applied { border: 1px solid var(--b-rule); }
+    .ap-nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+    .ap-hero { padding: clamp(28px, 6vw, 72px) 20px; }
+    .ap-hero h3 { font-family: var(--display); font-size: clamp(34px, 6vw, 76px); line-height: .95; margin: 0 0 16px; max-width: 14ch; }
+    .ap-hero p { font-family: var(--body); max-width: 46ch; margin: 0 0 24px; }
+    .btn { display: inline-block; padding: 12px 18px; font: 600 14px/1 var(--body); text-decoration: none; border: 2px solid currentColor; }
+    .btn--accent { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+    .ap-cards { display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+    .ap-card { padding: 20px; font-family: var(--body); }
+    .ap-card small { font-family: var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+
+    /* 08 Decisions */
+    .decide { display: grid; gap: 8px; padding: 0; margin: 0; list-style: none; }
+    .decide li { background: #fff; border: 1px solid var(--b-rule); padding: 12px 14px; }
+    .decide li::before { content: "□  "; font-family: var(--b-mono); color: var(--b-dim); }
+    footer.b-foot { padding: 28px 0 48px; color: var(--b-dim); font: 12px/1.5 var(--b-mono); }
+    :focus-visible { outline: 2px solid #1a5fff; outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <header class="b-head">
+    <div class="wrap">
+      <div class="b-head__row">
+        <div>
+          <p class="b-kicker">Templateflow · brand board · {{SLUG}} · v{{BOARD_VERSION}}</p>
+          <h1 class="b-title">{{BRAND_NAME}}: {{ONE_LINE_POSITIONING}}</h1>
+        </div>
+        <p class="b-kicker">Theme: {{THEME}} · Mood: {{MOOD_FIVE_WORDS}}</p>
+      </div>
+      <ul class="b-index">
+        <li><a href="#logo">01 Logo</a></li>
+        <li><a href="#voice">02 Slogan &amp; voice</a></li>
+        <li><a href="#palette">03 Palette</a></li>
+        <li><a href="#type">04 Typography</a></li>
+        <li><a href="#imagery">05 Imagery</a></li>
+        <li><a href="#mechanic">06 Signature mechanic</a></li>
+        <li><a href="#applied">07 Applied</a></li>
+        <li><a href="#decide">08 To approve</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- 01 LOGO: inline SVG only, drawn from palette tokens (fill="currentColor" / var(--accent)). Same mark in every tile. -->
+    <section class="b-sec" id="logo">
+      <div class="b-sec__label"><span>01</span><h2>Logo</h2></div>
+      <p class="b-note">{{LOGO_RATIONALE}}</p>
+      <div class="grid g2">
+        <div class="tile on-paper logo-lockup">{{LOGO_LOCKUP_SVG}}<span class="tile__cap">Lockup · on paper</span></div>
+        <div class="tile on-ink logo-lockup">{{LOGO_LOCKUP_SVG}}<span class="tile__cap">Lockup · on ink</span></div>
+      </div>
+      <div class="grid g3" style="margin-top:16px">
+        <div class="tile on-paper logo-mark">{{LOGO_MARK_SVG}}<span class="tile__cap">Mark</span></div>
+        <div class="tile on-accent logo-mark">{{LOGO_MARK_SVG}}<span class="tile__cap">Mark · on accent</span></div>
+        <div class="tile on-paper"><div class="sizes">{{LOGO_MARK_SVG}}{{LOGO_MARK_SVG}}{{LOGO_MARK_SVG}}</div><span class="tile__cap">Favicon sizes · 64 / 32 / 16</span></div>
+      </div>
+    </section>
+
+    <!-- 02 VOICE -->
+    <section class="b-sec" id="voice">
+      <div class="b-sec__label"><span>02</span><h2>Slogan &amp; voice</h2></div>
+      <div class="tile on-ink" style="place-items:start;min-height:0;padding:clamp(28px,6vw,64px)">
+        <p class="motto">{{SLOGAN}}</p>
+      </div>
+      <dl class="voice">
+        <dt>Motto / tagline</dt><dd>{{TAGLINE}}</dd>
+        <dt>Hero headline</dt><dd>{{HERO_HEADLINE}}</dd>
+        <dt>Primary call to action</dt><dd>{{CTA}}</dd>
+        <dt>A sentence of body copy</dt><dd>{{BODY_SAMPLE}}</dd>
+      </dl>
+      <div class="grid g2" style="margin-top:8px">
+        <div><p class="b-kicker">Sounds like</p><ul class="chips">{{TONE_WORDS_AS_LI}}</ul></div>
+        <div><p class="b-kicker">Never</p><ul class="chips no">{{NEVER_WORDS_AS_LI}}</ul></div>
+      </div>
+    </section>
+
+    <!-- 03 PALETTE: one .sw per colour, data-hex is the source of truth (same list goes into scripts/templates.config.ts). -->
+    <section class="b-sec" id="palette">
+      <div class="b-sec__label"><span>03</span><h2>Palette</h2></div>
+      <p class="b-note">{{PALETTE_RULE}} Contrast is computed against ink and paper; AA needs 4.5 for body text, 3 for large type.</p>
+      <div class="swatches">
+        <!-- Repeat per colour: -->
+        <div class="sw" data-hex="{{HEX}}" data-name="{{COLOUR_NAME}}" data-role="{{ROLE}}"></div>
+      </div>
+      <div class="ratio-bar" aria-label="Approximate share of each colour on the page">{{RATIO_SEGMENTS}}<!-- e.g. <span style="flex:6;background:var(--paper)"></span> --></div>
+    </section>
+
+    <!-- 04 TYPE -->
+    <section class="b-sec" id="type">
+      <div class="b-sec__label"><span>04</span><h2>Typography</h2></div>
+      <div class="spec">
+        <p class="spec__role">Display</p>
+        <p class="spec__name">{{DISPLAY_NAME_AND_WEIGHTS}} · {{DISPLAY_WHY}}</p>
+        <div class="scale t-display">
+          <p style="font-size:clamp(48px,8vw,112px)">{{DISPLAY_SAMPLE}}</p>
+          <p style="font-size:clamp(28px,6vw,48px)">{{DISPLAY_SAMPLE_2}}</p>
+          <p style="font-size:clamp(18px,4vw,28px)">ABCDEFGHIJKLM NOPQRSTUVWXYZ 0123456789</p>
+        </div>
+      </div>
+      <div class="spec">
+        <p class="spec__role">Body</p>
+        <p class="spec__name">{{BODY_NAME_AND_WEIGHTS}} · {{BODY_WHY}}</p>
+        <p class="t-body" style="font-size:20px;max-width:60ch;margin:0 0 10px">{{BODY_PARAGRAPH}}</p>
+        <p class="t-body" style="font-size:16px;max-width:60ch;margin:0">{{BODY_PARAGRAPH_SMALL}}</p>
+      </div>
+      <div class="spec">
+        <p class="spec__role">Mono / utility</p>
+        <p class="spec__name">{{MONO_NAME}} · {{MONO_WHY}}</p>
+        <p class="t-mono" style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin:0">{{MONO_SAMPLE}}</p>
+      </div>
+    </section>
+
+    <!-- 05 IMAGERY: no stock photos. Tiles are CSS/SVG compositions in the palette (texture, light, crop) plus the
+         art-direction line that becomes the image-prompt style preamble. Use the owner's generated images here if they exist. -->
+    <section class="b-sec" id="imagery">
+      <div class="b-sec__label"><span>05</span><h2>Imagery &amp; texture</h2></div>
+      <p class="b-note">{{IMAGE_STYLE_PREAMBLE}}</p>
+      <div class="mood">
+        <!-- Repeat 4–6: -->
+        <div class="tile" style="{{TILE_BACKGROUND_CSS}}"><p class="mood__txt">{{TILE_DESCRIPTION}}</p></div>
+      </div>
+    </section>
+
+    <!-- 06 MECHANIC: the central idea → what the page does. A simple SVG storyboard (3–5 frames) + the rules. -->
+    <section class="b-sec" id="mechanic">
+      <div class="b-sec__label"><span>06</span><h2>Signature mechanic</h2></div>
+      <p class="b-note">{{IDEA_TO_MECHANIC_SENTENCE}}</p>
+      <div class="mech">
+        {{MECHANIC_STORYBOARD_SVG}}
+        <div>
+          <ol>{{MECHANIC_STEPS_AS_LI}}</ol>
+          <p class="b-kicker" style="margin-top:20px">Signature details</p>
+          <ul class="chips">{{SIGNATURE_DETAILS_AS_LI}}</ul>
+          <p class="b-kicker" style="margin-top:20px">Reduced motion &amp; phones</p>
+          <p>{{FALLBACK_BEHAVIOUR}}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 APPLIED: the identity on real UI. Uses only the brand tokens. -->
+    <section class="b-sec" id="applied">
+      <div class="b-sec__label"><span>07</span><h2>Applied</h2></div>
+      <div class="applied">
+        <div class="ap-nav on-paper">{{NAV_MARK_SVG_AND_LINKS}}</div>
+        <div class="ap-hero on-ink">
+          <h3>{{HERO_HEADLINE}}</h3>
+          <p>{{HERO_LEAD}}</p>
+          <a class="btn btn--accent" href="#applied">{{CTA}}</a>
+        </div>
+        <div class="ap-cards" style="background:var(--ink)">
+          <!-- Repeat 3: -->
+          <div class="ap-card on-paper"><small>{{CARD_EYEBROW}}</small><p>{{CARD_TEXT}}</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 DECISIONS -->
+    <section class="b-sec" id="decide">
+      <div class="b-sec__label"><span>08</span><h2>To approve</h2></div>
+      <ul class="decide">
+        <li>Name and slogan: {{BRAND_NAME}} · “{{SLOGAN}}”</li>
+        <li>Logo: lockup and mark</li>
+        <li>Palette: {{PALETTE_SUMMARY}}</li>
+        <li>Type: {{TYPE_SUMMARY}}</li>
+        <li>Imagery direction</li>
+        <li>Signature mechanic: {{MECHANIC_SUMMARY}}</li>
+        <!-- Add one line per call you made that the user didn't (mark it "my call"). -->
+      </ul>
+    </section>
+  </main>
+
+  <footer class="wrap b-foot">Local preview only, not part of the site. Generated by the create-landing-template skill.</footer>
+
+  <script>
+    // Fill each swatch from data-hex and compute WCAG contrast against ink and paper.
+    (function () {
+      const css = getComputedStyle(document.documentElement);
+      const tok = (n) => css.getPropertyValue(n).trim();
+      const lum = (hex) => {
+        const h = hex.replace("#", "");
+        const v = h.length === 3 ? h.split("").map((c) => c + c) : h.match(/../g);
+        const [r, g, b] = v.map((x) => {
+          const c = parseInt(x, 16) / 255;
+          return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        });
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      };
+      const ratio = (a, b) => {
+        const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
+        return (x + 0.05) / (y + 0.05);
+      };
+      const grade = (r) => (r >= 7 ? "AAA" : r >= 4.5 ? "AA" : r >= 3 ? "AA large" : "fail");
+      const ink = tok("--ink"), paper = tok("--paper");
+      document.querySelectorAll(".sw[data-hex]").forEach((el) => {
+        const hex = el.dataset.hex;
+        if (!/^#[0-9a-f]{3,8}$/i.test(hex)) return;
+        const ri = ratio(hex, ink), rp = ratio(hex, paper);
+        el.innerHTML =
+          `<div class="sw__chip" style="background:${hex}"></div>` +
+          `<div class="sw__meta"><b>${el.dataset.name || ""}</b>${hex.toUpperCase()} · ${el.dataset.role || ""}<br>` +
+          `vs ink ${ri.toFixed(2)} <span class="sw__aa">${grade(ri)}</span><br>` +
+          `vs paper ${rp.toFixed(2)} <span class="sw__aa">${grade(rp)}</span></div>`;
+      });
+    })();
+  </script>
+</body>
+</html>
