@@ -6,6 +6,7 @@ There is one prompt file per template:
 - [keytu.md](keytu.md): 15 images
 - [koji.md](koji.md): 11 images
 - [wowflutter.md](wowflutter.md): 8 images (black-and-white; processed onto an ink-to-stock ramp)
+- [noctiluca.md](noctiluca.md): 5 images + 2 optional video loops (documentary field notes; every room's light is a live shader, so the page works without them)
 
 KŌJI's 9 video clips have their own relay file, `koji-clips.md`. It's written later, once the 5 KŌJI flight stills exist.
 

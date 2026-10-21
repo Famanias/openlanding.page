@@ -1,0 +1,4145 @@
+<template slug="noctiluca" name="Noctiluca">
+  <dependencies>
+    {
+      "dependencies": {}
+    }
+  </dependencies>
+  <instructions>
+    Recreate the following files in your Next.js App Router project preserving relative paths.
+  </instructions>
+  <files>
+    <file path="src/app/(noctiluca)/layout.tsx">
+<![CDATA[import type { Metadata, Viewport } from "next";
+import { Fragment_Mono, Schibsted_Grotesk, Syne } from "next/font/google";
+import { MODE_SCRIPT } from "./noctiluca/house/mode";
+import "./noctiluca/noctiluca.css";
+
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-syne",
+});
+
+const schibsted = Schibsted_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-schibsted",
+});
+
+const fragment = Fragment_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  preload: false,
+  variable: "--font-fragment",
+});
+
+export const metadata: Metadata = {
+  title: "Noctiluca — a house made of moving light",
+  description:
+    "Six rooms in a 1912 Lisbon pumping station, each tuned to a light the sky only makes for minutes: blue hour, aurora, bioluminescence, alpenglow. Timed entry every twenty minutes.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#07060B",
+  colorScheme: "dark",
+};
+
+export default function NoctilucaLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html
+      lang="en"
+      className={`${syne.variable} ${schibsted.variable} ${fragment.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="nl-body">
+        <script
+          // Sets data-nl-mode before first paint so desktops never flash the stacked layout.
+          type={typeof window === "undefined" ? "text/javascript" : "text/plain"}
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: MODE_SCRIPT }}
+        />
+        {children}
+      </body>
+    </html>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/assets.generated.ts">
+<![CDATA[export const ASSETS: Record<string, { w: number; h: number }> = {};
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/assets.tsx">
+<![CDATA[import { ASSETS } from "./assets.generated";
+
+const BASE = "/templates/noctiluca";
+
+export function assetSrc(key: string, width: 800 | 1600, format: "webp" | "avif" = "webp"): string | null {
+  return key in ASSETS ? `${BASE}/${key}-${width}.${format}` : null;
+}
+
+/**
+ * Clips encoded into public/templates/noctiluca/clips/ (see docs/image-video-prompts/noctiluca.md).
+ * Flip a key to true once its `<key>.mp4` and `<key>-m.mp4` exist.
+ */
+export const CLIPS: Record<string, boolean> = {
+  "noctiluca-shore-loop": false,
+  "exterior-dusk-loop": false,
+};
+
+type PictureProps = { assetKey: string; alt: string; className?: string; sizes?: string; priority?: boolean };
+
+export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 24vw, 80vw", priority }: PictureProps) {
+  const webp800 = assetSrc(assetKey, 800);
+  if (!webp800) {
+    return (
+      <div className={`nl-placeholder ${className ?? ""}`} role="img" aria-label={alt} data-asset={assetKey}>
+        <span className="nl-mono">{assetKey}</span>
+      </div>
+    );
+  }
+  const { w, h } = ASSETS[assetKey];
+  const set = (f: "webp" | "avif") => `${assetSrc(assetKey, 800, f)} 800w, ${assetSrc(assetKey, 1600, f)} 1600w`;
+  return (
+    <picture className={className}>
+      <source type="image/avif" srcSet={set("avif")} sizes={sizes} />
+      <img
+        src={webp800}
+        srcSet={set("webp")}
+        sizes={sizes}
+        width={w}
+        height={h}
+        alt={alt}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : undefined}
+        decoding="async"
+        data-asset={assetKey}
+      />
+    </picture>
+  );
+}
+
+/** A silent loop with its still as poster; the still alone until the clip is encoded. */
+export function Clip({ clipKey, posterKey, alt, className }: { clipKey: string; posterKey: string; alt: string; className?: string }) {
+  const poster = assetSrc(posterKey, 800);
+  if (!CLIPS[clipKey]) return <Picture assetKey={posterKey} alt={alt} className={className} />;
+  return (
+    <video
+      className={`nl-clip ${className ?? ""}`}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="none"
+      poster={poster ?? undefined}
+      aria-label={alt}
+    >
+      <source src={`${BASE}/clips/${clipKey}-m.mp4`} type="video/mp4" media="(max-width: 899px)" />
+      <source src={`${BASE}/clips/${clipKey}.mp4`} type="video/mp4" />
+    </video>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/icon.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#07060B"/>
+  <path d="M19 54 V27 a13 13 0 0 1 26 0 V54" fill="none" stroke="#F3F0EA" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="32" cy="53" rx="11" ry="3.4" fill="#C9B8FF"/>
+  <circle cx="32" cy="31" r="4" fill="#C9B8FF"/>
+</svg>
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/noctiluca.css">
+<![CDATA[/* Hallmark · macrostructure: bespoke (walk-through corridor) · tone: atmospheric · anchor hue: lilac 285°
+ * theme: custom · vibe: "a dark house of moving light" · genre: atmospheric
+ * paper #07060B (dark) · accent #C9B8FF (cool) · display Syne + body Schibsted Grotesk + Fragment Mono
+ * nav: N5 floating pill + N3 side-rail (depth rail) · footer: Ft5 statement (the exit wall)
+ */
+@import "tailwindcss";
+
+/* ─────────────── NOCTILUCA tokens ─────────────── */
+@theme {
+  --color-ink: #07060B; /* the house after dark: page ground, door walls */
+  --color-lumen: #F3F0EA; /* text, wall-label card stock */
+  --color-glow: #C9B8FF; /* the one UI accent: buttons, focus, the mark's light */
+  --color-dusk: #8E889B; /* muted text, hairlines */
+  --color-glass: #16131F; /* plaque glass */
+  --color-ember: #FFA38F; /* errors only */
+
+  --font-nl-display: var(--font-syne), "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-nl-body: var(--font-schibsted), "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-nl-mono: var(--font-fragment), "Fragment Mono", ui-monospace, Menlo, monospace;
+
+  --ease-nl-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-nl-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ─────────────── base ─────────────── */
+html:has(.nl-body) {
+  background: var(--color-ink);
+  overflow-x: clip;
+  color-scheme: dark;
+}
+
+.nl-body {
+  --nl-gutter: clamp(16px, 4vw, 56px);
+  --nl-line: color-mix(in srgb, var(--color-lumen) 14%, transparent);
+  --nl-glass: color-mix(in srgb, var(--color-glass) 88%, transparent);
+
+  margin: 0;
+  overflow-x: clip;
+  background: var(--color-ink);
+  color: var(--color-lumen);
+  font-family: var(--font-nl-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.nl-body ::selection {
+  background: var(--color-glow);
+  color: var(--color-ink);
+}
+
+.nl-body :focus-visible {
+  outline: 2px solid var(--color-glow);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.nl-body):not([data-nl-mode="corridor"]) {
+    scroll-behavior: smooth;
+  }
+}
+
+.nl-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.nl-skip {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 40;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--color-glow);
+  color: var(--color-ink);
+  font-weight: 600;
+  transform: translateY(-160%);
+}
+
+.nl-skip:focus-visible {
+  transform: none;
+}
+
+.nl-mono {
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+/* ─────────────── the still light (poster) and the live light (canvas) ─────────────── */
+.nl-poster,
+.nl-light {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.nl-poster {
+  z-index: 0;
+  background: var(--color-ink);
+}
+
+/* Walls of colour at the edges, a dark corridor in the middle: the corridor, drawn flat. */
+.nl-poster-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 700ms var(--ease-nl-out);
+  background:
+    radial-gradient(ellipse 34% 40% at 50% 47%, var(--color-ink) 0 40%, transparent 100%),
+    radial-gradient(ellipse 90% 50% at 50% 115%, color-mix(in srgb, var(--nl-c) 45%, transparent), transparent 70%),
+    radial-gradient(ellipse 120% 60% at 50% -20%, color-mix(in srgb, var(--nl-b) 70%, transparent), transparent 70%),
+    linear-gradient(90deg, var(--nl-c) 0%, var(--nl-b) 20%, var(--nl-a) 40%, var(--nl-a) 60%, var(--nl-b) 80%, var(--nl-d) 100%);
+}
+
+.nl-poster-layer[data-active="true"] {
+  opacity: 1;
+}
+
+.nl-light {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1200ms var(--ease-nl-out);
+}
+
+.nl-light[data-ready="true"] {
+  opacity: 1;
+}
+
+.nl-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.nl-main {
+  position: relative;
+  z-index: 2;
+}
+
+/* ─────────────── shared type ─────────────── */
+.nl-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  margin: 0 0 1rem;
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-eyebrow-num {
+  color: var(--color-glow);
+}
+
+.nl-hero-title {
+  margin: 0;
+  font-family: var(--font-nl-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 10.5vw, 3.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.nl-hero-glow {
+  background: linear-gradient(92deg, var(--nl-d), var(--color-glow) 60%, var(--color-lumen));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.nl-room-title {
+  margin: 0 0 1rem;
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: clamp(1.85rem, 7.4vw, 2.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.nl-lead,
+.nl-copy {
+  margin: 0;
+  max-width: 38rem;
+  color: color-mix(in srgb, var(--color-lumen) 84%, transparent);
+}
+
+.nl-lead {
+  margin-top: 1.25rem;
+  font-size: 1.0625rem;
+}
+
+.nl-small {
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-dusk);
+  max-width: 30rem;
+}
+
+.nl-link {
+  color: var(--color-lumen);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-glow) 60%, transparent);
+  text-underline-offset: 0.25em;
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-link:hover {
+    color: var(--color-glow);
+  }
+}
+
+.nl-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin: 1.5rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--nl-line);
+}
+
+.nl-next-k {
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+/* ─────────────── buttons and chips ─────────────── */
+.nl-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1.75rem;
+}
+
+.nl-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1.35rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: var(--font-nl-body);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease-nl-out),
+    background-color 160ms var(--ease-nl-out),
+    border-color 160ms var(--ease-nl-out);
+}
+
+.nl-button[data-variant="solid"] {
+  background: var(--color-glow);
+  color: var(--color-ink);
+}
+
+.nl-button[data-variant="ghost"] {
+  border-color: color-mix(in srgb, var(--color-lumen) 32%, transparent);
+  background: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  color: var(--color-lumen);
+}
+
+.nl-button-arrow {
+  display: inline-block;
+  transition: transform 160ms var(--ease-nl-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-button[data-variant="solid"]:hover {
+    background: var(--color-lumen);
+  }
+  .nl-button[data-variant="ghost"]:hover {
+    border-color: var(--color-glow);
+  }
+  .nl-button:hover .nl-button-arrow {
+    transform: translateX(3px);
+  }
+}
+
+.nl-button:active {
+  transform: scale(0.97);
+}
+
+.nl-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.nl-chip {
+  min-height: 36px;
+  padding: 0 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--nl-line);
+  background: transparent;
+  color: var(--color-lumen);
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease-nl-out),
+    background-color 160ms var(--ease-nl-out);
+}
+
+.nl-chip[aria-pressed="true"] {
+  background: var(--color-lumen);
+  color: var(--color-ink);
+}
+
+.nl-chip:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-chip:hover {
+    border-color: var(--color-glow);
+  }
+}
+
+/* ─────────────── top bar (floating pill) ─────────────── */
+.nl-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-lumen);
+}
+
+.nl-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.nl-logo-word {
+  font-family: var(--font-nl-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.nl-logo-tag {
+  margin-top: 0.35rem;
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-topbar {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 56px;
+  padding: 0 6px 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--nl-line);
+  background: color-mix(in srgb, var(--color-ink) 72%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.nl-topbar-home {
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+.nl-topbar-nav {
+  display: none;
+}
+
+.nl-topbar-nav ol {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nl-topbar-nav a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0.6rem 0.8rem;
+  border-radius: 999px;
+  color: var(--color-dusk);
+  font-size: 0.875rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nl-topbar-num {
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+.nl-topbar-name {
+  display: none;
+}
+
+.nl-topbar-nav a[aria-current="location"] {
+  color: var(--color-lumen);
+  background: color-mix(in srgb, var(--color-lumen) 9%, transparent);
+}
+
+.nl-topbar-nav a[aria-current="location"] .nl-topbar-num {
+  color: var(--color-glow);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-topbar-nav a:hover {
+    color: var(--color-lumen);
+  }
+}
+
+.nl-topbar-cta {
+  min-height: 44px;
+}
+
+@media (max-width: 380px) {
+  .nl-logo-word {
+    font-size: 0.95rem;
+  }
+  .nl-topbar-cta {
+    padding: 0 1rem;
+  }
+}
+
+@media (min-width: 720px) {
+  .nl-topbar {
+    top: 16px;
+    left: 50%;
+    right: auto;
+    width: min(1120px, calc(100% - 32px));
+    transform: translateX(-50%);
+  }
+  .nl-topbar-nav {
+    display: block;
+  }
+}
+
+@media (min-width: 1180px) {
+  .nl-topbar-name {
+    display: inline;
+  }
+}
+
+/* ─────────────── depth rail (signature) ─────────────── */
+.nl-rail {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .nl-rail {
+    position: fixed;
+    right: 22px;
+    top: 50%;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 18px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}
+
+.nl-rail-track {
+  position: relative;
+  width: 34px;
+  height: 40vh;
+  container-type: size;
+  border-right: 1px solid var(--nl-line);
+}
+
+.nl-rail-tick {
+  position: absolute;
+  right: 8px;
+  transform: translateY(-50%);
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  color: var(--color-dusk);
+}
+
+.nl-rail-tick::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -9px;
+  width: 6px;
+  border-top: 1px solid var(--color-dusk);
+}
+
+.nl-rail-tick[data-active="true"] {
+  color: var(--color-lumen);
+}
+
+.nl-rail-marker {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 999px;
+  background: var(--color-glow);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-glow) 22%, transparent);
+}
+
+.nl-rail-readout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.nl-rail-room {
+  color: var(--color-lumen);
+}
+
+.nl-rail-depth {
+  color: var(--color-glow);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─────────────── light switch (touch screens) ─────────────── */
+.nl-switch {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding: 0 1.1rem 0 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--nl-line);
+  background: color-mix(in srgb, var(--color-ink) 78%, transparent);
+  backdrop-filter: blur(10px);
+  color: var(--color-lumen);
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 160ms var(--ease-nl-out);
+}
+
+.nl-switch:active {
+  transform: scale(0.97);
+}
+
+.nl-switch-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-glow);
+}
+
+.nl-switch[aria-pressed="true"] .nl-switch-dot {
+  background: var(--color-glow);
+  box-shadow: 0 0 12px var(--color-glow);
+}
+
+/* ─────────────── plaques, labels, portals (flow layout is the default) ─────────────── */
+.nl-room {
+  position: relative;
+  display: grid;
+  gap: 24px;
+  padding: clamp(104px, 16vh, 150px) var(--nl-gutter) clamp(56px, 10vh, 96px);
+  max-width: 76rem;
+  margin: 0 auto;
+}
+
+.nl-room[data-room="foyer"] {
+  min-height: 100svh;
+  align-content: center;
+}
+
+.nl-plaque {
+  position: relative;
+  container-type: inline-size;
+  min-width: 0;
+  padding: clamp(22px, 3vw, 40px);
+  border-radius: 6px;
+  border: 1px solid var(--nl-line);
+  background: var(--nl-glass);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--nl-c) 55%, transparent);
+}
+
+.nl-room[data-room="foyer"] .nl-plaque,
+.nl-room[data-room="exit"] .nl-plaque {
+  border: 0;
+  box-shadow: none;
+  background: radial-gradient(ellipse 75% 70% at 45% 50%, color-mix(in srgb, var(--color-ink) 78%, transparent), transparent 100%);
+}
+
+.nl-aside {
+  min-width: 0;
+}
+
+.nl-portal {
+  position: relative;
+  width: min(64vw, 260px);
+  aspect-ratio: 3 / 4;
+  margin: 0 auto;
+  border-radius: 999px 999px 4px 4px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 45% at 50% 105%, var(--nl-d), transparent 70%),
+    radial-gradient(ellipse 120% 70% at 30% 20%, var(--nl-c), transparent 70%),
+    linear-gradient(180deg, var(--nl-a), var(--nl-b));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--color-lumen) 22%, transparent),
+    inset 0 -40px 60px color-mix(in srgb, var(--color-ink) 40%, transparent);
+}
+
+.nl-portal-numeral {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-lumen);
+}
+
+.nl-room[data-room="foyer"] .nl-portal,
+.nl-room[data-room="exit"] .nl-portal {
+  display: none;
+}
+
+.nl-door,
+.nl-endwall {
+  display: none;
+}
+
+/* Hero facts and hint */
+.nl-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 24px;
+  margin: 2rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--nl-line);
+  max-width: 40rem;
+}
+
+.nl-facts dd {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.nl-facts-value {
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.nl-facts-label {
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+@container (min-width: 34rem) {
+  .nl-facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.nl-hint {
+  display: none;
+}
+
+/* Wall labels: museum card stock, ink on lumen */
+.nl-label {
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--color-lumen);
+  color: var(--color-ink);
+  box-shadow: 0 30px 60px -30px var(--color-ink);
+}
+
+.nl-label-media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.nl-label-media img,
+.nl-label-media video,
+video.nl-label-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nl-label-body {
+  padding: 18px 20px 20px;
+}
+
+.nl-label-kicker {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-ink) 62%, var(--color-lumen));
+}
+
+.nl-label-title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.1;
+}
+
+.nl-label-rows {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+}
+
+.nl-label-rows div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+  gap: 10px;
+  padding-top: 4px;
+  border-top: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+}
+
+.nl-label-rows dt {
+  color: color-mix(in srgb, var(--color-ink) 62%, var(--color-lumen));
+}
+
+.nl-label-rows dd {
+  margin: 0;
+}
+
+.nl-label-note {
+  margin: 0.9rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.nl-spectrum {
+  height: 8px;
+  margin-top: 14px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--nl-a), var(--nl-b), var(--nl-c), var(--nl-d));
+}
+
+.nl-placeholder {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  background:
+    repeating-linear-gradient(135deg, color-mix(in srgb, var(--color-ink) 10%, transparent) 0 1px, transparent 1px 9px),
+    linear-gradient(135deg, var(--nl-b), var(--nl-c));
+  color: var(--color-lumen);
+}
+
+.nl-placeholder .nl-mono {
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--color-ink) 70%, transparent);
+}
+
+/* ─────────────── score room ─────────────── */
+.nl-score-layout {
+  display: grid;
+  gap: 24px;
+}
+
+.nl-mixer {
+  display: grid;
+  gap: 18px;
+  margin-top: 1.5rem;
+}
+
+.nl-mixer-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nl-dials {
+  display: grid;
+  gap: 14px;
+}
+
+.nl-dial {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  row-gap: 4px;
+}
+
+.nl-dial-label {
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-dial-value {
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.nl-range {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.nl-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-glow) var(--nl-fill, 0%), color-mix(in srgb, var(--color-lumen) 16%, transparent) var(--nl-fill, 0%));
+}
+
+.nl-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-glow) var(--nl-fill, 0%), color-mix(in srgb, var(--color-lumen) 16%, transparent) var(--nl-fill, 0%));
+}
+
+.nl-range[data-dial="hue"]::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg in oklch longer hue, oklch(72% 0.14 0), oklch(72% 0.14 359));
+}
+
+.nl-range[data-dial="hue"]::-moz-range-track {
+  background: linear-gradient(90deg in oklch longer hue, oklch(72% 0.14 0), oklch(72% 0.14 359));
+}
+
+.nl-range::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;
+  border-radius: 999px;
+  border: 3px solid var(--color-ink);
+  background: var(--color-lumen);
+  box-shadow: 0 0 0 1px var(--color-lumen);
+  appearance: none;
+  transition: transform 160ms var(--ease-nl-out);
+}
+
+.nl-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 3px solid var(--color-ink);
+  background: var(--color-lumen);
+}
+
+.nl-range:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+.nl-score-sheet {
+  display: grid;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--nl-line);
+}
+
+.nl-score-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  height: 28px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.nl-score-readout {
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+  color: var(--color-glow);
+}
+
+/* ─────────────── visit room ─────────────── */
+.nl-visit {
+  display: grid;
+  gap: 28px;
+}
+
+.nl-hours {
+  display: grid;
+  gap: 2px;
+  margin: 1.25rem 0 0;
+  font-size: 0.875rem;
+}
+
+.nl-hours div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+  gap: 12px;
+  padding: 6px 0;
+  border-top: 1px solid var(--nl-line);
+}
+
+.nl-hours dt {
+  color: var(--color-dusk);
+}
+
+.nl-hours dd {
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+}
+
+.nl-form {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.nl-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.nl-field > label,
+.nl-field > legend {
+  padding: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-field input[type="date"],
+.nl-field input[type="email"],
+.nl-stepper input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--color-lumen) 20%, transparent);
+  background: color-mix(in srgb, var(--color-ink) 65%, transparent);
+  color: var(--color-lumen);
+  font: inherit;
+  color-scheme: dark;
+}
+
+.nl-field input[aria-invalid="true"] {
+  border-color: var(--color-ember);
+}
+
+.nl-hint-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-dusk);
+}
+
+.nl-slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.2rem, 1fr));
+  gap: 6px;
+  max-height: 8.6rem;
+  overflow-y: auto;
+  padding: 2px;
+  overscroll-behavior: contain;
+}
+
+.nl-slot {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.nl-slot input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.nl-slot span {
+  display: grid;
+  place-items: center;
+  min-height: 36px;
+  border-radius: 6px;
+  border: 1px solid var(--nl-line);
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  transition: transform 120ms var(--ease-nl-out);
+}
+
+.nl-slot[data-late="true"] span {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--color-glow) 50%, transparent);
+}
+
+.nl-slot input:checked + span {
+  background: var(--color-glow);
+  border-color: var(--color-glow);
+  color: var(--color-ink);
+}
+
+.nl-slot input:focus-visible + span {
+  outline: 2px solid var(--color-glow);
+  outline-offset: 2px;
+}
+
+.nl-slot input:active + span {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-slot:hover span {
+    border-color: var(--color-glow);
+  }
+}
+
+.nl-form-row {
+  display: grid;
+  gap: 16px;
+}
+
+.nl-stepper {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  gap: 6px;
+}
+
+.nl-stepper input {
+  text-align: center;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.nl-stepper input::-webkit-inner-spin-button,
+.nl-stepper input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.nl-stepper button {
+  min-height: 44px;
+  border-radius: 6px;
+  border: 1px solid var(--nl-line);
+  background: transparent;
+  color: var(--color-lumen);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 120ms var(--ease-nl-out);
+}
+
+.nl-stepper button:active {
+  transform: scale(0.95);
+}
+
+.nl-stepper button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nl-error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-ember);
+}
+
+.nl-form-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--nl-line);
+}
+
+.nl-total {
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+  color: var(--color-glow);
+}
+
+.nl-held {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  padding: 22px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--color-glow) 40%, transparent);
+}
+
+.nl-held-text {
+  margin: 0;
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.nl-held-text:focus-visible {
+  outline-offset: 6px;
+}
+
+@container (min-width: 46rem) {
+  .nl-visit {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.1fr);
+    gap: 40px;
+  }
+  .nl-score-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .nl-score-layout .nl-mixer {
+    margin-top: 0;
+  }
+  .nl-form-row {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  }
+}
+
+/* ─────────────── exit ─────────────── */
+.nl-exit {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+}
+
+.nl-exit-title {
+  margin: 0.5rem 0 0;
+}
+
+.nl-exit-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+.nl-exit-meta {
+  display: grid;
+  gap: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--nl-line);
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  color: var(--color-dusk);
+}
+
+.nl-exit-meta p {
+  margin: 0;
+}
+
+/* ─────────────── flow layout on wide screens (reduced motion, short windows) ─────────────── */
+@media (min-width: 900px) {
+  html:not([data-nl-mode="corridor"]) .nl-room:not([data-room="foyer"]):not([data-room="exit"]) {
+    grid-template-columns: 15rem minmax(0, 1fr) minmax(0, 20rem);
+    align-items: start;
+    gap: 32px;
+  }
+  html:not([data-nl-mode="corridor"]) .nl-room[data-room="score"],
+  html:not([data-nl-mode="corridor"]) .nl-room[data-room="visit"] {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+  html:not([data-nl-mode="corridor"]) .nl-room[data-room="score"] .nl-aside,
+  html:not([data-nl-mode="corridor"]) .nl-room[data-room="visit"] .nl-aside {
+    grid-column: 2;
+    max-width: 24rem;
+  }
+  html:not([data-nl-mode="corridor"]) .nl-portal {
+    width: 100%;
+    position: sticky;
+    top: 110px;
+  }
+  html:not([data-nl-mode="corridor"]) .nl-hero-title {
+    font-size: clamp(3.4rem, 6.4vw, 6rem);
+  }
+  html:not([data-nl-mode="corridor"]) .nl-room-title {
+    font-size: clamp(2.2rem, 3.4vw, 3.2rem);
+  }
+}
+
+/* Phones and tablets: plaques swing into place as they arrive (CSS scroll timeline, transform only). */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    html:not([data-nl-mode="corridor"]) .nl-portal,
+    html:not([data-nl-mode="corridor"]) .nl-plaque,
+    html:not([data-nl-mode="corridor"]) .nl-aside {
+      animation: nl-swing linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+      transform-origin: 50% 100%;
+    }
+    html:not([data-nl-mode="corridor"]) .nl-room[data-room="foyer"] .nl-plaque {
+      animation: none;
+    }
+  }
+}
+
+@keyframes nl-swing {
+  from {
+    transform: perspective(900px) rotateX(22deg) translateY(48px) scale(0.96);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+ * CORRIDOR MODE: the page is the house.
+ * Geometry mirrors house/geometry.ts: P = 96.05vh (55° fov), rooms
+ * 2.6 P apart, doors 1.7 P past each plaque, tunnel min(36vw, 66vh) wide.
+ * The only thing JS moves is .nl-world's transform (the camera).
+ * ══════════════════════════════════════════════════════════════════ */
+html[data-nl-mode="corridor"] {
+  --nl-p: 96.05vh;
+  --nl-depth: calc(var(--nl-p) * 2.6);
+  --nl-hw: min(36vw, 66vh);
+  --nl-ceil: -40vh;
+  --nl-floor: 33vh;
+  --nl-t: 9vh; /* door thickness */
+}
+
+html[data-nl-mode="corridor"] .nl-track {
+  position: relative;
+  height: calc(7 * 160vh + 100vh);
+}
+
+html[data-nl-mode="corridor"] .nl-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: clip;
+  perspective: var(--nl-p);
+  perspective-origin: 50% 50%;
+}
+
+html[data-nl-mode="corridor"] .nl-world {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(var(--nl-p));
+  will-change: transform;
+}
+
+html[data-nl-mode="corridor"] .nl-room {
+  --nl-z: calc(var(--i) * var(--nl-depth) * -1);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: 0;
+  height: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  transform-style: preserve-3d;
+}
+
+html[data-nl-mode="corridor"] .nl-portal {
+  display: none;
+}
+
+/* Plaques hang at exactly 1:1 when the camera stands at their station. */
+html[data-nl-mode="corridor"] .nl-plaque {
+  --nl-x: -50%;
+  position: absolute;
+  top: -2vh;
+  left: 0;
+  width: min(32vw, 31rem);
+  max-height: 70vh;
+  transform: translate3d(var(--nl-x), -50%, calc(var(--nl-z) - var(--nl-p)));
+  backface-visibility: hidden;
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-side="left"] .nl-plaque {
+  --nl-x: 0%;
+  left: calc(var(--nl-hw) * -1 + 2.5vw);
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-side="right"] .nl-plaque {
+  --nl-x: -100%;
+  left: calc(var(--nl-hw) - 2.5vw);
+}
+
+html[data-nl-mode="corridor"] .nl-plaque[data-width="hero"] {
+  width: min(calc(var(--nl-hw) * 2 - 6vw), 62rem);
+  padding: 3vh 3vw;
+}
+
+html[data-nl-mode="corridor"] .nl-plaque[data-width="wide"] {
+  width: min(calc(var(--nl-hw) * 2 - 5vw), 66rem);
+  background: color-mix(in srgb, var(--color-glass) 95%, transparent);
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-side="left"] .nl-plaque[data-width="wide"] {
+  left: calc(var(--nl-hw) * -1 + 2.5vw);
+}
+
+html[data-nl-mode="corridor"] .nl-hero-title {
+  font-size: min(6.4vw, 10.4vh, 6.6rem);
+}
+
+html[data-nl-mode="corridor"] .nl-room-title {
+  font-size: min(3.2vw, 5.4vh, 3.3rem);
+}
+
+html[data-nl-mode="corridor"] .nl-lead,
+html[data-nl-mode="corridor"] .nl-copy {
+  font-size: clamp(0.9375rem, 1.9vh, 1.0625rem);
+}
+
+html[data-nl-mode="corridor"] .nl-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 2rem 0 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-hint-line {
+  position: relative;
+  width: 48px;
+  height: 1px;
+  overflow: hidden;
+  background: var(--nl-line);
+}
+
+.nl-hint-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-glow);
+  transform: translateX(-100%);
+  animation: nl-hint 2.4s var(--ease-nl-in-out) infinite;
+}
+
+@keyframes nl-hint {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* The wall label hangs deeper, on the opposite wall, turned toward the walker. */
+html[data-nl-mode="corridor"] .nl-aside {
+  position: absolute;
+  top: -4vh;
+  left: calc(var(--nl-hw) - 2vw);
+  width: min(19vw, 19rem);
+  transform: translate3d(-100%, -50%, calc(var(--nl-z) - var(--nl-p) * 1.38)) rotateY(24deg);
+  transform-origin: 100% 50%;
+  backface-visibility: hidden;
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-side="right"] .nl-aside {
+  left: calc(var(--nl-hw) * -1 + 2vw);
+  transform: translate3d(0%, -50%, calc(var(--nl-z) - var(--nl-p) * 1.38)) rotateY(-24deg);
+  transform-origin: 0% 50%;
+}
+
+/* Doorways: a wall across the tunnel, an opening 0.92 × the half-width, three lit reveals. */
+html[data-nl-mode="corridor"] .nl-door {
+  position: absolute;
+  display: block;
+  left: calc(var(--nl-hw) * -1);
+  top: var(--nl-ceil);
+  width: calc(var(--nl-hw) * 2);
+  height: calc(var(--nl-floor) - var(--nl-ceil));
+  transform: translateZ(calc(var(--nl-z) - var(--nl-p) * 1.7));
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.nl-door-lintel,
+.nl-door-jamb {
+  position: absolute;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--nl-c) 16%, var(--color-ink)), var(--color-ink) 70%);
+}
+
+.nl-door-lintel {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4vh;
+  padding-bottom: 2.6vh;
+  border-bottom: 1px solid color-mix(in srgb, var(--nl-next-c) 50%, transparent);
+}
+
+.nl-door-numeral {
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 5vh;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--color-lumen) 78%, transparent);
+  text-shadow: 0 -1px 0 color-mix(in srgb, var(--color-ink) 80%, transparent), 0 1px 0 color-mix(in srgb, var(--nl-next-d) 30%, transparent);
+}
+
+.nl-door-name {
+  font-family: var(--font-nl-mono);
+  font-size: 1.5vh;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-door-jamb {
+  top: 30%;
+  bottom: 0;
+  width: calc(var(--nl-hw) * 0.54);
+}
+
+.nl-door-jamb[data-side="left"] {
+  left: 0;
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--nl-next-c) 50%, transparent);
+}
+
+.nl-door-jamb[data-side="right"] {
+  right: 0;
+  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--nl-next-c) 50%, transparent);
+}
+
+.nl-door-reveal {
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.nl-door-reveal[data-side="left"] {
+  top: 30%;
+  bottom: 0;
+  left: calc(var(--nl-hw) * 0.54);
+  width: var(--nl-t);
+  transform-origin: 0 50%;
+  transform: rotateY(90deg);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--nl-c) 20%, var(--color-ink)), color-mix(in srgb, var(--nl-next-c) 75%, var(--color-ink)));
+}
+
+.nl-door-reveal[data-side="right"] {
+  top: 30%;
+  bottom: 0;
+  left: calc(var(--nl-hw) * 1.46 - var(--nl-t));
+  width: var(--nl-t);
+  transform-origin: 100% 50%;
+  transform: rotateY(-90deg);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--nl-next-c) 75%, var(--color-ink)), color-mix(in srgb, var(--nl-c) 20%, var(--color-ink)));
+}
+
+.nl-door-reveal[data-side="top"] {
+  top: 30%;
+  left: calc(var(--nl-hw) * 0.54);
+  width: calc(var(--nl-hw) * 0.92);
+  height: var(--nl-t);
+  transform-origin: 50% 0;
+  transform: rotateX(-90deg);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--nl-c) 12%, var(--color-ink)), color-mix(in srgb, var(--nl-next-b) 70%, var(--color-ink)));
+}
+
+.nl-door-sill {
+  display: none;
+}
+
+/* The end of the house: a solid wall closing the corridor behind the exit plaque. */
+html[data-nl-mode="corridor"] .nl-endwall {
+  position: absolute;
+  display: block;
+  left: calc(var(--nl-hw) * -1);
+  top: var(--nl-ceil);
+  width: calc(var(--nl-hw) * 2);
+  height: calc(var(--nl-floor) - var(--nl-ceil));
+  transform: translateZ(calc(var(--nl-z) - var(--nl-p) * 2.4));
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 100%, color-mix(in srgb, var(--color-glow) 22%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--color-glass) 70%, var(--color-ink)), var(--color-ink));
+  pointer-events: none;
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-room="exit"] .nl-plaque {
+  width: min(calc(var(--nl-hw) * 2 - 8vw), 44rem);
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/opengraph-image.tsx">
+<![CDATA[import { ImageResponse } from "next/og";
+
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+export const alt = "Noctiluca — a house made of moving light.";
+
+const INK = "#07060B";
+const LUMEN = "#F3F0EA";
+const GLOW = "#C9B8FF";
+const DUSK = "#8E889B";
+const GLASS = "#16131F";
+
+/** The corridor in one-point perspective: nested door frames receding to a lit opening. */
+export default function OpengraphImage() {
+  const frames = [0, 1, 2, 3, 4];
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          backgroundColor: INK,
+          color: LUMEN,
+          fontFamily: "sans-serif",
+          position: "relative",
+        }}
+      >
+        <div style={{ position: "absolute", right: 70, top: 55, width: 520, height: 520, display: "flex" }}>
+          {frames.map((i) => {
+            const inset = i * 52;
+            return (
+              <div
+                key={i}
+                style={{
+                  position: "absolute",
+                  left: inset,
+                  top: inset,
+                  width: 520 - inset * 2,
+                  height: 520 - inset * 2,
+                  border: `2px solid ${i === 4 ? GLOW : DUSK}`,
+                  opacity: 1 - i * 0.12,
+                  display: "flex",
+                }}
+              />
+            );
+          })}
+          <div
+            style={{
+              position: "absolute",
+              left: 230,
+              top: 240,
+              width: 60,
+              height: 72,
+              borderRadius: "30px 30px 0 0",
+              backgroundColor: GLOW,
+              display: "flex",
+            }}
+          />
+          <div style={{ position: "absolute", left: 0, top: 0, width: 520, height: 520, display: "flex" }}>
+            <svg width="520" height="520" viewBox="0 0 520 520">
+              <line x1="0" y1="0" x2="208" y2="208" stroke={DUSK} strokeWidth="1.5" />
+              <line x1="520" y1="0" x2="312" y2="208" stroke={DUSK} strokeWidth="1.5" />
+              <line x1="0" y1="520" x2="208" y2="312" stroke={DUSK} strokeWidth="1.5" />
+              <line x1="520" y1="520" x2="312" y2="312" stroke={DUSK} strokeWidth="1.5" />
+              <line x1="260" y1="0" x2="260" y2="208" stroke={LUMEN} strokeWidth="3" />
+            </svg>
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            padding: "70px 72px",
+            width: 640,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+            <svg width="64" height="64" viewBox="0 0 64 64">
+              <rect width="64" height="64" rx="14" fill={GLASS} />
+              <path d="M19 54 V27 a13 13 0 0 1 26 0 V54" fill="none" stroke={LUMEN} strokeWidth="5" strokeLinecap="round" />
+              <ellipse cx="32" cy="53" rx="11" ry="3.4" fill={GLOW} />
+              <circle cx="32" cy="31" r="4" fill={GLOW} />
+            </svg>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ fontSize: 34, fontWeight: 700, letterSpacing: 4 }}>NOCTILUCA</div>
+              <div style={{ fontSize: 16, letterSpacing: 5, color: DUSK, marginTop: 6 }}>HOUSE OF MOVING LIGHT · LISBOA</div>
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ fontSize: 76, fontWeight: 700, lineHeight: 1.0, letterSpacing: -1 }}>A house made of</div>
+            <div style={{ fontSize: 76, fontWeight: 700, lineHeight: 1.05, letterSpacing: -1, color: GLOW }}>moving light.</div>
+            <div style={{ fontSize: 22, color: DUSK, marginTop: 26, letterSpacing: 2 }}>
+              BLUE HOUR · AURORA · NOCTILUCA · ALPENGLOW
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+    size,
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/page.tsx">
+<![CDATA[import { DepthRail, RoomAnnouncer } from "./chrome/DepthRail";
+import { TopBar } from "./chrome/TopBar";
+import { House } from "./house/House";
+import { Light } from "./light/Light";
+import { Poster } from "./light/Poster";
+import { ExitRoom } from "./rooms/ExitRoom";
+import { Foyer } from "./rooms/Foyer";
+import { PhenomenonRoom } from "./rooms/PhenomenonRoom";
+import { ScoreRoom } from "./score/ScoreRoom";
+import { VisitRoom } from "./visit/VisitRoom";
+
+export default function NoctilucaPage() {
+  return (
+    <>
+      <a href="#nl-main" className="nl-skip">
+        Skip to the rooms
+      </a>
+      <Poster />
+      <Light />
+      <TopBar />
+      <main id="nl-main" className="nl-main">
+        <House>
+          <Foyer />
+          <PhenomenonRoom id="blue-hour" />
+          <PhenomenonRoom id="aurora" />
+          <PhenomenonRoom id="noctiluca" />
+          <PhenomenonRoom id="alpenglow" />
+          <ScoreRoom />
+          <VisitRoom />
+          <ExitRoom />
+        </House>
+      </main>
+      <DepthRail />
+      <RoomAnnouncer />
+      <div className="nl-grain" aria-hidden="true" />
+    </>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/brand/Logo.tsx">
+<![CDATA[/**
+ * The mark is a doorway with light pooled on its floor: the house in one glyph.
+ * Arch-topped opening, a lilac pool of light, and one spark rising (the cell
+ * the house is named after).
+ */
+
+type MarkProps = { size?: number; className?: string; title?: string };
+
+export function Mark({ size = 32, className, title }: MarkProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      className={className}
+      role={title ? "img" : undefined}
+      aria-hidden={title ? undefined : true}
+      aria-label={title}
+    >
+      <path
+        d="M18 56 V26 a14 14 0 0 1 28 0 V56"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+      />
+      <ellipse cx="32" cy="55" rx="12" ry="3.2" fill="var(--color-glow)" />
+      <circle cx="32" cy="30" r="3.6" fill="var(--color-glow)" />
+    </svg>
+  );
+}
+
+type LogoProps = { className?: string; showTagline?: boolean };
+
+export function Logo({ className, showTagline = false }: LogoProps) {
+  return (
+    <span className={`nl-logo ${className ?? ""}`}>
+      <Mark size={30} className="nl-logo-mark" />
+      <span className="nl-logo-text">
+        <span className="nl-logo-word">Noctiluca</span>
+        {showTagline ? <span className="nl-logo-tag">House of moving light</span> : null}
+      </span>
+    </span>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/chrome/DepthRail.tsx">
+<![CDATA["use client";
+
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { frame, onFrame } from "../house/frame";
+import { ROOM_METRES, depthMetres, perspectivePx } from "../house/geometry";
+import { roomStore } from "../house/room-store";
+import { ROOMS, ROOM_COUNT } from "../rooms/rooms";
+
+/**
+ * The depth rail: where you are in the house, in metres. The marker and the
+ * readout are written straight to the DOM every frame; only the room name goes
+ * through React (and is announced politely when it changes).
+ */
+export function DepthRail() {
+  const markerRef = useRef<HTMLSpanElement>(null);
+  const depthRef = useRef<HTMLSpanElement>(null);
+  const room = useSyncExternalStore(roomStore.subscribe, roomStore.get, () => 0);
+
+  useEffect(() => {
+    let shown = "";
+    return onFrame(() => {
+      const t = Math.max(0, Math.min(1, frame.station / (ROOM_COUNT - 1)));
+      if (markerRef.current) markerRef.current.style.transform = `translateY(${(t * 100).toFixed(2)}cqh)`;
+      const metres =
+        frame.mode === "corridor" ? depthMetres(frame.z, perspectivePx(window.innerHeight)) : frame.station * ROOM_METRES;
+      const text = `${metres.toFixed(1)} m`;
+      if (text !== shown && depthRef.current) {
+        depthRef.current.textContent = text;
+        shown = text;
+      }
+    });
+  }, []);
+
+  const current = ROOMS[room];
+  return (
+    <div className="nl-rail" aria-hidden="true">
+      <div className="nl-rail-track">
+        {ROOMS.map((r, i) => (
+          <span
+            key={r.id}
+            className="nl-rail-tick"
+            data-active={i === room}
+            style={{ top: `${(i / (ROOM_COUNT - 1)) * 100}%` }}
+          >
+            {r.numeral || (i === 0 ? "F" : "E")}
+          </span>
+        ))}
+        <span className="nl-rail-marker" ref={markerRef} />
+      </div>
+      <p className="nl-rail-readout">
+        <span className="nl-rail-room">{current.numeral ? `${current.numeral} · ${current.short}` : current.short}</span>
+        <span className="nl-rail-depth" ref={depthRef}>
+          0.0 m
+        </span>
+      </p>
+    </div>
+  );
+}
+
+/** Announces the room on arrival, nothing more. */
+export function RoomAnnouncer() {
+  const room = useSyncExternalStore(roomStore.subscribe, roomStore.get, () => 0);
+  const r = ROOMS[room];
+  return (
+    <p className="nl-sr" aria-live="polite">
+      {room === 0 ? "" : r.numeral ? `Room ${r.numeral}, ${r.name}` : r.name}
+    </p>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/chrome/TopBar.tsx">
+<![CDATA["use client";
+
+import { useSyncExternalStore } from "react";
+import { Logo } from "../brand/Logo";
+import { roomStore } from "../house/room-store";
+import { ROOMS, anchorId } from "../rooms/rooms";
+
+const NAV = ROOMS.filter((r) => r.numeral && r.id !== "visit");
+
+export function TopBar() {
+  const room = useSyncExternalStore(roomStore.subscribe, roomStore.get, () => 0);
+  const current = ROOMS[room]?.id;
+  return (
+    <header className="nl-topbar">
+      <a href={`#${anchorId("foyer")}`} className="nl-topbar-home" aria-label="Noctiluca, back to the foyer">
+        <Logo />
+      </a>
+      <nav aria-label="Rooms" className="nl-topbar-nav">
+        <ol>
+          {NAV.map((r) => (
+            <li key={r.id}>
+              <a href={`#${anchorId(r.id)}`} aria-current={current === r.id ? "location" : undefined}>
+                <span className="nl-topbar-num">{r.numeral}</span>
+                <span className="nl-topbar-name">{r.short}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <a href={`#${anchorId("visit")}`} className="nl-button nl-topbar-cta" data-variant="solid">
+        Book entry
+      </a>
+    </header>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/house/frame.ts">
+<![CDATA[import { DEFAULT_SCORE, type Score } from "../score/score";
+
+/**
+ * The per-frame state of the walk. The house loop writes it; the light engine,
+ * the depth rail and the Score Room read it. Plain mutable data, no React.
+ */
+export type Frame = {
+  mode: "corridor" | "flow";
+  /** Camera z, css px. */
+  z: number;
+  yaw: number;
+  pitch: number;
+  /** Continuous station position (0 … 7). */
+  station: number;
+  /** In flow mode, the room in view (fractional while crossing). */
+  flowRoom: number;
+  pointer: { x: number; y: number; energy: number };
+  score: Score;
+  /** Bumped whenever `score` changes, so the engine re-uploads the palette. */
+  scoreVersion: number;
+};
+
+export const frame: Frame = {
+  mode: "flow",
+  z: 0,
+  yaw: 0,
+  pitch: 0,
+  station: 0,
+  flowRoom: 0,
+  pointer: { x: 0, y: 0, energy: 0 },
+  score: { ...DEFAULT_SCORE },
+  scoreVersion: 0,
+};
+
+type Tick = (now: number) => void;
+const ticks = new Set<Tick>();
+
+/** Things that redraw every frame (the light, the depth rail) subscribe here. */
+export function onFrame(tick: Tick): () => void {
+  ticks.add(tick);
+  return () => ticks.delete(tick);
+}
+
+export function emitFrame(now: number) {
+  for (const t of ticks) t(now);
+}
+
+export function setScore(next: Score) {
+  frame.score = next;
+  frame.scoreVersion++;
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/house/geometry.ts">
+<![CDATA[/**
+ * The house is one corridor of rooms, and the page is the camera walking down it.
+ *
+ * Units are CSS pixels in a y-down, z-toward-the-viewer space (the same space CSS 3D
+ * transforms use), so the DOM plaques and the WebGL walls share one camera.
+ * Everything is expressed in multiples of P, the perspective distance: a plane P in
+ * front of the camera renders at exactly 1:1, which is where every plaque is read.
+ */
+
+export const FOV_DEG = 55;
+
+/** P as a percentage of the viewport height (vh). CSS mirrors this as `--nl-p`. */
+export const P_VH = (0.5 / Math.tan(((FOV_DEG / 2) * Math.PI) / 180)) * 100;
+
+/** Station-to-station distance, in P. */
+export const ROOM_DEPTH_P = 2.6;
+
+/** How far past a station's reading plane its doorway stands, in P. */
+export const DOOR_OFFSET_P = 1.7;
+
+/** Fraction of each station's scroll stride spent standing still to read. */
+export const DWELL = 0.3;
+
+/** Scroll stride per station, as a multiple of the viewport height. */
+export const STRIDE_VH = 1.6;
+
+/** A room is 7.2 m long in the fiction of the building. */
+export const ROOM_METRES = 7.2;
+
+export function perspectivePx(viewportHeight: number): number {
+  return (viewportHeight * P_VH) / 100;
+}
+
+/** The corridor's cross-section. CSS mirrors these as `--nl-hw`, `--nl-ceil`, `--nl-floor`. */
+export function tunnelBox(viewportWidth: number, viewportHeight: number) {
+  return {
+    hw: Math.min(0.36 * viewportWidth, 0.66 * viewportHeight),
+    ceil: -0.4 * viewportHeight,
+    floor: 0.33 * viewportHeight,
+  };
+}
+
+export function clamp01(x: number): number {
+  return x < 0 ? 0 : x > 1 ? 1 : x;
+}
+
+/** Ken Perlin's smootherstep: zero velocity and acceleration at both ends. */
+export function smootherstep(x: number): number {
+  const t = clamp01(x);
+  return t * t * t * (t * (t * 6 - 15) + 10);
+}
+
+export function scrollForStation(index: number, stride: number): number {
+  return index * stride;
+}
+
+export type CameraInput = { stride: number; stations: number; p: number };
+export type Camera = {
+  /** Camera z in px (0 at the foyer, negative going in). */
+  z: number;
+  /** Continuous station position, 0 … stations − 1. */
+  station: number;
+  /** The station the camera is at or travelling to the nearer of. */
+  nearest: number;
+};
+
+/**
+ * Scroll offset (px, measured from the top of the track) → camera.
+ * Each stride starts with a dwell where the camera holds on the station, then
+ * travels to the next station with smootherstep, so it settles on every plaque.
+ */
+export function cameraAt(scroll: number, { stride, stations, p }: CameraInput): Camera {
+  const last = stations - 1;
+  const s = Math.max(0, scroll) / stride;
+  const index = Math.min(Math.floor(s), last);
+  if (index >= last) {
+    return { z: -last * ROOM_DEPTH_P * p, station: last, nearest: last };
+  }
+  const local = s - index;
+  const travel = smootherstep((local - DWELL) / (1 - DWELL));
+  const station = index + travel;
+  return {
+    z: noNegZero(-station * ROOM_DEPTH_P * p),
+    station,
+    nearest: Math.round(station),
+  };
+}
+
+/** Opacity of a plaque glimpsed through the next doorway: present, not competing. */
+export const GHOST = 0.28;
+
+/**
+ * Opacity for a plane at `distance` (in P) in front of the camera.
+ * Solid from 0.8 P to 2.6 P, dissolving as the camera walks through it. Further
+ * off (the next room, seen through the door) it's a ghost, fading in from 6 P.
+ */
+export function planeOpacity(distance: number): number {
+  if (distance <= 0.35 || distance >= 6) return 0;
+  if (distance < 0.8) return smootherstep((distance - 0.35) / 0.45);
+  if (distance <= 2.6) return 1;
+  if (distance <= 3.4) return 1 - (1 - GHOST) * smootherstep((distance - 2.6) / 0.8);
+  if (distance <= 4.6) return GHOST;
+  return GHOST * (1 - smootherstep((distance - 4.6) / 1.4));
+}
+
+/**
+ * A label that waits for its plaque: in the wide rooms the plaque covers the
+ * opposite wall, so the label only appears once the plaque has dissolved.
+ */
+export function revealAfter(labelDistance: number, plaqueDistance: number): number {
+  return Math.min(planeOpacity(labelDistance), 1 - planeOpacity(plaqueDistance));
+}
+
+/** Which room's walls a point at depth z belongs to. Rooms change at each doorway. */
+export function roomAtZ(z: number, p: number, rooms: number): number {
+  const along = -z / p;
+  const index = Math.floor((along - DOOR_OFFSET_P) / ROOM_DEPTH_P) + 1;
+  return Math.max(0, Math.min(rooms - 1, index));
+}
+
+export function depthMetres(z: number, p: number): number {
+  return noNegZero((-z / (ROOM_DEPTH_P * p)) * ROOM_METRES);
+}
+
+/** −0 + 0 is +0; keeps readouts from printing "−0.0". */
+function noNegZero(x: number): number {
+  return x + 0;
+}
+
+/**
+ * Flow mode (phones, reduced motion): which room is in view, as a fraction.
+ * `probe` is the document y of the viewport's middle; `tops` are the rooms'
+ * document tops in order. Crossing from room i to i+1 fades over `blend` px
+ * centred on room i+1's top.
+ */
+export function flowRoomAt(probe: number, tops: number[], blend = 240): number {
+  if (tops.length === 0) return 0;
+  let room = 0;
+  for (let i = 1; i < tops.length; i++) {
+    const start = tops[i] - blend / 2;
+    if (probe <= start) break;
+    room = i - 1 + clamp01((probe - start) / blend);
+  }
+  return room;
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/house/House.tsx">
+<![CDATA["use client";
+
+import { useEffect, useRef, type ReactNode } from "react";
+import { ROOMS, ROOM_COUNT, anchorId, stationForHash } from "../rooms/rooms";
+import { emitFrame, frame } from "./frame";
+import {
+  DOOR_OFFSET_P,
+  ROOM_DEPTH_P,
+  STRIDE_VH,
+  cameraAt,
+  flowRoomAt,
+  perspectivePx,
+  planeOpacity,
+  revealAfter,
+} from "./geometry";
+import { CORRIDOR_QUERY } from "./mode";
+import { roomStore } from "./room-store";
+
+type Plane = { el: HTMLElement; station: number; offsetP: number; kind: string; after: boolean };
+
+const OFFSET_P: Record<string, number> = { plaque: 1, label: 1.38, door: DOOR_OFFSET_P, end: 2.4 };
+
+/**
+ * The walk. In corridor mode the track is tall and the stage is sticky: scroll
+ * offset becomes camera depth, and one transform on the world moves every room.
+ * In flow mode the rooms are ordinary stacked sections and this loop only keeps
+ * track of which room is in view.
+ */
+export function House({ children }: { children: ReactNode }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const worldRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const track = trackRef.current!;
+    const world = worldRef.current!;
+    const root = document.documentElement;
+    const mq = window.matchMedia(CORRIDOR_QUERY);
+    const fine = window.matchMedia("(pointer: fine)");
+
+    let planes: Plane[] = [];
+    let sections: HTMLElement[] = [];
+    let flowTops: number[] = [];
+    let trackTop = 0;
+    let vh = window.innerHeight;
+    let vw = window.innerWidth;
+    let p = perspectivePx(vh);
+    let stride = STRIDE_VH * vh;
+    let smoothZ = 0;
+    let yaw = 0;
+    let pitch = 0;
+    let lookX = 0;
+    let lookY = 0;
+    let last = performance.now();
+    let raf = 0;
+    let lastPointer = { x: 0, y: 0, t: 0 };
+    let lastTransform = "";
+
+    const measure = () => {
+      vh = window.innerHeight;
+      vw = window.innerWidth;
+      p = perspectivePx(vh);
+      stride = STRIDE_VH * vh;
+      trackTop = track.getBoundingClientRect().top + window.scrollY;
+      sections = Array.from(world.querySelectorAll<HTMLElement>("[data-station]"));
+      planes = Array.from(world.querySelectorAll<HTMLElement>("[data-plane]")).map((el) => ({
+        el,
+        station: Number(el.closest<HTMLElement>("[data-station]")?.dataset.station ?? 0),
+        offsetP: OFFSET_P[el.dataset.plane ?? "plaque"] ?? 1,
+        kind: el.dataset.plane ?? "plaque",
+        after: el.dataset.reveal === "after",
+      }));
+      flowTops = sections.map((s) => s.getBoundingClientRect().top + window.scrollY);
+    };
+
+    const applyMode = () => {
+      const corridor = mq.matches;
+      root.dataset.nlMode = corridor ? "corridor" : "flow";
+      frame.mode = corridor ? "corridor" : "flow";
+      if (!corridor) {
+        world.style.transform = "";
+        lastTransform = "";
+        for (const plane of planes) {
+          plane.el.style.opacity = "";
+          plane.el.style.pointerEvents = "";
+        }
+      }
+      measure();
+    };
+
+    const scrollToStation = (index: number, behavior: ScrollBehavior) => {
+      window.scrollTo({ top: trackTop + index * stride, behavior });
+    };
+
+    const tick = (now: number) => {
+      const dt = Math.min(0.1, (now - last) / 1000);
+      last = now;
+      const corridor = frame.mode === "corridor";
+      frame.pointer.energy *= Math.exp(-dt * 1.6);
+
+      if (corridor) {
+        const cam = cameraAt(window.scrollY - trackTop, { stride, stations: ROOM_COUNT, p });
+        const k = 1 - Math.exp(-dt * 9);
+        smoothZ += (cam.z - smoothZ) * k;
+        if (Math.abs(cam.z - smoothZ) < 0.05) smoothZ = cam.z;
+        // Ease, then snap: the world must come to rest, not creep sub-pixel forever.
+        const yawTarget = lookX * 0.05;
+        const pitchTarget = -lookY * 0.035;
+        yaw += (yawTarget - yaw) * k * 0.5;
+        pitch += (pitchTarget - pitch) * k * 0.5;
+        if (Math.abs(yawTarget - yaw) < 2e-4) yaw = yawTarget;
+        if (Math.abs(pitchTarget - pitch) < 2e-4) pitch = pitchTarget;
+
+        frame.z = smoothZ;
+        frame.yaw = yaw;
+        frame.pitch = pitch;
+        frame.station = -smoothZ / (ROOM_DEPTH_P * p);
+        const transform = `translateZ(${p}px) rotateX(${pitch.toFixed(5)}rad) rotateY(${yaw.toFixed(5)}rad) translate3d(0px, 0px, ${(-smoothZ).toFixed(2)}px)`;
+        if (transform !== lastTransform) {
+          world.style.transform = transform;
+          lastTransform = transform;
+        }
+
+        for (const plane of planes) {
+          const planeZ = -plane.station * ROOM_DEPTH_P * p - plane.offsetP * p;
+          const distance = (smoothZ - planeZ) / p;
+          // Door frames and the end wall are architecture: solid until the camera is through them.
+          const plaqueDistance = (smoothZ + plane.station * ROOM_DEPTH_P * p + p) / p;
+          const o =
+            plane.kind === "door" || plane.kind === "end"
+              ? distance > 0.04 && distance < 9
+                ? 1
+                : 0
+              : plane.after
+                ? revealAfter(distance, plaqueDistance)
+                : planeOpacity(distance);
+          const next = o.toFixed(3);
+          if (plane.el.style.opacity !== next) {
+            plane.el.style.opacity = next;
+            // Not visibility: hidden, which would drop far rooms out of the tab order.
+            // Focus stays possible everywhere, and focusing walks the camera there.
+            plane.el.style.pointerEvents = o < 0.5 ? "none" : "";
+          }
+        }
+        roomStore.set(Math.round(frame.station));
+      } else {
+        const room = flowRoomAt(window.scrollY + vh / 2, flowTops);
+        frame.flowRoom = room;
+        frame.station = room;
+        roomStore.set(Math.round(room));
+      }
+
+      emitFrame(now);
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onPointer = (e: PointerEvent) => {
+      // The room looks toward the pointer, but holds still while you read or use a plaque.
+      const overContent = (e.target as Element).closest?.(".nl-plaque, .nl-aside");
+      if (fine.matches && !overContent) {
+        lookX = e.clientX / vw - 0.5;
+        lookY = e.clientY / vh - 0.5;
+      }
+      const t = performance.now();
+      const dist = Math.hypot(e.clientX - lastPointer.x, e.clientY - lastPointer.y);
+      const speed = dist / Math.max(16, t - lastPointer.t);
+      lastPointer = { x: e.clientX, y: e.clientY, t };
+      frame.pointer.x = e.clientX;
+      frame.pointer.y = e.clientY;
+      frame.pointer.energy = Math.min(1, frame.pointer.energy + speed * 0.08);
+    };
+
+    // In the corridor, every room lives in one sticky stage, so anchors and focus
+    // are mapped to scroll offsets by hand.
+    const onClick = (e: MouseEvent) => {
+      if (frame.mode !== "corridor" || e.defaultPrevented || e.button !== 0) return;
+      const a = (e.target as Element).closest?.("a[href^='#']");
+      if (!a) return;
+      const station = stationForHash(a.getAttribute("href") ?? "");
+      if (station === null) return;
+      e.preventDefault();
+      history.pushState(null, "", `#${anchorId(ROOMS[station].id)}`);
+      scrollToStation(station, "smooth");
+    };
+
+    const onFocus = (e: FocusEvent) => {
+      if (frame.mode !== "corridor") return;
+      const section = (e.target as Element).closest?.<HTMLElement>("[data-station]");
+      if (!section) return;
+      const station = Number(section.dataset.station);
+      if (Math.abs(frame.station - station) > 0.02) scrollToStation(station, "auto");
+    };
+
+    const onHash = () => {
+      const station = stationForHash(location.hash);
+      if (station !== null && frame.mode === "corridor") scrollToStation(station, "auto");
+    };
+
+    const onResize = () => measure();
+
+    applyMode();
+    if (frame.mode === "corridor") {
+      const station = stationForHash(location.hash);
+      if (station !== null) requestAnimationFrame(() => scrollToStation(station, "auto"));
+      smoothZ = cameraAt(window.scrollY - trackTop, { stride, stations: ROOM_COUNT, p }).z;
+    }
+    document.fonts?.ready.then(measure);
+
+    mq.addEventListener("change", applyMode);
+    window.addEventListener("resize", onResize);
+    window.addEventListener("pointermove", onPointer, { passive: true });
+    window.addEventListener("hashchange", onHash);
+    document.addEventListener("click", onClick);
+    document.addEventListener("focusin", onFocus);
+    raf = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      mq.removeEventListener("change", applyMode);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("pointermove", onPointer);
+      window.removeEventListener("hashchange", onHash);
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("focusin", onFocus);
+    };
+  }, []);
+
+  return (
+    <div className="nl-track" ref={trackRef}>
+      <div className="nl-stage">
+        <div className="nl-world" ref={worldRef}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/house/mode.ts">
+<![CDATA[/**
+ * Corridor mode (the 3D walk) needs a screen big enough to stand in and motion
+ * allowed. Everything else gets flow mode: the same rooms, stacked.
+ */
+export const CORRIDOR_QUERY =
+  "(min-width: 900px) and (min-height: 560px) and (prefers-reduced-motion: no-preference)";
+
+/**
+ * Runs before first paint so the server-rendered page never flashes flow layout
+ * on a desktop. The house component keeps the attribute in sync afterwards.
+ */
+export const MODE_SCRIPT = `try{document.documentElement.dataset.nlMode=matchMedia(${JSON.stringify(
+  CORRIDOR_QUERY,
+)}).matches?"corridor":"flow"}catch(e){}`;
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/house/room-store.ts">
+<![CDATA[/**
+ * The current room, as a tiny external store. The camera moves every frame, but
+ * React only hears about it when the visitor crosses into another room.
+ */
+
+export type RoomStore = {
+  get: () => number;
+  set: (room: number) => void;
+  subscribe: (listener: () => void) => () => void;
+};
+
+export function createRoomStore(initial = 0): RoomStore {
+  let room = initial;
+  const listeners = new Set<() => void>();
+  return {
+    get: () => room,
+    set(next) {
+      if (next === room) return;
+      room = next;
+      for (const l of listeners) l();
+    },
+    subscribe(listener) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+  };
+}
+
+export const roomStore = createRoomStore();
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/light/light-engine.ts">
+<![CDATA[import { DOOR_OFFSET_P, ROOM_DEPTH_P, perspectivePx, tunnelBox } from "../house/geometry";
+import type { Frame } from "../house/frame";
+import { ROOMS as ROOM_LIST, roomIndex } from "../rooms/rooms";
+import { scorePalette, scoreUniforms } from "../score/score";
+import { PHENOMENA, hexToRgb } from "./phenomena";
+import { FRAGMENT, ROOMS, VERTEX } from "./shader";
+import { renderScale } from "./start-policy";
+
+const INK = hexToRgb("#07060B");
+
+function compile(gl: WebGL2RenderingContext, type: number, source: string): WebGLShader {
+  const shader = gl.createShader(type)!;
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    const log = gl.getShaderInfoLog(shader);
+    gl.deleteShader(shader);
+    throw new Error(`noctiluca light: shader failed to compile\n${log}`);
+  }
+  return shader;
+}
+
+/** Draws the corridor's light into one canvas. Imperative on purpose: it runs every frame. */
+export class LightEngine {
+  private gl: WebGL2RenderingContext;
+  private program: WebGLProgram;
+  private u: Record<string, WebGLUniformLocation | null> = {};
+  private palette = new Float32Array(ROOMS * 4 * 3);
+  private styles = new Float32Array(ROOMS * 4);
+  private scoreVersion = -1;
+  private start = performance.now();
+  lost = false;
+
+  constructor(private canvas: HTMLCanvasElement) {
+    const gl = canvas.getContext("webgl2", { antialias: false, alpha: false, depth: false, powerPreference: "low-power" });
+    if (!gl) throw new Error("noctiluca light: WebGL2 unavailable");
+    this.gl = gl;
+
+    const program = gl.createProgram()!;
+    gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, VERTEX));
+    gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, FRAGMENT));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      throw new Error(`noctiluca light: link failed\n${gl.getProgramInfoLog(program)}`);
+    }
+    this.program = program;
+    gl.useProgram(program);
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(program, "aPos");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    for (const name of [
+      "uRes", "uCss", "uP", "uCam", "uLook", "uBox", "uRoom", "uTime",
+      "uPal", "uStyle", "uPointer", "uFlat", "uFlatRoom", "uInk",
+    ]) {
+      this.u[name] = gl.getUniformLocation(program, name);
+    }
+
+    ROOM_LIST.forEach((room, i) => {
+      const light = PHENOMENA[room.id];
+      light.stops.forEach((hex, s) => this.palette.set(hexToRgb(hex), (i * 4 + s) * 3));
+      this.styles.set([light.style, light.speed, light.scale, light.glow], i * 4);
+    });
+    gl.uniform3fv(this.u.uInk, INK);
+    gl.uniform2f(this.u.uRoom, ROOM_DEPTH_P, DOOR_OFFSET_P);
+
+    canvas.addEventListener("webglcontextlost", this.onLost);
+  }
+
+  private onLost = (e: Event) => {
+    e.preventDefault();
+    this.lost = true;
+  };
+
+  private syncScore(f: Frame) {
+    if (f.scoreVersion === this.scoreVersion) return;
+    this.scoreVersion = f.scoreVersion;
+    const i = roomIndex("score");
+    scorePalette(f.score.hue).forEach((rgb, s) => this.palette.set(rgb, (i * 4 + s) * 3));
+    const { speed, scale } = scoreUniforms(f.score);
+    this.styles[i * 4 + 1] = speed;
+    this.styles[i * 4 + 2] = scale;
+    this.gl.uniform3fv(this.u.uPal, this.palette);
+    this.gl.uniform4fv(this.u.uStyle, this.styles);
+  }
+
+  private resize(): { css: number; w: number; h: number } {
+    const w = this.canvas.clientWidth;
+    const h = this.canvas.clientHeight;
+    const scale = renderScale(window.devicePixelRatio || 1, w);
+    const pw = Math.max(1, Math.round(w * scale));
+    const ph = Math.max(1, Math.round(h * scale));
+    if (this.canvas.width !== pw || this.canvas.height !== ph) {
+      this.canvas.width = pw;
+      this.canvas.height = ph;
+      this.gl.viewport(0, 0, pw, ph);
+    }
+    return { css: w / pw, w, h };
+  }
+
+  render(f: Frame, now: number) {
+    if (this.lost) return;
+    const gl = this.gl;
+    const { css, w } = this.resize();
+    const vh = window.innerHeight;
+    const p = perspectivePx(vh);
+    const box = tunnelBox(window.innerWidth, vh);
+    this.syncScore(f);
+
+    gl.uniform2f(this.u.uRes, this.canvas.width, this.canvas.height);
+    gl.uniform1f(this.u.uCss, css);
+    gl.uniform1f(this.u.uP, p);
+    gl.uniform3f(this.u.uCam, 0, 0, f.z);
+    gl.uniform2f(this.u.uLook, f.yaw, f.pitch);
+    gl.uniform3f(this.u.uBox, box.hw, box.ceil, box.floor);
+    gl.uniform1f(this.u.uTime, (now - this.start) / 1000);
+    gl.uniform3f(this.u.uPointer, f.pointer.x - w / 2, f.pointer.y - vh / 2, f.pointer.energy);
+    gl.uniform1f(this.u.uFlat, f.mode === "flow" ? 1 : 0);
+    gl.uniform1f(this.u.uFlatRoom, f.flowRoom);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+
+  dispose() {
+    this.canvas.removeEventListener("webglcontextlost", this.onLost);
+    this.gl.getExtension("WEBGL_lose_context")?.loseContext();
+  }
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/light/Light.tsx">
+<![CDATA["use client";
+
+import { useEffect, useRef, useState } from "react";
+import { frame, onFrame } from "../house/frame";
+import { LightEngine } from "./light-engine";
+import { startPolicy, type StartPolicy } from "./start-policy";
+
+/**
+ * The live light. A still poster (CSS gradients, see Poster) is always there;
+ * the WebGL canvas fades in over it once it may start: on idle on desktop, on a
+ * tap on touch screens, never under reduced motion.
+ */
+export function Light() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [policy, setPolicy] = useState<StartPolicy>("never");
+  const [on, setOn] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const decide = () => {
+      const next = startPolicy({
+        reducedMotion: reduced.matches,
+        coarsePointer: window.matchMedia("(pointer: coarse)").matches,
+        width: window.innerWidth,
+        webgl2: "WebGL2RenderingContext" in window,
+      });
+      setPolicy(next);
+      if (next === "never") setOn(false);
+      return next;
+    };
+
+    let idle = 0;
+    if (decide() === "idle") {
+      const start = () => setOn(true);
+      idle =
+        typeof window.requestIdleCallback === "function"
+          ? window.requestIdleCallback(start, { timeout: 2500 })
+          : window.setTimeout(start, 1200);
+    }
+    reduced.addEventListener("change", decide);
+    return () => {
+      reduced.removeEventListener("change", decide);
+      if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idle);
+      window.clearTimeout(idle);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!on || !canvasRef.current) return;
+    let engine: LightEngine;
+    try {
+      engine = new LightEngine(canvasRef.current);
+    } catch (error) {
+      console.warn(error);
+      setOn(false);
+      setPolicy("never");
+      return;
+    }
+    let first = true;
+    const off = onFrame((now) => {
+      if (document.hidden) return;
+      engine.render(frame, now);
+      if (first) {
+        first = false;
+        setReady(true);
+      }
+    });
+    return () => {
+      off();
+      engine.dispose();
+      setReady(false);
+    };
+  }, [on]);
+
+  return (
+    <>
+      {on ? <canvas ref={canvasRef} className="nl-light" data-ready={ready} aria-hidden="true" /> : null}
+      {policy === "tap" ? (
+        <button
+          type="button"
+          className="nl-switch"
+          aria-pressed={on}
+          onClick={() => setOn((v) => !v)}
+        >
+          <span className="nl-switch-dot" aria-hidden="true" />
+          {on ? "Lights down" : "Turn the lights on"}
+        </button>
+      ) : null}
+    </>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/light/phenomena.ts">
+<![CDATA[import type { RoomId } from "../rooms/rooms";
+
+/**
+ * The light of each room. These colours are content (like a photograph of the
+ * sky), not UI, so this file is exempt from the palette guard.
+ *
+ * Stops run deep → mid → bright → highlight. `style` picks the field shape in
+ * the shader; `speed` is flow per second; `scale` is the size of the forms.
+ */
+
+export type FieldStyle = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+export const STYLE = {
+  mist: 0,
+  horizon: 1,
+  curtain: 2,
+  sparks: 3,
+  band: 4,
+  score: 5,
+  zodiacal: 6,
+} as const satisfies Record<string, FieldStyle>;
+
+export type Phenomenon = {
+  stops: [string, string, string, string];
+  style: FieldStyle;
+  speed: number;
+  scale: number;
+  /** Wall brightness, 0–1.5. */
+  glow: number;
+};
+
+export const PHENOMENA: Record<RoomId, Phenomenon> = {
+  foyer: { stops: ["#0B0A1A", "#2A2152", "#6E5BC8", "#D9CCFF"], style: STYLE.mist, speed: 0.06, scale: 1.0, glow: 0.9 },
+  "blue-hour": { stops: ["#040A22", "#0E2A6B", "#2F63D6", "#F2A66E"], style: STYLE.horizon, speed: 0.05, scale: 1.1, glow: 1.05 },
+  aurora: { stops: ["#030F0D", "#0F5E47", "#33F0A4", "#C08AFF"], style: STYLE.curtain, speed: 0.12, scale: 1.0, glow: 1.5 },
+  noctiluca: { stops: ["#010611", "#04223D", "#0FA3DA", "#8AF7FF"], style: STYLE.sparks, speed: 0.08, scale: 1.0, glow: 1.0 },
+  alpenglow: { stops: ["#1A0912", "#6E2142", "#F27C68", "#FFD6A6"], style: STYLE.band, speed: 0.05, scale: 1.2, glow: 1.05 },
+  score: { stops: ["#0B0A1A", "#2A2152", "#6E5BC8", "#D9CCFF"], style: STYLE.score, speed: 0.15, scale: 1.4, glow: 1.0 },
+  visit: { stops: ["#07060D", "#221A3A", "#8C7BD9", "#EADFCB"], style: STYLE.zodiacal, speed: 0.03, scale: 1.0, glow: 0.8 },
+  exit: { stops: ["#07060D", "#1B1530", "#5C4FA0", "#C9B8FF"], style: STYLE.mist, speed: 0.04, scale: 1.0, glow: 0.6 },
+};
+
+export function hexToRgb(hex: string): [number, number, number] {
+  const n = parseInt(hex.slice(1), 16);
+  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/light/Poster.tsx">
+<![CDATA["use client";
+
+import { useSyncExternalStore } from "react";
+import { roomStore } from "../house/room-store";
+import { ROOMS } from "../rooms/rooms";
+import { roomStops } from "./stops";
+
+/**
+ * The still light: one CSS gradient per room, stacked, with only the current
+ * room's layer showing. It's what you see before WebGL starts, under reduced
+ * motion, and whenever WebGL can't run.
+ */
+export function Poster() {
+  const room = useSyncExternalStore(roomStore.subscribe, roomStore.get, () => 0);
+  return (
+    <div className="nl-poster" aria-hidden="true">
+      {ROOMS.map((r, i) => (
+        <div
+          key={r.id}
+          className="nl-poster-layer"
+          data-room={r.id}
+          data-active={i === room}
+          style={roomStops(i)}
+        />
+      ))}
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/light/shader.ts">
+<![CDATA[/**
+ * One full-screen fragment shader draws the whole corridor.
+ *
+ * Each pixel casts a ray from the same camera the CSS 3D world uses (CSS px,
+ * y down, z toward the viewer), hits the box-shaped corridor (two walls, floor,
+ * ceiling), finds which room that depth belongs to, and paints that room's light:
+ * a domain-warped noise field mapped through four colour stops, shaped per room
+ * (horizon, curtain, sparks …). DOM door frames, plaques and labels sit in front,
+ * so the shader never has to know about them.
+ */
+
+export const ROOMS = 8;
+
+export const VERTEX = /* glsl */ `#version 300 es
+in vec2 aPos;
+void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
+`;
+
+export const FRAGMENT = /* glsl */ `#version 300 es
+precision highp float;
+#define ROOMS ${ROOMS}
+
+uniform vec2 uRes;        // canvas size, device px
+uniform float uCss;       // css px per canvas px
+uniform float uP;         // perspective distance, css px
+uniform vec3 uCam;        // camera position, css px
+uniform vec2 uLook;       // yaw, pitch (rad)
+uniform vec3 uBox;        // half width, ceiling y (−), floor y (+)
+uniform vec2 uRoom;       // room depth, door offset (both in P)
+uniform float uTime;
+uniform vec3 uPal[ROOMS * 4];
+uniform vec4 uStyle[ROOMS];   // style id, speed, scale, glow
+uniform vec3 uPointer;    // css px from centre (y down), energy 0–1
+uniform float uFlat;      // 1: flat field for phones (no corridor)
+uniform float uFlatRoom;  // room position in flat mode (fractional = crossfade)
+uniform vec3 uInk;
+
+out vec4 outColor;
+
+float hash(vec2 p) {
+  p = fract(p * vec2(123.34, 456.21));
+  p += dot(p, p + 45.32);
+  return fract(p.x * p.y);
+}
+
+float noise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+}
+
+float fbm(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+  for (int i = 0; i < 4; i++) {
+    v += a * noise(p);
+    p = m * p;
+    a *= 0.5;
+  }
+  return v;
+}
+
+vec3 stop(int r, int i) { return uPal[r * 4 + i]; }
+
+// Smooth four-stop ramp.
+vec3 ramp(int r, float x) {
+  x = clamp(x, 0.0, 1.0) * 3.0;
+  int i = int(min(floor(x), 2.0));
+  float f = smoothstep(0.0, 1.0, x - float(i));
+  return mix(stop(r, i), stop(r, i + 1), f);
+}
+
+// Three-stop ramp (deep → mid → bright), keeping stop 3 for a highlight.
+vec3 ramp3(int r, float x) {
+  x = clamp(x, 0.0, 1.0) * 2.0;
+  int i = int(min(floor(x), 1.0));
+  float f = smoothstep(0.0, 1.0, x - float(i));
+  return mix(stop(r, i), stop(r, i + 1), f);
+}
+
+// uv.x runs along the corridor (in P), uv.y is height: 0 at the ceiling, 1 at the floor.
+vec3 field(int r, vec2 uv, vec2 screen) {
+  vec4 st = uStyle[r];
+  int style = int(st.x + 0.5);
+  float tt = uTime * st.y;
+  vec2 p = vec2(uv.x, uv.y * 1.4) / st.z;
+
+  // The mesh-gradient core: two warps of fbm, so the colour flows like poured silk.
+  vec2 q = vec2(fbm(p * 0.9 + vec2(0.0, tt)), fbm(p * 0.9 + vec2(5.2, 1.3) - vec2(tt * 0.8, 0.0)));
+  float w = fbm(p * 0.7 + 2.2 * q + vec2(tt * 0.6, -tt * 0.3));
+  float v = uv.y;
+  vec3 col;
+
+  if (style == 1) {
+    // Blue hour: the sky ramp, darkest overhead, with a warm horizon band low on the wall.
+    float x = mix(v * 1.05, w, 0.3);
+    col = ramp3(r, x);
+    float band = exp(-pow((v - 0.8 + (w - 0.5) * 0.14) * 8.0, 2.0));
+    col = mix(col, stop(r, 3), band * 0.75);
+  } else if (style == 2) {
+    // Aurora: hanging curtains, green low, violet at the top edge.
+    col = mix(stop(r, 0), stop(r, 1), w * 0.9);
+    float n = fbm(vec2(p.x * 0.45 + tt * 0.5, tt * 0.35));
+    float c = pow(0.5 + 0.5 * sin(p.x * 2.6 + n * 7.0 + tt), 3.0) * 1.7;
+    float rays = 0.65 + 0.35 * noise(vec2(p.x * 26.0 + n * 4.0, v * 0.6 + tt));
+    float hang = smoothstep(0.98, 0.42, v) * smoothstep(0.02, 0.22, v);
+    vec3 cc = mix(stop(r, 2), stop(r, 3), smoothstep(0.5, 0.08, v));
+    col += cc * c * rays * hang * (0.55 + 0.8 * w);
+  } else if (style == 3) {
+    // Noctiluca: dark water, a slow swell, and sparks that answer the pointer.
+    col = ramp3(r, w * 0.62);
+    float swell = 0.68 + 0.05 * sin(p.x * 2.8 + tt * 5.0) + (w - 0.5) * 0.1;
+    col += stop(r, 2) * smoothstep(0.035, 0.0, abs(v - swell)) * 0.55;
+    col += stop(r, 2) * smoothstep(swell, 1.0, v) * 0.18;
+    float near = exp(-length(screen - uPointer.xy) / 340.0);
+    float energy = 0.18 + uPointer.z * (0.5 + 1.6 * near);
+    float s = noise(uv * vec2(19.0, 27.0) + vec2(tt * 2.0, -tt * 3.0));
+    float flash = pow(s, 14.0) * (0.6 + 0.4 * sin(uTime * 9.0 + s * 40.0));
+    col += stop(r, 3) * flash * energy * 4.0;
+  } else if (style == 4) {
+    // Alpenglow: light kept at the top of the wall, like the last of it on a peak.
+    float x = mix(1.0 - v, w, 0.34);
+    col = ramp(r, x * 0.92);
+    col += stop(r, 3) * exp(-pow((v - 0.18 - (w - 0.5) * 0.2) * 5.0, 2.0)) * 0.22;
+  } else if (style == 6) {
+    // Zodiacal light: a dim cone, quieter than every room before it.
+    float cone = exp(-pow((v - 0.58) * 2.6, 2.0));
+    col = ramp(r, w * 0.45 + cone * 0.35);
+  } else {
+    // Mist (foyer, exit) and the visitor's own score: the plain mesh gradient.
+    float x = smoothstep(0.08, 0.92, w + (q.x - 0.5) * 0.45);
+    col = ramp(r, x);
+  }
+  return col * st.w;
+}
+
+vec3 rotX(vec3 v, float a) {
+  float c = cos(a);
+  float s = sin(a);
+  return vec3(v.x, v.y * c - v.z * s, v.y * s + v.z * c);
+}
+
+vec3 rotY(vec3 v, float a) {
+  float c = cos(a);
+  float s = sin(a);
+  return vec3(v.x * c + v.z * s, v.y, -v.x * s + v.z * c);
+}
+
+int roomAt(float along) {
+  float rf = floor((along - uRoom.y) / uRoom.x) + 1.0;
+  return int(clamp(rf, 0.0, float(ROOMS - 1)));
+}
+
+void main() {
+  vec2 screen = (gl_FragCoord.xy - uRes * 0.5) * uCss;
+  screen.y = -screen.y;
+  vec2 viewport = uRes * uCss;
+  vec3 col;
+
+  if (uFlat > 0.5) {
+    vec2 uv = vec2(screen.x / uP * 1.3 + 4.0, screen.y / viewport.y + 0.5);
+    int r0 = int(floor(uFlatRoom));
+    int r1 = min(r0 + 1, ROOMS - 1);
+    float f = smoothstep(0.0, 1.0, fract(uFlatRoom));
+    col = mix(field(r0, uv, screen), field(r1, uv, screen), f);
+    col *= 0.62;
+  } else {
+    // Undo the CSS world transform: camera = rotateX(pitch) rotateY(yaw) (world − cam).
+    vec3 d = normalize(vec3(screen, -uP));
+    d = rotY(rotX(d, -uLook.y), -uLook.x);
+    vec3 o = uCam;
+
+    float hw = uBox.x;
+    float dx = abs(d.x) < 1e-5 ? 1e-5 : d.x;
+    float dy = abs(d.y) < 1e-5 ? 1e-5 : d.y;
+    float tx = ((dx > 0.0 ? hw : -hw) - o.x) / dx;
+    float ty = ((dy > 0.0 ? uBox.z : uBox.y) - o.y) / dy;
+    float t = min(tx, ty);
+    vec3 h = o + d * t;
+    float along = -h.z / uP;
+    int r = roomAt(along);
+
+    if (tx < ty) {
+      // Side walls.
+      float side = sign(dx);
+      float v = (h.y - uBox.y) / (uBox.z - uBox.y);
+      vec2 uv = vec2(along * 0.9 + side * 3.7, v);
+      col = field(r, uv, screen);
+      // Light spills from the next room's doorway onto the last stretch of wall.
+      float fr = fract((along - uRoom.y) / uRoom.x);
+      if (fr > 0.82 && r < ROOMS - 1) {
+        col = mix(col, field(r + 1, uv, screen), smoothstep(0.82, 1.0, fr) * 0.35);
+      }
+      col *= 0.55 + 0.45 * smoothstep(0.0, 0.1, v) * smoothstep(1.0, 0.86, v);
+    } else if (dy > 0.0) {
+      // Floor: dark polished concrete reflecting the walls.
+      float across = h.x / hw;
+      float side = across < 0.0 ? -1.0 : 1.0;
+      vec2 uv = vec2(along * 0.9 + side * 3.7 + across * 0.2, 1.0 - (1.0 - abs(across)) * 0.85);
+      vec3 refl = field(r, uv, screen);
+      col = uInk + refl * (0.06 + 0.32 * pow(abs(across), 3.0));
+      col += vec3(0.96, 0.94, 0.9) * exp(-abs(across) * 30.0) * 0.03;
+    } else {
+      // Ceiling: dark, with one cove light running the length of the house.
+      float across = h.x / hw;
+      vec3 bounce = field(r, vec2(along * 0.9, 0.02), screen);
+      col = uInk + bounce * 0.07;
+      col += vec3(0.96, 0.94, 0.9) * (smoothstep(0.012, 0.0, abs(across)) * 0.55 + exp(-abs(across) * 22.0) * 0.08);
+    }
+
+    float dist = t / uP;
+    col = mix(uInk, col, exp(-dist * 0.16));
+  }
+
+  // Vignette and a whisper of dither so the gradients never band.
+  vec2 n = screen / viewport;
+  col *= 1.0 - 0.55 * dot(n, n);
+  col += (hash(gl_FragCoord.xy + fract(uTime) * 61.0) - 0.5) / 255.0;
+  outColor = vec4(col, 1.0);
+}
+`;
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/light/start-policy.ts">
+<![CDATA[/**
+ * When may the live light (WebGL) start?
+ * - never under prefers-reduced-motion: the rooms stay as still posters;
+ * - on desktop (fine pointer, wide): when the browser is idle after load;
+ * - on touch screens and phones: only after the visitor taps "Turn the lights on".
+ */
+
+export type Environment = {
+  reducedMotion: boolean;
+  coarsePointer: boolean;
+  width: number;
+  webgl2: boolean;
+};
+
+export type StartPolicy = "never" | "idle" | "tap";
+
+export function startPolicy(env: Environment): StartPolicy {
+  if (env.reducedMotion || !env.webgl2) return "never";
+  if (env.coarsePointer || env.width < 900) return "tap";
+  return "idle";
+}
+
+/** Device-pixel scale for the light canvas: the field is soft, so half resolution is plenty. */
+export function renderScale(devicePixelRatio: number, width: number): number {
+  const base = width > 1800 ? 0.4 : 0.5;
+  return Math.min(1, base * Math.max(1, Math.min(devicePixelRatio, 2)));
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/light/stops.ts">
+<![CDATA[import type { CSSProperties } from "react";
+import { ROOMS } from "../rooms/rooms";
+import { PHENOMENA } from "./phenomena";
+
+/** A room's four light stops as CSS custom properties (`--nl-a` … `--nl-d`). */
+export function roomStops(index: number, prefix = "--nl"): CSSProperties {
+  const room = ROOMS[Math.max(0, Math.min(ROOMS.length - 1, index))];
+  const [a, b, c, d] = PHENOMENA[room.id].stops;
+  return { [`${prefix}-a`]: a, [`${prefix}-b`]: b, [`${prefix}-c`]: c, [`${prefix}-d`]: d } as CSSProperties;
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/rooms/Doorway.tsx">
+<![CDATA[/**
+ * A doorway in the corridor: a solid wall across the tunnel with one opening,
+ * three reveals (the depth of the wall) lit by the next room's light, and the
+ * next room's numeral cut into the lintel. Architecture only, so aria-hidden.
+ */
+export function Doorway({ numeral, name }: { numeral: string; name: string }) {
+  return (
+    <div className="nl-door" data-plane="door" aria-hidden="true">
+      <div className="nl-door-lintel">
+        <span className="nl-door-numeral">{numeral || "Exit"}</span>
+        <span className="nl-door-name">{numeral ? name : "Rua da Cozinha Económica"}</span>
+      </div>
+      <div className="nl-door-jamb" data-side="left" />
+      <div className="nl-door-jamb" data-side="right" />
+      <div className="nl-door-reveal" data-side="left" />
+      <div className="nl-door-reveal" data-side="right" />
+      <div className="nl-door-reveal" data-side="top" />
+      <div className="nl-door-sill" />
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/rooms/ExitRoom.tsx">
+<![CDATA[import { Logo } from "../brand/Logo";
+import { RoomShell } from "./RoomShell";
+import { ROOMS, anchorId, roomIndex } from "./rooms";
+
+const LINKS: [string, string][] = [
+  ["Rooms", `#${anchorId("blue-hour")}`],
+  ["Timed entry", `#${anchorId("visit")}`],
+  ["Back to the foyer", `#${anchorId("foyer")}`],
+];
+
+export function ExitRoom() {
+  const index = roomIndex("exit");
+  const room = ROOMS[index];
+  return (
+    <RoomShell index={index} width="wide">
+      <div className="nl-exit">
+        <Logo showTagline />
+        <h2 id={`${anchorId("exit")}-title`} className="nl-room-title nl-exit-title">
+          {room.title}
+        </h2>
+        <p className="nl-copy">
+          Each room is re-tuned at the solstices, so the house you walked today won&apos;t be the one you walk in June.
+        </p>
+        <nav aria-label="Footer" className="nl-exit-nav">
+          {LINKS.map(([label, href]) => (
+            <a key={label} href={href} className="nl-link">
+              {label}
+            </a>
+          ))}
+        </nav>
+        <div className="nl-exit-meta">
+          <p>{room.body}</p>
+          <p>© 2026 Noctiluca, Casa da Luz Móvel. A fictional house; every room is a shader.</p>
+        </div>
+      </div>
+    </RoomShell>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/rooms/Foyer.tsx">
+<![CDATA[import { RoomShell } from "./RoomShell";
+import { ROOMS, anchorId } from "./rooms";
+
+const FACTS: [string, string][] = [
+  ["6", "rooms"],
+  ["43 m", "of corridor"],
+  ["≈ 40 min", "walk"],
+  ["Tue–Sun", "10:00–20:00"],
+];
+
+export function Foyer() {
+  const room = ROOMS[0];
+  return (
+    <RoomShell index={0} width="hero" labelledBy="nl-title">
+      <p className="nl-eyebrow">
+        <span>Estação Elevatória nº 4 · Lisboa</span>
+      </p>
+      <h1 id="nl-title" className="nl-hero-title">
+        A house made of <span className="nl-hero-glow">moving light.</span>
+      </h1>
+      <p className="nl-lead">{room.body}</p>
+      <div className="nl-actions">
+        <a className="nl-button" data-variant="solid" href={`#${anchorId("visit")}`}>
+          Book a timed entry
+        </a>
+        <a className="nl-button" data-variant="ghost" href={`#${anchorId("blue-hour")}`}>
+          Walk in
+          <span aria-hidden="true" className="nl-button-arrow">
+            →
+          </span>
+        </a>
+      </div>
+      <dl className="nl-facts">
+        {FACTS.map(([value, label]) => (
+          <div key={label}>
+            <dt className="nl-sr">{label}</dt>
+            <dd>
+              <span className="nl-facts-value">{value}</span>
+              <span className="nl-facts-label">{label}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="nl-hint" aria-hidden="true">
+        <span className="nl-hint-line" />
+        Scroll to walk in
+      </p>
+    </RoomShell>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/rooms/PhenomenonRoom.tsx">
+<![CDATA[import { RoomEyebrow, RoomShell } from "./RoomShell";
+import { WallLabel } from "./WallLabel";
+import { ROOMS, anchorId, roomIndex, type RoomId } from "./rooms";
+
+/** Rooms I–IV: a natural light, its plaque, and its field note on the opposite wall. */
+export function PhenomenonRoom({ id }: { id: RoomId }) {
+  const index = roomIndex(id);
+  const room = ROOMS[index];
+  const next = ROOMS[index + 1];
+  return (
+    <RoomShell index={index} aside={<WallLabel room={room} />}>
+      <RoomEyebrow index={index} />
+      <h2 id={`${anchorId(id)}-title`} className="nl-room-title">
+        {room.title}
+      </h2>
+      <p className="nl-copy">{room.body}</p>
+      {next ? (
+        <p className="nl-next">
+          <span className="nl-next-k">Through the door</span>
+          <a href={`#${anchorId(next.id)}`} className="nl-link">
+            {next.numeral ? `Room ${next.numeral}, ${next.name}` : next.name}
+          </a>
+        </p>
+      ) : null}
+    </RoomShell>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/rooms/rooms.ts">
+<![CDATA[/**
+ * The eight stations of the house, in walking order. The light of each room
+ * (stops, style, speed) lives in ../light/phenomena.ts, keyed by the same id.
+ */
+
+export type RoomId =
+  | "foyer"
+  | "blue-hour"
+  | "aurora"
+  | "noctiluca"
+  | "alpenglow"
+  | "score"
+  | "visit"
+  | "exit";
+
+export type WallLabel = {
+  /** e.g. "Civil twilight" */
+  phenomenon: string;
+  /** Mono rows on the museum label. */
+  rows: [string, string][];
+};
+
+export type Room = {
+  id: RoomId;
+  /** Roman numeral on the door lintel; empty for foyer and exit. */
+  numeral: string;
+  name: string;
+  /** Short name for the depth rail and nav. */
+  short: string;
+  /** Which side the plaque hangs on in the corridor. */
+  side: "left" | "right" | "centre";
+  title: string;
+  body: string;
+  label?: WallLabel;
+};
+
+export const ROOMS: Room[] = [
+  {
+    id: "foyer",
+    numeral: "",
+    name: "Foyer",
+    short: "Foyer",
+    side: "centre",
+    title: "A house made of moving light.",
+    body: "Six rooms in a 1912 pumping station on the Tagus, each tuned to a light the sky only makes for minutes. Walk them at your own pace: about forty minutes, end to end.",
+  },
+  {
+    id: "blue-hour",
+    numeral: "I",
+    name: "Blue Hour",
+    short: "Blue Hour",
+    side: "left",
+    title: "The twenty minutes after the sun.",
+    body: "The sky drains to cobalt and the city comes up to meet it. Outside, it lasts as long as the sun takes to sink six degrees. Here, it lasts as long as you stand still.",
+    label: {
+      phenomenon: "Civil twilight",
+      rows: [
+        ["Sun", "0° to −6° below the horizon"],
+        ["Peak", "≈ 460 nm"],
+        ["Lisbon, June", "21:05 – 21:38"],
+        ["Room length", "7.2 m"],
+      ],
+    },
+  },
+  {
+    id: "aurora",
+    numeral: "II",
+    name: "Aurora",
+    short: "Aurora",
+    side: "right",
+    title: "Curtains that answer the solar wind.",
+    body: "Oxygen a hundred kilometres up glows green; higher, where the air is thinner, it burns red. The curtains in Room II replay the magnetometer trace of a real storm over Tromsø, minute by minute.",
+    label: {
+      phenomenon: "Aurora borealis",
+      rows: [
+        ["Green line", "557.7 nm · O at 100 km"],
+        ["Red line", "630.0 nm · O above 200 km"],
+        ["Trace", "Tromsø, 10 May 2024"],
+        ["Room length", "7.2 m"],
+      ],
+    },
+  },
+  {
+    id: "noctiluca",
+    numeral: "III",
+    name: "Noctiluca",
+    short: "Noctiluca",
+    side: "left",
+    title: "The sea, lit from inside.",
+    body: "Noctiluca scintillans is a single cell that flashes blue when the water around it moves. It's the one room that reacts to you: move, and the walls answer.",
+    label: {
+      phenomenon: "Bioluminescence",
+      rows: [
+        ["Organism", "Noctiluca scintillans"],
+        ["Emission", "≈ 474 nm"],
+        ["Flash", "0.1 s, on disturbance"],
+        ["Try", "Move your pointer"],
+      ],
+    },
+  },
+  {
+    id: "alpenglow",
+    numeral: "IV",
+    name: "Alpenglow",
+    short: "Alpenglow",
+    side: "right",
+    title: "The mountain keeps the sun after you lose it.",
+    body: "When the valley has gone grey, the peaks still catch light that has crossed four hundred kilometres of air, scattered rose by the time it lands. Room IV is the only warm room in the house.",
+    label: {
+      phenomenon: "Alpenglow",
+      rows: [
+        ["Sun", "−2° to −4°"],
+        ["Peak", "≈ 610 nm"],
+        ["Path", "≈ 400 km of atmosphere"],
+        ["Room length", "7.2 m"],
+      ],
+    },
+  },
+  {
+    id: "score",
+    numeral: "V",
+    name: "The Score Room",
+    short: "Score",
+    side: "left",
+    title: "Compose the next room.",
+    body: "Every room in the house runs from a score: a hue, a drift, a bloom. Here the score is yours. Turn the dials and the walls around you follow.",
+  },
+  {
+    id: "visit",
+    numeral: "VI",
+    name: "Visit",
+    short: "Visit",
+    side: "left",
+    title: "Come in from the street.",
+    body: "One group every twenty minutes, so no room ever holds more than a few people.",
+  },
+  {
+    id: "exit",
+    numeral: "",
+    name: "Exit",
+    short: "Exit",
+    side: "centre",
+    title: "The light keeps moving after you leave.",
+    body: "Estação Elevatória nº 4 · Rua da Cozinha Económica 21 · 1300-149 Lisboa",
+  },
+];
+
+export const ROOM_COUNT = ROOMS.length;
+
+export function roomIndex(id: RoomId): number {
+  return ROOMS.findIndex((r) => r.id === id);
+}
+
+export function anchorId(id: RoomId): string {
+  return `nl-${id}`;
+}
+
+/** Hash → station index, or null when the hash isn't a room. */
+export function stationForHash(hash: string): number | null {
+  const id = hash.replace(/^#/, "");
+  const i = ROOMS.findIndex((r) => anchorId(r.id) === id);
+  return i === -1 ? null : i;
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/rooms/RoomShell.tsx">
+<![CDATA[import type { CSSProperties, ReactNode } from "react";
+import { roomStops } from "../light/stops";
+import { Doorway } from "./Doorway";
+import { ROOMS, anchorId } from "./rooms";
+
+type RoomShellProps = {
+  index: number;
+  children: ReactNode;
+  /** Something hung on the opposite wall: a museum label, a readout. */
+  aside?: ReactNode;
+  /** Plaque width preset. */
+  width?: "narrow" | "wide" | "hero";
+  /** Render a heading-less shell (the foyer supplies its own h1). */
+  labelledBy?: string;
+};
+
+/**
+ * One station of the walk. In corridor mode, CSS places each child in 3D from
+ * `--i`: the plaque at 1:1 reading distance, the aside a little deeper on the
+ * opposite wall, and the doorway into the next room behind them both.
+ */
+export function RoomShell({ index, children, aside, width = "narrow", labelledBy }: RoomShellProps) {
+  const room = ROOMS[index];
+  const next = ROOMS[index + 1];
+  const id = anchorId(room.id);
+  const style = { "--i": index, ...roomStops(index), ...(next ? roomStops(index + 1, "--nl-next") : {}) } as CSSProperties;
+
+  return (
+    <section
+      id={id}
+      className="nl-room"
+      data-station={index}
+      data-room={room.id}
+      data-side={room.side}
+      aria-labelledby={labelledBy ?? `${id}-title`}
+      style={style}
+    >
+      <div className="nl-portal" aria-hidden="true">
+        <span className="nl-portal-numeral">{room.numeral || "·"}</span>
+      </div>
+      <div className="nl-plaque" data-plane="plaque" data-width={width}>
+        {children}
+      </div>
+      {aside ? (
+        <div className="nl-aside" data-plane="label" data-reveal={width === "wide" ? "after" : undefined}>
+          {aside}
+        </div>
+      ) : null}
+      {next && next.id !== "exit" ? <Doorway numeral={next.numeral} name={next.name} /> : null}
+      {next?.id === "exit" ? <Doorway numeral="" name="Exit" /> : null}
+      {!next ? <div className="nl-endwall" data-plane="end" aria-hidden="true" /> : null}
+    </section>
+  );
+}
+
+export function RoomEyebrow({ index }: { index: number }) {
+  const room = ROOMS[index];
+  return (
+    <p className="nl-eyebrow">
+      {room.numeral ? <span className="nl-eyebrow-num">Room {room.numeral}</span> : null}
+      <span>{room.name}</span>
+    </p>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/rooms/WallLabel.tsx">
+<![CDATA[import { Clip, Picture } from "../assets";
+import type { Room } from "./rooms";
+
+const MEDIA: Partial<Record<Room["id"], { key: string; alt: string; clip?: string }>> = {
+  "blue-hour": { key: "blue-hour-tagus", alt: "Blue hour over the Tagus estuary, the far shore lit in sodium orange under a cobalt sky." },
+  aurora: { key: "aurora-tromso", alt: "Green auroral curtains with a violet upper edge over a dark fjord." },
+  noctiluca: {
+    key: "noctiluca-shore",
+    alt: "A breaking wave at night glowing electric blue with bioluminescent plankton.",
+    clip: "noctiluca-shore-loop",
+  },
+  alpenglow: { key: "alpenglow-peaks", alt: "Snow peaks lit rose-gold above a valley already in blue shadow." },
+};
+
+/** A museum wall label: the phenomenon, its numbers, and the room's four stops as a strip. */
+export function WallLabel({ room }: { room: Room }) {
+  if (!room.label) return null;
+  const media = MEDIA[room.id];
+  return (
+    <aside className="nl-label" aria-label={`Wall label, ${room.label.phenomenon}`}>
+      {media ? (
+        media.clip ? (
+          <Clip clipKey={media.clip} posterKey={media.key} alt={media.alt} className="nl-label-media" />
+        ) : (
+          <Picture assetKey={media.key} alt={media.alt} className="nl-label-media" />
+        )
+      ) : null}
+      <div className="nl-label-body">
+        <p className="nl-label-kicker">Room {room.numeral} · Field note</p>
+        <h3 className="nl-label-title">{room.label.phenomenon}</h3>
+        <dl className="nl-label-rows">
+          {room.label.rows.map(([k, v]) => (
+            <div key={k}>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="nl-spectrum" aria-hidden="true" />
+      </div>
+    </aside>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/score/Mixer.tsx">
+<![CDATA["use client";
+
+import { useEffect, useId, useState, type CSSProperties } from "react";
+import { setScore } from "../house/frame";
+import { DEFAULT_SCORE, scorePalette, scoreReadout, srgbToCss, type Score } from "./score";
+
+const PRESETS: { name: string; score: Score }[] = [
+  { name: "Orchid", score: DEFAULT_SCORE },
+  { name: "Glacier", score: { hue: 215, drift: 18, bloom: 78 } },
+  { name: "Moss", score: { hue: 148, drift: 30, bloom: 46 } },
+  { name: "Ember", score: { hue: 42, drift: 62, bloom: 34 } },
+];
+
+const DIALS: { key: keyof Score; label: string; max: number; unit: (v: number) => string }[] = [
+  { key: "hue", label: "Hue", max: 359, unit: (v) => `${v}°` },
+  { key: "drift", label: "Drift", max: 100, unit: (v) => (v / 100).toFixed(2) },
+  { key: "bloom", label: "Bloom", max: 100, unit: (v) => `${v}%` },
+];
+
+/** Paint the Score Room's still light (poster, plaque edge, the doorway into it) to match. */
+function paint(stops: string[]) {
+  const keys = ["a", "b", "c", "d"];
+  document.querySelectorAll<HTMLElement>('[data-room="score"]').forEach((el) => {
+    stops.forEach((c, i) => el.style.setProperty(`--nl-${keys[i]}`, c));
+  });
+  document.querySelectorAll<HTMLElement>('[data-room="alpenglow"]').forEach((el) => {
+    stops.forEach((c, i) => el.style.setProperty(`--nl-next-${keys[i]}`, c));
+  });
+}
+
+export function Mixer() {
+  const [score, setLocal] = useState<Score>(DEFAULT_SCORE);
+  const id = useId();
+  const stops = scorePalette(score.hue).map(srgbToCss);
+
+  useEffect(() => {
+    setScore(score);
+    paint(stops);
+    // stops derive from score.hue
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [score]);
+
+  const update = (key: keyof Score, value: number) => setLocal((s) => ({ ...s, [key]: value }));
+  const active = PRESETS.find((p) => p.score.hue === score.hue && p.score.drift === score.drift && p.score.bloom === score.bloom);
+
+  return (
+    <div className="nl-mixer">
+      <div className="nl-mixer-presets" role="group" aria-label="Starting scores">
+        {PRESETS.map((p) => (
+          <button
+            key={p.name}
+            type="button"
+            className="nl-chip"
+            aria-pressed={active?.name === p.name}
+            onClick={() => setLocal(p.score)}
+          >
+            {p.name}
+          </button>
+        ))}
+      </div>
+
+      <div className="nl-dials">
+        {DIALS.map((dial) => (
+          <div className="nl-dial" key={dial.key}>
+            <label htmlFor={`${id}-${dial.key}`} className="nl-dial-label">
+              {dial.label}
+            </label>
+            {/* Not <output>: its implicit live region would announce every step of the drag. */}
+            <span className="nl-dial-value" aria-hidden="true">
+              {dial.unit(score[dial.key])}
+            </span>
+            <input
+              id={`${id}-${dial.key}`}
+              type="range"
+              min={0}
+              max={dial.max}
+              step={1}
+              value={score[dial.key]}
+              aria-valuetext={dial.unit(score[dial.key])}
+              onChange={(e) => update(dial.key, Number(e.target.value))}
+              className="nl-range"
+              data-dial={dial.key}
+              style={dial.key === "hue" ? undefined : ({ "--nl-fill": `${score[dial.key]}%` } as CSSProperties)}
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className="nl-score-sheet">
+        <div className="nl-score-strip" aria-hidden="true">
+          {stops.map((c, i) => (
+            <span key={i} style={{ background: c }} />
+          ))}
+        </div>
+        <p className="nl-score-readout" data-testid="score-readout">
+          {scoreReadout(score)}
+        </p>
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/score/score.ts">
+<![CDATA[/**
+ * Room V, the Score Room: visitors compose the room's light from three dials.
+ * Colour is built in OKLCH so every hue gets the same perceived ramp, then
+ * converted to sRGB for the shader and for the CSS poster.
+ */
+
+export type Rgb = [number, number, number];
+
+export type Score = {
+  /** OKLCH hue, 0–360. */
+  hue: number;
+  /** 0–100: how fast the light flows. */
+  drift: number;
+  /** 0–100: how large the forms are. */
+  bloom: number;
+};
+
+export const DEFAULT_SCORE: Score = { hue: 300, drift: 35, bloom: 55 };
+
+const clamp01 = (x: number) => (x < 0 ? 0 : x > 1 ? 1 : x);
+
+function linearToSrgb(x: number): number {
+  return x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055;
+}
+
+/** OKLCH (L 0–1, C, h°) → gamma-encoded sRGB 0–1, chroma reduced until in gamut. */
+export function oklchToSrgb(l: number, c: number, h: number): Rgb {
+  let chroma = c;
+  for (let i = 0; i < 24; i++) {
+    const rad = (h * Math.PI) / 180;
+    const a = chroma * Math.cos(rad);
+    const b = chroma * Math.sin(rad);
+    const l_ = l + 0.3963377774 * a + 0.2158037573 * b;
+    const m_ = l - 0.1055613458 * a - 0.0638541728 * b;
+    const s_ = l - 0.0894841775 * a - 1.291485548 * b;
+    const L = l_ ** 3;
+    const M = m_ ** 3;
+    const S = s_ ** 3;
+    const r = 4.0767416621 * L - 3.3077115913 * M + 0.2309699292 * S;
+    const g = -1.2684380046 * L + 2.6097574011 * M - 0.3413193965 * S;
+    const bl = -0.0041960863 * L - 0.7034186147 * M + 1.707614701 * S;
+    const inGamut = [r, g, bl].every((v) => v >= -1e-4 && v <= 1 + 1e-4);
+    if (inGamut || chroma < 1e-4) {
+      return [r, g, bl].map((v) => {
+        const out = clamp01(linearToSrgb(clamp01(v)));
+        return Math.abs(out) < 1e-9 ? 0 : out;
+      }) as Rgb;
+    }
+    chroma *= 0.86;
+  }
+  return [l, l, l];
+}
+
+const wrap = (h: number) => ((h % 360) + 360) % 360;
+
+/** Four stops from deep to highlight, each a little further round the wheel. */
+export function scorePalette(hue: number): Rgb[] {
+  const h = wrap(hue);
+  return [
+    oklchToSrgb(0.14, 0.05, h),
+    oklchToSrgb(0.34, 0.12, wrap(h + 18)),
+    oklchToSrgb(0.64, 0.17, wrap(h + 38)),
+    oklchToSrgb(0.9, 0.07, wrap(h + 70)),
+  ];
+}
+
+/** Approximate dominant wavelength for an OKLCH hue; null on the non-spectral purple line. */
+const ANCHORS: [number, number][] = [
+  [30, 620],
+  [65, 595],
+  [100, 575],
+  [145, 530],
+  [195, 490],
+  [265, 465],
+  [300, 420],
+];
+
+export function dominantWavelength(hue: number): number | null {
+  const h = wrap(hue);
+  if (h < ANCHORS[0][0] || h > ANCHORS[ANCHORS.length - 1][0]) return null;
+  for (let i = 0; i < ANCHORS.length - 1; i++) {
+    const [h0, nm0] = ANCHORS[i];
+    const [h1, nm1] = ANCHORS[i + 1];
+    if (h >= h0 && h <= h1) {
+      return Math.round(nm0 + ((h - h0) / (h1 - h0)) * (nm1 - nm0));
+    }
+  }
+  return null;
+}
+
+export function scoreReadout({ hue, drift, bloom }: Score): string {
+  const nm = dominantWavelength(hue);
+  const colour = nm === null ? "purple line" : `${nm} nm`;
+  return `${colour} · drift ${(drift / 100).toFixed(2)} · bloom ${Math.round(bloom)}%`;
+}
+
+export function scoreUniforms({ drift, bloom }: Score) {
+  return {
+    speed: 0.04 + (drift / 100) * 0.36,
+    scale: 0.6 + (bloom / 100) * 1.4,
+  };
+}
+
+export function srgbToCss([r, g, b]: Rgb): string {
+  return `rgb(${Math.round(r * 255)} ${Math.round(g * 255)} ${Math.round(b * 255)})`;
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/score/ScoreRoom.tsx">
+<![CDATA[import { RoomEyebrow, RoomShell } from "../rooms/RoomShell";
+import { ROOMS, anchorId, roomIndex } from "../rooms/rooms";
+import { Mixer } from "./Mixer";
+
+export function ScoreRoom() {
+  const index = roomIndex("score");
+  const room = ROOMS[index];
+  return (
+    <RoomShell
+      index={index}
+      width="wide"
+      aside={
+        <aside className="nl-label nl-label-score" aria-label="Wall label, how a score works">
+          <div className="nl-label-body">
+            <p className="nl-label-kicker">Room V · How a score works</p>
+            <h3 className="nl-label-title">Three numbers, one room.</h3>
+            <dl className="nl-label-rows">
+              <div>
+                <dt>Hue</dt>
+                <dd>where on the wheel the light starts</dd>
+              </div>
+              <div>
+                <dt>Drift</dt>
+                <dd>how fast it pours along the walls</dd>
+              </div>
+              <div>
+                <dt>Bloom</dt>
+                <dd>how large its forms grow</dd>
+              </div>
+            </dl>
+            <p className="nl-label-note">
+              Scores from the floor are played back in the foyer after closing, one every eight minutes.
+            </p>
+          </div>
+        </aside>
+      }
+    >
+      <div className="nl-score-layout">
+        <div>
+          <RoomEyebrow index={index} />
+          <h2 id={`${anchorId("score")}-title`} className="nl-room-title">
+            {room.title}
+          </h2>
+          <p className="nl-copy">{room.body}</p>
+        </div>
+        <Mixer />
+      </div>
+    </RoomShell>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/visit/EntryForm.tsx">
+<![CDATA["use client";
+
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import {
+  LATE_PRICE_EUR,
+  MAX_GUESTS,
+  PRICE_EUR,
+  entryTotal,
+  isLateSlot,
+  parseDay,
+  slotsFor,
+  validateEntry,
+  type EntryDraft,
+  type EntryErrors,
+} from "./visit";
+
+const EMPTY: EntryDraft = { date: "", slot: "", guests: "2", email: "" };
+const ORDER: (keyof EntryDraft)[] = ["date", "slot", "guests", "email"];
+
+function isoToday(): string {
+  const d = new Date();
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function longDay(value: string): string {
+  const d = parseDay(value);
+  return d ? d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }) : value;
+}
+
+/** Timed entry. Validates in the browser and holds the entry without a network request. */
+export function EntryForm() {
+  const id = useId();
+  const [draft, setDraft] = useState<EntryDraft>(EMPTY);
+  const [errors, setErrors] = useState<EntryErrors>({});
+  const [held, setHeld] = useState<EntryDraft | null>(null);
+  const [min, setMin] = useState<string | undefined>(undefined);
+  const formRef = useRef<HTMLFormElement>(null);
+  const statusRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => setMin(isoToday()), []);
+
+  const slots = slotsFor(draft.date);
+  const guests = Number(draft.guests);
+  const validGuests = Number.isInteger(guests) && guests >= 1 && guests <= MAX_GUESTS;
+  const total = draft.slot && validGuests ? entryTotal(draft.date, draft.slot, guests) : null;
+  const closed = draft.date !== "" && parseDay(draft.date)?.getDay() === 1;
+
+  const set = (key: keyof EntryDraft, value: string) => {
+    setDraft((d) => {
+      const next = { ...d, [key]: value };
+      if (key === "date" && !slotsFor(value).includes(d.slot)) next.slot = "";
+      return next;
+    });
+    if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
+  };
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const found = validateEntry(draft);
+    setErrors(found);
+    const first = ORDER.find((k) => found[k]);
+    if (first) {
+      formRef.current?.querySelector<HTMLElement>(`[data-field="${first}"]`)?.focus();
+      return;
+    }
+    setHeld(draft);
+  };
+
+  useEffect(() => {
+    if (held) statusRef.current?.focus();
+  }, [held]);
+
+  if (held) {
+    const n = Number(held.guests);
+    return (
+      <div className="nl-held">
+        <p className="nl-held-text" role="status" tabIndex={-1} ref={statusRef}>
+          Held: {n} {n === 1 ? "guest" : "guests"} on {longDay(held.date)} at {held.slot}, €
+          {entryTotal(held.date, held.slot, n)} at the door. Tickets go to {held.email}.
+        </p>
+        <button
+          type="button"
+          className="nl-button"
+          data-variant="ghost"
+          onClick={() => {
+            setHeld(null);
+            setDraft(EMPTY);
+          }}
+        >
+          Hold another entry
+        </button>
+      </div>
+    );
+  }
+
+  const err = (key: keyof EntryDraft) =>
+    errors[key] ? (
+      <p className="nl-error" id={`${id}-${key}-error`}>
+        {errors[key]}
+      </p>
+    ) : null;
+  const describedBy = (key: keyof EntryDraft) => (errors[key] ? `${id}-${key}-error` : undefined);
+
+  return (
+    <form className="nl-form" onSubmit={onSubmit} noValidate ref={formRef} aria-label="Timed entry">
+      <div className="nl-field">
+        <label htmlFor={`${id}-date`}>Day</label>
+        <input
+          id={`${id}-date`}
+          data-field="date"
+          type="date"
+          min={min}
+          value={draft.date}
+          onChange={(e) => set("date", e.target.value)}
+          aria-invalid={!!errors.date}
+          aria-describedby={describedBy("date")}
+        />
+        {err("date")}
+      </div>
+
+      <fieldset className="nl-field nl-slots" aria-describedby={describedBy("slot")}>
+        <legend>Entry time</legend>
+        {draft.date === "" ? <p className="nl-hint-text">Pick a day to see the entry times.</p> : null}
+        {closed ? <p className="nl-hint-text">The house is closed on Mondays.</p> : null}
+        {slots.length > 0 ? (
+          <div className="nl-slot-grid">
+            {slots.map((slot, i) => (
+              <label key={slot} className="nl-slot" data-late={isLateSlot(draft.date, slot)}>
+                <input
+                  type="radio"
+                  name={`${id}-slot`}
+                  value={slot}
+                  checked={draft.slot === slot}
+                  onChange={() => set("slot", slot)}
+                  data-field={i === 0 ? "slot" : undefined}
+                />
+                <span>{slot}</span>
+              </label>
+            ))}
+          </div>
+        ) : (
+          <input type="hidden" data-field="slot" tabIndex={-1} />
+        )}
+        {err("slot")}
+      </fieldset>
+
+      <div className="nl-form-row">
+        <div className="nl-field nl-guests">
+          <label htmlFor={`${id}-guests`}>Guests</label>
+          <div className="nl-stepper">
+            <button
+              type="button"
+              aria-label="One fewer guest"
+              onClick={() => set("guests", String(Math.max(1, (validGuests ? guests : 2) - 1)))}
+              disabled={validGuests && guests <= 1}
+            >
+              −
+            </button>
+            <input
+              id={`${id}-guests`}
+              data-field="guests"
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={MAX_GUESTS}
+              value={draft.guests}
+              onChange={(e) => set("guests", e.target.value)}
+              aria-invalid={!!errors.guests}
+              aria-describedby={describedBy("guests")}
+            />
+            <button
+              type="button"
+              aria-label="One more guest"
+              onClick={() => set("guests", String(Math.min(MAX_GUESTS, (validGuests ? guests : 1) + 1)))}
+              disabled={validGuests && guests >= MAX_GUESTS}
+            >
+              +
+            </button>
+          </div>
+          {err("guests")}
+        </div>
+
+        <div className="nl-field nl-email">
+          <label htmlFor={`${id}-email`}>Email for the tickets</label>
+          <input
+            id={`${id}-email`}
+            data-field="email"
+            type="email"
+            autoComplete="email"
+            value={draft.email}
+            onChange={(e) => set("email", e.target.value)}
+            aria-invalid={!!errors.email}
+            aria-describedby={describedBy("email")}
+          />
+          {err("email")}
+        </div>
+      </div>
+
+      <div className="nl-form-foot">
+        <p className="nl-total" aria-live="polite">
+          {total !== null
+            ? `${guests} × €${isLateSlot(draft.date, draft.slot) ? LATE_PRICE_EUR : PRICE_EUR} = €${total}, paid at the door`
+            : `€${PRICE_EUR} a guest · €${LATE_PRICE_EUR} late Fridays`}
+        </p>
+        <button type="submit" className="nl-button" data-variant="solid">
+          Hold my entry
+        </button>
+      </div>
+    </form>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/visit/visit.ts">
+<![CDATA[/** Timed entry: one group every 20 minutes, so no room ever holds more than a few people. */
+
+export const PRICE_EUR = 18;
+export const LATE_PRICE_EUR = 22;
+export const MAX_GUESTS = 8;
+
+const OPEN_MIN = 10 * 60;
+const LAST_ENTRY_MIN = 19 * 60 + 20;
+const LATE_LAST_ENTRY_MIN = 22 * 60 + 20;
+const LATE_FROM_MIN = 19 * 60 + 40;
+const STEP_MIN = 20;
+
+/** Parse "YYYY-MM-DD" as a local calendar day. */
+export function parseDay(value: string): Date | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!m) return null;
+  const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  return d.getMonth() === Number(m[2]) - 1 ? d : null;
+}
+
+const pad = (n: number) => String(n).padStart(2, "0");
+const toClock = (min: number) => `${pad(Math.floor(min / 60))}:${pad(min % 60)}`;
+const toMinutes = (clock: string) => {
+  const [h, m] = clock.split(":").map(Number);
+  return h * 60 + m;
+};
+
+export function slotsFor(day: string): string[] {
+  const d = parseDay(day);
+  if (!d || d.getDay() === 1) return [];
+  const last = d.getDay() === 5 ? LATE_LAST_ENTRY_MIN : LAST_ENTRY_MIN;
+  const out: string[] = [];
+  for (let t = OPEN_MIN; t <= last; t += STEP_MIN) out.push(toClock(t));
+  return out;
+}
+
+export function isLateSlot(day: string, slot: string): boolean {
+  const d = parseDay(day);
+  return !!d && d.getDay() === 5 && toMinutes(slot) >= LATE_FROM_MIN;
+}
+
+export function entryTotal(day: string, slot: string, guests: number): number {
+  return guests * (isLateSlot(day, slot) ? LATE_PRICE_EUR : PRICE_EUR);
+}
+
+export type EntryDraft = { date: string; slot: string; guests: string; email: string };
+export type EntryErrors = Partial<Record<keyof EntryDraft, string>>;
+
+export function validateEntry(draft: EntryDraft, now: Date = new Date()): EntryErrors {
+  const errors: EntryErrors = {};
+  const day = parseDay(draft.date);
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  if (!day) errors.date = "Pick a day to visit.";
+  else if (day < startOfToday) errors.date = "That day has already gone.";
+  else if (day.getDay() === 1) errors.date = "The house is closed on Mondays.";
+
+  if (!errors.date && !slotsFor(draft.date).includes(draft.slot)) errors.slot = "Choose an entry time.";
+  if (errors.date && !draft.slot) errors.slot = "Choose an entry time.";
+
+  const guests = Number(draft.guests);
+  if (!Number.isInteger(guests) || guests < 1 || guests > MAX_GUESTS) errors.guests = "Book for 1–8 guests.";
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draft.email.trim())) errors.email = "Enter an email for your tickets.";
+
+  return errors;
+}
+]]>
+    </file>
+    <file path="src/app/(noctiluca)/noctiluca/visit/VisitRoom.tsx">
+<![CDATA[import { Clip } from "../assets";
+import { RoomEyebrow, RoomShell } from "../rooms/RoomShell";
+import { ROOMS, anchorId, roomIndex } from "../rooms/rooms";
+import { EntryForm } from "./EntryForm";
+
+const HOURS: [string, string][] = [
+  ["Tue–Thu, Sat–Sun", "10:00–20:00 · last entry 19:20"],
+  ["Friday", "10:00–23:00 · last entry 22:20"],
+  ["Monday", "Closed"],
+];
+
+const BUILDING: [string, string][] = [
+  ["Built", "1912, for the city's water"],
+  ["Pumped until", "1986"],
+  ["Corridor", "43 m, six rooms"],
+  ["Getting here", "Tram 15 · Av. 24 de Julho"],
+];
+
+export function VisitRoom() {
+  const index = roomIndex("visit");
+  const room = ROOMS[index];
+  return (
+    <RoomShell
+      index={index}
+      width="wide"
+      aside={
+        <aside className="nl-label" aria-label="Wall label, the building">
+          <Clip
+            clipKey="exterior-dusk-loop"
+            posterKey="building-exterior"
+            alt="The brick pumping station on the Alcântara waterfront at dusk, its tall arched windows glowing violet."
+            className="nl-label-media"
+          />
+          <div className="nl-label-body">
+            <p className="nl-label-kicker">The building</p>
+            <h3 className="nl-label-title">Estação Elevatória nº 4</h3>
+            <dl className="nl-label-rows">
+              {BUILDING.map(([k, v]) => (
+                <div key={k}>
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </aside>
+      }
+    >
+      <div className="nl-visit">
+        <div className="nl-visit-info">
+          <RoomEyebrow index={index} />
+          <h2 id={`${anchorId("visit")}-title`} className="nl-room-title">
+            {room.title}
+          </h2>
+          <p className="nl-copy">{room.body}</p>
+          <dl className="nl-hours">
+            {HOURS.map(([k, v]) => (
+              <div key={k}>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="nl-small">
+            Rua da Cozinha Económica 21, Alcântara. Step-free throughout; every room has a bench, and no room is
+            ever fully dark.
+          </p>
+        </div>
+        <EntryForm />
+      </div>
+    </RoomShell>
+  );
+}
+]]>
+    </file>
+  </files>
+</template>

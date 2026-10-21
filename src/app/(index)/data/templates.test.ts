@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all eleven templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(11);
+  it("contains all twelve templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(12);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -56,7 +56,7 @@ describe("gallery template data", () => {
   });
 
   it("assigns the exact specified model tag to each template", () => {
-    const opusSlugs = ["orrery", "keytu", "koji", "verane"];
+    const opusSlugs = ["orrery", "keytu", "koji", "verane", "noctiluca"];
     for (const t of TEMPLATES) {
       if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash");
@@ -98,5 +98,12 @@ describe("gallery template data", () => {
     expect(sundial?.category).toBe("scroll-showcase");
     expect(sundial?.promptMarkdown).toContain('rebuild "SUNDIAL Coffee Roasters"');
     expect(sundial?.promptMarkdown).toContain("#FF6B1A");
+  });
+
+  it("files Noctiluca under 3D & WebGPU with its rebuild prompt inlined", () => {
+    const noctiluca = TEMPLATES.find((t) => t.slug === "noctiluca");
+    expect(noctiluca?.category).toBe("3d-webgpu");
+    expect(noctiluca?.promptMarkdown).toContain('rebuild "Noctiluca"');
+    expect(noctiluca?.promptMarkdown).toContain("#C9B8FF");
   });
 });
