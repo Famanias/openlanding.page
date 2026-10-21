@@ -23,7 +23,15 @@ export function tritone(luma: number): [number, number, number] {
   return [0, 1, 2].map((k) => Math.round(c0[k] + (c1[k] - c0[k]) * t)) as [number, number, number];
 }
 
-export type AssetRecord = Record<string, { w: number; h: number }>;
+/** WOWFLUTTER's two-ink print: Rec.709 luma runs from tape black to uncoated stock, so no photo hue survives. */
+export function inkOnStock(luma: number): [number, number, number] {
+  const l = Math.min(1, Math.max(0, luma));
+  const ink = [0x14, 0x11, 0x0f];
+  const stock = [0xef, 0xe6, 0xd4];
+  return [0, 1, 2].map((k) => Math.round(ink[k] + (stock[k] - ink[k]) * l)) as [number, number, number];
+}
+
+export type AssetRecord =Record<string, { w: number; h: number }>;
 
 export function renderAssetsModule(assets: AssetRecord): string {
   const body = Object.keys(assets).length
@@ -44,7 +52,8 @@ export async function processImages(slug: TemplateSlug, paths: ProcessPaths): Pr
   for (const file of inputs) {
     const key = file.replace(INPUT, "");
     let image: Sharp = sharp(path.join(paths.incoming, file)).rotate();
-    if (slug === "keytu" || (slug as string) === "cairn") image = await applyTritone(image);
+    if (slug === "keytu" || (slug as string) === "cairn") image = await applyLumaMap(image, tritone);
+    else if (slug === "wowflutter") image = await applyLumaMap(image, inkOnStock);
     const meta = await image.clone().metadata();
     assets[key] = { w: meta.width ?? 0, h: meta.height ?? 0 };
 
@@ -60,13 +69,13 @@ export async function processImages(slug: TemplateSlug, paths: ProcessPaths): Pr
   return assets;
 }
 
-/** Map every pixel's Rec.709 luma through the tritone, so no hue survives. */
-async function applyTritone(image: Sharp): Promise<Sharp> {
+/** Map every pixel's Rec.709 luma through a colour ramp, so no hue survives. */
+async function applyLumaMap(image: Sharp, ramp: (luma: number) => [number, number, number]): Promise<Sharp> {
   const { data, info } = await image.removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const out = Buffer.alloc(info.width * info.height * 3);
   for (let p = 0, q = 0; p < data.length; p += info.channels, q += 3) {
     const luma = (0.2126 * data[p] + 0.7152 * data[p + 1] + 0.0722 * data[p + 2]) / 255;
-    const [r, g, b] = tritone(luma);
+    const [r, g, b] = ramp(luma);
     out[q] = r;
     out[q + 1] = g;
     out[q + 2] = b;
@@ -76,8 +85,8 @@ async function applyTritone(image: Sharp): Promise<Sharp> {
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const slug = process.argv[2] as TemplateSlug | undefined;
-  if (!slug || !["orrery", "keytu", "cairn", "koji"].includes(slug)) {
-    console.error("usage: npm run images -- <orrery|keytu|koji>");
+  if (!slug || !["orrery", "keytu", "cairn", "koji", "wowflutter"].includes(slug)) {
+    console.error("usage: npm run images -- <orrery|keytu|koji|wowflutter>");
     process.exit(1);
   }
   processImages(slug, {

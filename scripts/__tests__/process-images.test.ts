@@ -3,7 +3,20 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import sharp from "sharp";
 import { describe, expect, test } from "vitest";
-import { processImages, renderAssetsModule, tritone } from "../process-images";
+import { inkOnStock, processImages, renderAssetsModule, tritone } from "../process-images";
+
+describe("inkOnStock", () => {
+  test("runs from tape black to stock and interpolates linearly", () => {
+    expect(inkOnStock(0)).toEqual([20, 17, 15]);
+    expect(inkOnStock(1)).toEqual([239, 230, 212]);
+    expect(inkOnStock(0.5)).toEqual([130, 124, 114]);
+  });
+
+  test("clamps out-of-range luma", () => {
+    expect(inkOnStock(-1)).toEqual(inkOnStock(0));
+    expect(inkOnStock(2)).toEqual(inkOnStock(1));
+  });
+});
 
 describe("tritone", () => {
   test("maps black, mid and white luminance to the three Cairn stops", () => {
@@ -54,5 +67,15 @@ describe("processImages", () => {
     expect(Math.abs(r - er)).toBeLessThanOrEqual(3);
     expect(Math.abs(g - eg)).toBeLessThanOrEqual(3);
     expect(Math.abs(b - eb)).toBeLessThanOrEqual(3);
+  });
+
+  test("wowflutter output sits on the ink-to-stock ramp", async () => {
+    const f = await fixture("wowflutter");
+    await processImages("wowflutter", f);
+    const { data } = await sharp(path.join(f.publicDir, "swatch-800.webp")).raw().toBuffer({ resolveWithObject: true });
+    const [er, eg, eb] = inkOnStock(0.2126);
+    expect(Math.abs(data[0] - er)).toBeLessThanOrEqual(3);
+    expect(Math.abs(data[1] - eg)).toBeLessThanOrEqual(3);
+    expect(Math.abs(data[2] - eb)).toBeLessThanOrEqual(3);
   });
 });

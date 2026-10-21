@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // create-landing-template scratch (brand boards, screenshots, helper scripts).
+    ".openlanding-page/**",
   ]),
   {
     rules: {

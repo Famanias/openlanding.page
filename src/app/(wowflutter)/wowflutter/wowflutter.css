@@ -1,0 +1,1080 @@
+@import "tailwindcss";
+
+/* ─────────────── WOWFLUTTER tokens: tape black + one loud pink, printed on warm stock ─────────────── */
+@theme {
+  --color-tape: #14110F;
+  --color-stock: #EFE6D4;
+  --color-riso: #FF3D8B;
+  /* The two inks printed light: back pages, rules, muted text. */
+  --color-worn: #DCCFB8;
+  --color-faded: #5E564D;
+
+  --font-display: var(--font-young-serif), Georgia, serif;
+  --font-body: var(--font-newsreader), Georgia, serif;
+  --font-mono: var(--font-courier-prime), "Courier New", monospace;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.wf-body {
+  --topbar: 64px;
+  --bar: 72px;
+  --gutter: clamp(16px, 4vw, 56px);
+  /* One printed unit = 1% of a page's width. Everything on a page is sized in units, so a page
+     looks the same at any size. On a phone the unit is floored so text stays readable. */
+  --u: max(1cqi, 4.4px);
+  --t-label: max(11px, calc(var(--u) * 2.3));
+  --t-small: max(13px, calc(var(--u) * 3));
+  --t-body: max(14.5px, calc(var(--u) * 3.6));
+  --t-h2: calc(var(--u) * 9.5);
+  --t-h2xl: calc(var(--u) * 11.5);
+  --ink-soft: color-mix(in srgb, var(--color-tape) 16%, transparent);
+
+  margin: 0;
+  background: var(--color-tape);
+  color: var(--color-stock);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+html:has(.wf-body) {
+  scroll-padding-top: calc(var(--topbar, 64px) + 16px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.wf-body) {
+    scroll-behavior: smooth;
+  }
+}
+
+.wf-body ::selection {
+  background: var(--color-riso);
+  color: var(--color-tape);
+}
+
+.wf-body :focus-visible {
+  outline: 3px solid var(--color-tape);
+  outline-offset: 3px;
+}
+
+.wf-topbar :focus-visible,
+.wf-bar :focus-visible,
+.wf-sheet--tape :focus-visible {
+  outline-color: var(--color-riso);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.wf-vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ─────────────── Type ─────────────── */
+.wf-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.wf-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--t-h2);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.wf-h2--xl {
+  font-size: var(--t-h2xl);
+}
+
+.wf-h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: calc(var(--u, 4px) * 6);
+  line-height: 1;
+  margin: 0;
+}
+
+.wf-text {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: 1.38;
+  margin: 0;
+  max-width: 54ch;
+}
+
+.wf-dropcap::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: calc(var(--u) * 12);
+  line-height: 0.8;
+  padding: calc(var(--u) * 0.9) calc(var(--u) * 1.2) calc(var(--u) * 0.4);
+  margin: calc(var(--u) * 0.5) calc(var(--u) * 1.6) 0 0;
+  background: var(--color-riso);
+  color: var(--color-tape);
+}
+
+/* ─────────────── Buttons: fills carry ink text; pink is never small text on paper ─────────────── */
+.wf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 2px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 180ms var(--ease-out),
+    color 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+
+.wf-btn:active {
+  transform: scale(0.97);
+}
+
+.wf-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+}
+
+.wf-btn--paper {
+  color: var(--color-stock);
+}
+
+.wf-btn--riso {
+  background: var(--color-riso);
+  border-color: var(--color-riso);
+  color: var(--color-tape);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wf-btn--paper:not(:disabled):hover {
+    background: var(--color-stock);
+    color: var(--color-tape);
+  }
+  .wf-btn--riso:hover {
+    background: var(--color-tape);
+    color: var(--color-riso);
+  }
+}
+
+/* ─────────────── Brand ─────────────── */
+.wf-mark {
+  display: block;
+}
+.wf-mark__disc {
+  fill: currentColor;
+}
+.wf-mark__grooves {
+  stroke: var(--groove);
+}
+.wf-mark__label {
+  fill: var(--color-riso);
+}
+.wf-mark--ink {
+  color: var(--color-tape);
+  --groove: var(--color-stock);
+}
+.wf-mark--paper {
+  color: var(--color-stock);
+  --groove: var(--color-tape);
+}
+
+.wf-wordmark {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.wf-wordmark__pink {
+  position: absolute;
+  inset: 0;
+  color: var(--color-riso);
+  transform: translate(0.045em, 0.045em);
+}
+.wf-wordmark__ink {
+  position: relative;
+}
+.wf-ltr {
+  display: inline-block;
+  transform: translateY(var(--wob, 0));
+}
+
+.wf-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+.wf-logo__mark {
+  width: 32px;
+  height: 32px;
+}
+
+/* ─────────────── Top bar ─────────────── */
+.wf-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--topbar);
+  padding: 0 var(--gutter);
+  background: var(--color-tape);
+  color: var(--color-stock);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-stock) 18%, transparent);
+}
+
+.wf-nav {
+  display: none;
+  gap: 22px;
+}
+.wf-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: inherit;
+  text-decoration: none;
+  padding: 10px 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .wf-nav a:hover {
+    color: var(--color-riso);
+  }
+}
+@media (min-width: 900px) {
+  .wf-nav {
+    display: flex;
+  }
+}
+.wf-topbar .wf-btn {
+  min-height: 40px;
+  padding: 0 14px;
+}
+@media (max-width: 480px) {
+  .wf-topbar .wf-btn {
+    display: none;
+  }
+}
+
+/* ─────────────── Pages: the same markup serves both layouts ─────────────── */
+/* Flow layout (phones, short windows): single pages in a normal vertical scroll. */
+.wf-desk {
+  padding: 24px var(--gutter) 56px;
+}
+
+.wf-leaves {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.wf-slot,
+.wf-leaf {
+  display: contents;
+}
+
+.wf-cast,
+.wf-corner,
+.wf-bar {
+  display: none;
+}
+
+.wf-page {
+  position: relative;
+  width: min(100%, 560px);
+  container-type: inline-size;
+  scroll-margin-top: calc(var(--topbar) + 16px);
+  box-shadow: 0 18px 40px -22px var(--color-tape);
+}
+
+.wf-sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 2.4);
+  min-height: 128cqi;
+  padding: calc(var(--u) * 7) calc(var(--u) * 7) calc(var(--u) * 12);
+  background-color: var(--color-stock);
+  /* Paper grain from three offset dot screens: no image to fetch or decode, so it never delays first paint. */
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--color-tape) 9%, transparent) 0.6px, transparent 1px),
+    radial-gradient(color-mix(in srgb, var(--color-tape) 7%, transparent) 0.6px, transparent 1px),
+    radial-gradient(color-mix(in srgb, var(--color-stock) 14%, transparent) 0.7px, transparent 1.1px);
+  background-size:
+    3px 3px,
+    5px 5px,
+    7px 7px;
+  background-position:
+    0 0,
+    1px 2px,
+    3px 1px;
+  color: var(--color-tape);
+  overflow: hidden;
+}
+
+.wf-sheet--worn {
+  background-color: var(--color-worn);
+}
+.wf-sheet--tape {
+  background-color: var(--color-tape);
+  color: var(--color-stock);
+  /* A black page on a black desk needs its edge. */
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-stock) 28%, transparent);
+}
+.wf-sheet--riso {
+  background-color: var(--color-riso);
+}
+
+.wf-foot {
+  position: absolute;
+  left: calc(var(--u) * 7);
+  right: calc(var(--u) * 7);
+  bottom: calc(var(--u) * 4.5);
+  display: flex;
+  gap: calc(var(--u) * 3);
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.wf-foot--recto {
+  flex-direction: row-reverse;
+}
+.wf-foot__n {
+  font-weight: 700;
+}
+
+.wf-flow {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 2.2);
+}
+
+/* ─────────────── Printed plates: ink-on-stock images with a pink pass off-register ─────────────── */
+.wf-plate {
+  position: relative;
+  isolation: isolate;
+  margin: 0;
+  min-height: 0;
+}
+.wf-plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-riso);
+  transform: translate(3.2%, 3.2%);
+}
+.wf-plate picture,
+.wf-plate img,
+.wf-plate .wf-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wf-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: calc(var(--u) * 14);
+  background: repeating-linear-gradient(135deg, var(--color-worn) 0 8px, var(--color-stock) 8px 16px);
+  color: var(--color-faded);
+  outline: 1px dashed var(--color-faded);
+  outline-offset: -1px;
+}
+
+/* ─────────────── Page content ─────────────── */
+/* 1 · Cover */
+.wf-cover {
+  gap: calc(var(--u) * 1.6);
+}
+.wf-cover__top {
+  display: flex;
+  justify-content: space-between;
+}
+.wf-cover__num {
+  position: relative;
+  isolation: isolate;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: calc(var(--u) * 32);
+  line-height: 0.84;
+  letter-spacing: -0.04em;
+  padding-bottom: calc(var(--u) * 5);
+}
+.wf-cover__num::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: var(--color-riso);
+  transform: translate(0.035em, 0.035em);
+}
+.wf-cover__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: calc(var(--u) * 10.5);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.wf-cover__plate {
+  flex: 1;
+  aspect-ratio: 5 / 4;
+}
+.wf-cover__base {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 2.4);
+}
+.wf-cover__mark {
+  width: calc(var(--u) * 7);
+  height: calc(var(--u) * 7);
+  flex: none;
+}
+
+/* 2 · Editor's letter */
+.wf-sign {
+  margin: calc(var(--u) * 1) 0 0;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--t-body);
+}
+.wf-masthead {
+  margin: auto 0 0;
+  display: grid;
+  gap: calc(var(--u) * 0.8);
+}
+.wf-masthead div,
+.wf-specs div {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(var(--u) * 3);
+  padding-top: calc(var(--u) * 0.9);
+  border-top: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+}
+.wf-masthead dt,
+.wf-specs dt {
+  opacity: 0.7;
+}
+.wf-masthead dd,
+.wf-specs dd {
+  margin: 0;
+  text-align: right;
+}
+
+/* 3 · Contents */
+.wf-toc {
+  list-style: none;
+  margin: calc(var(--u) * 1) 0 0;
+  padding: 0;
+  display: grid;
+  gap: calc(var(--u) * 1.2);
+}
+.wf-toc__row {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 10) 1fr;
+  align-items: center;
+  gap: calc(var(--u) * 2.4);
+  padding: calc(var(--u) * 1.1) 0;
+  border-top: 1px solid var(--color-faded);
+  color: inherit;
+  text-decoration: none;
+}
+.wf-toc__page {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  background: var(--color-riso);
+  font-family: var(--font-display);
+  font-size: calc(var(--u) * 5);
+}
+.wf-toc__text {
+  display: grid;
+  gap: 2px;
+}
+.wf-toc__label {
+  font-family: var(--font-display);
+  font-size: calc(var(--u) * 5.2);
+  line-height: 1.05;
+}
+.wf-toc__note {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--t-small);
+  color: var(--color-faded);
+}
+@media (hover: hover) and (pointer: fine) {
+  .wf-toc__row {
+    transition: transform 180ms var(--ease-out);
+  }
+  .wf-toc__row:hover {
+    transform: translateX(calc(var(--u) * 1));
+  }
+}
+
+/* 4 · Feature opener (black page) */
+.wf-opener {
+  gap: calc(var(--u) * 2.2);
+}
+.wf-opener__plate {
+  flex: 1;
+  aspect-ratio: 4 / 3;
+  margin-right: calc(var(--u) * 3.2);
+  margin-bottom: calc(var(--u) * 3.2);
+}
+.wf-dek {
+  color: var(--color-worn);
+  font-style: italic;
+  max-width: 34ch;
+}
+
+/* 5 · Figures */
+.wf-figure {
+  flex: 1;
+  aspect-ratio: 3 / 2;
+  margin-right: calc(var(--u) * 3.2);
+  margin-bottom: calc(var(--u) * 3.2);
+}
+
+/* 6 · Pull quote (pink page) and spec rows */
+.wf-quote {
+  justify-content: space-between;
+}
+.wf-pull {
+  margin: 0;
+  display: grid;
+  gap: calc(var(--u) * 2.4);
+}
+.wf-pull p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: calc(var(--u) * 8);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.wf-specs {
+  margin: 0;
+  display: grid;
+  gap: calc(var(--u) * 0.9);
+}
+
+/* 7–9 · Roster */
+.wf-portrait {
+  flex: 1;
+  aspect-ratio: 1;
+  margin-right: calc(var(--u) * 3.2);
+  margin-bottom: calc(var(--u) * 3.2);
+}
+.wf-meta {
+  color: var(--color-faded);
+}
+.wf-qa {
+  display: grid;
+  gap: calc(var(--u) * 1);
+}
+.wf-q {
+  margin: 0;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: calc(var(--t-body) * 1.1);
+}
+.wf-more a,
+.wf-note a {
+  color: inherit;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-riso);
+}
+
+/* 10–11 · Catalogue */
+.wf-releases {
+  list-style: none;
+  margin: calc(var(--u) * 0.5) 0 0;
+  padding: 0;
+  display: grid;
+}
+.wf-release {
+  display: grid;
+  grid-template-columns: calc(var(--u) * 13) 1fr;
+  gap: calc(var(--u) * 0.6) calc(var(--u) * 2);
+  padding: calc(var(--u) * 1.5) 0;
+  border-top: 1px solid var(--color-faded);
+}
+.wf-release__no {
+  padding-top: calc(var(--u) * 0.7);
+  font-weight: 700;
+}
+.wf-release__text {
+  display: grid;
+}
+.wf-release__artist {
+  font-family: var(--font-display);
+  font-size: calc(var(--u) * 4.6);
+  line-height: 1.05;
+}
+.wf-release__title {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--t-body);
+  line-height: 1.2;
+}
+.wf-release__meta {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--u) * 1.2);
+  color: var(--color-faded);
+}
+.wf-chip {
+  padding: 1px calc(var(--u) * 1.2);
+  border: 1px solid currentColor;
+}
+.wf-release[data-status="pressing"] .wf-chip {
+  background: var(--color-riso);
+  border-color: var(--color-riso);
+  color: var(--color-tape);
+}
+.wf-band {
+  flex: 1;
+  min-height: calc(var(--u) * 10);
+  aspect-ratio: 4 / 1;
+  margin-right: calc(var(--u) * 3.2);
+  margin-bottom: calc(var(--u) * 3.2);
+}
+.wf-note {
+  margin-top: auto;
+}
+
+/* 13 · Subscribe */
+.wf-form {
+  display: grid;
+  gap: calc(var(--u) * 2.6);
+  margin-top: calc(var(--u) * 1);
+}
+.wf-form--done {
+  gap: calc(var(--u) * 1.6);
+  padding: calc(var(--u) * 4);
+  background: var(--color-riso);
+}
+.wf-field {
+  display: grid;
+  gap: calc(var(--u) * 0.8);
+}
+.wf-field input[type="email"] {
+  min-height: 44px;
+  padding: 0 calc(var(--u) * 2);
+  border: 2px solid var(--color-tape);
+  background: transparent;
+  color: var(--color-tape);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+}
+.wf-field input::placeholder {
+  color: var(--color-faded);
+}
+.wf-sides {
+  display: grid;
+  gap: calc(var(--u) * 1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.wf-sides legend {
+  padding: 0;
+  margin-bottom: calc(var(--u) * 0.6);
+}
+.wf-side {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 2);
+  min-height: 44px;
+  padding: 0 calc(var(--u) * 2);
+  border: 2px solid var(--color-tape);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  cursor: pointer;
+}
+.wf-side input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-tape);
+}
+.wf-side:has(input:checked) {
+  background: var(--color-riso);
+}
+.wf-side b {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-right: calc(var(--u) * 1);
+}
+.wf-error {
+  align-self: start;
+  padding: 2px calc(var(--u) * 1.4);
+  background: var(--color-riso);
+  color: var(--color-tape);
+  font-weight: 700;
+}
+
+/* 14 · Back cover (pink page) */
+.wf-back {
+  justify-content: space-between;
+}
+.wf-back__motto {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: calc(var(--u) * 13);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.wf-back__base {
+  display: grid;
+  gap: calc(var(--u) * 2);
+}
+.wf-back__brand {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 2.4);
+}
+.wf-back__mark {
+  width: calc(var(--u) * 9);
+  height: calc(var(--u) * 9);
+  --groove: var(--color-riso);
+}
+.wf-back__word {
+  font-size: calc(var(--u) * 7.5);
+}
+.wf-barcode {
+  height: calc(var(--u) * 9);
+  max-width: 55%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-tape) 0 2px,
+    transparent 2px 4px,
+    var(--color-tape) 4px 5px,
+    transparent 5px 9px,
+    var(--color-tape) 9px 12px,
+    transparent 12px 14px
+  );
+}
+.wf-back a {
+  color: inherit;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* ═════════════ Book layout: a two-page spread you turn by hand ═════════════
+   Keep this media query in step with BOOK_QUERY in book/queries.ts. */
+@media (min-width: 1000px) and (min-height: 640px) and (scripting: enabled) {
+  html:has(.wf-body) {
+    overflow: hidden;
+  }
+
+  .wf-body {
+    --u: 1cqi;
+    display: flex;
+    flex-direction: column;
+    height: 100svh;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--color-stock) 7%, var(--color-tape)), var(--color-tape) 70%),
+      var(--color-tape);
+  }
+
+  .wf-topbar {
+    position: static;
+    flex: none;
+  }
+
+  .wf-main {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .wf-reader {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .wf-desk {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    place-items: center;
+    container-type: size;
+    padding: 0;
+  }
+
+  .wf-book {
+    position: relative;
+    height: min(calc(100cqh - 20px), calc(100cqw / 2 * 1.4), 860px);
+    aspect-ratio: 2 / 1.4;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .wf-reader[data-layout="book"] .wf-page {
+    cursor: grab;
+  }
+  .wf-reader[data-dragging] {
+    cursor: grabbing;
+  }
+  .wf-reader[data-dragging] .wf-page {
+    user-select: none;
+    cursor: grabbing;
+  }
+
+  .wf-leaves {
+    position: absolute;
+    inset: 0;
+    display: block;
+    transform: translateX(calc(var(--shift, -25) * 1%));
+  }
+
+  .wf-slot {
+    display: block;
+    position: absolute;
+    inset: 0;
+    perspective: 3400px;
+    pointer-events: none;
+  }
+  .wf-slot[data-state="flat"] {
+    --turn: 0;
+    z-index: calc(var(--n) - var(--k));
+  }
+  .wf-slot[data-state="turned"] {
+    --turn: 1;
+    z-index: calc(var(--k) + 1);
+  }
+  .wf-slot[data-active] {
+    z-index: 40;
+  }
+
+  .wf-leaf {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    transform-origin: 0 50%;
+    transform-style: preserve-3d;
+    transform: rotateY(calc(var(--turn, 0) * -180deg));
+    will-change: transform;
+  }
+
+  .wf-page {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    pointer-events: auto;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    scroll-margin-top: 0;
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--color-tape) 30%, transparent);
+  }
+  .wf-page--back {
+    transform: rotateY(180deg);
+  }
+
+  .wf-sheet {
+    height: 100%;
+    min-height: 0;
+  }
+  /* Gutter shading, and the shade a leaf picks up as it stands on edge. */
+  .wf-sheet::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-tape) 26%, transparent), transparent 9%);
+  }
+  .wf-page--back .wf-sheet::after {
+    background: linear-gradient(270deg, color-mix(in srgb, var(--color-tape) 26%, transparent), transparent 9%);
+  }
+  .wf-sheet::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+    background: var(--color-tape);
+    opacity: calc(sin(var(--turn, 0) * 180deg) * 0.28);
+  }
+
+  .wf-cast {
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .wf-cast--right {
+    left: 50%;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-tape) 70%, transparent), transparent 75%);
+    opacity: calc(sin(var(--turn, 0) * 180deg) * (1 - var(--turn, 0)));
+  }
+  .wf-cast--left {
+    left: 0;
+    background: linear-gradient(270deg, color-mix(in srgb, var(--color-tape) 70%, transparent), transparent 75%);
+    opacity: calc(sin(var(--turn, 0) * 180deg) * var(--turn, 0));
+  }
+
+  /* Page corners: grab one, or just press it, to turn the leaf. */
+  .wf-corner {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    z-index: 60;
+    width: 10%;
+    aspect-ratio: 1;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: grab;
+    --curl: 0;
+  }
+  .wf-corner--next {
+    right: 0;
+  }
+  .wf-corner--prev {
+    left: 0;
+  }
+  .wf-corner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: scale(var(--curl));
+    transform-origin: bottom right;
+    background: linear-gradient(315deg, var(--color-riso) 0 46%, var(--color-worn) 46% 100%);
+    clip-path: polygon(100% 100%, 0 100%, 100% 0);
+    pointer-events: none;
+  }
+  .wf-corner--prev::before {
+    transform-origin: bottom left;
+    background: linear-gradient(45deg, var(--color-riso) 0 46%, var(--color-worn) 46% 100%);
+    clip-path: polygon(0 100%, 100% 100%, 0 0);
+  }
+  .wf-corner:focus-visible {
+    --curl: 1;
+    outline: 3px solid var(--color-tape);
+    outline-offset: -3px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wf-corner::before {
+      transition: transform 180ms var(--ease-out);
+    }
+    .wf-corner:hover {
+      --curl: 0.7;
+    }
+  }
+
+  .wf-bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    flex: none;
+    height: var(--bar);
+    padding: 0 var(--gutter);
+    color: var(--color-stock);
+  }
+  .wf-bar > :last-child {
+    justify-self: end;
+  }
+  .wf-bar > :first-child {
+    justify-self: start;
+  }
+  .wf-bar__mid {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .wf-tape {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px 4px 10px;
+    background: var(--color-stock);
+    color: var(--color-faded);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .wf-tape__digits {
+    padding: 2px 8px;
+    background: var(--color-tape);
+    color: var(--color-riso);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    font-variant-numeric: tabular-nums;
+  }
+  .wf-folio {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Reduced motion: the leaves still sit left or right, they just never travel. */
+@media (prefers-reduced-motion: reduce) {
+  .wf-wordmark__pink {
+    transform: translate(0.045em, 0.045em);
+  }
+  .wf-toc__row,
+  .wf-btn,
+  .wf-corner::before {
+    transition: none;
+  }
+}

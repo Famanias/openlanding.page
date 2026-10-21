@@ -149,8 +149,3 @@ CONSTRAINTS (this repo)
 - Add Playwright tests for: each copy button puts the right text on the clipboard, filters
   narrow the grid, no horizontal overflow at 375px, and the page works with reduced motion.
 ````
-
-## Notes
-
-- I read both reference sites as text only, so the prompt tells the agent to study them for the visual details.
-- My suggestions: the neutral "frame, not painting" direction, and making "Copy website" a single text bundle generated at build time. Change either before handing the prompt over if you see it differently.

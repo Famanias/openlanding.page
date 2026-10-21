@@ -5,6 +5,7 @@ There is one prompt file per template:
 - [orrery.md](orrery.md): 8 images
 - [keytu.md](keytu.md): 15 images
 - [koji.md](koji.md): 11 images
+- [wowflutter.md](wowflutter.md): 8 images (black-and-white; processed onto an ink-to-stock ramp)
 
 KŌJI's 9 video clips have their own relay file, `koji-clips.md`. It's written later, once the 5 KŌJI flight stills exist.
 
@@ -18,6 +19,7 @@ KŌJI's 9 video clips have their own relay file, `koji-clips.md`. It's written l
    - `assets/incoming/orrery/`
    - `assets/incoming/keytu/`
    - `assets/incoming/koji/`
+   - `assets/incoming/wowflutter/`
 6. **Re-roll anything off-style.** Typical reasons are a different colour palette, visible text or logos, extra fingers, a cartoon look, or (for Orrery) anything that looks like a robot, a brain, neon or purple.
 
 ## What happens next

@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all eight seed templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(8);
+  it("contains all nine templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(9);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -56,10 +56,12 @@ describe("gallery template data", () => {
   });
 
   it("assigns the exact specified model tag to each template", () => {
-    const claudeSlugs = ["orrery", "keytu", "koji"];
+    const opusSlugs = ["orrery", "keytu", "koji"];
     for (const t of TEMPLATES) {
-      if (claudeSlugs.includes(t.slug)) {
+      if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
+      } else if (t.slug === "wowflutter") {
+        expect(t.model).toBe("Claude Sonnet 5.5");
       } else {
         expect(t.model).toBe("GPT-6 Astra Max");
       }
@@ -72,5 +74,13 @@ describe("gallery template data", () => {
     expect(categoryIds).toContain("keynote-deck");
     expect(categoryIds).toContain("scroll-showcase");
     expect(categoryIds).toContain("3d-webgpu");
+    expect(categoryIds).toContain("editorial-magazine");
+  });
+
+  it("files WOWFLUTTER under Editorial Magazine with its rebuild prompt inlined", () => {
+    const wowflutter = TEMPLATES.find((t) => t.slug === "wowflutter");
+    expect(wowflutter?.category).toBe("editorial-magazine");
+    expect(wowflutter?.promptMarkdown).toContain('rebuild "WOWFLUTTER"');
+    expect(wowflutter?.promptMarkdown).toContain("#FF3D8B");
   });
 });

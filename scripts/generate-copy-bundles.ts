@@ -41,6 +41,10 @@ export const TEMPLATE_METADATA: Record<
     name: "LOOPHOUSE",
     dependencies: [],
   },
+  wowflutter: {
+    name: "WOWFLUTTER",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

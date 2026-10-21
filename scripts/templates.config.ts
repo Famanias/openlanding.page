@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter";
 
 export type TemplateConfig = {
   palette: string[];
@@ -34,6 +34,9 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   },
   loophouse: {
     palette: ["#EFF3E4", "#17272A", "#2F6F67", "#E3A52A", "#CBD7C4", "#60716B", "#E2EBD4"],
+  },
+  wowflutter: {
+    palette: ["#14110F", "#EFE6D4", "#FF3D8B", "#DCCFB8", "#5E564D"],
   },
 };
 
