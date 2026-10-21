@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("templateflow gallery index", () => {
+test.describe("openlandingpage gallery index", () => {
   test("index lists the three templates with valid links to live sites", async ({ page }) => {
     await page.goto("/");
 
@@ -79,9 +79,9 @@ test.describe("templateflow gallery index", () => {
   test("category filter chips filter templates and update result counter", async ({ page }) => {
     await page.goto("/");
 
-    // Initially all 9 templates are displayed
-    await expect(page.locator("article")).toHaveCount(9);
-    await expect(page.getByText("Showing 9 of 9 templates")).toBeVisible();
+    // Initially all 10 templates are displayed
+    await expect(page.locator("article")).toHaveCount(10);
+    await expect(page.getByText("Showing 10 of 10 templates")).toBeVisible();
 
     // Click category chip "3D & WebGPU"
     const webgpuTab = page.getByRole("tab", { name: /3D & WebGPU/i });
@@ -96,23 +96,23 @@ test.describe("templateflow gallery index", () => {
     await expect(page.locator("article").filter({ hasText: "Orrery" })).toHaveCount(0);
     await expect(page.locator("article").filter({ hasText: "KEYTU" })).toHaveCount(0);
 
-    // Counter updates to "Showing 3 of 9 templates"
-    await expect(page.getByText("Showing 3 of 9 templates")).toBeVisible();
+    // Counter updates to "Showing 3 of 10 templates"
+    await expect(page.getByText("Showing 3 of 10 templates")).toBeVisible();
 
     // Click "Reset filters" button (aria-label="Reset category filters")
     const resetBtn = page.getByRole("button", { name: /reset category filters/i });
     await expect(resetBtn).toBeVisible();
     await resetBtn.click();
 
-    // All 9 return
-    await expect(page.locator("article")).toHaveCount(9);
-    await expect(page.getByText("Showing 9 of 9 templates")).toBeVisible();
+    // All 10 return
+    await expect(page.locator("article")).toHaveCount(10);
+    await expect(page.getByText("Showing 10 of 10 templates")).toBeVisible();
 
     // Also test clicking the "All" tab after filtering
     const keynoteTab = page.getByRole("tab", { name: /Keynote & Deck/i });
     await keynoteTab.click();
     await expect(page.locator("article")).toHaveCount(1);
-    await expect(page.getByText("Showing 1 of 9 templates")).toBeVisible();
+    await expect(page.getByText("Showing 1 of 10 templates")).toBeVisible();
 
     // The new category holds WOWFLUTTER alone
     await page.getByRole("tab", { name: /Editorial Magazine/i }).click();
@@ -121,8 +121,8 @@ test.describe("templateflow gallery index", () => {
 
     const allTab = page.getByRole("tab", { name: /^All/i });
     await allTab.click();
-    await expect(page.locator("article")).toHaveCount(9);
-    await expect(page.getByText("Showing 9 of 9 templates")).toBeVisible();
+    await expect(page.locator("article")).toHaveCount(10);
+    await expect(page.getByText("Showing 10 of 10 templates")).toBeVisible();
   });
 
   test("mobile viewport at 375px has zero horizontal overflow", async ({ page }) => {

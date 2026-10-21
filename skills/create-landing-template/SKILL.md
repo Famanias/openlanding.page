@@ -1,6 +1,6 @@
 ---
 name: create-landing-template
-description: Use when adding a new landing-page template to this Templateflow repo (a new brand, business or theme for the gallery), or when asked to design, invent or generate a new template, landing page or brand for the gallery.
+description: Use when adding a new landing-page template to this openlandingpage repo (a new brand, business or theme for the gallery), or when asked to design, invent or generate a new template, landing page or brand for the gallery.
 ---
 
 # Create a landing template

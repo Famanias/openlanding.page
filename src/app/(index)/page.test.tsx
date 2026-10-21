@@ -6,7 +6,7 @@ describe("IndexPage", () => {
   it("renders full landing page assembly with Header, Hero, Gallery, HowItWorks, and Footer", async () => {
     const element = await IndexPage();
     const html = renderToStaticMarkup(element);
-    expect(html).toContain("templateflow");
+    expect(html).toContain("openlandingpage");
     expect(html).toContain("Issue #01");
     expect(html).toContain('id="gallery"');
     expect(html).toContain('id="how-it-works"');

@@ -29,7 +29,7 @@ const body = Source_Serif_4({
 const sans = Lato({ weight: ["400", "700"], subsets: ["latin"], variable: "--font-calder-sans-source" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://templateflow-blond.vercel.app"),
+  metadataBase: new URL("https://openlandingpage.vercel.app"),
   title: "CALDER & ROWE — Counsel for consequential decisions",
   description: "An independent law firm for the decisions that change the record.",
   icons: { icon: "/templates/calder/icon.svg" },

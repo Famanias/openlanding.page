@@ -1,6 +1,6 @@
-# Templateflow landing page: agent prompt
+# openlandingpage landing page: agent prompt
 
-A prompt for building Templateflow's own landing page (the gallery at `/`), plus the agent skills that fit each step. Paste the prompt below into an agent running in this repo.
+A prompt for building openlandingpage's own landing page (the gallery at `/`), plus the agent skills that fit each step. Paste the prompt below into an agent running in this repo.
 
 ## Suggested agent skills
 
@@ -22,7 +22,7 @@ The names are as installed in this workspace (Claude Code). In another agent, lo
 | Review | `web-design-guidelines` | Checks against the Web Interface Guidelines: focus, contrast, forms, buttons. |
 | | `impeccable` | A critique and polish pass: hierarchy, spacing, empty and filtered states, responsive layout. |
 | | `vercel:verification` or `run` | Opens the real page and confirms it works, not only that tests pass. |
-| Ship | `vercel:deploy` | Deploys to the existing `templateflow` Vercel project. |
+| Ship | `vercel:deploy` | Deploys to the existing `openlandingpage` Vercel project. |
 
 **Skills to avoid for this page:**
 - `industrial-brutalist-ui`: KŌJI's mood, not the gallery's.
@@ -32,9 +32,9 @@ The names are as installed in this workspace (Claude Code). In another agent, lo
 ## The prompt
 
 ````text
-Design and build the landing page for Templateflow, a gallery of landing-page templates that
+Design and build the landing page for openlandingpage, a gallery of landing-page templates that
 people copy into their own AI agents. It lives at the site root ("/") of this Next.js 16 app
-(https://templateflow-blond.vercel.app).
+(https://openlandingpage.vercel.app).
 
 SKILLS TO USE (if your agent has them)
 - Plan first: superpowers:brainstorming, then superpowers:writing-plans.
@@ -47,7 +47,7 @@ SKILLS TO USE (if your agent has them)
 - Don't use industrial-brutalist-ui, gpt-taste or page-builder for this page.
 
 DESIGN REFERENCES (study both before designing)
-1. https://motionsites.ai/ : the closest model for WHAT Templateflow is. Take from it:
+1. https://motionsites.ai/ : the closest model for WHAT openlandingpage is. Take from it:
    - A short, punchy hero that sells the outcome, e.g. "Unlock your AI Design Superpowers /
      Build beautiful landing pages in minutes with our ready-to-use prompts. Just copy,
      paste, and launch.", with one emphasised word in italics and a single primary call to
@@ -67,7 +67,7 @@ DESIGN REFERENCES (study both before designing)
      showcased sites as the only colour on the page.
    - Numbered pagination (later, once there are many templates).
 Blend them: motionsites' copy-and-paste pitch and speed, presented with Awwwards' editorial
-calm. Don't copy either site's branding, logo, wording or layout one-to-one; Templateflow needs
+calm. Don't copy either site's branding, logo, wording or layout one-to-one; openlandingpage needs
 its own identity.
 
 WHAT TEMPLATEFLOW DOES
@@ -81,12 +81,12 @@ browses, opens a template, and copies a prompt within a minute.
 
 VISUAL DIRECTION
 The gallery is the frame, not the painting. The templates are loud and very different from
-each other, so Templateflow's own chrome stays neutral:
+each other, so openlandingpage's own chrome stays neutral:
 - Colour: off-white and near-black, in both light and dark mode, plus greys and a single small
   accent reserved for the copy actions and focus states.
 - Type: a confident grotesk for the display type, a monospace for metadata.
 - Previews: large, image-first, with no drop shadows, gradients or glass effects.
-- Brand: give Templateflow its own simple wordmark and favicon.
+- Brand: give openlandingpage its own simple wordmark and favicon.
 
 THE TEMPLATES (only three for now; design the system for 30+)
 1. Orrery (/orrery): an AI agent-orchestration company. Presentation style: a full-screen

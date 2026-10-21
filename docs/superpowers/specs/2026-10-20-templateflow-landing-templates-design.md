@@ -1,11 +1,11 @@
-# Templateflow: three landing-page templates
+# openlandingpage: three landing-page templates
 
 Date: 2026-10-20
 Status: approved by owner (2026-10-20)
 
 ## 1. Intent
 
-Templateflow will become a public gallery of landing pages, similar to motionsites.ai or Awwwards' site gallery. Visitors use the gallery for design inspiration. Each template will have two buttons:
+openlandingpage will become a public gallery of landing pages, similar to motionsites.ai or Awwwards' site gallery. Visitors use the gallery for design inspiration. Each template will have two buttons:
 
 - **Copy website** hands the visitor's AI agent the template's source.
 - **Copy prompt** hands over a written design brief the agent can rebuild from.
@@ -53,7 +53,7 @@ Templateflow will become a public gallery of landing pages, similar to motionsit
 
 | Decision | Choice |
 |---|---|
-| Repo | This repo (`E:\orca\workspaces\webflow-projects`). The earlier `Famanias/templateflow` Webflow Cloud starter is abandoned. |
+| Repo | This repo (`E:\orca\workspaces\webflow-projects`). The earlier `Famanias/openlandingpage` Webflow Cloud starter is abandoned. |
 | Framework | **Next.js, latest stable** (confirm the version at build time) |
 | Hosting | **Vercel** (changed from Cloudflare) |
 | Imagery | **All AI-generated.** The owner generates images in Gemini from Claude's prompts. 3D uses the `scroll-world` and `webgpu-threejs-tsl` skills. |

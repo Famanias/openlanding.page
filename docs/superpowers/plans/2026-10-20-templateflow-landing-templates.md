@@ -1,4 +1,4 @@
-# Templateflow Landing Templates Implementation Plan
+# openlandingpage Landing Templates Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -11,7 +11,7 @@
 
 **Tech Stack:** Next.js (latest stable via `create-next-app@latest`), React, TypeScript, Tailwind CSS v4, Motion, GSAP + ScrollTrigger + Observer, Lenis, Three.js (`three/webgpu` + TSL), sharp, Vitest, Playwright, ffmpeg, Vercel CLI.
 
-**Spec:** `docs/superpowers/specs/2026-10-20-templateflow-landing-templates-design.md`. Read it alongside this plan: brand palettes, type, section outlines and K2 camp data live there and are copied into tasks below.
+**Spec:** `docs/superpowers/specs/2026-10-20-openlandingpage-landing-templates-design.md`. Read it alongside this plan: brand palettes, type, section outlines and K2 camp data live there and are copied into tasks below.
 
 ## Global Constraints
 

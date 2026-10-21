@@ -8,7 +8,7 @@ Build a landing page in **Next.js (App Router) + React + TypeScript + Tailwind C
 
 The page is a **magazine you turn by hand**. On desktop, Issue 07 ("The Sound of Rooms") sits open as a two-page spread, and you drag a page corner, flick, or press an arrow key to lift a leaf on a real hinge, with a shadow that follows your pointer. It must feel warm, grainy, tactile and handmade, never like a music-streaming template. No gradients, no glass, no soft rounded UI.
 
-**Reference** (look and feel only; generate your own images): the live template at https://templateflow-blond.vercel.app/wowflutter.
+**Reference** (look and feel only; generate your own images): the live template at https://openlandingpage.vercel.app/wowflutter.
 
 ## Brand rules
 

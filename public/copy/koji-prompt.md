@@ -8,7 +8,7 @@ Build a landing page in **Next.js (App Router) + React + TypeScript + Tailwind C
 
 **Everything is flat 1960s–90s Japanese brutalism. Only the food is 3D.** It must feel monumental and hand-made, never like a restaurant template.
 
-**Reference** (look and feel only; generate your own images): the live template at https://templateflow-blond.vercel.app/koji.
+**Reference** (look and feel only; generate your own images): the live template at https://openlandingpage.vercel.app/koji.
 
 ## Brand rules
 

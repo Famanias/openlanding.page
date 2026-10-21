@@ -8,7 +8,7 @@ Build a landing page in **Next.js (App Router) + React + TypeScript + Tailwind C
 
 The page must work as a **10-slide keynote**, and look editorial and hand-crafted, never like a component kit or a generic AI site.
 
-**Reference images** (look and feel only; generate your own): https://templateflow-blond.vercel.app/templates/orrery/title-orbits-1600.webp, …/problem-single-1600.webp, …/usecase-1-1600.webp, …/security-texture-1600.webp. The live template is at https://templateflow-blond.vercel.app/orrery.
+**Reference images** (look and feel only; generate your own): https://openlandingpage.vercel.app/templates/orrery/title-orbits-1600.webp, …/problem-single-1600.webp, …/usecase-1-1600.webp, …/security-texture-1600.webp. The live template is at https://openlandingpage.vercel.app/orrery.
 
 ## Brand
 

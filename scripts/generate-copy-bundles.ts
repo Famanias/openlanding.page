@@ -45,6 +45,10 @@ export const TEMPLATE_METADATA: Record<
     name: "WOWFLUTTER",
     dependencies: [],
   },
+  verane: {
+    name: "Maison Vérane",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

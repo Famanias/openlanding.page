@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all nine templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(9);
+  it("contains all ten templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(10);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -56,7 +56,7 @@ describe("gallery template data", () => {
   });
 
   it("assigns the exact specified model tag to each template", () => {
-    const opusSlugs = ["orrery", "keytu", "koji"];
+    const opusSlugs = ["orrery", "keytu", "koji", "verane"];
     for (const t of TEMPLATES) {
       if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
@@ -82,5 +82,12 @@ describe("gallery template data", () => {
     expect(wowflutter?.category).toBe("editorial-magazine");
     expect(wowflutter?.promptMarkdown).toContain('rebuild "WOWFLUTTER"');
     expect(wowflutter?.promptMarkdown).toContain("#FF3D8B");
+  });
+
+  it("files Maison Vérane under Scroll Showcase with its rebuild prompt inlined", () => {
+    const verane = TEMPLATES.find((t) => t.slug === "verane");
+    expect(verane?.category).toBe("scroll-showcase");
+    expect(verane?.promptMarkdown).toContain('rebuild "MAISON VÉRANE"');
+    expect(verane?.promptMarkdown).toContain("#2A1E22");
   });
 });

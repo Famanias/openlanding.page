@@ -1,14 +1,14 @@
-# Templateflow Landing Page Implementation Plan
+# openlandingpage Landing Page Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the production-grade landing page gallery for Templateflow at `/` in this Next.js 16 App Router repository, showcasing Orrery, Cairn, and KŌJI with 1-click AI agent prompt & source bundling.
+**Goal:** Build the production-grade landing page gallery for openlandingpage at `/` in this Next.js 16 App Router repository, showcasing Orrery, Cairn, and KŌJI with 1-click AI agent prompt & source bundling.
 
 **Architecture:** A statically prerendered Next.js 16 root route (`src/app/(index)/`) featuring an editorial neutral chrome ("frame, not painting") with Stark Monochrome + Curatorial Emerald (`#10B981`) micro-accent. Client-side filter state synchronizes shallowly to the URL without server roundtrips, and templates are bundled at build-time into Repomix-compatible XML containers in `public/copy/`.
 
 **Tech Stack:** Next.js 16.4.2 (App Router, Turbopack, `cacheComponents`), React 19, Tailwind CSS v4, `@phosphor-icons/react`, Vitest 5, Playwright 1.64.
 
-**Spec:** [`docs/superpowers/specs/2026-10-20-templateflow-landing-page-design.md`](file:///E:/orca/workspaces/webflow-projects/docs/superpowers/specs/2026-10-20-templateflow-landing-page-design.md)
+**Spec:** [`docs/superpowers/specs/2026-10-20-openlandingpage-landing-page-design.md`](file:///E:/orca/workspaces/webflow-projects/docs/superpowers/specs/2026-10-20-openlandingpage-landing-page-design.md)
 
 ---
 
@@ -16,7 +16,7 @@
 
 - **Framework:** Next.js 16 with App Router, Turbopack, and `cacheComponents: true` (see `next.config.ts`).
 - **Template Isolation:** Gallery code in `src/app/(index)/` must NEVER import from `src/app/(${slug})/`. Enforced by `npm run check`.
-- **Brand Wordmark:** `templateflow` (all-lowercase, bold neo-grotesk with `-0.03em` tracking).
+- **Brand Wordmark:** `openlandingpage` (all-lowercase, bold neo-grotesk with `-0.03em` tracking).
 - **Typography:** `Geist` for display/body, `Geist Mono` for tabular metadata.
 - **Palette Chrome:** Deep Carbon `#0C0D0E` surface, `#141518` cards, `rgba(255,255,255,0.08)` hairline borders.
 - **Accent Color:** Curatorial Emerald `#10B981` strictly reserved for `✓ Copied` states and live dots. High-contrast monochrome inversion for buttons and focus rings.
@@ -377,9 +377,9 @@ import { HowItWorks } from "./HowItWorks";
 import { Footer } from "./Footer";
 
 describe("landing page sections", () => {
-  it("Header renders lowercase templateflow wordmark and nav links", () => {
+  it("Header renders lowercase openlandingpage wordmark and nav links", () => {
     const html = renderToStaticMarkup(<Header />);
-    expect(html).toContain("templateflow");
+    expect(html).toContain("openlandingpage");
     expect(html).toContain('href="#gallery"');
     expect(html).toContain('href="#how-it-works"');
   });
@@ -402,7 +402,7 @@ describe("landing page sections", () => {
 
   it("Footer renders editorial columns and copyright notice", () => {
     const html = renderToStaticMarkup(<Footer />);
-    expect(html).toContain("templateflow");
+    expect(html).toContain("openlandingpage");
     expect(html).toContain("GitHub");
   });
 });
@@ -487,7 +487,7 @@ Expected: All tests PASS.
 
 ```bash
 git add .
-git commit -m "feat: implement templateflow landing page gallery at /"
+git commit -m "feat: implement openlandingpage landing page gallery at /"
 ```
 
 ---

@@ -28,7 +28,7 @@ const mono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://templateflow-blond.vercel.app"),
+  metadataBase: new URL("https://openlandingpage.vercel.app"),
   title: "TRACE — Spatial intelligence for the moving city",
   description:
     "TRACE turns city-scale signals into a readable future, with spatial intelligence for teams shaping what comes next.",

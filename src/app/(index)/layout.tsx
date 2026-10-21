@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://templateflow-blond.vercel.app"),
-  title: "templateflow — Landing pages your AI agent can build",
+  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  title: "openlandingpage — Landing pages your AI agent can build",
   description:
     "Skip the generic templates. Browse hand-crafted, production-ready web designs with mathematical design briefs and complete source bundles ready for your agent.",
   openGraph: {
-    title: "templateflow — Landing pages your AI agent can build",
+    title: "openlandingpage — Landing pages your AI agent can build",
     description:
       "Skip the generic templates. Browse hand-crafted, production-ready web designs with mathematical design briefs and complete source bundles ready for your agent.",
     type: "website",

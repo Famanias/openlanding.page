@@ -1,22 +1,22 @@
-# Design Specification: Templateflow Landing Page
+# Design Specification: openlandingpage Landing Page
 
 - **Date:** 2026-10-20
 - **Status:** Approved / In Review
-- **Target URL:** `/` (Root route of `https://templateflow-blond.vercel.app`)
-- **Document Scope:** Complete visual, product, and architectural specification for the Templateflow landing page gallery.
+- **Target URL:** `/` (Root route of `https://openlandingpage.vercel.app`)
+- **Document Scope:** Complete visual, product, and architectural specification for the openlandingpage landing page gallery.
 
 ---
 
 ## 1. Intent & The Why
 
 ### 1.1 Purpose & Problem Statement
-Templateflow is a gallery of production-grade landing page templates designed specifically to be copied into AI coding agents (such as Claude Code, Cursor, Windsurf, and Codex). 
+openlandingpage is a gallery of production-grade landing page templates designed specifically to be copied into AI coding agents (such as Claude Code, Cursor, Windsurf, and Codex). 
 
 Currently, developers and designers face two extremes:
 1. **Generic AI boilerplate / template stores:** Low-effort, cookie-cutter templates with purple gradients, generic illustrations, and messy code that require heavy re-engineering.
 2. **Inaccessible design inspiration galleries:** Sites like Awwwards showcase extraordinary web craft, but visitors cannot easily extract the underlying engineering, mathematical physics, or architectural prompts into their own development environments.
 
-Templateflow bridges this chasm by pairing **award-grade web craft** (WebGPU 3D, scroll-scrubbed video, GSAP Observer keynotes) with **1-click AI agent export**:
+openlandingpage bridges this chasm by pairing **award-grade web craft** (WebGPU 3D, scroll-scrubbed video, GSAP Observer keynotes) with **1-click AI agent export**:
 - **"Copy prompt":** Copies a mathematically rigorous design specification (`PROMPT.md`) containing exact palettes, typography ratios, animation curves, and negative constraints for an AI agent to recreate or adapt.
 - **"Copy website":** Copies the complete, multi-file production source bundle wrapped in a machine-readable format for an AI agent to unpack and run immediately.
 
@@ -36,9 +36,9 @@ Templateflow bridges this chasm by pairing **award-grade web craft** (WebGPU 3D,
 - **Accessible & Responsive:** 100% responsive down to 375px with zero horizontal overflow, visible focus indicators, WCAG AA contrast, and full keyboard navigation.
 
 ### 2.2 Non-Goals
-- **User Authentication / Accounts:** Templateflow is an open curatorial utility. No login, sign-up, or user accounts.
+- **User Authentication / Accounts:** openlandingpage is an open curatorial utility. No login, sign-up, or user accounts.
 - **Template Submission Form (v1):** The "Submit" navigation link acts as an external placeholder (e.g. GitHub issue/PR or mailto).
-- **In-Browser Code Editing:** Templateflow provides raw copy-to-clipboard functionality; it is not a web-based IDE or playground.
+- **In-Browser Code Editing:** openlandingpage provides raw copy-to-clipboard functionality; it is not a web-based IDE or playground.
 - **Template Purchasing / Payments:** All seed templates are open inspiration; no paywalls or checkout flows.
 
 ### 2.3 Anti-Goals (What would make this a failure)
@@ -52,10 +52,10 @@ Templateflow bridges this chasm by pairing **award-grade web craft** (WebGPU 3D,
 ## 3. Brand Identity & Design System
 
 ### 3.1 Design Philosophy: "The Gallery is the Frame"
-The templates are loud, expressive, and visually divergent. Templateflow's own chrome remains calm, restrained, and editorial—combining the speed and utility of **motionsites.ai** with the editorial dignity and typography of **Awwwards**.
+The templates are loud, expressive, and visually divergent. openlandingpage's own chrome remains calm, restrained, and editorial—combining the speed and utility of **motionsites.ai** with the editorial dignity and typography of **Awwwards**.
 
 ### 3.2 Brand Wordmark & Typographic System
-- **Brand Wordmark:** `templateflow` (all-lowercase, bold neo-grotesk with `-0.03em` tracking). Accompanied by a minimalist favicon and glyph.
+- **Brand Wordmark:** `openlandingpage` (all-lowercase, bold neo-grotesk with `-0.03em` tracking). Accompanied by a minimalist favicon and glyph.
 - **Display & Body Font:** `Geist` (clean neo-grotesk neutrality).
 - **Metadata & Technical Font:** `Geist Mono` (tabular numbers, stack metadata, tags, and copy feedback).
 
@@ -75,7 +75,7 @@ The templates are loud, expressive, and visually divergent. Templateflow's own c
 
 ```
 +-------------------------------------------------------------------------+
-| [Header] templateflow                  [Gallery] [How it works] [GitHub]|
+| [Header] openlandingpage                  [Gallery] [How it works] [GitHub]|
 +-------------------------------------------------------------------------+
 | [Hero]                                                                  |
 |   [Issue #01 · 3 Bespoke Drops]                                         |
@@ -108,7 +108,7 @@ The templates are loud, expressive, and visually divergent. Templateflow's own c
 ```
 
 ### 4.1 Header
-- **Left:** Wordmark `templateflow` linking to `/`.
+- **Left:** Wordmark `openlandingpage` linking to `/`.
 - **Right:** Nav links (`Gallery`, `How it works`), external GitHub repository icon link, and a theme toggle (Dark/Light).
 - **Mobile:** Collapses into a minimal header with theme toggle and external link.
 
@@ -153,7 +153,7 @@ The templates are loud, expressive, and visually divergent. Templateflow's own c
   2. **Copy:** Grab the architectural brief (`PROMPT.md`) or the full multi-file source bundle.
   3. **Build:** Paste into Claude Code, Cursor, or Windsurf to recreate or customize the site instantly.
 - **Proof-of-Work Code Window:**
-  - Display an authentic snippet of Orrery's strict design constraints (demonstrating why Templateflow prompts produce elite output):
+  - Display an authentic snippet of Orrery's strict design constraints (demonstrating why openlandingpage prompts produce elite output):
     ```markdown
     ## Brand Rules
     - Palette: ink #0E0F13, bone #F2EFE8, ultramarine #2F3BFF, amber #FFB000.

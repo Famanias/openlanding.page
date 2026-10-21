@@ -5,8 +5,8 @@ Ask these in **two rounds at most**, through your question tool if you have one 
 ## Round 1: what it is
 
 1. **Business.** What does the brand sell, and to whom?
-   *Examples: a restaurant, an outdoor-gear label, an AI company, a law firm, a record label.*
-   You decide: pick an industry the gallery doesn't have yet (check `src/app/(index)/data/templates.ts`).
+ *Examples: a restaurant, an outdoor-gear label, an AI company, a law firm, a record label.*
+ You decide: pick an industry the gallery doesn't have yet (check `src/app/(index)/data/templates.ts`).
 2. **Theme: the page's signature mechanic.** How should the page *behave*?
    - 3D-focused: a real-time WebGPU object, or scroll-scrubbed 3D video
    - Presentation: a keynote deck, slide by slide
@@ -20,9 +20,12 @@ Ask these in **two rounds at most**, through your question tool if you have one 
 4. **Era and mood.** For example "1960–90s brutalist", "Swiss editorial", "warm analog", "clinical future", "luxury quiet".
 5. **Colour rules.** Any must-use or never-use colours, or a limit such as "three colours only"?
 6. **References.** Sites, films, objects or places that feel right.
-7. **Images and video: who generates them?** Word this from the key-detection result, following `media.md` §2:
+7. **Corner geometry.** Sharp (zero-radius, brutalist/utilitarian) or rounded (soft, modern, squircle)? Specify a preference like strict 0px, subtle 4–8px rounding, or heavily curved/pill shapes.
+
+4. **Images and video: who generates them?** Word this from the key-detection result, following `media.md` §2:
    - Keys found: should the agent generate with the detected provider, or will the user generate from the prompts on any platform they choose?
    - No keys: say "No API keys for image/video generation were detected." Then offer: the user generates from your prompts on any platform, they paste the key's *variable name* so you can double-check it, or the page goes without photos (SVG, CSS and 3D only).
+5. **Background treatment**. What style should the canvas use? For example: plain solid/neutral, organic decorative blobs, subtle gradients or patterns, custom graphic assets, or layered mixed media?
 
 ## After the answers
 

@@ -1,0 +1,472 @@
+@import "tailwindcss";
+
+/* ─────────────── MAISON VÉRANE tokens: Grasse haute parfumerie ─────────────── */
+@theme {
+  --color-oud: #2A1E22;
+  --color-calcaire: #E3DFD8;
+  --color-orris: #655A7E;
+  --color-gilt: #B59A6A;
+  --color-veil: #CFC9C0;
+  --color-ash: #5F5753;
+
+  --font-display: var(--font-bodoni-moda), Didot, "Times New Roman", serif;
+  --font-body: var(--font-hanken-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-spline-mono), ui-monospace, Menlo, monospace;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drain: cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.vr-body {
+  --topbar-h: 68px;
+  --gutter: clamp(20px, 4.5vw, 72px);
+  --wrap-max: 1320px;
+  --rule-color: color-mix(in srgb, var(--color-ash) 35%, transparent);
+
+  margin: 0;
+  background-color: var(--color-calcaire);
+  color: var(--color-oud);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+html:has(.vr-body) {
+  scroll-padding-top: var(--topbar-h);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.vr-body) {
+    scroll-behavior: smooth;
+  }
+}
+
+.vr-body ::selection {
+  background: var(--color-orris);
+  color: var(--color-calcaire);
+}
+
+.vr-body :focus-visible {
+  outline: 2px solid var(--color-orris);
+  outline-offset: 3px;
+}
+
+.vr-dark :focus-visible {
+  outline: 2px solid var(--color-gilt);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.vr-vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ─────────────── Typography & Utility ─────────────── */
+.vr-serif {
+  font-family: var(--font-display);
+}
+
+.vr-mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vr-wrap {
+  width: 100%;
+  max-width: var(--wrap-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* ─────────────── Buttons ─────────────── */
+.vr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  height: 48px;
+  padding: 0 1.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 9999px;
+  transition: transform 180ms var(--ease-out), background-color 200ms var(--ease-out), color 200ms var(--ease-out), border-color 200ms var(--ease-out);
+}
+
+.vr-btn:active {
+  transform: scale(0.97);
+}
+
+.vr-btn--orris {
+  background-color: var(--color-orris);
+  color: var(--color-calcaire);
+  border: 1px solid var(--color-orris);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vr-btn--orris:hover {
+    background-color: color-mix(in srgb, var(--color-orris) 85%, var(--color-oud));
+    border-color: color-mix(in srgb, var(--color-orris) 85%, var(--color-oud));
+  }
+}
+
+.vr-btn--outline {
+  background-color: transparent;
+  color: var(--color-oud);
+  border: 1px solid currentColor;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vr-btn--outline:hover {
+    background-color: color-mix(in srgb, var(--color-oud) 8%, transparent);
+  }
+}
+
+.vr-btn--outline-dark {
+  background-color: transparent;
+  color: var(--color-calcaire);
+  border: 1px solid color-mix(in srgb, var(--color-calcaire) 40%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vr-btn--outline-dark:hover {
+    border-color: var(--color-gilt);
+    color: var(--color-gilt);
+  }
+}
+
+/* ─────────────── Eyebrow Section Header ─────────────── */
+.vr-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.vr-eyebrow__rule {
+  width: 36px;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.5;
+}
+
+/* ─────────────── Placeholder Art Box ─────────────── */
+.vr-placeholder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--color-veil);
+  color: var(--color-ash);
+  border: 1px solid color-mix(in srgb, var(--color-ash) 25%, transparent);
+  border-radius: inherit;
+  min-height: 240px;
+  padding: 1.5rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.vr-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    color-mix(in srgb, var(--color-ash) 8%, transparent) 0,
+    color-mix(in srgb, var(--color-ash) 8%, transparent) 1px,
+    transparent 0,
+    transparent 16px
+  );
+  pointer-events: none;
+}
+
+.vr-placeholder--dark {
+  background-color: color-mix(in srgb, var(--color-oud) 95%, var(--color-ash));
+  color: var(--color-veil);
+  border-color: color-mix(in srgb, var(--color-ash) 35%, transparent);
+}
+
+/* ─────────────── Hero Section ─────────────── */
+.vr-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: clamp(600px, 92svh, 920px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: var(--color-calcaire);
+  background-color: var(--color-oud);
+  overflow: hidden;
+  padding-bottom: clamp(3rem, 7vw, 6rem);
+}
+
+.vr-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.vr-hero__bg img,
+.vr-hero__bg .vr-placeholder,
+.vr-hero__bg svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+  transition: transform 1.6s var(--ease-out);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vr-hero__bg img,
+  .vr-hero__bg svg {
+    animation: vrHeroSettle 1.6s var(--ease-out) forwards;
+  }
+}
+
+@keyframes vrHeroSettle {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Scrim: Oud gradient from left guarantees WCAG text contrast */
+.vr-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-oud) 94%, transparent) 0%,
+    color-mix(in srgb, var(--color-oud) 85%, transparent) 40%,
+    color-mix(in srgb, var(--color-oud) 35%, transparent) 75%,
+    transparent 100%
+  ),
+  linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--color-oud) 75%, transparent) 0%,
+    transparent 45%
+  );
+}
+
+@media (max-width: 640px) {
+  .vr-hero {
+    min-height: 0;
+    padding-top: clamp(240px, 60vw, 360px);
+    justify-content: flex-start;
+  }
+  .vr-hero::before {
+    background: linear-gradient(
+      0deg,
+      var(--color-oud) 0%,
+      var(--color-oud) 60%,
+      color-mix(in srgb, var(--color-oud) 30%, transparent) 85%,
+      transparent 100%
+    );
+  }
+}
+
+/* ─────────────── DryDown Scrubber & Pinned Stage ─────────────── */
+.vr-drydown-outer {
+  position: relative;
+  background-color: var(--color-oud);
+  color: var(--color-calcaire);
+}
+
+/* Desktop pinned mode */
+.vr-drydown-outer[data-mode="pinned"] {
+  height: 340svh;
+}
+
+.vr-drydown-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--topbar-h) + 1rem) var(--gutter) 2.5rem;
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+}
+
+/* Flow mode on mobile or reduced motion */
+.vr-drydown-outer[data-mode="flow"] .vr-drydown-stage {
+  position: relative;
+  top: auto;
+  height: auto;
+  padding: 5rem var(--gutter) 6rem;
+}
+
+.vr-flacon-glass {
+  border: 1.5px solid color-mix(in srgb, var(--color-calcaire) 40%, transparent);
+  background: color-mix(in srgb, var(--color-calcaire) 5%, transparent);
+  border-radius: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.vr-flacon-band {
+  transform-origin: bottom center;
+  transition: transform 220ms var(--ease-drain), opacity 220ms var(--ease-drain);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vr-flacon-band {
+    transition: none !important;
+  }
+}
+
+.vr-note-item {
+  transition: opacity 220ms var(--ease-drain);
+}
+
+.vr-note-item[data-state="gone"] {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+
+.vr-note-item[data-state="fading"] {
+  opacity: 0.7;
+}
+
+.vr-note-item[data-state="present"] {
+  opacity: 1;
+}
+
+.vr-note-item[data-state="emerging"] {
+  opacity: 0.85;
+}
+
+/* ─────────────── Range Scrubber Input ─────────────── */
+.vr-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: color-mix(in srgb, var(--color-ash) 35%, transparent);
+  outline: none;
+  border-radius: 0;
+  cursor: ew-resize;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.vr-range:focus-visible {
+  outline: 2px solid var(--color-orris);
+  outline-offset: 4px;
+}
+
+.vr-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-orris);
+  border: 2px solid var(--color-calcaire);
+  cursor: grab;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-oud) 50%, transparent);
+  transition: transform 120ms var(--ease-out);
+}
+
+.vr-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-orris);
+  border: 2px solid var(--color-calcaire);
+  cursor: grab;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-oud) 50%, transparent);
+  transition: transform 120ms var(--ease-out);
+}
+
+.vr-range:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.15);
+}
+
+.vr-range:active::-moz-range-thumb {
+  cursor: grabbing;
+  transform: scale(1.15);
+}
+
+/* ─────────────── Card Grid & Stamps ─────────────── */
+.vr-card {
+  background-color: var(--color-calcaire);
+  color: var(--color-oud);
+  border: 1px solid var(--rule-color);
+  border-radius: 1.25rem;
+  padding: clamp(1.75rem, 3.5vw, 2.75rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 200ms var(--ease-out);
+}
+
+.vr-stamp {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid var(--color-orris);
+  color: var(--color-orris);
+  border-radius: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vr-stamp--gilt {
+  border-color: var(--color-gilt);
+  color: var(--color-gilt);
+}
+
+/* ─────────────── Organ Composer ─────────────── */
+.vr-organ-vial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.875rem 0.5rem;
+  border: 1px solid var(--rule-color);
+  border-radius: 0.875rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out);
+}
+
+.vr-organ-vial[aria-checked="true"] {
+  background-color: var(--color-orris);
+  color: var(--color-calcaire);
+  border-color: var(--color-orris);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vr-organ-vial:not([aria-checked="true"]):hover {
+    background-color: color-mix(in srgb, var(--color-veil) 60%, transparent);
+    border-color: var(--color-ash);
+  }
+}

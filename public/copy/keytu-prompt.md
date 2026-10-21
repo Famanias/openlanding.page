@@ -8,7 +8,7 @@ Build a landing page in **Next.js (App Router) + React + TypeScript + Tailwind C
 
 The page is a **showcase told as an ascent of K2**. A pinned mountain silhouette and an altitude meter climb with the visitor from base camp to the summit, and each camp is a product chapter. It must feel serious, precise and hand-crafted, never like a template store.
 
-**Reference** (look and feel only; generate your own images): the live template at https://templateflow-blond.vercel.app/keytu, and images such as https://templateflow-blond.vercel.app/templates/keytu/hero-k2-1600.webp.
+**Reference** (look and feel only; generate your own images): the live template at https://openlandingpage.vercel.app/keytu, and images such as https://openlandingpage.vercel.app/templates/keytu/hero-k2-1600.webp.
 
 ## Brand rules
 

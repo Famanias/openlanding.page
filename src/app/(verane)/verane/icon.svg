@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#E3DFD8" />
+  <defs>
+    <clipPath id="ico-clip">
+      <path d="M32 9C27 17 16 29 16 39a16 16 0 0 0 32 0C48 29 37 17 32 9Z" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#ico-clip)" fill="#2A1E22">
+    <rect x="0" y="34" width="64" height="10" fill="#655A7E" opacity="0.45" />
+    <rect x="0" y="44" width="64" height="18" fill="#2A1E22" />
+  </g>
+  <path
+    d="M32 9C27 17 16 29 16 39a16 16 0 0 0 32 0C48 29 37 17 32 9Z"
+    fill="none"
+    stroke="#2A1E22"
+    stroke-width="3.5"
+    stroke-linejoin="round"
+  />
+</svg>

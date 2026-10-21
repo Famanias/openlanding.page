@@ -7,9 +7,9 @@ import { HowItWorks } from "./HowItWorks";
 import { Footer } from "./Footer";
 
 describe("landing page sections", () => {
-  it("Header renders lowercase templateflow wordmark and nav links", () => {
+  it("Header renders lowercase openlandingpage wordmark and nav links", () => {
     const html = renderToStaticMarkup(<Header />);
-    expect(html).toContain("templateflow");
+    expect(html).toContain("openlandingpage");
     expect(html).toContain('href="#gallery"');
     expect(html).toContain('href="#how-it-works"');
     expect(html).toContain("GitHub");
@@ -35,7 +35,7 @@ describe("landing page sections", () => {
 
   it("Footer renders editorial columns and copyright notice", () => {
     const html = renderToStaticMarkup(<Footer />);
-    expect(html).toContain("templateflow");
+    expect(html).toContain("openlandingpage");
     expect(html).toContain("GitHub");
     expect(html).toContain('href="#gallery"');
     expect(html).toContain('href="#how-it-works"');

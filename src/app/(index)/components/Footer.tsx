@@ -12,10 +12,10 @@ export function Footer() {
             <Link
               href="/"
               className="flex items-center gap-2.5 text-white font-sans font-bold text-lg tracking-[-0.03em] hover:opacity-90 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
-              aria-label="templateflow home"
+              aria-label="openlandingpage home"
             >
               <span className="size-2 rounded-full bg-white" aria-hidden="true" />
-              <span>templateflow</span>
+              <span>openlandingpage</span>
             </Link>
             <p className="text-sm text-neutral-400 max-w-sm leading-relaxed">
               Award-grade web designs with mathematical design briefs and complete source code bundles ready for AI coding agents.
@@ -67,7 +67,7 @@ export function Footer() {
 
         {/* Bottom copyright row */}
         <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500 font-mono">
-          <p>© {new Date().getFullYear()} templateflow. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} openlandingpage. All rights reserved.</p>
           <p>Curated with craft for modern AI pair programming.</p>
         </div>
       </div>
