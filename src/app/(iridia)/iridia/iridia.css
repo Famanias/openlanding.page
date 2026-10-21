@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+@theme {
+  --color-obsidian: #0A0B10;
+  --color-prism: #F5F3EF;
+  --color-hyperion: #00F0FF;
+  --color-chroma: #FF3366;
+  --color-starlight: #FFE600;
+  --color-glass: #141724;
+  --color-specular: #8D93A8;
+  --color-flare: #FF4D00;
+
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-body: var(--font-plus-jakarta), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --ease-prism: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-flow: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+:root {
+  --ir-bg: #0A0B10;
+  --ir-fg: #F5F3EF;
+  --ir-accent: #00F0FF;
+  --ir-secondary: #FF3366;
+  --ir-starlight: #FFE600;
+  --ir-glass: #141724;
+  --ir-specular: #8D93A8;
+  --ir-flare: #FF4D00;
+}
+
+html {
+  background-color: #0A0B10;
+  color: #F5F3EF;
+  font-family: var(--font-body);
+  overflow-x: clip;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body, .ir-body {
+  min-height: 100vh;
+  position: relative;
+  background-color: transparent;
+  color: #F5F3EF;
+  overflow-x: clip;
+  margin: 0;
+  padding: 0;
+}
+
+/* 3D Coordinate Space Container */
+.ir-spatial-viewport {
+  position: relative;
+  width: 100%;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+
+.ir-spatial-stage {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Glass plaque surfaces */
+.ir-glass-panel {
+  background-color: color-mix(in srgb, #141724 86%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in srgb, #8D93A8 22%, transparent);
+  box-shadow: 0 12px 32px -8px color-mix(in srgb, #0A0B10 80%, transparent),
+              inset 0 1px 0 0 color-mix(in srgb, #F5F3EF 8%, transparent);
+}
+
+.ir-glass-panel:hover {
+  border-color: color-mix(in srgb, #00F0FF 40%, transparent);
+}
+
+/* Refraction HUD line */
+.ir-hud-line {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, #00F0FF 60%, transparent) 0%,
+    color-mix(in srgb, #8D93A8 20%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+/* Interactive button styles */
+.ir-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #00F0FF;
+  color: #0A0B10;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  border: 1px solid #00F0FF;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: transform 180ms var(--ease-prism), filter 180ms var(--ease-prism), background-color 180ms var(--ease-prism);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ir-btn-primary:hover {
+  transform: translateY(-1px);
+  filter: drop-shadow(0 0 12px color-mix(in srgb, #00F0FF 60%, transparent));
+}
+
+.ir-btn-primary:active {
+  transform: scale(0.97);
+}
+
+.ir-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: color-mix(in srgb, #141724 60%, transparent);
+  color: #F5F3EF;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, #8D93A8 30%, transparent);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 180ms var(--ease-prism), transform 180ms var(--ease-prism), background-color 180ms var(--ease-prism);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ir-btn-secondary:hover {
+  border-color: #00F0FF;
+  background-color: color-mix(in srgb, #141724 90%, transparent);
+  transform: translateY(-1px);
+}
+
+.ir-btn-secondary:active {
+  transform: scale(0.97);
+}
+
+/* Wavelength chip */
+.ir-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  background-color: color-mix(in srgb, #141724 80%, transparent);
+  border: 1px solid color-mix(in srgb, #8D93A8 25%, transparent);
+  color: #8D93A8;
+}
+
+.ir-chip.is-active {
+  border-color: #00F0FF;
+  color: #00F0FF;
+  background-color: color-mix(in srgb, #00F0FF 10%, transparent);
+}
+
+/* 3D Exploded Layer Item */
+.ir-layer-plate {
+  transition: transform 320ms var(--ease-prism), border-color 240ms var(--ease-prism);
+  transform-style: preserve-3d;
+}
+
+/* Range input styling */
+input[type="range"].ir-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: color-mix(in srgb, #8D93A8 30%, transparent);
+  border-radius: 3px;
+  outline: none;
+}
+
+input[type="range"].ir-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #00F0FF;
+  cursor: pointer;
+  box-shadow: 0 0 10px color-mix(in srgb, #00F0FF 70%, transparent);
+  border: 2px solid #0A0B10;
+  transition: transform 120ms ease;
+}
+
+input[type="range"].ir-range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type="range"].ir-range:focus-visible {
+  outline: 2px solid #00F0FF;
+  outline-offset: 4px;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid #00F0FF;
+  outline-offset: 2px;
+}
+
+/* Placeholder for assets */
+.ir-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #141724 0%, #0A0B10 100%);
+  border: 1px dashed color-mix(in srgb, #8D93A8 40%, transparent);
+  color: #8D93A8;
+  padding: 1.5rem;
+  text-align: center;
+  min-height: 200px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .ir-spatial-viewport,
+  .ir-spatial-stage {
+    perspective: none !important;
+    transform: none !important;
+    transform-style: flat !important;
+  }
+  .ir-layer-plate {
+    transform: none !important;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

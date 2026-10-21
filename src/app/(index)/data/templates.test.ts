@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all twelve templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(12);
+  it("contains all thirteen templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(13);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -60,6 +60,8 @@ describe("gallery template data", () => {
     for (const t of TEMPLATES) {
       if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash Free");
+      } else if (t.slug === "iridia") {
+        expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
       } else if (t.slug === "wowflutter") {
@@ -105,5 +107,12 @@ describe("gallery template data", () => {
     expect(noctiluca?.category).toBe("3d-webgpu");
     expect(noctiluca?.promptMarkdown).toContain('rebuild "Noctiluca"');
     expect(noctiluca?.promptMarkdown).toContain("#C9B8FF");
+  });
+
+  it("files IRIDIA under 3D & WebGPU with its rebuild prompt inlined", () => {
+    const iridia = TEMPLATES.find((t) => t.slug === "iridia");
+    expect(iridia?.category).toBe("3d-webgpu");
+    expect(iridia?.promptMarkdown).toContain('rebuild "IRIDIA"');
+    expect(iridia?.promptMarkdown).toContain("#00F0FF");
   });
 });

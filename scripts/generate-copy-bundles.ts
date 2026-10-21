@@ -57,6 +57,10 @@ export const TEMPLATE_METADATA: Record<
     name: "Noctiluca",
     dependencies: [],
   },
+  iridia: {
+    name: "IRIDIA",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

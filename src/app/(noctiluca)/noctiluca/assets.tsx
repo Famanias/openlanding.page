@@ -11,8 +11,8 @@ export function assetSrc(key: string, width: 800 | 1600, format: "webp" | "avif"
  * Flip a key to true once its `<key>.mp4` and `<key>-m.mp4` exist.
  */
 export const CLIPS: Record<string, boolean> = {
-  "noctiluca-shore-loop": false,
-  "exterior-dusk-loop": false,
+  "noctiluca-shore-loop": true,
+  "exterior-dusk-loop": true,
 };
 
 type PictureProps = { assetKey: string; alt: string; className?: string; sizes?: string; priority?: boolean };

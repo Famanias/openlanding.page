@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia";
 
 export type TemplateConfig = {
   palette: string[];
@@ -55,6 +55,13 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     paletteExempt: [
       "src/app/(noctiluca)/noctiluca/light/phenomena.ts", // each room's light is content colour, like a photograph of the sky
       "src/app/(noctiluca)/noctiluca/rooms/rooms.test.ts", // asserts the phenomena stops' format
+    ],
+  },
+  iridia: {
+    // obsidian (ground), prism (paper/text), hyperion (laser cyan 480nm), chroma (magenta 650nm), starlight (amber 589nm), glass (HUD), specular (steel), flare (thermal/error)
+    palette: ["#0A0B10", "#F5F3EF", "#00F0FF", "#FF3366", "#FFE600", "#141724", "#8D93A8", "#FF4D00"],
+    paletteExempt: [
+      "src/app/(iridia)/iridia/spectrum/presets.ts", // spectral wavelength stops are optical content
     ],
   },
 };

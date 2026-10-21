@@ -63,10 +63,12 @@ An early-20th-century red-brick industrial pumping station on a riverside in Lis
 
 Both clips are **seamless loops** that play muted on the wall labels, with the matching still as their poster. **Generate the still first, then animate from it** (image-to-video), so clip and poster match.
 
-| Key | Source still | Duration | Camera | Used on |
-|---|---|---|---|---|
-| A · `noctiluca-shore-loop.mp4` | `noctiluca-shore.png` | 6 s | locked-off tripod, no movement | Room III wall label |
-| B · `exterior-dusk-loop.mp4` | `building-exterior.png` | 6 s | locked-off tripod, no movement | Room VI wall label |
+| Key | Source still | Aspect / size | Duration | Camera | Used on |
+|---|---|---|---|---|---|
+| A · `noctiluca-shore-loop.mp4` | `noctiluca-shore.png` | 3:2 · 1620×1080 (or 1440×960) | 6 s | locked-off tripod, no movement | Room III wall label |
+| B · `exterior-dusk-loop.mp4` | `building-exterior.png` | 3:2 · 1620×1080 (or 1440×960) | 6 s | locked-off tripod, no movement | Room VI wall label |
+
+**Aspect:** 3:2, matching the source stills and the label box (`aspect-ratio: 3 / 2`). If your tool only outputs 16:9, that works too. The video is `object-fit: cover`, so about 8% is trimmed off each side; keep the subject centred.
 
 **Loop rule for both:** the last frame must match the first frame (same framing and the same light), so the loop has no visible jump. If your tool supports first- and last-frame conditioning, use the source still as both.
 
@@ -91,7 +93,7 @@ Then flip the key to `true` in `CLIPS` (`src/app/(noctiluca)/noctiluca/assets.ts
 
 ## Gallery preview clip (optional)
 
-For the gallery card, a 6–8 second screen recording of the live page walking from the foyer into Room II is the most honest preview. Record it at 1600×1000 in the browser and save it as `public/templates/noctiluca/clips/preview.mp4`, encoded with the first `ffmpeg` line above.
+For the gallery card, a 6–8 second screen recording of the live page walking from the foyer into Room II is the most honest preview. Record it at 1600×1000 (16:10) in the browser and save it as `public/templates/noctiluca/clips/preview.mp4`, encoded with the first `ffmpeg` line above.
 
 ## Re-roll if
 
