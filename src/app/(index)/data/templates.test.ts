@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all ten templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(10);
+  it("contains all eleven templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(11);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -58,7 +58,9 @@ describe("gallery template data", () => {
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["orrery", "keytu", "koji", "verane"];
     for (const t of TEMPLATES) {
-      if (opusSlugs.includes(t.slug)) {
+      if (t.slug === "sundial") {
+        expect(t.model).toBe("MiMo v2.6 Flash");
+      } else if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
       } else if (t.slug === "wowflutter") {
         expect(t.model).toBe("Claude Sonnet 5.5");
@@ -89,5 +91,12 @@ describe("gallery template data", () => {
     expect(verane?.category).toBe("scroll-showcase");
     expect(verane?.promptMarkdown).toContain('rebuild "MAISON VÉRANE"');
     expect(verane?.promptMarkdown).toContain("#2A1E22");
+  });
+
+  it("files SUNDIAL under Scroll Showcase with its rebuild prompt inlined", () => {
+    const sundial = TEMPLATES.find((t) => t.slug === "sundial");
+    expect(sundial?.category).toBe("scroll-showcase");
+    expect(sundial?.promptMarkdown).toContain('rebuild "SUNDIAL Coffee Roasters"');
+    expect(sundial?.promptMarkdown).toContain("#FF6B1A");
   });
 });

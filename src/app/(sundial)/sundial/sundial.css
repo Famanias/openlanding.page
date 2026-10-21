@@ -1,0 +1,1129 @@
+@import "tailwindcss";
+
+/* ─────────────── SUNDIAL tokens: modern coffee retail ─────────────── */
+@theme {
+  --color-espresso: #241611;
+  --color-crema: #F7F1E6;
+  --color-tangerine: #FF6B1A;
+  --color-roastgreen: #0F5C3F;
+  --color-oat: #EADBC4;
+  --color-husk: #6F6152;
+
+  --font-sd-display: var(--font-archivo), "Archivo", Arial, sans-serif;
+  --font-sd-body: var(--font-figtree), "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-sd-mono: var(--font-space-mono), ui-monospace, Menlo, monospace;
+
+  --ease-sd-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-sd-spring: cubic-bezier(0.34, 1.4, 0.44, 1);
+}
+
+/* Text-safe tangerine for light grounds: pure #FF6B1A on crema is 2.53:1,
+   below the 3:1 large-text / 4.5:1 small-text floor. Burnt 35% into espresso
+   lands at 4.7:1 — still unmistakably the brand orange, now readable. */
+.sd-body {
+  --sd-tangerine-ink: color-mix(in srgb, var(--color-tangerine) 65%, var(--color-espresso));
+  --sd-topbar-h: 64px;
+  --sd-gutter: clamp(18px, 4.5vw, 72px);
+  --sd-wrap-max: 1240px;
+
+  margin: 0;
+  background-color: var(--color-crema);
+  color: var(--color-espresso);
+  font-family: var(--font-sd-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+html:has(.sd-body) {
+  scroll-padding-top: calc(var(--sd-topbar-h) + 16px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.sd-body) {
+    scroll-behavior: smooth;
+  }
+}
+
+.sd-body ::selection {
+  background: var(--color-tangerine);
+  color: var(--color-espresso);
+}
+
+.sd-body :focus-visible {
+  outline: 2px solid var(--color-espresso);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Dark grounds always carry light text — the espresso h2 must never vanish. */
+.sd-dark {
+  color: var(--color-crema);
+}
+
+.sd-dark :focus-visible {
+  outline: 2px solid var(--color-tangerine);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sd-vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.sd-placeholder {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  min-height: 220px;
+  width: 100%;
+  border-radius: 24px;
+  border: 2px dashed color-mix(in srgb, var(--color-espresso) 30%, transparent);
+  background-color: var(--color-oat);
+  /* espresso-leaning husk: husk alone on oat is 4.39:1, just under AA */
+  color: color-mix(in srgb, var(--color-espresso) 70%, var(--color-husk));
+}
+
+/* ─────────────── Photo frames — a slot holds its aspect before the image exists ─────────────── */
+.sd-photo {
+  position: relative;
+  margin: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  background: var(--color-oat);
+}
+
+.sd-photo--43 {
+  aspect-ratio: 4 / 3;
+}
+
+.sd-photo--32 {
+  aspect-ratio: 3 / 2;
+}
+
+.sd-photo--11 {
+  aspect-ratio: 1 / 1;
+}
+
+.sd-photo picture,
+.sd-photo > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Inside a frame the placeholder fills the slot; the frame is the border. */
+.sd-photo .sd-placeholder {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+}
+
+/* ─────────────── Typography & layout utilities ─────────────── */
+.sd-display {
+  font-family: var(--font-sd-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.sd-mono {
+  font-family: var(--font-sd-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sd-wrap {
+  width: 100%;
+  max-width: var(--sd-wrap-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--sd-gutter);
+  padding-right: var(--sd-gutter);
+}
+
+.sd-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sd-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-husk);
+  margin: 0 0 14px;
+}
+
+.sd-eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-tangerine);
+  flex: none;
+}
+
+.sd-dark .sd-eyebrow {
+  color: var(--color-oat);
+}
+
+/* ─────────────── Custom graphic grounds ─────────────── */
+.sd-sunburst {
+  background-color: var(--color-crema);
+  background-image: repeating-conic-gradient(
+    from -4deg at 50% 62%,
+    color-mix(in srgb, var(--color-tangerine) 82%, var(--color-crema)) 0deg 7deg,
+    var(--color-crema) 7deg 14deg
+  );
+}
+
+.sd-beanground {
+  background-color: var(--color-espresso);
+  background-image: radial-gradient(
+    ellipse 16px 22px at 50% 50%,
+    color-mix(in srgb, var(--color-husk) 60%, var(--color-espresso)) 0 58%,
+    transparent 60%
+  );
+  background-size: 56px 68px;
+}
+
+.sd-chartgrid {
+  background-color: var(--color-crema);
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 31px, color-mix(in srgb, var(--color-espresso) 10%, transparent) 31px 32px),
+    repeating-linear-gradient(90deg, transparent 0 43px, color-mix(in srgb, var(--color-espresso) 10%, transparent) 43px 44px);
+}
+
+/* ─────────────── Buttons: everything is a pill ─────────────── */
+.sd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 48px;
+  padding: 0 1.6rem;
+  font-family: var(--font-sd-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  transition: transform 170ms var(--ease-sd-out), background-color 190ms var(--ease-sd-out),
+    color 190ms var(--ease-sd-out), border-color 190ms var(--ease-sd-out);
+}
+
+.sd-btn:active {
+  transform: scale(0.97);
+}
+
+/* Tangerine fills carry espresso text (6.1:1) — never crema text (2.5:1). */
+.sd-btn--tangerine {
+  background-color: var(--color-tangerine);
+  color: var(--color-espresso);
+  border-color: var(--color-tangerine);
+}
+
+.sd-btn--tangerine:hover {
+  background-color: color-mix(in srgb, var(--color-tangerine) 86%, var(--color-espresso));
+  border-color: color-mix(in srgb, var(--color-tangerine) 86%, var(--color-espresso));
+}
+
+.sd-btn--espresso {
+  background-color: var(--color-espresso);
+  color: var(--color-crema);
+  border-color: var(--color-espresso);
+}
+
+.sd-btn--espresso:hover {
+  background-color: color-mix(in srgb, var(--color-espresso) 84%, var(--color-crema));
+}
+
+.sd-btn--outline {
+  background: transparent;
+  color: var(--color-espresso);
+  border-color: var(--color-espresso);
+}
+
+.sd-btn--outline:hover {
+  background-color: var(--color-espresso);
+  color: var(--color-crema);
+}
+
+.sd-dark .sd-btn--outline {
+  color: var(--color-crema);
+  border-color: var(--color-crema);
+}
+
+.sd-dark .sd-btn--outline:hover {
+  background-color: var(--color-crema);
+  color: var(--color-espresso);
+}
+
+/* ─────────────── Cards & chips: heavy rounding ─────────────── */
+.sd-card {
+  background-color: var(--color-oat);
+  border-radius: 24px;
+  padding: clamp(20px, 3vw, 30px);
+}
+
+.sd-card--paper {
+  background-color: var(--color-crema);
+}
+
+.sd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1.5px solid color-mix(in srgb, var(--color-espresso) 28%, transparent);
+  font-family: var(--font-sd-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  background: transparent;
+}
+
+.sd-chip--green {
+  border-color: var(--color-roastgreen);
+  color: var(--color-roastgreen);
+}
+
+.sd-stamp {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 2px dashed color-mix(in srgb, var(--color-espresso) 45%, transparent);
+  border-radius: 18px;
+  padding: 10px 16px;
+  font-family: var(--font-sd-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-husk);
+  transform: rotate(-2deg);
+}
+
+.sd-dark .sd-stamp {
+  border-color: color-mix(in srgb, var(--color-crema) 40%, transparent);
+  color: var(--color-oat);
+}
+
+/* ─────────────── Floating pill top bar ─────────────── */
+.sd-topbar {
+  position: fixed;
+  top: 12px;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.sd-topbar__inner {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: var(--sd-topbar-h);
+  padding: 8px 10px 8px 20px;
+  margin: 0 var(--sd-gutter);
+  background: color-mix(in srgb, var(--color-crema) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid color-mix(in srgb, var(--color-espresso) 14%, transparent);
+  border-radius: 9999px;
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--color-espresso) 12%, transparent);
+}
+
+.sd-navlink {
+  font-family: var(--font-sd-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-espresso);
+  padding: 8px 6px;
+  border-radius: 999px;
+  transition: color 150ms var(--ease-sd-out);
+}
+
+.sd-navlink:hover {
+  color: var(--sd-tangerine-ink);
+}
+
+/* ─────────────── The Roast stage ─────────────── */
+.sd-roast-outer {
+  position: relative;
+}
+
+.sd-roast-outer[data-mode="pinned"] {
+  height: 380vh;
+}
+
+.sd-roast-stage {
+  background-color: var(--color-espresso);
+  color: var(--color-crema);
+  overflow: hidden;
+  position: relative;
+}
+
+.sd-roast-outer[data-mode="pinned"] .sd-roast-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+.sd-roast-outer[data-mode="flow"] .sd-roast-stage {
+  padding: clamp(48px, 8vw, 96px) 0;
+}
+
+.sd-readout__value {
+  font-family: var(--font-sd-mono);
+  font-weight: 700;
+  color: var(--color-tangerine);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.sd-bean {
+  border-radius: 9999px;
+  transition: background-color 240ms linear;
+  position: relative;
+  flex: none;
+}
+
+.sd-bean::after {
+  content: "";
+  position: absolute;
+  inset: 22% 46%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-espresso) 55%, transparent);
+  transform: rotate(12deg);
+}
+
+.sd-bean--light::after {
+  background: color-mix(in srgb, var(--color-espresso) 35%, transparent);
+}
+
+.sd-curve-line {
+  transition: stroke-dashoffset 80ms linear;
+}
+
+.sd-crack-marker {
+  transition: opacity 260ms var(--ease-sd-out);
+}
+
+/* ─────────────── Range scrubber: a pill slider ─────────────── */
+.sd-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-crema) 22%, transparent);
+  outline-offset: 6px;
+  cursor: pointer;
+}
+
+.sd-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--color-tangerine);
+  border: 3px solid var(--color-espresso);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-espresso) 45%, transparent);
+  cursor: grab;
+  transition: transform 140ms var(--ease-sd-spring);
+}
+
+.sd-range::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.12);
+}
+
+.sd-range::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--color-tangerine);
+  border: 3px solid var(--color-espresso);
+  cursor: grab;
+}
+
+/* Light contexts (brew bench) */
+.sd-range--light {
+  background: color-mix(in srgb, var(--color-espresso) 14%, transparent);
+}
+
+.sd-range--light::-webkit-slider-thumb {
+  border-color: var(--color-roastgreen);
+}
+
+.sd-range--light::-moz-range-thumb {
+  border-color: var(--color-roastgreen);
+}
+
+/* ─────────────── Stage panels (flow / reduced motion) ─────────────── */
+.sd-stage-panel {
+  border-radius: 28px;
+  background-color: color-mix(in srgb, var(--color-crema) 7%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--color-crema) 16%, transparent);
+  padding: clamp(22px, 3.4vw, 36px);
+}
+
+/* ─────────────── Forms ─────────────── */
+.sd-input {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 18px;
+  border-radius: 9999px;
+  border: 1.5px solid color-mix(in srgb, var(--color-espresso) 30%, transparent);
+  background: var(--color-crema);
+  color: var(--color-espresso);
+  font-family: var(--font-sd-body);
+  font-size: 1rem;
+  transition: border-color 150ms var(--ease-sd-out);
+}
+
+.sd-input:focus {
+  border-color: var(--color-tangerine);
+}
+
+.sd-input[aria-invalid="true"] {
+  border-color: var(--color-roastgreen);
+}
+
+textarea.sd-input {
+  border-radius: 24px;
+  padding: 14px 18px;
+  min-height: 120px;
+  resize: vertical;
+}
+
+.sd-field-error {
+  font-family: var(--font-sd-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-roastgreen);
+  margin: 6px 0 0 10px;
+}
+
+.sd-label {
+  font-family: var(--font-sd-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-husk);
+  margin: 0 0 8px 10px;
+  display: block;
+}
+
+/* ─────────────── Reveal (restrained, opacity + transform only) ─────────────── */
+.sd-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 420ms var(--ease-sd-out), transform 420ms var(--ease-sd-out);
+}
+
+.sd-reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sd-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .sd-btn,
+  .sd-bean,
+  .sd-curve-line,
+  .sd-crack-marker,
+  .sd-range::-webkit-slider-thumb {
+    transition: none !important;
+  }
+}
+
+/* ─────────────── Sections ─────────────── */
+.sd-section {
+  padding: clamp(64px, 9vw, 130px) 0;
+}
+
+.sd-section--green {
+  background-color: var(--color-roastgreen);
+  color: var(--color-crema);
+}
+
+/* ─────────────── Hero ─────────────── */
+.sd-hero {
+  position: relative;
+  overflow: hidden;
+  padding: calc(var(--sd-topbar-h) + 72px) 0 clamp(56px, 8vw, 110px);
+}
+
+.sd-hero__ground {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+}
+
+.sd-hero__fade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    58% 62% at 38% 46%,
+    var(--color-crema) 42%,
+    color-mix(in srgb, var(--color-crema) 82%, transparent) 72%,
+    transparent 100%
+  );
+}
+
+.sd-hero__inner {
+  position: relative;
+  display: grid;
+  column-gap: clamp(28px, 4vw, 56px);
+  row-gap: 0;
+}
+
+.sd-hero__media {
+  margin-top: 24px;
+  max-width: 620px;
+}
+
+.sd-hero__h1 {
+  font-size: clamp(46px, 9vw, 124px);
+  margin: 0 0 26px;
+  max-width: 11ch;
+}
+
+.sd-turn {
+  color: var(--sd-tangerine-ink);
+}
+
+.sd-hero__lead {
+  max-width: 52ch;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  margin: 0 0 34px;
+  color: color-mix(in srgb, var(--color-espresso) 88%, transparent);
+}
+
+.sd-hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(24px, 5vw, 64px);
+  margin: clamp(44px, 6vw, 72px) 0 0;
+  padding: 26px 0 0;
+  border-top: 2px solid color-mix(in srgb, var(--color-espresso) 14%, transparent);
+}
+
+.sd-hero__stat dt {
+  margin: 0;
+}
+
+/* ─────────────── Roast stage ─────────────── */
+.sd-roast-stage__inner {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--sd-topbar-h) + 12px) var(--sd-gutter) 24px;
+}
+
+.sd-roast-veil {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    70% 60% at 30% 45%,
+    color-mix(in srgb, var(--color-espresso) 30%, transparent) 0%,
+    color-mix(in srgb, var(--color-espresso) 78%, transparent) 100%
+  );
+  pointer-events: none;
+}
+
+.sd-roast-panel {
+  position: relative;
+  width: 100%;
+  max-width: var(--sd-wrap-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.4vh, 28px);
+}
+
+.sd-roast-panel__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+}
+
+.sd-curve-svg {
+  width: 100%;
+  height: auto;
+}
+
+.sd-readouts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(20px, 3.4vw, 44px);
+  margin: 0 0 26px;
+}
+
+.sd-readouts dt {
+  color: var(--color-oat);
+  margin: 0 0 6px;
+}
+
+.sd-readouts dd {
+  margin: 0;
+}
+
+.sd-roast-panel__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.sd-scrubber {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sd-scrubber__ticks {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-oat);
+  font-size: 0.65rem;
+  opacity: 0.85;
+}
+
+/* Static log for flow mode / reduced motion */
+.sd-flow-log {
+  list-style: none;
+  margin: clamp(32px, 5vh, 56px) 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.sd-flow-log__row {
+  border-radius: 24px;
+  border: 1.5px solid color-mix(in srgb, var(--color-crema) 16%, transparent);
+  background: color-mix(in srgb, var(--color-crema) 6%, transparent);
+  padding: 18px 22px;
+}
+
+/* ─────────────── Lots ─────────────── */
+.sd-lots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: 18px;
+}
+
+.sd-lot {
+  border-radius: 28px;
+  background: var(--color-crema);
+  border: 1.5px solid color-mix(in srgb, var(--color-espresso) 12%, transparent);
+  padding: clamp(22px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+}
+
+.sd-lot__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.sd-lot__notes {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.sd-lot__foot {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-top: 1.5px solid color-mix(in srgb, var(--color-espresso) 10%, transparent);
+}
+
+/* ─────────────── Brew bench ─────────────── */
+.sd-bench {
+  border-radius: 32px;
+  background: color-mix(in srgb, var(--color-espresso) 34%, var(--color-roastgreen));
+  border: 1.5px solid color-mix(in srgb, var(--color-crema) 18%, transparent);
+  padding: clamp(20px, 3vw, 34px);
+}
+
+.sd-bench__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: clamp(20px, 3vw, 32px);
+}
+
+.sd-bench__tab {
+  font-family: var(--font-sd-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 22px;
+  min-height: 46px;
+  border-radius: 999px;
+  border: 1.5px solid color-mix(in srgb, var(--color-crema) 40%, transparent);
+  background: transparent;
+  color: var(--color-crema);
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-sd-out), color 160ms var(--ease-sd-out),
+    border-color 160ms var(--ease-sd-out);
+}
+
+.sd-bench__tab:hover {
+  border-color: var(--color-crema);
+}
+
+.sd-bench__tab[data-active="true"] {
+  background: var(--color-tangerine);
+  border-color: var(--color-tangerine);
+  color: var(--color-espresso);
+}
+
+.sd-bench__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+
+.sd-bench__specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(18px, 3vw, 40px);
+  margin: 0;
+}
+
+.sd-bench__specs dt {
+  color: var(--color-oat);
+  margin: 0 0 6px;
+}
+
+.sd-bench__specs dd {
+  margin: 0;
+  color: var(--color-crema);
+}
+
+.sd-bench__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  counter-reset: step;
+}
+
+.sd-bench__steps li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 18px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--color-crema) 8%, transparent);
+}
+
+.sd-bench__stepno {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--color-tangerine);
+  color: var(--color-espresso);
+  font-family: var(--font-sd-mono);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+/* ─────────────── Plans ─────────────── */
+.sd-plans {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+.sd-plan {
+  border-radius: 28px;
+  border: 1.5px solid color-mix(in srgb, var(--color-espresso) 14%, transparent);
+  background: var(--color-crema);
+  padding: clamp(22px, 3vw, 34px);
+  display: flex;
+  flex-direction: column;
+}
+
+.sd-plan[data-featured="true"] {
+  background: var(--color-oat);
+  border-color: var(--color-tangerine);
+  border-width: 2.5px;
+}
+
+.sd-plan__badge {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--color-tangerine);
+  color: var(--color-espresso);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.sd-plan__price {
+  margin: 6px 0 18px;
+  color: var(--color-espresso);
+}
+
+.sd-plan__perks {
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  color: var(--color-husk);
+  font-size: 0.97rem;
+}
+
+.sd-plan__perks li {
+  padding-left: 26px;
+  position: relative;
+}
+
+.sd-plan__perks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--color-roastgreen);
+}
+
+.sd-plan .sd-btn {
+  margin-top: auto;
+}
+
+/* ─────────────── Wholesale & forms ─────────────── */
+.sd-wholesale {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: start;
+}
+
+.sd-wholesale__perks {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.sd-form {
+  border-radius: 32px;
+  background: var(--color-crema);
+  color: var(--color-espresso);
+  padding: clamp(22px, 3.4vw, 38px);
+  display: grid;
+  gap: 20px;
+}
+
+.sd-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.sd-wholesale__done {
+  background: var(--color-crema);
+  color: var(--color-espresso);
+}
+
+/* ─────────────── Footer ─────────────── */
+.sd-footer {
+  background: var(--color-crema);
+  padding: clamp(56px, 8vw, 110px) 0 40px;
+  border-top: 2px solid color-mix(in srgb, var(--color-espresso) 12%, transparent);
+}
+
+.sd-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: clamp(28px, 4vw, 56px);
+  padding-bottom: 44px;
+  border-bottom: 1.5px solid color-mix(in srgb, var(--color-espresso) 12%, transparent);
+}
+
+.sd-footer__hours {
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.sd-footer__hours div {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-family: var(--font-sd-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+.sd-footer__hours dd {
+  margin: 0;
+  color: var(--color-husk);
+}
+
+.sd-footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.sd-footer__links a {
+  color: var(--color-espresso);
+  text-decoration: none;
+  font-family: var(--font-sd-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sd-footer__links a:hover {
+  color: var(--sd-tangerine-ink);
+}
+
+.sd-footer__legal {
+  color: var(--color-husk);
+  margin: 28px 0 0;
+  font-size: 0.68rem;
+}
+
+/* ─────────────── Wide layouts: hero + chapter heads pair copy with a photo ─────────────── */
+@media (min-width: 900px) {
+  .sd-hero__inner {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .sd-hero__media {
+    margin-top: 0;
+    align-self: end;
+  }
+
+  .sd-hero__stats {
+    grid-column: 1 / -1;
+  }
+
+  .sd-chapter__head {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: center;
+  }
+
+  /* Mirror head: photo is first in the DOM and takes the narrow column. */
+  .sd-chapter__head--mirror {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+
+  .sd-chapter__head--mirror .sd-chapter__media {
+    margin: 0;
+  }
+
+  .sd-chapter__head .sd-chapter__media {
+    margin: 0;
+    max-width: none;
+  }
+}
+
+.sd-chapter__media {
+  margin: 28px 0 0;
+}
+
+.sd-wholesale__media {
+  margin: 30px 0 0;
+  max-width: 520px;
+}
+
+/* ─────────────── Phone layout ─────────────── */
+@media (max-width: 899px) {
+  .sd-hidden-mobile {
+    display: none !important;
+  }
+
+  .sd-roast-panel__grid,
+  .sd-bench__grid,
+  .sd-wholesale,
+  .sd-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .sd-roast-outer[data-mode="pinned"] .sd-roast-stage {
+    position: static;
+    height: auto;
+  }
+
+  .sd-hero__stats {
+    gap: 22px 36px;
+  }
+
+  .sd-topbar__inner {
+    padding-left: 16px;
+  }
+}
+

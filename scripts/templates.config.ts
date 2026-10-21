@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial";
 
 export type TemplateConfig = {
   palette: string[];
@@ -41,6 +41,13 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   verane: {
     // oud (ink), calcaire (paper), orris (accent), gilt (hairlines on oud only), veil (tint), ash (muted text)
     palette: ["#2A1E22", "#E3DFD8", "#655A7E", "#B59A6A", "#CFC9C0", "#5F5753"],
+  },
+  sundial: {
+    // espresso (ink), crema (paper), tangerine (accent), roastgreen (rare secondary), oat (tint), husk (muted)
+    palette: ["#241611", "#F7F1E6", "#FF6B1A", "#0F5C3F", "#EADBC4", "#6F6152"],
+    paletteExempt: [
+      "src/app/(sundial)/sundial/roast/roast.ts", // bean-colour ramp is content colour, like 3D food
+    ],
   },
 };
 

@@ -49,6 +49,10 @@ export const TEMPLATE_METADATA: Record<
     name: "Maison Vérane",
     dependencies: [],
   },
+  sundial: {
+    name: "SUNDIAL Coffee Roasters",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
