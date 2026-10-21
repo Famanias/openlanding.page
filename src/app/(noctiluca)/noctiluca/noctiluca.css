@@ -1,0 +1,1560 @@
+/* Hallmark · macrostructure: bespoke (walk-through corridor) · tone: atmospheric · anchor hue: lilac 285°
+ * theme: custom · vibe: "a dark house of moving light" · genre: atmospheric
+ * paper #07060B (dark) · accent #C9B8FF (cool) · display Syne + body Schibsted Grotesk + Fragment Mono
+ * nav: N5 floating pill + N3 side-rail (depth rail) · footer: Ft5 statement (the exit wall)
+ */
+@import "tailwindcss";
+
+/* ─────────────── NOCTILUCA tokens ─────────────── */
+@theme {
+  --color-ink: #07060B; /* the house after dark: page ground, door walls */
+  --color-lumen: #F3F0EA; /* text, wall-label card stock */
+  --color-glow: #C9B8FF; /* the one UI accent: buttons, focus, the mark's light */
+  --color-dusk: #8E889B; /* muted text, hairlines */
+  --color-glass: #16131F; /* plaque glass */
+  --color-ember: #FFA38F; /* errors only */
+
+  --font-nl-display: var(--font-syne), "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-nl-body: var(--font-schibsted), "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-nl-mono: var(--font-fragment), "Fragment Mono", ui-monospace, Menlo, monospace;
+
+  --ease-nl-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-nl-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ─────────────── base ─────────────── */
+html:has(.nl-body) {
+  background: var(--color-ink);
+  overflow-x: clip;
+  color-scheme: dark;
+}
+
+.nl-body {
+  --nl-gutter: clamp(16px, 4vw, 56px);
+  --nl-line: color-mix(in srgb, var(--color-lumen) 14%, transparent);
+  --nl-glass: color-mix(in srgb, var(--color-glass) 88%, transparent);
+
+  margin: 0;
+  overflow-x: clip;
+  background: var(--color-ink);
+  color: var(--color-lumen);
+  font-family: var(--font-nl-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.nl-body ::selection {
+  background: var(--color-glow);
+  color: var(--color-ink);
+}
+
+.nl-body :focus-visible {
+  outline: 2px solid var(--color-glow);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.nl-body):not([data-nl-mode="corridor"]) {
+    scroll-behavior: smooth;
+  }
+}
+
+.nl-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.nl-skip {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 40;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--color-glow);
+  color: var(--color-ink);
+  font-weight: 600;
+  transform: translateY(-160%);
+}
+
+.nl-skip:focus-visible {
+  transform: none;
+}
+
+.nl-mono {
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+/* ─────────────── the still light (poster) and the live light (canvas) ─────────────── */
+.nl-poster,
+.nl-light {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.nl-poster {
+  z-index: 0;
+  background: var(--color-ink);
+}
+
+/* Walls of colour at the edges, a dark corridor in the middle: the corridor, drawn flat. */
+.nl-poster-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 700ms var(--ease-nl-out);
+  background:
+    radial-gradient(ellipse 34% 40% at 50% 47%, var(--color-ink) 0 40%, transparent 100%),
+    radial-gradient(ellipse 90% 50% at 50% 115%, color-mix(in srgb, var(--nl-c) 45%, transparent), transparent 70%),
+    radial-gradient(ellipse 120% 60% at 50% -20%, color-mix(in srgb, var(--nl-b) 70%, transparent), transparent 70%),
+    linear-gradient(90deg, var(--nl-c) 0%, var(--nl-b) 20%, var(--nl-a) 40%, var(--nl-a) 60%, var(--nl-b) 80%, var(--nl-d) 100%);
+}
+
+.nl-poster-layer[data-active="true"] {
+  opacity: 1;
+}
+
+.nl-light {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1200ms var(--ease-nl-out);
+}
+
+.nl-light[data-ready="true"] {
+  opacity: 1;
+}
+
+.nl-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.nl-main {
+  position: relative;
+  z-index: 2;
+}
+
+/* ─────────────── shared type ─────────────── */
+.nl-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  margin: 0 0 1rem;
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-eyebrow-num {
+  color: var(--color-glow);
+}
+
+.nl-hero-title {
+  margin: 0;
+  font-family: var(--font-nl-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 10.5vw, 3.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.nl-hero-glow {
+  background: linear-gradient(92deg, var(--nl-d), var(--color-glow) 60%, var(--color-lumen));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.nl-room-title {
+  margin: 0 0 1rem;
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: clamp(1.85rem, 7.4vw, 2.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.nl-lead,
+.nl-copy {
+  margin: 0;
+  max-width: 38rem;
+  color: color-mix(in srgb, var(--color-lumen) 84%, transparent);
+}
+
+.nl-lead {
+  margin-top: 1.25rem;
+  font-size: 1.0625rem;
+}
+
+.nl-small {
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-dusk);
+  max-width: 30rem;
+}
+
+.nl-link {
+  color: var(--color-lumen);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-glow) 60%, transparent);
+  text-underline-offset: 0.25em;
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-link:hover {
+    color: var(--color-glow);
+  }
+}
+
+.nl-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin: 1.5rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--nl-line);
+}
+
+.nl-next-k {
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+/* ─────────────── buttons and chips ─────────────── */
+.nl-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1.75rem;
+}
+
+.nl-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1.35rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: var(--font-nl-body);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease-nl-out),
+    background-color 160ms var(--ease-nl-out),
+    border-color 160ms var(--ease-nl-out);
+}
+
+.nl-button[data-variant="solid"] {
+  background: var(--color-glow);
+  color: var(--color-ink);
+}
+
+.nl-button[data-variant="ghost"] {
+  border-color: color-mix(in srgb, var(--color-lumen) 32%, transparent);
+  background: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  color: var(--color-lumen);
+}
+
+.nl-button-arrow {
+  display: inline-block;
+  transition: transform 160ms var(--ease-nl-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-button[data-variant="solid"]:hover {
+    background: var(--color-lumen);
+  }
+  .nl-button[data-variant="ghost"]:hover {
+    border-color: var(--color-glow);
+  }
+  .nl-button:hover .nl-button-arrow {
+    transform: translateX(3px);
+  }
+}
+
+.nl-button:active {
+  transform: scale(0.97);
+}
+
+.nl-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.nl-chip {
+  min-height: 36px;
+  padding: 0 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--nl-line);
+  background: transparent;
+  color: var(--color-lumen);
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease-nl-out),
+    background-color 160ms var(--ease-nl-out);
+}
+
+.nl-chip[aria-pressed="true"] {
+  background: var(--color-lumen);
+  color: var(--color-ink);
+}
+
+.nl-chip:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-chip:hover {
+    border-color: var(--color-glow);
+  }
+}
+
+/* ─────────────── top bar (floating pill) ─────────────── */
+.nl-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-lumen);
+}
+
+.nl-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.nl-logo-word {
+  font-family: var(--font-nl-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.nl-logo-tag {
+  margin-top: 0.35rem;
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-topbar {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 56px;
+  padding: 0 6px 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--nl-line);
+  background: color-mix(in srgb, var(--color-ink) 72%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.nl-topbar-home {
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+.nl-topbar-nav {
+  display: none;
+}
+
+.nl-topbar-nav ol {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nl-topbar-nav a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0.6rem 0.8rem;
+  border-radius: 999px;
+  color: var(--color-dusk);
+  font-size: 0.875rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nl-topbar-num {
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+.nl-topbar-name {
+  display: none;
+}
+
+.nl-topbar-nav a[aria-current="location"] {
+  color: var(--color-lumen);
+  background: color-mix(in srgb, var(--color-lumen) 9%, transparent);
+}
+
+.nl-topbar-nav a[aria-current="location"] .nl-topbar-num {
+  color: var(--color-glow);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-topbar-nav a:hover {
+    color: var(--color-lumen);
+  }
+}
+
+.nl-topbar-cta {
+  min-height: 44px;
+}
+
+@media (max-width: 380px) {
+  .nl-logo-word {
+    font-size: 0.95rem;
+  }
+  .nl-topbar-cta {
+    padding: 0 1rem;
+  }
+}
+
+@media (min-width: 720px) {
+  .nl-topbar {
+    top: 16px;
+    left: 50%;
+    right: auto;
+    width: min(1120px, calc(100% - 32px));
+    transform: translateX(-50%);
+  }
+  .nl-topbar-nav {
+    display: block;
+  }
+}
+
+@media (min-width: 1180px) {
+  .nl-topbar-name {
+    display: inline;
+  }
+}
+
+/* ─────────────── depth rail (signature) ─────────────── */
+.nl-rail {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .nl-rail {
+    position: fixed;
+    right: 22px;
+    top: 50%;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 18px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}
+
+.nl-rail-track {
+  position: relative;
+  width: 34px;
+  height: 40vh;
+  container-type: size;
+  border-right: 1px solid var(--nl-line);
+}
+
+.nl-rail-tick {
+  position: absolute;
+  right: 8px;
+  transform: translateY(-50%);
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  color: var(--color-dusk);
+}
+
+.nl-rail-tick::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -9px;
+  width: 6px;
+  border-top: 1px solid var(--color-dusk);
+}
+
+.nl-rail-tick[data-active="true"] {
+  color: var(--color-lumen);
+}
+
+.nl-rail-marker {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 999px;
+  background: var(--color-glow);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-glow) 22%, transparent);
+}
+
+.nl-rail-readout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.nl-rail-room {
+  color: var(--color-lumen);
+}
+
+.nl-rail-depth {
+  color: var(--color-glow);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─────────────── light switch (touch screens) ─────────────── */
+.nl-switch {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding: 0 1.1rem 0 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--nl-line);
+  background: color-mix(in srgb, var(--color-ink) 78%, transparent);
+  backdrop-filter: blur(10px);
+  color: var(--color-lumen);
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 160ms var(--ease-nl-out);
+}
+
+.nl-switch:active {
+  transform: scale(0.97);
+}
+
+.nl-switch-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-glow);
+}
+
+.nl-switch[aria-pressed="true"] .nl-switch-dot {
+  background: var(--color-glow);
+  box-shadow: 0 0 12px var(--color-glow);
+}
+
+/* ─────────────── plaques, labels, portals (flow layout is the default) ─────────────── */
+.nl-room {
+  position: relative;
+  display: grid;
+  gap: 24px;
+  padding: clamp(104px, 16vh, 150px) var(--nl-gutter) clamp(56px, 10vh, 96px);
+  max-width: 76rem;
+  margin: 0 auto;
+}
+
+.nl-room[data-room="foyer"] {
+  min-height: 100svh;
+  align-content: center;
+}
+
+.nl-plaque {
+  position: relative;
+  container-type: inline-size;
+  min-width: 0;
+  padding: clamp(22px, 3vw, 40px);
+  border-radius: 6px;
+  border: 1px solid var(--nl-line);
+  background: var(--nl-glass);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--nl-c) 55%, transparent);
+}
+
+.nl-room[data-room="foyer"] .nl-plaque,
+.nl-room[data-room="exit"] .nl-plaque {
+  border: 0;
+  box-shadow: none;
+  background: radial-gradient(ellipse 75% 70% at 45% 50%, color-mix(in srgb, var(--color-ink) 78%, transparent), transparent 100%);
+}
+
+.nl-aside {
+  min-width: 0;
+}
+
+.nl-portal {
+  position: relative;
+  width: min(64vw, 260px);
+  aspect-ratio: 3 / 4;
+  margin: 0 auto;
+  border-radius: 999px 999px 4px 4px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 45% at 50% 105%, var(--nl-d), transparent 70%),
+    radial-gradient(ellipse 120% 70% at 30% 20%, var(--nl-c), transparent 70%),
+    linear-gradient(180deg, var(--nl-a), var(--nl-b));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--color-lumen) 22%, transparent),
+    inset 0 -40px 60px color-mix(in srgb, var(--color-ink) 40%, transparent);
+}
+
+.nl-portal-numeral {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-lumen);
+}
+
+.nl-room[data-room="foyer"] .nl-portal,
+.nl-room[data-room="exit"] .nl-portal {
+  display: none;
+}
+
+.nl-door,
+.nl-endwall {
+  display: none;
+}
+
+/* Hero facts and hint */
+.nl-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 24px;
+  margin: 2rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--nl-line);
+  max-width: 40rem;
+}
+
+.nl-facts dd {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.nl-facts-value {
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.nl-facts-label {
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+@container (min-width: 34rem) {
+  .nl-facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.nl-hint {
+  display: none;
+}
+
+/* Wall labels: museum card stock, ink on lumen */
+.nl-label {
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--color-lumen);
+  color: var(--color-ink);
+  box-shadow: 0 30px 60px -30px var(--color-ink);
+}
+
+.nl-label-media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.nl-label-media img,
+.nl-label-media video,
+video.nl-label-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nl-label-body {
+  padding: 18px 20px 20px;
+}
+
+.nl-label-kicker {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-ink) 62%, var(--color-lumen));
+}
+
+.nl-label-title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.1;
+}
+
+.nl-label-rows {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+}
+
+.nl-label-rows div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+  gap: 10px;
+  padding-top: 4px;
+  border-top: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+}
+
+.nl-label-rows dt {
+  color: color-mix(in srgb, var(--color-ink) 62%, var(--color-lumen));
+}
+
+.nl-label-rows dd {
+  margin: 0;
+}
+
+.nl-label-note {
+  margin: 0.9rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.nl-spectrum {
+  height: 8px;
+  margin-top: 14px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--nl-a), var(--nl-b), var(--nl-c), var(--nl-d));
+}
+
+.nl-placeholder {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  background:
+    repeating-linear-gradient(135deg, color-mix(in srgb, var(--color-ink) 10%, transparent) 0 1px, transparent 1px 9px),
+    linear-gradient(135deg, var(--nl-b), var(--nl-c));
+  color: var(--color-lumen);
+}
+
+.nl-placeholder .nl-mono {
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--color-ink) 70%, transparent);
+}
+
+/* ─────────────── score room ─────────────── */
+.nl-score-layout {
+  display: grid;
+  gap: 24px;
+}
+
+.nl-mixer {
+  display: grid;
+  gap: 18px;
+  margin-top: 1.5rem;
+}
+
+.nl-mixer-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nl-dials {
+  display: grid;
+  gap: 14px;
+}
+
+.nl-dial {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  row-gap: 4px;
+}
+
+.nl-dial-label {
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-dial-value {
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.nl-range {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.nl-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-glow) var(--nl-fill, 0%), color-mix(in srgb, var(--color-lumen) 16%, transparent) var(--nl-fill, 0%));
+}
+
+.nl-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-glow) var(--nl-fill, 0%), color-mix(in srgb, var(--color-lumen) 16%, transparent) var(--nl-fill, 0%));
+}
+
+.nl-range[data-dial="hue"]::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg in oklch longer hue, oklch(72% 0.14 0), oklch(72% 0.14 359));
+}
+
+.nl-range[data-dial="hue"]::-moz-range-track {
+  background: linear-gradient(90deg in oklch longer hue, oklch(72% 0.14 0), oklch(72% 0.14 359));
+}
+
+.nl-range::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;
+  border-radius: 999px;
+  border: 3px solid var(--color-ink);
+  background: var(--color-lumen);
+  box-shadow: 0 0 0 1px var(--color-lumen);
+  appearance: none;
+  transition: transform 160ms var(--ease-nl-out);
+}
+
+.nl-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 3px solid var(--color-ink);
+  background: var(--color-lumen);
+}
+
+.nl-range:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+.nl-score-sheet {
+  display: grid;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--nl-line);
+}
+
+.nl-score-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  height: 28px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.nl-score-readout {
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+  color: var(--color-glow);
+}
+
+/* ─────────────── visit room ─────────────── */
+.nl-visit {
+  display: grid;
+  gap: 28px;
+}
+
+.nl-hours {
+  display: grid;
+  gap: 2px;
+  margin: 1.25rem 0 0;
+  font-size: 0.875rem;
+}
+
+.nl-hours div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+  gap: 12px;
+  padding: 6px 0;
+  border-top: 1px solid var(--nl-line);
+}
+
+.nl-hours dt {
+  color: var(--color-dusk);
+}
+
+.nl-hours dd {
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+}
+
+.nl-form {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.nl-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.nl-field > label,
+.nl-field > legend {
+  padding: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-field input[type="date"],
+.nl-field input[type="email"],
+.nl-stepper input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--color-lumen) 20%, transparent);
+  background: color-mix(in srgb, var(--color-ink) 65%, transparent);
+  color: var(--color-lumen);
+  font: inherit;
+  color-scheme: dark;
+}
+
+.nl-field input[aria-invalid="true"] {
+  border-color: var(--color-ember);
+}
+
+.nl-hint-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-dusk);
+}
+
+.nl-slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.2rem, 1fr));
+  gap: 6px;
+  max-height: 8.6rem;
+  overflow-y: auto;
+  padding: 2px;
+  overscroll-behavior: contain;
+}
+
+.nl-slot {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.nl-slot input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.nl-slot span {
+  display: grid;
+  place-items: center;
+  min-height: 36px;
+  border-radius: 6px;
+  border: 1px solid var(--nl-line);
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  transition: transform 120ms var(--ease-nl-out);
+}
+
+.nl-slot[data-late="true"] span {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--color-glow) 50%, transparent);
+}
+
+.nl-slot input:checked + span {
+  background: var(--color-glow);
+  border-color: var(--color-glow);
+  color: var(--color-ink);
+}
+
+.nl-slot input:focus-visible + span {
+  outline: 2px solid var(--color-glow);
+  outline-offset: 2px;
+}
+
+.nl-slot input:active + span {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nl-slot:hover span {
+    border-color: var(--color-glow);
+  }
+}
+
+.nl-form-row {
+  display: grid;
+  gap: 16px;
+}
+
+.nl-stepper {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  gap: 6px;
+}
+
+.nl-stepper input {
+  text-align: center;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.nl-stepper input::-webkit-inner-spin-button,
+.nl-stepper input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.nl-stepper button {
+  min-height: 44px;
+  border-radius: 6px;
+  border: 1px solid var(--nl-line);
+  background: transparent;
+  color: var(--color-lumen);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 120ms var(--ease-nl-out);
+}
+
+.nl-stepper button:active {
+  transform: scale(0.95);
+}
+
+.nl-stepper button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nl-error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-ember);
+}
+
+.nl-form-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--nl-line);
+}
+
+.nl-total {
+  margin: 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.8125rem;
+  color: var(--color-glow);
+}
+
+.nl-held {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  padding: 22px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--color-glow) 40%, transparent);
+}
+
+.nl-held-text {
+  margin: 0;
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.nl-held-text:focus-visible {
+  outline-offset: 6px;
+}
+
+@container (min-width: 46rem) {
+  .nl-visit {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.1fr);
+    gap: 40px;
+  }
+  .nl-score-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .nl-score-layout .nl-mixer {
+    margin-top: 0;
+  }
+  .nl-form-row {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  }
+}
+
+/* ─────────────── exit ─────────────── */
+.nl-exit {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+}
+
+.nl-exit-title {
+  margin: 0.5rem 0 0;
+}
+
+.nl-exit-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+.nl-exit-meta {
+  display: grid;
+  gap: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--nl-line);
+  font-family: var(--font-nl-mono);
+  font-size: 0.75rem;
+  color: var(--color-dusk);
+}
+
+.nl-exit-meta p {
+  margin: 0;
+}
+
+/* ─────────────── flow layout on wide screens (reduced motion, short windows) ─────────────── */
+@media (min-width: 900px) {
+  html:not([data-nl-mode="corridor"]) .nl-room:not([data-room="foyer"]):not([data-room="exit"]) {
+    grid-template-columns: 15rem minmax(0, 1fr) minmax(0, 20rem);
+    align-items: start;
+    gap: 32px;
+  }
+  html:not([data-nl-mode="corridor"]) .nl-room[data-room="score"],
+  html:not([data-nl-mode="corridor"]) .nl-room[data-room="visit"] {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+  html:not([data-nl-mode="corridor"]) .nl-room[data-room="score"] .nl-aside,
+  html:not([data-nl-mode="corridor"]) .nl-room[data-room="visit"] .nl-aside {
+    grid-column: 2;
+    max-width: 24rem;
+  }
+  html:not([data-nl-mode="corridor"]) .nl-portal {
+    width: 100%;
+    position: sticky;
+    top: 110px;
+  }
+  html:not([data-nl-mode="corridor"]) .nl-hero-title {
+    font-size: clamp(3.4rem, 6.4vw, 6rem);
+  }
+  html:not([data-nl-mode="corridor"]) .nl-room-title {
+    font-size: clamp(2.2rem, 3.4vw, 3.2rem);
+  }
+}
+
+/* Phones and tablets: plaques swing into place as they arrive (CSS scroll timeline, transform only). */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    html:not([data-nl-mode="corridor"]) .nl-portal,
+    html:not([data-nl-mode="corridor"]) .nl-plaque,
+    html:not([data-nl-mode="corridor"]) .nl-aside {
+      animation: nl-swing linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+      transform-origin: 50% 100%;
+    }
+    html:not([data-nl-mode="corridor"]) .nl-room[data-room="foyer"] .nl-plaque {
+      animation: none;
+    }
+  }
+}
+
+@keyframes nl-swing {
+  from {
+    transform: perspective(900px) rotateX(22deg) translateY(48px) scale(0.96);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+ * CORRIDOR MODE: the page is the house.
+ * Geometry mirrors house/geometry.ts: P = 96.05vh (55° fov), rooms
+ * 2.6 P apart, doors 1.7 P past each plaque, tunnel min(36vw, 66vh) wide.
+ * The only thing JS moves is .nl-world's transform (the camera).
+ * ══════════════════════════════════════════════════════════════════ */
+html[data-nl-mode="corridor"] {
+  --nl-p: 96.05vh;
+  --nl-depth: calc(var(--nl-p) * 2.6);
+  --nl-hw: min(36vw, 66vh);
+  --nl-ceil: -40vh;
+  --nl-floor: 33vh;
+  --nl-t: 9vh; /* door thickness */
+}
+
+html[data-nl-mode="corridor"] .nl-track {
+  position: relative;
+  height: calc(7 * 160vh + 100vh);
+}
+
+html[data-nl-mode="corridor"] .nl-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: clip;
+  perspective: var(--nl-p);
+  perspective-origin: 50% 50%;
+}
+
+html[data-nl-mode="corridor"] .nl-world {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(var(--nl-p));
+  will-change: transform;
+}
+
+html[data-nl-mode="corridor"] .nl-room {
+  --nl-z: calc(var(--i) * var(--nl-depth) * -1);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: 0;
+  height: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  transform-style: preserve-3d;
+}
+
+html[data-nl-mode="corridor"] .nl-portal {
+  display: none;
+}
+
+/* Plaques hang at exactly 1:1 when the camera stands at their station. */
+html[data-nl-mode="corridor"] .nl-plaque {
+  --nl-x: -50%;
+  position: absolute;
+  top: -2vh;
+  left: 0;
+  width: min(32vw, 31rem);
+  max-height: 70vh;
+  transform: translate3d(var(--nl-x), -50%, calc(var(--nl-z) - var(--nl-p)));
+  backface-visibility: hidden;
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-side="left"] .nl-plaque {
+  --nl-x: 0%;
+  left: calc(var(--nl-hw) * -1 + 2.5vw);
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-side="right"] .nl-plaque {
+  --nl-x: -100%;
+  left: calc(var(--nl-hw) - 2.5vw);
+}
+
+html[data-nl-mode="corridor"] .nl-plaque[data-width="hero"] {
+  width: min(calc(var(--nl-hw) * 2 - 6vw), 62rem);
+  padding: 3vh 3vw;
+}
+
+html[data-nl-mode="corridor"] .nl-plaque[data-width="wide"] {
+  width: min(calc(var(--nl-hw) * 2 - 5vw), 66rem);
+  background: color-mix(in srgb, var(--color-glass) 95%, transparent);
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-side="left"] .nl-plaque[data-width="wide"] {
+  left: calc(var(--nl-hw) * -1 + 2.5vw);
+}
+
+html[data-nl-mode="corridor"] .nl-hero-title {
+  font-size: min(6.4vw, 10.4vh, 6.6rem);
+}
+
+html[data-nl-mode="corridor"] .nl-room-title {
+  font-size: min(3.2vw, 5.4vh, 3.3rem);
+}
+
+html[data-nl-mode="corridor"] .nl-lead,
+html[data-nl-mode="corridor"] .nl-copy {
+  font-size: clamp(0.9375rem, 1.9vh, 1.0625rem);
+}
+
+html[data-nl-mode="corridor"] .nl-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 2rem 0 0;
+  font-family: var(--font-nl-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-hint-line {
+  position: relative;
+  width: 48px;
+  height: 1px;
+  overflow: hidden;
+  background: var(--nl-line);
+}
+
+.nl-hint-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-glow);
+  transform: translateX(-100%);
+  animation: nl-hint 2.4s var(--ease-nl-in-out) infinite;
+}
+
+@keyframes nl-hint {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* The wall label hangs deeper, on the opposite wall, turned toward the walker. */
+html[data-nl-mode="corridor"] .nl-aside {
+  position: absolute;
+  top: -4vh;
+  left: calc(var(--nl-hw) - 2vw);
+  width: min(19vw, 19rem);
+  transform: translate3d(-100%, -50%, calc(var(--nl-z) - var(--nl-p) * 1.38)) rotateY(24deg);
+  transform-origin: 100% 50%;
+  backface-visibility: hidden;
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-side="right"] .nl-aside {
+  left: calc(var(--nl-hw) * -1 + 2vw);
+  transform: translate3d(0%, -50%, calc(var(--nl-z) - var(--nl-p) * 1.38)) rotateY(-24deg);
+  transform-origin: 0% 50%;
+}
+
+/* Doorways: a wall across the tunnel, an opening 0.92 × the half-width, three lit reveals. */
+html[data-nl-mode="corridor"] .nl-door {
+  position: absolute;
+  display: block;
+  left: calc(var(--nl-hw) * -1);
+  top: var(--nl-ceil);
+  width: calc(var(--nl-hw) * 2);
+  height: calc(var(--nl-floor) - var(--nl-ceil));
+  transform: translateZ(calc(var(--nl-z) - var(--nl-p) * 1.7));
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.nl-door-lintel,
+.nl-door-jamb {
+  position: absolute;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--nl-c) 16%, var(--color-ink)), var(--color-ink) 70%);
+}
+
+.nl-door-lintel {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4vh;
+  padding-bottom: 2.6vh;
+  border-bottom: 1px solid color-mix(in srgb, var(--nl-next-c) 50%, transparent);
+}
+
+.nl-door-numeral {
+  font-family: var(--font-nl-display);
+  font-weight: 600;
+  font-size: 5vh;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--color-lumen) 78%, transparent);
+  text-shadow: 0 -1px 0 color-mix(in srgb, var(--color-ink) 80%, transparent), 0 1px 0 color-mix(in srgb, var(--nl-next-d) 30%, transparent);
+}
+
+.nl-door-name {
+  font-family: var(--font-nl-mono);
+  font-size: 1.5vh;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-dusk);
+}
+
+.nl-door-jamb {
+  top: 30%;
+  bottom: 0;
+  width: calc(var(--nl-hw) * 0.54);
+}
+
+.nl-door-jamb[data-side="left"] {
+  left: 0;
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--nl-next-c) 50%, transparent);
+}
+
+.nl-door-jamb[data-side="right"] {
+  right: 0;
+  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--nl-next-c) 50%, transparent);
+}
+
+.nl-door-reveal {
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.nl-door-reveal[data-side="left"] {
+  top: 30%;
+  bottom: 0;
+  left: calc(var(--nl-hw) * 0.54);
+  width: var(--nl-t);
+  transform-origin: 0 50%;
+  transform: rotateY(90deg);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--nl-c) 20%, var(--color-ink)), color-mix(in srgb, var(--nl-next-c) 75%, var(--color-ink)));
+}
+
+.nl-door-reveal[data-side="right"] {
+  top: 30%;
+  bottom: 0;
+  left: calc(var(--nl-hw) * 1.46 - var(--nl-t));
+  width: var(--nl-t);
+  transform-origin: 100% 50%;
+  transform: rotateY(-90deg);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--nl-next-c) 75%, var(--color-ink)), color-mix(in srgb, var(--nl-c) 20%, var(--color-ink)));
+}
+
+.nl-door-reveal[data-side="top"] {
+  top: 30%;
+  left: calc(var(--nl-hw) * 0.54);
+  width: calc(var(--nl-hw) * 0.92);
+  height: var(--nl-t);
+  transform-origin: 50% 0;
+  transform: rotateX(-90deg);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--nl-c) 12%, var(--color-ink)), color-mix(in srgb, var(--nl-next-b) 70%, var(--color-ink)));
+}
+
+.nl-door-sill {
+  display: none;
+}
+
+/* The end of the house: a solid wall closing the corridor behind the exit plaque. */
+html[data-nl-mode="corridor"] .nl-endwall {
+  position: absolute;
+  display: block;
+  left: calc(var(--nl-hw) * -1);
+  top: var(--nl-ceil);
+  width: calc(var(--nl-hw) * 2);
+  height: calc(var(--nl-floor) - var(--nl-ceil));
+  transform: translateZ(calc(var(--nl-z) - var(--nl-p) * 2.4));
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 100%, color-mix(in srgb, var(--color-glow) 22%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--color-glass) 70%, var(--color-ink)), var(--color-ink));
+  pointer-events: none;
+}
+
+html[data-nl-mode="corridor"] .nl-room[data-room="exit"] .nl-plaque {
+  width: min(calc(var(--nl-hw) * 2 - 8vw), 44rem);
+}

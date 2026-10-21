@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca";
 
 export type TemplateConfig = {
   palette: string[];
@@ -47,6 +47,14 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     palette: ["#241611", "#F7F1E6", "#FF6B1A", "#0F5C3F", "#EADBC4", "#6F6152"],
     paletteExempt: [
       "src/app/(sundial)/sundial/roast/roast.ts", // bean-colour ramp is content colour, like 3D food
+    ],
+  },
+  noctiluca: {
+    // ink (ground), lumen (text, label stock), glow (the one accent), dusk (muted), glass (plaques), ember (errors only)
+    palette: ["#07060B", "#F3F0EA", "#C9B8FF", "#8E889B", "#16131F", "#FFA38F"],
+    paletteExempt: [
+      "src/app/(noctiluca)/noctiluca/light/phenomena.ts", // each room's light is content colour, like a photograph of the sky
+      "src/app/(noctiluca)/noctiluca/rooms/rooms.test.ts", // asserts the phenomena stops' format
     ],
   },
 };
