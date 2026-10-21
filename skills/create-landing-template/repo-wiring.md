@@ -20,6 +20,7 @@ src/app/(<slug>)/
     assets.generated.ts        start as: export const ASSETS: Record<string, { w: number; h: number }> = {};
     brand/                     Logo.tsx and other marks
     sections/ | slides/ | chapters/
+    motion/                    the motion primitives (motion-system.md §8): useReducedMotion, useInView, Reveal, SplitText, Magnetic, TiltCard, Marquee, CountUp, useScrollProgress, SmoothScroll, plus math.ts with math.test.ts
     <mechanic>/                pure logic in *.ts with a *.test.ts beside it, plus its components
     forms/                     validation in *.ts (tested) plus the form component; success state, no network
 public/templates/<slug>/       processed images (npm run images) and clips/
@@ -63,10 +64,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-body: var(--font-inter-tight), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  /* motion tokens: the full set (easings, durations, reveal shift, stagger) is in motion-system.md §2 */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);
+  --dur-instant: 90ms;
+  --dur-fast: 180ms;
+  --dur-base: 420ms;
+  --dur-slow: 800ms;
+  --dur-hero: 1200ms;
+  --reveal-shift: 28px;
+  --stagger: 70ms;
 }
 ```
+
+Reveal states, load keyframes and hover rules go in the same file under `@media (prefers-reduced-motion: no-preference)`, and pointer effects under `@media (hover: hover) and (pointer: fine)`. Add `<noscript><style>[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}</style></noscript>` to the layout.
 
 **`assets.tsx`** renders a responsive `<picture>`, or a labelled placeholder until the image exists:
 
@@ -115,10 +128,11 @@ export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 
 2. **Base.** Write `layout.tsx` with its fonts and metadata, then `<slug>.css` with the tokens.
 3. **Brand.** `brand/Logo.tsx`, `icon.svg` and `opengraph-image.tsx`, matching the approved board.
 4. **Assets.** `assets.tsx` and an empty `assets.generated.ts`, so every image renders as a labelled placeholder until the real images exist.
-5. **The mechanic's logic, test first.** Then its components.
-6. **Sections, top to bottom.** Then the forms.
-7. **Motion and reduced motion.** Then the phone layout at 375px.
-8. **Registration** (below), the e2e spec, and PROMPT.md.
+5. **Motion foundation.** The `motion/` primitives the motion map needs, with `math.ts` tested first, and the motion tokens and reveal CSS from `motion-system.md` §2–§3. Build this before any section so each section is born animated.
+6. **The mechanic's logic, test first.** Then its components.
+7. **Sections, top to bottom,** each implementing its row of the motion map (reveals, scroll behaviour, hover/press states). Then the header and menu, the hero load sequence, and the forms with their loading and success transitions.
+8. **Motion pass and reduced motion.** Section handoffs, ambient life, the signature moment, then the reduced-motion and no-JS states, then the phone layout at 375px.
+9. **Registration** (below), the e2e spec, and PROMPT.md. List `gsap`, `lenis` and `motion` in `dependencies` only if the template actually imports them.
 
 ## The six registration points
 

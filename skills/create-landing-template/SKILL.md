@@ -7,7 +7,7 @@ description: Use when adding a new landing-page template to this openlandingpage
 
 ## Overview
 
-Every template here is a complete fictional brand with **one central idea that drives the whole page**. A metaphor from the brand's world becomes the page's signature interaction: a climb becomes an altitude meter, clockwork becomes a slide deck, a dish becomes something you turn in 3D. Quality comes from that idea, a complete brand system, and the repo's guardrails. **The bar is in `quality-bar.md`. Read it before Phase 3 and again before Phase 6.**
+Every template here is a complete fictional brand with **one central idea that drives the whole page**. A metaphor from the brand's world becomes the page's signature interaction: a climb becomes an altitude meter, clockwork becomes a slide deck, a dish becomes something you turn in 3D. Quality comes from that idea, a complete brand system, and the repo's guardrails. **The bar is in `quality-bar.md`. Read it before Phase 3 and again before Phase 6.** The page must feel alive and premium on every interaction: load, scroll, hover, press, focus, forms and section handoffs. A plain fade-in is not enough. **The motion playbook is in `motion-system.md`. Read it before Phase 3 and again before Phase 6.**
 
 Approval gates are hard. No template code before the brand board is approved.
 
@@ -35,7 +35,7 @@ Template code lives only where `repo-wiring.md` puts it.
 - Read `node_modules/next/dist/docs/` for anything you'll touch (see AGENTS.md). This is Next.js 16.
 
 ### Phase 2: Ask
-Ask the questions in `questions.md`: at most two rounds, one topic at a time, each with a "you decide" option. Word question 7 (images and video: who generates them) from the key-detection result, following `media.md`. If the user says "invent it", decide and say what you decided.
+Ask the questions in `questions.md`: at most two rounds, one topic at a time, each with a "you decide" option. Word question 9 (images and video: who generates them) from the key-detection result, following `media.md`. If the user says "invent it", decide and say what you decided.
 
 ### Phase 3: Concept (in chat)
 Send a single short message containing:
@@ -43,6 +43,7 @@ Send a single short message containing:
 - **the central idea → the signature mechanic** (one sentence: "X, so the page does Y");
 - the section list;
 - the mood in five words;
+- **the motion identity:** the personality, its two verbs, and the one signature moment (`motion-system.md` §1);
 - what this template shows that the gallery doesn't have yet.
 
 Get a yes before moving on.
@@ -55,6 +56,7 @@ Get a yes before moving on.
    - the typography, using the real Google Fonts with a size scale;
    - imagery and texture direction;
    - the signature mechanic, sketched;
+   - the motion identity: easing curves drawn and demonstrated live, the duration scale, and one live demo each of a reveal, a button hover/press and a card hover;
    - the identity applied to UI (nav, hero, button, card).
 
    Draw the logo as inline SVG, using no stock images and nothing copied. When you're done, `grep -c "{{" index.html` must print `0`.
@@ -63,15 +65,16 @@ Get a yes before moving on.
 
 ### Phase 5: Write the design docs
 Write these before building:
-- **`src/app/(<slug>)/<slug>/DESIGN.md`:** the spec, with sections for Requirements, Concept, Palette, Type, Layout, the mechanic, Motion, Signature details, Do/Don't, Files and Imagery.
+- **`src/app/(<slug>)/<slug>/DESIGN.md`:** the spec, with sections for Requirements, Concept, Palette, Type, Layout, the mechanic, Motion, Signature details, Do/Don't, Files and Imagery. **The Motion section holds the motion identity, the tokens and the completed motion map** (`motion-system.md` §1, §2, §9). No empty cells.
 - **`docs/image-prompts/<slug>.md`:** the image and video prompts, following `media.md`.
 - **`PROMPT.md`:** the copyable rebuild brief. Write it after the build so it matches.
 
 ### Phase 6: Build, and generate media in parallel
 - **Structure and registration:** follow `repo-wiring.md` for the folder layout, the build order and the **six registration points**.
 - **Media:** if the agent is generating it, follow `media.md` §4b (confirm the cost first). Otherwise, hand the prompts to the user now and keep building on placeholders.
-- **Logic first, tested:** logic modules (state machines, progress maths, validation) are pure functions with tests beside them. **REQUIRED SUB-SKILL:** superpowers:test-driven-development.
-- **Specialist skills:** for 3D, use webgpu-threejs-tsl. For scroll-scrubbed video, use scroll-world. Before finishing, audit the motion with improve-animations.
+- **Logic first, tested:** logic modules (state machines, progress maths, motion maths, validation) are pure functions with tests beside them. **REQUIRED SUB-SKILL:** superpowers:test-driven-development.
+- **Motion is built with the sections, not sprinkled on afterwards:** create the `motion/` primitives and the motion tokens before the first section (`repo-wiring.md` build order), and give each section its row of the motion map as you write it. Follow `motion-system.md` for reveals, load choreography, scroll behaviour, interaction states and ambient life.
+- **Specialist skills:** for 3D, use webgpu-threejs-tsl. For scroll-scrubbed video, use scroll-world. For motion polish and audit, use improve-animations, and use animate-ui or impeccable's animate guidance where they help. Before finishing, audit the motion with improve-animations.
 
 ### Phase 7: Verify
 Run each of these and read the output:
@@ -80,7 +83,15 @@ Run each of these and read the output:
 - `npx tsc --noEmit`
 - `npx playwright test` (with a new `tests/e2e/<slug>.spec.ts`)
 
-Screenshot the page at 1440×900 and 390×844 into `.openlanding-page/<slug>/shots/` and compare it with the brand board. Run mobile Lighthouse with its report saved to `.openlanding-page/<slug>/lighthouse/`: performance at least 90, accessibility at least 95, best practices 100.
+**Motion check (not optional).** Open the running page and actually scroll, hover, press and tab through it. Walk the motion map row by row and confirm every cell is implemented. Then check:
+- the hero sequence plays with no flash of hidden content and CLS 0;
+- reveals vary by role and sections visibly hand off to each other;
+- every button, card, input, menu, tab and the form success has its hover/focus/press/loading/success behaviour;
+- scroll stays smooth (no long frames in a Performance trace on a throttled CPU);
+- with `prefers-reduced-motion: reduce`, and with JavaScript disabled, all content is visible and the page looks finished;
+- on a 390 px touch viewport nothing depends on hover.
+
+Screenshot the page at 1440×900 and 390×844 into `.openlanding-page/<slug>/shots/` and compare it with the brand board. Also capture mid-scroll frames (25%, 50%, 75%) to confirm the scroll-linked scenes are doing something. Run mobile Lighthouse with its report saved to `.openlanding-page/<slug>/lighthouse/`: performance at least 90, accessibility at least 95, best practices 100.
 
 ### Phase 8: Hand off
 Report:
@@ -98,6 +109,11 @@ Don't deploy or commit unless asked.
 | "One `page.tsx` with everything is fine" | That's what makes a template thin. Split it into sections, brand, the mechanic and forms. |
 | "A gradient hero and three feature cards" | No mechanic, no concept. Go back to Phase 3. |
 | "Tests later" | The mechanic's logic gets a test first. |
+| "A fade-in on scroll is enough motion" | That's the static look the user rejected. Use the reveal vocabulary, load choreography, scroll scenes and hover states in `motion-system.md`. |
+| "I'll add animations at the end" | Motion shapes layout and markup (masks, wrappers, sticky stages). Build the primitives first and give each section its motion-map row as you write it. |
+| "Hover is just a colour change" | Cards lift, glow or tilt, buttons wipe and press, and nav indicators slide. |
+| "Animate it everywhere equally" | One signature moment, with quieter support. Intensity follows importance. |
+| "Hide it in CSS until the JS reveals it" | Hide only under `prefers-reduced-motion: no-preference`, with a `noscript` override. Otherwise no-JS and reduced-motion users see a blank page. |
 | "Images can wait, skip the placeholders" | Use the labelled placeholder `Picture` from day one, and write the prompts. |
 | "I'll just generate everything with the key I found" | Ask who generates. Confirm the cost before the first paid call. |
 | "I'll drop this helper script in `scripts/`, `.superpowers/` or the root" | Scratch files go in `.openlanding-page/<slug>/`. |

@@ -108,7 +108,35 @@
     .mech svg { width: 100%; height: auto; border: 1px solid var(--b-rule); background: #fff; }
     .mech ol { margin: 0; padding-left: 20px; }
 
-    /* 07 Applied */
+    /* 07 Motion: live demos driven by the brand's own easing + duration tokens (set them in :root) */
+    .mo { --mo-ease: {{EASE_OUT_CUBIC_BEZIER}}; --mo-ease-in-out: {{EASE_IN_OUT_CUBIC_BEZIER}}; --mo-spring: {{EASE_SPRING_LINEAR}}; --mo-fast: {{DUR_FAST}}; --mo-base: {{DUR_BASE}}; --mo-slow: {{DUR_SLOW}}; --mo-stagger: {{STAGGER}}; }
+    .mo-tile { min-height: 240px; place-items: stretch; align-content: start; justify-items: start; gap: 12px; cursor: default; }
+    .mo-play { font: 11px/1 var(--b-mono); text-transform: uppercase; letter-spacing: .06em; padding: 6px 10px; border: 1px solid var(--b-rule); background: #fff; cursor: pointer; }
+    .mo-curve { width: 100%; height: auto; }
+    .mo-curve path { fill: none; stroke: var(--accent); stroke-width: 3; }
+    .mo-curve line { stroke: var(--b-rule); }
+    .mo-scale { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+    .mo-scale li { border: 1px solid var(--b-rule); padding: 6px 10px; font: 12px/1 var(--b-mono); background: #fff; }
+    /* reveal demo: mask-rise headline, clip wipe, drawn rule, staggered chips */
+    .mo-reveal .mo-mask { display: block; overflow: clip; font: 400 clamp(26px, 4vw, 40px)/1.05 var(--display); }
+    .mo-reveal .mo-mask > span { display: block; transform: translateY(110%); transition: transform var(--mo-slow) var(--mo-ease); }
+    .mo-reveal .mo-wipe { width: 100%; height: 70px; background: var(--accent); clip-path: inset(0 0 100% 0); transition: clip-path var(--mo-slow) var(--mo-ease-in-out); }
+    .mo-reveal .mo-rule { width: 100%; height: 2px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform var(--mo-slow) var(--mo-ease); }
+    .mo-reveal .mo-chip { opacity: 0; transform: translateY(14px); transition: opacity var(--mo-base) var(--mo-ease), transform var(--mo-base) var(--mo-ease); transition-delay: calc(var(--i) * var(--mo-stagger)); }
+    .mo-reveal.is-in .mo-mask > span, .mo-reveal.is-in .mo-chip { transform: none; opacity: 1; }
+    .mo-reveal.is-in .mo-wipe { clip-path: inset(0); }
+    .mo-reveal.is-in .mo-rule { transform: none; }
+    /* button + card demos: hover (fine pointer), press, tilt/spotlight */
+    .mo-btn { position: relative; isolation: isolate; overflow: hidden; padding: 12px 20px; border: 2px solid var(--ink); background: transparent; color: var(--ink); font: 600 14px/1 var(--body); cursor: pointer; transition: transform 90ms var(--mo-ease), color var(--mo-fast) var(--mo-ease); }
+    .mo-btn::before { content: ""; position: absolute; inset: 0; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform var(--mo-base) var(--mo-ease); z-index: -1; }
+    .mo-btn:active { transform: scale(.97); transition-timing-function: var(--mo-spring); }
+    @media (hover: hover) and (pointer: fine) { .mo-btn:hover { color: var(--paper); } .mo-btn:hover::before { transform: none; } }
+    .mo-card { position: relative; width: 100%; padding: 22px; background: var(--paper); color: var(--ink); font-family: var(--body); border: 1px solid var(--ink); transition: transform var(--mo-base) var(--mo-ease); transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px)); }
+    .mo-card::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 35%, transparent), transparent 70%); transition: opacity var(--mo-fast) var(--mo-ease); }
+    @media (hover: hover) and (pointer: fine) { .mo-card:hover { --lift: -6px; } .mo-card:hover::after { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .mo * , .mo *::before, .mo *::after { transition-duration: 1ms !important; transition-delay: 0ms !important; } .mo-reveal .mo-mask > span, .mo-reveal .mo-chip { transform: none; opacity: 1; } .mo-reveal .mo-wipe { clip-path: inset(0); } .mo-reveal .mo-rule { transform: none; } }
+
+    /* 08 Applied */
     .applied { border: 1px solid var(--b-rule); }
     .ap-nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
     .ap-hero { padding: clamp(28px, 6vw, 72px) 20px; }
@@ -120,7 +148,7 @@
     .ap-card { padding: 20px; font-family: var(--body); }
     .ap-card small { font-family: var(--mono); letter-spacing: .06em; text-transform: uppercase; }
 
-    /* 08 Decisions */
+    /* 09 Decisions */
     .decide { display: grid; gap: 8px; padding: 0; margin: 0; list-style: none; }
     .decide li { background: #fff; border: 1px solid var(--b-rule); padding: 12px 14px; }
     .decide li::before { content: "□  "; font-family: var(--b-mono); color: var(--b-dim); }
@@ -145,8 +173,9 @@
         <li><a href="#type">04 Typography</a></li>
         <li><a href="#imagery">05 Imagery</a></li>
         <li><a href="#mechanic">06 Signature mechanic</a></li>
-        <li><a href="#applied">07 Applied</a></li>
-        <li><a href="#decide">08 To approve</a></li>
+        <li><a href="#motion">07 Motion</a></li>
+        <li><a href="#applied">08 Applied</a></li>
+        <li><a href="#decide">09 To approve</a></li>
       </ul>
     </div>
   </header>
@@ -248,9 +277,52 @@
       </div>
     </section>
 
-    <!-- 07 APPLIED: the identity on real UI. Uses only the brand tokens. -->
+    <!-- 07 MOTION: the brand's motion identity, shown live (see motion-system.md §1-§3). Fill the --mo-* tokens in the CSS
+         above with the template's real easings and durations so what the user approves is what ships. -->
+    <section class="b-sec mo" id="motion">
+      <div class="b-sec__label"><span>07</span><h2>Motion</h2></div>
+      <p class="b-note">{{MOTION_PERSONALITY_AND_TWO_VERBS}} Signature moment: {{SIGNATURE_MOMENT}}</p>
+      <div class="grid g2">
+        <!-- Easing curves: draw each token's curve as an SVG path (0,100 → 100,0) and name it -->
+        <div class="tile mo-tile">
+          <svg class="mo-curve" viewBox="0 0 100 100" role="img" aria-label="Easing curves">{{EASING_CURVES_SVG}}</svg>
+          <ul class="mo-scale">{{DURATION_SCALE_AS_LI}}</ul>
+          <span class="tile__cap">Easing + duration scale</span>
+        </div>
+        <!-- Reveal: replayable. Use the brand's real display text, accent block and chips. -->
+        <div class="tile mo-tile mo-reveal" id="mo-reveal">
+          <button class="mo-play" type="button" data-replay="mo-reveal">Replay</button>
+          <span class="mo-mask"><span>{{REVEAL_HEADLINE_LINE_1}}</span></span>
+          <span class="mo-mask"><span style="transition-delay:var(--mo-stagger)">{{REVEAL_HEADLINE_LINE_2}}</span></span>
+          <div class="mo-wipe"></div>
+          <div class="mo-rule"></div>
+          <ul class="chips"><li class="mo-chip" style="--i:0">{{CHIP_1}}</li><li class="mo-chip" style="--i:1">{{CHIP_2}}</li><li class="mo-chip" style="--i:2">{{CHIP_3}}</li></ul>
+          <span class="tile__cap">Reveal: mask-rise · wipe · draw · stagger</span>
+        </div>
+        <div class="tile mo-tile on-paper">
+          <button class="mo-btn" type="button">{{CTA}}</button>
+          <span class="tile__cap">Button: hover fill-wipe · press spring</span>
+        </div>
+        <div class="tile mo-tile on-ink">
+          <div class="mo-card" id="mo-card"><small>{{CARD_EYEBROW}}</small><p>{{CARD_TEXT}}</p></div>
+          <span class="tile__cap">Card: lift · tilt · pointer spotlight</span>
+        </div>
+      </div>
+      <div class="mech" style="margin-top:16px">
+        <div>
+          <p class="b-kicker">Scroll behaviour</p>
+          <ul class="chips">{{SCROLL_BEHAVIOURS_AS_LI}}</ul>
+        </div>
+        <div>
+          <p class="b-kicker">Hero load sequence</p>
+          <ol>{{HERO_SEQUENCE_AS_LI}}</ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 APPLIED: the identity on real UI. Uses only the brand tokens. -->
     <section class="b-sec" id="applied">
-      <div class="b-sec__label"><span>07</span><h2>Applied</h2></div>
+      <div class="b-sec__label"><span>08</span><h2>Applied</h2></div>
       <div class="applied">
         <div class="ap-nav on-paper">{{NAV_MARK_SVG_AND_LINKS}}</div>
         <div class="ap-hero on-ink">
@@ -267,7 +339,7 @@
 
     <!-- 08 DECISIONS -->
     <section class="b-sec" id="decide">
-      <div class="b-sec__label"><span>08</span><h2>To approve</h2></div>
+      <div class="b-sec__label"><span>09</span><h2>To approve</h2></div>
       <ul class="decide">
         <li>Name and slogan: {{BRAND_NAME}} · “{{SLOGAN}}”</li>
         <li>Logo: lockup and mark</li>
@@ -275,6 +347,7 @@
         <li>Type: {{TYPE_SUMMARY}}</li>
         <li>Imagery direction</li>
         <li>Signature mechanic: {{MECHANIC_SUMMARY}}</li>
+        <li>Motion: {{MOTION_SUMMARY}}</li>
         <!-- Add one line per call you made that the user didn't (mark it "my call"). -->
       </ul>
     </section>
@@ -312,6 +385,26 @@
           `vs ink ${ri.toFixed(2)} <span class="sw__aa">${grade(ri)}</span><br>` +
           `vs paper ${rp.toFixed(2)} <span class="sw__aa">${grade(rp)}</span></div>`;
       });
+    })();
+
+    // Motion demos: reveal plays on scroll-into-view and on Replay; the card tilts toward the pointer.
+    (function () {
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reveal = document.getElementById("mo-reveal");
+      if (reveal) {
+        const play = () => { reveal.classList.remove("is-in"); void reveal.offsetWidth; requestAnimationFrame(() => reveal.classList.add("is-in")); };
+        new IntersectionObserver((es, io) => es.forEach((e) => { if (e.isIntersecting) { play(); io.disconnect(); } }), { threshold: 0.4 }).observe(reveal);
+        document.querySelector("[data-replay=mo-reveal]")?.addEventListener("click", play);
+      }
+      const card = document.getElementById("mo-card");
+      if (card && !reduce && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        card.addEventListener("pointermove", (e) => {
+          const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+          card.style.setProperty("--mx", x * 100 + "%"); card.style.setProperty("--my", y * 100 + "%");
+          card.style.setProperty("--ry", (x - 0.5) * 12 + "deg"); card.style.setProperty("--rx", (0.5 - y) * 12 + "deg");
+        });
+        card.addEventListener("pointerleave", () => { ["--rx", "--ry"].forEach((p) => card.style.removeProperty(p)); });
+      }
     })();
   </script>
 </body>

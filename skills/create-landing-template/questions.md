@@ -21,12 +21,12 @@ Ask these in **two rounds at most**, through your question tool if you have one 
 5. **Colour rules.** Any must-use or never-use colours, or a limit such as "three colours only"?
 6. **References.** Sites, films, objects or places that feel right.
 7. **Corner geometry.** Sharp (zero-radius, brutalist/utilitarian) or rounded (soft, modern, squircle)? Specify a preference like strict 0px, subtle 4–8px rounding, or heavily curved/pill shapes.
-
-4. **Images and video: who generates them?** Word this from the key-detection result, following `media.md` §2:
+8. **Motion personality.** How should the page move? Options from `motion-system.md` §1: precise/clockwork, soft/luxurious, kinetic/bold, organic/analog, technical/cinematic. Also ask how intense: refined (subtle, quiet), expressive (clearly animated everywhere) or showpiece (maximal, scroll-driven set pieces). Motion is always on every section, interaction and scroll; this only sets its character. You decide: derive it from the mood and the mechanic, defaulting to expressive.
+9. **Images and video: who generates them?** Word this from the key-detection result, following `media.md` §2:
    - Keys found: should the agent generate with the detected provider, or will the user generate from the prompts on any platform they choose?
    - No keys: say "No API keys for image/video generation were detected." Then offer: the user generates from your prompts on any platform, they paste the key's *variable name* so you can double-check it, or the page goes without photos (SVG, CSS and 3D only).
-5. **Background treatment**. What style should the canvas use? For example: plain solid/neutral, organic decorative blobs, subtle gradients or patterns, custom graphic assets, or layered mixed media?
+10. **Background treatment**. What style should the canvas use? For example: plain solid/neutral, organic decorative blobs, subtle gradients or patterns, custom graphic assets, or layered mixed media?
 
 ## After the answers
 
-Play back a five-line summary: business, mechanic, name, mood, and colour and media plan. Then go to the Phase 3 concept. Mark each choice the user didn't make as **your call**.
+Play back a summary: business, mechanic, name, mood, motion personality, and colour and media plan. Then go to the Phase 3 concept. Mark each choice the user didn't make as **your call**.

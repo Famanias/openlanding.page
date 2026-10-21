@@ -24,16 +24,31 @@ A template meets the bar only when every section below holds.
 
 ## 3. Structure, not a monolith
 
-- The page is composed from folders: `brand/`, `sections/` (or `slides/`, `chapters/`), the mechanic's own folder (`deck/`, `ascent/`, `dish/` …), `forms/`, and `assets.tsx`.
+- The page is composed from folders: `brand/`, `sections/` (or `slides/`, `chapters/`), the mechanic's own folder (`deck/`, `ascent/`, `dish/` …), `motion/` (reveal, split-text, magnetic, tilt, scroll-progress primitives), `forms/`, and `assets.tsx`.
 - **Typical size is 25–40 files and about 2,000–3,000 lines.** A 7-file template is a sign the concept wasn't built out.
 - Data that drives the page (products, menus, camps, slides) is typed, lives in a `.ts` file, and is tested.
 
-## 4. Motion with meaning
+## 4. Motion: premium, alive, and meaningful
 
-- **Animate only `transform` and `opacity`** (and `clip-path` for wipes). Never animate `width`, `height`, `top` or `filter: blur` on things that move often.
-- **Every motion is interruptible:** CSS transitions keyed on `data-state` beat fire-and-forget timelines.
-- **Use easing tokens in `@theme`;** don't scatter cubic-beziers. Entrances use ease-out, at 150–400 ms for UI.
-- **Under `prefers-reduced-motion`, everything is visible and static,** with no content hidden behind an animation. Heavy engines (3D, scroll video) must never mount; prove it with a test.
+The full playbook is in `motion-system.md`. The page must never feel static, and a plain fade-in does not count as animation.
+
+**Coverage: nothing ships static.**
+- **A written motion identity:** a personality, two verbs, easing and duration tokens, and one signature moment, all in DESIGN.md's Motion section.
+- **A motion map** in DESIGN.md with every section and component filled in: enter, scroll-linked, hover/focus, press/state change, exit/handoff. An empty cell means it ships static.
+- **A choreographed hero load** (staggered logo, nav, masked headline, CTAs, signature detail), not one fade.
+- **Varied reveals:** at least four distinct types across the page (mask-rise text, clip-path image wipes, drawn lines, staggered card cascades, count-ups…). Opacity alone is never a reveal.
+- **Scroll behaviour:** smooth scroll, a progress indicator, at least one parallax or pinned/scrubbed scene, and visible handoffs between adjacent sections. A reactive header.
+- **Every interactive element has all its states:** rest, hover, focus-visible, pressed, disabled, plus loading and success for forms. Cards lift, glow or tilt; buttons respond to the press; the nav indicator slides; menus, tabs and accordions animate; the form's success is a choreographed transition.
+- **Ambient life:** restrained idle motion (marquee, drift, breathing, live readout), at most three continuous animations in view, paused off-screen.
+- **One signature moment** the user will remember, tied to the central idea. The rest of the motion supports it.
+
+**Craft rules.**
+- **Animate `transform`, `opacity` and `clip-path`.** A short one-shot `filter: blur` on an entrance is allowed (≤ 12 px, removed afterwards). Never animate `width`, `height`, `top`, `box-shadow`, or blur on things that move often.
+- **Every reversible motion is interruptible:** CSS transitions keyed on `data-state` beat fire-and-forget timelines.
+- **Use easing, duration and stagger tokens in `@theme`;** don't scatter cubic-beziers or raw millisecond values in components.
+- **Scroll- and pointer-driven values are written to CSS custom properties from one rAF loop,** never to React state.
+- **Under `prefers-reduced-motion`, everything is visible and finished-looking,** with no content hidden behind an animation, no parallax, no smooth scroll, no ambient loops. Heavy engines (3D, scroll video) must never mount; prove it with a test. Hidden pre-reveal states are applied only under `no-preference`, so no-JS users also see everything.
+- **Touch:** hover-only effects have a press or in-view equivalent; magnetic, tilt and cursor effects are off.
 - **Keyboard:** decks respond to arrow keys but never steal Space or Enter from focused buttons, links or form fields.
 
 ## 5. Accessible
@@ -62,8 +77,8 @@ A template meets the bar only when every section below holds.
 
 ## 8. Tested
 
-- **Unit tests** cover the mechanic's logic (deck state, progress-from-offsets, validation, config mapping).
-- **`tests/e2e/<slug>.spec.ts`** covers the signature interaction, forms, deep links or hash navigation, keyboard handling, and phone behaviour.
+- **Unit tests** cover the mechanic's logic (deck state, progress-from-offsets, validation, config mapping) and the motion maths (`motion/math.test.ts`: clamp, lerp, progress, stagger).
+- **`tests/e2e/<slug>.spec.ts`** covers the signature interaction, forms, deep links or hash navigation, keyboard handling, and phone behaviour. It also covers motion: reveals flip to `data-in="true"` on scroll, hover and press change state, the form success transition runs, and under `reducedMotion: "reduce"` every `[data-reveal]` element is visible.
 - **Add the template's path to `TEMPLATE_PATHS` in `tests/e2e/templates.ts`.** That gives it the shared overflow (375px) and reduced-motion checks for free.
 
 ## Anti-patterns
@@ -72,3 +87,6 @@ A template meets the bar only when every section below holds.
 - No `opengraph-image.tsx`, no Logo component, and a generic hero with a feature grid.
 - A palette written in the CSS but not added to `templates.config.ts`, so the guard can't protect it.
 - A mood described in DESIGN.md but missing from the page: no signature details, no mechanic.
+- **A static-feeling page:** every section a plain fade-in on scroll, hover effects limited to colour changes, hard cuts between sections, no scroll behaviour, no load sequence, no pressed or success states.
+- One reveal style copy-pasted everywhere, or motion that has nothing to do with the brand's idea.
+- Hiding content in CSS regardless of `prefers-reduced-motion`, or animating layout properties and causing jank or CLS.
