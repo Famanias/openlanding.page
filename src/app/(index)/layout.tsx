@@ -14,13 +14,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlandingpage.vercel.app"),
-  title: "openlandingpage — Landing pages your AI agent can build",
+  title: "openlandingpage — Landing Pages your Agent can build",
   description:
-    "Skip the generic templates. Browse hand-crafted, production-ready web designs with mathematical design briefs and complete source bundles ready for your agent.",
+    "A list of landing page one-shotted by different AI agents that you can use · MIT License",
   openGraph: {
-    title: "openlandingpage — Landing pages your AI agent can build",
+    title: "openlandingpage — Landing Pages your Agent can build",
     description:
-      "Skip the generic templates. Browse hand-crafted, production-ready web designs with mathematical design briefs and complete source bundles ready for your agent.",
+      "A list of landing page one-shotted by different AI agents that you can use · MIT License",
     type: "website",
   },
   icons: {

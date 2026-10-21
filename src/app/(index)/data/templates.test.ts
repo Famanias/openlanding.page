@@ -59,11 +59,11 @@ describe("gallery template data", () => {
     const opusSlugs = ["orrery", "keytu", "koji", "verane"];
     for (const t of TEMPLATES) {
       if (t.slug === "sundial") {
-        expect(t.model).toBe("MiMo v2.6 Flash");
+        expect(t.model).toBe("MiMo v2.6 Flash Free");
       } else if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
       } else if (t.slug === "wowflutter") {
-        expect(t.model).toBe("Claude Sonnet 5.5");
+        expect(t.model).toBe("Claude Sonnet 5.5 High");
       } else {
         expect(t.model).toBe("GPT-6 Astra Max");
       }

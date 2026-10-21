@@ -3,13 +3,14 @@ import { renderToStaticMarkup } from "react-dom/server";
 import IndexPage from "./page";
 
 describe("IndexPage", () => {
-  it("renders full landing page assembly with Header, Hero, Gallery, HowItWorks, and Footer", async () => {
+  it("renders full landing page assembly with Header, Hero, Gallery, Contribute, and Footer", async () => {
     const element = await IndexPage();
     const html = renderToStaticMarkup(element);
     expect(html).toContain("openlandingpage");
-    expect(html).toContain("Issue #01");
+    expect(html).toContain("Landing Pages your Agent can build");
     expect(html).toContain('id="gallery"');
-    expect(html).toContain('id="how-it-works"');
+    expect(html).toContain('id="contribute"');
+    expect(html).toContain("Want to Contribute?");
     expect(html).toContain("Orrery");
     expect(html).toContain("KEYTU");
     expect(html).toContain("KŌJI");
@@ -19,5 +20,6 @@ describe("IndexPage", () => {
     expect(html).toContain("MORROW");
     expect(html).toContain("LOOPHOUSE");
     expect(html).toContain("GitHub");
+    expect(html).toContain("OpenLanding.page. MIT Licensed.");
   });
 });

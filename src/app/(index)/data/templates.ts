@@ -237,7 +237,7 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Page-Turn Magazine", "Drag to Turn", "Riso Print"],
     previewImage: "/templates/wowflutter/preview-1600.webp",
     promptMarkdown: WOWFLUTTER_PROMPT,
-    model: "Claude Sonnet 5.5",
+    model: "Claude Sonnet 5.5 High",
   },
   {
     slug: "verane",
@@ -263,6 +263,6 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Roast Curve", "Live Readout", "Pill UI"],
     previewImage: "/templates/sundial/preview-1600.webp",
     promptMarkdown: SUNDIAL_PROMPT,
-    model: "MiMo v2.6 Flash",
+    model: "MiMo v2.6 Flash Free",
   },
 ];

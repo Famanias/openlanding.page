@@ -40,10 +40,14 @@ describe("TemplateCard", () => {
     expect(lazyHtml).toContain('loading="lazy"');
   });
 
-  it("renders template badges and stack information", () => {
+  it("does not render template badges or stack information, leaving only title, subtitle, and buttons", () => {
     const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={false} />);
-    expect(html).toContain("Keynote Deck");
-    expect(html).toContain("Next.js 16");
+    expect(html).not.toContain("Keynote Deck");
+    expect(html).not.toContain("Next.js 16");
+    expect(html).toContain("Orrery");
+    expect(html).toContain(TEMPLATES[0].description);
+    expect(html).toContain("Copy prompt");
+    expect(html).toContain("Copy website");
   });
 
   it("renders external link attributes for template links", () => {

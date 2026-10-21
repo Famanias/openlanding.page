@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Copy, Code, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { Copy, Code, Check, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
 import { Button } from "./ui/Button";
 import { Badge } from "./ui/Badge";
@@ -201,68 +201,58 @@ export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
           {template.description}
         </p>
 
-        {/* Badges row */}
-        <div className="flex flex-wrap items-center gap-1.5" aria-label="Template badges">
-          {template.badges.map((badge) => (
-            <Badge key={badge} variant="mono">
-              {badge}
-            </Badge>
-          ))}
-        </div>
-
-        {/* Monospace utility footer */}
-        <div className="mt-auto pt-3 border-t border-white/5 flex flex-col gap-3">
-          <div className="flex items-center justify-between text-xs font-mono text-neutral-400">
-            <span className="truncate">{template.stack}</span>
-          </div>
-
-          {/* Split-action buttons */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant={copiedAction === "prompt" ? "outline" : "solid"}
-              size="sm"
-              onClick={handleCopyPrompt}
-              aria-live="polite"
-              className={`flex-1 font-mono text-xs ${
-                copiedAction === "prompt"
-                  ? "!border-emerald-500/40 !bg-emerald-500/10 !text-[#10B981]"
-                  : ""
-              }`}
-            >
-              {copiedAction === "prompt" ? (
-                <span className="flex items-center justify-center gap-1 text-[#10B981] font-semibold">
-                  ✓ Copied
-                </span>
-              ) : (
-                <>
-                  <Copy className="size-3.5 shrink-0" aria-hidden="true" />
-                  <span>Copy prompt</span>
-                </>
-              )}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCopyWebsite}
-              aria-live="polite"
-              className={`flex-1 font-mono text-xs ${
-                copiedAction === "website"
-                  ? "!border-emerald-500/40 !bg-emerald-500/10 !text-[#10B981]"
-                  : ""
-              }`}
-            >
-              {copiedAction === "website" ? (
-                <span className="flex items-center justify-center gap-1 text-[#10B981] font-semibold">
-                  ✓ Copied
-                </span>
-              ) : (
-                <>
-                  <Code className="size-3.5 shrink-0" aria-hidden="true" />
-                  <span>Copy website</span>
-                </>
-              )}
-            </Button>
-          </div>
+        {/* Split-action buttons */}
+        <div className="mt-auto pt-3 border-t border-white/5 flex items-center justify-end gap-2">
+          <Button
+            variant={copiedAction === "prompt" ? "outline" : "solid"}
+            size="sm"
+            onClick={handleCopyPrompt}
+            aria-live="polite"
+            aria-label={copiedAction === "prompt" ? "Copied prompt" : "Copy prompt"}
+            title="Copy prompt"
+            className={`size-8 !p-0 rounded-lg ${
+              copiedAction === "prompt"
+                ? "!border-emerald-500/40 !bg-emerald-500/10 !text-[#10B981]"
+                : ""
+            }`}
+          >
+            {copiedAction === "prompt" ? (
+              <>
+                <Check className="size-4 text-[#10B981]" weight="bold" aria-hidden="true" />
+                <span className="sr-only">✓ Copied</span>
+              </>
+            ) : (
+              <>
+                <Copy className="size-4" aria-hidden="true" />
+                <span className="sr-only">Copy prompt</span>
+              </>
+            )}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleCopyWebsite}
+            aria-live="polite"
+            aria-label={copiedAction === "website" ? "Copied website" : "Copy website"}
+            title="Copy website"
+            className={`size-8 !p-0 rounded-lg ${
+              copiedAction === "website"
+                ? "!border-emerald-500/40 !bg-emerald-500/10 !text-[#10B981]"
+                : ""
+            }`}
+          >
+            {copiedAction === "website" ? (
+              <>
+                <Check className="size-4 text-[#10B981]" weight="bold" aria-hidden="true" />
+                <span className="sr-only">✓ Copied</span>
+              </>
+            ) : (
+              <>
+                <Code className="size-4" aria-hidden="true" />
+                <span className="sr-only">Copy website</span>
+              </>
+            )}
+          </Button>
         </div>
       </div>
     </article>
