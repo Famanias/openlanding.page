@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   cacheComponents: true,
   // Cap static-generation workers: the default (one per core) ran out of memory on shared dev machines.
-  experimental: { cpus: 4 },
+  experimental: { cpus: 1 },
   partialPrefetching: true,
   turbopack: {
     rules: {

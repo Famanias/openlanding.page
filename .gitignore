@@ -47,6 +47,9 @@ next-env.d.ts
 /artifacts/
 /.openlanding-page/
 open-*-session/
+*-session*/
+*-session*
+
 
 .vercel
 .env*

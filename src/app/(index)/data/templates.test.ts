@@ -60,7 +60,7 @@ describe("gallery template data", () => {
     for (const t of TEMPLATES) {
       if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash Free");
-      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "kinetic") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "kinetic" || t.slug === "loophouse") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
