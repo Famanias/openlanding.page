@@ -85,8 +85,8 @@ async function applyLumaMap(image: Sharp, ramp: (luma: number) => [number, numbe
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const slug = process.argv[2] as TemplateSlug | undefined;
-  if (!slug || !["orrery", "keytu", "cairn", "koji", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "loophouse", "openhouse"].includes(slug)) {
-    console.error("usage: npm run images -- <orrery|keytu|koji|wowflutter|verane|sundial|noctiluca|iridia|bathys|aubade|satsuma|kinetic|loophouse|openhouse>");
+  if (!slug || !["orrery", "keytu", "cairn", "koji", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "loophouse", "isobar", "volume-zero", "openhouse"].includes(slug)) {
+    console.error("usage: npm run images -- <orrery|keytu|koji|wowflutter|verane|sundial|noctiluca|iridia|bathys|aubade|satsuma|kinetic|loophouse|isobar|volume-zero|openhouse>");
     process.exit(1);
   }
   processImages(slug, {
