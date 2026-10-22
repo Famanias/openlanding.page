@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "openhouse";
 
 export type TemplateConfig = {
   palette: string[];
@@ -84,6 +84,26 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     palette: ["#FAF7F2", "#1B1522", "#FF6B2B", "#FFE6D2", "#00D4B2", "#2A1E30", "#8E8294"],
     paletteExempt: [
       "src/app/(kinetic)/kinetic/journey/engine/", // 3D scenery/materials shaders are content like 3D food
+    ],
+  },
+  openhouse: {
+    // paper, ink, cotton, desk, board, terracotta signal, rules, muted type and success state
+    palette: [
+      "#F7F2E9",
+      "#EEE6D9",
+      "#E6DACB",
+      "#171414",
+      "#1D1917",
+      "#2A2521",
+      "#6B6359",
+      "#D7CDBF",
+      "#C7B9A8",
+      "#D86B4A",
+      "#A9472E",
+      "#FFF9F0",
+      "#EDE5DA",
+      "#344A3E",
+      "#3E7658",
     ],
   },
 };

@@ -77,6 +77,10 @@ export const TEMPLATE_METADATA: Record<
     name: "KINETIC",
     dependencies: ["three", "lenis"],
   },
+  openhouse: {
+    name: "OPENHOUSE",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

@@ -1,0 +1,20 @@
+[
+  {
+    "date": "2026-10-23",
+    "mode": "build",
+    "shape": "Workbench",
+    "theme": "Coral",
+    "axes": "light/grotesk-sans/warm",
+    "hero": "Banner with a threshold form",
+    "nav": "wordmark and trust line",
+    "footer": "colophon block",
+    "imagery": "built stationery, no photographs",
+    "photos": [],
+    "entry": "book",
+    "fingerprint": ["light", "grotesk-sans", "warm", "Workbench", "Banner", "threshold-form"],
+    "sections": ["Hero", "Outcomes", "Fit", "Process", "Close", "Footer"],
+    "signature": "the door sign settles open",
+    "waived": [],
+    "prompt": "conversion focused landing page for small businesses; book a 20-minute growth call; no navigation; threshold form"
+  }
+]
