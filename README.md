@@ -1,7 +1,7 @@
 # OpenLandingPage
 
 > **Landing Pages your Agent can build.**  
-> An open-source collection of 17 artisanal, production-grade landing page templates engineered for modern AI coding agents and human designers.
+> An open-source collection of landing page templates engineered for all to use.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
@@ -14,13 +14,12 @@
 
 **OpenLandingPage** is a gallery of production-ready, highly tailored landing page templates built with **Next.js (App Router)**, **React 19**, **Tailwind CSS v4**, and modern web animation libraries.
 
-Rather than generic component kits or repetitive SaaS layouts, each template is designed as a standalone, narrative-driven experience with:
-
 - **Strict isolated route architecture:** Every template lives independently in its own route group (`src/app/(template_name)/`) with zero cross-contamination.
 - **Bespoke motion systems:** Fluid transitions using CSS-first animations, Motion, GSAP (ScrollTrigger &amp; Observer), and Lenis smooth scrolling.
 - **Advanced graphics &amp; 3D:** Interactive Three.js (WebGPU/TSL) procedural rendering and scroll-scrubbed video engines.
 - **AI-Agent Ready:** Each template includes full prompt files (`docs/prompts/` and `public/copy/`) and design specifications so AI coding agents (Claude Code, Antigravity, Cursor, Codex) or developers can rebuild, adapt, or one-shot them from scratch.
 - **Built-in accessibility:** Automatic fallbacks and adaptations for `prefers-reduced-motion` across every template.
+- **Agent Skill:** this repository also has an agent skill located in  `skills/create-landing-template`.
 
 ---
 
