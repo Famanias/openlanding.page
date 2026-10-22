@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma";
 
 export type TemplateConfig = {
   palette: string[];
@@ -71,6 +71,10 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   aubade: {
     // nuit (ink/ground), linen (paper/text), claret (the one action colour, dusk), dawn (dawn field, highlights on nuit), sapin (forest, dining car), lac (lake, lagoon)
     palette: ["#161233", "#F3ECDF", "#8E1F3A", "#F2B37A", "#1F4A3F", "#3E6FA8"],
+  },
+  satsuma: {
+    // paper (page), ink (text), aubergine (primary action), satsuma (the one accent), apricot (badge and tint), leaf (rare green)
+    palette: ["#FFF6EA", "#1F1520", "#3A1D4A", "#FF7A2F", "#FFD9B0", "#2F5D3A"],
   },
 };
 

@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all fifteen templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(15);
+  it("contains all sixteen templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(16);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -64,6 +64,8 @@ describe("gallery template data", () => {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
+      } else if (t.slug === "satsuma") {
+        expect(t.model).toBe("Claude Sonnet 5.5 High");
       } else if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
       } else if (t.slug === "wowflutter") {
@@ -130,5 +132,12 @@ describe("gallery template data", () => {
     expect(aubade?.category).toBe("scroll-showcase");
     expect(aubade?.promptMarkdown).toContain('rebuild "AUBADE"');
     expect(aubade?.promptMarkdown).toContain("#8E1F3A");
+  });
+
+  it("files Satsuma under Scroll Showcase with its rebuild prompt inlined", () => {
+    const satsuma = TEMPLATES.find((t) => t.slug === "satsuma");
+    expect(satsuma?.category).toBe("scroll-showcase");
+    expect(satsuma?.promptMarkdown).toContain('rebuild "Satsuma"');
+    expect(satsuma?.promptMarkdown).toContain("#FF7A2F");
   });
 });
