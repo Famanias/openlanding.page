@@ -1,4 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
+import { existsSync } from "node:fs";
+import path from "node:path";
+
+const offlineFontMock = path.resolve(process.cwd(), ".openlanding-page/volume-zero/scratch/font-mocks.cjs");
 
 export default defineConfig({
   testDir: "tests/e2e",
@@ -13,10 +17,13 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: "bun run build && bun run start -- -p 3100",
+    command: "bunx next build --webpack && bun run start -- -p 3100",
     url: "http://localhost:3100",
     reuseExistingServer: false,
-    env: { NODE_OPTIONS: "--max-old-space-size=4096" },
+    env: {
+      NODE_OPTIONS: "--max-old-space-size=4096",
+      ...(existsSync(offlineFontMock) ? { NEXT_FONT_GOOGLE_MOCKED_RESPONSES: offlineFontMock } : {}),
+    },
     timeout: 300_000,
   },
 });

@@ -77,6 +77,10 @@ export const TEMPLATE_METADATA: Record<
     name: "KINETIC",
     dependencies: ["three", "lenis"],
   },
+  "volume-zero": {
+    name: "VOLUME ZERO",
+    dependencies: ["three"],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

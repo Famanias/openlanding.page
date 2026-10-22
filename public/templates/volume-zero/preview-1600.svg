@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#171B20"/>
+  <g opacity=".3" stroke="#F1EEE5" stroke-width="2">
+    <path d="M-80 640C230 160 470 160 800 640S1370 1120 1680 640"/>
+    <path d="M-80 560C230 80 470 80 800 560S1370 1040 1680 560"/>
+    <path d="M-80 480C230 0 470 0 800 480S1370 960 1680 480"/>
+    <path d="M-80 720C230 240 470 240 800 720S1370 1200 1680 720"/>
+  </g>
+  <path d="M260 710 360 180 1240 180 1340 710Z" stroke="#F1EEE5" stroke-width="4"/>
+  <path d="M355 640 430 245 1170 245 1245 640Z" stroke="#2B9BAA" stroke-width="3"/>
+  <path d="M400 560Q710 250 990 510T1220 590" stroke="#2B9BAA" stroke-width="5"/>
+  <path d="M400 560Q690 780 990 510T1220 590" stroke="#2B9BAA" stroke-width="3" opacity=".7"/>
+  <circle cx="410" cy="560" r="15" fill="#2B9BAA"/>
+  <circle cx="1120" cy="520" r="10" fill="#F1EEE5"/>
+  <text x="84" y="112" fill="#F1EEE5" font-family="sans-serif" font-size="28" letter-spacing="8">VOLUME ZERO / FIELD 04</text>
+  <text x="84" y="790" fill="#F1EEE5" font-family="sans-serif" font-size="96" font-weight="700" letter-spacing="-4">ROOMS THAT LET</text>
+  <text x="84" y="875" fill="#2B9BAA" font-family="sans-serif" font-size="96" font-weight="700" letter-spacing="-4">SOUND ARRIVE WHOLE.</text>
+</svg>
