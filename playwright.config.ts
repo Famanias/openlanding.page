@@ -19,7 +19,7 @@ export default defineConfig({
   webServer: {
     command: "bunx next build --webpack && bun run start -- -p 3100",
     url: "http://localhost:3100",
-    reuseExistingServer: false,
+    reuseExistingServer: true,
     env: {
       NODE_OPTIONS: "--max-old-space-size=4096",
       ...(existsSync(offlineFontMock) ? { NEXT_FONT_GOOGLE_MOCKED_RESPONSES: offlineFontMock } : {}),
