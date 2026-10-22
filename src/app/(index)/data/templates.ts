@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine";
 
@@ -136,6 +136,23 @@ export const BATHYS_PROMPT = "# Prompt: rebuild \"BATHYS\" (Autonomous Hadal Sub
 /* __KINETIC_PROMPT_START__ */
 export const KINETIC_PROMPT = "# Prompt: rebuild \"KINETIC\" (autonomous 3D delivery journey megamarket)\n\nPaste everything below the line into your AI coding agent.\n\n---\n\nBuild a landing page in **Next.js (App Router) + React + TypeScript + Tailwind CSS v4 + Three.js** for a fictional autonomous e-commerce marketplace called **KINETIC** (tagline: *\"Megamarket drops, packed by robots, delivered by hand.\"*).\n\nThe page features an interactive **3D Delivery Journey** inspired by HighwayTMS and a smooth, tactile aesthetic inspired by Satsuma and Fallow: a real-time procedural 3D electric delivery truck (**Unit 104**) travels a 1,400-meter paved highway route from the origin distribution yard in Chicago to a Dallas doorstep delivery. Five pinned presentation chapters synchronize narrative copy, catalog deals, and order telemetry with the moving 3D vehicle, accompanied by a projected 3D pill HUD tag and dynamic SVG bezier connector curve.\n\n**Reference:** The live template at `https://openlandingpage.vercel.app/kinetic`.\n\n## Brand rules\n\n- **Seven colours only.** Make tints only with `color-mix()` of these:\n  - cream paper `#FAF7F2` (the page ground, white cards)\n  - velvet ink `#1B1522` (display headlines, body text, dark chapter bands)\n  - satsuma orange `#FF6B2B` (the signature accent: pills, beacons, checkout CTAs)\n  - soft apricot `#FFE6D2` (pill backgrounds, card tints, warm highlights)\n  - mint glow `#00D4B2` (telemetry lasers, active vehicle tag, live sensors)\n  - plum carbon `#2A1E30` (nocturnal 3D sky, contrast chapter bands)\n  - muted slate `#8E8294` (delicate 1px hairlines, secondary specs)\n- **Type (via `next/font/google`, distinct variable names):**\n  - **Bricolage Grotesque** 600/700/800 for display (`--font-bricolage`), tracking −0.035em.\n  - **Inter** 400/500/600 for body and UI (`--font-inter`).\n  - **JetBrains Mono** 500/700 for telemetry, SKU tags, and timestamps (`--font-jetbrains`).\n- **Corners:** pills (`rounded-full`) for buttons and badges, 24–32px squircle rounding for cards, 16px for form inputs. Smooth sheet overlays with `rounded-t-[36px]`.\n- **Logo:** a rounded squircle parcel that folds into a forward-leaning \"K\" chevron with a mint telemetry dot, plus the wordmark \"kinetic.\" with a satsuma dot and pill badge. Provide `brand/Logo.tsx`, `icon.svg` and a 1200×630 `opengraph-image.tsx`.\n\n## The 3D Delivery Journey Engine (`journey/`)\n\n- Decoupled Three.js WebGL world behind the page content with a zero-CLS painted sky fallback.\n- **Road layout (`story.ts`):** 1,400 meters of paved spline ribbon road from `s = -80m` to `s = 1380m`. Landmarks: Origin Yard (`s = 20m`), Sort Gate (`s = 180m`), Bridge Crossing (`s = 650m`), City Corridor (`s = 980m`), and Arrival Dock (`s = 1300m`).\n- **Vehicle rig (`truck.ts`):** Procedural electric delivery truck mesh with aerodynamic cab, high-voltage battery chassis, dual-axle suspension, spinning wheels, steering pivots, illuminated LED headlights, amber warning beacons, and ground shadow.\n- **Story mapping (`storyScroll.ts`):** Maps page scroll progress to discrete chapter beats (`stops`), interpolating camera shots, road elevation, and vehicle velocity.\n- **Live HUD Telemetry Tag (`ParcelTag.tsx`):** Projects the 3D truck position onto screen coordinates every frame and draws an SVG bezier connector line linking highlighted product cards to the vehicle.\n- **Fallback:** Under `prefers-reduced-motion` or when WebGL2 is unsupported, heavy 3D does not mount; chapters flow as crisp stacked stages with static cinematic fallback frames.\n\n## The 5 Pinned Presentation Chapters (`chapters/`)\n\n1. **01 Ingestion (Hero):** Origin DC yard. Headline *\"From One Click to Your Hands in 24 Minutes.\"*, live market ticker, and primary pill CTA *\"DISPATCH ORDER #KX-9042\"*.\n2. **02 Sortation:** Optical induction scanning archway. Interactive item routing demo and live weight verification.\n3. **03 Transit:** Arterial highway bridge at twilight. Live speedometer, battery level, route elevation grade, and countdown telemetry.\n4. **04 Megamarket Deals:** Metropolitan distribution corridor. Flash-drop marketplace cards (Audio, Apparel, Battery) with live SVG connector curves linking items directly to the traveling truck.\n5. **05 Doorstep Arrival:** Destination dock bay. Interactive tamper-seal unboxing demo verifying delivery handoff, plus client-side VIP Express instant dispatch form.\n\n## Quality bar\n\n- Only `transform`, `opacity`, and `clip-path` animate. UI transitions stay under 300ms with custom easing tokens.\n- Fully accessible: semantic headings, real `<button>` controls, visible focus rings, and strict AA/AAA contrast.\n- Zero layout shift (CLS 0) on first paint. Fluid responsiveness from 375px mobile to 1440px desktop.\n";
 /* __KINETIC_PROMPT_END__ */
+
+export const VOLUME_ZERO_PROMPT = [
+  '# Prompt: rebuild "VOLUME ZERO" (acoustic architecture chamber)',
+  '',
+  'Build a premium landing page in Next.js 16.4 App Router + React 19 + TypeScript + Tailwind CSS v4 + Three.js for a fictional Rotterdam acoustic-architecture studio called VOLUME ZERO.',
+  'The central metaphor is an acoustic journey: sound travels through space, so the page becomes a live chamber. Scrolling moves the camera from source to listener; a range input moves the listener; surface controls rebuild the reflected ray field.',
+  '',
+  'Use exactly three colours: graphite #171B20, vellum #F1EEE5, signal teal #2B9BAA. Use Oxanium for display, Manrope for body and Azeret Mono for utility labels via next/font/google.',
+  '',
+  'Sections: fixed reactive header; hero “Rooms that let sound arrive whole.”; pinned WebGPU/WebGL chamber; surface library; rooms in practice; SVG response curve; local commission form; footer field archive.',
+  '',
+  'The chamber has tested pure functions cameraAt, listenerAt and reflectionPoints. Try WebGPURenderer from three/webgpu with a small TSL pulse, then fall back to WebGLRenderer. The canvas starts on idle for fine pointers and on tap for touch, and never mounts under prefers-reduced-motion. Always render a complete SVG diagram for no-JS and reduced motion.',
+  '',
+  'Motion is technical/cinematic: scan and focus-pull. Use mask-rise headlines, contour wipes, drawn SVG rules, staggered cards, a pinned scroll scene, a reactive header, button fill wipes, press scale, focus rings and a form success transition. Only transform, opacity, clip-path and SVG stroke offsets animate.',
+  '',
+  'Keep code isolated inside src/app/(volume-zero)/. Add tests for motion maths, chamber geometry, content and form validation, plus a Playwright spec for surface selection, listener control, anchors, menu, form success, reduced motion and mobile overflow. No photo or video assets are required.',
+].join("\n");
 
 export const TEMPLATES: TemplateItem[] = [
   {
@@ -359,5 +376,18 @@ export const TEMPLATES: TemplateItem[] = [
     previewImage: "/templates/kinetic/preview-1600.webp",
     promptMarkdown: KINETIC_PROMPT,
     model: "Gemini 3.8 Flash High",
+  },
+  {
+    slug: "volume-zero",
+    title: "VOLUME ZERO",
+    description:
+      "Acoustic architecture for rooms that listen back. A WebGPU chamber maps source, listener and reflection paths as you scroll.",
+    category: "3d-webgpu",
+    industry: "Acoustic Architecture",
+    stack: "Next.js 16 · React 19 · Three.js WebGPU · TSL · SVG",
+    badges: ["Acoustic Chamber", "WebGPU / WebGL2", "Live Ray Field"],
+    previewImage: "/templates/volume-zero/preview-1600.svg",
+    promptMarkdown: VOLUME_ZERO_PROMPT,
+    model: "GPT-6 Astra Max",
   },
 ];

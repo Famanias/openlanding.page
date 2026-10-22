@@ -19,7 +19,7 @@ By submitting a Pull Request, patch, or issue to this repository, you agree to t
    - Proprietary font binaries (use Google Fonts or SIL Open Font License compliant fonts).
    - Commercial stock photos or videos without explicit open redistribution rights.
    - Closed-source or proprietary libraries.
-4. **Don't be an asshole:** Don't submit a template that you obviously stole from somewhere else and claim it as your own. 
+4. **Don't be an asshole:** Don't submit a template that you obviously stole from somewhere else and claim it as your own.
 
 ---
 
