@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "aubade";
 
 export type TemplateConfig = {
   palette: string[];
@@ -63,6 +63,10 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     paletteExempt: [
       "src/app/(iridia)/iridia/spectrum/presets.ts", // spectral wavelength stops are optical content
     ],
+  },
+  aubade: {
+    // nuit (ink/ground), linen (paper/text), claret (the one action colour, dusk), dawn (dawn field, highlights on nuit), sapin (forest, dining car), lac (lake, lagoon)
+    palette: ["#161233", "#F3ECDF", "#8E1F3A", "#F2B37A", "#1F4A3F", "#3E6FA8"],
   },
 };
 

@@ -66,7 +66,7 @@ Get a yes before moving on.
 ### Phase 5: Write the design docs
 Write these before building:
 - **`src/app/(<slug>)/<slug>/DESIGN.md`:** the spec, with sections for Requirements, Concept, Palette, Type, Layout, the mechanic, Motion, Signature details, Do/Don't, Files and Imagery. **The Motion section holds the motion identity, the tokens and the completed motion map** (`motion-system.md` §1, §2, §9). No empty cells.
-- **`docs/image-prompts/<slug>.md`:** the image and video prompts, following `media.md`.
+- **`docs/image-video-prompts/<slug>.md`:** the image and video prompts, following `media.md`.
 - **`PROMPT.md`:** the copyable rebuild brief. Write it after the build so it matches.
 
 ### Phase 6: Build, and generate media in parallel
