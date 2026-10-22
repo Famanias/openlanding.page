@@ -15,6 +15,8 @@
     "test:e2e": "playwright test",
     "check": "tsx scripts/check-isolation.ts && tsx scripts/check-palette.ts",
     "images": "tsx scripts/process-images.ts",
+    "clips": "tsx scripts/process-clips.ts",
+    "media:truecut": "npm run images -- truecut && npm run clips -- truecut",
     "process-images": "tsx scripts/process-images.ts"
   },
   "dependencies": {

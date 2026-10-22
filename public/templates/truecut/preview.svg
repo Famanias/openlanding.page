@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#172026"/>
+  <path d="M0 720h1600M0 620h1600M0 520h1600M0 420h1600" stroke="#4B6A72" stroke-opacity=".55" stroke-width="2"/>
+  <path d="M220 80v740M420 80v740M620 80v740M820 80v740M1020 80v740M1220 80v740M1420 80v740" stroke="#B4C3C1" stroke-opacity=".18" stroke-width="2"/>
+  <rect x="120" y="170" width="660" height="440" fill="#F5F0E5" fill-opacity=".08" stroke="#B4C3C1" stroke-width="3"/>
+  <rect x="860" y="250" width="470" height="260" fill="#F5F0E5" fill-opacity=".12" stroke="#B4C3C1" stroke-width="3"/>
+  <path d="M160 250h470M160 330h390M160 410h470M160 490h390" stroke="#E8F146" stroke-width="12"/>
+  <circle cx="680" cy="410" r="26" fill="#E8F146"/>
+  <text x="120" y="760" fill="#E8F146" font-family="Arial, sans-serif" font-size="74" font-weight="700">SEE THE WORK.</text>
+  <text x="122" y="830" fill="#F5F0E5" font-family="monospace" font-size="24" letter-spacing="5">TRUECUT / WORKS · PROJECT 0427 · SIGNAL: CLEAR</text>
+</svg>

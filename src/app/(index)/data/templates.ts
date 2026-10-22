@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -174,6 +174,16 @@ Use warm paper, ink, cotton, desk, board green, and terracotta tokens. Motion is
 export const HANDOFF_PROMPT = `# Prompt: rebuild HANDOFF (conversion landing page)
 
 Build a Next.js 16 conversion landing page for a fictional outsourcing company that helps small businesses route manageable client work. Use a warm dotted paper canvas, near-black ink, signal orange, route blue, pass green, DM Serif Display, Geist and Geist Mono. The signature mechanic is a scroll-driven pipeline: INQUIRY, QUALIFIED, MATCHED, MANAGED, DONE. The form is local-only and validates name, work email and service lane before showing a brief received success state. Keep the page modular and builder-friendly for Webflow or WordPress, with clear section labels, cards, a sticky header, service lanes, proof metrics, fit check, and a dark close form. No external media is required; draw the dispatch desk with CSS geometry.`;
+
+export const TRUECUT_PROMPT = `# Prompt: rebuild "TRUECUT Works" (image-led field engineering conversion page)
+
+Build a Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 landing page for a fictional field engineering and commissioning crew. The single action is Book a site visit. Keep the header quiet with a wordmark, operating signal, and one booking CTA; do not add a full navigation menu.
+
+The central idea is a field log: engineering starts with a site walk, so a survey line advances through a full-bleed hero reel, capability proof cards, a pinned process reel, project frames, a working-method section, and a stamped local booking form. Measure real section offsets in one requestAnimationFrame loop and write --tc-progress, --tc-progress-pct, and data-tc-chapter to the root.
+
+Use asphalt #172026, chalk #F5F0E5, signal lime #E8F146, galvanized #B4C3C1, oxide teal #4B6A72, and rare rust #C96B45. Use Archivo Black, Manrope, and IBM Plex Mono via next/font/google. Motion is technical/cinematic: scan and lock. Use a staged hero load, mask-rise headlines, clip-path media wipes, drawn rules, staggered cards, a pinned media handoff, hover lift and pointer spotlight, button fill wipes, press scale, invalid shake, loading, and a stamped success replacement.
+
+Media keys: hero-site-walk, capability-testing, capability-controls, capability-retrofit, capability-design, project-switchyard, project-control-room, project-panel-detail, safety-hands, handoff-drawing, credential-grid, hero-site-reel.mp4, process-proof.mp4. Render labelled placeholders until files arrive. Keep all content visible with JavaScript disabled and prefers-reduced-motion: reduce. Test survey-line maths, motion maths, appointment validation, service selection, form success, reduced motion, and 390px overflow.`;
 
 export const TEMPLATES: TemplateItem[] = [
   {
@@ -447,6 +457,19 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Pipeline Route", "Fit Brief", "Builder Ready"],
     previewImage: "/templates/handoff/preview.svg",
     promptMarkdown: HANDOFF_PROMPT,
+    model: "GPT-6 Astra Max",
+  },
+  {
+    slug: "truecut",
+    title: "TRUECUT Works",
+    description:
+      "Field engineering, shown clearly. An image-led conversion page with a survey-line field log, proof reels, and one site-visit action.",
+    category: "conversion",
+    industry: "Field Engineering & Commissioning",
+    stack: "Next.js 16 · Tailwind v4 · Local Form State · CSS Motion · Media Placeholders",
+    badges: ["Field Log", "Proof Reels", "Single CTA"],
+    previewImage: "/templates/truecut/preview-1600.webp",
+    promptMarkdown: TRUECUT_PROMPT,
     model: "GPT-6 Astra Max",
   },
 ];

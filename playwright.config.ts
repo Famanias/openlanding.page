@@ -3,6 +3,9 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 
 const offlineFontMock = path.resolve(process.cwd(), ".openlanding-page/volume-zero/scratch/font-mocks.cjs");
+const port = Number(process.env.PLAYWRIGHT_PORT ?? "3100");
+if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error("PLAYWRIGHT_PORT must be a valid port number");
+const baseURL = `http://localhost:${port}`;
 
 export default defineConfig({
   testDir: "tests/e2e",
@@ -11,15 +14,15 @@ export default defineConfig({
   workers: 3,
   reporter: [["list"]],
   use: {
-    baseURL: "http://localhost:3100",
+    baseURL,
     trace: "retain-on-failure",
     permissions: ["clipboard-read", "clipboard-write"],
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: "bunx next build --webpack && bun run start -- -p 3100",
-    url: "http://localhost:3100",
-    reuseExistingServer: true,
+    command: `npm run build && npm run start -- -p ${port}`,
+    url: baseURL,
+    reuseExistingServer: !process.env.PLAYWRIGHT_PORT,
     env: {
       NODE_OPTIONS: "--max-old-space-size=4096",
       ...(existsSync(offlineFontMock) ? { NEXT_FONT_GOOGLE_MOCKED_RESPONSES: offlineFontMock } : {}),
