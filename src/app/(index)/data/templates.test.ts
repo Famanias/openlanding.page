@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all sixteen templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(16);
+  it("contains all seventeen templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(17);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -60,7 +60,7 @@ describe("gallery template data", () => {
     for (const t of TEMPLATES) {
       if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash Free");
-      } else if (t.slug === "iridia" || t.slug === "bathys") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "kinetic") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
@@ -139,5 +139,12 @@ describe("gallery template data", () => {
     expect(satsuma?.category).toBe("scroll-showcase");
     expect(satsuma?.promptMarkdown).toContain('rebuild "Satsuma"');
     expect(satsuma?.promptMarkdown).toContain("#FF7A2F");
+  });
+
+  it("files KINETIC under Scroll Showcase with its rebuild prompt inlined", () => {
+    const kinetic = TEMPLATES.find((t) => t.slug === "kinetic");
+    expect(kinetic?.category).toBe("scroll-showcase");
+    expect(kinetic?.promptMarkdown).toContain('rebuild "KINETIC"');
+    expect(kinetic?.promptMarkdown).toContain("#FF6B2B");
   });
 });

@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic";
 
 export type TemplateConfig = {
   palette: string[];
@@ -75,6 +75,13 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   satsuma: {
     // paper (page), ink (text), aubergine (primary action), satsuma (the one accent), apricot (badge and tint), leaf (rare green)
     palette: ["#FFF6EA", "#1F1520", "#3A1D4A", "#FF7A2F", "#FFD9B0", "#2F5D3A"],
+  },
+  kinetic: {
+    // paper (#FAF7F2), ink (#1B1522), satsuma accent (#FF6B2B), apricot (#FFE6D2), mint (#00D4B2), carbon (#2A1E30), slate (#8E8294)
+    palette: ["#FAF7F2", "#1B1522", "#FF6B2B", "#FFE6D2", "#00D4B2", "#2A1E30", "#8E8294"],
+    paletteExempt: [
+      "src/app/(kinetic)/kinetic/journey/engine/", // 3D scenery/materials shaders are content like 3D food
+    ],
   },
 };
 
