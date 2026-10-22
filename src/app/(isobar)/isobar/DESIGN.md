@@ -37,7 +37,7 @@ Map / Diagram macrostructure. A fixed WebGL field provides the spatial canvas wh
 
 ## Mechanic
 
-`PressureField` builds a three-layer shader membrane, contour tubes, and a particle volume with Three.js. Scroll progress (0–1) changes camera depth, layer separation, field rotation, displacement amplitude, and contour positions. Pointer movement offsets the camera and world. The pressure pin and recipe controls change the seed; density, drift, and contour sliders update shader uniforms and expose derived frequency/depth/amplitude values. The four chamber rows are keyboard-accessible buttons that jump to each transect. The field mounts during idle on fine pointers and has a tap-to-start path on touch; it never mounts under reduced motion.
+`PressureField` builds a three-layer shader membrane, contour tubes, and a particle volume with Three.js. Scroll progress (0–1) changes camera depth, layer separation, field rotation, displacement amplitude, and contour positions. Pointer movement offsets the camera and world. The visible volume graphic is a direct manipulation surface: clicking or dragging its local x/y point maps to the active transect, weather-map tuning, and a reseed delta. The pressure pin and recipe controls change the seed; density, drift, and contour sliders update shader uniforms and expose derived frequency/depth/amplitude values. The four chamber rows are keyboard-accessible buttons that jump to each transect. The field mounts during idle on fine pointers and has a tap-to-start path on touch; it never mounts under reduced motion.
 
 ## Motion
 

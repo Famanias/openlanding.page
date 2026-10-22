@@ -47,6 +47,22 @@ test.describe("ISOBAR — pressure membrane", () => {
     await expect(page.getByText(/frequency/)).toBeVisible();
   });
 
+  test("lets the 3D volume set the active transect by click and drag", async ({ page }) => {
+    await page.goto("/isobar");
+    await page.locator("#transects").scrollIntoViewIfNeeded();
+    const volume = page.locator(".iso-volume-hit");
+    await expect(volume).toBeVisible();
+    const box = await volume.boundingBox();
+    expect(box).not.toBeNull();
+    await page.mouse.click(box!.x + box!.width * .5, box!.y + box!.height * .08);
+    await expect(page.locator(".iso-chamber[data-active='true'] .iso-chamber__name")).toHaveText("Surface");
+    await page.mouse.move(box!.x + box!.width * .5, box!.y + box!.height * .08);
+    await page.mouse.down();
+    await page.mouse.move(box!.x + box!.width * .5, box!.y + box!.height * .9, { steps: 8 });
+    await page.mouse.up();
+    await expect(page.locator(".iso-chamber[data-active='true'] .iso-chamber__name")).toHaveText("Calm");
+  });
+
   test("keeps content visible with reduced motion", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/isobar");

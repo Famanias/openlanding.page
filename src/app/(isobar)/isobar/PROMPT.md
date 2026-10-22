@@ -19,7 +19,7 @@ Weather is pressure in motion, so the page is one continuous procedural 3D membr
 - Build a shader membrane from a subdivided plane with domain-like wave displacement and a live color interpolation between coral and violet.
 - Add 4 TubeGeometry contour ribbons at different depths, plus a sparse mint particle volume. This is a spatial field, not a basic model or GLTF asset.
 - Drive camera position, membrane rotation, shader progress and contours from one scroll progress value in a requestAnimationFrame loop.
-- Pointer position offsets the camera. A click or drag on the pressure pin changes the seed. Instrument sliders change density, drift and contour uniforms.
+- Pointer position offsets the camera. A click or drag on the pressure pin changes the seed. Instrument sliders change density, drift and contour uniforms. The visible transect volume is directly draggable: top-to-bottom movement selects Surface → Shear → Cross-section → Calm, horizontal position changes density, and the gesture reseeds the field.
 - Start on idle for fine pointers, offer a tap-to-start button on coarse pointers, and never mount the heavy engine under `prefers-reduced-motion`.
 - Keep a complete CSS fallback visible when WebGL is not available.
 

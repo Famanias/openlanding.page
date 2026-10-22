@@ -140,3 +140,29 @@ export function mapSliderStateToFieldTuning(input: WeatherMapState): FieldTuning
 /** Readable aliases for existing renderer call sites. */
 export const fieldTuningFromSliders = mapSliderStateToFieldTuning;
 export const mapSlidersToFieldTuning = mapSliderStateToFieldTuning;
+
+export type VolumeGestureTuning = {
+  /** Vertical position maps directly to the continuous field transect. */
+  progress: number;
+  /** Horizontal pressure maps to density / fold frequency. */
+  density: number;
+  /** Vertical position inversely maps to drift / movement speed. */
+  drift: number;
+  /** Vertical depth maps to contour prominence. */
+  contour: number;
+  /** Always-positive reseed amount for the field's identity. */
+  seedDelta: number;
+};
+
+/** Convert a normalized direct-manipulation point on the volume into field controls. */
+export function volumeGestureToFieldTuning(x: number, y: number): VolumeGestureTuning {
+  const nx = clampSlider(Number.isNaN(x) ? 0 : x * 100) / 100;
+  const ny = clampSlider(Number.isNaN(y) ? 0 : y * 100) / 100;
+  return {
+    progress: ny,
+    density: Math.round(35 + nx * 65),
+    drift: Math.round(100 - ny * 80),
+    contour: Math.round(25 + ny * 75),
+    seedDelta: 1 + Math.round(nx * 9 + (1 - ny) * 5),
+  };
+}

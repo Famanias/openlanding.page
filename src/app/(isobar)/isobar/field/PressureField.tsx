@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { clamp, lerp } from "../motion/math";
+import { volumeGestureToFieldTuning, type VolumeGestureTuning } from "./controls";
 
-type PressureFieldProps = { seed: number; density?: number; drift?: number; contour?: number; depth?: number; amplitude?: number; frequency?: number; speed?: number; onMount?: (mounted: boolean) => void };
+type PressureFieldProps = { seed: number; density?: number; drift?: number; contour?: number; depth?: number; amplitude?: number; frequency?: number; speed?: number; onMount?: (mounted: boolean) => void; onGesture?: (tuning: VolumeGestureTuning) => void };
 
 const PALETTE = [0xff5b47, 0x2de2a6, 0x8a6cff, 0xffd447];
 
@@ -91,7 +92,7 @@ function makeContour(index: number) {
   return new THREE.CatmullRomCurve3(points);
 }
 
-export function PressureField({ seed, density = 62, drift = 38, contour = 74, depth = 1, amplitude = .5, frequency = 1.5, speed = .3, onMount }: PressureFieldProps) {
+export function PressureField({ seed, density = 62, drift = 38, contour = 74, depth = 1, amplitude = .5, frequency = 1.5, speed = .3, onMount, onGesture }: PressureFieldProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const seedRef = useRef(seed);
   const paramsRef = useRef({ density, drift, contour, depth, amplitude, frequency, speed });
@@ -181,12 +182,38 @@ export function PressureField({ seed, density = 62, drift = 38, contour = 74, de
 
     const target = { x: 0, y: 0, progress: 0 };
     const current = { x: 0, y: 0, progress: 0 };
-    const onPointerMove = (event: PointerEvent) => { target.x = (event.clientX / window.innerWidth - .5) * 2; target.y = (event.clientY / window.innerHeight - .5) * 2; };
+    let gestureActive = false;
+    const mapGesture = (event: PointerEvent) => {
+      const rect = mount.getBoundingClientRect();
+      const x = clamp((event.clientX - rect.left) / Math.max(1, rect.width));
+      const y = clamp((event.clientY - rect.top) / Math.max(1, rect.height));
+      const tuning = volumeGestureToFieldTuning(x, y);
+      target.x = (x - .5) * 2;
+      target.y = (y - .5) * 2;
+      target.progress = tuning.progress;
+      onGesture?.(tuning);
+    };
+    const onVolumePointerDown = (event: PointerEvent) => {
+      gestureActive = true;
+      mount.setPointerCapture?.(event.pointerId);
+      mapGesture(event);
+    };
+    const onVolumePointerMove = (event: PointerEvent) => { if (gestureActive) mapGesture(event); };
+    const onVolumePointerUp = (event: PointerEvent) => {
+      if (gestureActive) mapGesture(event);
+      gestureActive = false;
+      if (mount.hasPointerCapture?.(event.pointerId)) mount.releasePointerCapture(event.pointerId);
+    };
+    const onPointerMove = (event: PointerEvent) => { if (!gestureActive) { target.x = (event.clientX / window.innerWidth - .5) * 2; target.y = (event.clientY / window.innerHeight - .5) * 2; } };
     const onScroll = () => { const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight); target.progress = clamp(window.scrollY / max); };
     const onResize = () => { camera.aspect = mount.clientWidth / Math.max(1, mount.clientHeight); camera.updateProjectionMatrix(); renderer?.setSize(mount.clientWidth, mount.clientHeight); };
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
+    mount.addEventListener("pointerdown", onVolumePointerDown);
+    mount.addEventListener("pointermove", onVolumePointerMove);
+    mount.addEventListener("pointerup", onVolumePointerUp);
+    mount.addEventListener("pointercancel", onVolumePointerUp);
     onScroll(); onResize();
 
     const clock = new THREE.Clock();
@@ -240,6 +267,10 @@ export function PressureField({ seed, density = 62, drift = 38, contour = 74, de
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      mount.removeEventListener("pointerdown", onVolumePointerDown);
+      mount.removeEventListener("pointermove", onVolumePointerMove);
+      mount.removeEventListener("pointerup", onVolumePointerUp);
+      mount.removeEventListener("pointercancel", onVolumePointerUp);
       membraneLayers.forEach(({ mesh, material }) => { material.dispose(); mesh.geometry.dispose(); });
       contours.children.forEach((child) => { (child as THREE.Mesh).geometry.dispose(); ((child as THREE.Mesh).material as THREE.Material).dispose(); });
       particleGeometry.dispose(); (particles.material as THREE.Material).dispose();
@@ -249,7 +280,7 @@ export function PressureField({ seed, density = 62, drift = 38, contour = 74, de
   }, [active, onMount]);
 
   return <>
-    <div ref={mountRef} className="iso-field" data-field-active={active} aria-hidden="true" />
+    <div ref={mountRef} className="iso-field" data-field-active={active} role="application" aria-label="Interactive pressure volume. Click or drag to change the active transect." />
     {canStart && !active && <button className="iso-field__activate iso-mono" type="button" onClick={() => { setCanStart(false); setActive(true); }}>Activate field <span aria-hidden="true">↗</span></button>}
   </>;
 }

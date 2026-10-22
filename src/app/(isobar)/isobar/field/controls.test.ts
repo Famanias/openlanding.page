@@ -6,6 +6,7 @@ import {
   clampSlider,
   mapSliderStateToFieldTuning,
   updateWeatherMap,
+  volumeGestureToFieldTuning,
 } from "./controls";
 
 describe("isobar transect chambers", () => {
@@ -67,5 +68,31 @@ describe("weather-map controls", () => {
       drift: 100,
       contour: 0,
     });
+  });
+});
+
+describe("direct volume gestures", () => {
+  it("maps a normalized click or drag point to an active transect and field tuning", () => {
+    expect(volumeGestureToFieldTuning(0, 0)).toMatchObject({
+      progress: 0,
+      density: 35,
+      drift: 100,
+      contour: 25,
+    });
+    expect(volumeGestureToFieldTuning(1, 1)).toMatchObject({
+      progress: 1,
+      density: 100,
+      drift: 20,
+      contour: 100,
+    });
+  });
+
+  it("clamps pointer coordinates and always returns a reseed delta", () => {
+    const mapped = volumeGestureToFieldTuning(-.4, 1.4);
+    expect(mapped.progress).toBe(1);
+    expect(mapped.seedDelta).toBeGreaterThan(0);
+    expect(mapped.density).toBe(35);
+    expect(mapped.drift).toBe(20);
+    expect(mapped.contour).toBe(100);
   });
 });

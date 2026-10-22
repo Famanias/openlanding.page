@@ -3,7 +3,7 @@
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Logo } from "../brand/Logo";
 import { PressureField } from "../field/PressureField";
-import { CHAMBERS, DEFAULT_WEATHER_MAP, chamberForProgress, mapSliderStateToFieldTuning, updateWeatherMap } from "../field/controls";
+import { CHAMBERS, DEFAULT_WEATHER_MAP, chamberForProgress, mapSliderStateToFieldTuning, updateWeatherMap, volumeGestureToFieldTuning, type VolumeGestureTuning } from "../field/controls";
 import { Reveal } from "../motion/Reveal";
 import { validateBrief } from "../forms/validate-brief";
 
@@ -25,6 +25,10 @@ export function IsobarExperience() {
   const [weatherMap, setWeatherMap] = useState(DEFAULT_WEATHER_MAP);
   const [chamberOverride, setChamberOverride] = useState<number | null>(null);
   const chamberOverrideRef = useRef<number | null>(null);
+  const [volumeProgress, setVolumeProgress] = useState<number | null>(null);
+  const volumeGestureActiveRef = useRef(false);
+  const lastGestureProgressRef = useRef<number | null>(null);
+  const volumeGraphicDragRef = useRef(false);
   const [formState, setFormState] = useState<"idle" | "loading" | "success">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -57,19 +61,70 @@ export function IsobarExperience() {
     return () => cancelAnimationFrame(frame);
   }, []);
 
+  useEffect(() => {
+    const resetVolumeGesture = () => {
+      if (!volumeGestureActiveRef.current) return;
+      volumeGestureActiveRef.current = false;
+      lastGestureProgressRef.current = null;
+      setVolumeProgress(null);
+      chamberOverrideRef.current = null;
+      setChamberOverride(null);
+    };
+    window.addEventListener("scroll", resetVolumeGesture, { passive: true });
+    return () => window.removeEventListener("scroll", resetVolumeGesture);
+  }, []);
+
   const tunedField = useMemo(() => mapSliderStateToFieldTuning(weatherMap), [weatherMap]);
   const activeChamber = chamberOverride ?? chamberForProgress(progress).index;
+  const displayedProgress = volumeProgress ?? progress;
   const readout = useMemo(() => {
-    const pressure = Math.round(18 + progress * 74);
-    const latitude = (42.34 - progress * 3.2).toFixed(2);
+    const pressure = Math.round(18 + displayedProgress * 74);
+    const latitude = (42.34 - displayedProgress * 3.2).toFixed(2);
     return { pressure, latitude };
-  }, [progress]);
+  }, [displayedProgress]);
 
   const jumpToChamber = (index: number) => {
+    volumeGestureActiveRef.current = false;
+    setVolumeProgress(null);
     chamberOverrideRef.current = index;
     setChamberOverride(index);
     const max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
     window.scrollTo({ top: max * (index / Math.max(1, chambers.length - 1)), behavior: "smooth" });
+  };
+
+  const handleVolumeGesture = useCallback((tuning: VolumeGestureTuning) => {
+    volumeGestureActiveRef.current = true;
+    setVolumeProgress(tuning.progress);
+    const nextChamber = chamberForProgress(tuning.progress).index;
+    chamberOverrideRef.current = nextChamber;
+    setChamberOverride(nextChamber);
+    setWeatherMap({ density: tuning.density, drift: tuning.drift, contour: tuning.contour });
+    const previous = lastGestureProgressRef.current;
+    if (previous === null || Math.abs(previous - tuning.progress) > .08) {
+      lastGestureProgressRef.current = tuning.progress;
+      setSeed((value) => value + tuning.seedDelta);
+    }
+  }, []);
+
+  const readVolumeGraphicGesture = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = Math.min(1, Math.max(0, (event.clientX - rect.left) / Math.max(1, rect.width)));
+    const y = Math.min(1, Math.max(0, (event.clientY - rect.top) / Math.max(1, rect.height)));
+    handleVolumeGesture(volumeGestureToFieldTuning(x, y));
+  }, [handleVolumeGesture]);
+
+  const onVolumeGraphicDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    volumeGraphicDragRef.current = true;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    readVolumeGraphicGesture(event);
+  };
+  const onVolumeGraphicMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (volumeGraphicDragRef.current) readVolumeGraphicGesture(event);
+  };
+  const onVolumeGraphicUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (volumeGraphicDragRef.current) readVolumeGraphicGesture(event);
+    volumeGraphicDragRef.current = false;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -91,7 +146,7 @@ export function IsobarExperience() {
 
   return (
     <div className="iso-shell">
-      <PressureField seed={seed} density={tunedField.density} drift={tunedField.drift} contour={tunedField.contour} depth={tunedField.depth} amplitude={tunedField.amplitude} frequency={tunedField.frequency} speed={tunedField.speed} onMount={setMounted} />
+      <PressureField seed={seed} density={tunedField.density} drift={tunedField.drift} contour={tunedField.contour} depth={tunedField.depth} amplitude={tunedField.amplitude} frequency={tunedField.frequency} speed={tunedField.speed} onMount={setMounted} onGesture={handleVolumeGesture} />
       <div className="iso-grain" aria-hidden="true" />
 
       <header className="iso-nav" data-state={navState}>
@@ -150,15 +205,18 @@ export function IsobarExperience() {
 
         <section id="transects" className="iso-section iso-transect" aria-labelledby="iso-transect-title">
           <div className="iso-section__inner iso-transect__stage">
-            <Reveal variant="scale" className="iso-transect__graphic" aria-hidden="true">
-              <span className="iso-transect__ring" /><span className="iso-transect__ring" /><span className="iso-transect__ring" />
-              <span className="iso-transect__core" />
-              <i className="iso-transect__point iso-transect__point--a" /><i className="iso-transect__point iso-transect__point--b" /><i className="iso-transect__point iso-transect__point--c" />
+            <Reveal variant="scale" className="iso-transect__graphic">
+              <div className="iso-volume-hit" role="application" aria-label="Interactive pressure volume. Click or drag to retune the active transect." onPointerDown={onVolumeGraphicDown} onPointerMove={onVolumeGraphicMove} onPointerUp={onVolumeGraphicUp} onPointerCancel={onVolumeGraphicUp}>
+                <span className="iso-transect__ring" /><span className="iso-transect__ring" /><span className="iso-transect__ring" />
+                <span className="iso-transect__core" />
+                <i className="iso-transect__point iso-transect__point--a" /><i className="iso-transect__point iso-transect__point--b" /><i className="iso-transect__point iso-transect__point--c" />
+              </div>
             </Reveal>
             <div className="iso-transect__copy">
               <Reveal as="span" variant="mask" className="iso-kicker iso-mono">Transects / 04 views</Reveal>
               <h2 id="iso-transect-title" className="iso-section__heading">Read the <em>whole volume.</em></h2>
               <p>Scroll through one membrane. The camera changes altitude, the contours recompose, and the same idea appears with new pressure.</p>
+              <span className="iso-gesture-hint iso-mono">Click / drag the volume to retune it</span>
               <div className="iso-chamber-list" role="list" aria-label="Field chambers">
                 {chambers.map((chamber, index) => <button key={chamber.id} className="iso-chamber" data-active={index === activeChamber} type="button" aria-pressed={index === activeChamber} onClick={() => jumpToChamber(index)}><span className="iso-chamber__index iso-mono">{chamber.number}</span><span className="iso-chamber__name">{chamber.label}</span><span className="iso-chamber__value">{chamber.note}</span></button>)}
                 <p className="iso-sr-only" aria-live="polite">Reading {chambers[activeChamber].label}: {chambers[activeChamber].note}.</p>
