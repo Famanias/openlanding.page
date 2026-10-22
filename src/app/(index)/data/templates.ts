@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -170,6 +170,10 @@ The central idea is a lit front door. The hero contains a compact threshold form
 Use one wordmark, one filled primary button recipe, no navigation menu, no invented testimonials, logos, metrics, quotes, or photos. Sections: hero and form, what the call clears up, fit for service businesses / local shops / specialist practices, the welcome-listen-invite process, and a final form with a sticky booking action.
 
 Use warm paper, ink, cotton, desk, board green, and terracotta tokens. Motion is organic and analog: unfurl and settle. Use a staged hero, mask-rise headings, drawn rules, paper-settle cards, and a single requestAnimationFrame scroll progress line. Content must be visible with JavaScript disabled and with prefers-reduced-motion: reduce.`;
+
+export const HANDOFF_PROMPT = `# Prompt: rebuild HANDOFF (conversion landing page)
+
+Build a Next.js 16 conversion landing page for a fictional outsourcing company that helps small businesses route manageable client work. Use a warm dotted paper canvas, near-black ink, signal orange, route blue, pass green, DM Serif Display, Geist and Geist Mono. The signature mechanic is a scroll-driven pipeline: INQUIRY, QUALIFIED, MATCHED, MANAGED, DONE. The form is local-only and validates name, work email and service lane before showing a brief received success state. Keep the page modular and builder-friendly for Webflow or WordPress, with clear section labels, cards, a sticky header, service lanes, proof metrics, fit check, and a dark close form. No external media is required; draw the dispatch desk with CSS geometry.`;
 
 export const TEMPLATES: TemplateItem[] = [
   {
@@ -431,6 +435,18 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Single CTA", "Threshold Form", "Reduced Motion"],
     previewImage: "/templates/openhouse/preview.svg",
     promptMarkdown: OPENHOUSE_PROMPT,
+    model: "GPT-6 Astra Max",
+  },
+  {
+    slug: "handoff",
+    title: "HANDOFF",
+    description: "Good work, routed well. A builder-friendly conversion page for small teams that need reliable operators.",
+    category: "conversion",
+    industry: "Outsourcing & Operations",
+    stack: "Next.js 16 · Tailwind v4 · Local Form State · CSS Motion",
+    badges: ["Pipeline Route", "Fit Brief", "Builder Ready"],
+    previewImage: "/templates/handoff/preview.svg",
+    promptMarkdown: HANDOFF_PROMPT,
     model: "GPT-6 Astra Max",
   },
 ];

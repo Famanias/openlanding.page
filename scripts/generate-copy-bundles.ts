@@ -89,6 +89,10 @@ export const TEMPLATE_METADATA: Record<
     name: "OPENHOUSE",
     dependencies: [],
   },
+  handoff: {
+    name: "HANDOFF",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
