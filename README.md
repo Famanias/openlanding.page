@@ -103,7 +103,3 @@ This repository includes dependencies and integrations that are subject to their
   - This repository does **not** bundle or distribute proprietary Club GreenSock plugins (such as `SplitText`, `MorphSVG`, or `ScrollSmoother`).
 - **Three.js, Motion, Lenis, &amp; Phosphor Icons:** Licensed under their respective MIT/ISC licenses.
 - **Fonts:** Loaded via `next/font/google` and licensed under the SIL Open Font License (OFL) or Apache 2.0.
-
-### Trademark Notice
-
-All product and company names, logos, and brands (including Webflow, Vercel, and Next.js) are trademarks or registered trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
