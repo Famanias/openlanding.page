@@ -24,7 +24,9 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     palette: ["#081115", "#E7ECE7", "#C9F458", "#849694"],
   },
   calder: {
-    palette: ["#000000", "#102B3F", "#FFFFFF"],
+    // ink (ground, text on paper), midnight (slabs), ivory (paper, text on slabs), gold (the one accent, hairlines),
+    // parchment (paper tint), slate (muted text on paper), brass (gold as text on paper), garnet (errors only)
+    palette: ["#070C17", "#0E1830", "#F5F0E4", "#C9A55A", "#E8DFCB", "#55607A", "#7D5F1F", "#9C3A2E"],
   },
   vector: {
     palette: ["#030706", "#071713", "#51F6D3", "#B8FF57", "#123B38"],
