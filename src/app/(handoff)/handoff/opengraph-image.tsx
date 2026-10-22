@@ -1,0 +1,3 @@
+import { ImageResponse } from "next/og";
+export const size={width:1200,height:630}; export const contentType="image/png";
+export default function OpenGraph(){return new ImageResponse(<div style={{display:"flex",flexDirection:"column",justifyContent:"space-between",width:"100%",height:"100%",padding:80,background:"#F7F6F1",color:"#171817",fontFamily:"Arial"}}><div style={{display:"flex",fontSize:34,fontWeight:700}}>handoff<span style={{color:"#F35B2A"}}>.</span></div><div style={{display:"flex",fontSize:82,lineHeight:1}}>Good work,<br/>routed well.</div><div style={{display:"flex",fontSize:24,color:"#6C6D67"}}>Managed growth ops for small teams.</div></div>,{...size})}

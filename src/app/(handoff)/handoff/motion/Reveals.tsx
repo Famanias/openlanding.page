@@ -1,0 +1,3 @@
+"use client";
+import { useEffect } from "react";
+export function Reveals(){useEffect(()=>{document.documentElement.classList.add("has-js");const nodes=Array.from(document.querySelectorAll<HTMLElement>("[data-hf-reveal]"));if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){nodes.forEach(n=>n.dataset.hfIn="true");return()=>document.documentElement.classList.remove("has-js")};const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){(entry.target as HTMLElement).dataset.hfIn="true";observer.unobserve(entry.target)}}),{rootMargin:"0px 0px -12% 0px",threshold:.12});nodes.forEach(n=>observer.observe(n));return()=>{observer.disconnect();document.documentElement.classList.remove("has-js")}},[]);return null}
