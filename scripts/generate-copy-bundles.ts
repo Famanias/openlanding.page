@@ -93,6 +93,10 @@ export const TEMPLATE_METADATA: Record<
     name: "HANDOFF",
     dependencies: [],
   },
+  nomi: {
+    name: "NOMI",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

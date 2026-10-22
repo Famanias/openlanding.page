@@ -1,0 +1,2 @@
+"use client"; import {useEffect} from "react"; export function Reveals(){useEffect(()=>{document.documentElement.classList.add("nm-has-js");const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){(e.target as HTMLElement).dataset.nomiIn="true";io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll<HTMLElement>("[data-nomi-reveal]").forEach(n=>io.observe(n));return()=>{io.disconnect();document.documentElement.classList.remove("nm-has-js")}},[]);return null}
+

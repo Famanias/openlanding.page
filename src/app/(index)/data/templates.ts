@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "nomi";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -174,6 +174,10 @@ Use warm paper, ink, cotton, desk, board green, and terracotta tokens. Motion is
 export const HANDOFF_PROMPT = `# Prompt: rebuild HANDOFF (conversion landing page)
 
 Build a Next.js 16 conversion landing page for a fictional outsourcing company that helps small businesses route manageable client work. Use a warm dotted paper canvas, near-black ink, signal orange, route blue, pass green, DM Serif Display, Geist and Geist Mono. The signature mechanic is a scroll-driven pipeline: INQUIRY, QUALIFIED, MATCHED, MANAGED, DONE. The form is local-only and validates name, work email and service lane before showing a brief received success state. Keep the page modular and builder-friendly for Webflow or WordPress, with clear section labels, cards, a sticky header, service lanes, proof metrics, fit check, and a dark close form. No external media is required; draw the dispatch desk with CSS geometry.`;
+
+export const NOMI_PROMPT = `# Prompt: rebuild NOMI (glassmorphism mobile workspace landing page)
+
+Build a Next.js 16 landing page for fictional NOMI, a calm mobile operating system for independent tutoring studios. Use a graphite navy glassmorphism environment, DM Serif Display, Geist and Geist Mono, with periwinkle and cyan accents. The signature mechanic is a scroll-controlled phone launch that unlocks Inbox, Schedule, Progress and Payments. Use CSS/DOM/SVG only; no photos or external media. Include glass cards, responsive layout, local walkthrough form success, reduced-motion support, and an Apple-inspired but original visual language without copying Apple marks or screenshots.`;
 
 export const TEMPLATES: TemplateItem[] = [
   {
@@ -447,6 +451,18 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Pipeline Route", "Fit Brief", "Builder Ready"],
     previewImage: "/templates/handoff/preview.svg",
     promptMarkdown: HANDOFF_PROMPT,
+    model: "GPT-6 Astra Max",
+  },
+  {
+    slug: "nomi",
+    title: "NOMI",
+    description: "A glassmorphism mobile workspace for independent tutoring studios, revealed as a scroll-driven phone launch.",
+    category: "conversion",
+    industry: "Tutoring & Education",
+    stack: "Next.js 16 · Tailwind v4 · CSS/SVG Phone UI · Local Form State",
+    badges: ["Glassmorphism", "Phone Launch", "CSS UI"],
+    previewImage: "/templates/nomi/preview.svg",
+    promptMarkdown: NOMI_PROMPT,
     model: "GPT-6 Astra Max",
   },
 ];

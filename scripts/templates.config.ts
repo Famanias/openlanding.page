@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "nomi";
 
 export type TemplateConfig = {
   palette: string[];
@@ -115,6 +115,9 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   },
   handoff: {
     palette: ["#F7F6F1", "#EEEDE7", "#171817", "#202320", "#F35B2A", "#9BC9D8", "#9CB99C", "#D9D7CF", "#6C6D67", "#FFFFFF"],
+  },
+  nomi: {
+    palette: ["#0B1020", "#121A31", "#F4F7FF", "#AAB5CF", "#2A3758", "#6F8CFF", "#8FE3FF"],
   },
 };
 
