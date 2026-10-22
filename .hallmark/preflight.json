@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-23",
+  "framework": "Next.js 16.4.2 App Router",
+  "fonts": "next/font/google per route",
+  "palette": "per-template scripts/templates.config.ts guard",
+  "motion": "Three.js, CSS motion tokens, IntersectionObserver",
+  "spacing": "4pt-derived semantic scale",
+  "preserved": ["isolated route groups", "gallery registration", "strict palette guard"],
+  "introduced": ["Map / Diagram macrostructure", "procedural pressure membrane", "motion map", "ISOBAR mineral field tokens"]
+}

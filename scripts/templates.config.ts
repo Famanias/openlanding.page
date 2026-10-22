@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero";
 
 export type TemplateConfig = {
   palette: string[];
@@ -85,6 +85,10 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     paletteExempt: [
       "src/app/(kinetic)/kinetic/journey/engine/", // 3D scenery/materials shaders are content like 3D food
     ],
+  },
+  isobar: {
+    palette: ["#F7F2E9", "#12101A", "#FF5B47", "#2DE2A6", "#8A6CFF", "#FFD447", "#272234", "#A59DB6"],
+    paletteExempt: ["src/app/(isobar)/isobar/field/"],
   },
   "volume-zero": {
     palette: ["#171B20", "#F1EEE5", "#2B9BAA"],
