@@ -191,6 +191,15 @@ src/app/(bathys)/
       buildSubmersible.ts          // Procedural Three.js model (Ti sphere, foam fairing, pods, floodlight cones, arm, skids)
       pose.ts                      // Pure scroll → screen-pose mapping
       pose.test.ts                 // Unit tests for the pose mapping
+    life/
+      DeepLife.tsx                 // Screen-blended 2D canvas of deep-sea fauna, anchored to dive depth, ignores the pointer
+      placement.ts                 // Pure scroll → creature position/visibility mapping
+      placement.test.ts            // Unit tests for placement
+      draw.ts                      // Shared canvas helpers (glow, ribbons, follow-the-leader chains)
+      siphonophore.ts              // Mesopelagic: bells + stem + travelling bioluminescence
+      anglerfish.ts                // Bathypelagic: near-black body lit only by its lure
+      dumbo.ts                     // Abyssopelagic: dumbo octopus with web skirt and trailing arms
+      snailfish.ts                 // Hadopelagic: translucent snailfish with a continuous fin veil
     sonar/
       SonarRadar.tsx               // Procedural HTML5 Canvas polar sweep radar
     sections/

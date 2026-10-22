@@ -430,16 +430,47 @@ export function Picture({
   background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--color-navy) 70%, transparent));
 }
 
-.bat-bob {
-  transform-origin: 50% 40%;
-  animation: bat-bob 7s var(--ease-in-out) infinite alternate;
+/* Hero callouts, positioned each frame by scene/SubmersibleScene */
+.bat-callout {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
 }
 
-.bat-ping {
-  transform-box: fill-box;
-  transform-origin: center;
-  opacity: 0;
-  animation: bat-ping 4.2s var(--ease-out) infinite;
+.bat-callout-dot {
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-cyan);
+}
+
+.bat-callout-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 1px;
+  transform-origin: 0 50%;
+  background: color-mix(in srgb, var(--color-mist) 55%, transparent);
+}
+
+.bat-callout-text {
+  position: absolute;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  color: var(--color-mist);
+}
+
+.bat-callout-text small {
+  display: block;
+  font-size: 10px;
+  color: color-mix(in srgb, var(--color-mist) 65%, transparent);
 }
 
 .bat-wave {
@@ -452,16 +483,6 @@ export function Picture({
 
 .bat-strobe {
   animation: bat-strobe 2.6s ease-in-out infinite;
-}
-
-@keyframes bat-bob {
-  from { transform: translate3d(0, 0, 0) rotate(-0.6deg); }
-  to   { transform: translate3d(0, -14px, 0) rotate(0.6deg); }
-}
-
-@keyframes bat-ping {
-  0%   { transform: scale(0.5); opacity: 0.55; }
-  100% { transform: scale(9); opacity: 0; }
 }
 
 @keyframes bat-ray {
@@ -481,7 +502,6 @@ export function Picture({
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bat-bob,
   .bat-ray,
   .bat-wave,
   .bat-strobe {
@@ -490,10 +510,6 @@ export function Picture({
 
   .bat-strobe {
     opacity: 0.8;
-  }
-
-  .bat-ping {
-    display: none;
   }
 }
 
@@ -617,6 +633,8 @@ export default function OpengraphImage() {
 import { HeaderHUD } from "./sections/HeaderHUD";
 import { Hero } from "./sections/Hero";
 import { OceanAmbient } from "./sections/OceanAmbient";
+import { SubmersibleScene } from "./scene/SubmersibleScene";
+import { DeepLife } from "./life/DeepLife";
 import { DescentSection } from "./descent/DescentSection";
 import { ArchitectureSection } from "./sections/ArchitectureSection";
 import { SensorSuiteSection } from "./sections/SensorSuiteSection";
@@ -628,6 +646,8 @@ export default function BathysPage() {
   return (
     <main className="min-h-screen bg-trench text-titanium flex flex-col relative isolate">
       <OceanAmbient />
+      <DeepLife />
+      <SubmersibleScene />
       <HeaderHUD />
       <Hero />
       <DescentSection />
@@ -873,8 +893,8 @@ export function DescentSection() {
         className="sticky top-[64px] w-full min-h-[calc(100vh-64px)] flex flex-col justify-between py-6 overflow-hidden transition-colors duration-500"
         style={{
           backgroundColor: isHadal
-            ? "color-mix(in srgb, var(--color-trench) 88%, transparent)"
-            : "color-mix(in srgb, var(--color-navy) 84%, transparent)",
+            ? "color-mix(in srgb, var(--color-trench) 66%, transparent)"
+            : "color-mix(in srgb, var(--color-navy) 58%, transparent)",
           backgroundImage: `radial-gradient(circle at 50% 10%, color-mix(in srgb, var(--color-cyan) ${(15 * absorption).toFixed(1)}%, transparent) 0%, transparent 70%)`,
         }}
       >
@@ -1577,6 +1597,1163 @@ export function validateCharterForm(values: CharterFormValues): CharterFormError
 }
 ]]>
     </file>
+    <file path="src/app/(bathys)/bathys/life/anglerfish.ts">
+<![CDATA[import { TAU, additive, glow, rgba, seeded, type Creature, type Pt } from "./draw";
+
+/**
+ * Humpback anglerfish (Melanocetus): a near-black globular predator lit only
+ * by its own lure. The brow, the fangs and a thin rim of skin catch the
+ * esca's light; the rest of the animal falls away into the water.
+ * Bathypelagic midnight zone.
+ */
+
+// 1 unit = 1px at scale 1; +x is forward (snout). ~270px nose to tail.
+function bodyPath(ctx: CanvasRenderingContext2D, tb: number, gape: number) {
+  ctx.beginPath();
+  ctx.moveTo(98, 4);
+  ctx.bezierCurveTo(94, -20, 74, -46, 42, -56);
+  ctx.bezierCurveTo(6, -70, -38, -60, -68, -32);
+  ctx.bezierCurveTo(-86, -18, -98, -10 + tb * 0.4, -112, -7 + tb);
+  ctx.lineTo(-112, 7 + tb);
+  ctx.bezierCurveTo(-98, 14 + tb * 0.4, -92, 36, -62, 50);
+  ctx.bezierCurveTo(-30, 64, 18, 68, 54, 58 + gape * 0.4);
+  ctx.bezierCurveTo(78, 52, 92, 42 + gape, 103, 30 + gape);
+  // lower jaw inner edge, mouth gape, upper jaw inner edge
+  ctx.quadraticCurveTo(88, 24 + gape, 58, 20 + gape * 0.7);
+  ctx.quadraticCurveTo(38, 17 + gape * 0.4, 26, 8);
+  ctx.quadraticCurveTo(52, 3, 82, 4);
+  ctx.closePath();
+}
+
+// [x, y, length] along the upper jaw (hang down) and the lower jaw (rise up)
+const UPPER_TEETH: [number, number, number][] = [
+  [88, 4.4, 9], [80, 4, 14], [72, 3.8, 11], [64, 3.6, 16], [56, 3.4, 12], [48, 3.2, 14], [40, 3, 9], [33, 2.8, 8],
+];
+const LOWER_TEETH: [number, number, number][] = [
+  [98, 29, -12], [92, 26, -19], [85, 24, -15], [78, 23, -22], [70, 22, -17], [62, 21, -20], [54, 20, -15], [46, 19, -17], [38, 17, -11],
+];
+
+export function createAnglerfish(): Creature {
+  const rand = seeded(7);
+  const speckles = Array.from({ length: 90 }, () => ({
+    x: -100 + rand() * 200,
+    y: -60 + rand() * 124,
+    r: 0.5 + rand() * 1.1,
+  }));
+  const esca: Pt = { x: 118, y: -70 };
+  let lag = 0;
+  let wake = 0;
+
+  return {
+    id: "anglerfish",
+    center: 0.42,
+    parallax: 0.66,
+    from: 0.1,
+    to: 0.62,
+    draw(ctx, s, c) {
+      const sc = s.scale;
+      const swim = Math.sin(s.t * 1.9);
+      const tb = swim * 12;
+      const gape = 4 + 3 * Math.sin(s.t * 0.8);
+
+      // the lure trails the swimmer, then springs back
+      const localVx = (s.vx * s.facing) / Math.max(sc, 0.1);
+      lag += (Math.max(-26, Math.min(26, -localVx * 0.07)) - lag) * Math.min(1, s.dt * 4);
+      esca.x = 118 + lag + Math.sin(s.t * 1.2) * 4;
+      esca.y = -70 + Math.sin(s.t * 1.6 + 1) * 4 - Math.abs(lag) * 0.3;
+      // slow pulse, with an occasional hard flicker like a real esca
+      if (Math.sin(s.t * 0.9 + 2) > 0.985) wake = 1;
+      wake = Math.max(0, wake - s.dt * 2.5);
+      const pulse = 0.72 + 0.2 * Math.sin(s.t * 2.1) + wake * 0.35;
+
+      ctx.save();
+      ctx.globalAlpha = s.alpha;
+      ctx.translate(s.x, s.y);
+      ctx.rotate(Math.sin(s.t * 0.8) * 0.04 - 0.03);
+      ctx.scale(s.facing * sc, sc);
+
+      // caudal fin, barely there
+      ctx.beginPath();
+      ctx.moveTo(-108, -6 + tb);
+      ctx.bezierCurveTo(-130, -26 + tb * 1.4, -152, -36 + tb * 1.6, -160, -18 + tb * 1.6);
+      ctx.bezierCurveTo(-152, -6 + tb * 1.6, -152, 6 + tb * 1.6, -160, 18 + tb * 1.6);
+      ctx.bezierCurveTo(-152, 36 + tb * 1.6, -130, 26 + tb * 1.4, -108, 6 + tb);
+      ctx.closePath();
+      ctx.fillStyle = rgba(c.glass, 0.35);
+      ctx.fill();
+      ctx.strokeStyle = rgba(c.slate, 0.18);
+      ctx.lineWidth = 0.7;
+      for (let i = -4; i <= 4; i++) {
+        ctx.beginPath();
+        ctx.moveTo(-108, i * 1.6 + tb);
+        ctx.lineTo(-156, i * 7.5 + tb * 1.6);
+        ctx.stroke();
+      }
+
+      // body: almost the colour of the water
+      bodyPath(ctx, tb, gape);
+      const skin = ctx.createLinearGradient(0, -66, 0, 68);
+      skin.addColorStop(0, rgba(c.navy, 0.9));
+      skin.addColorStop(0.5, rgba(c.trench, 0.96));
+      skin.addColorStop(1, rgba(c.trench, 0.96));
+      ctx.fillStyle = skin;
+      ctx.fill();
+
+      ctx.save();
+      bodyPath(ctx, tb, gape);
+      ctx.clip();
+      ctx.fillStyle = rgba(c.mist, 0.05);
+      for (const p of speckles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, TAU);
+        ctx.fill();
+      }
+      // the lure lights the face and brow, and little else
+      additive(ctx, () => {
+        glow(ctx, esca.x - 8, esca.y + 22, 120, c.cyan, 0.34 * pulse);
+        glow(ctx, esca.x - 4, esca.y + 14, 54, c.titanium, 0.16 * pulse);
+      });
+      ctx.restore();
+
+      // skin rim picks up light near the lure only
+      bodyPath(ctx, tb, gape);
+      ctx.lineWidth = 1;
+      const rim = ctx.createRadialGradient(esca.x - 10, esca.y + 20, 10, esca.x - 10, esca.y + 20, 190);
+      rim.addColorStop(0, rgba(c.titanium, 0.5 * pulse));
+      rim.addColorStop(0.45, rgba(c.mist, 0.18 * pulse));
+      rim.addColorStop(1, rgba(c.mist, 0.02));
+      ctx.strokeStyle = rim;
+      ctx.stroke();
+
+      // mouth cavity
+      ctx.beginPath();
+      ctx.moveTo(26, 8);
+      ctx.quadraticCurveTo(52, 3, 84, 4);
+      ctx.lineTo(100, 28 + gape);
+      ctx.quadraticCurveTo(60, 20 + gape * 0.7, 26, 8);
+      ctx.fillStyle = rgba(c.trench, 1);
+      ctx.fill();
+
+      // fangs: translucent, brightest nearest the lure
+      const fang = (x: number, y: number, len: number, curl: number) => {
+        const near = 1 - Math.min(Math.hypot(x - esca.x, y - esca.y) / 150, 1);
+        const lit = 0.18 + 0.75 * near * near * pulse;
+        const dy = y > 12 ? gape : 0;
+        ctx.beginPath();
+        ctx.moveTo(x - 1.5, y + dy);
+        ctx.quadraticCurveTo(x + curl * 0.2, y + dy + len * 0.5, x + curl, y + dy + len);
+        ctx.quadraticCurveTo(x + 0.4, y + dy + len * 0.5, x + 1.5, y + dy);
+        ctx.closePath();
+        ctx.fillStyle = rgba(c.titanium, lit);
+        ctx.fill();
+      };
+      for (const [x, y, l] of UPPER_TEETH) fang(x, y, l, -2);
+      for (const [x, y, l] of LOWER_TEETH) fang(x, y, l, 2.5);
+
+      // tiny eye: a dark pit with a glint
+      ctx.beginPath();
+      ctx.arc(54, -18, 4.2, 0, TAU);
+      ctx.fillStyle = rgba(c.trench, 1);
+      ctx.fill();
+      ctx.strokeStyle = rgba(c.mist, 0.2 * pulse + 0.05);
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(55.2, -19.2, 0.9, 0, TAU);
+      ctx.fillStyle = rgba(c.titanium, 0.5 * pulse);
+      ctx.fill();
+
+      // pectoral fin
+      const flap = Math.sin(s.t * 3.2) * 0.35;
+      ctx.save();
+      ctx.translate(4, 30);
+      ctx.rotate(0.5 + flap);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(-10, 8, -26, 22, -38, 17);
+      ctx.bezierCurveTo(-32, 8, -16, 0, 0, 0);
+      ctx.fillStyle = rgba(c.slate, 0.16);
+      ctx.fill();
+      ctx.strokeStyle = rgba(c.mist, 0.1);
+      ctx.stroke();
+      ctx.restore();
+
+      // illicium: a long rod arching over the snout so the lure hangs before the jaws
+      const base = { x: 50, y: -52 };
+      ctx.beginPath();
+      ctx.moveTo(base.x, base.y);
+      ctx.bezierCurveTo(base.x + 8, base.y - 66, esca.x - 40, esca.y - 52, esca.x, esca.y - 8);
+      ctx.strokeStyle = rgba(c.mist, 0.34);
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+
+      // the esca: a lobed bulb on a short filament, with trailing lobes
+      ctx.beginPath();
+      ctx.moveTo(esca.x, esca.y - 8);
+      ctx.lineTo(esca.x + 1, esca.y - 2);
+      ctx.strokeStyle = rgba(c.titanium, 0.5);
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+      ctx.strokeStyle = rgba(c.titanium, 0.4);
+      ctx.lineWidth = 0.7;
+      for (let k = 0; k < 5; k++) {
+        const a = Math.PI * (0.25 + (k / 4) * 0.5);
+        const wob = Math.sin(s.t * 2.4 + k) * 1.5;
+        ctx.beginPath();
+        ctx.moveTo(esca.x, esca.y + 3);
+        ctx.quadraticCurveTo(esca.x + Math.cos(a) * 7 + wob, esca.y + 8, esca.x + Math.cos(a) * 11 + wob, esca.y + 8 + Math.sin(a) * 9);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.ellipse(esca.x, esca.y, 5.5, 7, 0, 0, TAU);
+      ctx.fillStyle = rgba(c.titanium, 0.55 + 0.4 * pulse);
+      ctx.fill();
+      additive(ctx, () => {
+        glow(ctx, esca.x, esca.y, 120, c.cyan, 0.26 * pulse);
+        glow(ctx, esca.x, esca.y, 52, c.cyan, 0.55 * pulse);
+        glow(ctx, esca.x, esca.y, 26, c.amber, 0.22 * pulse);
+        glow(ctx, esca.x, esca.y, 10, c.titanium, 0.95 * pulse);
+      });
+
+      ctx.restore();
+    },
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(bathys)/bathys/life/DeepLife.tsx">
+<![CDATA["use client";
+
+import React, { useEffect, useRef } from "react";
+import { useReducedMotion } from "../motion/useReducedMotion";
+import { clamp, lerp } from "../motion/math";
+import { additive, glow, toRgb, type Creature, type DrawState, type Rgb } from "./draw";
+import { placeCreature, travelX } from "./placement";
+import { createSiphonophore } from "./siphonophore";
+import { createAnglerfish } from "./anglerfish";
+import { createDumbo } from "./dumbo";
+import { createSnailfish } from "./snailfish";
+
+/**
+ * Deep-sea fauna, drawn in 2D on a canvas over the page with screen blending.
+ * Each animal is anchored to a depth in the dive: it rises into view as you
+ * scroll toward that depth, drifts slowly across, and sinks away again, always
+ * lagging the page so it reads as part of the water. Screen blending can only
+ * add light, never darken, so a creature can't hide text, cards or controls,
+ * and its near-black parts (an anglerfish's body) simply disappear. The layer
+ * ignores the pointer.
+ */
+
+const KEYS = ["trench", "navy", "titanium", "cyan", "amber", "glass", "slate", "mist"] as const;
+
+type Spark = { x: number; y: number; r: number; age: number; life: number };
+
+type Track = { x: number; y: number; vx: number; vy: number; seen: boolean };
+
+export function DeepLife() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    if (reduced) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const style = getComputedStyle(document.documentElement);
+    const rgb = Object.fromEntries(KEYS.map((k) => [k, toRgb(style.getPropertyValue(`--color-${k}`))])) as Rgb;
+
+    const creatures: Creature[] = [createSiphonophore(), createAnglerfish(), createDumbo(), createSnailfish()];
+    const tracks = new Map<string, Track>();
+    const sparks: Spark[] = [];
+    let vw = 0;
+    let vh = 0;
+    let raf = 0;
+    let last = performance.now();
+    let sparkClock = 0;
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+      vw = window.innerWidth;
+      vh = window.innerHeight;
+      canvas.width = Math.round(vw * dpr);
+      canvas.height = Math.round(vh * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const frame = (now: number) => {
+      raf = requestAnimationFrame(frame);
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      const t = now / 1000;
+      const scrollY = window.scrollY;
+      const docMax = Math.max(document.documentElement.scrollHeight - vh, 1);
+      const dive = clamp(scrollY / docMax, 0, 1);
+      // keep animals a sensible size on small and ultra-wide screens
+      const base = clamp(Math.min(vw, vh * 1.6) / 1440, 0.5, 1.15) * 1.3;
+
+      ctx.clearRect(0, 0, vw, vh);
+
+      for (const cr of creatures) {
+        const place = placeCreature({ scrollY, docMax, vh, center: cr.center, parallax: cr.parallax });
+        if (place.visibility <= 0.003) {
+          tracks.delete(cr.id);
+          continue;
+        }
+        const tx = travelX(place.progress, cr.from, cr.to, vw);
+        let tr = tracks.get(cr.id);
+        if (!tr) {
+          tr = { x: tx, y: place.y, vx: 0, vy: 0, seen: true };
+          tracks.set(cr.id, tr);
+        }
+        // ease toward the scroll-driven target so jumps become glides
+        const k = 1 - Math.exp(-dt * 2.6);
+        const nx = lerp(tr.x, tx, k);
+        const ny = lerp(tr.y, place.y, k);
+        const ivx = (nx - tr.x) / Math.max(dt, 0.001);
+        const ivy = (ny - tr.y) / Math.max(dt, 0.001);
+        tr.vx = lerp(tr.vx, ivx, 1 - Math.exp(-dt * 4));
+        tr.vy = lerp(tr.vy, ivy, 1 - Math.exp(-dt * 4));
+        tr.x = nx;
+        tr.y = ny;
+
+        const state: DrawState = {
+          t,
+          dt,
+          x: tr.x,
+          y: tr.y,
+          scale: base,
+          facing: cr.to >= cr.from ? 1 : -1,
+          alpha: place.visibility * 0.8,
+          vx: tr.vx,
+          vy: tr.vy,
+        };
+        cr.draw(ctx, state, rgb);
+      }
+
+      // rare flashes of plankton, more of them the deeper you are
+      sparkClock -= dt;
+      if (sparkClock <= 0) {
+        sparkClock = lerp(1.1, 0.4, dive) * (0.5 + Math.random());
+        const cx = Math.random() * vw;
+        const cy = Math.random() * vh;
+        const n = 1 + Math.floor(Math.random() * 3);
+        for (let i = 0; i < n; i++) {
+          sparks.push({
+            x: cx + (Math.random() - 0.5) * 70,
+            y: cy + (Math.random() - 0.5) * 70,
+            r: 3 + Math.random() * 5,
+            age: -i * 0.14,
+            life: 0.7 + Math.random() * 0.8,
+          });
+        }
+      }
+      additive(ctx, () => {
+        for (let i = sparks.length - 1; i >= 0; i--) {
+          const sp = sparks[i];
+          sp.age += dt;
+          if (sp.age >= sp.life) {
+            sparks.splice(i, 1);
+            continue;
+          }
+          if (sp.age < 0) continue;
+          const u = sp.age / sp.life;
+          const env = Math.sin(Math.PI * Math.min(u * 1.6, 1)) ** 2 * (1 - u * 0.6);
+          glow(ctx, sp.x, sp.y, sp.r * 4, rgb.cyan, 0.5 * env);
+          glow(ctx, sp.x, sp.y, sp.r, rgb.titanium, 0.5 * env);
+        }
+      });
+    };
+
+    const onVisibility = () => {
+      cancelAnimationFrame(raf);
+      if (document.hidden) return;
+      last = performance.now();
+      raf = requestAnimationFrame(frame);
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+    document.addEventListener("visibilitychange", onVisibility);
+    onVisibility();
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [reduced]);
+
+  return (
+    <div
+      aria-hidden="true"
+      className="bat-life pointer-events-none fixed inset-0 z-[4] overflow-hidden"
+      style={{ mixBlendMode: "screen" }}
+    >
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(bathys)/bathys/life/draw.ts">
+<![CDATA[/** Shared 2D drawing helpers for the deep-sea creatures. */
+
+export type Pt = { x: number; y: number };
+
+export type Rgb = Record<
+  "trench" | "navy" | "titanium" | "cyan" | "amber" | "glass" | "slate" | "mist",
+  string
+>;
+
+export const TAU = Math.PI * 2;
+
+/** "#8DA8C2" -> "141, 168, 194" */
+export function toRgb(hex: string, fallback = "141, 168, 194"): string {
+  const v = hex.trim().replace("#", "");
+  if (v.length !== 3 && v.length !== 6) return fallback;
+  const full = v.length === 3 ? [...v].map((c) => c + c).join("") : v;
+  const n = parseInt(full, 16);
+  if (Number.isNaN(n)) return fallback;
+  return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
+}
+
+export const rgba = (rgb: string, a: number) => `rgba(${rgb}, ${Math.max(0, a).toFixed(3)})`;
+
+/** Soft additive light: bioluminescence, lure halos, rim glints. */
+export function glow(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, rgb: string, a: number) {
+  if (a <= 0.002 || r <= 0.5) return;
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, rgba(rgb, a));
+  g.addColorStop(0.35, rgba(rgb, a * 0.38));
+  g.addColorStop(1, rgba(rgb, 0));
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, TAU);
+  ctx.fill();
+}
+
+/** Run `fn` with additive blending, then restore. */
+export function additive(ctx: CanvasRenderingContext2D, fn: () => void) {
+  ctx.save();
+  ctx.globalCompositeOperation = "lighter";
+  fn();
+  ctx.restore();
+}
+
+/** Follow-the-leader chain: each link keeps `spacing` from the one before it, with a constant pull. */
+export function followChain(pts: Pt[], head: Pt, spacing: number, pull: Pt = { x: 0, y: 0 }) {
+  pts[0].x = head.x;
+  pts[0].y = head.y;
+  for (let i = 1; i < pts.length; i++) {
+    let dx = pts[i].x - pts[i - 1].x + pull.x;
+    let dy = pts[i].y - pts[i - 1].y + pull.y;
+    const m = Math.hypot(dx, dy) || 1;
+    dx = (dx / m) * spacing;
+    dy = (dy / m) * spacing;
+    pts[i].x = pts[i - 1].x + dx;
+    pts[i].y = pts[i - 1].y + dy;
+  }
+}
+
+function smoothThrough(ctx: CanvasRenderingContext2D, pts: Pt[], first: "move" | "line") {
+  if (first === "move") ctx.moveTo(pts[0].x, pts[0].y);
+  else ctx.lineTo(pts[0].x, pts[0].y);
+  for (let i = 1; i < pts.length - 1; i++) {
+    const mx = (pts[i].x + pts[i + 1].x) / 2;
+    const my = (pts[i].y + pts[i + 1].y) / 2;
+    ctx.quadraticCurveTo(pts[i].x, pts[i].y, mx, my);
+  }
+  const last = pts[pts.length - 1];
+  ctx.lineTo(last.x, last.y);
+}
+
+/** Smooth open curve through points. */
+export function curvePath(ctx: CanvasRenderingContext2D, pts: Pt[]) {
+  ctx.beginPath();
+  smoothThrough(ctx, pts, "move");
+}
+
+/** Closed tapered ribbon along a spine: bodies, tentacles, fins. Caller fills / strokes. */
+export function ribbonPath(ctx: CanvasRenderingContext2D, pts: Pt[], width: (u: number) => number) {
+  const n = pts.length;
+  const left: Pt[] = [];
+  const right: Pt[] = [];
+  for (let i = 0; i < n; i++) {
+    const a = pts[Math.max(i - 1, 0)];
+    const b = pts[Math.min(i + 1, n - 1)];
+    let tx = b.x - a.x;
+    let ty = b.y - a.y;
+    const m = Math.hypot(tx, ty) || 1;
+    tx /= m;
+    ty /= m;
+    const w = width(i / (n - 1)) / 2;
+    left.push({ x: pts[i].x - ty * w, y: pts[i].y + tx * w });
+    right.push({ x: pts[i].x + ty * w, y: pts[i].y - tx * w });
+  }
+  ctx.beginPath();
+  smoothThrough(ctx, left, "move");
+  smoothThrough(ctx, right.reverse(), "line");
+  ctx.closePath();
+}
+
+/** Deterministic pseudo-random so speckles don't shimmer between frames. */
+export function seeded(seed: number): () => number {
+  let s = seed >>> 0 || 1;
+  return () => {
+    s = (s * 1664525 + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+export type DrawState = {
+  t: number;
+  dt: number;
+  /** Centre of the creature in viewport pixels. */
+  x: number;
+  y: number;
+  /** 1 = nominal size. */
+  scale: number;
+  /** +1 swims toward screen right, -1 toward screen left. */
+  facing: 1 | -1;
+  /** Overall opacity from depth visibility. */
+  alpha: number;
+  /** Smoothed horizontal speed in px/s (signed), for trailing parts. */
+  vx: number;
+  /** Smoothed vertical speed in px/s (signed). */
+  vy: number;
+};
+
+export type Creature = {
+  id: string;
+  /** Dive fraction at which it is centred. */
+  center: number;
+  parallax: number;
+  /** Travel across the viewport, as fractions of width, over the visible window. */
+  from: number;
+  to: number;
+  draw(ctx: CanvasRenderingContext2D, s: DrawState, c: Rgb): void;
+};
+]]>
+    </file>
+    <file path="src/app/(bathys)/bathys/life/dumbo.ts">
+<![CDATA[import { TAU, additive, followChain, glow, ribbonPath, rgba, type Creature, type DrawState, type Pt } from "./draw";
+
+/**
+ * Dumbo octopus (Grimpoteuthis): a translucent bell of mantle and web,
+ * steered by two small ear-like fins, with eight arms that trail on the
+ * water and a skirt of web between them. Abyssopelagic.
+ */
+
+const ARMS = 8;
+const LINKS = 10;
+
+export function createDumbo(): Creature {
+  const arms: Pt[][] = Array.from({ length: ARMS }, () =>
+    Array.from({ length: LINKS }, () => ({ x: 0, y: 0 })),
+  );
+  let ready = false;
+
+  // mantle space (+y down, rotated by `lean`) -> viewport
+  const world = (s: DrawState, lean: number, lx: number, ly: number): Pt => {
+    const cos = Math.cos(lean);
+    const sin = Math.sin(lean);
+    return { x: s.x + (lx * cos - ly * sin) * s.scale, y: s.y + (lx * sin + ly * cos) * s.scale };
+  };
+
+  return {
+    id: "dumbo",
+    center: 0.62,
+    parallax: 0.6,
+    from: 0.14,
+    to: 0.72,
+    draw(ctx, s, c) {
+      const sc = s.scale;
+      const beat = Math.sin(s.t * 2.2);
+      const breathe = 1 + 0.045 * Math.sin(s.t * 2.2 - 0.7);
+      const ox = s.x;
+      const oy = s.y + Math.sin(s.t * 0.9) * 9 * sc;
+      const at = { ...s, x: ox, y: oy };
+      // tips forward into its heading and rocks with each beat
+      const lean = 0.3 * s.facing + Math.sin(s.t * 0.6) * 0.07 + beat * 0.025;
+
+      // arm roots on the lower rim of the mantle
+      const bases: Pt[] = Array.from({ length: ARMS }, (_, k) => {
+        const f = k / (ARMS - 1);
+        return world(at, lean, -44 + f * 88, 22 - Math.sin(f * Math.PI) * 6);
+      });
+      if (!ready) {
+        arms.forEach((chain, k) => {
+          chain.forEach((p, i) => {
+            p.x = bases[k].x + (k - 3.5) * i * 1.4 * sc;
+            p.y = bases[k].y + i * 8 * sc;
+          });
+        });
+        ready = true;
+      }
+      const spacing = 8.6 * sc;
+      arms.forEach((chain, k) => {
+        const fan = (k - 3.5) * 0.12 * spacing;
+        followChain(chain, bases[k], spacing, { x: fan - s.vx * 0.0016 * spacing, y: spacing * 0.8 });
+      });
+      const swayed: Pt[][] = arms.map((chain, k) =>
+        chain.map((p, i) => ({
+          x: p.x + Math.sin(s.t * 1.5 + k * 0.9 - i * 0.5) * i * 0.9 * sc,
+          y: p.y + Math.cos(s.t * 1.2 + k - i * 0.4) * i * 0.35 * sc,
+        })),
+      );
+
+      ctx.save();
+      ctx.globalAlpha = s.alpha;
+
+      // web skirt between the arms
+      const webAt = 6;
+      ctx.beginPath();
+      ctx.moveTo(bases[0].x, bases[0].y);
+      ctx.lineTo(swayed[0][webAt].x, swayed[0][webAt].y);
+      for (let k = 0; k < ARMS - 1; k++) {
+        const a = swayed[k][webAt];
+        const b = swayed[k + 1][webAt];
+        ctx.quadraticCurveTo((a.x + b.x) / 2, (a.y + b.y) / 2 - 11 * sc * (0.75 + 0.25 * beat), b.x, b.y);
+      }
+      ctx.lineTo(bases[ARMS - 1].x, bases[ARMS - 1].y);
+      ctx.closePath();
+      const web = ctx.createLinearGradient(0, oy + 20 * sc, 0, oy + 82 * sc);
+      web.addColorStop(0, rgba(c.titanium, 0.22));
+      web.addColorStop(1, rgba(c.mist, 0.03));
+      ctx.fillStyle = web;
+      ctx.fill();
+      ctx.strokeStyle = rgba(c.titanium, 0.17);
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+
+      // arms
+      swayed.forEach((chain) => {
+        ribbonPath(ctx, chain, (u) => (6.4 - 5.4 * u) * sc);
+        ctx.fillStyle = rgba(c.mist, 0.16);
+        ctx.fill();
+        ctx.strokeStyle = rgba(c.titanium, 0.2);
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      });
+
+      // mantle space
+      ctx.translate(ox, oy);
+      ctx.rotate(lean);
+      ctx.scale(sc, sc);
+
+      // ear fins: small, rounded, flapping together
+      for (const side of [-1, 1]) {
+        ctx.save();
+        ctx.translate(side * 45, -30);
+        ctx.scale(side, 1);
+        ctx.rotate(-0.1 + beat * 0.45);
+        ctx.beginPath();
+        ctx.moveTo(0, 4);
+        ctx.bezierCurveTo(12, -14, 38, -22, 50, -8);
+        ctx.bezierCurveTo(56, 6, 30, 14, 0, 12);
+        ctx.closePath();
+        const g = ctx.createLinearGradient(0, 0, 52, -6);
+        g.addColorStop(0, rgba(c.titanium, 0.28));
+        g.addColorStop(1, rgba(c.mist, 0.05));
+        ctx.fillStyle = g;
+        ctx.fill();
+        ctx.strokeStyle = rgba(c.titanium, 0.3);
+        ctx.lineWidth = 0.9;
+        ctx.stroke();
+        ctx.strokeStyle = rgba(c.titanium, 0.12);
+        for (let i = 0; i < 4; i++) {
+          ctx.beginPath();
+          ctx.moveTo(3, 6);
+          ctx.quadraticCurveTo(18 + i * 6, -10 + i * 4, 46 - i * 2, -6 + i * 4);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      // mantle: a soft dome, brighter at the crown
+      ctx.save();
+      ctx.scale(1, breathe);
+      ctx.beginPath();
+      ctx.moveTo(-54, 22);
+      ctx.bezierCurveTo(-64, -26, -36, -64, 0, -64);
+      ctx.bezierCurveTo(36, -64, 64, -26, 54, 22);
+      ctx.quadraticCurveTo(0, 36, -54, 22);
+      ctx.closePath();
+      const m = ctx.createRadialGradient(0, -34, 6, 0, -10, 84);
+      m.addColorStop(0, rgba(c.titanium, 0.34));
+      m.addColorStop(0.55, rgba(c.mist, 0.2));
+      m.addColorStop(1, rgba(c.slate, 0.26));
+      ctx.fillStyle = m;
+      ctx.fill();
+      ctx.lineWidth = 1.1;
+      ctx.strokeStyle = rgba(c.titanium, 0.36);
+      ctx.stroke();
+
+      // organs showing through the flesh
+      ctx.beginPath();
+      ctx.ellipse(0, -22, 26, 30, 0, 0, TAU);
+      ctx.fillStyle = rgba(c.slate, 0.12);
+      ctx.fill();
+
+      // eyes: small and dark
+      for (const ex of [-38, 38]) {
+        ctx.beginPath();
+        ctx.ellipse(ex, 4, 3.4, 4.4, 0, 0, TAU);
+        ctx.fillStyle = rgba(c.trench, 0.6);
+        ctx.fill();
+        ctx.strokeStyle = rgba(c.titanium, 0.18);
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      additive(ctx, () => {
+        glow(ctx, 0, -24, 90, c.mist, 0.1);
+        glow(ctx, 0, -40, 40, c.titanium, 0.07);
+      });
+
+      ctx.restore();
+    },
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(bathys)/bathys/life/placement.ts">
+<![CDATA[import { clamp, lerp } from "../motion/math";
+
+/**
+ * Where a creature sits in the viewport for a given scroll position.
+ * Creatures are anchored to a depth in the page (a dive fraction) and move at
+ * `parallax` x the scroll speed, so they read as part of the water behind the
+ * content rather than something travelling across it.
+ */
+export type Placement = {
+  /** Vertical position in viewport pixels. */
+  y: number;
+  /** 0 when off screen, 1 when comfortably in view. */
+  visibility: number;
+  /** 0 as the creature enters at the bottom, 1 as it leaves at the top. */
+  progress: number;
+};
+
+export type PlacementInput = {
+  scrollY: number;
+  docMax: number;
+  vh: number;
+  /** Dive fraction (0 surface, 1 floor) at which the creature is centred. */
+  center: number;
+  /** < 1 so it lags the page; the further from 1, the deeper it feels. */
+  parallax: number;
+};
+
+function smooth(t: number): number {
+  return t * t * (3 - 2 * t);
+}
+
+export function placeCreature({ scrollY, docMax, vh, center, parallax }: PlacementInput): Placement {
+  const dy = (center * Math.max(docMax, 1) - scrollY) * parallax;
+  const edge = Math.abs(dy);
+  const visibility = smooth(clamp(1 - (edge - vh * 0.3) / (vh * 0.42), 0, 1));
+  const progress = clamp(0.5 - dy / (vh * 1.5), 0, 1);
+  return { y: vh * 0.5 + dy, visibility, progress };
+}
+
+/** Horizontal travel between two viewport fractions, eased so it lingers mid-screen. */
+export function travelX(progress: number, from: number, to: number, vw: number): number {
+  const eased = progress < 0.5 ? 2 * progress * progress : 1 - 2 * (1 - progress) * (1 - progress);
+  return lerp(from, to, lerp(progress, eased, 0.5)) * vw;
+}
+]]>
+    </file>
+    <file path="src/app/(bathys)/bathys/life/siphonophore.ts">
+<![CDATA[import { TAU, additive, curvePath, followChain, glow, ribbonPath, rgba, type Creature, type Pt, type Rgb } from "./draw";
+
+/**
+ * Colonial siphonophore (Apolemia / Praya style): a long translucent stem of
+ * zooids trailing behind a cluster of swimming bells, with a wave of cold
+ * bioluminescence running down it. Mesopelagic twilight.
+ */
+
+const LINKS = 40;
+const BELLS = 9;
+const TENTACLE_FROM = 11;
+
+function bell(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  angle: number,
+  r: number,
+  squeeze: number,
+  c: Rgb,
+  a: number,
+) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+  ctx.scale(1, squeeze);
+  ctx.beginPath();
+  ctx.moveTo(-r * 0.85, -r * 0.62);
+  ctx.bezierCurveTo(-r * 0.1, -r * 1.0, r * 0.95, -r * 0.62, r * 1.0, 0);
+  ctx.bezierCurveTo(r * 0.95, r * 0.62, -r * 0.1, r * 1.0, -r * 0.85, r * 0.62);
+  ctx.quadraticCurveTo(-r * 0.45, 0, -r * 0.85, -r * 0.62);
+  ctx.closePath();
+  const g = ctx.createRadialGradient(r * 0.15, 0, r * 0.05, r * 0.1, 0, r * 1.05);
+  g.addColorStop(0, rgba(c.titanium, 0.05 * a));
+  g.addColorStop(0.65, rgba(c.cyan, 0.1 * a));
+  g.addColorStop(1, rgba(c.titanium, 0.36 * a));
+  ctx.fillStyle = g;
+  ctx.fill();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = rgba(c.titanium, 0.45 * a);
+  ctx.stroke();
+
+  // radial canals + velum
+  ctx.strokeStyle = rgba(c.mist, 0.24 * a);
+  ctx.lineWidth = 0.8;
+  for (const k of [-0.45, 0, 0.45]) {
+    ctx.beginPath();
+    ctx.moveTo(r * 0.9, 0);
+    ctx.quadraticCurveTo(r * 0.3, k * r * 0.95, -r * 0.7, k * r * 0.62);
+    ctx.stroke();
+  }
+  ctx.beginPath();
+  ctx.ellipse(-r * 0.72, 0, r * 0.12, r * 0.55, 0, 0, TAU);
+  ctx.strokeStyle = rgba(c.titanium, 0.22 * a);
+  ctx.stroke();
+
+  // specular glint on the dome
+  ctx.beginPath();
+  ctx.ellipse(r * 0.35, -r * 0.45, r * 0.3, r * 0.08, -0.5, 0, TAU);
+  ctx.fillStyle = rgba(c.titanium, 0.28 * a);
+  ctx.fill();
+  ctx.restore();
+}
+
+export function createSiphonophore(): Creature {
+  const pts: Pt[] = Array.from({ length: LINKS }, () => ({ x: 0, y: 0 }));
+  let ready = false;
+
+  return {
+    id: "siphonophore",
+    center: 0.2,
+    parallax: 0.72,
+    from: 0.96,
+    to: 0.5,
+    draw(ctx, s, c) {
+      const sc = s.scale;
+      const spacing = 12.5 * sc;
+      const head = { x: s.x, y: s.y + Math.sin(s.t * 0.45) * 26 * sc };
+      if (!ready) {
+        for (let i = 0; i < LINKS; i++) {
+          pts[i].x = head.x - s.facing * i * spacing;
+          pts[i].y = head.y + i * spacing * 0.15;
+        }
+        ready = true;
+      }
+      // trails behind the heading and sags under its own weight
+      followChain(pts, head, spacing, {
+        x: -s.facing * spacing * 0.36,
+        y: spacing * (0.38 + 0.3 * Math.sin(s.t * 0.5)),
+      });
+
+      // draw-only wave so it never stiffens, even when parked
+      const shown: Pt[] = pts.map((p, i) => {
+        const a = pts[Math.max(i - 1, 0)];
+        const b = pts[Math.min(i + 1, LINKS - 1)];
+        let tx = b.x - a.x;
+        let ty = b.y - a.y;
+        const m = Math.hypot(tx, ty) || 1;
+        tx /= m;
+        ty /= m;
+        const off = Math.sin(s.t * 1.4 - i * 0.3) * (1.2 + i * 0.28) * sc;
+        return { x: p.x - ty * off, y: p.y + tx * off };
+      });
+      const tangent = (i: number) => {
+        const a = shown[Math.max(i - 1, 0)];
+        const b = shown[Math.min(i + 1, LINKS - 1)];
+        return Math.atan2(b.y - a.y, b.x - a.x);
+      };
+
+      ctx.save();
+      ctx.globalAlpha = s.alpha;
+
+      // tentacles first, behind everything
+      for (let i = TENTACLE_FROM; i < LINKS; i += 2) {
+        const p = shown[i];
+        const len = (48 + ((i * 7) % 37)) * sc;
+        const sway = Math.sin(s.t * 1.1 + i) * 5 * sc - s.vx * 0.012;
+        const tip = { x: p.x + sway, y: p.y + len };
+        const mid = { x: p.x + sway * 0.4 + Math.sin(s.t * 0.9 + i * 1.7) * 3 * sc, y: p.y + len * 0.5 };
+        curvePath(ctx, [p, mid, tip]);
+        ctx.strokeStyle = rgba(c.mist, 0.26);
+        ctx.lineWidth = 0.9 * sc;
+        ctx.stroke();
+        additive(ctx, () => {
+          for (let k = 1; k <= 4; k++) {
+            const f = k / 4;
+            const bx = p.x + (mid.x - p.x) * Math.min(f * 2, 1) + (tip.x - mid.x) * Math.max(f * 2 - 1, 0);
+            const by = p.y + len * f;
+            ctx.fillStyle = rgba(c.cyan, 0.32);
+            ctx.beginPath();
+            ctx.arc(bx, by, 1.1 * sc, 0, TAU);
+            ctx.fill();
+          }
+        });
+      }
+
+      // stem
+      ribbonPath(ctx, shown, (u) => (5 - 2.6 * u) * sc);
+      ctx.fillStyle = rgba(c.titanium, 0.3);
+      ctx.fill();
+      ctx.strokeStyle = rgba(c.mist, 0.3);
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
+
+      // bracts and gastrozooids along the stem
+      for (let i = TENTACLE_FROM - 1; i < LINKS; i++) {
+        const p = shown[i];
+        const ang = tangent(i);
+        const nx = -Math.sin(ang);
+        const ny = Math.cos(ang);
+        const side = i % 2 === 0 ? 1 : -1;
+        if (i % 2 === 0) {
+          // gastrozooid: pale pouch with a lit core
+          const bx = p.x + nx * side * 5 * sc;
+          const by = p.y + ny * side * 5 * sc;
+          const rx = (4.6 + (i % 4) * 0.7) * sc;
+          const ry = 9.2 * sc;
+          const g = ctx.createRadialGradient(bx, by, 0, bx, by, ry);
+          g.addColorStop(0, rgba(c.titanium, 0.5));
+          g.addColorStop(1, rgba(c.cyan, 0.12));
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.ellipse(bx, by, rx, ry, ang + Math.PI / 2, 0, TAU);
+          ctx.fill();
+          ctx.strokeStyle = rgba(c.titanium, 0.3);
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        } else {
+          // bract: thin translucent leaf
+          const lx = p.x + nx * side * 5.5 * sc;
+          const ly = p.y + ny * side * 5.5 * sc;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.quadraticCurveTo(lx + Math.cos(ang) * 4 * sc, ly + Math.sin(ang) * 4 * sc, lx - Math.cos(ang) * 6 * sc, ly - Math.sin(ang) * 6 * sc);
+          ctx.quadraticCurveTo(p.x + nx * side * sc, p.y + ny * side * sc, p.x, p.y);
+          ctx.fillStyle = rgba(c.titanium, 0.12);
+          ctx.fill();
+        }
+      }
+
+      // bioluminescent pulse travelling down the colony
+      additive(ctx, () => {
+        for (let i = TENTACLE_FROM - 2; i < LINKS; i++) {
+          const wave = Math.max(0, Math.sin(s.t * 1.9 - i * 0.42));
+          const lit = Math.pow(wave, 7);
+          if (lit < 0.03) continue;
+          glow(ctx, shown[i].x, shown[i].y, 22 * sc, c.cyan, 0.55 * lit);
+        }
+      });
+
+      // swimming bells (nectophores) clustered behind the float
+      for (let k = BELLS - 1; k >= 0; k--) {
+        const idx = Math.min(1 + k, LINKS - 1);
+        const p = shown[idx];
+        const fwd = Math.atan2(shown[idx - 1 > 0 ? idx - 1 : 0].y - p.y, shown[idx - 1 > 0 ? idx - 1 : 0].x - p.x);
+        const side = k % 2 === 0 ? 1 : -1;
+        const spread = (9 + k * 1.5) * sc;
+        const bx = p.x - Math.sin(fwd) * side * spread;
+        const by = p.y + Math.cos(fwd) * side * spread;
+        const pulse = 1 - 0.07 * Math.max(0, Math.sin(s.t * 2.1 - k * 0.7));
+        bell(ctx, bx, by, fwd + side * 0.14, (17 - k * 0.6) * sc, pulse, c, 1);
+      }
+
+      // gas float with a hint of amber
+      const fp = shown[0];
+      ctx.fillStyle = rgba(c.titanium, 0.3);
+      ctx.beginPath();
+      ctx.ellipse(fp.x + s.facing * 6 * sc, fp.y - 1 * sc, 8 * sc, 5 * sc, 0, 0, TAU);
+      ctx.fill();
+      additive(ctx, () => glow(ctx, fp.x + s.facing * 4 * sc, fp.y, 14 * sc, c.amber, 0.2));
+
+      ctx.restore();
+    },
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(bathys)/bathys/life/snailfish.ts">
+<![CDATA[import { TAU, additive, followChain, glow, ribbonPath, rgba, type Creature, type Pt } from "./draw";
+
+/**
+ * Hadal snailfish (Pseudoliparis): a pale, gelatinous tadpole with a heavy
+ * blunt head, a single veil of fin running down its back and belly, and a
+ * swim wave that grows toward the tail. Hadopelagic.
+ */
+
+const LINKS = 26;
+
+export function createSnailfish(): Creature {
+  const pts: Pt[] = Array.from({ length: LINKS }, () => ({ x: 0, y: 0 }));
+  let ready = false;
+
+  return {
+    id: "snailfish",
+    center: 0.84,
+    parallax: 0.62,
+    from: 0.88,
+    to: 0.32,
+    draw(ctx, s, c) {
+      const sc = s.scale;
+      const spacing = 13 * sc;
+      const head = { x: s.x, y: s.y + Math.sin(s.t * 0.7) * 10 * sc };
+      if (!ready) {
+        for (let i = 0; i < LINKS; i++) {
+          pts[i].x = head.x - s.facing * i * spacing;
+          pts[i].y = head.y;
+        }
+        ready = true;
+      }
+      followChain(pts, head, spacing, { x: -s.facing * spacing * 0.5, y: spacing * 0.06 });
+
+      // swim wave: gentle at the head, sweeping at the tail
+      const shown: Pt[] = pts.map((p, i) => {
+        const a = pts[Math.max(i - 1, 0)];
+        const b = pts[Math.min(i + 1, LINKS - 1)];
+        let tx = b.x - a.x;
+        let ty = b.y - a.y;
+        const m = Math.hypot(tx, ty) || 1;
+        tx /= m;
+        ty /= m;
+        const off = Math.sin(s.t * 2.5 - i * 0.38) * (0.6 + i * 0.62) * sc;
+        return { x: p.x - ty * off, y: p.y + tx * off };
+      });
+
+      // big blunt head, long taper
+      const width = (u: number) => {
+        const k = Math.min(u / 0.1, 1);
+        const nose = Math.sqrt(1 - (1 - k) * (1 - k)); // round, blunt snout
+        return (58 * Math.pow(1 - u, 2.7) + 3.4) * nose * sc;
+      };
+      const finStart = Math.floor(LINKS * 0.28);
+      const veil = (u: number) => (24 * Math.sin(Math.PI * Math.min(Math.max(u, 0), 1)) + 2) * sc;
+
+      ctx.save();
+      ctx.globalAlpha = s.alpha;
+
+      // dorsal + anal fin: one continuous veil behind the head
+      const fin = shown.slice(finStart);
+      const finU = (u: number) => finStart / (LINKS - 1) + u * (1 - finStart / (LINKS - 1));
+      ribbonPath(ctx, fin, (u) => width(finU(u)) + veil(u));
+      ctx.fillStyle = rgba(c.titanium, 0.07);
+      ctx.fill();
+      ctx.lineWidth = 0.6;
+      for (let i = finStart + 1; i < LINKS - 1; i += 2) {
+        const p = shown[i];
+        const a = shown[i - 1];
+        const b = shown[i + 1];
+        let tx = b.x - a.x;
+        let ty = b.y - a.y;
+        const m = Math.hypot(tx, ty) || 1;
+        tx /= m;
+        ty /= m;
+        const u = (i - finStart) / (LINKS - 1 - finStart);
+        const half = width(i / (LINKS - 1)) / 2;
+        const reach = half + veil(u) / 2;
+        ctx.beginPath();
+        ctx.moveTo(p.x - ty * half, p.y + tx * half);
+        ctx.lineTo(p.x - ty * reach, p.y + tx * reach);
+        ctx.moveTo(p.x + ty * half, p.y - tx * half);
+        ctx.lineTo(p.x + ty * reach, p.y - tx * reach);
+        ctx.strokeStyle = rgba(c.titanium, 0.07);
+        ctx.stroke();
+      }
+
+      // body
+      ribbonPath(ctx, shown, width);
+      const g = ctx.createRadialGradient(head.x - s.facing * 16 * sc, head.y - 6 * sc, 3, head.x - s.facing * 16 * sc, head.y, 120 * sc);
+      g.addColorStop(0, rgba(c.titanium, 0.46));
+      g.addColorStop(0.5, rgba(c.mist, 0.26));
+      g.addColorStop(1, rgba(c.slate, 0.18));
+      ctx.fillStyle = g;
+      ctx.fill();
+      ctx.strokeStyle = rgba(c.titanium, 0.38);
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // gut and spine seen through the flesh
+      ctx.beginPath();
+      ctx.moveTo(shown[3].x, shown[3].y);
+      for (let i = 4; i < LINKS - 3; i++) ctx.lineTo(shown[i].x, shown[i].y);
+      ctx.strokeStyle = rgba(c.slate, 0.3);
+      ctx.lineWidth = 1.6 * sc;
+      ctx.lineJoin = "round";
+      ctx.stroke();
+
+      // head details
+      const h0 = shown[0];
+      const h1 = shown[3];
+      const ang = Math.atan2(h0.y - h1.y, h0.x - h1.x);
+      const fx = Math.cos(ang);
+      const fy = Math.sin(ang);
+      const nx = -fy;
+      const ny = fx;
+      const ex = h0.x - fx * 24 * sc - nx * 11 * sc;
+      const ey = h0.y - fy * 24 * sc - ny * 11 * sc;
+      ctx.beginPath();
+      ctx.ellipse(ex, ey, 6.4 * sc, 5.8 * sc, ang, 0, TAU);
+      ctx.fillStyle = rgba(c.trench, 0.9);
+      ctx.fill();
+      ctx.strokeStyle = rgba(c.titanium, 0.4);
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(ex - fx * 1.4 - nx * 1.4, ey - fy * 1.4 - ny * 1.4, 1.1, 0, TAU);
+      ctx.fillStyle = rgba(c.titanium, 0.7);
+      ctx.fill();
+      // blunt mouth under the snout
+      ctx.beginPath();
+      ctx.moveTo(h0.x - fx * 3 * sc + nx * 7 * sc, h0.y - fy * 3 * sc + ny * 7 * sc);
+      ctx.quadraticCurveTo(h0.x - fx * 14 * sc + nx * 10 * sc, h0.y - fy * 14 * sc + ny * 10 * sc, h0.x - fx * 24 * sc + nx * 6 * sc, h0.y - fy * 24 * sc + ny * 6 * sc);
+      ctx.strokeStyle = rgba(c.slate, 0.5);
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // pectoral disc, fluttering like a small sail
+      const pp = shown[5];
+      const flutter = Math.sin(s.t * 4.6) * 0.32;
+      ctx.save();
+      ctx.translate(pp.x, pp.y + 9 * sc);
+      ctx.rotate(ang + Math.PI - 0.5 * s.facing + flutter);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.arc(0, 0, 38 * sc, -0.55, 0.55);
+      ctx.closePath();
+      ctx.fillStyle = rgba(c.titanium, 0.13);
+      ctx.fill();
+      ctx.strokeStyle = rgba(c.titanium, 0.24);
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
+      for (let r = -0.5; r <= 0.51; r += 0.125) {
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos(r) * 38 * sc, Math.sin(r) * 38 * sc);
+        ctx.strokeStyle = rgba(c.titanium, 0.12);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      additive(ctx, () => glow(ctx, head.x - s.facing * 18 * sc, head.y, 80 * sc, c.mist, 0.1));
+
+      ctx.restore();
+    },
+  };
+}
+]]>
+    </file>
     <file path="src/app/(bathys)/bathys/motion/math.ts">
 <![CDATA[export function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
@@ -1783,6 +2960,713 @@ function getServerSnapshot() {
 
 export function useReducedMotion(): boolean {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+}
+]]>
+    </file>
+    <file path="src/app/(bathys)/bathys/scene/buildSubmersible.ts">
+<![CDATA[import type * as THREE from "three";
+import type { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+
+/**
+ * Procedural BATHYS H-11: titanium pressure sphere, syntactic-foam fairing,
+ * rim-driven thruster pods, forward floodlights with volumetric cones,
+ * multibeam head, manipulator arm and skids. +z is the nose, +y is up; the
+ * pressure sphere (radius 1) sits at the origin. Everything is built from
+ * primitives so the page ships no model files.
+ */
+
+export type Palette = Record<
+  "trench" | "navy" | "titanium" | "cyan" | "amber" | "glass" | "slate" | "mist",
+  string
+>;
+
+export type Kit = {
+  THREE: typeof THREE;
+  RoundedBox: typeof RoundedBoxGeometry;
+  palette: Palette;
+  /** Font family for the fairing livery, already resolved from CSS. */
+  fontFamily: string;
+  /** Lower segment counts on small screens. */
+  detail: "high" | "low";
+};
+
+/** Full tip-to-tip width of the model in world units (thruster pods included). */
+export const MODEL_WIDTH = 4.1;
+
+export type Submersible = {
+  root: THREE.Group;
+  /** Callout anchors, top to bottom: fairing, sphere, floodlight, transducer. */
+  anchors: THREE.Object3D[];
+  floods: THREE.SpotLight[];
+  setLight(level: number): void;
+  update(time: number, glow: number): void;
+  dispose(): void;
+};
+
+const BEAM_VERTEX = /* glsl */ `
+  varying float vDepth;
+  varying vec3 vNormalV;
+  varying vec3 vViewV;
+  uniform float uLength;
+  void main() {
+    vDepth = clamp(-position.y / uLength, 0.0, 1.0);
+    vNormalV = normalize(normalMatrix * normal);
+    vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    vViewV = normalize(-mv.xyz);
+    gl_Position = projectionMatrix * mv;
+  }
+`;
+
+const BEAM_FRAGMENT = /* glsl */ `
+  varying float vDepth;
+  varying vec3 vNormalV;
+  varying vec3 vViewV;
+  uniform vec3 uColor;
+  uniform float uIntensity;
+  void main() {
+    float edge = pow(abs(dot(normalize(vNormalV), normalize(vViewV))), 1.6);
+    float fade = pow(1.0 - vDepth, 1.7);
+    gl_FragColor = vec4(uColor, uIntensity * fade * edge);
+  }
+`;
+
+export function buildSubmersible(kit: Kit): Submersible {
+  const { THREE: T, RoundedBox, palette, detail } = kit;
+  const seg = detail === "high" ? 1 : 0.6;
+  const col = (hex: string) => new T.Color(hex);
+
+  const root = new T.Group();
+  const disposables: { dispose(): void }[] = [];
+  const own = <A extends { dispose(): void }>(x: A): A => {
+    disposables.push(x);
+    return x;
+  };
+
+  const hull = own(new T.MeshStandardMaterial({ color: col(palette.titanium), metalness: 0.92, roughness: 0.26 }));
+  const metal = own(new T.MeshStandardMaterial({ color: col(palette.mist), metalness: 0.85, roughness: 0.4 }));
+  const darkMetal = own(new T.MeshStandardMaterial({ color: col(palette.slate), metalness: 0.8, roughness: 0.5 }));
+  // Foam is a lifted glass/slate blend so it separates from the trench-black water.
+  const foam = own(
+    new T.MeshStandardMaterial({
+      color: col(palette.glass).lerp(col(palette.slate), 0.42),
+      metalness: 0.12,
+      roughness: 0.62,
+    }),
+  );
+  const seam = own(new T.MeshStandardMaterial({ color: col(palette.trench), metalness: 0.2, roughness: 0.9 }));
+  const tray = own(new T.MeshStandardMaterial({ color: col(palette.navy), metalness: 0.7, roughness: 0.45 }));
+  const glowMat = own(
+    new T.MeshStandardMaterial({
+      color: col(palette.cyan),
+      emissive: col(palette.cyan),
+      emissiveIntensity: 1.4,
+      roughness: 0.4,
+    }),
+  );
+  const lensMat = own(new T.MeshBasicMaterial({ color: col(palette.titanium) }));
+  const portMat = own(
+    new T.MeshPhysicalMaterial({
+      color: col(palette.navy),
+      emissive: col(palette.cyan),
+      emissiveIntensity: 0.55,
+      roughness: 0.05,
+      metalness: 0,
+      clearcoat: 1,
+      clearcoatRoughness: 0.05,
+    }),
+  );
+  const beaconMat = own(new T.MeshBasicMaterial({ color: col(palette.amber), transparent: true }));
+
+  const add = (parent: THREE.Object3D, geo: THREE.BufferGeometry, mat: THREE.Material, x = 0, y = 0, z = 0) => {
+    const m = new T.Mesh(own(geo), mat);
+    m.position.set(x, y, z);
+    parent.add(m);
+    return m;
+  };
+  const rbox = (w: number, h: number, d: number, r: number) => new RoundedBox(w, h, d, 4, r);
+
+  /** Cylinder between two points (struts, skid legs). */
+  const link = (parent: THREE.Object3D, a: THREE.Vector3, b: THREE.Vector3, r: number, mat: THREE.Material) => {
+    const dir = new T.Vector3().subVectors(b, a);
+    const m = new T.Mesh(own(new T.CylinderGeometry(r, r, dir.length(), 10)), mat);
+    m.position.copy(a).addScaledVector(dir, 0.5);
+    m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), dir.normalize());
+    parent.add(m);
+    return m;
+  };
+
+  // Pressure sphere, equatorial flange and bolts
+  add(root, new T.SphereGeometry(1, Math.round(64 * seg), Math.round(48 * seg)), hull);
+  const flange = add(root, new T.TorusGeometry(1.005, 0.045, 12, Math.round(96 * seg)), darkMetal);
+  flange.rotation.x = Math.PI / 2;
+  const boltCount = 28;
+  const bolts = new T.InstancedMesh(own(new T.CylinderGeometry(0.026, 0.026, 0.07, 8)), seam, boltCount);
+  const m4 = new T.Matrix4();
+  for (let i = 0; i < boltCount; i++) {
+    const a = (i / boltCount) * Math.PI * 2;
+    m4.compose(
+      new T.Vector3(Math.cos(a) * 1.05, 0, Math.sin(a) * 1.05),
+      new T.Quaternion().setFromAxisAngle(new T.Vector3(0, 1, 0), 0),
+      new T.Vector3(1, 1, 1),
+    );
+    bolts.setMatrixAt(i, m4);
+  }
+  root.add(bolts);
+
+  // Sapphire viewport
+  const port = new T.Group();
+  port.position.set(0, 0, 0.96);
+  root.add(port);
+  const disc = add(port, new T.CylinderGeometry(0.34, 0.34, 0.1, 48), portMat);
+  disc.rotation.x = Math.PI / 2;
+  add(port, new T.TorusGeometry(0.36, 0.055, 14, 56), metal, 0, 0, 0.03);
+
+  // Syntactic foam fairing, seams and livery
+  const fairing = new T.Group();
+  fairing.position.set(0, 1.25, 0);
+  root.add(fairing);
+  add(fairing, rbox(2.5, 1.5, 2.0, 0.44), foam);
+  add(fairing, new T.BoxGeometry(2.52, 0.014, 2.02), seam, 0, 0.26, 0);
+  add(fairing, new T.BoxGeometry(2.52, 0.014, 2.02), seam, 0, -0.26, 0);
+
+  const livery = document.createElement("canvas");
+  livery.width = 512;
+  livery.height = 160;
+  const drawLivery = () => {
+    const g = livery.getContext("2d");
+    if (!g) return;
+    g.clearRect(0, 0, 512, 160);
+    g.fillStyle = palette.mist;
+    g.font = `600 58px ${kit.fontFamily}`;
+    g.textBaseline = "middle";
+    if ("letterSpacing" in g) (g as unknown as { letterSpacing: string }).letterSpacing = "8px";
+    g.fillText("BATHYS", 24, 56);
+    g.fillStyle = palette.slate;
+    g.font = `400 40px ${kit.fontFamily}`;
+    g.fillText("H-11", 24, 122);
+  };
+  drawLivery();
+  const liveryTex = own(new T.CanvasTexture(livery));
+  liveryTex.colorSpace = T.SRGBColorSpace;
+  liveryTex.anisotropy = 4;
+  const liveryMat = own(new T.MeshBasicMaterial({ map: liveryTex, transparent: true, depthWrite: false }));
+  add(fairing, new T.PlaneGeometry(1.6, 0.5), liveryMat, -0.38, 0.06, 1.008);
+  if (document.fonts?.ready) {
+    void document.fonts.ready.then(() => {
+      drawLivery();
+      liveryTex.needsUpdate = true;
+    });
+  }
+
+  // Lifting eye, antenna and amber strobe
+  const eye = add(fairing, new T.TorusGeometry(0.14, 0.03, 10, 28), metal, 0, 0.8, 0);
+  eye.rotation.y = Math.PI / 2;
+  add(fairing, new T.CylinderGeometry(0.014, 0.014, 0.95, 8), metal, 0.7, 1.225, -0.4);
+  const beacon = add(fairing, new T.SphereGeometry(0.055, 16, 12), beaconMat, 0.7, 1.72, -0.4);
+
+  // Thruster pods and struts
+  for (const side of [-1, 1]) {
+    const pod = new T.Group();
+    pod.position.set(side * 1.78, 0.9, 0);
+    root.add(pod);
+    const body = add(pod, new T.CapsuleGeometry(0.26, 0.9, 8, Math.round(24 * seg)), metal);
+    body.rotation.x = Math.PI / 2;
+    for (const z of [-0.5, 0.5]) {
+      add(pod, new T.TorusGeometry(0.275, 0.032, 10, 40), metal, 0, 0, z);
+    }
+    const wash = add(pod, new T.CircleGeometry(0.19, 28), glowMat, 0, 0, -0.74);
+    wash.rotation.y = Math.PI;
+    add(root, new T.BoxGeometry(0.4, 0.1, 0.18), darkMetal, side * 1.4, 0.9, 0);
+  }
+
+  // Instrument tray: multibeam transducer + floodlights
+  add(root, rbox(1.7, 0.3, 1.1, 0.08), tray, 0, -1.18, 0);
+  const transducers = new T.Group();
+  transducers.position.set(0, -1.3, 0.56);
+  root.add(transducers);
+  for (let i = 0; i < 9; i++) {
+    add(transducers, new T.BoxGeometry(0.1, 0.08, 0.05), glowMat, (i - 4) * 0.15, 0, 0);
+  }
+
+  const floods: THREE.SpotLight[] = [];
+  const beamUniforms: { uIntensity: { value: number } }[] = [];
+  const floodMount: THREE.Vector3[] = [];
+  for (const side of [-1, 1]) {
+    const at = new T.Vector3(side * 0.78, -1.08, 0.6);
+    floodMount.push(at);
+    add(root, rbox(0.36, 0.26, 0.32, 0.05), darkMetal, at.x, at.y, at.z);
+    const lens = add(root, new T.CircleGeometry(0.1, 20), lensMat, at.x, at.y - 0.131, at.z + 0.02);
+    lens.rotation.x = Math.PI / 2;
+
+    const spot = new T.SpotLight(col(palette.titanium), 0, 16, 0.42, 0.85, 1.4);
+    spot.position.set(at.x, at.y - 0.1, at.z + 0.1);
+    spot.target.position.set(at.x + side * 0.6, -6, at.z + 1.1);
+    root.add(spot, spot.target);
+    floods.push(spot);
+
+    const cone = makeBeam(T, own, 6, 1.45, palette.titanium, 0.5);
+    cone.position.set(at.x, at.y - 0.13, at.z + 0.05);
+    cone.rotation.set(-0.18, 0, side * 0.1);
+    root.add(cone);
+    beamUniforms.push((cone.material as THREE.ShaderMaterial).uniforms as { uIntensity: { value: number } });
+  }
+  const fan = makeBeam(T, own, 5, 1.1, palette.cyan, 0.3);
+  fan.position.set(0, -1.34, 0.5);
+  fan.rotation.x = 0.16;
+  root.add(fan);
+  const fanUniforms = (fan.material as THREE.ShaderMaterial).uniforms as { uIntensity: { value: number } };
+
+  // Skids, legs and ballast
+  for (const side of [-1, 1]) {
+    const rail = add(root, new T.CylinderGeometry(0.055, 0.055, 2.3, 10), darkMetal, side * 1.12, -2.0, 0);
+    rail.rotation.x = Math.PI / 2;
+    for (const z of [-0.5, 0.5]) {
+      link(root, new T.Vector3(side * 0.82, -1.3, z), new T.Vector3(side * 1.12, -2.0, z), 0.04, metal);
+    }
+    add(root, rbox(0.3, 0.22, 0.55, 0.05), seam, side * 1.12, -1.78, -0.2);
+  }
+
+  // Manipulator arm (animated)
+  const shoulder = new T.Group();
+  shoulder.position.set(-0.55, -1.3, 0.55);
+  root.add(shoulder);
+  add(shoulder, new T.SphereGeometry(0.07, 14, 10), metal);
+  add(shoulder, new T.CylinderGeometry(0.035, 0.035, 0.7, 10), metal, 0, -0.35, 0);
+  const elbow = new T.Group();
+  elbow.position.set(0, -0.7, 0);
+  shoulder.add(elbow);
+  add(elbow, new T.SphereGeometry(0.06, 14, 10), metal);
+  add(elbow, new T.CylinderGeometry(0.03, 0.03, 0.6, 10), metal, 0, -0.3, 0);
+  const claws: THREE.Mesh[] = [-1, 1].map((s) => {
+    const claw = add(elbow, new T.BoxGeometry(0.03, 0.2, 0.03), metal, s * 0.04, -0.7, 0);
+    return claw;
+  });
+
+  // Callout anchors
+  const anchorAt = (x: number, y: number, z: number) => {
+    const o = new T.Object3D();
+    o.position.set(x, y, z);
+    root.add(o);
+    return o;
+  };
+  const anchors = [
+    anchorAt(1.25, 1.95, 0.5),
+    anchorAt(0.98, 0.1, 0.3),
+    anchorAt(floodMount[1].x + 0.18, floodMount[1].y, floodMount[1].z),
+    anchorAt(0.85, -1.32, 0.58),
+  ];
+
+  const setLight = (level: number) => {
+    const l = Math.min(Math.max(level, 0), 1);
+    for (const s of floods) s.intensity = 6 + l * 70;
+    for (const u of beamUniforms) u.uIntensity.value = 0.22 + l * 0.34;
+    fanUniforms.uIntensity.value = 0.12 + l * 0.2;
+  };
+  setLight(0);
+
+  const update = (time: number, glow: number) => {
+    shoulder.rotation.x = 0.55 + Math.sin(time * 0.55) * 0.13;
+    elbow.rotation.x = -0.95 + Math.sin(time * 0.75 + 1.0) * 0.16;
+    const open = 0.05 + (Math.sin(time * 1.1) * 0.5 + 0.5) * 0.04;
+    claws[0].position.x = -open;
+    claws[1].position.x = open;
+    glowMat.emissiveIntensity = 1.2 + glow * 2.6;
+    portMat.emissiveIntensity = 0.45 + Math.sin(time * 1.6) * 0.1;
+    const phase = (time % 2.6) / 2.6;
+    beaconMat.opacity = phase > 0.62 && phase < 0.76 ? 1 : 0.22;
+    beacon.scale.setScalar(beaconMat.opacity > 0.9 ? 1.5 : 1);
+  };
+
+  return {
+    root,
+    anchors,
+    floods,
+    setLight,
+    update,
+    dispose() {
+      disposables.forEach((d) => d.dispose());
+    },
+  };
+}
+
+function makeBeam(
+  T: typeof THREE,
+  own: <A extends { dispose(): void }>(x: A) => A,
+  length: number,
+  radius: number,
+  color: string,
+  intensity: number,
+): THREE.Mesh {
+  const geo = own(new T.ConeGeometry(radius, length, 36, 1, true));
+  geo.translate(0, -length / 2, 0);
+  const mat = own(
+    new T.ShaderMaterial({
+      uniforms: {
+        uColor: { value: new T.Color(color) },
+        uIntensity: { value: intensity },
+        uLength: { value: length },
+      },
+      vertexShader: BEAM_VERTEX,
+      fragmentShader: BEAM_FRAGMENT,
+      transparent: true,
+      depthWrite: false,
+      blending: T.AdditiveBlending,
+      side: T.DoubleSide,
+    }),
+  );
+  return new T.Mesh(geo, mat);
+}
+]]>
+    </file>
+    <file path="src/app/(bathys)/bathys/scene/pose.ts">
+<![CDATA[import { clamp, lerp, progress } from "../motion/math";
+
+/** Where the 3D submersible sits on screen for a given scroll position. Pixels, viewport-relative. */
+export type Pose = {
+  cx: number;
+  cy: number;
+  /** Width of the whole vehicle (pod tip to pod tip) in screen pixels. */
+  width: number;
+  yaw: number;
+  pitch: number;
+  opacity: number;
+  /** 1 = hero callouts fully visible, 0 = hidden. */
+  callouts: number;
+};
+
+export type PoseInput = {
+  scrollY: number;
+  heroHeight: number;
+  docMax: number;
+  vw: number;
+  vh: number;
+};
+
+const HERO_YAW = -0.55;
+const CONTENT_MAX = 1280;
+const CONTENT_PAD = 64;
+
+function smooth(t: number): number {
+  return t * t * (3 - 2 * t);
+}
+
+function heroPose(vw: number, vh: number): Pick<Pose, "cx" | "cy" | "width" | "opacity" | "callouts"> {
+  if (vw >= 1280) {
+    const width = Math.min(vw * 0.33, 520);
+    return { width, cx: vw - width * 0.5 - vw * 0.085, cy: vh * 0.5, opacity: 1, callouts: 1 };
+  }
+  if (vw >= 1024) {
+    const width = vw * 0.36;
+    return { width, cx: vw - width * 0.5 - vw * 0.03, cy: vh * 0.48, opacity: 1, callouts: 0 };
+  }
+  if (vw >= 768) {
+    const width = vw * 0.5;
+    return { width, cx: vw - width * 0.45, cy: vh * 0.55, opacity: 0.4, callouts: 0 };
+  }
+  return { width: vw * 0.78, cx: vw * 0.64, cy: vh * 0.74, opacity: 0.3, callouts: 0 };
+}
+
+function companionPose(vw: number, vh: number, p: number): Pick<Pose, "cx" | "cy" | "width" | "opacity"> {
+  const cy = vh * (0.5 + 0.32 * Math.sin(p * 8 + 0.6));
+  if (vw >= 1280) {
+    const free = (Math.max(vw, CONTENT_MAX) - CONTENT_MAX) / 2 + CONTENT_PAD;
+    // Keep clear of the depth rail that hugs the right edge of the descent stage.
+    const width = clamp(free * 0.7, 84, 170);
+    return { width, cx: vw - 48 - width / 2, cy, opacity: 1 };
+  }
+  if (vw >= 768) return { width: 84, cx: vw - 44, cy, opacity: 0.35 };
+  return { width: 64, cx: vw - 36, cy, opacity: 0.4 };
+}
+
+export function computePose({ scrollY, heroHeight, docMax, vw, vh }: PoseInput): Pose {
+  const t = smooth(progress(scrollY, 0, Math.max(heroHeight * 0.85, 1)));
+  const p = docMax > 0 ? clamp(scrollY / docMax, 0, 1) : 0;
+  const a = heroPose(vw, vh);
+  const b = companionPose(vw, vh, p);
+
+  return {
+    cx: lerp(a.cx, b.cx, t),
+    cy: lerp(a.cy, b.cy, t),
+    width: lerp(a.width, b.width, t),
+    opacity: lerp(a.opacity, b.opacity, t),
+    callouts: a.callouts * (1 - clamp(t * 3, 0, 1)),
+    yaw: HERO_YAW + p * Math.PI * 5,
+    pitch: 0.1 + 0.06 * Math.sin(p * 12),
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(bathys)/bathys/scene/SubmersibleScene.tsx">
+<![CDATA["use client";
+
+import React, { useEffect, useRef } from "react";
+import { useReducedMotion } from "../motion/useReducedMotion";
+import { clamp, lerp } from "../motion/math";
+import { computePose, type Pose } from "./pose";
+import { MODEL_WIDTH, buildSubmersible, type Palette } from "./buildSubmersible";
+
+/**
+ * Fixed WebGL layer that carries the BATHYS H-11 through the whole page:
+ * large and three-quarter-on beside the hero copy, then a slowly turning
+ * companion in the right gutter as you scroll. Floodlights brighten and the
+ * key light dims as the dive deepens. Under reduced motion (or without WebGL)
+ * the layer never mounts and the hero simply shows the water column.
+ */
+
+const CALLOUTS = [
+  { label: "SYNTACTIC FOAM FAIRING", sub: "0.54 G/CM³", dx: 34, dy: -12 },
+  { label: "TI-6AL-4V PRESSURE SPHERE", sub: "Ø 1,800 MM · 64 MM WALL", dx: 34, dy: 0 },
+  { label: "COLD-WHITE FLOODLIGHTS", sub: "2 × FORWARD ARRAY", dx: 40, dy: -14 },
+  { label: "MULTIBEAM TRANSDUCER", sub: "SYNTHETIC APERTURE", dx: 84, dy: 34 },
+];
+
+const FOV = 32;
+const CAMERA_Z = 12;
+const PALETTE_KEYS: (keyof Palette)[] = ["trench", "navy", "titanium", "cyan", "amber", "glass", "slate", "mist"];
+
+export function SubmersibleScene() {
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const calloutsRef = useRef<HTMLDivElement | null>(null);
+  const calloutEls = useRef<(HTMLDivElement | null)[]>([]);
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    if (reduced) return;
+    const canvas = canvasRef.current;
+    const calloutHost = calloutsRef.current;
+    if (!canvas || !calloutHost) return;
+
+    let disposed = false;
+    let teardown: () => void = () => {};
+
+    (async () => {
+      const [T, rbModule, envModule] = await Promise.all([
+        import("three"),
+        import("three/examples/jsm/geometries/RoundedBoxGeometry.js"),
+        import("three/examples/jsm/environments/RoomEnvironment.js"),
+      ]);
+      if (disposed) return;
+
+      let renderer: InstanceType<typeof T.WebGLRenderer>;
+      try {
+        renderer = new T.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+      } catch {
+        return; // no WebGL: the SVG submersible in HeroScene stays
+      }
+
+      const style = getComputedStyle(document.documentElement);
+      const palette = Object.fromEntries(
+        PALETTE_KEYS.map((k) => [k, style.getPropertyValue(`--color-${k}`).trim()]),
+      ) as Palette;
+      const fontFamily = getComputedStyle(document.body).getPropertyValue("--font-mono").trim() || "monospace";
+
+      let vw = window.innerWidth;
+      let vh = window.innerHeight;
+      const small = vw < 700;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, small ? 1.5 : 1.75));
+      renderer.setSize(vw, vh, false);
+      renderer.setClearColor(0x000000, 0);
+      renderer.toneMapping = T.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+
+      const scene = new T.Scene();
+      const camera = new T.PerspectiveCamera(FOV, vw / vh, 0.1, 60);
+      camera.position.set(0, 0, CAMERA_Z);
+
+      const pmrem = new T.PMREMGenerator(renderer);
+      const envTex = pmrem.fromScene(new envModule.RoomEnvironment(), 0.04).texture;
+      scene.environment = envTex;
+
+      const hemi = new T.HemisphereLight(new T.Color(palette.mist), new T.Color(palette.trench), 0.6);
+      const key = new T.DirectionalLight(new T.Color(palette.titanium), 2.6);
+      key.position.set(-2.5, 6, 5);
+      const rim = new T.DirectionalLight(new T.Color(palette.cyan), 1.1);
+      rim.position.set(4, 2, -4);
+      scene.add(hemi, key, rim);
+
+      const sub = buildSubmersible({
+        THREE: T,
+        RoundedBox: rbModule.RoundedBoxGeometry,
+        palette,
+        fontFamily,
+        detail: small ? "low" : "high",
+      });
+      const stage = new T.Group();
+      stage.add(sub.root);
+      scene.add(stage);
+
+      // Sonar pings: camera-facing rings that expand from the pressure sphere.
+      const pingGroup = new T.Group();
+      scene.add(pingGroup);
+      const pings = [0, 1, 2].map((i) => {
+        const mat = new T.MeshBasicMaterial({
+          color: new T.Color(palette.cyan),
+          transparent: true,
+          depthWrite: false,
+          blending: T.AdditiveBlending,
+        });
+        const mesh = new T.Mesh(new T.RingGeometry(0.985, 1, 96), mat);
+        pingGroup.add(mesh);
+        return { mesh, mat, offset: i / 3 };
+      });
+
+      const heroEl = () => document.getElementById("hero");
+      const readTarget = (): Pose => {
+        const docMax = document.documentElement.scrollHeight - vh;
+        return computePose({
+          scrollY: window.scrollY,
+          heroHeight: heroEl()?.offsetHeight ?? vh,
+          docMax,
+          vw,
+          vh,
+        });
+      };
+
+      const cur = readTarget();
+      cur.opacity = 0; // fade in
+      let lastScroll = window.scrollY;
+      let velocity = 0;
+      let last = performance.now();
+      let raf = 0;
+      const v3 = new T.Vector3();
+
+      const onResize = () => {
+        vw = window.innerWidth;
+        vh = window.innerHeight;
+        renderer.setSize(vw, vh, false);
+        camera.aspect = vw / vh;
+        camera.updateProjectionMatrix();
+      };
+
+      const frame = (now: number) => {
+        raf = requestAnimationFrame(frame);
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+        const time = now / 1000;
+
+        const target = readTarget();
+        const k = 1 - Math.exp(-dt * 6);
+        cur.cx = lerp(cur.cx, target.cx, k);
+        cur.cy = lerp(cur.cy, target.cy, k);
+        cur.width = lerp(cur.width, target.width, k);
+        cur.yaw = lerp(cur.yaw, target.yaw, k);
+        cur.pitch = lerp(cur.pitch, target.pitch, k);
+        cur.opacity = lerp(cur.opacity, target.opacity, 1 - Math.exp(-dt * 2.5));
+        cur.callouts = lerp(cur.callouts, target.callouts, 1 - Math.exp(-dt * 8));
+
+        const y = window.scrollY;
+        const dive = clamp(y / Math.max(document.documentElement.scrollHeight - vh, 1), 0, 1);
+        velocity = lerp(velocity, Math.abs(y - lastScroll) / Math.max(dt, 0.001), 1 - Math.exp(-dt * 5));
+        lastScroll = y;
+
+        // Screen pixels -> world units at the camera's focal plane
+        const pxPerUnit = vh / (2 * Math.tan((FOV * Math.PI) / 360) * CAMERA_Z);
+        const s = cur.width / (MODEL_WIDTH * pxPerUnit);
+        stage.position.set((cur.cx - vw / 2) / pxPerUnit, -(cur.cy - vh / 2) / pxPerUnit, 0);
+        stage.scale.setScalar(s);
+        sub.root.rotation.set(cur.pitch, cur.yaw + Math.sin(time * 0.3) * 0.06, Math.sin(time * 0.6) * 0.015);
+        sub.root.position.y = Math.sin(time * 0.9) * 0.08;
+
+        // Deeper = less surface light, stronger floodlights
+        const deep = clamp(dive * 2.2, 0, 1);
+        key.intensity = lerp(2.6, 0.55, deep);
+        hemi.intensity = lerp(0.6, 0.18, deep);
+        scene.environmentIntensity = lerp(0.4, 0.14, deep);
+        sub.setLight(lerp(0.15, 1, deep));
+        sub.update(time, clamp(velocity / 1800, 0, 1));
+
+        pingGroup.position.copy(stage.position);
+        for (const p of pings) {
+          const phase = (time / 4.2 + p.offset) % 1;
+          p.mesh.scale.setScalar(s * (1.3 + phase * 5.5));
+          p.mat.opacity = (1 - phase) * (1 - phase) * 0.45 * (0.25 + cur.callouts * 0.75);
+        }
+
+        canvas.style.opacity = cur.opacity.toFixed(3);
+
+        stage.updateMatrixWorld(true);
+        const showCallouts = cur.callouts > 0.01;
+        calloutHost.style.opacity = showCallouts ? cur.callouts.toFixed(3) : "0";
+        if (showCallouts) {
+          sub.anchors.forEach((a, i) => {
+            const el = calloutEls.current[i];
+            if (!el) return;
+            a.getWorldPosition(v3).project(camera);
+            const sx = (v3.x * 0.5 + 0.5) * vw;
+            const sy = (-v3.y * 0.5 + 0.5) * vh;
+            el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0)`;
+          });
+        }
+
+        renderer.render(scene, camera);
+      };
+
+      const onVisibility = () => {
+        cancelAnimationFrame(raf);
+        if (document.hidden) return;
+        last = performance.now();
+        raf = requestAnimationFrame(frame);
+      };
+      const onContextLost = (e: Event) => {
+        e.preventDefault();
+        cancelAnimationFrame(raf);
+      };
+
+      window.addEventListener("resize", onResize);
+      document.addEventListener("visibilitychange", onVisibility);
+      canvas.addEventListener("webglcontextlost", onContextLost);
+      onVisibility();
+
+      teardown = () => {
+        cancelAnimationFrame(raf);
+        window.removeEventListener("resize", onResize);
+        document.removeEventListener("visibilitychange", onVisibility);
+        canvas.removeEventListener("webglcontextlost", onContextLost);
+        sub.dispose();
+        for (const p of pings) {
+          p.mesh.geometry.dispose();
+          p.mat.dispose();
+        }
+        envTex.dispose();
+        pmrem.dispose();
+        renderer.dispose();
+      };
+    })();
+
+    return () => {
+      disposed = true;
+      teardown();
+    };
+  }, [reduced]);
+
+  return (
+    <div ref={rootRef} aria-hidden="true" className="bat-sub pointer-events-none fixed inset-0 z-[5]">
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-0" />
+      <div ref={calloutsRef} className="absolute inset-0 hidden opacity-0 xl:block">
+        {CALLOUTS.map((c, i) => {
+          const length = Math.hypot(c.dx, c.dy);
+          const angle = (Math.atan2(c.dy, c.dx) * 180) / Math.PI;
+          return (
+            <div
+              key={c.label}
+              ref={(el) => {
+                calloutEls.current[i] = el;
+              }}
+              className="bat-callout"
+            >
+              <span className="bat-callout-dot" />
+              <span className="bat-callout-line" style={{ width: length, transform: `rotate(${angle}deg)` }} />
+              <span className="bat-callout-text" style={{ left: c.dx + 8, top: c.dy - 7 }}>
+                {c.label}
+                <small>{c.sub}</small>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 ]]>
     </file>
@@ -2347,10 +4231,10 @@ export function Hero() {
 <![CDATA[import React from "react";
 
 /**
- * Hero background: a sunlit surface above, a titanium hadal submersible
- * descending through the water column with floodlight beams and a sonar ping.
- * Pure SVG + CSS, decorative only. Motion is CSS-driven and switched off by
- * the reduced-motion block in bathys.css.
+ * Hero backdrop: a sunlit surface above with light shafts that die off with
+ * depth. The submersible itself is the 3D layer in scene/SubmersibleScene.
+ * Pure CSS + SVG, decorative only; motion is switched off by the
+ * reduced-motion block in bathys.css.
  */
 
 const RAYS = [
@@ -2372,18 +4256,10 @@ function wavePath(cycles: number, cycle: number, amp: number, mid: number): stri
   return d;
 }
 
-// Equatorial flange bolts on the near face of the pressure sphere.
-const BOLTS = Array.from({ length: 13 }, (_, i) => {
-  const t = (i / 12) * Math.PI;
-  return { x: 250 + 84 * Math.cos(t), y: 300 + 14 * Math.sin(t) };
-});
-
-const TRANSDUCERS = Array.from({ length: 9 }, (_, i) => 212 + i * 9.5);
-
 export function HeroScene() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      {/* Sunlit surface glow + drifting light shafts that die off with depth */}
+      {/* Sunlit surface glow + drifting light shafts */}
       <div className="bat-hero-glow absolute inset-x-0 top-0 h-[75%]" />
       <div className="bat-hero-rays absolute inset-x-0 top-0 h-[88%] overflow-hidden">
         {RAYS.map((r) => (
@@ -2408,167 +4284,6 @@ export function HeroScene() {
         >
           <path d={wavePath(20, 160, 4, 14)} className="stroke-cyan" strokeOpacity="0.4" strokeWidth="1" vectorEffect="non-scaling-stroke" />
         </svg>
-      </div>
-
-      {/* Submersible */}
-      <div className="absolute -right-[38%] top-[38%] w-[118%] opacity-25 md:-right-[18%] md:top-[22%] md:w-[78%] md:opacity-45 lg:-right-[4%] lg:top-[8%] lg:w-[42%] lg:opacity-100 xl:right-0 xl:w-[46%] xl:max-w-[640px]">
-        <div className="bat-bob">
-          <svg viewBox="0 0 680 780" className="h-auto w-full overflow-visible" fill="none">
-            <defs>
-              <linearGradient id="bat-hs-foam" x1="0" x2="1" y1="0" y2="0">
-                <stop offset="0" style={{ stopColor: "var(--color-glass)" }} />
-                <stop offset="0.45" style={{ stopColor: "var(--color-navy)" }} />
-                <stop offset="1" style={{ stopColor: "var(--color-glass)" }} />
-              </linearGradient>
-              <radialGradient id="bat-hs-sphere" cx="0.36" cy="0.28" r="0.85">
-                <stop offset="0" style={{ stopColor: "var(--color-titanium)", stopOpacity: 0.95 }} />
-                <stop offset="0.35" style={{ stopColor: "var(--color-mist)", stopOpacity: 0.85 }} />
-                <stop offset="0.8" style={{ stopColor: "var(--color-slate)" }} />
-                <stop offset="1" style={{ stopColor: "var(--color-glass)" }} />
-              </radialGradient>
-              <radialGradient id="bat-hs-port" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0" style={{ stopColor: "var(--color-cyan)", stopOpacity: 0.95 }} />
-                <stop offset="0.6" style={{ stopColor: "var(--color-cyan)", stopOpacity: 0.3 }} />
-                <stop offset="1" style={{ stopColor: "var(--color-navy)", stopOpacity: 0.95 }} />
-              </radialGradient>
-              <linearGradient id="bat-hs-beam" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0" style={{ stopColor: "var(--color-titanium)", stopOpacity: 0.55 }} />
-                <stop offset="0.55" style={{ stopColor: "var(--color-mist)", stopOpacity: 0.12 }} />
-                <stop offset="1" style={{ stopColor: "var(--color-mist)", stopOpacity: 0 }} />
-              </linearGradient>
-              <linearGradient id="bat-hs-fan" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0" style={{ stopColor: "var(--color-cyan)", stopOpacity: 0.28 }} />
-                <stop offset="1" style={{ stopColor: "var(--color-cyan)", stopOpacity: 0 }} />
-              </linearGradient>
-            </defs>
-
-            {/* Sonar pings radiating from the pressure sphere */}
-            {[0, 1.4, 2.8].map((d) => (
-              <circle
-                key={d}
-                cx="250"
-                cy="300"
-                r="40"
-                className="bat-ping stroke-cyan"
-                strokeWidth="1.2"
-                vectorEffect="non-scaling-stroke"
-                style={{ animationDelay: `${d}s` }}
-              />
-            ))}
-
-            {/* Light cones */}
-            <g style={{ mixBlendMode: "screen" }}>
-              <polygon points="168,408 188,408 70,760 236,760" fill="url(#bat-hs-beam)" />
-              <polygon points="312,408 332,408 264,760 430,760" fill="url(#bat-hs-beam)" />
-              <polygon points="240,420 260,420 340,760 160,760" fill="url(#bat-hs-fan)" />
-            </g>
-
-            {/* Antenna + strobe */}
-            <line x1="250" y1="80" x2="250" y2="34" className="stroke-mist" strokeWidth="1.5" />
-            <circle cx="250" cy="28" r="10" className="bat-strobe fill-amber" fillOpacity="0.25" />
-            <circle cx="250" cy="28" r="4.5" className="bat-strobe fill-amber" />
-
-            {/* Thruster pods + struts */}
-            <g className="stroke-slate" strokeWidth="1.5">
-              <line x1="148" y1="263" x2="172" y2="263" strokeWidth="6" />
-              <line x1="328" y1="263" x2="352" y2="263" strokeWidth="6" />
-              <rect x="70" y="244" width="80" height="38" rx="17" className="fill-glass" />
-              <rect x="350" y="244" width="80" height="38" rx="17" className="fill-glass" />
-              <line x1="88" y1="246" x2="88" y2="280" />
-              <line x1="132" y1="246" x2="132" y2="280" />
-              <line x1="368" y1="246" x2="368" y2="280" />
-              <line x1="412" y1="246" x2="412" y2="280" />
-            </g>
-            <circle cx="80" cy="263" r="3" className="fill-cyan" fillOpacity="0.8" />
-            <circle cx="420" cy="263" r="3" className="fill-cyan" fillOpacity="0.8" />
-
-            {/* Syntactic foam fairing */}
-            <path
-              d="M150 252 L150 150 Q150 94 204 94 L296 94 Q350 94 350 150 L350 252 Z"
-              fill="url(#bat-hs-foam)"
-              className="stroke-slate"
-              strokeWidth="1.5"
-            />
-            <rect x="232" y="78" width="36" height="16" rx="4" className="fill-navy stroke-mist" strokeWidth="1.5" />
-            <g className="stroke-slate" strokeWidth="1" strokeOpacity="0.7">
-              <line x1="150" y1="138" x2="350" y2="138" />
-              <line x1="150" y1="188" x2="350" y2="188" />
-              <line x1="250" y1="94" x2="250" y2="216" />
-            </g>
-            <text x="164" y="168" className="fill-mist" fontFamily="var(--font-share-mono, monospace)" fontSize="13" letterSpacing="2.4">
-              BATHYS
-            </text>
-            <text x="164" y="212" className="fill-slate" fontFamily="var(--font-share-mono, monospace)" fontSize="11" letterSpacing="2">
-              H-11
-            </text>
-
-            {/* Landing skids + ballast */}
-            <g className="stroke-mist" strokeWidth="4" strokeLinecap="round">
-              <line x1="196" y1="372" x2="158" y2="448" />
-              <line x1="304" y1="372" x2="342" y2="448" />
-            </g>
-            <line x1="122" y1="452" x2="378" y2="452" className="stroke-slate" strokeWidth="6" strokeLinecap="round" />
-            <rect x="140" y="424" width="26" height="20" rx="3" className="fill-trench stroke-slate" strokeWidth="1.5" />
-            <rect x="334" y="424" width="26" height="20" rx="3" className="fill-trench stroke-slate" strokeWidth="1.5" />
-
-            {/* Instrument tray: multibeam transducer + floodlights */}
-            <rect x="186" y="384" width="128" height="34" rx="6" className="fill-navy stroke-slate" strokeWidth="1.5" />
-            {TRANSDUCERS.map((x) => (
-              <rect key={x} x={x} y="404" width="5" height="9" rx="1" className="fill-cyan" fillOpacity="0.75" />
-            ))}
-            <rect x="158" y="392" width="34" height="18" rx="4" className="fill-glass stroke-mist" strokeWidth="1.5" />
-            <rect x="308" y="392" width="34" height="18" rx="4" className="fill-glass stroke-mist" strokeWidth="1.5" />
-            <ellipse cx="175" cy="410" rx="9" ry="3.5" className="fill-titanium" />
-            <ellipse cx="325" cy="410" rx="9" ry="3.5" className="fill-titanium" />
-
-            {/* Manipulator arm */}
-            <g className="stroke-mist" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="206,418 186,452 150,472 134,506" />
-              <polyline points="134,506 124,520" strokeWidth="2.5" />
-              <polyline points="134,506 146,518" strokeWidth="2.5" />
-            </g>
-            <circle cx="186" cy="452" r="5" className="fill-glass stroke-mist" strokeWidth="2" />
-            <circle cx="150" cy="472" r="5" className="fill-glass stroke-mist" strokeWidth="2" />
-
-            {/* Titanium pressure sphere */}
-            <circle cx="250" cy="300" r="84" fill="url(#bat-hs-sphere)" className="stroke-mist" strokeWidth="1.5" />
-            <ellipse cx="250" cy="300" rx="84" ry="14" className="stroke-slate" strokeWidth="1.5" />
-            {BOLTS.map((b) => (
-              <circle key={b.x} cx={b.x} cy={b.y} r="1.8" className="fill-trench" />
-            ))}
-            <circle cx="250" cy="300" r="31" className="stroke-mist" strokeWidth="3.5" fill="url(#bat-hs-port)" />
-            <circle cx="250" cy="300" r="22" className="stroke-titanium" strokeOpacity="0.35" strokeWidth="1" />
-            <path d="M232 288 Q244 278 260 281" className="stroke-titanium" strokeOpacity="0.7" strokeWidth="2" strokeLinecap="round" />
-
-            {/* Annotation callouts (wide screens only) */}
-            <g className="hidden xl:block" fontFamily="var(--font-share-mono, monospace)" fontSize="11" letterSpacing="1.4">
-              <g className="stroke-mist" strokeOpacity="0.5" strokeWidth="1">
-                <polyline points="338,140 372,140 392,120 456,120" />
-                <polyline points="332,318 392,318 456,318" />
-                <polyline points="342,401 376,401 396,440 456,440" />
-                <polyline points="296,411 296,470 456,470" />
-              </g>
-              <g className="fill-cyan">
-                <circle cx="338" cy="140" r="2.5" />
-                <circle cx="332" cy="318" r="2.5" />
-                <circle cx="342" cy="401" r="2.5" />
-                <circle cx="296" cy="411" r="2.5" />
-              </g>
-              <g className="fill-mist">
-                <text x="464" y="117">SYNTACTIC FOAM FAIRING</text>
-                <text x="464" y="315">TI-6AL-4V PRESSURE SPHERE</text>
-                <text x="464" y="437">COLD-WHITE FLOODLIGHTS</text>
-                <text x="464" y="467">MULTIBEAM TRANSDUCER</text>
-              </g>
-              <g className="fill-slate">
-                <text x="464" y="133">0.54 G/CM³</text>
-                <text x="464" y="331">Ø 1,800 MM · 64 MM WALL</text>
-                <text x="464" y="453">2 × FORWARD ARRAY</text>
-                <text x="464" y="483">SYNTHETIC APERTURE</text>
-              </g>
-            </g>
-          </svg>
-        </div>
       </div>
 
       {/* Legibility scrim for the copy column, and a soft handoff into the descent stage */}

@@ -70,19 +70,19 @@ test.describe("BATHYS — Autonomous Hadal Exploration Submersible", () => {
     await expect(arch).toBeVisible();
 
     // Default tab: Titanium Pressure Sphere
-    await expect(page.getByText("HULL-TI-64")).toBeVisible();
+    await expect(arch.getByText("HULL-TI-64")).toBeVisible();
 
     // Click Syntactic Foam Core tab
     const foamTab = page.getByRole("tab", { name: /Syntactic Foam Core/i });
     await foamTab.click();
-    await expect(page.getByText("BUOY-SF-54")).toBeVisible();
-    await expect(page.getByText("0.54 g/cm³")).toBeVisible();
+    await expect(arch.getByText("BUOY-SF-54")).toBeVisible();
+    await expect(arch.getByText("0.54 g/cm³", { exact: true })).toBeVisible();
 
     // Click Magnetic Thruster Pods tab
     const thrusterTab = page.getByRole("tab", { name: /Magnetic Thruster Pods/i });
     await thrusterTab.click();
-    await expect(page.getByText("PROP-MAG-04")).toBeVisible();
-    await expect(page.getByText("480 N per pod")).toBeVisible();
+    await expect(arch.getByText("PROP-MAG-04")).toBeVisible();
+    await expect(arch.getByText("480 N per pod")).toBeVisible();
   });
 
   test("validates and submits the Mission Charter Intake form client-side", async ({ page }) => {
@@ -141,5 +141,32 @@ test.describe("BATHYS — Autonomous Hadal Exploration Submersible", () => {
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
+  });
+
+  test("renders the 3D submersible and 2D deep-sea creatures during depth scroll with zero errors", async ({ page }) => {
+    const pageErrors: string[] = [];
+    page.on("pageerror", (err) => pageErrors.push(err.message));
+
+    await page.goto("/bathys");
+
+    // The 3D layer canvas is mounted
+    const subCanvas = page.locator(".bat-sub canvas");
+    await expect(subCanvas).toBeAttached();
+
+    // The deep-sea creature layer is mounted and can never intercept clicks
+    const life = page.locator(".bat-life");
+    await expect(life.locator("canvas")).toBeAttached();
+    await expect(life).toHaveCSS("pointer-events", "none");
+
+    // Scroll through all vertical water column zones (Mesopelagic, Bathypelagic, Abyssopelagic, Hadalpelagic)
+    for (const p of [0.2, 0.45, 0.7, 0.95]) {
+      await page.evaluate((progress) => {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo(0, maxScroll * progress);
+      }, p);
+      await page.waitForTimeout(150);
+    }
+
+    expect(pageErrors).toHaveLength(0);
   });
 });

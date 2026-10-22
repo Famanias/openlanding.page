@@ -83,8 +83,8 @@ export function DescentSection() {
         className="sticky top-[64px] w-full min-h-[calc(100vh-64px)] flex flex-col justify-between py-6 overflow-hidden transition-colors duration-500"
         style={{
           backgroundColor: isHadal
-            ? "color-mix(in srgb, var(--color-trench) 88%, transparent)"
-            : "color-mix(in srgb, var(--color-navy) 84%, transparent)",
+            ? "color-mix(in srgb, var(--color-trench) 66%, transparent)"
+            : "color-mix(in srgb, var(--color-navy) 58%, transparent)",
           backgroundImage: `radial-gradient(circle at 50% 10%, color-mix(in srgb, var(--color-cyan) ${(15 * absorption).toFixed(1)}%, transparent) 0%, transparent 70%)`,
         }}
       >
