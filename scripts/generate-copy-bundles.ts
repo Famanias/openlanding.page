@@ -27,7 +27,7 @@ export const TEMPLATE_METADATA: Record<
   },
   calder: {
     name: "CALDER & ROWE",
-    dependencies: [],
+    dependencies: ["lenis"],
   },
   vector: {
     name: "VECTOR/90",

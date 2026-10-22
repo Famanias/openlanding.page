@@ -60,11 +60,11 @@ describe("gallery template data", () => {
     for (const t of TEMPLATES) {
       if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash Free");
-      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "kinetic") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "kinetic" || t.slug === "loophouse") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
-      } else if (t.slug === "satsuma") {
+      } else if (t.slug === "satsuma" || t.slug === "calder") {
         expect(t.model).toBe("Claude Sonnet 5.5 High");
       } else if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
@@ -139,6 +139,13 @@ describe("gallery template data", () => {
     expect(satsuma?.category).toBe("scroll-showcase");
     expect(satsuma?.promptMarkdown).toContain('rebuild "Satsuma"');
     expect(satsuma?.promptMarkdown).toContain("#FF7A2F");
+  });
+
+  it("files CALDER & ROWE under Scroll Showcase with its rebuild prompt inlined", () => {
+    const calder = TEMPLATES.find((t) => t.slug === "calder");
+    expect(calder?.category).toBe("scroll-showcase");
+    expect(calder?.promptMarkdown).toContain('rebuild "CALDER & ROWE"');
+    expect(calder?.promptMarkdown).toContain("#C9A55A");
   });
 
   it("files KINETIC under Scroll Showcase with its rebuild prompt inlined", () => {

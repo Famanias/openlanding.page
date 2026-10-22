@@ -24,7 +24,9 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     palette: ["#081115", "#E7ECE7", "#C9F458", "#849694"],
   },
   calder: {
-    palette: ["#000000", "#102B3F", "#FFFFFF"],
+    // ink (ground, text on paper), midnight (slabs), ivory (paper, text on slabs), gold (the one accent, hairlines),
+    // parchment (paper tint), slate (muted text on paper), brass (gold as text on paper), garnet (errors only)
+    palette: ["#070C17", "#0E1830", "#F5F0E4", "#C9A55A", "#E8DFCB", "#55607A", "#7D5F1F", "#9C3A2E"],
   },
   vector: {
     palette: ["#030706", "#071713", "#51F6D3", "#B8FF57", "#123B38"],
@@ -33,7 +35,8 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     palette: ["#F5EBDD", "#1C2A26", "#B65344", "#DFA75B", "#D7C5AF", "#68736B", "#E9D6BB"],
   },
   loophouse: {
-    palette: ["#EFF3E4", "#17272A", "#2F6F67", "#E3A52A", "#CBD7C4", "#60716B", "#E2EBD4"],
+    // cast-iron (ink), birch (paper), cobalt (accent), galvanized steel (hairlines), workshop pine (tint)
+    palette: ["#111618", "#F4EFE6", "#1E51EB", "#7E8A90", "#DED7C5"],
   },
   wowflutter: {
     palette: ["#14110F", "#EFE6D4", "#FF3D8B", "#DCCFB8", "#5E564D"],
