@@ -1,13 +1,43 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, IBM_Plex_Mono, Work_Sans } from "next/font/google";
+import { Chivo, Plus_Jakarta_Sans, Chivo_Mono } from "next/font/google";
 import "./loophouse/loophouse.css";
 
-const display = DM_Serif_Display({ weight: "400", subsets: ["latin"], variable: "--font-loophouse-display" });
-const body = Work_Sans({ weight: ["400", "500", "600", "700"], subsets: ["latin"], variable: "--font-loophouse-body" });
-const mono = IBM_Plex_Mono({ weight: ["400", "500"], subsets: ["latin"], variable: "--font-loophouse-mono" });
+const chivo = Chivo({
+  subsets: ["latin"],
+  weight: ["700", "900"],
+  variable: "--font-chivo",
+});
 
-export const metadata: Metadata = { metadataBase: new URL("https://openlandingpage.vercel.app"), title: "LOOPHOUSE — Tools stay in reach", description: "A neighborhood tool library for the things you want to make.", icons: { icon: "/templates/loophouse/icon.svg" } };
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-jakarta",
+});
+
+const chivoMono = Chivo_Mono({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  preload: false,
+  variable: "--font-chivo-mono",
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  title: "LOOPHOUSE — Tools in circulation, work in common.",
+  description:
+    "Community tool library and shared workshop with 420+ calibrated trade tools, heavy equipment kits, and shared workbench bays.",
+  icons: { icon: "/templates/loophouse/icon.svg" },
+};
 
 export default function LoopHouseLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}><body className="loophouse-body">{children}</body></html>;
+  return (
+    <html lang="en" className={`${chivo.variable} ${jakarta.variable} ${chivoMono.variable}`}>
+      <head>
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
+        </noscript>
+      </head>
+      <body className="lh-body">{children}</body>
+    </html>
+  );
 }

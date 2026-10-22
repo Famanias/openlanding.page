@@ -1,1 +1,68 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none"><rect width="1600" height="1000" fill="#EFF3E4"/><circle cx="1230" cy="260" r="118" fill="#2F6F67"/><path d="M0 690c310-190 620-20 940-160s470-100 760-260" stroke="#17272A" stroke-width="5"/><path d="M0 745c300-160 590-20 900-140s500-90 760-240" stroke="#E3A52A" stroke-width="3"/><path d="M750 550 0 910M750 550l850 360M750 550 410 1000M750 550l370 450" stroke="#17272A" stroke-width="2" opacity=".45"/><rect x="1015" y="445" width="115" height="125" fill="#EFF3E4" stroke="#17272A" stroke-width="3"/><path d="m995 445 78-60 78 60" fill="#17272A"/><text x="110" y="200" fill="#2F6F67" font-family="monospace" font-size="18" letter-spacing="4">COMMUNITY TOOL LIBRARY / 2023</text><text x="100" y="445" fill="#17272A" font-family="Georgia,serif" font-size="116" letter-spacing="-6">Good tools</text><text x="100" y="560" fill="#17272A" font-family="Georgia,serif" font-size="116" letter-spacing="-6">travel less.</text><text x="110" y="860" fill="#60716B" font-family="monospace" font-size="16" letter-spacing="3">LOOPHOUSE · TOOLS, KEPT IN REACH</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+  <rect width="1600" height="1000" fill="#F4EFE6"/>
+  <defs>
+    <pattern id="pegboard-pv" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="16" cy="16" r="2.5" fill="#7E8A90" opacity="0.45"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#pegboard-pv)"/>
+  <!-- Top Bar Staging -->
+  <rect x="80" y="60" width="1440" height="72" rx="4" fill="#111618"/>
+  <rect x="100" y="76" width="40" height="40" rx="4" fill="#1E51EB"/>
+  <circle cx="120" cy="96" r="8" fill="#F4EFE6"/>
+  <text x="156" y="102" fill="#F4EFE6" font-family="sans-serif" font-weight="900" font-size="20" letter-spacing="1">LOOPHOUSE</text>
+  <text x="290" y="102" fill="#7E8A90" font-family="monospace" font-size="12" letter-spacing="2">// WORKSHOP &amp; TOOL LIBRARY</text>
+  <rect x="1350" y="78" width="150" height="36" rx="4" fill="#1E51EB"/>
+  <text x="1375" y="101" fill="#F4EFE6" font-family="monospace" font-size="12" font-weight="bold">RESERVE &#8594;</text>
+  <!-- Hero Copy -->
+  <text x="80" y="240" fill="#1E51EB" font-family="monospace" font-size="16" font-weight="bold" letter-spacing="3">428 TOOLS IN CIRCULATION &#8226; CALIBRATED TRADE GEAR</text>
+  <text x="80" y="340" fill="#111618" font-family="sans-serif" font-weight="900" font-size="76" letter-spacing="-3">The neighborhood workshop</text>
+  <text x="80" y="420" fill="#111618" font-family="sans-serif" font-weight="900" font-size="76" letter-spacing="-3">on your block.</text>
+  <text x="80" y="480" fill="#7E8A90" font-family="sans-serif" font-size="22">Heavy-duty trade tools, joinery rigs, and workbench bays six minutes away.</text>
+  <!-- Interactive Pegboard Station Preview Mockup -->
+  <rect x="80" y="540" width="1440" height="380" rx="6" fill="#111618" stroke="#7E8A90" stroke-width="2"/>
+  <!-- Category Tabs -->
+  <rect x="110" y="570" width="140" height="36" rx="4" fill="#1E51EB"/>
+  <text x="125" y="593" fill="#F4EFE6" font-family="monospace" font-size="12" font-weight="bold">WOODWORKING</text>
+  <rect x="260" y="570" width="150" height="36" rx="4" fill="none" stroke="#7E8A90"/>
+  <text x="275" y="593" fill="#7E8A90" font-family="monospace" font-size="12">METAL &amp; MACHINING</text>
+  <rect x="420" y="570" width="130" height="36" rx="4" fill="none" stroke="#7E8A90"/>
+  <text x="435" y="593" fill="#7E8A90" font-family="monospace" font-size="12">RIGGING</text>
+  <rect x="560" y="570" width="130" height="36" rx="4" fill="none" stroke="#7E8A90"/>
+  <text x="575" y="593" fill="#7E8A90" font-family="monospace" font-size="12">CORDLESS</text>
+  <!-- Tool Docks -->
+  <g transform="translate(110, 630)">
+    <rect x="0" y="0" width="220" height="250" rx="4" fill="#DED7C5" stroke="#7E8A90" stroke-dasharray="4 4"/>
+    <text x="20" y="30" fill="#111618" font-family="monospace" font-size="11" font-weight="bold">DOCK 01 // UNLATCHED</text>
+    <rect x="20" y="60" width="180" height="120" rx="4" fill="#111618" stroke="#1E51EB" stroke-width="2"/>
+    <text x="35" y="100" fill="#F4EFE6" font-family="sans-serif" font-weight="bold" font-size="15">PLUNGE ROUTER</text>
+    <text x="35" y="125" fill="#7E8A90" font-family="monospace" font-size="10">1400W &#8226; 24,000 RPM</text>
+    <rect x="20" y="200" width="180" height="32" rx="3" fill="#1E51EB"/>
+    <text x="45" y="221" fill="#F4EFE6" font-family="monospace" font-size="11" font-weight="bold">IN REQUISITION TRAY &#10003;</text>
+  </g>
+  <g transform="translate(360, 630)">
+    <rect x="0" y="0" width="220" height="250" rx="4" fill="#F4EFE6" stroke="#7E8A90"/>
+    <text x="20" y="30" fill="#7E8A90" font-family="monospace" font-size="11">DOCK 02 // DOCKED</text>
+    <circle cx="110" cy="110" r="45" stroke="#111618" stroke-width="3"/>
+    <text x="20" y="190" fill="#111618" font-family="sans-serif" font-weight="bold" font-size="15">TRACK PLUNGE SAW</text>
+    <text x="20" y="210" fill="#7E8A90" font-family="monospace" font-size="10">55MM DEPTH &#8226; 1400MM RAIL</text>
+  </g>
+  <g transform="translate(610, 630)">
+    <rect x="0" y="0" width="220" height="250" rx="4" fill="#F4EFE6" stroke="#7E8A90"/>
+    <text x="20" y="30" fill="#7E8A90" font-family="monospace" font-size="11">DOCK 03 // DOCKED</text>
+    <rect x="35" y="70" width="150" height="70" rx="4" stroke="#111618" stroke-width="3"/>
+    <text x="20" y="190" fill="#111618" font-family="sans-serif" font-weight="bold" font-size="15">DOMINO JOINER</text>
+    <text x="20" y="210" fill="#7E8A90" font-family="monospace" font-size="10">DF 500 &#8226; MORTISE BIT</text>
+  </g>
+  <!-- Requisition Tray Dock Panel -->
+  <g transform="translate(860, 630)">
+    <rect x="0" y="0" width="630" height="250" rx="4" fill="#F4EFE6" stroke="#1E51EB" stroke-width="2"/>
+    <text x="30" y="35" fill="#1E51EB" font-family="monospace" font-size="13" font-weight="bold">ACTIVE REQUISITION TRAY // 1 TOOL STAGED</text>
+    <line x1="30" y1="50" x2="600" y2="50" stroke="#7E8A90"/>
+    <text x="30" y="85" fill="#111618" font-family="sans-serif" font-weight="bold" font-size="16">1. Festool OF 1400 EBQ Plunge Router</text>
+    <text x="30" y="110" fill="#7E8A90" font-family="monospace" font-size="12">Weight: 4.5 kg &#8226; Runout: &#177;0.02 mm &#8226; Condition: Calibrated Tier A</text>
+    <text x="30" y="140" fill="#111618" font-family="sans-serif" font-weight="bold" font-size="14">Estimated Hold: 3 Days &#8226; Loan Fee: $0.00 (Community Member)</text>
+    <rect x="30" y="175" width="220" height="42" rx="4" fill="#1E51EB"/>
+    <text x="55" y="201" fill="#F4EFE6" font-family="monospace" font-size="13" font-weight="bold">PROCEED TO HOLD &#8594;</text>
+  </g>
+</svg>

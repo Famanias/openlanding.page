@@ -33,7 +33,8 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     palette: ["#F5EBDD", "#1C2A26", "#B65344", "#DFA75B", "#D7C5AF", "#68736B", "#E9D6BB"],
   },
   loophouse: {
-    palette: ["#EFF3E4", "#17272A", "#2F6F67", "#E3A52A", "#CBD7C4", "#60716B", "#E2EBD4"],
+    // cast-iron (ink), birch (paper), cobalt (accent), galvanized steel (hairlines), workshop pine (tint)
+    palette: ["#111618", "#F4EFE6", "#1E51EB", "#7E8A90", "#DED7C5"],
   },
   wowflutter: {
     palette: ["#14110F", "#EFE6D4", "#FF3D8B", "#DCCFB8", "#5E564D"],
