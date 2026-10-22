@@ -61,6 +61,10 @@ export const TEMPLATE_METADATA: Record<
     name: "IRIDIA",
     dependencies: [],
   },
+  bathys: {
+    name: "BATHYS",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

@@ -1,0 +1,394 @@
+@import "tailwindcss";
+
+@theme {
+  --color-trench: #03070D;
+  --color-navy: #0A1526;
+  --color-titanium: #EDF5FA;
+  --color-cyan: #00E5FF;
+  --color-amber: #FF9E1B;
+  --color-glass: #122338;
+  --color-slate: #546E8A;
+  --color-mist: #8DA8C2;
+
+  --font-display: var(--font-chakra), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: var(--font-sora), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-share-mono), ui-monospace, Menlo, monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);
+
+  --dur-instant: 90ms;
+  --dur-fast: 160ms;
+  --dur-base: 380ms;
+  --dur-slow: 750ms;
+  --dur-hero: 1200ms;
+
+  --reveal-shift: 24px;
+  --stagger: 65ms;
+}
+
+/* Root body layout */
+.bat-body {
+  margin: 0;
+  background-color: var(--color-trench);
+  color: var(--color-titanium);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: clip;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base interactive elements */
+::selection {
+  background-color: var(--color-cyan);
+  color: var(--color-trench);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 2px;
+}
+
+/* Container wraps */
+.bat-wrap {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(18px, 4.5vw, 64px);
+  padding-right: clamp(18px, 4.5vw, 64px);
+}
+
+/* Button & Interactive styles */
+.bat-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+  transition: transform var(--dur-instant) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out);
+}
+
+.bat-btn:active {
+  transform: scale(0.97);
+  transition-timing-function: var(--ease-spring);
+}
+
+.bat-btn-primary {
+  background-color: var(--color-cyan);
+  color: var(--color-trench);
+  border: 1px solid var(--color-cyan);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bat-btn-primary:hover {
+    background-color: color-mix(in srgb, var(--color-cyan) 85%, #EDF5FA);
+    border-color: color-mix(in srgb, var(--color-cyan) 85%, #EDF5FA);
+  }
+}
+
+.bat-btn-outline {
+  background-color: transparent;
+  color: var(--color-titanium);
+  border: 1px solid var(--color-slate);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bat-btn-outline:hover {
+    border-color: var(--color-cyan);
+    color: var(--color-cyan);
+  }
+}
+
+/* Card primitives */
+.bat-card {
+  position: relative;
+  background-color: var(--color-navy);
+  border: 1px solid var(--color-glass);
+  border-radius: 8px;
+  padding: 24px;
+  transition: border-color var(--dur-fast) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bat-card:hover {
+    border-color: color-mix(in srgb, var(--color-cyan) 40%, var(--color-glass));
+    transform: translateY(-4px);
+  }
+}
+
+/* Grid & Telemetry metadata */
+.bat-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+.bat-display {
+  font-family: var(--font-display);
+}
+
+/* Headline line wrappers stack in every motion mode */
+.bat-mask-line {
+  display: block;
+}
+
+/* Revealed animation engine */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    transition: opacity var(--dur-slow) var(--ease-out),
+                transform var(--dur-slow) var(--ease-out),
+                clip-path var(--dur-slow) var(--ease-in-out);
+    transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger));
+  }
+
+  [data-reveal="rise"]:not([data-in="true"]) {
+    opacity: 0;
+    transform: translateY(var(--reveal-shift));
+  }
+
+  [data-reveal="wipe"]:not([data-in="true"]) {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  [data-reveal="scale"]:not([data-in="true"]) {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  [data-reveal="draw"]:not([data-in="true"]) {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* SplitText line mask */
+  .bat-mask-line {
+    display: block;
+    overflow: clip;
+  }
+
+  .bat-mask-line > span {
+    display: block;
+    transform: translateY(115%);
+    transition: transform var(--dur-slow) var(--ease-out);
+    transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger));
+  }
+
+  [data-in="true"] .bat-mask-line > span {
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  .bat-mask-line > span {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Ocean scene: page-wide water column (OceanAmbient) + hero (HeroScene)
+   Hallmark · genre: atmospheric · theme: Bathys (locked palette) · enrichment: Tier A/B (CSS + hand-built SVG, canvas snow)
+   ------------------------------------------------------------------ */
+
+.bat-ocean {
+  --dive: 0;
+}
+
+/* Sunlit upper water: cyan-tinted navy that is gone by ~50% of the dive */
+.bat-ocean-shallow {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-cyan) 14%, var(--color-navy)) 0%,
+    var(--color-navy) 55%,
+    transparent 100%
+  );
+  opacity: max(0, calc(1 - var(--dive) * 2));
+}
+
+/* Bioluminescent motes that only appear once the light is gone */
+.bat-ocean-motes {
+  background:
+    radial-gradient(ellipse 38% 26% at 18% 72%, color-mix(in srgb, var(--color-cyan) 12%, transparent), transparent 70%),
+    radial-gradient(ellipse 30% 22% at 84% 38%, color-mix(in srgb, var(--color-cyan) 9%, transparent), transparent 70%),
+    radial-gradient(ellipse 26% 18% at 60% 88%, color-mix(in srgb, var(--color-amber) 4%, transparent), transparent 70%);
+  opacity: min(1, max(0, calc((var(--dive) - 0.2) * 2.2)));
+}
+
+/* Depth ruler ticks: minor every 16px, major every 80px (matches TICK_PERIOD) */
+.bat-ruler {
+  background-image:
+    linear-gradient(to bottom, var(--color-mist) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-slate) 0 1px, transparent 1px);
+  background-size: 18px 80px, 8px 16px;
+  background-repeat: repeat-y;
+  will-change: transform;
+}
+
+.bat-seafloor {
+  transform: translate3d(0, calc((1 - clamp(0, (var(--dive) - 0.8) * 5, 1)) * 100%), 0);
+}
+
+/* Hero: surface glow, light shafts, scrim, handoff */
+.bat-hero-glow {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-cyan) 16%, transparent),
+    transparent
+  );
+}
+
+.bat-hero-rays {
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+}
+
+.bat-ray {
+  position: absolute;
+  top: -8%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-cyan) 22%, transparent),
+    transparent 90%
+  );
+  -webkit-mask-image: linear-gradient(to right, transparent, black 50%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 50%, transparent);
+  transform: skewX(-16deg);
+  animation: bat-ray 12s var(--ease-in-out) infinite alternate;
+}
+
+.bat-hero-scrim {
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-trench) 78%, transparent) 0%,
+    color-mix(in srgb, var(--color-trench) 48%, transparent) 38%,
+    transparent 66%
+  );
+}
+
+.bat-hero-fade {
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--color-navy) 70%, transparent));
+}
+
+/* Hero callouts, positioned each frame by scene/SubmersibleScene */
+.bat-callout {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.bat-callout-dot {
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-cyan);
+}
+
+.bat-callout-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 1px;
+  transform-origin: 0 50%;
+  background: color-mix(in srgb, var(--color-mist) 55%, transparent);
+}
+
+.bat-callout-text {
+  position: absolute;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  color: var(--color-mist);
+}
+
+.bat-callout-text small {
+  display: block;
+  font-size: 10px;
+  color: color-mix(in srgb, var(--color-mist) 65%, transparent);
+}
+
+.bat-wave {
+  animation: bat-wave 46s linear infinite;
+}
+
+.bat-wave-fast {
+  animation-duration: 28s;
+}
+
+.bat-strobe {
+  animation: bat-strobe 2.6s ease-in-out infinite;
+}
+
+@keyframes bat-ray {
+  from { transform: skewX(-16deg) translate3d(-18px, 0, 0); opacity: 0.5; }
+  to   { transform: skewX(-16deg) translate3d(24px, 0, 0); opacity: 1; }
+}
+
+@keyframes bat-wave {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes bat-strobe {
+  0%, 62%, 100% { opacity: 0.25; }
+  68%, 74%      { opacity: 1; }
+  71%           { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bat-ray,
+  .bat-wave,
+  .bat-strobe {
+    animation: none !important;
+  }
+
+  .bat-strobe {
+    opacity: 0.8;
+  }
+}
+
+/* Labelled placeholder styling */
+.bat-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-navy);
+  border: 1px dashed var(--color-slate);
+  border-radius: 6px;
+  min-height: 200px;
+  color: var(--color-mist);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 16px;
+}

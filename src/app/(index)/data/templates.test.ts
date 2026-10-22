@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all thirteen templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(13);
+  it("contains all fourteen templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(14);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -60,7 +60,7 @@ describe("gallery template data", () => {
     for (const t of TEMPLATES) {
       if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash Free");
-      } else if (t.slug === "iridia") {
+      } else if (t.slug === "iridia" || t.slug === "bathys") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
@@ -114,5 +114,12 @@ describe("gallery template data", () => {
     expect(iridia?.category).toBe("3d-webgpu");
     expect(iridia?.promptMarkdown).toContain('rebuild "IRIDIA"');
     expect(iridia?.promptMarkdown).toContain("#00F0FF");
+  });
+
+  it("files BATHYS under Scroll Showcase with its rebuild prompt inlined", () => {
+    const bathys = TEMPLATES.find((t) => t.slug === "bathys");
+    expect(bathys?.category).toBe("scroll-showcase");
+    expect(bathys?.promptMarkdown).toContain('rebuild "BATHYS"');
+    expect(bathys?.promptMarkdown).toContain("#00E5FF");
   });
 });
