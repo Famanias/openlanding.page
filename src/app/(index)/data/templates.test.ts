@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all nineteen templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(19);
+  it("contains all twenty templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(20);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -83,6 +83,7 @@ describe("gallery template data", () => {
     expect(categoryIds).toContain("scroll-showcase");
     expect(categoryIds).toContain("3d-webgpu");
     expect(categoryIds).toContain("editorial-magazine");
+    expect(categoryIds).toContain("conversion");
   });
 
   it("files WOWFLUTTER under Editorial Magazine with its rebuild prompt inlined", () => {

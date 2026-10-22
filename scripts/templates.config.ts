@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse";
 
 export type TemplateConfig = {
   palette: string[];
@@ -92,6 +92,26 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   },
   "volume-zero": {
     palette: ["#171B20", "#F1EEE5", "#2B9BAA"],
+  },
+  openhouse: {
+    // paper, ink, cotton, desk, board, terracotta signal, rules, muted type and success state
+    palette: [
+      "#F7F2E9",
+      "#EEE6D9",
+      "#E6DACB",
+      "#171414",
+      "#1D1917",
+      "#2A2521",
+      "#6B6359",
+      "#D7CDBF",
+      "#C7B9A8",
+      "#D86B4A",
+      "#A9472E",
+      "#FFF9F0",
+      "#EDE5DA",
+      "#344A3E",
+      "#3E7658",
+    ],
   },
 };
 

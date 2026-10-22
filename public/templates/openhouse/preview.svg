@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#EDE5DA"/>
+  <rect x="0" y="0" width="1600" height="72" fill="#F7F2E9"/>
+  <path d="M88 52V25c0-7 5-13 13-13h25c7 0 13 6 13 13v27M101 52V32h25v20M113 32v20" fill="none" stroke="#171414" stroke-width="3"/>
+  <text x="166" y="46" fill="#171414" font-family="Arial, sans-serif" font-size="24" font-weight="700">openhouse</text>
+  <text x="86" y="220" fill="#A9472E" font-family="Arial, sans-serif" font-size="24">A focused page for owner-led businesses</text>
+  <text x="86" y="340" fill="#171414" font-family="Arial, sans-serif" font-size="72" font-weight="700">Turn more first</text>
+  <text x="86" y="420" fill="#171414" font-family="Arial, sans-serif" font-size="72" font-weight="700">clicks into good</text>
+  <text x="86" y="500" fill="#171414" font-family="Arial, sans-serif" font-size="72" font-weight="700">conversations.</text>
+  <rect x="975" y="170" width="480" height="550" rx="8" fill="#FFF9F0" stroke="#C7B9A8"/>
+  <rect x="975" y="170" width="8" height="550" fill="#D86B4A"/>
+  <text x="1020" y="228" fill="#A9472E" font-family="Arial, sans-serif" font-size="20">The front desk</text>
+  <circle cx="1398" cy="220" r="7" fill="#D86B4A"/>
+  <text x="1020" y="330" fill="#171414" font-family="Arial, sans-serif" font-size="35" font-weight="700">Open the right</text>
+  <text x="1020" y="370" fill="#171414" font-family="Arial, sans-serif" font-size="35" font-weight="700">invitation.</text>
+  <rect x="1020" y="540" width="390" height="58" rx="7" fill="#171414"/>
+  <text x="1100" y="576" fill="#F7F2E9" font-family="Arial, sans-serif" font-size="20" font-weight="700">Book my 20-minute call ↗</text>
+  <line x1="86" y1="850" x2="1515" y2="850" stroke="#C7B9A8"/>
+  <text x="86" y="890" fill="#6B6359" font-family="Arial, sans-serif" font-size="20">One action</text>
+  <text x="735" y="890" fill="#6B6359" font-family="Arial, sans-serif" font-size="20">Short form</text>
+  <text x="1370" y="890" fill="#6B6359" font-family="Arial, sans-serif" font-size="20">Clear handoff</text>
+</svg>
