@@ -81,6 +81,10 @@ export const TEMPLATE_METADATA: Record<
     name: "ISOBAR",
     dependencies: ["three"],
   },
+  "volume-zero": {
+    name: "VOLUME ZERO",
+    dependencies: ["three"],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

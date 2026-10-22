@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine";
 
@@ -142,6 +142,23 @@ export const ISOBAR_PROMPT = `# Prompt: rebuild "ISOBAR" (3D pressure membrane l
 Build a Next.js 16 App Router + React + TypeScript + Tailwind CSS + Three.js landing page for a fictional atmospheric systems studio. Weather is pressure in motion, so the page is one continuous procedural 3D membrane. Scrolling scrubs Surface, Shear, Cross-section and Calm transects through the same field; a pressure pin reseeds it.
 
 Use the palette #F7F2E9 #12101A #FF5B47 #2DE2A6 #8A6CFF #FFD447 #272234 #A59DB6 with Anybody, DM Sans and IBM Plex Mono. Build a transparent WebGL2 canvas from a displaced shader plane, contour TubeGeometry ribbons and a sparse particle volume, plus a CSS fallback. Pointer movement shifts the camera, sliders alter density/drift/contour, and a client-only form validates and shows success without a request. Never copy gradients.sh code or assets; it is a visual reference only. Keep motion reduced-motion safe, responsive, accessible and free of horizontal overflow.`;
+
+export const VOLUME_ZERO_PROMPT = [
+  '# Prompt: rebuild "VOLUME ZERO" (acoustic architecture chamber)',
+  '',
+  'Build a premium landing page in Next.js 16.4 App Router + React 19 + TypeScript + Tailwind CSS v4 + Three.js for a fictional Rotterdam acoustic-architecture studio called VOLUME ZERO.',
+  'The central metaphor is an acoustic journey: sound travels through space, so the page becomes a live chamber. Scrolling moves the camera from source to listener; a range input moves the listener; surface controls rebuild the reflected ray field.',
+  '',
+  'Use exactly three colours: graphite #171B20, vellum #F1EEE5, signal teal #2B9BAA. Use Oxanium for display, Manrope for body and Azeret Mono for utility labels via next/font/google.',
+  '',
+  'Sections: fixed reactive header; hero “Rooms that let sound arrive whole.”; pinned WebGPU/WebGL chamber; surface library; rooms in practice; SVG response curve; local commission form; footer field archive.',
+  '',
+  'The chamber has tested pure functions cameraAt, listenerAt and reflectionPoints. Try WebGPURenderer from three/webgpu with a small TSL pulse, then fall back to WebGLRenderer. The canvas starts on idle for fine pointers and on tap for touch, and never mounts under prefers-reduced-motion. Always render a complete SVG diagram for no-JS and reduced motion.',
+  '',
+  'Motion is technical/cinematic: scan and focus-pull. Use mask-rise headlines, contour wipes, drawn SVG rules, staggered cards, a pinned scroll scene, a reactive header, button fill wipes, press scale, focus rings and a form success transition. Only transform, opacity, clip-path and SVG stroke offsets animate.',
+  '',
+  'Keep code isolated inside src/app/(volume-zero)/. Add tests for motion maths, chamber geometry, content and form validation, plus a Playwright spec for surface selection, listener control, anchors, menu, form success, reduced motion and mobile overflow. No photo or video assets are required.',
+].join("\n");
 
 export const TEMPLATES: TemplateItem[] = [
   {
@@ -377,6 +394,19 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Procedural 3D Page", "Pressure Membrane", "Live Gradients"],
     previewImage: "/templates/isobar/preview-1600.svg",
     promptMarkdown: ISOBAR_PROMPT,
+    model: "GPT-6 Astra Max",
+  },
+  {
+    slug: "volume-zero",
+    title: "VOLUME ZERO",
+    description:
+      "Acoustic architecture for rooms that listen back. A WebGPU chamber maps source, listener and reflection paths as you scroll.",
+    category: "3d-webgpu",
+    industry: "Acoustic Architecture",
+    stack: "Next.js 16 · React 19 · Three.js WebGPU · TSL · SVG",
+    badges: ["Acoustic Chamber", "WebGPU / WebGL2", "Live Ray Field"],
+    previewImage: "/templates/volume-zero/preview-1600.svg",
+    promptMarkdown: VOLUME_ZERO_PROMPT,
     model: "GPT-6 Astra Max",
   },
 ];
