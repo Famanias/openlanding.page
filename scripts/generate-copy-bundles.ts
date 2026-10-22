@@ -65,6 +65,10 @@ export const TEMPLATE_METADATA: Record<
     name: "BATHYS",
     dependencies: [],
   },
+  aubade: {
+    name: "AUBADE",
+    dependencies: ["lenis"],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

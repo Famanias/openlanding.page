@@ -79,41 +79,42 @@ test.describe("openlandingpage gallery index", () => {
   test("category filter chips filter templates and update result counter", async ({ page }) => {
     await page.goto("/");
 
-    // Initially all 12 templates are displayed
-    await expect(page.locator("article")).toHaveCount(12);
-    await expect(page.getByText("Showing 12 of 12 templates")).toBeVisible();
+    // Initially all 15 templates are displayed
+    await expect(page.locator("article")).toHaveCount(15);
+    await expect(page.getByText("Showing 15 of 15 templates")).toBeVisible();
 
     // Click category chip "3D & WebGPU"
     const webgpuTab = page.getByRole("tab", { name: /3D & WebGPU/i });
     await expect(webgpuTab).toBeVisible();
     await webgpuTab.click();
 
-    // Assert only 3D & WebGPU templates are visible (KŌJI, TRACE, VECTOR/90, Noctiluca)
-    await expect(page.locator("article")).toHaveCount(4);
+    // Assert only 3D & WebGPU templates are visible (KŌJI, TRACE, VECTOR/90, Noctiluca, IRIDIA)
+    await expect(page.locator("article")).toHaveCount(5);
     await expect(page.locator("article").filter({ hasText: "KŌJI" })).toBeVisible();
     await expect(page.locator("article").filter({ hasText: "TRACE" })).toBeVisible();
     await expect(page.locator("article").filter({ hasText: "VECTOR/90" })).toBeVisible();
     await expect(page.locator("article").filter({ hasText: "Noctiluca" })).toBeVisible();
+    await expect(page.locator("article").filter({ hasText: "IRIDIA" })).toBeVisible();
     await expect(page.locator("article").filter({ hasText: "Orrery" })).toHaveCount(0);
     await expect(page.locator("article").filter({ hasText: "KEYTU" })).toHaveCount(0);
 
-    // Counter updates to "Showing 4 of 12 templates"
-    await expect(page.getByText("Showing 4 of 12 templates")).toBeVisible();
+    // Counter updates to "Showing 5 of 15 templates"
+    await expect(page.getByText("Showing 5 of 15 templates")).toBeVisible();
 
     // Click "Reset filters" button (aria-label="Reset category filters")
     const resetBtn = page.getByRole("button", { name: /reset category filters/i });
     await expect(resetBtn).toBeVisible();
     await resetBtn.click();
 
-    // All 12 return
-    await expect(page.locator("article")).toHaveCount(12);
-    await expect(page.getByText("Showing 12 of 12 templates")).toBeVisible();
+    // All 15 return
+    await expect(page.locator("article")).toHaveCount(15);
+    await expect(page.getByText("Showing 15 of 15 templates")).toBeVisible();
 
     // Also test clicking the "All" tab after filtering
     const keynoteTab = page.getByRole("tab", { name: /Keynote & Deck/i });
     await keynoteTab.click();
     await expect(page.locator("article")).toHaveCount(1);
-    await expect(page.getByText("Showing 1 of 12 templates")).toBeVisible();
+    await expect(page.getByText("Showing 1 of 15 templates")).toBeVisible();
 
     // The new category holds WOWFLUTTER alone
     await page.getByRole("tab", { name: /Editorial Magazine/i }).click();
@@ -122,8 +123,8 @@ test.describe("openlandingpage gallery index", () => {
 
     const allTab = page.getByRole("tab", { name: /^All/i });
     await allTab.click();
-    await expect(page.locator("article")).toHaveCount(12);
-    await expect(page.getByText("Showing 12 of 12 templates")).toBeVisible();
+    await expect(page.locator("article")).toHaveCount(15);
+    await expect(page.getByText("Showing 15 of 15 templates")).toBeVisible();
   });
 
   test("mobile viewport at 375px has zero horizontal overflow", async ({ page }) => {

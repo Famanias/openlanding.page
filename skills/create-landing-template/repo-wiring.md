@@ -25,7 +25,7 @@ src/app/(<slug>)/
     forms/                     validation in *.ts (tested) plus the form component; success state, no network
 public/templates/<slug>/       processed images (npm run images) and clips/
 assets/incoming/<slug>/        raw images and clips; add a .gitkeep
-docs/image-prompts/<slug>.md   the media prompts (media.md)
+docs/image-video-prompts/<slug>.md   the media prompts (media.md)
 tests/e2e/<slug>.spec.ts
 ```
 

@@ -28,7 +28,7 @@ Either way, the prompts get written: they're the art direction and part of the t
 
 ## 3. Write the prompts (Phase 5)
 
-Write them to `docs/image-prompts/<slug>.md`, platform-neutral:
+Write them to `docs/image-video-prompts/<slug>.md`, platform-neutral:
 
 - **A style preamble** pasted into every prompt: era, film or lens look, light, palette words, and "no text, no logos, no people's faces" where it applies.
 - **A table of images:** exact filename, aspect ratio, and where each image is used on the page.

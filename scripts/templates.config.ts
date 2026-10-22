@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade";
 
 export type TemplateConfig = {
   palette: string[];
@@ -67,6 +67,10 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   bathys: {
     // trench obsidian (ground), bathypelagic navy (slabs), hull titanium (paper), siphonophore cyan (primary accent), acoustic amber (secondary alert), pressure glass (tint), hydrographic slate (rules), subsea mist (muted)
     palette: ["#03070D", "#0A1526", "#EDF5FA", "#00E5FF", "#FF9E1B", "#122338", "#546E8A", "#8DA8C2"],
+  },
+  aubade: {
+    // nuit (ink/ground), linen (paper/text), claret (the one action colour, dusk), dawn (dawn field, highlights on nuit), sapin (forest, dining car), lac (lake, lagoon)
+    palette: ["#161233", "#F3ECDF", "#8E1F3A", "#F2B37A", "#1F4A3F", "#3E6FA8"],
   },
 };
 
