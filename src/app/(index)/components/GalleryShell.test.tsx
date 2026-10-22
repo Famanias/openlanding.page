@@ -18,10 +18,10 @@ describe("GalleryShell", () => {
     expect(html).toContain("Scroll Showcase");
     expect(html).toContain("3D &amp; WebGPU");
     expect(html).toContain("Editorial Magazine");
-    expect(html).toContain("Showing 14 of 14 templates");
+    expect(html).toContain("Showing 15 of 15 templates");
   });
 
-  it("renders all 14 initial template cards", () => {
+  it("renders all 15 initial template cards", () => {
     const html = renderToStaticMarkup(<GalleryShell />);
     expect(html).toContain('href="/orrery"');
     expect(html).toContain('href="/keytu"');
@@ -36,6 +36,7 @@ describe("GalleryShell", () => {
     expect(html).toContain('href="/sundial"');
     expect(html).toContain('href="/noctiluca"');
     expect(html).toContain('href="/iridia"');
+    expect(html).toContain('href="/bathys"');
     expect(html).toContain('href="/aubade"');
     expect(html).toContain("Orrery");
     expect(html).toContain("KEYTU");
@@ -49,6 +50,7 @@ describe("GalleryShell", () => {
     expect(html).toContain("Maison Vérane");
     expect(html).toContain("SUNDIAL Coffee Roasters");
     expect(html).toContain("IRIDIA");
+    expect(html).toContain("BATHYS");
   });
 
   it("renders the first template card eagerly and others lazily", () => {
@@ -56,7 +58,7 @@ describe("GalleryShell", () => {
     const eagerCount = (html.match(/loading="eager"/g) || []).length;
     const lazyCount = (html.match(/loading="lazy"/g) || []).length;
     expect(eagerCount).toBe(1);
-    expect(lazyCount).toBe(13);
+    expect(lazyCount).toBe(14);
   });
 
   it("renders responsive grid container with 5 columns on desktop", () => {
