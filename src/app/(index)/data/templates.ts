@@ -185,7 +185,7 @@ Use asphalt #172026, chalk #F5F0E5, signal lime #E8F146, galvanized #B4C3C1, oxi
 
 Media keys: hero-site-walk, capability-testing, capability-controls, capability-retrofit, capability-design, project-switchyard, project-control-room, project-panel-detail, safety-hands, handoff-drawing, credential-grid, hero-site-reel.mp4, process-proof.mp4. Render labelled placeholders until files arrive. Keep all content visible with JavaScript disabled and prefers-reduced-motion: reduce. Test survey-line maths, motion maths, appointment validation, service selection, form success, reduced motion, and 390px overflow.`;
 
-export const TEMPLATES: TemplateItem[] = [
+const RAW_TEMPLATES: TemplateItem[] = [
   {
     slug: "orrery",
     title: "Orrery",
@@ -473,3 +473,8 @@ export const TEMPLATES: TemplateItem[] = [
     model: "GPT-6 Astra Max",
   },
 ];
+
+export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.map((template) => ({
+  ...template,
+  videoClip: template.videoClip ?? `/gallery/clips/${template.slug}.mp4`,
+}));

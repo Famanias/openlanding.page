@@ -24,7 +24,6 @@ export function GalleryShell() {
   return (
     <section id="gallery" className="gallery-section" aria-label="Template gallery">
       <div className="page-container">
-        <div className="gallery-heading"><h2>Find your starting point.</h2><p>Pick a page. Take it somewhere new.</p></div>
         <FilterBar activeCategory={activeCategory} onSelectCategory={handleSelectCategory}
           totalCount={TEMPLATES.length} filteredCount={filteredTemplates.length} onReset={handleReset}
           categoryCounts={categoryCounts} activeModel={filters.model}

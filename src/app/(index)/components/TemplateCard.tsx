@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Copy, Code, Check, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { Copy, Code, Check } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
 
 export interface TemplateCardProps { template: TemplateItem; isEager?: boolean }
@@ -126,26 +126,17 @@ export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
             onPlaying={() => setPlaying(true)} onError={() => setPlaying(false)} />}
         </a>
         {template.model && <div className="model-tag"><span data-testid="model-tag">{template.model}</span></div>}
-        <div className="preview-caption">
-          <span>Explore the page</span>
-        </div>
       </div>
       <div className="card-body">
         <div className="card-title-row">
           <h3><a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer">{template.title}</a></h3>
-          <a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true"><ArrowUpRight size={16} /></a>
-        </div>
-        <p className="card-description">{template.description}</p>
-        <div className="card-actions">
           <button type="button" onClick={handleCopyPrompt} aria-live="polite" aria-label={copiedAction === "prompt" ? "Copied prompt" : "Copy prompt"}
-            title="Copy prompt" data-copied={copiedAction === "prompt"}>
-            {copiedAction === "prompt" ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
-            <span>{copiedAction === "prompt" ? "✓ Copied" : "Copy prompt"}</span>
+            title="Copy prompt" data-copied={copiedAction === "prompt"} className="card-action-btn">
+            {copiedAction === "prompt" ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
           </button>
           <button type="button" onClick={handleCopyWebsite} aria-live="polite" aria-label={copiedAction === "website" ? "Copied website" : "Copy website"}
-            title="Copy website" disabled={busy} aria-busy={busy} data-copied={copiedAction === "website"}>
-            {copiedAction === "website" ? <Check size={14} aria-hidden="true" /> : <Code size={14} aria-hidden="true" />}
-            <span>{copiedAction === "website" ? "✓ Copied" : busy ? "Copying…" : "Copy website"}</span>
+            title="Copy website" disabled={busy} aria-busy={busy} data-copied={copiedAction === "website"} className="card-action-btn">
+            {copiedAction === "website" ? <Check size={16} aria-hidden="true" /> : <Code size={16} aria-hidden="true" />}
           </button>
         </div>
         {copyError && <p className="copy-error" role="alert">{copyError}</p>}

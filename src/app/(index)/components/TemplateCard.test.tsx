@@ -27,8 +27,8 @@ describe("TemplateCard", () => {
   });
 
   it("does not render video tag for templates without video clip", () => {
-    const orrery = TEMPLATES.find(t => t.slug === "orrery")!;
-    const html = renderToStaticMarkup(<TemplateCard template={orrery} isEager={false} />);
+    const templateWithoutClip = { ...TEMPLATES[0], videoClip: undefined };
+    const html = renderToStaticMarkup(<TemplateCard template={templateWithoutClip} isEager={false} />);
     expect(html).not.toContain("<video");
   });
 
@@ -40,12 +40,12 @@ describe("TemplateCard", () => {
     expect(lazyHtml).toContain('loading="lazy"');
   });
 
-  it("does not render template badges or stack information, leaving only title, subtitle, and buttons", () => {
+  it("does not render template badges, stack information, or description, leaving only title and action buttons", () => {
     const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={false} />);
     expect(html).not.toContain("Keynote Deck");
     expect(html).not.toContain("Next.js 16");
     expect(html).toContain("Orrery");
-    expect(html).toContain(TEMPLATES[0].description);
+    expect(html).not.toContain(TEMPLATES[0].description);
     expect(html).toContain("Copy prompt");
     expect(html).toContain("Copy website");
   });
