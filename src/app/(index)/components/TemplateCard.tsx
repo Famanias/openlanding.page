@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Copy, Code, Check } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
 
-export interface TemplateCardProps { template: TemplateItem; isEager?: boolean }
+export interface TemplateCardProps { template: TemplateItem; isEager?: boolean; instantMotion?: boolean }
 const copyBundleCache = new Map<string, string>();
 export function prefetchCopyBundle(slug: string): void {
   if (typeof window === "undefined" || typeof fetch === "undefined") return;
@@ -15,7 +15,7 @@ export function prefetchCopyBundle(slug: string): void {
     .then((text) => { if (text) copyBundleCache.set(url, text); }).catch(() => {});
 }
 
-export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
+export function TemplateCard({ template, isEager = false, instantMotion = false }: TemplateCardProps) {
   const [copiedAction, setCopiedAction] = useState<"prompt" | "website" | null>(null);
   const [copyError, setCopyError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -92,6 +92,7 @@ export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
   };
   const handleCopyWebsite = async () => {
     setCopyError("");
+    setCopiedAction(null);
     setBusy(true);
     try {
       const url = `/copy/${template.slug}.md`;
@@ -109,7 +110,7 @@ export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
   };
 
   return (
-    <motion.article layout={reducedMotion ? false : "position"} initial={false}
+    <motion.article layout={reducedMotion || instantMotion ? false : "position"} initial={false}
       transition={{ type: "spring", stiffness: 350, damping: 32 }} className="template-card"
       data-previewing={previewing && !reducedMotion} data-playing={playing && previewing && !reducedMotion}
       onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onFocus={handleFocus} onBlur={handleBlur}>
@@ -132,11 +133,18 @@ export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
           <h3><a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer">{template.title}</a></h3>
           <button type="button" onClick={handleCopyPrompt} aria-live="polite" aria-label={copiedAction === "prompt" ? "Copied prompt" : "Copy prompt"}
             title="Copy prompt" data-copied={copiedAction === "prompt"} className="card-action-btn">
-            {copiedAction === "prompt" ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
+            <span className="copy-icon-stack" aria-hidden="true">
+              <Copy className="copy-icon-default" size={16} />
+              <Check className="copy-icon-success" size={16} />
+            </span>
           </button>
           <button type="button" onClick={handleCopyWebsite} aria-live="polite" aria-label={copiedAction === "website" ? "Copied website" : "Copy website"}
             title="Copy website" disabled={busy} aria-busy={busy} data-copied={copiedAction === "website"} className="card-action-btn">
-            {copiedAction === "website" ? <Check size={16} aria-hidden="true" /> : <Code size={16} aria-hidden="true" />}
+            <span className="copy-icon-stack" aria-hidden="true">
+              <Code className="copy-icon-default" size={16} />
+              <Check className="copy-icon-success" size={16} />
+              <span className="copy-spinner" />
+            </span>
           </button>
         </div>
         {copyError && <p className="copy-error" role="alert">{copyError}</p>}

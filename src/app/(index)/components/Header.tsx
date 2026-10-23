@@ -20,6 +20,7 @@ export function Header() {
   }, []);
   return (
     <header className="site-header">
+      <div className="scroll-progress" aria-hidden="true" />
       <a href="#gallery" className="skip-link">Skip to templates</a>
       <div className="page-container header-inner">
         <Link

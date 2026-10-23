@@ -1,5 +1,6 @@
 import React from "react";
 import { GithubLogo, ArrowDown } from "@phosphor-icons/react/dist/ssr";
+import { ActionLabel } from "./ActionLabel";
 
 export function Hero() {
   return (
@@ -18,7 +19,7 @@ export function Hero() {
         </p>
 
         <div className="hero-actions">
-          <a href="#gallery" className="primary-action"><span>Explore the templates</span><ArrowDown size={18} aria-hidden="true" /></a>
+          <a href="#gallery" className="primary-action"><ActionLabel>Explore the templates</ActionLabel><ArrowDown size={18} aria-hidden="true" /></a>
           <a
             href="https://github.com/Famanias/openlanding.page"
             target="_blank"
@@ -26,7 +27,7 @@ export function Hero() {
             className="secondary-action"
           >
             <GithubLogo className="size-4" weight="bold" aria-hidden="true" />
-            <span>Give a star on GitHub</span>
+            <ActionLabel>Give a star on GitHub</ActionLabel>
           </a>
         </div>
         <p className="hero-license">Open source. Yours to make your own. <span>MIT License</span></p>

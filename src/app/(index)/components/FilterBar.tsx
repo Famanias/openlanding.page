@@ -16,11 +16,13 @@ export interface FilterBarProps {
   activeModel?: ModelFilter;
   onSelectModel?: (model: ModelFilter) => void;
   hasQuery?: boolean;
+  instantMotion?: boolean;
 }
 
 export function FilterBar({ activeCategory, onSelectCategory, totalCount, filteredCount, onReset,
-  categoryCounts, className = "", activeModel = "all", onSelectModel, hasQuery = false }: FilterBarProps) {
+  categoryCounts, className = "", activeModel = "all", onSelectModel, hasQuery = false, instantMotion = false }: FilterBarProps) {
   const reducedMotion = useReducedMotion();
+  const instant = reducedMotion || instantMotion;
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
     const buttons = e.currentTarget.closest<HTMLElement>('[role="tablist"]')?.querySelectorAll<HTMLButtonElement>('[role="tab"]');
     let targetIndex = -1;
@@ -32,7 +34,7 @@ export function FilterBar({ activeCategory, onSelectCategory, totalCount, filter
       e.preventDefault();
       onSelectCategory(CATEGORIES[targetIndex].id);
       buttons?.[targetIndex]?.focus();
-      buttons?.[targetIndex]?.scrollIntoView({ block: "nearest", inline: "nearest" });
+      buttons?.[targetIndex]?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
     }
   };
 
@@ -43,6 +45,8 @@ export function FilterBar({ activeCategory, onSelectCategory, totalCount, filter
           <button key={cat.id} type="button" role="tab" aria-selected={activeCategory === cat.id}
             tabIndex={activeCategory === cat.id ? 0 : -1} onClick={() => onSelectCategory(cat.id)}
             onKeyDown={(e) => handleKeyDown(e, index)} className={`category-tab ${activeCategory === cat.id ? "bg-white text-black" : ""}`}>
+            {activeCategory === cat.id && <motion.span className="category-marker" layoutId={instant ? undefined : "category-selection"}
+              initial={false} transition={{ type: "spring", stiffness: 420, damping: 35 }} aria-hidden="true" />}
             <span>{cat.label}</span>
             {categoryCounts?.[cat.id] !== undefined && <span className="category-count">({categoryCounts[cat.id]})</span>}
           </button>
@@ -55,7 +59,7 @@ export function FilterBar({ activeCategory, onSelectCategory, totalCount, filter
             <button type="button" key={model.id} aria-pressed={activeModel === model.id}
               onClick={() => onSelectModel?.(model.id)} className="model-filter">
               <span>{model.label}</span>
-              {activeModel === model.id && <motion.i className="model-marker" layoutId={reducedMotion ? undefined : "model-selection"} transition={{ type: "spring", stiffness: 420, damping: 35 }} aria-hidden="true" />}
+              {activeModel === model.id && <motion.i className="model-marker" layoutId={instant ? undefined : "model-selection"} transition={{ type: "spring", stiffness: 420, damping: 35 }} aria-hidden="true" />}
             </button>
           ))}
         </div>

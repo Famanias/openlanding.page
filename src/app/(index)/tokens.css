@@ -22,3 +22,11 @@
 
 :root { --space-20: 20px; --space-28: 28px; --space-36: 36px; --space-52: 52px; --space-60: 60px; --space-72: 72px; --space-80: 80px; --space-88: 88px; --space-92: 92px; --space-108: 108px; --space-132: 132px; --space-152: 152px; }
 :root { --space-32: 32px; --space-44: 44px; }
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --dur-press: 120ms;
+  --dur-state: 180ms;
+  --dur-travel: 260ms;
+  --dur-intro: 650ms;
+}

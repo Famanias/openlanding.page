@@ -1,5 +1,6 @@
 import React from "react";
 import { GithubLogo, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { ActionLabel } from "./ActionLabel";
 
 export function Contribute() {
   return (
@@ -24,7 +25,7 @@ export function Contribute() {
             className="primary-action"
           >
             <GithubLogo className="size-4" weight="bold" aria-hidden="true" />
-            <span>Contribute on GitHub</span>
+            <ActionLabel>Contribute on GitHub</ActionLabel>
             <ArrowUpRight className="size-4 shrink-0" aria-hidden="true" />
           </a>
         </div>
