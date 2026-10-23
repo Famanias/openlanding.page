@@ -1,5 +1,6 @@
 import { Logo } from "./brand/Logo";
 import { LaunchPhone } from "./launch/LaunchPhone";
+import { GlassBackdrop } from "./motion/GlassBackdrop";
 import { Reveals } from "./motion/Reveals";
 import { SiteChrome } from "./motion/SiteChrome";
 import { Demo } from "./sections/Demo";
@@ -11,6 +12,7 @@ import { Studios } from "./sections/Studios";
 export default function NomiPage() {
   return (
     <div className="nm-site">
+      <GlassBackdrop />
       <a className="nm-skip" href="#main">Skip to content</a>
       <header className="nm-header" data-nm-header data-hidden="false" data-scrolled="false">
         <div className="container nm-header-inner">

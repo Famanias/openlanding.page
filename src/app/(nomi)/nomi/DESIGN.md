@@ -19,6 +19,7 @@ OKLCH, all declared on `:root` in `tokens.css`. Hex only in `icon.svg` (see `scr
 | Signal | `--color-accent`, `-deep`, `-soft`, `-ink` | `oklch(50% 0.13 160)`, `oklch(42% 0.11 162)`, `oklch(88% 0.08 160)`, `oklch(99% 0.006 160)` |
 | Plastic tints | `--tint-inbox`, `-schedule`, `-progress`, `-payments` | `oklch(87% 0.048 210)`, `oklch(91.5% 0.064 98)`, `oklch(86.5% 0.075 160)`, `oklch(84% 0.048 322)` |
 | Glass | `--light`, `--glint` | `oklch(99.4% 0.016 84)`, `oklch(100% 0 0)` |
+| Glass backdrop | `--glass-surface`, `--glass-border`, `--glass-shadow` | Translucent daylight planes, specular glint hairlines, soft ambient depth |
 
 Posture: committed. The green-tinted paper family carries the surface; the accent stays on controls, focus, the drawn lines, the progress fills and one stamp. A tint is never a signal.
 
@@ -55,7 +56,8 @@ The stage's tint is a registered `@property --nm-t <color>` on `.nm-stage`, so t
 Reduced motion: everything is visible and in its end state, the stage is unpinned, no animation runs. No script: reveals are never hidden (they hide only under `.js`).
 
 ## Signature details
-- The slab header with a sliding underline and a hairline progress rule.
+- The frosted glass header with a sliding underline and hairline progress rule.
+- The glassmorphic background layer: ambient chromatic blooms, etched glass hairline registration grid, diagonal daylight caustics, and layered frosted architectural glass plates.
 - The plastic recipe: pale tint, glint along the top edge, deeper shade at the foot, tinted shadow below.
 - The rail's drawn connectors that end in a port dot on the band.
 - The tear-off offer: a perforated stub and two notches.
@@ -63,10 +65,10 @@ Reduced motion: everything is visible and in its end state, the stage is unpinne
 - The giant wordmark mast.
 
 ## Do / Don't
-Do keep surfaces pale and daylit, one green for every signal, times and figures in mono, three weights only. Don't use dark panels, glass blur, gradient text, tracked small-caps labels, eyebrows, arrows glued to link text, or a second accent. Never red for a problem state beyond the form's one error message.
+Do keep surfaces pale and daylit, one green for every signal, times and figures in mono, three weights only. Don't use dark panels, unmotivated purple AI blur, gradient text, tracked small-caps labels, eyebrows, arrows glued to link text, or a second accent. Never red for a problem state beyond the form's one error message.
 
 ## Files
-Everything is in `src/app/(nomi)/`. `layout.tsx` loads the fonts and adds the `js` class from an inline script. In `nomi/`: `tokens.css` and `base.css` (Hallmark scaffold), `nomi.css` (the page), `page.tsx`, `sections/` (Hero, Studios, Plans, Demo, Footer), `launch/` (`LaunchPhone.tsx`, `scenes.ts`, `progress.ts`, its test), `forms/` (`NomiForm.tsx`, `validate.ts`, its test), `motion/` (`Reveals`, `SiteChrome`, `Words`), `brand/` (`Logo`, `Icons`).
+Everything is in `src/app/(nomi)/`. `layout.tsx` loads the fonts and adds the `js` class from an inline script. In `nomi/`: `tokens.css` and `base.css` (Hallmark scaffold), `nomi.css` (the page), `page.tsx`, `sections/` (Hero, Studios, Plans, Demo, Footer), `launch/` (`LaunchPhone.tsx`, `scenes.ts`, `progress.ts`, its test), `forms/` (`NomiForm.tsx`, `validate.ts`, its test), `motion/` (`GlassBackdrop`, `Reveals`, `SiteChrome`, `Words`), `brand/` (`Logo`, `Icons`).
 
 Rebuild: `npm i next react react-dom tailwindcss`.
 

@@ -64,7 +64,7 @@ describe("gallery template data", () => {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
-      } else if (t.slug === "satsuma" || t.slug === "calder") {
+      } else if (t.slug === "satsuma" || t.slug === "calder" || t.slug === "nomi") {
         expect(t.model).toBe("Claude Sonnet 5.5 High");
       } else if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");

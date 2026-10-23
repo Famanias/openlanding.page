@@ -486,6 +486,6 @@ export const TEMPLATES: TemplateItem[] = [
     badges: ["Light Mode", "Pinned Phone", "Plastic UI"],
     previewImage: "/templates/nomi/preview-1600.webp",
     promptMarkdown: NOMI_PROMPT,
-    model: "GPT-6 Astra Max",
+    model: "Claude Sonnet 5.5 High",
   },
 ];

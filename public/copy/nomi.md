@@ -74,7 +74,7 @@ button, input, select, textarea { font: inherit; }
 <![CDATA[/* Hallmark · shape: Map / Diagram (draw 69adda; the pinned map leads, rows follow) · genre: modern-minimal · theme: Dose (deal 1/3, seed calm-mobile-workspace-app-39c5·19da969d·2026-10-23·r0) · redesign: full
  * hero: Stage · nav: slab · footer: mast · imagery: the product · signature: pick a moment and a line draws from it to the phone, whose plastic shell takes that moment's tint · dose: white · job: sign up · draw: 69adda
  * axes: light/grotesk-sans/chromatic-green · posture: committed · contrast: pass · fold: pass · v2.0.0 */
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: S, a card stack could belong to any app, so the four cards carry NOMI's own four moments and the same plastic tints run through the phone, the rows and the form; the extra phone frame in the hero was cut */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
 /* Hallmark · hero-review: in-thread · 3 findings · 3 resolved */
 /* Hallmark · finish-review: in-thread · 4 findings · 4 resolved · gap: none */
 /* Hallmark · dismissed 25 · the success message is one nine-word sentence inside a form tray, not running prose */
@@ -86,11 +86,72 @@ button, input, select, textarea { font: inherit; }
 
 /* ---------------------------------------------------------------- page */
 
-.nm-body { min-width: 320px; background: var(--color-paper) var(--grain); }
-.nm-site { position: relative; }
+.nm-body {
+  min-width: 320px;
+  background:
+    radial-gradient(ellipse 55% 45% at 18% 12%, var(--glass-glow-amber) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 85% 16%, var(--glass-glow-cyan) 0%, transparent 68%),
+    radial-gradient(ellipse 60% 45% at 14% 52%, var(--glass-glow-mint) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 40% at 88% 74%, var(--glass-glow-lilac) 0%, transparent 68%),
+    radial-gradient(ellipse 45% 35% at 45% 92%, var(--glass-glow-amber) 0%, transparent 70%),
+    var(--color-paper) var(--grain);
+  background-attachment: fixed;
+  overflow-x: clip;
+}
+.nm-site { position: relative; overflow-x: clip; }
+.nm-site > main { position: relative; z-index: 1; }
 .nm-mono { font-family: var(--font-outlier); font-variant-numeric: tabular-nums; }
 .nm-skip { position: absolute; z-index: var(--z-toast); top: calc(var(--space-3xl) * -1); left: var(--space-md); padding: var(--space-xs) var(--space-md); border-radius: var(--radius-input); background: var(--color-ink); color: var(--color-paper); }
 .nm-skip:focus-visible { top: var(--space-md); }
+
+/* ---------------------------------------------------------------- glassmorphic background layer */
+
+.nm-glass-backdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: clip; }
+
+/* 1. Luminous chromatic glass blooms using NOMI's plastic tint tokens */
+.nm-glass-blooms { position: absolute; inset: 0; overflow: clip; }
+.nm-bloom { position: absolute; border-radius: 50%; filter: blur(48px); opacity: 0.82; transform: translate3d(0, 0, 0); }
+.nm-bloom--cyan { top: 4%; left: -4%; width: clamp(340px, 40vw, 620px); height: clamp(340px, 40vw, 620px); background: radial-gradient(circle at 45% 45%, var(--tint-inbox) 0%, var(--glass-glow-cyan) 45%, transparent 72%); }
+.nm-bloom--amber { top: 10%; right: -6%; width: clamp(380px, 44vw, 700px); height: clamp(380px, 44vw, 700px); background: radial-gradient(circle at 50% 50%, var(--tint-schedule) 0%, var(--glass-glow-amber) 40%, transparent 70%); }
+.nm-bloom--mint { top: 38%; left: -8%; width: clamp(420px, 48vw, 780px); height: clamp(420px, 48vw, 780px); background: radial-gradient(circle at 45% 45%, var(--tint-progress) 0%, var(--glass-glow-mint) 45%, transparent 72%); }
+.nm-bloom--lilac { top: 64%; right: -6%; width: clamp(400px, 45vw, 720px); height: clamp(400px, 45vw, 720px); background: radial-gradient(circle at 50% 50%, var(--tint-payments) 0%, var(--glass-glow-lilac) 45%, transparent 70%); }
+.nm-bloom--warm { top: 85%; left: 8%; width: clamp(360px, 42vw, 660px); height: clamp(360px, 42vw, 660px); background: radial-gradient(circle at 45% 45%, var(--tint-schedule) 0%, var(--glass-glow-amber) 45%, transparent 72%); }
+
+/* 2. Prismatic daylight refraction shafts */
+.nm-glass-caustics { position: absolute; inset: 0; overflow: clip; }
+.nm-caustic-beam { position: absolute; background: linear-gradient(135deg, color-mix(in oklab, var(--glint) 85%, transparent) 0%, color-mix(in oklab, var(--glint) 35%, transparent) 40%, transparent 70%); opacity: 0.65; transform: skewX(-16deg); filter: blur(20px); }
+.nm-caustic-beam--1 { top: -4%; left: 18%; width: 18%; height: 55%; }
+.nm-caustic-beam--2 { top: 32%; right: 12%; width: 22%; height: 48%; }
+.nm-caustic-beam--3 { top: 62%; left: 10%; width: 24%; height: 42%; }
+.nm-caustic-beam--4 { top: 82%; right: 18%; width: 20%; height: 38%; }
+
+/* 3. Etched architectural glass grid and precision registration marks */
+.nm-glass-grid { position: absolute; inset: 0; max-width: var(--container); margin-inline: auto; pointer-events: none; }
+.nm-grid-line { position: absolute; background: var(--glass-border-rule); pointer-events: none; }
+.nm-grid-line--h1 { top: 16%; left: 0; right: 0; height: 1px; }
+.nm-grid-line--h2 { top: 37%; left: 0; right: 0; height: 1px; }
+.nm-grid-line--h3 { top: 63%; left: 0; right: 0; height: 1px; }
+.nm-grid-line--h4 { top: 85%; left: 0; right: 0; height: 1px; }
+.nm-grid-line--v1 { top: 0; bottom: 0; left: var(--gutter); width: 1px; }
+.nm-grid-line--v2 { top: 0; bottom: 0; right: var(--gutter); width: 1px; }
+.nm-grid-line--v3 { top: 0; bottom: 0; left: 50%; width: 1px; opacity: 0.4; }
+.nm-grid-mark { position: absolute; font: 500 12px/1 var(--font-outlier); letter-spacing: 0.08em; color: color-mix(in oklab, var(--color-ink) 55%, transparent); transform: translate(-50%, -50%); user-select: none; }
+.nm-grid-mark--1 { top: 16%; left: var(--gutter); }
+.nm-grid-mark--2 { top: 37%; right: var(--gutter); }
+.nm-grid-mark--3 { top: 63%; left: calc(var(--gutter) + 20%); }
+.nm-grid-mark--4 { top: 85%; right: calc(var(--gutter) + 30%); }
+
+/* 4. Layered architectural frosted glass plates, lenses, and floating tablets */
+.nm-glass-plates { position: absolute; inset: 0; width: 100%; pointer-events: none; }
+.nm-glass-plate { position: absolute; border: 1.5px solid var(--glass-border-strong); border-radius: var(--radius-slab); background: var(--glass-surface); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); box-shadow: var(--glass-shadow-deep); overflow: hidden; pointer-events: none; }
+.nm-glass-bevel { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(135deg, color-mix(in oklab, var(--glint) 75%, transparent) 0%, transparent 40%, color-mix(in oklab, var(--glint) 20%, transparent) 100%); pointer-events: none; }
+.nm-glass-specular { position: absolute; top: 0; left: 8%; right: 8%; height: 2px; background: linear-gradient(90deg, transparent, var(--glint), transparent); }
+.nm-glass-inner-glint { position: absolute; top: -30px; left: -30px; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, color-mix(in oklab, var(--glint) 70%, transparent), transparent 70%); filter: blur(14px); }
+.nm-glass-ring { position: absolute; inset: 28px; border-radius: 50%; border: 1.5px dashed color-mix(in oklab, var(--glint) 90%, transparent); opacity: 0.7; }
+.nm-glass-plate--hero { top: 90px; right: -4%; width: clamp(340px, 42vw, 620px); height: clamp(340px, 42vw, 620px); border-radius: 50%; border-color: color-mix(in oklab, var(--tint-schedule) 45%, var(--glass-border-strong)); }
+.nm-glass-plate--studios { top: 66%; right: -3%; width: clamp(320px, 36vw, 540px); height: clamp(320px, 36vw, 540px); border-radius: 50%; border-color: color-mix(in oklab, var(--tint-progress) 50%, var(--glass-border-strong)); }
+.nm-glass-plate--plans { top: 76%; right: -2%; width: clamp(300px, 34vw, 500px); height: clamp(300px, 34vw, 500px); border-radius: 50%; border-color: color-mix(in oklab, var(--tint-payments) 50%, var(--glass-border-strong)); }
+.nm-glass-plate--demo { top: 87%; right: -3%; width: clamp(320px, 36vw, 540px); height: clamp(320px, 36vw, 540px); border-radius: 50%; border-color: color-mix(in oklab, var(--tint-schedule) 45%, var(--glass-border-strong)); }
 
 /* A heading word sits in a mask so it can rise into place. */
 .nm-w { display: inline-block; overflow: clip; padding: 0.06em 0.04em 0.12em; margin: -0.06em -0.04em -0.12em; vertical-align: top; }
@@ -112,7 +173,7 @@ button, input, select, textarea { font: inherit; }
 
 /* ---------------------------------------------------------------- header: a slab that hides on the way down */
 
-.nm-header { position: fixed; inset: 0 0 auto; z-index: var(--z-sticky-nav); height: var(--nm-header-h); border-bottom: 1px solid var(--color-rule); background: var(--light); transition: transform var(--dur-long) var(--ease-out); }
+.nm-header { position: fixed; inset: 0 0 auto; z-index: var(--z-sticky-nav); height: var(--nm-header-h); border-bottom: 1px solid var(--glass-border-rule); background: var(--glass-surface-frosted); backdrop-filter: var(--glass-blur-md) saturate(140%); -webkit-backdrop-filter: var(--glass-blur-md) saturate(140%); box-shadow: 0 4px 20px -8px oklch(21% 0.025 170 / 0.06); transition: transform var(--dur-long) var(--ease-out); }
 .nm-header::before { content: ""; position: absolute; inset: 100% 0 auto; height: var(--space-lg); background: linear-gradient(color-mix(in oklab, var(--color-ink) 8%, transparent), transparent); opacity: 0; pointer-events: none; transition: opacity var(--dur-short) var(--ease-out); }
 .nm-header[data-scrolled="true"]::before { opacity: 1; }
 .nm-header[data-hidden="true"]::before { opacity: 0; }
@@ -150,7 +211,7 @@ button, input, select, textarea { font: inherit; }
 .nm-hero-lead { max-width: 30ch; color: var(--color-ink-2); }
 .nm-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-sm); }
 
-.nm-board { --pad: var(--space-lg); --step: 116px; --card-h: 150px; position: relative; height: calc(var(--pad) * 2 + var(--step) * 3 + var(--card-h)); border-radius: var(--radius-slab); background: color-mix(in oklab, var(--color-paper-3) 72%, var(--light)); box-shadow: inset 0 2px 0 var(--glint), inset 0 -36px 56px -40px color-mix(in oklab, var(--color-accent) 26%, transparent); }
+.nm-board { --pad: var(--space-lg); --step: 116px; --card-h: 150px; position: relative; height: calc(var(--pad) * 2 + var(--step) * 3 + var(--card-h)); border-radius: var(--radius-slab); background: color-mix(in oklab, var(--light) 58%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), inset 0 -28px 48px -36px color-mix(in oklab, var(--color-accent) 24%, transparent), 0 32px 64px -20px oklch(21% 0.025 170 / 0.12); }
 .nm-stack { margin: 0; padding: 0; list-style: none; }
 .nm-card { position: absolute; top: calc(var(--pad) + var(--i) * var(--step)); left: calc(var(--pad) + var(--dx)); z-index: calc(var(--i) + 1); width: 78%; height: var(--card-h); transform: rotate(var(--r)); }
 .nm-card:nth-child(1) { --dx: 0%; --r: -1.5deg; }
@@ -161,7 +222,7 @@ button, input, select, textarea { font: inherit; }
 .nm-card[data-scene="schedule"] { --t: var(--tint-schedule); }
 .nm-card[data-scene="progress"] { --t: var(--tint-progress); }
 .nm-card[data-scene="payments"] { --t: var(--tint-payments); }
-.nm-card-face { position: relative; display: grid; align-content: start; gap: var(--space-sm); height: 100%; padding: var(--space-md) var(--space-lg); border-radius: var(--radius-card); background: linear-gradient(color-mix(in oklab, var(--glint) 38%, transparent), transparent 24%), color-mix(in oklab, var(--t) 74%, var(--light)); color: var(--color-ink); text-decoration: none; box-shadow: inset 0 1.5px 0 var(--glint), inset 0 -24px 36px -28px color-mix(in oklab, var(--t) 50%, var(--color-ink)), 0 22px 30px -20px color-mix(in oklab, var(--t) 80%, var(--color-ink)); transition: transform var(--dur-short) var(--ease-out); }
+.nm-card-face { position: relative; display: grid; align-content: start; gap: var(--space-sm); height: 100%; padding: var(--space-md) var(--space-lg); border-radius: var(--radius-card); background: linear-gradient(135deg, color-mix(in oklab, var(--glint) 55%, transparent) 0%, transparent 28%), color-mix(in oklab, var(--t) 70%, var(--light)); backdrop-filter: var(--glass-blur-sm); -webkit-backdrop-filter: var(--glass-blur-sm); border: 1.5px solid color-mix(in oklab, var(--glint) 70%, transparent); color: var(--color-ink); text-decoration: none; box-shadow: inset 0 1.5px 0 var(--glint), inset 0 -24px 36px -28px color-mix(in oklab, var(--t) 50%, var(--color-ink)), 0 22px 30px -20px color-mix(in oklab, var(--t) 80%, var(--color-ink)); transition: transform var(--dur-short) var(--ease-out); }
 .nm-card-face:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
 .nm-card-top { display: flex; align-items: center; gap: var(--space-xs); font-size: var(--text-sm); }
 .nm-card-top svg { flex-shrink: 0; width: 20px; height: 20px; }
@@ -185,7 +246,7 @@ button, input, select, textarea { font: inherit; }
 
 /* ---------------------------------------------------------------- launch: a pinned stage, a rail of moments and one phone */
 
-.nm-launch { position: relative; height: calc((var(--count) + 0.5) * 100dvh); background: var(--color-paper-2); }
+.nm-launch { position: relative; height: calc((var(--count) + 0.5) * 100dvh); background: color-mix(in oklab, var(--color-paper-2) 42%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border-top: 1.5px solid var(--glass-border-strong); border-bottom: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), inset 0 -2px 0 var(--glint); }
 .nm-stage { --nm-t: var(--tint-inbox); position: sticky; top: 0; display: grid; align-items: stretch; height: 100dvh; padding-block: var(--space-2xl) var(--space-xl); transition: --nm-t var(--dur-slow) var(--ease-in-out); }
 .nm-stage[data-scene="inbox"] { --nm-t: var(--tint-inbox); }
 .nm-stage[data-scene="schedule"] { --nm-t: var(--tint-schedule); }
@@ -212,7 +273,7 @@ button, input, select, textarea { font: inherit; }
 .nm-node:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 .nm-node[aria-pressed="true"] { color: var(--color-ink); }
 
-.nm-band { position: relative; display: grid; place-items: center; height: 100%; min-height: 0; overflow: clip; border-radius: var(--radius-slab); background: color-mix(in oklab, var(--nm-t) 52%, var(--light)); box-shadow: inset 0 2px 0 var(--glint), inset 0 -48px 72px -56px color-mix(in oklab, var(--nm-t) 70%, var(--color-ink)); }
+.nm-band { position: relative; display: grid; place-items: center; height: 100%; min-height: 0; overflow: clip; border-radius: var(--radius-slab); background: color-mix(in oklab, var(--nm-t) 42%, var(--light)); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), inset 0 -48px 72px -56px color-mix(in oklab, var(--nm-t) 60%, var(--color-ink)), 0 36px 64px -24px color-mix(in oklab, var(--nm-t) 40%, var(--color-ink)); }
 .nm-light { position: absolute; inset: 0; pointer-events: none; }
 .nm-light i { position: absolute; top: -10%; bottom: -10%; background: var(--light); opacity: 0.45; transform: skewX(-14deg); filter: blur(22px); }
 .nm-light i:nth-child(1) { left: 6%; width: 9%; }
@@ -283,7 +344,7 @@ html:not(.js) .nm-scene:not([data-active="true"]) { display: none; }
 .nm-row[data-scene="progress"] { --t: var(--tint-progress); }
 .nm-row[data-scene="payments"] { --t: var(--tint-payments); }
 .nm-row h3 { font-size: clamp(1.75rem, 1.2vw + 1.25rem, 2.5rem); }
-.nm-panel { display: grid; grid-column: 10 / 13; gap: var(--space-sm); padding: var(--space-md) var(--space-lg); border-radius: var(--radius-card); background: linear-gradient(color-mix(in oklab, var(--glint) 34%, transparent), transparent 24%), color-mix(in oklab, var(--t) 74%, var(--light)); box-shadow: inset 0 1.5px 0 var(--glint), inset 0 -18px 26px -22px color-mix(in oklab, var(--t) 50%, var(--color-ink)), 0 18px 26px -20px color-mix(in oklab, var(--t) 80%, var(--color-ink)); font-size: var(--text-sm); }
+.nm-panel { display: grid; grid-column: 10 / 13; gap: var(--space-sm); padding: var(--space-md) var(--space-lg); border-radius: var(--radius-card); background: linear-gradient(135deg, color-mix(in oklab, var(--glint) 65%, transparent), transparent 30%), color-mix(in oklab, var(--t) 45%, var(--light)); backdrop-filter: var(--glass-blur-sm); -webkit-backdrop-filter: var(--glass-blur-sm); border: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 1.5px 0 var(--glint), inset 0 -18px 26px -22px color-mix(in oklab, var(--t) 45%, var(--color-ink)), 0 18px 30px -16px color-mix(in oklab, var(--t) 60%, var(--color-ink)); font-size: var(--text-sm); }
 .nm-panel-head { display: flex; align-items: center; gap: var(--space-xs); font-weight: 500; }
 .nm-panel-head svg { width: 20px; height: 20px; }
 .nm-panel-line { display: flex; align-items: center; gap: var(--space-sm); }
@@ -293,11 +354,11 @@ html:not(.js) .nm-scene:not([data-active="true"]) { display: none; }
 
 /* ---------------------------------------------------------------- plans: one offer */
 
-.nm-plans { padding-block: var(--section-gap-s); background: var(--color-paper-2); }
+.nm-plans { padding-block: var(--section-gap-s); background: color-mix(in oklab, var(--color-paper-2) 42%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border-top: 1.5px solid var(--glass-border-strong); border-bottom: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), inset 0 -2px 0 var(--glint); }
 .nm-plans-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: center; gap: var(--space-2xl); }
 .nm-plans-copy { display: grid; justify-items: start; gap: var(--space-lg); }
 .nm-plans-copy .lead { color: var(--color-ink-2); }
-.nm-offer { position: relative; display: grid; border-radius: var(--radius-card); background: var(--light); box-shadow: var(--shadow-lift); }
+.nm-offer { position: relative; display: grid; border-radius: var(--radius-card); background: color-mix(in oklab, var(--light) 75%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border: 1.5px solid var(--glass-border-strong); box-shadow: var(--shadow-lift); }
 .nm-offer-main { padding: var(--space-xl); }
 .nm-offer h3 { font-size: var(--text-xl); }
 .nm-price { display: grid; gap: var(--space-2xs); margin-top: var(--space-md); }
@@ -326,7 +387,7 @@ html:not(.js) .nm-scene:not([data-active="true"]) { display: none; }
 .nm-tag span { overflow: hidden; color: var(--color-ink-2); text-overflow: ellipsis; white-space: nowrap; }
 .nm-tag em { justify-self: start; padding: var(--space-3xs) var(--space-sm); border-radius: var(--radius-pill); background: color-mix(in oklab, var(--color-ink) 8%, transparent); color: var(--color-muted); font-size: var(--text-xs); font-style: normal; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out); }
 .nm-tag em[data-on="true"] { background: var(--color-accent-soft); color: var(--color-accent-deep); }
-.nm-tray { padding: var(--space-xl); border-radius: var(--radius-slab); background: color-mix(in oklab, var(--color-paper-3) 76%, var(--light)); box-shadow: inset 0 2px 0 var(--glint), inset 0 14px 26px -18px color-mix(in oklab, var(--color-ink) 22%, transparent); }
+.nm-tray { padding: var(--space-xl); border-radius: var(--radius-slab); background: color-mix(in oklab, var(--light) 58%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint), 0 28px 56px -20px oklch(21% 0.025 170 / 0.12); }
 .nm-form { display: grid; }
 .nm-form > * { grid-area: 1 / 1; }
 .nm-fields { display: grid; gap: var(--space-md); padding-top: var(--space-lg); transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out); }
@@ -355,7 +416,7 @@ html:not(.js) .nm-success { display: none; }
 
 /* ---------------------------------------------------------------- footer: the mast */
 
-.nm-footer { padding-block: var(--section-gap-s) var(--space-xl); background: var(--color-paper-3); }
+.nm-footer { padding-block: var(--section-gap-s) var(--space-xl); background: color-mix(in oklab, var(--color-paper-3) 50%, transparent); backdrop-filter: var(--glass-blur-md); -webkit-backdrop-filter: var(--glass-blur-md); border-top: 1.5px solid var(--glass-border-strong); box-shadow: inset 0 2px 0 var(--glint); }
 .nm-mast { padding-bottom: var(--space-xl); }
 .nm-logo--mast { gap: var(--space-md); }
 .nm-logo--mast svg { width: clamp(56px, 9vw, 128px); height: auto; }
@@ -480,6 +541,7 @@ html:not(.js) .nm-success { display: none; }
     <file path="src/app/(nomi)/nomi/page.tsx">
 <![CDATA[import { Logo } from "./brand/Logo";
 import { LaunchPhone } from "./launch/LaunchPhone";
+import { GlassBackdrop } from "./motion/GlassBackdrop";
 import { Reveals } from "./motion/Reveals";
 import { SiteChrome } from "./motion/SiteChrome";
 import { Demo } from "./sections/Demo";
@@ -491,6 +553,7 @@ import { Studios } from "./sections/Studios";
 export default function NomiPage() {
   return (
     <div className="nm-site">
+      <GlassBackdrop />
       <a className="nm-skip" href="#main">Skip to content</a>
       <header className="nm-header" data-nm-header data-hidden="false" data-scrolled="false">
         <div className="container nm-header-inner">
@@ -550,6 +613,24 @@ export default function NomiPage() {
   --shadow-card: 0 1px 2px oklch(30% 0.03 165 / 0.08), 0 24px 48px -24px oklch(40% 0.08 165 / 0.35);
   --shadow-lift: 0 1px 1px oklch(30% 0.03 165 / 0.10), 8px 18px 28px -14px oklch(36% 0.06 165 / 0.32), 18px 40px 60px -30px oklch(40% 0.08 165 / 0.30);
   --tracking-display: -0.03em; --display-weight: 700;
+  /* Glassmorphic background & depth tokens */
+  --glass-surface: color-mix(in oklab, var(--light) 52%, transparent);
+  --glass-surface-strong: color-mix(in oklab, var(--light) 75%, transparent);
+  --glass-surface-subtle: color-mix(in oklab, var(--light) 30%, transparent);
+  --glass-surface-tinted: color-mix(in oklab, var(--color-paper-2) 45%, transparent);
+  --glass-border: color-mix(in oklab, var(--glint) 80%, transparent);
+  --glass-border-strong: var(--glint);
+  --glass-border-subtle: color-mix(in oklab, var(--glint) 45%, transparent);
+  --glass-border-rule: color-mix(in oklab, var(--color-rule) 60%, transparent);
+  --glass-blur-sm: blur(14px);
+  --glass-blur-md: blur(24px);
+  --glass-blur-lg: blur(48px);
+  --glass-shadow: 0 16px 36px -12px oklch(21% 0.025 170 / 0.08), inset 0 1.5px 0 var(--glint);
+  --glass-shadow-deep: 0 28px 56px -18px oklch(21% 0.025 170 / 0.12), inset 0 2px 0 var(--glint);
+  --glass-glow-cyan: oklch(84% 0.08 215 / 0.55);
+  --glass-glow-amber: oklch(88% 0.09 90 / 0.60);
+  --glass-glow-mint: oklch(84% 0.11 160 / 0.55);
+  --glass-glow-lilac: oklch(82% 0.08 320 / 0.55);
 }
 /* The launch stage's current plastic tint, registered so a change of moment fades the colour instead of cutting. */
 @property --nm-t { syntax: "<color>"; inherits: true; initial-value: transparent; }
@@ -982,6 +1063,78 @@ export const SCENES: readonly Scene[] = [
   { id: "progress", name: "Progress", cue: "Algebra, 72% complete", card: "Progress worth sharing" },
   { id: "payments", name: "Payments", cue: "Invoice 104, settled", card: "Everything settled" },
 ] as const;
+]]>
+    </file>
+    <file path="src/app/(nomi)/nomi/motion/GlassBackdrop.tsx">
+<![CDATA[export function GlassBackdrop() {
+  return (
+    <div className="nm-glass-backdrop" aria-hidden="true">
+      {/* 1. Luminous glass chromatic orbs and caustic light fields */}
+      <div className="nm-glass-blooms">
+        <span className="nm-bloom nm-bloom--cyan" />
+        <span className="nm-bloom nm-bloom--amber" />
+        <span className="nm-bloom nm-bloom--mint" />
+        <span className="nm-bloom nm-bloom--lilac" />
+        <span className="nm-bloom nm-bloom--warm" />
+      </div>
+
+      {/* 2. Prismatic daylight refraction shafts */}
+      <div className="nm-glass-caustics">
+        <i className="nm-caustic-beam nm-caustic-beam--1" />
+        <i className="nm-caustic-beam nm-caustic-beam--2" />
+        <i className="nm-caustic-beam nm-caustic-beam--3" />
+        <i className="nm-caustic-beam nm-caustic-beam--4" />
+      </div>
+
+      {/* 3. Etched architectural glass grid and precision registration marks */}
+      <div className="nm-glass-grid">
+        <span className="nm-grid-line nm-grid-line--h1" />
+        <span className="nm-grid-line nm-grid-line--h2" />
+        <span className="nm-grid-line nm-grid-line--h3" />
+        <span className="nm-grid-line nm-grid-line--h4" />
+        <span className="nm-grid-line nm-grid-line--v1" />
+        <span className="nm-grid-line nm-grid-line--v2" />
+        <span className="nm-grid-line nm-grid-line--v3" />
+        <span className="nm-grid-mark nm-grid-mark--1">+ 01</span>
+        <span className="nm-grid-mark nm-grid-mark--2">+ 02</span>
+        <span className="nm-grid-mark nm-grid-mark--3">+ 03</span>
+        <span className="nm-grid-mark nm-grid-mark--4">+ 04</span>
+      </div>
+
+      {/* 4. Layered architectural frosted glass plates, lenses, and floating tablets */}
+      <div className="nm-glass-plates">
+        {/* Hero frosted optical glass disc behind the card tray */}
+        <div className="nm-glass-plate nm-glass-plate--hero">
+          <div className="nm-glass-bevel" />
+          <div className="nm-glass-ring" />
+          <div className="nm-glass-specular" />
+          <div className="nm-glass-inner-glint" />
+        </div>
+
+        {/* Studios section frosted glass slab */}
+        <div className="nm-glass-plate nm-glass-plate--studios">
+          <div className="nm-glass-bevel" />
+          <div className="nm-glass-specular" />
+          <div className="nm-glass-inner-glint" />
+        </div>
+
+        {/* Plans section floating frosted lens */}
+        <div className="nm-glass-plate nm-glass-plate--plans">
+          <div className="nm-glass-bevel" />
+          <div className="nm-glass-ring" />
+          <div className="nm-glass-specular" />
+        </div>
+
+        {/* Demo section floating glass tray backplate */}
+        <div className="nm-glass-plate nm-glass-plate--demo">
+          <div className="nm-glass-bevel" />
+          <div className="nm-glass-specular" />
+          <div className="nm-glass-inner-glint" />
+        </div>
+      </div>
+    </div>
+  );
+}
 ]]>
     </file>
     <file path="src/app/(nomi)/nomi/motion/Reveals.tsx">
