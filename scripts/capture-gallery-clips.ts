@@ -67,10 +67,10 @@ async function main() {
     for (const template of templatesToProcess) {
       console.log(`Recording preview for ${template.slug}...`);
       const context = await browser.newContext({
-        viewport: { width: 960, height: 600 },
+        viewport: { width: 1440, height: 810 },
         recordVideo: {
           dir: stagingDir,
-          size: { width: 960, height: 600 },
+          size: { width: 1280, height: 720 },
         },
       });
 
@@ -79,37 +79,91 @@ async function main() {
       try {
         const targetUrl = new URL(`/${template.slug}`, origin).href;
         await page.goto(targetUrl, { waitUntil: "domcontentloaded", timeout: 25000 });
-        await page.evaluate(async () => {
-          await document.fonts?.ready;
-        });
+        await page.evaluate("document.fonts ? document.fonts.ready : Promise.resolve()");
 
-        // 1. Initial pause at top so hero entrance animations play
-        await page.waitForTimeout(500);
-
-        // 2. Smoothly scroll down the page driven from Node so Playwright's video recorder captures frames
-        const totalHeight = await page.evaluate(() =>
-          Math.min(document.documentElement.scrollHeight - window.innerHeight, 3000)
-        );
-
-        if (totalHeight > 80) {
-          const steps = 30;
-          const stepDelay = 50; // 30 * 50ms = 1.5 seconds smooth travel
-          for (let i = 1; i <= steps; i++) {
-            const progress = i / steps;
-            const ease =
-              progress < 0.5
-                ? 2 * progress * progress
-                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-            await page.evaluate((y) => window.scrollTo(0, y), Math.round(ease * totalHeight));
-            await page.waitForTimeout(stepDelay);
-          }
-        } else {
-          // If page doesn't scroll (keynote/deck), capture ambient motion
+        if (template.slug === "orrery") {
+          // Orrery Keynote deck loop: Slide 1 -> Slide 2 -> Slide 3 -> Slide 2 -> Slide 1
+          await page.waitForTimeout(2500);
+          await page.keyboard.press("ArrowDown").catch(() => {});
+          await page.waitForTimeout(2800);
+          await page.keyboard.press("ArrowDown").catch(() => {});
+          await page.waitForTimeout(2800);
+          await page.keyboard.press("ArrowUp").catch(() => {});
           await page.waitForTimeout(1800);
-        }
+          await page.keyboard.press("ArrowUp").catch(() => {});
+          await page.waitForTimeout(2500);
+        } else if (template.slug === "wowflutter") {
+          // Wowflutter Book reader loop: Cover -> turn spread -> return to Cover
+          await page.waitForTimeout(2500);
+          await page.keyboard.press("ArrowRight").catch(() => {});
+          await page.waitForTimeout(3000);
+          await page.keyboard.press("ArrowLeft").catch(() => {});
+          await page.waitForTimeout(2500);
+        } else {
+          // Full top-to-bottom (header to footer, then back to header) loop
+          // 1. Initial pause at top so header and hero entrance animations play
+          await page.waitForTimeout(1000);
 
-        // 3. Short hold at the bottom of the scroll
-        await page.waitForTimeout(300);
+          // Get the exact full scroll distance to reach the footer
+          const totalDistance = (await page.evaluate(
+            "Math.max(0, document.documentElement.scrollHeight - window.innerHeight)"
+          )) as number;
+
+          if (totalDistance > 80) {
+            // Constant 600 px/s scroll: from header all the way to footer, hold, then back to header
+            await page.evaluate(`
+              new Promise((resolve) => {
+                document.documentElement.style.scrollBehavior = 'auto';
+                document.body.style.scrollBehavior = 'auto';
+
+                const getFullDistance = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+                let distance = Math.max(${totalDistance}, getFullDistance());
+                const speed = 0.6; // 600 px/s = 0.6 px/ms constant velocity
+                const bottomHold = 800; // Hold at the footer so footer/CTA is clearly seen
+
+                const t0 = performance.now();
+                const stepDown = (now) => {
+                  distance = Math.max(distance, getFullDistance());
+                  const elapsed = now - t0;
+                  const currentY = Math.min(distance, Math.round(elapsed * speed));
+                  window.scrollTo(0, currentY);
+                  if (currentY < distance) {
+                    requestAnimationFrame(stepDown);
+                  } else {
+                    const finalBottom = window.scrollY;
+                    // Hold at footer
+                    setTimeout(() => {
+                      const t1 = performance.now();
+                      const stepUp = (nowUp) => {
+                        const elapsedUp = nowUp - t1;
+                        const returnY = Math.max(0, Math.round(finalBottom - elapsedUp * speed));
+                        window.scrollTo(0, returnY);
+                        if (returnY > 0) {
+                          requestAnimationFrame(stepUp);
+                        } else {
+                          window.scrollTo(0, 0);
+                          resolve();
+                        }
+                      };
+                      requestAnimationFrame(stepUp);
+                    }, bottomHold);
+                  }
+                };
+                requestAnimationFrame(stepDown);
+              })
+            `);
+
+            // Short hold at the header before ending
+            await page.waitForTimeout(300);
+          } else {
+            // Deck fallback: advance slide then return to Slide 1
+            await page.waitForTimeout(1500);
+            await page.keyboard.press("ArrowDown").catch(() => {});
+            await page.waitForTimeout(2000);
+            await page.keyboard.press("ArrowUp").catch(() => {});
+            await page.waitForTimeout(1500);
+          }
+        }
 
         // 4. Close page to finalize Playwright's recorded webm
         await page.close();

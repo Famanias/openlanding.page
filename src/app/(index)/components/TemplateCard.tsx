@@ -73,6 +73,14 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
       keepMuted();
       video?.play().then(() => { if (!shouldPlay()) video.pause(); }).catch(() => {});
     };
+    const handleEnded = () => {
+      if (!video) return;
+      video.currentTime = 0;
+      if (shouldPlay()) {
+        video.play().catch(() => {});
+      }
+    };
+    video?.addEventListener("ended", handleEnded);
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting && entry.intersectionRatio >= 0.1;
       syncPlayback();
@@ -84,6 +92,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
       visible = false;
       video?.pause();
       video?.removeEventListener("volumechange", keepMuted);
+      video?.removeEventListener("ended", handleEnded);
       observer.disconnect();
       document.removeEventListener("visibilitychange", syncPlayback);
       motionPreference.removeEventListener("change", syncPlayback);

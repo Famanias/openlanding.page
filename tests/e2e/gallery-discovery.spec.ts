@@ -15,13 +15,13 @@ test("search, provider, category, reset and URL hydration work together", async 
   await page.getByRole("button", { name: "Claude", exact: true }).click();
   await expect(page.getByText("No templates found.")).toBeVisible();
   await page.getByRole("button", { name: "Reset filters", exact: true }).click();
-  await expect(page.locator("article")).toHaveCount(22);
+  await expect(page.locator("article")).toHaveCount(23);
   await expect(page.getByRole("searchbox")).toHaveValue("");
 });
 
 test("all model families return real matching templates", async ({ page }) => {
   await page.goto("/");
-  for (const [model, count] of [["Claude", 9], ["Gemini", 4], ["Other", 1]] as const) {
+  for (const [model, count] of [["Claude", 10], ["Gemini", 4], ["Other", 1]] as const) {
     await page.getByRole("button", { name: model, exact: true }).click();
     await expect(page.locator("article")).toHaveCount(count);
   }
@@ -51,12 +51,12 @@ test("keyboard shortcut, clear, and browser history resynchronize the search", a
   await page.getByRole("searchbox").fill("sundial");
   await expect(page.locator("article")).toHaveCount(1);
   await page.keyboard.press("Escape");
-  await expect(page.locator("article")).toHaveCount(22);
+  await expect(page.locator("article")).toHaveCount(23);
   await page.evaluate(() => { history.pushState(null, "", "?model=gemini&q=bathys"); dispatchEvent(new PopStateEvent("popstate")); });
   await expect(page.getByRole("searchbox")).toHaveValue("bathys");
   await expect(page.locator("article")).toHaveCount(1);
   await page.goBack();
-  await expect(page.locator("article")).toHaveCount(22);
+  await expect(page.locator("article")).toHaveCount(23);
 });
 
 test("reduced motion disables image pan and mobile retains search", async ({ page }) => {
@@ -115,7 +115,7 @@ test("autoplay responds to motion preferences and tab visibility", async ({ page
 test("every gallery video stays muted at zero volume, including after resume", async ({ page }) => {
   await page.goto("/");
   const videos = page.locator(".template-video");
-  await expect(videos).toHaveCount(22);
+  await expect(videos).toHaveCount(23);
   const allSilent = () => videos.evaluateAll(elements => elements.every(element => {
     const video = element as HTMLVideoElement;
     return video.muted && video.defaultMuted && video.volume === 0;

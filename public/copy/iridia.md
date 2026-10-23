@@ -2883,7 +2883,7 @@ export function GradientCanvas({ className }: { className?: string }) {
     shaderContextRef.current = ctx;
 
     let animationFrameId: number;
-    let startTime = performance.now();
+    const startTime = performance.now();
     let isVisible = true;
     let lastPointerX = 0;
     let lastPointerY = 0;
