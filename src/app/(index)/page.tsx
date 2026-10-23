@@ -8,7 +8,7 @@ export default async function IndexPage() {
   "use cache";
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0C0D0E] text-[#ededed]">
+    <div className="site-shell">
       <Header />
       <main className="flex-1">
         <Hero />

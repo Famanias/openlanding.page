@@ -1,30 +1,58 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
+import { GithubLogo, MagnifyingGlass, X, BracketsAngle } from "@phosphor-icons/react/dist/ssr";
+import { updateGalleryFilters, useGalleryFilters } from "./useGalleryFilters";
 
 export function Header() {
+  const { query } = useGalleryFilters();
+  const searchRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    const shortcut = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", shortcut);
+    return () => document.removeEventListener("keydown", shortcut);
+  }, []);
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#0C0D0E]/80 backdrop-blur-md">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="site-header">
+      <div className="scroll-progress" aria-hidden="true" />
+      <a href="#gallery" className="skip-link">Skip to templates</a>
+      <div className="page-container header-inner">
         <Link
           href="/"
-          className="flex items-center gap-2.5 text-white font-sans font-bold text-lg tracking-[-0.03em] hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
+          className="wordmark"
           aria-label="openlandingpage home"
         >
-          <span className="size-2 rounded-full bg-white" aria-hidden="true" />
+          <BracketsAngle size={24} weight="bold" aria-hidden="true" />
           <span>openlandingpage</span>
         </Link>
 
-        <nav className="flex items-center gap-4 sm:gap-6 text-sm font-sans" aria-label="Main Navigation">
+        <form role="search" className="header-search" action="/#gallery" onSubmit={(event) => {
+          event.preventDefault();
+          document.getElementById("gallery")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+        }}>
+          <MagnifyingGlass size={20} aria-hidden="true" />
+          <input ref={searchRef} type="search" name="q" aria-label="Search templates" placeholder="Find your next starting point…" value={query} maxLength={160}
+            onChange={(event) => updateGalleryFilters({ query: event.target.value })}
+            onKeyDown={(event) => { if (event.key === "Escape") { updateGalleryFilters({ query: "" }); searchRef.current?.blur(); } }} />
+          {query ? <button type="button" aria-label="Clear search" onClick={() => { updateGalleryFilters({ query: "" }); searchRef.current?.focus(); }}><X size={16} /></button>
+            : <kbd aria-hidden="true">Ctrl K</kbd>}
+        </form>
+        <nav className="header-nav" aria-label="Main Navigation">
           <a
             href="#gallery"
-            className="hidden sm:inline-flex text-neutral-400 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md px-1.5 py-1"
+            className="nav-link"
           >
             Gallery
           </a>
           <a
             href="#contribute"
-            className="hidden sm:inline-flex text-neutral-400 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md px-1.5 py-1"
+            className="nav-link"
           >
             Contribute
           </a>
@@ -32,7 +60,7 @@ export function Header() {
             href="https://github.com/Famanias/openlanding.page"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md px-1.5 py-1"
+            className="nav-github"
             aria-label="GitHub repository"
           >
             <GithubLogo className="size-4" weight="bold" aria-hidden="true" />

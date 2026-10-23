@@ -1,0 +1,143 @@
+/* Hallmark · existing Console system · gallery motion: tactile controls, sliding selections, native scroll · v2.0.0 */
+/* Hallmark · critique: purposeful state changes; templates and their preview playback remain independent. */
+/* Expressive filter springs retain the existing page's documented motion posture. */
+
+/* These rules are layered after index.css through increased route-local specificity. */
+.site-shell .action-label { display: inline-block; overflow: clip; height: 1.55em; line-height: 1.55; }
+.site-shell .action-label-track { display: block; position: relative; transition: transform var(--dur-travel) var(--ease-out); }
+.site-shell .action-label-track > span { display: block; }
+.site-shell .action-label-track > span + span { position: absolute; inset: 100% 0 auto; }
+.site-shell :is(.primary-action, .secondary-action, .nav-github, .wordmark, .model-filter, .reset-filters, .header-search button) {
+  transition: transform var(--dur-short) var(--ease-out);
+}
+.site-shell :is(.primary-action, .secondary-action, .nav-github, .wordmark) svg {
+  transition: transform var(--dur-travel) var(--ease-out);
+}
+.site-shell .primary-action { position: relative; isolation: isolate; }
+.site-shell .primary-action::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+  background: var(--color-ink); opacity: 0; transform: scale(.94);
+  transition: transform var(--dur-short) var(--ease-out), opacity var(--dur-state) ease;
+}
+.site-shell :is(.secondary-action, .nav-github, .reset-filters) { position: relative; }
+.site-shell :is(.secondary-action, .nav-github, .reset-filters)::after {
+  content: ''; position: absolute; inset: auto 0 0; height: 1px;
+  background: var(--color-accent); transform: scaleX(0); transform-origin: right;
+  transition: transform var(--dur-travel) var(--ease-out);
+}
+.site-shell .reset-filters { text-decoration: none; }
+.site-shell .reset-filters::after { transform: scaleX(.2); }
+.site-shell .nav-link::after { transform-origin: right; transition-duration: var(--dur-travel); }
+.site-shell .header-search { position: relative; isolation: isolate; }
+.site-shell .header-search::after {
+  content: ''; position: absolute; inset: -1px; border: 1px solid var(--color-accent);
+  border-radius: inherit; pointer-events: none; opacity: 0;
+  transition: opacity var(--dur-state) ease;
+}
+.site-shell .header-search:focus-within::after { opacity: 1; }
+.site-shell .header-search > svg { transition: transform var(--dur-short) var(--ease-out); }
+.site-shell .header-search:focus-within > svg { transform: rotate(-12deg) scale(1.08); }
+.site-shell .header-search button { display: grid; place-items: center; }
+.site-shell .category-tab { position: relative; isolation: isolate; transition: transform var(--dur-state) var(--ease-out); }
+.site-shell .category-tab[aria-selected='true'] { background: var(--color-clear); border-color: var(--color-clear); }
+.site-shell .category-tab > span:not(.category-marker) { position: relative; z-index: 1; }
+.site-shell .category-marker { position: absolute; inset: -1px; border-radius: inherit; background: var(--color-ink); pointer-events: none; }
+.site-shell .model-filter::before {
+  content: ''; position: absolute; inset: 4px 0; border-radius: inherit;
+  background: var(--color-paper-2); transform: scale(.94); opacity: 0;
+  transition: transform var(--dur-state) var(--ease-out), opacity var(--dur-state) ease;
+}
+.site-shell .model-marker { pointer-events: none; }
+.site-shell .template-card {
+  translate: 0 0;
+  transition: translate var(--dur-travel) var(--ease-out);
+}
+.site-shell .template-card::after {
+  content: ''; position: absolute; inset: -1px; border: 1px solid var(--color-accent);
+  border-radius: inherit; opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-short) ease;
+}
+.site-shell .card-action-btn { position: relative; transition: transform var(--dur-state) var(--ease-out); }
+.site-shell .card-action-btn::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: var(--color-rule); opacity: 0; transform: scale(.85);
+  transition: transform var(--dur-state) var(--ease-out), opacity var(--dur-state) ease;
+}
+.site-shell .copy-icon-stack { position: relative; display: grid; place-items: center; width: 16px; height: 16px; }
+.site-shell .copy-icon-stack > * { grid-area: 1 / 1; transition: transform var(--dur-short) var(--ease-out), opacity var(--dur-state) ease; }
+.site-shell .copy-icon-stack[aria-hidden='true'] .copy-icon-success { transform: translateY(6px) scale(.9) rotate(-20deg); opacity: 0; }
+.site-shell .card-action-btn[data-copied='true'] .copy-icon-stack[aria-hidden='true'] .copy-icon-default { transform: translateY(-6px) scale(.9) rotate(12deg); opacity: 0; }
+.site-shell .card-action-btn[data-copied='true'] .copy-icon-stack[aria-hidden='true'] .copy-icon-success { transform: none; opacity: 1; }
+.site-shell .copy-spinner {
+  width: 14px; height: 14px; border: 1.5px solid var(--color-rule-2);
+  border-top-color: var(--color-accent); border-radius: 50%; opacity: 0;
+}
+.site-shell .card-action-btn[aria-busy='true'] .copy-icon-stack > svg { opacity: 0; }
+.site-shell .card-action-btn[aria-busy='true'] .copy-spinner { opacity: 1; }
+.site-shell .card-title-row h3 a { text-decoration: underline; text-decoration-color: var(--color-clear); text-underline-offset: 4px; }
+.site-shell .scroll-progress { display: none; position: absolute; inset: auto 0 -1px; height: 2px; background: var(--color-accent); transform-origin: left; pointer-events: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-shell .hero-title { animation-duration: var(--dur-intro); }
+  .site-shell .hero-actions { animation: action-settle var(--dur-intro) var(--ease-out) both; }
+  @keyframes action-settle { from { transform: translateY(12px); } to { transform: none; } }
+  @keyframes copy-working { to { transform: rotate(360deg); } }
+  .site-shell .card-action-btn[aria-busy='true'] .copy-spinner { animation: copy-working 800ms linear infinite; }
+  .site-shell .gallery-empty { transition: transform var(--dur-travel) var(--ease-out); }
+  @starting-style {
+    .site-shell .template-card { translate: 0 16px; }
+    .site-shell .gallery-empty { transform: translateY(12px); }
+  }
+  @supports (animation-timeline: scroll()) {
+    .site-shell .scroll-progress { display: block; animation: reading-progress linear both; animation-timeline: scroll(root); }
+    @keyframes reading-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  }
+  @supports (animation-timeline: view()) {
+    .site-shell .contribute-inner {
+      animation: contribute-settle linear both; animation-timeline: view(); animation-range: entry 0% entry 100%;
+    }
+    @keyframes contribute-settle { from { transform: translateY(28px); } to { transform: none; } }
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .site-shell :is(.primary-action, .secondary-action):hover .action-label-track { transform: translateY(-100%); }
+  .site-shell .primary-action:hover { transform: translateY(-2px); }
+  .site-shell .primary-action:hover::before { transform: scale(1); opacity: .65; }
+  .site-shell .hero-actions .primary-action:hover svg { transform: translateY(3px); }
+  .site-shell .contribute-inner .primary-action:hover svg:last-child { transform: translate(3px, -3px); }
+  .site-shell .contribute-inner .primary-action:hover svg:first-child { transform: rotate(-8deg); }
+  .site-shell :is(.secondary-action, .nav-github):hover svg { transform: rotate(-10deg) scale(1.08); }
+  .site-shell .wordmark:hover svg { transform: rotate(-8deg) scale(1.12); }
+  .site-shell .header-search button:hover { transform: rotate(90deg); }
+  .site-shell :is(.secondary-action, .nav-github, .reset-filters, .nav-link):hover::after { transform: scaleX(1); transform-origin: left; }
+  .site-shell .category-tab:not([aria-selected='true']):hover { transform: translateY(-2px); }
+  .site-shell .model-filter:hover::before { transform: scale(1); opacity: 1; }
+  .site-shell .template-card:hover { translate: 0 -4px; }
+  .site-shell .template-card:hover::after { opacity: .45; }
+  .site-shell .card-action-btn:enabled:hover::before { transform: scale(1); opacity: .7; }
+  .site-shell .card-action-btn:not(:disabled):hover { transform: translateY(-1px); }
+  .site-shell .card-title-row h3 a:hover { text-decoration-color: var(--color-accent); }
+}
+
+.site-shell :is(.primary-action, .secondary-action, .nav-github, .wordmark, .category-tab, .model-filter, .reset-filters, .header-search button, .card-action-btn):not(:disabled):active {
+  transform: scale(.97); transition-duration: var(--dur-press);
+}
+.site-shell :is(.nav-link, .secondary-action, .nav-github, .reset-filters):focus-visible::after { transform: scaleX(1); transition: none; }
+.site-shell .card-action-btn:focus-visible::before { opacity: .7; transform: none; transition: none; }
+.site-shell .template-card:focus-within::after { opacity: .45; transition: none; }
+.site-shell .card-title-row h3 a:focus-visible { text-decoration-color: var(--color-accent); }
+.site-shell [data-instant-motion='true'] :is(.template-card, .gallery-empty) { transition: none; translate: none; }
+
+@media (hover: none), (pointer: coarse) {
+  .site-shell :is(.primary-action, .primary-action svg, .category-tab, .card-action-btn):hover { transform: none; }
+  .site-shell .nav-link:hover::after { transform: scaleX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-shell :is(.template-card, .gallery-empty, .contribute-inner) { translate: none; transform: none; }
+  .site-shell :is(a, button, .header-search > svg, .action-label-track):is(:hover, :active, :focus-within),
+  .site-shell :is(.primary-action, .header-search):is(:hover, :focus-within) > svg { transform: none; }
+  .site-shell .copy-icon-stack > svg { transform: none !important; transition: opacity 150ms ease !important; }
+  .site-shell :is(.header-search, .template-card, .card-action-btn)::after,
+  .site-shell :is(.primary-action, .card-action-btn, .model-filter)::before { transition: opacity 150ms ease !important; }
+}

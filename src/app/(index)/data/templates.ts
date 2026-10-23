@@ -189,7 +189,7 @@ export const NOMI_PROMPT = `# Prompt: rebuild NOMI (light plastic mobile workspa
 
 Build a light-mode Next.js 16 landing page for fictional NOMI, a calm mobile workspace for independent tutoring studios. The one action is requesting a private walkthrough. Use warm paper with a fibre grain, tinted translucent plastic surfaces (pale tint, white glint along the top edge, tinted shadow below), green-black ink and one green signal, in OKLCH. Fonts: Schibsted Grotesk for display, Instrument Sans for text, DM Mono for times only. The signature mechanic is a pinned phone: a numbered rail of Inbox, Schedule, Progress and Payments sits beside it, and scrolling (or choosing a moment) draws a connector line to the phone, fades its plastic shell to that moment's tint and swaps its screen. The hero is a stack of four plastic cards that rise into place; below come three rows of promises, a perforated $39 plan ticket, a form on a sunken tray with a live paper tag, and a giant wordmark footer. Motion uses only transform, opacity and clip-path: masked headline rises, staggered rows with drawn rules, a header that hides on scroll-down, press states and a drawn-check form success. No external media, reduced-motion and no-script fallbacks, a form that posts nowhere and says so.`;
 
-export const TEMPLATES: TemplateItem[] = [
+const RAW_TEMPLATES: TemplateItem[] = [
   {
     slug: "orrery",
     title: "Orrery",
@@ -489,3 +489,8 @@ export const TEMPLATES: TemplateItem[] = [
     model: "Claude Sonnet 5.5 High",
   },
 ];
+
+export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.map((template) => ({
+  ...template,
+  videoClip: template.videoClip ?? `/gallery/clips/${template.slug}.mp4`,
+}));

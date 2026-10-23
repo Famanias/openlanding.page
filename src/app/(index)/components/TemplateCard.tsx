@@ -1,260 +1,176 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Copy, Code, Check, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { motion, useReducedMotion } from "motion/react";
+import { Copy, Code, Check } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
-import { Button } from "./ui/Button";
-import { Badge } from "./ui/Badge";
 
-export interface TemplateCardProps {
-  template: TemplateItem;
-  isEager?: boolean;
-}
-
-// Module-level in-memory cache to avoid duplicate fetches and Safari gesture timeout
+export interface TemplateCardProps { template: TemplateItem; isEager?: boolean; instantMotion?: boolean }
 const copyBundleCache = new Map<string, string>();
-
 export function prefetchCopyBundle(slug: string): void {
   if (typeof window === "undefined" || typeof fetch === "undefined") return;
   const url = `/copy/${slug}.md`;
   if (copyBundleCache.has(url)) return;
-  fetch(url)
-    .then((res) => {
-      if (res.ok) return res.text();
-      return null;
-    })
-    .then((text) => {
-      if (text) copyBundleCache.set(url, text);
-    })
-    .catch(() => {
-      // Prefetch failures are non-blocking; click handler will retry
-    });
+  fetch(url).then((res) => res.ok ? res.text() : null)
+    .then((text) => { if (text) copyBundleCache.set(url, text); }).catch(() => {});
 }
 
-export function TemplateCard({ template, isEager = false }: TemplateCardProps) {
+export function TemplateCard({ template, isEager = false, instantMotion = false }: TemplateCardProps) {
   const [copiedAction, setCopiedAction] = useState<"prompt" | "website" | null>(null);
+  const [copyError, setCopyError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [previewing, setPreviewing] = useState(false);
+  const [videoActive, setVideoActive] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const reducedMotion = useReducedMotion();
 
-  // Clear clipboard feedback timeout on unmount or on new action
   useEffect(() => {
     if (!copiedAction) return;
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      setCopiedAction(null);
-    }, 2000);
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
+    timerRef.current = setTimeout(() => setCopiedAction(null), 2000);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [copiedAction]);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    const img = imageRef.current;
+    if (!frame || !img) return;
+    const measure = () => frame.style.setProperty("--preview-travel", `${Math.min(0, frame.clientHeight - img.clientHeight)}px`);
+    const observer = new ResizeObserver(measure);
+    observer.observe(frame);
+    observer.observe(img);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const video = videoRef.current;
+    const keepMuted = () => {
+      if (!video) return;
+      if (!video.defaultMuted) video.defaultMuted = true;
+      if (!video.muted) video.muted = true;
+      if (video.volume !== 0) video.volume = 0;
+    };
+    keepMuted();
+    video?.addEventListener("volumechange", keepMuted);
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let visible = false;
+    const shouldPlay = () => visible && !document.hidden && !motionPreference.matches;
+    const syncPlayback = () => {
+      const active = shouldPlay();
+      setVideoActive(Boolean(video) && active);
+      if (!active) {
+        setPreviewing(false);
+        video?.pause();
+        return;
+      }
+      // Start only visible clips; keep the image if the browser blocks playback.
+      keepMuted();
+      video?.play().then(() => { if (!shouldPlay()) video.pause(); }).catch(() => {});
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting && entry.intersectionRatio >= 0.1;
+      syncPlayback();
+    }, { threshold: [0, 0.1] });
+    observer.observe(frame);
+    document.addEventListener("visibilitychange", syncPlayback);
+    motionPreference.addEventListener("change", syncPlayback);
+    return () => {
+      visible = false;
+      video?.pause();
+      video?.removeEventListener("volumechange", keepMuted);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", syncPlayback);
+      motionPreference.removeEventListener("change", syncPlayback);
+    };
+  }, [template.videoClip]);
 
   const handleMouseEnter = () => {
     prefetchCopyBundle(template.slug);
-    if (videoRef.current && typeof window !== "undefined") {
-      const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-      if (!prefersReducedMotion) {
-        videoRef.current.play().catch(() => {});
-      }
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPreviewing(true);
     }
   };
-
   const handleMouseLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
+    setPreviewing(false);
   };
-
-  const handleFocus = () => {
-    prefetchCopyBundle(template.slug);
-    if (videoRef.current && typeof window !== "undefined") {
-      const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-      if (!prefersReducedMotion) {
-        videoRef.current.play().catch(() => {});
-      }
-    }
+  const handleFocus = () => { prefetchCopyBundle(template.slug); };
+  const handleBlur = (event: React.FocusEvent<HTMLElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node)) handleMouseLeave();
   };
-
-  const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
-    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-      handleMouseLeave();
-    }
-  };
-
   const copyText = async (text: string) => {
-    if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) {
-      throw new Error("Clipboard API unavailable");
-    }
+    if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
     await navigator.clipboard.writeText(text);
   };
-
   const handleCopyPrompt = async () => {
-    try {
-      await copyText(template.promptMarkdown);
-      setCopiedAction("prompt");
-    } catch (err) {
-      console.error(`Failed to copy prompt for ${template.slug}:`, err);
-    }
+    setCopyError("");
+    try { await copyText(template.promptMarkdown); setCopiedAction("prompt"); }
+    catch { setCopyError("Couldn't copy. Please try again."); }
   };
-
   const handleCopyWebsite = async () => {
+    setCopyError("");
+    setCopiedAction(null);
+    setBusy(true);
     try {
       const url = `/copy/${template.slug}.md`;
       let content = copyBundleCache.get(url);
-      if (!content && typeof fetch !== "undefined") {
-        const res = await fetch(url);
-        if (res.ok) {
-          content = await res.text();
-          copyBundleCache.set(url, content);
-        }
-      }
       if (!content) {
-        throw new Error(`Failed to load copy bundle for ${template.slug}`);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Bundle unavailable");
+        content = await response.text();
+        copyBundleCache.set(url, content);
       }
       await copyText(content);
       setCopiedAction("website");
-    } catch (err) {
-      console.error(`Failed to copy website bundle for ${template.slug}:`, err);
-    }
+    } catch { setCopyError("Couldn't copy. Please try again."); }
+    finally { setBusy(false); }
   };
 
   return (
-    <article
-      className="group flex flex-col bg-[#141518] rounded-xl border border-white/10 overflow-hidden hover:border-white/20 transition-colors duration-200"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-    >
-      {/* 16:10 preview container with 1px hairline border */}
-      <div className="relative aspect-[16/10] overflow-hidden border-b border-white/10 bg-neutral-900">
-        <a
-          href={`/${template.slug}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
-          tabIndex={0}
-          aria-label={`Open live ${template.title} template in new tab`}
-        >
-          <img
-            src={template.previewImage}
-            alt={`${template.title} preview`}
-            loading={isEager ? "eager" : "lazy"}
-            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
-          />
-          {template.videoClip && (
-            <video
-              ref={videoRef}
-              src={template.videoClip}
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-200 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 motion-reduce:hidden"
-            />
-          )}
+    <motion.article layout={reducedMotion || instantMotion ? false : "position"} initial={false}
+      transition={{ type: "spring", stiffness: 350, damping: 32 }} className="template-card"
+      data-previewing={previewing && !reducedMotion} data-playing={playing && videoActive && !reducedMotion}
+      onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onFocus={handleFocus} onBlur={handleBlur}>
+      <div ref={frameRef} className="template-preview aspect-video" data-kind="product">
+        <a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer" tabIndex={0}
+          aria-label={`Open live ${template.title} template in new tab`}>
+          {/* Gallery captures are local, naturally sized images; the viewport clips their scroll preview. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img ref={imageRef} src={imageFailed ? template.previewImage : `/gallery/${template.slug}.webp`}
+            onError={() => setImageFailed(true)} alt={`${template.title} preview`} loading={isEager ? "eager" : "lazy"}
+            className="template-image" />
+          {template.videoClip && <video ref={videoRef} src={template.videoClip} muted loop playsInline
+            poster={template.previewImage} preload="none" aria-hidden="true" className="template-video motion-reduce:hidden"
+            onPlaying={() => setPlaying(true)} onError={() => setPlaying(false)} />}
         </a>
-
-        {/* Model tag in top-left of preview frame */}
-        {template.model && (
-          <div className="absolute top-3 left-3 pointer-events-none z-10">
-            <Badge
-              variant="overlay"
-              data-testid="model-tag"
-              className="px-2.5 py-1 text-xs shadow-md"
-            >
-              {template.model}
-            </Badge>
-          </div>
-        )}
+        {template.model && <div className="model-tag"><span data-testid="model-tag">{template.model}</span></div>}
       </div>
-
-      {/* Card body & metadata */}
-      <div className="p-5 flex flex-col flex-1 gap-4">
-        {/* Title and external link icon */}
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="text-lg font-semibold text-white tracking-tight">
-            <a
-              href={`/${template.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-neutral-200 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white rounded-sm"
-            >
-              {template.title}
-            </a>
-          </h3>
-          <a
-            href={`/${template.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            tabIndex={-1}
-            aria-hidden="true"
-            className="text-neutral-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white rounded p-0.5"
-          >
-            <ArrowUpRight className="size-4 shrink-0" aria-hidden="true" />
-          </a>
+      <div className="card-body">
+        <div className="card-title-row">
+          <h3><a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer">{template.title}</a></h3>
+          <button type="button" onClick={handleCopyPrompt} aria-live="polite" aria-label={copiedAction === "prompt" ? "Copied prompt" : "Copy prompt"}
+            title="Copy prompt" data-copied={copiedAction === "prompt"} className="card-action-btn">
+            <span className="copy-icon-stack" aria-hidden="true">
+              <Copy className="copy-icon-default" size={16} />
+              <Check className="copy-icon-success" size={16} />
+            </span>
+          </button>
+          <button type="button" onClick={handleCopyWebsite} aria-live="polite" aria-label={copiedAction === "website" ? "Copied website" : "Copy website"}
+            title="Copy website" disabled={busy} aria-busy={busy} data-copied={copiedAction === "website"} className="card-action-btn">
+            <span className="copy-icon-stack" aria-hidden="true">
+              <Code className="copy-icon-default" size={16} />
+              <Check className="copy-icon-success" size={16} />
+              <span className="copy-spinner" />
+            </span>
+          </button>
         </div>
-
-        {/* Editorial description */}
-        <p className="text-sm text-neutral-400 line-clamp-2 leading-relaxed">
-          {template.description}
-        </p>
-
-        {/* Split-action buttons */}
-        <div className="mt-auto pt-3 border-t border-white/5 flex items-center justify-end gap-2">
-          <Button
-            variant={copiedAction === "prompt" ? "outline" : "solid"}
-            size="sm"
-            onClick={handleCopyPrompt}
-            aria-live="polite"
-            aria-label={copiedAction === "prompt" ? "Copied prompt" : "Copy prompt"}
-            title="Copy prompt"
-            className={`size-8 !p-0 rounded-lg ${
-              copiedAction === "prompt"
-                ? "!border-emerald-500/40 !bg-emerald-500/10 !text-[#10B981]"
-                : ""
-            }`}
-          >
-            {copiedAction === "prompt" ? (
-              <>
-                <Check className="size-4 text-[#10B981]" weight="bold" aria-hidden="true" />
-                <span className="sr-only">✓ Copied</span>
-              </>
-            ) : (
-              <>
-                <Copy className="size-4" aria-hidden="true" />
-                <span className="sr-only">Copy prompt</span>
-              </>
-            )}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleCopyWebsite}
-            aria-live="polite"
-            aria-label={copiedAction === "website" ? "Copied website" : "Copy website"}
-            title="Copy website"
-            className={`size-8 !p-0 rounded-lg ${
-              copiedAction === "website"
-                ? "!border-emerald-500/40 !bg-emerald-500/10 !text-[#10B981]"
-                : ""
-            }`}
-          >
-            {copiedAction === "website" ? (
-              <>
-                <Check className="size-4 text-[#10B981]" weight="bold" aria-hidden="true" />
-                <span className="sr-only">✓ Copied</span>
-              </>
-            ) : (
-              <>
-                <Code className="size-4" aria-hidden="true" />
-                <span className="sr-only">Copy website</span>
-              </>
-            )}
-          </Button>
-        </div>
+        {copyError && <p className="copy-error" role="alert">{copyError}</p>}
       </div>
-    </article>
+    </motion.article>
   );
 }

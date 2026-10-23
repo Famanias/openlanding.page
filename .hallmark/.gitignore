@@ -3,3 +3,11 @@ before/
 before.json
 before.txt
 compare.html
+
+runtime/
+reference/
+*.png
+*.mjs
+salt
+*.log
+final/

@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default function IndexLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`scroll-smooth dark ${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen bg-[#0C0D0E] text-[#ededed] antialiased">
+      <body className="antialiased">
         {children}
       </body>
     </html>

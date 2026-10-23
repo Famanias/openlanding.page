@@ -16,6 +16,7 @@
     "check": "tsx scripts/check-isolation.ts && tsx scripts/check-palette.ts",
     "images": "tsx scripts/process-images.ts",
     "clips": "tsx scripts/process-clips.ts",
+    "clips:record": "tsx scripts/capture-gallery-clips.ts",
     "media:truecut": "npm run images -- truecut && npm run clips -- truecut",
     "process-images": "tsx scripts/process-images.ts"
   },

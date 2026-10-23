@@ -1,10 +1,22 @@
 {
-  "date": "2026-10-23",
-  "framework": "Next.js 16 (App Router)",
-  "fonts": "next/font/google (Schibsted Grotesk + Instrument Sans + DM Mono)",
-  "palette": "OKLCH Dose tokens (tokens.css) + scripts/templates.config.ts guard",
-  "motion": "CSS motion tokens, scroll/view timelines, IntersectionObserver",
-  "spacing": "4pt-derived semantic scale (--space-3xs to --space-4xl)",
-  "preserved": ["font stack", "OKLCH palette tokens", "Map / Diagram macrostructure", "pinned phone stage", "copy & routes"],
-  "introduced": ["glassmorphic daylight background layers", "depth refraction planes", "specular glint tokens"]
+  "scanned": "2026-10-23",
+  "findings": {
+    "fonts": "Geist and Geist Mono: src/app/(index)/layout.tsx:2",
+    "palette": "dark gallery: src/app/(index)/index.css:1",
+    "motion": "Motion, GSAP, Lenis: package.json:19",
+    "framework": "Next.js 16.4.2: package.json:23"
+  },
+  "preserve": [
+    "23 template records",
+    "all template routes and copy actions",
+    "category keyboard navigation",
+    "existing wording and MIT license"
+  ],
+  "introduce": [
+    "header search",
+    "model filtering",
+    "original coral/moss gradients",
+    "2x preview height",
+    "captured page hover scroll"
+  ]
 }
