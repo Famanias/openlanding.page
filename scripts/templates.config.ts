@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi";
 
 export type TemplateConfig = {
   palette: string[];
@@ -119,6 +119,9 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   truecut: {
     // asphalt, chalk, signal lime, galvanized steel, oxide teal, rare rust
     palette: ["#172026", "#F5F0E5", "#E8F146", "#B4C3C1", "#4B6A72", "#C96B45"],
+  },
+  nomi: {
+    palette: ["#FAF7EF", "#E9F8EF", "#D4F0E0", "#0C1C16", "#007948", "#A9E8C6", "#EEE4B4", "#B1DDE6", "#DAC1DE", "#FFFDF1"],
   },
 };
 

@@ -7,7 +7,7 @@
     "framework": "Next.js 16.4.2: package.json:23"
   },
   "preserve": [
-    "22 template records",
+    "23 template records",
     "all template routes and copy actions",
     "category keyboard navigation",
     "existing wording and MIT license"

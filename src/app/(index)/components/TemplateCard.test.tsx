@@ -67,5 +67,10 @@ describe("TemplateCard", () => {
     const traceHtml = renderToStaticMarkup(<TemplateCard template={trace} isEager={false} />);
     expect(traceHtml).toContain("GPT-6 Astra Max");
     expect(traceHtml).toContain('data-testid="model-tag"');
+
+    const nomi = TEMPLATES.find((t) => t.slug === "nomi")!;
+    const nomiHtml = renderToStaticMarkup(<TemplateCard template={nomi} isEager={false} />);
+    expect(nomiHtml).toContain("Claude Sonnet 5.5 High");
+    expect(nomiHtml).toContain('data-testid="model-tag"');
   });
 });

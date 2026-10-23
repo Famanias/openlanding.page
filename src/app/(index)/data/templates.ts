@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -184,6 +184,10 @@ The central idea is a field log: engineering starts with a site walk, so a surve
 Use asphalt #172026, chalk #F5F0E5, signal lime #E8F146, galvanized #B4C3C1, oxide teal #4B6A72, and rare rust #C96B45. Use Archivo Black, Manrope, and IBM Plex Mono via next/font/google. Motion is technical/cinematic: scan and lock. Use a staged hero load, mask-rise headlines, clip-path media wipes, drawn rules, staggered cards, a pinned media handoff, hover lift and pointer spotlight, button fill wipes, press scale, invalid shake, loading, and a stamped success replacement.
 
 Media keys: hero-site-walk, capability-testing, capability-controls, capability-retrofit, capability-design, project-switchyard, project-control-room, project-panel-detail, safety-hands, handoff-drawing, credential-grid, hero-site-reel.mp4, process-proof.mp4. Render labelled placeholders until files arrive. Keep all content visible with JavaScript disabled and prefers-reduced-motion: reduce. Test survey-line maths, motion maths, appointment validation, service selection, form success, reduced motion, and 390px overflow.`;
+
+export const NOMI_PROMPT = `# Prompt: rebuild NOMI (light plastic mobile workspace landing page)
+
+Build a light-mode Next.js 16 landing page for fictional NOMI, a calm mobile workspace for independent tutoring studios. The one action is requesting a private walkthrough. Use warm paper with a fibre grain, tinted translucent plastic surfaces (pale tint, white glint along the top edge, tinted shadow below), green-black ink and one green signal, in OKLCH. Fonts: Schibsted Grotesk for display, Instrument Sans for text, DM Mono for times only. The signature mechanic is a pinned phone: a numbered rail of Inbox, Schedule, Progress and Payments sits beside it, and scrolling (or choosing a moment) draws a connector line to the phone, fades its plastic shell to that moment's tint and swaps its screen. The hero is a stack of four plastic cards that rise into place; below come three rows of promises, a perforated $39 plan ticket, a form on a sunken tray with a live paper tag, and a giant wordmark footer. Motion uses only transform, opacity and clip-path: masked headline rises, staggered rows with drawn rules, a header that hides on scroll-down, press states and a drawn-check form success. No external media, reduced-motion and no-script fallbacks, a form that posts nowhere and says so.`;
 
 const RAW_TEMPLATES: TemplateItem[] = [
   {
@@ -471,6 +475,18 @@ const RAW_TEMPLATES: TemplateItem[] = [
     previewImage: "/templates/truecut/preview-1600.webp",
     promptMarkdown: TRUECUT_PROMPT,
     model: "GPT-6 Astra Max",
+  },
+  {
+    slug: "nomi",
+    title: "NOMI",
+    description: "A light, plastic-tinted mobile workspace landing page for tutoring studios, built around a pinned phone that unlocks four moments.",
+    category: "conversion",
+    industry: "Tutoring & Education",
+    stack: "Next.js 16 · Tailwind v4 · CSS/DOM Phone UI · Local Form State",
+    badges: ["Light Mode", "Pinned Phone", "Plastic UI"],
+    previewImage: "/templates/nomi/preview-1600.webp",
+    promptMarkdown: NOMI_PROMPT,
+    model: "Claude Sonnet 5.5 High",
   },
 ];
 
