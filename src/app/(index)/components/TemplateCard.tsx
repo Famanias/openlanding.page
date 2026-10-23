@@ -126,7 +126,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
       transition={{ type: "spring", stiffness: 350, damping: 32 }} className="template-card"
       data-previewing={previewing && !reducedMotion} data-playing={playing && videoActive && !reducedMotion}
       onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onFocus={handleFocus} onBlur={handleBlur}>
-      <div ref={frameRef} className="template-preview aspect-[16/10]" data-kind="product">
+      <div ref={frameRef} className="template-preview aspect-video" data-kind="product">
         <a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer" tabIndex={0}
           aria-label={`Open live ${template.title} template in new tab`}>
           {/* Gallery captures are local, naturally sized images; the viewport clips their scroll preview. */}

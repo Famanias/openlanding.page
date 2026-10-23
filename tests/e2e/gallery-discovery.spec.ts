@@ -27,12 +27,13 @@ test("all model families return real matching templates", async ({ page }) => {
   }
 });
 
-test("preview is twice the original aspect height and moves on hover", async ({ page }) => {
+test("preview shows the full 16:9 video and screenshot moves on hover", async ({ page }) => {
   await page.goto("/");
   const card = page.locator("article").first();
   const preview = card.locator(".template-preview");
   const box = await preview.boundingBox();
-  expect(box!.height / box!.width).toBeCloseTo(1.25, 1);
+  expect(box!.height / box!.width).toBeCloseTo(9 / 16, 2);
+  await expect(card.locator("video")).toHaveCSS("object-fit", "contain");
   await card.hover();
   await expect(card).toHaveAttribute("data-previewing", "true");
   await expect.poll(() => card.locator("img").evaluate((img) => getComputedStyle(img).transform)).not.toBe("none");

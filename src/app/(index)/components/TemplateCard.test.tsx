@@ -5,10 +5,10 @@ import { TemplateCard } from "./TemplateCard";
 import { TEMPLATES } from "../data/templates";
 
 describe("TemplateCard", () => {
-  it("renders 16:10 preview frame with correct live template link", () => {
+  it("renders a video-aspect preview frame with correct live template link", () => {
     const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={true} />);
     expect(html).toContain('href="/orrery"');
-    expect(html).toContain("aspect-[16/10]");
+    expect(html).toContain("aspect-video");
     expect(html).toContain("Orrery");
   });
 
