@@ -5,9 +5,9 @@ import path from "node:path";
 
 describe("gallery template data", () => {
   it("contains all twenty templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(22);
+    expect(TEMPLATES).toHaveLength(23);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
