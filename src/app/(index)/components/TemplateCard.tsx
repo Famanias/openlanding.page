@@ -20,6 +20,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
   const [copyError, setCopyError] = useState("");
   const [busy, setBusy] = useState(false);
   const [previewing, setPreviewing] = useState(false);
+  const [videoActive, setVideoActive] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -35,17 +36,6 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
   }, [copiedAction]);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (previewing && !reducedMotion) {
-      let cancelled = false;
-      video.play().then(() => { if (cancelled) video.pause(); }).catch(() => {});
-      return () => { cancelled = true; video.pause(); };
-    }
-    video.pause();
-  }, [previewing, reducedMotion]);
-
-  useEffect(() => {
     const frame = frameRef.current;
     const img = imageRef.current;
     if (!frame || !img) return;
@@ -57,14 +47,38 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
   }, []);
 
   useEffect(() => {
-    if (!frameRef.current) return;
-    const stop = () => { setPreviewing(false); videoRef.current?.pause(); };
-    const observer = new IntersectionObserver(([entry]) => { if (!entry.isIntersecting) stop(); });
-    observer.observe(frameRef.current);
-    const onVisibility = () => { if (document.hidden) stop(); };
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => { observer.disconnect(); document.removeEventListener("visibilitychange", onVisibility); };
-  }, []);
+    const frame = frameRef.current;
+    if (!frame) return;
+    const video = videoRef.current;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let visible = false;
+    const shouldPlay = () => visible && !document.hidden && !motionPreference.matches;
+    const syncPlayback = () => {
+      const active = shouldPlay();
+      setVideoActive(Boolean(video) && active);
+      if (!active) {
+        setPreviewing(false);
+        video?.pause();
+        return;
+      }
+      // Start only visible clips; keep the image if the browser blocks playback.
+      video?.play().then(() => { if (!shouldPlay()) video.pause(); }).catch(() => {});
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting && entry.intersectionRatio >= 0.1;
+      syncPlayback();
+    }, { threshold: [0, 0.1] });
+    observer.observe(frame);
+    document.addEventListener("visibilitychange", syncPlayback);
+    motionPreference.addEventListener("change", syncPlayback);
+    return () => {
+      visible = false;
+      video?.pause();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", syncPlayback);
+      motionPreference.removeEventListener("change", syncPlayback);
+    };
+  }, [template.videoClip]);
 
   const handleMouseEnter = () => {
     prefetchCopyBundle(template.slug);
@@ -74,8 +88,6 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
   };
   const handleMouseLeave = () => {
     setPreviewing(false);
-    setPlaying(false);
-    if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
   };
   const handleFocus = () => { prefetchCopyBundle(template.slug); };
   const handleBlur = (event: React.FocusEvent<HTMLElement>) => {
@@ -112,7 +124,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
   return (
     <motion.article layout={reducedMotion || instantMotion ? false : "position"} initial={false}
       transition={{ type: "spring", stiffness: 350, damping: 32 }} className="template-card"
-      data-previewing={previewing && !reducedMotion} data-playing={playing && previewing && !reducedMotion}
+      data-previewing={previewing && !reducedMotion} data-playing={playing && videoActive && !reducedMotion}
       onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onFocus={handleFocus} onBlur={handleBlur}>
       <div ref={frameRef} className="template-preview aspect-[16/10]" data-kind="product">
         <a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer" tabIndex={0}

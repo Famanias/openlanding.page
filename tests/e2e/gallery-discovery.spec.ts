@@ -67,3 +67,61 @@ test("reduced motion disables image pan and mobile retains search", async ({ pag
   expect(await page.locator("article img").first().evaluate((img) => getComputedStyle(img).animationName)).toBe("none");
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
 });
+
+test("visible videos autoplay without hover, pause offscreen, and resume", async ({ page }) => {
+  await page.goto("/");
+  const card = page.locator("article").first();
+  const video = card.locator("video");
+  await expect(card).toHaveAttribute("data-previewing", "false");
+  await expect(card).toHaveAttribute("data-playing", "true");
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.currentTime)).toBeGreaterThan(0);
+  expect(await video.evaluate((el: HTMLVideoElement) => el.muted && el.loop && el.playsInline)).toBe(true);
+  await card.hover();
+  await page.getByRole("searchbox").hover();
+  await expect(card).toHaveAttribute("data-playing", "true");
+  expect(await video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(false);
+
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
+  await expect(card).toHaveAttribute("data-playing", "false");
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(false);
+  await expect(card).toHaveAttribute("data-playing", "true");
+});
+
+test("autoplay responds to motion preferences and tab visibility", async ({ page }) => {
+  await page.goto("/");
+  const card = page.locator("article").first();
+  const video = card.locator("video");
+  await expect(card).toHaveAttribute("data-playing", "true");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
+  await expect(video).toBeHidden();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(false);
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, value: true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
+  await page.evaluate(() => {
+    Reflect.deleteProperty(document, "hidden");
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(false);
+});
+
+test("touch devices autoplay visible previews without a tap", async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 375, height: 812 }, hasTouch: true, isMobile: true });
+  try {
+    const page = await context.newPage();
+    await page.goto(test.info().project.use.baseURL + "/");
+    const card = page.locator("article").first();
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toHaveAttribute("data-playing", "true");
+    await expect(card).toHaveAttribute("data-previewing", "false");
+    await expect.poll(() => card.locator("video").evaluate((el: HTMLVideoElement) => el.currentTime)).toBeGreaterThan(0);
+  } finally {
+    await context.close();
+  }
+});
