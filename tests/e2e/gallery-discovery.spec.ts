@@ -112,6 +112,27 @@ test("autoplay responds to motion preferences and tab visibility", async ({ page
   await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(false);
 });
 
+test("every gallery video stays muted at zero volume, including after resume", async ({ page }) => {
+  await page.goto("/");
+  const videos = page.locator(".template-video");
+  await expect(videos).toHaveCount(22);
+  const allSilent = () => videos.evaluateAll(elements => elements.every(element => {
+    const video = element as HTMLVideoElement;
+    return video.muted && video.defaultMuted && video.volume === 0;
+  }));
+  await expect.poll(allSilent).toBe(true);
+  await videos.first().evaluate((video: HTMLVideoElement) => {
+    video.volume = 1;
+    video.muted = false;
+  });
+  await expect.poll(allSilent).toBe(true);
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+  await expect.poll(() => videos.first().evaluate((video: HTMLVideoElement) => video.paused)).toBe(true);
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await expect.poll(() => videos.first().evaluate((video: HTMLVideoElement) => video.paused)).toBe(false);
+  await expect.poll(allSilent).toBe(true);
+});
+
 test("touch devices autoplay visible previews without a tap", async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 375, height: 812 }, hasTouch: true, isMobile: true });
   try {

@@ -50,6 +50,14 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
     const frame = frameRef.current;
     if (!frame) return;
     const video = videoRef.current;
+    const keepMuted = () => {
+      if (!video) return;
+      if (!video.defaultMuted) video.defaultMuted = true;
+      if (!video.muted) video.muted = true;
+      if (video.volume !== 0) video.volume = 0;
+    };
+    keepMuted();
+    video?.addEventListener("volumechange", keepMuted);
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = false;
     const shouldPlay = () => visible && !document.hidden && !motionPreference.matches;
@@ -62,6 +70,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
         return;
       }
       // Start only visible clips; keep the image if the browser blocks playback.
+      keepMuted();
       video?.play().then(() => { if (!shouldPlay()) video.pause(); }).catch(() => {});
     };
     const observer = new IntersectionObserver(([entry]) => {
@@ -74,6 +83,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
     return () => {
       visible = false;
       video?.pause();
+      video?.removeEventListener("volumechange", keepMuted);
       observer.disconnect();
       document.removeEventListener("visibilitychange", syncPlayback);
       motionPreference.removeEventListener("change", syncPlayback);
