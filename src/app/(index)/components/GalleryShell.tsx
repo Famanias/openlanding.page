@@ -1,108 +1,47 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useDeferredValue, useMemo } from "react";
+import { LayoutGroup } from "motion/react";
 import { CATEGORIES, TEMPLATES, type CategoryId } from "../data/templates";
+import { filterTemplates } from "../data/filters";
 import { FilterBar } from "./FilterBar";
 import { TemplateCard } from "./TemplateCard";
+import { updateGalleryFilters, useGalleryFilters } from "./useGalleryFilters";
 
 export function GalleryShell() {
-  const [activeCategory, setActiveCategory] = useState<CategoryId>("all");
-
-  // Read URL query parameter on initial mount and respond to browser popstate
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const syncFromUrl = () => {
-      const params = new URLSearchParams(window.location.search);
-      const categoryParam = params.get("category");
-      if (categoryParam && CATEGORIES.some((c) => c.id === categoryParam)) {
-        setActiveCategory(categoryParam as CategoryId);
-      } else {
-        setActiveCategory("all");
-      }
-    };
-
-    syncFromUrl();
-    window.addEventListener("popstate", syncFromUrl);
-    return () => window.removeEventListener("popstate", syncFromUrl);
-  }, []);
-
-  // Compute category counts across the template catalog
+  const filters = useGalleryFilters();
+  const query = useDeferredValue(filters.query);
+  const activeCategory = filters.category;
   const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = {
-      all: TEMPLATES.length,
-    };
-    for (const cat of CATEGORIES) {
-      if (cat.id !== "all") {
-        counts[cat.id] = TEMPLATES.filter((t) => t.category === cat.id).length;
-      }
-    }
-    return counts;
-  }, []);
-
-  // Filter templates by selected category
-  const filteredTemplates = useMemo(() => {
-    if (activeCategory === "all") return TEMPLATES;
-    return TEMPLATES.filter((t) => t.category === activeCategory);
-  }, [activeCategory]);
-
-  // Handle category selection with shallow URL update
-  const handleSelectCategory = (categoryId: CategoryId) => {
-    setActiveCategory(categoryId);
-    if (typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      if (categoryId === "all") {
-        url.searchParams.delete("category");
-      } else {
-        url.searchParams.set("category", categoryId);
-      }
-      const newPath = url.pathname + (url.search ? url.search : "") + url.hash;
-      window.history.replaceState(null, "", newPath);
-    }
-  };
-
-  const handleReset = () => {
-    handleSelectCategory("all");
-  };
+    const matching = filterTemplates(TEMPLATES, { category: "all", model: filters.model, query });
+    return Object.fromEntries(CATEGORIES.map((cat) => [cat.id,
+      cat.id === "all" ? matching.length : matching.filter((template) => template.category === cat.id).length]));
+  }, [filters.model, query]);
+  const filteredTemplates = filterTemplates(TEMPLATES, { ...filters, query });
+  const handleSelectCategory = (category: CategoryId) => updateGalleryFilters({ category });
+  const handleReset = () => updateGalleryFilters({ category: "all", model: "all", query: "" });
 
   return (
-    <section
-      id="gallery"
-      className="w-full border-t border-white/[0.08] py-12 sm:py-16 scroll-mt-16"
-      aria-label="Template gallery"
-    >
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8">
-        <FilterBar
-          activeCategory={activeCategory}
-          onSelectCategory={handleSelectCategory}
-          totalCount={TEMPLATES.length}
-          filteredCount={filteredTemplates.length}
-          onReset={handleReset}
-          categoryCounts={categoryCounts}
-        />
-
-        {filteredTemplates.length === 0 ? (
-          <div className="py-16 text-center text-neutral-400 font-sans">
-            <p>No templates found in this category.</p>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="mt-4 text-xs font-mono text-white underline underline-offset-4 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white rounded px-2 py-1"
-            >
-              Reset filters
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-            {filteredTemplates.map((template, index) => (
-              <TemplateCard
-                key={template.slug}
-                template={template}
-                isEager={index === 0}
-              />
-            ))}
-          </div>
-        )}
+    <section id="gallery" className="gallery-section" aria-label="Template gallery">
+      <div className="page-container">
+        <div className="gallery-heading"><h2>Find your starting point.</h2><p>Pick a page. Take it somewhere new.</p></div>
+        <FilterBar activeCategory={activeCategory} onSelectCategory={handleSelectCategory}
+          totalCount={TEMPLATES.length} filteredCount={filteredTemplates.length} onReset={handleReset}
+          categoryCounts={categoryCounts} activeModel={filters.model}
+          onSelectModel={(model) => updateGalleryFilters({ model })} hasQuery={Boolean(filters.query)} />
+        <LayoutGroup id="template-gallery">
+          {filteredTemplates.length === 0 ? (
+            <div className="gallery-empty" role="status">
+              <h3>No templates found.</h3>
+              <p>Try another search, model, or category.</p>
+              <button type="button" onClick={handleReset} className="primary-action">Reset filters</button>
+            </div>
+          ) : (
+            <div className="template-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" aria-busy={query !== filters.query}>
+              {filteredTemplates.map((template, index) => <TemplateCard key={template.slug} template={template} isEager={index === 0} />)}
+            </div>
+          )}
+        </LayoutGroup>
       </div>
     </section>
   );

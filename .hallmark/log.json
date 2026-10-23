@@ -1,6 +1,47 @@
 [
   {
     "date": "2026-10-23",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "page",
+    "shape": "Portfolio Grid",
+    "theme": "Console adapted to existing brand",
+    "axes": "dark/grotesk-sans/chromatic-green",
+    "hero": "Banner",
+    "nav": "search-led",
+    "footer": "colophon",
+    "imagery": "22 production template captures, original CSS gradient ribbons",
+    "photos": [],
+    "entry": "src/app/(index)/page.tsx",
+    "fingerprint": "compact banner / category tabs / model filters / tall preview gallery / contribution band / colophon",
+    "sections": [
+      "hero",
+      "gallery",
+      "contribute",
+      "footer"
+    ],
+    "signature": "gradient light sweep and scrollable hover previews",
+    "waived": [
+      "29",
+      "12",
+      "8",
+      "44c",
+      "49b",
+      "59",
+      "77"
+    ],
+    "prompt": "Redesign openlandingpage using Hallmark; gradient background without halftone; header search and AI model filters; twice-height previews; expressive hover and scroll motion",
+    "review": {
+      "hero": "3 findings resolved: recognizable template content in first fold, stronger gradient, responsive captures verified",
+      "finish": "subagent: ship; no defects",
+      "floorFailures": 0,
+      "openReflex": 0,
+      "materialSlots": "none; all 22 images are production captures",
+      "kept": "27/27 links, 12/12 handlers, 1/1 test hooks, 24/24 headings, 3/3 figures"
+    }
+  },
+  {
+    "date": "2026-10-23",
     "macrostructure": "Map / Diagram",
     "theme": "custom mineral field",
     "enrichment": "procedural 3D membrane",

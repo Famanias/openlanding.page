@@ -1,10 +1,22 @@
 {
-  "date": "2026-10-23",
-  "framework": "Next.js 16.4.2 App Router",
-  "fonts": "next/font/google per route",
-  "palette": "per-template scripts/templates.config.ts guard",
-  "motion": "Three.js, CSS motion tokens, IntersectionObserver",
-  "spacing": "4pt-derived semantic scale",
-  "preserved": ["isolated route groups", "gallery registration", "strict palette guard"],
-  "introduced": ["Map / Diagram macrostructure", "procedural pressure membrane", "motion map", "ISOBAR mineral field tokens"]
+  "scanned": "2026-10-23",
+  "findings": {
+    "fonts": "Geist and Geist Mono: src/app/(index)/layout.tsx:2",
+    "palette": "dark gallery: src/app/(index)/index.css:1",
+    "motion": "Motion, GSAP, Lenis: package.json:19",
+    "framework": "Next.js 16.4.2: package.json:23"
+  },
+  "preserve": [
+    "22 template records",
+    "all template routes and copy actions",
+    "category keyboard navigation",
+    "existing wording and MIT license"
+  ],
+  "introduce": [
+    "header search",
+    "model filtering",
+    "original coral/moss gradients",
+    "2x preview height",
+    "captured page hover scroll"
+  ]
 }
