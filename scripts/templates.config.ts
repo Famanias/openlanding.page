@@ -117,7 +117,7 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
     palette: ["#F7F6F1", "#EEEDE7", "#171817", "#202320", "#F35B2A", "#9BC9D8", "#9CB99C", "#D9D7CF", "#6C6D67", "#FFFFFF"],
   },
   nomi: {
-    palette: ["#0B1020", "#121A31", "#F4F7FF", "#AAB5CF", "#2A3758", "#6F8CFF", "#8FE3FF"],
+    palette: ["#FAF7EF", "#E9F8EF", "#D4F0E0", "#0C1C16", "#007948", "#A9E8C6", "#EEE4B4", "#B1DDE6", "#DAC1DE", "#FFFDF1"],
   },
 };
 

@@ -1,5 +1,39 @@
 import { Logo } from "./brand/Logo";
 import { LaunchPhone } from "./launch/LaunchPhone";
-import { NomiForm } from "./forms/NomiForm";
 import { Reveals } from "./motion/Reveals";
-export default function NomiPage(){return <div className="nm-site"><header className="nm-header"><a href="#top" aria-label="NOMI home"><Logo/></a><nav><a href="#launch">Product</a><a href="#studios">Studios</a><a href="#plans">Plans</a></nav><a className="nm-button nm-button--glass" href="#demo">Book a demo <span>↗</span></a></header><main><section className="nm-hero" id="top"><div className="nm-orb nm-orb--one"/><div className="nm-orb nm-orb--two"/><div className="nm-container nm-hero-grid"><div><p className="nm-kicker">A calmer operating system for tutoring studios</p><h1>Make every lesson feel <em>looked after.</em></h1><p className="nm-lead">NOMI brings bookings, parent updates, progress and payments into one beautifully simple mobile workspace.</p><div className="nm-actions"><a className="nm-button nm-button--bright" href="#demo">See NOMI in motion <span>↓</span></a><a className="nm-text-link" href="#launch">Explore the app <span>↗</span></a></div></div><div className="nm-hero-phone"><LaunchPhone compact/></div></div></section><section className="nm-launch" id="launch"><div className="nm-container nm-launch-head"><p className="nm-kicker">01 / THE APP LAUNCH</p><h2>One surface. <em>Four calm moments.</em></h2><p>Scroll to unlock the NOMI workspace one capability at a time.</p></div><LaunchPhone/></section><section className="nm-studios" id="studios"><div className="nm-container"><div className="nm-section-head"><p className="nm-kicker">02 / FOR YOUR STUDIO</p><h2>Quiet tools for <em>busy humans.</em></h2></div><div className="nm-card-grid"><article data-nomi-reveal="glass"><span>01</span><h3>Know what is next.</h3><p>Every lesson, reminder and open thread stays in one soft-focus view.</p></article><article data-nomi-reveal="glass"><span>02</span><h3>Show the progress.</h3><p>Give families a clear, generous window into the work happening between sessions.</p></article><article data-nomi-reveal="glass"><span>03</span><h3>Close the loop.</h3><p>Invoices and follow-ups move with the lesson instead of waiting behind it.</p></article></div></div></section><section className="nm-plans" id="plans"><div className="nm-container nm-plans-grid"><div><p className="nm-kicker">03 / SIMPLE BY DESIGN</p><h2>Less admin. <em>More attention.</em></h2><p>Start with one studio, invite your team, and let the calm compound.</p></div><div className="nm-plan-card"><span className="nm-plan-badge">NOMI / STUDIO</span><strong>$39</strong><small>per month · up to 4 tutors</small><ul><li>Bookings and reminders</li><li>Progress notes for families</li><li>One-tap payment follow-up</li></ul><a className="nm-button nm-button--bright" href="#demo">Start a conversation <span>↗</span></a></div></div></section><section className="nm-demo" id="demo"><div className="nm-container nm-demo-grid"><div><p className="nm-kicker">04 / COME INSIDE</p><h2>Give your studio a <em>softer day.</em></h2><p>Tell us a little about your studio. We’ll send a private walkthrough with no pitch deck attached.</p></div><NomiForm/></div></section></main><footer className="nm-footer"><div className="nm-container"><Logo/><span>© 2026 NOMI WORKSPACE</span></div></footer><Reveals/></div>}
+import { SiteChrome } from "./motion/SiteChrome";
+import { Demo } from "./sections/Demo";
+import { Footer } from "./sections/Footer";
+import { Hero } from "./sections/Hero";
+import { Plans } from "./sections/Plans";
+import { Studios } from "./sections/Studios";
+
+export default function NomiPage() {
+  return (
+    <div className="nm-site">
+      <a className="nm-skip" href="#main">Skip to content</a>
+      <header className="nm-header" data-nm-header data-hidden="false" data-scrolled="false">
+        <div className="container nm-header-inner">
+          <a className="nm-home-link" href="#top" aria-label="NOMI home"><Logo /></a>
+          <nav className="nm-nav" aria-label="Primary" data-nm-nav data-on="false">
+            <a href="#launch">Product</a>
+            <a href="#studios">Studios</a>
+            <a href="#plans">Plans</a>
+            <span className="nm-nav-ink" aria-hidden="true" />
+          </nav>
+          <a className="nm-btn nm-btn--quiet nm-btn--sm" href="#demo">Book a demo</a>
+        </div>
+      </header>
+      <main id="main">
+        <Hero />
+        <LaunchPhone />
+        <Studios />
+        <Plans />
+        <Demo />
+      </main>
+      <Footer />
+      <Reveals />
+      <SiteChrome />
+    </div>
+  );
+}

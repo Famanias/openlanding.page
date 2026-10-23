@@ -175,9 +175,9 @@ export const HANDOFF_PROMPT = `# Prompt: rebuild HANDOFF (conversion landing pag
 
 Build a Next.js 16 conversion landing page for a fictional outsourcing company that helps small businesses route manageable client work. Use a warm dotted paper canvas, near-black ink, signal orange, route blue, pass green, DM Serif Display, Geist and Geist Mono. The signature mechanic is a scroll-driven pipeline: INQUIRY, QUALIFIED, MATCHED, MANAGED, DONE. The form is local-only and validates name, work email and service lane before showing a brief received success state. Keep the page modular and builder-friendly for Webflow or WordPress, with clear section labels, cards, a sticky header, service lanes, proof metrics, fit check, and a dark close form. No external media is required; draw the dispatch desk with CSS geometry.`;
 
-export const NOMI_PROMPT = `# Prompt: rebuild NOMI (glassmorphism mobile workspace landing page)
+export const NOMI_PROMPT = `# Prompt: rebuild NOMI (light plastic mobile workspace landing page)
 
-Build a Next.js 16 landing page for fictional NOMI, a calm mobile operating system for independent tutoring studios. Use a graphite navy glassmorphism environment, DM Serif Display, Geist and Geist Mono, with periwinkle and cyan accents. The signature mechanic is a scroll-controlled phone launch that unlocks Inbox, Schedule, Progress and Payments. Use CSS/DOM/SVG only; no photos or external media. Include glass cards, responsive layout, local walkthrough form success, reduced-motion support, and an Apple-inspired but original visual language without copying Apple marks or screenshots.`;
+Build a light-mode Next.js 16 landing page for fictional NOMI, a calm mobile workspace for independent tutoring studios. The one action is requesting a private walkthrough. Use warm paper with a fibre grain, tinted translucent plastic surfaces (pale tint, white glint along the top edge, tinted shadow below), green-black ink and one green signal, in OKLCH. Fonts: Schibsted Grotesk for display, Instrument Sans for text, DM Mono for times only. The signature mechanic is a pinned phone: a numbered rail of Inbox, Schedule, Progress and Payments sits beside it, and scrolling (or choosing a moment) draws a connector line to the phone, fades its plastic shell to that moment's tint and swaps its screen. The hero is a stack of four plastic cards that rise into place; below come three rows of promises, a perforated $39 plan ticket, a form on a sunken tray with a live paper tag, and a giant wordmark footer. Motion uses only transform, opacity and clip-path: masked headline rises, staggered rows with drawn rules, a header that hides on scroll-down, press states and a drawn-check form success. No external media, reduced-motion and no-script fallbacks, a form that posts nowhere and says so.`;
 
 export const TEMPLATES: TemplateItem[] = [
   {
@@ -456,12 +456,12 @@ export const TEMPLATES: TemplateItem[] = [
   {
     slug: "nomi",
     title: "NOMI",
-    description: "A glassmorphism mobile workspace for independent tutoring studios, revealed as a scroll-driven phone launch.",
+    description: "A light, plastic-tinted mobile workspace landing page for tutoring studios, built around a pinned phone that unlocks four moments.",
     category: "conversion",
     industry: "Tutoring & Education",
-    stack: "Next.js 16 · Tailwind v4 · CSS/SVG Phone UI · Local Form State",
-    badges: ["Glassmorphism", "Phone Launch", "CSS UI"],
-    previewImage: "/templates/nomi/preview.svg",
+    stack: "Next.js 16 · Tailwind v4 · CSS/DOM Phone UI · Local Form State",
+    badges: ["Light Mode", "Pinned Phone", "Plastic UI"],
+    previewImage: "/templates/nomi/preview-1600.webp",
     promptMarkdown: NOMI_PROMPT,
     model: "GPT-6 Astra Max",
   },

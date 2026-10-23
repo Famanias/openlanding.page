@@ -1,9 +1,36 @@
 [
-  {
-    "date": "2026-10-23",
-    "macrostructure": "Map / Diagram",
-    "theme": "custom mineral field",
-    "enrichment": "procedural 3D membrane",
-    "brief": "ISOBAR · atmospheric systems studio with a continuous pressure field"
-  }
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "page",
+  "shape": "Map / Diagram",
+  "theme": "Dose",
+  "axes": "light/grotesk-sans/chromatic-green",
+  "hero": "Stage",
+  "nav": "slab",
+  "footer": "mast",
+  "imagery": "the product",
+  "photos": [],
+  "entry": "launch map first, then rows",
+  "fingerprint": "map-diagram|stage|slab|mast|rows-first|product",
+  "sections": [
+   "Hero (card stack)",
+   "Map (pinned phone)",
+   "Rows",
+   "Offer",
+   "Form",
+   "Footer"
+  ],
+  "signature": "a connector line draws from the chosen moment to the phone, whose plastic shell takes that moment's tint",
+  "waived": [],
+  "prompt": "a calm mobile workspace app for independent tutoring studios",
+  "date": "2026-10-23"
+ },
+ {
+  "date": "2026-10-23",
+  "macrostructure": "Map / Diagram",
+  "theme": "custom mineral field",
+  "enrichment": "procedural 3D membrane",
+  "brief": "ISOBAR · atmospheric systems studio with a continuous pressure field"
+ }
 ]
