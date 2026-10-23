@@ -101,6 +101,10 @@ export const TEMPLATE_METADATA: Record<
     name: "NOMI",
     dependencies: [],
   },
+  rill: {
+    name: "RILL",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

@@ -20,7 +20,7 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: `npm run build && npm run start -- -p ${port}`,
+    command: `npm run prebuild && npx next build --webpack && npx next start --port ${port}`,
     url: baseURL,
     reuseExistingServer: !process.env.PLAYWRIGHT_PORT,
     env: {
