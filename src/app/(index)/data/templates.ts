@@ -561,7 +561,7 @@ const RAW_TEMPLATES: TemplateItem[] = [
     badges: ["Coded Harbor", "Artist Portfolio", "Commission Brief"],
     previewImage: "/templates/mio/preview-1600.webp",
     promptMarkdown: MIO_PROMPT,
-    model: "GPT-6",
+    model: "GPT-6.1 Sol High",
   },
 ];
 

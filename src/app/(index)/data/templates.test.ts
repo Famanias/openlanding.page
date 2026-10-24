@@ -58,8 +58,10 @@ describe("gallery template data", () => {
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["orrery", "keytu", "koji", "verane", "noctiluca"];
     for (const t of TEMPLATES) {
-      if (t.slug === "kazeko" || t.slug === "mio") {
+      if (t.slug === "kazeko") {
         expect(t.model).toBe("GPT-6");
+      } else if (t.slug === "mio") {
+        expect(t.model).toBe("GPT-6.1 Sol High");
       } else if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash Free");
       } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "kinetic" || t.slug === "loophouse") {
