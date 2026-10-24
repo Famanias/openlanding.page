@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "alpine-reel";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -188,6 +188,12 @@ Media keys: hero-site-walk, capability-testing, capability-controls, capability-
 export const NOMI_PROMPT = `# Prompt: rebuild NOMI (light plastic mobile workspace landing page)
 
 Build a light-mode Next.js 16 landing page for fictional NOMI, a calm mobile workspace for independent tutoring studios. The one action is requesting a private walkthrough. Use warm paper with a fibre grain, tinted translucent plastic surfaces (pale tint, white glint along the top edge, tinted shadow below), green-black ink and one green signal, in OKLCH. Fonts: Schibsted Grotesk for display, Instrument Sans for text, DM Mono for times only. The signature mechanic is a pinned phone: a numbered rail of Inbox, Schedule, Progress and Payments sits beside it, and scrolling (or choosing a moment) draws a connector line to the phone, fades its plastic shell to that moment's tint and swaps its screen. The hero is a stack of four plastic cards that rise into place; below come three rows of promises, a perforated $39 plan ticket, a form on a sunken tray with a live paper tag, and a giant wordmark footer. Motion uses only transform, opacity and clip-path: masked headline rises, staggered rows with drawn rules, a header that hides on scroll-down, press states and a drawn-check form success. No external media, reduced-motion and no-script fallbacks, a form that posts nowhere and says so.`;
+
+export const ALPINE_REEL_PROMPT = `# Prompt: rebuild “Alpine Reel” (horizontal eight-thousander landing page)
+
+Build a Next.js 16 App Router page for the fictional editorial brand Alpine Reel. The page is a full viewport horizontal reel of the fourteen eight-thousanders. Its central idea is: the peaks are a film reel, so lateral movement is the navigation.
+
+Use abyss #040B16, navy #08162A, ice #6EA8D2 and snow #FFFFFF. Load Playfair Display for peak titles and dossier copy, Geist for body, and Geist Mono for metadata. Desktop uses 80vw slides with 5vw gaps, five loop copies and a three-second fast-forward from K2 to Everest. Wheel, drag, edge-zone taps, arrow keys and the 14-pip counter snap the deck. Explore opens a right-side dossier, tilts the frame as a door and keeps its own vertical scroll. Reduced motion leaves the deck still and readable.`;
 
 const RAW_TEMPLATES: TemplateItem[] = [
   {
@@ -487,6 +493,19 @@ const RAW_TEMPLATES: TemplateItem[] = [
     previewImage: "/templates/nomi/preview-1600.webp",
     promptMarkdown: NOMI_PROMPT,
     model: "Claude Sonnet 5.5 High",
+  },
+  {
+    slug: "alpine-reel",
+    title: "ALPINE REEL",
+    description:
+      "Fourteen eight-thousanders as one moving film frame. A cold-blue horizontal reel with snap physics, parallax and a door-tilt peak dossier.",
+    category: "scroll-showcase",
+    industry: "Mountain Cinema",
+    stack: "Next.js 16 · React 19 · Horizontal Reel · Pointer Physics",
+    badges: ["14-Peak Reel", "Snap Physics", "Door-Tilt Dossier"],
+    previewImage: "/templates/alpine-reel/preview-1600.svg",
+    promptMarkdown: ALPINE_REEL_PROMPT,
+    model: "GPT-6 Astra Max",
   },
 ];
 

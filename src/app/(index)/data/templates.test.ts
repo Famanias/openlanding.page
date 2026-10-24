@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all twenty templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(23);
+  it("contains all twenty-four templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(24);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "alpine-reel"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -70,6 +70,8 @@ describe("gallery template data", () => {
         expect(t.model).toBe("Claude Opus 5.5 High");
       } else if (t.slug === "wowflutter") {
         expect(t.model).toBe("Claude Sonnet 5.5 High");
+      } else if (t.slug === "alpine-reel") {
+        expect(t.model).toBe("GPT-6 Astra Max");
       } else {
         expect(t.model).toBe("GPT-6 Astra Max");
       }
