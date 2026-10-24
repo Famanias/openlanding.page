@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { CampStop } from "./logic";
 import { MOUNTAIN_PROFILES } from "./mountain-profiles";
 
@@ -25,6 +25,7 @@ function getFallbackPoint(routeStr: string, summit: Point, progress: number): Po
 
 export function MountainSilhouette({ peakId, stops, locked, elevation }: MountainSilhouetteProps) {
   const profile = MOUNTAIN_PROFILES[peakId] ?? MOUNTAIN_PROFILES.everest;
+  const descriptionId = useId();
   const routeRef = useRef<SVGPathElement>(null);
   const [length, setLength] = useState(0);
   const [camps, setCamps] = useState<Point[]>([]);
@@ -51,7 +52,14 @@ export function MountainSilhouette({ peakId, stops, locked, elevation }: Mountai
       preserveAspectRatio="xMidYMax meet"
       role="img"
       aria-label={`${profile.name} route profile and camps`}
+      aria-describedby={descriptionId}
     >
+      <desc id={descriptionId}>
+        {profile.name}, {elevation.toLocaleString()} metres. {profile.viewpoint}.
+        {` ${profile.features}. Photo-derived relief with schematic expedition waypoints. `}
+        {`Artwork adapted from ${profile.attribution.author}, ${profile.attribution.license}. `}
+        {`Source: ${profile.attribution.source}. License: ${profile.attribution.licenseUrl}.`}
+      </desc>
       {/* Topographic elevation grid across the cirque */}
       <g className="hy-silhouette__elevation-grid" aria-hidden="true">
         <line x1="20" y1="210" x2="980" y2="210" />
@@ -64,34 +72,22 @@ export function MountainSilhouette({ peakId, stops, locked, elevation }: Mountai
         <text x="28" y="704">5,000 M — BASE</text>
       </g>
 
-      {/* Distant background ridges */}
-      {profile.backgroundRidges.map((d, index) => (
-        <path key={index} d={d} className="hy-silhouette__ridge" />
-      ))}
+      {/* The external SVG has nine tonal paths traced from the actual mountain.
+          Keeping it outside the component avoids shipping relief coordinates in
+          client JavaScript; only the selected peak's artwork is requested. */}
+      <image
+        key={profile.id}
+        href={profile.artwork}
+        x="0"
+        y="0"
+        width="1000"
+        height="800"
+        className="hy-silhouette__terrain"
+        aria-hidden="true"
+      />
 
-      {/* Lit face (morning / summit light) */}
-      <path d={profile.litFace} className="hy-silhouette__lit" />
-
-      {/* Shadow face (abrupt west / north aspect) */}
-      <path d={profile.shadowFace} className="hy-silhouette__shadow" />
-
-      {/* Couloirs and chutes */}
-      {profile.couloirs.map((d, index) => (
-        <path key={index} d={d} className="hy-silhouette__couloir" />
-      ))}
-
-      {/* Snow caps and high hanging ice fields */}
-      {profile.snowCaps.map((d, index) => (
-        <path key={index} d={d} className="hy-silhouette__snow" />
-      ))}
-
-      {/* Base glacier moraine plane */}
-      <path d={profile.glacier} className="hy-silhouette__glacier" />
-
-      {/* Moraine flow lines */}
-      {profile.moraines.map((d, index) => (
-        <path key={index} d={d} className="hy-silhouette__moraine" />
-      ))}
+      {/* A dark casing keeps the itinerary readable across snow and rock. */}
+      <path d={profile.route} className="hy-silhouette__route-casing" />
 
       {/* Planned route (dashed line across the full line to the summit) */}
       <path ref={routeRef} d={profile.route} className="hy-silhouette__route" />

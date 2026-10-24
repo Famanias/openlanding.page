@@ -167,29 +167,30 @@ h3 { font-size: clamp(1.65rem, 3vw, 3rem); }
 .hy-mountain-silhouette { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
 .hy-silhouette__elevation-grid line { stroke:color-mix(in srgb,var(--hy-white) 12%,transparent); stroke-width:1; stroke-dasharray:2 6; vector-effect:non-scaling-stroke; }
 .hy-silhouette__elevation-grid text { fill:color-mix(in srgb,var(--hy-white) 35%,transparent); font:400 9px/1 var(--hy-mono); letter-spacing:0.08em; }
-.hy-silhouette__ridge { fill:color-mix(in srgb,var(--hy-blue) 48%,var(--hy-black)); opacity:0.85; }
-.hy-silhouette__lit { fill:var(--hy-blue); }
-.hy-silhouette__shadow { fill:color-mix(in srgb,var(--hy-blue) 22%,var(--hy-black)); }
-.hy-silhouette__snow { fill:var(--hy-white); opacity:0.92; }
-.hy-silhouette__couloir { stroke:var(--hy-white); stroke-width:2; fill:none; opacity:0.35; stroke-linecap:round; }
-.hy-silhouette__glacier { fill:var(--hy-black); }
-.hy-silhouette__moraine { stroke:color-mix(in srgb,var(--hy-white) 16%,transparent); stroke-width:1.5; fill:none; stroke-linecap:round; }
+.hy-silhouette__terrain { opacity:.94; }
+.hy-silhouette__route-casing { fill:none; stroke:var(--hy-black); stroke-width:8; stroke-linejoin:round; stroke-linecap:round; opacity:.8; }
 .hy-silhouette__route { fill:none; stroke:color-mix(in srgb,var(--hy-white) 36%,transparent); stroke-width:2; stroke-dasharray:4 7; }
 .hy-silhouette__climbed { fill:none; stroke:var(--hy-white); stroke-width:3.5; stroke-linecap:round; transition:stroke-dashoffset var(--hy-base) var(--hy-ease-out); }
 .hy-silhouette__camp-outer { fill:none; stroke:color-mix(in srgb,var(--hy-white) 30%,transparent); stroke-width:1.5; transition:stroke var(--hy-fast) var(--hy-ease-out); }
 .hy-silhouette__camp-inner { fill:var(--hy-blue); stroke:var(--hy-white); stroke-width:1.5; transition:fill var(--hy-fast) var(--hy-ease-out); }
 .hy-silhouette__camp[data-reached] .hy-silhouette__camp-outer { stroke:var(--hy-white); opacity:0.85; }
 .hy-silhouette__camp[data-reached] .hy-silhouette__camp-inner { fill:var(--hy-white); stroke:var(--hy-black); }
-.hy-silhouette__camp-title { fill:var(--hy-white); font:600 11px/1 var(--hy-display); letter-spacing:0.04em; text-transform:uppercase; filter:drop-shadow(0 1px 3px var(--hy-black)); }
-.hy-silhouette__camp-elevation { fill:color-mix(in srgb,var(--hy-white) 72%,transparent); font:400 9px/1 var(--hy-mono); letter-spacing:0.02em; filter:drop-shadow(0 1px 2px var(--hy-black)); }
+.hy-silhouette__camp-title { fill:var(--hy-white); font:600 15px/1 var(--hy-display); letter-spacing:0.04em; text-transform:uppercase; paint-order:stroke; stroke:var(--hy-black); stroke-width:4px; stroke-linejoin:round; }
+.hy-silhouette__camp-elevation { fill:var(--hy-white); font:400 11px/1 var(--hy-mono); letter-spacing:0.02em; paint-order:stroke; stroke:var(--hy-black); stroke-width:3px; stroke-linejoin:round; }
 .hy-silhouette__climber-halo { fill:none; stroke:var(--hy-white); stroke-width:1.5; opacity:0.55; }
 .hy-silhouette__climber-dot { fill:var(--hy-white); }
 .hy-silhouette__summit-pulse { fill:none; stroke:var(--hy-white); stroke-width:1.5; opacity:0.6; }
 .hy-silhouette__summit-center { fill:var(--hy-white); }
 
 @media (prefers-reduced-motion: no-preference) {
+  .hy-silhouette__terrain { animation:hy-terrain-in var(--hy-base) var(--hy-ease-out) both; }
   .hy-silhouette__climber-halo { transform-box:fill-box; transform-origin:center; animation:hy-halo 2.4s var(--hy-ease-out) infinite; }
   .hy-silhouette__summit-pulse { transform-box:fill-box; transform-origin:center; animation:hy-halo 2s var(--hy-ease-out) infinite; }
+}
+
+@keyframes hy-terrain-in {
+  from { opacity:0; }
+  to { opacity:.94; }
 }
 
 @keyframes hy-halo {
