@@ -1,22 +1,21 @@
 {
-  "scanned": "2026-10-23",
-  "findings": {
-    "fonts": "Geist and Geist Mono: src/app/(index)/layout.tsx:2",
-    "palette": "dark gallery: src/app/(index)/index.css:1",
-    "motion": "Motion, GSAP, Lenis: package.json:19",
-    "framework": "Next.js 16.4.2: package.json:23"
-  },
-  "preserve": [
-    "23 template records",
-    "all template routes and copy actions",
-    "category keyboard navigation",
-    "existing wording and MIT license"
+  "date": "2026-10-24",
+  "mode": "build",
+  "scope": "page",
+  "entry": "src/app/(alpine-reel)/alpine-reel/page.tsx",
+  "preserved": [
+    "Next.js 16 App Router route-group convention",
+    "gallery template registration and isolated template folders",
+    "the supplied Alpine Reel interaction specification"
   ],
-  "introduce": [
-    "header search",
-    "model filtering",
-    "original coral/moss gradients",
-    "2x preview height",
-    "captured page hover scroll"
-  ]
+  "introduced": [
+    "Alpine Reel fictional brand system",
+    "cold-blue horizontal 14-peak reel",
+    "snap physics, parallax, custom cursor and door-tilt detail panel"
+  ],
+  "material": {
+    "real": "Fourteen named eight-thousanders, first ascent years, elevations, coordinates and supplied Unsplash image ids",
+    "pictures": "Remote Unsplash mountain stills plus a local gallery preview SVG",
+    "absent": "User logos, customer quotes and product metrics"
+  }
 }
