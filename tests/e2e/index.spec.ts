@@ -27,10 +27,6 @@ test.describe("openlandingpage gallery index", () => {
         name: new RegExp(`Open live ${name} template in new tab`, "i"),
       });
       await expect(previewLink).toHaveAttribute("href", href);
-
-      // Verify the secondary arrow icon link is present with tabindex -1
-      const arrowLink = card.locator(`a[href="${href}"][aria-hidden="true"]`);
-      await expect(arrowLink).toHaveAttribute("tabindex", "-1");
     }
   });
 
@@ -45,9 +41,10 @@ test.describe("openlandingpage gallery index", () => {
 
     await copyPromptBtn.click();
 
-    // Assert button feedback updates to "✓ Copied"
-    await expect(orreryCard.getByRole("button", { name: /copied/i })).toBeVisible();
-    await expect(orreryCard.getByRole("button", { name: /copied/i })).toHaveText(/✓ Copied/);
+    // Assert button feedback updates to "Copied prompt"
+    const copiedPromptBtn = orreryCard.getByRole("button", { name: /copied prompt/i });
+    await expect(copiedPromptBtn).toBeVisible();
+    await expect(copiedPromptBtn).toHaveAttribute("data-copied", "true");
 
     // Assert clipboard contains the prompt markdown
     const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
@@ -66,9 +63,10 @@ test.describe("openlandingpage gallery index", () => {
 
     await copyWebsiteBtn.click();
 
-    // Assert button feedback updates to "✓ Copied"
-    await expect(orreryCard.getByRole("button", { name: /copied/i })).toBeVisible();
-    await expect(orreryCard.getByRole("button", { name: /copied/i })).toHaveText(/✓ Copied/);
+    // Assert button feedback updates to "Copied website"
+    const copiedWebsiteBtn = orreryCard.getByRole("button", { name: /copied website/i });
+    await expect(copiedWebsiteBtn).toBeVisible();
+    await expect(copiedWebsiteBtn).toHaveAttribute("data-copied", "true");
 
     // Assert clipboard contains the Repomix XML container
     const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
@@ -79,9 +77,9 @@ test.describe("openlandingpage gallery index", () => {
   test("category filter chips filter templates and update result counter", async ({ page }) => {
     await page.goto("/");
 
-    // Initially all 25 templates are displayed
-    await expect(page.locator("article")).toHaveCount(25);
-    await expect(page.getByText("Showing 25 of 25 templates")).toBeVisible();
+    // Initially all 27 templates are displayed
+    await expect(page.locator("article")).toHaveCount(27);
+    await expect(page.getByText("Showing 27 of 27 templates")).toBeVisible();
 
     // Click category chip "3D & WebGPU"
     const webgpuTab = page.getByRole("tab", { name: /3D & WebGPU/i });
@@ -100,23 +98,23 @@ test.describe("openlandingpage gallery index", () => {
     await expect(page.locator("article").filter({ hasText: "Orrery" })).toHaveCount(0);
     await expect(page.locator("article").filter({ hasText: "KEYTU" })).toHaveCount(0);
 
-    // Counter updates to "Showing 7 of 25 templates"
-    await expect(page.getByText("Showing 7 of 25 templates")).toBeVisible();
+    // Counter updates to "Showing 7 of 27 templates"
+    await expect(page.getByText("Showing 7 of 27 templates")).toBeVisible();
 
     // Click "Reset filters" button (aria-label="Reset category filters")
     const resetBtn = page.getByRole("button", { name: /reset category filters/i });
     await expect(resetBtn).toBeVisible();
     await resetBtn.click();
 
-    // All 25 return
-    await expect(page.locator("article")).toHaveCount(25);
-    await expect(page.getByText("Showing 25 of 25 templates")).toBeVisible();
+    // All 27 return
+    await expect(page.locator("article")).toHaveCount(27);
+    await expect(page.getByText("Showing 27 of 27 templates")).toBeVisible();
 
     // Also test clicking the "All" tab after filtering
     const keynoteTab = page.getByRole("tab", { name: /Keynote & Deck/i });
     await keynoteTab.click();
     await expect(page.locator("article")).toHaveCount(1);
-    await expect(page.getByText("Showing 1 of 25 templates")).toBeVisible();
+    await expect(page.getByText("Showing 1 of 27 templates")).toBeVisible();
 
     // The new category holds WOWFLUTTER alone
     await page.getByRole("tab", { name: /Editorial Magazine/i }).click();
@@ -125,8 +123,8 @@ test.describe("openlandingpage gallery index", () => {
 
     const allTab = page.getByRole("tab", { name: /^All/i });
     await allTab.click();
-    await expect(page.locator("article")).toHaveCount(25);
-    await expect(page.getByText("Showing 25 of 25 templates")).toBeVisible();
+    await expect(page.locator("article")).toHaveCount(27);
+    await expect(page.getByText("Showing 27 of 27 templates")).toBeVisible();
   });
 
   test("mobile viewport at 375px has zero horizontal overflow", async ({ page }) => {

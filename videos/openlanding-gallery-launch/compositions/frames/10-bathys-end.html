@@ -1,0 +1,39 @@
+﻿<template>
+  <style>
+    :root { --ground:#071014; --ink:#f2f0e8; --accent:#d8f7a2; --rule:#36525c; }
+    #root { position:absolute; inset:0; overflow:hidden; background:var(--ground); color:var(--ink); font-family:Inter,Arial,sans-serif; }
+    .deep { position:absolute; inset:0; background:#071014; }
+    .hero { position:absolute; inset:0; overflow:hidden; }
+    .hero img { width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.08) saturate(.82); }
+    .hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,rgba(7,16,20,.82),rgba(7,16,20,.12) 72%,rgba(7,16,20,.32)); }
+    .return { position:absolute; right:90px; top:82px; width:470px; height:264px; overflow:hidden; border:1px solid rgba(242,240,232,.46); box-shadow:0 18px 50px rgba(0,0,0,.46); }
+    .return img { width:100%; height:100%; object-fit:cover; display:block; }
+    .meta { position:absolute; left:98px; top:82px; display:flex; gap:16px; align-items:center; font:14px 'Space Mono',monospace; letter-spacing:.12em; text-transform:uppercase; }
+    .rule { width:54px; height:1px; background:var(--accent); }
+    h1 { position:absolute; left:98px; top:236px; margin:0; font-size:144px; line-height:.84; letter-spacing:-.08em; font-weight:650; }
+    .sub { position:absolute; left:104px; bottom:118px; font:15px/1.5 'Space Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:rgba(242,240,232,.8); }
+    .cta { position:absolute; right:92px; bottom:104px; font:15px 'Space Mono',monospace; letter-spacing:.1em; color:var(--accent); text-align:right; }
+  </style>
+  <div data-hf-id="hf-ayuc" id="root" data-composition-id="frame-10-bathys-end" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-6z7c" id="ba-deep" class="clip deep" data-start="0" data-duration="4"></div>
+    <div data-hf-id="hf-85do" id="ba-hero" class="clip hero" data-start="0" data-duration="4"><img data-hf-id="hf-bsym" src="assets/templates/bathys-detail.webp" alt="BATHYS submersible detail" /></div>
+    <div data-hf-id="hf-xj5t" id="ba-return" class="clip return" data-start="0.85" data-duration="3.1"><img data-hf-id="hf-yagw" src="assets/gallery-home.png" alt="Return to OpenLanding.page gallery" /></div>
+    <div data-hf-id="hf-9o9v" id="ba-meta" class="clip meta" data-start="0.2" data-duration="3.6"><span data-hf-id="hf-6o6j" class="rule"></span><span data-hf-id="hf-i11z">OPENLANDING / SCROLL SHOWCASE</span></div>
+    <h1 data-hf-id="hf-xlks" id="ba-title" class="clip" data-start="0.26" data-duration="3.6">BATHYS</h1>
+    <div data-hf-id="hf-8o74" id="ba-sub" class="clip sub" data-start="0.72" data-duration="3.0">Autonomous hadal<br data-hf-id="hf-x5px" />exploration vehicles.</div>
+    <div data-hf-id="hf-7xfo" id="ba-cta" class="clip cta" data-start="1.58" data-duration="2.3">CHOOSE A WORLD TO START<br data-hf-id="hf-rsrt" /><span data-hf-id="hf-mqe5" style="color:#f2f0e8">openlanding.page</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#ba-deep',{opacity:0},{opacity:1,duration:.2,ease:'power2.out'},0);
+    tl.fromTo('#ba-hero img',{scale:1.18,x:-48,opacity:0},{scale:1.02,x:0,opacity:1,duration:.72,ease:'power3.out'},.04);
+    tl.fromTo('#ba-meta',{opacity:0,filter:'blur(8px)'},{opacity:1,filter:'blur(0px)',duration:.2,ease:'power3.out'},.2);
+    tl.fromTo('#ba-title',{opacity:0,x:-24,filter:'blur(10px)'},{opacity:1,x:0,filter:'blur(0px)',duration:.34,ease:'power4.out'},.26);
+    tl.fromTo('#ba-sub',{opacity:0,y:18},{opacity:1,y:0,duration:.3,ease:'power3.out'},.72);
+    tl.fromTo('#ba-return',{opacity:0,x:120,scale:.86},{opacity:1,x:0,scale:1,duration:.48,ease:'back.out(1.05)'},.85);
+    tl.fromTo('#ba-cta',{opacity:0,y:16},{opacity:1,y:0,duration:.34,ease:'power3.out'},1.58);
+    tl.to('#ba-hero img',{scale:1.06,duration:1.8,ease:'power1.inOut'},1.4);
+    window.__timelines['frame-10-bathys-end'] = tl;
+    tl.seek(0);
+  </script>
+</template>
