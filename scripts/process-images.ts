@@ -85,8 +85,8 @@ async function applyLumaMap(image: Sharp, ramp: (luma: number) => [number, numbe
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const slug = process.argv[2] as TemplateSlug | undefined;
-  if (!slug || !["orrery", "keytu", "cairn", "koji", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "loophouse", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel"].includes(slug)) {
-    console.error("usage: npm run images -- <orrery|keytu|cairn|koji|wowflutter|verane|sundial|noctiluca|iridia|bathys|aubade|satsuma|kinetic|loophouse|isobar|volume-zero|openhouse|handoff|truecut|nomi|kazeko|alpine-reel>");
+  if (!slug || !["orrery", "keytu", "cairn", "koji", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "loophouse", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas"].includes(slug)) {
+    console.error("usage: npm run images -- <orrery|keytu|cairn|koji|wowflutter|verane|sundial|noctiluca|iridia|bathys|aubade|satsuma|kinetic|loophouse|isobar|volume-zero|openhouse|handoff|truecut|nomi|kazeko|alpine-reel|rill|hiyas>");
     process.exit(1);
   }
   processImages(slug, {

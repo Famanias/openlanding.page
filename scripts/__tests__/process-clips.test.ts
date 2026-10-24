@@ -2,7 +2,7 @@ import { mkdtempSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, test } from "vitest";
-import { processClips } from "../process-clips";
+import { processClips, renderVideoAssetsModule, resolveClipPaths } from "../process-clips";
 
 function fixture() {
   const root = mkdtempSync(path.join(tmpdir(), "truecut-clips-"));
@@ -12,6 +12,31 @@ function fixture() {
   mkdirSync(publicDir);
   return { incoming, publicDir, assetsModule: path.join(root, "videos.generated.ts") };
 }
+
+describe("renderVideoAssetsModule", () => {
+  test("writes empty VIDEO_ASSETS and CLIPS records when empty", () => {
+    const output = renderVideoAssetsModule({});
+    expect(output).toContain("export const VIDEO_ASSETS: Record<string, { desktop: string; mobile: string }> = {};");
+    expect(output).toContain("export const CLIPS: Record<string, boolean> = {};");
+  });
+
+  test("writes populated VIDEO_ASSETS and CLIPS records", () => {
+    const output = renderVideoAssetsModule({
+      "hero-reel": { desktop: "hero-reel.mp4", mobile: "hero-reel-m.mp4" },
+    });
+    expect(output).toContain('"desktop": "hero-reel.mp4"');
+    expect(output).toContain('"mobile": "hero-reel-m.mp4"');
+    expect(output).toContain('"hero-reel": true');
+  });
+});
+
+describe("resolveClipPaths", () => {
+  test("resolves template publicDir and assetsModule correctly", () => {
+    const paths = resolveClipPaths("rill");
+    expect(paths.publicDir.replace(/\\/g, "/")).toBe("public/templates/rill/clips");
+    expect(paths.assetsModule.replace(/\\/g, "/")).toBe("src/app/(rill)/rill/videos.generated.ts");
+  });
+});
 
 describe("processClips", () => {
   test("empty input stays a placeholder and does not require ffmpeg", async () => {
@@ -37,6 +62,25 @@ describe("processClips", () => {
     expect(calls[1]).toEqual(expect.arrayContaining(["scale=-2:min(720\\,trunc(ih/2)*2),setsar=1", "4"]));
     expect(readdirSync(paths.publicDir).sort()).toEqual(["hero-site-reel-m.mp4", "hero-site-reel.mp4", "process-proof-m.mp4", "process-proof.mp4"]);
     expect(readFileSync(paths.assetsModule, "utf8")).toContain('"mobile": "hero-site-reel-m.mp4"');
+  });
+
+  test("dynamically discovers and encodes arbitrary clip filenames and extensions", async () => {
+    const paths = fixture();
+    writeFileSync(path.join(paths.incoming, "storm-threshold.mov"), "mov fixture");
+    writeFileSync(path.join(paths.incoming, "root-zone-pulse.webm"), "webm fixture");
+    const calls: string[][] = [];
+    const assets = await processClips("rill", paths, async (args) => {
+      calls.push(args);
+      writeFileSync(args.at(-1)!, "encoded clip");
+    });
+    expect(Object.keys(assets)).toEqual(["root-zone-pulse", "storm-threshold"]);
+    expect(calls).toHaveLength(4);
+    expect(readdirSync(paths.publicDir).sort()).toEqual([
+      "root-zone-pulse-m.mp4",
+      "root-zone-pulse.mp4",
+      "storm-threshold-m.mp4",
+      "storm-threshold.mp4",
+    ]);
   });
 
   test("encoding failure preserves published files and manifest and cleans staging", async () => {

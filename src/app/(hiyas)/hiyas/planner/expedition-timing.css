@@ -1,0 +1,35 @@
+.hy-expedition-timing {
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.hy-expedition-timing dt {
+  font: 400 12px/1.4 var(--hy-body);
+  color: color-mix(in srgb, var(--hy-white) 76%, transparent);
+}
+
+.hy-expedition-timing dd {
+  margin: 5px 0 0;
+  font: 600 34px/1.1 var(--hy-display);
+  color: var(--hy-white);
+}
+
+.hy-expedition-timing__summit {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hy-expedition-timing__summit dd {
+  margin: 0;
+  font: 400 14px/1.4 var(--hy-mono);
+}
+
+.hy-expedition-timing__note {
+  margin: 12px 0 0;
+  max-width: 34ch;
+  font: 400 12px/1.6 var(--hy-body);
+  color: color-mix(in srgb, var(--hy-white) 70%, transparent);
+}

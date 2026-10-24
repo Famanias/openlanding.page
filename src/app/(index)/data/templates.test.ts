@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all twenty-five templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(25);
+  it("contains all twenty-seven templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(27);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -158,5 +158,19 @@ describe("gallery template data", () => {
     expect(kinetic?.category).toBe("scroll-showcase");
     expect(kinetic?.promptMarkdown).toContain('rebuild "KINETIC"');
     expect(kinetic?.promptMarkdown).toContain("#FF6B2B");
+  });
+
+  it("files RILL under Scroll Showcase with its rebuild prompt inlined", () => {
+    const rill = TEMPLATES.find((t) => t.slug === "rill");
+    expect(rill?.category).toBe("scroll-showcase");
+    expect(rill?.promptMarkdown).toContain('rebuild "RILL"');
+    expect(rill?.promptMarkdown).toContain("#14231E");
+  });
+
+  it("files HIYAS under Scroll Showcase with its rebuild prompt inlined", () => {
+    const hiyas = TEMPLATES.find((t) => t.slug === "hiyas");
+    expect(hiyas?.category).toBe("scroll-showcase");
+    expect(hiyas?.promptMarkdown).toContain('rebuild "HIYAS"');
+    expect(hiyas?.promptMarkdown).toContain("#0B2A4A");
   });
 });

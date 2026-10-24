@@ -1,0 +1,85 @@
+.hy-mountain-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: space-evenly;
+  gap: 26px 14px;
+  padding-block: 80px 56px;
+}
+
+.hy-mountain-overview__peak {
+  display: block;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--hy-white);
+  text-align: left;
+  cursor: pointer;
+}
+
+.hy-mountain-overview .hy-mountain-overview__relief {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.hy-mountain-overview__caption {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 6px 4px 4px;
+}
+
+.hy-mountain-overview__index {
+  font: 400 9px/1.4 var(--hy-mono);
+  color: color-mix(in srgb, var(--hy-white) 70%, transparent);
+}
+
+.hy-mountain-overview__details {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.hy-mountain-overview__details strong {
+  font: 500 12px/1.2 var(--hy-body);
+}
+
+.hy-mountain-overview__details > span {
+  font: 400 9px/1.2 var(--hy-mono);
+  color: color-mix(in srgb, var(--hy-white) 74%, transparent);
+}
+
+.hy-mountain-overview__swatch {
+  flex: 0 0 6px;
+  width: 6px;
+  height: 6px;
+  margin-left: auto;
+  background: color-mix(in srgb, var(--hy-white) var(--hy-overview-shade), var(--hy-blue));
+}
+
+.hy-mountain-overview__peak:hover .hy-mountain-overview__details strong {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hy-mountain-overview__peak:focus-visible {
+  outline: 1px solid var(--hy-white);
+  outline-offset: 5px;
+}
+
+.hy-mountain-overview__intro {
+  max-width: 30ch;
+  color: color-mix(in srgb, var(--hy-white) 76%, transparent);
+  font: 400 14px/1.6 var(--hy-body);
+}
+
+@media (max-width: 640px) {
+  .hy-mountain-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 14px;
+    padding-block: 92px 48px;
+  }
+}

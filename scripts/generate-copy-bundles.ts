@@ -109,6 +109,14 @@ export const TEMPLATE_METADATA: Record<
     name: "Alpine Reel",
     dependencies: [],
   },
+  rill: {
+    name: "RILL",
+    dependencies: [],
+  },
+  hiyas: {
+    name: "HIYAS",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

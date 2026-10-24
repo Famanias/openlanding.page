@@ -1,0 +1,7 @@
+type LogoProps = { variant?: "lockup" | "mark"; className?: string };
+
+export function Logo({ variant = "lockup", className }: LogoProps) {
+  if (variant === "mark") return <svg className={className} viewBox="0 0 100 100" role="img" aria-label="HIYAS mark" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" strokeLinecap="square" strokeLinejoin="miter"><path d="M11 76 41 30l18 24 24-39 16 61" strokeWidth="3" opacity=".5"/><path d="M20 76c25-7 42-8 57-1 8 3 15 2 23-4" stroke="var(--hy-blue)" strokeWidth="4"/></g><circle cx="20" cy="76" r="4" fill="var(--hy-blue)"/></svg>;
+  return <svg className={className} viewBox="0 0 390 120" role="img" aria-label="HIYAS alpine expeditions" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" strokeLinecap="square" strokeLinejoin="miter"><path d="M12 78 48 28l23 31 29-46 42 65" strokeWidth="3" opacity=".45"/><path d="M28 78 53 45l18 24 29-46 27 55" strokeWidth="2" opacity=".42"/><path d="M28 78c42-9 68-9 92-1 17 6 33 5 49-7 17-12 33-17 53-7 18 9 29 11 47 4" stroke="var(--hy-blue)" strokeWidth="4"/></g><circle cx="28" cy="78" r="4" fill="var(--hy-blue)"/><circle cx="269" cy="67" r="4" fill="var(--hy-blue)"/><text x="182" y="48" fill="currentColor" fontFamily="var(--hy-display)" fontSize="47" fontWeight="700">HIYAS</text><text x="185" y="72" fill="currentColor" opacity=".62" fontFamily="var(--hy-mono)" fontSize="9" letterSpacing=".12em">ALPINE EXPEDITIONS</text></svg>;
+}
+
