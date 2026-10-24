@@ -38,13 +38,13 @@ test("rapid category changes settle on the current selection and keyboard stays 
 test("pending copy and failure recover without a stuck success state", async ({ page }) => {
   let releaseRequest!: () => void;
   const pendingRequest = new Promise<void>(resolve => { releaseRequest = resolve; });
-  await page.route("**/copy/orrery.md", async route => {
+  await page.route(url => url.pathname === "/orrery" || url.pathname.endsWith("/copy/orrery.md"), async route => {
     await pendingRequest;
     await route.fulfill({ status: 503, body: "Unavailable" });
   });
   await page.goto("/");
   const card = page.locator(".template-card").first();
-  const copy = card.getByRole("button", { name: "Copy website", exact: true });
+  const copy = card.getByRole("button", { name: "Download template", exact: true });
   try {
     await copy.click();
     await expect(copy).toBeDisabled();

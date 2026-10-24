@@ -2,21 +2,21 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Copy, Code, Check } from "@phosphor-icons/react/dist/ssr";
+import { Copy, DownloadSimple, Check } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
 
 export interface TemplateCardProps { template: TemplateItem; isEager?: boolean; instantMotion?: boolean }
 const copyBundleCache = new Map<string, string>();
 export function prefetchCopyBundle(slug: string): void {
   if (typeof window === "undefined" || typeof fetch === "undefined") return;
-  const url = `/copy/${slug}.md`;
+  const url = `/${slug}`;
   if (copyBundleCache.has(url)) return;
   fetch(url).then((res) => res.ok ? res.text() : null)
     .then((text) => { if (text) copyBundleCache.set(url, text); }).catch(() => {});
 }
 
 export function TemplateCard({ template, isEager = false, instantMotion = false }: TemplateCardProps) {
-  const [copiedAction, setCopiedAction] = useState<"prompt" | "website" | null>(null);
+  const [copiedAction, setCopiedAction] = useState<"prompt" | "template" | null>(null);
   const [copyError, setCopyError] = useState("");
   const [busy, setBusy] = useState(false);
   const [previewing, setPreviewing] = useState(false);
@@ -121,22 +121,44 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
     try { await copyText(template.promptMarkdown); setCopiedAction("prompt"); }
     catch { setCopyError("Couldn't copy. Please try again."); }
   };
-  const handleCopyWebsite = async () => {
+  const handleDownloadTemplate = async () => {
     setCopyError("");
     setCopiedAction(null);
     setBusy(true);
     try {
-      const url = `/copy/${template.slug}.md`;
+      const url = `/${template.slug}`;
       let content = copyBundleCache.get(url);
       if (!content) {
         const response = await fetch(url);
-        if (!response.ok) throw new Error("Bundle unavailable");
+        if (!response.ok) throw new Error("Template unavailable");
         content = await response.text();
         copyBundleCache.set(url, content);
       }
-      await copyText(content);
-      setCopiedAction("website");
-    } catch { setCopyError("Couldn't copy. Please try again."); }
+      let htmlToDownload = content;
+      if (typeof window !== "undefined") {
+        const origin = window.location.origin;
+        if (!htmlToDownload.includes("<base ") && /<head[^>]*>/i.test(htmlToDownload)) {
+          htmlToDownload = htmlToDownload.replace(/<head[^>]*>/i, (match) => `${match}\n  <base href="${origin}/" />`);
+        }
+      }
+      if (typeof document !== "undefined") {
+        const blob = new Blob([htmlToDownload], { type: "text/html;charset=utf-8" });
+        const downloadUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = downloadUrl;
+        anchor.download = `${template.slug}.html`;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(downloadUrl);
+      }
+      try {
+        await copyText(htmlToDownload);
+      } catch {
+        // Clipboard write is optional convenience alongside file download
+      }
+      setCopiedAction("template");
+    } catch { setCopyError("Couldn't download. Please try again."); }
     finally { setBusy(false); }
   };
 
@@ -169,10 +191,10 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
               <Check className="copy-icon-success" size={16} />
             </span>
           </button>
-          <button type="button" onClick={handleCopyWebsite} aria-live="polite" aria-label={copiedAction === "website" ? "Copied website" : "Copy website"}
-            title="Copy website" disabled={busy} aria-busy={busy} data-copied={copiedAction === "website"} className="card-action-btn">
+          <button type="button" onClick={handleDownloadTemplate} aria-live="polite" aria-label={copiedAction === "template" ? "Downloaded template" : "Download template"}
+            title="Download template" disabled={busy} aria-busy={busy} data-copied={copiedAction === "template"} className="card-action-btn">
             <span className="copy-icon-stack" aria-hidden="true">
-              <Code className="copy-icon-default" size={16} />
+              <DownloadSimple className="copy-icon-default" size={16} />
               <Check className="copy-icon-success" size={16} />
               <span className="copy-spinner" />
             </span>

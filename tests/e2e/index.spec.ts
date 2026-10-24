@@ -52,26 +52,29 @@ test.describe("openlandingpage gallery index", () => {
     expect(clipboardText).toContain("rebuild \"Orrery\"");
   });
 
-  test("copying website writes Repomix XML container to clipboard", async ({ page }) => {
+  test("downloading template triggers HTML file download and copies HTML to clipboard", async ({ page }) => {
     await page.goto("/");
 
     const orreryCard = page.locator("article").filter({ hasText: "Orrery" });
     await expect(orreryCard).toBeVisible();
 
-    const copyWebsiteBtn = orreryCard.getByRole("button", { name: /copy website/i });
-    await expect(copyWebsiteBtn).toBeVisible();
+    const downloadTemplateBtn = orreryCard.getByRole("button", { name: /download template/i });
+    await expect(downloadTemplateBtn).toBeVisible();
 
-    await copyWebsiteBtn.click();
+    const downloadPromise = page.waitForEvent("download");
+    await downloadTemplateBtn.click();
 
-    // Assert button feedback updates to "Copied website"
-    const copiedWebsiteBtn = orreryCard.getByRole("button", { name: /copied website/i });
-    await expect(copiedWebsiteBtn).toBeVisible();
-    await expect(copiedWebsiteBtn).toHaveAttribute("data-copied", "true");
+    // Assert button feedback updates to "Downloaded template"
+    const downloadedTemplateBtn = orreryCard.getByRole("button", { name: /downloaded template/i });
+    await expect(downloadedTemplateBtn).toBeVisible();
+    await expect(downloadedTemplateBtn).toHaveAttribute("data-copied", "true");
 
-    // Assert clipboard contains the Repomix XML container
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toBe("orrery.html");
+
+    // Assert clipboard contains the HTML content
     const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
-    expect(clipboardText.trim().startsWith('<template slug="')).toBe(true);
-    expect(clipboardText).toContain('<file path="');
+    expect(clipboardText.toLowerCase()).toContain("<html");
   });
 
   test("category filter chips filter templates and update result counter", async ({ page }) => {
