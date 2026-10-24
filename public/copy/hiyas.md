@@ -342,8 +342,6 @@ h3 { font-size: clamp(1.65rem, 3vw, 3rem); }
 .hy-control { display:grid; gap:8px; }
 .hy-control label { font:500 12px/1.2 var(--hy-body); }
 .hy-control select,.hy-control input { width:100%; min-height:46px; border:1px solid color-mix(in srgb,var(--hy-white) 35%,transparent); border-radius:0; background:var(--hy-black); color:var(--hy-white); padding:0 12px; }
-.hy-control input[type="range"] { padding:0; accent-color:var(--hy-blue); }
-.hy-range-readout { display:flex; justify-content:space-between; font:400 11px var(--hy-mono); }
 .hy-planner__summary { padding-top:18px; border-top:1px solid color-mix(in srgb,var(--hy-white) 30%,transparent); }
 .hy-planner__summary strong { display:block; margin-top:8px; font:700 36px/.9 var(--hy-display); }
 .hy-planner__summary p { margin-top:8px; color:color-mix(in srgb,var(--hy-white) 68%,transparent); }
@@ -658,8 +656,134 @@ export function useReducedMotion() { return useSyncExternalStore(subscribe, snap
 
 ]]>
     </file>
+    <file path="src/app/(hiyas)/hiyas/planner/expedition-timing.css">
+<![CDATA[.hy-expedition-timing {
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.hy-expedition-timing dt {
+  font: 400 12px/1.4 var(--hy-body);
+  color: color-mix(in srgb, var(--hy-white) 76%, transparent);
+}
+
+.hy-expedition-timing dd {
+  margin: 5px 0 0;
+  font: 600 34px/1.1 var(--hy-display);
+  color: var(--hy-white);
+}
+
+.hy-expedition-timing__summit {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hy-expedition-timing__summit dd {
+  margin: 0;
+  font: 400 14px/1.4 var(--hy-mono);
+}
+
+.hy-expedition-timing__note {
+  margin: 12px 0 0;
+  max-width: 34ch;
+  font: 400 12px/1.6 var(--hy-body);
+  color: color-mix(in srgb, var(--hy-white) 70%, transparent);
+}
+]]>
+    </file>
+    <file path="src/app/(hiyas)/hiyas/planner/expedition-timings.ts">
+<![CDATA[export type DayRange = readonly [minimum: number, maximum: number];
+
+type ExpeditionTiming = {
+  expedition: DayRange;
+  summitPush: DayRange;
+  sources: readonly string[];
+};
+
+// Typical, conventional itineraries, not pre-acclimatized fast-track programs.
+// Totals include approach, acclimatization, weather allowance and return.
+// Summit push means the final base-camp-to-summit-and-return rotation and is
+// INCLUDED in the total. These are rounded planning estimates, not guarantees.
+// Totals are informed by the operator itineraries linked below. Summit-rotation
+// ranges are estimates inferred from camp sequences, not quoted operator dates.
+// Everest follows the user's supplied 50–60 / 4–6 day example.
+// Reference notes and methodology: expedition-timings.md. Checked 2026-10-24.
+export const EXPEDITION_TIMINGS: Record<string, ExpeditionTiming> = {
+  everest: {
+    expedition: [50, 60], summitPush: [4, 6],
+    sources: ["https://adventureconsultants.com/expeditions/seven-summits/everest"],
+  },
+  k2: {
+    expedition: [45, 55], summitPush: [5, 7],
+    sources: ["https://www.eliteexped.com/k2"],
+  },
+  kangchenjunga: {
+    expedition: [50, 60], summitPush: [5, 7],
+    sources: ["https://www.nepalhimalayanhiker.com/expeditions/kanchenjunga-expedition", "https://www.adventurepeaksnepal.com/kangchenjunga-expedition"],
+  },
+  lhotse: {
+    expedition: [50, 60], summitPush: [4, 6],
+    sources: ["https://adventureconsultants.com/files/Trip-Notes-Himalaya/Lhotse-2026-Trip-Notes.pdf"],
+  },
+  makalu: {
+    expedition: [45, 55], summitPush: [5, 7],
+    sources: ["https://www.nepalhimalayanhiker.com/expeditions/makalu-expedition"],
+  },
+  "cho-oyu": {
+    expedition: [30, 40], summitPush: [3, 5],
+    sources: ["https://adventureconsultants.com/expeditions/8000m-peaks/cho-oyu", "https://adventureconsultants.com/files/Trip-Notes-Himalaya/Cho-Oyu-2026-Trip-Notes.pdf"],
+  },
+  dhaulagiri: {
+    expedition: [40, 50], summitPush: [4, 6],
+    sources: ["https://www.sevensummittreks.com/page/mt-dhaulagiri-expedition-8167m.html"],
+  },
+  manaslu: {
+    expedition: [35, 45], summitPush: [4, 6],
+    sources: ["https://adventureconsultants.com/files/Trip-Notes-Himalaya/Manaslu-Expedition-Trip-Notes.pdf", "https://www.eliteexped.com/manaslu"],
+  },
+  "nanga-parbat": {
+    expedition: [40, 50], summitPush: [5, 7],
+    sources: ["https://www.eliteexped.com/nanga-parbat"],
+  },
+  annapurna: {
+    expedition: [40, 50], summitPush: [4, 6],
+    sources: ["https://sherpalaya.com/en/expeditions/11", "https://trekheaven.com/treks/annapurna-i"],
+  },
+  "gasherbrum-i": {
+    expedition: [40, 50], summitPush: [4, 6],
+    sources: ["https://www.hunzaadventuretours.com.pk/expeditions/gasherbrum-i-peak-expedition/"],
+  },
+  "broad-peak": {
+    expedition: [45, 55], summitPush: [4, 6],
+    sources: ["https://8kexpeditions.com/package/broad-peak-expedition-8051m", "https://www.satoriadventuresnepal.com/trip/broad-peak-expedition"],
+  },
+  "gasherbrum-ii": {
+    expedition: [45, 55], summitPush: [4, 6],
+    sources: ["https://embed-rech-01.dialog.cm/adventureconsultants/docs/gasherbrum_ii_expedition", "https://karakoramholidays.com/ghaerbrum-ii/"],
+  },
+  shishapangma: {
+    expedition: [30, 40], summitPush: [3, 5],
+    sources: ["https://wildyakexpeditions.com/trips/shishapangma-expedition/"],
+  },
+};
+
+export function expeditionTiming(peakId: string): ExpeditionTiming {
+  return Object.hasOwn(EXPEDITION_TIMINGS, peakId) ? EXPEDITION_TIMINGS[peakId] : EXPEDITION_TIMINGS.everest;
+}
+
+export function formatDayRange([minimum, maximum]: DayRange): string {
+  return `${minimum}–${maximum} days`;
+}
+]]>
+    </file>
     <file path="src/app/(hiyas)/hiyas/planner/logic.ts">
-<![CDATA[export type SupportLevel = "route" | "guided" | "private";
+<![CDATA[import { expeditionTiming, formatDayRange } from "./expedition-timings";
+import type { MountainProfile } from "./mountain-profiles";
+
+export type SupportLevel = "route" | "guided" | "private";
 
 export type Peak = {
   id: string;
@@ -686,19 +810,15 @@ export const PEAKS: Peak[] = [
   { id: "shishapangma", name: "Shishapangma", elevation: 8027, region: "Tibet", character: "A remote north-face plan with a narrow weather window." },
 ];
 
-export type PlannerState = { peakId: string; days: number; support: SupportLevel; locked: boolean };
-export const INITIAL_PLANNER_STATE: PlannerState = { peakId: "everest", days: 21, support: "guided", locked: false };
+export type PlannerState = { peakId: string; support: SupportLevel; locked: boolean; overview: boolean };
+export const INITIAL_PLANNER_STATE: PlannerState = { peakId: "everest", support: "guided", locked: false, overview: false };
 export type PlannerAction =
+  | { type: "setOverview"; overview: boolean }
   | { type: "selectPeak"; peakId: string }
-  | { type: "setDays"; days: number }
   | { type: "setSupport"; support: SupportLevel }
   | { type: "lockPlan" };
 
 export const SUPPORT_LABELS: Record<SupportLevel, string> = { route: "Route only", guided: "Sherpa guided", private: "Private expedition" };
-
-export function clampPlannerDays(days: number, min = 14, max = 70): number {
-  return Math.round(Math.min(max, Math.max(min, Number.isFinite(days) ? days : min)));
-}
 
 export function routeSegment(progress: number): "approach" | "acclimatize" | "summit" | "return" {
   const p = Math.min(1, Math.max(0, Number.isFinite(progress) ? progress : 0));
@@ -724,31 +844,129 @@ export function altitudeAt(progress: number, peakElevation: number): number {
 
 export type CampStop = { label: string; progress: number; altitude: number };
 
-export function campStops(peakElevation: number, days: number, support: SupportLevel): CampStop[] {
-  const normalizedDays = clampPlannerDays(days);
-  const supportOffset = support === "private" ? -0.02 : support === "route" ? 0.02 : 0;
-  const secondCamp = Math.min(0.7, Math.max(0.42, 0.55 + (normalizedDays - 21) * 0.002 + supportOffset));
+export function campStops({ elevation, campProgress }: Pick<MountainProfile, "elevation" | "campProgress">): CampStop[] {
   const stops = [
     { label: "Base camp", progress: 0 },
-    { label: "Camp 1", progress: 0.28 },
-    { label: "Camp 2", progress: secondCamp },
+    { label: "Camp 1", progress: campProgress.camp1 },
+    { label: "Camp 2", progress: campProgress.camp2 },
     { label: "Summit", progress: 1 },
   ];
-  return stops.map((stop) => ({ ...stop, altitude: stop.progress === 1 ? peakElevation : altitudeAt(stop.progress, peakElevation) }));
+  return stops.map((stop) => ({ ...stop, altitude: stop.progress === 1 ? elevation : altitudeAt(stop.progress, elevation) }));
 }
 
 export function plannerReducer(state: PlannerState, action: PlannerAction): PlannerState {
-  if (action.type === "selectPeak") return PEAKS.some((peak) => peak.id === action.peakId) ? { ...state, peakId: action.peakId, locked: false } : state;
-  if (action.type === "setDays") return { ...state, days: clampPlannerDays(action.days), locked: false };
+  if (action.type === "setOverview") return { ...state, overview: action.overview };
+  if (action.type === "selectPeak") return PEAKS.some((peak) => peak.id === action.peakId) ? { ...state, peakId: action.peakId, locked: false, overview: false } : state;
   if (action.type === "setSupport") return { ...state, support: action.support, locked: false };
   return { ...state, locked: true };
 }
 
 export function plannerSummary(state: PlannerState) {
   const peak = PEAKS.find((item) => item.id === state.peakId) ?? PEAKS[0];
-  return { peakId: peak.id, peakName: peak.name, elevation: peak.elevation, days: clampPlannerDays(state.days), support: state.support, supportLabel: SUPPORT_LABELS[state.support], locked: state.locked };
+  const timing = expeditionTiming(peak.id);
+  return {
+    peakId: peak.id,
+    peakName: peak.name,
+    elevation: peak.elevation,
+    // Keep a numeric default for the existing inquiry form. Planner readouts
+    // always display the estimated range rather than this representative day.
+    days: Math.round((timing.expedition[0] + timing.expedition[1]) / 2),
+    expeditionDuration: formatDayRange(timing.expedition),
+    summitPushDuration: formatDayRange(timing.summitPush),
+    support: state.support,
+    supportLabel: SUPPORT_LABELS[state.support],
+    locked: state.locked,
+  };
 }
 
+]]>
+    </file>
+    <file path="src/app/(hiyas)/hiyas/planner/mountain-overview.css">
+<![CDATA[.hy-mountain-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: space-evenly;
+  gap: 26px 14px;
+  padding-block: 80px 56px;
+}
+
+.hy-mountain-overview__peak {
+  display: block;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--hy-white);
+  text-align: left;
+  cursor: pointer;
+}
+
+.hy-mountain-overview .hy-mountain-overview__relief {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.hy-mountain-overview__caption {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 6px 4px 4px;
+}
+
+.hy-mountain-overview__index {
+  font: 400 9px/1.4 var(--hy-mono);
+  color: color-mix(in srgb, var(--hy-white) 70%, transparent);
+}
+
+.hy-mountain-overview__details {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.hy-mountain-overview__details strong {
+  font: 500 12px/1.2 var(--hy-body);
+}
+
+.hy-mountain-overview__details > span {
+  font: 400 9px/1.2 var(--hy-mono);
+  color: color-mix(in srgb, var(--hy-white) 74%, transparent);
+}
+
+.hy-mountain-overview__swatch {
+  flex: 0 0 6px;
+  width: 6px;
+  height: 6px;
+  margin-left: auto;
+  background: color-mix(in srgb, var(--hy-white) var(--hy-overview-shade), var(--hy-blue));
+}
+
+.hy-mountain-overview__peak:hover .hy-mountain-overview__details strong {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hy-mountain-overview__peak:focus-visible {
+  outline: 1px solid var(--hy-white);
+  outline-offset: 5px;
+}
+
+.hy-mountain-overview__intro {
+  max-width: 30ch;
+  color: color-mix(in srgb, var(--hy-white) 76%, transparent);
+  font: 400 14px/1.6 var(--hy-body);
+}
+
+@media (max-width: 640px) {
+  .hy-mountain-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 14px;
+    padding-block: 92px 48px;
+  }
+}
 ]]>
     </file>
     <file path="src/app/(hiyas)/hiyas/planner/mountain-profiles.ts">
@@ -760,6 +978,7 @@ export function plannerSummary(state: PlannerState) {
   routeLabel: string;
   summit: { x: number; y: number };
   route: string;
+  campProgress: { camp1: number; camp2: number };
   artwork: string;
   viewpoint: string;
   features: string;
@@ -771,10 +990,13 @@ export function plannerSummary(state: PlannerState) {
 // and schematic itinerary lines share a 1000 x 800 coordinate system.
 // Viewpoints are explicit: itinerary lines are planning schematics, rather than
 // surveyed routes projected onto these photographic perspectives.
+// Camp anchors are fixed fractions along each route, independent of expedition
+// duration and support mode. They preserve the standard guided-plan placement.
 // Credits and derivative licenses: public/templates/hiyas/mountains/README.md.
 export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   everest: {
     id: "everest",
+    campProgress: { camp1: 0.28, camp2: 0.618 },
     name: "Everest",
     elevation: 8849,
     region: "Nepal / Tibet",
@@ -796,6 +1018,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   k2: {
     id: "k2",
+    campProgress: { camp1: 0.28, camp2: 0.608 },
     name: "K2",
     elevation: 8611,
     region: "Pakistan / China",
@@ -817,6 +1040,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   kangchenjunga: {
     id: "kangchenjunga",
+    campProgress: { camp1: 0.28, camp2: 0.618 },
     name: "Kangchenjunga",
     elevation: 8586,
     region: "Nepal / India",
@@ -838,6 +1062,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   lhotse: {
     id: "lhotse",
+    campProgress: { camp1: 0.28, camp2: 0.618 },
     name: "Lhotse",
     elevation: 8516,
     region: "Nepal / Tibet",
@@ -859,6 +1084,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   makalu: {
     id: "makalu",
+    campProgress: { camp1: 0.28, camp2: 0.608 },
     name: "Makalu",
     elevation: 8485,
     region: "Nepal / Tibet",
@@ -880,6 +1106,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "cho-oyu": {
     id: "cho-oyu",
+    campProgress: { camp1: 0.28, camp2: 0.578 },
     name: "Cho Oyu",
     elevation: 8188,
     region: "Nepal / Tibet",
@@ -901,6 +1128,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   dhaulagiri: {
     id: "dhaulagiri",
+    campProgress: { camp1: 0.28, camp2: 0.598 },
     name: "Dhaulagiri",
     elevation: 8167,
     region: "Nepal",
@@ -922,6 +1150,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   manaslu: {
     id: "manaslu",
+    campProgress: { camp1: 0.28, camp2: 0.588 },
     name: "Manaslu",
     elevation: 8163,
     region: "Nepal",
@@ -943,6 +1172,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "nanga-parbat": {
     id: "nanga-parbat",
+    campProgress: { camp1: 0.28, camp2: 0.598 },
     name: "Nanga Parbat",
     elevation: 8126,
     region: "Pakistan",
@@ -964,6 +1194,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   annapurna: {
     id: "annapurna",
+    campProgress: { camp1: 0.28, camp2: 0.598 },
     name: "Annapurna I",
     elevation: 8091,
     region: "Nepal",
@@ -985,6 +1216,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "gasherbrum-i": {
     id: "gasherbrum-i",
+    campProgress: { camp1: 0.28, camp2: 0.598 },
     name: "Gasherbrum I",
     elevation: 8080,
     region: "Pakistan / China",
@@ -1006,6 +1238,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "broad-peak": {
     id: "broad-peak",
+    campProgress: { camp1: 0.28, camp2: 0.608 },
     name: "Broad Peak",
     elevation: 8051,
     region: "Pakistan / China",
@@ -1027,6 +1260,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "gasherbrum-ii": {
     id: "gasherbrum-ii",
+    campProgress: { camp1: 0.28, camp2: 0.608 },
     name: "Gasherbrum II",
     elevation: 8035,
     region: "Pakistan / China",
@@ -1048,6 +1282,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   shishapangma: {
     id: "shishapangma",
+    campProgress: { camp1: 0.28, camp2: 0.578 },
     name: "Shishapangma",
     elevation: 8027,
     region: "Tibet",
@@ -1068,6 +1303,79 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
     }
   }
 };
+]]>
+    </file>
+    <file path="src/app/(hiyas)/hiyas/planner/MountainOverview.tsx">
+<![CDATA["use client";
+
+import { useId, type CSSProperties } from "react";
+import { PEAKS } from "./logic";
+import { MOUNTAIN_PROFILES } from "./mountain-profiles";
+import { expeditionTiming, formatDayRange } from "./expedition-timings";
+import "./mountain-overview.css";
+
+// Interleave lighter and darker tones so neighboring mountains stay distinct.
+// Every relief keeps its original geometry and internal rock/snow contrast.
+const SHADES = [1, 0.53, 0.85, 0.45, 0.76, 0.96, 0.6, 0.89, 0.49, 0.8, 0.65, 0.93, 0.56, 0.71];
+
+function toneMatrix(shade: number): string {
+  const luminance = [0.2126, 0.7152, 0.0722];
+  const blue = [11 / 255, 42 / 255, 74 / 255];
+  return [
+    ...blue.flatMap((channel) => [
+      ...luminance.map((weight) => Number(((1 - channel) * shade * weight).toFixed(5))),
+      0,
+      channel,
+    ]),
+    0, 0, 0, 1, 0,
+  ].join(" ");
+}
+
+export function MountainOverview({ onSelectPeak }: { onSelectPeak: (peakId: string) => void }) {
+  const id = useId();
+
+  return (
+    <div className="hy-mountain-overview" role="group" aria-label="All fourteen mountain profiles">
+      {PEAKS.map((peak, index) => {
+        const profile = MOUNTAIN_PROFILES[peak.id];
+        const shade = SHADES[index];
+        const filterId = `${id}-tone-${peak.id}`;
+
+        return (
+          <button
+            key={peak.id}
+            className="hy-mountain-overview__peak"
+            type="button"
+            data-peak={peak.id}
+            aria-label={`Plan ${peak.name}, ${peak.elevation.toLocaleString()} metres`}
+            onClick={() => onSelectPeak(peak.id)}
+            style={{ "--hy-overview-shade": `${shade * 100}%` } as CSSProperties}
+          >
+            <svg className="hy-mountain-overview__relief" viewBox="0 90 1000 710" aria-hidden="true">
+              <defs>
+                <filter id={filterId} x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+                  {/* Map source luminance onto a unique blue-to-white shade,
+                      retaining transparency around the actual skyline. */}
+                  <feColorMatrix type="matrix" values={toneMatrix(shade)} />
+                </filter>
+              </defs>
+              <image href={profile.artwork} width="1000" height="800" filter={`url(#${filterId})`} />
+            </svg>
+            <span className="hy-mountain-overview__caption">
+              <span className="hy-mountain-overview__index">{String(index + 1).padStart(2, "0")}</span>
+              <span className="hy-mountain-overview__details">
+                <strong>{peak.name}</strong>
+                <span>{peak.elevation.toLocaleString()} m</span>
+                <span>{formatDayRange(expeditionTiming(peak.id).expedition)}</span>
+              </span>
+              <span className="hy-mountain-overview__swatch" aria-hidden="true" />
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 ]]>
     </file>
     <file path="src/app/(hiyas)/hiyas/planner/MountainSilhouette.tsx">
@@ -1229,17 +1537,16 @@ import { useMemo } from "react";
 import { campStops, PEAKS, plannerSummary, routeSegment, SUPPORT_LABELS } from "./logic";
 import { MOUNTAIN_PROFILES } from "./mountain-profiles";
 import { MountainSilhouette } from "./MountainSilhouette";
+import { MountainOverview } from "./MountainOverview";
 import { usePlanner } from "./PlannerProvider";
+import "./expedition-timing.css";
 
 export function Planner() {
   const { state, dispatch } = usePlanner();
   const peak = PEAKS.find((item) => item.id === state.peakId) ?? PEAKS[0];
   const profile = MOUNTAIN_PROFILES[peak.id] ?? MOUNTAIN_PROFILES.everest;
-  const stops = useMemo(
-    () => campStops(peak.elevation, state.days, state.support),
-    [peak.elevation, state.days, state.support]
-  );
   const selected = plannerSummary(state);
+  const stops = useMemo(() => campStops(profile), [profile]);
 
   return (
     <section className="hy-section hy-planner" id="planner" aria-labelledby="hy-planner-title">
@@ -1248,17 +1555,31 @@ export function Planner() {
           <div>
             <h2 id="hy-planner-title">Make the plan visible.</h2>
           </div>
-          <p>Choose a peak, set the rhythm, and see how the support plan changes around the route.</p>
+          <p>Choose a peak to see its estimated expedition length, summit push, and support plan.</p>
         </div>
 
         <div className="hy-planner__layout">
           <div className="hy-planner__peaks" aria-label="Select a peak">
+            <button
+              className="hy-planner__peak"
+              type="button"
+              data-active={state.overview ? "true" : "false"}
+              aria-pressed={state.overview}
+              onClick={() => dispatch({ type: "setOverview", overview: true })}
+            >
+              <span className="hy-planner__peak-index">00</span>
+              <span>
+                <span className="hy-planner__peak-name">All mountains</span>
+                <span className="hy-planner__peak-alt">The fourteen</span>
+              </span>
+            </button>
             {PEAKS.map((item, index) => (
               <button
                 key={item.id}
                 className="hy-planner__peak"
                 type="button"
-                data-active={item.id === state.peakId ? "true" : "false"}
+                data-active={!state.overview && item.id === state.peakId ? "true" : "false"}
+                aria-pressed={!state.overview && item.id === state.peakId}
                 onClick={() => dispatch({ type: "selectPeak", peakId: item.id })}
               >
                 <span className="hy-planner__peak-index">{String(index + 1).padStart(2, "0")}</span>
@@ -1276,84 +1597,110 @@ export function Planner() {
           >
             <div className="hy-silhouette__meta">
               <div>
-                <span className="hy-silhouette__meta-tag">{profile.region}</span>
+                <span className="hy-silhouette__meta-tag">{state.overview ? "Himalaya / Karakoram" : profile.region}</span>
                 <h3 className="hy-silhouette__meta-title">
-                  {profile.name} — {profile.routeLabel}
+                  {state.overview ? "The fourteen — all mountains" : `${profile.name} — ${profile.routeLabel}`}
                 </h3>
               </div>
-              <div className="hy-silhouette__meta-status" data-locked={state.locked ? "true" : "false"}>
+              <div className="hy-silhouette__meta-status" data-locked={!state.overview && state.locked ? "true" : "false"}>
                 <span className="hy-silhouette__status-dot" />
-                <span>{state.locked ? "Plan locked" : "Route active"}</span>
+                <span>{state.overview ? "Overview" : state.locked ? "Plan locked" : "Route active"}</span>
               </div>
             </div>
 
-            <MountainSilhouette
-              peakId={peak.id}
-              stops={stops}
-              locked={state.locked}
-              elevation={peak.elevation}
-            />
+            {state.overview ? (
+              <MountainOverview onSelectPeak={(peakId) => dispatch({ type: "selectPeak", peakId })} />
+            ) : (
+              <MountainSilhouette
+                peakId={peak.id}
+                stops={stops}
+                locked={state.locked}
+                elevation={peak.elevation}
+              />
+            )}
 
             <div className="hy-planner__profile-footer">
-              <span>{routeSegment(state.locked ? 1 : 0.76)}</span>
-              <span>{peak.elevation.toLocaleString()} m</span>
+              <span>{state.overview ? "14 mountains" : routeSegment(state.locked ? 1 : 0.76)}</span>
+              <span>{state.overview ? "8,027–8,849 m" : `${peak.elevation.toLocaleString()} m`}</span>
             </div>
           </div>
 
           <div className="hy-planner__controls">
-            <h3>{peak.name}</h3>
+            {state.overview ? (
+              <>
+                <h3>The fourteen</h3>
+                <p className="hy-mountain-overview__intro">
+                  Every face, its own shade. Select a mountain to explore its route and camps.
+                </p>
+                <div className="hy-planner__summary">
+                  <span className="hy-mono">Current expedition</span>
+                  <strong>{peak.name}</strong>
+                  <p>{selected.expeditionDuration} with {selected.supportLabel.toLowerCase()} support.</p>
+                </div>
+                <button
+                  className="hy-button hy-button--primary"
+                  type="button"
+                  onClick={() => dispatch({ type: "setOverview", overview: false })}
+                >
+                  <span>Return to {peak.name}</span>
+                  <span aria-hidden="true">↗</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <h3>{peak.name}</h3>
 
-            <div className="hy-control">
-              <label htmlFor="hy-days">Planning days</label>
-              <input
-                id="hy-days"
-                type="range"
-                min="14"
-                max="70"
-                step="1"
-                value={state.days}
-                onChange={(event) => dispatch({ type: "setDays", days: Number(event.target.value) })}
-              />
-              <div className="hy-range-readout">
-                <span>14 days</span>
-                <strong>{state.days} days</strong>
-                <span>70 days</span>
-              </div>
-            </div>
+                <div>
+                  <dl className="hy-expedition-timing" aria-label={`${peak.name} expedition estimates`}>
+                    <div>
+                      <dt>Estimated expedition</dt>
+                      <dd data-duration="expedition">{selected.expeditionDuration}</dd>
+                    </div>
+                    <div className="hy-expedition-timing__summit">
+                      <dt>Summit push</dt>
+                      <dd data-duration="summit-push">{selected.summitPushDuration}</dd>
+                    </div>
+                  </dl>
+                  <p className="hy-expedition-timing__note">
+                    Includes approach, acclimatization and return. The summit push is part of this total.
+                  </p>
+                </div>
 
-            <div className="hy-control">
-              <label htmlFor="hy-support">Support mode</label>
-              <select
-                id="hy-support"
-                value={state.support}
-                onChange={(event) =>
-                  dispatch({ type: "setSupport", support: event.target.value as "route" | "guided" | "private" })
-                }
-              >
-                {Object.entries(SUPPORT_LABELS).map(([key, label]) => (
-                  <option key={key} value={key}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </div>
+                <div className="hy-control">
+                  <label htmlFor="hy-support">Support mode</label>
+                  <select
+                    id="hy-support"
+                    value={state.support}
+                    onChange={(event) =>
+                      dispatch({ type: "setSupport", support: event.target.value as "route" | "guided" | "private" })
+                    }
+                  >
+                    {Object.entries(SUPPORT_LABELS).map(([key, label]) => (
+                      <option key={key} value={key}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-            <div className="hy-planner__summary">
-              <span className="hy-mono">Route summary</span>
-              <strong>{selected.elevation.toLocaleString()} m</strong>
-              <p>
-                {selected.days} planning days with {selected.supportLabel.toLowerCase()} support.
-              </p>
-            </div>
+                <div className="hy-planner__summary">
+                  <span className="hy-mono">Route summary</span>
+                  <strong>{selected.elevation.toLocaleString()} m</strong>
+                  <p>
+                    {selected.expeditionDuration} with {selected.supportLabel.toLowerCase()} support.
+                  </p>
+                </div>
 
-            <button
-              className="hy-button hy-button--primary hy-planner__lock"
-              type="button"
-              onClick={() => dispatch({ type: "lockPlan" })}
-            >
-              <span>{state.locked ? "Plan locked" : "Lock this plan"}</span>
-              <span>↗</span>
-            </button>
+                <button
+                  className="hy-button hy-button--primary hy-planner__lock"
+                  type="button"
+                  onClick={() => dispatch({ type: "lockPlan" })}
+                >
+                  <span>{state.locked ? "Plan locked" : "Lock this plan"}</span>
+                  <span>↗</span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -1446,7 +1793,7 @@ export function Header() {
   const previous = useRef(0);
   useEffect(() => { const update = () => { const y = window.scrollY; const delta = y - previous.current; setState(y < 60 ? "top" : delta > 4 ? "hidden" : "compact"); previous.current = y; }; update(); window.addEventListener("scroll", update, { passive: true }); return () => window.removeEventListener("scroll", update); }, []);
   useEffect(() => { document.body.style.overflow = open ? "hidden" : ""; return () => { document.body.style.overflow = ""; }; }, [open]);
-  return <header className="hy-header" data-state={state}><div className="hy-container hy-header__inner"><a className="hy-brand" href="#top" aria-label="HIYAS home"><Logo variant="mark"/><span>HIYAS</span></a><nav className="hy-nav" aria-label="Main navigation">{links.map(([id,label]) => <a key={id} href={`#${id}`}>{label}</a>)}</nav><span className="hy-header__plan hy-mono">{summary.peakName} / {summary.days} days</span><a className="hy-button hy-button--primary hy-header__action" href="#inquiry"><span>Plan an expedition</span><span className="hy-button__arrow">↗</span></a><button className="hy-menu" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} data-open={open} onClick={() => setOpen((value) => !value)}><span/></button></div><div className="hy-progress" aria-hidden="true"><span/></div>{open && <div className="hy-mobile-panel">{links.map(([id,label]) => <a key={id} href={`#${id}`} onClick={() => setOpen(false)}>{label}</a>)}<a className="hy-button hy-button--primary" href="#inquiry" onClick={() => setOpen(false)}><span>Plan an expedition</span><span>↗</span></a></div>}</header>;
+  return <header className="hy-header" data-state={state}><div className="hy-container hy-header__inner"><a className="hy-brand" href="#top" aria-label="HIYAS home"><Logo variant="mark"/><span>HIYAS</span></a><nav className="hy-nav" aria-label="Main navigation">{links.map(([id,label]) => <a key={id} href={`#${id}`}>{label}</a>)}</nav><span className="hy-header__plan hy-mono">{summary.peakName} / {summary.expeditionDuration}</span><a className="hy-button hy-button--primary hy-header__action" href="#inquiry"><span>Plan an expedition</span><span className="hy-button__arrow">↗</span></a><button className="hy-menu" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} data-open={open} onClick={() => setOpen((value) => !value)}><span/></button></div><div className="hy-progress" aria-hidden="true"><span/></div>{open && <div className="hy-mobile-panel">{links.map(([id,label]) => <a key={id} href={`#${id}`} onClick={() => setOpen(false)}>{label}</a>)}<a className="hy-button hy-button--primary" href="#inquiry" onClick={() => setOpen(false)}><span>Plan an expedition</span><span>↗</span></a></div>}</header>;
 }
 
 ]]>

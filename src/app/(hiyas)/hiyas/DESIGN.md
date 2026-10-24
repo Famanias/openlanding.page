@@ -47,7 +47,9 @@ No other hex colours are used. Alpha surfaces use `color-mix()` from these token
 
 `planner/logic.ts` is pure and tested. Peak data includes the fourteen elevations: Everest 8849 m, K2 8611 m, Kangchenjunga 8586 m, Lhotse 8516 m, Makalu 8485 m, Cho Oyu 8188 m, Dhaulagiri 8167 m, Manaslu 8163 m, Nanga Parbat 8126 m, Annapurna I 8091 m, Gasherbrum I 8080 m, Broad Peak 8051 m, Gasherbrum II 8035 m, and Shishapangma 8027 m.
 
-The planner days and support values are visitor-selected planning inputs. Changing a peak redraws the route profile, changing days moves camp markers, and changing support changes the summary language. `lockPlan` stores a local payload used to prefill the inquiry form.
+Each peak has a fixed estimated expedition range and a summit-push range in `planner/expedition-timings.ts`, with primary itinerary references and methodology in `planner/expedition-timings.md`. The summit push is included in the total expedition duration. Changing a peak redraws the route and updates its timing estimates; support is visitor-selected. The header and overview use the same estimates. A numeric midpoint remains available as the default for the separate inquiry form. `lockPlan` preserves the selected peak and support.
+
+Camp anchors belong to each mountain's route profile in `planner/mountain-profiles.ts`. Their positions and elevation labels stay fixed when support mode, expedition timing, or lock state changes; the camp-layout function accepts geometry only.
 
 ## Motion
 

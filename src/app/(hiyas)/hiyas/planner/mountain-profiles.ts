@@ -6,6 +6,7 @@ export type MountainProfile = {
   routeLabel: string;
   summit: { x: number; y: number };
   route: string;
+  campProgress: { camp1: number; camp2: number };
   artwork: string;
   viewpoint: string;
   features: string;
@@ -17,10 +18,13 @@ export type MountainProfile = {
 // and schematic itinerary lines share a 1000 x 800 coordinate system.
 // Viewpoints are explicit: itinerary lines are planning schematics, rather than
 // surveyed routes projected onto these photographic perspectives.
+// Camp anchors are fixed fractions along each route, independent of expedition
+// duration and support mode. They preserve the standard guided-plan placement.
 // Credits and derivative licenses: public/templates/hiyas/mountains/README.md.
 export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   everest: {
     id: "everest",
+    campProgress: { camp1: 0.28, camp2: 0.618 },
     name: "Everest",
     elevation: 8849,
     region: "Nepal / Tibet",
@@ -42,6 +46,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   k2: {
     id: "k2",
+    campProgress: { camp1: 0.28, camp2: 0.608 },
     name: "K2",
     elevation: 8611,
     region: "Pakistan / China",
@@ -63,6 +68,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   kangchenjunga: {
     id: "kangchenjunga",
+    campProgress: { camp1: 0.28, camp2: 0.618 },
     name: "Kangchenjunga",
     elevation: 8586,
     region: "Nepal / India",
@@ -84,6 +90,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   lhotse: {
     id: "lhotse",
+    campProgress: { camp1: 0.28, camp2: 0.618 },
     name: "Lhotse",
     elevation: 8516,
     region: "Nepal / Tibet",
@@ -105,6 +112,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   makalu: {
     id: "makalu",
+    campProgress: { camp1: 0.28, camp2: 0.608 },
     name: "Makalu",
     elevation: 8485,
     region: "Nepal / Tibet",
@@ -126,6 +134,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "cho-oyu": {
     id: "cho-oyu",
+    campProgress: { camp1: 0.28, camp2: 0.578 },
     name: "Cho Oyu",
     elevation: 8188,
     region: "Nepal / Tibet",
@@ -147,6 +156,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   dhaulagiri: {
     id: "dhaulagiri",
+    campProgress: { camp1: 0.28, camp2: 0.598 },
     name: "Dhaulagiri",
     elevation: 8167,
     region: "Nepal",
@@ -168,6 +178,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   manaslu: {
     id: "manaslu",
+    campProgress: { camp1: 0.28, camp2: 0.588 },
     name: "Manaslu",
     elevation: 8163,
     region: "Nepal",
@@ -189,6 +200,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "nanga-parbat": {
     id: "nanga-parbat",
+    campProgress: { camp1: 0.28, camp2: 0.598 },
     name: "Nanga Parbat",
     elevation: 8126,
     region: "Pakistan",
@@ -210,6 +222,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   annapurna: {
     id: "annapurna",
+    campProgress: { camp1: 0.28, camp2: 0.598 },
     name: "Annapurna I",
     elevation: 8091,
     region: "Nepal",
@@ -231,6 +244,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "gasherbrum-i": {
     id: "gasherbrum-i",
+    campProgress: { camp1: 0.28, camp2: 0.598 },
     name: "Gasherbrum I",
     elevation: 8080,
     region: "Pakistan / China",
@@ -252,6 +266,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "broad-peak": {
     id: "broad-peak",
+    campProgress: { camp1: 0.28, camp2: 0.608 },
     name: "Broad Peak",
     elevation: 8051,
     region: "Pakistan / China",
@@ -273,6 +288,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   "gasherbrum-ii": {
     id: "gasherbrum-ii",
+    campProgress: { camp1: 0.28, camp2: 0.608 },
     name: "Gasherbrum II",
     elevation: 8035,
     region: "Pakistan / China",
@@ -294,6 +310,7 @@ export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
   },
   shishapangma: {
     id: "shishapangma",
+    campProgress: { camp1: 0.28, camp2: 0.578 },
     name: "Shishapangma",
     elevation: 8027,
     region: "Tibet",

@@ -202,8 +202,6 @@ h3 { font-size: clamp(1.65rem, 3vw, 3rem); }
 .hy-control { display:grid; gap:8px; }
 .hy-control label { font:500 12px/1.2 var(--hy-body); }
 .hy-control select,.hy-control input { width:100%; min-height:46px; border:1px solid color-mix(in srgb,var(--hy-white) 35%,transparent); border-radius:0; background:var(--hy-black); color:var(--hy-white); padding:0 12px; }
-.hy-control input[type="range"] { padding:0; accent-color:var(--hy-blue); }
-.hy-range-readout { display:flex; justify-content:space-between; font:400 11px var(--hy-mono); }
 .hy-planner__summary { padding-top:18px; border-top:1px solid color-mix(in srgb,var(--hy-white) 30%,transparent); }
 .hy-planner__summary strong { display:block; margin-top:8px; font:700 36px/.9 var(--hy-display); }
 .hy-planner__summary p { margin-top:8px; color:color-mix(in srgb,var(--hy-white) 68%,transparent); }
