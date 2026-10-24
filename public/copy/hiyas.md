@@ -284,16 +284,58 @@ h3 { font-size: clamp(1.65rem, 3vw, 3rem); }
 .hy-planner__peak:hover,.hy-planner__peak:focus-visible,.hy-planner__peak[data-active="true"] { background:var(--hy-black); }
 .hy-planner__peak[data-active="true"] { transform:translateX(6px); }
 .hy-planner__peak-index { font:400 11px/1.2 var(--hy-mono); opacity:.65; }
-.hy-planner__peak-name { font:600 16px/1.05 var(--hy-body); }
-.hy-planner__peak-alt { margin-top:5px; font:400 10px/1.2 var(--hy-mono); opacity:.68; }
-.hy-planner__profile { position:relative; display:grid; align-items:end; padding:28px; overflow:clip; background:linear-gradient(155deg,var(--hy-blue),var(--hy-black)); }
-.hy-planner__profile svg { width:100%; height:100%; min-height:320px; }
+.hy-planner__peak-name { display:block; font:600 16px/1.05 var(--hy-body); }
+.hy-planner__peak-alt { display:block; margin-top:5px; font:400 10px/1.2 var(--hy-mono); opacity:.68; }
+.hy-planner__profile { position:relative; display:grid; align-items:end; min-height:520px; padding:28px; overflow:clip; background:linear-gradient(155deg,var(--hy-blue),var(--hy-black)); }
+.hy-planner__profile svg { width:100%; height:100%; min-height:360px; }
 .hy-planner__gridline { stroke:color-mix(in srgb,var(--hy-white) 20%,transparent); stroke-width:1; vector-effect:non-scaling-stroke; }
 .hy-planner__route { fill:none; stroke:var(--hy-white); stroke-width:3; vector-effect:non-scaling-stroke; stroke-dasharray:100; stroke-dashoffset:calc(100 - (var(--hy-planner-progress,0) * 100)); transition:stroke-dashoffset var(--hy-base) var(--hy-ease-out); }
 .hy-planner__route-signal { fill:none; stroke:var(--hy-blue); stroke-width:5; vector-effect:non-scaling-stroke; }
 .hy-planner__camp { fill:var(--hy-white); stroke:var(--hy-blue); stroke-width:2; }
 .hy-planner__camp-label { fill:var(--hy-white); font:500 11px var(--hy-body); }
-.hy-planner__profile-footer { position:absolute; right:28px; bottom:22px; left:28px; display:flex; justify-content:space-between; gap:16px; font:400 11px/1.2 var(--hy-mono); }
+.hy-planner__profile-footer { position:absolute; right:28px; bottom:22px; left:28px; display:flex; justify-content:space-between; gap:16px; font:400 11px/1.2 var(--hy-mono); z-index:2; pointer-events:none; }
+
+/* Mountain silhouette visualization */
+.hy-silhouette__meta { position:absolute; top:24px; left:28px; right:28px; z-index:2; display:flex; justify-content:space-between; align-items:flex-start; gap:16px; pointer-events:none; }
+.hy-silhouette__meta-tag { display:block; font:400 11px/1.2 var(--hy-mono); letter-spacing:0.08em; text-transform:uppercase; color:color-mix(in srgb,var(--hy-white) 65%,transparent); }
+.hy-silhouette__meta-title { margin-top:4px; font:600 20px/1.15 var(--hy-display); letter-spacing:-0.01em; color:var(--hy-white); text-transform:uppercase; }
+.hy-silhouette__meta-status { display:inline-flex; align-items:center; gap:8px; padding:6px 12px; font:500 11px/1 var(--hy-mono); letter-spacing:0.06em; text-transform:uppercase; white-space:nowrap; border:1px solid color-mix(in srgb,var(--hy-white) 28%,transparent); background:color-mix(in srgb,var(--hy-black) 72%,transparent); backdrop-filter:blur(8px); color:var(--hy-white); transition:all var(--hy-base) var(--hy-ease-out); }
+.hy-silhouette__meta-status[data-locked="true"] { border-color:var(--hy-white); background:var(--hy-white); color:var(--hy-black); }
+.hy-silhouette__status-dot { width:6px; height:6px; border-radius:50%; background:var(--hy-white); flex-shrink:0; }
+.hy-silhouette__meta-status[data-locked="true"] .hy-silhouette__status-dot { background:var(--hy-black); }
+
+.hy-mountain-silhouette { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
+.hy-silhouette__elevation-grid line { stroke:color-mix(in srgb,var(--hy-white) 12%,transparent); stroke-width:1; stroke-dasharray:2 6; vector-effect:non-scaling-stroke; }
+.hy-silhouette__elevation-grid text { fill:color-mix(in srgb,var(--hy-white) 35%,transparent); font:400 9px/1 var(--hy-mono); letter-spacing:0.08em; }
+.hy-silhouette__ridge { fill:color-mix(in srgb,var(--hy-blue) 48%,var(--hy-black)); opacity:0.85; }
+.hy-silhouette__lit { fill:var(--hy-blue); }
+.hy-silhouette__shadow { fill:color-mix(in srgb,var(--hy-blue) 22%,var(--hy-black)); }
+.hy-silhouette__snow { fill:var(--hy-white); opacity:0.92; }
+.hy-silhouette__couloir { stroke:var(--hy-white); stroke-width:2; fill:none; opacity:0.35; stroke-linecap:round; }
+.hy-silhouette__glacier { fill:var(--hy-black); }
+.hy-silhouette__moraine { stroke:color-mix(in srgb,var(--hy-white) 16%,transparent); stroke-width:1.5; fill:none; stroke-linecap:round; }
+.hy-silhouette__route { fill:none; stroke:color-mix(in srgb,var(--hy-white) 36%,transparent); stroke-width:2; stroke-dasharray:4 7; }
+.hy-silhouette__climbed { fill:none; stroke:var(--hy-white); stroke-width:3.5; stroke-linecap:round; transition:stroke-dashoffset var(--hy-base) var(--hy-ease-out); }
+.hy-silhouette__camp-outer { fill:none; stroke:color-mix(in srgb,var(--hy-white) 30%,transparent); stroke-width:1.5; transition:stroke var(--hy-fast) var(--hy-ease-out); }
+.hy-silhouette__camp-inner { fill:var(--hy-blue); stroke:var(--hy-white); stroke-width:1.5; transition:fill var(--hy-fast) var(--hy-ease-out); }
+.hy-silhouette__camp[data-reached] .hy-silhouette__camp-outer { stroke:var(--hy-white); opacity:0.85; }
+.hy-silhouette__camp[data-reached] .hy-silhouette__camp-inner { fill:var(--hy-white); stroke:var(--hy-black); }
+.hy-silhouette__camp-title { fill:var(--hy-white); font:600 11px/1 var(--hy-display); letter-spacing:0.04em; text-transform:uppercase; filter:drop-shadow(0 1px 3px var(--hy-black)); }
+.hy-silhouette__camp-elevation { fill:color-mix(in srgb,var(--hy-white) 72%,transparent); font:400 9px/1 var(--hy-mono); letter-spacing:0.02em; filter:drop-shadow(0 1px 2px var(--hy-black)); }
+.hy-silhouette__climber-halo { fill:none; stroke:var(--hy-white); stroke-width:1.5; opacity:0.55; }
+.hy-silhouette__climber-dot { fill:var(--hy-white); }
+.hy-silhouette__summit-pulse { fill:none; stroke:var(--hy-white); stroke-width:1.5; opacity:0.6; }
+.hy-silhouette__summit-center { fill:var(--hy-white); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hy-silhouette__climber-halo { transform-box:fill-box; transform-origin:center; animation:hy-halo 2.4s var(--hy-ease-out) infinite; }
+  .hy-silhouette__summit-pulse { transform-box:fill-box; transform-origin:center; animation:hy-halo 2s var(--hy-ease-out) infinite; }
+}
+
+@keyframes hy-halo {
+  from { transform:scale(0.5); opacity:0.85; }
+  to { transform:scale(1.65); opacity:0; }
+}
 .hy-planner__controls { display:grid; align-content:start; gap:22px; padding:24px; background:var(--hy-black); border-left:1px solid color-mix(in srgb,var(--hy-white) 34%,transparent); }
 .hy-planner__controls h3 { max-width:10ch; }
 .hy-control { display:grid; gap:8px; }
@@ -411,7 +453,7 @@ h3 { font-size: clamp(1.65rem, 3vw, 3rem); }
 @media (max-width:640px) {
   :root { --hy-gutter:20px; }.hy-header{height:58px}.hy-mobile-panel{inset:58px 0 0}.hy-brand svg{width:32px;height:32px}
   .hy-hero{padding-top:58px}.hy-hero__copy{min-height:580px;padding-block:54px 28px}.hy-hero__title{font-size:clamp(4rem,18vw,6.4rem);max-width:10ch}.hy-hero__image{min-height:420px}.hy-hero__meta{display:grid;gap:12px}.hy-hero__badge{right:16px;bottom:18px}
-  .hy-planner__profile{min-height:360px;padding:18px}.hy-planner__controls{padding:18px}.hy-peak-row{grid-template-columns:38px 1.5fr 1fr 30px;gap:8px}.hy-peak-row__region,.hy-peak-row__character{display:none}.hy-peak-row__name{font-size:24px}
+  .hy-planner__profile{min-height:360px;padding:18px}.hy-silhouette__meta{top:14px;left:18px;right:18px;flex-direction:column;gap:6px}.hy-silhouette__meta-title{font-size:16px}.hy-planner__controls{padding:18px}.hy-peak-row{grid-template-columns:38px 1.5fr 1fr 30px;gap:8px}.hy-peak-row__region,.hy-peak-row__character{display:none}.hy-peak-row__name{font-size:24px}
   .hy-form__grid{grid-template-columns:1fr}.hy-field--wide{grid-column:auto}.hy-form__foot{display:grid}.hy-form__foot .hy-button{width:100%}
   .hy-footer__grid{grid-template-columns:1fr 1fr}.hy-footer__wordmark{margin-top:68px;font-size:27vw}.hy-footer__copy{display:grid;gap:8px}
 }
@@ -708,22 +750,742 @@ export function plannerSummary(state: PlannerState) {
 
 ]]>
     </file>
+    <file path="src/app/(hiyas)/hiyas/planner/mountain-profiles.ts">
+<![CDATA[export type MountainProfile = {
+  id: string;
+  name: string;
+  elevation: number;
+  region: string;
+  routeLabel: string;
+  summit: { x: number; y: number };
+  route: string;
+  litFace: string;
+  shadowFace: string;
+  snowCaps: string[];
+  couloirs: string[];
+  backgroundRidges: string[];
+  glacier: string;
+  moraines: string[];
+};
+
+export const MOUNTAIN_PROFILES: Record<string, MountainProfile> = {
+  everest: {
+    id: "everest",
+    name: "Everest",
+    elevation: 8849,
+    region: "Nepal / Tibet",
+    routeLabel: "South Col & Khumbu Icefall Route",
+    summit: { x: 535, y: 138 },
+    route: "M 810 690 C 780 630, 750 560, 710 490 S 640 400, 600 330 S 560 220, 535 138",
+    litFace: "M 535 138 L 565 180 L 600 230 L 640 290 L 685 360 L 735 440 L 795 530 L 860 620 L 920 680 L 1000 730 L 1000 800 L -200 800 L -200 680 L 120 650 L 230 550 L 320 460 L 410 350 L 480 240 Z",
+    shadowFace: "M 535 138 L 480 240 L 410 350 L 320 460 L 230 550 L 120 650 L -200 680 L -200 800 L 490 800 L 505 600 L 520 420 L 530 270 Z",
+    snowCaps: [
+      "M 535 138 L 565 180 L 550 196 L 530 185 L 515 204 L 498 188 L 480 240 L 460 215 L 505 160 Z",
+      "M 590 260 L 640 290 L 685 360 L 670 380 L 620 330 L 575 285 Z",
+      "M 320 460 L 370 410 L 410 350 L 380 390 L 305 470 Z",
+    ],
+    couloirs: [
+      "M 530 270 L 522 350 L 516 440 L 510 540",
+      "M 570 310 L 562 390 L 555 490 L 546 590",
+      "M 650 370 L 638 460 L 626 570",
+    ],
+    backgroundRidges: [
+      "M -200 620 L -60 560 L 90 600 L 230 540 L 360 610 L 490 560 L 490 800 L -200 800 Z",
+      "M 1200 610 L 1060 550 L 910 590 L 780 530 L 660 580 L 660 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 700 L 0 704 L 180 682 L 410 710 L 630 688 L 810 706 L 1000 692 L 1200 700 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 735 C 0 725, 300 715, 600 740 S 1000 715, 1200 730",
+      "M -200 765 C 0 756, 320 748, 640 772 S 1000 748, 1200 760",
+    ],
+  },
+  k2: {
+    id: "k2",
+    name: "K2",
+    elevation: 8611,
+    region: "Pakistan / China",
+    routeLabel: "Abruzzi Spur & The Bottleneck",
+    summit: { x: 508, y: 146 },
+    route: "M 820 695 C 800 635, 780 565, 745 505 S 685 410, 645 330 S 560 215, 508 146",
+    litFace: "M 508 146 L 538 190 L 575 245 L 620 310 L 675 385 L 735 465 L 805 550 L 880 630 L 950 685 L 1000 720 L 1000 800 L -200 800 L -200 690 L 100 660 L 205 575 L 300 480 L 380 380 L 450 265 Z",
+    shadowFace: "M 508 146 L 450 265 L 380 380 L 300 480 L 205 575 L 100 660 L -200 690 L -200 800 L 470 800 L 485 620 L 498 440 L 504 280 Z",
+    snowCaps: [
+      "M 508 146 L 538 190 L 526 208 L 510 196 L 495 218 L 482 202 L 450 265 L 435 242 L 480 168 Z",
+      "M 570 270 L 620 310 L 675 385 L 658 402 L 608 340 L 555 295 Z",
+      "M 300 480 L 350 425 L 380 380 L 360 415 L 285 495 Z",
+    ],
+    couloirs: [
+      "M 504 280 L 496 365 L 490 455 L 482 555",
+      "M 545 325 L 536 410 L 528 505 L 518 605",
+      "M 625 390 L 612 480 L 600 585",
+    ],
+    backgroundRidges: [
+      "M -200 640 L -70 575 L 75 620 L 210 555 L 340 625 L 470 575 L 470 800 L -200 800 Z",
+      "M 1200 625 L 1070 565 L 925 610 L 795 545 L 675 600 L 675 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 175 686 L 405 715 L 625 692 L 805 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  kangchenjunga: {
+    id: "kangchenjunga",
+    name: "Kangchenjunga",
+    elevation: 8586,
+    region: "Nepal / India",
+    routeLabel: "Southwest Face & Great Shelf",
+    summit: { x: 475, y: 152 },
+    route: "M 790 695 C 760 635, 725 565, 680 500 S 590 410, 545 330 S 495 220, 475 152",
+    litFace: "M 475 152 L 520 205 L 580 260 L 650 340 L 720 430 L 795 520 L 870 615 L 945 680 L 1000 720 L 1000 800 L -200 800 L -200 690 L 80 660 L 180 580 L 270 495 L 340 410 L 410 270 Z",
+    shadowFace: "M 475 152 L 410 270 L 340 410 L 270 495 L 180 580 L 80 660 L -200 690 L -200 800 L 440 800 L 452 620 L 464 440 L 470 280 Z",
+    snowCaps: [
+      "M 475 152 L 520 205 L 505 220 L 485 210 L 470 230 L 455 212 L 410 270 L 395 245 L 445 175 Z",
+      "M 550 280 L 610 330 L 665 405 L 645 425 L 590 360 L 535 310 Z",
+      "M 270 495 L 315 440 L 340 410 L 325 440 L 255 510 Z",
+    ],
+    couloirs: [
+      "M 470 280 L 462 365 L 456 455 L 450 555",
+      "M 520 325 L 510 410 L 502 505 L 492 605",
+      "M 600 390 L 588 480 L 576 585",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  lhotse: {
+    id: "lhotse",
+    name: "Lhotse",
+    elevation: 8516,
+    region: "Nepal / Tibet",
+    routeLabel: "Lhotse Couloir & Reiss Couloir",
+    summit: { x: 560, y: 156 },
+    route: "M 810 695 C 780 635, 750 565, 715 500 S 650 410, 615 330 S 580 220, 560 156",
+    litFace: "M 560 156 L 600 215 L 650 280 L 710 360 L 775 450 L 845 540 L 915 625 L 970 685 L 1000 725 L 1000 800 L -200 800 L -200 690 L 130 660 L 240 580 L 340 490 L 430 390 L 505 260 Z",
+    shadowFace: "M 560 156 L 505 260 L 430 390 L 340 490 L 240 580 L 130 660 L -200 690 L -200 800 L 525 800 L 538 620 L 550 440 L 555 280 Z",
+    snowCaps: [
+      "M 560 156 L 600 215 L 585 230 L 565 220 L 550 240 L 535 222 L 505 260 L 490 235 L 535 175 Z",
+      "M 620 290 L 680 345 L 735 420 L 715 440 L 660 375 L 605 325 Z",
+      "M 340 490 L 390 435 L 430 390 L 410 425 L 325 505 Z",
+    ],
+    couloirs: [
+      "M 555 280 L 546 365 L 540 455 L 532 555",
+      "M 595 325 L 585 410 L 576 505 L 566 605",
+      "M 670 390 L 658 480 L 646 585",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  makalu: {
+    id: "makalu",
+    name: "Makalu",
+    elevation: 8485,
+    region: "Nepal / Tibet",
+    routeLabel: "Northwest Ridge & French Couloir",
+    summit: { x: 512, y: 158 },
+    route: "M 800 695 C 770 635, 740 565, 705 500 S 640 410, 600 330 S 545 220, 512 158",
+    litFace: "M 512 158 L 550 215 L 595 280 L 650 360 L 710 450 L 780 540 L 855 625 L 920 685 L 1000 725 L 1000 800 L -200 800 L -200 690 L 110 660 L 215 580 L 315 490 L 400 390 L 465 260 Z",
+    shadowFace: "M 512 158 L 465 260 L 400 390 L 315 490 L 215 580 L 110 660 L -200 690 L -200 800 L 480 800 L 492 620 L 504 440 L 508 280 Z",
+    snowCaps: [
+      "M 512 158 L 550 215 L 535 230 L 515 220 L 500 240 L 485 222 L 465 260 L 450 235 L 490 175 Z",
+      "M 570 290 L 630 345 L 685 420 L 665 440 L 610 375 L 555 325 Z",
+      "M 315 490 L 365 435 L 400 390 L 380 425 L 300 505 Z",
+    ],
+    couloirs: [
+      "M 508 280 L 499 365 L 493 455 L 485 555",
+      "M 548 325 L 538 410 L 529 505 L 519 605",
+      "M 625 390 L 613 480 L 601 585",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  "cho-oyu": {
+    id: "cho-oyu",
+    name: "Cho Oyu",
+    elevation: 8188,
+    region: "Nepal / Tibet",
+    routeLabel: "Northwest Face & Glaciated Plateaus",
+    summit: { x: 465, y: 172 },
+    route: "M 780 695 C 750 635, 715 565, 675 500 S 585 410, 540 330 S 485 220, 465 172",
+    litFace: "M 465 172 L 515 225 L 575 290 L 640 370 L 710 460 L 780 550 L 855 635 L 925 690 L 1000 730 L 1000 800 L -200 800 L -200 695 L 85 665 L 185 585 L 285 495 L 365 395 L 420 270 Z",
+    shadowFace: "M 465 172 L 420 270 L 365 395 L 285 495 L 185 585 L 85 665 L -200 695 L -200 800 L 435 800 L 446 620 L 458 440 L 462 280 Z",
+    snowCaps: [
+      "M 465 172 L 515 225 L 498 240 L 478 230 L 460 250 L 445 232 L 420 270 L 405 245 L 445 188 Z",
+      "M 535 300 L 595 355 L 650 430 L 630 450 L 575 385 L 520 335 Z",
+      "M 285 495 L 335 440 L 365 395 L 345 430 L 270 510 Z",
+    ],
+    couloirs: [
+      "M 462 280 L 453 365 L 447 455 L 439 555",
+      "M 502 325 L 492 410 L 483 505 L 473 605",
+      "M 580 390 L 568 480 L 556 585",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  dhaulagiri: {
+    id: "dhaulagiri",
+    name: "Dhaulagiri",
+    elevation: 8167,
+    region: "Nepal",
+    routeLabel: "Northeast Ridge Classic Line",
+    summit: { x: 490, y: 174 },
+    route: "M 790 695 C 760 635, 730 565, 690 500 S 615 410, 570 330 S 515 220, 490 174",
+    litFace: "M 490 174 L 535 225 L 590 290 L 655 370 L 725 460 L 795 550 L 870 635 L 935 690 L 1000 730 L 1000 800 L -200 800 L -200 695 L 95 665 L 195 585 L 295 495 L 380 395 L 440 270 Z",
+    shadowFace: "M 490 174 L 440 270 L 380 395 L 295 495 L 195 585 L 95 665 L -200 695 L -200 800 L 460 800 L 472 620 L 484 440 L 488 280 Z",
+    snowCaps: [
+      "M 490 174 L 535 225 L 518 240 L 498 230 L 480 250 L 465 232 L 440 270 L 425 245 L 468 188 Z",
+      "M 550 300 L 610 355 L 665 430 L 645 450 L 590 385 L 535 335 Z",
+      "M 295 495 L 345 440 L 380 395 L 360 430 L 280 510 Z",
+    ],
+    couloirs: [
+      "M 488 280 L 479 365 L 473 455 L 465 555",
+      "M 525 325 L 515 410 L 506 505 L 496 605",
+      "M 600 390 L 588 480 L 576 585",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  manaslu: {
+    id: "manaslu",
+    name: "Manaslu",
+    elevation: 8163,
+    region: "Nepal",
+    routeLabel: "Northeast Face & Summit Pinnacle",
+    summit: { x: 520, y: 175 },
+    route: "M 800 695 C 770 635, 740 565, 705 500 S 635 410, 595 330 S 545 220, 520 175",
+    litFace: "M 520 175 L 565 225 L 615 290 L 680 370 L 745 460 L 815 550 L 885 635 L 945 690 L 1000 730 L 1000 800 L -200 800 L -200 695 L 115 665 L 220 585 L 315 495 L 400 395 L 470 270 Z",
+    shadowFace: "M 520 175 L 470 270 L 400 390 L 315 495 L 220 585 L 115 665 L -200 695 L -200 800 L 490 800 L 502 620 L 514 440 L 518 280 Z",
+    snowCaps: [
+      "M 520 175 L 565 225 L 548 240 L 528 230 L 510 250 L 495 232 L 470 270 L 455 245 L 498 188 Z",
+      "M 575 300 L 635 355 L 690 430 L 670 450 L 615 385 L 560 335 Z",
+      "M 315 495 L 365 440 L 400 395 L 380 430 L 300 510 Z",
+    ],
+    couloirs: [
+      "M 518 280 L 509 365 L 503 455 L 495 555",
+      "M 555 325 L 545 410 L 536 505 L 526 605",
+      "M 630 390 L 618 480 L 606 585",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  "nanga-parbat": {
+    id: "nanga-parbat",
+    name: "Nanga Parbat",
+    elevation: 8126,
+    region: "Pakistan",
+    routeLabel: "Kinshofer Route on the Diamir Face",
+    summit: { x: 472, y: 177 },
+    route: "M 775 695 C 745 635, 710 565, 670 500 S 580 410, 535 330 S 490 220, 472 177",
+    litFace: "M 472 177 L 518 228 L 575 292 L 640 372 L 710 462 L 780 552 L 855 638 L 925 692 L 1000 732 L 1000 800 L -200 800 L -200 695 L 85 665 L 185 585 L 285 495 L 365 395 L 425 270 Z",
+    shadowFace: "M 472 177 L 425 270 L 365 395 L 285 495 L 185 585 L 85 665 L -200 695 L -200 800 L 440 800 L 452 620 L 464 440 L 468 280 Z",
+    snowCaps: [
+      "M 472 177 L 518 228 L 500 242 L 482 232 L 465 252 L 450 235 L 425 270 L 410 248 L 450 190 Z",
+      "M 535 302 L 595 358 L 650 432 L 630 452 L 575 388 L 520 338 Z",
+      "M 285 495 L 335 440 L 365 395 L 345 430 L 270 510 Z",
+    ],
+    couloirs: [
+      "M 468 280 L 459 365 L 453 455 L 445 555",
+      "M 505 325 L 495 410 L 486 505 L 476 605",
+      "M 580 390 L 568 480 L 556 585",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  annapurna: {
+    id: "annapurna",
+    name: "Annapurna I",
+    elevation: 8091,
+    region: "Nepal",
+    routeLabel: "North Face & The Sickle Glacier",
+    summit: { x: 450, y: 180 },
+    route: "M 770 695 C 740 635, 705 565, 665 500 S 570 410, 525 330 S 475 220, 450 180",
+    litFace: "M 450 180 L 498 230 L 560 295 L 630 375 L 700 465 L 775 555 L 850 640 L 920 695 L 1000 735 L 1000 800 L -200 800 L -200 700 L 75 670 L 175 590 L 275 500 L 350 400 L 410 275 Z",
+    shadowFace: "M 450 180 L 410 275 L 350 400 L 275 500 L 175 590 L 75 670 L -200 700 L -200 800 L 420 800 L 432 620 L 444 440 L 448 285 Z",
+    snowCaps: [
+      "M 450 180 L 498 230 L 480 245 L 460 235 L 445 255 L 430 238 L 410 275 L 395 250 L 430 192 Z",
+      "M 520 305 L 580 360 L 635 435 L 615 455 L 560 390 L 505 340 Z",
+      "M 275 500 L 325 445 L 350 400 L 330 435 L 255 515 Z",
+    ],
+    couloirs: [
+      "M 448 285 L 439 370 L 433 460 L 425 560",
+      "M 485 330 L 475 415 L 466 510 L 456 610",
+      "M 560 395 L 548 485 L 536 590",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  "gasherbrum-i": {
+    id: "gasherbrum-i",
+    name: "Gasherbrum I",
+    elevation: 8080,
+    region: "Pakistan / China",
+    routeLabel: "Japanese Couloir & Northwest Face",
+    summit: { x: 530, y: 182 },
+    route: "M 800 695 C 770 635, 735 565, 700 500 S 630 410, 590 330 S 550 220, 530 182",
+    litFace: "M 530 182 L 575 232 L 625 298 L 690 378 L 755 468 L 825 558 L 895 642 L 955 695 L 1000 735 L 1000 800 L -200 800 L -200 700 L 125 670 L 225 590 L 325 500 L 410 400 L 480 275 Z",
+    shadowFace: "M 530 182 L 480 275 L 410 400 L 325 500 L 225 590 L 125 670 L -200 700 L -200 800 L 500 800 L 512 620 L 524 440 L 528 285 Z",
+    snowCaps: [
+      "M 530 182 L 575 232 L 558 248 L 538 238 L 520 258 L 505 240 L 480 275 L 465 250 L 508 195 Z",
+      "M 585 308 L 645 362 L 700 438 L 680 458 L 625 392 L 570 342 Z",
+      "M 325 500 L 375 445 L 410 400 L 390 435 L 310 515 Z",
+    ],
+    couloirs: [
+      "M 528 285 L 519 370 L 513 460 L 505 560",
+      "M 565 330 L 555 415 L 546 510 L 536 610",
+      "M 640 395 L 628 485 L 616 590",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  "broad-peak": {
+    id: "broad-peak",
+    name: "Broad Peak",
+    elevation: 8051,
+    region: "Pakistan / China",
+    routeLabel: "West Ridge & Summit Crest Traverse",
+    summit: { x: 490, y: 184 },
+    route: "M 785 695 C 755 635, 720 565, 680 500 S 600 410, 560 330 S 515 220, 490 184",
+    litFace: "M 490 184 L 540 234 L 595 298 L 660 378 L 730 468 L 800 558 L 875 642 L 940 695 L 1000 735 L 1000 800 L -200 800 L -200 700 L 95 670 L 200 590 L 300 500 L 385 400 L 445 275 Z",
+    shadowFace: "M 490 184 L 445 275 L 385 400 L 300 500 L 200 590 L 95 670 L -200 700 L -200 800 L 460 800 L 472 620 L 484 440 L 488 285 Z",
+    snowCaps: [
+      "M 490 184 L 540 234 L 522 248 L 502 238 L 485 258 L 470 240 L 445 275 L 430 250 L 470 195 Z",
+      "M 555 308 L 615 362 L 670 438 L 650 458 L 595 392 L 540 342 Z",
+      "M 300 500 L 350 445 L 385 400 L 365 435 L 285 515 Z",
+    ],
+    couloirs: [
+      "M 488 285 L 479 370 L 473 460 L 465 560",
+      "M 525 330 L 515 415 L 506 510 L 496 610",
+      "M 600 395 L 588 485 L 576 590",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  "gasherbrum-ii": {
+    id: "gasherbrum-ii",
+    name: "Gasherbrum II",
+    elevation: 8035,
+    region: "Pakistan / China",
+    routeLabel: "Southwest Spur & Banana Ridge",
+    summit: { x: 500, y: 185 },
+    route: "M 790 695 C 760 635, 725 565, 685 500 S 610 410, 570 330 S 525 220, 500 185",
+    litFace: "M 500 185 L 545 235 L 600 300 L 665 380 L 735 470 L 805 560 L 880 645 L 945 695 L 1000 735 L 1000 800 L -200 800 L -200 700 L 105 670 L 210 590 L 310 500 L 395 400 L 455 275 Z",
+    shadowFace: "M 500 185 L 455 275 L 395 400 L 310 500 L 210 590 L 105 670 L -200 700 L -200 800 L 470 800 L 482 620 L 494 440 L 498 285 Z",
+    snowCaps: [
+      "M 500 185 L 545 235 L 528 250 L 508 240 L 490 260 L 475 242 L 455 275 L 440 250 L 480 195 Z",
+      "M 560 310 L 620 365 L 675 440 L 655 460 L 600 395 L 545 345 Z",
+      "M 310 500 L 360 445 L 395 400 L 375 435 L 295 515 Z",
+    ],
+    couloirs: [
+      "M 498 285 L 489 370 L 483 460 L 475 560",
+      "M 535 330 L 525 415 L 516 510 L 506 610",
+      "M 610 395 L 598 485 L 586 590",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+  shishapangma: {
+    id: "shishapangma",
+    name: "Shishapangma",
+    elevation: 8027,
+    region: "Tibet",
+    routeLabel: "Northern Slopes & Razor Ridge",
+    summit: { x: 520, y: 187 },
+    route: "M 795 695 C 765 635, 730 565, 690 500 S 620 410, 580 330 S 540 220, 520 187",
+    litFace: "M 520 187 L 565 237 L 620 302 L 685 382 L 755 472 L 825 562 L 900 647 L 960 697 L 1000 735 L 1000 800 L -200 800 L -200 700 L 120 670 L 225 590 L 325 500 L 410 400 L 475 275 Z",
+    shadowFace: "M 520 187 L 475 275 L 410 400 L 325 500 L 225 590 L 120 670 L -200 700 L -200 800 L 490 800 L 502 620 L 514 440 L 518 285 Z",
+    snowCaps: [
+      "M 520 187 L 565 237 L 548 252 L 528 242 L 510 262 L 495 245 L 475 275 L 460 252 L 500 197 Z",
+      "M 580 312 L 640 367 L 695 442 L 675 462 L 620 397 L 565 347 Z",
+      "M 325 500 L 375 445 L 410 400 L 390 435 L 310 515 Z",
+    ],
+    couloirs: [
+      "M 518 285 L 509 370 L 503 460 L 495 560",
+      "M 555 330 L 545 415 L 536 510 L 526 610",
+      "M 630 395 L 618 485 L 606 590",
+    ],
+    backgroundRidges: [
+      "M -200 635 L -65 570 L 85 615 L 225 550 L 355 620 L 485 570 L 485 800 L -200 800 Z",
+      "M 1200 620 L 1065 560 L 915 605 L 785 540 L 665 595 L 665 800 L 1200 800 Z",
+    ],
+    glacier: "M -200 705 L 0 710 L 180 686 L 410 715 L 630 692 L 810 710 L 1000 696 L 1200 705 L 1200 800 L -200 800 Z",
+    moraines: [
+      "M -200 740 C 0 730, 300 720, 600 745 S 1000 720, 1200 735",
+      "M -200 770 C 0 760, 320 752, 640 776 S 1000 752, 1200 765",
+    ],
+  },
+};
+]]>
+    </file>
+    <file path="src/app/(hiyas)/hiyas/planner/MountainSilhouette.tsx">
+<![CDATA["use client";
+
+import { useEffect, useRef, useState } from "react";
+import type { CampStop } from "./logic";
+import { MOUNTAIN_PROFILES } from "./mountain-profiles";
+
+type Point = { x: number; y: number };
+
+type MountainSilhouetteProps = {
+  peakId: string;
+  stops: CampStop[];
+  locked: boolean;
+  elevation: number;
+};
+
+function getFallbackPoint(routeStr: string, summit: Point, progress: number): Point {
+  const match = routeStr.match(/^M\s*([\d.-]+)\s+([\d.-]+)/);
+  const startX = match ? parseFloat(match[1]) : 800;
+  const startY = match ? parseFloat(match[2]) : 700;
+  return {
+    x: Math.round(startX + (summit.x - startX) * progress),
+    y: Math.round(startY + (summit.y - startY) * progress),
+  };
+}
+
+export function MountainSilhouette({ peakId, stops, locked, elevation }: MountainSilhouetteProps) {
+  const profile = MOUNTAIN_PROFILES[peakId] ?? MOUNTAIN_PROFILES.everest;
+  const routeRef = useRef<SVGPathElement>(null);
+  const [length, setLength] = useState(0);
+  const [camps, setCamps] = useState<Point[]>([]);
+
+  const progress = locked ? 1 : 0.78;
+
+  useEffect(() => {
+    const path = routeRef.current;
+    if (!path || typeof path.getTotalLength !== "function") return;
+    const total = path.getTotalLength();
+    setLength(total);
+    setCamps(stops.map((stop) => path.getPointAtLength(stop.progress * total)));
+  }, [peakId, stops]);
+
+  const climber =
+    length && routeRef.current && typeof routeRef.current.getPointAtLength === "function"
+      ? routeRef.current.getPointAtLength(progress * length)
+      : getFallbackPoint(profile.route, profile.summit, progress);
+
+  return (
+    <svg
+      className="hy-mountain-silhouette"
+      viewBox="0 0 1000 800"
+      preserveAspectRatio="xMidYMax meet"
+      role="img"
+      aria-label={`${profile.name} route profile and camps`}
+    >
+      {/* Topographic elevation grid across the cirque */}
+      <g className="hy-silhouette__elevation-grid" aria-hidden="true">
+        <line x1="20" y1="210" x2="980" y2="210" />
+        <text x="28" y="204">8,000 M</text>
+        <line x1="20" y1="380" x2="980" y2="380" />
+        <text x="28" y="374">7,000 M</text>
+        <line x1="20" y1="550" x2="980" y2="550" />
+        <text x="28" y="544">6,000 M</text>
+        <line x1="20" y1="710" x2="980" y2="710" />
+        <text x="28" y="704">5,000 M — BASE</text>
+      </g>
+
+      {/* Distant background ridges */}
+      {profile.backgroundRidges.map((d, index) => (
+        <path key={index} d={d} className="hy-silhouette__ridge" />
+      ))}
+
+      {/* Lit face (morning / summit light) */}
+      <path d={profile.litFace} className="hy-silhouette__lit" />
+
+      {/* Shadow face (abrupt west / north aspect) */}
+      <path d={profile.shadowFace} className="hy-silhouette__shadow" />
+
+      {/* Couloirs and chutes */}
+      {profile.couloirs.map((d, index) => (
+        <path key={index} d={d} className="hy-silhouette__couloir" />
+      ))}
+
+      {/* Snow caps and high hanging ice fields */}
+      {profile.snowCaps.map((d, index) => (
+        <path key={index} d={d} className="hy-silhouette__snow" />
+      ))}
+
+      {/* Base glacier moraine plane */}
+      <path d={profile.glacier} className="hy-silhouette__glacier" />
+
+      {/* Moraine flow lines */}
+      {profile.moraines.map((d, index) => (
+        <path key={index} d={d} className="hy-silhouette__moraine" />
+      ))}
+
+      {/* Planned route (dashed line across the full line to the summit) */}
+      <path ref={routeRef} d={profile.route} className="hy-silhouette__route" />
+
+      {/* Climbed portion (solid white path following progress) */}
+      <path
+        d={profile.route}
+        className="hy-silhouette__climbed"
+        style={length ? { strokeDasharray: length, strokeDashoffset: length * (1 - progress) } : { opacity: 0 }}
+      />
+
+      {/* Camp markers positioned along the route */}
+      {stops.map((stop, index) => {
+        const pt = camps[index] ?? getFallbackPoint(profile.route, profile.summit, stop.progress);
+        const isReached = progress >= stop.progress - 0.001;
+        const isSummit = stop.progress === 1;
+        const isBase = stop.progress === 0;
+        const isRight = pt.x > 620;
+        const textX = isRight ? pt.x - 14 : pt.x + 14;
+        const anchor = isRight ? "end" : "start";
+
+        return (
+          <g
+            key={stop.label}
+            className="hy-silhouette__camp"
+            data-reached={isReached ? "true" : undefined}
+            data-summit={isSummit ? "true" : undefined}
+          >
+            <circle cx={pt.x} cy={pt.y} r={isSummit || isBase ? 8 : 6} className="hy-silhouette__camp-outer" />
+            <circle cx={pt.x} cy={pt.y} r={isSummit ? 4.5 : 3.5} className="hy-silhouette__camp-inner" />
+            <g className="hy-silhouette__camp-label-group" transform={`translate(${textX}, ${pt.y})`}>
+              <text x="0" y="-3" textAnchor={anchor} className="hy-silhouette__camp-title">
+                {stop.label}
+              </text>
+              <text x="0" y="11" textAnchor={anchor} className="hy-silhouette__camp-elevation">
+                {stop.altitude.toLocaleString()} m
+              </text>
+            </g>
+          </g>
+        );
+      })}
+
+      {/* Current climber position along the line */}
+      <g className="hy-silhouette__climber" transform={`translate(${climber.x}, ${climber.y})`}>
+        <circle r={14} className="hy-silhouette__climber-halo" />
+        <circle r={4.5} className="hy-silhouette__climber-dot" />
+      </g>
+
+      {/* Summit beacon when the expedition plan is locked */}
+      {locked && (
+        <g className="hy-silhouette__summit-marker" transform={`translate(${profile.summit.x}, ${profile.summit.y})`}>
+          <circle r={22} className="hy-silhouette__summit-pulse" />
+          <circle r={6} className="hy-silhouette__summit-center" />
+        </g>
+      )}
+    </svg>
+  );
+}
+]]>
+    </file>
     <file path="src/app/(hiyas)/hiyas/planner/Planner.tsx">
 <![CDATA["use client";
+
 import type { CSSProperties } from "react";
 import { useMemo } from "react";
 import { campStops, PEAKS, plannerSummary, routeSegment, SUPPORT_LABELS } from "./logic";
+import { MOUNTAIN_PROFILES } from "./mountain-profiles";
+import { MountainSilhouette } from "./MountainSilhouette";
 import { usePlanner } from "./PlannerProvider";
 
 export function Planner() {
   const { state, dispatch } = usePlanner();
   const peak = PEAKS.find((item) => item.id === state.peakId) ?? PEAKS[0];
-  const stops = useMemo(() => campStops(peak.elevation, state.days, state.support), [peak.elevation, state.days, state.support]);
+  const profile = MOUNTAIN_PROFILES[peak.id] ?? MOUNTAIN_PROFILES.everest;
+  const stops = useMemo(
+    () => campStops(peak.elevation, state.days, state.support),
+    [peak.elevation, state.days, state.support]
+  );
   const selected = plannerSummary(state);
-  return <section className="hy-section hy-planner" id="planner" aria-labelledby="hy-planner-title"><div className="hy-container"><div className="hy-section-head hy-section-head--split"><div><h2 id="hy-planner-title">Make the plan visible.</h2></div><p>Choose a peak, set the rhythm, and see how the support plan changes around the route.</p></div><div className="hy-planner__layout"><div className="hy-planner__peaks" aria-label="Select a peak">{PEAKS.map((item,index) => <button key={item.id} className="hy-planner__peak" type="button" data-active={item.id === state.peakId ? "true" : "false"} onClick={() => dispatch({ type:"selectPeak", peakId:item.id })}><span className="hy-planner__peak-index">{String(index+1).padStart(2,"0")}</span><span><span className="hy-planner__peak-name">{item.name}</span><span className="hy-planner__peak-alt">{item.elevation.toLocaleString()} m</span></span></button>)}</div><div className="hy-planner__profile" style={{ "--hy-planner-progress": state.locked ? 1 : .8 } as CSSProperties}><svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label={`${peak.name} route profile`}><path className="hy-planner__gridline" d="M0 20h100M0 40h100M0 60h100M0 80h100M20 0v100M40 0v100M60 0v100M80 0v100"/><path className="hy-planner__route" pathLength="100" d="M4 88C16 83 21 74 29 79S39 68 48 61s12 1 19-14 15 0 27-37"/>{stops.map((stop) => <g key={stop.label} transform={`translate(${stop.progress*100},${100-(stop.altitude/peak.elevation)*82-8})`}><circle className="hy-planner__camp" r="1.8"/><text className="hy-planner__camp-label" x="2" y="-3">{stop.label}</text></g>)}</svg><div className="hy-planner__profile-footer"><span>{routeSegment(state.locked ? 1 : .76)}</span><span>{peak.elevation.toLocaleString()} m</span></div></div><div className="hy-planner__controls"><h3>{peak.name}</h3><div className="hy-control"><label htmlFor="hy-days">Planning days</label><input id="hy-days" type="range" min="14" max="70" step="1" value={state.days} onChange={(event) => dispatch({ type:"setDays", days:Number(event.target.value) })}/><div className="hy-range-readout"><span>14 days</span><strong>{state.days} days</strong><span>70 days</span></div></div><div className="hy-control"><label htmlFor="hy-support">Support mode</label><select id="hy-support" value={state.support} onChange={(event) => dispatch({ type:"setSupport", support:event.target.value as "route"|"guided"|"private" })}>{Object.entries(SUPPORT_LABELS).map(([key,label]) => <option key={key} value={key}>{label}</option>)}</select></div><div className="hy-planner__summary"><span className="hy-mono">Route summary</span><strong>{selected.elevation.toLocaleString()} m</strong><p>{selected.days} planning days with {selected.supportLabel.toLowerCase()} support.</p></div><button className="hy-button hy-button--primary hy-planner__lock" type="button" onClick={() => dispatch({ type:"lockPlan" })}><span>{state.locked ? "Plan locked" : "Lock this plan"}</span><span>↗</span></button></div></div></div></section>;
+
+  return (
+    <section className="hy-section hy-planner" id="planner" aria-labelledby="hy-planner-title">
+      <div className="hy-container">
+        <div className="hy-section-head hy-section-head--split">
+          <div>
+            <h2 id="hy-planner-title">Make the plan visible.</h2>
+          </div>
+          <p>Choose a peak, set the rhythm, and see how the support plan changes around the route.</p>
+        </div>
+
+        <div className="hy-planner__layout">
+          <div className="hy-planner__peaks" aria-label="Select a peak">
+            {PEAKS.map((item, index) => (
+              <button
+                key={item.id}
+                className="hy-planner__peak"
+                type="button"
+                data-active={item.id === state.peakId ? "true" : "false"}
+                onClick={() => dispatch({ type: "selectPeak", peakId: item.id })}
+              >
+                <span className="hy-planner__peak-index">{String(index + 1).padStart(2, "0")}</span>
+                <span>
+                  <span className="hy-planner__peak-name">{item.name}</span>
+                  <span className="hy-planner__peak-alt">{item.elevation.toLocaleString()} m</span>
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <div
+            className="hy-planner__profile"
+            style={{ "--hy-planner-progress": state.locked ? 1 : 0.8 } as CSSProperties}
+          >
+            <div className="hy-silhouette__meta">
+              <div>
+                <span className="hy-silhouette__meta-tag">{profile.region}</span>
+                <h3 className="hy-silhouette__meta-title">
+                  {profile.name} — {profile.routeLabel}
+                </h3>
+              </div>
+              <div className="hy-silhouette__meta-status" data-locked={state.locked ? "true" : "false"}>
+                <span className="hy-silhouette__status-dot" />
+                <span>{state.locked ? "Plan locked" : "Route active"}</span>
+              </div>
+            </div>
+
+            <MountainSilhouette
+              peakId={peak.id}
+              stops={stops}
+              locked={state.locked}
+              elevation={peak.elevation}
+            />
+
+            <div className="hy-planner__profile-footer">
+              <span>{routeSegment(state.locked ? 1 : 0.76)}</span>
+              <span>{peak.elevation.toLocaleString()} m</span>
+            </div>
+          </div>
+
+          <div className="hy-planner__controls">
+            <h3>{peak.name}</h3>
+
+            <div className="hy-control">
+              <label htmlFor="hy-days">Planning days</label>
+              <input
+                id="hy-days"
+                type="range"
+                min="14"
+                max="70"
+                step="1"
+                value={state.days}
+                onChange={(event) => dispatch({ type: "setDays", days: Number(event.target.value) })}
+              />
+              <div className="hy-range-readout">
+                <span>14 days</span>
+                <strong>{state.days} days</strong>
+                <span>70 days</span>
+              </div>
+            </div>
+
+            <div className="hy-control">
+              <label htmlFor="hy-support">Support mode</label>
+              <select
+                id="hy-support"
+                value={state.support}
+                onChange={(event) =>
+                  dispatch({ type: "setSupport", support: event.target.value as "route" | "guided" | "private" })
+                }
+              >
+                {Object.entries(SUPPORT_LABELS).map(([key, label]) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="hy-planner__summary">
+              <span className="hy-mono">Route summary</span>
+              <strong>{selected.elevation.toLocaleString()} m</strong>
+              <p>
+                {selected.days} planning days with {selected.supportLabel.toLowerCase()} support.
+              </p>
+            </div>
+
+            <button
+              className="hy-button hy-button--primary hy-planner__lock"
+              type="button"
+              onClick={() => dispatch({ type: "lockPlan" })}
+            >
+              <span>{state.locked ? "Plan locked" : "Lock this plan"}</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
-
-
 ]]>
     </file>
     <file path="src/app/(hiyas)/hiyas/planner/PlannerProvider.tsx">

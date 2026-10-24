@@ -13,13 +13,20 @@ test.describe("HIYAS expedition planner", () => {
   test("changes peak, days and support, then locks the route plan", async ({ page }) => {
     await page.goto("/hiyas");
     await page.locator("#planner").scrollIntoViewIfNeeded();
+    await expect(page.locator(".hy-mountain-silhouette")).toHaveAttribute("aria-label", /Everest/i);
+
     await page.locator(".hy-planner__peak").filter({ hasText: "K2" }).click();
+    await expect(page.locator(".hy-mountain-silhouette")).toHaveAttribute("aria-label", /K2/i);
+    await expect(page.locator(".hy-silhouette__meta-title")).toContainText("K2");
+
     await page.getByLabel("Planning days").fill("34");
     await page.getByLabel("Support mode").selectOption("private");
     await expect(page.locator(".hy-planner__summary strong")).toContainText("8,611");
     await expect(page.locator(".hy-planner__summary p")).toContainText("34 planning days");
     await page.getByRole("button", { name: /lock this plan/i }).click();
     await expect(page.getByRole("button", { name: /plan locked/i })).toBeVisible();
+    await expect(page.locator(".hy-silhouette__meta-status")).toContainText("Plan locked");
+    await expect(page.locator(".hy-silhouette__summit-marker")).toBeVisible();
   });
 
   test("validates and completes an inquiry locally", async ({ page }) => {
