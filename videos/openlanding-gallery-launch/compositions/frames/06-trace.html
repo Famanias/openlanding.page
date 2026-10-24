@@ -1,0 +1,35 @@
+﻿<template>
+  <style>
+    :root { --ground:#0d0f0e; --ink:#f2f0e8; --accent:#d8f7a2; --rule:#343936; }
+    #root { position:absolute; inset:0; overflow:hidden; background:var(--ground); color:var(--ink); font-family:Inter,Arial,sans-serif; }
+    .field { position:absolute; inset:0; background:#0d0f0e; }
+    .field::after { content:''; position:absolute; inset:0; background:linear-gradient(105deg,rgba(13,15,14,.9) 0%,rgba(13,15,14,.35) 55%,rgba(13,15,14,.1)); }
+    .hero { position:absolute; left:360px; top:86px; width:1500px; height:900px; overflow:hidden; border:1px solid rgba(242,240,232,.24); box-shadow:0 24px 80px rgba(0,0,0,.48); }
+    .hero img { width:100%; height:100%; object-fit:cover; display:block; }
+    .hero::before { content:''; position:absolute; inset:0; border:1px solid rgba(216,247,162,.28); pointer-events:none; }
+    .meta { position:absolute; left:92px; top:88px; display:flex; gap:16px; align-items:center; font:14px 'Space Mono',monospace; letter-spacing:.12em; text-transform:uppercase; }
+    .rule { width:54px; height:1px; background:var(--accent); }
+    h1 { position:absolute; left:92px; top:220px; margin:0; font-size:144px; line-height:.86; letter-spacing:-.08em; font-weight:650; }
+    .sub { position:absolute; left:98px; bottom:108px; font:15px/1.45 'Space Mono',monospace; letter-spacing:.1em; text-transform:uppercase; max-width:380px; color:rgba(242,240,232,.8); }
+    .index { position:absolute; right:102px; bottom:108px; font:14px 'Space Mono',monospace; letter-spacing:.12em; color:var(--accent); }
+  </style>
+  <div data-hf-id="hf-gu5p" id="root" data-composition-id="frame-06-trace" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-z177" id="trace-field" class="clip field" data-start="0" data-duration="4.5"></div>
+    <div data-hf-id="hf-9fcl" id="trace-hero" class="clip hero" data-start="0" data-duration="4.5"><img data-hf-id="hf-10su" src="assets/templates/trace.webp" alt="TRACE gallery preview" /></div>
+    <div data-hf-id="hf-gf4i" id="trace-meta" class="clip meta" data-start="0.28" data-duration="4.0"><span data-hf-id="hf-6o6j" class="rule"></span><span data-hf-id="hf-u8w2">OPENLANDING / 3D &amp; WEBGPU</span></div>
+    <h1 data-hf-id="hf-520d" id="trace-title" class="clip" data-start="0.4" data-duration="4.0">TRACE.</h1>
+    <div data-hf-id="hf-dou1" id="trace-sub" class="clip sub" data-start="0.84" data-duration="3.6">Spatial intelligence<br data-hf-id="hf-x5px" />for the moving city.</div>
+    <div data-hf-id="hf-9bgq" id="trace-index" class="clip index" data-start="0.6" data-duration="3.8">05 / 09</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#trace-field',{opacity:0},{opacity:1,duration:.2,ease:'power2.out'},0);
+    tl.fromTo('#trace-hero',{x:180,scale:1.14,opacity:0},{x:0,scale:1.03,opacity:1,duration:.72,ease:'power3.out'},.04);
+    tl.fromTo('#trace-meta',{opacity:0,filter:'blur(8px)'},{opacity:1,filter:'blur(0px)',duration:.24,ease:'power3.out'},.28);
+    tl.fromTo('#trace-title',{opacity:0,filter:'blur(10px)',x:-30},{opacity:1,filter:'blur(0px)',x:0,duration:.34,ease:'power4.out'},.4);
+    tl.fromTo('#trace-sub',{opacity:0,y:18},{opacity:1,y:0,duration:.3,ease:'power3.out'},.84);
+    tl.fromTo('#trace-index',{opacity:0,scale:.8},{opacity:1,scale:1,duration:.24,ease:'back.out(1.1)'},.6);
+    window.__timelines['frame-06-trace'] = tl;
+    tl.seek(0);
+  </script>
+</template>

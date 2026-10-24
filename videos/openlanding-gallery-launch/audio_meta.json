@@ -1,0 +1,21 @@
+{
+  "tts_provider": null,
+  "voice_id": null,
+  "bgm": {
+    "path": "assets/bgm/track.wav",
+    "volume": 0.9,
+    "mode": "generated-loop",
+    "duration_s": 45
+  },
+  "bgm_pending": false,
+  "bgm_provider": "musicgen",
+  "bgm_pid": 21856,
+  "bgm_log": "E:\\orca\\workspaces\\webflow-projects\\videos\\openlanding-gallery-launch\\assets\\bgm\\bgm-1792787416693.log",
+  "bgm_mode": "generated-loop",
+  "bgm_target_duration_s": 45,
+  "bgm_seed_duration_s": 28,
+  "bgm_loop_count": 2,
+  "voices": [],
+  "sfx": [],
+  "total_duration_s": 0
+}
