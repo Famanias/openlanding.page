@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "rill";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "rill" | "hiyas";
 
 export type TemplateConfig = {
   palette: string[];
@@ -125,6 +125,9 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   },
   rill: {
     palette: ["#14231E", "#F0E9DB", "#B85C43", "#5B8174", "#87956C", "#C9B79E"],
+  },
+  hiyas: {
+    palette: ["#05070A", "#0B2A4A", "#FFFFFF"],
   },
 };
 
