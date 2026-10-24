@@ -1,0 +1,6 @@
+export type Film = { id: string; number: string; title: string; japanese: string; type: string; length: string; year: string; description: string; palette: string; variant: "village" | "river" | "flowers" };
+export const FILMS: readonly Film[] = [
+  { id: "the-last-light", number: "01", title: "The Last Light", japanese: "最後のひかり", type: "Original short", length: "04:32", year: "2026", description: "At the edge of a sleepy village, a child follows the last patch of sunlight home. A small story about the things we notice when we slow down.", palette: "Warm afternoon / countryside", variant: "village" },
+  { id: "where-the-river-goes", number: "02", title: "Where the River Goes", japanese: "川のゆくえ", type: "Visual poem", length: "02:18", year: "2026", description: "A folded paper bird follows a river without knowing where it ends. An unhurried visual poem about curiosity, small detours, and finding your own way.", palette: "Summer blue / open fields", variant: "river" },
+  { id: "a-pocketful-of-spring", number: "03", title: "A Pocketful of Spring", japanese: "ポケットの春", type: "Brand film concept", length: "01:06", year: "2025", description: "One little seed turns an ordinary windowsill into an unexpected garden. A botanical story about nurturing something new, one day at a time.", palette: "Butter yellow / botanical", variant: "flowers" },
+];

@@ -9,6 +9,10 @@ export const TEMPLATE_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
+  kazeko: {
+    name: "Studio Kazeko",
+    dependencies: ["lenis"],
+  },
   orrery: {
     name: "Orrery",
     dependencies: ["gsap", "motion", "@phosphor-icons/react"],

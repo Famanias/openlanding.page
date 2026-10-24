@@ -1,0 +1,219 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": true,
+  "lint": {
+    "ok": false,
+    "errorCount": 9,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "missing_or_empty_sub_composition",
+        "severity": "error",
+        "message": "data-composition-src references \"compositions/frames/02-wowflutter.html\", but the file does not exist.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Fix this before rendering: the render pre-flight rejects unusable sub-compositions. Write valid HTML into \"compositions/frames/02-wowflutter.html\". It needs a <template> or <body> containing an element with data-composition-id, data-width, and data-height. Preview/studio still tolerates and skips the scene while you author it. If a scene-authoring step is still running, wait for it to finish before referencing the file, or re-run the step that generates it."
+      },
+      {
+        "code": "missing_or_empty_sub_composition",
+        "severity": "error",
+        "message": "data-composition-src references \"compositions/frames/03-noctiluca.html\", but the file does not exist.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Fix this before rendering: the render pre-flight rejects unusable sub-compositions. Write valid HTML into \"compositions/frames/03-noctiluca.html\". It needs a <template> or <body> containing an element with data-composition-id, data-width, and data-height. Preview/studio still tolerates and skips the scene while you author it. If a scene-authoring step is still running, wait for it to finish before referencing the file, or re-run the step that generates it."
+      },
+      {
+        "code": "missing_or_empty_sub_composition",
+        "severity": "error",
+        "message": "data-composition-src references \"compositions/frames/04-keytu.html\", but the file does not exist.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Fix this before rendering: the render pre-flight rejects unusable sub-compositions. Write valid HTML into \"compositions/frames/04-keytu.html\". It needs a <template> or <body> containing an element with data-composition-id, data-width, and data-height. Preview/studio still tolerates and skips the scene while you author it. If a scene-authoring step is still running, wait for it to finish before referencing the file, or re-run the step that generates it."
+      },
+      {
+        "code": "missing_or_empty_sub_composition",
+        "severity": "error",
+        "message": "data-composition-src references \"compositions/frames/05-truecut.html\", but the file does not exist.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Fix this before rendering: the render pre-flight rejects unusable sub-compositions. Write valid HTML into \"compositions/frames/05-truecut.html\". It needs a <template> or <body> containing an element with data-composition-id, data-width, and data-height. Preview/studio still tolerates and skips the scene while you author it. If a scene-authoring step is still running, wait for it to finish before referencing the file, or re-run the step that generates it."
+      },
+      {
+        "code": "missing_or_empty_sub_composition",
+        "severity": "error",
+        "message": "data-composition-src references \"compositions/frames/06-trace.html\", but the file does not exist.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Fix this before rendering: the render pre-flight rejects unusable sub-compositions. Write valid HTML into \"compositions/frames/06-trace.html\". It needs a <template> or <body> containing an element with data-composition-id, data-width, and data-height. Preview/studio still tolerates and skips the scene while you author it. If a scene-authoring step is still running, wait for it to finish before referencing the file, or re-run the step that generates it."
+      },
+      {
+        "code": "missing_or_empty_sub_composition",
+        "severity": "error",
+        "message": "data-composition-src references \"compositions/frames/07-volume-zero.html\", but the file does not exist.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Fix this before rendering: the render pre-flight rejects unusable sub-compositions. Write valid HTML into \"compositions/frames/07-volume-zero.html\". It needs a <template> or <body> containing an element with data-composition-id, data-width, and data-height. Preview/studio still tolerates and skips the scene while you author it. If a scene-authoring step is still running, wait for it to finish before referencing the file, or re-run the step that generates it."
+      },
+      {
+        "code": "missing_or_empty_sub_composition",
+        "severity": "error",
+        "message": "data-composition-src references \"compositions/frames/08-loophouse.html\", but the file does not exist.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Fix this before rendering: the render pre-flight rejects unusable sub-compositions. Write valid HTML into \"compositions/frames/08-loophouse.html\". It needs a <template> or <body> containing an element with data-composition-id, data-width, and data-height. Preview/studio still tolerates and skips the scene while you author it. If a scene-authoring step is still running, wait for it to finish before referencing the file, or re-run the step that generates it."
+      },
+      {
+        "code": "missing_or_empty_sub_composition",
+        "severity": "error",
+        "message": "data-composition-src references \"compositions/frames/09-iridia.html\", but the file does not exist.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Fix this before rendering: the render pre-flight rejects unusable sub-compositions. Write valid HTML into \"compositions/frames/09-iridia.html\". It needs a <template> or <body> containing an element with data-composition-id, data-width, and data-height. Preview/studio still tolerates and skips the scene while you author it. If a scene-authoring step is still running, wait for it to finish before referencing the file, or re-run the step that generates it."
+      },
+      {
+        "code": "missing_or_empty_sub_composition",
+        "severity": "error",
+        "message": "data-composition-src references \"compositions/frames/10-bathys-end.html\", but the file does not exist.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Fix this before rendering: the render pre-flight rejects unusable sub-compositions. Write valid HTML into \"compositions/frames/10-bathys-end.html\". It needs a <template> or <body> containing an element with data-composition-id, data-width, and data-height. Preview/studio still tolerates and skips the scene while you author it. If a scene-authoring step is still running, wait for it to finish before referencing the file, or re-run the step that generates it."
+      }
+    ],
+    "filesScanned": 2
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "duration": 0,
+    "samples": [],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 0,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [],
+    "checked": 0,
+    "passed": 0
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "step": 0,
+    "samples": 0
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}
