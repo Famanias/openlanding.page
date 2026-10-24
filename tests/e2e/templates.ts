@@ -1,2 +1,2 @@
 /** Template pages covered by the cross-template e2e suites. Each template appends its path when its page exists. */
-export const TEMPLATE_PATHS: string[] = ["/orrery", "/keytu", "/koji", "/wowflutter", "/verane", "/sundial", "/noctiluca", "/iridia", "/bathys", "/aubade", "/satsuma", "/kinetic", "/loophouse", "/calder", "/isobar", "/volume-zero", "/openhouse", "/handoff", "/truecut", "/nomi", "/kazeko", "/alpine-reel", "/rill", "/hiyas"];
+export const TEMPLATE_PATHS: string[] = ["/orrery", "/keytu", "/koji", "/wowflutter", "/verane", "/sundial", "/noctiluca", "/iridia", "/bathys", "/aubade", "/satsuma", "/kinetic", "/loophouse", "/calder", "/isobar", "/volume-zero", "/openhouse", "/handoff", "/truecut", "/nomi", "/kazeko", "/alpine-reel", "/rill", "/hiyas", "/mio"];

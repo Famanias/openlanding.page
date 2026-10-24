@@ -113,6 +113,7 @@ export const TEMPLATE_METADATA: Record<
     name: "RILL",
     dependencies: [],
   },
+  mio: { name: "Mio Hazuki", dependencies: ["lenis"] },
   hiyas: {
     name: "HIYAS",
     dependencies: [],
