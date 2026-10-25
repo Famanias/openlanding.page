@@ -73,6 +73,10 @@ Modern documentary vertical photograph of a field engineer’s hand pointing at 
 
 Modern documentary flat lay of blank certification folders, hard hat edge, calibrated meter case, and a folded site map arranged as a quiet evidence grid, no official logos or readable text, asphalt, chalk, galvanized steel, and rare rust tab, square composition.
 
+### `og-base`
+
+Modern documentary wide landscape photograph of an industrial commissioning switchyard at dawn, clean high-voltage racks, cable conduits, and galvanized steel structural frames receding into soft morning mist, dark asphalt ground with chalk highlights, oxide-teal shadows balanced by cool overcast sky, a single crisp signal-lime inspection marker on a foreground terminal box providing the focal accent, expansive negative space across the center and left for typography, cinematic 16:9 composition, shallow depth of field, no text, no logos, no readable private data, no people, no faces.
+
 ### `hero-site-reel.mp4`
 
 8-second silent documentary motion clip. Begin on the exact still composition of `hero-site-walk`: dark control-room threshold, gloved hand and test instrument in the foreground. Make one slow forward camera move toward the relay cabinet, let a small lime status light change from idle to ready near the end, then settle on the same framing and brightness as the poster. No whip pan, no text, no logos, no faces. Export a desktop master and a 720p mobile variant.

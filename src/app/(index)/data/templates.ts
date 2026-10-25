@@ -426,7 +426,7 @@ const RAW_TEMPLATES: TemplateItem[] = [
     badges: ["3D Delivery Truck", "1,400m Route", "Command Center"],
     previewImage: "/templates/kinetic/preview-1600.webp",
     promptMarkdown: KINETIC_PROMPT,
-    model: "Gemini 3.8 Flash High",
+    model: "Claude Opus 5.5 High",
   },
   {
     slug: "isobar",
@@ -514,7 +514,7 @@ const RAW_TEMPLATES: TemplateItem[] = [
     badges: ["2D Animation", "Pencil to Picture", "Countryside"],
     previewImage: "/templates/kazeko/preview-1600.webp",
     promptMarkdown: KAZEKO_PROMPT,
-    model: "GPT-6",
+    model: "GPT-6.1 Sol High",
   },
   {
     slug: "alpine-reel",

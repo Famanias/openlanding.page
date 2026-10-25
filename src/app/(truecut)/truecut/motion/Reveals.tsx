@@ -27,7 +27,7 @@ export function Reveal({ children, className = "", kind = "rise", delay = 0 }: R
           observer.disconnect();
         }
       },
-      { rootMargin: "-8% 0px -10%", threshold: 0.12 },
+      { rootMargin: "-8% 0px -10%", threshold: 0 },
     );
     observer.observe(node);
     return () => observer.disconnect();

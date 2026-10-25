@@ -1,4 +1,3 @@
-import { Picture } from "../assets";
 import { AppointmentForm } from "../forms/AppointmentForm";
 import { Reveal } from "../motion/Reveals";
 
@@ -11,10 +10,6 @@ export function Booking() {
             <span className="tc-eyebrow" style={{ color: "var(--tc-oxide)" }}>Book / the next step</span>
             <h2 id="booking-title">Put the site on the board.</h2>
             <p>Give us the short version. We’ll bring the right person, the right questions, and a clear next step to the first conversation.</p>
-          </Reveal>
-          <Reveal className="tc-booking-proof" kind="wipe">
-            <div className="tc-media-frame"><Picture assetKey="credential-grid" alt="Field equipment and blank credential folders arranged as proof" sizes="(min-width: 900px) 25vw, 45vw" /></div>
-            <div className="tc-media-frame"><Picture assetKey="project-panel-detail" alt="Close detail of a finished relay panel" sizes="(min-width: 900px) 25vw, 45vw" /></div>
           </Reveal>
         </div>
         <Reveal className="tc-form-card" kind="stagger">

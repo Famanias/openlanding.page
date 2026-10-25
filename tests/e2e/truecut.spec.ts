@@ -13,6 +13,15 @@ test.describe("TRUECUT Works conversion flow", () => {
     await page.locator(".tc-cap-card").nth(1).getByRole("button").click();
     await expect(page.getByRole("radio", { name: "Controls & automation" })).toBeChecked();
 
+    await page.locator("#projects").scrollIntoViewIfNeeded();
+    await expect(page.getByRole("heading", { name: "Show the handoff." })).toBeVisible();
+    const projectCards = page.locator(".tc-project-card");
+    await expect(projectCards).toHaveCount(3);
+    for (const card of await projectCards.all()) {
+      await expect(card).toHaveAttribute("data-tc-in", "true");
+      await expect(card.locator("img")).toBeVisible();
+    }
+
     await page.locator("#book").scrollIntoViewIfNeeded();
     await page.getByRole("button", { name: "Stamp my site visit" }).click();
     await expect(page.getByText("Add your name.")).toBeVisible();
