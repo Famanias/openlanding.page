@@ -361,6 +361,66 @@ export default function SatoyamaPage() {
   8% { opacity: 0.95; }
   100% { stroke-dashoffset: 0; opacity: 0.85; }
 }
+@keyframes st-wash-sky {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    opacity: 0;
+    filter: blur(8px) saturate(1.25);
+  }
+  20% {
+    opacity: 0.85;
+    filter: blur(5px) saturate(1.2);
+  }
+  85% {
+    clip-path: polygon(0 0, 100% 0, 100% 102%, 0 98%);
+    filter: blur(1.5px) saturate(1.05);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 105%, 0 105%);
+    opacity: 1;
+    filter: blur(0px) saturate(1);
+  }
+}
+@keyframes st-wash-brush-ltr {
+  0% {
+    clip-path: polygon(-5% -5%, -5% -5%, -10% 105%, -10% 105%);
+    opacity: 0;
+    filter: blur(7px) saturate(1.3);
+  }
+  20% {
+    opacity: 0.9;
+    filter: blur(4px) saturate(1.2);
+  }
+  85% {
+    clip-path: polygon(-5% -5%, 108% -5%, 96% 105%, -10% 105%);
+    filter: blur(1px) saturate(1.05);
+  }
+  100% {
+    clip-path: polygon(-5% -5%, 115% -5%, 115% 105%, -10% 105%);
+    opacity: 1;
+    filter: blur(0px) saturate(1);
+  }
+}
+@keyframes st-wash-brush-rtl {
+  0% {
+    clip-path: polygon(105% -5%, 105% -5%, 110% 105%, 110% 105%);
+    opacity: 0;
+    filter: blur(7px) saturate(1.3);
+  }
+  20% {
+    opacity: 0.9;
+    filter: blur(4px) saturate(1.2);
+  }
+  85% {
+    clip-path: polygon(-8% -5%, 105% -5%, 110% 105%, 4% 105%);
+    filter: blur(1px) saturate(1.05);
+  }
+  100% {
+    clip-path: polygon(-15% -5%, 105% -5%, 110% 105%, -15% 105%);
+    opacity: 1;
+    filter: blur(0px) saturate(1);
+  }
+}
 @keyframes st-wash-in {
   0% { opacity: 0; filter: blur(3px) saturate(0.85); }
   25% { opacity: 0.35; filter: blur(2px) saturate(0.9); }
@@ -380,19 +440,19 @@ export default function SatoyamaPage() {
 @keyframes st-title-enter { from { clip-path: inset(0 0 100% 0); transform: translateY(18px); } to { clip-path: inset(0); transform: none; } }
 @keyframes st-scene-enter { from { transform: scale(1.025); } to { transform: scale(1); } }
 @media (prefers-reduced-motion: no-preference) {
-  .st-clouds { animation: st-cloud-drift 26s ease-in-out 3.1s infinite; }
-  .st-smoke { animation: st-smoke-rise 9s ease-in-out 3.1s infinite; }
-  .st-mist { animation: st-mist-drift 18s ease-in-out 3.1s infinite; }
-  .st-fall { animation: st-fall 16s linear 3.1s infinite; }
+  .st-clouds { animation: st-cloud-drift 26s ease-in-out 1.6s infinite; }
+  .st-smoke { animation: st-smoke-rise 9s ease-in-out 1.6s infinite; }
+  .st-mist { animation: st-mist-drift 18s ease-in-out 1.6s infinite; }
+  .st-fall { animation: st-fall 16s linear 1.6s infinite; }
   .st-fall-b { animation-duration: 22s; animation-delay: -6s; }
-  .st-firefly { animation: st-firefly 5s ease-in-out 3.1s infinite; }
-  .st-beams { animation: st-beams 18s ease-in-out 3.1s infinite; }
-  .st-bamboo-sway { transform-origin: 50% 100%; animation: st-sway 18s ease-in-out 3.1s infinite; }
-  .st-birds { animation: st-birds-glide 9s ease-in-out 3.1s infinite; }
-  .st-motes { animation: st-motes 9s ease-in-out 3.1s infinite; }
-  .st-grasses { transform-origin: 50% 100%; animation: st-grass-sway 18s ease-in-out 3.1s infinite; }
+  .st-firefly { animation: st-firefly 5s ease-in-out 1.6s infinite; }
+  .st-beams { animation: st-beams 18s ease-in-out 1.6s infinite; }
+  .st-bamboo-sway { transform-origin: 50% 100%; animation: st-sway 18s ease-in-out 1.6s infinite; }
+  .st-birds { animation: st-birds-glide 9s ease-in-out 1.6s infinite; }
+  .st-motes { animation: st-motes 9s ease-in-out 1.6s infinite; }
+  .st-grasses { transform-origin: 50% 100%; animation: st-grass-sway 18s ease-in-out 1.6s infinite; }
 
-  /* Sketch lines and color washes */
+  /* Sketch lines and color washes (2x speed) */
   .st-sketch-path {
     stroke: var(--st-ink);
     stroke-linecap: round;
@@ -406,10 +466,16 @@ export default function SatoyamaPage() {
   .st-sketch-path[data-depth="mid"] { stroke-width: 1.8px; }
   .st-sketch-path[data-depth="near"] { stroke-width: 2.2px; }
 
+  .st-paint-layer {
+    opacity: 0;
+  }
+
   .st-chapter:not([data-state="active"]) .st-sketch-path,
   .st-chapter:not([data-state="active"]) .st-paint-wash,
+  .st-chapter:not([data-state="active"]) .st-paint-layer,
   .st-season-layer:not([data-on="true"]) .st-sketch-path,
-  .st-season-layer:not([data-on="true"]) .st-paint-wash {
+  .st-season-layer:not([data-on="true"]) .st-paint-wash,
+  .st-season-layer:not([data-on="true"]) .st-paint-layer {
     animation: none !important;
     opacity: 0;
   }
@@ -434,27 +500,51 @@ export default function SatoyamaPage() {
   }
 
   .st-chapter[data-state="active"] .st-sketch-path {
-    animation: st-sketch-draw 1.3s cubic-bezier(0.25, 1, 0.5, 1) both;
+    animation: st-sketch-draw 0.65s cubic-bezier(0.25, 1, 0.5, 1) both;
   }
-  .st-chapter[data-state="active"] .st-sketch-path[data-depth="far"] { animation-delay: 0.05s; }
-  .st-chapter[data-state="active"] .st-sketch-path[data-depth="mid"] { animation-delay: 0.3s; }
-  .st-chapter[data-state="active"] .st-sketch-path[data-depth="near"] { animation-delay: 0.6s; }
+  .st-chapter[data-state="active"] .st-sketch-path[data-depth="far"] { animation-delay: 0.02s; }
+  .st-chapter[data-state="active"] .st-sketch-path[data-depth="mid"] { animation-delay: 0.15s; }
+  .st-chapter[data-state="active"] .st-sketch-path[data-depth="near"] { animation-delay: 0.3s; }
 
-  .st-chapter[data-state="active"] .st-paint-wash {
+  /* Back-to-front layer-by-layer watercolor painting sequence (2x speed) */
+  .st-chapter[data-state="active"] .st-paint-layer[data-depth="sky"] {
+    animation: st-wash-sky 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
+  }
+  .st-chapter[data-state="active"] .st-paint-layer[data-depth="far"] {
+    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
+  }
+  .st-chapter[data-state="active"] .st-paint-layer[data-depth="mid"] {
+    animation: st-wash-brush-rtl 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
+  }
+  .st-chapter[data-state="active"] .st-paint-layer[data-depth="near"] {
+    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.98s both;
+  }
+
+  /* Fallback for unlayered wash */
+  .st-chapter[data-state="active"] .st-paint-wash:not(:has(.st-paint-layer)) {
     opacity: 0;
-    animation: st-wash-in 1.7s cubic-bezier(0.22, 1, 0.36, 1) 1.05s both;
+    animation: st-wash-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
   }
 
-  /* Season tab changes replay sketch and wash */
+  /* Season tab changes replay sketch and watercolor painting layers (2x speed) */
   .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path {
-    animation: st-sketch-draw 1.3s cubic-bezier(0.25, 1, 0.5, 1) both;
+    animation: st-sketch-draw 0.65s cubic-bezier(0.25, 1, 0.5, 1) both;
   }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="far"] { animation-delay: 0.05s; }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="mid"] { animation-delay: 0.3s; }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="near"] { animation-delay: 0.6s; }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-wash {
-    opacity: 0;
-    animation: st-wash-in 1.7s cubic-bezier(0.22, 1, 0.36, 1) 1.05s both;
+  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="far"] { animation-delay: 0.02s; }
+  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="mid"] { animation-delay: 0.15s; }
+  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="near"] { animation-delay: 0.3s; }
+
+  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="sky"] {
+    animation: st-wash-sky 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
+  }
+  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="far"] {
+    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
+  }
+  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="mid"] {
+    animation: st-wash-brush-rtl 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
+  }
+  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="near"] {
+    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.98s both;
   }
 
   .st-season-layer[data-on="false"] .st-scene * { animation-play-state: paused; }
@@ -464,9 +554,9 @@ export default function SatoyamaPage() {
   /* Text entrances choreograph after scenery is largely drawn */
   .st-chapter[data-state="active"] .st-hero-copy h1 > span,
   .st-chapter[data-state="active"] h2 {
-    animation: st-title-enter var(--dur-st-load) var(--ease-st-out) 2.2s both;
+    animation: st-title-enter var(--dur-st-load) var(--ease-st-out) 1.2s both;
   }
-  .st-hero-copy h1 > span:nth-child(2) { animation-delay: 2.35s !important; }
+  .st-hero-copy h1 > span:nth-child(2) { animation-delay: 1.28s !important; }
   .st-chapter[data-state="active"] .st-hero-copy > p,
   .st-chapter[data-state="active"] .st-primary,
   .st-chapter[data-state="active"] .st-essay > p,
@@ -480,19 +570,19 @@ export default function SatoyamaPage() {
   .st-chapter[data-state="active"] .st-farewell-note,
   .st-chapter[data-state="active"] .st-goodbye-stamp,
   .st-season-panel {
-    animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) 2.4s both;
+    animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) 1.3s both;
   }
-  .st-chapter[data-state="active"] .st-primary { animation-delay: 2.55s; }
+  .st-chapter[data-state="active"] .st-primary { animation-delay: 1.38s; }
   .st-chapter[data-state="active"] > .st-scene { animation: st-scene-enter var(--dur-st-load) var(--ease-st-out) both; }
   .st-chapter[data-state="active"] .st-journal-entry {
     animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) both;
-    animation-delay: calc(2.2s + var(--st-i) * 120ms);
+    animation-delay: calc(1.2s + var(--st-i) * 60ms);
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .st-body *, .st-body *::before, .st-body *::after { animation: none !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
   .st-sketch-path { stroke-dashoffset: 0 !important; opacity: 0.85 !important; }
-  .st-paint-wash { opacity: 1 !important; filter: none !important; }
+  .st-paint-wash, .st-paint-layer { opacity: 1 !important; filter: none !important; clip-path: none !important; }
   .st-book { height: auto !important; min-height: 0; overflow: visible; grid-template-rows: auto auto auto; }
   .st-header { min-height: 104px; background: var(--st-paper); }
   .st-stage { height: auto; overflow: visible; }
@@ -1002,32 +1092,40 @@ export function DuskScene() {
       <TreeSketch x={60} y={900} scale={2.3} depth="near" />
     </g>
     <g className="st-paint-wash">
-      <Sky stops={[[0, "var(--st-sky-top)"], [.42, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
-      <Glow x={1110} y={520} r={620} opacity={.95} />
-      <circle cx="1110" cy="516" r="70" fill="var(--st-sun)" opacity=".95" />
-      <Stratus x={220} y={230} width={440} />
-      <Stratus x={980} y={260} width={380} />
-      <g className="st-clouds">
-        <Cumulus x={330} y={520} scale={1.15} />
-        <Cumulus x={1500} y={540} scale={1.2} flip />
+      <g className="st-paint-layer" data-depth="sky">
+        <Sky stops={[[0, "var(--st-sky-top)"], [.42, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
+        <Glow x={1110} y={520} r={620} opacity={.95} />
+        <circle cx="1110" cy="516" r="70" fill="var(--st-sun)" opacity=".95" />
+        <Stratus x={220} y={230} width={440} />
+        <Stratus x={980} y={260} width={380} />
       </g>
-      <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
-      <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-meadow)" />
-      <g>{Array.from({ length: 20 }, (_, i) => <PaintedTree key={i} x={30 + i * 82} y={668 + Math.sin(i * 1.7) * 8} scale={.28 + (i % 3) * .05} kind={i % 2 ? "cedar" : "round"} />)}</g>
-      {[[706, 40], [770, 56], [846, 66], [940, 78]].map(([top, height], i) => <g key={top}>
-        <path d={`M-40 ${top}C300 ${top - 8} 800 ${top + 6} 1640 ${top - 4}V${top + height + 30}H-40Z`} fill="var(--st-bank)" transform="translate(0 -5)" />
-        <Ridge d={`M-40 ${top}C300 ${top - 8} 800 ${top + 6} 1640 ${top - 4}V${top + height + 30}H-40Z`} top="var(--st-sun)" bottom="var(--st-water-deep)" opacity={1 - i * .05} />
-      </g>)}
-      <g stroke="var(--st-paper)" strokeLinecap="round" strokeWidth="3" opacity=".55"><path d="M760 724h90M700 760h210M650 806h300M610 860h380" /></g>
-      <Ridge d={r3} top="var(--st-hill)" bottom="var(--st-forest)" />
-      <path d="M1050 900C1120 840 1250 800 1380 796 1470 794 1540 806 1600 826V900Z" fill="var(--st-forest)" />
-      <g stroke="var(--st-timber)" strokeWidth="5" strokeLinecap="round"><path d="M1230 806V690M1370 800V700M1230 704C1280 724 1330 724 1370 708" strokeWidth="2.5" /></g>
-      {[1262, 1300, 1338].map((x, i) => <g key={x} className="st-lantern"><Glow x={x} y={724 + (i % 2) * 6} r={42} opacity={.75} /><ellipse cx={x} cy={724 + (i % 2) * 6} rx="9" ry="12" fill="var(--st-sun)" /></g>)}
-      <PaintedTree x={1500} y={900} scale={1.9} dark="var(--st-tree-dark)" mid="var(--st-tree-mid)" lit="var(--st-tree-mid)" />
-      <PaintedTree x={60} y={900} scale={2.3} dark="var(--st-tree-dark)" mid="var(--st-tree-mid)" lit="var(--st-tree-mid)" />
-      <g className="st-grasses"><Blades x={0} y={858} w={1600} h={42} count={110} seed={101} size={40} stroke="var(--st-forest)" lean={1} width={2.2} /></g>
-      {[[420, 780, 0], [520, 830, 2], [640, 760, 4], [1000, 800, 1], [1120, 770, 3], [300, 850, 5], [1180, 840, 6]].map(([x, y, delay]) => <Firefly key={x} x={x} y={y} delay={delay} />)}
-      <circle cx="240" cy="110" r="2.4" fill="var(--st-paper)" opacity=".8" /><circle cx="1380" cy="150" r="2" fill="var(--st-paper)" opacity=".7" /><circle cx="560" cy="80" r="1.8" fill="var(--st-paper)" opacity=".6" />
+      <g className="st-paint-layer" data-depth="far">
+        <g className="st-clouds">
+          <Cumulus x={330} y={520} scale={1.15} />
+          <Cumulus x={1500} y={540} scale={1.2} flip />
+        </g>
+        <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
+        <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-meadow)" />
+        <g>{Array.from({ length: 20 }, (_, i) => <PaintedTree key={i} x={30 + i * 82} y={668 + Math.sin(i * 1.7) * 8} scale={.28 + (i % 3) * .05} kind={i % 2 ? "cedar" : "round"} />)}</g>
+      </g>
+      <g className="st-paint-layer" data-depth="mid">
+        {[[706, 40], [770, 56], [846, 66], [940, 78]].map(([top, height], i) => <g key={top}>
+          <path d={`M-40 ${top}C300 ${top - 8} 800 ${top + 6} 1640 ${top - 4}V${top + height + 30}H-40Z`} fill="var(--st-bank)" transform="translate(0 -5)" />
+          <Ridge d={`M-40 ${top}C300 ${top - 8} 800 ${top + 6} 1640 ${top - 4}V${top + height + 30}H-40Z`} top="var(--st-sun)" bottom="var(--st-water-deep)" opacity={1 - i * .05} />
+        </g>)}
+        <g stroke="var(--st-paper)" strokeLinecap="round" strokeWidth="3" opacity=".55"><path d="M760 724h90M700 760h210M650 806h300M610 860h380" /></g>
+      </g>
+      <g className="st-paint-layer" data-depth="near">
+        <Ridge d={r3} top="var(--st-hill)" bottom="var(--st-forest)" />
+        <path d="M1050 900C1120 840 1250 800 1380 796 1470 794 1540 806 1600 826V900Z" fill="var(--st-forest)" />
+        <g stroke="var(--st-timber)" strokeWidth="5" strokeLinecap="round"><path d="M1230 806V690M1370 800V700M1230 704C1280 724 1330 724 1370 708" strokeWidth="2.5" /></g>
+        {[1262, 1300, 1338].map((x, i) => <g key={x} className="st-lantern"><Glow x={x} y={724 + (i % 2) * 6} r={42} opacity={.75} /><ellipse cx={x} cy={724 + (i % 2) * 6} rx="9" ry="12" fill="var(--st-sun)" /></g>)}
+        <PaintedTree x={1500} y={900} scale={1.9} dark="var(--st-tree-dark)" mid="var(--st-tree-mid)" lit="var(--st-tree-mid)" />
+        <PaintedTree x={60} y={900} scale={2.3} dark="var(--st-tree-dark)" mid="var(--st-tree-mid)" lit="var(--st-tree-mid)" />
+        <g className="st-grasses"><Blades x={0} y={858} w={1600} h={42} count={110} seed={101} size={40} stroke="var(--st-forest)" lean={1} width={2.2} /></g>
+        {[[420, 780, 0], [520, 830, 2], [640, 760, 4], [1000, 800, 1], [1120, 770, 3], [300, 850, 5], [1180, 840, 6]].map(([x, y, delay]) => <Firefly key={x} x={x} y={y} delay={delay} />)}
+        <circle cx="240" cy="110" r="2.4" fill="var(--st-paper)" opacity=".8" /><circle cx="1380" cy="150" r="2" fill="var(--st-paper)" opacity=".7" /><circle cx="560" cy="80" r="1.8" fill="var(--st-paper)" opacity=".6" />
+      </g>
     </g>
   </SceneSvg>;
 }
@@ -1076,27 +1174,35 @@ export function ForestScene() {
       <SketchPath d="M700 900C700 876 720 856 840 856C940 840 1060 850 1100 830" depth="near" />
     </g>
     <g className="st-paint-wash">
-      <Sky stops={[[0, "var(--st-forest-sky)"], [.55, "var(--st-sky-mid)"], [1, "var(--st-sky-low)"]]} />
-      <Glow x={1050} y={110} r={540} opacity={.95} />
-      <g className="st-beams" opacity=".38" fill="var(--st-sun)">
-        <path d="M980 0 1120 0 780 700 560 700Z" />
-        <path d="M1180 0 1260 0 1060 700 900 700Z" opacity=".6" />
-        <path d="M840 0 900 0 520 700 400 700Z" opacity=".5" />
+      <g className="st-paint-layer" data-depth="sky">
+        <Sky stops={[[0, "var(--st-forest-sky)"], [.55, "var(--st-sky-mid)"], [1, "var(--st-sky-low)"]]} />
+        <Glow x={1050} y={110} r={540} opacity={.95} />
+        <g className="st-beams" opacity=".38" fill="var(--st-sun)">
+          <path d="M980 0 1120 0 780 700 560 700Z" />
+          <path d="M1180 0 1260 0 1060 700 900 700Z" opacity=".6" />
+          <path d="M840 0 900 0 520 700 400 700Z" opacity=".5" />
+        </g>
       </g>
-      <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
-      <g opacity=".4">{[90, 330, 590, 860, 1130, 1390, 1580].map((x, i) => <Bamboo key={x} x={x} base={720} lean={i % 2 ? 30 : -24} width={10} seed={i + 61} tone="var(--st-bamboo-far)" />)}</g>
-      <path d={r2} fill="var(--st-meadow-lit)" opacity=".85" />
-      <g className="st-bamboo-sway" opacity=".72">
-        {[40, 250, 470, 720, 990, 1210, 1450].map((x, i) => <Bamboo key={x} x={x} base={900} lean={i % 2 ? 46 : -34} width={17 + (i % 3) * 4} seed={i + 5} tone="var(--st-bamboo)" />)}
+      <g className="st-paint-layer" data-depth="far">
+        <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
+        <g opacity=".4">{[90, 330, 590, 860, 1130, 1390, 1580].map((x, i) => <Bamboo key={x} x={x} base={720} lean={i % 2 ? 30 : -24} width={10} seed={i + 61} tone="var(--st-bamboo-far)" />)}</g>
       </g>
-      <Ridge d={r3} top="var(--st-meadow)" bottom="var(--st-forest)" />
-      <path d="M520 900C600 836 700 800 840 790 960 782 1060 800 1100 830 1060 850 940 840 840 856 720 876 700 900 700 900Z" fill="var(--st-path)" opacity=".9" />
-      <g className="st-grasses">
-        <Blades x={0} y={820} w={1600} h={80} count={140} seed={43} size={44} stroke="var(--st-meadow-lit)" lean={1} width={2.4} />
-        <Blades x={0} y={846} w={1600} h={54} count={90} seed={47} size={36} stroke="var(--st-forest)" lean={1} width={2.2} />
+      <g className="st-paint-layer" data-depth="mid">
+        <path d={r2} fill="var(--st-meadow-lit)" opacity=".85" />
+        <g className="st-bamboo-sway" opacity=".72">
+          {[40, 250, 470, 720, 990, 1210, 1450].map((x, i) => <Bamboo key={x} x={x} base={900} lean={i % 2 ? 46 : -34} width={17 + (i % 3) * 4} seed={i + 5} tone="var(--st-bamboo)" />)}
+        </g>
       </g>
-      <Flowers x={60} y={810} w={460} h={80} count={14} seed={51} colors={["var(--st-paper)", "var(--st-sun)"]} />
-      <g className="st-motes" fill="var(--st-sun)">{Array.from({ length: 14 }, (_, i) => <circle key={i} cx={260 + i * 83} cy={200 + ((i * 97) % 380)} r={2.4 + (i % 3)} opacity=".75" />)}</g>
+      <g className="st-paint-layer" data-depth="near">
+        <Ridge d={r3} top="var(--st-meadow)" bottom="var(--st-forest)" />
+        <path d="M520 900C600 836 700 800 840 790 960 782 1060 800 1100 830 1060 850 940 840 840 856 720 876 700 900 700 900Z" fill="var(--st-path)" opacity=".9" />
+        <g className="st-grasses">
+          <Blades x={0} y={820} w={1600} h={80} count={140} seed={43} size={44} stroke="var(--st-meadow-lit)" lean={1} width={2.4} />
+          <Blades x={0} y={846} w={1600} h={54} count={90} seed={47} size={36} stroke="var(--st-forest)" lean={1} width={2.2} />
+        </g>
+        <Flowers x={60} y={810} w={460} h={80} count={14} seed={51} colors={["var(--st-paper)", "var(--st-sun)"]} />
+        <g className="st-motes" fill="var(--st-sun)">{Array.from({ length: 14 }, (_, i) => <circle key={i} cx={260 + i * 83} cy={200 + ((i * 97) % 380)} r={2.4 + (i % 3)} opacity=".75" />)}</g>
+      </g>
     </g>
   </SceneSvg>;
 }
@@ -1131,38 +1237,46 @@ export function MeadowScene() {
       <RidgeSketch d={r6} depth="near" />
     </g>
     <g className="st-paint-wash">
-      <Sky stops={[[0, "var(--st-sky-top)"], [.55, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
-      <Glow x={1150} y={420} r={560} />
-      <Stratus x={150} y={150} width={400} />
-      <Stratus x={930} y={110} width={300} />
-      <g className="st-clouds">
-        <Cumulus x={760} y={540} scale={1.7} />
-        <Cumulus x={1230} y={500} scale={1.25} />
-        <Cumulus x={200} y={560} scale={1.05} flip />
-        <Cumulus x={1520} y={580} scale={.85} />
+      <g className="st-paint-layer" data-depth="sky">
+        <Sky stops={[[0, "var(--st-sky-top)"], [.55, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
+        <Glow x={1150} y={420} r={560} />
+        <Stratus x={150} y={150} width={400} />
+        <Stratus x={930} y={110} width={300} />
       </g>
-      <Birds x={1010} y={250} scale={1.1} />
-      <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
-      <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-mtn-haze)" />
-      <Ridge d={r3} top="var(--st-meadow-lit)" bottom="var(--st-leaf)" />
-      <Ridge d={r4} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
-      <PaintedTree x={1090} y={640} scale={1.5} />
-      <PaintedTree x={1330} y={662} scale={.62} />
-      <PaintedTree x={960} y={664} scale={.42} />
-      <Ridge d={r5} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
-      <Farmhouse x={330} y={716} scale={.6} glow />
-      <PaintedTree x={186} y={724} scale={.5} />
-      <PaintedTree x={500} y={742} scale={.42} />
-      <path d="M700 900C740 836 640 812 560 786 480 760 440 736 410 718L438 714C480 738 530 758 620 786 730 820 850 850 850 900Z" fill="var(--st-path)" opacity=".92" />
-      <Ridge d={r6} top="var(--st-meadow)" bottom="var(--st-hill)" />
-      <g className="st-grasses">
-        <Blades x={0} y={840} w={1600} h={60} count={120} seed={7} size={46} stroke="var(--st-meadow-lit)" lean={1} width={2.4} />
-        <Blades x={0} y={850} w={1600} h={50} count={90} seed={19} size={38} stroke="var(--st-forest)" lean={1} width={2.2} />
-        <Blades x={0} y={700} w={900} h={110} count={110} seed={3} size={20} stroke="var(--st-meadow-lit)" lean={1} width={1.6} />
-        <Blades x={900} y={690} w={700} h={110} count={90} seed={11} size={18} stroke="var(--st-meadow-lit)" lean={1} width={1.6} />
+      <g className="st-paint-layer" data-depth="far">
+        <g className="st-clouds">
+          <Cumulus x={760} y={540} scale={1.7} />
+          <Cumulus x={1230} y={500} scale={1.25} />
+          <Cumulus x={200} y={560} scale={1.05} flip />
+          <Cumulus x={1520} y={580} scale={.85} />
+        </g>
+        <Birds x={1010} y={250} scale={1.1} />
+        <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
+        <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-mtn-haze)" />
       </g>
-      <Flowers x={40} y={800} w={760} h={96} count={26} seed={5} colors={["var(--st-paper)", "var(--st-rose)", "var(--st-sun)"]} />
-      <Flowers x={930} y={790} w={640} h={106} count={22} seed={9} colors={["var(--st-paper)", "var(--st-sun)", "var(--st-rose)"]} />
+      <g className="st-paint-layer" data-depth="mid">
+        <Ridge d={r3} top="var(--st-meadow-lit)" bottom="var(--st-leaf)" />
+        <Ridge d={r4} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
+        <PaintedTree x={1090} y={640} scale={1.5} />
+        <PaintedTree x={1330} y={662} scale={.62} />
+        <PaintedTree x={960} y={664} scale={.42} />
+        <Ridge d={r5} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
+        <Farmhouse x={330} y={716} scale={.6} glow />
+        <PaintedTree x={186} y={724} scale={.5} />
+        <PaintedTree x={500} y={742} scale={.42} />
+      </g>
+      <g className="st-paint-layer" data-depth="near">
+        <path d="M700 900C740 836 640 812 560 786 480 760 440 736 410 718L438 714C480 738 530 758 620 786 730 820 850 850 850 900Z" fill="var(--st-path)" opacity=".92" />
+        <Ridge d={r6} top="var(--st-meadow)" bottom="var(--st-hill)" />
+        <g className="st-grasses">
+          <Blades x={0} y={840} w={1600} h={60} count={120} seed={7} size={46} stroke="var(--st-meadow-lit)" lean={1} width={2.4} />
+          <Blades x={0} y={850} w={1600} h={50} count={90} seed={19} size={38} stroke="var(--st-forest)" lean={1} width={2.2} />
+          <Blades x={0} y={700} w={900} h={110} count={110} seed={3} size={20} stroke="var(--st-meadow-lit)" lean={1} width={1.6} />
+          <Blades x={900} y={690} w={700} h={110} count={90} seed={11} size={18} stroke="var(--st-meadow-lit)" lean={1} width={1.6} />
+        </g>
+        <Flowers x={40} y={800} w={760} h={96} count={26} seed={5} colors={["var(--st-paper)", "var(--st-rose)", "var(--st-sun)"]} />
+        <Flowers x={930} y={790} w={640} h={106} count={22} seed={9} colors={["var(--st-paper)", "var(--st-sun)", "var(--st-rose)"]} />
+      </g>
     </g>
   </SceneSvg>;
 }
@@ -1442,25 +1556,33 @@ export function SpringScene() {
       <TreeSketch x={1290} y={870} scale={2.7} depth="near" />
     </g>
     <g className="st-paint-wash">
-      <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.68, "var(--st-sky-low)"]]} />
-      <Glow x={980} y={430} r={540} />
-      <Stratus x={160} y={150} width={360} />
-      <g className="st-clouds"><Cumulus x={1020} y={470} scale={1.2} /><Cumulus x={360} y={500} scale={.85} flip /></g>
-      <Birds x={780} y={250} />
-      <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
-      <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-meadow-lit)" />
-      <Ridge d={r3} top="var(--st-meadow-lit)" bottom="var(--st-leaf)" />
-      <Ridge d={r4} top="var(--st-sky-low)" bottom="var(--st-water-deep)" />
-      <g stroke="var(--st-paper)" strokeWidth="3" strokeLinecap="round" opacity=".6"><path d="M120 748h120M420 760h80M690 744h130M1000 758h100M1320 738h120" /></g>
-      <Farmhouse x={690} y={664} scale={.52} glow />
-      <PaintedTree x={540} y={676} scale={.5} dark="var(--st-blossom-dark)" mid="var(--st-blossom-mid)" lit="var(--st-blossom-lit)" />
-      <PaintedTree x={900} y={668} scale={.55} dark="var(--st-blossom-dark)" mid="var(--st-blossom-mid)" lit="var(--st-blossom-lit)" />
-      <Ridge d={r5} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
-      <Flowers x={0} y={790} w={1600} h={110} count={90} seed={4} colors={["var(--st-sun)", "var(--st-sun)", "var(--st-paper)"]} radius={3.6} />
-      <PaintedTree x={1290} y={870} scale={2.7} dark="var(--st-blossom-dark)" mid="var(--st-blossom-mid)" lit="var(--st-blossom-lit)" />
-      <g className="st-grasses"><Blades x={0} y={860} w={1600} h={40} count={100} seed={14} size={38} stroke="var(--st-forest)" lean={1} width={2.2} /></g>
-      <Drift kind="petal" count={26} seed={31} className="st-fall st-fall-a" fill="var(--st-blossom-lit)" />
-      <Drift kind="petal" count={20} seed={32} className="st-fall st-fall-b" fill="var(--st-paper)" />
+      <g className="st-paint-layer" data-depth="sky">
+        <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.68, "var(--st-sky-low)"]]} />
+        <Glow x={980} y={430} r={540} />
+        <Stratus x={160} y={150} width={360} />
+      </g>
+      <g className="st-paint-layer" data-depth="far">
+        <g className="st-clouds"><Cumulus x={1020} y={470} scale={1.2} /><Cumulus x={360} y={500} scale={.85} flip /></g>
+        <Birds x={780} y={250} />
+        <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
+        <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-meadow-lit)" />
+      </g>
+      <g className="st-paint-layer" data-depth="mid">
+        <Ridge d={r3} top="var(--st-meadow-lit)" bottom="var(--st-leaf)" />
+        <Ridge d={r4} top="var(--st-sky-low)" bottom="var(--st-water-deep)" />
+        <g stroke="var(--st-paper)" strokeWidth="3" strokeLinecap="round" opacity=".6"><path d="M120 748h120M420 760h80M690 744h130M1000 758h100M1320 738h120" /></g>
+        <Farmhouse x={690} y={664} scale={.52} glow />
+        <PaintedTree x={540} y={676} scale={.5} dark="var(--st-blossom-dark)" mid="var(--st-blossom-mid)" lit="var(--st-blossom-lit)" />
+        <PaintedTree x={900} y={668} scale={.55} dark="var(--st-blossom-dark)" mid="var(--st-blossom-mid)" lit="var(--st-blossom-lit)" />
+      </g>
+      <g className="st-paint-layer" data-depth="near">
+        <Ridge d={r5} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
+        <Flowers x={0} y={790} w={1600} h={110} count={90} seed={4} colors={["var(--st-sun)", "var(--st-sun)", "var(--st-paper)"]} radius={3.6} />
+        <PaintedTree x={1290} y={870} scale={2.7} dark="var(--st-blossom-dark)" mid="var(--st-blossom-mid)" lit="var(--st-blossom-lit)" />
+        <g className="st-grasses"><Blades x={0} y={860} w={1600} h={40} count={100} seed={14} size={38} stroke="var(--st-forest)" lean={1} width={2.2} /></g>
+        <Drift kind="petal" count={26} seed={31} className="st-fall st-fall-a" fill="var(--st-blossom-lit)" />
+        <Drift kind="petal" count={20} seed={32} className="st-fall st-fall-b" fill="var(--st-paper)" />
+      </g>
     </g>
   </SceneSvg>;
 }
@@ -1489,29 +1611,37 @@ export function SummerScene() {
       <SketchPath d="M150 900L150 760M310 900L310 800M1370 900L1370 770M1500 900L1500 810" depth="near" />
     </g>
     <g className="st-paint-wash">
-      <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
-      <Glow x={1320} y={200} r={380} opacity={.9} />
-      <g className="st-clouds">
-        <Cumulus x={700} y={560} scale={2.1} />
-        <Cumulus x={1250} y={520} scale={1.5} flip />
-        <Cumulus x={140} y={540} scale={1.2} />
+      <g className="st-paint-layer" data-depth="sky">
+        <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
+        <Glow x={1320} y={200} r={380} opacity={.9} />
       </g>
-      <Ridge d={r1} top="var(--st-mtn-mid)" bottom="var(--st-meadow-lit)" />
-      <g>{Array.from({ length: 22 }, (_, i) => <PaintedTree key={i} x={560 + i * 44} y={606 + Math.sin(i * .8) * 6} scale={.22 + (i % 4) * .03} />)}</g>
-      <Farmhouse x={1180} y={622} scale={.4} glow />
-      <Ridge d={r2} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
-      <g stroke="var(--st-midgreen)" strokeLinecap="round" opacity=".55">{rows.map(i => <path key={i} d={`M${800 + i * 22} 642L${800 + i * 150} 900`} strokeWidth={f(3 + Math.abs(i) * .55)} />)}</g>
-      <g className="st-grasses">
-        <Blades x={0} y={650} w={1600} h={250} count={380} seed={71} size={26} stroke="var(--st-leaf)" lean={1} width={2} />
-        <Blades x={0} y={800} w={1600} h={100} count={120} seed={73} size={52} stroke="var(--st-forest)" lean={1} width={2.6} />
+      <g className="st-paint-layer" data-depth="far">
+        <g className="st-clouds">
+          <Cumulus x={700} y={560} scale={2.1} />
+          <Cumulus x={1250} y={520} scale={1.5} flip />
+          <Cumulus x={140} y={540} scale={1.2} />
+        </g>
+        <Ridge d={r1} top="var(--st-mtn-mid)" bottom="var(--st-meadow-lit)" />
+        <g>{Array.from({ length: 22 }, (_, i) => <PaintedTree key={i} x={560 + i * 44} y={606 + Math.sin(i * .8) * 6} scale={.22 + (i % 4) * .03} />)}</g>
+        <Birds x={520} y={300} scale={1.2} />
       </g>
-      <path d={r3} fill="var(--st-hill)" />
-      {[[150, 760, 1.2], [310, 800, 1.5], [1370, 770, 1.35], [1500, 810, 1.7]].map(([x, y, s]) => <g key={x} transform={`translate(${x} ${y}) scale(${s})`}>
-        <path d="M0 140V0" stroke="var(--st-midgreen)" strokeWidth="6" strokeLinecap="round" /><path d="M0 100c-30-4-44-26-48-36 22 0 40 12 48 36Z" fill="var(--st-midgreen)" />
-        <g fill="var(--st-sun)">{Array.from({ length: 12 }, (_, k) => <ellipse key={k} cx="0" cy="-30" rx="9" ry="24" transform={`rotate(${k * 30})`} />)}</g>
-        <circle r="17" fill="var(--st-timber)" />
-      </g>)}
-      <Birds x={520} y={300} scale={1.2} />
+      <g className="st-paint-layer" data-depth="mid">
+        <Farmhouse x={1180} y={622} scale={.4} glow />
+        <Ridge d={r2} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
+        <g stroke="var(--st-midgreen)" strokeLinecap="round" opacity=".55">{rows.map(i => <path key={i} d={`M${800 + i * 22} 642L${800 + i * 150} 900`} strokeWidth={f(3 + Math.abs(i) * .55)} />)}</g>
+        <g className="st-grasses">
+          <Blades x={0} y={650} w={1600} h={250} count={380} seed={71} size={26} stroke="var(--st-leaf)" lean={1} width={2} />
+          <Blades x={0} y={800} w={1600} h={100} count={120} seed={73} size={52} stroke="var(--st-forest)" lean={1} width={2.6} />
+        </g>
+      </g>
+      <g className="st-paint-layer" data-depth="near">
+        <path d={r3} fill="var(--st-hill)" />
+        {[[150, 760, 1.2], [310, 800, 1.5], [1370, 770, 1.35], [1500, 810, 1.7]].map(([x, y, s]) => <g key={x} transform={`translate(${x} ${y}) scale(${s})`}>
+          <path d="M0 140V0" stroke="var(--st-midgreen)" strokeWidth="6" strokeLinecap="round" /><path d="M0 100c-30-4-44-26-48-36 22 0 40 12 48 36Z" fill="var(--st-midgreen)" />
+          <g fill="var(--st-sun)">{Array.from({ length: 12 }, (_, k) => <ellipse key={k} cx="0" cy="-30" rx="9" ry="24" transform={`rotate(${k * 30})`} />)}</g>
+          <circle r="17" fill="var(--st-timber)" />
+        </g>)}
+      </g>
     </g>
   </SceneSvg>;
 }
@@ -1540,24 +1670,32 @@ export function AutumnScene() {
       <TreeSketch x={1360} y={880} scale={2.3} depth="near" />
     </g>
     <g className="st-paint-wash">
-      <Sky stops={[[0, "var(--st-sky-top)"], [.52, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
-      <Glow x={1120} y={500} r={560} />
-      <g className="st-clouds">{[[220, 190], [440, 160], [680, 210], [940, 170], [1180, 220], [330, 300], [610, 330], [880, 310], [1130, 350], [1380, 280]].map(([x, y], i) => <Cumulus key={i} x={x} y={y} scale={.34 + (i % 3) * .06} />)}</g>
-      <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
-      <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-meadow-lit)" />
-      <g>{Array.from({ length: 14 }, (_, i) => <PaintedTree key={i} x={140 + i * 108} y={640 + Math.sin(i) * 8} scale={.3 + (i % 3) * .05} dark="var(--st-maple-dark)" mid="var(--st-maple-mid)" lit="var(--st-maple-lit)" />)}</g>
-      <Farmhouse x={1050} y={670} scale={.5} glow />
-      <Ridge d={r3} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
-      <g stroke="var(--st-sun)" strokeWidth="3" opacity=".5" strokeLinecap="round"><Blades x={0} y={700} w={1600} h={200} count={300} seed={91} size={24} stroke="var(--st-sun)" lean={1} width={2} /></g>
-      {[[260, 770, 1], [520, 790, 1.1], [820, 800, 1.2]].map(([x, y, s]) => <g key={x} transform={`translate(${x} ${y}) scale(${s})`}>
-        <path d="M-86 0V-120M86 0V-120M-86-112H86M-86-82H86M-86-52H86" stroke="var(--st-timber)" strokeWidth="6" strokeLinecap="round" />
-        <g fill="var(--st-sun)" stroke="var(--st-timber)" strokeWidth="2">{[-72, -50, -28, -6, 16, 38, 60].map(sx => <path key={sx} d={`M${sx} -112l-12 24h24ZM${sx} -82l-12 24h24Z`} />)}</g>
-      </g>)}
-      <Ridge d={r4} top="var(--st-hill)" bottom="var(--st-forest)" />
-      <PaintedTree x={1360} y={880} scale={2.3} dark="var(--st-maple-dark)" mid="var(--st-maple-mid)" lit="var(--st-maple-lit)" />
-      <g className="st-grasses"><Blades x={0} y={866} w={1600} h={34} count={90} seed={95} size={36} stroke="var(--st-forest)" lean={1} width={2.2} /></g>
-      <Drift kind="leaf" count={22} seed={61} className="st-fall st-fall-a" fill="var(--st-maple-lit)" />
-      <Drift kind="leaf" count={16} seed={62} className="st-fall st-fall-b" fill="var(--st-maple-mid)" />
+      <g className="st-paint-layer" data-depth="sky">
+        <Sky stops={[[0, "var(--st-sky-top)"], [.52, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
+        <Glow x={1120} y={500} r={560} />
+      </g>
+      <g className="st-paint-layer" data-depth="far">
+        <g className="st-clouds">{[[220, 190], [440, 160], [680, 210], [940, 170], [1180, 220], [330, 300], [610, 330], [880, 310], [1130, 350], [1380, 280]].map(([x, y], i) => <Cumulus key={i} x={x} y={y} scale={.34 + (i % 3) * .06} />)}</g>
+        <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
+        <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-meadow-lit)" />
+        <g>{Array.from({ length: 14 }, (_, i) => <PaintedTree key={i} x={140 + i * 108} y={640 + Math.sin(i) * 8} scale={.3 + (i % 3) * .05} dark="var(--st-maple-dark)" mid="var(--st-maple-mid)" lit="var(--st-maple-lit)" />)}</g>
+      </g>
+      <g className="st-paint-layer" data-depth="mid">
+        <Farmhouse x={1050} y={670} scale={.5} glow />
+        <Ridge d={r3} top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
+        <g stroke="var(--st-sun)" strokeWidth="3" opacity=".5" strokeLinecap="round"><Blades x={0} y={700} w={1600} h={200} count={300} seed={91} size={24} stroke="var(--st-sun)" lean={1} width={2} /></g>
+        {[[260, 770, 1], [520, 790, 1.1], [820, 800, 1.2]].map(([x, y, s]) => <g key={x} transform={`translate(${x} ${y}) scale(${s})`}>
+          <path d="M-86 0V-120M86 0V-120M-86-112H86M-86-82H86M-86-52H86" stroke="var(--st-timber)" strokeWidth="6" strokeLinecap="round" />
+          <g fill="var(--st-sun)" stroke="var(--st-timber)" strokeWidth="2">{[-72, -50, -28, -6, 16, 38, 60].map(sx => <path key={sx} d={`M${sx} -112l-12 24h24ZM${sx} -82l-12 24h24Z`} />)}</g>
+        </g>)}
+      </g>
+      <g className="st-paint-layer" data-depth="near">
+        <Ridge d={r4} top="var(--st-hill)" bottom="var(--st-forest)" />
+        <PaintedTree x={1360} y={880} scale={2.3} dark="var(--st-maple-dark)" mid="var(--st-maple-mid)" lit="var(--st-maple-lit)" />
+        <g className="st-grasses"><Blades x={0} y={866} w={1600} h={34} count={90} seed={95} size={36} stroke="var(--st-forest)" lean={1} width={2.2} /></g>
+        <Drift kind="leaf" count={22} seed={61} className="st-fall st-fall-a" fill="var(--st-maple-lit)" />
+        <Drift kind="leaf" count={16} seed={62} className="st-fall st-fall-b" fill="var(--st-maple-mid)" />
+      </g>
     </g>
   </SceneSvg>;
 }
@@ -1583,24 +1721,32 @@ export function WinterScene() {
       <TreeSketch x={150} y={880} scale={2.1} kind="cedar" depth="near" />
     </g>
     <g className="st-paint-wash">
-      <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
-      <Stratus x={200} y={140} width={420} />
-      <Stratus x={980} y={190} width={340} />
-      <g className="st-clouds"><Cumulus x={1120} y={470} scale={1.1} /><Cumulus x={330} y={500} scale={.9} flip /></g>
-      <Ridge d={r1} top="var(--st-snow)" bottom="var(--st-mtn-haze)" />
-      <g>{Array.from({ length: 18 }, (_, i) => <PaintedTree key={i} x={60 + i * 90} y={560 + Math.sin(i * 1.3) * 12} scale={.3 + (i % 3) * .05} kind="cedar" dark="var(--st-tree-dark)" mid="var(--st-tree-mid)" snow />)}</g>
-      <Ridge d={r2} top="var(--st-snow)" bottom="var(--st-snow-shade)" />
-      <Farmhouse x={900} y={700} scale={.72} glow roof="var(--st-snow)" roofLit="var(--st-snow-shade)" />
-      <g className="st-smoke" stroke="var(--st-paper)" strokeWidth="9" strokeLinecap="round" opacity=".75"><path d="M970 548c-20-14 10-20-4-34s-9-21-4-27" /><path d="M980 530c12-15-12-17-6-30" strokeWidth="5" /></g>
-      <Glow x={900} y={690} r={190} opacity={.4} />
-      <PaintedTree x={640} y={730} scale={1.1} kind="bare" snow />
-      <PaintedTree x={1280} y={740} scale={.9} kind="bare" snow />
-      <Ridge d={r3} top="var(--st-snow)" bottom="var(--st-snow-shade)" />
-      <path d={r4} fill="var(--st-snow)" />
-      <path d="M0 850C260 810 560 826 840 856" stroke="var(--st-snow-shade)" strokeWidth="4" opacity=".6" />
-      <PaintedTree x={150} y={880} scale={2.1} kind="cedar" dark="var(--st-tree-dark)" mid="var(--st-tree-mid)" />
-      <Drift kind="snow" count={46} seed={81} className="st-fall st-fall-a" fill="var(--st-paper)" />
-      <Drift kind="snow" count={34} seed={82} className="st-fall st-fall-b" fill="var(--st-paper)" />
+      <g className="st-paint-layer" data-depth="sky">
+        <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
+        <Stratus x={200} y={140} width={420} />
+        <Stratus x={980} y={190} width={340} />
+      </g>
+      <g className="st-paint-layer" data-depth="far">
+        <g className="st-clouds"><Cumulus x={1120} y={470} scale={1.1} /><Cumulus x={330} y={500} scale={.9} flip /></g>
+        <Ridge d={r1} top="var(--st-snow)" bottom="var(--st-mtn-haze)" />
+        <g>{Array.from({ length: 18 }, (_, i) => <PaintedTree key={i} x={60 + i * 90} y={560 + Math.sin(i * 1.3) * 12} scale={.3 + (i % 3) * .05} kind="cedar" dark="var(--st-tree-dark)" mid="var(--st-tree-mid)" snow />)}</g>
+      </g>
+      <g className="st-paint-layer" data-depth="mid">
+        <Ridge d={r2} top="var(--st-snow)" bottom="var(--st-snow-shade)" />
+        <Farmhouse x={900} y={700} scale={.72} glow roof="var(--st-snow)" roofLit="var(--st-snow-shade)" />
+        <g className="st-smoke" stroke="var(--st-paper)" strokeWidth="9" strokeLinecap="round" opacity=".75"><path d="M970 548c-20-14 10-20-4-34s-9-21-4-27" /><path d="M980 530c12-15-12-17-6-30" strokeWidth="5" /></g>
+        <Glow x={900} y={690} r={190} opacity={.4} />
+        <PaintedTree x={640} y={730} scale={1.1} kind="bare" snow />
+        <PaintedTree x={1280} y={740} scale={.9} kind="bare" snow />
+      </g>
+      <g className="st-paint-layer" data-depth="near">
+        <Ridge d={r3} top="var(--st-snow)" bottom="var(--st-snow-shade)" />
+        <path d={r4} fill="var(--st-snow)" />
+        <path d="M0 850C260 810 560 826 840 856" stroke="var(--st-snow-shade)" strokeWidth="4" opacity=".6" />
+        <PaintedTree x={150} y={880} scale={2.1} kind="cedar" dark="var(--st-tree-dark)" mid="var(--st-tree-mid)" />
+        <Drift kind="snow" count={46} seed={81} className="st-fall st-fall-a" fill="var(--st-paper)" />
+        <Drift kind="snow" count={34} seed={82} className="st-fall st-fall-b" fill="var(--st-paper)" />
+      </g>
     </g>
   </SceneSvg>;
 }
@@ -1648,42 +1794,63 @@ export function TerraceScene() {
       <TreeSketch x={1500} y={900} scale={1.35} depth="near" />
     </g>
     <g className="st-paint-wash">
-      <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
-      <Glow x={960} y={330} r={460} />
-      <g className="st-clouds">
-        <Cumulus x={1180} y={410} scale={1.15} />
-        <Cumulus x={330} y={430} scale={.9} flip />
+      <g className="st-paint-layer" data-depth="sky">
+        <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
+        <Glow x={960} y={330} r={460} />
       </g>
-      <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
-      <Mist y={400} height={140} opacity={.6} />
-      <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-mtn-haze)" />
-      <g>{Array.from({ length: 16 }, (_, i) => <PaintedTree key={i} x={930 + i * 42} y={510 + Math.sin(i * .6) * 14 + i * 3} scale={.32 + (i % 3) * .04} kind="cedar" />)}</g>
-      <Mist y={500} height={110} opacity={.55} />
-      <Ridge d={r3} top="var(--st-meadow-lit)" bottom="var(--st-leaf)" />
-      {BANDS.map(([top, height], i) => {
-        const wobble = () => (next() - .5) * 26;
-        const y0 = top + wobble() * .3;
-        const d = `M-40 ${f(y0)}C300 ${f(top + wobble())} 600 ${f(top + wobble())} 880 ${f(top + wobble() * .5)}S1400 ${f(top + wobble())} 1640 ${f(y0)}V${top + height + 40}H-40Z`;
-        const water = i % 2 === 0;
-        return <g key={top}>
-          <path d={d} fill="var(--st-bank)" transform="translate(0 -6)" />
-          <Ridge d={d} top={water ? "var(--st-sky-mid)" : "var(--st-meadow-lit)"} bottom={water ? "var(--st-water-deep)" : "var(--st-midgreen)"} />
-          {water
-            ? <g stroke="var(--st-paper)" strokeLinecap="round" strokeWidth="3" opacity=".65">{Array.from({ length: 9 }, (_, k) => { const sx = 90 + k * 175 + next() * 60; const sy = top + 14 + next() * (height * .55); return <path key={k} d={`M${f(sx)} ${f(sy)}h${f(40 + next() * 70)}`} />; })}</g>
-            : <Blades x={0} y={top + 10} w={1600} h={height - 8} count={150} seed={i * 13 + 5} size={26} stroke="var(--st-leaf)" lean={1} width={2} />}
-        </g>;
-      })}
-      <PaintedTree x={900} y={598} scale={.62} />
-      <PaintedTree x={1290} y={584} scale={.5} />
-      <Farmhouse x={780} y={632} scale={.5} glow />
-      <Farmhouse x={670} y={644} scale={.36} roof="var(--st-roof-rose)" roofLit="var(--st-rose)" />
-      <g className="st-smoke" stroke="var(--st-paper)" strokeWidth="8" strokeLinecap="round" opacity=".6"><path d="M812 549c-18-12 8-18-4-30s-8-18-4-24" /><path d="M822 534c10-13-10-15-5-26" strokeWidth="5" /></g>
-      <path d="M0 880C300 834 640 846 920 884V900H0Z" fill="var(--st-hill)" />
-      <path d="M1100 900C1160 850 1320 832 1460 846 1530 854 1580 874 1600 888V900Z" fill="var(--st-forest)" />
-      <PaintedTree x={1500} y={900} scale={1.35} />
-      <g className="st-grasses">
-        <Blades x={0} y={852} w={1600} h={48} count={110} seed={23} size={44} stroke="var(--st-meadow-lit)" lean={1} width={2.4} />
-        <Blades x={0} y={862} w={1600} h={40} count={80} seed={29} size={36} stroke="var(--st-forest)" lean={1} width={2.2} />
+      <g className="st-paint-layer" data-depth="far">
+        <g className="st-clouds">
+          <Cumulus x={1180} y={410} scale={1.15} />
+          <Cumulus x={330} y={430} scale={.9} flip />
+        </g>
+        <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
+        <Mist y={400} height={140} opacity={.6} />
+        <Ridge d={r2} top="var(--st-mtn-mid)" bottom="var(--st-mtn-haze)" />
+        <g>{Array.from({ length: 16 }, (_, i) => <PaintedTree key={i} x={930 + i * 42} y={510 + Math.sin(i * .6) * 14 + i * 3} scale={.32 + (i % 3) * .04} kind="cedar" />)}</g>
+        <Mist y={500} height={110} opacity={.55} />
+      </g>
+      <g className="st-paint-layer" data-depth="mid">
+        <Ridge d={r3} top="var(--st-meadow-lit)" bottom="var(--st-leaf)" />
+        {BANDS.slice(0, 3).map(([top, height], i) => {
+          const wobble = () => (next() - .5) * 26;
+          const y0 = top + wobble() * .3;
+          const d = `M-40 ${f(y0)}C300 ${f(top + wobble())} 600 ${f(top + wobble())} 880 ${f(top + wobble() * .5)}S1400 ${f(top + wobble())} 1640 ${f(y0)}V${top + height + 40}H-40Z`;
+          const water = i % 2 === 0;
+          return <g key={top}>
+            <path d={d} fill="var(--st-bank)" transform="translate(0 -6)" />
+            <Ridge d={d} top={water ? "var(--st-sky-mid)" : "var(--st-meadow-lit)"} bottom={water ? "var(--st-water-deep)" : "var(--st-midgreen)"} />
+            {water
+              ? <g stroke="var(--st-paper)" strokeLinecap="round" strokeWidth="3" opacity=".65">{Array.from({ length: 9 }, (_, k) => { const sx = 90 + k * 175 + next() * 60; const sy = top + 14 + next() * (height * .55); return <path key={k} d={`M${f(sx)} ${f(sy)}h${f(40 + next() * 70)}`} />; })}</g>
+              : <Blades x={0} y={top + 10} w={1600} h={height - 8} count={150} seed={i * 13 + 5} size={26} stroke="var(--st-leaf)" lean={1} width={2} />}
+          </g>;
+        })}
+        <PaintedTree x={900} y={598} scale={.62} />
+        <PaintedTree x={1290} y={584} scale={.5} />
+        <Farmhouse x={780} y={632} scale={.5} glow />
+        <Farmhouse x={670} y={644} scale={.36} roof="var(--st-roof-rose)" roofLit="var(--st-rose)" />
+        <g className="st-smoke" stroke="var(--st-paper)" strokeWidth="8" strokeLinecap="round" opacity=".6"><path d="M812 549c-18-12 8-18-4-30s-8-18-4-24" /><path d="M822 534c10-13-10-15-5-26" strokeWidth="5" /></g>
+      </g>
+      <g className="st-paint-layer" data-depth="near">
+        {BANDS.slice(3).map(([top, height], i) => {
+          const wobble = () => (next() - .5) * 26;
+          const y0 = top + wobble() * .3;
+          const d = `M-40 ${f(y0)}C300 ${f(top + wobble())} 600 ${f(top + wobble())} 880 ${f(top + wobble() * .5)}S1400 ${f(top + wobble())} 1640 ${f(y0)}V${top + height + 40}H-40Z`;
+          const water = (i + 3) % 2 === 0;
+          return <g key={top}>
+            <path d={d} fill="var(--st-bank)" transform="translate(0 -6)" />
+            <Ridge d={d} top={water ? "var(--st-sky-mid)" : "var(--st-meadow-lit)"} bottom={water ? "var(--st-water-deep)" : "var(--st-midgreen)"} />
+            {water
+              ? <g stroke="var(--st-paper)" strokeLinecap="round" strokeWidth="3" opacity=".65">{Array.from({ length: 9 }, (_, k) => { const sx = 90 + k * 175 + next() * 60; const sy = top + 14 + next() * (height * .55); return <path key={k} d={`M${f(sx)} ${f(sy)}h${f(40 + next() * 70)}`} />; })}</g>
+              : <Blades x={0} y={top + 10} w={1600} h={height - 8} count={150} seed={(i + 3) * 13 + 5} size={26} stroke="var(--st-leaf)" lean={1} width={2} />}
+          </g>;
+        })}
+        <path d="M0 880C300 834 640 846 920 884V900H0Z" fill="var(--st-hill)" />
+        <path d="M1100 900C1160 850 1320 832 1460 846 1530 854 1580 874 1600 888V900Z" fill="var(--st-forest)" />
+        <PaintedTree x={1500} y={900} scale={1.35} />
+        <g className="st-grasses">
+          <Blades x={0} y={852} w={1600} h={48} count={110} seed={23} size={44} stroke="var(--st-meadow-lit)" lean={1} width={2.4} />
+          <Blades x={0} y={862} w={1600} h={40} count={80} seed={29} size={36} stroke="var(--st-forest)" lean={1} width={2.2} />
+        </g>
       </g>
     </g>
   </SceneSvg>;
@@ -1691,7 +1858,7 @@ export function TerraceScene() {
 ]]>
     </file>
     <file path="src/app/(satoyama)/satoyama/illustrations/VillageScene.tsx">
-<![CDATA[import { Blades, Cumulus, CumulusOutline, Farmhouse, FarmhouseSketch, Flowers, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, Stratus, TreeSketch } from "./Painted";
+<![CDATA[import { Birds, Blades, Cumulus, CumulusOutline, Farmhouse, FarmhouseSketch, Flowers, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, Stratus, TreeSketch } from "./Painted";
 
 /* A slower rhythm: a warm afternoon along the village canal, laundry out, tea on the veranda. */
 export function VillageScene() {
@@ -1716,41 +1883,50 @@ export function VillageScene() {
       <RidgeSketch d={r3} depth="near" />
     </g>
     <g className="st-paint-wash">
-      <Sky stops={[[0, "var(--st-sky-top)"], [.45, "var(--st-sky-mid)"], [.62, "var(--st-sky-warm)"]]} />
-      <Glow x={1240} y={380} r={520} opacity={.9} />
-      <Stratus x={200} y={120} width={340} />
-      <g className="st-clouds">
-        <Cumulus x={420} y={420} scale={1.1} />
-        <Cumulus x={1330} y={400} scale={1.3} flip />
+      <g className="st-paint-layer" data-depth="sky">
+        <Sky stops={[[0, "var(--st-sky-top)"], [.45, "var(--st-sky-mid)"], [.62, "var(--st-sky-warm)"]]} />
+        <Glow x={1240} y={380} r={520} opacity={.9} />
+        <Stratus x={200} y={120} width={340} />
       </g>
-      <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
-      <Ridge d={r2} top="var(--st-meadow-lit)" bottom="var(--st-leaf)" />
-      <g>{[0, 1, 2, 3, 4, 5].map(i => <PaintedTree key={i} x={110 + i * 270} y={560 + (i % 2) * 14} scale={.38 + (i % 3) * .06} kind={i % 2 ? "cedar" : "round"} />)}</g>
-      <Farmhouse x={520} y={640} scale={.55} glow />
-      <Farmhouse x={1470} y={652} scale={.46} roof="var(--st-roof-rose)" roofLit="var(--st-rose)" />
-      <Farmhouse x={380} y={652} scale={.4} />
-      <g className="st-smoke" stroke="var(--st-paper)" strokeWidth="8" strokeLinecap="round" opacity=".62"><path d="M560 534c-16-12 8-17-3-29s-8-17-4-23" /><path d="M570 519c9-12-9-14-5-24" strokeWidth="5" /></g>
-      <path d="M0 700C260 676 520 690 800 706 1100 724 1360 706 1600 690V900H0Z" fill="var(--st-path)" />
-      <path d="M0 790C300 760 700 780 1000 800 1250 816 1450 800 1600 784V900H0Z" fill="var(--st-water-canal)" />
-      <path d="M0 784C300 754 700 774 1000 794 1250 810 1450 794 1600 778" stroke="var(--st-stone)" strokeWidth="12" />
-      <g stroke="var(--st-paper)" strokeLinecap="round" strokeWidth="3" opacity=".6"><path d="M120 830h110M340 846h70M560 826h140M850 850h90M1060 836h120M1290 846h80M1450 826h60" /></g>
-      <g stroke="var(--st-sun)" strokeLinecap="round" strokeWidth="4" opacity=".55"><path d="M1150 824h60M1210 842h40M980 834h50" /></g>
-      <path d="M380 790c40-60 120-60 160-6" stroke="var(--st-stone)" strokeWidth="14" strokeLinecap="round" />
-      <g stroke="var(--st-timber)" strokeLinecap="round"><path d="M610 700V610M760 706V614" strokeWidth="6" /><path d="M610 620C660 646 710 646 760 622" strokeWidth="2" /></g>
-      <g>{[626, 650, 674, 698, 722, 738].map((x, i) => <path key={x} d={`M${x} ${620 + Math.sin(i + 1) * 4}l${i % 2 ? 24 : 20} 0 ${i % 2 ? 2 : -2} ${i % 3 ? 48 : 38}h${i % 2 ? -24 : -20}Z`} fill={["var(--st-paper)", "var(--st-rose)", "var(--st-blue)", "var(--st-paper)", "var(--st-sun)", "var(--st-rose)"][i]} />)}</g>
-      <g>
-        <path d="M-30 730H220V880H-30Z" fill="var(--st-field)" />
-        <path d="M-20 750H210M-20 784H210M-20 818H210M-20 852H210" stroke="var(--st-bank)" strokeWidth="5" strokeLinecap="round" />
-        <Blades x={-10} y={752} w={220} h={110} count={70} seed={15} size={22} stroke="var(--st-midgreen)" lean={0} width={2.4} />
+      <g className="st-paint-layer" data-depth="far">
+        <Birds x={880} y={230} scale={1.05} />
+        <g className="st-clouds">
+          <Cumulus x={420} y={420} scale={1.1} />
+          <Cumulus x={1330} y={400} scale={1.3} flip />
+        </g>
+        <Ridge d={r1} top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
       </g>
-      <PaintedTree x={1530} y={730} scale={1.2} dark="var(--st-persimmon-dark)" mid="var(--st-persimmon)" lit="var(--st-persimmon-lit)" />
-      <g fill="var(--st-persimmon-fruit)">{[[1450, 612], [1490, 586], [1540, 618], [1420, 640], [1520, 650], [1570, 596]].map(([cx, cy]) => <circle key={cx} cx={cx} cy={cy} r="6.5" />)}</g>
-      <Ridge d={r3} top="var(--st-hill)" bottom="var(--st-forest)" />
-      <g className="st-grasses">
-        <Blades x={0} y={872} w={1600} h={28} count={100} seed={31} size={34} stroke="var(--st-meadow-lit)" lean={1} width={2.2} />
-        <Blades x={0} y={880} w={1600} h={20} count={70} seed={37} size={28} stroke="var(--st-forest)" lean={1} width={2} />
+      <g className="st-paint-layer" data-depth="mid">
+        <Ridge d={r2} top="var(--st-meadow-lit)" bottom="var(--st-leaf)" />
+        <g>{[0, 1, 2, 3, 4, 5].map(i => <PaintedTree key={i} x={110 + i * 270} y={560 + (i % 2) * 14} scale={.38 + (i % 3) * .06} kind={i % 2 ? "cedar" : "round"} />)}</g>
+        <Farmhouse x={520} y={640} scale={.55} glow />
+        <Farmhouse x={1470} y={652} scale={.46} roof="var(--st-roof-rose)" roofLit="var(--st-rose)" />
+        <Farmhouse x={380} y={652} scale={.4} />
+        <g className="st-smoke" stroke="var(--st-paper)" strokeWidth="8" strokeLinecap="round" opacity=".62"><path d="M560 534c-16-12 8-17-3-29s-8-17-4-23" /><path d="M570 519c9-12-9-14-5-24" strokeWidth="5" /></g>
+        <path d="M0 700C260 676 520 690 800 706 1100 724 1360 706 1600 690V900H0Z" fill="var(--st-path)" />
+        <path d="M0 790C300 760 700 780 1000 800 1250 816 1450 800 1600 784V900H0Z" fill="var(--st-water-canal)" />
+        <path d="M0 784C300 754 700 774 1000 794 1250 810 1450 794 1600 778" stroke="var(--st-stone)" strokeWidth="12" />
+        <g stroke="var(--st-paper)" strokeLinecap="round" strokeWidth="3" opacity=".6"><path d="M120 830h110M340 846h70M560 826h140M850 850h90M1060 836h120M1290 846h80M1450 826h60" /></g>
+        <g stroke="var(--st-sun)" strokeLinecap="round" strokeWidth="4" opacity=".55"><path d="M1150 824h60M1210 842h40M980 834h50" /></g>
+        <path d="M380 790c40-60 120-60 160-6" stroke="var(--st-stone)" strokeWidth="14" strokeLinecap="round" />
+        <g stroke="var(--st-timber)" strokeLinecap="round"><path d="M610 700V610M760 706V614" strokeWidth="6" /><path d="M610 620C660 646 710 646 760 622" strokeWidth="2" /></g>
+        <g>{[626, 650, 674, 698, 722, 738].map((x, i) => <path key={x} d={`M${x} ${620 + Math.sin(i + 1) * 4}l${i % 2 ? 24 : 20} 0 ${i % 2 ? 2 : -2} ${i % 3 ? 48 : 38}h${i % 2 ? -24 : -20}Z`} fill={["var(--st-paper)", "var(--st-rose)", "var(--st-blue)", "var(--st-paper)", "var(--st-sun)", "var(--st-rose)"][i]} />)}</g>
+        <g>
+          <path d="M-30 730H220V880H-30Z" fill="var(--st-field)" />
+          <path d="M-20 750H210M-20 784H210M-20 818H210M-20 852H210" stroke="var(--st-bank)" strokeWidth="5" strokeLinecap="round" />
+          <Blades x={-10} y={752} w={220} h={110} count={70} seed={15} size={22} stroke="var(--st-midgreen)" lean={0} width={2.4} />
+        </g>
       </g>
-      <Flowers x={240} y={740} w={380} h={150} count={14} seed={2} colors={["var(--st-paper)", "var(--st-rose)"]} radius={3.4} />
+      <g className="st-paint-layer" data-depth="near">
+        <PaintedTree x={1530} y={730} scale={1.2} dark="var(--st-persimmon-dark)" mid="var(--st-persimmon)" lit="var(--st-persimmon-lit)" />
+        <g fill="var(--st-persimmon-fruit)">{[[1450, 612], [1490, 586], [1540, 618], [1420, 640], [1520, 650], [1570, 596]].map(([cx, cy]) => <circle key={cx} cx={cx} cy={cy} r="6.5" />)}</g>
+        <Ridge d={r3} top="var(--st-hill)" bottom="var(--st-forest)" />
+        <g className="st-grasses">
+          <Blades x={0} y={872} w={1600} h={28} count={100} seed={31} size={34} stroke="var(--st-meadow-lit)" lean={1} width={2.2} />
+          <Blades x={0} y={880} w={1600} h={20} count={70} seed={37} size={28} stroke="var(--st-forest)" lean={1} width={2} />
+        </g>
+        <Flowers x={240} y={740} w={380} h={150} count={14} seed={2} colors={["var(--st-paper)", "var(--st-rose)"]} radius={3.4} />
+      </g>
     </g>
   </SceneSvg>;
 }

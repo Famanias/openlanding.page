@@ -12,10 +12,10 @@ describe("TemplateCard", () => {
     expect(html).toContain("Orrery");
   });
 
-  it("renders persistent copy actions for prompt and website", () => {
+  it("renders persistent actions for prompt and template download", () => {
     const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={false} />);
     expect(html).toContain("Copy prompt");
-    expect(html).toContain("Copy website");
+    expect(html).toContain("Download template");
   });
 
   it("renders video tag for KŌJI with muted and loop attributes", () => {
@@ -47,7 +47,7 @@ describe("TemplateCard", () => {
     expect(html).toContain("Orrery");
     expect(html).not.toContain(TEMPLATES[0].description);
     expect(html).toContain("Copy prompt");
-    expect(html).toContain("Copy website");
+    expect(html).toContain("Download template");
   });
 
   it("renders external link attributes for template links", () => {

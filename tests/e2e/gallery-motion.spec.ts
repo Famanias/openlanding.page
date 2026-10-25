@@ -21,7 +21,7 @@ test("rapid category changes settle on the current selection and keyboard stays 
   await page.getByRole("tab", { name: "3D & WebGPU" }).click();
   await page.getByRole("tab", { name: "Keynote & Deck" }).click();
   await page.getByRole("tab", { name: /^All/ }).click();
-  await expect(page.locator(".template-card")).toHaveCount(28);
+  await expect(page.locator(".template-card")).toHaveCount(29);
   await expect(page.locator("[role=tab][aria-selected=true]")).toHaveAccessibleName(/^All/);
   await page.keyboard.press("ArrowRight");
   await expect(page.getByRole("tab", { name: "Keynote & Deck" })).toBeFocused();
@@ -38,13 +38,13 @@ test("rapid category changes settle on the current selection and keyboard stays 
 test("pending copy and failure recover without a stuck success state", async ({ page }) => {
   let releaseRequest!: () => void;
   const pendingRequest = new Promise<void>(resolve => { releaseRequest = resolve; });
-  await page.route("**/copy/orrery.md", async route => {
+  await page.route(url => url.pathname === "/orrery" || url.pathname.endsWith("/copy/orrery.md"), async route => {
     await pendingRequest;
     await route.fulfill({ status: 503, body: "Unavailable" });
   });
   await page.goto("/");
   const card = page.locator(".template-card").first();
-  const copy = card.getByRole("button", { name: "Copy website", exact: true });
+  const copy = card.getByRole("button", { name: "Download template", exact: true });
   try {
     await copy.click();
     await expect(copy).toBeDisabled();
