@@ -31,7 +31,7 @@ const encodeFfmpeg = (args: string[]): Promise<void> =>
 
 async function main() {
   const args = process.argv.slice(2);
-  let originStr = "http://localhost:3100";
+  let originStr = "http://localhost:3000";
   let targetSlug: string | undefined;
 
   for (const arg of args) {
@@ -99,6 +99,29 @@ async function main() {
           await page.waitForTimeout(3000);
           await page.keyboard.press("ArrowLeft").catch(() => {});
           await page.waitForTimeout(2500);
+        } else if (template.slug === "alpine-reel") {
+          // Alpine Reel loop: Wait for cinematic fast-forward sweep to settle on Everest (~3.5s),
+          // advance through peaks (K2, Kangchenjunga), then step back to Everest
+          await page.waitForTimeout(3600);
+          await page.keyboard.press("ArrowRight").catch(() => {});
+          await page.waitForTimeout(2800);
+          await page.keyboard.press("ArrowRight").catch(() => {});
+          await page.waitForTimeout(2800);
+          await page.keyboard.press("ArrowLeft").catch(() => {});
+          await page.waitForTimeout(1800);
+          await page.keyboard.press("ArrowLeft").catch(() => {});
+          await page.waitForTimeout(2500);
+        } else if (template.slug === "satoyama") {
+          // Satoyama picture book loop: Welcome -> Landscape -> Rhythm -> Landscape -> Welcome
+          await page.waitForTimeout(2400);
+          await page.keyboard.press("ArrowRight").catch(() => {});
+          await page.waitForTimeout(2800);
+          await page.keyboard.press("ArrowRight").catch(() => {});
+          await page.waitForTimeout(2800);
+          await page.keyboard.press("ArrowLeft").catch(() => {});
+          await page.waitForTimeout(1800);
+          await page.keyboard.press("ArrowLeft").catch(() => {});
+          await page.waitForTimeout(2400);
         } else {
           // Full top-to-bottom (header to footer, then back to header) loop
           // 1. Initial pause at top so header and hero entrance animations play

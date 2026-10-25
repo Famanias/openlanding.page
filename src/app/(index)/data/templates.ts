@@ -581,5 +581,5 @@ const RAW_TEMPLATES: TemplateItem[] = [
 
 export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.map((template) => ({
   ...template,
-  videoClip: template.videoClip ?? ((template.slug === "kazeko" || template.slug === "mio" || template.slug === "satoyama") ? undefined : `/gallery/clips/${template.slug}.mp4`),
+  videoClip: template.videoClip ?? `/gallery/clips/${template.slug}.mp4`,
 }));
