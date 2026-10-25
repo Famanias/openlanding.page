@@ -20,3 +20,7 @@ export function wheelDirection(deltaX: number, deltaY: number): 1 | -1 | 0 {
   const delta = absY >= absX ? deltaY : deltaX;
   return delta > 0 ? 1 : -1;
 }
+
+export function extractContour(d: string): string {
+  return d.replace(/V\d+.*Z$/i, "").replace(/Z$/i, "");
+}

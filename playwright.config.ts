@@ -22,7 +22,7 @@ export default defineConfig({
   webServer: {
     command: `npm run prebuild && npx next build --webpack && npx next start --port ${port}`,
     url: baseURL,
-    reuseExistingServer: !process.env.PLAYWRIGHT_PORT,
+    reuseExistingServer: true,
     env: {
       NODE_OPTIONS: "--max-old-space-size=4096",
       ...(existsSync(offlineFontMock) ? { NEXT_FONT_GOOGLE_MOCKED_RESPONSES: offlineFontMock } : {}),

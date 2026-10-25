@@ -36,15 +36,18 @@ test("mouse wheel scrolling turns chapters forward and backward", async ({ page 
   await page.mouse.wheel(0, 100);
   await expect(page.locator('#the-landscape')).toHaveAttribute("data-state", "active");
 
+  await page.waitForTimeout(700);
   await page.mouse.wheel(0, 100);
   await expect(page.locator('#a-slower-rhythm')).toHaveAttribute("data-state", "active");
 
+  await page.waitForTimeout(700);
   await page.mouse.wheel(0, -100);
   await expect(page.locator('#the-landscape')).toHaveAttribute("data-state", "active");
 });
 
 test("activities animate in either direction and loop", async ({ page }) => {
   await page.goto("/satoyama#little-adventures");
+  await expect(page.locator('#little-adventures')).toHaveAttribute("data-state", "active");
   const carousel = page.locator('.st-carousel');
   await expect(carousel).toHaveAttribute("data-index", "0");
   await carousel.focus();
@@ -79,6 +82,49 @@ test("every chapter and every season is painted as its own scene", async ({ page
   await page.getByRole("tab", { name: /Autumn/ }).click();
   await expect(page.locator('.st-season-layer[data-on="true"] .st-scene-autumn')).toBeVisible();
   await expect(page.locator('.st-season-layer[data-on="true"]')).toHaveCount(1);
+});
+
+test("line-art sketch and color wash layers exist on scenes and replay on slide and tab visits", async ({ page }) => {
+  await page.goto("/satoyama");
+  await expect(page.locator('.st-book')).toHaveAttribute("data-ready", "true");
+
+  const welcome = page.locator('#welcome');
+  await expect(welcome.locator('.st-sketch-lines')).toBeAttached();
+  await expect(welcome.locator('.st-paint-wash')).toBeAttached();
+  await expect(welcome.locator('.st-sketch-path').first()).toHaveAttribute("data-depth");
+  await expect(welcome.locator('.st-paint-layer[data-depth="sky"]')).toBeAttached();
+  await expect(welcome.locator('.st-paint-layer[data-depth="far"]')).toBeAttached();
+  await expect(welcome.locator('.st-paint-layer[data-depth="mid"]')).toBeAttached();
+  await expect(welcome.locator('.st-paint-layer[data-depth="near"]')).toBeAttached();
+
+  // Navigate to slide 2
+  await page.getByRole("button", { name: "Next chapter", exact: true }).click();
+  const landscape = page.locator('#the-landscape');
+  await expect(landscape).toHaveAttribute("data-state", "active");
+  await expect(landscape.locator('.st-sketch-lines')).toBeAttached();
+  await expect(landscape.locator('.st-paint-wash')).toBeAttached();
+  await expect(landscape.locator('.st-paint-layer[data-depth="sky"]')).toBeAttached();
+
+  // Navigate back to slide 1
+  await page.getByRole("button", { name: "Previous chapter", exact: true }).click();
+  await expect(welcome).toHaveAttribute("data-state", "active");
+
+  // Four seasons slide has sketch lines and color wash for active season
+  await page.goto("/satoyama#the-seasons");
+  await expect(page.locator('#the-seasons')).toHaveAttribute("data-state", "active");
+  const spring = page.locator('.st-season-layer[data-on="true"]');
+  await expect(spring.locator('.st-sketch-lines')).toBeAttached();
+  await expect(spring.locator('.st-paint-wash')).toBeAttached();
+  await expect(spring.locator('.st-paint-layer[data-depth="sky"]')).toBeAttached();
+  await expect(spring.locator('.st-paint-layer[data-depth="near"]')).toBeAttached();
+
+  // Tab change
+  await page.getByRole("tab", { name: /Summer/ }).click();
+  const summer = page.locator('.st-season-layer[data-on="true"]');
+  await expect(summer.locator('.st-sketch-lines')).toBeAttached();
+  await expect(summer.locator('.st-paint-wash')).toBeAttached();
+  await expect(summer.locator('.st-paint-layer[data-depth="sky"]')).toBeAttached();
+  await expect(summer.locator('.st-paint-layer[data-depth="near"]')).toBeAttached();
 });
 
 test("landscape animation pauses and reduced motion keeps content visible", async ({ page }) => {

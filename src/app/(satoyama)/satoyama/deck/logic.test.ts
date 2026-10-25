@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { chapterIndex, moveChapter, wheelDirection, wrapActivity } from "./logic";
+import { chapterIndex, extractContour, moveChapter, wheelDirection, wrapActivity } from "./logic";
 
 describe("picture-book navigation", () => {
   it("stays on the first and last chapter at the book's edges", () => {
@@ -22,5 +22,8 @@ describe("picture-book navigation", () => {
     expect(wheelDirection(60, 0)).toBe(1);
     expect(wheelDirection(-60, 0)).toBe(-1);
     expect(wheelDirection(2, 3)).toBe(0);
+  });
+  it("extracts mountain contour silhouette by trimming bottom closure", () => {
+    expect(extractContour("M0 540C110 490 290 476 1600 506V900H0Z")).toBe("M0 540C110 490 290 476 1600 506");
   });
 });
