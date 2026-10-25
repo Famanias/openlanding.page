@@ -6,7 +6,8 @@ import { TEMPLATES } from "../data/templates";
 
 describe("TemplateCard", () => {
   it("renders a video-aspect preview frame with correct live template link", () => {
-    const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={true} />);
+    const orrery = TEMPLATES.find((t) => t.slug === "orrery")!;
+    const html = renderToStaticMarkup(<TemplateCard template={orrery} isEager={true} />);
     expect(html).toContain('href="/orrery"');
     expect(html).toContain("aspect-video");
     expect(html).toContain("Orrery");
@@ -41,11 +42,12 @@ describe("TemplateCard", () => {
   });
 
   it("does not render template badges, stack information, or description, leaving only title and action buttons", () => {
-    const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={false} />);
+    const orrery = TEMPLATES.find((t) => t.slug === "orrery")!;
+    const html = renderToStaticMarkup(<TemplateCard template={orrery} isEager={false} />);
     expect(html).not.toContain("Keynote Deck");
     expect(html).not.toContain("Next.js 16");
     expect(html).toContain("Orrery");
-    expect(html).not.toContain(TEMPLATES[0].description);
+    expect(html).not.toContain(orrery.description);
     expect(html).toContain("Copy prompt");
     expect(html).toContain("Download template");
   });
@@ -57,7 +59,8 @@ describe("TemplateCard", () => {
   });
 
   it("renders model tag overlay in top-left of preview frame with correct AI model and without indicator dot", () => {
-    const orreryHtml = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={true} />);
+    const orrery = TEMPLATES.find((t) => t.slug === "orrery")!;
+    const orreryHtml = renderToStaticMarkup(<TemplateCard template={orrery} isEager={true} />);
     expect(orreryHtml).toContain("Claude Opus 5.5 High");
     expect(orreryHtml).toContain('data-testid="model-tag"');
     expect(orreryHtml).not.toContain("animate-pulse");

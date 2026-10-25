@@ -142,9 +142,9 @@ export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 
 4. **`src/app/(index)/data/templates.ts`:**
    - add the slug to `TemplateSlug`;
    - add a `<SLUG>_PROMPT` constant holding PROMPT.md's text;
-   - add a `TEMPLATES` entry: `title`, `description`, `category` (an existing `CategoryId`, or add a new one to `CategoryId` and `CATEGORIES`), `industry`, `stack`, `badges`, `previewImage`, an optional `videoClip`, `promptMarkdown`, and `model`;
+   - add a `RAW_TEMPLATES` entry: `title`, `description`, `category` (an existing `CategoryId`, or add a new one to `CategoryId` and `CATEGORIES`), `industry`, `stack`, `badges`, `previewImage`, an optional `videoClip`, `promptMarkdown`, and `model` (`TEMPLATES` reverses `RAW_TEMPLATES` so newly created templates automatically appear at the beginning of the gallery);
    - set `model` to the model actually building it, in the same style as the existing tags.
-5. **`src/app/(index)/data/templates.test.ts`:** update the expected slug list and count, and the model-tag assertion.
+5. **`src/app/(index)/data/templates.test.ts`:** update the expected slug list (which starts with the newest template) and count, and the model-tag assertion.
 6. **`tests/e2e/templates.ts`:** append `"/<slug>"` to `TEMPLATE_PATHS`.
 
 ## Preview image before the real images exist

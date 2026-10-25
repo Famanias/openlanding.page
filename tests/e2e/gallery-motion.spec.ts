@@ -6,7 +6,7 @@ test("gallery controls keep one accessible label and show copy success", async (
   await expect(explore).toBeVisible();
   await explore.hover();
   await expect.poll(() => explore.locator(".action-label-track").evaluate(el => getComputedStyle(el).transform)).not.toBe("none");
-  const card = page.locator(".template-card").first();
+  const card = page.locator(".template-card").filter({ hasText: "Orrery" });
   const copy = card.locator('button[title="Copy prompt"]');
   await copy.click();
   await expect(copy).toHaveAccessibleName("Copied prompt");
@@ -43,7 +43,7 @@ test("pending copy and failure recover without a stuck success state", async ({ 
     await route.fulfill({ status: 503, body: "Unavailable" });
   });
   await page.goto("/");
-  const card = page.locator(".template-card").first();
+  const card = page.locator(".template-card").filter({ hasText: "Orrery" });
   const copy = card.getByRole("button", { name: "Download template", exact: true });
   try {
     await copy.click();

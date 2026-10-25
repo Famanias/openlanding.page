@@ -31,7 +31,7 @@ test("all model families return real matching templates", async ({ page }) => {
 
 test("preview shows the full 16:9 video and screenshot moves on hover", async ({ page }) => {
   await page.goto("/");
-  const card = page.locator("article").first();
+  const card = page.locator("article:has(video)").first();
   const preview = card.locator(".template-preview");
   const box = await preview.boundingBox();
   expect(box!.height / box!.width).toBeCloseTo(9 / 16, 2);
@@ -73,7 +73,7 @@ test("reduced motion disables image pan and mobile retains search", async ({ pag
 
 test("visible videos autoplay without hover, pause offscreen, and resume", async ({ page }) => {
   await page.goto("/");
-  const card = page.locator("article").first();
+  const card = page.locator("article:has(video)").first();
   const video = card.locator("video");
   await expect(card).toHaveAttribute("data-previewing", "false");
   await expect(card).toHaveAttribute("data-playing", "true");
@@ -94,7 +94,7 @@ test("visible videos autoplay without hover, pause offscreen, and resume", async
 
 test("autoplay responds to motion preferences and tab visibility", async ({ page }) => {
   await page.goto("/");
-  const card = page.locator("article").first();
+  const card = page.locator("article:has(video)").first();
   const video = card.locator("video");
   await expect(card).toHaveAttribute("data-playing", "true");
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -140,7 +140,7 @@ test("touch devices autoplay visible previews without a tap", async ({ browser }
   try {
     const page = await context.newPage();
     await page.goto(test.info().project.use.baseURL + "/");
-    const card = page.locator("article").first();
+    const card = page.locator("article:has(video)").first();
     await card.scrollIntoViewIfNeeded();
     await expect(card).toHaveAttribute("data-playing", "true");
     await expect(card).toHaveAttribute("data-previewing", "false");

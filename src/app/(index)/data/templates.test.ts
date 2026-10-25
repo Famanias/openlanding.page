@@ -7,7 +7,7 @@ describe("gallery template data", () => {
 it("contains all thirty-eight templates with required metadata", () => {
     expect(TEMPLATES).toHaveLength(38);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama", "tally", "aftercart", "fixture", "chinagraph", "valence", "pipkin", "serein", "nulo", "flori"]);
+    expect(slugs).toEqual(["flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "sundial", "verane", "wowflutter", "loophouse", "morrow", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
