@@ -119,6 +119,10 @@ export const TEMPLATE_METADATA: Record<
     name: "HIYAS",
     dependencies: [],
   },
+  serein: {
+    name: "SEREIN Bureau",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

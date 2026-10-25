@@ -5,9 +5,9 @@ import path from "node:path";
 
 describe("gallery template data", () => {
   it("contains all twenty-nine templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(29);
+    expect(TEMPLATES).toHaveLength(30);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama", "serein"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -172,5 +172,12 @@ describe("gallery template data", () => {
     expect(hiyas?.category).toBe("scroll-showcase");
     expect(hiyas?.promptMarkdown).toContain('rebuild "HIYAS"');
     expect(hiyas?.promptMarkdown).toContain("#0B2A4A");
+  });
+
+  it("files SEREIN under Editorial Magazine with its fold-out prompt inlined", () => {
+    const serein = TEMPLATES.find((t) => t.slug === "serein");
+    expect(serein?.category).toBe("editorial-magazine");
+    expect(serein?.promptMarkdown).toContain('rebuild "SEREIN Bureau"');
+    expect(serein?.promptMarkdown).toContain("#A8D6CC");
   });
 });
