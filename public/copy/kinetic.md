@@ -2111,10 +2111,11 @@ html:has(.kn-body) {
 }
 
 /*
- * No scripting, or a screen too short to pin a composed frame: every
- * chapter flows as a normal section and every beat is visible in order.
+ * No scripting, reduced motion, or a screen too short to pin a composed frame:
+ * every chapter flows as a normal section and every beat is visible in order,
+ * so alternate beats (the arrival finale) are never left at opacity 0.
  */
-@media (scripting: none), (max-height: 540px) {
+@media (scripting: none), (prefers-reduced-motion: reduce), (max-height: 540px) {
   .chapter {
     height: auto;
   }
@@ -2174,8 +2175,15 @@ html:has(.kn-body) {
     grid-area: auto;
   }
 
+  /* Flowed, the finale sits over the docked-truck still, so give it a readable plate. */
   .finale {
     margin-inline: auto;
+    padding: 28px 32px 36px;
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    background: color-mix(in srgb, var(--surface) 90%, transparent);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
   }
 }
 
