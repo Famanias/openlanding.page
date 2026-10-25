@@ -10,6 +10,8 @@ export const TEMPLATE_METADATA: Record<
   { name: string; dependencies: string[] }
 > = {
   satoyama: { name: "Satoyama Biyori", dependencies: [] },
+  fixture: { name: "FIXTURE", dependencies: ["lenis"] },
+  chinagraph: { name: "CHINAGRAPH", dependencies: ["lenis"] },
   kazeko: {
     name: "Studio Kazeko",
     dependencies: ["lenis"],

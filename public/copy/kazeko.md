@@ -15,7 +15,7 @@
 import { DM_Sans, IBM_Plex_Mono, Shippori_Mincho } from "next/font/google";
 import "./kazeko/kazeko.css";
 
-const display = Shippori_Mincho({ weight: "400", preload: false, variable: "--font-kazeko-mincho" });
+const display = Shippori_Mincho({ subsets: ["latin"], weight: "400", preload: false, variable: "--font-kazeko-mincho" });
 const body = DM_Sans({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-kazeko-dm" });
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: "400", variable: "--font-kazeko-plex" });
 

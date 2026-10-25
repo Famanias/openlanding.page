@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph";
 
 export type TemplateConfig = {
   palette: string[];
@@ -144,6 +144,15 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   aftercart: {
     // ink, paper, lilac, mint, peach, butter, sky
     palette: ["#4C4668", "#FFF7F3", "#DCCFF4", "#BFE7D3", "#FFCCB8", "#F5E8A7", "#BFD8F0"],
+  },
+  fixture: {
+    // ink (text, dark slabs), paper (page), white (store canvas, cards), crimson (the one accent),
+    // graphite (muted text), hairline (rules, grid), till green (OPEN sign and orders only)
+    palette: ["#121316", "#F3F2EE", "#FFFFFF", "#CF1F35", "#5E6168", "#D9D7D0", "#1E7A4C"],
+  },
+  chinagraph: {
+    // film black (ground, text on flash), flash white (text, the shop and the sheet paper), chinagraph yellow (grease-pencil marks only)
+    palette: ["#0C0C0B", "#F4F3EF", "#F3C318"],
   },
 };
 
