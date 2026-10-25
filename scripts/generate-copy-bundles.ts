@@ -122,7 +122,7 @@ export const TEMPLATE_METADATA: Record<
     name: "HIYAS",
     dependencies: [],
   },
-  tally: {
+tally: {
     name: "TALLY",
     dependencies: ["lenis"],
   },
@@ -133,6 +133,10 @@ export const TEMPLATE_METADATA: Record<
   valence: {
     name: "VALENCE",
     dependencies: ["three", "lenis"],
+  },
+  serein: {
+    name: "SEREIN Bureau",
+    dependencies: [],
   },
 };
 

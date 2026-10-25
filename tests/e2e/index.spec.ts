@@ -80,9 +80,9 @@ test.describe("openlandingpage gallery index", () => {
   test("category filter chips filter templates and update result counter", async ({ page }) => {
     await page.goto("/");
 
-    // Initially all 35 templates are displayed
-    await expect(page.locator("article")).toHaveCount(35);
-    await expect(page.getByText("Showing 35 of 35 templates")).toBeVisible();
+    // Initially all 36 templates are displayed
+    await expect(page.locator("article")).toHaveCount(36);
+    await expect(page.getByText("Showing 36 of 36 templates")).toBeVisible();
 
     // Click category chip "3D & WebGPU"
     const webgpuTab = page.getByRole("tab", { name: /3D & WebGPU/i });
@@ -101,33 +101,34 @@ test.describe("openlandingpage gallery index", () => {
     await expect(page.locator("article").filter({ hasText: "Orrery" })).toHaveCount(0);
     await expect(page.locator("article").filter({ hasText: "KEYTU" })).toHaveCount(0);
 
-    // Counter updates to "Showing 7 of 35 templates"
-    await expect(page.getByText("Showing 7 of 35 templates")).toBeVisible();
+    // Counter updates to "Showing 7 of 36 templates"
+    await expect(page.getByText("Showing 7 of 36 templates")).toBeVisible();
 
     // Click "Reset filters" button (aria-label="Reset category filters")
     const resetBtn = page.getByRole("button", { name: /reset category filters/i });
     await expect(resetBtn).toBeVisible();
     await resetBtn.click();
 
-    // All 35 return
-    await expect(page.locator("article")).toHaveCount(35);
-    await expect(page.getByText("Showing 35 of 35 templates")).toBeVisible();
+    // All 36 return
+    await expect(page.locator("article")).toHaveCount(36);
+    await expect(page.getByText("Showing 36 of 36 templates")).toBeVisible();
 
     // Also test clicking the "All" tab after filtering
     const keynoteTab = page.getByRole("tab", { name: /Keynote & Deck/i });
     await keynoteTab.click();
     await expect(page.locator("article")).toHaveCount(2);
-    await expect(page.getByText("Showing 2 of 35 templates")).toBeVisible();
+    await expect(page.getByText("Showing 2 of 36 templates")).toBeVisible();
 
-    // The new category holds WOWFLUTTER alone
+    // The editorial category holds WOWFLUTTER and SEREIN
     await page.getByRole("tab", { name: /Editorial Magazine/i }).click();
-    await expect(page.locator("article")).toHaveCount(1);
+    await expect(page.locator("article")).toHaveCount(2);
     await expect(page.locator("article").filter({ hasText: "WOWFLUTTER" })).toBeVisible();
+    await expect(page.locator("article").filter({ hasText: "SEREIN Bureau" })).toBeVisible();
 
     const allTab = page.getByRole("tab", { name: /^All/i });
     await allTab.click();
-    await expect(page.locator("article")).toHaveCount(35);
-    await expect(page.getByText("Showing 35 of 35 templates")).toBeVisible();
+    await expect(page.locator("article")).toHaveCount(36);
+    await expect(page.getByText("Showing 36 of 36 templates")).toBeVisible();
   });
 
   test("mobile viewport at 375px has zero horizontal overflow", async ({ page }) => {

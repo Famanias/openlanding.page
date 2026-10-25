@@ -1,28 +1,32 @@
 {
   "date": "2026-10-25",
   "mode": "redesign",
-  "depth": "full",
   "scope": "page",
-  "entry": "src/app/(aftercart)/aftercart/page.tsx",
-  "findings": {
-    "framework": "Next.js 16 App Router with an isolated (aftercart) route group",
-    "fonts": "Manrope display, Inter Tight body, JetBrains Mono token retained in the locked design system",
-    "palette": "Aftercart seven-color pastel system in aftercart.css and DESIGN.md",
-    "motion": "IntersectionObserver reveals, CSS transforms/opacity/clip-path, requestAnimationFrame scroll progress",
-    "spacing": "Existing responsive container and 12-column composition, reworked into a shared editorial grid"
-  },
+  "entry": "src/app/(serein)/serein/page.tsx",
+  "target": "route /serein",
+  "before": "The existing route is a single continuous SEREIN Bureau field report with six anchored sections, a local validation form and inline SVG/CSS visuals.",
+  "citations": [
+    "src/app/(serein)/serein/DESIGN.md:1",
+    "src/app/(serein)/serein/page.tsx:1",
+    "src/app/(serein)/serein/sections/LandingSections.tsx:1",
+    "src/app/(serein)/serein/forms/Subscribe.tsx:1",
+    "src/app/(serein)/serein/serein.css:1"
+  ],
   "preserved": [
-    "Aftercart content, route, links, form fields, ids, handlers, console state model, tests, and local-only behavior",
-    "Locked Aftercart palette, typography intent, console mechanic, no-photo policy, and gallery registration"
+    "SEREIN Bureau name, tagline, weather observations, readings, dates and dispatch copy",
+    "All six section ids and navigation links: bureau, instruments, forecast, notes, dispatch and subscribe",
+    "Forecast tab interaction, local form validation, success/reset handlers and existing test hooks",
+    "Locked SEREIN palette, Lora/Public Sans/IBM Plex Mono type roles and inline SVG/CSS media direction"
   ],
   "introduced": [
-    "Editorial workbench composition with an oversized stage hero",
-    "Framed store-health instrument, offset care-track bento, hairline work log, dark rhythm band, and peach booking close",
-    "Focus-visible contrast, no-JS mobile navigation, transform-based signal bars, and reduced-motion-safe reveals"
+    "Split stage hero with a live 1016 hPa pressure instrument",
+    "Hallmark tokens/base rules with clipped overflow, tokenized palette and instant focus states",
+    "Varied editorial compositions: ruled bureau spread, open instrument plates, working forecast strip, field-note cards, dispatch index and dark close",
+    "Roman display type, sentence-case controls, reduced-motion-safe hero settle and mobile-first responsive grid"
   ],
   "material": {
-    "real": "Existing Aftercart copy, four care tracks, console state values, work log, care rhythm, booking form, FAQ, and fictional-demo disclosure",
-    "pictures": "Original CSS and DOM console art; no photos or video",
-    "absent": "User logos, customer quotes, external metrics, and connected form endpoint"
+    "real": "SEREIN Bureau copy, SR-07 station codes, 51.52° N / 0.09° W, 2026 new moon, 1016–1024 hPa readings, wind observations and local form behavior",
+    "pictures": "Original inline SVG weather diagrams, pressure line, instrument dials and CSS paper/grid treatment",
+    "absent": "External photographs, user logos, testimonials, customer metrics and network form endpoint"
   }
 }
