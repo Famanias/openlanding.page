@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence";
 
 export type TemplateConfig = {
   palette: string[];
@@ -137,7 +137,7 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   hiyas: {
     palette: ["#05070A", "#0B2A4A", "#FFFFFF"],
   },
-  tally: {
+tally: {
     // buttercream paper, pistachio mint, apricot blush, periwinkle lilac, plum charcoal ink
     palette: ["#FAF4E8", "#C8E6D0", "#F7C8B6", "#CFD6F6", "#231F2B"],
   },
@@ -153,6 +153,10 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   chinagraph: {
     // film black (ground, text on flash), flash white (text, the shop and the sheet paper), chinagraph yellow (grease-pencil marks only)
     palette: ["#0C0C0B", "#F4F3EF", "#F3C318"],
+  },
+  valence: {
+    // plum ink, cloud porcelain, lavender mist, pistachio mint, peach sorbet, periwinkle iris, muted mauve, coral rose
+    palette: ["#1E1B2E", "#FBF9F5", "#E8E0F8", "#D9F2E6", "#FCE2D5", "#5B46E8", "#645D7A", "#D9385A"],
   },
 };
 
