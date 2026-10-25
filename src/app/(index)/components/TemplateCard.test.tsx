@@ -72,5 +72,10 @@ describe("TemplateCard", () => {
     const nomiHtml = renderToStaticMarkup(<TemplateCard template={nomi} isEager={false} />);
     expect(nomiHtml).toContain("Claude Sonnet 5.5 High");
     expect(nomiHtml).toContain('data-testid="model-tag"');
+
+    const satoyama = TEMPLATES.find((t) => t.slug === "satoyama")!;
+    const satoyamaHtml = renderToStaticMarkup(<TemplateCard template={satoyama} isEager={false} />);
+    expect(satoyamaHtml).toContain("GPT-6.1 Sol High");
+    expect(satoyamaHtml).toContain('data-testid="model-tag"');
   });
 });

@@ -561,7 +561,7 @@ const RAW_TEMPLATES: TemplateItem[] = [
     badges: ["Illustrated Picture Book", "Living Landscape", "Activity Carousel"],
     previewImage: "/templates/satoyama/preview-1600.webp",
     promptMarkdown: SATOYAMA_PROMPT,
-    model: "GPT-6",
+    model: "GPT-6.1 Sol High",
   },
 ];
 

@@ -6,7 +6,7 @@ import { Arrow, Leaf, PauseIcon } from "../brand/Icons";
 import { useAmbient } from "../motion/useAmbient";
 import { useReducedMotion } from "../motion/useReducedMotion";
 import { CHAPTERS } from "./chapters";
-import { chapterIndex, moveChapter } from "./logic";
+import { chapterIndex, moveChapter, wheelDirection } from "./logic";
 
 export function PictureBook({ pages }: { pages: ReactNode[] }) {
   const [active, setActive] = useState(0);
@@ -14,6 +14,7 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
   const { paused, stopped, toggle } = useAmbient();
   const reduced = useReducedMotion();
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const wheelLockRef = useRef(0);
   const navRef = useRef<HTMLElement>(null);
   const chapter = CHAPTERS[active];
 
@@ -41,6 +42,46 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
     window.addEventListener("keydown", keydown);
     return () => window.removeEventListener("keydown", keydown);
   }, [active, go]);
+
+  useEffect(() => {
+    if (reduced) return;
+
+    const onWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable=true]")) return;
+
+      const direction = wheelDirection(event.deltaX, event.deltaY);
+      if (direction === 0) return;
+
+      const activeChapter = document.querySelector<HTMLElement>('.st-chapter[data-state="active"]');
+      if (activeChapter && Math.abs(event.deltaY) >= Math.abs(event.deltaX)) {
+        const canScrollDown = activeChapter.scrollHeight > activeChapter.clientHeight + 4 &&
+          activeChapter.scrollTop + activeChapter.clientHeight < activeChapter.scrollHeight - 6;
+        const canScrollUp = activeChapter.scrollHeight > activeChapter.clientHeight + 4 &&
+          activeChapter.scrollTop > 6;
+
+        if ((direction > 0 && canScrollDown) || (direction < 0 && canScrollUp)) {
+          return;
+        }
+      }
+
+      const now = Date.now();
+      if (now < wheelLockRef.current) return;
+
+      const next = moveChapter(active, direction, CHAPTERS.length);
+      if (next !== active) {
+        event.preventDefault();
+        wheelLockRef.current = now + 650;
+        go(next);
+      } else {
+        wheelLockRef.current = now + 250;
+      }
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [active, go, reduced]);
 
   useEffect(() => {
     const link = navRef.current?.querySelector<HTMLElement>('[aria-current="page"]');
@@ -76,7 +117,7 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
     <footer className="st-bottom">
       <div className="st-page-label"><span className="st-page-numeral">0{active + 1}</span><span className="st-page-line" /><span lang="ja">{chapter.japanese}</span><span className="st-page-total">/ 06</span></div>
       <div className="st-page-dots st-js-control" role="group" aria-label="Go to chapter">{CHAPTERS.map((item, index) => <button key={item.id} aria-label={`Chapter ${index + 1}: ${item.label}`} aria-current={active === index ? "step" : undefined} onClick={() => go(index)}><span /></button>)}</div>
-      <div className="st-page-actions"><span className="st-key-hint">A story in six chapters <span>·</span> use <kbd>←</kbd> <kbd>→</kbd></span><button className="st-arrow-button st-js-control" aria-label="Previous chapter" disabled={active === 0} onClick={() => go(active - 1)}><Arrow direction="left" /></button><button className="st-arrow-button st-js-control" aria-label="Next chapter" disabled={active === CHAPTERS.length - 1} onClick={() => go(active + 1)}><Arrow /></button></div>
+      <div className="st-page-actions"><span className="st-key-hint">A story in six chapters <span>·</span> scroll or use <kbd>←</kbd> <kbd>→</kbd></span><button className="st-arrow-button st-js-control" aria-label="Previous chapter" disabled={active === 0} onClick={() => go(active - 1)}><Arrow direction="left" /></button><button className="st-arrow-button st-js-control" aria-label="Next chapter" disabled={active === CHAPTERS.length - 1} onClick={() => go(active + 1)}><Arrow /></button></div>
     </footer>
     <div className="st-sr-only" aria-live="polite" aria-atomic="true">Chapter {active + 1} of 6: {chapter.label}</div>
   </div>;

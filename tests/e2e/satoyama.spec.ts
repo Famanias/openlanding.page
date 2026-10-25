@@ -28,15 +28,31 @@ test("keyboard navigation clamps book edges without stealing buttons", async ({ 
   await expect(page.locator('#the-seasons')).toHaveAttribute("data-state", "active");
 });
 
+test("mouse wheel scrolling turns chapters forward and backward", async ({ page }) => {
+  await page.goto("/satoyama");
+  await expect(page.locator('.st-book')).toHaveAttribute("data-ready", "true");
+  await expect(page.locator('#welcome')).toHaveAttribute("data-state", "active");
+
+  await page.mouse.wheel(0, 100);
+  await expect(page.locator('#the-landscape')).toHaveAttribute("data-state", "active");
+
+  await page.mouse.wheel(0, 100);
+  await expect(page.locator('#a-slower-rhythm')).toHaveAttribute("data-state", "active");
+
+  await page.mouse.wheel(0, -100);
+  await expect(page.locator('#the-landscape')).toHaveAttribute("data-state", "active");
+});
+
 test("activities animate in either direction and loop", async ({ page }) => {
   await page.goto("/satoyama#little-adventures");
-  const count = page.locator('.st-carousel-count');
-  await expect(count).toContainText("01");
-  await page.getByRole("button", { name: "Next activity", exact: true }).click();
-  await expect(count).toContainText("02");
-  await page.getByRole("button", { name: "Previous activity", exact: true }).click();
-  await page.getByRole("button", { name: "Previous activity", exact: true }).click();
-  await expect(count).toContainText("05");
+  const carousel = page.locator('.st-carousel');
+  await expect(carousel).toHaveAttribute("data-index", "0");
+  await carousel.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(carousel).toHaveAttribute("data-index", "1");
+  await page.keyboard.press("ArrowLeft");
+  await page.keyboard.press("ArrowLeft");
+  await expect(carousel).toHaveAttribute("data-index", "4");
   await expect(page.locator('.st-carousel-track')).toHaveCSS('transition-property', 'transform');
 });
 
@@ -86,14 +102,15 @@ test("phone layout has no horizontal overflow across all chapters and supports s
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
   await page.goto("/satoyama#little-adventures");
-  await expect(page.locator('.st-carousel-count')).toContainText("01");
-  await page.locator('.st-carousel').evaluate(element => {
+  const carousel = page.locator('.st-carousel');
+  await expect(carousel).toHaveAttribute("data-index", "0");
+  await carousel.evaluate(element => {
     const start = new Touch({ identifier: 1, target: element, clientX: 300, clientY: 400 });
     const end = new Touch({ identifier: 1, target: element, clientX: 100, clientY: 400 });
     element.dispatchEvent(new TouchEvent('touchstart', { bubbles: true, touches: [start] }));
     element.dispatchEvent(new TouchEvent('touchend', { bubbles: true, changedTouches: [end] }));
   });
-  await expect(page.locator('.st-carousel-count')).toContainText("02");
+  await expect(carousel).toHaveAttribute("data-index", "1");
   await expect(page.locator('#little-adventures')).toHaveAttribute("data-state", "active");
 });
 

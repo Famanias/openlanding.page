@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { chapterIndex, moveChapter, wrapActivity } from "./logic";
+import { chapterIndex, moveChapter, wheelDirection, wrapActivity } from "./logic";
 
 describe("picture-book navigation", () => {
   it("stays on the first and last chapter at the book's edges", () => {
@@ -15,5 +15,12 @@ describe("picture-book navigation", () => {
     expect(wrapActivity(-1, 5)).toBe(4);
     expect(wrapActivity(5, 5)).toBe(0);
     expect(wrapActivity(7, 5)).toBe(2);
+  });
+  it("determines wheel direction from horizontal or vertical scroll deltas", () => {
+    expect(wheelDirection(0, 50)).toBe(1);
+    expect(wheelDirection(0, -50)).toBe(-1);
+    expect(wheelDirection(60, 0)).toBe(1);
+    expect(wheelDirection(-60, 0)).toBe(-1);
+    expect(wheelDirection(2, 3)).toBe(0);
   });
 });

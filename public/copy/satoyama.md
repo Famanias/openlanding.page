@@ -640,7 +640,6 @@ export function Welcome() {
 <![CDATA["use client";
 
 import { useRef, useState, type CSSProperties } from "react";
-import { Arrow } from "../brand/Icons";
 import { ActivityArt } from "../illustrations/ActivityArt";
 import { ACTIVITIES } from "./chapters";
 import { wrapActivity } from "./logic";
@@ -649,10 +648,10 @@ export function ActivityCarousel() {
   const [index, setIndex] = useState(0);
   const start = useRef<number | null>(null);
   const go = (delta: number) => setIndex((value) => wrapActivity(value + delta, ACTIVITIES.length));
-  return <div className="st-carousel" role="region" aria-roledescription="carousel" aria-label="Rural activities" onKeyDown={(event) => { if ((event.target as Element).closest("button")) return; if (event.key === "ArrowRight" || event.key === "ArrowLeft") { event.preventDefault(); event.stopPropagation(); go(event.key === "ArrowRight" ? 1 : -1); } }} tabIndex={0}
+  return <div className="st-carousel" data-index={index} role="region" aria-roledescription="carousel" aria-label="Rural activities" onKeyDown={(event) => { if (event.key === "ArrowRight" || event.key === "ArrowLeft") { event.preventDefault(); event.stopPropagation(); go(event.key === "ArrowRight" ? 1 : -1); } }} tabIndex={0}
     onTouchStart={(event) => { start.current = event.touches[0].clientX; }} onTouchEnd={(event) => { if (start.current !== null) { const delta = event.changedTouches[0].clientX - start.current; if (Math.abs(delta) > 45) go(delta < 0 ? 1 : -1); } start.current = null; }}>
     <div className="st-carousel-window"><div className="st-carousel-track" style={{ "--st-card-index": index } as CSSProperties}>{[...ACTIVITIES, ...ACTIVITIES.slice(0, 2)].map((activity, i) => <article key={`${activity.id}-${i}`} className="st-activity" aria-hidden={i >= ACTIVITIES.length ? true : undefined} aria-label={`${i % ACTIVITIES.length + 1} of ${ACTIVITIES.length}: ${activity.title}`} aria-roledescription="slide"><div className="st-activity-picture"><ActivityArt scene={activity.scene} /><span className="st-activity-ja" lang="ja">{activity.japanese}</span><span className="st-postcard-number">0{i % ACTIVITIES.length + 1}</span></div><span className="st-activity-tag">{activity.tag}</span><h3>{activity.title}</h3><p>{activity.description}</p></article>)}</div></div>
-    <div className="st-carousel-controls"><span className="st-carousel-caption">A few ways to spend a good day <span lang="ja">小さな楽しみ</span></span><div><span className="st-carousel-count" aria-live="polite">0{index + 1} <span>/ 05</span></span><button className="st-arrow-button" onClick={() => go(-1)} aria-label="Previous activity"><Arrow direction="left" /></button><button className="st-arrow-button" onClick={() => go(1)} aria-label="Next activity"><Arrow /></button></div></div>
+    <div className="st-carousel-controls"><span className="st-carousel-caption">A few ways to spend a good day <span lang="ja">小さな楽しみ</span></span><span className="st-sr-only" aria-live="polite">Activity {index + 1} of {ACTIVITIES.length}</span></div>
   </div>;
 }
 ]]>
@@ -698,6 +697,14 @@ export function chapterIndex(hash: string): number {
 export function wrapActivity(index: number, count: number): number {
   return ((index % count) + count) % count;
 }
+
+export function wheelDirection(deltaX: number, deltaY: number): 1 | -1 | 0 {
+  const absX = Math.abs(deltaX);
+  const absY = Math.abs(deltaY);
+  if (absX < 8 && absY < 8) return 0;
+  const delta = absY >= absX ? deltaY : deltaX;
+  return delta > 0 ? 1 : -1;
+}
 ]]>
     </file>
     <file path="src/app/(satoyama)/satoyama/deck/PictureBook.tsx">
@@ -709,7 +716,7 @@ import { Arrow, Leaf, PauseIcon } from "../brand/Icons";
 import { useAmbient } from "../motion/useAmbient";
 import { useReducedMotion } from "../motion/useReducedMotion";
 import { CHAPTERS } from "./chapters";
-import { chapterIndex, moveChapter } from "./logic";
+import { chapterIndex, moveChapter, wheelDirection } from "./logic";
 
 export function PictureBook({ pages }: { pages: ReactNode[] }) {
   const [active, setActive] = useState(0);
@@ -717,6 +724,7 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
   const { paused, stopped, toggle } = useAmbient();
   const reduced = useReducedMotion();
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const wheelLockRef = useRef(0);
   const navRef = useRef<HTMLElement>(null);
   const chapter = CHAPTERS[active];
 
@@ -744,6 +752,46 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
     window.addEventListener("keydown", keydown);
     return () => window.removeEventListener("keydown", keydown);
   }, [active, go]);
+
+  useEffect(() => {
+    if (reduced) return;
+
+    const onWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable=true]")) return;
+
+      const direction = wheelDirection(event.deltaX, event.deltaY);
+      if (direction === 0) return;
+
+      const activeChapter = document.querySelector<HTMLElement>('.st-chapter[data-state="active"]');
+      if (activeChapter && Math.abs(event.deltaY) >= Math.abs(event.deltaX)) {
+        const canScrollDown = activeChapter.scrollHeight > activeChapter.clientHeight + 4 &&
+          activeChapter.scrollTop + activeChapter.clientHeight < activeChapter.scrollHeight - 6;
+        const canScrollUp = activeChapter.scrollHeight > activeChapter.clientHeight + 4 &&
+          activeChapter.scrollTop > 6;
+
+        if ((direction > 0 && canScrollDown) || (direction < 0 && canScrollUp)) {
+          return;
+        }
+      }
+
+      const now = Date.now();
+      if (now < wheelLockRef.current) return;
+
+      const next = moveChapter(active, direction, CHAPTERS.length);
+      if (next !== active) {
+        event.preventDefault();
+        wheelLockRef.current = now + 650;
+        go(next);
+      } else {
+        wheelLockRef.current = now + 250;
+      }
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [active, go, reduced]);
 
   useEffect(() => {
     const link = navRef.current?.querySelector<HTMLElement>('[aria-current="page"]');
@@ -779,7 +827,7 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
     <footer className="st-bottom">
       <div className="st-page-label"><span className="st-page-numeral">0{active + 1}</span><span className="st-page-line" /><span lang="ja">{chapter.japanese}</span><span className="st-page-total">/ 06</span></div>
       <div className="st-page-dots st-js-control" role="group" aria-label="Go to chapter">{CHAPTERS.map((item, index) => <button key={item.id} aria-label={`Chapter ${index + 1}: ${item.label}`} aria-current={active === index ? "step" : undefined} onClick={() => go(index)}><span /></button>)}</div>
-      <div className="st-page-actions"><span className="st-key-hint">A story in six chapters <span>·</span> use <kbd>←</kbd> <kbd>→</kbd></span><button className="st-arrow-button st-js-control" aria-label="Previous chapter" disabled={active === 0} onClick={() => go(active - 1)}><Arrow direction="left" /></button><button className="st-arrow-button st-js-control" aria-label="Next chapter" disabled={active === CHAPTERS.length - 1} onClick={() => go(active + 1)}><Arrow /></button></div>
+      <div className="st-page-actions"><span className="st-key-hint">A story in six chapters <span>·</span> scroll or use <kbd>←</kbd> <kbd>→</kbd></span><button className="st-arrow-button st-js-control" aria-label="Previous chapter" disabled={active === 0} onClick={() => go(active - 1)}><Arrow direction="left" /></button><button className="st-arrow-button st-js-control" aria-label="Next chapter" disabled={active === CHAPTERS.length - 1} onClick={() => go(active + 1)}><Arrow /></button></div>
     </footer>
     <div className="st-sr-only" aria-live="polite" aria-atomic="true">Chapter {active + 1} of 6: {chapter.label}</div>
   </div>;
