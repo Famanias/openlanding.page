@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all thirty-six templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(36);
+it("contains all thirty-seven templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(37);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama", "tally", "aftercart", "fixture", "chinagraph", "valence", "pipkin", "serein"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama", "tally", "aftercart", "fixture", "chinagraph", "valence", "pipkin", "serein", "nulo"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {

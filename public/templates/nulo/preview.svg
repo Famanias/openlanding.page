@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#F5F8F4"/>
+  <g opacity=".2" stroke="#14232B">
+    <path d="M0 120h1600M0 240h1600M0 360h1600M0 480h1600M0 600h1600M0 720h1600M0 840h1600"/>
+    <path d="M120 0v900M240 0v900M360 0v900M480 0v900M600 0v900M720 0v900M840 0v900M960 0v900M1080 0v900M1200 0v900M1320 0v900M1440 0v900"/>
+  </g>
+  <text x="110" y="130" fill="#14232B" font-family="monospace" font-size="25" letter-spacing="4">OPTICAL LAB / 02—24</text>
+  <text x="108" y="340" fill="#14232B" font-family="monospace" font-weight="500" font-size="132" letter-spacing="-8">Tune your</text>
+  <rect x="106" y="368" width="520" height="138" rx="24" fill="#B8B3FF" transform="rotate(-2 366 437)"/>
+  <text x="150" y="480" fill="#14232B" font-family="monospace" font-weight="500" font-size="132" letter-spacing="-8">view.</text>
+  <g transform="translate(1110 430)">
+    <circle r="265" fill="none" stroke="#14232B" stroke-width="2"/>
+    <circle r="210" fill="none" stroke="#14232B" stroke-dasharray="4 15" opacity=".65"/>
+    <circle r="136" fill="#B8B3FF" stroke="#14232B" stroke-width="2"/>
+    <circle r="50" fill="#F5F8F4" stroke="#14232B"/>
+    <path d="M0-265v45" stroke="#FFB49D" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="36" cy="36" r="138" fill="none" stroke="#9ADBD1" stroke-width="17" opacity=".75"/>
+  </g>
+  <text x="110" y="800" fill="#14232B" font-family="monospace" font-size="20" letter-spacing="3">SCREEN · STREET · NIGHT</text>
+  <text x="1280" y="800" fill="#14232B" font-family="monospace" font-size="20" letter-spacing="3">NULO.</text>
+</svg>

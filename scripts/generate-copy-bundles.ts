@@ -138,6 +138,10 @@ tally: {
     name: "SEREIN Bureau",
     dependencies: [],
   },
+  nulo: {
+    name: "NULO",
+    dependencies: ["lenis"],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

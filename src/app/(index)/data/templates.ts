@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -296,6 +296,8 @@ Motion is organic/analog with verbs unfurl and settle. Use masked headline rises
 
 Keep code isolated under src/app/(serein)/serein/, include DESIGN.md, docs/image-prompts/serein.md, pure logic tests for forecast/form/motion math, the six gallery registration points, and a Playwright spec covering anchors, forecast tabs, form success, phone flow and reduced motion.
 `;
+export const NULO_PROMPT = "# Prompt: rebuild \"NULO\" (interactive optical-lab landing page)\n\nBuild an isolated Next.js 16 App Router + React 19 + TypeScript + Tailwind v4 template at `/nulo` for a fictional optical lab called NULO. The central idea is: an optical lab is a calibration bench, so the page becomes a focus dial. Drag the lens ring or use keyboard controls to switch among Screen, Street, and Night; the active frame and readout settle to the selected marker. Keep the page tactile, clinical-future, pastel, precise, and curious, with subtle 6–12px rounding and a frosted diagnostic-paper canvas.\n\nUse only these colours: paper `#F5F8F4`, ink `#14232B`, lilac `#B8B3FF`, peach `#FFB49D`, mint `#9ADBD1`. Derive tints with `color-mix()`. Use DM Mono for display, Plus Jakarta Sans for body, and Space Mono for utility labels through `next/font/google`. The original lens-and-crosshair mark is the logo, favicon, and OG image. Do not use photos or video: all visuals are inline SVG, CSS and procedural geometry.\n\nSections: status header; hero calibration bench; a mode band; calibration explanation with signal readout; three-frame index (Arc 01, Fold 02, Halo 03); layered material cutaway; three-step fitting protocol; client-only request-a-fitting form; footer. The form validates name, email, an allowlisted day mode and frame, caps the optional note at 240 characters, never sends a network request, and morphs to a stable `NU-XXXX` calibration stamp on success.\n\nMotion is organic/analog with verbs tune and settle. Use masked headings, drawn rules, clip wipes, cascades, a draggable focus ring, scroll progress, a compacting header, restrained ambient halo/ticker, and complete hover/focus/press/loading/success states. Animate transform, opacity, clip-path and SVG strokes; never hide content under reduced motion or no JavaScript. Keep pointer/scroll values out of React state where possible, use one requestAnimationFrame loop, pause ambient work offscreen, and test the pure calibration math and form validation. Register the palette, process-image allowlist, copy metadata, gallery entry, e2e path, and preview asset. Do not deploy or commit.\n";
+
 const RAW_TEMPLATES: TemplateItem[] = [
   {
     slug: "orrery",
@@ -753,9 +755,21 @@ slug: "tally",
     promptMarkdown: SEREIN_PROMPT,
     model: "GPT-6 Astra Max",
   },
+  {
+    slug: "nulo",
+    title: "NULO",
+    description: "An optical lab for moving days, built as a draggable focus dial that tunes frames through screen, street, and night.",
+    category: "scroll-showcase",
+    industry: "Optical Lab & Eyewear",
+    stack: "Next.js 16 · React 19 · SVG / CSS Geometry · Lenis",
+    badges: ["Focus Dial", "Frame Configurator", "No Photos"],
+    previewImage: "/templates/nulo/preview.svg",
+    promptMarkdown: NULO_PROMPT,
+    model: "GPT-6 Astra Max",
+  },
 ];
 
 export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.map((template) => ({
   ...template,
-  videoClip: template.videoClip ?? (template.slug === "aftercart" || template.slug === "serein" ? undefined : `/gallery/clips/${template.slug}.mp4`),
+  videoClip: template.videoClip ?? (template.slug === "aftercart" || template.slug === "serein" || template.slug === "nulo" ? undefined : `/gallery/clips/${template.slug}.mp4`),
 }));
