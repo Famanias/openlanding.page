@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart";
 
 export type TemplateConfig = {
   palette: string[];
@@ -140,6 +140,10 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   tally: {
     // buttercream paper, pistachio mint, apricot blush, periwinkle lilac, plum charcoal ink
     palette: ["#FAF4E8", "#C8E6D0", "#F7C8B6", "#CFD6F6", "#231F2B"],
+  },
+  aftercart: {
+    // ink, paper, lilac, mint, peach, butter, sky
+    palette: ["#4C4668", "#FFF7F3", "#DCCFF4", "#BFE7D3", "#FFCCB8", "#F5E8A7", "#BFD8F0"],
   },
 };
 

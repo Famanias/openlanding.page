@@ -1,5 +1,32 @@
 [
   {
+    "date": "2026-10-25",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "page",
+    "shape": "Editorial workbench",
+    "theme": "Aftercart system (locked DESIGN.md)",
+    "axes": "light/pastel/Manrope + Inter Tight",
+    "hero": "Stage",
+    "nav": "edge-aligned",
+    "footer": "colophon",
+    "imagery": "original CSS and DOM console art",
+    "photos": [],
+    "entry": "src/app/(aftercart)/aftercart/page.tsx",
+    "fingerprint": "stage|instrument|bento|rows|dark rhythm|form close",
+    "sections": ["hero", "store health", "care tracks", "work log", "care rhythm", "booking", "faq", "footer"],
+    "signature": "live store-health console with ring, signal bars, and work-log ticket",
+    "waived": ["24b", "39b", "44c"],
+    "prompt": "Hallmark redesign aftercart landing page template",
+    "review": {
+      "render": "5 screenshots captured at 1280, 1440, 1920, and 375 widths",
+      "floorFailures": 0,
+      "openReflex": 0,
+      "notes": "hero text budget and long FAQ screen retained from supplied copy",
+      "kept": "1/1 recorded link; route tests and form/console wiring preserved"
+    }
+  },
+  {
     "date": "2026-10-23",
     "mode": "redesign",
     "depth": "full",
@@ -14,22 +41,9 @@
     "photos": [],
     "entry": "src/app/(index)/page.tsx",
     "fingerprint": "compact banner / category tabs / model filters / tall preview gallery / contribution band / colophon",
-    "sections": [
-      "hero",
-      "gallery",
-      "contribute",
-      "footer"
-    ],
+    "sections": ["hero", "gallery", "contribute", "footer"],
     "signature": "gradient light sweep and scrollable hover previews",
-    "waived": [
-      "29",
-      "12",
-      "8",
-      "44c",
-      "49b",
-      "59",
-      "77"
-    ],
+    "waived": ["29", "12", "8", "44c", "49b", "59", "77"],
     "prompt": "Redesign openlandingpage using Hallmark; gradient background without halftone; header search and AI model filters; twice-height previews; expressive hover and scroll motion",
     "review": {
       "hero": "3 findings resolved: recognizable template content in first fold, stronger gradient, responsive captures verified",
@@ -54,14 +68,7 @@
     "photos": [],
     "entry": "launch map first, then rows",
     "fingerprint": "map-diagram|stage|slab|mast|rows-first|product",
-    "sections": [
-      "Hero (card stack)",
-      "Map (pinned phone)",
-      "Rows",
-      "Offer",
-      "Form",
-      "Footer"
-    ],
+    "sections": ["Hero (card stack)", "Map (pinned phone)", "Rows", "Offer", "Form", "Footer"],
     "signature": "a connector line draws from the chosen moment to the phone, whose plastic shell takes that moment's tint",
     "waived": [],
     "prompt": "a calm mobile workspace app for independent tutoring studios",

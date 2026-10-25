@@ -123,6 +123,10 @@ export const TEMPLATE_METADATA: Record<
     name: "TALLY",
     dependencies: ["lenis"],
   },
+  aftercart: {
+    name: "AFTERCART",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {

@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -245,6 +245,19 @@ Build an isolated \`/tally\` landing page in **Next.js 16 (App Router) + React 1
 7. **Counter Questions (\`FaqSection.tsx\`):** Sticky header + 5-question accordion animating height via \`grid-template-rows: 0fr → 1fr\`.
 8. **Open Your Counter (\`IntakeSection.tsx\` & \`CounterForm.tsx\`):** Client-validated onboarding form (store name, email, archetype, plan, service workflow note). Invalid fields shake once and focus the first invalid control. Valid submission never sends a network request; it stamps and detaches a personalized **Merchant Trial Pass (\`TLY-26-XXXX\`)** with one-click clipboard copy.
 9. **Footer (\`Footer.tsx\`):** Full-width original SVG neighborhood street scene (\`FooterShopfrontScene\`) with a gently swaying hanging shop sign, section links, and motion pause control.
+
+`;
+
+export const AFTERCART_PROMPT = `# Prompt: rebuild AFTERCART — Shopify care after launch
+
+Build an isolated Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 landing template for a fictional Shopify care partner called AFTERCART. The audience is small, owner-led Shopify shops. The one conversion goal is booking a care call through a local-only demo form; never send a network request.
+
+The central idea is that a shop is a living system, so the page is a pastel store health console whose signals rebalance as a visitor explores the care tracks. Use a warm paper canvas, rounded 6–10px geometry, merchant-tool and packaging-label cues, and a layered dot-grid background. Palette: ink #4C4668, paper #FFF7F3, lilac #DCCFF4, mint #BFE7D3, peach #FFCCB8, butter #F5E8A7, sky #BFD8F0. Use Manrope for display, Inter Tight for body, and JetBrains Mono for utility labels through next/font/google.
+
+Sections: sticky header; hero with the promise “Keep your shop ready.” and a console preview; interactive Store Health section; four care tracks (Conversion, Merchandising, Speed, Retention); a visible work log; three-step care rhythm; local booking form; FAQ and footer. The console has four accessible buttons. Selecting a track updates a tested pure state model, score ring, signal bars, status copy, active ticket, and aria-live readout. Unknown ids are ignored. The static page still contains all copy and the form without JavaScript.
+
+Motion identity: expressive technical/cinematic, verbs scan and reveal. Use a staggered hero load, mask-rise headings, drawn rules, clip-safe panel wipes, card lifts, button fill wipes and a single rAF scroll progress line. The signature moment is the console rebalancing after a track selection. Use transform, opacity and clip-path for movement, visible focus rings, press scale .97, and reduced-motion/no-JS fallbacks with every element readable. Test the console math, form validation, motion helpers, reduced motion, keyboard controls, mobile layout and local success. Keep all files isolated under src/app/(aftercart), register the slug at all gallery points, and use the original SVG/CSS interface art without photos or video.
+
 `;
 
 const RAW_TEMPLATES: TemplateItem[] = [
@@ -631,9 +644,21 @@ const RAW_TEMPLATES: TemplateItem[] = [
     promptMarkdown: TALLY_PROMPT,
     model: "Gemini 4 Argon High",
   },
+  {
+    slug: "aftercart",
+    title: "AFTERCART",
+    description: "A pastel store-health console for small Shopify shops that need a calm partner after launch.",
+    category: "conversion",
+    industry: "Shopify Care Services",
+    stack: "Next.js 16 · React 19 · SVG UI · Local Form State · CSS Motion",
+    badges: ["Health Console", "Care Tracks", "Local Call Form"],
+    previewImage: "/templates/aftercart/preview.svg",
+    promptMarkdown: AFTERCART_PROMPT,
+    model: "GPT-6 Astra Max",
+  },
 ];
 
 export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.map((template) => ({
   ...template,
-  videoClip: template.videoClip ?? `/gallery/clips/${template.slug}.mp4`,
+  videoClip: template.videoClip ?? (template.slug === "aftercart" ? undefined : `/gallery/clips/${template.slug}.mp4`),
 }));

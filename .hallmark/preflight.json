@@ -1,21 +1,28 @@
 {
-  "date": "2026-10-24",
-  "mode": "build",
+  "date": "2026-10-25",
+  "mode": "redesign",
+  "depth": "full",
   "scope": "page",
-  "entry": "src/app/(alpine-reel)/alpine-reel/page.tsx",
+  "entry": "src/app/(aftercart)/aftercart/page.tsx",
+  "findings": {
+    "framework": "Next.js 16 App Router with an isolated (aftercart) route group",
+    "fonts": "Manrope display, Inter Tight body, JetBrains Mono token retained in the locked design system",
+    "palette": "Aftercart seven-color pastel system in aftercart.css and DESIGN.md",
+    "motion": "IntersectionObserver reveals, CSS transforms/opacity/clip-path, requestAnimationFrame scroll progress",
+    "spacing": "Existing responsive container and 12-column composition, reworked into a shared editorial grid"
+  },
   "preserved": [
-    "Next.js 16 App Router route-group convention",
-    "gallery template registration and isolated template folders",
-    "the supplied Alpine Reel interaction specification"
+    "Aftercart content, route, links, form fields, ids, handlers, console state model, tests, and local-only behavior",
+    "Locked Aftercart palette, typography intent, console mechanic, no-photo policy, and gallery registration"
   ],
   "introduced": [
-    "Alpine Reel fictional brand system",
-    "cold-blue horizontal 14-peak reel",
-    "snap physics, parallax, custom cursor and door-tilt detail panel"
+    "Editorial workbench composition with an oversized stage hero",
+    "Framed store-health instrument, offset care-track bento, hairline work log, dark rhythm band, and peach booking close",
+    "Focus-visible contrast, no-JS mobile navigation, transform-based signal bars, and reduced-motion-safe reveals"
   ],
   "material": {
-    "real": "Fourteen named eight-thousanders, first ascent years, elevations, coordinates and supplied Unsplash image ids",
-    "pictures": "Remote Unsplash mountain stills plus a local gallery preview SVG",
-    "absent": "User logos, customer quotes and product metrics"
+    "real": "Existing Aftercart copy, four care tracks, console state values, work log, care rhythm, booking form, FAQ, and fictional-demo disclosure",
+    "pictures": "Original CSS and DOM console art; no photos or video",
+    "absent": "User logos, customer quotes, external metrics, and connected form endpoint"
   }
 }
