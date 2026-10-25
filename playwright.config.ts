@@ -20,7 +20,9 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: `npm run prebuild && npx next build --webpack && npx next start --port ${port}`,
+    // Tailwind is wired through turbopack.rules in next.config.ts, so build with Turbopack: `--webpack` skips
+    // it and drops every utility class (overflow-hidden, overflow-x-auto, ...) from templates that use them.
+    command: `npm run prebuild && npx next build && npx next start --port ${port}`,
     url: baseURL,
     reuseExistingServer: true,
     env: {
