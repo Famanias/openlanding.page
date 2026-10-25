@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all thirty-four templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(34);
+  it("contains all thirty-five templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(35);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama", "tally", "aftercart", "fixture", "chinagraph", "valence"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama", "tally", "aftercart", "fixture", "chinagraph", "valence", "pipkin"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -68,7 +68,7 @@ describe("gallery template data", () => {
         expect(t.model).toBe("Gemini 4 Argon High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
-      } else if (t.slug === "satsuma" || t.slug === "calder" || t.slug === "nomi") {
+      } else if (t.slug === "satsuma" || t.slug === "calder" || t.slug === "nomi" || t.slug === "pipkin") {
         expect(t.model).toBe("Claude Sonnet 5.5 High");
       } else if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
