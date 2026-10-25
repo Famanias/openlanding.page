@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all twenty-seven templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(27);
+  it("contains all twenty-eight templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(28);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "satoyama"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -58,7 +58,7 @@ describe("gallery template data", () => {
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["orrery", "keytu", "koji", "verane", "noctiluca"];
     for (const t of TEMPLATES) {
-      if (t.slug === "kazeko") {
+      if ((t.slug === "kazeko" || t.slug === "satoyama")) {
         expect(t.model).toBe("GPT-6");
       } else if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash Free");

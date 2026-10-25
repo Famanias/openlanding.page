@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "satoyama";
 
 export type TemplateConfig = {
   palette: string[];
@@ -7,6 +7,7 @@ export type TemplateConfig = {
 };
 
 export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
+  satoyama: { palette: ["#F6F3E8", "#ADC3A1", "#D7AAA0", "#2F4438", "#9CC4D6", "#F1D9A2", "#C8714F"] },
   kazeko: {
     palette: ["#F8F5E9", "#243C35", "#64856A", "#C7D6A7", "#D6E7EB", "#EED998", "#B96C51", "#596C63"],
   },

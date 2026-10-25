@@ -21,13 +21,13 @@ test("rapid category changes settle on the current selection and keyboard stays 
   await page.getByRole("tab", { name: "3D & WebGPU" }).click();
   await page.getByRole("tab", { name: "Keynote & Deck" }).click();
   await page.getByRole("tab", { name: /^All/ }).click();
-  await expect(page.locator(".template-card")).toHaveCount(27);
+  await expect(page.locator(".template-card")).toHaveCount(28);
   await expect(page.locator("[role=tab][aria-selected=true]")).toHaveAccessibleName(/^All/);
   await page.keyboard.press("ArrowRight");
   await expect(page.getByRole("tab", { name: "Keynote & Deck" })).toBeFocused();
   await expect(page.locator("#gallery")).toHaveAttribute("data-instant-motion", "true");
-  await expect(page.locator(".template-card")).toHaveCount(1);
-  await expect(page.locator(".template-card")).toHaveCSS("transition-duration", "0s");
+  await expect(page.locator(".template-card")).toHaveCount(2);
+  await expect(page.locator(".template-card").first()).toHaveCSS("transition-duration", "0s");
   await expect(page.getByRole("tab", { name: "Keynote & Deck" })).toHaveCSS("outline-style", "solid");
   await page.keyboard.press("Control+k");
   await page.getByRole("searchbox").fill("orrery");
