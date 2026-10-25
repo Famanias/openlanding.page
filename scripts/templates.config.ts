@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "pipkin";
 
 export type TemplateConfig = {
   palette: string[];
@@ -7,6 +7,8 @@ export type TemplateConfig = {
 };
 
 export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
+  // cream (paper), plum (ink, text), blush (pastel tint), bubblegum (the one action colour), butter / mint / sky / lilac (flavour pastels, section grounds)
+  pipkin: { palette: ["#FFF8EC", "#3B2A47", "#FFD6E2", "#FF9DBB", "#FFEBA6", "#CBEBDA", "#CDE5F8", "#E3D8F6"] },
   mio: { palette: ["#232C49", "#F5EFE4", "#A8B1D1", "#526D89", "#EDAD83", "#BC6268", "#654C65", "#D8CAD9"] },
   satoyama: { palette: ["#F6F3E8", "#ADC3A1", "#D7AAA0", "#2F4438", "#9CC4D6", "#F1D9A2", "#C8714F"] },
   kazeko: {

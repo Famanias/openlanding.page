@@ -1,0 +1,173 @@
+/* The Trip: a sticky stage that slides five scenes sideways while one jar rides the route.
+   Scroll writes --s (0..4, lingering on each stop) and --p (0..1) on .pk-stage; everything else is CSS. */
+
+.pk-trip { position: relative; margin-top: -56px; border-radius: 56px 56px 0 0; background: var(--color-cream); padding: 120px 0 80px; }
+.pk-trip-pin { width: min(1232px, 100%); margin-inline: auto; padding-inline: 16px; display: grid; gap: 20px; }
+.pk-trip-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 24px; }
+.pk-trip-head .pk-h2 { font-size: clamp(1.7rem, 3.4vw, 2.7rem); margin-top: 10px; }
+
+.pk-trip[data-mode="scrub"] { height: 520vh; padding: 0; }
+.pk-trip[data-mode="scrub"] .pk-trip-pin { position: sticky; top: 0; height: 100svh; padding-top: 84px; padding-bottom: 16px; grid-template-rows: auto minmax(0, 1fr) auto; gap: 12px; overflow: hidden; }
+.pk-trip[data-mode="flow"] .pk-rail-wrap { display: none; }
+
+/* rail */
+.pk-rail { display: flex; flex-wrap: wrap; gap: 6px; }
+.pk-rail-btn { display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px 5px 5px; border-radius: 999px; border: 2.5px solid var(--color-plum); background: var(--color-cream); font-weight: 800; font-size: 0.82rem; cursor: pointer; transition: transform var(--dur-base) var(--ease-spring), background-color var(--dur-fast) var(--ease-out); }
+.pk-rail-btn:active { transform: scale(0.94); transition-duration: var(--dur-instant); }
+.pk-rail-btn[data-active="true"] { background: var(--color-bubblegum); }
+.pk-rail-n { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--color-butter); border: 2px solid var(--color-plum); font-family: var(--font-mono); font-size: 12px; line-height: 1; }
+@media (max-width: 719px) {
+  .pk-rail-btn { padding-right: 5px; }
+  .pk-rail-l { display: none; }
+  .pk-rail-btn[data-active="true"] { padding-right: 14px; }
+  .pk-rail-btn[data-active="true"] .pk-rail-l { display: inline; }
+  .pk-trip-head .pk-eyebrow { display: none; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .pk-rail-btn:hover { background: var(--color-butter); transform: translateY(-2px); }
+  .pk-rail-btn[data-active="true"]:hover { background: var(--color-bubblegum); }
+}
+
+/* stage */
+.pk-stage { position: relative; width: 100%; max-width: 1200px; margin-inline: auto; min-height: 0; overflow: hidden; border-radius: 48px; border: 3px solid var(--color-plum); background: var(--color-sky); --s: 0; --p: 0; isolation: isolate; contain: paint; }
+.pk-stage[data-mode="scrub"] { height: 100%; min-height: 240px; }
+.pk-strip { display: flex; width: 500%; height: 100%; transform: translate3d(calc(var(--s, 0) * -20%), 0, 0); will-change: transform; }
+.pk-scene { position: relative; flex: 0 0 20%; height: 100%; --d: calc(var(--s, 0) - var(--i, 0)); --f: max(0, min(calc(1 + var(--d)), calc(1 - var(--d)))); }
+.pk-scene:nth-child(1) { --tone: var(--color-sky); }
+.pk-scene:nth-child(2) { --tone: var(--color-butter); }
+.pk-scene:nth-child(3) { --tone: var(--color-mint); }
+.pk-scene:nth-child(4) { --tone: var(--color-lilac); }
+.pk-scene:nth-child(5) { --tone: var(--color-blush); }
+.pk-scene-frame { position: absolute; inset: 0; }
+.pk-scene-art, .pk-tv-layer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.pk-tv-layer { pointer-events: none; }
+.pk-scene-copy { display: none; }
+.pk-bg { fill: var(--tone); }
+.pk-floor { fill: color-mix(in srgb, var(--color-cream) 55%, var(--tone)); }
+
+/* scroll-linked depth: near props travel against the strip, far props lag behind it */
+.pk-px1 { transform: translate3d(calc(var(--d) * -90px), 0, 0); }
+.pk-px2 { transform: translate3d(calc(var(--d) * -36px), 0, 0); }
+.pk-px3 { transform: translate3d(calc(var(--d) * 64px), 0, 0); }
+.pk-notif { opacity: calc(var(--f) * 1.8); transform: translateY(calc((1 - var(--f)) * -70px)); }
+.pk-ladle { transform-box: fill-box; transform-origin: 85% 15%; transform: rotate(calc((1 - var(--f)) * 26deg)); }
+.pk-stream { transform-box: fill-box; transform-origin: 50% 0%; transform: scaleY(clamp(0, calc((var(--f) - 0.45) * 2.4), 1)); }
+.pk-steam path { opacity: calc(var(--f) * 0.9); }
+.pk-road { transform: translate3d(calc(var(--d) * -640px), 0, 0); }
+.pk-wheel { transform: rotate(calc(var(--d) * -720deg)); }
+.pk-confetti { opacity: clamp(0, calc((var(--f) - 0.5) * 3), 1); transform: translateY(calc((1 - var(--f)) * 40px)); }
+.pk-banner { transform-box: fill-box; transform-origin: 50% 50%; opacity: clamp(0, calc((var(--f) - 0.55) * 3), 1); transform: scale(clamp(0.6, calc(0.6 + (var(--f) - 0.5) * 1.2), 1)); }
+.pk-stage[data-mode="flow"] .pk-scene { --s: var(--i); }
+
+/* the traveller: jar and box. Which pieces show is a plain CSS state machine on data-stop. */
+.pk-tv-layer { --lvl: clamp(0, calc((var(--p, 0) - 0.17) / 0.16), 1); --jar-lvl: var(--lvl); } /* fills while the cooking scene is centred (p = .25 is stop 2) */
+.pk-tv-shadow { opacity: 0.18; transition: opacity var(--dur-base) var(--ease-out); }
+.pk-tv-layer[data-stop="3"] .pk-tv-shadow { opacity: 0; }
+.pk-tv-lift { transition: transform var(--dur-slow) var(--ease-spring); }
+.pk-tv-layer[data-stop="3"] .pk-tv-lift { transform: translateY(-48px); }
+.pk-tv-squash { transform-box: fill-box; transform-origin: 50% 100%; }
+.pk-tv-ghost { opacity: 0; transition: opacity var(--dur-base) var(--ease-out); }
+.pk-tv-layer[data-stop="0"] .pk-tv-ghost { opacity: 1; }
+.pk-tv-jar { transition: opacity var(--dur-fast) var(--ease-out); }
+.pk-tv-layer[data-stop="0"] .pk-tv-jar { opacity: 0; }
+.pk-tv-layer[data-stop="3"] .pk-tv-jar { opacity: 0; transition-delay: 320ms; }
+.pk-tv-jar .pk-jar-lid { transform: translateY(-84px); opacity: 0; transition: transform var(--dur-slow) var(--ease-spring), opacity var(--dur-fast) var(--ease-out); }
+.pk-tv-layer[data-stop="2"] .pk-jar-lid, .pk-tv-layer[data-stop="3"] .pk-jar-lid, .pk-tv-layer[data-stop="4"] .pk-jar-lid { transform: none; opacity: 1; }
+.pk-tv-jarlift { transition: transform var(--dur-slow) var(--ease-spring) 120ms; }
+.pk-tv-layer[data-stop="4"] .pk-tv-jarlift { transform: translateY(-122px); }
+.pk-tv-box { opacity: 0; transform: translateY(70px); transition: transform var(--dur-slow) var(--ease-spring), opacity var(--dur-base) var(--ease-out); }
+.pk-tv-layer[data-stop="2"] .pk-tv-box, .pk-tv-layer[data-stop="3"] .pk-tv-box, .pk-tv-layer[data-stop="4"] .pk-tv-box { opacity: 1; transform: none; }
+.pk-tv-lid { transform-box: fill-box; transform-origin: 50% 50%; transform: translate(268px, 114px) rotate(8deg); transition: transform var(--dur-slow) var(--ease-spring); }
+.pk-tv-layer[data-stop="3"] .pk-tv-lid { transform: none; }
+.pk-tv-layer[data-stop="4"] .pk-tv-lid { transform: translate(-268px, 114px) rotate(-8deg); }
+.pk-tv-pop { opacity: 0; transition: opacity var(--dur-base) var(--ease-out); }
+.pk-tv-layer[data-stop="4"] .pk-tv-pop { opacity: 1; transition-delay: 280ms; }
+.pk-twinkle, .pk-float, .pk-drift, .pk-ring, .pk-wobble, .pk-sway, .pk-bubble, .pk-write { transform-box: fill-box; transform-origin: 50% 50%; }
+.pk-stir { transform-box: view-box; }
+.pk-sway { transform-origin: 50% 0%; }
+.pk-ring { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .pk-tv-layer[data-stop="0"] .pk-tv-squash, .pk-tv-layer[data-stop="2"] .pk-tv-squash, .pk-tv-layer[data-stop="4"] .pk-tv-squash { animation: pk-settle-a 900ms var(--ease-out) both; }
+  .pk-tv-layer[data-stop="1"] .pk-tv-squash, .pk-tv-layer[data-stop="3"] .pk-tv-squash { animation: pk-settle-b 900ms var(--ease-out) both; }
+  @keyframes pk-settle-a { 0% { transform: scale(1.07, 0.9); } 38% { transform: scale(0.97, 1.05); } 70% { transform: scale(1.01, 0.99); } 100% { transform: none; } }
+  @keyframes pk-settle-b { 0% { transform: scale(1.07, 0.9); } 38% { transform: scale(0.97, 1.05); } 70% { transform: scale(1.01, 0.99); } 100% { transform: none; } }
+
+  /* ambient life: only the active scene loops, only while the trip is on screen */
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-twinkle, .pk-trip[data-live="true"] .pk-tv-layer[data-stop="4"] .pk-twinkle { animation: pk-twinkle 2.6s ease-in-out infinite; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-float { animation: pk-float 4.4s ease-in-out infinite alternate; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-drift { animation: pk-drift 9s ease-in-out infinite alternate; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-ring { animation: pk-ring 2.4s ease-out infinite; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-ring-2 { animation-delay: 1.2s; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-wobble { animation: pk-wobble 1.8s ease-in-out infinite; transform-origin: 50% 0%; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-sway { animation: pk-sway 5.5s ease-in-out infinite alternate; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-sway-slow { animation-duration: 7s; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-bubble { animation: pk-bubble 1.9s ease-in-out infinite; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-bubble-2 { animation-delay: 0.5s; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-bubble-3 { animation-delay: 1.1s; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-stir { animation: pk-stir 2.8s ease-in-out infinite alternate; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-steam path { animation: pk-steam 3.2s ease-in-out infinite; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-write { animation: pk-write 1.4s ease-in-out infinite alternate; }
+  .pk-trip[data-mode="scrub"][data-live="true"] .pk-tv-bob { animation: pk-bob 4.4s ease-in-out infinite; }
+  .pk-trip[data-live="true"] .pk-scene[data-active="true"] .pk-van { animation: pk-bob 3.6s ease-in-out infinite; }
+  .pk-trip[data-live="true"] .pk-tracker-dot::after { animation: pk-ping 2.2s ease-out infinite; }
+
+  @keyframes pk-twinkle { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.22) rotate(14deg); } }
+  @keyframes pk-float { from { transform: translateY(0) rotate(-6deg); } to { transform: translateY(-14px) rotate(6deg); } }
+  @keyframes pk-drift { from { transform: translateX(-18px); } to { transform: translateX(22px); } }
+  @keyframes pk-ring { 0% { opacity: 0.8; transform: scale(0.8); } 100% { opacity: 0; transform: scale(2.1); } }
+  @keyframes pk-wobble { 0%, 55%, 100% { transform: rotate(0); } 10% { transform: rotate(-14deg); } 22% { transform: rotate(12deg); } 34% { transform: rotate(-8deg); } 44% { transform: rotate(5deg); } }
+  @keyframes pk-sway { from { transform: rotate(-2.4deg); } to { transform: rotate(2.4deg); } }
+  @keyframes pk-bubble { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.18, 1.05); } }
+  @keyframes pk-stir { from { transform: rotate(-13deg); } to { transform: rotate(13deg); } }
+  @keyframes pk-steam { 0% { transform: translateY(10px); opacity: 0; } 40% { opacity: 0.9; } 100% { transform: translateY(-34px); opacity: 0; } }
+  @keyframes pk-write { from { transform: translate(-6px, 4px); } to { transform: translate(8px, -3px); } }
+  @keyframes pk-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+}
+
+/* tracker + route */
+.pk-tracker { position: absolute; z-index: 3; top: 14px; left: 14px; display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px 8px 12px; border-radius: 999px; background: var(--color-cream); border: 2.5px solid var(--color-plum); font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; }
+.pk-tracker-dot { position: relative; width: 12px; height: 12px; border-radius: 50%; background: var(--color-bubblegum); border: 2px solid var(--color-plum); }
+.pk-tracker-dot::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--color-bubblegum); opacity: 0; }
+@media (prefers-reduced-motion: no-preference) { .pk-tracker-text { animation: pk-text-in 520ms var(--ease-out-expo) both; } }
+.pk-route { position: absolute; z-index: 3; left: 28px; right: 28px; bottom: 16px; height: 14px; border-radius: 999px; background: var(--color-cream); border: 2.5px solid var(--color-plum); }
+.pk-route-fill { position: absolute; inset: 0; border-radius: inherit; background: var(--color-bubblegum); transform-origin: left center; transform: scaleX(var(--p, 0)); }
+.pk-route-dot { position: absolute; top: 50%; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; background: var(--color-cream); border: 2.5px solid var(--color-plum); transition: background-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-spring); }
+.pk-route-dot[data-done="true"] { background: var(--color-butter); transform: scale(1.12); }
+.pk-route-rider { position: absolute; left: 0; top: -30px; width: 100%; height: 0; transform: translateX(calc(var(--p, 0) * 100%)); pointer-events: none; }
+.pk-route-rider svg { position: absolute; left: 0; top: 0; transform: translateX(-50%); }
+
+/* caption */
+.pk-caption { width: 100%; max-width: 1200px; margin-inline: auto; min-height: 7.4rem; display: grid; gap: 4px 36px; align-content: start; padding-inline: 8px; }
+.pk-stepline { display: flex; gap: 14px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pk-muted); }
+.pk-caption-body { color: var(--pk-muted); max-width: 40em; }
+@media (prefers-reduced-motion: no-preference) { .pk-caption > * { animation: pk-text-in 560ms var(--ease-out-expo) both; } .pk-caption-body { animation-delay: 80ms; } }
+@media (min-width: 900px) {
+  .pk-caption { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); grid-template-rows: auto auto; }
+  .pk-caption .pk-stepline { grid-column: 1; grid-row: 1; }
+  .pk-caption .pk-h3 { grid-column: 1; grid-row: 2; }
+  .pk-caption-body { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 1.05rem; }
+}
+@media (max-width: 899px) {
+  .pk-caption { min-height: 11.5rem; }
+  .pk-caption .pk-h3 { font-size: 1.3rem; }
+  .pk-caption-body { font-size: 0.94rem; line-height: 1.5; }
+  .pk-trip[data-mode="scrub"] .pk-trip-pin { padding-top: 76px; }
+}
+@media (max-height: 700px) and (min-width: 900px) {
+  .pk-trip[data-mode="scrub"] .pk-trip-pin { padding-top: 76px; gap: 8px; }
+  .pk-caption { min-height: 5.6rem; }
+}
+
+/* flow mode: reduced motion and no JavaScript. Five stacked cards, everything visible. */
+.pk-stage[data-mode="flow"] { height: auto; overflow: visible; border: 0; border-radius: 0; background: none; contain: none; }
+.pk-stage[data-mode="flow"] .pk-strip { display: grid; width: auto; height: auto; transform: none; gap: 24px; will-change: auto; }
+.pk-stage[data-mode="flow"] .pk-scene { height: auto; border-radius: 40px; border: 3px solid var(--color-plum); background: var(--color-cream); overflow: hidden; }
+.pk-stage[data-mode="flow"] .pk-scene-frame { position: relative; inset: auto; aspect-ratio: 12 / 7; }
+.pk-stage[data-mode="flow"] .pk-scene-copy { display: grid; gap: 6px; padding: 18px 24px 26px; }
+.pk-stage[data-mode="flow"] .pk-tv-layer { --lvl: 1; }
+.pk-stage[data-mode="flow"] .pk-scene:first-child .pk-tv-layer { --lvl: 0; }
+@media (min-width: 900px) {
+  .pk-stage[data-mode="flow"] .pk-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pk-stage[data-mode="flow"] .pk-scene:last-child { grid-column: 1 / -1; }
+}
