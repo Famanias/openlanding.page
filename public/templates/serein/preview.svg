@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#F6F0E5"/>
+  <path d="M0 180c310-120 530 110 820-10s520 120 780-10" fill="none" stroke="#24343A" stroke-width="3" opacity=".18"/>
+  <path d="M0 300c310-120 530 110 820-10s520 120 780-10" fill="none" stroke="#24343A" stroke-width="3" opacity=".12"/>
+  <path d="M0 420c310-120 530 110 820-10s520 120 780-10" fill="none" stroke="#24343A" stroke-width="3" opacity=".12"/>
+  <path d="M0 650c260-180 450-10 700-130s480 84 900-100" fill="none" stroke="#A8D6CC" stroke-width="12"/>
+  <circle cx="1170" cy="280" r="100" fill="#C7BCE6"/>
+  <circle cx="1170" cy="280" r="54" fill="#24343A"/>
+  <path d="M1010 580c-26-50 12-104 66-104 18-54 98-74 145-24 69-18 124 26 124 86 56 0 90 31 90 69H1014c-30 0-39-14-4-27Z" fill="#F6F0E5" stroke="#24343A" stroke-width="5"/>
+  <text x="88" y="120" fill="#24343A" font-family="Georgia,serif" font-size="34" letter-spacing="7">SEREIN BUREAU / SR-07</text>
+  <text x="88" y="780" fill="#24343A" font-family="Georgia,serif" font-size="110">Small weather,</text>
+  <text x="88" y="870" fill="#24343A" font-family="Georgia,serif" font-size="110" font-style="italic">closely observed.</text>
+</svg>

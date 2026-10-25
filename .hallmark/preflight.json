@@ -1,21 +1,32 @@
 {
-  "date": "2026-10-24",
-  "mode": "build",
+  "date": "2026-10-25",
+  "mode": "redesign",
   "scope": "page",
-  "entry": "src/app/(alpine-reel)/alpine-reel/page.tsx",
+  "entry": "src/app/(serein)/serein/page.tsx",
+  "target": "route /serein",
+  "before": "The existing route is a single continuous SEREIN Bureau field report with six anchored sections, a local validation form and inline SVG/CSS visuals.",
+  "citations": [
+    "src/app/(serein)/serein/DESIGN.md:1",
+    "src/app/(serein)/serein/page.tsx:1",
+    "src/app/(serein)/serein/sections/LandingSections.tsx:1",
+    "src/app/(serein)/serein/forms/Subscribe.tsx:1",
+    "src/app/(serein)/serein/serein.css:1"
+  ],
   "preserved": [
-    "Next.js 16 App Router route-group convention",
-    "gallery template registration and isolated template folders",
-    "the supplied Alpine Reel interaction specification"
+    "SEREIN Bureau name, tagline, weather observations, readings, dates and dispatch copy",
+    "All six section ids and navigation links: bureau, instruments, forecast, notes, dispatch and subscribe",
+    "Forecast tab interaction, local form validation, success/reset handlers and existing test hooks",
+    "Locked SEREIN palette, Lora/Public Sans/IBM Plex Mono type roles and inline SVG/CSS media direction"
   ],
   "introduced": [
-    "Alpine Reel fictional brand system",
-    "cold-blue horizontal 14-peak reel",
-    "snap physics, parallax, custom cursor and door-tilt detail panel"
+    "Split stage hero with a live 1016 hPa pressure instrument",
+    "Hallmark tokens/base rules with clipped overflow, tokenized palette and instant focus states",
+    "Varied editorial compositions: ruled bureau spread, open instrument plates, working forecast strip, field-note cards, dispatch index and dark close",
+    "Roman display type, sentence-case controls, reduced-motion-safe hero settle and mobile-first responsive grid"
   ],
   "material": {
-    "real": "Fourteen named eight-thousanders, first ascent years, elevations, coordinates and supplied Unsplash image ids",
-    "pictures": "Remote Unsplash mountain stills plus a local gallery preview SVG",
-    "absent": "User logos, customer quotes and product metrics"
+    "real": "SEREIN Bureau copy, SR-07 station codes, 51.52° N / 0.09° W, 2026 new moon, 1016–1024 hPa readings, wind observations and local form behavior",
+    "pictures": "Original inline SVG weather diagrams, pressure line, instrument dials and CSS paper/grid treatment",
+    "absent": "External photographs, user logos, testimonials, customer metrics and network form endpoint"
   }
 }

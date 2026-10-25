@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo";
 
 export type TemplateConfig = {
   palette: string[];
@@ -7,6 +7,8 @@ export type TemplateConfig = {
 };
 
 export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
+  // cream (paper), plum (ink, text), blush (pastel tint), bubblegum (the one action colour), butter / mint / sky / lilac (flavour pastels, section grounds)
+  pipkin: { palette: ["#FFF8EC", "#3B2A47", "#FFD6E2", "#FF9DBB", "#FFEBA6", "#CBEBDA", "#CDE5F8", "#E3D8F6"] },
   mio: { palette: ["#232C49", "#F5EFE4", "#A8B1D1", "#526D89", "#EDAD83", "#BC6268", "#654C65", "#D8CAD9"] },
   satoyama: { palette: ["#F6F3E8", "#ADC3A1", "#D7AAA0", "#2F4438", "#9CC4D6", "#F1D9A2", "#C8714F"] },
   kazeko: {
@@ -136,6 +138,35 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   },
   hiyas: {
     palette: ["#05070A", "#0B2A4A", "#FFFFFF"],
+  },
+
+tally: {
+    // buttercream paper, pistachio mint, apricot blush, periwinkle lilac, plum charcoal ink
+    palette: ["#FAF4E8", "#C8E6D0", "#F7C8B6", "#CFD6F6", "#231F2B"],
+  },
+  aftercart: {
+    // ink, paper, lilac, mint, peach, butter, sky
+    palette: ["#4C4668", "#FFF7F3", "#DCCFF4", "#BFE7D3", "#FFCCB8", "#F5E8A7", "#BFD8F0"],
+  },
+  fixture: {
+    // ink (text, dark slabs), paper (page), white (store canvas, cards), crimson (the one accent),
+    // graphite (muted text), hairline (rules, grid), till green (OPEN sign and orders only)
+    palette: ["#121316", "#F3F2EE", "#FFFFFF", "#CF1F35", "#5E6168", "#D9D7D0", "#1E7A4C"],
+  },
+  chinagraph: {
+    // film black (ground, text on flash), flash white (text, the shop and the sheet paper), chinagraph yellow (grease-pencil marks only)
+    palette: ["#0C0C0B", "#F4F3EF", "#F3C318"],
+  },
+  valence: {
+    // plum ink, cloud porcelain, lavender mist, pistachio mint, peach sorbet, periwinkle iris, muted mauve, coral rose
+    palette: ["#1E1B2E", "#FBF9F5", "#E8E0F8", "#D9F2E6", "#FCE2D5", "#5B46E8", "#645D7A", "#D9385A"],
+  },
+  serein: {
+    palette: ["#24343A", "#F6F0E5", "#A8D6CC", "#C7BCE6"],
+  },
+  nulo: {
+    // paper, ink, lilac focus field, peach action marker, mint signal
+    palette: ["#F5F8F4", "#14232B", "#B8B3FF", "#FFB49D", "#9ADBD1"],
   },
 };
 

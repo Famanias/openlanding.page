@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all twenty-nine templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(29);
+it("contains all thirty-seven templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(37);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama"]);
+    expect(slugs).toEqual(["orrery", "keytu", "koji", "trace", "calder", "vector", "morrow", "loophouse", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama", "tally", "aftercart", "fixture", "chinagraph", "valence", "pipkin", "serein", "nulo"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -56,7 +56,7 @@ describe("gallery template data", () => {
   });
 
   it("assigns the exact specified model tag to each template", () => {
-    const opusSlugs = ["orrery", "keytu", "koji", "verane", "noctiluca", "kinetic"];
+    const opusSlugs = ["orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph"];
     for (const t of TEMPLATES) {
       if (t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
@@ -64,14 +64,18 @@ describe("gallery template data", () => {
         expect(t.model).toBe("MiMo v2.6 Flash Free");
       } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
+      } else if (t.slug === "tally") {
+        expect(t.model).toBe("Gemini 4 Argon High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
-      } else if (t.slug === "satsuma" || t.slug === "calder" || t.slug === "nomi") {
+      } else if (t.slug === "satsuma" || t.slug === "calder" || t.slug === "nomi" || t.slug === "pipkin") {
         expect(t.model).toBe("Claude Sonnet 5.5 High");
       } else if (opusSlugs.includes(t.slug)) {
         expect(t.model).toBe("Claude Opus 5.5 High");
       } else if (t.slug === "wowflutter") {
         expect(t.model).toBe("Claude Sonnet 5.5 High");
+      } else if (t.slug === "valence") {
+        expect(t.model).toBe("Gemini 4 Argon High");
       } else if (t.slug === "alpine-reel") {
         expect(t.model).toBe("GPT-6 Astra Max");
       } else {
@@ -172,5 +176,12 @@ describe("gallery template data", () => {
     expect(hiyas?.category).toBe("scroll-showcase");
     expect(hiyas?.promptMarkdown).toContain('rebuild "HIYAS"');
     expect(hiyas?.promptMarkdown).toContain("#0B2A4A");
+  });
+
+  it("files SEREIN under Editorial Magazine with its fold-out prompt inlined", () => {
+    const serein = TEMPLATES.find((t) => t.slug === "serein");
+    expect(serein?.category).toBe("editorial-magazine");
+    expect(serein?.promptMarkdown).toContain('rebuild "SEREIN Bureau"');
+    expect(serein?.promptMarkdown).toContain("#A8D6CC");
   });
 });

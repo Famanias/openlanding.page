@@ -9,7 +9,10 @@ export const TEMPLATE_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
+  pipkin: { name: "Pipkin", dependencies: ["lenis"] },
   satoyama: { name: "Satoyama Biyori", dependencies: [] },
+  fixture: { name: "FIXTURE", dependencies: ["lenis"] },
+  chinagraph: { name: "CHINAGRAPH", dependencies: ["lenis"] },
   kazeko: {
     name: "Studio Kazeko",
     dependencies: ["lenis"],
@@ -118,6 +121,26 @@ export const TEMPLATE_METADATA: Record<
   hiyas: {
     name: "HIYAS",
     dependencies: [],
+  },
+tally: {
+    name: "TALLY",
+    dependencies: ["lenis"],
+  },
+  aftercart: {
+    name: "AFTERCART",
+    dependencies: [],
+  },
+  valence: {
+    name: "VALENCE",
+    dependencies: ["three", "lenis"],
+  },
+  serein: {
+    name: "SEREIN Bureau",
+    dependencies: [],
+  },
+  nulo: {
+    name: "NULO",
+    dependencies: ["lenis"],
   },
 };
 

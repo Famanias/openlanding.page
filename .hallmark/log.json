@@ -1,5 +1,95 @@
 [
   {
+    "date": "2026-10-25",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "page",
+    "shape": "Split field report",
+    "theme": "brand (locked SEREIN system)",
+    "axes": "light/roman-serif/chromatic-teal",
+    "hero": "Stage",
+    "nav": "edge-aligned",
+    "footer": "statement",
+    "imagery": "coded pressure instrument and inline SVG weather diagrams",
+    "photos": [],
+    "entry": "src/app/(serein)/serein/page.tsx",
+    "fingerprint": "split|stage|edge-aligned|statement|ruled-notes|coded-weather",
+    "sections": [
+      "hero",
+      "bureau note",
+      "instruments",
+      "forecast strip",
+      "field notes",
+      "dispatch index",
+      "subscribe",
+      "footer"
+    ],
+    "signature": "live pressure instrument showing 1016 hPa and a southwest wind",
+    "waived": [
+      "25"
+    ],
+    "prompt": "Redesign SEREIN Bureau landing page with Hallmark; keep anchors, local form and weather copy; replace the low-density centered almanac layout with a sharper weather desk",
+    "review": {
+      "hero": "in-thread; three lines and primary action visible at 1280 x 800",
+      "finish": "in-thread; desktop and mobile renders inspected; no open Floor or Reflex findings",
+      "floorFailures": 0,
+      "openReflex": 0,
+      "kept": "6/6 section anchors, 2/2 fields, 5/5 handlers, 13/13 ids"
+    },
+    "motion": {
+      "audit": "improve-animations",
+      "changes": [
+        "throttled scroll progress and active-panel nav",
+        "IntersectionObserver reveals with rise, mask and scale variants",
+        "forecast trace draw and tab state transition",
+        "loading spinner and success reveal",
+        "hover, focus, press and input transitions"
+      ],
+      "reducedMotion": "movement and loading loop stop; content stays visible",
+      "verification": "5 Playwright tests, 5 unit tests, zero Hallmark FAIL or REFLEX findings"
+    }
+  },
+  {
+    "date": "2026-10-25",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "page",
+    "shape": "Editorial workbench",
+    "theme": "Aftercart system (locked DESIGN.md)",
+    "axes": "light/pastel/Manrope + Inter Tight",
+    "hero": "Stage",
+    "nav": "edge-aligned",
+    "footer": "colophon",
+    "imagery": "original CSS and DOM console art",
+    "photos": [],
+    "entry": "src/app/(aftercart)/aftercart/page.tsx",
+    "fingerprint": "stage|instrument|bento|rows|dark rhythm|form close",
+    "sections": [
+      "hero",
+      "store health",
+      "care tracks",
+      "work log",
+      "care rhythm",
+      "booking",
+      "faq",
+      "footer"
+    ],
+    "signature": "live store-health console with ring, signal bars, and work-log ticket",
+    "waived": [
+      "24b",
+      "39b",
+      "44c"
+    ],
+    "prompt": "Hallmark redesign aftercart landing page template",
+    "review": {
+      "render": "5 screenshots captured at 1280, 1440, 1920, and 375 widths",
+      "floorFailures": 0,
+      "openReflex": 0,
+      "notes": "hero text budget and long FAQ screen retained from supplied copy",
+      "kept": "1/1 recorded link; route tests and form/console wiring preserved"
+    }
+  },
+  {
     "date": "2026-10-23",
     "mode": "redesign",
     "depth": "full",
