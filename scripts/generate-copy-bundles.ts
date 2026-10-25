@@ -9,6 +9,7 @@ export const TEMPLATE_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
+  satoyama: { name: "Satoyama Biyori", dependencies: [] },
   kazeko: {
     name: "Studio Kazeko",
     dependencies: ["lenis"],
