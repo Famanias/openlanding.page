@@ -119,6 +119,10 @@ export const TEMPLATE_METADATA: Record<
     name: "HIYAS",
     dependencies: [],
   },
+  tally: {
+    name: "TALLY",
+    dependencies: ["lenis"],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
