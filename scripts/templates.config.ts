@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "valence";
 
 export type TemplateConfig = {
   palette: string[];
@@ -136,6 +136,10 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   },
   hiyas: {
     palette: ["#05070A", "#0B2A4A", "#FFFFFF"],
+  },
+  valence: {
+    // plum ink, cloud porcelain, lavender mist, pistachio mint, peach sorbet, periwinkle iris, muted mauve, coral rose
+    palette: ["#1E1B2E", "#FBF9F5", "#E8E0F8", "#D9F2E6", "#FCE2D5", "#5B46E8", "#645D7A", "#D9385A"],
   },
 };
 
