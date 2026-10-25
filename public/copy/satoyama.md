@@ -13,7 +13,7 @@
 import { DM_Sans, Shippori_Mincho } from "next/font/google";
 import "./satoyama/satoyama.css";
 
-const mincho = Shippori_Mincho({ weight: "400", preload: false, variable: "--font-sato-mincho" });
+const mincho = Shippori_Mincho({ subsets: ["latin"], weight: "400", preload: false, variable: "--font-sato-mincho" });
 const sans = DM_Sans({ subsets: ["latin"], variable: "--font-sato-sans" });
 
 export const metadata: Metadata = {
