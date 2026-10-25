@@ -1,19 +1,147 @@
 /**
  * Automated video preview capture for openlandingpage templates.
- * Records smooth programmatic scroll using Playwright and encodes to web-optimized MP4 with ffmpeg.
+ * Records smooth programmatic scroll or interactive deck journeys using Playwright
+ * and encodes to web-optimized MP4 with ffmpeg.
  *
  * Usage:
- *   npx tsx scripts/capture-gallery-clips.ts [origin] [slug]
- * Examples:
- *   npx tsx scripts/capture-gallery-clips.ts http://localhost:3000 orrery
- *   npx tsx scripts/capture-gallery-clips.ts http://localhost:3000
+ *   bun run preview flori
+ *   bun run preview flori, nulo, aftercart
+ *   bun run preview flori nulo aftercart
+ *   bun run preview all
+ *   bun run preview --origin http://localhost:3000 flori
  */
 
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, rmSync, unlinkSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, unlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { TEMPLATES } from "../src/app/(index)/data/templates";
+
+export interface ParsedCliArgs {
+  origin: URL;
+  requestedSlugs: string[];
+  unknownSlugs: string[];
+  isAll: boolean;
+}
+
+/**
+ * Parses CLI arguments supporting single slugs, comma-separated lists,
+ * space-separated lists, and optional --origin URL.
+ */
+export function parseCliArgs(rawArgs: string[], validSlugs: string[] = []): ParsedCliArgs {
+  let originStr = "http://localhost:3000";
+  const rawTokens: string[] = [];
+
+  for (let i = 0; i < rawArgs.length; i++) {
+    const arg = rawArgs[i];
+    if (arg === "--origin" && rawArgs[i + 1]) {
+      originStr = rawArgs[++i];
+    } else if (arg.startsWith("--origin=")) {
+      originStr = arg.split("=")[1];
+    } else if (arg.startsWith("http://") || arg.startsWith("https://")) {
+      originStr = arg;
+    } else {
+      rawTokens.push(arg);
+    }
+  }
+
+  // Normalize tokens by splitting on commas and whitespace, removing empties
+  const cleanedTokens = rawTokens
+    .join(" ")
+    .split(/[,\s]+/)
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+
+  const isAll = cleanedTokens.includes("all");
+  const validSet = new Set(validSlugs.map((s) => s.toLowerCase()));
+
+  const requestedSlugs: string[] = [];
+  const unknownSlugs: string[] = [];
+
+  if (isAll) {
+    requestedSlugs.push(...validSlugs);
+  } else {
+    for (const token of cleanedTokens) {
+      if (validSet.size === 0 || validSet.has(token)) {
+        if (!requestedSlugs.includes(token)) {
+          requestedSlugs.push(token);
+        }
+      } else {
+        if (!unknownSlugs.includes(token)) {
+          unknownSlugs.push(token);
+        }
+      }
+    }
+  }
+
+  return {
+    origin: new URL(originStr),
+    requestedSlugs,
+    unknownSlugs,
+    isAll,
+  };
+}
+
+/**
+ * Checks if the dev server at the given origin is responsive.
+ */
+export async function checkServer(origin: URL): Promise<boolean> {
+  try {
+    const res = await fetch(origin.href, { signal: AbortSignal.timeout(3000) });
+    return res.status < 500;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Synchronizes templates.ts with public/gallery/clips/*.mp4 so newly captured
+ * preview clips immediately display on gallery cards.
+ */
+export function syncTemplatesConfig(
+  templatesFilePath = path.resolve("src/app/(index)/data/templates.ts"),
+  clipsDir = path.resolve("public/gallery/clips")
+): { activeSlugs: string[]; missingSlugs: string[] } {
+  if (!existsSync(templatesFilePath) || !existsSync(clipsDir)) {
+    return { activeSlugs: [], missingSlugs: [] };
+  }
+
+  const content = readFileSync(templatesFilePath, "utf8");
+
+  // Determine which templates have valid .mp4 files on disk
+  const existingClips = new Set(
+    readdirSync(clipsDir)
+      .filter((file) => file.endsWith(".mp4"))
+      .map((file) => file.replace(/\.mp4$/, ""))
+  );
+
+  // Read all slugs from RAW_TEMPLATES in templates.ts
+  const slugMatches = Array.from(content.matchAll(/slug:\s*"([^"]+)"/g)).map((m) => m[1]);
+  const uniqueSlugs = Array.from(new Set(slugMatches));
+
+  const activeSlugs = uniqueSlugs.filter((slug) => existingClips.has(slug));
+  const missingSlugs = uniqueSlugs.filter((slug) => !existingClips.has(slug));
+
+  let replacement: string;
+  if (missingSlugs.length === 0) {
+    replacement = `videoClip: template.videoClip ?? \`/gallery/clips/\${template.slug}.mp4\`,`;
+  } else {
+    const conditions = missingSlugs.map((s) => `template.slug === "${s}"`).join(" || ");
+    replacement = `videoClip: template.videoClip ?? (${conditions} ? undefined : \`/gallery/clips/\${template.slug}.mp4\`),`;
+  }
+
+  const targetPattern = /videoClip:\s*template\.videoClip\s*\?\?[^,]+,/;
+
+  if (targetPattern.test(content)) {
+    const updatedContent = content.replace(targetPattern, replacement);
+    if (updatedContent !== content) {
+      writeFileSync(templatesFilePath, updatedContent, "utf8");
+    }
+  }
+
+  return { activeSlugs, missingSlugs };
+}
 
 const encodeFfmpeg = (args: string[]): Promise<void> =>
   new Promise((resolve, reject) => {
@@ -29,43 +157,63 @@ const encodeFfmpeg = (args: string[]): Promise<void> =>
     });
   });
 
-async function main() {
-  const args = process.argv.slice(2);
-  let originStr = "http://localhost:3000";
-  let targetSlug: string | undefined;
+export async function captureGalleryClips(rawArgs: string[]): Promise<void> {
+  const validSlugs = TEMPLATES.map((t) => t.slug);
+  const parsed = parseCliArgs(rawArgs, validSlugs);
 
-  for (const arg of args) {
-    if (arg.startsWith("http://") || arg.startsWith("https://")) {
-      originStr = arg;
-    } else {
-      targetSlug = arg;
-    }
+  if (parsed.unknownSlugs.length > 0) {
+    console.warn(`\n⚠️  Warning: Unknown template slug(s): ${parsed.unknownSlugs.join(", ")}`);
   }
 
-  const origin = new URL(originStr);
+  if (parsed.requestedSlugs.length === 0) {
+    const clipsDir = path.resolve("public/gallery/clips");
+    const existingClips = existsSync(clipsDir)
+      ? new Set(readdirSync(clipsDir).filter((f) => f.endsWith(".mp4")).map((f) => f.replace(/\.mp4$/, "")))
+      : new Set<string>();
+    const missing = validSlugs.filter((s) => !existingClips.has(s));
+
+    console.log(`\nUsage: bun run preview <template-slug> [...]`);
+    console.log(`Examples:`);
+    console.log(`  bun run preview flori`);
+    console.log(`  bun run preview flori, nulo, aftercart`);
+    console.log(`  bun run preview all`);
+    if (missing.length > 0) {
+      console.log(`\nTemplates missing video previews (${missing.length}): ${missing.join(", ")}`);
+    } else {
+      console.log(`\nAll ${validSlugs.length} templates currently have video previews!`);
+    }
+    return;
+  }
+
+  // Check if dev server is up
+  const isServerRunning = await checkServer(parsed.origin);
+  if (!isServerRunning) {
+    console.error(`\n❌ Error: Dev server is not responding at ${parsed.origin.origin}`);
+    console.error(`Please start your local server in another terminal first:`);
+    console.error(`  bun run dev\n`);
+    process.exit(1);
+  }
+
   const outputDir = path.resolve("public/gallery/clips");
   const stagingDir = path.resolve("public/gallery/clips/.staging");
 
   mkdirSync(outputDir, { recursive: true });
   mkdirSync(stagingDir, { recursive: true });
 
-  const templatesToProcess = targetSlug
-    ? TEMPLATES.filter((t) => t.slug === targetSlug)
-    : TEMPLATES;
+  const templatesToProcess = TEMPLATES.filter((t) => parsed.requestedSlugs.includes(t.slug));
 
-  if (templatesToProcess.length === 0) {
-    console.error(`No template found matching slug: ${targetSlug}`);
-    process.exit(1);
-  }
-
-  console.log(`Starting automated video preview capture (${templatesToProcess.length} template(s)) against ${origin.origin}...`);
+  console.log(`\n🎬 Starting video preview capture for ${templatesToProcess.length} template(s) against ${parsed.origin.origin}...`);
 
   const browser = await chromium.launch({ headless: true });
   let hasFailures = false;
+  const completed: string[] = [];
 
   try {
-    for (const template of templatesToProcess) {
-      console.log(`Recording preview for ${template.slug}...`);
+    for (let index = 0; index < templatesToProcess.length; index++) {
+      const template = templatesToProcess[index];
+      const countLabel = `[${index + 1}/${templatesToProcess.length}]`;
+      console.log(`\n${countLabel} Recording preview for ${template.title} (${template.slug})...`);
+
       const context = await browser.newContext({
         viewport: { width: 1440, height: 810 },
         recordVideo: {
@@ -77,7 +225,7 @@ async function main() {
       const page = await context.newPage();
 
       try {
-        const targetUrl = new URL(`/${template.slug}`, origin).href;
+        const targetUrl = new URL(`/${template.slug}`, parsed.origin).href;
         await page.goto(targetUrl, { waitUntil: "domcontentloaded", timeout: 25000 });
         await page.evaluate("document.fonts ? document.fonts.ready : Promise.resolve()");
 
@@ -100,8 +248,7 @@ async function main() {
           await page.keyboard.press("ArrowLeft").catch(() => {});
           await page.waitForTimeout(2500);
         } else if (template.slug === "alpine-reel") {
-          // Alpine Reel loop: Wait for cinematic fast-forward sweep to settle on Everest (~3.5s),
-          // advance through peaks (K2, Kangchenjunga), then step back to Everest
+          // Alpine Reel loop: Wait for cinematic sweep, advance peaks, return to Everest
           await page.waitForTimeout(3600);
           await page.keyboard.press("ArrowRight").catch(() => {});
           await page.waitForTimeout(2800);
@@ -123,17 +270,14 @@ async function main() {
           await page.keyboard.press("ArrowLeft").catch(() => {});
           await page.waitForTimeout(2400);
         } else {
-          // Full top-to-bottom (header to footer, then back to header) loop
-          // 1. Initial pause at top so header and hero entrance animations play
+          // Standard full top-to-bottom (header to footer, then back to header) loop
           await page.waitForTimeout(1000);
 
-          // Get the exact full scroll distance to reach the footer
           const totalDistance = (await page.evaluate(
             "Math.max(0, document.documentElement.scrollHeight - window.innerHeight)"
           )) as number;
 
           if (totalDistance > 80) {
-            // Constant 600 px/s scroll: from header all the way to footer, hold, then back to header
             await page.evaluate(`
               new Promise((resolve) => {
                 document.documentElement.style.scrollBehavior = 'auto';
@@ -141,8 +285,8 @@ async function main() {
 
                 const getFullDistance = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
                 let distance = Math.max(${totalDistance}, getFullDistance());
-                const speed = 0.6; // 600 px/s = 0.6 px/ms constant velocity
-                const bottomHold = 800; // Hold at the footer so footer/CTA is clearly seen
+                const speed = 0.6; // 600 px/s constant velocity
+                const bottomHold = 800; // Hold at the footer
 
                 const t0 = performance.now();
                 const stepDown = (now) => {
@@ -154,7 +298,6 @@ async function main() {
                     requestAnimationFrame(stepDown);
                   } else {
                     const finalBottom = window.scrollY;
-                    // Hold at footer
                     setTimeout(() => {
                       const t1 = performance.now();
                       const stepUp = (nowUp) => {
@@ -176,10 +319,8 @@ async function main() {
               })
             `);
 
-            // Short hold at the header before ending
             await page.waitForTimeout(300);
           } else {
-            // Deck fallback: advance slide then return to Slide 1
             await page.waitForTimeout(1500);
             await page.keyboard.press("ArrowDown").catch(() => {});
             await page.waitForTimeout(2000);
@@ -188,7 +329,6 @@ async function main() {
           }
         }
 
-        // 4. Close page to finalize Playwright's recorded webm
         await page.close();
         const video = page.video();
         const rawWebmPath = await video?.path();
@@ -199,7 +339,7 @@ async function main() {
 
         const finalMp4Path = path.join(outputDir, `${template.slug}.mp4`);
 
-        // 5. Transcode with ffmpeg into web-optimized H.264 MP4
+        // Transcode with ffmpeg into web-optimized H.264 MP4
         await encodeFfmpeg([
           "-hide_banner",
           "-loglevel", "error",
@@ -216,15 +356,15 @@ async function main() {
           finalMp4Path,
         ]);
 
-        // Clean up temporary webm file
         try {
           unlinkSync(rawWebmPath);
         } catch {}
 
-        console.log(`✓ Saved ${finalMp4Path}`);
+        completed.push(template.slug);
+        console.log(`  ✓ Saved: public/gallery/clips/${template.slug}.mp4`);
       } catch (err) {
         hasFailures = true;
-        console.error(`✗ Error recording ${template.slug}:`, err);
+        console.error(`  ✗ Error recording ${template.slug}:`, err);
         try {
           await page.close();
         } catch {}
@@ -239,14 +379,27 @@ async function main() {
     } catch {}
   }
 
+  // Automatically wire generated clips into templates.ts
+  if (completed.length > 0) {
+    const { activeSlugs, missingSlugs } = syncTemplatesConfig();
+    console.log(`\n⚡ Synchronized gallery template data:`);
+    console.log(`   ${activeSlugs.length} templates with active video previews in gallery.`);
+    if (missingSlugs.length > 0) {
+      console.log(`   ${missingSlugs.length} remaining without clips: ${missingSlugs.join(", ")}`);
+    }
+  }
+
   if (hasFailures) {
     process.exitCode = 1;
   } else {
-    console.log("All requested video previews captured successfully!");
+    console.log(`\n🎉 All ${completed.length} requested video preview(s) captured successfully!`);
   }
 }
 
-void main().catch((err) => {
-  console.error("Fatal error in capture script:", err);
-  process.exitCode = 1;
-});
+// Execute when run directly via CLI
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+  void captureGalleryClips(process.argv.slice(2)).catch((err) => {
+    console.error("Fatal error in preview script:", err);
+    process.exit(1);
+  });
+}

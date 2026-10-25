@@ -17,6 +17,7 @@
     "images": "tsx scripts/process-images.ts",
     "clips": "tsx scripts/process-clips.ts",
     "videos": "tsx scripts/process-clips.ts",
+    "preview": "tsx scripts/capture-gallery-clips.ts",
     "clips:record": "tsx scripts/capture-gallery-clips.ts",
     "media:truecut": "npm run images -- truecut && npm run clips -- truecut",
     "process-images": "tsx scripts/process-images.ts",
