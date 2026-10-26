@@ -117,7 +117,7 @@ test("autoplay responds to motion preferences and tab visibility", async ({ page
 test("every gallery video stays muted at zero volume, including after resume", async ({ page }) => {
   await page.goto("/");
   const videos = page.locator(".template-video");
-  await expect(videos).toHaveCount(35);
+  await expect(videos).toHaveCount(39);
   const allSilent = () => videos.evaluateAll(elements => elements.every(element => {
     const video = element as HTMLVideoElement;
     return video.muted && video.defaultMuted && video.volume === 0;

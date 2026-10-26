@@ -30,7 +30,7 @@ Three colours. The photographs carry everything else. Tints are `color-mix()` of
 
 ## Type
 
-- **Display:** Big Shoulders 800/900 (`--font-big-shoulders`), uppercase, line-height 0.82, tracking −0.01em. h1 `clamp(4rem, 13vw, 12.5rem)`.
+- **Display:** Big Shoulders 800/900 (`--font-big-shoulders`), uppercase, line-height 0.82, tracking −0.01em. h1 `clamp(3.5rem, 6.2vw, 7.2rem)` on desktop (fits the 5-column copy without overlapping the sheet).
 - **Body:** Public Sans 400/500/600 (`--font-public-sans`), 16–17 px.
 - **Utility:** Overpass Mono 400/500 (`--font-overpass-mono`, `preload: false`), 10–11 px uppercase: frame numbers, film-edge print, prices.
 

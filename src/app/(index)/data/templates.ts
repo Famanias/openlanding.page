@@ -799,5 +799,5 @@ slug: "tally",
 // Reverse the array so the most recent templates (appended to RAW_TEMPLATES) appear at the beginning of the gallery.
 export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.slice().reverse().map((template) => ({
   ...template,
-  videoClip: template.videoClip ?? (template.slug === "aftercart" || template.slug === "serein" || template.slug === "nulo" || template.slug === "flori" ? undefined : `/gallery/clips/${template.slug}.mp4`),
+  videoClip: template.videoClip ?? `/gallery/clips/${template.slug}.mp4`,
 }));
