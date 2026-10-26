@@ -1,0 +1,4584 @@
+{
+  "targetName": "AMAOTO Wagasa",
+  "targetId": "amaoto-wagasa",
+  "schemaVersion": "2.1",
+  "terminologyProfile": {
+    "domain": "real-time procedural Three.js asset",
+    "geometryTerms": [
+      "silhouette",
+      "topology",
+      "primitive",
+      "bevel",
+      "chamfer",
+      "taper",
+      "bend",
+      "boolean cut",
+      "edge loop",
+      "surface normal",
+      "displacement"
+    ],
+    "materialTerms": [
+      "albedo",
+      "baseColor",
+      "roughness",
+      "metalness",
+      "normal map",
+      "bump map",
+      "ambient occlusion",
+      "cavity dirt",
+      "edge wear",
+      "clearcoat"
+    ],
+    "lightingTerms": [
+      "key light",
+      "fill light",
+      "rim light",
+      "HDRI/environment reflection",
+      "contact shadow"
+    ],
+    "descriptionRule": "Use measurable 3D graphics terms. Avoid vague words unless they are paired with concrete geometry/material/shader parameters."
+  },
+  "sourceImage": "assets/incoming/amaoto/ref/wagasa-open-3q.png",
+  "referenceCamera": {
+    "solved": false,
+    "fovDegrees": 40.0,
+    "aspect": 1.0,
+    "orientation": {
+      "yaw": 0.0,
+      "pitch": 0.0,
+      "roll": 0.0
+    },
+    "positionHint": [
+      0.0,
+      0.0,
+      3.0
+    ],
+    "note": "For likeness work, solve the reference camera (forge/stage1_intake/solve_camera_pose.py) so the review render aligns with the photo and the reference can be projected. Confirm by overlay review."
+  },
+  "suitability": "conditional",
+  "scores": {
+    "object_isolation": 0,
+    "silhouette_readability": 0,
+    "depth_inference": 0,
+    "primitive_decomposition": 0,
+    "material_procedurality": 0,
+    "occlusion_risk": 0,
+    "interaction_fit": 0
+  },
+  "preSpecAssessment": {
+    "objectClass": {
+      "primaryType": "Japanese oil-paper umbrella (wagasa)",
+      "primaryDomain": "object",
+      "formLanguage": [
+        "radial geometric assembly",
+        "slightly organic bowed bamboo",
+        "turned cylindrical wood"
+      ],
+      "structureKind": [
+        "folding radial mechanism",
+        "taut segmented shell",
+        "hinged linkage"
+      ],
+      "motionPotential": [
+        "mechanical open-close",
+        "runner translation",
+        "exploded inspection"
+      ],
+      "materialFamilies": [
+        "washi paper",
+        "bamboo",
+        "polished wood",
+        "matte thread",
+        "painted floral motif"
+      ],
+      "notes": "Complex hero prop with visible repeated structure and an articulated open/closed state."
+    },
+    "complexity": {
+      "tier": "complex",
+      "scores": {
+        "silhouetteComplexity": 2,
+        "componentCount": 2,
+        "hierarchyDepth": 2,
+        "repetitionDensity": 2,
+        "materialLayerCount": 2,
+        "localDetailDensity": 2,
+        "occlusionRisk": 3,
+        "actionReadinessNeed": 2
+      },
+      "estimatedCounts": {
+        "macroComponents": 6,
+        "mesoComponents": 12,
+        "microFeatureGroups": 10,
+        "materialLayers": 5,
+        "repetitionSystems": 4
+      },
+      "reasoning": [
+        "Open and closed reference views show a deep parent-child mechanism with 40 repeated ribs/stretchers, canopy gores, hub, shaft, handle and motif/thread details."
+      ]
+    },
+    "specDepthDecision": {
+      "requiredDepth": "complex",
+      "minimumComponentLevels": [
+        "macro",
+        "meso",
+        "micro"
+      ],
+      "needsRepetitionSystems": true,
+      "needsMaterialLocalOverrides": true,
+      "needsMultipleReviewViews": true,
+      "needsActionReadyHierarchy": true,
+      "rationale": "Choose simple/moderate/complex/ultra-complex from observed structure, not from a hardcoded domain."
+    },
+    "unknownsToResolveBeforeImplementation": [],
+    "detailInventory": {
+      "scanMethod": "grid-3x3-plus-supporting-views",
+      "targetMinDetails": 10,
+      "details": [
+        {
+          "id": "rib-bow-and-nodes",
+          "kind": "ridge",
+          "description": "Forty evenly spaced bamboo ribs bow from the cap to the rim; short node bands interrupt each rib.",
+          "region": {
+            "x": 0.06,
+            "y": 0.1,
+            "width": 0.88,
+            "height": 0.58,
+            "units": "normalized"
+          },
+          "scale": "meso",
+          "affects": "geometry",
+          "mapsTo": {
+            "type": "component.localFeatures",
+            "ref": "bowed-profile-and-node-bands"
+          },
+          "evidenceRef": "wagasa-open-3q.png",
+          "confidence": 0.93,
+          "realization": "unreported"
+        },
+        {
+          "id": "washi-gores",
+          "kind": "stain",
+          "description": "Warm translucent paper is divided into concave gore panels between raised ribs.",
+          "region": {
+            "x": 0.08,
+            "y": 0.08,
+            "width": 0.84,
+            "height": 0.62,
+            "units": "normalized"
+          },
+          "scale": "macro",
+          "affects": "geometry+material",
+          "mapsTo": {
+            "type": "component.localFeatures",
+            "ref": "concave-gore-panels"
+          },
+          "evidenceRef": "wagasa-open-3q.png",
+          "confidence": 0.9,
+          "realization": "unreported"
+        },
+        {
+          "id": "rim-lacing",
+          "kind": "seam",
+          "description": "Near-black thread knots and short lacing segments repeat at each rim tip.",
+          "region": {
+            "x": 0.04,
+            "y": 0.1,
+            "width": 0.92,
+            "height": 0.6,
+            "units": "normalized"
+          },
+          "scale": "micro",
+          "affects": "geometry+material",
+          "mapsTo": {
+            "type": "component.localFeatures",
+            "ref": "rim-knots"
+          },
+          "evidenceRef": "wagasa-open-3q.png",
+          "confidence": 0.88,
+          "realization": "unreported"
+        },
+        {
+          "id": "under-rings",
+          "kind": "seam",
+          "description": "Thread rings and crossing ties are visible around the underside runner area.",
+          "region": {
+            "x": 0.34,
+            "y": 0.25,
+            "width": 0.32,
+            "height": 0.36,
+            "units": "normalized"
+          },
+          "scale": "micro",
+          "affects": "geometry+material",
+          "mapsTo": {
+            "type": "component.localFeatures",
+            "ref": "under-canopy-rings"
+          },
+          "evidenceRef": "wagasa-underside.png",
+          "confidence": 0.86,
+          "realization": "unreported"
+        },
+        {
+          "id": "stretchers",
+          "kind": "ridge",
+          "description": "One slender stretcher per rib forms a fan of hinged links between rib and runner ring.",
+          "region": {
+            "x": 0.25,
+            "y": 0.24,
+            "width": 0.48,
+            "height": 0.42,
+            "units": "normalized"
+          },
+          "scale": "meso",
+          "affects": "geometry",
+          "mapsTo": {
+            "type": "component.localFeatures",
+            "ref": "hinged-links"
+          },
+          "evidenceRef": "wagasa-underside.png",
+          "confidence": 0.92,
+          "realization": "unreported"
+        },
+        {
+          "id": "runner-latch",
+          "kind": "fastener",
+          "description": "Dark polished wood runner hub slides on the shaft and carries a visible latch band.",
+          "region": {
+            "x": 0.4,
+            "y": 0.44,
+            "width": 0.2,
+            "height": 0.18,
+            "units": "normalized"
+          },
+          "scale": "meso",
+          "affects": "geometry+material",
+          "mapsTo": {
+            "type": "component.localFeatures",
+            "ref": "latch-and-collar"
+          },
+          "evidenceRef": "wagasa-handle-detail.png",
+          "confidence": 0.83,
+          "realization": "unreported"
+        },
+        {
+          "id": "turned-shaft",
+          "kind": "ridge",
+          "description": "Central shaft is a turned bamboo cylinder with multiple node rings and a small top cap.",
+          "region": {
+            "x": 0.42,
+            "y": 0.12,
+            "width": 0.18,
+            "height": 0.84,
+            "units": "normalized"
+          },
+          "scale": "macro",
+          "affects": "geometry+material",
+          "mapsTo": {
+            "type": "component.localFeatures",
+            "ref": "turned-node-rings"
+          },
+          "evidenceRef": "wagasa-closed-side.png",
+          "confidence": 0.93,
+          "realization": "unreported"
+        },
+        {
+          "id": "handle-grip",
+          "kind": "ridge",
+          "description": "Lower grip has stepped turning beads and a rounded end cap.",
+          "region": {
+            "x": 0.39,
+            "y": 0.65,
+            "width": 0.22,
+            "height": 0.33,
+            "units": "normalized"
+          },
+          "scale": "meso",
+          "affects": "geometry+material",
+          "mapsTo": {
+            "type": "component.localFeatures",
+            "ref": "turned-beads"
+          },
+          "evidenceRef": "wagasa-closed-side.png",
+          "confidence": 0.92,
+          "realization": "unreported"
+        },
+        {
+          "id": "sakura-ring",
+          "kind": "decal",
+          "description": "A ring of small dusty-pink cherry-blossom marks follows the canopy near the rim with muted stems.",
+          "region": {
+            "x": 0.08,
+            "y": 0.16,
+            "width": 0.84,
+            "height": 0.56,
+            "units": "normalized"
+          },
+          "scale": "micro",
+          "affects": "material",
+          "mapsTo": {
+            "type": "material.localOverrides",
+            "ref": "sakura-motif-band"
+          },
+          "evidenceRef": "wagasa-open-3q.png",
+          "confidence": 0.84,
+          "realization": "unreported"
+        },
+        {
+          "id": "paper-fibre",
+          "kind": "stain",
+          "description": "Fine irregular fibre variation is visible across the wash paper, especially in backlit underside.",
+          "region": {
+            "x": 0.12,
+            "y": 0.18,
+            "width": 0.76,
+            "height": 0.54,
+            "units": "normalized"
+          },
+          "scale": "micro",
+          "affects": "material",
+          "mapsTo": {
+            "type": "material.localOverrides",
+            "ref": "fibre-noise"
+          },
+          "evidenceRef": "wagasa-underside.png",
+          "confidence": 0.75,
+          "realization": "unreported"
+        },
+        {
+          "id": "bamboo-grain",
+          "kind": "stain",
+          "description": "Longitudinal grain and darker node bands run along ribs and shaft.",
+          "region": {
+            "x": 0.16,
+            "y": 0.12,
+            "width": 0.68,
+            "height": 0.66,
+            "units": "normalized"
+          },
+          "scale": "micro",
+          "affects": "material",
+          "mapsTo": {
+            "type": "material.localOverrides",
+            "ref": "grain-and-nodes"
+          },
+          "evidenceRef": "wagasa-handle-detail.png",
+          "confidence": 0.82,
+          "realization": "unreported"
+        }
+      ]
+    },
+    "anatomy": {
+      "applies": false,
+      "styleHeads": 0.0,
+      "proportions": {
+        "headUnit": 0.0,
+        "torso": 0.0,
+        "legs": 0.0,
+        "shoulderWidth": 0.0,
+        "hipWidth": 0.0
+      },
+      "pose": {
+        "type": "unassessed",
+        "jointAngles": {}
+      },
+      "faceLandmarks": {
+        "eyeLine": 0.0,
+        "eyeSpacing": 0.0,
+        "noseBase": 0.0,
+        "mouthLine": 0.0,
+        "hairline": 0.0
+      },
+      "features": [],
+      "confidence": 0.0,
+      "note": "Only meaningful when objectClass.primaryDomain is character or hybrid. Set applies=true and fill from forge/stage1_intake/extract_landmarks.py. See grimoire/character/reconstruction.md and grimoire/character/likeness_maximization.md."
+    },
+    "sourceImage": "assets/incoming/amaoto/ref/wagasa-open-3q.png",
+    "featureReviewTargets": [
+      {
+        "id": "open-silhouette",
+        "priority": "critical",
+        "pass": "blockout",
+        "target": "shallow radial dome, centered shaft, handle angle"
+      },
+      {
+        "id": "rib-spacing",
+        "priority": "critical",
+        "pass": "structure",
+        "target": "40 bowed ribs and one stretcher per rib"
+      },
+      {
+        "id": "runner-mechanics",
+        "priority": "critical",
+        "pass": "interaction",
+        "target": "runner translation and consistent link pivots"
+      },
+      {
+        "id": "washi-motif",
+        "priority": "critical",
+        "pass": "material",
+        "target": "warm translucent panel field with pink rim motif"
+      },
+      {
+        "id": "handle-turning",
+        "priority": "important",
+        "pass": "form",
+        "target": "cap, shaft nodes, runner collar, grip beads"
+      }
+    ]
+  },
+  "qualityContract": {
+    "qualityBar": "complex",
+    "definitionOfDone": [
+      "The rendered model matches the reference silhouette, primary proportions, visible component hierarchy, material response, and most recognizable local features for the selected fidelity tier."
+    ],
+    "minimumSpecDepth": {
+      "macroComponents": 6,
+      "mesoComponents": 7,
+      "microFeatureGroups": 10,
+      "materialLayers": 5,
+      "repetitionSystems": 4,
+      "reviewViewpoints": 4
+    },
+    "featureGroups": [
+      {
+        "id": "overall-silhouette",
+        "name": "Open dome and closed pleated silhouette",
+        "required": true,
+        "qualityCriteria": [
+          "Open state reads as a shallow circular dome with centered shaft; closed state reads as a tapered pleated cylinder."
+        ],
+        "evidenceRefs": [
+          "wagasa-open-3q.png",
+          "wagasa-closed-side.png"
+        ],
+        "failureModes": [
+          "generic cone",
+          "ribs protrude through paper"
+        ]
+      },
+      {
+        "id": "radial-rib-system",
+        "name": "Radial bamboo ribs and nodes",
+        "required": true,
+        "qualityCriteria": [
+          "36\u201340 evenly spaced bowed ribs with visible node bands and no lateral drift."
+        ],
+        "evidenceRefs": [
+          "wagasa-open-3q.png",
+          "wagasa-underside.png"
+        ],
+        "failureModes": [
+          "wrong rib count",
+          "straight spokes without bow"
+        ]
+      },
+      {
+        "id": "linkage-and-runner",
+        "name": "Stretchers, runner and latch",
+        "required": true,
+        "qualityCriteria": [
+          "Each rib has a hinged stretcher meeting a runner ring that translates on the shaft as open changes."
+        ],
+        "evidenceRefs": [
+          "wagasa-underside.png",
+          "wagasa-handle-detail.png"
+        ],
+        "failureModes": [
+          "floating links",
+          "runner detached from shaft"
+        ]
+      },
+      {
+        "id": "paper-and-motif",
+        "name": "Washi canopy, fibres and sakura motif",
+        "required": true,
+        "qualityCriteria": [
+          "Concave gore panels remain taut in open pose, pleat when closed, and carry a restrained pink motif band."
+        ],
+        "evidenceRefs": [
+          "wagasa-open-3q.png",
+          "wagasa-underside.png",
+          "wagasa-closed-side.png"
+        ],
+        "failureModes": [
+          "flat opaque canopy",
+          "floating blossom geometry"
+        ]
+      },
+      {
+        "id": "turned-wood-finish",
+        "name": "Bamboo shaft and handle turning",
+        "required": true,
+        "qualityCriteria": [
+          "Shaft, cap and handle use stepped turned profiles with node rings and satin wood response."
+        ],
+        "evidenceRefs": [
+          "wagasa-closed-side.png",
+          "wagasa-handle-detail.png"
+        ],
+        "failureModes": [
+          "plain cylinder handle",
+          "missing node rings"
+        ]
+      }
+    ],
+    "visualDeltaChecks": [
+      "silhouette and negative-space delta",
+      "component hierarchy depth delta",
+      "repetition density and distribution delta",
+      "material albedo/roughness/normal response delta",
+      "local feature placement and scale delta"
+    ],
+    "antiShallowSpecRules": [
+      "Do not proceed to code if qualityContract.qualityBar is unassessed.",
+      "Do not proceed to code if the spec only contains a root component for a moderate or complex object.",
+      "Do not proceed to code if required featureGroups are not represented by componentTree, materials, or repetitionSystems.",
+      "Do not proceed to code if visible local features are described only in prose and not attached to components/materials/evidenceRefs.",
+      "Do not proceed past structural-pass if attached child parts lack attachment.parentSocket, localStart, localEnd, embedDepth/overlap, and gapTolerance.",
+      "Do not pass material look-dev when albedo is reused as roughness, height, normal, or AO.",
+      "Do not pass material look-dev without macro, meso, and micro surface frequency bands for close-up materials.",
+      "Do not pass reference-fidelity material look-dev from a source image without usable referencePbr maps or an explicit documented limitation.",
+      "Do not patch a spec with extracted PBR maps when extraction confidence is below the target threshold unless the user explicitly accepts lower fidelity.",
+      "Do not place adjacent separate-geometry parts below 0.02 world-unit seam overlap (source: grimoire/build/geometry_patterns.md).",
+      "Do not satisfy raised or recessed relief, fasteners, or grip structure with a map alone when the feature affects form; use geometry or displacement (source: grimoire/build/geometry_patterns.md).",
+      "Adjacent components must overlap by at least 0.02 world units at shared seams (source: grimoire/build/geometry_patterns.md).",
+      "Raised or recessed relief and fasteners must be geometry, instanced micro-parts, or displacement; a map alone is an approximation (source: grimoire/build/geometry_patterns.md)."
+    ],
+    "mustNotDo": [
+      "Do not proceed to code if qualityContract.qualityBar is unassessed.",
+      "Do not proceed to code if the spec only contains a root component for a moderate or complex object.",
+      "Do not proceed to code if required featureGroups are not represented by componentTree, materials, or repetitionSystems.",
+      "Do not proceed to code if visible local features are described only in prose and not attached to components/materials/evidenceRefs.",
+      "Do not proceed past structural-pass if attached child parts lack attachment.parentSocket, localStart, localEnd, embedDepth/overlap, and gapTolerance.",
+      "Do not pass material look-dev when albedo is reused as roughness, height, normal, or AO.",
+      "Do not pass material look-dev without macro, meso, and micro surface frequency bands for close-up materials.",
+      "Do not pass reference-fidelity material look-dev from a source image without usable referencePbr maps or an explicit documented limitation.",
+      "Do not patch a spec with extracted PBR maps when extraction confidence is below the target threshold unless the user explicitly accepts lower fidelity.",
+      "Do not place adjacent separate-geometry parts below 0.02 world-unit seam overlap (source: grimoire/build/geometry_patterns.md).",
+      "Do not satisfy raised or recessed relief, fasteners, or grip structure with a map alone when the feature affects form; use geometry or displacement (source: grimoire/build/geometry_patterns.md).",
+      "Adjacent components must overlap by at least 0.02 world units at shared seams (source: grimoire/build/geometry_patterns.md).",
+      "Raised or recessed relief and fasteners must be geometry, instanced micro-parts, or displacement; a map alone is an approximation (source: grimoire/build/geometry_patterns.md)."
+    ]
+  },
+  "qualityTargets": {
+    "targetFidelity": 0.7,
+    "mustMatch": [
+      "macro silhouette and proportions",
+      "primary material albedo/roughness response",
+      "reference-derived PBR material response at or above 0.7 confidence when source pixels are usable",
+      "most recognizable local features"
+    ],
+    "niceToHave": [
+      "micro scratches, stains, chips, and dirt masks",
+      "secondary lighting match"
+    ],
+    "fpsTarget": 60,
+    "reviewViewpoints": [
+      "front",
+      "three-quarter",
+      "side",
+      "thickness-axis",
+      "long-axis"
+    ]
+  },
+  "selfCorrectLoop": {
+    "enabled": true,
+    "visualAcceptance": {
+      "reviewer": "ai-vision",
+      "threshold": 0.7,
+      "comparisonArtifactRequired": true,
+      "layerScoresRequired": true,
+      "codePixelDiffIsAcceptanceAuthority": false,
+      "scoringRule": "AI vision must inspect a side-by-side reference/render sheet and score the current pass from 0 to 1. Pixel-diff code may assist diagnostics but cannot approve a pass.",
+      "requiredLayerScores": [
+        "silhouetteProportion",
+        "componentStructure",
+        "formDetail",
+        "materialSurface",
+        "lightingCamera"
+      ],
+      "featureReviewPolicy": {
+        "enabled": true,
+        "reviewUnit": "semantic-subsystem",
+        "maxCriticalFeaturesPerPass": 5,
+        "maxImportantFeaturesPerPass": 3,
+        "criticalDefaultThreshold": 0.8,
+        "importantAverageThreshold": 0.65,
+        "adaptiveEscalation": true,
+        "singleImagePairOnly": true,
+        "selectionRule": "Choose only the most visually salient, identity-defining, user-prioritized, or high-risk semantic systems. Group repeated parts instead of reviewing every mesh. AI vision scores every selected feature from the same full reference/render pair."
+      }
+    },
+    "reviewAfterPasses": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "allowedActions": [
+      "continue",
+      "refine-spec",
+      "refine-code",
+      "request-input",
+      "stop"
+    ],
+    "specRefineTriggers": [
+      "missing component",
+      "wrong primitive family",
+      "wrong proportions",
+      "material layer under-specified",
+      "local feature not traceable to viewEvidence",
+      "reference ambiguity discovered during implementation"
+    ],
+    "codeRefineTriggers": [
+      "spec is adequate but generated geometry/material does not match",
+      "browser render differs from reference",
+      "performance budget exceeded",
+      "lighting hides geometry or material response"
+    ],
+    "stopCriteria": [
+      "target fidelity reached or user accepts current approximation",
+      "remaining gaps require new reference images or manual art"
+    ],
+    "screenshotPolicy": {
+      "requiredForPasses": [
+        "blockout",
+        "structural-pass",
+        "form-refinement",
+        "material-pass",
+        "surface-pass",
+        "lighting-pass",
+        "interaction-pass"
+      ],
+      "preferredCapture": "in-app-browser-screenshot",
+      "fallbackCapture": "user-supplied-screenshot-path",
+      "minimumEvidence": "Each visual pass needs a reference image, rendered screenshot, side-by-side comparison sheet, AI vision score, layer scores, and critique before choosing continue.",
+      "reviewPairRule": "Compare the same camera/viewpoint whenever possible; do not judge a front reference against a random render angle.",
+      "acceptanceAuthority": "AI vision review of the comparison sheet. Code-generated pixel similarity is not sufficient evidence."
+    }
+  },
+  "featureReviewTargets": [
+    {
+      "id": "open-silhouette",
+      "name": "Open dome and closed pleated silhouette",
+      "tier": "critical",
+      "passIds": [
+        "blockout",
+        "form-refinement"
+      ],
+      "minimumScore": 0.82,
+      "mustPass": true,
+      "componentRefs": [
+        "canopy",
+        "shaft",
+        "handle"
+      ],
+      "evidenceRefs": [
+        "wagasa-open-3q.png",
+        "wagasa-closed-side.png"
+      ]
+    },
+    {
+      "id": "rib-spacing",
+      "name": "Radial bamboo ribs and nodes",
+      "tier": "critical",
+      "passIds": [
+        "structural-pass",
+        "form-refinement"
+      ],
+      "minimumScore": 0.8,
+      "mustPass": true,
+      "componentRefs": [
+        "ribs",
+        "rib-nodes"
+      ],
+      "evidenceRefs": [
+        "wagasa-open-3q.png",
+        "wagasa-underside.png"
+      ]
+    },
+    {
+      "id": "runner-mechanics",
+      "name": "Stretchers, runner and latch",
+      "tier": "critical",
+      "passIds": [
+        "structural-pass",
+        "interaction-pass"
+      ],
+      "minimumScore": 0.78,
+      "mustPass": true,
+      "componentRefs": [
+        "runner",
+        "latch",
+        "stretchers"
+      ],
+      "evidenceRefs": [
+        "wagasa-underside.png",
+        "wagasa-handle-detail.png"
+      ]
+    },
+    {
+      "id": "washi-motif",
+      "name": "Washi canopy and sakura motif",
+      "tier": "critical",
+      "passIds": [
+        "material-pass",
+        "surface-pass"
+      ],
+      "minimumScore": 0.75,
+      "mustPass": true,
+      "componentRefs": [
+        "canopy",
+        "motif",
+        "thread"
+      ],
+      "evidenceRefs": [
+        "wagasa-open-3q.png",
+        "wagasa-underside.png"
+      ]
+    },
+    {
+      "id": "handle-turning",
+      "name": "Turned shaft and handle",
+      "tier": "important",
+      "passIds": [
+        "form-refinement",
+        "material-pass"
+      ],
+      "minimumScore": 0.72,
+      "mustPass": true,
+      "componentRefs": [
+        "shaft",
+        "handle",
+        "top-cap"
+      ],
+      "evidenceRefs": [
+        "wagasa-closed-side.png",
+        "wagasa-handle-detail.png"
+      ]
+    }
+  ],
+  "sculptPipeline": {
+    "passGateMode": "locked-sequential",
+    "passOrder": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "currentPass": "blockout",
+    "completedPasses": [],
+    "lastCompletedPass": "",
+    "blockedReason": "blockout requires a browser screenshot and self-correction review before structural-pass unlocks",
+    "nextRequiredEvidence": [
+      "blockout browser render screenshot from your agent's browser/screenshot tool",
+      "side-by-side reference/render comparison sheet",
+      "AI vision score >= 0.7 with layer scores and mismatch critique",
+      "critical semantic feature scores from the same image pair meeting their individual thresholds",
+      "reviewHistory entry for blockout with action=continue"
+    ]
+  },
+  "lookDevTargets": {
+    "qualityPriority": "reference-fidelity",
+    "materialPass": {
+      "albedoPaletteRequired": true,
+      "roughnessVariationRequired": true,
+      "normalOrBumpRequired": true,
+      "localOverridesRequired": true,
+      "minimumTextureResolution": 1024,
+      "preferredTextureResolution": 2048,
+      "independentMapChannels": [
+        "albedo",
+        "roughness",
+        "height",
+        "normal",
+        "ambient-occlusion"
+      ],
+      "requiredSurfaceFrequencyBands": [
+        "macro",
+        "meso",
+        "micro"
+      ],
+      "geometryReliefRequiredWhenSilhouetteAffected": true,
+      "referencePbrExtraction": {
+        "requiredWhenSourceImagePresent": true,
+        "targetThreshold": 0.7,
+        "stopOnLowConfidence": true,
+        "script": "forge/stage1_intake/extract_pbr_evidence.py",
+        "acceptedLimitation": "single-image extraction is reference-derived inference, not exact photogrammetry"
+      },
+      "mustAvoid": [
+        "single flat albedo per material",
+        "uniform roughness",
+        "albedo texture reused as roughness/height/normal/AO",
+        "single-frequency random noise",
+        "plastic-looking smooth bark, stone, cloth, foliage, or aged material",
+        "local color/detail described only in prose without material masks",
+        "claiming exact PBR recovery when confidence is below the target threshold"
+      ]
+    },
+    "lightingPass": {
+      "requiredTerms": [
+        "key light",
+        "fill light",
+        "rim or environment light",
+        "exposure",
+        "tone mapping",
+        "background",
+        "contact shadow"
+      ],
+      "mustAvoid": [
+        "ambient-only lighting",
+        "flat value range",
+        "missing contact shadow",
+        "reference lighting copied without separating material readability"
+      ]
+    },
+    "screenshotReview": [
+      "Compare albedo palette and local color zones.",
+      "Compare roughness/normal/bump response under light.",
+      "Compare cavity dirt, edge wear, stains, moss, scratches, or other local masks.",
+      "Compare key/fill/rim structure, exposure, tone mapping, background, and contact shadows.",
+      "Capture a neutral-light render to verify material readability without reference lighting.",
+      "Capture a grazing-light close-up to expose flat normals, uniform roughness, tiling, and plastic highlights.",
+      "Capture a reference-matched render from the same camera framing as the source."
+    ]
+  },
+  "actionReadiness": {
+    "contract": "Every macro/meso component should be generated as a stable named Object3D pivot node with a mesh child, action metadata, optional sockets, collider proxy, and destruction metadata.",
+    "defaultRigType": "action-ready-static-rig",
+    "rootMotionNode": "root",
+    "requiredComponentFields": [
+      "id",
+      "parent",
+      "transform",
+      "attachment for child appendages, connectors, limbs, tubes, handles, legs, horns, wings, branches, or cables",
+      "actionProfile.animationRole",
+      "actionProfile.pivot",
+      "actionProfile.collider",
+      "actionProfile.destruction"
+    ],
+    "transformChannels": [
+      "translate",
+      "rotate",
+      "scale",
+      "bend",
+      "twist",
+      "detach",
+      "visibility",
+      "material-state"
+    ],
+    "authoringRules": [
+      "Do not collapse independently movable parts into one mesh.",
+      "Put transforms on component pivot groups, not only on raw meshes.",
+      "For attached child parts, put the pivot at the semantic root/socket and build visible geometry from localStart to localEnd.",
+      "Represent hinge, socket, detachable, and breakable intent even when no animation is implemented yet.",
+      "Use simplified collider proxies for runtime physics instead of visual mesh colliders by default."
+    ],
+    "destructionPolicy": {
+      "defaultBreakable": false,
+      "fractureGroupNaming": "Use stable semantic names such as body-shell, left-hinge, glass-panel, branch-segment.",
+      "debrisStrategy": "Prefer detachable component groups and a small number of procedural fragments over random mesh explosion."
+    }
+  },
+  "assumptions": [
+    "Rib count fixed at 40 from repeated underside evidence; hidden sectors use radial symmetry.",
+    "Motif is deterministic generated paint, not projected source pixels, so exact flower shapes and hidden-side continuity are approximate.",
+    "Open and closed geometry share one canopy with vertex deformation driven by open."
+  ],
+  "coordinateFrame": {
+    "front": "camera-facing side in the reference image",
+    "up": "image up direction",
+    "scaleReference": "unit scale; adjust after first browser render"
+  },
+  "silhouette": {
+    "boundingShape": "",
+    "aspectRatios": [],
+    "symmetry": "",
+    "dominantCurves": [],
+    "negativeSpaces": [],
+    "landmarks": []
+  },
+  "viewEvidence": [
+    {
+      "id": "full-object",
+      "view": "primary",
+      "imageRegion": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1,
+        "units": "normalized"
+      },
+      "observations": [
+        "Open three-quarter wagasa with radial bamboo ribs, translucent washi and turned handle."
+      ],
+      "confidence": 0.99
+    },
+    {
+      "id": "wagasa-open-3q.png",
+      "view": "primary",
+      "imageRegion": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1,
+        "units": "normalized"
+      },
+      "observations": [
+        "Open dome and visible flower band."
+      ],
+      "confidence": 0.93
+    },
+    {
+      "id": "wagasa-underside.png",
+      "view": "underside",
+      "imageRegion": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1,
+        "units": "normalized"
+      },
+      "observations": [
+        "Stretchers and thread rings."
+      ],
+      "confidence": 0.92
+    },
+    {
+      "id": "wagasa-closed-side.png",
+      "view": "closed",
+      "imageRegion": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1,
+        "units": "normalized"
+      },
+      "observations": [
+        "Tapered pleated closed state."
+      ],
+      "confidence": 0.92
+    },
+    {
+      "id": "wagasa-handle-detail.png",
+      "view": "macro",
+      "imageRegion": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1,
+        "units": "normalized"
+      },
+      "observations": [
+        "Runner collar, latch and grain."
+      ],
+      "confidence": 0.9
+    }
+  ],
+  "componentTree": [
+    {
+      "id": "canopy",
+      "name": "Washi canopy",
+      "level": "macro",
+      "role": "canopy",
+      "importance": 0.9,
+      "confidence": 0.82,
+      "primitive": "ellipsoid",
+      "topologyClass": "conforming-shell",
+      "topologyRationale": "Continuous thin radial shell with deformed gore panels.",
+      "geometryDescriptor": {
+        "topologyIntent": "Washi canopy procedural ellipsoid",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": null,
+      "attachment": null,
+      "dimensions": {
+        "width": 3.4,
+        "height": 0.48,
+        "depth": 3.4,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          2.05,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": true,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            3.4,
+            0.48,
+            3.4
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "canopy",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "washi"
+        }
+      },
+      "material": "washi",
+      "materialLayers": [
+        "washi"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "concave-gore-panels",
+          "description": "Forty slightly concave paper gores between rib ridges",
+          "confidence": 0.82,
+          "level": "macro",
+          "evidence": [
+            "wagasa-open-3q.png"
+          ]
+        },
+        {
+          "id": "pleated-closed-state",
+          "description": "Vertex deformation gathers gores into tapered pleats at open=0",
+          "confidence": 0.82,
+          "level": "meso",
+          "evidence": [
+            "wagasa-closed-side.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(241,230,208,1.0)",
+        "secondaryAlbedo": "rgba(241,230,208,1.0)",
+        "materialClass": "fabric",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "canopy-rim",
+      "name": "Rounded canopy rim",
+      "level": "meso",
+      "role": "canopy-panel",
+      "importance": 0.7,
+      "confidence": 0.82,
+      "primitive": "torus",
+      "topologyClass": "conforming-shell",
+      "topologyRationale": "Continuous thin radial shell with deformed gore panels.",
+      "geometryDescriptor": {
+        "topologyIntent": "Rounded canopy rim procedural torus",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "canopy",
+      "attachment": {
+        "parentId": "canopy",
+        "parentSocket": "canopy.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-open-3q.png"
+        ]
+      },
+      "dimensions": {
+        "width": 3.5,
+        "height": 0.12,
+        "depth": 3.5,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          1.98,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "static",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": true,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            3.5,
+            0.12,
+            3.5
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "canopy-rim",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "washi"
+        }
+      },
+      "material": "washi",
+      "materialLayers": [
+        "washi"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rounded-rim",
+          "description": "Continuous rounded rim with dark tie points",
+          "confidence": 0.82,
+          "level": "meso",
+          "evidence": [
+            "wagasa-open-3q.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(241,230,208,1.0)",
+        "secondaryAlbedo": "rgba(241,230,208,1.0)",
+        "materialClass": "fabric",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "shaft",
+      "name": "Bamboo shaft",
+      "level": "macro",
+      "role": "shaft",
+      "importance": 0.9,
+      "confidence": 0.82,
+      "primitive": "cylinder",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Bamboo shaft procedural cylinder",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": null,
+      "attachment": null,
+      "dimensions": {
+        "width": 0.18,
+        "height": 4.8,
+        "depth": 0.18,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          -0.2,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "static",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.18,
+            4.8,
+            0.18
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shaft",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "bamboo"
+        }
+      },
+      "material": "bamboo",
+      "materialLayers": [
+        "bamboo"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "turned-node-rings",
+          "description": "Multiple circumferential node rings on shaft",
+          "confidence": 0.82,
+          "level": "meso",
+          "evidence": [
+            "wagasa-closed-side.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(183,137,77,1.0)",
+        "secondaryAlbedo": "rgba(183,137,77,1.0)",
+        "materialClass": "wood",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "handle",
+      "name": "Turned bamboo handle",
+      "level": "macro",
+      "role": "handle",
+      "importance": 0.9,
+      "confidence": 0.82,
+      "primitive": "lathe",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Turned bamboo handle procedural lathe",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shaft",
+      "attachment": {
+        "parentId": "shaft",
+        "parentSocket": "shaft.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-closed-side.png"
+        ]
+      },
+      "dimensions": {
+        "width": 0.42,
+        "height": 1.55,
+        "depth": 0.42,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          -2.55,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "static",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.42,
+            1.55,
+            0.42
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "handle",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "bamboo"
+        }
+      },
+      "material": "bamboo",
+      "materialLayers": [
+        "bamboo"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "turned-beads",
+          "description": "Stepped grip beads and rounded end cap",
+          "confidence": 0.82,
+          "level": "meso",
+          "evidence": [
+            "wagasa-closed-side.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(183,137,77,1.0)",
+        "secondaryAlbedo": "rgba(183,137,77,1.0)",
+        "materialClass": "wood",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "top-cap",
+      "name": "Small wooden top cap",
+      "level": "meso",
+      "role": "cap",
+      "importance": 0.7,
+      "confidence": 0.82,
+      "primitive": "lathe",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Small wooden top cap procedural lathe",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shaft",
+      "attachment": {
+        "parentId": "shaft",
+        "parentSocket": "shaft.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-open-3q.png"
+        ]
+      },
+      "dimensions": {
+        "width": 0.42,
+        "height": 0.38,
+        "depth": 0.42,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          2.55,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "static",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.42,
+            0.38,
+            0.42
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "top-cap",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "wood"
+        }
+      },
+      "material": "wood",
+      "materialLayers": [
+        "wood"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "cap-turning",
+          "description": "Short turned cap above hub",
+          "confidence": 0.82,
+          "level": "micro",
+          "evidence": [
+            "wagasa-open-3q.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(106,53,28,1.0)",
+        "secondaryAlbedo": "rgba(106,53,28,1.0)",
+        "materialClass": "wood",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "runner",
+      "name": "Sliding runner ring",
+      "level": "macro",
+      "role": "runner",
+      "importance": 0.9,
+      "confidence": 0.82,
+      "primitive": "cylinder",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Sliding runner ring procedural cylinder",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shaft",
+      "attachment": {
+        "parentId": "shaft",
+        "parentSocket": "shaft.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-underside.png"
+        ]
+      },
+      "dimensions": {
+        "width": 0.5,
+        "height": 0.28,
+        "depth": 0.5,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          0.55,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "slider",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.5,
+            0.28,
+            0.5
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "runner",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "wood"
+        }
+      },
+      "material": "wood",
+      "materialLayers": [
+        "wood"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "latch-and-collar",
+          "description": "Dark polished collar and latch band",
+          "confidence": 0.82,
+          "level": "meso",
+          "evidence": [
+            "wagasa-handle-detail.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(106,53,28,1.0)",
+        "secondaryAlbedo": "rgba(106,53,28,1.0)",
+        "materialClass": "wood",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "latch",
+      "name": "Runner latch",
+      "level": "meso",
+      "role": "latch",
+      "importance": 0.7,
+      "confidence": 0.82,
+      "primitive": "torus",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Runner latch procedural torus",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "runner",
+      "attachment": {
+        "parentId": "runner",
+        "parentSocket": "runner.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-handle-detail.png"
+        ]
+      },
+      "dimensions": {
+        "width": 0.58,
+        "height": 0.08,
+        "depth": 0.58,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          0.55,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "static",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.58,
+            0.08,
+            0.58
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "latch",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "wood"
+        }
+      },
+      "material": "wood",
+      "materialLayers": [
+        "wood"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "latch-pin",
+          "description": "Small pin/latch at runner collar",
+          "confidence": 0.82,
+          "level": "micro",
+          "evidence": [
+            "wagasa-handle-detail.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(106,53,28,1.0)",
+        "secondaryAlbedo": "rgba(106,53,28,1.0)",
+        "materialClass": "wood",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "ribs",
+      "name": "Radial bamboo ribs",
+      "level": "macro",
+      "role": "rib",
+      "importance": 0.9,
+      "confidence": 0.82,
+      "primitive": "tube",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Radial bamboo ribs procedural tube",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "top-cap",
+      "attachment": {
+        "parentId": "top-cap",
+        "parentSocket": "top-cap.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-open-3q.png"
+        ]
+      },
+      "dimensions": {
+        "width": 3.25,
+        "height": 0.08,
+        "depth": 0.08,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          2.38,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "radial",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            3.25,
+            0.08,
+            0.08
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "ribs",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "bamboo"
+        }
+      },
+      "material": "bamboo",
+      "materialLayers": [
+        "bamboo"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "bowed-profile-and-node-bands",
+          "description": "Forty bowed ribs with visible node bands",
+          "confidence": 0.82,
+          "level": "macro",
+          "evidence": [
+            "wagasa-open-3q.png"
+          ]
+        },
+        {
+          "id": "rib-rim-ties",
+          "description": "Rib tips terminate at dark rim ties",
+          "confidence": 0.82,
+          "level": "micro",
+          "evidence": [
+            "wagasa-open-3q.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(183,137,77,1.0)",
+        "secondaryAlbedo": "rgba(183,137,77,1.0)",
+        "materialClass": "wood",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "rib-nodes",
+      "name": "Rib node bands",
+      "level": "meso",
+      "role": "rib-node",
+      "importance": 0.7,
+      "confidence": 0.82,
+      "primitive": "torus",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Rib node bands procedural torus",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "ribs",
+      "attachment": {
+        "parentId": "ribs",
+        "parentSocket": "ribs.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-handle-detail.png"
+        ]
+      },
+      "dimensions": {
+        "width": 0.12,
+        "height": 0.03,
+        "depth": 0.12,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          2.1,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "static",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.12,
+            0.03,
+            0.12
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "rib-nodes",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "bamboo"
+        }
+      },
+      "material": "bamboo",
+      "materialLayers": [
+        "bamboo"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "node-bands",
+          "description": "Repeated raised node bands on bamboo",
+          "confidence": 0.82,
+          "level": "micro",
+          "evidence": [
+            "wagasa-handle-detail.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(183,137,77,1.0)",
+        "secondaryAlbedo": "rgba(183,137,77,1.0)",
+        "materialClass": "wood",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "stretchers",
+      "name": "Hinged stretchers",
+      "level": "macro",
+      "role": "stretcher",
+      "importance": 0.9,
+      "confidence": 0.82,
+      "primitive": "tube",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Hinged stretchers procedural tube",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "runner",
+      "attachment": {
+        "parentId": "runner",
+        "parentSocket": "runner.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "pivot-hinge",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-underside.png"
+        ]
+      },
+      "dimensions": {
+        "width": 2,
+        "height": 0.05,
+        "depth": 0.05,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          1.2,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "hinge",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            2,
+            0.05,
+            0.05
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "stretchers",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "bamboo"
+        }
+      },
+      "material": "bamboo",
+      "materialLayers": [
+        "bamboo"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "hinged-links",
+          "description": "One stretcher per rib links runner to rib",
+          "confidence": 0.82,
+          "level": "meso",
+          "evidence": [
+            "wagasa-underside.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(183,137,77,1.0)",
+        "secondaryAlbedo": "rgba(183,137,77,1.0)",
+        "materialClass": "wood",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "thread",
+      "name": "Dark thread lacing",
+      "level": "meso",
+      "role": "thread",
+      "importance": 0.7,
+      "confidence": 0.82,
+      "primitive": "tube",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Dark thread lacing procedural tube",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "canopy",
+      "attachment": {
+        "parentId": "canopy",
+        "parentSocket": "canopy.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-open-3q.png"
+        ]
+      },
+      "dimensions": {
+        "width": 3.2,
+        "height": 0.025,
+        "depth": 0.025,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          2,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "static",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            3.2,
+            0.025,
+            0.025
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "thread",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "thread"
+        }
+      },
+      "material": "thread",
+      "materialLayers": [
+        "thread"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rim-knots",
+          "description": "Near-black knots at every rim rib tip",
+          "confidence": 0.82,
+          "level": "micro",
+          "evidence": [
+            "wagasa-open-3q.png"
+          ]
+        },
+        {
+          "id": "under-canopy-rings",
+          "description": "Thread rings and crossing ties under canopy",
+          "confidence": 0.82,
+          "level": "micro",
+          "evidence": [
+            "wagasa-underside.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(25,19,17,1.0)",
+        "secondaryAlbedo": "rgba(25,19,17,1.0)",
+        "materialClass": "fabric",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "motif",
+      "name": "Cherry blossom motif band",
+      "level": "meso",
+      "role": "motif",
+      "importance": 0.7,
+      "confidence": 0.82,
+      "primitive": "plane-card",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Cherry blossom motif band procedural plane-card",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "canopy",
+      "attachment": {
+        "parentId": "canopy",
+        "parentSocket": "canopy.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-open-3q.png"
+        ]
+      },
+      "dimensions": {
+        "width": 2.8,
+        "height": 0.02,
+        "depth": 2.8,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          2,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "static",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            2.8,
+            0.02,
+            2.8
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "motif",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "motif"
+        }
+      },
+      "material": "motif",
+      "materialLayers": [
+        "motif"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "sakura-motif-band",
+          "description": "Canvas-painted sakura ring near rim; no floating blossom meshes",
+          "confidence": 0.82,
+          "level": "micro",
+          "evidence": [
+            "wagasa-open-3q.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(217,140,155,1.0)",
+        "secondaryAlbedo": "rgba(217,140,155,1.0)",
+        "materialClass": "fabric",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "inner-thread-ring",
+      "name": "Inner thread ring",
+      "level": "meso",
+      "role": "thread-ring",
+      "importance": 0.7,
+      "confidence": 0.82,
+      "primitive": "torus",
+      "topologyClass": "conforming-shell",
+      "topologyRationale": "Continuous thin radial shell with deformed gore panels.",
+      "geometryDescriptor": {
+        "topologyIntent": "Rounded canopy rim procedural torus",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "canopy",
+      "attachment": {
+        "parentId": "canopy",
+        "parentSocket": "canopy.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-open-3q.png"
+        ]
+      },
+      "dimensions": {
+        "width": 3.5,
+        "height": 0.12,
+        "depth": 3.5,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          1.98,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "static",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": true,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            3.5,
+            0.12,
+            3.5
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "canopy-rim",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "washi"
+        }
+      },
+      "material": "thread",
+      "materialLayers": [
+        "thread"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "inner-ring",
+          "description": "Under-canopy thread ring",
+          "confidence": 0.8,
+          "level": "meso",
+          "evidence": [
+            "wagasa-underside.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(25,19,17,1.0)",
+        "secondaryAlbedo": "rgba(25,19,17,1.0)",
+        "materialClass": "fabric",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    },
+    {
+      "id": "runner-sleeve",
+      "name": "Runner sleeve",
+      "level": "macro",
+      "role": "runner-sleeve",
+      "importance": 0.9,
+      "confidence": 0.82,
+      "primitive": "cylinder",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Separated procedural part with stable named pivot.",
+      "geometryDescriptor": {
+        "topologyIntent": "Sliding runner ring procedural cylinder",
+        "edgeTreatment": {
+          "type": "rounded",
+          "bevelRadius": 0.012,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "runner",
+      "attachment": {
+        "parentId": "runner",
+        "parentSocket": "shaft.socket",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.1,
+          0
+        ],
+        "contactType": "socket",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.01,
+        "evidenceRefs": [
+          "wagasa-underside.png"
+        ]
+      },
+      "dimensions": {
+        "width": 0.5,
+        "height": 0.28,
+        "depth": 0.5,
+        "units": "relative",
+        "confidence": 0.8
+      },
+      "transform": {
+        "position": [
+          0,
+          0.55,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "slider",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.82
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": false,
+          "scale": false,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [
+          {
+            "id": "socket",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            0.5,
+            0.28,
+            0.5
+          ],
+          "isTrigger": false,
+          "notes": "Coarse interactive proxy."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "runner",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "wood"
+        }
+      },
+      "material": "wood",
+      "materialLayers": [
+        "wood"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "sleeve-groove",
+          "description": "Turned runner sleeve groove",
+          "confidence": 0.8,
+          "level": "meso",
+          "evidence": [
+            "wagasa-handle-detail.png"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.2,
+        "microRoughness": 0.15,
+        "bumpAmplitude": 0.08,
+        "normalPattern": "procedural grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "contact seams",
+        "edgeWearPattern": "subtle node wear",
+        "notes": "Evidence-linked detail."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "blockout",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(106,53,28,1.0)",
+        "secondaryAlbedo": "rgba(106,53,28,1.0)",
+        "materialClass": "wood",
+        "materialClassConfidence": 0.8,
+        "evidence": [
+          "full-object"
+        ],
+        "samplingNotes": "Observed from reference."
+      }
+    }
+  ],
+  "materials": [
+    {
+      "id": "washi",
+      "name": "Washi paper",
+      "type": "standard",
+      "shaderModel": "MeshPhysicalMaterial",
+      "baseColor": "#F1E6D0",
+      "color": "#F1E6D0",
+      "albedo": {
+        "dominant": "#F1E6D0",
+        "secondary": [
+          "#F1E6D0"
+        ],
+        "samplingNotes": "Reference-derived palette."
+      },
+      "colorVariation": {
+        "palette": [
+          "#F1E6D0"
+        ],
+        "pattern": "procedural",
+        "amplitude": 0.12,
+        "heightCorrelation": 0.2
+      },
+      "textureResolution": 1024,
+      "roughness": {
+        "base": 0.9,
+        "variation": 0.1,
+        "map": "independent-procedural-field",
+        "localResponse": "evidence-linked"
+      },
+      "metalness": {
+        "base": 0.0,
+        "variation": 0
+      },
+      "normal": {
+        "pattern": "procedural",
+        "strength": 0.12,
+        "scale": 32,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "procedural",
+        "amplitude": 0.03,
+        "scale": 48
+      },
+      "displacement": {
+        "pattern": "open-pleat-vertex-field",
+        "amplitude": 0.12,
+        "scale": 1,
+        "silhouetteAffects": true
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.2,
+        "contactShadowBias": 0.2,
+        "notes": "Contact darkening."
+      },
+      "wear": {
+        "edgeWear": 0.02,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.01,
+        "cavityBias": 0.2,
+        "color": "#24110C"
+      },
+      "localOverrides": [
+        {
+          "id": "fibre-noise",
+          "description": "fibre-noise",
+          "evidenceRefs": [
+            "wagasa-underside.png"
+          ]
+        }
+      ],
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 1,
+          "amplitude": 0.06,
+          "role": "broad value variation"
+        },
+        {
+          "id": "meso",
+          "frequency": 16,
+          "amplitude": 0.05,
+          "role": "structural variation"
+        },
+        {
+          "id": "micro",
+          "frequency": 64,
+          "amplitude": 0.02,
+          "role": "micro breakup"
+        }
+      ],
+      "notes": "Procedural PBR material.",
+      "textureProjection": {
+        "mode": "generated-canvas",
+        "repeat": [
+          1,
+          1
+        ],
+        "anisotropy": 4,
+        "texelDensityIntent": "Stable object-scale procedural detail."
+      },
+      "referencePbr": {
+        "confidence": 0.72,
+        "source": "reference crops and explicit material analysis",
+        "albedoEvidence": "#F1E6D0",
+        "roughnessEvidence": 0.84,
+        "normalEvidence": "procedural",
+        "usable": true,
+        "maps": {
+          "albedo": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "roughness": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "height": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "normal": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "ao": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          }
+        }
+      },
+      "finishClass": "worn-composite",
+      "texturePalette": [
+        "#80807F",
+        "#9D8972",
+        "#9F9284",
+        "#6F6E6D",
+        "#969392"
+      ],
+      "proceduralTexture": "mottle",
+      "clearcoat": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "clearcoatRoughness": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "transmission": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "ior": {
+        "base": 1.5,
+        "value": 1.5
+      },
+      "envMapIntensity": 0.5
+    },
+    {
+      "id": "bamboo",
+      "name": "Bamboo",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial",
+      "baseColor": "#B7894D",
+      "color": "#B7894D",
+      "albedo": {
+        "dominant": "#B7894D",
+        "secondary": [
+          "#B7894D"
+        ],
+        "samplingNotes": "Reference-derived palette."
+      },
+      "colorVariation": {
+        "palette": [
+          "#B7894D"
+        ],
+        "pattern": "procedural",
+        "amplitude": 0.12,
+        "heightCorrelation": 0.2
+      },
+      "textureResolution": 1024,
+      "roughness": {
+        "base": 0.5,
+        "variation": 0.1,
+        "map": "independent-procedural-field",
+        "localResponse": "evidence-linked"
+      },
+      "metalness": {
+        "base": 0.0,
+        "variation": 0
+      },
+      "normal": {
+        "pattern": "procedural",
+        "strength": 0.12,
+        "scale": 32,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "procedural",
+        "amplitude": 0.03,
+        "scale": 48
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0,
+        "scale": 1,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.2,
+        "contactShadowBias": 0.2,
+        "notes": "Contact darkening."
+      },
+      "wear": {
+        "edgeWear": 0.02,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.01,
+        "cavityBias": 0.2,
+        "color": "#24110C"
+      },
+      "localOverrides": [
+        {
+          "id": "grain-and-nodes",
+          "description": "grain-and-nodes",
+          "evidenceRefs": [
+            "wagasa-handle-detail.png"
+          ]
+        }
+      ],
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 1,
+          "amplitude": 0.06,
+          "role": "broad value variation"
+        },
+        {
+          "id": "meso",
+          "frequency": 16,
+          "amplitude": 0.05,
+          "role": "structural variation"
+        },
+        {
+          "id": "micro",
+          "frequency": 64,
+          "amplitude": 0.02,
+          "role": "micro breakup"
+        }
+      ],
+      "notes": "Procedural PBR material.",
+      "textureProjection": {
+        "mode": "generated-canvas",
+        "repeat": [
+          1,
+          1
+        ],
+        "anisotropy": 4,
+        "texelDensityIntent": "Stable object-scale procedural detail."
+      },
+      "referencePbr": {
+        "confidence": 0.72,
+        "source": "reference crops and explicit material analysis",
+        "albedoEvidence": "#B7894D",
+        "roughnessEvidence": 0.44,
+        "normalEvidence": "procedural",
+        "usable": true,
+        "maps": {
+          "albedo": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "roughness": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "height": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "normal": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "ao": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          }
+        }
+      },
+      "finishClass": "painted-metal",
+      "texturePalette": [
+        "#756653",
+        "#806D5B",
+        "#877868",
+        "#918478",
+        "#868683"
+      ],
+      "proceduralTexture": "flat-clearcoat",
+      "clearcoat": {
+        "base": 1.0,
+        "variation": 0.0
+      },
+      "clearcoatRoughness": {
+        "base": 0.05,
+        "variation": 0.0
+      },
+      "transmission": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "ior": {
+        "base": 1.5,
+        "value": 1.5
+      },
+      "envMapIntensity": 1.0
+    },
+    {
+      "id": "wood",
+      "name": "Polished dark wood",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial",
+      "baseColor": "#6A351C",
+      "color": "#6A351C",
+      "albedo": {
+        "dominant": "#6A351C",
+        "secondary": [
+          "#6A351C"
+        ],
+        "samplingNotes": "Reference-derived palette."
+      },
+      "colorVariation": {
+        "palette": [
+          "#6A351C"
+        ],
+        "pattern": "procedural",
+        "amplitude": 0.12,
+        "heightCorrelation": 0.2
+      },
+      "textureResolution": 1024,
+      "roughness": {
+        "base": 0.5,
+        "variation": 0.1,
+        "map": "independent-procedural-field",
+        "localResponse": "evidence-linked"
+      },
+      "metalness": {
+        "base": 0.0,
+        "variation": 0
+      },
+      "normal": {
+        "pattern": "procedural",
+        "strength": 0.12,
+        "scale": 32,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "procedural",
+        "amplitude": 0.03,
+        "scale": 48
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0,
+        "scale": 1,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.2,
+        "contactShadowBias": 0.2,
+        "notes": "Contact darkening."
+      },
+      "wear": {
+        "edgeWear": 0.02,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.01,
+        "cavityBias": 0.2,
+        "color": "#24110C"
+      },
+      "localOverrides": [
+        {
+          "id": "latch-and-collar",
+          "description": "latch-and-collar",
+          "evidenceRefs": [
+            "wagasa-handle-detail.png"
+          ]
+        }
+      ],
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 1,
+          "amplitude": 0.06,
+          "role": "broad value variation"
+        },
+        {
+          "id": "meso",
+          "frequency": 16,
+          "amplitude": 0.05,
+          "role": "structural variation"
+        },
+        {
+          "id": "micro",
+          "frequency": 64,
+          "amplitude": 0.02,
+          "role": "micro breakup"
+        }
+      ],
+      "notes": "Procedural PBR material.",
+      "textureProjection": {
+        "mode": "generated-canvas",
+        "repeat": [
+          1,
+          1
+        ],
+        "anisotropy": 4,
+        "texelDensityIntent": "Stable object-scale procedural detail."
+      },
+      "referencePbr": {
+        "confidence": 0.72,
+        "source": "reference crops and explicit material analysis",
+        "albedoEvidence": "#6A351C",
+        "roughnessEvidence": 0.3,
+        "normalEvidence": "procedural",
+        "usable": true,
+        "maps": {
+          "albedo": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "roughness": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "height": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "normal": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "ao": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          }
+        }
+      },
+      "finishClass": "painted-metal",
+      "texturePalette": [
+        "#756653",
+        "#806D5B",
+        "#877868",
+        "#918478",
+        "#868683"
+      ],
+      "proceduralTexture": "flat-clearcoat",
+      "clearcoat": {
+        "base": 1.0,
+        "variation": 0.0
+      },
+      "clearcoatRoughness": {
+        "base": 0.05,
+        "variation": 0.0
+      },
+      "transmission": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "ior": {
+        "base": 1.5,
+        "value": 1.5
+      },
+      "envMapIntensity": 1.0
+    },
+    {
+      "id": "thread",
+      "name": "Thread",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial",
+      "baseColor": "#191311",
+      "color": "#191311",
+      "albedo": {
+        "dominant": "#191311",
+        "secondary": [
+          "#191311"
+        ],
+        "samplingNotes": "Reference-derived palette."
+      },
+      "colorVariation": {
+        "palette": [
+          "#191311"
+        ],
+        "pattern": "procedural",
+        "amplitude": 0.12,
+        "heightCorrelation": 0.2
+      },
+      "textureResolution": 1024,
+      "roughness": {
+        "base": 0.82,
+        "variation": 0.1,
+        "map": "independent-procedural-field",
+        "localResponse": "evidence-linked"
+      },
+      "metalness": {
+        "base": 0,
+        "variation": 0
+      },
+      "normal": {
+        "pattern": "procedural",
+        "strength": 0.12,
+        "scale": 32,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "procedural",
+        "amplitude": 0.03,
+        "scale": 48
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0,
+        "scale": 1,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.2,
+        "contactShadowBias": 0.2,
+        "notes": "Contact darkening."
+      },
+      "wear": {
+        "edgeWear": 0.02,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.01,
+        "cavityBias": 0.2,
+        "color": "#24110C"
+      },
+      "localOverrides": [
+        {
+          "id": "rim-knots",
+          "description": "rim-knots",
+          "evidenceRefs": [
+            "wagasa-open-3q.png"
+          ]
+        }
+      ],
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 1,
+          "amplitude": 0.06,
+          "role": "broad value variation"
+        },
+        {
+          "id": "meso",
+          "frequency": 16,
+          "amplitude": 0.05,
+          "role": "structural variation"
+        },
+        {
+          "id": "micro",
+          "frequency": 64,
+          "amplitude": 0.02,
+          "role": "micro breakup"
+        }
+      ],
+      "notes": "Procedural PBR material.",
+      "textureProjection": {
+        "mode": "generated-canvas",
+        "repeat": [
+          1,
+          1
+        ],
+        "anisotropy": 4,
+        "texelDensityIntent": "Stable object-scale procedural detail."
+      },
+      "referencePbr": {
+        "confidence": 0.72,
+        "source": "reference crops and explicit material analysis",
+        "albedoEvidence": "#191311",
+        "roughnessEvidence": 0.82,
+        "normalEvidence": "procedural",
+        "usable": true,
+        "maps": {
+          "albedo": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "roughness": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "height": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "normal": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "ao": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          }
+        }
+      }
+    },
+    {
+      "id": "motif",
+      "name": "Sakura paint",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial",
+      "baseColor": "#D98C9B",
+      "color": "#D98C9B",
+      "albedo": {
+        "dominant": "#D98C9B",
+        "secondary": [
+          "#D98C9B"
+        ],
+        "samplingNotes": "Reference-derived palette."
+      },
+      "colorVariation": {
+        "palette": [
+          "#D98C9B"
+        ],
+        "pattern": "procedural",
+        "amplitude": 0.12,
+        "heightCorrelation": 0.2
+      },
+      "textureResolution": 1024,
+      "roughness": {
+        "base": 0.75,
+        "variation": 0.1,
+        "map": "independent-procedural-field",
+        "localResponse": "evidence-linked"
+      },
+      "metalness": {
+        "base": 0,
+        "variation": 0
+      },
+      "normal": {
+        "pattern": "procedural",
+        "strength": 0.12,
+        "scale": 32,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "procedural",
+        "amplitude": 0.03,
+        "scale": 48
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0,
+        "scale": 1,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.2,
+        "contactShadowBias": 0.2,
+        "notes": "Contact darkening."
+      },
+      "wear": {
+        "edgeWear": 0.02,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.01,
+        "cavityBias": 0.2,
+        "color": "#24110C"
+      },
+      "localOverrides": [
+        {
+          "id": "sakura-motif-band",
+          "description": "sakura-motif-band",
+          "evidenceRefs": [
+            "wagasa-open-3q.png"
+          ]
+        }
+      ],
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 1,
+          "amplitude": 0.06,
+          "role": "broad value variation"
+        },
+        {
+          "id": "meso",
+          "frequency": 16,
+          "amplitude": 0.05,
+          "role": "structural variation"
+        },
+        {
+          "id": "micro",
+          "frequency": 64,
+          "amplitude": 0.02,
+          "role": "micro breakup"
+        }
+      ],
+      "notes": "Procedural PBR material.",
+      "textureProjection": {
+        "mode": "generated-canvas",
+        "repeat": [
+          1,
+          1
+        ],
+        "anisotropy": 4,
+        "texelDensityIntent": "Stable object-scale procedural detail."
+      },
+      "referencePbr": {
+        "confidence": 0.72,
+        "source": "reference crops and explicit material analysis",
+        "albedoEvidence": "#D98C9B",
+        "roughnessEvidence": 0.75,
+        "normalEvidence": "procedural",
+        "usable": true,
+        "maps": {
+          "albedo": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "roughness": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "height": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "normal": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          },
+          "ao": {
+            "path": "assets/incoming/amaoto/ref/wagasa-open-3q.png"
+          }
+        }
+      }
+    }
+  ],
+  "repetitionSystems": [
+    {
+      "id": "rib-array",
+      "kind": "radial-array",
+      "count": 40,
+      "pitch": 0,
+      "axis": "Y",
+      "target": "ribs",
+      "realization": "Instance one bowed rib around canopy center with deterministic 40-way radial transform.",
+      "evidence": [
+        "wagasa-open-3q.png"
+      ],
+      "confidence": 0.93,
+      "buildsGeometry": true,
+      "instances": 40
+    },
+    {
+      "id": "stretcher-array",
+      "kind": "radial-array",
+      "count": 40,
+      "pitch": 0,
+      "axis": "Y",
+      "target": "stretchers",
+      "realization": "Instance one hinged stretcher per rib and update endpoints from open and runner position.",
+      "evidence": [
+        "wagasa-underside.png"
+      ],
+      "confidence": 0.9,
+      "buildsGeometry": true,
+      "instances": 40
+    },
+    {
+      "id": "rim-knot-array",
+      "kind": "radial-array",
+      "count": 40,
+      "pitch": 0,
+      "axis": "Y",
+      "target": "thread",
+      "realization": "Instance one rim knot and short lacing segment per rib tip.",
+      "evidence": [
+        "wagasa-open-3q.png"
+      ],
+      "confidence": 0.88,
+      "buildsGeometry": true,
+      "instances": 40
+    },
+    {
+      "id": "node-ring-array",
+      "kind": "linear-array",
+      "count": 8,
+      "pitch": 0.42,
+      "axis": "+Y",
+      "target": "rib-nodes",
+      "realization": "Repeat raised node bands on shaft and selected ribs.",
+      "evidence": [
+        "wagasa-handle-detail.png"
+      ],
+      "confidence": 0.82,
+      "buildsGeometry": true,
+      "instances": 8
+    }
+  ],
+  "buildPasses": [
+    {
+      "id": "blockout",
+      "goal": "Match macro silhouette and proportions.",
+      "componentRefs": [
+        "root"
+      ],
+      "acceptance": [
+        "Silhouette reads correctly without materials.",
+        "Quality contract has named all required macro feature groups before code generation.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "structural-pass",
+      "goal": "Build the component hierarchy implied by the pre-spec complexity assessment.",
+      "componentRefs": [
+        "root"
+      ],
+      "acceptance": [
+        "Macro, meso, and repeated structures meet qualityContract.minimumSpecDepth.",
+        "Parent-child relations, joints, seams, sockets, and contact points are explicit.",
+        "Every attached child appendage/connector has parentSocket, localStart/localEnd, contactType, embedDepth or overlap, and gapTolerance.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "form-refinement",
+      "goal": "Refine shape, deformation, bevels, tapers, curves, asymmetry, and visible local geometry.",
+      "componentRefs": [
+        "root"
+      ],
+      "acceptance": [
+        "Important visible forms are represented in component geometryDescriptor, deformations, localFeatures, or repetitionSystems.",
+        "Endpoint-based child parts are rooted at their attachment sockets and do not visibly float away from parents.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "material-pass",
+      "goal": "Match material color, roughness, bump, and local variation.",
+      "componentRefs": [
+        "root"
+      ],
+      "acceptance": [
+        "Reference-derived albedo palette records dominant, secondary, and accent colors per visible material.",
+        "Each important material defines roughness variation and at least one normal/bump/displacement response.",
+        "Local material overrides, dirt/wear/stains/moss/chips/scratches or equivalent masks are tied to evidenceRefs.",
+        "Thin, transparent, reflective, wet, or fibrous materials document alpha/transmission/clearcoat/metalness/fiber response when relevant.",
+        "Generated preview uses procedural albedo/roughness/bump texture or vertex color variation instead of one flat color.",
+        "Generated preview uses independent PBR maps at 1024px or higher for the quality-first tier.",
+        "If source pixels are available, referencePbr extraction passed at confidence >= 0.7 or the pass is stopped/requesting better references.",
+        "Macro, meso, and micro surface frequency bands are visible at the intended review distance without obvious tiling.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "surface-pass",
+      "goal": "Add procedural surface locality such as normal/bump/displacement, AO, dirt, stains, chips, grain, moss, scratches, and wear.",
+      "componentRefs": [
+        "root"
+      ],
+      "acceptance": [
+        "Every required material feature group has local overrides or surfaceDetail tied to evidenceRefs.",
+        "A grazing-angle close-up proves that normal/height detail breaks highlights naturally and does not read as smooth plastic.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "lighting-pass",
+      "goal": "Make material and form readable under neutral turntable lighting plus optional reference lighting.",
+      "componentRefs": [
+        "root"
+      ],
+      "acceptance": [
+        "lightingFromPhoto identifies key light direction/color/intensity, fill light, rim or environment light, and ambient color.",
+        "Exposure, tone mapping, background color/gradient, shadow softness, and contact shadow behavior are specified.",
+        "Lighting does not hide geometry/material gaps and screenshots can be compared fairly to the reference.",
+        "Neutral, grazing, and reference-matched lighting checks distinguish material errors from lighting errors.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "interaction-pass",
+      "goal": "Make the model ready for future animation, transformation, physics, or destruction.",
+      "componentRefs": [
+        "root"
+      ],
+      "acceptance": [
+        "Macro and movable meso components have stable pivot nodes.",
+        "Sockets, collider proxies, and destruction metadata are present for future runtime actions.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "optimization-pass",
+      "goal": "Protect runtime performance after visual fidelity is accepted.",
+      "componentRefs": [
+        "root"
+      ],
+      "acceptance": [
+        "Triangle count, draw calls, instancing, LOD strategy, and FPS target are documented or verified.",
+        "Repeated detail is instanced or simplified where possible without breaking silhouette/material believability."
+      ]
+    }
+  ],
+  "visualEvidence": [],
+  "reviewHistory": [],
+  "lodPlan": [
+    {
+      "tier": "near",
+      "distance": 0,
+      "strategy": "full component tree and material layers"
+    },
+    {
+      "tier": "far",
+      "distance": 30,
+      "strategy": "merge static components and reduce local feature geometry"
+    }
+  ],
+  "performanceBudget": {
+    "qualityPriority": "reference-fidelity",
+    "targetTriangles": 60000,
+    "maxDrawCalls": 60,
+    "textureSize": 1024,
+    "fpsTarget": 60,
+    "optimizationPolicy": "Instance repeated ribs, stretchers and knots; keep canopy and handle silhouette geometry."
+  },
+  "lightingFromPhoto": [
+    {
+      "id": "soft-overcast-key",
+      "type": "key",
+      "direction": [
+        0.4,
+        0.8,
+        0.3
+      ],
+      "color": "#FFF1D8",
+      "intensity": 1.2,
+      "size": 3.0,
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "exposure": 0.0,
+      "toneMapping": "AgX",
+      "contactShadows": {
+        "enabled": true,
+        "softness": 0.6
+      }
+    },
+    {
+      "id": "warm-rim",
+      "type": "rim",
+      "direction": [
+        -0.5,
+        0.35,
+        -0.6
+      ],
+      "color": "#E7B37A",
+      "intensity": 0.6,
+      "size": 2.0,
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "exposure": 0.0,
+      "toneMapping": "AgX",
+      "contactShadows": {
+        "enabled": true,
+        "softness": 0.6
+      }
+    },
+    {
+      "id": "ambient-fill",
+      "type": "environment",
+      "direction": [
+        0,
+        1,
+        0
+      ],
+      "color": "#B8B7B8",
+      "intensity": 0.35,
+      "size": 4.0,
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "exposure": 0.0,
+      "toneMapping": "AgX",
+      "contactShadows": {
+        "enabled": true,
+        "softness": 0.6
+      }
+    },
+    {
+      "id": "lookdev-notes",
+      "type": "notes",
+      "notes": "Exposure 0.0 with AgX tone mapping; soft contact shadow and ambient occlusion under runner and handle; ground shadow below handle."
+    }
+  ],
+  "proceduralStrategy": [
+    "Block out macro silhouette first.",
+    "Add component hierarchy and joints.",
+    "Create stable pivot groups, sockets, collider proxies, and destruction metadata before visual polish.",
+    "Refine forms with bevels, tapers, bends, and procedural noise.",
+    "Run reference PBR extraction for important source-image materials and stop when confidence is below the target threshold.",
+    "Add material variation before adding expensive micro-geometry."
+  ],
+  "animationAnchors": {
+    "open": {
+      "description": "0 closed pleats to 1 taut dome",
+      "range": [
+        0,
+        1
+      ],
+      "affectedComponents": [
+        "canopy",
+        "ribs",
+        "stretchers",
+        "runner",
+        "thread",
+        "motif"
+      ],
+      "pure": true
+    },
+    "explode": {
+      "description": "0 assembled to 1 separated inspection offsets",
+      "range": [
+        0,
+        1
+      ],
+      "affectedComponents": [
+        "canopy",
+        "ribs",
+        "stretchers",
+        "runner",
+        "handle",
+        "thread"
+      ],
+      "pure": true
+    }
+  },
+  "destructionAnchors": [
+    "actionProfile.destruction.fractureGroup marks detachable or breakable component sets",
+    "component seams and sockets define plausible break points instead of random explosions"
+  ],
+  "risks": [
+    "Single view cannot prove rear-side blossom placement or exact hinge hardware.",
+    "Paper pleat deformation is a procedural approximation of folded washi."
+  ],
+  "localSpecSearch": {
+    "collection": "core_3d",
+    "query": "AMAOTO wagasa wagasa umbrella bamboo ribs runner stretchers washi paper bamboo node grain matte satin PBR paper translucency roughness thickness backlight",
+    "index": {
+      "status": "rebuilt",
+      "reason": "missing",
+      "fingerprint": "06f0b2ece2935e441653f5c3533f91b3a4d6163f2aec4267559d7d8419bdd040"
+    },
+    "matches": [
+      {
+        "record_id": "core.pbr-roughness",
+        "file_path": "grimoire/glossary/3d_vocabulary.md",
+        "heading": "Material And PBR",
+        "key_path": null,
+        "score": 10.049883676851,
+        "snippets": [
+          "Roughness is microfacet scatter: high roughness reads matte and low roughness reads glossy. Recognition cues: low roughness reads as a sharp, mirror-like, tight specular highlight; high roughness reads as a blurry, wide, dim highlight and matte ..."
+        ],
+        "source_refs": [
+          {
+            "path": "grimoire/glossary/3d_vocabulary.md",
+            "heading": "Material And PBR",
+            "key_path": null
+          },
+          {
+            "path": "grimoire/intake/image_analysis.md",
+            "heading": "Layer 5 \u2014 Materials & surface (PBR)",
+            "key_path": null
+          },
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.material_pbr[1]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "grimoire/glossary/3d_vocabulary.md"
+          },
+          {
+            "kind": "notebooklm-research",
+            "ref": "notebooklm:4b03c2f9-8393-411f-b5b4-039ab9532843",
+            "note": "Validated generic schema vocabulary; numeric claims remain backed by local source_refs."
+          },
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation \u2014 merged recognition cues + Three.js target instead of duplicating this entity."
+          }
+        ]
+      },
+      {
+        "record_id": "core.pbr-hand-painted-vs-pbr-texture",
+        "file_path": "docs/raw/img2threejs-skill-dataset.json",
+        "heading": null,
+        "key_path": "categories.material_pbr[12]",
+        "score": 7.017646984687,
+        "snippets": [
+          "... baked directly into color (static, stylized) from textures that respond dynamically to scene lighting via separate PBR channels. Ph\u00e2n bi\u1ec7t k\u1ebft c\u1ea5u c\u00f3 \u00e1nh s\u00e1ng \u0111\u01b0\u1ee3c n\u01b0\u1edbng tr\u1ef1c ti\u1ebfp v\u00e0o m\u00e0u (t\u0129nh, c\u00e1ch \u0111i\u1ec7u) v\u1edbi k\u1ebft c\u1ea5u ph\u1ea3n h\u1ed3i \u0111\u1ed9ng ..."
+        ],
+        "source_refs": [
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.material_pbr[12]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation"
+          }
+        ]
+      },
+      {
+        "record_id": "core.description-pbr-vocabulary-caption-calibration",
+        "file_path": "docs/raw/img2threejs-skill-dataset.json",
+        "heading": null,
+        "key_path": "categories.description_conventions[7]",
+        "score": 6.262900465655,
+        "snippets": [
+          "Embedding a technical material-attribute block (Albedo, Metalness, Roughness, Normals) with measured reflectance ranges directly into the structured description, not just prose. Nh\u00fang m\u1ed9t kh\u1ed1i thu\u1ed9c t\u00ednh v\u1eadt li\u1ec7u k\u1ef9 thu\u1eadt (Albedo, Metalness, ..."
+        ],
+        "source_refs": [
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.description_conventions[7]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation"
+          }
+        ]
+      }
+    ]
+  }
+}

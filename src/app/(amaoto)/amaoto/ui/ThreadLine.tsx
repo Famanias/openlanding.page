@@ -1,0 +1,1 @@
+export function ThreadLine({ progress = 0 }: { progress?: number }) { return <div className="am-threadline" style={{ "--thread-progress": `${progress * 100}%` } as React.CSSProperties}><span /></div>; }
