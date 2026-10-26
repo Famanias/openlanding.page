@@ -148,6 +148,10 @@ tally: {
     name: "NULO",
     dependencies: ["lenis"],
   },
+  lucentra: {
+    name: "LUCENTRA",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
