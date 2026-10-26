@@ -21,7 +21,7 @@ test("rapid category changes settle on the current selection and keyboard stays 
   await page.getByRole("tab", { name: "3D & WebGPU" }).click();
   await page.getByRole("tab", { name: "Keynote & Deck" }).click();
   await page.getByRole("tab", { name: /^All/ }).click();
-await expect(page.locator(".template-card")).toHaveCount(39);
+await expect(page.locator(".template-card")).toHaveCount(40);
   await expect(page.locator("[role=tab][aria-selected=true]")).toHaveAccessibleName(/^All/);
   await page.keyboard.press("ArrowRight");
   await expect(page.getByRole("tab", { name: "Keynote & Deck" })).toBeFocused();

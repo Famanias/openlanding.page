@@ -1,0 +1,642 @@
+<template slug="nightline" name="NIGHTLINE">
+  <dependencies>
+    {
+      "dependencies": {}
+    }
+  </dependencies>
+  <instructions>
+    Recreate the following files in your Next.js App Router project preserving relative paths.
+  </instructions>
+  <files>
+    <file path="src/app/(nightline)/layout.tsx">
+<![CDATA[import type { Metadata, Viewport } from "next";
+import { DM_Sans, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
+import { NL_MOTION_SCRIPT } from "./nightline/motion/mode";
+import "./nightline/nightline.css";
+
+const display = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-instrument-serif" });
+const body = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
+const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], preload: false, variable: "--font-ibm-plex-mono" });
+
+export const metadata: Metadata = {
+  title: "NIGHTLINE — sleeper trains for the long way through",
+  description: "A European sleeper-train booking experience that turns every journey into a moving night window.",
+};
+
+export const viewport: Viewport = { themeColor: "#081423", colorScheme: "dark" };
+
+export default function NightlineLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`} suppressHydrationWarning>
+      <body className="nli-body">
+        <script type="text/javascript" dangerouslySetInnerHTML={{ __html: NL_MOTION_SCRIPT }} />
+        <noscript><style>{`[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}.nli-webgl{display:none!important}`}</style></noscript>
+        {children}
+      </body>
+    </html>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/assets.generated.ts">
+<![CDATA[export const ASSETS: Record<string, { w: number; h: number }> = {};
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/assets.tsx">
+<![CDATA[import { ASSETS } from "./assets.generated";
+const BASE = "/templates/nightline";
+export function assetSrc(key: string, width: 800 | 1600, format: "webp" | "avif" = "webp") { return key in ASSETS ? `${BASE}/${key}-${width}.${format}` : null; }
+export function Picture({ assetKey, alt, className = "", priority = false }: { assetKey: string; alt: string; className?: string; priority?: boolean }) { const src = assetSrc(assetKey, 800); if (!src) return <div className={`nli-placeholder ${className}`} role="img" aria-label={alt} data-asset={assetKey}><span>{assetKey}</span></div>; const { w, h } = ASSETS[assetKey]; return <img className={className} src={src} width={w} height={h} alt={alt} loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined} />; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/icon.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#081423"/><path d="M12 46 30 14l8 14 8-10 8 28H12Z" fill="none" stroke="#F4E8C1" stroke-width="3"/><circle cx="38" cy="28" r="3" fill="#F4B65E"/></svg>
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/nightline.css">
+<![CDATA[@import "tailwindcss";
+
+@theme {
+  --color-nl-ink: #081423;
+  --color-nl-deep: #0D2238;
+  --color-nl-paper: #F4E8C1;
+  --color-nl-amber: #F4B65E;
+  --color-nl-mist: #A7B4C7;
+  --color-nl-rose: #C97972;
+  --font-nl-display: var(--font-instrument-serif), Georgia, serif;
+  --font-nl-body: var(--font-dm-sans), system-ui, sans-serif;
+  --font-nl-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  --ease-nl-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-nl-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-nl-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);
+  --dur-nl-instant: 90ms;
+  --dur-nl-fast: 180ms;
+  --dur-nl-base: 420ms;
+  --dur-nl-slow: 800ms;
+  --dur-nl-hero: 1200ms;
+  --nli-stagger: 70ms;
+}
+
+:root { color-scheme: dark; background: #081423; }
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; background: #081423; }
+body { margin: 0; background: #081423; color: #F4E8C1; font-family: var(--font-nl-body); }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.nli-page { position: relative; overflow: clip; background: #081423; }
+.nli-webgl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.nli-page::before { content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(circle at 50% 20%, transparent 20%, rgba(3,10,20,.55) 100%); }
+.nli-page > main, .nli-page > footer { position: relative; z-index: 2; }
+.nli-header { position: fixed; z-index: 10; inset: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 22px clamp(20px, 5vw, 76px); border-bottom: 1px solid color-mix(in srgb, #A7B4C7 18%, transparent); background: color-mix(in srgb, #081423 68%, transparent); backdrop-filter: blur(16px); }
+.nli-header nav { display: flex; gap: clamp(16px, 3vw, 46px); margin-left: auto; margin-right: clamp(16px, 4vw, 60px); font: 11px/1 var(--font-nl-mono); letter-spacing: .12em; text-transform: uppercase; color: #A7B4C7; }
+.nli-header nav a { transition: color var(--dur-nl-fast) var(--ease-nl-out); }
+.nli-header nav a:hover, .nli-header nav a:focus-visible { color: #F4B65E; }
+.nli-logo { display: inline-flex; align-items: center; gap: 9px; color: #F4E8C1; font: 500 12px/1 var(--font-nl-mono); letter-spacing: .16em; }
+.nli-logo svg { width: 27px; height: 27px; color: #F4B65E; }
+.nli-logo--mark svg { width: 45px; height: 45px; }
+.nli-button { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; padding: 0 22px; border: 1px solid #F4B65E; border-radius: 999px; color: #081423; background: #F4B65E; font: 500 11px/1 var(--font-nl-mono); letter-spacing: .1em; text-transform: uppercase; transition: transform var(--dur-nl-instant) var(--ease-nl-spring), color var(--dur-nl-fast) var(--ease-nl-out), background var(--dur-nl-fast) var(--ease-nl-out); }
+.nli-button span { font-size: 17px; transition: transform var(--dur-nl-fast) var(--ease-nl-out); }
+.nli-button:hover span { transform: translate(3px, -3px); }
+.nli-button:active { transform: scale(.97); }
+.nli-button:focus-visible, .nli-text-link:focus-visible, .nli-header a:focus-visible { outline: 2px solid #F4B65E; outline-offset: 4px; }
+.nli-button--small { min-height: 38px; padding: 0 16px; font-size: 10px; }
+.nli-magnetic { display: inline-block; transform: translate(var(--mx, 0), var(--my, 0)); transition: transform var(--dur-nl-base) var(--ease-nl-spring); }
+.nli-section { min-height: 100svh; padding: clamp(110px, 14vh, 180px) clamp(20px, 8vw, 140px); }
+.nli-hero { display: flex; min-height: 100svh; align-items: center; padding-top: 150px; position: relative; }
+.nli-hero__copy { width: min(780px, 76vw); }
+.nli-eyebrow, .nli-mono { margin: 0; color: #F4B65E; font: 500 10px/1.4 var(--font-nl-mono); letter-spacing: .15em; text-transform: uppercase; }
+.nli-hero h1, .nli-section h2 { margin: 22px 0 26px; font: 400 clamp(54px, 9.2vw, 150px)/.87 var(--font-nl-display); letter-spacing: -.045em; }
+.nli-hero h1 { max-width: 8ch; font-size: clamp(72px, 11vw, 168px); }
+.nli-section h2 em, .nli-form h3 em { color: #F4B65E; font-style: italic; }
+.nli-lead { max-width: 38ch; margin: 0; color: #A7B4C7; font-size: clamp(17px, 1.6vw, 22px); line-height: 1.45; }
+.nli-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 26px; margin-top: 42px; }
+.nli-text-link { display: inline-flex; align-items: center; gap: 10px; color: #F4E8C1; font: 11px/1 var(--font-nl-mono); letter-spacing: .1em; text-transform: uppercase; }
+.nli-text-link span { color: #F4B65E; font-size: 17px; transition: transform var(--dur-nl-fast) var(--ease-nl-out); }
+.nli-text-link:hover span { transform: translateY(4px); }
+.nli-hero__stamp { position: absolute; right: 10vw; bottom: 18vh; display: grid; gap: 12px; justify-items: center; color: #A7B4C7; font: 9px/1 var(--font-nl-mono); letter-spacing: .16em; }
+.nli-hero__hint { position: absolute; bottom: 34px; left: clamp(20px, 8vw, 140px); color: #A7B4C7; font: 10px/1 var(--font-nl-mono); letter-spacing: .12em; text-transform: uppercase; }
+.nli-hero__hint span { color: #F4B65E; margin-left: 12px; }
+.nli-line { position: relative; display: grid; grid-template-columns: minmax(170px, .4fr) 1fr; gap: clamp(30px, 8vw, 150px); background: color-mix(in srgb, #0D2238 88%, transparent); }
+.nli-line__rail { position: sticky; top: 130px; align-self: start; display: grid; gap: 13px; padding-top: 6px; }
+.nli-line__rail a { display: flex; align-items: center; gap: 12px; color: #A7B4C7; font: 10px/1 var(--font-nl-mono); letter-spacing: .08em; text-transform: uppercase; transition: color var(--dur-nl-fast) var(--ease-nl-out), transform var(--dur-nl-fast) var(--ease-nl-out); }
+.nli-line__rail a::before { content: ""; width: 24px; height: 1px; background: currentColor; transition: width var(--dur-nl-base) var(--ease-nl-out); }
+.nli-line__rail a.is-active { color: #F4B65E; transform: translateX(7px); }
+.nli-line__rail a.is-active::before { width: 45px; }
+.nli-line__intro { max-width: 820px; }
+.nli-line__intro h2 { max-width: 11ch; }
+.nli-line__intro p:not(.nli-eyebrow) { max-width: 44ch; color: #A7B4C7; font-size: 18px; line-height: 1.5; }
+.nli-station-list { grid-column: 2; display: grid; gap: 1px; margin-top: 56px; }
+.nli-station { display: grid; grid-template-columns: 72px 1fr auto; align-items: start; gap: 20px; padding: 34px 0; border-top: 1px solid color-mix(in srgb, #A7B4C7 18%, transparent); color: #A7B4C7; transition: color var(--dur-nl-base) var(--ease-nl-out), transform var(--dur-nl-base) var(--ease-nl-out); }
+.nli-station.is-current { color: #F4E8C1; transform: translateX(12px); }
+.nli-station__number { color: #F4B65E; font: 11px/1 var(--font-nl-mono); }
+.nli-station h3 { margin: 9px 0 10px; color: inherit; font: 400 clamp(30px, 4vw, 56px)/.95 var(--font-nl-display); }
+.nli-station p:last-child { max-width: 42ch; margin: 0; line-height: 1.55; }
+.nli-station__arrow { color: #F4B65E; font-size: 28px; }
+.nli-cabins { background: #F4E8C1; color: #081423; }
+.nli-cabins .nli-eyebrow { color: #C97972; }
+.nli-cabins h2 { color: #081423; }
+.nli-cabins h2 em { color: #C97972; }
+.nli-section-head { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; margin-bottom: 70px; }
+.nli-section-head > :last-child { max-width: 40ch; margin: 0 0 8px; color: #A7B4C7; line-height: 1.6; }
+.nli-cabin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.nli-tilt { transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0)); transition: transform var(--dur-nl-base) var(--ease-nl-spring); }
+.nli-tilt:hover { --lift: -8px; }
+.nli-cabin { min-height: 430px; display: flex; flex-direction: column; padding: 16px; background: #F4E8C1; border: 1px solid color-mix(in srgb, #081423 28%, transparent); }
+.nli-cabin--amber .nli-cabin__window { background: #F4B65E; }.nli-cabin--blue .nli-cabin__window { background: #0D2238; }.nli-cabin--rose .nli-cabin__window { background: #C97972; }
+.nli-cabin__window { position: relative; display: grid; place-items: center; height: 230px; overflow: hidden; color: #F4E8C1; font: 9px/1 var(--font-nl-mono); letter-spacing: .18em; }
+.nli-cabin__window::after { content: ""; position: absolute; inset: -30% -10%; background: repeating-linear-gradient(115deg, transparent 0 26px, color-mix(in srgb, #F4E8C1 26%, transparent) 27px 29px, transparent 30px 62px); opacity: .5; transform: translateX(-25%); animation: nli-rain 16s linear infinite; }
+.nli-cabin__window i { position: absolute; width: 42px; height: 42px; border: 1px solid #F4E8C1; border-radius: 50%; opacity: .7; }
+.nli-cabin > .nli-mono { margin-top: 24px; color: #C97972; }.nli-cabin h3 { margin: 10px 0 8px; font: 400 36px/.95 var(--font-nl-display); }.nli-cabin > p:not(.nli-mono) { margin: 0; color: #A7B4C7; }.nli-cabin a { display: flex; justify-content: space-between; margin-top: auto; padding-top: 28px; color: #081423; font: 11px/1 var(--font-nl-mono); text-transform: uppercase; letter-spacing: .08em; }.nli-cabin a span { color: #C97972; font-size: 18px; }
+.nli-midnight { display: grid; grid-template-columns: 1fr .8fr; gap: 10vw; align-items: center; min-height: 110svh; position: relative; overflow: clip; }
+.nli-midnight__texture { position: absolute; inset: 0; background: radial-gradient(circle at 75% 25%, rgba(244,182,94,.26), transparent 22%), repeating-linear-gradient(100deg, transparent 0 48px, rgba(167,180,199,.07) 49px 50px); opacity: .7; pointer-events: none; }
+.nli-midnight__copy, .nli-midnight__quote { position: relative; z-index: 1; }.nli-midnight h2 { max-width: 9ch; }.nli-midnight__copy p:not(.nli-eyebrow) { max-width: 42ch; color: #A7B4C7; line-height: 1.6; }.nli-midnight__quote { align-self: end; padding-bottom: 10vh; color: #A7B4C7; font: 400 clamp(32px, 5vw, 70px)/.95 var(--font-nl-display); }.nli-midnight__quote em { color: #F4B65E; }.nli-specs { display: flex; flex-wrap: wrap; gap: 34px; margin-top: 40px; padding-top: 22px; border-top: 1px solid color-mix(in srgb, #A7B4C7 25%, transparent); }.nli-specs span { display: grid; gap: 5px; color: #A7B4C7; font: 10px/1.3 var(--font-nl-mono); text-transform: uppercase; letter-spacing: .08em; }.nli-specs b { color: #F4E8C1; font-size: 20px; font-weight: 400; }
+.nli-border { display: grid; grid-template-columns: .9fr 1fr; gap: 10vw; align-items: center; background: #0D2238; }.nli-border__map { position: relative; height: 430px; border: 1px solid color-mix(in srgb, #A7B4C7 30%, transparent); border-radius: 50%; transform: rotate(-18deg); }.nli-border__map::before, .nli-border__map::after { content: ""; position: absolute; inset: 13%; border: 1px solid color-mix(in srgb, #F4B65E 45%, transparent); border-radius: 50%; }.nli-border__map::after { inset: 34%; border-color: color-mix(in srgb, #A7B4C7 30%, transparent); }.nli-border__line { position: absolute; top: 50%; left: 8%; right: 8%; border-top: 1px dashed #F4B65E; transform: rotate(20deg); }.nli-border__dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #F4B65E; box-shadow: 0 0 0 8px color-mix(in srgb, #F4B65E 15%, transparent); }.nli-border__dot--one { top: 34%; left: 17%; }.nli-border__dot--two { top: 50%; left: 48%; }.nli-border__dot--three { top: 66%; right: 14%; }.nli-border h2 { max-width: 9ch; }.nli-border__copy p:not(.nli-eyebrow) { max-width: 40ch; color: #A7B4C7; line-height: 1.6; }.nli-route { display: flex; align-items: center; gap: 14px; margin-top: 42px; color: #F4E8C1; font: 11px/1 var(--font-nl-mono); letter-spacing: .1em; }.nli-route i { color: #F4B65E; font-style: normal; }
+.nli-dawn { display: grid; grid-template-columns: 1fr 1fr; gap: 10vw; align-items: end; background: #F4B65E; color: #081423; }.nli-dawn .nli-eyebrow { color: #C97972; }.nli-dawn h2 { max-width: 9ch; color: #081423; }.nli-dawn h2 em { color: #C97972; }.nli-dawn__copy p:not(.nli-eyebrow) { max-width: 39ch; color: #081423; line-height: 1.6; }.nli-dawn__stats { display: grid; gap: 1px; }.nli-dawn__stats > div { display: grid; grid-template-columns: 1fr 1fr; align-items: end; padding: 22px 0; border-top: 1px solid color-mix(in srgb, #081423 25%, transparent); }.nli-dawn__stats strong { font: 400 clamp(48px, 8vw, 110px)/.8 var(--font-nl-display); }.nli-dawn__stats span { color: #081423; font: 10px/1.45 var(--font-nl-mono); letter-spacing: .08em; text-transform: uppercase; }
+.nli-book { display: grid; grid-template-columns: .9fr 1fr; align-items: center; gap: 10vw; }.nli-book__intro h2 { max-width: 9ch; }.nli-book__intro p:not(.nli-eyebrow) { max-width: 38ch; color: #A7B4C7; line-height: 1.6; }.nli-form, .nli-form-success { position: relative; z-index: 3; width: min(100%, 540px); padding: clamp(26px, 4vw, 48px); background: color-mix(in srgb, #0D2238 85%, transparent); border: 1px solid color-mix(in srgb, #F4B65E 45%, transparent); }.nli-form h3, .nli-form-success h3 { margin: 18px 0 34px; font: 400 clamp(40px, 5vw, 66px)/.9 var(--font-nl-display); }.nli-form label { display: grid; gap: 9px; margin-top: 22px; color: #A7B4C7; font: 10px/1 var(--font-nl-mono); letter-spacing: .1em; text-transform: uppercase; }.nli-form input { min-height: 46px; padding: 0 0 10px; border: 0; border-bottom: 1px solid color-mix(in srgb, #A7B4C7 40%, transparent); outline: none; color: #F4E8C1; background: transparent; transition: border-color var(--dur-nl-fast) var(--ease-nl-out); }.nli-form input:focus { border-color: #F4B65E; }.nli-form input[aria-invalid="true"] { border-color: #C97972; }.nli-form small { color: #C97972; letter-spacing: 0; text-transform: none; }.nli-form .nli-button { margin-top: 34px; }.nli-form .nli-button:disabled { opacity: .5; cursor: wait; }.nli-form-note { margin: 22px 0 0; color: #A7B4C7; font-size: 12px; }.nli-form-success { animation: nli-settle var(--dur-nl-slow) var(--ease-nl-out) both; }.nli-form-success > p:not(.nli-eyebrow) { color: #A7B4C7; line-height: 1.6; }.nli-success-mark { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #F4B65E; border-radius: 50%; color: #F4B65E; font-size: 23px; }
+.nli-footer { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 30px; align-items: end; padding: 36px clamp(20px, 8vw, 140px) 50px; border-top: 1px solid color-mix(in srgb, #A7B4C7 20%, transparent); color: #A7B4C7; }.nli-footer p { margin: 14px 0 0; font: 10px/1 var(--font-nl-mono); text-transform: uppercase; letter-spacing: .1em; }.nli-footer__marquee { overflow: hidden; white-space: nowrap; color: #F4B65E; font: 11px/1 var(--font-nl-mono); letter-spacing: .16em; animation: nli-marquee 28s linear infinite; }.nli-footer > div:last-child { display: grid; gap: 10px; justify-items: end; font: 10px/1.2 var(--font-nl-mono); letter-spacing: .1em; text-transform: uppercase; }
+.nli-placeholder { display: grid; place-items: center; min-height: 200px; background: repeating-linear-gradient(135deg, #0D2238 0 12px, #0D2238 12px 24px); color: #A7B4C7; font: 10px/1 var(--font-nl-mono); letter-spacing: .12em; text-transform: uppercase; }
+.nli-reveal { --delay: calc(var(--i, 0) * var(--nli-stagger)); }
+@media (prefers-reduced-motion: no-preference) {
+  [data-nl-motion="live"] .nli-reveal { opacity: 0; transform: translateY(28px); transition: opacity var(--dur-nl-slow) var(--ease-nl-out), transform var(--dur-nl-slow) var(--ease-nl-out); transition-delay: var(--delay); }
+  [data-nl-motion="live"] .nli-reveal[data-in="true"] { opacity: 1; transform: none; }
+  [data-nl-motion="live"] .nli-reveal--mask { clip-path: inset(0 0 100% 0); transition: clip-path var(--dur-nl-slow) var(--ease-nl-in-out); }
+  [data-nl-motion="live"] .nli-reveal--mask[data-in="true"] { clip-path: inset(0); }
+  [data-nl-motion="live"] .nli-reveal--clip { clip-path: inset(0 0 100% 0); transition: clip-path var(--dur-nl-slow) var(--ease-nl-in-out); }
+  [data-nl-motion="live"] .nli-reveal--clip[data-in="true"] { clip-path: inset(0); }
+  [data-nl-motion="live"] .nli-reveal--draw { transform-origin: left; transform: scaleX(0); transition: transform var(--dur-nl-slow) var(--ease-nl-out); }
+  [data-nl-motion="live"] .nli-reveal--draw[data-in="true"] { transform: none; }
+  [data-nl-motion="live"] .nli-hero .nli-reveal { animation: nli-hero-in var(--dur-nl-hero) var(--ease-nl-out) both; }
+  [data-nl-motion="live"] .nli-hero .nli-reveal:nth-child(1) { animation-delay: 150ms; }
+  [data-nl-motion="live"] .nli-hero h1 { animation: nli-hero-in var(--dur-nl-hero) var(--ease-nl-out) 250ms both; }
+  [data-nl-motion="live"] .nli-hero__stamp { animation: nli-hero-in var(--dur-nl-hero) var(--ease-nl-out) 600ms both; }
+}
+.nli-split { display: inline; }.nli-split__mask { display: inline-block; overflow: clip; vertical-align: bottom; }.nli-split__mask > span { display: inline-block; }
+@keyframes nli-hero-in { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@keyframes nli-rain { to { transform: translateX(25%); } }
+@keyframes nli-marquee { to { transform: translateX(-30%); } }
+@keyframes nli-settle { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: none; } }
+@media (max-width: 800px) { .nli-header nav { display: none; }.nli-header { padding: 18px 20px; }.nli-section { padding: 100px 20px; }.nli-hero { padding-top: 150px; }.nli-hero h1 { font-size: clamp(66px, 19vw, 120px); }.nli-hero__stamp { right: 26px; bottom: 100px; transform: scale(.8); }.nli-line { display: block; }.nli-line__rail { position: relative; top: auto; display: flex; overflow-x: auto; gap: 18px; margin-bottom: 70px; padding-bottom: 14px; }.nli-line__rail a { flex: 0 0 auto; }.nli-station-list { margin-top: 60px; }.nli-station { grid-template-columns: 36px 1fr auto; }.nli-section-head, .nli-midnight, .nli-border, .nli-dawn, .nli-book { display: block; }.nli-section-head { margin-bottom: 48px; }.nli-cabin-grid { grid-template-columns: 1fr; }.nli-cabin { min-height: 390px; }.nli-midnight__quote { margin-top: 80px; padding-bottom: 0; }.nli-border__map { height: 310px; margin-bottom: 70px; }.nli-dawn__stats { margin-top: 80px; }.nli-book__intro { margin-bottom: 60px; }.nli-footer { grid-template-columns: 1fr; }.nli-footer > div:last-child { justify-items: start; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto !important; }.nli-webgl { display: none; }.nli-footer__marquee { animation: none; }.nli-cabin__window::after { animation: none; } }
+
+.nli-reveal-trigger { min-width: 0; }
+.nli-section { scroll-margin-top: 80px; }
+.nli-cabins .nli-section-head > :last-child, .nli-cabin > p:not(.nli-mono) { color: #0D2238; }
+.nli-cabins .nli-eyebrow, .nli-cabins h2 em, .nli-cabin > .nli-mono, .nli-cabin a span { color: #0D2238; }
+.nli-dawn .nli-eyebrow, .nli-dawn h2 em { color: #0D2238; }
+.nli-dawn__stats .nli-reveal > div { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.nli-dawn__stats strong span { font: inherit; color: inherit; }
+.nli-line__rail a { min-height: 32px; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/opengraph-image.tsx">
+<![CDATA[import { ImageResponse } from "next/og";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+export default function OpenGraphImage() { return new ImageResponse(<div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: 72, background: "#081423", color: "#F4E8C1", fontFamily: "sans-serif" }}><div style={{ display: "flex", flexDirection: "column", gap: 18 }}><div style={{ fontSize: 26, letterSpacing: 7, color: "#F4B65E" }}>NIGHTLINE</div><div style={{ display: "flex", flexDirection: "column", fontSize: 76, lineHeight: 1 }}>Take the<br/><i>long way.</i></div><div style={{ fontSize: 24, color: "#A7B4C7" }}>European sleeper trains, seen from the window.</div></div><div style={{ width: 320, height: 320, borderRadius: 180, border: "2px solid #F4B65E", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 72 }}>↗</div></div>, { ...size }); }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/page.tsx">
+<![CDATA[import { RainWindow } from "./journey/RainWindow";
+import { Reveals } from "./motion/Reveals";
+import { SmoothScroll } from "./motion/SmoothScroll";
+import { Header } from "./sections/Header";
+import { Hero } from "./sections/Hero";
+import { Journey } from "./sections/Journey";
+import { Cabins } from "./sections/Cabins";
+import { Midnight } from "./sections/Midnight";
+import { Border } from "./sections/Border";
+import { Dawn } from "./sections/Dawn";
+import { Booking } from "./sections/Booking";
+import { Footer } from "./sections/Footer";
+export default function NightlinePage() { return <div className="nli-page"><RainWindow /><Header /><main><Hero /><Journey /><Cabins /><Midnight /><Border /><Dawn /><Booking /></main><Footer /><Reveals /><SmoothScroll /></div>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/brand/Logo.tsx">
+<![CDATA[export function Logo({ markOnly = false }: { markOnly?: boolean }) { return <span className={`nli-logo ${markOnly ? "nli-logo--mark" : ""}`} aria-label="NIGHTLINE"><svg viewBox="0 0 38 38" aria-hidden="true"><path d="M6 27 17 8l5 9 5-7 5 17H6Z" fill="none" stroke="currentColor" strokeWidth="1.8"/><circle cx="22" cy="17" r="2.2" fill="currentColor"/></svg>{!markOnly && <span>NIGHTLINE</span>}</span>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/content/cabins.ts">
+<![CDATA[export const CABINS = [
+  { code: "C-04", name: "The couchette", detail: "Six berths · shared hush", price: "from €59", tone: "amber" },
+  { code: "B-12", name: "The berth", detail: "Two berths · a reading lamp", price: "from €119", tone: "blue" },
+  { code: "S-01", name: "The sleeper", detail: "Private cabin · breakfast", price: "from €189", tone: "rose" },
+] as const;
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/content/stations.ts">
+<![CDATA[export const STATION_CONTENT = [
+  { name: "Departure", time: "19:42", place: "Paris → Vienna", kicker: "The platform falls away", body: "Board with a warm drink, a small bag, and the sense that the long way is the point." },
+  { name: "Midnight", time: "00:18", place: "Somewhere in the Alps", kicker: "Cities become signals", body: "The glass turns to a mirror. Your berth is quiet, the rails keep their promise." },
+  { name: "Border crossing", time: "03:26", place: "Passau → Linz", kicker: "One night, four countries", body: "A soft change of track, a new language on the platform, a passport checked without waking the carriage." },
+  { name: "Dawn", time: "06:51", place: "Vienna", kicker: "Wake on the right side", body: "Coffee arrives before the sun. The city opens at walking speed, a few streets from the station." },
+] as const;
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/forms/booking.ts">
+<![CDATA[export type Booking = { name: string; email: string; city: string };
+export type BookingErrors = Partial<Record<keyof Booking, string>>;
+export function validateBooking(input: Booking): BookingErrors { const errors: BookingErrors = {}; if (!input.name.trim()) errors.name = "Add your name"; if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email.trim())) errors.email = "Enter a work email"; if (!input.city.trim()) errors.city = "Choose a departure city"; return errors; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/forms/BookingForm.tsx">
+<![CDATA["use client";
+import { FormEvent, useState } from "react";
+import { validateBooking, type Booking } from "./booking";
+export function BookingForm() { const [form, setForm] = useState<Booking>({ name: "", email: "", city: "" }); const [errors, setErrors] = useState<Record<string, string>>({}); const [state, setState] = useState<"idle" | "loading" | "success">("idle"); const update = (key: keyof Booking, value: string) => setForm((current) => ({ ...current, [key]: value })); const submit = (event: FormEvent) => { event.preventDefault(); const next = validateBooking(form); setErrors(next); if (Object.keys(next).length) return; setState("loading"); window.setTimeout(() => setState("success"), 520); }; if (state === "success") return <div className="nli-form-success" data-state="success"><span className="nli-success-mark">✓</span><p className="nli-eyebrow">REQUEST RECEIVED</p><h3>Your night is<br /><em>already moving.</em></h3><p>We’ll send a short list of routes to {form.email} within one working day.</p><a href="#top" className="nli-text-link">Back to departure ↑</a></div>; return <form className="nli-form" onSubmit={submit} noValidate><p className="nli-eyebrow">THE NIGHT DESK</p><h3>Tell us where<br /><em>you want to wake.</em></h3><label>Name<input value={form.name} onChange={(e) => update("name", e.target.value)} aria-invalid={Boolean(errors.name)} />{errors.name && <small>{errors.name}</small>}</label><label>Work email<input type="email" value={form.email} onChange={(e) => update("email", e.target.value)} aria-invalid={Boolean(errors.email)} />{errors.email && <small>{errors.email}</small>}</label><label>Departure city<input value={form.city} onChange={(e) => update("city", e.target.value)} aria-invalid={Boolean(errors.city)} />{errors.city && <small>{errors.city}</small>}</label><button className="nli-button" type="submit" disabled={state === "loading"}>{state === "loading" ? "Coupling…" : "Show me the line ↗"}</button><p className="nli-form-note">No mailing list. No pressure. Just a better route.</p></form>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/journey/journey.ts">
+<![CDATA[import { clamp } from "../motion/math";
+export const STATIONS = ["Departure", "Midnight", "Border crossing", "Dawn"] as const;
+export function clamp01(value: number) { return clamp(value); }
+export function stationAt(progress: number) { const p = clamp01(progress); const scaled = p * STATIONS.length; const index = Math.min(STATIONS.length - 1, Math.floor(scaled)); return { index, local: index === STATIONS.length - 1 ? 1 : scaled - index }; }
+export function windowOffset(progress: number, depth: number) { const phase = (progress - 0.5) * depth; const x = Math.round(-phase * 16); return { x: Object.is(x, -0) ? 0 : x, y: Math.round(phase * 5.3333333333) }; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/journey/RainWindow.tsx">
+<![CDATA["use client";
+import { useEffect, useRef } from "react";
+import { useScrollProgress } from "../motion/useScrollProgress";
+import { FRAGMENT, VERTEX } from "./shaders";
+import { MAX_WIPES, createWipes, pushWipe } from "./wipes";
+
+function compile(gl: WebGL2RenderingContext, type: number, source: string) {
+  const shader = gl.createShader(type)!;
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : null;
+}
+
+export function RainWindow() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const progress = useScrollProgress();
+  const progressRef = useRef(progress);
+  progressRef.current = progress;
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    // Reduced motion never acquires a context; the CSS surface carries the page.
+    if (!canvas || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let stop = () => {};
+    let disposed = false;
+
+    const start = () => {
+      const gl = canvas.getContext("webgl2", { antialias: false, alpha: false });
+      const vertex = gl && compile(gl, gl.VERTEX_SHADER, VERTEX);
+      const fragment = gl && compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
+      if (!gl || !vertex || !fragment) { canvas.dataset.fallback = "true"; return; }
+
+      const program = gl.createProgram()!;
+      gl.attachShader(program, vertex);
+      gl.attachShader(program, fragment);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) { canvas.dataset.fallback = "true"; return; }
+      gl.useProgram(program);
+
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const position = gl.getAttribLocation(program, "position");
+      gl.enableVertexAttribArray(position);
+      gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+
+      const uniform = (name: string) => gl.getUniformLocation(program, name);
+      const uResolution = uniform("resolution"), uTime = uniform("time"), uTravel = uniform("travel"), uProgress = uniform("progress");
+      const uWipes = uniform("wipes[0]"), uEnds = uniform("ends[0]");
+
+      const wipes = createWipes();
+      const origin = performance.now();
+      let raf = 0, travel = 0, eased = progressRef.current, last = origin;
+      let previous: { x: number; y: number } | null = null;
+
+      const resize = () => {
+        const dpr = Math.min(devicePixelRatio, 1.5);
+        canvas.width = innerWidth * dpr;
+        canvas.height = innerHeight * dpr;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      };
+      const point = (e: PointerEvent) => ({ x: e.clientX / innerWidth, y: 1 - e.clientY / innerHeight });
+      const move = (e: PointerEvent) => {
+        const next = point(e);
+        if (previous) pushWipe(wipes, previous, next, (performance.now() - origin) / 1000);
+        previous = next;
+      };
+      const release = () => { previous = null; };
+
+      const frame = (now: number) => {
+        const dt = Math.min(.05, (now - last) / 1000);
+        last = now;
+        // The window settles toward the page position, so fast scrolls blur into speed instead of snapping.
+        eased += (progressRef.current - eased) * (1 - Math.exp(-dt * 5));
+        travel += dt * .35 + Math.abs(progressRef.current - eased) * 60;
+        gl.uniform2f(uResolution, canvas.width, canvas.height);
+        gl.uniform1f(uTime, (now - origin) / 1000);
+        gl.uniform1f(uTravel, travel + eased * 24);
+        gl.uniform1f(uProgress, eased);
+        gl.uniform4fv(uWipes, wipes.starts, 0, MAX_WIPES * 4);
+        gl.uniform2fv(uEnds, wipes.ends, 0, MAX_WIPES * 2);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        raf = requestAnimationFrame(frame);
+      };
+
+      addEventListener("resize", resize);
+      addEventListener("pointermove", move, { passive: true });
+      addEventListener("pointerup", release, { passive: true });
+      addEventListener("pointercancel", release, { passive: true });
+      resize();
+      raf = requestAnimationFrame(frame);
+
+      stop = () => {
+        cancelAnimationFrame(raf);
+        removeEventListener("resize", resize);
+        removeEventListener("pointermove", move);
+        removeEventListener("pointerup", release);
+        removeEventListener("pointercancel", release);
+        gl.deleteBuffer(buffer);
+        gl.deleteProgram(program);
+        gl.getExtension("WEBGL_lose_context")?.loseContext();
+      };
+    };
+
+    // Touch screens start the window on an explicit tap so a phone never pays for the shader unprompted.
+    if (matchMedia("(pointer: coarse)").matches) {
+      const onTap = () => { if (!disposed) start(); };
+      addEventListener("pointerdown", onTap, { once: true, passive: true });
+      return () => { disposed = true; removeEventListener("pointerdown", onTap); stop(); };
+    }
+
+    start();
+    return () => { disposed = true; stop(); };
+  }, []);
+
+  return <canvas ref={canvasRef} className="nli-webgl" aria-hidden="true" />;
+}
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/journey/shaders.ts">
+<![CDATA[export const VERTEX = `#version 300 es
+in vec2 position;
+out vec2 uv;
+void main() {
+  uv = position * .5 + .5;
+  gl_Position = vec4(position, 0., 1.);
+}`;
+
+export const FRAGMENT = `#version 300 es
+precision highp float;
+in vec2 uv;
+out vec4 color;
+uniform vec2 resolution;
+uniform float time;
+uniform float travel;
+uniform float progress;
+uniform vec4 wipes[32];
+uniform vec2 ends[32];
+
+float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float noise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  f = f*f*(3.-2.*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+1.),f.x),f.y);
+}
+float segment(vec2 p, vec2 a, vec2 b) {
+  vec2 d=b-a;
+  return length(p-a-d*clamp(dot(p-a,d)/max(dot(d,d),.00001),0.,1.));
+}
+vec3 outside(vec2 p, float dawn) {
+  vec3 sky=mix(vec3(.016,.04,.085),vec3(.095,.18,.28),p.y);
+  sky=mix(sky,mix(vec3(.32,.18,.14),vec3(.62,.48,.34),p.y),dawn);
+  // Three depths: distant blue lamps, city windows, close amber platforms.
+  for(int layer=0; layer<3; layer++) {
+    float l=float(layer), scale=7.-l*1.7;
+    vec2 world=vec2(p.x*scale+travel*(.16+l*.38),p.y*scale);
+    vec2 cell=floor(world), local=fract(world)-.5;
+    float seed=hash(cell+17.*l);
+    vec2 center=vec2((seed-.5)*.4,(hash(cell+13.)-.5)*.3);
+    vec2 d=local-center;
+    float radius=.09+l*.035;
+    float disc=1.-smoothstep(radius*.7,radius*1.7,length(d));
+    float bloom=exp(-dot(d,d)*16.)*.18;
+    float band=smoothstep(.16,.36,p.y)*(1.-smoothstep(.62,.86,p.y));
+    float enabled=step(.5,seed)*band;
+    vec3 lamp=mix(vec3(.3,.48,.64),vec3(1.,.59,.22),step(.38,seed));
+    sky+=lamp*(disc+bloom)*enabled*(.42+l*.16)*(1.-dawn*.45);
+    // Blurred foreground building silhouettes stay below the light line.
+    float roof=.18+hash(vec2(cell.x,l))*.13;
+    sky*=1.-(1.-smoothstep(roof,roof+.025,p.y))*(.2+l*.1);
+  }
+  float rail=exp(-abs(p.y-.14)*160.)+exp(-abs(p.y-.10)*200.);
+  sky+=vec3(.32,.29,.22)*rail*.18;
+  return sky;
+}
+void main() {
+  float aspect=resolution.x/resolution.y;
+  vec2 p=vec2(uv.x*aspect,uv.y);
+  float dawn=smoothstep(.68,.94,progress);
+  // Droplet normals refract the background, with highlights on their rim.
+  vec2 distortion=vec2(0.);
+  float edge=0., streak=0.;
+  for(int layer=0;layer<2;layer++) {
+    float l=float(layer), scale=10.+l*8.;
+    vec2 grid=p*vec2(scale,scale*.64);
+    // Each column drifts at its own pace so drops never line up in rows.
+    grid.y+=time*(.05+l*.04)*(.6+hash(vec2(floor(grid.x),l)))+hash(vec2(floor(grid.x),l+3.))*9.;
+    vec2 cell=floor(grid), local=fract(grid)-.5;
+    float seed=hash(cell+7.*l);
+    vec2 jitter=(vec2(hash(cell+2.),hash(cell+5.))-.5)*.5;
+    vec2 d=(local-jitter)*vec2(1.,.7);
+    float r=.07+seed*.1;
+    float len=length(d);
+    float bead=1.-smoothstep(r*.6,r,len);
+    float enabled=step(.55,seed);
+    distortion+=d*bead*enabled*.16;
+    // Lit rim on the lower-left only, so a drop reads as a lens and not a ring.
+    float facing=.5+.5*dot(d/max(len,.0001),vec2(-.6,-.8));
+    edge+=(1.-smoothstep(.008,.03,abs(len-r*.92)))*facing*facing*enabled*.07;
+    streak+=(1.-smoothstep(.004,.012,abs(d.x)))*smoothstep(.02,.22,d.y)*step(.8,seed)*.02;
+  }
+  vec3 scene=outside(p+distortion,dawn);
+  float clear=0.;
+  for(int i=0;i<32;i++) {
+    vec2 a=wipes[i].xy*vec2(aspect,1.);
+    vec2 b=ends[i]*vec2(aspect,1.);
+    float age=max(0.,time-wipes[i].z);
+    float stroke=(1.-smoothstep(.035,.085,segment(p,a,b)))*exp(-age*.38)*wipes[i].w;
+    clear=max(clear,stroke);
+  }
+  float fog=(.58+.14*noise(p*5.))*(1.-clear*.97);
+  vec3 mist=mix(vec3(.16,.24,.31),vec3(.50,.45,.36),dawn);
+  scene=mix(scene,mist,fog)+(edge+streak)*(1.-clear);
+  scene+=vec3(.34,.19,.08)*exp(-length((p-vec2(aspect*.87,.89))*vec2(.6,1.))*9.)*.3;
+  float vignette=smoothstep(0.,.18,uv.x)*smoothstep(0.,.18,1.-uv.x);
+  scene*=.62+.38*vignette;
+  scene+=(hash(gl_FragCoord.xy+fract(time))-.5)/255.;
+  color=vec4(scene,1.);
+}`;
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/journey/wipes.ts">
+<![CDATA[export const MAX_WIPES = 32;
+const MIN_LENGTH = 0.004;
+
+export type Wipes = { starts: Float32Array; ends: Float32Array; cursor: number };
+type Point = { x: number; y: number };
+
+export function createWipes(): Wipes {
+  return { starts: new Float32Array(MAX_WIPES * 4), ends: new Float32Array(MAX_WIPES * 2), cursor: 0 };
+}
+
+/** Records one pointer segment (x, y in 0..1, y up) as a ring buffer the shader re-fogs over time. */
+export function pushWipe(wipes: Wipes, from: Point, to: Point, time: number) {
+  if (Math.hypot(to.x - from.x, to.y - from.y) < MIN_LENGTH) return false;
+  const i = wipes.cursor;
+  wipes.starts.set([from.x, from.y, time, 1], i * 4);
+  wipes.ends.set([to.x, to.y], i * 2);
+  wipes.cursor = (i + 1) % MAX_WIPES;
+  return true;
+}
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/CountUp.tsx">
+<![CDATA["use client";
+import { useEffect, useState } from "react";
+export function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) { const [shown, setShown] = useState(0); useEffect(() => { const start = performance.now(); const id = requestAnimationFrame(function tick(now) { const p = Math.min(1, (now - start) / 900); setShown(value * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(tick); }); return () => cancelAnimationFrame(id); }, [value]); return <span aria-hidden>{shown.toFixed(value % 1 ? 1 : 0)}{suffix}</span>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/Magnetic.tsx">
+<![CDATA["use client";
+import { useRef } from "react";
+import type { ReactNode } from "react";
+export function Magnetic({ children }: { children: ReactNode }) { const ref = useRef<HTMLSpanElement>(null); return <span ref={ref} className="nli-magnetic" onPointerMove={(event) => { if (!matchMedia("(hover: hover) and (pointer: fine)").matches || !ref.current) return; const r = ref.current.getBoundingClientRect(); ref.current.style.setProperty("--mx", `${(event.clientX - r.left - r.width / 2) * 0.08}px`); ref.current.style.setProperty("--my", `${(event.clientY - r.top - r.height / 2) * 0.08}px`); }} onPointerLeave={() => { ref.current?.style.removeProperty("--mx"); ref.current?.style.removeProperty("--my"); }}>{children}</span>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/math.ts">
+<![CDATA[export function clamp(value: number, min = 0, max = 1) { return Math.min(max, Math.max(min, value)); }
+export function lerp(a: number, b: number, amount: number) { return a + (b - a) * amount; }
+export function progressFromRange(value: number, start: number, end: number) { return clamp((value - start) / Math.max(1, end - start)); }
+export function stagger(index: number, step: number, max: number) { return Math.min(max, Math.max(0, index * step)); }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/mode.ts">
+<![CDATA[export const NL_MOTION_SCRIPT = `(() => { try { if (matchMedia('(prefers-reduced-motion: no-preference)').matches) document.documentElement.dataset.nlMotion = 'live'; } catch {} })();`;
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/Reveal.tsx">
+<![CDATA[import type { ReactNode } from "react";
+export function Reveal({ children, className = "", type = "rise", index = 0 }: { children: ReactNode; className?: string; type?: string; index?: number }) {
+  return <div className="nli-reveal-trigger"><div className={`nli-reveal nli-reveal--${type} ${className}`} data-reveal style={{ "--i": index } as React.CSSProperties}>{children}</div></div>;
+}
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/Reveals.tsx">
+<![CDATA["use client";
+import { useEffect } from "react";
+
+export function Reveals() {
+  useEffect(() => {
+    if (!document.documentElement.dataset.nlMotion) return;
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.querySelector("[data-reveal]")?.setAttribute("data-in", "true"); observer.unobserve(entry.target); }
+    }), { threshold: 0.16, rootMargin: "0px 0px -8%" });
+    document.querySelectorAll<HTMLElement>(".nli-reveal-trigger").forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+  return null;
+}
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/SmoothScroll.tsx">
+<![CDATA["use client";
+import { useEffect } from "react";
+export function SmoothScroll() { useEffect(() => { if (matchMedia("(prefers-reduced-motion: reduce)").matches || matchMedia("(pointer: coarse)").matches) return; document.documentElement.style.scrollBehavior = "smooth"; return () => { document.documentElement.style.scrollBehavior = ""; }; }, []); return null; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/SplitText.tsx">
+<![CDATA[import { Fragment } from "react";
+
+export function SplitText({ text }: { text: string }) {
+  const words = text.split(" ");
+  // The space lives between the masks: a trailing space inside an inline-block is collapsed away.
+  return <span className="nli-split" aria-label={text}>{words.map((word, index) => <Fragment key={`${word}-${index}`}>{index > 0 ? " " : null}<span className="nli-split__mask" aria-hidden="true"><span style={{ "--i": index } as React.CSSProperties}>{word}</span></span></Fragment>)}</span>;
+}
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/TiltCard.tsx">
+<![CDATA["use client";
+import type { ReactNode } from "react";
+export function TiltCard({ children }: { children: ReactNode }) { return <article className="nli-tilt" onPointerMove={(event) => { const el = event.currentTarget; if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return; const r = el.getBoundingClientRect(); el.style.setProperty("--rx", `${(0.5 - (event.clientY - r.top) / r.height) * 4}deg`); el.style.setProperty("--ry", `${((event.clientX - r.left) / r.width - 0.5) * 4}deg`); }} onPointerLeave={(event) => { event.currentTarget.style.removeProperty("--rx"); event.currentTarget.style.removeProperty("--ry"); }}>{children}</article>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/motion/useScrollProgress.ts">
+<![CDATA["use client";
+import { useEffect, useState } from "react";
+export function useScrollProgress() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => { let frame = 0; const update = () => { frame = 0; const max = document.documentElement.scrollHeight - innerHeight; setProgress(max > 0 ? scrollY / max : 0); }; const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); }; update(); addEventListener("scroll", onScroll, { passive: true }); return () => { removeEventListener("scroll", onScroll); if (frame) cancelAnimationFrame(frame); }; }, []);
+  return progress;
+}
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/sections/Booking.tsx">
+<![CDATA[import { BookingForm } from "../forms/BookingForm";
+import { Reveal } from "../motion/Reveal";
+export function Booking() { return <section id="book" className="nli-section nli-book"><div className="nli-book__intro"><Reveal type="label"><p className="nli-eyebrow">07 / THE NIGHT DESK</p></Reveal><Reveal type="mask"><h2>Give the day<br /><em>back to yourself.</em></h2></Reveal><Reveal type="rise"><p>Tell us the city you want to wake in. We’ll find the train that gets you there while you sleep.</p></Reveal></div><Reveal type="clip"><BookingForm /></Reveal></section>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/sections/Border.tsx">
+<![CDATA[import { Reveal } from "../motion/Reveal";
+export function Border() { return <section className="nli-section nli-border"><div className="nli-border__map" aria-hidden="true"><span className="nli-border__line" /><span className="nli-border__dot nli-border__dot--one" /><span className="nli-border__dot nli-border__dot--two" /><span className="nli-border__dot nli-border__dot--three" /></div><div className="nli-border__copy"><Reveal type="label"><p className="nli-eyebrow">05 / THE BORDER</p></Reveal><Reveal type="mask"><h2>One night,<br /><em>four countries.</em></h2></Reveal><Reveal type="rise"><p>We do the handoffs while you sleep. No airport queues, no lost hours, no itinerary that asks you to backtrack.</p></Reveal><Reveal type="cascade"><div className="nli-route"><span>PAR</span><i>→</i><span>STR</span><i>→</i><span>MUC</span><i>→</i><span>VIE</span></div></Reveal></div></section>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/sections/Cabins.tsx">
+<![CDATA[import { CABINS } from "../content/cabins";
+import { Reveal } from "../motion/Reveal";
+import { TiltCard } from "../motion/TiltCard";
+export function Cabins() { return <section id="cabins" className="nli-section nli-cabins"><div className="nli-section-head"><Reveal type="label"><p className="nli-eyebrow">03 / FIND YOUR BERTH</p></Reveal><Reveal type="mask"><h2>Sleep how<br /><em>you travel.</em></h2></Reveal><Reveal type="rise"><p>Three ways to make the night yours. Every cabin has a reading light, a clean sheet, and a view that keeps moving.</p></Reveal></div><div className="nli-cabin-grid">{CABINS.map((cabin, index) => <TiltCard key={cabin.code}><div className={`nli-cabin nli-cabin--${cabin.tone}`}><div className="nli-cabin__window"><span>WINDOW {String(index + 1).padStart(2, "0")}</span><i /></div><p className="nli-mono">{cabin.code} · {cabin.price}</p><h3>{cabin.name}</h3><p>{cabin.detail}</p><a href="#book">Choose this berth <span>↗</span></a></div></TiltCard>)}</div></section>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/sections/Dawn.tsx">
+<![CDATA[import { Reveal } from "../motion/Reveal";
+import { CountUp } from "../motion/CountUp";
+export function Dawn() { return <section className="nli-section nli-dawn"><div className="nli-dawn__copy"><Reveal type="label"><p className="nli-eyebrow">06 / ARRIVAL</p></Reveal><Reveal type="mask"><h2>Wake on<br /><em>the right side.</em></h2></Reveal><Reveal type="rise"><p>Arrive before the city has made up its mind. A station, a coffee, and the whole day still in front of you.</p></Reveal></div><div className="nli-dawn__stats"><Reveal type="count"><div><strong><CountUp value={11} /></strong><span>cities from Paris<br />before breakfast</span></div></Reveal><Reveal type="count" index={1}><div><strong><CountUp value={38} suffix="k" /></strong><span>tonnes of CO₂<br />saved each season</span></div></Reveal><Reveal type="count" index={2}><div><strong><CountUp value={4.8} suffix="/5" /></strong><span>average window-seat<br />rating</span></div></Reveal></div></section>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/sections/Footer.tsx">
+<![CDATA[import { Logo } from "../brand/Logo";
+export function Footer() { return <footer className="nli-footer"><div><Logo /><p>© 2026 Nightline Rail Co.</p></div><div className="nli-footer__marquee" aria-hidden="true">PARIS · STRASBOURG · MUNICH · VIENNA · PRAGUE · PARIS · STRASBOURG · MUNICH · VIENNA · PRAGUE ·</div><div><a href="#top">Back to departure ↑</a><a href="#book">Contact the desk</a></div></footer>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/sections/Header.tsx">
+<![CDATA["use client";
+import { Logo } from "../brand/Logo";
+import { Magnetic } from "../motion/Magnetic";
+export function Header() { return <header className="nli-header"><a href="#top" className="nli-header__logo"><Logo /></a><nav aria-label="Main navigation"><a href="#line">The line</a><a href="#cabins">Cabins</a><a href="#night">The night</a></nav><Magnetic><a className="nli-button nli-button--small" href="#book">Plan a night <span>↗</span></a></Magnetic></header>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/sections/Hero.tsx">
+<![CDATA[import { Logo } from "../brand/Logo";
+import { Magnetic } from "../motion/Magnetic";
+import { Reveal } from "../motion/Reveal";
+import { SplitText } from "../motion/SplitText";
+export function Hero() { return <section id="top" className="nli-section nli-hero"><div className="nli-hero__copy"><Reveal type="label"><p className="nli-eyebrow">01 / DEPARTURE · PARIS GARE DE L&rsquo;EST</p></Reveal><h1><SplitText text="Take the long way." /></h1><Reveal type="rise"><p className="nli-lead">Sleeper trains for the hours that belong to you. Wake somewhere new, without losing a day getting there.</p></Reveal><Reveal type="rise" index={1}><div className="nli-actions"><Magnetic><a className="nli-button" href="#book">Find your night <span>↗</span></a></Magnetic><a className="nli-text-link" href="#line">Follow the window <span>↓</span></a></div></Reveal></div><div className="nli-hero__stamp"><Logo markOnly /><span>EUROPE · 2026</span></div><div className="nli-hero__hint">Scroll to travel <span>↓</span></div></section>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/sections/Journey.tsx">
+<![CDATA["use client";
+import { useEffect, useState } from "react";
+import { STATION_CONTENT } from "../content/stations";
+import { stationAt } from "../journey/journey";
+import { Reveal } from "../motion/Reveal";
+import { useScrollProgress } from "../motion/useScrollProgress";
+export function Journey() { const progress = useScrollProgress(); const [active, setActive] = useState(0); const current = stationAt(progress); useEffect(() => setActive(current.index), [current.index]); return <section id="line" className="nli-section nli-line"><div className="nli-line__rail" aria-label="Journey stations">{STATION_CONTENT.map((station, index) => <a key={station.name} href={`#station-${index}`} className={index === active ? "is-active" : ""}><span>{String(index + 1).padStart(2, "0")}</span>{station.name}</a>)}</div><div className="nli-line__intro"><Reveal type="label"><p className="nli-eyebrow">02 / THE LINE</p></Reveal><Reveal type="mask"><h2>One window.<br /><em>Four kinds of dark.</em></h2></Reveal><Reveal type="rise"><p>Scroll through the hours as the world outside changes speed. Each station is a small permission to stay awake.</p></Reveal></div><div className="nli-station-list">{STATION_CONTENT.map((station, index) => <article id={`station-${index}`} key={station.name} className={`nli-station ${index === active ? "is-current" : ""}`}><div className="nli-station__number">0{index + 1}</div><div><p className="nli-mono">{station.time} · {station.place}</p><h3>{station.name}</h3><p>{station.body}</p></div><span className="nli-station__arrow">↗</span></article>)}</div></section>; }
+]]>
+    </file>
+    <file path="src/app/(nightline)/nightline/sections/Midnight.tsx">
+<![CDATA[import { Reveal } from "../motion/Reveal";
+export function Midnight() { return <section id="night" className="nli-section nli-midnight"><div className="nli-midnight__texture" /><div className="nli-midnight__copy"><Reveal type="label"><p className="nli-eyebrow">04 / MIDNIGHT SERVICE</p></Reveal><Reveal type="mask"><h2>The hours<br /><em>between cities.</em></h2></Reveal><Reveal type="rise"><p>At 00:18 the carriage settles. Lamps go low. The dining car keeps one table lit for anyone who would rather watch the mountains than sleep.</p></Reveal><Reveal type="draw"><div className="nli-specs"><span><b>01:18</b>Last pour</span><span><b>04</b>Countries crossed</span><span><b>0</b>Notifications</span></div></Reveal></div><div className="nli-midnight__quote">“A room that moves<br /><em>without taking you with it.</em>”</div></section>; }
+]]>
+    </file>
+  </files>
+</template>

@@ -1,0 +1,4 @@
+import { ImageResponse } from "next/og";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+export default function OpenGraphImage() { return new ImageResponse(<div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: 72, background: "#081423", color: "#F4E8C1", fontFamily: "sans-serif" }}><div style={{ display: "flex", flexDirection: "column", gap: 18 }}><div style={{ fontSize: 26, letterSpacing: 7, color: "#F4B65E" }}>NIGHTLINE</div><div style={{ display: "flex", flexDirection: "column", fontSize: 76, lineHeight: 1 }}>Take the<br/><i>long way.</i></div><div style={{ fontSize: 24, color: "#A7B4C7" }}>European sleeper trains, seen from the window.</div></div><div style={{ width: 320, height: 320, borderRadius: 180, border: "2px solid #F4B65E", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 72 }}>↗</div></div>, { ...size }); }
