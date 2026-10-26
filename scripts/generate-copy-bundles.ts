@@ -9,6 +9,8 @@ export const TEMPLATE_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
+  starlight: { name: "Starlight Lab", dependencies: ["three", "@phosphor-icons/react"] },
+  firstday: { name: "FIRSTDAY", dependencies: ["lenis"] },
   flori: { name: "Flori", dependencies: ["lenis"] },
   pipkin: { name: "Pipkin", dependencies: ["lenis"] },
   satoyama: { name: "Satoyama Biyori", dependencies: [] },
