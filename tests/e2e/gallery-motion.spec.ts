@@ -78,7 +78,7 @@ test("mobile touch has no hover lift or horizontal overflow", async ({ browser }
   const page = await context.newPage();
   await page.goto(test.info().project.use.baseURL + "/");
   await page.getByRole("tab", { name: "3D & WebGPU" }).tap();
-  await expect(page.locator(".template-card")).toHaveCount(7);
+  await expect(page.locator(".template-card")).toHaveCount(8);
   await expect(page.getByRole("tab", { name: "3D & WebGPU" })).toHaveCSS("transform", "none");
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
   await context.close();

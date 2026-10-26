@@ -22,7 +22,7 @@ await expect(page.locator("article")).toHaveCount(40);
 test("all model families return real matching templates", async ({ page }) => {
   await page.goto("/");
 
-  for (const [model, count] of [["Claude", 15], ["Gemini", 5], ["Other", 1]] as const) {
+  for (const [model, count] of [["Claude", 16], ["Gemini", 5], ["Other", 1]] as const) {
 
     await page.getByRole("button", { name: model, exact: true }).click();
     await expect(page.locator("article")).toHaveCount(count);
@@ -117,7 +117,7 @@ test("autoplay responds to motion preferences and tab visibility", async ({ page
 test("every gallery video stays muted at zero volume, including after resume", async ({ page }) => {
   await page.goto("/");
   const videos = page.locator(".template-video");
-  await expect(videos).toHaveCount(39);
+  await expect(videos).toHaveCount(40);
   const allSilent = () => videos.evaluateAll(elements => elements.every(element => {
     const video = element as HTMLVideoElement;
     return video.muted && video.defaultMuted && video.volume === 0;

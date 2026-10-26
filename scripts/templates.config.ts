@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet";
 
 export type TemplateConfig = {
   palette: string[];
@@ -8,6 +8,14 @@ export type TemplateConfig = {
 
 export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   nightline: { palette: ["#081423", "#0D2238", "#F4E8C1", "#F4B65E", "#A7B4C7", "#C97972"] },
+  // ink (text, the CTA pill), paper (page), white (the glass), slate (muted text), mist (hairlines, separators),
+  // haze (cool fill light, tints), cobalt (the one accent: links, focus, selection), emerald (rare: CTA hover, success)
+  cullet: {
+    palette: ["#0F1117", "#F4F5F8", "#FFFFFF", "#525866", "#9AA1B2", "#DCE8FF", "#2563EB", "#10B981"],
+    paletteExempt: [
+      "src/app/(cullet)/cullet/sampler/spectrum.ts", // spectral wavelength stops are optical content, like a photograph of a caustic
+    ],
+  },
   // house (paper), white (windows, glass), ink (text, the dark house), night (raised dark surfaces), graphite (muted text),
   // cue (the one accent: the wave, the count, focus), cue light (the accent on the dark house), tape (rare: spike marks, the ghost light)
   understudy: { palette: ["#F4F4F1", "#FFFFFF", "#0D0D10", "#1A1A1F", "#66666E", "#5B3CF0", "#AE9CFF", "#FFC547"] },

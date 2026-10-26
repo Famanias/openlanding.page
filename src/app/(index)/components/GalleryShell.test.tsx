@@ -18,10 +18,10 @@ describe("GalleryShell", () => {
     expect(html).toContain("Scroll Showcase");
     expect(html).toContain("3D &amp; WebGPU");
     expect(html).toContain("Editorial Magazine");
-    expect(html).toContain("Showing 40 of 40 templates");
+    expect(html).toContain("Showing 41 of 41 templates");
   });
 
-  it("renders all 40 initial template cards", () => {
+  it("renders all 41 initial template cards", () => {
     const html = renderToStaticMarkup(<GalleryShell />);
     expect(html).toContain('href="/orrery"');
     expect(html).toContain('href="/keytu"');
@@ -58,6 +58,8 @@ expect(html).toContain('href="/tally"');
     expect(html).toContain('href="/serein"');
     expect(html).toContain('href="/nulo"');
     expect(html).toContain('href="/flori"');
+    expect(html).toContain('href="/nightline"');
+    expect(html).toContain('href="/cullet"');
     expect(html).toContain("Orrery");
     expect(html).toContain("KEYTU");
     expect(html).toContain("KŌJI");
@@ -89,6 +91,8 @@ expect(html).toContain('href="/tally"');
     expect(html).toContain("Pipkin");
     expect(html).toContain("SEREIN Bureau");
     expect(html).toContain("NULO");
+    expect(html).toContain("NIGHTLINE");
+    expect(html).toContain("Cullet");
   });
 
   it("renders the first template card eagerly and others lazily", () => {
@@ -96,7 +100,7 @@ expect(html).toContain('href="/tally"');
     const eagerCount = (html.match(/loading="eager"/g) || []).length;
     const lazyCount = (html.match(/loading="lazy"/g) || []).length;
     expect(eagerCount).toBe(1);
-    expect(lazyCount).toBe(39);
+    expect(lazyCount).toBe(40);
   });
 
   it("renders responsive grid container with 5 columns on desktop", () => {
