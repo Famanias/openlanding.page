@@ -1,5 +1,53 @@
 [
   {
+    "date": "2026-10-26",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "page",
+    "shape": "Split Studio & Production Workflow",
+    "theme": "brand (locked Understudy Studio palette)",
+    "axes": "light/editorial-sans/cue-violet",
+    "hero": "Editorial Stage Masthead",
+    "nav": "masthead + floating utility dock",
+    "footer": "curtain call colophon",
+    "imagery": "theatrical floor plan, proscenium staging, and simulated production windows",
+    "photos": [],
+    "entry": "src/app/(understudy)/understudy/page.tsx",
+    "fingerprint": "masthead|ledger-hero|repertoire-board|diptych-acts|casting-desk|contract-card|colophon",
+    "sections": [
+      "masthead nav",
+      "stage hero",
+      "repertoire call board",
+      "four-act production method",
+      "casting network desk",
+      "tuition term sheet",
+      "curtain call colophon"
+    ],
+    "signature": "theatrical rehearsal ledger with live telemetry, proscenium portal, and 4-act diptych",
+    "waived": [],
+    "prompt": "Redesign layout of /understudy with Hallmark to break 1:1 structural resemblance to learnwithzero.com; preserve theatre vocabulary, interactive sheets, and test contracts",
+    "review": {
+      "hero": "in-thread; full masthead navigation, honest parameters ledger, and dual CTAs",
+      "finish": "verified across 320/375/414/768/1024/1280px viewports; root overflow-x clipped",
+      "floorFailures": 0,
+      "openReflex": 0,
+      "kept": "6/6 section anchors, 3/3 sheet dialogs, 10/10 parts, 18/18 companies, 51/51 unit tests passing"
+    },
+    "motion": {
+      "audit": "improve-animations",
+      "changes": [
+        "top masthead navigation with tone flip",
+        "structured stage ledger bar in hero",
+        "four-act diptych rehearsal flow",
+        "casting desk callback ledger",
+        "physical contract term sheet card",
+        "complete colophon directory"
+      ],
+      "reducedMotion": "natural un-pinned layout with static displays; content stays immediately visible",
+      "verification": "51 unit tests passed in 221ms"
+    }
+  },
+  {
     "date": "2026-10-25",
     "mode": "redesign",
     "depth": "full",

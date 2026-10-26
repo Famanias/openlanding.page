@@ -27,16 +27,47 @@ export function Finale() {
           <span className="us-sr">Start with Understudy</span>
         </a>
         <div className="us-finale__foot">
-          <nav className="us-finale__legal" aria-label="Legal">
-            <a href="#top" data-us-go="top">Back to the top</a>
-            <a href="mailto:hello@understudy.example">hello@understudy.example</a>
-            <span>© 2026 Understudy · a fictional brand for a landing-page template</span>
-          </nav>
-          <nav className="us-finale__social" aria-label="Understudy elsewhere">
-            <a href="https://example.com/understudy/letters">Letters</a>
-            <a href="https://example.com/understudy/press">Press</a>
-            <a href="https://example.com/understudy/jobs">Directors wanted</a>
-          </nav>
+          <div className="us-finale__cols">
+            <div className="us-finale__col">
+              <span className="us-mono">Rehearsal Stages</span>
+              <ul className="us-finale__list">
+                <li><a href="#parts" data-us-go="parts">Engineering Repertoire</a></li>
+                <li><a href="#parts" data-us-go="parts">Design & Product Parts</a></li>
+                <li><a href="#parts" data-us-go="parts">Growth & Operations</a></li>
+                <li><a href="#parts" data-us-go="parts">18 Partner Companies</a></li>
+              </ul>
+            </div>
+            <div className="us-finale__col">
+              <span className="us-mono">The Method</span>
+              <ul className="us-finale__list">
+                <li><a href="#rehearsal" data-us-go="rehearsal">Act I: The Lot</a></li>
+                <li><a href="#rehearsal" data-us-go="rehearsal">Act II: The Cast</a></li>
+                <li><a href="#rehearsal" data-us-go="rehearsal">Act III: The Notes</a></li>
+                <li><a href="#rehearsal" data-us-go="rehearsal">Act IV: The Reel</a></li>
+              </ul>
+            </div>
+            <div className="us-finale__col">
+              <span className="us-mono">Studio Cast</span>
+              <ul className="us-finale__list">
+                <li><a href="#casting" data-us-go="casting">3,400+ Casting Studios</a></li>
+                <li><a href="#pricing" data-us-go="pricing">Tuition & Term Sheet</a></li>
+                <li><a href="mailto:director@understudy.example" data-us-ask>Audition Inquiries</a></li>
+                <li><a href="https://example.com/understudy/jobs">Directors Wanted</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="us-finale__row">
+            <nav className="us-finale__legal" aria-label="Legal">
+              <a href="#top" data-us-go="top">Back to the top</a>
+              <a href="mailto:hello@understudy.example">hello@understudy.example</a>
+              <span>© 2026 Understudy · a fictional brand for a landing-page template</span>
+            </nav>
+            <nav className="us-finale__social" aria-label="Understudy elsewhere">
+              <a href="https://example.com/understudy/letters">Letters</a>
+              <a href="https://example.com/understudy/press">Press</a>
+              <a href="https://example.com/understudy/jobs">Directors wanted</a>
+            </nav>
+          </div>
         </div>
       </div>
     </footer>

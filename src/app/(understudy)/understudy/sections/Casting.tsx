@@ -27,8 +27,16 @@ export function Casting() {
     <section className="us-casting" id="casting" data-scene="casting" data-tone="light" aria-labelledby="us-cast-t">
       <div className="us-casting__stage">
         <header className="us-casting__head">
+          <p className="us-eyebrow us-casting__eyebrow">Direct Placement Pipeline</p>
           <h2 className="us-h2" id="us-cast-t"><MaskLine>You rehearse. We <em className="us-cueword">cast.</em></MaskLine></h2>
           <Reveal as="p" className="us-lead" index={1}>Your reel goes straight to the companies casting for your part.</Reveal>
+          <div className="us-casting__pills us-mono" aria-hidden="true">
+            <span>62% Callbacks Season-to-Date</span>
+            <span>·</span>
+            <span>No Cold Outreaches</span>
+            <span>·</span>
+            <span>Direct Hiring Line</span>
+          </div>
         </header>
         <div className="us-cast">
           <svg className="us-cast__net" viewBox="0 0 1200 600" aria-hidden="true">

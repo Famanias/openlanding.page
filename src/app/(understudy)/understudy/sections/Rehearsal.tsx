@@ -23,6 +23,9 @@ export function Rehearsal() {
           <span className="us-sr">Learn the part by playing it.</span>
           <WaveLine words={LINE} total={letterCount(LINE)} cue={[4, 5]} after={<CueDot className="us-wave__pop" />} />
         </h2>
+        <p className="us-rehearse__sub">
+          Eighteen simulated companies. Real briefs. Daily director critique. Walk out with a verified reel the casting network opens.
+        </p>
       </div>
 
       <div className="us-thread" data-scene="thread" data-flow data-line="0.7">
@@ -34,10 +37,18 @@ export function Rehearsal() {
           {SCENES.map((s, n) => (
             <li key={s.id} className="us-sc" style={{ "--i": n } as CSSProperties}>
               <div className="us-sc__h">
-                <Reveal variant="scale" className="us-sc__node" ><i /></Reveal>
-                <Reveal variant="slide" as="p" className="us-mono us-sc__n">{s.n}</Reveal>
+                <Reveal variant="scale" className="us-sc__node"><i /></Reveal>
+                <div className="us-sc__meta">
+                  <Reveal variant="slide" as="span" className="us-mono us-sc__act">{s.act}</Reveal>
+                  <span className="us-sc__dot" aria-hidden="true">·</span>
+                  <Reveal variant="slide" as="span" className="us-mono us-sc__milestone">{s.milestone}</Reveal>
+                </div>
                 <h3 className="us-sc__t"><MaskLine>{s.lead} <em className="us-cueword">{s.cue}</em></MaskLine></h3>
                 <Reveal as="p" className="us-sc__p" index={1}>{s.body}</Reveal>
+                <Reveal as="blockquote" className="us-sc__quote" index={2}>
+                  <p className="us-sc__quotedir">{s.directorNote}</p>
+                  <cite className="us-mono us-sc__cite">Director Note</cite>
+                </Reveal>
               </div>
               <SceneWindow kind={s.id} title={s.window} />
             </li>

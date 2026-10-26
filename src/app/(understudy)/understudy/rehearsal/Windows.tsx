@@ -8,12 +8,16 @@ import type { SceneKind } from "./scenes";
 
 const i = (n: number) => ({ "--i": n }) as CSSProperties;
 
-/** A window in the house frame: a bar with three lights and a title, then the scene's mock. */
+/** A window in the house frame: a bar with three stage pips and a title, then the scene's mock. */
 export function Win({ title, children, label, className }: { title: string; children: ReactNode; label: string; className?: string }) {
   return (
     <Reveal variant="wipe" className={`us-win ${className ?? ""}`}>
       <figure className="us-win__in" role="img" aria-label={label}>
-        <div className="us-win__bar" aria-hidden="true"><i /><i /><i /><span>{title}</span></div>
+        <div className="us-win__bar" aria-hidden="true">
+          <div className="us-win__pips"><i /><i /><i /></div>
+          <span className="us-win__title">{title}</span>
+          <span className="us-win__status us-mono">Active Stage</span>
+        </div>
         <div className="us-win__body" aria-hidden="true">{children}</div>
       </figure>
     </Reveal>
@@ -34,9 +38,12 @@ function Lot() {
         ))}
       </div>
       <div className="us-lot__brief">
-        <p className="us-mono">Brief · Product Analyst</p>
+        <div className="us-lot__briefhead">
+          <p className="us-mono">Brief No. 204 · Product Analyst</p>
+          <span className="us-lot__urgent us-mono">Active Sprint</span>
+        </div>
         <p className="us-lot__q">31% of carts stall at the address step. Find out why.</p>
-        <p className="us-lot__meta"><span>Due Fri</span><span>Director: Ines Duarte</span></p>
+        <p className="us-lot__meta"><span>Due Fri 18:00</span><span>Director: Ines Duarte</span></p>
         <span className="us-lot__take">Take the part</span>
       </div>
     </div>
@@ -130,7 +137,11 @@ export function SceneWindow({ kind, title }: { kind: SceneKind; title: string })
 export function ReelFigure() {
   return (
     <figure className="us-win__in us-cast__win" role="img" aria-label={LABELS.reel}>
-      <div className="us-win__bar" aria-hidden="true"><i /><i /><i /><span>understudy.example/maya</span></div>
+      <div className="us-win__bar" aria-hidden="true">
+        <div className="us-win__pips"><i /><i /><i /></div>
+        <span className="us-win__title">understudy.example/maya</span>
+        <span className="us-win__status us-mono">Certified Reel</span>
+      </div>
       <div className="us-win__body" aria-hidden="true"><Reel /></div>
     </figure>
   );

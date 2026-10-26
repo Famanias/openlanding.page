@@ -1,32 +1,38 @@
 {
-  "date": "2026-10-25",
+  "date": "2026-10-26",
   "mode": "redesign",
   "scope": "page",
-  "entry": "src/app/(serein)/serein/page.tsx",
-  "target": "route /serein",
-  "before": "The existing route is a single continuous SEREIN Bureau field report with six anchored sections, a local validation form and inline SVG/CSS visuals.",
+  "entry": "src/app/(understudy)/understudy/page.tsx",
+  "target": "route /understudy",
+  "before": "The existing route was a 1:1 structural and motion replica of learnwithzero.com with a bottom-dock-only navigation, scroll-pinned hero, radial network, and single-card rhythm.",
   "citations": [
-    "src/app/(serein)/serein/DESIGN.md:1",
-    "src/app/(serein)/serein/page.tsx:1",
-    "src/app/(serein)/serein/sections/LandingSections.tsx:1",
-    "src/app/(serein)/serein/forms/Subscribe.tsx:1",
-    "src/app/(serein)/serein/serein.css:1"
+    "src/app/(understudy)/understudy/DESIGN.md:5",
+    "src/app/(understudy)/understudy/page.tsx:1",
+    "src/app/(understudy)/understudy/sections/TopBar.tsx:1",
+    "src/app/(understudy)/understudy/sections/Hero.tsx:1",
+    "src/app/(understudy)/understudy/sections/Rehearsal.tsx:1",
+    "src/app/(understudy)/understudy/sections/Casting.tsx:1",
+    "src/app/(understudy)/understudy/sections/Contract.tsx:1",
+    "src/app/(understudy)/understudy/sections/Finale.tsx:1",
+    "src/app/(understudy)/understudy/understudy.css:1"
   ],
   "preserved": [
-    "SEREIN Bureau name, tagline, weather observations, readings, dates and dispatch copy",
-    "All six section ids and navigation links: bureau, instruments, forecast, notes, dispatch and subscribe",
-    "Forecast tab interaction, local form validation, success/reset handlers and existing test hooks",
-    "Locked SEREIN palette, Lora/Public Sans/IBM Plex Mono type roles and inline SVG/CSS media direction"
+    "Understudy brand name, theatre vocabulary (parts, cast, director, notes, reel, callbacks), copy intent, and pricing ($89/month, free first week)",
+    "All section anchors: #top, #parts, #rehearsal, #casting, #pricing, #stage",
+    "Interactive sheets: AuditionSheet, AskSheet, MenuSheet, and PartCard brief flip interaction",
+    "Locked 8-color palette (house, white, ink, night, graphite, cue, cue-light, tape) and Google Sans Flex + Google Sans Code + Literata type roles"
   ],
   "introduced": [
-    "Split stage hero with a live 1016 hPa pressure instrument",
-    "Hallmark tokens/base rules with clipped overflow, tokenized palette and instant focus states",
-    "Varied editorial compositions: ruled bureau spread, open instrument plates, working forecast strip, field-note cards, dispatch index and dark close",
-    "Roman display type, sentence-case controls, reduced-motion-safe hero settle and mobile-first responsive grid"
+    "Authoritative Studio Masthead header with direct section navigation (Repertoire, Method, Casting, Tuition), live telemetry, and audition trigger",
+    "Editorial production hero with tangible studio parameters ledger (10h/week, 18 companies, 62% callbacks) and dual CTAs",
+    "Four-Act Production Method diptych layout structuring rehearsal milestones alongside director notes",
+    "Casting desk and callback ledger replacing the radial spiderweb network",
+    "Tactile Studio Contract & Term Sheet card with authentic document-style presentation",
+    "Grand Curtain Call colophon with complete studio index, directory columns, and legal disclosures"
   ],
   "material": {
-    "real": "SEREIN Bureau copy, SR-07 station codes, 51.52° N / 0.09° W, 2026 new moon, 1016–1024 hPa readings, wind observations and local form behavior",
-    "pictures": "Original inline SVG weather diagrams, pressure line, instrument dials and CSS paper/grid treatment",
-    "absent": "External photographs, user logos, testimonials, customer metrics and network form endpoint"
+    "real": "Understudy rehearsal copy, 10 hours/week, 5-8 weeks, 62% callbacks, $89 tuition, 18 simulated companies, 3,400+ partner network",
+    "pictures": "Original inline SVG stage floor, props, marks, and CSS architectural staging",
+    "absent": "Fabricated metrics, unverified testimonials, or external stock photos"
   }
 }

@@ -23,11 +23,28 @@ export function Hero() {
         </div>
 
         <div className="us-hero__copy">
-          <p className="us-eyebrow us-hero__eyebrow"><span>The rehearsal studio for first jobs</span></p>
+          <p className="us-eyebrow us-hero__eyebrow"><span>Studio Production · Season 2026</span></p>
           <h1 className="us-hero__t" id="us-hero-t">
             <span className="us-hero__l"><span>Your first job,</span></span>
             <span className="us-hero__l"><span>rehearsed.<CueDot className="us-hero__cue" /></span></span>
           </h1>
+          <p className="us-hero__desc">
+            Rehearse real roles at 18 simulated companies with a cast, a senior director, and live briefs. Leave with a verified reel that 3,400+ companies cast from directly.
+          </p>
+          <div className="us-hero__acts">
+            <a className="us-btn us-btn--ink us-btn--big" href="mailto:hello@understudy.example?subject=Audition" data-us-start>
+              <span className="us-roll" data-text="Book your first call time"><span>Book your first call time</span></span>
+              <svg className="us-btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6" /></svg>
+            </a>
+            <a className="us-btn us-btn--ghost us-btn--big" href="#parts" data-us-go="parts">
+              <span>Explore Repertoire</span>
+            </a>
+          </div>
+          <ul className="us-hero__ledger" aria-label="Studio parameters">
+            <li><b>10 h</b><span>a week, around a day job</span></li>
+            <li><b>18</b><span>active simulated studios</span></li>
+            <li><b>62%</b><span>received direct callbacks</span></li>
+          </ul>
         </div>
 
         {/* where the arch rests; with motion off it shows the mark itself */}
@@ -43,6 +60,7 @@ export function Hero() {
             <i className="us-curtains__slit" />
           </div>
           <div className="us-house__in">
+            <p className="us-house__tag us-mono">Direct Casting Network · Season 2026</p>
             <h2 className="us-house__h">
               <span className="us-house__n" aria-hidden="true">
                 {[...FIGURE].map((ch, i) => (

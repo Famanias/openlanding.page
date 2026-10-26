@@ -2,7 +2,17 @@
 
 A fictional rehearsal studio for first jobs. You play a real role (a *part*) at one of eighteen simulated companies, with a *cast* (team), a *director* (manager) and real briefs, and leave with a *reel* (portfolio) that the 3,400 companies *casting* from the studio can open. Free for the first week ("opening night"), then $89 a month.
 
-Reference for look and behaviour: learnwithzero.com (Zero). The structure, pacing and motion vocabulary follow it closely (one held hero that zooms into the logo mark, a black screen with a rising figure over lensed logo rows, a row of tall cards (here an endless drifting ring), a held line a cue runs through, a scroll-drawn thread, a matching stage with an odometer, a signed offer, a living world at the foot, a glass dock as the only navigation). Every name, mark, illustration, line of copy and company is invented for this template.
+## Architectural Direction & Hallmark Redesign
+
+Originally inspired by theatrical mechanics, Understudy has been redesigned with **Hallmark (Split Studio & Narrative Workflow)** to establish an independent, authoritative structural identity that breaks completely from the template replication of learnwithzero.com.
+
+Key structural differences:
+1. **Studio Masthead Navigation:** Replaces the bottom-dock-only model with an authoritative top masthead featuring direct section navigation (Repertoire, Method, Casting, Tuition), live rehearsal telemetry, and primary audition triggers.
+2. **Editorial Production Masthead (Hero):** Incorporates tangible studio parameters (10h/week, 18 active simulated companies, 62% direct callback rate) and dual calls-to-action ("Book call time" and "Explore Repertoire") alongside the theatrical proscenium entry.
+3. **The Four-Act Production Method:** Organizes rehearsal as a clear four-act diptych (Act I: The Lot, Act II: The Cast, Act III: The Notes, Act IV: The Reel) pairing director notes in Literata italic with authentic interactive simulated workspaces.
+4. **Casting Desk & Callback Ledger:** Structures the direct placement network with clear credibility metrics, turnaround times, and verified outcomes.
+5. **Authentic Studio Agreement Card:** Encloses tuition terms in a physical term card format with straightforward monthly pricing and clear parameters.
+6. **Curtain Call Colophon:** Features a complete studio directory and index replacing minimal footer text.
 
 ## Requirements
 
