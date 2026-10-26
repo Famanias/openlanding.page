@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-  it("contains all thirty-eight templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(44);
+  it("contains all templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(45);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["amaoto", "spaceedu", "lucentra", "cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "sundial", "verane", "wowflutter", "loophouse", "morrow", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
+    expect(slugs).toEqual(["amaoto", "assemblage", "spaceedu", "lucentra", "cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "sundial", "verane", "wowflutter", "loophouse", "morrow", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {

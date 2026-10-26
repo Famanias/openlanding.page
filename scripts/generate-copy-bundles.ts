@@ -156,6 +156,10 @@ tally: {
     name: "LUCENTRA",
     dependencies: [],
   },
+  assemblage: {
+    name: "Assemblage",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
