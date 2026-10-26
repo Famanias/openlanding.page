@@ -1,0 +1,5 @@
+const steps = [{ n: "01", title: "Sample", copy: "Bring a reference surface, a rough sketch, or the one edge that still feels wrong." }, { n: "02", title: "Tune", copy: "Move the controls together and watch the same specimen keep its identity." }, { n: "03", title: "Brief", copy: "Leave with values, a named state, and language the build team can use." }];
+
+export function Workflow() {
+  return <section className="lc-section" id="workflow" aria-labelledby="workflow-title"><div className="lc-container"><div className="lc-section__intro"><div><p className="lc-mono lc-kicker">05 / Studio rhythm</p><h2 id="workflow-title">A short path to a clear surface.</h2></div><p className="lc-section__copy">The bench is designed for the moment before implementation, when a team needs to agree on what “right” looks like.</p></div><div className="lc-workflow">{steps.map((step) => <article className="lc-workflow__item" key={step.n}><span className="lc-workflow__number lc-mono">{step.n}</span><h3>{step.title}</h3><p>{step.copy}</p></article>)}</div></div></section>;
+}
