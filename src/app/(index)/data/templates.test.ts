@@ -5,9 +5,9 @@ import path from "node:path";
 
 describe("gallery template data", () => {
 it("contains all thirty-eight templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(41);
+    expect(TEMPLATES).toHaveLength(42);
     const slugs = TEMPLATES.map((t) => t.slug);
-expect(slugs).toEqual(["cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "sundial", "verane", "wowflutter", "loophouse", "morrow", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
+    expect(slugs).toEqual(["amaoto", "cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "sundial", "verane", "wowflutter", "loophouse", "morrow", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -60,7 +60,7 @@ expect(slugs).toEqual(["cullet", "nightline", "understudy", "flori", "nulo", "se
     for (const t of TEMPLATES) {
       if (t.slug === "nightline") {
         expect(t.model).toBe("GPT-6 Astra Max");
-      } else if (t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
+      } else if (t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
       } else if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash Free");

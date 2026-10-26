@@ -1,0 +1,3 @@
+# AMAOTO rebuild brief
+
+Build a Next.js 16 App Router landing page for a fictional wagasa atelier called AMAOTO. Use the supplied four references in `assets/incoming/amaoto/ref/` and the procedural model factory in `model/createWagasaModel.ts`. Keep the fixed WebGL canvas behind six scroll chapters: Hero, Structure, Light, Canopy, Making and Commission. Use the palette `#1A1613`, `#F4ECDD`, `#F2B8C6`, `#D9748F`, `#C8412B`, `#B8923A`, `#2B3A55`; fonts Shippori Mincho, Zen Kaku Gothic New and DM Mono. The umbrella must expose pure `setOpen` and `setExplode`, remain under about 60 draw calls, provide a poster fallback, and respect reduced motion, keyboard focus, touch scrolling and client-side form validation.

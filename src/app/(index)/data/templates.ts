@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -308,7 +308,22 @@ export const NIGHTLINE_PROMPT = `# Prompt: rebuild "NIGHTLINE"
 Build a raw WebGL2 sleeper-train landing page where scroll moves through Departure, Midnight, Border crossing, and Dawn. Use the NIGHTLINE palette (#081423, #0D2238, #F4E8C1, #F4B65E, #A7B4C7, #C97972), Instrument Serif, DM Sans, and IBM Plex Mono. The page is a rain-covered train window with accessible DOM content, station rail, cabin cards, local booking validation, reduced-motion fallback, and a cursor condensation wipe. Animate transform, opacity, and clip-path only; test the pure journey maths, validation, TypeScript, and Playwright.
 `;
 
+export const AMAOTO_PROMPT = "# Prompt: rebuild AMAOTO (wagasa atelier landing page)\n\nBuild an isolated Next.js 16 App Router + React 19 + TypeScript landing page at /amaoto for fictional wagasa atelier AMAOTO. Use WebGLRenderer and the procedural createWagasaModel factory to show a 40-rib umbrella that opens from pleats to a taut washi dome as the visitor scrolls. Sections: Hero, Structure, Light, Canopy, Making and Commission. Palette: #1A1613, #F4ECDD, #F2B8C6, #D9748F, #C8412B, #B8923A, #2B3A55. Fonts: Shippori Mincho, Zen Kaku Gothic New and DM Mono. Keep the canvas behind content, expose pure setOpen and setExplode, support clickable parts, live sun-angle and canopy controls, reduced motion, a poster fallback and client-only form validation.";
+
 const RAW_TEMPLATES: TemplateItem[] = [
+  {
+    slug: "amaoto",
+    title: "AMAOTO",
+    description: "The sound of rain, kept dry. A wagasa atelier landing page with a scroll-driven procedural umbrella.",
+    category: "3d-webgpu",
+    industry: "Wagasa Atelier",
+    stack: "Next.js 16 - Three.js WebGL - Procedural Model - CSS Motion",
+    badges: ["40-Rib Umbrella", "Scroll Open", "Commission Form"],
+    previewImage: "/templates/amaoto/preview.svg",
+    promptMarkdown: AMAOTO_PROMPT,
+    model: "GPT-6.1 Sol High",
+  },
+
   {
     slug: "orrery",
     title: "Orrery",
@@ -828,7 +843,7 @@ slug: "tally",
 ];
 
 // Reverse the array so the most recent templates (appended to RAW_TEMPLATES) appear at the beginning of the gallery.
-export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.slice().reverse().map((template) => ({
+export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.slice().reverse().sort((a, b) => a.slug === "amaoto" ? -1 : b.slug === "amaoto" ? 1 : 0).map((template) => ({
   ...template,
-  videoClip: template.slug === "nightline" ? undefined : template.videoClip ?? `/gallery/clips/${template.slug}.mp4`,
+  videoClip: (template.slug === "nightline" || template.slug === "amaoto") ? undefined : template.videoClip ?? `/gallery/clips/${template.slug}.mp4`,
 }));

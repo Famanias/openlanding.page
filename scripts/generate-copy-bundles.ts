@@ -10,6 +10,8 @@ export const TEMPLATE_METADATA: Record<
   { name: string; dependencies: string[] }
 > = {
   nightline: { name: "NIGHTLINE", dependencies: [] },
+  cullet: { name: "Cullet", dependencies: ["three", "lenis"] },
+  amaoto: { name: "AMAOTO", dependencies: ["three"] },
   understudy: { name: "Understudy", dependencies: ["lenis"] },
   cullet: { name: "Cullet", dependencies: ["three", "lenis"] },
   flori: { name: "Flori", dependencies: ["lenis"] },
