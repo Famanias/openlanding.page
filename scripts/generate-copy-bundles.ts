@@ -10,6 +10,7 @@ export const TEMPLATE_METADATA: Record<
   { name: string; dependencies: string[] }
 > = {
   understudy: { name: "Understudy", dependencies: ["lenis"] },
+  cullet: { name: "Cullet", dependencies: ["three", "lenis"] },
   flori: { name: "Flori", dependencies: ["lenis"] },
   pipkin: { name: "Pipkin", dependencies: ["lenis"] },
   satoyama: { name: "Satoyama Biyori", dependencies: [] },
