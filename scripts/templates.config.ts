@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage" | "firstday" | "starlight";
 
 export type TemplateConfig = {
   palette: string[];
@@ -20,6 +20,15 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   // house (paper), white (windows, glass), ink (text, the dark house), night (raised dark surfaces), graphite (muted text),
   // cue (the one accent: the wave, the count, focus), cue light (the accent on the dark house), tape (rare: spike marks, the ghost light)
   understudy: { palette: ["#F4F4F1", "#FFFFFF", "#0D0D10", "#1A1A1F", "#66666E", "#5B3CF0", "#AE9CFF", "#FFC547"] },
+  starlight: {
+    palette: ["#090B12", "#111522", "#F7F8FC", "#9EA7BC", "#2A3245", "#7DF2D1", "#FF9275"],
+    paletteExempt: [
+      "src/app/(starlight)/starlight/space/JourneyCanvas.tsx",
+      "src/app/(starlight)/starlight/space/SpaceCanvas.tsx",
+      "src/app/(starlight)/starlight/space/planetSurface.ts",
+    ],
+  },
+  firstday: { palette: ["#F5F6F2", "#242B29", "#D3E6D5", "#778F80", "#FFFFFF", "#E9E9E3", "#CAD4F1", "#F1C7A8"] },
   flori: { palette: ["#FFF9F0", "#344C40", "#F1C6CF", "#D8D1EC", "#D9E6C8", "#F5DF9B", "#EDB997", "#91AAA0"] },
   // cream (paper), plum (ink, text), blush (pastel tint), bubblegum (the one action colour), butter / mint / sky / lilac (flavour pastels, section grounds)
   pipkin: { palette: ["#FFF8EC", "#3B2A47", "#FFD6E2", "#FF9DBB", "#FFEBA6", "#CBEBDA", "#CDE5F8", "#E3D8F6"] },

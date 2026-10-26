@@ -1,4 +1,6 @@
-# Assemblage animation plans
+# Implementation and Motion Plans
+
+## Assemblage Animation Plans
 
 | Plan | Title | Severity | Status |
 | --- | --- | --- | --- |
@@ -10,4 +12,8 @@
 | [006](006-scroll-linked-motion-and-progress.md) | Add scroll linked collage movement and progress | MEDIUM | DONE |
 | [007](007-stateful-tabs-and-faq-motion.md) | Animate tab, FAQ and error states | LOW | DONE |
 
-Recommended execution order: 001, 002, 005, 003, 006, 004, then 007. Plans 001 and 002 are independent CSS changes. Plan 005 depends on the pointer gating in 002. Plan 003 depends on the existing `data-as-word` observer remaining intact. Plan 006 should land after 005 so direct scroll transforms do not fight the surface hover transforms. Plan 004 is independent. Plan 007 should land after 004 so form state selectors remain clearly separated.
+## Other Plans
+
+| Plan | Priority | Status |
+| --- | --- | --- |
+| [FIRSTDAY motion review](firstday-motion-audit.md) | Medium | Implemented and verified |
