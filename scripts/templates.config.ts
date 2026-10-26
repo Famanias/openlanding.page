@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "assemblage";
 
 export type TemplateConfig = {
   palette: string[];
@@ -171,6 +171,10 @@ tally: {
   nulo: {
     // paper, ink, lilac focus field, peach action marker, mint signal
     palette: ["#F5F8F4", "#14232B", "#B8B3FF", "#FFB49D", "#9ADBD1"],
+  },
+  assemblage: {
+    // paper (ground), ink (type and dark slabs), sand (stock), vermilion (action), teal (image field), ochre (signal), plum (rare ink)
+    palette: ["#F6F0E8", "#1E1D1B", "#E2D8C9", "#D95F3F", "#1D6C63", "#E7C65A", "#8F4E70"],
   },
 };
 

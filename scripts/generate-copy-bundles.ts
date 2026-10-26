@@ -144,6 +144,10 @@ tally: {
     name: "NULO",
     dependencies: ["lenis"],
   },
+  assemblage: {
+    name: "Assemblage",
+    dependencies: [],
+  },
 };
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
