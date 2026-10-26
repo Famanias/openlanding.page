@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "spaceedu";
 
 export type TemplateConfig = {
   palette: string[];
@@ -136,6 +136,10 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   },
   "alpine-reel": {
     palette: ["#040B16", "#08162A", "#6EA8D2", "#FFFFFF"],
+  },
+  spaceedu: {
+    palette: ["#04101F", "#08162A", "#0B2239", "#79DCE8", "#FFFFFF", "#071227", "#5FD0E1", "#D8ECFE", "#DCEEFE", "#F4F9FF", "#D6E8F8", "#D9ECFE"],
+    paletteExempt: ["src/app/(spaceedu)/spaceedu/SpaceEduExperience.tsx"],
   },
   rill: {
     palette: ["#14231E", "#F0E9DB", "#B85C43", "#5B8174", "#87956C", "#C9B79E"],

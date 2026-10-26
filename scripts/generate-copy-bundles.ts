@@ -115,6 +115,10 @@ export const TEMPLATE_METADATA: Record<
     name: "Alpine Reel",
     dependencies: [],
   },
+  spaceedu: {
+    name: "SpaceEdu",
+    dependencies: [],
+  },
   rill: {
     name: "RILL",
     dependencies: [],
