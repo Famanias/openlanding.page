@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage" | "firstday" | "starlight";
 
 export type TemplateConfig = {
   palette: string[];
@@ -7,9 +7,28 @@ export type TemplateConfig = {
 };
 
 export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
+  nightline: { palette: ["#081423", "#0D2238", "#F4E8C1", "#F4B65E", "#A7B4C7", "#C97972"] },
+  // ink (text, the CTA pill), paper (page), white (the glass), slate (muted text), mist (hairlines, separators),
+  // haze (cool fill light, tints), cobalt (the one accent: links, focus, selection), emerald (rare: CTA hover, success)
+  cullet: {
+    palette: ["#0F1117", "#F4F5F8", "#FFFFFF", "#525866", "#9AA1B2", "#DCE8FF", "#2563EB", "#10B981"],
+    paletteExempt: [
+      "src/app/(cullet)/cullet/sampler/spectrum.ts", // spectral wavelength stops are optical content, like a photograph of a caustic
+    ],
+  },
+  amaoto: { palette: ["#1A1613", "#F4ECDD", "#F2B8C6", "#D9748F", "#C8412B", "#B8923A", "#2B3A55"] },
   // house (paper), white (windows, glass), ink (text, the dark house), night (raised dark surfaces), graphite (muted text),
   // cue (the one accent: the wave, the count, focus), cue light (the accent on the dark house), tape (rare: spike marks, the ghost light)
   understudy: { palette: ["#F4F4F1", "#FFFFFF", "#0D0D10", "#1A1A1F", "#66666E", "#5B3CF0", "#AE9CFF", "#FFC547"] },
+  starlight: {
+    palette: ["#090B12", "#111522", "#F7F8FC", "#9EA7BC", "#2A3245", "#7DF2D1", "#FF9275"],
+    paletteExempt: [
+      "src/app/(starlight)/starlight/space/JourneyCanvas.tsx",
+      "src/app/(starlight)/starlight/space/SpaceCanvas.tsx",
+      "src/app/(starlight)/starlight/space/planetSurface.ts",
+    ],
+  },
+  firstday: { palette: ["#F5F6F2", "#242B29", "#D3E6D5", "#778F80", "#FFFFFF", "#E9E9E3", "#CAD4F1", "#F1C7A8"] },
   flori: { palette: ["#FFF9F0", "#344C40", "#F1C6CF", "#D8D1EC", "#D9E6C8", "#F5DF9B", "#EDB997", "#91AAA0"] },
   // cream (paper), plum (ink, text), blush (pastel tint), bubblegum (the one action colour), butter / mint / sky / lilac (flavour pastels, section grounds)
   pipkin: { palette: ["#FFF8EC", "#3B2A47", "#FFD6E2", "#FF9DBB", "#FFEBA6", "#CBEBDA", "#CDE5F8", "#E3D8F6"] },
@@ -137,11 +156,22 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   "alpine-reel": {
     palette: ["#040B16", "#08162A", "#6EA8D2", "#FFFFFF"],
   },
+  spaceedu: {
+    palette: ["#04101F", "#08162A", "#0B2239", "#79DCE8", "#FFFFFF", "#071227", "#5FD0E1", "#D8ECFE", "#DCEEFE", "#F4F9FF", "#D6E8F8", "#D9ECFE"],
+    paletteExempt: [
+      "src/app/(spaceedu)/spaceedu/SpaceEduExperience.tsx",
+      "src/app/(spaceedu)/spaceedu/data/objects.ts",
+    ],
+  },
   rill: {
     palette: ["#14231E", "#F0E9DB", "#B85C43", "#5B8174", "#87956C", "#C9B79E"],
   },
   hiyas: {
     palette: ["#05070A", "#0B2A4A", "#FFFFFF"],
+  },
+
+  lucentra: {
+    palette: ["#10141C", "#F5F7FB", "#2E63FF", "#C5D4FF"],
   },
 
 tally: {
@@ -171,6 +201,10 @@ tally: {
   nulo: {
     // paper, ink, lilac focus field, peach action marker, mint signal
     palette: ["#F5F8F4", "#14232B", "#B8B3FF", "#FFB49D", "#9ADBD1"],
+  },
+  assemblage: {
+    // paper (ground), ink (type and dark slabs), sand (stock), vermilion (action), teal (image field), ochre (signal), plum (rare ink)
+    palette: ["#F6F0E8", "#1E1D1B", "#E2D8C9", "#D95F3F", "#1D6C63", "#E7C65A", "#8F4E70"],
   },
 };
 

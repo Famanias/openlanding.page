@@ -1,0 +1,3 @@
+"use client";
+import type { ReactNode } from "react";
+export function TiltCard({ children }: { children: ReactNode }) { return <article className="nli-tilt" onPointerMove={(event) => { const el = event.currentTarget; if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return; const r = el.getBoundingClientRect(); el.style.setProperty("--rx", `${(0.5 - (event.clientY - r.top) / r.height) * 4}deg`); el.style.setProperty("--ry", `${((event.clientX - r.left) / r.width - 0.5) * 4}deg`); }} onPointerLeave={(event) => { event.currentTarget.style.removeProperty("--rx"); event.currentTarget.style.removeProperty("--ry"); }}>{children}</article>; }

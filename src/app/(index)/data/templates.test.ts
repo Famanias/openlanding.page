@@ -4,10 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
-it("contains all thirty-eight templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(39);
+  it("contains all templates with required metadata", () => {
+    expect(TEMPLATES).toHaveLength(47);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "sundial", "verane", "wowflutter", "loophouse", "morrow", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
+    expect(slugs).toEqual(["amaoto", "starlight", "firstday", "assemblage", "spaceedu", "lucentra", "cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "sundial", "verane", "wowflutter", "loophouse", "morrow", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -56,9 +56,11 @@ it("contains all thirty-eight templates with required metadata", () => {
   });
 
   it("assigns the exact specified model tag to each template", () => {
-    const opusSlugs = ["orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy"];
+    const opusSlugs = ["orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
     for (const t of TEMPLATES) {
-      if (t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
+      if (t.slug === "firstday") {
+        expect(t.model).toBe("GPT-6");
+      } else if (t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
       } else if (t.slug === "sundial") {
         expect(t.model).toBe("MiMo v2.6 Flash Free");

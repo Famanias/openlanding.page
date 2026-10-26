@@ -1,0 +1,2 @@
+import { MAKING_STEPS } from "../data/steps";
+export function Making() { return <section id="making" className="am-section am-making"><div><span className="am-kicker">04 / the making</span><h2>Eighty-one<br /><em>quiet steps.</em></h2><p>From split bamboo to the last knot, every gesture stays visible in the object.</p></div><ol>{MAKING_STEPS.map((step, index) => <li key={step}><span>0{index + 1}</span><strong>{step}</strong></li>)}</ol></section>; }

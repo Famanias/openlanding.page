@@ -1,0 +1,2 @@
+import { Logo } from "../brand/Logo";
+export function Footer() { return <footer className="nli-footer"><div><Logo /><p>© 2026 Nightline Rail Co.</p></div><div className="nli-footer__marquee" aria-hidden="true">PARIS · STRASBOURG · MUNICH · VIENNA · PRAGUE · PARIS · STRASBOURG · MUNICH · VIENNA · PRAGUE ·</div><div><a href="#top">Back to departure ↑</a><a href="#book">Contact the desk</a></div></footer>; }

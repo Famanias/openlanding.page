@@ -1,0 +1,145 @@
+{
+  "model": "AMAOTO Wagasa",
+  "parts": [
+    {
+      "id": "canopy",
+      "name": "Washi canopy",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "canopy"
+      ],
+      "parent": null
+    },
+    {
+      "id": "canopy-rim",
+      "name": "Rounded canopy rim",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "canopy-rim"
+      ],
+      "parent": "canopy"
+    },
+    {
+      "id": "shaft",
+      "name": "Bamboo shaft",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "shaft"
+      ],
+      "parent": null
+    },
+    {
+      "id": "handle",
+      "name": "Turned bamboo handle",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "handle"
+      ],
+      "parent": "shaft"
+    },
+    {
+      "id": "top-cap",
+      "name": "Small wooden top cap",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "top-cap"
+      ],
+      "parent": "shaft"
+    },
+    {
+      "id": "runner",
+      "name": "Sliding runner ring",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "runner"
+      ],
+      "parent": "shaft"
+    },
+    {
+      "id": "latch",
+      "name": "Runner latch",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "latch"
+      ],
+      "parent": "runner"
+    },
+    {
+      "id": "ribs",
+      "name": "Radial bamboo ribs",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "ribs"
+      ],
+      "parent": "top-cap"
+    },
+    {
+      "id": "rib-nodes",
+      "name": "Rib node bands",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "rib-nodes"
+      ],
+      "parent": "ribs"
+    },
+    {
+      "id": "stretchers",
+      "name": "Hinged stretchers",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "stretchers"
+      ],
+      "parent": "runner"
+    },
+    {
+      "id": "thread",
+      "name": "Dark thread lacing",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "thread"
+      ],
+      "parent": "canopy"
+    },
+    {
+      "id": "motif",
+      "name": "Cherry blossom motif band",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "motif"
+      ],
+      "parent": "canopy"
+    },
+    {
+      "id": "inner-thread-ring",
+      "name": "Inner thread ring",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "inner-thread-ring"
+      ],
+      "parent": "canopy"
+    },
+    {
+      "id": "runner-sleeve",
+      "name": "Runner sleeve",
+      "clickable": true,
+      "explodable": true,
+      "componentRefs": [
+        "runner-sleeve"
+      ],
+      "parent": "runner"
+    }
+  ]
+}

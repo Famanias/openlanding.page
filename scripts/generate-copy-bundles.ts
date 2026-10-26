@@ -9,7 +9,12 @@ export const TEMPLATE_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
+  nightline: { name: "NIGHTLINE", dependencies: [] },
+  cullet: { name: "Cullet", dependencies: ["three", "lenis"] },
+  amaoto: { name: "AMAOTO", dependencies: ["three"] },
   understudy: { name: "Understudy", dependencies: ["lenis"] },
+  starlight: { name: "Starlight Lab", dependencies: ["three", "@phosphor-icons/react"] },
+  firstday: { name: "FIRSTDAY", dependencies: ["lenis"] },
   flori: { name: "Flori", dependencies: ["lenis"] },
   pipkin: { name: "Pipkin", dependencies: ["lenis"] },
   satoyama: { name: "Satoyama Biyori", dependencies: [] },
@@ -115,6 +120,10 @@ export const TEMPLATE_METADATA: Record<
     name: "Alpine Reel",
     dependencies: [],
   },
+  spaceedu: {
+    name: "SpaceEdu",
+    dependencies: [],
+  },
   rill: {
     name: "RILL",
     dependencies: [],
@@ -143,6 +152,14 @@ tally: {
   nulo: {
     name: "NULO",
     dependencies: ["lenis"],
+  },
+  lucentra: {
+    name: "LUCENTRA",
+    dependencies: [],
+  },
+  assemblage: {
+    name: "Assemblage",
+    dependencies: [],
   },
 };
 

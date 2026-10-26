@@ -1,0 +1,4 @@
+import { ImageResponse } from "next/og";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+export default function OpenGraphImage() { return new ImageResponse(<div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: "#F4ECDD", color: "#1A1613", fontFamily: "serif" }}><div style={{ display: "flex", color: "#C8412B", fontSize: 22, letterSpacing: 8 }}>AMAOTO / 雨音</div><div style={{ display: "flex", flexDirection: "column", fontSize: 76, lineHeight: 1.02 }}><span>The sound of rain,</span><span style={{ color: "#2B3A55" }}>kept dry.</span></div><div style={{ display: "flex", fontFamily: "monospace", fontSize: 18, letterSpacing: 4 }}>WAGASA ATELIER · KUROKAWA, NAGANO</div></div>, size); }
