@@ -188,8 +188,8 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 900; text-transform:
 .cg-sheet { position: relative; z-index: 2; }
 .cg-sheet__stage { position: relative; overflow: clip; padding: calc(var(--cg-header) + clamp(28px, 5vw, 64px)) 0 clamp(56px, 7vw, 96px); background: var(--color-film); }
 .cg-sheet__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px 24px; align-items: center; }
-.cg-sheet__copy { grid-column: 1 / span 5; display: grid; gap: 24px; align-content: center; }
-.cg-sheet__title { font-size: clamp(4rem, 11vw, 12rem); }
+.cg-sheet__copy { grid-column: 1 / span 5; display: grid; gap: 24px; align-content: center; min-width: 0; }
+.cg-sheet__title { font-size: clamp(3.5rem, 6.2vw, 7.2rem); }
 .cg-sheet__lead { max-width: 40ch; color: var(--cg-muted); font-size: clamp(15.5px, 1.2vw, 18px); }
 .cg-sheet__actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .cg-sheet__cue { display: flex; align-items: center; gap: 8px; color: var(--cg-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
