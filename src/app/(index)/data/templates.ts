@@ -944,5 +944,5 @@ export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES
   .sort((a, b) => a.slug === "amaoto" ? -1 : b.slug === "amaoto" ? 1 : 0)
   .map((template) => ({
     ...template,
-    videoClip: template.videoClip ?? (template.slug === "amaoto" || template.slug === "assemblage" || template.slug === "starlight" ? undefined : `/gallery/clips/${template.slug}.mp4`),
+    videoClip: template.videoClip ?? (template.slug === "amaoto" || template.slug === "starlight" ? undefined : `/gallery/clips/${template.slug}.mp4`),
   }));
