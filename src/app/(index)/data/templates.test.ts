@@ -5,9 +5,9 @@ import path from "node:path";
 
 describe("gallery template data", () => {
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(42);
+    expect(TEMPLATES).toHaveLength(43);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["amaoto", "firstday", "assemblage", "cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "verane", "wowflutter", "loophouse", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
+    expect(slugs).toEqual(["amaoto", "lowtide", "firstday", "assemblage", "cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "verane", "wowflutter", "loophouse", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -65,7 +65,7 @@ describe("gallery template data", () => {
   });
 
   it("assigns the exact specified model tag to each template", () => {
-    const opusSlugs = ["orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
+    const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (t.slug === "firstday") {
         expect(t.model).toBe("GPT-6");

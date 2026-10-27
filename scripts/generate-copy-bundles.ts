@@ -9,6 +9,7 @@ export const TEMPLATE_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
+  lowtide: { name: "LOWTIDE", dependencies: ["three", "gsap", "lenis", "troika-three-text", "tone"] },
   nightline: { name: "NIGHTLINE", dependencies: [] },
   cullet: { name: "Cullet", dependencies: ["three", "lenis"] },
   amaoto: { name: "AMAOTO", dependencies: ["three"] },

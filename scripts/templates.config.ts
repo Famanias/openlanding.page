@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage" | "firstday" | "starlight";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage" | "firstday" | "starlight" | "lowtide";
 
 export type TemplateConfig = {
   palette: string[];
@@ -9,6 +9,12 @@ export type TemplateConfig = {
 };
 
 export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
+  // night (ground), foam (text), moonlight (the one accent: dial, focus, buttons), plankton (live glow readouts), dusk (muted text), dawn (dawn moments, form errors)
+  lowtide: {
+    palette: ["#0A0D16", "#ECEFF0", "#EBD9A6", "#8FD3FF", "#7A8494", "#F2B28C"],
+    paletteExempt: ["src/app/(lowtide)/lowtide/engine/"], // sky, water, sand and moon colours are scene content
+    mediaExempt: true,
+  },
   nightline: { palette: ["#081423", "#0D2238", "#F4E8C1", "#F4B65E", "#A7B4C7", "#C97972"] },
   // ink (text, the CTA pill), paper (page), white (the glass), slate (muted text), mist (hairlines, separators),
   // haze (cool fill light, tints), cobalt (the one accent: links, focus, selection), emerald (rare: CTA hover, success)

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#0A0D16"/>
+  <mask id="lt-icon-crescent">
+    <rect width="32" height="32" fill="white"/>
+    <circle cx="20.5" cy="9.5" r="8.4" fill="black"/>
+  </mask>
+  <circle cx="15" cy="13" r="10" fill="#EBD9A6" mask="url(#lt-icon-crescent)"/>
+  <path d="M3 25.5c2.2-2.4 4.4-2.4 6.5 0s4.3 2.4 6.5 0 4.3-2.4 6.5 0 4.3 2.4 6.5 0" fill="none" stroke="#8FD3FF" stroke-width="1.8" stroke-linecap="round"/>
+</svg>
