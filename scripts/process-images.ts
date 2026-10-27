@@ -1,8 +1,9 @@
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import sharp, { type Sharp } from "sharp";
-import type { TemplateSlug } from "./templates.config";
+import { readTemplateFiles } from "./template-files";
+import { TEMPLATES, type SourceFile, type TemplateSlug } from "./templates.config";
 
 const WIDTHS = [800, 1600] as const;
 const INPUT = /\.(png|jpe?g|webp)$/i;
@@ -31,7 +32,7 @@ export function inkOnStock(luma: number): [number, number, number] {
   return [0, 1, 2].map((k) => Math.round(ink[k] + (stock[k] - ink[k]) * l)) as [number, number, number];
 }
 
-export type AssetRecord =Record<string, { w: number; h: number }>;
+export type AssetRecord = Record<string, { w: number; h: number }>;
 
 export function renderAssetsModule(assets: AssetRecord): string {
   const body = Object.keys(assets).length
@@ -44,7 +45,7 @@ export function renderAssetsModule(assets: AssetRecord): string {
 
 export type ProcessPaths = { incoming: string; publicDir: string; assetsModule: string };
 
-export async function processImages(slug: TemplateSlug, paths: ProcessPaths): Promise<AssetRecord> {
+export async function processImages(slug: TemplateSlug | string, paths: ProcessPaths): Promise<AssetRecord> {
   const assets: AssetRecord = {};
   const inputs = existsSync(paths.incoming) ? readdirSync(paths.incoming).filter((f) => INPUT.test(f)).sort() : [];
   mkdirSync(paths.publicDir, { recursive: true });
@@ -52,7 +53,7 @@ export async function processImages(slug: TemplateSlug, paths: ProcessPaths): Pr
   for (const file of inputs) {
     const key = file.replace(INPUT, "");
     let image: Sharp = sharp(path.join(paths.incoming, file)).rotate();
-    if (slug === "keytu" || (slug as string) === "cairn") image = await applyLumaMap(image, tritone);
+    if (slug === "keytu" || slug === "cairn") image = await applyLumaMap(image, tritone);
     else if (slug === "wowflutter") image = await applyLumaMap(image, inkOnStock);
     const meta = await image.clone().metadata();
     assets[key] = { w: meta.width ?? 0, h: meta.height ?? 0 };
@@ -83,18 +84,249 @@ async function applyLumaMap(image: Sharp, ramp: (luma: number) => [number, numbe
   return sharp(out, { raw: { width: info.width, height: info.height, channels: 3 } });
 }
 
+const TABLE_EXCLUDE_WORDS = new Set([
+  "asset",
+  "asset key",
+  "asset-key",
+  "filename",
+  "file",
+  "name",
+  "format",
+  "aspect",
+  "aspect ratio",
+  "ratio",
+  "dimensions",
+  "dimensions (target)",
+  "size",
+  "target",
+  "where used",
+  "use",
+  "description",
+  "prompt",
+  "prompts",
+  "viewport",
+  "role",
+  "zone",
+]);
+
+/** Parse documented image prompt keys from docs/image-prompts/<slug>.md. */
+export function extractDocPromptKeys(docContent: string): string[] {
+  const keys: string[] = [];
+  const lines = docContent.split("\n");
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    // 1. Markdown table rows: | `key` | ... | or | key | ... |
+    if (trimmed.startsWith("|")) {
+      const cells = trimmed
+        .split("|")
+        .map((c) => c.trim())
+        .filter(Boolean);
+      for (const cell of cells) {
+        if (cell.startsWith("---") || cell.startsWith(":---")) continue;
+        const cleaned = cell.replace(/^`+|`+$/g, "").trim();
+        const lower = cleaned.toLowerCase();
+        if (TABLE_EXCLUDE_WORDS.has(lower)) continue;
+        // Ignore video files (.mp4, .webm)
+        if (lower.endsWith(".mp4") || lower.endsWith(".webm")) continue;
+        const match = cleaned.match(/^([a-z0-9_-]+)(?:\.(?:png|jpe?g|webp|avif))?$/i);
+        if (match && !TABLE_EXCLUDE_WORDS.has(match[1].toLowerCase()) && !/^\d+$/.test(match[1])) {
+          if (!keys.includes(match[1])) keys.push(match[1]);
+          break; // Stop after first matched column in the row
+        }
+      }
+    }
+
+    // 2. Headings: ### `key` or ### key (must be single key token, not a section phrase)
+    const headingMatch = trimmed.match(/^###\s+(?:`([a-z0-9_-]+)(?:\.(?:png|jpe?g|webp|avif))?`|([a-z0-9_-]+))\s*$/i);
+    if (headingMatch) {
+      const key = headingMatch[1] ?? headingMatch[2];
+      const lower = key.toLowerCase();
+      if (!TABLE_EXCLUDE_WORDS.has(lower) && !/^\d+$/.test(key)) {
+        if (!keys.includes(key)) keys.push(key);
+      }
+    }
+  }
+
+  return keys;
+}
+
+export type TemplateAuditResult = {
+  slug: string;
+  processedCount: number;
+  docPromptKeys: string[];
+  missingIncomingKeys: string[];
+  templateUsesAssets: boolean;
+  templateReferencedKeys: string[];
+  missingFromGenerated: string[];
+  unreferencedInGenerated: string[];
+  warnings: string[];
+  errors: string[];
+};
+
+export type AuditOptions = {
+  docPath?: string;
+  templateFiles?: SourceFile[];
+};
+
+/** Audit processed assets against docs/image-prompts and template component wiring. */
+export function auditTemplateAssets(
+  slug: string,
+  assets: AssetRecord,
+  options?: AuditOptions,
+): TemplateAuditResult {
+  const docPath = options?.docPath ?? `docs/image-prompts/${slug}.md`;
+  const docPromptKeys: string[] = existsSync(docPath)
+    ? extractDocPromptKeys(readFileSync(docPath, "utf8"))
+    : [];
+
+  const genKeys = Object.keys(assets);
+  const missingIncomingKeys: string[] = [];
+  const warnings: string[] = [];
+  const errors: string[] = [];
+
+  for (const key of docPromptKeys) {
+    if (!genKeys.includes(key)) {
+      missingIncomingKeys.push(key);
+      warnings.push(
+        `Documented prompt key "${key}" in ${docPath} was not found in assets/incoming/${slug}/`,
+      );
+    }
+  }
+
+  const files = options?.templateFiles ?? readTemplateFiles(slug);
+  const codeFiles = files.filter(
+    (f) =>
+      !f.path.endsWith("assets.generated.ts") &&
+      !f.path.includes(".test.") &&
+      !f.path.endsWith("assets.tsx"),
+  );
+
+  const templateUsesAssets = codeFiles.some(
+    (f) =>
+      f.source.includes("<Picture") ||
+      f.source.includes("Picture(") ||
+      f.source.includes("Picture ") ||
+      f.source.includes("<Plate") ||
+      f.source.includes('from "../assets"') ||
+      f.source.includes("from '../assets'") ||
+      f.source.includes('from "./assets"') ||
+      f.source.includes("from './assets'") ||
+      f.source.includes("assets.generated") ||
+      f.source.includes("ASSETS") ||
+      f.source.includes("assetSrc") ||
+      f.source.includes("hasAsset"),
+  );
+
+  if (genKeys.length > 0 && !templateUsesAssets) {
+    warnings.push(
+      `Template src/app/(${slug})/${slug} does NOT import or use <Picture> or ASSETS. Generated images will not be displayed!`,
+    );
+  }
+
+  const templateReferencedKeys: string[] = [];
+  const missingFromGenerated: string[] = [];
+  for (const file of codeFiles) {
+    const patterns = [
+      /assetKey\s*(?:=|\:)\s*["']([^"']+)["']/g,
+      /(?:hasAsset|assetSrc)\s*\(\s*["']([^"']+)["']/g,
+      /ASSETS\[\s*["']([^"']+)["']\s*\]/g,
+    ];
+    for (const pattern of patterns) {
+      for (const m of file.source.matchAll(pattern)) {
+        const key = m[1];
+        if (!templateReferencedKeys.includes(key)) templateReferencedKeys.push(key);
+        if (!genKeys.includes(key) && !missingFromGenerated.includes(key)) {
+          missingFromGenerated.push(key);
+          errors.push(
+            `Component ${file.path} references assetKey "${key}", but "${key}" is not in assets.generated.ts!`,
+          );
+        }
+      }
+    }
+  }
+
+  const unreferencedInGenerated: string[] = [];
+  for (const key of genKeys) {
+    if (!templateReferencedKeys.includes(key)) {
+      unreferencedInGenerated.push(key);
+      if (key !== "og-base" && key !== "og-image") {
+        warnings.push(`Generated asset "${key}" is not referenced by any template component.`);
+      }
+    }
+  }
+
+  return {
+    slug,
+    processedCount: genKeys.length,
+    docPromptKeys,
+    missingIncomingKeys,
+    templateUsesAssets,
+    templateReferencedKeys,
+    missingFromGenerated,
+    unreferencedInGenerated,
+    warnings,
+    errors,
+  };
+}
+
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const slug = process.argv[2] as TemplateSlug | undefined;
-  if (!slug || !["orrery", "keytu", "cairn", "koji", "wowflutter", "verane", "sundial", "noctiluca", "iridia", "bathys", "aubade", "satsuma", "kinetic", "loophouse", "isobar", "volume-zero", "openhouse", "handoff", "truecut", "nomi", "kazeko", "alpine-reel", "rill", "hiyas", "mio", "satoyama", "tally", "aftercart", "fixture", "chinagraph", "valence", "pipkin", "serein", "nulo", "flori", "understudy", "nightline", "cullet", "amaoto", "lucentra", "spaceedu", "assemblage", "firstday", "starlight"].includes(slug)) {
-    console.error("usage: npm run images -- <orrery|keytu|cairn|koji|wowflutter|verane|sundial|noctiluca|iridia|bathys|aubade|satsuma|kinetic|loophouse|isobar|volume-zero|openhouse|handoff|truecut|nomi|kazeko|alpine-reel|rill|hiyas|mio|satoyama|tally|aftercart|fixture|chinagraph|valence|pipkin|serein|nulo|flori|understudy|nightline|cullet|amaoto|lucentra|spaceedu|assemblage|firstday|starlight>");
+  const validSlugs = [...(Object.keys(TEMPLATES) as string[]), "cairn"];
+  if (!slug || !validSlugs.includes(slug)) {
+    console.error(`usage: npm run images -- <${validSlugs.join("|")}>`);
     process.exit(1);
   }
+
   processImages(slug, {
     incoming: `assets/incoming/${slug}`,
     publicDir: `public/templates/${slug}`,
     assetsModule: `src/app/(${slug})/${slug}/assets.generated.ts`,
   }).then(
-    (assets) => console.log(`images: ${slug} → ${Object.keys(assets).length} processed`),
+    (assets) => {
+      console.log(`\n══════════════════════════════════════════════════════════════`);
+      console.log(`🖼️  Image Processing: ${slug} → ${Object.keys(assets).length} processed`);
+      console.log(`══════════════════════════════════════════════════════════════`);
+      const audit = auditTemplateAssets(slug, assets);
+
+      if (audit.docPromptKeys.length > 0) {
+        if (audit.missingIncomingKeys.length === 0) {
+          console.log(`✓ Incoming matches documented prompts (${audit.docPromptKeys.length}/${audit.docPromptKeys.length})`);
+        } else {
+          console.warn(`⚠️  Missing ${audit.missingIncomingKeys.length} documented prompt(s):`);
+          for (const k of audit.missingIncomingKeys) {
+            console.warn(`   - ${k} (see docs/image-prompts/${slug}.md)`);
+          }
+        }
+      }
+
+      if (!audit.templateUsesAssets) {
+        console.warn(`⚠️  Template src/app/(${slug})/${slug} does not yet use <Picture> or ASSETS.`);
+        console.warn(`   👉 Remember to import and render <Picture assetKey="..." /> in your components!`);
+      } else {
+        console.log(`✓ Template components use assets helper`);
+      }
+
+      if (audit.missingFromGenerated.length > 0) {
+        console.error(`❌ Template references ${audit.missingFromGenerated.length} missing asset(s):`);
+        for (const k of audit.missingFromGenerated) {
+          console.error(`   - "${k}" referenced in code but not in assets.generated.ts`);
+        }
+      } else if (audit.templateReferencedKeys.length > 0) {
+        console.log(`✓ All ${audit.templateReferencedKeys.length} referenced template asset(s) are present in assets.generated.ts`);
+      }
+
+      if (audit.unreferencedInGenerated.length > 0) {
+        const unused = audit.unreferencedInGenerated.filter((k) => k !== "og-base" && k !== "og-image");
+        if (unused.length > 0) {
+          console.warn(`ℹ  ${unused.length} generated asset(s) not yet referenced in components:`);
+          for (const k of unused) {
+            console.warn(`   - ${k}`);
+          }
+        }
+      }
+      console.log(`══════════════════════════════════════════════════════════════\n`);
+    },
     (error: unknown) => {
       console.error(error);
       process.exit(1);

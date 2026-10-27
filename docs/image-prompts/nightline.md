@@ -45,15 +45,18 @@ Paste this preamble at the start of every prompt:
 
 ## 3. Image Table
 
-The 6 original image assets required by the template:
+The original image assets required by the template:
 
 | Asset Key | Filename | Aspect Ratio | Dimensions (Target) | Where Used |
 |---|---|---|---|---|
 | `window-hero` | `window-hero.png` | **16:9** | 2560 × 1440 | Hero background still fallback / WebGL canvas backdrop (`Hero.tsx`) |
-| `cabin-berth` | `cabin-berth.png` | **4:3** | 1600 × 1200 | Cabin card B-12 ("The berth") in `Cabins.tsx` |
-| `cabin-sleeper` | `cabin-sleeper.png` | **4:3** | 1600 × 1200 | Cabin card S-01 ("The sleeper") in `Cabins.tsx` |
+| `cabin-couchette` | `cabin-couchette.png` | **4:3** | 1600 × 1200 | Cabin card C-04 ("The couchette", Window 01) in `Cabins.tsx` |
+| `cabin-berth` | `cabin-berth.png` | **4:3** | 1600 × 1200 | Cabin card B-12 ("The berth", Window 02) in `Cabins.tsx` |
+| `cabin-sleeper` | `cabin-sleeper.png` | **4:3** | 1600 × 1200 | Cabin card S-01 ("The sleeper", Window 03) in `Cabins.tsx` |
 | `station-lights` | `station-lights.png` | **3:2** | 1800 × 1200 | Journey section / timetable atmospheric image in `Journey.tsx` |
+| `midnight-service` | `midnight-service.png` | **16:9** | 2048 × 1152 | Midnight Service dining car image in `Midnight.tsx` |
 | `dawn-platform` | `dawn-platform.png` | **16:9** | 2560 × 1440 | Arrival section image in `Dawn.tsx` |
+| `footer-night` | `footer-night.png` | **16:9** | 2048 × 1152 | The Night Desk / Booking section media in `Booking.tsx` |
 | `og-base` | `og-base.png` | **16:9** | 1200 × 630 | Open Graph / Twitter share card backdrop (`opengraph-image.tsx`) |
 
 ---

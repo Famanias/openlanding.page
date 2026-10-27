@@ -13,7 +13,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "check": "tsx scripts/check-isolation.ts && tsx scripts/check-palette.ts",
+    "check": "tsx scripts/check-isolation.ts && tsx scripts/check-palette.ts && tsx scripts/check-media.ts",
     "images": "tsx scripts/process-images.ts",
     "clips": "tsx scripts/process-clips.ts",
     "videos": "tsx scripts/process-clips.ts",
