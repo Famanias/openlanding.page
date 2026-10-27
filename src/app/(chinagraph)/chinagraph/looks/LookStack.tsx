@@ -40,7 +40,7 @@ export function LookStack({ children }: { children: ReactNode }) {
         const detail = i === 0 ? segment(y, top - vh * 0.1, top + vh * 0.45) : segment(arrive, 0.72, 1);
         look.style.setProperty("--arrive", arrive.toFixed(4));
         look.style.setProperty("--leave", (arrivals[i + 1] ?? 0).toFixed(4));
-        look.style.setProperty("--flash", (i === 0 ? 0 : lookFlash(arrive)).toFixed(3));
+        look.style.setProperty("--flash", "0");
         look.style.setProperty("--detail", detail.toFixed(4));
       });
       const index = activeLook(arrivals);

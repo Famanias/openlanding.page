@@ -60,7 +60,7 @@ export function SheetController({ children }: { children: ReactNode }) {
       const enlarge = enlargeAt(p);
       root.style.setProperty("--cg-p", p.toFixed(4));
       root.style.setProperty("--cg-enlarge", enlarge.toFixed(4));
-      root.style.setProperty("--cg-flash", flashAt(p).toFixed(3));
+      root.style.setProperty("--cg-flash", "0");
 
       // Loupe: glide between cached cell centres.
       const pos = loupeAt(p);
