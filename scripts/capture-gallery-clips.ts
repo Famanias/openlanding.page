@@ -131,13 +131,15 @@ export function syncTemplatesConfig(
     replacement = `videoClip: template.videoClip ?? (${conditions} ? undefined : \`/gallery/clips/\${template.slug}.mp4\`),`;
   }
 
-  const targetPattern = /videoClip:\s*template\.videoClip\s*\?\?[^,]+,/;
+  const targetPattern = /videoClip:\s*(?:template\.videoClip\s*\?\?|\([^)]*\)\s*\?\s*undefined\s*:\s*template\.videoClip\s*\?\?)[^,]+,/;
 
   if (targetPattern.test(content)) {
     const updatedContent = content.replace(targetPattern, replacement);
     if (updatedContent !== content) {
       writeFileSync(templatesFilePath, updatedContent, "utf8");
     }
+  } else {
+    console.warn("Could not find videoClip pattern in templates.ts to synchronize.");
   }
 
   return { activeSlugs, missingSlugs };
