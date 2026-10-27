@@ -21,7 +21,6 @@ const display = Manrope({
 
 const body = Inter_Tight({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   variable: "--font-aftercart-body",
 });
 
