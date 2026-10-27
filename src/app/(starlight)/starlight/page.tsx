@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { ArrowUpRight, Check, Code, Cube, Gauge, GitBranch, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { Logo } from "./brand/Logo";
 import { DemoForm } from "./forms/DemoForm";
@@ -22,6 +23,7 @@ const faqs = [
 ];
 
 export default function StarlightPage() {
+  notFound();
   return <div className="stl-page">
     <header className="stl-header"><a href="#main-content" className="stl-brand-link"><Logo /></a><nav className="stl-nav" aria-label="Primary"><a href="#why">Why raw WebGL</a><a href="#process">Process</a><a href="#faq">FAQ</a></nav><a className="stl-header-cta" href="#demo">Launch demo <ArrowUpRight size={16} weight="bold" /></a></header>
     <main id="main-content">

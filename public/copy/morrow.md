@@ -106,8 +106,13 @@ export function MorrowExperience() {
 ]]>
     </file>
     <file path="src/app/(morrow)/morrow/page.tsx">
-<![CDATA[import { MorrowExperience } from "./MorrowExperience";
-export default function MorrowPage() { return <MorrowExperience />; }]]>
+<![CDATA[import { notFound } from "next/navigation";
+import { MorrowExperience } from "./MorrowExperience";
+
+export default function MorrowPage() {
+  notFound();
+  return <MorrowExperience />;
+}]]>
     </file>
   </files>
 </template>

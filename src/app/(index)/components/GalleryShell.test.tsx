@@ -18,10 +18,10 @@ describe("GalleryShell", () => {
     expect(html).toContain("Scroll Showcase");
     expect(html).toContain("3D &amp; WebGPU");
     expect(html).toContain("Editorial Magazine");
-    expect(html).toContain("Showing 47 of 47 templates");
+    expect(html).toContain("Showing 42 of 42 templates");
   });
 
-  it("renders all 47 initial template cards", () => {
+  it("renders all 42 active template cards and excludes archived templates", () => {
     const html = renderToStaticMarkup(<GalleryShell />);
     expect(html).toContain('href="/orrery"');
     expect(html).toContain('href="/keytu"');
@@ -29,11 +29,9 @@ describe("GalleryShell", () => {
     expect(html).toContain('href="/trace"');
     expect(html).toContain('href="/calder"');
     expect(html).toContain('href="/vector"');
-    expect(html).toContain('href="/morrow"');
     expect(html).toContain('href="/loophouse"');
     expect(html).toContain('href="/wowflutter"');
     expect(html).toContain('href="/verane"');
-    expect(html).toContain('href="/sundial"');
     expect(html).toContain('href="/noctiluca"');
     expect(html).toContain('href="/iridia"');
     expect(html).toContain('href="/bathys"');
@@ -59,24 +57,19 @@ expect(html).toContain('href="/tally"');
     expect(html).toContain('href="/nulo"');
     expect(html).toContain('href="/flori"');
     expect(html).toContain('href="/amaoto"');
-    expect(html).toContain('href="/lucentra"');
-    expect(html).toContain('href="/spaceedu"');
     expect(html).toContain('href="/assemblage"');
     expect(html).toContain('href="/nightline"');
     expect(html).toContain('href="/cullet"');
     expect(html).toContain('href="/firstday"');
-    expect(html).toContain('href="/starlight"');
     expect(html).toContain("Orrery");
     expect(html).toContain("KEYTU");
     expect(html).toContain("KŌJI");
     expect(html).toContain("TRACE");
     expect(html).toContain("CALDER &amp; ROWE");
     expect(html).toContain("VECTOR/90");
-    expect(html).toContain("MORROW");
     expect(html).toContain("LOOPHOUSE");
     expect(html).toContain("WOWFLUTTER");
     expect(html).toContain("Maison Vérane");
-    expect(html).toContain("SUNDIAL Coffee Roasters");
     expect(html).toContain("IRIDIA");
     expect(html).toContain("BATHYS");
     expect(html).toContain("KINETIC");
@@ -97,13 +90,17 @@ expect(html).toContain('href="/tally"');
     expect(html).toContain("Pipkin");
     expect(html).toContain("SEREIN Bureau");
     expect(html).toContain("NULO");
-    expect(html).toContain("LUCENTRA");
-    expect(html).toContain("SPACEEDU");
     expect(html).toContain("ASSEMBLAGE");
     expect(html).toContain("FIRSTDAY");
-    expect(html).toContain("Starlight Lab");
     expect(html).toContain("NIGHTLINE");
     expect(html).toContain("Cullet");
+
+    // Archived templates are not rendered in the gallery
+    expect(html).not.toContain('href="/morrow"');
+    expect(html).not.toContain('href="/sundial"');
+    expect(html).not.toContain('href="/lucentra"');
+    expect(html).not.toContain('href="/spaceedu"');
+    expect(html).not.toContain('href="/starlight"');
   });
 
   it("renders the first template card eagerly and others lazily", () => {
@@ -111,7 +108,7 @@ expect(html).toContain('href="/tally"');
     const eagerCount = (html.match(/loading="eager"/g) || []).length;
     const lazyCount = (html.match(/loading="lazy"/g) || []).length;
     expect(eagerCount).toBe(1);
-    expect(lazyCount).toBe(46);
+    expect(lazyCount).toBe(41);
   });
 
   it("renders responsive grid container with 5 columns on desktop", () => {

@@ -17,7 +17,7 @@ describe("IndexPage", () => {
     expect(html).toContain("TRACE");
     expect(html).toContain("CALDER &amp; ROWE");
     expect(html).toContain("VECTOR/90");
-    expect(html).toContain("MORROW");
+    expect(html).not.toContain("MORROW");
     expect(html).toContain("LOOPHOUSE");
     expect(html).toContain("GitHub");
     expect(html).toContain("OpenLanding.page. MIT Licensed.");

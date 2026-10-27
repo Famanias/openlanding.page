@@ -21,6 +21,7 @@ export interface TemplateItem {
   videoClip?: string;
   promptMarkdown: string;
   model: string;
+  archived?: boolean;
 }
 
 export const CATEGORIES: Category[] = [
@@ -335,7 +336,7 @@ The motion identity is technical/cinematic with scan and focus-pull as its verbs
 
 export const AMAOTO_PROMPT = "# Prompt: rebuild AMAOTO (wagasa atelier landing page)\n\nBuild an isolated Next.js 16 App Router + React 19 + TypeScript landing page at /amaoto for fictional wagasa atelier AMAOTO. Use WebGLRenderer and the procedural createWagasaModel factory to show a 40-rib umbrella that opens from pleats to a taut washi dome as the visitor scrolls. Sections: Hero, Structure, Light, Canopy, Making and Commission. Palette: #1A1613, #F4ECDD, #F2B8C6, #D9748F, #C8412B, #B8923A, #2B3A55. Fonts: Shippori Mincho, Zen Kaku Gothic New and DM Mono. Keep the canvas behind content, expose pure setOpen and setExplode, support clickable parts, live sun-angle and canopy controls, reduced motion, a poster fallback and client-only form validation.";
 
-const RAW_TEMPLATES: TemplateItem[] = [
+export const RAW_TEMPLATES: TemplateItem[] = [
   {
     slug: "amaoto",
     title: "AMAOTO",
@@ -440,6 +441,7 @@ const RAW_TEMPLATES: TemplateItem[] = [
     previewImage: "/templates/morrow/morrow-preview.svg",
     promptMarkdown: MORROW_PROMPT,
     model: "GPT-6 Astra Max",
+    archived: true,
   },
   {
     slug: "loophouse",
@@ -492,6 +494,7 @@ const RAW_TEMPLATES: TemplateItem[] = [
     previewImage: "/templates/sundial/preview-1600.webp",
     promptMarkdown: SUNDIAL_PROMPT,
     model: "MiMo v2.6 Flash Free",
+    archived: true,
   },
   {
     slug: "noctiluca",
@@ -876,6 +879,7 @@ slug: "tally",
     previewImage: "/templates/lucentra/preview-1600.svg",
     promptMarkdown: LUCENTRA_PROMPT,
     model: "GPT-6 Astra Max",
+    archived: true,
   },
   {
     slug: "spaceedu",
@@ -888,6 +892,7 @@ slug: "tally",
     previewImage: "/templates/spaceedu/preview-1600.svg",
     promptMarkdown: SPACEEDU_PROMPT,
     model: "GPT-6 Astra Max",
+    archived: true,
   },
   {
     slug: "assemblage",
@@ -924,11 +929,20 @@ slug: "tally",
     previewImage: "/templates/starlight/preview.svg",
     promptMarkdown: STARLIGHT_PROMPT,
     model: "GPT-6 Astra Max",
+    archived: true,
   },
 ];
 
+export const ARCHIVED_TEMPLATES: TemplateItem[] = RAW_TEMPLATES.filter((template) => Boolean(template.archived));
+
 // Reverse the array so the most recent templates (appended to RAW_TEMPLATES) appear at the beginning of the gallery.
-export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.slice().reverse().sort((a, b) => a.slug === "amaoto" ? -1 : b.slug === "amaoto" ? 1 : 0).map((template) => ({
-  ...template,
-  videoClip: template.videoClip ?? (template.slug === "amaoto" || template.slug === "assemblage" || template.slug === "starlight" ? undefined : `/gallery/clips/${template.slug}.mp4`),
-}));
+// Exclude archived templates so they are hidden from the gallery.
+export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES
+  .filter((template) => !template.archived)
+  .slice()
+  .reverse()
+  .sort((a, b) => a.slug === "amaoto" ? -1 : b.slug === "amaoto" ? 1 : 0)
+  .map((template) => ({
+    ...template,
+    videoClip: template.videoClip ?? (template.slug === "amaoto" || template.slug === "assemblage" || template.slug === "starlight" ? undefined : `/gallery/clips/${template.slug}.mp4`),
+  }));

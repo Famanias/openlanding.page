@@ -39,9 +39,11 @@ export default function SpaceEduLayout({ children }: { children: React.ReactNode
 ]]>
     </file>
     <file path="src/app/(spaceedu)/spaceedu/page.tsx">
-<![CDATA[import SpaceEduExperience from "./SpaceEduExperience";
+<![CDATA[import { notFound } from "next/navigation";
+import SpaceEduExperience from "./SpaceEduExperience";
 
 export default function SpaceEduPage() {
+  notFound();
   return <SpaceEduExperience />;
 }
 ]]>

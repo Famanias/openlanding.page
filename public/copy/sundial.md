@@ -231,7 +231,8 @@ export default function OpengraphImage() {
 ]]>
     </file>
     <file path="src/app/(sundial)/sundial/page.tsx">
-<![CDATA[import { Header } from "./sections/Header";
+<![CDATA[import { notFound } from "next/navigation";
+import { Header } from "./sections/Header";
 import { Hero } from "./sections/Hero";
 import { RoastSection } from "./roast/RoastSection";
 import { Lots } from "./sections/Lots";
@@ -241,6 +242,7 @@ import { Wholesale } from "./sections/Wholesale";
 import { Footer } from "./sections/Footer";
 
 export default function SundialPage() {
+  notFound();
   return (
     <>
       <Header />

@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { Header } from "./sections/Header";
 import { Hero } from "./sections/Hero";
 import { RoastSection } from "./roast/RoastSection";
@@ -8,6 +9,7 @@ import { Wholesale } from "./sections/Wholesale";
 import { Footer } from "./sections/Footer";
 
 export default function SundialPage() {
+  notFound();
   return (
     <>
       <Header />

@@ -1,13 +1,22 @@
 import { describe, it, expect } from "vitest";
-import { TEMPLATES, CATEGORIES } from "./templates";
+import { TEMPLATES, ARCHIVED_TEMPLATES, CATEGORIES } from "./templates";
 import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(47);
+    expect(TEMPLATES).toHaveLength(42);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["amaoto", "starlight", "firstday", "assemblage", "spaceedu", "lucentra", "cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "sundial", "verane", "wowflutter", "loophouse", "morrow", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
+    expect(slugs).toEqual(["amaoto", "firstday", "assemblage", "cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "verane", "wowflutter", "loophouse", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
+  });
+
+  it("archives the specified templates and hides them from the gallery", () => {
+    expect(ARCHIVED_TEMPLATES).toHaveLength(5);
+    const archivedSlugs = ARCHIVED_TEMPLATES.map((t) => t.slug);
+    expect(archivedSlugs).toEqual(["morrow", "sundial", "lucentra", "spaceedu", "starlight"]);
+    for (const slug of archivedSlugs) {
+      expect(TEMPLATES.map((t) => t.slug)).not.toContain(slug);
+    }
   });
 
   it("has valid categories matching CATEGORIES constant", () => {
@@ -57,7 +66,7 @@ describe("gallery template data", () => {
 
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
-    for (const t of TEMPLATES) {
+    for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (t.slug === "firstday") {
         expect(t.model).toBe("GPT-6");
       } else if (t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
@@ -111,7 +120,7 @@ describe("gallery template data", () => {
   });
 
   it("files SUNDIAL under Scroll Showcase with its rebuild prompt inlined", () => {
-    const sundial = TEMPLATES.find((t) => t.slug === "sundial");
+    const sundial = ARCHIVED_TEMPLATES.find((t) => t.slug === "sundial");
     expect(sundial?.category).toBe("scroll-showcase");
     expect(sundial?.promptMarkdown).toContain('rebuild "SUNDIAL Coffee Roasters"');
     expect(sundial?.promptMarkdown).toContain("#FF6B1A");
