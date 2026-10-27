@@ -69,7 +69,7 @@ function ScrubFlight() {
         near.disconnect();
         import("./scrub-engine.js").then(({ mountScrollWorld }) => {
           mountScrollWorld(mount, { ...toEngineConfig(flight, CLIP_BASE), scrollY, originY });
-        });
+        }).catch(() => {});
       },
       { rootMargin: "100% 0px" },
     );
@@ -84,6 +84,7 @@ function ScrubFlight() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
+      delete mount.dataset.mounted;
       near.disconnect();
       window.removeEventListener("scroll", onScroll);
     };

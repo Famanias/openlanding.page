@@ -639,7 +639,9 @@ html:has(.kj-body) {
 /* Omakase */
 .kj-omakase {
   display: grid;
-  gap: 40px;
+  gap: clamp(24px, 3vw, 36px);
+  padding-top: clamp(48px, 6vw, 80px);
+  padding-bottom: clamp(48px, 6vw, 80px);
 }
 
 .kj-omakase .kj-section-head {
@@ -656,6 +658,7 @@ html:has(.kj-body) {
   display: grid;
   gap: 20px;
   align-content: start;
+  align-self: start;
 }
 
 .kj-menu__head {
@@ -1024,6 +1027,16 @@ html:has(.kj-body) {
   }
   .kj-omakase__flight:has([data-flight="scrub"]) {
     grid-column: 1 / -1;
+  }
+  .kj-omakase:has([data-flight="scrub"]) .kj-menu {
+    grid-column: 1 / -1;
+    max-width: 920px;
+    width: 100%;
+    margin-inline: auto;
+  }
+  .kj-omakase:has([data-flight="static"]) .kj-menu {
+    position: sticky;
+    top: calc(var(--topbar) + 24px);
   }
   .kj-building {
     grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
@@ -1963,7 +1976,7 @@ function ScrubFlight() {
         near.disconnect();
         import("./scrub-engine.js").then(({ mountScrollWorld }) => {
           mountScrollWorld(mount, { ...toEngineConfig(flight, CLIP_BASE), scrollY, originY });
-        });
+        }).catch(() => {});
       },
       { rootMargin: "100% 0px" },
     );
@@ -1978,6 +1991,7 @@ function ScrubFlight() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
+      delete mount.dataset.mounted;
       near.disconnect();
       window.removeEventListener("scroll", onScroll);
     };
