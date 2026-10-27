@@ -21,7 +21,7 @@ export async function createDishScene(
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.9;
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
   await renderer.init();
   renderer.onDeviceLost = () => opts.onLost();
 
@@ -106,10 +106,11 @@ export async function createDishScene(
   });
   io.observe(canvas);
 
-  const clock = new THREE.Clock();
+  const timer = new THREE.Timer();
   let readySent = false;
-  renderer.setAnimationLoop(() => {
-    const dt = Math.min(clock.getDelta(), 0.05);
+  renderer.setAnimationLoop((time) => {
+    timer.update(time);
+    const dt = Math.min(timer.getDelta(), 0.05);
     if (!visible || document.hidden) return;
     if (!dragging) {
       velocity *= DAMPING;
@@ -127,6 +128,7 @@ export async function createDishScene(
   return {
     dispose() {
       renderer.setAnimationLoop(null);
+      timer.dispose();
       ro.disconnect();
       io.disconnect();
       canvas.removeEventListener("pointerdown", onDown);
