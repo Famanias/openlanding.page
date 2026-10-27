@@ -1,5 +1,45 @@
+import { Picture } from "../assets";
 import { Logo } from "../brand/Logo";
 import { Magnetic } from "../motion/Magnetic";
 import { Reveal } from "../motion/Reveal";
 import { SplitText } from "../motion/SplitText";
-export function Hero() { return <section id="top" className="nli-section nli-hero"><div className="nli-hero__copy"><Reveal type="label"><p className="nli-eyebrow">01 / DEPARTURE · PARIS GARE DE L&rsquo;EST</p></Reveal><h1><SplitText text="Take the long way." /></h1><Reveal type="rise"><p className="nli-lead">Sleeper trains for the hours that belong to you. Wake somewhere new, without losing a day getting there.</p></Reveal><Reveal type="rise" index={1}><div className="nli-actions"><Magnetic><a className="nli-button" href="#book">Find your night <span>↗</span></a></Magnetic><a className="nli-text-link" href="#line">Follow the window <span>↓</span></a></div></Reveal></div><div className="nli-hero__stamp"><Logo markOnly /><span>EUROPE · 2026</span></div><div className="nli-hero__hint">Scroll to travel <span>↓</span></div></section>; }
+
+export function Hero() {
+  return (
+    <section id="top" className="nli-section nli-hero">
+      <Picture assetKey="window-hero" alt="" className="nli-hero__backdrop" priority>{null}</Picture>
+      <div className="nli-hero__copy">
+        <Reveal type="label">
+          <p className="nli-eyebrow">01 / DEPARTURE · PARIS GARE DE L&rsquo;EST</p>
+        </Reveal>
+        <h1>
+          <SplitText text="Take the long way." />
+        </h1>
+        <Reveal type="rise">
+          <p className="nli-lead">
+            Sleeper trains for the hours that belong to you. Wake somewhere new, without losing a day getting there.
+          </p>
+        </Reveal>
+        <Reveal type="rise" index={1}>
+          <div className="nli-actions">
+            <Magnetic>
+              <a className="nli-button" href="#book">
+                Find your night <span>↗</span>
+              </a>
+            </Magnetic>
+            <a className="nli-text-link" href="#line">
+              Follow the window <span>↓</span>
+            </a>
+          </div>
+        </Reveal>
+      </div>
+      <div className="nli-hero__stamp">
+        <Logo markOnly />
+        <span>EUROPE · 2026</span>
+      </div>
+      <div className="nli-hero__hint">
+        Scroll to travel <span>↓</span>
+      </div>
+    </section>
+  );
+}

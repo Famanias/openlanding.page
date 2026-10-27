@@ -76,4 +76,4 @@ Reveal vocabulary includes mask-rise, clip wipe, short rise, cascaded cards, dra
 
 ## Imagery
 
-The template ships with labelled placeholders. Prompts live in `docs/image-prompts/nightline.md` for a future rain-window still, cabin details, amber station lights, and a dawn platform. The shader carries the visual story without external media.
+The template supports responsive photography delivered via `npm run images -- nightline` and `<Picture>` in `assets.tsx`. Prompts live in `docs/image-prompts/nightline.md` for the rain-window still, cabin details, amber station lights, and dawn platform. When external media is absent, styled window placeholders and the WebGL rain shader carry the visual story.

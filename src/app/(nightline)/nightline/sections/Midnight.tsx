@@ -1,2 +1,54 @@
+import { Picture } from "../assets";
 import { Reveal } from "../motion/Reveal";
-export function Midnight() { return <section id="night" className="nli-section nli-midnight"><div className="nli-midnight__texture" /><div className="nli-midnight__copy"><Reveal type="label"><p className="nli-eyebrow">04 / MIDNIGHT SERVICE</p></Reveal><Reveal type="mask"><h2>The hours<br /><em>between cities.</em></h2></Reveal><Reveal type="rise"><p>At 00:18 the carriage settles. Lamps go low. The dining car keeps one table lit for anyone who would rather watch the mountains than sleep.</p></Reveal><Reveal type="draw"><div className="nli-specs"><span><b>01:18</b>Last pour</span><span><b>04</b>Countries crossed</span><span><b>0</b>Notifications</span></div></Reveal></div><div className="nli-midnight__quote">“A room that moves<br /><em>without taking you with it.</em>”</div></section>; }
+
+export function Midnight() {
+  return (
+    <section id="night" className="nli-section nli-midnight">
+      <div className="nli-midnight__texture" />
+      <div className="nli-midnight__copy">
+        <Reveal type="label">
+          <p className="nli-eyebrow">04 / MIDNIGHT SERVICE</p>
+        </Reveal>
+        <Reveal type="mask">
+          <h2>
+            The hours<br />
+            <em>between cities.</em>
+          </h2>
+        </Reveal>
+        <Reveal type="rise">
+          <p>
+            At 00:18 the carriage settles. Lamps go low. The dining car keeps one table lit for anyone who would rather watch the mountains than sleep.
+          </p>
+        </Reveal>
+        <Reveal type="draw">
+          <div className="nli-specs">
+            <span>
+              <b>01:18</b>Last pour
+            </span>
+            <span>
+              <b>04</b>Countries crossed
+            </span>
+            <span>
+              <b>0</b>Notifications
+            </span>
+          </div>
+        </Reveal>
+      </div>
+      <div className="nli-midnight__media-col">
+        <Reveal type="rise">
+          <div className="nli-midnight__media">
+            <Picture
+              assetKey="midnight-service"
+              alt="Midnight dining car with solitary brass reading lamp looking out at mountain night"
+              sizes="(min-width: 900px) 40vw, 90vw"
+            />
+          </div>
+        </Reveal>
+        <div className="nli-midnight__quote">
+          “A room that moves<br />
+          <em>without taking you with it.</em>”
+        </div>
+      </div>
+    </section>
+  );
+}

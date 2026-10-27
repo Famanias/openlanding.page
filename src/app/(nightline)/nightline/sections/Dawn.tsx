@@ -1,3 +1,68 @@
-import { Reveal } from "../motion/Reveal";
+import { Picture } from "../assets";
 import { CountUp } from "../motion/CountUp";
-export function Dawn() { return <section className="nli-section nli-dawn"><div className="nli-dawn__copy"><Reveal type="label"><p className="nli-eyebrow">06 / ARRIVAL</p></Reveal><Reveal type="mask"><h2>Wake on<br /><em>the right side.</em></h2></Reveal><Reveal type="rise"><p>Arrive before the city has made up its mind. A station, a coffee, and the whole day still in front of you.</p></Reveal></div><div className="nli-dawn__stats"><Reveal type="count"><div><strong><CountUp value={11} /></strong><span>cities from Paris<br />before breakfast</span></div></Reveal><Reveal type="count" index={1}><div><strong><CountUp value={38} suffix="k" /></strong><span>tonnes of CO₂<br />saved each season</span></div></Reveal><Reveal type="count" index={2}><div><strong><CountUp value={4.8} suffix="/5" /></strong><span>average window-seat<br />rating</span></div></Reveal></div></section>; }
+import { Reveal } from "../motion/Reveal";
+
+export function Dawn() {
+  return (
+    <section className="nli-section nli-dawn">
+      <div className="nli-dawn__copy">
+        <Reveal type="label">
+          <p className="nli-eyebrow">06 / ARRIVAL</p>
+        </Reveal>
+        <Reveal type="mask">
+          <h2>
+            Wake on<br />
+            <em>the right side.</em>
+          </h2>
+        </Reveal>
+        <Reveal type="rise">
+          <p>Arrive before the city has made up its mind. A station, a coffee, and the whole day still in front of you.</p>
+        </Reveal>
+        <Reveal type="rise" index={1}>
+          <div className="nli-dawn__media">
+            <Picture
+              assetKey="dawn-platform"
+              alt="Vienna central station arrival platform at dawn"
+              sizes="(min-width: 900px) 45vw, 90vw"
+            />
+          </div>
+        </Reveal>
+      </div>
+      <div className="nli-dawn__stats">
+        <Reveal type="count">
+          <div>
+            <strong>
+              <CountUp value={11} />
+            </strong>
+            <span>
+              cities from Paris<br />
+              before breakfast
+            </span>
+          </div>
+        </Reveal>
+        <Reveal type="count" index={1}>
+          <div>
+            <strong>
+              <CountUp value={38} suffix="k" />
+            </strong>
+            <span>
+              tonnes of CO₂<br />
+              saved each season
+            </span>
+          </div>
+        </Reveal>
+        <Reveal type="count" index={2}>
+          <div>
+            <strong>
+              <CountUp value={4.8} suffix="/5" />
+            </strong>
+            <span>
+              average window-seat<br />
+              rating
+            </span>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}

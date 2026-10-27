@@ -3,7 +3,15 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import sharp from "sharp";
 import { describe, expect, test } from "vitest";
-import { inkOnStock, processImages, renderAssetsModule, tritone } from "../process-images";
+import {
+  auditTemplateAssets,
+  extractDocPromptKeys,
+  inkOnStock,
+  processImages,
+  renderAssetsModule,
+  tritone,
+} from "../process-images";
+import type { SourceFile } from "../templates.config";
 
 describe("inkOnStock", () => {
   test("runs from tape black to stock and interpolates linearly", () => {
@@ -33,6 +41,111 @@ describe("tritone", () => {
 describe("renderAssetsModule", () => {
   test("writes an empty record when there are no images", () => {
     expect(renderAssetsModule({})).toContain("export const ASSETS: Record<string, { w: number; h: number }> = {};");
+  });
+});
+
+describe("extractDocPromptKeys", () => {
+  test("extracts prompt keys from markdown tables and headings while ignoring section headers and videos", () => {
+    const markdown = `
+# Sample Prompts
+### Color Palette Tokens
+| Asset Key | Ratio | Where Used |
+|---|---|---|
+| \`hero-poster\` | 16:9 | Hero section |
+| \`detail-card\` | 4:3 | Feature cards |
+| \`reel-clip.mp4\` | 16:9 | Video loop |
+
+### \`closing-footer\`
+Closing section prompt details.
+
+### Shared Style Preamble
+Some style details.
+`;
+    const keys = extractDocPromptKeys(markdown);
+    expect(keys).toEqual(["hero-poster", "detail-card", "closing-footer"]);
+  });
+});
+
+describe("auditTemplateAssets", () => {
+  test("flags missing incoming keys when documented prompt is not generated", () => {
+    const templateFiles: SourceFile[] = [
+      {
+        path: "src/app/(test)/test/page.tsx",
+        source: 'import { Picture } from "./assets";\nexport default function Page() { return <Picture assetKey="hero" alt="hero" />; }',
+      },
+    ];
+
+    const audit = auditTemplateAssets(
+      "test",
+      { hero: { w: 800, h: 600 } },
+      {
+        docPath: "nonexistent.md",
+        templateFiles,
+      },
+    );
+    expect(audit.templateUsesAssets).toBe(true);
+    expect(audit.missingFromGenerated).toEqual([]);
+    expect(audit.errors).toEqual([]);
+  });
+
+  test("flags when template never uses Picture or ASSETS", () => {
+    const templateFiles: SourceFile[] = [
+      {
+        path: "src/app/(test)/test/page.tsx",
+        source: 'export default function Page() { return <div>No media used</div>; }',
+      },
+    ];
+
+    const audit = auditTemplateAssets(
+      "test",
+      { hero: { w: 800, h: 600 } },
+      {
+        docPath: "nonexistent.md",
+        templateFiles,
+      },
+    );
+    expect(audit.templateUsesAssets).toBe(false);
+    expect(audit.warnings.some((w) => w.includes("does NOT import or use <Picture>"))).toBe(true);
+  });
+
+  test("flags when component references an assetKey that is missing from generated assets", () => {
+    const templateFiles: SourceFile[] = [
+      {
+        path: "src/app/(test)/test/page.tsx",
+        source: 'import { Picture } from "./assets";\nexport default function Page() { return <Picture assetKey="missing-hero" alt="hero" />; }',
+      },
+    ];
+
+    const audit = auditTemplateAssets(
+      "test",
+      { other: { w: 800, h: 600 } },
+      {
+        docPath: "nonexistent.md",
+        templateFiles,
+      },
+    );
+    expect(audit.missingFromGenerated).toContain("missing-hero");
+    expect(audit.errors.some((e) => e.includes('references assetKey "missing-hero"'))).toBe(true);
+  });
+
+  test("identifies unreferenced generated assets", () => {
+    const templateFiles: SourceFile[] = [
+      {
+        path: "src/app/(test)/test/page.tsx",
+        source: 'import { Picture } from "./assets";\nexport default function Page() { return <Picture assetKey="hero" alt="hero" />; }',
+      },
+    ];
+
+    const audit = auditTemplateAssets(
+      "test",
+      { hero: { w: 800, h: 600 }, unused: { w: 400, h: 300 } },
+      {
+        docPath: "nonexistent.md",
+        templateFiles,
+      },
+    );
+    expect(audit.unreferencedInGenerated).toContain("unused");
+    expect(audit.warnings.some((w) => w.includes('"unused" is not referenced'))).toBe(true);
   });
 });
 

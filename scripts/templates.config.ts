@@ -4,6 +4,8 @@ export type TemplateConfig = {
   palette: string[];
   /** Path prefixes skipped by the palette check (content colours, e.g. 3D food). */
   paletteExempt?: string[];
+  /** Whether the template is exempt from requiring registered assets to be rendered in JSX (e.g. pure 3D canvases). */
+  mediaExempt?: boolean;
 };
 
 export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
@@ -100,6 +102,7 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
   bathys: {
     // trench obsidian (ground), bathypelagic navy (slabs), hull titanium (paper), siphonophore cyan (primary accent), acoustic amber (secondary alert), pressure glass (tint), hydrographic slate (rules), subsea mist (muted)
     palette: ["#03070D", "#0A1526", "#EDF5FA", "#00E5FF", "#FF9E1B", "#122338", "#546E8A", "#8DA8C2"],
+    mediaExempt: true,
   },
   aubade: {
     // nuit (ink/ground), linen (paper/text), claret (the one action colour, dusk), dawn (dawn field, highlights on nuit), sapin (forest, dining car), lac (lake, lagoon)
