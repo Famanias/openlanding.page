@@ -92,7 +92,7 @@ function LifecycleStepIcon({
   }
 
   if (stepId === 'protects') {
-    // Fragile glass flacon nestled inside a protective moulded tray wall
+    // Moulded protective packaging tray cross-section with recessed cavity
     return (
       <svg
         viewBox="0 0 20 20"
@@ -101,23 +101,14 @@ function LifecycleStepIcon({
         aria-hidden="true"
       >
         <path
-          d="M2.5 11.5V15.2C2.5 16.2 3.3 17 4.3 17H15.7C16.7 17 17.5 16.2 17.5 15.2V11.5L14.8 11.5V14.2H5.2V11.5L2.5 11.5Z"
+          d="M2.2 8.5H5.2L6.4 13.2H13.6L14.8 8.5H17.8V14.8C17.8 15.9 16.9 16.8 15.8 16.8H4.2C3.1 16.8 2.2 15.9 2.2 14.8V8.5Z"
           stroke={strokeColor}
           strokeWidth="1.2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <rect
-          x="7.3"
-          y="6.2"
-          width="5.4"
-          height="6.4"
-          rx="0.9"
-          stroke={strokeColor}
-          strokeWidth="1.15"
-        />
         <path
-          d="M9.1 6.2V4.5H10.9V6.2M8.4 3.4H11.6"
+          d="M6.2 6.2H13.8"
           stroke={accentColor}
           strokeWidth="1.2"
           strokeLinecap="round"

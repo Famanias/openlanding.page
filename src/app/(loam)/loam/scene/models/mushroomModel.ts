@@ -85,46 +85,52 @@ export function buildParasolMushroom(
   stemMesh.receiveShadow = true;
   group.add(stemMesh);
 
-  // Smooth soil & moss coating shell on the lower bulb (y = 0..0.72)
+  // Smooth cream bulb shell dusted with dark soil near the base (y = 0..0.72, flush transition into stem)
   const bulbPoints: THREE.Vector2[] = [];
-  for (let i = 0; i <= 24; i++) {
-    const u = i / 24;
+  for (let i = 0; i <= 28; i++) {
+    const u = i / 28;
     const y = u * 0.72;
     const bulbCurve = Math.sin(u * Math.PI);
     const bottomRound = Math.sqrt(Math.max(0.02, Math.sin(Math.min(1, u * 2.2) * (Math.PI * 0.5))));
-    const r = (0.124 + 0.315 * Math.pow(bulbCurve, 0.82)) * bottomRound;
+    // Taper shell offset to 0 at u=1 so it merges seamlessly into the cream stem
+    const shellOffset = 0.003 * (1 - u * u);
+    const r = (0.12 + shellOffset + 0.31 * Math.pow(bulbCurve, 0.82)) * bottomRound;
     bulbPoints.push(new THREE.Vector2(r, y));
   }
-  const bulbGeo = new THREE.LatheGeometry(bulbPoints, isHero ? 44 : 24);
+  const bulbGeo = new THREE.LatheGeometry(bulbPoints, isHero ? 48 : 28);
   const bPos = bulbGeo.attributes.position;
   for (let i = 0; i < bPos.count; i++) {
     const vx = bPos.getX(i);
     const vy = bPos.getY(i);
     const vz = bPos.getZ(i);
     const ang = Math.atan2(vz, vx);
-    const lump = 1 + Math.sin(ang * 4 + vy * 6) * 0.05 + Math.cos(ang * 7 - vy * 9) * 0.035;
-    bPos.setXYZ(i, vx * lump, vy, vz * lump);
+    const swell = 1 + Math.sin(ang * 3 + vy * 5) * 0.045 + Math.cos(ang * 5 - vy * 7) * 0.03;
+    bPos.setXYZ(i, vx * swell, vy, vz * swell);
   }
   bulbGeo.computeVertexNormals();
 
   const bulbMat = new THREE.MeshStandardMaterial({
     map: textures.bulbColor,
     bumpMap: textures.bulbBump,
-    bumpScale: 0.055,
-    roughness: 0.94,
+    bumpScale: 0.024,
+    color: new THREE.Color('#ffffff'),
+    roughness: 0.88,
     metalness: 0.0,
+    emissive: new THREE.Color('#a8cc34'),
+    emissiveIntensity: 0,
   });
+  emissiveMaterials.push(bulbMat);
   const bulbMesh = new THREE.Mesh(bulbGeo, bulbMat);
   bulbMesh.castShadow = true;
   bulbMesh.receiveShadow = true;
   group.add(bulbMesh);
 
-  // Fine fibrous green moss tufts & organic dark soil crumbs clinging to the bulb
+  // A few delicate moss tufts and fine dark soil crumbs clinging near the bottom of the cream bulb
   if (isHero) {
-    const tuftCount = 140;
-    // Short tapered curved moss filament blade
-    const tuftGeo = new THREE.ConeGeometry(0.012, 0.085, 4);
-    tuftGeo.translate(0, 0.04, 0);
+    const mossPatchAngles = [-0.65, 0.85, 2.35];
+    const tuftCount = 48;
+    const tuftGeo = new THREE.ConeGeometry(0.0085, 0.058, 4);
+    tuftGeo.translate(0, 0.026, 0);
     const tuftMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       roughness: 0.92,
@@ -135,18 +141,27 @@ export function buildParasolMushroom(
     const color = new THREE.Color();
 
     for (let i = 0; i < tuftCount; i++) {
-      const clusterAngle = (i % 9) * 0.7 + (rand() - 0.5) * 0.38;
-      const h = 0.14 + (i % 7) * 0.065 + (rand() - 0.5) * 0.05;
+      const patchCenter = mossPatchAngles[i % mossPatchAngles.length];
+      const clusterAngle = patchCenter + (rand() - 0.5) * 0.34;
+      const h = 0.09 + rand() * 0.19;
       const u = Math.max(0.05, Math.min(0.95, h / 0.72));
-      const rad = (0.12 + 0.31 * Math.pow(Math.sin(u * Math.PI), 0.82)) * 0.98;
+      const swell =
+        1 + Math.sin(clusterAngle * 3 + h * 5) * 0.045 + Math.cos(clusterAngle * 5 - h * 7) * 0.03;
+      const bottomRound = Math.sqrt(Math.max(0.02, Math.sin(Math.min(1, u * 2.2) * (Math.PI * 0.5))));
+      const rad = (0.12 + 0.31 * Math.pow(Math.sin(u * Math.PI), 0.82)) * bottomRound * swell * 0.99;
+
       dummy.position.set(Math.cos(clusterAngle) * rad, h, Math.sin(clusterAngle) * rad);
-      dummy.lookAt(Math.cos(clusterAngle) * 2, h + 0.4 + rand() * 0.5, Math.sin(clusterAngle) * 2);
-      dummy.rotateZ((rand() - 0.5) * 0.6);
-      dummy.scale.set(0.8 + rand() * 0.7, 0.6 + rand() * 0.9, 0.8 + rand() * 0.7);
+      dummy.lookAt(
+        Math.cos(clusterAngle) * 2,
+        h + 0.35 + rand() * 0.35,
+        Math.sin(clusterAngle) * 2,
+      );
+      dummy.rotateZ((rand() - 0.5) * 0.5);
+      dummy.scale.set(0.75 + rand() * 0.5, 0.65 + rand() * 0.65, 0.75 + rand() * 0.5);
       dummy.updateMatrix();
       tuftInst.setMatrixAt(i, dummy.matrix);
 
-      color.setHSL(0.25 + (rand() - 0.5) * 0.04, 0.46, 0.16 + rand() * 0.09);
+      color.setHSL(0.25 + (rand() - 0.5) * 0.03, 0.44, 0.16 + rand() * 0.08);
       tuftInst.setColorAt(i, color);
     }
     tuftInst.instanceMatrix.needsUpdate = true;
@@ -257,9 +272,9 @@ export function buildParasolMushroom(
       const ang = Math.atan2(vz, vx);
       const fringe =
         1 +
-        Math.sin(ang * 31) * 0.018 +
-        Math.cos(ang * 19) * 0.014 +
-        Math.sin(ang * 53) * 0.008;
+        Math.sin(ang * 31) * 0.014 +
+        Math.cos(ang * 19) * 0.010 +
+        Math.sin(ang * 53) * 0.006;
       capPos.setXYZ(i, vx * fringe, vy, vz * fringe);
     }
     const u = 0.5 + vx / (capRadius * 2.04);
@@ -296,43 +311,49 @@ export function buildParasolMushroom(
     group.add(recessMesh);
   }
 
-  // 4. Real 3D Cap Scales: raised, curled, pointed tufts arranged in concentric rings,
-  // densest and darkest near the umbo, sparser toward the shaggy margin
+  // 4. Real 3D Cap Scales: raised, cushiony fibrous tufts spread over the top of the cap
+  //    (densest near the central umbo, sparser outward, stopping inside the margin so none form claws around the rim)
+  const baseHeroRadii = [0.20, 0.26, 0.33, 0.41, 0.50, 0.60, 0.71, 0.83, 0.96, 1.10, 1.22];
   const ringRadii = isHero
-    ? [0.22, 0.30, 0.39, 0.49, 0.60, 0.72, 0.85, 0.99, 1.13, 1.27, 1.39]
-    : [0.24, 0.42, 0.64, 0.88, 1.14, 1.34].map((r) => r * (capRadius / 1.48));
+    ? baseHeroRadii
+    : [0.22, 0.36, 0.52, 0.70, 0.90, 1.10].map((r) => r * (capRadius / 1.48));
   const ringCounts = isHero
-    ? [28, 32, 36, 38, 38, 36, 34, 30, 26, 22, 18]
-    : [14, 16, 18, 16, 14, 12];
+    ? [34, 38, 40, 38, 34, 30, 26, 22, 18, 14, 11]
+    : [18, 20, 18, 15, 12, 9];
 
   const totalScales = ringCounts.reduce((acc, n) => acc + n, 0);
 
-  // Build a custom sculpted 3D curled, pointed tuft geometry
-  // Root sits flush on the cap at z = -0.045; body arches and tapers to a curled pointed tip at z = +0.055
-  const scaleGeo = new THREE.BoxGeometry(0.088, 0.022, 0.095, 4, 2, 5);
+  // Sculpted cushiony fibrous tuft pad that hugs the cap dome (never hooks or claws upward)
+  const scaleGeo = new THREE.BoxGeometry(0.086, 0.018, 0.074, 5, 2, 5);
   const sPos = scaleGeo.attributes.position;
   for (let i = 0; i < sPos.count; i++) {
-    const sx = sPos.getX(i);
-    const sy = sPos.getY(i);
-    const sz = sPos.getZ(i); // -0.0475 (inner root) to +0.0475 (outer tip)
-    const u = (sz + 0.0475) / 0.095; // 0 at root, 1 at pointed outer tip
-    // Taper width to a pointed tuft tip at u = 1, with subtle ragged fibril serration
-    const taperX = (1 - Math.pow(u, 1.35) * 0.82) * (1 + Math.sin(u * 9) * 0.08);
-    // Curl upward strongly toward the tip so each scale reads as a raised 3D curled squamule tuft
-    const curlY = Math.pow(u, 2.1) * 0.038;
-    // Thin the vertical thickness toward the pointed tip
-    const thicknessScale = 1 - u * 0.55;
-    // Slight dorsal ridge along the center line (sx = 0)
-    const ridgeY = (1 - Math.pow(sx / 0.044, 2)) * 0.008;
-    sPos.setXYZ(i, sx * taperX, sy * thicknessScale + curlY + ridgeY, sz);
+    const sx = sPos.getX(i); // -0.043 .. +0.043
+    const sy = sPos.getY(i); // -0.009 .. +0.009
+    const sz = sPos.getZ(i); // -0.037 .. +0.037
+    const nx = sx / 0.043;
+    const nz = sz / 0.037;
+    const r2 = Math.min(1.2, nx * nx + nz * nz);
+    // Soft oval squamule patch with slightly frayed/feathered edges
+    const edgeFeather = 1 - 0.18 * Math.pow(Math.max(0, r2 - 0.35), 1.2);
+    const serration = 1 + 0.07 * Math.sin(nx * 9.0) * Math.cos(nz * 7.0);
+    // Gentle dome cushion in the middle, hugging the cap slope at the perimeter
+    const domeHeight = Math.max(0, 1 - r2 * 0.88) * 0.011;
+    const hugCurvature = -r2 * 0.004;
+    const topLift = sy > 0 ? domeHeight : 0;
+    sPos.setXYZ(
+      i,
+      sx * edgeFeather * serration,
+      sy * (1 - r2 * 0.45) + topLift + hugCurvature,
+      sz * edgeFeather * serration,
+    );
   }
   scaleGeo.computeVertexNormals();
 
   const scaleMat = new THREE.MeshStandardMaterial({
     color: new THREE.Color('#ffffff'),
     bumpMap: textures.capBump,
-    bumpScale: 0.035,
-    roughness: 0.9,
+    bumpScale: 0.032,
+    roughness: 0.92,
     metalness: 0.0,
   });
 
@@ -353,32 +374,32 @@ export function buildParasolMushroom(
       const angle =
         (k / count) * Math.PI * 2 +
         (rIdx % 2) * (Math.PI / count) +
-        (rand() - 0.5) * 0.07;
-      const r = Math.min(capRadius * 0.96, baseR + (rand() - 0.5) * 0.032);
+        (rand() - 0.5) * 0.09;
+      const r = Math.min(capRadius * 0.85, baseR + (rand() - 0.5) * 0.036);
       const y0 = getCapSurfaceY(r);
       const y1 = getCapSurfaceY(Math.min(capRadius, r + 0.03));
       const slopeAngle = Math.atan2(y0 - y1, 0.03);
 
-      dummy.position.set(Math.cos(angle) * r, y0 + 0.005, Math.sin(angle) * r);
+      dummy.position.set(Math.cos(angle) * r, y0 + 0.002, Math.sin(angle) * r);
       dummy.rotation.set(0, 0, 0);
       dummy.lookAt(
         Math.cos(angle) * (r + 1),
-        y0 + 0.005 - Math.tan(slopeAngle),
+        y0 + 0.002 - Math.tan(slopeAngle),
         Math.sin(angle) * (r + 1),
       );
-      // Pitch the curled pointed tuft slightly upward on mid and outer rings
-      dummy.rotateX(-0.08 - ringNorm * 0.12 - rand() * 0.08);
 
-      const wScale = (0.72 + Math.sin(ringNorm * Math.PI) * 0.65) * (0.82 + rand() * 0.36);
-      const hScale = (0.95 + (1 - ringNorm * 0.3) * 0.45) * (0.85 + rand() * 0.35);
-      const lScale = (0.68 + ringNorm * 0.68) * (0.85 + rand() * 0.32);
+      // Densest and fullest near the central umbo, gently smaller and flatter toward the outer cap
+      const centerWeight = 1 - ringNorm * 0.32;
+      const wScale = (0.86 + centerWeight * 0.36) * (0.84 + rand() * 0.32);
+      const hScale = (0.85 + centerWeight * 0.55) * (0.85 + rand() * 0.30);
+      const lScale = (0.82 + centerWeight * 0.34) * (0.84 + rand() * 0.32);
       dummy.scale.set(wScale, hScale, lScale);
       dummy.updateMatrix();
       scalesInst.setMatrixAt(scaleIdx, dummy.matrix);
 
-      // Densest and darkest umber near the umbo, warm medium brown outward
-      const lightness = 0.14 + ringNorm * 0.11 + (rand() - 0.5) * 0.035;
-      scaleColor.setHSL(0.072, 0.42, lightness);
+      // Darkest umber near the umbo, warm medium-umber outward
+      const lightness = 0.16 + ringNorm * 0.12 + (rand() - 0.5) * 0.035;
+      scaleColor.setHSL(0.074, 0.42, lightness);
       scalesInst.setColorAt(scaleIdx, scaleColor);
       scaleIdx++;
     }

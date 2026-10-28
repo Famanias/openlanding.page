@@ -17,6 +17,7 @@ export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
       "#6E8F11", "#73533A", "#7A5B42", "#84AB14", "#8A5229", "#D2C3AE",
       "#D8CBB8", "#E2D6C3", "#E4F882", "#E5886E", "#F4F8FB", "#FF9B54",
       "#FFFFFF", "#FF8A3D", "#FFA751", "#060507", "#0C0805", "#161B14",
+      "#8EB2E6", "#FFBE6B", "#F7FAF5", "#131B28", "#2A1F13", "#3E4B37",
     ],
     paletteExempt: ["src/app/(loam)/loam/scene/"],
     mediaExempt: true,

@@ -238,31 +238,45 @@ describe('LOAM core logic', () => {
     expect(Object.keys(validResult.errors).length).toBe(0);
   });
 
-  it('sunlight time-of-day state interpolates sun arc, color temperature, exposure, and CSS variables across 0..1', () => {
-    expect(DEFAULT_SUNLIGHT).toBe(0.75);
+  it('sunlight time-of-day state interpolates Night, Morning (default), and Midday with real lighting range across 0..1', () => {
+    expect(DEFAULT_SUNLIGHT).toBe(0.55);
 
-    const dusk = computeSunlightState(0.0);
-    const golden = computeSunlightState(0.35);
+    const night = computeSunlightState(0.0);
     const morning = computeSunlightState(DEFAULT_SUNLIGHT);
     const midday = computeSunlightState(1.0);
 
-    // Sun elevation arcs upward from low dusk angle to high overhead midday angle
-    expect(dusk.sunOffset[1]).toBeLessThan(golden.sunOffset[1]);
-    expect(golden.sunOffset[1]).toBeLessThan(morning.sunOffset[1]);
+    expect(night.timeLabel).toBe('Night');
+    expect(morning.timeLabel).toBe('Morning');
+    expect(midday.timeLabel).toBe('Midday');
+
+    // Morning has low raking golden elevation, Midday has high overhead elevation
     expect(morning.sunOffset[1]).toBeLessThan(midday.sunOffset[1]);
 
-    // Color temperature shifts from warm amber (#ff8a3d) at dusk to neutral daylight (#f4f8fb) at midday
-    expect(dusk.sunColorHex).toBe('#ff8a3d');
-    expect(golden.sunColorHex).toBe('#ffa751');
-    expect(midday.sunColorHex).toBe('#f4f8fb');
+    // Color temperature shifts from cool blue-grey moonlight (#8eb2e6) at Night to warm golden (#ffbe6b) in Morning to neutral daylight (#f7faf5) at Midday
+    expect(night.sunColorHex).toBe('#8eb2e6');
+    expect(morning.sunColorHex).toBe('#ffbe6b');
+    expect(midday.sunColorHex).toBe('#f7faf5');
 
-    // Intensity and exposure scale monotonically without exceeding safe tone-mapping bounds
-    expect(dusk.sunIntensityMultiplier).toBeLessThan(midday.sunIntensityMultiplier);
-    expect(dusk.toneMappingExposure).toBeGreaterThanOrEqual(0.65);
-    expect(midday.toneMappingExposure).toBeLessThanOrEqual(0.85);
+    // Intensity and underground daylight scale monotonically from Night -> Morning -> Midday
+    expect(night.sunIntensityMultiplier).toBeLessThan(morning.sunIntensityMultiplier);
+    expect(morning.sunIntensityMultiplier).toBeLessThan(midday.sunIntensityMultiplier);
+    expect(night.undergroundDaylightFactor).toBeLessThan(morning.undergroundDaylightFactor);
+    expect(morning.undergroundDaylightFactor).toBeLessThan(midday.undergroundDaylightFactor);
+
+    // Foxfire glow is strongest at Night
+    expect(night.foxfireGlowMultiplier).toBeGreaterThan(morning.foxfireGlowMultiplier);
+    expect(morning.foxfireGlowMultiplier).toBeGreaterThan(midday.foxfireGlowMultiplier);
+
+    // No slider position may make the background close to pure black
+    for (const state of [night, morning, midday]) {
+      const maxSurf = Math.max(...state.surfaceBgRgb);
+      const maxUg = Math.max(...state.undergroundFogRgb);
+      expect(maxSurf).toBeGreaterThanOrEqual(0.14);
+      expect(maxUg).toBeGreaterThanOrEqual(0.12);
+    }
 
     // CSS custom properties are populated for 2D atmosphere synchronization
-    expect(dusk.cssVars['--page-bg'].startsWith('#')).toBe(true);
+    expect(night.cssVars['--page-bg'].startsWith('#')).toBe(true);
     expect(midday.cssVars['--sky-ambient'].startsWith('rgba(')).toBe(true);
     expect(midday.cssVars['--text-contrast'].startsWith('#')).toBe(true);
   });

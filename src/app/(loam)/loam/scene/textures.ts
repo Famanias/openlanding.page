@@ -183,7 +183,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   capColorTex.wrapS = THREE.ClampToEdgeWrapping;
   capColorTex.wrapT = THREE.ClampToEdgeWrapping;
 
-  // Project `/templates/loam/references/mushroom-from-above.webp` onto the cap top albedo when available
+  // Project `/assets/aistudio/mushroom-from-above_90ef6842.png` onto the cap top albedo when available
   if (typeof Image !== 'undefined') {
     const capImg = new Image();
     capImg.crossOrigin = 'anonymous';
@@ -202,7 +202,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
     capImg.src = '/templates/loam/references/mushroom-from-above.webp';
   }
 
-  // 3. Bulbous base texture (smooth transition from cream stem base into dark clotted soil & moss)
+  // 3. Bulbous base texture: smooth cream bulb lightly dusted with fine dark soil grains near the base (no camouflage blotches)
   const bulbColorCanvas = document.createElement('canvas');
   bulbColorCanvas.width = 512;
   bulbColorCanvas.height = 512;
@@ -213,39 +213,48 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   bulbBumpCanvas.height = 512;
   const bbCtx = bulbBumpCanvas.getContext('2d')!;
 
+  // Smooth cream flesh continuous with the stem, darkening softly only at the very bottom root line (y = 0 in Lathe UV is bottom of bulb, y = 512 is top of bulb)
+  // Note: LatheGeometry v=0 is at the bottom (y=0) and v=1 is at the top (y=0.72). In Canvas 2D (flipY=true), canvas y=0 is v=1 (top of bulb) and canvas y=512 is v=0 (bottom of bulb).
   const bulbGrad = bCtx.createLinearGradient(0, 0, 0, 512);
-  bulbGrad.addColorStop(0.0, '#cfc2ad');
-  bulbGrad.addColorStop(0.28, '#bfb09a');
-  bulbGrad.addColorStop(0.65, '#3b2b1e');
-  bulbGrad.addColorStop(1.0, '#16100b');
+  bulbGrad.addColorStop(0.0, '#d6c9b4');
+  bulbGrad.addColorStop(0.52, '#d2c4ae');
+  bulbGrad.addColorStop(0.76, '#b8a48a');
+  bulbGrad.addColorStop(0.90, '#5c4531');
+  bulbGrad.addColorStop(1.0, '#241911');
   bCtx.fillStyle = bulbGrad;
   bCtx.fillRect(0, 0, 512, 512);
 
-  bbCtx.fillStyle = '#505050';
+  bbCtx.fillStyle = '#606060';
   bbCtx.fillRect(0, 0, 512, 512);
 
-  for (let i = 0; i < 650; i++) {
+  // Delicate vertical silky fibrils matching the stem
+  for (let i = 0; i < 450; i++) {
     const x = rand() * 512;
-    const y = 90 + Math.pow(rand(), 0.75) * 422;
-    const r = 4 + rand() * 20;
-    const isMoss = rand() > 0.72 && y > 130 && y < 370;
-    if (isMoss) {
-      bCtx.fillStyle = `rgba(${46 + Math.floor(rand() * 22)}, ${68 + Math.floor(rand() * 28)}, ${26 + Math.floor(rand() * 14)}, 0.85)`;
-    } else {
-      const d = 18 + Math.floor(rand() * 22);
-      bCtx.fillStyle = `rgba(${d + 8}, ${d + 2}, ${d - 3}, 0.92)`;
-    }
+    bCtx.fillStyle = rand() > 0.5 ? 'rgba(226, 216, 198, 0.25)' : 'rgba(182, 166, 144, 0.22)';
+    bCtx.fillRect(x, 0, 1.2, 420);
+  }
+
+  // Fine dark soil dusting (tiny 0.6..2.5px specks, concentrated toward the lower half of the bulb, never big blotches)
+  for (let i = 0; i < 3200; i++) {
+    const x = rand() * 512;
+    // Bias toward bottom of bulb (canvas y -> 512)
+    const u = Math.pow(rand(), 1.85);
+    const y = 512 - u * 430;
+    const r = 0.6 + rand() * 1.9 + (1 - u) * 1.4;
+    const d = 24 + Math.floor(rand() * 26);
+    const alpha = (0.35 + (1 - u) * 0.55) * (0.6 + rand() * 0.4);
+    bCtx.fillStyle = `rgba(${d + 10}, ${d + 3}, ${d - 2}, ${alpha.toFixed(2)})`;
     bCtx.beginPath();
     bCtx.arc(x, y, r, 0, Math.PI * 2);
     bCtx.fill();
 
-    bbCtx.fillStyle = isMoss ? '#b8b8b8' : '#e0e0e0';
+    bbCtx.fillStyle = `rgba(195, 195, 195, ${(alpha * 0.65).toFixed(2)})`;
     bbCtx.beginPath();
-    bbCtx.arc(x, y, r * 0.85, 0, Math.PI * 2);
+    bbCtx.arc(x, y, r, 0, Math.PI * 2);
     bbCtx.fill();
   }
 
-  // 4. Molded packaging tray outer mycelium skin (matte off-white to warm cream #f2eadb with scattered small brown hemp fibre speckles)
+  // 4. Molded packaging tray outer mycelium skin (matte off-white to warm cream #e7ddca with scattered small brown hemp fibre speckles)
   const traySkinCanvas = document.createElement('canvas');
   traySkinCanvas.width = 512;
   traySkinCanvas.height = 512;
@@ -256,47 +265,47 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   traySkinBumpCanvas.height = 512;
   const tsbCtx = traySkinBumpCanvas.getContext('2d')!;
 
-  tsCtx.fillStyle = '#f2eadb';
+  tsCtx.fillStyle = '#e7ddca';
   tsCtx.fillRect(0, 0, 512, 512);
   tsbCtx.fillStyle = '#808080';
   tsbCtx.fillRect(0, 0, 512, 512);
 
   // Soft cloudy velvety off-white/cream mycelium patches
-  for (let i = 0; i < 340; i++) {
+  for (let i = 0; i < 360; i++) {
     const x = rand() * 512;
     const y = rand() * 512;
-    const rad = 14 + rand() * 46;
+    const rad = 14 + rand() * 44;
     const g = tsCtx.createRadialGradient(x, y, 2, x, y, rad);
     const tint =
-      rand() > 0.36
-        ? 'rgba(251, 247, 239, 0.56)'
-        : 'rgba(232, 222, 204, 0.42)';
+      rand() > 0.38
+        ? 'rgba(244, 238, 226, 0.52)'
+        : 'rgba(220, 208, 188, 0.44)';
     g.addColorStop(0, tint);
-    g.addColorStop(1, 'rgba(242, 234, 219, 0)');
+    g.addColorStop(1, 'rgba(231, 221, 202, 0)');
     tsCtx.fillStyle = g;
     tsCtx.beginPath();
     tsCtx.arc(x, y, rad, 0, Math.PI * 2);
     tsCtx.fill();
 
     // Fine velvety micro-fuzz relief on bump map
-    tsbCtx.fillStyle = rand() > 0.5 ? 'rgba(162, 162, 162, 0.22)' : 'rgba(96, 96, 96, 0.22)';
+    tsbCtx.fillStyle = rand() > 0.5 ? 'rgba(166, 166, 166, 0.24)' : 'rgba(92, 92, 92, 0.24)';
     tsbCtx.beginPath();
     tsbCtx.arc(x, y, rad * 0.42, 0, Math.PI * 2);
     tsbCtx.fill();
   }
 
   // Scattered small golden-brown & warm umber hemp hurd fibre speckles matching material-top_9cdf4064.png
-  for (let i = 0; i < 640; i++) {
+  for (let i = 0; i < 780; i++) {
     const x = rand() * 512;
     const y = rand() * 512;
-    const isSliver = rand() > 0.30;
-    const len = isSliver ? 2.4 + rand() * 8.2 : 0.9 + rand() * 1.8;
+    const isSliver = rand() > 0.28;
+    const len = isSliver ? 2.6 + rand() * 8.5 : 1.0 + rand() * 2.0;
     const ang = rand() * Math.PI * 2;
-    const w = isSliver ? 0.9 + rand() * 1.65 : 1.1 + rand() * 1.5;
-    const r = 98 + Math.floor(rand() * 52);
-    const gr = 68 + Math.floor(rand() * 38);
-    const b = 38 + Math.floor(rand() * 26);
-    tsCtx.strokeStyle = `rgba(${r}, ${gr}, ${b}, ${0.56 + rand() * 0.38})`;
+    const w = isSliver ? 1.0 + rand() * 1.7 : 1.2 + rand() * 1.6;
+    const r = 86 + Math.floor(rand() * 48);
+    const gr = 58 + Math.floor(rand() * 34);
+    const b = 30 + Math.floor(rand() * 24);
+    tsCtx.strokeStyle = `rgba(${r}, ${gr}, ${b}, ${0.64 + rand() * 0.34})`;
     tsCtx.lineWidth = w;
     tsCtx.lineCap = 'round';
     tsCtx.beginPath();
@@ -304,7 +313,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
     tsCtx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
     tsCtx.stroke();
 
-    tsbCtx.strokeStyle = 'rgba(38, 38, 38, 0.65)';
+    tsbCtx.strokeStyle = 'rgba(34, 34, 34, 0.72)';
     tsbCtx.lineWidth = w;
     tsbCtx.beginPath();
     tsbCtx.moveTo(x, y);
@@ -312,7 +321,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
     tsbCtx.stroke();
   }
 
-  // 5. Exposed fibrous core texture for the tray's broken corner (matches material-underside-and-cut-edge_69208517.png)
+  // 5. Exposed fibrous core texture for the tray's broken corner (compressed hemp fibres visible in the break)
   const trayCoreCanvas = document.createElement('canvas');
   trayCoreCanvas.width = 512;
   trayCoreCanvas.height = 512;
@@ -323,35 +332,42 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   trayCoreBumpCanvas.height = 512;
   const tcbCtx = trayCoreBumpCanvas.getContext('2d')!;
 
-  tcCtx.fillStyle = '#c4ae8e';
+  tcCtx.fillStyle = '#bca482';
   tcCtx.fillRect(0, 0, 512, 512);
-  tcbCtx.fillStyle = '#303030';
+  tcbCtx.fillStyle = '#383838';
   tcbCtx.fillRect(0, 0, 512, 512);
 
-  for (let i = 0; i < 2400; i++) {
+  // Dense interlocking compressed hemp hurd chips & cream mycelium binder strands
+  for (let i = 0; i < 3200; i++) {
     const x = rand() * 512;
     const y = rand() * 512;
-    const len = 6 + rand() * 20;
-    const ang = rand() * Math.PI * 2;
-    const isMyceliumStrand = rand() > 0.46;
+    const len = 7 + rand() * 22;
+    // Bias angle toward horizontal/diagonal compressed laminations like real moulded hemp-mycelium core
+    const ang = (rand() - 0.5) * 1.15 + (rand() > 0.5 ? 0 : Math.PI);
+    const isMyceliumStrand = rand() > 0.48;
+    const isDarkWoodFlecks = !isMyceliumStrand && rand() > 0.65;
     tcCtx.strokeStyle = isMyceliumStrand
-      ? `rgba(245, 239, 226, ${0.76 + rand() * 0.22})`
-      : `rgb(${152 + Math.floor(rand() * 44)}, ${122 + Math.floor(rand() * 36)}, ${86 + Math.floor(rand() * 28)})`;
-    tcCtx.lineWidth = isMyceliumStrand ? 1.2 + rand() * 1.6 : 2.0 + rand() * 3.4;
+      ? `rgba(240, 233, 218, ${0.78 + rand() * 0.20})`
+      : isDarkWoodFlecks
+        ? `rgb(${102 + Math.floor(rand() * 32)}, ${74 + Math.floor(rand() * 26)}, ${44 + Math.floor(rand() * 20)})`
+        : `rgb(${156 + Math.floor(rand() * 42)}, ${124 + Math.floor(rand() * 34)}, ${84 + Math.floor(rand() * 26)})`;
+    tcCtx.lineWidth = isMyceliumStrand ? 1.2 + rand() * 1.8 : 2.2 + rand() * 3.8;
+    tcCtx.lineCap = 'round';
     tcCtx.beginPath();
     tcCtx.moveTo(x, y);
     tcCtx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
     tcCtx.stroke();
 
-    tcbCtx.strokeStyle = isMyceliumStrand ? '#f2f2f2' : '#b0b0b0';
-    tcbCtx.lineWidth = 2.4;
+    tcbCtx.strokeStyle = isMyceliumStrand ? '#f0f0f0' : isDarkWoodFlecks ? '#585858' : '#b4b4b4';
+    tcbCtx.lineWidth = 2.6;
     tcbCtx.beginPath();
+    tcCtx.moveTo(x, y);
     tcbCtx.moveTo(x, y);
     tcbCtx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
     tcbCtx.stroke();
   }
 
-  // 6. Clump cottony hyphae texture & bark texture
+  // 6. Clump cottony hyphae texture & rich furrowed tree bark texture
   const clumpCanvas = document.createElement('canvas');
   clumpCanvas.width = 512;
   clumpCanvas.height = 512;
@@ -388,14 +404,32 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   }
 
   const barkCanvas = document.createElement('canvas');
-  barkCanvas.width = 256;
-  barkCanvas.height = 256;
+  barkCanvas.width = 512;
+  barkCanvas.height = 512;
   const bkCtx = barkCanvas.getContext('2d')!;
-  bkCtx.fillStyle = '#4a331f';
-  bkCtx.fillRect(0, 0, 256, 256);
-  for (let i = 0; i < 360; i++) {
-    bkCtx.fillStyle = rand() > 0.5 ? '#2e1e10' : '#66492e';
-    bkCtx.fillRect(rand() * 256, 0, 1.5 + rand() * 3.5, 256);
+  bkCtx.fillStyle = '#473321';
+  bkCtx.fillRect(0, 0, 512, 512);
+  // Deep vertical bark plates & fissures
+  for (let i = 0; i < 620; i++) {
+    const bx = rand() * 512;
+    const bw = 2 + rand() * 7;
+    const tone = rand();
+    bkCtx.fillStyle =
+      tone > 0.62
+        ? '#5e452e'
+        : tone > 0.25
+          ? '#382617'
+          : '#21150c';
+    bkCtx.fillRect(bx, 0, bw, 512);
+  }
+  // Subtle mossy/lichen undertones on lower bark fissures
+  for (let i = 0; i < 180; i++) {
+    const bx = rand() * 512;
+    const by = rand() * 512;
+    bkCtx.fillStyle = 'rgba(54, 72, 36, 0.22)';
+    bkCtx.beginPath();
+    bkCtx.ellipse(bx, by, 6 + rand() * 14, 18 + rand() * 42, 0, 0, Math.PI * 2);
+    bkCtx.fill();
   }
 
   // 7. Damp dark forest soil normal/bump & albedo texture

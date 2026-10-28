@@ -6,8 +6,9 @@ import {
   type BuiltMushroomModel,
   type MushroomGrowthStage,
 } from './models/mushroomModel';
-import { computeSunlightState, smoothstep } from '../logic/chapters';
+import { computeSunlightState, DEFAULT_SUNLIGHT, smoothstep } from '../logic/chapters';
 import { buildSoilDescentCrossSection } from './soilDescent';
+import { buildForestBackdrop } from './forestBackdrop';
 
 export interface BuiltForestAndSoil {
   rootGroup: THREE.Group;
@@ -16,6 +17,7 @@ export interface BuiltForestAndSoil {
   updateAtProgress: (params: {
     progress: number;
     undergroundFactor: number;
+    networkGrowth?: number;
     gillSporeIntensity: number;
     fairyRingGrowth: number;
     elapsedSec: number;
@@ -66,8 +68,8 @@ export function buildForestAndSoil(
     return [x, z];
   };
 
-  // 1. Damp dark forest soil surface (y = 0)
-  const floorGeo = new THREE.PlaneGeometry(36, 36, 64, 64);
+  // 1. Damp dark forest soil surface (y = 0) with canopy dappled light
+  const floorGeo = new THREE.PlaneGeometry(58, 58, 72, 72);
   floorGeo.rotateX(-Math.PI / 2);
   const fPos = floorGeo.attributes.position;
   for (let i = 0; i < fPos.count; i++) {
@@ -78,18 +80,23 @@ export function buildForestAndSoil(
   floorGeo.computeVertexNormals();
 
   const floorCutUniform = { value: 0.0 };
+  const floorDappleStrengthUniform = { value: 0.3 };
+  const floorSunColorUniform = { value: new THREE.Color('#ffbe6b') };
   const floorMat = new THREE.MeshStandardMaterial({
     map: textures.soilColor,
     bumpMap: textures.soilBump,
     bumpScale: 0.09,
-    color: new THREE.Color('#221912'),
+    color: new THREE.Color('#2c2118'),
     roughness: 0.88,
     metalness: 0.02,
+    side: THREE.DoubleSide,
     transparent: true,
     opacity: 1,
   });
   floorMat.onBeforeCompile = (shader) => {
     shader.uniforms.uTrenchCut = floorCutUniform;
+    shader.uniforms.uDappleStrength = floorDappleStrengthUniform;
+    shader.uniforms.uSunLightColor = floorSunColorUniform;
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
@@ -102,7 +109,11 @@ export function buildForestAndSoil(
     shader.fragmentShader = shader.fragmentShader
       .replace(
         '#include <common>',
-        '#include <common>\nuniform float uTrenchCut;\nvarying vec3 vFloorWorldPos;',
+        `#include <common>
+        uniform float uTrenchCut;
+        uniform float uDappleStrength;
+        uniform vec3 uSunLightColor;
+        varying vec3 vFloorWorldPos;`,
       )
       .replace(
         '#include <dithering_fragment>',
@@ -112,12 +123,22 @@ export function buildForestAndSoil(
           if (abs(vFloorWorldPos.x) < 3.6 && vFloorWorldPos.z > cutZ) {
             discard;
           }
-        }`,
+        }
+        // Dappled canopy light pools across the forest floor
+        float dapple1 = sin(vFloorWorldPos.x * 1.15 + vFloorWorldPos.z * 0.95) * cos(vFloorWorldPos.x * 0.85 - vFloorWorldPos.z * 1.25);
+        float dapple2 = sin(vFloorWorldPos.x * 2.4 - vFloorWorldPos.z * 1.9 + 1.3);
+        float dapplePool = smoothstep(0.12, 0.72, dapple1 * 0.65 + dapple2 * 0.35 + 0.35);
+        float radialFade = 1.0 - smoothstep(4.0, 24.0, length(vFloorWorldPos.xz));
+        gl_FragColor.rgb += uSunLightColor * dapplePool * uDappleStrength * radialFade * 0.20;`,
       );
   };
   const floorMesh = new THREE.Mesh(floorGeo, floorMat);
   floorMesh.receiveShadow = true;
   rootGroup.add(floorMesh);
+
+  // Macro forest environment (multi-layer tree trunks, mossy fallen log, woodland ferns, ground cover, canopy god rays)
+  const forestBackdrop = buildForestBackdrop(textures, getGroundHeightAt, seed + 109);
+  rootGroup.add(forestBackdrop.group);
 
   // Soft radial contact shadow directly beneath the hero mushroom bulb
   const contactGeo = new THREE.CircleGeometry(1.35, 32);
@@ -553,6 +574,7 @@ export function buildForestAndSoil(
   const updateAtProgress = (params: {
     progress: number;
     undergroundFactor: number;
+    networkGrowth?: number;
     gillSporeIntensity: number;
     fairyRingGrowth: number;
     elapsedSec: number;
@@ -560,60 +582,79 @@ export function buildForestAndSoil(
   }) => {
     const dt = Math.max(0, Math.min(0.1, params.elapsedSec - lastElapsed));
     lastElapsed = params.elapsedSec;
-    const sunState = computeSunlightState(params.sunlight ?? 0.75);
+    const sunState = computeSunlightState(params.sunlight ?? DEFAULT_SUNLIGHT);
 
     moteMat.uniforms.uTime.value = params.elapsedSec;
     moteMat.uniforms.uGillFall.value = params.gillSporeIntensity;
     moteMat.uniforms.uUnderground.value = params.undergroundFactor;
-    sporeMotes.visible = params.progress < 0.77 || params.progress > 0.895;
+    sporeMotes.visible = params.progress < 0.75 || params.progress > 0.895;
 
     const inDescentTrench =
       smoothstep(0.21, 0.245, params.progress) *
-      (1 - smoothstep(0.58, 0.63, params.progress));
+      (1 - smoothstep(0.55, 0.59, params.progress));
     floorCutUniform.value = inDescentTrench;
 
-    floorMat.opacity = 1 - params.undergroundFactor * 0.25;
-    floorMesh.visible = params.progress < 0.35 || params.progress > 0.86;
+    // Modulate floor soil brightness & canopy dappling with time-of-day slider
+    floorDappleStrengthUniform.value = sunState.dappleStrength;
+    floorSunColorUniform.value.setRGB(
+      sunState.sunColorRgb[0],
+      sunState.sunColorRgb[1],
+      sunState.sunColorRgb[2],
+    );
+    const floorLightTone = 0.72 + sunState.sunlight * 0.62;
+    floorMat.color.setRGB(
+      0.16 * floorLightTone + sunState.hemiGroundRgb[0] * 0.22,
+      0.12 * floorLightTone + sunState.hemiGroundRgb[1] * 0.22,
+      0.09 * floorLightTone + sunState.hemiGroundRgb[2] * 0.22,
+    );
+
+    // Keep floorMesh & surfaceDetailsGroup visible in Ch 01-03, in Ch 04b wide view (seen from below), and in Ch 06
+    const inWideNetwork = params.progress >= 0.54 && params.progress < 0.745;
+    floorMat.opacity = inWideNetwork ? 0.88 : 1 - params.undergroundFactor * 0.22;
+    floorMesh.visible = params.progress < 0.35 || inWideNetwork || params.progress > 0.86;
     contactDisc.visible = params.progress < 0.265 || params.progress > 0.88;
-    surfaceDetailsGroup.visible = params.progress < 0.35 || params.progress > 0.86;
+    surfaceDetailsGroup.visible = params.progress < 0.35 || inWideNetwork || params.progress > 0.86;
+
+    // Update macro forest backdrop (multi-layer trees, mossy log, ferns, canopy god-rays)
+    forestBackdrop.updateBackdrop({
+      sunState,
+      progress: params.progress,
+      undergroundFactor: params.undergroundFactor,
+      elapsedSec: params.elapsedSec,
+    });
 
     soilDescent.updateDescent({
       progress: params.progress,
       undergroundFactor: params.undergroundFactor,
-      networkGrowth: 0,
+      networkGrowth: params.networkGrowth ?? (params.progress > 0.45 ? 1.0 : 0.0),
       elapsedSec: params.elapsedSec,
       sunColorRgb: sunState.sunColorRgb,
       sunlight: sunState.sunlight,
     });
 
-    shaftMat.uniforms.uOpacity.value =
-      0.055 * (1 - params.undergroundFactor * 0.75) * sunState.godRayOpacityMultiplier;
-    shaftMat.uniforms.uColor.value.setRGB(
-      sunState.sunColorRgb[0],
-      sunState.sunColorRgb[1],
-      sunState.sunColorRgb[2],
-    );
-    lightShaft.rotation.z = 0.42 - sunState.sunlight * 0.32;
-    lightShaft.visible = params.undergroundFactor < 0.95;
+    // Legacy single shaft stays hidden in favor of the 5-beam canopy shafts in forestBackdrop
+    lightShaft.visible = false;
 
     // Chapter 6 faint foxfire shimmer on the soil where the network surfaces
-    shimmerMesh.visible = params.fairyRingGrowth > 0.05;
-    shimmerMat.uniforms.uStrength.value = params.fairyRingGrowth;
+    shimmerMesh.visible = params.fairyRingGrowth > 0.04;
+    shimmerMat.uniforms.uStrength.value =
+      params.fairyRingGrowth * (0.75 + 0.55 * sunState.foxfireGlowMultiplier);
     shimmerMat.uniforms.uTime.value = params.elapsedSec;
 
-    // Neighboring mushrooms are only revealed during Chapter 4b (wide underground network view)
-    const showNeighbors = params.progress >= 0.54 && params.progress < 0.74;
+    // Neighboring mushrooms are revealed during Chapter 4b (wide underground network view)
+    // Give them a subtle ambient subterranean rim/readability boost so they are clearly readable hanging above
+    const showNeighbors = params.progress >= 0.54 && params.progress < 0.745;
     for (let i = 0; i < neighborMushrooms.length; i++) {
       neighborMushrooms[i].group.visible = showNeighbors;
       if (mushroomGlowTimers[i] > 0) {
         mushroomGlowTimers[i] = Math.max(0, mushroomGlowTimers[i] - dt * 1.1);
       }
-      // Only glow briefly when a click pulse reaches them
       const pulseBoost = Math.sin(mushroomGlowTimers[i] * Math.PI) * 0.85;
-      neighborMushrooms[i].setBioluminescence(pulseBoost);
+      const baseReadability = showNeighbors ? 0.14 + 0.12 * sunState.undergroundDaylightFactor : 0;
+      neighborMushrooms[i].setBioluminescence(Math.min(1, baseReadability + pulseBoost));
     }
 
-    // Update Chapter 6 fairy ring fruiting growth (no glow, natural light)
+    // Update Chapter 6 fairy ring fruiting growth (natural forest light, zero glow on mushrooms)
     for (let i = 0; i < fairyRingMushrooms.length; i++) {
       const m = fairyRingMushrooms[i];
       const stagger = i * 0.07;

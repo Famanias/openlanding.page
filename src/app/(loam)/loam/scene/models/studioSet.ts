@@ -10,9 +10,8 @@ export interface BuiltStudioSet {
 
 /**
  * Builds the Chapter 05 Product Photography Studio Set at y ≈ -5.45:
- * - A seamless cream/sand paper sweep (floor curving smoothly up into a tall backdrop with zero visible horizon line)
- * - A low, matte, slightly warmer sand-stone plinth beneath the hero tray
- * - A soft multi-zone contact shadow directly beneath the tray and plinth
+ * - A seamless neutral warm cream/sand paper sweep (floor curving smoothly up into a tall backdrop with zero visible horizon line)
+ * - Soft multi-zone elliptical contact shadow directly beneath the hero tray (no oversized disc running off the bottom of the frame)
  * - Scrubbed smoothly from 0 -> 1 by `studioLightness` so the darkness lifts as the solid tray resolves,
  *   and dims cleanly on exit toward Chapter 06.
  */
@@ -22,44 +21,45 @@ export function buildStudioSet(): BuiltStudioSet {
   group.position.set(0, -5.45, 0);
 
   // 1. Seamless Cyclorama Paper Sweep Geometry
-  //    Floor at local y = -0.52 from z = +4.5 back to z = -1.1,
-  //    curving smoothly up with radius R = 2.45 into a vertical backdrop at z = -3.55 rising to y = +6.5.
+  //    Floor at local y = -0.42 from z = +5.2 back to z = -1.2,
+  //    curving smoothly up with radius R = 2.65 into a vertical backdrop rising to y = +6.8.
   const widthSegments = 48;
   const lengthSegments = 64;
-  const sweepWidth = 22.0;
+  const sweepWidth = 24.0;
 
   const sweepPositions: number[] = [];
   const sweepUvs: number[] = [];
   const sweepIndices: number[] = [];
 
-  const floorZStart = 4.6;
-  const curveZStart = -0.95;
-  const curveRadius = 2.55;
-  const topYEnd = 6.8;
+  const floorY = -0.40;
+  const floorZStart = 5.2;
+  const curveZStart = -1.25;
+  const curveRadius = 2.65;
+  const topYEnd = 7.0;
 
-  const floorLen = floorZStart - curveZStart; // 5.55
-  const arcLen = (Math.PI * 0.5) * curveRadius; // ~4.00
-  const wallLen = topYEnd - (-0.52 + curveRadius); // ~4.77
+  const floorLen = floorZStart - curveZStart;
+  const arcLen = Math.PI * 0.5 * curveRadius;
+  const wallLen = topYEnd - (floorY + curveRadius);
   const totalLen = floorLen + arcLen + wallLen;
 
   for (let iy = 0; iy <= lengthSegments; iy++) {
     const v = iy / lengthSegments;
     const s = v * totalLen;
 
-    let py = -0.52;
+    let py = floorY;
     let pz = floorZStart;
 
     if (s <= floorLen) {
-      py = -0.52;
+      py = floorY;
       pz = floorZStart - s;
     } else if (s <= floorLen + arcLen) {
       const arcS = s - floorLen;
       const theta = (arcS / arcLen) * (Math.PI * 0.5);
-      py = -0.52 + curveRadius * (1 - Math.cos(theta));
+      py = floorY + curveRadius * (1 - Math.cos(theta));
       pz = curveZStart - curveRadius * Math.sin(theta);
     } else {
       const wallS = s - floorLen - arcLen;
-      py = -0.52 + curveRadius + wallS;
+      py = floorY + curveRadius + wallS;
       pz = curveZStart - curveRadius;
     }
 
@@ -88,7 +88,7 @@ export function buildStudioSet(): BuiltStudioSet {
   sweepGeo.computeVertexNormals();
 
   // Custom shader for the seamless paper sweep so it transitions smoothly from subterranean dark
-  // to a warm, soft-lit cream/sand studio paper sweep with upper-left key light gradient and zero horizon line.
+  // to a calm, matte sand-stone studio paper sweep with zero clipping or yellow cast.
   const sweepMat = new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: true,
@@ -121,35 +121,42 @@ export function buildStudioSet(): BuiltStudioSet {
       }
 
       void main() {
-        // Warm cream/sand studio paper palette (never clips to pure white)
-        vec3 keyPaper = vec3(0.925, 0.894, 0.835);   // #ece4d5 soft warm cream in upper-left key light
-        vec3 midPaper = vec3(0.878, 0.839, 0.768);   // #e0d6c4 warm sand neutral
-        vec3 shadePaper = vec3(0.804, 0.757, 0.678); // #cdc1ad gentle studio falloff
+        // Calm, low-saturation warm sand/stone studio paper palette (never yellow, never clips to white)
+        vec3 keyPaper = vec3(0.865, 0.842, 0.804);   // #dcd7cd soft matte warm alabaster/sand
+        vec3 midPaper = vec3(0.812, 0.786, 0.745);   // #cfc8be neutral studio sand
+        vec3 shadePaper = vec3(0.735, 0.706, 0.662); // #bbb4a9 gentle peripheral studio falloff
 
         // Soft large key light pool from upper-left (-x, +y)
-        vec2 keyCenter = vec2(0.36, 0.42);
-        float keyDist = length((vUv - keyCenter) * vec2(1.15, 0.95));
-        float keyPool = 1.0 - smoothstep(0.05, 0.78, keyDist);
+        vec2 keyCenter = vec2(0.36, 0.44);
+        float keyDist = length((vUv - keyCenter) * vec2(1.10, 0.92));
+        float keyPool = 1.0 - smoothstep(0.05, 0.82, keyDist);
 
         // Seamless vertical cove gradient
-        float coveShade = smoothstep(0.18, 0.55, vUv.y) * (1.0 - smoothstep(0.55, 0.92, vUv.y)) * 0.14;
+        float coveShade = smoothstep(0.18, 0.55, vUv.y) * (1.0 - smoothstep(0.55, 0.92, vUv.y)) * 0.11;
 
-        vec3 studioCol = mix(shadePaper, midPaper, smoothstep(0.95, 0.25, keyDist));
-        studioCol = mix(studioCol, keyPaper, keyPool * 0.68);
-        studioCol -= vec3(coveShade * 0.28);
+        vec3 studioCol = mix(shadePaper, midPaper, smoothstep(0.95, 0.22, keyDist));
+        studioCol = mix(studioCol, keyPaper, keyPool * 0.62);
+        studioCol -= vec3(coveShade * 0.22);
 
-        // Soft ambient contact darkening under the hero tray center (x ≈ 0, z ≈ 0)
-        float trayFloorDist = length(vLocalPos.xz * vec2(0.56, 0.82));
-        float floorMask = 1.0 - smoothstep(-0.48, -0.35, vLocalPos.y);
-        float trayBounceShadow = (1.0 - smoothstep(0.2, 1.85, trayFloorDist)) * floorMask * 0.12;
+        // Soft ambient contact grounding directly beneath the hero tray (x ≈ 0, z ≈ 0)
+        // Rotated -0.46 rad to align with the tray's 3/4 angle
+        float cosA = 0.896;
+        float sinA = 0.444;
+        vec2 rotXZ = vec2(
+          vLocalPos.x * cosA - vLocalPos.z * sinA,
+          vLocalPos.x * sinA + vLocalPos.z * cosA
+        );
+        float trayFootprint = length(rotXZ / vec2(1.42, 0.95));
+        float floorMask = 1.0 - smoothstep(-0.38, -0.25, vLocalPos.y);
+        float trayBounceShadow = (1.0 - smoothstep(0.55, 1.45, trayFootprint)) * floorMask * (1.0 - uInspectStrength * 0.65) * 0.14;
         studioCol *= (1.0 - trayBounceShadow);
 
         // Subtle fine matte paper fibre grain
-        float grain = (hash(vLocalPos.xz * 42.0 + vLocalPos.xy * 31.0) - 0.5) * 0.012;
+        float grain = (hash(vLocalPos.xz * 42.0 + vLocalPos.xy * 31.0) - 0.5) * 0.010;
         studioCol += grain;
 
-        // Scrub between subterranean dark (#070504) and the warm lit studio paper sweep
-        vec3 darkSubterranean = vec3(0.028, 0.022, 0.018);
+        // Scrub between subterranean dark (#0a0806) and the warm lit studio paper sweep
+        vec3 darkSubterranean = vec3(0.035, 0.028, 0.022);
         vec3 finalCol = mix(darkSubterranean, studioCol, uStudioLightness);
 
         gl_FragColor = vec4(finalCol, smoothstep(0.01, 0.18, uStudioLightness));
@@ -161,38 +168,37 @@ export function buildStudioSet(): BuiltStudioSet {
   sweepMesh.receiveShadow = true;
   group.add(sweepMesh);
 
-  // 2. Low, matte, slightly darker warm travertine/sand plinth beneath the hero tray
-  const plinthGeo = new THREE.CylinderGeometry(1.56, 1.62, 0.065, 64);
-  plinthGeo.scale(1.18, 1.0, 0.82);
-  const plinthMat = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#c5b7a1'),
-    roughness: 0.96,
-    metalness: 0.0,
-    transparent: true,
-    opacity: 0,
-  });
+  // 2. Subtle hidden riser reference (kept for interface compatibility, hidden so no disc ever shows)
+  const plinthGeo = new THREE.BoxGeometry(0.1, 0.01, 0.1);
+  const plinthMat = new THREE.MeshBasicMaterial({ visible: false });
   const plinthMesh = new THREE.Mesh(plinthGeo, plinthMat);
-  plinthMesh.position.set(0.0, -0.485, 0.02);
-  plinthMesh.receiveShadow = true;
+  plinthMesh.visible = false;
   group.add(plinthMesh);
 
-  // 3. Soft radial contact shadow under the hero tray (on top of the plinth & sweep floor)
+  // 3. Soft tailored contact shadow directly under the hero tray on the seamless sweep floor
   const shadowCanvas = document.createElement('canvas');
   shadowCanvas.width = 256;
   shadowCanvas.height = 256;
   const sCtx = shadowCanvas.getContext('2d')!;
-  const grad = sCtx.createRadialGradient(128, 128, 14, 128, 128, 122);
-  grad.addColorStop(0.0, 'rgba(28, 20, 12, 0.65)');
-  grad.addColorStop(0.42, 'rgba(38, 28, 18, 0.38)');
-  grad.addColorStop(0.75, 'rgba(48, 36, 24, 0.12)');
-  grad.addColorStop(1.0, 'rgba(48, 36, 24, 0.0)');
+  sCtx.clearRect(0, 0, 256, 256);
+  sCtx.save();
+  sCtx.translate(128, 128);
+  sCtx.scale(1.0, 0.68);
+  const grad = sCtx.createRadialGradient(0, 0, 18, 0, 0, 116);
+  grad.addColorStop(0.0, 'rgba(34, 28, 22, 0.54)');
+  grad.addColorStop(0.48, 'rgba(44, 36, 28, 0.30)');
+  grad.addColorStop(0.78, 'rgba(54, 46, 36, 0.09)');
+  grad.addColorStop(1.0, 'rgba(54, 46, 36, 0.0)');
   sCtx.fillStyle = grad;
-  sCtx.fillRect(0, 0, 256, 256);
+  sCtx.beginPath();
+  sCtx.arc(0, 0, 120, 0, Math.PI * 2);
+  sCtx.fill();
+  sCtx.restore();
 
   const shadowTex = new THREE.CanvasTexture(shadowCanvas);
   shadowTex.colorSpace = THREE.SRGBColorSpace;
 
-  const contactShadowGeo = new THREE.PlaneGeometry(3.25, 2.25);
+  const contactShadowGeo = new THREE.PlaneGeometry(3.15, 2.25);
   contactShadowGeo.rotateX(-Math.PI / 2);
   const contactShadowMat = new THREE.MeshBasicMaterial({
     map: shadowTex,
@@ -204,7 +210,7 @@ export function buildStudioSet(): BuiltStudioSet {
     polygonOffsetUnits: -1,
   });
   const contactShadowMesh = new THREE.Mesh(contactShadowGeo, contactShadowMat);
-  contactShadowMesh.position.set(0.05, -0.448, 0.04);
+  contactShadowMesh.position.set(0.04, floorY + 0.004, 0.03);
   contactShadowMesh.rotation.y = -0.46;
   group.add(contactShadowMesh);
 
@@ -216,14 +222,9 @@ export function buildStudioSet(): BuiltStudioSet {
     sweepMat.uniforms.uStudioLightness.value = studioLightness;
     sweepMat.uniforms.uInspectStrength.value = inspectStrength;
 
-    // Fade the low plinth and contact shadow smoothly with studioLightness;
-    // slightly soften plinth during 360-degree Hold-to-Inspect rotation so the tray never intersects it
-    const inspectFade = 1 - inspectStrength * 0.85;
-    plinthMat.opacity = studioLightness * 0.94 * inspectFade;
-    plinthMesh.position.y = -0.485 - inspectStrength * 0.18;
-
-    contactShadowMat.opacity = studioLightness * 0.86 * (1 - inspectStrength * 0.55);
-    contactShadowMesh.position.y = -0.448 - inspectStrength * 0.18;
+    // Soften and lower the floor contact shadow during 360-degree Hold-to-Inspect rotation
+    contactShadowMat.opacity = studioLightness * 0.78 * (1 - inspectStrength * 0.72);
+    contactShadowMesh.position.y = floorY + 0.004 - inspectStrength * 0.16;
   };
 
   return {

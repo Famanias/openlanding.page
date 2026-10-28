@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { ProceduralTextureSet } from './textures';
 import { createSeededRandom } from '../logic/networkGenerator';
-import { clamp01, smoothstep } from '../logic/chapters';
+import { clamp01, computeSunlightState, smoothstep } from '../logic/chapters';
 
 export interface BuiltSoilDescent {
   group: THREE.Group;
@@ -1126,7 +1126,327 @@ export function buildSoilDescentCrossSection(
   foregroundParallaxGroup.add(bokehPoints);
 
   // ============================================================================
-  // 9. DEDICATED SUBTERRANEAN DESCENT & POCKET LIGHTS
+  // 9. CHAPTER 04 WIDE VIEW SUBTERRANEAN EARTH, ROOTS & STONES (0.52 -> 0.77)
+  //    When the camera pulls back to z = 12.6 in Ch 04b, keeps the soil layers,
+  //    roots, and stones around the network extending into the distance and fading
+  //    with earthen depth fog (never floating in a black void).
+  // ============================================================================
+  const wideSubterraneanGroup = new THREE.Group();
+  wideSubterraneanGroup.name = 'Chapter4WideSubterraneanEarth';
+  group.add(wideSubterraneanGroup);
+
+  // 9a. Wide Curved Subterranean Soil Amphitheatre (spans x = -18..+18, y = 0..-5.4, z = -9.2..+5.2)
+  const wideSegsX = 96;
+  const wideSegsY = 72;
+  const wideGeo = new THREE.PlaneGeometry(36.0, 9.6, wideSegsX, wideSegsY);
+  const wgPos = wideGeo.attributes.position;
+
+  const getWideEarthPoint = (uNorm: number, vNorm: number): [number, number, number] => {
+    // uNorm in [-1 .. +1] across width, vNorm in [0 .. 1] from top surface (y=0) down into deep basin
+    const wx = uNorm * 18.0;
+    // Upper 62% is the vertical/sloping stratified soil face from y = 0.05 down to y = -3.85;
+    // Lower 38% curves forward from z = -8.6 to z = +5.2 as the deep subsoil floor beneath the network
+    const wallT = Math.min(1.0, vNorm / 0.62);
+    const floorT = Math.max(0.0, (vNorm - 0.62) / 0.38);
+
+    const wy =
+      0.04 -
+      wallT * 3.85 -
+      Math.pow(floorT, 1.35) * 1.45 +
+      Math.sin(wx * 0.45 + vNorm * 4.0) * 0.14;
+
+    // Curve sides gently forward so the wide camera frustum is 100% enclosed by earth
+    const sideWrap = Math.pow(Math.abs(uNorm), 1.85) * 5.2;
+    const cragZ =
+      Math.sin(wx * 0.85 + wy * 1.4) * 0.32 +
+      Math.cos(wx * 1.9 - wy * 2.1) * 0.16;
+    const wz =
+      -8.6 +
+      sideWrap +
+      Math.pow(floorT, 1.15) * 12.8 +
+      wallT * 0.85 +
+      cragZ;
+
+    return [wx, wy, wz];
+  };
+
+  for (let i = 0; i < wgPos.count; i++) {
+    const uNorm = wgPos.getX(i) / 18.0; // -1 .. +1
+    const vNorm = 0.5 - wgPos.getY(i) / 9.6; // 0 (top) .. 1 (bottom/front)
+    const [wx, wy, wz] = getWideEarthPoint(uNorm, vNorm);
+    wgPos.setXYZ(i, wx, wy, wz);
+  }
+  wideGeo.computeVertexNormals();
+
+  const wideEarthUniforms = {
+    uTime: { value: 0 },
+    uOpacity: { value: 0 },
+    uNetworkGrowth: { value: 0 },
+    uFoxfireMult: { value: 1.0 },
+    uDaylightFactor: { value: 0.78 },
+    uSunColor: { value: new THREE.Color('#ffbe6b') },
+    uFogColor: { value: new THREE.Color('#261c13') },
+  };
+
+  const wideEarthMat = new THREE.ShaderMaterial({
+    transparent: true,
+    side: THREE.DoubleSide,
+    uniforms: wideEarthUniforms,
+    vertexShader: `
+      varying vec2 vUv;
+      varying vec3 vWorldPos;
+      varying vec3 vWorldNormal;
+      varying float vCamDist;
+
+      void main() {
+        vUv = uv;
+        vec4 wp = modelMatrix * vec4(position, 1.0);
+        vWorldPos = wp.xyz;
+        vWorldNormal = normalize(mat3(modelMatrix) * normal);
+        vec4 mvPos = viewMatrix * wp;
+        vCamDist = length(mvPos.xyz);
+        gl_Position = projectionMatrix * mvPos;
+      }
+    `,
+    fragmentShader: `
+      uniform float uTime;
+      uniform float uOpacity;
+      uniform float uNetworkGrowth;
+      uniform float uFoxfireMult;
+      uniform float uDaylightFactor;
+      uniform vec3 uSunColor;
+      uniform vec3 uFogColor;
+
+      varying vec2 vUv;
+      varying vec3 vWorldPos;
+      varying vec3 vWorldNormal;
+      varying float vCamDist;
+
+      float hash21(vec2 p) {
+        p = fract(p * vec2(234.34, 435.345));
+        p += dot(p, p + 34.23);
+        return fract(p.x * p.y);
+      }
+
+      float noise2(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(hash21(i + vec2(0.0, 0.0)), hash21(i + vec2(1.0, 0.0)), u.x),
+          mix(hash21(i + vec2(0.0, 1.0)), hash21(i + vec2(1.0, 1.0)), u.x),
+          u.y
+        );
+      }
+
+      float fbm(vec2 p) {
+        float v = 0.0;
+        float a = 0.5;
+        mat2 rot = mat2(0.8, 0.6, -0.6, 0.8);
+        for (int i = 0; i < 4; i++) {
+          v += a * noise2(p);
+          p = rot * p * 2.05 + vec2(11.3, 7.1);
+          a *= 0.5;
+        }
+        return v;
+      }
+
+      void main() {
+        if (uOpacity < 0.005) discard;
+
+        vec2 p = vWorldPos.xy * 0.55 + vec2(vWorldPos.z * 0.25);
+        float macro = fbm(p * 1.4);
+        float crumb = fbm(p * 5.2 + vec2(macro));
+        float grain = noise2(p * 18.0);
+
+        float wy = vWorldPos.y + (macro - 0.5) * 0.42 + (crumb - 0.5) * 0.14;
+
+        // Same 4 soil horizons extending across the wide subterranean cavern
+        vec3 litterCol = mix(vec3(0.28, 0.18, 0.10), vec3(0.56, 0.36, 0.17), crumb);
+        vec3 humusCol = mix(vec3(0.18, 0.12, 0.08), vec3(0.32, 0.22, 0.14), crumb);
+        vec3 topsoilCol = mix(vec3(0.35, 0.23, 0.14), vec3(0.50, 0.35, 0.22), macro * 0.6 + grain * 0.4);
+        vec3 subsoilCol = mix(vec3(0.42, 0.20, 0.12), vec3(0.60, 0.31, 0.18), crumb * 0.7 + grain * 0.3);
+
+        float tHumus = smoothstep(-0.28, -0.62, wy);
+        float tTopsoil = smoothstep(-1.10, -1.55, wy);
+        float tSubsoil = smoothstep(-2.10, -2.65, wy);
+
+        vec3 soilAlbedo = mix(litterCol, humusCol, tHumus);
+        soilAlbedo = mix(soilAlbedo, topsoilCol, tTopsoil);
+        soilAlbedo = mix(soilAlbedo, subsoilCol, tSubsoil);
+
+        // 1. Daylight filtering down from above (y = 0), dimmer with depth, controlled by the Time-of-Day slider
+        float depthMeters = max(0.0, -vWorldPos.y);
+        float depthAtten = exp(-depthMeters * 0.32);
+        vec3 topDir = normalize(vec3(-0.2, 0.85, 0.45));
+        float ndotl = 0.42 + 0.58 * max(0.0, dot(vWorldNormal, topDir));
+
+        vec3 filteredSun = mix(vec3(0.52, 0.58, 0.66), uSunColor, clamp(uDaylightFactor * 0.85, 0.15, 1.0));
+        vec3 daylightTerm = soilAlbedo * filteredSun * ndotl * (0.28 + 0.82 * depthAtten) * (0.35 + uDaylightFactor * 1.15);
+
+        // Warm surface horizon rim glow right under the forest floor at y = 0..-0.35
+        float surfaceRim = smoothstep(-0.45, 0.02, vWorldPos.y);
+        daylightTerm += filteredSun * surfaceRim * uDaylightFactor * 0.28;
+
+        // 2. Network's own green-gold Foxfire glow illuminating the soil near the threads
+        float radialDist = length(vWorldPos.xz);
+        float networkRadius = max(1.5, uNetworkGrowth * 11.8);
+        float inNetworkZone = (1.0 - smoothstep(networkRadius * 0.75, networkRadius * 1.15, radialDist))
+                            * smoothstep(-4.4, -2.8, vWorldPos.y)
+                            * (1.0 - smoothstep(-0.35, 0.05, vWorldPos.y));
+
+        // Web-like glowing thread veins projected onto the nearby earth
+        float vein1 = abs(noise2(vWorldPos.xz * 0.95 + vec2(vWorldPos.y * 0.7)) - 0.5) * 2.0;
+        float vein2 = abs(noise2(vWorldPos.xy * 1.35 - vec2(vWorldPos.z * 0.6)) - 0.5) * 2.0;
+        float threadProximity = (1.0 - smoothstep(0.0, 0.32, vein1 * 0.6 + vein2 * 0.4)) * 0.75 + 0.35;
+        float pulse = 0.82 + 0.18 * sin(uTime * 1.8 - radialDist * 0.7);
+        vec3 foxfireCol = vec3(0.68, 0.86, 0.24);
+        vec3 foxfireSoilBounce = (soilAlbedo * 1.35 + vec3(0.18, 0.24, 0.05))
+                               * foxfireCol
+                               * inNetworkZone
+                               * threadProximity
+                               * pulse
+                               * uFoxfireMult
+                               * 0.95;
+
+        vec3 litColor = daylightTerm + foxfireSoilBounce;
+
+        // 3. Distance depth fog (fades into earthen fog color, never to black!)
+        float fogFactor = smoothstep(11.5, 25.5, vCamDist);
+        litColor = mix(litColor, uFogColor, fogFactor * 0.82);
+
+        // Enforce readable minimum earth luminance so no slider position is ever close to black
+        vec3 minEarth = max(soilAlbedo * 0.22, uFogColor * 0.68);
+        litColor = clamp(max(litColor, minEarth), vec3(0.06, 0.05, 0.05), vec3(0.88));
+
+        gl_FragColor = vec4(litColor, uOpacity);
+      }
+    `,
+  });
+
+  const wideEarthMesh = new THREE.Mesh(wideGeo, wideEarthMat);
+  wideSubterraneanGroup.add(wideEarthMesh);
+
+  // 9b. Wide-Spanning Descending Tree Roots across Chapter 04b (weaving through the network)
+  const wideRootGeos: THREE.BufferGeometry[] = [];
+  const wideRootAnchors: Array<{ x: number; z: number; spanX: number; depth: number; r0: number }> = [
+    { x: -6.2, z: -3.2, spanX: 2.1, depth: 3.4, r0: 0.18 },
+    { x: -4.4, z: -2.4, spanX: -1.6, depth: 2.9, r0: 0.14 },
+    { x: -2.6, z: -3.8, spanX: 1.4, depth: 3.2, r0: 0.15 },
+    { x: 2.4, z: -3.5, spanX: -1.5, depth: 3.3, r0: 0.15 },
+    { x: 4.8, z: -2.6, spanX: 1.8, depth: 3.1, r0: 0.16 },
+    { x: 6.5, z: -3.0, spanX: -2.2, depth: 3.5, r0: 0.19 },
+    { x: -7.8, z: 1.2, spanX: 2.4, depth: 3.2, r0: 0.16 },
+    { x: 7.4, z: 1.5, spanX: -2.3, depth: 3.2, r0: 0.16 },
+    { x: -1.2, z: -5.8, spanX: 1.6, depth: 3.6, r0: 0.14 },
+    { x: 1.8, z: -6.2, spanX: -1.7, depth: 3.6, r0: 0.14 },
+  ];
+
+  for (let i = 0; i < wideRootAnchors.length; i++) {
+    const a = wideRootAnchors[i];
+    const pts: THREE.Vector3[] = [];
+    const steps = 6;
+    for (let s = 0; s <= steps; s++) {
+      const t = s / steps;
+      pts.push(
+        new THREE.Vector3(
+          a.x + a.spanX * t + Math.sin(t * Math.PI * 2 + i) * 0.35,
+          0.02 - Math.pow(t, 0.85) * a.depth,
+          a.z + Math.cos(t * Math.PI * 1.5 + i) * 0.45,
+        ),
+      );
+    }
+    const curve = new THREE.CatmullRomCurve3(pts);
+    const tube = new THREE.TubeGeometry(curve, 18, 1.0, 7, false);
+    const posAttr = tube.attributes.position;
+    const uvAttr = tube.attributes.uv;
+    const cPt = new THREE.Vector3();
+    for (let vi = 0; vi < posAttr.count; vi++) {
+      const t = clamp01(uvAttr.getX(vi));
+      curve.getPointAt(t, cPt);
+      const rad = a.r0 * Math.pow(1 - t, 0.72) + 0.018 * t;
+      posAttr.setXYZ(
+        vi,
+        cPt.x + (posAttr.getX(vi) - cPt.x) * rad,
+        cPt.y + (posAttr.getY(vi) - cPt.y) * rad,
+        cPt.z + (posAttr.getZ(vi) - cPt.z) * rad,
+      );
+    }
+    tube.computeVertexNormals();
+    wideRootGeos.push(tube);
+
+    // Secondary root fork off each main root
+    const forkStart = pts[2];
+    const forkPts = [
+      forkStart.clone(),
+      new THREE.Vector3(forkStart.x + (a.spanX > 0 ? -0.9 : 0.9), forkStart.y - 0.65, forkStart.z + 0.4),
+      new THREE.Vector3(forkStart.x + (a.spanX > 0 ? -1.6 : 1.6), forkStart.y - 1.35, forkStart.z + 0.7),
+    ];
+    const fCurve = new THREE.CatmullRomCurve3(forkPts);
+    wideRootGeos.push(new THREE.TubeGeometry(fCurve, 10, a.r0 * 0.38, 6, false));
+  }
+
+  const mergedWideRootsGeo = mergeGeometries(wideRootGeos, false);
+  for (const g of wideRootGeos) g.dispose();
+
+  const wideRootMat = new THREE.MeshStandardMaterial({
+    map: textures.barkColor,
+    bumpMap: textures.stemBump,
+    bumpScale: 0.045,
+    color: new THREE.Color('#d8c4a8'),
+    roughness: 0.84,
+    metalness: 0.02,
+    emissive: new THREE.Color('#586c1c'),
+    emissiveIntensity: 0.08,
+    transparent: true,
+    opacity: 0,
+  });
+  const wideRootsMesh = new THREE.Mesh(mergedWideRootsGeo, wideRootMat);
+  wideSubterraneanGroup.add(wideRootsMesh);
+
+  // 9c. Wide-Field Subsoil Stones & Topsoil Pebbles across Chapter 04b
+  const wideStoneCount = 135;
+  const wideStoneMat = new THREE.MeshStandardMaterial({
+    bumpMap: textures.soilBump,
+    bumpScale: 0.045,
+    color: new THREE.Color('#ffffff'),
+    roughness: 0.85,
+    metalness: 0.03,
+    emissive: new THREE.Color('#4d5e18'),
+    emissiveIntensity: 0.06,
+    transparent: true,
+    opacity: 0,
+  });
+  const wideStoneInst = new THREE.InstancedMesh(boulderGeo, wideStoneMat, wideStoneCount);
+
+  for (let i = 0; i < wideStoneCount; i++) {
+    const uNorm = (rand() - 0.5) * 1.65; // -0.825 .. +0.825 (x in -14.8 .. +14.8)
+    const vNorm = 0.18 + rand() * 0.76;
+    const [wx, wy, wz] = getWideEarthPoint(uNorm, vNorm);
+    // Offset slightly in front of the amphitheatre wall or nestled among the lower roots
+    const zOffset = 0.25 + rand() * 2.4;
+    dummy.position.set(wx, wy, Math.min(3.8, wz + zOffset));
+    dummy.rotation.set(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI);
+    const s = 0.75 + Math.pow(rand(), 0.7) * 1.95;
+    dummy.scale.set(s * (0.9 + rand() * 0.35), s * (0.68 + rand() * 0.3), s * 0.85);
+    dummy.updateMatrix();
+    wideStoneInst.setMatrixAt(i, dummy.matrix);
+
+    // Warm ochre-slate, river stone, and terracotta-brown tones that catch daylight & foxfire
+    itemColor.setHSL(
+      0.058 + (rand() - 0.5) * 0.03,
+      0.32 + rand() * 0.16,
+      0.28 + rand() * 0.16,
+    );
+    wideStoneInst.setColorAt(i, itemColor);
+  }
+  wideStoneInst.instanceMatrix.needsUpdate = true;
+  if (wideStoneInst.instanceColor) wideStoneInst.instanceColor.needsUpdate = true;
+  wideStoneInst.computeBoundingSphere();
+  wideSubterraneanGroup.add(wideStoneInst);
+
+  // ============================================================================
+  // 10. DEDICATED SUBTERRANEAN DESCENT, POCKET & WIDE EARTH LIGHTS
   // ============================================================================
   // Positioned at z = 0.85 so it illuminates the cut soil wall, diagonal root, and stones directly
   // without over-lighting foreground parallax crumbs at z = 1.1..1.5
@@ -1139,9 +1459,31 @@ export function buildSoilDescentCrossSection(
   pocketFoxfireLight.position.set(0.0, -2.45, 0.82);
   group.add(pocketFoxfireLight);
 
+  // Wide Subterranean Daylight Fill (overhead filtering sun/moonlight for roots, stones & hanging mushrooms in Ch 4b)
+  const wideOverheadLight = new THREE.PointLight('#ffdfad', 0.0, 26.0, 1.1);
+  wideOverheadLight.position.set(0.0, 1.2, 3.5);
+  wideSubterraneanGroup.add(wideOverheadLight);
+
   // ============================================================================
   // UPDATE AT PROGRESS
   // ============================================================================
+  const closeDescentMeshes: THREE.Object3D[] = [
+    wallMesh,
+    rimMossInst,
+    litterLeafInst,
+    leafHyphaeLines,
+    humusRootsMesh,
+    fineRootLines,
+    rootHairLines,
+    woodlouseGroup,
+    diagonalRootMesh,
+    pebbleInst,
+    boulderInst,
+    crackThreadsMesh,
+    crackLines,
+    foregroundParallaxGroup,
+  ];
+
   const updateDescent = (params: {
     progress: number;
     undergroundFactor: number;
@@ -1151,75 +1493,149 @@ export function buildSoilDescentCrossSection(
     sunlight: number;
   }) => {
     const p = params.progress;
+    const sunState = computeSunlightState(params.sunlight);
 
+    // 1. Close-up Chapter 03 Descent & Chapter 04a Clump Pocket visibility (0.21 -> 0.61, plus ascent return 0.875 -> 0.965)
     const enterDescent = smoothstep(0.21, 0.26, p);
-    const exitForWideNetwork = 1 - smoothstep(0.545, 0.625, p);
-    const ascentReturn = smoothstep(0.875, 0.905, p) * (1 - smoothstep(0.935, 0.965, p));
-    const descentVisibility = clamp01(enterDescent * exitForWideNetwork + ascentReturn);
+    const exitCloseWallForWide = 1 - smoothstep(0.545, 0.615, p);
+    const ascentReturn =
+      smoothstep(0.875, 0.905, p) * (1 - smoothstep(0.935, 0.965, p));
+    const closeDescentVis = clamp01(
+      enterDescent * exitCloseWallForWide + ascentReturn,
+    );
 
-    group.visible = descentVisibility > 0.005;
+    // 2. Wide Chapter 04b Subterranean Earth visibility (ramps in as camera pulls back 0.53 -> 0.60, fades out as Ch 05 studio lifts 0.74 -> 0.79)
+    const wideEarthVis = clamp01(
+      smoothstep(0.525, 0.595, p) * (1 - smoothstep(0.74, 0.788, p)),
+    );
+
+    group.visible = closeDescentVis > 0.005 || wideEarthVis > 0.005;
     if (!group.visible) return;
 
+    for (const obj of closeDescentMeshes) {
+      obj.visible = closeDescentVis > 0.005;
+    }
+
     const foxfireCrackStrength =
-      smoothstep(0.39, 0.49, p) * (1 - smoothstep(0.60, 0.68, p));
+      smoothstep(0.39, 0.49, p) * (1 - smoothstep(0.58, 0.65, p));
 
-    wallUniforms.uTime.value = params.elapsedSec;
-    wallUniforms.uProgress.value = p;
-    wallUniforms.uOpacity.value = descentVisibility;
-    wallUniforms.uFoxfireGlow.value = foxfireCrackStrength;
-    wallUniforms.uSunColor.value.setRGB(
-      params.sunColorRgb[0],
-      params.sunColorRgb[1],
-      params.sunColorRgb[2],
-    );
-    wallUniforms.uSunIntensity.value = 0.78 + params.sunlight * 0.45;
+    if (closeDescentVis > 0.005) {
+      wallUniforms.uTime.value = params.elapsedSec;
+      wallUniforms.uProgress.value = p;
+      wallUniforms.uOpacity.value = closeDescentVis;
+      wallUniforms.uFoxfireGlow.value =
+        foxfireCrackStrength * sunState.foxfireGlowMultiplier;
+      wallUniforms.uSunColor.value.setRGB(
+        sunState.sunColorRgb[0],
+        sunState.sunColorRgb[1],
+        sunState.sunColorRgb[2],
+      );
+      wallUniforms.uSunIntensity.value =
+        0.55 + sunState.undergroundDaylightFactor * 0.65;
 
-    // Breaking ground warm silhouette horizon glow (peaks around 0.25..0.33)
-    const breakingGroundGlow =
-      smoothstep(0.23, 0.275, p) * (1 - smoothstep(0.32, 0.37, p));
-    horizonGlowMat.uniforms.uOpacity.value = breakingGroundGlow;
-    horizonGlowMat.uniforms.uSunColor.value.setRGB(
-      params.sunColorRgb[0],
-      params.sunColorRgb[1],
-      params.sunColorRgb[2],
-    );
-    horizonGlowMesh.visible = breakingGroundGlow > 0.01;
+      // Breaking ground warm silhouette horizon glow (peaks around 0.25..0.33)
+      const breakingGroundGlow =
+        smoothstep(0.23, 0.275, p) * (1 - smoothstep(0.32, 0.37, p));
+      horizonGlowMat.uniforms.uOpacity.value = breakingGroundGlow;
+      horizonGlowMat.uniforms.uSunColor.value.setRGB(
+        sunState.sunColorRgb[0],
+        sunState.sunColorRgb[1],
+        sunState.sunColorRgb[2],
+      );
+      horizonGlowMesh.visible = breakingGroundGlow > 0.01;
 
-    // Update woodlouse crawl along the humus tunnel (y ≈ -0.80)
-    const crawlPhase = ((params.elapsedSec * 0.14) % 1.0) - 0.5;
-    const wx = 0.38 + Math.sin(params.elapsedSec * 0.45) * 0.11;
-    const wy = -0.80 + Math.cos(params.elapsedSec * 0.9) * 0.006;
-    woodlouseGroup.position.set(wx, wy, getWallZAt(wx, wy) + 0.035);
-    woodlouseGroup.rotation.y = Math.cos(params.elapsedSec * 0.45) >= 0 ? 0.15 : Math.PI - 0.15;
-    woodlouseGroup.rotation.z = Math.sin(crawlPhase * Math.PI * 8) * 0.05;
+      // Update woodlouse crawl along the humus tunnel (y ≈ -0.80)
+      const crawlPhase = ((params.elapsedSec * 0.14) % 1.0) - 0.5;
+      const wx = 0.38 + Math.sin(params.elapsedSec * 0.45) * 0.11;
+      const wy = -0.80 + Math.cos(params.elapsedSec * 0.9) * 0.006;
+      woodlouseGroup.position.set(wx, wy, getWallZAt(wx, wy) + 0.035);
+      woodlouseGroup.rotation.y =
+        Math.cos(params.elapsedSec * 0.45) >= 0 ? 0.15 : Math.PI - 0.15;
+      woodlouseGroup.rotation.z = Math.sin(crawlPhase * Math.PI * 8) * 0.05;
 
-    // Foreground parallax: moves upward faster than the wall as camera descends (0.26 -> 0.52)
-    const normalizedDescent = clamp01((p - 0.26) / 0.26);
-    foregroundParallaxGroup.position.y = (normalizedDescent - 0.45) * 0.92;
-    bokehMat.uniforms.uTime.value = params.elapsedSec;
-    bokehMat.uniforms.uOpacity.value = descentVisibility;
+      // Foreground parallax: moves upward faster than the wall as camera descends (0.26 -> 0.52)
+      const normalizedDescent = clamp01((p - 0.26) / 0.26);
+      foregroundParallaxGroup.position.y = (normalizedDescent - 0.45) * 0.92;
+      bokehMat.uniforms.uTime.value = params.elapsedSec;
+      bokehMat.uniforms.uOpacity.value = closeDescentVis;
 
-    // Foxfire crack tubes & lines
-    foxfireCrackMat.uniforms.uGlow.value = foxfireCrackStrength * descentVisibility;
-    foxfireCrackMat.uniforms.uTime.value = params.elapsedSec;
+      // Foxfire crack tubes & lines
+      foxfireCrackMat.uniforms.uGlow.value =
+        foxfireCrackStrength *
+        closeDescentVis *
+        sunState.foxfireGlowMultiplier;
+      foxfireCrackMat.uniforms.uTime.value = params.elapsedSec;
 
-    // Filtering daylight lamp tracks camera depth and shifts from warm daylight to cooler dim earth light
-    const camDepthY = 0.05 - normalizedDescent * 2.55;
-    descentDaylight.position.set(0.12, camDepthY + 0.18, 0.85);
-    const depthCoolMix = clamp01(normalizedDescent * 0.72);
-    descentDaylight.color
-      .setRGB(
-        params.sunColorRgb[0],
-        params.sunColorRgb[1],
-        params.sunColorRgb[2],
-      )
-      .lerp(new THREE.Color('#8a968e'), depthCoolMix * 0.55);
-    descentDaylight.intensity =
-      descentVisibility * (1.85 - normalizedDescent * 0.68);
+      // Filtering daylight lamp tracks camera depth and responds to the time-of-day slider
+      const camDepthY = 0.05 - normalizedDescent * 2.55;
+      descentDaylight.position.set(0.12, camDepthY + 0.18, 0.85);
+      const depthCoolMix = clamp01(normalizedDescent * 0.65);
+      descentDaylight.color
+        .setRGB(
+          sunState.sunColorRgb[0],
+          sunState.sunColorRgb[1],
+          sunState.sunColorRgb[2],
+        )
+        .lerp(new THREE.Color('#8a968e'), depthCoolMix * 0.45);
+      descentDaylight.intensity =
+        closeDescentVis *
+        (1.35 - normalizedDescent * 0.45) *
+        (0.55 + sunState.undergroundDaylightFactor * 0.65);
 
-    // Pocket Foxfire + warm fill light illuminates the clump and surrounding stones at 0.41..0.56
-    pocketFoxfireLight.intensity =
-      descentVisibility * foxfireCrackStrength * 1.48;
+      // Pocket Foxfire + warm fill light illuminates the clump and surrounding stones at 0.41..0.56
+      pocketFoxfireLight.intensity =
+        closeDescentVis *
+        foxfireCrackStrength *
+        1.48 *
+        sunState.foxfireGlowMultiplier;
+    } else {
+      horizonGlowMesh.visible = false;
+      descentDaylight.intensity = 0;
+      pocketFoxfireLight.intensity = 0;
+    }
+
+    // Update Chapter 04b Wide Subterranean Earth, Roots & Stones
+    wideSubterraneanGroup.visible = wideEarthVis > 0.005;
+    if (wideEarthVis > 0.005) {
+      wideEarthUniforms.uTime.value = params.elapsedSec;
+      wideEarthUniforms.uOpacity.value = wideEarthVis;
+      wideEarthUniforms.uNetworkGrowth.value = Math.max(
+        0.35,
+        params.networkGrowth,
+      );
+      wideEarthUniforms.uFoxfireMult.value = sunState.foxfireGlowMultiplier;
+      wideEarthUniforms.uDaylightFactor.value =
+        sunState.undergroundDaylightFactor;
+      wideEarthUniforms.uSunColor.value.setRGB(
+        sunState.sunColorRgb[0],
+        sunState.sunColorRgb[1],
+        sunState.sunColorRgb[2],
+      );
+      wideEarthUniforms.uFogColor.value.setRGB(
+        sunState.undergroundFogRgb[0],
+        sunState.undergroundFogRgb[1],
+        sunState.undergroundFogRgb[2],
+      );
+
+      wideRootMat.opacity = wideEarthVis;
+      wideRootMat.emissiveIntensity =
+        0.06 * sunState.foxfireGlowMultiplier * wideEarthVis;
+
+      wideStoneMat.opacity = wideEarthVis;
+      wideStoneMat.emissiveIntensity =
+        0.05 * sunState.foxfireGlowMultiplier * wideEarthVis;
+
+      wideOverheadLight.color.setRGB(
+        sunState.sunColorRgb[0],
+        sunState.sunColorRgb[1],
+        sunState.sunColorRgb[2],
+      );
+      // At Night (undergroundDaylightFactor=0.28): dim moonlit earth; at Midday (1.42): roots, stones & hanging mushrooms clearly lit
+      wideOverheadLight.intensity =
+        wideEarthVis * (0.65 + sunState.undergroundDaylightFactor * 2.25);
+    } else {
+      wideOverheadLight.intensity = 0;
+    }
   };
 
   return {
@@ -1227,3 +1643,4 @@ export function buildSoilDescentCrossSection(
     updateDescent,
   };
 }
+

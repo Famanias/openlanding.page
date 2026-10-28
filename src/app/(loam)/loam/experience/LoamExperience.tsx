@@ -38,6 +38,9 @@ import {
 } from '../scene/soundSynth';
 import { OverlayUI } from '../components/OverlayUI';
 
+const _tempVecA = new THREE.Vector3();
+const _tempVecB = new THREE.Vector3();
+
 function applyRootSunlightCssVars(sunlightValue: number) {
   if (typeof document === 'undefined') return;
   const { cssVars } = computeSunlightState(sunlightValue);
@@ -115,7 +118,7 @@ export function LoamExperience() {
     document.getElementById('loam-specimen-root')?.setAttribute('inert', '');
     setWebglActive(true);
 
-    const { renderer, scene, camera, isSoftwareGl } = stack;
+    const { renderer, scene, camera } = stack;
 
     // Handle context loss
     renderer.domElement.addEventListener('webglcontextlost', (e) => {
@@ -168,13 +171,11 @@ export function LoamExperience() {
     trayPivot.position.set(0, -5.45, 0);
     scene.add(trayPivot);
 
-    const trayModel = buildPackagingTray(textures, 505, isSoftwareGl);
+    const trayModel = buildPackagingTray(textures, 505);
     trayPivot.add(trayModel.group);
 
     // Pre-warm shaders
-    if (!isSoftwareGl) {
-      renderer.compile(scene, camera);
-    }
+    renderer.compile(scene, camera);
 
     const soundCtrl = createSoundController();
     soundControllerRef.current = soundCtrl;
@@ -237,25 +238,33 @@ export function LoamExperience() {
     let smoothedFov = 36;
     let smoothedInspectStrength = 0;
     let smoothedSunlight = targetSunlightRef.current;
+    let lastAppliedSunlight = -1;
+    let lastSyncedProgress = -1;
+    let lastSyncedInspectPhase = '';
 
     let frameId = 0;
     let lastUiSyncMs = 0;
 
-    const tick = (nowMs: number) => {
-      frameId = requestAnimationFrame(tick);
+    const renderSingleStep = (nowMs: number, forceInstant = false) => {
       timer.update(nowMs);
       const dtSec = Math.min(0.1, timer.getDelta());
       const elapsedSec = timer.getElapsed();
 
       scrollCtrl.tickLenis(nowMs);
 
-      // Exponential damping on camera pose and sunlight time-of-day slider
-      const dampFactor = 1 - Math.exp(-11.0 * Math.max(0.008, dtSec));
-      const sunDampFactor = 1 - Math.exp(-9.5 * Math.max(0.008, dtSec));
+      const dampFactor = forceInstant
+        ? 1
+        : 1 - Math.exp(-11.0 * Math.max(0.008, dtSec));
+      const sunDampFactor = forceInstant
+        ? 1
+        : 1 - Math.exp(-9.5 * Math.max(0.008, dtSec));
 
       smoothedSunlight +=
         (targetSunlightRef.current - smoothedSunlight) * sunDampFactor;
-      applyRootSunlightCssVars(smoothedSunlight);
+      if (Math.abs(smoothedSunlight - lastAppliedSunlight) > 0.001) {
+        lastAppliedSunlight = smoothedSunlight;
+        applyRootSunlightCssVars(smoothedSunlight);
+      }
 
       currentChapterState = getChapterStateAtProgress(currentMasterProgress);
       const targetPose = computeCameraPoseAtProgress(currentMasterProgress);
@@ -310,9 +319,12 @@ export function LoamExperience() {
 
       heroMushroom.setBioluminescence(0);
 
+      const currentSunState = computeSunlightState(smoothedSunlight);
+
       forestAndSoil.updateAtProgress({
         progress: currentMasterProgress,
         undergroundFactor: currentChapterState.undergroundFactor,
+        networkGrowth: currentChapterState.networkGrowth,
         gillSporeIntensity: currentChapterState.gillSporeIntensity,
         fairyRingGrowth: currentChapterState.fairyRingGrowth,
         elapsedSec,
@@ -325,6 +337,7 @@ export function LoamExperience() {
         undergroundFactor: currentChapterState.undergroundFactor,
         elapsedSec,
         pointerWorld,
+        foxfireGlowMultiplier: currentSunState.foxfireGlowMultiplier,
       });
 
       clumpModel.setRevealAndGlow(
@@ -353,15 +366,51 @@ export function LoamExperience() {
 
       stack.renderFrame();
 
-      // Sync React overlay state
-      const isInteractiveOrLeaderLines =
-        inspectState.phase !== 'idle' ||
-        currentChapterState.chapterOpacities[4] > 0.01;
-      if (nowMs - lastUiSyncMs > (isInteractiveOrLeaderLines ? 28 : 60)) {
+      const progressChanged =
+        Math.abs(currentMasterProgress - lastSyncedProgress) > 0.0004;
+      const inspectChanged =
+        inspectState.phase !== lastSyncedInspectPhase ||
+        inspectState.phase !== 'idle';
+
+      if (
+        forceInstant ||
+        ((progressChanged || inspectChanged) &&
+          nowMs - lastUiSyncMs > (inspectState.phase !== 'idle' ? 28 : 60))
+      ) {
         lastUiSyncMs = nowMs;
+        lastSyncedProgress = currentMasterProgress;
+        lastSyncedInspectPhase = inspectState.phase;
         setChapterState(currentChapterState);
         setInspectUI(inspectCtrl.getUIFrameState());
       }
+    };
+
+    const tick = (nowMs: number) => {
+      frameId = requestAnimationFrame(tick);
+      renderSingleStep(nowMs, false);
+    };
+
+    (window as unknown as Record<string, unknown>).__LOAM_TEST__ = {
+      setProgress: (prog: number) => {
+        scrollCtrl.scrollToProgress(prog, true);
+        currentMasterProgress = prog;
+        renderSingleStep(performance.now(), true);
+      },
+      setSunlight: (sun: number) => {
+        const clamped = Math.max(0, Math.min(1, sun));
+        targetSunlightRef.current = clamped;
+        smoothedSunlight = clamped;
+        setSunlight(clamped);
+        renderSingleStep(performance.now(), true);
+      },
+      triggerInspect: (target: InspectableObjectId) => {
+        inspectCtrl.triggerKeyboardInspect(target);
+        renderSingleStep(performance.now(), true);
+      },
+      exitInspect: () => {
+        inspectCtrl.exitInspect();
+        renderSingleStep(performance.now(), true);
+      },
     };
 
     const handleResize = () => {
@@ -369,6 +418,7 @@ export function LoamExperience() {
     };
     window.addEventListener('resize', handleResize);
 
+    renderSingleStep(performance.now(), true);
     frameId = requestAnimationFrame(tick);
 
     return () => {
@@ -376,6 +426,7 @@ export function LoamExperience() {
       window.removeEventListener('resize', handleResize);
       document.documentElement.dataset.loamMode = 'specimen';
       document.getElementById('loam-specimen-root')?.removeAttribute('inert');
+      delete (window as unknown as Record<string, unknown>).__LOAM_TEST__;
       inspectCtrl.dispose();
       scrollCtrl.dispose();
       soundCtrl.dispose();
@@ -448,11 +499,9 @@ export function LoamExperience() {
       <div
         ref={scrollTrackRef}
         aria-hidden="true"
-        className="pointer-events-none relative z-0 h-[750vh] w-full"
+        className="relative pointer-events-none w-full"
+        style={{ height: '750vh' }}
       />
     </div>
   );
 }
-
-const _tempVecA = new THREE.Vector3();
-const _tempVecB = new THREE.Vector3();

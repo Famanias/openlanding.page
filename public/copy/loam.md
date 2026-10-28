@@ -438,7 +438,7 @@ function LifecycleStepIcon({
   }
 
   if (stepId === 'protects') {
-    // Fragile glass flacon nestled inside a protective moulded tray wall
+    // Moulded protective packaging tray cross-section with recessed cavity
     return (
       <svg
         viewBox="0 0 20 20"
@@ -447,23 +447,14 @@ function LifecycleStepIcon({
         aria-hidden="true"
       >
         <path
-          d="M2.5 11.5V15.2C2.5 16.2 3.3 17 4.3 17H15.7C16.7 17 17.5 16.2 17.5 15.2V11.5L14.8 11.5V14.2H5.2V11.5L2.5 11.5Z"
+          d="M2.2 8.5H5.2L6.4 13.2H13.6L14.8 8.5H17.8V14.8C17.8 15.9 16.9 16.8 15.8 16.8H4.2C3.1 16.8 2.2 15.9 2.2 14.8V8.5Z"
           stroke={strokeColor}
           strokeWidth="1.2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <rect
-          x="7.3"
-          y="6.2"
-          width="5.4"
-          height="6.4"
-          rx="0.9"
-          stroke={strokeColor}
-          strokeWidth="1.15"
-        />
         <path
-          d="M9.1 6.2V4.5H10.9V6.2M8.4 3.4H11.6"
+          d="M6.2 6.2H13.8"
           stroke={accentColor}
           strokeWidth="1.2"
           strokeLinecap="round"
@@ -1775,6 +1766,9 @@ import {
 } from '../scene/soundSynth';
 import { OverlayUI } from '../components/OverlayUI';
 
+const _tempVecA = new THREE.Vector3();
+const _tempVecB = new THREE.Vector3();
+
 function applyRootSunlightCssVars(sunlightValue: number) {
   if (typeof document === 'undefined') return;
   const { cssVars } = computeSunlightState(sunlightValue);
@@ -1852,7 +1846,7 @@ export function LoamExperience() {
     document.getElementById('loam-specimen-root')?.setAttribute('inert', '');
     setWebglActive(true);
 
-    const { renderer, scene, camera, isSoftwareGl } = stack;
+    const { renderer, scene, camera } = stack;
 
     // Handle context loss
     renderer.domElement.addEventListener('webglcontextlost', (e) => {
@@ -1905,13 +1899,11 @@ export function LoamExperience() {
     trayPivot.position.set(0, -5.45, 0);
     scene.add(trayPivot);
 
-    const trayModel = buildPackagingTray(textures, 505, isSoftwareGl);
+    const trayModel = buildPackagingTray(textures, 505);
     trayPivot.add(trayModel.group);
 
     // Pre-warm shaders
-    if (!isSoftwareGl) {
-      renderer.compile(scene, camera);
-    }
+    renderer.compile(scene, camera);
 
     const soundCtrl = createSoundController();
     soundControllerRef.current = soundCtrl;
@@ -1974,25 +1966,33 @@ export function LoamExperience() {
     let smoothedFov = 36;
     let smoothedInspectStrength = 0;
     let smoothedSunlight = targetSunlightRef.current;
+    let lastAppliedSunlight = -1;
+    let lastSyncedProgress = -1;
+    let lastSyncedInspectPhase = '';
 
     let frameId = 0;
     let lastUiSyncMs = 0;
 
-    const tick = (nowMs: number) => {
-      frameId = requestAnimationFrame(tick);
+    const renderSingleStep = (nowMs: number, forceInstant = false) => {
       timer.update(nowMs);
       const dtSec = Math.min(0.1, timer.getDelta());
       const elapsedSec = timer.getElapsed();
 
       scrollCtrl.tickLenis(nowMs);
 
-      // Exponential damping on camera pose and sunlight time-of-day slider
-      const dampFactor = 1 - Math.exp(-11.0 * Math.max(0.008, dtSec));
-      const sunDampFactor = 1 - Math.exp(-9.5 * Math.max(0.008, dtSec));
+      const dampFactor = forceInstant
+        ? 1
+        : 1 - Math.exp(-11.0 * Math.max(0.008, dtSec));
+      const sunDampFactor = forceInstant
+        ? 1
+        : 1 - Math.exp(-9.5 * Math.max(0.008, dtSec));
 
       smoothedSunlight +=
         (targetSunlightRef.current - smoothedSunlight) * sunDampFactor;
-      applyRootSunlightCssVars(smoothedSunlight);
+      if (Math.abs(smoothedSunlight - lastAppliedSunlight) > 0.001) {
+        lastAppliedSunlight = smoothedSunlight;
+        applyRootSunlightCssVars(smoothedSunlight);
+      }
 
       currentChapterState = getChapterStateAtProgress(currentMasterProgress);
       const targetPose = computeCameraPoseAtProgress(currentMasterProgress);
@@ -2047,9 +2047,12 @@ export function LoamExperience() {
 
       heroMushroom.setBioluminescence(0);
 
+      const currentSunState = computeSunlightState(smoothedSunlight);
+
       forestAndSoil.updateAtProgress({
         progress: currentMasterProgress,
         undergroundFactor: currentChapterState.undergroundFactor,
+        networkGrowth: currentChapterState.networkGrowth,
         gillSporeIntensity: currentChapterState.gillSporeIntensity,
         fairyRingGrowth: currentChapterState.fairyRingGrowth,
         elapsedSec,
@@ -2062,6 +2065,7 @@ export function LoamExperience() {
         undergroundFactor: currentChapterState.undergroundFactor,
         elapsedSec,
         pointerWorld,
+        foxfireGlowMultiplier: currentSunState.foxfireGlowMultiplier,
       });
 
       clumpModel.setRevealAndGlow(
@@ -2090,15 +2094,51 @@ export function LoamExperience() {
 
       stack.renderFrame();
 
-      // Sync React overlay state
-      const isInteractiveOrLeaderLines =
-        inspectState.phase !== 'idle' ||
-        currentChapterState.chapterOpacities[4] > 0.01;
-      if (nowMs - lastUiSyncMs > (isInteractiveOrLeaderLines ? 28 : 60)) {
+      const progressChanged =
+        Math.abs(currentMasterProgress - lastSyncedProgress) > 0.0004;
+      const inspectChanged =
+        inspectState.phase !== lastSyncedInspectPhase ||
+        inspectState.phase !== 'idle';
+
+      if (
+        forceInstant ||
+        ((progressChanged || inspectChanged) &&
+          nowMs - lastUiSyncMs > (inspectState.phase !== 'idle' ? 28 : 60))
+      ) {
         lastUiSyncMs = nowMs;
+        lastSyncedProgress = currentMasterProgress;
+        lastSyncedInspectPhase = inspectState.phase;
         setChapterState(currentChapterState);
         setInspectUI(inspectCtrl.getUIFrameState());
       }
+    };
+
+    const tick = (nowMs: number) => {
+      frameId = requestAnimationFrame(tick);
+      renderSingleStep(nowMs, false);
+    };
+
+    (window as unknown as Record<string, unknown>).__LOAM_TEST__ = {
+      setProgress: (prog: number) => {
+        scrollCtrl.scrollToProgress(prog, true);
+        currentMasterProgress = prog;
+        renderSingleStep(performance.now(), true);
+      },
+      setSunlight: (sun: number) => {
+        const clamped = Math.max(0, Math.min(1, sun));
+        targetSunlightRef.current = clamped;
+        smoothedSunlight = clamped;
+        setSunlight(clamped);
+        renderSingleStep(performance.now(), true);
+      },
+      triggerInspect: (target: InspectableObjectId) => {
+        inspectCtrl.triggerKeyboardInspect(target);
+        renderSingleStep(performance.now(), true);
+      },
+      exitInspect: () => {
+        inspectCtrl.exitInspect();
+        renderSingleStep(performance.now(), true);
+      },
     };
 
     const handleResize = () => {
@@ -2106,6 +2146,7 @@ export function LoamExperience() {
     };
     window.addEventListener('resize', handleResize);
 
+    renderSingleStep(performance.now(), true);
     frameId = requestAnimationFrame(tick);
 
     return () => {
@@ -2113,6 +2154,7 @@ export function LoamExperience() {
       window.removeEventListener('resize', handleResize);
       document.documentElement.dataset.loamMode = 'specimen';
       document.getElementById('loam-specimen-root')?.removeAttribute('inert');
+      delete (window as unknown as Record<string, unknown>).__LOAM_TEST__;
       inspectCtrl.dispose();
       scrollCtrl.dispose();
       soundCtrl.dispose();
@@ -2185,14 +2227,12 @@ export function LoamExperience() {
       <div
         ref={scrollTrackRef}
         aria-hidden="true"
-        className="pointer-events-none relative z-0 h-[750vh] w-full"
+        className="relative pointer-events-none w-full"
+        style={{ height: '750vh' }}
       />
     </div>
   );
 }
-
-const _tempVecA = new THREE.Vector3();
-const _tempVecB = new THREE.Vector3();
 ]]>
     </file>
     <file path="src/app/(loam)/loam/logic/chapters.ts">
@@ -2729,10 +2769,10 @@ export const CAMERA_KEYFRAMES: readonly CameraKeyframe[] = [
   },
   {
     progress: 0.83,
-    position: [0.0, -3.72, 4.92],
-    target: [-0.06, -5.42, -0.16],
-    fov: 35,
-    focusDistance: 5.18,
+    position: [0.0, -3.55, 5.15],
+    target: [0.0, -5.45, 0.0],
+    fov: 34,
+    focusDistance: 5.45,
   },
   {
     progress: 0.91,
@@ -2830,29 +2870,46 @@ export function computeCameraPoseAtProgress(rawProgress: number): ComputedCamera
   };
 }
 
-export const DEFAULT_SUNLIGHT = 0.75;
+/** Default on load: Morning */
+export const DEFAULT_SUNLIGHT = 0.55;
 
 export interface SunlightAtmosphereState {
   sunlight: number;
   timeLabel: string;
-  /** Directional sun offset [dx, dy, dz] relative to the current scene target */
+  /** Directional sun/moon offset [dx, dy, dz] relative to the current scene target */
   sunOffset: [number, number, number];
-  /** Normalized RGB [0..1, 0..1, 0..1] of the directional sun light */
+  /** Normalized RGB [0..1, 0..1, 0..1] of the directional light */
   sunColorRgb: [number, number, number];
-  /** Hex string of the directional sun light */
+  /** Hex string of the directional light */
   sunColorHex: string;
-  /** Multiplier on directional sun intensity (low at dusk -> full overhead at midday) */
+  /** Sky hemisphere RGB [0..1] */
+  hemiSkyRgb: [number, number, number];
+  /** Ground hemisphere RGB [0..1] */
+  hemiGroundRgb: [number, number, number];
+  /** Atmospheric forest mist RGB [0..1] for depth layers */
+  mistColorRgb: [number, number, number];
+  /** Multiplier on directional sun/moon intensity */
   sunIntensityMultiplier: number;
   /** Multiplier on hemisphere/ambient fill light */
   ambientIntensityMultiplier: number;
-  /** Multiplier on specimen rim light (stronger rim at dusk) */
+  /** Multiplier on specimen rim light */
   rimIntensityMultiplier: number;
-  /** Balanced renderer toneMappingExposure across 0..1 */
+  /** Balanced renderer toneMappingExposure across 0..1 (for non-studio chapters) */
   toneMappingExposure: number;
-  /** Multiplier on shaft-of-light / spore mote brightness above ground */
+  /** Multiplier on canopy god-ray shafts & spore motes above ground */
   godRayOpacityMultiplier: number;
+  /** Canopy god-ray slant angle in radians (slanted in Morning, near-vertical at Midday, cool slant at Night) */
+  godRaySlantRad: number;
+  /** Canopy dapple pattern intensity on forest floor & trunks */
+  dappleStrength: number;
+  /** Multiplier on foxfire bioluminescence (strongest at Night, balanced in Morning, subtler at Midday) */
+  foxfireGlowMultiplier: number;
+  /** Daylight filtering down into underground soil in Ch 03 & Ch 04 (faint at Night -> clearly lit soil/roots/stones at Midday) */
+  undergroundDaylightFactor: number;
   /** Normalized RGB [0..1] for above-ground 3D background and fog */
   surfaceBgRgb: [number, number, number];
+  /** Normalized RGB [0..1] for underground Ch 04 wide-view earth depth fog (never black) */
+  undergroundFogRgb: [number, number, number];
   /** Synchronized 2D CSS custom properties for page atmosphere harmonization */
   cssVars: {
     '--page-bg': string;
@@ -2871,17 +2928,31 @@ function rgbToHex(rgb: readonly [number, number, number]): string {
 }
 
 /**
- * Pure calculation mapping the normalized Sunlight / Time-of-Day slider value
- * (0.0 = Dusk/Night -> 0.75 = Default Morning -> 1.0 = Bright Midday Sun)
- * to 3D directional sun arc, color temperature, exposure, and 2D CSS atmosphere variables.
+ * Pure calculation mapping the normalized Sunlight / Time-of-Day slider value:
+ * - 0.00 = Night: moonlit, cool blue-grey, dim but readable silhouettes & shapes, strongest foxfire glow.
+ * - 0.55 = Morning (Default): low warm golden light raking through the trees, long soft shadows, light mist.
+ * - 1.00 = Midday: bright, neutral, dappled daylight through the canopy; forest floor and underground soil clearly lit.
+ * Affects Chapters 01–04 and 06. Chapter 05's studio lighting is fixed and independent of this slider.
  */
 export function computeSunlightState(rawSunlight: number): SunlightAtmosphereState {
   const s = clamp01(rawSunlight);
 
-  // 1. Sun arc across the sky: low grazing horizon angle at 0.0 -> overhead at 1.0
-  const azimuth = lerp(-1.22, -0.28, s);
-  const elevation = lerp(0.18, 1.30, s);
-  const radius = 7.2;
+  // Piece-wise interpolation factor with anchor at 0.55 (Morning default)
+  const isNightToMorning = s <= 0.55;
+  const tNM = isNightToMorning ? s / 0.55 : 1.0;
+  const tMM = isNightToMorning ? 0.0 : (s - 0.55) / 0.45;
+
+  // 1. Directional light arc:
+  //    - Night (0.0): cool moonlight from upper-right/front at moderate angle
+  //    - Morning (0.55): low raking golden light from upper-left casting long soft shadows across the floor
+  //    - Midday (1.0): high near-vertical overhead daylight pouring through the canopy
+  const azimuth = isNightToMorning
+    ? lerp(0.55, -1.12, tNM)
+    : lerp(-1.12, -0.22, tMM);
+  const elevation = isNightToMorning
+    ? lerp(0.62, 0.42, tNM)
+    : lerp(0.42, 1.32, tMM);
+  const radius = 8.4;
   const sunOffset: [number, number, number] = [
     Math.sin(azimuth) * Math.cos(elevation) * radius,
     Math.sin(elevation) * radius,
@@ -2889,61 +2960,102 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
   ];
 
   // 2. Color temperature stops:
-  //    0.00: Dusk ember (#ff8a3d) -> 0.35: Golden hour (#ffa751) -> 0.75: Warm morning (#f7e7ce) -> 1.00: Crisp midday (#f4f8fb)
-  const stop0: [number, number, number] = [1.0, 0.541, 0.239]; // #ff8a3d
-  const stop1: [number, number, number] = [1.0, 0.655, 0.318]; // #ffa751
-  const stop2: [number, number, number] = [0.969, 0.906, 0.808]; // #f7e7ce
-  const stop3: [number, number, number] = [0.957, 0.973, 0.984]; // #f4f8fb
+  //    - Night (0.00): Cool blue-grey moonlight (#8eb2e6)
+  //    - Morning (0.55): Warm golden raking sunlight (#ffbe6b)
+  //    - Midday (1.00): Crisp neutral dappled daylight (#f7faf5)
+  const nightSunRgb: [number, number, number] = [0.557, 0.698, 0.902]; // #8eb2e6
+  const morningSunRgb: [number, number, number] = [1.0, 0.745, 0.420]; // #ffbe6b
+  const middaySunRgb: [number, number, number] = [0.969, 0.980, 0.961]; // #f7faf5
 
-  let sunColorRgb: [number, number, number];
-  if (s < 0.35) {
-    sunColorRgb = lerpVec3(stop0, stop1, s / 0.35);
-  } else if (s < 0.75) {
-    sunColorRgb = lerpVec3(stop1, stop2, (s - 0.35) / 0.4);
-  } else {
-    sunColorRgb = lerpVec3(stop2, stop3, (s - 0.75) / 0.25);
-  }
+  const sunColorRgb: [number, number, number] = isNightToMorning
+    ? lerpVec3(nightSunRgb, morningSunRgb, tNM)
+    : lerpVec3(morningSunRgb, middaySunRgb, tMM);
   const sunColorHex = rgbToHex(sunColorRgb);
 
-  // 3. Light intensity & tone mapping exposure curves (calibrated to prevent white clipping)
-  const sunIntensityMultiplier = lerp(0.36, 1.35, Math.pow(s, 0.85));
-  const ambientIntensityMultiplier = lerp(0.55, 1.45, s);
-  const rimIntensityMultiplier = lerp(1.38, 0.88, s);
-  const toneMappingExposure = lerp(0.66, 0.83, s);
-  const godRayOpacityMultiplier = lerp(0.28, 1.48, s);
+  // 3. Hemisphere sky & ground fill colors
+  const nightSkyRgb: [number, number, number] = [0.34, 0.45, 0.62];
+  const morningSkyRgb: [number, number, number] = [0.76, 0.60, 0.38];
+  const middaySkyRgb: [number, number, number] = [0.84, 0.90, 0.80];
 
-  // 4. Above-ground forest canopy background & 2D CSS variables
-  const bgDusk: [number, number, number] = [0.024, 0.020, 0.029]; // #060507
-  const bgGolden: [number, number, number] = [0.047, 0.031, 0.020]; // #0c0805
-  const bgMorning: [number, number, number] = [0.031, 0.024, 0.016]; // #080604
-  const bgMidday: [number, number, number] = [0.086, 0.106, 0.078]; // #161b14
+  const nightGroundRgb: [number, number, number] = [0.10, 0.13, 0.19];
+  const morningGroundRgb: [number, number, number] = [0.22, 0.15, 0.09];
+  const middayGroundRgb: [number, number, number] = [0.34, 0.28, 0.20];
 
-  let surfaceBgRgb: [number, number, number];
-  if (s < 0.35) {
-    surfaceBgRgb = lerpVec3(bgDusk, bgGolden, s / 0.35);
-  } else if (s < 0.75) {
-    surfaceBgRgb = lerpVec3(bgGolden, bgMorning, (s - 0.35) / 0.4);
-  } else {
-    surfaceBgRgb = lerpVec3(bgMorning, bgMidday, (s - 0.75) / 0.25);
-  }
+  const hemiSkyRgb = isNightToMorning
+    ? lerpVec3(nightSkyRgb, morningSkyRgb, tNM)
+    : lerpVec3(morningSkyRgb, middaySkyRgb, tMM);
+  const hemiGroundRgb = isNightToMorning
+    ? lerpVec3(nightGroundRgb, morningGroundRgb, tNM)
+    : lerpVec3(morningGroundRgb, middayGroundRgb, tMM);
+
+  // 4. Above-ground forest background & atmospheric mist colors (never close to black!)
+  const bgNight: [number, number, number] = [0.075, 0.105, 0.155]; // #131b28 cool moonlit blue-grey forest
+  const bgMorning: [number, number, number] = [0.165, 0.122, 0.075]; // #2a1f13 warm golden morning mist
+  const bgMidday: [number, number, number] = [0.245, 0.295, 0.215]; // #3e4b37 bright sunlit canopy green-mist
+
+  const surfaceBgRgb: [number, number, number] = isNightToMorning
+    ? lerpVec3(bgNight, bgMorning, tNM)
+    : lerpVec3(bgMorning, bgMidday, tMM);
+
+  const mistNight: [number, number, number] = [0.28, 0.37, 0.52];
+  const mistMorning: [number, number, number] = [0.82, 0.63, 0.39];
+  const mistMidday: [number, number, number] = [0.78, 0.85, 0.74];
+  const mistColorRgb: [number, number, number] = isNightToMorning
+    ? lerpVec3(mistNight, mistMorning, tNM)
+    : lerpVec3(mistMorning, mistMidday, tMM);
+
+  // 5. Underground wide-view depth fog color (fades distant earth into warm/cool soil fog, never black)
+  const ugNight: [number, number, number] = [0.075, 0.095, 0.125]; // cool moonlit earth + foxfire
+  const ugMorning: [number, number, number] = [0.165, 0.120, 0.082]; // warm golden-umber earth
+  const ugMidday: [number, number, number] = [0.255, 0.195, 0.135]; // clearly lit daytime earth
+  const undergroundFogRgb: [number, number, number] = isNightToMorning
+    ? lerpVec3(ugNight, ugMorning, tNM)
+    : lerpVec3(ugMorning, ugMidday, tMM);
+
+  // 6. Wide-range light intensities, exposure, god-ray slant, foxfire strength & underground daylight filtering
+  const sunIntensityMultiplier = isNightToMorning
+    ? lerp(0.72, 1.58, tNM)
+    : lerp(1.58, 2.45, tMM);
+  const ambientIntensityMultiplier = isNightToMorning
+    ? lerp(0.95, 1.48, tNM)
+    : lerp(1.48, 2.38, tMM);
+  const rimIntensityMultiplier = isNightToMorning
+    ? lerp(1.32, 1.45, tNM)
+    : lerp(1.45, 1.05, tMM);
+  const toneMappingExposure = isNightToMorning
+    ? lerp(0.74, 0.84, tNM)
+    : lerp(0.84, 0.94, tMM);
+  const godRayOpacityMultiplier = isNightToMorning
+    ? lerp(0.45, 1.38, tNM)
+    : lerp(1.38, 1.85, tMM);
+  const godRaySlantRad = isNightToMorning
+    ? lerp(-0.22, 0.44, tNM)
+    : lerp(0.44, 0.07, tMM);
+  const dappleStrength = isNightToMorning
+    ? lerp(0.18, 0.52, tNM)
+    : lerp(0.52, 1.0, tMM);
+  const foxfireGlowMultiplier = isNightToMorning
+    ? lerp(1.45, 1.0, tNM)
+    : lerp(1.0, 0.72, tMM);
+  const undergroundDaylightFactor = isNightToMorning
+    ? lerp(0.28, 0.78, tNM)
+    : lerp(0.78, 1.42, tMM);
 
   const pageBgHex = rgbToHex(surfaceBgRgb);
-  const textRgb = lerpVec3([0.91, 0.875, 0.816], [0.98, 0.965, 0.933], s);
+  const textRgb = lerpVec3([0.89, 0.92, 0.96], [0.98, 0.965, 0.933], s);
   const textHex = rgbToHex(textRgb);
 
   const skyR = Math.round(sunColorRgb[0] * 255);
   const skyG = Math.round(sunColorRgb[1] * 255);
   const skyB = Math.round(sunColorRgb[2] * 255);
-  const skyAlpha = (0.07 + s * 0.11).toFixed(3);
+  const skyAlpha = (0.10 + s * 0.14).toFixed(3);
 
   const timeLabel =
-    s < 0.22
-      ? 'Dusk'
-      : s < 0.55
-        ? 'Golden hour'
-        : s < 0.85
-          ? 'Morning'
-          : 'Midday';
+    s < 0.26
+      ? 'Night'
+      : s < 0.80
+        ? 'Morning'
+        : 'Midday';
 
   return {
     sunlight: s,
@@ -2951,12 +3063,20 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
     sunOffset,
     sunColorRgb,
     sunColorHex,
+    hemiSkyRgb,
+    hemiGroundRgb,
+    mistColorRgb,
     sunIntensityMultiplier,
     ambientIntensityMultiplier,
     rimIntensityMultiplier,
     toneMappingExposure,
     godRayOpacityMultiplier,
+    godRaySlantRad,
+    dappleStrength,
+    foxfireGlowMultiplier,
+    undergroundDaylightFactor,
     surfaceBgRgb,
+    undergroundFogRgb,
     cssVars: {
       '--page-bg': pageBgHex,
       '--sky-ambient': `rgba(${skyR}, ${skyG}, ${skyB}, ${skyAlpha})`,
@@ -2965,6 +3085,7 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
     },
   };
 }
+
 
 ]]>
     </file>
@@ -3856,8 +3977,9 @@ import {
   type BuiltMushroomModel,
   type MushroomGrowthStage,
 } from './models/mushroomModel';
-import { computeSunlightState, smoothstep } from '../logic/chapters';
+import { computeSunlightState, DEFAULT_SUNLIGHT, smoothstep } from '../logic/chapters';
 import { buildSoilDescentCrossSection } from './soilDescent';
+import { buildForestBackdrop } from './forestBackdrop';
 
 export interface BuiltForestAndSoil {
   rootGroup: THREE.Group;
@@ -3866,6 +3988,7 @@ export interface BuiltForestAndSoil {
   updateAtProgress: (params: {
     progress: number;
     undergroundFactor: number;
+    networkGrowth?: number;
     gillSporeIntensity: number;
     fairyRingGrowth: number;
     elapsedSec: number;
@@ -3916,8 +4039,8 @@ export function buildForestAndSoil(
     return [x, z];
   };
 
-  // 1. Damp dark forest soil surface (y = 0)
-  const floorGeo = new THREE.PlaneGeometry(36, 36, 64, 64);
+  // 1. Damp dark forest soil surface (y = 0) with canopy dappled light
+  const floorGeo = new THREE.PlaneGeometry(58, 58, 72, 72);
   floorGeo.rotateX(-Math.PI / 2);
   const fPos = floorGeo.attributes.position;
   for (let i = 0; i < fPos.count; i++) {
@@ -3928,18 +4051,23 @@ export function buildForestAndSoil(
   floorGeo.computeVertexNormals();
 
   const floorCutUniform = { value: 0.0 };
+  const floorDappleStrengthUniform = { value: 0.3 };
+  const floorSunColorUniform = { value: new THREE.Color('#ffbe6b') };
   const floorMat = new THREE.MeshStandardMaterial({
     map: textures.soilColor,
     bumpMap: textures.soilBump,
     bumpScale: 0.09,
-    color: new THREE.Color('#221912'),
+    color: new THREE.Color('#2c2118'),
     roughness: 0.88,
     metalness: 0.02,
+    side: THREE.DoubleSide,
     transparent: true,
     opacity: 1,
   });
   floorMat.onBeforeCompile = (shader) => {
     shader.uniforms.uTrenchCut = floorCutUniform;
+    shader.uniforms.uDappleStrength = floorDappleStrengthUniform;
+    shader.uniforms.uSunLightColor = floorSunColorUniform;
     shader.vertexShader = shader.vertexShader
       .replace(
         '#include <common>',
@@ -3952,7 +4080,11 @@ export function buildForestAndSoil(
     shader.fragmentShader = shader.fragmentShader
       .replace(
         '#include <common>',
-        '#include <common>\nuniform float uTrenchCut;\nvarying vec3 vFloorWorldPos;',
+        `#include <common>
+        uniform float uTrenchCut;
+        uniform float uDappleStrength;
+        uniform vec3 uSunLightColor;
+        varying vec3 vFloorWorldPos;`,
       )
       .replace(
         '#include <dithering_fragment>',
@@ -3962,12 +4094,22 @@ export function buildForestAndSoil(
           if (abs(vFloorWorldPos.x) < 3.6 && vFloorWorldPos.z > cutZ) {
             discard;
           }
-        }`,
+        }
+        // Dappled canopy light pools across the forest floor
+        float dapple1 = sin(vFloorWorldPos.x * 1.15 + vFloorWorldPos.z * 0.95) * cos(vFloorWorldPos.x * 0.85 - vFloorWorldPos.z * 1.25);
+        float dapple2 = sin(vFloorWorldPos.x * 2.4 - vFloorWorldPos.z * 1.9 + 1.3);
+        float dapplePool = smoothstep(0.12, 0.72, dapple1 * 0.65 + dapple2 * 0.35 + 0.35);
+        float radialFade = 1.0 - smoothstep(4.0, 24.0, length(vFloorWorldPos.xz));
+        gl_FragColor.rgb += uSunLightColor * dapplePool * uDappleStrength * radialFade * 0.20;`,
       );
   };
   const floorMesh = new THREE.Mesh(floorGeo, floorMat);
   floorMesh.receiveShadow = true;
   rootGroup.add(floorMesh);
+
+  // Macro forest environment (multi-layer tree trunks, mossy fallen log, woodland ferns, ground cover, canopy god rays)
+  const forestBackdrop = buildForestBackdrop(textures, getGroundHeightAt, seed + 109);
+  rootGroup.add(forestBackdrop.group);
 
   // Soft radial contact shadow directly beneath the hero mushroom bulb
   const contactGeo = new THREE.CircleGeometry(1.35, 32);
@@ -4403,6 +4545,7 @@ export function buildForestAndSoil(
   const updateAtProgress = (params: {
     progress: number;
     undergroundFactor: number;
+    networkGrowth?: number;
     gillSporeIntensity: number;
     fairyRingGrowth: number;
     elapsedSec: number;
@@ -4410,60 +4553,79 @@ export function buildForestAndSoil(
   }) => {
     const dt = Math.max(0, Math.min(0.1, params.elapsedSec - lastElapsed));
     lastElapsed = params.elapsedSec;
-    const sunState = computeSunlightState(params.sunlight ?? 0.75);
+    const sunState = computeSunlightState(params.sunlight ?? DEFAULT_SUNLIGHT);
 
     moteMat.uniforms.uTime.value = params.elapsedSec;
     moteMat.uniforms.uGillFall.value = params.gillSporeIntensity;
     moteMat.uniforms.uUnderground.value = params.undergroundFactor;
-    sporeMotes.visible = params.progress < 0.77 || params.progress > 0.895;
+    sporeMotes.visible = params.progress < 0.75 || params.progress > 0.895;
 
     const inDescentTrench =
       smoothstep(0.21, 0.245, params.progress) *
-      (1 - smoothstep(0.58, 0.63, params.progress));
+      (1 - smoothstep(0.55, 0.59, params.progress));
     floorCutUniform.value = inDescentTrench;
 
-    floorMat.opacity = 1 - params.undergroundFactor * 0.25;
-    floorMesh.visible = params.progress < 0.35 || params.progress > 0.86;
+    // Modulate floor soil brightness & canopy dappling with time-of-day slider
+    floorDappleStrengthUniform.value = sunState.dappleStrength;
+    floorSunColorUniform.value.setRGB(
+      sunState.sunColorRgb[0],
+      sunState.sunColorRgb[1],
+      sunState.sunColorRgb[2],
+    );
+    const floorLightTone = 0.72 + sunState.sunlight * 0.62;
+    floorMat.color.setRGB(
+      0.16 * floorLightTone + sunState.hemiGroundRgb[0] * 0.22,
+      0.12 * floorLightTone + sunState.hemiGroundRgb[1] * 0.22,
+      0.09 * floorLightTone + sunState.hemiGroundRgb[2] * 0.22,
+    );
+
+    // Keep floorMesh & surfaceDetailsGroup visible in Ch 01-03, in Ch 04b wide view (seen from below), and in Ch 06
+    const inWideNetwork = params.progress >= 0.54 && params.progress < 0.745;
+    floorMat.opacity = inWideNetwork ? 0.88 : 1 - params.undergroundFactor * 0.22;
+    floorMesh.visible = params.progress < 0.35 || inWideNetwork || params.progress > 0.86;
     contactDisc.visible = params.progress < 0.265 || params.progress > 0.88;
-    surfaceDetailsGroup.visible = params.progress < 0.35 || params.progress > 0.86;
+    surfaceDetailsGroup.visible = params.progress < 0.35 || inWideNetwork || params.progress > 0.86;
+
+    // Update macro forest backdrop (multi-layer trees, mossy log, ferns, canopy god-rays)
+    forestBackdrop.updateBackdrop({
+      sunState,
+      progress: params.progress,
+      undergroundFactor: params.undergroundFactor,
+      elapsedSec: params.elapsedSec,
+    });
 
     soilDescent.updateDescent({
       progress: params.progress,
       undergroundFactor: params.undergroundFactor,
-      networkGrowth: 0,
+      networkGrowth: params.networkGrowth ?? (params.progress > 0.45 ? 1.0 : 0.0),
       elapsedSec: params.elapsedSec,
       sunColorRgb: sunState.sunColorRgb,
       sunlight: sunState.sunlight,
     });
 
-    shaftMat.uniforms.uOpacity.value =
-      0.055 * (1 - params.undergroundFactor * 0.75) * sunState.godRayOpacityMultiplier;
-    shaftMat.uniforms.uColor.value.setRGB(
-      sunState.sunColorRgb[0],
-      sunState.sunColorRgb[1],
-      sunState.sunColorRgb[2],
-    );
-    lightShaft.rotation.z = 0.42 - sunState.sunlight * 0.32;
-    lightShaft.visible = params.undergroundFactor < 0.95;
+    // Legacy single shaft stays hidden in favor of the 5-beam canopy shafts in forestBackdrop
+    lightShaft.visible = false;
 
     // Chapter 6 faint foxfire shimmer on the soil where the network surfaces
-    shimmerMesh.visible = params.fairyRingGrowth > 0.05;
-    shimmerMat.uniforms.uStrength.value = params.fairyRingGrowth;
+    shimmerMesh.visible = params.fairyRingGrowth > 0.04;
+    shimmerMat.uniforms.uStrength.value =
+      params.fairyRingGrowth * (0.75 + 0.55 * sunState.foxfireGlowMultiplier);
     shimmerMat.uniforms.uTime.value = params.elapsedSec;
 
-    // Neighboring mushrooms are only revealed during Chapter 4b (wide underground network view)
-    const showNeighbors = params.progress >= 0.54 && params.progress < 0.74;
+    // Neighboring mushrooms are revealed during Chapter 4b (wide underground network view)
+    // Give them a subtle ambient subterranean rim/readability boost so they are clearly readable hanging above
+    const showNeighbors = params.progress >= 0.54 && params.progress < 0.745;
     for (let i = 0; i < neighborMushrooms.length; i++) {
       neighborMushrooms[i].group.visible = showNeighbors;
       if (mushroomGlowTimers[i] > 0) {
         mushroomGlowTimers[i] = Math.max(0, mushroomGlowTimers[i] - dt * 1.1);
       }
-      // Only glow briefly when a click pulse reaches them
       const pulseBoost = Math.sin(mushroomGlowTimers[i] * Math.PI) * 0.85;
-      neighborMushrooms[i].setBioluminescence(pulseBoost);
+      const baseReadability = showNeighbors ? 0.14 + 0.12 * sunState.undergroundDaylightFactor : 0;
+      neighborMushrooms[i].setBioluminescence(Math.min(1, baseReadability + pulseBoost));
     }
 
-    // Update Chapter 6 fairy ring fruiting growth (no glow, natural light)
+    // Update Chapter 6 fairy ring fruiting growth (natural forest light, zero glow on mushrooms)
     for (let i = 0; i < fairyRingMushrooms.length; i++) {
       const m = fairyRingMushrooms[i];
       const stagger = i * 0.07;
@@ -4495,6 +4657,720 @@ export function buildForestAndSoil(
     fairyRingMushrooms,
     updateAtProgress,
     triggerMushroomGlow,
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(loam)/loam/scene/forestBackdrop.ts">
+<![CDATA[import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import type { ProceduralTextureSet } from './textures';
+import { createSeededRandom } from '../logic/networkGenerator';
+import type { SunlightAtmosphereState } from '../logic/chapters';
+
+export interface BuiltForestBackdrop {
+  group: THREE.Group;
+  updateBackdrop: (params: {
+    sunState: SunlightAtmosphereState;
+    undergroundFactor: number;
+    elapsedSec: number;
+    progress: number;
+  }) => void;
+}
+
+/**
+ * Builds the macro-scale forest environment around the mushrooms for Chapters 01 and 06
+ * (and the surface seen in transitions):
+ * 1. Three depth layers of tree trunks of varied thickness with bark texture and fluted root buttresses,
+ *    receding into atmospheric mist (near trunks sharp, mid trunks lightly hazed, distant ones soft & pale).
+ * 2. A fallen, mossy log with weathered bark, moss blanket, and shelf fungi in the mid-ground.
+ * 3. Woodland ferns (multi-frond arching pinnate rosettes) and low ground cover (wood sorrel & forest sedge).
+ * 4. Volumetric light shafts (god rays) through the canopy that follow the time-of-day slider:
+ *    golden and slanted in the morning, near-vertical and brighter at midday, faint moonlight at night.
+ * 5. Layered atmospheric mist bands between the tree depth planes.
+ */
+export function buildForestBackdrop(
+  textures: ProceduralTextureSet,
+  getGroundHeightAt: (x: number, z: number) => number,
+  seed = 4012,
+): BuiltForestBackdrop {
+  const rand = createSeededRandom(seed);
+  const group = new THREE.Group();
+  group.name = 'MacroForestBackdrop';
+
+  const dummy = new THREE.Object3D();
+  const tempColor = new THREE.Color();
+
+  // Helper to build a sculpted tree trunk geometry with flared root buttresses at the base
+  const createFlutedTrunkGeo = (
+    baseRadius: number,
+    topRadius: number,
+    height: number,
+    radialSegs: number,
+    heightSegs: number,
+    buttressCount: number,
+    seedOffset: number,
+  ): THREE.BufferGeometry => {
+    const geo = new THREE.CylinderGeometry(
+      topRadius,
+      baseRadius,
+      height,
+      radialSegs,
+      heightSegs,
+      false,
+    );
+    geo.translate(0, height * 0.5 - 0.15, 0);
+    const pos = geo.attributes.position;
+    const uv = geo.attributes.uv;
+
+    for (let i = 0; i < pos.count; i++) {
+      const vx = pos.getX(i);
+      const vy = pos.getY(i);
+      const vz = pos.getZ(i);
+      const angle = Math.atan2(vz, vx);
+      const hNorm = Math.max(0, Math.min(1, (vy + 0.15) / height));
+
+      // Fluted root buttresses flaring outward near the forest floor (y = 0 .. 2.2m)
+      const buttressEnv = Math.pow(Math.max(0, 1 - hNorm / 0.24), 2.1);
+      const buttressWave =
+        0.5 +
+        0.5 * Math.sin(angle * buttressCount + seedOffset) +
+        0.25 * Math.cos(angle * (buttressCount + 2) - seedOffset * 1.7);
+      const rootFlare = 1.0 + buttressEnv * buttressWave * 0.68;
+
+      // Coarse vertical bark furrow relief
+      const barkFurrow =
+        1.0 +
+        0.045 * Math.sin(angle * 14.0 + vy * 1.2 + seedOffset) +
+        0.025 * Math.cos(angle * 23.0 - vy * 2.1);
+
+      // Gentle organic trunk lean/curve with height
+      const leanX = Math.sin(hNorm * Math.PI * 0.85 + seedOffset) * 0.22 * hNorm;
+      const leanZ = Math.cos(hNorm * Math.PI * 0.75 + seedOffset) * 0.16 * hNorm;
+
+      pos.setXYZ(
+        i,
+        vx * rootFlare * barkFurrow + leanX,
+        vy,
+        vz * rootFlare * barkFurrow + leanZ,
+      );
+      uv.setXY(i, uv.getX(i) * 3.0, uv.getY(i) * 5.0);
+    }
+    geo.computeVertexNormals();
+    return geo;
+  };
+
+  // Shared uniforms for atmospheric mist & canopy dapple across the 3 trunk depth layers
+  const mistUniform = { value: new THREE.Color('#826644') };
+  const bgUniform = { value: new THREE.Color('#2a1f13') };
+  const sunColorUniform = { value: new THREE.Color('#ffbe6b') };
+  const dappleStrengthUniform = { value: 0.55 };
+  const sunDirUniform = { value: new THREE.Vector3(-0.6, 0.5, 0.5).normalize() };
+
+  const createTrunkDepthMaterial = (
+    mistBlendFactor: number,
+    bumpScale: number,
+    roughness: number,
+  ): THREE.MeshStandardMaterial => {
+    const mat = new THREE.MeshStandardMaterial({
+      map: textures.barkColor,
+      bumpMap: textures.stemBump,
+      bumpScale,
+      color: new THREE.Color('#ffffff'),
+      roughness,
+      metalness: 0.0,
+    });
+
+    mat.onBeforeCompile = (shader) => {
+      shader.uniforms.uMistColor = mistUniform;
+      shader.uniforms.uBgColor = bgUniform;
+      shader.uniforms.uSunColor = sunColorUniform;
+      shader.uniforms.uDappleStrength = dappleStrengthUniform;
+      shader.uniforms.uSunDir = sunDirUniform;
+      shader.uniforms.uMistBlend = { value: mistBlendFactor };
+
+      shader.vertexShader = shader.vertexShader
+        .replace(
+          '#include <common>',
+          '#include <common>\nvarying vec3 vTrunkWorldPos;\nvarying vec3 vTrunkWorldNormal;',
+        )
+        .replace(
+          '#include <begin_vertex>',
+          '#include <begin_vertex>\nvTrunkWorldPos = (modelMatrix * vec4(transformed, 1.0)).xyz;\nvTrunkWorldNormal = normalize(mat3(modelMatrix) * objectNormal);',
+        );
+
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          '#include <common>',
+          `#include <common>
+          uniform vec3 uMistColor;
+          uniform vec3 uBgColor;
+          uniform vec3 uSunColor;
+          uniform float uDappleStrength;
+          uniform vec3 uSunDir;
+          uniform float uMistBlend;
+          varying vec3 vTrunkWorldPos;
+          varying vec3 vTrunkWorldNormal;`,
+        )
+        .replace(
+          '#include <dithering_fragment>',
+          `#include <dithering_fragment>
+          // Mossy base tint on the lowest 1.2m of near/mid tree trunks
+          float baseMossMask = smoothstep(1.35, 0.05, vTrunkWorldPos.y) * (0.5 + 0.5 * sin(vTrunkWorldPos.x * 4.5 + vTrunkWorldPos.z * 4.5));
+          vec3 mossTint = vec3(0.14, 0.22, 0.09);
+          gl_FragColor.rgb = mix(gl_FragColor.rgb, mossTint, baseMossMask * (1.0 - uMistBlend * 0.7) * 0.55);
+
+          // Raking sunlight / dappled canopy light patches on trunk bark
+          float sunFace = max(0.0, dot(normalize(vTrunkWorldNormal), uSunDir));
+          float canopyDapple = 0.5 + 0.5 * sin(vTrunkWorldPos.x * 1.4 + vTrunkWorldPos.y * 1.9) * cos(vTrunkWorldPos.z * 1.3 - vTrunkWorldPos.y * 1.5);
+          float dapplePatch = smoothstep(0.38, 0.78, canopyDapple) * sunFace * uDappleStrength;
+          gl_FragColor.rgb += uSunColor * dapplePatch * (0.28 * (1.0 - uMistBlend * 0.65));
+
+          // Multi-layer atmospheric depth mist & vertical canopy haze
+          float heightHaze = smoothstep(1.5, 9.5, vTrunkWorldPos.y) * 0.42;
+          float totalMist = clamp(uMistBlend + heightHaze * (0.35 + uMistBlend * 0.65), 0.0, 0.92);
+          vec3 targetMistCol = mix(uMistColor, uBgColor, 0.42 + 0.38 * uMistBlend);
+          gl_FragColor.rgb = mix(gl_FragColor.rgb, targetMistCol, totalMist);`,
+        );
+    };
+    return mat;
+  };
+
+  // ============================================================================
+  // 1. THREE DEPTH LAYERS OF TREE TRUNKS (Near sharp, Mid hazed, Distant soft & pale)
+  // ============================================================================
+  const nearTrunkMat = createTrunkDepthMaterial(0.06, 0.055, 0.88);
+  const midTrunkMat = createTrunkDepthMaterial(0.46, 0.025, 0.92);
+  const farTrunkMat = createTrunkDepthMaterial(0.78, 0.008, 0.96);
+
+  // Layer 1: Near Trunks (sharp bark, prominent root buttresses framing the clearing)
+  const nearPlacements: Array<{ x: number; z: number; r: number; rotY: number }> = [
+    { x: -3.25, z: -3.4, r: 0.96, rotY: 0.4 },
+    { x: 3.55, z: -3.8, r: 1.08, rotY: 1.9 },
+    { x: -5.85, z: -4.9, r: 1.24, rotY: 2.7 },
+    { x: 6.10, z: -5.2, r: 1.18, rotY: 0.9 },
+    { x: -1.75, z: -5.8, r: 0.82, rotY: 3.8 },
+    { x: 2.15, z: -6.1, r: 0.88, rotY: 5.1 },
+  ];
+
+  for (let i = 0; i < nearPlacements.length; i++) {
+    const p = nearPlacements[i];
+    const tGeo = createFlutedTrunkGeo(
+      p.r,
+      p.r * 0.66,
+      14.5,
+      28,
+      20,
+      5 + (i % 3),
+      i * 2.1 + 0.5,
+    );
+    const tMesh = new THREE.Mesh(tGeo, nearTrunkMat);
+    tMesh.position.set(p.x, getGroundHeightAt(p.x, p.z), p.z);
+    tMesh.rotation.y = p.rotY;
+    tMesh.castShadow = true;
+    tMesh.receiveShadow = true;
+    group.add(tMesh);
+
+    // Snaking surface roots extending from near tree bases onto the forest floor
+    for (let rIdx = 0; rIdx < 3; rIdx++) {
+      const rootAng =
+        Math.atan2(-p.z, -p.x) + (rIdx - 1) * 0.65 + (rand() - 0.5) * 0.25;
+      const rootPts: THREE.Vector3[] = [];
+      const steps = 6;
+      const rootLen = 1.6 + rand() * 1.4;
+      for (let s = 0; s <= steps; s++) {
+        const st = s / steps;
+        const dist = p.r * 0.72 + st * rootLen;
+        const rx = p.x + Math.cos(rootAng + Math.sin(st * Math.PI) * 0.18) * dist;
+        const rz = p.z + Math.sin(rootAng + Math.sin(st * Math.PI) * 0.18) * dist;
+        const ry =
+          getGroundHeightAt(rx, rz) +
+          Math.pow(1 - st, 1.8) * 0.42 -
+          st * 0.04;
+        rootPts.push(new THREE.Vector3(rx, ry, rz));
+      }
+      const rCurve = new THREE.CatmullRomCurve3(rootPts);
+      const rGeo = new THREE.TubeGeometry(rCurve, 14, 0.085 * (1 - rIdx * 0.15), 7, false);
+      const rMesh = new THREE.Mesh(rGeo, nearTrunkMat);
+      rMesh.castShadow = true;
+      rMesh.receiveShadow = true;
+      group.add(rMesh);
+    }
+  }
+
+  // Layer 2: Mid-Distance Trunks (z = -7.2 .. -13.5, softened by atmospheric mist)
+  const midPlacements: Array<{ x: number; z: number; r: number; rotY: number }> = [
+    { x: -8.4, z: -7.8, r: 1.05, rotY: 1.2 },
+    { x: -4.6, z: -8.6, r: 0.86, rotY: 2.4 },
+    { x: -0.65, z: -9.4, r: 0.92, rotY: 0.7 },
+    { x: 4.35, z: -8.8, r: 0.98, rotY: 4.1 },
+    { x: 8.6, z: -8.2, r: 1.12, rotY: 3.2 },
+    { x: -6.8, z: -11.4, r: 0.94, rotY: 5.0 },
+    { x: -2.4, z: -12.0, r: 0.78, rotY: 1.8 },
+    { x: 1.75, z: -11.6, r: 0.84, rotY: 2.9 },
+    { x: 6.2, z: -12.2, r: 0.90, rotY: 0.3 },
+    { x: 10.4, z: -11.5, r: 1.04, rotY: 4.6 },
+  ];
+
+  for (let i = 0; i < midPlacements.length; i++) {
+    const p = midPlacements[i];
+    const tGeo = createFlutedTrunkGeo(
+      p.r,
+      p.r * 0.68,
+      16.0,
+      18,
+      12,
+      5,
+      i * 1.7 + 10.0,
+    );
+    const tMesh = new THREE.Mesh(tGeo, midTrunkMat);
+    tMesh.position.set(p.x, getGroundHeightAt(p.x, p.z), p.z);
+    tMesh.rotation.y = p.rotY;
+    group.add(tMesh);
+  }
+
+  // Layer 3: Distant Trunks (z = -14.5 .. -24.0, soft and pale silhouettes in deep forest mist)
+  const farPlacements: Array<{ x: number; z: number; r: number }> = [
+    { x: -15.5, z: -15.5, r: 0.92 },
+    { x: -11.8, z: -16.8, r: 0.76 },
+    { x: -8.2, z: -15.8, r: 0.84 },
+    { x: -5.1, z: -17.4, r: 0.70 },
+    { x: -3.2, z: -19.5, r: 0.66 },
+    { x: -1.1, z: -16.6, r: 0.74 },
+    { x: 0.85, z: -18.8, r: 0.68 },
+    { x: 3.1, z: -16.2, r: 0.80 },
+    { x: 5.4, z: -18.2, r: 0.72 },
+    { x: 7.8, z: -16.5, r: 0.86 },
+    { x: 10.6, z: -19.0, r: 0.78 },
+    { x: 13.5, z: -16.8, r: 0.90 },
+    { x: -6.6, z: -21.5, r: 0.75 },
+    { x: 4.2, z: -22.0, r: 0.78 },
+  ];
+
+  for (let i = 0; i < farPlacements.length; i++) {
+    const p = farPlacements[i];
+    const tGeo = createFlutedTrunkGeo(
+      p.r,
+      p.r * 0.72,
+      18.0,
+      12,
+      8,
+      4,
+      i * 2.3 + 30.0,
+    );
+    const tMesh = new THREE.Mesh(tGeo, farTrunkMat);
+    tMesh.position.set(p.x, getGroundHeightAt(p.x, p.z), p.z);
+    group.add(tMesh);
+  }
+
+  // ============================================================================
+  // 2. FALLEN MOSSY LOG (Mid-ground forest floor at z ≈ -2.45)
+  // ============================================================================
+  const logGroup = new THREE.Group();
+  logGroup.name = 'FallenMossyLog';
+  // Positioned across mid-ground behind the hero mushroom so it frames both Ch 01 and Ch 06
+  logGroup.position.set(-1.35, getGroundHeightAt(-1.35, -2.55) + 0.24, -2.55);
+  logGroup.rotation.set(0.03, 0.28, -0.04);
+  group.add(logGroup);
+
+  const logLen = 4.6;
+  const logRadius = 0.34;
+  const logGeo = new THREE.CylinderGeometry(logRadius * 0.88, logRadius, logLen, 24, 28, false);
+  logGeo.rotateZ(Math.PI * 0.5);
+  const lgPos = logGeo.attributes.position;
+  for (let i = 0; i < lgPos.count; i++) {
+    const lx = lgPos.getX(i);
+    const ly = lgPos.getY(i);
+    const lz = lgPos.getZ(i);
+    const ang = Math.atan2(lz, ly);
+    // Natural sag in the middle and gnarled bark ridges along length
+    const sagY = -Math.cos((lx / logLen) * Math.PI) * 0.06;
+    const ridge = 1.0 + 0.06 * Math.sin(ang * 9.0 + lx * 3.5) + 0.04 * Math.cos(ang * 5.0 - lx * 2.2);
+    lgPos.setXYZ(i, lx, ly * ridge + sagY, lz * ridge);
+  }
+  logGeo.computeVertexNormals();
+
+  const logMesh = new THREE.Mesh(logGeo, nearTrunkMat);
+  logMesh.castShadow = true;
+  logMesh.receiveShadow = true;
+  logGroup.add(logMesh);
+
+  // Thick velvety green bryophyte moss cushion blanketing the top of the fallen log
+  const logMossGeo = new THREE.CylinderGeometry(
+    logRadius * 0.91,
+    logRadius * 1.03,
+    logLen * 0.92,
+    20,
+    24,
+    false,
+    -Math.PI * 0.42,
+    Math.PI * 0.84,
+  );
+  logMossGeo.rotateZ(Math.PI * 0.5);
+  logMossGeo.rotateX(-Math.PI * 0.5);
+  const lmPos = logMossGeo.attributes.position;
+  for (let i = 0; i < lmPos.count; i++) {
+    const lx = lmPos.getX(i);
+    const ly = lmPos.getY(i);
+    const lz = lmPos.getZ(i);
+    const puff =
+      0.028 * (0.5 + 0.5 * Math.sin(lx * 6.5 + lz * 8.0)) +
+      0.015 * Math.cos(lx * 13.0 - lz * 11.0);
+    lmPos.setXYZ(i, lx, ly + puff + 0.012, lz);
+  }
+  logMossGeo.computeVertexNormals();
+
+  const logMossMat = new THREE.MeshStandardMaterial({
+    bumpMap: textures.soilBump,
+    bumpScale: 0.035,
+    color: new THREE.Color('#2f461b'),
+    roughness: 0.94,
+    metalness: 0.0,
+  });
+  const logMossMesh = new THREE.Mesh(logMossGeo, logMossMat);
+  logMossMesh.receiveShadow = true;
+  logGroup.add(logMossMesh);
+
+  // Bracket shelf fungi (Polypore fans) growing on the front face of the mossy log
+  const bracketGeo = new THREE.CylinderGeometry(0.11, 0.03, 0.024, 14, 1, false, 0, Math.PI);
+  bracketGeo.rotateY(-Math.PI * 0.5);
+  const bracketMat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#b89b74'),
+    roughness: 0.86,
+    metalness: 0.0,
+  });
+  const bracketPositions: Array<[number, number, number, number]> = [
+    [-0.65, 0.08, logRadius * 0.92, 1.0],
+    [-0.48, 0.02, logRadius * 0.94, 0.72],
+    [0.55, 0.06, logRadius * 0.90, 0.88],
+    [0.72, 0.11, logRadius * 0.86, 0.64],
+  ];
+  for (const [bx, by, bz, bs] of bracketPositions) {
+    const bMesh = new THREE.Mesh(bracketGeo, bracketMat);
+    bMesh.position.set(bx, by, bz);
+    bMesh.scale.setScalar(bs);
+    logGroup.add(bMesh);
+  }
+
+  // ============================================================================
+  // 3. WOODLAND FERNS & LOW FOREST GROUND COVER
+  // ============================================================================
+  // Build a single arching pinnate fern frond geometry with serrated pinnae leaflets
+  const buildFernFrondGeo = (): THREE.BufferGeometry => {
+    const frondGeos: THREE.BufferGeometry[] = [];
+    // Central rachis stem
+    const stemCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 0.24, 0.18),
+      new THREE.Vector3(0, 0.38, 0.44),
+      new THREE.Vector3(0, 0.36, 0.72),
+      new THREE.Vector3(0, 0.22, 0.94),
+    ]);
+    frondGeos.push(new THREE.TubeGeometry(stemCurve, 12, 0.008, 4, false));
+
+    // 11 pairs of opposite pinnae leaflets along the arching rachis
+    const pairs = 11;
+    for (let p = 1; p <= pairs; p++) {
+      const u = p / (pairs + 1);
+      const pt = stemCurve.getPointAt(u);
+      const tangent = stemCurve.getTangentAt(u);
+      const pinnaLen = Math.sin(Math.pow(u, 0.75) * Math.PI) * 0.22;
+      const pinnaWidth = 0.036 * (1 - u * 0.35);
+
+      for (const side of [-1, 1]) {
+        const blade = new THREE.PlaneGeometry(pinnaLen, pinnaWidth, 3, 1);
+        blade.translate(pinnaLen * 0.5 * side, 0, 0);
+        const bPos = blade.attributes.position;
+        for (let vi = 0; vi < bPos.count; vi++) {
+          const vx = bPos.getX(vi);
+          const normX = Math.abs(vx) / Math.max(0.01, pinnaLen);
+          // Taper leaflet tip and arch slightly
+          bPos.setZ(vi, bPos.getZ(vi) * (1 - Math.pow(normX, 1.5) * 0.85));
+          bPos.setY(vi, -normX * normX * 0.018);
+        }
+        blade.rotateX(Math.atan2(-tangent.y, tangent.z) + 0.15);
+        blade.rotateY(side * -0.22);
+        blade.translate(pt.x, pt.y, pt.z);
+        blade.computeVertexNormals();
+        frondGeos.push(blade);
+      }
+    }
+
+    const merged = mergeGeometries(frondGeos, false);
+    for (const g of frondGeos) g.dispose();
+    return merged;
+  };
+
+  const fernFrondGeo = buildFernFrondGeo();
+  const fernMat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#ffffff'),
+    roughness: 0.78,
+    metalness: 0.02,
+    side: THREE.DoubleSide,
+  });
+
+  // 16 woodland fern rosettes (each with 8 arching fronds = 128 instanced fronds)
+  const fernClusterCoords: Array<{ x: number; z: number; scale: number }> = [
+    { x: -2.45, z: -1.85, scale: 0.95 },
+    { x: -3.15, z: -2.35, scale: 1.12 },
+    { x: 2.35, z: -1.95, scale: 0.88 },
+    { x: 3.10, z: -2.85, scale: 1.08 },
+    { x: -0.45, z: -2.95, scale: 0.85 },
+    { x: 0.85, z: -2.80, scale: 0.92 },
+    { x: -4.25, z: -3.40, scale: 1.15 },
+    { x: 4.40, z: -3.60, scale: 1.10 },
+    { x: -1.85, z: -4.20, scale: 1.02 },
+    { x: 1.95, z: -4.50, scale: 0.98 },
+    { x: -5.20, z: -2.40, scale: 1.05 },
+    { x: 5.10, z: -2.50, scale: 1.00 },
+    { x: -2.65, z: 0.85, scale: 0.78 },
+    { x: 2.75, z: 0.75, scale: 0.76 },
+    { x: -3.60, z: -5.20, scale: 1.18 },
+    { x: 3.50, z: -5.40, scale: 1.14 },
+  ];
+
+  const frondsPerCluster = 8;
+  const totalFronds = fernClusterCoords.length * frondsPerCluster;
+  const fernInst = new THREE.InstancedMesh(fernFrondGeo, fernMat, totalFronds);
+  fernInst.castShadow = true;
+  fernInst.receiveShadow = true;
+
+  let frondIdx = 0;
+  for (let c = 0; c < fernClusterCoords.length; c++) {
+    const cluster = fernClusterCoords[c];
+    const cy = getGroundHeightAt(cluster.x, cluster.z);
+    for (let f = 0; f < frondsPerCluster; f++) {
+      const yaw = (f / frondsPerCluster) * Math.PI * 2 + (rand() - 0.5) * 0.28 + c * 0.4;
+      const pitch = -0.12 + (rand() - 0.5) * 0.18;
+      dummy.position.set(cluster.x, cy + 0.02, cluster.z);
+      dummy.rotation.set(pitch, yaw, (rand() - 0.5) * 0.12);
+      const s = cluster.scale * (0.82 + rand() * 0.34);
+      dummy.scale.set(s, s, s);
+      dummy.updateMatrix();
+      fernInst.setMatrixAt(frondIdx, dummy.matrix);
+
+      // Rich woodland fern chlorophyll greens with warm olive variation
+      tempColor.setHSL(0.24 + (rand() - 0.5) * 0.04, 0.48 + rand() * 0.14, 0.18 + rand() * 0.10);
+      fernInst.setColorAt(frondIdx, tempColor);
+      frondIdx++;
+    }
+  }
+  fernInst.instanceMatrix.needsUpdate = true;
+  if (fernInst.instanceColor) fernInst.instanceColor.needsUpdate = true;
+  fernInst.computeBoundingSphere();
+  group.add(fernInst);
+
+  // Low Ground Cover: Wood sorrel / clover trefoil patches & arching forest sedge tufts
+  const groundCoverCount = 420;
+  const sorrelGeo = new THREE.CircleGeometry(0.065, 6);
+  sorrelGeo.rotateX(-Math.PI * 0.5);
+  const sPos = sorrelGeo.attributes.position;
+  for (let i = 1; i < sPos.count; i++) {
+    const ang = Math.atan2(sPos.getZ(i), sPos.getX(i));
+    const lobe = 0.65 + 0.35 * Math.abs(Math.cos(ang * 1.5));
+    sPos.setX(i, sPos.getX(i) * lobe);
+    sPos.setZ(i, sPos.getZ(i) * lobe);
+    sPos.setY(i, 0.012);
+  }
+  sorrelGeo.computeVertexNormals();
+
+  const sorrelInst = new THREE.InstancedMesh(sorrelGeo, fernMat, groundCoverCount);
+  sorrelInst.receiveShadow = true;
+  for (let i = 0; i < groundCoverCount; i++) {
+    const angle = rand() * Math.PI * 2;
+    const radius = 0.72 + Math.pow(rand(), 0.75) * 7.8;
+    const gx = Math.cos(angle) * radius;
+    let gz = Math.sin(angle) * radius;
+    // Keep the immediate front trench lip clear
+    if (Math.abs(gx) < 1.8 && gz > 0.32 && gz < 3.2) {
+      gz = -Math.abs(gz) - 0.5;
+    }
+    const gy = getGroundHeightAt(gx, gz) + 0.018 + rand() * 0.025;
+    dummy.position.set(gx, gy, gz);
+    dummy.rotation.set((rand() - 0.5) * 0.35, rand() * Math.PI * 2, (rand() - 0.5) * 0.35);
+    const sc = 0.65 + rand() * 1.15;
+    dummy.scale.setScalar(sc);
+    dummy.updateMatrix();
+    sorrelInst.setMatrixAt(i, dummy.matrix);
+
+    tempColor.setHSL(0.25 + (rand() - 0.5) * 0.04, 0.44, 0.15 + rand() * 0.10);
+    sorrelInst.setColorAt(i, tempColor);
+  }
+  sorrelInst.instanceMatrix.needsUpdate = true;
+  if (sorrelInst.instanceColor) sorrelInst.instanceColor.needsUpdate = true;
+  sorrelInst.computeBoundingSphere();
+  group.add(sorrelInst);
+
+  // ============================================================================
+  // 4. LAYERED ATMOSPHERIC MIST PLANES & CANOPY GOD-RAY SHAFTS
+  // ============================================================================
+  const mistMat = new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+    uniforms: {
+      uMistColor: { value: new THREE.Color('#d1a164') },
+      uOpacity: { value: 0.22 },
+      uTime: { value: 0 },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 uMistColor;
+      uniform float uOpacity;
+      uniform float uTime;
+      varying vec2 vUv;
+
+      void main() {
+        float horiz = smoothstep(0.0, 0.22, vUv.x) * (1.0 - smoothstep(0.78, 1.0, vUv.x));
+        float vert = smoothstep(0.0, 0.28, vUv.y) * exp(-pow((vUv.y - 0.26) * 2.1, 2.0));
+        float drift = 0.72 + 0.28 * sin(vUv.x * 9.0 + uTime * 0.22) * cos(vUv.y * 6.0 - uTime * 0.15);
+        gl_FragColor = vec4(uMistColor, horiz * vert * drift * uOpacity);
+      }
+    `,
+  });
+
+  const mistDepths = [
+    { z: -4.6, w: 22, h: 5.8, y: 2.2 },
+    { z: -9.8, w: 30, h: 7.5, y: 2.8 },
+    { z: -16.5, w: 40, h: 9.5, y: 3.4 },
+  ];
+  for (const m of mistDepths) {
+    const mGeo = new THREE.PlaneGeometry(m.w, m.h);
+    const mMesh = new THREE.Mesh(mGeo, mistMat);
+    mMesh.position.set(0, m.y, m.z);
+    group.add(mMesh);
+  }
+
+  // Multi-beam Canopy God-Ray Shafts that pivot and change color/brightness with the time-of-day slider
+  const rayMat = new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+    blending: THREE.AdditiveBlending,
+    uniforms: {
+      uColor: { value: new THREE.Color('#ffbe6b') },
+      uOpacity: { value: 0.09 },
+      uTime: { value: 0 },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      varying vec3 vNormal;
+      varying vec3 vViewPos;
+      void main() {
+        vUv = uv;
+        vNormal = normalize(normalMatrix * normal);
+        vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+        vViewPos = -mvPos.xyz;
+        gl_Position = projectionMatrix * mvPos;
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 uColor;
+      uniform float uOpacity;
+      uniform float uTime;
+      varying vec2 vUv;
+      varying vec3 vNormal;
+      varying vec3 vViewPos;
+
+      void main() {
+        vec3 viewDir = normalize(vViewPos);
+        float rimFade = pow(abs(dot(vNormal, viewDir)), 1.55);
+        float verticalFade = smoothstep(0.0, 0.20, vUv.y) * (1.0 - smoothstep(0.62, 1.0, vUv.y));
+        float streak = 0.72 + 0.28 * sin(vUv.x * 18.0 + uTime * 0.35);
+        gl_FragColor = vec4(uColor, rimFade * verticalFade * streak * uOpacity);
+      }
+    `,
+  });
+
+  const shaftConfigs: Array<{ x: number; z: number; topR: number; botR: number; h: number }> = [
+    { x: -0.35, z: -0.30, topR: 0.95, botR: 2.35, h: 10.5 },
+    { x: -2.55, z: -3.60, topR: 1.15, botR: 2.85, h: 12.0 },
+    { x: 2.25, z: -3.20, topR: 1.05, botR: 2.60, h: 11.5 },
+    { x: -4.40, z: -6.80, topR: 1.35, botR: 3.20, h: 13.0 },
+    { x: 4.10, z: -6.40, topR: 1.25, botR: 3.10, h: 13.0 },
+  ];
+
+  const shaftMeshes: THREE.Mesh[] = [];
+  for (const cfg of shaftConfigs) {
+    const sGeo = new THREE.CylinderGeometry(cfg.topR, cfg.botR, cfg.h, 20, 1, true);
+    sGeo.translate(0, cfg.h * 0.46, 0);
+    const sMesh = new THREE.Mesh(sGeo, rayMat);
+    sMesh.position.set(cfg.x, -0.2, cfg.z);
+    sMesh.rotation.x = 0.06;
+    group.add(sMesh);
+    shaftMeshes.push(sMesh);
+  }
+
+  const updateBackdrop = (params: {
+    sunState: SunlightAtmosphereState;
+    undergroundFactor: number;
+    elapsedSec: number;
+    progress: number;
+  }) => {
+    const { sunState, undergroundFactor, elapsedSec, progress } = params;
+
+    // Visible above ground in Chapters 01, 02, 06 and during Breaking Ground / Return transitions
+    const visible = progress < 0.34 || progress > 0.865;
+    group.visible = visible;
+    if (!visible) return;
+
+    mistUniform.value.setRGB(
+      sunState.mistColorRgb[0],
+      sunState.mistColorRgb[1],
+      sunState.mistColorRgb[2],
+    );
+    bgUniform.value.setRGB(
+      sunState.surfaceBgRgb[0],
+      sunState.surfaceBgRgb[1],
+      sunState.surfaceBgRgb[2],
+    );
+    sunColorUniform.value.setRGB(
+      sunState.sunColorRgb[0],
+      sunState.sunColorRgb[1],
+      sunState.sunColorRgb[2],
+    );
+    dappleStrengthUniform.value = sunState.dappleStrength;
+    sunDirUniform.value
+      .set(sunState.sunOffset[0], sunState.sunOffset[1], sunState.sunOffset[2])
+      .normalize();
+
+    const surfaceFade = Math.max(0, 1 - undergroundFactor * 0.88);
+
+    // Morning has warmest golden low mist; Night has cool moonlit mist; Midday has lighter sunlit haze
+    const mistStrength =
+      sunState.sunlight < 0.25
+        ? 0.20
+        : sunState.sunlight < 0.78
+          ? 0.26
+          : 0.16;
+    mistMat.uniforms.uMistColor.value.copy(mistUniform.value);
+    mistMat.uniforms.uOpacity.value = mistStrength * surfaceFade;
+    mistMat.uniforms.uTime.value = elapsedSec;
+
+    // Update Canopy God-Ray angle, color, and brightness from the time-of-day slider
+    rayMat.uniforms.uColor.value.copy(sunColorUniform.value);
+    rayMat.uniforms.uOpacity.value =
+      0.068 * sunState.godRayOpacityMultiplier * surfaceFade;
+    rayMat.uniforms.uTime.value = elapsedSec;
+
+    for (let i = 0; i < shaftMeshes.length; i++) {
+      const m = shaftMeshes[i];
+      m.rotation.z = sunState.godRaySlantRad + (i - 2) * 0.025;
+      // Shift shaft X slightly so slanted morning rays rake across the clearing
+      const baseCfg = shaftConfigs[i];
+      m.position.x = baseCfg.x - Math.sin(sunState.godRaySlantRad) * 1.15;
+    }
+  };
+
+  return {
+    group,
+    updateBackdrop,
   };
 }
 ]]>
@@ -4861,7 +5737,7 @@ export function createInspectController(params: {
     </file>
     <file path="src/app/(loam)/loam/scene/myceliumNetwork.ts">
 <![CDATA[import * as THREE from 'three';
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { GeneratedMyceliumNetwork } from '../logic/networkGenerator';
 
 export interface BuiltMyceliumNetwork {
@@ -4874,6 +5750,7 @@ export interface BuiltMyceliumNetwork {
     undergroundFactor: number;
     elapsedSec: number;
     pointerWorld: THREE.Vector3;
+    foxfireGlowMultiplier?: number;
   }) => void;
   triggerPulseAt: (
     worldPoint: THREE.Vector3,
@@ -4962,6 +5839,7 @@ export function buildMyceliumNetworkScene(
     uGrowth: { value: 0.0 },
     uConvergence: { value: 0.0 },
     uVisibility: { value: 0.0 },
+    uGlowBoost: { value: 1.0 },
     uTime: { value: 0.0 },
     uPointerWorld: { value: new THREE.Vector3(0, -999, 0) },
     uPulseOrigin: { value: new THREE.Vector3(0, -1, 0) },
@@ -5003,6 +5881,7 @@ export function buildMyceliumNetworkScene(
   const fragmentShader = `
     uniform float uGrowth;
     uniform float uVisibility;
+    uniform float uGlowBoost;
     uniform float uTime;
     uniform vec3 uPointerWorld;
     uniform vec3 uPulseOrigin;
@@ -5025,10 +5904,10 @@ export function buildMyceliumNetworkScene(
       vec3 brightPulseTip = vec3(1.12, 1.28, 0.52);
 
       float flow = 0.5 + 0.5 * sin(vGrowth * 32.0 - uTime * 2.2);
-      vec3 color = mix(dimLoamThread, foxfireGold, 0.35 + 0.45 * flow);
+      vec3 color = mix(dimLoamThread, foxfireGold, 0.35 + 0.45 * flow) * uGlowBoost;
 
       // Brighten the advancing growing edge
-      color = mix(color, brightPulseTip, growingEdge * 0.78);
+      color = mix(color, brightPulseTip * uGlowBoost, growingEdge * 0.78);
 
       // Pointer proximity brightening
       float ptrDist = distance(vWorldPos, uPointerWorld);
@@ -5051,9 +5930,9 @@ export function buildMyceliumNetworkScene(
       }
 
       // Hierarchy opacity: thicker cords (tier 0) strongest, secondary threads (tier 1) medium, hair-fine hyphae (tier 2) delicate
-      float tierBaseAlpha = vTier < 0.5 ? 0.58 : (vTier < 1.5 ? 0.34 : 0.19);
+      float tierBaseAlpha = (vTier < 0.5 ? 0.62 : (vTier < 1.5 ? 0.38 : 0.22)) * min(1.3, uGlowBoost);
       float alpha = tipFade * uVisibility * (tierBaseAlpha + growingEdge * 0.38 + ptrBoost * 0.32 + pulseBoost * 0.55);
-      gl_FragColor = vec4(color, clamp(alpha, 0.0, 0.92));
+      gl_FragColor = vec4(color, clamp(alpha, 0.0, 0.94));
     }
   `;
 
@@ -5091,6 +5970,7 @@ export function buildMyceliumNetworkScene(
     undergroundFactor: number;
     elapsedSec: number;
     pointerWorld: THREE.Vector3;
+    foxfireGlowMultiplier?: number;
   }) => {
     // Fade the network out completely as the solid tray and studio resolve in Chapter 5
     const vis = params.undergroundFactor * Math.pow(Math.max(0, 1 - params.convergence), 1.6);
@@ -5098,6 +5978,7 @@ export function buildMyceliumNetworkScene(
     sharedUniforms.uGrowth.value = params.growth;
     sharedUniforms.uConvergence.value = params.convergence;
     sharedUniforms.uVisibility.value = vis;
+    sharedUniforms.uGlowBoost.value = params.foxfireGlowMultiplier ?? 1.0;
     sharedUniforms.uTime.value = params.elapsedSec;
     sharedUniforms.uPointerWorld.value.copy(params.pointerWorld);
   };
@@ -5141,16 +6022,15 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { computeSunlightState } from '../logic/chapters';
+import { computeSunlightState, DEFAULT_SUNLIGHT } from '../logic/chapters';
 
 export interface RendererStack {
   renderer: THREE.WebGLRenderer;
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
-  composer: EffectComposer | null;
-  bloomPass: UnrealBloomPass | null;
-  cinematicPass: ShaderPass | null;
-  isSoftwareGl: boolean;
+  composer: EffectComposer;
+  bloomPass: UnrealBloomPass;
+  cinematicPass: ShaderPass;
   lights: {
     keyLight: THREE.DirectionalLight;
     hemiLight: THREE.HemisphereLight;
@@ -5182,7 +6062,7 @@ export function isWebGLAvailable(): boolean {
  * Initializes the Three.js WebGLRenderer, subtle studio PBR environment,
  * calibrated low-key natural-history specimen lighting rig, exponential fog,
  * and high-threshold post-processing stack (so only subterranean foxfire threads bloom,
- * and above-ground specimens never clip to white).
+ * and above-ground or Chapter 05 specimens never clip to white).
  */
 export function createRendererAndPostStack(container: HTMLElement): RendererStack {
   const width = container.clientWidth || window.innerWidth;
@@ -5193,172 +6073,157 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     powerPreference: 'high-performance',
   });
 
-  const gl = renderer.getContext();
-  const isSoftwareGl = (() => {
-    if (!gl) return false;
-    const ext = gl.getExtension('WEBGL_debug_renderer_info');
-    const param = ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER;
-    const gpu = String(gl.getParameter(param));
-    return /SwiftShader|llvmpipe|softpipe|Software|Basic Render/i.test(gpu);
-  })();
-
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  // Low-key natural-history specimen exposure: prevents any cream surface from blowing out to white
   renderer.toneMappingExposure = 0.78;
-  renderer.setPixelRatio(isSoftwareGl ? 0.85 : Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(width, height);
-  renderer.shadowMap.enabled = !isSoftwareGl;
+  renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
 
   container.innerHTML = '';
   container.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  const baseBgColor = new THREE.Color('#080604');
+  const baseBgColor = new THREE.Color('#1c150e');
   scene.background = baseBgColor.clone();
-  scene.fog = new THREE.FogExp2('#080604', 0.082);
+  scene.fog = new THREE.FogExp2('#1c150e', 0.052);
 
-  // Subtle PBR environment reflection map (kept low at 0.14 above ground, boosted in Ch 5 product studio)
+  // Subtle PBR environment reflection map (kept low so matte specimens never wash out)
   const pmremGenerator = new THREE.PMREMGenerator(renderer);
   scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.14;
+  scene.environmentIntensity = 0.15;
   pmremGenerator.dispose();
 
   const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 60);
   camera.position.set(0, 1.92, 5.45);
   camera.lookAt(0, 1.85, 0);
 
-  // 1. Soft warm key light from upper-left (natural forest shaft above ground, product studio key in Ch 5)
-  const keyLight = new THREE.DirectionalLight('#f2cfa6', 1.25);
+  // 1. Soft warm key light from upper-left (natural forest sun/moon above ground, fixed studio key in Ch 5)
+  const keyLight = new THREE.DirectionalLight('#ffbe6b', 1.25);
   keyLight.position.set(-3.8, 6.2, 3.8);
   keyLight.target.position.set(0, 1.6, 0);
   scene.add(keyLight.target);
-  keyLight.castShadow = !isSoftwareGl;
+  keyLight.castShadow = true;
   keyLight.shadow.mapSize.set(1024, 1024);
-  const d = 4.5;
+  const d = 5.5;
   keyLight.shadow.camera.left = -d;
   keyLight.shadow.camera.right = d;
   keyLight.shadow.camera.top = d;
   keyLight.shadow.camera.bottom = -d;
   keyLight.shadow.camera.near = 0.5;
-  keyLight.shadow.camera.far = 20;
+  keyLight.shadow.camera.far = 24;
   keyLight.shadow.bias = -0.0005;
   keyLight.shadow.normalBias = 0.02;
   scene.add(keyLight);
 
-  // 2. Gentle cool-olive / dark-loam fill light (transitions to warm studio bounce in Ch 5)
-  const hemiLight = new THREE.HemisphereLight('#697364', '#120d09', 0.28);
+  // 2. Canopy sky / forest loam fill light (transitions to fixed studio bounce in Ch 5)
+  const hemiLight = new THREE.HemisphereLight('#786852', '#261c13', 0.42);
   scene.add(hemiLight);
 
-  // 3. Subtle warm rim light for specimen edge separation
-  const rimLight = new THREE.DirectionalLight('#e6cfb2', 0.28);
+  // 3. Subtle rim light for specimen edge separation
+  const rimLight = new THREE.DirectionalLight('#e6cfb2', 0.30);
   rimLight.position.set(3.2, 3.8, -4.2);
   rimLight.target.position.set(0, 1.5, 0);
   scene.add(rimLight.target);
   scene.add(rimLight);
 
   // 4. Subterranean Foxfire PointLight (active only underground in Ch 3-4, fades completely to 0 in Ch 5 studio)
-  const foxfirePointLight = new THREE.PointLight('#b8dc3c', 0, 14, 1.9);
+  const foxfirePointLight = new THREE.PointLight('#b8dc3c', 0, 18, 1.7);
   foxfirePointLight.position.set(0, -2.5, 0.8);
   scene.add(foxfirePointLight);
 
-  // Post-processing stack on hardware GPUs
-  let composer: EffectComposer | null = null;
-  let bloomPass: UnrealBloomPass | null = null;
-  let cinematicPass: ShaderPass | null = null;
+  // Post-processing stack
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
 
-  if (!isSoftwareGl) {
-    composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
+  // High threshold (0.94) so ONLY bioluminescent threads/pulses (> 1.0) bloom, never cream specimens
+  const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(width / 2, height / 2),
+    0.0, // strength (0 above ground, ramps up only underground, 0 in Ch 5 studio)
+    0.35, // radius
+    0.94, // threshold
+  );
+  composer.addPass(bloomPass);
 
-    // High threshold (0.92) so ONLY bioluminescent threads/pulses (> 1.0) bloom, never cream specimens
-    bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(width / 2, height / 2),
-      0.0, // strength (0 above ground, ramps up only underground, 0 in Ch 5 studio)
-      0.35, // radius
-      0.92, // threshold
-    );
-    composer.addPass(bloomPass);
+  const CinematicShader = {
+    uniforms: {
+      tDiffuse: { value: null },
+      uTime: { value: 0 },
+      uInspectStrength: { value: 0 },
+      uStudioLightness: { value: 0 },
+      uVignetteDarkness: { value: 0.36 },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform sampler2D tDiffuse;
+      uniform float uTime;
+      uniform float uInspectStrength;
+      uniform float uStudioLightness;
+      uniform float uVignetteDarkness;
+      varying vec2 vUv;
 
-    const CinematicShader = {
-      uniforms: {
-        tDiffuse: { value: null },
-        uTime: { value: 0 },
-        uInspectStrength: { value: 0 },
-        uStudioLightness: { value: 0 },
-        uVignetteDarkness: { value: 0.46 },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+      }
+
+      void main() {
+        vec2 centerOffset = vUv - vec2(0.5);
+        float dist = length(centerOffset);
+
+        // Shallow depth-of-field peripheral blur so background trees and studio supporting pieces stay softly out of focus
+        float blurRadius = smoothstep(0.24, 0.70, dist) * (0.0024 + uInspectStrength * 0.0030);
+        vec4 col = texture2D(tDiffuse, vUv);
+        if (blurRadius > 0.0002) {
+          col += texture2D(tDiffuse, vUv + vec2(blurRadius, 0.0));
+          col += texture2D(tDiffuse, vUv - vec2(blurRadius, 0.0));
+          col += texture2D(tDiffuse, vUv + vec2(0.0, blurRadius));
+          col += texture2D(tDiffuse, vUv - vec2(0.0, blurRadius));
+          col *= 0.2;
         }
-      `,
-      fragmentShader: `
-        uniform sampler2D tDiffuse;
-        uniform float uTime;
-        uniform float uInspectStrength;
-        uniform float uStudioLightness;
-        uniform float uVignetteDarkness;
-        varying vec2 vUv;
 
-        float hash(vec2 p) {
-          return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
-        }
+        // Dim peripheral background during Hold-to-Inspect in forest/underground scenes, keep studio sweep calm
+        float dimAmount = mix(0.45, 0.06, uStudioLightness);
+        float inspectDim = 1.0 - smoothstep(0.22, 0.66, dist) * uInspectStrength * dimAmount;
+        col.rgb *= inspectDim;
 
-        void main() {
-          vec2 centerOffset = vUv - vec2(0.5);
-          float dist = length(centerOffset);
+        // Subtle natural vignette (lighter in the Ch 5 product studio so corners stay warm sand)
+        float effectiveVig = uVignetteDarkness * (1.0 - uStudioLightness * 0.72);
+        float vig = smoothstep(0.86, 0.20, dist * (0.82 + effectiveVig * 0.32));
+        col.rgb *= mix(1.0 - effectiveVig, 1.0, vig);
 
-          // Shallow peripheral lens blur (intensifies slightly when Hold-to-Inspect is active or on peripheral studio sweep)
-          float blurRadius = (smoothstep(0.22, 0.68, dist) * (0.0022 + uInspectStrength * 0.0032));
-          vec4 col = texture2D(tDiffuse, vUv);
-          if (blurRadius > 0.0002) {
-            col += texture2D(tDiffuse, vUv + vec2(blurRadius, 0.0));
-            col += texture2D(tDiffuse, vUv - vec2(blurRadius, 0.0));
-            col += texture2D(tDiffuse, vUv + vec2(0.0, blurRadius));
-            col += texture2D(tDiffuse, vUv - vec2(0.0, blurRadius));
-            col *= 0.2;
-          }
+        // Fine organic film grain
+        float grain = (hash(vUv * 420.0 + fract(uTime * 3.7)) - 0.5) * 0.015;
+        col.rgb += grain;
 
-          // Dim peripheral background during Hold-to-Inspect in dark scenes, but keep the Ch 5 studio sweep light & airy
-          float dimAmount = mix(0.52, 0.08, uStudioLightness);
-          float inspectDim = 1.0 - smoothstep(0.20, 0.65, dist) * uInspectStrength * dimAmount;
-          col.rgb *= inspectDim;
+        // Soft highlight roll-off so no pixel ever clips to harsh 1.0 pure white
+        col.rgb = min(col.rgb, vec3(0.92));
 
-          // Subtle natural vignette (much lighter in the Ch 5 product studio so corners stay warm cream/sand)
-          float effectiveVig = uVignetteDarkness * (1.0 - uStudioLightness * 0.78);
-          float vig = smoothstep(0.84, 0.22, dist * (0.85 + effectiveVig * 0.35));
-          col.rgb *= mix(1.0 - effectiveVig, 1.0, vig);
+        gl_FragColor = vec4(max(vec3(0.0), col.rgb), col.a);
+      }
+    `,
+  };
 
-          // Fine organic film grain
-          float grain = (hash(vUv * 420.0 + fract(uTime * 3.7)) - 0.5) * 0.018;
-          col.rgb += grain;
+  const cinematicPass = new ShaderPass(CinematicShader);
+  composer.addPass(cinematicPass);
 
-          // Soft highlight roll-off so no pixel ever clips to harsh 1.0 pure white
-          col.rgb = min(col.rgb, vec3(0.95));
-
-          gl_FragColor = vec4(max(vec3(0.0), col.rgb), col.a);
-        }
-      `,
-    };
-
-    cinematicPass = new ShaderPass(CinematicShader);
-    composer.addPass(cinematicPass);
-  }
-
-  const surfaceColor = new THREE.Color('#080604');
-  const soilDescentBgColor = new THREE.Color('#17100a');
-  const subterraneanColor = new THREE.Color('#050403');
-  const studioSweepBgColor = new THREE.Color('#e6dccb');
-  const studioLightColor = new THREE.Color('#fff7ea');
-  const sunLightColor = new THREE.Color('#f7e7ce');
-  const forestHemiSky = new THREE.Color('#697364');
-  const forestHemiGround = new THREE.Color('#120d09');
-  const studioHemiSky = new THREE.Color('#fffdf7');
-  const studioHemiGround = new THREE.Color('#e2d6c3');
+  const surfaceColor = new THREE.Color();
+  const subterraneanColor = new THREE.Color();
+  const soilDescentBgColor = new THREE.Color();
+  const studioSweepBgColor = new THREE.Color('#d6cfc3');
+  const studioLightColor = new THREE.Color('#fff6e8');
+  const studioRimColor = new THREE.Color('#f5ebd9');
+  const sunLightColor = new THREE.Color();
+  const forestHemiSky = new THREE.Color();
+  const forestHemiGround = new THREE.Color();
+  const studioHemiSky = new THREE.Color('#f0e8da');
+  const studioHemiGround = new THREE.Color('#c7baa5');
   const workColor = new THREE.Color();
 
   const setAtmosphereAtProgress = (
@@ -5366,11 +6231,14 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     networkGrowth: number,
     elapsedSec: number,
     trayReveal = 0,
-    sunlight = 0.75,
+    sunlight = DEFAULT_SUNLIGHT,
     studioLightness?: number,
   ) => {
     const sunState = computeSunlightState(sunlight);
-    const studioLit = studioLightness !== undefined ? studioLightness : trayReveal;
+    const studioLit = Math.max(
+      0,
+      Math.min(1, studioLightness !== undefined ? studioLightness : trayReveal),
+    );
     const wideNetworkDim = Math.max(0, Math.min(1, (networkGrowth - 0.22) / 0.55));
     const isSoilDescentOrPocket =
       undergroundFactor * (1 - wideNetworkDim) * (1 - Math.max(trayReveal, studioLit));
@@ -5380,139 +6248,166 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
       sunState.surfaceBgRgb[1],
       sunState.surfaceBgRgb[2],
     );
+    subterraneanColor.setRGB(
+      sunState.undergroundFogRgb[0],
+      sunState.undergroundFogRgb[1],
+      sunState.undergroundFogRgb[2],
+    );
+    soilDescentBgColor.setRGB(
+      sunState.undergroundFogRgb[0] * 1.15 + 0.02,
+      sunState.undergroundFogRgb[1] * 1.12 + 0.015,
+      sunState.undergroundFogRgb[2] * 1.08 + 0.01,
+    );
+
+    // Non-studio background blends smoothly from forest surface to earthen underground (never pure black);
+    // Studio background is locked to fixed studioSweepBgColor when studioLit == 1.
     workColor
       .copy(surfaceColor)
       .lerp(subterraneanColor, undergroundFactor)
-      .lerp(soilDescentBgColor, isSoilDescentOrPocket * 0.85)
+      .lerp(soilDescentBgColor, isSoilDescentOrPocket * 0.65)
       .lerp(studioSweepBgColor, studioLit);
 
     (scene.background as THREE.Color).copy(workColor);
     if (scene.fog instanceof THREE.FogExp2) {
       scene.fog.color.copy(workColor);
-      // Keep fog light during the close-up soil cross-section descent and very light in the Ch 5 studio
-      const baseFog =
-        0.072 -
-        undergroundFactor * 0.036 -
-        isSoilDescentOrPocket * 0.018;
-      scene.fog.density = baseFog * (1 - studioLit) + 0.012 * studioLit;
+      // Light atmospheric fog in the forest and wide underground earth; very low in the Ch 05 studio
+      const forestFog = 0.046 - sunState.sunlight * 0.012;
+      const undergroundFog = 0.036 - sunState.undergroundDaylightFactor * 0.008;
+      const nonStudioFog =
+        forestFog * (1 - undergroundFactor) +
+        undergroundFog * undergroundFactor -
+        isSoilDescentOrPocket * 0.012;
+      scene.fog.density = nonStudioFog * (1 - studioLit) + 0.010 * studioLit;
     }
 
-    // Dynamically balance toneMappingExposure:
-    // - Above ground responds to sunlight slider
-    // - Subterranean stays low-key
-    // - Chapter 5 product studio lifts to 1.06 with boosted environment reflection so the cream tray & glass flacon look luminous without clipping
-    const subterraneanExposure =
-      0.82 * isSoilDescentOrPocket + 0.78 * (1 - isSoilDescentOrPocket);
-    const baseExposure =
+    // ToneMappingExposure:
+    // - Chapters 01-04 & 06 respond to the time-of-day slider (Night 0.68 -> Morning 0.85 -> Midday 1.02)
+    // - Chapter 05 Studio is locked to a calm 0.74 exposure so the cream tray never clips to white
+    const undergroundExp = 0.74 + sunState.undergroundDaylightFactor * 0.24;
+    const nonStudioExposure =
       sunState.toneMappingExposure * (1 - undergroundFactor) +
-      subterraneanExposure * undergroundFactor;
-    renderer.toneMappingExposure = baseExposure * (1 - studioLit) + 1.06 * studioLit;
-    scene.environmentIntensity = 0.14 * (1 - studioLit) + 0.58 * studioLit;
+      undergroundExp * undergroundFactor;
+    renderer.toneMappingExposure = nonStudioExposure * (1 - studioLit) + 0.74 * studioLit;
+    scene.environmentIntensity = (0.14 + sunState.sunlight * 0.08) * (1 - studioLit) + 0.18 * studioLit;
 
-    // Above ground (Ch 1, 2, 6): sun intensity and color temperature respond to the Sunlight / Time-of-Day slider.
-    // Underground Ch 3 & Ch 4a: warm filtering daylight + specimen key light (1.32).
-    // Underground Ch 4b wide network: key light dims so Foxfire glow is the primary light.
-    // Chapter 5 (studioLit -> 1): soft large studio key light (2.05) from upper-left aimed at the tray at [0, -5.45, 0].
-    const surfaceKey = 1.28 * sunState.sunIntensityMultiplier * (1 - undergroundFactor);
-    const subterraneanSpecimenKey =
+    // Directional Key Light:
+    // - Above ground (Ch 1, 2, 6): scales strongly with slider (Night moonlit 0.42 -> Morning golden 1.38 -> Midday bright 2.15)
+    // - Underground (Ch 3 & Ch 4): daylight filtering down from above (dimmer with depth, follows slider)
+    // - Chapter 05 Studio (studioLit == 1): locked to fixed 1.08 intensity and fixed '#fff6e8' color (independent of slider)
+    const surfaceKey = 1.32 * sunState.sunIntensityMultiplier * (1 - undergroundFactor);
+    const undergroundFilteringKey =
       undergroundFactor *
-      (1 - wideNetworkDim * 0.84) *
-      (1 - Math.max(trayReveal, studioLit)) *
-      1.32;
-    const trayStudioKey = Math.max(trayReveal * 1.15, studioLit * 2.05);
-    keyLight.intensity = surfaceKey + subterraneanSpecimenKey + trayStudioKey;
+      (0.45 + 1.05 * sunState.undergroundDaylightFactor) *
+      (1 - wideNetworkDim * 0.35);
+    const nonStudioKeyIntensity = surfaceKey + undergroundFilteringKey;
+    const fixedStudioKeyIntensity = 1.08;
+    keyLight.intensity =
+      nonStudioKeyIntensity * (1 - studioLit) + fixedStudioKeyIntensity * studioLit;
 
     sunLightColor.setRGB(
       sunState.sunColorRgb[0],
       sunState.sunColorRgb[1],
       sunState.sunColorRgb[2],
     );
-    keyLight.color
-      .copy(sunLightColor)
-      .lerp(studioLightColor, Math.max(undergroundFactor * 0.65, studioLit));
+    keyLight.color.copy(sunLightColor).lerp(studioLightColor, studioLit);
 
     const inTrayZone = Math.max(trayReveal, studioLit);
-    const targetY =
+    const nonStudioTargetY =
       1.6 * (1 - undergroundFactor) +
       (-1.95 * (1 - inTrayZone) + -5.42 * inTrayZone) * undergroundFactor;
+    const studioTargetY = -5.42;
+    const targetY = nonStudioTargetY * (1 - studioLit) + studioTargetY * studioLit;
 
-    // Arc the directional sun across the sky above ground; position soft upper-left studio key in Ch 5
-    const sunX =
+    const nonStudioSunX =
       sunState.sunOffset[0] * (1 - undergroundFactor) +
-      (-2.8 * (1 - studioLit) + -3.6 * studioLit) * undergroundFactor;
-    const sunY =
-      (targetY + sunState.sunOffset[1]) * (1 - undergroundFactor) +
-      (targetY + 4.4) * undergroundFactor;
-    const sunZ =
-      sunState.sunOffset[2] * (1 - undergroundFactor) +
-      (4.8 * (1 - studioLit) + 4.2 * studioLit) * undergroundFactor;
+      (sunState.sunOffset[0] * 0.55 - 1.4) * undergroundFactor;
+    const nonStudioSunY =
+      (nonStudioTargetY + sunState.sunOffset[1]) * (1 - undergroundFactor) +
+      (nonStudioTargetY + 4.8) * undergroundFactor;
+    const nonStudioSunZ =
+      sunState.sunOffset[2] * (1 - undergroundFactor) + 4.6 * undergroundFactor;
 
-    keyLight.position.set(sunX, sunY, sunZ);
+    // Fixed studio key position at (-3.6, -1.02, 4.2) when studioLit == 1
+    const nextKeyX = nonStudioSunX * (1 - studioLit) + -3.6 * studioLit;
+    const nextKeyY = nonStudioSunY * (1 - studioLit) + (studioTargetY + 4.4) * studioLit;
+    const nextKeyZ = nonStudioSunZ * (1 - studioLit) + 4.2 * studioLit;
+    if (
+      Math.abs(keyLight.position.x - nextKeyX) > 0.02 ||
+      Math.abs(keyLight.position.y - nextKeyY) > 0.02 ||
+      Math.abs(keyLight.target.position.y - targetY) > 0.02
+    ) {
+      renderer.shadowMap.needsUpdate = true;
+    }
+    keyLight.position.set(nextKeyX, nextKeyY, nextKeyZ);
     keyLight.target.position.set(0, targetY, 0);
     keyLight.target.updateMatrixWorld();
 
-    const surfaceRimMult =
-      sunState.rimIntensityMultiplier * (1 - undergroundFactor) +
-      undergroundFactor;
-    rimLight.intensity =
-      0.36 * surfaceRimMult * (1 - undergroundFactor * 0.25) * (1 - studioLit) +
-      0.78 * studioLit;
-    rimLight.color.copy(sunLightColor).lerp(studioLightColor, 0.5 + undergroundFactor * 0.5);
+    // Rim Light: follows slider in Ch 1-4 & 6; locked to 0.26 in Ch 5 studio
+    const nonStudioRimIntensity =
+      0.34 *
+      sunState.rimIntensityMultiplier *
+      (1 - undergroundFactor * 0.22);
+    rimLight.intensity = nonStudioRimIntensity * (1 - studioLit) + 0.26 * studioLit;
+    rimLight.color.copy(sunLightColor).lerp(studioRimColor, studioLit);
     rimLight.position.set(3.2, targetY + 2.4, -3.2);
     rimLight.target.position.set(0, targetY, 0);
     rimLight.target.updateMatrixWorld();
 
+    // Hemisphere Fill Light: follows slider in Ch 1-4 & 6; locked to 0.48 in Ch 5 studio
+    forestHemiSky.setRGB(
+      sunState.hemiSkyRgb[0],
+      sunState.hemiSkyRgb[1],
+      sunState.hemiSkyRgb[2],
+    );
+    forestHemiGround.setRGB(
+      sunState.hemiGroundRgb[0],
+      sunState.hemiGroundRgb[1],
+      sunState.hemiGroundRgb[2],
+    );
     hemiLight.color.copy(forestHemiSky).lerp(studioHemiSky, studioLit);
     hemiLight.groundColor.copy(forestHemiGround).lerp(studioHemiGround, studioLit);
-    const surfaceAmbientMult =
-      sunState.ambientIntensityMultiplier * (1 - undergroundFactor) +
-      undergroundFactor;
-    const baseHemi =
-      0.34 *
-      surfaceAmbientMult *
-      (1 + isSoilDescentOrPocket * 0.55 - undergroundFactor * 0.2);
-    hemiLight.intensity = baseHemi * (1 - studioLit) + 1.15 * studioLit;
 
-    // Foxfire point light activates in late Ch 3 / Ch 4, and fades out completely (to 0) once the Ch 5 studio is lit
-    foxfirePointLight.position.set(0, -2.15, 2.2);
-    const earlyPocketFoxfire = Math.min(1, networkGrowth / 0.14) * 0.38;
-    const studioFoxfireCutoff = Math.max(0, 1 - Math.max(trayReveal, studioLit) * 1.25);
+    const nonStudioHemiIntensity =
+      0.42 *
+      sunState.ambientIntensityMultiplier *
+      (1 - undergroundFactor * 0.18 + isSoilDescentOrPocket * 0.25);
+    hemiLight.intensity = nonStudioHemiIntensity * (1 - studioLit) + 0.48 * studioLit;
+
+    // Subterranean Foxfire PointLight: strongest at Night (sunState.foxfireGlowMultiplier),
+    // illuminates the surrounding earth in Ch 4, and fades out completely (to 0) in Ch 5 studio
+    foxfirePointLight.position.set(0, -2.25, 1.8);
+    const earlyPocketFoxfire = Math.min(1, networkGrowth / 0.14) * 0.55;
+    const studioFoxfireCutoff = Math.max(0, 1 - Math.max(trayReveal, studioLit) * 1.35);
     foxfirePointLight.intensity =
       undergroundFactor *
-      Math.max(earlyPocketFoxfire, wideNetworkDim * 0.48) *
+      Math.max(earlyPocketFoxfire, wideNetworkDim * 1.15) *
+      sunState.foxfireGlowMultiplier *
       studioFoxfireCutoff;
 
-    if (bloomPass) {
-      // Bloom is OFF above ground and OFF in the lit Ch 5 studio; active only underground for threads/pulses
-      bloomPass.strength = undergroundFactor * 0.42 * studioFoxfireCutoff;
-    }
-    if (cinematicPass) {
-      cinematicPass.uniforms.uTime.value = elapsedSec;
-      cinematicPass.uniforms.uStudioLightness.value = studioLit;
-    }
+    // Bloom is OFF above ground and OFF in the lit Ch 5 studio; active only underground for threads/pulses
+    bloomPass.strength =
+      undergroundFactor *
+      0.38 *
+      Math.min(1.25, sunState.foxfireGlowMultiplier) *
+      studioFoxfireCutoff;
+
+    cinematicPass.uniforms.uTime.value = elapsedSec;
+    cinematicPass.uniforms.uStudioLightness.value = studioLit;
   };
 
   const setInspectVisualState = (inspectStrength: number) => {
-    if (cinematicPass) {
-      cinematicPass.uniforms.uInspectStrength.value = inspectStrength;
-    }
+    cinematicPass.uniforms.uInspectStrength.value = inspectStrength;
   };
 
   const resize = (w: number, h: number) => {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h);
-    if (composer) {
-      composer.setSize(w, h);
-    }
+    composer.setSize(w, h);
   };
 
   const renderFrame = () => {
-    if (isSoftwareGl || !composer) {
-      renderer.render(scene, camera);
-    } else {
-      composer.render();
-    }
+    composer.render();
   };
 
   const dispose = () => {
@@ -5526,7 +6421,6 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     composer,
     bloomPass,
     cinematicPass,
-    isSoftwareGl,
     lights: {
       keyLight,
       hemiLight,
@@ -5751,7 +6645,7 @@ export function createScrollController(params: {
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { ProceduralTextureSet } from './textures';
 import { createSeededRandom } from '../logic/networkGenerator';
-import { clamp01, smoothstep } from '../logic/chapters';
+import { clamp01, computeSunlightState, smoothstep } from '../logic/chapters';
 
 export interface BuiltSoilDescent {
   group: THREE.Group;
@@ -6875,7 +7769,327 @@ export function buildSoilDescentCrossSection(
   foregroundParallaxGroup.add(bokehPoints);
 
   // ============================================================================
-  // 9. DEDICATED SUBTERRANEAN DESCENT & POCKET LIGHTS
+  // 9. CHAPTER 04 WIDE VIEW SUBTERRANEAN EARTH, ROOTS & STONES (0.52 -> 0.77)
+  //    When the camera pulls back to z = 12.6 in Ch 04b, keeps the soil layers,
+  //    roots, and stones around the network extending into the distance and fading
+  //    with earthen depth fog (never floating in a black void).
+  // ============================================================================
+  const wideSubterraneanGroup = new THREE.Group();
+  wideSubterraneanGroup.name = 'Chapter4WideSubterraneanEarth';
+  group.add(wideSubterraneanGroup);
+
+  // 9a. Wide Curved Subterranean Soil Amphitheatre (spans x = -18..+18, y = 0..-5.4, z = -9.2..+5.2)
+  const wideSegsX = 96;
+  const wideSegsY = 72;
+  const wideGeo = new THREE.PlaneGeometry(36.0, 9.6, wideSegsX, wideSegsY);
+  const wgPos = wideGeo.attributes.position;
+
+  const getWideEarthPoint = (uNorm: number, vNorm: number): [number, number, number] => {
+    // uNorm in [-1 .. +1] across width, vNorm in [0 .. 1] from top surface (y=0) down into deep basin
+    const wx = uNorm * 18.0;
+    // Upper 62% is the vertical/sloping stratified soil face from y = 0.05 down to y = -3.85;
+    // Lower 38% curves forward from z = -8.6 to z = +5.2 as the deep subsoil floor beneath the network
+    const wallT = Math.min(1.0, vNorm / 0.62);
+    const floorT = Math.max(0.0, (vNorm - 0.62) / 0.38);
+
+    const wy =
+      0.04 -
+      wallT * 3.85 -
+      Math.pow(floorT, 1.35) * 1.45 +
+      Math.sin(wx * 0.45 + vNorm * 4.0) * 0.14;
+
+    // Curve sides gently forward so the wide camera frustum is 100% enclosed by earth
+    const sideWrap = Math.pow(Math.abs(uNorm), 1.85) * 5.2;
+    const cragZ =
+      Math.sin(wx * 0.85 + wy * 1.4) * 0.32 +
+      Math.cos(wx * 1.9 - wy * 2.1) * 0.16;
+    const wz =
+      -8.6 +
+      sideWrap +
+      Math.pow(floorT, 1.15) * 12.8 +
+      wallT * 0.85 +
+      cragZ;
+
+    return [wx, wy, wz];
+  };
+
+  for (let i = 0; i < wgPos.count; i++) {
+    const uNorm = wgPos.getX(i) / 18.0; // -1 .. +1
+    const vNorm = 0.5 - wgPos.getY(i) / 9.6; // 0 (top) .. 1 (bottom/front)
+    const [wx, wy, wz] = getWideEarthPoint(uNorm, vNorm);
+    wgPos.setXYZ(i, wx, wy, wz);
+  }
+  wideGeo.computeVertexNormals();
+
+  const wideEarthUniforms = {
+    uTime: { value: 0 },
+    uOpacity: { value: 0 },
+    uNetworkGrowth: { value: 0 },
+    uFoxfireMult: { value: 1.0 },
+    uDaylightFactor: { value: 0.78 },
+    uSunColor: { value: new THREE.Color('#ffbe6b') },
+    uFogColor: { value: new THREE.Color('#261c13') },
+  };
+
+  const wideEarthMat = new THREE.ShaderMaterial({
+    transparent: true,
+    side: THREE.DoubleSide,
+    uniforms: wideEarthUniforms,
+    vertexShader: `
+      varying vec2 vUv;
+      varying vec3 vWorldPos;
+      varying vec3 vWorldNormal;
+      varying float vCamDist;
+
+      void main() {
+        vUv = uv;
+        vec4 wp = modelMatrix * vec4(position, 1.0);
+        vWorldPos = wp.xyz;
+        vWorldNormal = normalize(mat3(modelMatrix) * normal);
+        vec4 mvPos = viewMatrix * wp;
+        vCamDist = length(mvPos.xyz);
+        gl_Position = projectionMatrix * mvPos;
+      }
+    `,
+    fragmentShader: `
+      uniform float uTime;
+      uniform float uOpacity;
+      uniform float uNetworkGrowth;
+      uniform float uFoxfireMult;
+      uniform float uDaylightFactor;
+      uniform vec3 uSunColor;
+      uniform vec3 uFogColor;
+
+      varying vec2 vUv;
+      varying vec3 vWorldPos;
+      varying vec3 vWorldNormal;
+      varying float vCamDist;
+
+      float hash21(vec2 p) {
+        p = fract(p * vec2(234.34, 435.345));
+        p += dot(p, p + 34.23);
+        return fract(p.x * p.y);
+      }
+
+      float noise2(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(hash21(i + vec2(0.0, 0.0)), hash21(i + vec2(1.0, 0.0)), u.x),
+          mix(hash21(i + vec2(0.0, 1.0)), hash21(i + vec2(1.0, 1.0)), u.x),
+          u.y
+        );
+      }
+
+      float fbm(vec2 p) {
+        float v = 0.0;
+        float a = 0.5;
+        mat2 rot = mat2(0.8, 0.6, -0.6, 0.8);
+        for (int i = 0; i < 4; i++) {
+          v += a * noise2(p);
+          p = rot * p * 2.05 + vec2(11.3, 7.1);
+          a *= 0.5;
+        }
+        return v;
+      }
+
+      void main() {
+        if (uOpacity < 0.005) discard;
+
+        vec2 p = vWorldPos.xy * 0.55 + vec2(vWorldPos.z * 0.25);
+        float macro = fbm(p * 1.4);
+        float crumb = fbm(p * 5.2 + vec2(macro));
+        float grain = noise2(p * 18.0);
+
+        float wy = vWorldPos.y + (macro - 0.5) * 0.42 + (crumb - 0.5) * 0.14;
+
+        // Same 4 soil horizons extending across the wide subterranean cavern
+        vec3 litterCol = mix(vec3(0.28, 0.18, 0.10), vec3(0.56, 0.36, 0.17), crumb);
+        vec3 humusCol = mix(vec3(0.18, 0.12, 0.08), vec3(0.32, 0.22, 0.14), crumb);
+        vec3 topsoilCol = mix(vec3(0.35, 0.23, 0.14), vec3(0.50, 0.35, 0.22), macro * 0.6 + grain * 0.4);
+        vec3 subsoilCol = mix(vec3(0.42, 0.20, 0.12), vec3(0.60, 0.31, 0.18), crumb * 0.7 + grain * 0.3);
+
+        float tHumus = smoothstep(-0.28, -0.62, wy);
+        float tTopsoil = smoothstep(-1.10, -1.55, wy);
+        float tSubsoil = smoothstep(-2.10, -2.65, wy);
+
+        vec3 soilAlbedo = mix(litterCol, humusCol, tHumus);
+        soilAlbedo = mix(soilAlbedo, topsoilCol, tTopsoil);
+        soilAlbedo = mix(soilAlbedo, subsoilCol, tSubsoil);
+
+        // 1. Daylight filtering down from above (y = 0), dimmer with depth, controlled by the Time-of-Day slider
+        float depthMeters = max(0.0, -vWorldPos.y);
+        float depthAtten = exp(-depthMeters * 0.32);
+        vec3 topDir = normalize(vec3(-0.2, 0.85, 0.45));
+        float ndotl = 0.42 + 0.58 * max(0.0, dot(vWorldNormal, topDir));
+
+        vec3 filteredSun = mix(vec3(0.52, 0.58, 0.66), uSunColor, clamp(uDaylightFactor * 0.85, 0.15, 1.0));
+        vec3 daylightTerm = soilAlbedo * filteredSun * ndotl * (0.28 + 0.82 * depthAtten) * (0.35 + uDaylightFactor * 1.15);
+
+        // Warm surface horizon rim glow right under the forest floor at y = 0..-0.35
+        float surfaceRim = smoothstep(-0.45, 0.02, vWorldPos.y);
+        daylightTerm += filteredSun * surfaceRim * uDaylightFactor * 0.28;
+
+        // 2. Network's own green-gold Foxfire glow illuminating the soil near the threads
+        float radialDist = length(vWorldPos.xz);
+        float networkRadius = max(1.5, uNetworkGrowth * 11.8);
+        float inNetworkZone = (1.0 - smoothstep(networkRadius * 0.75, networkRadius * 1.15, radialDist))
+                            * smoothstep(-4.4, -2.8, vWorldPos.y)
+                            * (1.0 - smoothstep(-0.35, 0.05, vWorldPos.y));
+
+        // Web-like glowing thread veins projected onto the nearby earth
+        float vein1 = abs(noise2(vWorldPos.xz * 0.95 + vec2(vWorldPos.y * 0.7)) - 0.5) * 2.0;
+        float vein2 = abs(noise2(vWorldPos.xy * 1.35 - vec2(vWorldPos.z * 0.6)) - 0.5) * 2.0;
+        float threadProximity = (1.0 - smoothstep(0.0, 0.32, vein1 * 0.6 + vein2 * 0.4)) * 0.75 + 0.35;
+        float pulse = 0.82 + 0.18 * sin(uTime * 1.8 - radialDist * 0.7);
+        vec3 foxfireCol = vec3(0.68, 0.86, 0.24);
+        vec3 foxfireSoilBounce = (soilAlbedo * 1.35 + vec3(0.18, 0.24, 0.05))
+                               * foxfireCol
+                               * inNetworkZone
+                               * threadProximity
+                               * pulse
+                               * uFoxfireMult
+                               * 0.95;
+
+        vec3 litColor = daylightTerm + foxfireSoilBounce;
+
+        // 3. Distance depth fog (fades into earthen fog color, never to black!)
+        float fogFactor = smoothstep(11.5, 25.5, vCamDist);
+        litColor = mix(litColor, uFogColor, fogFactor * 0.82);
+
+        // Enforce readable minimum earth luminance so no slider position is ever close to black
+        vec3 minEarth = max(soilAlbedo * 0.22, uFogColor * 0.68);
+        litColor = clamp(max(litColor, minEarth), vec3(0.06, 0.05, 0.05), vec3(0.88));
+
+        gl_FragColor = vec4(litColor, uOpacity);
+      }
+    `,
+  });
+
+  const wideEarthMesh = new THREE.Mesh(wideGeo, wideEarthMat);
+  wideSubterraneanGroup.add(wideEarthMesh);
+
+  // 9b. Wide-Spanning Descending Tree Roots across Chapter 04b (weaving through the network)
+  const wideRootGeos: THREE.BufferGeometry[] = [];
+  const wideRootAnchors: Array<{ x: number; z: number; spanX: number; depth: number; r0: number }> = [
+    { x: -6.2, z: -3.2, spanX: 2.1, depth: 3.4, r0: 0.18 },
+    { x: -4.4, z: -2.4, spanX: -1.6, depth: 2.9, r0: 0.14 },
+    { x: -2.6, z: -3.8, spanX: 1.4, depth: 3.2, r0: 0.15 },
+    { x: 2.4, z: -3.5, spanX: -1.5, depth: 3.3, r0: 0.15 },
+    { x: 4.8, z: -2.6, spanX: 1.8, depth: 3.1, r0: 0.16 },
+    { x: 6.5, z: -3.0, spanX: -2.2, depth: 3.5, r0: 0.19 },
+    { x: -7.8, z: 1.2, spanX: 2.4, depth: 3.2, r0: 0.16 },
+    { x: 7.4, z: 1.5, spanX: -2.3, depth: 3.2, r0: 0.16 },
+    { x: -1.2, z: -5.8, spanX: 1.6, depth: 3.6, r0: 0.14 },
+    { x: 1.8, z: -6.2, spanX: -1.7, depth: 3.6, r0: 0.14 },
+  ];
+
+  for (let i = 0; i < wideRootAnchors.length; i++) {
+    const a = wideRootAnchors[i];
+    const pts: THREE.Vector3[] = [];
+    const steps = 6;
+    for (let s = 0; s <= steps; s++) {
+      const t = s / steps;
+      pts.push(
+        new THREE.Vector3(
+          a.x + a.spanX * t + Math.sin(t * Math.PI * 2 + i) * 0.35,
+          0.02 - Math.pow(t, 0.85) * a.depth,
+          a.z + Math.cos(t * Math.PI * 1.5 + i) * 0.45,
+        ),
+      );
+    }
+    const curve = new THREE.CatmullRomCurve3(pts);
+    const tube = new THREE.TubeGeometry(curve, 18, 1.0, 7, false);
+    const posAttr = tube.attributes.position;
+    const uvAttr = tube.attributes.uv;
+    const cPt = new THREE.Vector3();
+    for (let vi = 0; vi < posAttr.count; vi++) {
+      const t = clamp01(uvAttr.getX(vi));
+      curve.getPointAt(t, cPt);
+      const rad = a.r0 * Math.pow(1 - t, 0.72) + 0.018 * t;
+      posAttr.setXYZ(
+        vi,
+        cPt.x + (posAttr.getX(vi) - cPt.x) * rad,
+        cPt.y + (posAttr.getY(vi) - cPt.y) * rad,
+        cPt.z + (posAttr.getZ(vi) - cPt.z) * rad,
+      );
+    }
+    tube.computeVertexNormals();
+    wideRootGeos.push(tube);
+
+    // Secondary root fork off each main root
+    const forkStart = pts[2];
+    const forkPts = [
+      forkStart.clone(),
+      new THREE.Vector3(forkStart.x + (a.spanX > 0 ? -0.9 : 0.9), forkStart.y - 0.65, forkStart.z + 0.4),
+      new THREE.Vector3(forkStart.x + (a.spanX > 0 ? -1.6 : 1.6), forkStart.y - 1.35, forkStart.z + 0.7),
+    ];
+    const fCurve = new THREE.CatmullRomCurve3(forkPts);
+    wideRootGeos.push(new THREE.TubeGeometry(fCurve, 10, a.r0 * 0.38, 6, false));
+  }
+
+  const mergedWideRootsGeo = mergeGeometries(wideRootGeos, false);
+  for (const g of wideRootGeos) g.dispose();
+
+  const wideRootMat = new THREE.MeshStandardMaterial({
+    map: textures.barkColor,
+    bumpMap: textures.stemBump,
+    bumpScale: 0.045,
+    color: new THREE.Color('#d8c4a8'),
+    roughness: 0.84,
+    metalness: 0.02,
+    emissive: new THREE.Color('#586c1c'),
+    emissiveIntensity: 0.08,
+    transparent: true,
+    opacity: 0,
+  });
+  const wideRootsMesh = new THREE.Mesh(mergedWideRootsGeo, wideRootMat);
+  wideSubterraneanGroup.add(wideRootsMesh);
+
+  // 9c. Wide-Field Subsoil Stones & Topsoil Pebbles across Chapter 04b
+  const wideStoneCount = 135;
+  const wideStoneMat = new THREE.MeshStandardMaterial({
+    bumpMap: textures.soilBump,
+    bumpScale: 0.045,
+    color: new THREE.Color('#ffffff'),
+    roughness: 0.85,
+    metalness: 0.03,
+    emissive: new THREE.Color('#4d5e18'),
+    emissiveIntensity: 0.06,
+    transparent: true,
+    opacity: 0,
+  });
+  const wideStoneInst = new THREE.InstancedMesh(boulderGeo, wideStoneMat, wideStoneCount);
+
+  for (let i = 0; i < wideStoneCount; i++) {
+    const uNorm = (rand() - 0.5) * 1.65; // -0.825 .. +0.825 (x in -14.8 .. +14.8)
+    const vNorm = 0.18 + rand() * 0.76;
+    const [wx, wy, wz] = getWideEarthPoint(uNorm, vNorm);
+    // Offset slightly in front of the amphitheatre wall or nestled among the lower roots
+    const zOffset = 0.25 + rand() * 2.4;
+    dummy.position.set(wx, wy, Math.min(3.8, wz + zOffset));
+    dummy.rotation.set(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI);
+    const s = 0.75 + Math.pow(rand(), 0.7) * 1.95;
+    dummy.scale.set(s * (0.9 + rand() * 0.35), s * (0.68 + rand() * 0.3), s * 0.85);
+    dummy.updateMatrix();
+    wideStoneInst.setMatrixAt(i, dummy.matrix);
+
+    // Warm ochre-slate, river stone, and terracotta-brown tones that catch daylight & foxfire
+    itemColor.setHSL(
+      0.058 + (rand() - 0.5) * 0.03,
+      0.32 + rand() * 0.16,
+      0.28 + rand() * 0.16,
+    );
+    wideStoneInst.setColorAt(i, itemColor);
+  }
+  wideStoneInst.instanceMatrix.needsUpdate = true;
+  if (wideStoneInst.instanceColor) wideStoneInst.instanceColor.needsUpdate = true;
+  wideStoneInst.computeBoundingSphere();
+  wideSubterraneanGroup.add(wideStoneInst);
+
+  // ============================================================================
+  // 10. DEDICATED SUBTERRANEAN DESCENT, POCKET & WIDE EARTH LIGHTS
   // ============================================================================
   // Positioned at z = 0.85 so it illuminates the cut soil wall, diagonal root, and stones directly
   // without over-lighting foreground parallax crumbs at z = 1.1..1.5
@@ -6888,9 +8102,31 @@ export function buildSoilDescentCrossSection(
   pocketFoxfireLight.position.set(0.0, -2.45, 0.82);
   group.add(pocketFoxfireLight);
 
+  // Wide Subterranean Daylight Fill (overhead filtering sun/moonlight for roots, stones & hanging mushrooms in Ch 4b)
+  const wideOverheadLight = new THREE.PointLight('#ffdfad', 0.0, 26.0, 1.1);
+  wideOverheadLight.position.set(0.0, 1.2, 3.5);
+  wideSubterraneanGroup.add(wideOverheadLight);
+
   // ============================================================================
   // UPDATE AT PROGRESS
   // ============================================================================
+  const closeDescentMeshes: THREE.Object3D[] = [
+    wallMesh,
+    rimMossInst,
+    litterLeafInst,
+    leafHyphaeLines,
+    humusRootsMesh,
+    fineRootLines,
+    rootHairLines,
+    woodlouseGroup,
+    diagonalRootMesh,
+    pebbleInst,
+    boulderInst,
+    crackThreadsMesh,
+    crackLines,
+    foregroundParallaxGroup,
+  ];
+
   const updateDescent = (params: {
     progress: number;
     undergroundFactor: number;
@@ -6900,75 +8136,149 @@ export function buildSoilDescentCrossSection(
     sunlight: number;
   }) => {
     const p = params.progress;
+    const sunState = computeSunlightState(params.sunlight);
 
+    // 1. Close-up Chapter 03 Descent & Chapter 04a Clump Pocket visibility (0.21 -> 0.61, plus ascent return 0.875 -> 0.965)
     const enterDescent = smoothstep(0.21, 0.26, p);
-    const exitForWideNetwork = 1 - smoothstep(0.545, 0.625, p);
-    const ascentReturn = smoothstep(0.875, 0.905, p) * (1 - smoothstep(0.935, 0.965, p));
-    const descentVisibility = clamp01(enterDescent * exitForWideNetwork + ascentReturn);
+    const exitCloseWallForWide = 1 - smoothstep(0.545, 0.615, p);
+    const ascentReturn =
+      smoothstep(0.875, 0.905, p) * (1 - smoothstep(0.935, 0.965, p));
+    const closeDescentVis = clamp01(
+      enterDescent * exitCloseWallForWide + ascentReturn,
+    );
 
-    group.visible = descentVisibility > 0.005;
+    // 2. Wide Chapter 04b Subterranean Earth visibility (ramps in as camera pulls back 0.53 -> 0.60, fades out as Ch 05 studio lifts 0.74 -> 0.79)
+    const wideEarthVis = clamp01(
+      smoothstep(0.525, 0.595, p) * (1 - smoothstep(0.74, 0.788, p)),
+    );
+
+    group.visible = closeDescentVis > 0.005 || wideEarthVis > 0.005;
     if (!group.visible) return;
 
+    for (const obj of closeDescentMeshes) {
+      obj.visible = closeDescentVis > 0.005;
+    }
+
     const foxfireCrackStrength =
-      smoothstep(0.39, 0.49, p) * (1 - smoothstep(0.60, 0.68, p));
+      smoothstep(0.39, 0.49, p) * (1 - smoothstep(0.58, 0.65, p));
 
-    wallUniforms.uTime.value = params.elapsedSec;
-    wallUniforms.uProgress.value = p;
-    wallUniforms.uOpacity.value = descentVisibility;
-    wallUniforms.uFoxfireGlow.value = foxfireCrackStrength;
-    wallUniforms.uSunColor.value.setRGB(
-      params.sunColorRgb[0],
-      params.sunColorRgb[1],
-      params.sunColorRgb[2],
-    );
-    wallUniforms.uSunIntensity.value = 0.78 + params.sunlight * 0.45;
+    if (closeDescentVis > 0.005) {
+      wallUniforms.uTime.value = params.elapsedSec;
+      wallUniforms.uProgress.value = p;
+      wallUniforms.uOpacity.value = closeDescentVis;
+      wallUniforms.uFoxfireGlow.value =
+        foxfireCrackStrength * sunState.foxfireGlowMultiplier;
+      wallUniforms.uSunColor.value.setRGB(
+        sunState.sunColorRgb[0],
+        sunState.sunColorRgb[1],
+        sunState.sunColorRgb[2],
+      );
+      wallUniforms.uSunIntensity.value =
+        0.55 + sunState.undergroundDaylightFactor * 0.65;
 
-    // Breaking ground warm silhouette horizon glow (peaks around 0.25..0.33)
-    const breakingGroundGlow =
-      smoothstep(0.23, 0.275, p) * (1 - smoothstep(0.32, 0.37, p));
-    horizonGlowMat.uniforms.uOpacity.value = breakingGroundGlow;
-    horizonGlowMat.uniforms.uSunColor.value.setRGB(
-      params.sunColorRgb[0],
-      params.sunColorRgb[1],
-      params.sunColorRgb[2],
-    );
-    horizonGlowMesh.visible = breakingGroundGlow > 0.01;
+      // Breaking ground warm silhouette horizon glow (peaks around 0.25..0.33)
+      const breakingGroundGlow =
+        smoothstep(0.23, 0.275, p) * (1 - smoothstep(0.32, 0.37, p));
+      horizonGlowMat.uniforms.uOpacity.value = breakingGroundGlow;
+      horizonGlowMat.uniforms.uSunColor.value.setRGB(
+        sunState.sunColorRgb[0],
+        sunState.sunColorRgb[1],
+        sunState.sunColorRgb[2],
+      );
+      horizonGlowMesh.visible = breakingGroundGlow > 0.01;
 
-    // Update woodlouse crawl along the humus tunnel (y ≈ -0.80)
-    const crawlPhase = ((params.elapsedSec * 0.14) % 1.0) - 0.5;
-    const wx = 0.38 + Math.sin(params.elapsedSec * 0.45) * 0.11;
-    const wy = -0.80 + Math.cos(params.elapsedSec * 0.9) * 0.006;
-    woodlouseGroup.position.set(wx, wy, getWallZAt(wx, wy) + 0.035);
-    woodlouseGroup.rotation.y = Math.cos(params.elapsedSec * 0.45) >= 0 ? 0.15 : Math.PI - 0.15;
-    woodlouseGroup.rotation.z = Math.sin(crawlPhase * Math.PI * 8) * 0.05;
+      // Update woodlouse crawl along the humus tunnel (y ≈ -0.80)
+      const crawlPhase = ((params.elapsedSec * 0.14) % 1.0) - 0.5;
+      const wx = 0.38 + Math.sin(params.elapsedSec * 0.45) * 0.11;
+      const wy = -0.80 + Math.cos(params.elapsedSec * 0.9) * 0.006;
+      woodlouseGroup.position.set(wx, wy, getWallZAt(wx, wy) + 0.035);
+      woodlouseGroup.rotation.y =
+        Math.cos(params.elapsedSec * 0.45) >= 0 ? 0.15 : Math.PI - 0.15;
+      woodlouseGroup.rotation.z = Math.sin(crawlPhase * Math.PI * 8) * 0.05;
 
-    // Foreground parallax: moves upward faster than the wall as camera descends (0.26 -> 0.52)
-    const normalizedDescent = clamp01((p - 0.26) / 0.26);
-    foregroundParallaxGroup.position.y = (normalizedDescent - 0.45) * 0.92;
-    bokehMat.uniforms.uTime.value = params.elapsedSec;
-    bokehMat.uniforms.uOpacity.value = descentVisibility;
+      // Foreground parallax: moves upward faster than the wall as camera descends (0.26 -> 0.52)
+      const normalizedDescent = clamp01((p - 0.26) / 0.26);
+      foregroundParallaxGroup.position.y = (normalizedDescent - 0.45) * 0.92;
+      bokehMat.uniforms.uTime.value = params.elapsedSec;
+      bokehMat.uniforms.uOpacity.value = closeDescentVis;
 
-    // Foxfire crack tubes & lines
-    foxfireCrackMat.uniforms.uGlow.value = foxfireCrackStrength * descentVisibility;
-    foxfireCrackMat.uniforms.uTime.value = params.elapsedSec;
+      // Foxfire crack tubes & lines
+      foxfireCrackMat.uniforms.uGlow.value =
+        foxfireCrackStrength *
+        closeDescentVis *
+        sunState.foxfireGlowMultiplier;
+      foxfireCrackMat.uniforms.uTime.value = params.elapsedSec;
 
-    // Filtering daylight lamp tracks camera depth and shifts from warm daylight to cooler dim earth light
-    const camDepthY = 0.05 - normalizedDescent * 2.55;
-    descentDaylight.position.set(0.12, camDepthY + 0.18, 0.85);
-    const depthCoolMix = clamp01(normalizedDescent * 0.72);
-    descentDaylight.color
-      .setRGB(
-        params.sunColorRgb[0],
-        params.sunColorRgb[1],
-        params.sunColorRgb[2],
-      )
-      .lerp(new THREE.Color('#8a968e'), depthCoolMix * 0.55);
-    descentDaylight.intensity =
-      descentVisibility * (1.85 - normalizedDescent * 0.68);
+      // Filtering daylight lamp tracks camera depth and responds to the time-of-day slider
+      const camDepthY = 0.05 - normalizedDescent * 2.55;
+      descentDaylight.position.set(0.12, camDepthY + 0.18, 0.85);
+      const depthCoolMix = clamp01(normalizedDescent * 0.65);
+      descentDaylight.color
+        .setRGB(
+          sunState.sunColorRgb[0],
+          sunState.sunColorRgb[1],
+          sunState.sunColorRgb[2],
+        )
+        .lerp(new THREE.Color('#8a968e'), depthCoolMix * 0.45);
+      descentDaylight.intensity =
+        closeDescentVis *
+        (1.35 - normalizedDescent * 0.45) *
+        (0.55 + sunState.undergroundDaylightFactor * 0.65);
 
-    // Pocket Foxfire + warm fill light illuminates the clump and surrounding stones at 0.41..0.56
-    pocketFoxfireLight.intensity =
-      descentVisibility * foxfireCrackStrength * 1.48;
+      // Pocket Foxfire + warm fill light illuminates the clump and surrounding stones at 0.41..0.56
+      pocketFoxfireLight.intensity =
+        closeDescentVis *
+        foxfireCrackStrength *
+        1.48 *
+        sunState.foxfireGlowMultiplier;
+    } else {
+      horizonGlowMesh.visible = false;
+      descentDaylight.intensity = 0;
+      pocketFoxfireLight.intensity = 0;
+    }
+
+    // Update Chapter 04b Wide Subterranean Earth, Roots & Stones
+    wideSubterraneanGroup.visible = wideEarthVis > 0.005;
+    if (wideEarthVis > 0.005) {
+      wideEarthUniforms.uTime.value = params.elapsedSec;
+      wideEarthUniforms.uOpacity.value = wideEarthVis;
+      wideEarthUniforms.uNetworkGrowth.value = Math.max(
+        0.35,
+        params.networkGrowth,
+      );
+      wideEarthUniforms.uFoxfireMult.value = sunState.foxfireGlowMultiplier;
+      wideEarthUniforms.uDaylightFactor.value =
+        sunState.undergroundDaylightFactor;
+      wideEarthUniforms.uSunColor.value.setRGB(
+        sunState.sunColorRgb[0],
+        sunState.sunColorRgb[1],
+        sunState.sunColorRgb[2],
+      );
+      wideEarthUniforms.uFogColor.value.setRGB(
+        sunState.undergroundFogRgb[0],
+        sunState.undergroundFogRgb[1],
+        sunState.undergroundFogRgb[2],
+      );
+
+      wideRootMat.opacity = wideEarthVis;
+      wideRootMat.emissiveIntensity =
+        0.06 * sunState.foxfireGlowMultiplier * wideEarthVis;
+
+      wideStoneMat.opacity = wideEarthVis;
+      wideStoneMat.emissiveIntensity =
+        0.05 * sunState.foxfireGlowMultiplier * wideEarthVis;
+
+      wideOverheadLight.color.setRGB(
+        sunState.sunColorRgb[0],
+        sunState.sunColorRgb[1],
+        sunState.sunColorRgb[2],
+      );
+      // At Night (undergroundDaylightFactor=0.28): dim moonlit earth; at Midday (1.42): roots, stones & hanging mushrooms clearly lit
+      wideOverheadLight.intensity =
+        wideEarthVis * (0.65 + sunState.undergroundDaylightFactor * 2.25);
+    } else {
+      wideOverheadLight.intensity = 0;
+    }
   };
 
   return {
@@ -6976,6 +8286,7 @@ export function buildSoilDescentCrossSection(
     updateDescent,
   };
 }
+
 ]]>
     </file>
     <file path="src/app/(loam)/loam/scene/soundSynth.ts">
@@ -7275,7 +8586,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   capColorTex.wrapS = THREE.ClampToEdgeWrapping;
   capColorTex.wrapT = THREE.ClampToEdgeWrapping;
 
-  // Project `/templates/loam/references/mushroom-from-above.webp` onto the cap top albedo when available
+  // Project `/assets/aistudio/mushroom-from-above_90ef6842.png` onto the cap top albedo when available
   if (typeof Image !== 'undefined') {
     const capImg = new Image();
     capImg.crossOrigin = 'anonymous';
@@ -7294,7 +8605,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
     capImg.src = '/templates/loam/references/mushroom-from-above.webp';
   }
 
-  // 3. Bulbous base texture (smooth transition from cream stem base into dark clotted soil & moss)
+  // 3. Bulbous base texture: smooth cream bulb lightly dusted with fine dark soil grains near the base (no camouflage blotches)
   const bulbColorCanvas = document.createElement('canvas');
   bulbColorCanvas.width = 512;
   bulbColorCanvas.height = 512;
@@ -7305,39 +8616,48 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   bulbBumpCanvas.height = 512;
   const bbCtx = bulbBumpCanvas.getContext('2d')!;
 
+  // Smooth cream flesh continuous with the stem, darkening softly only at the very bottom root line (y = 0 in Lathe UV is bottom of bulb, y = 512 is top of bulb)
+  // Note: LatheGeometry v=0 is at the bottom (y=0) and v=1 is at the top (y=0.72). In Canvas 2D (flipY=true), canvas y=0 is v=1 (top of bulb) and canvas y=512 is v=0 (bottom of bulb).
   const bulbGrad = bCtx.createLinearGradient(0, 0, 0, 512);
-  bulbGrad.addColorStop(0.0, '#cfc2ad');
-  bulbGrad.addColorStop(0.28, '#bfb09a');
-  bulbGrad.addColorStop(0.65, '#3b2b1e');
-  bulbGrad.addColorStop(1.0, '#16100b');
+  bulbGrad.addColorStop(0.0, '#d6c9b4');
+  bulbGrad.addColorStop(0.52, '#d2c4ae');
+  bulbGrad.addColorStop(0.76, '#b8a48a');
+  bulbGrad.addColorStop(0.90, '#5c4531');
+  bulbGrad.addColorStop(1.0, '#241911');
   bCtx.fillStyle = bulbGrad;
   bCtx.fillRect(0, 0, 512, 512);
 
-  bbCtx.fillStyle = '#505050';
+  bbCtx.fillStyle = '#606060';
   bbCtx.fillRect(0, 0, 512, 512);
 
-  for (let i = 0; i < 650; i++) {
+  // Delicate vertical silky fibrils matching the stem
+  for (let i = 0; i < 450; i++) {
     const x = rand() * 512;
-    const y = 90 + Math.pow(rand(), 0.75) * 422;
-    const r = 4 + rand() * 20;
-    const isMoss = rand() > 0.72 && y > 130 && y < 370;
-    if (isMoss) {
-      bCtx.fillStyle = `rgba(${46 + Math.floor(rand() * 22)}, ${68 + Math.floor(rand() * 28)}, ${26 + Math.floor(rand() * 14)}, 0.85)`;
-    } else {
-      const d = 18 + Math.floor(rand() * 22);
-      bCtx.fillStyle = `rgba(${d + 8}, ${d + 2}, ${d - 3}, 0.92)`;
-    }
+    bCtx.fillStyle = rand() > 0.5 ? 'rgba(226, 216, 198, 0.25)' : 'rgba(182, 166, 144, 0.22)';
+    bCtx.fillRect(x, 0, 1.2, 420);
+  }
+
+  // Fine dark soil dusting (tiny 0.6..2.5px specks, concentrated toward the lower half of the bulb, never big blotches)
+  for (let i = 0; i < 3200; i++) {
+    const x = rand() * 512;
+    // Bias toward bottom of bulb (canvas y -> 512)
+    const u = Math.pow(rand(), 1.85);
+    const y = 512 - u * 430;
+    const r = 0.6 + rand() * 1.9 + (1 - u) * 1.4;
+    const d = 24 + Math.floor(rand() * 26);
+    const alpha = (0.35 + (1 - u) * 0.55) * (0.6 + rand() * 0.4);
+    bCtx.fillStyle = `rgba(${d + 10}, ${d + 3}, ${d - 2}, ${alpha.toFixed(2)})`;
     bCtx.beginPath();
     bCtx.arc(x, y, r, 0, Math.PI * 2);
     bCtx.fill();
 
-    bbCtx.fillStyle = isMoss ? '#b8b8b8' : '#e0e0e0';
+    bbCtx.fillStyle = `rgba(195, 195, 195, ${(alpha * 0.65).toFixed(2)})`;
     bbCtx.beginPath();
-    bbCtx.arc(x, y, r * 0.85, 0, Math.PI * 2);
+    bbCtx.arc(x, y, r, 0, Math.PI * 2);
     bbCtx.fill();
   }
 
-  // 4. Molded packaging tray outer mycelium skin (matte off-white to warm cream #f2eadb with scattered small brown hemp fibre speckles)
+  // 4. Molded packaging tray outer mycelium skin (matte off-white to warm cream #e7ddca with scattered small brown hemp fibre speckles)
   const traySkinCanvas = document.createElement('canvas');
   traySkinCanvas.width = 512;
   traySkinCanvas.height = 512;
@@ -7348,47 +8668,47 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   traySkinBumpCanvas.height = 512;
   const tsbCtx = traySkinBumpCanvas.getContext('2d')!;
 
-  tsCtx.fillStyle = '#f2eadb';
+  tsCtx.fillStyle = '#e7ddca';
   tsCtx.fillRect(0, 0, 512, 512);
   tsbCtx.fillStyle = '#808080';
   tsbCtx.fillRect(0, 0, 512, 512);
 
   // Soft cloudy velvety off-white/cream mycelium patches
-  for (let i = 0; i < 340; i++) {
+  for (let i = 0; i < 360; i++) {
     const x = rand() * 512;
     const y = rand() * 512;
-    const rad = 14 + rand() * 46;
+    const rad = 14 + rand() * 44;
     const g = tsCtx.createRadialGradient(x, y, 2, x, y, rad);
     const tint =
-      rand() > 0.36
-        ? 'rgba(251, 247, 239, 0.56)'
-        : 'rgba(232, 222, 204, 0.42)';
+      rand() > 0.38
+        ? 'rgba(244, 238, 226, 0.52)'
+        : 'rgba(220, 208, 188, 0.44)';
     g.addColorStop(0, tint);
-    g.addColorStop(1, 'rgba(242, 234, 219, 0)');
+    g.addColorStop(1, 'rgba(231, 221, 202, 0)');
     tsCtx.fillStyle = g;
     tsCtx.beginPath();
     tsCtx.arc(x, y, rad, 0, Math.PI * 2);
     tsCtx.fill();
 
     // Fine velvety micro-fuzz relief on bump map
-    tsbCtx.fillStyle = rand() > 0.5 ? 'rgba(162, 162, 162, 0.22)' : 'rgba(96, 96, 96, 0.22)';
+    tsbCtx.fillStyle = rand() > 0.5 ? 'rgba(166, 166, 166, 0.24)' : 'rgba(92, 92, 92, 0.24)';
     tsbCtx.beginPath();
     tsbCtx.arc(x, y, rad * 0.42, 0, Math.PI * 2);
     tsbCtx.fill();
   }
 
   // Scattered small golden-brown & warm umber hemp hurd fibre speckles matching material-top_9cdf4064.png
-  for (let i = 0; i < 640; i++) {
+  for (let i = 0; i < 780; i++) {
     const x = rand() * 512;
     const y = rand() * 512;
-    const isSliver = rand() > 0.30;
-    const len = isSliver ? 2.4 + rand() * 8.2 : 0.9 + rand() * 1.8;
+    const isSliver = rand() > 0.28;
+    const len = isSliver ? 2.6 + rand() * 8.5 : 1.0 + rand() * 2.0;
     const ang = rand() * Math.PI * 2;
-    const w = isSliver ? 0.9 + rand() * 1.65 : 1.1 + rand() * 1.5;
-    const r = 98 + Math.floor(rand() * 52);
-    const gr = 68 + Math.floor(rand() * 38);
-    const b = 38 + Math.floor(rand() * 26);
-    tsCtx.strokeStyle = `rgba(${r}, ${gr}, ${b}, ${0.56 + rand() * 0.38})`;
+    const w = isSliver ? 1.0 + rand() * 1.7 : 1.2 + rand() * 1.6;
+    const r = 86 + Math.floor(rand() * 48);
+    const gr = 58 + Math.floor(rand() * 34);
+    const b = 30 + Math.floor(rand() * 24);
+    tsCtx.strokeStyle = `rgba(${r}, ${gr}, ${b}, ${0.64 + rand() * 0.34})`;
     tsCtx.lineWidth = w;
     tsCtx.lineCap = 'round';
     tsCtx.beginPath();
@@ -7396,7 +8716,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
     tsCtx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
     tsCtx.stroke();
 
-    tsbCtx.strokeStyle = 'rgba(38, 38, 38, 0.65)';
+    tsbCtx.strokeStyle = 'rgba(34, 34, 34, 0.72)';
     tsbCtx.lineWidth = w;
     tsbCtx.beginPath();
     tsbCtx.moveTo(x, y);
@@ -7404,7 +8724,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
     tsbCtx.stroke();
   }
 
-  // 5. Exposed fibrous core texture for the tray's broken corner (matches material-underside-and-cut-edge_69208517.png)
+  // 5. Exposed fibrous core texture for the tray's broken corner (compressed hemp fibres visible in the break)
   const trayCoreCanvas = document.createElement('canvas');
   trayCoreCanvas.width = 512;
   trayCoreCanvas.height = 512;
@@ -7415,35 +8735,42 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   trayCoreBumpCanvas.height = 512;
   const tcbCtx = trayCoreBumpCanvas.getContext('2d')!;
 
-  tcCtx.fillStyle = '#c4ae8e';
+  tcCtx.fillStyle = '#bca482';
   tcCtx.fillRect(0, 0, 512, 512);
-  tcbCtx.fillStyle = '#303030';
+  tcbCtx.fillStyle = '#383838';
   tcbCtx.fillRect(0, 0, 512, 512);
 
-  for (let i = 0; i < 2400; i++) {
+  // Dense interlocking compressed hemp hurd chips & cream mycelium binder strands
+  for (let i = 0; i < 3200; i++) {
     const x = rand() * 512;
     const y = rand() * 512;
-    const len = 6 + rand() * 20;
-    const ang = rand() * Math.PI * 2;
-    const isMyceliumStrand = rand() > 0.46;
+    const len = 7 + rand() * 22;
+    // Bias angle toward horizontal/diagonal compressed laminations like real moulded hemp-mycelium core
+    const ang = (rand() - 0.5) * 1.15 + (rand() > 0.5 ? 0 : Math.PI);
+    const isMyceliumStrand = rand() > 0.48;
+    const isDarkWoodFlecks = !isMyceliumStrand && rand() > 0.65;
     tcCtx.strokeStyle = isMyceliumStrand
-      ? `rgba(245, 239, 226, ${0.76 + rand() * 0.22})`
-      : `rgb(${152 + Math.floor(rand() * 44)}, ${122 + Math.floor(rand() * 36)}, ${86 + Math.floor(rand() * 28)})`;
-    tcCtx.lineWidth = isMyceliumStrand ? 1.2 + rand() * 1.6 : 2.0 + rand() * 3.4;
+      ? `rgba(240, 233, 218, ${0.78 + rand() * 0.20})`
+      : isDarkWoodFlecks
+        ? `rgb(${102 + Math.floor(rand() * 32)}, ${74 + Math.floor(rand() * 26)}, ${44 + Math.floor(rand() * 20)})`
+        : `rgb(${156 + Math.floor(rand() * 42)}, ${124 + Math.floor(rand() * 34)}, ${84 + Math.floor(rand() * 26)})`;
+    tcCtx.lineWidth = isMyceliumStrand ? 1.2 + rand() * 1.8 : 2.2 + rand() * 3.8;
+    tcCtx.lineCap = 'round';
     tcCtx.beginPath();
     tcCtx.moveTo(x, y);
     tcCtx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
     tcCtx.stroke();
 
-    tcbCtx.strokeStyle = isMyceliumStrand ? '#f2f2f2' : '#b0b0b0';
-    tcbCtx.lineWidth = 2.4;
+    tcbCtx.strokeStyle = isMyceliumStrand ? '#f0f0f0' : isDarkWoodFlecks ? '#585858' : '#b4b4b4';
+    tcbCtx.lineWidth = 2.6;
     tcbCtx.beginPath();
+    tcCtx.moveTo(x, y);
     tcbCtx.moveTo(x, y);
     tcbCtx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
     tcbCtx.stroke();
   }
 
-  // 6. Clump cottony hyphae texture & bark texture
+  // 6. Clump cottony hyphae texture & rich furrowed tree bark texture
   const clumpCanvas = document.createElement('canvas');
   clumpCanvas.width = 512;
   clumpCanvas.height = 512;
@@ -7480,14 +8807,32 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   }
 
   const barkCanvas = document.createElement('canvas');
-  barkCanvas.width = 256;
-  barkCanvas.height = 256;
+  barkCanvas.width = 512;
+  barkCanvas.height = 512;
   const bkCtx = barkCanvas.getContext('2d')!;
-  bkCtx.fillStyle = '#4a331f';
-  bkCtx.fillRect(0, 0, 256, 256);
-  for (let i = 0; i < 360; i++) {
-    bkCtx.fillStyle = rand() > 0.5 ? '#2e1e10' : '#66492e';
-    bkCtx.fillRect(rand() * 256, 0, 1.5 + rand() * 3.5, 256);
+  bkCtx.fillStyle = '#473321';
+  bkCtx.fillRect(0, 0, 512, 512);
+  // Deep vertical bark plates & fissures
+  for (let i = 0; i < 620; i++) {
+    const bx = rand() * 512;
+    const bw = 2 + rand() * 7;
+    const tone = rand();
+    bkCtx.fillStyle =
+      tone > 0.62
+        ? '#5e452e'
+        : tone > 0.25
+          ? '#382617'
+          : '#21150c';
+    bkCtx.fillRect(bx, 0, bw, 512);
+  }
+  // Subtle mossy/lichen undertones on lower bark fissures
+  for (let i = 0; i < 180; i++) {
+    const bx = rand() * 512;
+    const by = rand() * 512;
+    bkCtx.fillStyle = 'rgba(54, 72, 36, 0.22)';
+    bkCtx.beginPath();
+    bkCtx.ellipse(bx, by, 6 + rand() * 14, 18 + rand() * 42, 0, 0, Math.PI * 2);
+    bkCtx.fill();
   }
 
   // 7. Damp dark forest soil normal/bump & albedo texture
@@ -7982,46 +9327,52 @@ export function buildParasolMushroom(
   stemMesh.receiveShadow = true;
   group.add(stemMesh);
 
-  // Smooth soil & moss coating shell on the lower bulb (y = 0..0.72)
+  // Smooth cream bulb shell dusted with dark soil near the base (y = 0..0.72, flush transition into stem)
   const bulbPoints: THREE.Vector2[] = [];
-  for (let i = 0; i <= 24; i++) {
-    const u = i / 24;
+  for (let i = 0; i <= 28; i++) {
+    const u = i / 28;
     const y = u * 0.72;
     const bulbCurve = Math.sin(u * Math.PI);
     const bottomRound = Math.sqrt(Math.max(0.02, Math.sin(Math.min(1, u * 2.2) * (Math.PI * 0.5))));
-    const r = (0.124 + 0.315 * Math.pow(bulbCurve, 0.82)) * bottomRound;
+    // Taper shell offset to 0 at u=1 so it merges seamlessly into the cream stem
+    const shellOffset = 0.003 * (1 - u * u);
+    const r = (0.12 + shellOffset + 0.31 * Math.pow(bulbCurve, 0.82)) * bottomRound;
     bulbPoints.push(new THREE.Vector2(r, y));
   }
-  const bulbGeo = new THREE.LatheGeometry(bulbPoints, isHero ? 44 : 24);
+  const bulbGeo = new THREE.LatheGeometry(bulbPoints, isHero ? 48 : 28);
   const bPos = bulbGeo.attributes.position;
   for (let i = 0; i < bPos.count; i++) {
     const vx = bPos.getX(i);
     const vy = bPos.getY(i);
     const vz = bPos.getZ(i);
     const ang = Math.atan2(vz, vx);
-    const lump = 1 + Math.sin(ang * 4 + vy * 6) * 0.05 + Math.cos(ang * 7 - vy * 9) * 0.035;
-    bPos.setXYZ(i, vx * lump, vy, vz * lump);
+    const swell = 1 + Math.sin(ang * 3 + vy * 5) * 0.045 + Math.cos(ang * 5 - vy * 7) * 0.03;
+    bPos.setXYZ(i, vx * swell, vy, vz * swell);
   }
   bulbGeo.computeVertexNormals();
 
   const bulbMat = new THREE.MeshStandardMaterial({
     map: textures.bulbColor,
     bumpMap: textures.bulbBump,
-    bumpScale: 0.055,
-    roughness: 0.94,
+    bumpScale: 0.024,
+    color: new THREE.Color('#ffffff'),
+    roughness: 0.88,
     metalness: 0.0,
+    emissive: new THREE.Color('#a8cc34'),
+    emissiveIntensity: 0,
   });
+  emissiveMaterials.push(bulbMat);
   const bulbMesh = new THREE.Mesh(bulbGeo, bulbMat);
   bulbMesh.castShadow = true;
   bulbMesh.receiveShadow = true;
   group.add(bulbMesh);
 
-  // Fine fibrous green moss tufts & organic dark soil crumbs clinging to the bulb
+  // A few delicate moss tufts and fine dark soil crumbs clinging near the bottom of the cream bulb
   if (isHero) {
-    const tuftCount = 140;
-    // Short tapered curved moss filament blade
-    const tuftGeo = new THREE.ConeGeometry(0.012, 0.085, 4);
-    tuftGeo.translate(0, 0.04, 0);
+    const mossPatchAngles = [-0.65, 0.85, 2.35];
+    const tuftCount = 48;
+    const tuftGeo = new THREE.ConeGeometry(0.0085, 0.058, 4);
+    tuftGeo.translate(0, 0.026, 0);
     const tuftMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       roughness: 0.92,
@@ -8032,18 +9383,27 @@ export function buildParasolMushroom(
     const color = new THREE.Color();
 
     for (let i = 0; i < tuftCount; i++) {
-      const clusterAngle = (i % 9) * 0.7 + (rand() - 0.5) * 0.38;
-      const h = 0.14 + (i % 7) * 0.065 + (rand() - 0.5) * 0.05;
+      const patchCenter = mossPatchAngles[i % mossPatchAngles.length];
+      const clusterAngle = patchCenter + (rand() - 0.5) * 0.34;
+      const h = 0.09 + rand() * 0.19;
       const u = Math.max(0.05, Math.min(0.95, h / 0.72));
-      const rad = (0.12 + 0.31 * Math.pow(Math.sin(u * Math.PI), 0.82)) * 0.98;
+      const swell =
+        1 + Math.sin(clusterAngle * 3 + h * 5) * 0.045 + Math.cos(clusterAngle * 5 - h * 7) * 0.03;
+      const bottomRound = Math.sqrt(Math.max(0.02, Math.sin(Math.min(1, u * 2.2) * (Math.PI * 0.5))));
+      const rad = (0.12 + 0.31 * Math.pow(Math.sin(u * Math.PI), 0.82)) * bottomRound * swell * 0.99;
+
       dummy.position.set(Math.cos(clusterAngle) * rad, h, Math.sin(clusterAngle) * rad);
-      dummy.lookAt(Math.cos(clusterAngle) * 2, h + 0.4 + rand() * 0.5, Math.sin(clusterAngle) * 2);
-      dummy.rotateZ((rand() - 0.5) * 0.6);
-      dummy.scale.set(0.8 + rand() * 0.7, 0.6 + rand() * 0.9, 0.8 + rand() * 0.7);
+      dummy.lookAt(
+        Math.cos(clusterAngle) * 2,
+        h + 0.35 + rand() * 0.35,
+        Math.sin(clusterAngle) * 2,
+      );
+      dummy.rotateZ((rand() - 0.5) * 0.5);
+      dummy.scale.set(0.75 + rand() * 0.5, 0.65 + rand() * 0.65, 0.75 + rand() * 0.5);
       dummy.updateMatrix();
       tuftInst.setMatrixAt(i, dummy.matrix);
 
-      color.setHSL(0.25 + (rand() - 0.5) * 0.04, 0.46, 0.16 + rand() * 0.09);
+      color.setHSL(0.25 + (rand() - 0.5) * 0.03, 0.44, 0.16 + rand() * 0.08);
       tuftInst.setColorAt(i, color);
     }
     tuftInst.instanceMatrix.needsUpdate = true;
@@ -8154,9 +9514,9 @@ export function buildParasolMushroom(
       const ang = Math.atan2(vz, vx);
       const fringe =
         1 +
-        Math.sin(ang * 31) * 0.018 +
-        Math.cos(ang * 19) * 0.014 +
-        Math.sin(ang * 53) * 0.008;
+        Math.sin(ang * 31) * 0.014 +
+        Math.cos(ang * 19) * 0.010 +
+        Math.sin(ang * 53) * 0.006;
       capPos.setXYZ(i, vx * fringe, vy, vz * fringe);
     }
     const u = 0.5 + vx / (capRadius * 2.04);
@@ -8193,43 +9553,49 @@ export function buildParasolMushroom(
     group.add(recessMesh);
   }
 
-  // 4. Real 3D Cap Scales: raised, curled, pointed tufts arranged in concentric rings,
-  // densest and darkest near the umbo, sparser toward the shaggy margin
+  // 4. Real 3D Cap Scales: raised, cushiony fibrous tufts spread over the top of the cap
+  //    (densest near the central umbo, sparser outward, stopping inside the margin so none form claws around the rim)
+  const baseHeroRadii = [0.20, 0.26, 0.33, 0.41, 0.50, 0.60, 0.71, 0.83, 0.96, 1.10, 1.22];
   const ringRadii = isHero
-    ? [0.22, 0.30, 0.39, 0.49, 0.60, 0.72, 0.85, 0.99, 1.13, 1.27, 1.39]
-    : [0.24, 0.42, 0.64, 0.88, 1.14, 1.34].map((r) => r * (capRadius / 1.48));
+    ? baseHeroRadii
+    : [0.22, 0.36, 0.52, 0.70, 0.90, 1.10].map((r) => r * (capRadius / 1.48));
   const ringCounts = isHero
-    ? [28, 32, 36, 38, 38, 36, 34, 30, 26, 22, 18]
-    : [14, 16, 18, 16, 14, 12];
+    ? [34, 38, 40, 38, 34, 30, 26, 22, 18, 14, 11]
+    : [18, 20, 18, 15, 12, 9];
 
   const totalScales = ringCounts.reduce((acc, n) => acc + n, 0);
 
-  // Build a custom sculpted 3D curled, pointed tuft geometry
-  // Root sits flush on the cap at z = -0.045; body arches and tapers to a curled pointed tip at z = +0.055
-  const scaleGeo = new THREE.BoxGeometry(0.088, 0.022, 0.095, 4, 2, 5);
+  // Sculpted cushiony fibrous tuft pad that hugs the cap dome (never hooks or claws upward)
+  const scaleGeo = new THREE.BoxGeometry(0.086, 0.018, 0.074, 5, 2, 5);
   const sPos = scaleGeo.attributes.position;
   for (let i = 0; i < sPos.count; i++) {
-    const sx = sPos.getX(i);
-    const sy = sPos.getY(i);
-    const sz = sPos.getZ(i); // -0.0475 (inner root) to +0.0475 (outer tip)
-    const u = (sz + 0.0475) / 0.095; // 0 at root, 1 at pointed outer tip
-    // Taper width to a pointed tuft tip at u = 1, with subtle ragged fibril serration
-    const taperX = (1 - Math.pow(u, 1.35) * 0.82) * (1 + Math.sin(u * 9) * 0.08);
-    // Curl upward strongly toward the tip so each scale reads as a raised 3D curled squamule tuft
-    const curlY = Math.pow(u, 2.1) * 0.038;
-    // Thin the vertical thickness toward the pointed tip
-    const thicknessScale = 1 - u * 0.55;
-    // Slight dorsal ridge along the center line (sx = 0)
-    const ridgeY = (1 - Math.pow(sx / 0.044, 2)) * 0.008;
-    sPos.setXYZ(i, sx * taperX, sy * thicknessScale + curlY + ridgeY, sz);
+    const sx = sPos.getX(i); // -0.043 .. +0.043
+    const sy = sPos.getY(i); // -0.009 .. +0.009
+    const sz = sPos.getZ(i); // -0.037 .. +0.037
+    const nx = sx / 0.043;
+    const nz = sz / 0.037;
+    const r2 = Math.min(1.2, nx * nx + nz * nz);
+    // Soft oval squamule patch with slightly frayed/feathered edges
+    const edgeFeather = 1 - 0.18 * Math.pow(Math.max(0, r2 - 0.35), 1.2);
+    const serration = 1 + 0.07 * Math.sin(nx * 9.0) * Math.cos(nz * 7.0);
+    // Gentle dome cushion in the middle, hugging the cap slope at the perimeter
+    const domeHeight = Math.max(0, 1 - r2 * 0.88) * 0.011;
+    const hugCurvature = -r2 * 0.004;
+    const topLift = sy > 0 ? domeHeight : 0;
+    sPos.setXYZ(
+      i,
+      sx * edgeFeather * serration,
+      sy * (1 - r2 * 0.45) + topLift + hugCurvature,
+      sz * edgeFeather * serration,
+    );
   }
   scaleGeo.computeVertexNormals();
 
   const scaleMat = new THREE.MeshStandardMaterial({
     color: new THREE.Color('#ffffff'),
     bumpMap: textures.capBump,
-    bumpScale: 0.035,
-    roughness: 0.9,
+    bumpScale: 0.032,
+    roughness: 0.92,
     metalness: 0.0,
   });
 
@@ -8250,32 +9616,32 @@ export function buildParasolMushroom(
       const angle =
         (k / count) * Math.PI * 2 +
         (rIdx % 2) * (Math.PI / count) +
-        (rand() - 0.5) * 0.07;
-      const r = Math.min(capRadius * 0.96, baseR + (rand() - 0.5) * 0.032);
+        (rand() - 0.5) * 0.09;
+      const r = Math.min(capRadius * 0.85, baseR + (rand() - 0.5) * 0.036);
       const y0 = getCapSurfaceY(r);
       const y1 = getCapSurfaceY(Math.min(capRadius, r + 0.03));
       const slopeAngle = Math.atan2(y0 - y1, 0.03);
 
-      dummy.position.set(Math.cos(angle) * r, y0 + 0.005, Math.sin(angle) * r);
+      dummy.position.set(Math.cos(angle) * r, y0 + 0.002, Math.sin(angle) * r);
       dummy.rotation.set(0, 0, 0);
       dummy.lookAt(
         Math.cos(angle) * (r + 1),
-        y0 + 0.005 - Math.tan(slopeAngle),
+        y0 + 0.002 - Math.tan(slopeAngle),
         Math.sin(angle) * (r + 1),
       );
-      // Pitch the curled pointed tuft slightly upward on mid and outer rings
-      dummy.rotateX(-0.08 - ringNorm * 0.12 - rand() * 0.08);
 
-      const wScale = (0.72 + Math.sin(ringNorm * Math.PI) * 0.65) * (0.82 + rand() * 0.36);
-      const hScale = (0.95 + (1 - ringNorm * 0.3) * 0.45) * (0.85 + rand() * 0.35);
-      const lScale = (0.68 + ringNorm * 0.68) * (0.85 + rand() * 0.32);
+      // Densest and fullest near the central umbo, gently smaller and flatter toward the outer cap
+      const centerWeight = 1 - ringNorm * 0.32;
+      const wScale = (0.86 + centerWeight * 0.36) * (0.84 + rand() * 0.32);
+      const hScale = (0.85 + centerWeight * 0.55) * (0.85 + rand() * 0.30);
+      const lScale = (0.82 + centerWeight * 0.34) * (0.84 + rand() * 0.32);
       dummy.scale.set(wScale, hScale, lScale);
       dummy.updateMatrix();
       scalesInst.setMatrixAt(scaleIdx, dummy.matrix);
 
-      // Densest and darkest umber near the umbo, warm medium brown outward
-      const lightness = 0.14 + ringNorm * 0.11 + (rand() - 0.5) * 0.035;
-      scaleColor.setHSL(0.072, 0.42, lightness);
+      // Darkest umber near the umbo, warm medium-umber outward
+      const lightness = 0.16 + ringNorm * 0.12 + (rand() - 0.5) * 0.035;
+      scaleColor.setHSL(0.074, 0.42, lightness);
       scalesInst.setColorAt(scaleIdx, scaleColor);
       scaleIdx++;
     }
@@ -8391,13 +9757,12 @@ export interface BuiltProductFamily {
 
 /**
  * Builds the Chapter 05 "Any Shape" supporting cast of grown mycelium packaging forms:
- * 1. L-shaped Corner Protector (back-left on the studio sweep)
- * 2. Cylindrical Bottle Shipper with moulded cradle (back-right on the studio sweep)
- * 3. Ribbed Transit Cushion Cap (further back-center-right on the sweep)
+ * 1. L-shaped Corner Protector (far back-left on the studio sweep)
+ * 2. Moulded Bottle Shipper with cylindrical cradle (far back-right on the studio sweep)
  *
- * Uses the same matte warm cream speckled mycelium material as the hero tray, positioned further back
- * on the sweep so they read as supporting cast ("one material in many moulds") and slide smoothly
- * into place with scroll (`productFamilySlide`).
+ * Positioned further back and to the sides at smaller scale so they sit quietly in the
+ * soft depth-of-field background without ever crowding or overlapping the hero tray,
+ * and with no torus or ring shapes that could appear behind the tray during Hold-to-Inspect.
  */
 export function buildProductFamily(textures: ProceduralTextureSet): BuiltProductFamily {
   const group = new THREE.Group();
@@ -8409,12 +9774,12 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
     map: textures.traySkinColor,
     bumpMap: textures.traySkinBump,
     bumpScale: 0.014,
-    color: new THREE.Color('#f4eee2'),
-    roughness: 0.91,
+    color: new THREE.Color('#e6dccb'),
+    roughness: 0.92,
     metalness: 0.0,
-    sheen: 0.52,
-    sheenRoughness: 0.82,
-    sheenColor: new THREE.Color('#fffcf5'),
+    sheen: 0.22,
+    sheenRoughness: 0.86,
+    sheenColor: new THREE.Color('#f5ede0'),
     transparent: true,
     opacity: 0,
   });
@@ -8425,9 +9790,9 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
   shadowCanvas.height = 128;
   const sCtx = shadowCanvas.getContext('2d')!;
   const grad = sCtx.createRadialGradient(64, 64, 8, 64, 64, 60);
-  grad.addColorStop(0.0, 'rgba(38, 28, 18, 0.42)');
-  grad.addColorStop(0.55, 'rgba(46, 35, 24, 0.18)');
-  grad.addColorStop(1.0, 'rgba(46, 35, 24, 0.0)');
+  grad.addColorStop(0.0, 'rgba(38, 30, 22, 0.36)');
+  grad.addColorStop(0.55, 'rgba(46, 36, 26, 0.15)');
+  grad.addColorStop(1.0, 'rgba(46, 36, 26, 0.0)');
   sCtx.fillStyle = grad;
   sCtx.fillRect(0, 0, 128, 128);
   const shadowTex = new THREE.CanvasTexture(shadowCanvas);
@@ -8441,25 +9806,25 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Piece 1: L-Shaped Corner Protector (Back-left on the studio sweep)
+  // Piece 1: L-Shaped Corner Protector (Far back-left on the studio sweep)
   // ─────────────────────────────────────────────────────────────────────────
   const cornerGroup = new THREE.Group();
   const lShape = new THREE.Shape();
   lShape.moveTo(0, 0);
-  lShape.lineTo(0.68, 0);
-  lShape.lineTo(0.68, 0.22);
-  lShape.lineTo(0.22, 0.22);
-  lShape.lineTo(0.22, 0.68);
-  lShape.lineTo(0, 0.68);
+  lShape.lineTo(0.66, 0);
+  lShape.lineTo(0.66, 0.21);
+  lShape.lineTo(0.21, 0.21);
+  lShape.lineTo(0.21, 0.66);
+  lShape.lineTo(0, 0.66);
   lShape.closePath();
 
   const extrudeSettings: THREE.ExtrudeGeometryOptions = {
     steps: 1,
-    depth: 0.56,
+    depth: 0.54,
     bevelEnabled: true,
-    bevelThickness: 0.045,
-    bevelSize: 0.04,
-    bevelSegments: 5,
+    bevelThickness: 0.04,
+    bevelSize: 0.036,
+    bevelSegments: 4,
   };
   const cornerLGeo = new THREE.ExtrudeGeometry(lShape, extrudeSettings);
   cornerLGeo.center();
@@ -8469,52 +9834,44 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
   cornerGroup.add(cornerLMesh);
 
   // Inner corner gusset pad (3-axis corner block detail)
-  const gussetGeo = new THREE.BoxGeometry(0.24, 0.24, 0.20);
+  const gussetGeo = new THREE.BoxGeometry(0.22, 0.22, 0.18);
   const gussetMesh = new THREE.Mesh(gussetGeo, familyMat);
-  gussetMesh.position.set(-0.10, -0.10, 0.14);
+  gussetMesh.position.set(-0.09, -0.09, 0.13);
   cornerGroup.add(gussetMesh);
 
-  // Cushioning rib indentations on the outer leg
-  const ribGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.48, 12);
-  const rib1 = new THREE.Mesh(ribGeo, familyMat);
-  rib1.position.set(0.12, -0.22, 0);
-  rib1.rotation.x = Math.PI / 2;
-  cornerGroup.add(rib1);
-
-  const cornerShadow = new THREE.Mesh(new THREE.PlaneGeometry(1.15, 1.15), shadowMat);
+  const cornerShadow = new THREE.Mesh(new THREE.PlaneGeometry(0.85, 0.85), shadowMat);
   cornerShadow.rotation.x = -Math.PI / 2;
-  cornerShadow.position.set(-1.95, -0.508, -1.28);
+  cornerShadow.position.set(-2.95, -0.395, -2.35);
   group.add(cornerShadow);
 
-  cornerGroup.scale.setScalar(0.76);
-  cornerGroup.rotation.set(0.08, 0.52, -0.04);
+  cornerGroup.scale.setScalar(0.50);
+  cornerGroup.rotation.set(0.06, 0.54, -0.03);
   group.add(cornerGroup);
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Piece 2: Bottle Shipper Block with Cylindrical Cradle (Back-right on sweep)
+  // Piece 2: Bottle Shipper Block with Cylindrical Cradle (Far back-right on sweep)
+  //          (No torus collar or ring shapes)
   // ─────────────────────────────────────────────────────────────────────────
   const shipperGroup = new THREE.Group();
-  // Cross-section profile of a rectangular block with a deep semi-cylindrical bottle cradle on top
   const shipperShape = new THREE.Shape();
-  const sw = 0.48;
-  const sh = 0.28;
-  const cradleR = 0.24;
+  const sw = 0.46;
+  const sh = 0.26;
+  const cradleR = 0.22;
   shipperShape.moveTo(-sw, -sh);
   shipperShape.lineTo(sw, -sh);
   shipperShape.lineTo(sw, sh);
   shipperShape.lineTo(cradleR, sh);
-  // Semi-circular bottle cradle arc
   shipperShape.absarc(0, sh, cradleR, 0, Math.PI, true);
   shipperShape.lineTo(-sw, sh);
   shipperShape.closePath();
 
   const shipperGeo = new THREE.ExtrudeGeometry(shipperShape, {
     steps: 1,
-    depth: 0.92,
+    depth: 0.88,
     bevelEnabled: true,
-    bevelThickness: 0.04,
-    bevelSize: 0.038,
-    bevelSegments: 5,
+    bevelThickness: 0.038,
+    bevelSize: 0.035,
+    bevelSegments: 4,
   });
   shipperGeo.center();
   const shipperMesh = new THREE.Mesh(shipperGeo, familyMat);
@@ -8522,87 +9879,46 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
   shipperMesh.receiveShadow = true;
   shipperGroup.add(shipperMesh);
 
-  // Neck support collar bridge near the front end of the bottle shipper
-  const collarBridgeGeo = new THREE.TorusGeometry(0.19, 0.048, 12, 24, Math.PI);
-  collarBridgeGeo.rotateX(Math.PI);
-  const collarBridge = new THREE.Mesh(collarBridgeGeo, familyMat);
-  collarBridge.position.set(0, 0.12, 0.34);
-  shipperGroup.add(collarBridge);
-
-  const shipperShadow = new THREE.Mesh(new THREE.PlaneGeometry(1.35, 1.35), shadowMat);
+  const shipperShadow = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 0.95), shadowMat);
   shipperShadow.rotation.x = -Math.PI / 2;
-  shipperShadow.position.set(1.92, -0.508, -1.22);
+  shipperShadow.position.set(3.05, -0.395, -2.25);
   group.add(shipperShadow);
 
-  shipperGroup.scale.setScalar(0.78);
-  shipperGroup.rotation.set(0.05, -0.58, 0.02);
+  shipperGroup.scale.setScalar(0.52);
+  shipperGroup.rotation.set(0.04, -0.58, 0.02);
   group.add(shipperGroup);
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // Piece 3: Moulded Circular Jar Cushion Cap (Back-center-right on sweep)
-  // ─────────────────────────────────────────────────────────────────────────
-  const capPodGroup = new THREE.Group();
-  const lathePts: THREE.Vector2[] = [
-    new THREE.Vector2(0.0, -0.10),
-    new THREE.Vector2(0.32, -0.10),
-    new THREE.Vector2(0.38, -0.04),
-    new THREE.Vector2(0.38, 0.12),
-    new THREE.Vector2(0.30, 0.16),
-    new THREE.Vector2(0.24, 0.02),
-    new THREE.Vector2(0.0, 0.02),
-  ];
-  const capPodGeo = new THREE.LatheGeometry(lathePts, 36);
-  const capPodMesh = new THREE.Mesh(capPodGeo, familyMat);
-  capPodMesh.castShadow = true;
-  capPodMesh.receiveShadow = true;
-  capPodGroup.add(capPodMesh);
-
-  const capPodShadow = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 0.95), shadowMat);
-  capPodShadow.rotation.x = -Math.PI / 2;
-  capPodShadow.position.set(0.92, -0.508, -1.78);
-  group.add(capPodShadow);
-
-  capPodGroup.scale.setScalar(0.75);
-  capPodGroup.rotation.set(0.18, 0.3, -0.12);
-  group.add(capPodGroup);
 
   const updateFamily = (
     slideProgress: number,
     studioLightness: number,
     inspectStrength: number,
   ) => {
-    const vis = slideProgress * studioLightness * (1 - inspectStrength * 0.72);
+    // Hide supporting pieces completely during Hold-to-Inspect so the rotating tray is 100% isolated
+    const inspectFade = Math.max(0, 1 - inspectStrength * 2.2);
+    const vis = slideProgress * studioLightness * inspectFade;
     group.visible = vis > 0.01;
     if (!group.visible) return;
 
     const ease = 1 - Math.pow(1 - slideProgress, 3);
-    familyMat.opacity = Math.min(1, vis * 1.05);
-    shadowMat.opacity = vis * 0.65;
+    familyMat.opacity = Math.min(1, vis * 0.92);
+    shadowMat.opacity = vis * 0.48;
 
-    // Slide smoothly into place from slightly further out & back on the studio sweep
+    // Positioned well back and to the sides on the studio sweep so they never crowd the hero tray
     cornerGroup.position.set(
-      -1.95 - (1 - ease) * 0.55,
-      -0.21 + (1 - ease) * 0.14,
-      -1.28 - (1 - ease) * 0.45,
+      -2.95 - (1 - ease) * 0.45,
+      -0.22 + (1 - ease) * 0.10,
+      -2.35 - (1 - ease) * 0.35,
     );
     cornerShadow.position.x = cornerGroup.position.x;
     cornerShadow.position.z = cornerGroup.position.z;
 
     shipperGroup.position.set(
-      1.92 + (1 - ease) * 0.55,
-      -0.25 + (1 - ease) * 0.14,
-      -1.22 - (1 - ease) * 0.45,
+      3.05 + (1 - ease) * 0.45,
+      -0.25 + (1 - ease) * 0.10,
+      -2.25 - (1 - ease) * 0.35,
     );
     shipperShadow.position.x = shipperGroup.position.x;
     shipperShadow.position.z = shipperGroup.position.z;
-
-    capPodGroup.position.set(
-      0.92 + (1 - ease) * 0.35,
-      -0.38 + (1 - ease) * 0.16,
-      -1.78 - (1 - ease) * 0.5,
-    );
-    capPodShadow.position.x = capPodGroup.position.x;
-    capPodShadow.position.z = capPodGroup.position.z;
   };
 
   return {
@@ -8625,9 +9941,8 @@ export interface BuiltStudioSet {
 
 /**
  * Builds the Chapter 05 Product Photography Studio Set at y ≈ -5.45:
- * - A seamless cream/sand paper sweep (floor curving smoothly up into a tall backdrop with zero visible horizon line)
- * - A low, matte, slightly warmer sand-stone plinth beneath the hero tray
- * - A soft multi-zone contact shadow directly beneath the tray and plinth
+ * - A seamless neutral warm cream/sand paper sweep (floor curving smoothly up into a tall backdrop with zero visible horizon line)
+ * - Soft multi-zone elliptical contact shadow directly beneath the hero tray (no oversized disc running off the bottom of the frame)
  * - Scrubbed smoothly from 0 -> 1 by `studioLightness` so the darkness lifts as the solid tray resolves,
  *   and dims cleanly on exit toward Chapter 06.
  */
@@ -8637,44 +9952,45 @@ export function buildStudioSet(): BuiltStudioSet {
   group.position.set(0, -5.45, 0);
 
   // 1. Seamless Cyclorama Paper Sweep Geometry
-  //    Floor at local y = -0.52 from z = +4.5 back to z = -1.1,
-  //    curving smoothly up with radius R = 2.45 into a vertical backdrop at z = -3.55 rising to y = +6.5.
+  //    Floor at local y = -0.42 from z = +5.2 back to z = -1.2,
+  //    curving smoothly up with radius R = 2.65 into a vertical backdrop rising to y = +6.8.
   const widthSegments = 48;
   const lengthSegments = 64;
-  const sweepWidth = 22.0;
+  const sweepWidth = 24.0;
 
   const sweepPositions: number[] = [];
   const sweepUvs: number[] = [];
   const sweepIndices: number[] = [];
 
-  const floorZStart = 4.6;
-  const curveZStart = -0.95;
-  const curveRadius = 2.55;
-  const topYEnd = 6.8;
+  const floorY = -0.40;
+  const floorZStart = 5.2;
+  const curveZStart = -1.25;
+  const curveRadius = 2.65;
+  const topYEnd = 7.0;
 
-  const floorLen = floorZStart - curveZStart; // 5.55
-  const arcLen = (Math.PI * 0.5) * curveRadius; // ~4.00
-  const wallLen = topYEnd - (-0.52 + curveRadius); // ~4.77
+  const floorLen = floorZStart - curveZStart;
+  const arcLen = Math.PI * 0.5 * curveRadius;
+  const wallLen = topYEnd - (floorY + curveRadius);
   const totalLen = floorLen + arcLen + wallLen;
 
   for (let iy = 0; iy <= lengthSegments; iy++) {
     const v = iy / lengthSegments;
     const s = v * totalLen;
 
-    let py = -0.52;
+    let py = floorY;
     let pz = floorZStart;
 
     if (s <= floorLen) {
-      py = -0.52;
+      py = floorY;
       pz = floorZStart - s;
     } else if (s <= floorLen + arcLen) {
       const arcS = s - floorLen;
       const theta = (arcS / arcLen) * (Math.PI * 0.5);
-      py = -0.52 + curveRadius * (1 - Math.cos(theta));
+      py = floorY + curveRadius * (1 - Math.cos(theta));
       pz = curveZStart - curveRadius * Math.sin(theta);
     } else {
       const wallS = s - floorLen - arcLen;
-      py = -0.52 + curveRadius + wallS;
+      py = floorY + curveRadius + wallS;
       pz = curveZStart - curveRadius;
     }
 
@@ -8703,7 +10019,7 @@ export function buildStudioSet(): BuiltStudioSet {
   sweepGeo.computeVertexNormals();
 
   // Custom shader for the seamless paper sweep so it transitions smoothly from subterranean dark
-  // to a warm, soft-lit cream/sand studio paper sweep with upper-left key light gradient and zero horizon line.
+  // to a calm, matte sand-stone studio paper sweep with zero clipping or yellow cast.
   const sweepMat = new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: true,
@@ -8736,35 +10052,42 @@ export function buildStudioSet(): BuiltStudioSet {
       }
 
       void main() {
-        // Warm cream/sand studio paper palette (never clips to pure white)
-        vec3 keyPaper = vec3(0.925, 0.894, 0.835);   // #ece4d5 soft warm cream in upper-left key light
-        vec3 midPaper = vec3(0.878, 0.839, 0.768);   // #e0d6c4 warm sand neutral
-        vec3 shadePaper = vec3(0.804, 0.757, 0.678); // #cdc1ad gentle studio falloff
+        // Calm, low-saturation warm sand/stone studio paper palette (never yellow, never clips to white)
+        vec3 keyPaper = vec3(0.865, 0.842, 0.804);   // #dcd7cd soft matte warm alabaster/sand
+        vec3 midPaper = vec3(0.812, 0.786, 0.745);   // #cfc8be neutral studio sand
+        vec3 shadePaper = vec3(0.735, 0.706, 0.662); // #bbb4a9 gentle peripheral studio falloff
 
         // Soft large key light pool from upper-left (-x, +y)
-        vec2 keyCenter = vec2(0.36, 0.42);
-        float keyDist = length((vUv - keyCenter) * vec2(1.15, 0.95));
-        float keyPool = 1.0 - smoothstep(0.05, 0.78, keyDist);
+        vec2 keyCenter = vec2(0.36, 0.44);
+        float keyDist = length((vUv - keyCenter) * vec2(1.10, 0.92));
+        float keyPool = 1.0 - smoothstep(0.05, 0.82, keyDist);
 
         // Seamless vertical cove gradient
-        float coveShade = smoothstep(0.18, 0.55, vUv.y) * (1.0 - smoothstep(0.55, 0.92, vUv.y)) * 0.14;
+        float coveShade = smoothstep(0.18, 0.55, vUv.y) * (1.0 - smoothstep(0.55, 0.92, vUv.y)) * 0.11;
 
-        vec3 studioCol = mix(shadePaper, midPaper, smoothstep(0.95, 0.25, keyDist));
-        studioCol = mix(studioCol, keyPaper, keyPool * 0.68);
-        studioCol -= vec3(coveShade * 0.28);
+        vec3 studioCol = mix(shadePaper, midPaper, smoothstep(0.95, 0.22, keyDist));
+        studioCol = mix(studioCol, keyPaper, keyPool * 0.62);
+        studioCol -= vec3(coveShade * 0.22);
 
-        // Soft ambient contact darkening under the hero tray center (x ≈ 0, z ≈ 0)
-        float trayFloorDist = length(vLocalPos.xz * vec2(0.56, 0.82));
-        float floorMask = 1.0 - smoothstep(-0.48, -0.35, vLocalPos.y);
-        float trayBounceShadow = (1.0 - smoothstep(0.2, 1.85, trayFloorDist)) * floorMask * 0.12;
+        // Soft ambient contact grounding directly beneath the hero tray (x ≈ 0, z ≈ 0)
+        // Rotated -0.46 rad to align with the tray's 3/4 angle
+        float cosA = 0.896;
+        float sinA = 0.444;
+        vec2 rotXZ = vec2(
+          vLocalPos.x * cosA - vLocalPos.z * sinA,
+          vLocalPos.x * sinA + vLocalPos.z * cosA
+        );
+        float trayFootprint = length(rotXZ / vec2(1.42, 0.95));
+        float floorMask = 1.0 - smoothstep(-0.38, -0.25, vLocalPos.y);
+        float trayBounceShadow = (1.0 - smoothstep(0.55, 1.45, trayFootprint)) * floorMask * (1.0 - uInspectStrength * 0.65) * 0.14;
         studioCol *= (1.0 - trayBounceShadow);
 
         // Subtle fine matte paper fibre grain
-        float grain = (hash(vLocalPos.xz * 42.0 + vLocalPos.xy * 31.0) - 0.5) * 0.012;
+        float grain = (hash(vLocalPos.xz * 42.0 + vLocalPos.xy * 31.0) - 0.5) * 0.010;
         studioCol += grain;
 
-        // Scrub between subterranean dark (#070504) and the warm lit studio paper sweep
-        vec3 darkSubterranean = vec3(0.028, 0.022, 0.018);
+        // Scrub between subterranean dark (#0a0806) and the warm lit studio paper sweep
+        vec3 darkSubterranean = vec3(0.035, 0.028, 0.022);
         vec3 finalCol = mix(darkSubterranean, studioCol, uStudioLightness);
 
         gl_FragColor = vec4(finalCol, smoothstep(0.01, 0.18, uStudioLightness));
@@ -8776,38 +10099,37 @@ export function buildStudioSet(): BuiltStudioSet {
   sweepMesh.receiveShadow = true;
   group.add(sweepMesh);
 
-  // 2. Low, matte, slightly darker warm travertine/sand plinth beneath the hero tray
-  const plinthGeo = new THREE.CylinderGeometry(1.56, 1.62, 0.065, 64);
-  plinthGeo.scale(1.18, 1.0, 0.82);
-  const plinthMat = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#c5b7a1'),
-    roughness: 0.96,
-    metalness: 0.0,
-    transparent: true,
-    opacity: 0,
-  });
+  // 2. Subtle hidden riser reference (kept for interface compatibility, hidden so no disc ever shows)
+  const plinthGeo = new THREE.BoxGeometry(0.1, 0.01, 0.1);
+  const plinthMat = new THREE.MeshBasicMaterial({ visible: false });
   const plinthMesh = new THREE.Mesh(plinthGeo, plinthMat);
-  plinthMesh.position.set(0.0, -0.485, 0.02);
-  plinthMesh.receiveShadow = true;
+  plinthMesh.visible = false;
   group.add(plinthMesh);
 
-  // 3. Soft radial contact shadow under the hero tray (on top of the plinth & sweep floor)
+  // 3. Soft tailored contact shadow directly under the hero tray on the seamless sweep floor
   const shadowCanvas = document.createElement('canvas');
   shadowCanvas.width = 256;
   shadowCanvas.height = 256;
   const sCtx = shadowCanvas.getContext('2d')!;
-  const grad = sCtx.createRadialGradient(128, 128, 14, 128, 128, 122);
-  grad.addColorStop(0.0, 'rgba(28, 20, 12, 0.65)');
-  grad.addColorStop(0.42, 'rgba(38, 28, 18, 0.38)');
-  grad.addColorStop(0.75, 'rgba(48, 36, 24, 0.12)');
-  grad.addColorStop(1.0, 'rgba(48, 36, 24, 0.0)');
+  sCtx.clearRect(0, 0, 256, 256);
+  sCtx.save();
+  sCtx.translate(128, 128);
+  sCtx.scale(1.0, 0.68);
+  const grad = sCtx.createRadialGradient(0, 0, 18, 0, 0, 116);
+  grad.addColorStop(0.0, 'rgba(34, 28, 22, 0.54)');
+  grad.addColorStop(0.48, 'rgba(44, 36, 28, 0.30)');
+  grad.addColorStop(0.78, 'rgba(54, 46, 36, 0.09)');
+  grad.addColorStop(1.0, 'rgba(54, 46, 36, 0.0)');
   sCtx.fillStyle = grad;
-  sCtx.fillRect(0, 0, 256, 256);
+  sCtx.beginPath();
+  sCtx.arc(0, 0, 120, 0, Math.PI * 2);
+  sCtx.fill();
+  sCtx.restore();
 
   const shadowTex = new THREE.CanvasTexture(shadowCanvas);
   shadowTex.colorSpace = THREE.SRGBColorSpace;
 
-  const contactShadowGeo = new THREE.PlaneGeometry(3.25, 2.25);
+  const contactShadowGeo = new THREE.PlaneGeometry(3.15, 2.25);
   contactShadowGeo.rotateX(-Math.PI / 2);
   const contactShadowMat = new THREE.MeshBasicMaterial({
     map: shadowTex,
@@ -8819,7 +10141,7 @@ export function buildStudioSet(): BuiltStudioSet {
     polygonOffsetUnits: -1,
   });
   const contactShadowMesh = new THREE.Mesh(contactShadowGeo, contactShadowMat);
-  contactShadowMesh.position.set(0.05, -0.448, 0.04);
+  contactShadowMesh.position.set(0.04, floorY + 0.004, 0.03);
   contactShadowMesh.rotation.y = -0.46;
   group.add(contactShadowMesh);
 
@@ -8831,14 +10153,9 @@ export function buildStudioSet(): BuiltStudioSet {
     sweepMat.uniforms.uStudioLightness.value = studioLightness;
     sweepMat.uniforms.uInspectStrength.value = inspectStrength;
 
-    // Fade the low plinth and contact shadow smoothly with studioLightness;
-    // slightly soften plinth during 360-degree Hold-to-Inspect rotation so the tray never intersects it
-    const inspectFade = 1 - inspectStrength * 0.85;
-    plinthMat.opacity = studioLightness * 0.94 * inspectFade;
-    plinthMesh.position.y = -0.485 - inspectStrength * 0.18;
-
-    contactShadowMat.opacity = studioLightness * 0.86 * (1 - inspectStrength * 0.55);
-    contactShadowMesh.position.y = -0.448 - inspectStrength * 0.18;
+    // Soften and lower the floor contact shadow during 360-degree Hold-to-Inspect rotation
+    contactShadowMat.opacity = studioLightness * 0.78 * (1 - inspectStrength * 0.72);
+    contactShadowMesh.position.y = floorY + 0.004 - inspectStrength * 0.16;
   };
 
   return {
@@ -8854,7 +10171,7 @@ export function buildStudioSet(): BuiltStudioSet {
     <file path="src/app/(loam)/loam/scene/models/trayModel.ts">
 <![CDATA[import * as THREE from 'three';
 import type { ProceduralTextureSet } from '../textures';
-import { createSeededRandom, generateTrayMorphCoordinates } from '../../logic/networkGenerator';
+import { generateTrayMorphCoordinates } from '../../logic/networkGenerator';
 
 export interface BuiltTrayModel {
   group: THREE.Group;
@@ -8870,249 +10187,329 @@ export interface BuiltTrayModel {
   ) => void;
 }
 
-/**
- * Evaluates the molded packaging tray height and thickness at local (x, z)
- * matching `material-top_9cdf4064.png` and `material-underside-and-cut-edge_69208517.png`:
- * - Rounded rectangular outer perimeter with a soft rolled flange lip
- * - Smooth drafted walls descending into a recessed inner cavity with a subtle bottom stacking ridge
- * - One irregular broken front-right corner exposing the coarse fibrous hemp + mycelium core
- */
-function sampleTrayCrossSection(x: number, z: number): {
-  topY: number;
-  bottomY: number;
-  insideOuter: boolean;
-  inBrokenCut: boolean;
-} {
-  const halfW = 1.32;
-  const halfD = 0.86;
-  const cornerR = 0.30;
+const HALF_W = 1.30;
+const HALF_D = 0.84;
+const CORNER_R = 0.30;
 
-  const qx = Math.abs(x) - (halfW - cornerR);
-  const qz = Math.abs(z) - (halfD - cornerR);
-  const outDist =
+/**
+ * Signed distance to the rounded-rectangle outer perimeter in the XZ plane.
+ * Negative inside the tray footprint, 0 on the outer rim, positive outside.
+ */
+function roundedRectSdf(x: number, z: number): number {
+  const qx = Math.abs(x) - (HALF_W - CORNER_R);
+  const qz = Math.abs(z) - (HALF_D - CORNER_R);
+  return (
     Math.hypot(Math.max(qx, 0), Math.max(qz, 0)) +
     Math.min(Math.max(qx, qz), 0) -
-    cornerR;
-
-  if (outDist > 0) {
-    return { topY: 0, bottomY: 0, insideOuter: false, inBrokenCut: false };
-  }
-
-  // Organic bite-like broken corner across the front-right corner (x > 0.38, z > 0.18)
-  const jag =
-    Math.sin(x * 17 - z * 14) * 0.028 + Math.cos(x * 33 + z * 27) * 0.015;
-  const cutDist = Math.hypot((x - 1.16) * 0.88, (z - 0.74) * 1.05) + jag;
-  const inBrokenCut = cutDist < 0.62;
-
-  const wallThickness = 0.15;
-  let topY = -0.22;
-  let bottomY = topY - wallThickness;
-
-  if (outDist > -0.14) {
-    // Softly rolled perimeter lip
-    const u = (outDist + 0.14) / 0.14; // 0 at inner lip edge, 1 at outer rim
-    const lipArch = Math.sin(u * Math.PI) * 0.036;
-    const outerRoll = u > 0.65 ? -Math.pow((u - 0.65) / 0.35, 2) * 0.045 : 0;
-    topY = 0.23 + lipArch + outerRoll;
-    bottomY = 0.09 + lipArch * 0.5 + outerRoll;
-  } else if (outDist > -0.38) {
-    // Smooth drafted wall transition
-    const wt = (outDist + 0.38) / 0.24; // 0 at cavity floor, 1 at lip inner edge
-    const smoothW = wt * wt * (3 - 2 * wt);
-    topY = -0.22 + smoothW * 0.45;
-    bottomY = topY - wallThickness;
-  } else {
-    // Recessed cavity floor with subtle molded stacking ridge
-    const ridgeBand = outDist < -0.45 && outDist > -0.52 ? 0.016 : 0;
-    const innerPad = outDist <= -0.52 ? 0.012 : 0;
-    topY = -0.22 + ridgeBand + innerPad;
-    bottomY = -0.37 + ridgeBand + innerPad;
-  }
-
-  return { topY, bottomY, insideOuter: true, inBrokenCut };
+    CORNER_R
+  );
 }
 
 /**
- * Builds the Chapter 5 Molded Mycelium Packaging Tray, nestled fragile glass perfume flacon,
- * and scrub-able thread convergence morph:
- * - Rounded rectangle with soft edges, recessed cavity, and rolled lip
- * - Matte off-white to warm cream mycelium skin with faint velvety fuzz (sheen at grazing angles)
- *   and scattered small brown fibre speckles
- * - One broken front-right corner revealing the dense fibrous hemp + mycelium core
- * - A precious, fragile glass perfume bottle with stopper nestled inside the cavity that settles with scroll
+ * Signed distance to the broken front-right corner cut contour.
+ * Positive inside the intact tray, 0 on the clean fibrous break line, negative in the broken-away corner.
+ */
+function brokenCornerSdf(x: number, z: number): number {
+  const angle = Math.atan2(z - 0.75, x - 1.16);
+  const fibrousWave =
+    Math.sin(angle * 7.0) * 0.018 +
+    Math.cos(angle * 13.0 + 0.8) * 0.009 +
+    Math.sin(angle * 23.0) * 0.004;
+  const distToBreakCenter = Math.hypot((x - 1.16) * 0.88, (z - 0.74) * 1.04);
+  return distToBreakCenter - (0.58 + fibrousWave);
+}
+
+/**
+ * Exact radial distance from (0,0) along direction (cos(theta), sin(theta))
+ * to the intact tray perimeter (either the smooth rounded-rectangle rim or the broken corner edge).
+ */
+function findBoundaryRadiusForAngle(theta: number): {
+  radius: number;
+  outerRadius: number;
+  isBrokenEdge: boolean;
+} {
+  const dx = Math.cos(theta);
+  const dz = Math.sin(theta);
+
+  // Binary search for exact outer rounded-rectangle intersection
+  let lo = 0.3;
+  let hi = 1.75;
+  for (let iter = 0; iter < 22; iter++) {
+    const mid = 0.5 * (lo + hi);
+    if (roundedRectSdf(dx * mid, dz * mid) <= 0) {
+      lo = mid;
+    } else {
+      hi = mid;
+    }
+  }
+  const outerRadius = 0.5 * (lo + hi);
+
+  // Check if this ray intersects the front-right broken corner cut before reaching outerRadius
+  if (dx > 0.15 && dz > 0.05) {
+    const endX = dx * outerRadius;
+    const endZ = dz * outerRadius;
+    if (brokenCornerSdf(endX, endZ) < 0) {
+      let cLo = 0.25;
+      let cHi = outerRadius;
+      for (let iter = 0; iter < 22; iter++) {
+        const mid = 0.5 * (cLo + cHi);
+        if (brokenCornerSdf(dx * mid, dz * mid) >= 0) {
+          cLo = mid;
+        } else {
+          cHi = mid;
+        }
+      }
+      const cutRadius = 0.5 * (cLo + cHi);
+      return {
+        radius: cutRadius,
+        outerRadius,
+        isBrokenEdge: true,
+      };
+    }
+  }
+
+  return {
+    radius: outerRadius,
+    outerRadius,
+    isBrokenEdge: false,
+  };
+}
+
+/**
+ * Evaluates the molded packaging tray top height, underside height, and cavity ambient-occlusion shade
+ * at any interior/boundary point (x, z), matching `material-top_9cdf4064.png` and
+ * `material-underside-and-cut-edge_69208517.png`.
+ */
+function evaluateTrayProfileAt(x: number, z: number): {
+  topY: number;
+  bottomY: number;
+  cavityAo: number;
+} {
+  const outDist = roundedRectSdf(x, z);
+  const wallThickness = 0.145;
+
+  let topY = -0.22;
+  let bottomY = topY - wallThickness;
+  let cavityAo = 0.93;
+
+  // Fine organic molded surface micro-undulation
+  const microMold =
+    Math.sin(x * 7.5 + z * 6.2) * 0.0025 + Math.cos(x * 13.0 - z * 11.4) * 0.0015;
+
+  if (outDist > -0.15) {
+    // Softly rolled perimeter flange lip
+    const u = Math.max(0, Math.min(1, (outDist + 0.15) / 0.15)); // 0 at inner lip edge, 1 at outer rim
+    const lipArch = Math.sin(u * Math.PI) * 0.038;
+    const outerRoll = u > 0.62 ? -Math.pow((u - 0.62) / 0.38, 2) * 0.042 : 0;
+    topY = 0.225 + lipArch + outerRoll + microMold;
+    bottomY = 0.085 + lipArch * 0.45 + outerRoll + microMold;
+    cavityAo = 0.98 + 0.02 * Math.sin(u * Math.PI);
+  } else if (outDist > -0.40) {
+    // Smooth drafted inner cavity walls descending from rolled lip into the recessed cavity
+    const wt = Math.max(0, Math.min(1, (outDist + 0.40) / 0.25)); // 0 at cavity floor crease, 1 at lip inner edge
+    const smoothW = wt * wt * (3 - 2 * wt);
+    topY = -0.22 + smoothW * 0.445 + microMold;
+    bottomY = topY - wallThickness;
+    // Soft ambient occlusion darkening near the lower cavity crease so the empty cavity reads clearly
+    cavityAo = 0.83 + smoothW * 0.15;
+  } else {
+    // Open recessed cavity floor with subtle molded perimeter channel & central cushion pad
+    const ridgeSmooth =
+      Math.max(0, Math.min(1, (-0.43 - outDist) / 0.06)) *
+      (1 - Math.max(0, Math.min(1, (-0.52 - outDist) / 0.06)));
+    const innerPad = Math.max(0, Math.min(1, (-0.50 - outDist) / 0.08)) * 0.014;
+    const deltaY = ridgeSmooth * 0.012 + innerPad + microMold;
+    topY = -0.22 + deltaY;
+    bottomY = -0.365 + deltaY;
+    // Slight crease shading right where the floor meets the drafted wall
+    const floorCrease = Math.max(0, Math.min(1, (-0.40 - outDist) / 0.14));
+    cavityAo = 0.83 + floorCrease * 0.10;
+  }
+
+  return { topY, bottomY, cavityAo };
+}
+
+/**
+ * Builds the Chapter 5 Molded Mycelium Packaging Tray and scrub-able thread convergence morph:
+ * - Boundary-conforming radial/perimeter topology with zero stair-stepping or jagged rim edges
+ * - Empty recessed cavity with clear soft ambient shading and rolled perimeter lip
+ * - Matte off-white to warm cream mycelium skin with faint velvety fuzz (grazing-angle sheen)
+ *   and scattered small brown fibre speckles (`material-top_9cdf4064.png`)
+ * - One clean, cohesive fibrous broken front-right corner (`material-underside-and-cut-edge_69208517.png`)
+ *   showing compressed hemp + mycelium strata in the break (no loose confetti chips)
  * - Glowing incoming threads that converge into the tray and fade out completely once the studio is lit
  */
 export function buildPackagingTray(
   textures: ProceduralTextureSet,
   seed = 505,
-  isSoftwareGl = false,
 ): BuiltTrayModel {
-  const rand = createSeededRandom(seed);
   const group = new THREE.Group();
   group.name = 'PackagingTraySpecimen';
 
   const solidTrayGroup = new THREE.Group();
   group.add(solidTrayGroup);
 
-  const gridX = 96;
-  const gridZ = 68;
-  const minX = -1.34;
-  const maxX = 1.34;
-  const minZ = -0.88;
-  const maxZ = 0.88;
+  const angularSegments = 192;
+  const radialSegments = 40;
+  const wallLayers = 7;
 
   const positions: number[] = [];
   const uvs: number[] = [];
+  const colors: number[] = [];
   const skinIndices: number[] = [];
   const coreIndices: number[] = [];
 
-  const topVertexGrid: number[][] = Array.from({ length: gridZ + 1 }, () =>
-    new Array(gridX + 1).fill(-1),
+  // Precompute exact boundary radius for each angular step
+  const boundaryData: Array<{
+    theta: number;
+    cos: number;
+    sin: number;
+    radius: number;
+    outerRadius: number;
+    isBrokenEdge: boolean;
+  }> = [];
+
+  for (let ia = 0; ia <= angularSegments; ia++) {
+    const theta = (ia / angularSegments) * Math.PI * 2;
+    const info = findBoundaryRadiusForAngle(theta);
+    boundaryData.push({
+      theta,
+      cos: Math.cos(theta),
+      sin: Math.sin(theta),
+      ...info,
+    });
+  }
+
+  const topGrid: number[][] = Array.from({ length: radialSegments + 1 }, () =>
+    new Array(angularSegments + 1).fill(-1),
   );
-  const botVertexGrid: number[][] = Array.from({ length: gridZ + 1 }, () =>
-    new Array(gridX + 1).fill(-1),
-  );
-  const validCellGrid: boolean[][] = Array.from({ length: gridZ + 1 }, () =>
-    new Array(gridX + 1).fill(false),
-  );
-  const cutCellGrid: boolean[][] = Array.from({ length: gridZ + 1 }, () =>
-    new Array(gridX + 1).fill(false),
+  const botGrid: number[][] = Array.from({ length: radialSegments + 1 }, () =>
+    new Array(angularSegments + 1).fill(-1),
   );
 
   let vertCount = 0;
 
-  for (let iz = 0; iz <= gridZ; iz++) {
-    const z = minZ + (iz / gridZ) * (maxZ - minZ);
-    for (let ix = 0; ix <= gridX; ix++) {
-      const x = minX + (ix / gridX) * (maxX - minX);
-      const sample = sampleTrayCrossSection(x, z);
-      if (sample.insideOuter && !sample.inBrokenCut) {
-        validCellGrid[iz][ix] = true;
-        const u = (x - minX) / (maxX - minX);
-        const v = (z - minZ) / (maxZ - minZ);
+  // 1. Build smooth boundary-conforming top & bottom shells
+  for (let ir = 0; ir <= radialSegments; ir++) {
+    // Non-linear radial distribution for higher vertex density across the drafted walls and rolled lip
+    const linearS = ir / radialSegments;
+    const s = linearS < 0.55 ? linearS * 1.05 : 0.5775 + (1 - Math.pow(1 - (linearS - 0.55) / 0.45, 1.35)) * 0.4225;
 
-        topVertexGrid[iz][ix] = vertCount++;
-        positions.push(x, sample.topY, z);
+    for (let ia = 0; ia <= angularSegments; ia++) {
+      const b = boundaryData[ia];
+      const r = s * b.radius;
+      const x = b.cos * r;
+      const z = b.sin * r;
+      const prof = evaluateTrayProfileAt(x, z);
+
+      const u = (x + HALF_W) / (HALF_W * 2);
+      const v = (z + HALF_D) / (HALF_D * 2);
+
+      topGrid[ir][ia] = vertCount++;
+      positions.push(x, prof.topY, z);
+      uvs.push(u, v);
+      colors.push(prof.cavityAo, prof.cavityAo, prof.cavityAo);
+
+      botGrid[ir][ia] = vertCount++;
+      positions.push(x, prof.bottomY, z);
+      uvs.push(u + 0.11, v + 0.13);
+      const botAo = prof.cavityAo * 0.92;
+      colors.push(botAo, botAo, botAo);
+    }
+  }
+
+  for (let ir = 0; ir < radialSegments; ir++) {
+    for (let ia = 0; ia < angularSegments; ia++) {
+      const t00 = topGrid[ir][ia];
+      const t10 = topGrid[ir][ia + 1];
+      const t01 = topGrid[ir + 1][ia];
+      const t11 = topGrid[ir + 1][ia + 1];
+      skinIndices.push(t00, t01, t10, t10, t01, t11);
+
+      const b00 = botGrid[ir][ia];
+      const b10 = botGrid[ir][ia + 1];
+      const b01 = botGrid[ir + 1][ia];
+      const b11 = botGrid[ir + 1][ia + 1];
+      skinIndices.push(b00, b10, b01, b10, b11, b01);
+    }
+  }
+
+  // 2. Build perimeter edge / broken-corner cross-section wall connecting topY to bottomY
+  //    - Along intact outer rim: smooth rounded bullnose edge using skinMat
+  //    - Along broken front-right corner: sculpted compressed hemp-fibre cross-section using coreMat
+  const wallGrid: number[][] = Array.from({ length: wallLayers + 1 }, () =>
+    new Array(angularSegments + 1).fill(-1),
+  );
+
+  for (let iw = 0; iw <= wallLayers; iw++) {
+    const wt = iw / wallLayers; // 0 at topY, 1 at bottomY
+    for (let ia = 0; ia <= angularSegments; ia++) {
+      const b = boundaryData[ia];
+      const baseX = b.cos * b.radius;
+      const baseZ = b.sin * b.radius;
+      const prof = evaluateTrayProfileAt(baseX, baseZ);
+
+      let wx = baseX;
+      let wz = baseZ;
+      const wy = prof.topY * (1 - wt) + prof.bottomY * wt;
+
+      if (b.isBrokenEdge) {
+        // Clean, cohesive compressed-fibre break relief (horizontal laminated hemp hurd layers)
+        const edgeInset = Math.sin(wt * Math.PI);
+        const strataRipple =
+          Math.sin(wt * Math.PI * 5.0 + b.theta * 19.0) * 0.0085 +
+          Math.cos(wt * Math.PI * 11.0 - b.theta * 37.0) * 0.0055 +
+          Math.sin(b.theta * 61.0 + wt * 17.0) * 0.0035;
+        const radialOffset = strataRipple * (0.35 + 0.65 * edgeInset);
+        wx += b.cos * radialOffset;
+        wz += b.sin * radialOffset;
+
+        wallGrid[iw][ia] = vertCount++;
+        positions.push(wx, wy, wz);
+        // Map UVs along arc-length and thickness so the fibrous core texture wraps naturally
+        uvs.push(b.theta * 2.4, wt * 0.85);
+
+        // Subtle fibre-layer luminance modulation (cream mycelium binder + warm hemp hurd)
+        const fibreShade =
+          0.90 +
+          0.08 * Math.sin(wt * Math.PI * 6.0 + b.theta * 23.0) +
+          0.04 * Math.cos(b.theta * 43.0);
+        colors.push(fibreShade, fibreShade * 0.96, fibreShade * 0.90);
+      } else {
+        // Intact outer rim: smooth bullnose outward curve
+        const bullnose = Math.sin(wt * Math.PI) * 0.014;
+        wx += b.cos * bullnose;
+        wz += b.sin * bullnose;
+
+        wallGrid[iw][ia] = vertCount++;
+        positions.push(wx, wy, wz);
+        const u = (wx + HALF_W) / (HALF_W * 2);
+        const v = (wz + HALF_D) / (HALF_D * 2) + wt * 0.06;
         uvs.push(u, v);
-
-        botVertexGrid[iz][ix] = vertCount++;
-        positions.push(x, sample.bottomY, z);
-        // Offset bottom UVs by wall height so vertical cut faces never stretch a single texel into stripes
-        uvs.push(u + 0.14, v + 0.16);
-      } else if (sample.insideOuter && sample.inBrokenCut) {
-        cutCellGrid[iz][ix] = true;
+        const rimAo = 0.96 - wt * 0.06;
+        colors.push(rimAo, rimAo, rimAo);
       }
     }
   }
 
-  // Record all boundary coordinates along the broken cut face so 3D hemp hurd fibres pack across the entire cut
-  const cutEdgeSamples: Array<{ x: number; z: number; topY: number; bottomY: number }> = [];
+  for (let iw = 0; iw < wallLayers; iw++) {
+    for (let ia = 0; ia < angularSegments; ia++) {
+      const w00 = wallGrid[iw][ia];
+      const w10 = wallGrid[iw][ia + 1];
+      const w01 = wallGrid[iw + 1][ia];
+      const w11 = wallGrid[iw + 1][ia + 1];
 
-  for (let iz = 0; iz < gridZ; iz++) {
-    for (let ix = 0; ix < gridX; ix++) {
-      const v00 = validCellGrid[iz][ix];
-      const v10 = validCellGrid[iz][ix + 1];
-      const v01 = validCellGrid[iz + 1][ix];
-      const v11 = validCellGrid[iz + 1][ix + 1];
-
-      if (v00 && v10 && v01 && v11) {
-        const t00 = topVertexGrid[iz][ix];
-        const t10 = topVertexGrid[iz][ix + 1];
-        const t01 = topVertexGrid[iz + 1][ix];
-        const t11 = topVertexGrid[iz + 1][ix + 1];
-        skinIndices.push(t00, t01, t10, t10, t01, t11);
-
-        const b00 = botVertexGrid[iz][ix];
-        const b10 = botVertexGrid[iz][ix + 1];
-        const b01 = botVertexGrid[iz + 1][ix];
-        const b11 = botVertexGrid[iz + 1][ix + 1];
-        skinIndices.push(b00, b10, b01, b10, b11, b01);
-      }
-
-      const recordCutVertex = (vIdx: number, bIdx: number) => {
-        cutEdgeSamples.push({
-          x: positions[vIdx * 3],
-          topY: positions[vIdx * 3 + 1],
-          bottomY: positions[bIdx * 3 + 1],
-          z: positions[vIdx * 3 + 2],
-        });
-      };
-
-      if (v00 && v10 && !v01) {
-        const isCutFace = cutCellGrid[iz + 1][ix] || cutCellGrid[iz + 1][ix + 1];
-        const targetArr = isCutFace ? coreIndices : skinIndices;
-        if (isCutFace) recordCutVertex(topVertexGrid[iz][ix], botVertexGrid[iz][ix]);
-        targetArr.push(
-          topVertexGrid[iz][ix],
-          botVertexGrid[iz][ix],
-          topVertexGrid[iz][ix + 1],
-          topVertexGrid[iz][ix + 1],
-          botVertexGrid[iz][ix],
-          botVertexGrid[iz][ix + 1],
-        );
-      }
-      if (!v00 && v01 && v11) {
-        const isCutFace = cutCellGrid[iz][ix] || cutCellGrid[iz][ix + 1];
-        const targetArr = isCutFace ? coreIndices : skinIndices;
-        if (isCutFace) recordCutVertex(topVertexGrid[iz + 1][ix], botVertexGrid[iz + 1][ix]);
-        targetArr.push(
-          topVertexGrid[iz + 1][ix + 1],
-          botVertexGrid[iz + 1][ix + 1],
-          topVertexGrid[iz + 1][ix],
-          topVertexGrid[iz + 1][ix],
-          botVertexGrid[iz + 1][ix + 1],
-          botVertexGrid[iz + 1][ix],
-        );
-      }
-      if (v00 && v01 && !v10) {
-        const isCutFace = cutCellGrid[iz][ix + 1] || cutCellGrid[iz + 1][ix + 1];
-        const targetArr = isCutFace ? coreIndices : skinIndices;
-        if (isCutFace) recordCutVertex(topVertexGrid[iz][ix], botVertexGrid[iz][ix]);
-        targetArr.push(
-          topVertexGrid[iz + 1][ix],
-          botVertexGrid[iz + 1][ix],
-          topVertexGrid[iz][ix],
-          topVertexGrid[iz][ix],
-          botVertexGrid[iz + 1][ix],
-          botVertexGrid[iz][ix],
-        );
-      }
-      if (!v00 && v10 && v11) {
-        const isCutFace = cutCellGrid[iz][ix] || cutCellGrid[iz + 1][ix];
-        const targetArr = isCutFace ? coreIndices : skinIndices;
-        if (isCutFace) recordCutVertex(topVertexGrid[iz][ix + 1], botVertexGrid[iz][ix + 1]);
-        targetArr.push(
-          topVertexGrid[iz][ix + 1],
-          botVertexGrid[iz][ix + 1],
-          topVertexGrid[iz + 1][ix + 1],
-          topVertexGrid[iz + 1][ix + 1],
-          botVertexGrid[iz][ix + 1],
-          botVertexGrid[iz + 1][ix + 1],
-        );
-      }
-
-      if (v00 && v10 && v01 && !v11) {
-        const t10 = topVertexGrid[iz][ix + 1];
-        const t01 = topVertexGrid[iz + 1][ix];
-        const t00 = topVertexGrid[iz][ix];
-        skinIndices.push(t00, t01, t10);
-
-        const b10 = botVertexGrid[iz][ix + 1];
-        const b01 = botVertexGrid[iz + 1][ix];
-        const b00 = botVertexGrid[iz][ix];
-        skinIndices.push(b00, b10, b01);
-
-        const isCutFace = cutCellGrid[iz + 1][ix + 1];
-        const targetArr = isCutFace ? coreIndices : skinIndices;
-        if (isCutFace) recordCutVertex(t10, b10);
-        targetArr.push(t01, b01, t10, t10, b01, b10);
-      }
+      const isCutQuad =
+        boundaryData[ia].isBrokenEdge || boundaryData[ia + 1].isBrokenEdge;
+      const targetIndices = isCutQuad ? coreIndices : skinIndices;
+      targetIndices.push(w00, w01, w10, w10, w01, w11);
     }
   }
 
   const trayGeo = new THREE.BufferGeometry();
   trayGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   trayGeo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  trayGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
   const combinedIndices = [...skinIndices, ...coreIndices];
   trayGeo.setIndex(combinedIndices);
@@ -9121,28 +10518,30 @@ export function buildPackagingTray(
   trayGeo.computeVertexNormals();
 
   // Matte off-white to warm cream mycelium skin with faint velvety fuzz (grazing-angle sheen)
-  // and scattered brown fibre speckles (matches material-top_9cdf4064.png)
+  // and scattered brown fibre speckles (matches material-top_9cdf4064.png, never clips to white)
   const skinMat = new THREE.MeshPhysicalMaterial({
     map: textures.traySkinColor,
     bumpMap: textures.traySkinBump,
-    bumpScale: 0.032,
-    color: new THREE.Color('#f4ecde'),
-    roughness: 0.87,
+    bumpScale: 0.028,
+    color: new THREE.Color('#eadfce'),
+    vertexColors: true,
+    roughness: 0.90,
     metalness: 0.0,
-    sheen: 0.65,
-    sheenRoughness: 0.78,
-    sheenColor: new THREE.Color('#fffdf9'),
+    sheen: 0.24,
+    sheenRoughness: 0.85,
+    sheenColor: new THREE.Color('#f7efe2'),
     side: THREE.DoubleSide,
     transparent: true,
     opacity: 1,
   });
 
-  // Coarse fibrous hemp + mycelium cut face (matches material-underside-and-cut-edge_69208517.png)
+  // Compressed fibrous hemp + mycelium cut face (matches material-underside-and-cut-edge_69208517.png)
   const coreMat = new THREE.MeshStandardMaterial({
     map: textures.trayCoreColor,
     bumpMap: textures.trayCoreBump,
-    bumpScale: 0.072,
-    color: new THREE.Color('#dfd0b8'),
+    bumpScale: 0.085,
+    color: new THREE.Color('#ddd0b8'),
+    vertexColors: true,
     roughness: 0.96,
     metalness: 0.0,
     side: THREE.DoubleSide,
@@ -9155,299 +10554,29 @@ export function buildPackagingTray(
   trayMesh.receiveShadow = true;
   solidTrayGroup.add(trayMesh);
 
-  // 2. Dense 3D shredded hemp hurd & mycelium slivers packed across the ENTIRE broken corner cross-section
-  //    matching `material-underside-and-cut-edge_69208517.png`
-  const fibreCount = 680;
-  const fibreGeo = new THREE.BoxGeometry(0.056, 0.015, 0.022);
-  const fibreMat = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#ffffff'),
-    roughness: 0.95,
-    metalness: 0.0,
-    transparent: true,
-    opacity: 1,
-  });
-  const fibreInst = new THREE.InstancedMesh(fibreGeo, fibreMat, fibreCount);
-  const dummy = new THREE.Object3D();
-  const fibreColor = new THREE.Color();
+  // 2. Invisible Raycast Hit Proxy for Hold-to-Inspect
+  const hitProxyGeo = new THREE.BoxGeometry(2.75, 0.82, 1.85);
+  const hitProxyMat = new THREE.MeshBasicMaterial({ visible: false });
+  const hitProxy = new THREE.Mesh(hitProxyGeo, hitProxyMat);
+  hitProxy.name = 'InspectableTrayProxy';
+  group.add(hitProxy);
 
-  for (let i = 0; i < fibreCount; i++) {
-    const anchor =
-      cutEdgeSamples.length > 0
-        ? cutEdgeSamples[Math.floor(rand() * cutEdgeSamples.length)]
-        : { x: 0.82, z: 0.45, topY: 0.18, bottomY: -0.14 };
-
-    const fx = anchor.x + (rand() - 0.35) * 0.055;
-    const fz = anchor.z + (rand() - 0.35) * 0.055;
-    const spanY = Math.max(0.06, anchor.topY - anchor.bottomY);
-    const fy = anchor.bottomY + 0.012 + rand() * (spanY - 0.022);
-
-    dummy.position.set(fx, fy, fz);
-    dummy.rotation.set(
-      (rand() - 0.5) * 1.15,
-      rand() * Math.PI * 2,
-      (rand() - 0.5) * 1.15,
-    );
-    dummy.scale.set(
-      0.55 + rand() * 1.15,
-      0.55 + rand() * 0.95,
-      0.55 + rand() * 1.05,
-    );
-    dummy.updateMatrix();
-    fibreInst.setMatrixAt(i, dummy.matrix);
-
-    const toneRoll = rand();
-    if (toneRoll > 0.58) {
-      // Unbleached cream mycelium binder strand
-      fibreColor.setRGB(0.94, 0.90, 0.82);
-    } else if (toneRoll > 0.22) {
-      // Warm straw/tan hemp hurd splinter
-      fibreColor.setRGB(0.80, 0.68, 0.52);
-    } else {
-      // Darker woody core fleck
-      fibreColor.setRGB(0.60, 0.46, 0.31);
-    }
-    fibreInst.setColorAt(i, fibreColor);
-  }
-  fibreInst.count = fibreCount;
-  fibreInst.instanceMatrix.needsUpdate = true;
-  if (fibreInst.instanceColor) fibreInst.instanceColor.needsUpdate = true;
-  fibreInst.computeBoundingSphere();
-  solidTrayGroup.add(fibreInst);
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // 3. "SHOW IT DOING ITS JOB": Fragile Glass Perfume Bottle with Stopper
-  //    Nestled inside the tray's cavity, settling gently with scroll and staying
-  //    inside the tray during Hold-to-Inspect rotation.
-  // ─────────────────────────────────────────────────────────────────────────
-  const perfumeBottleGroup = new THREE.Group();
-  perfumeBottleGroup.name = 'NestledGlassPerfumeBottle';
-
-  // Soft moulded cradle shadow directly beneath the bottle on the cavity floor
-  const cradleShadowCanvas = document.createElement('canvas');
-  cradleShadowCanvas.width = 128;
-  cradleShadowCanvas.height = 128;
-  const csCtx = cradleShadowCanvas.getContext('2d')!;
-  const csGrad = csCtx.createRadialGradient(64, 64, 8, 64, 64, 60);
-  csGrad.addColorStop(0.0, 'rgba(46, 35, 22, 0.52)');
-  csGrad.addColorStop(0.55, 'rgba(62, 48, 32, 0.24)');
-  csGrad.addColorStop(1.0, 'rgba(62, 48, 32, 0.0)');
-  csCtx.fillStyle = csGrad;
-  csCtx.fillRect(0, 0, 128, 128);
-  const cradleShadowTex = new THREE.CanvasTexture(cradleShadowCanvas);
-  cradleShadowTex.colorSpace = THREE.SRGBColorSpace;
-
-  const cradleShadowMat = new THREE.MeshBasicMaterial({
-    map: cradleShadowTex,
-    transparent: true,
-    depthWrite: false,
-    opacity: 0,
-    polygonOffset: true,
-    polygonOffsetFactor: -1,
-    polygonOffsetUnits: -1,
-  });
-  const cradleShadowMesh = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.45, 0.78),
-    cradleShadowMat,
-  );
-  cradleShadowMesh.rotation.x = -Math.PI / 2;
-  cradleShadowMesh.position.set(-0.08, -0.188, -0.02);
-  solidTrayGroup.add(cradleShadowMesh);
-
-  // Moulded mycelium side-cradle ribs that hug the perfume bottle in the cavity
-  const cradleRibGeo = new THREE.BoxGeometry(0.14, 0.08, 0.72);
-  const leftCradleRib = new THREE.Mesh(cradleRibGeo, skinMat);
-  leftCradleRib.position.set(-0.46, -0.15, -0.02);
-  solidTrayGroup.add(leftCradleRib);
-
-  const rightCradleRib = new THREE.Mesh(cradleRibGeo, skinMat);
-  rightCradleRib.position.set(0.16, -0.15, -0.02);
-  solidTrayGroup.add(rightCradleRib);
-
-  // Refractive optical glass material (with clean translucent fallback on software WebGL)
-  const glassMat = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color('#e6ede8'),
-    metalness: 0.05,
-    roughness: 0.07,
-    transmission: isSoftwareGl ? 0 : 0.78,
-    transparent: true,
-    opacity: isSoftwareGl ? 0.62 : 0.96,
-    ior: 1.52,
-    thickness: 0.55,
-    attenuationColor: new THREE.Color('#dfe8dc'),
-    attenuationDistance: 1.2,
-    clearcoat: 1.0,
-    clearcoatRoughness: 0.06,
-    reflectivity: 0.95,
-  });
-
-  // Warm cognac-amber botanical parfum liquid inside the flacon
-  const liquidMat = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color('#c97f22'),
-    metalness: 0.02,
-    roughness: 0.14,
-    transparent: true,
-    opacity: 0.90,
-    clearcoat: 0.6,
-  });
-
-  // Brushed warm brass atomizer collar
-  const brassMat = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#be984e'),
-    metalness: 0.84,
-    roughness: 0.24,
-    transparent: true,
-    opacity: 1,
-  });
-
-  // Apothecary paper label with fine dark typography lines
-  const labelCanvas = document.createElement('canvas');
-  labelCanvas.width = 256;
-  labelCanvas.height = 160;
-  const lbCtx = labelCanvas.getContext('2d')!;
-  lbCtx.fillStyle = '#f6f1e6';
-  lbCtx.fillRect(0, 0, 256, 160);
-  lbCtx.strokeStyle = '#1e1914';
-  lbCtx.lineWidth = 4;
-  lbCtx.strokeRect(8, 8, 240, 144);
-  lbCtx.fillStyle = '#181410';
-  lbCtx.font = 'bold 28px serif';
-  lbCtx.textAlign = 'center';
-  lbCtx.fillText('L O A M', 128, 66);
-  lbCtx.font = '13px monospace';
-  lbCtx.fillStyle = '#3a3128';
-  lbCtx.fillText('BOTANICAL EXTRACTS · 50 ML', 128, 100);
-  lbCtx.beginPath();
-  lbCtx.moveTo(44, 120);
-  lbCtx.lineTo(212, 120);
-  lbCtx.lineWidth = 1.6;
-  lbCtx.stroke();
-  const labelTex = new THREE.CanvasTexture(labelCanvas);
-  labelTex.colorSpace = THREE.SRGBColorSpace;
-
-  const labelMat = new THREE.MeshStandardMaterial({
-    map: labelTex,
-    roughness: 0.85,
-    metalness: 0.0,
-    transparent: true,
-    opacity: 1,
-    polygonOffset: true,
-    polygonOffsetFactor: -1,
-    polygonOffsetUnits: -1,
-  });
-
-  // Assemble the bottle along local X axis (lying nestled in the tray cavity)
-  // 1) Heavy bevelled glass flacon body
-  const flaconShape = new THREE.Shape();
-  const fw = 0.28;
-  const fh = 0.14;
-  const bevel = 0.045;
-  flaconShape.moveTo(-fw + bevel, -fh);
-  flaconShape.lineTo(fw - bevel, -fh);
-  flaconShape.lineTo(fw, -fh + bevel);
-  flaconShape.lineTo(fw, fh - bevel);
-  flaconShape.lineTo(fw - bevel, fh);
-  flaconShape.lineTo(-fw + bevel, fh);
-  flaconShape.lineTo(-fw, fh - bevel);
-  flaconShape.lineTo(-fw, -fh + bevel);
-  flaconShape.closePath();
-
-  const flaconGeo = new THREE.ExtrudeGeometry(flaconShape, {
-    steps: 1,
-    depth: 0.74,
-    bevelEnabled: true,
-    bevelThickness: 0.025,
-    bevelSize: 0.022,
-    bevelSegments: 4,
-  });
-  flaconGeo.center();
-  // Rotate so depth (0.74) runs along X, width (2*fw = 0.56) along Z, thickness (2*fh = 0.28) along Y
-  flaconGeo.rotateY(Math.PI / 2);
-  const flaconMesh = new THREE.Mesh(flaconGeo, glassMat);
-  flaconMesh.position.set(-0.15, 0, 0);
-  flaconMesh.renderOrder = 2;
-  perfumeBottleGroup.add(flaconMesh);
-
-  // Smoked-crystal glass edge highlight wireframe for unmistakable glass silhouette read against cream cavity
-  const flaconEdgesGeo = new THREE.EdgesGeometry(flaconGeo, 28);
-  const flaconEdgesMat = new THREE.LineBasicMaterial({
-    color: new THREE.Color('#6b5842'),
-    transparent: true,
-    opacity: 0.45,
-  });
-  const flaconEdges = new THREE.LineSegments(flaconEdgesGeo, flaconEdgesMat);
-  flaconEdges.position.copy(flaconMesh.position);
-  perfumeBottleGroup.add(flaconEdges);
-
-  // 2) Inner amber parfum liquid chamber
-  const liquidGeo = new THREE.BoxGeometry(0.58, 0.19, 0.44);
-  const liquidMesh = new THREE.Mesh(liquidGeo, liquidMat);
-  liquidMesh.position.set(-0.17, -0.01, 0);
-  liquidMesh.renderOrder = 1;
-  perfumeBottleGroup.add(liquidMesh);
-
-  // 3) Internal glass capillary dip tube running from neck into amber liquid
-  const dipTubeCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0.24, 0.0, 0.0),
-    new THREE.Vector3(-0.08, -0.01, 0.03),
-    new THREE.Vector3(-0.40, -0.04, 0.14),
-  ]);
-  const dipTubeGeo = new THREE.TubeGeometry(dipTubeCurve, 12, 0.009, 6, false);
-  const dipTubeMesh = new THREE.Mesh(dipTubeGeo, brassMat);
-  perfumeBottleGroup.add(dipTubeMesh);
-
-  // 4) Apothecary cream paper label on the top face of the glass flacon
-  const labelGeo = new THREE.PlaneGeometry(0.42, 0.28);
-  labelGeo.rotateX(-Math.PI / 2);
-  const labelMesh = new THREE.Mesh(labelGeo, labelMat);
-  labelMesh.position.set(-0.15, 0.163, 0);
-  labelMesh.renderOrder = 3;
-  perfumeBottleGroup.add(labelMesh);
-
-  // 5) Glass neck + Brushed Brass Crimp Collar (at +X end of the flacon)
-  const neckGeo = new THREE.CylinderGeometry(0.072, 0.082, 0.12, 24);
-  neckGeo.rotateZ(-Math.PI / 2);
-  const neckMesh = new THREE.Mesh(neckGeo, brassMat);
-  neckMesh.position.set(0.28, 0, 0);
-  perfumeBottleGroup.add(neckMesh);
-
-  const collarRingGeo = new THREE.TorusGeometry(0.082, 0.016, 12, 24);
-  collarRingGeo.rotateY(Math.PI / 2);
-  const collarRing = new THREE.Mesh(collarRingGeo, brassMat);
-  collarRing.position.set(0.23, 0, 0);
-  perfumeBottleGroup.add(collarRing);
-
-  // 6) Faceted Crystal / Glass Stopper (octagonal-chamfered disc stopper)
-  const stopperGeo = new THREE.CylinderGeometry(0.135, 0.115, 0.16, 12);
-  stopperGeo.rotateZ(-Math.PI / 2);
-  const stopperMesh = new THREE.Mesh(stopperGeo, glassMat);
-  stopperMesh.position.set(0.43, 0, 0);
-  stopperMesh.renderOrder = 2;
-  perfumeBottleGroup.add(stopperMesh);
-
-  const stopperCoreGeo = new THREE.CylinderGeometry(0.055, 0.055, 0.18, 12);
-  stopperCoreGeo.rotateZ(-Math.PI / 2);
-  const stopperCore = new THREE.Mesh(stopperCoreGeo, brassMat);
-  stopperCore.position.set(0.38, 0, 0);
-  perfumeBottleGroup.add(stopperCore);
-
-  perfumeBottleGroup.position.set(-0.04, -0.03, -0.02);
-  perfumeBottleGroup.rotation.set(0.0, 0.06, 0.0);
-  solidTrayGroup.add(perfumeBottleGroup);
-
-  // Scale & orient the hero tray so it occupies ~44% of viewport width at rest in a three-quarter
-  // view from above (showing cavity, nestled bottle, and broken fibrous corner), and fits inside
-  // the viewport with generous margin during 360-degree Hold-to-Inspect rotation.
-  const TRAY_SCALE = 0.84;
-  solidTrayGroup.scale.setScalar(TRAY_SCALE);
-  solidTrayGroup.rotation.set(0.25, -0.44, 0.03);
-
-  // 4. Scrub-able particle/thread morph cloud that converges and braids into the tray
-  //    Only the incoming threads glow, and their glow fades out completely once the studio is lit
-  const morphData = generateTrayMorphCoordinates(1600, 9001);
+  // 3. Thread-to-Tray Morphing Particle Cloud (2,400 glowing hyphal nodes that braid into the tray
+  //    in the dark and fade out completely once the solid tray and studio light resolve)
+  const morphCoords = generateTrayMorphCoordinates(2400, seed + 17);
   const morphGeo = new THREE.BufferGeometry();
-  morphGeo.setAttribute('position', new THREE.BufferAttribute(morphData.targetPositions, 3));
-  morphGeo.setAttribute('aSource', new THREE.BufferAttribute(morphData.sourcePositions, 3));
-  morphGeo.setAttribute('aSeed', new THREE.BufferAttribute(morphData.randomSeeds, 1));
+  morphGeo.setAttribute(
+    'position',
+    new THREE.BufferAttribute(morphCoords.targetPositions.slice(), 3),
+  );
+  morphGeo.setAttribute(
+    'aSource',
+    new THREE.BufferAttribute(morphCoords.sourcePositions, 3),
+  );
+  morphGeo.setAttribute(
+    'aTarget',
+    new THREE.BufferAttribute(morphCoords.targetPositions, 3),
+  );
 
   const morphMat = new THREE.ShaderMaterial({
     transparent: true,
@@ -9455,110 +10584,82 @@ export function buildPackagingTray(
     blending: THREE.AdditiveBlending,
     uniforms: {
       uMorph: { value: 0 },
-      uFade: { value: 0 },
+      uOpacity: { value: 0 },
       uTime: { value: 0 },
-      uSprite: { value: textures.sporeSprite },
     },
     vertexShader: `
       attribute vec3 aSource;
-      attribute float aSeed;
+      attribute vec3 aTarget;
       uniform float uMorph;
       uniform float uTime;
-      varying float vSeed;
-      varying float vMorph;
+      varying float vMix;
 
       void main() {
-        vSeed = aSeed;
-        vMorph = uMorph;
+        float t = clamp(uMorph, 0.0, 1.0);
+        float smoothT = t * t * (3.0 - 2.0 * t);
 
-        float localT = clamp((uMorph - aSeed * 0.22) / 0.78, 0.0, 1.0);
-        float smoothT = localT * localT * (3.0 - 2.0 * localT);
+        float spiralAngle = (1.0 - smoothT) * 2.2;
+        vec3 sPos = aSource;
+        float c = cos(spiralAngle);
+        float s = sin(spiralAngle);
+        vec3 swirledSource = vec3(
+          sPos.x * c - sPos.z * s,
+          sPos.y + sin(uTime * 1.6 + sPos.x) * 0.05 * (1.0 - smoothT),
+          sPos.x * s + sPos.z * c
+        );
 
-        vec3 srcLocal = aSource - vec3(0.0, -5.45, 0.0);
-        vec3 pos = mix(srcLocal, position, smoothT);
-
-        float braidEnv = sin(smoothT * 3.14159265);
-        float angle = aSeed * 6.28318 + uTime * 1.6 + smoothT * 4.0;
-        pos.x += cos(angle) * 0.26 * braidEnv;
-        pos.y += sin(angle * 1.3) * 0.20 * braidEnv;
-        pos.z += sin(angle) * 0.26 * braidEnv;
+        vec3 pos = mix(swirledSource, aTarget, smoothT);
+        vMix = smoothT;
 
         vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-        gl_PointSize = (13.0 + aSeed * 11.0) * (1.0 / max(0.6, -mvPosition.z));
         gl_Position = projectionMatrix * mvPosition;
+        gl_PointSize = mix(11.0, 5.0, smoothT) * (1.0 / max(0.5, -mvPosition.z));
       }
     `,
     fragmentShader: `
-      uniform float uFade;
-      uniform sampler2D uSprite;
-      varying float vSeed;
-      varying float vMorph;
+      uniform float uOpacity;
+      varying float vMix;
 
       void main() {
-        vec4 tex = texture2D(uSprite, gl_PointCoord);
-        if (tex.a < 0.05) discard;
-        vec3 foxfire = vec3(0.72, 0.86, 0.26);
-        vec3 warmSpore = vec3(0.88, 0.83, 0.74);
-        vec3 col = mix(foxfire, warmSpore, smoothstep(0.55, 0.92, vMorph));
-        gl_FragColor = vec4(col, tex.a * uFade);
+        float d = length(gl_PointCoord - vec2(0.5));
+        if (d > 0.5) discard;
+        float core = exp(-d * d * 12.0);
+        vec3 threadGlow = vec3(0.66, 0.82, 0.24);
+        vec3 warmCream = vec3(0.84, 0.78, 0.66);
+        vec3 col = mix(threadGlow, warmCream, vMix * 0.78);
+        gl_FragColor = vec4(col, core * uOpacity);
       }
     `,
   });
 
   const morphPoints = new THREE.Points(morphGeo, morphMat);
-  morphPoints.scale.setScalar(TRAY_SCALE);
-  morphPoints.rotation.copy(solidTrayGroup.rotation);
   group.add(morphPoints);
-
-  // Invisible raycast proxy box for Hold-to-Inspect
-  const hitProxyGeo = new THREE.BoxGeometry(2.4, 0.85, 1.65);
-  const hitProxyMat = new THREE.MeshBasicMaterial({ visible: false });
-  const hitProxy = new THREE.Mesh(hitProxyGeo, hitProxyMat);
-  hitProxy.userData.inspectId = 'tray';
-  group.add(hitProxy);
 
   const updateMorphAndOpacity = (
     morphProgress: number,
     solidOpacity: number,
     elapsedSec: number,
-    fragileSettle = 1,
-    foxfireGlowFade?: number,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _fragileSettle = 1,
+    foxfireGlowFade = 1,
   ) => {
-    const active = morphProgress > 0.01 || solidOpacity > 0.01;
-    group.visible = active;
-    if (!active) return;
+    const visible = morphProgress > 0.01 || solidOpacity > 0.01;
+    group.visible = visible;
+    if (!visible) return;
 
     solidTrayGroup.visible = solidOpacity > 0.01;
     skinMat.opacity = solidOpacity;
     coreMat.opacity = solidOpacity;
-    fibreMat.opacity = solidOpacity;
 
-    // Gentle scroll-scrubbed settling of the fragile glass perfume bottle into the tray cavity
-    const bottleVis = Math.min(solidOpacity, Math.max(0, fragileSettle));
-    perfumeBottleGroup.visible = bottleVis > 0.01;
-    cradleShadowMesh.visible = bottleVis > 0.01;
-    if (perfumeBottleGroup.visible) {
-      const easeSettle = 1 - Math.pow(1 - Math.min(1, fragileSettle), 3);
-      perfumeBottleGroup.position.y = -0.03 + (1 - easeSettle) * 0.42;
-      perfumeBottleGroup.rotation.z = (1 - easeSettle) * 0.08;
-
-      glassMat.opacity = (isSoftwareGl ? 0.56 : 1.0) * bottleVis;
-      flaconEdgesMat.opacity = 0.42 * bottleVis;
-      liquidMat.opacity = 0.84 * bottleVis;
-      brassMat.opacity = bottleVis;
-      labelMat.opacity = bottleVis;
-      cradleShadowMat.opacity = easeSettle * bottleVis * 0.85;
-    }
-
-    // Incoming threads glow while converging and fade out completely (to 0) once studio is lit
-    const computedGlowFade =
-      foxfireGlowFade !== undefined
-        ? foxfireGlowFade
-        : Math.sin(Math.min(1, morphProgress) * Math.PI) *
-          Math.pow(Math.max(0, 1 - solidOpacity), 1.6);
-    morphPoints.visible = computedGlowFade > 0.005;
+    // Incoming hyphal threads glow in the dark while braiding into the tray,
+    // and fade out completely once the solid tray and studio light resolve.
+    const pointFade =
+      Math.sin(Math.min(1, morphProgress) * Math.PI * 0.85) *
+      Math.max(0, 1 - solidOpacity * 0.96) *
+      foxfireGlowFade;
+    morphPoints.visible = pointFade > 0.01;
     morphMat.uniforms.uMorph.value = morphProgress;
-    morphMat.uniforms.uFade.value = Math.min(0.78, computedGlowFade);
+    morphMat.uniforms.uOpacity.value = pointFade * 0.72;
     morphMat.uniforms.uTime.value = elapsedSec;
   };
 
@@ -9570,7 +10671,6 @@ export function buildPackagingTray(
     updateMorphAndOpacity,
   };
 }
-
 ]]>
     </file>
   </files>

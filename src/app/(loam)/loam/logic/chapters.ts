@@ -531,10 +531,10 @@ export const CAMERA_KEYFRAMES: readonly CameraKeyframe[] = [
   },
   {
     progress: 0.83,
-    position: [0.0, -3.72, 4.92],
-    target: [-0.06, -5.42, -0.16],
-    fov: 35,
-    focusDistance: 5.18,
+    position: [0.0, -3.55, 5.15],
+    target: [0.0, -5.45, 0.0],
+    fov: 34,
+    focusDistance: 5.45,
   },
   {
     progress: 0.91,
@@ -632,29 +632,46 @@ export function computeCameraPoseAtProgress(rawProgress: number): ComputedCamera
   };
 }
 
-export const DEFAULT_SUNLIGHT = 0.75;
+/** Default on load: Morning */
+export const DEFAULT_SUNLIGHT = 0.55;
 
 export interface SunlightAtmosphereState {
   sunlight: number;
   timeLabel: string;
-  /** Directional sun offset [dx, dy, dz] relative to the current scene target */
+  /** Directional sun/moon offset [dx, dy, dz] relative to the current scene target */
   sunOffset: [number, number, number];
-  /** Normalized RGB [0..1, 0..1, 0..1] of the directional sun light */
+  /** Normalized RGB [0..1, 0..1, 0..1] of the directional light */
   sunColorRgb: [number, number, number];
-  /** Hex string of the directional sun light */
+  /** Hex string of the directional light */
   sunColorHex: string;
-  /** Multiplier on directional sun intensity (low at dusk -> full overhead at midday) */
+  /** Sky hemisphere RGB [0..1] */
+  hemiSkyRgb: [number, number, number];
+  /** Ground hemisphere RGB [0..1] */
+  hemiGroundRgb: [number, number, number];
+  /** Atmospheric forest mist RGB [0..1] for depth layers */
+  mistColorRgb: [number, number, number];
+  /** Multiplier on directional sun/moon intensity */
   sunIntensityMultiplier: number;
   /** Multiplier on hemisphere/ambient fill light */
   ambientIntensityMultiplier: number;
-  /** Multiplier on specimen rim light (stronger rim at dusk) */
+  /** Multiplier on specimen rim light */
   rimIntensityMultiplier: number;
-  /** Balanced renderer toneMappingExposure across 0..1 */
+  /** Balanced renderer toneMappingExposure across 0..1 (for non-studio chapters) */
   toneMappingExposure: number;
-  /** Multiplier on shaft-of-light / spore mote brightness above ground */
+  /** Multiplier on canopy god-ray shafts & spore motes above ground */
   godRayOpacityMultiplier: number;
+  /** Canopy god-ray slant angle in radians (slanted in Morning, near-vertical at Midday, cool slant at Night) */
+  godRaySlantRad: number;
+  /** Canopy dapple pattern intensity on forest floor & trunks */
+  dappleStrength: number;
+  /** Multiplier on foxfire bioluminescence (strongest at Night, balanced in Morning, subtler at Midday) */
+  foxfireGlowMultiplier: number;
+  /** Daylight filtering down into underground soil in Ch 03 & Ch 04 (faint at Night -> clearly lit soil/roots/stones at Midday) */
+  undergroundDaylightFactor: number;
   /** Normalized RGB [0..1] for above-ground 3D background and fog */
   surfaceBgRgb: [number, number, number];
+  /** Normalized RGB [0..1] for underground Ch 04 wide-view earth depth fog (never black) */
+  undergroundFogRgb: [number, number, number];
   /** Synchronized 2D CSS custom properties for page atmosphere harmonization */
   cssVars: {
     '--page-bg': string;
@@ -673,17 +690,31 @@ function rgbToHex(rgb: readonly [number, number, number]): string {
 }
 
 /**
- * Pure calculation mapping the normalized Sunlight / Time-of-Day slider value
- * (0.0 = Dusk/Night -> 0.75 = Default Morning -> 1.0 = Bright Midday Sun)
- * to 3D directional sun arc, color temperature, exposure, and 2D CSS atmosphere variables.
+ * Pure calculation mapping the normalized Sunlight / Time-of-Day slider value:
+ * - 0.00 = Night: moonlit, cool blue-grey, dim but readable silhouettes & shapes, strongest foxfire glow.
+ * - 0.55 = Morning (Default): low warm golden light raking through the trees, long soft shadows, light mist.
+ * - 1.00 = Midday: bright, neutral, dappled daylight through the canopy; forest floor and underground soil clearly lit.
+ * Affects Chapters 01–04 and 06. Chapter 05's studio lighting is fixed and independent of this slider.
  */
 export function computeSunlightState(rawSunlight: number): SunlightAtmosphereState {
   const s = clamp01(rawSunlight);
 
-  // 1. Sun arc across the sky: low grazing horizon angle at 0.0 -> overhead at 1.0
-  const azimuth = lerp(-1.22, -0.28, s);
-  const elevation = lerp(0.18, 1.30, s);
-  const radius = 7.2;
+  // Piece-wise interpolation factor with anchor at 0.55 (Morning default)
+  const isNightToMorning = s <= 0.55;
+  const tNM = isNightToMorning ? s / 0.55 : 1.0;
+  const tMM = isNightToMorning ? 0.0 : (s - 0.55) / 0.45;
+
+  // 1. Directional light arc:
+  //    - Night (0.0): cool moonlight from upper-right/front at moderate angle
+  //    - Morning (0.55): low raking golden light from upper-left casting long soft shadows across the floor
+  //    - Midday (1.0): high near-vertical overhead daylight pouring through the canopy
+  const azimuth = isNightToMorning
+    ? lerp(0.55, -1.12, tNM)
+    : lerp(-1.12, -0.22, tMM);
+  const elevation = isNightToMorning
+    ? lerp(0.62, 0.42, tNM)
+    : lerp(0.42, 1.32, tMM);
+  const radius = 8.4;
   const sunOffset: [number, number, number] = [
     Math.sin(azimuth) * Math.cos(elevation) * radius,
     Math.sin(elevation) * radius,
@@ -691,61 +722,102 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
   ];
 
   // 2. Color temperature stops:
-  //    0.00: Dusk ember (#ff8a3d) -> 0.35: Golden hour (#ffa751) -> 0.75: Warm morning (#f7e7ce) -> 1.00: Crisp midday (#f4f8fb)
-  const stop0: [number, number, number] = [1.0, 0.541, 0.239]; // #ff8a3d
-  const stop1: [number, number, number] = [1.0, 0.655, 0.318]; // #ffa751
-  const stop2: [number, number, number] = [0.969, 0.906, 0.808]; // #f7e7ce
-  const stop3: [number, number, number] = [0.957, 0.973, 0.984]; // #f4f8fb
+  //    - Night (0.00): Cool blue-grey moonlight (#8eb2e6)
+  //    - Morning (0.55): Warm golden raking sunlight (#ffbe6b)
+  //    - Midday (1.00): Crisp neutral dappled daylight (#f7faf5)
+  const nightSunRgb: [number, number, number] = [0.557, 0.698, 0.902]; // #8eb2e6
+  const morningSunRgb: [number, number, number] = [1.0, 0.745, 0.420]; // #ffbe6b
+  const middaySunRgb: [number, number, number] = [0.969, 0.980, 0.961]; // #f7faf5
 
-  let sunColorRgb: [number, number, number];
-  if (s < 0.35) {
-    sunColorRgb = lerpVec3(stop0, stop1, s / 0.35);
-  } else if (s < 0.75) {
-    sunColorRgb = lerpVec3(stop1, stop2, (s - 0.35) / 0.4);
-  } else {
-    sunColorRgb = lerpVec3(stop2, stop3, (s - 0.75) / 0.25);
-  }
+  const sunColorRgb: [number, number, number] = isNightToMorning
+    ? lerpVec3(nightSunRgb, morningSunRgb, tNM)
+    : lerpVec3(morningSunRgb, middaySunRgb, tMM);
   const sunColorHex = rgbToHex(sunColorRgb);
 
-  // 3. Light intensity & tone mapping exposure curves (calibrated to prevent white clipping)
-  const sunIntensityMultiplier = lerp(0.36, 1.35, Math.pow(s, 0.85));
-  const ambientIntensityMultiplier = lerp(0.55, 1.45, s);
-  const rimIntensityMultiplier = lerp(1.38, 0.88, s);
-  const toneMappingExposure = lerp(0.66, 0.83, s);
-  const godRayOpacityMultiplier = lerp(0.28, 1.48, s);
+  // 3. Hemisphere sky & ground fill colors
+  const nightSkyRgb: [number, number, number] = [0.34, 0.45, 0.62];
+  const morningSkyRgb: [number, number, number] = [0.76, 0.60, 0.38];
+  const middaySkyRgb: [number, number, number] = [0.84, 0.90, 0.80];
 
-  // 4. Above-ground forest canopy background & 2D CSS variables
-  const bgDusk: [number, number, number] = [0.024, 0.020, 0.029]; // #060507
-  const bgGolden: [number, number, number] = [0.047, 0.031, 0.020]; // #0c0805
-  const bgMorning: [number, number, number] = [0.031, 0.024, 0.016]; // #080604
-  const bgMidday: [number, number, number] = [0.086, 0.106, 0.078]; // #161b14
+  const nightGroundRgb: [number, number, number] = [0.10, 0.13, 0.19];
+  const morningGroundRgb: [number, number, number] = [0.22, 0.15, 0.09];
+  const middayGroundRgb: [number, number, number] = [0.34, 0.28, 0.20];
 
-  let surfaceBgRgb: [number, number, number];
-  if (s < 0.35) {
-    surfaceBgRgb = lerpVec3(bgDusk, bgGolden, s / 0.35);
-  } else if (s < 0.75) {
-    surfaceBgRgb = lerpVec3(bgGolden, bgMorning, (s - 0.35) / 0.4);
-  } else {
-    surfaceBgRgb = lerpVec3(bgMorning, bgMidday, (s - 0.75) / 0.25);
-  }
+  const hemiSkyRgb = isNightToMorning
+    ? lerpVec3(nightSkyRgb, morningSkyRgb, tNM)
+    : lerpVec3(morningSkyRgb, middaySkyRgb, tMM);
+  const hemiGroundRgb = isNightToMorning
+    ? lerpVec3(nightGroundRgb, morningGroundRgb, tNM)
+    : lerpVec3(morningGroundRgb, middayGroundRgb, tMM);
+
+  // 4. Above-ground forest background & atmospheric mist colors (never close to black!)
+  const bgNight: [number, number, number] = [0.075, 0.105, 0.155]; // #131b28 cool moonlit blue-grey forest
+  const bgMorning: [number, number, number] = [0.165, 0.122, 0.075]; // #2a1f13 warm golden morning mist
+  const bgMidday: [number, number, number] = [0.245, 0.295, 0.215]; // #3e4b37 bright sunlit canopy green-mist
+
+  const surfaceBgRgb: [number, number, number] = isNightToMorning
+    ? lerpVec3(bgNight, bgMorning, tNM)
+    : lerpVec3(bgMorning, bgMidday, tMM);
+
+  const mistNight: [number, number, number] = [0.28, 0.37, 0.52];
+  const mistMorning: [number, number, number] = [0.82, 0.63, 0.39];
+  const mistMidday: [number, number, number] = [0.78, 0.85, 0.74];
+  const mistColorRgb: [number, number, number] = isNightToMorning
+    ? lerpVec3(mistNight, mistMorning, tNM)
+    : lerpVec3(mistMorning, mistMidday, tMM);
+
+  // 5. Underground wide-view depth fog color (fades distant earth into warm/cool soil fog, never black)
+  const ugNight: [number, number, number] = [0.075, 0.095, 0.125]; // cool moonlit earth + foxfire
+  const ugMorning: [number, number, number] = [0.165, 0.120, 0.082]; // warm golden-umber earth
+  const ugMidday: [number, number, number] = [0.255, 0.195, 0.135]; // clearly lit daytime earth
+  const undergroundFogRgb: [number, number, number] = isNightToMorning
+    ? lerpVec3(ugNight, ugMorning, tNM)
+    : lerpVec3(ugMorning, ugMidday, tMM);
+
+  // 6. Wide-range light intensities, exposure, god-ray slant, foxfire strength & underground daylight filtering
+  const sunIntensityMultiplier = isNightToMorning
+    ? lerp(0.72, 1.58, tNM)
+    : lerp(1.58, 2.45, tMM);
+  const ambientIntensityMultiplier = isNightToMorning
+    ? lerp(0.95, 1.48, tNM)
+    : lerp(1.48, 2.38, tMM);
+  const rimIntensityMultiplier = isNightToMorning
+    ? lerp(1.32, 1.45, tNM)
+    : lerp(1.45, 1.05, tMM);
+  const toneMappingExposure = isNightToMorning
+    ? lerp(0.74, 0.84, tNM)
+    : lerp(0.84, 0.94, tMM);
+  const godRayOpacityMultiplier = isNightToMorning
+    ? lerp(0.45, 1.38, tNM)
+    : lerp(1.38, 1.85, tMM);
+  const godRaySlantRad = isNightToMorning
+    ? lerp(-0.22, 0.44, tNM)
+    : lerp(0.44, 0.07, tMM);
+  const dappleStrength = isNightToMorning
+    ? lerp(0.18, 0.52, tNM)
+    : lerp(0.52, 1.0, tMM);
+  const foxfireGlowMultiplier = isNightToMorning
+    ? lerp(1.45, 1.0, tNM)
+    : lerp(1.0, 0.72, tMM);
+  const undergroundDaylightFactor = isNightToMorning
+    ? lerp(0.28, 0.78, tNM)
+    : lerp(0.78, 1.42, tMM);
 
   const pageBgHex = rgbToHex(surfaceBgRgb);
-  const textRgb = lerpVec3([0.91, 0.875, 0.816], [0.98, 0.965, 0.933], s);
+  const textRgb = lerpVec3([0.89, 0.92, 0.96], [0.98, 0.965, 0.933], s);
   const textHex = rgbToHex(textRgb);
 
   const skyR = Math.round(sunColorRgb[0] * 255);
   const skyG = Math.round(sunColorRgb[1] * 255);
   const skyB = Math.round(sunColorRgb[2] * 255);
-  const skyAlpha = (0.07 + s * 0.11).toFixed(3);
+  const skyAlpha = (0.10 + s * 0.14).toFixed(3);
 
   const timeLabel =
-    s < 0.22
-      ? 'Dusk'
-      : s < 0.55
-        ? 'Golden hour'
-        : s < 0.85
-          ? 'Morning'
-          : 'Midday';
+    s < 0.26
+      ? 'Night'
+      : s < 0.80
+        ? 'Morning'
+        : 'Midday';
 
   return {
     sunlight: s,
@@ -753,12 +825,20 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
     sunOffset,
     sunColorRgb,
     sunColorHex,
+    hemiSkyRgb,
+    hemiGroundRgb,
+    mistColorRgb,
     sunIntensityMultiplier,
     ambientIntensityMultiplier,
     rimIntensityMultiplier,
     toneMappingExposure,
     godRayOpacityMultiplier,
+    godRaySlantRad,
+    dappleStrength,
+    foxfireGlowMultiplier,
+    undergroundDaylightFactor,
     surfaceBgRgb,
+    undergroundFogRgb,
     cssVars: {
       '--page-bg': pageBgHex,
       '--sky-ambient': `rgba(${skyR}, ${skyG}, ${skyB}, ${skyAlpha})`,
@@ -767,4 +847,5 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
     },
   };
 }
+
 

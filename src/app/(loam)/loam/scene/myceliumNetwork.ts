@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { GeneratedMyceliumNetwork } from '../logic/networkGenerator';
 
 export interface BuiltMyceliumNetwork {
@@ -12,6 +12,7 @@ export interface BuiltMyceliumNetwork {
     undergroundFactor: number;
     elapsedSec: number;
     pointerWorld: THREE.Vector3;
+    foxfireGlowMultiplier?: number;
   }) => void;
   triggerPulseAt: (
     worldPoint: THREE.Vector3,
@@ -100,6 +101,7 @@ export function buildMyceliumNetworkScene(
     uGrowth: { value: 0.0 },
     uConvergence: { value: 0.0 },
     uVisibility: { value: 0.0 },
+    uGlowBoost: { value: 1.0 },
     uTime: { value: 0.0 },
     uPointerWorld: { value: new THREE.Vector3(0, -999, 0) },
     uPulseOrigin: { value: new THREE.Vector3(0, -1, 0) },
@@ -141,6 +143,7 @@ export function buildMyceliumNetworkScene(
   const fragmentShader = `
     uniform float uGrowth;
     uniform float uVisibility;
+    uniform float uGlowBoost;
     uniform float uTime;
     uniform vec3 uPointerWorld;
     uniform vec3 uPulseOrigin;
@@ -163,10 +166,10 @@ export function buildMyceliumNetworkScene(
       vec3 brightPulseTip = vec3(1.12, 1.28, 0.52);
 
       float flow = 0.5 + 0.5 * sin(vGrowth * 32.0 - uTime * 2.2);
-      vec3 color = mix(dimLoamThread, foxfireGold, 0.35 + 0.45 * flow);
+      vec3 color = mix(dimLoamThread, foxfireGold, 0.35 + 0.45 * flow) * uGlowBoost;
 
       // Brighten the advancing growing edge
-      color = mix(color, brightPulseTip, growingEdge * 0.78);
+      color = mix(color, brightPulseTip * uGlowBoost, growingEdge * 0.78);
 
       // Pointer proximity brightening
       float ptrDist = distance(vWorldPos, uPointerWorld);
@@ -189,9 +192,9 @@ export function buildMyceliumNetworkScene(
       }
 
       // Hierarchy opacity: thicker cords (tier 0) strongest, secondary threads (tier 1) medium, hair-fine hyphae (tier 2) delicate
-      float tierBaseAlpha = vTier < 0.5 ? 0.58 : (vTier < 1.5 ? 0.34 : 0.19);
+      float tierBaseAlpha = (vTier < 0.5 ? 0.62 : (vTier < 1.5 ? 0.38 : 0.22)) * min(1.3, uGlowBoost);
       float alpha = tipFade * uVisibility * (tierBaseAlpha + growingEdge * 0.38 + ptrBoost * 0.32 + pulseBoost * 0.55);
-      gl_FragColor = vec4(color, clamp(alpha, 0.0, 0.92));
+      gl_FragColor = vec4(color, clamp(alpha, 0.0, 0.94));
     }
   `;
 
@@ -229,6 +232,7 @@ export function buildMyceliumNetworkScene(
     undergroundFactor: number;
     elapsedSec: number;
     pointerWorld: THREE.Vector3;
+    foxfireGlowMultiplier?: number;
   }) => {
     // Fade the network out completely as the solid tray and studio resolve in Chapter 5
     const vis = params.undergroundFactor * Math.pow(Math.max(0, 1 - params.convergence), 1.6);
@@ -236,6 +240,7 @@ export function buildMyceliumNetworkScene(
     sharedUniforms.uGrowth.value = params.growth;
     sharedUniforms.uConvergence.value = params.convergence;
     sharedUniforms.uVisibility.value = vis;
+    sharedUniforms.uGlowBoost.value = params.foxfireGlowMultiplier ?? 1.0;
     sharedUniforms.uTime.value = params.elapsedSec;
     sharedUniforms.uPointerWorld.value.copy(params.pointerWorld);
   };
