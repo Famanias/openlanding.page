@@ -109,7 +109,7 @@ export function AmaotoShell() {
     },
     [close],
   );
-  const engage = useCallback((value: Tool) => {
+  const engage = useCallback((value: Tool, focusStage = false) => {
     if (!value) return;
     const first = !owner.current;
     if (first) previousFocus.current = document.activeElement as HTMLElement;
@@ -121,18 +121,24 @@ export function AmaotoShell() {
         inspection.current,
         owner.current,
       );
-    if (first)
+    if (first || focusStage)
       setTimeout(
         () =>
           document
-            .querySelector<HTMLButtonElement>(".am-tool-close")
+            .querySelector<HTMLElement>(
+              focusStage ? ".am-canvas" : ".am-tool-close",
+            )
             ?.focus({ preventScroll: true }),
         0,
       );
   }, []);
   const dispatch = useCallback(
     (event: AnatomyEvent) => {
-      if (event.type === "select" && director.current.chapter === 1)
+      if (
+        event.type !== "overview" &&
+        event.type !== "finish" &&
+        director.current.chapter === 1
+      )
         engage("anatomy");
       rawDispatch(event);
     },
@@ -193,6 +199,8 @@ export function AmaotoShell() {
     };
   }, [tool, close]);
   const cinematic = mode === "cinematic";
+  const anatomyVisible = cinematic && chapter === 1;
+  const panelTool = tool ?? (anatomyVisible ? "anatomy" : null);
   const style = {
     ...day.cssVars,
     "--am-dye": colour.color,
@@ -389,7 +397,7 @@ export function AmaotoShell() {
               →
             </button>
           </nav>
-          {story.activeChapter.tool && !tool && (
+          {story.activeChapter.tool && !tool && !anatomyVisible && (
             <button
               type="button"
               className="am-enter-tool"
@@ -428,32 +436,43 @@ export function AmaotoShell() {
               ))}
             </div>
           )}
-          {tool && (
+          {panelTool && (
             <aside
               className="am-tool-sheet"
-              role="dialog"
-              aria-modal="false"
+              role={tool ? "dialog" : "region"}
+              aria-modal={tool ? false : undefined}
               aria-label={
-                tool === "anatomy"
+                panelTool === "anatomy"
                   ? "Inspect the structure"
-                  : tool === "light"
+                  : panelTool === "light"
                     ? "Explore light"
                     : "Follow the making"
               }
             >
               <header>
                 <span>
-                  {tool === "anatomy"
+                  {panelTool === "anatomy"
                     ? "Bamboo / paper / thread"
-                    : tool === "light"
+                    : panelTool === "light"
                       ? "Light / weather"
                       : "The making"}
                 </span>
-                <button className="am-tool-close" type="button" onClick={close}>
-                  Return to story <span>×</span>
+                <button
+                  className="am-tool-close"
+                  type="button"
+                  onClick={() => {
+                    close();
+                    if (!tool)
+                      controls.current?.scrollToProgress(
+                        WORLD_CHAPTERS[2].restProgress,
+                      );
+                  }}
+                >
+                  {tool ? "Return to story" : "Continue to Paper"}{" "}
+                  <span aria-hidden="true">{tool ? "×" : "→"}</span>
                 </button>
               </header>
-              {tool === "anatomy" && (
+              {panelTool === "anatomy" && (
                 <>
                   <div className="am-sheet-parts">
                     <PartCallout
@@ -466,15 +485,13 @@ export function AmaotoShell() {
                   <button
                     type="button"
                     className="am-focus-stage"
-                    onClick={() =>
-                      document.querySelector<HTMLElement>(".am-canvas")?.focus()
-                    }
+                    onClick={() => engage("anatomy", true)}
                   >
                     Focus umbrella · arrow keys turn the view
                   </button>
                 </>
               )}
-              {tool === "light" && (
+              {panelTool === "light" && (
                 <>
                   <h3>Paper that listens to light.</h3>
                   <p>Move from dusk to day. The fibres answer.</p>
@@ -509,7 +526,7 @@ export function AmaotoShell() {
                   </button>
                 </>
               )}
-              {tool === "making" && (
+              {panelTool === "making" && (
                 <>
                   <h3>
                     {

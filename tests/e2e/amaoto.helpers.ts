@@ -26,7 +26,10 @@ export async function go(page: Page, p: number) {
 export async function enterAnatomy(page: Page) {
   await openWorld(page, 0.18);
   await page
-    .getByRole("button", { name: "Inspect the structure", exact: true })
+    .getByRole("button", {
+      name: "Focus umbrella · arrow keys turn the view",
+      exact: true,
+    })
     .click();
   await expect(page.locator(".am-page")).toHaveAttribute(
     "data-inspect-phase",

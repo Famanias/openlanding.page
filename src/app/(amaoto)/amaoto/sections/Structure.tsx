@@ -18,7 +18,7 @@ export function Structure({
       data-inspecting={Boolean(state.part)}
     >
       <StageAnchor />
-      <div className="am-chapter-copy">
+      <div className="am-chapter-copy" hidden={enhanced}>
         <span className="am-kicker">02 / structure</span>
         <h2>
           <span className="am-line">

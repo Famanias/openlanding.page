@@ -2182,13 +2182,20 @@ input[type="range"]:active::-webkit-slider-thumb {
   display: none;
 }
 .am-page[data-world-mode="cinematic"] .am-chapter-copy {
+  --am-world-text: var(--am-paper);
+  color: var(--am-paper);
+  background: linear-gradient(
+    90deg,
+    rgba(26, 22, 19, 0.78),
+    rgba(26, 22, 19, 0.66)
+  );
   max-height: calc(100svh - 240px);
   overflow-y: auto;
   scrollbar-width: thin;
   pointer-events: auto;
   align-self: center;
   overscroll-behavior: contain;
-  padding: 8px 10px 12px 0;
+  padding: 24px;
 }
 .am-page[data-world-mode="cinematic"] .am-chapter-copy > p {
   font-size: clamp(0.9rem, 1.1vw, 1.1rem);
@@ -2206,12 +2213,6 @@ input[type="range"]:active::-webkit-slider-thumb {
   bottom: 110px;
   left: var(--am-gutter);
   width: min(36vw, 490px);
-  padding: 24px;
-  background: radial-gradient(
-    ellipse at left,
-    rgba(244, 236, 221, 0.94),
-    rgba(244, 236, 221, 0)
-  );
 }
 .am-page[data-world-mode="cinematic"] .am-light .am-control,
 .am-page[data-world-mode="cinematic"] .am-making ol,
@@ -2228,18 +2229,17 @@ input[type="range"]:active::-webkit-slider-thumb {
 }
 .am-page[data-world-mode="cinematic"] .am-kicker {
   color: var(--am-world-text);
-  opacity: 0.65;
+  opacity: 0.85;
+}
+.am-page[data-world-mode="cinematic"] .am-chapter-copy h1 em {
+  color: var(--am-sakura);
+}
+.am-page[data-world-mode="cinematic"] .am-chapter-copy .am-swatches button {
+  color: inherit;
 }
 .am-page[data-world-mode="cinematic"] h2,
 .am-page[data-world-mode="cinematic"] h2 em {
   color: inherit;
-}
-.am-page[data-world-mode="cinematic"][data-paper-lit="false"] .am-chapter-copy {
-  background: linear-gradient(
-    90deg,
-    rgba(26, 22, 19, 0.22),
-    rgba(26, 22, 19, 0)
-  );
 }
 .am-journey-nav {
   position: fixed;
@@ -2481,6 +2481,7 @@ input[type="range"]:active::-webkit-slider-thumb {
     max-height: calc(50svh - 185px);
     width: 100%;
     overflow: auto;
+    padding: 12px;
   }
   .am-page[data-world-mode="cinematic"] h1 {
     font-size: clamp(3.5rem, 12vw, 6rem);
@@ -2500,7 +2501,6 @@ input[type="range"]:active::-webkit-slider-thumb {
   .am-page[data-world-mode="cinematic"] .am-light .am-chapter-copy {
     position: static;
     width: 100%;
-    padding: 12px;
   }
   .am-page[data-world-mode="cinematic"] .am-swatches {
     margin-top: 16px;
@@ -2604,10 +2604,6 @@ input[type="range"]:active::-webkit-slider-thumb {
 .am-page[data-world-mode="cinematic"] .am-inspector-navigation {
   color: var(--am-ink);
 }
-.am-page[data-world-mode="cinematic"][data-tool="none"] .am-anatomy-ui {
-  visibility: hidden;
-  pointer-events: none;
-}
 .am-page[data-world-mode="cinematic"] .am-making-strip {
   background: rgba(244, 236, 221, 0.94);
   color: var(--am-ink);
@@ -2632,14 +2628,6 @@ input[type="range"]:active::-webkit-slider-thumb {
 }
 .am-page[data-world-mode="cinematic"] .am-commission h2 {
   font-size: clamp(2.6rem, 4.3vw, 4rem);
-}
-.am-page[data-world-mode="cinematic"][data-paper-lit="true"] .am-chapter-copy {
-  background: linear-gradient(
-    90deg,
-    rgba(244, 236, 221, 0.96),
-    rgba(244, 236, 221, 0.88) 72%,
-    rgba(244, 236, 221, 0)
-  );
 }
 .am-page[data-world-mode="static"] {
   color: var(--text-contrast);
@@ -3628,8 +3616,7 @@ export const WORLD_CHAPTERS: Chapter[] = [
     restProgress: 0.66,
     secondaryRestProgress: 0.72,
     endProgress: 0.78,
-    tool: "light",
-    toolButtonLabel: "Explore light",
+    tool: null,
   },
   {
     index: 4,
@@ -5277,7 +5264,7 @@ export function AmaotoShell() {
     },
     [close],
   );
-  const engage = useCallback((value: Tool) => {
+  const engage = useCallback((value: Tool, focusStage = false) => {
     if (!value) return;
     const first = !owner.current;
     if (first) previousFocus.current = document.activeElement as HTMLElement;
@@ -5289,18 +5276,24 @@ export function AmaotoShell() {
         inspection.current,
         owner.current,
       );
-    if (first)
+    if (first || focusStage)
       setTimeout(
         () =>
           document
-            .querySelector<HTMLButtonElement>(".am-tool-close")
+            .querySelector<HTMLElement>(
+              focusStage ? ".am-canvas" : ".am-tool-close",
+            )
             ?.focus({ preventScroll: true }),
         0,
       );
   }, []);
   const dispatch = useCallback(
     (event: AnatomyEvent) => {
-      if (event.type === "select" && director.current.chapter === 1)
+      if (
+        event.type !== "overview" &&
+        event.type !== "finish" &&
+        director.current.chapter === 1
+      )
         engage("anatomy");
       rawDispatch(event);
     },
@@ -5361,6 +5354,8 @@ export function AmaotoShell() {
     };
   }, [tool, close]);
   const cinematic = mode === "cinematic";
+  const anatomyVisible = cinematic && chapter === 1;
+  const panelTool = tool ?? (anatomyVisible ? "anatomy" : null);
   const style = {
     ...day.cssVars,
     "--am-dye": colour.color,
@@ -5557,7 +5552,7 @@ export function AmaotoShell() {
               →
             </button>
           </nav>
-          {story.activeChapter.tool && !tool && (
+          {story.activeChapter.tool && !tool && !anatomyVisible && (
             <button
               type="button"
               className="am-enter-tool"
@@ -5596,32 +5591,43 @@ export function AmaotoShell() {
               ))}
             </div>
           )}
-          {tool && (
+          {panelTool && (
             <aside
               className="am-tool-sheet"
-              role="dialog"
-              aria-modal="false"
+              role={tool ? "dialog" : "region"}
+              aria-modal={tool ? false : undefined}
               aria-label={
-                tool === "anatomy"
+                panelTool === "anatomy"
                   ? "Inspect the structure"
-                  : tool === "light"
+                  : panelTool === "light"
                     ? "Explore light"
                     : "Follow the making"
               }
             >
               <header>
                 <span>
-                  {tool === "anatomy"
+                  {panelTool === "anatomy"
                     ? "Bamboo / paper / thread"
-                    : tool === "light"
+                    : panelTool === "light"
                       ? "Light / weather"
                       : "The making"}
                 </span>
-                <button className="am-tool-close" type="button" onClick={close}>
-                  Return to story <span>×</span>
+                <button
+                  className="am-tool-close"
+                  type="button"
+                  onClick={() => {
+                    close();
+                    if (!tool)
+                      controls.current?.scrollToProgress(
+                        WORLD_CHAPTERS[2].restProgress,
+                      );
+                  }}
+                >
+                  {tool ? "Return to story" : "Continue to Paper"}{" "}
+                  <span aria-hidden="true">{tool ? "×" : "→"}</span>
                 </button>
               </header>
-              {tool === "anatomy" && (
+              {panelTool === "anatomy" && (
                 <>
                   <div className="am-sheet-parts">
                     <PartCallout
@@ -5634,15 +5640,13 @@ export function AmaotoShell() {
                   <button
                     type="button"
                     className="am-focus-stage"
-                    onClick={() =>
-                      document.querySelector<HTMLElement>(".am-canvas")?.focus()
-                    }
+                    onClick={() => engage("anatomy", true)}
                   >
                     Focus umbrella · arrow keys turn the view
                   </button>
                 </>
               )}
-              {tool === "light" && (
+              {panelTool === "light" && (
                 <>
                   <h3>Paper that listens to light.</h3>
                   <p>Move from dusk to day. The fibres answer.</p>
@@ -5677,7 +5681,7 @@ export function AmaotoShell() {
                   </button>
                 </>
               )}
-              {tool === "making" && (
+              {panelTool === "making" && (
                 <>
                   <h3>
                     {
@@ -7253,7 +7257,7 @@ export function worldStageRect(
     return {
       left: index === 0 || index === 3 ? width * 0.51 : 0,
       top: height * 0.11,
-      width: width * (index === 1 ? 0.58 : 0.48),
+      width: width * (index === 1 ? 0.56 : 0.48),
       height: height * (index === 1 ? 0.65 : 0.8),
     };
   };
@@ -8903,7 +8907,7 @@ export function Structure({
       data-inspecting={Boolean(state.part)}
     >
       <StageAnchor />
-      <div className="am-chapter-copy">
+      <div className="am-chapter-copy" hidden={enhanced}>
         <span className="am-kicker">02 / structure</span>
         <h2>
           <span className="am-line">

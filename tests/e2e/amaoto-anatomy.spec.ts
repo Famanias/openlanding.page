@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { enterAnatomy, choosePart, go } from "./amaoto.helpers";
+import { enterAnatomy, choosePart, go, openWorld } from "./amaoto.helpers";
 const parts = [
   { id: "ribs", name: "Bamboo ribs" },
   { id: "stretchers", name: "Stretchers" },
@@ -8,6 +8,43 @@ const parts = [
   { id: "canopy", name: "Washi paper" },
   { id: "handle", name: "Turned handle" },
 ];
+for (const width of [1440, 390])
+  test(`Structure opens its Anatomy workbench by default at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: width === 1440 ? 1000 : 844 });
+    await openWorld(page, 0.18);
+    await expect(
+      page.getByRole("region", { name: "Inspect the structure", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "A roof, in six parts.", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("slider", { name: "Pull the runner" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Forty ribs, one breath." }),
+    ).not.toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Inspect the structure", exact: true }),
+    ).toHaveCount(0);
+    await expect(page.locator(".am-page")).toHaveAttribute("data-tool", "none");
+    await test.info().attach("default-workbench", {
+      body: await page.screenshot(),
+      contentType: "image/png",
+    });
+    const y = await page.evaluate(() => scrollY);
+    await page.mouse.move(width / 2, 100);
+    await page.mouse.wheel(0, 80);
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(y);
+    await page
+      .getByRole("button", { name: "Continue to Paper", exact: true })
+      .click();
+    await expect(
+      page.getByRole("region", { name: "Inspect the structure", exact: true }),
+    ).toHaveCount(0);
+  });
 for (const width of [1440, 390])
   test(`Anatomy freely inspects all six parts at ${width}px`, async ({
     page,

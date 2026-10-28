@@ -189,7 +189,9 @@ for (const viewport of [
         "commission",
       ];
       const r = await page
-        .locator(`#${ids[index]} .am-chapter-copy`)
+        .locator(
+          index === 1 ? ".am-tool-sheet" : `#${ids[index]} .am-chapter-copy`,
+        )
         .boundingBox();
       expect(r).not.toBeNull();
       expect(

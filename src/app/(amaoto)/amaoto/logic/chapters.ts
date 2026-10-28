@@ -76,8 +76,7 @@ export const WORLD_CHAPTERS: Chapter[] = [
     restProgress: 0.66,
     secondaryRestProgress: 0.72,
     endProgress: 0.78,
-    tool: "light",
-    toolButtonLabel: "Explore light",
+    tool: null,
   },
   {
     index: 4,

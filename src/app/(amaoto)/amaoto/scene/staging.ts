@@ -21,7 +21,7 @@ export function worldStageRect(
     return {
       left: index === 0 || index === 3 ? width * 0.51 : 0,
       top: height * 0.11,
-      width: width * (index === 1 ? 0.58 : 0.48),
+      width: width * (index === 1 ? 0.56 : 0.48),
       height: height * (index === 1 ? 0.65 : 0.8),
     };
   };
