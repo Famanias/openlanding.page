@@ -8,7 +8,9 @@ export const MODEL_FILTERS = [
   { id: "other", label: "Other" },
 ] as const;
 export type ModelFilter = (typeof MODEL_FILTERS)[number]["id"];
-export interface GalleryFilters { category: CategoryId; model: ModelFilter; query: string }
+export type SortKey = "date" | "likes";
+export type SortDirection = "desc" | "asc";
+export interface GalleryFilters { category: CategoryId; model: ModelFilter; query: string; sort: SortKey; dir: SortDirection }
 
 export function modelFamily(model: string): Exclude<ModelFilter, "all"> {
   if (/claude/i.test(model)) return "claude";
@@ -23,10 +25,12 @@ export function readFilters(search: string): GalleryFilters {
     category: CATEGORIES.find((item) => item.id === params.get("category"))?.id ?? "all",
     model: MODEL_FILTERS.find((item) => item.id === params.get("model"))?.id ?? "all",
     query: (params.get("q") ?? "").slice(0, 160),
+    sort: params.get("sort") === "likes" ? "likes" : "date",
+    dir: params.get("dir") === "asc" ? "asc" : "desc",
   };
 }
 
-export function filterTemplates(templates: TemplateItem[], filters: GalleryFilters) {
+export function filterTemplates(templates: TemplateItem[], filters: Pick<GalleryFilters, "category" | "model" | "query">) {
   const terms = filters.query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
   return templates.filter((template) => {
     if (filters.category !== "all" && filters.category !== template.category) return false;
@@ -35,5 +39,18 @@ export function filterTemplates(templates: TemplateItem[], filters: GalleryFilte
     const haystack = [template.title, template.description, template.industry, template.stack,
       template.model, modelFamily(template.model), category, ...template.badges].join(" ").toLocaleLowerCase();
     return terms.every((term) => haystack.includes(term));
+  });
+}
+
+export function sortTemplates(templates: TemplateItem[], sort: SortKey, dir: SortDirection,
+  counts?: Record<string, { up: number; down: number }>) {
+  const newest = (a: TemplateItem, b: TemplateItem) =>
+    b.createdAt.localeCompare(a.createdAt) || b.registrationOrder - a.registrationOrder;
+  return templates.slice().sort((a, b) => {
+    if (sort === "likes" && counts) {
+      const delta = (counts[a.slug]?.up ?? 0) - (counts[b.slug]?.up ?? 0);
+      return (dir === "asc" ? delta : -delta) || newest(a, b);
+    }
+    return newest(a, b) * (sort === "date" && dir === "asc" ? -1 : 1);
   });
 }

@@ -5,6 +5,15 @@ import { TemplateCard } from "./TemplateCard";
 import { TEMPLATES } from "../data/templates";
 
 describe("TemplateCard", () => {
+  it("shows both counts and locks both buttons after a permanent vote", () => {
+    const template = TEMPLATES.find(t => t.slug === "orrery")!;
+    const html = renderToStaticMarkup(<TemplateCard template={template} counts={{ up: 12, down: 3 }} myVote="down" votesReady />);
+    expect(html).toContain('aria-label="Like Orrery (12)"');
+    expect(html).toContain('aria-label="You disliked Orrery (3)"');
+    expect(html).toContain('aria-pressed="true"');
+    expect((html.match(/disabled=""/g) ?? []).length).toBe(2);
+    expect(html).toContain("Vote recorded");
+  });
   it("renders a video-aspect preview frame with correct live template link", () => {
     const orrery = TEMPLATES.find((t) => t.slug === "orrery")!;
     const html = renderToStaticMarkup(<TemplateCard template={orrery} isEager={true} />);
@@ -14,9 +23,9 @@ describe("TemplateCard", () => {
   });
 
   it("renders persistent actions for prompt and template download", () => {
-    const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={false} />);
+    const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES.find(t => t.slug === "alpine-reel")!} isEager={false} />);
     expect(html).toContain("Copy prompt");
-    expect(html).toContain("Download template");
+    expect(html).toContain("Download HTML");
   });
 
   it("renders video tag for KŌJI with muted and loop attributes", () => {
@@ -37,7 +46,7 @@ describe("TemplateCard", () => {
     const eagerHtml = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={true} />);
     expect(eagerHtml).toContain('loading="eager"');
 
-    const lazyHtml = renderToStaticMarkup(<TemplateCard template={TEMPLATES[0]} isEager={false} />);
+    const lazyHtml = renderToStaticMarkup(<TemplateCard template={TEMPLATES.find(t => t.slug === "alpine-reel")!} isEager={false} />);
     expect(lazyHtml).toContain('loading="lazy"');
   });
 
@@ -49,7 +58,7 @@ describe("TemplateCard", () => {
     expect(html).toContain("Orrery");
     expect(html).not.toContain(orrery.description);
     expect(html).toContain("Copy prompt");
-    expect(html).toContain("Download template");
+    expect(html).not.toContain("Download HTML");
   });
 
   it("renders external link attributes for template links", () => {

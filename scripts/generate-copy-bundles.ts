@@ -5,7 +5,7 @@ import fg from "fast-glob";
 import { readTemplateFiles } from "./template-files";
 import { TEMPLATES, type TemplateSlug } from "./templates.config";
 
-export const TEMPLATE_METADATA: Record<
+const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
@@ -163,6 +163,12 @@ tally: {
     dependencies: [],
   },
 };
+
+export const TEMPLATE_METADATA = Object.fromEntries(Object.entries(COPY_METADATA).map(([slug, meta]) => [slug, {
+  ...meta,
+  createdAt: TEMPLATES[slug as TemplateSlug].createdAt,
+  downloadPath: TEMPLATES[slug as TemplateSlug].hasDownload ? `/downloads/${slug}.html` : null,
+}])) as Record<TemplateSlug, { name: string; dependencies: string[]; createdAt: string; downloadPath: string | null }>;
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
   try {

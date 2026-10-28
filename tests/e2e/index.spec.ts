@@ -52,29 +52,22 @@ test.describe("openlandingpage gallery index", () => {
     expect(clipboardText).toContain("rebuild \"Orrery\"");
   });
 
-  test("downloading template triggers HTML file download and copies HTML to clipboard", async ({ page }) => {
+  test("Download HTML saves standalone content and preserves the clipboard", async ({ page }) => {
     await page.goto("/");
-
-    const orreryCard = page.locator("article").filter({ hasText: "Orrery" });
-    await expect(orreryCard).toBeVisible();
-
-    const downloadTemplateBtn = orreryCard.getByRole("button", { name: /download template/i });
-    await expect(downloadTemplateBtn).toBeVisible();
-
+    await page.evaluate(() => navigator.clipboard.writeText("Keep my clipboard"));
+    const card = page.locator("article").filter({ hasText: "ALPINE REEL" });
     const downloadPromise = page.waitForEvent("download");
-    await downloadTemplateBtn.click();
-
-    // Assert button feedback updates to "Downloaded template"
-    const downloadedTemplateBtn = orreryCard.getByRole("button", { name: /downloaded template/i });
-    await expect(downloadedTemplateBtn).toBeVisible();
-    await expect(downloadedTemplateBtn).toHaveAttribute("data-copied", "true");
-
+    await card.getByRole("button", { name: "Download HTML", exact: true }).click();
+    await expect(card.getByRole("button", { name: "Downloaded HTML", exact: true })).toBeVisible();
     const download = await downloadPromise;
-    expect(download.suggestedFilename()).toBe("orrery.html");
-
-    // Assert clipboard contains the HTML content
-    const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
-    expect(clipboardText.toLowerCase()).toContain("<html");
+    expect(download.suggestedFilename()).toBe("alpine-reel.html");
+    const { readFile } = await import("node:fs/promises");
+    const html = await readFile((await download.path())!, "utf8");
+    expect(html).toContain("<h1");
+    expect(html).not.toContain("/_next/");
+    expect(html).not.toContain("<base ");
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("Keep my clipboard");
+    await expect(page.locator("article").filter({ hasText: "Orrery" }).getByRole("button", { name: "Download HTML", exact: true })).toHaveCount(0);
   });
 
   test("category filter chips filter templates and update result counter", async ({ page }) => {

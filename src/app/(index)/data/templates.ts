@@ -11,6 +11,10 @@ export interface Category {
 
 export interface TemplateItem {
   slug: TemplateSlug;
+  createdAt: string;
+  /** Derived from append order; later registrations win same-day ties. */
+  registrationOrder: number;
+  hasDownload?: boolean;
   title: string;
   description: string;
   category: TemplateCategory;
@@ -338,9 +342,10 @@ The motion identity is technical/cinematic with scan and focus-pull as its verbs
 
 export const AMAOTO_PROMPT = "# Prompt: rebuild AMAOTO (wagasa atelier landing page)\n\nBuild an isolated Next.js 16 App Router + React 19 + TypeScript landing page at /amaoto for fictional wagasa atelier AMAOTO. Use WebGLRenderer and the procedural createWagasaModel factory to show a 40-rib umbrella that opens from pleats to a taut washi dome as the visitor scrolls. Sections: Hero, Structure, Light, Canopy, Making and Commission. Palette: #1A1613, #F4ECDD, #F2B8C6, #D9748F, #C8412B, #B8923A, #2B3A55. Fonts: Shippori Mincho, Zen Kaku Gothic New and DM Mono. Keep the canvas behind content, expose pure setOpen and setExplode, support clickable parts, live sun-angle and canopy controls, reduced motion, a poster fallback and client-only form validation.";
 
-export const RAW_TEMPLATES: TemplateItem[] = [
+export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   {
     slug: "amaoto",
+    createdAt: "2026-10-26",
     title: "AMAOTO",
     description: "The sound of rain, kept dry. A wagasa atelier landing page with a scroll-driven procedural umbrella.",
     category: "3d-webgpu",
@@ -354,6 +359,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
 
   {
     slug: "orrery",
+    createdAt: "2026-10-20",
     title: "Orrery",
     description:
       "The orchestration layer for teams of AI agents. A 10-slide keynote experience with clockwork motion.",
@@ -367,6 +373,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "keytu",
+    createdAt: "2026-10-21",
     title: "KEYTU",
     description:
       "Technical mountaineering apparel told as an ascent of K2. Pinned altitude meter and tritone photography.",
@@ -380,6 +387,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "koji",
+    createdAt: "2026-10-20",
     title: "KŌJI",
     description:
       "Fermentation kitchen in Tokyo with 3D WebGPU dish showcase, brutalist aesthetics, and scroll-scrubbed video.",
@@ -394,6 +402,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "trace",
+    createdAt: "2026-10-21",
     title: "TRACE",
     description:
       "Spatial intelligence for the moving city. A parallax field guide with a scroll-reactive Three.js signal orb.",
@@ -407,6 +416,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "calder",
+    createdAt: "2026-10-21",
     title: "CALDER & ROWE",
     description:
       "Hard decisions, argued well. A small law firm's page that is a bound brief being drafted: a pinned memorandum writes itself word by word as you scroll, margin notes arrive in gold, and filing a matter presses the firm's seal onto a docket number.",
@@ -420,6 +430,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "vector",
+    createdAt: "2026-10-21",
     title: "VECTOR/90",
     description:
       "Runtime maps for systems in motion. A retro 90s wireframe developer-tool landing page powered by procedural Three.js geometry.",
@@ -433,6 +444,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "morrow",
+    createdAt: "2026-10-21",
     title: "MORROW",
     description:
       "Repair, kept local. A warm neighborhood-service landing page with a route narrative, price calculator, and maker network.",
@@ -447,6 +459,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "loophouse",
+    createdAt: "2026-10-21",
     title: "LOOPHOUSE",
     description:
       "Tools in circulation, work in common. A community workshop landing page with an interactive modular pegboard tool wall, magnetic dock unlatching, and live project tray staging.",
@@ -460,6 +473,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "wowflutter",
+    createdAt: "2026-10-21",
     title: "WOWFLUTTER",
     description:
       "Every record is an issue. An independent label's site built as a magazine you turn by hand: drag a page corner and the leaf lifts on a real hinge.",
@@ -473,6 +487,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "verane",
+    createdAt: "2026-10-21",
     title: "Maison Vérane",
     description:
       "Composed slowly, worn for hours. A Grasse haute perfumery landing page with an interactive twelve-hour dry-down clock and raw organ composer.",
@@ -486,6 +501,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "sundial",
+    createdAt: "2026-10-21",
     title: "SUNDIAL Coffee Roasters",
     description:
       "Roasted to the minute. A coffee-roastery landing page built as a roast curve you scrub: live temperature, first-crack marker and development %.",
@@ -500,6 +516,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "noctiluca",
+    createdAt: "2026-10-21",
     title: "Noctiluca",
     description:
       "A house made of moving light. The page is a 3D corridor you walk through: scroll moves the camera room by room, and every wall is a live shader gradient.",
@@ -513,6 +530,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "iridia",
+    createdAt: "2026-10-21",
     title: "IRIDIA",
     description:
       "The spatial architecture of kinetic light. The page is an orbital 3D prismatic pavilion with live Navier-Stokes shader gradients, real-time Cauchy dispersion and interactive synthesizer.",
@@ -526,6 +544,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "bathys",
+    createdAt: "2026-10-22",
     title: "BATHYS",
     description:
       "Autonomous hadal exploration vehicles engineered for the 11,000-metre breach. Pinned hydrostatic dive stage with live pressure gauge, water-column absorption, and procedural acoustic sonar.",
@@ -539,6 +558,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "aubade",
+    createdAt: "2026-10-22",
     title: "AUBADE",
     description:
       "Leave at dusk. Wake somewhere else. An overnight-sleeper landing page where the page is the train window: scroll becomes lateral travel through five flat colour-field legs of the night, with the Simplon tunnel as the set piece.",
@@ -552,6 +572,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "satsuma",
+    createdAt: "2026-10-22",
     title: "Satsuma",
     description:
       "Reels that land, made by hand. A short-reel marketplace whose hero is a curved video wheel: ten cards on the inside of a cylinder drift, can be flung with momentum, and each card's width, lean and edge height come from one pure function of its position.",
@@ -565,6 +586,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "kinetic",
+    createdAt: "2026-10-22",
     title: "KINETIC",
     description:
       "Autonomous 3D delivery journey and freight operations. Pinned 5-chapter route narrative with procedural electric truck Unit 104 travelling a 1,400-meter highway, live HUD telemetry tags, and interactive command center console.",
@@ -578,6 +600,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "isobar",
+    createdAt: "2026-10-23",
     title: "ISOBAR",
     description:
       "An atmospheric systems studio where the page is one continuous 3D pressure membrane. Scroll through transects, shear the field, and reseed its living gradients.",
@@ -591,6 +614,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "volume-zero",
+    createdAt: "2026-10-23",
     title: "VOLUME ZERO",
     description:
       "Acoustic architecture for rooms that listen back. A WebGPU chamber maps source, listener and reflection paths as you scroll.",
@@ -604,6 +628,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "openhouse",
+    createdAt: "2026-10-23",
     title: "OPENHOUSE",
     description:
       "A single-action conversion page for small businesses, built around a threshold form that turns a first click into a clear next step.",
@@ -617,6 +642,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "handoff",
+    createdAt: "2026-10-23",
     title: "HANDOFF",
     description: "Good work, routed well. A builder-friendly conversion page for small teams that need reliable operators.",
     category: "conversion",
@@ -629,6 +655,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "truecut",
+    createdAt: "2026-10-23",
     title: "TRUECUT Works",
     description:
       "Field engineering, shown clearly. An image-led conversion page with a survey-line field log, proof reels, and one site-visit action.",
@@ -642,6 +669,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "nomi",
+    createdAt: "2026-10-23",
     title: "NOMI",
     description: "A light, plastic-tinted mobile workspace landing page for tutoring studios, built around a pinned phone that unlocks four moments.",
     category: "conversion",
@@ -654,6 +682,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "kazeko",
+    createdAt: "2026-10-24",
     title: "Studio Kazeko",
     description: "A little wonder. A world of feeling. A Japanese-inspired animation studio with an original countryside illustration and a scroll-driven pencil-to-colour scene.",
     category: "scroll-showcase",
@@ -666,6 +695,8 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "alpine-reel",
+    hasDownload: true,
+    createdAt: "2026-10-24",
     title: "ALPINE REEL",
     description:
       "Fourteen eight-thousanders as one moving film frame. A cold-blue horizontal reel with snap physics, parallax and a door-tilt peak dossier.",
@@ -679,6 +710,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "rill",
+    createdAt: "2026-10-24",
     title: "RILL",
     description: "Field hydrology for farms that keep water in the ground. An image-led watershed story with a live rain gauge and ecosystem footer.",
     category: "scroll-showcase",
@@ -691,6 +723,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "hiyas",
+    createdAt: "2026-10-24",
     title: "HIYAS",
     description: "Guided eight-thousand-metre expeditions planned with precision. A live route room for peaks, camp rhythm, support and return.",
     category: "scroll-showcase",
@@ -703,6 +736,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "mio",
+    createdAt: "2026-10-24",
     title: "Mio Hazuki",
     description: "Little worlds, made just for you. A digital artist commission portfolio with an original coded twilight harbor, illustrated worlds, and a lantern-led invitation.",
     category: "scroll-showcase",
@@ -715,6 +749,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
     slug: "satoyama",
+    createdAt: "2026-10-25",
     title: "里山日和 — Satoyama",
     description: "A slower kind of day. A fully code-illustrated picture book about rural Japan, with living landscapes, six chapters and a little wandering.",
     category: "keynote-deck",
@@ -727,6 +762,7 @@ export const RAW_TEMPLATES: TemplateItem[] = [
   },
   {
 slug: "tally",
+    createdAt: "2026-10-25",
     title: "TALLY",
     description: "Sell your hours like your goods. A pastel shop-counter landing page for service-led small Shopify businesses, built around a perforated two-part claim ticket that stamps and detaches at checkout.",
     category: "scroll-showcase",
@@ -739,6 +775,7 @@ slug: "tally",
   },
   {
     slug: "aftercart",
+    createdAt: "2026-10-25",
     title: "AFTERCART",
     description: "A pastel store-health console for small Shopify shops that need a calm partner after launch.",
     category: "conversion",
@@ -751,6 +788,7 @@ slug: "tally",
   },
   {
     slug: "fixture",
+    createdAt: "2026-10-25",
     title: "FIXTURE",
     description: "Your shop, fitted out properly. A Shopify studio for small merchants whose storefront fits itself out as you scroll: shell, fixtures, wiring, signage, then the sign flips to OPEN.",
     category: "scroll-showcase",
@@ -763,6 +801,7 @@ slug: "tally",
   },
   {
     slug: "chinagraph",
+    createdAt: "2026-10-25",
     title: "CHINAGRAPH",
     description: "Marked for keeps. A deadstock fashion label edited on a contact sheet: a loupe sweeps the roll, six frames get looped in grease pencil, and each enlarges to a full-screen look in a strobe flash.",
     category: "scroll-showcase",
@@ -775,6 +814,7 @@ slug: "tally",
   },
   {
     slug: "valence",
+    createdAt: "2026-10-25",
     title: "VALENCE",
     description:
       "Ask only for what the asset earns. A smooth pastel B2B lead-capture showcase where a 3D capsule dossier unseals across a Splash Gate, a 1-field Squeeze Page, and a 4-field Lead Capture configurator.",
@@ -788,6 +828,7 @@ slug: "tally",
   },
   {
     slug: "pipkin",
+    createdAt: "2026-10-25",
     title: "Pipkin",
     description: "Cooked Tuesday, at your door Friday. A pastel jam-shop page that follows one jar from order to doorstep through five illustrated scenes, then lets you build a box.",
     category: "scroll-showcase",
@@ -800,6 +841,7 @@ slug: "tally",
   },
   {
     slug: "serein",
+    createdAt: "2026-10-25",
     title: "SEREIN Bureau",
     description: "Small weather, closely observed. A fold-out atmospheric almanac with procedural isobars, a pressure trace and an accordion forecast strip.",
     category: "editorial-magazine",
@@ -812,6 +854,7 @@ slug: "tally",
   },
   {
     slug: "nulo",
+    createdAt: "2026-10-25",
     title: "NULO",
     description: "An optical lab for moving days, built as a draggable focus dial that tunes frames through screen, street, and night.",
     category: "scroll-showcase",
@@ -824,6 +867,7 @@ slug: "tally",
   },
   {
     slug: "flori",
+    createdAt: "2026-10-26",
     title: "Flori",
     description: "A little bloom, a brighter day. A pastel flower club with original botanical postcards, a live bouquet composer, and a signup that remembers your flower feeling.",
     category: "scroll-showcase",
@@ -836,6 +880,7 @@ slug: "tally",
   },
   {
     slug: "understudy",
+    createdAt: "2026-10-26",
     title: "Understudy",
     description: "Your first job, rehearsed. A rehearsal studio for first jobs where the scroll pushes you through the logo's proscenium into the dark house, then runs the page like a show: an endless ring of parts, rehearsal, casting and a signed contract.",
     category: "scroll-showcase",
@@ -848,6 +893,7 @@ slug: "tally",
   },
   {
     slug: "nightline",
+    createdAt: "2026-10-26",
     title: "NIGHTLINE",
     description: "A European sleeper-train booking page where the window is the interface and scroll is the speed of the journey.",
     category: "scroll-showcase",
@@ -860,6 +906,7 @@ slug: "tally",
   },
   {
     slug: "cullet",
+    createdAt: "2026-10-26",
     title: "Cullet",
     description: "Designed in glass. A real-time material studio whose hero is a slab of frosted quartz cut into shards that tilt, lift and carry selectable text; scrolling cleaves it apart into a pinned glossary of five optical terms, a live WebGL glass sampler with a glTF readout, and a library of six cuts.",
     category: "3d-webgpu",
@@ -872,6 +919,7 @@ slug: "tally",
   },
   {
     slug: "lucentra",
+    createdAt: "2026-10-26",
     title: "LUCENTRA",
     description: "Make light legible. A real-time material calibration studio with a sticky optical bench, live specimen readout, and measured brief.",
     category: "scroll-showcase",
@@ -885,6 +933,7 @@ slug: "tally",
   },
   {
     slug: "spaceedu",
+    createdAt: "2026-10-26",
     title: "SPACEEDU",
     description: "A cinematic astrophysics hero that lets visitors move through three real black holes rendered entirely with procedural WebGL.",
     category: "3d-webgpu",
@@ -898,6 +947,7 @@ slug: "tally",
   },
   {
     slug: "assemblage",
+    createdAt: "2026-10-26",
     title: "ASSEMBLAGE",
     description: "Make the idea visible before you make it real. A mixed media material study for independent brands, built from paper, acetate, ink and one clear next step.",
     category: "conversion",
@@ -910,6 +960,7 @@ slug: "tally",
   },
   {
     slug: "firstday",
+    createdAt: "2026-10-26",
     title: "FIRSTDAY",
     description: "Big futures. Small first steps. An original miniature campus opens into an interactive learning world with project briefs, a sticky workspace story, and a local first-day preview.",
     category: "scroll-showcase",
@@ -922,6 +973,7 @@ slug: "tally",
   },
   {
     slug: "starlight",
+    createdAt: "2026-10-26",
     title: "Starlight Lab",
     description: "Build worlds from the pixel out. A pure WebGL2 model study with a live planet, readable shaders and a tiny local starter scene.",
     category: "3d-webgpu",
@@ -935,6 +987,7 @@ slug: "tally",
   },
   {
     slug: "lowtide",
+    createdAt: "2026-10-27",
     title: "LOWTIDE",
     description: "Let the tide go out. A sleep ring told as one night on a moonlit tidal flat: scroll is the clock, five low tides tell the story.",
     category: "3d-webgpu",
@@ -947,15 +1000,15 @@ slug: "tally",
   },
 ];
 
-export const ARCHIVED_TEMPLATES: TemplateItem[] = RAW_TEMPLATES.filter((template) => Boolean(template.archived));
+const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
+export const ARCHIVED_TEMPLATES = registeredTemplates.filter((template) => Boolean(template.archived));
 
-// Reverse the array so the most recent templates (appended to RAW_TEMPLATES) appear at the beginning of the gallery.
-// Exclude archived templates so they are hidden from the gallery.
-export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES
+// Latest creation date first; later appended registrations break same-day ties.
+export const TEMPLATES: TemplateItem[] = registeredTemplates
   .filter((template) => !template.archived)
   .slice()
   .reverse()
-  .sort((a, b) => a.slug === "amaoto" ? -1 : b.slug === "amaoto" ? 1 : 0)
+  .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.registrationOrder - a.registrationOrder)
   .map((template) => ({
     ...template,
     videoClip: template.videoClip ?? (template.slug === "amaoto" || template.slug === "starlight" ? undefined : `/gallery/clips/${template.slug}.mp4`),

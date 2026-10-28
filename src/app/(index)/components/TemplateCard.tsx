@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Copy, DownloadSimple, Check } from "@phosphor-icons/react/dist/ssr";
+import { Copy, DownloadSimple, Check, ThumbsUp, ThumbsDown } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
 
-export interface TemplateCardProps { template: TemplateItem; isEager?: boolean; instantMotion?: boolean }
-const copyBundleCache = new Map<string, string>();
-export function prefetchCopyBundle(slug: string): void {
-  if (typeof window === "undefined" || typeof fetch === "undefined") return;
-  const url = `/${slug}`;
-  if (copyBundleCache.has(url)) return;
-  fetch(url).then((res) => res.ok ? res.text() : null)
-    .then((text) => { if (text) copyBundleCache.set(url, text); }).catch(() => {});
-}
+import type { VoteCounts, VoteDirection } from "../../../lib/votes/types";
 
-export function TemplateCard({ template, isEager = false, instantMotion = false }: TemplateCardProps) {
+export interface TemplateCardProps {
+  template: TemplateItem; isEager?: boolean; instantMotion?: boolean;
+  counts?: VoteCounts; myVote?: VoteDirection; votesReady?: boolean; votePending?: boolean;
+  voteError?: string; onVote?: (dir: VoteDirection) => void;
+}
+export function TemplateCard({ template, isEager = false, instantMotion = false,
+  counts = { up: 0, down: 0 }, myVote, votesReady = false, votePending = false, voteError, onVote }: TemplateCardProps) {
   const [copiedAction, setCopiedAction] = useState<"prompt" | "template" | null>(null);
   const [copyError, setCopyError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -27,6 +25,11 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const frameRef = useRef<HTMLDivElement | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
+  const attachPreviewImage = useCallback((img: HTMLImageElement | null) => {
+    imageRef.current = img;
+    // A missing capture can fail before hydration attaches onError.
+    if (img?.complete && img.naturalWidth === 0) setImageFailed(true);
+  }, []);
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
@@ -100,7 +103,6 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
   }, [template.videoClip]);
 
   const handleMouseEnter = () => {
-    prefetchCopyBundle(template.slug);
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setPreviewing(true);
     }
@@ -108,7 +110,6 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
   const handleMouseLeave = () => {
     setPreviewing(false);
   };
-  const handleFocus = () => { prefetchCopyBundle(template.slug); };
   const handleBlur = (event: React.FocusEvent<HTMLElement>) => {
     if (!event.currentTarget.contains(event.relatedTarget as Node)) handleMouseLeave();
   };
@@ -126,37 +127,18 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
     setCopiedAction(null);
     setBusy(true);
     try {
-      const url = `/${template.slug}`;
-      let content = copyBundleCache.get(url);
-      if (!content) {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("Template unavailable");
-        content = await response.text();
-        copyBundleCache.set(url, content);
-      }
-      let htmlToDownload = content;
-      if (typeof window !== "undefined") {
-        const origin = window.location.origin;
-        if (!htmlToDownload.includes("<base ") && /<head[^>]*>/i.test(htmlToDownload)) {
-          htmlToDownload = htmlToDownload.replace(/<head[^>]*>/i, (match) => `${match}\n  <base href="${origin}/" />`);
-        }
-      }
-      if (typeof document !== "undefined") {
-        const blob = new Blob([htmlToDownload], { type: "text/html;charset=utf-8" });
-        const downloadUrl = URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = downloadUrl;
-        anchor.download = `${template.slug}.html`;
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(downloadUrl);
-      }
-      try {
-        await copyText(htmlToDownload);
-      } catch {
-        // Clipboard write is optional convenience alongside file download
-      }
+      const response = await fetch(`/downloads/${template.slug}.html`);
+      if (!response.ok) throw new Error("HTML unavailable");
+      const content = await response.text();
+      const blob = new Blob([content], { type: "text/html;charset=utf-8" });
+      const downloadUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = downloadUrl;
+      anchor.download = `${template.slug}.html`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
       setCopiedAction("template");
     } catch { setCopyError("Couldn't download. Please try again."); }
     finally { setBusy(false); }
@@ -166,13 +148,13 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
     <motion.article layout={reducedMotion || instantMotion ? false : "position"} initial={false}
       transition={{ type: "spring", stiffness: 350, damping: 32 }} className="template-card"
       data-previewing={previewing && !reducedMotion} data-playing={playing && videoActive && !reducedMotion}
-      onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onFocus={handleFocus} onBlur={handleBlur}>
+      onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onBlur={handleBlur}>
       <div ref={frameRef} className="template-preview aspect-video" data-kind="product">
         <a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer" tabIndex={0}
           aria-label={`Open live ${template.title} template in new tab`}>
           {/* Gallery captures are local, naturally sized images; the viewport clips their scroll preview. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img ref={imageRef} src={imageFailed ? template.previewImage : `/gallery/${template.slug}.webp`}
+          <img ref={attachPreviewImage} src={imageFailed ? template.previewImage : `/gallery/${template.slug}.webp`}
             onError={() => setImageFailed(true)} alt={`${template.title} preview`} loading={isEager ? "eager" : "lazy"}
             className="template-image" />
           {template.videoClip && <video ref={videoRef} src={template.videoClip} muted loop playsInline
@@ -191,15 +173,32 @@ export function TemplateCard({ template, isEager = false, instantMotion = false 
               <Check className="copy-icon-success" size={16} />
             </span>
           </button>
-          <button type="button" onClick={handleDownloadTemplate} aria-live="polite" aria-label={copiedAction === "template" ? "Downloaded template" : "Download template"}
-            title="Download template" disabled={busy} aria-busy={busy} data-copied={copiedAction === "template"} className="card-action-btn">
+          {template.hasDownload && <button type="button" onClick={handleDownloadTemplate} aria-live="polite" aria-label={copiedAction === "template" ? "Downloaded HTML" : "Download HTML"}
+            title={copiedAction === "template" ? "Downloaded HTML" : "Download HTML"} disabled={busy} aria-busy={busy} data-copied={copiedAction === "template"} className="card-action-btn">
             <span className="copy-icon-stack" aria-hidden="true">
               <DownloadSimple className="copy-icon-default" size={16} />
               <Check className="copy-icon-success" size={16} />
               <span className="copy-spinner" />
             </span>
-          </button>
+          </button>}
         </div>
+        <div className="card-votes" role="group" aria-label={`Rate ${template.title}`} aria-busy={votePending}>
+          {(["up", "down"] as const).map((dir) => {
+            const selected = myVote === dir;
+            const Icon = dir === "up" ? ThumbsUp : ThumbsDown;
+            const action = dir === "up" ? "Like" : "Dislike";
+            return <button key={dir} type="button" className="card-vote-btn"
+              disabled={Boolean(myVote) || votePending || !votesReady} aria-disabled={Boolean(myVote) || votePending || !votesReady}
+              aria-pressed={selected} onClick={() => onVote?.(dir)}
+              aria-label={selected ? `You ${dir === "up" ? "liked" : "disliked"} ${template.title} (${counts[dir]})` : `${action} ${template.title} (${counts[dir]})`}
+              title={myVote ? "Your vote is final" : `${action} this template. Votes are final.`}>
+              <Icon size={16} weight={selected ? "fill" : "regular"} aria-hidden="true" />
+              <span aria-live="polite" aria-atomic="true">{counts[dir]}</span>
+            </button>;
+          })}
+          {myVote && <span className="vote-final">Vote recorded</span>}
+        </div>
+        {voteError && <p className="copy-error" role="alert">{voteError}</p>}
         {copyError && <p className="copy-error" role="alert">{copyError}</p>}
       </div>
     </motion.article>

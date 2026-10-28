@@ -169,3 +169,7 @@ Point `previewImage` at `/templates/<slug>/preview-1600.webp`. Once the real ima
 | End-to-end tests (builds and serves on :3100) | `npx playwright test` (single file: `npx playwright test tests/e2e/<slug>.spec.ts`) |
 | Images | `npm run images -- <slug>` (reads `assets/incoming/<slug>/`) |
 | Lighthouse (mobile) | `CHROME_PATH=$(node -e "console.log(require('playwright').chromium.executablePath())") npx lighthouse@12 http://localhost:3100/<slug> --only-categories=performance,accessibility,best-practices --output=json --output-path=.openlanding-page/<slug>/lighthouse/mobile.json` |
+
+## Standalone download contract
+
+New templates ship a readable vanilla `public/downloads/<slug>.html` with inline CSS and JavaScript and a meaningful h1. Match the template?s content, visual identity and interactions. Load fonts and images from remote URLs or inline small assets; pin library CDN versions. All content must work from `file://` without a site origin or Next.js chunks. Register `createdAt: "YYYY-MM-DD"` as the creation date and `hasDownload: true` in the appended `RAW_TEMPLATES` entry. The scripts derive those fields from gallery registration. Verify `bun run check` and `bun run test:e2e tests/e2e/downloads.spec.ts` before marking registration complete.

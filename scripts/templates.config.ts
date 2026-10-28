@@ -1,6 +1,10 @@
+import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
+
 export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage" | "firstday" | "starlight" | "lowtide";
 
 export type TemplateConfig = {
+  createdAt: string;
+  hasDownload: boolean;
   palette: string[];
   /** Path prefixes skipped by the palette check (content colours, e.g. 3D food). */
   paletteExempt?: string[];
@@ -8,7 +12,7 @@ export type TemplateConfig = {
   mediaExempt?: boolean;
 };
 
-export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
+const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
   // night (ground), foam (text), moonlight (the one accent: dial, focus, buttons), plankton (live glow readouts), dusk (muted text), dawn (dawn moments, form errors)
   lowtide: {
     palette: ["#0A0D16", "#ECEFF0", "#EBD9A6", "#8FD3FF", "#7A8494", "#F2B28C"],
@@ -216,5 +220,10 @@ tally: {
     palette: ["#F6F0E8", "#1E1D1B", "#E2D8C9", "#D95F3F", "#1D6C63", "#E7C65A", "#8F4E70"],
   },
 };
+
+// Gallery registration is the authoritative source for dates/download availability.
+export const TEMPLATES = Object.fromEntries(RAW_TEMPLATES.map((template) => [template.slug, {
+  ...PALETTES[template.slug], createdAt: template.createdAt, hasDownload: Boolean(template.hasDownload),
+}])) as Record<TemplateSlug, TemplateConfig>;
 
 export type SourceFile = { path: string; source: string };

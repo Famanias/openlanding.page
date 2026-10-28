@@ -26,6 +26,7 @@ export default defineConfig({
     url: baseURL,
     reuseExistingServer: true,
     env: {
+      VOTES_ALLOW_MEMORY: "1",
       NODE_OPTIONS: "--max-old-space-size=4096",
       ...(existsSync(offlineFontMock) ? { NEXT_FONT_GOOGLE_MOCKED_RESPONSES: offlineFontMock } : {}),
     },

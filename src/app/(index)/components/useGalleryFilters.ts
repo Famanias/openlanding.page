@@ -19,7 +19,7 @@ export function updateGalleryFilters(patch: Partial<GalleryFilters>) {
   const url = new URL(window.location.href);
   for (const [key, value] of Object.entries(patch)) {
     const param = key === "query" ? "q" : key;
-    if (!value || value === "all" && key !== "query") url.searchParams.delete(param);
+    if (!value || value === "all" && key !== "query" || key === "sort" && value === "date" || key === "dir" && value === "desc") url.searchParams.delete(param);
     else url.searchParams.set(param, value);
   }
   window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);

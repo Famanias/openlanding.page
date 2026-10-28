@@ -8,15 +8,21 @@ The gallery displays templates in reverse chronological order: **the most recent
 
 ### Implementation
 
-1. In `src/app/(index)/data/templates.ts`, `RAW_TEMPLATES` preserves the chronological order in which templates are created (append-only list from oldest to newest).
-2. The public `TEMPLATES` export reverses `RAW_TEMPLATES`:
-   ```ts
-   export const TEMPLATES: TemplateItem[] = RAW_TEMPLATES.slice().reverse().map((template) => ({
-     ...template,
-     videoClip: template.videoClip ?? (/* fallback check */),
-   }));
-   ```
-3. Whenever a new template is created and appended to `RAW_TEMPLATES`, it automatically appears at index `0` in `TEMPLATES`, positioning it at the very top-left of the gallery grid on the landing page.
+Every gallery item requires a literal `createdAt: "YYYY-MM-DD"`. Existing values were backfilled once from the first Git commit adding each route group by `scripts/backfill-template-dates.ts`; builds never query Git. `RAW_TEMPLATES` is append-only. Registration order is derived from its index, breaking ties on the same day with the later appended item first.
+
+`TEMPLATES` excludes archived entries and orders by date descending, then registration order descending. There are no pinned templates. The gallery supports Latest added (default), Oldest, Most liked and Least liked through `sort=date|likes` and `dir=desc|asc` URL parameters. Default values are omitted from URLs. Equal like counts use latest-added order. Likes sort uses latest-added order while counts load. Reset filters leaves sorting intact.
+
+## Standalone HTML downloads
+
+Download HTML appears only when `hasDownload: true` and `public/downloads/<slug>.html` exists. Alpine Reel is the first batch; older templates can gain faithful readable vanilla ports in later batches. New templates ship their standalone file with registration.
+
+Each file has inline CSS and JavaScript and meaningful HTML with an h1. Fonts and images may use remote URLs; library CDNs must pin versions. Relative site assets, Next.js chunks, live-page scraping, base URLs and HTML clipboard side effects are excluded. The file must open directly under `file://` with its main heading and interactions working. `scripts/check-media.ts` checks availability and basic content; `tests/e2e/downloads.spec.ts` opens every shipped file from disk and checks page errors and forbidden requests.
+
+The gallery registration is the source of truth for dates and download availability. `scripts/templates.config.ts` derives these fields, and `scripts/generate-copy-bundles.ts` exposes them in `TEMPLATE_METADATA` as `createdAt` and `downloadPath`.
+
+## Anonymous votes
+
+Both counts appear on every card. Each browser can cast one permanent like or dislike per template. See [voting setup and storage](gallery-votes.md) for production environment variables and the limits of anonymous uniqueness.
 
 ## Registration Points for New Templates
 
@@ -28,7 +34,8 @@ When registering a newly built template, ensure the following steps are performe
 4. **`src/app/(index)/data/templates.ts`**:
    - Add the slug to `TemplateSlug`.
    - Add `<SLUG>_PROMPT` containing PROMPT.md text.
-   - Append the template item to `RAW_TEMPLATES`.
+   - Append the template item to `RAW_TEMPLATES` with its creation date and `hasDownload: true`.
+   - Ship `public/downloads/<slug>.html` and run the standalone download smoke test.
 5. **`src/app/(index)/data/templates.test.ts`**:
    - Update the expected slug list (with the newest template at index 0) and total count.
 6. **`tests/e2e/templates.ts`**: Append `"/<slug>"` to `TEMPLATE_PATHS`.
