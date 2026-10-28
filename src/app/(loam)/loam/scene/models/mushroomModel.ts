@@ -175,15 +175,16 @@ export function buildParasolMushroom(
   ringGroup.position.set(0, 2.28, 0);
 
   const ringPoints: THREE.Vector2[] = [
-    new THREE.Vector2(0.112, -0.11),
-    new THREE.Vector2(0.26, -0.095),
-    new THREE.Vector2(0.33, -0.045),
-    new THREE.Vector2(0.26, 0.0),
-    new THREE.Vector2(0.32, 0.048),
-    new THREE.Vector2(0.24, 0.095),
-    new THREE.Vector2(0.112, 0.085),
+    // One soft rounded cuff (a zig-zag double edge plus high-frequency frill read as a jagged paper crown)
+    new THREE.Vector2(0.112, -0.10),
+    new THREE.Vector2(0.2, -0.088),
+    new THREE.Vector2(0.268, -0.055),
+    new THREE.Vector2(0.292, -0.012),
+    new THREE.Vector2(0.27, 0.03),
+    new THREE.Vector2(0.205, 0.068),
+    new THREE.Vector2(0.112, 0.08),
   ];
-  const ringGeo = new THREE.LatheGeometry(ringPoints, isHero ? 56 : 24);
+  const ringGeo = new THREE.LatheGeometry(ringPoints, isHero ? 96 : 40);
   const rPos = ringGeo.attributes.position;
   const rColors = new Float32Array(rPos.count * 3);
   for (let i = 0; i < rPos.count; i++) {
@@ -193,22 +194,19 @@ export function buildParasolMushroom(
     const radial = Math.hypot(vx, vz);
     const ang = Math.atan2(vz, vx);
     if (radial > 0.18) {
-      const frill = 1 + Math.sin(ang * 22) * 0.075 + Math.cos(ang * 13) * 0.05 + Math.sin(ang * 37) * 0.025;
-      const droop = Math.sin(ang * 17) * 0.016 - (radial - 0.18) * 0.08;
+      const frill = 1 + Math.sin(ang * 6 + 0.7) * 0.035 + Math.cos(ang * 11) * 0.018;
+      const droop = Math.sin(ang * 5) * 0.01 - (radial - 0.18) * 0.12;
       rPos.setXYZ(i, vx * frill, vy + droop, vz * frill);
     }
     // Warm cream cuff with brown scale rim on the lower double-edge
-    const isLowerRim = vy < -0.025 && radial > 0.23 && Math.sin(ang * 14) > 0.1;
-    if (isLowerRim) {
-      rColors[i * 3 + 0] = 0.44;
-      rColors[i * 3 + 1] = 0.31;
-      rColors[i * 3 + 2] = 0.21;
-    } else {
-      const shade = 0.78 + (vy + 0.11) * 0.35;
-      rColors[i * 3 + 0] = shade;
-      rColors[i * 3 + 1] = shade * 0.94;
-      rColors[i * 3 + 2] = shade * 0.85;
-    }
+    // Muted cream cuff, its lower edge softly browned (smooth blend, no hard alternating teeth)
+    const rimT = Math.min(1, Math.max(0, (-vy - 0.02) / 0.07)) * Math.min(1, Math.max(0, (radial - 0.2) / 0.07));
+    const shade = 0.7 + (vy + 0.11) * 0.3;
+    const blotch = 0.5 + 0.5 * Math.sin(ang * 5 + 1.3);
+    const brown = rimT * (0.55 + blotch * 0.3);
+    rColors[i * 3 + 0] = shade + (0.42 - shade) * brown;
+    rColors[i * 3 + 1] = shade * 0.93 + (0.3 - shade * 0.93) * brown;
+    rColors[i * 3 + 2] = shade * 0.83 + (0.2 - shade * 0.83) * brown;
   }
   ringGeo.setAttribute('color', new THREE.BufferAttribute(rColors, 3));
   ringGeo.computeVertexNormals();

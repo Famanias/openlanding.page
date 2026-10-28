@@ -527,6 +527,8 @@ export const OverlayUI: React.FC<OverlayUIProps> = ({
   const isHolding = inspectUI.phase === 'holding';
   const sunState = computeSunlightState(sunlight);
   const isStudioLight = studioLightness > 0.45;
+  // Tray callouts wait for the studio light, so they never float over dark soil before the tray resolves
+  const trayCalloutReveal = Math.max(0, Math.min(1, (studioLightness - 0.6) / 0.3));
   const shadowClass = isStudioLight ? '' : 'scene-copy-shadow';
 
   return (
@@ -847,7 +849,9 @@ export const OverlayUI: React.FC<OverlayUIProps> = ({
               </MaskedLine>
             </div>
 
-            {/* SVG leader lines pinned directly to 3D coordinates on the tray */}
+            {/* SVG leader lines pinned directly to 3D coordinates on the tray, once the lit tray exists */}
+            {trayCalloutReveal > 0.01 && (
+            <div className="pointer-events-none absolute inset-0" style={{ opacity: trayCalloutReveal }}>
             <svg className="h-full w-full" aria-hidden="true">
               {inspectUI.trayCallouts.map((pin) =>
                 pin.visible ? (
@@ -888,6 +892,8 @@ export const OverlayUI: React.FC<OverlayUIProps> = ({
                   {pin.label}
                 </div>
               ) : null,
+            )}
+            </div>
             )}
 
             {/* Quiet typographic Lifecycle Strip near the bottom of the frame */}
@@ -1733,9 +1739,11 @@ import * as THREE from 'three';
 import {
   CHAPTERS,
   DEFAULT_SUNLIGHT,
+  applyTrayInspectFraming,
   computeCameraPoseAtProgress,
   computeSunlightState,
   getChapterStateAtProgress,
+  trayInspectLift,
   type ChapterProgressState,
   type InspectableObjectId,
 } from '../logic/chapters';
@@ -1965,6 +1973,7 @@ export function LoamExperience() {
     const smoothedCamTarget = new THREE.Vector3(0, 1.92, 0);
     let smoothedFov = 36;
     let smoothedInspectStrength = 0;
+    let smoothedTrayLift = 0;
     let smoothedSunlight = targetSunlightRef.current;
     let lastAppliedSunlight = -1;
     let lastSyncedProgress = -1;
@@ -1995,7 +2004,18 @@ export function LoamExperience() {
       }
 
       currentChapterState = getChapterStateAtProgress(currentMasterProgress);
-      const targetPose = computeCameraPoseAtProgress(currentMasterProgress);
+      // Keep the tray lifted until it has spun back home, so the return rotation can't sink it into the floor.
+      const prevInspect = inspectCtrl.getState();
+      const trayLifted =
+        prevInspect.targetObject === 'tray' &&
+        (prevInspect.phase === 'inspecting' || prevInspect.phase === 'returning');
+      smoothedTrayLift += ((trayLifted ? 1 : 0) - smoothedTrayLift) * dampFactor * 0.7;
+      trayPivot.position.y = -5.45 + trayInspectLift(smoothedTrayLift);
+      const targetPose = applyTrayInspectFraming(
+        computeCameraPoseAtProgress(currentMasterProgress),
+        smoothedTrayLift,
+        camera.aspect,
+      );
 
       smoothedCamPos.lerp(
         _tempVecA.set(
@@ -2395,14 +2415,14 @@ export const TRAY_CALLOUT_ANCHORS: readonly TrayCalloutAnchor[] = [
     id: 'mycelium-hemp',
     label: 'Mycelium + hemp',
     localPosition: [0.72, -0.02, 0.48],
-    screenOffset: [126, 62],
+    screenOffset: [158, 82],
     align: 'left',
   },
   {
     id: 'custom-moulds',
     label: 'Custom moulds, any shape',
     localPosition: [-0.76, -0.10, 0.44],
-    screenOffset: [-128, 64],
+    screenOffset: [-176, 86],
     align: 'right',
   },
 ];
@@ -2870,6 +2890,54 @@ export function computeCameraPoseAtProgress(rawProgress: number): ComputedCamera
   };
 }
 
+/** Tray bounding-sphere radius: half-diagonal of its 2.75 × 0.82 × 1.85 inspect proxy. */
+export const TRAY_INSPECT_RADIUS = 1.71;
+/** Studio sweep floor height relative to the tray pivot (studio set and tray pivot both sit at y = -5.45). */
+export const TRAY_STUDIO_FLOOR_OFFSET = -0.4;
+const TRAY_INSPECT_FLOOR_CLEARANCE = 0.08;
+const TRAY_INSPECT_FRAME_MARGIN = 1.14;
+
+/** How far the tray rises while inspected, so no rotation can sink it into the studio floor. */
+export function trayInspectLift(liftStrength: number): number {
+  const maxLift = TRAY_INSPECT_RADIUS + TRAY_STUDIO_FLOOR_OFFSET + TRAY_INSPECT_FLOOR_CLEARANCE;
+  return clamp01(liftStrength) * maxLift;
+}
+
+/**
+ * Follows the lifted tray with the camera and pulls back until the tray's bounding sphere fits
+ * the narrower viewport axis, so every rotation stays whole on wide and narrow windows alike.
+ */
+export function applyTrayInspectFraming(
+  pose: ComputedCameraPose,
+  liftStrength: number,
+  aspect: number,
+): ComputedCameraPose {
+  const s = clamp01(liftStrength);
+  if (s === 0) return pose;
+  const lift = trayInspectLift(s);
+  const target: [number, number, number] = [pose.target[0], pose.target[1] + lift, pose.target[2]];
+  const offset = [
+    pose.position[0] - pose.target[0],
+    pose.position[1] - pose.target[1],
+    pose.position[2] - pose.target[2],
+  ];
+  const distance = Math.hypot(offset[0], offset[1], offset[2]);
+  const halfV = ((pose.fov * Math.PI) / 180) * 0.5;
+  const halfH = Math.atan(Math.tan(halfV) * aspect);
+  const needed = (TRAY_INSPECT_RADIUS * TRAY_INSPECT_FRAME_MARGIN) / Math.sin(Math.min(halfV, halfH));
+  const scale = lerp(1, Math.max(1, needed / distance), s);
+  return {
+    position: [
+      target[0] + offset[0] * scale,
+      target[1] + offset[1] * scale,
+      target[2] + offset[2] * scale,
+    ],
+    target,
+    fov: pose.fov,
+    focusDistance: pose.focusDistance * scale,
+  };
+}
+
 /** Default on load: Morning */
 export const DEFAULT_SUNLIGHT = 0.55;
 
@@ -2990,7 +3058,7 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
 
   // 4. Above-ground forest background & atmospheric mist colors (never close to black!)
   const bgNight: [number, number, number] = [0.075, 0.105, 0.155]; // #131b28 cool moonlit blue-grey forest
-  const bgMorning: [number, number, number] = [0.165, 0.122, 0.075]; // #2a1f13 warm golden morning mist
+  const bgMorning: [number, number, number] = [0.29, 0.21, 0.115]; // #4a361d warm golden morning mist
   const bgMidday: [number, number, number] = [0.245, 0.295, 0.215]; // #3e4b37 bright sunlit canopy green-mist
 
   const surfaceBgRgb: [number, number, number] = isNightToMorning
@@ -2998,7 +3066,7 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
     : lerpVec3(bgMorning, bgMidday, tMM);
 
   const mistNight: [number, number, number] = [0.28, 0.37, 0.52];
-  const mistMorning: [number, number, number] = [0.82, 0.63, 0.39];
+  const mistMorning: [number, number, number] = [0.94, 0.72, 0.42];
   const mistMidday: [number, number, number] = [0.78, 0.85, 0.74];
   const mistColorRgb: [number, number, number] = isNightToMorning
     ? lerpVec3(mistNight, mistMorning, tNM)
@@ -3006,7 +3074,7 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
 
   // 5. Underground wide-view depth fog color (fades distant earth into warm/cool soil fog, never black)
   const ugNight: [number, number, number] = [0.075, 0.095, 0.125]; // cool moonlit earth + foxfire
-  const ugMorning: [number, number, number] = [0.165, 0.120, 0.082]; // warm golden-umber earth
+  const ugMorning: [number, number, number] = [0.2, 0.145, 0.095]; // warm golden-umber earth
   const ugMidday: [number, number, number] = [0.255, 0.195, 0.135]; // clearly lit daytime earth
   const undergroundFogRgb: [number, number, number] = isNightToMorning
     ? lerpVec3(ugNight, ugMorning, tNM)
@@ -3014,20 +3082,20 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
 
   // 6. Wide-range light intensities, exposure, god-ray slant, foxfire strength & underground daylight filtering
   const sunIntensityMultiplier = isNightToMorning
-    ? lerp(0.72, 1.58, tNM)
-    : lerp(1.58, 2.45, tMM);
+    ? lerp(0.72, 1.86, tNM)
+    : lerp(1.86, 2.45, tMM);
   const ambientIntensityMultiplier = isNightToMorning
-    ? lerp(0.95, 1.48, tNM)
-    : lerp(1.48, 2.38, tMM);
+    ? lerp(0.95, 1.72, tNM)
+    : lerp(1.72, 2.38, tMM);
   const rimIntensityMultiplier = isNightToMorning
     ? lerp(1.32, 1.45, tNM)
     : lerp(1.45, 1.05, tMM);
   const toneMappingExposure = isNightToMorning
-    ? lerp(0.74, 0.84, tNM)
-    : lerp(0.84, 0.94, tMM);
+    ? lerp(0.74, 0.92, tNM)
+    : lerp(0.92, 0.98, tMM);
   const godRayOpacityMultiplier = isNightToMorning
-    ? lerp(0.45, 1.38, tNM)
-    : lerp(1.38, 1.85, tMM);
+    ? lerp(0.45, 1.62, tNM)
+    : lerp(1.62, 1.85, tMM);
   const godRaySlantRad = isNightToMorning
     ? lerp(-0.22, 0.44, tNM)
     : lerp(0.44, 0.07, tMM);
@@ -4514,14 +4582,15 @@ export function buildForestAndSoil(
   for (let i = 0; i < fairyCount; i++) {
     const stage = fairyStages[i];
     const angle = (i / fairyCount) * Math.PI * 2 + 0.28 + (rand() - 0.5) * 0.22;
-    const radius = 1.65 + (rand() - 0.5) * 0.65;
+    // Wide enough and modest enough in scale that neighbouring caps never interpenetrate
+    const radius = 2.0 + (rand() - 0.5) * 0.36;
     const m = buildParasolMushroom(textures, 1200 + i * 19, false, stage);
     const targetScale =
       stage === 'drumstick'
         ? 0.28 + rand() * 0.14
         : stage === 'half'
-        ? 0.42 + rand() * 0.16
-        : 0.52 + rand() * 0.18;
+        ? 0.36 + rand() * 0.12
+        : 0.44 + rand() * 0.14;
     fairyRingBaseScales.push(targetScale);
 
     const gx = Math.cos(angle) * radius;
@@ -4579,12 +4648,12 @@ export function buildForestAndSoil(
       0.09 * floorLightTone + sunState.hemiGroundRgb[2] * 0.22,
     );
 
-    // Keep floorMesh & surfaceDetailsGroup visible in Ch 01-03, in Ch 04b wide view (seen from below), and in Ch 06
-    const inWideNetwork = params.progress >= 0.54 && params.progress < 0.745;
-    floorMat.opacity = inWideNetwork ? 0.88 : 1 - params.undergroundFactor * 0.22;
-    floorMesh.visible = params.progress < 0.35 || inWideNetwork || params.progress > 0.86;
+    // Keep floorMesh & surfaceDetailsGroup visible in Ch 01-03 and Ch 06. The Ch 04b wide view has its own
+    // soil ceiling (soilDescent), so the floor's dark underside never hangs over the network like a storm cloud.
+    floorMat.opacity = 1 - params.undergroundFactor * 0.22;
+    floorMesh.visible = params.progress < 0.35 || params.progress > 0.86;
     contactDisc.visible = params.progress < 0.265 || params.progress > 0.88;
-    surfaceDetailsGroup.visible = params.progress < 0.35 || inWideNetwork || params.progress > 0.86;
+    surfaceDetailsGroup.visible = params.progress < 0.35 || params.progress > 0.86;
 
     // Update macro forest backdrop (multi-layer trees, mossy log, ferns, canopy god-rays)
     forestBackdrop.updateBackdrop({
@@ -6282,12 +6351,12 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
 
     // ToneMappingExposure:
     // - Chapters 01-04 & 06 respond to the time-of-day slider (Night 0.68 -> Morning 0.85 -> Midday 1.02)
-    // - Chapter 05 Studio is locked to a calm 0.74 exposure so the cream tray never clips to white
+    // - Chapter 05 Studio is locked to a calm 0.92 exposure: bright enough that the tray reads cream, not khaki
     const undergroundExp = 0.74 + sunState.undergroundDaylightFactor * 0.24;
     const nonStudioExposure =
       sunState.toneMappingExposure * (1 - undergroundFactor) +
       undergroundExp * undergroundFactor;
-    renderer.toneMappingExposure = nonStudioExposure * (1 - studioLit) + 0.74 * studioLit;
+    renderer.toneMappingExposure = nonStudioExposure * (1 - studioLit) + 0.92 * studioLit;
     scene.environmentIntensity = (0.14 + sunState.sunlight * 0.08) * (1 - studioLit) + 0.18 * studioLit;
 
     // Directional Key Light:
@@ -6680,6 +6749,33 @@ export interface BuiltSoilDescent {
  * 4. Foreground Parallax Depth: Fine soil grains, small crumbs, hanging root tips, out-of-focus bokeh particles,
  *    and fine dust drifting through the narrow earthen gap faster than the wall behind them.
  */
+
+/**
+ * Icosahedron geometry stores each face's corners separately, so computeVertexNormals alone gives
+ * faceted low-poly stones. Average the normals of corners that share a position so they shade smooth.
+ */
+function smoothNormalsByPosition(geo: THREE.BufferGeometry) {
+  geo.computeVertexNormals();
+  const pos = geo.attributes.position;
+  const nrm = geo.attributes.normal;
+  const sums = new Map<string, THREE.Vector3>();
+  const keyAt = (i: number) =>
+    `${pos.getX(i).toFixed(5)},${pos.getY(i).toFixed(5)},${pos.getZ(i).toFixed(5)}`;
+  for (let i = 0; i < pos.count; i++) {
+    const key = keyAt(i);
+    const sum = sums.get(key) ?? new THREE.Vector3();
+    sum.x += nrm.getX(i);
+    sum.y += nrm.getY(i);
+    sum.z += nrm.getZ(i);
+    sums.set(key, sum);
+  }
+  for (let i = 0; i < pos.count; i++) {
+    const n = sums.get(keyAt(i))!.clone().normalize();
+    nrm.setXYZ(i, n.x, n.y, n.z);
+  }
+  nrm.needsUpdate = true;
+}
+
 export function buildSoilDescentCrossSection(
   textures: ProceduralTextureSet,
   seed = 3091,
@@ -7136,6 +7232,9 @@ export function buildSoilDescentCrossSection(
   const fineRootPositions: number[] = [];
   const rootHairPositions: number[] = [];
   const humusRootTubeGeos: THREE.BufferGeometry[] = [];
+  // Separate stream so the lean doesn't reshuffle every later placement. Each rootlet keeps its own
+  // wander direction, so the layer reads as a tangle rather than a comb of parallel vertical strands.
+  const leanRand = createSeededRandom(seed + 913);
 
   for (let r = 0; r < 38; r++) {
     const startX = (rand() - 0.5) * 3.8;
@@ -7145,11 +7244,13 @@ export function buildSoilDescentCrossSection(
     let cx = startX;
     let cy = startY;
     let cz = startZ;
+    const leanX = (leanRand() - 0.5) * 0.22;
+    const dropScale = 0.55 + leanRand() * 0.7;
     const steps = 6;
     for (let s = 0; s <= steps; s++) {
       pts.push(new THREE.Vector3(cx, cy, cz));
-      cx += (rand() - 0.5) * 0.14;
-      cy -= 0.08 + rand() * 0.07;
+      cx += (rand() - 0.5) * 0.14 + leanX;
+      cy -= (0.08 + rand() * 0.07) * dropScale;
       cz = getWallZAt(cx, cy) + 0.03 + rand() * 0.16;
     }
     const curve = new THREE.CatmullRomCurve3(pts);
@@ -7172,9 +7273,11 @@ export function buildSoilDescentCrossSection(
     let ry = -0.25 - rand() * 0.92;
     let rz = getWallZAt(rx, ry) + 0.02 + rand() * 0.24;
     const segs = 5;
+    const hairLeanX = (leanRand() - 0.5) * 0.1;
+    const hairDrop = 0.45 + leanRand() * 0.8;
     for (let s = 0; s < segs; s++) {
-      const nx = rx + (rand() - 0.5) * 0.09;
-      const ny = ry - (0.04 + rand() * 0.055);
+      const nx = rx + (rand() - 0.5) * 0.09 + hairLeanX;
+      const ny = ry - (0.04 + rand() * 0.055) * hairDrop;
       const nz = rz + (rand() - 0.5) * 0.06;
       fineRootPositions.push(rx, ry, rz, nx, ny, nz);
 
@@ -7386,7 +7489,7 @@ export function buildSoilDescentCrossSection(
     const s = 1.0 + 0.16 * Math.sin(px * 35.0 + py * 28.0) * Math.cos(pz * 32.0);
     pPos.setXYZ(i, px * s * 1.12, py * s * 0.72, pz * s * 0.85);
   }
-  pebbleGeo.computeVertexNormals();
+  smoothNormalsByPosition(pebbleGeo);
 
   const pebbleMat = new THREE.MeshStandardMaterial({
     bumpMap: textures.soilBump,
@@ -7440,7 +7543,7 @@ export function buildSoilDescentCrossSection(
       0.08 * Math.cos(by * 17.0 - bz * 14.0);
     bPos.setXYZ(i, bx * warp * 1.15, by * warp * 0.82, bz * warp * 0.88);
   }
-  boulderGeo.computeVertexNormals();
+  smoothNormalsByPosition(boulderGeo);
 
   const pocketRockPlacements: Array<{
     pos: [number, number, number];
@@ -7970,6 +8073,31 @@ export function buildSoilDescentCrossSection(
   const wideEarthMesh = new THREE.Mesh(wideGeo, wideEarthMat);
   wideSubterraneanGroup.add(wideEarthMesh);
 
+  // 9a'. Leaf-litter soil ceiling overhead in the wide view, shaded by the same strata shader, so the top of
+  //      the frame reads as earth rather than the dark underside of the forest floor plane.
+  //      Slightly translucent so pulsed mushrooms above still glow through.
+  const ceilingOpacity = { value: 0 };
+  const wideCeilingMat = wideEarthMat.clone();
+  wideCeilingMat.uniforms = { ...wideEarthUniforms, uOpacity: ceilingOpacity };
+  wideCeilingMat.depthWrite = false;
+  const ceilingGeo = new THREE.PlaneGeometry(44, 30, 88, 60);
+  ceilingGeo.rotateX(Math.PI / 2);
+  const cPos = ceilingGeo.attributes.position;
+  for (let i = 0; i < cPos.count; i++) {
+    const cx = cPos.getX(i);
+    const cz = cPos.getZ(i);
+    // Hanging clods and root-bound lumps so the ceiling isn't a flat sheet
+    const lump =
+      Math.sin(cx * 0.9 + cz * 0.4) * 0.07 +
+      Math.cos(cx * 2.3 - cz * 1.7) * 0.035 +
+      Math.sin(cx * 4.1 + cz * 3.3) * 0.015;
+    cPos.setY(i, -0.04 - Math.abs(lump));
+  }
+  ceilingGeo.computeVertexNormals();
+  const wideCeilingMesh = new THREE.Mesh(ceilingGeo, wideCeilingMat);
+  wideCeilingMesh.position.z = 3.0;
+  wideSubterraneanGroup.add(wideCeilingMesh);
+
   // 9b. Wide-Spanning Descending Tree Roots across Chapter 04b (weaving through the network)
   const wideRootGeos: THREE.BufferGeometry[] = [];
   const wideRootAnchors: Array<{ x: number; z: number; spanX: number; depth: number; r0: number }> = [
@@ -8099,7 +8227,7 @@ export function buildSoilDescentCrossSection(
 
   // Foxfire Pocket & Subsoil Crack Light at [0, -2.45, 0.82] so the clump pocket glows warmly
   const pocketFoxfireLight = new THREE.PointLight('#b8dc3c', 0.0, 5.2, 1.5);
-  pocketFoxfireLight.position.set(0.0, -2.45, 0.82);
+  pocketFoxfireLight.position.set(0.85, -2.1, 1.25);
   group.add(pocketFoxfireLight);
 
   // Wide Subterranean Daylight Fill (overhead filtering sun/moonlight for roots, stones & hanging mushrooms in Ch 4b)
@@ -8126,6 +8254,20 @@ export function buildSoilDescentCrossSection(
     crackLines,
     foregroundParallaxGroup,
   ];
+  const closeFadeMaterials = [
+    rimMossMat,
+    litterLeafMat,
+    leafHyphaeMat,
+    paleRootMat,
+    fineRootMat,
+    rootHairMat,
+    carapaceMat,
+    diagonalRootMat,
+    pebbleMat,
+    boulderMat,
+    fgCrumbMat,
+    fgRootMat,
+  ].map((mat) => ({ mat, baseOpacity: mat.opacity, alwaysTransparent: mat.transparent }));
 
   const updateDescent = (params: {
     progress: number;
@@ -8140,16 +8282,17 @@ export function buildSoilDescentCrossSection(
 
     // 1. Close-up Chapter 03 Descent & Chapter 04a Clump Pocket visibility (0.21 -> 0.61, plus ascent return 0.875 -> 0.965)
     const enterDescent = smoothstep(0.21, 0.26, p);
-    const exitCloseWallForWide = 1 - smoothstep(0.545, 0.615, p);
+    // Gone before the pull-back reveals the close wall's edges, so it never reads as a picture inside the wide earth
+    const exitCloseWallForWide = 1 - smoothstep(0.528, 0.564, p);
     const ascentReturn =
       smoothstep(0.875, 0.905, p) * (1 - smoothstep(0.935, 0.965, p));
     const closeDescentVis = clamp01(
       enterDescent * exitCloseWallForWide + ascentReturn,
     );
 
-    // 2. Wide Chapter 04b Subterranean Earth visibility (ramps in as camera pulls back 0.53 -> 0.60, fades out as Ch 05 studio lifts 0.74 -> 0.79)
+    // 2. Wide Chapter 04b Subterranean Earth visibility (fully in by 0.556 while the close wall still fills the frame, fades out as Ch 05 studio lifts 0.74 -> 0.79)
     const wideEarthVis = clamp01(
-      smoothstep(0.525, 0.595, p) * (1 - smoothstep(0.74, 0.788, p)),
+      smoothstep(0.522, 0.556, p) * (1 - smoothstep(0.74, 0.788, p)),
     );
 
     group.visible = closeDescentVis > 0.005 || wideEarthVis > 0.005;
@@ -8157,6 +8300,15 @@ export function buildSoilDescentCrossSection(
 
     for (const obj of closeDescentMeshes) {
       obj.visible = closeDescentVis > 0.005;
+    }
+    // Fade the close props with the wall instead of popping them off mid-shot
+    for (const fade of closeFadeMaterials) {
+      const fading = closeDescentVis < 0.999;
+      if (!fade.alwaysTransparent && fade.mat.transparent !== fading) {
+        fade.mat.transparent = fading;
+        fade.mat.needsUpdate = true;
+      }
+      fade.mat.opacity = fade.baseOpacity * closeDescentVis;
     }
 
     const foxfireCrackStrength =
@@ -8226,10 +8378,11 @@ export function buildSoilDescentCrossSection(
         (0.55 + sunState.undergroundDaylightFactor * 0.65);
 
       // Pocket Foxfire + warm fill light illuminates the clump and surrounding stones at 0.41..0.56
+      // Kept off-axis and gentle: a cream clump right in front of a strong green point light blows out to white
       pocketFoxfireLight.intensity =
         closeDescentVis *
         foxfireCrackStrength *
-        1.48 *
+        0.62 *
         sunState.foxfireGlowMultiplier;
     } else {
       horizonGlowMesh.visible = false;
@@ -8242,6 +8395,7 @@ export function buildSoilDescentCrossSection(
     if (wideEarthVis > 0.005) {
       wideEarthUniforms.uTime.value = params.elapsedSec;
       wideEarthUniforms.uOpacity.value = wideEarthVis;
+      ceilingOpacity.value = wideEarthVis * 0.9;
       wideEarthUniforms.uNetworkGrowth.value = Math.max(
         0.35,
         params.networkGrowth,
@@ -8698,17 +8852,18 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   }
 
   // Scattered small golden-brown & warm umber hemp hurd fibre speckles matching material-top_9cdf4064.png
-  for (let i = 0; i < 780; i++) {
+  // Fine and soft, so the cream skin reads first and the fibres second (dense dark dashes read as cork or insects)
+  for (let i = 0; i < 520; i++) {
     const x = rand() * 512;
     const y = rand() * 512;
     const isSliver = rand() > 0.28;
-    const len = isSliver ? 2.6 + rand() * 8.5 : 1.0 + rand() * 2.0;
+    const len = isSliver ? 1.8 + rand() * 4.6 : 0.8 + rand() * 1.4;
     const ang = rand() * Math.PI * 2;
-    const w = isSliver ? 1.0 + rand() * 1.7 : 1.2 + rand() * 1.6;
-    const r = 86 + Math.floor(rand() * 48);
-    const gr = 58 + Math.floor(rand() * 34);
-    const b = 30 + Math.floor(rand() * 24);
-    tsCtx.strokeStyle = `rgba(${r}, ${gr}, ${b}, ${0.64 + rand() * 0.34})`;
+    const w = isSliver ? 0.7 + rand() * 0.9 : 0.9 + rand() * 1.0;
+    const r = 132 + Math.floor(rand() * 40);
+    const gr = 100 + Math.floor(rand() * 30);
+    const b = 62 + Math.floor(rand() * 22);
+    tsCtx.strokeStyle = `rgba(${r}, ${gr}, ${b}, ${0.38 + rand() * 0.3})`;
     tsCtx.lineWidth = w;
     tsCtx.lineCap = 'round';
     tsCtx.beginPath();
@@ -8716,7 +8871,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
     tsCtx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
     tsCtx.stroke();
 
-    tsbCtx.strokeStyle = 'rgba(34, 34, 34, 0.72)';
+    tsbCtx.strokeStyle = 'rgba(52, 52, 52, 0.45)';
     tsbCtx.lineWidth = w;
     tsbCtx.beginPath();
     tsbCtx.moveTo(x, y);
@@ -9417,15 +9572,16 @@ export function buildParasolMushroom(
   ringGroup.position.set(0, 2.28, 0);
 
   const ringPoints: THREE.Vector2[] = [
-    new THREE.Vector2(0.112, -0.11),
-    new THREE.Vector2(0.26, -0.095),
-    new THREE.Vector2(0.33, -0.045),
-    new THREE.Vector2(0.26, 0.0),
-    new THREE.Vector2(0.32, 0.048),
-    new THREE.Vector2(0.24, 0.095),
-    new THREE.Vector2(0.112, 0.085),
+    // One soft rounded cuff (a zig-zag double edge plus high-frequency frill read as a jagged paper crown)
+    new THREE.Vector2(0.112, -0.10),
+    new THREE.Vector2(0.2, -0.088),
+    new THREE.Vector2(0.268, -0.055),
+    new THREE.Vector2(0.292, -0.012),
+    new THREE.Vector2(0.27, 0.03),
+    new THREE.Vector2(0.205, 0.068),
+    new THREE.Vector2(0.112, 0.08),
   ];
-  const ringGeo = new THREE.LatheGeometry(ringPoints, isHero ? 56 : 24);
+  const ringGeo = new THREE.LatheGeometry(ringPoints, isHero ? 96 : 40);
   const rPos = ringGeo.attributes.position;
   const rColors = new Float32Array(rPos.count * 3);
   for (let i = 0; i < rPos.count; i++) {
@@ -9435,22 +9591,19 @@ export function buildParasolMushroom(
     const radial = Math.hypot(vx, vz);
     const ang = Math.atan2(vz, vx);
     if (radial > 0.18) {
-      const frill = 1 + Math.sin(ang * 22) * 0.075 + Math.cos(ang * 13) * 0.05 + Math.sin(ang * 37) * 0.025;
-      const droop = Math.sin(ang * 17) * 0.016 - (radial - 0.18) * 0.08;
+      const frill = 1 + Math.sin(ang * 6 + 0.7) * 0.035 + Math.cos(ang * 11) * 0.018;
+      const droop = Math.sin(ang * 5) * 0.01 - (radial - 0.18) * 0.12;
       rPos.setXYZ(i, vx * frill, vy + droop, vz * frill);
     }
     // Warm cream cuff with brown scale rim on the lower double-edge
-    const isLowerRim = vy < -0.025 && radial > 0.23 && Math.sin(ang * 14) > 0.1;
-    if (isLowerRim) {
-      rColors[i * 3 + 0] = 0.44;
-      rColors[i * 3 + 1] = 0.31;
-      rColors[i * 3 + 2] = 0.21;
-    } else {
-      const shade = 0.78 + (vy + 0.11) * 0.35;
-      rColors[i * 3 + 0] = shade;
-      rColors[i * 3 + 1] = shade * 0.94;
-      rColors[i * 3 + 2] = shade * 0.85;
-    }
+    // Muted cream cuff, its lower edge softly browned (smooth blend, no hard alternating teeth)
+    const rimT = Math.min(1, Math.max(0, (-vy - 0.02) / 0.07)) * Math.min(1, Math.max(0, (radial - 0.2) / 0.07));
+    const shade = 0.7 + (vy + 0.11) * 0.3;
+    const blotch = 0.5 + 0.5 * Math.sin(ang * 5 + 1.3);
+    const brown = rimT * (0.55 + blotch * 0.3);
+    rColors[i * 3 + 0] = shade + (0.42 - shade) * brown;
+    rColors[i * 3 + 1] = shade * 0.93 + (0.3 - shade * 0.93) * brown;
+    rColors[i * 3 + 2] = shade * 0.83 + (0.2 - shade * 0.83) * brown;
   }
   ringGeo.setAttribute('color', new THREE.BufferAttribute(rColors, 3));
   ringGeo.computeVertexNormals();
@@ -9841,7 +9994,7 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
 
   const cornerShadow = new THREE.Mesh(new THREE.PlaneGeometry(0.85, 0.85), shadowMat);
   cornerShadow.rotation.x = -Math.PI / 2;
-  cornerShadow.position.set(-2.95, -0.395, -2.35);
+  cornerShadow.position.set(-2.7, -0.395, -0.85);
   group.add(cornerShadow);
 
   cornerGroup.scale.setScalar(0.50);
@@ -9881,7 +10034,7 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
 
   const shipperShadow = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 0.95), shadowMat);
   shipperShadow.rotation.x = -Math.PI / 2;
-  shipperShadow.position.set(3.05, -0.395, -2.25);
+  shipperShadow.position.set(2.7, -0.395, -0.8);
   group.add(shipperShadow);
 
   shipperGroup.scale.setScalar(0.52);
@@ -9903,19 +10056,19 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
     familyMat.opacity = Math.min(1, vis * 0.92);
     shadowMat.opacity = vis * 0.48;
 
-    // Positioned well back and to the sides on the studio sweep so they never crowd the hero tray
+    // On the flat front of the sweep (the cove starts at z = -1.25) so they rest on the floor with visible contact shadows
     cornerGroup.position.set(
-      -2.95 - (1 - ease) * 0.45,
+      -2.7 - (1 - ease) * 0.45,
       -0.22 + (1 - ease) * 0.10,
-      -2.35 - (1 - ease) * 0.35,
+      -0.85 - (1 - ease) * 0.35,
     );
     cornerShadow.position.x = cornerGroup.position.x;
     cornerShadow.position.z = cornerGroup.position.z;
 
     shipperGroup.position.set(
-      3.05 + (1 - ease) * 0.45,
+      2.7 + (1 - ease) * 0.45,
       -0.25 + (1 - ease) * 0.10,
-      -2.25 - (1 - ease) * 0.35,
+      -0.8 - (1 - ease) * 0.35,
     );
     shipperShadow.position.x = shipperGroup.position.x;
     shipperShadow.position.z = shipperGroup.position.z;
@@ -10523,7 +10676,7 @@ export function buildPackagingTray(
     map: textures.traySkinColor,
     bumpMap: textures.traySkinBump,
     bumpScale: 0.028,
-    color: new THREE.Color('#eadfce'),
+    color: new THREE.Color('#fbf6ee'),
     vertexColors: true,
     roughness: 0.90,
     metalness: 0.0,

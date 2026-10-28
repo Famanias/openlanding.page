@@ -295,17 +295,18 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
   }
 
   // Scattered small golden-brown & warm umber hemp hurd fibre speckles matching material-top_9cdf4064.png
-  for (let i = 0; i < 780; i++) {
+  // Fine and soft, so the cream skin reads first and the fibres second (dense dark dashes read as cork or insects)
+  for (let i = 0; i < 520; i++) {
     const x = rand() * 512;
     const y = rand() * 512;
     const isSliver = rand() > 0.28;
-    const len = isSliver ? 2.6 + rand() * 8.5 : 1.0 + rand() * 2.0;
+    const len = isSliver ? 1.8 + rand() * 4.6 : 0.8 + rand() * 1.4;
     const ang = rand() * Math.PI * 2;
-    const w = isSliver ? 1.0 + rand() * 1.7 : 1.2 + rand() * 1.6;
-    const r = 86 + Math.floor(rand() * 48);
-    const gr = 58 + Math.floor(rand() * 34);
-    const b = 30 + Math.floor(rand() * 24);
-    tsCtx.strokeStyle = `rgba(${r}, ${gr}, ${b}, ${0.64 + rand() * 0.34})`;
+    const w = isSliver ? 0.7 + rand() * 0.9 : 0.9 + rand() * 1.0;
+    const r = 132 + Math.floor(rand() * 40);
+    const gr = 100 + Math.floor(rand() * 30);
+    const b = 62 + Math.floor(rand() * 22);
+    tsCtx.strokeStyle = `rgba(${r}, ${gr}, ${b}, ${0.38 + rand() * 0.3})`;
     tsCtx.lineWidth = w;
     tsCtx.lineCap = 'round';
     tsCtx.beginPath();
@@ -313,7 +314,7 @@ export function createProceduralTextures(renderer: THREE.WebGLRenderer): Procedu
     tsCtx.lineTo(x + Math.cos(ang) * len, y + Math.sin(ang) * len);
     tsCtx.stroke();
 
-    tsbCtx.strokeStyle = 'rgba(34, 34, 34, 0.72)';
+    tsbCtx.strokeStyle = 'rgba(52, 52, 52, 0.45)';
     tsbCtx.lineWidth = w;
     tsbCtx.beginPath();
     tsbCtx.moveTo(x, y);

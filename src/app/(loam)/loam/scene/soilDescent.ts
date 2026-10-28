@@ -37,6 +37,33 @@ export interface BuiltSoilDescent {
  * 4. Foreground Parallax Depth: Fine soil grains, small crumbs, hanging root tips, out-of-focus bokeh particles,
  *    and fine dust drifting through the narrow earthen gap faster than the wall behind them.
  */
+
+/**
+ * Icosahedron geometry stores each face's corners separately, so computeVertexNormals alone gives
+ * faceted low-poly stones. Average the normals of corners that share a position so they shade smooth.
+ */
+function smoothNormalsByPosition(geo: THREE.BufferGeometry) {
+  geo.computeVertexNormals();
+  const pos = geo.attributes.position;
+  const nrm = geo.attributes.normal;
+  const sums = new Map<string, THREE.Vector3>();
+  const keyAt = (i: number) =>
+    `${pos.getX(i).toFixed(5)},${pos.getY(i).toFixed(5)},${pos.getZ(i).toFixed(5)}`;
+  for (let i = 0; i < pos.count; i++) {
+    const key = keyAt(i);
+    const sum = sums.get(key) ?? new THREE.Vector3();
+    sum.x += nrm.getX(i);
+    sum.y += nrm.getY(i);
+    sum.z += nrm.getZ(i);
+    sums.set(key, sum);
+  }
+  for (let i = 0; i < pos.count; i++) {
+    const n = sums.get(keyAt(i))!.clone().normalize();
+    nrm.setXYZ(i, n.x, n.y, n.z);
+  }
+  nrm.needsUpdate = true;
+}
+
 export function buildSoilDescentCrossSection(
   textures: ProceduralTextureSet,
   seed = 3091,
@@ -493,6 +520,9 @@ export function buildSoilDescentCrossSection(
   const fineRootPositions: number[] = [];
   const rootHairPositions: number[] = [];
   const humusRootTubeGeos: THREE.BufferGeometry[] = [];
+  // Separate stream so the lean doesn't reshuffle every later placement. Each rootlet keeps its own
+  // wander direction, so the layer reads as a tangle rather than a comb of parallel vertical strands.
+  const leanRand = createSeededRandom(seed + 913);
 
   for (let r = 0; r < 38; r++) {
     const startX = (rand() - 0.5) * 3.8;
@@ -502,11 +532,13 @@ export function buildSoilDescentCrossSection(
     let cx = startX;
     let cy = startY;
     let cz = startZ;
+    const leanX = (leanRand() - 0.5) * 0.22;
+    const dropScale = 0.55 + leanRand() * 0.7;
     const steps = 6;
     for (let s = 0; s <= steps; s++) {
       pts.push(new THREE.Vector3(cx, cy, cz));
-      cx += (rand() - 0.5) * 0.14;
-      cy -= 0.08 + rand() * 0.07;
+      cx += (rand() - 0.5) * 0.14 + leanX;
+      cy -= (0.08 + rand() * 0.07) * dropScale;
       cz = getWallZAt(cx, cy) + 0.03 + rand() * 0.16;
     }
     const curve = new THREE.CatmullRomCurve3(pts);
@@ -529,9 +561,11 @@ export function buildSoilDescentCrossSection(
     let ry = -0.25 - rand() * 0.92;
     let rz = getWallZAt(rx, ry) + 0.02 + rand() * 0.24;
     const segs = 5;
+    const hairLeanX = (leanRand() - 0.5) * 0.1;
+    const hairDrop = 0.45 + leanRand() * 0.8;
     for (let s = 0; s < segs; s++) {
-      const nx = rx + (rand() - 0.5) * 0.09;
-      const ny = ry - (0.04 + rand() * 0.055);
+      const nx = rx + (rand() - 0.5) * 0.09 + hairLeanX;
+      const ny = ry - (0.04 + rand() * 0.055) * hairDrop;
       const nz = rz + (rand() - 0.5) * 0.06;
       fineRootPositions.push(rx, ry, rz, nx, ny, nz);
 
@@ -743,7 +777,7 @@ export function buildSoilDescentCrossSection(
     const s = 1.0 + 0.16 * Math.sin(px * 35.0 + py * 28.0) * Math.cos(pz * 32.0);
     pPos.setXYZ(i, px * s * 1.12, py * s * 0.72, pz * s * 0.85);
   }
-  pebbleGeo.computeVertexNormals();
+  smoothNormalsByPosition(pebbleGeo);
 
   const pebbleMat = new THREE.MeshStandardMaterial({
     bumpMap: textures.soilBump,
@@ -797,7 +831,7 @@ export function buildSoilDescentCrossSection(
       0.08 * Math.cos(by * 17.0 - bz * 14.0);
     bPos.setXYZ(i, bx * warp * 1.15, by * warp * 0.82, bz * warp * 0.88);
   }
-  boulderGeo.computeVertexNormals();
+  smoothNormalsByPosition(boulderGeo);
 
   const pocketRockPlacements: Array<{
     pos: [number, number, number];
@@ -1327,6 +1361,31 @@ export function buildSoilDescentCrossSection(
   const wideEarthMesh = new THREE.Mesh(wideGeo, wideEarthMat);
   wideSubterraneanGroup.add(wideEarthMesh);
 
+  // 9a'. Leaf-litter soil ceiling overhead in the wide view, shaded by the same strata shader, so the top of
+  //      the frame reads as earth rather than the dark underside of the forest floor plane.
+  //      Slightly translucent so pulsed mushrooms above still glow through.
+  const ceilingOpacity = { value: 0 };
+  const wideCeilingMat = wideEarthMat.clone();
+  wideCeilingMat.uniforms = { ...wideEarthUniforms, uOpacity: ceilingOpacity };
+  wideCeilingMat.depthWrite = false;
+  const ceilingGeo = new THREE.PlaneGeometry(44, 30, 88, 60);
+  ceilingGeo.rotateX(Math.PI / 2);
+  const cPos = ceilingGeo.attributes.position;
+  for (let i = 0; i < cPos.count; i++) {
+    const cx = cPos.getX(i);
+    const cz = cPos.getZ(i);
+    // Hanging clods and root-bound lumps so the ceiling isn't a flat sheet
+    const lump =
+      Math.sin(cx * 0.9 + cz * 0.4) * 0.07 +
+      Math.cos(cx * 2.3 - cz * 1.7) * 0.035 +
+      Math.sin(cx * 4.1 + cz * 3.3) * 0.015;
+    cPos.setY(i, -0.04 - Math.abs(lump));
+  }
+  ceilingGeo.computeVertexNormals();
+  const wideCeilingMesh = new THREE.Mesh(ceilingGeo, wideCeilingMat);
+  wideCeilingMesh.position.z = 3.0;
+  wideSubterraneanGroup.add(wideCeilingMesh);
+
   // 9b. Wide-Spanning Descending Tree Roots across Chapter 04b (weaving through the network)
   const wideRootGeos: THREE.BufferGeometry[] = [];
   const wideRootAnchors: Array<{ x: number; z: number; spanX: number; depth: number; r0: number }> = [
@@ -1456,7 +1515,7 @@ export function buildSoilDescentCrossSection(
 
   // Foxfire Pocket & Subsoil Crack Light at [0, -2.45, 0.82] so the clump pocket glows warmly
   const pocketFoxfireLight = new THREE.PointLight('#b8dc3c', 0.0, 5.2, 1.5);
-  pocketFoxfireLight.position.set(0.0, -2.45, 0.82);
+  pocketFoxfireLight.position.set(0.85, -2.1, 1.25);
   group.add(pocketFoxfireLight);
 
   // Wide Subterranean Daylight Fill (overhead filtering sun/moonlight for roots, stones & hanging mushrooms in Ch 4b)
@@ -1483,6 +1542,20 @@ export function buildSoilDescentCrossSection(
     crackLines,
     foregroundParallaxGroup,
   ];
+  const closeFadeMaterials = [
+    rimMossMat,
+    litterLeafMat,
+    leafHyphaeMat,
+    paleRootMat,
+    fineRootMat,
+    rootHairMat,
+    carapaceMat,
+    diagonalRootMat,
+    pebbleMat,
+    boulderMat,
+    fgCrumbMat,
+    fgRootMat,
+  ].map((mat) => ({ mat, baseOpacity: mat.opacity, alwaysTransparent: mat.transparent }));
 
   const updateDescent = (params: {
     progress: number;
@@ -1497,16 +1570,17 @@ export function buildSoilDescentCrossSection(
 
     // 1. Close-up Chapter 03 Descent & Chapter 04a Clump Pocket visibility (0.21 -> 0.61, plus ascent return 0.875 -> 0.965)
     const enterDescent = smoothstep(0.21, 0.26, p);
-    const exitCloseWallForWide = 1 - smoothstep(0.545, 0.615, p);
+    // Gone before the pull-back reveals the close wall's edges, so it never reads as a picture inside the wide earth
+    const exitCloseWallForWide = 1 - smoothstep(0.528, 0.564, p);
     const ascentReturn =
       smoothstep(0.875, 0.905, p) * (1 - smoothstep(0.935, 0.965, p));
     const closeDescentVis = clamp01(
       enterDescent * exitCloseWallForWide + ascentReturn,
     );
 
-    // 2. Wide Chapter 04b Subterranean Earth visibility (ramps in as camera pulls back 0.53 -> 0.60, fades out as Ch 05 studio lifts 0.74 -> 0.79)
+    // 2. Wide Chapter 04b Subterranean Earth visibility (fully in by 0.556 while the close wall still fills the frame, fades out as Ch 05 studio lifts 0.74 -> 0.79)
     const wideEarthVis = clamp01(
-      smoothstep(0.525, 0.595, p) * (1 - smoothstep(0.74, 0.788, p)),
+      smoothstep(0.522, 0.556, p) * (1 - smoothstep(0.74, 0.788, p)),
     );
 
     group.visible = closeDescentVis > 0.005 || wideEarthVis > 0.005;
@@ -1514,6 +1588,15 @@ export function buildSoilDescentCrossSection(
 
     for (const obj of closeDescentMeshes) {
       obj.visible = closeDescentVis > 0.005;
+    }
+    // Fade the close props with the wall instead of popping them off mid-shot
+    for (const fade of closeFadeMaterials) {
+      const fading = closeDescentVis < 0.999;
+      if (!fade.alwaysTransparent && fade.mat.transparent !== fading) {
+        fade.mat.transparent = fading;
+        fade.mat.needsUpdate = true;
+      }
+      fade.mat.opacity = fade.baseOpacity * closeDescentVis;
     }
 
     const foxfireCrackStrength =
@@ -1583,10 +1666,11 @@ export function buildSoilDescentCrossSection(
         (0.55 + sunState.undergroundDaylightFactor * 0.65);
 
       // Pocket Foxfire + warm fill light illuminates the clump and surrounding stones at 0.41..0.56
+      // Kept off-axis and gentle: a cream clump right in front of a strong green point light blows out to white
       pocketFoxfireLight.intensity =
         closeDescentVis *
         foxfireCrackStrength *
-        1.48 *
+        0.62 *
         sunState.foxfireGlowMultiplier;
     } else {
       horizonGlowMesh.visible = false;
@@ -1599,6 +1683,7 @@ export function buildSoilDescentCrossSection(
     if (wideEarthVis > 0.005) {
       wideEarthUniforms.uTime.value = params.elapsedSec;
       wideEarthUniforms.uOpacity.value = wideEarthVis;
+      ceilingOpacity.value = wideEarthVis * 0.9;
       wideEarthUniforms.uNetworkGrowth.value = Math.max(
         0.35,
         params.networkGrowth,

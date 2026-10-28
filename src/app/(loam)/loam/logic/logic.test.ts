@@ -11,6 +11,10 @@ import {
   DEFAULT_SUNLIGHT,
   computeChapter5SubState,
   LIFECYCLE_STEPS,
+  applyTrayInspectFraming,
+  trayInspectLift,
+  TRAY_INSPECT_RADIUS,
+  TRAY_STUDIO_FLOOR_OFFSET,
 } from './chapters';
 import {
   HOLD_DURATION_MS,
@@ -326,5 +330,27 @@ describe('LOAM core logic', () => {
       ch5Pose.position[2] - ch5Pose.target[2],
     );
     expect(camDist).toBeGreaterThanOrEqual(4.8);
+  });
+
+  it('tray inspect lifts the specimen clear of the studio floor and frames it whole at any aspect', () => {
+    const rest = computeCameraPoseAtProgress(0.83);
+    expect(applyTrayInspectFraming(rest, 0, 1.6)).toBe(rest);
+
+    // Lowest point of the bounding sphere under any rotation stays above the sweep floor
+    expect(trayInspectLift(1) - TRAY_INSPECT_RADIUS).toBeGreaterThan(TRAY_STUDIO_FLOOR_OFFSET);
+    expect(trayInspectLift(0)).toBe(0);
+
+    for (const aspect of [0.46, 0.75, 1, 1.6, 2.1]) {
+      const pose = applyTrayInspectFraming(rest, 1, aspect);
+      expect(pose.target[1]).toBeCloseTo(rest.target[1] + trayInspectLift(1));
+      const dist = Math.hypot(
+        pose.position[0] - pose.target[0],
+        pose.position[1] - pose.target[1],
+        pose.position[2] - pose.target[2],
+      );
+      const halfV = ((pose.fov * Math.PI) / 180) / 2;
+      const halfH = Math.atan(Math.tan(halfV) * aspect);
+      expect(Math.asin(TRAY_INSPECT_RADIUS / dist)).toBeLessThan(Math.min(halfV, halfH));
+    }
   });
 });

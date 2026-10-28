@@ -5,9 +5,11 @@ import * as THREE from 'three';
 import {
   CHAPTERS,
   DEFAULT_SUNLIGHT,
+  applyTrayInspectFraming,
   computeCameraPoseAtProgress,
   computeSunlightState,
   getChapterStateAtProgress,
+  trayInspectLift,
   type ChapterProgressState,
   type InspectableObjectId,
 } from '../logic/chapters';
@@ -237,6 +239,7 @@ export function LoamExperience() {
     const smoothedCamTarget = new THREE.Vector3(0, 1.92, 0);
     let smoothedFov = 36;
     let smoothedInspectStrength = 0;
+    let smoothedTrayLift = 0;
     let smoothedSunlight = targetSunlightRef.current;
     let lastAppliedSunlight = -1;
     let lastSyncedProgress = -1;
@@ -267,7 +270,18 @@ export function LoamExperience() {
       }
 
       currentChapterState = getChapterStateAtProgress(currentMasterProgress);
-      const targetPose = computeCameraPoseAtProgress(currentMasterProgress);
+      // Keep the tray lifted until it has spun back home, so the return rotation can't sink it into the floor.
+      const prevInspect = inspectCtrl.getState();
+      const trayLifted =
+        prevInspect.targetObject === 'tray' &&
+        (prevInspect.phase === 'inspecting' || prevInspect.phase === 'returning');
+      smoothedTrayLift += ((trayLifted ? 1 : 0) - smoothedTrayLift) * dampFactor * 0.7;
+      trayPivot.position.y = -5.45 + trayInspectLift(smoothedTrayLift);
+      const targetPose = applyTrayInspectFraming(
+        computeCameraPoseAtProgress(currentMasterProgress),
+        smoothedTrayLift,
+        camera.aspect,
+      );
 
       smoothedCamPos.lerp(
         _tempVecA.set(

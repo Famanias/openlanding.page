@@ -92,7 +92,7 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
 
   const cornerShadow = new THREE.Mesh(new THREE.PlaneGeometry(0.85, 0.85), shadowMat);
   cornerShadow.rotation.x = -Math.PI / 2;
-  cornerShadow.position.set(-2.95, -0.395, -2.35);
+  cornerShadow.position.set(-2.7, -0.395, -0.85);
   group.add(cornerShadow);
 
   cornerGroup.scale.setScalar(0.50);
@@ -132,7 +132,7 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
 
   const shipperShadow = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 0.95), shadowMat);
   shipperShadow.rotation.x = -Math.PI / 2;
-  shipperShadow.position.set(3.05, -0.395, -2.25);
+  shipperShadow.position.set(2.7, -0.395, -0.8);
   group.add(shipperShadow);
 
   shipperGroup.scale.setScalar(0.52);
@@ -154,19 +154,19 @@ export function buildProductFamily(textures: ProceduralTextureSet): BuiltProduct
     familyMat.opacity = Math.min(1, vis * 0.92);
     shadowMat.opacity = vis * 0.48;
 
-    // Positioned well back and to the sides on the studio sweep so they never crowd the hero tray
+    // On the flat front of the sweep (the cove starts at z = -1.25) so they rest on the floor with visible contact shadows
     cornerGroup.position.set(
-      -2.95 - (1 - ease) * 0.45,
+      -2.7 - (1 - ease) * 0.45,
       -0.22 + (1 - ease) * 0.10,
-      -2.35 - (1 - ease) * 0.35,
+      -0.85 - (1 - ease) * 0.35,
     );
     cornerShadow.position.x = cornerGroup.position.x;
     cornerShadow.position.z = cornerGroup.position.z;
 
     shipperGroup.position.set(
-      3.05 + (1 - ease) * 0.45,
+      2.7 + (1 - ease) * 0.45,
       -0.25 + (1 - ease) * 0.10,
-      -2.25 - (1 - ease) * 0.35,
+      -0.8 - (1 - ease) * 0.35,
     );
     shipperShadow.position.x = shipperGroup.position.x;
     shipperShadow.position.z = shipperGroup.position.z;

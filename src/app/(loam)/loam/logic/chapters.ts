@@ -157,14 +157,14 @@ export const TRAY_CALLOUT_ANCHORS: readonly TrayCalloutAnchor[] = [
     id: 'mycelium-hemp',
     label: 'Mycelium + hemp',
     localPosition: [0.72, -0.02, 0.48],
-    screenOffset: [126, 62],
+    screenOffset: [158, 82],
     align: 'left',
   },
   {
     id: 'custom-moulds',
     label: 'Custom moulds, any shape',
     localPosition: [-0.76, -0.10, 0.44],
-    screenOffset: [-128, 64],
+    screenOffset: [-176, 86],
     align: 'right',
   },
 ];
@@ -632,6 +632,54 @@ export function computeCameraPoseAtProgress(rawProgress: number): ComputedCamera
   };
 }
 
+/** Tray bounding-sphere radius: half-diagonal of its 2.75 × 0.82 × 1.85 inspect proxy. */
+export const TRAY_INSPECT_RADIUS = 1.71;
+/** Studio sweep floor height relative to the tray pivot (studio set and tray pivot both sit at y = -5.45). */
+export const TRAY_STUDIO_FLOOR_OFFSET = -0.4;
+const TRAY_INSPECT_FLOOR_CLEARANCE = 0.08;
+const TRAY_INSPECT_FRAME_MARGIN = 1.14;
+
+/** How far the tray rises while inspected, so no rotation can sink it into the studio floor. */
+export function trayInspectLift(liftStrength: number): number {
+  const maxLift = TRAY_INSPECT_RADIUS + TRAY_STUDIO_FLOOR_OFFSET + TRAY_INSPECT_FLOOR_CLEARANCE;
+  return clamp01(liftStrength) * maxLift;
+}
+
+/**
+ * Follows the lifted tray with the camera and pulls back until the tray's bounding sphere fits
+ * the narrower viewport axis, so every rotation stays whole on wide and narrow windows alike.
+ */
+export function applyTrayInspectFraming(
+  pose: ComputedCameraPose,
+  liftStrength: number,
+  aspect: number,
+): ComputedCameraPose {
+  const s = clamp01(liftStrength);
+  if (s === 0) return pose;
+  const lift = trayInspectLift(s);
+  const target: [number, number, number] = [pose.target[0], pose.target[1] + lift, pose.target[2]];
+  const offset = [
+    pose.position[0] - pose.target[0],
+    pose.position[1] - pose.target[1],
+    pose.position[2] - pose.target[2],
+  ];
+  const distance = Math.hypot(offset[0], offset[1], offset[2]);
+  const halfV = ((pose.fov * Math.PI) / 180) * 0.5;
+  const halfH = Math.atan(Math.tan(halfV) * aspect);
+  const needed = (TRAY_INSPECT_RADIUS * TRAY_INSPECT_FRAME_MARGIN) / Math.sin(Math.min(halfV, halfH));
+  const scale = lerp(1, Math.max(1, needed / distance), s);
+  return {
+    position: [
+      target[0] + offset[0] * scale,
+      target[1] + offset[1] * scale,
+      target[2] + offset[2] * scale,
+    ],
+    target,
+    fov: pose.fov,
+    focusDistance: pose.focusDistance * scale,
+  };
+}
+
 /** Default on load: Morning */
 export const DEFAULT_SUNLIGHT = 0.55;
 
@@ -752,7 +800,7 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
 
   // 4. Above-ground forest background & atmospheric mist colors (never close to black!)
   const bgNight: [number, number, number] = [0.075, 0.105, 0.155]; // #131b28 cool moonlit blue-grey forest
-  const bgMorning: [number, number, number] = [0.165, 0.122, 0.075]; // #2a1f13 warm golden morning mist
+  const bgMorning: [number, number, number] = [0.29, 0.21, 0.115]; // #4a361d warm golden morning mist
   const bgMidday: [number, number, number] = [0.245, 0.295, 0.215]; // #3e4b37 bright sunlit canopy green-mist
 
   const surfaceBgRgb: [number, number, number] = isNightToMorning
@@ -760,7 +808,7 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
     : lerpVec3(bgMorning, bgMidday, tMM);
 
   const mistNight: [number, number, number] = [0.28, 0.37, 0.52];
-  const mistMorning: [number, number, number] = [0.82, 0.63, 0.39];
+  const mistMorning: [number, number, number] = [0.94, 0.72, 0.42];
   const mistMidday: [number, number, number] = [0.78, 0.85, 0.74];
   const mistColorRgb: [number, number, number] = isNightToMorning
     ? lerpVec3(mistNight, mistMorning, tNM)
@@ -768,7 +816,7 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
 
   // 5. Underground wide-view depth fog color (fades distant earth into warm/cool soil fog, never black)
   const ugNight: [number, number, number] = [0.075, 0.095, 0.125]; // cool moonlit earth + foxfire
-  const ugMorning: [number, number, number] = [0.165, 0.120, 0.082]; // warm golden-umber earth
+  const ugMorning: [number, number, number] = [0.2, 0.145, 0.095]; // warm golden-umber earth
   const ugMidday: [number, number, number] = [0.255, 0.195, 0.135]; // clearly lit daytime earth
   const undergroundFogRgb: [number, number, number] = isNightToMorning
     ? lerpVec3(ugNight, ugMorning, tNM)
@@ -776,20 +824,20 @@ export function computeSunlightState(rawSunlight: number): SunlightAtmosphereSta
 
   // 6. Wide-range light intensities, exposure, god-ray slant, foxfire strength & underground daylight filtering
   const sunIntensityMultiplier = isNightToMorning
-    ? lerp(0.72, 1.58, tNM)
-    : lerp(1.58, 2.45, tMM);
+    ? lerp(0.72, 1.86, tNM)
+    : lerp(1.86, 2.45, tMM);
   const ambientIntensityMultiplier = isNightToMorning
-    ? lerp(0.95, 1.48, tNM)
-    : lerp(1.48, 2.38, tMM);
+    ? lerp(0.95, 1.72, tNM)
+    : lerp(1.72, 2.38, tMM);
   const rimIntensityMultiplier = isNightToMorning
     ? lerp(1.32, 1.45, tNM)
     : lerp(1.45, 1.05, tMM);
   const toneMappingExposure = isNightToMorning
-    ? lerp(0.74, 0.84, tNM)
-    : lerp(0.84, 0.94, tMM);
+    ? lerp(0.74, 0.92, tNM)
+    : lerp(0.92, 0.98, tMM);
   const godRayOpacityMultiplier = isNightToMorning
-    ? lerp(0.45, 1.38, tNM)
-    : lerp(1.38, 1.85, tMM);
+    ? lerp(0.45, 1.62, tNM)
+    : lerp(1.62, 1.85, tMM);
   const godRaySlantRad = isNightToMorning
     ? lerp(-0.22, 0.44, tNM)
     : lerp(0.44, 0.07, tMM);

@@ -543,14 +543,15 @@ export function buildForestAndSoil(
   for (let i = 0; i < fairyCount; i++) {
     const stage = fairyStages[i];
     const angle = (i / fairyCount) * Math.PI * 2 + 0.28 + (rand() - 0.5) * 0.22;
-    const radius = 1.65 + (rand() - 0.5) * 0.65;
+    // Wide enough and modest enough in scale that neighbouring caps never interpenetrate
+    const radius = 2.0 + (rand() - 0.5) * 0.36;
     const m = buildParasolMushroom(textures, 1200 + i * 19, false, stage);
     const targetScale =
       stage === 'drumstick'
         ? 0.28 + rand() * 0.14
         : stage === 'half'
-        ? 0.42 + rand() * 0.16
-        : 0.52 + rand() * 0.18;
+        ? 0.36 + rand() * 0.12
+        : 0.44 + rand() * 0.14;
     fairyRingBaseScales.push(targetScale);
 
     const gx = Math.cos(angle) * radius;
@@ -608,12 +609,12 @@ export function buildForestAndSoil(
       0.09 * floorLightTone + sunState.hemiGroundRgb[2] * 0.22,
     );
 
-    // Keep floorMesh & surfaceDetailsGroup visible in Ch 01-03, in Ch 04b wide view (seen from below), and in Ch 06
-    const inWideNetwork = params.progress >= 0.54 && params.progress < 0.745;
-    floorMat.opacity = inWideNetwork ? 0.88 : 1 - params.undergroundFactor * 0.22;
-    floorMesh.visible = params.progress < 0.35 || inWideNetwork || params.progress > 0.86;
+    // Keep floorMesh & surfaceDetailsGroup visible in Ch 01-03 and Ch 06. The Ch 04b wide view has its own
+    // soil ceiling (soilDescent), so the floor's dark underside never hangs over the network like a storm cloud.
+    floorMat.opacity = 1 - params.undergroundFactor * 0.22;
+    floorMesh.visible = params.progress < 0.35 || params.progress > 0.86;
     contactDisc.visible = params.progress < 0.265 || params.progress > 0.88;
-    surfaceDetailsGroup.visible = params.progress < 0.35 || inWideNetwork || params.progress > 0.86;
+    surfaceDetailsGroup.visible = params.progress < 0.35 || params.progress > 0.86;
 
     // Update macro forest backdrop (multi-layer trees, mossy log, ferns, canopy god-rays)
     forestBackdrop.updateBackdrop({

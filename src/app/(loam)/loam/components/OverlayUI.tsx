@@ -181,6 +181,8 @@ export const OverlayUI: React.FC<OverlayUIProps> = ({
   const isHolding = inspectUI.phase === 'holding';
   const sunState = computeSunlightState(sunlight);
   const isStudioLight = studioLightness > 0.45;
+  // Tray callouts wait for the studio light, so they never float over dark soil before the tray resolves
+  const trayCalloutReveal = Math.max(0, Math.min(1, (studioLightness - 0.6) / 0.3));
   const shadowClass = isStudioLight ? '' : 'scene-copy-shadow';
 
   return (
@@ -501,7 +503,9 @@ export const OverlayUI: React.FC<OverlayUIProps> = ({
               </MaskedLine>
             </div>
 
-            {/* SVG leader lines pinned directly to 3D coordinates on the tray */}
+            {/* SVG leader lines pinned directly to 3D coordinates on the tray, once the lit tray exists */}
+            {trayCalloutReveal > 0.01 && (
+            <div className="pointer-events-none absolute inset-0" style={{ opacity: trayCalloutReveal }}>
             <svg className="h-full w-full" aria-hidden="true">
               {inspectUI.trayCallouts.map((pin) =>
                 pin.visible ? (
@@ -542,6 +546,8 @@ export const OverlayUI: React.FC<OverlayUIProps> = ({
                   {pin.label}
                 </div>
               ) : null,
+            )}
+            </div>
             )}
 
             {/* Quiet typographic Lifecycle Strip near the bottom of the frame */}

@@ -264,12 +264,12 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
 
     // ToneMappingExposure:
     // - Chapters 01-04 & 06 respond to the time-of-day slider (Night 0.68 -> Morning 0.85 -> Midday 1.02)
-    // - Chapter 05 Studio is locked to a calm 0.74 exposure so the cream tray never clips to white
+    // - Chapter 05 Studio is locked to a calm 0.92 exposure: bright enough that the tray reads cream, not khaki
     const undergroundExp = 0.74 + sunState.undergroundDaylightFactor * 0.24;
     const nonStudioExposure =
       sunState.toneMappingExposure * (1 - undergroundFactor) +
       undergroundExp * undergroundFactor;
-    renderer.toneMappingExposure = nonStudioExposure * (1 - studioLit) + 0.74 * studioLit;
+    renderer.toneMappingExposure = nonStudioExposure * (1 - studioLit) + 0.92 * studioLit;
     scene.environmentIntensity = (0.14 + sunState.sunlight * 0.08) * (1 - studioLit) + 0.18 * studioLit;
 
     // Directional Key Light:

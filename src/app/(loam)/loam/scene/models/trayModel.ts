@@ -352,7 +352,7 @@ export function buildPackagingTray(
     map: textures.traySkinColor,
     bumpMap: textures.traySkinBump,
     bumpScale: 0.028,
-    color: new THREE.Color('#eadfce'),
+    color: new THREE.Color('#fbf6ee'),
     vertexColors: true,
     roughness: 0.90,
     metalness: 0.0,
