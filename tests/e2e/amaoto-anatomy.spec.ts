@@ -8,6 +8,21 @@ const parts = [
   { id: "canopy", name: "Washi paper" },
   { id: "handle", name: "Turned handle" },
 ];
+test("Anatomy owns its controls and dismisses on the scene background", async ({
+  page,
+}) => {
+  await enterAnatomy(page);
+  await expect(page.locator(".am-journey-nav")).toHaveAttribute("inert", "");
+  await expect(page.locator(".am-tool-sheet>header")).toContainText(
+    "02 / Structure",
+  );
+  await page.mouse.click(10, 110);
+  await expect(page.locator(".am-page")).toHaveAttribute("data-tool", "none");
+  await expect(page.locator(".am-journey-nav")).not.toHaveAttribute(
+    "inert",
+    "",
+  );
+});
 for (const width of [1440, 390])
   test(`Structure opens its Anatomy workbench by default at ${width}px`, async ({
     page,
@@ -30,6 +45,10 @@ for (const width of [1440, 390])
       page.getByRole("button", { name: "Inspect the structure", exact: true }),
     ).toHaveCount(0);
     await expect(page.locator(".am-page")).toHaveAttribute("data-tool", "none");
+    if (width > 900)
+      await expect(
+        page.locator(".am-inspector-navigation .am-parts button span").first(),
+      ).toHaveCSS("color", "rgb(26, 22, 19)");
     await test.info().attach("default-workbench", {
       body: await page.screenshot(),
       contentType: "image/png",

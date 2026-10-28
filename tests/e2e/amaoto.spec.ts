@@ -2,6 +2,155 @@ import { test, expect, chromium } from "@playwright/test";
 import { openWorld, go, assertSlot } from "./amaoto.helpers";
 const rests = [0, 0.18, 0.45, 0.66, 0.72, 0.86, 1],
   chapters = [0, 1, 2, 3, 3, 4, 5];
+test("AMAOTO keeps its home seal visible on compact phones", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/amaoto");
+  for (const width of [375, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    const logo = page.locator(".am-header .am-logo");
+    await expect(logo.locator(".am-hanko")).toBeVisible();
+    const rect = await logo.boundingBox();
+    expect(rect!.width).toBeGreaterThanOrEqual(36);
+    expect(rect!.height).toBeGreaterThanOrEqual(36);
+  }
+});
+test("AMAOTO exposes static section links and both Weather stops", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/amaoto");
+  const links = page.getByRole("navigation", { name: "Story sections" });
+  await expect(links.getByRole("link")).toHaveCount(6);
+  await links.getByRole("link", { name: "Commission", exact: true }).click();
+  await expect(page).toHaveURL(/#commission$/);
+  await openWorld(page, 0.66);
+  const weather = page.getByRole("button", {
+    name: "Jump to Weather",
+    exact: true,
+  });
+  await expect(weather).toHaveAttribute("title", /Touch the rain/);
+  await weather.click();
+  await expect(page.locator(".am-page")).toHaveAttribute(
+    "data-sub-rest",
+    "street",
+  );
+  for (const label of [
+    "Set light to dusk",
+    "Set light to day",
+    "Previous chapter rest",
+    "Next chapter rest",
+  ]) {
+    const box = await page
+      .getByRole("button", { name: label, exact: true })
+      .boundingBox();
+    expect(box!.width).toBeGreaterThanOrEqual(44);
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+  }
+});
+test("AMAOTO reserves separate rows for desktop overlays", async ({ page }) => {
+  test.setTimeout(90000);
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await openWorld(page, 0.18);
+  for (const viewport of [
+    { width: 1024, height: 768 },
+    { width: 1440, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    for (const p of [0.18, 0.86, 1]) {
+      await go(page, p);
+      await expect
+        .poll(() =>
+          page.evaluate(() => {
+            const box = (s: string) => {
+              const e = document.querySelector(s);
+              if (
+                !e ||
+                getComputedStyle(e).display === "none" ||
+                getComputedStyle(e).visibility === "hidden"
+              )
+                return null;
+              return e.getBoundingClientRect();
+            };
+            const hit = (a: DOMRect | null, b: DOMRect | null) =>
+              a &&
+              b &&
+              a.left < b.right &&
+              b.left < a.right &&
+              a.top < b.bottom &&
+              b.top < a.bottom;
+            return [
+              [".am-journey-nav", ".am-inspector-navigation"],
+              [".am-journey-nav", ".am-making-strip"],
+              [".am-enter-tool", ".am-making-strip"],
+              [".am-journey-nav", "#commission .am-chapter-copy"],
+              ["#making .am-chapter-copy", ".am-making-strip"],
+            ].filter(([a, b]) => {
+              const e = document.querySelector(b);
+              return e && !e.closest("[inert]") && hit(box(a), box(b));
+            }).length;
+          }),
+        )
+        .toBe(0);
+    }
+  }
+});
+for (const viewport of [
+  { width: 375, height: 667 },
+  { width: 390, height: 844 },
+  { width: 844, height: 390 },
+  { width: 768, height: 1024 },
+])
+  test(`AMAOTO keeps compact content operable at ${viewport.width}x${viewport.height}`, async ({
+    page,
+  }) => {
+    test.setTimeout(90000);
+    await page.setViewportSize(viewport);
+    await openWorld(page);
+    for (const p of [0, 0.45, 0.66, 0.72, 0.86]) {
+      await go(page, p);
+      const id =
+        p === 0
+          ? "top"
+          : p === 0.45
+            ? "light"
+            : p === 0.86
+              ? "making"
+              : "canopy";
+      const copy = page.locator(`#${id} .am-chapter-copy`);
+      await expect
+        .poll(() => copy.evaluate((el) => el.scrollHeight - el.clientHeight))
+        .toBeLessThanOrEqual(1);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth - innerWidth,
+        ),
+      ).toBe(0);
+    }
+    await go(page, 1);
+    if (viewport.height > 560) {
+      const formIsVisible = await page
+        .locator("#commission .am-chapter-copy")
+        .evaluate((el) => {
+          const r = el.getBoundingClientRect();
+          return [...el.querySelectorAll("input,button")].every((input) => {
+            const b = input.getBoundingClientRect();
+            return b.top >= r.top && b.bottom <= r.bottom + 1;
+          });
+        });
+      expect(formIsVisible).toBe(true);
+    }
+    await page.getByLabel("Name", { exact: true }).fill("Aiko");
+    await page.getByLabel("Email", { exact: true }).fill("aiko@example.com");
+    await page.getByLabel("Occasion", { exact: true }).fill("Rain in Nagano");
+    await page.getByRole("button", { name: "Reserve a commission" }).click();
+    await expect(
+      page.getByText("Your umbrella is on the bench."),
+    ).toBeVisible();
+  });
 for (const viewport of [
   { width: 1440, height: 1000 },
   { width: 390, height: 844 },

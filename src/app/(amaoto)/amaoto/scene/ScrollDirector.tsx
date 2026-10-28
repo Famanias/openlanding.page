@@ -31,6 +31,10 @@ export function ScrollDirector({
       track = document.querySelector<HTMLElement>(".am-world-track");
     if (!page || !track) return;
     const panels = [...page.querySelectorAll<HTMLElement>(":scope > section")];
+    const copyPanels = panels.flatMap((el) => [
+      ...el.querySelectorAll<HTMLElement>(".am-chapter-copy"),
+    ]);
+    copyPanels.forEach((el) => el.setAttribute("data-lenis-prevent", ""));
     let last = -1,
       lastSync = 0,
       trailingSync: ReturnType<typeof setTimeout> | undefined;
@@ -107,6 +111,7 @@ export function ScrollDirector({
     return () => {
       clearTimeout(trailingSync);
       controller.dispose();
+      copyPanels.forEach((el) => el.removeAttribute("data-lenis-prevent"));
       if (controlsRef) controlsRef.current = null;
       panels.forEach((el) => {
         el.inert = false;

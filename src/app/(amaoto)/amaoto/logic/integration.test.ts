@@ -20,6 +20,8 @@ it("keeps virtual object slots continuous and contained through every seam", () 
     [1440, 900],
     [390, 844],
     [820, 1180],
+    [375, 667],
+    [844, 390],
   ]) {
     let before = worldStageRect(0, w, h);
     for (let i = 0; i <= 2000; i++) {
@@ -32,6 +34,18 @@ it("keeps virtual object slots continuous and contained through every seam", () 
       before = slot;
     }
   }
+});
+it("reserves the inspector index above navigation and gives landscape its own stage", () => {
+  for (const [w, h] of [
+    [1024, 768],
+    [1440, 900],
+  ]) {
+    const rect = worldStageRect(0.18, w, h);
+    expect(rect.top + rect.height).toBeLessThanOrEqual(h - 250);
+  }
+  const landscape = worldStageRect(0, 844, 390);
+  expect(landscape.left).toBeGreaterThan(422);
+  expect(landscape.height).toBeGreaterThan(150);
 });
 it("makes keyboard trackball steps discrete without pointer inertia", () => {
   const s = applyKeyboardStep(toggleKeyboardEngage(createInspect(), "1"), 1, 0);

@@ -1,5 +1,7 @@
 import type { StageRect } from "./director";
 import { WORLD_CHAPTERS } from "../logic/chapters";
+export const isLandscapeLayout = (width: number, height: number) =>
+  width <= 900 && height <= 560 && width >= height * 1.15;
 /** Full-viewport worlds use these as virtual object windows, never canvas crops. */
 export function worldStageRect(
   progress: number,
@@ -7,22 +9,50 @@ export function worldStageRect(
   height: number,
 ): StageRect {
   const slot = (index: number): StageRect => {
-    if (width <= 900) {
-      const b = bandLayout(width, height, index, false);
+    const landscape = isLandscapeLayout(width, height);
+    if (width <= 900 && !landscape) {
+      const header = 76;
+      const stageHeight =
+        index === 5
+          ? height * (width <= 600 ? 0.14 : 0.16)
+          : width <= 600
+            ? height <= 740
+              ? height * (index === 4 ? 0.22 : 0.3)
+              : height * 0.28
+            : height * 0.36;
       return {
         left: 12,
-        top: b.top,
+        top: header + 8,
         width: width - 24,
-        height:
-          index === 2 ? height * 0.48 : index === 5 ? height * 0.3 : b.height,
+        height: stageHeight,
       };
     }
     if (index === 2) return { left: 0, top: 0, width, height };
+    if (landscape)
+      return {
+        left: index === 0 || index === 3 ? width * 0.52 : 12,
+        top: 76,
+        width: width * 0.46,
+        height: Math.max(80, height - 76 - 88 - (index === 4 ? 80 : 0)),
+      };
+    if (index === 1) {
+      const top = Math.max(88, Math.round(height * 0.09));
+      return {
+        left: 0,
+        top,
+        width: width * 0.56,
+        height: Math.max(160, Math.min(height * 0.6, height - top - 260)),
+      };
+    }
+    const top = Math.max(88, height * 0.11);
     return {
       left: index === 0 || index === 3 ? width * 0.51 : 0,
-      top: height * 0.11,
-      width: width * (index === 1 ? 0.56 : 0.48),
-      height: height * (index === 1 ? 0.65 : 0.8),
+      top,
+      width: width * 0.48,
+      height: Math.max(
+        120,
+        Math.min(height * 0.8, height - top - (index === 4 ? 210 : 110)),
+      ),
     };
   };
   let index = 0;

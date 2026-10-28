@@ -270,6 +270,15 @@ export function AmaotoShell() {
         <span className="am-header__counter">
           <b data-rib-count>00</b> / 40 ribs open
         </span>
+        {mode === "static" && (
+          <nav aria-label="Story sections">
+            {WORLD_CHAPTERS.map((c) => (
+              <a key={c.id} href={`#${c.id}`}>
+                {c.title}
+              </a>
+            ))}
+          </nav>
+        )}
       </header>
       <div className="am-stage">
         {mode !== "static" && (
@@ -291,6 +300,7 @@ export function AmaotoShell() {
             tool={tool}
             onReady={ready}
             onFallback={fallback}
+            onBackground={close}
           />
         )}
         {mode === "static" && (
@@ -348,7 +358,12 @@ export function AmaotoShell() {
       <Commission canopy={colour.label} onSuccess={() => setClosed(true)} />
       {cinematic && (
         <>
-          <nav className="am-journey-nav" aria-label="Chapter navigation">
+          <nav
+            className="am-journey-nav"
+            aria-label="Chapter navigation"
+            inert={Boolean(tool)}
+            aria-hidden={tool ? true : undefined}
+          >
             <button
               type="button"
               aria-label="Previous chapter rest"
@@ -375,10 +390,22 @@ export function AmaotoShell() {
                   key={c.id}
                   type="button"
                   aria-label={`Jump to ${c.title}`}
+                  title={
+                    c.index === 3
+                      ? "Weather — Dusk street / Touch the rain"
+                      : c.title
+                  }
+                  data-sub-rest={
+                    c.index === 3 ? (story.subRest ?? "none") : undefined
+                  }
                   aria-current={chapter === c.index ? "step" : undefined}
                   onClick={() => {
                     close();
-                    controls.current?.scrollToProgress(c.restProgress);
+                    controls.current?.scrollToProgress(
+                      c.index === 3 && chapter === 3 && story.subRest === "calm"
+                        ? c.secondaryRestProgress!
+                        : c.restProgress,
+                    );
                   }}
                 >
                   {c.numberLabel}
@@ -410,6 +437,7 @@ export function AmaotoShell() {
           {chapter === 4 && (
             <div
               className="am-making-strip"
+              data-lenis-prevent=""
               role="group"
               aria-label="Making steps"
             >
@@ -439,6 +467,7 @@ export function AmaotoShell() {
           {panelTool && (
             <aside
               className="am-tool-sheet"
+              data-lenis-prevent=""
               role={tool ? "dialog" : "region"}
               aria-modal={tool ? false : undefined}
               aria-label={
@@ -452,7 +481,7 @@ export function AmaotoShell() {
               <header>
                 <span>
                   {panelTool === "anatomy"
-                    ? "Bamboo / paper / thread"
+                    ? "02 / Structure"
                     : panelTool === "light"
                       ? "Light / weather"
                       : "The making"}

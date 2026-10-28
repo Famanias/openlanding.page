@@ -11,6 +11,7 @@ export function Commission({
     <section id="commission" className="am-section am-commission">
       <StageAnchor />
       <div className="am-chapter-copy">
+        <span className="am-scroll-cue">Scroll to complete the form</span>
         <span className="am-kicker">06 / commission</span>
         <h2>
           <span className="am-line">

@@ -48,6 +48,7 @@ type Props = {
   tool: Tool;
   onReady: () => void;
   onFallback: () => void;
+  onBackground: () => void;
 };
 export function WagasaCanvas(props: Props) {
   const host = useRef<HTMLDivElement>(null),
@@ -314,6 +315,10 @@ export function WagasaCanvas(props: Props) {
         return;
       }
       const hit = hitAt(event);
+      if (values.current.tool && !hit) {
+        values.current.onBackground();
+        return;
+      }
       if (values.current.director.current.world.subRest === "street") {
         if (raycaster.ray.intersectPlane(groundPlane, groundPoint)) {
           worldFrame.gustOrigin.copy(groundPoint);
@@ -633,12 +638,22 @@ export function WagasaCanvas(props: Props) {
           nav = document.querySelector<HTMLElement>(
             "[data-inspector-navigation]",
           );
-        if (nav)
+        if (nav) {
+          const journeyNav =
+            document.querySelector<HTMLElement>(".am-journey-nav");
+          const maxBottom = journeyNav
+            ? journeyNav.getBoundingClientRect().top - 10
+            : innerHeight - 98;
+          const navTop = Math.min(
+            r.bottom + 4,
+            Math.max(r.top, maxBottom - nav.offsetHeight),
+          );
           Object.assign(nav.style, {
             left: `${r.left + 16}px`,
-            top: `${r.bottom + 4}px`,
+            top: `${navTop}px`,
             width: `${r.width - 32}px`,
           });
+        }
         const markers = PARTS.map((part, index) => {
           const point = rig.point(part.id, anatomy.ribIndex),
             a = (anatomy.ribIndex / 40) * Math.PI * 2;
