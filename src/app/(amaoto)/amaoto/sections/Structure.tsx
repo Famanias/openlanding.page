@@ -1,2 +1,47 @@
-import { PartCallout } from "../ui/PartCallout";
-export function Structure({ selected, onSelect }: { selected?: string; onSelect: (id: string) => void }) { return <section id="structure" className="am-section am-structure"><div><span className="am-kicker">01 / anatomy</span><h2>Forty ribs,<br /><em>one breath.</em></h2><p>Every part has a job. Pull the runner, and a radial mechanism turns a flat bundle into a roof.</p><PartCallout selected={selected} onSelect={onSelect} /></div><div className="am-spec"><span className="am-mono">OPEN / CLOSE</span><strong>40</strong><span>ribs in one circumference</span><div className="am-rule" /><span className="am-mono">HINGE / SLIDE / TIE</span><strong>81</strong><span>making steps in Kurokawa</span></div></section>; }
+import { StageAnchor } from "../bg/StageAnchor";
+import { PARTS } from "../data/parts";
+import { AnatomyDetails } from "../scene/AnatomyControls";
+import type { AnatomyState, AnatomyEvent } from "../scene/anatomy";
+export function Structure({
+  state,
+  dispatch,
+}: {
+  state: AnatomyState;
+  dispatch: (event: AnatomyEvent) => void;
+}) {
+  return (
+    <section
+      id="structure"
+      className="am-section am-structure"
+      data-inspecting={Boolean(state.part)}
+    >
+      <StageAnchor />
+      <div className="am-chapter-copy">
+        <span className="am-kicker">01 / anatomy</span>
+        <h2>
+          <span className="am-line">
+            <span>Forty ribs,</span>
+          </span>
+          <em className="am-line">
+            <span>one breath.</span>
+          </em>
+        </h2>
+        <AnatomyDetails state={state} dispatch={dispatch} />
+        <div className="am-inspector-spec">
+          <span>40 ribs / one circumference</span>
+          <span>81 quiet making steps</span>
+        </div>
+        <noscript>
+          <dl className="am-anatomy-fallback">
+            {PARTS.map((part) => (
+              <div key={part.id}>
+                <dt>{part.name}</dt>
+                <dd>{part.description}</dd>
+              </div>
+            ))}
+          </dl>
+        </noscript>
+      </div>
+    </section>
+  );
+}
