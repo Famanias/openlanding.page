@@ -11,11 +11,11 @@ export function Hero() {
           id="hero-title"
           className="hero-title"
         >
-          Landing Pages your Agent can build
+          Landing Pages, from Header to Footer.
         </h1>
 
         <p className="hero-description">
-          A list of landing page one-shotted by different AI agents that you can use
+          Not Just A Hero Section. One Click Download, 100% Free, No Paywalls.
         </p>
 
         <div className="hero-actions">

@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // create-landing-template scratch (brand boards, screenshots, helper scripts).
     ".openlanding-page/**",
+    "*-session*/**",
+    "codex-session-*/**",
   ]),
   {
     rules: {

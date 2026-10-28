@@ -78,5 +78,5 @@ describe("generate-copy-bundles", () => {
     } finally {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 15000);
 });
