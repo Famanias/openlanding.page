@@ -1,5 +1,16 @@
 import { MAKING_STEPS } from "../data/steps";
 import { clamp01 } from "../model/rig";
+export function progressForAssembly(amount: number) {
+  let low = 0,
+    high = 1;
+  const target = clamp01(amount);
+  for (let i = 0; i < 24; i++) {
+    const mid = (low + high) / 2;
+    if (mid * mid * (3 - 2 * mid) < target) low = mid;
+    else high = mid;
+  }
+  return 0.8 + ((low + high) / 2) * 0.11;
+}
 export const MAKING_PARTS = [
   "ribs",
   "ribs",

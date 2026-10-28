@@ -1,61 +1,9 @@
 "use client";
 import { useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 export function Motion() {
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
     const page = document.querySelector<HTMLElement>(".am-page");
     if (!page) return;
-    const media = gsap.matchMedia();
-    media.add("(prefers-reduced-motion: no-preference)", () => {
-      const context = gsap.context(() => {
-        gsap.utils
-          .toArray<HTMLElement>(".am-line > span")
-          .forEach((line, i) => {
-            gsap.from(line, {
-              yPercent: 110,
-              duration: 1.1,
-              delay: (i % 2) * 0.08,
-              ease: "expo.out",
-              scrollTrigger: {
-                trigger: line.parentElement,
-                start: "top 95%",
-                once: true,
-              },
-            });
-          });
-        gsap.utils
-          .toArray<HTMLElement>(".am-chapter-copy > p, .am-kicker")
-          .forEach((el) =>
-            gsap.from(el, {
-              filter: "blur(5px)",
-              duration: 0.8,
-              ease: "power2.out",
-              scrollTrigger: { trigger: el, start: "top 97%", once: true },
-            }),
-          );
-        gsap.utils.toArray<HTMLElement>("[data-roll]").forEach((el) => {
-          const count = { value: 0 };
-          gsap.to(count, {
-            value: Number(el.dataset.roll),
-            duration: 1.4,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 96%", once: true },
-            onUpdate: () => {
-              el.textContent = String(Math.round(count.value));
-            },
-          });
-        });
-        gsap.from(".am-vertical", {
-          clipPath: "inset(0 0 100% 0)",
-          duration: 1.7,
-          delay: 0.6,
-          ease: "power2.inOut",
-        });
-      }, page);
-      return () => context.revert();
-    });
     const cursor = document.querySelector<HTMLElement>(".am-cursor");
     const move = (event: PointerEvent) => {
       if (
@@ -118,7 +66,6 @@ export function Motion() {
     page.addEventListener("pointerout", leave);
     page.addEventListener("pointerdown", press);
     return () => {
-      media.revert();
       page.removeEventListener("pointermove", move);
       page.removeEventListener("pointerout", leave);
       page.removeEventListener("pointerdown", press);

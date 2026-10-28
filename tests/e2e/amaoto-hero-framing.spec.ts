@@ -1,13 +1,10 @@
 import { test, expect } from "@playwright/test";
-test("AMAOTO hero reframes the complete umbrella when its canvas narrows", async ({
+import { openWorld, go, assertSlot } from "./amaoto.helpers";
+test("AMAOTO hero reframes the complete umbrella when its virtual stage narrows", async ({
   page,
 }) => {
   test.setTimeout(90000);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  const errors: string[] = [];
-  page.on("pageerror", (error) => errors.push(error.message));
-  await page.setViewportSize({ width: 901, height: 1000 });
-  await page.goto("/amaoto#top");
+  await openWorld(page, 0.1);
   for (const viewport of [
     { width: 901, height: 1000 },
     { width: 1024, height: 768 },
@@ -15,44 +12,32 @@ test("AMAOTO hero reframes the complete umbrella when its canvas narrows", async
     { width: 390, height: 844 },
   ]) {
     await page.setViewportSize(viewport);
+    await go(page, 0.1);
     await expect(page.locator(".am-canvas")).toHaveAttribute(
-      "data-open",
-      "1.000",
-      { timeout: 20000 },
-    );
-    await page.evaluate(
-      () =>
-        new Promise<void>((resolve) =>
-          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-        ),
+      "data-fits-whole",
+      "true",
     );
     await expect(page.locator(".am-canvas")).toHaveAttribute(
       "data-camera-settled",
       "true",
+      { timeout: 20000 },
     );
-    await page.screenshot({
-      path: test.info().outputPath(`hero-${viewport.width}.png`),
+    await assertSlot(page);
+    await test.info().attach(String(viewport.width), {
+      body: await page.screenshot(),
+      contentType: "image/png",
     });
   }
-  expect(errors).toEqual([]);
 });
-
 for (const chapter of [
-  { id: "canopy", index: "3" },
-  { id: "making", index: "4" },
+  { id: "canopy", p: 0.66, index: "3" },
+  { id: "making", p: 0.86, index: "4" },
 ])
   test(`AMAOTO ${chapter.id} keeps the full umbrella framed after resize`, async ({
     page,
   }) => {
     test.setTimeout(90000);
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.setViewportSize({ width: 901, height: 1000 });
-    await page.goto(`/amaoto#${chapter.id}`);
-    await expect(page.locator(".am-canvas")).toHaveAttribute(
-      "data-ready",
-      "true",
-      { timeout: 20000 },
-    );
+    await openWorld(page, chapter.p);
     for (const viewport of [
       { width: 901, height: 1000 },
       { width: 1024, height: 768 },
@@ -60,72 +45,38 @@ for (const chapter of [
       { width: 390, height: 844 },
     ]) {
       await page.setViewportSize(viewport);
-      await page.locator(`#${chapter.id}`).evaluate((el) =>
-        window.scrollTo({
-          top: (el as HTMLElement).offsetTop,
-          behavior: "instant",
-        }),
-      );
+      await go(page, chapter.p);
       await expect(page.locator(".am-page")).toHaveAttribute(
-        "data-chapter",
+        "data-active-chapter",
         chapter.index,
-        { timeout: 20000 },
       );
       await expect(page.locator(".am-canvas")).toHaveAttribute(
-        "data-camera-settled",
+        "data-fits-whole",
         "true",
-        { timeout: 20000 },
       );
-      await page.screenshot({
-        path: test.info().outputPath(`${chapter.id}-${viewport.width}.png`),
+      await assertSlot(page);
+      await test.info().attach(String(viewport.width), {
+        body: await page.screenshot(),
+        contentType: "image/png",
       });
     }
   });
-test("AMAOTO Making keeps separated parts framed during its scroll sequence", async ({
+test("AMAOTO Making keeps separated parts framed during its reversible sequence", async ({
   page,
 }) => {
-  test.setTimeout(90000);
-  await page.setViewportSize({ width: 901, height: 1000 });
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/amaoto#making");
-  await expect(page.locator(".am-canvas")).toHaveAttribute(
-    "data-ready",
-    "true",
-    { timeout: 20000 },
-  );
-  for (const fraction of [0.4, 0.75]) {
-    await page.evaluate((t) => {
-      const a = document.getElementById("making")!,
-        b = document.getElementById("commission")!;
-      window.scrollTo({
-        top:
-          a.offsetTop +
-          (a.dataset.pinned === "true"
-            ? Number.parseFloat(
-                a.style.getPropertyValue("--am-making-distance"),
-              )
-            : b.offsetTop - a.offsetTop) *
-            t,
-        behavior: "instant",
-      });
-    }, fraction);
-    await expect(page.locator(".am-page")).toHaveAttribute(
-      "data-chapter",
-      "4",
-      { timeout: 20000 },
-    );
-    await expect
-      .poll(async () =>
-        Number(await page.locator(".am-canvas").getAttribute("data-explode")),
-      )
-      .toBeGreaterThan(0.5);
+  await openWorld(page, 0.86);
+  for (const step of [0, 3, 7, 9, 3, 0]) {
+    await page.locator(".am-making-strip button").nth(step).click();
     await expect(page.locator(".am-canvas")).toHaveAttribute(
-      "data-camera-settled",
+      "data-fits-whole",
       "true",
-      { timeout: 20000 },
     );
-    await page.screenshot({
-      path: test.info().outputPath(`making-separated-${fraction}.png`),
-    });
+    await assertSlot(page);
+    if (step === 0)
+      await expect
+        .poll(async () =>
+          Number(await page.locator(".am-canvas").getAttribute("data-explode")),
+        )
+        .toBeGreaterThan(0.5);
   }
 });

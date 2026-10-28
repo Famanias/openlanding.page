@@ -11,7 +11,7 @@ export function Canopy({
     <section id="canopy" className="am-section am-canopy">
       <StageAnchor />
       <div className="am-chapter-copy">
-        <span className="am-kicker">03 / colourways</span>
+        <span className="am-kicker">04 / weather</span>
         <h2>
           <span className="am-line">
             <span>Choose your</span>
@@ -76,10 +76,10 @@ export function Canopy({
             </button>
           ))}
         </div>
+        <span className="am-stage-caption">
+          Drag to turn / painted in the paper
+        </span>
       </div>
-      <span className="am-stage-caption">
-        Drag to turn / painted in the paper
-      </span>
     </section>
   );
 }

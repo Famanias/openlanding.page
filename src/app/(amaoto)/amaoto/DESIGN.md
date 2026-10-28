@@ -1,65 +1,82 @@
 # AMAOTO
 
-## Concept
+## Concept and brand
 
-A wagasa leads the visitor from a closed first frame through six making decisions, then settles beside a commission form. The page makes space for the umbrella in every chapter. Copy, palette and type retain the atelier’s original identity.
+A hand-made wagasa leads a continuous journey through six procedural places: a paper-lit threshold, bamboo workshop, the interior of washi, a dusk street, a workbench and a genkan. The same articulated umbrella stays on one fixed WebGL stage. It unfolds through scroll progress, can be examined at the workshop, weathers a gust, reassembles at the bench and closes beside the commission form.
 
-## Brand
+The atelier is fictional: AMAOTO (雨音, “the sound of rain”), Kurokawa, Nagano. Retain sumi `#1A1613`, washi `#F4ECDD`, sakura `#F2B8C6`, deep sakura `#D9748F`, vermilion `#C8412B`, bamboo gold `#B8923A` and indigo `#2B3A55`. New atmosphere colours are linear-space blends or shades of these hues. Shippori Mincho, Zen Kaku Gothic New and DM Mono retain the original type identity and swap/fallback behavior. Headlines, part descriptions, making steps, colourways and commission facts are preserved.
 
-AMAOTO (雨音, “the sound of rain”) is a fictional atelier in Kurokawa, Nagano. Sumi `#1A1613`, washi `#F4ECDD`, sakura `#F2B8C6`, deep sakura `#D9748F`, vermilion `#C8412B`, gold `#B8923A`, indigo `#2B3A55`. Tints derive from these colours. Shippori Mincho, Zen Kaku Gothic New and DM Mono use Next font fallback metrics and explicit swap behaviour.
+## Model and material ownership
 
-## Model and material
+`model/rig.ts` remains the pure mechanism: 40 bowed ribs, fixed-length stretchers, shared runner, paper/rim points and flexible outer-rib opening wave. The factory keeps persistent instanced members, the folded 40-gore skin, turned cap/collar/grip, tip ties and diamond lacing. `lathe.ts` and the material painter remain the model's sources. It is a procedural interpretation of the supplied reference photographs, not photogrammetry or a calibrated likeness claim.
 
-`model/rig.ts` owns the hub, 40 ribs, fixed-length linkage, runner travel and paper control points. The shared collar uses an analytic linkage solution. During the introductory wave only the flexible rib length beyond its stretcher hinge bends with a delay; this preserves the rigid mechanism. Ribs have eight segments, node bands and tip lashings. Paper is a 40-gore deforming skin with a folded closed silhouette and an attached segmented rim. Diamond lacing and woven collar threads follow the mechanism. Cap, runner and beaded handle use turned profiles.
+The existing painter retains its floral/wave/plain motifs, fibre maps, 900ms dye spread and bounded inspection cutaway. `scene/canopyEffects.ts` chains its shader hook with world thickness/transmission, warm lantern transmission and rib shading, oil sheen, rain beading, slight gust flex and coverage during the intentional macro passage. This remains a shader approximation of thin-paper optics, not volumetric refraction. The complete umbrella does not fade between worlds. Only the outer paper surface recedes locally while the camera enters its fibre field.
 
-Repeated parts use persistent instanced geometry; pose updates mutate matrices and vertex buffers. No geometry is recreated during opening. Paper has per-gore painted branches and blossoms, independent fibre bump/roughness textures, front/back lighting response and a 900 ms radial dye shader. Superseded textures and all renderer resources are disposed. The shader simulates thin-paper light response; it is not volumetric transmission. The model is a procedural interpretation of the supplied photos, without calibrated camera matching or a claimed photogrammetric likeness score.
+## Story and camera
 
-## Choreography
+| Chapter | Stable fragment | Start / rest / end | Place |
+| --- | --- | --- | --- |
+| 01 Threshold | `#top` | 0 / 0 / .14 | Pale shoji room; opening over 0–.10 |
+| 02 Structure | `#structure` | .14 / .18 / .33 | Warm workshop, bamboo stock, lathe and dust shafts |
+| 03 Paper | `#light` | .33 / .45 / .58 | Layered kozo fibres and a reversible travelling oil front |
+| 04 Weather | `#canopy` | .58 / .66, .72 / .78 | Lantern street, wet cobbles and rain; .72 is the gust rest |
+| 05 Craft | `#making` | .78 / .86 / .93 | Bench with loose parts, brush, paper roll, oil and thread |
+| 06 Commission | `#commission` | .93 / 1 / 1 | Lantern-lit entry hall, tatami step and umbrella stand |
 
-One GSAP ScrollTrigger director reads chapter anchors into a mutable ref. Fine-pointer devices use Lenis; touch retains native scrolling. Hero: closed frame, 650 ms pause after fonts settle, 2.4 s wave bloom. Scrolling interrupts the intro and hands off quickly. Anatomy: assembled left stage with a six-part object inspector, compact part index and stable detail panel. Choosing a part frames its live rig anchor; optional paper cutaway reveals hidden structure. Hover previews do not move the camera. Light: overhead underside stage, real directional sun and backlight. Canopy: right stage, dye configurator on the left, inertial turning. Making: a native sticky scene holds the complete umbrella and all ten listed moments in the viewport while document scroll advances part highlights and disassembly/reassembly. Only after step 10 does the frame release into Commission. Upward scrolling reverses the same sequence. Reduced motion and cramped viewports use the readable unpinned layout. Commission: folded umbrella resting beside the right-hand form, reflected below a puddle plane. Camera and pose interpolate through chapter handoffs.
+The seven rests are `[0, .18, .45, .66, .72, .86, 1]`. One progress value supplies `ChapterProgressState`, camera keyframes, world weights, opening, oil soaking, assembly, atmosphere and overlay masks. World visibility windows overlap and normalize; fog always shares the blended background colour. Nominal chapter ranges tile the track, while neighbouring worlds dissolve through the seam.
 
-The mobile composition uses the same model in a shared fixed band that stays at the top through each chapter, visually behaving as one continuous sticky stage. Text starts beneath it and scrolls under its soft lower mask. The model is fully opaque. The canvas remains labelled and touch scrolling stays native.
+World anchors hold through the rests and travel only through seams. The paper field attaches to a sampled gore patch and follows the umbrella root. Camera position/target use guarded Catmull-Rom, with eased segment timing and interpolated fov/focus distance. Dedicated outside/inside waypoints pass between ribs; floor and overshoot guards remain active. Hardware cameras damp with `1-exp(-11*dt)`; software uses the sampled pose directly.
 
-## Motion and interaction
+`ScrollDirector.tsx` bridges pure state into the existing mutable director. `scene/scroll.ts` owns one GSAP master timeline and its ScrollTrigger over an approximately 800-viewport-height scroll interval. Lenis is used only for fine pointers and is advanced by the renderer's RAF. Touch uses native document scrolling. Idle snapping waits 900ms and respects active touches, tools, programmatic navigation and focused controls. Previous/next visit all seven rests; six jump buttons and keys 1–6 use chapter primary rests. Inputs, buttons and editable content retain their own key behavior.
 
-Verbs: drift and unfurl. Tokens `--am-ease-out`, `--am-ease-in-out` and `--am-dur-1..4` govern the system. Headings unfold from line masks; body text sharpens; numbers roll; list rules draw; swatch rings settle; buttons have magnetic interiors and press ripples; form labels float and the success hanko stamps. The header responds to scroll direction and the stitched progress thread knots each chapter.
+## Full world, reserved object space
 
-Anatomy supports free inspection of ribs, stretchers, runner, lacing, paper and grip through a compact index, projected markers or mesh raycasts. Each part has a distinct camera and action: one/all rib emphasis, one-shot linkage movement, projected-axis runner dragging, connected tie tracing, outside/underneath paper views, and grip-focused whole-object turning. Overview/Escape clears temporary inspection; chapter exit cancels actions and restores the page director. Hover and selection are separate. A partial paper cutaway exposes internals without fading the whole model. The runner has a keyboard/touch range equivalent; its drag cannot add orbit spin. Reduced-motion demonstrations become immediate user-triggered states. Sun angle moves the directional light and changes paper backlight. Rain controls instanced streaks, tip drips, puddle rings and the SVG rain veil. Colourway carries into the local demonstration form.
+The canvas fills the viewport so architecture and atmosphere are never cropped into a product-viewer rectangle. `staging.ts` retains the previous continuous handoff helpers and supplies virtual object slots for the cinematic route. Camera view offsets place the umbrella inside those slots while rendering the world across the full canvas. Whole-object fitting corrects both desired and damped cameras. It covers the full opening envelope and the assembled/separated union during Craft; intentional Paper and selected Anatomy close-ups are exempt.
 
-Rain sound is off by default. A labelled header button starts synthesised filtered noise and sparse drips after a user gesture. Gain follows scene intensity. Preference storage never bypasses the gesture requirement. Audio suspends when the document hides and all nodes close on unmount. Form validation is local; there is no submission endpoint.
+Copy clears during the narrow composition transfer at a seam. It returns in a reserved column at every rest. On phones the object occupies an upper composition band and copy uses the space beneath it; tablets retain larger virtual stages. Commission reserves additional DOM space for its form. Long copy, forms and tool sheets use native scrolling. The old Making scroll spacer is replaced in cinematic mode by one shared story track and an explicitly engaged tool.
 
-## Backgrounds
+## Worlds and renderer
 
-Code-created SVG layers only: low-contrast washi fibres; distant Nagano ridges, mist and sun; anatomy drafting/asanoha; indigo moon and ink clouds; sakura petals and dye; bamboo grove; dusk and puddle rings. Scene weights follow the same chapter director. No generated or downloaded raster media.
+- **Threshold:** five tall shoji panels with frame geometry and fibre-textured paper, pale floor, motes, contact shadow and a faint shared umbrella reflection.
+- **Workshop:** instanced leaning bamboo, a bench/lathe and hanging tools, window grid, four shader light shafts, curled shavings and dust.
+- **Paper:** merged layered fibre ribbons with oil-arrival attributes, translucent amber wet fronts, backlit response and sway. A four-octave fbm thickness field and soft foreground sprites add depth.
+- **Street:** twelve ribbed paper lanterns on posts, building/eave silhouettes, procedurally textured wet cobbles, glow reflections, distant bokeh and GPU-driven rain. A radial gust shears streaks, sways lanterns and flexes the canopy; pointer proximity brightens the weather.
+- **Bench:** a timber work surface with loose bamboo, turned parts, paper roll, brush, thread coil and oil pot. Parts lift along the assembly progress; the main rig separates/rebuilds. The camera dollies across the bench and the accent follows the active work. Oil and thread have restrained shader motion.
+- **Genkan:** stone approach, raised tatami floor, sliding paper door, hanging lantern and a hollow umbrella stand. The closed umbrella leans into the stand with a faint floor reflection.
 
-## Accessibility and verification
+World builders own geometry/material disposal and consume a typed frame. Hidden worlds skip updates. Shared procedural textures have one owner and are built once: washi colour/bump/transmission, bamboo colour/bump, wood, tatami, thread, lacquer roughness, motes, rain streak and cobble maps. Colour textures use sRGB; bump/thickness/data maps use no colour-space transform. Layout generators use seeded Mulberry32.
 
-Server markup is visible before effects initialise. The poster SVG remains available without WebGL or JavaScript; headings, navigation and form fields remain readable. Reduced motion uses a still open pose per chapter, instant dyes, no spin, wave, parallax, animated rain or cursor. Audio remains separately usable. Keyboard access includes part buttons, runner and sun ranges, colourway arrows/Home/End, sound and form. Field errors have descriptive associations.
+Hardware uses ACES/sRGB, PCF shadows, a PMREM room and FogExp2. The pass chain is RenderPass → high-threshold UnrealBloomPass → cinematic ShaderPass → OutputPass. The cinematic pass supplies peripheral blur, inspection dimming, paper-aware vignette, grain and highlight roll-off. Its focus follows the virtual object slot.
 
-Unit tests cover linkage length, runner bounds/monotonicity, skin clearance, closed proportions, attachment and wave endpoints. E2E covers both viewport classes across all chapters, stage/content separation, intro, controls and no-JS. Verification uses defined visual states, not Lighthouse or speed benchmarks.
+Renderer-string detection selects the software tier for SwiftShader, llvmpipe, softpipe, Software and Basic Render. It omits composer/shadows, uses DPR .85, applies camera poses immediately and caps rendering near one frame per 110ms. Settled scenes skip unchanged frames. Hardware DPR is capped at 2. Context loss returns to the static reading page. Resize updates renderer/composer and virtual projection. Resources, listeners, clocks, scroll controller and audio are disposed on unmount.
 
-## Files
+## Initial resource budgets
 
-- `model/`: pure rig, turned profiles, procedural materials, persistent model factory and tests.
-- `scene/`: mutable page director, pure `anatomy.ts` reducer/view configuration, projected `AnatomyControls.tsx`, GSAP/Lenis lifecycle, shell and the only renderer client leaf (`WagasaCanvas.tsx`).
-- `bg/`: reserved stage anchors, SVG poster and layered scene backgrounds.
-- `motion/`: scoped GSAP reveals, pointer feedback and cleanup.
-- `audio/`: gesture-created Web Audio synthesis and visible toggle.
-- `sections/`, `forms/`, `ui/`, `brand/`, `data/`: chapter markup, local validation and controls.
+| System | Hardware | Software |
+| --- | ---: | ---: |
+| Street rain | 6,000 | 1,200 |
+| Paper strands | 1,500, merged | 300, merged |
+| Workshop shavings | 320 | 64 |
+| Workshop bamboo | 64 | 16 |
+| Street lanterns | 12 | 12 |
+| Street ripple quads | 48 | 12 |
+| Rib-tip drips | 40 | 12 sampled tips |
+| Threshold / workshop / bench motes | 180 each | 36 each |
+| Street / genkan motes | 120 / 150 | 24 / 20 |
+| Paper foreground sprites | 36 | 12 |
 
-No source imports another template. No new runtime dependencies, deployment or commit are required.
+Counts are construction budgets, not performance scores. Rain, motes, shavings and drip fall run in shaders; the drip-tip source buffer changes with the umbrella pose. The original rig still owns its geometry/matrix updates. New render helpers reuse scratch vectors; preserving the original mechanism was prioritized over rewriting its pure point functions to make a blanket zero-allocation claim.
 
-Anatomy verification covers all six framed views at desktop/mobile sizes, model-changing controls, reset, interruption, chapter handoff, and runner-drag/orbit separation. Source tests also cover projected-axis mapping, stale action completion and reduced-motion equivalents.
+## Tools and audio
 
-Hero, Colourways and Making framing use the complete unfurl envelope and the actual model transform to fit both horizontal and vertical camera frusta. It pulls back only when the current canvas aspect ratio needs more room, including first paint, pointer tilt, colourway rotation and resize; Making includes the union of assembled and separated geometry so its scroll sequence keeps every part in frame; the authored bearing and safe wide compositions are preserved.
+Anatomy retains all six part views and actions: one/all ribs, linkage cycle, projected-axis runner drag, tie tracing, outside/underneath paper and grip turning. The existing reducer owns part/action state. A separate pure inspection machine owns engagement, camera-relative quaternion trackball, exponential release inertia and slerp return. Keyboard turns are discrete. Pins are culled by surface facing and the frustum; on touch the part index appears in a bottom sheet. Pin/runner projection uses the final camera.
 
-`scene/makingSequence.ts` defines the ten reversible scroll beats, the hold distance and the release phase. `ScrollDirector.tsx` measures the inner held frame separately from the outer scroll spacer, preserves the active beat through resize, and honours initial Commission fragments after pin spacing is established. The pinned list and model band fit the viewport without intercepting wheel, touch or keyboard scrolling.
+Explicit tool engagement pauses document scrolling. Return to story and Escape release it and restore focus. Chapter/sub-rest changes cancel ownership cleanly. Touch scrolling outside a tool remains native; only an explicitly engaged object turn consumes its touch drag. Making's strip and fine scrub map to the same story progress, with no separate assembly timer. Light's dusk/day controls change sun, sky, exposure, lanterns, transmission, DOM theme and sound filtering. Overlay contrast also follows the user's daylight setting.
 
+Sound is off initially even when a preference was saved. A button gesture creates `Soundscape`: filtered room drones, workshop air/ticks, muffled paper texture, rain and sparse droplets. World weights crossfade layers; the gust triggers a short descending sine pair. Master gain ramps, the context suspends when hidden and all sources/timers close on disposal. No audio files or downloaded 3D models are used.
 
-## Responsive staging
+## Static reading and verification
 
-Phones through 600px retain the opaque top model band. Portrait tablets from 601–900px use a 50svh stage (42svh for Anatomy with its index; 34svh during pinned Making), wider reading measures, paired colourway choices, side-by-side sun/rain controls, an Anatomy detail/control grid and a two-column commission layout. Compact laptops from 901–1180px retain the side composition with tighter gutters and a comfortable copy measure. Desktop Light now reserves the left stage and places its unchanged copy/controls on the right; its overhead camera pose remains unchanged.
+The semantic story is present before enhancement, including the poster, all part descriptions, ten making steps, colourways and the original local commission form. Reduced motion mounts no WebGL scene; unavailable/lost WebGL also restores the complete static layout. The header light control changes both static section backgrounds and their text theme; colourways/form retain DOM behavior. Paper-lit cinematic copy uses a paper scrim so Day-mode architecture cannot reduce contrast. Inactive cinematic panels are inert and absent from assistive navigation; chapter announcements use a polite live region.
 
-`scene/staging.ts` owns breakpoint selection, stacked-band dimensions and handoff safety. Handoffs fade out in the outgoing reserved slot, change slots while invisible, then fade into the incoming one. They never interpolate a canvas across the copy column. Visible desktop copy/control bounds constrain stage opacity, including the outgoing Anatomy index. Matching slots remain continuous. These choices are scroll-scrubbed and deterministic in reverse. Reduced motion uses the current target slot immediately, without travel or fading.
-
-The stacked layouts align the opaque band's lower fade to the measured stage and reserve text space below it; captions, chapter headings and controls begin in the reading area. The full-object camera fitting remains active in every chapter except intentional selected-part close-ups. No model geometry, copy, part actions or chapter pose keyframes change in this staging pass.
+Pure tests cover progress envelopes, camera keys/continuity, atmosphere, time of day, seeded layouts, inspection math, inverse Making progress and virtual/full-viewport framing. Browser tests cover rest hooks, controls, tool locks and exit, keyboard navigation, snapping, gusts, full-object framing, software GL, context loss, reduced motion and no-JavaScript reading. Visual gates inspect rest compositions and seams in both directions. No Lighthouse, speed or responsive audits are part of this revision.

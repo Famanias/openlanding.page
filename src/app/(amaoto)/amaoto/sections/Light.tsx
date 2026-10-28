@@ -14,7 +14,7 @@ export function Light({
     <section id="light" className="am-section am-light">
       <StageAnchor />
       <div className="am-chapter-copy">
-        <span className="am-kicker">02 / translucency</span>
+        <span className="am-kicker">03 / paper</span>
         <h2>
           <span className="am-line">
             <span>Paper that</span>

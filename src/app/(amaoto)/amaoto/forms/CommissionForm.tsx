@@ -42,7 +42,7 @@ export function CommissionForm({
       noValidate
     >
       <label>
-        <span>Name</span>
+        <span id="am-name-label">Name</span>
         <input
           id="am-name"
           name="name"
@@ -52,12 +52,13 @@ export function CommissionForm({
           value={fields.name}
           onChange={(e) => setFields({ ...fields, name: e.target.value })}
           aria-invalid={Boolean(errors.name)}
+          aria-labelledby="am-name-label"
           aria-describedby={errors.name ? "am-name-error" : undefined}
         />
         {errors.name && <small id="am-name-error">{errors.name}</small>}
       </label>
       <label>
-        <span>Email</span>
+        <span id="am-email-label">Email</span>
         <input
           id="am-email"
           name="email"
@@ -68,12 +69,13 @@ export function CommissionForm({
           value={fields.email}
           onChange={(e) => setFields({ ...fields, email: e.target.value })}
           aria-invalid={Boolean(errors.email)}
+          aria-labelledby="am-email-label"
           aria-describedby={errors.email ? "am-email-error" : undefined}
         />
         {errors.email && <small id="am-email-error">{errors.email}</small>}
       </label>
       <label>
-        <span>Occasion</span>
+        <span id="am-occasion-label">Occasion</span>
         <input
           id="am-occasion"
           name="occasion"
@@ -82,6 +84,7 @@ export function CommissionForm({
           value={fields.occasion}
           onChange={(e) => setFields({ ...fields, occasion: e.target.value })}
           aria-invalid={Boolean(errors.occasion)}
+          aria-labelledby="am-occasion-label"
           aria-describedby={errors.occasion ? "am-occasion-error" : undefined}
         />
         {errors.occasion && (

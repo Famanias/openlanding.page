@@ -6,9 +6,17 @@ const nextConfig: NextConfig = {
   experimental: { cpus: 1 },
   partialPrefetching: true,
   turbopack: {
+    // Each managed checkout has its own dependencies; avoid scanning sibling worktrees.
+    root: process.cwd(),
     rules: {
       "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
+        // Utilities come from application components, not generated copy bundles or QA artifacts.
+        loaders: [
+          {
+            loader: "@tailwindcss/turbopack",
+            options: { base: `${process.cwd()}/src` },
+          },
+        ],
         as: "*.css",
       },
     },

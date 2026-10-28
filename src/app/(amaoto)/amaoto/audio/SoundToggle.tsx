@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, type RefObject } from "react";
-import { RainSound } from "./RainSound";
+import { Soundscape } from "./soundscape";
 import type { DirectorState } from "../scene/director";
 export function SoundToggle({
   director,
@@ -9,20 +9,27 @@ export function SoundToggle({
 }) {
   const [enabled, setEnabled] = useState(false),
     [preferred, setPreferred] = useState(false),
-    audio = useRef<RainSound | null>(null);
+    audio = useRef<Soundscape | null>(null);
   useEffect(() => {
     try {
       setPreferred(localStorage.getItem("amaoto-rain-sound") === "on");
     } catch {}
     const timer = setInterval(() => {
       const state = director.current;
-      audio.current?.setIntensity(state.rainIntensity);
-    }, 300);
+      audio.current?.updateProgress(
+        state.world,
+        state.rainIntensity,
+        state.timeOfDay,
+      );
+    }, 120);
     const visibility = () => audio.current?.visibility();
     document.addEventListener("visibilitychange", visibility);
+    const gust = () => audio.current?.gust();
+    document.addEventListener("amaoto-gust", gust);
     return () => {
       clearInterval(timer);
       document.removeEventListener("visibilitychange", visibility);
+      document.removeEventListener("amaoto-gust", gust);
       audio.current?.dispose();
       audio.current = null;
     };
@@ -32,6 +39,7 @@ export function SoundToggle({
       className="am-sound"
       type="button"
       aria-pressed={enabled}
+      aria-label={`Atelier sound: ${enabled ? "on" : "off"}`}
       title={
         !enabled && preferred
           ? "Your saved preference is on. Click to start sound."
@@ -40,7 +48,7 @@ export function SoundToggle({
       onClick={() => {
         const next = !enabled;
         try {
-          audio.current ??= new RainSound();
+          audio.current ??= new Soundscape();
           void audio.current
             .setEnabled(next)
             .then(() => setEnabled(next))
@@ -61,7 +69,7 @@ export function SoundToggle({
           strokeWidth="1.4"
         />
       </svg>
-      <span>Rain sound: {enabled ? "on" : "off"}</span>
+      <span>Sound: {enabled ? "on" : "off"}</span>
     </button>
   );
 }

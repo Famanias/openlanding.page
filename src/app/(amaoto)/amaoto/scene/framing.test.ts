@@ -3,6 +3,73 @@ import * as THREE from "three";
 import { FRAMES } from "./director";
 import { paperPoint } from "../model/rig";
 import { fitUmbrellaCamera, fitsWholeUmbrella } from "./framing";
+import {
+  getChapterStateAtProgress,
+  computeCameraPoseAtProgress,
+} from "../logic/chapters";
+import { worldStageRect } from "./staging";
+it("fits the world camera into the virtual stage with the full viewport still visible", () => {
+  for (const p of [0, 0.1, 0.18, 0.66, 0.72, 0.8, 0.86, 0.91, 1])
+    for (const [w, h] of [
+      [1440, 900],
+      [390, 844],
+    ]) {
+      const state = getChapterStateAtProgress(p),
+        pose = computeCameraPoseAtProgress(p),
+        slot = worldStageRect(p, w, h),
+        root = new THREE.Object3D();
+      root.position.fromArray(state.anchor);
+      root.rotation.z = state.genkanSettle * -0.28;
+      root.updateMatrixWorld();
+      const camera = new THREE.PerspectiveCamera(
+          pose.fov,
+          slot.width / slot.height,
+          0.025,
+          180,
+        ),
+        target = new THREE.Vector3().fromArray(pose.target);
+      camera.position.fromArray(pose.position);
+      fitUmbrellaCamera(
+        camera.position,
+        target,
+        camera.aspect,
+        root.matrixWorld,
+        pose.fov,
+        state.activeChapterIndex === 4,
+      );
+      camera.lookAt(target);
+      camera.setViewOffset(
+        slot.width,
+        slot.height,
+        -slot.left,
+        -slot.top,
+        w,
+        h,
+      );
+      camera.updateMatrixWorld();
+      for (const open of [0, 1])
+        for (let i = 0; i < 40; i++) {
+          const point = new THREE.Vector3()
+            .copy(
+              paperPoint(
+                open,
+                i,
+                1,
+                0,
+                state.activeChapterIndex === 4 ? 0.9 : 0,
+              ),
+            )
+            .applyMatrix4(root.matrixWorld)
+            .project(camera);
+          const x = (point.x * 0.5 + 0.5) * w,
+            y = (-point.y * 0.5 + 0.5) * h;
+          expect(x).toBeGreaterThanOrEqual(slot.left);
+          expect(x).toBeLessThanOrEqual(slot.left + slot.width);
+          expect(y).toBeGreaterThanOrEqual(slot.top);
+          expect(y).toBeLessThanOrEqual(slot.top + slot.height);
+        }
+    }
+});
 function heroProjection(aspect: number, open = 1) {
   const frame = FRAMES[0],
     root = new THREE.Object3D();

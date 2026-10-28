@@ -29,7 +29,10 @@ const back = new THREE.Vector3(),
   point = new THREE.Vector3();
 const worldUp = new THREE.Vector3(0, 1, 0);
 /** Every chapter keeps the whole umbrella in its canvas; only a selected anatomy part may crop in close. */
-export function fitsWholeUmbrella(chapter: number, inspectedPart: string | null) {
+export function fitsWholeUmbrella(
+  chapter: number,
+  inspectedPart: string | null,
+) {
   return !(chapter === 1 && inspectedPart);
 }
 /** Fit the complete umbrella to the canvas frustum while preserving the authored camera bearing. */

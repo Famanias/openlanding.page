@@ -11,7 +11,7 @@ export function Commission({
     <section id="commission" className="am-section am-commission">
       <StageAnchor />
       <div className="am-chapter-copy">
-        <span className="am-kicker">05 / your umbrella</span>
+        <span className="am-kicker">06 / commission</span>
         <h2>
           <span className="am-line">
             <span>Made for the</span>

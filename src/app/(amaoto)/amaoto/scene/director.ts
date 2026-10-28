@@ -1,4 +1,8 @@
 import type { WagasaPose } from "../model/createWagasaModel";
+import {
+  getChapterStateAtProgress,
+  type ChapterProgressState,
+} from "../logic/chapters";
 export const CHAPTERS = [
   "top",
   "structure",
@@ -22,6 +26,10 @@ export type ChapterFrame = WagasaPose & {
   highlight: string | null;
 };
 export type DirectorState = ChapterFrame & {
+  world: ChapterProgressState;
+  timeOfDay: number;
+  fov: number;
+  focusDistance: number;
   progress: number;
   chapter: number;
   local: number;
@@ -31,7 +39,6 @@ export type DirectorState = ChapterFrame & {
   interrupted: boolean;
   ready: boolean;
   rainIntensity: number;
-  stageOpacity: number;
 };
 export const FRAMES: ChapterFrame[] = [
   {
@@ -104,6 +111,10 @@ export const FRAMES: ChapterFrame[] = [
 export function initialDirector(): DirectorState {
   return {
     ...FRAMES[0],
+    world: getChapterStateAtProgress(0),
+    timeOfDay: 0.75,
+    fov: 34,
+    focusDistance: 11,
     open: 0,
     progress: 0,
     chapter: 0,
@@ -114,7 +125,6 @@ export function initialDirector(): DirectorState {
     interrupted: false,
     ready: false,
     rainIntensity: 0,
-    stageOpacity: 1,
   };
 }
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;

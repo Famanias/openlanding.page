@@ -6,7 +6,7 @@ export function Making() {
       <div className="am-section am-making am-making-frame" data-chapter-frame>
         <StageAnchor />
         <div className="am-chapter-copy">
-          <span className="am-kicker">04 / the making</span>
+          <span className="am-kicker">05 / craft</span>
           <h2>
             <span className="am-line">
               <span>Eighty-one</span>
