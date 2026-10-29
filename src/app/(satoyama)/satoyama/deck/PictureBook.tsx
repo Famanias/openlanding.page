@@ -11,6 +11,9 @@ import { chapterIndex, moveChapter, wheelDirection } from "./logic";
 export function PictureBook({ pages }: { pages: ReactNode[] }) {
   const [active, setActive] = useState(0);
   const [ready, setReady] = useState(false);
+  const [firstVisit, setFirstVisit] = useState(true);
+  const visited = useRef(new Set<number>());
+  const currentIndex = useRef<number | null>(null);
   const { paused, stopped, toggle } = useAmbient();
   const reduced = useReducedMotion();
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -18,24 +21,32 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
   const navRef = useRef<HTMLElement>(null);
   const chapter = CHAPTERS[active];
 
+  const activate = useCallback((index: number) => {
+    if (currentIndex.current === index) return;
+    currentIndex.current = index;
+    setFirstVisit(!visited.current.has(index));
+    visited.current.add(index);
+    setActive(index);
+  }, []);
+
   const go = useCallback((index: number) => {
     const next = moveChapter(index, 0, CHAPTERS.length);
-    setActive(next);
+    activate(next);
     if (window.location.hash !== `#${CHAPTERS[next].id}`) window.history.pushState(null, "", `#${CHAPTERS[next].id}`);
     if (reduced) document.getElementById(CHAPTERS[next].id)?.scrollIntoView({ behavior: "instant" });
-  }, [reduced]);
+  }, [activate, reduced]);
 
   useEffect(() => {
-    const sync = () => setActive(chapterIndex(window.location.hash));
+    const sync = () => activate(chapterIndex(window.location.hash));
     const frame = requestAnimationFrame(() => { sync(); setReady(true); });
     window.addEventListener("hashchange", sync);
     window.addEventListener("popstate", sync);
     return () => { cancelAnimationFrame(frame); window.removeEventListener("hashchange", sync); window.removeEventListener("popstate", sync); };
-  }, []);
+  }, [activate]);
 
   useEffect(() => {
     const keydown = (event: KeyboardEvent) => {
-      if (event.altKey || event.ctrlKey || event.metaKey || (event.target instanceof Element && event.target.closest("button,a,input,select,textarea,[contenteditable=true],[role=tablist]"))) return;
+      if (event.altKey || event.ctrlKey || event.metaKey || (event.target instanceof Element && event.target.closest("button,a,input,select,textarea,[contenteditable=true],[role=tablist],.st-carousel"))) return;
       const next = event.key === "ArrowRight" || event.key === "PageDown" ? active + 1 : event.key === "ArrowLeft" || event.key === "PageUp" ? active - 1 : event.key === "Home" ? 0 : event.key === "End" ? CHAPTERS.length - 1 : null;
       if (next !== null) { event.preventDefault(); go(next); }
     };
@@ -92,11 +103,11 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
     if (!reduced) return;
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setActive(chapterIndex(visible.target.id));
+      if (visible) activate(chapterIndex(visible.target.id));
     }, { threshold: .5 });
     document.querySelectorAll('.st-chapter').forEach(element => observer.observe(element));
     return () => observer.disconnect();
-  }, [reduced]);
+  }, [activate, reduced]);
 
   return <div className="st-book" data-ready={ready} data-paused={stopped} style={{ "--st-active": active } as CSSProperties}>
     <a className="st-skip" href="#st-reading">Skip to the chapter</a>
@@ -110,7 +121,7 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
     <main id="st-reading" className="st-stage" tabIndex={-1}
       onTouchStart={(event) => { if (!(event.target instanceof Element) || event.target.closest(".st-carousel,[role=tablist]")) return; touchStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY }; }}
       onTouchEnd={(event) => { const start = touchStart.current; touchStart.current = null; if (!start) return; const dx = event.changedTouches[0].clientX - start.x; const dy = event.changedTouches[0].clientY - start.y; if (Math.abs(dx) > 75 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1)); }}>
-      {CHAPTERS.map((item, index) => <section key={item.id} className="st-chapter" id={item.id} data-state={active === index ? "active" : index < active ? "past" : "future"} aria-label={`${index + 1} of ${CHAPTERS.length}: ${item.label}`} aria-roledescription="slide" inert={ready && !reduced && active !== index ? true : undefined}>{pages[index]}</section>)}
+      {CHAPTERS.map((item, index) => <section key={item.id} className="st-chapter" id={item.id} data-state={active === index ? "active" : index < active ? "past" : "future"} data-first-visit={active === index && firstVisit} aria-label={`${index + 1} of ${CHAPTERS.length}: ${item.label}`} aria-roledescription="slide" inert={ready && !reduced && active !== index ? true : undefined}>{pages[index]}</section>)}
       <div className="st-scene-caption"><span className="st-caption-dot" /> A SMALL WINDOW INTO RURAL JAPAN <span className="st-caption-jp" lang="ja">日本の田舎暮らし</span></div>
       <button className="st-ambient st-js-control" onClick={toggle} aria-label={paused ? "Play landscape animation" : "Pause landscape animation"} aria-pressed={paused}><PauseIcon paused={paused} /><span>{paused ? "Still for a moment" : "A living landscape"}</span></button>
     </main>

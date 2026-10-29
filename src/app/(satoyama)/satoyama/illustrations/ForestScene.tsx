@@ -1,4 +1,4 @@
-import { Blades, Flowers, Glow, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, seeded } from "./Painted";
+import { Blades, Flowers, Glow, Ridge, SceneSvg, Sky, seeded } from "./Painted";
 
 const f = (value: number) => Math.round(value * 10) / 10;
 
@@ -23,22 +23,6 @@ export function ForestScene() {
   const r3 = "M0 880C300 790 640 760 940 784 1180 802 1420 840 1600 800V900H0Z";
 
   return <SceneSvg label="A painted bamboo grove in morning mist, with beams of sunlight falling across a mossy path.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <SketchPath d="M1050 0L670 700" depth="far" />
-      <SketchPath d="M1220 0L980 700" depth="far" />
-      <SketchPath d="M870 0L460 700" depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      {[90, 330, 590, 860, 1130, 1390, 1580].map((x, i) => (
-        <SketchPath key={x} d={`M${x} 720L${x + (i % 2 ? 30 : -24)} 40`} depth="mid" />
-      ))}
-      <RidgeSketch d={r2} depth="mid" />
-      {[40, 250, 470, 720, 990, 1210, 1450].map((x, i) => (
-        <SketchPath key={x} d={`M${x} 900L${x + (i % 2 ? 46 : -34)} 120`} depth="near" />
-      ))}
-      <RidgeSketch d={r3} depth="near" />
-      <SketchPath d="M520 900C600 836 700 800 840 790C960 782 1060 800 1100 830" depth="near" />
-      <SketchPath d="M700 900C700 876 720 856 840 856C940 840 1060 850 1100 830" depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-forest-sky)"], [.55, "var(--st-sky-mid)"], [1, "var(--st-sky-low)"]]} />

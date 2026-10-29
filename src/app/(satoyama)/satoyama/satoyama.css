@@ -73,9 +73,10 @@
 .st-header-note > svg:last-child { width: 17px; margin-left: 8px; transition: transform var(--dur-st-content) var(--ease-st-out); }
 .st-stage { position: relative; overflow: hidden; overflow: clip; border-radius: 4px; background: var(--st-sky); isolation: isolate; }
 .st-stage:focus { outline: none; }
-.st-chapter { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--st-sage) var(--st-paper); opacity: 0; visibility: hidden; content-visibility: hidden; pointer-events: none; transform: translateX(6%); transition: transform var(--dur-st-page) var(--ease-st-turn), opacity var(--dur-st-page) var(--ease-st-out), visibility var(--dur-st-page); background: var(--st-paper); }
-.st-chapter[data-state="active"] { visibility: visible; content-visibility: visible; pointer-events: auto; opacity: 1; transform: translateX(0); z-index: 2; }
-.st-chapter[data-state="past"] { transform: translateX(-6%); }
+.st-chapter { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--st-sage) var(--st-paper); opacity: 1; visibility: hidden; content-visibility: visible; pointer-events: none; transform: translateX(100%); transition: transform var(--dur-st-page) var(--ease-st-turn), visibility 0s var(--ease-st-turn) var(--dur-st-page); background: var(--st-paper); }
+.st-chapter[data-state="active"] { visibility: visible; content-visibility: visible; pointer-events: auto; opacity: 1; transform: translateX(0); z-index: 2; transition-delay: 0s; }
+.st-chapter[data-state="past"] { transform: translateX(-100%); }
+.st-chapter[data-state="future"] { transform: translateX(100%); }
 .st-scene { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 100%; }
 .st-scene, .st-activity-art {
   --st-sky-top: color-mix(in srgb, var(--st-blue) 78%, var(--st-paper));
@@ -296,12 +297,6 @@
   .st-activity:hover .st-activity-picture > svg { transform: scale(1.035); }
   .st-season-tabs button:hover { transform: translateY(-3px); }
 }
-
-@keyframes st-sketch-draw {
-  0% { stroke-dashoffset: 100; opacity: 0; }
-  8% { opacity: 0.95; }
-  100% { stroke-dashoffset: 0; opacity: 0.85; }
-}
 @keyframes st-wash-sky {
   0% {
     clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
@@ -387,38 +382,48 @@
   .st-fall { animation: st-fall 16s linear 1.6s infinite; }
   .st-fall-b { animation-duration: 22s; animation-delay: -6s; }
   .st-firefly { animation: st-firefly 5s ease-in-out 1.6s infinite; }
-  .st-beams { animation: st-beams 18s ease-in-out 1.6s infinite; }
-  .st-bamboo-sway { transform-origin: 50% 100%; animation: st-sway 18s ease-in-out 1.6s infinite; }
-  .st-birds { animation: st-birds-glide 9s ease-in-out 1.6s infinite; }
-  .st-motes { animation: st-motes 9s ease-in-out 1.6s infinite; }
-  .st-grasses { transform-origin: 50% 100%; animation: st-grass-sway 18s ease-in-out 1.6s infinite; }
+  .st-beams { animation: st-beams 18s ease-in-out 1.2s infinite; }
+  .st-bamboo-sway { transform-origin: 50% 100%; animation: st-sway 18s ease-in-out 1.2s infinite; }
+  .st-birds { animation: st-birds-glide 9s ease-in-out 1.2s infinite; }
+  .st-motes { animation: st-motes 9s ease-in-out 1.2s infinite; }
+  .st-grasses { transform-origin: 50% 100%; animation: st-grass-sway 18s ease-in-out 1.2s infinite; }
 
-  /* Sketch lines and color washes (2x speed) */
-  .st-sketch-path {
-    stroke: var(--st-ink);
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
-    stroke-dasharray: 100;
-    stroke-dashoffset: 100;
-    opacity: 0;
+  /* Only the first visit paints. Outgoing and revisited chapters stay complete. */
+  .st-paint-wash, .st-paint-layer { opacity: 1; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-layer[data-depth="sky"] {
+    animation: st-wash-sky .65s var(--ease-st-out) .04s both;
   }
-  .st-sketch-path[data-depth="far"] { stroke-width: 1.4px; }
-  .st-sketch-path[data-depth="mid"] { stroke-width: 1.8px; }
-  .st-sketch-path[data-depth="near"] { stroke-width: 2.2px; }
-
-  .st-paint-layer {
-    opacity: 0;
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-layer[data-depth="far"] {
+    animation: st-wash-brush-ltr .62s var(--ease-st-out) .22s both;
   }
-
-  .st-chapter:not([data-state="active"]) .st-sketch-path,
-  .st-chapter:not([data-state="active"]) .st-paint-wash,
-  .st-chapter:not([data-state="active"]) .st-paint-layer,
-  .st-season-layer:not([data-on="true"]) .st-sketch-path,
-  .st-season-layer:not([data-on="true"]) .st-paint-wash,
-  .st-season-layer:not([data-on="true"]) .st-paint-layer {
-    animation: none !important;
-    opacity: 0;
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-layer[data-depth="mid"] {
+    animation: st-wash-brush-rtl .62s var(--ease-st-out) .4s both;
+  }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-layer[data-depth="near"] {
+    animation: st-wash-brush-ltr .62s var(--ease-st-out) .58s both;
+  }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-wash:not(:has(.st-paint-layer)) {
+    animation: st-wash-in .85s var(--ease-st-out) .1s both;
+  }
+  /* The forest sits behind a masked heading area. Paint it after the 800ms
+     chapter slide, with enough time for the bamboo brushwork to be visible. */
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures > .st-scene .st-paint-layer[data-depth="sky"] { animation-delay: .84s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures > .st-scene .st-paint-layer[data-depth="far"] { animation-delay: 1.04s; animation-duration: 1s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures > .st-scene .st-paint-layer[data-depth="mid"] { animation-delay: 1.24s; animation-duration: 1s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures > .st-scene .st-paint-layer[data-depth="near"] { animation-delay: 1.44s; animation-duration: 1s; }
+  /* Activity cards enter at .95s; paint their illustrations while visible. */
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures .st-activity-art .st-paint-layer[data-depth="sky"] { animation-delay: 1s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures .st-activity-art .st-paint-layer[data-depth="far"] { animation-delay: 1.18s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures .st-activity-art .st-paint-layer[data-depth="mid"] { animation-delay: 1.36s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures .st-activity-art .st-paint-layer[data-depth="near"] { animation-delay: 1.54s; }
+  /* Hold the first frame until hydration has resolved the opening chapter. */
+  .st-book[data-ready="false"] .st-paint-layer,
+  .st-book[data-ready="false"] .st-paint-wash {
+    animation-play-state: paused;
+  }
+  .st-chapter .st-season-layer[data-on="false"] .st-paint-layer,
+  .st-chapter .st-season-layer[data-on="false"] .st-paint-wash {
+    animation: none;
   }
 
   .st-chapter:not([data-state="active"]) .st-hero-copy h1 > span,
@@ -435,69 +440,21 @@
   .st-chapter:not([data-state="active"]) .st-farewell-copy > p,
   .st-chapter:not([data-state="active"]) .st-farewell-note,
   .st-chapter:not([data-state="active"]) .st-goodbye-stamp,
-  .st-chapter:not([data-state="active"]) .st-season-panel,
+  .st-season-panel,
   .st-chapter:not([data-state="active"]) .st-journal-entry {
     animation: none !important;
   }
 
-  .st-chapter[data-state="active"] .st-sketch-path {
-    animation: st-sketch-draw 0.65s cubic-bezier(0.25, 1, 0.5, 1) both;
-  }
-  .st-chapter[data-state="active"] .st-sketch-path[data-depth="far"] { animation-delay: 0.02s; }
-  .st-chapter[data-state="active"] .st-sketch-path[data-depth="mid"] { animation-delay: 0.15s; }
-  .st-chapter[data-state="active"] .st-sketch-path[data-depth="near"] { animation-delay: 0.3s; }
-
-  /* Back-to-front layer-by-layer watercolor painting sequence (2x speed) */
-  .st-chapter[data-state="active"] .st-paint-layer[data-depth="sky"] {
-    animation: st-wash-sky 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
-  }
-  .st-chapter[data-state="active"] .st-paint-layer[data-depth="far"] {
-    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
-  }
-  .st-chapter[data-state="active"] .st-paint-layer[data-depth="mid"] {
-    animation: st-wash-brush-rtl 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
-  }
-  .st-chapter[data-state="active"] .st-paint-layer[data-depth="near"] {
-    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.98s both;
-  }
-
-  /* Fallback for unlayered wash */
-  .st-chapter[data-state="active"] .st-paint-wash:not(:has(.st-paint-layer)) {
-    opacity: 0;
-    animation: st-wash-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
-  }
-
-  /* Season tab changes replay sketch and watercolor painting layers (2x speed) */
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path {
-    animation: st-sketch-draw 0.65s cubic-bezier(0.25, 1, 0.5, 1) both;
-  }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="far"] { animation-delay: 0.02s; }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="mid"] { animation-delay: 0.15s; }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="near"] { animation-delay: 0.3s; }
-
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="sky"] {
-    animation: st-wash-sky 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
-  }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="far"] {
-    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
-  }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="mid"] {
-    animation: st-wash-brush-rtl 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
-  }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="near"] {
-    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.98s both;
-  }
-
   .st-season-layer[data-on="false"] .st-scene * { animation-play-state: paused; }
-  .st-chapter:not([data-state="active"]) .st-scene *, .st-book[data-paused="true"] .st-scene * { animation-play-state: paused; }
+  .st-chapter:not([data-state="active"]) .st-scene *, .st-book[data-paused="true"] :is(.st-scene, .st-activity-art) * { animation-play-state: paused; }
   .st-header { animation: st-copy-enter var(--dur-st-content) var(--ease-st-out) both; }
 
-  /* Text entrances choreograph after scenery is largely drawn */
+  /* Text entrances follow the chapter slide. */
   .st-chapter[data-state="active"] .st-hero-copy h1 > span,
   .st-chapter[data-state="active"] h2 {
-    animation: st-title-enter var(--dur-st-load) var(--ease-st-out) 1.2s both;
+    animation: st-title-enter var(--dur-st-load) var(--ease-st-out) 0.85s both;
   }
-  .st-hero-copy h1 > span:nth-child(2) { animation-delay: 1.28s !important; }
+  .st-hero-copy h1 > span:nth-child(2) { animation-delay: 0.93s !important; }
   .st-chapter[data-state="active"] .st-hero-copy > p,
   .st-chapter[data-state="active"] .st-primary,
   .st-chapter[data-state="active"] .st-essay > p,
@@ -511,18 +468,17 @@
   .st-chapter[data-state="active"] .st-farewell-note,
   .st-chapter[data-state="active"] .st-goodbye-stamp,
   .st-season-panel {
-    animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) 1.3s both;
+    animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) 0.95s both;
   }
-  .st-chapter[data-state="active"] .st-primary { animation-delay: 1.38s; }
+  .st-chapter[data-state="active"] .st-primary { animation-delay: 1.05s; }
   .st-chapter[data-state="active"] > .st-scene { animation: st-scene-enter var(--dur-st-load) var(--ease-st-out) both; }
   .st-chapter[data-state="active"] .st-journal-entry {
     animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) both;
-    animation-delay: calc(1.2s + var(--st-i) * 60ms);
+    animation-delay: calc(0.85s + var(--st-i) * 60ms);
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .st-body *, .st-body *::before, .st-body *::after { animation: none !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
-  .st-sketch-path { stroke-dashoffset: 0 !important; opacity: 0.85 !important; }
   .st-paint-wash, .st-paint-layer { opacity: 1 !important; filter: none !important; clip-path: none !important; }
   .st-book { height: auto !important; min-height: 0; overflow: visible; grid-template-rows: auto auto auto; }
   .st-header { min-height: 104px; background: var(--st-paper); }

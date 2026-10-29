@@ -1,4 +1,4 @@
-import { Birds, Blades, Cumulus, CumulusOutline, Farmhouse, FarmhouseSketch, Flowers, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, Stratus, TreeSketch } from "./Painted";
+import { Birds, Blades, Cumulus, Farmhouse, Flowers, Glow, PaintedTree, Ridge, SceneSvg, Sky, Stratus } from "./Painted";
 
 /* A slower rhythm: a warm afternoon along the village canal, laundry out, tea on the veranda. */
 export function VillageScene() {
@@ -7,21 +7,6 @@ export function VillageScene() {
   const r3 = "M0 880C300 850 700 862 1000 884V900H0Z";
 
   return <SceneSvg label="A painted afternoon in a village: tiled farmhouses beside a stone canal, laundry on a line, a persimmon tree and a vegetable garden.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={420} y={420} scale={1.1} depth="far" />
-      <CumulusOutline x={1330} y={400} scale={1.3} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="mid" />
-      <FarmhouseSketch x={520} y={640} scale={.55} depth="mid" />
-      <FarmhouseSketch x={1470} y={652} scale={.46} depth="mid" />
-      <FarmhouseSketch x={380} y={652} scale={.4} depth="mid" />
-      <SketchPath d="M0 700C260 676 520 690 800 706 1100 724 1360 706 1600 690" depth="mid" />
-      <SketchPath d="M0 784C300 754 700 774 1000 794 1250 810 1450 794 1600 778" depth="near" strokeWidth={2.4} />
-      <SketchPath d="M380 790c40-60 120-60 160-6" depth="near" strokeWidth={2.6} />
-      <SketchPath d="M610 700V610M760 706V614M610 620C660 646 710 646 760 622" depth="near" />
-      <TreeSketch x={1530} y={730} scale={1.2} depth="near" />
-      <RidgeSketch d={r3} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.45, "var(--st-sky-mid)"], [.62, "var(--st-sky-warm)"]]} />

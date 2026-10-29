@@ -1,4 +1,4 @@
-import { Birds, Blades, Cumulus, CumulusOutline, Farmhouse, FarmhouseSketch, Flowers, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, Stratus, TreeSketch, seeded } from "./Painted";
+import { Birds, Blades, Cumulus, Farmhouse, Flowers, Glow, PaintedTree, Ridge, SceneSvg, Sky, Stratus, seeded } from "./Painted";
 
 const f = (value: number) => Math.round(value * 10) / 10;
 
@@ -29,20 +29,6 @@ export function SpringScene() {
   const r5 = "M0 800C300 770 700 780 1000 804 1260 824 1440 800 1600 780V900H0Z";
 
   return <SceneSvg className="st-scene-spring" label="A painted spring village: a cherry tree in full blossom, flooded paddies mirroring a pink-gold sky and yellow rapeseed along the lane.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={1020} y={470} scale={1.2} depth="far" />
-      <CumulusOutline x={360} y={500} scale={.85} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="far" />
-      <RidgeSketch d={r3} depth="mid" />
-      <RidgeSketch d={r4} depth="mid" />
-      <FarmhouseSketch x={690} y={664} scale={.52} depth="mid" />
-      <TreeSketch x={540} y={676} scale={.5} depth="mid" />
-      <TreeSketch x={900} y={668} scale={.55} depth="mid" />
-      <SketchPath d="M120 748h120M420 760h80M690 744h130M1000 758h100M1320 738h120" depth="near" />
-      <RidgeSketch d={r5} depth="near" />
-      <TreeSketch x={1290} y={870} scale={2.7} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.68, "var(--st-sky-low)"]]} />
@@ -83,21 +69,6 @@ export function SummerScene() {
   const r3 = "M0 842C300 806 520 812 760 840 1100 880 1360 850 1600 826V900H0Z";
 
   return <SceneSvg className="st-scene-summer" label="A painted summer day: towering clouds over a wide green rice field, a farmhouse on the far bank and sunflowers in the foreground.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={700} y={560} scale={2.1} depth="far" />
-      <CumulusOutline x={1250} y={520} scale={1.5} flip depth="far" />
-      <CumulusOutline x={140} y={540} scale={1.2} depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <FarmhouseSketch x={1180} y={622} scale={.4} depth="mid" />
-      <RidgeSketch d={r2} depth="mid" />
-      <SketchPath d="M800 642L800 900" depth="mid" />
-      <SketchPath d="M700 642L200 900" depth="mid" />
-      <SketchPath d="M900 642L1400 900" depth="mid" />
-      <SketchPath d="M750 642L500 900" depth="mid" />
-      <SketchPath d="M850 642L1100 900" depth="mid" />
-      <RidgeSketch d={r3} depth="near" />
-      <SketchPath d="M150 900L150 760M310 900L310 800M1370 900L1370 770M1500 900L1500 810" depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
@@ -142,21 +113,6 @@ export function AutumnScene() {
   const r4 = "M0 850C300 820 700 836 1000 858 1260 876 1440 850 1600 832V900H0Z";
 
   return <SceneSvg className="st-scene-autumn" label="A painted autumn harvest: golden paddies with rice drying on wooden racks, copper mountains, a maple in red and a mackerel sky.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={440} y={160} scale={.4} depth="far" />
-      <CumulusOutline x={940} y={170} scale={.42} depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="mid" />
-      <FarmhouseSketch x={1050} y={670} scale={.5} depth="mid" />
-      <RidgeSketch d={r3} depth="mid" />
-      {[[260, 770, 1], [520, 790, 1.1], [820, 800, 1.2]].map(([x, y, s]) => (
-        <g key={x} transform={`translate(${x} ${y}) scale(${s})`}>
-          <SketchPath d="M-86 0V-120M86 0V-120M-86-112H86M-86-82H86M-86-52H86" depth="near" />
-        </g>
-      ))}
-      <RidgeSketch d={r4} depth="near" />
-      <TreeSketch x={1360} y={880} scale={2.3} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.52, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
@@ -196,18 +152,6 @@ export function WinterScene() {
   const r4 = "M0 850C260 810 560 826 840 856 1120 886 1360 860 1600 836V900H0Z";
 
   return <SceneSvg className="st-scene-winter" label="A painted winter village: snow on the farmhouse roof, a warm glowing window, bare trees and snowy cedars under a pale lilac sky.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={1120} y={470} scale={1.1} depth="far" />
-      <CumulusOutline x={330} y={500} scale={.9} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="mid" />
-      <FarmhouseSketch x={900} y={700} scale={.72} depth="mid" />
-      <TreeSketch x={640} y={730} scale={1.1} kind="bare" depth="mid" />
-      <TreeSketch x={1280} y={740} scale={.9} kind="bare" depth="mid" />
-      <RidgeSketch d={r3} depth="near" />
-      <RidgeSketch d={r4} depth="near" />
-      <TreeSketch x={150} y={880} scale={2.1} kind="cedar" depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />

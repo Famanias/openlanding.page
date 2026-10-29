@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { Blades, Cumulus, CumulusOutline, Farmhouse, FarmhouseSketch, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, TreeSketch, seeded } from "./Painted";
+import { Blades, Cumulus, Farmhouse, Glow, PaintedTree, Ridge, SceneSvg, Sky, seeded } from "./Painted";
 
 const f = (value: number) => Math.round(value * 10) / 10;
 
@@ -21,23 +21,6 @@ export function TerraceScene() {
   const r3 = "M0 600C200 560 420 560 640 590 860 620 1040 560 1240 556 1400 554 1520 580 1600 590V900H0Z";
 
   return <SceneSvg label="A painted hillside of terraced rice paddies, mirroring the morning sky, below misty wooded mountains and a small cluster of farmhouses.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={1180} y={410} scale={1.15} depth="far" />
-      <CumulusOutline x={330} y={430} scale={.9} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="far" />
-      <RidgeSketch d={r3} depth="mid" />
-      <FarmhouseSketch x={780} y={632} scale={.5} depth="mid" />
-      <FarmhouseSketch x={670} y={644} scale={.36} depth="mid" />
-      <TreeSketch x={900} y={598} scale={.62} depth="mid" />
-      <TreeSketch x={1290} y={584} scale={.5} depth="mid" />
-      <SketchPath d="M-40 560C300 550 600 565 880 560S1400 565 1640 560" depth="mid" />
-      <SketchPath d="M-40 604C300 595 600 610 880 605S1400 610 1640 604" depth="mid" />
-      <SketchPath d="M-40 660C300 655 600 668 880 662S1400 665 1640 660" depth="near" />
-      <SketchPath d="M-40 726C300 720 600 735 880 728S1400 730 1640 726" depth="near" />
-      <SketchPath d="M-40 804C300 800 600 812 880 806S1400 810 1640 804" depth="near" />
-      <TreeSketch x={1500} y={900} scale={1.35} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />

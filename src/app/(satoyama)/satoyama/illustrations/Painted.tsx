@@ -1,5 +1,4 @@
 import { useId, type ReactNode } from "react";
-import { extractContour } from "../deck/logic";
 
 /* Painted-anime scene primitives: soft gradients, billowing clouds, clumped canopies and wind-leaning grass.
    All randomness is a seeded integer generator so server and client render identical markup. */
@@ -17,23 +16,6 @@ const clean = (id: string) => id.replace(/:/g, "");
 
 type Billow = readonly [number, number, number];
 const BILLOWS: readonly Billow[] = [[0, -8, 62], [78, -40, 90], [172, -30, 80], [246, -6, 56], [-62, 6, 42], [120, -2, 70]];
-
-export function SketchPath({ d, depth = "mid", className = "", strokeWidth }: { d: string; depth?: "far" | "mid" | "near"; className?: string; strokeWidth?: number }) {
-  return <path d={d} pathLength={100} className={`st-sketch-path ${className}`.trim()} data-depth={depth} strokeWidth={strokeWidth} />;
-}
-
-export function RidgeSketch({ d, depth = "mid" }: { d: string; depth?: "far" | "mid" | "near" }) {
-  const contour = extractContour(d);
-  return <path d={contour} pathLength={100} className="st-sketch-path" data-depth={depth} />;
-}
-
-export function CumulusOutline({ x, y, scale = 1, flip = false, depth = "far" }: { x: number; y: number; scale?: number; flip?: boolean; depth?: "far" | "mid" | "near" }) {
-  return <g transform={`translate(${x} ${y}) scale(${flip ? -scale : scale} ${scale})`} className="st-sketch-cumulus">
-    {BILLOWS.map(([cx, cy, r], i) => (
-      <circle key={i} cx={cx} cy={cy} r={r} pathLength={100} className="st-sketch-path" data-depth={depth} />
-    ))}
-  </g>;
-}
 
 export function Cumulus({ x, y, scale = 1, flip = false }: { x: number; y: number; scale?: number; flip?: boolean }) {
   const id = clean(useId());
@@ -115,30 +97,6 @@ export function PaintedTree({ x, y, scale = 1, kind = "round", dark = "var(--st-
   </g>;
 }
 
-export function TreeSketch({ x, y, scale = 1, kind = "round", depth = "mid" }: { x: number; y: number; scale?: number; kind?: "round" | "cedar" | "bare"; depth?: "far" | "mid" | "near" }) {
-  return <g transform={`translate(${x} ${y}) scale(${scale})`}>
-    {kind === "cedar" ? <>
-      <path d="M-4 0 -2-60h7L8 0Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-      <path d="M0-212-46-120l16-4-52 62 22-3-60 66h240L20-65l22 3-52-62 16 4Z" transform="scale(.62) translate(0 52)" pathLength={100} className="st-sketch-path" data-depth={depth} />
-    </> : kind === "bare" ? <>
-      <path d="M-5 0 -2-98h7L9 0Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-      <path d="M2-70-40-118M3-90 44-140M0-100-18-160M2-112 24-168M-26-134-52-156M34-150 62-160M-40-118-70-124" pathLength={100} className="st-sketch-path" data-depth={depth} />
-    </> : <>
-      <path d="m-6 0 3-98h8L10 0Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-      <path d="M2-62-30-98M3-80 34-114" pathLength={100} className="st-sketch-path" data-depth={depth} />
-      {CANOPY.map(([cx, cy, r], i) => <circle key={i} cx={cx} cy={cy} r={r} pathLength={100} className="st-sketch-path" data-depth={depth} />)}
-    </>}
-  </g>;
-}
-
-export function FarmhouseSketch({ x, y, scale = 1, depth = "mid" }: { x: number; y: number; scale?: number; depth?: "far" | "mid" | "near" }) {
-  return <g transform={`translate(${x} ${y}) scale(${scale})`}>
-    <path d="M-106-58-60-136H62L108-58Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-    <path d="M-76-62H80V0H-76Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-    <path d="M-76-30H80M-24-62V0M-66-52H-34V-6H-66ZM-16-52H12V-6H-16ZM34-52H70V-6H34Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-  </g>;
-}
-
 export function Farmhouse({ x, y, scale = 1, glow = false, roof = "var(--st-roof)", roofLit = "var(--st-roofshade)" }: { x: number; y: number; scale?: number; glow?: boolean; roof?: string; roofLit?: string }) {
   return <g transform={`translate(${x} ${y}) scale(${scale})`}>
     <ellipse cx="6" cy="6" rx="124" ry="9" fill="var(--st-ink)" opacity=".16" />
@@ -167,7 +125,9 @@ export function Firefly({ x, y, r = 4, delay = 0 }: { x: number; y: number; r?: 
 }
 
 export function SceneSvg({ label, className = "", children }: { label: string; className?: string; children: ReactNode }) {
-  return <svg className={`st-scene ${className}`.trim()} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" fill="none" role="img" aria-label={label}>{children}</svg>;
+  return <svg className={`st-scene ${className}`.trim()} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" fill="none" role="img" aria-label={label}>
+    <g className="st-paint-timelapse">{children}</g>
+  </svg>;
 }
 
 export function Sky({ stops, height = 900 }: { stops: readonly (readonly [number, string])[]; height?: number }) {

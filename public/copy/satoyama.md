@@ -132,9 +132,10 @@ export default function SatoyamaPage() {
 .st-header-note > svg:last-child { width: 17px; margin-left: 8px; transition: transform var(--dur-st-content) var(--ease-st-out); }
 .st-stage { position: relative; overflow: hidden; overflow: clip; border-radius: 4px; background: var(--st-sky); isolation: isolate; }
 .st-stage:focus { outline: none; }
-.st-chapter { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--st-sage) var(--st-paper); opacity: 0; visibility: hidden; content-visibility: hidden; pointer-events: none; transform: translateX(6%); transition: transform var(--dur-st-page) var(--ease-st-turn), opacity var(--dur-st-page) var(--ease-st-out), visibility var(--dur-st-page); background: var(--st-paper); }
-.st-chapter[data-state="active"] { visibility: visible; content-visibility: visible; pointer-events: auto; opacity: 1; transform: translateX(0); z-index: 2; }
-.st-chapter[data-state="past"] { transform: translateX(-6%); }
+.st-chapter { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--st-sage) var(--st-paper); opacity: 1; visibility: hidden; content-visibility: visible; pointer-events: none; transform: translateX(100%); transition: transform var(--dur-st-page) var(--ease-st-turn), visibility 0s var(--ease-st-turn) var(--dur-st-page); background: var(--st-paper); }
+.st-chapter[data-state="active"] { visibility: visible; content-visibility: visible; pointer-events: auto; opacity: 1; transform: translateX(0); z-index: 2; transition-delay: 0s; }
+.st-chapter[data-state="past"] { transform: translateX(-100%); }
+.st-chapter[data-state="future"] { transform: translateX(100%); }
 .st-scene { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 100%; }
 .st-scene, .st-activity-art {
   --st-sky-top: color-mix(in srgb, var(--st-blue) 78%, var(--st-paper));
@@ -355,12 +356,6 @@ export default function SatoyamaPage() {
   .st-activity:hover .st-activity-picture > svg { transform: scale(1.035); }
   .st-season-tabs button:hover { transform: translateY(-3px); }
 }
-
-@keyframes st-sketch-draw {
-  0% { stroke-dashoffset: 100; opacity: 0; }
-  8% { opacity: 0.95; }
-  100% { stroke-dashoffset: 0; opacity: 0.85; }
-}
 @keyframes st-wash-sky {
   0% {
     clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
@@ -426,6 +421,13 @@ export default function SatoyamaPage() {
   25% { opacity: 0.35; filter: blur(2px) saturate(0.9); }
   100% { opacity: 1; filter: blur(0px) saturate(1); }
 }
+/* Keep the complete scene during the 800ms slide, then let the brushwork
+   build colour over a faint underpainting rather than an empty paper panel. */
+@keyframes st-underpainting {
+  0%, 40% { opacity: 1; }
+  48%, 92% { opacity: .22; }
+  100% { opacity: 0; }
+}
 @keyframes st-cloud-drift { 0%, 100% { transform: translateX(-30px); } 50% { transform: translateX(56px); } }
 @keyframes st-mist-drift { 0%, 100% { transform: translateX(-36px); } 50% { transform: translateX(36px); } }
 @keyframes st-fall { 0% { opacity: 0; transform: translate(50px, -200px); } 14%, 86% { opacity: .95; } 100% { opacity: 0; transform: translate(-170px, 280px); } }
@@ -446,38 +448,56 @@ export default function SatoyamaPage() {
   .st-fall { animation: st-fall 16s linear 1.6s infinite; }
   .st-fall-b { animation-duration: 22s; animation-delay: -6s; }
   .st-firefly { animation: st-firefly 5s ease-in-out 1.6s infinite; }
-  .st-beams { animation: st-beams 18s ease-in-out 1.6s infinite; }
-  .st-bamboo-sway { transform-origin: 50% 100%; animation: st-sway 18s ease-in-out 1.6s infinite; }
-  .st-birds { animation: st-birds-glide 9s ease-in-out 1.6s infinite; }
-  .st-motes { animation: st-motes 9s ease-in-out 1.6s infinite; }
-  .st-grasses { transform-origin: 50% 100%; animation: st-grass-sway 18s ease-in-out 1.6s infinite; }
+  .st-beams { animation: st-beams 18s ease-in-out 1.2s infinite; }
+  .st-bamboo-sway { transform-origin: 50% 100%; animation: st-sway 18s ease-in-out 1.2s infinite; }
+  .st-birds { animation: st-birds-glide 9s ease-in-out 1.2s infinite; }
+  .st-motes { animation: st-motes 9s ease-in-out 1.2s infinite; }
+  .st-grasses { transform-origin: 50% 100%; animation: st-grass-sway 18s ease-in-out 1.2s infinite; }
 
-  /* Sketch lines and color washes (2x speed) */
-  .st-sketch-path {
-    stroke: var(--st-ink);
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
-    stroke-dasharray: 100;
-    stroke-dashoffset: 100;
-    opacity: 0;
+  /* Inactive/outgoing scenes stay completely painted. Active scenes replay
+     their washes only after the horizontal slide has brought them into view. */
+  .st-paint-wash, .st-paint-layer { opacity: 1; }
+  .st-chapter[data-state="active"] .st-paint-underpainting {
+    animation: st-underpainting 2s var(--ease-st-out) both;
   }
-  .st-sketch-path[data-depth="far"] { stroke-width: 1.4px; }
-  .st-sketch-path[data-depth="mid"] { stroke-width: 1.8px; }
-  .st-sketch-path[data-depth="near"] { stroke-width: 2.2px; }
-
-  .st-paint-layer {
-    opacity: 0;
+  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-layer[data-depth="sky"] {
+    animation: st-wash-sky .65s var(--ease-st-out) .84s both;
   }
-
-  .st-chapter:not([data-state="active"]) .st-sketch-path,
-  .st-chapter:not([data-state="active"]) .st-paint-wash,
-  .st-chapter:not([data-state="active"]) .st-paint-layer,
-  .st-season-layer:not([data-on="true"]) .st-sketch-path,
-  .st-season-layer:not([data-on="true"]) .st-paint-wash,
-  .st-season-layer:not([data-on="true"]) .st-paint-layer {
+  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-layer[data-depth="far"] {
+    animation: st-wash-brush-ltr .62s var(--ease-st-out) 1.02s both;
+  }
+  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-layer[data-depth="mid"] {
+    animation: st-wash-brush-rtl .62s var(--ease-st-out) 1.2s both;
+  }
+  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-layer[data-depth="near"] {
+    animation: st-wash-brush-ltr .62s var(--ease-st-out) 1.38s both;
+  }
+  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-wash:not(:has(.st-paint-layer)) {
+    animation: st-wash-in .85s var(--ease-st-out) .9s both;
+  }
+  .st-chapter .st-paint-underpainting * {
     animation: none !important;
+  }
+  .st-chapter .st-paint-underpainting .st-paint-wash,
+  .st-chapter .st-paint-underpainting .st-paint-layer {
+    opacity: 1;
+  }
+  /* A first visit begins with brushwork, never a preview of the finished scene.
+     Keep the completed underpainting only for outgoing panels and revisits. */
+  .st-chapter[data-first-visit="true"] .st-paint-underpainting {
+    animation: none;
     opacity: 0;
+  }
+  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-layer[data-depth="sky"] { animation-delay: .04s; }
+  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-layer[data-depth="far"] { animation-delay: .22s; }
+  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-layer[data-depth="mid"] { animation-delay: .4s; }
+  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-layer[data-depth="near"] { animation-delay: .58s; }
+  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-wash:not(:has(.st-paint-layer)) { animation-delay: .1s; }
+  /* Reset hidden seasons so their timelapse starts anew on every tab visit. */
+  .st-chapter .st-season-layer[data-on="false"] .st-paint-underpainting,
+  .st-chapter .st-season-layer[data-on="false"] .st-paint-timelapse .st-paint-layer,
+  .st-chapter .st-season-layer[data-on="false"] .st-paint-timelapse .st-paint-wash {
+    animation: none;
   }
 
   .st-chapter:not([data-state="active"]) .st-hero-copy h1 > span,
@@ -494,69 +514,21 @@ export default function SatoyamaPage() {
   .st-chapter:not([data-state="active"]) .st-farewell-copy > p,
   .st-chapter:not([data-state="active"]) .st-farewell-note,
   .st-chapter:not([data-state="active"]) .st-goodbye-stamp,
-  .st-chapter:not([data-state="active"]) .st-season-panel,
+  .st-season-panel,
   .st-chapter:not([data-state="active"]) .st-journal-entry {
     animation: none !important;
-  }
-
-  .st-chapter[data-state="active"] .st-sketch-path {
-    animation: st-sketch-draw 0.65s cubic-bezier(0.25, 1, 0.5, 1) both;
-  }
-  .st-chapter[data-state="active"] .st-sketch-path[data-depth="far"] { animation-delay: 0.02s; }
-  .st-chapter[data-state="active"] .st-sketch-path[data-depth="mid"] { animation-delay: 0.15s; }
-  .st-chapter[data-state="active"] .st-sketch-path[data-depth="near"] { animation-delay: 0.3s; }
-
-  /* Back-to-front layer-by-layer watercolor painting sequence (2x speed) */
-  .st-chapter[data-state="active"] .st-paint-layer[data-depth="sky"] {
-    animation: st-wash-sky 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
-  }
-  .st-chapter[data-state="active"] .st-paint-layer[data-depth="far"] {
-    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
-  }
-  .st-chapter[data-state="active"] .st-paint-layer[data-depth="mid"] {
-    animation: st-wash-brush-rtl 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
-  }
-  .st-chapter[data-state="active"] .st-paint-layer[data-depth="near"] {
-    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.98s both;
-  }
-
-  /* Fallback for unlayered wash */
-  .st-chapter[data-state="active"] .st-paint-wash:not(:has(.st-paint-layer)) {
-    opacity: 0;
-    animation: st-wash-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
-  }
-
-  /* Season tab changes replay sketch and watercolor painting layers (2x speed) */
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path {
-    animation: st-sketch-draw 0.65s cubic-bezier(0.25, 1, 0.5, 1) both;
-  }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="far"] { animation-delay: 0.02s; }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="mid"] { animation-delay: 0.15s; }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-sketch-path[data-depth="near"] { animation-delay: 0.3s; }
-
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="sky"] {
-    animation: st-wash-sky 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
-  }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="far"] {
-    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
-  }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="mid"] {
-    animation: st-wash-brush-rtl 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
-  }
-  .st-chapter[data-state="active"] .st-season-layer[data-on="true"] .st-paint-layer[data-depth="near"] {
-    animation: st-wash-brush-ltr 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.98s both;
   }
 
   .st-season-layer[data-on="false"] .st-scene * { animation-play-state: paused; }
   .st-chapter:not([data-state="active"]) .st-scene *, .st-book[data-paused="true"] .st-scene * { animation-play-state: paused; }
   .st-header { animation: st-copy-enter var(--dur-st-content) var(--ease-st-out) both; }
 
-  /* Text entrances choreograph after scenery is largely drawn */
+  /* Text entrances follow the chapter slide. */
   .st-chapter[data-state="active"] .st-hero-copy h1 > span,
   .st-chapter[data-state="active"] h2 {
-    animation: st-title-enter var(--dur-st-load) var(--ease-st-out) 1.2s both;
+    animation: st-title-enter var(--dur-st-load) var(--ease-st-out) 0.85s both;
   }
-  .st-hero-copy h1 > span:nth-child(2) { animation-delay: 1.28s !important; }
+  .st-hero-copy h1 > span:nth-child(2) { animation-delay: 0.93s !important; }
   .st-chapter[data-state="active"] .st-hero-copy > p,
   .st-chapter[data-state="active"] .st-primary,
   .st-chapter[data-state="active"] .st-essay > p,
@@ -570,18 +542,17 @@ export default function SatoyamaPage() {
   .st-chapter[data-state="active"] .st-farewell-note,
   .st-chapter[data-state="active"] .st-goodbye-stamp,
   .st-season-panel {
-    animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) 1.3s both;
+    animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) 0.95s both;
   }
-  .st-chapter[data-state="active"] .st-primary { animation-delay: 1.38s; }
+  .st-chapter[data-state="active"] .st-primary { animation-delay: 1.05s; }
   .st-chapter[data-state="active"] > .st-scene { animation: st-scene-enter var(--dur-st-load) var(--ease-st-out) both; }
   .st-chapter[data-state="active"] .st-journal-entry {
     animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) both;
-    animation-delay: calc(1.2s + var(--st-i) * 60ms);
+    animation-delay: calc(0.85s + var(--st-i) * 60ms);
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .st-body *, .st-body *::before, .st-body *::after { animation: none !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
-  .st-sketch-path { stroke-dashoffset: 0 !important; opacity: 0.85 !important; }
   .st-paint-wash, .st-paint-layer { opacity: 1 !important; filter: none !important; clip-path: none !important; }
   .st-book { height: auto !important; min-height: 0; overflow: visible; grid-template-rows: auto auto auto; }
   .st-header { min-height: 104px; background: var(--st-paper); }
@@ -915,6 +886,9 @@ import { chapterIndex, moveChapter, wheelDirection } from "./logic";
 export function PictureBook({ pages }: { pages: ReactNode[] }) {
   const [active, setActive] = useState(0);
   const [ready, setReady] = useState(false);
+  const [firstVisit, setFirstVisit] = useState(true);
+  const visited = useRef(new Set<number>());
+  const currentIndex = useRef<number | null>(null);
   const { paused, stopped, toggle } = useAmbient();
   const reduced = useReducedMotion();
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -922,24 +896,32 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
   const navRef = useRef<HTMLElement>(null);
   const chapter = CHAPTERS[active];
 
+  const activate = useCallback((index: number) => {
+    if (currentIndex.current === index) return;
+    currentIndex.current = index;
+    setFirstVisit(!visited.current.has(index));
+    visited.current.add(index);
+    setActive(index);
+  }, []);
+
   const go = useCallback((index: number) => {
     const next = moveChapter(index, 0, CHAPTERS.length);
-    setActive(next);
+    activate(next);
     if (window.location.hash !== `#${CHAPTERS[next].id}`) window.history.pushState(null, "", `#${CHAPTERS[next].id}`);
     if (reduced) document.getElementById(CHAPTERS[next].id)?.scrollIntoView({ behavior: "instant" });
-  }, [reduced]);
+  }, [activate, reduced]);
 
   useEffect(() => {
-    const sync = () => setActive(chapterIndex(window.location.hash));
+    const sync = () => activate(chapterIndex(window.location.hash));
     const frame = requestAnimationFrame(() => { sync(); setReady(true); });
     window.addEventListener("hashchange", sync);
     window.addEventListener("popstate", sync);
     return () => { cancelAnimationFrame(frame); window.removeEventListener("hashchange", sync); window.removeEventListener("popstate", sync); };
-  }, []);
+  }, [activate]);
 
   useEffect(() => {
     const keydown = (event: KeyboardEvent) => {
-      if (event.altKey || event.ctrlKey || event.metaKey || (event.target instanceof Element && event.target.closest("button,a,input,select,textarea,[contenteditable=true],[role=tablist]"))) return;
+      if (event.altKey || event.ctrlKey || event.metaKey || (event.target instanceof Element && event.target.closest("button,a,input,select,textarea,[contenteditable=true],[role=tablist],.st-carousel"))) return;
       const next = event.key === "ArrowRight" || event.key === "PageDown" ? active + 1 : event.key === "ArrowLeft" || event.key === "PageUp" ? active - 1 : event.key === "Home" ? 0 : event.key === "End" ? CHAPTERS.length - 1 : null;
       if (next !== null) { event.preventDefault(); go(next); }
     };
@@ -996,11 +978,11 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
     if (!reduced) return;
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setActive(chapterIndex(visible.target.id));
+      if (visible) activate(chapterIndex(visible.target.id));
     }, { threshold: .5 });
     document.querySelectorAll('.st-chapter').forEach(element => observer.observe(element));
     return () => observer.disconnect();
-  }, [reduced]);
+  }, [activate, reduced]);
 
   return <div className="st-book" data-ready={ready} data-paused={stopped} style={{ "--st-active": active } as CSSProperties}>
     <a className="st-skip" href="#st-reading">Skip to the chapter</a>
@@ -1014,7 +996,7 @@ export function PictureBook({ pages }: { pages: ReactNode[] }) {
     <main id="st-reading" className="st-stage" tabIndex={-1}
       onTouchStart={(event) => { if (!(event.target instanceof Element) || event.target.closest(".st-carousel,[role=tablist]")) return; touchStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY }; }}
       onTouchEnd={(event) => { const start = touchStart.current; touchStart.current = null; if (!start) return; const dx = event.changedTouches[0].clientX - start.x; const dy = event.changedTouches[0].clientY - start.y; if (Math.abs(dx) > 75 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1)); }}>
-      {CHAPTERS.map((item, index) => <section key={item.id} className="st-chapter" id={item.id} data-state={active === index ? "active" : index < active ? "past" : "future"} aria-label={`${index + 1} of ${CHAPTERS.length}: ${item.label}`} aria-roledescription="slide" inert={ready && !reduced && active !== index ? true : undefined}>{pages[index]}</section>)}
+      {CHAPTERS.map((item, index) => <section key={item.id} className="st-chapter" id={item.id} data-state={active === index ? "active" : index < active ? "past" : "future"} data-first-visit={active === index && firstVisit} aria-label={`${index + 1} of ${CHAPTERS.length}: ${item.label}`} aria-roledescription="slide" inert={ready && !reduced && active !== index ? true : undefined}>{pages[index]}</section>)}
       <div className="st-scene-caption"><span className="st-caption-dot" /> A SMALL WINDOW INTO RURAL JAPAN <span className="st-caption-jp" lang="ja">日本の田舎暮らし</span></div>
       <button className="st-ambient st-js-control" onClick={toggle} aria-label={paused ? "Play landscape animation" : "Pause landscape animation"} aria-pressed={paused}><PauseIcon paused={paused} /><span>{paused ? "Still for a moment" : "A living landscape"}</span></button>
     </main>
@@ -1064,7 +1046,7 @@ export function ActivityArt({ scene }: { scene: string }) {
 ]]>
     </file>
     <file path="src/app/(satoyama)/satoyama/illustrations/DuskScene.tsx">
-<![CDATA[import { Blades, Cumulus, CumulusOutline, Firefly, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, Stratus, TreeSketch } from "./Painted";
+<![CDATA[import { Blades, Cumulus, Firefly, Glow, PaintedTree, Ridge, SceneSvg, Sky, Stratus } from "./Painted";
 
 /* Until next time: the sun going down behind the ridge, paddies holding the last light, lanterns coming on. */
 export function DuskScene() {
@@ -1073,24 +1055,6 @@ export function DuskScene() {
   const r3 = "M0 860C300 830 700 846 1000 868 1260 886 1440 860 1600 842V900H0Z";
 
   return <SceneSvg className="st-scene-dusk" label="A painted dusk: the sun sinking behind layered ridges, rose-lit clouds, paddies holding the last gold light and paper lanterns glowing along the lane.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <circle cx="1110" cy="516" r="70" pathLength={100} className="st-sketch-path" data-depth="far" />
-      <CumulusOutline x={330} y={520} scale={1.15} depth="far" />
-      <CumulusOutline x={1500} y={540} scale={1.2} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="mid" />
-      {[[706, 40], [770, 56], [846, 66], [940, 78]].map(([top]) => (
-        <SketchPath key={top} d={`M-40 ${top}C300 ${top - 8} 800 ${top + 6} 1640 ${top - 4}`} depth="mid" />
-      ))}
-      <SketchPath d="M760 724h90M700 760h210M650 806h300M610 860h380" depth="mid" />
-      <RidgeSketch d={r3} depth="near" />
-      <SketchPath d="M1230 806V690M1370 800V700M1230 704C1280 724 1330 724 1370 708" depth="near" />
-      {[1262, 1300, 1338].map((x, i) => (
-        <ellipse key={x} cx={x} cy={724 + (i % 2) * 6} rx="9" ry="12" pathLength={100} className="st-sketch-path" data-depth="near" />
-      ))}
-      <TreeSketch x={1500} y={900} scale={1.9} depth="near" />
-      <TreeSketch x={60} y={900} scale={2.3} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.42, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
@@ -1132,7 +1096,7 @@ export function DuskScene() {
 ]]>
     </file>
     <file path="src/app/(satoyama)/satoyama/illustrations/ForestScene.tsx">
-<![CDATA[import { Blades, Flowers, Glow, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, seeded } from "./Painted";
+<![CDATA[import { Blades, Flowers, Glow, Ridge, SceneSvg, Sky, seeded } from "./Painted";
 
 const f = (value: number) => Math.round(value * 10) / 10;
 
@@ -1157,22 +1121,6 @@ export function ForestScene() {
   const r3 = "M0 880C300 790 640 760 940 784 1180 802 1420 840 1600 800V900H0Z";
 
   return <SceneSvg label="A painted bamboo grove in morning mist, with beams of sunlight falling across a mossy path.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <SketchPath d="M1050 0L670 700" depth="far" />
-      <SketchPath d="M1220 0L980 700" depth="far" />
-      <SketchPath d="M870 0L460 700" depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      {[90, 330, 590, 860, 1130, 1390, 1580].map((x, i) => (
-        <SketchPath key={x} d={`M${x} 720L${x + (i % 2 ? 30 : -24)} 40`} depth="mid" />
-      ))}
-      <RidgeSketch d={r2} depth="mid" />
-      {[40, 250, 470, 720, 990, 1210, 1450].map((x, i) => (
-        <SketchPath key={x} d={`M${x} 900L${x + (i % 2 ? 46 : -34)} 120`} depth="near" />
-      ))}
-      <RidgeSketch d={r3} depth="near" />
-      <SketchPath d="M520 900C600 836 700 800 840 790C960 782 1060 800 1100 830" depth="near" />
-      <SketchPath d="M700 900C700 876 720 856 840 856C940 840 1060 850 1100 830" depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-forest-sky)"], [.55, "var(--st-sky-mid)"], [1, "var(--st-sky-low)"]]} />
@@ -1209,7 +1157,7 @@ export function ForestScene() {
 ]]>
     </file>
     <file path="src/app/(satoyama)/satoyama/illustrations/MeadowScene.tsx">
-<![CDATA[import { Birds, Blades, Cumulus, CumulusOutline, Farmhouse, FarmhouseSketch, Flowers, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, Stratus, TreeSketch } from "./Painted";
+<![CDATA[import { Birds, Blades, Cumulus, Farmhouse, Flowers, Glow, PaintedTree, Ridge, SceneSvg, Sky, Stratus } from "./Painted";
 
 /* Welcome: a high-summer meadow under towering clouds, with a great tree on the hill and a path home. */
 export function MeadowScene() {
@@ -1221,21 +1169,6 @@ export function MeadowScene() {
   const r6 = "M0 836C260 780 640 800 960 840 1220 870 1440 830 1600 800V900H0Z";
 
   return <SceneSvg label="A painted summer meadow under towering clouds, with a farmhouse, a winding path and a great tree on the hill.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={760} y={540} scale={1.7} depth="far" />
-      <CumulusOutline x={1230} y={500} scale={1.25} depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="far" />
-      <RidgeSketch d={r3} depth="mid" />
-      <RidgeSketch d={r4} depth="mid" />
-      <TreeSketch x={1090} y={640} scale={1.5} depth="near" />
-      <TreeSketch x={1330} y={662} scale={.62} depth="mid" />
-      <RidgeSketch d={r5} depth="near" />
-      <FarmhouseSketch x={330} y={716} scale={.6} depth="near" />
-      <TreeSketch x={186} y={724} scale={.5} depth="near" />
-      <SketchPath d="M700 900C740 836 640 812 560 786 480 760 440 736 410 718" depth="near" />
-      <RidgeSketch d={r6} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.55, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
@@ -1284,7 +1217,7 @@ export function MeadowScene() {
     </file>
     <file path="src/app/(satoyama)/satoyama/illustrations/Painted.tsx">
 <![CDATA[import { useId, type ReactNode } from "react";
-import { extractContour } from "../deck/logic";
+import { ScenePaint } from "./ScenePaint";
 
 /* Painted-anime scene primitives: soft gradients, billowing clouds, clumped canopies and wind-leaning grass.
    All randomness is a seeded integer generator so server and client render identical markup. */
@@ -1302,23 +1235,6 @@ const clean = (id: string) => id.replace(/:/g, "");
 
 type Billow = readonly [number, number, number];
 const BILLOWS: readonly Billow[] = [[0, -8, 62], [78, -40, 90], [172, -30, 80], [246, -6, 56], [-62, 6, 42], [120, -2, 70]];
-
-export function SketchPath({ d, depth = "mid", className = "", strokeWidth }: { d: string; depth?: "far" | "mid" | "near"; className?: string; strokeWidth?: number }) {
-  return <path d={d} pathLength={100} className={`st-sketch-path ${className}`.trim()} data-depth={depth} strokeWidth={strokeWidth} />;
-}
-
-export function RidgeSketch({ d, depth = "mid" }: { d: string; depth?: "far" | "mid" | "near" }) {
-  const contour = extractContour(d);
-  return <path d={contour} pathLength={100} className="st-sketch-path" data-depth={depth} />;
-}
-
-export function CumulusOutline({ x, y, scale = 1, flip = false, depth = "far" }: { x: number; y: number; scale?: number; flip?: boolean; depth?: "far" | "mid" | "near" }) {
-  return <g transform={`translate(${x} ${y}) scale(${flip ? -scale : scale} ${scale})`} className="st-sketch-cumulus">
-    {BILLOWS.map(([cx, cy, r], i) => (
-      <circle key={i} cx={cx} cy={cy} r={r} pathLength={100} className="st-sketch-path" data-depth={depth} />
-    ))}
-  </g>;
-}
 
 export function Cumulus({ x, y, scale = 1, flip = false }: { x: number; y: number; scale?: number; flip?: boolean }) {
   const id = clean(useId());
@@ -1400,30 +1316,6 @@ export function PaintedTree({ x, y, scale = 1, kind = "round", dark = "var(--st-
   </g>;
 }
 
-export function TreeSketch({ x, y, scale = 1, kind = "round", depth = "mid" }: { x: number; y: number; scale?: number; kind?: "round" | "cedar" | "bare"; depth?: "far" | "mid" | "near" }) {
-  return <g transform={`translate(${x} ${y}) scale(${scale})`}>
-    {kind === "cedar" ? <>
-      <path d="M-4 0 -2-60h7L8 0Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-      <path d="M0-212-46-120l16-4-52 62 22-3-60 66h240L20-65l22 3-52-62 16 4Z" transform="scale(.62) translate(0 52)" pathLength={100} className="st-sketch-path" data-depth={depth} />
-    </> : kind === "bare" ? <>
-      <path d="M-5 0 -2-98h7L9 0Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-      <path d="M2-70-40-118M3-90 44-140M0-100-18-160M2-112 24-168M-26-134-52-156M34-150 62-160M-40-118-70-124" pathLength={100} className="st-sketch-path" data-depth={depth} />
-    </> : <>
-      <path d="m-6 0 3-98h8L10 0Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-      <path d="M2-62-30-98M3-80 34-114" pathLength={100} className="st-sketch-path" data-depth={depth} />
-      {CANOPY.map(([cx, cy, r], i) => <circle key={i} cx={cx} cy={cy} r={r} pathLength={100} className="st-sketch-path" data-depth={depth} />)}
-    </>}
-  </g>;
-}
-
-export function FarmhouseSketch({ x, y, scale = 1, depth = "mid" }: { x: number; y: number; scale?: number; depth?: "far" | "mid" | "near" }) {
-  return <g transform={`translate(${x} ${y}) scale(${scale})`}>
-    <path d="M-106-58-60-136H62L108-58Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-    <path d="M-76-62H80V0H-76Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-    <path d="M-76-30H80M-24-62V0M-66-52H-34V-6H-66ZM-16-52H12V-6H-16ZM34-52H70V-6H34Z" pathLength={100} className="st-sketch-path" data-depth={depth} />
-  </g>;
-}
-
 export function Farmhouse({ x, y, scale = 1, glow = false, roof = "var(--st-roof)", roofLit = "var(--st-roofshade)" }: { x: number; y: number; scale?: number; glow?: boolean; roof?: string; roofLit?: string }) {
   return <g transform={`translate(${x} ${y}) scale(${scale})`}>
     <ellipse cx="6" cy="6" rx="124" ry="9" fill="var(--st-ink)" opacity=".16" />
@@ -1452,7 +1344,9 @@ export function Firefly({ x, y, r = 4, delay = 0 }: { x: number; y: number; r?: 
 }
 
 export function SceneSvg({ label, className = "", children }: { label: string; className?: string; children: ReactNode }) {
-  return <svg className={`st-scene ${className}`.trim()} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" fill="none" role="img" aria-label={label}>{children}</svg>;
+  return <svg className={`st-scene ${className}`.trim()} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" fill="none" role="img" aria-label={label}>
+    <ScenePaint>{children}</ScenePaint>
+  </svg>;
 }
 
 export function Sky({ stops, height = 900 }: { stops: readonly (readonly [number, string])[]; height?: number }) {
@@ -1509,8 +1403,38 @@ export function Bicycle({ x, y, scale = 1 }: { x: number; y: number; scale?: num
 }
 ]]>
     </file>
+    <file path="src/app/(satoyama)/satoyama/illustrations/ScenePaint.tsx">
+<![CDATA["use client";
+
+import { Children, cloneElement, isValidElement, type ReactNode } from "react";
+
+// Server-rendered scene children arrive here as SVG elements. Give the static
+// copy its own definition IDs so gradients and clipping stay local to each copy.
+function underpainting(children: ReactNode): ReactNode {
+  return Children.map(children, child => {
+    if (!isValidElement<Record<string, unknown> & { children?: ReactNode }>(child)) return child;
+    const props: Record<string, unknown> = {};
+    for (const [name, value] of Object.entries(child.props)) {
+      if (typeof value !== "string") continue;
+      if (name === "id") props[name] = `st-base-${value}`;
+      else if ((name === "href" || name === "xlinkHref") && value.startsWith("#")) props[name] = `#st-base-${value.slice(1)}`;
+      else if (value.includes("url(#")) props[name] = value.replace(/url\(#([^)]*)\)/g, "url(#st-base-$1)");
+    }
+    if (child.props.children !== undefined) props.children = underpainting(child.props.children);
+    return cloneElement(child, props);
+  });
+}
+
+export function ScenePaint({ children }: { children: ReactNode }) {
+  return <>
+    <g className="st-paint-underpainting" aria-hidden="true">{underpainting(children)}</g>
+    <g className="st-paint-timelapse">{children}</g>
+  </>;
+}
+]]>
+    </file>
     <file path="src/app/(satoyama)/satoyama/illustrations/SeasonScenes.tsx">
-<![CDATA[import { Birds, Blades, Cumulus, CumulusOutline, Farmhouse, FarmhouseSketch, Flowers, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, Stratus, TreeSketch, seeded } from "./Painted";
+<![CDATA[import { Birds, Blades, Cumulus, Farmhouse, Flowers, Glow, PaintedTree, Ridge, SceneSvg, Sky, Stratus, seeded } from "./Painted";
 
 const f = (value: number) => Math.round(value * 10) / 10;
 
@@ -1541,20 +1465,6 @@ export function SpringScene() {
   const r5 = "M0 800C300 770 700 780 1000 804 1260 824 1440 800 1600 780V900H0Z";
 
   return <SceneSvg className="st-scene-spring" label="A painted spring village: a cherry tree in full blossom, flooded paddies mirroring a pink-gold sky and yellow rapeseed along the lane.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={1020} y={470} scale={1.2} depth="far" />
-      <CumulusOutline x={360} y={500} scale={.85} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="far" />
-      <RidgeSketch d={r3} depth="mid" />
-      <RidgeSketch d={r4} depth="mid" />
-      <FarmhouseSketch x={690} y={664} scale={.52} depth="mid" />
-      <TreeSketch x={540} y={676} scale={.5} depth="mid" />
-      <TreeSketch x={900} y={668} scale={.55} depth="mid" />
-      <SketchPath d="M120 748h120M420 760h80M690 744h130M1000 758h100M1320 738h120" depth="near" />
-      <RidgeSketch d={r5} depth="near" />
-      <TreeSketch x={1290} y={870} scale={2.7} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.68, "var(--st-sky-low)"]]} />
@@ -1595,21 +1505,6 @@ export function SummerScene() {
   const r3 = "M0 842C300 806 520 812 760 840 1100 880 1360 850 1600 826V900H0Z";
 
   return <SceneSvg className="st-scene-summer" label="A painted summer day: towering clouds over a wide green rice field, a farmhouse on the far bank and sunflowers in the foreground.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={700} y={560} scale={2.1} depth="far" />
-      <CumulusOutline x={1250} y={520} scale={1.5} flip depth="far" />
-      <CumulusOutline x={140} y={540} scale={1.2} depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <FarmhouseSketch x={1180} y={622} scale={.4} depth="mid" />
-      <RidgeSketch d={r2} depth="mid" />
-      <SketchPath d="M800 642L800 900" depth="mid" />
-      <SketchPath d="M700 642L200 900" depth="mid" />
-      <SketchPath d="M900 642L1400 900" depth="mid" />
-      <SketchPath d="M750 642L500 900" depth="mid" />
-      <SketchPath d="M850 642L1100 900" depth="mid" />
-      <RidgeSketch d={r3} depth="near" />
-      <SketchPath d="M150 900L150 760M310 900L310 800M1370 900L1370 770M1500 900L1500 810" depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
@@ -1654,21 +1549,6 @@ export function AutumnScene() {
   const r4 = "M0 850C300 820 700 836 1000 858 1260 876 1440 850 1600 832V900H0Z";
 
   return <SceneSvg className="st-scene-autumn" label="A painted autumn harvest: golden paddies with rice drying on wooden racks, copper mountains, a maple in red and a mackerel sky.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={440} y={160} scale={.4} depth="far" />
-      <CumulusOutline x={940} y={170} scale={.42} depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="mid" />
-      <FarmhouseSketch x={1050} y={670} scale={.5} depth="mid" />
-      <RidgeSketch d={r3} depth="mid" />
-      {[[260, 770, 1], [520, 790, 1.1], [820, 800, 1.2]].map(([x, y, s]) => (
-        <g key={x} transform={`translate(${x} ${y}) scale(${s})`}>
-          <SketchPath d="M-86 0V-120M86 0V-120M-86-112H86M-86-82H86M-86-52H86" depth="near" />
-        </g>
-      ))}
-      <RidgeSketch d={r4} depth="near" />
-      <TreeSketch x={1360} y={880} scale={2.3} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.52, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
@@ -1708,18 +1588,6 @@ export function WinterScene() {
   const r4 = "M0 850C260 810 560 826 840 856 1120 886 1360 860 1600 836V900H0Z";
 
   return <SceneSvg className="st-scene-winter" label="A painted winter village: snow on the farmhouse roof, a warm glowing window, bare trees and snowy cedars under a pale lilac sky.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={1120} y={470} scale={1.1} depth="far" />
-      <CumulusOutline x={330} y={500} scale={.9} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="mid" />
-      <FarmhouseSketch x={900} y={700} scale={.72} depth="mid" />
-      <TreeSketch x={640} y={730} scale={1.1} kind="bare" depth="mid" />
-      <TreeSketch x={1280} y={740} scale={.9} kind="bare" depth="mid" />
-      <RidgeSketch d={r3} depth="near" />
-      <RidgeSketch d={r4} depth="near" />
-      <TreeSketch x={150} y={880} scale={2.1} kind="cedar" depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.7, "var(--st-sky-low)"]]} />
@@ -1754,7 +1622,7 @@ export function WinterScene() {
     </file>
     <file path="src/app/(satoyama)/satoyama/illustrations/TerraceScene.tsx">
 <![CDATA[import { useId } from "react";
-import { Blades, Cumulus, CumulusOutline, Farmhouse, FarmhouseSketch, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, TreeSketch, seeded } from "./Painted";
+import { Blades, Cumulus, Farmhouse, Glow, PaintedTree, Ridge, SceneSvg, Sky, seeded } from "./Painted";
 
 const f = (value: number) => Math.round(value * 10) / 10;
 
@@ -1776,23 +1644,6 @@ export function TerraceScene() {
   const r3 = "M0 600C200 560 420 560 640 590 860 620 1040 560 1240 556 1400 554 1520 580 1600 590V900H0Z";
 
   return <SceneSvg label="A painted hillside of terraced rice paddies, mirroring the morning sky, below misty wooded mountains and a small cluster of farmhouses.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={1180} y={410} scale={1.15} depth="far" />
-      <CumulusOutline x={330} y={430} scale={.9} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="far" />
-      <RidgeSketch d={r3} depth="mid" />
-      <FarmhouseSketch x={780} y={632} scale={.5} depth="mid" />
-      <FarmhouseSketch x={670} y={644} scale={.36} depth="mid" />
-      <TreeSketch x={900} y={598} scale={.62} depth="mid" />
-      <TreeSketch x={1290} y={584} scale={.5} depth="mid" />
-      <SketchPath d="M-40 560C300 550 600 565 880 560S1400 565 1640 560" depth="mid" />
-      <SketchPath d="M-40 604C300 595 600 610 880 605S1400 610 1640 604" depth="mid" />
-      <SketchPath d="M-40 660C300 655 600 668 880 662S1400 665 1640 660" depth="near" />
-      <SketchPath d="M-40 726C300 720 600 735 880 728S1400 730 1640 726" depth="near" />
-      <SketchPath d="M-40 804C300 800 600 812 880 806S1400 810 1640 804" depth="near" />
-      <TreeSketch x={1500} y={900} scale={1.35} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.5, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
@@ -1858,7 +1709,7 @@ export function TerraceScene() {
 ]]>
     </file>
     <file path="src/app/(satoyama)/satoyama/illustrations/VillageScene.tsx">
-<![CDATA[import { Birds, Blades, Cumulus, CumulusOutline, Farmhouse, FarmhouseSketch, Flowers, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, Stratus, TreeSketch } from "./Painted";
+<![CDATA[import { Birds, Blades, Cumulus, Farmhouse, Flowers, Glow, PaintedTree, Ridge, SceneSvg, Sky, Stratus } from "./Painted";
 
 /* A slower rhythm: a warm afternoon along the village canal, laundry out, tea on the veranda. */
 export function VillageScene() {
@@ -1867,21 +1718,6 @@ export function VillageScene() {
   const r3 = "M0 880C300 850 700 862 1000 884V900H0Z";
 
   return <SceneSvg label="A painted afternoon in a village: tiled farmhouses beside a stone canal, laundry on a line, a persimmon tree and a vegetable garden.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <CumulusOutline x={420} y={420} scale={1.1} depth="far" />
-      <CumulusOutline x={1330} y={400} scale={1.3} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="mid" />
-      <FarmhouseSketch x={520} y={640} scale={.55} depth="mid" />
-      <FarmhouseSketch x={1470} y={652} scale={.46} depth="mid" />
-      <FarmhouseSketch x={380} y={652} scale={.4} depth="mid" />
-      <SketchPath d="M0 700C260 676 520 690 800 706 1100 724 1360 706 1600 690" depth="mid" />
-      <SketchPath d="M0 784C300 754 700 774 1000 794 1250 810 1450 794 1600 778" depth="near" strokeWidth={2.4} />
-      <SketchPath d="M380 790c40-60 120-60 160-6" depth="near" strokeWidth={2.6} />
-      <SketchPath d="M610 700V610M760 706V614M610 620C660 646 710 646 760 622" depth="near" />
-      <TreeSketch x={1530} y={730} scale={1.2} depth="near" />
-      <RidgeSketch d={r3} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.45, "var(--st-sky-mid)"], [.62, "var(--st-sky-warm)"]]} />

@@ -55,3 +55,4 @@ open-*-session/
 .env*
 
 .claude
+.agents

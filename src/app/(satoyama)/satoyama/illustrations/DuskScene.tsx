@@ -1,4 +1,4 @@
-import { Blades, Cumulus, CumulusOutline, Firefly, Glow, PaintedTree, Ridge, RidgeSketch, SceneSvg, SketchPath, Sky, Stratus, TreeSketch } from "./Painted";
+import { Blades, Cumulus, Firefly, Glow, PaintedTree, Ridge, SceneSvg, Sky, Stratus } from "./Painted";
 
 /* Until next time: the sun going down behind the ridge, paddies holding the last light, lanterns coming on. */
 export function DuskScene() {
@@ -7,24 +7,6 @@ export function DuskScene() {
   const r3 = "M0 860C300 830 700 846 1000 868 1260 886 1440 860 1600 842V900H0Z";
 
   return <SceneSvg className="st-scene-dusk" label="A painted dusk: the sun sinking behind layered ridges, rose-lit clouds, paddies holding the last gold light and paper lanterns glowing along the lane.">
-    <g className="st-sketch-lines" aria-hidden="true">
-      <circle cx="1110" cy="516" r="70" pathLength={100} className="st-sketch-path" data-depth="far" />
-      <CumulusOutline x={330} y={520} scale={1.15} depth="far" />
-      <CumulusOutline x={1500} y={540} scale={1.2} flip depth="far" />
-      <RidgeSketch d={r1} depth="far" />
-      <RidgeSketch d={r2} depth="mid" />
-      {[[706, 40], [770, 56], [846, 66], [940, 78]].map(([top]) => (
-        <SketchPath key={top} d={`M-40 ${top}C300 ${top - 8} 800 ${top + 6} 1640 ${top - 4}`} depth="mid" />
-      ))}
-      <SketchPath d="M760 724h90M700 760h210M650 806h300M610 860h380" depth="mid" />
-      <RidgeSketch d={r3} depth="near" />
-      <SketchPath d="M1230 806V690M1370 800V700M1230 704C1280 724 1330 724 1370 708" depth="near" />
-      {[1262, 1300, 1338].map((x, i) => (
-        <ellipse key={x} cx={x} cy={724 + (i % 2) * 6} rx="9" ry="12" pathLength={100} className="st-sketch-path" data-depth="near" />
-      ))}
-      <TreeSketch x={1500} y={900} scale={1.9} depth="near" />
-      <TreeSketch x={60} y={900} scale={2.3} depth="near" />
-    </g>
     <g className="st-paint-wash">
       <g className="st-paint-layer" data-depth="sky">
         <Sky stops={[[0, "var(--st-sky-top)"], [.42, "var(--st-sky-mid)"], [.64, "var(--st-sky-low)"]]} />
