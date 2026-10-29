@@ -2353,6 +2353,35 @@ input[type="range"]:active::-webkit-slider-thumb {
 .am-sheet-parts {
   display: none;
 }
+@media (min-width: 901px) and (max-height: 840px) {
+  .am-tool-sheet {
+    top: calc(var(--am-header-h) + 8px);
+    padding: 16px 20px;
+  }
+  .am-tool-sheet > header {
+    padding-bottom: 8px;
+  }
+  .am-tool-sheet h3 {
+    font-size: 1.45rem;
+    margin: 10px 0 6px;
+  }
+  .am-tool-sheet p {
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+  .am-tool-sheet .am-inspector-detail {
+    padding-top: 8px;
+  }
+  .am-tool-sheet label {
+    margin-top: 10px;
+  }
+  .am-tool-sheet .am-inspector-actions {
+    margin: 8px 0;
+  }
+  .am-focus-stage {
+    margin: 8px 0;
+  }
+}
 .am-page:not([data-tool="none"]) .am-journey-nav {
   opacity: 0.35;
   pointer-events: none;
@@ -2402,6 +2431,8 @@ input[type="range"]:active::-webkit-slider-thumb {
   margin: 10px 0 14px;
 }
 .am-page[data-world-mode="cinematic"] .am-commission dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 12px 0 16px;
   padding-top: 12px;
   gap: 10px;
@@ -2492,10 +2523,10 @@ input[type="range"]:active::-webkit-slider-thumb {
     height: 18px;
   }
   .am-journey-nav {
-    left: 12px;
-    right: 12px;
-    padding: 6px 8px;
-    gap: 0 4px;
+    left: 8px;
+    right: 8px;
+    padding: 6px 4px;
+    gap: 0;
     display: grid;
     grid-template-columns: 44px minmax(0, 1fr) 44px;
     grid-template-rows: 16px 44px;
@@ -2516,13 +2547,22 @@ input[type="range"]:active::-webkit-slider-thumb {
   .am-jump-list {
     grid-column: 2;
     grid-row: 2;
+    display: flex;
     justify-content: center;
     gap: 0;
     min-width: 0;
+    width: 100%;
   }
   .am-jump-list button {
-    min-width: 36px;
-    padding: 0 4px;
+    flex: 1 1 0;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+  }
+  @media (max-width: 374px) {
+    .am-jump-list button {
+      min-width: 32px;
+    }
   }
   .am-journey-nav > button {
     grid-row: 2;
@@ -2593,6 +2633,9 @@ input[type="range"]:active::-webkit-slider-thumb {
   }
   .am-page[data-world-mode="cinematic"] .am-canopy h2 .am-line {
     display: inline;
+  }
+  .am-page[data-world-mode="cinematic"] .am-canopy h2 .am-line:first-child {
+    margin-right: 0.28em;
   }
   .am-page[data-world-mode="cinematic"] .am-canopy h2 .am-line > span {
     display: inline;
@@ -2688,6 +2731,11 @@ input[type="range"]:active::-webkit-slider-thumb {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0 6px;
+  }
+  @media (min-width: 601px) {
+    .am-sheet-parts .am-parts {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
   }
   .am-sheet-parts .am-parts button {
     min-height: 44px;
@@ -2852,17 +2900,67 @@ input[type="range"]:active::-webkit-slider-thumb {
     right: 16px;
   }
   .am-tool-sheet {
-    top: 76px;
+    top: 68px;
     bottom: var(--am-nav-clearance);
     left: auto;
     right: 16px;
     width: calc(50% - 28px);
+    padding: 12px;
+  }
+  .am-tool-sheet h3 {
+    font-size: 1.25rem;
+    margin: 6px 0;
+  }
+  .am-tool-sheet p {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+  .am-tool-sheet .am-inspector-runner {
+    margin-top: 8px;
+  }
+  .am-tool-sheet label {
+    margin-top: 6px;
+  }
+  .am-focus-stage {
+    margin: 6px 0;
   }
   .am-page[data-tool="making"] .am-tool-sheet {
     bottom: var(--am-nav-clearance);
   }
   .am-page[data-world-mode="cinematic"] .am-commission .am-chapter-copy {
-    max-height: calc(100svh - 76px - var(--am-nav-clearance));
+    max-height: calc(100svh - 68px - var(--am-nav-clearance));
+    padding: 10px 12px;
+  }
+  .am-page[data-world-mode="cinematic"] .am-commission h2 {
+    font-size: 1.35rem;
+    margin: 2px 0 4px;
+  }
+  .am-page[data-world-mode="cinematic"] .am-commission .am-chapter-copy > p {
+    font-size: 11px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .am-page[data-world-mode="cinematic"] .am-commission dl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 4px 0 6px;
+    padding-top: 4px;
+    gap: 6px;
+  }
+  .am-page[data-world-mode="cinematic"] .am-commission :is(dt, dd) {
+    font-size: 10px;
+    line-height: 1.2;
+  }
+  .am-page[data-world-mode="cinematic"] .am-commission .am-form {
+    gap: 6px 8px;
+  }
+  .am-page[data-world-mode="cinematic"] .am-commission .am-form label {
+    font-size: 9px;
+  }
+  .am-page[data-world-mode="cinematic"] .am-commission .am-form input,
+  .am-page[data-world-mode="cinematic"] .am-commission .am-form select,
+  .am-page[data-world-mode="cinematic"] .am-commission .am-form textarea {
+    font-size: 11px;
+    padding: 2px 0;
   }
 }
 @media (min-width: 768px) {
@@ -8856,7 +8954,7 @@ export function Canopy({
         <span className="am-kicker">04 / weather</span>
         <h2>
           <span className="am-line">
-            <span>Choose your</span>
+            <span>Choose your </span>
           </span>
           <em className="am-line">
             <span>canopy.</span>
