@@ -14,7 +14,7 @@ export function Canopy({
         <span className="am-kicker">04 / weather</span>
         <h2>
           <span className="am-line">
-            <span>Choose your</span>
+            <span>Choose your </span>
           </span>
           <em className="am-line">
             <span>canopy.</span>
