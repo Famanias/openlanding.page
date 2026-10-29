@@ -13,7 +13,7 @@ export const TEMPLATE_METADATA: Record<
   lowtide: { name: "LOWTIDE", dependencies: ["three", "gsap", "lenis", "troika-three-text", "tone"] },
   nightline: { name: "NIGHTLINE", dependencies: [] },
   cullet: { name: "Cullet", dependencies: ["three", "lenis"] },
-  amaoto: { name: "AMAOTO", dependencies: ["three"] },
+  amaoto: { name: "AMAOTO", dependencies: ["three", "gsap", "lenis"] },
   understudy: { name: "Understudy", dependencies: ["lenis"] },
   starlight: { name: "Starlight Lab", dependencies: ["three", "@phosphor-icons/react"] },
   firstday: { name: "FIRSTDAY", dependencies: ["lenis"] },
