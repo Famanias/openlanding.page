@@ -22,7 +22,7 @@ describe("vote route contracts", () => {
     expect(Object.keys(counts)).toHaveLength(44);
     expect(counts.loam).toEqual({ up: 0, down: 0 });
     expect(counts.orrery).toEqual({ up: 1, down: 0 });
-    expect(counts.morrow).toBeUndefined();
+    expect(counts.nonexistent).toBeUndefined();
   });
   it("restores only the requesting visitor's votes without public caching", async () => {
     const store = new MemoryVoteStore(); state.store = store;

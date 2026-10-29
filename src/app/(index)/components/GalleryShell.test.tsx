@@ -97,7 +97,7 @@ expect(html).toContain('href="/tally"');
     expect(html).toContain("Cullet");
     expect(html).toContain("LOAM");
 
-    // Archived templates are not rendered in the gallery
+    // Excluded / non-existent templates are not rendered in the gallery
     expect(html).not.toContain('href="/morrow"');
     expect(html).not.toContain('href="/sundial"');
     expect(html).not.toContain('href="/lucentra"');

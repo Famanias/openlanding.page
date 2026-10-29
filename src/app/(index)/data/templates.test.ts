@@ -22,9 +22,9 @@ describe("gallery template data", () => {
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
-    expect(ARCHIVED_TEMPLATES).toHaveLength(5);
+    expect(ARCHIVED_TEMPLATES).toHaveLength(0);
     const archivedSlugs = ARCHIVED_TEMPLATES.map((t) => t.slug);
-    expect(archivedSlugs).toEqual(["morrow", "sundial", "lucentra", "spaceedu", "starlight"]);
+    expect(archivedSlugs).toEqual([]);
     for (const slug of archivedSlugs) {
       expect(TEMPLATES.map((t) => t.slug)).not.toContain(slug);
     }
@@ -82,8 +82,6 @@ describe("gallery template data", () => {
         expect(t.model).toBe("GPT-6");
       } else if (t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
-      } else if (t.slug === "sundial") {
-        expect(t.model).toBe("MiMo v2.6 Flash Free");
       } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "loam" || t.slug === "tally") {
@@ -128,13 +126,6 @@ describe("gallery template data", () => {
     expect(verane?.category).toBe("scroll-showcase");
     expect(verane?.promptMarkdown).toContain('rebuild "MAISON VÉRANE"');
     expect(verane?.promptMarkdown).toContain("#2A1E22");
-  });
-
-  it("files SUNDIAL under Scroll Showcase with its rebuild prompt inlined", () => {
-    const sundial = ARCHIVED_TEMPLATES.find((t) => t.slug === "sundial");
-    expect(sundial?.category).toBe("scroll-showcase");
-    expect(sundial?.promptMarkdown).toContain('rebuild "SUNDIAL Coffee Roasters"');
-    expect(sundial?.promptMarkdown).toContain("#FF6B1A");
   });
 
   it("files Noctiluca under 3D & WebGPU with its rebuild prompt inlined", () => {

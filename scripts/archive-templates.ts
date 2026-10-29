@@ -3,7 +3,7 @@
  *
  * Usage:
  *   bun run archive <template name>, <template name>, ...
- *   bun run archive "starlight lab", spaceedu, lucentra
+ *   bun run archive "orrery", keytu, koji
  *   bun run archive --restore <template name>, ...
  *   bun run archive --help
  */
@@ -280,13 +280,13 @@ Template Archiving CLI
 
 Usage:
   bun run archive <template name>, <template name>, ...
-  bun run archive "starlight lab", spaceedu, lucentra
+  bun run archive "orrery", keytu, koji
   bun run archive --restore <template name>, ...
   bun run archive --help
 
 Examples:
-  bun run archive starlight lab, spaceedu, lucentra, morrow, sundial
-  bun run archive --restore morrow
+  bun run archive orrery, keytu, koji
+  bun run archive --restore orrery
 `);
     return;
   }

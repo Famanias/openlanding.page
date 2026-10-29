@@ -15,7 +15,6 @@ const COPY_METADATA: Record<
   cullet: { name: "Cullet", dependencies: ["three", "lenis"] },
   amaoto: { name: "AMAOTO", dependencies: ["three", "gsap", "lenis"] },
   understudy: { name: "Understudy", dependencies: ["lenis"] },
-  starlight: { name: "Starlight Lab", dependencies: ["three", "@phosphor-icons/react"] },
   firstday: { name: "FIRSTDAY", dependencies: ["lenis"] },
   flori: { name: "Flori", dependencies: ["lenis"] },
   pipkin: { name: "Pipkin", dependencies: ["lenis"] },
@@ -50,10 +49,6 @@ const COPY_METADATA: Record<
     name: "VECTOR/90",
     dependencies: ["three"],
   },
-  morrow: {
-    name: "MORROW",
-    dependencies: [],
-  },
   loophouse: {
     name: "LOOPHOUSE",
     dependencies: [],
@@ -64,10 +59,6 @@ const COPY_METADATA: Record<
   },
   verane: {
     name: "Maison Vérane",
-    dependencies: [],
-  },
-  sundial: {
-    name: "SUNDIAL Coffee Roasters",
     dependencies: [],
   },
   noctiluca: {
@@ -122,10 +113,6 @@ const COPY_METADATA: Record<
     name: "Alpine Reel",
     dependencies: [],
   },
-  spaceedu: {
-    name: "SpaceEdu",
-    dependencies: [],
-  },
   rill: {
     name: "RILL",
     dependencies: [],
@@ -154,10 +141,6 @@ tally: {
   nulo: {
     name: "NULO",
     dependencies: ["lenis"],
-  },
-  lucentra: {
-    name: "LUCENTRA",
-    dependencies: [],
   },
   assemblage: {
     name: "Assemblage",

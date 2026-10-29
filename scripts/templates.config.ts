@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage" | "firstday" | "starlight" | "lowtide" | "loam";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -46,14 +46,6 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
   // house (paper), white (windows, glass), ink (text, the dark house), night (raised dark surfaces), graphite (muted text),
   // cue (the one accent: the wave, the count, focus), cue light (the accent on the dark house), tape (rare: spike marks, the ghost light)
   understudy: { palette: ["#F4F4F1", "#FFFFFF", "#0D0D10", "#1A1A1F", "#66666E", "#5B3CF0", "#AE9CFF", "#FFC547"] },
-  starlight: {
-    palette: ["#090B12", "#111522", "#F7F8FC", "#9EA7BC", "#2A3245", "#7DF2D1", "#FF9275"],
-    paletteExempt: [
-      "src/app/(starlight)/starlight/space/JourneyCanvas.tsx",
-      "src/app/(starlight)/starlight/space/SpaceCanvas.tsx",
-      "src/app/(starlight)/starlight/space/planetSurface.ts",
-    ],
-  },
   firstday: { palette: ["#F5F6F2", "#242B29", "#D3E6D5", "#778F80", "#FFFFFF", "#E9E9E3", "#CAD4F1", "#F1C7A8"] },
   flori: { palette: ["#FFF9F0", "#344C40", "#F1C6CF", "#D8D1EC", "#D9E6C8", "#F5DF9B", "#EDB997", "#91AAA0"] },
   // cream (paper), plum (ink, text), blush (pastel tint), bubblegum (the one action colour), butter / mint / sky / lilac (flavour pastels, section grounds)
@@ -87,9 +79,6 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
   vector: {
     palette: ["#030706", "#071713", "#51F6D3", "#B8FF57", "#123B38"],
   },
-  morrow: {
-    palette: ["#F5EBDD", "#1C2A26", "#B65344", "#DFA75B", "#D7C5AF", "#68736B", "#E9D6BB"],
-  },
   loophouse: {
     // cast-iron (ink), birch (paper), cobalt (accent), galvanized steel (hairlines), workshop pine (tint)
     palette: ["#111618", "#F4EFE6", "#1E51EB", "#7E8A90", "#DED7C5"],
@@ -100,13 +89,6 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
   verane: {
     // oud (ink), calcaire (paper), orris (accent), gilt (hairlines on oud only), veil (tint), ash (muted text)
     palette: ["#2A1E22", "#E3DFD8", "#655A7E", "#B59A6A", "#CFC9C0", "#5F5753"],
-  },
-  sundial: {
-    // espresso (ink), crema (paper), tangerine (accent), roastgreen (rare secondary), oat (tint), husk (muted)
-    palette: ["#241611", "#F7F1E6", "#FF6B1A", "#0F5C3F", "#EADBC4", "#6F6152"],
-    paletteExempt: [
-      "src/app/(sundial)/sundial/roast/roast.ts", // bean-colour ramp is content colour, like 3D food
-    ],
   },
   noctiluca: {
     // ink (ground), lumen (text, label stock), glow (the one accent), dusk (muted), glass (plaques), ember (errors only)
@@ -183,25 +165,13 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
   "alpine-reel": {
     palette: ["#040B16", "#08162A", "#6EA8D2", "#FFFFFF"],
   },
-  spaceedu: {
-    palette: ["#04101F", "#08162A", "#0B2239", "#79DCE8", "#FFFFFF", "#071227", "#5FD0E1", "#D8ECFE", "#DCEEFE", "#F4F9FF", "#D6E8F8", "#D9ECFE"],
-    paletteExempt: [
-      "src/app/(spaceedu)/spaceedu/SpaceEduExperience.tsx",
-      "src/app/(spaceedu)/spaceedu/data/objects.ts",
-    ],
-  },
   rill: {
     palette: ["#14231E", "#F0E9DB", "#B85C43", "#5B8174", "#87956C", "#C9B79E"],
   },
   hiyas: {
     palette: ["#05070A", "#0B2A4A", "#FFFFFF"],
   },
-
-  lucentra: {
-    palette: ["#10141C", "#F5F7FB", "#2E63FF", "#C5D4FF"],
-  },
-
-tally: {
+  tally: {
     // buttercream paper, pistachio mint, apricot blush, periwinkle lilac, plum charcoal ink
     palette: ["#FAF4E8", "#C8E6D0", "#F7C8B6", "#CFD6F6", "#231F2B"],
   },

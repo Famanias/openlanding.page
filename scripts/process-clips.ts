@@ -173,7 +173,6 @@ export const VALID_SLUGS = Array.from(
     "koji",
     "wowflutter",
     "verane",
-    "sundial",
     "noctiluca",
     "iridia",
     "bathys",
