@@ -1,6 +1,10 @@
+import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
+
 export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage" | "firstday" | "starlight" | "lowtide" | "loam";
 
 export type TemplateConfig = {
+  createdAt: string;
+  hasDownload: boolean;
   palette: string[];
   /** Path prefixes skipped by the palette check (content colours, e.g. 3D food). */
   paletteExempt?: string[];
@@ -8,7 +12,7 @@ export type TemplateConfig = {
   mediaExempt?: boolean;
 };
 
-export const TEMPLATES: Record<TemplateSlug, TemplateConfig> = {
+const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
   loam: {
     palette: [
       "#080604", "#F0E8D8", "#7A5C43", "#C8E64C", "#F7E7CE", "#F6EFE3",
@@ -230,5 +234,10 @@ tally: {
     palette: ["#F6F0E8", "#1E1D1B", "#E2D8C9", "#D95F3F", "#1D6C63", "#E7C65A", "#8F4E70"],
   },
 };
+
+// Gallery registration is the authoritative source for dates/download availability.
+export const TEMPLATES = Object.fromEntries(RAW_TEMPLATES.map((template) => [template.slug, {
+  ...PALETTES[template.slug], createdAt: template.createdAt, hasDownload: Boolean(template.hasDownload),
+}])) as Record<TemplateSlug, TemplateConfig>;
 
 export type SourceFile = { path: string; source: string };

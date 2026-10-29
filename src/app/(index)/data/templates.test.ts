@@ -4,10 +4,21 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("gallery template data", () => {
+  it("has real ISO creation dates for active and archived templates", () => {
+    for (const template of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
+      expect(template.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(new Date(`${template.createdAt}T00:00:00Z`).toISOString().slice(0, 10)).toBe(template.createdAt);
+    }
+    for (let i = 1; i < TEMPLATES.length; i++) {
+      const previous = TEMPLATES[i - 1], current = TEMPLATES[i];
+      expect(previous.createdAt >= current.createdAt).toBe(true);
+      if (previous.createdAt === current.createdAt) expect(previous.registrationOrder).toBeGreaterThan(current.registrationOrder);
+    }
+  });
   it("contains all templates with required metadata", () => {
     expect(TEMPLATES).toHaveLength(44);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["amaoto", "loam", "lowtide", "firstday", "assemblage", "cullet", "nightline", "understudy", "flori", "nulo", "serein", "pipkin", "valence", "chinagraph", "fixture", "aftercart", "tally", "satoyama", "mio", "hiyas", "rill", "alpine-reel", "kazeko", "nomi", "truecut", "handoff", "openhouse", "volume-zero", "isobar", "kinetic", "satsuma", "aubade", "bathys", "iridia", "noctiluca", "verane", "wowflutter", "loophouse", "vector", "calder", "trace", "koji", "keytu", "orrery"]);
+    expect(slugs).toEqual(["loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","isobar","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {

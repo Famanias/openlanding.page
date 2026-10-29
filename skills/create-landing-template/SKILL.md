@@ -71,6 +71,7 @@ Write these before building:
 
 ### Phase 6: Build, and generate media in parallel
 - **Structure and registration:** follow `repo-wiring.md` for the folder layout, the build order and the **six registration points**.
+- **Gallery date and download:** append the gallery item with a literal `createdAt: "YYYY-MM-DD"`. Ship a readable vanilla `public/downloads/<slug>.html`, set `hasDownload: true`, and run its `file://` smoke test. Follow `repo-wiring.md` for the standalone-file contract.
 - **Media:** if the agent is generating it, follow `media.md` §4b (confirm the cost first). Otherwise, hand the prompts to the user now and keep building on placeholders.
 - **Logic first, tested:** logic modules (state machines, progress maths, motion maths, validation) are pure functions with tests beside them. **REQUIRED SUB-SKILL:** superpowers:test-driven-development.
 - **Motion is built with the sections, not sprinkled on afterwards:** create the `motion/` primitives and the motion tokens before the first section (`repo-wiring.md` build order), and give each section its row of the motion map as you write it. Follow `motion-system.md` for reveals, load choreography, scroll behaviour, interaction states and ambient life.

@@ -111,6 +111,17 @@ export function findMediaViolations(slug: string, files: SourceFile[]): MediaVio
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   let failed = false;
   for (const slug of Object.keys(TEMPLATES) as TemplateSlug[]) {
+    const download = `public/downloads/${slug}.html`;
+    if (TEMPLATES[slug].hasDownload !== existsSync(download)) {
+      console.error(`media [${slug}]: download registration must match ${download}`);
+      failed = true;
+    } else if (TEMPLATES[slug].hasDownload) {
+      const html = readFileSync(download, "utf8");
+      if (!/<h1[\s>]/i.test(html) || /\/_next\//.test(html) || /<base[\s>]/i.test(html)) {
+        console.error(`media [${slug}]: standalone HTML needs an h1 and must not depend on Next or a base URL`);
+        failed = true;
+      }
+    }
     const violations = findMediaViolations(slug, readTemplateFiles(slug));
     for (const v of violations) {
       console.error(`media [${v.slug}]: ${v.message}`);

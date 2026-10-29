@@ -2355,31 +2355,35 @@ input[type="range"]:active::-webkit-slider-thumb {
 }
 @media (min-width: 901px) and (max-height: 840px) {
   .am-tool-sheet {
-    top: calc(var(--am-header-h) + 8px);
-    padding: 16px 20px;
+    top: calc(var(--am-header-h) + 6px);
+    bottom: calc(var(--am-journey-nav-h) + 20px);
+    padding: 14px 18px;
   }
   .am-tool-sheet > header {
-    padding-bottom: 8px;
+    padding-bottom: 6px;
   }
   .am-tool-sheet h3 {
-    font-size: 1.45rem;
-    margin: 10px 0 6px;
+    font-size: 1.35rem;
+    margin: 8px 0 4px;
   }
   .am-tool-sheet p {
     font-size: 0.85rem;
-    line-height: 1.45;
+    line-height: 1.4;
   }
   .am-tool-sheet .am-inspector-detail {
-    padding-top: 8px;
+    padding-top: 6px;
   }
   .am-tool-sheet label {
-    margin-top: 10px;
+    margin-top: 8px;
+  }
+  .am-tool-sheet .am-inspector-runner {
+    margin-top: 8px;
   }
   .am-tool-sheet .am-inspector-actions {
-    margin: 8px 0;
+    margin: 6px 0;
   }
   .am-focus-stage {
-    margin: 8px 0;
+    margin: 6px 0;
   }
 }
 .am-page:not([data-tool="none"]) .am-journey-nav {

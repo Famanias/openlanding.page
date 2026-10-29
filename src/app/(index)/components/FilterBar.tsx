@@ -3,7 +3,7 @@
 import React from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { CATEGORIES, type CategoryId } from "../data/templates";
-import { MODEL_FILTERS, type ModelFilter } from "../data/filters";
+import { MODEL_FILTERS, type ModelFilter, type SortKey, type SortDirection } from "../data/filters";
 
 export interface FilterBarProps {
   activeCategory: CategoryId | string;
@@ -17,10 +17,14 @@ export interface FilterBarProps {
   onSelectModel?: (model: ModelFilter) => void;
   hasQuery?: boolean;
   instantMotion?: boolean;
+  sort?: SortKey;
+  dir?: SortDirection;
+  onSortChange?: (sort: SortKey, dir: SortDirection) => void;
 }
 
 export function FilterBar({ activeCategory, onSelectCategory, totalCount, filteredCount, onReset,
-  categoryCounts, className = "", activeModel = "all", onSelectModel, hasQuery = false, instantMotion = false }: FilterBarProps) {
+  categoryCounts, className = "", activeModel = "all", onSelectModel, hasQuery = false, instantMotion = false,
+  sort = "date", dir = "desc", onSortChange }: FilterBarProps) {
   const reducedMotion = useReducedMotion();
   const instant = reducedMotion || instantMotion;
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -64,6 +68,17 @@ export function FilterBar({ activeCategory, onSelectCategory, totalCount, filter
           ))}
         </div>
         <div className="filter-summary">
+          <label className="gallery-sort">Sort by
+            <select value={`${sort}-${dir}`} onChange={(event) => {
+              const [key, direction] = event.target.value.split("-");
+              onSortChange?.(key as SortKey, direction as SortDirection);
+            }}>
+              <option value="date-desc">Latest added</option>
+              <option value="date-asc">Oldest</option>
+              <option value="likes-desc">Most liked</option>
+              <option value="likes-asc">Least liked</option>
+            </select>
+          </label>
           <span aria-live="polite" aria-atomic="true" className="font-mono tabular-nums">Showing {filteredCount} of {totalCount} templates</span>
           {(activeCategory !== "all" || activeModel !== "all" || hasQuery) && (
             <button type="button" onClick={onReset} aria-label="Reset category filters" className="reset-filters">Reset filters</button>

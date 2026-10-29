@@ -55,6 +55,8 @@ Before submitting your pull request:
    bun run build      # Next.js production build
    ```
 2. **Template Isolation:**
+   - Register a literal `createdAt: "YYYY-MM-DD"` in gallery metadata and append the item to `RAW_TEMPLATES` (same-day ties follow append order).
+   - Ship a readable standalone `public/downloads/<slug>.html` with inline CSS and JavaScript, then set `hasDownload: true`. It must open from disk without Next.js or site-origin assets. See [`docs/gallery.md`](docs/gallery.md).
    - Templates must remain strictly self-contained within their respective route groups `src/app/(template_name)/`.
    - Do not introduce cross-template dependencies or pollute global styles.
 3. **Keep Commits Focused:**

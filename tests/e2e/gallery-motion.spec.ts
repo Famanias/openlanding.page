@@ -38,13 +38,13 @@ await expect(page.locator(".template-card")).toHaveCount(44);
 test("pending copy and failure recover without a stuck success state", async ({ page }) => {
   let releaseRequest!: () => void;
   const pendingRequest = new Promise<void>(resolve => { releaseRequest = resolve; });
-  await page.route(url => url.pathname === "/orrery" || url.pathname.endsWith("/copy/orrery.md"), async route => {
+  await page.route(url => url.pathname === "/downloads/alpine-reel.html", async route => {
     await pendingRequest;
     await route.fulfill({ status: 503, body: "Unavailable" });
   });
   await page.goto("/");
-  const card = page.locator(".template-card").filter({ hasText: "Orrery" });
-  const copy = card.getByRole("button", { name: "Download template", exact: true });
+  const card = page.locator(".template-card").filter({ hasText: "ALPINE REEL" });
+  const copy = card.getByRole("button", { name: "Download HTML", exact: true });
   try {
     await copy.click();
     await expect(copy).toBeDisabled();
