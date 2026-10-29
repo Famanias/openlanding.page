@@ -1,346 +1,470 @@
 import * as THREE from "three";
-
-export type WagasaModelOptions = {
-  open?: number;
-  explode?: number;
-  canopyColor?: string;
-  motif?: "sakura" | "wave" | "plain";
+import {
+  ATTACH,
+  HUB_Y,
+  RIB_COUNT,
+  RIB_LENGTH,
+  clamp01,
+  paperPoint,
+  ribPoint,
+  rimPoint,
+  runnerHeight,
+  type Point,
+} from "./rig";
+import { turnedGeometry } from "./lathe";
+import { bambooMaterial, paperMaterial, type Motif } from "./materials";
+export type WagasaPose = {
+  position: [number, number, number];
+  rotation: [number, number, number];
+  scale: number;
 };
-
-type Runtime = {
-  setOpen: (value: number) => void;
-  setExplode: (value: number) => void;
-  getOpen: () => number;
-  getExplode: () => number;
-  setCanopy: (color: string, motif: "sakura" | "wave" | "plain") => void;
+export type WagasaRuntime = {
+  setOpen: (n: number) => void;
+  setExplode: (n: number) => void;
+  setSpread: (n: number) => void;
+  setCanopy: (
+    colour: string,
+    motif: Motif,
+    origin?: THREE.Vector2,
+    instant?: boolean,
+  ) => void;
+  setPose: (pose: WagasaPose) => void;
+  setHighlight: (part: string | null) => void;
+  setSun: (angle: number) => void;
+  update: () => void;
+  tick: (dt: number) => void;
+  point: (part: string, ribIndex?: number) => THREE.Vector3;
+  runnerPoint: (open: number) => THREE.Vector3;
+  setInspection: (state: {
+    reveal: number;
+    rib: number | null;
+    index: number;
+    trace: number;
+  }) => void;
+  paperVisible: (u: number) => boolean;
+  dispose: () => void;
+  readonly open: number;
+  readonly animating: boolean;
 };
-
-const RIB_COUNT = 40;
-const TAU = Math.PI * 2;
-const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-function makeCanvasTexture(color: string, motif: "sakura" | "wave" | "plain") {
-  if (typeof document === "undefined") return null;
-  const canvas = document.createElement("canvas");
-  canvas.width = canvas.height = 1024;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return null;
-  ctx.fillStyle = color;
-  ctx.fillRect(0, 0, 1024, 1024);
-  const fibre = ctx.createImageData(1024, 1024);
-  let seed = 0x1a2b3c4d;
-  for (let i = 0; i < fibre.data.length; i += 4) {
-    seed = Math.imul(seed ^ (seed >>> 16), 2246822519) >>> 0;
-    const n = ((seed >>> 24) & 15) - 7;
-    fibre.data[i] = 255 + n;
-    fibre.data[i + 1] = 247 + n;
-    fibre.data[i + 2] = 228 + n;
-    fibre.data[i + 3] = 255;
-  }
-  ctx.globalCompositeOperation = "screen";
-  ctx.putImageData(fibre, 0, 0);
-  ctx.globalCompositeOperation = "source-over";
-  if (motif === "sakura") {
-    ctx.strokeStyle = "rgba(117, 78, 56, .38)";
-    ctx.lineWidth = 7;
-    ctx.beginPath();
-    ctx.arc(512, 512, 382, 0, TAU);
-    ctx.stroke();
-    for (let i = 0; i < 36; i += 1) {
-      const angle = (i / 36) * TAU;
-      const x = 512 + Math.cos(angle) * 382;
-      const y = 512 + Math.sin(angle) * 382;
-      ctx.fillStyle = i % 3 === 0 ? "rgba(210, 108, 132, .82)" : "rgba(235, 157, 172, .68)";
-      for (let p = 0; p < 5; p += 1) {
-        const a = angle + (p - 2) * 0.42;
-        ctx.beginPath();
-        ctx.ellipse(x + Math.cos(a) * 19, y + Math.sin(a) * 19, 13, 23, a, 0, TAU);
-        ctx.fill();
-      }
-      ctx.fillStyle = "rgba(130, 78, 45, .8)";
-      ctx.beginPath();
-      ctx.arc(x, y, 5, 0, TAU);
-      ctx.fill();
-    }
-  } else if (motif === "wave") {
-    ctx.strokeStyle = "rgba(43, 58, 85, .42)";
-    ctx.lineWidth = 12;
-    for (let y = 200; y < 850; y += 120) {
-      ctx.beginPath();
-      for (let x = 0; x <= 1024; x += 16) ctx.lineTo(x, y + Math.sin(x * 0.025) * 22);
-      ctx.stroke();
-    }
-  }
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  texture.anisotropy = 4;
-  return texture;
-}
-
-function makePaperMaterial(color: string, motif: "sakura" | "wave" | "plain") {
-  const map = makeCanvasTexture(color, motif);
-  const material = new THREE.MeshPhysicalMaterial({
-    color: 0xf4ecdd,
-    map: map ?? undefined,
-    roughness: 0.86,
-    metalness: 0,
-    transmission: 0.08,
-    thickness: 0.012,
-    ior: 1.35,
-    side: THREE.DoubleSide,
-    transparent: true,
-    opacity: 0.96,
-  });
-  material.onBeforeCompile = (shader) => {
-    shader.uniforms.uBackLight = { value: new THREE.Vector3(-0.2, 0.8, -0.6).normalize() };
-    shader.fragmentShader = shader.fragmentShader.replace(
-      "#include <output_fragment>",
-      "float amaotoGlow = pow(max(dot(normalize(vNormal), normalize(uBackLight)), 0.0), 2.0) * 0.22;\n" +
-        "outgoingLight += vec3(1.0, 0.58, 0.35) * amaotoGlow;\n#include <output_fragment>",
-    );
-  };
-  material.userData.materialId = "washi";
-  return material;
-}
-
-function makeWood(color: number, roughness = 0.42) {
-  return new THREE.MeshStandardMaterial({ color, roughness, metalness: 0 });
-}
-
-function tubeBetween(a: THREE.Vector3, b: THREE.Vector3, radius: number, material: THREE.Material) {
-  const direction = new THREE.Vector3().subVectors(b, a);
-  const geometry = new THREE.CylinderGeometry(radius, radius * 0.92, direction.length(), 8);
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.position.copy(a).add(b).multiplyScalar(0.5);
-  mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
-  return mesh;
-}
-
-function makeCanopyGeometry() {
-  const radial = RIB_COUNT;
-  const rings = 12;
-  const positions = new Float32Array((radial + 1) * (rings + 1) * 3);
-  const uvs = new Float32Array((radial + 1) * (rings + 1) * 2);
-  const indices: number[] = [];
-  for (let j = 0; j <= rings; j += 1) {
-    for (let i = 0; i <= radial; i += 1) {
-      const idx = j * (radial + 1) + i;
-      uvs[idx * 2] = i / radial;
-      uvs[idx * 2 + 1] = j / rings;
-      if (j === 0) {
-        positions[idx * 3] = 0;
-        positions[idx * 3 + 1] = 2.48;
-        positions[idx * 3 + 2] = 0;
-      }
-    }
-  }
-  for (let j = 0; j < rings; j += 1) {
-    for (let i = 0; i < radial; i += 1) {
-      const a = j * (radial + 1) + i;
-      const b = a + 1;
-      const c = a + radial + 1;
-      const d = c + 1;
-      indices.push(a, c, b, b, c, d);
-    }
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
-  geometry.setIndex(indices);
-  return geometry;
-}
-
-function updateCanopy(geometry: THREE.BufferGeometry, open: number) {
-  const attr = geometry.getAttribute("position") as THREE.BufferAttribute;
-  const rings = 12;
-  const radial = RIB_COUNT;
-  for (let j = 0; j <= rings; j += 1) {
-    const t = j / rings;
-    const radius = lerp(0.04, 2.05, t) * lerp(0.16, 1, open);
-    const dome = lerp(0.04, 0.52, open) * Math.sin(t * Math.PI * 0.5);
-    const pleat = (1 - open) * (0.06 + t * 0.12) * Math.sin(t * Math.PI * 8);
-    for (let i = 0; i <= radial; i += 1) {
-      const angle = (i / radial) * TAU;
-      const idx = (j * (radial + 1) + i) * 3;
-      const r = radius + pleat;
-      attr.setXYZ(idx / 3, Math.cos(angle) * r, 2.48 - dome - t * 0.05, Math.sin(angle) * r);
-    }
-  }
-  attr.needsUpdate = true;
-  geometry.computeVertexNormals();
-}
-
-export function createWagasaModel(options: WagasaModelOptions = {}): THREE.Group {
+export function createWagasaModel(
+  options: {
+    open?: number;
+    explode?: number;
+    canopyColor?: string;
+    motif?: Motif;
+  } = {},
+) {
   const root = new THREE.Group();
-  root.name = "AMAOTO Wagasa";
-  root.rotation.x = 0.55;
-  root.rotation.z = -0.12;
-  root.scale.setScalar(0.84);
-  root.userData.parts = {};
-  root.userData.reconstruction = { target: "wagasa", ribCount: RIB_COUNT, approximate: ["rear motif continuity", "closed paper pleat profile"] };
-
-  let open = clamp01(options.open ?? 0.84);
-  let explode = clamp01(options.explode ?? 0);
-  let canopyColor = options.canopyColor ?? "#F4ECDD";
-  let motif = options.motif ?? "sakura";
-
-  const paper = makePaperMaterial(canopyColor, motif);
-  const bamboo = makeWood(0xb7894d, 0.44);
-  const wood = makeWood(0x6a351c, 0.3);
-  const threadMaterial = new THREE.MeshStandardMaterial({ color: 0x191311, roughness: 0.82 });
-
-  const canopyGeometry = makeCanopyGeometry();
-  updateCanopy(canopyGeometry, open);
-  const canopy = new THREE.Mesh(canopyGeometry, paper);
-  canopy.name = "paper-canopy";
-  canopy.userData.partId = "canopy";
-  root.add(canopy);
-
-  const rim = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.055, 8, 96), paper);
-  rim.rotation.x = Math.PI / 2;
-  rim.position.y = 2.47;
-  rim.name = "canopy-rim";
-  root.add(rim);
-
-  const shaft = new THREE.Group();
-  shaft.name = "shaft";
-  shaft.userData.partId = "shaft";
-  const shaftMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.13, 5.8, 16), bamboo);
-  shaftMesh.position.y = -0.35;
-  shaft.add(shaftMesh);
-  for (const y of [-2.35, -1.9, -0.95, 1.94, 2.23]) {
-    const node = new THREE.Mesh(new THREE.TorusGeometry(0.14, 0.025, 6, 16), bamboo);
-    node.rotation.x = Math.PI / 2;
-    node.position.y = y;
-    shaft.add(node);
+  root.name = "AMAOTO articulated wagasa";
+  const bamboo = bambooMaterial();
+  const wood = new THREE.MeshStandardMaterial({
+    color: "#B8923A",
+    roughness: 0.3,
+    map: bamboo.map,
+  });
+  const thread = new THREE.MeshStandardMaterial({
+    color: "#1A1613",
+    roughness: 0.95,
+  });
+  const paper = paperMaterial(
+    options.canopyColor ?? "#F4ECDD",
+    options.motif ?? "sakura",
+  );
+  const cylinder = new THREE.CylinderGeometry(1, 1, 1, 6);
+  const dummy = new THREE.Object3D(),
+    up = new THREE.Vector3(0, 1, 0),
+    a = new THREE.Vector3(),
+    b = new THREE.Vector3();
+  function instances(
+    count: number,
+    material: THREE.MeshStandardMaterial,
+    partId: string,
+  ) {
+    const mesh = new THREE.InstancedMesh(cylinder, material, count);
+    mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    mesh.userData.partId = partId;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    mesh.frustumCulled = false;
+    // Raycasting must not retain the narrow first-frame bounds after unfolding.
+    mesh.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 5);
+    root.add(mesh);
+    return mesh;
   }
+  const ribs = instances(40 * 8, bamboo, "ribs"),
+    stretchers = instances(40, bamboo.clone(), "stretchers");
+  const bands = instances(40 * 3, wood.clone(), "ribs"),
+    knots = instances(40 * 2, thread, "thread"),
+    lattice = instances(40 * 8, thread.clone(), "thread");
+  const shaft = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.055, 0.068, 3.65, 20),
+    bamboo.clone(),
+  );
+  shaft.position.y = -0.075;
+  shaft.userData.partId = "handle";
   root.add(shaft);
-
-  const handle = new THREE.Group();
-  handle.name = "handle";
-  handle.userData.partId = "handle";
-  const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.16, 1.5, 16), bamboo);
-  grip.position.y = -3.55;
-  handle.add(grip);
-  for (const y of [-4.08, -3.95, -3.08, -2.98]) {
-    const bead = new THREE.Mesh(new THREE.TorusGeometry(0.21, 0.035, 7, 16), bamboo);
-    bead.rotation.x = Math.PI / 2;
-    bead.position.y = y;
-    handle.add(bead);
-  }
-  root.add(handle);
-
-  const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.16, 0.42, 16), wood);
-  cap.position.y = 2.68;
-  cap.name = "top-cap";
-  cap.userData.partId = "top-cap";
+  const cap = new THREE.Mesh(turnedGeometry("cap"), wood.clone());
+  cap.position.y = HUB_Y - 0.025;
+  cap.userData.partId = "handle";
   root.add(cap);
-
-  const runner = new THREE.Group();
-  runner.name = "runner-ring";
+  const runner = new THREE.Mesh(turnedGeometry("runner"), wood.clone());
   runner.userData.partId = "runner";
-  const runnerMesh = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.09, 10, 32), wood);
-  runnerMesh.rotation.x = Math.PI / 2;
-  runner.add(runnerMesh);
-  const runnerSleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.25, 16), wood);
-  runner.add(runnerSleeve);
   root.add(runner);
-
-  const rib = new THREE.Group();
-  rib.name = "ribs";
-  rib.userData.partId = "ribs";
-  const ribMeshes: THREE.Object3D[] = [];
-  for (let i = 0; i < RIB_COUNT; i += 1) {
-    const angle = (i / RIB_COUNT) * TAU;
-    const end = new THREE.Vector3(Math.cos(angle) * 2.05, 2.47, Math.sin(angle) * 2.05);
-    const mid = new THREE.Vector3(Math.cos(angle) * 1.18, 2.5, Math.sin(angle) * 1.18);
-    const item = tubeBetween(new THREE.Vector3(0, 2.52, 0), end, 0.026, bamboo);
-    item.userData.partId = `rib-${i}`;
-    rib.add(item);
-    ribMeshes.push(item);
-    const node = new THREE.Mesh(new THREE.TorusGeometry(0.05, 0.012, 5, 10), bamboo);
-    node.position.copy(mid);
-    node.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), -angle);
-    rib.add(node);
+  const grip = new THREE.Mesh(turnedGeometry("handle"), wood.clone());
+  grip.position.y = -1.72;
+  grip.userData.partId = "handle";
+  root.add(grip);
+  const collar = instances(80, thread.clone(), "thread");
+  const shaftNodes = instances(6, wood.clone(), "handle");
+  for (let i = 0; i < 6; i++) {
+    dummy.position.set(0, -1.45 + i * 0.52, 0);
+    dummy.rotation.set(0, 0, 0);
+    dummy.scale.set(0.071, 0.026, 0.071);
+    dummy.updateMatrix();
+    shaftNodes.setMatrixAt(i, dummy.matrix);
   }
-  root.add(rib);
-
-  const stretchers = new THREE.Group();
-  stretchers.name = "stretchers";
-  stretchers.userData.partId = "stretchers";
-  const stretcherMeshes: THREE.Object3D[] = [];
-  const thread = new THREE.Group();
-  thread.name = "thread";
-  thread.userData.partId = "thread";
-  for (let i = 0; i < RIB_COUNT; i += 1) {
-    const angle = (i / RIB_COUNT) * TAU;
-    const outer = new THREE.Vector3(Math.cos(angle) * 1.16, 2.5, Math.sin(angle) * 1.16);
-    const link = tubeBetween(new THREE.Vector3(0, 0.55, 0), outer, 0.014, bamboo);
-    stretchers.add(link);
-    stretcherMeshes.push(link);
-    const knot = new THREE.Mesh(new THREE.SphereGeometry(0.045, 6, 4), threadMaterial);
-    knot.position.set(Math.cos(angle) * 2.05, 2.47, Math.sin(angle) * 2.05);
-    thread.add(knot);
+  const rings = 16,
+    across = 4,
+    vertices = RIB_COUNT * (rings + 1) * (across + 1);
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(vertices * 3),
+    uv = new Float32Array(vertices * 2),
+    indices: number[] = [];
+  let v = 0;
+  for (let g = 0; g < 40; g++)
+    for (let j = 0; j <= rings; j++)
+      for (let k = 0; k <= across; k++) {
+        uv[v * 2] = (g + k / across) / 40;
+        uv[v * 2 + 1] = j / rings;
+        if (j < rings && k < across) {
+          const n = v;
+          indices.push(
+            n,
+            n + 1,
+            n + across + 1,
+            n + 1,
+            n + across + 2,
+            n + across + 1,
+          );
+        }
+        v++;
+      }
+  geometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(positions, 3).setUsage(THREE.DynamicDrawUsage),
+  );
+  geometry.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+  geometry.setIndex(indices);
+  geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 5);
+  const skin = new THREE.Mesh(geometry, paper.material);
+  skin.userData.partId = "canopy";
+  skin.receiveShadow = true;
+  skin.castShadow = true;
+  skin.frustumCulled = false;
+  root.add(skin);
+  const rimPositions = new Float32Array(40 * across * 2 * 3);
+  const rimGeometry = new THREE.BufferGeometry();
+  rimGeometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(rimPositions, 3).setUsage(THREE.DynamicDrawUsage),
+  );
+  const rim = new THREE.LineSegments(
+    rimGeometry,
+    new THREE.LineBasicMaterial({ color: "#B8923A" }),
+  );
+  rim.frustumCulled = false;
+  rim.userData.partId = "thread";
+  root.add(rim);
+  let open = clamp01(options.open ?? 0),
+    explode = clamp01(options.explode ?? 0),
+    spread = 0,
+    dirty = true;
+  function segment(
+    mesh: THREE.InstancedMesh,
+    index: number,
+    start: Point,
+    end: Point,
+    radius: number,
+  ) {
+    a.set(start.x, start.y, start.z);
+    b.set(end.x, end.y, end.z);
+    dummy.position.copy(a).add(b).multiplyScalar(0.5);
+    b.sub(a);
+    dummy.quaternion.setFromUnitVectors(up, b.clone().normalize());
+    dummy.scale.set(radius, b.length(), radius);
+    dummy.updateMatrix();
+    mesh.setMatrixAt(index, dummy.matrix);
   }
-  const threadRing = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.012, 5, 64), threadMaterial);
-  threadRing.rotation.x = Math.PI / 2;
-  threadRing.position.y = 2.5;
-  thread.add(threadRing);
-  root.add(stretchers, thread);
-
-  const partList = [canopy, rim, shaft, handle, cap, runner, rib, stretchers, thread];
-  for (const part of partList) root.userData.parts[part.userData.partId ?? part.name] = part;
-
-  const update = () => {
-    updateCanopy(canopyGeometry, open);
-    const runnerY = lerp(0.12, 0.74, open);
-    runner.position.y = runnerY;
-    for (let i = 0; i < RIB_COUNT; i += 1) {
-      const angle = (i / RIB_COUNT) * TAU;
-      const outer = new THREE.Vector3(Math.cos(angle) * lerp(0.32, 2.05, open), 2.40 - 0.05 * open, Math.sin(angle) * lerp(0.32, 2.05, open));
-      const ribItem = ribMeshes[i] as THREE.Mesh;
-      ribItem.geometry.dispose();
-      const ribRoot = new THREE.Vector3(0, 2.44, 0);
-      ribItem.geometry = new THREE.CylinderGeometry(0.026, 0.022, ribRoot.distanceTo(outer), 8);
-      ribItem.position.copy(outer).add(ribRoot).multiplyScalar(0.5);
-      ribItem.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3().subVectors(outer, ribRoot).normalize());
-      const link = stretcherMeshes[i] as THREE.Mesh;
-      link.geometry.dispose();
-      const inner = new THREE.Vector3(Math.cos(angle) * lerp(0.18, 1.18, open), 2.5, Math.sin(angle) * lerp(0.18, 1.18, open));
-      link.geometry = new THREE.CylinderGeometry(0.014, 0.013, new THREE.Vector3().set(0, runnerY, 0).distanceTo(inner), 6);
-      link.position.copy(inner).add(new THREE.Vector3(0, runnerY, 0)).multiplyScalar(0.5);
-      link.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3().subVectors(inner, new THREE.Vector3(0, runnerY, 0)).normalize());
+  function update() {
+    if (!dirty) return;
+    dirty = false;
+    const runnerY = runnerHeight(open);
+    runner.position.y = runnerY - explode * 0.24;
+    grip.position.y = -1.72 - explode * 0.32;
+    for (let i = 0; i < 40; i++) {
+      for (let j = 0; j < 8; j++)
+        segment(
+          ribs,
+          i * 8 + j,
+          ribPoint(open, i, j / 8, explode, spread),
+          ribPoint(open, i, (j + 1) / 8, explode, spread),
+          0.011 - j * 0.00055,
+        );
+      segment(
+        stretchers,
+        i,
+        { x: 0, y: runner.position.y, z: 0 },
+        ribPoint(open, i, ATTACH / RIB_LENGTH, explode, spread),
+        0.012,
+      );
+      for (let j = 0; j < 3; j++) {
+        const t = 0.27 + j * 0.3;
+        segment(
+          bands,
+          i * 3 + j,
+          ribPoint(open, i, t - 0.006, explode, spread),
+          ribPoint(open, i, t + 0.006, explode, spread),
+          0.014,
+        );
+      }
+      const tip = ribPoint(open, i, 1, explode, spread),
+        near = ribPoint(open, i, 0.978, explode, spread);
+      segment(knots, i * 2, near, tip, 0.016);
+      segment(
+        knots,
+        i * 2 + 1,
+        { x: tip.x - 0.018, y: tip.y + 0.012, z: tip.z },
+        { x: tip.x + 0.018, y: tip.y + 0.012, z: tip.z },
+        0.009,
+      );
+      for (let j = 0; j < 4; j++)
+        for (let family = 0; family < 2; family++) {
+          const start = ribPoint(open, i, 0.13 + j * 0.075, explode, spread),
+            end = ribPoint(
+              open,
+              (i + (family ? 39 : 1)) % 40,
+              0.13 + (j + 1) * 0.075,
+              explode,
+              spread,
+            );
+          start.y -= 0.018;
+          end.y -= 0.018;
+          segment(lattice, i * 8 + j * 2 + family, start, end, 0.0025);
+        }
+      const angle = (i / 40) * Math.PI * 2;
+      for (let family = 0; family < 2; family++) {
+        const next = angle + ((family ? 1 : -1) * Math.PI * 2) / 40;
+        segment(
+          collar,
+          i * 2 + family,
+          {
+            x: Math.cos(angle) * 0.105,
+            y: runner.position.y + 0.08,
+            z: Math.sin(angle) * 0.105,
+          },
+          {
+            x: Math.cos(next) * 0.105,
+            y: runner.position.y + 0.18,
+            z: Math.sin(next) * 0.105,
+          },
+          0.003,
+        );
+      }
     }
-    const sep = explode;
-    canopy.position.y = sep * 0.5;
-    rib.position.y = -0.18 + sep * 0.18;
-    stretchers.position.y = -sep * 0.08;
-    runner.position.z = sep * 0.24;
-    thread.position.y = sep * 0.12;
-    handle.position.y = -sep * 0.32;
-  };
-
-  const runtime: Runtime = {
-    setOpen: (value) => { open = clamp01(value); update(); },
-    setExplode: (value) => { explode = clamp01(value); update(); },
-    getOpen: () => open,
-    getExplode: () => explode,
-    setCanopy: (color, nextMotif) => {
-      canopyColor = color;
-      motif = nextMotif;
-      const next = makePaperMaterial(canopyColor, motif);
-      canopy.material = next;
-      rim.material = next;
+    let vertex = 0;
+    for (let g = 0; g < 40; g++)
+      for (let j = 0; j <= rings; j++)
+        for (let k = 0; k <= across; k++) {
+          const point = paperPoint(
+            open,
+            g,
+            j / rings,
+            k / across,
+            explode,
+            spread,
+          );
+          positions.set([point.x, point.y, point.z], vertex * 3);
+          vertex++;
+        }
+    let r = 0;
+    for (let g = 0; g < 40; g++)
+      for (let k = 0; k < across; k++)
+        for (const t of [k / across, (k + 1) / across]) {
+          const p = rimPoint(open, g, t, explode, spread);
+          rimPositions.set([p.x, p.y, p.z], r);
+          r += 3;
+        }
+    geometry.attributes.position.needsUpdate = true;
+    geometry.computeVertexNormals();
+    rimGeometry.attributes.position.needsUpdate = true;
+    for (const mesh of [ribs, stretchers, bands, knots, lattice, collar])
+      mesh.instanceMatrix.needsUpdate = true;
+  }
+  let reveal = 0,
+    revealCenter = 0.1,
+    inspectionKey = "";
+  const baseTint = new THREE.Color(1, 1, 1),
+    quietTint = new THREE.Color("#F4ECDD").multiplyScalar(0.32),
+    selectedTint = new THREE.Color("#C8412B").multiplyScalar(2);
+  const runtime: WagasaRuntime = {
+    setInspection(state) {
+      reveal = state.reveal;
+      revealCenter = state.index / 40;
+      paper.setReveal(reveal, revealCenter);
+      const steps =
+        state.trace < 0 ? 0 : Math.max(1, Math.ceil(state.trace * 4));
+      const key = `${state.rib}:${state.index}:${steps}`;
+      if (key === inspectionKey) return;
+      inspectionKey = key;
+      for (const mesh of [ribs, bands]) {
+        const perRib = mesh === ribs ? 8 : 3;
+        for (let i = 0; i < mesh.count; i++)
+          mesh.setColorAt(
+            i,
+            state.rib === null
+              ? baseTint
+              : Math.floor(i / perRib) === state.rib
+                ? selectedTint
+                : quietTint,
+          );
+        if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+      }
+      for (let i = 0; i < lattice.count; i++) {
+        let lit = false;
+        for (let j = 0; j < steps; j++)
+          if (i === ((state.index + j) % 40) * 8 + j * 2) lit = true;
+        lattice.setColorAt(
+          i,
+          steps ? (lit ? selectedTint : quietTint) : baseTint,
+        );
+      }
+      if (lattice.instanceColor) lattice.instanceColor.needsUpdate = true;
+    },
+    paperVisible(u) {
+      const distance = Math.abs(u - revealCenter);
+      return (
+        reveal < 0.001 || Math.min(distance, 1 - distance) >= 0.12 * reveal
+      );
+    },
+    runnerPoint(value) {
+      return root.localToWorld(new THREE.Vector3(0, runnerHeight(value), 0));
+    },
+    setOpen(n) {
+      n = clamp01(n);
+      if (Math.abs(n - open) > 0.0001) {
+        open = n;
+        dirty = true;
+      }
+    },
+    setExplode(n) {
+      n = clamp01(n);
+      if (Math.abs(n - explode) > 0.0001) {
+        explode = n;
+        dirty = true;
+      }
+    },
+    setSpread(n) {
+      if (n !== spread) {
+        spread = n;
+        dirty = true;
+      }
+    },
+    setCanopy: paper.setCanopy,
+    setSun: paper.setSun,
+    setPose(pose) {
+      root.position.fromArray(pose.position);
+      root.rotation.fromArray([...pose.rotation, "XYZ"]);
+      root.scale.setScalar(pose.scale);
+    },
+    setHighlight(part) {
+      root.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          const mat = child.material as THREE.MeshStandardMaterial;
+          if (mat.emissive) {
+            mat.emissive.set(
+              child.userData.partId === part ? "#B8923A" : "#1A1613",
+            );
+            mat.emissiveIntensity = child.userData.partId === part ? 0.32 : 0;
+          }
+        }
+      });
+    },
+    point(part, index = 4) {
+      let local: THREE.Vector3;
+      if (part === "runner") local = new THREE.Vector3(0, runner.position.y, 0);
+      else if (part === "handle")
+        local = new THREE.Vector3(0, grip.position.y - 0.05, 0);
+      else if (part === "canopy")
+        local = new THREE.Vector3().copy(
+          paperPoint(open, index, 0.7, 0.5, explode, spread),
+        );
+      else if (part === "stretchers") {
+        const attach = ribPoint(
+          open,
+          index,
+          ATTACH / RIB_LENGTH,
+          explode,
+          spread,
+        );
+        local = new THREE.Vector3(
+          attach.x * 0.5,
+          (runner.position.y + attach.y) * 0.5,
+          attach.z * 0.5,
+        );
+      } else {
+        local = new THREE.Vector3().copy(
+          ribPoint(
+            open,
+            index,
+            part === "thread" ? 0.28 : 0.7,
+            explode,
+            spread,
+          ),
+        );
+        if (part === "thread") local.y -= 0.018;
+      }
+      return root.localToWorld(local);
+    },
+    update,
+    tick(dt) {
+      update();
+      paper.tick(dt);
+    },
+    get open() {
+      return open;
+    },
+    get animating() {
+      return paper.animating;
+    },
+    dispose() {
+      paper.dispose();
+      const geometries = new Set<THREE.BufferGeometry>(),
+        materials = new Set<THREE.Material>(),
+        textures = new Set<THREE.Texture>();
+      root.traverse((child) => {
+        const mesh = child as THREE.Mesh;
+        if (mesh.geometry) geometries.add(mesh.geometry);
+        if (mesh.material)
+          for (const mat of Array.isArray(mesh.material)
+            ? mesh.material
+            : [mesh.material]) {
+            materials.add(mat);
+            for (const value of Object.values(mat))
+              if (value instanceof THREE.Texture) textures.add(value);
+          }
+      });
+      geometries.forEach((g) => g.dispose());
+      materials.forEach((m) => m.dispose());
+      textures.forEach((t) => t.dispose());
     },
   };
+  root.traverse((child) => {
+    if (child instanceof THREE.Mesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
   root.userData.sculptRuntime = runtime;
-  root.userData.runtime = runtime;
-  root.userData.triangleBudget = { target: 60000, estimated: 15000, drawCalls: 9 };
-  root.userData.getPart = (id: string) => root.userData.parts[id] ?? null;
   update();
   return root;
 }
-
-export default createWagasaModel;

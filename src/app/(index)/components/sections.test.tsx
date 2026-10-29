@@ -18,8 +18,8 @@ describe("landing page sections", () => {
 
   it("Hero renders centered title, subtitle with MIT License, and GitHub star CTA", () => {
     const html = renderToStaticMarkup(<Hero />);
-    expect(html).toContain("Landing Pages your Agent can build");
-    expect(html).toContain("A list of landing page one-shotted by different AI agents that you can use");
+    expect(html).toContain("Landing Pages, from Header to Footer.");
+    expect(html).toContain("Not Just A Hero Section. One Click Download, 100% Free, No Paywalls.");
     expect(html).toContain("MIT License");
     expect(html).toContain("Give a star on GitHub");
     expect(html).toContain('href="https://github.com/Famanias/openlanding.page"');

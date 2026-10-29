@@ -7,7 +7,7 @@ describe("IndexPage", () => {
     const element = await IndexPage();
     const html = renderToStaticMarkup(element);
     expect(html).toContain("openlandingpage");
-    expect(html).toContain("Landing Pages your Agent can build");
+    expect(html).toContain("Landing Pages, from Header to Footer.");
     expect(html).toContain('id="gallery"');
     expect(html).toContain('id="contribute"');
     expect(html).toContain("Want to Contribute?");

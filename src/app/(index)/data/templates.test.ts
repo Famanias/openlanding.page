@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(43);
+    expect(TEMPLATES).toHaveLength(44);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","isobar","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","isobar","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -86,7 +86,7 @@ describe("gallery template data", () => {
         expect(t.model).toBe("MiMo v2.6 Flash Free");
       } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
-      } else if (t.slug === "tally") {
+      } else if (t.slug === "loam" || t.slug === "tally") {
         expect(t.model).toBe("Gemini 4 Argon High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
@@ -205,5 +205,12 @@ describe("gallery template data", () => {
     expect(serein?.category).toBe("editorial-magazine");
     expect(serein?.promptMarkdown).toContain('rebuild "SEREIN Bureau"');
     expect(serein?.promptMarkdown).toContain("#A8D6CC");
+  });
+
+  it("files LOAM under 3D & WebGPU with its rebuild prompt inlined", () => {
+    const loam = TEMPLATES.find((t) => t.slug === "loam");
+    expect(loam?.category).toBe("3d-webgpu");
+    expect(loam?.promptMarkdown).toContain('rebuild "LOAM"');
+    expect(loam?.promptMarkdown).toContain("#C8E64C");
   });
 });

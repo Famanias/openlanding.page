@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: var(--font-serif, 'EB Garamond', Georgia, serif);
+    --font-sans: var(--font-sans, 'Host Grotesk', -apple-system, BlinkMacSystemFont, sans-serif);
+    --font-mono: var(--font-mono, 'Sono', ui-monospace, SFMono-Regular, monospace);
+    --color-loam: #080604;
+    --color-spore: #f0e8d8;
+    --color-cap: #7a5c43;
+    --color-foxfire: #c8e64c;
+
+    /* Synchronized Sunlight / Time-of-Day CSS custom properties (default 0.75) */
+    --page-bg: #080604;
+    --sky-ambient: rgba(247, 231, 206, 0.153);
+    --text-contrast: #f6efe3;
+    --sun-accent: #f7e7ce;
+  }
+
+  html,
+  body,
+  .loam-body {
+    background-color: var(--page-bg, var(--color-loam));
+    color: var(--text-contrast, var(--color-spore));
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    transition: background-color 120ms linear, color 120ms linear;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-serif-display {
+    font-family: var(--font-serif);
+  }
+
+  .font-sans-body {
+    font-family: var(--font-sans);
+  }
+
+  .font-mono-label {
+    font-family: var(--font-mono);
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.14em;
+  }
+}
+
+/* ── Experience mode: hide static specimen fallback when WebGL is active ── */
+html[data-loam-mode="experience"] #loam-specimen-root {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.scene-copy-shadow {
+  text-shadow:
+    0 2px 18px rgba(5, 4, 3, 0.95),
+    0 1px 4px rgba(5, 4, 3, 0.9);
+}
+
+/* Custom minimal botanical styling for the Sunlight / Time-of-Day range slider */
+.loam-sun-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.loam-sun-slider::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 138, 61, 0.55) 0%,
+    rgba(255, 167, 81, 0.65) 35%,
+    rgba(247, 231, 206, 0.75) 75%,
+    rgba(244, 248, 251, 0.9) 100%
+  );
+}
+
+.loam-sun-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -5px;
+  height: 12px;
+  width: 12px;
+  border-radius: 9999px;
+  background: var(--sun-accent, #f7e7ce);
+  border: 1.5px solid #080604;
+  box-shadow: 0 0 8px rgba(247, 231, 206, 0.55);
+  transition: transform 150ms ease, background-color 100ms linear;
+}
+
+.loam-sun-slider:hover::-webkit-slider-thumb,
+.loam-sun-slider:focus-visible::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+
+.loam-sun-slider::-moz-range-track {
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 138, 61, 0.55) 0%,
+    rgba(255, 167, 81, 0.65) 35%,
+    rgba(247, 231, 206, 0.75) 75%,
+    rgba(244, 248, 251, 0.9) 100%
+  );
+}
+
+.loam-sun-slider::-moz-range-thumb {
+  height: 12px;
+  width: 12px;
+  border-radius: 9999px;
+  background: var(--sun-accent, #f7e7ce);
+  border: 1.5px solid #080604;
+  box-shadow: 0 0 8px rgba(247, 231, 206, 0.55);
+  transition: transform 150ms ease, background-color 100ms linear;
+}
+
+@keyframes sproutPush {
+  0% {
+    transform: translateY(34px) scale(0.4);
+    opacity: 0;
+  }
+  55% {
+    transform: translateY(-3px) scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes capOpen {
+  0% {
+    transform: scaleX(0.55) scaleY(1.2);
+  }
+  100% {
+    transform: scaleX(1) scaleY(1);
+  }
+}
+
+.animate-sprout {
+  animation: sproutPush 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-cap-open {
+  transform-origin: 50% 45%;
+  animation: capOpen 1.2s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}

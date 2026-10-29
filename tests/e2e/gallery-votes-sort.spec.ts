@@ -13,7 +13,7 @@ test("sort choices hydrate from URLs, preserve filter resets and omit defaults",
   await page.goto("/");
   const sort = page.getByRole("combobox", { name: "Sort by" });
   await expect(sort).toHaveValue("date-desc");
-  await expect(page.locator("article h3").first()).toHaveText("LOWTIDE");
+  await expect(page.locator("article h3").first()).toHaveText("LOAM");
   await sort.selectOption("date-asc");
   await expect(page).toHaveURL(/dir=asc/);
   await expect(page.locator("article h3").first()).toHaveText("Orrery");
@@ -34,11 +34,11 @@ test("likes sort reconciles late counts with latest-date ties", async ({ page })
     await route.fulfill({ json: { orrery: { up: 25, down: 2 }, koji: { up: 5, down: 0 } } });
   });
   await page.goto("/?sort=likes");
-  await expect(page.locator("article h3").first()).toHaveText("LOWTIDE");
+  await expect(page.locator("article h3").first()).toHaveText("LOAM");
   release();
   await expect(page.locator("article h3").first()).toHaveText("Orrery");
   await page.getByRole("combobox", { name: "Sort by" }).selectOption("likes-asc");
-  await expect(page.locator("article h3").first()).toHaveText("LOWTIDE");
+  await expect(page.locator("article h3").first()).toHaveText("LOAM");
 });
 
 test("votes can be restored, revoked with the keyboard and cast again", async ({ page, context }) => {

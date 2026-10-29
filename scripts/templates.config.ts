@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage" | "firstday" | "starlight" | "lowtide";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "morrow" | "loophouse" | "wowflutter" | "verane" | "sundial" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "lucentra" | "spaceedu" | "assemblage" | "firstday" | "starlight" | "lowtide" | "loam";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,20 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  loam: {
+    palette: [
+      "#080604", "#F0E8D8", "#7A5C43", "#C8E64C", "#F7E7CE", "#F6EFE3",
+      "#18120C", "#1C1712", "#2C251D", "#33261B", "#3A4F22", "#3B4F04",
+      "#42382C", "#4A4035", "#4E3522", "#5B7809", "#5C3314", "#63452D",
+      "#6E8F11", "#73533A", "#7A5B42", "#84AB14", "#8A5229", "#D2C3AE",
+      "#D8CBB8", "#E2D6C3", "#E4F882", "#E5886E", "#F4F8FB", "#FF9B54",
+      "#FFFFFF", "#FF8A3D", "#FFA751", "#060507", "#0C0805", "#161B14",
+      "#8EB2E6", "#FFBE6B", "#F7FAF5", "#131B28", "#2A1F13", "#3E4B37",
+      "#4A361D",
+    ],
+    paletteExempt: ["src/app/(loam)/loam/scene/"],
+    mediaExempt: true,
+  },
   // night (ground), foam (text), moonlight (the one accent: dial, focus, buttons), plankton (live glow readouts), dusk (muted text), dawn (dawn moments, form errors)
   lowtide: {
     palette: ["#0A0D16", "#ECEFF0", "#EBD9A6", "#8FD3FF", "#7A8494", "#F2B28C"],
