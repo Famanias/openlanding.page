@@ -30,24 +30,8 @@ export function SplashGateSection() {
     >
       <div className="vl-container">
         <div className="vl-slab vl-slab--lavender border-2 border-[#1E1B2E]/15 p-6 sm:p-10 lg:p-14">
-          {/* Top Eyebrow Strip */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#1E1B2E]/10">
-            <div className="inline-flex items-center gap-2.5 rounded-full bg-[#FBF9F5] px-4 py-1.5 border border-[#1E1B2E]/15">
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: "#5B46E8" }}
-              />
-              <span className="vl-mono text-xs font-semibold text-[#1E1B2E]">
-                STAGE 01 · SPLASH PAGE THRESHOLD · ZERO-FIELD GATEKEEPER
-              </span>
-            </div>
-            <span className="rounded-full bg-[#D9F2E6] px-4 py-1.5 vl-mono text-xs font-medium text-[#1E1B2E]">
-              2026 FUNNEL ARCHITECTURE MONOGRAPH
-            </span>
-          </div>
-
           {/* Main 12-Col Hero Grid */}
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* Left 7 Columns: Splash Gate Announcement, Cohort Selector & Single Enter Action */}
             <div className="lg:col-span-7 space-y-6">
               <h1
@@ -72,10 +56,7 @@ export function SplashGateSection() {
                 className="vl-load-rise text-lg sm:text-xl text-[#1E1B2E]/90 max-w-2xl leading-relaxed"
                 style={{ "--i": 1 } as React.CSSProperties}
               >
-                Top- and mid-funnel pages work when they trade real value for contact depth. Start at this{" "}
-                <strong>Splash Page</strong> threshold to select your benchmark cohort, step through our 1-field{" "}
-                <strong>Squeeze Page</strong>, and unseal the 4-field{" "}
-                <strong>B2B Lead Capture Dossier</strong>.
+                Capture pages perform when they match data requests to content depth. Select your benchmark cohort below, test the 1-field Squeeze, and inspect the 4-field Lead Capture Dossier.
               </p>
 
               {/* Interactive Splash Gate Card: Edition / Region Selection + Single Enter Button */}
@@ -84,8 +65,8 @@ export function SplashGateSection() {
                 style={{ "--i": 2 } as React.CSSProperties}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="vl-mono text-xs font-semibold text-[#5B46E8]">
-                    01 · SELECT BENCHMARK EDITION (SPLASH GATEKEEPER)
+                  <span className="text-xs font-bold text-[#1E1B2E]">
+                    Benchmark Cohort
                   </span>
                   <span className="rounded-full bg-[#E8E0F8] px-3 py-1 vl-mono text-[11px] font-medium text-[#1E1B2E]">
                     {selectedCohort.regionTag}
@@ -128,7 +109,7 @@ export function SplashGateSection() {
                 <div className="rounded-[20px] bg-[#D9F2E6] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <span className="vl-mono text-[11px] font-semibold text-[#1E1B2E]">
-                      COHORT FINDING · {selectedCohort.headlineStat.toUpperCase()}
+                      {selectedCohort.headlineStat.toUpperCase()}
                     </span>
                     <p className="mt-0.5 text-xs sm:text-sm text-[#1E1B2E]">
                       {selectedCohort.summary}
@@ -148,8 +129,8 @@ export function SplashGateSection() {
                       >
                         <span>
                           {snapshot.unlocked.splash
-                            ? "Splash Gate Unlatched · Continue"
-                            : "Enter the 2026 Briefing"}
+                            ? "Gate Unlatched · Continue"
+                            : "Enter Briefing"}
                         </span>
                         <span className="vl-btn__arrow" aria-hidden="true">
                           →
@@ -162,7 +143,7 @@ export function SplashGateSection() {
                       onClick={handleEnterSplashGate}
                       className="vl-btn vl-btn--secondary px-5 py-3.5 text-sm"
                     >
-                      Jump to Stage 02 Squeeze
+                      Jump to Squeeze
                     </a>
                   </div>
 
@@ -171,8 +152,8 @@ export function SplashGateSection() {
                     aria-live="polite"
                   >
                     {snapshot.unlocked.splash
-                      ? "✓ RING 01 UNLATCHED (40% DEPTH)"
-                      : "0 FIELDS · 74.8% MEDIAN PASS-THROUGH"}
+                      ? "✓ RING 01 UNLATCHED"
+                      : "0 FIELDS · 74.8% PASS-THROUGH"}
                   </span>
                 </div>
               </div>
@@ -187,7 +168,7 @@ export function SplashGateSection() {
                   onClick={() => valenceStore.setActiveTier("splash")}
                   className="rounded-full border border-[#1E1B2E]/15 bg-[#FBF9F5] px-4 py-3 flex items-center justify-between"
                 >
-                  <span className="text-xs font-bold text-[#1E1B2E]">01 · Splash Page</span>
+                  <span className="text-xs font-bold text-[#1E1B2E]">01 · Splash Gate</span>
                   <span className="rounded-full bg-[#E8E0F8] px-2.5 py-0.5 vl-mono text-[11px] text-[#1E1B2E]">
                     0 fields
                   </span>

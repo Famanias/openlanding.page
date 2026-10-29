@@ -49,7 +49,7 @@ export function SqueezeForm() {
               className="inline-block h-2.5 w-2.5 rounded-full"
               style={{ backgroundColor: "#5B46E8" }}
             />
-            RING 02 UNSEALED · EXECUTIVE SYNTHESIS READY
+            RING 02 UNSEALED
           </span>
           <span className="rounded-full border border-[#1E1B2E]/20 bg-[#E8E0F8] px-4 py-1 vl-mono text-xs font-semibold text-[#1E1B2E]">
             PASS {snapshot.squeezePassCode}
@@ -60,12 +60,12 @@ export function SqueezeForm() {
           14-Page Executive Digest unlocked for {snapshot.squeezeEmail}.
         </h3>
         <p className="mt-2 text-sm sm:text-base text-[#645D7A]">
-          Local demo only — no network request was sent. Chapter 02 in the Gated Asset Preview below is now unblurred, and your email has been carried forward into Stage 03 if you want the full 68-page Monograph.
+          Local demo only. Chapter 02 in the Gated Asset Preview below is now unblurred, and your email has been carried forward into Stage 03.
         </p>
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <a href="#preview" className="vl-btn vl-btn--primary">
-            <span>Read Unlocked Chapter 02</span>
+            <span>Read Chapter 02</span>
             <span className="vl-btn__arrow" aria-hidden="true">
               →
             </span>
@@ -77,7 +77,7 @@ export function SqueezeForm() {
             }}
             className="vl-btn vl-btn--secondary"
           >
-            Edit Email Address
+            Edit Email
           </button>
         </div>
       </div>
@@ -105,7 +105,7 @@ export function SqueezeForm() {
           name="squeezeEmail"
           type="email"
           autoComplete="email"
-          placeholder="you@company.com — 1 field only"
+          placeholder="you@company.com"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
@@ -139,7 +139,7 @@ export function SqueezeForm() {
         </p>
       ) : (
         <p id="vl-squeeze-hint" className="pl-4 vl-mono text-[11px] text-[#645D7A]">
-          INSTANT BROWSER UNLOCK · ZERO SPAM · NO NETWORK REQUEST SENT
+          INSTANT BROWSER UNLOCK · ZERO SPAM · LOCAL DEMO
         </p>
       )}
     </form>

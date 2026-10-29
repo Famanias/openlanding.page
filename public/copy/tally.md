@@ -334,20 +334,13 @@ export default function TallyPage() {
       <main id="main-content">
         <Hero />
 
-        {/* § I · The Signature Mechanic: Pinned & Interactive Perforated Ticket Runway */}
+        {/* The Signature Mechanic: Pinned & Interactive Perforated Ticket Runway */}
         <section
           id="ledger"
           className="tl-section tl-ledger-section"
           aria-labelledby="tl-ledger-heading"
         >
           <div className="tl-container tl-ledger-intro">
-            <Reveal as="div" variant="draw" className="tl-eyebrow-row">
-              <span className="tl-eyebrow-rule" aria-hidden="true" />
-              <span className="tl-mono">
-                § I · THE PERFORATED TICKET RUNWAY (STOPS 01–04)
-              </span>
-            </Reveal>
-
             <div className="tl-head-split">
               <Reveal as="h2" variant="mask" className="tl-h2">
                 <span id="tl-ledger-heading" className="tl-mask-inner">
@@ -356,7 +349,7 @@ export default function TallyPage() {
               </Reveal>
 
               <Reveal as="p" variant="rise" delay={120} className="tl-section-lede">
-                Scroll or click through the four workbench stops below. Switch merchant archetypes, adjust the checkout deposit split, and tear the customer claim stub along the perforation.
+                Track every order across four workbench stages. Adjust deposit splits and detach customer claim stubs.
               </Reveal>
             </div>
           </div>
@@ -364,13 +357,13 @@ export default function TallyPage() {
           <CounterStage />
         </section>
 
-        {/* § II · Four Ways to Sell Time */}
+        {/* Four Ways to Sell Time */}
         <ServiceModes />
 
-        {/* § III · Small Shopify Business Dossiers */}
+        {/* Small Shopify Business Dossiers */}
         <MerchantStories />
 
-        {/* § IV · Rate & Deposit Calculator + Merchant Plans */}
+        {/* Rate & Deposit Calculator + Merchant Plans */}
         <section
           id="calculator"
           className="tl-section tl-calc-section"
@@ -378,11 +371,6 @@ export default function TallyPage() {
         >
           <div className="tl-container">
             <div className="tl-section-head">
-              <Reveal as="div" variant="draw" className="tl-eyebrow-row">
-                <span className="tl-eyebrow-rule" aria-hidden="true" />
-                <span className="tl-mono">§ IV · RATE & DEPOSIT RECOVERY LEDGER</span>
-              </Reveal>
-
               <div className="tl-head-split">
                 <Reveal as="h2" variant="mask" className="tl-h2">
                   <span id="tl-calc-heading" className="tl-mask-inner">
@@ -391,7 +379,7 @@ export default function TallyPage() {
                 </Reveal>
 
                 <Reveal as="p" variant="rise" delay={120} className="tl-section-lede">
-                  Other booking apps take a percentage of every appointment. Tally charges one flat monthly fee for your shop counter while recovering thousands in missed bench hours.
+                  No percentage cut on your hours. One flat monthly rate while recovering missed bench time.
                 </Reveal>
               </div>
             </div>
@@ -995,7 +983,13 @@ export default function TallyPage() {
 .tl-mask-line {
   display: block;
   overflow: clip;
-  padding-bottom: 0.06em;
+  padding: 0 0.1em 0.35em 0;
+  margin-bottom: -0.22em;
+}
+
+.tl-mask-line:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0.4em;
 }
 
 .tl-mask-inner {
@@ -1041,7 +1035,7 @@ export default function TallyPage() {
   font-family: var(--font-display);
   font-size: clamp(2.45rem, 5vw, 4.65rem);
   font-weight: 700;
-  line-height: 1.03;
+  line-height: 1.12;
   letter-spacing: -0.03em;
   margin: 0 0 20px;
 }
@@ -3254,6 +3248,8 @@ export default function TallyPage() {
 
   html[data-tl-motion="live"] [data-reveal="mask"] {
     overflow: clip;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
   }
 
   html[data-tl-motion="live"] [data-reveal="mask"] .tl-mask-inner {
@@ -3881,10 +3877,10 @@ export const ARCHETYPES: ServiceArchetype[] = [
       { id: "hardware", label: "Laurel-leaf copper button replacement", price: 14, code: "ADD-BTN" },
     ],
     stopNotes: [
-      "Customer selects inseam length + Thursday 10:30 AM fitting slot directly on the Shopify product page.",
-      "Denim checked in at counter; thermal bench tag prints with cuff allowance (+0.75 in shrinkage note).",
-      "Assigned to Master Tailor Lin; indigo thread #04 matched and chain-stitched on Bench 02.",
-      "SMS pickup pass sent with one-tap Apple Pay balance link and locker code #14.",
+      "Customer selects fitting slot and inseam on Shopify.",
+      "Denim checked in at counter; thermal bench tag prints.",
+      "Assigned to Bench 02; chain-stitched with indigo thread #04.",
+      "SMS pickup pass sent with one-tap Apple Pay link.",
     ],
   },
   {
@@ -3905,10 +3901,10 @@ export const ARCHETYPES: ServiceArchetype[] = [
       { id: "bleed", label: "Hydraulic brake bleed (front + rear)", price: 42, code: "ADD-BLD" },
     ],
     stopNotes: [
-      "Rider books Workstand 01 drop-off window and pays 50% bench reservation deposit in Shopify.",
-      "Frame tagged at front roll-up door; tire pressure & chain wear (0.5%) logged on POS tablet.",
-      "Cassette ultrasonic-cleaned; mechanic adds 11-speed shift cable from Shopify inventory.",
-      "Test-ridden 0.4 miles; ready stub texted to rider with itemized parts + labor invoice.",
+      "Rider books bay window and pays 50% deposit online.",
+      "Frame tagged at roll-up door; chain wear logged on POS.",
+      "Ultrasonic drivetrain clean; new shift cable added.",
+      "Test-ridden; ready stub texted with parts invoice.",
     ],
   },
   {
@@ -3929,10 +3925,10 @@ export const ARCHETYPES: ServiceArchetype[] = [
       { id: "glaze", label: "Dip in studio celadon & pistachio glaze", price: 16, code: "ADD-GLZ" },
     ],
     stopNotes: [
-      "Maker reserves Wheel #4 and a half-shelf in Kiln #3; seat capacity decrements live in Shopify.",
-      "Pieces weighed and stamped at the damp-room counter; glaze slip attached to drying rack.",
-      "Loaded into Cone 6 oxidation firing cycle; thermocouple curve reaches 2,232 °F.",
-      "Unloaded warm from kiln; photo + shelf pickup stub sent so pieces are collected within 7 days.",
+      "Maker reserves Wheel #4 and half-shelf in Kiln #3.",
+      "Pieces weighed and stamped; glaze slip tagged on drying rack.",
+      "Loaded into Cone 6 cycle; fired to 2,232 °F.",
+      "Unloaded warm; photo and cubby pickup stub texted.",
     ],
   },
   {
@@ -3953,10 +3949,10 @@ export const ARCHETYPES: ServiceArchetype[] = [
       { id: "crystal", label: "Acrylic dome crystal buff & polish", price: 26, code: "ADD-CRY" },
     ],
     stopNotes: [
-      "Collector books an insured mail-in shipping box or counter intake with a refundable bench deposit.",
-      "Serial & case reference photographed at intake; movement amplitude baseline (+14 s/day) recorded.",
-      "Mainspring barrel serviced and regulated to +2 s/day across 5 positions on Witschi timing tape.",
-      "Final balance cleared via Shopify draft-order link; return tracking or counter claim code issued.",
+      "Collector books intake with refundable bench deposit.",
+      "Serial photographed at intake; amplitude baseline logged.",
+      "Mainspring serviced; regulated across 5 positions.",
+      "Balance cleared via Shopify link; claim code issued.",
     ],
   },
 ];
@@ -3975,7 +3971,7 @@ export const TICKET_STOPS: TicketStop[] = [
     title: "Booked at Checkout",
     tag: "STOREFRONT · DEPOSIT",
     summary:
-      "Your customer picks a real time slot, bay, or mail-in kit right on your Shopify product page and pays a partial deposit or full fare.",
+      "Customer selects a time slot or mail-in kit and pays the deposit in Shopify Checkout.",
     shopifyEvent: "checkout.completed · deposit_captured",
   },
   {
@@ -3983,7 +3979,7 @@ export const TICKET_STOPS: TicketStop[] = [
     title: "Checked In at Counter",
     tag: "SHOPIFY POS · INTAKE",
     summary:
-      "Scan the claim stub in Shopify POS. Tally prints the physical bench tag, logs intake photos or measurements, and assigns a workstation.",
+      "Scan the stub in Shopify POS. Print the bench tag, log intake notes, and assign a station.",
     shopifyEvent: "pos.ticket_stamped · station_assigned",
   },
   {
@@ -3991,7 +3987,7 @@ export const TICKET_STOPS: TicketStop[] = [
     title: "On the Workbench",
     tag: "BENCH LOG · PARTS SYNC",
     summary:
-      "Add replacement parts from your live Shopify inventory, check off bench steps, and let customers peek at progress without calling the shop.",
+      "Pull parts from live Shopify inventory and update progress without status phone calls.",
     shopifyEvent: "bench.stage_updated · inventory_reserved",
   },
   {
@@ -3999,7 +3995,7 @@ export const TICKET_STOPS: TicketStop[] = [
     title: "Ready for Pickup",
     tag: "STUB TEAR · BALANCE PAID",
     summary:
-      "One tap stamps the ticket Ready. Tally texts the customer their pickup code and collects the remaining balance before they reach the counter.",
+      "Stamp the ticket Ready. Text the pickup pass and collect the remaining balance.",
     shopifyEvent: "ticket.ready_stamped · balance_settled",
   },
 ];
@@ -4033,18 +4029,18 @@ export const SERVICE_MODES: ServiceMode[] = [
     kicker: "Calendar slots synced to staff hours",
     pastel: "mint",
     description:
-      "Sell bridal fittings, custom frame consultations, or knife-sharpening windows without double-booking your one workbench.",
+      "Book fittings and consultations directly from product pages without double-booking workbenches.",
     storefrontLine: {
-      title: "45-Min Custom Suit Measure & Fabric Pull",
-      meta: "Slot: Fri Oct 30 · 2:00 PM · Tailor: M. Vance",
-      depositBadge: "$40 deposit (credited to garment)",
+      title: "45-Min Custom Suit Measure & Fitting",
+      meta: "Fri Oct 30 · 2:00 PM · Tailor: M. Vance",
+      depositBadge: "$40 deposit credited to order",
       price: "$40.00 due today",
     },
     posBenchLine: {
-      station: "Fitting Room B · 45m block locked",
-      status: "CHECKED IN · Measurements attached to Customer Profile",
-      inventoryLink: "Linked SKU: Wool Flannel Bolt #19 (3.5 yds held)",
-      actionLabel: "Apply $40 Deposit to Bespoke Order",
+      station: "Fitting Room B · 45m block",
+      status: "CHECKED IN · Measurements logged",
+      inventoryLink: "Held: Wool Flannel Bolt #19",
+      actionLabel: "Apply Deposit to Bespoke Order",
     },
   },
   {
@@ -4054,18 +4050,18 @@ export const SERVICE_MODES: ServiceMode[] = [
     kicker: "Two-part claim stubs + parts invoicing",
     pastel: "blush",
     description:
-      "Issue numbered repair tickets for boots, watches, espresso machines, or bicycles. Add replacement parts from Shopify stock mid-repair.",
+      "Issue numbered claim tickets for repairs. Add parts from Shopify stock as work progresses.",
     storefrontLine: {
-      title: "Goodyear Welt Resole — Vibram Lug + Cork Fill",
-      meta: "Intake: Counter Drop-Off or Prepaid Label",
-      depositBadge: "50% bench deposit · $65 at pickup",
+      title: "Goodyear Welt Resole — Vibram Lug",
+      meta: "Drop-Off or Prepaid Label",
+      depositBadge: "50% deposit · $65 at pickup",
       price: "$65.00 due today",
     },
     posBenchLine: {
-      station: "Cobbler Press 02 · Ticket #TLY-26-1409",
-      status: "ON BENCH · Midsole cork replaced, awaiting edge ink",
-      inventoryLink: "Pulled 1× Vibram No. 430 Heel Pair from Stock",
-      actionLabel: "Stamp Ready & Send $65 Balance Link",
+      station: "Cobbler Press 02 · #TLY-26-1409",
+      status: "ON BENCH · Midsole cork replaced",
+      inventoryLink: "Pulled 1× Vibram No. 430 Heel",
+      actionLabel: "Stamp Ready & Send Balance Link",
     },
   },
   {
@@ -4075,18 +4071,18 @@ export const SERVICE_MODES: ServiceMode[] = [
     kicker: "Attach labor to physical Shopify SKUs",
     pastel: "lilac",
     description:
-      "When a shopper buys raw denim, a cast-iron skillet, or a tennis frame, offer chain-stitch hemming, seasoning, or custom stringing in the same cart.",
+      "Attach hemming, stringing, or custom assembly directly to physical products in the same cart.",
     storefrontLine: {
-      title: "+ Add Custom Racquet Stringing (Mains 52 lb / Crosses 50 lb)",
-      meta: "Attached to: Yonex Percept 97 Frame in Cart",
-      depositBadge: "Adds +1 bench day before shipping",
+      title: "+ Custom Racquet Stringing (52/50 lb)",
+      meta: "Attached to: Yonex Percept 97 in Cart",
+      depositBadge: "+1 bench day before shipping",
       price: "+$32.00 labor",
     },
     posBenchLine: {
-      station: "Stringing Machine 01 · Hold Fulfillment",
-      status: "HOLD SHIPPING · Complete service before printing label",
-      inventoryLink: "Parent Order No. 4812 unblocked once ticket stamped",
-      actionLabel: "Stamp Strung & Release to Ship Station",
+      station: "Stringing Machine 01 · Hold Shipping",
+      status: "HOLD SHIPPING · In progress",
+      inventoryLink: "Order No. 4812 held for stringing",
+      actionLabel: "Stamp Complete & Release to Ship",
     },
   },
   {
@@ -4096,17 +4092,17 @@ export const SERVICE_MODES: ServiceMode[] = [
     kicker: "Seat counters + automatic waitlist",
     pastel: "paper",
     description:
-      "Turn Sunday afternoons into steady high-margin revenue: floral arranging, wheel throwing, espresso dialing, or visible-mending nights.",
+      "Host studio classes and workshops with real-time seat caps and automated waitlists.",
     storefrontLine: {
-      title: "Sunday Sashiko Denim Mending Workshop (6 Seats)",
-      meta: "Sun Nov 8 · 4:00 PM – 6:30 PM · 2 seats left",
-      depositBadge: "Includes Sashiko needle kit & indigo scrap pack",
+      title: "Sunday Sashiko Denim Mending Workshop",
+      meta: "Sun Nov 8 · 4:00 PM · 2 seats left",
+      depositBadge: "Includes needle & scrap pack",
       price: "$75.00 / seat",
     },
     posBenchLine: {
       station: "Communal Table · Roster 6 / 6 Full",
-      status: "ROSTER LOCKED · 3 guests on 1-click SMS waitlist",
-      inventoryLink: "6× Beginner Mending Kits deducted from shelf",
+      status: "ROSTER FULL · 3 on SMS waitlist",
+      inventoryLink: "6× Mending Kits deducted",
       actionLabel: "Print Table Place-Stubs (6)",
     },
   },
@@ -4151,12 +4147,12 @@ export const MERCHANT_STORIES: MerchantStory[] = [
     location: "Portland, Oregon",
     pastel: "blush",
     quote:
-      "Before Tally, 40% of our alterations lived on paper tags that never talked to Shopify. Now every pair of jeans bought online or in-store gets a numbered hem stub before it touches the sewing table.",
+      "Every pair of jeans bought online or in-store gets a numbered claim stub before it touches the sewing table.",
     owner: "Marta Lindqvist, Founder & Head Tailor",
     metricValue: 94,
     metricSuffix: "%",
-    metricLabel: "fittings show up on time with 50% deposit",
-    secondaryStat: "+$4,800/mo in attached hemming & darning labor",
+    metricLabel: "fittings arrive on time with 50% deposit",
+    secondaryStat: "+$4,800/mo attached labor",
     illustrationType: "tailor",
     receipt: {
       serial: "TLY-26-1050",
@@ -4164,13 +4160,13 @@ export const MERCHANT_STORIES: MerchantStory[] = [
       customer: "E. Takahashi · Order No. 8841",
       station: "Bench 02 · Union Special 43200G",
       items: [
-        { code: "GOD-14OZ", label: "14oz Japanese Selvedge Jean (32×34)", amount: "$245.00" },
-        { code: "SRV-HEM", label: "Chain-Stitch Hem to 30.5 in (Gold Thread)", amount: "$35.00" },
-        { code: "ADD-DRN", label: "Pocket Bag Canvas Reinforcement", amount: "$20.00" },
+        { code: "GOD-14OZ", label: "14oz Selvedge Jean (32×34)", amount: "$245.00" },
+        { code: "SRV-HEM", label: "Chain-Stitch Hem to 30.5 in", amount: "$35.00" },
+        { code: "ADD-DRN", label: "Pocket Bag Reinforcement", amount: "$20.00" },
       ],
       depositPaid: "$272.50 at checkout",
-      balancePaid: "$27.50 on counter pickup",
-      pickupNote: "Picked up in 3 days · Added leather belt at counter (+$85)",
+      balancePaid: "$27.50 at pickup",
+      pickupNote: "Picked up in 3 days · Added leather belt (+$85)",
     },
   },
   {
@@ -4180,22 +4176,22 @@ export const MERCHANT_STORIES: MerchantStory[] = [
     location: "Minneapolis, Minnesota",
     pastel: "mint",
     quote:
-      "Spring tune-up season used to jam our hallway with 35 bikes and angry phone calls. Tally caps our daily workstand capacity and pulls brake pads straight from our Shopify inventory as we wrench.",
+      "Tally caps daily workstand capacity and pulls parts straight from Shopify inventory as we wrench.",
     owner: "Devon Reyes, Service Manager",
     metricValue: 38,
     metricSuffix: " hrs",
-    metricLabel: "saved each month on status phone calls",
-    secondaryStat: "0 overbooked workstands across 420 spring tune-ups",
+    metricLabel: "saved monthly on status phone calls",
+    secondaryStat: "0 overbooked workstands",
     illustrationType: "cycle",
     receipt: {
       serial: "TLY-26-2150",
       date: "OCT 22 · 08:45 AM",
-      customer: "S. Lindstrom · Commuter Bay #1",
+      customer: "S. Lindstrom · Bay #1",
       station: "Stand 01 · Mechanic D. Reyes",
       items: [
-        { code: "SRV-TUN", label: "Full Commuter Drivetrain Overhaul", amount: "$120.00" },
-        { code: "PRT-PAD", label: "Shimano L05A Resin Disc Pads (×2)", amount: "$48.00" },
-        { code: "ADD-WAX", label: "Ultrasonic Strip + Hot Melt Paraffin Wax", amount: "$28.00" },
+        { code: "SRV-TUN", label: "Commuter Drivetrain Overhaul", amount: "$120.00" },
+        { code: "PRT-PAD", label: "Shimano L05A Disc Pads (×2)", amount: "$48.00" },
+        { code: "ADD-WAX", label: "Ultrasonic Hot Melt Paraffin Wax", amount: "$28.00" },
       ],
       depositPaid: "$98.00 bay deposit",
       balancePaid: "$98.00 via SMS tap-to-pay",
@@ -4209,12 +4205,12 @@ export const MERCHANT_STORIES: MerchantStory[] = [
     location: "Burlington, Vermont",
     pastel: "lilac",
     quote:
-      "We sell finished mugs, six-week wheel courses, and per-shelf kiln firing on one Shopify store. Tally treats kiln space and wheel seats with the same inventory discipline as our stoneware.",
+      "Kiln space and wheel seats are tracked with the exact same inventory discipline as our stoneware.",
     owner: "Jun & Tessa Park, Studio Co-Directors",
     metricValue: 100,
     metricSuffix: "%",
-    metricLabel: "class seats filled via automated SMS waitlist",
-    secondaryStat: "3.2× faster piece pickup once kiln shelf stubs are stamped",
+    metricLabel: "class seats filled via SMS waitlist",
+    secondaryStat: "3.2× faster pickup once fired",
     illustrationType: "kiln",
     receipt: {
       serial: "TLY-26-3325",
@@ -4222,13 +4218,13 @@ export const MERCHANT_STORIES: MerchantStory[] = [
       customer: "A. Beaumont · Member No. 118",
       station: "Skutt Kiln #3 · Shelf B (Cone 6)",
       items: [
-        { code: "SRV-WHL", label: "Open Wheel Session (2 hrs · Wheel #4)", amount: "$48.00" },
-        { code: "SRV-FIR", label: "Half-Shelf Cone 6 Glaze Firing (6 bowls)", amount: "$36.00" },
-        { code: "ADD-CLY", label: "12 lb Speckled Buff Stoneware Pug", amount: "$18.00" },
+        { code: "SRV-WHL", label: "Open Wheel (2 hrs · Wheel #4)", amount: "$48.00" },
+        { code: "SRV-FIR", label: "Half-Shelf Cone 6 Glaze Firing", amount: "$36.00" },
+        { code: "ADD-CLY", label: "12 lb Buff Stoneware Pug", amount: "$18.00" },
       ],
       depositPaid: "$51.00 at booking",
       balancePaid: "$51.00 on shelf unload",
-      pickupNote: "Shelf B unloaded · Cubby #09 claim stub verified",
+      pickupNote: "Shelf B unloaded · Cubby #09 stub verified",
     },
   },
 ];
@@ -4253,13 +4249,13 @@ export const PLANS: MerchantPlan[] = [
     cadence: "/ month",
     badge: "Solo Bench & Pop-Ups",
     pastel: "paper",
-    idealFor: "Independent makers, solo tailors, and single-chair studios starting on Shopify Basic.",
-    includedTickets: "Up to 80 service tickets / mo · 0% Tally commission",
+    idealFor: "Solo makers and studios starting on Shopify.",
+    includedTickets: "Up to 80 tickets / mo · 0% commission",
     features: [
-      "Theme 2.0 slot picker & service add-on block",
-      "Partial deposit or full prepay in Shopify Checkout",
-      "Printable & SMS perforated claim stubs",
-      "4-stop customer status page (Booked → Ready)",
+      "Online slot & add-on picker",
+      "Upfront deposits in Shopify Checkout",
+      "Printable & SMS claim stubs",
+      "4-stop customer status tracking",
     ],
   },
   {
@@ -4269,13 +4265,13 @@ export const PLANS: MerchantPlan[] = [
     cadence: "/ month",
     badge: "Most Small Shops",
     pastel: "mint",
-    idealFor: "Busy neighborhood storefronts combining physical retail, Shopify POS, and 2–5 workbench bays.",
-    includedTickets: "Unlimited service tickets · 0% Tally commission",
+    idealFor: "Neighborhood shops with retail and 2–5 bench bays.",
+    includedTickets: "Unlimited tickets · 0% commission",
     features: [
-      "Full Shopify POS tile: scan, stamp & print thermal bench tags",
-      "Mid-repair parts pull from live Shopify SKU inventory",
-      "Automated SMS pickup pass + 1-tap balance invoice",
-      "Multi-staff & multi-bay capacity rules",
+      "Shopify POS tile: scan & print thermal tags",
+      "Mid-repair parts pull from Shopify stock",
+      "Automated SMS pickup pass & balance link",
+      "Multi-staff & bay capacity rules",
     ],
   },
   {
@@ -4285,13 +4281,13 @@ export const PLANS: MerchantPlan[] = [
     cadence: "/ month",
     badge: "Multi-Location & Mail-In",
     pastel: "lilac",
-    idealFor: "Multi-location ateliers and national mail-in repair programs with high-volume bench routing.",
-    includedTickets: "Unlimited tickets across up to 5 locations",
+    idealFor: "Multi-location shops and national mail-in repair programs.",
+    includedTickets: "Unlimited tickets across 5 locations",
     features: [
-      "Prepaid mail-in repair kit generator + return label sync",
-      "Before/after bench photo attachments on customer stubs",
-      "Custom webhook events & Klaviyo / Shopify Flow triggers",
-      "Dedicated counter onboarding & theme migration",
+      "Prepaid mail-in repair kit generator",
+      "Before/after bench photo attachments",
+      "Shopify Flow & webhook triggers",
+      "Dedicated counter onboarding",
     ],
   },
 ];
@@ -4306,38 +4302,38 @@ export type FaqItem = {
 export const FAQS: FaqItem[] = [
   {
     id: "pos-sync",
-    question: "Does Tally work with both my online Shopify store and Shopify POS at the counter?",
+    question: "Does Tally work with both online Shopify and Shopify POS?",
     tag: "SHOPIFY POS + ONLINE",
     answer:
-      "Yes. Customers can book a slot or mail-in repair online 24/7, or walk up to your physical counter where staff issue a claim ticket in two taps inside the native Shopify POS extension. Both share the exact same bench capacity and ticket ledger.",
+      "Yes. Customers can book online 24/7 or at your physical counter via Shopify POS. Both channels share the same real-time bench capacity and ticket ledger.",
   },
   {
     id: "deposits",
-    question: "How do partial deposits and final pickup balances work in Shopify Checkout?",
+    question: "How do partial deposits and final pickup balances work?",
     tag: "DEPOSITS & BALANCES",
     answer:
-      "Tally uses Shopify's native partial-payment and draft-order rails. You set whether a service collects 25%, 50%, or 100% upfront. When the job is stamped Ready on the bench, Tally texts a one-tap checkout link for the remaining balance—plus any extra parts added during the repair.",
+      "You choose the deposit percentage (25%, 50%, or 100%). When work is stamped Ready, Tally texts a one-tap link for the remaining balance and any added parts.",
   },
   {
     id: "physical-goods",
-    question: "Can a customer buy a physical product and a service in the exact same cart?",
+    question: "Can customers buy physical products and services in the same cart?",
     tag: "MIXED CARTS",
     answer:
-      "Absolutely. That is why we built Tally. A shopper can buy a pair of selvedge jeans, attach a $35 chain-stitch hemming ticket, and book a Friday fitting—all in a single Shopify checkout without splitting orders or breaking inventory.",
+      "Yes. Shoppers can add goods, attach service labor like hemming, and reserve fitting slots in a single Shopify checkout without split orders.",
   },
   {
     id: "rescheduling",
-    question: "What happens when a customer needs to move their appointment or runs late?",
+    question: "What happens when a customer reschedules or cancels?",
     tag: "RESCHEDULE & NO-SHOWS",
     answer:
-      "Every Customer Claim Stub includes a self-serve reschedule link governed by your cutoff window (for example, free rescheduling up to 24 hours before the slot). Within your cutoff window, the deposit is protected so your bench hour is never wasted.",
+      "Every claim stub includes a self-serve reschedule link. Within your custom cutoff window, deposits remain non-refundable to protect bench hours.",
   },
   {
     id: "theme-install",
-    question: "Will this slow down my storefront or require editing Liquid code?",
+    question: "Will Tally slow down my storefront or require code edits?",
     tag: "THEME 2.0 APP BLOCK",
     answer:
-      "Never. Tally installs as a lightweight Online Store 2.0 App Block (< 9 KB gzipped) that inherits your theme's typography and colours automatically. If you ever uninstall, zero stray Liquid snippets are left behind.",
+      "No. Tally installs as a lightweight Theme 2.0 app block (< 9 KB) that adopts your store styling automatically. Zero Liquid edits required.",
   },
 ];
 ]]>
@@ -4581,7 +4577,6 @@ export function CounterStage() {
                 <span className="tl-mono tl-badge-pill" data-tone={currentArchetype.pastelTone}>
                   STOP {currentStop.step} / 04 · {currentStop.tag}
                 </span>
-                <span className="tl-mono tl-webhook-tag">{currentStop.shopifyEvent}</span>
               </div>
 
               <h3 className="tl-bench-title">{currentStop.title}</h3>
@@ -4589,7 +4584,7 @@ export function CounterStage() {
 
               <div className="tl-live-note-card" data-tone={currentArchetype.pastelTone}>
                 <div className="tl-mono tl-live-note-kicker">
-                  LIVE BENCH LOG · {currentArchetype.shopExample.toUpperCase()} ({currentArchetype.city})
+                  BENCH LOG · {currentArchetype.shopExample.toUpperCase()}
                 </div>
                 <p className="tl-live-note-copy">{currentArchetype.stopNotes[stopIdx]}</p>
               </div>
@@ -4597,7 +4592,7 @@ export function CounterStage() {
               {/* Interactive Configuration Controls */}
               <div className="tl-config-controls">
                 <div className="tl-config-group">
-                  <span className="tl-mono tl-config-label">BOOKING SLOT WINDOW</span>
+                  <span className="tl-mono tl-config-label">SELECT SLOT</span>
                   <div className="tl-slot-grid" role="group" aria-label="Select booking slot">
                     {currentArchetype.slots.map((slot, idx) => (
                       <button
@@ -4616,7 +4611,7 @@ export function CounterStage() {
 
                 <div className="tl-config-row">
                   <div className="tl-config-group">
-                    <span className="tl-mono tl-config-label">CHECKOUT DEPOSIT SPLIT</span>
+                    <span className="tl-mono tl-config-label">DEPOSIT SPLIT</span>
                     <div className="tl-deposit-pills" role="group" aria-label="Checkout deposit percentage">
                       {DEPOSIT_OPTIONS.map((pct) => (
                         <button
@@ -4634,7 +4629,7 @@ export function CounterStage() {
                   </div>
 
                   <div className="tl-config-group">
-                    <span className="tl-mono tl-config-label">ATTACHED LABOR ADD-ONS</span>
+                    <span className="tl-mono tl-config-label">ADD-ONS</span>
                     <div className="tl-addon-list">
                       {currentArchetype.addOns.map((addon) => {
                         const checked = selectedAddOns.includes(addon.id);
@@ -4673,7 +4668,7 @@ export function CounterStage() {
                   <div className="tl-ticket-top-row">
                     <div>
                       <span className="tl-mono tl-ticket-kicker">
-                        MERCHANT BENCH TAG · SHOPIFY POS
+                        BENCH TAG
                       </span>
                       <h4 className="tl-ticket-shop">{currentArchetype.shopExample}</h4>
                     </div>
@@ -4694,11 +4689,11 @@ export function CounterStage() {
 
                   <dl className="tl-ticket-ledger-rows">
                     <div className="tl-ledger-row">
-                      <dt>Reserved Window</dt>
+                      <dt>Slot</dt>
                       <dd className="tl-mono">{currentArchetype.slots[slotIndex]}</dd>
                     </div>
                     <div className="tl-ledger-row">
-                      <dt>Base Service Rate</dt>
+                      <dt>Base rate</dt>
                       <dd className="tl-mono">${currentArchetype.basePrice}.00</dd>
                     </div>
                     {currentArchetype.addOns
@@ -4710,7 +4705,7 @@ export function CounterStage() {
                         </div>
                       ))}
                     <div className="tl-ledger-row tl-ledger-row-total">
-                      <dt>Total Ticket Value</dt>
+                      <dt>Total value</dt>
                       <dd className="tl-mono">${breakdown.total}.00</dd>
                     </div>
                   </dl>
@@ -4736,7 +4731,7 @@ export function CounterStage() {
                 {/* Part B: Detachable Customer Claim Stub (Right) */}
                 <div className="tl-ticket-customer-stub">
                   <div className="tl-stub-header">
-                    <span className="tl-mono tl-stub-label">CUSTOMER CLAIM STUB</span>
+                    <span className="tl-mono tl-stub-label">CLAIM STUB</span>
                     <span className="tl-mono tl-stub-state">
                       {isTorn ? "DETACHED · READY" : `STAGE ${currentStop.step}`}
                     </span>
@@ -4748,13 +4743,13 @@ export function CounterStage() {
 
                   <div className="tl-stub-financials">
                     <div className="tl-stub-pay-box">
-                      <span className="tl-mono">DUE AT CHECKOUT ({depositPct}%)</span>
+                      <span className="tl-mono">DUE NOW ({depositPct}%)</span>
                       <strong className="tl-mono tl-stub-amount">
                         ${breakdown.depositDueNow}.00
                       </strong>
                     </div>
                     <div className="tl-stub-pay-box tl-stub-pay-balance">
-                      <span className="tl-mono">DUE AT PICKUP</span>
+                      <span className="tl-mono">AT PICKUP</span>
                       <strong className="tl-mono tl-stub-amount">
                         ${breakdown.balanceAtPickup}.00
                       </strong>
@@ -4853,9 +4848,8 @@ export function RevenueCalculator() {
       <div className="tl-calc-board">
         <div className="tl-calc-sliders">
           <div className="tl-calc-head">
-            <span className="tl-mono tl-kicker-tag">NO-SHOW & DEPOSIT LEDGER</span>
             <h3 className="tl-calc-title">
-              See what upfront deposits recover for your bench each month.
+              Monthly bench recovery projection
             </h3>
           </div>
 
@@ -4942,29 +4936,29 @@ export function RevenueCalculator() {
 
           <div className="tl-calc-big-metric">
             <span className="tl-mono tl-calc-big-label">
-              RECOVERED NO-SHOW BENCH REVENUE
+              RECOVERED BENCH REVENUE
             </span>
             <strong className="tl-calc-big-value">
               +${recovery.recoveredMonthlyRevenue.toLocaleString()}
               <span className="tl-calc-per-mo"> / mo</span>
             </strong>
             <p className="tl-calc-big-note">
-              Protected by {depositPct}% upfront Shopify Checkout deposits and automated 24-hr SMS reminders.
+              Protected by {depositPct}% upfront deposits and automated SMS reminders.
             </p>
           </div>
 
           <dl className="tl-calc-breakdown">
             <div className="tl-calc-row">
-              <dt>Monthly Service Gross Volume</dt>
+              <dt>Monthly Service Volume</dt>
               <dd className="tl-mono">${recovery.monthlyVolume.toLocaleString()}</dd>
             </div>
             <div className="tl-calc-row">
-              <dt>Upfront Cashflow Collected at Booking</dt>
+              <dt>Collected at Booking</dt>
               <dd className="tl-mono">${recovery.depositFloatCollected.toLocaleString()}</dd>
             </div>
             <div className="tl-calc-row">
-              <dt>Tally Per-Ticket Commission</dt>
-              <dd className="tl-mono">$0 (Flat monthly ledger)</dd>
+              <dt>Tally Commission</dt>
+              <dd className="tl-mono">$0 (Flat monthly tier)</dd>
             </div>
           </dl>
         </div>
@@ -5339,8 +5333,8 @@ export function CounterForm() {
       onSubmit={handleSubmit}
     >
       <div className="tl-form-top-bar">
-        <span className="tl-mono">NEW MERCHANT COUNTER REQUISITION</span>
-        <span className="tl-mono">14 DAYS FREE · 0% COMMISSION</span>
+        <span className="tl-mono">MERCHANT REQUISITION</span>
+        <span className="tl-mono">14 DAYS FREE</span>
       </div>
 
       <div className="tl-form-grid">
@@ -5349,13 +5343,14 @@ export function CounterForm() {
           data-invalid={errors.shopName ? "true" : "false"}
         >
           <label htmlFor="tl-shop-name" className="tl-label">
-            Shopify store or workshop name
+            Store or workshop name
           </label>
           <input
             ref={shopNameRef}
             id="tl-shop-name"
             name="shopName"
             type="text"
+            aria-label="Shopify store or workshop name"
             placeholder="e.g. Hem & Haw Atelier"
             value={form.shopName}
             onChange={(e) => {
@@ -5378,13 +5373,14 @@ export function CounterForm() {
           data-invalid={errors.email ? "true" : "false"}
         >
           <label htmlFor="tl-merchant-email" className="tl-label">
-            Merchant email address
+            Merchant email
           </label>
           <input
             ref={emailRef}
             id="tl-merchant-email"
             name="email"
             type="email"
+            aria-label="Merchant email address"
             placeholder="you@yourshop.co"
             value={form.email}
             onChange={(e) => {
@@ -5404,7 +5400,7 @@ export function CounterForm() {
 
         <div className="tl-field">
           <label htmlFor="tl-form-archetype" className="tl-label">
-            Primary service archetype
+            Service archetype
           </label>
           <select
             id="tl-form-archetype"
@@ -5428,7 +5424,7 @@ export function CounterForm() {
 
         <div className="tl-field">
           <label htmlFor="tl-form-plan" className="tl-label">
-            Merchant ledger tier
+            Ledger tier
           </label>
           <select
             id="tl-form-plan"
@@ -5453,14 +5449,15 @@ export function CounterForm() {
         data-invalid={errors.serviceNote ? "true" : "false"}
       >
         <label htmlFor="tl-service-note" className="tl-label">
-          What service or bench workflow are you putting on Shopify?
+          Primary service or bench workflow
         </label>
         <textarea
           ref={serviceNoteRef}
           id="tl-service-note"
           name="serviceNote"
           rows={3}
-          placeholder="e.g. In-store denim chain-stitch hemming, mail-in watch servicing, or 6-seat wheel throwing classes..."
+          aria-label="What service or bench workflow are you putting on Shopify?"
+          placeholder="e.g. Denim chain-stitch hemming, watch servicing, or wheel throwing classes..."
           value={form.serviceNote}
           onChange={(e) => {
             setForm((prev) => ({ ...prev, serviceNote: e.target.value }));
@@ -5480,7 +5477,7 @@ export function CounterForm() {
 
       <div className="tl-form-footer">
         <p className="tl-mono tl-form-footnote">
-          DEFAULT CHECKOUT DEPOSIT: {form.depositPct}% · LOCAL DEMO ONLY (NO NETWORK REQUEST)
+          LOCAL DEMO · NO NETWORK REQUEST
         </p>
 
         <button
@@ -6042,11 +6039,6 @@ export function FaqSection() {
     <section id="faq" className="tl-section tl-faq-section" aria-labelledby="tl-faq-heading">
       <div className="tl-container tl-faq-grid">
         <div className="tl-faq-aside">
-          <Reveal as="div" variant="draw" className="tl-eyebrow-row">
-            <span className="tl-eyebrow-rule" aria-hidden="true" />
-            <span className="tl-mono">§ V · COUNTER QUESTIONS</span>
-          </Reveal>
-
           <Reveal as="h2" variant="mask" className="tl-h2">
             <span id="tl-faq-heading" className="tl-mask-inner">
               How Tally fits into your <em>existing Shopify stack.</em>
@@ -6054,13 +6046,13 @@ export function FaqSection() {
           </Reveal>
 
           <Reveal as="p" variant="rise" delay={120} className="tl-faq-lede">
-            No custom checkout hacks or duplicate SKUs. Tally runs on native Shopify Online Store 2.0 App Blocks, Draft Orders, and POS UI Extensions.
+            Native Online Store 2.0 app blocks and Shopify POS extensions. Zero Liquid code edits.
           </Reveal>
 
           <Reveal as="div" variant="rise" delay={200} className="tl-faq-badge-card">
-            <span className="tl-mono">BUILT FOR SHOPIFY STANDARDS</span>
+            <span className="tl-mono">THEME COMPATIBLE</span>
             <p>
-              Works with Dawn, Prestige, Impulse, Symmetry, and custom Hydrogen / Liquid themes out of the box.
+              Works with Dawn, Prestige, Impulse, and custom themes out of the box.
             </p>
           </Reveal>
         </div>
@@ -6133,17 +6125,17 @@ export function Footer() {
           <div className="tl-footer-brand">
             <TallyLogo />
             <p className="tl-footer-motto">
-              Sell your hours like your goods. The service-counter layer and perforated claim-ticket ledger for small Shopify businesses.
+              Sell your hours like your goods. The service-counter layer for small Shopify businesses.
             </p>
             <div className="tl-mono tl-footer-status">
               <span className="tl-live-dot" aria-hidden="true" />
-              ONLINE STORE 2.0 + SHOPIFY POS · ALL SYSTEMS OPERATIONAL
+              ONLINE STORE 2.0 + SHOPIFY POS READY
             </div>
           </div>
 
           <div className="tl-footer-nav-cols">
             <div className="tl-footer-col">
-              <h3 className="tl-mono tl-footer-heading">COUNTER SECTIONS</h3>
+              <h3 className="tl-mono tl-footer-heading">SECTIONS</h3>
               <ul className="tl-footer-links">
                 <li>
                   <a href="#top" className="tl-footer-link">
@@ -6152,33 +6144,33 @@ export function Footer() {
                 </li>
                 <li>
                   <a href="#ledger" className="tl-footer-link">
-                    Ticket Runway (01–04)
+                    Ticket Runway
                   </a>
                 </li>
                 <li>
                   <a href="#modes" className="tl-footer-link">
-                    Four Service Modes
+                    Service Modes
                   </a>
                 </li>
                 <li>
                   <a href="#merchants" className="tl-footer-link">
-                    Small-Shop Dossiers
+                    Merchant Stories
                   </a>
                 </li>
               </ul>
             </div>
 
             <div className="tl-footer-col">
-              <h3 className="tl-mono tl-footer-heading">MERCHANT LEDGER</h3>
+              <h3 className="tl-mono tl-footer-heading">LEDGER & FAQ</h3>
               <ul className="tl-footer-links">
                 <li>
                   <a href="#calculator" className="tl-footer-link">
-                    Deposit Recovery Calculator
+                    Recovery Calculator
                   </a>
                 </li>
                 <li>
                   <a href="#faq" className="tl-footer-link">
-                    Shopify Stack Questions
+                    Shopify Stack FAQ
                   </a>
                 </li>
                 <li>
@@ -6190,12 +6182,12 @@ export function Footer() {
             </div>
 
             <div className="tl-footer-col">
-              <h3 className="tl-mono tl-footer-heading">BUILT FOR WORKSHOPS</h3>
+              <h3 className="tl-mono tl-footer-heading">WORKSHOPS</h3>
               <ul className="tl-footer-meta-list tl-mono">
-                <li>Denim & Tailoring Ateliers</li>
-                <li>Bicycle & Ski Tune-Up Bays</li>
-                <li>Ceramic Kilns & Studios</li>
-                <li>Horology & Instrument Repair</li>
+                <li>Denim & Tailoring</li>
+                <li>Bicycle & Ski Bays</li>
+                <li>Ceramic Studios</li>
+                <li>Watch & Horology</li>
               </ul>
             </div>
           </div>
@@ -6210,7 +6202,7 @@ export function Footer() {
 
         <div className="tl-footer-bottom">
           <p className="tl-mono tl-footer-copy">
-            © 2026 TALLY COUNTER SYSTEMS · FICTIONAL BRAND TEMPLATE FOR OPENLANDINGPAGE
+            © 2026 TALLY · OPENLANDINGPAGE TEMPLATE
           </p>
 
           <div className="tl-footer-bottom-right">
@@ -6451,13 +6443,6 @@ export function Hero() {
       <div className="tl-container tl-hero-grid">
         {/* Left Editorial Column */}
         <div className="tl-hero-copy">
-          <div className="tl-hero-eyebrow tl-load-1">
-            <span className="tl-eyebrow-rule" aria-hidden="true" />
-            <span className="tl-mono">
-              SERVICE-COUNTER LAYER FOR SMALL SHOPIFY BUSINESSES
-            </span>
-          </div>
-
           <h1 id="tl-hero-heading" className="tl-hero-h1">
             <span className="tl-mask-line tl-load-2">
               <span className="tl-mask-inner">Sell your hours</span>
@@ -6470,7 +6455,7 @@ export function Hero() {
           </h1>
 
           <p className="tl-hero-lead tl-load-4">
-            Shopify was built for boxes that ship. <strong>Tally</strong> gives neighborhood tailors, repair bays, ceramic studios, and watchmakers a two-part perforated claim ticket—capturing upfront deposits at checkout, syncing slots to Shopify POS, and texting customers the moment their bench work is ready.
+            Turn Shopify checkouts into booked appointments, repair intakes, and bench claim tickets. Capture upfront deposits and sync seamlessly with Shopify POS.
           </p>
 
           <div className="tl-hero-ctas tl-load-4">
@@ -6482,7 +6467,7 @@ export function Hero() {
             </Magnetic>
 
             <a href="#calculator" className="tl-btn tl-btn-secondary tl-btn-lg">
-              <span>Calculate Deposit Recovery</span>
+              <span>Calculate Recovery</span>
               <span aria-hidden="true">→</span>
             </a>
           </div>
@@ -6490,7 +6475,7 @@ export function Hero() {
           {/* Merchant Archetype Quick-Switcher */}
           <div className="tl-hero-archetypes tl-load-5">
             <span className="tl-mono tl-hero-arch-label">
-              PREVIEW A SMALL-SHOP COUNTER:
+              SHOP PREVIEW:
             </span>
             <div className="tl-hero-arch-pills" role="group" aria-label="Preview merchant counter">
               {ARCHETYPES.map((arch) => (
@@ -6555,13 +6540,13 @@ export function Hero() {
                 </div>
                 <div className="tl-hero-ticket-rows">
                   <div className="tl-hero-ticket-row">
-                    <span>Shopify Checkout Deposit</span>
+                    <span>Deposit at checkout</span>
                     <strong className="tl-mono">
                       ${Math.round(activeArch.basePrice * 0.5)}.00 PAID
                     </strong>
                   </div>
                   <div className="tl-hero-ticket-row">
-                    <span>Counter Pickup Balance</span>
+                    <span>Due at pickup</span>
                     <strong className="tl-mono">
                       ${Math.round(activeArch.basePrice * 0.5)}.00 HELD
                     </strong>
@@ -6595,20 +6580,20 @@ export function Hero() {
       <div className="tl-hero-ledger-strip">
         <div className="tl-container tl-strip-grid">
           <div className="tl-strip-item">
-            <span className="tl-mono tl-strip-label">01 · MIXED SHOPIFY CARTS</span>
-            <p className="tl-strip-val">Sell physical goods + service labor in one checkout</p>
+            <span className="tl-mono tl-strip-label">MIXED CARTS</span>
+            <p className="tl-strip-val">Goods and service labor in one checkout</p>
           </div>
           <div className="tl-strip-item">
-            <span className="tl-mono tl-strip-label">02 · PARTIAL DEPOSITS</span>
-            <p className="tl-strip-val">Collect 25%, 50%, or 100% upfront to cut no-shows by 82%</p>
+            <span className="tl-mono tl-strip-label">UPFRONT DEPOSITS</span>
+            <p className="tl-strip-val">Cut no-shows with 25–100% upfront deposits</p>
           </div>
           <div className="tl-strip-item">
-            <span className="tl-mono tl-strip-label">03 · SHOPIFY POS TILE</span>
-            <p className="tl-strip-val">Scan claim stubs, pull spare parts & print bench tags</p>
+            <span className="tl-mono tl-strip-label">SHOPIFY POS</span>
+            <p className="tl-strip-val">Scan stubs, pull parts, and print bench tags</p>
           </div>
           <div className="tl-strip-item">
-            <span className="tl-mono tl-strip-label">04 · ZERO COMMISSION</span>
-            <p className="tl-strip-val">Flat monthly counter ledger—keep 100% of your labor rate</p>
+            <span className="tl-mono tl-strip-label">ZERO COMMISSION</span>
+            <p className="tl-strip-val">Flat monthly rate—keep 100% of your labor</p>
           </div>
         </div>
       </div>
@@ -6631,11 +6616,6 @@ export function IntakeSection() {
     >
       <div className="tl-container tl-intake-grid">
         <div className="tl-intake-copy">
-          <Reveal as="div" variant="draw" className="tl-eyebrow-row">
-            <span className="tl-eyebrow-rule" aria-hidden="true" />
-            <span className="tl-mono">§ VI · OPEN YOUR SERVICE COUNTER</span>
-          </Reveal>
-
           <Reveal as="h2" variant="mask" className="tl-h2">
             <span id="tl-intake-heading" className="tl-mask-inner">
               Stamp your first claim ticket <em>in ten minutes.</em>
@@ -6643,7 +6623,7 @@ export function IntakeSection() {
           </Reveal>
 
           <Reveal as="p" variant="rise" delay={120} className="tl-intake-lede">
-            Configure your workshop archetype and deposit percentage on the right to issue a local Merchant Trial Pass—complete with your starter service SKU structure and POS bench settings.
+            Select your workshop archetype and deposit split to generate a live merchant trial pass.
           </Reveal>
 
           <Reveal as="div" variant="rise" delay={200} className="tl-intake-guarantees">
@@ -6652,8 +6632,8 @@ export function IntakeSection() {
                 01
               </span>
               <div>
-                <strong>14-day full bench trial</strong>
-                <p>Test online slot booking, partial deposits, and POS ticket printing on a draft theme first.</p>
+                <strong>14-day free trial</strong>
+                <p>Full access on a draft or live theme.</p>
               </div>
             </div>
             <div className="tl-guarantee-row">
@@ -6661,8 +6641,8 @@ export function IntakeSection() {
                 02
               </span>
               <div>
-                <strong>Zero per-ticket commission</strong>
-                <p>Keep 100% of your service labor and repair parts margin—pay only your flat monthly counter tier.</p>
+                <strong>Zero commission</strong>
+                <p>Keep 100% of your labor and parts revenue.</p>
               </div>
             </div>
             <div className="tl-guarantee-row">
@@ -6670,8 +6650,8 @@ export function IntakeSection() {
                 03
               </span>
               <div>
-                <strong>Free counter migration</strong>
-                <p>Moving from paper tags, Calendly, or spreadsheets? Our team imports your service menu for free.</p>
+                <strong>Free migration</strong>
+                <p>We import your existing service menu for free.</p>
               </div>
             </div>
           </Reveal>
@@ -6698,14 +6678,10 @@ import { CountUp, Reveal } from "../motion/Reveal";
 const MARQUEE_TAGS = [
   "DENIM CHAIN-STITCH HEMMING",
   "BICYCLE DRIVETRAIN OVERHAULS",
-  "ESPRESSO GROUPHEAD DESCALING",
-  "WATCH MOVEMENT REGULATION",
-  "CUSTOM PICTURE FRAMING",
-  "GOODYEAR WELT BOOT RESOLING",
-  "CERAMIC KILN SHELF FIRING",
-  "BRIDAL PIN FITTINGS",
-  "KNIFE WHETSTONE SHARPENING",
-  "TENNIS RACQUET STRINGING",
+  "WATCH CALIBER REGULATION",
+  "GOODYEAR WELT RESOLING",
+  "CERAMIC KILN FIRING",
+  "STUDIO BENCH CLASSES",
 ];
 
 export function MerchantStories() {
@@ -6763,11 +6739,6 @@ export function MerchantStories() {
 
       <div className="tl-container">
         <div className="tl-section-head">
-          <Reveal as="div" variant="draw" className="tl-eyebrow-row">
-            <span className="tl-eyebrow-rule" aria-hidden="true" />
-            <span className="tl-mono">§ III · THE MERCHANT BENCH</span>
-          </Reveal>
-
           <div className="tl-head-split">
             <Reveal as="h2" variant="mask" className="tl-h2">
               <span id="tl-merchants-heading" className="tl-mask-inner">
@@ -6776,7 +6747,7 @@ export function MerchantStories() {
             </Reveal>
 
             <Reveal as="p" variant="rise" delay={120} className="tl-section-lede">
-              Over 1,400 independent Shopify merchants run their fitting rooms, repair stands, and studio kilns on Tally. Inspect an actual counter receipt from three of them.
+              Over 1,400 independent Shopify merchants run their workshops on Tally.
             </Reveal>
           </div>
         </div>
@@ -6823,12 +6794,13 @@ export function MerchantStories() {
                   <button
                     type="button"
                     className="tl-btn tl-btn-secondary tl-dossier-btn"
+                    aria-label={`Inspect Receipt #${story.receipt.serial}`}
                     onClick={(e) => {
                       lastTriggerRef.current = e.currentTarget;
                       setActiveStory(story);
                     }}
                   >
-                    <span className="tl-mono">Inspect Receipt #{story.receipt.serial}</span>
+                    <span className="tl-mono">Receipt #{story.receipt.serial}</span>
                     <span aria-hidden="true">↗</span>
                   </button>
                 </div>
@@ -6934,11 +6906,6 @@ export function ServiceModes() {
     <section id="modes" className="tl-section tl-modes-section" aria-labelledby="tl-modes-heading">
       <div className="tl-container">
         <div className="tl-section-head">
-          <Reveal as="div" variant="draw" className="tl-eyebrow-row">
-            <span className="tl-eyebrow-rule" aria-hidden="true" />
-            <span className="tl-mono">§ II · FOUR WAYS TO SELL TIME ON SHOPIFY</span>
-          </Reveal>
-
           <div className="tl-head-split">
             <Reveal as="h2" variant="mask" className="tl-h2">
               <span id="tl-modes-heading" className="tl-mask-inner">
@@ -6947,7 +6914,7 @@ export function ServiceModes() {
             </Reveal>
 
             <Reveal as="p" variant="rise" delay={120} className="tl-section-lede">
-              Whether a customer books a 30-minute fitting, mails in a vintage watch, adds hemming to a pair of jeans, or reserves a Sunday pottery wheel, Tally maps it cleanly to your Shopify cart and POS bench.
+              Four flexible ways to sell time, services, and bench labor alongside physical inventory.
             </Reveal>
           </div>
         </div>
@@ -6964,11 +6931,6 @@ export function ServiceModes() {
                 className="tl-mode-card"
               >
                 <div className="tl-mode-card-inner" data-tone={mode.pastel}>
-                  <div className="tl-mode-top">
-                    <span className="tl-mono tl-mode-num">{mode.number}</span>
-                    <span className="tl-mono tl-mode-kicker">{mode.kicker}</span>
-                  </div>
-
                   <h3 className="tl-mode-title">{mode.title}</h3>
                   <p className="tl-mode-desc">{mode.description}</p>
 

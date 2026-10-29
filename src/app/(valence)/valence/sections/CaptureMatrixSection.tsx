@@ -73,11 +73,6 @@ export function CaptureMatrixSection() {
         {/* Section Heading */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <Reveal variant="slide-left">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#E8E0F8] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-                ARCHITECTURE MATRIX · TOP &amp; MIDDLE OF FUNNEL
-              </span>
-            </Reveal>
             <Reveal as="h2" variant="mask" className="vl-display text-3xl sm:text-5xl font-extrabold text-[#1E1B2E]">
               <span id="vl-matrix-heading">
                 Match the capture gate to what you give back.
@@ -86,7 +81,7 @@ export function CaptureMatrixSection() {
           </div>
 
           <Reveal variant="rise" delay={120} className="max-w-md text-sm sm:text-base text-[#645D7A]">
-            Every field on a form is a price tag. Compare how Splash Pages, Squeeze Pages, and Lead Capture Pages trade contact data for content, access, or tools.
+            Every field is a price tag. Compare how Splash, Squeeze, and Lead Capture pages balance form friction against content value.
           </Reveal>
         </div>
 
@@ -155,7 +150,7 @@ export function CaptureMatrixSection() {
 
               <div className="rounded-[24px] bg-[#FBF9F5] p-5 border border-[#1E1B2E]/15 space-y-2.5">
                 <span className="vl-mono text-xs font-semibold text-[#5B46E8]">
-                  STRUCTURAL ANATOMY
+                  ANATOMY
                 </span>
                 <ul className="space-y-2">
                   {activeSpec.anatomyPoints.map((pt, idx) => (
@@ -193,7 +188,7 @@ export function CaptureMatrixSection() {
 
               <div className="rounded-[24px] bg-[#FBF9F5] p-5 border border-[#1E1B2E]/15 space-y-3">
                 <span className="vl-mono text-xs font-semibold text-[#1E1B2E]">
-                  WHEN TO DEPLOY THIS FORMAT
+                  WHEN TO DEPLOY
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {activeSpec.idealUseCases.map((useCase, i) => (

@@ -43,10 +43,10 @@ export const ARCHETYPES: ServiceArchetype[] = [
       { id: "hardware", label: "Laurel-leaf copper button replacement", price: 14, code: "ADD-BTN" },
     ],
     stopNotes: [
-      "Customer selects inseam length + Thursday 10:30 AM fitting slot directly on the Shopify product page.",
-      "Denim checked in at counter; thermal bench tag prints with cuff allowance (+0.75 in shrinkage note).",
-      "Assigned to Master Tailor Lin; indigo thread #04 matched and chain-stitched on Bench 02.",
-      "SMS pickup pass sent with one-tap Apple Pay balance link and locker code #14.",
+      "Customer selects fitting slot and inseam on Shopify.",
+      "Denim checked in at counter; thermal bench tag prints.",
+      "Assigned to Bench 02; chain-stitched with indigo thread #04.",
+      "SMS pickup pass sent with one-tap Apple Pay link.",
     ],
   },
   {
@@ -67,10 +67,10 @@ export const ARCHETYPES: ServiceArchetype[] = [
       { id: "bleed", label: "Hydraulic brake bleed (front + rear)", price: 42, code: "ADD-BLD" },
     ],
     stopNotes: [
-      "Rider books Workstand 01 drop-off window and pays 50% bench reservation deposit in Shopify.",
-      "Frame tagged at front roll-up door; tire pressure & chain wear (0.5%) logged on POS tablet.",
-      "Cassette ultrasonic-cleaned; mechanic adds 11-speed shift cable from Shopify inventory.",
-      "Test-ridden 0.4 miles; ready stub texted to rider with itemized parts + labor invoice.",
+      "Rider books bay window and pays 50% deposit online.",
+      "Frame tagged at roll-up door; chain wear logged on POS.",
+      "Ultrasonic drivetrain clean; new shift cable added.",
+      "Test-ridden; ready stub texted with parts invoice.",
     ],
   },
   {
@@ -91,10 +91,10 @@ export const ARCHETYPES: ServiceArchetype[] = [
       { id: "glaze", label: "Dip in studio celadon & pistachio glaze", price: 16, code: "ADD-GLZ" },
     ],
     stopNotes: [
-      "Maker reserves Wheel #4 and a half-shelf in Kiln #3; seat capacity decrements live in Shopify.",
-      "Pieces weighed and stamped at the damp-room counter; glaze slip attached to drying rack.",
-      "Loaded into Cone 6 oxidation firing cycle; thermocouple curve reaches 2,232 °F.",
-      "Unloaded warm from kiln; photo + shelf pickup stub sent so pieces are collected within 7 days.",
+      "Maker reserves Wheel #4 and half-shelf in Kiln #3.",
+      "Pieces weighed and stamped; glaze slip tagged on drying rack.",
+      "Loaded into Cone 6 cycle; fired to 2,232 °F.",
+      "Unloaded warm; photo and cubby pickup stub texted.",
     ],
   },
   {
@@ -115,10 +115,10 @@ export const ARCHETYPES: ServiceArchetype[] = [
       { id: "crystal", label: "Acrylic dome crystal buff & polish", price: 26, code: "ADD-CRY" },
     ],
     stopNotes: [
-      "Collector books an insured mail-in shipping box or counter intake with a refundable bench deposit.",
-      "Serial & case reference photographed at intake; movement amplitude baseline (+14 s/day) recorded.",
-      "Mainspring barrel serviced and regulated to +2 s/day across 5 positions on Witschi timing tape.",
-      "Final balance cleared via Shopify draft-order link; return tracking or counter claim code issued.",
+      "Collector books intake with refundable bench deposit.",
+      "Serial photographed at intake; amplitude baseline logged.",
+      "Mainspring serviced; regulated across 5 positions.",
+      "Balance cleared via Shopify link; claim code issued.",
     ],
   },
 ];
@@ -137,7 +137,7 @@ export const TICKET_STOPS: TicketStop[] = [
     title: "Booked at Checkout",
     tag: "STOREFRONT · DEPOSIT",
     summary:
-      "Your customer picks a real time slot, bay, or mail-in kit right on your Shopify product page and pays a partial deposit or full fare.",
+      "Customer selects a time slot or mail-in kit and pays the deposit in Shopify Checkout.",
     shopifyEvent: "checkout.completed · deposit_captured",
   },
   {
@@ -145,7 +145,7 @@ export const TICKET_STOPS: TicketStop[] = [
     title: "Checked In at Counter",
     tag: "SHOPIFY POS · INTAKE",
     summary:
-      "Scan the claim stub in Shopify POS. Tally prints the physical bench tag, logs intake photos or measurements, and assigns a workstation.",
+      "Scan the stub in Shopify POS. Print the bench tag, log intake notes, and assign a station.",
     shopifyEvent: "pos.ticket_stamped · station_assigned",
   },
   {
@@ -153,7 +153,7 @@ export const TICKET_STOPS: TicketStop[] = [
     title: "On the Workbench",
     tag: "BENCH LOG · PARTS SYNC",
     summary:
-      "Add replacement parts from your live Shopify inventory, check off bench steps, and let customers peek at progress without calling the shop.",
+      "Pull parts from live Shopify inventory and update progress without status phone calls.",
     shopifyEvent: "bench.stage_updated · inventory_reserved",
   },
   {
@@ -161,7 +161,7 @@ export const TICKET_STOPS: TicketStop[] = [
     title: "Ready for Pickup",
     tag: "STUB TEAR · BALANCE PAID",
     summary:
-      "One tap stamps the ticket Ready. Tally texts the customer their pickup code and collects the remaining balance before they reach the counter.",
+      "Stamp the ticket Ready. Text the pickup pass and collect the remaining balance.",
     shopifyEvent: "ticket.ready_stamped · balance_settled",
   },
 ];
@@ -195,18 +195,18 @@ export const SERVICE_MODES: ServiceMode[] = [
     kicker: "Calendar slots synced to staff hours",
     pastel: "mint",
     description:
-      "Sell bridal fittings, custom frame consultations, or knife-sharpening windows without double-booking your one workbench.",
+      "Book fittings and consultations directly from product pages without double-booking workbenches.",
     storefrontLine: {
-      title: "45-Min Custom Suit Measure & Fabric Pull",
-      meta: "Slot: Fri Oct 30 · 2:00 PM · Tailor: M. Vance",
-      depositBadge: "$40 deposit (credited to garment)",
+      title: "45-Min Custom Suit Measure & Fitting",
+      meta: "Fri Oct 30 · 2:00 PM · Tailor: M. Vance",
+      depositBadge: "$40 deposit credited to order",
       price: "$40.00 due today",
     },
     posBenchLine: {
-      station: "Fitting Room B · 45m block locked",
-      status: "CHECKED IN · Measurements attached to Customer Profile",
-      inventoryLink: "Linked SKU: Wool Flannel Bolt #19 (3.5 yds held)",
-      actionLabel: "Apply $40 Deposit to Bespoke Order",
+      station: "Fitting Room B · 45m block",
+      status: "CHECKED IN · Measurements logged",
+      inventoryLink: "Held: Wool Flannel Bolt #19",
+      actionLabel: "Apply Deposit to Bespoke Order",
     },
   },
   {
@@ -216,18 +216,18 @@ export const SERVICE_MODES: ServiceMode[] = [
     kicker: "Two-part claim stubs + parts invoicing",
     pastel: "blush",
     description:
-      "Issue numbered repair tickets for boots, watches, espresso machines, or bicycles. Add replacement parts from Shopify stock mid-repair.",
+      "Issue numbered claim tickets for repairs. Add parts from Shopify stock as work progresses.",
     storefrontLine: {
-      title: "Goodyear Welt Resole — Vibram Lug + Cork Fill",
-      meta: "Intake: Counter Drop-Off or Prepaid Label",
-      depositBadge: "50% bench deposit · $65 at pickup",
+      title: "Goodyear Welt Resole — Vibram Lug",
+      meta: "Drop-Off or Prepaid Label",
+      depositBadge: "50% deposit · $65 at pickup",
       price: "$65.00 due today",
     },
     posBenchLine: {
-      station: "Cobbler Press 02 · Ticket #TLY-26-1409",
-      status: "ON BENCH · Midsole cork replaced, awaiting edge ink",
-      inventoryLink: "Pulled 1× Vibram No. 430 Heel Pair from Stock",
-      actionLabel: "Stamp Ready & Send $65 Balance Link",
+      station: "Cobbler Press 02 · #TLY-26-1409",
+      status: "ON BENCH · Midsole cork replaced",
+      inventoryLink: "Pulled 1× Vibram No. 430 Heel",
+      actionLabel: "Stamp Ready & Send Balance Link",
     },
   },
   {
@@ -237,18 +237,18 @@ export const SERVICE_MODES: ServiceMode[] = [
     kicker: "Attach labor to physical Shopify SKUs",
     pastel: "lilac",
     description:
-      "When a shopper buys raw denim, a cast-iron skillet, or a tennis frame, offer chain-stitch hemming, seasoning, or custom stringing in the same cart.",
+      "Attach hemming, stringing, or custom assembly directly to physical products in the same cart.",
     storefrontLine: {
-      title: "+ Add Custom Racquet Stringing (Mains 52 lb / Crosses 50 lb)",
-      meta: "Attached to: Yonex Percept 97 Frame in Cart",
-      depositBadge: "Adds +1 bench day before shipping",
+      title: "+ Custom Racquet Stringing (52/50 lb)",
+      meta: "Attached to: Yonex Percept 97 in Cart",
+      depositBadge: "+1 bench day before shipping",
       price: "+$32.00 labor",
     },
     posBenchLine: {
-      station: "Stringing Machine 01 · Hold Fulfillment",
-      status: "HOLD SHIPPING · Complete service before printing label",
-      inventoryLink: "Parent Order No. 4812 unblocked once ticket stamped",
-      actionLabel: "Stamp Strung & Release to Ship Station",
+      station: "Stringing Machine 01 · Hold Shipping",
+      status: "HOLD SHIPPING · In progress",
+      inventoryLink: "Order No. 4812 held for stringing",
+      actionLabel: "Stamp Complete & Release to Ship",
     },
   },
   {
@@ -258,17 +258,17 @@ export const SERVICE_MODES: ServiceMode[] = [
     kicker: "Seat counters + automatic waitlist",
     pastel: "paper",
     description:
-      "Turn Sunday afternoons into steady high-margin revenue: floral arranging, wheel throwing, espresso dialing, or visible-mending nights.",
+      "Host studio classes and workshops with real-time seat caps and automated waitlists.",
     storefrontLine: {
-      title: "Sunday Sashiko Denim Mending Workshop (6 Seats)",
-      meta: "Sun Nov 8 · 4:00 PM – 6:30 PM · 2 seats left",
-      depositBadge: "Includes Sashiko needle kit & indigo scrap pack",
+      title: "Sunday Sashiko Denim Mending Workshop",
+      meta: "Sun Nov 8 · 4:00 PM · 2 seats left",
+      depositBadge: "Includes needle & scrap pack",
       price: "$75.00 / seat",
     },
     posBenchLine: {
       station: "Communal Table · Roster 6 / 6 Full",
-      status: "ROSTER LOCKED · 3 guests on 1-click SMS waitlist",
-      inventoryLink: "6× Beginner Mending Kits deducted from shelf",
+      status: "ROSTER FULL · 3 on SMS waitlist",
+      inventoryLink: "6× Mending Kits deducted",
       actionLabel: "Print Table Place-Stubs (6)",
     },
   },
@@ -313,12 +313,12 @@ export const MERCHANT_STORIES: MerchantStory[] = [
     location: "Portland, Oregon",
     pastel: "blush",
     quote:
-      "Before Tally, 40% of our alterations lived on paper tags that never talked to Shopify. Now every pair of jeans bought online or in-store gets a numbered hem stub before it touches the sewing table.",
+      "Every pair of jeans bought online or in-store gets a numbered claim stub before it touches the sewing table.",
     owner: "Marta Lindqvist, Founder & Head Tailor",
     metricValue: 94,
     metricSuffix: "%",
-    metricLabel: "fittings show up on time with 50% deposit",
-    secondaryStat: "+$4,800/mo in attached hemming & darning labor",
+    metricLabel: "fittings arrive on time with 50% deposit",
+    secondaryStat: "+$4,800/mo attached labor",
     illustrationType: "tailor",
     receipt: {
       serial: "TLY-26-1050",
@@ -326,13 +326,13 @@ export const MERCHANT_STORIES: MerchantStory[] = [
       customer: "E. Takahashi · Order No. 8841",
       station: "Bench 02 · Union Special 43200G",
       items: [
-        { code: "GOD-14OZ", label: "14oz Japanese Selvedge Jean (32×34)", amount: "$245.00" },
-        { code: "SRV-HEM", label: "Chain-Stitch Hem to 30.5 in (Gold Thread)", amount: "$35.00" },
-        { code: "ADD-DRN", label: "Pocket Bag Canvas Reinforcement", amount: "$20.00" },
+        { code: "GOD-14OZ", label: "14oz Selvedge Jean (32×34)", amount: "$245.00" },
+        { code: "SRV-HEM", label: "Chain-Stitch Hem to 30.5 in", amount: "$35.00" },
+        { code: "ADD-DRN", label: "Pocket Bag Reinforcement", amount: "$20.00" },
       ],
       depositPaid: "$272.50 at checkout",
-      balancePaid: "$27.50 on counter pickup",
-      pickupNote: "Picked up in 3 days · Added leather belt at counter (+$85)",
+      balancePaid: "$27.50 at pickup",
+      pickupNote: "Picked up in 3 days · Added leather belt (+$85)",
     },
   },
   {
@@ -342,22 +342,22 @@ export const MERCHANT_STORIES: MerchantStory[] = [
     location: "Minneapolis, Minnesota",
     pastel: "mint",
     quote:
-      "Spring tune-up season used to jam our hallway with 35 bikes and angry phone calls. Tally caps our daily workstand capacity and pulls brake pads straight from our Shopify inventory as we wrench.",
+      "Tally caps daily workstand capacity and pulls parts straight from Shopify inventory as we wrench.",
     owner: "Devon Reyes, Service Manager",
     metricValue: 38,
     metricSuffix: " hrs",
-    metricLabel: "saved each month on status phone calls",
-    secondaryStat: "0 overbooked workstands across 420 spring tune-ups",
+    metricLabel: "saved monthly on status phone calls",
+    secondaryStat: "0 overbooked workstands",
     illustrationType: "cycle",
     receipt: {
       serial: "TLY-26-2150",
       date: "OCT 22 · 08:45 AM",
-      customer: "S. Lindstrom · Commuter Bay #1",
+      customer: "S. Lindstrom · Bay #1",
       station: "Stand 01 · Mechanic D. Reyes",
       items: [
-        { code: "SRV-TUN", label: "Full Commuter Drivetrain Overhaul", amount: "$120.00" },
-        { code: "PRT-PAD", label: "Shimano L05A Resin Disc Pads (×2)", amount: "$48.00" },
-        { code: "ADD-WAX", label: "Ultrasonic Strip + Hot Melt Paraffin Wax", amount: "$28.00" },
+        { code: "SRV-TUN", label: "Commuter Drivetrain Overhaul", amount: "$120.00" },
+        { code: "PRT-PAD", label: "Shimano L05A Disc Pads (×2)", amount: "$48.00" },
+        { code: "ADD-WAX", label: "Ultrasonic Hot Melt Paraffin Wax", amount: "$28.00" },
       ],
       depositPaid: "$98.00 bay deposit",
       balancePaid: "$98.00 via SMS tap-to-pay",
@@ -371,12 +371,12 @@ export const MERCHANT_STORIES: MerchantStory[] = [
     location: "Burlington, Vermont",
     pastel: "lilac",
     quote:
-      "We sell finished mugs, six-week wheel courses, and per-shelf kiln firing on one Shopify store. Tally treats kiln space and wheel seats with the same inventory discipline as our stoneware.",
+      "Kiln space and wheel seats are tracked with the exact same inventory discipline as our stoneware.",
     owner: "Jun & Tessa Park, Studio Co-Directors",
     metricValue: 100,
     metricSuffix: "%",
-    metricLabel: "class seats filled via automated SMS waitlist",
-    secondaryStat: "3.2× faster piece pickup once kiln shelf stubs are stamped",
+    metricLabel: "class seats filled via SMS waitlist",
+    secondaryStat: "3.2× faster pickup once fired",
     illustrationType: "kiln",
     receipt: {
       serial: "TLY-26-3325",
@@ -384,13 +384,13 @@ export const MERCHANT_STORIES: MerchantStory[] = [
       customer: "A. Beaumont · Member No. 118",
       station: "Skutt Kiln #3 · Shelf B (Cone 6)",
       items: [
-        { code: "SRV-WHL", label: "Open Wheel Session (2 hrs · Wheel #4)", amount: "$48.00" },
-        { code: "SRV-FIR", label: "Half-Shelf Cone 6 Glaze Firing (6 bowls)", amount: "$36.00" },
-        { code: "ADD-CLY", label: "12 lb Speckled Buff Stoneware Pug", amount: "$18.00" },
+        { code: "SRV-WHL", label: "Open Wheel (2 hrs · Wheel #4)", amount: "$48.00" },
+        { code: "SRV-FIR", label: "Half-Shelf Cone 6 Glaze Firing", amount: "$36.00" },
+        { code: "ADD-CLY", label: "12 lb Buff Stoneware Pug", amount: "$18.00" },
       ],
       depositPaid: "$51.00 at booking",
       balancePaid: "$51.00 on shelf unload",
-      pickupNote: "Shelf B unloaded · Cubby #09 claim stub verified",
+      pickupNote: "Shelf B unloaded · Cubby #09 stub verified",
     },
   },
 ];
@@ -415,13 +415,13 @@ export const PLANS: MerchantPlan[] = [
     cadence: "/ month",
     badge: "Solo Bench & Pop-Ups",
     pastel: "paper",
-    idealFor: "Independent makers, solo tailors, and single-chair studios starting on Shopify Basic.",
-    includedTickets: "Up to 80 service tickets / mo · 0% Tally commission",
+    idealFor: "Solo makers and studios starting on Shopify.",
+    includedTickets: "Up to 80 tickets / mo · 0% commission",
     features: [
-      "Theme 2.0 slot picker & service add-on block",
-      "Partial deposit or full prepay in Shopify Checkout",
-      "Printable & SMS perforated claim stubs",
-      "4-stop customer status page (Booked → Ready)",
+      "Online slot & add-on picker",
+      "Upfront deposits in Shopify Checkout",
+      "Printable & SMS claim stubs",
+      "4-stop customer status tracking",
     ],
   },
   {
@@ -431,13 +431,13 @@ export const PLANS: MerchantPlan[] = [
     cadence: "/ month",
     badge: "Most Small Shops",
     pastel: "mint",
-    idealFor: "Busy neighborhood storefronts combining physical retail, Shopify POS, and 2–5 workbench bays.",
-    includedTickets: "Unlimited service tickets · 0% Tally commission",
+    idealFor: "Neighborhood shops with retail and 2–5 bench bays.",
+    includedTickets: "Unlimited tickets · 0% commission",
     features: [
-      "Full Shopify POS tile: scan, stamp & print thermal bench tags",
-      "Mid-repair parts pull from live Shopify SKU inventory",
-      "Automated SMS pickup pass + 1-tap balance invoice",
-      "Multi-staff & multi-bay capacity rules",
+      "Shopify POS tile: scan & print thermal tags",
+      "Mid-repair parts pull from Shopify stock",
+      "Automated SMS pickup pass & balance link",
+      "Multi-staff & bay capacity rules",
     ],
   },
   {
@@ -447,13 +447,13 @@ export const PLANS: MerchantPlan[] = [
     cadence: "/ month",
     badge: "Multi-Location & Mail-In",
     pastel: "lilac",
-    idealFor: "Multi-location ateliers and national mail-in repair programs with high-volume bench routing.",
-    includedTickets: "Unlimited tickets across up to 5 locations",
+    idealFor: "Multi-location shops and national mail-in repair programs.",
+    includedTickets: "Unlimited tickets across 5 locations",
     features: [
-      "Prepaid mail-in repair kit generator + return label sync",
-      "Before/after bench photo attachments on customer stubs",
-      "Custom webhook events & Klaviyo / Shopify Flow triggers",
-      "Dedicated counter onboarding & theme migration",
+      "Prepaid mail-in repair kit generator",
+      "Before/after bench photo attachments",
+      "Shopify Flow & webhook triggers",
+      "Dedicated counter onboarding",
     ],
   },
 ];
@@ -468,37 +468,37 @@ export type FaqItem = {
 export const FAQS: FaqItem[] = [
   {
     id: "pos-sync",
-    question: "Does Tally work with both my online Shopify store and Shopify POS at the counter?",
+    question: "Does Tally work with both online Shopify and Shopify POS?",
     tag: "SHOPIFY POS + ONLINE",
     answer:
-      "Yes. Customers can book a slot or mail-in repair online 24/7, or walk up to your physical counter where staff issue a claim ticket in two taps inside the native Shopify POS extension. Both share the exact same bench capacity and ticket ledger.",
+      "Yes. Customers can book online 24/7 or at your physical counter via Shopify POS. Both channels share the same real-time bench capacity and ticket ledger.",
   },
   {
     id: "deposits",
-    question: "How do partial deposits and final pickup balances work in Shopify Checkout?",
+    question: "How do partial deposits and final pickup balances work?",
     tag: "DEPOSITS & BALANCES",
     answer:
-      "Tally uses Shopify's native partial-payment and draft-order rails. You set whether a service collects 25%, 50%, or 100% upfront. When the job is stamped Ready on the bench, Tally texts a one-tap checkout link for the remaining balance—plus any extra parts added during the repair.",
+      "You choose the deposit percentage (25%, 50%, or 100%). When work is stamped Ready, Tally texts a one-tap link for the remaining balance and any added parts.",
   },
   {
     id: "physical-goods",
-    question: "Can a customer buy a physical product and a service in the exact same cart?",
+    question: "Can customers buy physical products and services in the same cart?",
     tag: "MIXED CARTS",
     answer:
-      "Absolutely. That is why we built Tally. A shopper can buy a pair of selvedge jeans, attach a $35 chain-stitch hemming ticket, and book a Friday fitting—all in a single Shopify checkout without splitting orders or breaking inventory.",
+      "Yes. Shoppers can add goods, attach service labor like hemming, and reserve fitting slots in a single Shopify checkout without split orders.",
   },
   {
     id: "rescheduling",
-    question: "What happens when a customer needs to move their appointment or runs late?",
+    question: "What happens when a customer reschedules or cancels?",
     tag: "RESCHEDULE & NO-SHOWS",
     answer:
-      "Every Customer Claim Stub includes a self-serve reschedule link governed by your cutoff window (for example, free rescheduling up to 24 hours before the slot). Within your cutoff window, the deposit is protected so your bench hour is never wasted.",
+      "Every claim stub includes a self-serve reschedule link. Within your custom cutoff window, deposits remain non-refundable to protect bench hours.",
   },
   {
     id: "theme-install",
-    question: "Will this slow down my storefront or require editing Liquid code?",
+    question: "Will Tally slow down my storefront or require code edits?",
     tag: "THEME 2.0 APP BLOCK",
     answer:
-      "Never. Tally installs as a lightweight Online Store 2.0 App Block (< 9 KB gzipped) that inherits your theme's typography and colours automatically. If you ever uninstall, zero stray Liquid snippets are left behind.",
+      "No. Tally installs as a lightweight Theme 2.0 app block (< 9 KB) that adopts your store styling automatically. Zero Liquid edits required.",
   },
 ];

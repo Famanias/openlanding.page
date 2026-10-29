@@ -2909,7 +2909,7 @@ export const COHORT_EDITIONS: CohortEdition[] = [
     sampleSize: 184,
     headlineStat: "41.2% squeeze-to-MQL velocity",
     summary:
-      "Benchmarks across 184 North American SaaS & AI infrastructure teams trading interactive calculators and executive digests for work emails.",
+      "Benchmarks across 184 SaaS teams trading calculators and executive digests for work emails.",
   },
   {
     id: "emea-privacy",
@@ -2918,7 +2918,7 @@ export const COHORT_EDITIONS: CohortEdition[] = [
     sampleSize: 138,
     headlineStat: "3.6× higher trust with unblurred previews",
     summary:
-      "GDPR-calibrated capture architectures where live chapter previews precede multi-field qualification.",
+      "Consent-first funnels where live chapter previews precede multi-field qualification.",
   },
   {
     id: "apac-plg",
@@ -2927,7 +2927,7 @@ export const COHORT_EDITIONS: CohortEdition[] = [
     sampleSize: 96,
     headlineStat: "68% splash-to-workspace continuation",
     summary:
-      "Product-led growth teams using regional splash routing and 1-field waitlist squeeze pages before enterprise handoff.",
+      "High-velocity funnels routing visitors to regional cohorts and 1-field waitlists.",
   },
 ];
 
@@ -2936,62 +2936,62 @@ export const CAPTURE_FORMATS: CaptureFormatSpec[] = [
     id: "splash",
     stepCode: "01",
     title: "Splash Page",
-    subtitle: "The Intermediary Threshold & Launch Teaser",
-    funnelStage: "Top of Funnel · Pre-Arrival Gate",
+    subtitle: "Intermediary Threshold",
+    funnelStage: "Top of Funnel",
     fieldsRequired: 0,
-    fieldSummary: "Cohort or region choice + single Enter action",
+    fieldSummary: "Cohort selection + Enter action",
     medianCvr: 74.8,
     intentScore: 34,
     frictionLabel: "Zero form friction",
     surfaceToken: "Lavender Mist",
     surfaceHex: "#E8E0F8",
     definition:
-      "An intermediary page shown before a visitor reaches the main experience. It serves a gatekeeping, cohort-routing, or high-impact product launch announcement function with a single 'Enter' or 'Continue' button.",
-    payoffSummary: "Sets context, routes regional editions, and frames the annual release as an event.",
+      "An intermediary screen that routes cohorts, establishes context, or announces releases with a single Enter action.",
+    payoffSummary: "Routes regional editions and frames the release without form friction.",
     anatomyPoints: [
-      "Single dominant announcement headline with zero navigation clutter",
-      "Optional 1-tap cohort, region, or verification pill selector",
-      "One high-contrast 'Enter' or 'Continue' action button that unlatches the experience",
+      "Announcement headline with zero navigation clutter",
+      "Optional 1-tap region or cohort selector",
+      "Single high-contrast Enter button",
     ],
     idealUseCases: [
-      "Annual flagship product or research drop",
-      "Regional / language / compliance cohort routing",
-      "Age or accreditation verification gates",
+      "Annual product and research releases",
+      "Regional cohort routing",
+      "Age or compliance verification gates",
     ],
   },
   {
     id: "squeeze",
     stepCode: "02",
     title: "Squeeze Page",
-    subtitle: "The Minimalist 1-Field Email Capture",
-    funnelStage: "Top-to-Mid Funnel · Velocity Capture",
+    subtitle: "Minimalist 1-Field Capture",
+    funnelStage: "Velocity Capture",
     fieldsRequired: 1,
-    fieldSummary: "Single email input field + instant action",
+    fieldSummary: "Work email + instant unlock",
     medianCvr: 38.4,
     intentScore: 66,
     frictionLabel: "Ultra-low friction (8 sec)",
     surfaceToken: "Pistachio Mint",
     surfaceHex: "#D9F2E6",
     definition:
-      "The most distilled capture format. Its sole objective is to collect an email address—using a bold headline, one or two sentences of focused value copy, and a single input field—in exchange for a newsletter, waitlist spot, or instant synthesis download.",
-    payoffSummary: "Unlocks the 14-page Executive Synthesis PDF and priority waitlist pass immediately.",
+      "A single-field capture page designed to collect an email in exchange for immediate content, a waitlist spot, or a tool.",
+    payoffSummary: "Unlocks the 14-page Executive Digest and waitlist pass instantly.",
     anatomyPoints: [
-      "Bold benefit-driven headline and at most two sentences of supporting copy",
-      "Single pill input field (Email Address) paired inline with the submit button",
-      "Immediate, verifiable value delivery (Executive Digest pass code on submit)",
+      "Benefit-driven headline with two sentences of supporting copy",
+      "Single pill email input paired with an inline action button",
+      "Immediate browser-side asset delivery upon submission",
     ],
     idealUseCases: [
-      "Executive newsletter & benchmark digest signups",
-      "Early-access product waitlist drops",
-      "Instant template, checklist, or synthesis downloads",
+      "Executive summaries and benchmark digests",
+      "Early-access waitlist drops",
+      "Instant template and calculator downloads",
     ],
   },
   {
     id: "lead-gen",
     stepCode: "03",
     title: "Lead Capture (Lead Gen) Page",
-    subtitle: "The Comprehensive B2B Qualification Suite",
-    funnelStage: "Middle of Funnel · High-Consideration B2B",
+    subtitle: "B2B Qualification Suite",
+    funnelStage: "High-Consideration B2B",
     fieldsRequired: 4,
     fieldSummary: "Full Name, Work Email, Company Size, Role",
     medianCvr: 21.6,
@@ -3000,17 +3000,17 @@ export const CAPTURE_FORMATS: CaptureFormatSpec[] = [
     surfaceToken: "Peach Sorbet",
     surfaceHex: "#FCE2D5",
     definition:
-      "A comprehensive value-exchange page built for B2B SaaS, executive briefings, and high-consideration services. It pairs a multi-field form (Name, Work Email, Company Size, Role) with enterprise social proof, benefit bullets, and a live preview of the gated asset.",
-    payoffSummary: "Unseals the complete 68-page Monograph, raw dataset, and a tailored Funnel Audit Key.",
+      "A high-consideration capture page pairing multi-field qualification with social proof and live asset previews.",
+    payoffSummary: "Unseals the complete 68-page Monograph and tailored Audit Key.",
     anatomyPoints: [
-      "Multi-field qualification form (Name, Work Email, Company Size, Role) with live validation",
-      "Tangible preview of the gated asset that adapts to the visitor's selected cohort",
-      "Outcome-oriented benefit bullets and verified peer social proof alongside the form",
+      "Four-field qualification form with instant browser validation",
+      "Interactive asset preview that adapts to selected cohort",
+      "Outcome-focused benefits and verified peer metrics",
     ],
     idealUseCases: [
-      "Gated industry benchmark reports & whitepapers",
-      "Custom B2B architecture audits & ROI assessments",
-      "Executive webinars and technical workshop registrations",
+      "Industry benchmark reports and whitepapers",
+      "Tailored architecture audits and assessments",
+      "Executive briefing registrations",
     ],
   },
 ];
@@ -3023,8 +3023,8 @@ export const REPORT_CHAPTERS: ReportChapter[] = [
     pages: "pp. 04–16",
     requiredTier: "splash",
     summary:
-      "Why conversion drops 18.5% per unmotivated form field—and how showing the gated asset up front recovers 82% of lost completion.",
-    keyFinding: "Every form field must correspond to a visible personalization in the previewed asset.",
+      "Why each unmotivated field cuts conversion by 18.5%, and how live previews recover lost completion.",
+    keyFinding: "Every form field must unlock visible personalization in the previewed asset.",
     chartLabel: "Median Conversion Rate by Capture Format (%)",
     bars: [
       { label: "Splash Gate (0 fields)", value: 75, highlight: true },
@@ -3040,8 +3040,8 @@ export const REPORT_CHAPTERS: ReportChapter[] = [
     pages: "pp. 17–32",
     requiredTier: "squeeze",
     summary:
-      "Deconstructing 140 high-converting single-field squeeze pages: optimal headline length (6–9 words), inline pill inputs, and instant browser-side asset delivery.",
-    keyFinding: "Inline pill forms with specific page counts ('14-page synthesis') outperform generic 'Subscribe' CTAs by 2.3×.",
+      "Analysis of 140 single-field squeeze pages: optimal headlines, inline pill inputs, and browser delivery.",
+    keyFinding: "Named deliverables with explicit page counts outperform generic subscribe CTAs by 2.3×.",
     chartLabel: "Squeeze Page Completion by Value Specificity (%)",
     bars: [
       { label: "Named deliverable + page count", value: 44, highlight: true },
@@ -3057,8 +3057,8 @@ export const REPORT_CHAPTERS: ReportChapter[] = [
     pages: "pp. 33–51",
     requiredTier: "lead-gen",
     summary:
-      "How top revenue teams use Company Size and Role inputs to dynamically re-weight whitepaper benchmarks while qualifying pipeline in real time.",
-    keyFinding: "When selecting 'Company Size' visibly updates the report preview, 4-field completion rises from 14.2% to 24.8%.",
+      "How growth teams use Company Size and Role to re-weight whitepaper benchmarks in real time.",
+    keyFinding: "When company size dynamically updates report charts, 4-field completion rises from 14.2% to 24.8%.",
     chartLabel: "Qualified Pipeline Rate by Preview Interactivity (%)",
     bars: [
       { label: "Live cohort-filtered preview", value: 68, highlight: true },
@@ -3074,8 +3074,8 @@ export const REPORT_CHAPTERS: ReportChapter[] = [
     pages: "pp. 52–68",
     requiredTier: "lead-gen",
     summary:
-      "Architectural blueprints for chaining all three capture formats so visitors never face a cold 6-field wall on their first touch.",
-    keyFinding: "Staged capture funnels capture 2.9× more total emails while lifting SQL conversion by 41%.",
+      "Blueprints for chaining Splash, Squeeze, and Lead Capture stages into a progressive funnel.",
+    keyFinding: "Staged funnels capture 2.9× more total emails while lifting SQL conversion by 41%.",
     chartLabel: "Net Funnel Yield Across 10,000 Visitors (Index)",
     bars: [
       { label: "Staged 3-Tier Capsule Funnel", value: 92, highlight: true },
@@ -3092,7 +3092,7 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
     segment: "Enterprise DevTools · 650 employees",
     metric: "+42% MQL velocity",
     quote:
-      "Splitting our cold whitepaper wall into a Pistachio Squeeze fast-lane and a live-filtered Lead-Gen Dossier doubled our executive demo pipeline in six weeks.",
+      "Splitting our cold report wall into a 1-field Squeeze and a live-filtered Dossier doubled demo pipeline.",
     author: "Mara Lindqvist",
     role: "VP of Growth & Demand",
   },
@@ -3101,7 +3101,7 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
     segment: "B2B FinTech · 1,200 employees",
     metric: "39.4% Squeeze CVR",
     quote:
-      "The Splash cohort selector let us route EMEA compliance leaders straight to GDPR-specific benchmark charts before asking for a single form field.",
+      "The Splash selector routed EMEA leaders directly to GDPR benchmarks before requesting any data.",
     author: "Julian Vance",
     role: "Head of Revenue Architecture",
   },
@@ -3110,7 +3110,7 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
     segment: "Applied AI · 140 employees",
     metric: "3.1× report completion",
     quote:
-      "When prospects see the benchmark bars shift as they pick their company size, filling out the 4-field Lead Capture form feels like configuring a tool, not paying a toll.",
+      "Seeing benchmark bars shift by company size makes the 4-field form feel like a tool, not a gate.",
     author: "Sora Takahashi",
     role: "Director of Product Growth",
   },
@@ -3119,7 +3119,7 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
     segment: "Data Infrastructure · 320 employees",
     metric: "78% Splash pass-through",
     quote:
-      "Valence gave our growth and design teams a shared vocabulary for when to deploy a 0-field Splash, a 1-field Squeeze, or a full B2B Dossier.",
+      "Valence gave our team a clear framework for deploying Splash, Squeeze, or full Dossier pages.",
     author: "Devon Mercer",
     role: "Co-Founder & COO",
   },
@@ -3128,37 +3128,37 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
 export const VALENCE_FAQS: FaqItem[] = [
   {
     id: "faq-difference",
-    question: "When should we deploy a Splash Page versus a Squeeze Page or a full Lead Capture Page?",
+    question: "When should we deploy a Splash Page versus a Squeeze or Lead Capture Page?",
     answer:
-      "Use a Splash Page when you need zero-friction context setting, regional/cohort routing, or a high-impact launch threshold before the main site. Use a Squeeze Page at the top of the funnel when a single email address is enough to deliver an instant digest, newsletter, or waitlist spot. Use a full Lead Capture Page in mid-funnel B2B journeys where multi-field qualification (Name, Work Email, Company Size, Role) is justified by a high-value whitepaper, benchmark dataset, or custom audit.",
+      "Use Splash for zero-friction routing or launch thresholds. Use Squeeze when one email suffices for an instant download or waitlist. Use Lead Capture when multi-field qualification is justified by high-value research or custom audits.",
     tierTag: "ARCHITECTURE",
   },
   {
     id: "faq-progressive",
-    question: "Can a single funnel combine all three capture formats without fatiguing the visitor?",
+    question: "Can a funnel chain all three formats without fatiguing visitors?",
     answer:
-      "Yes—when each step immediately rewards the visitor. Passing the Splash Gate personalizes the regional edition; the 1-field Squeeze unlocks the 14-page Executive Synthesis; and the 4-field Lead Capture form pre-fills the email address already entered and unlocks the tailored 68-page Monograph and custom audit scorecard.",
+      "Yes, when each step delivers immediate value. Splash sets the cohort, Squeeze unlocks the 14-page digest, and Lead Capture carries the email forward to unlock the complete 68-page monograph.",
     tierTag: "PROGRESSIVE UNLOCK",
   },
   {
     id: "faq-fields",
-    question: "Why does Valence cap the B2B Lead Capture form at four core fields?",
+    question: "Why cap the B2B Lead Capture form at four fields?",
     answer:
-      "Across 418 analyzed B2B funnels, four fields (Full Name, Work Email, Company Size, Role) captured 94% of the routing and scoring signal needed by sales teams while maintaining a 21.6% median conversion rate. Adding phone numbers or open-text budget requirements dropped conversion by 46%.",
+      "Four fields (Name, Work Email, Company Size, Role) capture 94% of qualification signal while keeping median conversion at 21.6%. Adding phone numbers or open fields cut conversion by 46%.",
     tierTag: "EMPIRICAL BENCHMARK",
   },
   {
     id: "faq-preview",
-    question: "How does the live Gated Asset Preview improve lead quality?",
+    question: "How does the live Gated Asset Preview improve conversion?",
     answer:
-      "Static mockup covers force visitors to guess whether a report is relevant. Letting visitors switch chapters and filter live SVG charts by Company Size and Role proves the asset's rigor upfront, ensuring that submitted leads have genuine intent.",
+      "Static covers make visitors guess content quality. Letting visitors filter live data charts by company size and role demonstrates value upfront and attracts higher-intent leads.",
     tierTag: "ASSET PREVIEW",
   },
   {
     id: "faq-privacy",
-    question: "Does this template send form submissions to an external server?",
+    question: "Does this template send form data to an external server?",
     answer:
-      "No. All validation, cohort filtering, Squeeze pass codes (SQ-26-XXXX), and Dossier Access Keys (VL-2026-XXXX) run 100% locally in your browser with zero network requests.",
+      "No. All validation, pass codes (SQ-26-XXXX), and Dossier keys (VL-2026-XXXX) run locally in the browser with zero network requests.",
     tierTag: "LOCAL & PRIVATE",
   },
 ];
@@ -3258,7 +3258,7 @@ export function LeadCaptureForm() {
               className="inline-block h-2.5 w-2.5 rounded-full"
               style={{ backgroundColor: "#5B46E8" }}
             />
-            CORE 03 UNSEALED · 100% DOSSIER ACCESS
+            100% DOSSIER ACCESS
           </span>
           <span className="rounded-full bg-[#1E1B2E] px-4 py-1.5 vl-mono text-xs font-semibold text-[#FBF9F5]">
             KEY {snapshot.dossierKey}
@@ -3270,7 +3270,7 @@ export function LeadCaptureForm() {
         </h3>
         <p className="mt-2 text-base text-[#645D7A]">
           Prepared for <strong>{companyName || "your team"}</strong> ({snapshot.companySize} cohort ·{" "}
-          {BUYER_ROLES.find((r) => r.value === snapshot.role)?.label}). All four chapters in the Gated Asset Preview are now unlocked. Local preview only — no network request was sent.
+          {BUYER_ROLES.find((r) => r.value === snapshot.role)?.label}). All four chapters in the Gated Asset Preview are now unlocked. Local preview only.
         </p>
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -3332,9 +3332,6 @@ export function LeadCaptureForm() {
     >
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1E1B2E]/10 pb-4">
         <div>
-          <span className="vl-mono text-xs text-[#5B46E8] font-semibold">
-            STAGE 03 · 4-FIELD B2B QUALIFICATION
-          </span>
           <h3 className="vl-display text-2xl font-bold text-[#1E1B2E]">
             Unseal the 68-Page Monograph &amp; Custom Audit
           </h3>
@@ -3583,7 +3580,7 @@ export function SqueezeForm() {
               className="inline-block h-2.5 w-2.5 rounded-full"
               style={{ backgroundColor: "#5B46E8" }}
             />
-            RING 02 UNSEALED · EXECUTIVE SYNTHESIS READY
+            RING 02 UNSEALED
           </span>
           <span className="rounded-full border border-[#1E1B2E]/20 bg-[#E8E0F8] px-4 py-1 vl-mono text-xs font-semibold text-[#1E1B2E]">
             PASS {snapshot.squeezePassCode}
@@ -3594,12 +3591,12 @@ export function SqueezeForm() {
           14-Page Executive Digest unlocked for {snapshot.squeezeEmail}.
         </h3>
         <p className="mt-2 text-sm sm:text-base text-[#645D7A]">
-          Local demo only — no network request was sent. Chapter 02 in the Gated Asset Preview below is now unblurred, and your email has been carried forward into Stage 03 if you want the full 68-page Monograph.
+          Local demo only. Chapter 02 in the Gated Asset Preview below is now unblurred, and your email has been carried forward into Stage 03.
         </p>
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <a href="#preview" className="vl-btn vl-btn--primary">
-            <span>Read Unlocked Chapter 02</span>
+            <span>Read Chapter 02</span>
             <span className="vl-btn__arrow" aria-hidden="true">
               →
             </span>
@@ -3611,7 +3608,7 @@ export function SqueezeForm() {
             }}
             className="vl-btn vl-btn--secondary"
           >
-            Edit Email Address
+            Edit Email
           </button>
         </div>
       </div>
@@ -3639,7 +3636,7 @@ export function SqueezeForm() {
           name="squeezeEmail"
           type="email"
           autoComplete="email"
-          placeholder="you@company.com — 1 field only"
+          placeholder="you@company.com"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
@@ -3673,7 +3670,7 @@ export function SqueezeForm() {
         </p>
       ) : (
         <p id="vl-squeeze-hint" className="pl-4 vl-mono text-[11px] text-[#645D7A]">
-          INSTANT BROWSER UNLOCK · ZERO SPAM · NO NETWORK REQUEST SENT
+          INSTANT BROWSER UNLOCK · ZERO SPAM · LOCAL DEMO
         </p>
       )}
     </form>
@@ -4357,11 +4354,6 @@ export function AssetPreviewSection() {
         {/* Heading + Cohort Filter Bar */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <Reveal variant="slide-left">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#FCE2D5] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-                LIVE GATED ASSET PREVIEW · 68-PAGE MONOGRAPH &amp; AUDIT
-              </span>
-            </Reveal>
             <Reveal
               as="h2"
               variant="mask"
@@ -4374,7 +4366,7 @@ export function AssetPreviewSection() {
           </div>
 
           <Reveal variant="rise" delay={100} className="max-w-md text-sm sm:text-base text-[#645D7A]">
-            High-performing Lead Capture pages prove their value upfront. Filter the live benchmark by your company size and role, or unlock chapters as you complete Stages 02 and 03.
+            High-performing capture pages prove value upfront. Filter the live benchmark by company size and role, or unlock chapters across stages.
           </Reveal>
         </div>
 
@@ -4577,7 +4569,7 @@ export function AssetPreviewSection() {
               {/* Finding Callout or Unlock Prompt */}
               {unlocked ? (
                 <div className="rounded-[20px] bg-[#D9F2E6] p-4 text-sm text-[#1E1B2E]">
-                  <strong>Key Benchmark Finding:</strong> {activeChapter.keyFinding}
+                  <strong>Key Finding:</strong> {activeChapter.keyFinding}
                 </div>
               ) : (
                 <div className="rounded-[20px] border-2 border-[#1E1B2E] bg-[#FCE2D5] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -4587,7 +4579,7 @@ export function AssetPreviewSection() {
                     </span>
                     <p className="text-xs sm:text-sm text-[#1E1B2E]">
                       {activeChapter.requiredTier === "squeeze"
-                        ? "Complete the 1-field Squeeze Page above (or click Quick-Preview) to unseal this chapter."
+                        ? "Complete the 1-field Squeeze Page to unseal this chapter."
                         : "Complete the 4-field Lead Capture Dossier below to unseal Chapters 03 & 04."}
                     </p>
                   </div>
@@ -4690,11 +4682,6 @@ export function CaptureMatrixSection() {
         {/* Section Heading */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <Reveal variant="slide-left">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#E8E0F8] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-                ARCHITECTURE MATRIX · TOP &amp; MIDDLE OF FUNNEL
-              </span>
-            </Reveal>
             <Reveal as="h2" variant="mask" className="vl-display text-3xl sm:text-5xl font-extrabold text-[#1E1B2E]">
               <span id="vl-matrix-heading">
                 Match the capture gate to what you give back.
@@ -4703,7 +4690,7 @@ export function CaptureMatrixSection() {
           </div>
 
           <Reveal variant="rise" delay={120} className="max-w-md text-sm sm:text-base text-[#645D7A]">
-            Every field on a form is a price tag. Compare how Splash Pages, Squeeze Pages, and Lead Capture Pages trade contact data for content, access, or tools.
+            Every field is a price tag. Compare how Splash, Squeeze, and Lead Capture pages balance form friction against content value.
           </Reveal>
         </div>
 
@@ -4772,7 +4759,7 @@ export function CaptureMatrixSection() {
 
               <div className="rounded-[24px] bg-[#FBF9F5] p-5 border border-[#1E1B2E]/15 space-y-2.5">
                 <span className="vl-mono text-xs font-semibold text-[#5B46E8]">
-                  STRUCTURAL ANATOMY
+                  ANATOMY
                 </span>
                 <ul className="space-y-2">
                   {activeSpec.anatomyPoints.map((pt, idx) => (
@@ -4810,7 +4797,7 @@ export function CaptureMatrixSection() {
 
               <div className="rounded-[24px] bg-[#FBF9F5] p-5 border border-[#1E1B2E]/15 space-y-3">
                 <span className="vl-mono text-xs font-semibold text-[#1E1B2E]">
-                  WHEN TO DEPLOY THIS FORMAT
+                  WHEN TO DEPLOY
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {activeSpec.idealUseCases.map((useCase, i) => (
@@ -4916,12 +4903,12 @@ import { Marquee } from "../motion/Marquee";
 import { Reveal } from "../motion/Reveal";
 
 const MARQUEE_ITEMS = [
-  "01 SPLASH PAGE · 74.8% MEDIAN PASS-THROUGH",
-  "02 SQUEEZE PAGE · 38.4% SINGLE-FIELD CVR",
-  "03 LEAD CAPTURE · 94% QUALIFICATION SIGNAL",
-  "418 B2B SAAS FUNNELS BENCHMARKED",
+  "SPLASH GATE · 74.8% PASS-THROUGH",
+  "SQUEEZE PAGE · 38.4% 1-FIELD CVR",
+  "LEAD CAPTURE · 94% ROUTING SIGNAL",
+  "418 B2B FUNNELS BENCHMARKED",
   "ASK ONLY FOR WHAT THE ASSET EARNS",
-  "ZERO NETWORK REQUESTS · CLIENT-VALIDATED DEMO",
+  "ZERO NETWORK REQUESTS · CLIENT DEMO",
 ];
 
 export function FaqFooterSection() {
@@ -4943,11 +4930,6 @@ export function FaqFooterSection() {
       <section id="faq" aria-labelledby="vl-faq-heading" className="vl-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-5 space-y-4">
-            <Reveal variant="slide-left">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#E8E0F8] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-                FUNNEL GOVERNANCE · FAQ
-              </span>
-            </Reveal>
             <Reveal
               as="h2"
               variant="mask"
@@ -4958,7 +4940,7 @@ export function FaqFooterSection() {
               </span>
             </Reveal>
             <p className="text-sm sm:text-base text-[#645D7A]">
-              Answers on when to deploy a Splash Gate, Squeeze Page, or multi-field B2B Lead Capture Dossier.
+              Answers on when to deploy a Splash Gate, Squeeze Page, or B2B Lead Capture Dossier.
             </p>
           </div>
 
@@ -5025,7 +5007,7 @@ export function FaqFooterSection() {
             <div className="space-y-2 max-w-md">
               <ValenceLogo tone="paper" />
               <p className="text-sm text-[#E8E0F8]/80">
-                Valence Research &amp; Funnel Architecture Studio. Demonstrating Splash Pages, Squeeze Pages, and B2B Lead Capture Dossiers in one tactile pastel system.
+                Valence Research — Demonstrating Splash, Squeeze, and Lead Capture architectures in a tactile pastel design system.
               </p>
             </div>
 
@@ -5063,8 +5045,8 @@ export function FaqFooterSection() {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 vl-mono text-xs text-[#E8E0F8]/75">
-            <span>© 2026 VALENCE LABS · FICTIONAL BENCHMARK STUDIO</span>
-            <span>LOCAL DEMO ONLY · ZERO NETWORK REQUESTS</span>
+            <span>© 2026 VALENCE LABS</span>
+            <span>LOCAL DEMO · ZERO NETWORK REQUESTS</span>
           </div>
         </div>
       </footer>
@@ -5293,38 +5275,18 @@ export function LeadCaptureSection() {
     >
       <div className="vl-container space-y-12">
         <div className="vl-slab vl-slab--peach border-2 border-[#1E1B2E]/15 p-6 sm:p-10 lg:p-14">
-          {/* Top Eyebrow Strip */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#1E1B2E]/10">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F5] px-4 py-1.5 border border-[#1E1B2E]/15 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: "#5B46E8" }}
-              />
-              STAGE 03 · LEAD CAPTURE (LEAD GEN) PAGE · HIGH-CONSIDERATION B2B
-            </span>
-            <span className="rounded-full bg-[#D9F2E6] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              MULTI-FIELD + SOCIAL PROOF + GATED ASSET
-            </span>
-          </div>
-
           {/* 12-Col Split: Left 5 Cols Benefits & Count-Up Proof, Right 7 Cols Multi-Field Form */}
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             <div className="lg:col-span-5 space-y-6">
-              <div className="space-y-3">
-                <span className="vl-mono text-xs font-bold text-[#5B46E8]">
-                  COMPREHENSIVE VALUE EXCHANGE
-                </span>
-                <h2
-                  id="vl-dossier-heading"
-                  className="vl-display text-3xl sm:text-5xl font-extrabold leading-[1.02] text-[#1E1B2E]"
-                >
-                  Four fields that earn their keep.
-                </h2>
-              </div>
+              <h2
+                id="vl-dossier-heading"
+                className="vl-display text-3xl sm:text-5xl font-extrabold leading-[1.02] text-[#1E1B2E]"
+              >
+                Four fields that earn their keep.
+              </h2>
 
               <p className="text-base text-[#1E1B2E]/90 leading-relaxed">
-                Used in B2B SaaS, executive briefings, and high-consideration services, the{" "}
-                <strong>Lead Capture Page</strong> pairs multi-field qualification with concrete benefit bullets, peer proof, and an immediate tailored asset.
+                Built for high-consideration B2B funnels, the Lead Capture page pairs multi-field qualification with concrete proof and immediate tailored benchmarks.
               </p>
 
               {/* Benefit Bullets */}
@@ -5334,7 +5296,7 @@ export function LeadCaptureSection() {
                     1
                   </span>
                   <span>
-                    <strong>Complete 68-Page Monograph:</strong> Unseals Chapters 01–04 with raw conversion elasticity tables.
+                    <strong>Complete 68-Page Monograph:</strong> Chapters 01–04 with conversion elasticity tables.
                   </span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#1E1B2E]">
@@ -5342,7 +5304,7 @@ export function LeadCaptureSection() {
                     2
                   </span>
                   <span>
-                    <strong>Cohort-Weighted Scorecard:</strong> Benchmarks calibrated to your exact Company Size and Buyer Role.
+                    <strong>Cohort-Weighted Scorecard:</strong> Benchmarks calibrated to your Company Size and Role.
                   </span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#1E1B2E]">
@@ -5394,11 +5356,11 @@ export function LeadCaptureSection() {
         {/* Social Proof Grid (B2B Revenue & Growth Teams) */}
         <div className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="vl-mono text-xs font-semibold text-[#645D7A]">
-              VERIFIED REVENUE &amp; GROWTH TEAMS USING PROGRESSIVE CAPTURE
-            </span>
+            <h3 className="vl-display text-2xl font-bold text-[#1E1B2E]">
+              Peer benchmark proof
+            </h3>
             <span className="rounded-full bg-[#E8E0F8] px-3.5 py-1 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              PEER BENCHMARK PROOF
+              418 B2B TEAMS
             </span>
           </div>
 
@@ -5480,24 +5442,8 @@ export function SplashGateSection() {
     >
       <div className="vl-container">
         <div className="vl-slab vl-slab--lavender border-2 border-[#1E1B2E]/15 p-6 sm:p-10 lg:p-14">
-          {/* Top Eyebrow Strip */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#1E1B2E]/10">
-            <div className="inline-flex items-center gap-2.5 rounded-full bg-[#FBF9F5] px-4 py-1.5 border border-[#1E1B2E]/15">
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: "#5B46E8" }}
-              />
-              <span className="vl-mono text-xs font-semibold text-[#1E1B2E]">
-                STAGE 01 · SPLASH PAGE THRESHOLD · ZERO-FIELD GATEKEEPER
-              </span>
-            </div>
-            <span className="rounded-full bg-[#D9F2E6] px-4 py-1.5 vl-mono text-xs font-medium text-[#1E1B2E]">
-              2026 FUNNEL ARCHITECTURE MONOGRAPH
-            </span>
-          </div>
-
           {/* Main 12-Col Hero Grid */}
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* Left 7 Columns: Splash Gate Announcement, Cohort Selector & Single Enter Action */}
             <div className="lg:col-span-7 space-y-6">
               <h1
@@ -5522,10 +5468,7 @@ export function SplashGateSection() {
                 className="vl-load-rise text-lg sm:text-xl text-[#1E1B2E]/90 max-w-2xl leading-relaxed"
                 style={{ "--i": 1 } as React.CSSProperties}
               >
-                Top- and mid-funnel pages work when they trade real value for contact depth. Start at this{" "}
-                <strong>Splash Page</strong> threshold to select your benchmark cohort, step through our 1-field{" "}
-                <strong>Squeeze Page</strong>, and unseal the 4-field{" "}
-                <strong>B2B Lead Capture Dossier</strong>.
+                Capture pages perform when they match data requests to content depth. Select your benchmark cohort below, test the 1-field Squeeze, and inspect the 4-field Lead Capture Dossier.
               </p>
 
               {/* Interactive Splash Gate Card: Edition / Region Selection + Single Enter Button */}
@@ -5534,8 +5477,8 @@ export function SplashGateSection() {
                 style={{ "--i": 2 } as React.CSSProperties}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="vl-mono text-xs font-semibold text-[#5B46E8]">
-                    01 · SELECT BENCHMARK EDITION (SPLASH GATEKEEPER)
+                  <span className="text-xs font-bold text-[#1E1B2E]">
+                    Benchmark Cohort
                   </span>
                   <span className="rounded-full bg-[#E8E0F8] px-3 py-1 vl-mono text-[11px] font-medium text-[#1E1B2E]">
                     {selectedCohort.regionTag}
@@ -5578,7 +5521,7 @@ export function SplashGateSection() {
                 <div className="rounded-[20px] bg-[#D9F2E6] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <span className="vl-mono text-[11px] font-semibold text-[#1E1B2E]">
-                      COHORT FINDING · {selectedCohort.headlineStat.toUpperCase()}
+                      {selectedCohort.headlineStat.toUpperCase()}
                     </span>
                     <p className="mt-0.5 text-xs sm:text-sm text-[#1E1B2E]">
                       {selectedCohort.summary}
@@ -5598,8 +5541,8 @@ export function SplashGateSection() {
                       >
                         <span>
                           {snapshot.unlocked.splash
-                            ? "Splash Gate Unlatched · Continue"
-                            : "Enter the 2026 Briefing"}
+                            ? "Gate Unlatched · Continue"
+                            : "Enter Briefing"}
                         </span>
                         <span className="vl-btn__arrow" aria-hidden="true">
                           →
@@ -5612,7 +5555,7 @@ export function SplashGateSection() {
                       onClick={handleEnterSplashGate}
                       className="vl-btn vl-btn--secondary px-5 py-3.5 text-sm"
                     >
-                      Jump to Stage 02 Squeeze
+                      Jump to Squeeze
                     </a>
                   </div>
 
@@ -5621,8 +5564,8 @@ export function SplashGateSection() {
                     aria-live="polite"
                   >
                     {snapshot.unlocked.splash
-                      ? "✓ RING 01 UNLATCHED (40% DEPTH)"
-                      : "0 FIELDS · 74.8% MEDIAN PASS-THROUGH"}
+                      ? "✓ RING 01 UNLATCHED"
+                      : "0 FIELDS · 74.8% PASS-THROUGH"}
                   </span>
                 </div>
               </div>
@@ -5637,7 +5580,7 @@ export function SplashGateSection() {
                   onClick={() => valenceStore.setActiveTier("splash")}
                   className="rounded-full border border-[#1E1B2E]/15 bg-[#FBF9F5] px-4 py-3 flex items-center justify-between"
                 >
-                  <span className="text-xs font-bold text-[#1E1B2E]">01 · Splash Page</span>
+                  <span className="text-xs font-bold text-[#1E1B2E]">01 · Splash Gate</span>
                   <span className="rounded-full bg-[#E8E0F8] px-2.5 py-0.5 vl-mono text-[11px] text-[#1E1B2E]">
                     0 fields
                   </span>
@@ -5703,58 +5646,22 @@ export function SqueezeSection() {
           variant="wipe"
           className="vl-slab vl-slab--mint border-2 border-[#1E1B2E]/15 p-6 sm:p-10 lg:p-14"
         >
-          {/* Top Eyebrow Row */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#1E1B2E]/10">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F5] px-4 py-1.5 border border-[#1E1B2E]/15 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: "#5B46E8" }}
-              />
-              STAGE 02 · SQUEEZE PAGE · MINIMALIST 1-FIELD CAPTURE
-            </span>
-            <span className="rounded-full bg-[#E8E0F8] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              MEDIAN CVR: 38.4% · 8-SECOND COMPLETION
-            </span>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left 7 Columns: Classic Squeeze Format — Bold Headline, 2 Sentences of Copy, Single Input Field */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="space-y-3">
-                <span className="vl-mono text-xs font-bold text-[#5B46E8]">
-                  THE DISTILLED VALUE EXCHANGE
-                </span>
-                <h2
-                  id="vl-squeeze-heading"
-                  className="vl-display text-3xl sm:text-5xl font-extrabold leading-[1.02] text-[#1E1B2E]"
-                >
-                  One email address. Fourteen pages of empirical funnel benchmarks.
-                </h2>
-              </div>
+              <h2
+                id="vl-squeeze-heading"
+                className="vl-display text-3xl sm:text-5xl font-extrabold leading-[1.02] text-[#1E1B2E]"
+              >
+                One email address. Fourteen pages of empirical benchmarks.
+              </h2>
 
-              {/* Exactly two sentences of copy, honoring classic Squeeze Page discipline */}
               <p className="text-base sm:text-lg text-[#1E1B2E]/90 leading-relaxed max-w-2xl">
-                Get the 2026 Executive Synthesis—covering conversion rates across 418 B2B SaaS funnels, optimal field counts, and top-performing headline formulas—delivered immediately in your browser. Zero multi-step questionnaires: enter your work email below to unseal Ring 02 and unlock Chapter 02 right now.
+                Get the 2026 Executive Synthesis with conversion benchmarks across 418 B2B funnels delivered instantly in your browser. Enter your work email below to unlock Chapter 02 and mint your priority waitlist pass.
               </p>
 
               {/* Single-Field Squeeze Form */}
               <SqueezeForm />
-
-              {/* Micro-Anatomy Pills */}
-              <div className="flex flex-wrap items-center gap-2 pt-2">
-                <span className="rounded-full bg-[#FBF9F5] px-3.5 py-1.5 vl-mono text-[11px] font-medium text-[#1E1B2E] border border-[#1E1B2E]/12">
-                  ✓ 1 BOLD HEADLINE
-                </span>
-                <span className="rounded-full bg-[#FBF9F5] px-3.5 py-1.5 vl-mono text-[11px] font-medium text-[#1E1B2E] border border-[#1E1B2E]/12">
-                  ✓ 2 SENTENCES OF COPY
-                </span>
-                <span className="rounded-full bg-[#FBF9F5] px-3.5 py-1.5 vl-mono text-[11px] font-medium text-[#1E1B2E] border border-[#1E1B2E]/12">
-                  ✓ 1 PILL INPUT FIELD
-                </span>
-                <span className="rounded-full bg-[#FCE2D5] px-3.5 py-1.5 vl-mono text-[11px] font-semibold text-[#1E1B2E] border border-[#1E1B2E]/12">
-                  ✓ INSTANT DELIVERABLE
-                </span>
-              </div>
             </div>
 
             {/* Right 5 Columns: Instant Deliverable Card (14-Page Executive Synthesis Preview) */}
@@ -5762,7 +5669,7 @@ export function SqueezeSection() {
               <div className="rounded-[28px] border-2 border-[#1E1B2E] bg-[#FBF9F5] p-6 sm:p-7 space-y-5">
                 <div className="flex items-center justify-between gap-2">
                   <span className="rounded-full bg-[#D9F2E6] px-3.5 py-1 vl-mono text-xs font-semibold text-[#1E1B2E]">
-                    INSTANT PAYOFF · PDF SYNTHESIS
+                    14-PAGE DIGEST
                   </span>
                   <span className="vl-mono text-xs font-semibold text-[#5B46E8]">
                     {snapshot.unlocked.squeeze ? "UNLOCKED ✓" : "1-FIELD GATE"}
@@ -5846,7 +5753,7 @@ export function SqueezeSection() {
                         style={{ backgroundColor: "#5B46E8" }}
                       />
                       <span>
-                        <strong>Chapter 02 Unblurred:</strong> Squeeze Page copy &amp; inline pill anatomy
+                        <strong>Chapter 02 Unblurred:</strong> Squeeze copy and inline pill anatomy
                       </span>
                     </li>
                     <li className="flex items-center gap-2.5 text-[#1E1B2E]">

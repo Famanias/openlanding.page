@@ -236,7 +236,6 @@ export function CounterStage() {
                 <span className="tl-mono tl-badge-pill" data-tone={currentArchetype.pastelTone}>
                   STOP {currentStop.step} / 04 · {currentStop.tag}
                 </span>
-                <span className="tl-mono tl-webhook-tag">{currentStop.shopifyEvent}</span>
               </div>
 
               <h3 className="tl-bench-title">{currentStop.title}</h3>
@@ -244,7 +243,7 @@ export function CounterStage() {
 
               <div className="tl-live-note-card" data-tone={currentArchetype.pastelTone}>
                 <div className="tl-mono tl-live-note-kicker">
-                  LIVE BENCH LOG · {currentArchetype.shopExample.toUpperCase()} ({currentArchetype.city})
+                  BENCH LOG · {currentArchetype.shopExample.toUpperCase()}
                 </div>
                 <p className="tl-live-note-copy">{currentArchetype.stopNotes[stopIdx]}</p>
               </div>
@@ -252,7 +251,7 @@ export function CounterStage() {
               {/* Interactive Configuration Controls */}
               <div className="tl-config-controls">
                 <div className="tl-config-group">
-                  <span className="tl-mono tl-config-label">BOOKING SLOT WINDOW</span>
+                  <span className="tl-mono tl-config-label">SELECT SLOT</span>
                   <div className="tl-slot-grid" role="group" aria-label="Select booking slot">
                     {currentArchetype.slots.map((slot, idx) => (
                       <button
@@ -271,7 +270,7 @@ export function CounterStage() {
 
                 <div className="tl-config-row">
                   <div className="tl-config-group">
-                    <span className="tl-mono tl-config-label">CHECKOUT DEPOSIT SPLIT</span>
+                    <span className="tl-mono tl-config-label">DEPOSIT SPLIT</span>
                     <div className="tl-deposit-pills" role="group" aria-label="Checkout deposit percentage">
                       {DEPOSIT_OPTIONS.map((pct) => (
                         <button
@@ -289,7 +288,7 @@ export function CounterStage() {
                   </div>
 
                   <div className="tl-config-group">
-                    <span className="tl-mono tl-config-label">ATTACHED LABOR ADD-ONS</span>
+                    <span className="tl-mono tl-config-label">ADD-ONS</span>
                     <div className="tl-addon-list">
                       {currentArchetype.addOns.map((addon) => {
                         const checked = selectedAddOns.includes(addon.id);
@@ -328,7 +327,7 @@ export function CounterStage() {
                   <div className="tl-ticket-top-row">
                     <div>
                       <span className="tl-mono tl-ticket-kicker">
-                        MERCHANT BENCH TAG · SHOPIFY POS
+                        BENCH TAG
                       </span>
                       <h4 className="tl-ticket-shop">{currentArchetype.shopExample}</h4>
                     </div>
@@ -349,11 +348,11 @@ export function CounterStage() {
 
                   <dl className="tl-ticket-ledger-rows">
                     <div className="tl-ledger-row">
-                      <dt>Reserved Window</dt>
+                      <dt>Slot</dt>
                       <dd className="tl-mono">{currentArchetype.slots[slotIndex]}</dd>
                     </div>
                     <div className="tl-ledger-row">
-                      <dt>Base Service Rate</dt>
+                      <dt>Base rate</dt>
                       <dd className="tl-mono">${currentArchetype.basePrice}.00</dd>
                     </div>
                     {currentArchetype.addOns
@@ -365,7 +364,7 @@ export function CounterStage() {
                         </div>
                       ))}
                     <div className="tl-ledger-row tl-ledger-row-total">
-                      <dt>Total Ticket Value</dt>
+                      <dt>Total value</dt>
                       <dd className="tl-mono">${breakdown.total}.00</dd>
                     </div>
                   </dl>
@@ -391,7 +390,7 @@ export function CounterStage() {
                 {/* Part B: Detachable Customer Claim Stub (Right) */}
                 <div className="tl-ticket-customer-stub">
                   <div className="tl-stub-header">
-                    <span className="tl-mono tl-stub-label">CUSTOMER CLAIM STUB</span>
+                    <span className="tl-mono tl-stub-label">CLAIM STUB</span>
                     <span className="tl-mono tl-stub-state">
                       {isTorn ? "DETACHED · READY" : `STAGE ${currentStop.step}`}
                     </span>
@@ -403,13 +402,13 @@ export function CounterStage() {
 
                   <div className="tl-stub-financials">
                     <div className="tl-stub-pay-box">
-                      <span className="tl-mono">DUE AT CHECKOUT ({depositPct}%)</span>
+                      <span className="tl-mono">DUE NOW ({depositPct}%)</span>
                       <strong className="tl-mono tl-stub-amount">
                         ${breakdown.depositDueNow}.00
                       </strong>
                     </div>
                     <div className="tl-stub-pay-box tl-stub-pay-balance">
-                      <span className="tl-mono">DUE AT PICKUP</span>
+                      <span className="tl-mono">AT PICKUP</span>
                       <strong className="tl-mono tl-stub-amount">
                         ${breakdown.balanceAtPickup}.00
                       </strong>

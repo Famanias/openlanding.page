@@ -197,8 +197,8 @@ export function CounterForm() {
       onSubmit={handleSubmit}
     >
       <div className="tl-form-top-bar">
-        <span className="tl-mono">NEW MERCHANT COUNTER REQUISITION</span>
-        <span className="tl-mono">14 DAYS FREE · 0% COMMISSION</span>
+        <span className="tl-mono">MERCHANT REQUISITION</span>
+        <span className="tl-mono">14 DAYS FREE</span>
       </div>
 
       <div className="tl-form-grid">
@@ -207,13 +207,14 @@ export function CounterForm() {
           data-invalid={errors.shopName ? "true" : "false"}
         >
           <label htmlFor="tl-shop-name" className="tl-label">
-            Shopify store or workshop name
+            Store or workshop name
           </label>
           <input
             ref={shopNameRef}
             id="tl-shop-name"
             name="shopName"
             type="text"
+            aria-label="Shopify store or workshop name"
             placeholder="e.g. Hem & Haw Atelier"
             value={form.shopName}
             onChange={(e) => {
@@ -236,13 +237,14 @@ export function CounterForm() {
           data-invalid={errors.email ? "true" : "false"}
         >
           <label htmlFor="tl-merchant-email" className="tl-label">
-            Merchant email address
+            Merchant email
           </label>
           <input
             ref={emailRef}
             id="tl-merchant-email"
             name="email"
             type="email"
+            aria-label="Merchant email address"
             placeholder="you@yourshop.co"
             value={form.email}
             onChange={(e) => {
@@ -262,7 +264,7 @@ export function CounterForm() {
 
         <div className="tl-field">
           <label htmlFor="tl-form-archetype" className="tl-label">
-            Primary service archetype
+            Service archetype
           </label>
           <select
             id="tl-form-archetype"
@@ -286,7 +288,7 @@ export function CounterForm() {
 
         <div className="tl-field">
           <label htmlFor="tl-form-plan" className="tl-label">
-            Merchant ledger tier
+            Ledger tier
           </label>
           <select
             id="tl-form-plan"
@@ -311,14 +313,15 @@ export function CounterForm() {
         data-invalid={errors.serviceNote ? "true" : "false"}
       >
         <label htmlFor="tl-service-note" className="tl-label">
-          What service or bench workflow are you putting on Shopify?
+          Primary service or bench workflow
         </label>
         <textarea
           ref={serviceNoteRef}
           id="tl-service-note"
           name="serviceNote"
           rows={3}
-          placeholder="e.g. In-store denim chain-stitch hemming, mail-in watch servicing, or 6-seat wheel throwing classes..."
+          aria-label="What service or bench workflow are you putting on Shopify?"
+          placeholder="e.g. Denim chain-stitch hemming, watch servicing, or wheel throwing classes..."
           value={form.serviceNote}
           onChange={(e) => {
             setForm((prev) => ({ ...prev, serviceNote: e.target.value }));
@@ -338,7 +341,7 @@ export function CounterForm() {
 
       <div className="tl-form-footer">
         <p className="tl-mono tl-form-footnote">
-          DEFAULT CHECKOUT DEPOSIT: {form.depositPct}% · LOCAL DEMO ONLY (NO NETWORK REQUEST)
+          LOCAL DEMO · NO NETWORK REQUEST
         </p>
 
         <button

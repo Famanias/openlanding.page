@@ -9,14 +9,10 @@ import { CountUp, Reveal } from "../motion/Reveal";
 const MARQUEE_TAGS = [
   "DENIM CHAIN-STITCH HEMMING",
   "BICYCLE DRIVETRAIN OVERHAULS",
-  "ESPRESSO GROUPHEAD DESCALING",
-  "WATCH MOVEMENT REGULATION",
-  "CUSTOM PICTURE FRAMING",
-  "GOODYEAR WELT BOOT RESOLING",
-  "CERAMIC KILN SHELF FIRING",
-  "BRIDAL PIN FITTINGS",
-  "KNIFE WHETSTONE SHARPENING",
-  "TENNIS RACQUET STRINGING",
+  "WATCH CALIBER REGULATION",
+  "GOODYEAR WELT RESOLING",
+  "CERAMIC KILN FIRING",
+  "STUDIO BENCH CLASSES",
 ];
 
 export function MerchantStories() {
@@ -74,11 +70,6 @@ export function MerchantStories() {
 
       <div className="tl-container">
         <div className="tl-section-head">
-          <Reveal as="div" variant="draw" className="tl-eyebrow-row">
-            <span className="tl-eyebrow-rule" aria-hidden="true" />
-            <span className="tl-mono">§ III · THE MERCHANT BENCH</span>
-          </Reveal>
-
           <div className="tl-head-split">
             <Reveal as="h2" variant="mask" className="tl-h2">
               <span id="tl-merchants-heading" className="tl-mask-inner">
@@ -87,7 +78,7 @@ export function MerchantStories() {
             </Reveal>
 
             <Reveal as="p" variant="rise" delay={120} className="tl-section-lede">
-              Over 1,400 independent Shopify merchants run their fitting rooms, repair stands, and studio kilns on Tally. Inspect an actual counter receipt from three of them.
+              Over 1,400 independent Shopify merchants run their workshops on Tally.
             </Reveal>
           </div>
         </div>
@@ -134,12 +125,13 @@ export function MerchantStories() {
                   <button
                     type="button"
                     className="tl-btn tl-btn-secondary tl-dossier-btn"
+                    aria-label={`Inspect Receipt #${story.receipt.serial}`}
                     onClick={(e) => {
                       lastTriggerRef.current = e.currentTarget;
                       setActiveStory(story);
                     }}
                   >
-                    <span className="tl-mono">Inspect Receipt #{story.receipt.serial}</span>
+                    <span className="tl-mono">Receipt #{story.receipt.serial}</span>
                     <span aria-hidden="true">↗</span>
                   </button>
                 </div>
