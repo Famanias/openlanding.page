@@ -18,10 +18,10 @@ describe("GalleryShell", () => {
     expect(html).toContain("Scroll Showcase");
     expect(html).toContain("3D &amp; WebGPU");
     expect(html).toContain("Editorial Magazine");
-    expect(html).toContain("Showing 44 of 44 templates");
+    expect(html).toContain("Showing 43 of 43 templates");
   });
 
-  it("renders all 44 active template cards and excludes archived templates", () => {
+  it("renders all 43 active template cards and excludes archived templates", () => {
     const html = renderToStaticMarkup(<GalleryShell />);
     expect(html).toContain('href="/loam"');
     expect(html).toContain('href="/orrery"');
@@ -39,7 +39,6 @@ describe("GalleryShell", () => {
     expect(html).toContain('href="/aubade"');
     expect(html).toContain('href="/satsuma"');
     expect(html).toContain('href="/kinetic"');
-    expect(html).toContain('href="/isobar"');
     expect(html).toContain('href="/volume-zero"');
     expect(html).toContain('href="/openhouse"');
     expect(html).toContain('href="/kazeko"');
@@ -74,7 +73,6 @@ expect(html).toContain('href="/tally"');
     expect(html).toContain("IRIDIA");
     expect(html).toContain("BATHYS");
     expect(html).toContain("KINETIC");
-    expect(html).toContain("ISOBAR");
     expect(html).toContain("VOLUME ZERO");
     expect(html).toContain("OPENHOUSE");
     expect(html).toContain("Studio Kazeko");
@@ -110,7 +108,7 @@ expect(html).toContain('href="/tally"');
     const eagerCount = (html.match(/loading="eager"/g) || []).length;
     const lazyCount = (html.match(/loading="lazy"/g) || []).length;
     expect(eagerCount).toBe(1);
-    expect(lazyCount).toBe(43);
+    expect(lazyCount).toBe(42);
   });
 
   it("renders responsive grid container with 5 columns on desktop", () => {

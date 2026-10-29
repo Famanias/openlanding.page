@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "isobar" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -124,10 +124,6 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
     paletteExempt: [
       "src/app/(kinetic)/kinetic/journey/engine/", // 3D scenery/materials shaders are content like 3D food
     ],
-  },
-  isobar: {
-    palette: ["#F7F2E9", "#12101A", "#FF5B47", "#2DE2A6", "#8A6CFF", "#FFD447", "#272234", "#A59DB6"],
-    paletteExempt: ["src/app/(isobar)/isobar/field/"],
   },
   "volume-zero": {
     palette: ["#171B20", "#F1EEE5", "#2B9BAA"],

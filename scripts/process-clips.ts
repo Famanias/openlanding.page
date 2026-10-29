@@ -180,7 +180,6 @@ export const VALID_SLUGS = Array.from(
     "satsuma",
     "kinetic",
     "loophouse",
-    "isobar",
     "volume-zero",
     "openhouse",
     "handoff",

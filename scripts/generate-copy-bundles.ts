@@ -85,10 +85,6 @@ const COPY_METADATA: Record<
     name: "KINETIC",
     dependencies: ["three", "lenis"],
   },
-  isobar: {
-    name: "ISOBAR",
-    dependencies: ["three"],
-  },
   "volume-zero": {
     name: "VOLUME ZERO",
     dependencies: ["three"],

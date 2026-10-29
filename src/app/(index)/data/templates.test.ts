@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(44);
+    expect(TEMPLATES).toHaveLength(43);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","isobar","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
