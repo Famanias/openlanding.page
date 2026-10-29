@@ -48,15 +48,17 @@ export async function handleVote(request: NextRequest, slug: string, slugs: stri
   if (!minute.success) return voteError("Too many votes. Please try again later.", 429,
     { "Retry-After": String(Math.max(1, Math.ceil((minute.reset - Date.now()) / 1000))) });
 
-  const vid = readVisitor(request) ?? randomBytes(16).toString("hex");
+  const revoking = request.method === "DELETE";
+  const visitor = readVisitor(request);
+  if (revoking && !visitor) return voteError("Your browser could not identify this vote. Refresh the gallery and try again.", 401);
+  const vid = visitor ?? randomBytes(16).toString("hex");
   const voter = voterHash(secret, vid);
-  const existing = await store.mine([slug], voter);
-  if (!existing[slug]) {
+  if (!revoking && !await store.hasVoted(slug, voter)) {
     const daily = await store.limit(`${ipHash}:${slug}`, "daily");
     if (!daily.success) return voteError("This network has reached its daily limit for this template. Try again tomorrow.", 429,
       { "Retry-After": String(Math.max(1, Math.ceil((daily.reset - Date.now()) / 1000))) });
   }
-  const result = await store.vote(slug, voter, dir);
+  const result = revoking ? await store.revoke(slug, voter, dir) : await store.vote(slug, voter, dir);
   const response = NextResponse.json(result, { headers: privateHeaders });
   response.cookies.set("olp_vid", vid, { httpOnly: true, secure: true, sameSite: "lax", maxAge: 60 * 60 * 24 * 730, path: "/" });
   return response;

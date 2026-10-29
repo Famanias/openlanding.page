@@ -3,11 +3,31 @@ import { Ratelimit } from "@upstash/ratelimit";
 import type { CountsBySlug, VoteCounts, VoteDirection, VoteResult, VotesBySlug, VoteStore } from "./types";
 
 export const VOTE_SCRIPT = `
-local accepted = redis.call('HSETNX', KEYS[1], ARGV[1], ARGV[2])
-if accepted == 1 then redis.call('HINCRBY', KEYS[2], ARGV[2], 1) end
+local existing = redis.call('HGET', KEYS[1], ARGV[1])
+local accepted = 0
+if not existing or existing == 'none' then
+  redis.call('HSET', KEYS[1], ARGV[1], ARGV[2])
+  redis.call('HINCRBY', KEYS[2], ARGV[2], 1)
+  accepted = 1
+end
 return {tonumber(redis.call('HGET', KEYS[2], 'up') or '0'),
         tonumber(redis.call('HGET', KEYS[2], 'down') or '0'),
         redis.call('HGET', KEYS[1], ARGV[1]), accepted}
+`;
+
+export const REVOKE_SCRIPT = `
+local existing = redis.call('HGET', KEYS[1], ARGV[1])
+local accepted = 0
+if existing == ARGV[2] then
+  redis.call('HSET', KEYS[1], ARGV[1], 'none')
+  local count = tonumber(redis.call('HGET', KEYS[2], existing) or '0')
+  if count > 0 then redis.call('HINCRBY', KEYS[2], existing, -1) end
+  accepted = 1
+end
+local current = redis.call('HGET', KEYS[1], ARGV[1])
+if not current or current == 'none' then current = '' end
+return {tonumber(redis.call('HGET', KEYS[2], 'up') or '0'),
+        tonumber(redis.call('HGET', KEYS[2], 'down') or '0'), current, accepted}
 `;
 
 export class UpstashVoteStore implements VoteStore {
@@ -35,6 +55,14 @@ export class UpstashVoteStore implements VoteStore {
       VOTE_SCRIPT, [`votes:{${slug}}`, `counts:{${slug}}`], [voter, dir]);
     return { up, down, myVote, accepted: accepted === 1 };
   }
+  async hasVoted(slug: string, voter: string) {
+    return (await this.redis.hexists(`votes:{${slug}}`, voter)) === 1;
+  }
+  async revoke(slug: string, voter: string, dir: VoteDirection): Promise<VoteResult> {
+    const [up, down, current, accepted] = await this.redis.eval<[string, VoteDirection], [number, number, VoteDirection | "", number]>(
+      REVOKE_SCRIPT, [`votes:{${slug}}`, `counts:{${slug}}`], [voter, dir]);
+    return { up, down, myVote: current || null, accepted: accepted === 1 };
+  }
   async limit(key: string, kind: "minute" | "daily") {
     const result = await this[kind].limit(key);
     await result.pending;
@@ -45,7 +73,7 @@ export class UpstashVoteStore implements VoteStore {
 
 /** Development/test fake. All writes are synchronous before the Promise resolves. */
 export class MemoryVoteStore implements VoteStore {
-  private votes = new Map<string, Map<string, VoteDirection>>();
+  private votes = new Map<string, Map<string, VoteDirection | null>>();
   private totals = new Map<string, VoteCounts>();
   private limits = new Map<string, { count: number; reset: number }>();
   async counts(slugs: string[]): Promise<CountsBySlug> {
@@ -58,7 +86,7 @@ export class MemoryVoteStore implements VoteStore {
     }));
   }
   async vote(slug: string, voter: string, dir: VoteDirection): Promise<VoteResult> {
-    const votes = this.votes.get(slug) ?? new Map<string, VoteDirection>();
+    const votes = this.votes.get(slug) ?? new Map<string, VoteDirection | null>();
     const counts = this.totals.get(slug) ?? { up: 0, down: 0 };
     const existing = votes.get(voter);
     if (!existing) {
@@ -68,6 +96,18 @@ export class MemoryVoteStore implements VoteStore {
       this.totals.set(slug, counts);
     }
     return { ...counts, myVote: existing ?? dir, accepted: !existing };
+  }
+  async hasVoted(slug: string, voter: string) {
+    return this.votes.get(slug)?.has(voter) ?? false;
+  }
+  async revoke(slug: string, voter: string, dir: VoteDirection): Promise<VoteResult> {
+    const existing = this.votes.get(slug)?.get(voter) ?? null;
+    const counts = this.totals.get(slug) ?? { up: 0, down: 0 };
+    if (existing === dir) {
+      this.votes.get(slug)!.set(voter, null);
+      counts[dir] = Math.max(0, counts[dir] - 1);
+    }
+    return { ...counts, myVote: existing === dir ? null : existing, accepted: existing === dir };
   }
   async limit(key: string, kind: "minute" | "daily") {
     const now = Date.now();

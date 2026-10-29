@@ -8,7 +8,7 @@ vi.mock("./runtime", async (load) => ({ ...await load<typeof import("./runtime")
 vi.mock("next/server", async (load) => ({ ...await load<typeof import("next/server")>(), connection: vi.fn(async () => {}) }));
 import { GET as publicCounts } from "../../app/api/votes/route";
 import { GET as myVotes } from "../../app/api/votes/me/route";
-import { POST } from "../../app/api/votes/[slug]/route";
+import { POST, DELETE } from "../../app/api/votes/[slug]/route";
 afterEach(() => vi.restoreAllMocks());
 
 describe("vote route contracts", () => {
@@ -47,5 +47,16 @@ describe("vote route contracts", () => {
     state.store = new MemoryVoteStore();
     const response = await POST(new NextRequest("https://gallery.test/api/votes/unknown", { method: "POST" }), { params: Promise.resolve({ slug: "unknown" }) });
     expect(response.status).toBe(404);
+  });
+  it("removes only the vote belonging to the DELETE request's cookie", async () => {
+    const store = new MemoryVoteStore(); state.store = store;
+    const vid = "b".repeat(32);
+    await store.vote("orrery", voterHash(state.secret, vid), "up");
+    await store.vote("orrery", "other-visitor", "up");
+    const response = await DELETE(new NextRequest("https://gallery.test/api/votes/orrery", {
+      method: "DELETE", headers: { origin: "https://gallery.test", cookie: `olp_vid=${vid}`, "content-type": "application/json" }, body: '{"dir":"up"}',
+    }), { params: Promise.resolve({ slug: "orrery" }) });
+    expect(await response.json()).toEqual({ up: 1, down: 0, myVote: null, accepted: true });
+    expect(await store.mine(["orrery"], "other-visitor")).toEqual({ orrery: "up" });
   });
 });

@@ -173,30 +173,33 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
               <Check className="copy-icon-success" size={16} />
             </span>
           </button>
-          {template.hasDownload && <button type="button" onClick={handleDownloadTemplate} aria-live="polite" aria-label={copiedAction === "template" ? "Downloaded HTML" : "Download HTML"}
-            title={copiedAction === "template" ? "Downloaded HTML" : "Download HTML"} disabled={busy} aria-busy={busy} data-copied={copiedAction === "template"} className="card-action-btn">
+          <button type="button" onClick={handleDownloadTemplate} aria-live="polite" aria-label={copiedAction === "template" ? "Downloaded HTML" : "Download HTML"}
+            aria-description={template.hasDownload ? undefined : "The standalone HTML export is coming soon."}
+            title={!template.hasDownload ? "HTML coming soon" : copiedAction === "template" ? "Downloaded HTML" : "Download HTML"}
+            disabled={busy || !template.hasDownload} aria-busy={busy} data-copied={copiedAction === "template"} className="card-action-btn">
             <span className="copy-icon-stack" aria-hidden="true">
               <DownloadSimple className="copy-icon-default" size={16} />
               <Check className="copy-icon-success" size={16} />
               <span className="copy-spinner" />
             </span>
-          </button>}
+          </button>
         </div>
         <div className="card-votes" role="group" aria-label={`Rate ${template.title}`} aria-busy={votePending}>
           {(["up", "down"] as const).map((dir) => {
             const selected = myVote === dir;
             const Icon = dir === "up" ? ThumbsUp : ThumbsDown;
             const action = dir === "up" ? "Like" : "Dislike";
+            const disabled = Boolean(myVote && !selected) || votePending || !votesReady;
             return <button key={dir} type="button" className="card-vote-btn"
-              disabled={Boolean(myVote) || votePending || !votesReady} aria-disabled={Boolean(myVote) || votePending || !votesReady}
+              disabled={disabled} aria-disabled={disabled}
               aria-pressed={selected} onClick={() => onVote?.(dir)}
-              aria-label={selected ? `You ${dir === "up" ? "liked" : "disliked"} ${template.title} (${counts[dir]})` : `${action} ${template.title} (${counts[dir]})`}
-              title={myVote ? "Your vote is final" : `${action} this template. Votes are final.`}>
+              aria-label={selected ? `Remove your ${dir === "up" ? "like" : "dislike"} for ${template.title} (${counts[dir]})` : `${action} ${template.title} (${counts[dir]})`}
+              title={selected ? `Remove your ${dir === "up" ? "like" : "dislike"}` : myVote ? "Remove your current vote to choose again" : `${action} this template`}>
               <Icon size={16} weight={selected ? "fill" : "regular"} aria-hidden="true" />
               <span aria-live="polite" aria-atomic="true">{counts[dir]}</span>
             </button>;
           })}
-          {myVote && <span className="vote-final">Vote recorded</span>}
+          {myVote && <span className="vote-final">Click again to remove</span>}
         </div>
         {voteError && <p className="copy-error" role="alert">{voteError}</p>}
         {copyError && <p className="copy-error" role="alert">{copyError}</p>}

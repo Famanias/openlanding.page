@@ -14,7 +14,7 @@ Every gallery item requires a literal `createdAt: "YYYY-MM-DD"`. Existing values
 
 ## Standalone HTML downloads
 
-Download HTML appears only when `hasDownload: true` and `public/downloads/<slug>.html` exists. Alpine Reel is the first batch; older templates can gain faithful readable vanilla ports in later batches. New templates ship their standalone file with registration.
+Every card shows Download HTML. It is enabled when `hasDownload: true` and `public/downloads/<slug>.html` exists; other cards keep the button visible with a disabled "HTML coming soon" state. Alpine Reel is the first batch; older templates can gain faithful readable vanilla ports in later batches. New templates ship their standalone file with registration.
 
 Each file has inline CSS and JavaScript and meaningful HTML with an h1. Fonts and images may use remote URLs; library CDNs must pin versions. Relative site assets, Next.js chunks, live-page scraping, base URLs and HTML clipboard side effects are excluded. The file must open directly under `file://` with its main heading and interactions working. `scripts/check-media.ts` checks availability and basic content; `tests/e2e/downloads.spec.ts` opens every shipped file from disk and checks page errors and forbidden requests.
 
@@ -22,7 +22,7 @@ The gallery registration is the source of truth for dates and download availabil
 
 ## Anonymous votes
 
-Both counts appear on every card. Each browser can cast one permanent like or dislike per template. See [voting setup and storage](gallery-votes.md) for production environment variables and the limits of anonymous uniqueness.
+Both counts appear on every card. Each browser can hold one active like or dislike per template. Clicking the selected thumb removes the vote and allows a new choice. See [voting setup and storage](gallery-votes.md) for production environment variables and the limits of anonymous uniqueness.
 
 ## Registration Points for New Templates
 

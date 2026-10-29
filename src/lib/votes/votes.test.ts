@@ -1,19 +1,68 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
-import { MemoryVoteStore, UpstashVoteStore, VOTE_SCRIPT } from "./store";
+import { MemoryVoteStore, UpstashVoteStore, VOTE_SCRIPT, REVOKE_SCRIPT } from "./store";
 import { handleVote } from "./http";
 import { dailyIpHash, voterHash } from "./runtime";
 import { Redis } from "@upstash/redis";
 
 const secret = "test-secret-at-least-thirty-two-bytes";
 const slugs = ["orrery", "koji"];
-function request(body: string = '{"dir":"up"}', cookie?: string, origin = "https://gallery.test") {
-  return new NextRequest("https://gallery.test/api/votes/orrery", { method: "POST",
+function request(body: string = '{"dir":"up"}', cookie?: string, origin = "https://gallery.test", method = "POST") {
+  return new NextRequest("https://gallery.test/api/votes/orrery", { method,
     headers: { origin, "Content-Type": "application/json", ...(cookie ? { cookie: `olp_vid=${cookie}` } : {}) }, body });
 }
 afterEach(() => vi.unstubAllEnvs());
 
-describe("permanent votes", () => {
+describe("one active vote per visitor", () => {
+  it("revokes each direction exactly once under concurrent requests and permits a new choice", async () => {
+    for (const dir of ["up", "down"] as const) {
+      const store = new MemoryVoteStore();
+      await store.vote("orrery", "owner", dir);
+      await store.vote("orrery", "other", dir);
+      expect((await store.revoke("orrery", "stranger", dir)).accepted).toBe(false);
+      const results = await Promise.all(Array.from({ length: 20 }, () => store.revoke("orrery", "owner", dir)));
+      expect(results.filter(result => result.accepted)).toHaveLength(1);
+      expect(results.every(result => result[dir] === 1 && result.myVote === null)).toBe(true);
+      expect(await store.mine(slugs, "owner")).toEqual({});
+      expect(await store.hasVoted("orrery", "owner")).toBe(true);
+      const opposite = dir === "up" ? "down" : "up";
+      expect((await store.vote("orrery", "owner", opposite)).accepted).toBe(true);
+      expect(await store.revoke("orrery", "owner", dir)).toMatchObject({ accepted: false, myVote: opposite });
+    }
+  });
+  it("atomically revokes in Redis and normalizes the no-vote response", async () => {
+    const redis = new Redis({ url: "https://example.test", token: "test", enableAutoPipelining: false });
+    const store = new UpstashVoteStore(redis);
+    const evaluate = vi.spyOn(redis, "eval").mockResolvedValue([0, 0, "", 1]);
+    expect(await store.revoke("orrery", "hashed-visitor", "down")).toEqual({ up: 0, down: 0, myVote: null, accepted: true });
+    expect(evaluate).toHaveBeenCalledExactlyOnceWith(REVOKE_SCRIPT, ["votes:{orrery}", "counts:{orrery}"], ["hashed-visitor", "down"]);
+  });
+  it("requires the visitor cookie and the same-origin checks for revocation", async () => {
+    vi.stubEnv("VERCEL", "");
+    const store = new MemoryVoteStore();
+    const first = await handleVote(request(), "orrery", slugs, store, secret);
+    const cookie = first.cookies.get("olp_vid")!.value;
+    expect((await handleVote(request(undefined, undefined, undefined, "DELETE"), "orrery", slugs, store, secret)).status).toBe(401);
+    expect((await handleVote(request(undefined, cookie, "https://evil.test", "DELETE"), "orrery", slugs, store, secret)).status).toBe(403);
+    const response = await handleVote(request(undefined, cookie, undefined, "DELETE"), "orrery", slugs, store, secret);
+    expect(response.headers.get("Cache-Control")).toBe("private, no-store");
+    expect(await response.json()).toEqual({ up: 0, down: 0, myVote: null, accepted: true });
+    const replay = await handleVote(request(undefined, cookie, undefined, "DELETE"), "orrery", slugs, store, secret);
+    expect(await replay.json()).toEqual({ up: 0, down: 0, myVote: null, accepted: false });
+  });
+  it("does not spend the new-voter daily quota when revoking and voting again", async () => {
+    vi.stubEnv("VERCEL", "");
+    const store = new MemoryVoteStore();
+    const response = await handleVote(request(), "orrery", slugs, store, secret);
+    const cookie = response.cookies.get("olp_vid")!.value;
+    const limit = vi.spyOn(store, "limit");
+    for (let i = 0; i < 6; i++) {
+      expect((await handleVote(request(undefined, cookie, undefined, "DELETE"), "orrery", slugs, store, secret)).status).toBe(200);
+      expect((await handleVote(request(undefined, cookie), "orrery", slugs, store, secret)).status).toBe(200);
+    }
+    expect(limit.mock.calls.every(([, kind]) => kind === "minute")).toBe(true);
+    expect((await store.counts(slugs)).orrery).toEqual({ up: 1, down: 0 });
+  });
   it("accepts only the first concurrent vote, including switch attempts", async () => {
     const store = new MemoryVoteStore();
     const results = await Promise.all(Array.from({ length: 30 }, (_, i) => store.vote("orrery", "visitor", i % 2 ? "down" : "up")));
@@ -23,7 +72,7 @@ describe("permanent votes", () => {
     expect(await store.vote("orrery", "visitor", "down")).toEqual({ up: 1, down: 0, myVote: "up", accepted: false });
     expect((await store.vote("koji", "visitor", "down")).accepted).toBe(true);
   });
-  it("uses one Lua operation for the permanent write and both counts", async () => {
+  it("uses one Lua operation for the vote write and both counts", async () => {
     const redis = new Redis({ url: "https://example.test", token: "test", enableAutoPipelining: false });
     const store = new UpstashVoteStore(redis);
     const evaluate = vi.spyOn(redis, "eval").mockResolvedValue([1, 0, "up", 0]);

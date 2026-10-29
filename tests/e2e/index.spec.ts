@@ -67,7 +67,10 @@ test.describe("openlandingpage gallery index", () => {
     expect(html).not.toContain("/_next/");
     expect(html).not.toContain("<base ");
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("Keep my clipboard");
-    await expect(page.locator("article").filter({ hasText: "Orrery" }).getByRole("button", { name: "Download HTML", exact: true })).toHaveCount(0);
+    const pendingDownload = page.locator("article").filter({ hasText: "Orrery" }).getByRole("button", { name: "Download HTML", exact: true });
+    await expect(pendingDownload).toBeVisible();
+    await expect(pendingDownload).toBeDisabled();
+    await expect(pendingDownload).toHaveAttribute("title", "HTML coming soon");
   });
 
   test("category filter chips filter templates and update result counter", async ({ page }) => {

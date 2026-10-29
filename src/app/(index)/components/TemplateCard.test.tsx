@@ -5,14 +5,21 @@ import { TemplateCard } from "./TemplateCard";
 import { TEMPLATES } from "../data/templates";
 
 describe("TemplateCard", () => {
-  it("shows both counts and locks both buttons after a permanent vote", () => {
+  it("keeps Download HTML visible when the standalone export is not ready", () => {
+    const template = TEMPLATES.find(t => t.slug === "orrery")!;
+    const html = renderToStaticMarkup(<TemplateCard template={template} />);
+    expect(html).toContain('aria-label="Download HTML"');
+    expect(html).toContain('title="HTML coming soon"');
+    expect(html).toMatch(/<button[^>]*aria-label="Download HTML"[^>]*disabled=""/);
+  });
+  it("keeps the selected thumb available for revocation and disables the opposite thumb", () => {
     const template = TEMPLATES.find(t => t.slug === "orrery")!;
     const html = renderToStaticMarkup(<TemplateCard template={template} counts={{ up: 12, down: 3 }} myVote="down" votesReady />);
     expect(html).toContain('aria-label="Like Orrery (12)"');
-    expect(html).toContain('aria-label="You disliked Orrery (3)"');
+    expect(html).toContain('aria-label="Remove your dislike for Orrery (3)"');
     expect(html).toContain('aria-pressed="true"');
-    expect((html.match(/disabled=""/g) ?? []).length).toBe(2);
-    expect(html).toContain("Vote recorded");
+    expect((html.slice(html.indexOf('class="card-votes"')).match(/disabled=""/g) ?? []).length).toBe(1);
+    expect(html).toContain("Click again to remove");
   });
   it("renders a video-aspect preview frame with correct live template link", () => {
     const orrery = TEMPLATES.find((t) => t.slug === "orrery")!;
@@ -26,6 +33,7 @@ describe("TemplateCard", () => {
     const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES.find(t => t.slug === "alpine-reel")!} isEager={false} />);
     expect(html).toContain("Copy prompt");
     expect(html).toContain("Download HTML");
+    expect(html).not.toMatch(/<button[^>]*aria-label="Download HTML"[^>]*disabled=""/);
   });
 
   it("renders video tag for KŌJI with muted and loop attributes", () => {
@@ -58,7 +66,7 @@ describe("TemplateCard", () => {
     expect(html).toContain("Orrery");
     expect(html).not.toContain(orrery.description);
     expect(html).toContain("Copy prompt");
-    expect(html).not.toContain("Download HTML");
+    expect(html).toContain("Download HTML");
   });
 
   it("renders external link attributes for template links", () => {

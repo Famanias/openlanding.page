@@ -2,6 +2,8 @@
 
 Agreed 2026-10-28. Work only in this worktree; leave LOAM unchanged. No commit, push or deployment without a request.
 
+Update, 2026-10-28: the user subsequently requested revocable votes. The current behavior supersedes the permanent-vote requirement below: clicking the selected thumb atomically removes the active vote and allows a new choice. Revocations use a same-origin, cookie-bound DELETE request, retain a tombstone for abuse limits, and reconcile localStorage with the server across reloads and tabs. The original plan remains below as decision history.
+
 ## 1. Dates and sorting
 
 Backfill literal ISO creation dates from the first Git addition of each template route group. Require creation dates in gallery registration. Preserve append order as the same-day tie breaker and remove the AMAOTO pin. Add URL-backed date/likes and ascending/descending sorting; default to latest added with no URL parameters. Reset filters preserves sorting. Like sorting falls back to latest added while counts load.
