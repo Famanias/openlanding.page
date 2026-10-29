@@ -579,7 +579,13 @@
 .tl-mask-line {
   display: block;
   overflow: clip;
-  padding-bottom: 0.06em;
+  padding: 0 0.1em 0.35em 0;
+  margin-bottom: -0.22em;
+}
+
+.tl-mask-line:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0.4em;
 }
 
 .tl-mask-inner {
@@ -625,7 +631,7 @@
   font-family: var(--font-display);
   font-size: clamp(2.45rem, 5vw, 4.65rem);
   font-weight: 700;
-  line-height: 1.03;
+  line-height: 1.12;
   letter-spacing: -0.03em;
   margin: 0 0 20px;
 }
@@ -2838,6 +2844,8 @@
 
   html[data-tl-motion="live"] [data-reveal="mask"] {
     overflow: clip;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
   }
 
   html[data-tl-motion="live"] [data-reveal="mask"] .tl-mask-inner {

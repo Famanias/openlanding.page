@@ -33,13 +33,6 @@ export function Hero() {
       <div className="tl-container tl-hero-grid">
         {/* Left Editorial Column */}
         <div className="tl-hero-copy">
-          <div className="tl-hero-eyebrow tl-load-1">
-            <span className="tl-eyebrow-rule" aria-hidden="true" />
-            <span className="tl-mono">
-              SERVICE-COUNTER LAYER FOR SMALL SHOPIFY BUSINESSES
-            </span>
-          </div>
-
           <h1 id="tl-hero-heading" className="tl-hero-h1">
             <span className="tl-mask-line tl-load-2">
               <span className="tl-mask-inner">Sell your hours</span>
@@ -52,7 +45,7 @@ export function Hero() {
           </h1>
 
           <p className="tl-hero-lead tl-load-4">
-            Shopify was built for boxes that ship. <strong>Tally</strong> gives neighborhood tailors, repair bays, ceramic studios, and watchmakers a two-part perforated claim ticket—capturing upfront deposits at checkout, syncing slots to Shopify POS, and texting customers the moment their bench work is ready.
+            Turn Shopify checkouts into booked appointments, repair intakes, and bench claim tickets. Capture upfront deposits and sync seamlessly with Shopify POS.
           </p>
 
           <div className="tl-hero-ctas tl-load-4">
@@ -64,7 +57,7 @@ export function Hero() {
             </Magnetic>
 
             <a href="#calculator" className="tl-btn tl-btn-secondary tl-btn-lg">
-              <span>Calculate Deposit Recovery</span>
+              <span>Calculate Recovery</span>
               <span aria-hidden="true">→</span>
             </a>
           </div>
@@ -72,7 +65,7 @@ export function Hero() {
           {/* Merchant Archetype Quick-Switcher */}
           <div className="tl-hero-archetypes tl-load-5">
             <span className="tl-mono tl-hero-arch-label">
-              PREVIEW A SMALL-SHOP COUNTER:
+              SHOP PREVIEW:
             </span>
             <div className="tl-hero-arch-pills" role="group" aria-label="Preview merchant counter">
               {ARCHETYPES.map((arch) => (
@@ -137,13 +130,13 @@ export function Hero() {
                 </div>
                 <div className="tl-hero-ticket-rows">
                   <div className="tl-hero-ticket-row">
-                    <span>Shopify Checkout Deposit</span>
+                    <span>Deposit at checkout</span>
                     <strong className="tl-mono">
                       ${Math.round(activeArch.basePrice * 0.5)}.00 PAID
                     </strong>
                   </div>
                   <div className="tl-hero-ticket-row">
-                    <span>Counter Pickup Balance</span>
+                    <span>Due at pickup</span>
                     <strong className="tl-mono">
                       ${Math.round(activeArch.basePrice * 0.5)}.00 HELD
                     </strong>
@@ -177,20 +170,20 @@ export function Hero() {
       <div className="tl-hero-ledger-strip">
         <div className="tl-container tl-strip-grid">
           <div className="tl-strip-item">
-            <span className="tl-mono tl-strip-label">01 · MIXED SHOPIFY CARTS</span>
-            <p className="tl-strip-val">Sell physical goods + service labor in one checkout</p>
+            <span className="tl-mono tl-strip-label">MIXED CARTS</span>
+            <p className="tl-strip-val">Goods and service labor in one checkout</p>
           </div>
           <div className="tl-strip-item">
-            <span className="tl-mono tl-strip-label">02 · PARTIAL DEPOSITS</span>
-            <p className="tl-strip-val">Collect 25%, 50%, or 100% upfront to cut no-shows by 82%</p>
+            <span className="tl-mono tl-strip-label">UPFRONT DEPOSITS</span>
+            <p className="tl-strip-val">Cut no-shows with 25–100% upfront deposits</p>
           </div>
           <div className="tl-strip-item">
-            <span className="tl-mono tl-strip-label">03 · SHOPIFY POS TILE</span>
-            <p className="tl-strip-val">Scan claim stubs, pull spare parts & print bench tags</p>
+            <span className="tl-mono tl-strip-label">SHOPIFY POS</span>
+            <p className="tl-strip-val">Scan stubs, pull parts, and print bench tags</p>
           </div>
           <div className="tl-strip-item">
-            <span className="tl-mono tl-strip-label">04 · ZERO COMMISSION</span>
-            <p className="tl-strip-val">Flat monthly counter ledger—keep 100% of your labor rate</p>
+            <span className="tl-mono tl-strip-label">ZERO COMMISSION</span>
+            <p className="tl-strip-val">Flat monthly rate—keep 100% of your labor</p>
           </div>
         </div>
       </div>

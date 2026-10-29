@@ -51,11 +51,6 @@ export function AssetPreviewSection() {
         {/* Heading + Cohort Filter Bar */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <Reveal variant="slide-left">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#FCE2D5] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-                LIVE GATED ASSET PREVIEW · 68-PAGE MONOGRAPH &amp; AUDIT
-              </span>
-            </Reveal>
             <Reveal
               as="h2"
               variant="mask"
@@ -68,7 +63,7 @@ export function AssetPreviewSection() {
           </div>
 
           <Reveal variant="rise" delay={100} className="max-w-md text-sm sm:text-base text-[#645D7A]">
-            High-performing Lead Capture pages prove their value upfront. Filter the live benchmark by your company size and role, or unlock chapters as you complete Stages 02 and 03.
+            High-performing capture pages prove value upfront. Filter the live benchmark by company size and role, or unlock chapters across stages.
           </Reveal>
         </div>
 
@@ -271,7 +266,7 @@ export function AssetPreviewSection() {
               {/* Finding Callout or Unlock Prompt */}
               {unlocked ? (
                 <div className="rounded-[20px] bg-[#D9F2E6] p-4 text-sm text-[#1E1B2E]">
-                  <strong>Key Benchmark Finding:</strong> {activeChapter.keyFinding}
+                  <strong>Key Finding:</strong> {activeChapter.keyFinding}
                 </div>
               ) : (
                 <div className="rounded-[20px] border-2 border-[#1E1B2E] bg-[#FCE2D5] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -281,7 +276,7 @@ export function AssetPreviewSection() {
                     </span>
                     <p className="text-xs sm:text-sm text-[#1E1B2E]">
                       {activeChapter.requiredTier === "squeeze"
-                        ? "Complete the 1-field Squeeze Page above (or click Quick-Preview) to unseal this chapter."
+                        ? "Complete the 1-field Squeeze Page to unseal this chapter."
                         : "Complete the 4-field Lead Capture Dossier below to unseal Chapters 03 & 04."}
                     </p>
                   </div>

@@ -15,11 +15,6 @@ export function ServiceModes() {
     <section id="modes" className="tl-section tl-modes-section" aria-labelledby="tl-modes-heading">
       <div className="tl-container">
         <div className="tl-section-head">
-          <Reveal as="div" variant="draw" className="tl-eyebrow-row">
-            <span className="tl-eyebrow-rule" aria-hidden="true" />
-            <span className="tl-mono">§ II · FOUR WAYS TO SELL TIME ON SHOPIFY</span>
-          </Reveal>
-
           <div className="tl-head-split">
             <Reveal as="h2" variant="mask" className="tl-h2">
               <span id="tl-modes-heading" className="tl-mask-inner">
@@ -28,7 +23,7 @@ export function ServiceModes() {
             </Reveal>
 
             <Reveal as="p" variant="rise" delay={120} className="tl-section-lede">
-              Whether a customer books a 30-minute fitting, mails in a vintage watch, adds hemming to a pair of jeans, or reserves a Sunday pottery wheel, Tally maps it cleanly to your Shopify cart and POS bench.
+              Four flexible ways to sell time, services, and bench labor alongside physical inventory.
             </Reveal>
           </div>
         </div>
@@ -45,11 +40,6 @@ export function ServiceModes() {
                 className="tl-mode-card"
               >
                 <div className="tl-mode-card-inner" data-tone={mode.pastel}>
-                  <div className="tl-mode-top">
-                    <span className="tl-mono tl-mode-num">{mode.number}</span>
-                    <span className="tl-mono tl-mode-kicker">{mode.kicker}</span>
-                  </div>
-
                   <h3 className="tl-mode-title">{mode.title}</h3>
                   <p className="tl-mode-desc">{mode.description}</p>
 

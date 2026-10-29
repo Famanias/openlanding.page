@@ -8,12 +8,12 @@ import { Marquee } from "../motion/Marquee";
 import { Reveal } from "../motion/Reveal";
 
 const MARQUEE_ITEMS = [
-  "01 SPLASH PAGE · 74.8% MEDIAN PASS-THROUGH",
-  "02 SQUEEZE PAGE · 38.4% SINGLE-FIELD CVR",
-  "03 LEAD CAPTURE · 94% QUALIFICATION SIGNAL",
-  "418 B2B SAAS FUNNELS BENCHMARKED",
+  "SPLASH GATE · 74.8% PASS-THROUGH",
+  "SQUEEZE PAGE · 38.4% 1-FIELD CVR",
+  "LEAD CAPTURE · 94% ROUTING SIGNAL",
+  "418 B2B FUNNELS BENCHMARKED",
   "ASK ONLY FOR WHAT THE ASSET EARNS",
-  "ZERO NETWORK REQUESTS · CLIENT-VALIDATED DEMO",
+  "ZERO NETWORK REQUESTS · CLIENT DEMO",
 ];
 
 export function FaqFooterSection() {
@@ -35,11 +35,6 @@ export function FaqFooterSection() {
       <section id="faq" aria-labelledby="vl-faq-heading" className="vl-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-5 space-y-4">
-            <Reveal variant="slide-left">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#E8E0F8] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-                FUNNEL GOVERNANCE · FAQ
-              </span>
-            </Reveal>
             <Reveal
               as="h2"
               variant="mask"
@@ -50,7 +45,7 @@ export function FaqFooterSection() {
               </span>
             </Reveal>
             <p className="text-sm sm:text-base text-[#645D7A]">
-              Answers on when to deploy a Splash Gate, Squeeze Page, or multi-field B2B Lead Capture Dossier.
+              Answers on when to deploy a Splash Gate, Squeeze Page, or B2B Lead Capture Dossier.
             </p>
           </div>
 
@@ -117,7 +112,7 @@ export function FaqFooterSection() {
             <div className="space-y-2 max-w-md">
               <ValenceLogo tone="paper" />
               <p className="text-sm text-[#E8E0F8]/80">
-                Valence Research &amp; Funnel Architecture Studio. Demonstrating Splash Pages, Squeeze Pages, and B2B Lead Capture Dossiers in one tactile pastel system.
+                Valence Research — Demonstrating Splash, Squeeze, and Lead Capture architectures in a tactile pastel design system.
               </p>
             </div>
 
@@ -155,8 +150,8 @@ export function FaqFooterSection() {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 vl-mono text-xs text-[#E8E0F8]/75">
-            <span>© 2026 VALENCE LABS · FICTIONAL BENCHMARK STUDIO</span>
-            <span>LOCAL DEMO ONLY · ZERO NETWORK REQUESTS</span>
+            <span>© 2026 VALENCE LABS</span>
+            <span>LOCAL DEMO · ZERO NETWORK REQUESTS</span>
           </div>
         </div>
       </footer>

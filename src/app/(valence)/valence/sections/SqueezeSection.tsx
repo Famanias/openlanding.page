@@ -23,58 +23,22 @@ export function SqueezeSection() {
           variant="wipe"
           className="vl-slab vl-slab--mint border-2 border-[#1E1B2E]/15 p-6 sm:p-10 lg:p-14"
         >
-          {/* Top Eyebrow Row */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#1E1B2E]/10">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F5] px-4 py-1.5 border border-[#1E1B2E]/15 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: "#5B46E8" }}
-              />
-              STAGE 02 · SQUEEZE PAGE · MINIMALIST 1-FIELD CAPTURE
-            </span>
-            <span className="rounded-full bg-[#E8E0F8] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              MEDIAN CVR: 38.4% · 8-SECOND COMPLETION
-            </span>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left 7 Columns: Classic Squeeze Format — Bold Headline, 2 Sentences of Copy, Single Input Field */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="space-y-3">
-                <span className="vl-mono text-xs font-bold text-[#5B46E8]">
-                  THE DISTILLED VALUE EXCHANGE
-                </span>
-                <h2
-                  id="vl-squeeze-heading"
-                  className="vl-display text-3xl sm:text-5xl font-extrabold leading-[1.02] text-[#1E1B2E]"
-                >
-                  One email address. Fourteen pages of empirical funnel benchmarks.
-                </h2>
-              </div>
+              <h2
+                id="vl-squeeze-heading"
+                className="vl-display text-3xl sm:text-5xl font-extrabold leading-[1.02] text-[#1E1B2E]"
+              >
+                One email address. Fourteen pages of empirical benchmarks.
+              </h2>
 
-              {/* Exactly two sentences of copy, honoring classic Squeeze Page discipline */}
               <p className="text-base sm:text-lg text-[#1E1B2E]/90 leading-relaxed max-w-2xl">
-                Get the 2026 Executive Synthesis—covering conversion rates across 418 B2B SaaS funnels, optimal field counts, and top-performing headline formulas—delivered immediately in your browser. Zero multi-step questionnaires: enter your work email below to unseal Ring 02 and unlock Chapter 02 right now.
+                Get the 2026 Executive Synthesis with conversion benchmarks across 418 B2B funnels delivered instantly in your browser. Enter your work email below to unlock Chapter 02 and mint your priority waitlist pass.
               </p>
 
               {/* Single-Field Squeeze Form */}
               <SqueezeForm />
-
-              {/* Micro-Anatomy Pills */}
-              <div className="flex flex-wrap items-center gap-2 pt-2">
-                <span className="rounded-full bg-[#FBF9F5] px-3.5 py-1.5 vl-mono text-[11px] font-medium text-[#1E1B2E] border border-[#1E1B2E]/12">
-                  ✓ 1 BOLD HEADLINE
-                </span>
-                <span className="rounded-full bg-[#FBF9F5] px-3.5 py-1.5 vl-mono text-[11px] font-medium text-[#1E1B2E] border border-[#1E1B2E]/12">
-                  ✓ 2 SENTENCES OF COPY
-                </span>
-                <span className="rounded-full bg-[#FBF9F5] px-3.5 py-1.5 vl-mono text-[11px] font-medium text-[#1E1B2E] border border-[#1E1B2E]/12">
-                  ✓ 1 PILL INPUT FIELD
-                </span>
-                <span className="rounded-full bg-[#FCE2D5] px-3.5 py-1.5 vl-mono text-[11px] font-semibold text-[#1E1B2E] border border-[#1E1B2E]/12">
-                  ✓ INSTANT DELIVERABLE
-                </span>
-              </div>
             </div>
 
             {/* Right 5 Columns: Instant Deliverable Card (14-Page Executive Synthesis Preview) */}
@@ -82,7 +46,7 @@ export function SqueezeSection() {
               <div className="rounded-[28px] border-2 border-[#1E1B2E] bg-[#FBF9F5] p-6 sm:p-7 space-y-5">
                 <div className="flex items-center justify-between gap-2">
                   <span className="rounded-full bg-[#D9F2E6] px-3.5 py-1 vl-mono text-xs font-semibold text-[#1E1B2E]">
-                    INSTANT PAYOFF · PDF SYNTHESIS
+                    14-PAGE DIGEST
                   </span>
                   <span className="vl-mono text-xs font-semibold text-[#5B46E8]">
                     {snapshot.unlocked.squeeze ? "UNLOCKED ✓" : "1-FIELD GATE"}
@@ -166,7 +130,7 @@ export function SqueezeSection() {
                         style={{ backgroundColor: "#5B46E8" }}
                       />
                       <span>
-                        <strong>Chapter 02 Unblurred:</strong> Squeeze Page copy &amp; inline pill anatomy
+                        <strong>Chapter 02 Unblurred:</strong> Squeeze copy and inline pill anatomy
                       </span>
                     </li>
                     <li className="flex items-center gap-2.5 text-[#1E1B2E]">

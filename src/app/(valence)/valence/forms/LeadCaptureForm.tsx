@@ -91,7 +91,7 @@ export function LeadCaptureForm() {
               className="inline-block h-2.5 w-2.5 rounded-full"
               style={{ backgroundColor: "#5B46E8" }}
             />
-            CORE 03 UNSEALED · 100% DOSSIER ACCESS
+            100% DOSSIER ACCESS
           </span>
           <span className="rounded-full bg-[#1E1B2E] px-4 py-1.5 vl-mono text-xs font-semibold text-[#FBF9F5]">
             KEY {snapshot.dossierKey}
@@ -103,7 +103,7 @@ export function LeadCaptureForm() {
         </h3>
         <p className="mt-2 text-base text-[#645D7A]">
           Prepared for <strong>{companyName || "your team"}</strong> ({snapshot.companySize} cohort ·{" "}
-          {BUYER_ROLES.find((r) => r.value === snapshot.role)?.label}). All four chapters in the Gated Asset Preview are now unlocked. Local preview only — no network request was sent.
+          {BUYER_ROLES.find((r) => r.value === snapshot.role)?.label}). All four chapters in the Gated Asset Preview are now unlocked. Local preview only.
         </p>
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -165,9 +165,6 @@ export function LeadCaptureForm() {
     >
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1E1B2E]/10 pb-4">
         <div>
-          <span className="vl-mono text-xs text-[#5B46E8] font-semibold">
-            STAGE 03 · 4-FIELD B2B QUALIFICATION
-          </span>
           <h3 className="vl-display text-2xl font-bold text-[#1E1B2E]">
             Unseal the 68-Page Monograph &amp; Custom Audit
           </h3>

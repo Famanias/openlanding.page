@@ -68,7 +68,7 @@ export const COHORT_EDITIONS: CohortEdition[] = [
     sampleSize: 184,
     headlineStat: "41.2% squeeze-to-MQL velocity",
     summary:
-      "Benchmarks across 184 North American SaaS & AI infrastructure teams trading interactive calculators and executive digests for work emails.",
+      "Benchmarks across 184 SaaS teams trading calculators and executive digests for work emails.",
   },
   {
     id: "emea-privacy",
@@ -77,7 +77,7 @@ export const COHORT_EDITIONS: CohortEdition[] = [
     sampleSize: 138,
     headlineStat: "3.6× higher trust with unblurred previews",
     summary:
-      "GDPR-calibrated capture architectures where live chapter previews precede multi-field qualification.",
+      "Consent-first funnels where live chapter previews precede multi-field qualification.",
   },
   {
     id: "apac-plg",
@@ -86,7 +86,7 @@ export const COHORT_EDITIONS: CohortEdition[] = [
     sampleSize: 96,
     headlineStat: "68% splash-to-workspace continuation",
     summary:
-      "Product-led growth teams using regional splash routing and 1-field waitlist squeeze pages before enterprise handoff.",
+      "High-velocity funnels routing visitors to regional cohorts and 1-field waitlists.",
   },
 ];
 
@@ -95,62 +95,62 @@ export const CAPTURE_FORMATS: CaptureFormatSpec[] = [
     id: "splash",
     stepCode: "01",
     title: "Splash Page",
-    subtitle: "The Intermediary Threshold & Launch Teaser",
-    funnelStage: "Top of Funnel · Pre-Arrival Gate",
+    subtitle: "Intermediary Threshold",
+    funnelStage: "Top of Funnel",
     fieldsRequired: 0,
-    fieldSummary: "Cohort or region choice + single Enter action",
+    fieldSummary: "Cohort selection + Enter action",
     medianCvr: 74.8,
     intentScore: 34,
     frictionLabel: "Zero form friction",
     surfaceToken: "Lavender Mist",
     surfaceHex: "#E8E0F8",
     definition:
-      "An intermediary page shown before a visitor reaches the main experience. It serves a gatekeeping, cohort-routing, or high-impact product launch announcement function with a single 'Enter' or 'Continue' button.",
-    payoffSummary: "Sets context, routes regional editions, and frames the annual release as an event.",
+      "An intermediary screen that routes cohorts, establishes context, or announces releases with a single Enter action.",
+    payoffSummary: "Routes regional editions and frames the release without form friction.",
     anatomyPoints: [
-      "Single dominant announcement headline with zero navigation clutter",
-      "Optional 1-tap cohort, region, or verification pill selector",
-      "One high-contrast 'Enter' or 'Continue' action button that unlatches the experience",
+      "Announcement headline with zero navigation clutter",
+      "Optional 1-tap region or cohort selector",
+      "Single high-contrast Enter button",
     ],
     idealUseCases: [
-      "Annual flagship product or research drop",
-      "Regional / language / compliance cohort routing",
-      "Age or accreditation verification gates",
+      "Annual product and research releases",
+      "Regional cohort routing",
+      "Age or compliance verification gates",
     ],
   },
   {
     id: "squeeze",
     stepCode: "02",
     title: "Squeeze Page",
-    subtitle: "The Minimalist 1-Field Email Capture",
-    funnelStage: "Top-to-Mid Funnel · Velocity Capture",
+    subtitle: "Minimalist 1-Field Capture",
+    funnelStage: "Velocity Capture",
     fieldsRequired: 1,
-    fieldSummary: "Single email input field + instant action",
+    fieldSummary: "Work email + instant unlock",
     medianCvr: 38.4,
     intentScore: 66,
     frictionLabel: "Ultra-low friction (8 sec)",
     surfaceToken: "Pistachio Mint",
     surfaceHex: "#D9F2E6",
     definition:
-      "The most distilled capture format. Its sole objective is to collect an email address—using a bold headline, one or two sentences of focused value copy, and a single input field—in exchange for a newsletter, waitlist spot, or instant synthesis download.",
-    payoffSummary: "Unlocks the 14-page Executive Synthesis PDF and priority waitlist pass immediately.",
+      "A single-field capture page designed to collect an email in exchange for immediate content, a waitlist spot, or a tool.",
+    payoffSummary: "Unlocks the 14-page Executive Digest and waitlist pass instantly.",
     anatomyPoints: [
-      "Bold benefit-driven headline and at most two sentences of supporting copy",
-      "Single pill input field (Email Address) paired inline with the submit button",
-      "Immediate, verifiable value delivery (Executive Digest pass code on submit)",
+      "Benefit-driven headline with two sentences of supporting copy",
+      "Single pill email input paired with an inline action button",
+      "Immediate browser-side asset delivery upon submission",
     ],
     idealUseCases: [
-      "Executive newsletter & benchmark digest signups",
-      "Early-access product waitlist drops",
-      "Instant template, checklist, or synthesis downloads",
+      "Executive summaries and benchmark digests",
+      "Early-access waitlist drops",
+      "Instant template and calculator downloads",
     ],
   },
   {
     id: "lead-gen",
     stepCode: "03",
     title: "Lead Capture (Lead Gen) Page",
-    subtitle: "The Comprehensive B2B Qualification Suite",
-    funnelStage: "Middle of Funnel · High-Consideration B2B",
+    subtitle: "B2B Qualification Suite",
+    funnelStage: "High-Consideration B2B",
     fieldsRequired: 4,
     fieldSummary: "Full Name, Work Email, Company Size, Role",
     medianCvr: 21.6,
@@ -159,17 +159,17 @@ export const CAPTURE_FORMATS: CaptureFormatSpec[] = [
     surfaceToken: "Peach Sorbet",
     surfaceHex: "#FCE2D5",
     definition:
-      "A comprehensive value-exchange page built for B2B SaaS, executive briefings, and high-consideration services. It pairs a multi-field form (Name, Work Email, Company Size, Role) with enterprise social proof, benefit bullets, and a live preview of the gated asset.",
-    payoffSummary: "Unseals the complete 68-page Monograph, raw dataset, and a tailored Funnel Audit Key.",
+      "A high-consideration capture page pairing multi-field qualification with social proof and live asset previews.",
+    payoffSummary: "Unseals the complete 68-page Monograph and tailored Audit Key.",
     anatomyPoints: [
-      "Multi-field qualification form (Name, Work Email, Company Size, Role) with live validation",
-      "Tangible preview of the gated asset that adapts to the visitor's selected cohort",
-      "Outcome-oriented benefit bullets and verified peer social proof alongside the form",
+      "Four-field qualification form with instant browser validation",
+      "Interactive asset preview that adapts to selected cohort",
+      "Outcome-focused benefits and verified peer metrics",
     ],
     idealUseCases: [
-      "Gated industry benchmark reports & whitepapers",
-      "Custom B2B architecture audits & ROI assessments",
-      "Executive webinars and technical workshop registrations",
+      "Industry benchmark reports and whitepapers",
+      "Tailored architecture audits and assessments",
+      "Executive briefing registrations",
     ],
   },
 ];
@@ -182,8 +182,8 @@ export const REPORT_CHAPTERS: ReportChapter[] = [
     pages: "pp. 04–16",
     requiredTier: "splash",
     summary:
-      "Why conversion drops 18.5% per unmotivated form field—and how showing the gated asset up front recovers 82% of lost completion.",
-    keyFinding: "Every form field must correspond to a visible personalization in the previewed asset.",
+      "Why each unmotivated field cuts conversion by 18.5%, and how live previews recover lost completion.",
+    keyFinding: "Every form field must unlock visible personalization in the previewed asset.",
     chartLabel: "Median Conversion Rate by Capture Format (%)",
     bars: [
       { label: "Splash Gate (0 fields)", value: 75, highlight: true },
@@ -199,8 +199,8 @@ export const REPORT_CHAPTERS: ReportChapter[] = [
     pages: "pp. 17–32",
     requiredTier: "squeeze",
     summary:
-      "Deconstructing 140 high-converting single-field squeeze pages: optimal headline length (6–9 words), inline pill inputs, and instant browser-side asset delivery.",
-    keyFinding: "Inline pill forms with specific page counts ('14-page synthesis') outperform generic 'Subscribe' CTAs by 2.3×.",
+      "Analysis of 140 single-field squeeze pages: optimal headlines, inline pill inputs, and browser delivery.",
+    keyFinding: "Named deliverables with explicit page counts outperform generic subscribe CTAs by 2.3×.",
     chartLabel: "Squeeze Page Completion by Value Specificity (%)",
     bars: [
       { label: "Named deliverable + page count", value: 44, highlight: true },
@@ -216,8 +216,8 @@ export const REPORT_CHAPTERS: ReportChapter[] = [
     pages: "pp. 33–51",
     requiredTier: "lead-gen",
     summary:
-      "How top revenue teams use Company Size and Role inputs to dynamically re-weight whitepaper benchmarks while qualifying pipeline in real time.",
-    keyFinding: "When selecting 'Company Size' visibly updates the report preview, 4-field completion rises from 14.2% to 24.8%.",
+      "How growth teams use Company Size and Role to re-weight whitepaper benchmarks in real time.",
+    keyFinding: "When company size dynamically updates report charts, 4-field completion rises from 14.2% to 24.8%.",
     chartLabel: "Qualified Pipeline Rate by Preview Interactivity (%)",
     bars: [
       { label: "Live cohort-filtered preview", value: 68, highlight: true },
@@ -233,8 +233,8 @@ export const REPORT_CHAPTERS: ReportChapter[] = [
     pages: "pp. 52–68",
     requiredTier: "lead-gen",
     summary:
-      "Architectural blueprints for chaining all three capture formats so visitors never face a cold 6-field wall on their first touch.",
-    keyFinding: "Staged capture funnels capture 2.9× more total emails while lifting SQL conversion by 41%.",
+      "Blueprints for chaining Splash, Squeeze, and Lead Capture stages into a progressive funnel.",
+    keyFinding: "Staged funnels capture 2.9× more total emails while lifting SQL conversion by 41%.",
     chartLabel: "Net Funnel Yield Across 10,000 Visitors (Index)",
     bars: [
       { label: "Staged 3-Tier Capsule Funnel", value: 92, highlight: true },
@@ -251,7 +251,7 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
     segment: "Enterprise DevTools · 650 employees",
     metric: "+42% MQL velocity",
     quote:
-      "Splitting our cold whitepaper wall into a Pistachio Squeeze fast-lane and a live-filtered Lead-Gen Dossier doubled our executive demo pipeline in six weeks.",
+      "Splitting our cold report wall into a 1-field Squeeze and a live-filtered Dossier doubled demo pipeline.",
     author: "Mara Lindqvist",
     role: "VP of Growth & Demand",
   },
@@ -260,7 +260,7 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
     segment: "B2B FinTech · 1,200 employees",
     metric: "39.4% Squeeze CVR",
     quote:
-      "The Splash cohort selector let us route EMEA compliance leaders straight to GDPR-specific benchmark charts before asking for a single form field.",
+      "The Splash selector routed EMEA leaders directly to GDPR benchmarks before requesting any data.",
     author: "Julian Vance",
     role: "Head of Revenue Architecture",
   },
@@ -269,7 +269,7 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
     segment: "Applied AI · 140 employees",
     metric: "3.1× report completion",
     quote:
-      "When prospects see the benchmark bars shift as they pick their company size, filling out the 4-field Lead Capture form feels like configuring a tool, not paying a toll.",
+      "Seeing benchmark bars shift by company size makes the 4-field form feel like a tool, not a gate.",
     author: "Sora Takahashi",
     role: "Director of Product Growth",
   },
@@ -278,7 +278,7 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
     segment: "Data Infrastructure · 320 employees",
     metric: "78% Splash pass-through",
     quote:
-      "Valence gave our growth and design teams a shared vocabulary for when to deploy a 0-field Splash, a 1-field Squeeze, or a full B2B Dossier.",
+      "Valence gave our team a clear framework for deploying Splash, Squeeze, or full Dossier pages.",
     author: "Devon Mercer",
     role: "Co-Founder & COO",
   },
@@ -287,37 +287,37 @@ export const SOCIAL_PROOF_LOGOS: SocialProofItem[] = [
 export const VALENCE_FAQS: FaqItem[] = [
   {
     id: "faq-difference",
-    question: "When should we deploy a Splash Page versus a Squeeze Page or a full Lead Capture Page?",
+    question: "When should we deploy a Splash Page versus a Squeeze or Lead Capture Page?",
     answer:
-      "Use a Splash Page when you need zero-friction context setting, regional/cohort routing, or a high-impact launch threshold before the main site. Use a Squeeze Page at the top of the funnel when a single email address is enough to deliver an instant digest, newsletter, or waitlist spot. Use a full Lead Capture Page in mid-funnel B2B journeys where multi-field qualification (Name, Work Email, Company Size, Role) is justified by a high-value whitepaper, benchmark dataset, or custom audit.",
+      "Use Splash for zero-friction routing or launch thresholds. Use Squeeze when one email suffices for an instant download or waitlist. Use Lead Capture when multi-field qualification is justified by high-value research or custom audits.",
     tierTag: "ARCHITECTURE",
   },
   {
     id: "faq-progressive",
-    question: "Can a single funnel combine all three capture formats without fatiguing the visitor?",
+    question: "Can a funnel chain all three formats without fatiguing visitors?",
     answer:
-      "Yes—when each step immediately rewards the visitor. Passing the Splash Gate personalizes the regional edition; the 1-field Squeeze unlocks the 14-page Executive Synthesis; and the 4-field Lead Capture form pre-fills the email address already entered and unlocks the tailored 68-page Monograph and custom audit scorecard.",
+      "Yes, when each step delivers immediate value. Splash sets the cohort, Squeeze unlocks the 14-page digest, and Lead Capture carries the email forward to unlock the complete 68-page monograph.",
     tierTag: "PROGRESSIVE UNLOCK",
   },
   {
     id: "faq-fields",
-    question: "Why does Valence cap the B2B Lead Capture form at four core fields?",
+    question: "Why cap the B2B Lead Capture form at four fields?",
     answer:
-      "Across 418 analyzed B2B funnels, four fields (Full Name, Work Email, Company Size, Role) captured 94% of the routing and scoring signal needed by sales teams while maintaining a 21.6% median conversion rate. Adding phone numbers or open-text budget requirements dropped conversion by 46%.",
+      "Four fields (Name, Work Email, Company Size, Role) capture 94% of qualification signal while keeping median conversion at 21.6%. Adding phone numbers or open fields cut conversion by 46%.",
     tierTag: "EMPIRICAL BENCHMARK",
   },
   {
     id: "faq-preview",
-    question: "How does the live Gated Asset Preview improve lead quality?",
+    question: "How does the live Gated Asset Preview improve conversion?",
     answer:
-      "Static mockup covers force visitors to guess whether a report is relevant. Letting visitors switch chapters and filter live SVG charts by Company Size and Role proves the asset's rigor upfront, ensuring that submitted leads have genuine intent.",
+      "Static covers make visitors guess content quality. Letting visitors filter live data charts by company size and role demonstrates value upfront and attracts higher-intent leads.",
     tierTag: "ASSET PREVIEW",
   },
   {
     id: "faq-privacy",
-    question: "Does this template send form submissions to an external server?",
+    question: "Does this template send form data to an external server?",
     answer:
-      "No. All validation, cohort filtering, Squeeze pass codes (SQ-26-XXXX), and Dossier Access Keys (VL-2026-XXXX) run 100% locally in your browser with zero network requests.",
+      "No. All validation, pass codes (SQ-26-XXXX), and Dossier keys (VL-2026-XXXX) run locally in the browser with zero network requests.",
     tierTag: "LOCAL & PRIVATE",
   },
 ];

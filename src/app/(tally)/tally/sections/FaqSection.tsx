@@ -15,11 +15,6 @@ export function FaqSection() {
     <section id="faq" className="tl-section tl-faq-section" aria-labelledby="tl-faq-heading">
       <div className="tl-container tl-faq-grid">
         <div className="tl-faq-aside">
-          <Reveal as="div" variant="draw" className="tl-eyebrow-row">
-            <span className="tl-eyebrow-rule" aria-hidden="true" />
-            <span className="tl-mono">§ V · COUNTER QUESTIONS</span>
-          </Reveal>
-
           <Reveal as="h2" variant="mask" className="tl-h2">
             <span id="tl-faq-heading" className="tl-mask-inner">
               How Tally fits into your <em>existing Shopify stack.</em>
@@ -27,13 +22,13 @@ export function FaqSection() {
           </Reveal>
 
           <Reveal as="p" variant="rise" delay={120} className="tl-faq-lede">
-            No custom checkout hacks or duplicate SKUs. Tally runs on native Shopify Online Store 2.0 App Blocks, Draft Orders, and POS UI Extensions.
+            Native Online Store 2.0 app blocks and Shopify POS extensions. Zero Liquid code edits.
           </Reveal>
 
           <Reveal as="div" variant="rise" delay={200} className="tl-faq-badge-card">
-            <span className="tl-mono">BUILT FOR SHOPIFY STANDARDS</span>
+            <span className="tl-mono">THEME COMPATIBLE</span>
             <p>
-              Works with Dawn, Prestige, Impulse, Symmetry, and custom Hydrogen / Liquid themes out of the box.
+              Works with Dawn, Prestige, Impulse, and custom themes out of the box.
             </p>
           </Reveal>
         </div>

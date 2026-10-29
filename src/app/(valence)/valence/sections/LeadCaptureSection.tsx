@@ -16,38 +16,18 @@ export function LeadCaptureSection() {
     >
       <div className="vl-container space-y-12">
         <div className="vl-slab vl-slab--peach border-2 border-[#1E1B2E]/15 p-6 sm:p-10 lg:p-14">
-          {/* Top Eyebrow Strip */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#1E1B2E]/10">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F5] px-4 py-1.5 border border-[#1E1B2E]/15 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              <span
-                className="inline-block h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: "#5B46E8" }}
-              />
-              STAGE 03 · LEAD CAPTURE (LEAD GEN) PAGE · HIGH-CONSIDERATION B2B
-            </span>
-            <span className="rounded-full bg-[#D9F2E6] px-4 py-1.5 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              MULTI-FIELD + SOCIAL PROOF + GATED ASSET
-            </span>
-          </div>
-
           {/* 12-Col Split: Left 5 Cols Benefits & Count-Up Proof, Right 7 Cols Multi-Field Form */}
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             <div className="lg:col-span-5 space-y-6">
-              <div className="space-y-3">
-                <span className="vl-mono text-xs font-bold text-[#5B46E8]">
-                  COMPREHENSIVE VALUE EXCHANGE
-                </span>
-                <h2
-                  id="vl-dossier-heading"
-                  className="vl-display text-3xl sm:text-5xl font-extrabold leading-[1.02] text-[#1E1B2E]"
-                >
-                  Four fields that earn their keep.
-                </h2>
-              </div>
+              <h2
+                id="vl-dossier-heading"
+                className="vl-display text-3xl sm:text-5xl font-extrabold leading-[1.02] text-[#1E1B2E]"
+              >
+                Four fields that earn their keep.
+              </h2>
 
               <p className="text-base text-[#1E1B2E]/90 leading-relaxed">
-                Used in B2B SaaS, executive briefings, and high-consideration services, the{" "}
-                <strong>Lead Capture Page</strong> pairs multi-field qualification with concrete benefit bullets, peer proof, and an immediate tailored asset.
+                Built for high-consideration B2B funnels, the Lead Capture page pairs multi-field qualification with concrete proof and immediate tailored benchmarks.
               </p>
 
               {/* Benefit Bullets */}
@@ -57,7 +37,7 @@ export function LeadCaptureSection() {
                     1
                   </span>
                   <span>
-                    <strong>Complete 68-Page Monograph:</strong> Unseals Chapters 01–04 with raw conversion elasticity tables.
+                    <strong>Complete 68-Page Monograph:</strong> Chapters 01–04 with conversion elasticity tables.
                   </span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#1E1B2E]">
@@ -65,7 +45,7 @@ export function LeadCaptureSection() {
                     2
                   </span>
                   <span>
-                    <strong>Cohort-Weighted Scorecard:</strong> Benchmarks calibrated to your exact Company Size and Buyer Role.
+                    <strong>Cohort-Weighted Scorecard:</strong> Benchmarks calibrated to your Company Size and Role.
                   </span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#1E1B2E]">
@@ -117,11 +97,11 @@ export function LeadCaptureSection() {
         {/* Social Proof Grid (B2B Revenue & Growth Teams) */}
         <div className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="vl-mono text-xs font-semibold text-[#645D7A]">
-              VERIFIED REVENUE &amp; GROWTH TEAMS USING PROGRESSIVE CAPTURE
-            </span>
+            <h3 className="vl-display text-2xl font-bold text-[#1E1B2E]">
+              Peer benchmark proof
+            </h3>
             <span className="rounded-full bg-[#E8E0F8] px-3.5 py-1 vl-mono text-xs font-semibold text-[#1E1B2E]">
-              PEER BENCHMARK PROOF
+              418 B2B TEAMS
             </span>
           </div>
 

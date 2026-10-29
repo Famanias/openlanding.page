@@ -32,9 +32,8 @@ export function RevenueCalculator() {
       <div className="tl-calc-board">
         <div className="tl-calc-sliders">
           <div className="tl-calc-head">
-            <span className="tl-mono tl-kicker-tag">NO-SHOW & DEPOSIT LEDGER</span>
             <h3 className="tl-calc-title">
-              See what upfront deposits recover for your bench each month.
+              Monthly bench recovery projection
             </h3>
           </div>
 
@@ -121,29 +120,29 @@ export function RevenueCalculator() {
 
           <div className="tl-calc-big-metric">
             <span className="tl-mono tl-calc-big-label">
-              RECOVERED NO-SHOW BENCH REVENUE
+              RECOVERED BENCH REVENUE
             </span>
             <strong className="tl-calc-big-value">
               +${recovery.recoveredMonthlyRevenue.toLocaleString()}
               <span className="tl-calc-per-mo"> / mo</span>
             </strong>
             <p className="tl-calc-big-note">
-              Protected by {depositPct}% upfront Shopify Checkout deposits and automated 24-hr SMS reminders.
+              Protected by {depositPct}% upfront deposits and automated SMS reminders.
             </p>
           </div>
 
           <dl className="tl-calc-breakdown">
             <div className="tl-calc-row">
-              <dt>Monthly Service Gross Volume</dt>
+              <dt>Monthly Service Volume</dt>
               <dd className="tl-mono">${recovery.monthlyVolume.toLocaleString()}</dd>
             </div>
             <div className="tl-calc-row">
-              <dt>Upfront Cashflow Collected at Booking</dt>
+              <dt>Collected at Booking</dt>
               <dd className="tl-mono">${recovery.depositFloatCollected.toLocaleString()}</dd>
             </div>
             <div className="tl-calc-row">
-              <dt>Tally Per-Ticket Commission</dt>
-              <dd className="tl-mono">$0 (Flat monthly ledger)</dd>
+              <dt>Tally Commission</dt>
+              <dd className="tl-mono">$0 (Flat monthly tier)</dd>
             </div>
           </dl>
         </div>
