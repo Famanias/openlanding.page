@@ -1,1 +1,0 @@
-# NOMI media prompts`n`nNo external images or videos are required. The phone UI and glass environment are CSS/SVG. If later adding media, use abstract dark glass, cyan highlights, soft studio light, no people, no logos, no readable text.

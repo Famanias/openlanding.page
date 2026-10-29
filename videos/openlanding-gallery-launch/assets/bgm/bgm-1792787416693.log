@@ -1,7 +1,0 @@
-W1024 05:30:38.405000 21856 site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-[transformers] Model config: pad_token_id must be `None` or an integer within the vocabulary (between 0 and 2047), got 2048. This may result in unexpected behavior.
-[transformers] Model config: bos_token_id must be `None` or an integer within the vocabulary (between 0 and 2047), got 2048. This may result in unexpected behavior.
-Loading weights:   0%|          | 0/611 [00:00<?, ?it/s]Loading weights:   2%|1         | 12/611 [00:00<00:05, 101.62it/s]Loading weights:   4%|3         | 23/611 [00:00<00:09, 59.89it/s] Loading weights:   7%|7         | 45/611 [00:00<00:05, 97.03it/s]Loading weights:   9%|9         | 56/611 [00:00<00:07, 70.87it/s]Loading weights:  14%|#4        | 87/611 [00:00<00:05, 104.17it/s]Loading weights:  23%|##3       | 141/611 [00:01<00:02, 190.69it/s]Loading weights:  27%|##7       | 165/611 [00:01<00:02, 158.83it/s]Loading weights:  34%|###3      | 205/611 [00:01<00:02, 197.47it/s]Loading weights:  37%|###7      | 229/611 [00:01<00:02, 179.93it/s]Loading weights: 100%|##########| 611/611 [00:01<00:00, 388.01it/s]
-[musicgen] seed dur=28.00s tokens=1400
-[musicgen] wrote E:\orca\workspaces\webflow-projects\videos\openlanding-gallery-launch\assets\bgm\track.wav samples=960000 sr=32000

@@ -1,3 +1,0 @@
-# Satoyama — code-only media
-
-No image or video prompts: the user explicitly requires all artwork and moving backgrounds to be fully coded and prohibits image/video generation. All six chapters, the four season scenes and five activity compositions use original inline SVG and CSS, painted in a 2D anime style inspired by Hayao Miyazaki's backgrounds (gradient skies, towering cumulus, hazy ridges, leafy canopies, wind-bent grass). Each slide has its own scenery. There are no pending assets or placeholders. No external media API is contacted. The gallery preview is captured from the implemented scene.
