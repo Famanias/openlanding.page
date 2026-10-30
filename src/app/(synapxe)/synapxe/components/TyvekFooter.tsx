@@ -20,7 +20,7 @@ const FAQ_ITEMS = [
     id: 'faq-3',
     question: '03 // MODULAR FIDLOCK® & MOLLE HARDWARE COMPATIBILITY',
     answer:
-      'Every KINETIX // ARCHIVE outer shell, utility harness, and stabilizer sling utilizes standardized 25mm Fidlock® V-Buckle magnetic-mechanical fasteners and laser-cut hypalon PALS/MOLLE grids for cross-collection attachment.',
+      'Every synapxe outer shell, utility harness, and stabilizer sling utilizes standardized 25mm Fidlock® V-Buckle magnetic-mechanical fasteners and laser-cut hypalon PALS/MOLLE grids for cross-collection attachment.',
   },
 ];
 
@@ -61,7 +61,7 @@ export const TyvekFooter: React.FC = () => {
       {/* Top Sewn Stitch Bar */}
       <div className="border-b border-[#090B0E]/20 py-2.5 px-4 lg:px-8 font-mono-tech text-[11px] flex flex-wrap items-center justify-between gap-4">
         <span className="font-bold tracking-widest">
-          SEWN SPECIFICATION LABEL // KINETIX ARCHIVE CORP. TOKYO-09
+          SEWN SPECIFICATION LABEL // SYNAPXE CORP. TOKYO-09
         </span>
         <span>SPECIFICATION REF: MIL-DTL-32439 // ISO-9001 CERTIFIED</span>
       </div>
@@ -247,7 +247,7 @@ export const TyvekFooter: React.FC = () => {
       {/* Bottom Legal / Copyright Bar */}
       <div className="border-t border-[#090B0E]/25 py-4 px-4 lg:px-8 font-mono-tech text-[11px] flex flex-wrap items-center justify-between gap-4">
         <span>
-          © 2026 KINETIX // ARCHIVE™ — ENGINEERED URBAN SHELL SYSTEMS. ALL RIGHTS RESERVED.
+          © 2026 synapxe — ENGINEERED URBAN SHELL SYSTEMS. ALL RIGHTS RESERVED.
         </span>
         <span>LOT #KNX-FW26-09 // PRINTED ON UNBLEACHED DUPONT™ TYVEK®</span>
       </div>

@@ -260,7 +260,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
         {!heroImgError ? (
           <img
             src={HERO_IMAGE_PATH}
-            alt="KINETIX // ARCHIVE Masked Tactical Shell Operator in Rain"
+            alt="synapxe Masked Tactical Shell Operator in Rain"
             referrerPolicy="no-referrer"
             onError={() => setHeroImgError(true)}
             className="w-full h-full object-cover object-center"

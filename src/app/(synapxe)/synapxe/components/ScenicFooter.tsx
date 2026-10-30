@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export function ScenicFooter() {
   const sceneRef = useRef<HTMLElement>(null);
@@ -64,12 +64,12 @@ export function ScenicFooter() {
   }, []);
 
   return (
-    <section ref={sceneRef} aria-label="Kinetix archive closing scene" className="scenic-footer relative overflow-hidden bg-[#090B0E] text-[#F8FAFC]">
+    <section ref={sceneRef} aria-label="synapxe closing scene" className="scenic-footer relative overflow-hidden bg-[#090B0E] text-[#F8FAFC]">
       <div className="scenic-footer-image absolute inset-0" aria-hidden="true" />
       <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 w-full h-full pointer-events-none" />
       <div className="relative z-10 min-h-[650px] flex flex-col justify-between">
         <div>
-          <div className="flex justify-between flex-wrap gap-3 border-b border-white/30 px-4 lg:px-8 py-4 font-mono-tech text-[10px] tracking-widest"><span>KINETIX // ARCHIVE</span><span>FIELD SYSTEMS / TOKYO 09</span></div>
+          <div className="flex justify-between flex-wrap gap-3 border-b border-white/30 px-4 lg:px-8 py-4 font-mono-tech text-[10px] tracking-widest"><span>synapxe</span><span>FIELD SYSTEMS / TOKYO 09</span></div>
           <div className="px-4 lg:px-8 py-10 flex flex-wrap justify-between gap-10">
             <div><p className="font-mono-tech text-xs text-[#00F0FF] tracking-wider mb-4">ENGINEERED FOR THE ELEMENTS</p><p className="max-w-xs text-sm leading-relaxed text-[#E2E8F0]">Technical equipment for movement through the city and beyond.</p></div>
             <div className="flex gap-12 sm:gap-20 font-mono-tech text-xs">
@@ -78,7 +78,7 @@ export function ScenicFooter() {
             </div>
           </div>
         </div>
-        <div className="px-4 lg:px-8 pb-10 flex flex-wrap items-end justify-between gap-8"><div><p className="font-mono-tech text-xs text-[#CBD5E1] mb-4 tracking-wider">THE URBAN ENVIRONMENT / 001</p><h2 className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl leading-[0.9] tracking-tight">BEYOND<br />THE FORECAST<span className="text-[#00F0FF]">.</span></h2></div><div className="max-w-xs"><p className="text-sm text-[#E2E8F0] leading-relaxed">Made to move through whatever comes next.</p><a className="inline-block mt-5 font-mono-tech text-xs font-bold text-[#00F0FF] hover:underline focus-visible:outline-2 focus-visible:outline-[#00F0FF]" href="#shells-grid">EXPLORE THE ARCHIVE ↗</a></div></div>
+        <div className="px-4 lg:px-8 pb-10 flex flex-wrap items-end justify-between gap-8"><div><p className="font-mono-tech text-xs text-[#E2E8F0] mb-4 tracking-wider">THE URBAN ENVIRONMENT / 001</p><h2 className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl leading-[0.9] tracking-tight">BEYOND<br />THE FORECAST<span className="text-[#00F0FF]">.</span></h2></div><div className="max-w-xs"><p className="text-sm text-[#E2E8F0] leading-relaxed">Made to move through whatever comes next.</p><a className="inline-block mt-5 font-mono-tech text-xs font-bold text-[#00F0FF] hover:underline focus-visible:outline-2 focus-visible:outline-[#00F0FF]" href="#shells-grid">EXPLORE THE ARCHIVE ↗</a></div></div>
       </div>
     </section>
   );

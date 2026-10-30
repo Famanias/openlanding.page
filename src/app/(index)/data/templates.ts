@@ -39,7 +39,7 @@ export const CATEGORIES: Category[] = [
 
 export const SYNAPXE_PROMPT = `# Prompt: rebuild "Synapxe" (Cyberpunk Techwear Storefront)
 
-Build a complete, production-grade, single-page interactive Cyberpunk Technical Apparel Storefront named **KINETIX // ARCHIVE** (Sub-brand: *Engineered Urban Shell Systems & Modular Techwear*).
+Build a complete, production-grade, single-page interactive Cyberpunk Technical Apparel Storefront named **synapxe** (Sub-brand: *Engineered Urban Shell Systems & Modular Techwear*).
 
 ### 1. Structure & Sections
 - **Sticky Telemetry Header**: brand wordmark, live system clock (UTC/JST), coordinates, dynamic currency switcher (USD/JPY/EUR), and cart counter with weight telemetry.

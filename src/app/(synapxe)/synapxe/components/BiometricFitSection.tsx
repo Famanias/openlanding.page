@@ -57,7 +57,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
                 max={205}
                 value={heightCm}
                 onChange={(e) => setHeightCm(Number(e.target.value))}
-                className="w-full kinetix-slider"
+                className="w-full synapxe-slider"
               />
               <div className="flex justify-between font-mono-tech text-[10px] text-[#94A3B8]">
                 <span>155 CM</span>
@@ -81,7 +81,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
                 max={120}
                 value={massKg}
                 onChange={(e) => setMassKg(Number(e.target.value))}
-                className="w-full kinetix-slider"
+                className="w-full synapxe-slider"
               />
               <div className="flex justify-between font-mono-tech text-[10px] text-[#94A3B8]">
                 <span>45 KG</span>
@@ -105,7 +105,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
                 max={125}
                 value={chestCm}
                 onChange={(e) => setChestCm(Number(e.target.value))}
-                className="w-full kinetix-slider"
+                className="w-full synapxe-slider"
               />
               <div className="flex justify-between font-mono-tech text-[10px] text-[#94A3B8]">
                 <span>85 CM</span>

@@ -43,7 +43,7 @@ export default function OpenGraphImage() {
         >
           //
         </div>
-        SYNAPXE // ARCHIVE
+        SYNAPXE
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div

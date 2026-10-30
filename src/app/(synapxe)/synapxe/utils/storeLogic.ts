@@ -242,18 +242,18 @@ export function verifyNfcChipCode(input: string, products: ProductSpec[]): NfcVe
     return {
       valid: true,
       code: cleaned,
-      message: `AUTHENTICATED // GENUINE KINETIX ARCHIVE UNIT — BATCH FW26 [${unitLabel}]`,
+      message: `AUTHENTICATED // GENUINE SYNAPXE UNIT — BATCH FW26 [${unitLabel}]`,
       batchId: 'KNX-2026-09-FW26',
       timestamp: new Date().toISOString(),
     };
   }
 
-  // Per spec: "An input box where users can type any product code (e.g., JKT-01A or KNX-8849) and click [VERIFY CHIP] to run a 1.5s cryptographic scan animation returning AUTHENTICATED // GENUINE KINETIX ARCHIVE UNIT — BATCH FW26"
+  // Per spec: "An input box where users can type any product code (e.g., JKT-01A or KNX-8849) and click [VERIFY CHIP] to run a 1.5s cryptographic scan animation returning AUTHENTICATED // GENUINE SYNAPXE UNIT — BATCH FW26"
   if (cleaned.length >= 4) {
     return {
       valid: true,
       code: cleaned,
-      message: `AUTHENTICATED // GENUINE KINETIX ARCHIVE UNIT — BATCH FW26 [${cleaned}]`,
+      message: `AUTHENTICATED // GENUINE SYNAPXE UNIT — BATCH FW26 [${cleaned}]`,
       batchId: 'KNX-2026-09-FW26',
       timestamp: new Date().toISOString(),
     };

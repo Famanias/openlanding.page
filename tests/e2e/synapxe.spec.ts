@@ -6,7 +6,7 @@ test.describe('Synapxe template (/synapxe)', () => {
 
     // Title and Brand
     await expect(page).toHaveTitle(/Synapxe/i);
-    await expect(page.getByRole('link', { name: 'KINETIX // ARCHIVE™' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /synapxe/i })).toBeVisible();
 
     // Verify system telemetry in header
     await expect(page.getByText(/SECTOR 09/i)).toBeVisible();
@@ -104,7 +104,7 @@ test.describe('Synapxe template (/synapxe)', () => {
     await verifyBtn.click();
 
     // Result badge appears
-    await expect(page.getByText(/AUTHENTICATED \/\/ GENUINE KINETIX ARCHIVE UNIT/i)).toBeVisible({
+    await expect(page.getByText(/AUTHENTICATED \/\/ GENUINE SYNAPXE UNIT/i)).toBeVisible({
       timeout: 5000,
     });
   });

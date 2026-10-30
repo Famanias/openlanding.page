@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="font-display text-lg font-bold tracking-[0.1em] text-[#F8FAFC] whitespace-nowrap flex items-center gap-2"
           >
             <span className="inline-block w-2 h-2 bg-[#00F0FF]" />
-            KINETIX // ARCHIVE™
+            synapxe
           </a>
           <div className="hidden xl:flex flex-col border-l border-[rgba(226,232,240,0.14)] pl-3 font-mono-tech text-[10px] leading-tight text-[#94A3B8] whitespace-nowrap">
             <span className="text-[#00F0FF]">{clockText}</span>

@@ -79,7 +79,7 @@
 }
 
 /* Custom Range Input for Fabric Lab & Biometric Sliders */
-input[type="range"].kinetix-slider {
+input[type="range"].synapxe-slider {
   -webkit-appearance: none;
   appearance: none;
   background: rgba(226, 232, 240, 0.14);
@@ -87,7 +87,7 @@ input[type="range"].kinetix-slider {
   outline: none;
 }
 
-input[type="range"].kinetix-slider::-webkit-slider-thumb {
+input[type="range"].synapxe-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 18px;
@@ -99,7 +99,7 @@ input[type="range"].kinetix-slider::-webkit-slider-thumb {
   box-shadow: 0 0 12px rgba(0, 240, 255, 0.65);
 }
 
-input[type="range"].kinetix-slider::-moz-range-thumb {
+input[type="range"].synapxe-slider::-moz-range-thumb {
   width: 18px;
   height: 18px;
   background: #00F0FF;

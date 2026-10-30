@@ -1,7 +1,7 @@
-# MASTER BUILD PROMPT: KINETIX // ARCHIVE — Cyberpunk Techwear Storefront
+# MASTER BUILD PROMPT: synapxe — Cyberpunk Techwear Storefront
 
 ## 1. Role & Architecture Objective
-Act as a Principal Creative Technologist and Senior Frontend Architect. Build a complete, production-grade, single-page interactive Cyberpunk Technical Apparel Shopify Storefront named **KINETIX // ARCHIVE** (Sub-brand: *Engineered Urban Shell Systems & Modular Techwear*).
+Act as a Principal Creative Technologist and Senior Frontend Architect. Build a complete, production-grade, single-page interactive Cyberpunk Technical Apparel Shopify Storefront named **synapxe** (Sub-brand: *Engineered Urban Shell Systems & Modular Techwear*).
 
 **Core Architectural Philosophy:**
 - **The Hero Section** is a high-impact visual centerpiece combining `hero.png` with real-time HTML5 Canvas rain/hydrophobic particle physics, interactive SVG reticle hotspots, and live CSS/SVG optical shader modes.
@@ -45,7 +45,7 @@ Act as a Principal Creative Technologist and Senior Frontend Architect. Build a 
 ## 3. Section-by-Section Functional Specifications
 
 ### SECTION 1: Top System Telemetry Header (Sticky)
-- **Left:** Brand wordmark `KINETIX // ARCHIVE™` + live system clock (UTC/JST) and simulated coordinates `35.6762° N, 139.6503° E // SECTOR 09`.
+- **Left:** Brand wordmark `synapxe™` + live system clock (UTC/JST) and simulated coordinates `35.6762° N, 139.6503° E // SECTOR 09`.
 - **Center:** Navigation anchor links (`[01 // SHELLS]`, `[02 // FABRIC LAB]`, `[03 // LOADOUT BUILDER]`, `[04 // BIOMETRIC FIT]`).
 - **Right:** Currency selector (`USD $` / `JPY ¥` / `EUR €` — dynamically converts all prices on page) and Cart Trigger button `[LOADOUT BAG (n)]` with live item counter and total weight readout.
 

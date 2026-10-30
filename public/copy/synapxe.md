@@ -195,7 +195,7 @@ export default function OpenGraphImage() {
         >
           //
         </div>
-        SYNAPXE // ARCHIVE
+        SYNAPXE
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div
@@ -330,7 +330,7 @@ export default function SynapxePage() {
 }
 
 /* Custom Range Input for Fabric Lab & Biometric Sliders */
-input[type="range"].kinetix-slider {
+input[type="range"].synapxe-slider {
   -webkit-appearance: none;
   appearance: none;
   background: rgba(226, 232, 240, 0.14);
@@ -338,7 +338,7 @@ input[type="range"].kinetix-slider {
   outline: none;
 }
 
-input[type="range"].kinetix-slider::-webkit-slider-thumb {
+input[type="range"].synapxe-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 18px;
@@ -350,7 +350,7 @@ input[type="range"].kinetix-slider::-webkit-slider-thumb {
   box-shadow: 0 0 12px rgba(0, 240, 255, 0.65);
 }
 
-input[type="range"].kinetix-slider::-moz-range-thumb {
+input[type="range"].synapxe-slider::-moz-range-thumb {
   width: 18px;
   height: 18px;
   background: #00F0FF;
@@ -699,7 +699,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
                 max={205}
                 value={heightCm}
                 onChange={(e) => setHeightCm(Number(e.target.value))}
-                className="w-full kinetix-slider"
+                className="w-full synapxe-slider"
               />
               <div className="flex justify-between font-mono-tech text-[10px] text-[#94A3B8]">
                 <span>155 CM</span>
@@ -723,7 +723,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
                 max={120}
                 value={massKg}
                 onChange={(e) => setMassKg(Number(e.target.value))}
-                className="w-full kinetix-slider"
+                className="w-full synapxe-slider"
               />
               <div className="flex justify-between font-mono-tech text-[10px] text-[#94A3B8]">
                 <span>45 KG</span>
@@ -747,7 +747,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
                 max={125}
                 value={chestCm}
                 onChange={(e) => setChestCm(Number(e.target.value))}
-                className="w-full kinetix-slider"
+                className="w-full synapxe-slider"
               />
               <div className="flex justify-between font-mono-tech text-[10px] text-[#94A3B8]">
                 <span>85 CM</span>
@@ -2388,7 +2388,7 @@ export const FabricLabSection: React.FC = () => {
               max={100}
               value={explodePct}
               onChange={(e) => setExplodePct(Number(e.target.value))}
-              className="w-full kinetix-slider"
+              className="w-full synapxe-slider"
             />
             <div className="flex justify-between font-mono-tech text-[10px] text-[#94A3B8] mt-1.5">
               <span>0% LAMINATED SEAL</span>
@@ -2595,7 +2595,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="font-display text-lg font-bold tracking-[0.1em] text-[#F8FAFC] whitespace-nowrap flex items-center gap-2"
           >
             <span className="inline-block w-2 h-2 bg-[#00F0FF]" />
-            KINETIX // ARCHIVE™
+            synapxe
           </a>
           <div className="hidden xl:flex flex-col border-l border-[rgba(226,232,240,0.14)] pl-3 font-mono-tech text-[10px] leading-tight text-[#94A3B8] whitespace-nowrap">
             <span className="text-[#00F0FF]">{clockText}</span>
@@ -2940,7 +2940,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
         {!heroImgError ? (
           <img
             src={HERO_IMAGE_PATH}
-            alt="KINETIX // ARCHIVE Masked Tactical Shell Operator in Rain"
+            alt="synapxe Masked Tactical Shell Operator in Rain"
             referrerPolicy="no-referrer"
             onError={() => setHeroImgError(true)}
             className="w-full h-full object-cover object-center"
@@ -4855,7 +4855,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 ]]>
     </file>
     <file path="src/app/(synapxe)/synapxe/components/ScenicFooter.tsx">
-<![CDATA[﻿import React, { useEffect, useRef } from 'react';
+<![CDATA[import React, { useEffect, useRef } from 'react';
 
 export function ScenicFooter() {
   const sceneRef = useRef<HTMLElement>(null);
@@ -4921,12 +4921,12 @@ export function ScenicFooter() {
   }, []);
 
   return (
-    <section ref={sceneRef} aria-label="Kinetix archive closing scene" className="scenic-footer relative overflow-hidden bg-[#090B0E] text-[#F8FAFC]">
+    <section ref={sceneRef} aria-label="synapxe closing scene" className="scenic-footer relative overflow-hidden bg-[#090B0E] text-[#F8FAFC]">
       <div className="scenic-footer-image absolute inset-0" aria-hidden="true" />
       <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 w-full h-full pointer-events-none" />
       <div className="relative z-10 min-h-[650px] flex flex-col justify-between">
         <div>
-          <div className="flex justify-between flex-wrap gap-3 border-b border-white/30 px-4 lg:px-8 py-4 font-mono-tech text-[10px] tracking-widest"><span>KINETIX // ARCHIVE</span><span>FIELD SYSTEMS / TOKYO 09</span></div>
+          <div className="flex justify-between flex-wrap gap-3 border-b border-white/30 px-4 lg:px-8 py-4 font-mono-tech text-[10px] tracking-widest"><span>synapxe</span><span>FIELD SYSTEMS / TOKYO 09</span></div>
           <div className="px-4 lg:px-8 py-10 flex flex-wrap justify-between gap-10">
             <div><p className="font-mono-tech text-xs text-[#00F0FF] tracking-wider mb-4">ENGINEERED FOR THE ELEMENTS</p><p className="max-w-xs text-sm leading-relaxed text-[#E2E8F0]">Technical equipment for movement through the city and beyond.</p></div>
             <div className="flex gap-12 sm:gap-20 font-mono-tech text-xs">
@@ -4935,7 +4935,7 @@ export function ScenicFooter() {
             </div>
           </div>
         </div>
-        <div className="px-4 lg:px-8 pb-10 flex flex-wrap items-end justify-between gap-8"><div><p className="font-mono-tech text-xs text-[#CBD5E1] mb-4 tracking-wider">THE URBAN ENVIRONMENT / 001</p><h2 className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl leading-[0.9] tracking-tight">BEYOND<br />THE FORECAST<span className="text-[#00F0FF]">.</span></h2></div><div className="max-w-xs"><p className="text-sm text-[#E2E8F0] leading-relaxed">Made to move through whatever comes next.</p><a className="inline-block mt-5 font-mono-tech text-xs font-bold text-[#00F0FF] hover:underline focus-visible:outline-2 focus-visible:outline-[#00F0FF]" href="#shells-grid">EXPLORE THE ARCHIVE ↗</a></div></div>
+        <div className="px-4 lg:px-8 pb-10 flex flex-wrap items-end justify-between gap-8"><div><p className="font-mono-tech text-xs text-[#E2E8F0] mb-4 tracking-wider">THE URBAN ENVIRONMENT / 001</p><h2 className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl leading-[0.9] tracking-tight">BEYOND<br />THE FORECAST<span className="text-[#00F0FF]">.</span></h2></div><div className="max-w-xs"><p className="text-sm text-[#E2E8F0] leading-relaxed">Made to move through whatever comes next.</p><a className="inline-block mt-5 font-mono-tech text-xs font-bold text-[#00F0FF] hover:underline focus-visible:outline-2 focus-visible:outline-[#00F0FF]" href="#shells-grid">EXPLORE THE ARCHIVE ↗</a></div></div>
       </div>
     </section>
   );
@@ -5155,7 +5155,7 @@ const FAQ_ITEMS = [
     id: 'faq-3',
     question: '03 // MODULAR FIDLOCK® & MOLLE HARDWARE COMPATIBILITY',
     answer:
-      'Every KINETIX // ARCHIVE outer shell, utility harness, and stabilizer sling utilizes standardized 25mm Fidlock® V-Buckle magnetic-mechanical fasteners and laser-cut hypalon PALS/MOLLE grids for cross-collection attachment.',
+      'Every synapxe outer shell, utility harness, and stabilizer sling utilizes standardized 25mm Fidlock® V-Buckle magnetic-mechanical fasteners and laser-cut hypalon PALS/MOLLE grids for cross-collection attachment.',
   },
 ];
 
@@ -5196,12 +5196,10 @@ export const TyvekFooter: React.FC = () => {
       {/* Top Sewn Stitch Bar */}
       <div className="border-b border-[#090B0E]/20 py-2.5 px-4 lg:px-8 font-mono-tech text-[11px] flex flex-wrap items-center justify-between gap-4">
         <span className="font-bold tracking-widest">
-          SEWN SPECIFICATION LABEL // KINETIX ARCHIVE CORP. TOKYO-09
+          SEWN SPECIFICATION LABEL // SYNAPXE CORP. TOKYO-09
         </span>
         <span>SPECIFICATION REF: MIL-DTL-32439 // ISO-9001 CERTIFIED</span>
       </div>
-
-      <ScenicFooter />
 
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Column 1 (5 cols): Interactive NFC Garment Authenticity Verifier */}
@@ -5384,10 +5382,11 @@ export const TyvekFooter: React.FC = () => {
       {/* Bottom Legal / Copyright Bar */}
       <div className="border-t border-[#090B0E]/25 py-4 px-4 lg:px-8 font-mono-tech text-[11px] flex flex-wrap items-center justify-between gap-4">
         <span>
-          © 2026 KINETIX // ARCHIVE™ — ENGINEERED URBAN SHELL SYSTEMS. ALL RIGHTS RESERVED.
+          © 2026 synapxe — ENGINEERED URBAN SHELL SYSTEMS. ALL RIGHTS RESERVED.
         </span>
         <span>LOT #KNX-FW26-09 // PRINTED ON UNBLEACHED DUPONT™ TYVEK®</span>
       </div>
+      <ScenicFooter />
     </footer>
   );
 };
@@ -5945,18 +5944,18 @@ export function verifyNfcChipCode(input: string, products: ProductSpec[]): NfcVe
     return {
       valid: true,
       code: cleaned,
-      message: `AUTHENTICATED // GENUINE KINETIX ARCHIVE UNIT — BATCH FW26 [${unitLabel}]`,
+      message: `AUTHENTICATED // GENUINE SYNAPXE UNIT — BATCH FW26 [${unitLabel}]`,
       batchId: 'KNX-2026-09-FW26',
       timestamp: new Date().toISOString(),
     };
   }
 
-  // Per spec: "An input box where users can type any product code (e.g., JKT-01A or KNX-8849) and click [VERIFY CHIP] to run a 1.5s cryptographic scan animation returning AUTHENTICATED // GENUINE KINETIX ARCHIVE UNIT — BATCH FW26"
+  // Per spec: "An input box where users can type any product code (e.g., JKT-01A or KNX-8849) and click [VERIFY CHIP] to run a 1.5s cryptographic scan animation returning AUTHENTICATED // GENUINE SYNAPXE UNIT — BATCH FW26"
   if (cleaned.length >= 4) {
     return {
       valid: true,
       code: cleaned,
-      message: `AUTHENTICATED // GENUINE KINETIX ARCHIVE UNIT — BATCH FW26 [${cleaned}]`,
+      message: `AUTHENTICATED // GENUINE SYNAPXE UNIT — BATCH FW26 [${cleaned}]`,
       batchId: 'KNX-2026-09-FW26',
       timestamp: new Date().toISOString(),
     };

@@ -111,7 +111,7 @@ export const FabricLabSection: React.FC = () => {
               max={100}
               value={explodePct}
               onChange={(e) => setExplodePct(Number(e.target.value))}
-              className="w-full kinetix-slider"
+              className="w-full synapxe-slider"
             />
             <div className="flex justify-between font-mono-tech text-[10px] text-[#94A3B8] mt-1.5">
               <span>0% LAMINATED SEAL</span>

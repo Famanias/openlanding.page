@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Synapxe (KINETIX // ARCHIVE) is an isolated Next.js App Router template at `/synapxe` representing an advanced technical apparel storefront and equipment configurator (sub-brand: *Engineered Urban Shell Systems & Modular Techwear*). It includes real-time Three.js 3D exploded fabric physics, a volumetric hologram character loadout builder, a biometric sizing calculator, dynamic currency conversion (USD/JPY/EUR), and a functional slide-out cart drawer with bundle discounts and promotional terminal codes.
+Synapxe is an isolated Next.js App Router template at `/synapxe` representing an advanced technical apparel storefront and equipment configurator (sub-brand: *Engineered Urban Shell Systems & Modular Techwear*). It includes real-time Three.js 3D exploded fabric physics, a volumetric hologram character loadout builder, a biometric sizing calculator, dynamic currency conversion (USD/JPY/EUR), and a functional slide-out cart drawer with bundle discounts and promotional terminal codes.
 
 ## Concept
 

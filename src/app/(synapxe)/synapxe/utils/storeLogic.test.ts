@@ -100,7 +100,7 @@ describe('Synapxe Store Logic', () => {
   it('verifyNfcChipCode authenticates valid archive codes and getVariantSku formats SKU', () => {
     const res1 = verifyNfcChipCode('JKT-01A', PRODUCTS);
     expect(res1.valid).toBe(true);
-    expect(res1.message).toContain('AUTHENTICATED // GENUINE KINETIX ARCHIVE UNIT — BATCH FW26');
+    expect(res1.message).toContain('AUTHENTICATED // GENUINE SYNAPXE UNIT — BATCH FW26');
 
     const res2 = verifyNfcChipCode('KNX-8849', PRODUCTS);
     expect(res2.valid).toBe(true);
