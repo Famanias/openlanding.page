@@ -52,14 +52,9 @@ describe("gallery template data", () => {
     }
   });
 
-  it("references video clips that exist in public folder when defined", () => {
-    const koji = TEMPLATES.find((t) => t.slug === "koji");
-    expect(koji?.videoClip).toBeDefined();
-    for (const t of TEMPLATES) {
-      if (t.videoClip) {
-        const publicPath = path.join(process.cwd(), "public", t.videoClip);
-        expect(fs.existsSync(publicPath), `Missing video at ${publicPath}`).toBe(true);
-      }
+  it("has a static gallery screenshot for every template", () => {
+    for (const template of TEMPLATES) {
+      expect(fs.existsSync(path.join(process.cwd(), "public", "gallery", `${template.slug}.webp`)), template.slug).toBe(true);
     }
   });
 

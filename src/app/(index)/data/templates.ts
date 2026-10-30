@@ -22,7 +22,6 @@ export interface TemplateItem {
   stack: string;
   badges: string[];
   previewImage: string;
-  videoClip?: string;
   promptMarkdown: string;
   model: string;
   archived?: boolean;
@@ -478,7 +477,6 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     stack: "Next.js 16 · Three.js (WebGPU/TSL) · Scroll-World",
     badges: ["WebGPU 3D", "Scroll Video", "TSL Shaders"],
     previewImage: "/templates/koji/hero-dish-poster-1600.webp",
-    videoClip: "/templates/koji/clips/dive-2-m.mp4",
     promptMarkdown: KOJI_PROMPT,
     model: "Claude Opus 5.5 High",
   },
@@ -1056,12 +1054,4 @@ export const TEMPLATES: TemplateItem[] = registeredTemplates
   .filter((template) => !template.archived)
   .slice()
   .reverse()
-  .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.registrationOrder - a.registrationOrder)
-  .map((template) => ({
-    ...template,
-    videoClip:
-      template.videoClip ??
-      (template.slug === "amaoto" || template.slug === "perigee" || template.slug === "xibalba" || template.slug === "synapxe"
-        ? undefined
-        : `/gallery/clips/${template.slug}.mp4`),
-  }));
+  .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.registrationOrder - a.registrationOrder);

@@ -36,7 +36,7 @@ describe("TemplateCard", () => {
     expect(html).not.toMatch(/<button[^>]*aria-label="Download HTML"[^>]*disabled=""/);
   });
 
-  it("renders a still hero preview even when a video clip is available", () => {
+  it("renders a still hero preview", () => {
     const template = TEMPLATES.find(t => t.slug === "koji")!;
     const html = renderToStaticMarkup(<TemplateCard template={template} />);
     expect(html).toContain('/gallery/koji.webp');
