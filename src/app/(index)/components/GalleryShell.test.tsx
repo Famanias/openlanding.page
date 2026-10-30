@@ -23,7 +23,7 @@ describe("GalleryShell", () => {
 
   it("renders all 46 active template cards and excludes archived templates", () => {
     const html = renderToStaticMarkup(<GalleryShell />);
-    expect(html).toContain('href="/cyberpunk"');
+    expect(html).toContain('href="/synapxe"');
     expect(html).toContain('href="/perigee"');
     expect(html).toContain('href="/xibalba"');
     expect(html).toContain('href="/loam"');

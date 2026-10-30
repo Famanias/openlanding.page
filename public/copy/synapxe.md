@@ -1,4 +1,4 @@
-<template slug="cyberpunk" name="KINETIX // ARCHIVE">
+<template slug="synapxe" name="Synapxe">
   <dependencies>
     {
       "dependencies": {
@@ -10,10 +10,10 @@
     Recreate the following files in your Next.js App Router project preserving relative paths.
   </instructions>
   <files>
-    <file path="src/app/(cyberpunk)/layout.tsx">
+    <file path="src/app/(synapxe)/layout.tsx">
 <![CDATA[import type { Metadata, Viewport } from "next";
 import { Oswald, Manrope, JetBrains_Mono } from "next/font/google";
-import "./cyberpunk/cyberpunk.css";
+import "./synapxe/synapxe.css";
 
 const display = Oswald({
   subsets: ["latin"],
@@ -34,11 +34,11 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "KINETIX // ARCHIVE — Cyberpunk Technical Apparel",
+  title: "Synapxe — Cyberpunk Technical Apparel",
   description:
     "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
   openGraph: {
-    title: "KINETIX // ARCHIVE — Cyberpunk Technical Apparel",
+    title: "Synapxe — Cyberpunk Technical Apparel",
     description:
       "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
     type: "website",
@@ -52,7 +52,7 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-export default function CyberpunkLayout({
+export default function SynapxeLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -70,16 +70,16 @@ export default function CyberpunkLayout({
 }
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/assets.generated.ts">
-<![CDATA[// Generated asset inventory for CYBERPUNK
+    <file path="src/app/(synapxe)/synapxe/assets.generated.ts">
+<![CDATA[// Generated asset inventory for SYNAPXE
 export const ASSETS: Record<string, { w: number; h: number }> = {};
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/assets.tsx">
+    <file path="src/app/(synapxe)/synapxe/assets.tsx">
 <![CDATA[import React from "react";
 import { ASSETS } from "./assets.generated";
 
-const BASE = "/templates/cyberpunk";
+const BASE = "/templates/synapxe";
 
 export function assetSrc(
   key: string,
@@ -140,7 +140,115 @@ export function Picture({
 }
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/cyberpunk.css">
+    <file path="src/app/(synapxe)/synapxe/icon.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="8" fill="#090B0E"/>
+  <polygon points="12,12 24,12 36,32 24,52 12,52 24,32" fill="#00F0FF"/>
+  <polygon points="28,12 40,12 52,32 40,52 28,52 40,32" fill="#FF007F"/>
+  <circle cx="52" cy="16" r="3" fill="#D4FF00"/>
+</svg>
+]]>
+    </file>
+    <file path="src/app/(synapxe)/synapxe/opengraph-image.tsx">
+<![CDATA[import { ImageResponse } from "next/og";
+
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+
+export default function OpenGraphImage() {
+  return new ImageResponse(
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: 72,
+        background: "#090B0E",
+        color: "#F8FAFC",
+        fontFamily: "sans-serif",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 18,
+          fontSize: 32,
+          letterSpacing: 4,
+          color: "#00F0FF",
+        }}
+      >
+        <div
+          style={{
+            width: 36,
+            height: 36,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#00F0FF",
+            color: "#090B0E",
+            fontWeight: "bold",
+            fontSize: 22,
+          }}
+        >
+          //
+        </div>
+        SYNAPXE // ARCHIVE
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div
+          style={{
+            fontSize: 64,
+            fontWeight: 800,
+            lineHeight: 1.1,
+            letterSpacing: 2,
+            color: "#F8FAFC",
+          }}
+        >
+          SYNAPXE // TECHNICAL APPAREL STOREFRONT
+        </div>
+        <div
+          style={{
+            fontSize: 26,
+            color: "#94A3B8",
+            maxWidth: 900,
+            lineHeight: 1.4,
+          }}
+        >
+          3-Layer ePTFE Storm Shells, Ballistic Cordura Exoskeletons & Modular Carry Systems.
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderTop: "1px solid rgba(226,232,240,0.14)",
+          paddingTop: 24,
+          fontSize: 18,
+          color: "#94A3B8",
+          letterSpacing: 2,
+        }}
+      >
+        <span>DROP 04 // FW-26 ARCHIVE COLLECTION</span>
+        <span style={{ color: "#00F0FF" }}>35.6762° N, 139.6503° E</span>
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(synapxe)/synapxe/page.tsx">
+<![CDATA[import SynapxeApp from "./SynapxeApp";
+
+export default function SynapxePage() {
+  return <SynapxeApp />;
+}
+]]>
+    </file>
+    <file path="src/app/(synapxe)/synapxe/synapxe.css">
 <![CDATA[@import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -264,7 +372,7 @@ input[type="range"].kinetix-slider::-moz-range-thumb {
 }
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/CyberpunkApp.tsx">
+    <file path="src/app/(synapxe)/synapxe/SynapxeApp.tsx">
 <![CDATA['use client';
 
 /**
@@ -297,7 +405,7 @@ import { BiometricFitSection } from './components/BiometricFitSection';
 import { CartDrawer } from './components/CartDrawer';
 import { TyvekFooter } from './components/TyvekFooter';
 
-export default function App() {
+export default function SynapxeApp() {
   const [currency, setCurrency] = useState<CurrencyCode>('USD');
   const [activeCategory, setActiveCategory] = useState<FilterCategory>('all');
   const [sortBy, setSortBy] = useState<SortOption>('PRICE: LOW-HIGH');
@@ -526,115 +634,7 @@ export default function App() {
 
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/icon.svg">
-<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="8" fill="#090B0E"/>
-  <polygon points="12,12 24,12 36,32 24,52 12,52 24,32" fill="#00F0FF"/>
-  <polygon points="28,12 40,12 52,32 40,52 28,52 40,32" fill="#FF007F"/>
-  <circle cx="52" cy="16" r="3" fill="#D4FF00"/>
-</svg>
-]]>
-    </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/opengraph-image.tsx">
-<![CDATA[import { ImageResponse } from "next/og";
-
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-
-export default function OpenGraphImage() {
-  return new ImageResponse(
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        padding: 72,
-        background: "#090B0E",
-        color: "#F8FAFC",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 18,
-          fontSize: 32,
-          letterSpacing: 4,
-          color: "#00F0FF",
-        }}
-      >
-        <div
-          style={{
-            width: 36,
-            height: 36,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "#00F0FF",
-            color: "#090B0E",
-            fontWeight: "bold",
-            fontSize: 22,
-          }}
-        >
-          //
-        </div>
-        KINETIX // ARCHIVE
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div
-          style={{
-            fontSize: 64,
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: 2,
-            color: "#F8FAFC",
-          }}
-        >
-          CYBERPUNK TECHNICAL APPAREL STOREFRONT
-        </div>
-        <div
-          style={{
-            fontSize: 26,
-            color: "#94A3B8",
-            maxWidth: 900,
-            lineHeight: 1.4,
-          }}
-        >
-          3-Layer ePTFE Storm Shells, Ballistic Cordura Exoskeletons & Modular Carry Systems.
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderTop: "1px solid rgba(226,232,240,0.14)",
-          paddingTop: 24,
-          fontSize: 18,
-          color: "#94A3B8",
-          letterSpacing: 2,
-        }}
-      >
-        <span>DROP 04 // FW-26 ARCHIVE COLLECTION</span>
-        <span style={{ color: "#00F0FF" }}>35.6762° N, 139.6503° E</span>
-      </div>
-    </div>
-  );
-}
-]]>
-    </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/page.tsx">
-<![CDATA[import CyberpunkApp from "./CyberpunkApp";
-
-export default function CyberpunkPage() {
-  return <CyberpunkApp />;
-}
-]]>
-    </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/BiometricFitSection.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/BiometricFitSection.tsx">
 <![CDATA[import React, { useState } from 'react';
 import { SizeOption } from '../data/products';
 import { calculateBiometricFit, FitPreference } from '../utils/storeLogic';
@@ -851,7 +851,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/CartDrawer.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/CartDrawer.tsx">
 <![CDATA[import React, { useState } from 'react';
 import { CurrencyCode } from '../data/products';
 import {
@@ -1198,7 +1198,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/FabricLab3D.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/FabricLab3D.tsx">
 <![CDATA[import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -2269,7 +2269,7 @@ export const FabricLab3D: React.FC<FabricLab3DProps> = ({
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/FabricLabSection.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/FabricLabSection.tsx">
 <![CDATA[import React, { useState } from 'react';
 import {
   FabricFocusLayer,
@@ -2546,7 +2546,7 @@ export const FabricLabSection: React.FC = () => {
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/Header.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/Header.tsx">
 <![CDATA[import React, { useEffect, useState } from 'react';
 import { CURRENCY_CONFIG, CurrencyCode } from '../data/products';
 
@@ -2672,7 +2672,7 @@ export const Header: React.FC<HeaderProps> = ({
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/HeroSection.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/HeroSection.tsx">
 <![CDATA[import React, { useEffect, useRef, useState } from 'react';
 import {
   CurrencyCode,
@@ -3175,7 +3175,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/HologramRig3D.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/HologramRig3D.tsx">
 <![CDATA[import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -4239,7 +4239,7 @@ export const HologramRig3D: React.FC<HologramRig3DProps> = ({
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/LoadoutBuilderSection.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/LoadoutBuilderSection.tsx">
 <![CDATA[import React, { useState } from 'react';
 import { CurrencyCode, PRODUCTS, ProductSpec } from '../data/products';
 import {
@@ -4579,7 +4579,7 @@ export const LoadoutBuilderSection: React.FC<LoadoutBuilderSectionProps> = ({
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/ProductCard.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/ProductCard.tsx">
 <![CDATA[import React, { useState } from 'react';
 import {
   ColorwayOption,
@@ -4849,7 +4849,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/TyvekDividerAndFilterBar.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/TyvekDividerAndFilterBar.tsx">
 <![CDATA[import React, { useEffect, useState } from 'react';
 import { FilterCategory, SortOption } from '../utils/storeLogic';
 
@@ -5039,7 +5039,7 @@ export const TyvekDividerAndFilterBar: React.FC<TyvekDividerAndFilterBarProps> =
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/components/TyvekFooter.tsx">
+    <file path="src/app/(synapxe)/synapxe/components/TyvekFooter.tsx">
 <![CDATA[import React, { useState } from 'react';
 import { PRODUCTS } from '../data/products';
 import { NfcVerificationResult, verifyNfcChipCode } from '../utils/storeLogic';
@@ -5297,7 +5297,7 @@ export const TyvekFooter: React.FC = () => {
 };
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/data/products.ts">
+    <file path="src/app/(synapxe)/synapxe/data/products.ts">
 <![CDATA[export type ProductCategory = 'shells' | 'bottoms' | 'gear';
 export type SizeOption = 'S' | 'M' | 'L' | 'XL';
 export type ColorwayOption = 'STEALTH BLACK' | 'OXIDE SLATE' | 'NEON NOIR';
@@ -5604,7 +5604,7 @@ export const PRODUCTS: ProductSpec[] = [
 ];
 ]]>
     </file>
-    <file path="src/app/(cyberpunk)/cyberpunk/utils/storeLogic.ts">
+    <file path="src/app/(synapxe)/synapxe/utils/storeLogic.ts">
 <![CDATA[import {
   CURRENCY_CONFIG,
   ColorwayOption,

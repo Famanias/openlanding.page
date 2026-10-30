@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Oswald, Manrope, JetBrains_Mono } from "next/font/google";
-import "./cyberpunk/cyberpunk.css";
+import "./synapxe/synapxe.css";
 
 const display = Oswald({
   subsets: ["latin"],
@@ -21,11 +21,11 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "KINETIX // ARCHIVE — Cyberpunk Technical Apparel",
+  title: "Synapxe — Cyberpunk Technical Apparel",
   description:
     "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
   openGraph: {
-    title: "KINETIX // ARCHIVE — Cyberpunk Technical Apparel",
+    title: "Synapxe — Cyberpunk Technical Apparel",
     description:
       "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
     type: "website",
@@ -39,7 +39,7 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-export default function CyberpunkLayout({
+export default function SynapxeLayout({
   children,
 }: {
   children: React.ReactNode;

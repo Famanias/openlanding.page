@@ -30,7 +30,7 @@ import { BiometricFitSection } from './components/BiometricFitSection';
 import { CartDrawer } from './components/CartDrawer';
 import { TyvekFooter } from './components/TyvekFooter';
 
-export default function App() {
+export default function SynapxeApp() {
   const [currency, setCurrency] = useState<CurrencyCode>('USD');
   const [activeCategory, setActiveCategory] = useState<FilterCategory>('all');
   const [sortBy, setSortBy] = useState<SortOption>('PRICE: LOW-HIGH');

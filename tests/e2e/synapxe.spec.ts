@@ -1,11 +1,11 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('Cyberpunk template (/cyberpunk)', () => {
+test.describe('Synapxe template (/synapxe)', () => {
   test('renders the page, header, hero and sections', async ({ page }) => {
-    await page.goto('/cyberpunk');
+    await page.goto('/synapxe');
 
     // Title and Brand
-    await expect(page).toHaveTitle(/KINETIX \/\/ ARCHIVE/i);
+    await expect(page).toHaveTitle(/Synapxe/i);
     await expect(page.getByRole('link', { name: 'KINETIX // ARCHIVE™' })).toBeVisible();
 
     // Verify system telemetry in header
@@ -27,7 +27,7 @@ test.describe('Cyberpunk template (/cyberpunk)', () => {
   });
 
   test('switches currency dynamically across the page', async ({ page }) => {
-    await page.goto('/cyberpunk');
+    await page.goto('/synapxe');
 
     // Default USD
     await expect(page.getByRole('button', { name: 'USD $' })).toBeVisible();
@@ -42,7 +42,7 @@ test.describe('Cyberpunk template (/cyberpunk)', () => {
   });
 
   test('filters product archive by category tabs', async ({ page }) => {
-    await page.goto('/cyberpunk');
+    await page.goto('/synapxe');
 
     // Filter to Outer Shells
     const shellsTab = page.getByRole('tab', { name: /OUTER SHELLS/i });
@@ -61,7 +61,7 @@ test.describe('Cyberpunk template (/cyberpunk)', () => {
   });
 
   test('configures loadout and deploys bundle to cart', async ({ page }) => {
-    await page.goto('/cyberpunk');
+    await page.goto('/synapxe');
 
     // Locate Loadout Builder deploy button
     const deployBtn = page.getByRole('button', { name: /DEPLOY FULL LOADOUT TO CART/i });
@@ -93,7 +93,7 @@ test.describe('Cyberpunk template (/cyberpunk)', () => {
   });
 
   test('verifies NFC chip in Tyvek footer', async ({ page }) => {
-    await page.goto('/cyberpunk');
+    await page.goto('/synapxe');
 
     // Scroll to footer NFC verifier
     const nfcInput = page.locator('#nfc-verifier-input');

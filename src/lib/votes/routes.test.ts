@@ -20,7 +20,7 @@ describe("vote route contracts", () => {
     expect(response.headers.get("Set-Cookie")).toBeNull();
     const counts = await response.json();
     expect(Object.keys(counts)).toHaveLength(46);
-    expect(counts.cyberpunk).toEqual({ up: 0, down: 0 });
+    expect(counts.synapxe).toEqual({ up: 0, down: 0 });
     expect(counts.perigee).toEqual({ up: 0, down: 0 });
     expect(counts.xibalba).toEqual({ up: 0, down: 0 });
     expect(counts.loam).toEqual({ up: 0, down: 0 });

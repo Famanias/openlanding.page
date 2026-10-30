@@ -16,7 +16,7 @@ import {
   verifyNfcChipCode,
 } from './storeLogic';
 
-describe('Cyberpunk Store Logic', () => {
+describe('Synapxe Store Logic', () => {
   it('currency conversion and formatting works for USD, JPY, and EUR', () => {
     expect(convertCurrency(680, 'USD')).toBe(680);
     expect(convertCurrency(680, 'JPY')).toBe(104720);

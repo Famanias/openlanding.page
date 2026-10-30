@@ -26,12 +26,22 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/kinetix",
-        destination: "/cyberpunk",
+        destination: "/synapxe",
         permanent: true,
       },
       {
         source: "/kinetix/:path*",
-        destination: "/cyberpunk/:path*",
+        destination: "/synapxe/:path*",
+        permanent: true,
+      },
+      {
+        source: "/cyberpunk",
+        destination: "/synapxe",
+        permanent: true,
+      },
+      {
+        source: "/cyberpunk/:path*",
+        destination: "/synapxe/:path*",
         permanent: true,
       },
       {

@@ -1,7 +1,7 @@
 import React from "react";
 import { ASSETS } from "./assets.generated";
 
-const BASE = "/templates/cyberpunk";
+const BASE = "/templates/synapxe";
 
 export function assetSrc(
   key: string,

@@ -43,7 +43,7 @@ export default function OpenGraphImage() {
         >
           //
         </div>
-        KINETIX // ARCHIVE
+        SYNAPXE // ARCHIVE
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div
@@ -55,7 +55,7 @@ export default function OpenGraphImage() {
             color: "#F8FAFC",
           }}
         >
-          CYBERPUNK TECHNICAL APPAREL STOREFRONT
+          SYNAPXE // TECHNICAL APPAREL STOREFRONT
         </div>
         <div
           style={{

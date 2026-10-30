@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "cyberpunk";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -37,7 +37,7 @@ export const CATEGORIES: Category[] = [
   { id: "conversion", label: "Conversion Landing" },
 ];
 
-export const CYBERPUNK_PROMPT = `# Prompt: rebuild "KINETIX // ARCHIVE" (Cyberpunk Techwear Storefront)
+export const SYNAPXE_PROMPT = `# Prompt: rebuild "Synapxe" (Cyberpunk Techwear Storefront)
 
 Build a complete, production-grade, single-page interactive Cyberpunk Technical Apparel Storefront named **KINETIX // ARCHIVE** (Sub-brand: *Engineered Urban Shell Systems & Modular Techwear*).
 
@@ -1034,16 +1034,16 @@ slug: "tally",
     model: "Gemini 3.8 Flash High",
   },
   {
-    slug: "cyberpunk",
+    slug: "synapxe",
     createdAt: "2026-10-30",
-    title: "KINETIX // ARCHIVE",
+    title: "Synapxe",
     description: "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
     category: "conversion",
     industry: "Cyberpunk Techwear & Apparel",
     stack: "Next.js 16 · React 19 · Three.js 3D · Tailwind v4 · Canvas Rain",
     badges: ["3D Fabric Lab", "Loadout Builder", "Biometric Sizing", "Hardware Cart"],
-    previewImage: "/templates/cyberpunk/preview-1600.webp",
-    promptMarkdown: CYBERPUNK_PROMPT,
+    previewImage: "/templates/synapxe/preview-1600.webp",
+    promptMarkdown: SYNAPXE_PROMPT,
     model: "Gemini 3.8 Flash High",
   },
 ];
@@ -1061,7 +1061,7 @@ export const TEMPLATES: TemplateItem[] = registeredTemplates
     ...template,
     videoClip:
       template.videoClip ??
-      (template.slug === "amaoto" || template.slug === "perigee" || template.slug === "xibalba" || template.slug === "cyberpunk"
+      (template.slug === "amaoto" || template.slug === "perigee" || template.slug === "xibalba" || template.slug === "synapxe"
         ? undefined
         : `/gallery/clips/${template.slug}.mp4`),
   }));
