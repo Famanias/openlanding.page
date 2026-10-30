@@ -1,0 +1,126 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-knx-obsidian: #090B0E;
+  --color-knx-slate: #11161D;
+  --color-knx-tyvek: #F1F5F9;
+  --color-knx-primary: #F8FAFC;
+  --color-knx-muted: #94A3B8;
+  --color-knx-cyan: #00F0FF;
+  --color-knx-magenta: #FF007F;
+  --color-knx-amber: #FF7A00;
+  --color-knx-volt: #D4FF00;
+
+  --font-display: var(--font-oswald), sans-serif;
+  --font-body: var(--font-manrope), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono-tech: var(--font-jetbrains), monospace;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-fast: 180ms;
+  --dur-base: 420ms;
+  --dur-slow: 800ms;
+}
+
+:root {
+  --bg-obsidian: #090B0E;
+  --bg-slate: #11161D;
+  --bg-panel: rgba(17, 22, 29, 0.82);
+  --tyvek-white: #F1F5F9;
+  --text-primary: #F8FAFC;
+  --text-muted: #94A3B8;
+  --border-hairline: rgba(226, 232, 240, 0.14);
+
+  /* Cyberpunk Lighting & UI Accents */
+  --neon-cyan: #00F0FF;
+  --neon-magenta: #FF007F;
+  --hazard-amber: #FF7A00;
+  --acid-volt: #D4FF00;
+}
+
+.chamfer-btn {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+
+.chamfer-sm {
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+
+.chamfer-card {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+
+/* Optical Shader Modes for Hero */
+.shader-optical {
+  filter: contrast(1.06) saturate(1.12);
+}
+
+.shader-thermal {
+  filter: contrast(1.35) saturate(1.6);
+}
+
+.shader-uv-lumen {
+  filter: contrast(1.45) brightness(0.95) saturate(1.8);
+}
+
+/* Colorway Swatch Image Filters */
+.swatch-stealth-black {
+  filter: contrast(1.04) brightness(0.98) saturate(0.95);
+}
+
+.swatch-oxide-slate {
+  filter: sepia(0.22) hue-rotate(155deg) saturate(1.35) contrast(1.08) brightness(1.05);
+}
+
+.swatch-neon-noir {
+  filter: hue-rotate(275deg) saturate(1.85) contrast(1.18) brightness(1.04);
+}
+
+/* Custom Range Input for Fabric Lab & Biometric Sliders */
+input[type="range"].synapxe-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(226, 232, 240, 0.14);
+  height: 6px;
+  outline: none;
+}
+
+input[type="range"].synapxe-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #00F0FF;
+  border: 2px solid #090B0E;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.65);
+}
+
+input[type="range"].synapxe-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #00F0FF;
+  border: 2px solid #090B0E;
+  cursor: pointer;
+  border-radius: 0;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.65);
+}
+
+/* Tyvek paper noise subtle pattern */
+.tyvek-surface {
+  background-color: #F1F5F9;
+  background-image: 
+    linear-gradient(135deg, rgba(15, 23, 42, 0.03) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(15, 23, 42, 0.03) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(15, 23, 42, 0.02) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(15, 23, 42, 0.03) 25%, #F1F5F9 25%);
+  background-size: 24px 24px;
+}
+
+/* Scenic closing frame: the image stays still while rain passes over it. */
+.scenic-footer-image {
+  background: linear-gradient(180deg, rgba(9, 11, 14, .8), rgba(9, 11, 14, .18) 48%, rgba(9, 11, 14, .88)), url('/templates/synapxe/footer-scene.webp') center / cover no-repeat;
+}
