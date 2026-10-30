@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <!-- Directional raking light from upper right chamber -->
+            <radialGradient id="hero-chamber-glow" cx="72%" cy="42%" r="58%">
+              <stop offset="0%" stop-color="#23272e" stop-opacity="0.95" />
+              <stop offset="45%" stop-color="#111317" stop-opacity="0.75" />
+              <stop offset="100%" stop-color="#070708" stop-opacity="1" />
+            </radialGradient>
+
+            <linearGradient id="hero-stone-pillar-1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#08090b" />
+              <stop offset="82%" stop-color="#14161a" />
+              <stop offset="98%" stop-color="#2c3038" />
+              <stop offset="100%" stop-color="#090a0c" />
+            </linearGradient>
+
+            <linearGradient id="hero-stone-pillar-2" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#060607" />
+              <stop offset="70%" stop-color="#101215" />
+              <stop offset="96%" stop-color="#242830" />
+              <stop offset="100%" stop-color="#070708" />
+            </linearGradient>
+
+            <linearGradient id="hero-arch-bevel" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(228,230,235,0.38)" />
+              <stop offset="45%" stop-color="rgba(158,163,174,0.14)" />
+              <stop offset="100%" stop-color="rgba(228,230,235,0.03)" />
+            </linearGradient>
+
+            <linearGradient id="hero-floor-shadow" x1="75%" y1="20%" x2="10%" y2="95%">
+              <stop offset="0%" stop-color="#181b20" stop-opacity="0.45" />
+              <stop offset="55%" stop-color="#0b0c0e" stop-opacity="0.2" />
+              <stop offset="100%" stop-color="#070708" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+
+          <!-- Base Void & Directional Illumination -->
+          <rect width="1600" height="1000" fill="url(#hero-chamber-glow)" />
+
+          <!-- Layer 1A: Raking Light Shaft & Cast Shadow Planes -->
+          <polygon points="1160,0 1600,0 1600,1000 420,1000" fill="url(#hero-floor-shadow)" />
+          <polygon points="0,0 780,0 440,1000 0,1000" fill="#060608" opacity="0.82" />
+
+          <!-- Subtle masonry ashlar joints in deep background -->
+          <g stroke="rgba(212,216,224,0.04)" stroke-width="1">
+            <line x1="680" y1="180" x2="1550" y2="180" />
+            <line x1="620" y1="360" x2="1550" y2="360" />
+            <line x1="580" y1="540" x2="1550" y2="540" />
+            <line x1="520" y1="720" x2="1550" y2="720" />
+            <line x1="920" y1="180" x2="920" y2="360" />
+            <line x1="1280" y1="360" x2="1280" y2="540" />
+            <line x1="1040" y1="540" x2="1040" y2="720" />
+          </g>
+
+          <!-- Layer 1B: Deep Recessed Pointed Arch Aperture (Framing Right Hero Zone) -->
+          <!-- Outer monumental stone casing -->
+          <path d="M 690,1000 L 690,430 C 690,210 865,65 1130,30 C 1395,65 1570,210 1570,430 L 1570,1000 Z"
+                fill="#0b0c0f" stroke="url(#hero-arch-bevel)" stroke-width="1.5" />
+
+          <!-- Second stepped stone order (recessed chamfer) -->
+          <path d="M 755,1000 L 755,445 C 755,250 905,120 1130,88 C 1355,120 1505,250 1505,445 L 1505,1000 Z"
+                fill="#0f1115" stroke="rgba(212,216,224,0.22)" stroke-width="1" />
+
+          <!-- Inner shadow soffit (thickness of the stone arch) -->
+          <path d="M 755,1000 L 755,445 C 755,250 905,120 1130,88 C 1150,92 1165,98 1175,104 C 950,140 805,270 805,460 L 805,1000 Z"
+                fill="#1d2026" opacity="0.85" />
+
+          <!-- Innermost deep sanctuary niche behind the jewelry photograph -->
+          <path d="M 815,1000 L 815,460 C 815,285 945,170 1130,140 C 1315,170 1445,285 1445,460 L 1445,1000 Z"
+                fill="#07080a" stroke="rgba(212,216,224,0.16)" stroke-width="1" />
+
+          <!-- Layer 1C: Stepped Stone Jambs (Left & Right Vertical Buttresses) -->
+          <rect x="610" y="0" width="82" height="1000" fill="url(#hero-stone-pillar-1)" />
+          <rect x="1505" y="0" width="95" height="1000" fill="url(#hero-stone-pillar-2)" />
+
+          <!-- Layer 1D: Fine Engraved Silver Hairlines & Geometric Keystones -->
+          <g fill="none" stroke="rgba(212,216,224,0.18)" stroke-width="0.75">
+            <!-- Vertical plumb line from apex of the arch -->
+            <line x1="1130" y1="0" x2="1130" y2="180" stroke-dasharray="3 6" />
+            <!-- Springing line of the vault (impost level) -->
+            <line x1="560" y1="445" x2="1600" y2="445" />
+            <!-- Subtle compass arcs at arch apex -->
+            <circle cx="1130" cy="88" r="28" stroke="rgba(212,216,224,0.24)" />
+            <path d="M 1130,45 L 1142,88 L 1130,131 L 1118,88 Z" stroke="rgba(212,216,224,0.28)" />
+          </g>
+        </svg>

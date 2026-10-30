@@ -223,12 +223,421 @@ export default function App() {
 .morta-ring-light {
   background: radial-gradient(ellipse at 50% 43%, #393b3a 0%, #202221 32%, #0c0d0d 75%);
 }
+
+/* Architectural artwork adapted from the approved MORTA background study. */
+.morta-house-bg,
+.morta-collection-bg,
+.morta-craft-bg,
+.morta-commissions-bg {
+  background-color: #070708;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+}
+
+.morta-house-bg { background-image: url('./architecture/house.svg'); }
+.morta-collection-bg { background-image: url('./architecture/collection.svg'); }
+.morta-craft-bg {
+  background-image: url('./architecture/craft.svg');
+  background-size: 100% auto;
+}
+.morta-commissions-bg { background-image: url('./architecture/commissions.svg'); }
+
+.morta-hero-architecture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url('./architecture/hero.svg') center / cover no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0.4;
+}
+
+@media (max-width: 767px) {
+  .morta-house-bg { background-size: auto 800px; background-position: 55% top; }
+  .morta-craft-bg { background-size: auto 950px; background-position: 35% top; }
+  .morta-commissions-bg { background-size: auto 950px; background-position: 32% top; }
+  .morta-hero-architecture { background-position: 60% center; opacity: 0.3; }
+}
+
+/* A final architectural vista, with a dark veil for the footer navigation. */
+.morta-footer {
+  position: relative;
+  background: #08090a url('/templates/morta/morta-footer-cathedral.webp') center 48% / cover no-repeat;
+}
+
+.morta-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.8) 55%, rgba(0, 0, 0, 0.93));
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .morta-footer { background-position: center top; }
+  .morta-footer::before {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.85) 38%, rgba(0, 0, 0, 0.94));
+  }
+}
 ]]>
     </file>
     <file path="src/app/(morta)/morta/page.tsx">
 <![CDATA[import App from "./App";
 
 export default function Page() { return <App />; }
+]]>
+    </file>
+    <file path="src/app/(morta)/morta/architecture/collection.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 960" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <linearGradient id="collection-lintel-shadow" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#14161b" stop-opacity="0.7" />
+              <stop offset="18%" stop-color="#090a0c" stop-opacity="0.4" />
+              <stop offset="100%" stop-color="#040405" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+
+          <!-- Deep quiet void -->
+          <rect width="1600" height="960" fill="#040405" />
+
+          <!-- Subtle carved stone cornice / entablature fragment along upper edge -->
+          <rect x="0" y="0" width="1600" height="220" fill="url(#collection-lintel-shadow)" />
+          <line x1="0" y1="84" x2="1600" y2="84" stroke="rgba(212,216,224,0.12)" stroke-width="1" />
+          <line x1="0" y1="92" x2="1600" y2="92" stroke="rgba(212,216,224,0.05)" stroke-width="1" />
+
+          <!-- Three restrained structural bay dividers & faint pointed relief arches behind product cards -->
+          <g fill="none" stroke="rgba(212,216,224,0.07)" stroke-width="1">
+            <!-- Left Plinth Datum -->
+            <line x1="350" y1="84" x2="350" y2="960" stroke-dasharray="2 8" />
+            <path d="M 230,440 C 230,360 285,310 350,290 C 415,310 470,360 470,440" />
+
+            <!-- Center Plinth Datum -->
+            <line x1="800" y1="84" x2="800" y2="960" stroke-dasharray="2 8" />
+            <path d="M 680,440 C 680,360 735,310 800,290 C 865,310 920,360 920,440" />
+
+            <!-- Right Plinth Datum -->
+            <line x1="1250" y1="84" x2="1250" y2="960" stroke-dasharray="2 8" />
+            <path d="M 1130,440 C 1130,360 1185,310 1250,290 C 1315,310 1370,360 1370,440" />
+          </g>
+
+          <!-- Diagonal architectural shadow fragment across lower left corner -->
+          <polygon points="0,680 420,960 0,960" fill="#0a0b0e" opacity="0.6" />
+        </svg>
+]]>
+    </file>
+    <file path="src/app/(morta)/morta/architecture/commissions.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 980" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <!-- Soft distant light spilling from the narrow doorway on the left -->
+            <radialGradient id="commissions-portal-glow" cx="25%" cy="62%" r="42%">
+              <stop offset="0%" stop-color="#22262e" stop-opacity="0.78" />
+              <stop offset="45%" stop-color="#0e1014" stop-opacity="0.65" />
+              <stop offset="100%" stop-color="#050506" stop-opacity="1" />
+            </radialGradient>
+
+            <linearGradient id="commissions-threshold-spill" x1="25%" y1="68%" x2="5%" y2="100%">
+              <stop offset="0%" stop-color="rgba(212,216,224,0.22)" />
+              <stop offset="50%" stop-color="rgba(158,163,174,0.06)" />
+              <stop offset="100%" stop-color="rgba(7,7,8,0)" />
+            </linearGradient>
+
+            <linearGradient id="commissions-reveal-edge" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#282c34" />
+              <stop offset="100%" stop-color="#0b0c0f" />
+            </linearGradient>
+          </defs>
+
+          <!-- Monolithic dark stone wall -->
+          <rect width="1600" height="980" fill="url(#commissions-portal-glow)" />
+
+          <!-- Subtle large-scale stone coursing lines on the left wall only -->
+          <g stroke="rgba(212,216,224,0.045)" stroke-width="1">
+            <line x1="0" y1="240" x2="760" y2="240" />
+            <line x1="0" y1="460" x2="760" y2="460" />
+            <line x1="0" y1="680" x2="760" y2="680" />
+          </g>
+
+          <!-- Distant Recessed Lancet Doorway / Portal (Positioned in left quadrant) -->
+          <!-- Outer carved reveal -->
+          <path d="M 270,680 L 270,370 C 270,265 330,200 400,175 C 470,200 530,265 530,370 L 530,680 Z"
+                fill="#0b0d10" stroke="rgba(212,216,224,0.2)" stroke-width="1.2" />
+
+          <!-- Thick stone doorway jamb reveal (catching sliver of light on right inner wall) -->
+          <path d="M 400,175 C 470,200 530,265 530,370 L 530,680 L 502,680 L 502,378 C 502,285 452,225 392,202 Z"
+                fill="url(#commissions-reveal-edge)" />
+
+          <!-- Innermost quiet passage opening -->
+          <path d="M 296,680 L 296,378 C 296,285 345,225 400,202 C 455,225 502,285 502,378 L 502,680 Z"
+                fill="#040405" stroke="rgba(212,216,224,0.12)" stroke-width="0.8" />
+
+          <!-- Subtle interior vertical lancet slit inside the distant passage -->
+          <line x1="400" y1="260" x2="400" y2="540" stroke="rgba(228,230,235,0.28)" stroke-width="1.5" />
+
+          <!-- Restrained light spill across the stone threshold floor -->
+          <polygon points="296,680 502,680 340,980 40,980" fill="url(#commissions-threshold-spill)" />
+
+          <!-- Horizon datum line -->
+          <line x1="0" y1="680" x2="1600" y2="680" stroke="rgba(212,216,224,0.08)" stroke-width="1" />
+        </svg>
+]]>
+    </file>
+    <file path="src/app/(morta)/morta/architecture/craft.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1020" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <!-- Close-up carved stone slab lighting -->
+            <radialGradient id="craft-slab-light" cx="34%" cy="50%" r="62%">
+              <stop offset="0%" stop-color="#20242b" stop-opacity="0.9" />
+              <stop offset="55%" stop-color="#0f1114" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="#060708" stop-opacity="1" />
+            </radialGradient>
+
+            <linearGradient id="craft-incised-bevel" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(235,238,245,0.45)" />
+              <stop offset="50%" stop-color="rgba(158,163,174,0.16)" />
+              <stop offset="100%" stop-color="rgba(10,11,13,0.9)" />
+            </linearGradient>
+          </defs>
+
+          <!-- Base Carved Stone Slab -->
+          <rect width="1600" height="1020" fill="url(#craft-slab-light)" />
+
+          <!-- Layer 4A: Close-up Recessed Stone Spandrel & Beveled Mullions (Left & Center) -->
+          <!-- Deep chiseled triangular spandrel relief -->
+          <path d="M 0,0 L 980,0 L 980,1020 L 0,1020 Z" fill="#0b0c0f" opacity="0.55" />
+
+          <!-- Close-up Macro Section of a Pointed Arch Molding (Sweeping across left/center) -->
+          <path d="M -80,1080 C -20,460 360,80 920,-60"
+                fill="none" stroke="#040405" stroke-width="58" />
+          <path d="M -80,1080 C -20,460 360,80 920,-60"
+                fill="none" stroke="url(#craft-incised-bevel)" stroke-width="2.5" />
+          <path d="M -25,1080 C 35,490 395,125 940,-15"
+                fill="none" stroke="rgba(212,216,224,0.22)" stroke-width="1.2" />
+          <path d="M 35,1080 C 95,525 435,175 960,35"
+                fill="none" stroke="rgba(212,216,224,0.12)" stroke-width="1" />
+
+          <!-- Counter-curving Arch Rib (Intersecting to form close-up Gothic tracery cusp) -->
+          <path d="M 1060,1080 C 1000,520 640,140 80,-40"
+                fill="none" stroke="#050607" stroke-width="36" />
+          <path d="M 1060,1080 C 1000,520 640,140 80,-40"
+                fill="none" stroke="rgba(228,230,235,0.26)" stroke-width="1.5" />
+
+          <!-- Layer 4B: Carved Trefoil / Oculus Tracery Study (Centered at intersection) -->
+          <g transform="translate(490, 490)">
+            <!-- Deep recessed stone oculus -->
+            <circle cx="0" cy="0" r="245" fill="#07080a" stroke="url(#craft-incised-bevel)" stroke-width="2" />
+            <circle cx="0" cy="0" r="222" fill="#0a0c0e" stroke="rgba(212,216,224,0.2)" stroke-width="1" />
+            <circle cx="0" cy="0" r="185" fill="#060709" stroke="rgba(212,216,224,0.14)" stroke-width="1" />
+
+            <!-- Three-lobed geometric tracery cusps inside the oculus -->
+            <circle cx="0" cy="-92" r="92" fill="none" stroke="rgba(228,230,235,0.24)" stroke-width="1.2" />
+            <circle cx="-80" cy="46" r="92" fill="none" stroke="rgba(228,230,235,0.24)" stroke-width="1.2" />
+            <circle cx="80" cy="46" r="92" fill="none" stroke="rgba(228,230,235,0.24)" stroke-width="1.2" />
+
+            <!-- Fine silver engraving construction lines (Compass & Divider geometry) -->
+            <line x1="-290" y1="0" x2="290" y2="0" stroke="rgba(212,216,224,0.15)" stroke-width="0.75" stroke-dasharray="4 6" />
+            <line x1="0" y1="-290" x2="0" y2="290" stroke="rgba(212,216,224,0.15)" stroke-width="0.75" stroke-dasharray="4 6" />
+            <polygon points="0,-184 159,92 -159,92" fill="none" stroke="rgba(212,216,224,0.16)" stroke-width="0.75" />
+          </g>
+
+          <!-- Layer 4C: Stonemason & Silversmith Calibration Hash Marks -->
+          <g stroke="rgba(212,216,224,0.18)" stroke-width="0.75" fill="none">
+            <line x1="980" y1="0" x2="980" y2="1020" />
+            <!-- Millimeter graduation ticks along the vertical datum line -->
+            <path d="M 972,180 L 988,180 M 975,200 L 985,200 M 975,220 L 985,220 M 975,240 L 985,240 M 972,260 L 988,260" />
+            <path d="M 972,720 L 988,720 M 975,740 L 985,740 M 975,760 L 985,760 M 975,780 L 985,780 M 972,800 L 988,800" />
+          </g>
+
+          <!-- Right-side dark vignette ensuring crisp readability for the Craft copy block -->
+          <rect x="920" y="0" width="680" height="1020" fill="#070708" opacity="0.78" />
+        </svg>
+]]>
+    </file>
+    <file path="src/app/(morta)/morta/architecture/hero.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <!-- Directional raking light from upper right chamber -->
+            <radialGradient id="hero-chamber-glow" cx="72%" cy="42%" r="58%">
+              <stop offset="0%" stop-color="#23272e" stop-opacity="0.95" />
+              <stop offset="45%" stop-color="#111317" stop-opacity="0.75" />
+              <stop offset="100%" stop-color="#070708" stop-opacity="1" />
+            </radialGradient>
+
+            <linearGradient id="hero-stone-pillar-1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#08090b" />
+              <stop offset="82%" stop-color="#14161a" />
+              <stop offset="98%" stop-color="#2c3038" />
+              <stop offset="100%" stop-color="#090a0c" />
+            </linearGradient>
+
+            <linearGradient id="hero-stone-pillar-2" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#060607" />
+              <stop offset="70%" stop-color="#101215" />
+              <stop offset="96%" stop-color="#242830" />
+              <stop offset="100%" stop-color="#070708" />
+            </linearGradient>
+
+            <linearGradient id="hero-arch-bevel" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(228,230,235,0.38)" />
+              <stop offset="45%" stop-color="rgba(158,163,174,0.14)" />
+              <stop offset="100%" stop-color="rgba(228,230,235,0.03)" />
+            </linearGradient>
+
+            <linearGradient id="hero-floor-shadow" x1="75%" y1="20%" x2="10%" y2="95%">
+              <stop offset="0%" stop-color="#181b20" stop-opacity="0.45" />
+              <stop offset="55%" stop-color="#0b0c0e" stop-opacity="0.2" />
+              <stop offset="100%" stop-color="#070708" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+
+          <!-- Base Void & Directional Illumination -->
+          <rect width="1600" height="1000" fill="url(#hero-chamber-glow)" />
+
+          <!-- Layer 1A: Raking Light Shaft & Cast Shadow Planes -->
+          <polygon points="1160,0 1600,0 1600,1000 420,1000" fill="url(#hero-floor-shadow)" />
+          <polygon points="0,0 780,0 440,1000 0,1000" fill="#060608" opacity="0.82" />
+
+          <!-- Subtle masonry ashlar joints in deep background -->
+          <g stroke="rgba(212,216,224,0.04)" stroke-width="1">
+            <line x1="680" y1="180" x2="1550" y2="180" />
+            <line x1="620" y1="360" x2="1550" y2="360" />
+            <line x1="580" y1="540" x2="1550" y2="540" />
+            <line x1="520" y1="720" x2="1550" y2="720" />
+            <line x1="920" y1="180" x2="920" y2="360" />
+            <line x1="1280" y1="360" x2="1280" y2="540" />
+            <line x1="1040" y1="540" x2="1040" y2="720" />
+          </g>
+
+          <!-- Layer 1B: Deep Recessed Pointed Arch Aperture (Framing Right Hero Zone) -->
+          <!-- Outer monumental stone casing -->
+          <path d="M 690,1000 L 690,430 C 690,210 865,65 1130,30 C 1395,65 1570,210 1570,430 L 1570,1000 Z"
+                fill="#0b0c0f" stroke="url(#hero-arch-bevel)" stroke-width="1.5" />
+
+          <!-- Second stepped stone order (recessed chamfer) -->
+          <path d="M 755,1000 L 755,445 C 755,250 905,120 1130,88 C 1355,120 1505,250 1505,445 L 1505,1000 Z"
+                fill="#0f1115" stroke="rgba(212,216,224,0.22)" stroke-width="1" />
+
+          <!-- Inner shadow soffit (thickness of the stone arch) -->
+          <path d="M 755,1000 L 755,445 C 755,250 905,120 1130,88 C 1150,92 1165,98 1175,104 C 950,140 805,270 805,460 L 805,1000 Z"
+                fill="#1d2026" opacity="0.85" />
+
+          <!-- Innermost deep sanctuary niche behind the jewelry photograph -->
+          <path d="M 815,1000 L 815,460 C 815,285 945,170 1130,140 C 1315,170 1445,285 1445,460 L 1445,1000 Z"
+                fill="#07080a" stroke="rgba(212,216,224,0.16)" stroke-width="1" />
+
+          <!-- Layer 1C: Stepped Stone Jambs (Left & Right Vertical Buttresses) -->
+          <rect x="610" y="0" width="82" height="1000" fill="url(#hero-stone-pillar-1)" />
+          <rect x="1505" y="0" width="95" height="1000" fill="url(#hero-stone-pillar-2)" />
+
+          <!-- Layer 1D: Fine Engraved Silver Hairlines & Geometric Keystones -->
+          <g fill="none" stroke="rgba(212,216,224,0.18)" stroke-width="0.75">
+            <!-- Vertical plumb line from apex of the arch -->
+            <line x1="1130" y1="0" x2="1130" y2="180" stroke-dasharray="3 6" />
+            <!-- Springing line of the vault (impost level) -->
+            <line x1="560" y1="445" x2="1600" y2="445" />
+            <!-- Subtle compass arcs at arch apex -->
+            <circle cx="1130" cy="88" r="28" stroke="rgba(212,216,224,0.24)" />
+            <path d="M 1130,45 L 1142,88 L 1130,131 L 1118,88 Z" stroke="rgba(212,216,224,0.28)" />
+          </g>
+        </svg>
+]]>
+    </file>
+    <file path="src/app/(morta)/morta/architecture/house.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1120" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <radialGradient id="house-sanctum-light" cx="50%" cy="54%" r="52%">
+              <stop offset="0%" stop-color="#22262e" stop-opacity="0.85" />
+              <stop offset="48%" stop-color="#101216" stop-opacity="0.92" />
+              <stop offset="100%" stop-color="#050506" stop-opacity="1" />
+            </radialGradient>
+
+            <linearGradient id="house-column-left" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#060708" />
+              <stop offset="65%" stop-color="#131519" />
+              <stop offset="92%" stop-color="#282c34" />
+              <stop offset="100%" stop-color="#0a0b0d" />
+            </linearGradient>
+
+            <linearGradient id="house-column-right" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#060708" />
+              <stop offset="65%" stop-color="#131519" />
+              <stop offset="92%" stop-color="#282c34" />
+              <stop offset="100%" stop-color="#0a0b0d" />
+            </linearGradient>
+
+            <linearGradient id="house-rib-gleam" x1="50%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%" stop-color="rgba(228,230,235,0.42)" />
+              <stop offset="50%" stop-color="rgba(158,163,174,0.18)" />
+              <stop offset="100%" stop-color="rgba(158,163,174,0.04)" />
+            </linearGradient>
+          </defs>
+
+          <!-- Base stone atmosphere -->
+          <rect width="1600" height="1120" fill="url(#house-sanctum-light)" />
+
+          <!-- Layer 2A: Perspective Floor Flagstones & Plinth Geometry -->
+          <g stroke="rgba(212,216,224,0.09)" stroke-width="1" fill="none">
+            <!-- Horizon / Threshold line -->
+            <line x1="140" y1="920" x2="1460" y2="920" stroke="rgba(212,216,224,0.18)" />
+            <line x1="260" y1="840" x2="1340" y2="840" />
+            <line x1="0" y1="1020" x2="1600" y2="1020" />
+            <!-- Perspective rays converging toward the central 3D chamber -->
+            <line x1="800" y1="640" x2="120" y2="1120" />
+            <line x1="800" y1="640" x2="460" y2="1120" />
+            <line x1="800" y1="640" x2="800" y2="1120" />
+            <line x1="800" y1="640" x2="1140" y2="1120" />
+            <line x1="800" y1="640" x2="1480" y2="1120" />
+          </g>
+
+          <!-- Layer 2B: Outer Bay 01 (Foreground Monumental Stone piers) -->
+          <rect x="0" y="0" width="145" height="1120" fill="url(#house-column-left)" />
+          <rect x="1455" y="0" width="145" height="1120" fill="url(#house-column-right)" />
+          <!-- Outer Bay Arch Vault -->
+          <path d="M 145,1120 L 145,420 C 145,175 430,30 800,-10 C 1170,30 1455,175 1455,420 L 1455,1120"
+                fill="none" stroke="url(#house-rib-gleam)" stroke-width="2" />
+
+          <!-- Layer 2C: Middle Bay 02 (Clustered Engaged Columns & Vault Ribs) -->
+          <rect x="145" y="0" width="115" height="920" fill="url(#house-column-left)" opacity="0.92" />
+          <rect x="1340" y="0" width="115" height="920" fill="url(#house-column-right)" opacity="0.92" />
+          <!-- Engaged slender colonnettes -->
+          <rect x="260" y="390" width="22" height="530" fill="url(#house-column-left)" />
+          <rect x="1318" y="390" width="22" height="530" fill="url(#house-column-right)" />
+
+          <!-- Bay 02 Pointed Arch & Beveled Soffit -->
+          <path d="M 260,920 L 260,430 C 260,210 495,75 800,32 C 1105,75 1340,210 1340,430 L 1340,920"
+                fill="none" stroke="rgba(228,230,235,0.28)" stroke-width="1.5" />
+          <path d="M 282,920 L 282,438 C 282,228 510,98 800,56 C 1090,98 1318,228 1318,438 L 1318,920"
+                fill="none" stroke="rgba(228,230,235,0.16)" stroke-width="1" />
+
+          <!-- Layer 2D: Inner Bay 03 (Recessed Stone Sanctuary Framing 3D Stage) -->
+          <path d="M 380,840 L 380,460 C 380,275 565,155 800,115 C 1035,155 1220,275 1220,460 L 1220,840 Z"
+                fill="#090a0d" stroke="rgba(228,230,235,0.24)" stroke-width="1.5" />
+
+          <!-- Deepest Sanctuary Niche (Bay 04) -->
+          <path d="M 435,840 L 435,475 C 435,315 595,205 800,170 C 1005,205 1165,315 1165,475 L 1165,840 Z"
+                fill="#050608" stroke="rgba(212,216,224,0.15)" stroke-width="1" />
+
+          <!-- Layer 2E: Cross-Vault Diagonal Groin Ribs & Architectural Tracery -->
+          <g fill="none" stroke="rgba(212,216,224,0.16)" stroke-width="0.9">
+            <!-- Diagonal vaulting ribs connecting piers to central boss -->
+            <path d="M 145,420 Q 480,220 800,115" />
+            <path d="M 1455,420 Q 1120,220 800,115" />
+            <path d="M 260,430 Q 530,265 800,170" />
+            <path d="M 1340,430 Q 1070,265 800,170" />
+
+            <!-- Impost capitals (horizontal stone moldings where arches spring) -->
+            <line x1="120" y1="420" x2="435" y2="475" stroke="rgba(228,230,235,0.25)" />
+            <line x1="1480" y1="420" x2="1165" y2="475" stroke="rgba(228,230,235,0.25)" />
+
+            <!-- Central Boss & Finial Linework above the heading -->
+            <line x1="800" y1="0" x2="800" y2="210" />
+            <circle cx="800" cy="115" r="14" fill="#090a0d" stroke="rgba(228,230,235,0.35)" />
+            <circle cx="800" cy="170" r="9" fill="#050608" stroke="rgba(228,230,235,0.28)" />
+
+            <!-- Subtle Side Lancet Blind Arcade in the outer bays -->
+            <path d="M 175,860 L 175,520 C 175,485 198,465 220,455 C 242,465 265,485 265,520 L 265,860" stroke="rgba(212,216,224,0.12)" />
+            <path d="M 1335,860 L 1335,520 C 1335,485 1358,465 1380,455 C 1402,465 1425,485 1425,520 L 1425,860" stroke="rgba(212,216,224,0.12)" />
+          </g>
+        </svg>
 ]]>
     </file>
     <file path="src/app/(morta)/morta/components/BespokeSection.tsx">
@@ -327,14 +736,14 @@ export const BespokeSection: React.FC<BespokeSectionProps> = ({
     <section
       id="commissions"
       aria-labelledby="commissions-heading"
-      className="relative morta-atmosphere border-b border-white/20"
+      className="relative morta-commissions-bg border-b border-white/20"
     >
       <SectionHandoffRule
         chapterNumber="CH. V"
         chapterLabel="Bespoke Commissions"
       />
 
-      <div className="max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-28">
+      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Bespoke Plate (morta-bespoke.png) & Editorial Invitation */}
           <div className="lg:col-span-5 space-y-8">
@@ -673,7 +1082,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
     <section
       id="collection"
       aria-labelledby="collection-heading"
-      className="relative morta-atmosphere border-b border-white/20"
+      className="relative morta-collection-bg border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. III" chapterLabel="The Collection" />
 
@@ -934,11 +1343,11 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
     <section
       id="craft"
       aria-labelledby="craft-heading"
-      className="relative morta-slate border-b border-white/20"
+      className="relative morta-craft-bg border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. IV" chapterLabel="The Craft" />
 
-      <div className="max-w-[1920px] mx-auto px-6 md:px-8 pt-16 md:pt-28 pb-16">
+      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 pt-16 md:pt-28 pb-16">
         {/* Part 1: Bench Photography (morta-craft.png) & Silversmithing Copy */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch pb-20 border-b border-white/20">
           <div className="lg:col-span-6 flex flex-col justify-between space-y-8">
@@ -1168,8 +1577,8 @@ import { MortaMark, PointedSealOrnament } from './MortaMark';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="morta-atmosphere text-white border-t border-white/25">
-      <div className="max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-24">
+    <footer className="morta-footer text-white border-t border-white/25">
+      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 pt-32 pb-16 md:pt-56 md:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/20">
           {/* Brand Reprise & Closing Phrase */}
           <div className="lg:col-span-6 space-y-6">
@@ -1484,6 +1893,7 @@ export const HeroSection: React.FC = () => {
               className="w-full h-full"
               imgClassName="object-[70%_50%] md:object-center"
             />
+            <div className="morta-hero-architecture" aria-hidden="true" />
             {/* Measured monochrome scrim over the left dark region to guarantee >12:1 contrast */}
             <div
               className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/30 lg:to-transparent lg:via-black/55"
@@ -2259,11 +2669,11 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
     <section
       id="house"
       aria-labelledby="house-heading"
-      className="relative morta-atmosphere border-b border-white/20"
+      className="relative morta-house-bg border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. II" chapterLabel="The House" />
 
-      <div className="max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-28">
+      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Oversized Editorial Statement & House Philosophy */}
           <div className="lg:col-span-7 space-y-8">

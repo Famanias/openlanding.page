@@ -93,14 +93,14 @@ export const BespokeSection: React.FC<BespokeSectionProps> = ({
     <section
       id="commissions"
       aria-labelledby="commissions-heading"
-      className="relative morta-atmosphere border-b border-white/20"
+      className="relative morta-commissions-bg border-b border-white/20"
     >
       <SectionHandoffRule
         chapterNumber="CH. V"
         chapterLabel="Bespoke Commissions"
       />
 
-      <div className="max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-28">
+      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Bespoke Plate (morta-bespoke.png) & Editorial Invitation */}
           <div className="lg:col-span-5 space-y-8">

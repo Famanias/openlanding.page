@@ -90,11 +90,11 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
     <section
       id="craft"
       aria-labelledby="craft-heading"
-      className="relative morta-slate border-b border-white/20"
+      className="relative morta-craft-bg border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. IV" chapterLabel="The Craft" />
 
-      <div className="max-w-[1920px] mx-auto px-6 md:px-8 pt-16 md:pt-28 pb-16">
+      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 pt-16 md:pt-28 pb-16">
         {/* Part 1: Bench Photography (morta-craft.png) & Silversmithing Copy */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch pb-20 border-b border-white/20">
           <div className="lg:col-span-6 flex flex-col justify-between space-y-8">

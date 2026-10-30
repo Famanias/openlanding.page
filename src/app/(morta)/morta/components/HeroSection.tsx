@@ -32,6 +32,7 @@ export const HeroSection: React.FC = () => {
               className="w-full h-full"
               imgClassName="object-[70%_50%] md:object-center"
             />
+            <div className="morta-hero-architecture" aria-hidden="true" />
             {/* Measured monochrome scrim over the left dark region to guarantee >12:1 contrast */}
             <div
               className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/30 lg:to-transparent lg:via-black/55"

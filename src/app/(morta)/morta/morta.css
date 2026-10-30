@@ -101,3 +101,59 @@
 .morta-ring-light {
   background: radial-gradient(ellipse at 50% 43%, #393b3a 0%, #202221 32%, #0c0d0d 75%);
 }
+
+/* Architectural artwork adapted from the approved MORTA background study. */
+.morta-house-bg,
+.morta-collection-bg,
+.morta-craft-bg,
+.morta-commissions-bg {
+  background-color: #070708;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+}
+
+.morta-house-bg { background-image: url('./architecture/house.svg'); }
+.morta-collection-bg { background-image: url('./architecture/collection.svg'); }
+.morta-craft-bg {
+  background-image: url('./architecture/craft.svg');
+  background-size: 100% auto;
+}
+.morta-commissions-bg { background-image: url('./architecture/commissions.svg'); }
+
+.morta-hero-architecture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url('./architecture/hero.svg') center / cover no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0.4;
+}
+
+@media (max-width: 767px) {
+  .morta-house-bg { background-size: auto 800px; background-position: 55% top; }
+  .morta-craft-bg { background-size: auto 950px; background-position: 35% top; }
+  .morta-commissions-bg { background-size: auto 950px; background-position: 32% top; }
+  .morta-hero-architecture { background-position: 60% center; opacity: 0.3; }
+}
+
+/* A final architectural vista, with a dark veil for the footer navigation. */
+.morta-footer {
+  position: relative;
+  background: #08090a url('/templates/morta/morta-footer-cathedral.webp') center 48% / cover no-repeat;
+}
+
+.morta-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.8) 55%, rgba(0, 0, 0, 0.93));
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .morta-footer { background-position: center top; }
+  .morta-footer::before {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.85) 38%, rgba(0, 0, 0, 0.94));
+  }
+}

@@ -3,8 +3,8 @@ import { MortaMark, PointedSealOrnament } from './MortaMark';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="morta-atmosphere text-white border-t border-white/25">
-      <div className="max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-24">
+    <footer className="morta-footer text-white border-t border-white/25">
+      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 pt-32 pb-16 md:pt-56 md:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/20">
           {/* Brand Reprise & Closing Phrase */}
           <div className="lg:col-span-6 space-y-6">

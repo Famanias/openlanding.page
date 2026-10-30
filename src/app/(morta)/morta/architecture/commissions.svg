@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 980" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <!-- Soft distant light spilling from the narrow doorway on the left -->
+            <radialGradient id="commissions-portal-glow" cx="25%" cy="62%" r="42%">
+              <stop offset="0%" stop-color="#22262e" stop-opacity="0.78" />
+              <stop offset="45%" stop-color="#0e1014" stop-opacity="0.65" />
+              <stop offset="100%" stop-color="#050506" stop-opacity="1" />
+            </radialGradient>
+
+            <linearGradient id="commissions-threshold-spill" x1="25%" y1="68%" x2="5%" y2="100%">
+              <stop offset="0%" stop-color="rgba(212,216,224,0.22)" />
+              <stop offset="50%" stop-color="rgba(158,163,174,0.06)" />
+              <stop offset="100%" stop-color="rgba(7,7,8,0)" />
+            </linearGradient>
+
+            <linearGradient id="commissions-reveal-edge" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#282c34" />
+              <stop offset="100%" stop-color="#0b0c0f" />
+            </linearGradient>
+          </defs>
+
+          <!-- Monolithic dark stone wall -->
+          <rect width="1600" height="980" fill="url(#commissions-portal-glow)" />
+
+          <!-- Subtle large-scale stone coursing lines on the left wall only -->
+          <g stroke="rgba(212,216,224,0.045)" stroke-width="1">
+            <line x1="0" y1="240" x2="760" y2="240" />
+            <line x1="0" y1="460" x2="760" y2="460" />
+            <line x1="0" y1="680" x2="760" y2="680" />
+          </g>
+
+          <!-- Distant Recessed Lancet Doorway / Portal (Positioned in left quadrant) -->
+          <!-- Outer carved reveal -->
+          <path d="M 270,680 L 270,370 C 270,265 330,200 400,175 C 470,200 530,265 530,370 L 530,680 Z"
+                fill="#0b0d10" stroke="rgba(212,216,224,0.2)" stroke-width="1.2" />
+
+          <!-- Thick stone doorway jamb reveal (catching sliver of light on right inner wall) -->
+          <path d="M 400,175 C 470,200 530,265 530,370 L 530,680 L 502,680 L 502,378 C 502,285 452,225 392,202 Z"
+                fill="url(#commissions-reveal-edge)" />
+
+          <!-- Innermost quiet passage opening -->
+          <path d="M 296,680 L 296,378 C 296,285 345,225 400,202 C 455,225 502,285 502,378 L 502,680 Z"
+                fill="#040405" stroke="rgba(212,216,224,0.12)" stroke-width="0.8" />
+
+          <!-- Subtle interior vertical lancet slit inside the distant passage -->
+          <line x1="400" y1="260" x2="400" y2="540" stroke="rgba(228,230,235,0.28)" stroke-width="1.5" />
+
+          <!-- Restrained light spill across the stone threshold floor -->
+          <polygon points="296,680 502,680 340,980 40,980" fill="url(#commissions-threshold-spill)" />
+
+          <!-- Horizon datum line -->
+          <line x1="0" y1="680" x2="1600" y2="680" stroke="rgba(212,216,224,0.08)" stroke-width="1" />
+        </svg>

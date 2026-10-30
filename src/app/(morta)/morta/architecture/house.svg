@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1120" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <radialGradient id="house-sanctum-light" cx="50%" cy="54%" r="52%">
+              <stop offset="0%" stop-color="#22262e" stop-opacity="0.85" />
+              <stop offset="48%" stop-color="#101216" stop-opacity="0.92" />
+              <stop offset="100%" stop-color="#050506" stop-opacity="1" />
+            </radialGradient>
+
+            <linearGradient id="house-column-left" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#060708" />
+              <stop offset="65%" stop-color="#131519" />
+              <stop offset="92%" stop-color="#282c34" />
+              <stop offset="100%" stop-color="#0a0b0d" />
+            </linearGradient>
+
+            <linearGradient id="house-column-right" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#060708" />
+              <stop offset="65%" stop-color="#131519" />
+              <stop offset="92%" stop-color="#282c34" />
+              <stop offset="100%" stop-color="#0a0b0d" />
+            </linearGradient>
+
+            <linearGradient id="house-rib-gleam" x1="50%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%" stop-color="rgba(228,230,235,0.42)" />
+              <stop offset="50%" stop-color="rgba(158,163,174,0.18)" />
+              <stop offset="100%" stop-color="rgba(158,163,174,0.04)" />
+            </linearGradient>
+          </defs>
+
+          <!-- Base stone atmosphere -->
+          <rect width="1600" height="1120" fill="url(#house-sanctum-light)" />
+
+          <!-- Layer 2A: Perspective Floor Flagstones & Plinth Geometry -->
+          <g stroke="rgba(212,216,224,0.09)" stroke-width="1" fill="none">
+            <!-- Horizon / Threshold line -->
+            <line x1="140" y1="920" x2="1460" y2="920" stroke="rgba(212,216,224,0.18)" />
+            <line x1="260" y1="840" x2="1340" y2="840" />
+            <line x1="0" y1="1020" x2="1600" y2="1020" />
+            <!-- Perspective rays converging toward the central 3D chamber -->
+            <line x1="800" y1="640" x2="120" y2="1120" />
+            <line x1="800" y1="640" x2="460" y2="1120" />
+            <line x1="800" y1="640" x2="800" y2="1120" />
+            <line x1="800" y1="640" x2="1140" y2="1120" />
+            <line x1="800" y1="640" x2="1480" y2="1120" />
+          </g>
+
+          <!-- Layer 2B: Outer Bay 01 (Foreground Monumental Stone piers) -->
+          <rect x="0" y="0" width="145" height="1120" fill="url(#house-column-left)" />
+          <rect x="1455" y="0" width="145" height="1120" fill="url(#house-column-right)" />
+          <!-- Outer Bay Arch Vault -->
+          <path d="M 145,1120 L 145,420 C 145,175 430,30 800,-10 C 1170,30 1455,175 1455,420 L 1455,1120"
+                fill="none" stroke="url(#house-rib-gleam)" stroke-width="2" />
+
+          <!-- Layer 2C: Middle Bay 02 (Clustered Engaged Columns & Vault Ribs) -->
+          <rect x="145" y="0" width="115" height="920" fill="url(#house-column-left)" opacity="0.92" />
+          <rect x="1340" y="0" width="115" height="920" fill="url(#house-column-right)" opacity="0.92" />
+          <!-- Engaged slender colonnettes -->
+          <rect x="260" y="390" width="22" height="530" fill="url(#house-column-left)" />
+          <rect x="1318" y="390" width="22" height="530" fill="url(#house-column-right)" />
+
+          <!-- Bay 02 Pointed Arch & Beveled Soffit -->
+          <path d="M 260,920 L 260,430 C 260,210 495,75 800,32 C 1105,75 1340,210 1340,430 L 1340,920"
+                fill="none" stroke="rgba(228,230,235,0.28)" stroke-width="1.5" />
+          <path d="M 282,920 L 282,438 C 282,228 510,98 800,56 C 1090,98 1318,228 1318,438 L 1318,920"
+                fill="none" stroke="rgba(228,230,235,0.16)" stroke-width="1" />
+
+          <!-- Layer 2D: Inner Bay 03 (Recessed Stone Sanctuary Framing 3D Stage) -->
+          <path d="M 380,840 L 380,460 C 380,275 565,155 800,115 C 1035,155 1220,275 1220,460 L 1220,840 Z"
+                fill="#090a0d" stroke="rgba(228,230,235,0.24)" stroke-width="1.5" />
+
+          <!-- Deepest Sanctuary Niche (Bay 04) -->
+          <path d="M 435,840 L 435,475 C 435,315 595,205 800,170 C 1005,205 1165,315 1165,475 L 1165,840 Z"
+                fill="#050608" stroke="rgba(212,216,224,0.15)" stroke-width="1" />
+
+          <!-- Layer 2E: Cross-Vault Diagonal Groin Ribs & Architectural Tracery -->
+          <g fill="none" stroke="rgba(212,216,224,0.16)" stroke-width="0.9">
+            <!-- Diagonal vaulting ribs connecting piers to central boss -->
+            <path d="M 145,420 Q 480,220 800,115" />
+            <path d="M 1455,420 Q 1120,220 800,115" />
+            <path d="M 260,430 Q 530,265 800,170" />
+            <path d="M 1340,430 Q 1070,265 800,170" />
+
+            <!-- Impost capitals (horizontal stone moldings where arches spring) -->
+            <line x1="120" y1="420" x2="435" y2="475" stroke="rgba(228,230,235,0.25)" />
+            <line x1="1480" y1="420" x2="1165" y2="475" stroke="rgba(228,230,235,0.25)" />
+
+            <!-- Central Boss & Finial Linework above the heading -->
+            <line x1="800" y1="0" x2="800" y2="210" />
+            <circle cx="800" cy="115" r="14" fill="#090a0d" stroke="rgba(228,230,235,0.35)" />
+            <circle cx="800" cy="170" r="9" fill="#050608" stroke="rgba(228,230,235,0.28)" />
+
+            <!-- Subtle Side Lancet Blind Arcade in the outer bays -->
+            <path d="M 175,860 L 175,520 C 175,485 198,465 220,455 C 242,465 265,485 265,520 L 265,860" stroke="rgba(212,216,224,0.12)" />
+            <path d="M 1335,860 L 1335,520 C 1335,485 1358,465 1380,455 C 1402,465 1425,485 1425,520 L 1425,860" stroke="rgba(212,216,224,0.12)" />
+          </g>
+        </svg>

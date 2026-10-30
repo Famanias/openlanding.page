@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 960" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <linearGradient id="collection-lintel-shadow" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#14161b" stop-opacity="0.7" />
+              <stop offset="18%" stop-color="#090a0c" stop-opacity="0.4" />
+              <stop offset="100%" stop-color="#040405" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+
+          <!-- Deep quiet void -->
+          <rect width="1600" height="960" fill="#040405" />
+
+          <!-- Subtle carved stone cornice / entablature fragment along upper edge -->
+          <rect x="0" y="0" width="1600" height="220" fill="url(#collection-lintel-shadow)" />
+          <line x1="0" y1="84" x2="1600" y2="84" stroke="rgba(212,216,224,0.12)" stroke-width="1" />
+          <line x1="0" y1="92" x2="1600" y2="92" stroke="rgba(212,216,224,0.05)" stroke-width="1" />
+
+          <!-- Three restrained structural bay dividers & faint pointed relief arches behind product cards -->
+          <g fill="none" stroke="rgba(212,216,224,0.07)" stroke-width="1">
+            <!-- Left Plinth Datum -->
+            <line x1="350" y1="84" x2="350" y2="960" stroke-dasharray="2 8" />
+            <path d="M 230,440 C 230,360 285,310 350,290 C 415,310 470,360 470,440" />
+
+            <!-- Center Plinth Datum -->
+            <line x1="800" y1="84" x2="800" y2="960" stroke-dasharray="2 8" />
+            <path d="M 680,440 C 680,360 735,310 800,290 C 865,310 920,360 920,440" />
+
+            <!-- Right Plinth Datum -->
+            <line x1="1250" y1="84" x2="1250" y2="960" stroke-dasharray="2 8" />
+            <path d="M 1130,440 C 1130,360 1185,310 1250,290 C 1315,310 1370,360 1370,440" />
+          </g>
+
+          <!-- Diagonal architectural shadow fragment across lower left corner -->
+          <polygon points="0,680 420,960 0,960" fill="#0a0b0e" opacity="0.6" />
+        </svg>

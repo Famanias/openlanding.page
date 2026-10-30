@@ -28,7 +28,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
     <section
       id="collection"
       aria-labelledby="collection-heading"
-      className="relative morta-atmosphere border-b border-white/20"
+      className="relative morta-collection-bg border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. III" chapterLabel="The Collection" />
 

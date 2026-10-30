@@ -14,11 +14,11 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
     <section
       id="house"
       aria-labelledby="house-heading"
-      className="relative morta-atmosphere border-b border-white/20"
+      className="relative morta-house-bg border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. II" chapterLabel="The House" />
 
-      <div className="max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-28">
+      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Oversized Editorial Statement & House Philosophy */}
           <div className="lg:col-span-7 space-y-8">

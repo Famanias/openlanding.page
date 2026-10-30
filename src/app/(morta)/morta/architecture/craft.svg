@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1020" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <!-- Close-up carved stone slab lighting -->
+            <radialGradient id="craft-slab-light" cx="34%" cy="50%" r="62%">
+              <stop offset="0%" stop-color="#20242b" stop-opacity="0.9" />
+              <stop offset="55%" stop-color="#0f1114" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="#060708" stop-opacity="1" />
+            </radialGradient>
+
+            <linearGradient id="craft-incised-bevel" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(235,238,245,0.45)" />
+              <stop offset="50%" stop-color="rgba(158,163,174,0.16)" />
+              <stop offset="100%" stop-color="rgba(10,11,13,0.9)" />
+            </linearGradient>
+          </defs>
+
+          <!-- Base Carved Stone Slab -->
+          <rect width="1600" height="1020" fill="url(#craft-slab-light)" />
+
+          <!-- Layer 4A: Close-up Recessed Stone Spandrel & Beveled Mullions (Left & Center) -->
+          <!-- Deep chiseled triangular spandrel relief -->
+          <path d="M 0,0 L 980,0 L 980,1020 L 0,1020 Z" fill="#0b0c0f" opacity="0.55" />
+
+          <!-- Close-up Macro Section of a Pointed Arch Molding (Sweeping across left/center) -->
+          <path d="M -80,1080 C -20,460 360,80 920,-60"
+                fill="none" stroke="#040405" stroke-width="58" />
+          <path d="M -80,1080 C -20,460 360,80 920,-60"
+                fill="none" stroke="url(#craft-incised-bevel)" stroke-width="2.5" />
+          <path d="M -25,1080 C 35,490 395,125 940,-15"
+                fill="none" stroke="rgba(212,216,224,0.22)" stroke-width="1.2" />
+          <path d="M 35,1080 C 95,525 435,175 960,35"
+                fill="none" stroke="rgba(212,216,224,0.12)" stroke-width="1" />
+
+          <!-- Counter-curving Arch Rib (Intersecting to form close-up Gothic tracery cusp) -->
+          <path d="M 1060,1080 C 1000,520 640,140 80,-40"
+                fill="none" stroke="#050607" stroke-width="36" />
+          <path d="M 1060,1080 C 1000,520 640,140 80,-40"
+                fill="none" stroke="rgba(228,230,235,0.26)" stroke-width="1.5" />
+
+          <!-- Layer 4B: Carved Trefoil / Oculus Tracery Study (Centered at intersection) -->
+          <g transform="translate(490, 490)">
+            <!-- Deep recessed stone oculus -->
+            <circle cx="0" cy="0" r="245" fill="#07080a" stroke="url(#craft-incised-bevel)" stroke-width="2" />
+            <circle cx="0" cy="0" r="222" fill="#0a0c0e" stroke="rgba(212,216,224,0.2)" stroke-width="1" />
+            <circle cx="0" cy="0" r="185" fill="#060709" stroke="rgba(212,216,224,0.14)" stroke-width="1" />
+
+            <!-- Three-lobed geometric tracery cusps inside the oculus -->
+            <circle cx="0" cy="-92" r="92" fill="none" stroke="rgba(228,230,235,0.24)" stroke-width="1.2" />
+            <circle cx="-80" cy="46" r="92" fill="none" stroke="rgba(228,230,235,0.24)" stroke-width="1.2" />
+            <circle cx="80" cy="46" r="92" fill="none" stroke="rgba(228,230,235,0.24)" stroke-width="1.2" />
+
+            <!-- Fine silver engraving construction lines (Compass & Divider geometry) -->
+            <line x1="-290" y1="0" x2="290" y2="0" stroke="rgba(212,216,224,0.15)" stroke-width="0.75" stroke-dasharray="4 6" />
+            <line x1="0" y1="-290" x2="0" y2="290" stroke="rgba(212,216,224,0.15)" stroke-width="0.75" stroke-dasharray="4 6" />
+            <polygon points="0,-184 159,92 -159,92" fill="none" stroke="rgba(212,216,224,0.16)" stroke-width="0.75" />
+          </g>
+
+          <!-- Layer 4C: Stonemason & Silversmith Calibration Hash Marks -->
+          <g stroke="rgba(212,216,224,0.18)" stroke-width="0.75" fill="none">
+            <line x1="980" y1="0" x2="980" y2="1020" />
+            <!-- Millimeter graduation ticks along the vertical datum line -->
+            <path d="M 972,180 L 988,180 M 975,200 L 985,200 M 975,220 L 985,220 M 975,240 L 985,240 M 972,260 L 988,260" />
+            <path d="M 972,720 L 988,720 M 975,740 L 985,740 M 975,760 L 985,760 M 975,780 L 985,780 M 972,800 L 988,800" />
+          </g>
+
+          <!-- Right-side dark vignette ensuring crisp readability for the Craft copy block -->
+          <rect x="920" y="0" width="680" height="1020" fill="#070708" opacity="0.78" />
+        </svg>
