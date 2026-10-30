@@ -10,7 +10,7 @@ interface CollectionSectionProps {
 export const CollectionSection: React.FC<CollectionSectionProps> = ({
   onSelectForCommission,
 }) => {
-  const [expandedId, setExpandedId] = useState<string | null>('reliquary');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const toggleDetails = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
@@ -20,7 +20,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
     onSelectForCommission(`${item.number} — ${item.name} (${item.category})`);
     const commissionEl = document.getElementById('commissions');
     if (commissionEl) {
-      commissionEl.scrollIntoView({ behavior: 'smooth' });
+      commissionEl.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     }
   };
 
@@ -28,7 +28,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
     <section
       id="collection"
       aria-labelledby="collection-heading"
-      className="relative bg-black border-b border-white/20"
+      className="relative morta-atmosphere border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. III" chapterLabel="The Collection" />
 
@@ -51,9 +51,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
           </div>
 
           <p className="text-sm sm:text-base text-white/75 max-w-md leading-relaxed">
-            Each edition is cast in solid 925 sterling silver and finished at the
-            bench. Essential specifications remain open below; select any piece
-            to inspect its structural dossier or initiate a sized commission.
+            Three editions in solid 925 silver, finished by hand.
           </p>
         </div>
 

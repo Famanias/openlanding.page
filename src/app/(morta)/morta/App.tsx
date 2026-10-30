@@ -13,8 +13,38 @@ import { CraftSection } from './components/CraftSection';
 import { BespokeSection } from './components/BespokeSection';
 import { Footer } from './components/Footer';
 
+function usePageScrollProgress() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const distance = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const value = distance > 0 ? Math.min(1, Math.max(0, window.scrollY / distance)) : 0;
+      setProgress(Math.round(value * 500) / 500);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+    };
+  }, []);
+  return progress;
+}
+
+function ScrollHeader() {
+  return <Header scrollProgress={usePageScrollProgress()} />;
+}
+
+function ScrollHouse({ reducedMotion }: { reducedMotion: boolean }) {
+  return <HouseSection scrollProgress={usePageScrollProgress()} reducedMotion={reducedMotion} />;
+}
+
 export default function App() {
-  const [pageScrollProgress, setPageScrollProgress] = useState<number>(0);
   const [reducedMotion, setReducedMotion] = useState<boolean>(false);
   const [selectedPieceReference, setSelectedPieceReference] =
     useState<string>('');
@@ -31,33 +61,6 @@ export default function App() {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  useEffect(() => {
-    let rafId = 0;
-
-    const updateProgress = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const docHeight =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const progress = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
-      setPageScrollProgress(progress);
-    };
-
-    const onScroll = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(updateProgress);
-    };
-
-    updateProgress();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-    };
-  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black">
@@ -69,14 +72,11 @@ export default function App() {
         Skip to main content
       </a>
 
-      <Header scrollProgress={pageScrollProgress} />
+      <ScrollHeader />
 
       <main id="main-content">
         <HeroSection />
-        <HouseSection
-          scrollProgress={pageScrollProgress}
-          reducedMotion={reducedMotion}
-        />
+        <ScrollHouse reducedMotion={reducedMotion} />
         <CollectionSection
           onSelectForCommission={(pieceRef) =>
             setSelectedPieceReference(pieceRef)

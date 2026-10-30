@@ -21,10 +21,16 @@
     *,
     *::before,
     *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
+    }
+    .morta-unfurl-line,
+    .morta-rise-headline,
+    .morta-fade-copy,
+    .morta-fade-cta {
+      animation: none !important;
+    }
+    .group:hover img {
+      transform: none !important;
     }
   }
 }
@@ -77,4 +83,21 @@
 
 .morta-fade-cta {
   animation: mortaFadeLock 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+
+/* Quiet, mineral surfaces give the silver room to emerge from shadow. */
+.morta-atmosphere {
+  background: radial-gradient(ellipse at 15% 20%, #202020 0%, #111111 43%, #0b0b0b 100%);
+}
+
+.morta-slate {
+  background-color: #151515;
+  background-image:
+    radial-gradient(ellipse at 82% 16%, rgba(110, 112, 110, 0.11), transparent 46%),
+    radial-gradient(ellipse at 12% 78%, rgba(75, 78, 77, 0.14), transparent 48%),
+    linear-gradient(125deg, #111212, #1b1c1c 48%, #101111);
+}
+
+.morta-ring-light {
+  background: radial-gradient(ellipse at 50% 43%, #393b3a 0%, #202221 32%, #0c0d0d 75%);
 }

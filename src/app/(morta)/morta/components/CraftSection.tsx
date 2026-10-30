@@ -51,7 +51,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
       const scrollableDistance = Math.max(1, rect.height - viewportHeight * 0.75);
       const distanceScrolled = viewportHeight * 0.35 - rect.top;
       const raw = Math.min(1, Math.max(0, distanceScrolled / scrollableDistance));
-      setScrollProgress(raw);
+      setScrollProgress(Math.round(raw * 500) / 500);
     };
 
     const onScroll = () => {
@@ -90,7 +90,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
     <section
       id="craft"
       aria-labelledby="craft-heading"
-      className="relative bg-black border-b border-white/20"
+      className="relative morta-slate border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. IV" chapterLabel="The Craft" />
 
@@ -112,17 +112,12 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
                 Disciplined by steel.
               </h2>
               <p className="text-base sm:text-lg text-white/80 leading-relaxed">
-                Each model is carved by hand from dense jeweller’s wax, hollowing
-                the interior walls so weight settles cleanly around the bone.
-                Once invested in plaster and cast in molten 925 sterling silver,
-                the raw casting is pickled, trued with needle files, and cut
-                with sharpened steel gravers against a wooden bench pin.
+                Each piece begins as a hand-carved wax model, then is cast
+                in 925 silver and refined at the bench.
               </p>
               <p className="text-base sm:text-lg text-white/80 leading-relaxed">
-                We do not plate or lacquer our silver. Darkness is introduced
-                into the deep lancet channels through sulphur oxidation, then
-                the raised arrises are brought back to a calm satin lustre by
-                hand.
+                Recesses are oxidized and raised edges burnished by hand.
+                The silver is neither plated nor lacquered.
               </p>
             </div>
 
@@ -134,7 +129,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
                   Hollowing the Wax
                 </p>
                 <p className="font-sans text-white/75 leading-relaxed">
-                  Carving the pointed arch around a measured central void.
+                  Carved around a central void.
                 </p>
               </div>
               <div className="space-y-1.5">
@@ -143,7 +138,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
                   Sterling Pour
                 </p>
                 <p className="font-sans text-white/75 leading-relaxed">
-                  Vacuum-assisted lost-wax casting in solid 925 silver.
+                  Lost-wax cast in solid 925 silver.
                 </p>
               </div>
               <div className="space-y-1.5">
@@ -152,7 +147,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
                   Graver &amp; Slate
                 </p>
                 <p className="font-sans text-white/75 leading-relaxed">
-                  Engraving shoulder tracery and stoning the signet table.
+                  Engraved and finished by hand.
                 </p>
               </div>
             </div>

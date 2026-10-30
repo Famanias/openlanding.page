@@ -40,8 +40,38 @@ import { CraftSection } from './components/CraftSection';
 import { BespokeSection } from './components/BespokeSection';
 import { Footer } from './components/Footer';
 
+function usePageScrollProgress() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const distance = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const value = distance > 0 ? Math.min(1, Math.max(0, window.scrollY / distance)) : 0;
+      setProgress(Math.round(value * 500) / 500);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+    };
+  }, []);
+  return progress;
+}
+
+function ScrollHeader() {
+  return <Header scrollProgress={usePageScrollProgress()} />;
+}
+
+function ScrollHouse({ reducedMotion }: { reducedMotion: boolean }) {
+  return <HouseSection scrollProgress={usePageScrollProgress()} reducedMotion={reducedMotion} />;
+}
+
 export default function App() {
-  const [pageScrollProgress, setPageScrollProgress] = useState<number>(0);
   const [reducedMotion, setReducedMotion] = useState<boolean>(false);
   const [selectedPieceReference, setSelectedPieceReference] =
     useState<string>('');
@@ -58,33 +88,6 @@ export default function App() {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  useEffect(() => {
-    let rafId = 0;
-
-    const updateProgress = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const docHeight =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const progress = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
-      setPageScrollProgress(progress);
-    };
-
-    const onScroll = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(updateProgress);
-    };
-
-    updateProgress();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-    };
-  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black">
@@ -96,14 +99,11 @@ export default function App() {
         Skip to main content
       </a>
 
-      <Header scrollProgress={pageScrollProgress} />
+      <ScrollHeader />
 
       <main id="main-content">
         <HeroSection />
-        <HouseSection
-          scrollProgress={pageScrollProgress}
-          reducedMotion={reducedMotion}
-        />
+        <ScrollHouse reducedMotion={reducedMotion} />
         <CollectionSection
           onSelectForCommission={(pieceRef) =>
             setSelectedPieceReference(pieceRef)
@@ -143,10 +143,16 @@ export default function App() {
     *,
     *::before,
     *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
+    }
+    .morta-unfurl-line,
+    .morta-rise-headline,
+    .morta-fade-copy,
+    .morta-fade-cta {
+      animation: none !important;
+    }
+    .group:hover img {
+      transform: none !important;
     }
   }
 }
@@ -199,6 +205,23 @@ export default function App() {
 
 .morta-fade-cta {
   animation: mortaFadeLock 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+
+/* Quiet, mineral surfaces give the silver room to emerge from shadow. */
+.morta-atmosphere {
+  background: radial-gradient(ellipse at 15% 20%, #202020 0%, #111111 43%, #0b0b0b 100%);
+}
+
+.morta-slate {
+  background-color: #151515;
+  background-image:
+    radial-gradient(ellipse at 82% 16%, rgba(110, 112, 110, 0.11), transparent 46%),
+    radial-gradient(ellipse at 12% 78%, rgba(75, 78, 77, 0.14), transparent 48%),
+    linear-gradient(125deg, #111212, #1b1c1c 48%, #101111);
+}
+
+.morta-ring-light {
+  background: radial-gradient(ellipse at 50% 43%, #393b3a 0%, #202221 32%, #0c0d0d 75%);
 }
 ]]>
     </file>
@@ -304,7 +327,7 @@ export const BespokeSection: React.FC<BespokeSectionProps> = ({
     <section
       id="commissions"
       aria-labelledby="commissions-heading"
-      className="relative bg-black border-b border-white/20"
+      className="relative morta-atmosphere border-b border-white/20"
     >
       <SectionHandoffRule
         chapterNumber="CH. V"
@@ -329,10 +352,8 @@ export const BespokeSection: React.FC<BespokeSectionProps> = ({
                 for one hand.
               </h2>
               <p className="text-base text-white/80 leading-relaxed">
-                Alongside our numbered editions, MORTA undertakes a small number
-                of bespoke commissions each season. Every study begins with
-                graphite drawings and a hand-carved wax model tailored to your
-                finger size, chain drop, or architectural brief.
+                Bespoke commissions begin with a drawing and a hand-carved
+                wax model, shaped to your measurements and ideas.
               </p>
             </div>
 
@@ -570,7 +591,7 @@ export const BespokeSection: React.FC<BespokeSectionProps> = ({
                           ? 'commission-description-error'
                           : 'commission-description-hint'
                       }
-                      placeholder="Describe the intended form, ring size or chain length, and any personal geometry you wish the silver to frame..."
+                      placeholder="Describe the piece, including your ring size or chain length if known..."
                       className={`w-full px-4 py-3.5 bg-black text-white placeholder:text-white/35 border font-sans text-sm leading-relaxed focus:outline-none focus:border-white transition-colors ${
                         validation.errors.description
                           ? 'border-white'
@@ -634,7 +655,7 @@ interface CollectionSectionProps {
 export const CollectionSection: React.FC<CollectionSectionProps> = ({
   onSelectForCommission,
 }) => {
-  const [expandedId, setExpandedId] = useState<string | null>('reliquary');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const toggleDetails = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
@@ -644,7 +665,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
     onSelectForCommission(`${item.number} — ${item.name} (${item.category})`);
     const commissionEl = document.getElementById('commissions');
     if (commissionEl) {
-      commissionEl.scrollIntoView({ behavior: 'smooth' });
+      commissionEl.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     }
   };
 
@@ -652,7 +673,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
     <section
       id="collection"
       aria-labelledby="collection-heading"
-      className="relative bg-black border-b border-white/20"
+      className="relative morta-atmosphere border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. III" chapterLabel="The Collection" />
 
@@ -675,9 +696,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
           </div>
 
           <p className="text-sm sm:text-base text-white/75 max-w-md leading-relaxed">
-            Each edition is cast in solid 925 sterling silver and finished at the
-            bench. Essential specifications remain open below; select any piece
-            to inspect its structural dossier or initiate a sized commission.
+            Three editions in solid 925 silver, finished by hand.
           </p>
         </div>
 
@@ -876,7 +895,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
       const scrollableDistance = Math.max(1, rect.height - viewportHeight * 0.75);
       const distanceScrolled = viewportHeight * 0.35 - rect.top;
       const raw = Math.min(1, Math.max(0, distanceScrolled / scrollableDistance));
-      setScrollProgress(raw);
+      setScrollProgress(Math.round(raw * 500) / 500);
     };
 
     const onScroll = () => {
@@ -915,7 +934,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
     <section
       id="craft"
       aria-labelledby="craft-heading"
-      className="relative bg-black border-b border-white/20"
+      className="relative morta-slate border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. IV" chapterLabel="The Craft" />
 
@@ -937,17 +956,12 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
                 Disciplined by steel.
               </h2>
               <p className="text-base sm:text-lg text-white/80 leading-relaxed">
-                Each model is carved by hand from dense jeweller’s wax, hollowing
-                the interior walls so weight settles cleanly around the bone.
-                Once invested in plaster and cast in molten 925 sterling silver,
-                the raw casting is pickled, trued with needle files, and cut
-                with sharpened steel gravers against a wooden bench pin.
+                Each piece begins as a hand-carved wax model, then is cast
+                in 925 silver and refined at the bench.
               </p>
               <p className="text-base sm:text-lg text-white/80 leading-relaxed">
-                We do not plate or lacquer our silver. Darkness is introduced
-                into the deep lancet channels through sulphur oxidation, then
-                the raised arrises are brought back to a calm satin lustre by
-                hand.
+                Recesses are oxidized and raised edges burnished by hand.
+                The silver is neither plated nor lacquered.
               </p>
             </div>
 
@@ -959,7 +973,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
                   Hollowing the Wax
                 </p>
                 <p className="font-sans text-white/75 leading-relaxed">
-                  Carving the pointed arch around a measured central void.
+                  Carved around a central void.
                 </p>
               </div>
               <div className="space-y-1.5">
@@ -968,7 +982,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
                   Sterling Pour
                 </p>
                 <p className="font-sans text-white/75 leading-relaxed">
-                  Vacuum-assisted lost-wax casting in solid 925 silver.
+                  Lost-wax cast in solid 925 silver.
                 </p>
               </div>
               <div className="space-y-1.5">
@@ -977,7 +991,7 @@ export const CraftSection: React.FC<CraftSectionProps> = ({ reducedMotion }) => 
                   Graver &amp; Slate
                 </p>
                 <p className="font-sans text-white/75 leading-relaxed">
-                  Engraving shoulder tracery and stoning the signet table.
+                  Engraved and finished by hand.
                 </p>
               </div>
             </div>
@@ -1154,7 +1168,7 @@ import { MortaMark, PointedSealOrnament } from './MortaMark';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-black text-white border-t border-white/25">
+    <footer className="morta-atmosphere text-white border-t border-white/25">
       <div className="max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/20">
           {/* Brand Reprise & Closing Phrase */}
@@ -1173,11 +1187,6 @@ export const Footer: React.FC = () => {
               “Made to outlast the moment.”
             </p>
 
-            <p className="text-sm text-white/75 max-w-md leading-relaxed">
-              Sculptural 925 sterling-silver rings, pendants, and earrings cast
-              in small editions and solitary commissions around an intentional
-              absence.
-            </p>
           </div>
 
           {/* Working In-Page Navigation */}
@@ -1235,8 +1244,7 @@ export const Footer: React.FC = () => {
               Commissions &amp; Enquiries
             </p>
             <p className="text-sm text-white/75 leading-relaxed">
-              Initiate a custom sizing request or solitary wax study directly
-              through the commission ledger above.
+              Request custom sizing or a bespoke piece.
             </p>
             <div className="pt-2">
               <a
@@ -1445,6 +1453,7 @@ export const Header: React.FC<HeaderProps> = ({ scrollProgress }) => {
 <![CDATA[import React from 'react';
 import { MORTA_ASSETS } from '../utils/mortaLogic';
 import { MortaImage } from './MortaImage';
+import { HeroSmoke } from './HeroSmoke';
 import { PointedSealOrnament } from './MortaMark';
 
 export const HeroSection: React.FC = () => {
@@ -1464,30 +1473,16 @@ export const HeroSection: React.FC = () => {
         <div className="w-px h-full bg-white/10" />
       </div>
 
-      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 py-8 sm:py-12 md:py-20 lg:py-24">
-        {/* Top ornamental rule that settles on load */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pb-6 sm:pb-8 mb-6 sm:mb-8 border-b border-white/20 morta-unfurl-line">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono tracking-[0.18em] sm:tracking-[0.2em] uppercase text-white/75">
-            <span className="whitespace-nowrap">CH. I — THE OATH</span>
-            <span aria-hidden="true">·</span>
-            <span className="whitespace-nowrap">STERLING SILVER 925</span>
-          </div>
-          <div className="hidden sm:flex items-center gap-3 text-xs font-mono tracking-[0.18em] text-white/65 tabular-nums">
-            <span>OBJ. NO. 00</span>
-            <span aria-hidden="true">/</span>
-            <span>OGIVAL SIGNET STUDY</span>
-          </div>
-        </div>
-
+      <div className="relative w-full">
         {/* Hero Frame: Uses CSS Grid stacking so foreground content never clips or overflows on narrow screens */}
-        <div className="relative grid grid-cols-1 border border-white/25 bg-black overflow-hidden">
+        <div className="relative grid grid-cols-1 min-h-[620px] sm:min-h-[580px] lg:min-h-[max(640px,calc(100svh-80px))] border border-white/25 bg-black overflow-hidden">
           {/* Layer 1: Cinematic Hero Plate */}
-          <div className="col-start-1 row-start-1 relative w-full h-full min-h-[540px] sm:min-h-[580px] lg:min-h-[640px]">
+          <div className="absolute inset-0 w-full h-full">
             <MortaImage
               asset={MORTA_ASSETS.hero}
               priority={true}
-              className="w-full h-full min-h-[540px] sm:min-h-[580px] lg:min-h-[640px]"
-              imgClassName="object-right md:object-center"
+              className="w-full h-full"
+              imgClassName="object-[70%_50%] md:object-center"
             />
             {/* Measured monochrome scrim over the left dark region to guarantee >12:1 contrast */}
             <div
@@ -1498,6 +1493,7 @@ export const HeroSection: React.FC = () => {
               className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/35"
               aria-hidden="true"
             />
+            <HeroSmoke />
           </div>
 
           {/* Layer 2: Editorial Foreground Content positioned in the dark text-safe region */}
@@ -1525,9 +1521,8 @@ export const HeroSection: React.FC = () => {
               </div>
 
               <p className="mt-5 sm:mt-6 text-base sm:text-lg text-white/85 leading-relaxed max-w-md font-sans morta-fade-copy">
-                Sculptural silver for the stories we carry. Cast in small
-                editions and solitary commissions shaped around an intentional
-                void.
+                Sculptural silver for the stories we carry. Made in small
+                editions and bespoke commissions.
               </p>
 
               <div className="mt-8 sm:mt-9 flex flex-wrap items-center gap-4 sm:gap-5 morta-fade-cta">
@@ -1578,6 +1573,130 @@ export const HeroSection: React.FC = () => {
     </section>
   );
 };
+]]>
+    </file>
+    <file path="src/app/(morta)/morta/components/HeroSmoke.tsx">
+<![CDATA[import { useEffect, useRef } from 'react';
+
+/** A translucent, procedural smoke veil; the photograph remains the fallback. */
+export function HeroSmoke() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!canvas) return;
+    const gl = canvas.getContext('webgl', { alpha: true, antialias: false, premultipliedAlpha: false });
+    if (!gl) return;
+
+    const compile = (type: number, source: string) => {
+      const shader = gl.createShader(type);
+      if (!shader) return null;
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    };
+    const vertex = compile(gl.VERTEX_SHADER, 'attribute vec2 p; void main(){gl_Position=vec4(p,0.,1.);}');
+    const fragment = compile(gl.FRAGMENT_SHADER, `
+      precision mediump float;
+      uniform vec2 resolution;
+      uniform float time;
+      float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+      float noise(vec2 p) {
+        vec2 i = floor(p), f = fract(p);
+        f = f*f*(3.0-2.0*f);
+        return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.)),f.x),f.y);
+      }
+      float fbm(vec2 p) {
+        float n=0., a=.5;
+        for(int i=0;i<5;i++) { n+=a*noise(p); p=mat2(1.6,1.2,-1.2,1.6)*p; a*=.5; }
+        return n;
+      }
+      void main() {
+        vec2 uv=gl_FragCoord.xy/resolution;
+        vec2 p=vec2(uv.x*2.6,uv.y*2.0);
+        float t=time*.045;
+        float warp=fbm(p*1.25+vec2(t,-t*.7));
+        float smoke=fbm(p*2.0+vec2(warp*1.35-t*.55,warp*.6+t));
+        float wisps=smoothstep(.34,.64,smoke)*smoothstep(.15,.62,warp);
+        float lower=1.-smoothstep(.25,1.,uv.y);
+        float right=smoothstep(.15,.68,uv.x);
+        float entrance=smoothstep(0.,0.5,time);
+        float alpha=wisps*lower*right*.65*entrance;
+        gl_FragColor=vec4(vec3(1.),alpha);
+      }
+    `);
+    if (!vertex || !fragment) return;
+    const program = gl.createProgram();
+    const buffer = gl.createBuffer();
+    if (!program || !buffer) return;
+    gl.attachShader(program, vertex);
+    gl.attachShader(program, fragment);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+    gl.useProgram(program);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, 'p');
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+    const resolution = gl.getUniformLocation(program, 'resolution');
+    const time = gl.getUniformLocation(program, 'time');
+    let frame = 0;
+    let visible = false;
+    let elapsed = 0;
+    let lastFrame: number | null = null;
+    const resize = () => {
+      canvas.width = Math.max(1, Math.round(canvas.clientWidth * .65));
+      canvas.height = Math.max(1, Math.round(canvas.clientHeight * .65));
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    };
+    const draw = (now: number) => {
+      if (!visible || document.hidden || motion.matches) { frame = 0; return; }
+      gl.uniform2f(resolution, canvas.width, canvas.height);
+      if (lastFrame !== null) elapsed += (now - lastFrame) / 1000;
+      lastFrame = now;
+      gl.uniform1f(time, elapsed);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      frame = requestAnimationFrame(draw);
+    };
+    const sync = () => {
+      if (visible && !document.hidden && !motion.matches && !frame) {
+        lastFrame = null;
+        frame = requestAnimationFrame(draw);
+      } else if ((!visible || document.hidden || motion.matches) && frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+        lastFrame = null;
+      }
+      if (motion.matches) gl.clear(gl.COLOR_BUFFER_BIT);
+    };
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
+    const sizeObserver = new ResizeObserver(resize);
+    resize();
+    observer.observe(canvas);
+    sizeObserver.observe(canvas);
+    document.addEventListener('visibilitychange', sync);
+    motion.addEventListener('change', sync);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      sizeObserver.disconnect();
+      document.removeEventListener('visibilitychange', sync);
+      motion.removeEventListener('change', sync);
+      gl.deleteBuffer(buffer);
+      gl.deleteProgram(program);
+      gl.deleteShader(vertex);
+      gl.deleteShader(fragment);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full" />;
+}
 ]]>
     </file>
     <file path="src/app/(morta)/morta/components/HouseRingStudy3D.tsx">
@@ -1993,11 +2112,11 @@ export const HouseRingStudy3D: React.FC<HouseRingStudy3DProps> = ({
       <div
         tabIndex={0}
         role="region"
-        aria-label="Interactive 3D material and form study of the Reliquary signet ring in 925 sterling silver. Use Left, Right, Up, and Down arrow keys or drag to inspect the ring from different angles."
+        aria-label="Interactive 3D material and form study of the Reliquary signet ring in 925 sterling silver. Use Left, Right, Up, and Down arrow keys or drag to inspect the ring. Press R or Home to reset the view."
         onKeyDown={handleKeyDown}
         data-testid="house-3d-study-viewport"
         data-view-modified={viewModified ? 'true' : 'false'}
-        className="relative w-full aspect-square max-h-[460px] bg-black overflow-hidden cursor-grab active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
+        className="relative w-full aspect-square max-h-[460px] morta-ring-light overflow-hidden cursor-grab active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
       >
         {/* Subtle Circular Guides & Crosshairs Behind the 3D Model (Decorative, out of accessibility tree) */}
         {!webglUnavailable && !showReferenceOverlay && (
@@ -2098,58 +2217,6 @@ export const HouseRingStudy3D: React.FC<HouseRingStudy3DProps> = ({
 
       {/* Accessible Camera Orientation Controls */}
       <div className="px-4 sm:px-6 py-3 border-t border-white/15 flex flex-wrap items-center justify-between gap-2 bg-black">
-        <div
-          role="group"
-          aria-label="Reliquary study 3D orientation controls"
-          className="flex flex-wrap items-center gap-1.5"
-        >
-          <button
-            type="button"
-            onClick={() => adjustStudyAngle(-0.32, 0)}
-            aria-label="Rotate study ring left"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            ← Rotate L
-          </button>
-          <button
-            type="button"
-            onClick={() => adjustStudyAngle(0.32, 0)}
-            aria-label="Rotate study ring right"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            Rotate R →
-          </button>
-          <button
-            type="button"
-            onClick={() => adjustStudyAngle(0, 0.22)}
-            aria-label="Tilt study ring up"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            ↑ Tilt Up
-          </button>
-          <button
-            type="button"
-            onClick={() => adjustStudyAngle(0, -0.22)}
-            aria-label="Tilt study ring down"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            ↓ Tilt Down
-          </button>
-          <button
-            type="button"
-            onClick={resetStudyView}
-            disabled={!viewModified}
-            aria-label="Reset study ring to original three-quarter view"
-            className={`px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-              viewModified
-                ? 'bg-white text-black border-white hover:bg-black hover:text-white'
-                : 'border-white/15 text-white/40 cursor-not-allowed'
-            }`}
-          >
-            Reset view
-          </button>
-        </div>
-
         <button
           type="button"
           onClick={() => setShowReferenceOverlay((prev) => !prev)}
@@ -2192,7 +2259,7 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
     <section
       id="house"
       aria-labelledby="house-heading"
-      className="relative bg-black border-b border-white/20"
+      className="relative morta-atmosphere border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. II" chapterLabel="The House" />
 
@@ -2218,19 +2285,12 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
 
             <div className="space-y-6 text-base sm:text-lg text-white/80 leading-relaxed max-w-2xl">
               <p>
-                Every MORTA piece begins with the aperture it surrounds: the
-                circumference of a finger, the hollow beneath the collarbone, or
-                the recessed chamber of a signet bezel left deliberately unset.
-                Silver is not treated as surface decoration, but as a structural
-                boundary drawn around quiet space.
+                Each MORTA piece gives form to the space it surrounds, from
+                the hollow of a signet to the curve of a finger.
               </p>
               <p>
-                We work exclusively in solid 925 sterling silver. Forms are
-                carved in hard wax, cast in small batches, darkened to deepen
-                their architectural recesses, and relieved by hand so the high
-                ridges catch light while the interior contours remain in shadow.
-                Over years of wear, the metal records the friction of the wearer’s
-                own life.
+                Cast in solid 925 silver and finished by hand, each form
+                gathers the marks of a life worn.
               </p>
             </div>
 
@@ -2241,8 +2301,7 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
                   01 · Materiality
                 </dt>
                 <dd className="text-sm text-white/90 leading-relaxed">
-                  Heavy-gauge 925 sterling silver with hand-burnished high
-                  planes and oxidized lancet recesses.
+                  Solid 925 silver, oxidized and burnished by hand.
                 </dd>
               </div>
               <div>
@@ -2250,8 +2309,7 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
                   02 · Architecture
                 </dt>
                 <dd className="text-sm text-white/90 leading-relaxed">
-                  Pointed-arch geometry, stepped bezels, and fine graver
-                  hatching conceived to frame negative space.
+                  Pointed arches and stepped forms frame quiet space.
                 </dd>
               </div>
               <div>
@@ -2259,8 +2317,7 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
                   03 · Permanence
                 </dt>
                 <dd className="text-sm text-white/90 leading-relaxed">
-                  Small numbered editions and solitary commissions built to
-                  gather patina rather than wear away.
+                  Small editions and solitary commissions made to endure.
                 </dd>
               </div>
             </dl>
@@ -2595,7 +2652,7 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
       renderer = new THREE.WebGLRenderer({
         antialias: !isSoftwareGl,
         powerPreference: 'high-performance',
-        alpha: false,
+        alpha: true,
         preserveDrawingBuffer: true,
       });
     } catch {
@@ -2611,7 +2668,7 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
     );
     renderer.shadowMap.enabled = !isSoftwareGl;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.setClearColor(0x000000, 1);
+    renderer.setClearColor(0x000000, 0);
 
     const width = Math.max(280, container.clientWidth || 520);
     const height = Math.max(280, container.clientHeight || 520);
@@ -2624,7 +2681,6 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
     container.appendChild(canvas);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
     scene.fog = new THREE.FogExp2(0x000000, 0.038);
 
     const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 40);
@@ -3118,12 +3174,12 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
       <div
         tabIndex={0}
         role="region"
-        aria-label={`Interactive 3D Reliquary signet ring assembly. Current stage: ${assembly3D.stageTitle}. Use Left, Right, Up, and Down arrow keys or drag to inspect the ring from different angles.`}
+        aria-label={`Interactive 3D Reliquary signet ring assembly. Current stage: ${assembly3D.stageTitle}. Use Left, Right, Up, and Down arrow keys or drag to inspect the ring. Press R or Home to reset the view.`}
         onKeyDown={handleKeyDown}
         data-testid="reliquary-3d-viewport"
         data-stage-index={assembly3D.stageIndex}
         data-view-modified={viewModified ? 'true' : 'false'}
-        className="relative w-full aspect-square max-h-[520px] bg-black overflow-hidden cursor-grab active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
+        className="relative w-full aspect-square max-h-[520px] morta-ring-light overflow-hidden cursor-grab active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
       >
         {/* Dedicated empty mount div for Three.js WebGL canvas */}
         <div
@@ -3163,58 +3219,6 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
 
       {/* Bottom Accessible Inspection & Camera Control Strip */}
       <div className="px-4 sm:px-6 py-3.5 border-t border-white/15 flex flex-wrap items-center justify-between gap-3 bg-black">
-        <div
-          role="group"
-          aria-label="3D ring camera orientation controls"
-          className="flex flex-wrap items-center gap-1.5"
-        >
-          <button
-            type="button"
-            onClick={() => adjustInspectionAngle(-0.32, 0)}
-            aria-label="Rotate ring left"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            ← Rotate L
-          </button>
-          <button
-            type="button"
-            onClick={() => adjustInspectionAngle(0.32, 0)}
-            aria-label="Rotate ring right"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            Rotate R →
-          </button>
-          <button
-            type="button"
-            onClick={() => adjustInspectionAngle(0, 0.22)}
-            aria-label="Tilt ring up"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            ↑ Tilt Up
-          </button>
-          <button
-            type="button"
-            onClick={() => adjustInspectionAngle(0, -0.22)}
-            aria-label="Tilt ring down"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            ↓ Tilt Down
-          </button>
-          <button
-            type="button"
-            onClick={resetInspectionView}
-            disabled={!viewModified}
-            aria-label="Reset 3D view to default three-quarter angle"
-            className={`px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-              viewModified
-                ? 'bg-white text-black border-white hover:bg-black hover:text-white'
-                : 'border-white/15 text-white/40 cursor-not-allowed'
-            }`}
-          >
-            Reset view
-          </button>
-        </div>
-
         <button
           type="button"
           onClick={() => setShowReferenceOverlay((prev) => !prev)}

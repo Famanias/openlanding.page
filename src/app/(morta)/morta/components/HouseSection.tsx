@@ -14,7 +14,7 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
     <section
       id="house"
       aria-labelledby="house-heading"
-      className="relative bg-black border-b border-white/20"
+      className="relative morta-atmosphere border-b border-white/20"
     >
       <SectionHandoffRule chapterNumber="CH. II" chapterLabel="The House" />
 
@@ -40,19 +40,12 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
 
             <div className="space-y-6 text-base sm:text-lg text-white/80 leading-relaxed max-w-2xl">
               <p>
-                Every MORTA piece begins with the aperture it surrounds: the
-                circumference of a finger, the hollow beneath the collarbone, or
-                the recessed chamber of a signet bezel left deliberately unset.
-                Silver is not treated as surface decoration, but as a structural
-                boundary drawn around quiet space.
+                Each MORTA piece gives form to the space it surrounds, from
+                the hollow of a signet to the curve of a finger.
               </p>
               <p>
-                We work exclusively in solid 925 sterling silver. Forms are
-                carved in hard wax, cast in small batches, darkened to deepen
-                their architectural recesses, and relieved by hand so the high
-                ridges catch light while the interior contours remain in shadow.
-                Over years of wear, the metal records the friction of the wearer’s
-                own life.
+                Cast in solid 925 silver and finished by hand, each form
+                gathers the marks of a life worn.
               </p>
             </div>
 
@@ -63,8 +56,7 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
                   01 · Materiality
                 </dt>
                 <dd className="text-sm text-white/90 leading-relaxed">
-                  Heavy-gauge 925 sterling silver with hand-burnished high
-                  planes and oxidized lancet recesses.
+                  Solid 925 silver, oxidized and burnished by hand.
                 </dd>
               </div>
               <div>
@@ -72,8 +64,7 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
                   02 · Architecture
                 </dt>
                 <dd className="text-sm text-white/90 leading-relaxed">
-                  Pointed-arch geometry, stepped bezels, and fine graver
-                  hatching conceived to frame negative space.
+                  Pointed arches and stepped forms frame quiet space.
                 </dd>
               </div>
               <div>
@@ -81,8 +72,7 @@ export const HouseSection: React.FC<HouseSectionProps> = ({
                   03 · Permanence
                 </dt>
                 <dd className="text-sm text-white/90 leading-relaxed">
-                  Small numbered editions and solitary commissions built to
-                  gather patina rather than wear away.
+                  Small editions and solitary commissions made to endure.
                 </dd>
               </div>
             </dl>

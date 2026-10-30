@@ -3,7 +3,7 @@ import { MortaMark, PointedSealOrnament } from './MortaMark';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-black text-white border-t border-white/25">
+    <footer className="morta-atmosphere text-white border-t border-white/25">
       <div className="max-w-[1920px] mx-auto px-6 md:px-8 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/20">
           {/* Brand Reprise & Closing Phrase */}
@@ -22,11 +22,6 @@ export const Footer: React.FC = () => {
               “Made to outlast the moment.”
             </p>
 
-            <p className="text-sm text-white/75 max-w-md leading-relaxed">
-              Sculptural 925 sterling-silver rings, pendants, and earrings cast
-              in small editions and solitary commissions around an intentional
-              absence.
-            </p>
           </div>
 
           {/* Working In-Page Navigation */}
@@ -84,8 +79,7 @@ export const Footer: React.FC = () => {
               Commissions &amp; Enquiries
             </p>
             <p className="text-sm text-white/75 leading-relaxed">
-              Initiate a custom sizing request or solitary wax study directly
-              through the commission ledger above.
+              Request custom sizing or a bespoke piece.
             </p>
             <div className="pt-2">
               <a

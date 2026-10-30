@@ -86,7 +86,7 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
       renderer = new THREE.WebGLRenderer({
         antialias: !isSoftwareGl,
         powerPreference: 'high-performance',
-        alpha: false,
+        alpha: true,
         preserveDrawingBuffer: true,
       });
     } catch {
@@ -102,7 +102,7 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
     );
     renderer.shadowMap.enabled = !isSoftwareGl;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.setClearColor(0x000000, 1);
+    renderer.setClearColor(0x000000, 0);
 
     const width = Math.max(280, container.clientWidth || 520);
     const height = Math.max(280, container.clientHeight || 520);
@@ -115,7 +115,6 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
     container.appendChild(canvas);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
     scene.fog = new THREE.FogExp2(0x000000, 0.038);
 
     const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 40);
@@ -609,12 +608,12 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
       <div
         tabIndex={0}
         role="region"
-        aria-label={`Interactive 3D Reliquary signet ring assembly. Current stage: ${assembly3D.stageTitle}. Use Left, Right, Up, and Down arrow keys or drag to inspect the ring from different angles.`}
+        aria-label={`Interactive 3D Reliquary signet ring assembly. Current stage: ${assembly3D.stageTitle}. Use Left, Right, Up, and Down arrow keys or drag to inspect the ring. Press R or Home to reset the view.`}
         onKeyDown={handleKeyDown}
         data-testid="reliquary-3d-viewport"
         data-stage-index={assembly3D.stageIndex}
         data-view-modified={viewModified ? 'true' : 'false'}
-        className="relative w-full aspect-square max-h-[520px] bg-black overflow-hidden cursor-grab active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
+        className="relative w-full aspect-square max-h-[520px] morta-ring-light overflow-hidden cursor-grab active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
       >
         {/* Dedicated empty mount div for Three.js WebGL canvas */}
         <div
@@ -654,58 +653,6 @@ export const ReliquaryRing3D: React.FC<ReliquaryRing3DProps> = ({
 
       {/* Bottom Accessible Inspection & Camera Control Strip */}
       <div className="px-4 sm:px-6 py-3.5 border-t border-white/15 flex flex-wrap items-center justify-between gap-3 bg-black">
-        <div
-          role="group"
-          aria-label="3D ring camera orientation controls"
-          className="flex flex-wrap items-center gap-1.5"
-        >
-          <button
-            type="button"
-            onClick={() => adjustInspectionAngle(-0.32, 0)}
-            aria-label="Rotate ring left"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            ← Rotate L
-          </button>
-          <button
-            type="button"
-            onClick={() => adjustInspectionAngle(0.32, 0)}
-            aria-label="Rotate ring right"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            Rotate R →
-          </button>
-          <button
-            type="button"
-            onClick={() => adjustInspectionAngle(0, 0.22)}
-            aria-label="Tilt ring up"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            ↑ Tilt Up
-          </button>
-          <button
-            type="button"
-            onClick={() => adjustInspectionAngle(0, -0.22)}
-            aria-label="Tilt ring down"
-            className="px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border border-white/30 text-white/85 hover:border-white hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors whitespace-nowrap shrink-0"
-          >
-            ↓ Tilt Down
-          </button>
-          <button
-            type="button"
-            onClick={resetInspectionView}
-            disabled={!viewModified}
-            aria-label="Reset 3D view to default three-quarter angle"
-            className={`px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.12em] border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-              viewModified
-                ? 'bg-white text-black border-white hover:bg-black hover:text-white'
-                : 'border-white/15 text-white/40 cursor-not-allowed'
-            }`}
-          >
-            Reset view
-          </button>
-        </div>
-
         <button
           type="button"
           onClick={() => setShowReferenceOverlay((prev) => !prev)}

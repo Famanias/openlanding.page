@@ -1,6 +1,7 @@
 import React from 'react';
 import { MORTA_ASSETS } from '../utils/mortaLogic';
 import { MortaImage } from './MortaImage';
+import { HeroSmoke } from './HeroSmoke';
 import { PointedSealOrnament } from './MortaMark';
 
 export const HeroSection: React.FC = () => {
@@ -20,30 +21,16 @@ export const HeroSection: React.FC = () => {
         <div className="w-px h-full bg-white/10" />
       </div>
 
-      <div className="relative max-w-[1920px] mx-auto px-6 md:px-8 py-8 sm:py-12 md:py-20 lg:py-24">
-        {/* Top ornamental rule that settles on load */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pb-6 sm:pb-8 mb-6 sm:mb-8 border-b border-white/20 morta-unfurl-line">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono tracking-[0.18em] sm:tracking-[0.2em] uppercase text-white/75">
-            <span className="whitespace-nowrap">CH. I — THE OATH</span>
-            <span aria-hidden="true">·</span>
-            <span className="whitespace-nowrap">STERLING SILVER 925</span>
-          </div>
-          <div className="hidden sm:flex items-center gap-3 text-xs font-mono tracking-[0.18em] text-white/65 tabular-nums">
-            <span>OBJ. NO. 00</span>
-            <span aria-hidden="true">/</span>
-            <span>OGIVAL SIGNET STUDY</span>
-          </div>
-        </div>
-
+      <div className="relative w-full">
         {/* Hero Frame: Uses CSS Grid stacking so foreground content never clips or overflows on narrow screens */}
-        <div className="relative grid grid-cols-1 border border-white/25 bg-black overflow-hidden">
+        <div className="relative grid grid-cols-1 min-h-[620px] sm:min-h-[580px] lg:min-h-[max(640px,calc(100svh-80px))] border border-white/25 bg-black overflow-hidden">
           {/* Layer 1: Cinematic Hero Plate */}
-          <div className="col-start-1 row-start-1 relative w-full h-full min-h-[540px] sm:min-h-[580px] lg:min-h-[640px]">
+          <div className="absolute inset-0 w-full h-full">
             <MortaImage
               asset={MORTA_ASSETS.hero}
               priority={true}
-              className="w-full h-full min-h-[540px] sm:min-h-[580px] lg:min-h-[640px]"
-              imgClassName="object-right md:object-center"
+              className="w-full h-full"
+              imgClassName="object-[70%_50%] md:object-center"
             />
             {/* Measured monochrome scrim over the left dark region to guarantee >12:1 contrast */}
             <div
@@ -54,6 +41,7 @@ export const HeroSection: React.FC = () => {
               className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/35"
               aria-hidden="true"
             />
+            <HeroSmoke />
           </div>
 
           {/* Layer 2: Editorial Foreground Content positioned in the dark text-safe region */}
@@ -81,9 +69,8 @@ export const HeroSection: React.FC = () => {
               </div>
 
               <p className="mt-5 sm:mt-6 text-base sm:text-lg text-white/85 leading-relaxed max-w-md font-sans morta-fade-copy">
-                Sculptural silver for the stories we carry. Cast in small
-                editions and solitary commissions shaped around an intentional
-                void.
+                Sculptural silver for the stories we carry. Made in small
+                editions and bespoke commissions.
               </p>
 
               <div className="mt-8 sm:mt-9 flex flex-wrap items-center gap-4 sm:gap-5 morta-fade-cta">

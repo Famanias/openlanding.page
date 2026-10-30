@@ -93,7 +93,7 @@ export const BespokeSection: React.FC<BespokeSectionProps> = ({
     <section
       id="commissions"
       aria-labelledby="commissions-heading"
-      className="relative bg-black border-b border-white/20"
+      className="relative morta-atmosphere border-b border-white/20"
     >
       <SectionHandoffRule
         chapterNumber="CH. V"
@@ -118,10 +118,8 @@ export const BespokeSection: React.FC<BespokeSectionProps> = ({
                 for one hand.
               </h2>
               <p className="text-base text-white/80 leading-relaxed">
-                Alongside our numbered editions, MORTA undertakes a small number
-                of bespoke commissions each season. Every study begins with
-                graphite drawings and a hand-carved wax model tailored to your
-                finger size, chain drop, or architectural brief.
+                Bespoke commissions begin with a drawing and a hand-carved
+                wax model, shaped to your measurements and ideas.
               </p>
             </div>
 
@@ -359,7 +357,7 @@ export const BespokeSection: React.FC<BespokeSectionProps> = ({
                           ? 'commission-description-error'
                           : 'commission-description-hint'
                       }
-                      placeholder="Describe the intended form, ring size or chain length, and any personal geometry you wish the silver to frame..."
+                      placeholder="Describe the piece, including your ring size or chain length if known..."
                       className={`w-full px-4 py-3.5 bg-black text-white placeholder:text-white/35 border font-sans text-sm leading-relaxed focus:outline-none focus:border-white transition-colors ${
                         validation.errors.description
                           ? 'border-white'
