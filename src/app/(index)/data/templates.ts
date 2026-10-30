@@ -895,7 +895,7 @@ slug: "tally",
     badges: ["Miniature Campus", "Scroll Project Story", "Interactive Learning Paths"],
     previewImage: "/templates/firstday/preview-1600.webp",
     promptMarkdown: FIRSTDAY_PROMPT,
-    model: "GPT-6",
+    model: "GPT-6 Astra Max",
   },
   {
     slug: "lowtide",
