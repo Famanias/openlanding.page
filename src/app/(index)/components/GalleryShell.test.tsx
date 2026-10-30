@@ -18,7 +18,7 @@ describe("GalleryShell", () => {
     expect(html).toContain("Scroll Showcase");
     expect(html).toContain("3D &amp; WebGPU");
     expect(html).toContain("Editorial Magazine");
-    expect(html).toContain("Showing 46 of 46 templates");
+    expect(html).toContain("Showing 47 of 47 templates");
   });
 
   it("renders all 46 active template cards and excludes archived templates", () => {
@@ -111,7 +111,7 @@ expect(html).toContain('href="/tally"');
     const eagerCount = (html.match(/loading="eager"/g) || []).length;
     const lazyCount = (html.match(/loading="lazy"/g) || []).length;
     expect(eagerCount).toBe(1);
-    expect(lazyCount).toBe(45);
+    expect(lazyCount).toBe(46);
   });
 
   it("renders responsive grid container with 5 columns on desktop", () => {

@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
+  morta: { name: "MORTA", dependencies: ["three"] },
   synapxe: { name: "Synapxe", dependencies: ["three"] },
   perigee: { name: "PERIGEE", dependencies: ["three", "gsap", "lenis"] },
   xibalba: { name: "XIBALBA", dependencies: [] },

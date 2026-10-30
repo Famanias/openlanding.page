@@ -19,7 +19,7 @@ describe("vote route contracts", () => {
     expect(response.headers.get("Cache-Control")).toBe("public, s-maxage=30, stale-while-revalidate=60");
     expect(response.headers.get("Set-Cookie")).toBeNull();
     const counts = await response.json();
-    expect(Object.keys(counts)).toHaveLength(46);
+    expect(Object.keys(counts)).toHaveLength(47);
     expect(counts.synapxe).toEqual({ up: 0, down: 0 });
     expect(counts.perigee).toEqual({ up: 0, down: 0 });
     expect(counts.xibalba).toEqual({ up: 0, down: 0 });
