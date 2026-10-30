@@ -77,7 +77,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       />
 
       {/* Slide-out Drawer Panel */}
-      <aside className="relative z-10 w-full max-w-lg bg-[#090B0E] border-l border-[rgba(226,232,240,0.2)] h-full flex flex-col justify-between overflow-hidden">
+      <aside className="sx-cart-enter relative z-10 w-full max-w-lg bg-[#090B0E] border-l border-[rgba(226,232,240,0.2)] h-full flex flex-col justify-between overflow-hidden">
         {/* Drawer Header + Free Orbital Express Shipping Bar */}
         <div className="p-5 border-b border-[rgba(226,232,240,0.14)] space-y-4 bg-[#11161D]">
           <div className="flex items-center justify-between">

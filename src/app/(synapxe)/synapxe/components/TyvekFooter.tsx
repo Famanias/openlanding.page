@@ -68,7 +68,7 @@ export const TyvekFooter: React.FC = () => {
 
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Column 1 (5 cols): Interactive NFC Garment Authenticity Verifier */}
-        <div id="footer-verifier" className="lg:col-span-5 space-y-5 border border-[#090B0E]/30 bg-white/60 p-6">
+        <div id="footer-verifier" data-sx-reveal="panel" className="lg:col-span-5 space-y-5 border border-[#090B0E]/30 bg-white/60 p-6">
           <div className="flex items-center justify-between border-b border-[#090B0E]/20 pb-3 font-mono-tech text-xs">
             <span className="font-bold bg-[#090B0E] text-[#F1F5F9] px-2 py-0.5">
               NFC CHIP REGISTRY
@@ -180,7 +180,7 @@ export const TyvekFooter: React.FC = () => {
         </div>
 
         {/* Column 2 (7 cols): Collapsible FAQ/Shipping Accordions + ISO Care Matrix */}
-        <div id="footer-care" className="lg:col-span-7 flex flex-col justify-between space-y-8">
+        <div id="footer-care" data-sx-reveal="panel" className="lg:col-span-7 flex flex-col justify-between space-y-8">
           <div className="space-y-3">
             <div className="font-mono-tech text-xs font-bold tracking-wider uppercase border-b border-[#090B0E]/30 pb-2">
               TECHNICAL SPECIFICATIONS, SHIPPING & GARMENT CARE PROTOCOLS
@@ -201,7 +201,7 @@ export const TyvekFooter: React.FC = () => {
                       <span className="text-sm">{isOpen ? '[-]' : '[+]'}</span>
                     </button>
                     {isOpen && (
-                      <div className="px-4 pb-4 text-xs sm:text-sm text-[#090B0E]/85 leading-relaxed font-mono-tech">
+                      <div className="sx-disclosure-enter px-4 pb-4 text-xs sm:text-sm text-[#090B0E]/85 leading-relaxed font-mono-tech">
                         {item.answer}
                       </div>
                     )}
