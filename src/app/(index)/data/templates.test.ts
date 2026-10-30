@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(44);
+    expect(TEMPLATES).toHaveLength(45);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -82,7 +82,7 @@ describe("gallery template data", () => {
         expect(t.model).toBe("GPT-6");
       } else if (t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
-      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "xibalba") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "loam" || t.slug === "tally" || t.slug === "perigee") {
         expect(t.model).toBe("Gemini 4 Argon High");

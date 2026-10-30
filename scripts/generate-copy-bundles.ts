@@ -10,6 +10,7 @@ const COPY_METADATA: Record<
   { name: string; dependencies: string[] }
 > = {
   perigee: { name: "PERIGEE", dependencies: ["three", "gsap", "lenis"] },
+  xibalba: { name: "XIBALBA", dependencies: [] },
   loam: { name: "LOAM", dependencies: ["three", "gsap", "lenis"] },
   lowtide: { name: "LOWTIDE", dependencies: ["three", "gsap", "lenis", "troika-three-text", "tone"] },
   nightline: { name: "NIGHTLINE", dependencies: [] },

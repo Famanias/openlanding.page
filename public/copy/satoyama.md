@@ -421,13 +421,6 @@ export default function SatoyamaPage() {
   25% { opacity: 0.35; filter: blur(2px) saturate(0.9); }
   100% { opacity: 1; filter: blur(0px) saturate(1); }
 }
-/* Keep the complete scene during the 800ms slide, then let the brushwork
-   build colour over a faint underpainting rather than an empty paper panel. */
-@keyframes st-underpainting {
-  0%, 40% { opacity: 1; }
-  48%, 92% { opacity: .22; }
-  100% { opacity: 0; }
-}
 @keyframes st-cloud-drift { 0%, 100% { transform: translateX(-30px); } 50% { transform: translateX(56px); } }
 @keyframes st-mist-drift { 0%, 100% { transform: translateX(-36px); } 50% { transform: translateX(36px); } }
 @keyframes st-fall { 0% { opacity: 0; transform: translate(50px, -200px); } 14%, 86% { opacity: .95; } 100% { opacity: 0; transform: translate(-170px, 280px); } }
@@ -454,49 +447,41 @@ export default function SatoyamaPage() {
   .st-motes { animation: st-motes 9s ease-in-out 1.2s infinite; }
   .st-grasses { transform-origin: 50% 100%; animation: st-grass-sway 18s ease-in-out 1.2s infinite; }
 
-  /* Inactive/outgoing scenes stay completely painted. Active scenes replay
-     their washes only after the horizontal slide has brought them into view. */
+  /* Only the first visit paints. Outgoing and revisited chapters stay complete. */
   .st-paint-wash, .st-paint-layer { opacity: 1; }
-  .st-chapter[data-state="active"] .st-paint-underpainting {
-    animation: st-underpainting 2s var(--ease-st-out) both;
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-layer[data-depth="sky"] {
+    animation: st-wash-sky .65s var(--ease-st-out) .04s both;
   }
-  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-layer[data-depth="sky"] {
-    animation: st-wash-sky .65s var(--ease-st-out) .84s both;
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-layer[data-depth="far"] {
+    animation: st-wash-brush-ltr .62s var(--ease-st-out) .22s both;
   }
-  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-layer[data-depth="far"] {
-    animation: st-wash-brush-ltr .62s var(--ease-st-out) 1.02s both;
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-layer[data-depth="mid"] {
+    animation: st-wash-brush-rtl .62s var(--ease-st-out) .4s both;
   }
-  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-layer[data-depth="mid"] {
-    animation: st-wash-brush-rtl .62s var(--ease-st-out) 1.2s both;
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-layer[data-depth="near"] {
+    animation: st-wash-brush-ltr .62s var(--ease-st-out) .58s both;
   }
-  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-layer[data-depth="near"] {
-    animation: st-wash-brush-ltr .62s var(--ease-st-out) 1.38s both;
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-paint-wash:not(:has(.st-paint-layer)) {
+    animation: st-wash-in .85s var(--ease-st-out) .1s both;
   }
-  .st-chapter[data-state="active"] .st-paint-timelapse .st-paint-wash:not(:has(.st-paint-layer)) {
-    animation: st-wash-in .85s var(--ease-st-out) .9s both;
+  /* The forest sits behind a masked heading area. Paint it after the 800ms
+     chapter slide, with enough time for the bamboo brushwork to be visible. */
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures > .st-scene .st-paint-layer[data-depth="sky"] { animation-delay: .84s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures > .st-scene .st-paint-layer[data-depth="far"] { animation-delay: 1.04s; animation-duration: 1s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures > .st-scene .st-paint-layer[data-depth="mid"] { animation-delay: 1.24s; animation-duration: 1s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures > .st-scene .st-paint-layer[data-depth="near"] { animation-delay: 1.44s; animation-duration: 1s; }
+  /* Activity cards enter at .95s; paint their illustrations while visible. */
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures .st-activity-art .st-paint-layer[data-depth="sky"] { animation-delay: 1s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures .st-activity-art .st-paint-layer[data-depth="far"] { animation-delay: 1.18s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures .st-activity-art .st-paint-layer[data-depth="mid"] { animation-delay: 1.36s; }
+  .st-chapter[data-state="active"][data-first-visit="true"] .st-adventures .st-activity-art .st-paint-layer[data-depth="near"] { animation-delay: 1.54s; }
+  /* Hold the first frame until hydration has resolved the opening chapter. */
+  .st-book[data-ready="false"] .st-paint-layer,
+  .st-book[data-ready="false"] .st-paint-wash {
+    animation-play-state: paused;
   }
-  .st-chapter .st-paint-underpainting * {
-    animation: none !important;
-  }
-  .st-chapter .st-paint-underpainting .st-paint-wash,
-  .st-chapter .st-paint-underpainting .st-paint-layer {
-    opacity: 1;
-  }
-  /* A first visit begins with brushwork, never a preview of the finished scene.
-     Keep the completed underpainting only for outgoing panels and revisits. */
-  .st-chapter[data-first-visit="true"] .st-paint-underpainting {
-    animation: none;
-    opacity: 0;
-  }
-  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-layer[data-depth="sky"] { animation-delay: .04s; }
-  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-layer[data-depth="far"] { animation-delay: .22s; }
-  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-layer[data-depth="mid"] { animation-delay: .4s; }
-  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-layer[data-depth="near"] { animation-delay: .58s; }
-  .st-chapter[data-first-visit="true"] .st-paint-timelapse .st-paint-wash:not(:has(.st-paint-layer)) { animation-delay: .1s; }
-  /* Reset hidden seasons so their timelapse starts anew on every tab visit. */
-  .st-chapter .st-season-layer[data-on="false"] .st-paint-underpainting,
-  .st-chapter .st-season-layer[data-on="false"] .st-paint-timelapse .st-paint-layer,
-  .st-chapter .st-season-layer[data-on="false"] .st-paint-timelapse .st-paint-wash {
+  .st-chapter .st-season-layer[data-on="false"] .st-paint-layer,
+  .st-chapter .st-season-layer[data-on="false"] .st-paint-wash {
     animation: none;
   }
 
@@ -520,7 +505,7 @@ export default function SatoyamaPage() {
   }
 
   .st-season-layer[data-on="false"] .st-scene * { animation-play-state: paused; }
-  .st-chapter:not([data-state="active"]) .st-scene *, .st-book[data-paused="true"] .st-scene * { animation-play-state: paused; }
+  .st-chapter:not([data-state="active"]) .st-scene *, .st-book[data-paused="true"] :is(.st-scene, .st-activity-art) * { animation-play-state: paused; }
   .st-header { animation: st-copy-enter var(--dur-st-content) var(--ease-st-out) both; }
 
   /* Text entrances follow the chapter slide. */
@@ -1033,14 +1018,23 @@ export function ActivityArt({ scene }: { scene: string }) {
   const sky = useId().replace(/:/g, "");
   return <svg viewBox="0 0 440 310" fill="none" className="st-activity-art" role="img" aria-label={{ fields: "Rice paddies below green mountains", tea: "A steaming teapot and cup beside an open window", cycle: "A bicycle on a quiet village lane", garden: "Fresh vegetables in a woven garden basket", river: "Stepping stones in a tree-lined stream" }[scene] ?? "Rural Japan illustration"}>
     <defs><linearGradient id={sky} x1="0" y1="0" x2="0" y2="1"><stop stopColor="var(--st-sky-top)" /><stop offset=".55" stopColor="var(--st-sky-mid)" /><stop offset=".8" stopColor="var(--st-sky-low)" /></linearGradient></defs>
+    <g className="st-paint-layer" data-depth="sky">
     <path d="M0 0h440v310H0Z" fill={`url(#${sky})`} /><circle cx="332" cy="67" r="29" fill="var(--st-sun)" opacity=".85" />
+    </g>
+    <g className="st-paint-layer" data-depth="far">
     <Cumulus x={86} y={118} scale={.34} /><Cumulus x={300} y={102} scale={.22} flip />
-    <Ridge d="M0 151 67 80l78 63 65-47 83 51 79-48 68 28v183H0Z" top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" /><Ridge d="M0 188c80-80 101-15 164-20s88-70 150-38 74 18 126 9v171H0Z" top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
+    <Ridge d="M0 151 67 80l78 63 65-47 83 51 79-48 68 28v183H0Z" top="var(--st-mtn-far)" bottom="var(--st-mtn-haze)" />
+    </g>
+    <g className="st-paint-layer" data-depth="mid">
+    <Ridge d="M0 188c80-80 101-15 164-20s88-70 150-38 74 18 126 9v171H0Z" top="var(--st-meadow-lit)" bottom="var(--st-meadow)" />
+    </g>
+    <g className="st-paint-layer" data-depth="near">
     {scene === "fields" && <><House x={271} y={182} scale={.36} rose /><path d="m0 218 440-22v114H0Z" fill="var(--st-water)" /><path d="m0 236 440-20M0 274l440-25m-218-41L111 310m244-108L291 310" stroke="var(--st-forest)" strokeWidth="7" />{Array.from({length:38},(_,i)=><path key={i} d={`m${(i*37)%440} ${228+Math.floor(i/12)*29} -3-8m3 8 4-10`} stroke="var(--st-midgreen)" strokeWidth="2" />)}<PaintedTree x={23} y={231} scale={.6} /></>}
     {scene === "tea" && <><path d="M0 0h440v310H0V0Zm26 0v230m249-230v225M0 225h440M280 0v225" stroke="var(--st-timber)" strokeWidth="16" /><path d="M0 234h440v76H0Z" fill="var(--st-path)" /><path d="m111 278 199-3 38 14-258 3Z" fill="var(--st-timber)" opacity=".13" /><path d="M167 248c-12-68 67-78 73-12l-10 34h-54Z" fill="var(--st-roof-rose)" /><path d="M230 226c23-27 31-14 13 5m-65-13h53m-36-9 17-3m-3-2v-8" stroke="var(--st-ink)" strokeWidth="3" /><path d="m169 233-29-12 10 28 28 8" fill="var(--st-rose)" /><path d="M274 248h35l-4 26h-26Z" fill="var(--st-paper)" stroke="var(--st-timber)" strokeWidth="2" /><path d="M309 252c19-7 20 17-2 13" stroke="var(--st-timber)" strokeWidth="3" /><path d="M289 233c-10-13 12-14 0-29m-83-25c-9-11 12-18 0-31" stroke="var(--st-paper)" strokeWidth="4" strokeLinecap="round" /><path d="M0 22c39 59 23 125 20 171M437 16c-47 63-29 119-29 179" stroke="var(--st-leaf)" strokeWidth="34" /></>}
     {scene === "cycle" && <><path d="M210 173c-47 66-71 76-91 137h155c-52-72-46-93-34-137Z" fill="var(--st-path)" /><House x={52} y={205} scale={.48} rose /><PaintedTree x={345} y={251} scale={.95} /><Bicycle x={158} y={275} scale={1.25} /><Grass x={54} y={292} /><Grass x={355} y={299} /></>}
     {scene === "garden" && <><path d="M0 205h440v105H0Z" fill="var(--st-field)" />{[220,248,283].map(y=><path key={y} d={`M0 ${y}h440`} stroke="var(--st-timber)" strokeWidth="3" opacity=".35" />)}<path d="m140 206 145-3-19 89H157Z" fill="var(--st-path)" stroke="var(--st-timber)" strokeWidth="3" /><path d="M166 207c-8-88 104-88 94 0" stroke="var(--st-timber)" strokeWidth="5" />{[220,234,249,265,279].map(y=><path key={y} d={`m151 ${y} 124-4`} stroke="var(--st-timber)" strokeWidth="2" opacity=".5" />)}<ellipse cx="183" cy="203" rx="23" ry="25" fill="var(--st-rose)" /><path d="m219 215 22-44 18 9-27 43Z" fill="var(--st-roof-rose)" /><path d="M238 180c-21-49 7-44 9-18 8-30 28-23 10 14" stroke="var(--st-forest)" strokeWidth="7" /><path d="M191 183c-28-36-3-51 8-14 10-37 34-22 10 12" fill="var(--st-forest)" /><PaintedTree x={33} y={214} scale={.62} /></>}
     {scene === "river" && <><path d="M247 163c-106 50-26 73-126 101L58 310h273c-92-74 55-75-57-147Z" fill="var(--st-water)" /><path d="m199 241 24-5m-73 40 37-9m62 22 38 4m-34-91 15 5" stroke="var(--st-paper)" strokeWidth="2" /><path d="m192 261 26-6 19 9-9 10h-38Zm50-21 19-2 12 6-10 10h-25Z" fill="var(--st-mountain)" stroke="var(--st-forest)" /><PaintedTree x={47} y={239} scale={1} /><PaintedTree x={398} y={277} scale={1.2} /><Grass x={86} y={299} scale={1.2}/></>}
+    </g>
   </svg>;
 }
 ]]>
@@ -1217,7 +1211,6 @@ export function MeadowScene() {
     </file>
     <file path="src/app/(satoyama)/satoyama/illustrations/Painted.tsx">
 <![CDATA[import { useId, type ReactNode } from "react";
-import { ScenePaint } from "./ScenePaint";
 
 /* Painted-anime scene primitives: soft gradients, billowing clouds, clumped canopies and wind-leaning grass.
    All randomness is a seeded integer generator so server and client render identical markup. */
@@ -1345,7 +1338,7 @@ export function Firefly({ x, y, r = 4, delay = 0 }: { x: number; y: number; r?: 
 
 export function SceneSvg({ label, className = "", children }: { label: string; className?: string; children: ReactNode }) {
   return <svg className={`st-scene ${className}`.trim()} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" fill="none" role="img" aria-label={label}>
-    <ScenePaint>{children}</ScenePaint>
+    <g className="st-paint-timelapse">{children}</g>
   </svg>;
 }
 
@@ -1400,36 +1393,6 @@ export function Grass({ x, y, scale = 1 }: { x: number; y: number; scale?: numbe
 
 export function Bicycle({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
   return <g transform={`translate(${x} ${y}) scale(${scale})`} fill="none" stroke="var(--st-ink)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="0" cy="0" r="17" fill="var(--st-paper)" fillOpacity=".3" /><circle cx="54" cy="0" r="17" fill="var(--st-paper)" fillOpacity=".3" /><path d="m0 0 16-25 15 25H0l27-23h19l8 23m-8-23-4-14h-8M16-25l-3-8m-5 0h13m10 33 6 5m-6-5-3 7" /><path d="M45-23h20l-3-12H43" fill="var(--st-rose)" strokeWidth="1.5" /></g>;
-}
-]]>
-    </file>
-    <file path="src/app/(satoyama)/satoyama/illustrations/ScenePaint.tsx">
-<![CDATA["use client";
-
-import { Children, cloneElement, isValidElement, type ReactNode } from "react";
-
-// Server-rendered scene children arrive here as SVG elements. Give the static
-// copy its own definition IDs so gradients and clipping stay local to each copy.
-function underpainting(children: ReactNode): ReactNode {
-  return Children.map(children, child => {
-    if (!isValidElement<Record<string, unknown> & { children?: ReactNode }>(child)) return child;
-    const props: Record<string, unknown> = {};
-    for (const [name, value] of Object.entries(child.props)) {
-      if (typeof value !== "string") continue;
-      if (name === "id") props[name] = `st-base-${value}`;
-      else if ((name === "href" || name === "xlinkHref") && value.startsWith("#")) props[name] = `#st-base-${value.slice(1)}`;
-      else if (value.includes("url(#")) props[name] = value.replace(/url\(#([^)]*)\)/g, "url(#st-base-$1)");
-    }
-    if (child.props.children !== undefined) props.children = underpainting(child.props.children);
-    return cloneElement(child, props);
-  });
-}
-
-export function ScenePaint({ children }: { children: ReactNode }) {
-  return <>
-    <g className="st-paint-underpainting" aria-hidden="true">{underpainting(children)}</g>
-    <g className="st-paint-timelapse">{children}</g>
-  </>;
 }
 ]]>
     </file>

@@ -79,7 +79,7 @@ test.describe('PERIGEE static fallback (reduced motion)', () => {
     const fallbackRoot = page.locator('#perigee-fallback-root');
     await expect(fallbackRoot).toBeVisible();
 
-    await expect(page.locator('h1')).toContainText('At the edge of curved spacetime');
+    await expect(fallbackRoot.locator('h1').first()).toContainText('At the edge of curved spacetime');
     await expect(page.getByText('INBOUND GEODESIC LOGBOOK')).toBeVisible();
     await expect(page.getByText('PRIMARY RELATIVISTIC BOUNDARIES & SIGNATURES')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Request Observation Window' })).toBeVisible();
