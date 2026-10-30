@@ -1,22 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Oswald, Manrope, JetBrains_Mono } from "next/font/google";
 import "./synapxe/synapxe.css";
 
-const display = localFont({
-  src: "./synapxe/fonts/Oswald.ttf",
-  weight: "200 700",
+const display = Oswald({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-oswald",
 });
 
-const body = localFont({
-  src: "./synapxe/fonts/Manrope.ttf",
-  weight: "200 800",
+const body = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-manrope",
 });
 
-const mono = localFont({
-  src: "./synapxe/fonts/JetBrainsMono.ttf",
-  weight: "100 800",
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
   variable: "--font-jetbrains",
 });
 

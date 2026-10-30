@@ -59,8 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
     if (!ctx) return;
 
     let animationFrameId = 0;
-    let isVisible = false;
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let isVisible = true;
     let width = (canvas.width = sectionEl.clientWidth || 1280);
     let height = (canvas.height = sectionEl.clientHeight || 720);
 
@@ -73,6 +72,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
     window.addEventListener('resize', handleResize);
 
     // Pause canvas loop when scrolled out of viewport using IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(sectionEl);
+
     // Initialize diagonal rain streaks (15deg slant)
     const streakCount = 95;
     const streaks: RainStreak[] = Array.from({ length: streakCount }, () => ({
@@ -104,6 +113,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
     };
 
     const render = () => {
+      animationFrameId = requestAnimationFrame(render);
+      if (!isVisible) return;
+
       ctx.clearRect(0, 0, width, height);
 
       // Hydrophobic collision bounding box over figure's shoulders & visor: x: 58% to 84%, y: 18% to 48%
@@ -174,30 +186,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
         ctx.fillStyle = p.color.replace('0.85', (alpha * 0.9).toFixed(2));
         ctx.fillRect(p.x - 1.5, p.y - 1.5, 2.5, 2.5);
       }
-      animationFrameId = requestAnimationFrame(render);
     };
 
-    const updatePlayback = () => {
-      cancelAnimationFrame(animationFrameId);
-      ctx.clearRect(0, 0, width, height);
-      if (isVisible && !motionPreference.matches && !document.hidden) {
-        animationFrameId = requestAnimationFrame(render);
-      }
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      isVisible = entry.isIntersecting;
-      updatePlayback();
-    }, { threshold: 0.05 });
-    observer.observe(sectionEl);
-    motionPreference.addEventListener('change', updatePlayback);
-    document.addEventListener('visibilitychange', updatePlayback);
+    animationFrameId = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
       observer.disconnect();
-      motionPreference.removeEventListener('change', updatePlayback);
-      document.removeEventListener('visibilitychange', updatePlayback);
     };
   }, []);
 
@@ -357,25 +353,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
       <div className="relative z-20 max-w-[1440px] mx-auto w-full px-4 lg:px-8 py-8 lg:py-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         {/* Left-Side Hero Typography & CTAs (x: 0% to 48%) */}
         <div className="lg:col-span-6 space-y-4 max-w-xl">
-          <div className="sx-hero-load sx-hero-load--eyebrow inline-flex items-center gap-3 font-mono-tech text-xs tracking-[0.18em] text-[#00F0FF] border-b border-[#00F0FF]/40 pb-1">
+          <div className="inline-flex items-center gap-3 font-mono-tech text-xs tracking-[0.18em] text-[#00F0FF] border-b border-[#00F0FF]/40 pb-1">
             <span>DROP 04 // FW-26 ARCHIVE COLLECTION</span>
             <span className="text-[#94A3B8]">·</span>
             <span className="text-[#D4FF00]">DWR ACTIVE</span>
           </div>
 
           <h1
-            className="sx-hero-sign font-display text-4xl sm:text-5xl lg:text-[54px] font-bold text-[#F8FAFC] leading-[1.02] tracking-[0.06em]"
+            className="font-display text-4xl sm:text-5xl lg:text-[54px] font-bold text-[#F8FAFC] leading-[1.02] tracking-[0.06em]"
             style={{ textWrap: 'balance' }}
           >
             ENGINEERED FOR HOSTILE ATMOSPHERES.
           </h1>
 
-          <p className="sx-hero-load sx-hero-load--copy text-sm sm:text-base text-[#94A3B8] leading-relaxed font-normal max-w-lg">
+          <p className="text-sm sm:text-base text-[#94A3B8] leading-relaxed font-normal max-w-lg">
             3-Layer ePTFE Storm Shells, Ballistic Cordura® Exoskeletons, and Modular Fidlock® Carry Systems.
           </p>
 
           {/* Primary & Secondary CTAs */}
-          <div className="sx-hero-load sx-hero-load--actions flex flex-wrap items-center gap-3 pt-1">
+          <div className="flex flex-wrap items-center gap-3 pt-1">
             <a
               href="#shells-grid"
               className="chamfer-btn bg-[#00F0FF] hover:bg-[#F8FAFC] text-[#090B0E] font-mono-tech text-xs font-bold tracking-wider px-5 py-3 transition-colors whitespace-nowrap"
@@ -419,7 +415,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
           {/* Floating HUD Inspection Card linked to Active Reticle Hotspot */}
           <div
             data-testid="hero-hud-card"
-            className="sx-hero-load sx-hero-load--hud bg-[#11161D]/90 backdrop-blur-md border border-[#00F0FF]/50 p-4 chamfer-card max-w-md space-y-2.5"
+            className="bg-[#11161D]/90 backdrop-blur-md border border-[#00F0FF]/50 p-4 chamfer-card max-w-md space-y-2.5"
           >
             <div className="flex items-center justify-between gap-2 border-b border-[rgba(226,232,240,0.14)] pb-1.5">
               <span className="font-mono-tech text-[11px] text-[#00F0FF] tracking-wider">

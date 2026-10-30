@@ -791,26 +791,24 @@ export const FabricLab3D: React.FC<FabricLab3DProps> = ({
     let prevTimeMs = performance.now();
     let stopped = false;
     let rafId = 0;
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const tick = () => {
       if (stopped) return;
 
       if (isInViewport) {
         const nowMs = performance.now();
-        const reducedMotion = motionPreference.matches;
-        const dt = reducedMotion ? 0 : Math.min(0.05, Math.max(0.008, (nowMs - prevTimeMs) * 0.001));
+        const dt = Math.min(0.05, Math.max(0.008, (nowMs - prevTimeMs) * 0.001));
         prevTimeMs = nowMs;
-        const elapsedSec = reducedMotion ? 0 : nowMs * 0.001;
+        const elapsedSec = nowMs * 0.001;
 
         const mode = weatherModeRef.current;
         const focus = focusedLayerRef.current;
         const targetGap = getFabricSlabGap(explodePctRef.current);
 
         // Smoothly lerp vertical slab positions (+/- targetGap)
-        layer1Group.position.y = THREE.MathUtils.lerp(layer1Group.position.y, targetGap, reducedMotion ? 1 : 0.12);
+        layer1Group.position.y = THREE.MathUtils.lerp(layer1Group.position.y, targetGap, 0.12);
         layer2Group.position.y = 0;
-        layer3Group.position.y = THREE.MathUtils.lerp(layer3Group.position.y, -targetGap, reducedMotion ? 1 : 0.12);
+        layer3Group.position.y = THREE.MathUtils.lerp(layer3Group.position.y, -targetGap, 0.12);
 
         const currentGap = layer1Group.position.y;
 
@@ -1007,18 +1005,17 @@ export const FabricLab3D: React.FC<FabricLab3DProps> = ({
           camera.position.x = THREE.MathUtils.lerp(
             camera.position.x,
             goalPos.x * aspectFactor,
-            reducedMotion ? 1 : 0.08
+            0.08
           );
-          camera.position.y = THREE.MathUtils.lerp(camera.position.y, goalPos.y, reducedMotion ? 1 : 0.08);
+          camera.position.y = THREE.MathUtils.lerp(camera.position.y, goalPos.y, 0.08);
           camera.position.z = THREE.MathUtils.lerp(
             camera.position.z,
             goalPos.z * aspectFactor,
-            reducedMotion ? 1 : 0.08
+            0.08
           );
-          controls.target.lerp(goalTarget, reducedMotion ? 1 : 0.09);
+          controls.target.lerp(goalTarget, 0.09);
         }
 
-        controls.enableDamping = !reducedMotion;
         controls.update();
         renderer.render(scene, camera);
       }

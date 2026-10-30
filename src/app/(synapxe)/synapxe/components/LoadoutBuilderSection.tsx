@@ -44,7 +44,7 @@ export const LoadoutBuilderSection: React.FC<LoadoutBuilderSectionProps> = ({
     >
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8">
         {/* Section Heading */}
-        <div data-sx-reveal="heading" className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-10 border-b border-[rgba(226,232,240,0.14)]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-10 border-b border-[rgba(226,232,240,0.14)]">
           <div className="space-y-2">
             <div className="font-mono-tech text-xs text-[#FF007F] tracking-widest">
               SECTION 03 // CHARACTER INVENTORY BUNDLE CONFIGURATOR
@@ -61,7 +61,7 @@ export const LoadoutBuilderSection: React.FC<LoadoutBuilderSectionProps> = ({
         {/* 2-Column Cyberpunk RPG Inventory Screen */}
         <div className="grid grid-cols-1 lg:grid-cols-12 border-x border-b border-[rgba(226,232,240,0.14)]">
           {/* Left Column: Three.js 2.5D Volumetric Hologram Chamber */}
-          <div data-sx-reveal="panel" className="lg:col-span-5 bg-[#11161D]/40 border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)] p-6 sm:p-8 flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-[#11161D]/40 border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)] p-6 sm:p-8 flex flex-col justify-between">
             <div className="flex flex-wrap items-center justify-between gap-2 font-mono-tech text-xs text-[#94A3B8] border-b border-[rgba(226,232,240,0.14)] pb-3">
               <span>TACTICAL SILHOUETTE // RIG-09</span>
               <span
@@ -143,7 +143,7 @@ export const LoadoutBuilderSection: React.FC<LoadoutBuilderSectionProps> = ({
           </div>
 
           {/* Right Column: 3-Slot Selector + Live Bundle Telemetry */}
-          <div data-sx-reveal="panel" className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div className="space-y-6">
               {/* Slot 01 // Outer Shell */}
               <div className="space-y-2.5">

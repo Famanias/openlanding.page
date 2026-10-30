@@ -84,7 +84,7 @@ export const FabricLabSection: React.FC = () => {
     >
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8">
         {/* Section Header + Explode Slider */}
-        <div data-sx-reveal="heading" className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-[rgba(226,232,240,0.14)]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-[rgba(226,232,240,0.14)]">
           <div className="space-y-2">
             <div className="font-mono-tech text-xs text-[#00F0FF] tracking-widest">
               SECTION 02 // MATERIAL SCIENCE & HYDROPHOBIC TELEMETRY
@@ -124,7 +124,6 @@ export const FabricLabSection: React.FC = () => {
         {/* Environmental Stress-Test Control Bar */}
         <div
           data-testid="fabric-weather-control-bar"
-          data-sx-reveal="panel"
           className="bg-[#11161D] border-x border-b border-[rgba(226,232,240,0.14)] p-3 sm:px-5 sm:py-3.5 space-y-2.5"
         >
           <div className="flex flex-wrap items-center justify-between gap-2 font-mono-tech text-[11px]">
@@ -185,7 +184,7 @@ export const FabricLabSection: React.FC = () => {
         {/* Main 2-Column 3D Microscopic Cross-Section + Synchronized Layer Spec Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-12 border-x border-b border-[rgba(226,232,240,0.14)]">
           {/* Left: Three.js WebGL 3D Microscopic Fabric Cross-Section & Weather Chamber */}
-          <div data-sx-reveal="panel" className="lg:col-span-7 relative bg-[#090B0E] border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)]">
+          <div className="lg:col-span-7 relative bg-[#090B0E] border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)]">
             {/* Top HUD Readout Overlay (Solid Dark Background, No Backdrop-Filter) */}
             <div className="absolute top-3 left-3 right-3 z-20 pointer-events-none flex flex-wrap items-center justify-between gap-2 font-mono-tech text-[10px]">
               <div className="bg-[#090B0E]/92 border border-[#00F0FF]/40 px-2.5 py-1.5 text-[#00F0FF]">
@@ -220,7 +219,6 @@ export const FabricLabSection: React.FC = () => {
 
           {/* Right: 3 Synchronized Layer Specification Cards (Hover & Click Camera Sync) */}
           <div
-            data-sx-reveal="panel"
             onMouseLeave={() => setHoveredLayer(null)}
             className="lg:col-span-5 divide-y divide-[rgba(226,232,240,0.14)] flex flex-col justify-between"
           >

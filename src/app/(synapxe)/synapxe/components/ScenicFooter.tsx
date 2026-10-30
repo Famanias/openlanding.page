@@ -78,7 +78,7 @@ export function ScenicFooter() {
             </div>
           </div>
         </div>
-        <div data-sx-reveal="heading" className="px-4 lg:px-8 pb-10 flex flex-wrap items-end justify-between gap-8"><div><p className="font-mono-tech text-xs text-[#E2E8F0] mb-4 tracking-wider">THE URBAN ENVIRONMENT / 001</p><h2 className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl leading-[0.9] tracking-tight">BEYOND<br />THE FORECAST<span className="text-[#00F0FF]">.</span></h2></div><div className="max-w-xs"><p className="text-sm text-[#E2E8F0] leading-relaxed">Made to move through whatever comes next.</p><a className="inline-block mt-5 font-mono-tech text-xs font-bold text-[#00F0FF] hover:underline focus-visible:outline-2 focus-visible:outline-[#00F0FF]" href="#shells-grid">EXPLORE THE ARCHIVE ↗</a></div></div>
+        <div className="px-4 lg:px-8 pb-10 flex flex-wrap items-end justify-between gap-8"><div><p className="font-mono-tech text-xs text-[#E2E8F0] mb-4 tracking-wider">THE URBAN ENVIRONMENT / 001</p><h2 className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl leading-[0.9] tracking-tight">BEYOND<br />THE FORECAST<span className="text-[#00F0FF]">.</span></h2></div><div className="max-w-xs"><p className="text-sm text-[#E2E8F0] leading-relaxed">Made to move through whatever comes next.</p><a className="inline-block mt-5 font-mono-tech text-xs font-bold text-[#00F0FF] hover:underline focus-visible:outline-2 focus-visible:outline-[#00F0FF]" href="#shells-grid">EXPLORE THE ARCHIVE ↗</a></div></div>
       </div>
     </section>
   );

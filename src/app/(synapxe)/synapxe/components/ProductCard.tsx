@@ -56,8 +56,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <article
       data-testid={`product-card-${product.code}`}
-      data-sx-reveal="card"
-      className="sx-product relative bg-[#090B0E] border border-[rgba(226,232,240,0.14)] flex flex-col justify-between group hover:border-[#00F0FF]/60 transition-colors"
+      className="relative bg-[#090B0E] border border-[rgba(226,232,240,0.14)] flex flex-col justify-between group hover:border-[#00F0FF]/60 transition-colors"
     >
       {/* Corner Crosshair Registration Marks */}
       <span

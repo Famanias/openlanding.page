@@ -12,24 +12,24 @@
   <files>
     <file path="src/app/(synapxe)/layout.tsx">
 <![CDATA[import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Oswald, Manrope, JetBrains_Mono } from "next/font/google";
 import "./synapxe/synapxe.css";
 
-const display = localFont({
-  src: "./synapxe/fonts/Oswald.ttf",
-  weight: "200 700",
+const display = Oswald({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-oswald",
 });
 
-const body = localFont({
-  src: "./synapxe/fonts/Manrope.ttf",
-  weight: "200 800",
+const body = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-manrope",
 });
 
-const mono = localFont({
-  src: "./synapxe/fonts/JetBrainsMono.ttf",
-  weight: "100 800",
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
   variable: "--font-jetbrains",
 });
 
@@ -329,115 +329,6 @@ export default function SynapxePage() {
   filter: hue-rotate(275deg) saturate(1.85) contrast(1.18) brightness(1.04);
 }
 
-/* The interface powers on like an LED sign, then settles into its steady state. */
-@media (prefers-reduced-motion: no-preference) {
-  .synapxe-root [data-sx-reveal][data-sx-state] {
-    transition: border-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .synapxe-root [data-sx-state="pending"]:not(:focus-within) {
-    opacity: 0;
-  }
-  .synapxe-root [data-sx-activated="true"] {
-    animation: sx-power-on 620ms steps(1, end) var(--sx-delay, 0ms) both;
-  }
-  .synapxe-root [data-sx-reveal]:focus-within {
-    opacity: 1;
-    transform: none;
-    transition: none;
-    animation: none;
-  }
-
-  .synapxe-root [data-sx-reveal="heading"] {
-    position: relative;
-  }
-  .synapxe-root [data-sx-reveal="heading"]::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 72px;
-    height: 1px;
-    background: currentColor;
-    color: var(--neon-cyan);
-    transform-origin: left;
-    transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1) 100ms;
-    pointer-events: none;
-  }
-  .synapxe-root [data-sx-reveal="heading"][data-sx-state="pending"]::after {
-    transform: scaleX(0);
-  }
-
-  .synapxe-root .sx-product:nth-child(4n + 2) { --sx-delay: 70ms; }
-  .synapxe-root .sx-product:nth-child(4n + 3) { --sx-delay: 140ms; }
-  .synapxe-root .sx-product:nth-child(4n + 4) { --sx-delay: 210ms; }
-
-  .sx-hero-load {
-    animation: sx-power-on 620ms steps(1, end) both;
-  }
-  .sx-hero-sign { animation: sx-sign-on 680ms steps(1, end) both; }
-  .sx-hero-load--eyebrow { animation-delay: 80ms; }
-  .sx-hero-load--copy { animation-delay: 160ms; }
-  .sx-hero-load--actions { animation-delay: 240ms; }
-  .sx-hero-load--hud { animation-delay: 320ms; }
-  .sx-hero-load:focus-within { animation: none; }
-}
-
-@keyframes sx-power-on {
-  0% { opacity: 0; }
-  12% { opacity: 0.85; }
-  22% { opacity: 0.12; }
-  36% { opacity: 1; }
-  45% { opacity: 0.25; }
-  59% { opacity: 1; }
-  66% { opacity: 0.65; }
-  75%, 100% { opacity: 1; }
-}
-@keyframes sx-sign-on {
-  0%, 22% { opacity: 0.7; }
-  12%, 36%, 59%, 75%, 100% { opacity: 1; }
-  45% { opacity: 0.45; }
-  66% { opacity: 0.8; }
-}
-
-@media (prefers-reduced-motion: no-preference) and (max-width: 1279px) {
-  .synapxe-root .sx-product:nth-child(n) { --sx-delay: 0ms; }
-  .synapxe-root .sx-product:nth-child(3n + 2) { --sx-delay: 70ms; }
-  .synapxe-root .sx-product:nth-child(3n + 3) { --sx-delay: 140ms; }
-}
-@media (prefers-reduced-motion: no-preference) and (max-width: 1023px) {
-  .synapxe-root .sx-product:nth-child(n) { --sx-delay: 0ms; }
-  .synapxe-root .sx-product:nth-child(2n) { --sx-delay: 70ms; }
-}
-@media (prefers-reduced-motion: no-preference) and (max-width: 639px) {
-  .synapxe-root .sx-product:nth-child(n) { --sx-delay: 0ms; }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .synapxe-root :is(button, a, select, input[type="range"]) {
-    transition: color 220ms cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
-      filter 220ms cubic-bezier(0.22, 1, 0.36, 1),
-      scale 180ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .synapxe-root :is(button, a):active { scale: 0.97; }
-  .sx-cart-enter { animation: sx-panel-enter 400ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-  .sx-disclosure-enter { animation: sx-power-on 350ms steps(1, end) both; }
-}
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .synapxe-root :is(button, a, select):hover { filter: brightness(1.18); }
-}
-@keyframes sx-panel-enter {
-  from { opacity: 0.6; transform: translateX(16px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .synapxe-root .sx-product img { transition: none; }
-  .synapxe-root .sx-product:hover img { transform: none; }
-}
-
 /* Custom Range Input for Fabric Lab & Biometric Sliders */
 input[type="range"].synapxe-slider {
   -webkit-appearance: none;
@@ -518,7 +409,6 @@ import { LoadoutBuilderSection } from './components/LoadoutBuilderSection';
 import { BiometricFitSection } from './components/BiometricFitSection';
 import { CartDrawer } from './components/CartDrawer';
 import { TyvekFooter } from './components/TyvekFooter';
-import { ScrollReveals } from './components/ScrollReveals';
 
 export default function SynapxeApp() {
   const [currency, setCurrency] = useState<CurrencyCode>('USD');
@@ -613,7 +503,7 @@ export default function SynapxeApp() {
   ) => {
     const bundleItems = [shell, bottom, gear];
     setCartItems((prev) => {
-      const next = [...prev];
+      let next = [...prev];
       for (const prod of bundleItems) {
         const sz = selectedSizes[prod.id] || 'L';
         const key = `${prod.id}-${sz}-STEALTH BLACK-bundle`;
@@ -647,8 +537,7 @@ export default function SynapxeApp() {
   };
 
   return (
-    <div className="synapxe-root min-h-screen bg-[#090B0E] text-[#F8FAFC] flex flex-col">
-      <ScrollReveals />
+    <div className="min-h-screen bg-[#090B0E] text-[#F8FAFC] flex flex-col">
       {/* SECTION 1: Sticky Top System Telemetry Header */}
       <Header
         currency={currency}
@@ -681,7 +570,7 @@ export default function SynapxeApp() {
             className="w-full bg-[#090B0E] border-b border-[rgba(226,232,240,0.14)] py-12 lg:py-16"
           >
             <div className="max-w-[1440px] mx-auto px-4 lg:px-8">
-              <div data-sx-reveal="heading" className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
                 <div>
                   <span className="font-mono-tech text-xs text-[#00F0FF] tracking-widest block">
                     SECTION 01 // FIELD-READY TECHNICAL GARMENTS
@@ -691,7 +580,7 @@ export default function SynapxeApp() {
                   </h2>
                 </div>
                 <div className="font-mono-tech text-xs text-[#94A3B8]">
-                  SHOWING: <span className="text-[#F8FAFC] uppercase">{activeCategory}</span>{' // '}
+                  SHOWING: <span className="text-[#F8FAFC] uppercase">{activeCategory}</span> //{' '}
                   <span className="text-[#00F0FF]">{sortBy}</span>
                 </div>
               </div>
@@ -778,7 +667,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
       className="w-full bg-[#090B0E] border-b border-[rgba(226,232,240,0.14)] py-16 lg:py-24"
     >
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8">
-        <div data-sx-reveal="heading" className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-10 border-b border-[rgba(226,232,240,0.14)]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-10 border-b border-[rgba(226,232,240,0.14)]">
           <div className="space-y-2">
             <div className="font-mono-tech text-xs text-[#00F0FF] tracking-widest">
               SECTION 04 // ERGONOMIC SHELL CALIBRATION
@@ -794,7 +683,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
 
         <div className="grid grid-cols-1 lg:grid-cols-12 border-x border-b border-[rgba(226,232,240,0.14)]">
           {/* Left: Interactive Sliders */}
-          <div data-sx-reveal="panel" className="lg:col-span-7 p-6 sm:p-8 space-y-6 border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)]">
+          <div className="lg:col-span-7 p-6 sm:p-8 space-y-6 border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)]">
             {/* Height Slider (155cm - 205cm) */}
             <div className="space-y-2">
               <div className="flex justify-between font-mono-tech text-xs">
@@ -901,7 +790,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
           </div>
 
           {/* Right: Real-Time Output & Sync Action */}
-          <div data-sx-reveal="panel" className="lg:col-span-5 bg-[#11161D]/70 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-5 bg-[#11161D]/70 p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between font-mono-tech text-xs text-[#94A3B8] border-b border-[rgba(226,232,240,0.14)] pb-3">
                 <span>BIOMETRIC OUTPUT MATRIX</span>
@@ -1047,7 +936,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       />
 
       {/* Slide-out Drawer Panel */}
-      <aside className="sx-cart-enter relative z-10 w-full max-w-lg bg-[#090B0E] border-l border-[rgba(226,232,240,0.2)] h-full flex flex-col justify-between overflow-hidden">
+      <aside className="relative z-10 w-full max-w-lg bg-[#090B0E] border-l border-[rgba(226,232,240,0.2)] h-full flex flex-col justify-between overflow-hidden">
         {/* Drawer Header + Free Orbital Express Shipping Bar */}
         <div className="p-5 border-b border-[rgba(226,232,240,0.14)] space-y-4 bg-[#11161D]">
           <div className="flex items-center justify-between">
@@ -2108,26 +1997,24 @@ export const FabricLab3D: React.FC<FabricLab3DProps> = ({
     let prevTimeMs = performance.now();
     let stopped = false;
     let rafId = 0;
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const tick = () => {
       if (stopped) return;
 
       if (isInViewport) {
         const nowMs = performance.now();
-        const reducedMotion = motionPreference.matches;
-        const dt = reducedMotion ? 0 : Math.min(0.05, Math.max(0.008, (nowMs - prevTimeMs) * 0.001));
+        const dt = Math.min(0.05, Math.max(0.008, (nowMs - prevTimeMs) * 0.001));
         prevTimeMs = nowMs;
-        const elapsedSec = reducedMotion ? 0 : nowMs * 0.001;
+        const elapsedSec = nowMs * 0.001;
 
         const mode = weatherModeRef.current;
         const focus = focusedLayerRef.current;
         const targetGap = getFabricSlabGap(explodePctRef.current);
 
         // Smoothly lerp vertical slab positions (+/- targetGap)
-        layer1Group.position.y = THREE.MathUtils.lerp(layer1Group.position.y, targetGap, reducedMotion ? 1 : 0.12);
+        layer1Group.position.y = THREE.MathUtils.lerp(layer1Group.position.y, targetGap, 0.12);
         layer2Group.position.y = 0;
-        layer3Group.position.y = THREE.MathUtils.lerp(layer3Group.position.y, -targetGap, reducedMotion ? 1 : 0.12);
+        layer3Group.position.y = THREE.MathUtils.lerp(layer3Group.position.y, -targetGap, 0.12);
 
         const currentGap = layer1Group.position.y;
 
@@ -2324,18 +2211,17 @@ export const FabricLab3D: React.FC<FabricLab3DProps> = ({
           camera.position.x = THREE.MathUtils.lerp(
             camera.position.x,
             goalPos.x * aspectFactor,
-            reducedMotion ? 1 : 0.08
+            0.08
           );
-          camera.position.y = THREE.MathUtils.lerp(camera.position.y, goalPos.y, reducedMotion ? 1 : 0.08);
+          camera.position.y = THREE.MathUtils.lerp(camera.position.y, goalPos.y, 0.08);
           camera.position.z = THREE.MathUtils.lerp(
             camera.position.z,
             goalPos.z * aspectFactor,
-            reducedMotion ? 1 : 0.08
+            0.08
           );
-          controls.target.lerp(goalTarget, reducedMotion ? 1 : 0.09);
+          controls.target.lerp(goalTarget, 0.09);
         }
 
-        controls.enableDamping = !reducedMotion;
         controls.update();
         renderer.render(scene, camera);
       }
@@ -2475,7 +2361,7 @@ export const FabricLabSection: React.FC = () => {
     >
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8">
         {/* Section Header + Explode Slider */}
-        <div data-sx-reveal="heading" className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-[rgba(226,232,240,0.14)]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-[rgba(226,232,240,0.14)]">
           <div className="space-y-2">
             <div className="font-mono-tech text-xs text-[#00F0FF] tracking-widest">
               SECTION 02 // MATERIAL SCIENCE & HYDROPHOBIC TELEMETRY
@@ -2515,7 +2401,6 @@ export const FabricLabSection: React.FC = () => {
         {/* Environmental Stress-Test Control Bar */}
         <div
           data-testid="fabric-weather-control-bar"
-          data-sx-reveal="panel"
           className="bg-[#11161D] border-x border-b border-[rgba(226,232,240,0.14)] p-3 sm:px-5 sm:py-3.5 space-y-2.5"
         >
           <div className="flex flex-wrap items-center justify-between gap-2 font-mono-tech text-[11px]">
@@ -2576,7 +2461,7 @@ export const FabricLabSection: React.FC = () => {
         {/* Main 2-Column 3D Microscopic Cross-Section + Synchronized Layer Spec Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-12 border-x border-b border-[rgba(226,232,240,0.14)]">
           {/* Left: Three.js WebGL 3D Microscopic Fabric Cross-Section & Weather Chamber */}
-          <div data-sx-reveal="panel" className="lg:col-span-7 relative bg-[#090B0E] border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)]">
+          <div className="lg:col-span-7 relative bg-[#090B0E] border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)]">
             {/* Top HUD Readout Overlay (Solid Dark Background, No Backdrop-Filter) */}
             <div className="absolute top-3 left-3 right-3 z-20 pointer-events-none flex flex-wrap items-center justify-between gap-2 font-mono-tech text-[10px]">
               <div className="bg-[#090B0E]/92 border border-[#00F0FF]/40 px-2.5 py-1.5 text-[#00F0FF]">
@@ -2611,7 +2496,6 @@ export const FabricLabSection: React.FC = () => {
 
           {/* Right: 3 Synchronized Layer Specification Cards (Hover & Click Camera Sync) */}
           <div
-            data-sx-reveal="panel"
             onMouseLeave={() => setHoveredLayer(null)}
             className="lg:col-span-5 divide-y divide-[rgba(226,232,240,0.14)] flex flex-col justify-between"
           >
@@ -2855,8 +2739,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
     if (!ctx) return;
 
     let animationFrameId = 0;
-    let isVisible = false;
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let isVisible = true;
     let width = (canvas.width = sectionEl.clientWidth || 1280);
     let height = (canvas.height = sectionEl.clientHeight || 720);
 
@@ -2869,6 +2752,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
     window.addEventListener('resize', handleResize);
 
     // Pause canvas loop when scrolled out of viewport using IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(sectionEl);
+
     // Initialize diagonal rain streaks (15deg slant)
     const streakCount = 95;
     const streaks: RainStreak[] = Array.from({ length: streakCount }, () => ({
@@ -2900,6 +2793,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
     };
 
     const render = () => {
+      animationFrameId = requestAnimationFrame(render);
+      if (!isVisible) return;
+
       ctx.clearRect(0, 0, width, height);
 
       // Hydrophobic collision bounding box over figure's shoulders & visor: x: 58% to 84%, y: 18% to 48%
@@ -2970,30 +2866,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
         ctx.fillStyle = p.color.replace('0.85', (alpha * 0.9).toFixed(2));
         ctx.fillRect(p.x - 1.5, p.y - 1.5, 2.5, 2.5);
       }
-      animationFrameId = requestAnimationFrame(render);
     };
 
-    const updatePlayback = () => {
-      cancelAnimationFrame(animationFrameId);
-      ctx.clearRect(0, 0, width, height);
-      if (isVisible && !motionPreference.matches && !document.hidden) {
-        animationFrameId = requestAnimationFrame(render);
-      }
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      isVisible = entry.isIntersecting;
-      updatePlayback();
-    }, { threshold: 0.05 });
-    observer.observe(sectionEl);
-    motionPreference.addEventListener('change', updatePlayback);
-    document.addEventListener('visibilitychange', updatePlayback);
+    animationFrameId = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
       observer.disconnect();
-      motionPreference.removeEventListener('change', updatePlayback);
-      document.removeEventListener('visibilitychange', updatePlayback);
     };
   }, []);
 
@@ -3153,25 +3033,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
       <div className="relative z-20 max-w-[1440px] mx-auto w-full px-4 lg:px-8 py-8 lg:py-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         {/* Left-Side Hero Typography & CTAs (x: 0% to 48%) */}
         <div className="lg:col-span-6 space-y-4 max-w-xl">
-          <div className="sx-hero-load sx-hero-load--eyebrow inline-flex items-center gap-3 font-mono-tech text-xs tracking-[0.18em] text-[#00F0FF] border-b border-[#00F0FF]/40 pb-1">
+          <div className="inline-flex items-center gap-3 font-mono-tech text-xs tracking-[0.18em] text-[#00F0FF] border-b border-[#00F0FF]/40 pb-1">
             <span>DROP 04 // FW-26 ARCHIVE COLLECTION</span>
             <span className="text-[#94A3B8]">·</span>
             <span className="text-[#D4FF00]">DWR ACTIVE</span>
           </div>
 
           <h1
-            className="sx-hero-sign font-display text-4xl sm:text-5xl lg:text-[54px] font-bold text-[#F8FAFC] leading-[1.02] tracking-[0.06em]"
+            className="font-display text-4xl sm:text-5xl lg:text-[54px] font-bold text-[#F8FAFC] leading-[1.02] tracking-[0.06em]"
             style={{ textWrap: 'balance' }}
           >
             ENGINEERED FOR HOSTILE ATMOSPHERES.
           </h1>
 
-          <p className="sx-hero-load sx-hero-load--copy text-sm sm:text-base text-[#94A3B8] leading-relaxed font-normal max-w-lg">
+          <p className="text-sm sm:text-base text-[#94A3B8] leading-relaxed font-normal max-w-lg">
             3-Layer ePTFE Storm Shells, Ballistic Cordura® Exoskeletons, and Modular Fidlock® Carry Systems.
           </p>
 
           {/* Primary & Secondary CTAs */}
-          <div className="sx-hero-load sx-hero-load--actions flex flex-wrap items-center gap-3 pt-1">
+          <div className="flex flex-wrap items-center gap-3 pt-1">
             <a
               href="#shells-grid"
               className="chamfer-btn bg-[#00F0FF] hover:bg-[#F8FAFC] text-[#090B0E] font-mono-tech text-xs font-bold tracking-wider px-5 py-3 transition-colors whitespace-nowrap"
@@ -3215,7 +3095,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ currency, onAddProduct
           {/* Floating HUD Inspection Card linked to Active Reticle Hotspot */}
           <div
             data-testid="hero-hud-card"
-            className="sx-hero-load sx-hero-load--hud bg-[#11161D]/90 backdrop-blur-md border border-[#00F0FF]/50 p-4 chamfer-card max-w-md space-y-2.5"
+            className="bg-[#11161D]/90 backdrop-blur-md border border-[#00F0FF]/50 p-4 chamfer-card max-w-md space-y-2.5"
           >
             <div className="flex items-center justify-between gap-2 border-b border-[rgba(226,232,240,0.14)] pb-1.5">
               <span className="font-mono-tech text-[11px] text-[#00F0FF] tracking-wider">
@@ -4053,19 +3933,17 @@ export const HologramRig3D: React.FC<HologramRig3DProps> = ({
 
     let stopped = false;
     let rafId = 0;
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const tick = () => {
       if (stopped) return;
 
       if (isInViewport && sceneHandlesRef.current) {
         const now = performance.now();
-        const reducedMotion = motionPreference.matches;
-        const elapsedSec = reducedMotion ? 0 : now * 0.001;
+        const elapsedSec = now * 0.001;
         const handles = sceneHandlesRef.current;
 
         // Slowly rotate Holographic Turntable Pedestal (0.003 rad/frame)
-        if (!reducedMotion) pedestalGroup.rotation.y += 0.003;
+        pedestalGroup.rotation.y += 0.003;
 
         // Subtle floating breathing motion on garment planes
         shellAssembly.group.position.y = 0.85 + Math.sin(elapsedSec * 1.6) * 0.018;
@@ -4076,22 +3954,22 @@ export const HologramRig3D: React.FC<HologramRig3DProps> = ({
         handles.gearGroup.position.x = THREE.MathUtils.lerp(
           handles.gearGroup.position.x,
           desiredAux.position[0],
-          reducedMotion ? 1 : 0.12
+          0.12
         );
         handles.gearGroup.position.y = THREE.MathUtils.lerp(
           handles.gearGroup.position.y,
           desiredAux.position[1] + Math.sin(elapsedSec * 1.8 + 2.2) * 0.02,
-          reducedMotion ? 1 : 0.12
+          0.12
         );
         handles.gearGroup.position.z = THREE.MathUtils.lerp(
           handles.gearGroup.position.z,
           desiredAux.position[2],
-          reducedMotion ? 1 : 0.12
+          0.12
         );
         handles.gearGroup.rotation.y = THREE.MathUtils.lerp(
           handles.gearGroup.rotation.y,
           desiredAux.rotationY,
-          reducedMotion ? 1 : 0.12
+          0.12
         );
 
         // Update 3D dashed leader line endpoints
@@ -4113,7 +3991,7 @@ export const HologramRig3D: React.FC<HologramRig3DProps> = ({
 
         // Update shader uniforms (time, optical mode, 0.65s vertical laser scan progress, active boost)
         const modeInt = opticalModeRef.current === 'TRUE OPTICAL' ? 1 : 0;
-        const calcScan = (startMs: number) => reducedMotion ? 1 : Math.min(1.0, Math.max(0.0, (now - startMs) / 650));
+        const calcScan = (startMs: number) => Math.min(1.0, Math.max(0.0, (now - startMs) / 650));
 
         handles.shellMat.uniforms.uTime.value = elapsedSec;
         handles.shellMat.uniforms.uMode.value = modeInt;
@@ -4164,16 +4042,15 @@ export const HologramRig3D: React.FC<HologramRig3DProps> = ({
             activeZoneRef.current === 'FULL RIG'
               ? Math.max(1.0, 1.24 / Math.max(0.72, camera.aspect))
               : Math.max(1.0, 1.08 / Math.max(0.76, camera.aspect));
-          const desiredCamX = handles.cameraGoalPos.x + (reducedMotion ? 0 : mouseParallax.x);
-          const desiredCamY = handles.cameraGoalPos.y + (reducedMotion ? 0 : mouseParallax.y);
+          const desiredCamX = handles.cameraGoalPos.x + mouseParallax.x;
+          const desiredCamY = handles.cameraGoalPos.y + mouseParallax.y;
           const desiredCamZ = handles.cameraGoalPos.z * aspectFactor;
-          camera.position.x = THREE.MathUtils.lerp(camera.position.x, desiredCamX, reducedMotion ? 1 : 0.08);
-          camera.position.y = THREE.MathUtils.lerp(camera.position.y, desiredCamY, reducedMotion ? 1 : 0.08);
-          camera.position.z = THREE.MathUtils.lerp(camera.position.z, desiredCamZ, reducedMotion ? 1 : 0.08);
-          controls.target.lerp(handles.cameraGoalTarget, reducedMotion ? 1 : 0.09);
+          camera.position.x = THREE.MathUtils.lerp(camera.position.x, desiredCamX, 0.08);
+          camera.position.y = THREE.MathUtils.lerp(camera.position.y, desiredCamY, 0.08);
+          camera.position.z = THREE.MathUtils.lerp(camera.position.z, desiredCamZ, 0.08);
+          controls.target.lerp(handles.cameraGoalTarget, 0.09);
         }
 
-        controls.enableDamping = !reducedMotion;
         controls.update();
         renderer.render(scene, camera);
       }
@@ -4414,7 +4291,7 @@ export const LoadoutBuilderSection: React.FC<LoadoutBuilderSectionProps> = ({
     >
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8">
         {/* Section Heading */}
-        <div data-sx-reveal="heading" className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-10 border-b border-[rgba(226,232,240,0.14)]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-10 border-b border-[rgba(226,232,240,0.14)]">
           <div className="space-y-2">
             <div className="font-mono-tech text-xs text-[#FF007F] tracking-widest">
               SECTION 03 // CHARACTER INVENTORY BUNDLE CONFIGURATOR
@@ -4431,7 +4308,7 @@ export const LoadoutBuilderSection: React.FC<LoadoutBuilderSectionProps> = ({
         {/* 2-Column Cyberpunk RPG Inventory Screen */}
         <div className="grid grid-cols-1 lg:grid-cols-12 border-x border-b border-[rgba(226,232,240,0.14)]">
           {/* Left Column: Three.js 2.5D Volumetric Hologram Chamber */}
-          <div data-sx-reveal="panel" className="lg:col-span-5 bg-[#11161D]/40 border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)] p-6 sm:p-8 flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-[#11161D]/40 border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)] p-6 sm:p-8 flex flex-col justify-between">
             <div className="flex flex-wrap items-center justify-between gap-2 font-mono-tech text-xs text-[#94A3B8] border-b border-[rgba(226,232,240,0.14)] pb-3">
               <span>TACTICAL SILHOUETTE // RIG-09</span>
               <span
@@ -4513,7 +4390,7 @@ export const LoadoutBuilderSection: React.FC<LoadoutBuilderSectionProps> = ({
           </div>
 
           {/* Right Column: 3-Slot Selector + Live Bundle Telemetry */}
-          <div data-sx-reveal="panel" className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div className="space-y-6">
               {/* Slot 01 // Outer Shell */}
               <div className="space-y-2.5">
@@ -4766,8 +4643,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <article
       data-testid={`product-card-${product.code}`}
-      data-sx-reveal="card"
-      className="sx-product relative bg-[#090B0E] border border-[rgba(226,232,240,0.14)] flex flex-col justify-between group hover:border-[#00F0FF]/60 transition-colors"
+      className="relative bg-[#090B0E] border border-[rgba(226,232,240,0.14)] flex flex-col justify-between group hover:border-[#00F0FF]/60 transition-colors"
     >
       {/* Corner Crosshair Registration Marks */}
       <span
@@ -5059,107 +4935,10 @@ export function ScenicFooter() {
             </div>
           </div>
         </div>
-        <div data-sx-reveal="heading" className="px-4 lg:px-8 pb-10 flex flex-wrap items-end justify-between gap-8"><div><p className="font-mono-tech text-xs text-[#E2E8F0] mb-4 tracking-wider">THE URBAN ENVIRONMENT / 001</p><h2 className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl leading-[0.9] tracking-tight">BEYOND<br />THE FORECAST<span className="text-[#00F0FF]">.</span></h2></div><div className="max-w-xs"><p className="text-sm text-[#E2E8F0] leading-relaxed">Made to move through whatever comes next.</p><a className="inline-block mt-5 font-mono-tech text-xs font-bold text-[#00F0FF] hover:underline focus-visible:outline-2 focus-visible:outline-[#00F0FF]" href="#shells-grid">EXPLORE THE ARCHIVE ↗</a></div></div>
+        <div className="px-4 lg:px-8 pb-10 flex flex-wrap items-end justify-between gap-8"><div><p className="font-mono-tech text-xs text-[#E2E8F0] mb-4 tracking-wider">THE URBAN ENVIRONMENT / 001</p><h2 className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl leading-[0.9] tracking-tight">BEYOND<br />THE FORECAST<span className="text-[#00F0FF]">.</span></h2></div><div className="max-w-xs"><p className="text-sm text-[#E2E8F0] leading-relaxed">Made to move through whatever comes next.</p><a className="inline-block mt-5 font-mono-tech text-xs font-bold text-[#00F0FF] hover:underline focus-visible:outline-2 focus-visible:outline-[#00F0FF]" href="#shells-grid">EXPLORE THE ARCHIVE ↗</a></div></div>
       </div>
     </section>
   );
-}
-]]>
-    </file>
-    <file path="src/app/(synapxe)/synapxe/components/ScrollReveals.tsx">
-<![CDATA['use client';
-
-import { useEffect } from 'react';
-
-/** Reveal each off-screen element once, including cards added by the archive filter. */
-export function ScrollReveals() {
-  useEffect(() => {
-    const root = document.querySelector<HTMLElement>('.synapxe-root');
-    if (!root || !('IntersectionObserver' in window)) return;
-
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        (entry.target as HTMLElement).dataset.sxActivated = 'true';
-        (entry.target as HTMLElement).dataset.sxState = 'visible';
-        observer.unobserve(entry.target);
-      }
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-
-    const prepare = (element: HTMLElement) => {
-      if (element.dataset.sxState === 'pending') {
-        if (preference.matches) element.dataset.sxState = 'visible';
-        else observer.observe(element);
-        return;
-      }
-      if (element.dataset.sxState === 'visible') return;
-      // Keep first-paint content visible, and avoid hiding anything when motion is reduced.
-      if (preference.matches || element.getBoundingClientRect().top < window.innerHeight) {
-        element.dataset.sxState = 'visible';
-      } else {
-        element.dataset.sxState = 'pending';
-        observer.observe(element);
-      }
-    };
-    const scan = (parent: ParentNode) => {
-      parent.querySelectorAll<HTMLElement>('[data-sx-reveal]').forEach(prepare);
-    };
-    scan(root);
-
-    const mutations = new MutationObserver((records) => {
-      for (const record of records) {
-        for (const node of record.removedNodes) {
-          if (!(node instanceof HTMLElement) || root.contains(node)) continue;
-          if (node.matches('[data-sx-reveal]')) observer.unobserve(node);
-          node.querySelectorAll<HTMLElement>('[data-sx-reveal]').forEach((element) => observer.unobserve(element));
-        }
-        for (const node of record.addedNodes) {
-          if (!(node instanceof HTMLElement)) continue;
-          if (node.matches('[data-sx-reveal]')) prepare(node);
-          scan(node);
-        }
-      }
-    });
-    mutations.observe(root, { childList: true, subtree: true });
-
-    const revealFocused = (event: FocusEvent) => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement)) return;
-      const reveal = target.closest<HTMLElement>('[data-sx-reveal]');
-      if (!reveal) return;
-      delete reveal.dataset.sxActivated;
-      reveal.dataset.sxState = 'visible';
-      observer.unobserve(reveal);
-    };
-    const finishReveal = (event: AnimationEvent) => {
-      if (event.animationName !== 'sx-power-on' || !(event.target instanceof HTMLElement)) return;
-      delete event.target.dataset.sxActivated;
-    };
-    const preferenceChanged = () => {
-      if (!preference.matches) return;
-      root.querySelectorAll<HTMLElement>('[data-sx-activated]').forEach((element) => {
-        delete element.dataset.sxActivated;
-      });
-      root.querySelectorAll<HTMLElement>('[data-sx-state="pending"]').forEach((element) => {
-        element.dataset.sxState = 'visible';
-        observer.unobserve(element);
-      });
-    };
-    root.addEventListener('focusin', revealFocused);
-    root.addEventListener('animationend', finishReveal);
-    preference.addEventListener('change', preferenceChanged);
-
-    return () => {
-      observer.disconnect();
-      mutations.disconnect();
-      root.removeEventListener('focusin', revealFocused);
-      root.removeEventListener('animationend', finishReveal);
-      preference.removeEventListener('change', preferenceChanged);
-    };
-  }, []);
-
-  return null;
 }
 ]]>
     </file>
@@ -5424,7 +5203,7 @@ export const TyvekFooter: React.FC = () => {
 
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Column 1 (5 cols): Interactive NFC Garment Authenticity Verifier */}
-        <div id="footer-verifier" data-sx-reveal="panel" className="lg:col-span-5 space-y-5 border border-[#090B0E]/30 bg-white/60 p-6">
+        <div id="footer-verifier" className="lg:col-span-5 space-y-5 border border-[#090B0E]/30 bg-white/60 p-6">
           <div className="flex items-center justify-between border-b border-[#090B0E]/20 pb-3 font-mono-tech text-xs">
             <span className="font-bold bg-[#090B0E] text-[#F1F5F9] px-2 py-0.5">
               NFC CHIP REGISTRY
@@ -5536,7 +5315,7 @@ export const TyvekFooter: React.FC = () => {
         </div>
 
         {/* Column 2 (7 cols): Collapsible FAQ/Shipping Accordions + ISO Care Matrix */}
-        <div id="footer-care" data-sx-reveal="panel" className="lg:col-span-7 flex flex-col justify-between space-y-8">
+        <div id="footer-care" className="lg:col-span-7 flex flex-col justify-between space-y-8">
           <div className="space-y-3">
             <div className="font-mono-tech text-xs font-bold tracking-wider uppercase border-b border-[#090B0E]/30 pb-2">
               TECHNICAL SPECIFICATIONS, SHIPPING & GARMENT CARE PROTOCOLS
@@ -5557,7 +5336,7 @@ export const TyvekFooter: React.FC = () => {
                       <span className="text-sm">{isOpen ? '[-]' : '[+]'}</span>
                     </button>
                     {isOpen && (
-                      <div className="sx-disclosure-enter px-4 pb-4 text-xs sm:text-sm text-[#090B0E]/85 leading-relaxed font-mono-tech">
+                      <div className="px-4 pb-4 text-xs sm:text-sm text-[#090B0E]/85 leading-relaxed font-mono-tech">
                         {item.answer}
                       </div>
                     )}
