@@ -14,23 +14,16 @@ async function main() {
   let failed = false;
   try {
     for (const template of TEMPLATES) {
-      const page = await browser.newPage({ viewport: { width: 880, height: 1100 }, reducedMotion: "reduce" });
+      const page = await browser.newPage({ viewport: { width: 880, height: 495 }, reducedMotion: template.slug === "xibalba" ? "no-preference" : "reduce" });
       try {
         const response = await page.goto(new URL(`/${template.slug}`, origin).href, { waitUntil: "networkidle" });
         if (!response?.ok()) throw new Error(`HTTP ${response?.status()}`);
         // Use production pages so developer overlays never enter the captures.
         if (await page.locator("nextjs-portal").count()) throw new Error("Use next start instead of next dev.");
         await page.evaluate(async () => { await document.fonts.ready; });
-        const height = await page.evaluate(() => Math.min(3400, Math.max(1100, document.documentElement.scrollHeight)));
-        for (let y = 0; y < height; y += 700) {
-          await page.evaluate((offset) => window.scrollTo(0, offset), y);
-          await page.waitForTimeout(150);
-        }
-        await page.evaluate(() => window.scrollTo(0, 0));
-        await page.waitForTimeout(350);
-        const capture = await page.screenshot({ fullPage: true });
-        await sharp(capture).extract({ left: 0, top: 0, width: 880, height })
-          .webp({ quality: 80 }).toFile(path.join(output, `${template.slug}.webp`));
+        await page.waitForTimeout(template.slug === "xibalba" ? 8000 : 350);
+        const capture = await page.screenshot();
+        await sharp(capture).webp({ quality: 80 }).toFile(path.join(output, `${template.slug}.webp`));
         console.log(`Captured ${template.slug}`);
       } catch (error) {
         failed = true;

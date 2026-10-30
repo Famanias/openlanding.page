@@ -13,6 +13,24 @@ async function toProgress(page: Page, selector: string, p: number) {
 const clipOf = (page: Page) => page.locator(".us-house").evaluate((el) => getComputedStyle(el).clipPath);
 
 test.describe("Understudy", () => {
+  for (const [width, height] of [[1900, 910], [1280, 720], [390, 844]]) {
+    test(`the hero introduction is visible on first load at ${width}x${height}`, async ({ page }) => {
+      await page.setViewportSize({ width, height });
+      await page.goto("/understudy");
+      await page.waitForTimeout(1500);
+      const header = (await page.locator(".us-top").boundingBox())!;
+      const eyebrow = (await page.locator(".us-hero__eyebrow").boundingBox())!;
+      const heading = (await page.locator(".us-hero__t").boundingBox())!;
+      const ledger = (await page.locator(".us-hero__ledger").boundingBox())!;
+      const arch = (await page.locator(".us-hero__slot").boundingBox())!;
+      const dock = (await page.locator(".us-dock").boundingBox())!;
+      expect(eyebrow.y).toBeGreaterThanOrEqual(header.y + header.height);
+      expect(heading.y).toBeGreaterThanOrEqual(header.y + header.height);
+      expect(ledger.y + ledger.height).toBeLessThan(arch.y);
+      expect(arch.y + arch.height).toBeLessThan(dock.y);
+    });
+  }
+
   test("the push-in: the arch opens to the whole screen and the dark house takes the chrome", async ({ page }) => {
     await page.goto("/understudy");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Your first job,\s*rehearsed\./);

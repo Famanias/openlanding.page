@@ -29,19 +29,15 @@ test("all model families return real matching templates", async ({ page }) => {
   }
 });
 
-test("preview shows the full 16:9 video and screenshot moves on hover", async ({ page }) => {
+test("gallery previews show still hero screenshots", async ({ page }) => {
   await page.goto("/");
-  const card = page.locator("article:has(video)").first();
+  const card = page.locator("article").first();
   const preview = card.locator(".template-preview");
   const box = await preview.boundingBox();
   expect(box!.height / box!.width).toBeCloseTo(9 / 16, 2);
-  await expect(card.locator("video")).toHaveCSS("object-fit", "contain");
+  await expect(card.locator("img")).toBeVisible();
+  await expect(page.locator(".template-preview video")).toHaveCount(0);
   await card.hover();
-  await expect(card).toHaveAttribute("data-previewing", "true");
-  await expect.poll(() => card.locator("img").evaluate((img) => getComputedStyle(img).transform)).not.toBe("none");
-  await expect(card.getByRole("button", { name: /preview/i })).toHaveCount(0);
-  await page.getByRole("searchbox").hover();
-  await expect(card).toHaveAttribute("data-previewing", "false");
   await expect(card.locator("img")).toHaveCSS("transform", "none");
 });
 
@@ -61,7 +57,7 @@ test("keyboard shortcut, clear, and browser history resynchronize the search", a
   await expect(page.locator("article")).toHaveCount(43);
 });
 
-test("reduced motion disables image pan and mobile retains search", async ({ page }) => {
+test("mobile retains search and still previews", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/");
@@ -71,81 +67,3 @@ test("reduced motion disables image pan and mobile retains search", async ({ pag
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
 });
 
-test("visible videos autoplay without hover, pause offscreen, and resume", async ({ page }) => {
-  await page.goto("/");
-  const card = page.locator("article:has(video)").first();
-  const video = card.locator("video");
-  await expect(card).toHaveAttribute("data-previewing", "false");
-  await expect(card).toHaveAttribute("data-playing", "true");
-  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.currentTime)).toBeGreaterThan(0);
-  expect(await video.evaluate((el: HTMLVideoElement) => el.muted && el.loop && el.playsInline)).toBe(true);
-  await card.hover();
-  await page.getByRole("searchbox").hover();
-  await expect(card).toHaveAttribute("data-playing", "true");
-  expect(await video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(false);
-
-  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
-  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
-  await expect(card).toHaveAttribute("data-playing", "false");
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(false);
-  await expect(card).toHaveAttribute("data-playing", "true");
-});
-
-test("autoplay responds to motion preferences and tab visibility", async ({ page }) => {
-  await page.goto("/");
-  const card = page.locator("article:has(video)").first();
-  const video = card.locator("video");
-  await expect(card).toHaveAttribute("data-playing", "true");
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
-  await expect(video).toBeHidden();
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(false);
-  await page.evaluate(() => {
-    Object.defineProperty(document, "hidden", { configurable: true, value: true });
-    document.dispatchEvent(new Event("visibilitychange"));
-  });
-  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
-  await page.evaluate(() => {
-    Reflect.deleteProperty(document, "hidden");
-    document.dispatchEvent(new Event("visibilitychange"));
-  });
-  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(false);
-});
-
-test("every gallery video stays muted at zero volume, including after resume", async ({ page }) => {
-  await page.goto("/");
-  const videos = page.locator(".template-video");
-  await expect(videos).toHaveCount(43);
-  const allSilent = () => videos.evaluateAll(elements => elements.every(element => {
-    const video = element as HTMLVideoElement;
-    return video.muted && video.defaultMuted && video.volume === 0;
-  }));
-  await expect.poll(allSilent).toBe(true);
-  await videos.first().evaluate((video: HTMLVideoElement) => {
-    video.volume = 1;
-    video.muted = false;
-  });
-  await expect.poll(allSilent).toBe(true);
-  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
-  await expect.poll(() => videos.first().evaluate((video: HTMLVideoElement) => video.paused)).toBe(true);
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-  await expect.poll(() => videos.first().evaluate((video: HTMLVideoElement) => video.paused)).toBe(false);
-  await expect.poll(allSilent).toBe(true);
-});
-
-test("touch devices autoplay visible previews without a tap", async ({ browser }) => {
-  const context = await browser.newContext({ viewport: { width: 375, height: 812 }, hasTouch: true, isMobile: true });
-  try {
-    const page = await context.newPage();
-    await page.goto(test.info().project.use.baseURL + "/");
-    const card = page.locator("article:has(video)").first();
-    await card.scrollIntoViewIfNeeded();
-    await expect(card).toHaveAttribute("data-playing", "true");
-    await expect(card).toHaveAttribute("data-previewing", "false");
-    await expect.poll(() => card.locator("video").evaluate((el: HTMLVideoElement) => el.currentTime)).toBeGreaterThan(0);
-  } finally {
-    await context.close();
-  }
-});

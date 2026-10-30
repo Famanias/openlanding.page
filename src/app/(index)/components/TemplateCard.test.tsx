@@ -36,18 +36,11 @@ describe("TemplateCard", () => {
     expect(html).not.toMatch(/<button[^>]*aria-label="Download HTML"[^>]*disabled=""/);
   });
 
-  it("renders video tag for KŌJI with muted and loop attributes", () => {
-    const koji = TEMPLATES.find(t => t.slug === "koji")!;
-    const html = renderToStaticMarkup(<TemplateCard template={koji} isEager={false} />);
-    expect(html).toContain("<video");
-    expect(html).toContain("dive-2-m.mp4");
-    expect(html).toContain("muted");
-  });
-
-  it("does not render video tag for templates without video clip", () => {
-    const templateWithoutClip = { ...TEMPLATES[0], videoClip: undefined };
-    const html = renderToStaticMarkup(<TemplateCard template={templateWithoutClip} isEager={false} />);
-    expect(html).not.toContain("<video");
+  it("renders a still hero preview even when a video clip is available", () => {
+    const template = TEMPLATES.find(t => t.slug === "koji")!;
+    const html = renderToStaticMarkup(<TemplateCard template={template} />);
+    expect(html).toContain('/gallery/koji.webp');
+    expect(html).not.toContain('<video');
   });
 
   it("sets preview image loading to eager when isEager is true and lazy when false", () => {
