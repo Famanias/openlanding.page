@@ -119,3 +119,8 @@ input[type="range"].kinetix-slider::-moz-range-thumb {
     linear-gradient(315deg, rgba(15, 23, 42, 0.03) 25%, #F1F5F9 25%);
   background-size: 24px 24px;
 }
+
+/* Scenic closing frame: the image stays still while rain passes over it. */
+.scenic-footer-image {
+  background: linear-gradient(180deg, rgba(9, 11, 14, .8), rgba(9, 11, 14, .18) 48%, rgba(9, 11, 14, .88)), url('/templates/synapxe/footer-scene.webp') center / cover no-repeat;
+}

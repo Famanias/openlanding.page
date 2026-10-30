@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ScenicFooter } from './ScenicFooter';
 import { PRODUCTS } from '../data/products';
 import { NfcVerificationResult, verifyNfcChipCode } from '../utils/storeLogic';
 
@@ -67,7 +68,7 @@ export const TyvekFooter: React.FC = () => {
 
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Column 1 (5 cols): Interactive NFC Garment Authenticity Verifier */}
-        <div className="lg:col-span-5 space-y-5 border border-[#090B0E]/30 bg-white/60 p-6">
+        <div id="footer-verifier" className="lg:col-span-5 space-y-5 border border-[#090B0E]/30 bg-white/60 p-6">
           <div className="flex items-center justify-between border-b border-[#090B0E]/20 pb-3 font-mono-tech text-xs">
             <span className="font-bold bg-[#090B0E] text-[#F1F5F9] px-2 py-0.5">
               NFC CHIP REGISTRY
@@ -179,7 +180,7 @@ export const TyvekFooter: React.FC = () => {
         </div>
 
         {/* Column 2 (7 cols): Collapsible FAQ/Shipping Accordions + ISO Care Matrix */}
-        <div className="lg:col-span-7 flex flex-col justify-between space-y-8">
+        <div id="footer-care" className="lg:col-span-7 flex flex-col justify-between space-y-8">
           <div className="space-y-3">
             <div className="font-mono-tech text-xs font-bold tracking-wider uppercase border-b border-[#090B0E]/30 pb-2">
               TECHNICAL SPECIFICATIONS, SHIPPING & GARMENT CARE PROTOCOLS
@@ -250,6 +251,7 @@ export const TyvekFooter: React.FC = () => {
         </span>
         <span>LOT #KNX-FW26-09 // PRINTED ON UNBLEACHED DUPONT™ TYVEK®</span>
       </div>
+      <ScenicFooter />
     </footer>
   );
 };
