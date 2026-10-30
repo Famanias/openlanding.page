@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "node:path";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -23,6 +24,16 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        source: "/kinetix",
+        destination: "/cyberpunk",
+        permanent: true,
+      },
+      {
+        source: "/kinetix/:path*",
+        destination: "/cyberpunk/:path*",
+        permanent: true,
+      },
       {
         source: "/cairn",
         destination: "/keytu",

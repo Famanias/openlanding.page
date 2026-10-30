@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "cyberpunk";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -36,6 +36,25 @@ export const CATEGORIES: Category[] = [
   { id: "editorial-magazine", label: "Editorial Magazine" },
   { id: "conversion", label: "Conversion Landing" },
 ];
+
+export const CYBERPUNK_PROMPT = `# Prompt: rebuild "KINETIX // ARCHIVE" (Cyberpunk Techwear Storefront)
+
+Build a complete, production-grade, single-page interactive Cyberpunk Technical Apparel Storefront named **KINETIX // ARCHIVE** (Sub-brand: *Engineered Urban Shell Systems & Modular Techwear*).
+
+### 1. Structure & Sections
+- **Sticky Telemetry Header**: brand wordmark, live system clock (UTC/JST), coordinates, dynamic currency switcher (USD/JPY/EUR), and cart counter with weight telemetry.
+- **Flagship Hero**: Full-viewport figure with real-time HTML5 Canvas rain/hydrophobic particle physics, four pinned garment reticle hotspots, and optical shader modes (Optical, Thermal, UV-Lumen).
+- **Tyvek Care-Label Seam & Sticky Filter Bar**: High-contrast garment care tag with ISO laundry symbols, live drop countdown, category filter tabs, and sorting dropdown.
+- **Modular Loadout Archive Grid**: 10 brutalist product cards with quick-size selector matrix, colorway swatches, and spec progress bars.
+- **Interactive 3-Layer Fabric Lab**: Three.js 3D exploded-view membrane schematic demonstrating Cordura outer shield, ePTFE core, and tricot wicking matrix.
+- **Modular Loadout Builder**: 2-column RPG inventory configurator with 3D hologram wireframe and automatic 15% full-system bundle discount.
+- **Biometric Fit Calculator**: Interactive height, mass, and chest expansion sliders calculating recommended size with 1-click sync to all product cards.
+- **Hardware Cart Drawer**: Free shipping threshold tracker, terminal promo code input, and cryptographic checkout confirmation modal.
+- **Tyvek Specification Footer**: Woven industrial care label with interactive NFC garment authenticity verifier and dispatch newsletter.
+
+### 2. Palette & Typography
+- Palette: #00F0FF, #090B0E, #11161D, #18222F, #475569, #94A3B8, #D4FF00, #E2E8F0, #F1F5F9, #F8FAFC, #FF007F, #FF7A00.
+- Fonts: Oswald (display), Manrope (body), JetBrains Mono (technical telemetry).`;
 
 export const PERIGEE_PROMPT = `# Prompt: rebuild "PERIGEE"
 
@@ -1014,6 +1033,19 @@ slug: "tally",
     promptMarkdown: XIBALBA_PROMPT,
     model: "Gemini 3.8 Flash High",
   },
+  {
+    slug: "cyberpunk",
+    createdAt: "2026-10-30",
+    title: "KINETIX // ARCHIVE",
+    description: "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
+    category: "conversion",
+    industry: "Cyberpunk Techwear & Apparel",
+    stack: "Next.js 16 · React 19 · Three.js 3D · Tailwind v4 · Canvas Rain",
+    badges: ["3D Fabric Lab", "Loadout Builder", "Biometric Sizing", "Hardware Cart"],
+    previewImage: "/templates/cyberpunk/preview-1600.webp",
+    promptMarkdown: CYBERPUNK_PROMPT,
+    model: "Gemini 3.8 Flash High",
+  },
 ];
 
 const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
@@ -1029,7 +1061,7 @@ export const TEMPLATES: TemplateItem[] = registeredTemplates
     ...template,
     videoClip:
       template.videoClip ??
-      (template.slug === "amaoto" || template.slug === "perigee" || template.slug === "xibalba"
+      (template.slug === "amaoto" || template.slug === "perigee" || template.slug === "xibalba" || template.slug === "cyberpunk"
         ? undefined
         : `/gallery/clips/${template.slug}.mp4`),
   }));
