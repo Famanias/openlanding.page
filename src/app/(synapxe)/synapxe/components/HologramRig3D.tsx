@@ -750,17 +750,19 @@ export const HologramRig3D: React.FC<HologramRig3DProps> = ({
 
     let stopped = false;
     let rafId = 0;
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const tick = () => {
       if (stopped) return;
 
       if (isInViewport && sceneHandlesRef.current) {
         const now = performance.now();
-        const elapsedSec = now * 0.001;
+        const reducedMotion = motionPreference.matches;
+        const elapsedSec = reducedMotion ? 0 : now * 0.001;
         const handles = sceneHandlesRef.current;
 
         // Slowly rotate Holographic Turntable Pedestal (0.003 rad/frame)
-        pedestalGroup.rotation.y += 0.003;
+        if (!reducedMotion) pedestalGroup.rotation.y += 0.003;
 
         // Subtle floating breathing motion on garment planes
         shellAssembly.group.position.y = 0.85 + Math.sin(elapsedSec * 1.6) * 0.018;
@@ -771,22 +773,22 @@ export const HologramRig3D: React.FC<HologramRig3DProps> = ({
         handles.gearGroup.position.x = THREE.MathUtils.lerp(
           handles.gearGroup.position.x,
           desiredAux.position[0],
-          0.12
+          reducedMotion ? 1 : 0.12
         );
         handles.gearGroup.position.y = THREE.MathUtils.lerp(
           handles.gearGroup.position.y,
           desiredAux.position[1] + Math.sin(elapsedSec * 1.8 + 2.2) * 0.02,
-          0.12
+          reducedMotion ? 1 : 0.12
         );
         handles.gearGroup.position.z = THREE.MathUtils.lerp(
           handles.gearGroup.position.z,
           desiredAux.position[2],
-          0.12
+          reducedMotion ? 1 : 0.12
         );
         handles.gearGroup.rotation.y = THREE.MathUtils.lerp(
           handles.gearGroup.rotation.y,
           desiredAux.rotationY,
-          0.12
+          reducedMotion ? 1 : 0.12
         );
 
         // Update 3D dashed leader line endpoints
@@ -808,7 +810,7 @@ export const HologramRig3D: React.FC<HologramRig3DProps> = ({
 
         // Update shader uniforms (time, optical mode, 0.65s vertical laser scan progress, active boost)
         const modeInt = opticalModeRef.current === 'TRUE OPTICAL' ? 1 : 0;
-        const calcScan = (startMs: number) => Math.min(1.0, Math.max(0.0, (now - startMs) / 650));
+        const calcScan = (startMs: number) => reducedMotion ? 1 : Math.min(1.0, Math.max(0.0, (now - startMs) / 650));
 
         handles.shellMat.uniforms.uTime.value = elapsedSec;
         handles.shellMat.uniforms.uMode.value = modeInt;
@@ -859,15 +861,16 @@ export const HologramRig3D: React.FC<HologramRig3DProps> = ({
             activeZoneRef.current === 'FULL RIG'
               ? Math.max(1.0, 1.24 / Math.max(0.72, camera.aspect))
               : Math.max(1.0, 1.08 / Math.max(0.76, camera.aspect));
-          const desiredCamX = handles.cameraGoalPos.x + mouseParallax.x;
-          const desiredCamY = handles.cameraGoalPos.y + mouseParallax.y;
+          const desiredCamX = handles.cameraGoalPos.x + (reducedMotion ? 0 : mouseParallax.x);
+          const desiredCamY = handles.cameraGoalPos.y + (reducedMotion ? 0 : mouseParallax.y);
           const desiredCamZ = handles.cameraGoalPos.z * aspectFactor;
-          camera.position.x = THREE.MathUtils.lerp(camera.position.x, desiredCamX, 0.08);
-          camera.position.y = THREE.MathUtils.lerp(camera.position.y, desiredCamY, 0.08);
-          camera.position.z = THREE.MathUtils.lerp(camera.position.z, desiredCamZ, 0.08);
-          controls.target.lerp(handles.cameraGoalTarget, 0.09);
+          camera.position.x = THREE.MathUtils.lerp(camera.position.x, desiredCamX, reducedMotion ? 1 : 0.08);
+          camera.position.y = THREE.MathUtils.lerp(camera.position.y, desiredCamY, reducedMotion ? 1 : 0.08);
+          camera.position.z = THREE.MathUtils.lerp(camera.position.z, desiredCamZ, reducedMotion ? 1 : 0.08);
+          controls.target.lerp(handles.cameraGoalTarget, reducedMotion ? 1 : 0.09);
         }
 
+        controls.enableDamping = !reducedMotion;
         controls.update();
         renderer.render(scene, camera);
       }

@@ -25,7 +25,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
       className="w-full bg-[#090B0E] border-b border-[rgba(226,232,240,0.14)] py-16 lg:py-24"
     >
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-10 border-b border-[rgba(226,232,240,0.14)]">
+        <div data-sx-reveal="heading" className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-10 border-b border-[rgba(226,232,240,0.14)]">
           <div className="space-y-2">
             <div className="font-mono-tech text-xs text-[#00F0FF] tracking-widest">
               SECTION 04 // ERGONOMIC SHELL CALIBRATION
@@ -41,7 +41,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
 
         <div className="grid grid-cols-1 lg:grid-cols-12 border-x border-b border-[rgba(226,232,240,0.14)]">
           {/* Left: Interactive Sliders */}
-          <div className="lg:col-span-7 p-6 sm:p-8 space-y-6 border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)]">
+          <div data-sx-reveal="panel" className="lg:col-span-7 p-6 sm:p-8 space-y-6 border-b lg:border-b-0 lg:border-r border-[rgba(226,232,240,0.14)]">
             {/* Height Slider (155cm - 205cm) */}
             <div className="space-y-2">
               <div className="flex justify-between font-mono-tech text-xs">
@@ -148,7 +148,7 @@ export const BiometricFitSection: React.FC<BiometricFitSectionProps> = ({
           </div>
 
           {/* Right: Real-Time Output & Sync Action */}
-          <div className="lg:col-span-5 bg-[#11161D]/70 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div data-sx-reveal="panel" className="lg:col-span-5 bg-[#11161D]/70 p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between font-mono-tech text-xs text-[#94A3B8] border-b border-[rgba(226,232,240,0.14)] pb-3">
                 <span>BIOMETRIC OUTPUT MATRIX</span>

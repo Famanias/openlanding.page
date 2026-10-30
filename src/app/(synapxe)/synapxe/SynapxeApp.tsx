@@ -29,6 +29,7 @@ import { LoadoutBuilderSection } from './components/LoadoutBuilderSection';
 import { BiometricFitSection } from './components/BiometricFitSection';
 import { CartDrawer } from './components/CartDrawer';
 import { TyvekFooter } from './components/TyvekFooter';
+import { ScrollReveals } from './components/ScrollReveals';
 
 export default function SynapxeApp() {
   const [currency, setCurrency] = useState<CurrencyCode>('USD');
@@ -123,7 +124,7 @@ export default function SynapxeApp() {
   ) => {
     const bundleItems = [shell, bottom, gear];
     setCartItems((prev) => {
-      let next = [...prev];
+      const next = [...prev];
       for (const prod of bundleItems) {
         const sz = selectedSizes[prod.id] || 'L';
         const key = `${prod.id}-${sz}-STEALTH BLACK-bundle`;
@@ -157,7 +158,8 @@ export default function SynapxeApp() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090B0E] text-[#F8FAFC] flex flex-col">
+    <div className="synapxe-root min-h-screen bg-[#090B0E] text-[#F8FAFC] flex flex-col">
+      <ScrollReveals />
       {/* SECTION 1: Sticky Top System Telemetry Header */}
       <Header
         currency={currency}
@@ -190,7 +192,7 @@ export default function SynapxeApp() {
             className="w-full bg-[#090B0E] border-b border-[rgba(226,232,240,0.14)] py-12 lg:py-16"
           >
             <div className="max-w-[1440px] mx-auto px-4 lg:px-8">
-              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div data-sx-reveal="heading" className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
                 <div>
                   <span className="font-mono-tech text-xs text-[#00F0FF] tracking-widest block">
                     SECTION 01 // FIELD-READY TECHNICAL GARMENTS
@@ -200,7 +202,7 @@ export default function SynapxeApp() {
                   </h2>
                 </div>
                 <div className="font-mono-tech text-xs text-[#94A3B8]">
-                  SHOWING: <span className="text-[#F8FAFC] uppercase">{activeCategory}</span> //{' '}
+                  SHOWING: <span className="text-[#F8FAFC] uppercase">{activeCategory}</span>{' // '}
                   <span className="text-[#00F0FF]">{sortBy}</span>
                 </div>
               </div>
