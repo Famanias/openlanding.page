@@ -79,7 +79,7 @@ describe("gallery template data", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (t.slug === "firstday") {
-        expect(t.model).toBe("GPT-6");
+        expect(t.model).toBe("GPT-6 Astra Max");
       } else if (t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
       } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "xibalba") {
