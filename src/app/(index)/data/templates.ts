@@ -1,4 +1,4 @@
-export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam";
+export type TemplateSlug = "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "xibalba";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -36,6 +36,26 @@ export const CATEGORIES: Category[] = [
   { id: "editorial-magazine", label: "Editorial Magazine" },
   { id: "conversion", label: "Conversion Landing" },
 ];
+
+export const XIBALBA_PROMPT = `# Prompt: rebuild "XIBALBA" (Night of the Jade Cenote)
+
+Build a single-page site for a nocturnal equinox ceremony and subterranean botanical reserve called **Xibalba**.
+
+### 1. Structure
+- One continuous illustrated vertical descent into a collapsed Yucatan limestone sinkhole (cenote) at midnight: five full-bleed 16:9 flat-vector scenes stacked vertically into a single tall cross-section, joined across every boundary by four 16:9 illustrated limestone-and-root seam bands.
+- Shard-cut geometric shapes, grainy lithograph texture, glowing rim light, deep obsidian-teal (#040A0E), bioluminescent jade-cyan (#5FF2C8) waterfalls, and warm marigold-copal (#FFA33E) firelight.
+- Additive mix-blend-mode: screen canvas waterfalls, molten amber copal streams, bioluminescent spores, morpho spirit physics with cursor repulsion, and cave bat flight cycles.
+- Automatic black-key alpha transparency pre-processes seam bands and sprites.
+
+### 2. Palette & Typography
+- Palette: #040A0E, #071218, #EEFAF6, #FFA33E, #5FF2C8.
+- Fonts: Oswald (display), Inter (body).
+
+### 3. Interactive Mechanics & Access
+- Pure math calculations for sprite crops, bat flight trajectories, and cursor repulsion in cenoteMath.ts.
+- Additive HTML5 canvas render loops in cenoteEngine.ts.
+- Accessible modal dialogs for Equinox Codex, Vertical Descent station map, and Passage Reservation form.
+- Full semantic fallback for SSR and prefers-reduced-motion.`;
 
 export const LOAM_PROMPT = `# Prompt: rebuild "LOAM"
 
@@ -923,6 +943,19 @@ slug: "tally",
     promptMarkdown: LOAM_PROMPT,
     model: "Gemini 4 Argon High",
   },
+  {
+    slug: "xibalba",
+    createdAt: "2026-10-30",
+    title: "XIBALBA",
+    description: "Night of the Jade Cenote. An interactive vertical descent scroll into the subterranean botanical reserve and nocturnal equinox ceremony of Xibalba.",
+    category: "scroll-showcase",
+    industry: "Botanical Reserve & Ceremony",
+    stack: "Next.js 16 · React 19 · Canvas Additive Physics · Black-Key Alpha",
+    badges: ["Vertical Descent Scroll", "Canvas Waterfalls", "Alpha Keying", "Sprite Physics"],
+    previewImage: "/templates/xibalba/preview-1600.webp",
+    promptMarkdown: XIBALBA_PROMPT,
+    model: "Gemini 3.8 Flash High",
+  },
 ];
 
 const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
@@ -936,5 +969,5 @@ export const TEMPLATES: TemplateItem[] = registeredTemplates
   .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.registrationOrder - a.registrationOrder)
   .map((template) => ({
     ...template,
-    videoClip: template.videoClip ?? (template.slug === "amaoto" ? undefined : `/gallery/clips/${template.slug}.mp4`),
+    videoClip: template.videoClip ?? (template.slug === "amaoto" || template.slug === "xibalba" ? undefined : `/gallery/clips/${template.slug}.mp4`),
   }));
