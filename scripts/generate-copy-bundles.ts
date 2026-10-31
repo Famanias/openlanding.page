@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
+  ctrlroom: { name: "CTRL/ROOM", dependencies: ["lucide-react", "motion"] },
   lumen: { name: "LUMEN", dependencies: ["three", "gsap", "motion", "lucide-react", "lenis"] },
   morta: { name: "MORTA", dependencies: ["three"] },
   synapxe: { name: "Synapxe", dependencies: ["three"] },

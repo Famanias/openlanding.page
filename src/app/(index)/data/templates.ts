@@ -1,4 +1,4 @@
-export type TemplateSlug = "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
+export type TemplateSlug = "ctrlroom" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -35,6 +35,43 @@ export const CATEGORIES: Category[] = [
   { id: "editorial-magazine", label: "Editorial Magazine" },
   { id: "conversion", label: "Conversion Landing" },
 ];
+
+export const CTRLROOM_PROMPT = `# CTRL/ROOM — Agent Implementation Prompt
+
+Build a complete, responsive, interactive landing page for **CTRL/ROOM**, an original 2D pixel-desktop operating system and interactive 15-key macro-deck simulator featuring the Elgato Stream Deck MK.2.
+
+## Brand and central idea
+
+CTRL/ROOM is a fictional software studio environment (C/R OS — Build 01.15) introducing the real Elgato Stream Deck MK.2 through playful productivity experiments. Visitors land on a pixelated custom operating-system desktop, open purposeful mini-apps, configure a 15-key virtual control surface, and trigger simulated workflows.
+
+**Central idea:** control, customization, and tactile delight. A working pixel desktop with authentic draggable, keyboard-accessible windows, genuine 15-key matrix configuration, profile switching, real-time run logs, and simulated studio workflows.
+
+Mood: graphic, deliberate, witty, electric, richly interactive. Hard-edged interface colors, high-contrast UI states, pixel iconography, and tactile control surfaces.
+
+## Exclusive palette
+
+- Kernel Navy: \`#111A31\` (desktop depth and high-contrast surfaces)
+- Hyper Cobalt: \`#2858FF\` (primary desktop, active window, buttons)
+- Monitor Frost: \`#E8F0FF\` (readable panels and text)
+- Voltage Yellow: \`#E4FF58\` (active actions, status indicators, CTA)
+- Bubble Magenta: \`#FC5FA9\` (secondary accents, playful system cues)
+- Registry Slate: \`#61728F\` (metadata, thin separators, inactive text)
+- Screen Ice: \`#B6D7F7\` (secondary interface panel surfaces)
+
+## Sections & Apps
+
+1. **Brand Header:** Wordmark with pixel glyph, anchor navigation (Desktop OS, Deck Lab, Action Library, Profiles, Stream Deck MK.2), and verified product link.
+2. **Hero:** Campaign hook, quick launch app triggers, and high-fidelity Stream Deck MK.2 hardware showcase anchor.
+3. **Desktop OS Stage:** Proprietary launcher rail, draggable freeform window manager with zero-latency pointer batching, keyboard directional nudge popover, and patch cable pulse.
+4. **Deck Lab App:** 15-key interactive virtual Stream Deck MK.2 (5 columns x 3 rows) with real-time simulated execution feedback, slot inspection, and customization.
+5. **Action Library App:** 25+ categorized drag-and-drop / 1-click assignable shortcut tiles across Stream, Edit, Organize, and Explore.
+6. **Profile Switcher App:** Instant matrix swapping between Studio (streaming/recording), Live (broadcasts/cues), and Everyday (deep work/automation) with edit protection.
+7. **Device Info App:** Verified Elgato Stream Deck MK.2 hardware facts, exploded architecture diagrams, and detachable stand specs.
+8. **Run Log App:** Live timestamped execution feed tracking simulated hardware triggers and system telemetry.
+9. **Notes App:** In-memory scratchpad and daily standup logger updated by simulated macros.
+10. **About Concept App:** Clear disclosure of fictional software brand and real product attribution.
+11. **Quiet Footer:** Independent creative concept attribution, official Elgato product links, and documentation references.
+`;
 
 export const LUMEN_PROMPT = `# LUMEN — The AI Workflow Playbook
 
@@ -1181,6 +1218,19 @@ slug: "tally",
     badges: ["Glassmorphism", "AI Playbook", "Shader Studio", "WebGL2"],
     previewImage: "/templates/lumen/preview-1600.webp",
     promptMarkdown: LUMEN_PROMPT,
+    model: "Imported template",
+  },
+  {
+    slug: "ctrlroom",
+    createdAt: "2026-11-01",
+    title: "CTRL/ROOM",
+    description: "An original 2D pixel-desktop operating system and interactive 15-key macro-deck simulator featuring the Elgato Stream Deck MK.2.",
+    category: "conversion",
+    industry: "Hardware & Productivity",
+    stack: "Next.js 16 · React 19 · Tailwind v4 · Motion",
+    badges: ["Pixel Desktop OS", "15-Key Simulator", "Stream Deck MK.2", "Window Manager"],
+    previewImage: "/templates/ctrlroom/preview-1600.webp",
+    promptMarkdown: CTRLROOM_PROMPT,
     model: "Imported template",
   },
 ];
