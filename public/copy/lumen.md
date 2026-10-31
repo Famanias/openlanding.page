@@ -276,6 +276,18 @@ export default function App() {
 }
 ]]>
     </file>
+    <file path="src/app/(lumen)/lumen/icon.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#252C43"/>
+  <polygon points="16,6 25,11 16,16 7,11" fill="#C9DAFA" fill-opacity="0.9"/>
+  <polygon points="7,11 16,16 16,26 7,21" fill="#D8D0F7" fill-opacity="0.75"/>
+  <polygon points="16,16 25,11 25,21 16,26" fill="#8E7CE8" fill-opacity="0.85"/>
+  <path d="M16 6 25 11 25 21 16 26 7 21 7 11Z" fill="none" stroke="#FFFFFF" stroke-width="1.3" stroke-linejoin="round"/>
+  <path d="M7 11 16 16 25 11 M16 16 16 26" fill="none" stroke="#FFFFFF" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="26" cy="6" r="2.2" fill="#D8D0F7"/>
+</svg>
+]]>
+    </file>
     <file path="src/app/(lumen)/lumen/lumen.css">
 <![CDATA[@import "tailwindcss";
 
@@ -886,14 +898,14 @@ export default function App() {
 @keyframes lm-trace { from { stroke-dashoffset: 620; } to { stroke-dashoffset: 0; } }
 @keyframes lm-content-in { from { opacity: 0.25; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-.lm-page-sheet { position: relative; z-index: 5; background: transparent; border-radius: 40px 40px 0 0; padding-top: 1px; }
-.lm-workflow-ribbon { overflow: hidden; border-radius: 40px 40px 0 0; background: transparent; color: #252C43; padding: 26px 0; }
+.lm-page-sheet { position: relative; z-index: 5; background: transparent; border-radius: 40px 40px 0 0; padding-top: 1px; margin-top: clamp(32px, 5vw, 64px); }
+.lm-workflow-ribbon { overflow: hidden; background: color-mix(in srgb, #8E7CE8 32%, #252C43); backdrop-filter: blur(12px); border-block: 1px solid color-mix(in srgb, #8E7CE8 32%, transparent); color: #F8F9FC; padding: 26px 0; margin-top: clamp(16px, 2.5vw, 32px); }
 .lm-workflow-ribbon__track { display: flex; width: max-content; animation: lm-ribbon-travel 38s linear infinite; }
 .lm-workflow-ribbon__group { display: flex; flex-shrink: 0; gap: 48px; padding-right: 48px; }
 .lm-workflow-ribbon__group > span { display: inline-flex; align-items: center; gap: 16px; font-size: clamp(18px, 2vw, 28px); font-weight: 450; letter-spacing: -0.02em; white-space: nowrap; }
-.lm-workflow-ribbon__group svg { width: 20px; height: 20px; fill: none; stroke: #8E7CE8; stroke-width: 1.1; margin-left: 24px; }
-.lm-ribbon-mark { width: 16px; height: 16px; display: block; border-radius: 4px; border: 1px solid #8E7CE8; transform: rotate(45deg); }
-.lm-ribbon-mark--1 { border-radius: 50%; background: #D8D0F7; }
+.lm-workflow-ribbon__group svg { width: 20px; height: 20px; fill: none; stroke: #D8D0F7; stroke-width: 1.1; margin-left: 24px; }
+.lm-ribbon-mark { width: 16px; height: 16px; display: block; border-radius: 4px; border: 1px solid #D8D0F7; transform: rotate(45deg); }
+.lm-ribbon-mark--1 { border-radius: 50%; background: #D8D0F7; border-color: #D8D0F7; }
 .lm-ribbon-mark--2 { border-radius: 2px; border-color: #C9DAFA; }
 .lm-ribbon-mark--3 { border-radius: 50% 50% 2px 2px; background: #5BA59A; border-color: #5BA59A; }
 @keyframes lm-ribbon-travel { to { transform: translateX(-25%); } }
@@ -1016,7 +1028,7 @@ export default function App() {
 @media (min-width: 1024px) and (min-height: 680px) and (prefers-reduced-motion: no-preference) {
   [data-lm-motion="live"] .lm-hero { height: 165svh; }
   [data-lm-motion="live"] .lm-hero-stage { position: sticky; top: 0; height: 100svh; }
-  [data-lm-motion="live"] .lm-page-sheet { margin-top: -8svh; }
+  [data-lm-motion="live"] .lm-page-sheet { margin-top: clamp(32px, 5vw, 64px); }
 }
 @media (min-width: 1024px) and (max-height: 800px) {
   .lm-hero-stage { padding-top: 100px; padding-bottom: 64px; }
@@ -1085,7 +1097,7 @@ export default function App() {
   .lm-workspace-float--output { width: 86%; top: 420px; left: 0; transform: rotate(-3deg); }
   .lm-workspace-panel { padding: 15px; }
   .lm-workspace-caption { font-size: 9px; padding-inline: 8px; }
-  .lm-workflow-ribbon { padding-block: 22px; border-radius: 24px 24px 0 0; }
+  .lm-workflow-ribbon { padding-block: 22px; }
   .lm-workflow-ribbon__group { gap: 28px; padding-right: 28px; }
   .lm-workflow-ribbon__group > span { font-size: 20px; }
   .lm-page-sheet { border-radius: 24px 24px 0 0; }
