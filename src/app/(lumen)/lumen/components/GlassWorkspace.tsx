@@ -1,610 +1,156 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 import gsap from 'gsap';
-import {
-  Mail,
-  FileText,
-  CheckSquare,
-  Mic,
-  Cpu,
-  ArrowRight,
-  CheckCircle2,
-  Play,
-  Layers,
-  ShieldCheck,
-} from 'lucide-react';
-import {
-  WorkspaceStageId,
-  ProcessingSubStep,
-  WORKSPACE_SCENARIOS,
-  getStageCaption,
-} from '../utils/workflowLogic';
+import { ArrowDown, ArrowUpRight, Check, CheckCheck, FileText, Mail, Mic, Play, ShieldCheck, Sparkles, ListChecks } from 'lucide-react';
+import { WORKSPACE_SCENARIOS, getStageCaption, type WorkspaceStageId, type ProcessingSubStep } from '../utils/workflowLogic';
 import { WorkspacePlaybackController } from '../motion/workspacePlayback';
-import { HERO_DEMO_BEATS } from '../motion/timings';
+import { useMotionPreferences } from '../motion/useMotionPreferences';
 
-interface GlassWorkspaceProps {
-  introConsumedRef?: React.RefObject<boolean>;
-}
+const icons = { emails: Mail, documents: FileText, tasks: ListChecks, notes: Mic };
+const stages = [{ id: 'input', label: '01 Input' }, { id: 'processing', label: '02 AI Processing' }, { id: 'output', label: '03 Output' }] as const;
 
-export const GlassWorkspace: React.FC<GlassWorkspaceProps> = ({ introConsumedRef }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const tiltPlaneRef = useRef<HTMLDivElement>(null);
+export function GlassWorkspace({ introConsumedRef }: { introConsumedRef?: RefObject<boolean> }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const entrances = useRef<(HTMLDivElement | null)[]>([]);
+  const playbackRef = useRef<WorkspacePlaybackController | null>(null);
+  if (!playbackRef.current) playbackRef.current = new WorkspacePlaybackController(introConsumedRef);
+  const [scenarioId, setScenarioId] = useState('emails');
+  const [step, setStep] = useState<ProcessingSubStep>('route');
+  const [selected, setSelected] = useState<WorkspaceStageId | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const prefs = useMotionPreferences();
+  const scenario = WORKSPACE_SCENARIOS.find((item) => item.id === scenarioId) ?? WORKSPACE_SCENARIOS[0];
+  const SourceIcon = icons[scenarioId as keyof typeof icons] ?? Mail;
 
-  // Entrance wrappers (owned strictly by GSAP entrance timeline)
-  const inputEntranceRef = useRef<HTMLDivElement>(null);
-  const processingEntranceRef = useRef<HTMLDivElement>(null);
-  const outputEntranceRef = useRef<HTMLDivElement>(null);
-
-  // Inner inspection panels (owned by component state & CSS .panel-depth-*)
-  const inputPanelRef = useRef<HTMLDivElement>(null);
-  const processingPanelRef = useRef<HTMLDivElement>(null);
-  const outputPanelRef = useRef<HTMLDivElement>(null);
-
-  // Connectors
-  const connector1Ref = useRef<SVGPathElement>(null);
-  const connector2Ref = useRef<SVGPathElement>(null);
-
-  const [selectedStage, setSelectedStage] = useState<WorkspaceStageId | null>(null);
-  const [hoveredStage, setHoveredStage] = useState<WorkspaceStageId | null>(null);
-  const [activeScenarioId, setActiveScenarioId] = useState<string>('emails');
-  const [activeSubStep, setActiveSubStep] = useState<ProcessingSubStep>('classify');
-  const [isDemoPlaying, setIsDemoPlaying] = useState<boolean>(false);
-  const [artworkFallback, setArtworkFallback] = useState<boolean>(false);
-
-  const effectiveStage = hoveredStage ?? selectedStage;
-  const currentScenario =
-    WORKSPACE_SCENARIOS.find((s) => s.id === activeScenarioId) || WORKSPACE_SCENARIOS[0];
-
-  const playbackRef = useRef<WorkspacePlaybackController>(
-    new WorkspacePlaybackController(introConsumedRef)
-  );
-
-  const traceConnector = useCallback((path: SVGPathElement | null, durationSec = 0.45) => {
-    if (!path) return;
-    try {
-      const len = path.getTotalLength ? path.getTotalLength() : 320;
-      gsap.fromTo(
-        path,
-        { strokeDasharray: `${len} ${len}`, strokeDashoffset: len, opacity: 0.4 },
-        { strokeDashoffset: 0, opacity: 1, duration: durationSec, ease: 'power2.out' }
-      );
-    } catch {
-      // SVG not mounted in test / jsdom
+  const run = useCallback((id: string) => {
+    const playback = playbackRef.current;
+    if (!playback) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      playback.consumeIntro(); setStep('route'); setPlaying(false); return;
     }
+    setPlaying(true);
+    setStep('classify');
+    playback.startPlayback(id, setStep, () => { setPlaying(false); setStep('route'); });
   }, []);
 
-  // Finite sequence runner
-  const runSequence = useCallback(
-    (scenarioId: string) => {
-      setIsDemoPlaying(true);
-      playbackRef.current.startPlayback(
-        scenarioId,
-        (step) => {
-          setActiveSubStep(step);
-          if (step === 'classify') {
-            traceConnector(connector1Ref.current, 0.4);
-          } else if (step === 'route') {
-            traceConnector(connector2Ref.current, 0.4);
-          }
-        },
-        () => {
-          setIsDemoPlaying(false);
-        }
-      );
-    },
-    [traceConnector]
-  );
-
-  // Initial authoring entrance (runs once per App lifetime when 25% visible)
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (reducedQuery.matches) {
-      setActiveSubStep('route');
-      playbackRef.current.consumeIntro();
+    if (!prefs.ready) return;
+    const playback = playbackRef.current!;
+    if (prefs.prefersReducedMotion) {
+      playback.cancelPlayback('reduced-motion');
+      playback.consumeIntro();
       return;
     }
-
-    if (!playbackRef.current.shouldPlayIntro()) {
-      setActiveSubStep('route');
-      return;
-    }
-
-    let observer: IntersectionObserver | null = null;
-    let gsapCtx: gsap.Context | null = null;
-
-    const startEntranceAnimation = () => {
-      gsapCtx = gsap.context(() => {
-        const tl = gsap.timeline({
-          defaults: { ease: 'power3.out' },
-          onComplete: () => {
-            if (inputEntranceRef.current) inputEntranceRef.current.style.willChange = 'auto';
-            if (processingEntranceRef.current) processingEntranceRef.current.style.willChange = 'auto';
-            if (outputEntranceRef.current) outputEntranceRef.current.style.willChange = 'auto';
-          },
-        });
-
-        // 0-640ms: Glass panels settle from shallow depth on outer entrance wrappers
-        tl.fromTo(
-          inputEntranceRef.current,
-          { opacity: 0.5, y: 16, scale: 0.98 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.52 },
-          HERO_DEMO_BEATS.panelsStart
-        )
-          .fromTo(
-            processingEntranceRef.current,
-            { opacity: 0.5, y: 16, scale: 0.98 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.52 },
-            HERO_DEMO_BEATS.panelsStart + HERO_DEMO_BEATS.panelsStagger
-          )
-          .fromTo(
-            outputEntranceRef.current,
-            { opacity: 0.5, y: 16, scale: 0.98 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.52 },
-            HERO_DEMO_BEATS.panelsStart + HERO_DEMO_BEATS.panelsStagger * 2
-          );
-
-        // Run the finite demonstration sequence
-        runSequence(activeScenarioId);
-      }, containerRef);
+    let context: gsap.Context | undefined;
+    let introStarted = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting || !playback.shouldPlayIntro() || introStarted) return;
+      introStarted = true;
+      observer.disconnect();
+      context = gsap.context(() => {
+        gsap.fromTo(entrances.current.filter(Boolean),
+          { y: 70, rotationX: -12, scale: 0.88, opacity: 0 },
+          { y: 0, rotationX: 0, scale: 1, opacity: 1, stagger: 0.16, duration: 1.05, ease: 'expo.out', clearProps: 'transform,opacity' });
+        run('emails');
+      }, rootRef);
+    }, { threshold: 0.2 });
+    if (rootRef.current) observer.observe(rootRef.current);
+    const suspend = () => {
+      if (document.hidden) {
+        playback.cancelPlayback('document-hidden'); playback.consumeIntro();
+        setPlaying(false); setStep('route');
+      }
     };
-
-    const playback = playbackRef.current;
-    if (typeof IntersectionObserver !== 'undefined') {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry && entry.isIntersecting && playback.shouldPlayIntro()) {
-            observer?.disconnect();
-            observer = null;
-            startEntranceAnimation();
-          }
-        },
-        { threshold: 0.25 }
-      );
-      observer.observe(container);
-    } else {
-      startEntranceAnimation();
-    }
-
+    const reducedQuery = matchMedia('(prefers-reduced-motion: reduce)');
+    const reduce = () => {
+      if (!reducedQuery.matches) return;
+      playback.cancelPlayback('reduced-motion'); playback.consumeIntro();
+      setPlaying(false); setStep('route');
+    };
+    document.addEventListener('visibilitychange', suspend);
+    reducedQuery.addEventListener('change', reduce);
     return () => {
-      observer?.disconnect();
-      gsapCtx?.revert();
-      playback.dispose(false);
+      observer.disconnect(); context?.revert(); playback.dispose(false);
+      document.removeEventListener('visibilitychange', suspend);
+      reducedQuery.removeEventListener('change', reduce);
     };
-  }, [activeScenarioId, runSequence]);
+  }, [prefs.ready, prefs.prefersReducedMotion, run]);
 
-  // User actions cancel playback immediately without stale callbacks
-  const handleStageSelect = (stage: WorkspaceStageId) => {
-    playbackRef.current.cancelPlayback('user-stage-select', true);
-    setIsDemoPlaying(false);
-    setSelectedStage((prev) => (prev === stage ? null : stage));
+  const inspect = (id: WorkspaceStageId) => {
+    playbackRef.current?.cancelPlayback('user-stage-select');
+    playbackRef.current?.consumeIntro();
+    setPlaying(false);
+    setSelected((old) => old === id ? null : id);
   };
-
-  const handleScenarioSelect = (scenarioId: string) => {
-    playbackRef.current.cancelPlayback('user-scenario-change', true);
-    setIsDemoPlaying(false);
-    setActiveScenarioId(scenarioId);
-    setSelectedStage('input');
-    setActiveSubStep('classify');
-  };
-
-  const handleManualReplay = () => {
-    playbackRef.current.cancelPlayback('replay-restart', false);
-    setSelectedStage(null);
-    runSequence(activeScenarioId);
-  };
-
-  // Controlled pointer parallax (+/- 2 deg max relative to resting 2deg X, -4deg Y)
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!tiltPlaneRef.current) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const xRatio = (e.clientX - rect.left) / rect.width - 0.5;
-    const yRatio = (e.clientY - rect.top) / rect.height - 0.5;
-
-    const tiltX = (2 + -yRatio * 2).toFixed(2);
-    const tiltY = (-4 + xRatio * 2).toFixed(2);
-
-    tiltPlaneRef.current.style.setProperty('--tilt-x', `${tiltX}deg`);
-    tiltPlaneRef.current.style.setProperty('--tilt-y', `${tiltY}deg`);
-  };
-
-  const handlePointerLeave = () => {
-    if (!tiltPlaneRef.current) return;
-    tiltPlaneRef.current.style.setProperty('--tilt-x', '2deg');
-    tiltPlaneRef.current.style.setProperty('--tilt-y', '-4deg');
-  };
-
-  const getScenarioIcon = (id: string) => {
-    switch (id) {
-      case 'emails':
-        return <Mail className="h-3.5 w-3.5 text-[#1E2432]" aria-hidden="true" />;
-      case 'documents':
-        return <FileText className="h-3.5 w-3.5 text-[#1E2432]" aria-hidden="true" />;
-      case 'tasks':
-        return <CheckSquare className="h-3.5 w-3.5 text-[#1E2432]" aria-hidden="true" />;
-      default:
-        return <Mic className="h-3.5 w-3.5 text-[#1E2432]" aria-hidden="true" />;
-    }
-  };
-
-  const getPanelDepthClass = (stage: WorkspaceStageId, baseClass: string) => {
-    if (!effectiveStage) return baseClass;
-    if (effectiveStage === stage) return `${baseClass} panel-depth-focused z-30`;
-    return `${baseClass} panel-depth-recessed opacity-80 z-10`;
+  const selectSource = (id: string) => {
+    playbackRef.current?.cancelPlayback('user-scenario-change');
+    playbackRef.current?.consumeIntro();
+    setScenarioId(id); setStep('classify'); setSelected('input'); setPlaying(false);
   };
 
   return (
-    <div
-      ref={containerRef}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
-      className="relative w-full select-none"
-    >
-      {/* Top Interactive Stage Controls Bar */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <div
-          role="group"
-          aria-label="Inspect workflow stage"
-          className="flex items-center gap-1 rounded-xl border border-white/80 bg-white/65 p-1 shadow-xs backdrop-blur-md"
-        >
-          {(
-            [
-              { id: 'input', label: '01 Input' },
-              { id: 'processing', label: '02 AI Processing' },
-              { id: 'output', label: '03 Output' },
-            ] as { id: WorkspaceStageId; label: string }[]
-          ).map((tab) => {
-            const isActive = selectedStage === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                aria-pressed={isActive}
-                onClick={() => handleStageSelect(tab.id)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
-                  isActive
-                    ? 'bg-[#252C43] text-white shadow-xs'
-                    : 'text-[#657187] hover:text-[#1E2432] hover:bg-white/60'
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Replay Demonstration Button (Always enabled, restarts sequence cleanly) */}
-        <button
-          type="button"
-          onClick={handleManualReplay}
-          className="inline-flex items-center gap-1.5 rounded-xl border border-white/80 bg-white/80 px-3 py-1.5 text-xs font-semibold text-[#1E2432] shadow-xs hover:bg-white transition-all cursor-pointer"
-        >
-          <Play className="h-3.5 w-3.5 text-[#5BA59A]" aria-hidden="true" />
-          <span>{isDemoPlaying ? 'Restarting Demo...' : 'Replay Demo'}</span>
-        </button>
+    <div ref={rootRef} className="lm-workspace" data-playing={playing} data-step={step}>
+      <div className="lm-workspace-meta">
+        <span><span className="lm-live-dot" /> A little structure changes everything.</span>
+        <button type="button" onClick={() => { setSelected(null); run(scenarioId); }} className="lm-replay"><Play size={12} aria-hidden="true" />{playing ? 'Restarting Demo' : 'Replay Demo'}</button>
       </div>
-
-      {/* 2.5D Stage Viewport */}
-      <div className="workspace-perspective-stage relative min-h-[520px] rounded-3xl border border-white/90 bg-gradient-to-br from-white/70 via-white/50 to-white/35 p-5 sm:p-7 shadow-xs backdrop-blur-md overflow-hidden">
-        {/* Background Decorative Glass Artwork Asset */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -inset-4 z-0 flex items-center justify-center opacity-55"
-        >
-          <img
-            src={
-              artworkFallback
-                ? '/assets/aistudio/glass-workspace-art_d86f62af.png'
-                : '/assets/aistudio/glass-workspace-art_25aec004.svg'
-            }
-            alt=""
-            referrerPolicy="no-referrer"
-            onError={() => setArtworkFallback(true)}
-            className="h-full max-h-[540px] w-full object-contain"
-          />
-        </div>
-
-        {/* Tilted Spatial Plane */}
-        <div
-          ref={tiltPlaneRef}
-          className="workspace-tilt-plane relative z-10 flex flex-col gap-3"
-        >
-          {/* PANEL 01 — ENTRANCE WRAPPER (GSAP owns this wrapper) */}
-          <div ref={inputEntranceRef} className="workspace-entrance-wrapper lg:w-[74%]">
-            {/* PANEL 01 — INPUT (Inner inspection panel) */}
-            <div
-              ref={inputPanelRef}
-              onMouseEnter={() => setHoveredStage('input')}
-              onMouseLeave={() => setHoveredStage(null)}
-              className={`rounded-2xl p-4 ${
-                effectiveStage === 'input' ? 'glass-panel-active' : 'glass-panel'
-              } ${getPanelDepthClass('input', 'panel-depth-input')}`}
-            >
-              <div className="flex items-center justify-between border-b border-[#1E2432]/8 pb-2.5">
-                <button
-                  type="button"
-                  aria-pressed={selectedStage === 'input'}
-                  aria-label="Stage 01 Input: Incoming Work. Click to inspect stage."
-                  onClick={() => handleStageSelect('input')}
-                  className="flex items-center gap-2 cursor-pointer rounded-lg p-1 hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
-                >
-                  <span className="font-mono text-[11px] font-semibold text-[#657187]">
-                    01 — INPUT
-                  </span>
-                  <span aria-hidden="true" className="text-[#657187]">·</span>
-                  <span className="text-xs font-semibold text-[#1E2432]">
-                    Incoming Work
-                  </span>
-                </button>
-                <span className="font-mono text-[11px] text-[#657187]">
-                  4 SOURCES
-                </span>
+      <div className="lm-workspace-stage">
+        <div className="lm-orbit lm-orbit--one" aria-hidden="true" />
+        <div className="lm-orbit lm-orbit--two" aria-hidden="true" />
+        <div className="lm-workspace-plane workspace-tilt-plane">
+          <svg className="lm-workspace-connectors" viewBox="0 0 600 600" fill="none" aria-hidden="true">
+            <defs><linearGradient id="lm-workflow-ray"><stop stopColor="#8E7CE8" /><stop offset="1" stopColor="#5BA59A" /></linearGradient></defs>
+            <path className="lm-connector-base" d="M185 160 C185 220 420 140 420 235 M420 370 C420 430 180 375 180 455" />
+            <path className="lm-connector-signal" d="M185 160 C185 220 420 140 420 235 M420 370 C420 430 180 375 180 455" />
+          </svg>
+          <div className="lm-workspace-float lm-workspace-float--input">
+            <div ref={(node) => { entrances.current[0] = node; }} className="lm-panel-entrance">
+              <div className="lm-workspace-panel lm-workspace-panel--input" data-selected={selected === 'input'}>
+                <div className="lm-panel-heading"><button type="button" onClick={() => inspect('input')} aria-pressed={selected === 'input'}><span className="lm-panel-number">01</span> Incoming work</button><SourceIcon size={16} aria-hidden="true" /></div>
+                <div className="lm-source-tabs" role="group" aria-label="Choose a workflow source">
+                  {WORKSPACE_SCENARIOS.map((item) => {
+                    const Icon = icons[item.id as keyof typeof icons] ?? Mail;
+                    return <button type="button" key={item.id} aria-pressed={scenarioId === item.id} onClick={() => selectSource(item.id)}><Icon size={13} aria-hidden="true" /><span>{item.categoryLabel}</span></button>;
+                  })}
+                </div>
+                <div className="lm-source-content" key={scenarioId}><p>{scenario.title}</p><span>{scenario.sourceMeta}</span></div>
+                <div className="lm-source-bottom"><span className="lm-live-dot" /> Unstructured input <ArrowDown size={12} aria-hidden="true" /></div>
               </div>
-
-              {/* Interactive Source Task Buttons */}
-              <div className="mt-3 grid grid-cols-2 gap-1.5">
-                {WORKSPACE_SCENARIOS.map((item) => {
-                  const isSelected = item.id === activeScenarioId;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => handleScenarioSelect(item.id)}
-                      className={`flex items-center gap-2 rounded-xl px-2.5 py-2 text-left text-xs transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-white/95 text-[#1E2432] shadow-xs border border-[#252C43]/20 font-semibold'
-                          : 'bg-white/55 text-[#657187] hover:bg-white/80 hover:text-[#1E2432] border border-transparent'
-                      }`}
-                    >
-                      {getScenarioIcon(item.id)}
-                      <span className="truncate">{item.categoryLabel}</span>
+            </div>
+          </div>
+          <div className="lm-workspace-float lm-workspace-float--processing">
+            <div ref={(node) => { entrances.current[1] = node; }} className="lm-panel-entrance">
+              <div className="lm-workspace-panel lm-workspace-panel--processing" data-selected={selected === 'processing'}>
+                <div className="lm-panel-heading"><button type="button" onClick={() => inspect('processing')} aria-pressed={selected === 'processing'}><span className="lm-panel-number">02</span> A clearer process</button><Sparkles size={16} aria-hidden="true" /></div>
+                <div className="lm-process-steps">
+                  {(['classify', 'summarize', 'route'] as const).map((id, i) => (
+                    <button key={id} type="button" data-active={step === id} aria-pressed={step === id} onClick={() => { playbackRef.current?.cancelPlayback('user-stage-select'); playbackRef.current?.consumeIntro(); setStep(id); setPlaying(false); }}>
+                      <span className="lm-step-check">{step === id ? <ArrowUpRight size={12} /> : <Check size={11} />}</span>
+                      <span><strong>{['Classify', 'Summarize', 'Route'][i]}</strong><small>{id === 'classify' ? scenario.classification.intent : id === 'summarize' ? scenario.summaryBullets[0] : scenario.routeDestination}</small></span>
                     </button>
-                  );
-                })}
-              </div>
-
-              <div className="mt-2.5 flex items-center justify-between rounded-xl bg-white/80 px-3 py-2 text-xs">
-                <span className="font-medium text-[#1E2432] truncate">
-                  {currentScenario.title}
-                </span>
-                <span className="ml-2 font-mono text-[10px] text-[#657187] whitespace-nowrap shrink-0">
-                  {currentScenario.sourceMeta}
-                </span>
+                  ))}
+                </div>
+                <div className="lm-processing-footer"><span className="lm-processing-meter"><i /><i /><i /><i /><i /></span><span>AI-assisted. Human-directed.</span></div>
               </div>
             </div>
           </div>
-
-          {/* SVG Connector Bridge 1: Input -> AI Processing */}
-          <div className="relative -my-1 flex items-center justify-center pointer-events-none" aria-hidden="true">
-            <svg viewBox="0 0 520 34" fill="none" className="h-8 w-full">
-              <path
-                ref={connector1Ref}
-                d="M 160 2 C 160 20, 290 14, 290 32"
-                stroke="#8E7CE8"
-                strokeWidth={effectiveStage === 'input' || effectiveStage === 'processing' ? '2.5' : '1.75'}
-                strokeLinecap="round"
-              />
-              <circle cx="160" cy="4" r="3.5" fill="#8E7CE8" />
-              <circle cx="290" cy="30" r="4" fill="#5B8DEF" />
-            </svg>
-          </div>
-
-          {/* PANEL 02 — ENTRANCE WRAPPER (GSAP owns this wrapper) */}
-          <div ref={processingEntranceRef} className="workspace-entrance-wrapper lg:ml-auto lg:mr-2 lg:w-[88%]">
-            {/* PANEL 02 — AI PROCESSING (Inner inspection panel) */}
-            <div
-              ref={processingPanelRef}
-              onMouseEnter={() => setHoveredStage('processing')}
-              onMouseLeave={() => setHoveredStage(null)}
-              className={`rounded-2xl p-5 ${
-                effectiveStage === 'processing' ? 'glass-panel-active' : 'glass-panel-active'
-              } ${getPanelDepthClass('processing', 'panel-depth-processing')}`}
-            >
-              <div className="flex items-center justify-between border-b border-[#1E2432]/10 pb-3">
-                <button
-                  type="button"
-                  aria-pressed={selectedStage === 'processing'}
-                  aria-label="Stage 02 AI Processing: Classify, Summarize, Route. Click to inspect stage."
-                  onClick={() => handleStageSelect('processing')}
-                  className="flex items-center gap-2 cursor-pointer rounded-lg p-1 hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
-                >
-                  <Cpu className="h-4 w-4 text-[#252C43]" aria-hidden="true" />
-                  <span className="font-mono text-[11px] font-semibold text-[#657187]">
-                    02 — AI PROCESSING
-                  </span>
-                  <span aria-hidden="true" className="text-[#657187]">·</span>
-                  <span className="text-xs font-semibold text-[#1E2432]">
-                    AI Workflow
-                  </span>
-                </button>
-                <span className="font-mono text-[11px] text-[#5BA59A] font-medium">
-                  DETERMINISTIC FLOW
-                </span>
-              </div>
-
-              {/* Three sequential AI Workflow steps: Classify -> Summarize -> Route */}
-              <div className="mt-3.5 space-y-2">
-                {/* Step 1: Classify */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    playbackRef.current.cancelPlayback('user-stage-select', true);
-                    setIsDemoPlaying(false);
-                    setActiveSubStep('classify');
-                    setSelectedStage('processing');
-                  }}
-                  className={`w-full rounded-xl p-3 text-left transition-all cursor-pointer border ${
-                    activeSubStep === 'classify'
-                      ? 'bg-white/95 border-[#D8D0F7] shadow-xs'
-                      : 'bg-white/65 border-white/70 hover:bg-white/85'
-                  }`}
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-[#1E2432]">1. Classify</span>
-                    <span className="font-mono text-[11px] text-[#657187]">
-                      {currentScenario.classification.intent} · {currentScenario.classification.priority}
-                    </span>
-                  </div>
-                </button>
-
-                {/* Step 2: Summarize */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    playbackRef.current.cancelPlayback('user-stage-select', true);
-                    setIsDemoPlaying(false);
-                    setActiveSubStep('summarize');
-                    setSelectedStage('processing');
-                  }}
-                  className={`w-full rounded-xl p-3 text-left transition-all cursor-pointer border ${
-                    activeSubStep === 'summarize'
-                      ? 'bg-white/95 border-[#C9DAFA] shadow-xs'
-                      : 'bg-white/65 border-white/70 hover:bg-white/85'
-                  }`}
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-[#1E2432]">2. Summarize</span>
-                    <span className="font-mono text-[11px] text-[#657187]">Key Context Extracted</span>
-                  </div>
-                  <p className="mt-1.5 text-xs text-[#657187] leading-relaxed">
-                    {currentScenario.summaryBullets[0]}
-                  </p>
-                </button>
-
-                {/* Step 3: Route */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    playbackRef.current.cancelPlayback('user-stage-select', true);
-                    setIsDemoPlaying(false);
-                    setActiveSubStep('route');
-                    setSelectedStage('processing');
-                  }}
-                  className={`w-full rounded-xl p-3 text-left transition-all cursor-pointer border ${
-                    activeSubStep === 'route'
-                      ? 'bg-white/95 border-[#F6DCCA] shadow-xs'
-                      : 'bg-white/65 border-white/70 hover:bg-white/85'
-                  }`}
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-[#1E2432]">3. Route</span>
-                    <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[#1E2432]">
-                      <span>{currentScenario.routeDestination}</span>
-                      <ArrowRight className="h-3 w-3 text-[#5BA59A]" aria-hidden="true" />
-                    </span>
-                  </div>
-                </button>
+          <div className="lm-workspace-float lm-workspace-float--output">
+            <div ref={(node) => { entrances.current[2] = node; }} className="lm-panel-entrance">
+              <div className="lm-workspace-panel lm-workspace-panel--output" data-selected={selected === 'output'}>
+                <div className="lm-panel-heading"><button type="button" onClick={() => inspect('output')} aria-pressed={selected === 'output'}><span className="lm-panel-number">03</span> Ready for your judgment</button><CheckCheck size={17} aria-hidden="true" /></div>
+                <div className="lm-output-title" key={scenarioId}><span>STRUCTURED OUTPUT</span><p>{scenario.outputDraft.summaryTitle}</p></div>
+                <div className="lm-output-review"><ShieldCheck size={16} aria-hidden="true" /><span>{scenario.outputDraft.reviewStatus}</span></div>
               </div>
             </div>
           </div>
-
-          {/* SVG Connector Bridge 2: AI Processing -> Output */}
-          <div className="relative -my-1 flex items-center justify-center pointer-events-none" aria-hidden="true">
-            <svg viewBox="0 0 520 34" fill="none" className="h-8 w-full">
-              <path
-                ref={connector2Ref}
-                d="M 310 2 C 310 20, 390 14, 390 32"
-                stroke="#5BA59A"
-                strokeWidth={effectiveStage === 'processing' || effectiveStage === 'output' ? '2.5' : '1.75'}
-                strokeLinecap="round"
-              />
-              <circle cx="310" cy="4" r="3.5" fill="#5B8DEF" />
-              <circle cx="390" cy="30" r="4" fill="#5BA59A" />
-            </svg>
-          </div>
-
-          {/* PANEL 03 — ENTRANCE WRAPPER (GSAP owns this wrapper) */}
-          <div ref={outputEntranceRef} className="workspace-entrance-wrapper lg:ml-auto lg:w-[80%]">
-            {/* PANEL 03 — OUTPUT (Inner inspection panel) */}
-            <div
-              ref={outputPanelRef}
-              onMouseEnter={() => setHoveredStage('output')}
-              onMouseLeave={() => setHoveredStage(null)}
-              className={`rounded-2xl p-4 ${
-                effectiveStage === 'output' ? 'glass-panel-active' : 'glass-panel'
-              } ${getPanelDepthClass('output', 'panel-depth-output')}`}
-            >
-              <div className="flex items-center justify-between border-b border-[#1E2432]/8 pb-2.5">
-                <button
-                  type="button"
-                  aria-pressed={selectedStage === 'output'}
-                  aria-label="Stage 03 Output: Organized Results ready for review. Click to inspect stage."
-                  onClick={() => handleStageSelect('output')}
-                  className="flex items-center gap-2 cursor-pointer rounded-lg p-1 hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
-                >
-                  <span className="font-mono text-[11px] font-semibold text-[#657187]">
-                    03 — OUTPUT
-                  </span>
-                  <span aria-hidden="true" className="text-[#657187]">·</span>
-                  <span className="text-xs font-semibold text-[#1E2432]">
-                    Organized Results
-                  </span>
-                </button>
-                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#5BA59A]">
-                  <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span>Ready for review</span>
-                </span>
-              </div>
-
-              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="rounded-xl bg-white/80 p-2.5">
-                  <div className="text-[11px] font-mono text-[#657187]">DRAFT SUMMARY</div>
-                  <div className="mt-0.5 text-xs font-semibold text-[#1E2432] line-clamp-1">
-                    {currentScenario.outputDraft.summaryTitle}
-                  </div>
-                </div>
-                <div className="rounded-xl bg-white/80 p-2.5">
-                  <div className="text-[11px] font-mono text-[#657187]">PRIORITIZED TASK</div>
-                  <div className="mt-0.5 text-xs font-semibold text-[#1E2432] line-clamp-1">
-                    {currentScenario.outputDraft.prioritizedTask}
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-2 flex items-center justify-between rounded-xl bg-white/90 px-3 py-2 text-xs">
-                <div className="flex items-center gap-2 truncate">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#5BA59A] shrink-0" aria-hidden="true" />
-                  <span className="text-[#1E2432] truncate">
-                    {currentScenario.outputDraft.preparedResponse}
-                  </span>
-                </div>
-                <span className="ml-2 font-mono text-[10px] text-[#657187] whitespace-nowrap shrink-0">
-                  {currentScenario.outputDraft.reviewStatus}
-                </span>
-              </div>
-            </div>
-          </div>
+          <span className="lm-workspace-coordinate" aria-hidden="true">LUMEN / WORKFLOW 001</span>
         </div>
       </div>
-
-      {/* Explanatory Live Stage Caption */}
-      <div
-        role="status"
-        aria-live="polite"
-        className="mt-4 flex items-center justify-between gap-4 rounded-xl border border-white/80 bg-white/70 px-4 py-3 text-xs backdrop-blur-md"
-      >
-        <div className="flex items-center gap-2.5">
-          <Layers className="h-4 w-4 text-[#252C43] shrink-0" aria-hidden="true" />
-          <span className="font-medium text-[#1E2432]">
-            {getStageCaption(effectiveStage)}
-          </span>
-        </div>
-        {effectiveStage && (
-          <button
-            type="button"
-            onClick={() => setSelectedStage(null)}
-            className="font-mono text-[11px] font-medium text-[#657187] hover:text-[#1E2432] whitespace-nowrap shrink-0 cursor-pointer"
-          >
-            Reset view
-          </button>
-        )}
+      <div className="lm-workspace-controls" role="group" aria-label="Inspect workflow stage">
+        {stages.map((stage) => <button type="button" key={stage.id} onClick={() => inspect(stage.id)} aria-pressed={selected === stage.id}>{stage.label}</button>)}
       </div>
+      <p className="lm-workspace-caption" aria-live="polite">{getStageCaption(selected)}</p>
     </div>
   );
-};
+}

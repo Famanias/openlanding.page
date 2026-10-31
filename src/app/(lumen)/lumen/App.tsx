@@ -5,7 +5,12 @@
 
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import { Sliders } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Sliders } from 'lucide-react';
+import { SmoothScroll } from './motion/SmoothScroll';
+import { SplitText } from './motion/SplitText';
+import { WorkflowRibbon } from './components/WorkflowRibbon';
+import { WorkflowStatement } from './components/WorkflowStatement';
+import { scrollToLumen } from './motion/scroll';
 import { MinimalHeader } from './components/MinimalHeader';
 import { DownloadForm } from './components/DownloadForm';
 import { GlassWorkspace } from './components/GlassWorkspace';
@@ -38,11 +43,6 @@ function checkIsStudioRoute(): boolean {
 
 export default function App() {
   const landingRootRef = useRef<HTMLDivElement>(null);
-  const heroSectionRef = useRef<HTMLElement>(null);
-  const eyebrowRef = useRef<HTMLParagraphElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subcopyRef = useRef<HTMLParagraphElement>(null);
-  const formWrapperRef = useRef<HTMLDivElement>(null);
   const heroInputRef = useRef<HTMLInputElement>(null);
 
   const introConsumedRef = useRef<boolean>(false);
@@ -85,29 +85,17 @@ export default function App() {
   };
 
   const handleFocusHeroForm = () => {
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const formEl = document.getElementById('hero-download-form');
     if (formEl) {
-      formEl.scrollIntoView({
-        behavior: prefersReduced ? 'auto' : 'smooth',
-        block: 'center',
-      });
+      scrollToLumen(formEl);
     }
     heroInputRef.current?.focus({ preventScroll: true });
   };
 
   const handleScrollToPreview = () => {
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const previewEl = document.getElementById('inside-playbook');
     if (previewEl) {
-      previewEl.scrollIntoView({
-        behavior: prefersReduced ? 'auto' : 'smooth',
-        block: 'start',
-      });
+      scrollToLumen(previewEl);
     }
   };
 
@@ -138,6 +126,8 @@ export default function App() {
 
   return (
     <div ref={landingRootRef} className="landing-shell">
+      <SmoothScroll />
+      <a className="lm-skip" href="#lumen-content">Skip to content</a>
       <LumenMotion
         rootRef={landingRootRef}
         onHeroActivityChange={setIsHeroActive}
@@ -156,122 +146,38 @@ export default function App() {
         />
 
         <main className="flex-1">
-          {/* SECTION 01 — HERO: THE GLASS AI WORKSPACE */}
-          <section
-            ref={heroSectionRef}
-            id="workspace-hero"
-            aria-labelledby="hero-heading"
-            className="landing-section pt-10 pb-16 sm:pt-14 sm:pb-24"
-          >
-            <div className="relative z-10 mx-auto max-w-[1280px] px-6 sm:px-10">
-              <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
-                {/* Left ~55%: Headline, Value Proposition, Email Capture */}
-                <div className="lg:col-span-6 xl:col-span-6">
-                  <p
-                    ref={eyebrowRef}
-                    className="font-mono text-xs font-semibold tracking-[0.14em] text-[#657187]"
-                  >
-                    WORK SMARTER WITH AI
-                  </p>
-
-                  <h1
-                    ref={headlineRef}
-                    id="hero-heading"
-                    className="mt-4 text-4xl font-bold tracking-tight text-[#1E2432] sm:text-5xl lg:text-[3.5rem] lg:leading-[1.08] [text-wrap:balance]"
-                  >
-                    Make repetitive work a thing of the past.
-                  </h1>
-
-                  <p
-                    ref={subcopyRef}
-                    className="mt-5 max-w-xl text-base sm:text-lg text-[#657187] leading-relaxed"
-                  >
-                    Get the free AI Workflow Playbook with practical frameworks, real examples, and reusable prompts to design smarter workflows.
-                  </p>
-
-                  {/* Primary Email Conversion Form */}
-                  <div ref={formWrapperRef} className="mt-8">
-                    <DownloadForm
-                      formId="hero-download-form"
-                      inputRef={heroInputRef}
-                      submittedEmail={submittedEmail}
-                      lastSubmitTimestamp={lastSubmitTimestamp}
-                      onSuccessSubmit={handleSuccessSubmit}
-                      onResetSubmit={handleResetSubmit}
-                      onOpenPreviewSection={handleScrollToPreview}
-                    />
+          <section id="workspace-hero" className="lm-hero" aria-labelledby="hero-heading">
+            <div className="lm-hero-stage">
+              <div className="lm-hero-grid">
+                <div className="lm-hero-copy">
+                  <div className="lm-edition"><span className="lm-live-dot" /> The AI Workflow Playbook <span>Free edition / 2026</span></div>
+                  <h1 id="hero-heading" className="lm-hero-title"><SplitText text="Make repetitive work a thing of the past." /></h1>
+                  <p className="lm-hero-description">Get the free AI Workflow Playbook with practical frameworks, real examples, and reusable prompts to design smarter workflows.</p>
+                  <div className="lm-hero-form">
+                    <DownloadForm formId="hero-download-form" inputRef={heroInputRef} submittedEmail={submittedEmail} lastSubmitTimestamp={lastSubmitTimestamp} onSuccessSubmit={handleSuccessSubmit} onResetSubmit={handleResetSubmit} onOpenPreviewSection={handleScrollToPreview} />
                   </div>
-
-                  {/* Unboxed Clean Metadata Summary */}
-                  <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-[#1E2432]/10 pt-5 text-xs text-[#657187]">
-                    <span className="font-medium text-[#1E2432]">Inside the 16-page edition</span>
-                    <span aria-hidden="true">·</span>
-                    <span>Opportunity Checklist</span>
-                    <span aria-hidden="true">·</span>
-                    <span>5-Stage Mapping Framework</span>
-                    <span aria-hidden="true">·</span>
-                    <span>3 Worked Examples</span>
-                    <span aria-hidden="true">·</span>
-                    <span>Human Review Gates</span>
-                  </div>
-
-                  {/* Interactive Optical Background Switcher & Studio Trigger */}
-                  <div className="mt-5 flex flex-wrap items-center gap-2 pt-1">
-                    <span className="font-mono text-[11px] font-medium text-[#657187]">
-                      OPTICAL SCENE:
-                    </span>
-                    <div
-                      role="group"
-                      aria-label="Select hero glass background preset"
-                      className="flex flex-wrap items-center gap-1"
-                    >
-                      {GLASS_PRESET_LIST.map((p, idx) => {
-                        const isCurrent = activeHeroPreset === p.id;
-                        const shortLabel = p.name.replace(/^Preset 0\d — /, '');
-                        return (
-                          <button
-                            key={p.id}
-                            type="button"
-                            aria-pressed={isCurrent}
-                            onClick={() => {
-                              setActiveHeroPreset(p.id);
-                              setCustomHeroConfig(null);
-                            }}
-                            className={`rounded-lg px-2 py-1 font-mono text-[11px] transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                              isCurrent
-                                ? 'bg-[#252C43] text-white font-semibold'
-                                : 'bg-white/75 text-[#657187] hover:text-[#1E2432] hover:bg-white'
-                            }`}
-                          >
-                            0{idx + 1} {shortLabel}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={openGlassStudio}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-[#1E2432]/15 bg-white/85 px-2.5 py-1 font-mono text-[11px] font-semibold text-[#1E2432] hover:bg-white transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-                    >
-                      <Sliders className="h-3 w-3" aria-hidden="true" />
-                      <span>Open Glass Studio</span>
-                    </button>
-                  </div>
+                  <a className="lm-text-link" href="#inside-playbook"><span>Take a look inside</span><ArrowUpRight size={17} aria-hidden="true" /></a>
+                  <div className="lm-hero-facts"><span><b>16</b> practical pages</span><span><b>5</b> stage framework</span><span><b>3</b> worked examples</span></div>
                 </div>
-
-                {/* Right ~45%: Floating Interactive 2.5D Workflow */}
-                <div className="lg:col-span-6 xl:col-span-6">
-                  <GlassWorkspace introConsumedRef={introConsumedRef} />
+                <div className="lm-hero-art"><GlassWorkspace introConsumedRef={introConsumedRef} /></div>
+              </div>
+              <div className="lm-hero-bottom">
+                <a href="#lumen-content" className="lm-scroll-cue"><span className="lm-scroll-cue__icon"><ArrowDown size={15} /></span><span>Scroll to see things differently</span></a>
+                <div className="lm-scene-controls" role="group" aria-label="Select hero glass background preset">
+                  <span>Change the light</span>
+                  {GLASS_PRESET_LIST.map((preset, index) => <button key={preset.id} type="button" aria-label={preset.name} aria-pressed={activeHeroPreset === preset.id} title={preset.name} onClick={() => { setActiveHeroPreset(preset.id); setCustomHeroConfig(null); }}><span>{String(index + 1).padStart(2, '0')}</span></button>)}
+                  <button className="lm-scene-studio" type="button" aria-label="Open Glass Studio" onClick={openGlassStudio}><Sliders size={13} /></button>
                 </div>
               </div>
             </div>
           </section>
-
+          <div className="lm-page-sheet" id="lumen-content">
+          <WorkflowRibbon />
           {/* TRUSTED BY SECTION — Immediately below the Hero section */}
           <TrustedBySection />
 
           {/* SECTION 02 — THE PROBLEM */}
+          <WorkflowStatement />
           <ProblemSection />
 
           {/* SECTION 03 — BENEFITS */}
@@ -297,6 +203,7 @@ export default function App() {
             onResetSubmit={handleResetSubmit}
             onOpenPreviewSection={handleScrollToPreview}
           />
+          </div>
         </main>
 
         {/* SECTION 09 — MINIMAL FOOTER */}

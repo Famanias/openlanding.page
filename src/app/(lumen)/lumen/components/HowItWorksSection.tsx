@@ -1,4 +1,5 @@
 'use client';
+import { SplitText } from '../motion/SplitText';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
@@ -74,6 +75,7 @@ export const HowItWorksSection: React.FC = () => {
   return (
     <section
       id="how-it-works"
+      data-lm-ambient=""
       aria-labelledby="how-it-works-heading"
       className="landing-section py-20 sm:py-28"
     >
@@ -82,12 +84,10 @@ export const HowItWorksSection: React.FC = () => {
           <p className="font-mono text-xs font-medium text-[#657187]">
             05 · HOW IT WORKS — MAP, AUTOMATE, REVIEW
           </p>
-          <h2
+          <h2 data-lm-heading=""
             id="how-it-works-heading"
             className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-          >
-            From idea to working workflow.
-          </h2>
+          ><SplitText text={"From idea to working workflow."} /></h2>
           <p className="mt-4 text-base text-[#657187] leading-relaxed">
             The playbook walks through a structured three-stage methodology so your workflows remain transparent, testable, and easy to maintain.
           </p>
@@ -124,7 +124,7 @@ export const HowItWorksSection: React.FC = () => {
                 tabIndex={isSelected ? 0 : -1}
                 onClick={() => handleSelectStep(step.id)}
                 onKeyDown={(e) => handleKeyDown(e, idx)}
-                className={`rounded-2xl p-6 text-left transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
+                className={`rounded-2xl p-6 text-left transition-[transform,opacity,background-color,border-color,box-shadow] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
                   isSelected
                     ? 'glass-panel-active border-[#252C43]/35 shadow-sm md:border-transparent'
                     : 'glass-panel hover:bg-white/80'

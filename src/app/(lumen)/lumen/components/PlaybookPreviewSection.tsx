@@ -1,4 +1,5 @@
 'use client';
+import { SplitText } from '../motion/SplitText';
 
 import React, { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight, CheckCircle2, FileText, ArrowDownRight } from 'lucide-react';
@@ -101,12 +102,10 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
             <p className="font-mono text-xs font-medium text-[#657187]">
               04 · INSIDE THE PLAYBOOK — INTERACTIVE RESOURCE PREVIEW
             </p>
-            <h2
+            <h2 data-lm-heading=""
               id="playbook-preview-heading"
               className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-            >
-              Everything you need to get started.
-            </h2>
+            ><SplitText text={"Everything you need to get started."} /></h2>
             <p className="mt-4 text-base text-[#657187] leading-relaxed">
               Explore the frameworks, examples, and practical tools included in the free guide.
             </p>
@@ -156,7 +155,7 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
                 tabIndex={isSelected ? 0 : -1}
                 onClick={() => setActiveId(page.id)}
                 onKeyDown={(e) => handleTabKeyDown(e, idx)}
-                className={`rounded-2xl p-4 text-left transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
+                className={`rounded-2xl p-4 text-left transition-[transform,opacity,background-color,border-color,box-shadow] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
                   isSelected
                     ? 'glass-panel-active border-[#252C43]/30 shadow-sm'
                     : 'glass-panel hover:bg-white/80'
@@ -182,7 +181,7 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
         <div className="mt-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
           {/* Left Column (5 cols): Provided Playbook Cover */}
           <div className="lg:col-span-5 flex flex-col items-center lg:items-start">
-            <div className="glass-panel relative w-full max-w-[390px] rounded-3xl p-3.5 shadow-md">
+            <div className="lm-cover glass-panel relative w-full max-w-[390px] rounded-3xl p-3.5 shadow-md">
               <div className="overflow-hidden rounded-2xl border border-white/80 bg-[#F8F9FC]">
                 <img
                   src={

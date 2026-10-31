@@ -1,9 +1,11 @@
+import { SplitText } from '../motion/SplitText';
 import React from 'react';
 
 export const BenefitsSection: React.FC = () => {
   return (
     <section
       id="benefits"
+      data-lm-ambient=""
       aria-labelledby="benefits-heading"
       className="landing-section py-20 sm:py-28"
     >
@@ -12,24 +14,22 @@ export const BenefitsSection: React.FC = () => {
           <p className="font-mono text-xs font-medium text-[#657187]">
             03 · THE BENEFITS — WHAT BETTER WORKFLOWS ENABLE
           </p>
-          <h2
+          <h2 data-lm-heading=""
             id="benefits-heading"
             className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-          >
-            Less busywork. More meaningful work.
-          </h2>
+          ><SplitText text={"Less busywork. More meaningful work."} /></h2>
           <p className="mt-4 text-base text-[#657187] leading-relaxed">
             Well-designed workflows do not replace human judgment—they remove repetitive formatting, sorting, and first-pass synthesis so your team can focus on decisions that matter.
           </p>
         </div>
 
         {/* Asymmetric Bento Grid with 3 distinct SVG visual compositions */}
-        <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="lm-benefits-grid mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12">
           {/* Benefit 01 — Find opportunities (col-span-4) */}
           <article
             data-lm-reveal="card"
             style={{ transitionDelay: '0ms' }}
-            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+            className="lm-hover-card glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
           >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
@@ -85,7 +85,7 @@ export const BenefitsSection: React.FC = () => {
           <article
             data-lm-reveal="card"
             style={{ transitionDelay: '50ms' }}
-            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+            className="lm-hover-card glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
           >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
@@ -148,7 +148,7 @@ export const BenefitsSection: React.FC = () => {
           <article
             data-lm-reveal="card"
             style={{ transitionDelay: '100ms' }}
-            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+            className="lm-hover-card glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
           >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">

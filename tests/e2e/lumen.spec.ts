@@ -172,3 +172,68 @@ test("reduced motion settles reveal elements and preserves layout", async ({ pag
     await expect(revealCards.nth(i)).toHaveCSS("transform", "none");
   }
 });
+
+test("hero glass separates with scroll and reduced motion settles it", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/lumen");
+  const hero = page.locator("#workspace-hero");
+  const input = page.locator(".lm-workspace-float--input");
+  await expect(page.locator(".landing-shell")).toHaveAttribute("data-lm-motion", "live");
+  const viewportHeight = await page.evaluate(() => innerHeight);
+  expect((await hero.boundingBox())!.height).toBeGreaterThan(viewportHeight * 1.5);
+  const before = await input.evaluate((el) => getComputedStyle(el).transform);
+  await page.evaluate(() => window.scrollTo({ top: 380, behavior: "instant" }));
+  await expect.poll(() => input.evaluate((el) => getComputedStyle(el).transform)).not.toBe(before);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(input).toHaveCSS("transform", "none");
+  expect((await hero.boundingBox())!.height).toBeLessThan(viewportHeight * 1.5);
+});
+
+test("desktop cards respond to pointer and source changes cancel replay", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/lumen");
+  const replay = page.getByRole("button", { name: /Replay Demo|Restarting Demo/ });
+  await replay.click();
+  const source = page.getByRole("button", { name: "Documents", exact: true });
+  await source.click();
+  await expect(source).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".lm-workspace")).toHaveAttribute("data-playing", "false");
+  await expect(page.locator(".lm-source-content")).toContainText("Vendor security questionnaire");
+  const cards = page.locator("#benefits .lm-hover-card");
+  await cards.first().scrollIntoViewIfNeeded();
+  await cards.first().hover();
+  await expect.poll(() => cards.first().evaluate((el) => getComputedStyle(el).transform)).not.toMatch(/^(none|matrix\(1, 0, 0, 1, 0, 0\))$/);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(cards.first()).toHaveCSS("transform", "none");
+});
+
+test("mobile menu traps focus, navigates, and restores its trigger", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/lumen");
+  const toggle = page.getByRole("button", { name: "Open navigation" });
+  await toggle.click();
+  const menu = page.getByRole("dialog", { name: "Navigation" });
+  await expect(menu).toBeVisible();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  await page.keyboard.press("Escape");
+  await expect(menu).not.toBeVisible();
+  await expect(toggle).toBeFocused();
+  await toggle.click();
+  await menu.getByRole("link", { name: "The playbook" }).click();
+  await expect(menu).not.toBeVisible();
+  await expect(page).toHaveURL(/#inside-playbook$/);
+  await expect(page.locator("#playbook-preview-heading")).toBeInViewport({ ratio: 1 });
+});
+
+test("static HTML keeps the headline, preview, and form readable", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  try {
+    await page.goto("/lumen");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName("Make repetitive work a thing of the past.");
+    await expect(page.locator("#hero-download-form input")).toBeVisible();
+    await expect(page.locator("#panel-find")).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  } finally { await context.close(); }
+});

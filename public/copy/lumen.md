@@ -5,7 +5,8 @@
         "three": "^0.186.1",
         "gsap": "^3.15.0",
         "motion": "^14.4.0",
-        "lucide-react": "0.475.0"
+        "lucide-react": "0.475.0",
+        "lenis": "^1.3.27"
       }
     }
   </dependencies>
@@ -72,7 +73,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import { Sliders } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Sliders } from 'lucide-react';
+import { SmoothScroll } from './motion/SmoothScroll';
+import { SplitText } from './motion/SplitText';
+import { WorkflowRibbon } from './components/WorkflowRibbon';
+import { WorkflowStatement } from './components/WorkflowStatement';
+import { scrollToLumen } from './motion/scroll';
 import { MinimalHeader } from './components/MinimalHeader';
 import { DownloadForm } from './components/DownloadForm';
 import { GlassWorkspace } from './components/GlassWorkspace';
@@ -105,11 +111,6 @@ function checkIsStudioRoute(): boolean {
 
 export default function App() {
   const landingRootRef = useRef<HTMLDivElement>(null);
-  const heroSectionRef = useRef<HTMLElement>(null);
-  const eyebrowRef = useRef<HTMLParagraphElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subcopyRef = useRef<HTMLParagraphElement>(null);
-  const formWrapperRef = useRef<HTMLDivElement>(null);
   const heroInputRef = useRef<HTMLInputElement>(null);
 
   const introConsumedRef = useRef<boolean>(false);
@@ -152,29 +153,17 @@ export default function App() {
   };
 
   const handleFocusHeroForm = () => {
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const formEl = document.getElementById('hero-download-form');
     if (formEl) {
-      formEl.scrollIntoView({
-        behavior: prefersReduced ? 'auto' : 'smooth',
-        block: 'center',
-      });
+      scrollToLumen(formEl);
     }
     heroInputRef.current?.focus({ preventScroll: true });
   };
 
   const handleScrollToPreview = () => {
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const previewEl = document.getElementById('inside-playbook');
     if (previewEl) {
-      previewEl.scrollIntoView({
-        behavior: prefersReduced ? 'auto' : 'smooth',
-        block: 'start',
-      });
+      scrollToLumen(previewEl);
     }
   };
 
@@ -205,6 +194,8 @@ export default function App() {
 
   return (
     <div ref={landingRootRef} className="landing-shell">
+      <SmoothScroll />
+      <a className="lm-skip" href="#lumen-content">Skip to content</a>
       <LumenMotion
         rootRef={landingRootRef}
         onHeroActivityChange={setIsHeroActive}
@@ -223,122 +214,38 @@ export default function App() {
         />
 
         <main className="flex-1">
-          {/* SECTION 01 — HERO: THE GLASS AI WORKSPACE */}
-          <section
-            ref={heroSectionRef}
-            id="workspace-hero"
-            aria-labelledby="hero-heading"
-            className="landing-section pt-10 pb-16 sm:pt-14 sm:pb-24"
-          >
-            <div className="relative z-10 mx-auto max-w-[1280px] px-6 sm:px-10">
-              <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
-                {/* Left ~55%: Headline, Value Proposition, Email Capture */}
-                <div className="lg:col-span-6 xl:col-span-6">
-                  <p
-                    ref={eyebrowRef}
-                    className="font-mono text-xs font-semibold tracking-[0.14em] text-[#657187]"
-                  >
-                    WORK SMARTER WITH AI
-                  </p>
-
-                  <h1
-                    ref={headlineRef}
-                    id="hero-heading"
-                    className="mt-4 text-4xl font-bold tracking-tight text-[#1E2432] sm:text-5xl lg:text-[3.5rem] lg:leading-[1.08] [text-wrap:balance]"
-                  >
-                    Make repetitive work a thing of the past.
-                  </h1>
-
-                  <p
-                    ref={subcopyRef}
-                    className="mt-5 max-w-xl text-base sm:text-lg text-[#657187] leading-relaxed"
-                  >
-                    Get the free AI Workflow Playbook with practical frameworks, real examples, and reusable prompts to design smarter workflows.
-                  </p>
-
-                  {/* Primary Email Conversion Form */}
-                  <div ref={formWrapperRef} className="mt-8">
-                    <DownloadForm
-                      formId="hero-download-form"
-                      inputRef={heroInputRef}
-                      submittedEmail={submittedEmail}
-                      lastSubmitTimestamp={lastSubmitTimestamp}
-                      onSuccessSubmit={handleSuccessSubmit}
-                      onResetSubmit={handleResetSubmit}
-                      onOpenPreviewSection={handleScrollToPreview}
-                    />
+          <section id="workspace-hero" className="lm-hero" aria-labelledby="hero-heading">
+            <div className="lm-hero-stage">
+              <div className="lm-hero-grid">
+                <div className="lm-hero-copy">
+                  <div className="lm-edition"><span className="lm-live-dot" /> The AI Workflow Playbook <span>Free edition / 2026</span></div>
+                  <h1 id="hero-heading" className="lm-hero-title"><SplitText text="Make repetitive work a thing of the past." /></h1>
+                  <p className="lm-hero-description">Get the free AI Workflow Playbook with practical frameworks, real examples, and reusable prompts to design smarter workflows.</p>
+                  <div className="lm-hero-form">
+                    <DownloadForm formId="hero-download-form" inputRef={heroInputRef} submittedEmail={submittedEmail} lastSubmitTimestamp={lastSubmitTimestamp} onSuccessSubmit={handleSuccessSubmit} onResetSubmit={handleResetSubmit} onOpenPreviewSection={handleScrollToPreview} />
                   </div>
-
-                  {/* Unboxed Clean Metadata Summary */}
-                  <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-[#1E2432]/10 pt-5 text-xs text-[#657187]">
-                    <span className="font-medium text-[#1E2432]">Inside the 16-page edition</span>
-                    <span aria-hidden="true">·</span>
-                    <span>Opportunity Checklist</span>
-                    <span aria-hidden="true">·</span>
-                    <span>5-Stage Mapping Framework</span>
-                    <span aria-hidden="true">·</span>
-                    <span>3 Worked Examples</span>
-                    <span aria-hidden="true">·</span>
-                    <span>Human Review Gates</span>
-                  </div>
-
-                  {/* Interactive Optical Background Switcher & Studio Trigger */}
-                  <div className="mt-5 flex flex-wrap items-center gap-2 pt-1">
-                    <span className="font-mono text-[11px] font-medium text-[#657187]">
-                      OPTICAL SCENE:
-                    </span>
-                    <div
-                      role="group"
-                      aria-label="Select hero glass background preset"
-                      className="flex flex-wrap items-center gap-1"
-                    >
-                      {GLASS_PRESET_LIST.map((p, idx) => {
-                        const isCurrent = activeHeroPreset === p.id;
-                        const shortLabel = p.name.replace(/^Preset 0\d — /, '');
-                        return (
-                          <button
-                            key={p.id}
-                            type="button"
-                            aria-pressed={isCurrent}
-                            onClick={() => {
-                              setActiveHeroPreset(p.id);
-                              setCustomHeroConfig(null);
-                            }}
-                            className={`rounded-lg px-2 py-1 font-mono text-[11px] transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                              isCurrent
-                                ? 'bg-[#252C43] text-white font-semibold'
-                                : 'bg-white/75 text-[#657187] hover:text-[#1E2432] hover:bg-white'
-                            }`}
-                          >
-                            0{idx + 1} {shortLabel}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={openGlassStudio}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-[#1E2432]/15 bg-white/85 px-2.5 py-1 font-mono text-[11px] font-semibold text-[#1E2432] hover:bg-white transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-                    >
-                      <Sliders className="h-3 w-3" aria-hidden="true" />
-                      <span>Open Glass Studio</span>
-                    </button>
-                  </div>
+                  <a className="lm-text-link" href="#inside-playbook"><span>Take a look inside</span><ArrowUpRight size={17} aria-hidden="true" /></a>
+                  <div className="lm-hero-facts"><span><b>16</b> practical pages</span><span><b>5</b> stage framework</span><span><b>3</b> worked examples</span></div>
                 </div>
-
-                {/* Right ~45%: Floating Interactive 2.5D Workflow */}
-                <div className="lg:col-span-6 xl:col-span-6">
-                  <GlassWorkspace introConsumedRef={introConsumedRef} />
+                <div className="lm-hero-art"><GlassWorkspace introConsumedRef={introConsumedRef} /></div>
+              </div>
+              <div className="lm-hero-bottom">
+                <a href="#lumen-content" className="lm-scroll-cue"><span className="lm-scroll-cue__icon"><ArrowDown size={15} /></span><span>Scroll to see things differently</span></a>
+                <div className="lm-scene-controls" role="group" aria-label="Select hero glass background preset">
+                  <span>Change the light</span>
+                  {GLASS_PRESET_LIST.map((preset, index) => <button key={preset.id} type="button" aria-label={preset.name} aria-pressed={activeHeroPreset === preset.id} title={preset.name} onClick={() => { setActiveHeroPreset(preset.id); setCustomHeroConfig(null); }}><span>{String(index + 1).padStart(2, '0')}</span></button>)}
+                  <button className="lm-scene-studio" type="button" aria-label="Open Glass Studio" onClick={openGlassStudio}><Sliders size={13} /></button>
                 </div>
               </div>
             </div>
           </section>
-
+          <div className="lm-page-sheet" id="lumen-content">
+          <WorkflowRibbon />
           {/* TRUSTED BY SECTION — Immediately below the Hero section */}
           <TrustedBySection />
 
           {/* SECTION 02 — THE PROBLEM */}
+          <WorkflowStatement />
           <ProblemSection />
 
           {/* SECTION 03 — BENEFITS */}
@@ -364,6 +271,7 @@ export default function App() {
             onResetSubmit={handleResetSubmit}
             onOpenPreviewSection={handleScrollToPreview}
           />
+          </div>
         </main>
 
         {/* SECTION 09 — MINIMAL FOOTER */}
@@ -792,6 +700,403 @@ export default function App() {
   from { transform: translate3d(0, 5%, 0); }
   to { transform: translate3d(0, -5%, 0); }
 }
+
+/* Lumen's optical experience: separate, illuminate, settle. */
+.landing-shell {
+  --lm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --lm-spring: cubic-bezier(0.34, 1.35, 0.64, 1);
+  --lm-gutter: clamp(24px, 5vw, 80px);
+}
+.landing-shell ::selection { background: #D8D0F7; color: #1E2432; }
+.landing-shell :focus-visible { outline: 2px solid #5B8DEF; outline-offset: 5px; }
+.landing-shell input { caret-color: #8E7CE8; }
+.landing-shell button, .landing-shell a { -webkit-tap-highlight-color: transparent; }
+.landing-shell a { text-underline-offset: 5px; }
+.landing-shell section[id], #lumen-content { scroll-margin-top: 108px; }
+.lm-skip { position: fixed; z-index: 100; left: 24px; top: 12px; padding: 12px 24px; background: #252C43; color: #FFFFFF; border-radius: 12px; transform: translateY(-160%); }
+.lm-skip:focus { transform: none; }
+
+.lumen-header { position: fixed; top: 16px; left: 0; width: 100%; z-index: 60; padding: 0 var(--lm-gutter); pointer-events: none; }
+.lm-nav-shell { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 1440px; min-height: 64px; margin: auto; padding: 10px 16px 10px 24px; border-radius: 16px; background: color-mix(in srgb, #F8F9FC 86%, transparent); border: 1px solid color-mix(in srgb, #FFFFFF 90%, transparent); box-shadow: 0 8px 32px color-mix(in srgb, #252C43 4%, transparent); backdrop-filter: blur(20px); pointer-events: auto; transition: background 300ms var(--lm-ease), box-shadow 300ms var(--lm-ease); }
+.lumen-header[data-compact="true"] .lm-nav-shell { background: color-mix(in srgb, #FFFFFF 94%, transparent); box-shadow: 0 12px 40px color-mix(in srgb, #252C43 10%, transparent); }
+.lm-logo { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 750; letter-spacing: 0.12em; }
+.lm-logo svg { width: 28px; height: 28px; fill: color-mix(in srgb, #C9DAFA 48%, transparent); stroke: #252C43; stroke-width: 1.15; transition: transform 600ms var(--lm-ease); }
+.lm-logo:hover svg { transform: rotate(60deg); }
+.lm-logo-dot { color: #8E7CE8; }
+.lm-desktop-nav { display: flex; gap: 28px; align-items: center; }
+.lm-nav-link { position: relative; padding: 10px 0; font-size: 12px; font-weight: 550; color: #657187; transition: color 220ms var(--lm-ease); }
+.lm-nav-link::after { content: ""; position: absolute; bottom: 3px; left: 0; width: 100%; height: 2px; background: #8E7CE8; transform: scaleX(0); transform-origin: right; transition: transform 350ms var(--lm-ease); }
+.lm-nav-link:hover, .lm-nav-link[aria-current] { color: #252C43; }
+.lm-nav-link:hover::after, .lm-nav-link[aria-current]::after { transform: scaleX(1); transform-origin: left; }
+.lm-nav-actions { display: flex; align-items: center; gap: 20px; }
+.lm-studio-link { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #657187; cursor: pointer; }
+.lm-studio-link svg { transition: transform 300ms var(--lm-ease); }
+.lm-studio-link:hover svg { transform: translate(2px, -2px); }
+.lm-nav-progress { position: absolute; bottom: -1px; left: 16px; right: 16px; height: 2px; background: #8E7CE8; transform: scaleX(0); transform-origin: left; pointer-events: none; }
+.lm-btn, .landing-shell .lm-form-submit { position: relative; display: inline-flex; justify-content: center; align-items: center; gap: 12px; isolation: isolate; overflow: hidden; border: 0; background: #252C43; color: #FFFFFF; border-radius: 12px; padding: 16px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: color 300ms var(--lm-ease), scale 160ms var(--lm-ease), box-shadow 300ms var(--lm-ease); }
+.lm-btn::before, .lm-form-submit::before { content: ""; position: absolute; inset: 0; z-index: -1; background: #D8D0F7; transform: translateX(-102%); transition: transform 420ms var(--lm-ease); }
+.lm-btn--small { padding: 12px 16px; font-size: 11px; gap: 10px; }
+.lm-magnetic { translate: var(--lm-mx, 0px) var(--lm-my, 0px); transition: translate 300ms var(--lm-ease), color 300ms var(--lm-ease), scale 160ms var(--lm-ease); }
+.lm-btn svg, .lm-form-submit svg { transition: transform 350ms var(--lm-ease); }
+.lm-btn:active, .lm-form-submit:active { scale: 0.97; }
+.lm-menu-toggle { display: none; width: 40px; height: 40px; align-items: center; justify-content: center; flex-direction: column; gap: 6px; cursor: pointer; }
+.lm-menu-toggle > span { display: block; width: 20px; height: 1px; background: #252C43; }
+.lm-mobile-menu { inset: 0; position: fixed; width: 100%; height: 100dvh; max-width: none; max-height: none; padding: 24px; border: 0; color: #252C43; background: #EFF3FA; }
+.lm-mobile-menu[open] { display: flex; flex-direction: column; animation: lm-menu-open 480ms var(--lm-ease) both; }
+.lm-mobile-menu::backdrop { background: color-mix(in srgb, #252C43 35%, transparent); }
+.lm-menu-top { display: flex; justify-content: space-between; align-items: center; font-weight: 700; letter-spacing: 0.1em; }
+.lm-menu-top button { padding: 12px; cursor: pointer; }
+.lm-mobile-menu nav { display: grid; gap: 16px; margin: auto 0; }
+.lm-mobile-menu nav a { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; font-size: clamp(28px, 7vw, 48px); font-weight: 600; animation: lm-menu-link 650ms var(--lm-ease) calc(var(--item) * 65ms) both; }
+.lm-menu-studio { display: flex; justify-content: space-between; padding: 24px 0; border-top: 1px solid #CBD5E1; }
+.lm-mobile-menu > p { font-size: 12px; color: #657187; }
+@keyframes lm-menu-open { from { clip-path: circle(0% at calc(100% - 40px) 40px); } to { clip-path: circle(150% at calc(100% - 40px) 40px); } }
+@keyframes lm-menu-link { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+.lm-hero { position: relative; min-height: 100svh; }
+.lm-hero-stage { position: relative; min-height: 100svh; padding: 120px var(--lm-gutter) 80px; display: flex; align-items: center; }
+.lm-hero-grid { display: grid; grid-template-columns: 1.04fr 1fr; align-items: center; gap: clamp(24px, 4vw, 64px); width: 100%; max-width: 1440px; margin: 0 auto; }
+.lm-hero-copy { position: relative; z-index: 4; transform-origin: left center; transform: translate3d(0, calc(var(--lm-departure, 0) * -90px), 0) scale(calc(1 - var(--lm-departure, 0) * 0.06)); opacity: calc(1 - var(--lm-departure, 0) * 0.7); }
+.lm-edition { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 28px; font-size: 11px; font-weight: 550; color: #252C43; }
+.lm-edition > span:last-child { margin-left: 8px; padding-left: 16px; border-left: 1px solid #CBD5E1; color: #657187; font-size: 10px; }
+.lm-live-dot { display: inline-block; flex-shrink: 0; width: 5px; height: 5px; border-radius: 50%; background: #5BA59A; box-shadow: 0 0 0 4px color-mix(in srgb, #5BA59A 10%, transparent); }
+.lm-hero-title { margin: 0; max-width: 760px; font-size: clamp(48px, 5.5vw, 88px); font-weight: 600; line-height: 1.035; letter-spacing: -0.04em; text-wrap: balance; }
+.lm-word { display: inline-block; overflow: clip; vertical-align: top; padding: 0 0.025em 0.14em; margin: 0 -0.025em -0.14em 0; }
+.lm-word__in { display: inline-block; }
+.lm-hero-description { max-width: 490px; margin-top: 24px; font-size: 15px; line-height: 1.8; color: #657187; text-wrap: pretty; }
+.lm-hero-form { margin-top: 28px; max-width: 520px; }
+.lm-hero-form form { margin: 0; }
+.lm-hero-form input { min-width: 0; }
+.lm-hero-form .lm-form-submit { padding: 14px 18px; font-size: 12px; }
+.lm-text-link { display: inline-flex; align-items: center; gap: 16px; font-size: 12px; font-weight: 600; margin-top: 20px; }
+.lm-text-link span { position: relative; }
+.lm-text-link span::after { content: ""; position: absolute; left: 0; bottom: -3px; width: 100%; height: 1px; background: #657187; transform: scaleX(0.3); transform-origin: left; transition: transform 450ms var(--lm-ease); }
+.lm-text-link svg { transition: transform 450ms var(--lm-ease); }
+.lm-text-link:hover span::after { transform: scaleX(1); }
+.lm-text-link:hover svg { transform: translate(3px, -3px); }
+.lm-hero-facts { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: 28px; padding-top: 20px; border-top: 1px solid color-mix(in srgb, #657187 16%, transparent); color: #657187; font-size: 10px; }
+.lm-hero-facts b { color: #252C43; font-size: 17px; font-weight: 550; margin-right: 5px; font-variant-numeric: tabular-nums; }
+.lm-hero-art { position: relative; min-width: 0; perspective: 1400px; transform: translate3d(0, calc(var(--lm-departure, 0) * -30px), 0); }
+.lm-hero-bottom { position: absolute; bottom: 24px; left: var(--lm-gutter); right: var(--lm-gutter); max-width: 1440px; margin: auto; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.lm-scroll-cue { display: inline-flex; align-items: center; gap: 12px; color: #657187; font-size: 10px; }
+.lm-scroll-cue__icon { display: grid; place-items: center; width: 30px; height: 42px; border: 1px solid #CBD5E1; border-radius: 20px; }
+.lm-scroll-cue svg { animation: lm-scroll-arrow 2s var(--lm-ease) infinite; }
+.lm-scene-controls { display: flex; gap: 5px; align-items: center; }
+.lm-scene-controls > span { margin-right: 8px; color: #657187; font-size: 10px; }
+.lm-scene-controls button { width: 28px; height: 28px; border-radius: 50%; border: 1px solid color-mix(in srgb, #657187 20%, transparent); color: #657187; display: grid; place-items: center; font-size: 9px; cursor: pointer; transition: background 250ms var(--lm-ease), color 250ms var(--lm-ease), transform 350ms var(--lm-ease); }
+.lm-scene-controls button[aria-pressed="true"] { background: #252C43; color: #FFFFFF; border-color: #252C43; }
+.lm-scene-controls button:hover { transform: translateY(-3px); }
+.lm-scene-controls .lm-scene-studio { margin-left: 8px; border-radius: 8px; width: 32px; }
+@keyframes lm-scroll-arrow { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(4px); } }
+
+.lm-workspace { position: relative; width: 100%; max-width: 650px; margin: auto; }
+.lm-workspace-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #657187; font-size: 10px; }
+.lm-workspace-meta > span { display: inline-flex; gap: 8px; align-items: center; }
+.lm-replay { display: inline-flex; align-items: center; gap: 5px; border: 1px solid color-mix(in srgb, #FFFFFF 90%, transparent); border-radius: 20px; background: color-mix(in srgb, #FFFFFF 68%, transparent); padding: 7px 10px; font-size: 9px; cursor: pointer; white-space: nowrap; }
+.lm-replay svg { color: #5BA59A; transition: transform 300ms var(--lm-spring); }
+.lm-replay:hover svg { transform: rotate(120deg); }
+.lm-workspace-stage { position: relative; height: 600px; perspective: 1400px; }
+.lm-workspace-plane { height: 100%; transform: rotateX(var(--tilt-x, 2deg)) rotateY(var(--tilt-y, -4deg)); }
+.lm-workspace-float { position: absolute; transform-style: preserve-3d; transition: filter 500ms var(--lm-ease); }
+.lm-workspace-float--input { width: 65%; left: 0; top: 30px; z-index: 10; transform: translate3d(calc(var(--lm-departure, 0) * -200px), calc(var(--lm-departure, 0) * -100px), 0) rotate(calc(-6deg - var(--lm-departure, 0) * 16deg)); }
+.lm-workspace-float--processing { width: 73%; right: -1%; top: 205px; z-index: 20; transform: translate3d(calc(var(--lm-departure, 0) * 210px), calc(var(--lm-departure, 0) * -35px), 40px) rotate(calc(5deg + var(--lm-departure, 0) * 20deg)); }
+.lm-workspace-float--output { width: 69%; left: 4%; top: 432px; z-index: 30; transform: translate3d(calc(var(--lm-departure, 0) * -160px), calc(var(--lm-departure, 0) * 100px), 20px) rotate(calc(-4deg - var(--lm-departure, 0) * 10deg)); }
+.lm-panel-entrance { perspective: 1400px; transform-style: preserve-3d; }
+.lm-workspace-panel { position: relative; border: 1px solid #FFFFFF; border-radius: 18px; padding: 18px; background: color-mix(in srgb, #FFFFFF 83%, #EDF1FA); box-shadow: 0 20px 48px -20px color-mix(in srgb, #252C43 28%, transparent), inset 0 1px 0 #FFFFFF; backdrop-filter: blur(16px); transition: transform 450ms var(--lm-ease), box-shadow 450ms var(--lm-ease), border-color 450ms var(--lm-ease); }
+.lm-workspace-panel::after { content: ""; position: absolute; inset: -5px; pointer-events: none; border: 1px solid color-mix(in srgb, #FFFFFF 65%, transparent); border-radius: 22px; }
+.lm-workspace-panel[data-selected="true"] { transform: translateZ(40px) scale(1.045); border-color: #8E7CE8; box-shadow: 0 30px 56px -20px color-mix(in srgb, #8E7CE8 32%, transparent); }
+.lm-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 13px; margin-bottom: 13px; border-bottom: 1px solid color-mix(in srgb, #657187 12%, transparent); font-size: 10px; font-weight: 600; }
+.lm-panel-heading > button { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; }
+.lm-panel-heading > svg { color: #657187; flex-shrink: 0; }
+.lm-panel-number { font-size: 9px; font-variant-numeric: tabular-nums; color: #657187; font-weight: 400; }
+.lm-source-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
+.lm-source-tabs button { display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 5px; padding: 9px 3px; border-radius: 9px; font-size: 8px; color: #657187; cursor: pointer; transition: background 250ms var(--lm-ease), color 250ms var(--lm-ease), transform 250ms var(--lm-ease); }
+.lm-source-tabs button[aria-pressed="true"] { background: #EFF3FA; color: #252C43; box-shadow: 0 2px 8px color-mix(in srgb, #252C43 6%, transparent); }
+.lm-source-tabs button:hover { background: #D8D0F7; transform: translateY(-2px); color: #252C43; }
+.lm-source-content { margin-top: 12px; animation: lm-content-in 350ms var(--lm-ease); }
+.lm-source-content p { font-size: 11px; line-height: 1.5; font-weight: 550; }
+.lm-source-content > span { font-size: 8px; color: #657187; }
+.lm-source-bottom { display: flex; align-items: center; gap: 7px; font-size: 8px; color: #657187; padding-top: 12px; margin-top: 12px; border-top: 1px solid color-mix(in srgb, #657187 10%, transparent); }
+.lm-source-bottom > svg { margin-left: auto; }
+.lm-workspace-panel--processing { background: color-mix(in srgb, #FFFFFF 94%, #D8D0F7); }
+.lm-workspace-panel--processing .lm-panel-heading > svg { color: #8E7CE8; }
+.lm-process-steps { display: grid; gap: 5px; }
+.lm-process-steps > button { display: flex; align-items: flex-start; gap: 10px; text-align: left; padding: 9px; border-radius: 9px; border: 1px solid transparent; cursor: pointer; transition: background 250ms var(--lm-ease), border-color 250ms var(--lm-ease), transform 250ms var(--lm-ease); }
+.lm-process-steps > button[data-active="true"] { border-color: #D8D0F7; background: #F2F5FC; transform: translateX(4px); }
+.lm-step-check { display: grid; place-items: center; flex-shrink: 0; width: 20px; height: 20px; border-radius: 6px; background: #EFF3FA; color: #657187; }
+[data-active="true"] .lm-step-check { background: #8E7CE8; color: #FFFFFF; }
+.lm-process-steps strong { display: block; font-weight: 600; font-size: 10px; }
+.lm-process-steps small { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; margin-top: 2px; font-size: 8px; color: #657187; line-height: 1.5; }
+.lm-processing-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; margin-top: 10px; border-top: 1px solid color-mix(in srgb, #657187 10%, transparent); font-size: 7px; color: #657187; }
+.lm-processing-meter { display: inline-flex; align-items: center; gap: 3px; height: 14px; }
+.lm-processing-meter i { display: block; width: 3px; height: 5px; background: #8E7CE8; border-radius: 2px; }
+.lm-processing-meter i:nth-child(2n) { height: 10px; }
+.lm-processing-meter i:nth-child(3) { height: 14px; }
+.lm-workspace[data-playing="true"] .lm-processing-meter i { animation: lm-meter 500ms var(--lm-ease) infinite alternate; }
+.lm-workspace[data-playing="true"] .lm-processing-meter i:nth-child(2n) { animation-delay: 150ms; }
+.lm-workspace-panel--output { background: color-mix(in srgb, #FFFFFF 85%, #C9DAFA); }
+.lm-workspace-panel--output .lm-panel-heading > svg { color: #5BA59A; }
+.lm-output-title > span { font-size: 7px; letter-spacing: 0.1em; color: #657187; }
+.lm-output-title > p { font-size: 12px; font-weight: 550; line-height: 1.5; margin-top: 5px; }
+.lm-output-title { animation: lm-content-in 350ms var(--lm-ease); }
+.lm-output-review { margin-top: 12px; padding-top: 10px; border-top: 1px solid color-mix(in srgb, #657187 12%, transparent); display: flex; align-items: center; gap: 7px; font-size: 8px; color: #657187; }
+.lm-output-review svg { color: #5BA59A; flex-shrink: 0; }
+.lm-workspace-connectors { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.lm-connector-base, .lm-connector-signal { stroke: url(#lm-workflow-ray); stroke-width: 1.5; }
+.lm-connector-base { opacity: 0.3; }
+.lm-connector-signal { stroke-dasharray: 12 600; stroke-dashoffset: 0; opacity: 0; }
+.lm-workspace[data-playing="true"] .lm-connector-signal { opacity: 1; animation: lm-trace 1.6s var(--lm-ease) both; }
+.lm-workspace-controls { display: flex; width: fit-content; margin: 12px auto 0; gap: 4px; border: 1px solid #FFFFFF; border-radius: 30px; padding: 4px; background: color-mix(in srgb, #FFFFFF 55%, transparent); }
+.lm-workspace-controls button { font-size: 9px; color: #657187; padding: 7px 12px; border-radius: 20px; cursor: pointer; transition: background 300ms var(--lm-ease), color 300ms var(--lm-ease); }
+.lm-workspace-controls button[aria-pressed="true"] { background: #252C43; color: #FFFFFF; }
+.lm-workspace-caption { max-width: 380px; margin: 10px auto 0; text-align: center; font-size: 9px; line-height: 1.65; color: #657187; min-height: 30px; }
+.lm-workspace-coordinate { position: absolute; right: 0; bottom: 12px; writing-mode: vertical-rl; font-size: 7px; letter-spacing: 0.18em; color: #657187; opacity: 0.65; }
+.lm-orbit { position: absolute; inset: 12% -5%; border: 1px solid color-mix(in srgb, #FFFFFF 90%, transparent); border-radius: 50%; pointer-events: none; transform: rotate(-25deg) scaleY(0.8); }
+.lm-orbit--two { inset: 0 -12%; transform: rotate(25deg) scaleY(0.75); border-color: color-mix(in srgb, #C9DAFA 55%, transparent); }
+@keyframes lm-meter { to { transform: scaleY(0.35); } }
+@keyframes lm-trace { from { stroke-dashoffset: 620; } to { stroke-dashoffset: 0; } }
+@keyframes lm-content-in { from { opacity: 0.25; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.lm-page-sheet { position: relative; z-index: 5; background: color-mix(in srgb, #F8F9FC 97%, transparent); border-radius: 40px 40px 0 0; box-shadow: 0 -24px 80px color-mix(in srgb, #252C43 4%, transparent); padding-top: 1px; }
+.lm-workflow-ribbon { overflow: hidden; border-radius: 40px 40px 0 0; background: #252C43; color: #FFFFFF; padding: 26px 0; }
+.lm-workflow-ribbon__track { display: flex; width: max-content; animation: lm-ribbon-travel 38s linear infinite; }
+.lm-workflow-ribbon__group { display: flex; flex-shrink: 0; gap: 48px; padding-right: 48px; }
+.lm-workflow-ribbon__group > span { display: inline-flex; align-items: center; gap: 16px; font-size: clamp(18px, 2vw, 28px); font-weight: 450; letter-spacing: -0.02em; white-space: nowrap; }
+.lm-workflow-ribbon__group svg { width: 20px; height: 20px; fill: none; stroke: #D8D0F7; stroke-width: 1.1; margin-left: 24px; }
+.lm-ribbon-mark { width: 16px; height: 16px; display: block; border-radius: 4px; border: 1px solid #D8D0F7; transform: rotate(45deg); }
+.lm-ribbon-mark--1 { border-radius: 50%; background: #D8D0F7; }
+.lm-ribbon-mark--2 { border-radius: 2px; border-color: #C9DAFA; }
+.lm-ribbon-mark--3 { border-radius: 50% 50% 2px 2px; background: #5BA59A; border-color: #5BA59A; }
+@keyframes lm-ribbon-travel { to { transform: translateX(-25%); } }
+.lm-workflow-ribbon:hover .lm-workflow-ribbon__track { animation-play-state: paused; }
+.lm-statement { position: relative; padding: 64px var(--lm-gutter) 112px; text-align: center; }
+.lm-statement p { font-size: clamp(40px, 6vw, 80px); line-height: 1.12; font-weight: 550; letter-spacing: -0.04em; }
+.lm-statement__line { display: block; }
+.lm-statement__line > span { color: #252C43; }
+[data-lm-motion="live"] .lm-statement__line > span { color: color-mix(in srgb, #252C43 calc(clamp(0, var(--lm-reading, 0) * 6.5 - var(--word), 1) * 100%), #CBD5E1); }
+.lm-statement__note { display: block; margin-top: 28px; color: #657187; font-size: 12px; }
+.lm-statement__mark { width: 64px; height: 64px; margin: 0 auto 32px; position: relative; perspective: 400px; }
+.lm-statement__mark > span { position: absolute; inset: 10px; border-radius: 9px; border: 1px solid #FFFFFF; background: color-mix(in srgb, #D8D0F7 65%, transparent); transform: rotate(-35deg) translateX(-10px); box-shadow: 0 8px 24px color-mix(in srgb, #252C43 8%, transparent); }
+.lm-statement__mark > span:nth-child(2) { transform: rotate(-15deg); background: color-mix(in srgb, #C9DAFA 70%, transparent); }
+.lm-statement__mark > span:nth-child(3) { transform: rotate(10deg) translateX(10px); background: color-mix(in srgb, #FFFFFF 65%, transparent); }
+
+.lm-page-sheet .landing-section { padding-block: clamp(80px, 8vw, 128px); }
+.lm-page-sheet .landing-section h2 { font-size: clamp(36px, 4.2vw, 60px); font-weight: 550; line-height: 1.1; letter-spacing: -0.035em; }
+.lm-page-sheet .landing-section h2 + p { max-width: 620px; font-size: 14px; line-height: 1.8; margin-top: 24px; }
+.lm-page-sheet .landing-section > div > .max-w-2xl { max-width: 860px; }
+.lm-page-sheet .landing-section > div > div:first-child > .max-w-2xl { max-width: 820px; }
+.lm-page-sheet .landing-section > div > .max-w-2xl > p.font-mono:first-child,
+.lm-page-sheet .landing-section > div > div:first-child > .max-w-2xl > p.font-mono:first-child { display: none; }
+
+#the-problem { margin: 0 var(--lm-gutter); border-radius: 32px; background: #252C43; overflow: clip; }
+#the-problem > div { padding-inline: clamp(24px, 4vw, 64px); }
+#the-problem h2 { color: #FFFFFF; }
+#the-problem > div > div:first-child p { color: #CBD5E1; }
+#the-problem > div > div:first-child > div:last-child { background: color-mix(in srgb, #FFFFFF 10%, transparent); border-color: color-mix(in srgb, #FFFFFF 20%, transparent); box-shadow: none; }
+#the-problem > div > div:first-child button { color: #CBD5E1; }
+#the-problem > div > div:first-child button[aria-pressed="true"] { background: #D8D0F7; color: #252C43; }
+#the-problem .lm-problem-canvas { background: color-mix(in srgb, #FFFFFF 4%, transparent); border-color: color-mix(in srgb, #FFFFFF 10%, transparent); border-radius: 20px; box-shadow: none; overflow: visible; min-height: 340px; display: flex; flex-direction: column; justify-content: center; }
+#the-problem .lm-fragment { border: 1px solid color-mix(in srgb, #FFFFFF 80%, transparent); background: #F8F9FC; box-shadow: 0 16px 32px color-mix(in srgb, #1E2432 18%, transparent); min-height: 185px; transition: transform 800ms var(--lm-ease), background 300ms var(--lm-ease); }
+#the-problem .lm-problem-canvas > div:last-child { color: #CBD5E1; border-color: color-mix(in srgb, #FFFFFF 15%, transparent); }
+#the-problem .lm-problem-canvas > div:last-child > span:last-child { color: #CBD5E1; }
+#benefits .lm-benefits-grid { perspective: 1400px; }
+.lm-hover-card { position: relative; transform-style: preserve-3d; transition: transform 550ms var(--lm-ease), box-shadow 550ms var(--lm-ease), opacity 400ms var(--lm-ease); }
+.lm-hover-card::after, .lm-cover::after { content: ""; pointer-events: none; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at var(--lm-light-x, 50%) var(--lm-light-y, 30%), color-mix(in srgb, #FFFFFF 85%, transparent), transparent 60%); opacity: 0; transition: opacity 400ms var(--lm-ease); }
+.lm-hover-card > div:last-child { overflow: hidden; }
+.lm-hover-card > div:last-child > svg { transition: transform 650ms var(--lm-ease); }
+.lm-hover-card:nth-child(2) { background: color-mix(in srgb, #D8D0F7 30%, #FFFFFF); }
+.lm-hover-card:nth-child(3) { background: color-mix(in srgb, #C9DAFA 35%, #FFFFFF); }
+#inside-playbook { background: #EFF3FA; border-radius: 40px; margin-inline: 16px; overflow: clip; }
+.lm-cover { isolation: isolate; backdrop-filter: none; -webkit-backdrop-filter: none; transition: transform 650ms var(--lm-ease), box-shadow 650ms var(--lm-ease); transform: perspective(1000px) translateZ(60px) rotateX(var(--lm-rx, 0deg)) rotateY(calc(-8deg + var(--lm-ry, 0deg))) rotate(-4deg); }
+.playbook-stack-stage { perspective: 1800px; }
+.playbook-stack-grid > [role="tabpanel"] { transition: transform 650ms var(--lm-ease), opacity 500ms var(--lm-ease), box-shadow 500ms var(--lm-ease); transform-origin: 15% 70%; }
+.playbook-stack-grid > .stack-card-front { transform: translate3d(0, 0, 70px) rotate(-1deg); }
+.playbook-stack-grid > .stack-card-middle { transform: translate3d(28px, -20px, -20px) rotate(4deg) scale(0.97); }
+.playbook-stack-grid > .stack-card-back { transform: translate3d(50px, -38px, -60px) rotate(8deg) scale(0.94); }
+#inside-playbook [role="tab"] { position: relative; overflow: hidden; border: 1px solid color-mix(in srgb, #FFFFFF 85%, transparent); background: color-mix(in srgb, #FFFFFF 45%, transparent); transition: background 400ms var(--lm-ease), transform 400ms var(--lm-ease), box-shadow 400ms var(--lm-ease); }
+#inside-playbook [role="tab"][aria-selected="true"] { background: #FFFFFF; box-shadow: 0 8px 24px color-mix(in srgb, #252C43 6%, transparent); }
+#inside-playbook [role="tab"]::after { content: ""; position: absolute; bottom: 0; left: 0; height: 3px; width: 100%; background: #8E7CE8; transform: scaleX(0); transform-origin: left; transition: transform 550ms var(--lm-ease); }
+#inside-playbook [role="tab"][aria-selected="true"]::after { transform: scaleX(1); }
+#inside-playbook button[aria-label^="Next"], #inside-playbook button[aria-label^="Previous"] { border-radius: 50%; width: 48px; height: 48px; }
+#inside-playbook button[aria-label^="Next"] svg, #inside-playbook button[aria-label^="Previous"] svg { transition: transform 400ms var(--lm-ease); }
+#inside-playbook button[aria-label^="Next"]:hover svg { transform: translateX(4px); }
+#inside-playbook button[aria-label^="Previous"]:hover svg { transform: translateX(-4px); }
+#how-it-works [role="tab"] { transition: background 400ms var(--lm-ease), transform 400ms var(--lm-ease); }
+#how-it-works [role="tab"][aria-selected="true"] { background: #FFFFFF; }
+#how-it-works [role="tabpanel"] { transition: box-shadow 500ms var(--lm-ease); }
+#practical-credibility blockquote { font-size: 19px; line-height: 1.65; font-weight: 450; letter-spacing: -0.015em; }
+#faq > div { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 64px; max-width: 1280px; }
+#faq > div > div:first-child { position: sticky; top: 120px; align-self: start; }
+#faq > div > div:last-child { margin-top: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; backdrop-filter: none; padding: 0; }
+#faq .lm-faq-row { padding: 24px 0; }
+#faq .lm-faq-row button { font-size: 15px; line-height: 1.5; padding-right: 4px; transition: color 250ms var(--lm-ease); }
+#faq .lm-faq-row button > span { transition: transform 350ms var(--lm-ease); }
+#faq .lm-faq-row button > svg { border-radius: 50%; width: 30px; height: 30px; padding: 6px; background: #EFF3FA; color: #252C43; }
+#faq .lm-faq-row button[aria-expanded="true"] > svg { background: #D8D0F7; }
+.lm-faq-answer { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 420ms var(--lm-ease), opacity 250ms var(--lm-ease); }
+.lm-faq-answer[data-open="true"] { grid-template-rows: 1fr; opacity: 1; }
+.lm-faq-answer > div { overflow: hidden; }
+.lm-faq-answer p { padding-top: 16px; padding-right: 44px; font-size: 13px; line-height: 1.8; color: #657187; }
+#final-download { padding-bottom: 80px; }
+#final-download > div > div { padding: clamp(32px, 5vw, 80px); border-radius: 32px; background: color-mix(in srgb, #FFFFFF 70%, #D8D0F7); }
+#final-download h2 { font-size: clamp(40px, 4.5vw, 64px); }
+#final-download .lm-final-cover { transition: transform 650ms var(--lm-ease); transform: rotate(5deg); }
+.lm-form-surface { transition: border-color 300ms var(--lm-ease), box-shadow 300ms var(--lm-ease), background 300ms var(--lm-ease); }
+.lm-form-surface:focus-within { box-shadow: 0 0 0 4px color-mix(in srgb, #8E7CE8 12%, transparent), 0 12px 32px color-mix(in srgb, #252C43 5%, transparent); border-color: #D8D0F7; }
+.lm-form-success { animation: lm-success 600ms var(--lm-ease) both; }
+.lm-form-success > div:first-child svg { animation: lm-check 800ms var(--lm-spring) both; }
+@keyframes lm-success { from { clip-path: inset(0 0 100% 0 round 16px); opacity: 0; transform: translateY(8px); } to { clip-path: inset(0 round 16px); opacity: 1; transform: none; } }
+@keyframes lm-check { from { transform: scale(0.65) rotate(-30deg); } to { transform: scale(1) rotate(0); } }
+.landing-shell footer a:not(.lm-btn) { position: relative; transition: color 300ms var(--lm-ease); }
+.landing-shell footer a:not(.lm-btn)::after { content: ""; height: 1px; width: 100%; background: currentColor; position: absolute; left: 0; bottom: -3px; transform: scaleX(0); transform-origin: right; transition: transform 400ms var(--lm-ease); }
+.landing-shell footer a:not(.lm-btn):hover::after { transform: scaleX(1); transform-origin: left; }
+.landing-shell .lumen-footer-wordmark { letter-spacing: -0.04em; }
+
+@media (hover: hover) and (pointer: fine) {
+  .lm-btn:hover, .lm-form-submit:hover { color: #252C43; }
+  .lm-btn:hover::before, .lm-form-submit:hover::before { transform: translateX(0); }
+  .lm-btn:hover svg, .lm-form-submit:hover svg { transform: translate(3px, -3px); }
+  .lm-hover-card:hover { transform: perspective(1000px) translateY(-10px) rotateX(var(--lm-rx, 0deg)) rotateY(var(--lm-ry, 0deg)); box-shadow: 0 28px 60px -24px color-mix(in srgb, #252C43 22%, transparent); z-index: 3; }
+  .lm-hover-card:hover::after, .lm-cover:hover::after { opacity: 0.6; }
+  .lm-hover-card:hover > div:last-child > svg { transform: scale(1.04) translateY(-2px); }
+  .lm-benefits-grid:has(.lm-hover-card:hover) .lm-hover-card:not(:hover) { opacity: 0.6; }
+  .lm-cover:hover { transform: perspective(1000px) translateY(-10px) translateZ(60px) rotateX(var(--lm-rx, 0deg)) rotateY(var(--lm-ry, 0deg)) rotate(-1deg); box-shadow: 0 32px 64px -20px color-mix(in srgb, #252C43 24%, transparent); }
+  #inside-playbook [role="tab"]:hover { transform: translateY(-4px); background: #FFFFFF; }
+  #faq .lm-faq-row button:hover { color: #8E7CE8; }
+  #faq .lm-faq-row button:hover > span { transform: translateX(4px); }
+  #final-download .lm-final-cover:hover { transform: translateY(-12px) rotate(1deg); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-lm-motion="live"] .lm-hero-title .lm-word__in { animation: lm-mask-rise 1000ms var(--lm-ease) calc(120ms + var(--word) * 55ms) both; }
+  [data-lm-motion="live"] .lm-edition, [data-lm-motion="live"] .lm-hero-description { animation: lm-copy-arrive 900ms var(--lm-ease) 250ms both; }
+  [data-lm-motion="live"] .lm-hero-facts, [data-lm-motion="live"] .lm-text-link { animation: lm-copy-arrive 900ms var(--lm-ease) 550ms both; }
+  [data-lm-motion="live"] .lm-nav-shell { animation: lm-nav-arrive 850ms var(--lm-ease) both; }
+  [data-lm-heading] .lm-word__in { transition: transform 850ms var(--lm-ease), opacity 600ms var(--lm-ease); transition-delay: calc(var(--word) * 35ms); }
+  [data-lm-heading][data-lm-armed="true"] .lm-word__in { transform: translateY(110%) rotate(3deg); opacity: 0; }
+  .landing-shell [data-lm-reveal][data-lm-armed="true"] { opacity: 0; transform: translateY(40px) scale(0.97); }
+  .landing-shell [data-lm-reveal] { transition: opacity 800ms var(--lm-ease), transform 1000ms var(--lm-ease); }
+  [data-lm-reveal="wipe"][data-lm-armed="true"] { clip-path: inset(0 0 100% 0 round 20px); }
+  [data-lm-reveal="wipe"] { transition: clip-path 1100ms var(--lm-ease), transform 1000ms var(--lm-ease); }
+}
+@keyframes lm-mask-rise { from { opacity: 0; transform: translateY(115%) rotate(4deg); } to { opacity: 1; transform: none; } }
+@keyframes lm-copy-arrive { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes lm-nav-arrive { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: none; } }
+
+[data-lm-playing="false"] *, [data-lm-hidden="true"] * { animation-play-state: paused !important; }
+@media (min-width: 1024px) and (min-height: 680px) and (prefers-reduced-motion: no-preference) {
+  [data-lm-motion="live"] .lm-hero { height: 165svh; }
+  [data-lm-motion="live"] .lm-hero-stage { position: sticky; top: 0; height: 100svh; }
+  [data-lm-motion="live"] .lm-page-sheet { margin-top: -8svh; }
+}
+@media (min-width: 1024px) and (max-height: 800px) {
+  .lm-hero-stage { padding-top: 100px; padding-bottom: 64px; }
+  .lm-hero-title { font-size: clamp(48px, 4.8vw, 72px); }
+  .lm-edition { margin-bottom: 20px; }
+  .lm-hero-description { font-size: 13px; margin-top: 18px; }
+  .lm-hero-form { margin-top: 20px; }
+  .lm-hero-facts { margin-top: 20px; }
+  .lm-hero-art { height: 555px; display: flex; align-items: center; }
+  .lm-workspace { position: absolute; top: 0; left: 0; transform: scale(0.78); transform-origin: top left; width: 120%; flex-shrink: 0; margin: 0; }
+  .lm-hero-bottom { bottom: 14px; }
+}
+@media (min-width: 1600px) {
+  .lm-workspace { max-width: 640px; }
+  .lm-workspace-stage { height: 640px; }
+  .lm-workspace-float--processing { top: 220px; }
+  .lm-workspace-float--output { top: 455px; }
+}
+@media (max-width: 1100px) {
+  .lm-desktop-nav { gap: 18px; }
+  .lm-studio-link { display: none; }
+  .lm-nav-actions { gap: 12px; }
+}
+@media (max-width: 1023px) {
+  .lm-hero-stage { padding-top: 128px; padding-bottom: 100px; }
+  .lm-hero-grid { grid-template-columns: 1fr; gap: 48px; max-width: 720px; }
+  .lm-hero-title { font-size: clamp(48px, 8vw, 76px); max-width: 720px; }
+  .lm-hero-copy { transform: none; opacity: 1; }
+  .lm-hero-description { max-width: 540px; }
+  .lm-hero-art { max-width: 600px; width: 100%; margin-inline: auto; }
+  .lm-workspace { max-width: 600px; }
+  .lm-hero-bottom { bottom: 24px; flex-wrap: wrap; justify-content: center; }
+  .lm-scroll-cue { display: none; }
+  .lm-statement { padding-top: 48px; padding-bottom: 80px; }
+  #the-problem { margin-inline: 16px; }
+  #the-problem .lm-problem-canvas { min-height: 0; }
+  #faq > div { grid-template-columns: 1fr; gap: 40px; }
+  #faq > div > div:first-child { position: static; }
+  .lm-desktop-nav { display: none; }
+  .lm-menu-toggle { display: flex; }
+  .playbook-stack-grid > .stack-card-front { transform: none; }
+  .lm-cover { transform: rotate(-3deg); max-width: 340px; }
+}
+@media (max-width: 600px) {
+  .lumen-header { top: 12px; padding-inline: 16px; }
+  .lm-nav-shell { min-height: 56px; padding: 6px 8px 6px 16px; gap: 12px; }
+  .lm-logo { font-size: 15px; gap: 8px; }
+  .lm-logo svg { width: 23px; height: 23px; }
+  .lm-nav-actions { gap: 4px; }
+  .lm-nav-actions > .lm-btn { font-size: 9px; padding: 10px 12px; gap: 6px; border-radius: 9px; }
+  .lm-nav-actions > .lm-btn svg { width: 12px; }
+  .lm-hero-stage { padding-top: 116px; padding-bottom: 90px; }
+  .lm-hero-title { font-size: clamp(44px, 12vw, 64px); }
+  .lm-edition { font-size: 10px; margin-bottom: 24px; }
+  .lm-edition > span:last-child { display: none; }
+  .lm-hero-description { font-size: 14px; }
+  .lm-hero-facts { column-gap: 16px; font-size: 9px; }
+  .lm-hero-facts b { font-size: 16px; }
+  .lm-hero-grid { gap: 40px; }
+  .lm-workspace-meta { font-size: 8px; gap: 8px; }
+  .lm-workspace-meta > span { gap: 6px; max-width: 200px; }
+  .lm-replay { font-size: 8px; padding: 6px 8px; }
+  .lm-workspace-stage { height: 580px; }
+  .lm-workspace-float--input { width: 85%; top: 28px; left: 0; transform: rotate(-4deg); }
+  .lm-workspace-float--processing { width: 90%; top: 200px; right: -1%; transform: rotate(4deg); }
+  .lm-workspace-float--output { width: 86%; top: 420px; left: 0; transform: rotate(-3deg); }
+  .lm-workspace-panel { padding: 15px; }
+  .lm-workspace-caption { font-size: 9px; padding-inline: 8px; }
+  .lm-workflow-ribbon { padding-block: 22px; border-radius: 24px 24px 0 0; }
+  .lm-workflow-ribbon__group { gap: 28px; padding-right: 28px; }
+  .lm-workflow-ribbon__group > span { font-size: 20px; }
+  .lm-page-sheet { border-radius: 24px 24px 0 0; }
+  .lm-statement p { font-size: clamp(35px, 9.4vw, 52px); }
+  .lm-statement__note { font-size: 10px; }
+  .lm-page-sheet .landing-section h2 { font-size: 36px; }
+  .lm-page-sheet .landing-section h2 + p { font-size: 13px; }
+  #the-problem { border-radius: 24px; }
+  #the-problem .lm-problem-canvas { padding: 20px; }
+  #the-problem .lm-fragment { min-height: auto; }
+  #inside-playbook { margin-inline: 0; border-radius: 24px; }
+  #inside-playbook [role="tab"] { padding: 16px; }
+  #inside-playbook [role="tab"] p { display: none; }
+  #inside-playbook .lm-cover { max-width: 260px; }
+  #faq .lm-faq-row button { font-size: 14px; }
+  #final-download > div > div { padding: 28px; border-radius: 24px; }
+  #final-download h2 { font-size: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lm-hero-copy, .lm-workspace-float, .lm-workspace-plane, .lm-cover, .lm-hover-card, .playbook-stack-grid > [role="tabpanel"] { transform: none !important; opacity: 1 !important; }
+  .lm-hero { height: auto !important; }
+  .lm-hero-stage { position: relative !important; }
+  .lm-word__in { transform: none !important; opacity: 1 !important; animation: none !important; }
+  .lm-workflow-ribbon__track, .lm-scroll-cue svg, .lm-processing-meter i { animation: none !important; }
+  .lm-faq-answer { transition: none; }
+  .lm-magnetic { translate: none !important; }
+  [data-lm-reveal] { clip-path: none !important; opacity: 1 !important; }
+}
+@media (min-width: 1024px) {
+  #the-problem .lm-fragment--drift-0 { transform: translate(-24px, -24px) rotate(-9deg); }
+  #the-problem .lm-fragment--drift-1 { transform: translate(16px, 28px) rotate(7deg); }
+  #the-problem .lm-fragment--drift-2 { transform: translate(-12px, -32px) rotate(-6deg); }
+  #the-problem .lm-fragment--drift-3 { transform: translate(24px, 20px) rotate(10deg); }
+  #the-problem .lm-fragment--drift-4 { transform: translate(8px, -18px) rotate(-5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #the-problem .lm-fragment { transform: none !important; }
+}
+.lm-mobile-menu { pointer-events: auto; }
+.lm-workflow-ribbon:focus-within .lm-workflow-ribbon__track { animation-play-state: paused; }
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/page.tsx">
@@ -803,12 +1108,14 @@ export default function Page() {
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/BenefitsSection.tsx">
-<![CDATA[import React from 'react';
+<![CDATA[import { SplitText } from '../motion/SplitText';
+import React from 'react';
 
 export const BenefitsSection: React.FC = () => {
   return (
     <section
       id="benefits"
+      data-lm-ambient=""
       aria-labelledby="benefits-heading"
       className="landing-section py-20 sm:py-28"
     >
@@ -817,24 +1124,22 @@ export const BenefitsSection: React.FC = () => {
           <p className="font-mono text-xs font-medium text-[#657187]">
             03 · THE BENEFITS — WHAT BETTER WORKFLOWS ENABLE
           </p>
-          <h2
+          <h2 data-lm-heading=""
             id="benefits-heading"
             className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-          >
-            Less busywork. More meaningful work.
-          </h2>
+          ><SplitText text={"Less busywork. More meaningful work."} /></h2>
           <p className="mt-4 text-base text-[#657187] leading-relaxed">
             Well-designed workflows do not replace human judgment—they remove repetitive formatting, sorting, and first-pass synthesis so your team can focus on decisions that matter.
           </p>
         </div>
 
         {/* Asymmetric Bento Grid with 3 distinct SVG visual compositions */}
-        <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="lm-benefits-grid mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12">
           {/* Benefit 01 — Find opportunities (col-span-4) */}
           <article
             data-lm-reveal="card"
             style={{ transitionDelay: '0ms' }}
-            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+            className="lm-hover-card glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
           >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
@@ -890,7 +1195,7 @@ export const BenefitsSection: React.FC = () => {
           <article
             data-lm-reveal="card"
             style={{ transitionDelay: '50ms' }}
-            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+            className="lm-hover-card glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
           >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
@@ -953,7 +1258,7 @@ export const BenefitsSection: React.FC = () => {
           <article
             data-lm-reveal="card"
             style={{ transitionDelay: '100ms' }}
-            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+            className="lm-hover-card glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
           >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
@@ -1011,7 +1316,8 @@ export const BenefitsSection: React.FC = () => {
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/CredibilitySection.tsx">
-<![CDATA[import React, { useState } from 'react';
+<![CDATA[import { SplitText } from '../motion/SplitText';
+import React, { useState } from 'react';
 import { ShieldAlert, ArrowRight, CheckCircle2, Users, BookOpen } from 'lucide-react';
 
 export const CredibilitySection: React.FC = () => {
@@ -1028,12 +1334,10 @@ export const CredibilitySection: React.FC = () => {
           <p className="font-mono text-xs font-medium text-[#657187]">
             06 · RESOURCE CREDIBILITY &amp; PRACTICAL EXAMPLES
           </p>
-          <h2
+          <h2 data-lm-heading=""
             id="credibility-heading"
             className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-          >
-            Practical ideas. Clear frameworks. No unnecessary complexity.
-          </h2>
+          ><SplitText text={"Practical ideas. Clear frameworks. No unnecessary complexity."} /></h2>
           <p className="mt-4 text-base text-[#657187] leading-relaxed">
             Built from real operational workflow templates—without hype, black-box promises, or unverified automation claims.
           </p>
@@ -1314,7 +1618,7 @@ export const DownloadForm: React.FC<DownloadFormProps> = ({
         role="region"
         aria-live="polite"
         aria-label="Playbook download confirmation"
-        className="glass-panel-active rounded-2xl p-6 transition-all duration-300"
+        className="lm-form-success glass-panel-active rounded-2xl p-6 transition-[transform,opacity,background-color,border-color,box-shadow] duration-300"
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-2.5">
@@ -1336,7 +1640,7 @@ export const DownloadForm: React.FC<DownloadFormProps> = ({
           {/* Per user instruction: the Download PDF button does not need to trigger a file download */}
           <button
             type="button"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#252C43] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#1E2432] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+            className="lm-form-submit lm-magnetic inline-flex items-center justify-center gap-2 rounded-xl bg-[#252C43] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#1E2432] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
           >
             <FileDown className="h-4 w-4" aria-hidden="true" />
             <span>Download PDF</span>
@@ -1380,7 +1684,7 @@ export const DownloadForm: React.FC<DownloadFormProps> = ({
       noValidate
       className={compact ? 'w-full' : 'w-full max-w-xl'}
     >
-      <div className="glass-panel rounded-2xl p-2 sm:p-2.5">
+      <div className="lm-form-surface glass-panel rounded-2xl p-2 sm:p-2.5">
         <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
           <div className="relative flex-1">
             <label htmlFor={`${formId}-email`} className="sr-only">
@@ -1407,7 +1711,7 @@ export const DownloadForm: React.FC<DownloadFormProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#252C43] px-6 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-[#1E2432] disabled:opacity-60 transition-all whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+            className="lm-form-submit lm-magnetic inline-flex items-center justify-center gap-2 rounded-xl bg-[#252C43] px-6 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-[#1E2432] disabled:opacity-60 transition-[transform,opacity,background-color,border-color,box-shadow] whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
           >
             <span>{isSubmitting ? 'Preparing guide...' : 'Get the free playbook'}</span>
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -1445,81 +1749,30 @@ export const DownloadForm: React.FC<DownloadFormProps> = ({
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/FaqSection.tsx">
-<![CDATA[import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+<![CDATA['use client';
+
+import { useState } from 'react';
+import { Plus } from 'lucide-react';
 import { FAQ_ITEMS } from '../utils/workflowLogic';
+import { SplitText } from '../motion/SplitText';
 
-export const FaqSection: React.FC = () => {
-  const [openIds, setOpenIds] = useState<Record<string, boolean>>({
-    free: true,
-    receive: true,
-  });
-
-  const toggleItem = (id: string) => {
-    setOpenIds((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
+export function FaqSection() {
+  const [openIds, setOpenIds] = useState<Record<string, boolean>>({ free: true, receive: true });
   return (
-    <section
-      id="faq"
-      aria-labelledby="faq-heading"
-      className="landing-section py-20 sm:py-28"
-    >
-      <div className="mx-auto max-w-[1000px] px-6 sm:px-10">
-        <div className="max-w-2xl">
-          <p className="font-mono text-xs font-medium text-[#657187]">
-            07 · FREQUENTLY ASKED QUESTIONS
-          </p>
-          <h2
-            id="faq-heading"
-            className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-          >
-            Everything you need to know.
-          </h2>
-          <p className="mt-4 text-base text-[#657187] leading-relaxed">
-            Clear answers about what is inside the playbook, how to apply the frameworks, and how this interactive preview handles your email.
-          </p>
+    <section id="faq" aria-labelledby="faq-heading" className="landing-section py-20 sm:py-28">
+      <div className="mx-auto max-w-[1280px] px-6 sm:px-10">
+        <div>
+          <h2 id="faq-heading" data-lm-heading=""><SplitText text="Everything you need to know." /></h2>
+          <p>Clear answers about what is inside the playbook, how to apply the frameworks, and how this interactive preview handles your email.</p>
+          <a className="lm-text-link" href="#hero-download-form"><span>Ready to get started?</span><Plus size={14} aria-hidden="true" /></a>
         </div>
-
-        <div className="mt-10 divide-y divide-[#1E2432]/10 rounded-3xl glass-panel px-6 py-2 sm:px-8">
+        <div className="divide-y divide-[#1E2432]/10">
           {FAQ_ITEMS.map((item) => {
-            const isOpen = Boolean(openIds[item.id]);
-            const contentId = `faq-answer-${item.id}`;
-            const buttonId = `faq-button-${item.id}`;
-
+            const open = Boolean(openIds[item.id]);
             return (
-              <div key={item.id} className="py-5">
-                <h3>
-                  <button
-                    id={buttonId}
-                    type="button"
-                    aria-expanded={isOpen}
-                    aria-controls={contentId}
-                    onClick={() => toggleItem(item.id)}
-                    className="flex w-full items-center justify-between gap-4 text-left text-base font-semibold text-[#1E2432] hover:text-[#252C43] transition-colors duration-160 ease-[var(--lm-ease-feedback)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
-                  >
-                    <span>{item.question}</span>
-                    <ChevronDown
-                      className={`h-5 w-5 text-[#657187] shrink-0 transition-transform duration-160 ease-[var(--lm-ease-feedback)] ${
-                        isOpen ? 'rotate-180 text-[#1E2432]' : ''
-                      }`}
-                      aria-hidden="true"
-                    />
-                  </button>
-                </h3>
-
-                <div
-                  id={contentId}
-                  role="region"
-                  aria-labelledby={buttonId}
-                  hidden={!isOpen}
-                  className={isOpen ? 'mt-3 pr-8 text-sm text-[#657187] leading-relaxed' : 'hidden'}
-                >
-                  {item.answer}
-                </div>
+              <div key={item.id} className="lm-faq-row">
+                <h3><button id={'faq-button-' + item.id} type="button" aria-expanded={open} aria-controls={'faq-answer-' + item.id} onClick={() => setOpenIds((old) => ({ ...old, [item.id]: !old[item.id] }))} className="flex w-full items-center justify-between gap-4 text-left font-medium cursor-pointer"><span>{item.question}</span><Plus aria-hidden="true" style={{ transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }} /></button></h3>
+                <div id={'faq-answer-' + item.id} role="region" aria-labelledby={'faq-button-' + item.id} aria-hidden={!open} inert={!open} className="lm-faq-answer" data-open={open}><div><p>{item.answer}</p></div></div>
               </div>
             );
           })}
@@ -1527,11 +1780,12 @@ export const FaqSection: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/FinalCtaSection.tsx">
-<![CDATA[import React, { useState } from 'react';
+<![CDATA[import { SplitText } from '../motion/SplitText';
+import React, { useState } from 'react';
 import { DownloadForm } from './DownloadForm';
 
 interface FinalCtaSectionProps {
@@ -1565,12 +1819,10 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
               <p className="font-mono text-xs font-medium text-[#657187]">
                 08 · FREE RESOURCE — EDITION 2026
               </p>
-              <h2
+              <h2 data-lm-heading=""
                 id="final-cta-heading"
                 className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl lg:text-5xl [text-wrap:balance]"
-              >
-                Your smarter workflow starts here.
-              </h2>
+              ><SplitText text={"Your smarter workflow starts here."} /></h2>
               <p className="mt-4 max-w-xl text-base text-[#657187] leading-relaxed">
                 Get the free AI Workflow Playbook and start turning repetitive tasks into clearer, more useful systems.
               </p>
@@ -1607,7 +1859,7 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
                   <div className="glass-panel h-full w-full rounded-3xl -rotate-3 scale-95" />
                 </div>
                 {/* Front Floating Playbook Cover */}
-                <div className="glass-panel-active relative z-10 rounded-3xl p-3 shadow-lg transition-transform duration-500 hover:-translate-y-1.5">
+                <div className="lm-final-cover glass-panel-active relative z-10 rounded-3xl p-3 shadow-lg transition-transform duration-500 hover:-translate-y-1.5">
                   <div className="overflow-hidden rounded-2xl border border-white/85 bg-[#F8F9FC]">
                     <img
                       src={
@@ -3800,618 +4052,165 @@ export const GlassStudio: React.FC<GlassStudioProps> = ({
     <file path="src/app/(lumen)/lumen/components/GlassWorkspace.tsx">
 <![CDATA['use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 import gsap from 'gsap';
-import {
-  Mail,
-  FileText,
-  CheckSquare,
-  Mic,
-  Cpu,
-  ArrowRight,
-  CheckCircle2,
-  Play,
-  Layers,
-  ShieldCheck,
-} from 'lucide-react';
-import {
-  WorkspaceStageId,
-  ProcessingSubStep,
-  WORKSPACE_SCENARIOS,
-  getStageCaption,
-} from '../utils/workflowLogic';
+import { ArrowDown, ArrowUpRight, Check, CheckCheck, FileText, Mail, Mic, Play, ShieldCheck, Sparkles, ListChecks } from 'lucide-react';
+import { WORKSPACE_SCENARIOS, getStageCaption, type WorkspaceStageId, type ProcessingSubStep } from '../utils/workflowLogic';
 import { WorkspacePlaybackController } from '../motion/workspacePlayback';
-import { HERO_DEMO_BEATS } from '../motion/timings';
+import { useMotionPreferences } from '../motion/useMotionPreferences';
 
-interface GlassWorkspaceProps {
-  introConsumedRef?: React.RefObject<boolean>;
-}
+const icons = { emails: Mail, documents: FileText, tasks: ListChecks, notes: Mic };
+const stages = [{ id: 'input', label: '01 Input' }, { id: 'processing', label: '02 AI Processing' }, { id: 'output', label: '03 Output' }] as const;
 
-export const GlassWorkspace: React.FC<GlassWorkspaceProps> = ({ introConsumedRef }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const tiltPlaneRef = useRef<HTMLDivElement>(null);
+export function GlassWorkspace({ introConsumedRef }: { introConsumedRef?: RefObject<boolean> }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const entrances = useRef<(HTMLDivElement | null)[]>([]);
+  const playbackRef = useRef<WorkspacePlaybackController | null>(null);
+  if (!playbackRef.current) playbackRef.current = new WorkspacePlaybackController(introConsumedRef);
+  const [scenarioId, setScenarioId] = useState('emails');
+  const [step, setStep] = useState<ProcessingSubStep>('route');
+  const [selected, setSelected] = useState<WorkspaceStageId | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const prefs = useMotionPreferences();
+  const scenario = WORKSPACE_SCENARIOS.find((item) => item.id === scenarioId) ?? WORKSPACE_SCENARIOS[0];
+  const SourceIcon = icons[scenarioId as keyof typeof icons] ?? Mail;
 
-  // Entrance wrappers (owned strictly by GSAP entrance timeline)
-  const inputEntranceRef = useRef<HTMLDivElement>(null);
-  const processingEntranceRef = useRef<HTMLDivElement>(null);
-  const outputEntranceRef = useRef<HTMLDivElement>(null);
-
-  // Inner inspection panels (owned by component state & CSS .panel-depth-*)
-  const inputPanelRef = useRef<HTMLDivElement>(null);
-  const processingPanelRef = useRef<HTMLDivElement>(null);
-  const outputPanelRef = useRef<HTMLDivElement>(null);
-
-  // Connectors
-  const connector1Ref = useRef<SVGPathElement>(null);
-  const connector2Ref = useRef<SVGPathElement>(null);
-
-  const [selectedStage, setSelectedStage] = useState<WorkspaceStageId | null>(null);
-  const [hoveredStage, setHoveredStage] = useState<WorkspaceStageId | null>(null);
-  const [activeScenarioId, setActiveScenarioId] = useState<string>('emails');
-  const [activeSubStep, setActiveSubStep] = useState<ProcessingSubStep>('classify');
-  const [isDemoPlaying, setIsDemoPlaying] = useState<boolean>(false);
-  const [artworkFallback, setArtworkFallback] = useState<boolean>(false);
-
-  const effectiveStage = hoveredStage ?? selectedStage;
-  const currentScenario =
-    WORKSPACE_SCENARIOS.find((s) => s.id === activeScenarioId) || WORKSPACE_SCENARIOS[0];
-
-  const playbackRef = useRef<WorkspacePlaybackController>(
-    new WorkspacePlaybackController(introConsumedRef)
-  );
-
-  const traceConnector = useCallback((path: SVGPathElement | null, durationSec = 0.45) => {
-    if (!path) return;
-    try {
-      const len = path.getTotalLength ? path.getTotalLength() : 320;
-      gsap.fromTo(
-        path,
-        { strokeDasharray: `${len} ${len}`, strokeDashoffset: len, opacity: 0.4 },
-        { strokeDashoffset: 0, opacity: 1, duration: durationSec, ease: 'power2.out' }
-      );
-    } catch {
-      // SVG not mounted in test / jsdom
+  const run = useCallback((id: string) => {
+    const playback = playbackRef.current;
+    if (!playback) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      playback.consumeIntro(); setStep('route'); setPlaying(false); return;
     }
+    setPlaying(true);
+    setStep('classify');
+    playback.startPlayback(id, setStep, () => { setPlaying(false); setStep('route'); });
   }, []);
 
-  // Finite sequence runner
-  const runSequence = useCallback(
-    (scenarioId: string) => {
-      setIsDemoPlaying(true);
-      playbackRef.current.startPlayback(
-        scenarioId,
-        (step) => {
-          setActiveSubStep(step);
-          if (step === 'classify') {
-            traceConnector(connector1Ref.current, 0.4);
-          } else if (step === 'route') {
-            traceConnector(connector2Ref.current, 0.4);
-          }
-        },
-        () => {
-          setIsDemoPlaying(false);
-        }
-      );
-    },
-    [traceConnector]
-  );
-
-  // Initial authoring entrance (runs once per App lifetime when 25% visible)
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (reducedQuery.matches) {
-      setActiveSubStep('route');
-      playbackRef.current.consumeIntro();
+    if (!prefs.ready) return;
+    const playback = playbackRef.current!;
+    if (prefs.prefersReducedMotion) {
+      playback.cancelPlayback('reduced-motion');
+      playback.consumeIntro();
       return;
     }
-
-    if (!playbackRef.current.shouldPlayIntro()) {
-      setActiveSubStep('route');
-      return;
-    }
-
-    let observer: IntersectionObserver | null = null;
-    let gsapCtx: gsap.Context | null = null;
-
-    const startEntranceAnimation = () => {
-      gsapCtx = gsap.context(() => {
-        const tl = gsap.timeline({
-          defaults: { ease: 'power3.out' },
-          onComplete: () => {
-            if (inputEntranceRef.current) inputEntranceRef.current.style.willChange = 'auto';
-            if (processingEntranceRef.current) processingEntranceRef.current.style.willChange = 'auto';
-            if (outputEntranceRef.current) outputEntranceRef.current.style.willChange = 'auto';
-          },
-        });
-
-        // 0-640ms: Glass panels settle from shallow depth on outer entrance wrappers
-        tl.fromTo(
-          inputEntranceRef.current,
-          { opacity: 0.5, y: 16, scale: 0.98 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.52 },
-          HERO_DEMO_BEATS.panelsStart
-        )
-          .fromTo(
-            processingEntranceRef.current,
-            { opacity: 0.5, y: 16, scale: 0.98 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.52 },
-            HERO_DEMO_BEATS.panelsStart + HERO_DEMO_BEATS.panelsStagger
-          )
-          .fromTo(
-            outputEntranceRef.current,
-            { opacity: 0.5, y: 16, scale: 0.98 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.52 },
-            HERO_DEMO_BEATS.panelsStart + HERO_DEMO_BEATS.panelsStagger * 2
-          );
-
-        // Run the finite demonstration sequence
-        runSequence(activeScenarioId);
-      }, containerRef);
+    let context: gsap.Context | undefined;
+    let introStarted = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting || !playback.shouldPlayIntro() || introStarted) return;
+      introStarted = true;
+      observer.disconnect();
+      context = gsap.context(() => {
+        gsap.fromTo(entrances.current.filter(Boolean),
+          { y: 70, rotationX: -12, scale: 0.88, opacity: 0 },
+          { y: 0, rotationX: 0, scale: 1, opacity: 1, stagger: 0.16, duration: 1.05, ease: 'expo.out', clearProps: 'transform,opacity' });
+        run('emails');
+      }, rootRef);
+    }, { threshold: 0.2 });
+    if (rootRef.current) observer.observe(rootRef.current);
+    const suspend = () => {
+      if (document.hidden) {
+        playback.cancelPlayback('document-hidden'); playback.consumeIntro();
+        setPlaying(false); setStep('route');
+      }
     };
-
-    const playback = playbackRef.current;
-    if (typeof IntersectionObserver !== 'undefined') {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry && entry.isIntersecting && playback.shouldPlayIntro()) {
-            observer?.disconnect();
-            observer = null;
-            startEntranceAnimation();
-          }
-        },
-        { threshold: 0.25 }
-      );
-      observer.observe(container);
-    } else {
-      startEntranceAnimation();
-    }
-
+    const reducedQuery = matchMedia('(prefers-reduced-motion: reduce)');
+    const reduce = () => {
+      if (!reducedQuery.matches) return;
+      playback.cancelPlayback('reduced-motion'); playback.consumeIntro();
+      setPlaying(false); setStep('route');
+    };
+    document.addEventListener('visibilitychange', suspend);
+    reducedQuery.addEventListener('change', reduce);
     return () => {
-      observer?.disconnect();
-      gsapCtx?.revert();
-      playback.dispose(false);
+      observer.disconnect(); context?.revert(); playback.dispose(false);
+      document.removeEventListener('visibilitychange', suspend);
+      reducedQuery.removeEventListener('change', reduce);
     };
-  }, [activeScenarioId, runSequence]);
+  }, [prefs.ready, prefs.prefersReducedMotion, run]);
 
-  // User actions cancel playback immediately without stale callbacks
-  const handleStageSelect = (stage: WorkspaceStageId) => {
-    playbackRef.current.cancelPlayback('user-stage-select', true);
-    setIsDemoPlaying(false);
-    setSelectedStage((prev) => (prev === stage ? null : stage));
+  const inspect = (id: WorkspaceStageId) => {
+    playbackRef.current?.cancelPlayback('user-stage-select');
+    playbackRef.current?.consumeIntro();
+    setPlaying(false);
+    setSelected((old) => old === id ? null : id);
   };
-
-  const handleScenarioSelect = (scenarioId: string) => {
-    playbackRef.current.cancelPlayback('user-scenario-change', true);
-    setIsDemoPlaying(false);
-    setActiveScenarioId(scenarioId);
-    setSelectedStage('input');
-    setActiveSubStep('classify');
-  };
-
-  const handleManualReplay = () => {
-    playbackRef.current.cancelPlayback('replay-restart', false);
-    setSelectedStage(null);
-    runSequence(activeScenarioId);
-  };
-
-  // Controlled pointer parallax (+/- 2 deg max relative to resting 2deg X, -4deg Y)
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!tiltPlaneRef.current) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const xRatio = (e.clientX - rect.left) / rect.width - 0.5;
-    const yRatio = (e.clientY - rect.top) / rect.height - 0.5;
-
-    const tiltX = (2 + -yRatio * 2).toFixed(2);
-    const tiltY = (-4 + xRatio * 2).toFixed(2);
-
-    tiltPlaneRef.current.style.setProperty('--tilt-x', `${tiltX}deg`);
-    tiltPlaneRef.current.style.setProperty('--tilt-y', `${tiltY}deg`);
-  };
-
-  const handlePointerLeave = () => {
-    if (!tiltPlaneRef.current) return;
-    tiltPlaneRef.current.style.setProperty('--tilt-x', '2deg');
-    tiltPlaneRef.current.style.setProperty('--tilt-y', '-4deg');
-  };
-
-  const getScenarioIcon = (id: string) => {
-    switch (id) {
-      case 'emails':
-        return <Mail className="h-3.5 w-3.5 text-[#1E2432]" aria-hidden="true" />;
-      case 'documents':
-        return <FileText className="h-3.5 w-3.5 text-[#1E2432]" aria-hidden="true" />;
-      case 'tasks':
-        return <CheckSquare className="h-3.5 w-3.5 text-[#1E2432]" aria-hidden="true" />;
-      default:
-        return <Mic className="h-3.5 w-3.5 text-[#1E2432]" aria-hidden="true" />;
-    }
-  };
-
-  const getPanelDepthClass = (stage: WorkspaceStageId, baseClass: string) => {
-    if (!effectiveStage) return baseClass;
-    if (effectiveStage === stage) return `${baseClass} panel-depth-focused z-30`;
-    return `${baseClass} panel-depth-recessed opacity-80 z-10`;
+  const selectSource = (id: string) => {
+    playbackRef.current?.cancelPlayback('user-scenario-change');
+    playbackRef.current?.consumeIntro();
+    setScenarioId(id); setStep('classify'); setSelected('input'); setPlaying(false);
   };
 
   return (
-    <div
-      ref={containerRef}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
-      className="relative w-full select-none"
-    >
-      {/* Top Interactive Stage Controls Bar */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <div
-          role="group"
-          aria-label="Inspect workflow stage"
-          className="flex items-center gap-1 rounded-xl border border-white/80 bg-white/65 p-1 shadow-xs backdrop-blur-md"
-        >
-          {(
-            [
-              { id: 'input', label: '01 Input' },
-              { id: 'processing', label: '02 AI Processing' },
-              { id: 'output', label: '03 Output' },
-            ] as { id: WorkspaceStageId; label: string }[]
-          ).map((tab) => {
-            const isActive = selectedStage === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                aria-pressed={isActive}
-                onClick={() => handleStageSelect(tab.id)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
-                  isActive
-                    ? 'bg-[#252C43] text-white shadow-xs'
-                    : 'text-[#657187] hover:text-[#1E2432] hover:bg-white/60'
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Replay Demonstration Button (Always enabled, restarts sequence cleanly) */}
-        <button
-          type="button"
-          onClick={handleManualReplay}
-          className="inline-flex items-center gap-1.5 rounded-xl border border-white/80 bg-white/80 px-3 py-1.5 text-xs font-semibold text-[#1E2432] shadow-xs hover:bg-white transition-all cursor-pointer"
-        >
-          <Play className="h-3.5 w-3.5 text-[#5BA59A]" aria-hidden="true" />
-          <span>{isDemoPlaying ? 'Restarting Demo...' : 'Replay Demo'}</span>
-        </button>
+    <div ref={rootRef} className="lm-workspace" data-playing={playing} data-step={step}>
+      <div className="lm-workspace-meta">
+        <span><span className="lm-live-dot" /> A little structure changes everything.</span>
+        <button type="button" onClick={() => { setSelected(null); run(scenarioId); }} className="lm-replay"><Play size={12} aria-hidden="true" />{playing ? 'Restarting Demo' : 'Replay Demo'}</button>
       </div>
-
-      {/* 2.5D Stage Viewport */}
-      <div className="workspace-perspective-stage relative min-h-[520px] rounded-3xl border border-white/90 bg-gradient-to-br from-white/70 via-white/50 to-white/35 p-5 sm:p-7 shadow-xs backdrop-blur-md overflow-hidden">
-        {/* Background Decorative Glass Artwork Asset */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -inset-4 z-0 flex items-center justify-center opacity-55"
-        >
-          <img
-            src={
-              artworkFallback
-                ? '/assets/aistudio/glass-workspace-art_d86f62af.png'
-                : '/assets/aistudio/glass-workspace-art_25aec004.svg'
-            }
-            alt=""
-            referrerPolicy="no-referrer"
-            onError={() => setArtworkFallback(true)}
-            className="h-full max-h-[540px] w-full object-contain"
-          />
-        </div>
-
-        {/* Tilted Spatial Plane */}
-        <div
-          ref={tiltPlaneRef}
-          className="workspace-tilt-plane relative z-10 flex flex-col gap-3"
-        >
-          {/* PANEL 01 — ENTRANCE WRAPPER (GSAP owns this wrapper) */}
-          <div ref={inputEntranceRef} className="workspace-entrance-wrapper lg:w-[74%]">
-            {/* PANEL 01 — INPUT (Inner inspection panel) */}
-            <div
-              ref={inputPanelRef}
-              onMouseEnter={() => setHoveredStage('input')}
-              onMouseLeave={() => setHoveredStage(null)}
-              className={`rounded-2xl p-4 ${
-                effectiveStage === 'input' ? 'glass-panel-active' : 'glass-panel'
-              } ${getPanelDepthClass('input', 'panel-depth-input')}`}
-            >
-              <div className="flex items-center justify-between border-b border-[#1E2432]/8 pb-2.5">
-                <button
-                  type="button"
-                  aria-pressed={selectedStage === 'input'}
-                  aria-label="Stage 01 Input: Incoming Work. Click to inspect stage."
-                  onClick={() => handleStageSelect('input')}
-                  className="flex items-center gap-2 cursor-pointer rounded-lg p-1 hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
-                >
-                  <span className="font-mono text-[11px] font-semibold text-[#657187]">
-                    01 — INPUT
-                  </span>
-                  <span aria-hidden="true" className="text-[#657187]">·</span>
-                  <span className="text-xs font-semibold text-[#1E2432]">
-                    Incoming Work
-                  </span>
-                </button>
-                <span className="font-mono text-[11px] text-[#657187]">
-                  4 SOURCES
-                </span>
+      <div className="lm-workspace-stage">
+        <div className="lm-orbit lm-orbit--one" aria-hidden="true" />
+        <div className="lm-orbit lm-orbit--two" aria-hidden="true" />
+        <div className="lm-workspace-plane workspace-tilt-plane">
+          <svg className="lm-workspace-connectors" viewBox="0 0 600 600" fill="none" aria-hidden="true">
+            <defs><linearGradient id="lm-workflow-ray"><stop stopColor="#8E7CE8" /><stop offset="1" stopColor="#5BA59A" /></linearGradient></defs>
+            <path className="lm-connector-base" d="M185 160 C185 220 420 140 420 235 M420 370 C420 430 180 375 180 455" />
+            <path className="lm-connector-signal" d="M185 160 C185 220 420 140 420 235 M420 370 C420 430 180 375 180 455" />
+          </svg>
+          <div className="lm-workspace-float lm-workspace-float--input">
+            <div ref={(node) => { entrances.current[0] = node; }} className="lm-panel-entrance">
+              <div className="lm-workspace-panel lm-workspace-panel--input" data-selected={selected === 'input'}>
+                <div className="lm-panel-heading"><button type="button" onClick={() => inspect('input')} aria-pressed={selected === 'input'}><span className="lm-panel-number">01</span> Incoming work</button><SourceIcon size={16} aria-hidden="true" /></div>
+                <div className="lm-source-tabs" role="group" aria-label="Choose a workflow source">
+                  {WORKSPACE_SCENARIOS.map((item) => {
+                    const Icon = icons[item.id as keyof typeof icons] ?? Mail;
+                    return <button type="button" key={item.id} aria-pressed={scenarioId === item.id} onClick={() => selectSource(item.id)}><Icon size={13} aria-hidden="true" /><span>{item.categoryLabel}</span></button>;
+                  })}
+                </div>
+                <div className="lm-source-content" key={scenarioId}><p>{scenario.title}</p><span>{scenario.sourceMeta}</span></div>
+                <div className="lm-source-bottom"><span className="lm-live-dot" /> Unstructured input <ArrowDown size={12} aria-hidden="true" /></div>
               </div>
-
-              {/* Interactive Source Task Buttons */}
-              <div className="mt-3 grid grid-cols-2 gap-1.5">
-                {WORKSPACE_SCENARIOS.map((item) => {
-                  const isSelected = item.id === activeScenarioId;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => handleScenarioSelect(item.id)}
-                      className={`flex items-center gap-2 rounded-xl px-2.5 py-2 text-left text-xs transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-white/95 text-[#1E2432] shadow-xs border border-[#252C43]/20 font-semibold'
-                          : 'bg-white/55 text-[#657187] hover:bg-white/80 hover:text-[#1E2432] border border-transparent'
-                      }`}
-                    >
-                      {getScenarioIcon(item.id)}
-                      <span className="truncate">{item.categoryLabel}</span>
+            </div>
+          </div>
+          <div className="lm-workspace-float lm-workspace-float--processing">
+            <div ref={(node) => { entrances.current[1] = node; }} className="lm-panel-entrance">
+              <div className="lm-workspace-panel lm-workspace-panel--processing" data-selected={selected === 'processing'}>
+                <div className="lm-panel-heading"><button type="button" onClick={() => inspect('processing')} aria-pressed={selected === 'processing'}><span className="lm-panel-number">02</span> A clearer process</button><Sparkles size={16} aria-hidden="true" /></div>
+                <div className="lm-process-steps">
+                  {(['classify', 'summarize', 'route'] as const).map((id, i) => (
+                    <button key={id} type="button" data-active={step === id} aria-pressed={step === id} onClick={() => { playbackRef.current?.cancelPlayback('user-stage-select'); playbackRef.current?.consumeIntro(); setStep(id); setPlaying(false); }}>
+                      <span className="lm-step-check">{step === id ? <ArrowUpRight size={12} /> : <Check size={11} />}</span>
+                      <span><strong>{['Classify', 'Summarize', 'Route'][i]}</strong><small>{id === 'classify' ? scenario.classification.intent : id === 'summarize' ? scenario.summaryBullets[0] : scenario.routeDestination}</small></span>
                     </button>
-                  );
-                })}
-              </div>
-
-              <div className="mt-2.5 flex items-center justify-between rounded-xl bg-white/80 px-3 py-2 text-xs">
-                <span className="font-medium text-[#1E2432] truncate">
-                  {currentScenario.title}
-                </span>
-                <span className="ml-2 font-mono text-[10px] text-[#657187] whitespace-nowrap shrink-0">
-                  {currentScenario.sourceMeta}
-                </span>
+                  ))}
+                </div>
+                <div className="lm-processing-footer"><span className="lm-processing-meter"><i /><i /><i /><i /><i /></span><span>AI-assisted. Human-directed.</span></div>
               </div>
             </div>
           </div>
-
-          {/* SVG Connector Bridge 1: Input -> AI Processing */}
-          <div className="relative -my-1 flex items-center justify-center pointer-events-none" aria-hidden="true">
-            <svg viewBox="0 0 520 34" fill="none" className="h-8 w-full">
-              <path
-                ref={connector1Ref}
-                d="M 160 2 C 160 20, 290 14, 290 32"
-                stroke="#8E7CE8"
-                strokeWidth={effectiveStage === 'input' || effectiveStage === 'processing' ? '2.5' : '1.75'}
-                strokeLinecap="round"
-              />
-              <circle cx="160" cy="4" r="3.5" fill="#8E7CE8" />
-              <circle cx="290" cy="30" r="4" fill="#5B8DEF" />
-            </svg>
-          </div>
-
-          {/* PANEL 02 — ENTRANCE WRAPPER (GSAP owns this wrapper) */}
-          <div ref={processingEntranceRef} className="workspace-entrance-wrapper lg:ml-auto lg:mr-2 lg:w-[88%]">
-            {/* PANEL 02 — AI PROCESSING (Inner inspection panel) */}
-            <div
-              ref={processingPanelRef}
-              onMouseEnter={() => setHoveredStage('processing')}
-              onMouseLeave={() => setHoveredStage(null)}
-              className={`rounded-2xl p-5 ${
-                effectiveStage === 'processing' ? 'glass-panel-active' : 'glass-panel-active'
-              } ${getPanelDepthClass('processing', 'panel-depth-processing')}`}
-            >
-              <div className="flex items-center justify-between border-b border-[#1E2432]/10 pb-3">
-                <button
-                  type="button"
-                  aria-pressed={selectedStage === 'processing'}
-                  aria-label="Stage 02 AI Processing: Classify, Summarize, Route. Click to inspect stage."
-                  onClick={() => handleStageSelect('processing')}
-                  className="flex items-center gap-2 cursor-pointer rounded-lg p-1 hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
-                >
-                  <Cpu className="h-4 w-4 text-[#252C43]" aria-hidden="true" />
-                  <span className="font-mono text-[11px] font-semibold text-[#657187]">
-                    02 — AI PROCESSING
-                  </span>
-                  <span aria-hidden="true" className="text-[#657187]">·</span>
-                  <span className="text-xs font-semibold text-[#1E2432]">
-                    AI Workflow
-                  </span>
-                </button>
-                <span className="font-mono text-[11px] text-[#5BA59A] font-medium">
-                  DETERMINISTIC FLOW
-                </span>
-              </div>
-
-              {/* Three sequential AI Workflow steps: Classify -> Summarize -> Route */}
-              <div className="mt-3.5 space-y-2">
-                {/* Step 1: Classify */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    playbackRef.current.cancelPlayback('user-stage-select', true);
-                    setIsDemoPlaying(false);
-                    setActiveSubStep('classify');
-                    setSelectedStage('processing');
-                  }}
-                  className={`w-full rounded-xl p-3 text-left transition-all cursor-pointer border ${
-                    activeSubStep === 'classify'
-                      ? 'bg-white/95 border-[#D8D0F7] shadow-xs'
-                      : 'bg-white/65 border-white/70 hover:bg-white/85'
-                  }`}
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-[#1E2432]">1. Classify</span>
-                    <span className="font-mono text-[11px] text-[#657187]">
-                      {currentScenario.classification.intent} · {currentScenario.classification.priority}
-                    </span>
-                  </div>
-                </button>
-
-                {/* Step 2: Summarize */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    playbackRef.current.cancelPlayback('user-stage-select', true);
-                    setIsDemoPlaying(false);
-                    setActiveSubStep('summarize');
-                    setSelectedStage('processing');
-                  }}
-                  className={`w-full rounded-xl p-3 text-left transition-all cursor-pointer border ${
-                    activeSubStep === 'summarize'
-                      ? 'bg-white/95 border-[#C9DAFA] shadow-xs'
-                      : 'bg-white/65 border-white/70 hover:bg-white/85'
-                  }`}
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-[#1E2432]">2. Summarize</span>
-                    <span className="font-mono text-[11px] text-[#657187]">Key Context Extracted</span>
-                  </div>
-                  <p className="mt-1.5 text-xs text-[#657187] leading-relaxed">
-                    {currentScenario.summaryBullets[0]}
-                  </p>
-                </button>
-
-                {/* Step 3: Route */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    playbackRef.current.cancelPlayback('user-stage-select', true);
-                    setIsDemoPlaying(false);
-                    setActiveSubStep('route');
-                    setSelectedStage('processing');
-                  }}
-                  className={`w-full rounded-xl p-3 text-left transition-all cursor-pointer border ${
-                    activeSubStep === 'route'
-                      ? 'bg-white/95 border-[#F6DCCA] shadow-xs'
-                      : 'bg-white/65 border-white/70 hover:bg-white/85'
-                  }`}
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-[#1E2432]">3. Route</span>
-                    <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[#1E2432]">
-                      <span>{currentScenario.routeDestination}</span>
-                      <ArrowRight className="h-3 w-3 text-[#5BA59A]" aria-hidden="true" />
-                    </span>
-                  </div>
-                </button>
+          <div className="lm-workspace-float lm-workspace-float--output">
+            <div ref={(node) => { entrances.current[2] = node; }} className="lm-panel-entrance">
+              <div className="lm-workspace-panel lm-workspace-panel--output" data-selected={selected === 'output'}>
+                <div className="lm-panel-heading"><button type="button" onClick={() => inspect('output')} aria-pressed={selected === 'output'}><span className="lm-panel-number">03</span> Ready for your judgment</button><CheckCheck size={17} aria-hidden="true" /></div>
+                <div className="lm-output-title" key={scenarioId}><span>STRUCTURED OUTPUT</span><p>{scenario.outputDraft.summaryTitle}</p></div>
+                <div className="lm-output-review"><ShieldCheck size={16} aria-hidden="true" /><span>{scenario.outputDraft.reviewStatus}</span></div>
               </div>
             </div>
           </div>
-
-          {/* SVG Connector Bridge 2: AI Processing -> Output */}
-          <div className="relative -my-1 flex items-center justify-center pointer-events-none" aria-hidden="true">
-            <svg viewBox="0 0 520 34" fill="none" className="h-8 w-full">
-              <path
-                ref={connector2Ref}
-                d="M 310 2 C 310 20, 390 14, 390 32"
-                stroke="#5BA59A"
-                strokeWidth={effectiveStage === 'processing' || effectiveStage === 'output' ? '2.5' : '1.75'}
-                strokeLinecap="round"
-              />
-              <circle cx="310" cy="4" r="3.5" fill="#5B8DEF" />
-              <circle cx="390" cy="30" r="4" fill="#5BA59A" />
-            </svg>
-          </div>
-
-          {/* PANEL 03 — ENTRANCE WRAPPER (GSAP owns this wrapper) */}
-          <div ref={outputEntranceRef} className="workspace-entrance-wrapper lg:ml-auto lg:w-[80%]">
-            {/* PANEL 03 — OUTPUT (Inner inspection panel) */}
-            <div
-              ref={outputPanelRef}
-              onMouseEnter={() => setHoveredStage('output')}
-              onMouseLeave={() => setHoveredStage(null)}
-              className={`rounded-2xl p-4 ${
-                effectiveStage === 'output' ? 'glass-panel-active' : 'glass-panel'
-              } ${getPanelDepthClass('output', 'panel-depth-output')}`}
-            >
-              <div className="flex items-center justify-between border-b border-[#1E2432]/8 pb-2.5">
-                <button
-                  type="button"
-                  aria-pressed={selectedStage === 'output'}
-                  aria-label="Stage 03 Output: Organized Results ready for review. Click to inspect stage."
-                  onClick={() => handleStageSelect('output')}
-                  className="flex items-center gap-2 cursor-pointer rounded-lg p-1 hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
-                >
-                  <span className="font-mono text-[11px] font-semibold text-[#657187]">
-                    03 — OUTPUT
-                  </span>
-                  <span aria-hidden="true" className="text-[#657187]">·</span>
-                  <span className="text-xs font-semibold text-[#1E2432]">
-                    Organized Results
-                  </span>
-                </button>
-                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#5BA59A]">
-                  <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span>Ready for review</span>
-                </span>
-              </div>
-
-              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="rounded-xl bg-white/80 p-2.5">
-                  <div className="text-[11px] font-mono text-[#657187]">DRAFT SUMMARY</div>
-                  <div className="mt-0.5 text-xs font-semibold text-[#1E2432] line-clamp-1">
-                    {currentScenario.outputDraft.summaryTitle}
-                  </div>
-                </div>
-                <div className="rounded-xl bg-white/80 p-2.5">
-                  <div className="text-[11px] font-mono text-[#657187]">PRIORITIZED TASK</div>
-                  <div className="mt-0.5 text-xs font-semibold text-[#1E2432] line-clamp-1">
-                    {currentScenario.outputDraft.prioritizedTask}
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-2 flex items-center justify-between rounded-xl bg-white/90 px-3 py-2 text-xs">
-                <div className="flex items-center gap-2 truncate">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#5BA59A] shrink-0" aria-hidden="true" />
-                  <span className="text-[#1E2432] truncate">
-                    {currentScenario.outputDraft.preparedResponse}
-                  </span>
-                </div>
-                <span className="ml-2 font-mono text-[10px] text-[#657187] whitespace-nowrap shrink-0">
-                  {currentScenario.outputDraft.reviewStatus}
-                </span>
-              </div>
-            </div>
-          </div>
+          <span className="lm-workspace-coordinate" aria-hidden="true">LUMEN / WORKFLOW 001</span>
         </div>
       </div>
-
-      {/* Explanatory Live Stage Caption */}
-      <div
-        role="status"
-        aria-live="polite"
-        className="mt-4 flex items-center justify-between gap-4 rounded-xl border border-white/80 bg-white/70 px-4 py-3 text-xs backdrop-blur-md"
-      >
-        <div className="flex items-center gap-2.5">
-          <Layers className="h-4 w-4 text-[#252C43] shrink-0" aria-hidden="true" />
-          <span className="font-medium text-[#1E2432]">
-            {getStageCaption(effectiveStage)}
-          </span>
-        </div>
-        {effectiveStage && (
-          <button
-            type="button"
-            onClick={() => setSelectedStage(null)}
-            className="font-mono text-[11px] font-medium text-[#657187] hover:text-[#1E2432] whitespace-nowrap shrink-0 cursor-pointer"
-          >
-            Reset view
-          </button>
-        )}
+      <div className="lm-workspace-controls" role="group" aria-label="Inspect workflow stage">
+        {stages.map((stage) => <button type="button" key={stage.id} onClick={() => inspect(stage.id)} aria-pressed={selected === stage.id}>{stage.label}</button>)}
       </div>
+      <p className="lm-workspace-caption" aria-live="polite">{getStageCaption(selected)}</p>
     </div>
   );
-};
+}
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/HowItWorksSection.tsx">
 <![CDATA['use client';
+import { SplitText } from '../motion/SplitText';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
@@ -4487,6 +4286,7 @@ export const HowItWorksSection: React.FC = () => {
   return (
     <section
       id="how-it-works"
+      data-lm-ambient=""
       aria-labelledby="how-it-works-heading"
       className="landing-section py-20 sm:py-28"
     >
@@ -4495,12 +4295,10 @@ export const HowItWorksSection: React.FC = () => {
           <p className="font-mono text-xs font-medium text-[#657187]">
             05 · HOW IT WORKS — MAP, AUTOMATE, REVIEW
           </p>
-          <h2
+          <h2 data-lm-heading=""
             id="how-it-works-heading"
             className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-          >
-            From idea to working workflow.
-          </h2>
+          ><SplitText text={"From idea to working workflow."} /></h2>
           <p className="mt-4 text-base text-[#657187] leading-relaxed">
             The playbook walks through a structured three-stage methodology so your workflows remain transparent, testable, and easy to maintain.
           </p>
@@ -4537,7 +4335,7 @@ export const HowItWorksSection: React.FC = () => {
                 tabIndex={isSelected ? 0 : -1}
                 onClick={() => handleSelectStep(step.id)}
                 onKeyDown={(e) => handleKeyDown(e, idx)}
-                className={`rounded-2xl p-6 text-left transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
+                className={`rounded-2xl p-6 text-left transition-[transform,opacity,background-color,border-color,box-shadow] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
                   isSelected
                     ? 'glass-panel-active border-[#252C43]/35 shadow-sm md:border-transparent'
                     : 'glass-panel hover:bg-white/80'
@@ -4690,119 +4488,84 @@ export const HowItWorksSection: React.FC = () => {
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/MinimalHeader.tsx">
-<![CDATA[import React from 'react';
-import { ArrowDownRight } from 'lucide-react';
+<![CDATA['use client';
 
-interface MinimalHeaderProps {
-  onFocusForm: () => void;
-  onOpenGlassStudio: () => void;
-}
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { ArrowUpRight, X } from 'lucide-react';
+import { lockLumenScroll, scrollToLumen } from '../motion/scroll';
 
-export const MinimalHeader: React.FC<MinimalHeaderProps> = ({
-  onFocusForm,
-  onOpenGlassStudio,
-}) => {
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
-    const el = document.getElementById(targetId);
-    if (el) {
-      const prefersReduced =
-        typeof window !== 'undefined' &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      el.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth' });
-      try {
-        window.history.pushState(null, '', `#${targetId}`);
-      } catch {
-        // ignore
-      }
+const links = [
+  { href: '#workspace-hero', label: 'Workspace' },
+  { href: '#inside-playbook', label: 'The playbook' },
+  { href: '#how-it-works', label: 'How it works' },
+  { href: '#faq', label: 'Questions' },
+];
+
+const subscribeHydration = () => () => {};
+
+export function MinimalHeader({ onFocusForm, onOpenGlassStudio }: { onFocusForm: () => void; onOpenGlassStudio: () => void }) {
+  const interactive = useSyncExternalStore(subscribeHydration, () => true, () => false);
+  const [open, setOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (open && dialog && !dialog.open) dialog.showModal();
+    if (!open && dialog?.open) dialog.close();
+    if (open) {
+      const previous = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = 'hidden';
+      lockLumenScroll(true);
+      return () => { document.documentElement.style.overflow = previous; lockLumenScroll(false); };
     }
+  }, [open]);
+  const close = () => {
+    dialogRef.current?.close();
+    lockLumenScroll(false);
+    setOpen(false);
+    menuButton.current?.focus({ preventScroll: true });
   };
-
   return (
-    <header className="lumen-header sticky top-0 z-40 w-full border-b border-white/75 bg-[#F8F9FC]/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-8 px-6 py-3.5 sm:px-10">
-        {/* Zone 1: Single text element wordmark */}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            const prefersReduced =
-              typeof window !== 'undefined' &&
-              window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
-          }}
-          className="text-base font-bold tracking-[0.22em] text-[#1E2432] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#252C43]"
-        >
-          LUMEN
+    <header className="lumen-header">
+      <div className="lm-nav-shell">
+        <a href="#workspace-hero" className="lm-logo" aria-label="Lumen, back to workspace">
+          <svg viewBox="0 0 28 28" aria-hidden="true"><path d="m14 2 11 6v12l-11 6-11-6V8Z" /><path d="m3 8 11 6 11-6M14 14v12M14 2v12" /></svg>
+          <span>LUMEN<span className="lm-logo-dot">.</span></span>
         </a>
-
-        {/* Zone 2: 5 concise single-line navigation links */}
-        <nav
-          aria-label="Page sections"
-          className="hidden md:flex items-center gap-7 text-xs font-medium text-[#657187]"
-        >
-          <a
-            href="#workspace-hero"
-            onClick={(e) => handleNavClick(e, 'workspace-hero')}
-            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
-          >
-            Workspace
-          </a>
-          <a
-            href="#inside-playbook"
-            onClick={(e) => handleNavClick(e, 'inside-playbook')}
-            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
-          >
-            Playbook Preview
-          </a>
-          <a
-            href="#how-it-works"
-            onClick={(e) => handleNavClick(e, 'how-it-works')}
-            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
-          >
-            How It Works
-          </a>
-          <a
-            href="#faq"
-            onClick={(e) => handleNavClick(e, 'faq')}
-            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
-          >
-            FAQ
-          </a>
-          <a
-            href="/_glass-studio"
-            onClick={(e) => {
-              e.preventDefault();
-              onOpenGlassStudio();
-            }}
-            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
-          >
-            Glass Studio
-          </a>
+        <nav className="lm-desktop-nav" aria-label="Page sections">
+          {links.map((link) => <a key={link.href} className="lm-nav-link" href={link.href}><span>{link.label}</span></a>)}
         </nav>
-
-        {/* Zone 3: 1 primary action anchored to the form */}
-        <div className="flex items-center shrink-0">
-          <a
-            href="#hero-download-form"
-            onClick={(e) => {
-              e.preventDefault();
-              onFocusForm();
-            }}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#252C43] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
-          >
-            <span>Get the free playbook</span>
-            <ArrowDownRight className="h-3.5 w-3.5" aria-hidden="true" />
-          </a>
+        <div className="lm-nav-actions">
+          <button className="lm-studio-link" type="button" onClick={onOpenGlassStudio}>Glass Studio <ArrowUpRight size={13} aria-hidden="true" /></button>
+          <a href="#hero-download-form" className="lm-btn lm-btn--small lm-magnetic" onClick={(event) => {
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault(); onFocusForm();
+          }}><span className="lm-button-label">Get the free playbook</span><ArrowUpRight size={15} aria-hidden="true" /></a>
+          <button className="lm-menu-toggle" ref={menuButton} disabled={!interactive} aria-expanded={open} aria-controls="lm-mobile-menu" aria-label="Open navigation" type="button" onClick={() => setOpen(true)}><span /><span /></button>
         </div>
+        <span className="lm-nav-progress" aria-hidden="true" />
       </div>
+      <dialog ref={dialogRef} id="lm-mobile-menu" className="lm-mobile-menu" onCancel={() => setOpen(false)} onClose={() => { setOpen(false); menuButton.current?.focus({ preventScroll: true }); }} aria-label="Navigation">
+        <div className="lm-menu-top"><span>LUMEN.</span><button type="button" aria-label="Close navigation" onClick={close}><X /></button></div>
+        <nav aria-label="Mobile page sections">
+          {links.map((link, i) => <a href={link.href} key={link.href} style={{ '--item': i } as React.CSSProperties} onClick={(event) => {
+            event.preventDefault();
+            close();
+            const target = document.getElementById(link.href.slice(1));
+            if (target) { scrollToLumen(target); history.pushState(null, '', link.href); }
+          }}><span>{link.label}</span><ArrowUpRight /></a>)}
+        </nav>
+        <button type="button" className="lm-menu-studio" onClick={() => { close(); onOpenGlassStudio(); }}>Explore Glass Studio <ArrowUpRight size={18} /></button>
+        <p>Make space for better work.</p>
+      </dialog>
     </header>
   );
-};
+}
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/PlaybookPreviewSection.tsx">
 <![CDATA['use client';
+import { SplitText } from '../motion/SplitText';
 
 import React, { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight, CheckCircle2, FileText, ArrowDownRight } from 'lucide-react';
@@ -4905,12 +4668,10 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
             <p className="font-mono text-xs font-medium text-[#657187]">
               04 · INSIDE THE PLAYBOOK — INTERACTIVE RESOURCE PREVIEW
             </p>
-            <h2
+            <h2 data-lm-heading=""
               id="playbook-preview-heading"
               className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-            >
-              Everything you need to get started.
-            </h2>
+            ><SplitText text={"Everything you need to get started."} /></h2>
             <p className="mt-4 text-base text-[#657187] leading-relaxed">
               Explore the frameworks, examples, and practical tools included in the free guide.
             </p>
@@ -4960,7 +4721,7 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
                 tabIndex={isSelected ? 0 : -1}
                 onClick={() => setActiveId(page.id)}
                 onKeyDown={(e) => handleTabKeyDown(e, idx)}
-                className={`rounded-2xl p-4 text-left transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
+                className={`rounded-2xl p-4 text-left transition-[transform,opacity,background-color,border-color,box-shadow] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
                   isSelected
                     ? 'glass-panel-active border-[#252C43]/30 shadow-sm'
                     : 'glass-panel hover:bg-white/80'
@@ -4986,7 +4747,7 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
         <div className="mt-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
           {/* Left Column (5 cols): Provided Playbook Cover */}
           <div className="lg:col-span-5 flex flex-col items-center lg:items-start">
-            <div className="glass-panel relative w-full max-w-[390px] rounded-3xl p-3.5 shadow-md">
+            <div className="lm-cover glass-panel relative w-full max-w-[390px] rounded-3xl p-3.5 shadow-md">
               <div className="overflow-hidden rounded-2xl border border-white/80 bg-[#F8F9FC]">
                 <img
                   src={
@@ -5160,6 +4921,7 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
     </file>
     <file path="src/app/(lumen)/lumen/components/ProblemSection.tsx">
 <![CDATA['use client';
+import { SplitText } from '../motion/SplitText';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
@@ -5183,7 +4945,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Customer intake email',
     detail: 'Product issue reported with screenshot and logs',
     source: 'Inbox · Priority',
-    scatteredClass: 'lg:translate-x-3 lg:-translate-y-4 lg:rotate-2',
+    scatteredClass: 'lm-fragment--drift-0',
     structuredOrder: '01 · Intake Captured',
   },
   {
@@ -5191,7 +4953,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Product specification',
     detail: 'Design guidelines and technical boundary notes',
     source: 'Knowledge Base',
-    scatteredClass: 'lg:-translate-x-2 lg:translate-y-3 lg:-rotate-1',
+    scatteredClass: 'lm-fragment--drift-1',
     structuredOrder: '02 · Context Retrieved',
   },
   {
@@ -5199,7 +4961,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Sync meeting audio',
     detail: 'Recorded customer call decisions and action items',
     source: 'Meeting Archive',
-    scatteredClass: 'lg:translate-x-4 lg:-translate-y-2 lg:rotate-1.5',
+    scatteredClass: 'lm-fragment--drift-2',
     structuredOrder: '03 · Audio Transcribed',
   },
   {
@@ -5207,7 +4969,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Unassigned action item',
     detail: 'Resolve authentication race condition before release',
     source: 'Project Board',
-    scatteredClass: 'lg:-translate-x-4 lg:translate-y-2 lg:-rotate-2',
+    scatteredClass: 'lm-fragment--drift-3',
     structuredOrder: '04 · Actions Synthesized',
   },
   {
@@ -5215,7 +4977,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Status update',
     detail: 'Manual weekly summary assembled across 4 tabs',
     source: 'Team Channel',
-    scatteredClass: 'lg:-translate-x-3 lg:translate-y-4 lg:rotate-1',
+    scatteredClass: 'lm-fragment--drift-4',
     structuredOrder: '05 · Review Ready',
   },
 ];
@@ -5305,12 +5067,10 @@ export const ProblemSection: React.FC = () => {
             <p className="font-mono text-xs font-medium text-[#657187]">
               02 · THE PROBLEM — DISCONNECTED WORK
             </p>
-            <h2
+            <h2 data-lm-heading=""
               id="problem-heading"
               className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-            >
-              Your work is connected. Your tools aren&apos;t.
-            </h2>
+            ><SplitText text="Your work is connected. Your tools aren't." /></h2>
             <p className="mt-4 text-base text-[#657187] leading-relaxed">
               Requests arrive everywhere. Information becomes fragmented. Repetitive tasks consume attention that could be spent on more important work.
             </p>
@@ -5325,7 +5085,7 @@ export const ProblemSection: React.FC = () => {
               type="button"
               aria-pressed={!isStructured}
               onClick={() => handleManualToggle(false)}
-              className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-[transform,opacity,background-color,border-color,box-shadow] whitespace-nowrap shrink-0 cursor-pointer ${
                 !isStructured
                   ? 'bg-[#252C43] text-white shadow-xs'
                   : 'text-[#657187] hover:text-[#1E2432]'
@@ -5337,7 +5097,7 @@ export const ProblemSection: React.FC = () => {
               type="button"
               aria-pressed={isStructured}
               onClick={() => handleManualToggle(true)}
-              className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-[transform,opacity,background-color,border-color,box-shadow] whitespace-nowrap shrink-0 cursor-pointer ${
                 isStructured
                   ? 'bg-[#252C43] text-white shadow-xs'
                   : 'text-[#657187] hover:text-[#1E2432]'
@@ -5349,7 +5109,7 @@ export const ProblemSection: React.FC = () => {
         </div>
 
         {/* Interactive Canvas: Scattered Fragments -> Intentional Connected System */}
-        <div className="relative mt-12 rounded-3xl border border-white/85 bg-white/50 p-6 sm:p-10 shadow-xs backdrop-blur-md overflow-hidden">
+        <div className="lm-problem-canvas relative mt-12 rounded-3xl border border-white/85 bg-white/50 p-6 sm:p-10 shadow-xs backdrop-blur-md overflow-hidden">
           {/* Connecting SVG Pathways (Visible when structured) */}
           <svg
             viewBox="0 0 1100 160"
@@ -5386,7 +5146,7 @@ export const ProblemSection: React.FC = () => {
                 <div
                   key={frag.id}
                   style={transitionStyle}
-                  className={`glass-panel rounded-2xl p-4 ${
+                  className={`lm-fragment glass-panel rounded-2xl p-4 ${
                     isStructured
                       ? 'translate-x-0 translate-y-0 rotate-0 border-[#5BA59A]/40 bg-white/85'
                       : frag.scatteredClass
@@ -5577,6 +5337,48 @@ export const TrustedBySection: React.FC = () => {
     </section>
   );
 };
+]]>
+    </file>
+    <file path="src/app/(lumen)/lumen/components/WorkflowRibbon.tsx">
+<![CDATA[const words = ['Find the opportunity', 'Map the workflow', 'Build with AI', 'Keep people in control'];
+
+export function WorkflowRibbon() {
+  return (
+    <div className="lm-workflow-ribbon" data-lm-ambient="" aria-label={words.join('. ')}>
+      <div className="lm-workflow-ribbon__track" aria-hidden="true">
+        {[0, 1, 2, 3].map((copy) => (
+          <div className="lm-workflow-ribbon__group" key={copy}>
+            {words.map((word, i) => (
+              <span key={word}><span className={'lm-ribbon-mark lm-ribbon-mark--' + i} />{word}<svg viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6" /></svg></span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(lumen)/lumen/components/WorkflowStatement.tsx">
+<![CDATA[import type { CSSProperties } from 'react';
+
+const lines = ['Less busywork.', 'More meaningful work.'];
+export function WorkflowStatement() {
+  let index = 0;
+  return (
+    <section className="lm-statement" aria-label="Less busywork. More meaningful work." data-lm-statement="">
+      <div className="lm-statement__mark" aria-hidden="true"><span /><span /><span /></div>
+      <p>
+        {lines.map((line) => (
+          <span className="lm-statement__line" key={line}>
+            {line.split(' ').map((word) => <span key={word} style={{ '--word': index++ } as CSSProperties}>{word}{' '}</span>)}
+          </span>
+        ))}
+      </p>
+      <span className="lm-statement__note">A clearer way to work. A little more room to think.</span>
+    </section>
+  );
+}
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/glass/glassGeometry.ts">
@@ -6788,197 +6590,199 @@ export function generateReactComponentSnippet(config: GlassPresetConfig): string
     <file path="src/app/(lumen)/lumen/motion/LumenMotion.tsx">
 <![CDATA['use client';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
+import { scrollToLumen } from './scroll';
 
 interface LumenMotionProps {
-  rootRef: React.RefObject<HTMLDivElement | null>;
+  rootRef: RefObject<HTMLDivElement | null>;
   onHeroActivityChange?: (active: boolean) => void;
 }
 
-/**
- * Scoped route controller for progressive enhancement and DOM updates.
- * Runs at most one pending rAF frame per scroll/resize event without perpetual idle loops
- * and without triggering React component re-renders.
- */
-export const LumenMotion: React.FC<LumenMotionProps> = ({
-  rootRef,
-  onHeroActivityChange,
-}) => {
-  const onHeroChangeRef = useRef(onHeroActivityChange);
-  onHeroChangeRef.current = onHeroActivityChange;
-
+export function LumenMotion({ rootRef, onHeroActivityChange }: LumenMotionProps) {
+  const callbackRef = useRef(onHeroActivityChange);
+  useEffect(() => { callbackRef.current = onHeroActivityChange; }, [onHeroActivityChange]);
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
+    const motion = matchMedia('(prefers-reduced-motion: no-preference)');
+    const fine = matchMedia('(hover: hover) and (pointer: fine)');
+    const wide = matchMedia('(min-width: 1024px) and (min-height: 680px)');
+    const hero = root.querySelector<HTMLElement>('#workspace-hero');
+    const statement = root.querySelector<HTMLElement>('[data-lm-statement]');
+    const header = root.querySelector<HTMLElement>('.lumen-header');
+    const atmosphere = root.querySelector<HTMLElement>('[data-testid="page-atmosphere"]');
+    const chapters = Array.from(root.querySelectorAll<HTMLElement>('main section[id]'));
+    const progressLine = root.querySelector<HTMLElement>('.lm-nav-progress');
+    const targets = Array.from(root.querySelectorAll<HTMLElement>('[data-lm-reveal], [data-lm-heading]'));
+    let frame = 0;
+    let disposed = false;
+    let heroTop = 0;
+    let heroHeight = 1;
+    let statementTop = 0;
+    let statementHeight = 1;
+    let maxScroll = 1;
+    let chapterTops: number[] = [];
+    let hoverTarget: HTMLElement | null = null;
+    let hoverBounds: DOMRect | null = null;
+    let pointerX = 0;
+    let pointerY = 0;
+    let hoverFrame = 0;
 
-    const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let isReduced = reducedQuery.matches;
-
-    // 1. Observe Hero visibility to gate the heavy WebGL background renderer
-    let heroObserver: IntersectionObserver | null = null;
-    const heroEl = root.querySelector('#workspace-hero');
-
-    if (heroEl && typeof IntersectionObserver !== 'undefined') {
-      heroObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry) {
-            onHeroChangeRef.current?.(entry.isIntersecting);
-          }
-        },
-        { rootMargin: '200px 0px 200px 0px', threshold: 0 }
-      );
-      heroObserver.observe(heroEl);
-    }
-
-    // 2. Supporting one-time reveals for [data-lm-reveal] targets
-    const revealEls = root.querySelectorAll<HTMLElement>('[data-lm-reveal]');
-    let revealObserver: IntersectionObserver | null = null;
-
-    const setupReveals = () => {
-      if (!isReduced && typeof IntersectionObserver !== 'undefined' && revealEls.length > 0) {
-        revealObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                const target = entry.target as HTMLElement;
-                target.dataset.lmIn = 'true';
-                target.removeAttribute('data-lm-armed');
-                revealObserver?.unobserve(target);
-              }
-            });
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }
-        );
-
-        revealEls.forEach((el) => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight) {
-            el.dataset.lmIn = 'true';
-          } else {
-            el.dataset.lmArmed = 'true';
-            revealObserver?.observe(el);
-          }
-        });
-      } else {
-        revealEls.forEach((el) => {
-          el.dataset.lmIn = 'true';
-          el.removeAttribute('data-lm-armed');
-        });
-      }
-    };
-
-    setupReveals();
-
-    // 3. Event-driven DOM updates
-    let rafId = 0;
-    let scheduled = false;
-    let cachedMaxScroll = 1;
-    let cachedLastScrollProgress = -1;
-    let cachedCompactState = false;
-
-    const atmosphereEl = root.querySelector<HTMLElement>('[data-testid="page-atmosphere"]');
-    const headerEl = root.querySelector<HTMLElement>('.lumen-header');
-
-    const updateMeasurements = () => {
-      const doc = document.documentElement;
-      cachedMaxScroll = Math.max(1, doc.scrollHeight - window.innerHeight);
-    };
-
-    updateMeasurements();
-
-    const renderFrame = () => {
-      scheduled = false;
-      const y = window.scrollY || window.pageYOffset || 0;
-      const progress = Math.min(1, Math.max(0, y / cachedMaxScroll));
-
-      // Update rounded scroll progress string only when value changes
-      const roundedProgress = Math.round(progress * 100);
-      if (roundedProgress !== cachedLastScrollProgress) {
-        cachedLastScrollProgress = roundedProgress;
-        const progressStr = progress.toFixed(2);
-        if (atmosphereEl && atmosphereEl.dataset.scrollProgress !== progressStr) {
-          atmosphereEl.dataset.scrollProgress = progressStr;
-        }
-      }
-
-      // Update header compact state
-      const shouldCompact = y > 50;
-      if (shouldCompact !== cachedCompactState) {
-        cachedCompactState = shouldCompact;
-        if (headerEl) {
-          headerEl.setAttribute('data-compact', String(shouldCompact));
-        }
-      }
-
-      // Publish scoped CSS variables on the landing root
-      root.style.setProperty('--lm-scroll', progress.toFixed(4));
-
-      // Bounded subtle parallax displacement (max ±24px) for isolated SVG artwork
-      if (!isReduced) {
-        const ribbonAY = Math.max(-24, Math.min(24, -progress * 22));
-        const sheetBY = Math.max(-24, Math.min(24, -progress * 18));
-        root.style.setProperty('--lm-ribbon-a-y', `${ribbonAY.toFixed(1)}px`);
-        root.style.setProperty('--lm-sheet-b-y', `${sheetBY.toFixed(1)}px`);
-      } else {
-        root.style.setProperty('--lm-ribbon-a-y', '0px');
-        root.style.setProperty('--lm-sheet-b-y', '0px');
-      }
-    };
-
-    const scheduleFrame = () => {
-      if (!scheduled) {
-        scheduled = true;
-        rafId = window.requestAnimationFrame(renderFrame);
-      }
-    };
-
-    const onScrollOrResize = () => {
-      scheduleFrame();
-    };
-
-    const onResize = () => {
-      updateMeasurements();
-      scheduleFrame();
-    };
-
-    const onReducedMotionChange = (e: MediaQueryListEvent) => {
-      isReduced = e.matches;
-      if (isReduced) {
-        revealEls.forEach((el) => {
-          el.dataset.lmIn = 'true';
-          el.removeAttribute('data-lm-armed');
-        });
-        revealObserver?.disconnect();
-      }
-      scheduleFrame();
-    };
-
-    window.addEventListener('scroll', onScrollOrResize, { passive: true });
-    window.addEventListener('resize', onResize, { passive: true });
-    reducedQuery.addEventListener('change', onReducedMotionChange);
-
-    renderFrame();
-
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', onScrollOrResize);
-      window.removeEventListener('resize', onResize);
-      reducedQuery.removeEventListener('change', onReducedMotionChange);
-      if (heroObserver) {
-        heroObserver.disconnect();
-      }
-      if (revealObserver) {
-        revealObserver.disconnect();
-      }
-      revealEls.forEach((el) => {
+    const reveal = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const el = entry.target as HTMLElement;
         el.dataset.lmIn = 'true';
         el.removeAttribute('data-lm-armed');
+        reveal.unobserve(el);
+      }
+    }, { threshold: 0.08, rootMargin: '0px 0px -7% 0px' });
+    const ambient = new IntersectionObserver((entries) => {
+      for (const entry of entries) (entry.target as HTMLElement).dataset.lmPlaying = String(entry.isIntersecting);
+    });
+    root.querySelectorAll('[data-lm-ambient]').forEach((el) => ambient.observe(el));
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      if (entry) callbackRef.current?.(entry.isIntersecting);
+    }, { rootMargin: '200px' });
+    if (hero) heroObserver.observe(hero);
+
+    const measure = () => {
+      const y = scrollY;
+      heroTop = (hero?.getBoundingClientRect().top ?? 0) + y;
+      heroHeight = hero?.offsetHeight ?? innerHeight;
+      statementTop = (statement?.getBoundingClientRect().top ?? 0) + y;
+      statementHeight = statement?.offsetHeight ?? 1;
+      maxScroll = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+      chapterTops = chapters.map((el) => el.getBoundingClientRect().top + y);
+    };
+    const clamp = (value: number) => Math.min(1, Math.max(0, value));
+    const paint = () => {
+      frame = 0;
+      const y = scrollY;
+      const progress = clamp(y / maxScroll);
+      progressLine?.style.setProperty('transform', 'scaleX(' + progress.toFixed(4) + ')');
+      if (atmosphere) atmosphere.dataset.scrollProgress = progress.toFixed(2);
+      header?.setAttribute('data-compact', String(y > 48));
+      const out = motion.matches && wide.matches ? clamp((y - heroTop) / Math.max(1, heroHeight - innerHeight)) : 0;
+      hero?.style.setProperty('--lm-departure', out.toFixed(4));
+      const read = motion.matches ? clamp((y + innerHeight * 0.82 - statementTop) / (statementHeight + innerHeight * 0.2)) : 1;
+      statement?.style.setProperty('--lm-reading', read.toFixed(4));
+      let active = chapters[0]?.id;
+      chapterTops.forEach((top, i) => { if (top < y + innerHeight * 0.4) active = chapters[i].id; });
+      root.querySelectorAll<HTMLAnchorElement>('.lm-nav-link').forEach((link) => {
+        const current = link.hash === '#' + active;
+        if (current) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
       });
     };
-  }, [rootRef]);
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(paint); };
+    const resize = () => { measure(); schedule(); };
+    const mode = () => {
+      resetHover();
+      root.dataset.lmMotion = motion.matches ? 'live' : 'static';
+      reveal.disconnect();
+      targets.forEach((el) => {
+        const seen = el.dataset.lmIn === 'true';
+        if (!motion.matches || seen || el.getBoundingClientRect().top < innerHeight * 0.94) {
+          el.dataset.lmIn = 'true';
+          el.removeAttribute('data-lm-armed');
+        } else {
+          reveal.observe(el);
+          el.dataset.lmArmed = 'true';
+        }
+      });
+      resize();
+    };
+    const visibility = () => { root.dataset.lmHidden = String(document.hidden); };
+    const settleFocus = (event: FocusEvent) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const ancestor = target.closest<HTMLElement>('[data-lm-armed]');
+      if (ancestor) { ancestor.dataset.lmIn = 'true'; ancestor.removeAttribute('data-lm-armed'); }
+    };
+    const click = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const anchor = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
+      if (!anchor || anchor.hash.length < 2) return;
+      let id: string;
+      try { id = decodeURIComponent(anchor.hash.slice(1)); } catch { return; }
+      const target = document.getElementById(id);
+      if (!target) return;
+      event.preventDefault();
+      scrollToLumen(target);
+      history.pushState(null, '', anchor.hash);
+    };
+    const resetHover = () => {
+      if (!hoverTarget) return;
+      const plane = hoverTarget.querySelector<HTMLElement>('.lm-workspace-plane');
+      plane?.style.removeProperty('--tilt-x'); plane?.style.removeProperty('--tilt-y');
+      ['--lm-rx', '--lm-ry', '--lm-mx', '--lm-my'].forEach((name) => hoverTarget?.style.removeProperty(name));
+      hoverTarget = null;
+      hoverBounds = null;
+    };
+    const paintPointer = () => {
+      hoverFrame = 0;
+      if (!hoverTarget || !hoverBounds) return;
+      const x = clamp((pointerX - hoverBounds.left) / hoverBounds.width);
+      const y = clamp((pointerY - hoverBounds.top) / hoverBounds.height);
+      hoverTarget.style.setProperty('--lm-light-x', (x * 100).toFixed(1) + '%');
+      hoverTarget.style.setProperty('--lm-light-y', (y * 100).toFixed(1) + '%');
+      if (hoverTarget.matches('.lm-workspace-stage')) {
+        const plane = hoverTarget.querySelector<HTMLElement>('.lm-workspace-plane');
+        plane?.style.setProperty('--tilt-x', (2 + (0.5 - y) * 5).toFixed(2) + 'deg');
+        plane?.style.setProperty('--tilt-y', (-4 + (x - 0.5) * 6).toFixed(2) + 'deg');
+      } else if (hoverTarget.matches('.lm-hover-card, .lm-cover')) {
+        hoverTarget.style.setProperty('--lm-rx', ((0.5 - y) * 5).toFixed(2) + 'deg');
+        hoverTarget.style.setProperty('--lm-ry', ((x - 0.5) * 5).toFixed(2) + 'deg');
+      } else {
+        hoverTarget.style.setProperty('--lm-mx', ((x - 0.5) * 9).toFixed(2) + 'px');
+        hoverTarget.style.setProperty('--lm-my', ((y - 0.5) * 7).toFixed(2) + 'px');
+      }
+    };
+    const pointer = (event: PointerEvent) => {
+      if (!fine.matches || !motion.matches || event.pointerType === 'touch') { resetHover(); return; }
+      const target = (event.target as Element).closest<HTMLElement>('.lm-hover-card, .lm-cover, .lm-magnetic, .lm-workspace-stage');
+      if (target !== hoverTarget) {
+        resetHover();
+        hoverTarget = target;
+        hoverBounds = target?.getBoundingClientRect() ?? null;
+      }
+      pointerX = event.clientX; pointerY = event.clientY;
+      if (target && !hoverFrame) hoverFrame = requestAnimationFrame(paintPointer);
+    };
+    const pointerExit = (event: PointerEvent) => { if (!event.relatedTarget || !root.contains(event.relatedTarget as Node)) resetHover(); };
 
+    const sizes = new ResizeObserver(resize);
+    sizes.observe(root);
+    mode(); visibility();
+    document.fonts.ready.then(() => { if (!disposed) resize(); });
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', resize, { passive: true });
+    root.addEventListener('click', click);
+    root.addEventListener('focusin', settleFocus);
+    root.addEventListener('pointermove', pointer, { passive: true });
+    root.addEventListener('pointerout', pointerExit);
+    document.addEventListener('visibilitychange', visibility);
+    motion.addEventListener('change', mode);
+    fine.addEventListener('change', resetHover);
+    wide.addEventListener('change', resize);
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(frame); cancelAnimationFrame(hoverFrame);
+      reveal.disconnect(); ambient.disconnect(); heroObserver.disconnect(); sizes.disconnect();
+      removeEventListener('scroll', schedule); removeEventListener('resize', resize);
+      root.removeEventListener('click', click); root.removeEventListener('focusin', settleFocus);
+      root.removeEventListener('pointermove', pointer); root.removeEventListener('pointerout', pointerExit);
+      document.removeEventListener('visibilitychange', visibility);
+      motion.removeEventListener('change', mode); fine.removeEventListener('change', resetHover); wide.removeEventListener('change', resize);
+      resetHover();
+      delete root.dataset.lmMotion;
+      targets.forEach((el) => el.removeAttribute('data-lm-armed'));
+      hero?.style.removeProperty('--lm-departure');
+    };
+  }, [rootRef]);
   return null;
-};
+}
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/motion/math.ts">
@@ -7008,6 +6812,87 @@ export function progress(value: number, start: number, end: number): number {
     return value >= start ? 1 : 0;
   }
   return clamp((value - start) / (end - start), 0, 1);
+}
+]]>
+    </file>
+    <file path="src/app/(lumen)/lumen/motion/scroll.ts">
+<![CDATA[type ScrollDriver = { scrollTo: (target: HTMLElement | number, options?: { offset?: number; duration?: number }) => void; stop: () => void; start: () => void };
+let driver: ScrollDriver | null = null;
+let locked = false;
+
+export function registerScrollDriver(next: ScrollDriver) {
+  driver = next;
+  if (locked) next.stop();
+  return () => { if (driver === next) driver = null; };
+}
+
+export function lockLumenScroll(next: boolean) {
+  locked = next;
+  if (next) driver?.stop(); else driver?.start();
+}
+
+export function scrollToLumen(target: HTMLElement | number) {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const offset = (document.querySelector('.lumen-header')?.getBoundingClientRect().bottom ?? 64) + 20;
+  if (driver && !reduce) {
+    driver.scrollTo(target, { offset: typeof target === 'number' ? 0 : -offset, duration: 1.15 });
+  } else {
+    const top = typeof target === 'number' ? target : target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'instant' : 'smooth' });
+  }
+}
+]]>
+    </file>
+    <file path="src/app/(lumen)/lumen/motion/SmoothScroll.tsx">
+<![CDATA['use client';
+
+import { useEffect } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { registerScrollDriver } from './scroll';
+import 'lenis/dist/lenis.css';
+
+export function SmoothScroll() {
+  useEffect(() => {
+    const query = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+    let disposed = false;
+    let generation = 0;
+    let cleanup: (() => void) | undefined;
+    const setup = async () => {
+      const current = ++generation;
+      cleanup?.();
+      cleanup = undefined;
+      if (!query.matches) return;
+      const { default: Lenis } = await import('lenis');
+      if (disposed || current !== generation || !query.matches) return;
+      const lenis = new Lenis({ lerp: 0.09, autoRaf: true, smoothWheel: true, syncTouch: false, anchors: false });
+      const unregister = registerScrollDriver(lenis);
+      lenis.on('scroll', ScrollTrigger.update);
+      cleanup = () => { unregister(); lenis.off('scroll', ScrollTrigger.update); lenis.destroy(); };
+    };
+    void setup();
+    query.addEventListener('change', setup);
+    return () => { disposed = true; generation++; cleanup?.(); query.removeEventListener('change', setup); };
+  }, []);
+  return null;
+}
+]]>
+    </file>
+    <file path="src/app/(lumen)/lumen/motion/SplitText.tsx">
+<![CDATA[import { Fragment, type CSSProperties } from 'react';
+
+export function SplitText({ text }: { text: string }) {
+  return (
+    <span className="lm-split">
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {text.split(' ').map((word, i) => (
+          <Fragment key={i}><span className="lm-word">
+            <span className="lm-word__in" style={{ '--word': i } as CSSProperties}>{word}</span>
+          </span>{' '}</Fragment>
+        ))}
+      </span>
+    </span>
+  );
 }
 ]]>
     </file>

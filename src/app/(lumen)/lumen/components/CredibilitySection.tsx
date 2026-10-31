@@ -1,3 +1,4 @@
+import { SplitText } from '../motion/SplitText';
 import React, { useState } from 'react';
 import { ShieldAlert, ArrowRight, CheckCircle2, Users, BookOpen } from 'lucide-react';
 
@@ -15,12 +16,10 @@ export const CredibilitySection: React.FC = () => {
           <p className="font-mono text-xs font-medium text-[#657187]">
             06 · RESOURCE CREDIBILITY &amp; PRACTICAL EXAMPLES
           </p>
-          <h2
+          <h2 data-lm-heading=""
             id="credibility-heading"
             className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-          >
-            Practical ideas. Clear frameworks. No unnecessary complexity.
-          </h2>
+          ><SplitText text={"Practical ideas. Clear frameworks. No unnecessary complexity."} /></h2>
           <p className="mt-4 text-base text-[#657187] leading-relaxed">
             Built from real operational workflow templates—without hype, black-box promises, or unverified automation claims.
           </p>

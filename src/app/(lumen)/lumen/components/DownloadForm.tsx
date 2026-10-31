@@ -69,7 +69,7 @@ export const DownloadForm: React.FC<DownloadFormProps> = ({
         role="region"
         aria-live="polite"
         aria-label="Playbook download confirmation"
-        className="glass-panel-active rounded-2xl p-6 transition-all duration-300"
+        className="lm-form-success glass-panel-active rounded-2xl p-6 transition-[transform,opacity,background-color,border-color,box-shadow] duration-300"
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-2.5">
@@ -91,7 +91,7 @@ export const DownloadForm: React.FC<DownloadFormProps> = ({
           {/* Per user instruction: the Download PDF button does not need to trigger a file download */}
           <button
             type="button"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#252C43] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#1E2432] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+            className="lm-form-submit lm-magnetic inline-flex items-center justify-center gap-2 rounded-xl bg-[#252C43] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#1E2432] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
           >
             <FileDown className="h-4 w-4" aria-hidden="true" />
             <span>Download PDF</span>
@@ -135,7 +135,7 @@ export const DownloadForm: React.FC<DownloadFormProps> = ({
       noValidate
       className={compact ? 'w-full' : 'w-full max-w-xl'}
     >
-      <div className="glass-panel rounded-2xl p-2 sm:p-2.5">
+      <div className="lm-form-surface glass-panel rounded-2xl p-2 sm:p-2.5">
         <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
           <div className="relative flex-1">
             <label htmlFor={`${formId}-email`} className="sr-only">
@@ -162,7 +162,7 @@ export const DownloadForm: React.FC<DownloadFormProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#252C43] px-6 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-[#1E2432] disabled:opacity-60 transition-all whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+            className="lm-form-submit lm-magnetic inline-flex items-center justify-center gap-2 rounded-xl bg-[#252C43] px-6 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-[#1E2432] disabled:opacity-60 transition-[transform,opacity,background-color,border-color,box-shadow] whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
           >
             <span>{isSubmitting ? 'Preparing guide...' : 'Get the free playbook'}</span>
             <ArrowRight className="h-4 w-4" aria-hidden="true" />

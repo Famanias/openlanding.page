@@ -1,4 +1,5 @@
 'use client';
+import { SplitText } from '../motion/SplitText';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
@@ -22,7 +23,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Customer intake email',
     detail: 'Product issue reported with screenshot and logs',
     source: 'Inbox · Priority',
-    scatteredClass: 'lg:translate-x-3 lg:-translate-y-4 lg:rotate-2',
+    scatteredClass: 'lm-fragment--drift-0',
     structuredOrder: '01 · Intake Captured',
   },
   {
@@ -30,7 +31,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Product specification',
     detail: 'Design guidelines and technical boundary notes',
     source: 'Knowledge Base',
-    scatteredClass: 'lg:-translate-x-2 lg:translate-y-3 lg:-rotate-1',
+    scatteredClass: 'lm-fragment--drift-1',
     structuredOrder: '02 · Context Retrieved',
   },
   {
@@ -38,7 +39,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Sync meeting audio',
     detail: 'Recorded customer call decisions and action items',
     source: 'Meeting Archive',
-    scatteredClass: 'lg:translate-x-4 lg:-translate-y-2 lg:rotate-1.5',
+    scatteredClass: 'lm-fragment--drift-2',
     structuredOrder: '03 · Audio Transcribed',
   },
   {
@@ -46,7 +47,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Unassigned action item',
     detail: 'Resolve authentication race condition before release',
     source: 'Project Board',
-    scatteredClass: 'lg:-translate-x-4 lg:translate-y-2 lg:-rotate-2',
+    scatteredClass: 'lm-fragment--drift-3',
     structuredOrder: '04 · Actions Synthesized',
   },
   {
@@ -54,7 +55,7 @@ const TASK_FRAGMENTS: TaskFragment[] = [
     label: 'Status update',
     detail: 'Manual weekly summary assembled across 4 tabs',
     source: 'Team Channel',
-    scatteredClass: 'lg:-translate-x-3 lg:translate-y-4 lg:rotate-1',
+    scatteredClass: 'lm-fragment--drift-4',
     structuredOrder: '05 · Review Ready',
   },
 ];
@@ -144,12 +145,10 @@ export const ProblemSection: React.FC = () => {
             <p className="font-mono text-xs font-medium text-[#657187]">
               02 · THE PROBLEM — DISCONNECTED WORK
             </p>
-            <h2
+            <h2 data-lm-heading=""
               id="problem-heading"
               className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl [text-wrap:balance]"
-            >
-              Your work is connected. Your tools aren&apos;t.
-            </h2>
+            ><SplitText text="Your work is connected. Your tools aren't." /></h2>
             <p className="mt-4 text-base text-[#657187] leading-relaxed">
               Requests arrive everywhere. Information becomes fragmented. Repetitive tasks consume attention that could be spent on more important work.
             </p>
@@ -164,7 +163,7 @@ export const ProblemSection: React.FC = () => {
               type="button"
               aria-pressed={!isStructured}
               onClick={() => handleManualToggle(false)}
-              className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-[transform,opacity,background-color,border-color,box-shadow] whitespace-nowrap shrink-0 cursor-pointer ${
                 !isStructured
                   ? 'bg-[#252C43] text-white shadow-xs'
                   : 'text-[#657187] hover:text-[#1E2432]'
@@ -176,7 +175,7 @@ export const ProblemSection: React.FC = () => {
               type="button"
               aria-pressed={isStructured}
               onClick={() => handleManualToggle(true)}
-              className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-[transform,opacity,background-color,border-color,box-shadow] whitespace-nowrap shrink-0 cursor-pointer ${
                 isStructured
                   ? 'bg-[#252C43] text-white shadow-xs'
                   : 'text-[#657187] hover:text-[#1E2432]'
@@ -188,7 +187,7 @@ export const ProblemSection: React.FC = () => {
         </div>
 
         {/* Interactive Canvas: Scattered Fragments -> Intentional Connected System */}
-        <div className="relative mt-12 rounded-3xl border border-white/85 bg-white/50 p-6 sm:p-10 shadow-xs backdrop-blur-md overflow-hidden">
+        <div className="lm-problem-canvas relative mt-12 rounded-3xl border border-white/85 bg-white/50 p-6 sm:p-10 shadow-xs backdrop-blur-md overflow-hidden">
           {/* Connecting SVG Pathways (Visible when structured) */}
           <svg
             viewBox="0 0 1100 160"
@@ -225,7 +224,7 @@ export const ProblemSection: React.FC = () => {
                 <div
                   key={frag.id}
                   style={transitionStyle}
-                  className={`glass-panel rounded-2xl p-4 ${
+                  className={`lm-fragment glass-panel rounded-2xl p-4 ${
                     isStructured
                       ? 'translate-x-0 translate-y-0 rotate-0 border-[#5BA59A]/40 bg-white/85'
                       : frag.scatteredClass

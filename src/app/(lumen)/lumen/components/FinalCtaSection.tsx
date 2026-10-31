@@ -1,3 +1,4 @@
+import { SplitText } from '../motion/SplitText';
 import React, { useState } from 'react';
 import { DownloadForm } from './DownloadForm';
 
@@ -32,12 +33,10 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
               <p className="font-mono text-xs font-medium text-[#657187]">
                 08 · FREE RESOURCE — EDITION 2026
               </p>
-              <h2
+              <h2 data-lm-heading=""
                 id="final-cta-heading"
                 className="mt-3 text-3xl font-bold tracking-tight text-[#1E2432] sm:text-4xl lg:text-5xl [text-wrap:balance]"
-              >
-                Your smarter workflow starts here.
-              </h2>
+              ><SplitText text={"Your smarter workflow starts here."} /></h2>
               <p className="mt-4 max-w-xl text-base text-[#657187] leading-relaxed">
                 Get the free AI Workflow Playbook and start turning repetitive tasks into clearer, more useful systems.
               </p>
@@ -74,7 +73,7 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
                   <div className="glass-panel h-full w-full rounded-3xl -rotate-3 scale-95" />
                 </div>
                 {/* Front Floating Playbook Cover */}
-                <div className="glass-panel-active relative z-10 rounded-3xl p-3 shadow-lg transition-transform duration-500 hover:-translate-y-1.5">
+                <div className="lm-final-cover glass-panel-active relative z-10 rounded-3xl p-3 shadow-lg transition-transform duration-500 hover:-translate-y-1.5">
                   <div className="overflow-hidden rounded-2xl border border-white/85 bg-[#F8F9FC]">
                     <img
                       src={
