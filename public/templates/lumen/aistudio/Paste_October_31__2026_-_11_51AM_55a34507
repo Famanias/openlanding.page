@@ -1,0 +1,1106 @@
+# LUMEN — THE AI WORKFLOW PLAYBOOK
+
+## Build a Premium Glassmorphic AI Landing Page
+
+Build a highly polished, conversion-focused, animated landing page for **LUMEN**, a fictional AI productivity and workflow automation company.
+
+LUMEN is a provisional brand name and should be easy to replace.
+
+The landing page promotes a free downloadable resource:
+
+**The AI Workflow Playbook**
+
+Tagline:
+
+"Make repetitive work a thing of the past."
+
+The objective is to convince visitors to submit their work email to access a practical PDF about designing AI-powered workflows.
+
+This must be a standalone lead-generation landing page, not a conventional multi-page SaaS website.
+
+The design should feel like a premium creative-technology studio experience: light glassmorphism, layered translucent interfaces, pastel refractions, elegant typography, and responsive 2.5D interaction.
+
+The strongest visual feature is an **interactive floating glass AI workspace** that explains how information moves through an automation system.
+
+Build a real interactive experience, not a static mockup.
+
+---
+
+# 1. CORE OBJECTIVE
+
+The entire website must support one conversion:
+
+**Get the free AI Workflow Playbook.**
+
+Do not introduce competing subscription offers, demo bookings, pricing plans, or unrelated navigation destinations.
+
+Every major section should reinforce the value of the guide and bring visitors closer to the email form.
+
+The design must balance two goals:
+
+1. A visually memorable and technically sophisticated experience.
+2. A clear, accessible, frictionless conversion flow.
+
+Visual effects must never prevent visitors from submitting the form.
+
+---
+
+# 2. TECHNOLOGY
+
+Recommended stack:
+
+- React
+- TypeScript
+- Vite
+- GSAP
+- GSAP ScrollTrigger
+- CSS custom properties
+- SVG animations
+- Optional Lenis smooth scrolling
+- Lucide icons
+- Lightweight state management where useful
+
+Use HTML, CSS, SVG, and GSAP to construct the 2.5D interactive workspace.
+
+Do not introduce a heavyweight Three.js renderer merely to display translucent interface cards.
+
+Use CSS perspective, layered transforms, shadows, translucent materials, SVG path animations, and pointer-reactive parallax.
+
+Any extra rendering technology must have a clear technical justification.
+
+The website should remain fast, responsive, and easy to maintain.
+
+---
+
+# 3. PROVIDED DESIGN ASSETS
+
+The asset package includes:
+
+- glass-workspace-art.svg
+- glass-workspace-art.png
+- ai-workflow-playbook-cover.svg
+- ai-workflow-playbook-cover.png
+- ai-workflow-playbook-cover.pdf
+- Two generated landing-page visual studies
+
+Use the visual studies as aesthetic references only.
+
+Do not simply insert an entire mockup screenshot as the landing page.
+
+The actual interface, headings, form, workflow panels, connections, and buttons must be live HTML/SVG elements.
+
+The background glass artwork may be positioned behind the interactive elements.
+
+The cover design should be used in the resource-preview section.
+
+The provided cover PDF is not the full downloadable guide. The actual resource must be completed before a production download is offered.
+
+Do not reproduce any unverified customer logos, invented partnerships, fabricated usage numbers, or testimonials from generated visual studies.
+
+---
+
+# 4. VISUAL DESIGN SYSTEM
+
+## Overall aesthetic
+
+Create a luminous, luxurious, futuristic glassmorphic interface.
+
+Use translucent surfaces sparingly and purposefully.
+
+The page should feel airy and refined, not washed out or unreadable.
+
+Use subtle layered glass objects, soft pastel illumination, crisp typography, and delicate shadows.
+
+### Color palette
+
+Background: #F8F9FC
+
+Secondary background: #F0F3FA
+
+Primary typography: #1E2432
+
+Secondary typography: #657187
+
+Glass border: rgba(255,255,255,0.75)
+
+Glass tint: rgba(235,240,255,0.45)
+
+Lavender: #D8D0F7
+
+Ice blue: #C9DAFA
+
+Peach: #F6DCCA
+
+Primary button: #252C43
+
+Positive accent: #5BA59A
+
+Use subtle background gradients and ambient glows to make the glass visible.
+
+Do not cover the entire page in saturated purple.
+
+### Glass properties
+
+Create reusable design tokens for:
+
+- Surface transparency
+- Border opacity
+- Backdrop blur
+- Shadow depth
+- Edge highlights
+- Corner radius
+- Hover elevation
+- Refraction-inspired gradients
+
+Use moderate blur, not excessive background filtering.
+
+Include graceful fallbacks when backdrop-filter is unsupported.
+
+### Typography
+
+Use a contemporary premium sans-serif.
+
+Suggested typeface: Inter, Geist, or Inter Tight.
+
+Headlines should be large, expressive, and compact.
+
+Avoid excessively thin fonts that become unreadable over pale backgrounds.
+
+The hero headline should feel immediately dominant.
+
+Use fine uppercase metadata labels sparingly.
+
+---
+
+# 5. PAGE STRUCTURE
+
+Build the landing page with the following sections:
+
+01. Interactive Glass AI Workspace Hero
+
+02. The Problem — Disconnected Work
+
+03. The Benefits — What Better Workflows Enable
+
+04. Inside the Playbook — Interactive Resource Preview
+
+05. How It Works — Map, Automate, Review
+
+06. Resource Credibility and Practical Examples
+
+07. FAQ
+
+08. Final Download CTA
+
+09. Minimal Footer
+
+All sections should belong to the same design language, but use different animation compositions.
+
+Avoid repeating identical glass cards in every section.
+
+---
+
+# 6. HERO — THE GLASS AI WORKSPACE
+
+This is the most important section.
+
+## Desktop composition
+
+Use an approximately 55/45 split:
+
+Left: Headline, value proposition, email capture.
+
+Right: Floating interactive 2.5D workflow.
+
+The hero background extends edge to edge.
+
+Do not place the entire workspace in an obvious bordered screenshot container.
+
+Let the glass panels float naturally in the composition.
+
+### Hero content
+
+Small eyebrow:
+
+WORK SMARTER WITH AI
+
+Main headline:
+
+"Make repetitive work a thing of the past."
+
+Supporting paragraph:
+
+"Get the free AI Workflow Playbook with practical frameworks, real examples, and reusable prompts to design smarter workflows."
+
+Primary conversion:
+
+Email field: "Your work email"
+
+Button: "Get the free playbook"
+
+Supporting microcopy:
+
+"Free PDF. No credit card required."
+
+Include a real privacy explanation near the form.
+
+Do not claim that leads are collected if the form is not connected to an operational backend.
+
+## Navbar
+
+Keep navigation extremely minimal.
+
+Left: LUMEN wordmark.
+
+Right: "THE AI WORKFLOW PLAYBOOK" or a small download link anchored to the form.
+
+Do not include a full Platform / Pricing / About / Blog navbar.
+
+The page exists for one specific conversion.
+
+---
+
+# 7. BUILD THE INTERACTIVE 2.5D WORKSPACE
+
+The right side contains three major interactive glass panels:
+
+**01 — INPUT**
+
+Incoming Work
+
+- Emails
+- Documents
+- Tasks
+- Meeting notes
+
+**02 — AI PROCESSING**
+
+AI Workflow
+
+- Classify
+- Summarize
+- Route
+
+**03 — OUTPUT**
+
+Organized Results
+
+- Draft summaries
+- Prioritized tasks
+- Prepared responses
+- Items ready for review
+
+These should look like layers of an elegant operating system suspended in space.
+
+### Spatial composition
+
+The Input panel sits slightly behind and to the upper-left.
+
+AI Processing is the largest and most prominent central glass panel.
+
+Output sits slightly behind and to the right or lower-right.
+
+Use CSS perspective and translate3d transforms.
+
+Add decorative glass artwork behind these components.
+
+Thin SVG connectors physically link the panels.
+
+Paths should be calculated or anchored to actual panel positions so they remain aligned as the layout changes.
+
+Do not rely on a large static background image containing all three panels.
+
+### Panel design
+
+Each panel should contain real interface details:
+
+- Icons
+- Clear labels
+- Subtle dividers
+- Tiny status indicators
+- Individual workflow rows
+- Refined internal spacing
+
+Keep the UI believable.
+
+The appearance should suggest a real AI workflow product rather than a collection of meaningless translucent rectangles.
+
+---
+
+# 8. HERO OPENING ANIMATION
+
+Build a coordinated GSAP timeline.
+
+The animation should complete in approximately 3–3.5 seconds, but must remain interruptible.
+
+Do not block the form while the intro plays.
+
+## Phase A — Atmosphere
+
+The background gently brightens.
+
+Soft lavender, ice-blue, and peach illumination appears behind the workspace.
+
+The wordmark and eyebrow become visible.
+
+## Phase B — Typography
+
+The headline reveals through elegant line masks.
+
+The paragraph follows.
+
+The form enters through subtle opacity and vertical movement.
+
+Do not animate every character individually.
+
+## Phase C — Glass assembly
+
+The Input panel slides into position from a shallow depth.
+
+The AI Processing panel enters from a slightly different spatial layer.
+
+The Output panel settles into its corresponding location.
+
+Use slight rotation, position, and scale interpolation.
+
+The motion should have weight and polish.
+
+No cartoon bouncing.
+
+## Phase D — Workflow connection
+
+SVG connectors draw themselves between the panels.
+
+Small light signals begin moving along the connection paths.
+
+These signals must follow the actual connector geometry.
+
+## Phase E — Processing demonstration
+
+Highlight an incoming task.
+
+Animate it progressing into the AI Processing panel.
+
+Sequentially highlight:
+
+Classify → Summarize → Route.
+
+The Output panel reveals the corresponding organized result.
+
+This is an illustrative deterministic demonstration.
+
+Do not claim a live AI model is processing information unless an actual inference system is connected.
+
+## Phase F — Rest state
+
+The workspace settles into quiet ambient motion.
+
+The form remains clearly visible.
+
+Do not endlessly replay the complete introduction.
+
+---
+
+# 9. HERO INTERACTIONS
+
+Visitors should be able to inspect the three workflow stages.
+
+### Pointer movement
+
+Add subtle parallax to the layered workspace.
+
+Background decorative elements move more slowly than the foreground glass panels.
+
+Limit interactive rotation to a few degrees.
+
+Do not allow large uncontrolled tilting.
+
+### Hover and focus
+
+Hovering over Input, Processing, or Output should:
+
+- Bring the selected panel slightly forward.
+- Increase its border definition.
+- Emphasize relevant SVG connectors.
+- Dim unrelated details slightly.
+- Reveal a concise description of the selected stage.
+
+Keyboard focus should provide equivalent feedback.
+
+### Click interaction
+
+Clicking a panel makes it the active stage.
+
+The active panel moves gently forward in depth.
+
+Other panels reposition slightly without losing the overall structure.
+
+An explanatory caption updates.
+
+### Example interaction
+
+Selecting Input shows:
+
+"A new request enters the workflow."
+
+Selecting Processing shows:
+
+"The workflow classifies the request, extracts important information, and proposes a destination."
+
+Selecting Output shows:
+
+"A structured draft and next actions are prepared for review."
+
+### Ambient animation
+
+Use subtle slow motion only.
+
+- Gentle floating movement.
+- Occasional connector pulses.
+- Soft lighting changes.
+- Minimal glass-surface parallax.
+
+Ambient animation must stop or reduce when the hero is offscreen.
+
+Respect reduced-motion preferences.
+
+---
+
+# 10. SECTION 02 — THE PROBLEM
+
+Headline:
+
+"Your work is connected. Your tools aren't."
+
+Supporting copy:
+
+"Requests arrive everywhere. Information becomes fragmented. Repetitive tasks consume attention that could be spent on more important work."
+
+## Visual concept
+
+Show several disconnected glass task fragments:
+
+- Incoming email
+- Document summary
+- Action item
+- Meeting note
+- Status update
+
+They begin scattered across an open canvas.
+
+As the visitor scrolls, the fragments slowly organize into an intentional system.
+
+Thin connection paths appear.
+
+The animation transitions from disorder into structure.
+
+The purpose is to communicate the value of workflow design, not claim that the playbook automatically performs every task.
+
+## Motion
+
+Use a short scroll-linked sequence.
+
+Avoid a very long pinned section.
+
+Support reverse scrolling.
+
+Keep the explanatory copy readable throughout.
+
+---
+
+# 11. SECTION 03 — BENEFITS
+
+Headline:
+
+"Less busywork. More meaningful work."
+
+Present three benefits.
+
+### Benefit 01 — Find opportunities
+
+"Identify repetitive tasks worth improving."
+
+Illustration: Scattered task fragments are classified into organized groups.
+
+### Benefit 02 — Build repeatable workflows
+
+"Create practical systems with clear steps and responsibilities."
+
+Illustration: Glass panels connect through animated SVG pathways.
+
+### Benefit 03 — Stay in control
+
+"Keep reviews, approvals, and important decisions in human hands."
+
+Illustration: An AI processing route passes through a clear review checkpoint.
+
+## Motion
+
+Use different compact animations for each benefit.
+
+The visuals should be reusable SVG components.
+
+Avoid presenting unverified statistics about time saved or productivity gains.
+
+Do not make all three visuals look identical.
+
+---
+
+# 12. SECTION 04 — INSIDE THE PLAYBOOK
+
+This is a major conversion-supporting section.
+
+Headline:
+
+"Everything you need to get started."
+
+Supporting copy:
+
+"Explore the frameworks, examples, and practical tools included in the free guide."
+
+## Visual centerpiece
+
+Use a layered glass document stack.
+
+The provided playbook cover sits at the front.
+
+Behind it are several actual sample pages from the guide.
+
+The stack should have visible 2.5D perspective.
+
+### Interaction
+
+Create three selectable preview states:
+
+01 — Find the right workflows
+
+02 — Design the process
+
+03 — Build and review
+
+Clicking a preview changes the visible page.
+
+The selected page moves forward while the others shift backward.
+
+Use smooth spring-like GSAP transitions.
+
+Allow keyboard and touch navigation.
+
+Do not render invented document pages that are not included in the actual downloadable PDF.
+
+### Recommended preview material
+
+Page 1: Automation opportunity checklist.
+
+Page 2: Workflow mapping framework.
+
+Page 3: A worked example for processing incoming requests.
+
+All copy should be readable.
+
+Do not rely on AI-generated raster text for the guide contents.
+
+---
+
+# 13. SECTION 05 — HOW IT WORKS
+
+Headline:
+
+"From idea to working workflow."
+
+Create a three-step process.
+
+## STEP 01 — MAP
+
+Understand the task.
+
+Identify triggers, inputs, decisions, and outputs.
+
+## STEP 02 — AUTOMATE
+
+Design the steps that AI and connected tools can support.
+
+Clarify where human oversight is necessary.
+
+## STEP 03 — REVIEW
+
+Test the workflow, verify outputs, and improve the process.
+
+## Animation concept
+
+Use one elegant workflow diagram that transforms as visitors scroll.
+
+Map begins with disconnected elements.
+
+Automate creates a connected pathway.
+
+Review introduces checkpoints and a completed process.
+
+Use SVG path drawing and glass-layer transformations.
+
+Keep the sequence smooth and reversible.
+
+Use a lightweight stacked mobile adaptation.
+
+---
+
+# 14. SECTION 06 — PRACTICAL CREDIBILITY
+
+Do not invent customer testimonials, partner logos, review scores, or adoption statistics.
+
+Instead, establish trust through the actual resource.
+
+Suggested headline:
+
+"Practical ideas. Clear frameworks. No unnecessary complexity."
+
+Show:
+
+- A genuine excerpt from the guide.
+- One realistic worked example.
+- A clear explanation of who the guide is for.
+- A brief statement that AI outputs require verification.
+
+Use the actual downloadable content as evidence of value.
+
+If legitimate testimonials become available later, build a reusable testimonial component but do not populate it with fictitious people.
+
+### Optional example
+
+"From incoming email to prepared response."
+
+Show a simple before-and-after workflow.
+
+Before: Manual classification, summarization, and follow-up preparation.
+
+After: An AI-assisted draft workflow with a defined human review step.
+
+Do not imply full automation or guaranteed performance without support.
+
+---
+
+# 15. SECTION 07 — FAQ
+
+Headline:
+
+"Everything you need to know."
+
+Include concise answers to:
+
+**Is the playbook free?**
+
+Yes. It is offered as a free downloadable resource.
+
+**Do I need technical experience?**
+
+The introductory frameworks are designed to be understandable without advanced programming skills.
+
+**Does the guide require a specific AI platform?**
+
+No. The core workflow planning concepts can be adapted to different tools.
+
+**What will I receive?**
+
+A PDF containing workflow planning guidance, worked examples, and reusable frameworks.
+
+**Will the workflows run automatically?**
+
+No. The guide helps readers design workflows; implementing them may require additional tools, configuration, and review.
+
+**How is my email used?**
+
+Explain the actual configured collection and delivery policy. Do not promise a privacy or marketing practice that has not been implemented.
+
+## Animation
+
+Use refined accordion transitions.
+
+Animate height and opacity smoothly.
+
+Maintain keyboard accessibility and correct expanded states.
+
+Avoid unnecessary 3D effects in the FAQ.
+
+---
+
+# 16. SECTION 08 — FINAL DOWNLOAD CTA
+
+Headline:
+
+"Your smarter workflow starts here."
+
+Supporting copy:
+
+"Get the free AI Workflow Playbook and start turning repetitive tasks into clearer, more useful systems."
+
+Include a second instance of the email capture interface or a synchronized form component.
+
+The conversion action must be the same as the hero.
+
+No competing sales action.
+
+### Visual treatment
+
+Use a large floating representation of the actual playbook cover.
+
+Soft translucent glass sheets appear behind it.
+
+As the section enters, the booklet shifts gently forward.
+
+The glass layers organize into a calm final composition.
+
+The form receives the main visual emphasis.
+
+Keep the layout clean, bright, and professional.
+
+---
+
+# 17. EMAIL CAPTURE AND DOWNLOAD
+
+This landing page has a real conversion objective.
+
+Build the form accordingly.
+
+### Fields
+
+Only one required input:
+
+Work email.
+
+Avoid adding unnecessary name, phone, company, or role fields.
+
+### Validation
+
+- Required.
+- Valid email format.
+- Trim whitespace.
+- Clear accessible errors.
+- Prevent duplicate rapid submissions.
+- Show loading and completion states.
+
+### Production behavior
+
+Use a real backend endpoint or a properly configured form provider to capture leads.
+
+Do not invent API credentials.
+
+Keep secrets server-side.
+
+Use rate limiting and basic anti-spam protections.
+
+Apply the appropriate privacy and consent requirements.
+
+After successful submission, provide access to the complete PDF through a working download URL or a properly configured email-delivery flow.
+
+Do not claim an email was sent unless it actually was.
+
+### If backend integration is unavailable
+
+Implement a clearly labeled demonstration mode.
+
+Do not falsely indicate that the email was stored.
+
+Do not show a fake confirmation claiming the resource was delivered.
+
+A full real PDF must exist before production launch.
+
+### Success experience
+
+Use an elegant glass confirmation panel.
+
+Suggested message:
+
+"Your playbook is ready."
+
+Provide a clearly visible Download PDF action.
+
+A subtle glass shimmer may accompany the state change.
+
+Do not require another interaction merely for decoration.
+
+---
+
+# 18. DOWNLOADABLE RESOURCE
+
+Create or integrate the complete AI Workflow Playbook.
+
+Target approximately 12–16 substantive pages.
+
+Suggested content:
+
+- Introduction to practical AI workflows.
+- Identifying repetitive tasks.
+- Assessing automation opportunities.
+- Mapping inputs and outputs.
+- Understanding triggers and conditions.
+- Choosing AI-assisted steps.
+- Designing human review checkpoints.
+- Example: Email classification and summarization.
+- Example: Meeting notes to action items.
+- Example: Document information extraction.
+- Reusable prompt structures.
+- Testing and verifying AI-generated outputs.
+- Privacy and data-handling considerations.
+- Implementation checklist.
+- Next steps.
+
+Use the same visual identity as the landing page.
+
+The cover has already been designed.
+
+The interior must contain meaningful, usable content.
+
+Do not ship an empty PDF, placeholder pages, or a cover-only document as the full resource.
+
+---
+
+# 19. GLOBAL ANIMATION DESIGN
+
+Use a coordinated system of reusable animations.
+
+### Motion types
+
+- Masked typography reveals.
+- Glass-panel depth transitions.
+- Controlled scale and translation.
+- SVG path drawing.
+- Subtle floating elements.
+- Layered perspective effects.
+- Soft opacity transitions.
+- Interactive page stacking.
+- Responsive pointer parallax.
+- Scroll-linked composition changes.
+
+### Motion principles
+
+Animations should feel precise, soft, and sophisticated.
+
+Avoid:
+
+- Exaggerated bouncing.
+- Rapid spinning.
+- Neon explosions.
+- Excessive particle effects.
+- Heavy constant blur animation.
+- Long sequences that block navigation.
+- Identical fade-up animations on every section.
+
+Keep the most complex motion concentrated in the hero and resource-preview sections.
+
+The rest of the page should support conversion with clear visual pacing.
+
+---
+
+# 20. PERFORMANCE
+
+This website should remain lightweight despite its premium appearance.
+
+Use CSS and SVG for most visual effects.
+
+Avoid a persistent 60 FPS animation loop when nothing meaningful is changing.
+
+Use requestAnimationFrame only where needed.
+
+Suspend decorative animation outside the viewport.
+
+Avoid excessive simultaneous backdrop-filter layers.
+
+Use optimized image formats.
+
+Load noncritical assets progressively.
+
+Prevent cumulative layout shifts.
+
+Do not make the primary email form dependent on a slow visual asset.
+
+The content and CTA should remain usable even if animation resources fail to load.
+
+---
+
+# 21. MOBILE DESIGN
+
+On mobile, the page should stack naturally.
+
+### Hero order
+
+1. Minimal wordmark.
+2. Eyebrow.
+3. Main headline.
+4. Supporting copy.
+5. Email capture.
+6. Interactive glass workspace.
+
+Do not place the form below a very tall decorative animation.
+
+Keep the CTA near the top.
+
+Reduce the number of simultaneously visible floating panels if necessary.
+
+Use a compact version of the workspace with large touch targets.
+
+### Resource preview
+
+Use swipe gestures or large previous/next controls.
+
+Keep page contents readable.
+
+### Motion
+
+Reduce parallax and perspective changes.
+
+Avoid horizontal overflow.
+
+Use lightweight transitions.
+
+Do not trap scrolling.
+
+---
+
+# 22. ACCESSIBILITY
+
+Support:
+
+- Semantic HTML.
+- Logical heading hierarchy.
+- Keyboard-operable workspace panels.
+- Keyboard-operable page previews.
+- Form labels and validation.
+- Accessible success feedback.
+- Visible focus states.
+- Sufficient text contrast.
+- Reduced-motion preferences.
+- Touch-friendly controls.
+- Nonanimated fallbacks.
+
+The essential value proposition and PDF form must remain clear without animations.
+
+Do not put critical information exclusively inside decorative images.
+
+---
+
+# 23. IMPLEMENTATION ORGANIZATION
+
+Use modular components.
+
+Suggested structure:
+
+**Layout**
+- LandingPage
+- MinimalHeader
+- Footer
+
+**Hero**
+- Hero
+- GlassWorkspace
+- InputPanel
+- ProcessingPanel
+- OutputPanel
+- WorkflowConnections
+- HeroAnimationController
+- DownloadForm
+
+**Sections**
+- ProblemSection
+- BenefitsSection
+- PlaybookPreview
+- HowItWorks
+- PracticalExamples
+- FAQ
+- FinalCTA
+
+**Shared**
+- GlassSurface
+- AnimatedHeading
+- ScrollReveal
+- SVGConnector
+- FormField
+- Button
+
+**Logic**
+- Workflow demo state
+- Form validation
+- Lead submission
+- Download delivery
+- Reduced-motion configuration
+
+Avoid coupling marketing animation state to form-submission state.
+
+---
+
+# 24. IMPLEMENTATION PHASES
+
+## Phase 1 — Visual foundation
+
+Create the design system, typography, backgrounds, glass surfaces, and section layout.
+
+Integrate the provided visual assets.
+
+## Phase 2 — Interactive hero
+
+Build the three-dimensional-looking glass workflow from real HTML and SVG elements.
+
+Implement the entrance timeline, connectors, pointer interactions, and stage selection.
+
+## Phase 3 — Editorial sections
+
+Build the problem, benefits, how-it-works, and credibility sections.
+
+Create their distinct scroll animations.
+
+## Phase 4 — Playbook preview
+
+Integrate the cover and actual sample pages.
+
+Implement the layered document interaction.
+
+## Phase 5 — Conversion flow
+
+Implement validation, lead-capture integration, and real PDF delivery.
+
+Do not fabricate successful submissions.
+
+## Phase 6 — Final polish
+
+Refine responsive layouts, animation timing, performance, accessibility, and scroll behavior.
+
+---
+
+# 25. FINAL ACCEPTANCE CRITERIA
+
+The website is complete when:
+
+1. It has one clear objective: downloading the AI Workflow Playbook.
+2. The hero uses a premium light glassmorphic design.
+3. The interactive workspace is constructed from real HTML, SVG, and CSS.
+4. The Input, AI Processing, and Output panels respond meaningfully to interaction.
+5. The hero entrance animation follows the planned choreography.
+6. The visual composition looks sophisticated even when stationary.
+7. The email form is immediately accessible and clearly visible.
+8. The landing page includes benefits, practical examples, resource previews, and FAQs.
+9. Each major section has deliberate, distinctive motion.
+10. The resource preview shows genuine guide content.
+11. The email capture and delivery mechanism work in production.
+12. Unconfigured integrations do not simulate successful email delivery.
+13. No fake customers, testimonials, partnerships, or performance statistics appear.
+14. The website remains fast and responsive.
+15. Mobile interactions remain comfortable and readable.
+16. Reduced-motion and accessible fallbacks work.
+17. The page does not feel like a generic SaaS template with translucent cards applied everywhere.
+
+## FINAL CREATIVE GOAL
+
+Build a landing page where glassmorphism communicates clarity, structure, and intelligent workflow design.
+
+The hero should feel like a beautiful AI workspace coming alive.
+
+The supporting sections should show visitors why structured AI workflows are useful.
+
+The resource preview should demonstrate that the free playbook contains real practical value.
+
+The email form should remain the most important action.
+
+**The guiding principle:**
+
+"Turn scattered work into clarity — and give visitors the playbook to do it themselves."
+
+Deliver a functional, responsive, visually exceptional landing page that looks premium, feels interactive, and remains focused on conversion.

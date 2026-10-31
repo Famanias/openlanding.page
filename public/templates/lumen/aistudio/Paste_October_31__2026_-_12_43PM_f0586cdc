@@ -1,0 +1,1000 @@
+# LUMEN — Technical Upgrade: Seamless Global Glassmorphic Background
+
+## PROJECT CONTEXT
+
+The LUMEN AI Workflow Playbook landing page is already implemented using React, TypeScript, CSS, GSAP, and possibly Three.js/WebGL for procedural glass backgrounds.
+
+The page contains:
+
+- An interactive glassmorphic hero.
+- A social-proof/logo strip.
+- The Problem section.
+- Benefits and workflow sections.
+- How It Works.
+- Playbook preview.
+- FAQ.
+- Final download CTA.
+- Multiple decorative glass elements, line patterns, gradients, and atmospheric effects.
+
+**This is a targeted visual architecture refactor, not a website redesign.**
+
+The existing background implementation has a noticeable continuity problem.
+
+Different sections appear to have independent backgrounds, producing horizontal seams and abrupt changes in the diagonal line pattern, lighting, and atmospheric colors.
+
+The page currently looks as though each section has its own wallpaper.
+
+We need the entire website to feel like **one continuous, luminous glass environment**, with content and visual effects layered naturally throughout it.
+
+---
+
+# 1. PRIMARY OBJECTIVE
+
+Replace the current section-specific background system with a unified, page-level atmospheric rendering system.
+
+The background must:
+
+1. Extend seamlessly behind the entire landing page.
+2. Maintain continuous decorative line geometry.
+3. Avoid abrupt background color transitions at section boundaries.
+4. Allow large glass sculptures and optical lighting effects to visually span multiple sections.
+5. Preserve LUMEN's existing light glassmorphic aesthetic.
+6. Remain responsive and performant.
+7. Work with the existing GSAP animations and WebGL effects.
+8. Preserve all current interactive UI and conversion functionality.
+
+**The background is one environment. Sections are content layered within that environment.**
+
+Do not simply hide visible seams with arbitrary blur or gradient overlays.
+
+Fix the underlying rendering and layout architecture.
+
+---
+
+# 2. INVESTIGATE THE EXISTING IMPLEMENTATION FIRST
+
+Before editing, audit the current background system.
+
+Search the codebase for:
+
+- `background`
+- `background-image`
+- `background-position`
+- `repeating-linear-gradient`
+- `linear-gradient`
+- `radial-gradient`
+- `backdrop-filter`
+- `::before`
+- `::after`
+- Section-level background components
+- WebGL canvas mounting locations
+- Background-specific GSAP timelines
+- Clipping and overflow rules
+- Z-index and stacking contexts
+
+Identify every full-width decorative background applied to individual sections.
+
+Pay particular attention to:
+
+- Hero-to-social-proof transition.
+- Social-proof-to-Problem transition.
+- How It Works section boundaries.
+- FAQ-to-final-CTA transition.
+
+The supplied screenshots show visible horizontal boundaries where diagonal patterns and atmospheric effects abruptly stop or restart.
+
+Document which components and CSS rules are responsible.
+
+Do not replace unrelated styles or remove functional visual components.
+
+---
+
+# 3. CREATE ONE GLOBAL BACKGROUND COMPONENT
+
+Introduce a dedicated component:
+
+`PageAtmosphere.tsx`
+
+Mount it **once** at the root of the landing page.
+
+Suggested structure:
+
+```tsx
+export function LandingPage() {
+  return (
+    <div className="landing-shell">
+      <PageAtmosphere />
+
+      <div className="landing-content">
+        <Hero />
+        <SocialProof />
+        <ProblemSection />
+        <BenefitsSection />
+        <HowItWorks />
+        <PlaybookPreview />
+        <FAQ />
+        <FinalCTA />
+        <Footer />
+      </div>
+    </div>
+  );
+}
+```
+
+The global atmosphere component owns all shared decorative elements.
+
+Its responsibilities include:
+
+- Base environmental color.
+- Continuous diagonal line texture.
+- Global ambient lighting.
+- Large refractive glass shapes.
+- Soft optical highlights.
+- Optional procedural WebGL effects.
+- Subtle environmental animation.
+
+Content sections must not independently recreate these effects.
+
+Maintain one shared coordinate system for the decorative environment.
+
+---
+
+# 4. ESTABLISH A CLEAR LAYERING ARCHITECTURE
+
+Use a consistent stacking model.
+
+Recommended hierarchy:
+
+```text
+LANDING SHELL
+│
+├── GLOBAL ATMOSPHERE
+│   ├── Base background
+│   ├── Continuous line field
+│   ├── Large atmospheric lighting
+│   ├── Procedural glass composition
+│   └── Optional subtle noise
+│
+└── CONTENT
+    ├── Hero
+    ├── Social proof
+    ├── Problem
+    ├── Benefits
+    ├── How it works
+    ├── Playbook preview
+    ├── FAQ
+    └── Final CTA
+```
+
+The global atmosphere should be behind all content.
+
+Section content must remain independently interactive.
+
+No global background element should intercept pointer events.
+
+### Suggested foundational CSS
+
+Adapt these selectors to the existing codebase.
+
+```css
+.landing-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  background: #f8f9fc;
+}
+
+.page-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: clip;
+}
+
+.landing-content {
+  position: relative;
+  z-index: 1;
+}
+
+.landing-section {
+  position: relative;
+  background: transparent;
+}
+```
+
+Important:
+
+- The atmosphere must stretch with the actual landing-page content height.
+- Do not assign it a hardcoded pixel height.
+- Do not assign each section a separate atmosphere.
+- Ensure the content layer remains above the background.
+- Avoid negative z-index values that place the background behind the document body.
+- Do not place the background inside a parent that unexpectedly clips it to one section.
+
+Preserve semantic HTML and normal document scrolling.
+
+---
+
+# 5. FIX THE DIAGONAL LINE PATTERN
+
+The existing diagonal lines are one of the primary causes of the visible seams.
+
+They currently appear to restart at section boundaries.
+
+Move the pattern into a single global texture layer.
+
+### Requirements
+
+The lines must:
+
+- Use one common origin.
+- Maintain consistent angle.
+- Maintain consistent spacing.
+- Maintain consistent thickness.
+- Continue across every section boundary.
+- Avoid independent section-level repetition.
+- Avoid changes in opacity at arbitrary section edges.
+
+### Suggested implementation
+
+```css
+.page-atmosphere__lines {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    repeating-linear-gradient(
+      112deg,
+      transparent 0,
+      transparent 150px,
+      rgba(130, 145, 180, 0.045) 150px,
+      rgba(130, 145, 180, 0.045) 151px,
+      transparent 151px,
+      transparent 230px
+    );
+
+  background-position: 0 0;
+  pointer-events: none;
+}
+```
+
+Treat these values as starting points.
+
+The final result should use very subtle lines.
+
+The lines must be decorative rather than visually dominant.
+
+### Critical rule
+
+Do not reapply the same repeating gradient to every section.
+
+Even if two sections use identical gradient CSS, their individual background origins can cause visible discontinuities.
+
+A single page-level layer eliminates those local resets.
+
+### Optional variation
+
+Use a page-level opacity mask to gently reduce line visibility in text-heavy areas.
+
+However, the mask must transition smoothly over broad distances.
+
+Do not create hard horizontal fade boundaries that correspond to individual sections.
+
+The line field should feel continuous even where its intensity decreases.
+
+---
+
+# 6. UNIFY THE BASE COLOR
+
+Use one stable base color across the landing page.
+
+Recommended:
+
+`#F8F9FC`
+
+Do not alternate between subtly different off-white values for full-width section backgrounds.
+
+Even small differences can become noticeable when adjacent sections have diagonal patterns.
+
+### Section background rules
+
+Normal content sections:
+
+```css
+background: transparent;
+```
+
+Glass cards and contained surfaces may retain:
+
+- Frosted backgrounds.
+- Soft borders.
+- Backdrop blur.
+- Shadows.
+- Translucent tinting.
+
+However, these treatments must remain attached to actual components.
+
+Do not apply full-section translucent white panels simply to create contrast.
+
+### Readability
+
+If a specific section requires a calmer backdrop, add a soft local readability veil inside the content layout.
+
+The veil should:
+
+- Have feathered or gradual edges.
+- Remain contained around the relevant text area.
+- Not produce a full-width rectangular boundary.
+- Not restart the global pattern.
+- Not replace the underlying atmosphere.
+
+---
+
+# 7. REPLACE LOCAL GLOWS WITH A GLOBAL LIGHTING FIELD
+
+The current page appears to use independent pale-blue and lavender glows inside different sections.
+
+This creates visible changes in atmosphere when scrolling.
+
+Replace them with a small number of large lighting regions in the shared background.
+
+### Suggested global lighting field
+
+Use approximately three primary environmental regions.
+
+**Upper region**
+
+Soft ice-blue and lavender illumination supporting the hero.
+
+**Middle region**
+
+A nearly neutral frosted-white environment with subtle glass reflections.
+
+**Lower region**
+
+Soft champagne/lavender lighting supporting the playbook and final CTA.
+
+These should not look like separate section backgrounds.
+
+They should overlap across large vertical distances.
+
+### Implementation guidelines
+
+Position atmospheric elements using page-level coordinates.
+
+Avoid giving a glow a height exactly matching a section.
+
+Allow glows to cross section boundaries.
+
+Use broad feathering.
+
+Avoid strong radial circles that appear like obvious colored blobs.
+
+The goal is gentle illumination interacting with glass surfaces, not conventional mesh gradients.
+
+### Example structure
+
+```tsx
+function PageAtmosphere() {
+  return (
+    <div className="page-atmosphere" aria-hidden="true">
+      <div className="page-atmosphere__base" />
+      <div className="page-atmosphere__lines" />
+      <div className="page-atmosphere__lighting" />
+      <div className="page-atmosphere__glass" />
+      <div className="page-atmosphere__noise" />
+    </div>
+  );
+}
+```
+
+Actual WebGL content can be mounted within the glass layer if needed.
+
+Do not implement every layer as an expensive animated renderer.
+
+---
+
+# 8. MAKE WEBGL GLASS EFFECTS CONTINUOUS
+
+If the existing landing page uses procedural glass presets, inspect how each preset is currently mounted.
+
+The current implementation may initialize separate WebGL scenes for different sections.
+
+This can create discontinuity in:
+
+- Lighting.
+- Camera framing.
+- Refraction.
+- Background brightness.
+- Pattern geometry.
+- Animation phase.
+
+### Preferred behavior
+
+Use one coherent global optical environment.
+
+Where practical:
+
+- Reuse one shared renderer.
+- Reuse lighting and environmental configuration.
+- Maintain stable shader parameters.
+- Use a common animation clock.
+- Preserve a common visual coordinate system.
+
+Do not restart the scene whenever the visitor enters a new section.
+
+### Important distinction
+
+A global WebGL background does not require one enormous canvas whose pixel dimensions equal the entire document.
+
+A viewport-sized fixed canvas can render a continuous ambient optical environment efficiently.
+
+However, document-aligned decorative elements such as the diagonal line field should remain tied to the page coordinate system.
+
+Choose the appropriate coordinate system for each effect.
+
+### Recommended split
+
+**Document-aligned effects**
+
+- Continuous diagonal line field.
+- Large decorative shapes spanning multiple sections.
+- Page-level optical composition.
+- Structural decorative geometry.
+
+**Viewport-aligned effects**
+
+- Optional subtle shader animation.
+- Soft moving refraction.
+- Ambient environmental lighting that follows the viewport.
+
+Do not combine these coordinate systems accidentally.
+
+If fixed and absolute effects coexist, their interaction must remain visually seamless.
+
+If the WebGL background is fixed to the viewport, it should not be reset or remounted when individual sections enter or leave view.
+
+Do not allow multiple viewport-sized canvases to compete for the same background.
+
+---
+
+# 9. CONTINUOUS GLASS OBJECTS ACROSS SECTION BOUNDARIES
+
+Introduce a small number of large optical glass elements whose compositions span multiple sections.
+
+This is important for making the page feel like one continuous environment rather than a series of independent scenes.
+
+Examples:
+
+### Glass Ribbon A
+
+Begins behind the hero's interactive workflow.
+
+Its translucent curvature extends visually toward the Problem section.
+
+### Glass Sheet B
+
+A broad frosted architectural surface appears across the middle of the page.
+
+Its edges overlap the visual space associated with Benefits and How It Works.
+
+### Glass Halo C
+
+A large, subtle optical form appears behind the playbook preview and final conversion region.
+
+These are broad compositional anchors.
+
+Do not fill the entire page with glass objects.
+
+Keep enough negative space for readable content.
+
+### Technical requirement
+
+Mount these objects in the shared atmosphere component.
+
+Do not mount separate full-width background versions inside each corresponding section.
+
+Use document-space positions or a deliberately designed mapping from document coordinates to viewport space.
+
+If section heights change after responsive layout adjustments, recalculate or update the positions of document-anchored decorative objects.
+
+Avoid hardcoding positions that only work at one screen resolution.
+
+---
+
+# 10. HANDLE SCROLL ANIMATION CORRECTLY
+
+The landing page already uses scroll-triggered animation.
+
+Preserve those interactions.
+
+However, background movement should not be driven by separate unrelated section timelines.
+
+### Preferred implementation
+
+Use one global environmental motion controller.
+
+It may receive normalized scroll progress or current scroll position.
+
+Use that value to produce subtle changes in:
+
+- Refraction strength.
+- Glass layer parallax.
+- Lighting orientation.
+- Highlight positions.
+- Optical surface displacement.
+
+Do not allow background elements to abruptly reset when a new section becomes active.
+
+### GSAP integration
+
+If GSAP ScrollTrigger is already present:
+
+- Reuse the existing scroll synchronization.
+- Maintain a single consistent scroll source.
+- Avoid creating one persistent background timeline for every section.
+- Clean up listeners and animation contexts.
+- Refresh measurements when content dimensions change.
+- Ensure reverse scrolling produces coherent visual states.
+
+If Lenis is present, coordinate it with ScrollTrigger.
+
+Do not create competing smooth-scroll engines.
+
+### Animation intensity
+
+The environment should move much more slowly than foreground content.
+
+Foreground cards, headings, and diagrams may have their existing entrance animations.
+
+The background should feel calm and spatially stable.
+
+---
+
+# 11. REMOVE HARD SECTION BOUNDARIES
+
+Inspect every full-width section transition.
+
+Look for:
+
+- Full-width borders.
+- Background-color changes.
+- `::before` or `::after` strips.
+- Gradient masks ending at section boundaries.
+- Hard-edged pseudo-elements.
+- Clipped decorative SVG layers.
+- Accidental one-pixel gaps.
+- Viewport-width elements that do not match their parent.
+- Sticky containers with separate backdrops.
+
+Remove any unintended boundary.
+
+### Important
+
+Do not eliminate intentional borders on cards, forms, or navigation elements.
+
+The problem concerns full-width atmospheric discontinuities.
+
+A glass card can have a visible boundary.
+
+The entire page background should not.
+
+### FAQ
+
+Retain the FAQ's contained glass accordion surfaces.
+
+Remove any full-width decorative backdrop that makes the FAQ look like an isolated chapter.
+
+### Final CTA
+
+Keep the final CTA visually important.
+
+It may have:
+
+- A stronger glass sculpture.
+- A larger local halo.
+- More generous whitespace.
+- Increased optical depth.
+
+But these must sit within the shared environmental system.
+
+Do not add a separate rectangular background that visibly starts at the CTA boundary.
+
+---
+
+# 12. MAKE THE TRANSITIONS VISUALLY COHERENT
+
+Review the boundaries specifically shown in the screenshots.
+
+## Transition A — Hero to Social Proof
+
+The hero glass environment should gradually calm as the page moves toward the social-proof area.
+
+The diagonal pattern continues uninterrupted.
+
+No new local background should begin.
+
+The content may change density and layout, but the environment remains the same.
+
+## Transition B — Social Proof to Problem
+
+The Problem section should appear naturally over the same shared background.
+
+If it contains an oversized decorative glass shape, the shape should enter over the existing atmospheric field.
+
+Do not restart the diagonal stripes beneath it.
+
+## Transition C — Workflow to How It Works
+
+This region should feel like the visitor is continuing through one luminous workspace.
+
+Maintain the same underlying texture and lighting behavior.
+
+Avoid switching from strong stripes to blank white through a hard horizontal boundary.
+
+## Transition D — FAQ to Final CTA
+
+The current screenshot shows a particularly noticeable change in backdrop.
+
+Remove that abrupt visual restart.
+
+Allow the final CTA's large optical halo to begin softly above the CTA section and continue behind its content.
+
+The transition should be gradual.
+
+No obvious horizontal line should indicate where one decorative background ends and another begins.
+
+---
+
+# 13. RESPONSIVE BACKGROUND BEHAVIOR
+
+A global background needs responsive composition rules.
+
+### Desktop
+
+Maintain broad glass shapes and atmospheric lighting.
+
+Preserve large negative spaces.
+
+### Tablet
+
+Reposition optical elements so they do not interfere with narrower content layouts.
+
+Maintain a consistent line pattern.
+
+### Mobile
+
+Reduce decorative complexity.
+
+Use fewer visible large glass shapes.
+
+Keep the primary email form readable.
+
+Avoid overly dense line patterns.
+
+Keep the global surface continuous even as sections become much taller.
+
+### Critical mobile issue
+
+Do not calculate background geometry only once at initial page load.
+
+Fonts, images, responsive stacking, and content expansion can change the total document height.
+
+Use robust layout measurements where necessary.
+
+Avoid expensive continuous resize observers if CSS positioning can solve the problem.
+
+Preserve visual continuity during orientation changes.
+
+---
+
+# 14. PERFORMANCE REQUIREMENTS
+
+The new shared background must not negatively affect performance.
+
+### CSS
+
+Avoid applying backdrop-filter to entire full-width sections.
+
+Use it primarily on individual glass components.
+
+Avoid unnecessary stacking contexts and repeated large blur filters.
+
+### WebGL
+
+If WebGL is used:
+
+- Prefer one background renderer.
+- Avoid unnecessary extra canvases.
+- Use shared geometry and materials.
+- Keep device pixel ratio reasonable.
+- Reduce shader quality on low-powered devices.
+- Avoid per-frame resource allocations.
+- Handle context loss safely.
+- Dispose of unused GPU resources.
+
+### Animation
+
+Reduce unnecessary background updates when the page is not visible.
+
+Use a single animation clock where possible.
+
+Do not continuously recalculate full document layout in every animation frame.
+
+### Fallback
+
+If WebGL is unavailable, the CSS background should still create one continuous, attractive glassmorphic environment.
+
+Do not fall back to separately applied gradients on each section.
+
+---
+
+# 15. REDUCED MOTION AND ACCESSIBILITY
+
+Respect `prefers-reduced-motion`.
+
+When reduced motion is enabled:
+
+- Stop continuous background deformation.
+- Disable pointer-driven glass movement if necessary.
+- Use static optical forms.
+- Keep the continuous diagonal line field.
+- Preserve the same overall composition.
+
+The background must remain decorative.
+
+Use `aria-hidden="true"` for purely visual elements.
+
+Ensure the canvas does not intercept pointer or keyboard interactions.
+
+Keep foreground contrast sufficient across the entire page.
+
+The visual continuity upgrade must not make the landing page harder to use.
+
+---
+
+# 16. CODE ORGANIZATION
+
+Suggested organization:
+
+```text
+src/
+  components/
+    background/
+      PageAtmosphere.tsx
+      AtmosphericLighting.tsx
+      ContinuousLineField.tsx
+      GlassComposition.tsx
+      GlassBackgroundCanvas.tsx
+      BackgroundMotionController.ts
+      background.config.ts
+
+  styles/
+    tokens.css
+    atmosphere.css
+    sections.css
+```
+
+Adapt to the existing project architecture.
+
+Do not create unnecessary files simply to match this example.
+
+Responsibilities should remain clear.
+
+### PageAtmosphere
+
+Owns the shared background.
+
+### ContinuousLineField
+
+Draws the single page-wide line texture.
+
+### AtmosphericLighting
+
+Handles global soft illumination.
+
+### GlassComposition
+
+Positions large optical elements in the shared environment.
+
+### BackgroundMotionController
+
+Coordinates optional environmental animation without interfering with content timelines.
+
+### Section components
+
+Render content and local visual elements, not separate global backgrounds.
+
+---
+
+# 17. IMPLEMENTATION STEPS
+
+Follow this order.
+
+## Step 1 — Background audit
+
+Identify and document every current full-section background source.
+
+Determine which rules cause the visible seams.
+
+## Step 2 — Shared page shell
+
+Create the global atmosphere container and content stacking system.
+
+Verify it covers the full landing page.
+
+## Step 3 — Move the diagonal line field
+
+Create one continuous pattern.
+
+Remove duplicated section-level patterns.
+
+Verify the diagonal lines no longer restart at boundaries.
+
+## Step 4 — Normalize section backgrounds
+
+Make standard sections transparent.
+
+Preserve contained glass cards and readable content surfaces.
+
+Remove unintended full-width fills.
+
+## Step 5 — Unify the lighting
+
+Move section-level decorative glows to the shared environment.
+
+Use a few broad lighting regions that overlap across the document.
+
+## Step 6 — Consolidate WebGL backgrounds
+
+Where applicable, reuse the existing renderer and optical-material system.
+
+Avoid remounting the background for each section.
+
+Maintain consistent lighting and animation time.
+
+## Step 7 — Reposition large glass shapes
+
+Place major optical decorations using page-level positions.
+
+Make them visually bridge neighboring sections.
+
+## Step 8 — Preserve content animations
+
+Ensure existing hero, workflow, resource-preview, and FAQ interactions continue working.
+
+Do not refactor unrelated business logic.
+
+## Step 9 — Responsive polish
+
+Test desktop, tablet, and mobile layouts.
+
+Adjust optical composition without breaking global continuity.
+
+## Step 10 — Visual regression and performance testing
+
+Capture screenshots across all section transitions.
+
+Inspect the seams at multiple viewport widths and scroll positions.
+
+Verify normal scrolling, forms, and animations still work.
+
+---
+
+# 18. TESTING CHECKLIST
+
+## Visual continuity
+
+- No horizontal atmospheric seams.
+- No stripe-pattern restarts.
+- No abrupt full-width color changes.
+- No glow effects visibly cut off at section boundaries.
+- No isolated background panels behind standard sections.
+- No unexpected gaps between sections.
+- No clipping of page-level glass forms.
+- Background remains coherent during reverse scrolling.
+
+## Technical behavior
+
+- One global background owner.
+- No duplicated section-level stripe fields.
+- No duplicated global WebGL canvases.
+- Correct stacking and pointer behavior.
+- No unnecessary layout shifts.
+- No broken ScrollTrigger animations.
+- No background remounting during section transitions.
+
+## Responsive behavior
+
+- Seamless desktop scrolling.
+- Seamless mobile scrolling.
+- No horizontal overflow.
+- No background clipping after responsive stacking.
+- Appropriate visual detail at different viewport sizes.
+
+## Functional regression
+
+- Hero interactions work.
+- Email form works.
+- Download CTA works according to its configured integration.
+- Workflow panel interactions work.
+- Playbook preview works.
+- FAQ accordions work.
+- Navigation and anchors work.
+
+---
+
+# 19. VISUAL QUALITY TARGET
+
+The entire page should resemble one continuous premium glass environment.
+
+As visitors scroll, they encounter different content compositions while the underlying visual world remains spatially coherent.
+
+The background should have:
+
+- Subtle diagonal architectural texture.
+- A stable near-white surface.
+- Large soft environmental illumination.
+- Refined translucent glass sculptures.
+- Delicate optical reflections.
+- Subtle motion and depth.
+- No hard decorative section boundaries.
+
+The effect should be sophisticated rather than distracting.
+
+### What to avoid
+
+Do not:
+
+- Apply the same background gradient separately to each section.
+- Mask seams with oversized opaque overlays.
+- Introduce random new colors per section.
+- Restart procedural animations at section boundaries.
+- Create one independent WebGL canvas per section.
+- Add excessive full-page blur.
+- Move the diagonal pattern independently in different sections.
+- Remove all decorative detail merely to hide the issue.
+- Change the established brand palette.
+- Rebuild unrelated landing-page components.
+
+---
+
+# 20. ACCEPTANCE CRITERIA
+
+Consider the upgrade complete only when:
+
+1. The entire landing page uses a single continuous atmospheric background.
+2. The diagonal line pattern has one stable origin.
+3. The visible horizontal background seams from the supplied screenshots are eliminated.
+4. Large glass forms can visually span multiple content sections.
+5. All standard sections sit above the shared environment.
+6. The FAQ and CTA transition has no abrupt background reset.
+7. Existing interactive elements and animations remain functional.
+8. The background is stable during scrolling, resizing, and reverse scrolling.
+9. The page maintains consistent visual quality on mobile.
+10. Performance is at least comparable to the existing implementation.
+11. Reduced-motion and WebGL fallback behavior remain usable.
+12. Before-and-after screenshots demonstrate that the original discontinuities are resolved.
+
+---
+
+# FINAL EXPECTATION
+
+The goal is not to add more background effects.
+
+The goal is to make the existing glassmorphic background system behave like one cohesive environment.
+
+The landing page should feel as though every section exists within the same luminous space.
+
+Content changes as visitors scroll.
+
+Glass shapes and optical effects shift gently.
+
+But the overall environment never abruptly resets.
+
+**Guiding principle:**
+
+"One continuous atmosphere. Many content sections. Zero visible background seams."
+
+Implement this as a focused architectural and visual upgrade to the existing LUMEN project, preserving its current content, interactions, responsive behavior, and conversion flow.

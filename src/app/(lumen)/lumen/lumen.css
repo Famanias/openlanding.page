@@ -1,0 +1,356 @@
+@import "tailwindcss";
+
+:root {
+  --bg-primary: #F8F9FC;
+  --bg-secondary: #F0F3FA;
+  --text-primary: #1E2432;
+  --text-secondary: #657187;
+  --glass-border: rgba(255, 255, 255, 0.78);
+  --glass-border-strong: rgba(255, 255, 255, 0.94);
+  --glass-tint: rgba(235, 240, 255, 0.45);
+  --glass-surface: rgba(255, 255, 255, 0.62);
+  --glass-surface-elevated: rgba(255, 255, 255, 0.78);
+  --accent-lavender: #D8D0F7;
+  --accent-ice: #C9DAFA;
+  --accent-peach: #F6DCCA;
+  --btn-primary: #252C43;
+  --accent-positive: #5BA59A;
+  --glass-blur: 16px;
+  --glass-shadow: 0 20px 50px -12px rgba(30, 36, 50, 0.08), 0 4px 16px -2px rgba(30, 36, 50, 0.04);
+  --glass-shadow-elevated: 0 28px 64px -12px rgba(30, 36, 50, 0.14), 0 8px 24px -4px rgba(30, 36, 50, 0.06);
+  --glass-edge-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: clip;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Reusable Glassmorphic Surface Tokens */
+.glass-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.76) 0%,
+    rgba(244, 247, 255, 0.54) 55%,
+    rgba(235, 240, 255, 0.48) 100%
+  );
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-edge-highlight);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.glass-panel-active {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.90) 0%,
+    rgba(248, 250, 255, 0.78) 60%,
+    rgba(240, 244, 255, 0.68) 100%
+  );
+  border: 1px solid var(--glass-border-strong);
+  box-shadow: var(--glass-shadow-elevated), var(--glass-edge-highlight);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.glass-panel-subtle {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.64) 0%,
+    rgba(240, 243, 250, 0.42) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  box-shadow: 0 12px 32px -8px rgba(30, 36, 50, 0.06), inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Graceful fallback if backdrop-filter is unsupported */
+@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .glass-panel,
+  .glass-panel-active,
+  .glass-panel-subtle {
+    background: rgba(250, 251, 255, 0.96);
+  }
+}
+
+/* Global Seamless Page-Level Atmospheric System */
+.landing-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  overflow-x: clip;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.page-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: clip;
+}
+
+.page-atmosphere__base {
+  position: absolute;
+  inset: 0;
+  background-color: #F8F9FC;
+}
+
+.page-atmosphere__lines {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    112deg,
+    rgba(255, 255, 255, 0) 0px,
+    rgba(255, 255, 255, 0) 92px,
+    rgba(255, 255, 255, 0.44) 92px,
+    rgba(201, 218, 250, 0.14) 94px,
+    rgba(255, 255, 255, 0) 96px
+  );
+  background-position: 0 0;
+  opacity: 0.72;
+}
+
+.page-atmosphere__lighting {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(64% 18% at 74% 9%, rgba(216, 208, 247, 0.48) 0%, rgba(201, 218, 250, 0.34) 48%, rgba(248, 249, 252, 0) 100%),
+    radial-gradient(68% 22% at 24% 38%, rgba(201, 218, 250, 0.32) 0%, rgba(255, 255, 255, 0.55) 45%, rgba(248, 249, 252, 0) 100%),
+    radial-gradient(62% 24% at 76% 64%, rgba(216, 208, 247, 0.30) 0%, rgba(201, 218, 250, 0.24) 50%, rgba(248, 249, 252, 0) 100%),
+    radial-gradient(70% 20% at 62% 91%, rgba(246, 220, 202, 0.38) 0%, rgba(216, 208, 247, 0.34) 48%, rgba(248, 249, 252, 0) 100%);
+}
+
+.page-atmosphere__glass {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.page-atmosphere__sculpture-ribbon-a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1650px;
+  opacity: 0.85;
+}
+
+.page-atmosphere__sculpture-sheet-b {
+  position: absolute;
+  top: 1550px;
+  left: 0;
+  width: 100%;
+  height: 1950px;
+  opacity: 0.82;
+}
+
+.page-atmosphere__sculpture-halo-c {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  height: 1400px;
+  opacity: 0.85;
+}
+
+.page-atmosphere__noise {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    100% 100% at 50% 50%,
+    rgba(255, 255, 255, 0) 65%,
+    rgba(240, 243, 250, 0.24) 100%
+  );
+}
+
+.landing-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.landing-section {
+  position: relative;
+  background: transparent;
+}
+
+.refraction-border-lavender {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(216, 208, 247, 0.5), rgba(201, 218, 250, 0.5));
+}
+
+.refraction-border-peach {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(246, 220, 202, 0.55), rgba(216, 208, 247, 0.45));
+}
+
+/* 2.5D Perspective Workspace Stage */
+.workspace-perspective-stage {
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+.workspace-tilt-plane {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt-x, 2deg)) rotateY(var(--tilt-y, -4deg));
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.panel-depth-input {
+  transform: translate3d(0px, 0px, -18px) rotateY(4deg) rotateX(2deg);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+}
+
+.panel-depth-processing {
+  transform: translate3d(0px, 0px, 24px) rotateY(-2deg) rotateX(1deg);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+}
+
+.panel-depth-output {
+  transform: translate3d(0px, 0px, -8px) rotateY(-5deg) rotateX(2deg);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+}
+
+.panel-depth-focused {
+  transform: translate3d(0px, -6px, 46px) rotateY(0deg) rotateX(0deg) scale(1.02);
+}
+
+.panel-depth-recessed {
+  transform: translate3d(0px, 4px, -28px) scale(0.975);
+}
+
+/* Playbook 2.5D Document Stack */
+.playbook-stack-stage {
+  perspective: 1500px;
+  transform-style: preserve-3d;
+}
+
+.stack-card-front {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 250, 255, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 28px 64px -12px rgba(30, 36, 50, 0.14), 0 8px 24px -4px rgba(30, 36, 50, 0.06);
+  transform: translate3d(0px, 0px, 30px) rotateY(-3deg) rotateX(1deg);
+  z-index: 30;
+  opacity: 1;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.45s ease;
+}
+
+.stack-card-middle {
+  background: linear-gradient(135deg, rgba(235, 240, 255, 0.72) 0%, rgba(216, 208, 247, 0.48) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  box-shadow: 0 20px 45px -12px rgba(30, 36, 50, 0.08);
+  transform: translate3d(22px, -14px, -20px) rotateY(-5deg) rotateX(2deg) scale(0.97);
+  z-index: 20;
+  opacity: 0.9;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.45s ease;
+}
+
+.stack-card-back {
+  background: linear-gradient(135deg, rgba(201, 218, 250, 0.58) 0%, rgba(246, 220, 202, 0.48) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 16px 36px -12px rgba(30, 36, 50, 0.06);
+  transform: translate3d(44px, -28px, -60px) rotateY(-7deg) rotateX(3deg) scale(0.94);
+  z-index: 10;
+  opacity: 0.75;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.45s ease;
+}
+
+.stack-card-cover-docked {
+  transform: translate3d(-28px, 18px, -45px) rotateY(4deg) rotateX(2deg) scale(0.93);
+  z-index: 15;
+  opacity: 0.72;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+}
+
+/* SVG Signal Pulse Keyframes */
+@keyframes signalFlow {
+  0% {
+    stroke-dashoffset: 240;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.svg-signal-line {
+  stroke-dasharray: 18 222;
+  animation: signalFlow 3.4s linear infinite;
+}
+
+.svg-signal-line-delayed {
+  stroke-dasharray: 18 222;
+  animation: signalFlow 3.4s linear infinite;
+  animation-delay: 1.6s;
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 6.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .workspace-tilt-plane,
+  .panel-depth-input,
+  .panel-depth-processing,
+  .panel-depth-output,
+  .panel-depth-focused,
+  .panel-depth-recessed,
+  .stack-card-front,
+  .stack-card-middle,
+  .stack-card-back {
+    transform: none !important;
+  }
+}
+
+/* Oversized signature over the full-bleed footer artwork. */
+.lumen-footer-wordmark {
+  font-size: clamp(5rem, 19vw, 16rem);
+  font-weight: 700;
+  letter-spacing: -0.075em;
+  line-height: 0.9;
+  color: #1E2432;
+}
+
+/* Keep the footer sculpture in the same slow, scroll-responsive atmosphere. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .lumen-footer-glass {
+      animation: lumen-footer-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+@keyframes lumen-footer-drift {
+  from { transform: translate3d(0, 5%, 0); }
+  to { transform: translate3d(0, -5%, 0); }
+}

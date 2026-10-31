@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600">
+<defs>
+ <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbfcff"/><stop offset=".6" stop-color="#f2f4fb"/><stop offset="1" stop-color="#e9eff9"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".94"/><stop offset=".4" stop-color="#b4c7ff" stop-opacity=".43"/><stop offset=".73" stop-color="#e1d5ff" stop-opacity=".45"/><stop offset="1" stop-color="#ffdfd7" stop-opacity=".78"/></linearGradient>
+ <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".4" stop-color="#b3c4fa"/><stop offset="1" stop-color="#ffd8c8"/></linearGradient>
+ <radialGradient id="orb"><stop stop-color="#cfd5ff" stop-opacity=".75"/><stop offset=".6" stop-color="#e3e8ff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur in="SourceAlpha" stdDeviation="20" result="b"/><feOffset dy="24" result="o"/><feComponentTransfer in="o" result="s"><feFuncA type="linear" slope=".18"/></feComponentTransfer><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="1200" height="1600" fill="url(#paper)"/>
+<ellipse cx="760" cy="1100" rx="600" ry="600" fill="url(#orb)"/>
+<path d="M65 86 H1135 M65 1490 H1135" stroke="#cbd3e0" stroke-width="2"/>
+<text x="70" y="145" font-family="Inter,Arial,sans-serif" font-size="27" font-weight="650" fill="#313c51" letter-spacing="8">L U M E N</text>
+<text x="1130" y="145" font-family="Inter,Arial,sans-serif" font-size="21" font-weight="500" fill="#7d879b" letter-spacing="4" text-anchor="end">RESOURCE / 001</text>
+<text x="70" y="325" font-family="Inter,Arial,sans-serif" font-size="32" font-weight="600" fill="#8a94b3" letter-spacing="8">THE PRACTICAL GUIDE</text>
+<text x="65" y="435" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="108" fill="#222c3d" letter-spacing="-4">AI WORKFLOW</text>
+<text x="65" y="550" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="108" fill="#222c3d" letter-spacing="-4">PLAYBOOK</text>
+<text x="70" y="627" font-family="Inter,Arial,sans-serif" font-size="33" fill="#66728c">A step-by-step system for turning</text>
+<text x="70" y="675" font-family="Inter,Arial,sans-serif" font-size="33" fill="#66728c">repetitive tasks into practical AI workflows.</text>
+<g filter="url(#shadow)" transform="translate(36 60)">
+ <g transform="rotate(-22 580 1080)"><rect x="205" y="785" width="720" height="515" rx="90" fill="url(#glass)" stroke="url(#edge)" stroke-width="12"/><rect x="240" y="820" width="650" height="445" rx="65" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-opacity=".8" stroke-width="5"/></g>
+ <g transform="rotate(19 690 1130)"><rect x="345" y="825" width="710" height="485" rx="84" fill="url(#glass)" stroke="url(#edge)" stroke-width="11"/><rect x="380" y="860" width="640" height="415" rx="60" fill="#fff" fill-opacity=".12" stroke="#fff" stroke-opacity=".8" stroke-width="5"/></g>
+ <path d="M217 1110 C310 927 540 878 674 995 C782 1090 733 1225 875 1262" fill="none" stroke="#fff" stroke-opacity=".77" stroke-width="26" stroke-linecap="round"/>
+ <path d="M277 1170 C392 945 578 1002 700 1077 C831 1155 790 1281 972 1285" fill="none" stroke="#a1aeff" stroke-opacity=".28" stroke-width="24" stroke-linecap="round"/>
+</g>
+<text x="70" y="1455" font-family="Inter,Arial,sans-serif" font-size="24" letter-spacing="2" fill="#64718a">MAP  /  AUTOMATE  /  REVIEW  /  IMPROVE</text>
+<text x="1130" y="1535" font-family="Inter,Arial,sans-serif" font-size="23" fill="#7f899c" text-anchor="end">FREE EDITION · 2026</text>
+</svg>
