@@ -556,8 +556,6 @@ export default function App() {
   left: 0;
   width: 100%;
   height: 1400px;
-  /* The sliced SVG grows wider at low zoom; let the full halo cross its viewport. */
-  overflow: visible;
   opacity: 0.85;
 }
 
@@ -6861,12 +6859,13 @@ export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
           />
         </svg>
 
-        {/* GLASS HALO C: Large elliptical optical ring beginning softly in FAQ and continuing behind Final Download CTA */}
+        {/* GLASS HALO C: Page-level ring; its sliced SVG can paint beyond the viewport at low zoom. */}
         <svg
           viewBox="0 0 1440 1400"
           fill="none"
           preserveAspectRatio="xMidYMid slice"
           className="page-atmosphere__sculpture-halo-c"
+          style={{ overflow: 'visible' }}
         >
           <defs>
             <linearGradient id="globalHaloCGrad" x1="15%" y1="10%" x2="85%" y2="90%">

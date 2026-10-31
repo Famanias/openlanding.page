@@ -34,32 +34,49 @@ test("footer glass animates near the viewport and respects reduced motion", asyn
 });
 
 
-test("the page halo continues beyond its SVG viewport when zoomed out", async ({ page }) => {
-  await page.setViewportSize({ width: 4500, height: 1700 });
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/lumen");
-  await page.locator("#final-download").scrollIntoViewIfNeeded();
-  await page.addStyleTag({
-    content: ".landing-content, .page-atmosphere__glass > :not(.page-atmosphere__sculpture-halo-c) { visibility: hidden !important; }",
+test("the page halo stays continuous at extreme zoom", async ({ browser, baseURL }) => {
+  test.setTimeout(60_000);
+  const context = await browser.newContext({
+    baseURL,
+    viewport: { width: 7600, height: 2400 },
+    deviceScaleFactor: 0.25,
+    reducedMotion: "reduce",
   });
+  const page = await context.newPage();
+  try {
+    await page.goto("/lumen");
+    await page.locator("#final-download").scrollIntoViewIfNeeded();
+    await page.addStyleTag({
+      content: ".landing-content, .page-atmosphere__glass > :not(.page-atmosphere__sculpture-halo-c) { visibility: hidden !important; }",
+    });
+    await page.waitForTimeout(500);
 
-  await page.waitForTimeout(500);
-  const halo = page.locator(".page-atmosphere__sculpture-halo-c");
-  const box = await halo.boundingBox();
-  expect(box).not.toBeNull();
-  if (!box) return;
-  const clip = { x: 0, y: Math.max(0, Math.floor(box.y) - 250), width: 4500, height: 240 };
-  const withHalo = await sharp(await page.screenshot({ clip })).removeAlpha().raw().toBuffer();
-  await halo.evaluate((element) => (element as SVGElement).style.setProperty("display", "none", "important"));
-  await page.waitForTimeout(500);
-  const withoutHalo = await sharp(await page.screenshot({ clip })).removeAlpha().raw().toBuffer();
+    const halo = page.locator(".page-atmosphere__sculpture-halo-c");
+    const box = await halo.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+    const clip = { x: 0, y: Math.max(0, Math.floor(box.y) - 650), width: 7600, height: 640 };
+    const capture = async () => sharp(await page.screenshot({ clip })).removeAlpha().raw().toBuffer();
+    const visible = await capture();
+    await halo.evaluate((element) => (element as SVGElement).style.setProperty("overflow", "hidden"));
+    await page.waitForTimeout(500);
+    const clipped = await capture();
+    await halo.evaluate((element) => (element as SVGElement).style.setProperty("display", "none", "important"));
+    await page.waitForTimeout(500);
+    const withoutHalo = await capture();
 
-  let changedPixels = 0;
-  for (let i = 0; i < withHalo.length; i += 3) {
-    const difference = Math.abs(withHalo[i] - withoutHalo[i])
-      + Math.abs(withHalo[i + 1] - withoutHalo[i + 1])
-      + Math.abs(withHalo[i + 2] - withoutHalo[i + 2]);
-    if (difference > 6) changedPixels++;
+    let visiblePixels = 0;
+    let clippedPixels = 0;
+    for (let i = 0; i < visible.length; i += 3) {
+      const difference = (image: Buffer) => Math.abs(image[i] - withoutHalo[i])
+        + Math.abs(image[i + 1] - withoutHalo[i + 1])
+        + Math.abs(image[i + 2] - withoutHalo[i + 2]);
+      if (difference(visible) > 6) visiblePixels++;
+      if (difference(clipped) > 6) clippedPixels++;
+    }
+    expect(visiblePixels).toBeGreaterThan(100);
+    expect(clippedPixels).toBe(0);
+  } finally {
+    await context.close();
   }
-  expect(changedPixels).toBeGreaterThan(100);
 });
