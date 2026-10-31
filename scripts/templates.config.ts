@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
+export type TemplateSlug = "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "parallel";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,20 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  parallel: {
+    palette: [
+      "#0B0C0E", "#101315", "#12141A", "#14171C", "#171A1C", "#181B20",
+      "#24282B", "#2B303A", "#2D8A61", "#38BDF8", "#666D70", "#6E6E6E",
+      "#808080", "#9CA3AF", "#D44D27", "#D94E3E", "#D99B26", "#D9C39E",
+      "#E05A47", "#E85D36", "#E8E8E3", "#EFECE6", "#F4F1EA", "#F6F5F1",
+      "#FF5522", "#FF6B42", "#FFE4B5",
+    ],
+    paletteExempt: [
+      "src/app/(parallel)/parallel/rendering/",
+      "src/app/(parallel)/parallel/world/",
+    ],
+    mediaExempt: true,
+  },
   lumen: {
     palette: [
       "#1E2432", "#252C43", "#5B8DEF", "#5BA59A", "#657187", "#8E7CE8",
