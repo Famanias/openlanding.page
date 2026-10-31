@@ -177,8 +177,6 @@ export default function App() {
     setLastSubmitTimestamp(null);
   };
 
-  const [isHeroActive, setIsHeroActive] = useState<boolean>(true);
-
   if (isStudioOpen) {
     return (
       <GlassStudio
@@ -196,15 +194,11 @@ export default function App() {
     <div ref={landingRootRef} className="landing-shell">
       <SmoothScroll />
       <a className="lm-skip" href="#lumen-content">Skip to content</a>
-      <LumenMotion
-        rootRef={landingRootRef}
-        onHeroActivityChange={setIsHeroActive}
-      />
+      <LumenMotion rootRef={landingRootRef} />
       {/* Single Root-Level Global Atmospheric & Optical Glass Layer */}
       <PageAtmosphere
         activePreset={activeHeroPreset}
         customConfig={customHeroConfig}
-        isHeroActive={isHeroActive}
       />
 
       <div className="landing-content">
@@ -431,6 +425,41 @@ export default function App() {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+/* Artwork is owned by the entire page, never by an individual section. */
+.page-atmosphere__viewport {
+  position: fixed;
+  inset: -12svh -6vw;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.page-atmosphere__artwork-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.page-atmosphere__glass > svg,
+.page-atmosphere__artwork-wrapper > svg {
+  overflow: visible;
+}
+
+.page-atmosphere__glass > .lumen-footer-glass {
+  bottom: -8px;
+  right: -6%;
+  width: 85%;
+  height: clamp(560px, 50vw, 900px);
+  z-index: 1;
+}
+
+@media (max-width: 767px) {
+  .page-atmosphere__glass > .lumen-footer-glass {
+    right: -35%;
+    width: 160%;
+    height: 640px;
+  }
 }
 
 .page-atmosphere__sculpture-ribbon-a {
@@ -857,13 +886,13 @@ export default function App() {
 @keyframes lm-trace { from { stroke-dashoffset: 620; } to { stroke-dashoffset: 0; } }
 @keyframes lm-content-in { from { opacity: 0.25; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-.lm-page-sheet { position: relative; z-index: 5; background: color-mix(in srgb, #F8F9FC 97%, transparent); border-radius: 40px 40px 0 0; box-shadow: 0 -24px 80px color-mix(in srgb, #252C43 4%, transparent); padding-top: 1px; }
-.lm-workflow-ribbon { overflow: hidden; border-radius: 40px 40px 0 0; background: #252C43; color: #FFFFFF; padding: 26px 0; }
+.lm-page-sheet { position: relative; z-index: 5; background: transparent; border-radius: 40px 40px 0 0; padding-top: 1px; }
+.lm-workflow-ribbon { overflow: hidden; border-radius: 40px 40px 0 0; background: transparent; color: #252C43; padding: 26px 0; }
 .lm-workflow-ribbon__track { display: flex; width: max-content; animation: lm-ribbon-travel 38s linear infinite; }
 .lm-workflow-ribbon__group { display: flex; flex-shrink: 0; gap: 48px; padding-right: 48px; }
 .lm-workflow-ribbon__group > span { display: inline-flex; align-items: center; gap: 16px; font-size: clamp(18px, 2vw, 28px); font-weight: 450; letter-spacing: -0.02em; white-space: nowrap; }
-.lm-workflow-ribbon__group svg { width: 20px; height: 20px; fill: none; stroke: #D8D0F7; stroke-width: 1.1; margin-left: 24px; }
-.lm-ribbon-mark { width: 16px; height: 16px; display: block; border-radius: 4px; border: 1px solid #D8D0F7; transform: rotate(45deg); }
+.lm-workflow-ribbon__group svg { width: 20px; height: 20px; fill: none; stroke: #8E7CE8; stroke-width: 1.1; margin-left: 24px; }
+.lm-ribbon-mark { width: 16px; height: 16px; display: block; border-radius: 4px; border: 1px solid #8E7CE8; transform: rotate(45deg); }
 .lm-ribbon-mark--1 { border-radius: 50%; background: #D8D0F7; }
 .lm-ribbon-mark--2 { border-radius: 2px; border-color: #C9DAFA; }
 .lm-ribbon-mark--3 { border-radius: 50% 50% 2px 2px; background: #5BA59A; border-color: #5BA59A; }
@@ -888,17 +917,17 @@ export default function App() {
 .lm-page-sheet .landing-section > div > .max-w-2xl > p.font-mono:first-child,
 .lm-page-sheet .landing-section > div > div:first-child > .max-w-2xl > p.font-mono:first-child { display: none; }
 
-#the-problem { margin: 0 var(--lm-gutter); border-radius: 32px; background: #252C43; overflow: clip; }
+#the-problem { margin: 0 var(--lm-gutter); border-radius: 32px; background: transparent; overflow: clip; }
 #the-problem > div { padding-inline: clamp(24px, 4vw, 64px); }
-#the-problem h2 { color: #FFFFFF; }
-#the-problem > div > div:first-child p { color: #CBD5E1; }
-#the-problem > div > div:first-child > div:last-child { background: color-mix(in srgb, #FFFFFF 10%, transparent); border-color: color-mix(in srgb, #FFFFFF 20%, transparent); box-shadow: none; }
-#the-problem > div > div:first-child button { color: #CBD5E1; }
+#the-problem h2 { color: #1E2432; }
+#the-problem > div > div:first-child p { color: #657187; }
+#the-problem > div > div:first-child > div:last-child { background: color-mix(in srgb, #FFFFFF 65%, transparent); border-color: color-mix(in srgb, #657187 15%, transparent); box-shadow: none; }
+#the-problem > div > div:first-child button { color: #657187; }
 #the-problem > div > div:first-child button[aria-pressed="true"] { background: #D8D0F7; color: #252C43; }
-#the-problem .lm-problem-canvas { background: color-mix(in srgb, #FFFFFF 4%, transparent); border-color: color-mix(in srgb, #FFFFFF 10%, transparent); border-radius: 20px; box-shadow: none; overflow: visible; min-height: 340px; display: flex; flex-direction: column; justify-content: center; }
+#the-problem .lm-problem-canvas { background: transparent; border-color: color-mix(in srgb, #657187 15%, transparent); backdrop-filter: none; -webkit-backdrop-filter: none; border-radius: 20px; box-shadow: none; overflow: visible; min-height: 340px; display: flex; flex-direction: column; justify-content: center; }
 #the-problem .lm-fragment { border: 1px solid color-mix(in srgb, #FFFFFF 80%, transparent); background: #F8F9FC; box-shadow: 0 16px 32px color-mix(in srgb, #1E2432 18%, transparent); min-height: 185px; transition: transform 800ms var(--lm-ease), background 300ms var(--lm-ease); }
-#the-problem .lm-problem-canvas > div:last-child { color: #CBD5E1; border-color: color-mix(in srgb, #FFFFFF 15%, transparent); }
-#the-problem .lm-problem-canvas > div:last-child > span:last-child { color: #CBD5E1; }
+#the-problem .lm-problem-canvas > div:last-child { color: #657187; border-color: color-mix(in srgb, #657187 15%, transparent); }
+#the-problem .lm-problem-canvas > div:last-child > span:last-child { color: #657187; }
 #benefits .lm-benefits-grid { perspective: 1400px; }
 .lm-hover-card { position: relative; transform-style: preserve-3d; transition: transform 550ms var(--lm-ease), box-shadow 550ms var(--lm-ease), opacity 400ms var(--lm-ease); }
 .lm-hover-card::after, .lm-cover::after { content: ""; pointer-events: none; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at var(--lm-light-x, 50%) var(--lm-light-y, 30%), color-mix(in srgb, #FFFFFF 85%, transparent), transparent 60%); opacity: 0; transition: opacity 400ms var(--lm-ease); }
@@ -906,7 +935,7 @@ export default function App() {
 .lm-hover-card > div:last-child > svg { transition: transform 650ms var(--lm-ease); }
 .lm-hover-card:nth-child(2) { background: color-mix(in srgb, #D8D0F7 30%, #FFFFFF); }
 .lm-hover-card:nth-child(3) { background: color-mix(in srgb, #C9DAFA 35%, #FFFFFF); }
-#inside-playbook { background: #EFF3FA; border-radius: 40px; margin-inline: 16px; overflow: clip; }
+#inside-playbook { background: transparent; border-radius: 40px; margin-inline: 16px; overflow: clip; }
 .lm-cover { isolation: isolate; backdrop-filter: none; -webkit-backdrop-filter: none; transition: transform 650ms var(--lm-ease), box-shadow 650ms var(--lm-ease); transform: perspective(1000px) translateZ(60px) rotateX(var(--lm-rx, 0deg)) rotateY(calc(-8deg + var(--lm-ry, 0deg))) rotate(-4deg); }
 .playbook-stack-stage { perspective: 1800px; }
 .playbook-stack-grid > [role="tabpanel"] { transition: transform 650ms var(--lm-ease), opacity 500ms var(--lm-ease), box-shadow 500ms var(--lm-ease); transform-origin: 15% 70%; }
@@ -938,7 +967,7 @@ export default function App() {
 .lm-faq-answer > div { overflow: hidden; }
 .lm-faq-answer p { padding-top: 16px; padding-right: 44px; font-size: 13px; line-height: 1.8; color: #657187; }
 #final-download { padding-bottom: 80px; }
-#final-download > div > div { padding: clamp(32px, 5vw, 80px); border-radius: 32px; background: color-mix(in srgb, #FFFFFF 70%, #D8D0F7); }
+#final-download > div > div { padding: clamp(32px, 5vw, 80px); border-radius: 32px; background: transparent; border-color: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
 #final-download h2 { font-size: clamp(40px, 4.5vw, 64px); }
 #final-download .lm-final-cover { transition: transform 650ms var(--lm-ease); transform: rotate(5deg); }
 .lm-form-surface { transition: border-color 300ms var(--lm-ease), box-shadow 300ms var(--lm-ease), background 300ms var(--lm-ease); }
@@ -1886,7 +1915,6 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
     </file>
     <file path="src/app/(lumen)/lumen/components/Footer.tsx">
 <![CDATA[import React from 'react';
-import { FooterGlass } from './FooterGlass';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 
 interface FooterProps {
@@ -1899,8 +1927,6 @@ const footerLinkClass =
 export const Footer: React.FC<FooterProps> = ({ onOpenGlassStudio }) => {
   return (
     <footer className="relative isolate overflow-clip text-[#1E2432]">
-      <FooterGlass />
-
       <div className="mx-auto max-w-[1280px] px-6 pt-16 sm:px-10 sm:pt-20">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-6">
@@ -6590,17 +6616,14 @@ export function generateReactComponentSnippet(config: GlassPresetConfig): string
     <file path="src/app/(lumen)/lumen/motion/LumenMotion.tsx">
 <![CDATA['use client';
 
-import { useEffect, useRef, type RefObject } from 'react';
+import { useEffect, type RefObject } from 'react';
 import { scrollToLumen } from './scroll';
 
 interface LumenMotionProps {
   rootRef: RefObject<HTMLDivElement | null>;
-  onHeroActivityChange?: (active: boolean) => void;
 }
 
-export function LumenMotion({ rootRef, onHeroActivityChange }: LumenMotionProps) {
-  const callbackRef = useRef(onHeroActivityChange);
-  useEffect(() => { callbackRef.current = onHeroActivityChange; }, [onHeroActivityChange]);
+export function LumenMotion({ rootRef }: LumenMotionProps) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -6641,10 +6664,6 @@ export function LumenMotion({ rootRef, onHeroActivityChange }: LumenMotionProps)
       for (const entry of entries) (entry.target as HTMLElement).dataset.lmPlaying = String(entry.isIntersecting);
     });
     root.querySelectorAll('[data-lm-ambient]').forEach((el) => ambient.observe(el));
-    const heroObserver = new IntersectionObserver(([entry]) => {
-      if (entry) callbackRef.current?.(entry.isIntersecting);
-    }, { rootMargin: '200px' });
-    if (hero) heroObserver.observe(hero);
 
     const measure = () => {
       const y = scrollY;
@@ -6769,7 +6788,7 @@ export function LumenMotion({ rootRef, onHeroActivityChange }: LumenMotionProps)
     return () => {
       disposed = true;
       cancelAnimationFrame(frame); cancelAnimationFrame(hoverFrame);
-      reveal.disconnect(); ambient.disconnect(); heroObserver.disconnect(); sizes.disconnect();
+      reveal.disconnect(); ambient.disconnect(); sizes.disconnect();
       removeEventListener('scroll', schedule); removeEventListener('resize', resize);
       root.removeEventListener('click', click); root.removeEventListener('focusin', settleFocus);
       root.removeEventListener('pointermove', pointer); root.removeEventListener('pointerout', pointerExit);
@@ -7621,11 +7640,11 @@ export function useBackgroundMotionController(): ScrollAtmosphereState {
 <![CDATA[import React from 'react';
 import { GlassPresetId, GlassPresetConfig } from '../../glass/glassTypes';
 import { GlassBackground } from '../GlassBackground';
+import { FooterGlass } from '../FooterGlass';
 
 interface PageAtmosphereProps {
   activePreset: GlassPresetId;
   customConfig: GlassPresetConfig | null;
-  isHeroActive?: boolean;
 }
 
 /**
@@ -7637,7 +7656,6 @@ interface PageAtmosphereProps {
 export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
   activePreset,
   customConfig,
-  isHeroActive = true,
 }) => {
   return (
     <div
@@ -7667,7 +7685,7 @@ export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
         data-testid="page-atmosphere-glass"
       >
         {/* Single Shared WebGL2 Optical Glass Renderer (Fixed to viewport, transparent outside glass silhouette so global lines & lighting remain 100% continuous) */}
-        <div className="fixed inset-0 pointer-events-none opacity-85">
+        <div className="page-atmosphere__viewport">
           <GlassBackground
             preset={activePreset}
             configOverrides={
@@ -7682,7 +7700,6 @@ export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
             transparentExport={true}
             quality="auto"
             interactive
-            paused={!isHeroActive}
           />
         </div>
 
@@ -7757,7 +7774,10 @@ export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
           </svg>
         </div>
 
-        {/* GLASS HALO C: Untouched; no transform */}
+        {/* Shared footer sculpture can paint behind adjacent sections. */}
+        <FooterGlass />
+
+        {/* GLASS HALO C: Page-level artwork; no transform */}
         <svg
           viewBox="0 0 1440 1400"
           fill="none"

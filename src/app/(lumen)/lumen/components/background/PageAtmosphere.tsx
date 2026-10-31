@@ -1,11 +1,11 @@
 import React from 'react';
 import { GlassPresetId, GlassPresetConfig } from '../../glass/glassTypes';
 import { GlassBackground } from '../GlassBackground';
+import { FooterGlass } from '../FooterGlass';
 
 interface PageAtmosphereProps {
   activePreset: GlassPresetId;
   customConfig: GlassPresetConfig | null;
-  isHeroActive?: boolean;
 }
 
 /**
@@ -17,7 +17,6 @@ interface PageAtmosphereProps {
 export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
   activePreset,
   customConfig,
-  isHeroActive = true,
 }) => {
   return (
     <div
@@ -47,7 +46,7 @@ export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
         data-testid="page-atmosphere-glass"
       >
         {/* Single Shared WebGL2 Optical Glass Renderer (Fixed to viewport, transparent outside glass silhouette so global lines & lighting remain 100% continuous) */}
-        <div className="fixed inset-0 pointer-events-none opacity-85">
+        <div className="page-atmosphere__viewport">
           <GlassBackground
             preset={activePreset}
             configOverrides={
@@ -62,7 +61,6 @@ export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
             transparentExport={true}
             quality="auto"
             interactive
-            paused={!isHeroActive}
           />
         </div>
 
@@ -137,7 +135,10 @@ export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
           </svg>
         </div>
 
-        {/* GLASS HALO C: Untouched; no transform */}
+        {/* Shared footer sculpture can paint behind adjacent sections. */}
+        <FooterGlass />
+
+        {/* GLASS HALO C: Page-level artwork; no transform */}
         <svg
           viewBox="0 0 1440 1400"
           fill="none"

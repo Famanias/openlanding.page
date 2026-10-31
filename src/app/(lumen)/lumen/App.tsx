@@ -109,8 +109,6 @@ export default function App() {
     setLastSubmitTimestamp(null);
   };
 
-  const [isHeroActive, setIsHeroActive] = useState<boolean>(true);
-
   if (isStudioOpen) {
     return (
       <GlassStudio
@@ -128,15 +126,11 @@ export default function App() {
     <div ref={landingRootRef} className="landing-shell">
       <SmoothScroll />
       <a className="lm-skip" href="#lumen-content">Skip to content</a>
-      <LumenMotion
-        rootRef={landingRootRef}
-        onHeroActivityChange={setIsHeroActive}
-      />
+      <LumenMotion rootRef={landingRootRef} />
       {/* Single Root-Level Global Atmospheric & Optical Glass Layer */}
       <PageAtmosphere
         activePreset={activeHeroPreset}
         customConfig={customHeroConfig}
-        isHeroActive={isHeroActive}
       />
 
       <div className="landing-content">

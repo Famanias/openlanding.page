@@ -1,5 +1,4 @@
 import React from 'react';
-import { FooterGlass } from './FooterGlass';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 
 interface FooterProps {
@@ -12,8 +11,6 @@ const footerLinkClass =
 export const Footer: React.FC<FooterProps> = ({ onOpenGlassStudio }) => {
   return (
     <footer className="relative isolate overflow-clip text-[#1E2432]">
-      <FooterGlass />
-
       <div className="mx-auto max-w-[1280px] px-6 pt-16 sm:px-10 sm:pt-20">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-6">

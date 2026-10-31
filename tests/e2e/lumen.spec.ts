@@ -237,3 +237,40 @@ test("static HTML keeps the headline, preview, and form readable", async ({ brow
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   } finally { await context.close(); }
 });
+
+test("background ribbon paints beyond its own frame across page sections", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/lumen");
+  const ribbon = page.locator(".page-atmosphere__sculpture-ribbon-a");
+  expect(await ribbon.evaluate((el) => el.closest("section"))).toBeNull();
+  expect(await page.getByTestId("footer-glass").evaluate((el) => el.closest("footer, section"))).toBeNull();
+  const viewport = await page.locator(".page-atmosphere__viewport").boundingBox();
+  expect(viewport).not.toBeNull();
+  expect(viewport!.y).toBeLessThan(0);
+  expect(viewport!.y + viewport!.height).toBeGreaterThan(900);
+  for (const svg of await page.locator(".page-atmosphere__glass svg").all()) {
+    await expect(svg).toHaveCSS("overflow", "visible");
+  }
+  await page.addStyleTag({ content: ".landing-content, .page-atmosphere__base, .page-atmosphere__lines, .page-atmosphere__lighting, .page-atmosphere__noise, .page-atmosphere__glass > :not(:has(.page-atmosphere__sculpture-ribbon-a)) { visibility: hidden !important; }" });
+  await ribbon.evaluate((el) => {
+    const bottom = el.getBoundingClientRect().bottom + scrollY;
+    window.scrollTo({ top: bottom - 280, behavior: "instant" });
+  });
+  const box = await ribbon.boundingBox();
+  expect(box).not.toBeNull();
+  if (!box) return;
+  const top = Math.ceil(box.y + box.height) + 2;
+  const image = await page.screenshot({ animations: "disabled" });
+  await ribbon.evaluate((el) => { (el as SVGElement).style.visibility = "hidden"; });
+  const hidden = await page.screenshot({ animations: "disabled" });
+  const region = { left: 0, top, width: 1440, height: 100 };
+  const visiblePixels = await sharp(image).extract(region).removeAlpha().raw().toBuffer();
+  const hiddenPixels = await sharp(hidden).extract(region).removeAlpha().raw().toBuffer();
+  let changed = 0;
+  for (let i = 0; i < visiblePixels.length; i += 3) {
+    const difference = Math.abs(visiblePixels[i] - hiddenPixels[i]) + Math.abs(visiblePixels[i + 1] - hiddenPixels[i + 1]) + Math.abs(visiblePixels[i + 2] - hiddenPixels[i + 2]);
+    if (difference > 8) changed++;
+  }
+  expect(changed, "glass must remain visible below the SVG's original clipping boundary").toBeGreaterThan(20);
+});

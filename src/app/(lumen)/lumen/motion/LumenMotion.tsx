@@ -1,16 +1,13 @@
 'use client';
 
-import { useEffect, useRef, type RefObject } from 'react';
+import { useEffect, type RefObject } from 'react';
 import { scrollToLumen } from './scroll';
 
 interface LumenMotionProps {
   rootRef: RefObject<HTMLDivElement | null>;
-  onHeroActivityChange?: (active: boolean) => void;
 }
 
-export function LumenMotion({ rootRef, onHeroActivityChange }: LumenMotionProps) {
-  const callbackRef = useRef(onHeroActivityChange);
-  useEffect(() => { callbackRef.current = onHeroActivityChange; }, [onHeroActivityChange]);
+export function LumenMotion({ rootRef }: LumenMotionProps) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -51,10 +48,6 @@ export function LumenMotion({ rootRef, onHeroActivityChange }: LumenMotionProps)
       for (const entry of entries) (entry.target as HTMLElement).dataset.lmPlaying = String(entry.isIntersecting);
     });
     root.querySelectorAll('[data-lm-ambient]').forEach((el) => ambient.observe(el));
-    const heroObserver = new IntersectionObserver(([entry]) => {
-      if (entry) callbackRef.current?.(entry.isIntersecting);
-    }, { rootMargin: '200px' });
-    if (hero) heroObserver.observe(hero);
 
     const measure = () => {
       const y = scrollY;
@@ -179,7 +172,7 @@ export function LumenMotion({ rootRef, onHeroActivityChange }: LumenMotionProps)
     return () => {
       disposed = true;
       cancelAnimationFrame(frame); cancelAnimationFrame(hoverFrame);
-      reveal.disconnect(); ambient.disconnect(); heroObserver.disconnect(); sizes.disconnect();
+      reveal.disconnect(); ambient.disconnect(); sizes.disconnect();
       removeEventListener('scroll', schedule); removeEventListener('resize', resize);
       root.removeEventListener('click', click); root.removeEventListener('focusin', settleFocus);
       root.removeEventListener('pointermove', pointer); root.removeEventListener('pointerout', pointerExit);
