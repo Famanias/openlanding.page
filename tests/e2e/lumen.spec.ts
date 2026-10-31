@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import sharp from "sharp";
 
 test("LUMEN renders hero, glass workspace, and playbook download form", async ({ page }) => {
   await page.goto("/lumen");
@@ -30,4 +31,35 @@ test("footer glass animates near the viewport and respects reduced motion", asyn
   await expect(glass.locator("canvas")).toHaveCount(0);
   await expect(glass.locator("img")).toHaveCSS("opacity", "1");
   await expect(glass).toHaveCSS("transform", "none");
+});
+
+
+test("the page halo continues beyond its SVG viewport when zoomed out", async ({ page }) => {
+  await page.setViewportSize({ width: 4500, height: 1700 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/lumen");
+  await page.locator("#final-download").scrollIntoViewIfNeeded();
+  await page.addStyleTag({
+    content: ".landing-content, .page-atmosphere__glass > :not(.page-atmosphere__sculpture-halo-c) { visibility: hidden !important; }",
+  });
+
+  await page.waitForTimeout(500);
+  const halo = page.locator(".page-atmosphere__sculpture-halo-c");
+  const box = await halo.boundingBox();
+  expect(box).not.toBeNull();
+  if (!box) return;
+  const clip = { x: 0, y: Math.max(0, Math.floor(box.y) - 250), width: 4500, height: 240 };
+  const withHalo = await sharp(await page.screenshot({ clip })).removeAlpha().raw().toBuffer();
+  await halo.evaluate((element) => (element as SVGElement).style.setProperty("display", "none", "important"));
+  await page.waitForTimeout(500);
+  const withoutHalo = await sharp(await page.screenshot({ clip })).removeAlpha().raw().toBuffer();
+
+  let changedPixels = 0;
+  for (let i = 0; i < withHalo.length; i += 3) {
+    const difference = Math.abs(withHalo[i] - withoutHalo[i])
+      + Math.abs(withHalo[i + 1] - withoutHalo[i + 1])
+      + Math.abs(withHalo[i + 2] - withoutHalo[i + 2]);
+    if (difference > 6) changedPixels++;
+  }
+  expect(changedPixels).toBeGreaterThan(100);
 });
