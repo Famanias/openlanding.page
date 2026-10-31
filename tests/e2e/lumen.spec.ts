@@ -13,12 +13,12 @@ test("LUMEN renders hero, glass workspace, and playbook download form", async ({
 
 test("footer glass animates near the viewport and respects reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
+  const meshResponse = page.waitForResponse((response) => response.url().includes("/templates/lumen/footer-glass-mesh.glb"));
   await page.goto("/lumen");
   const glass = page.getByTestId("footer-glass");
-  const meshResponse = page.waitForResponse((response) => response.url().includes("/templates/lumen/footer-glass-mesh.glb"));
-  await page.locator("footer").scrollIntoViewIfNeeded();
-  expect((await meshResponse).ok()).toBe(true);
+  await glass.scrollIntoViewIfNeeded();
   await expect(glass).toHaveAttribute("data-ready", "true", { timeout: 30_000 });
+  expect((await meshResponse).ok()).toBe(true);
   await expect(glass.locator('[data-mode="live"] canvas')).toBeAttached();
 
   if (await page.evaluate(() => CSS.supports("animation-timeline", "view()"))) {

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { createFooterParticles } from './FooterParticles';
+import { createFooterDroplets } from './FooterDroplets';
 
 interface FooterGlassSceneProps {
   onReadyChange: (ready: boolean) => void;
@@ -34,8 +35,13 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
     const camera = new THREE.OrthographicCamera(-2.4, 2.4, 1, -1, 0.1, 30);
     camera.position.z = 10;
     const motion = { value: 0 };
-    const particles = createFooterParticles(motion, renderer.getPixelRatio());
-    scene.add(particles);
+    const localPointer = { value: new THREE.Vector2(0, 0) };
+    const pointerStrength = { value: 0 };
+    const pointerTarget = new THREE.Vector2(0, 0);
+    let targetStrength = 0;
+    const particles = createFooterParticles(motion, renderer.getPixelRatio(), localPointer, pointerStrength);
+    const droplets = createFooterDroplets();
+    scene.add(particles, droplets.group);
     let sculpture: THREE.Group | null = null;
     let disposed = false;
     let frameId = 0;
@@ -59,6 +65,7 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
       const offsetX = (viewWidth - 4.8) / 2;
       const offsetY = -(viewHeight - 2) / 2;
       particles.position.set(offsetX, offsetY, 0);
+      droplets.group.position.set(offsetX, offsetY, 0);
       if (sculpture) sculpture.position.set(offsetX, offsetY, 0);
     };
 
@@ -78,9 +85,42 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
       });
     };
 
+    const pointInArtwork = (clientX: number, clientY: number) => {
+      const rect = mount.getBoundingClientRect();
+      const footer = mount.closest('footer')?.getBoundingClientRect();
+      if (
+        rect.width === 0 || rect.height === 0 ||
+        clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom ||
+        !footer || clientX < footer.left || clientX > footer.right || clientY < footer.top || clientY > footer.bottom
+      ) return null;
+      return {
+        x: camera.left + ((clientX - rect.left) / rect.width) * (camera.right - camera.left) - particles.position.x,
+        y: camera.top - ((clientY - rect.top) / rect.height) * (camera.top - camera.bottom) - particles.position.y,
+      };
+    };
     const onPointerMove = (event: PointerEvent) => {
       pointer.x = (event.clientX / Math.max(1, window.innerWidth) - 0.5) * 2;
       pointer.y = (event.clientY / Math.max(1, window.innerHeight) - 0.5) * 2;
+      const point = pointInArtwork(event.clientX, event.clientY);
+      if (point) {
+        pointerTarget.set(point.x, point.y);
+        if (pointerStrength.value < 0.01) localPointer.value.copy(pointerTarget);
+        targetStrength = 1;
+      } else {
+        targetStrength = 0;
+      }
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.button !== 0 || (event.target instanceof Element && event.target.closest('a, button, input, textarea, select, [role="button"]'))) return;
+      const point = pointInArtwork(event.clientX, event.clientY);
+      if (point) droplets.burst(point.x, point.y, elapsed);
+    };
+    const onPointerEnd = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') targetStrength = 0;
+    };
+    const clearPointer = () => { targetStrength = 0; };
+    const onPointerOut = (event: PointerEvent) => {
+      if (!event.relatedTarget) clearPointer();
     };
     const onContextLost = (event: Event) => {
       event.preventDefault();
@@ -94,6 +134,11 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
     };
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('pointerdown', onPointerDown, { passive: true });
+    window.addEventListener('pointerup', onPointerEnd, { passive: true });
+    window.addEventListener('pointercancel', onPointerEnd, { passive: true });
+    window.addEventListener('pointerout', onPointerOut, { passive: true });
+    window.addEventListener('blur', clearPointer);
     renderer.domElement.addEventListener('webglcontextlost', onContextLost);
     renderer.domElement.addEventListener('webglcontextrestored', onContextRestored);
     const resizeObserver = new ResizeObserver(resize);
@@ -110,6 +155,9 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
       motion.value = elapsed;
       currentPointer.x += (pointer.x - currentPointer.x) * Math.min(1, delta * 2);
       currentPointer.y += (pointer.y - currentPointer.y) * Math.min(1, delta * 2);
+      localPointer.value.lerp(pointerTarget, Math.min(1, delta * 5));
+      pointerStrength.value += (targetStrength - pointerStrength.value) * Math.min(1, delta * 5);
+      droplets.update(elapsed, localPointer.value, pointerStrength.value);
       if (sculpture) {
         sculpture.rotation.y = Math.sin(elapsed * 0.31) * 0.055 + currentPointer.x * 0.025;
         sculpture.rotation.x = Math.sin(elapsed * 0.23) * 0.025 + currentPointer.y * 0.015;
@@ -155,6 +203,7 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
         });
         scene.add(sculpture);
         resize();
+        droplets.update(0, localPointer.value, 0);
         renderer.render(scene, camera);
         onReadyChange(true);
         frameId = requestAnimationFrame(animate);
@@ -170,11 +219,17 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointerup', onPointerEnd);
+      window.removeEventListener('pointercancel', onPointerEnd);
+      window.removeEventListener('pointerout', onPointerOut);
+      window.removeEventListener('blur', clearPointer);
       renderer.domElement.removeEventListener('webglcontextlost', onContextLost);
       renderer.domElement.removeEventListener('webglcontextrestored', onContextRestored);
       if (sculpture) disposeModel(sculpture);
       particles.geometry.dispose();
       particles.material.dispose();
+      droplets.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
     };

@@ -1,7 +1,12 @@
-﻿import * as THREE from 'three';
+import * as THREE from 'three';
 
 /** A small field of soft, independent light motes around the footer sculpture. */
-export function createFooterParticles(time: THREE.IUniform<number>, pixelRatio: number) {
+export function createFooterParticles(
+  time: THREE.IUniform<number>,
+  pixelRatio: number,
+  pointer: THREE.IUniform<THREE.Vector2>,
+  pointerStrength: THREE.IUniform<number>
+) {
   const count = 54;
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
@@ -42,13 +47,15 @@ export function createFooterParticles(time: THREE.IUniform<number>, pixelRatio: 
   geometry.setAttribute('aOpacity', new THREE.BufferAttribute(opacities, 1));
 
   const material = new THREE.ShaderMaterial({
-    uniforms: { uTime: time, uPixelRatio: { value: pixelRatio } },
+    uniforms: { uTime: time, uPixelRatio: { value: pixelRatio }, uPointer: pointer, uPointerStrength: pointerStrength },
     transparent: true,
     depthWrite: false,
     depthTest: false,
     vertexShader: `
       uniform float uTime;
       uniform float uPixelRatio;
+      uniform vec2 uPointer;
+      uniform float uPointerStrength;
       attribute vec3 aColor;
       attribute float aSize;
       attribute float aPhase;
@@ -63,6 +70,10 @@ export function createFooterParticles(time: THREE.IUniform<number>, pixelRatio: 
         mote.x += sin(phase) * 0.11;
         mote.y += cos(phase * 0.7 + aPhase) * 0.13;
         mote.z += sin(phase * 0.65) * 0.08;
+        vec2 away = mote.xy - uPointer;
+        float distanceToPointer = length(away);
+        float push = exp(-distanceToPointer * distanceToPointer * 5.0) * uPointerStrength;
+        mote.xy += away / max(distanceToPointer, 0.001) * push * 0.22;
         vColor = aColor;
         vOpacity = aOpacity * (0.6 + 0.4 * (0.5 + 0.5 * sin(phase * 1.25)));
         gl_Position = projectionMatrix * modelViewMatrix * vec4(mote, 1.0);

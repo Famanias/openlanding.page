@@ -40,7 +40,7 @@ Mood: luminous, serene, precise, modern, architectural. Clean light canvas `#F8F
 8. **Practical Credibility:** Framework comparison table and methodology pillars highlighting reliability, security, and human-in-the-loop validation.
 9. **FAQ:** Accordion covering formats, prerequisites, privacy, team rollout, and updates.
 10. **Final Download CTA:** High-conversion conversion card with secondary email capture.
-11. **Footer:** Animate an image-derived 3D glass relief mesh made from the AI-generated artwork, layered over the continuous page atmosphere with slowly drifting, glimmering light particles. The mesh has estimated depth, the original image texture, and scroll-responsive drift; show the transparent image for reduced motion or unavailable WebGL. Include a closing playbook link, section navigation, studio link, and oversized LUMEN wordmark.
+11. **Footer:** Animate an image-derived 3D glass relief mesh made from the AI-generated artwork, layered over the continuous page atmosphere with drifting light particles and glassy water drops. Particles and drops react to pointer movement; tapping or clicking the artwork releases a brief droplet burst and ripple. The mesh has estimated depth, the original image texture, and scroll-responsive drift; show the transparent image for reduced motion or unavailable WebGL. Include a closing playbook link, section navigation, studio link, and oversized LUMEN wordmark.
 
 ## Motion and interaction
 

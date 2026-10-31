@@ -1636,6 +1636,203 @@ export const Footer: React.FC<FooterProps> = ({ onOpenGlassStudio }) => {
 };
 ]]>
     </file>
+    <file path="src/app/(lumen)/lumen/components/FooterDroplets.ts">
+<![CDATA[import * as THREE from 'three';
+
+interface FloatingDrop {
+  x: number;
+  y: number;
+  z: number;
+  size: number;
+  speed: number;
+  phase: number;
+  opacity: number;
+}
+
+interface BurstDrop {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  start: number;
+  life: number;
+}
+
+/** A bounded, reusable set of water droplets for the footer's existing WebGL scene. */
+export function createFooterDroplets() {
+  const floatingCount = 18;
+  const burstCount = 18;
+  const total = floatingCount + burstCount;
+  let seed = 4197;
+  const random = () => {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 4294967296;
+  };
+
+  const floating: FloatingDrop[] = Array.from({ length: floatingCount }, (_, index) => ({
+    x: -1.9 + random() * 4.3,
+    y: -0.7 + random() * 1.95,
+    z: 1.4 + random() * 0.3,
+    size: (index < 3 ? 0.055 : 0.024) + random() * 0.024,
+    speed: 0.28 + random() * 0.24,
+    phase: random() * Math.PI * 2,
+    opacity: 0.55 + random() * 0.35,
+  }));
+  const bursts: BurstDrop[] = Array.from({ length: burstCount }, () => ({
+    x: 0, y: 0, vx: 0, vy: 0, size: 0, start: -100, life: 1,
+  }));
+  let nextBurst = 0;
+
+  const geometry = new THREE.SphereGeometry(1, 20, 14);
+  const positions = geometry.getAttribute('position');
+  for (let i = 0; i < positions.count; i++) {
+    const y = positions.getY(i);
+    const taper = 1 - Math.max(0, y) * 0.3;
+    positions.setXYZ(i, positions.getX(i) * taper, y * 1.14, positions.getZ(i) * taper);
+  }
+  geometry.computeVertexNormals();
+  const opacities = new THREE.InstancedBufferAttribute(new Float32Array(total), 1);
+  opacities.setUsage(THREE.DynamicDrawUsage);
+  geometry.setAttribute('aOpacity', opacities);
+
+  const material = new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    depthTest: false,
+    vertexShader: `
+      attribute float aOpacity;
+      varying vec3 vDropNormal;
+      varying float vDropOpacity;
+      void main() {
+        vDropNormal = normalize(normalMatrix * mat3(instanceMatrix) * normal);
+        vDropOpacity = aOpacity;
+        gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vDropNormal;
+      varying float vDropOpacity;
+      void main() {
+        vec3 n = normalize(vDropNormal);
+        float rim = pow(1.0 - abs(n.z), 2.0);
+        float highlight = pow(max(dot(n, normalize(vec3(-0.35, 0.55, 1.0))), 0.0), 38.0);
+        float softLight = pow(max(dot(n, normalize(vec3(0.5, -0.3, 1.0))), 0.0), 10.0);
+        vec3 tint = mix(vec3(0.16, 0.27, 0.60), vec3(1.0), min(1.0, highlight + rim * 0.15));
+        float alpha = (0.08 + rim * 0.78 + highlight * 0.8 + softLight * 0.08) * vDropOpacity;
+        gl_FragColor = vec4(tint, min(alpha, 0.9));
+        #include <colorspace_fragment>
+      }
+    `,
+  });
+  const mesh = new THREE.InstancedMesh(geometry, material, total);
+  mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+  mesh.renderOrder = 6;
+  mesh.frustumCulled = false;
+  const group = new THREE.Group();
+  group.add(mesh);
+  const rippleGeometry = new THREE.RingGeometry(0.975, 1, 48);
+  const ripples = Array.from({ length: 3 }, () => {
+    const rippleMaterial = new THREE.MeshBasicMaterial({
+      color: '#8E7CE8', transparent: true, opacity: 0, depthWrite: false, depthTest: false,
+      side: THREE.DoubleSide,
+    });
+    const ring = new THREE.Mesh(rippleGeometry, rippleMaterial);
+    ring.renderOrder = 5.5;
+    ring.visible = false;
+    group.add(ring);
+    return { ring, start: -100 };
+  });
+  let nextRipple = 0;
+  const dummy = new THREE.Object3D();
+
+  const setDrop = (index: number, x: number, y: number, z: number, size: number, opacity: number) => {
+    dummy.position.set(x, y, z);
+    dummy.scale.setScalar(size);
+    dummy.updateMatrix();
+    mesh.setMatrixAt(index, dummy.matrix);
+    opacities.setX(index, opacity);
+  };
+
+  const update = (time: number, pointer: THREE.Vector2, pointerStrength: number) => {
+    floating.forEach((drop, index) => {
+      const phase = time * drop.speed + drop.phase;
+      let x = drop.x + Math.sin(phase) * 0.12;
+      let y = drop.y + Math.cos(phase * 0.75) * 0.15;
+      const dx = x - pointer.x;
+      const dy = y - pointer.y;
+      const distance = Math.hypot(dx, dy);
+      const push = Math.exp(-distance * distance * 5) * pointerStrength * 0.25;
+      if (distance > 0.001) {
+        x += (dx / distance) * push;
+        y += (dy / distance) * push;
+      }
+      setDrop(index, x, y, drop.z + Math.sin(phase * 0.7) * 0.1, drop.size, drop.opacity);
+    });
+
+    bursts.forEach((drop, index) => {
+      const age = time - drop.start;
+      if (age < 0 || age >= drop.life) {
+        setDrop(floatingCount + index, 0, 0, 1.5, 0, 0);
+        return;
+      }
+      const progress = age / drop.life;
+      const fade = Math.min(1, age * 8) * Math.min(1, (1 - progress) * 3);
+      setDrop(
+        floatingCount + index,
+        drop.x + drop.vx * age,
+        drop.y + drop.vy * age - 0.12 * age * age,
+        1.8,
+        drop.size * (0.55 + 0.45 * fade),
+        fade * 0.9
+      );
+    });
+    ripples.forEach(({ ring, start }) => {
+      const progress = (time - start) / 1.3;
+      ring.visible = progress >= 0 && progress < 1;
+      if (ring.visible) {
+        ring.scale.setScalar(0.04 + progress * 0.48);
+        ring.material.opacity = Math.sin(progress * Math.PI) * 0.38;
+      }
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+    opacities.needsUpdate = true;
+  };
+
+  const burst = (x: number, y: number, time: number) => {
+    const ripple = ripples[nextRipple];
+    nextRipple = (nextRipple + 1) % ripples.length;
+    ripple.start = time;
+    ripple.ring.position.set(x, y, 1.75);
+    for (let i = 0; i < 6; i++) {
+      const drop = bursts[nextBurst];
+      nextBurst = (nextBurst + 1) % burstCount;
+      drop.x = x + (random() - 0.5) * 0.08;
+      drop.y = y + (random() - 0.5) * 0.06;
+      drop.vx = (random() - 0.5) * 0.45;
+      drop.vy = 0.25 + random() * 0.35;
+      drop.size = 0.025 + random() * 0.035;
+      drop.start = time + i * 0.025;
+      drop.life = 1.6 + random() * 0.6;
+    }
+  };
+
+  return {
+    group,
+    mesh,
+    update,
+    burst,
+    dispose: () => {
+      mesh.dispose();
+      geometry.dispose();
+      material.dispose();
+      rippleGeometry.dispose();
+      ripples.forEach(({ ring }) => ring.material.dispose());
+    },
+  };
+}
+]]>
+    </file>
     <file path="src/app/(lumen)/lumen/components/FooterGlass.tsx">
 <![CDATA[import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
@@ -1698,6 +1895,7 @@ export const FooterGlass: React.FC = () => {
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { createFooterParticles } from './FooterParticles';
+import { createFooterDroplets } from './FooterDroplets';
 
 interface FooterGlassSceneProps {
   onReadyChange: (ready: boolean) => void;
@@ -1730,8 +1928,13 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
     const camera = new THREE.OrthographicCamera(-2.4, 2.4, 1, -1, 0.1, 30);
     camera.position.z = 10;
     const motion = { value: 0 };
-    const particles = createFooterParticles(motion, renderer.getPixelRatio());
-    scene.add(particles);
+    const localPointer = { value: new THREE.Vector2(0, 0) };
+    const pointerStrength = { value: 0 };
+    const pointerTarget = new THREE.Vector2(0, 0);
+    let targetStrength = 0;
+    const particles = createFooterParticles(motion, renderer.getPixelRatio(), localPointer, pointerStrength);
+    const droplets = createFooterDroplets();
+    scene.add(particles, droplets.group);
     let sculpture: THREE.Group | null = null;
     let disposed = false;
     let frameId = 0;
@@ -1755,6 +1958,7 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
       const offsetX = (viewWidth - 4.8) / 2;
       const offsetY = -(viewHeight - 2) / 2;
       particles.position.set(offsetX, offsetY, 0);
+      droplets.group.position.set(offsetX, offsetY, 0);
       if (sculpture) sculpture.position.set(offsetX, offsetY, 0);
     };
 
@@ -1774,9 +1978,42 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
       });
     };
 
+    const pointInArtwork = (clientX: number, clientY: number) => {
+      const rect = mount.getBoundingClientRect();
+      const footer = mount.closest('footer')?.getBoundingClientRect();
+      if (
+        rect.width === 0 || rect.height === 0 ||
+        clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom ||
+        !footer || clientX < footer.left || clientX > footer.right || clientY < footer.top || clientY > footer.bottom
+      ) return null;
+      return {
+        x: camera.left + ((clientX - rect.left) / rect.width) * (camera.right - camera.left) - particles.position.x,
+        y: camera.top - ((clientY - rect.top) / rect.height) * (camera.top - camera.bottom) - particles.position.y,
+      };
+    };
     const onPointerMove = (event: PointerEvent) => {
       pointer.x = (event.clientX / Math.max(1, window.innerWidth) - 0.5) * 2;
       pointer.y = (event.clientY / Math.max(1, window.innerHeight) - 0.5) * 2;
+      const point = pointInArtwork(event.clientX, event.clientY);
+      if (point) {
+        pointerTarget.set(point.x, point.y);
+        if (pointerStrength.value < 0.01) localPointer.value.copy(pointerTarget);
+        targetStrength = 1;
+      } else {
+        targetStrength = 0;
+      }
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.button !== 0 || (event.target instanceof Element && event.target.closest('a, button, input, textarea, select, [role="button"]'))) return;
+      const point = pointInArtwork(event.clientX, event.clientY);
+      if (point) droplets.burst(point.x, point.y, elapsed);
+    };
+    const onPointerEnd = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') targetStrength = 0;
+    };
+    const clearPointer = () => { targetStrength = 0; };
+    const onPointerOut = (event: PointerEvent) => {
+      if (!event.relatedTarget) clearPointer();
     };
     const onContextLost = (event: Event) => {
       event.preventDefault();
@@ -1790,6 +2027,11 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
     };
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('pointerdown', onPointerDown, { passive: true });
+    window.addEventListener('pointerup', onPointerEnd, { passive: true });
+    window.addEventListener('pointercancel', onPointerEnd, { passive: true });
+    window.addEventListener('pointerout', onPointerOut, { passive: true });
+    window.addEventListener('blur', clearPointer);
     renderer.domElement.addEventListener('webglcontextlost', onContextLost);
     renderer.domElement.addEventListener('webglcontextrestored', onContextRestored);
     const resizeObserver = new ResizeObserver(resize);
@@ -1806,6 +2048,9 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
       motion.value = elapsed;
       currentPointer.x += (pointer.x - currentPointer.x) * Math.min(1, delta * 2);
       currentPointer.y += (pointer.y - currentPointer.y) * Math.min(1, delta * 2);
+      localPointer.value.lerp(pointerTarget, Math.min(1, delta * 5));
+      pointerStrength.value += (targetStrength - pointerStrength.value) * Math.min(1, delta * 5);
+      droplets.update(elapsed, localPointer.value, pointerStrength.value);
       if (sculpture) {
         sculpture.rotation.y = Math.sin(elapsed * 0.31) * 0.055 + currentPointer.x * 0.025;
         sculpture.rotation.x = Math.sin(elapsed * 0.23) * 0.025 + currentPointer.y * 0.015;
@@ -1851,6 +2096,7 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
         });
         scene.add(sculpture);
         resize();
+        droplets.update(0, localPointer.value, 0);
         renderer.render(scene, camera);
         onReadyChange(true);
         frameId = requestAnimationFrame(animate);
@@ -1866,11 +2112,17 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointerup', onPointerEnd);
+      window.removeEventListener('pointercancel', onPointerEnd);
+      window.removeEventListener('pointerout', onPointerOut);
+      window.removeEventListener('blur', clearPointer);
       renderer.domElement.removeEventListener('webglcontextlost', onContextLost);
       renderer.domElement.removeEventListener('webglcontextrestored', onContextRestored);
       if (sculpture) disposeModel(sculpture);
       particles.geometry.dispose();
       particles.material.dispose();
+      droplets.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
     };
@@ -1881,10 +2133,15 @@ export const FooterGlassScene: React.FC<FooterGlassSceneProps> = ({ onReadyChang
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/FooterParticles.ts">
-<![CDATA[﻿import * as THREE from 'three';
+<![CDATA[import * as THREE from 'three';
 
 /** A small field of soft, independent light motes around the footer sculpture. */
-export function createFooterParticles(time: THREE.IUniform<number>, pixelRatio: number) {
+export function createFooterParticles(
+  time: THREE.IUniform<number>,
+  pixelRatio: number,
+  pointer: THREE.IUniform<THREE.Vector2>,
+  pointerStrength: THREE.IUniform<number>
+) {
   const count = 54;
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
@@ -1925,13 +2182,15 @@ export function createFooterParticles(time: THREE.IUniform<number>, pixelRatio: 
   geometry.setAttribute('aOpacity', new THREE.BufferAttribute(opacities, 1));
 
   const material = new THREE.ShaderMaterial({
-    uniforms: { uTime: time, uPixelRatio: { value: pixelRatio } },
+    uniforms: { uTime: time, uPixelRatio: { value: pixelRatio }, uPointer: pointer, uPointerStrength: pointerStrength },
     transparent: true,
     depthWrite: false,
     depthTest: false,
     vertexShader: `
       uniform float uTime;
       uniform float uPixelRatio;
+      uniform vec2 uPointer;
+      uniform float uPointerStrength;
       attribute vec3 aColor;
       attribute float aSize;
       attribute float aPhase;
@@ -1946,6 +2205,10 @@ export function createFooterParticles(time: THREE.IUniform<number>, pixelRatio: 
         mote.x += sin(phase) * 0.11;
         mote.y += cos(phase * 0.7 + aPhase) * 0.13;
         mote.z += sin(phase * 0.65) * 0.08;
+        vec2 away = mote.xy - uPointer;
+        float distanceToPointer = length(away);
+        float push = exp(-distanceToPointer * distanceToPointer * 5.0) * uPointerStrength;
+        mote.xy += away / max(distanceToPointer, 0.001) * push * 0.22;
         vColor = aColor;
         vOpacity = aOpacity * (0.6 + 0.4 * (0.5 + 0.5 * sin(phase * 1.25)));
         gl_Position = projectionMatrix * modelViewMatrix * vec4(mote, 1.0);
