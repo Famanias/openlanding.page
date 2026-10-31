@@ -1,4 +1,4 @@
-export type TemplateSlug = "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
+export type TemplateSlug = "noiseclub" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -35,6 +35,46 @@ export const CATEGORIES: Category[] = [
   { id: "editorial-magazine", label: "Editorial Magazine" },
   { id: "conversion", label: "Conversion Landing" },
 ];
+
+export const NOISECLUB_PROMPT = `# NOISE CLUB® — The World Is Your Sample Pack
+
+Build a complete, responsive, interaction-rich sound-culture publication and concept landing page for **NOISE CLUB® (NC—001)** featuring the **Teenage Engineering PO-33 K.O! micro-sampler**.
+
+## Brand and central idea
+
+NOISE CLUB is an independent sound-culture collective that treats the whole city as an open recording studio. Its core thesis: **Ordinary noises are unfinished music.** The landing page invites visitors to hear rhythm and melody in normal life—a train door, an espresso cup, footsteps in an underpass, rain on zinc, a dropped coin—and explore how a pocket sampler turns found sounds into beats.
+
+Mood: raw editorial print design meets high-precision signal graphics. Continuous Ink Black canvas \`#111313\` with tactile print grain, Paper Bone \`#F1EEE5\` typography, Signal Acid \`#CBFF49\` accents, and Record Red \`#FF6748\` indicators.
+
+## Visual system and typography
+
+- **Palette:**
+  - Ink Black: \`#111313\` (continuous background foundation)
+  - Paper Bone: \`#F1EEE5\` (editorial typography and wireframe hairlines)
+  - Signal Acid: \`#CBFF49\` (active steps, playhead, peak meters, interactive highlights)
+  - Record Red: \`#FF6748\` (recording active states and hardware badges)
+- **Typography:**
+  - Display: Anton (condensed, high-impact uppercase headlines)
+  - Body: Public Sans (clean, rhythmic editorial reading text)
+  - Technical / Metadata: IBM Plex Mono (tabular numbers, parameter values, sample rates, slot addresses)
+- **Textures:** Restrained radial print grain, 6px halftone strips, and 45-degree chamfered editorial corner cuts.
+
+## Narrative chapters & signature interactions
+
+00. **The Signal:** Campaign title poster with staggered entrance, amplitude fingerprint, and an interactive inline PO-33 hardware illustration with clickable pads.
+01. **Hear Everything:** Catalog of 5 authentic field recording specimens (Subway Door Pneumatic, Ceramic Cup & Spoon, Zinc Rain, Concrete Footsteps, Brass Coin Spin) with precalculated deterministic amplitude waveforms.
+02. **Capture It:** The recording story showcasing the built-in Knowles electret microphone, line-in sampling, and optional live browser microphone sampling.
+03. **Chop It Up:** Four-slice transient dissection per sound specimen with isolated slice auditioning and waveform visualization.
+04. **Build a Beat:** The signature interactive 16-step lookahead rhythm sequencer across 4 tracks with real-time audio playback, BPM control, pattern resets, and synchronized playhead telemetry.
+05. **Break the Rules:** Hardware effects playground demonstrating Stutter grain repeat, Reverse filtering, and Octave harmonic pitch-shifting.
+06. **Take the Noise:** Final hardware showcase with technical specifications, authentic Teenage Engineering disclaimer, and official store destination.
+
+## Audio & motion engineering
+
+- Physical modeling Web Audio synthesis for zero-latency, permissionless SSR previewing.
+- Lookahead 16-step sequencer with web audio clock scheduling.
+- GSAP + Lenis scroll orchestration with graceful degradation under \`prefers-reduced-motion\`.
+`;
 
 export const LUMEN_PROMPT = `# LUMEN — The AI Workflow Playbook
 
@@ -1181,6 +1221,19 @@ slug: "tally",
     badges: ["Glassmorphism", "AI Playbook", "Shader Studio", "WebGL2"],
     previewImage: "/templates/lumen/preview-1600.webp",
     promptMarkdown: LUMEN_PROMPT,
+    model: "Imported template",
+  },
+  {
+    slug: "noiseclub",
+    createdAt: "2026-11-01",
+    title: "NOISE CLUB",
+    description: "An independent sound-culture collective and interactive concept zine featuring the Teenage Engineering PO-33 K.O! micro-sampler.",
+    category: "scroll-showcase",
+    industry: "Sound Culture & Portable Instruments",
+    stack: "Next.js 16 · React 19 · Web Audio API · Tailwind v4 · GSAP · Lenis",
+    badges: ["Physical Modeling Audio", "16-Step Sequencer", "PO-33 Hardware Illustration", "Live Microphone Sampling"],
+    previewImage: "/templates/noiseclub/preview-1600.webp",
+    promptMarkdown: NOISECLUB_PROMPT,
     model: "Imported template",
   },
 ];
