@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --color-nc-ink: #111313;
+  --color-nc-paper: #F1EEE5;
+  --color-nc-acid: #CBFF49;
+  --color-nc-red: #FF6748;
+
+  --ease-nc-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-nc-travel: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-nc-feedback: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --dur-nc-press: 120ms;
+  --dur-nc-hover: 260ms;
+  --dur-nc-state: 420ms;
+  --dur-nc-reveal: 850ms;
+  --dur-nc-scene: 1100ms;
+
+  --font-display: var(--font-anton), Impact, 'Arial Narrow', sans-serif;
+  --font-sans: var(--font-public-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --nc-ink-black: #111313;
+  --nc-paper-bone: #F1EEE5;
+  --nc-signal-acid: #CBFF49;
+  --nc-record-red: #FF6748;
+
+  --nc-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --nc-ease-travel: cubic-bezier(0.77, 0, 0.175, 1);
+  --nc-ease-feedback: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --nc-duration-press: 120ms;
+  --nc-duration-hover: 260ms;
+  --nc-duration-state: 420ms;
+  --nc-duration-reveal: 850ms;
+  --nc-duration-scene: 1100ms;
+
+  --font-display: var(--font-anton), Impact, 'Arial Narrow', sans-serif;
+  --font-sans: var(--font-public-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+.nc-body {
+  background-color: #111313;
+  color: #F1EEE5;
+  font-family: var(--font-sans);
+  letter-spacing: 0.01em;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.font-sans-body {
+  font-family: var(--font-sans);
+}
+
+.font-mono-meta {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tactile print grain & subtle halftone surface without repaint jank */
+.nc-print-grain {
+  background-image: radial-gradient(rgba(241, 238, 229, 0.055) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.nc-halftone-strip {
+  background-image: radial-gradient(rgba(203, 255, 73, 0.18) 1px, transparent 0);
+  background-size: 6px 6px;
+}
+
+.nc-paper-halftone {
+  background-image: radial-gradient(rgba(17, 19, 19, 0.12) 1px, transparent 0);
+  background-size: 8px 8px;
+}
+
+/* Editorial irregular cut mask */
+.nc-cut-corner {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+
+/* Button tactile feedback */
+.nc-btn-interactive {
+  transition: transform var(--nc-duration-press) var(--nc-ease-feedback),
+              background-color var(--nc-duration-hover) var(--nc-ease-out),
+              color var(--nc-duration-hover) var(--nc-ease-out),
+              border-color var(--nc-duration-hover) var(--nc-ease-out);
+}
+
+.nc-btn-interactive:active {
+  transform: scale(0.97);
+}
+
+/* Accessible focus ring matching NOISE CLUB Signal Acid */
+:focus-visible {
+  outline: 2px solid #CBFF49;
+  outline-offset: 3px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

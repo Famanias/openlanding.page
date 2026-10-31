@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
+export type TemplateSlug = "noiseclub" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,22 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  noiseclub: {
+    palette: [
+      "#050505", "#070808", "#090A0A", "#090B0B", "#0A0B0B", "#0B0C0C",
+      "#0B0D0D", "#0C0E0E", "#0D0F0F", "#0E1010", "#111313", "#121414",
+      "#131616", "#141717", "#151818", "#161919", "#171A1A", "#171B1A",
+      "#181B1B", "#181C1C", "#191D1D", "#191E16", "#1A1D1D", "#1A1E1E",
+      "#1B1E1E", "#1B2018", "#1C2020", "#1D2020", "#1D2121", "#1E2121",
+      "#1E2222", "#202424", "#232727", "#252A2A", "#262929", "#262A2A",
+      "#262B2B", "#282E22", "#2A2E2E", "#2B3024", "#2C3030", "#2D3131",
+      "#2E3333", "#2E3434", "#323737", "#3A4040", "#525757", "#8A6619",
+      "#8F6B1A", "#B4B2A8", "#BDBAAD", "#C49A38", "#C79B3B", "#C8C6BC",
+      "#CBFF49", "#D6D3C9", "#E6C365", "#F0CE73", "#F1EEE5", "#FF6748",
+    ],
+    paletteExempt: ["src/app/(noiseclub)/noiseclub/components/interactive/"],
+    mediaExempt: true,
+  },
   lumen: {
     palette: [
       "#1E2432", "#252C43", "#5B8DEF", "#5BA59A", "#657187", "#8E7CE8",
