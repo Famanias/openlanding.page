@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+'use client';
+
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, FileText, CheckSquare, Mic, Activity, ArrowRight } from 'lucide-react';
+import { Mail, FileText, Mic, CheckSquare, Activity, ArrowRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,35 +19,35 @@ interface TaskFragment {
 const TASK_FRAGMENTS: TaskFragment[] = [
   {
     id: 'email',
-    label: 'Incoming email',
-    detail: 'Scope change question buried in a 14-reply thread',
-    source: 'Shared Inbox',
-    scatteredClass: 'lg:-translate-x-8 lg:-translate-y-6 lg:-rotate-3',
-    structuredOrder: '01 · Intake',
+    label: 'Customer intake email',
+    detail: 'Product issue reported with screenshot and logs',
+    source: 'Inbox · Priority',
+    scatteredClass: 'lg:translate-x-3 lg:-translate-y-4 lg:rotate-2',
+    structuredOrder: '01 · Intake Captured',
   },
   {
     id: 'doc',
-    label: 'Document summary',
-    detail: 'Key contract dates locked inside a 28-page PDF',
-    source: 'Cloud Drive',
-    scatteredClass: 'lg:translate-x-6 lg:translate-y-5 lg:rotate-2',
-    structuredOrder: '02 · Context',
+    label: 'Product specification',
+    detail: 'Design guidelines and technical boundary notes',
+    source: 'Knowledge Base',
+    scatteredClass: 'lg:-translate-x-2 lg:translate-y-3 lg:-rotate-1',
+    structuredOrder: '02 · Context Retrieved',
   },
   {
     id: 'note',
-    label: 'Meeting note',
-    detail: 'Unassigned follow-ups captured in raw call notes',
-    source: 'Call Transcript',
-    scatteredClass: 'lg:-translate-x-5 lg:translate-y-8 lg:-rotate-2',
-    structuredOrder: '03 · Synthesis',
+    label: 'Sync meeting audio',
+    detail: 'Recorded customer call decisions and action items',
+    source: 'Meeting Archive',
+    scatteredClass: 'lg:translate-x-4 lg:-translate-y-2 lg:rotate-1.5',
+    structuredOrder: '03 · Audio Transcribed',
   },
   {
     id: 'action',
-    label: 'Action item',
-    detail: 'Owner and due date missing from project board',
-    source: 'Task Tracker',
-    scatteredClass: 'lg:translate-x-7 lg:-translate-y-5 lg:rotate-3',
-    structuredOrder: '04 · Routing',
+    label: 'Unassigned action item',
+    detail: 'Resolve authentication race condition before release',
+    source: 'Project Board',
+    scatteredClass: 'lg:-translate-x-4 lg:translate-y-2 lg:-rotate-2',
+    structuredOrder: '04 · Actions Synthesized',
   },
   {
     id: 'status',
@@ -59,7 +61,25 @@ const TASK_FRAGMENTS: TaskFragment[] = [
 
 export const ProblemSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const connectorPathRef = useRef<SVGPathElement>(null);
+  const manualInteractionRef = useRef<boolean>(false);
   const [isStructured, setIsStructured] = useState<boolean>(false);
+  const [isManualTransition, setIsManualTransition] = useState<boolean>(false);
+
+  const traceConnector = useCallback(() => {
+    const path = connectorPathRef.current;
+    if (!path) return;
+    try {
+      const len = path.getTotalLength ? path.getTotalLength() : 920;
+      gsap.fromTo(
+        path,
+        { strokeDasharray: `${len} ${len}`, strokeDashoffset: len, opacity: 0.3 },
+        { strokeDashoffset: 0, opacity: 1, duration: 0.52, ease: 'power2.out' }
+      );
+    } catch {
+      // JSDOM fallback
+    }
+  }, []);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -72,14 +92,28 @@ export const ProblemSection: React.FC = () => {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top 62%',
-        end: 'bottom 35%',
-        onEnter: () => setIsStructured(true),
-        onLeaveBack: () => setIsStructured(false),
+        once: true,
+        onEnter: () => {
+          if (!manualInteractionRef.current) {
+            setIsManualTransition(false);
+            setIsStructured(true);
+            traceConnector();
+          }
+        },
       });
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [traceConnector]);
+
+  const handleManualToggle = (structured: boolean) => {
+    manualInteractionRef.current = true;
+    setIsManualTransition(true);
+    setIsStructured(structured);
+    if (structured) {
+      traceConnector();
+    }
+  };
 
   const renderFragmentIcon = (id: string) => {
     switch (id) {
@@ -129,7 +163,7 @@ export const ProblemSection: React.FC = () => {
             <button
               type="button"
               aria-pressed={!isStructured}
-              onClick={() => setIsStructured(false)}
+              onClick={() => handleManualToggle(false)}
               className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                 !isStructured
                   ? 'bg-[#252C43] text-white shadow-xs'
@@ -141,7 +175,7 @@ export const ProblemSection: React.FC = () => {
             <button
               type="button"
               aria-pressed={isStructured}
-              onClick={() => setIsStructured(true)}
+              onClick={() => handleManualToggle(true)}
               className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                 isStructured
                   ? 'bg-[#252C43] text-white shadow-xs'
@@ -160,7 +194,7 @@ export const ProblemSection: React.FC = () => {
             viewBox="0 0 1100 160"
             fill="none"
             aria-hidden="true"
-            className={`pointer-events-none hidden lg:block absolute inset-x-8 top-1/2 -translate-y-1/2 h-40 w-[calc(100%-4rem)] transition-opacity duration-500 ${
+            className={`pointer-events-none hidden lg:block absolute inset-x-8 top-1/2 -translate-y-1/2 h-40 w-[calc(100%-4rem)] transition-opacity duration-300 ${
               isStructured ? 'opacity-100' : 'opacity-0'
             }`}
           >
@@ -171,48 +205,58 @@ export const ProblemSection: React.FC = () => {
               strokeDasharray="6 6"
             />
             <path
+              ref={connectorPathRef}
               d="M 95 80 L 1005 80"
               stroke="#5BA59A"
               strokeWidth="2.5"
-              className="svg-signal-line"
             />
           </svg>
 
           <div className="relative z-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {TASK_FRAGMENTS.map((frag, index) => (
-              <div
-                key={frag.id}
-                className={`glass-panel rounded-2xl p-4 transition-all duration-500 ${
-                  isStructured
-                    ? 'translate-x-0 translate-y-0 rotate-0 border-[#5BA59A]/40 bg-white/85'
-                    : frag.scatteredClass
-                }`}
-              >
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-mono text-[11px] font-medium text-[#657187]">
-                    {isStructured ? frag.structuredOrder : frag.source}
-                  </span>
-                  {renderFragmentIcon(frag.id)}
+            {TASK_FRAGMENTS.map((frag, index) => {
+              const transitionStyle = isManualTransition
+                ? { transition: 'transform 260ms cubic-bezier(0.77, 0, 0.175, 1), border-color 260ms, background-color 260ms' }
+                : {
+                    transition: 'transform 520ms cubic-bezier(0.16, 1, 0.3, 1), border-color 520ms, background-color 520ms',
+                    transitionDelay: `${index * 40}ms`,
+                  };
+
+              return (
+                <div
+                  key={frag.id}
+                  style={transitionStyle}
+                  className={`glass-panel rounded-2xl p-4 ${
+                    isStructured
+                      ? 'translate-x-0 translate-y-0 rotate-0 border-[#5BA59A]/40 bg-white/85'
+                      : frag.scatteredClass
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-mono text-[11px] font-medium text-[#657187]">
+                      {isStructured ? frag.structuredOrder : frag.source}
+                    </span>
+                    {renderFragmentIcon(frag.id)}
+                  </div>
+
+                  <h3 className="mt-3 text-sm font-semibold text-[#1E2432]">
+                    {frag.label}
+                  </h3>
+
+                  <p className="mt-1.5 text-xs text-[#657187] leading-relaxed">
+                    {frag.detail}
+                  </p>
+
+                  <div className="mt-3 flex items-center justify-between border-t border-[#1E2432]/8 pt-2.5 text-[11px] font-mono">
+                    <span className={isStructured ? 'text-[#5BA59A] font-medium' : 'text-[#657187]'}>
+                      {isStructured ? 'Connected step' : 'Unlinked fragment'}
+                    </span>
+                    {isStructured && index < TASK_FRAGMENTS.length - 1 && (
+                      <ArrowRight className="h-3 w-3 text-[#5BA59A]" aria-hidden="true" />
+                    )}
+                  </div>
                 </div>
-
-                <h3 className="mt-3 text-sm font-semibold text-[#1E2432]">
-                  {frag.label}
-                </h3>
-
-                <p className="mt-1.5 text-xs text-[#657187] leading-relaxed">
-                  {frag.detail}
-                </p>
-
-                <div className="mt-3 flex items-center justify-between border-t border-[#1E2432]/8 pt-2.5 text-[11px] font-mono">
-                  <span className={isStructured ? 'text-[#5BA59A] font-medium' : 'text-[#657187]'}>
-                    {isStructured ? 'Connected step' : 'Unlinked fragment'}
-                  </span>
-                  {isStructured && index < TASK_FRAGMENTS.length - 1 && (
-                    <ArrowRight className="h-3 w-3 text-[#5BA59A]" aria-hidden="true" />
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="mt-8 flex flex-col items-start justify-between gap-3 border-t border-[#1E2432]/8 pt-5 text-xs text-[#657187] sm:flex-row sm:items-center">

@@ -60,13 +60,19 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
                 {/* Back Translucent Glass Sheet 2 */}
                 <div
                   aria-hidden="true"
-                  className="glass-panel-subtle absolute -right-5 -top-5 h-full w-full rounded-3xl rotate-6 scale-95"
-                />
+                  data-lm-reveal="rear-sheet-2"
+                  className="absolute -right-5 -top-5 h-full w-full pointer-events-none"
+                >
+                  <div className="glass-panel-subtle h-full w-full rounded-3xl rotate-6 scale-95" />
+                </div>
                 {/* Middle Translucent Glass Sheet 1 */}
                 <div
                   aria-hidden="true"
-                  className="glass-panel absolute -left-4 -bottom-4 h-full w-full rounded-3xl -rotate-3 scale-95"
-                />
+                  data-lm-reveal="rear-sheet-1"
+                  className="absolute -left-4 -bottom-4 h-full w-full pointer-events-none"
+                >
+                  <div className="glass-panel h-full w-full rounded-3xl -rotate-3 scale-95" />
+                </div>
                 {/* Front Floating Playbook Cover */}
                 <div className="glass-panel-active relative z-10 rounded-3xl p-3 shadow-lg transition-transform duration-500 hover:-translate-y-1.5">
                   <div className="overflow-hidden rounded-2xl border border-white/85 bg-[#F8F9FC]">

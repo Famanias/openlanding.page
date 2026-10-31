@@ -216,6 +216,11 @@ export const GlassBackground = forwardRef<
     const pausedRef = useRef<boolean>(paused);
     pausedRef.current = paused;
 
+    const syncActivityRef = useRef<() => void>(() => {});
+    useEffect(() => {
+      syncActivityRef.current();
+    }, [paused]);
+
     const transparentRef = useRef<boolean>(transparentExport);
     transparentRef.current = transparentExport;
 
@@ -479,10 +484,12 @@ export const GlassBackground = forwardRef<
       renderer.domElement.addEventListener('webglcontextrestored', handleContextRestored);
 
       // Paced animation loop (uses afterDraw on software WebGL per threejs skill)
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let isReducedMotion = reducedMotionQuery.matches;
       let frameId = 0;
       let timerId = 0;
       let disposed = false;
+      let isRunning = false;
       let lastTimeMs = performance.now();
 
       function afterDraw(cb: () => void) {
@@ -511,12 +518,19 @@ export const GlassBackground = forwardRef<
 
       function tick() {
         if (disposed) return;
+
+        const shouldRun = isVisible && !pausedRef.current && !isReducedMotion && !document.hidden;
+        if (!shouldRun) {
+          isRunning = false;
+          return;
+        }
+
         const nowMs = performance.now();
         const dtSec = Math.min(0.1, (nowMs - lastTimeMs) / 1000);
         lastTimeMs = nowMs;
 
         const eng = engineRef.current;
-        if (eng && isVisible && !pausedRef.current && !prefersReducedMotion) {
+        if (eng) {
           eng.elapsedTime += dtSec;
           currentPointer.x += (targetPointer.x - currentPointer.x) * Math.min(1, dtSec * 4.5);
           currentPointer.y += (targetPointer.y - currentPointer.y) * Math.min(1, dtSec * 4.5);
@@ -530,16 +544,45 @@ export const GlassBackground = forwardRef<
         }
       }
 
-      if (!prefersReducedMotion) {
-        if (isSoftwareGl) {
-          afterDraw(tick);
-        } else {
-          frameId = requestAnimationFrame(tick);
+      function syncActivity() {
+        if (disposed) return;
+        const shouldRun = isVisible && !pausedRef.current && !isReducedMotion && !document.hidden;
+        if (shouldRun && !isRunning) {
+          isRunning = true;
+          lastTimeMs = performance.now();
+          if (isSoftwareGl) {
+            afterDraw(tick);
+          } else {
+            frameId = requestAnimationFrame(tick);
+          }
+        } else if (!shouldRun && isRunning) {
+          isRunning = false;
+          cancelAnimationFrame(frameId);
+          clearTimeout(timerId);
+          if (engineRef.current) {
+            engineRef.current.renderSingleFrame(engineRef.current.elapsedTime, transparentRef.current);
+          }
         }
       }
 
+      const handleVisibilityChange = () => {
+        syncActivity();
+      };
+      const handleReducedMotionChange = (e: MediaQueryListEvent) => {
+        isReducedMotion = e.matches;
+        syncActivity();
+      };
+
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
+      syncActivityRef.current = syncActivity;
+      syncActivity();
+
       return () => {
         disposed = true;
+        syncActivityRef.current = () => {};
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        reducedMotionQuery.removeEventListener('change', handleReducedMotionChange);
         cancelAnimationFrame(frameId);
         clearTimeout(timerId);
         window.removeEventListener('pointermove', handlePointerMove);

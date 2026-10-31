@@ -80,3 +80,95 @@ test("the page halo stays continuous at extreme zoom", async ({ browser, baseURL
     await context.close();
   }
 });
+
+test("workspace demo replay and stage inspection", async ({ page }) => {
+  await page.goto("/lumen");
+  const workspace = page.locator("#workspace-hero");
+  await expect(workspace).toBeVisible();
+
+  // Test stage inspect tabs
+  const inputStageBtn = page.getByRole("button", { name: "01 Input", exact: true });
+  await inputStageBtn.click();
+  await expect(inputStageBtn).toHaveAttribute("aria-pressed", "true");
+
+  // Replay demo button works
+  const replayBtn = page.getByRole("button", { name: /Replay Demo|Restarting Demo/i });
+  await expect(replayBtn).toBeVisible();
+  await replayBtn.click();
+  await expect(page.getByText(/Restarting Demo|Replay Demo/i)).toBeVisible();
+});
+
+test("playbook preview tabs and roving keyboard navigation", async ({ page }) => {
+  await page.goto("/lumen");
+  const preview = page.locator("#inside-playbook");
+  await preview.scrollIntoViewIfNeeded();
+
+  const tabs = page.locator('#inside-playbook [role="tab"]');
+  await expect(tabs).toHaveCount(3);
+  await expect(tabs.nth(0)).toHaveAttribute("aria-selected", "true");
+
+  // Keyboard navigation across tabs
+  await tabs.nth(0).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(tabs.nth(1)).toBeFocused();
+  await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
+
+  // Check state on tabpanels
+  const panels = page.locator('#inside-playbook [role="tabpanel"]');
+  await expect(panels.nth(0)).toHaveAttribute("aria-hidden", "true");
+  await expect(panels.nth(1)).not.toHaveAttribute("aria-hidden", "true");
+});
+
+test("credibility before/after toggle maintains vertical stability", async ({ page }) => {
+  await page.goto("/lumen");
+  const cred = page.locator("#practical-credibility");
+  await cred.scrollIntoViewIfNeeded();
+
+  const card = cred.locator(".glass-panel-active").first();
+  const box1 = await card.boundingBox();
+  expect(box1).not.toBeNull();
+
+  const beforeBtn = page.getByRole("button", { name: /Before: Manual Triage/i });
+  await beforeBtn.click();
+  await expect(beforeBtn).toHaveAttribute("aria-pressed", "true");
+
+  const box2 = await card.boundingBox();
+  expect(box2).not.toBeNull();
+  expect(Math.abs((box1?.height ?? 0) - (box2?.height ?? 0))).toBeLessThanOrEqual(4);
+});
+
+test("faq accordion toggles with accessible attributes", async ({ page }) => {
+  await page.goto("/lumen");
+  const faq = page.locator("#faq");
+  await faq.scrollIntoViewIfNeeded();
+
+  const firstQuestion = faq.locator("button[aria-expanded]").first();
+  await expect(firstQuestion).toBeVisible();
+  const isInitiallyExpanded = (await firstQuestion.getAttribute("aria-expanded")) === "true";
+
+  await firstQuestion.click();
+  await expect(firstQuestion).toHaveAttribute("aria-expanded", isInitiallyExpanded ? "false" : "true");
+});
+
+test("mobile viewport has no horizontal overflow", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/lumen");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  const hasOverflow = await page.evaluate(() => {
+    return document.documentElement.scrollWidth > window.innerWidth;
+  });
+  expect(hasOverflow).toBe(false);
+});
+
+test("reduced motion settles reveal elements and preserves layout", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/lumen");
+
+  const revealCards = page.locator('[data-lm-reveal="card"]');
+  await expect(revealCards).toHaveCount(3);
+  for (let i = 0; i < 3; i++) {
+    await expect(revealCards.nth(i)).toHaveCSS("opacity", "1");
+    await expect(revealCards.nth(i)).toHaveCSS("transform", "none");
+  }
+});

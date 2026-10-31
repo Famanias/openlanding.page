@@ -52,11 +52,11 @@ export const FaqSection: React.FC = () => {
                     aria-expanded={isOpen}
                     aria-controls={contentId}
                     onClick={() => toggleItem(item.id)}
-                    className="flex w-full items-center justify-between gap-4 text-left text-base font-semibold text-[#1E2432] hover:text-[#252C43] transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+                    className="flex w-full items-center justify-between gap-4 text-left text-base font-semibold text-[#1E2432] hover:text-[#252C43] transition-colors duration-160 ease-[var(--lm-ease-feedback)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
                   >
                     <span>{item.question}</span>
                     <ChevronDown
-                      className={`h-5 w-5 text-[#657187] shrink-0 transition-transform duration-200 ${
+                      className={`h-5 w-5 text-[#657187] shrink-0 transition-transform duration-160 ease-[var(--lm-ease-feedback)] ${
                         isOpen ? 'rotate-180 text-[#1E2432]' : ''
                       }`}
                       aria-hidden="true"

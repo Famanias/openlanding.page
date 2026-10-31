@@ -26,7 +26,11 @@ export const BenefitsSection: React.FC = () => {
         {/* Asymmetric Bento Grid with 3 distinct SVG visual compositions */}
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12">
           {/* Benefit 01 — Find opportunities (col-span-4) */}
-          <article className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between">
+          <article
+            data-lm-reveal="card"
+            style={{ transitionDelay: '0ms' }}
+            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+          >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
                 01. FIND OPPORTUNITIES
@@ -78,7 +82,11 @@ export const BenefitsSection: React.FC = () => {
           </article>
 
           {/* Benefit 02 — Build repeatable workflows (col-span-4) */}
-          <article className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between">
+          <article
+            data-lm-reveal="card"
+            style={{ transitionDelay: '50ms' }}
+            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+          >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
                 02. BUILD REPEATABLE WORKFLOWS
@@ -91,13 +99,13 @@ export const BenefitsSection: React.FC = () => {
               </p>
             </div>
 
-            {/* Illustration 2: Glass panels connected through animated SVG pathways */}
+            {/* Illustration 2: Glass panels connected through clear SVG pathways */}
             <div className="mt-6 rounded-2xl border border-white/85 bg-white/70 p-4">
               <svg
                 viewBox="0 0 320 150"
                 className="h-36 w-full"
                 role="img"
-                aria-label="Three workflow nodes linked by animated SVG pathways"
+                aria-label="Three workflow nodes linked by SVG pathways"
               >
                 <path
                   d="M 88 45 C 120 45, 115 75, 136 75 C 185 75, 195 105, 228 105"
@@ -110,7 +118,6 @@ export const BenefitsSection: React.FC = () => {
                   fill="none"
                   stroke="#252C43"
                   strokeWidth="2.5"
-                  className="svg-signal-line"
                 />
 
                 {/* Step Node 1 */}
@@ -138,7 +145,11 @@ export const BenefitsSection: React.FC = () => {
           </article>
 
           {/* Benefit 03 — Stay in control (col-span-4) */}
-          <article className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between">
+          <article
+            data-lm-reveal="card"
+            style={{ transitionDelay: '100ms' }}
+            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+          >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
                 03. STAY IN CONTROL

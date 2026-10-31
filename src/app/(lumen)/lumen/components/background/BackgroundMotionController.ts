@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 export interface ScrollAtmosphereState {
   scrollProgress: number; // 0..1 across full document
   parallaxOffsetY: number; // subtle vertical parallax in px
@@ -7,8 +5,8 @@ export interface ScrollAtmosphereState {
 }
 
 /**
- * Pure calculation of environmental scroll state for deterministic unit testing
- * and smooth runtime updates.
+ * Pure calculation of environmental scroll state for deterministic unit testing.
+ * Retained for backward compatibility with existing tests.
  */
 export function computeScrollAtmosphereState(
   scrollY: number,
@@ -39,50 +37,13 @@ export function computeScrollAtmosphereState(
 }
 
 /**
- * Single global environmental motion hook that tracks document scroll progress
- * passively without competing with content ScrollTrigger timelines.
+ * Stable non-reactive fallback.
+ * Live scroll DOM mutations are handled without React re-renders by LumenMotion.
  */
 export function useBackgroundMotionController(): ScrollAtmosphereState {
-  const [state, setState] = useState<ScrollAtmosphereState>({
+  return {
     scrollProgress: 0,
     parallaxOffsetY: 0,
     refractionModulation: 1.0,
-  });
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let rafId = 0;
-    let ticking = false;
-
-    const update = () => {
-      ticking = false;
-      const docEl = document.documentElement;
-      const maxScroll = Math.max(1, docEl.scrollHeight - window.innerHeight);
-      const nextState = computeScrollAtmosphereState(
-        window.scrollY || window.pageYOffset || 0,
-        maxScroll,
-        prefersReducedMotion
-      );
-      setState(nextState);
-    };
-
-    const onScrollOrResize = () => {
-      if (!ticking) {
-        ticking = true;
-        rafId = window.requestAnimationFrame(update);
-      }
-    };
-
-    update();
-    window.addEventListener('scroll', onScrollOrResize, { passive: true });
-    window.addEventListener('resize', onScrollOrResize, { passive: true });
-
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', onScrollOrResize);
-      window.removeEventListener('resize', onScrollOrResize);
-    };
-  }, []);
-
-  return state;
+  };
 }

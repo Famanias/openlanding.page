@@ -72,7 +72,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
 import { Sliders } from 'lucide-react';
 import { MinimalHeader } from './components/MinimalHeader';
 import { DownloadForm } from './components/DownloadForm';
@@ -88,6 +87,7 @@ import { FinalCtaSection } from './components/FinalCtaSection';
 import { Footer } from './components/Footer';
 import { PageAtmosphere } from './components/background/PageAtmosphere';
 import { GlassStudio } from './components/GlassStudio';
+import { LumenMotion } from './motion/LumenMotion';
 import {
   GlassPresetId,
   GlassPresetConfig,
@@ -104,12 +104,15 @@ function checkIsStudioRoute(): boolean {
 }
 
 export default function App() {
+  const landingRootRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
   const eyebrowRef = useRef<HTMLParagraphElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subcopyRef = useRef<HTMLParagraphElement>(null);
   const formWrapperRef = useRef<HTMLDivElement>(null);
   const heroInputRef = useRef<HTMLInputElement>(null);
+
+  const introConsumedRef = useRef<boolean>(false);
 
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
   const [lastSubmitTimestamp, setLastSubmitTimestamp] = useState<number | null>(null);
@@ -128,6 +131,7 @@ export default function App() {
   }, []);
 
   const openGlassStudio = () => {
+    introConsumedRef.current = true;
     try {
       window.history.pushState({}, '', '/lumen?studio=1');
     } catch {
@@ -147,58 +151,30 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
-  // Hero Opening Animation (Phase A & Phase B)
-  useEffect(() => {
-    if (isStudioOpen) return;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-      tl.fromTo(
-        eyebrowRef.current,
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.45 },
-        0.05
-      )
-        .fromTo(
-          headlineRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.6 },
-          0.15
-        )
-        .fromTo(
-          subcopyRef.current,
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.55 },
-          0.28
-        )
-        .fromTo(
-          formWrapperRef.current,
-          { opacity: 0, y: 14 },
-          { opacity: 1, y: 0, duration: 0.5 },
-          0.38
-        );
-    }, heroSectionRef);
-
-    return () => ctx.revert();
-  }, [isStudioOpen]);
-
   const handleFocusHeroForm = () => {
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const formEl = document.getElementById('hero-download-form');
     if (formEl) {
-      formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      formEl.scrollIntoView({
+        behavior: prefersReduced ? 'auto' : 'smooth',
+        block: 'center',
+      });
     }
-    window.setTimeout(() => {
-      heroInputRef.current?.focus();
-    }, 300);
+    heroInputRef.current?.focus({ preventScroll: true });
   };
 
   const handleScrollToPreview = () => {
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const previewEl = document.getElementById('inside-playbook');
     if (previewEl) {
-      previewEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      previewEl.scrollIntoView({
+        behavior: prefersReduced ? 'auto' : 'smooth',
+        block: 'start',
+      });
     }
   };
 
@@ -211,6 +187,8 @@ export default function App() {
     setSubmittedEmail(null);
     setLastSubmitTimestamp(null);
   };
+
+  const [isHeroActive, setIsHeroActive] = useState<boolean>(true);
 
   if (isStudioOpen) {
     return (
@@ -226,11 +204,16 @@ export default function App() {
   }
 
   return (
-    <div className="landing-shell">
+    <div ref={landingRootRef} className="landing-shell">
+      <LumenMotion
+        rootRef={landingRootRef}
+        onHeroActivityChange={setIsHeroActive}
+      />
       {/* Single Root-Level Global Atmospheric & Optical Glass Layer */}
       <PageAtmosphere
         activePreset={activeHeroPreset}
         customConfig={customHeroConfig}
+        isHeroActive={isHeroActive}
       />
 
       <div className="landing-content">
@@ -346,7 +329,7 @@ export default function App() {
 
                 {/* Right ~45%: Floating Interactive 2.5D Workflow */}
                 <div className="lg:col-span-6 xl:col-span-6">
-                  <GlassWorkspace />
+                  <GlassWorkspace introConsumedRef={introConsumedRef} />
                 </div>
               </div>
             </div>
@@ -485,6 +468,16 @@ export default function App() {
   overflow-x: clip;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+
+  /* Scoped Lumen Motion Tokens */
+  --lm-ease-optical: cubic-bezier(0.16, 1, 0.3, 1);
+  --lm-ease-feedback: cubic-bezier(0.23, 1, 0.32, 1);
+  --lm-ease-travel: cubic-bezier(0.77, 0, 0.175, 1);
+  --lm-duration-press: 120ms;
+  --lm-duration-feedback: 160ms;
+  --lm-duration-select: 220ms;
+  --lm-duration-sheet: 280ms;
+  --lm-duration-reveal: 480ms;
 }
 
 .page-atmosphere {
@@ -599,7 +592,12 @@ export default function App() {
 .workspace-tilt-plane {
   transform-style: preserve-3d;
   transform: rotateX(var(--tilt-x, 2deg)) rotateY(var(--tilt-y, -4deg));
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--lm-duration-select, 0.22s) var(--lm-ease-select, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.workspace-entrance-wrapper {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
 .panel-depth-input {
@@ -631,6 +629,18 @@ export default function App() {
   transform-style: preserve-3d;
 }
 
+.playbook-stack-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.playbook-stack-sheet {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  transform-style: preserve-3d;
+}
+
 .stack-card-front {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 250, 255, 0.95) 100%);
   border: 1px solid rgba(255, 255, 255, 0.95);
@@ -638,7 +648,9 @@ export default function App() {
   transform: translate3d(0px, 0px, 30px) rotateY(-3deg) rotateX(1deg);
   z-index: 30;
   opacity: 1;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.45s ease;
+  transition: transform var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              opacity var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              box-shadow var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1));
 }
 
 .stack-card-middle {
@@ -648,7 +660,9 @@ export default function App() {
   transform: translate3d(22px, -14px, -20px) rotateY(-5deg) rotateX(2deg) scale(0.97);
   z-index: 20;
   opacity: 0.9;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.45s ease;
+  transition: transform var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              opacity var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              box-shadow var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1));
 }
 
 .stack-card-back {
@@ -658,7 +672,9 @@ export default function App() {
   transform: translate3d(44px, -28px, -60px) rotateY(-7deg) rotateX(3deg) scale(0.94);
   z-index: 10;
   opacity: 0.75;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.45s ease;
+  transition: transform var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              opacity var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              box-shadow var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1));
 }
 
 .stack-card-cover-docked {
@@ -676,6 +692,32 @@ export default function App() {
   100% {
     stroke-dashoffset: 0;
   }
+}
+
+/* Content Reveal Styles */
+[data-lm-reveal] {
+  transition: opacity var(--lm-duration-reveal, 480ms) var(--lm-ease-optical, cubic-bezier(0.16, 1, 0.3, 1)),
+              transform var(--lm-duration-reveal, 480ms) var(--lm-ease-optical, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+[data-lm-reveal][data-lm-armed="true"] {
+  opacity: 0.72;
+  transform: translateY(12px);
+}
+
+[data-lm-reveal][data-lm-in="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-lm-reveal^="rear-sheet"][data-lm-armed="true"] {
+  opacity: 0.6;
+  transform: translateY(8px);
+}
+
+[data-lm-reveal^="rear-sheet"][data-lm-in="true"] {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .svg-signal-line {
@@ -719,8 +761,10 @@ export default function App() {
   .panel-depth-recessed,
   .stack-card-front,
   .stack-card-middle,
-  .stack-card-back {
+  .stack-card-back,
+  [data-lm-reveal] {
     transform: none !important;
+    opacity: 1 !important;
   }
 }
 
@@ -787,7 +831,11 @@ export const BenefitsSection: React.FC = () => {
         {/* Asymmetric Bento Grid with 3 distinct SVG visual compositions */}
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12">
           {/* Benefit 01 — Find opportunities (col-span-4) */}
-          <article className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between">
+          <article
+            data-lm-reveal="card"
+            style={{ transitionDelay: '0ms' }}
+            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+          >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
                 01. FIND OPPORTUNITIES
@@ -839,7 +887,11 @@ export const BenefitsSection: React.FC = () => {
           </article>
 
           {/* Benefit 02 — Build repeatable workflows (col-span-4) */}
-          <article className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between">
+          <article
+            data-lm-reveal="card"
+            style={{ transitionDelay: '50ms' }}
+            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+          >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
                 02. BUILD REPEATABLE WORKFLOWS
@@ -852,13 +904,13 @@ export const BenefitsSection: React.FC = () => {
               </p>
             </div>
 
-            {/* Illustration 2: Glass panels connected through animated SVG pathways */}
+            {/* Illustration 2: Glass panels connected through clear SVG pathways */}
             <div className="mt-6 rounded-2xl border border-white/85 bg-white/70 p-4">
               <svg
                 viewBox="0 0 320 150"
                 className="h-36 w-full"
                 role="img"
-                aria-label="Three workflow nodes linked by animated SVG pathways"
+                aria-label="Three workflow nodes linked by SVG pathways"
               >
                 <path
                   d="M 88 45 C 120 45, 115 75, 136 75 C 185 75, 195 105, 228 105"
@@ -871,7 +923,6 @@ export const BenefitsSection: React.FC = () => {
                   fill="none"
                   stroke="#252C43"
                   strokeWidth="2.5"
-                  className="svg-signal-line"
                 />
 
                 {/* Step Node 1 */}
@@ -899,7 +950,11 @@ export const BenefitsSection: React.FC = () => {
           </article>
 
           {/* Benefit 03 — Stay in control (col-span-4) */}
-          <article className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between">
+          <article
+            data-lm-reveal="card"
+            style={{ transitionDelay: '100ms' }}
+            className="glass-panel rounded-3xl p-6 sm:p-7 lg:col-span-4 flex flex-col justify-between"
+          >
             <div>
               <span className="font-mono text-xs font-semibold text-[#657187]">
                 03. STAY IN CONTROL
@@ -1009,7 +1064,7 @@ export const CredibilitySection: React.FC = () => {
                     type="button"
                     aria-pressed={comparisonView === 'before'}
                     onClick={() => setComparisonView('before')}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors duration-160 whitespace-nowrap shrink-0 cursor-pointer ${
                       comparisonView === 'before'
                         ? 'bg-[#252C43] text-white shadow-xs'
                         : 'text-[#657187] hover:text-[#1E2432]'
@@ -1021,7 +1076,7 @@ export const CredibilitySection: React.FC = () => {
                     type="button"
                     aria-pressed={comparisonView === 'after'}
                     onClick={() => setComparisonView('after')}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors duration-160 whitespace-nowrap shrink-0 cursor-pointer ${
                       comparisonView === 'after'
                         ? 'bg-[#252C43] text-white shadow-xs'
                         : 'text-[#657187] hover:text-[#1E2432]'
@@ -1033,34 +1088,40 @@ export const CredibilitySection: React.FC = () => {
               </div>
 
               {comparisonView === 'before' ? (
-                <div className="mt-6 space-y-3">
+                <div key="before" className="mt-6 space-y-3 transition-opacity duration-160 ease-[var(--lm-ease-feedback)]">
                   <p className="text-xs font-mono text-[#657187]">
                     MANUAL PROCESS — REPETITIVE CONTEXT SWITCHING
                   </p>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    <div className="rounded-2xl border border-white/80 bg-white/75 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">01. READ &amp; SORT</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Manual classification
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-white/80 bg-white/75 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">01. READ &amp; SORT</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Manual classification
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Open long email threads, identify intent, and copy details into tracker.
                       </p>
                     </div>
-                    <div className="rounded-2xl border border-white/80 bg-white/75 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">02. SUMMARIZE</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Ad-hoc notes
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-white/80 bg-white/75 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">02. SUMMARIZE</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Ad-hoc notes
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Rewrite key dates and questions by hand for the internal team channel.
                       </p>
                     </div>
-                    <div className="rounded-2xl border border-white/80 bg-white/75 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">03. FOLLOW-UP</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Blank-page drafting
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-white/80 bg-white/75 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">03. FOLLOW-UP</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Blank-page drafting
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Search past replies for standard policy clauses and draft response from scratch.
                       </p>
@@ -1068,34 +1129,40 @@ export const CredibilitySection: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="mt-6 space-y-3">
+                <div key="after" className="mt-6 space-y-3 transition-opacity duration-160 ease-[var(--lm-ease-feedback)]">
                   <p className="text-xs font-mono text-[#5BA59A] font-medium">
                     STRUCTURED AI-ASSISTED WORKFLOW WITH HUMAN REVIEW STEP
                   </p>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    <div className="rounded-2xl border border-[#D8D0F7] bg-white/90 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">01. CLASSIFY &amp; EXTRACT</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Structured intake brief
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-[#D8D0F7] bg-white/90 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">01. CLASSIFY &amp; EXTRACT</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Structured intake brief
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Workflow tags category, extracts requested dates, and flags any ambiguous items.
                       </p>
                     </div>
-                    <div className="rounded-2xl border border-[#C9DAFA] bg-white/90 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">02. PREPARE DRAFT</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Grounded reply template
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-[#C9DAFA] bg-white/90 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">02. PREPARE DRAFT</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Grounded reply template
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Assembles a draft response using approved reference clauses and source facts.
                       </p>
                     </div>
-                    <div className="rounded-2xl border border-[#5BA59A]/50 bg-[#252C43] text-white p-4">
-                      <span className="font-mono text-[11px] text-[#C9DAFA]">03. HUMAN CHECKPOINT</span>
-                      <p className="mt-1.5 text-xs font-semibold text-white">
-                        Verify &amp; send
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-[#5BA59A]/50 bg-[#252C43] text-white p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#C9DAFA]">03. HUMAN CHECKPOINT</span>
+                        <p className="mt-1.5 text-xs font-semibold text-white">
+                          Verify &amp; send
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-white/80">
                         Account owner verifies extracted facts in 60 seconds and approves delivery.
                       </p>
@@ -1432,11 +1499,11 @@ export const FaqSection: React.FC = () => {
                     aria-expanded={isOpen}
                     aria-controls={contentId}
                     onClick={() => toggleItem(item.id)}
-                    className="flex w-full items-center justify-between gap-4 text-left text-base font-semibold text-[#1E2432] hover:text-[#252C43] transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+                    className="flex w-full items-center justify-between gap-4 text-left text-base font-semibold text-[#1E2432] hover:text-[#252C43] transition-colors duration-160 ease-[var(--lm-ease-feedback)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
                   >
                     <span>{item.question}</span>
                     <ChevronDown
-                      className={`h-5 w-5 text-[#657187] shrink-0 transition-transform duration-200 ${
+                      className={`h-5 w-5 text-[#657187] shrink-0 transition-transform duration-160 ease-[var(--lm-ease-feedback)] ${
                         isOpen ? 'rotate-180 text-[#1E2432]' : ''
                       }`}
                       aria-hidden="true"
@@ -1526,13 +1593,19 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
                 {/* Back Translucent Glass Sheet 2 */}
                 <div
                   aria-hidden="true"
-                  className="glass-panel-subtle absolute -right-5 -top-5 h-full w-full rounded-3xl rotate-6 scale-95"
-                />
+                  data-lm-reveal="rear-sheet-2"
+                  className="absolute -right-5 -top-5 h-full w-full pointer-events-none"
+                >
+                  <div className="glass-panel-subtle h-full w-full rounded-3xl rotate-6 scale-95" />
+                </div>
                 {/* Middle Translucent Glass Sheet 1 */}
                 <div
                   aria-hidden="true"
-                  className="glass-panel absolute -left-4 -bottom-4 h-full w-full rounded-3xl -rotate-3 scale-95"
-                />
+                  data-lm-reveal="rear-sheet-1"
+                  className="absolute -left-4 -bottom-4 h-full w-full pointer-events-none"
+                >
+                  <div className="glass-panel h-full w-full rounded-3xl -rotate-3 scale-95" />
+                </div>
                 {/* Front Floating Playbook Cover */}
                 <div className="glass-panel-active relative z-10 rounded-3xl p-3 shadow-lg transition-transform duration-500 hover:-translate-y-1.5">
                   <div className="overflow-hidden rounded-2xl border border-white/85 bg-[#F8F9FC]">
@@ -2460,6 +2533,11 @@ export const GlassBackground = forwardRef<
     const pausedRef = useRef<boolean>(paused);
     pausedRef.current = paused;
 
+    const syncActivityRef = useRef<() => void>(() => {});
+    useEffect(() => {
+      syncActivityRef.current();
+    }, [paused]);
+
     const transparentRef = useRef<boolean>(transparentExport);
     transparentRef.current = transparentExport;
 
@@ -2723,10 +2801,12 @@ export const GlassBackground = forwardRef<
       renderer.domElement.addEventListener('webglcontextrestored', handleContextRestored);
 
       // Paced animation loop (uses afterDraw on software WebGL per threejs skill)
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let isReducedMotion = reducedMotionQuery.matches;
       let frameId = 0;
       let timerId = 0;
       let disposed = false;
+      let isRunning = false;
       let lastTimeMs = performance.now();
 
       function afterDraw(cb: () => void) {
@@ -2755,12 +2835,19 @@ export const GlassBackground = forwardRef<
 
       function tick() {
         if (disposed) return;
+
+        const shouldRun = isVisible && !pausedRef.current && !isReducedMotion && !document.hidden;
+        if (!shouldRun) {
+          isRunning = false;
+          return;
+        }
+
         const nowMs = performance.now();
         const dtSec = Math.min(0.1, (nowMs - lastTimeMs) / 1000);
         lastTimeMs = nowMs;
 
         const eng = engineRef.current;
-        if (eng && isVisible && !pausedRef.current && !prefersReducedMotion) {
+        if (eng) {
           eng.elapsedTime += dtSec;
           currentPointer.x += (targetPointer.x - currentPointer.x) * Math.min(1, dtSec * 4.5);
           currentPointer.y += (targetPointer.y - currentPointer.y) * Math.min(1, dtSec * 4.5);
@@ -2774,16 +2861,45 @@ export const GlassBackground = forwardRef<
         }
       }
 
-      if (!prefersReducedMotion) {
-        if (isSoftwareGl) {
-          afterDraw(tick);
-        } else {
-          frameId = requestAnimationFrame(tick);
+      function syncActivity() {
+        if (disposed) return;
+        const shouldRun = isVisible && !pausedRef.current && !isReducedMotion && !document.hidden;
+        if (shouldRun && !isRunning) {
+          isRunning = true;
+          lastTimeMs = performance.now();
+          if (isSoftwareGl) {
+            afterDraw(tick);
+          } else {
+            frameId = requestAnimationFrame(tick);
+          }
+        } else if (!shouldRun && isRunning) {
+          isRunning = false;
+          cancelAnimationFrame(frameId);
+          clearTimeout(timerId);
+          if (engineRef.current) {
+            engineRef.current.renderSingleFrame(engineRef.current.elapsedTime, transparentRef.current);
+          }
         }
       }
 
+      const handleVisibilityChange = () => {
+        syncActivity();
+      };
+      const handleReducedMotionChange = (e: MediaQueryListEvent) => {
+        isReducedMotion = e.matches;
+        syncActivity();
+      };
+
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
+      syncActivityRef.current = syncActivity;
+      syncActivity();
+
       return () => {
         disposed = true;
+        syncActivityRef.current = () => {};
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        reducedMotionQuery.removeEventListener('change', handleReducedMotionChange);
         cancelAnimationFrame(frameId);
         clearTimeout(timerId);
         window.removeEventListener('pointermove', handlePointerMove);
@@ -3682,7 +3798,9 @@ export const GlassStudio: React.FC<GlassStudioProps> = ({
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/GlassWorkspace.tsx">
-<![CDATA[import React, { useEffect, useRef, useState } from 'react';
+<![CDATA['use client';
+
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import {
   Mail,
@@ -3702,13 +3820,28 @@ import {
   WORKSPACE_SCENARIOS,
   getStageCaption,
 } from '../utils/workflowLogic';
+import { WorkspacePlaybackController } from '../motion/workspacePlayback';
+import { HERO_DEMO_BEATS } from '../motion/timings';
 
-export const GlassWorkspace: React.FC = () => {
+interface GlassWorkspaceProps {
+  introConsumedRef?: React.RefObject<boolean>;
+}
+
+export const GlassWorkspace: React.FC<GlassWorkspaceProps> = ({ introConsumedRef }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const tiltPlaneRef = useRef<HTMLDivElement>(null);
+
+  // Entrance wrappers (owned strictly by GSAP entrance timeline)
+  const inputEntranceRef = useRef<HTMLDivElement>(null);
+  const processingEntranceRef = useRef<HTMLDivElement>(null);
+  const outputEntranceRef = useRef<HTMLDivElement>(null);
+
+  // Inner inspection panels (owned by component state & CSS .panel-depth-*)
   const inputPanelRef = useRef<HTMLDivElement>(null);
   const processingPanelRef = useRef<HTMLDivElement>(null);
   const outputPanelRef = useRef<HTMLDivElement>(null);
+
+  // Connectors
   const connector1Ref = useRef<SVGPathElement>(null);
   const connector2Ref = useRef<SVGPathElement>(null);
 
@@ -3723,97 +3856,159 @@ export const GlassWorkspace: React.FC = () => {
   const currentScenario =
     WORKSPACE_SCENARIOS.find((s) => s.id === activeScenarioId) || WORKSPACE_SCENARIOS[0];
 
-  // Opening GSAP Choreography (Phases C, D, E, F)
+  const playbackRef = useRef<WorkspacePlaybackController>(
+    new WorkspacePlaybackController(introConsumedRef)
+  );
+
+  const traceConnector = useCallback((path: SVGPathElement | null, durationSec = 0.45) => {
+    if (!path) return;
+    try {
+      const len = path.getTotalLength ? path.getTotalLength() : 320;
+      gsap.fromTo(
+        path,
+        { strokeDasharray: `${len} ${len}`, strokeDashoffset: len, opacity: 0.4 },
+        { strokeDashoffset: 0, opacity: 1, duration: durationSec, ease: 'power2.out' }
+      );
+    } catch {
+      // SVG not mounted in test / jsdom
+    }
+  }, []);
+
+  // Finite sequence runner
+  const runSequence = useCallback(
+    (scenarioId: string) => {
+      setIsDemoPlaying(true);
+      playbackRef.current.startPlayback(
+        scenarioId,
+        (step) => {
+          setActiveSubStep(step);
+          if (step === 'classify') {
+            traceConnector(connector1Ref.current, 0.4);
+          } else if (step === 'route') {
+            traceConnector(connector2Ref.current, 0.4);
+          }
+        },
+        () => {
+          setIsDemoPlaying(false);
+        }
+      );
+    },
+    [traceConnector]
+  );
+
+  // Initial authoring entrance (runs once per App lifetime when 25% visible)
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reducedQuery.matches) {
+      setActiveSubStep('route');
+      playbackRef.current.consumeIntro();
+      return;
+    }
+
+    if (!playbackRef.current.shouldPlayIntro()) {
       setActiveSubStep('route');
       return;
     }
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        defaults: { ease: 'power3.out' },
-        onComplete: () => {
-          setIsDemoPlaying(false);
-        },
-      });
+    let observer: IntersectionObserver | null = null;
+    let gsapCtx: gsap.Context | null = null;
 
-      setIsDemoPlaying(true);
+    const startEntranceAnimation = () => {
+      gsapCtx = gsap.context(() => {
+        const tl = gsap.timeline({
+          defaults: { ease: 'power3.out' },
+          onComplete: () => {
+            if (inputEntranceRef.current) inputEntranceRef.current.style.willChange = 'auto';
+            if (processingEntranceRef.current) processingEntranceRef.current.style.willChange = 'auto';
+            if (outputEntranceRef.current) outputEntranceRef.current.style.willChange = 'auto';
+          },
+        });
 
-      // Phase C: Glass panels assemble from shallow depth
-      tl.fromTo(
-        inputPanelRef.current,
-        { opacity: 0, y: 24, scale: 0.96 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.65 },
-        0.15
-      )
-        .fromTo(
-          processingPanelRef.current,
-          { opacity: 0, y: 30, scale: 0.95 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.75 },
-          0.32
-        )
-        .fromTo(
-          outputPanelRef.current,
-          { opacity: 0, y: 26, scale: 0.96 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.65 },
-          0.5
-        );
-
-      // Phase D: SVG connectors draw themselves
-      if (connector1Ref.current && connector2Ref.current) {
+        // 0-640ms: Glass panels settle from shallow depth on outer entrance wrappers
         tl.fromTo(
-          [connector1Ref.current, connector2Ref.current],
-          { strokeDashoffset: 320, opacity: 0.2 },
-          { strokeDashoffset: 0, opacity: 1, duration: 0.75, stagger: 0.2 },
-          0.65
-        );
-      }
+          inputEntranceRef.current,
+          { opacity: 0.5, y: 16, scale: 0.98 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.52 },
+          HERO_DEMO_BEATS.panelsStart
+        )
+          .fromTo(
+            processingEntranceRef.current,
+            { opacity: 0.5, y: 16, scale: 0.98 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.52 },
+            HERO_DEMO_BEATS.panelsStart + HERO_DEMO_BEATS.panelsStagger
+          )
+          .fromTo(
+            outputEntranceRef.current,
+            { opacity: 0.5, y: 16, scale: 0.98 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.52 },
+            HERO_DEMO_BEATS.panelsStart + HERO_DEMO_BEATS.panelsStagger * 2
+          );
 
-      // Phase E: Deterministic Processing Demonstration (Classify -> Summarize -> Route)
-      tl.call(() => setActiveSubStep('classify'), [], 1.1)
-        .call(() => setActiveSubStep('summarize'), [], 1.75)
-        .call(() => setActiveSubStep('route'), [], 2.4);
-    }, containerRef);
+        // Run the finite demonstration sequence
+        runSequence(activeScenarioId);
+      }, containerRef);
+    };
 
-    return () => ctx.revert();
-  }, []);
+    const playback = playbackRef.current;
+    if (typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry && entry.isIntersecting && playback.shouldPlayIntro()) {
+            observer?.disconnect();
+            observer = null;
+            startEntranceAnimation();
+          }
+        },
+        { threshold: 0.25 }
+      );
+      observer.observe(container);
+    } else {
+      startEntranceAnimation();
+    }
 
-  const triggerManualDemoWalkthrough = () => {
-    if (isDemoPlaying) return;
-    setIsDemoPlaying(true);
-    setSelectedStage('input');
-    setActiveSubStep('classify');
+    return () => {
+      observer?.disconnect();
+      gsapCtx?.revert();
+      playback.dispose(false);
+    };
+  }, [activeScenarioId, runSequence]);
 
-    window.setTimeout(() => {
-      setSelectedStage('processing');
-      setActiveSubStep('classify');
-    }, 550);
-
-    window.setTimeout(() => {
-      setActiveSubStep('summarize');
-    }, 1150);
-
-    window.setTimeout(() => {
-      setActiveSubStep('route');
-    }, 1750);
-
-    window.setTimeout(() => {
-      setSelectedStage('output');
-      setIsDemoPlaying(false);
-    }, 2400);
+  // User actions cancel playback immediately without stale callbacks
+  const handleStageSelect = (stage: WorkspaceStageId) => {
+    playbackRef.current.cancelPlayback('user-stage-select', true);
+    setIsDemoPlaying(false);
+    setSelectedStage((prev) => (prev === stage ? null : stage));
   };
 
-  // Controlled pointer parallax (+/- 3.5 deg max)
+  const handleScenarioSelect = (scenarioId: string) => {
+    playbackRef.current.cancelPlayback('user-scenario-change', true);
+    setIsDemoPlaying(false);
+    setActiveScenarioId(scenarioId);
+    setSelectedStage('input');
+    setActiveSubStep('classify');
+  };
+
+  const handleManualReplay = () => {
+    playbackRef.current.cancelPlayback('replay-restart', false);
+    setSelectedStage(null);
+    runSequence(activeScenarioId);
+  };
+
+  // Controlled pointer parallax (+/- 2 deg max relative to resting 2deg X, -4deg Y)
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (!tiltPlaneRef.current) return;
+
     const rect = e.currentTarget.getBoundingClientRect();
     const xRatio = (e.clientX - rect.left) / rect.width - 0.5;
     const yRatio = (e.clientY - rect.top) / rect.height - 0.5;
 
-    const tiltX = (-yRatio * 5).toFixed(2);
-    const tiltY = (xRatio * 6).toFixed(2);
+    const tiltX = (2 + -yRatio * 2).toFixed(2);
+    const tiltY = (-4 + xRatio * 2).toFixed(2);
 
     tiltPlaneRef.current.style.setProperty('--tilt-x', `${tiltX}deg`);
     tiltPlaneRef.current.style.setProperty('--tilt-y', `${tiltY}deg`);
@@ -3823,10 +4018,6 @@ export const GlassWorkspace: React.FC = () => {
     if (!tiltPlaneRef.current) return;
     tiltPlaneRef.current.style.setProperty('--tilt-x', '2deg');
     tiltPlaneRef.current.style.setProperty('--tilt-y', '-4deg');
-  };
-
-  const handleStageSelect = (stage: WorkspaceStageId) => {
-    setSelectedStage((prev) => (prev === stage ? null : stage));
   };
 
   const getScenarioIcon = (id: string) => {
@@ -3888,19 +4079,19 @@ export const GlassWorkspace: React.FC = () => {
           })}
         </div>
 
+        {/* Replay Demonstration Button (Always enabled, restarts sequence cleanly) */}
         <button
           type="button"
-          onClick={triggerManualDemoWalkthrough}
-          disabled={isDemoPlaying}
-          className="inline-flex items-center gap-1.5 rounded-xl border border-white/85 bg-white/75 px-3 py-1.5 text-xs font-semibold text-[#1E2432] shadow-xs hover:bg-white disabled:opacity-60 transition-all whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+          onClick={handleManualReplay}
+          className="inline-flex items-center gap-1.5 rounded-xl border border-white/80 bg-white/80 px-3 py-1.5 text-xs font-semibold text-[#1E2432] shadow-xs hover:bg-white transition-all cursor-pointer"
         >
-          <Play className="h-3 w-3 fill-current" aria-hidden="true" />
-          <span>{isDemoPlaying ? 'Stepping workflow...' : 'Step Through Flow'}</span>
+          <Play className="h-3.5 w-3.5 text-[#5BA59A]" aria-hidden="true" />
+          <span>{isDemoPlaying ? 'Restarting Demo...' : 'Replay Demo'}</span>
         </button>
       </div>
 
-      {/* 2.5D Perspective Stage Container */}
-      <div className="workspace-perspective-stage relative min-h-[540px] w-full">
+      {/* 2.5D Stage Viewport */}
+      <div className="workspace-perspective-stage relative min-h-[520px] rounded-3xl border border-white/90 bg-gradient-to-br from-white/70 via-white/50 to-white/35 p-5 sm:p-7 shadow-xs backdrop-blur-md overflow-hidden">
         {/* Background Decorative Glass Artwork Asset */}
         <div
           aria-hidden="true"
@@ -3924,75 +4115,68 @@ export const GlassWorkspace: React.FC = () => {
           ref={tiltPlaneRef}
           className="workspace-tilt-plane relative z-10 flex flex-col gap-3"
         >
-          {/* PANEL 01 — INPUT (Upper-Left in 2.5D space) */}
-          <div
-            ref={inputPanelRef}
-            role="button"
-            tabIndex={0}
-            aria-pressed={selectedStage === 'input'}
-            aria-label="Stage 01 Input: Incoming Work. Click to inspect stage."
-            onClick={() => handleStageSelect('input')}
-            onMouseEnter={() => setHoveredStage('input')}
-            onMouseLeave={() => setHoveredStage(null)}
-            onFocus={() => setHoveredStage('input')}
-            onBlur={() => setHoveredStage(null)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleStageSelect('input');
-              }
-            }}
-            className={`lg:w-[74%] rounded-2xl p-4 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
-              effectiveStage === 'input' ? 'glass-panel-active' : 'glass-panel'
-            } ${getPanelDepthClass('input', 'panel-depth-input')}`}
-          >
-            <div className="flex items-center justify-between border-b border-[#1E2432]/8 pb-2.5">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-[11px] font-semibold text-[#657187]">
-                  01 — INPUT
-                </span>
-                <span aria-hidden="true" className="text-[#657187]">·</span>
-                <span className="text-xs font-semibold text-[#1E2432]">
-                  Incoming Work
+          {/* PANEL 01 — ENTRANCE WRAPPER (GSAP owns this wrapper) */}
+          <div ref={inputEntranceRef} className="workspace-entrance-wrapper lg:w-[74%]">
+            {/* PANEL 01 — INPUT (Inner inspection panel) */}
+            <div
+              ref={inputPanelRef}
+              onMouseEnter={() => setHoveredStage('input')}
+              onMouseLeave={() => setHoveredStage(null)}
+              className={`rounded-2xl p-4 ${
+                effectiveStage === 'input' ? 'glass-panel-active' : 'glass-panel'
+              } ${getPanelDepthClass('input', 'panel-depth-input')}`}
+            >
+              <div className="flex items-center justify-between border-b border-[#1E2432]/8 pb-2.5">
+                <button
+                  type="button"
+                  aria-pressed={selectedStage === 'input'}
+                  aria-label="Stage 01 Input: Incoming Work. Click to inspect stage."
+                  onClick={() => handleStageSelect('input')}
+                  className="flex items-center gap-2 cursor-pointer rounded-lg p-1 hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+                >
+                  <span className="font-mono text-[11px] font-semibold text-[#657187]">
+                    01 — INPUT
+                  </span>
+                  <span aria-hidden="true" className="text-[#657187]">·</span>
+                  <span className="text-xs font-semibold text-[#1E2432]">
+                    Incoming Work
+                  </span>
+                </button>
+                <span className="font-mono text-[11px] text-[#657187]">
+                  4 SOURCES
                 </span>
               </div>
-              <span className="font-mono text-[11px] text-[#657187]">
-                4 SOURCES
-              </span>
-            </div>
 
-            {/* Interactive Source Task Buttons */}
-            <div className="mt-3 grid grid-cols-2 gap-1.5" onClick={(e) => e.stopPropagation()}>
-              {WORKSPACE_SCENARIOS.map((item) => {
-                const isSelected = item.id === activeScenarioId;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => {
-                      setActiveScenarioId(item.id);
-                      setSelectedStage('input');
-                    }}
-                    className={`flex items-center gap-2 rounded-xl px-2.5 py-2 text-left text-xs transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-white/95 text-[#1E2432] shadow-xs border border-[#252C43]/20 font-semibold'
-                        : 'bg-white/55 text-[#657187] hover:bg-white/80 hover:text-[#1E2432] border border-transparent'
-                    }`}
-                  >
-                    {getScenarioIcon(item.id)}
-                    <span className="truncate">{item.categoryLabel}</span>
-                  </button>
-                );
-              })}
-            </div>
+              {/* Interactive Source Task Buttons */}
+              <div className="mt-3 grid grid-cols-2 gap-1.5">
+                {WORKSPACE_SCENARIOS.map((item) => {
+                  const isSelected = item.id === activeScenarioId;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => handleScenarioSelect(item.id)}
+                      className={`flex items-center gap-2 rounded-xl px-2.5 py-2 text-left text-xs transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-white/95 text-[#1E2432] shadow-xs border border-[#252C43]/20 font-semibold'
+                          : 'bg-white/55 text-[#657187] hover:bg-white/80 hover:text-[#1E2432] border border-transparent'
+                      }`}
+                    >
+                      {getScenarioIcon(item.id)}
+                      <span className="truncate">{item.categoryLabel}</span>
+                    </button>
+                  );
+                })}
+              </div>
 
-            <div className="mt-2.5 flex items-center justify-between rounded-xl bg-white/80 px-3 py-2 text-xs">
-              <span className="font-medium text-[#1E2432] truncate">
-                {currentScenario.title}
-              </span>
-              <span className="ml-2 font-mono text-[10px] text-[#657187] whitespace-nowrap shrink-0">
-                {currentScenario.sourceMeta}
-              </span>
+              <div className="mt-2.5 flex items-center justify-between rounded-xl bg-white/80 px-3 py-2 text-xs">
+                <span className="font-medium text-[#1E2432] truncate">
+                  {currentScenario.title}
+                </span>
+                <span className="ml-2 font-mono text-[10px] text-[#657187] whitespace-nowrap shrink-0">
+                  {currentScenario.sourceMeta}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -4004,121 +4188,118 @@ export const GlassWorkspace: React.FC = () => {
                 d="M 160 2 C 160 20, 290 14, 290 32"
                 stroke="#8E7CE8"
                 strokeWidth={effectiveStage === 'input' || effectiveStage === 'processing' ? '2.5' : '1.75'}
-                strokeDasharray="320"
                 strokeLinecap="round"
-              />
-              <path
-                d="M 160 2 C 160 20, 290 14, 290 32"
-                stroke="#1E2432"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                className="svg-signal-line"
               />
               <circle cx="160" cy="4" r="3.5" fill="#8E7CE8" />
               <circle cx="290" cy="30" r="4" fill="#5B8DEF" />
             </svg>
           </div>
 
-          {/* PANEL 02 — AI PROCESSING (Central Largest Prominent Glass Panel) */}
-          <div
-            ref={processingPanelRef}
-            role="button"
-            tabIndex={0}
-            aria-pressed={selectedStage === 'processing'}
-            aria-label="Stage 02 AI Processing: Classify, Summarize, Route. Click to inspect stage."
-            onClick={() => handleStageSelect('processing')}
-            onMouseEnter={() => setHoveredStage('processing')}
-            onMouseLeave={() => setHoveredStage(null)}
-            onFocus={() => setHoveredStage('processing')}
-            onBlur={() => setHoveredStage(null)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleStageSelect('processing');
-              }
-            }}
-            className={`lg:ml-auto lg:mr-2 lg:w-[88%] rounded-2xl p-5 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
-              effectiveStage === 'processing' ? 'glass-panel-active' : 'glass-panel-active'
-            } ${getPanelDepthClass('processing', 'panel-depth-processing')}`}
-          >
-            <div className="flex items-center justify-between border-b border-[#1E2432]/10 pb-3">
-              <div className="flex items-center gap-2">
-                <Cpu className="h-4 w-4 text-[#252C43]" aria-hidden="true" />
-                <span className="font-mono text-[11px] font-semibold text-[#657187]">
-                  02 — AI PROCESSING
-                </span>
-                <span aria-hidden="true" className="text-[#657187]">·</span>
-                <span className="text-xs font-semibold text-[#1E2432]">
-                  AI Workflow
-                </span>
-              </div>
-              <span className="font-mono text-[11px] text-[#5BA59A] font-medium">
-                DETERMINISTIC FLOW
-              </span>
-            </div>
-
-            {/* Three sequential AI Workflow steps: Classify -> Summarize -> Route */}
-            <div className="mt-3.5 space-y-2" onClick={(e) => e.stopPropagation()}>
-              {/* Step 1: Classify */}
-              <div
-                onClick={() => {
-                  setActiveSubStep('classify');
-                  setSelectedStage('processing');
-                }}
-                className={`rounded-xl p-3 transition-all cursor-pointer border ${
-                  activeSubStep === 'classify'
-                    ? 'bg-white/95 border-[#D8D0F7] shadow-xs'
-                    : 'bg-white/65 border-white/70 hover:bg-white/85'
-                }`}
-              >
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[#1E2432]">1. Classify</span>
-                  <span className="font-mono text-[11px] text-[#657187]">
-                    {currentScenario.classification.intent} · {currentScenario.classification.priority}
+          {/* PANEL 02 — ENTRANCE WRAPPER (GSAP owns this wrapper) */}
+          <div ref={processingEntranceRef} className="workspace-entrance-wrapper lg:ml-auto lg:mr-2 lg:w-[88%]">
+            {/* PANEL 02 — AI PROCESSING (Inner inspection panel) */}
+            <div
+              ref={processingPanelRef}
+              onMouseEnter={() => setHoveredStage('processing')}
+              onMouseLeave={() => setHoveredStage(null)}
+              className={`rounded-2xl p-5 ${
+                effectiveStage === 'processing' ? 'glass-panel-active' : 'glass-panel-active'
+              } ${getPanelDepthClass('processing', 'panel-depth-processing')}`}
+            >
+              <div className="flex items-center justify-between border-b border-[#1E2432]/10 pb-3">
+                <button
+                  type="button"
+                  aria-pressed={selectedStage === 'processing'}
+                  aria-label="Stage 02 AI Processing: Classify, Summarize, Route. Click to inspect stage."
+                  onClick={() => handleStageSelect('processing')}
+                  className="flex items-center gap-2 cursor-pointer rounded-lg p-1 hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+                >
+                  <Cpu className="h-4 w-4 text-[#252C43]" aria-hidden="true" />
+                  <span className="font-mono text-[11px] font-semibold text-[#657187]">
+                    02 — AI PROCESSING
                   </span>
-                </div>
-              </div>
-
-              {/* Step 2: Summarize */}
-              <div
-                onClick={() => {
-                  setActiveSubStep('summarize');
-                  setSelectedStage('processing');
-                }}
-                className={`rounded-xl p-3 transition-all cursor-pointer border ${
-                  activeSubStep === 'summarize'
-                    ? 'bg-white/95 border-[#C9DAFA] shadow-xs'
-                    : 'bg-white/65 border-white/70 hover:bg-white/85'
-                }`}
-              >
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[#1E2432]">2. Summarize</span>
-                  <span className="font-mono text-[11px] text-[#657187]">Key Context Extracted</span>
-                </div>
-                <p className="mt-1.5 text-xs text-[#657187] leading-relaxed">
-                  {currentScenario.summaryBullets[0]}
-                </p>
-              </div>
-
-              {/* Step 3: Route */}
-              <div
-                onClick={() => {
-                  setActiveSubStep('route');
-                  setSelectedStage('processing');
-                }}
-                className={`rounded-xl p-3 transition-all cursor-pointer border ${
-                  activeSubStep === 'route'
-                    ? 'bg-white/95 border-[#F6DCCA] shadow-xs'
-                    : 'bg-white/65 border-white/70 hover:bg-white/85'
-                }`}
-              >
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[#1E2432]">3. Route</span>
-                  <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[#1E2432]">
-                    <span>{currentScenario.routeDestination}</span>
-                    <ArrowRight className="h-3 w-3 text-[#5BA59A]" aria-hidden="true" />
+                  <span aria-hidden="true" className="text-[#657187]">·</span>
+                  <span className="text-xs font-semibold text-[#1E2432]">
+                    AI Workflow
                   </span>
-                </div>
+                </button>
+                <span className="font-mono text-[11px] text-[#5BA59A] font-medium">
+                  DETERMINISTIC FLOW
+                </span>
+              </div>
+
+              {/* Three sequential AI Workflow steps: Classify -> Summarize -> Route */}
+              <div className="mt-3.5 space-y-2">
+                {/* Step 1: Classify */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    playbackRef.current.cancelPlayback('user-stage-select', true);
+                    setIsDemoPlaying(false);
+                    setActiveSubStep('classify');
+                    setSelectedStage('processing');
+                  }}
+                  className={`w-full rounded-xl p-3 text-left transition-all cursor-pointer border ${
+                    activeSubStep === 'classify'
+                      ? 'bg-white/95 border-[#D8D0F7] shadow-xs'
+                      : 'bg-white/65 border-white/70 hover:bg-white/85'
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-semibold text-[#1E2432]">1. Classify</span>
+                    <span className="font-mono text-[11px] text-[#657187]">
+                      {currentScenario.classification.intent} · {currentScenario.classification.priority}
+                    </span>
+                  </div>
+                </button>
+
+                {/* Step 2: Summarize */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    playbackRef.current.cancelPlayback('user-stage-select', true);
+                    setIsDemoPlaying(false);
+                    setActiveSubStep('summarize');
+                    setSelectedStage('processing');
+                  }}
+                  className={`w-full rounded-xl p-3 text-left transition-all cursor-pointer border ${
+                    activeSubStep === 'summarize'
+                      ? 'bg-white/95 border-[#C9DAFA] shadow-xs'
+                      : 'bg-white/65 border-white/70 hover:bg-white/85'
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-semibold text-[#1E2432]">2. Summarize</span>
+                    <span className="font-mono text-[11px] text-[#657187]">Key Context Extracted</span>
+                  </div>
+                  <p className="mt-1.5 text-xs text-[#657187] leading-relaxed">
+                    {currentScenario.summaryBullets[0]}
+                  </p>
+                </button>
+
+                {/* Step 3: Route */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    playbackRef.current.cancelPlayback('user-stage-select', true);
+                    setIsDemoPlaying(false);
+                    setActiveSubStep('route');
+                    setSelectedStage('processing');
+                  }}
+                  className={`w-full rounded-xl p-3 text-left transition-all cursor-pointer border ${
+                    activeSubStep === 'route'
+                      ? 'bg-white/95 border-[#F6DCCA] shadow-xs'
+                      : 'bg-white/65 border-white/70 hover:bg-white/85'
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-semibold text-[#1E2432]">3. Route</span>
+                    <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[#1E2432]">
+                      <span>{currentScenario.routeDestination}</span>
+                      <ArrowRight className="h-3 w-3 text-[#5BA59A]" aria-hidden="true" />
+                    </span>
+                  </div>
+                </button>
               </div>
             </div>
           </div>
@@ -4129,86 +4310,74 @@ export const GlassWorkspace: React.FC = () => {
               <path
                 ref={connector2Ref}
                 d="M 310 2 C 310 20, 390 14, 390 32"
-                stroke="#5B8DEF"
-                strokeWidth={effectiveStage === 'processing' || effectiveStage === 'output' ? '2.5' : '1.75'}
-                strokeDasharray="320"
-                strokeLinecap="round"
-              />
-              <path
-                d="M 310 2 C 310 20, 390 14, 390 32"
                 stroke="#5BA59A"
-                strokeWidth="2.5"
+                strokeWidth={effectiveStage === 'processing' || effectiveStage === 'output' ? '2.5' : '1.75'}
                 strokeLinecap="round"
-                className="svg-signal-line-delayed"
               />
               <circle cx="310" cy="4" r="3.5" fill="#5B8DEF" />
               <circle cx="390" cy="30" r="4" fill="#5BA59A" />
             </svg>
           </div>
 
-          {/* PANEL 03 — OUTPUT (Lower-Right in 2.5D space) */}
-          <div
-            ref={outputPanelRef}
-            role="button"
-            tabIndex={0}
-            aria-pressed={selectedStage === 'output'}
-            aria-label="Stage 03 Output: Organized Results ready for review. Click to inspect stage."
-            onClick={() => handleStageSelect('output')}
-            onMouseEnter={() => setHoveredStage('output')}
-            onMouseLeave={() => setHoveredStage(null)}
-            onFocus={() => setHoveredStage('output')}
-            onBlur={() => setHoveredStage(null)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleStageSelect('output');
-              }
-            }}
-            className={`lg:ml-auto lg:w-[80%] rounded-2xl p-4 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
-              effectiveStage === 'output' ? 'glass-panel-active' : 'glass-panel'
-            } ${getPanelDepthClass('output', 'panel-depth-output')}`}
-          >
-            <div className="flex items-center justify-between border-b border-[#1E2432]/8 pb-2.5">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-[11px] font-semibold text-[#657187]">
-                  03 — OUTPUT
-                </span>
-                <span aria-hidden="true" className="text-[#657187]">·</span>
-                <span className="text-xs font-semibold text-[#1E2432]">
-                  Organized Results
+          {/* PANEL 03 — ENTRANCE WRAPPER (GSAP owns this wrapper) */}
+          <div ref={outputEntranceRef} className="workspace-entrance-wrapper lg:ml-auto lg:w-[80%]">
+            {/* PANEL 03 — OUTPUT (Inner inspection panel) */}
+            <div
+              ref={outputPanelRef}
+              onMouseEnter={() => setHoveredStage('output')}
+              onMouseLeave={() => setHoveredStage(null)}
+              className={`rounded-2xl p-4 ${
+                effectiveStage === 'output' ? 'glass-panel-active' : 'glass-panel'
+              } ${getPanelDepthClass('output', 'panel-depth-output')}`}
+            >
+              <div className="flex items-center justify-between border-b border-[#1E2432]/8 pb-2.5">
+                <button
+                  type="button"
+                  aria-pressed={selectedStage === 'output'}
+                  aria-label="Stage 03 Output: Organized Results ready for review. Click to inspect stage."
+                  onClick={() => handleStageSelect('output')}
+                  className="flex items-center gap-2 cursor-pointer rounded-lg p-1 hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+                >
+                  <span className="font-mono text-[11px] font-semibold text-[#657187]">
+                    03 — OUTPUT
+                  </span>
+                  <span aria-hidden="true" className="text-[#657187]">·</span>
+                  <span className="text-xs font-semibold text-[#1E2432]">
+                    Organized Results
+                  </span>
+                </button>
+                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#5BA59A]">
+                  <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span>Ready for review</span>
                 </span>
               </div>
-              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#5BA59A]">
-                <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                <span>Ready for review</span>
-              </span>
-            </div>
 
-            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-              <div className="rounded-xl bg-white/80 p-2.5">
-                <div className="text-[11px] font-mono text-[#657187]">DRAFT SUMMARY</div>
-                <div className="mt-0.5 text-xs font-semibold text-[#1E2432] line-clamp-1">
-                  {currentScenario.outputDraft.summaryTitle}
+              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <div className="rounded-xl bg-white/80 p-2.5">
+                  <div className="text-[11px] font-mono text-[#657187]">DRAFT SUMMARY</div>
+                  <div className="mt-0.5 text-xs font-semibold text-[#1E2432] line-clamp-1">
+                    {currentScenario.outputDraft.summaryTitle}
+                  </div>
+                </div>
+                <div className="rounded-xl bg-white/80 p-2.5">
+                  <div className="text-[11px] font-mono text-[#657187]">PRIORITIZED TASK</div>
+                  <div className="mt-0.5 text-xs font-semibold text-[#1E2432] line-clamp-1">
+                    {currentScenario.outputDraft.prioritizedTask}
+                  </div>
                 </div>
               </div>
-              <div className="rounded-xl bg-white/80 p-2.5">
-                <div className="text-[11px] font-mono text-[#657187]">PRIORITIZED TASK</div>
-                <div className="mt-0.5 text-xs font-semibold text-[#1E2432] line-clamp-1">
-                  {currentScenario.outputDraft.prioritizedTask}
-                </div>
-              </div>
-            </div>
 
-            <div className="mt-2 flex items-center justify-between rounded-xl bg-white/90 px-3 py-2 text-xs">
-              <div className="flex items-center gap-2 truncate">
-                <CheckCircle2 className="h-3.5 w-3.5 text-[#5BA59A] shrink-0" aria-hidden="true" />
-                <span className="text-[#1E2432] truncate">
-                  {currentScenario.outputDraft.preparedResponse}
+              <div className="mt-2 flex items-center justify-between rounded-xl bg-white/90 px-3 py-2 text-xs">
+                <div className="flex items-center gap-2 truncate">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-[#5BA59A] shrink-0" aria-hidden="true" />
+                  <span className="text-[#1E2432] truncate">
+                    {currentScenario.outputDraft.preparedResponse}
+                  </span>
+                </div>
+                <span className="ml-2 font-mono text-[10px] text-[#657187] whitespace-nowrap shrink-0">
+                  {currentScenario.outputDraft.reviewStatus}
                 </span>
               </div>
-              <span className="ml-2 font-mono text-[10px] text-[#657187] whitespace-nowrap shrink-0">
-                {currentScenario.outputDraft.reviewStatus}
-              </span>
             </div>
           </div>
         </div>
@@ -4242,15 +4411,78 @@ export const GlassWorkspace: React.FC = () => {
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/HowItWorksSection.tsx">
-<![CDATA[import React, { useState } from 'react';
+<![CDATA['use client';
+
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import gsap from 'gsap';
 import { HOW_IT_WORKS_STEPS, HowItWorksStep } from '../utils/workflowLogic';
 import { ShieldCheck, Cpu, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const HowItWorksSection: React.FC = () => {
   const [activeStepId, setActiveStepId] = useState<HowItWorksStep['id']>('map');
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const activeLineRef = useRef<SVGLineElement>(null);
 
-  const currentStep =
-    HOW_IT_WORKS_STEPS.find((s) => s.id === activeStepId) || HOW_IT_WORKS_STEPS[0];
+  const activeIndex = HOW_IT_WORKS_STEPS.findIndex((s) => s.id === activeStepId);
+  const currentStep = HOW_IT_WORKS_STEPS[activeIndex] || HOW_IT_WORKS_STEPS[0];
+
+  const traceLine = useCallback(() => {
+    const line = activeLineRef.current;
+    if (!line) return;
+    try {
+      gsap.fromTo(
+        line,
+        { strokeDasharray: '840 840', strokeDashoffset: 840, opacity: 0.4 },
+        { strokeDashoffset: 0, opacity: 1, duration: 0.45, ease: 'power2.out' }
+      );
+    } catch {
+      // JSDOM fallback
+    }
+  }, []);
+
+  const handleSelectStep = (id: HowItWorksStep['id']) => {
+    setActiveStepId(id);
+    if (id !== 'map') {
+      traceLine();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, currentIndex: number) => {
+    let nextIndex = currentIndex;
+    const total = HOW_IT_WORKS_STEPS.length;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextIndex = (currentIndex + 1) % total;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      nextIndex = (currentIndex - 1 + total) % total;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      nextIndex = total - 1;
+    } else {
+      return;
+    }
+
+    const nextStep = HOW_IT_WORKS_STEPS[nextIndex];
+    handleSelectStep(nextStep.id);
+
+    // Focus target button
+    const container = tabsContainerRef.current;
+    if (container) {
+      const buttons = container.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+      buttons[nextIndex]?.focus();
+    }
+  };
+
+  useEffect(() => {
+    if (activeStepId !== 'map') {
+      traceLine();
+    }
+  }, [activeStepId, traceLine]);
 
   return (
     <section
@@ -4274,24 +4506,40 @@ export const HowItWorksSection: React.FC = () => {
           </p>
         </div>
 
-        {/* 3 Step Selector Cards */}
+        {/* 3 Step Selector Cards with Moving Outlined Selection Layer */}
         <div
+          ref={tabsContainerRef}
           role="tablist"
           aria-label="Three-step workflow methodology"
-          className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3"
+          className="relative mt-10 grid grid-cols-1 gap-4 md:grid-cols-3"
         >
-          {HOW_IT_WORKS_STEPS.map((step) => {
+          {/* Outlined selection layer that translates smoothly over 220ms */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none hidden md:block absolute inset-y-0 left-0 rounded-2xl border-2 border-[#252C43] transition-transform duration-200"
+            style={{
+              width: 'calc((100% - 2rem) / 3)',
+              transform: `translateX(calc(${activeIndex} * (100% + 1rem)))`,
+              transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
+            }}
+          />
+
+          {HOW_IT_WORKS_STEPS.map((step, idx) => {
             const isSelected = step.id === activeStepId;
             return (
               <button
                 key={step.id}
+                id={`how-it-works-tab-${step.id}`}
                 role="tab"
                 type="button"
                 aria-selected={isSelected}
-                onClick={() => setActiveStepId(step.id)}
+                aria-controls="how-it-works-panel"
+                tabIndex={isSelected ? 0 : -1}
+                onClick={() => handleSelectStep(step.id)}
+                onKeyDown={(e) => handleKeyDown(e, idx)}
                 className={`rounded-2xl p-6 text-left transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
                   isSelected
-                    ? 'glass-panel-active border-[#252C43]/35 shadow-sm'
+                    ? 'glass-panel-active border-[#252C43]/35 shadow-sm md:border-transparent'
                     : 'glass-panel hover:bg-white/80'
                 }`}
               >
@@ -4314,8 +4562,13 @@ export const HowItWorksSection: React.FC = () => {
           })}
         </div>
 
-        {/* Transforming Unified Workflow Diagram */}
-        <div className="mt-8 glass-panel-active rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+        {/* Transforming Unified Workflow Diagram Tabpanel */}
+        <div
+          id="how-it-works-panel"
+          role="tabpanel"
+          aria-labelledby={`how-it-works-tab-${activeStepId}`}
+          className="mt-8 glass-panel-active rounded-3xl p-6 sm:p-10 relative overflow-hidden"
+        >
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1E2432]/10 pb-4">
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs font-semibold text-[#1E2432]">
@@ -4350,25 +4603,26 @@ export const HowItWorksSection: React.FC = () => {
               />
               {activeStepId !== 'map' && (
                 <line
+                  ref={activeLineRef}
                   x1="80"
                   y1="45"
                   x2="920"
                   y2="45"
                   stroke={activeStepId === 'review' ? '#5BA59A' : '#252C43'}
                   strokeWidth="2.5"
-                  className="svg-signal-line"
                 />
               )}
             </svg>
 
+            {/* Stable diagram node wrappers by index (0-3) to avoid unmounting */}
             <div className="relative z-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {currentStep.nodes.map((node, idx) => {
                 const isCheckpoint = node.kind === 'checkpoint';
                 const isAi = node.kind === 'ai';
                 return (
                   <div
-                    key={node.id}
-                    className={`rounded-2xl p-5 transition-all duration-300 border ${
+                    key={idx}
+                    className={`rounded-2xl p-5 border transition-colors duration-180 ${
                       isCheckpoint
                         ? 'bg-[#252C43] text-white border-[#252C43] shadow-md'
                         : isAi
@@ -4390,7 +4644,7 @@ export const HowItWorksSection: React.FC = () => {
                     </div>
 
                     <h4
-                      className={`mt-3 text-sm font-bold ${
+                      className={`mt-3 text-sm font-bold transition-colors duration-180 ${
                         isCheckpoint ? 'text-white' : 'text-[#1E2432]'
                       }`}
                     >
@@ -4398,7 +4652,7 @@ export const HowItWorksSection: React.FC = () => {
                     </h4>
 
                     <p
-                      className={`mt-1.5 text-xs leading-relaxed ${
+                      className={`mt-1.5 text-xs leading-relaxed transition-colors duration-180 ${
                         isCheckpoint ? 'text-white/80' : 'text-[#657187]'
                       }`}
                     >
@@ -4448,12 +4702,35 @@ export const MinimalHeader: React.FC<MinimalHeaderProps> = ({
   onFocusForm,
   onOpenGlassStudio,
 }) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const el = document.getElementById(targetId);
+    if (el) {
+      const prefersReduced =
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      el.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth' });
+      try {
+        window.history.pushState(null, '', `#${targetId}`);
+      } catch {
+        // ignore
+      }
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/75 bg-[#F8F9FC]/85 backdrop-blur-md">
+    <header className="lumen-header sticky top-0 z-40 w-full border-b border-white/75 bg-[#F8F9FC]/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-8 px-6 py-3.5 sm:px-10">
         {/* Zone 1: Single text element wordmark */}
         <a
           href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            const prefersReduced =
+              typeof window !== 'undefined' &&
+              window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+          }}
           className="text-base font-bold tracking-[0.22em] text-[#1E2432] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#252C43]"
         >
           LUMEN
@@ -4466,25 +4743,29 @@ export const MinimalHeader: React.FC<MinimalHeaderProps> = ({
         >
           <a
             href="#workspace-hero"
-            className="hover:text-[#1E2432] transition-colors whitespace-nowrap shrink-0"
+            onClick={(e) => handleNavClick(e, 'workspace-hero')}
+            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
           >
             Workspace
           </a>
           <a
             href="#inside-playbook"
-            className="hover:text-[#1E2432] transition-colors whitespace-nowrap shrink-0"
+            onClick={(e) => handleNavClick(e, 'inside-playbook')}
+            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
           >
             Playbook Preview
           </a>
           <a
             href="#how-it-works"
-            className="hover:text-[#1E2432] transition-colors whitespace-nowrap shrink-0"
+            onClick={(e) => handleNavClick(e, 'how-it-works')}
+            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
           >
             How It Works
           </a>
           <a
             href="#faq"
-            className="hover:text-[#1E2432] transition-colors whitespace-nowrap shrink-0"
+            onClick={(e) => handleNavClick(e, 'faq')}
+            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
           >
             FAQ
           </a>
@@ -4494,7 +4775,7 @@ export const MinimalHeader: React.FC<MinimalHeaderProps> = ({
               e.preventDefault();
               onOpenGlassStudio();
             }}
-            className="hover:text-[#1E2432] transition-colors whitespace-nowrap shrink-0"
+            className="hover:text-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0"
           >
             Glass Studio
           </a>
@@ -4508,7 +4789,7 @@ export const MinimalHeader: React.FC<MinimalHeaderProps> = ({
               e.preventDefault();
               onFocusForm();
             }}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#252C43] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#1E2432] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#252C43] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#1E2432] transition-colors duration-160 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43]"
           >
             <span>Get the free playbook</span>
             <ArrowDownRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -4521,7 +4802,9 @@ export const MinimalHeader: React.FC<MinimalHeaderProps> = ({
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/PlaybookPreviewSection.tsx">
-<![CDATA[import React, { useState } from 'react';
+<![CDATA['use client';
+
+import React, { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight, CheckCircle2, FileText, ArrowDownRight } from 'lucide-react';
 import {
   PlaybookPreviewId,
@@ -4556,10 +4839,10 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
   const [activeId, setActiveId] = useState<PlaybookPreviewId>('find');
   const [coverImgFallback, setCoverImgFallback] = useState(false);
   const [showFullOutline, setShowFullOutline] = useState(false);
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
 
   const stackOrder = getPreviewStackOrder(activeId);
   const activeIndex = PLAYBOOK_PREVIEW_PAGES.findIndex((p) => p.id === activeId);
-  const activePage = PLAYBOOK_PREVIEW_PAGES[activeIndex] || PLAYBOOK_PREVIEW_PAGES[0];
 
   const handlePrev = () => {
     const prevIdx =
@@ -4572,11 +4855,41 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
     setActiveId(PLAYBOOK_PREVIEW_PAGES[nextIdx].id);
   };
 
+  const handleTabKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, currentIndex: number) => {
+    let nextIndex = currentIndex;
+    const total = PLAYBOOK_PREVIEW_PAGES.length;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextIndex = (currentIndex + 1) % total;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      nextIndex = (currentIndex - 1 + total) % total;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      nextIndex = total - 1;
+    } else {
+      return;
+    }
+
+    const nextId = PLAYBOOK_PREVIEW_PAGES[nextIndex].id;
+    setActiveId(nextId);
+
+    const container = tabsContainerRef.current;
+    if (container) {
+      const buttons = container.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+      buttons[nextIndex]?.focus();
+    }
+  };
+
   const getStackClassName = (id: PlaybookPreviewId) => {
     const pos = stackOrder[id];
-    if (pos === 'front') return 'stack-card-front relative';
-    if (pos === 'middle') return 'stack-card-middle hidden lg:block absolute inset-0 pointer-events-none';
-    return 'stack-card-back hidden lg:block absolute inset-0 pointer-events-none';
+    if (pos === 'front') return 'stack-card-front';
+    if (pos === 'middle') return 'stack-card-middle hidden lg:block';
+    return 'stack-card-back hidden lg:block';
   };
 
   return (
@@ -4627,13 +4940,14 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
           </div>
         </div>
 
-        {/* Selectable Preview State Tabs */}
+        {/* Selectable Preview State Tabs with Roving Tab Stop */}
         <div
+          ref={tabsContainerRef}
           role="tablist"
           aria-label="Playbook sample pages"
           className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3"
         >
-          {PLAYBOOK_PREVIEW_PAGES.map((page) => {
+          {PLAYBOOK_PREVIEW_PAGES.map((page, idx) => {
             const isSelected = page.id === activeId;
             return (
               <button
@@ -4643,7 +4957,9 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
                 id={`tab-${page.id}`}
                 aria-selected={isSelected}
                 aria-controls={`panel-${page.id}`}
+                tabIndex={isSelected ? 0 : -1}
                 onClick={() => setActiveId(page.id)}
+                onKeyDown={(e) => handleTabKeyDown(e, idx)}
                 className={`rounded-2xl p-4 text-left transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
                   isSelected
                     ? 'glass-panel-active border-[#252C43]/30 shadow-sm'
@@ -4668,7 +4984,7 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
 
         {/* Main 2.5D Split: Playbook Cover on Left + Layered Sample Pages Stack on Right */}
         <div className="mt-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
-          {/* Left Column (4 cols): Provided Playbook Cover */}
+          {/* Left Column (5 cols): Provided Playbook Cover */}
           <div className="lg:col-span-5 flex flex-col items-center lg:items-start">
             <div className="glass-panel relative w-full max-w-[390px] rounded-3xl p-3.5 shadow-md">
               <div className="overflow-hidden rounded-2xl border border-white/80 bg-[#F8F9FC]">
@@ -4693,11 +5009,13 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
             </div>
           </div>
 
-          {/* Right Column (7 cols): Layered 2.5D Glass Document Stack */}
+          {/* Right Column (7 cols): Layered 2.5D Glass Document Stack in Shared Grid Cell */}
           <div className="lg:col-span-7 playbook-stack-stage relative lg:pr-12 lg:pt-8">
-            <div className="relative w-full">
+            <div className="playbook-stack-grid relative w-full">
               {PLAYBOOK_PREVIEW_PAGES.map((page) => {
                 const isFront = page.id === activeId;
+                const pos = stackOrder[page.id];
+
                 return (
                   <div
                     key={page.id}
@@ -4705,108 +5023,105 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
                     role="tabpanel"
                     aria-labelledby={`tab-${page.id}`}
                     aria-hidden={!isFront}
-                    className={`rounded-3xl p-6 sm:p-9 ${getStackClassName(page.id)}`}
+                    inert={!isFront}
+                    className={`playbook-stack-sheet rounded-3xl p-6 sm:p-9 ${getStackClassName(page.id)}`}
                   >
-                    {isFront ? (
-                      <>
-                        {/* Top Document Metadata Header */}
-                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1E2432]/10 pb-4">
-                          <div className="flex items-center gap-2 text-xs font-mono text-[#657187]">
-                            <span>LUMEN · AI WORKFLOW PLAYBOOK</span>
-                            <span aria-hidden="true">·</span>
-                            <span className="font-semibold text-[#1E2432]">
-                              {page.pageNumber}
-                            </span>
-                          </div>
-                          <span className="font-mono text-xs font-medium text-[#5BA59A]">
-                            EXCERPT PREVIEW
-                          </span>
-                        </div>
-
-                        {/* Chapter Title & Summary */}
-                        <div className="mt-5">
-                          <h3 className="text-2xl font-bold text-[#1E2432]">
-                            {page.chapterTitle}
-                          </h3>
-                          <p className="mt-1 text-sm font-medium text-[#252C43]">
-                            {page.subtitle}
-                          </p>
-                          <p className="mt-3 text-sm text-[#657187] leading-relaxed">
-                            {page.summary}
-                          </p>
-                        </div>
-
-                        {/* Checklist / Blueprint Sections */}
-                        <div className="mt-6 space-y-5">
-                          {page.sections.map((sec) => (
-                            <div key={sec.heading}>
-                              <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-[#1E2432]">
-                                {sec.heading}
-                              </h4>
-                              <ul className="mt-2.5 space-y-2">
-                                {sec.items.map((item) => (
-                                  <li
-                                    key={item}
-                                    className="flex items-start gap-2.5 text-sm text-[#1E2432]/90"
-                                  >
-                                    <CheckCircle2
-                                      className="mt-0.5 h-4 w-4 text-[#5BA59A] shrink-0"
-                                      aria-hidden="true"
-                                    />
-                                    <span>{item}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Reusable Prompt / Rule Box */}
-                        {page.promptTemplate && (
-                          <div className="mt-6 rounded-2xl border border-[#1E2432]/10 bg-[#F0F3FA] p-4">
-                            <div className="font-mono text-[11px] font-semibold text-[#657187]">
-                              {page.promptTemplate.label}
-                            </div>
-                            <p className="mt-1.5 font-mono text-xs text-[#1E2432] leading-relaxed">
-                              {page.promptTemplate.promptText}
-                            </p>
-                          </div>
-                        )}
-
-                        {/* Bottom Page Footer */}
-                        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#1E2432]/10 pt-4">
-                          <button
-                            type="button"
-                            onClick={() => setShowFullOutline((prev) => !prev)}
-                            aria-expanded={showFullOutline}
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E2432] hover:text-[#252C43] underline underline-offset-4 cursor-pointer"
-                          >
-                            <FileText className="h-3.5 w-3.5" aria-hidden="true" />
-                            <span>
-                              {showFullOutline
-                                ? 'Hide 16-page table of contents'
-                                : 'View full 16-page table of contents'}
-                            </span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={onFocusForm}
-                            className="inline-flex items-center gap-1.5 rounded-xl bg-[#252C43] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E2432] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-                          >
-                            <span>Get the full playbook</span>
-                            <ArrowDownRight className="h-3.5 w-3.5" aria-hidden="true" />
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      /* Clean recessed glass sheet header bar for 2.5D depth without text bleed */
-                      <div className="flex items-center justify-end">
-                        <span className="font-mono text-[10px] font-medium text-[#657187]/70">
+                    {/* Top Document Metadata Header */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1E2432]/10 pb-4">
+                      <div className="flex items-center gap-2 text-xs font-mono text-[#657187]">
+                        <span>LUMEN · AI WORKFLOW PLAYBOOK</span>
+                        <span aria-hidden="true">·</span>
+                        <span className="font-semibold text-[#1E2432]">
                           {page.pageNumber}
                         </span>
                       </div>
-                    )}
+                      <span className="font-mono text-xs font-medium text-[#5BA59A]">
+                        {pos === 'front' ? 'EXCERPT PREVIEW' : 'FOLIO'}
+                      </span>
+                    </div>
+
+                    {/* Page Content Body with 80ms outgoing / 180ms incoming opacity transition */}
+                    <div
+                      className={`transition-opacity duration-180 ${
+                        isFront ? 'opacity-100 delay-80' : 'opacity-0 duration-80 pointer-events-none'
+                      }`}
+                    >
+                      {/* Chapter Title & Summary */}
+                      <div className="mt-5">
+                        <h3 className="text-2xl font-bold text-[#1E2432]">
+                          {page.chapterTitle}
+                        </h3>
+                        <p className="mt-1 text-sm font-medium text-[#252C43]">
+                          {page.subtitle}
+                        </p>
+                        <p className="mt-3 text-sm text-[#657187] leading-relaxed">
+                          {page.summary}
+                        </p>
+                      </div>
+
+                      {/* Checklist / Blueprint Sections */}
+                      <div className="mt-6 space-y-5">
+                        {page.sections.map((sec) => (
+                          <div key={sec.heading}>
+                            <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-[#1E2432]">
+                              {sec.heading}
+                            </h4>
+                            <ul className="mt-2.5 space-y-2">
+                              {sec.items.map((item) => (
+                                <li
+                                  key={item}
+                                  className="flex items-start gap-2.5 text-sm text-[#1E2432]/90"
+                                >
+                                  <CheckCircle2
+                                    className="mt-0.5 h-4 w-4 text-[#5BA59A] shrink-0"
+                                    aria-hidden="true"
+                                  />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Reusable Prompt / Rule Box */}
+                      {page.promptTemplate && (
+                        <div className="mt-6 rounded-2xl border border-[#1E2432]/10 bg-[#F0F3FA] p-4">
+                          <div className="font-mono text-[11px] font-semibold text-[#657187]">
+                            {page.promptTemplate.label}
+                          </div>
+                          <p className="mt-1.5 font-mono text-xs text-[#1E2432] leading-relaxed">
+                            {page.promptTemplate.promptText}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Bottom Page Footer */}
+                      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#1E2432]/10 pt-4">
+                        <button
+                          type="button"
+                          onClick={() => setShowFullOutline((prev) => !prev)}
+                          aria-expanded={showFullOutline}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E2432] hover:text-[#252C43] underline underline-offset-4 cursor-pointer"
+                        >
+                          <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+                          <span>
+                            {showFullOutline
+                              ? 'Hide 16-page table of contents'
+                              : 'View full 16-page table of contents'}
+                          </span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={onFocusForm}
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-[#252C43] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E2432] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                        >
+                          <span>Get the full playbook</span>
+                          <ArrowDownRight className="h-3.5 w-3.5" aria-hidden="true" />
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 );
               })}
@@ -4814,7 +5129,7 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
           </div>
         </div>
 
-        {/* Expandable Full 16-Page Table of Contents Drawer */}
+        {/* Expandable Full 16-Page Table of Contents Drawer (Outside the stack grid) */}
         {showFullOutline && (
           <div className="mt-8 glass-panel rounded-3xl p-6 sm:p-8">
             <div className="flex items-center justify-between border-b border-[#1E2432]/10 pb-3">
@@ -4844,10 +5159,12 @@ export const PlaybookPreviewSection: React.FC<PlaybookPreviewSectionProps> = ({
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/ProblemSection.tsx">
-<![CDATA[import React, { useEffect, useRef, useState } from 'react';
+<![CDATA['use client';
+
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, FileText, CheckSquare, Mic, Activity, ArrowRight } from 'lucide-react';
+import { Mail, FileText, Mic, CheckSquare, Activity, ArrowRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -4863,35 +5180,35 @@ interface TaskFragment {
 const TASK_FRAGMENTS: TaskFragment[] = [
   {
     id: 'email',
-    label: 'Incoming email',
-    detail: 'Scope change question buried in a 14-reply thread',
-    source: 'Shared Inbox',
-    scatteredClass: 'lg:-translate-x-8 lg:-translate-y-6 lg:-rotate-3',
-    structuredOrder: '01 · Intake',
+    label: 'Customer intake email',
+    detail: 'Product issue reported with screenshot and logs',
+    source: 'Inbox · Priority',
+    scatteredClass: 'lg:translate-x-3 lg:-translate-y-4 lg:rotate-2',
+    structuredOrder: '01 · Intake Captured',
   },
   {
     id: 'doc',
-    label: 'Document summary',
-    detail: 'Key contract dates locked inside a 28-page PDF',
-    source: 'Cloud Drive',
-    scatteredClass: 'lg:translate-x-6 lg:translate-y-5 lg:rotate-2',
-    structuredOrder: '02 · Context',
+    label: 'Product specification',
+    detail: 'Design guidelines and technical boundary notes',
+    source: 'Knowledge Base',
+    scatteredClass: 'lg:-translate-x-2 lg:translate-y-3 lg:-rotate-1',
+    structuredOrder: '02 · Context Retrieved',
   },
   {
     id: 'note',
-    label: 'Meeting note',
-    detail: 'Unassigned follow-ups captured in raw call notes',
-    source: 'Call Transcript',
-    scatteredClass: 'lg:-translate-x-5 lg:translate-y-8 lg:-rotate-2',
-    structuredOrder: '03 · Synthesis',
+    label: 'Sync meeting audio',
+    detail: 'Recorded customer call decisions and action items',
+    source: 'Meeting Archive',
+    scatteredClass: 'lg:translate-x-4 lg:-translate-y-2 lg:rotate-1.5',
+    structuredOrder: '03 · Audio Transcribed',
   },
   {
     id: 'action',
-    label: 'Action item',
-    detail: 'Owner and due date missing from project board',
-    source: 'Task Tracker',
-    scatteredClass: 'lg:translate-x-7 lg:-translate-y-5 lg:rotate-3',
-    structuredOrder: '04 · Routing',
+    label: 'Unassigned action item',
+    detail: 'Resolve authentication race condition before release',
+    source: 'Project Board',
+    scatteredClass: 'lg:-translate-x-4 lg:translate-y-2 lg:-rotate-2',
+    structuredOrder: '04 · Actions Synthesized',
   },
   {
     id: 'status',
@@ -4905,7 +5222,25 @@ const TASK_FRAGMENTS: TaskFragment[] = [
 
 export const ProblemSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const connectorPathRef = useRef<SVGPathElement>(null);
+  const manualInteractionRef = useRef<boolean>(false);
   const [isStructured, setIsStructured] = useState<boolean>(false);
+  const [isManualTransition, setIsManualTransition] = useState<boolean>(false);
+
+  const traceConnector = useCallback(() => {
+    const path = connectorPathRef.current;
+    if (!path) return;
+    try {
+      const len = path.getTotalLength ? path.getTotalLength() : 920;
+      gsap.fromTo(
+        path,
+        { strokeDasharray: `${len} ${len}`, strokeDashoffset: len, opacity: 0.3 },
+        { strokeDashoffset: 0, opacity: 1, duration: 0.52, ease: 'power2.out' }
+      );
+    } catch {
+      // JSDOM fallback
+    }
+  }, []);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -4918,14 +5253,28 @@ export const ProblemSection: React.FC = () => {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top 62%',
-        end: 'bottom 35%',
-        onEnter: () => setIsStructured(true),
-        onLeaveBack: () => setIsStructured(false),
+        once: true,
+        onEnter: () => {
+          if (!manualInteractionRef.current) {
+            setIsManualTransition(false);
+            setIsStructured(true);
+            traceConnector();
+          }
+        },
       });
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [traceConnector]);
+
+  const handleManualToggle = (structured: boolean) => {
+    manualInteractionRef.current = true;
+    setIsManualTransition(true);
+    setIsStructured(structured);
+    if (structured) {
+      traceConnector();
+    }
+  };
 
   const renderFragmentIcon = (id: string) => {
     switch (id) {
@@ -4975,7 +5324,7 @@ export const ProblemSection: React.FC = () => {
             <button
               type="button"
               aria-pressed={!isStructured}
-              onClick={() => setIsStructured(false)}
+              onClick={() => handleManualToggle(false)}
               className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                 !isStructured
                   ? 'bg-[#252C43] text-white shadow-xs'
@@ -4987,7 +5336,7 @@ export const ProblemSection: React.FC = () => {
             <button
               type="button"
               aria-pressed={isStructured}
-              onClick={() => setIsStructured(true)}
+              onClick={() => handleManualToggle(true)}
               className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                 isStructured
                   ? 'bg-[#252C43] text-white shadow-xs'
@@ -5006,7 +5355,7 @@ export const ProblemSection: React.FC = () => {
             viewBox="0 0 1100 160"
             fill="none"
             aria-hidden="true"
-            className={`pointer-events-none hidden lg:block absolute inset-x-8 top-1/2 -translate-y-1/2 h-40 w-[calc(100%-4rem)] transition-opacity duration-500 ${
+            className={`pointer-events-none hidden lg:block absolute inset-x-8 top-1/2 -translate-y-1/2 h-40 w-[calc(100%-4rem)] transition-opacity duration-300 ${
               isStructured ? 'opacity-100' : 'opacity-0'
             }`}
           >
@@ -5017,48 +5366,58 @@ export const ProblemSection: React.FC = () => {
               strokeDasharray="6 6"
             />
             <path
+              ref={connectorPathRef}
               d="M 95 80 L 1005 80"
               stroke="#5BA59A"
               strokeWidth="2.5"
-              className="svg-signal-line"
             />
           </svg>
 
           <div className="relative z-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {TASK_FRAGMENTS.map((frag, index) => (
-              <div
-                key={frag.id}
-                className={`glass-panel rounded-2xl p-4 transition-all duration-500 ${
-                  isStructured
-                    ? 'translate-x-0 translate-y-0 rotate-0 border-[#5BA59A]/40 bg-white/85'
-                    : frag.scatteredClass
-                }`}
-              >
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-mono text-[11px] font-medium text-[#657187]">
-                    {isStructured ? frag.structuredOrder : frag.source}
-                  </span>
-                  {renderFragmentIcon(frag.id)}
+            {TASK_FRAGMENTS.map((frag, index) => {
+              const transitionStyle = isManualTransition
+                ? { transition: 'transform 260ms cubic-bezier(0.77, 0, 0.175, 1), border-color 260ms, background-color 260ms' }
+                : {
+                    transition: 'transform 520ms cubic-bezier(0.16, 1, 0.3, 1), border-color 520ms, background-color 520ms',
+                    transitionDelay: `${index * 40}ms`,
+                  };
+
+              return (
+                <div
+                  key={frag.id}
+                  style={transitionStyle}
+                  className={`glass-panel rounded-2xl p-4 ${
+                    isStructured
+                      ? 'translate-x-0 translate-y-0 rotate-0 border-[#5BA59A]/40 bg-white/85'
+                      : frag.scatteredClass
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-mono text-[11px] font-medium text-[#657187]">
+                      {isStructured ? frag.structuredOrder : frag.source}
+                    </span>
+                    {renderFragmentIcon(frag.id)}
+                  </div>
+
+                  <h3 className="mt-3 text-sm font-semibold text-[#1E2432]">
+                    {frag.label}
+                  </h3>
+
+                  <p className="mt-1.5 text-xs text-[#657187] leading-relaxed">
+                    {frag.detail}
+                  </p>
+
+                  <div className="mt-3 flex items-center justify-between border-t border-[#1E2432]/8 pt-2.5 text-[11px] font-mono">
+                    <span className={isStructured ? 'text-[#5BA59A] font-medium' : 'text-[#657187]'}>
+                      {isStructured ? 'Connected step' : 'Unlinked fragment'}
+                    </span>
+                    {isStructured && index < TASK_FRAGMENTS.length - 1 && (
+                      <ArrowRight className="h-3 w-3 text-[#5BA59A]" aria-hidden="true" />
+                    )}
+                  </div>
                 </div>
-
-                <h3 className="mt-3 text-sm font-semibold text-[#1E2432]">
-                  {frag.label}
-                </h3>
-
-                <p className="mt-1.5 text-xs text-[#657187] leading-relaxed">
-                  {frag.detail}
-                </p>
-
-                <div className="mt-3 flex items-center justify-between border-t border-[#1E2432]/8 pt-2.5 text-[11px] font-mono">
-                  <span className={isStructured ? 'text-[#5BA59A] font-medium' : 'text-[#657187]'}>
-                    {isStructured ? 'Connected step' : 'Unlinked fragment'}
-                  </span>
-                  {isStructured && index < TASK_FRAGMENTS.length - 1 && (
-                    <ArrowRight className="h-3 w-3 text-[#5BA59A]" aria-hidden="true" />
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="mt-8 flex flex-col items-start justify-between gap-3 border-t border-[#1E2432]/8 pt-5 text-xs text-[#657187] sm:flex-row sm:items-center">
@@ -6426,6 +6785,426 @@ export function generateReactComponentSnippet(config: GlassPresetConfig): string
 }
 ]]>
     </file>
+    <file path="src/app/(lumen)/lumen/motion/LumenMotion.tsx">
+<![CDATA['use client';
+
+import React, { useEffect, useRef } from 'react';
+
+interface LumenMotionProps {
+  rootRef: React.RefObject<HTMLDivElement | null>;
+  onHeroActivityChange?: (active: boolean) => void;
+}
+
+/**
+ * Scoped route controller for progressive enhancement and DOM updates.
+ * Runs at most one pending rAF frame per scroll/resize event without perpetual idle loops
+ * and without triggering React component re-renders.
+ */
+export const LumenMotion: React.FC<LumenMotionProps> = ({
+  rootRef,
+  onHeroActivityChange,
+}) => {
+  const onHeroChangeRef = useRef(onHeroActivityChange);
+  onHeroChangeRef.current = onHeroActivityChange;
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let isReduced = reducedQuery.matches;
+
+    // 1. Observe Hero visibility to gate the heavy WebGL background renderer
+    let heroObserver: IntersectionObserver | null = null;
+    const heroEl = root.querySelector('#workspace-hero');
+
+    if (heroEl && typeof IntersectionObserver !== 'undefined') {
+      heroObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry) {
+            onHeroChangeRef.current?.(entry.isIntersecting);
+          }
+        },
+        { rootMargin: '200px 0px 200px 0px', threshold: 0 }
+      );
+      heroObserver.observe(heroEl);
+    }
+
+    // 2. Supporting one-time reveals for [data-lm-reveal] targets
+    const revealEls = root.querySelectorAll<HTMLElement>('[data-lm-reveal]');
+    let revealObserver: IntersectionObserver | null = null;
+
+    const setupReveals = () => {
+      if (!isReduced && typeof IntersectionObserver !== 'undefined' && revealEls.length > 0) {
+        revealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const target = entry.target as HTMLElement;
+                target.dataset.lmIn = 'true';
+                target.removeAttribute('data-lm-armed');
+                revealObserver?.unobserve(target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }
+        );
+
+        revealEls.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight) {
+            el.dataset.lmIn = 'true';
+          } else {
+            el.dataset.lmArmed = 'true';
+            revealObserver?.observe(el);
+          }
+        });
+      } else {
+        revealEls.forEach((el) => {
+          el.dataset.lmIn = 'true';
+          el.removeAttribute('data-lm-armed');
+        });
+      }
+    };
+
+    setupReveals();
+
+    // 3. Event-driven DOM updates
+    let rafId = 0;
+    let scheduled = false;
+    let cachedMaxScroll = 1;
+    let cachedLastScrollProgress = -1;
+    let cachedCompactState = false;
+
+    const atmosphereEl = root.querySelector<HTMLElement>('[data-testid="page-atmosphere"]');
+    const headerEl = root.querySelector<HTMLElement>('.lumen-header');
+
+    const updateMeasurements = () => {
+      const doc = document.documentElement;
+      cachedMaxScroll = Math.max(1, doc.scrollHeight - window.innerHeight);
+    };
+
+    updateMeasurements();
+
+    const renderFrame = () => {
+      scheduled = false;
+      const y = window.scrollY || window.pageYOffset || 0;
+      const progress = Math.min(1, Math.max(0, y / cachedMaxScroll));
+
+      // Update rounded scroll progress string only when value changes
+      const roundedProgress = Math.round(progress * 100);
+      if (roundedProgress !== cachedLastScrollProgress) {
+        cachedLastScrollProgress = roundedProgress;
+        const progressStr = progress.toFixed(2);
+        if (atmosphereEl && atmosphereEl.dataset.scrollProgress !== progressStr) {
+          atmosphereEl.dataset.scrollProgress = progressStr;
+        }
+      }
+
+      // Update header compact state
+      const shouldCompact = y > 50;
+      if (shouldCompact !== cachedCompactState) {
+        cachedCompactState = shouldCompact;
+        if (headerEl) {
+          headerEl.setAttribute('data-compact', String(shouldCompact));
+        }
+      }
+
+      // Publish scoped CSS variables on the landing root
+      root.style.setProperty('--lm-scroll', progress.toFixed(4));
+
+      // Bounded subtle parallax displacement (max ±24px) for isolated SVG artwork
+      if (!isReduced) {
+        const ribbonAY = Math.max(-24, Math.min(24, -progress * 22));
+        const sheetBY = Math.max(-24, Math.min(24, -progress * 18));
+        root.style.setProperty('--lm-ribbon-a-y', `${ribbonAY.toFixed(1)}px`);
+        root.style.setProperty('--lm-sheet-b-y', `${sheetBY.toFixed(1)}px`);
+      } else {
+        root.style.setProperty('--lm-ribbon-a-y', '0px');
+        root.style.setProperty('--lm-sheet-b-y', '0px');
+      }
+    };
+
+    const scheduleFrame = () => {
+      if (!scheduled) {
+        scheduled = true;
+        rafId = window.requestAnimationFrame(renderFrame);
+      }
+    };
+
+    const onScrollOrResize = () => {
+      scheduleFrame();
+    };
+
+    const onResize = () => {
+      updateMeasurements();
+      scheduleFrame();
+    };
+
+    const onReducedMotionChange = (e: MediaQueryListEvent) => {
+      isReduced = e.matches;
+      if (isReduced) {
+        revealEls.forEach((el) => {
+          el.dataset.lmIn = 'true';
+          el.removeAttribute('data-lm-armed');
+        });
+        revealObserver?.disconnect();
+      }
+      scheduleFrame();
+    };
+
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
+    reducedQuery.addEventListener('change', onReducedMotionChange);
+
+    renderFrame();
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onResize);
+      reducedQuery.removeEventListener('change', onReducedMotionChange);
+      if (heroObserver) {
+        heroObserver.disconnect();
+      }
+      if (revealObserver) {
+        revealObserver.disconnect();
+      }
+      revealEls.forEach((el) => {
+        el.dataset.lmIn = 'true';
+        el.removeAttribute('data-lm-armed');
+      });
+    };
+  }, [rootRef]);
+
+  return null;
+};
+]]>
+    </file>
+    <file path="src/app/(lumen)/lumen/motion/math.ts">
+<![CDATA[/**
+ * Lumen Motion Math Utilities
+ * Pure deterministic functions for scroll progress and value clamping.
+ */
+
+/**
+ * Clamps a value between min and max. Defaults to [0, 1].
+ */
+export function clamp(value: number, min = 0, max = 1): number {
+  if (min > max) {
+    const temp = min;
+    min = max;
+    max = temp;
+  }
+  return Math.max(min, Math.min(max, value));
+}
+
+/**
+ * Calculates normalized linear progress of value between start and end.
+ * If end <= start: returns 0 if value < start, 1 if value >= start.
+ */
+export function progress(value: number, start: number, end: number): number {
+  if (end <= start) {
+    return value >= start ? 1 : 0;
+  }
+  return clamp((value - start) / (end - start), 0, 1);
+}
+]]>
+    </file>
+    <file path="src/app/(lumen)/lumen/motion/timings.ts">
+<![CDATA[/**
+ * Lumen Motion Timings and Curves
+ * Mirrors the CSS custom properties under .landing-shell in lumen.css.
+ */
+
+export const LM_DURATIONS = {
+  press: 0.12, // 120ms
+  feedback: 0.16, // 160ms
+  select: 0.22, // 220ms
+  sheet: 0.28, // 280ms
+  reveal: 0.48, // 480ms
+  panelEntrance: 0.52, // 520ms
+  demoTotal: 1.6, // 1600ms
+} as const;
+
+export const LM_EASING = {
+  // GSAP easing equivalencies
+  optical: 'power3.out', // corresponds to cubic-bezier(0.16, 1, 0.3, 1)
+  travel: 'power2.inOut', // corresponds to cubic-bezier(0.77, 0, 0.175, 1)
+  feedback: 'power1.out', // corresponds to cubic-bezier(0.23, 1, 0.32, 1)
+} as const;
+
+/**
+ * Storyboard timestamps for the Hero Glass Workspace demonstration (in seconds).
+ * Total finite duration: 1.6s
+ */
+export const HERO_DEMO_BEATS = {
+  panelsStart: 0.0,
+  panelsStagger: 0.06,
+  inputIdentified: 0.24,
+  classifyResolved: 0.54,
+  summarizeResolved: 0.84,
+  routeResolved: 1.04,
+  reviewSettled: 1.24,
+  total: 1.6,
+} as const;
+]]>
+    </file>
+    <file path="src/app/(lumen)/lumen/motion/useMotionPreferences.ts">
+<![CDATA['use client';
+
+import { useEffect, useState } from 'react';
+
+export interface MotionPreferences {
+  ready: boolean;
+  prefersReducedMotion: boolean;
+  isFinePointer: boolean;
+  canHover: boolean;
+}
+
+const FALLBACK_PREFERENCES: MotionPreferences = {
+  ready: false,
+  prefersReducedMotion: true, // safe non-kinetic fallback until real media-query read
+  isFinePointer: false,
+  canHover: false,
+};
+
+export function useMotionPreferences(): MotionPreferences {
+  const [prefs, setPrefs] = useState<MotionPreferences>(FALLBACK_PREFERENCES);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const pointerQuery = window.matchMedia('(pointer: fine)');
+    const hoverQuery = window.matchMedia('(hover: hover)');
+
+    const update = () => {
+      setPrefs({
+        ready: true,
+        prefersReducedMotion: reducedQuery.matches,
+        isFinePointer: pointerQuery.matches,
+        canHover: hoverQuery.matches,
+      });
+    };
+
+    update();
+
+    reducedQuery.addEventListener('change', update);
+    pointerQuery.addEventListener('change', update);
+    hoverQuery.addEventListener('change', update);
+
+    return () => {
+      reducedQuery.removeEventListener('change', update);
+      pointerQuery.removeEventListener('change', update);
+      hoverQuery.removeEventListener('change', update);
+    };
+  }, []);
+
+  return prefs;
+}
+]]>
+    </file>
+    <file path="src/app/(lumen)/lumen/motion/workspacePlayback.ts">
+<![CDATA[import { ProcessingSubStep } from '../utils/workflowLogic';
+import { HERO_DEMO_BEATS } from './timings';
+
+export type PlaybackCancelReason =
+  | 'user-scenario-change'
+  | 'user-stage-select'
+  | 'replay-restart'
+  | 'unmount'
+  | 'offscreen'
+  | 'document-hidden'
+  | 'reduced-motion'
+  | 'studio-opened';
+
+export interface IntroConsumedRef {
+  current: boolean;
+}
+
+export class WorkspacePlaybackController {
+  private activeTimers: ReturnType<typeof setTimeout>[] = [];
+  public isPlaying = false;
+  private introRef?: IntroConsumedRef;
+
+  constructor(introRef?: IntroConsumedRef) {
+    this.introRef = introRef;
+  }
+
+  public shouldPlayIntro(): boolean {
+    return !this.introRef?.current;
+  }
+
+  public consumeIntro(): void {
+    if (this.introRef) {
+      this.introRef.current = true;
+    }
+  }
+
+  public startPlayback(
+    _scenarioId: string,
+    onStepChange: (step: ProcessingSubStep) => void,
+    onComplete?: () => void
+  ): void {
+    this.cancelPlayback('replay-restart', false);
+    this.isPlaying = true;
+
+    // Step 1: classify (540ms)
+    const tClassify = setTimeout(() => {
+      if (!this.isPlaying) return;
+      onStepChange('classify');
+    }, Math.round(HERO_DEMO_BEATS.classifyResolved * 1000));
+    this.activeTimers.push(tClassify);
+
+    // Step 2: summarize (840ms)
+    const tSummarize = setTimeout(() => {
+      if (!this.isPlaying) return;
+      onStepChange('summarize');
+    }, Math.round(HERO_DEMO_BEATS.summarizeResolved * 1000));
+    this.activeTimers.push(tSummarize);
+
+    // Step 3: route (1040ms)
+    const tRoute = setTimeout(() => {
+      if (!this.isPlaying) return;
+      onStepChange('route');
+    }, Math.round(HERO_DEMO_BEATS.routeResolved * 1000));
+    this.activeTimers.push(tRoute);
+
+    // Step 4: review and complete (1600ms)
+    const tComplete = setTimeout(() => {
+      if (!this.isPlaying) return;
+      this.isPlaying = false;
+      this.consumeIntro();
+      onComplete?.();
+    }, Math.round(HERO_DEMO_BEATS.total * 1000));
+    this.activeTimers.push(tComplete);
+  }
+
+  public cancelPlayback(_reason?: PlaybackCancelReason | string, _isUserAction?: boolean): void {
+    void _reason;
+    void _isUserAction;
+    this.clearAllTimers();
+    this.isPlaying = false;
+  }
+
+  public dispose(consumeOnDispose = false): void {
+    this.clearAllTimers();
+    this.isPlaying = false;
+    if (consumeOnDispose) {
+      this.consumeIntro();
+    }
+  }
+
+  private clearAllTimers(): void {
+    for (const t of this.activeTimers) {
+      clearTimeout(t);
+    }
+    this.activeTimers = [];
+  }
+}
+]]>
+    </file>
     <file path="src/app/(lumen)/lumen/utils/workflowLogic.ts">
 <![CDATA[export type WorkspaceStageId = 'input' | 'processing' | 'output';
 export type ProcessingSubStep = 'classify' | 'summarize' | 'route';
@@ -6902,17 +7681,15 @@ export const FAQ_ITEMS: FAQItem[] = [
 ]]>
     </file>
     <file path="src/app/(lumen)/lumen/components/background/BackgroundMotionController.ts">
-<![CDATA[import { useEffect, useState } from 'react';
-
-export interface ScrollAtmosphereState {
+<![CDATA[export interface ScrollAtmosphereState {
   scrollProgress: number; // 0..1 across full document
   parallaxOffsetY: number; // subtle vertical parallax in px
   refractionModulation: number; // gentle optical modulation across scroll
 }
 
 /**
- * Pure calculation of environmental scroll state for deterministic unit testing
- * and smooth runtime updates.
+ * Pure calculation of environmental scroll state for deterministic unit testing.
+ * Retained for backward compatibility with existing tests.
  */
 export function computeScrollAtmosphereState(
   scrollY: number,
@@ -6943,52 +7720,15 @@ export function computeScrollAtmosphereState(
 }
 
 /**
- * Single global environmental motion hook that tracks document scroll progress
- * passively without competing with content ScrollTrigger timelines.
+ * Stable non-reactive fallback.
+ * Live scroll DOM mutations are handled without React re-renders by LumenMotion.
  */
 export function useBackgroundMotionController(): ScrollAtmosphereState {
-  const [state, setState] = useState<ScrollAtmosphereState>({
+  return {
     scrollProgress: 0,
     parallaxOffsetY: 0,
     refractionModulation: 1.0,
-  });
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let rafId = 0;
-    let ticking = false;
-
-    const update = () => {
-      ticking = false;
-      const docEl = document.documentElement;
-      const maxScroll = Math.max(1, docEl.scrollHeight - window.innerHeight);
-      const nextState = computeScrollAtmosphereState(
-        window.scrollY || window.pageYOffset || 0,
-        maxScroll,
-        prefersReducedMotion
-      );
-      setState(nextState);
-    };
-
-    const onScrollOrResize = () => {
-      if (!ticking) {
-        ticking = true;
-        rafId = window.requestAnimationFrame(update);
-      }
-    };
-
-    update();
-    window.addEventListener('scroll', onScrollOrResize, { passive: true });
-    window.addEventListener('resize', onScrollOrResize, { passive: true });
-
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', onScrollOrResize);
-      window.removeEventListener('resize', onScrollOrResize);
-    };
-  }, []);
-
-  return state;
+  };
 }
 ]]>
     </file>
@@ -6996,11 +7736,11 @@ export function useBackgroundMotionController(): ScrollAtmosphereState {
 <![CDATA[import React from 'react';
 import { GlassPresetId, GlassPresetConfig } from '../../glass/glassTypes';
 import { GlassBackground } from '../GlassBackground';
-import { useBackgroundMotionController } from './BackgroundMotionController';
 
 interface PageAtmosphereProps {
   activePreset: GlassPresetId;
   customConfig: GlassPresetConfig | null;
+  isHeroActive?: boolean;
 }
 
 /**
@@ -7012,15 +7752,14 @@ interface PageAtmosphereProps {
 export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
   activePreset,
   customConfig,
+  isHeroActive = true,
 }) => {
-  const motion = useBackgroundMotionController();
-
   return (
     <div
       className="page-atmosphere"
       aria-hidden="true"
       data-testid="page-atmosphere"
-      data-scroll-progress={motion.scrollProgress.toFixed(2)}
+      data-scroll-progress="0.00"
     >
       {/* 1. Unified Base Surface (#F8F9FC across entire document) */}
       <div className="page-atmosphere__base" />
@@ -7058,71 +7797,82 @@ export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
             transparentExport={true}
             quality="auto"
             interactive
+            paused={!isHeroActive}
           />
         </div>
 
-        {/* GLASS RIBBON A: Begins behind Hero workflow and spans across Trusted By into The Problem section */}
-        <svg
-          viewBox="0 0 1440 1600"
-          fill="none"
-          preserveAspectRatio="none"
-          className="page-atmosphere__sculpture-ribbon-a"
+        {/* GLASS RIBBON A: Isolated wrapper receiving bounded scroll parallax without transforming fixed canvas */}
+        <div
+          className="page-atmosphere__artwork-wrapper"
+          style={{ transform: 'translate3d(0, var(--lm-ribbon-a-y, 0px), 0)' }}
         >
-          <defs>
-            <linearGradient id="globalRibbonAGrad" x1="25%" y1="0%" x2="85%" y2="100%">
-              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.72" />
-              <stop offset="45%" stopColor="#D8D0F7" stopOpacity="0.34" />
-              <stop offset="80%" stopColor="#C9DAFA" stopOpacity="0.38" />
-              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
-            </linearGradient>
-            <linearGradient id="globalRibbonABevel" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.92" />
-              <stop offset="60%" stopColor="#D8D0F7" stopOpacity="0.45" />
-              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M 1380 40 C 1080 240, 1220 620, 860 920 C 520 1200, 680 1440, 340 1580"
-            stroke="url(#globalRibbonAGrad)"
-            strokeWidth="150"
-            strokeLinecap="round"
-          />
-          <path
-            d="M 1380 40 C 1080 240, 1220 620, 860 920 C 520 1200, 680 1440, 340 1580"
-            stroke="url(#globalRibbonABevel)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-        </svg>
+          <svg
+            viewBox="0 0 1440 1600"
+            fill="none"
+            preserveAspectRatio="none"
+            className="page-atmosphere__sculpture-ribbon-a"
+          >
+            <defs>
+              <linearGradient id="globalRibbonAGrad" x1="25%" y1="0%" x2="85%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.72" />
+                <stop offset="45%" stopColor="#D8D0F7" stopOpacity="0.34" />
+                <stop offset="80%" stopColor="#C9DAFA" stopOpacity="0.38" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
+              </linearGradient>
+              <linearGradient id="globalRibbonABevel" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.92" />
+                <stop offset="60%" stopColor="#D8D0F7" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M 1380 40 C 1080 240, 1220 620, 860 920 C 520 1200, 680 1440, 340 1580"
+              stroke="url(#globalRibbonAGrad)"
+              strokeWidth="150"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 1380 40 C 1080 240, 1220 620, 860 920 C 520 1200, 680 1440, 340 1580"
+              stroke="url(#globalRibbonABevel)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+          </svg>
+        </div>
 
-        {/* GLASS SHEET B: Broad frosted architectural surface spanning Benefits, Playbook Preview, and How It Works */}
-        <svg
-          viewBox="0 0 1440 1800"
-          fill="none"
-          preserveAspectRatio="none"
-          className="page-atmosphere__sculpture-sheet-b"
+        {/* GLASS SHEET B: Isolated wrapper receiving bounded scroll parallax */}
+        <div
+          className="page-atmosphere__artwork-wrapper"
+          style={{ transform: 'translate3d(0, var(--lm-sheet-b-y, 0px), 0)' }}
         >
-          <defs>
-            <linearGradient id="globalSheetBGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.0" />
-              <stop offset="25%" stopColor="#FFFFFF" stopOpacity="0.62" />
-              <stop offset="55%" stopColor="#C9DAFA" stopOpacity="0.28" />
-              <stop offset="85%" stopColor="#D8D0F7" stopOpacity="0.24" />
-              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M -120 320 L 1180 80 L 1540 1180 L 180 1560 Z"
-            fill="url(#globalSheetBGrad)"
-          />
-          <path
-            d="M -120 320 L 1180 80 L 1540 1180"
-            stroke="rgba(255, 255, 255, 0.78)"
-            strokeWidth="2"
-          />
-        </svg>
+          <svg
+            viewBox="0 0 1440 1800"
+            fill="none"
+            preserveAspectRatio="none"
+            className="page-atmosphere__sculpture-sheet-b"
+          >
+            <defs>
+              <linearGradient id="globalSheetBGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.0" />
+                <stop offset="25%" stopColor="#FFFFFF" stopOpacity="0.62" />
+                <stop offset="55%" stopColor="#C9DAFA" stopOpacity="0.28" />
+                <stop offset="85%" stopColor="#D8D0F7" stopOpacity="0.24" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M -120 320 L 1180 80 L 1540 1180 L 180 1560 Z"
+              fill="url(#globalSheetBGrad)"
+            />
+            <path
+              d="M -120 320 L 1180 80 L 1540 1180"
+              stroke="rgba(255, 255, 255, 0.78)"
+              strokeWidth="2"
+            />
+          </svg>
+        </div>
 
-        {/* GLASS HALO C: Page-level ring; its sliced SVG can paint beyond the viewport at low zoom. */}
+        {/* GLASS HALO C: Untouched; no transform */}
         <svg
           viewBox="0 0 1440 1400"
           fill="none"
@@ -7133,40 +7883,36 @@ export const PageAtmosphere: React.FC<PageAtmosphereProps> = ({
           <defs>
             <linearGradient id="globalHaloCGrad" x1="15%" y1="10%" x2="85%" y2="90%">
               <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.78" />
-              <stop offset="50%" stopColor="#D8D0F7" stopOpacity="0.36" />
-              <stop offset="100%" stopColor="#F6DCCA" stopOpacity="0.42" />
+              <stop offset="40%" stopColor="#D8D0F7" stopOpacity="0.45" />
+              <stop offset="75%" stopColor="#F6DCCA" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
+            </linearGradient>
+            <linearGradient id="globalHaloCBevel" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+              <stop offset="50%" stopColor="#D8D0F7" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.0" />
             </linearGradient>
           </defs>
-          <g transform="translate(880, 740) rotate(-14)">
-            <ellipse
-              cx="0"
-              cy="0"
-              rx="460"
-              ry="310"
-              stroke="url(#globalHaloCGrad)"
-              strokeWidth="84"
-            />
-            <ellipse
-              cx="0"
-              cy="0"
-              rx="502"
-              ry="352"
-              stroke="rgba(255, 255, 255, 0.85)"
-              strokeWidth="2"
-            />
-            <ellipse
-              cx="0"
-              cy="0"
-              rx="418"
-              ry="268"
-              stroke="rgba(255, 255, 255, 0.65)"
-              strokeWidth="1.5"
-            />
-          </g>
+          <ellipse
+            cx="820"
+            cy="700"
+            rx="560"
+            ry="480"
+            stroke="url(#globalHaloCGrad)"
+            strokeWidth="110"
+          />
+          <ellipse
+            cx="820"
+            cy="700"
+            rx="560"
+            ry="480"
+            stroke="url(#globalHaloCBevel)"
+            strokeWidth="2.5"
+          />
         </svg>
       </div>
 
-      {/* 5. Subtle Environmental Optical Grain / Soft Vignette */}
+      {/* 5. Delicate Micro-Noise Surface Layer */}
       <div className="page-atmosphere__noise" />
     </div>
   );

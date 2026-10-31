@@ -5,7 +5,6 @@
 
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
 import { Sliders } from 'lucide-react';
 import { MinimalHeader } from './components/MinimalHeader';
 import { DownloadForm } from './components/DownloadForm';
@@ -21,6 +20,7 @@ import { FinalCtaSection } from './components/FinalCtaSection';
 import { Footer } from './components/Footer';
 import { PageAtmosphere } from './components/background/PageAtmosphere';
 import { GlassStudio } from './components/GlassStudio';
+import { LumenMotion } from './motion/LumenMotion';
 import {
   GlassPresetId,
   GlassPresetConfig,
@@ -37,12 +37,15 @@ function checkIsStudioRoute(): boolean {
 }
 
 export default function App() {
+  const landingRootRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
   const eyebrowRef = useRef<HTMLParagraphElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subcopyRef = useRef<HTMLParagraphElement>(null);
   const formWrapperRef = useRef<HTMLDivElement>(null);
   const heroInputRef = useRef<HTMLInputElement>(null);
+
+  const introConsumedRef = useRef<boolean>(false);
 
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
   const [lastSubmitTimestamp, setLastSubmitTimestamp] = useState<number | null>(null);
@@ -61,6 +64,7 @@ export default function App() {
   }, []);
 
   const openGlassStudio = () => {
+    introConsumedRef.current = true;
     try {
       window.history.pushState({}, '', '/lumen?studio=1');
     } catch {
@@ -80,58 +84,30 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
-  // Hero Opening Animation (Phase A & Phase B)
-  useEffect(() => {
-    if (isStudioOpen) return;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-      tl.fromTo(
-        eyebrowRef.current,
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.45 },
-        0.05
-      )
-        .fromTo(
-          headlineRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.6 },
-          0.15
-        )
-        .fromTo(
-          subcopyRef.current,
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.55 },
-          0.28
-        )
-        .fromTo(
-          formWrapperRef.current,
-          { opacity: 0, y: 14 },
-          { opacity: 1, y: 0, duration: 0.5 },
-          0.38
-        );
-    }, heroSectionRef);
-
-    return () => ctx.revert();
-  }, [isStudioOpen]);
-
   const handleFocusHeroForm = () => {
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const formEl = document.getElementById('hero-download-form');
     if (formEl) {
-      formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      formEl.scrollIntoView({
+        behavior: prefersReduced ? 'auto' : 'smooth',
+        block: 'center',
+      });
     }
-    window.setTimeout(() => {
-      heroInputRef.current?.focus();
-    }, 300);
+    heroInputRef.current?.focus({ preventScroll: true });
   };
 
   const handleScrollToPreview = () => {
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const previewEl = document.getElementById('inside-playbook');
     if (previewEl) {
-      previewEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      previewEl.scrollIntoView({
+        behavior: prefersReduced ? 'auto' : 'smooth',
+        block: 'start',
+      });
     }
   };
 
@@ -144,6 +120,8 @@ export default function App() {
     setSubmittedEmail(null);
     setLastSubmitTimestamp(null);
   };
+
+  const [isHeroActive, setIsHeroActive] = useState<boolean>(true);
 
   if (isStudioOpen) {
     return (
@@ -159,11 +137,16 @@ export default function App() {
   }
 
   return (
-    <div className="landing-shell">
+    <div ref={landingRootRef} className="landing-shell">
+      <LumenMotion
+        rootRef={landingRootRef}
+        onHeroActivityChange={setIsHeroActive}
+      />
       {/* Single Root-Level Global Atmospheric & Optical Glass Layer */}
       <PageAtmosphere
         activePreset={activeHeroPreset}
         customConfig={customHeroConfig}
+        isHeroActive={isHeroActive}
       />
 
       <div className="landing-content">
@@ -279,7 +262,7 @@ export default function App() {
 
                 {/* Right ~45%: Floating Interactive 2.5D Workflow */}
                 <div className="lg:col-span-6 xl:col-span-6">
-                  <GlassWorkspace />
+                  <GlassWorkspace introConsumedRef={introConsumedRef} />
                 </div>
               </div>
             </div>

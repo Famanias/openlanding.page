@@ -91,6 +91,16 @@
   overflow-x: clip;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+
+  /* Scoped Lumen Motion Tokens */
+  --lm-ease-optical: cubic-bezier(0.16, 1, 0.3, 1);
+  --lm-ease-feedback: cubic-bezier(0.23, 1, 0.32, 1);
+  --lm-ease-travel: cubic-bezier(0.77, 0, 0.175, 1);
+  --lm-duration-press: 120ms;
+  --lm-duration-feedback: 160ms;
+  --lm-duration-select: 220ms;
+  --lm-duration-sheet: 280ms;
+  --lm-duration-reveal: 480ms;
 }
 
 .page-atmosphere {
@@ -205,7 +215,12 @@
 .workspace-tilt-plane {
   transform-style: preserve-3d;
   transform: rotateX(var(--tilt-x, 2deg)) rotateY(var(--tilt-y, -4deg));
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--lm-duration-select, 0.22s) var(--lm-ease-select, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.workspace-entrance-wrapper {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
 .panel-depth-input {
@@ -237,6 +252,18 @@
   transform-style: preserve-3d;
 }
 
+.playbook-stack-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.playbook-stack-sheet {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  transform-style: preserve-3d;
+}
+
 .stack-card-front {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 250, 255, 0.95) 100%);
   border: 1px solid rgba(255, 255, 255, 0.95);
@@ -244,7 +271,9 @@
   transform: translate3d(0px, 0px, 30px) rotateY(-3deg) rotateX(1deg);
   z-index: 30;
   opacity: 1;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.45s ease;
+  transition: transform var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              opacity var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              box-shadow var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1));
 }
 
 .stack-card-middle {
@@ -254,7 +283,9 @@
   transform: translate3d(22px, -14px, -20px) rotateY(-5deg) rotateX(2deg) scale(0.97);
   z-index: 20;
   opacity: 0.9;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.45s ease;
+  transition: transform var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              opacity var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              box-shadow var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1));
 }
 
 .stack-card-back {
@@ -264,7 +295,9 @@
   transform: translate3d(44px, -28px, -60px) rotateY(-7deg) rotateX(3deg) scale(0.94);
   z-index: 10;
   opacity: 0.75;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.45s ease;
+  transition: transform var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              opacity var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1)),
+              box-shadow var(--lm-duration-sheet, 280ms) var(--lm-ease-travel, cubic-bezier(0.77, 0, 0.175, 1));
 }
 
 .stack-card-cover-docked {
@@ -282,6 +315,32 @@
   100% {
     stroke-dashoffset: 0;
   }
+}
+
+/* Content Reveal Styles */
+[data-lm-reveal] {
+  transition: opacity var(--lm-duration-reveal, 480ms) var(--lm-ease-optical, cubic-bezier(0.16, 1, 0.3, 1)),
+              transform var(--lm-duration-reveal, 480ms) var(--lm-ease-optical, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+[data-lm-reveal][data-lm-armed="true"] {
+  opacity: 0.72;
+  transform: translateY(12px);
+}
+
+[data-lm-reveal][data-lm-in="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-lm-reveal^="rear-sheet"][data-lm-armed="true"] {
+  opacity: 0.6;
+  transform: translateY(8px);
+}
+
+[data-lm-reveal^="rear-sheet"][data-lm-in="true"] {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .svg-signal-line {
@@ -325,8 +384,10 @@
   .panel-depth-recessed,
   .stack-card-front,
   .stack-card-middle,
-  .stack-card-back {
+  .stack-card-back,
+  [data-lm-reveal] {
     transform: none !important;
+    opacity: 1 !important;
   }
 }
 

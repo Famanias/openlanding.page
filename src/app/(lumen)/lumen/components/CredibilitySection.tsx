@@ -51,7 +51,7 @@ export const CredibilitySection: React.FC = () => {
                     type="button"
                     aria-pressed={comparisonView === 'before'}
                     onClick={() => setComparisonView('before')}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors duration-160 whitespace-nowrap shrink-0 cursor-pointer ${
                       comparisonView === 'before'
                         ? 'bg-[#252C43] text-white shadow-xs'
                         : 'text-[#657187] hover:text-[#1E2432]'
@@ -63,7 +63,7 @@ export const CredibilitySection: React.FC = () => {
                     type="button"
                     aria-pressed={comparisonView === 'after'}
                     onClick={() => setComparisonView('after')}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors duration-160 whitespace-nowrap shrink-0 cursor-pointer ${
                       comparisonView === 'after'
                         ? 'bg-[#252C43] text-white shadow-xs'
                         : 'text-[#657187] hover:text-[#1E2432]'
@@ -75,34 +75,40 @@ export const CredibilitySection: React.FC = () => {
               </div>
 
               {comparisonView === 'before' ? (
-                <div className="mt-6 space-y-3">
+                <div key="before" className="mt-6 space-y-3 transition-opacity duration-160 ease-[var(--lm-ease-feedback)]">
                   <p className="text-xs font-mono text-[#657187]">
                     MANUAL PROCESS — REPETITIVE CONTEXT SWITCHING
                   </p>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    <div className="rounded-2xl border border-white/80 bg-white/75 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">01. READ &amp; SORT</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Manual classification
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-white/80 bg-white/75 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">01. READ &amp; SORT</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Manual classification
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Open long email threads, identify intent, and copy details into tracker.
                       </p>
                     </div>
-                    <div className="rounded-2xl border border-white/80 bg-white/75 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">02. SUMMARIZE</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Ad-hoc notes
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-white/80 bg-white/75 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">02. SUMMARIZE</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Ad-hoc notes
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Rewrite key dates and questions by hand for the internal team channel.
                       </p>
                     </div>
-                    <div className="rounded-2xl border border-white/80 bg-white/75 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">03. FOLLOW-UP</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Blank-page drafting
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-white/80 bg-white/75 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">03. FOLLOW-UP</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Blank-page drafting
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Search past replies for standard policy clauses and draft response from scratch.
                       </p>
@@ -110,34 +116,40 @@ export const CredibilitySection: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="mt-6 space-y-3">
+                <div key="after" className="mt-6 space-y-3 transition-opacity duration-160 ease-[var(--lm-ease-feedback)]">
                   <p className="text-xs font-mono text-[#5BA59A] font-medium">
                     STRUCTURED AI-ASSISTED WORKFLOW WITH HUMAN REVIEW STEP
                   </p>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    <div className="rounded-2xl border border-[#D8D0F7] bg-white/90 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">01. CLASSIFY &amp; EXTRACT</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Structured intake brief
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-[#D8D0F7] bg-white/90 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">01. CLASSIFY &amp; EXTRACT</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Structured intake brief
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Workflow tags category, extracts requested dates, and flags any ambiguous items.
                       </p>
                     </div>
-                    <div className="rounded-2xl border border-[#C9DAFA] bg-white/90 p-4">
-                      <span className="font-mono text-[11px] text-[#657187]">02. PREPARE DRAFT</span>
-                      <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
-                        Grounded reply template
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-[#C9DAFA] bg-white/90 p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#657187]">02. PREPARE DRAFT</span>
+                        <p className="mt-1.5 text-xs font-semibold text-[#1E2432]">
+                          Grounded reply template
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-[#657187]">
                         Assembles a draft response using approved reference clauses and source facts.
                       </p>
                     </div>
-                    <div className="rounded-2xl border border-[#5BA59A]/50 bg-[#252C43] text-white p-4">
-                      <span className="font-mono text-[11px] text-[#C9DAFA]">03. HUMAN CHECKPOINT</span>
-                      <p className="mt-1.5 text-xs font-semibold text-white">
-                        Verify &amp; send
-                      </p>
+                    <div className="min-h-[148px] rounded-2xl border border-[#5BA59A]/50 bg-[#252C43] text-white p-4 flex flex-col justify-between">
+                      <div>
+                        <span className="font-mono text-[11px] text-[#C9DAFA]">03. HUMAN CHECKPOINT</span>
+                        <p className="mt-1.5 text-xs font-semibold text-white">
+                          Verify &amp; send
+                        </p>
+                      </div>
                       <p className="mt-1 text-xs text-white/80">
                         Account owner verifies extracted facts in 60 seconds and approves delivery.
                       </p>

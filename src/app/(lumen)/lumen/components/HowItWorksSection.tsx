@@ -1,12 +1,75 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import gsap from 'gsap';
 import { HOW_IT_WORKS_STEPS, HowItWorksStep } from '../utils/workflowLogic';
 import { ShieldCheck, Cpu, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const HowItWorksSection: React.FC = () => {
   const [activeStepId, setActiveStepId] = useState<HowItWorksStep['id']>('map');
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const activeLineRef = useRef<SVGLineElement>(null);
 
-  const currentStep =
-    HOW_IT_WORKS_STEPS.find((s) => s.id === activeStepId) || HOW_IT_WORKS_STEPS[0];
+  const activeIndex = HOW_IT_WORKS_STEPS.findIndex((s) => s.id === activeStepId);
+  const currentStep = HOW_IT_WORKS_STEPS[activeIndex] || HOW_IT_WORKS_STEPS[0];
+
+  const traceLine = useCallback(() => {
+    const line = activeLineRef.current;
+    if (!line) return;
+    try {
+      gsap.fromTo(
+        line,
+        { strokeDasharray: '840 840', strokeDashoffset: 840, opacity: 0.4 },
+        { strokeDashoffset: 0, opacity: 1, duration: 0.45, ease: 'power2.out' }
+      );
+    } catch {
+      // JSDOM fallback
+    }
+  }, []);
+
+  const handleSelectStep = (id: HowItWorksStep['id']) => {
+    setActiveStepId(id);
+    if (id !== 'map') {
+      traceLine();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, currentIndex: number) => {
+    let nextIndex = currentIndex;
+    const total = HOW_IT_WORKS_STEPS.length;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextIndex = (currentIndex + 1) % total;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      nextIndex = (currentIndex - 1 + total) % total;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      nextIndex = total - 1;
+    } else {
+      return;
+    }
+
+    const nextStep = HOW_IT_WORKS_STEPS[nextIndex];
+    handleSelectStep(nextStep.id);
+
+    // Focus target button
+    const container = tabsContainerRef.current;
+    if (container) {
+      const buttons = container.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+      buttons[nextIndex]?.focus();
+    }
+  };
+
+  useEffect(() => {
+    if (activeStepId !== 'map') {
+      traceLine();
+    }
+  }, [activeStepId, traceLine]);
 
   return (
     <section
@@ -30,24 +93,40 @@ export const HowItWorksSection: React.FC = () => {
           </p>
         </div>
 
-        {/* 3 Step Selector Cards */}
+        {/* 3 Step Selector Cards with Moving Outlined Selection Layer */}
         <div
+          ref={tabsContainerRef}
           role="tablist"
           aria-label="Three-step workflow methodology"
-          className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3"
+          className="relative mt-10 grid grid-cols-1 gap-4 md:grid-cols-3"
         >
-          {HOW_IT_WORKS_STEPS.map((step) => {
+          {/* Outlined selection layer that translates smoothly over 220ms */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none hidden md:block absolute inset-y-0 left-0 rounded-2xl border-2 border-[#252C43] transition-transform duration-200"
+            style={{
+              width: 'calc((100% - 2rem) / 3)',
+              transform: `translateX(calc(${activeIndex} * (100% + 1rem)))`,
+              transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
+            }}
+          />
+
+          {HOW_IT_WORKS_STEPS.map((step, idx) => {
             const isSelected = step.id === activeStepId;
             return (
               <button
                 key={step.id}
+                id={`how-it-works-tab-${step.id}`}
                 role="tab"
                 type="button"
                 aria-selected={isSelected}
-                onClick={() => setActiveStepId(step.id)}
+                aria-controls="how-it-works-panel"
+                tabIndex={isSelected ? 0 : -1}
+                onClick={() => handleSelectStep(step.id)}
+                onKeyDown={(e) => handleKeyDown(e, idx)}
                 className={`rounded-2xl p-6 text-left transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252C43] ${
                   isSelected
-                    ? 'glass-panel-active border-[#252C43]/35 shadow-sm'
+                    ? 'glass-panel-active border-[#252C43]/35 shadow-sm md:border-transparent'
                     : 'glass-panel hover:bg-white/80'
                 }`}
               >
@@ -70,8 +149,13 @@ export const HowItWorksSection: React.FC = () => {
           })}
         </div>
 
-        {/* Transforming Unified Workflow Diagram */}
-        <div className="mt-8 glass-panel-active rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+        {/* Transforming Unified Workflow Diagram Tabpanel */}
+        <div
+          id="how-it-works-panel"
+          role="tabpanel"
+          aria-labelledby={`how-it-works-tab-${activeStepId}`}
+          className="mt-8 glass-panel-active rounded-3xl p-6 sm:p-10 relative overflow-hidden"
+        >
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1E2432]/10 pb-4">
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs font-semibold text-[#1E2432]">
@@ -106,25 +190,26 @@ export const HowItWorksSection: React.FC = () => {
               />
               {activeStepId !== 'map' && (
                 <line
+                  ref={activeLineRef}
                   x1="80"
                   y1="45"
                   x2="920"
                   y2="45"
                   stroke={activeStepId === 'review' ? '#5BA59A' : '#252C43'}
                   strokeWidth="2.5"
-                  className="svg-signal-line"
                 />
               )}
             </svg>
 
+            {/* Stable diagram node wrappers by index (0-3) to avoid unmounting */}
             <div className="relative z-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {currentStep.nodes.map((node, idx) => {
                 const isCheckpoint = node.kind === 'checkpoint';
                 const isAi = node.kind === 'ai';
                 return (
                   <div
-                    key={node.id}
-                    className={`rounded-2xl p-5 transition-all duration-300 border ${
+                    key={idx}
+                    className={`rounded-2xl p-5 border transition-colors duration-180 ${
                       isCheckpoint
                         ? 'bg-[#252C43] text-white border-[#252C43] shadow-md'
                         : isAi
@@ -146,7 +231,7 @@ export const HowItWorksSection: React.FC = () => {
                     </div>
 
                     <h4
-                      className={`mt-3 text-sm font-bold ${
+                      className={`mt-3 text-sm font-bold transition-colors duration-180 ${
                         isCheckpoint ? 'text-white' : 'text-[#1E2432]'
                       }`}
                     >
@@ -154,7 +239,7 @@ export const HowItWorksSection: React.FC = () => {
                     </h4>
 
                     <p
-                      className={`mt-1.5 text-xs leading-relaxed ${
+                      className={`mt-1.5 text-xs leading-relaxed transition-colors duration-180 ${
                         isCheckpoint ? 'text-white/80' : 'text-[#657187]'
                       }`}
                     >
