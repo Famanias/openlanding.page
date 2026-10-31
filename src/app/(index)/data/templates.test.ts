@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(50);
+    expect(TEMPLATES).toHaveLength(51);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["noiseclub","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["ctrlroom","noiseclub","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -73,7 +73,7 @@ describe("gallery template data", () => {
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
-      if (t.slug === "morta" || t.slug === "lumen" || t.slug === "noiseclub" || t.slug === "warpwander") {
+      if (t.slug === "morta" || t.slug === "lumen" || t.slug === "noiseclub" || t.slug === "warpwander" || t.slug === "ctrlroom") {
         expect(t.model).toBe("Imported template");
       } else if (t.slug === "firstday") {
         expect(t.model).toBe("GPT-6 Astra Max");

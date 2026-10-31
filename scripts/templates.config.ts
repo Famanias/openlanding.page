@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "noiseclub" | "warpwander" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
+export type TemplateSlug = "noiseclub" | "warpwander" | "ctrlroom" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -40,6 +40,18 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
     ],
     mediaExempt: true,
   },
+  ctrlroom: {
+    palette: [
+      "#050608", "#090E1C", "#0A1020", "#0B0D12", "#0B1121", "#0C1326",
+      "#0D0F14", "#0D1529", "#0E1015", "#0F1420", "#111A31", "#131B2E",
+      "#132247", "#15203D", "#152347", "#162242", "#162344", "#171A21",
+      "#172342", "#17254A", "#181B22", "#182547", "#182649", "#192544",
+      "#19284B", "#19284F", "#1A2747", "#1B1F3D", "#1B284A", "#1B2E5E",
+      "#1E222B", "#1E2430", "#1E263B", "#262B36", "#26324D", "#272D3A",
+      "#2858FF", "#2B303C", "#2C3342", "#3A4252", "#3B4454", "#475166",
+      "#495366", "#61728F", "#94A3B8", "#B6D7F7", "#E4FF58", "#E8F0FF",
+      "#FC5FA9",
+    ],
     mediaExempt: true,
   },
   lumen: {
