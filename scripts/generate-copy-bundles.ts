@@ -10,6 +10,7 @@ const COPY_METADATA: Record<
   { name: string; dependencies: string[] }
 > = {
   noiseclub: { name: "NOISE CLUB", dependencies: ["gsap", "lenis", "lucide-react"] },
+  warpwander: { name: "WARP & WANDER", dependencies: ["gsap"] },
   lumen: { name: "LUMEN", dependencies: ["three", "gsap", "motion", "lucide-react", "lenis"] },
   morta: { name: "MORTA", dependencies: ["three"] },
   synapxe: { name: "Synapxe", dependencies: ["three"] },
