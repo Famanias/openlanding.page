@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ww-indigo: #23244F;
+  --color-ww-forest: #2F644F;
+  --color-ww-nectar: #FFD06A;
+  --color-ww-coral: #FF907A;
+  --color-ww-cream: #FFF1D3;
+  --color-ww-lagoon: #6DDCC5;
+  --color-ww-mulberry: #604A79;
+
+  --font-ww-display: var(--font-pixelify, 'Pixelify Sans', monospace);
+  --font-ww-body: var(--font-dm-sans, 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  --font-ww-hud: var(--font-jetbrains-mono, 'JetBrains Mono', monospace);
+}
+
+:root {
+  --twilight-indigo: #23244F;
+  --fern-forest: #2F644F;
+  --golden-nectar: #FFD06A;
+  --coral-bloom: #FF907A;
+  --daylight-cream: #FFF1D3;
+  --lagoon-mist: #6DDCC5;
+  --mulberry-shadow: #604A79;
+
+  --ww-twilight-indigo: #23244F;
+  --ww-fern-forest: #2F644F;
+  --ww-golden-nectar: #FFD06A;
+  --ww-coral-bloom: #FF907A;
+  --ww-daylight-cream: #FFF1D3;
+  --ww-lagoon-mist: #6DDCC5;
+  --ww-mulberry-shadow: #604A79;
+
+  --font-display: var(--font-pixelify, 'Pixelify Sans', monospace);
+  --font-body: var(--font-dm-sans, 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  --font-hud: var(--font-jetbrains-mono, 'JetBrains Mono', monospace);
+
+  --ww-font-display: var(--font-pixelify, 'Pixelify Sans', monospace);
+  --ww-font-body: var(--font-dm-sans, 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+  --ww-font-hud: var(--font-jetbrains-mono, 'JetBrains Mono', monospace);
+}
+
+.ww-body {
+  scroll-behavior: smooth;
+  font-family: var(--ww-font-body);
+  background-color: var(--ww-twilight-indigo);
+  color: var(--ww-daylight-cream);
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ww-body {
+    scroll-behavior: auto;
+  }
+}
+
+.ww-font-pixel,
+.font-pixel {
+  font-family: var(--ww-font-display);
+  letter-spacing: 0.02em;
+}
+
+.ww-font-body,
+.font-body {
+  font-family: var(--ww-font-body);
+}
+
+.ww-font-hud,
+.font-hud {
+  font-family: var(--ww-font-hud);
+  font-variant-numeric: tabular-nums;
+}
+
+.ww-pixelated,
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Tactile pixel button press micro-interaction (100-160ms, 2px depress, shadow compression) */
+.ww-btn-tactile,
+.btn-tactile {
+  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 120ms cubic-bezier(0.16, 1, 0.3, 1), background-color 120ms ease;
+  box-shadow: 0 4px 0 0 #151633;
+}
+
+.ww-btn-tactile:hover:not(:disabled),
+.btn-tactile:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 #151633;
+}
+
+.ww-btn-tactile:active:not(:disabled),
+.btn-tactile:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 0 #151633;
+}
+
+/* Collectible hotspot 3-frame pulse and 2-4px lift */
+@keyframes ww-hotspot-pulse {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.ww-hotspot-float,
+.hotspot-float {
+  animation: ww-hotspot-pulse 1.8s steps(3, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ww-hotspot-float,
+  .hotspot-float {
+    animation: none;
+  }
+}
+
+/* Stepped tile reveal for headings */
+@keyframes ww-tile-step-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ww-tile-reveal,
+.tile-reveal {
+  animation: ww-tile-step-in 650ms steps(4, end) forwards;
+}
+
+/* Accessible focus ring in Golden Nectar / Lagoon Mist */
+*:focus-visible {
+  outline: 3px solid var(--ww-golden-nectar);
+  outline-offset: 3px;
+}
+
+/* Custom subtle storybook border */
+.ww-storybook-panel,
+.storybook-panel {
+  background-color: rgba(35, 36, 79, 0.92);
+  border: 2px solid var(--ww-golden-nectar);
+  box-shadow: 0 8px 0 0 rgba(21, 22, 51, 0.75);
+}
+
+.ww-storybook-panel-cream,
+.storybook-panel-cream {
+  background-color: var(--ww-daylight-cream);
+  color: var(--ww-twilight-indigo);
+  border: 2px solid var(--ww-twilight-indigo);
+  box-shadow: 0 6px 0 0 rgba(35, 36, 79, 0.45);
+}

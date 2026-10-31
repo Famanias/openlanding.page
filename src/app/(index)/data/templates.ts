@@ -1,4 +1,4 @@
-export type TemplateSlug = "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
+export type TemplateSlug = "warpwander" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -35,6 +35,38 @@ export const CATEGORIES: Category[] = [
   { id: "editorial-magazine", label: "Editorial Magazine" },
   { id: "conversion", label: "Conversion Landing" },
 ];
+
+export const WARPWANDER_PROMPT = `# WARP & WANDER — Analogue Pocket Experience
+
+Create an original 16-bit-inspired side-scrolling product landing page for **WARP & WANDER** featuring the real **Analogue Pocket** multi-format portable handheld.
+
+## Brand and central idea
+
+An imaginative exploration club for people who love handheld adventures, playful discovery, and the feeling of finding a secret path. Friendly, curious, cinematic, whimsical, slightly mysterious; never corporate or edgy.
+
+**Central idea:** a continuous side-scrolling pixel world that moves with the user's scroll. Original protagonist Pip journeys across 6 narrative acts: Daybreak Portal, Cartridge Forest, Crystal Lake, Clockwork Ridge, Cloud City, and the Sanctuary Gate. Real Analogue Pocket hardware is visualized with sharp, accurate studio renders, contrasting the rich pixel-art adventure world.
+
+Mood: sunlit pixel fantasy, tactile retro nostalgia, adventurous, crisp, authentic.
+
+## Exclusive Color Palette
+
+- Twilight Indigo: \`#23244F\` (Deep horizon / night silhouettes)
+- Fern Forest: \`#2F644F\` (Foliage and foreground ground planes)
+- Golden Nectar: \`#FFD06A\` (Warm light, important highlights, CTA accents)
+- Coral Bloom: \`#FF907A\` (Character accents, collectible effects)
+- Daylight Cream: \`#FFF1D3\` (Text fields, page readability, warm sky)
+- Lagoon Mist: \`#6DDCC5\` (Rivers, magic particles, cool secondary accents)
+- Mulberry Shadow: \`#604A79\` (Distant mountains, detail contrast)
+
+## Page Acts & Features
+
+1. **Act 0 — The Portal / Hero:** Value proposition, Pip intro, portal cut-out reveal with authentic hardware render, and chapter navigator.
+2. **Act 1 — The Forest of Cartridges:** Discoverable cartridge artifacts highlighting Game Boy, Game Boy Color, and Game Boy Advance compatibility.
+3. **Act 2 — The Crystal Lake:** Interactive 3.5-inch 1600x1440 615 PPI display study with integer-scaling subpixel toggle.
+4. **Act 3 — Clockwork Ridge:** Hardware precision inspector featuring D-pad, action buttons, stereo speakers, and FPGA core details.
+5. **Act 4 — Cloud City:** Optional playable 2D platformer mini-game to collect 3 Compass Shards, with keyboard, touch controls, and skip options.
+6. **Act 5 — The Last Gate:** Sanctuary hardware showcase with Matte Black / Matte White colorway selection and rear cartridge bay view.
+`;
 
 export const LUMEN_PROMPT = `# LUMEN — The AI Workflow Playbook
 
@@ -1181,6 +1213,19 @@ slug: "tally",
     badges: ["Glassmorphism", "AI Playbook", "Shader Studio", "WebGL2"],
     previewImage: "/templates/lumen/preview-1600.webp",
     promptMarkdown: LUMEN_PROMPT,
+    model: "Imported template",
+  },
+  {
+    slug: "warpwander",
+    createdAt: "2026-10-31",
+    title: "WARP & WANDER",
+    description: "An original 16-bit-inspired side-scrolling pixel adventure and interactive concept showcasing the Analogue Pocket multi-format handheld.",
+    category: "scroll-showcase",
+    industry: "Gaming & Hardware",
+    stack: "Next.js 16 · React 19 · Canvas 2D · GSAP · Web Audio",
+    badges: ["16-Bit Pixel Art", "Analogue Pocket", "Side-Scrolling World", "Mini-Platformer"],
+    previewImage: "/templates/warpwander/preview-1600.webp",
+    promptMarkdown: WARPWANDER_PROMPT,
     model: "Imported template",
   },
 ];
