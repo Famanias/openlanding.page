@@ -12,6 +12,7 @@ const COPY_METADATA: Record<
   noiseclub: { name: "NOISE CLUB", dependencies: ["gsap", "lenis", "lucide-react"] },
   warpwander: { name: "WARP & WANDER", dependencies: ["gsap"] },
   ctrlroom: { name: "CTRL/ROOM", dependencies: ["lucide-react", "motion"] },
+  parallel: { name: "PARALLEL", dependencies: ["three", "zustand", "gsap", "lenis"] },
   lumen: { name: "LUMEN", dependencies: ["three", "gsap", "motion", "lucide-react", "lenis"] },
   morta: { name: "MORTA", dependencies: ["three"] },
   synapxe: { name: "Synapxe", dependencies: ["three"] },

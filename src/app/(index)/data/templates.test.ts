@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(51);
+    expect(TEMPLATES).toHaveLength(52);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["ctrlroom","noiseclub","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -73,7 +73,7 @@ describe("gallery template data", () => {
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
-      if (t.slug === "morta" || t.slug === "lumen" || t.slug === "noiseclub" || t.slug === "warpwander" || t.slug === "ctrlroom") {
+      if (t.slug === "morta" || t.slug === "lumen" || t.slug === "noiseclub" || t.slug === "warpwander" || t.slug === "ctrlroom" || t.slug === "parallel") {
         expect(t.model).toBe("Imported template");
       } else if (t.slug === "firstday") {
         expect(t.model).toBe("GPT-6 Astra Max");
@@ -207,5 +207,12 @@ describe("gallery template data", () => {
     expect(loam?.category).toBe("3d-webgpu");
     expect(loam?.promptMarkdown).toContain('rebuild "LOAM"');
     expect(loam?.promptMarkdown).toContain("#C8E64C");
+  });
+
+  it("files PARALLEL under 3D & WebGPU with its rebuild prompt inlined", () => {
+    const parallel = TEMPLATES.find((t) => t.slug === "parallel");
+    expect(parallel?.category).toBe("3d-webgpu");
+    expect(parallel?.promptMarkdown).toContain("PARALLEL");
+    expect(parallel?.promptMarkdown).toContain("#E85D36");
   });
 });

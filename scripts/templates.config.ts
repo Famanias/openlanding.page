@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "noiseclub" | "warpwander" | "ctrlroom" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
+export type TemplateSlug = "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -51,6 +51,20 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
       "#2858FF", "#2B303C", "#2C3342", "#3A4252", "#3B4454", "#475166",
       "#495366", "#61728F", "#94A3B8", "#B6D7F7", "#E4FF58", "#E8F0FF",
       "#FC5FA9",
+    ],
+    mediaExempt: true,
+  },
+  parallel: {
+    palette: [
+      "#0B0C0E", "#101315", "#12141A", "#14171C", "#171A1C", "#181B20",
+      "#24282B", "#2B303A", "#2D8A61", "#38BDF8", "#666D70", "#6E6E6E",
+      "#808080", "#9CA3AF", "#D44D27", "#D94E3E", "#D99B26", "#D9C39E",
+      "#E05A47", "#E85D36", "#E8E8E3", "#EFECE6", "#F4F1EA", "#F6F5F1",
+      "#FF5522", "#FF6B42", "#FFE4B5",
+    ],
+    paletteExempt: [
+      "src/app/(parallel)/parallel/rendering/",
+      "src/app/(parallel)/parallel/world/",
     ],
     mediaExempt: true,
   },

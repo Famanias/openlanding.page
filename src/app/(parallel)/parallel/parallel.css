@@ -1,0 +1,69 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-display: var(--font-display, 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif);
+    --font-sans: var(--font-sans, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif);
+    --font-mono: var(--font-mono, 'IBM Plex Mono', monospace);
+  }
+
+  html {
+    font-family: var(--font-sans);
+    background-color: #101315;
+    color: #F6F5F1;
+    scroll-behavior: auto;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom Range Input Styling for Simulation Controls */
+input[type="range"].par-slider,
+input[type="range"].parallel-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(246, 245, 241, 0.16);
+  height: 4px;
+  border-radius: 2px;
+}
+
+input[type="range"].par-slider::-webkit-slider-thumb,
+input[type="range"].parallel-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: #E85D36;
+  cursor: pointer;
+  border: 1px solid #F6F5F1;
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+input[type="range"].par-slider::-webkit-slider-thumb:hover,
+input[type="range"].parallel-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type="range"].par-slider:focus-visible,
+input[type="range"].parallel-slider:focus-visible {
+  outline: 2px solid #E85D36;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
