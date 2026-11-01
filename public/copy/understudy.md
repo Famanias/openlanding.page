@@ -778,29 +778,296 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
 .us-reel__work span span { font-size: 11px; color: var(--us-graphite); }
 .us-reel__thumb { width: 46px; height: 30px; flex: none; border-radius: 6px; background: linear-gradient(135deg, color-mix(in oklab, var(--us-cue) 20%, var(--us-white)), color-mix(in oklab, var(--us-tape) 30%, var(--us-white))); }
 
-/* ---------- casting ---------- */
+/* ---------- casting (callback orbit) ---------- */
 .us-casting { position: relative; background: var(--us-house); }
-.us-casting__stage { display: grid; align-content: center; gap: 4svh; padding: 12svh var(--us-gut); }
-.us-casting__head { display: grid; justify-items: center; gap: 10px; text-align: center; }
-.us-casting__eyebrow { margin-bottom: 4px; }
-.us-casting__pills {
-  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 12px;
-  margin-top: 10px; font-size: 12px; color: var(--us-graphite);
+.pipeline-story {
+  height: 510svh;
+  position: relative;
+  background: #F4F4F1;
+  isolation: isolate;
 }
-.us-cast { position: relative; width: min(1160px, 100%); margin: 0 auto; aspect-ratio: 2 / 1; }
-.us-cast__net { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.us-cast__net path { fill: none; stroke: color-mix(in oklab, var(--us-cue) 50%, transparent); stroke-width: 1.5; stroke-dasharray: 1; }
-.us-cast__reel { position: absolute; left: 31%; width: 38%; top: 4%; }
-.us-cast__reel::before { content: ""; position: absolute; inset: -14px; border-radius: 28px; border: 1.5px solid color-mix(in oklab, var(--us-cue) 50%, transparent); background: color-mix(in oklab, var(--us-cue) 5%, transparent); opacity: 0; scale: 0.96; transition: opacity var(--dur-slow) var(--ease-out), scale var(--dur-slow) var(--ease-out); }
-.us-casting[data-full] .us-cast__reel::before { opacity: 1; scale: 1; }
-.us-cast__win .us-win__body { aspect-ratio: 16 / 11; padding: 14px; font-size: 12px; }
-.us-cast__cos { position: absolute; inset: 0; }
-.us-cast__co { position: absolute; left: var(--x); top: var(--y); translate: -50% -50%; padding: 11px 14px; border-radius: 13px; background: var(--us-white); box-shadow: 0 0 0 1px var(--us-line), 0 16px 30px -18px color-mix(in oklab, var(--us-ink) 40%, transparent); transition: opacity var(--dur-base) var(--ease-out), scale 640ms var(--ease-pop); }
-.us-cast__co .us-co { font-size: 16px; }
-.us-cast__count { position: absolute; left: 50%; bottom: 0; translate: -50% 0; display: flex; align-items: center; gap: 12px; }
-.us-cast__count .us-mono { color: var(--us-graphite); }
-.us-odo { display: inline-flex; font-size: 44px; font-weight: 380; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--us-cue); }
-.us-odo__col { display: inline-flex; flex-direction: column; height: 1em; overflow: clip; }
+.pipeline-sticky {
+  position: sticky; top: 0; height: 100svh; min-height: 670px;
+  overflow: hidden; display: flex; flex-direction: column; align-items: center;
+  isolation: isolate;
+  background: #F4F4F1;
+}
+.pipeline-sticky::before {
+  content: ""; position: absolute; z-index: -2; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 44% 36% at 50% 53%, color-mix(in oklab, #AE9CFF 8.5%, transparent), transparent 84%),
+    radial-gradient(ellipse 23% 25% at 8% 82%, color-mix(in oklab, #AE9CFF 4.5%, transparent), transparent 85%),
+    radial-gradient(ellipse 23% 25% at 95% 12%, color-mix(in oklab, #AE9CFF 5.5%, transparent), transparent 85%);
+}
+.pipeline-sticky::after {
+  content: ""; position: absolute; pointer-events: none; z-index: -1; inset: 0; opacity: .16;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.12'/%3E%3C/svg%3E");
+}
+.story-topline {
+  position: absolute; left: clamp(20px, 5vw, 78px); top: clamp(20px, 3.9vh, 40px);
+  font-size: 11px; color: color-mix(in oklab, #66666E 80%, #FFFFFF); font-weight: 720; letter-spacing: .17em;
+  display: flex; align-items: center; gap: 9px;
+}
+.story-topline span {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: #AE9CFF; box-shadow: 0 0 0 4px color-mix(in oklab, #AE9CFF 12%, transparent);
+}
+.story-index {
+  position: absolute; right: clamp(20px, 5vw, 78px); top: clamp(20px, 3.9vh, 40px);
+  font-size: 10px; color: color-mix(in oklab, #66666E 80%, #FFFFFF); font-weight: 690; letter-spacing: .14em;
+}
+.story-heading {
+  text-align: center; position: relative; z-index: 2; padding: clamp(51px, 6.7vh, 76px) 18px 0; flex-shrink: 0;
+}
+.eyebrow {
+  color: #66666E; font-size: 10px; font-weight: 650; letter-spacing: .135em;
+}
+.story-heading h2 {
+  margin: 11px 0 9px; font-size: clamp(34px, 4vw, 61px); font-weight: 560; line-height: 1.06; letter-spacing: -.077em;
+}
+.story-heading h2 span {
+  color: #5B3CF0;
+}
+.story-deck {
+  font-size: clamp(13px, 1.16vw, 17px); color: color-mix(in oklab, #66666E 85%, #0D0D10); margin: 0; line-height: 1.5; letter-spacing: -.01em;
+}
+.story-proof {
+  margin-top: 18px; color: color-mix(in oklab, #66666E 75%, #FFFFFF); font-weight: 700; font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+}
+.story-proof b {
+  font-weight: 600; color: color-mix(in oklab, #66666E 40%, #FFFFFF); margin: 0 9px;
+}
+.orbit-stage {
+  position: relative; flex: 1; width: min(1200px, calc(100vw - 70px)); min-height: 365px; max-height: 580px; margin: auto; isolation: isolate;
+}
+.orbit-stage::before {
+  content: ""; position: absolute; left: 20%; right: 20%; top: 17%; bottom: 16%; border-radius: 50%;
+  background: radial-gradient(ellipse at center, color-mix(in oklab, #AE9CFF 10%, transparent), transparent 71%); filter: blur(14px); pointer-events: none;
+}
+.orbit-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0;
+}
+.orbit-track {
+  fill: none; stroke: color-mix(in oklab, #AE9CFF 40%, #66666E); stroke-opacity: .45; stroke-width: 1.1; stroke-dasharray: 4 6; vector-effect: non-scaling-stroke;
+}
+.orbit-complete {
+  fill: none; stroke: url(#orbitGradient); stroke-width: 2.1; stroke-linecap: round; filter: url(#orbitGlow); stroke-dasharray: 100; stroke-dashoffset: 100; vector-effect: non-scaling-stroke;
+}
+.orbit-complete-sharp {
+  fill: none; stroke: url(#orbitGradient); stroke-width: 1.15; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; vector-effect: non-scaling-stroke;
+}
+.orbit-tracker {
+  fill: #FFFFFF; stroke: #AE9CFF; stroke-width: 4; filter: url(#dotGlow); opacity: 0; transition: opacity .28s;
+}
+.orbit-dot-core {
+  fill: #5B3CF0; opacity: 0; transition: opacity .28s;
+}
+.signal-beam {
+  fill: none; stroke: url(#beamGradient); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 14 8; opacity: 0; filter: url(#orbitGlow);
+}
+.signal-beam.fire {
+  animation: beamFire .94s ease-out both;
+}
+@keyframes beamFire {
+  0% { opacity: 0; stroke-dashoffset: 90; }
+  18% { opacity: .9; }
+  74% { opacity: .75; }
+  100% { opacity: 0; stroke-dashoffset: -110; }
+}
+.orbit-point {
+  fill: color-mix(in oklab, #AE9CFF 80%, #FFFFFF); opacity: .45; filter: url(#dotGlow);
+}
+.company-layer {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+}
+.company-node {
+  --entry: 0; position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); min-width: 154px; height: 45px; display: grid; place-items: center; will-change: transform;
+}
+.node-ghost {
+  height: 31px; width: 31px; display: grid; place-items: center; border-radius: 50%; border: 1px solid color-mix(in oklab, #66666E 15%, #FFFFFF); background: #FFFFFF; box-shadow: 0 5px 16px color-mix(in oklab, #0D0D10 12%, transparent); transition: opacity .28s ease, transform .5s cubic-bezier(.22, 1, .36, 1); opacity: calc(1 - var(--entry)); transform: scale(calc(1 - var(--entry) * .28));
+}
+.node-ghost::after {
+  content: ""; width: 11px; height: 11px; border-radius: 50%; border: 1px solid color-mix(in oklab, #66666E 45%, #FFFFFF);
+}
+.node-chip {
+  display: flex; align-items: center; justify-content: center; gap: 9px; white-space: nowrap; position: absolute; left: 50%; top: 50%; padding: 0 16px; min-height: 42px; border: 1px solid color-mix(in oklab, #AE9CFF 50%, #FFFFFF); background: rgba(255, 255, 255, .95); border-radius: 100px; box-shadow: 0 5px 14px color-mix(in oklab, #5B3CF0 9%, transparent), 0 0 19px color-mix(in oklab, #AE9CFF 12%, transparent), inset 0 0 0 1px #FFFFFF; transform: translate(-50%, calc(-40% + (1 - var(--entry)) * 12px)) scale(calc(.83 + .17 * var(--entry))); opacity: var(--entry); filter: blur(calc((1 - var(--entry)) * 5px)); transition: opacity .18s ease, box-shadow .4s, background .3s; pointer-events: none;
+}
+.company-node.is-live .node-chip {
+  pointer-events: auto;
+}
+.company-node.is-live:hover .node-chip {
+  box-shadow: 0 8px 22px color-mix(in oklab, #5B3CF0 22%, transparent), 0 0 0 3px color-mix(in oklab, #AE9CFF 11%, transparent); background: #FFFFFF;
+}
+.company-mark {
+  display: inline-grid; place-items: center; font-size: 13px; line-height: 1; font-weight: 850; flex-shrink: 0; letter-spacing: -.1em; color: #0D0D10;
+}
+.company-name {
+  font-size: 12px; font-weight: 720; letter-spacing: -.045em; color: #1A1A1F; line-height: 1.1;
+}
+.company-name.serif {
+  font-family: Georgia, serif; font-weight: 700; font-size: 12px; letter-spacing: -.05em;
+}
+.company-name.wide {
+  font-size: 10px; letter-spacing: .09em; font-weight: 820;
+}
+.company-name.quiet {
+  font-weight: 540;
+}
+.company-node.is-live::after {
+  content: ""; position: absolute; inset: -6px 8px; border-radius: 60px; border: 1px solid color-mix(in oklab, #AE9CFF 53%, transparent); pointer-events: none; opacity: 0; animation: chipArrival .65s ease-out both;
+}
+@keyframes chipArrival {
+  0% { opacity: 1; transform: scale(.75); }
+  100% { opacity: 0; transform: scale(1.27); }
+}
+.reel-window {
+  --card-light: 0; position: absolute; z-index: 2; left: 50%; top: 50%; width: 420px; transform: translate(-50%, -50%) perspective(1000px) rotateX(var(--card-rotate-x, 0deg)) rotateY(var(--card-rotate-y, 0deg)); border-radius: 22px; padding: 9px; background: linear-gradient(140deg, rgba(255, 255, 255, .9), color-mix(in oklab, #AE9CFF 10%, rgba(255, 255, 255, .95))); border: 1px solid color-mix(in oklab, #5B3CF0 calc((0.19 + var(--card-light) * 0.54) * 100%), transparent); box-shadow: 0 18px 42px color-mix(in oklab, #0D0D10 12%, transparent), 0 0 calc(30px + var(--card-light) * 30px) color-mix(in oklab, #5B3CF0 calc((0.04 + var(--card-light) * 0.15) * 100%), transparent), inset 0 1px 1px #FFFFFF; transition: box-shadow .45s ease, border-color .45s ease; will-change: transform;
+}
+.reel-inner {
+  border-radius: 15px; overflow: hidden; background: #FFFFFF; border: 1px solid color-mix(in oklab, #66666E 14%, #FFFFFF);
+}
+.browser-top {
+  height: 34px; display: flex; align-items: center; justify-content: space-between; background: color-mix(in oklab, #F4F4F1 50%, #FFFFFF); border-bottom: 1px solid color-mix(in oklab, #66666E 14%, #FFFFFF); padding: 0 13px; gap: 7px;
+}
+.browser-dots {
+  display: flex; gap: 4px; align-items: center; min-width: 42px;
+}
+.browser-dots i {
+  height: 6px; width: 6px; display: block; background: color-mix(in oklab, #66666E 30%, #FFFFFF); border-radius: 50%;
+}
+.browser-dots i:first-child {
+  background: #5B3CF0; box-shadow: 0 0 8px color-mix(in oklab, #5B3CF0 45%, transparent);
+}
+.browser-link {
+  color: #66666E; font: 700 9px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .03em;
+}
+.verified-tag {
+  color: #5B3CF0; background: color-mix(in oklab, #AE9CFF 18%, #FFFFFF); border-radius: 4px; padding: 4px 5px; font: 800 8px/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .045em;
+}
+.reel-body {
+  padding: 15px 15px 14px;
+}
+.profile-line {
+  display: flex; align-items: center; gap: 10px; min-height: 38px;
+}
+.avatar {
+  height: 38px; width: 38px; border-radius: 50%; display: block; position: relative; overflow: hidden; background: #FFC547; flex-shrink: 0;
+}
+.avatar::before {
+  content: ""; position: absolute; width: 12px; height: 12px; top: 7px; left: 13px; background: #0D0D10; border-radius: 50%;
+}
+.avatar::after {
+  content: ""; position: absolute; width: 26px; height: 21px; left: 6px; top: 21px; background: #0D0D10; border-radius: 48% 48% 0 0;
+}
+.profile-info {
+  min-width: 0; flex: 1;
+}
+.profile-name {
+  font-size: 14px; font-weight: 760; letter-spacing: -.055em;
+}
+.profile-role {
+  font-size: 8px; letter-spacing: .105em; color: color-mix(in oklab, #66666E 70%, #FFFFFF); font-weight: 780; white-space: nowrap; margin-top: 2px;
+}
+.ready-pill {
+  font-size: 9px; color: #5B3CF0; background: color-mix(in oklab, #AE9CFF 16%, #FFFFFF); border: 1px solid color-mix(in oklab, #AE9CFF 40%, #FFFFFF); border-radius: 30px; padding: 6px 9px; white-space: nowrap; font-weight: 650;
+}
+.metric-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 15px 0 8px;
+}
+.metric {
+  background: color-mix(in oklab, #F4F4F1 75%, #FFFFFF); min-height: 60px; border-radius: 9px; padding: 12px 10px 9px; border: 1px solid color-mix(in oklab, #66666E 16%, #FFFFFF);
+}
+.metric strong {
+  display: block; font-size: 13px; letter-spacing: -.055em; font-weight: 650; color: color-mix(in oklab, #66666E 85%, #0D0D10);
+}
+.metric small {
+  display: block; font-size: 10px; line-height: 1.22; color: #66666E; margin-top: 3px; letter-spacing: -.015em;
+}
+.project-list {
+  padding: 0; margin: 0; list-style: none;
+}
+.project {
+  position: relative; display: flex; align-items: center; gap: 9px; min-height: 43px; border-bottom: 1px solid color-mix(in oklab, #66666E 10%, #FFFFFF); padding: 6px 6px 6px 0; border-radius: 5px; transition: background .4s ease, padding-left .4s ease, box-shadow .4s;
+}
+.project:last-child {
+  border-bottom: 0;
+}
+.project.is-signed {
+  background: color-mix(in oklab, #AE9CFF 16%, #FFFFFF); padding-left: 6px; box-shadow: inset 2px 0 #AE9CFF;
+}
+.project-thumb {
+  width: 39px; height: 28px; border-radius: 5px; flex-shrink: 0; background: linear-gradient(115deg, color-mix(in oklab, #AE9CFF 35%, #FFFFFF), color-mix(in oklab, #FFC547 30%, #FFFFFF));
+}
+.project-copy {
+  min-width: 0; flex: 1;
+}
+.project-title {
+  font-size: 10px; font-weight: 735; letter-spacing: -.028em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.project-meta {
+  font-size: 9px; color: color-mix(in oklab, #66666E 70%, #FFFFFF); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.project-check {
+  height: 17px; width: 17px; border-radius: 50%; background: #5B3CF0; color: #FFFFFF; display: grid; place-items: center; font-size: 11px; font-weight: bold; flex-shrink: 0; opacity: 0; transform: scale(.35) rotate(-65deg); transition: opacity .35s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1);
+}
+.project.is-signed .project-check {
+  opacity: 1; transform: scale(1) rotate(0);
+}
+.reel-aura {
+  position: absolute; z-index: -1; inset: 5% 2%; border-radius: 35%; background: #AE9CFF; filter: blur(65px); opacity: 0; transition: opacity .4s;
+}
+.story-bottom {
+  flex-shrink: 0; text-align: center; z-index: 4; position: relative; padding: 0 16px clamp(24px, 3.9vh, 42px); display: flex; align-items: center; flex-direction: column;
+}
+.counter-top {
+  display: flex; align-items: center; gap: 12px; justify-content: center; color: color-mix(in oklab, #66666E 75%, #FFFFFF); letter-spacing: .17em; font-size: 10px; font-weight: 760;
+}
+.counter-top::before, .counter-top::after {
+  content: ""; width: 22px; height: 1px; background: color-mix(in oklab, #AE9CFF 45%, #FFFFFF);
+}
+.counter-row {
+  display: flex; align-items: center; justify-content: center; gap: 13px; margin-top: 1px;
+}
+.counter-number {
+  font-size: clamp(62px, 6.3vw, 85px); line-height: .94; letter-spacing: normal; font-weight: 470; color: #5B3CF0; font-variant-numeric: tabular-nums; min-width: 106px;
+}
+.counter-caption {
+  font-size: 11px; line-height: 1.5; text-align: left; color: color-mix(in oklab, #66666E 70%, #FFFFFF); font-weight: 590; width: 152px; max-width: 35vw; transition: opacity .25s;
+}
+.count-dots {
+  display: flex; align-items: center; gap: 8px; margin-top: 12px;
+}
+.count-dots span {
+  height: 7px; width: 7px; border-radius: 50%; background: color-mix(in oklab, #66666E 25%, #FFFFFF); transition: background .3s, transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .35s;
+}
+.count-dots span.lit {
+  background: #5B3CF0; transform: scale(1.15); box-shadow: 0 0 0 3px color-mix(in oklab, #5B3CF0 7%, transparent);
+}
+.count-dots span.most-recent {
+  animation: dotPop .55s cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes dotPop {
+  0% { transform: scale(.5); }
+  55% { transform: scale(1.8); }
+  100% { transform: scale(1.15); }
+}
+.story-progress {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: color-mix(in oklab, #66666E 15%, #FFFFFF); z-index: 7;
+}
+.story-progress > span {
+  height: 100%; width: 0; display: block; background: linear-gradient(90deg, #AE9CFF, #5B3CF0); box-shadow: 0 0 9px color-mix(in oklab, #5B3CF0 40%, transparent);
+}
+.scroll-cue {
+  position: absolute; right: clamp(20px, 5vw, 78px); bottom: 36px; display: flex; align-items: center; gap: 9px; color: color-mix(in oklab, #66666E 60%, #FFFFFF); font-weight: 700; font-size: 9px; letter-spacing: .07em;
+}
+.scroll-cue svg {
+  height: 13px; width: 13px; transform: rotate(90deg);
+}
+.mobile-companies {
+  display: none;
+}
+.us-odo { display: inline-flex; font-size: inherit; font-weight: inherit; letter-spacing: -0.02em; line-height: 1; font-variant-numeric: tabular-nums; color: inherit; }
+.us-odo__col { display: inline-flex; flex-direction: column; height: 1em; overflow-x: visible; overflow-y: clip; padding-inline: 4px; }
 .us-odo__col span { display: block; height: 1em; transform: translateY(calc(var(--d, 0) * -100%)); transition: transform 700ms var(--ease-spring); }
 
 /* ---------- contract ---------- */
@@ -1034,12 +1301,7 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
   .us-thread__rail b { transform: scaleY(clamp(0, (var(--p, 0) - 0.04) / 0.9, 1)); }
 
   /* ===== casting: held while the callbacks come in ===== */
-  .us-casting { height: 280svh;
-    --q: clamp(0, (var(--p, 0) - 0.12) / 0.68, 1); }
-  .us-casting__stage { position: sticky; top: 0; height: 100svh; padding-top: 9svh; padding-bottom: 90px; }
-  .us-cast { width: min(1160px, 100%, calc((100svh - 300px) * 2)); }
-  .us-cast__net path { stroke-dashoffset: calc(1 - clamp(0, (var(--q) - var(--i) * 0.1) / 0.1, 1)); }
-  .us-cast__co:not([data-on]) { opacity: 0; scale: 0.5; }
+  .us-casting { height: 510svh; }
 
   /* ===== contract: the cue, the signature, the seal, the price ===== */
   .us-contract { height: 250svh;
@@ -1087,16 +1349,6 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
   .us-doc { grid-template-columns: 1fr; }
   .us-doc__page { display: none; }
   .us-doc__notes { padding-bottom: 30px; }
-  .us-cast { aspect-ratio: auto; display: grid; gap: 14px; }
-  .us-cast__net { display: none; }
-  .us-cast__reel { position: relative; left: auto; top: auto; width: min(100%, 420px); margin: 0 auto; }
-  .us-cast__win .us-reel__work { display: none; }
-  .us-cast__win .us-win__body { aspect-ratio: auto; }
-  .us-cast__cos { position: relative; inset: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .us-cast__co { position: relative; left: auto; top: auto; translate: none; padding: 9px 10px; }
-  .us-cast__co .us-co { font-size: 13.5px; }
-  .us-cast__count { position: relative; left: auto; bottom: auto; translate: none; justify-content: center; }
-  .us-odo { font-size: 34px; }
   .us-contract__card { padding: 24px 16px; border-radius: 20px; gap: 16px; }
   .us-contract__stage { gap: 18px; }
   .us-contract__facts { grid-template-columns: 1fr; gap: 8px; margin-top: 1svh; padding-top: 14px; }
@@ -1107,18 +1359,12 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
   .us-finale__mist { height: 44%; background: linear-gradient(var(--us-house) 50%, transparent); }
   .us-finale__line { top: 9%; }
   .us-ring { top: 54%; }
-  .us-cast__co { padding: 7px 10px; }
   .us-carousel__header { flex-direction: column; align-items: stretch; gap: 14px; }
   .us-carousel__controls { justify-content: space-between; }
   .us-carousel__hint { display: none; }
   .us-carousel__slide { padding: 8px 0 16px 0 !important; }
 }
 @media (max-width: 860px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
-  .us-casting { height: 240svh; }
-  .us-casting__stage { padding-top: 76px; gap: 2svh; }
-  .us-cast { width: 100%; }
-  .us-cast__reel { width: min(100%, 270px); }
-  .us-cast__win .us-reel__stats b { font-size: 16px; }
   .us-parts { --card-h: clamp(290px, 42svh, 360px); }
   .us-parts__hint { display: none; }
 }
@@ -1791,6 +2037,28 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
   .proof-orbit { transform: none !important; }
   .orbit-trace { stroke-dashoffset: 0 !important; }
   .brand { transform: none !important; }
+  .pipeline-story *, .pipeline-story *::before, .pipeline-story *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .company-node, .mobile-company, .us-cast__co {
+    opacity: 1 !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .node-chip {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: translate(-50%, -40%) scale(1) !important;
+  }
+  .node-ghost {
+    display: none !important;
+  }
+  .orbit-complete, .orbit-complete-sharp {
+    stroke-dashoffset: 0 !important;
+  }
 }
 
 ]]>
@@ -3682,70 +3950,436 @@ export function ReelFigure() {
 ]]>
     </file>
     <file path="src/app/(understudy)/understudy/sections/Casting.tsx">
-<![CDATA[import type { CSSProperties } from "react";
-import { CompanyMark } from "../brand/CompanyMark";
-import { CALLBACKS, companyById } from "../content/companies";
-import { MaskLine, Reveal } from "../motion/Reveal";
-import { ReelFigure } from "../rehearsal/Windows";
+<![CDATA["use client";
+import { useEffect, useRef, type CSSProperties } from "react";
 
-/** Where each callback sits on the 1200 × 600 stage, and where its line leaves the reel. */
-export const SEATS = CALLBACKS.map((id, n) => {
-  const left = n % 2 === 0;
-  const row = Math.floor(n / 2);
-  const y = 110 + row * 95;
-  return { id, left, x: left ? 118 : 1082, y, from: { x: left ? 372 : 828, y: 150 + row * 70 } };
-});
+const COMPANIES = [
+  { id: "parcelpost", mark: "■", name: "Parcelpost", cls: "", x: "50%", y: "8.6%" },
+  { id: "halcyon", mark: "◉", name: "Halcyon Bank", cls: "serif", x: "77.5%", y: "18.1%" },
+  { id: "fernway", mark: "◕", name: "fernway", cls: "", x: "90.8%", y: "37.5%" },
+  { id: "tidewell", mark: "◔", name: "Tidewell", cls: "", x: "90.8%", y: "62.3%" },
+  { id: "ledgerly", mark: "▥", name: "Ledgerly", cls: "quiet", x: "77.5%", y: "81.8%" },
+  { id: "wavelength", mark: "◕", name: "Wavelength", cls: "serif", x: "50%", y: "91.4%" },
+  { id: "arbor", mark: "▲", name: "Arbor&Co", cls: "serif", x: "22.5%", y: "81.8%" },
+  { id: "brightloop", mark: "◉", name: "Brightloop", cls: "", x: "9.2%", y: "62.3%" },
+  { id: "kestrel", mark: "▥", name: "kestrel", cls: "quiet", x: "9.2%", y: "37.5%" },
+  { id: "lumen", mark: "✦", name: "LUMEN GAMES", cls: "wide", x: "22.5%", y: "18.1%" },
+];
 
-const curve = (s: (typeof SEATS)[number]) => {
-  const ex = s.left ? s.x + 82 : s.x - 82;
-  const mid = (s.from.x + ex) / 2;
-  return `M${s.from.x} ${s.from.y}C${mid} ${s.from.y} ${mid} ${s.y} ${ex} ${s.y}`;
+const DESCRIPTIONS = [
+  "Your reel is in the room. The connections start here.",
+  "Parcelpost just called back.",
+  "Two teams. Two open doors.",
+  "Your reel is finding its people.",
+  "Four companies are interested.",
+  "Halfway there. Momentum is building.",
+  "Your work is making the rounds.",
+  "Seven chances, and counting.",
+  "More teams are taking notice.",
+  "One final connection to go.",
+  "Ten callbacks. Real opportunities.",
+];
+
+const clamp = (v: number, low = 0, high = 1) => Math.max(low, Math.min(high, v));
+const smoother = (x: number) => {
+  const c = clamp(x);
+  return c * c * (3 - 2 * c);
 };
 
-/**
- * One held stage. The reel rests in the middle; ten companies call back one after another,
- * each pulled in by a line drawn from the reel, while the callback counter rolls like an odometer.
- */
 export function Casting() {
+  const storyRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const story = storyRef.current;
+    if (!story) return;
+
+    const nodes = Array.from(story.querySelectorAll<HTMLElement>(".company-node"));
+    const compactNodes = Array.from(story.querySelectorAll<HTMLElement>(".mobile-company"));
+    const projects = Array.from(story.querySelectorAll<HTMLElement>(".project"));
+    const dots = Array.from(story.querySelectorAll<HTMLElement>("#callback-dots span"));
+    const counter = story.querySelector<HTMLElement>("#callback-count");
+    const caption = story.querySelector<HTMLElement>("#callback-caption");
+    const glowTrail = story.querySelector<SVGPathElement>("#orbit-glow-trail");
+    const sharpTrail = story.querySelector<SVGPathElement>("#orbit-sharp-trail");
+    const trackerHalo = story.querySelector<SVGCircleElement>("#tracker-halo");
+    const trackerCore = story.querySelector<SVGCircleElement>("#tracker-core");
+    const beam = story.querySelector<SVGPathElement>("#signal-beam");
+    const card = story.querySelector<HTMLElement>("#reel-window");
+    const progressLine = story.querySelector<HTMLElement>("#story-progress-fill");
+    const odoCols = Array.from(story.querySelectorAll<HTMLElement>(".us-odo__col"));
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    let ticking = false;
+    let prevCount = -1;
+    let firingTimeout = 0;
+    let lastRaw = -1;
+
+    function signalFrom(index: number) {
+      if (reducedMotion.matches || window.innerWidth <= 760 || !beam) return;
+      const node = nodes[index];
+      if (!node) return;
+      const x = Number.parseFloat(node.style.getPropertyValue("--x")) * 12;
+      const y = Number.parseFloat(node.style.getPropertyValue("--y")) * 5.8;
+      const mx = 600, my = 290;
+      const midX = (x + mx) / 2;
+      const midY = (y + my) / 2;
+      const normalX = -(my - y) * 0.16;
+      const normalY = (mx - x) * 0.16;
+      beam.setAttribute("d", `M${x} ${y} Q${midX + normalX} ${midY + normalY} ${mx} ${my}`);
+      beam.classList.remove("fire");
+      void beam.getBoundingClientRect();
+      beam.classList.add("fire");
+      clearTimeout(firingTimeout);
+      firingTimeout = window.setTimeout(() => beam?.classList.remove("fire"), 960);
+    }
+
+    function render() {
+      ticking = false;
+      if (!story) return;
+
+      if (reducedMotion.matches) {
+        nodes.forEach((node) => {
+          node.style.setProperty("--entry", "1");
+          node.classList.add("is-live");
+          node.setAttribute("data-on", "");
+        });
+        compactNodes.forEach((node) => {
+          node.style.setProperty("--entry", "1");
+          node.classList.add("is-live");
+          node.setAttribute("data-on", "");
+        });
+        projects.forEach((item) => item.classList.add("is-signed"));
+        dots.forEach((dot) => dot.classList.add("lit"));
+        story.setAttribute("data-full", "");
+        if (odoCols.length >= 2) {
+          odoCols[0].style.setProperty("--d", "1");
+          odoCols[1].style.setProperty("--d", "0");
+        }
+        if (counter) counter.setAttribute("aria-label", "10 callbacks");
+        if (caption) caption.textContent = DESCRIPTIONS[10];
+        if (glowTrail) glowTrail.style.strokeDashoffset = "0";
+        if (sharpTrail) sharpTrail.style.strokeDashoffset = "0";
+        if (progressLine) progressLine.style.width = "100%";
+        return;
+      }
+
+      const rect = story.getBoundingClientRect();
+      const travel = Math.max(1, rect.height - window.innerHeight);
+      const raw = clamp(-rect.top / travel);
+      if (Math.abs(raw - lastRaw) < 0.0001 && prevCount !== -1) return;
+      lastRaw = raw;
+
+      const beats = clamp((raw - 0.07) / 0.86) * 10;
+      const count = Math.min(10, Math.floor(beats + 0.01));
+      const orbitFraction = clamp((raw - 0.06) / 0.88);
+      const dash = 100 - orbitFraction * 100;
+
+      if (glowTrail) glowTrail.style.strokeDashoffset = String(dash);
+      if (sharpTrail) sharpTrail.style.strokeDashoffset = String(dash);
+      if (progressLine) progressLine.style.width = (raw * 100).toFixed(3) + "%";
+
+      const theta = -Math.PI / 2 + orbitFraction * Math.PI * 2;
+      const x = 600 + Math.cos(theta) * 505;
+      const y = 290 + Math.sin(theta) * 240;
+      if (trackerHalo && trackerCore) {
+        trackerHalo.setAttribute("cx", x.toFixed(2));
+        trackerHalo.setAttribute("cy", y.toFixed(2));
+        trackerHalo.style.opacity = orbitFraction > 0.003 && orbitFraction < 0.996 ? "1" : "0";
+        trackerCore.setAttribute("cx", x.toFixed(2));
+        trackerCore.setAttribute("cy", y.toFixed(2));
+        trackerCore.style.opacity = orbitFraction > 0.003 && orbitFraction < 0.996 ? "1" : "0";
+      }
+
+      nodes.forEach((node, index) => {
+        const reveal = smoother((beats - index - 0.05) / 0.85);
+        node.style.setProperty("--entry", reveal.toFixed(3));
+        node.classList.toggle("is-live", count > index);
+        node.toggleAttribute("data-on", count > index);
+      });
+
+      compactNodes.forEach((node, index) => {
+        const reveal = smoother((beats - index - 0.05) / 0.85);
+        node.style.setProperty("--entry", reveal.toFixed(3));
+        node.classList.toggle("is-live", count > index);
+        node.toggleAttribute("data-on", count > index);
+      });
+
+      projects.forEach((item, index) => {
+        item.classList.toggle("is-signed", count >= [3, 6, 9][index]);
+      });
+
+      const charge = clamp((beats - 2) / 8);
+      if (card) card.style.setProperty("--card-light", charge.toFixed(3));
+
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("lit", index < count);
+        if (index !== count - 1) dot.classList.remove("most-recent");
+      });
+
+      story.toggleAttribute("data-full", count === 10);
+
+      const d0 = Math.floor(count / 10);
+      const d1 = count % 10;
+      if (odoCols.length >= 2) {
+        odoCols[0].style.setProperty("--d", String(d0));
+        odoCols[1].style.setProperty("--d", String(d1));
+      }
+
+      if (count !== prevCount) {
+        if (counter) counter.setAttribute("aria-label", `${count} callbacks`);
+        if (caption) caption.textContent = DESCRIPTIONS[count];
+        if (count > prevCount && prevCount !== -1) {
+          signalFrom(count - 1);
+          const recentDot = dots[count - 1];
+          if (recentDot) {
+            recentDot.classList.remove("most-recent");
+            void recentDot.offsetWidth;
+            recentDot.classList.add("most-recent");
+          }
+        }
+        prevCount = count;
+      }
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(render);
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    let cleanCardPointer: (() => void) | null = null;
+    if (card && window.matchMedia("(hover:hover) and (pointer:fine)").matches && !reducedMotion.matches) {
+      const handlePointerMove = (event: PointerEvent) => {
+        const r = card.getBoundingClientRect();
+        const nx = clamp((event.clientX - r.left) / r.width);
+        const ny = clamp((event.clientY - r.top) / r.height);
+        card.style.setProperty("--card-rotate-x", `${((0.5 - ny) * 3).toFixed(2)}deg`);
+        card.style.setProperty("--card-rotate-y", `${((nx - 0.5) * 4).toFixed(2)}deg`);
+      };
+      const handlePointerLeave = () => {
+        card.style.setProperty("--card-rotate-x", "0deg");
+        card.style.setProperty("--card-rotate-y", "0deg");
+      };
+      card.addEventListener("pointermove", handlePointerMove);
+      card.addEventListener("pointerleave", handlePointerLeave);
+      cleanCardPointer = () => {
+        card.removeEventListener("pointermove", handlePointerMove);
+        card.removeEventListener("pointerleave", handlePointerLeave);
+      };
+    }
+
+    render();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      clearTimeout(firingTimeout);
+      if (cleanCardPointer) cleanCardPointer();
+    };
+  }, []);
+
   return (
-    <section className="us-casting" id="casting" data-scene="casting" data-tone="light" aria-labelledby="us-cast-t">
-      <div className="us-casting__stage">
-        <header className="us-casting__head">
-          <p className="us-eyebrow us-casting__eyebrow">Direct Placement Pipeline</p>
-          <h2 className="us-h2" id="us-cast-t"><MaskLine>You rehearse. We <em className="us-cueword">cast.</em></MaskLine></h2>
-          <Reveal as="p" className="us-lead" index={1}>Your reel goes straight to the companies casting for your part.</Reveal>
-          <div className="us-casting__pills us-mono" aria-hidden="true">
-            <span>62% Callbacks Season-to-Date</span>
-            <span>·</span>
-            <span>No Cold Outreaches</span>
-            <span>·</span>
-            <span>Direct Hiring Line</span>
+    <section
+      ref={storyRef}
+      id="casting"
+      className="us-casting pipeline-story"
+      data-scene="casting"
+      data-tone="light"
+      aria-labelledby="pipeline-title"
+    >
+      <div className="pipeline-sticky">
+        <div className="story-topline">
+          <span /> UNDERSTUDY / CASTING
+        </div>
+        <div className="story-index">02 &nbsp;/&nbsp; 03</div>
+
+        <header className="story-heading">
+          <div className="eyebrow us-mono">DIRECT PLACEMENT PIPELINE</div>
+          <h2 id="pipeline-title">
+            You rehearse. We <span>cast.</span>
+          </h2>
+          <p className="story-deck">Your reel goes straight to the companies casting for your part.</p>
+          <div className="story-proof us-mono">
+            62% CALLBACKS SEASON-TO-DATE <b>·</b> NO COLD OUTREACHES <b>·</b> DIRECT HIRING LINE
           </div>
         </header>
-        <div className="us-cast">
-          <svg className="us-cast__net" viewBox="0 0 1200 600" aria-hidden="true">
-            {SEATS.map((s, n) => <path key={s.id} d={curve(s)} pathLength={1} style={{ "--i": n } as CSSProperties} />)}
+
+        <div className="orbit-stage" aria-label="Companies receiving a certified candidate reel">
+          <svg className="orbit-svg" viewBox="0 0 1200 580" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="orbitGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="color-mix(in oklab, #AE9CFF 60%, #FFFFFF)" />
+                <stop offset=".34" stopColor="color-mix(in oklab, #5B3CF0 70%, #AE9CFF)" />
+                <stop offset=".66" stopColor="#AE9CFF" />
+                <stop offset="1" stopColor="#5B3CF0" />
+              </linearGradient>
+              <linearGradient id="beamGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stopColor="color-mix(in oklab, #AE9CFF 70%, #FFFFFF)" stopOpacity="0" />
+                <stop offset=".55" stopColor="#5B3CF0" stopOpacity=".96" />
+                <stop offset="1" stopColor="color-mix(in oklab, #AE9CFF 75%, #FFFFFF)" stopOpacity=".12" />
+              </linearGradient>
+              <filter id="orbitGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="3.4" />
+              </filter>
+              <filter id="dotGlow" x="-150%" y="-150%" width="400%" height="400%">
+                <feGaussianBlur stdDeviation="3" />
+              </filter>
+            </defs>
+            <ellipse className="orbit-track" cx="600" cy="290" rx="505" ry="240" />
+            <path
+              id="orbit-glow-trail"
+              className="orbit-complete"
+              d="M600 50 A505 240 0 0 1 1105 290 A505 240 0 0 1 600 530 A505 240 0 0 1 95 290 A505 240 0 0 1 600 50"
+              pathLength={100}
+            />
+            <path
+              id="orbit-sharp-trail"
+              className="orbit-complete-sharp"
+              d="M600 50 A505 240 0 0 1 1105 290 A505 240 0 0 1 600 530 A505 240 0 0 1 95 290 A505 240 0 0 1 600 50"
+              pathLength={100}
+            />
+            <path id="signal-beam" className="signal-beam" d="M600 50 Q600 160 600 290" />
+            <circle id="tracker-halo" className="orbit-tracker" cx="600" cy="50" r="6" />
+            <circle id="tracker-core" className="orbit-dot-core" cx="600" cy="50" r="3" />
           </svg>
-          <div className="us-cast__reel"><ReelFigure /></div>
-          <ul className="us-cast__cos" aria-label="Companies that called back">
-            {SEATS.map((s, n) => (
-              <li key={s.id} className="us-cast__co" data-on="" data-side={s.left ? "l" : "r"}
-                style={{ "--x": `${(s.x / 1200) * 100}%`, "--y": `${(s.y / 600) * 100}%`, "--i": n } as CSSProperties}>
-                <CompanyMark company={companyById(s.id)} />
-              </li>
+
+          {/* Desktop 10 company nodes in orbit */}
+          <div className="company-layer" aria-hidden="true">
+            {COMPANIES.map((co, index) => (
+              <div
+                key={co.id}
+                className="company-node us-cast__co"
+                data-index={index}
+                style={{ "--x": co.x, "--y": co.y } as CSSProperties}
+              >
+                <span className="node-ghost" />
+                <div className="node-chip">
+                  <span className="company-mark">{co.mark}</span>
+                  <span className={`company-name ${co.cls}`}>{co.name}</span>
+                </div>
+              </div>
             ))}
-          </ul>
-          <p className="us-cast__count">
-            <span className="us-mono">Callbacks</span>
-            <span className="us-odo" aria-hidden="true">
-              {[1, 0].map((d, n) => (
-                <span key={n} className="us-odo__col" style={{ "--d": d } as CSSProperties}>
-                  {Array.from({ length: 10 }, (_, k) => <span key={k}>{k}</span>)}
+          </div>
+
+          {/* Center 3D browser reel window */}
+          <div className="reel-window" id="reel-window">
+            <div className="reel-aura" />
+            <div className="reel-inner">
+              <div className="browser-top">
+                <div className="browser-dots">
+                  <i />
+                  <i />
+                  <i />
+                </div>
+                <span className="browser-link">understudy.example/maya</span>
+                <span className="verified-tag">CERTIFIED REEL</span>
+              </div>
+              <div className="reel-body">
+                <div className="profile-line">
+                  <span className="avatar" aria-hidden="true" />
+                  <div className="profile-info">
+                    <div className="profile-name">Maya Ortiz</div>
+                    <div className="profile-role">PRODUCT ANALYST · LEVEL 7</div>
+                  </div>
+                  <span className="ready-pill">Callback-ready</span>
+                </div>
+                <div className="metric-grid">
+                  <div className="metric">
+                    <strong>−18%</strong>
+                    <small>checkout drop-off</small>
+                  </div>
+                  <div className="metric">
+                    <strong>4</strong>
+                    <small>fixes shipped</small>
+                  </div>
+                  <div className="metric">
+                    <strong>9</strong>
+                    <small>director notes</small>
+                  </div>
+                </div>
+                <ul className="project-list">
+                  <li className="project" data-project="0">
+                    <span className="project-thumb" />
+                    <span className="project-copy">
+                      <div className="project-title">Checkout funnel model</div>
+                      <div className="project-meta">Parcelpost · signed off</div>
+                    </span>
+                    <span className="project-check">✓</span>
+                  </li>
+                  <li className="project" data-project="1">
+                    <span className="project-thumb" />
+                    <span className="project-copy">
+                      <div className="project-title">Win-back experiment</div>
+                      <div className="project-meta">Sundry · signed off</div>
+                    </span>
+                    <span className="project-check">✓</span>
+                  </li>
+                  <li className="project" data-project="2">
+                    <span className="project-thumb" />
+                    <span className="project-copy">
+                      <div className="project-title">Demand forecast</div>
+                      <div className="project-meta">Tidewell · signed off</div>
+                    </span>
+                    <span className="project-check">✓</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Compact mobile roster */}
+          <div className="mobile-companies" aria-hidden="true">
+            {COMPANIES.map((co, index) => (
+              <div key={`m-${co.id}`} className="mobile-company" data-index={index}>
+                <span className="company-mark">{co.mark}</span>
+                <span className={`company-name ${co.cls}`}>{co.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <footer className="story-bottom">
+          <div className="counter-top">CALLBACKS RECEIVED</div>
+          <div className="counter-row">
+            <div className="counter-number" id="callback-count" aria-label="00 callbacks">
+              <span className="us-odo" aria-hidden="true">
+                <span className="us-odo__col" style={{ "--d": 0 } as CSSProperties}>
+                  {Array.from({ length: 10 }, (_, k) => (
+                    <span key={k}>{k}</span>
+                  ))}
                 </span>
-              ))}
-            </span>
-            <span className="us-sr">10 companies called back</span>
-          </p>
+                <span className="us-odo__col" style={{ "--d": 0 } as CSSProperties}>
+                  {Array.from({ length: 10 }, (_, k) => (
+                    <span key={k}>{k}</span>
+                  ))}
+                </span>
+              </span>
+            </div>
+            <div className="counter-caption" id="callback-caption">
+              Your reel is in the room. The connections start here.
+            </div>
+          </div>
+          <div className="count-dots" id="callback-dots" aria-hidden="true">
+            {Array.from({ length: 10 }, (_, i) => (
+              <span key={i} />
+            ))}
+          </div>
+        </footer>
+
+        <div className="scroll-cue">
+          SCROLL TO UNLOCK{" "}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5">
+            <path d="M5 12h14m-5-5 5 5-5 5" />
+          </svg>
+        </div>
+
+        <div className="story-progress" aria-hidden="true">
+          <span id="story-progress-fill" />
         </div>
       </div>
     </section>
