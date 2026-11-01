@@ -27,10 +27,10 @@ export function Contribute() {
               </label>
             </div>
           </fieldset>
-          <label htmlFor="request-email">Email address <span>Required</span></label>
+          <label htmlFor="request-email">Email address <span className="request-required" aria-hidden="true">*</span></label>
           <input id="request-email" type="email" name="email" autoComplete="email" placeholder="you@example.com" maxLength={254} required />
-          <label htmlFor="request-idea">Tell us about your website <span>Optional</span></label>
-          <textarea id="request-idea" name="idea" rows={4} maxLength={3000} placeholder="What are you building? Share a link or an idea." />
+          <label htmlFor="request-idea">Tell us about your website <span className="request-required" aria-hidden="true">*</span></label>
+          <textarea id="request-idea" name="idea" rows={4} maxLength={3000} placeholder="What are you building? Share a link or an idea." required />
           <button type="submit" className="primary-action"><ActionLabel>Send request</ActionLabel><ArrowUpRight size={16} aria-hidden="true" /></button>
           <p className="request-privacy">Your request is sent through <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a> to our inbox.</p>
         </form>
