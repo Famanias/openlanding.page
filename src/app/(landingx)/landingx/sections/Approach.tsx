@@ -1,0 +1,5 @@
+import { XMark } from "../brand/Logo";
+
+export function Approach() {
+  return <section className="lx-approach" id="approach"><div className="lx-shell"><div className="lx-section-label lx-mono" data-reveal="rise"><span>THE APPROACH &nbsp; / &nbsp; 02</span><span>A LITTLE MORE THOUGHT, EVERYWHERE</span></div><div className="lx-approach-heading" data-reveal="wipe"><h2>Not another page.<br/><em>Your point of view.</em></h2></div><div className="lx-approach-body"><div className="lx-approach-mark" aria-hidden="true"><XMark/><span className="lx-mono">CONSIDERED FROM<br/>THE FIRST IDEA.</span></div><div className="lx-approach-copy" data-reveal="rise"><span className="lx-small-label lx-mono">GOOD WORK STARTS HERE &nbsp; ↗</span><p>Landing X gives your agent a creative process to follow: find the central idea, build a visual world around it, and bring every detail to life.</p><p>Because the best landing page isn’t a formula. It’s a clear idea, made tangible.</p><a className="lx-inline-link" href="#process">See how it comes together <span>↘</span></a></div></div></div></section>;
+}

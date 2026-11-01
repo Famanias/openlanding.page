@@ -1,0 +1,5 @@
+import { Logo, XMark } from "../brand/Logo";
+import { CopyBrief } from "./CopyBrief";
+export function Start() {
+  return <><section className="lx-start" id="start"><div className="lx-shell"><div className="lx-section-label lx-mono" data-reveal="rise"><span>YOUR TURN &nbsp; / &nbsp; 04</span><span>THE NEXT GOOD IDEA IS YOURS</span></div><div className="lx-start-heading" data-reveal="rise"><h2>Make room for<br/><em>the real thing.</em></h2><p>Bring the idea. Your agent can help turn it into a landing page worth spending time with.</p></div><CopyBrief/></div></section><footer className="lx-footer"><div className="lx-shell"><div className="lx-footer-top"><a href="#top" aria-label="Landing X, back to top"><Logo/></a><p>A better beginning<br/>for what you’re building.</p><nav aria-label="Footer navigation"><a href="#work">The work</a><a href="#approach">The approach</a><a href="#start">Start a brief</a></nav><XMark className="lx-footer-mark"/></div><div className="lx-footer-bottom lx-mono"><span>LANDING X &nbsp; / &nbsp; A CREATIVE AGENT SKILL</span><a href="#top">BACK TO THE TOP ↑</a></div></div></footer></>;
+}
