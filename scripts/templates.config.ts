@@ -13,7 +13,7 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
-  landingx: { palette: ["#7D97AE", "#815751", "#E5DDD7", "#E8EEEE", "#4B3C2E", "#826851"] },
+  landingx: { palette: ["#BEAA97", "#815751", "#E5DDD7", "#E8EEEE", "#4B3C2E", "#826851"] },
   avel: { palette: ["#CDB3A3", "#F8F5EF", "#243A32", "#FFFFFF", "#E8DDD2", "#5A6A60"] },
   pello: { palette: ["#FFF9F1", "#F2E7E4", "#321C2D", "#653453", "#EF9A9A", "#DCE5BA", "#45624A", "#70616F"] },
   noiseclub: {

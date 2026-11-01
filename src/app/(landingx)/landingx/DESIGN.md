@@ -7,7 +7,7 @@ An isolated Next.js 16 / React / TypeScript landing-page template at `/landingx`
 Each landing page starts as a brief and becomes an individual piece of work, so Landing X presents the output as a working index of projects. Visitors can filter that index, follow a project to its actual local template, and copy a starter brief. Mood: editorial, precise, considered, open, kinetic.
 
 ## Palette
-Blue `#7D97AE` is the primary canvas. Rust `#815751` is the complementary accent. Warm paper `#E5DDD7`, cool paper `#E8EEEE`, deep brown `#4B3C2E`, and earth `#826851` support the layout. For small text on blue, mix deep brown with black to meet contrast; all other tints derive from the supplied colors.
+Light brown `#BEAA97` is the primary canvas. Rust `#815751` is the complementary accent. Warm paper `#E5DDD7`, cool paper `#E8EEEE`, deep brown `#4B3C2E`, and earth `#826851` support the layout. For small text on light brown, mix deep brown with black to meet contrast; all other tints derive from the supplied colors.
 
 ## Type
 Barlow Condensed supplies the tall, light display voice; Manrope supplies readable body text; IBM Plex Mono carries labels, indexes, and the brief. Fonts are isolated through `next/font/google`. Headlines are large but bounded, with intentional line breaks and generous margins.
@@ -27,7 +27,7 @@ Personality: composed and precise. Verbs: shift and settle. Tokens: out `cubic-b
 | Masthead | split line rises, label and CTA follow | small decorative X shift | arrow nudges | CTA presses | rule meets work index |
 | Project index | rule draws, caption rises | native document flow | filter outline and focus | active category and count change | list reflows into gallery |
 | Gallery | image wipes and card cascade | observer reveals each card | card media lifts, arrow moves | real project links | last card leads to craft |
-| Craft | heading wipe and rule draw | small field mark shift | text links underline | anchor action | blue returns to paper |
+| Craft | heading wipe and rule draw | small field mark shift | text links underline | anchor action | brown returns to paper |
 | Steps | staggered rules and figures | native flow | control focus | links to starter | final rule meets brief |
 | Starter brief | panel rises | native flow | focus-visible | copy confirmation or selectable fallback | dark band meets footer |
 | Footer | content settles | native flow | link underline | anchor navigation | ends with brand mark |
