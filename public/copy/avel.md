@@ -223,9 +223,11 @@ body.avl-body { margin: 0; overflow-x: clip; color: var(--color-avl-ink); backgr
 .avl-faq-list details[open] summary span { transform: rotate(45deg); }
 .avl-faq-list details p { font-size: 12px; line-height: 1.8; color: var(--color-avl-muted); padding: 0 30px 24px 0; }
 .avl-closing-wrap { position: relative; isolation: isolate; overflow: hidden; margin: 0 16px 16px; border-radius: 15px; background: var(--color-avl-clay); }
-.avl-closing-image { position: absolute; inset: 0; z-index: -1; display: block; width: 100%; height: 100%; pointer-events: none; }
-.avl-closing-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.avl-closing { padding: 100px 20px; background: color-mix(in srgb, var(--color-avl-paper) 38%, transparent); text-align: center; }
+.avl-closing-image,.avl-footer-image { position: absolute; inset: 0; z-index: -2; display: block; width: 100%; height: 100%; pointer-events: none; }
+.avl-closing-image img,.avl-footer-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.avl-closing { position: relative; isolation: isolate; padding: 100px 20px; background: var(--color-avl-clay); text-align: center; }
+.avl-closing::before,.avl-footer::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.avl-closing::before { background: color-mix(in srgb, var(--color-avl-paper) 38%, transparent); }
 .avl-closing-inner > svg { width: 40px; height: 40px; display: block; margin: 0 auto 22px; }
 .avl-closing h2 { margin-top: 20px; }
 .avl-closing-inner > p { font-size: 13px; margin-top: 20px; }
@@ -233,13 +235,14 @@ body.avl-body { margin: 0; overflow-x: clip; color: var(--color-avl-ink); backgr
 .avl-form input { min-width: 0; flex: 1; padding: 0 18px; border: 0; border-radius: 100px; outline: 0; color: var(--color-avl-ink); background: transparent; font-size: 12px; }
 .avl-form input:focus-visible { outline: 2px solid var(--color-avl-ink); outline-offset: -2px; }
 .avl-form .avl-btn { min-height: 45px; }
-.avl-form-note,.avl-error { position: absolute; left: 12px; top: calc(100% + 12px); font-size: 10px; text-align: left; }
-.avl-error { top: calc(100% + 28px); font-weight: 700; }
+.avl-form-note,.avl-error { position: absolute; left: 12px; top: calc(100% + 12px); padding: 4px 8px; border-radius: 4px; background: color-mix(in srgb,var(--color-avl-paper) 90%,transparent); font-size: 10px; text-align: left; }
+.avl-error { top: calc(100% + 38px); font-weight: 700; }
 .avl-form-success { display: flex; justify-content: center; gap: 12px; margin: 30px auto 0; text-align: left; }
 .avl-form-success > span { font-size: 28px; }
 .avl-form-success p { font-size: 11px; margin: 7px 0; }
 .avl-form-success button { padding: 0; border: 0; background: none; text-decoration: underline; font-size: 11px; }
-.avl-footer { background: color-mix(in srgb, var(--color-avl-ink) 92%, transparent); color: var(--color-avl-paper); padding: 55px clamp(25px,5vw,70px) 20px; }
+.avl-footer { position: relative; isolation: isolate; background: var(--color-avl-ink); color: var(--color-avl-paper); padding: 55px clamp(25px,5vw,70px) 20px; }
+.avl-footer::before { background: color-mix(in srgb, var(--color-avl-ink) 92%, transparent); }
 .avl-footer-top { display: grid; grid-template-columns: 1fr 1.2fr 1fr auto; gap: 20px; min-height: 165px; }
 .avl-footer-top p { font-family: var(--avl-newsreader),serif; font-size: 24px; line-height: 1.1; letter-spacing: -.03em; }
 .avl-footer-top nav { display: flex; flex-direction: column; gap: 10px; font-size: 11px; }
@@ -472,7 +475,7 @@ export function Runtime() {
 import { Picture } from "../assets";
 import { Signup } from "../forms/Signup";
 export function Closing() {
-  return <div className="avl-closing-wrap"><Picture assetKey="closing" alt="" className="avl-closing-image"/><section className="avl-closing" id="get-started"><div className="avl-closing-inner" data-reveal="rise"><Mark/><span className="avl-kicker">A LITTLE MORE IS POSSIBLE</span><h2>Make space for<br/><em>what’s next.</em></h2><p>Good ideas are waiting. Let’s see where yours can go.</p><Signup/></div></section><footer className="avl-footer"><div className="avl-footer-top"><a href="#top" aria-label="Avel home"><Logo/></a><p>A little more room<br/>for good thinking.</p><nav aria-label="Footer navigation"><a href="#models">Our models</a><a href="#how">How it works</a><a href="#stories">Our community</a><a href="#questions">Questions</a></nav><a href="#get-started" className="avl-footer-link">Get started ↗</a></div><div className="avl-footer-bottom"><span>© 2026 AVEL. A FICTIONAL COMPANY.</span><span>MADE FOR CURIOUS MINDS &nbsp; ✳</span></div></footer></div>;
+  return <div className="avl-closing-wrap"><section className="avl-closing" id="get-started"><Picture assetKey="closing" alt="" className="avl-closing-image"/><div className="avl-closing-inner" data-reveal="rise"><Mark/><span className="avl-kicker">A LITTLE MORE IS POSSIBLE</span><h2>Make space for<br/><em>what’s next.</em></h2><p>Good ideas are waiting. Let’s see where yours can go.</p><Signup/></div></section><footer className="avl-footer"><Picture assetKey="closing" alt="" className="avl-footer-image"/><div className="avl-footer-top"><a href="#top" aria-label="Avel home"><Logo/></a><p>A little more room<br/>for good thinking.</p><nav aria-label="Footer navigation"><a href="#models">Our models</a><a href="#how">How it works</a><a href="#stories">Our community</a><a href="#questions">Questions</a></nav><a href="#get-started" className="avl-footer-link">Get started ↗</a></div><div className="avl-footer-bottom"><span>© 2026 AVEL. A FICTIONAL COMPANY.</span><span>MADE FOR CURIOUS MINDS &nbsp; ✳</span></div></footer></div>;
 }
 ]]>
     </file>
