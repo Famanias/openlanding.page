@@ -1,11 +1,12 @@
 import React from "react";
 import { GithubLogo, ArrowDown } from "@phosphor-icons/react/dist/ssr";
 import { ActionLabel } from "./ActionLabel";
+import { HeroScene } from "./HeroScene";
 
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="gradient-field" aria-hidden="true"><div className="gradient-ribbon" /><div className="gradient-ribbon gradient-ribbon-secondary" /></div>
+      <HeroScene />
       <div className="page-container hero-content items-center text-center">
         <h1
           id="hero-title"

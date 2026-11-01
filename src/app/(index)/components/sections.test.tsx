@@ -8,6 +8,7 @@ import { Contribute } from "./Contribute";
 import { Footer } from "./Footer";
 import { pointInFooterScene, stepFooterPointer, createFooterPointerState } from "./FooterScene";
 import { createFooterSculpture } from "./footer/sculpture";
+import { createHeroPaintSimulation } from "./hero/paintSpread";
 
 describe("landing page sections", () => {
   it("Header renders lowercase openlandingpage wordmark and nav links", () => {
@@ -147,5 +148,39 @@ describe("landing page sections", () => {
     } finally {
       sculpture.dispose();
     }
+  });
+
+  it("spreads paint smudges and emits pigment particles as the cursor sweeps across the hero", () => {
+    const html = renderToStaticMarkup(<Hero />);
+    expect(html).toContain("hero-paint-canvas");
+
+    const sim = createHeroPaintSimulation({ width: 1200, height: 520 });
+    sim.movePointer(300, 220);
+    sim.movePointer(420, 250);
+
+    expect(sim.smudges.length).toBeGreaterThan(0);
+    expect(sim.particles.length).toBeGreaterThan(0);
+
+    const firstSmudge = sim.smudges[0];
+    const initialRadiusX = firstSmudge.radiusX;
+    const initialRadiusY = firstSmudge.radiusY;
+    const initialX = firstSmudge.x;
+
+    sim.step(0.08);
+    expect(firstSmudge.radiusX).toBeGreaterThan(initialRadiusX);
+    expect(firstSmudge.radiusY).toBeGreaterThan(initialRadiusY);
+    expect(firstSmudge.x).toBeGreaterThan(initialX);
+
+    const beforeRespreadVx = firstSmudge.vx;
+    sim.leavePointer();
+    sim.movePointer(firstSmudge.x - 10, firstSmudge.y);
+    sim.movePointer(firstSmudge.x + 90, firstSmudge.y + 20);
+    expect(firstSmudge.vx).toBeGreaterThan(beforeRespreadVx);
+
+    for (let i = 0; i < 40; i++) {
+      sim.step(0.1);
+    }
+    expect(sim.smudges).toHaveLength(0);
+    expect(sim.particles).toHaveLength(0);
   });
 });
