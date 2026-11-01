@@ -3,11 +3,33 @@
 import React, { useEffect, useRef } from "react";
 import { createHeroPaintSimulation } from "./hero/paintSpread";
 
+function createFilmGrainPattern(ctx: CanvasRenderingContext2D): CanvasPattern | null {
+  const size = 160;
+  const tile = document.createElement("canvas");
+  tile.width = size;
+  tile.height = size;
+  const tileCtx = tile.getContext("2d");
+  if (!tileCtx) return null;
+
+  const img = tileCtx.createImageData(size, size);
+  const data = img.data;
+  for (let i = 0; i < size * size; i++) {
+    let n = Math.imul(i + 1, 374761393) ^ Math.imul(i + 7919, 668265263);
+    n = (n ^ (n >>> 13)) * 1274126177;
+    const v = ((n ^ (n >>> 16)) >>> 0) & 255;
+    const idx = i * 4;
+    data[idx] = v;
+    data[idx + 1] = v;
+    data[idx + 2] = v;
+    data[idx + 3] = 28;
+  }
+  tileCtx.putImageData(img, 0, 0);
+  return ctx.createPattern(tile, "repeat");
+}
+
 export function HeroScene() {
   const hostRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const primaryRibbonRef = useRef<HTMLDivElement>(null);
-  const secondaryRibbonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -23,18 +45,18 @@ export function HeroScene() {
       height: host.clientHeight || 520,
     });
 
+    const bufWidth = 240;
+    const bufHeight = 110;
+    const fieldCanvas = document.createElement("canvas");
+    fieldCanvas.width = bufWidth;
+    fieldCanvas.height = bufHeight;
+    const fieldCtx = fieldCanvas.getContext("2d");
+    const fieldImage = fieldCtx ? fieldCtx.createImageData(bufWidth, bufHeight) : null;
+    const grainPattern = createFilmGrainPattern(ctx);
+
     let dpr = 1;
     let frameId = 0;
     let lastTime = 0;
-
-    const resize = () => {
-      const width = Math.max(1, host.clientWidth);
-      const height = Math.max(1, host.clientHeight);
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      sim.resize(width, height);
-    };
 
     const renderFrame = () => {
       const width = canvas.width / dpr;
@@ -42,21 +64,24 @@ export function HeroScene() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
 
-      if (primaryRibbonRef.current) {
-        const { x, y, scaleX } = sim.ribbonOffset;
-        primaryRibbonRef.current.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(-12deg) scaleX(${scaleX.toFixed(3)})`;
-      }
-      if (secondaryRibbonRef.current) {
-        const { x, y, scaleX } = sim.ribbonOffset;
-        secondaryRibbonRef.current.style.transform = `translate3d(${(-x * 0.65).toFixed(1)}px, ${(y * 0.65).toFixed(1)}px, 0) rotate(-20deg) scaleX(${(1 + (scaleX - 1) * 0.7).toFixed(3)})`;
+      if (fieldCtx && fieldImage) {
+        sim.renderFieldToBuffer(fieldImage.data, bufWidth, bufHeight);
+        fieldCtx.putImageData(fieldImage, 0, 0);
+        ctx.save();
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(fieldCanvas, 0, 0, width, height);
+        ctx.restore();
       }
 
       ctx.globalCompositeOperation = "screen";
 
       for (const smudge of sim.smudges) {
-        const progress = smudge.age / smudge.maxAge;
-        const entry = Math.min(1, progress / 0.12);
-        const decay = Math.pow(Math.max(0, 1 - progress), 1.65);
+        const progress = Math.min(1, smudge.age / smudge.maxAge);
+        const entry = Math.min(1, smudge.age / 0.18);
+        const decay = smudge.persistent
+          ? 0.65 + 0.35 * (1 - progress)
+          : Math.pow(Math.max(0, 1 - progress), 1.65);
         const alpha = smudge.alpha * entry * decay;
         if (alpha <= 0.002) continue;
 
@@ -78,6 +103,16 @@ export function HeroScene() {
         ctx.fill();
         ctx.restore();
       }
+
+      if (grainPattern) {
+        ctx.save();
+        ctx.globalCompositeOperation = "overlay";
+        ctx.fillStyle = grainPattern;
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+      }
+
+      ctx.globalCompositeOperation = "screen";
 
       for (const particle of sim.particles) {
         const progress = particle.age / particle.maxAge;
@@ -104,6 +139,21 @@ export function HeroScene() {
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, glowRadius, 0, Math.PI * 2);
         ctx.fill();
+      }
+    };
+
+    const resize = () => {
+      const width = Math.max(1, host.clientWidth);
+      const height = Math.max(1, host.clientHeight);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      sim.resize(width, height);
+      if (!reducedMotion.matches) {
+        host.dataset.ready = "true";
+        renderFrame();
+      } else {
+        delete host.dataset.ready;
       }
     };
 
@@ -149,6 +199,7 @@ export function HeroScene() {
       }
 
       sim.movePointer(event.clientX - rect.left, event.clientY - rect.top);
+      renderFrame();
       ensureLoop();
     };
 
@@ -163,6 +214,7 @@ export function HeroScene() {
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     window.addEventListener("pointerdown", onPointerMove, { passive: true });
     window.addEventListener("blur", onPointerLeave);
+    reducedMotion.addEventListener("change", resize);
 
     return () => {
       cancelAnimationFrame(frameId);
@@ -170,13 +222,15 @@ export function HeroScene() {
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerdown", onPointerMove);
       window.removeEventListener("blur", onPointerLeave);
+      reducedMotion.removeEventListener("change", resize);
+      delete host.dataset.ready;
     };
   }, []);
 
   return (
     <div ref={hostRef} className="gradient-field" aria-hidden="true">
-      <div ref={primaryRibbonRef} className="gradient-ribbon" />
-      <div ref={secondaryRibbonRef} className="gradient-ribbon gradient-ribbon-secondary" />
+      <div className="gradient-ribbon" />
+      <div className="gradient-ribbon gradient-ribbon-secondary" />
       <canvas ref={canvasRef} className="hero-paint-canvas" />
     </div>
   );

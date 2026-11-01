@@ -155,8 +155,21 @@ describe("landing page sections", () => {
     expect(html).toContain("hero-paint-canvas");
 
     const sim = createHeroPaintSimulation({ width: 1200, height: 520 });
-    sim.movePointer(300, 220);
-    sim.movePointer(420, 250);
+    expect(sim.ribbons).toHaveLength(2);
+
+    // Find a node on the primary coral-peach ribbon inside the hero viewport
+    const targetNode = sim.ribbons[0].nodes.find(
+      (n) => n.x > 150 && n.x < 1050 && n.y > 80 && n.y < 460
+    )!;
+    expect(targetNode).toBeDefined();
+    const startNodeX = targetNode.x;
+    const startNodeY = targetNode.y;
+    const startSpread = targetNode.spread;
+
+    // Hover and sweep across the ribbon asset
+    sim.movePointer(targetNode.x - 20, targetNode.y - 10);
+    sim.movePointer(targetNode.x + 60, targetNode.y + 35);
+    sim.movePointer(targetNode.x + 120, targetNode.y + 70);
 
     expect(sim.smudges.length).toBeGreaterThan(0);
     expect(sim.particles.length).toBeGreaterThan(0);
@@ -164,23 +177,48 @@ describe("landing page sections", () => {
     const firstSmudge = sim.smudges[0];
     const initialRadiusX = firstSmudge.radiusX;
     const initialRadiusY = firstSmudge.radiusY;
-    const initialX = firstSmudge.x;
 
     sim.step(0.08);
     expect(firstSmudge.radiusX).toBeGreaterThan(initialRadiusX);
     expect(firstSmudge.radiusY).toBeGreaterThan(initialRadiusY);
-    expect(firstSmudge.x).toBeGreaterThan(initialX);
 
-    const beforeRespreadVx = firstSmudge.vx;
-    sim.leavePointer();
-    sim.movePointer(firstSmudge.x - 10, firstSmudge.y);
-    sim.movePointer(firstSmudge.x + 90, firstSmudge.y + 20);
-    expect(firstSmudge.vx).toBeGreaterThan(beforeRespreadVx);
-
-    for (let i = 0; i < 40; i++) {
+    // Let all motion settle for several seconds; the spread ribbon asset must STAY spread
+    for (let i = 0; i < 60; i++) {
       sim.step(0.1);
     }
-    expect(sim.smudges).toHaveLength(0);
+
+    const permanentDisplacement = Math.hypot(
+      targetNode.x - startNodeX,
+      targetNode.y - startNodeY
+    );
+    expect(targetNode.spread).toBeGreaterThan(startSpread);
+    expect(permanentDisplacement).toBeGreaterThan(8);
+    expect(sim.smudges.some((s) => s.persistent)).toBe(true);
     expect(sim.particles).toHaveLength(0);
+
+    // Verify the multi-fold silk field buffer reflects permanent spread deformation
+    const freshSim = createHeroPaintSimulation({ width: 1200, height: 520 });
+    const beforeBuf = new Uint8ClampedArray(60 * 30 * 4);
+    const afterBuf = new Uint8ClampedArray(60 * 30 * 4);
+    freshSim.renderFieldToBuffer(beforeBuf, 60, 30);
+
+    freshSim.movePointer(600, 260);
+    freshSim.movePointer(740, 210);
+    for (let i = 0; i < 30; i++) {
+      freshSim.step(0.1);
+    }
+    freshSim.renderFieldToBuffer(afterBuf, 60, 30);
+
+    let diffPixels = 0;
+    for (let i = 0; i < beforeBuf.length; i += 4) {
+      if (
+        Math.abs(beforeBuf[i] - afterBuf[i]) > 2 ||
+        Math.abs(beforeBuf[i + 1] - afterBuf[i + 1]) > 2 ||
+        Math.abs(beforeBuf[i + 2] - afterBuf[i + 2]) > 2
+      ) {
+        diffPixels++;
+      }
+    }
+    expect(diffPixels).toBeGreaterThan(40);
   });
 });
