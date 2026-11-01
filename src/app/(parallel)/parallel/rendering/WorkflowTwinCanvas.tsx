@@ -238,7 +238,7 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     renderer.toneMappingExposure = 1.06;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.shadowMap.enabled = !isSoftwareGl;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.shadowMap.autoUpdate = false;
 
     container.innerHTML = '';

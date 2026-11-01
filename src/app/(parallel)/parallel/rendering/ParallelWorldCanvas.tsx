@@ -785,7 +785,7 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
       );
       renderer.setSize(getStageWidth(), getStageHeight());
       renderer.shadowMap.enabled = !isSoftwareGl;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.shadowMap.type = THREE.PCFShadowMap;
       renderer.shadowMap.autoUpdate = false;
 
       renderer.domElement.setAttribute('data-testid', 'parallel-webgl-canvas');
