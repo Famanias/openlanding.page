@@ -155,7 +155,7 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 .request-artwork { display: block; width: 100%; height: auto; margin-top: var(--space-xl); border-radius: 8px; }
 .contribute-section .gradient-ribbon { top: -240px; opacity: .15; }
 .site-footer { position: relative; isolation: isolate; overflow: hidden; display: block; border-top: 1px solid var(--color-rule); background: var(--color-paper); color: var(--color-muted); font-size: 12px; }
-.footer-inner { position: relative; z-index: 1; padding-block: var(--space-lg); display: flex; justify-content: space-between; gap: var(--space-20); background: rgb(16 18 17 / 90%); }
+.footer-inner { position: relative; z-index: 1; padding-block: var(--space-lg); display: flex; justify-content: space-between; gap: var(--space-20); background: transparent; }
 @media (prefers-reduced-motion: no-preference) {
   @keyframes hero-settle { from { transform: translateY(24px) rotateX(8deg); } to { transform: none; } }
   .hero-title { animation: hero-settle 850ms var(--ease-out) both; }
