@@ -72,17 +72,16 @@ describe("gallery template data", () => {
 
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
+    const argonSlugs = ["loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
-      if (t.slug === "morta" || t.slug === "lumen" || t.slug === "noiseclub" || t.slug === "warpwander" || t.slug === "ctrlroom" || t.slug === "parallel") {
-        expect(t.model).toBe("Imported template");
+      if (argonSlugs.includes(t.slug)) {
+        expect(t.model).toBe("Gemini 4 Argon High");
       } else if (t.slug === "firstday") {
         expect(t.model).toBe("GPT-6 Astra Max");
       } else if (t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
-      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "xibalba" || t.slug === "synapxe") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
-      } else if (t.slug === "loam" || t.slug === "tally" || t.slug === "perigee") {
-        expect(t.model).toBe("Gemini 4 Argon High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
       } else if (t.slug === "satsuma" || t.slug === "calder" || t.slug === "nomi" || t.slug === "pipkin") {
@@ -91,8 +90,6 @@ describe("gallery template data", () => {
         expect(t.model).toBe("Claude Opus 5.5 High");
       } else if (t.slug === "wowflutter") {
         expect(t.model).toBe("Claude Sonnet 5.5 High");
-      } else if (t.slug === "valence") {
-        expect(t.model).toBe("Gemini 4 Argon High");
       } else if (t.slug === "alpine-reel") {
         expect(t.model).toBe("GPT-6 Astra Max");
       } else {
