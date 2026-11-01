@@ -1,0 +1,52 @@
+.site-shell .site-footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: clamp(680px, 75vh, 840px);
+  border-top: 1px solid var(--color-rule);
+  background: #0c100b;
+}
+
+.site-shell .footer-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0c100b;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.site-shell .footer-scene canvas,
+.site-shell .footer-scene .footer-fallback {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.site-shell .footer-scene[data-ready="true"] .footer-fallback {
+  display: none;
+}
+
+.site-shell .contact-shell {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(88px, 10vh, 120px) var(--space-32);
+}
+
+.site-shell .footer-inner {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  padding-block: var(--space-lg);
+}

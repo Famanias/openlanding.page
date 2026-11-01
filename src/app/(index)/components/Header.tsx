@@ -77,10 +77,10 @@ export function Header() {
             Gallery
           </a>
           <a
-            href="#contribute"
+            href="#contact"
             className="nav-link"
           >
-            Contribute
+            Request a template
           </a>
           <a
             href="https://github.com/Famanias/openlanding.page"
