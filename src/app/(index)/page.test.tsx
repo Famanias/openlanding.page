@@ -9,7 +9,7 @@ describe("IndexPage", () => {
     expect(html).toContain("openlandingpage");
     expect(html).toContain("Landing Pages, from Header to Footer.");
     expect(html).toContain('id="gallery"');
-    expect(html).toContain('id="contribute"');
+    expect(html).toContain('id="contact"');
     expect(html).toContain("Your site, templated.");
     expect(html).toContain("Orrery");
     expect(html).toContain("KEYTU");

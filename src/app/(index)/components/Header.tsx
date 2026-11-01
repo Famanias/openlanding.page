@@ -77,7 +77,7 @@ export function Header() {
             Gallery
           </a>
           <a
-            href="#contribute"
+            href="#contact"
             className="nav-link"
           >
             Request a template
