@@ -641,7 +641,7 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
 .us-rehearse { position: relative; background: var(--us-house); padding-bottom: 8svh; }
 .us-bowl { display: block; height: clamp(40px, 8vw, 120px); background: var(--us-ink); border-radius: 0 0 50% 50% / 0 0 100% 100%; transform-origin: top; transform: scaleY(0.35); }
 .us-rehearse__cue { position: absolute; left: 0; top: clamp(40px, 8vw, 120px); width: 1px; height: 60svh; pointer-events: none; }
-.us-rehearse__hold { position: sticky; top: 0; z-index: 4; padding: clamp(56px, 10svh, 96px) var(--us-gut) 4svh; text-align: center; background: linear-gradient(var(--us-house) 76%, color-mix(in oklab, var(--us-house) 0%, transparent)); }
+.us-rehearse__hold { position: relative; z-index: 4; padding: clamp(48px, 7svh, 84px) var(--us-gut) 2svh; text-align: center; background: linear-gradient(var(--us-house) 80%, color-mix(in oklab, var(--us-house) 0%, transparent)); }
 .us-rehearse__t { font-size: clamp(2.4rem, 1.4rem + 3.8vw, 4.8rem); font-weight: 340; letter-spacing: -0.04em; line-height: 1.02; }
 .us-rehearse__sub { margin-top: 18px; max-width: 620px; margin-inline: auto; font-size: clamp(1.05rem, 0.98rem + 0.3vw, 1.25rem); color: var(--us-graphite); line-height: 1.5; }
 .us-wave__w { display: inline-block; white-space: nowrap; }
@@ -649,11 +649,10 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
 .us-wave__w--cue .us-wave__c { color: var(--us-cue); }
 .us-wave__pop { font-size: 0.86em; }
 
-.us-thread { position: relative; max-width: var(--us-max); margin: 0 auto; padding: 0 var(--us-gut) 10svh; }
-.us-thread__lead { display: block; width: 100%; height: 180px; overflow: visible; }
+.us-thread { position: relative; max-width: var(--us-max); margin: 0 auto; padding: 0 var(--us-gut) 6svh; }
+.us-thread__lead { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; overflow: hidden; }
 .us-thread__lead path { fill: none; stroke: color-mix(in oklab, var(--us-cue) 40%, var(--us-ink) 20%); stroke-width: 1.5; stroke-dasharray: 1; }
-.us-thread__rail { position: absolute; left: calc(var(--us-gut) + 23px); top: 178px; bottom: 10svh; width: 1.5px; background: color-mix(in oklab, var(--us-ink) 12%, transparent); }
-.us-thread__rail b { position: absolute; inset: 0; background: var(--us-cue); transform-origin: top; }
+.us-thread__rail { display: none; }
 .us-scenes { display: grid; gap: 4svh; }
 .us-sc { position: relative; display: grid; grid-template-columns: minmax(0, 4.8fr) minmax(0, 7.2fr); gap: clamp(36px, 5vw, 80px); align-items: center; min-height: 78svh; padding: 6svh 0 6svh 72px; }
 .us-sc__node { position: absolute; left: 16px; top: 50%; width: 16px; height: 16px; margin-top: -8px; border-radius: 50%; background: var(--us-white); box-shadow: 0 0 0 2px color-mix(in oklab, var(--us-ink) 18%, transparent); transition: box-shadow var(--dur-base), transform var(--dur-base); }
@@ -667,6 +666,44 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
 .us-sc__quote { margin-top: 24px; padding: 14px 18px; border-radius: 12px; background: color-mix(in oklab, var(--us-white) 85%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--us-ink) 8%, transparent); border-left: 3px solid var(--us-cue); display: grid; gap: 6px; }
 .us-sc__quotedir { font: italic 400 14px/1.45 var(--us-serif); color: var(--us-ink); margin: 0; }
 .us-sc__cite { font-size: 10.5px; letter-spacing: 0.08em; color: var(--us-cue); text-transform: uppercase; }
+
+/* carousel structure */
+.us-carousel { position: relative; width: 100%; outline: none; margin-top: 6px; }
+.us-carousel:focus-visible { outline: 2px solid var(--us-cue); outline-offset: 6px; border-radius: 20px; }
+
+.us-carousel__header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid var(--us-line); }
+.us-carousel__tabs { display: flex; align-items: center; gap: 8px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.us-carousel__tabs::-webkit-scrollbar { display: none; }
+.us-carousel__tab { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; border: 1px solid transparent; background: transparent; color: var(--us-graphite); font-size: 13px; font-family: inherit; cursor: pointer; transition: all var(--dur-base) var(--ease-out); white-space: nowrap; }
+.us-carousel__tab:hover { background: color-mix(in oklab, var(--us-ink) 4%, transparent); color: var(--us-ink); }
+.us-carousel__tab--active { background: var(--us-white); border-color: var(--us-line); color: var(--us-ink); box-shadow: 0 4px 16px -4px color-mix(in oklab, var(--us-ink) 12%, transparent); }
+.us-carousel__tab-pill { display: inline-flex; align-items: center; gap: 8px; }
+.us-carousel__tab-act { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: var(--us-graphite); }
+.us-carousel__tab--active .us-carousel__tab-act { color: var(--us-cue); }
+.us-carousel__tab-title { font-weight: 450; letter-spacing: -0.01em; }
+.us-carousel__tab-pip { width: 5px; height: 5px; border-radius: 50%; background: var(--us-cue); box-shadow: 0 0 6px color-mix(in oklab, var(--us-cue) 60%, transparent); }
+
+.us-carousel__controls { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+.us-carousel__counter { font-size: 13px; letter-spacing: 0.04em; color: var(--us-graphite); font-variant-numeric: tabular-nums; }
+.us-carousel__counter-now { font-weight: 600; color: var(--us-ink); }
+.us-carousel__counter-div { margin: 0 3px; opacity: 0.4; }
+.us-carousel__nav-btns { display: flex; align-items: center; gap: 8px; }
+.us-carousel__nav-btn { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--us-line); background: var(--us-white); color: var(--us-ink); cursor: pointer; transition: all var(--dur-base) var(--ease-out); }
+.us-carousel__nav-btn:hover { border-color: color-mix(in oklab, var(--us-cue) 40%, transparent); color: var(--us-cue); box-shadow: 0 2px 10px -2px color-mix(in oklab, var(--us-cue) 25%, transparent); transform: scale(1.05); }
+.us-carousel__nav-btn:active { transform: scale(0.95); }
+
+.us-carousel__viewport { position: relative; width: 100%; overflow: hidden; border-radius: 20px; }
+.us-carousel__track { display: flex !important; width: 100%; list-style: none; margin: 0; padding: 0; gap: 0 !important; transition-property: transform; transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
+.us-carousel__slide { flex: 0 0 100% !important; width: 100% !important; min-width: 100% !important; min-height: 0 !important; padding: 12px 4px 20px 4px !important; box-sizing: border-box; opacity: 0.25; transition: opacity 350ms ease; }
+.us-carousel__slide--active { opacity: 1; }
+.us-carousel__slide .us-sc__node { display: none; }
+
+.us-carousel__footer { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--us-line); }
+.us-carousel__pips { display: flex; align-items: center; gap: 8px; }
+.us-carousel__pip { width: 8px; height: 8px; border-radius: 50%; background: color-mix(in oklab, var(--us-ink) 18%, transparent); border: none; padding: 0; cursor: pointer; transition: all var(--dur-base) var(--ease-out); }
+.us-carousel__pip:hover { background: color-mix(in oklab, var(--us-cue) 50%, transparent); }
+.us-carousel__pip--active { width: 22px; border-radius: 999px; background: var(--us-cue); box-shadow: 0 0 8px color-mix(in oklab, var(--us-cue) 40%, transparent); }
+.us-carousel__hint { font-size: 11px; color: var(--us-graphite); opacity: 0.7; }
 
 /* windows */
 .us-win { position: relative; }
@@ -1092,6 +1129,10 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
   .us-finale__line { top: 9%; }
   .us-ring { top: 54%; }
   .us-cast__co { padding: 7px 10px; }
+  .us-carousel__header { flex-direction: column; align-items: stretch; gap: 14px; }
+  .us-carousel__controls { justify-content: space-between; }
+  .us-carousel__hint { display: none; }
+  .us-carousel__slide { padding: 8px 0 16px 0 !important; }
 }
 @media (max-width: 860px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
   .us-casting { height: 240svh; }
@@ -2564,6 +2605,229 @@ export function useRing(band: RefObject<HTMLElement | null>, track: RefObject<HT
 }
 ]]>
     </file>
+    <file path="src/app/(understudy)/understudy/rehearsal/RehearsalCarousel.tsx">
+<![CDATA["use client";
+
+import {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  type CSSProperties,
+  type KeyboardEvent,
+  type TouchEvent,
+} from "react";
+import { SCENES } from "./scenes";
+import { SceneWindow } from "./Windows";
+import { MaskLine, Reveal } from "../motion/Reveal";
+import { useReducedMotion } from "../motion/useReducedMotion";
+
+export function RehearsalCarousel() {
+  const [active, setActive] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+
+  const count = SCENES.length;
+
+  const goTo = useCallback(
+    (index: number) => {
+      const nextIndex = (index + count) % count;
+      setActive(nextIndex);
+    },
+    [count]
+  );
+
+  const prev = useCallback(() => goTo(active - 1), [active, goTo]);
+  const next = useCallback(() => goTo(active + 1), [active, goTo]);
+
+  // When active slide changes, ensure its reveal elements are triggered
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const slides = document.querySelectorAll(".us-carousel__slide");
+    const current = slides[active];
+    if (current) {
+      current.querySelectorAll("[data-reveal]").forEach((el) => {
+        el.setAttribute("data-in", "true");
+      });
+      current.querySelectorAll(".us-win").forEach((el) => {
+        el.setAttribute("data-in", "true");
+      });
+    }
+  }, [active]);
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      prev();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      next();
+    }
+  };
+
+  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+
+    // Only swipe if horizontal movement dominates vertical scroll
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 40) {
+      if (deltaX > 0) prev();
+      else next();
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className="us-carousel"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Rehearsal scenes"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Theatrical Act Navigation Bar */}
+      <div className="us-carousel__header">
+        <div className="us-carousel__tabs" role="tablist" aria-label="Production Acts">
+          {SCENES.map((scene, i) => {
+            const isSelected = active === i;
+            return (
+              <button
+                key={scene.id}
+                role="tab"
+                aria-selected={isSelected}
+                aria-controls={`rehearsal-act-panel-${scene.id}`}
+                id={`rehearsal-act-tab-${scene.id}`}
+                className={`us-carousel__tab ${isSelected ? "us-carousel__tab--active" : ""}`}
+                onClick={() => goTo(i)}
+                type="button"
+              >
+                <span className="us-carousel__tab-pill">
+                  <span className="us-carousel__tab-act us-mono">{scene.act}</span>
+                  <span className="us-carousel__tab-title">{scene.window.split(" · ")[0]}</span>
+                </span>
+                {isSelected && <span className="us-carousel__tab-pip" aria-hidden="true" />}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="us-carousel__controls">
+          <span className="us-carousel__counter us-mono" aria-hidden="true">
+            <span className="us-carousel__counter-now">0{active + 1}</span>
+            <span className="us-carousel__counter-div">/</span>
+            <span className="us-carousel__counter-total">0{count}</span>
+          </span>
+          <div className="us-carousel__nav-btns">
+            <button
+              type="button"
+              className="us-carousel__nav-btn us-carousel__nav-btn--prev"
+              onClick={prev}
+              aria-label="Previous scene"
+              title="Previous scene (Left Arrow)"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className="us-carousel__nav-btn us-carousel__nav-btn--next"
+              onClick={next}
+              aria-label="Next scene"
+              title="Next scene (Right Arrow)"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Screen reader live announcement */}
+      <span className="us-sr" aria-live="polite">
+        Scene {active + 1} of {count}: {SCENES[active].act} {SCENES[active].milestone}. {SCENES[active].lead} {SCENES[active].cue}
+      </span>
+
+      {/* Slide Viewport */}
+      <div className="us-carousel__viewport">
+        <ol
+          className="us-scenes us-carousel__track"
+          style={{
+            transform: `translateX(-${active * 100}%)`,
+            transitionDuration: reduced ? "0ms" : "460ms",
+          }}
+        >
+          {SCENES.map((s, n) => {
+            const isCurrent = active === n;
+            return (
+              <li
+                key={s.id}
+                id={`rehearsal-act-panel-${s.id}`}
+                role="tabpanel"
+                aria-labelledby={`rehearsal-act-tab-${s.id}`}
+                className={`us-sc us-carousel__slide ${isCurrent ? "us-carousel__slide--active" : ""}`}
+                style={{ "--i": n } as CSSProperties}
+                aria-hidden={!isCurrent}
+              >
+                <div className="us-sc__h">
+                  <Reveal variant="scale" className="us-sc__node"><i /></Reveal>
+                  <div className="us-sc__meta">
+                    <Reveal variant="slide" as="span" className="us-mono us-sc__act">{s.act}</Reveal>
+                    <span className="us-sc__dot" aria-hidden="true">·</span>
+                    <Reveal variant="slide" as="span" className="us-mono us-sc__milestone">{s.milestone}</Reveal>
+                  </div>
+                  <h3 className="us-sc__t">
+                    <MaskLine>{s.lead} <em className="us-cueword">{s.cue}</em></MaskLine>
+                  </h3>
+                  <Reveal as="p" className="us-sc__p" index={1}>{s.body}</Reveal>
+                  <Reveal as="blockquote" className="us-sc__quote" index={2}>
+                    <p className="us-sc__quotedir">{s.directorNote}</p>
+                    <cite className="us-mono us-sc__cite">Director Note</cite>
+                  </Reveal>
+                </div>
+                <SceneWindow kind={s.id} title={s.window} />
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+
+      {/* Stage Dots and Keyboard Hint */}
+      <div className="us-carousel__footer">
+        <div className="us-carousel__pips" role="group" aria-label="Scene pagination">
+          {SCENES.map((scene, i) => (
+            <button
+              key={scene.id}
+              type="button"
+              className={`us-carousel__pip ${active === i ? "us-carousel__pip--active" : ""}`}
+              onClick={() => goTo(i)}
+              aria-label={`Go to ${scene.act}`}
+            />
+          ))}
+        </div>
+        <span className="us-carousel__hint us-mono">
+          Use ← / → keys or swipe to change scenes
+        </span>
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
     <file path="src/app/(understudy)/understudy/rehearsal/scenes.ts">
 <![CDATA[/** The four scenes of a run, each with its window. The last word of each title is cued. */
 export type SceneKind = "lot" | "cast" | "notes" | "reel";
@@ -3110,25 +3374,22 @@ export function Parts() {
 ]]>
     </file>
     <file path="src/app/(understudy)/understudy/sections/Rehearsal.tsx">
-<![CDATA[import type { CSSProperties } from "react";
-import { CueDot } from "../brand/Props";
-import { MaskLine, Reveal } from "../motion/Reveal";
+<![CDATA[import { CueDot } from "../brand/Props";
 import { WaveLine, letterCount } from "../motion/WaveLine";
-import { SCENES } from "../rehearsal/scenes";
-import { SceneWindow } from "../rehearsal/Windows";
+import { RehearsalCarousel } from "../rehearsal/RehearsalCarousel";
 
 const LINE = ["Learn", "the", "part", "by", "playing", "it."];
 
 /**
- * The house lights come back up over a dark bowl that flattens as you arrive. The line is held
- * at the top while a cue runs through it, then the four scenes pass beneath it, strung on one
- * line the scroll draws: from the title, across to a rail, through a node beside each scene.
+ * The house lights come back up over a dark bowl that flattens as you arrive.
+ * The signature headline introduces the four acts of rehearsal, organized as an interactive
+ * stage carousel with dedicated act controls and scene navigation.
  */
 export function Rehearsal() {
   return (
     <section className="us-rehearse" id="rehearsal" data-scene="rehearse" data-flow data-line="1" data-tone="light" aria-labelledby="us-rehearse-t">
       <i className="us-bowl" aria-hidden="true" />
-      {/* a measuring strip: the held line can't be measured once stuck, so this feeds its cue progress */}
+      {/* a measuring strip: feeds cue progress to the headline */}
       <i className="us-rehearse__cue" data-scene="wave" data-flow data-line="0.8" data-feeds=".us-rehearse__hold" aria-hidden="true" />
       <div className="us-rehearse__hold">
         <h2 className="us-rehearse__t" id="us-rehearse-t">
@@ -3145,27 +3406,7 @@ export function Rehearsal() {
           <path d="M600 0C600 112 24 68 24 178" pathLength={1} />
         </svg>
         <i className="us-thread__rail" aria-hidden="true"><b /></i>
-        <ol className="us-scenes">
-          {SCENES.map((s, n) => (
-            <li key={s.id} className="us-sc" style={{ "--i": n } as CSSProperties}>
-              <div className="us-sc__h">
-                <Reveal variant="scale" className="us-sc__node"><i /></Reveal>
-                <div className="us-sc__meta">
-                  <Reveal variant="slide" as="span" className="us-mono us-sc__act">{s.act}</Reveal>
-                  <span className="us-sc__dot" aria-hidden="true">·</span>
-                  <Reveal variant="slide" as="span" className="us-mono us-sc__milestone">{s.milestone}</Reveal>
-                </div>
-                <h3 className="us-sc__t"><MaskLine>{s.lead} <em className="us-cueword">{s.cue}</em></MaskLine></h3>
-                <Reveal as="p" className="us-sc__p" index={1}>{s.body}</Reveal>
-                <Reveal as="blockquote" className="us-sc__quote" index={2}>
-                  <p className="us-sc__quotedir">{s.directorNote}</p>
-                  <cite className="us-mono us-sc__cite">Director Note</cite>
-                </Reveal>
-              </div>
-              <SceneWindow kind={s.id} title={s.window} />
-            </li>
-          ))}
-        </ol>
+        <RehearsalCarousel />
       </div>
     </section>
   );
