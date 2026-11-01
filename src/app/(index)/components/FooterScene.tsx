@@ -2,6 +2,88 @@
 
 import { useEffect, useRef } from "react";
 
+export interface FooterCameraBounds {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+}
+
+export interface FooterPointerState {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  strength: number;
+  phase: number;
+}
+
+export interface FooterPointerTarget {
+  x: number;
+  y: number;
+  active: boolean;
+}
+
+export function createFooterPointerState(): FooterPointerState {
+  return { x: 0, y: 0, vx: 0, vy: 0, strength: 0, phase: 0 };
+}
+
+export function pointInFooterScene(
+  clientX: number,
+  clientY: number,
+  rect: Pick<DOMRectReadOnly, "left" | "right" | "top" | "bottom" | "width" | "height">,
+  camera: FooterCameraBounds,
+  rootScale: { x: number; y: number } = { x: 1, y: 1 }
+): { x: number; y: number } | null {
+  if (
+    rect.width <= 0 ||
+    rect.height <= 0 ||
+    clientX < rect.left ||
+    clientX > rect.right ||
+    clientY < rect.top ||
+    clientY > rect.bottom
+  ) {
+    return null;
+  }
+
+  const nx = (clientX - rect.left) / rect.width;
+  const ny = (clientY - rect.top) / rect.height;
+  const worldX = camera.left + nx * (camera.right - camera.left);
+  const worldY = camera.top - ny * (camera.top - camera.bottom);
+
+  return {
+    x: worldX / (rootScale.x || 1),
+    y: worldY / (rootScale.y || 1),
+  };
+}
+
+export function stepFooterPointer(
+  state: FooterPointerState,
+  target: FooterPointerTarget,
+  dt: number
+): void {
+  const safeDt = Math.max(0, Math.min(dt, 0.1));
+  if (safeDt === 0) return;
+
+  const follow = 1 - Math.exp(-safeDt * 10);
+  const prevX = state.x;
+  const prevY = state.y;
+
+  state.x += (target.x - state.x) * follow;
+  state.y += (target.y - state.y) * follow;
+
+  const dx = state.x - prevX;
+  const dy = state.y - prevY;
+  const velFollow = 1 - Math.exp(-safeDt * 12);
+  state.vx += (dx / safeDt - state.vx) * velFollow;
+  state.vy += (dy / safeDt - state.vy) * velFollow;
+  state.phase += Math.hypot(dx, dy) * 1.65;
+
+  const targetStrength = target.active ? 1 : 0;
+  const strengthRate = target.active ? 7.5 : 3.2;
+  state.strength += (targetStrength - state.strength) * (1 - Math.exp(-safeDt * strengthRate));
+}
+
 export function FooterScene() {
   const hostRef = useRef<HTMLDivElement>(null);
 
@@ -62,11 +144,50 @@ export function FooterScene() {
             scene.add(keyLight, fillLight, rimLight);
 
             const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+            const pointerState = createFooterPointerState();
+            const pointerTarget: FooterPointerTarget = { x: 0, y: 0, active: false };
             let visible = false;
             let contextLostFlag = false;
             let frame = 0;
             let elapsed = 0;
             let lastTime = 0;
+
+            const onPointerMove = (event: PointerEvent) => {
+              const point = pointInFooterScene(
+                event.clientX,
+                event.clientY,
+                host.getBoundingClientRect(),
+                camera,
+                sculpture.root.scale
+              );
+              if (point) {
+                pointerTarget.x = point.x;
+                pointerTarget.y = point.y;
+                if (pointerState.strength < 0.01) {
+                  pointerState.x = point.x;
+                  pointerState.y = point.y;
+                }
+                pointerTarget.active = true;
+              } else {
+                pointerTarget.active = false;
+              }
+            };
+
+            const onPointerEnd = (event: PointerEvent) => {
+              if (event.pointerType !== "mouse") {
+                pointerTarget.active = false;
+              }
+            };
+
+            const clearPointer = () => {
+              pointerTarget.active = false;
+            };
+
+            const onPointerOut = (event: PointerEvent) => {
+              if (!event.relatedTarget) {
+                clearPointer();
+              }
+            };
 
             const draw = () => {
               if (!contextLostFlag) {
@@ -80,11 +201,23 @@ export function FooterScene() {
                 lastTime = 0;
                 return;
               }
+              const dt = lastTime ? Math.min((now - lastTime) / 1000, 0.05) : 1 / 60;
               if (lastTime) {
-                elapsed += Math.min((now - lastTime) / 1000, 0.05);
+                elapsed += dt;
               }
               lastTime = now;
-              sculpture.update(elapsed);
+              stepFooterPointer(pointerState, pointerTarget, dt);
+              keyLight.position.set(
+                0.5 + pointerState.x * 0.16 * pointerState.strength,
+                5.2 + pointerState.y * 0.2 * pointerState.strength,
+                9.5
+              );
+              coralLight.position.set(
+                4.8 + pointerState.x * 0.12 * pointerState.strength,
+                -0.95 + pointerState.y * 0.14 * pointerState.strength,
+                1.85
+              );
+              sculpture.update(elapsed, pointerState);
               draw();
               frame = requestAnimationFrame(tick);
             };
@@ -139,6 +272,12 @@ export function FooterScene() {
             });
             visibilityObserver.observe(host);
 
+            window.addEventListener("pointermove", onPointerMove, { passive: true });
+            window.addEventListener("pointerdown", onPointerMove, { passive: true });
+            window.addEventListener("pointerup", onPointerEnd, { passive: true });
+            window.addEventListener("pointercancel", onPointerEnd, { passive: true });
+            window.addEventListener("pointerout", onPointerOut, { passive: true });
+            window.addEventListener("blur", clearPointer);
             reducedMotion.addEventListener("change", updatePlayback);
             document.addEventListener("visibilitychange", updatePlayback);
 
@@ -182,6 +321,12 @@ export function FooterScene() {
               cancelAnimationFrame(frame);
               resizeObserver.disconnect();
               visibilityObserver.disconnect();
+              window.removeEventListener("pointermove", onPointerMove);
+              window.removeEventListener("pointerdown", onPointerMove);
+              window.removeEventListener("pointerup", onPointerEnd);
+              window.removeEventListener("pointercancel", onPointerEnd);
+              window.removeEventListener("pointerout", onPointerOut);
+              window.removeEventListener("blur", clearPointer);
               reducedMotion.removeEventListener("change", updatePlayback);
               document.removeEventListener("visibilitychange", updatePlayback);
               host.removeEventListener("footer-review", review);

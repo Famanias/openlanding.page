@@ -614,6 +614,15 @@ function buildSheetEdgeSegments(
   return { samples, colors: new Float32Array(rgbList) };
 }
 
+export type FooterSculpturePointer = {
+  x: number;
+  y: number;
+  vx?: number;
+  vy?: number;
+  strength: number;
+  phase?: number;
+};
+
 export function createFooterSculpture() {
   const root = new THREE.Group();
   root.name = "footer-sheet-sculpture";
@@ -778,23 +787,37 @@ export function createFooterSculpture() {
   };
 
   const samplePt = new THREE.Vector3();
+  let hadDeformation = false;
 
   return {
     root,
     stage,
-    update: (time: number) => {
+    update: (time: number, pointer?: FooterSculpturePointer) => {
       const ramp = Math.min(1, Math.max(0, time * 0.6));
-      if (ramp === 0) return;
+      const pointerStrength = Math.max(0, Math.min(1, pointer?.strength ?? 0));
+      if (ramp === 0 && pointerStrength === 0 && !hadDeformation) return;
+      hadDeformation = ramp > 0 || pointerStrength > 0;
+
+      const px = pointer?.x ?? 0;
+      const py = pointer?.y ?? 0;
+      const vx = pointer?.vx ?? 0;
+      const vy = pointer?.vy ?? 0;
+      const pPhase = pointer?.phase ?? 0;
+      const speedBoost = 1 + Math.min(1.5, Math.hypot(vx, vy) * 0.12) * 0.55;
 
       for (const sheet of sheets) {
         const posAttr = sheet.geometry.attributes.position as THREE.BufferAttribute;
         const posArray = posAttr.array as Float32Array;
         const base = sheet.base;
         const phase = sheet.index * 1.35;
+        const sheetGain =
+          (sheet.spec.id === "sail" ? 1.15 : sheet.spec.id === "front" ? 1.0 : 0.85) * speedBoost;
 
         for (let row = 0; row <= ROWS; row++) {
           const v = row / ROWS;
-          const vEnvelope = 0.35 + 0.65 * Math.sin(v * Math.PI);
+          const vSin = Math.sin(v * Math.PI);
+          const vEnvelope = 0.35 + 0.65 * vSin;
+          const wakeLift = 0.88 + 0.12 * vSin;
           for (let col = 0; col <= COLUMNS; col++) {
             const u = col / COLUMNS;
             const uPin = Math.sin(u * Math.PI);
@@ -802,13 +825,61 @@ export function createFooterSculpture() {
 
             const wave1 = Math.sin(time * 0.52 + u * 4.2 + phase);
             const wave2 = Math.cos(time * 0.34 - u * 2.8 + v * 2.1 + phase * 0.7);
-            const dy = (wave1 * 0.055 + wave2 * 0.032) * weight;
-            const dz = (wave1 * 0.095 - wave2 * 0.065) * weight;
+            let dx = 0;
+            let dy = (wave1 * 0.055 + wave2 * 0.032) * weight;
+            let dz = (wave1 * 0.095 - wave2 * 0.065) * weight;
 
             const idx = (row * (COLUMNS + 1) + col) * 3;
-            posArray[idx] = base[idx];
-            posArray[idx + 1] = base[idx + 1] + dy;
-            posArray[idx + 2] = base[idx + 2] + dz;
+            const bx = base[idx];
+            const by = base[idx + 1];
+            const bz = base[idx + 2];
+
+            if (pointerStrength > 0.0001) {
+              const relX = bx - px;
+              const relY = by - py;
+              const dist = Math.hypot(relX * 0.55, relY);
+              const localField = smoothstep(4.2, 0.0, dist) * pointerStrength;
+              const ribbonField =
+                smoothstep(8.5, 0.0, Math.abs(relX)) *
+                smoothstep(4.8, 0.0, Math.abs(relY)) *
+                pointerStrength;
+
+              if (localField > 0 || ribbonField > 0) {
+                const leftAnchor = smoothstep(-9.05, -7.8, bx);
+                const rightAnchor = smoothstep(8.95, 7.6, bx);
+                const seamAnchor =
+                  sheet.spec.id === "sail" ? 0.35 + 0.65 * smoothstep(0.0, 0.22, u) : 1;
+                const hoverPin = leftAnchor * rightAnchor * seamAnchor * sheetGain;
+
+                const radialWave = Math.sin(dist * 1.85 - time * 3.2 - pPhase * 1.1 + phase);
+                const contourWave = Math.sin(
+                  relX * 0.72 + (v - 0.5) * 2.2 - time * 2.4 + pPhase * 0.85 + phase
+                );
+                const twistWave = Math.cos(
+                  relX * 1.15 - relY * 1.35 + time * 1.9 - pPhase * 0.65 + phase * 1.3
+                );
+                const velocityPullY = Math.max(-0.35, Math.min(0.35, vy * 0.032)) * localField;
+                const velocityPullX = Math.max(-0.25, Math.min(0.25, vx * 0.022)) * localField;
+
+                dx += (twistWave * 0.09 * localField + velocityPullX) * hoverPin;
+                dy +=
+                  (radialWave * 0.32 * localField +
+                    contourWave * 0.2 * ribbonField +
+                    twistWave * 0.09 * localField * (v - 0.5) +
+                    velocityPullY) *
+                  hoverPin *
+                  wakeLift;
+                dz +=
+                  (radialWave * 0.46 * localField -
+                    contourWave * 0.26 * ribbonField +
+                    twistWave * 0.14 * localField) *
+                  hoverPin;
+              }
+            }
+
+            posArray[idx] = bx + dx;
+            posArray[idx + 1] = by + dy;
+            posArray[idx + 2] = bz + dz;
           }
         }
         posAttr.needsUpdate = true;

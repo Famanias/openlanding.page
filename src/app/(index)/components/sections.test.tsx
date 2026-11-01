@@ -1,10 +1,13 @@
 import { describe, it, expect } from "vitest";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import * as THREE from "three";
 import { Header } from "./Header";
 import { Hero } from "./Hero";
 import { Contribute } from "./Contribute";
 import { Footer } from "./Footer";
+import { pointInFooterScene, stepFooterPointer, createFooterPointerState } from "./FooterScene";
+import { createFooterSculpture } from "./footer/sculpture";
 
 describe("landing page sections", () => {
   it("Header renders lowercase openlandingpage wordmark and nav links", () => {
@@ -53,5 +56,96 @@ describe("landing page sections", () => {
     expect(html).not.toContain('href="#gallery"');
     expect(html).not.toContain('href="#how-it-works"');
     expect(html).not.toContain("<span>openlandingpage</span>");
+  });
+
+  it("maps pointer coordinates inside the footer scene into sculpture local space", () => {
+    const rect = { left: 100, right: 1000, top: 200, bottom: 500, width: 900, height: 300 };
+    const camera = { left: -9, right: 9, top: 3, bottom: -3 };
+    const scale = { x: 1, y: 1 };
+
+    const center = pointInFooterScene(550, 350, rect, camera, scale);
+    expect(center).toEqual({ x: 0, y: 0 });
+
+    const topLeft = pointInFooterScene(100, 200, rect, camera, scale);
+    expect(topLeft).toEqual({ x: -9, y: 3 });
+
+    const scaled = pointInFooterScene(1000, 500, rect, { left: -13.5, right: 13.5, top: 3, bottom: -3 }, { x: 1.5, y: 1.5 });
+    expect(scaled?.x).toBeCloseTo(9, 5);
+    expect(scaled?.y).toBeCloseTo(-2, 5);
+
+    expect(pointInFooterScene(90, 350, rect, camera, scale)).toBeNull();
+    expect(pointInFooterScene(550, 510, rect, camera, scale)).toBeNull();
+    expect(pointInFooterScene(550, 350, { ...rect, width: 0 }, camera, scale)).toBeNull();
+  });
+
+  it("tracks cursor velocity, wave phase, and hover strength across the footer", () => {
+    const state = createFooterPointerState();
+    stepFooterPointer(state, { x: 2.5, y: -0.8, active: true }, 0.05);
+    expect(state.strength).toBeGreaterThan(0);
+    expect(state.phase).toBeGreaterThan(0);
+    expect(state.vx).toBeGreaterThan(0);
+    expect(state.vy).toBeLessThan(0);
+
+    const activeStrength = state.strength;
+    stepFooterPointer(state, { x: 2.5, y: -0.8, active: false }, 0.05);
+    expect(state.strength).toBeLessThan(activeStrength);
+  });
+
+  it("deforms the Three.js footer sheets and rim edges with a travelling wave as the cursor moves", () => {
+    const sculpture = createFooterSculpture();
+    try {
+      const frontMesh = sculpture.root.getObjectByName("front") as THREE.Mesh;
+      const frontRim = sculpture.root.getObjectByName("front-edge") as THREE.LineSegments;
+      const posAttr = frontMesh.geometry.attributes.position as THREE.BufferAttribute;
+      const rimAttr = frontRim.geometry.attributes.position as THREE.BufferAttribute;
+
+      sculpture.update(1.0);
+      const ambientPositions = new Float32Array(posAttr.array as Float32Array);
+      const ambientRims = new Float32Array(rimAttr.array as Float32Array);
+
+      sculpture.update(1.0, {
+        x: 0.5,
+        y: -0.6,
+        vx: 4.0,
+        vy: -1.5,
+        strength: 1,
+        phase: 1.8,
+      });
+
+      const hoveredPositions = new Float32Array(posAttr.array as Float32Array);
+      const hoveredRims = new Float32Array(rimAttr.array as Float32Array);
+
+      let maxSheetDeltaY = 0;
+      let maxSheetDeltaZ = 0;
+      for (let i = 0; i < hoveredPositions.length; i += 3) {
+        maxSheetDeltaY = Math.max(maxSheetDeltaY, Math.abs(hoveredPositions[i + 1] - ambientPositions[i + 1]));
+        maxSheetDeltaZ = Math.max(maxSheetDeltaZ, Math.abs(hoveredPositions[i + 2] - ambientPositions[i + 2]));
+      }
+      expect(maxSheetDeltaY).toBeGreaterThan(0.15);
+      expect(maxSheetDeltaZ).toBeGreaterThan(0.2);
+
+      let maxRimDeltaY = 0;
+      for (let i = 0; i < hoveredRims.length; i += 3) {
+        maxRimDeltaY = Math.max(maxRimDeltaY, Math.abs(hoveredRims[i + 1] - ambientRims[i + 1]));
+      }
+      expect(maxRimDeltaY).toBeGreaterThan(0.12);
+
+      sculpture.update(1.0, {
+        x: 2.2,
+        y: -0.4,
+        vx: 5.0,
+        vy: 1.0,
+        strength: 1,
+        phase: 3.4,
+      });
+      const movedPositions = posAttr.array as Float32Array;
+      let movedDelta = 0;
+      for (let i = 0; i < movedPositions.length; i += 3) {
+        movedDelta = Math.max(movedDelta, Math.abs(movedPositions[i + 1] - hoveredPositions[i + 1]));
+      }
+      expect(movedDelta).toBeGreaterThan(0.1);
+    } finally {
+      sculpture.dispose();
+    }
   });
 });
