@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 import { MemoryVoteStore } from "./store";
 import { voterHash } from "./runtime";
+import { TEMPLATES } from "../../app/(index)/data/templates";
 
 const state = vi.hoisted(() => ({ store: undefined as unknown, secret: "test-route-secret-with-thirty-two-bytes" }));
 vi.mock("./runtime", async (load) => ({ ...await load<typeof import("./runtime")>(), getVoteRuntime: () => ({ store: state.store, secret: state.secret }) }));
@@ -19,7 +20,7 @@ describe("vote route contracts", () => {
     expect(response.headers.get("Cache-Control")).toBe("public, s-maxage=30, stale-while-revalidate=60");
     expect(response.headers.get("Set-Cookie")).toBeNull();
     const counts = await response.json();
-    expect(Object.keys(counts)).toHaveLength(52);
+    expect(Object.keys(counts)).toHaveLength(TEMPLATES.length);
     expect(counts.ctrlroom).toEqual({ up: 0, down: 0 });
     expect(counts.parallel).toEqual({ up: 0, down: 0 });
     expect(counts.synapxe).toEqual({ up: 0, down: 0 });

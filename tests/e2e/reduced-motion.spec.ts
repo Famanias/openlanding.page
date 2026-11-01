@@ -6,7 +6,8 @@ test.use({ reducedMotion: "reduce" });
 for (const path of TEMPLATE_PATHS) {
   test(`${path}: every heading is visible with reduced motion`, async ({ page }) => {
     await page.goto(path);
-    const headings = page.locator("h1, h2");
+    // Native dialogs intentionally hide their headings until the dialog is opened.
+    const headings = page.locator("h1:not(dialog:not([open]) *), h2:not(dialog:not([open]) *)");
     const count = await headings.count();
     expect(count).toBeGreaterThan(0);
     for (let i = 0; i < count; i++) {

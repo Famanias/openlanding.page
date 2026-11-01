@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { GalleryShell } from "./GalleryShell";
+import { TEMPLATES } from "../data/templates";
 
 describe("GalleryShell", () => {
   it("renders gallery section with id='gallery' and accessibility label", () => {
@@ -18,7 +19,7 @@ describe("GalleryShell", () => {
     expect(html).toContain("Scroll Showcase");
     expect(html).toContain("3D &amp; WebGPU");
     expect(html).toContain("Editorial Magazine");
-    expect(html).toContain("Showing 52 of 52 templates");
+    expect(html).toContain(`Showing ${TEMPLATES.length} of ${TEMPLATES.length} templates`);
   });
 
   it("renders all 52 active template cards and excludes archived templates", () => {
@@ -115,7 +116,7 @@ expect(html).toContain('href="/tally"');
     const eagerCount = (html.match(/loading="eager"/g) || []).length;
     const lazyCount = (html.match(/loading="lazy"/g) || []).length;
     expect(eagerCount).toBe(1);
-    expect(lazyCount).toBe(51);
+    expect(lazyCount).toBe(TEMPLATES.length - 1);
   });
 
   it("renders responsive grid container with 5 columns on desktop", () => {
