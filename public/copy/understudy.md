@@ -527,20 +527,8 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
 .us-hero__slot { position: relative; z-index: 3; display: block; width: var(--aw); height: var(--ah); margin: 44px auto calc(50svh - 250px); color: var(--us-ink); }
 .us-hero__mark { display: block; width: 100%; height: 100%; scale: 1.333; }
 .us-hero__rings { display: none; }
-.us-house { position: relative; z-index: 2; width: 100%; background: var(--us-ink); color: var(--us-house); }
+.us-house { position: relative; z-index: 2; width: 100%; background: #0D0D10; color: #F4F4F1; }
 .us-curtains { display: none; }
-.us-house__in { display: grid; gap: 64px; padding: 18svh var(--us-gut) 14svh; text-align: center; }
-.us-house__tag { color: var(--us-cue-light); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: -36px; }
-.us-house__h { font-weight: 360; }
-.us-house__n { display: block; font-size: clamp(4.4rem, 2rem + 9vw, 10.5rem); letter-spacing: -0.06em; line-height: 0.9; color: var(--us-cue-light); font-variant-numeric: tabular-nums; }
-.us-digit { display: inline-block; overflow: clip; padding-bottom: 0.06em; }
-.us-digit > span { display: inline-block; }
-.us-house__say { display: block; margin-top: 18px; font-size: clamp(1.5rem, 1rem + 1.6vw, 2.6rem); letter-spacing: -0.035em; line-height: 1.1; }
-.us-house__l { display: block; overflow: clip; padding-bottom: 0.08em; }
-.us-house__l > span { display: inline-block; }
-.us-house__rows { display: grid; gap: 22px; }
-.us-house__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 34px; }
-.us-house__item[data-copy] { display: none; }
 .us-nudge { display: none; }
 
 /* company wordmarks */
@@ -1004,9 +992,9 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
   .us-hero__rings i:nth-child(2) { animation-delay: 1.2s; }
   .us-hero__rings i:nth-child(3) { animation-delay: 2.4s; }
 
-  .us-house { position: absolute; inset: 0;
+  .us-house { position: absolute; inset: 0; overflow: hidden;
     clip-path: inset(calc(var(--ay) - var(--ah) / 2) calc(50% - var(--aw) / 2) calc(100% - var(--ay) - var(--ah) / 2) calc(50% - var(--aw) / 2) round calc(var(--aw) / 2) calc(var(--aw) / 2) 3px 3px); }
-  .us-curtains { display: block; position: absolute; inset: 0; }
+  .us-curtains { display: block; position: absolute; inset: 0; z-index: 10; pointer-events: none; }
   .us-curtain { position: absolute; top: 0; bottom: 0; width: 50.5%;
     background: linear-gradient(90deg, color-mix(in oklab, var(--us-ink) 30%, transparent), transparent 30%, transparent 70%, color-mix(in oklab, var(--us-ink) 40%, transparent)),
       repeating-linear-gradient(90deg, var(--us-night) 0 22px, color-mix(in oklab, var(--us-night) 55%, var(--us-ink)) 22px 34px, var(--us-night) 34px 46px);
@@ -1016,16 +1004,7 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
   /* skip rendering held scenes until they're near; their heights are explicit, so measurements stay exact */
   .us-casting, .us-contract, .us-finale { content-visibility: auto; }
   .us-curtains__slit { position: absolute; left: calc(50% - var(--aw) * 0.13); top: calc(var(--ay) + var(--ah) * 0.13); width: calc(var(--aw) * 0.26); height: calc(var(--ah) * 0.37);
-    clip-path: polygon(50% 0, 100% 100%, 0 100%); background: linear-gradient(var(--us-cue), var(--us-cue-light)); opacity: calc(1 - var(--open) * 4); }
-  .us-house__in { position: absolute; inset: 0; display: block; padding: 0; }
-  .us-house:not([data-open]) .us-house__in { display: none; }
-  .us-house__h { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -64%; padding: 0 var(--us-gut); }
-  .us-digit > span { translate: 0 calc((1 - clamp(0, (var(--p, 0) - 0.48 - var(--i) * 0.03) / 0.08, 1)) * 108%); }
-  .us-house__l > span { translate: 0 calc((1 - clamp(0, (var(--p, 0) - 0.64 - var(--i) * 0.04) / 0.08, 1)) * 110%); }
-  .us-house__rows { position: absolute; left: 0; right: 0; bottom: max(120px, 15svh); display: grid; gap: 26px; opacity: var(--bend); }
-  .us-house__row { position: relative; display: block; height: 30px; }
-  .us-house__item { position: absolute; left: 50%; top: 0; width: 200px; margin-left: -100px; display: flex; justify-content: center; color: color-mix(in oklab, var(--us-house) 78%, transparent); will-change: transform; }
-  .us-house__item[data-copy] { display: flex; }
+    clip-path: polygon(50% 0, 100% 100%, 0 100%); background: linear-gradient(var(--us-cue), var(--us-cue-light)); opacity: calc(1 - var(--open) * 4); z-index: 11; pointer-events: none; }
   .us-nudge { position: absolute; left: 50%; bottom: max(96px, 13svh); z-index: 5; display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--us-graphite);
     animation: us-nudge 700ms var(--ease-out) 1.9s both; transition: opacity var(--dur-base); }
   .us-nudge__mouse { position: relative; width: 14px; height: 22px; border: 1.5px solid currentColor; border-radius: 8px; }
@@ -1155,6 +1134,665 @@ html[data-us-dock="dark"] .us-dock__menu, html[data-us-dock="dark"] .us-dock__as
     .us-hero__slot { margin-top: 12px; }
   }
 }
+
+/* ================================================================
+   SECTION 02 / THE COMPANY WE KEEP (STUDIO PROOF)
+   ================================================================ */
+.proof {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #0D0D10;
+  isolation: isolate;
+  --bg: #0D0D10;
+  --ink: color-mix(in oklab, #FFFFFF 92%, #AE9CFF);
+  --muted: color-mix(in oklab, #FFFFFF 65%, #66666E);
+  --violet: #AE9CFF;
+  --violet-bright: color-mix(in oklab, #FFFFFF 30%, #AE9CFF);
+  --line: color-mix(in oklab, #AE9CFF 20%, transparent);
+  --ease-out: cubic-bezier(.18, .82, .22, 1);
+}
+
+.proof-stage {
+  --parallax-x: 0px;
+  --parallax-y: 0px;
+  --card-rx: 0deg;
+  --card-ry: 0deg;
+  --scroll-drift: 0px;
+  --scroll-glow: 0;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 650px;
+  overflow: hidden;
+  isolation: isolate;
+  background: radial-gradient(ellipse 75% 70% at 50% 49%, color-mix(in oklab, #5B3CF0 18%, #0D0D10) 0%, color-mix(in oklab, #5B3CF0 8%, #0D0D10) 44%, #0D0D10 85%);
+}
+
+.proof-ambient {
+  position: absolute;
+  z-index: -2;
+  inset: -12%;
+  pointer-events: none;
+  background: radial-gradient(ellipse 35% 30% at 50% 46%, color-mix(in oklab, #5B3CF0 14%, transparent), transparent 90%),
+              radial-gradient(ellipse 35% 50% at 100% 0%, color-mix(in oklab, #5B3CF0 16%, transparent), transparent 78%),
+              radial-gradient(ellipse 27% 36% at 0% 100%, color-mix(in oklab, #5B3CF0 20%, transparent), transparent 84%);
+  transform: translate3d(calc(var(--parallax-x, 0px) * -.35), calc(var(--parallax-y, 0px) * -.35), 0);
+  animation: proof-ambientBreath 9s ease-in-out infinite alternate;
+}
+
+.proof-planet {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0);
+  will-change: transform;
+}
+
+.proof-planet--top {
+  width: clamp(350px, 49vw, 860px);
+  aspect-ratio: 1;
+  right: -21vw;
+  top: -36vw;
+  background: radial-gradient(circle at 45% 74%, color-mix(in oklab, #5B3CF0 40%, transparent) 0, color-mix(in oklab, #5B3CF0 25%, transparent) 29%, color-mix(in oklab, #1A1A1F 20%, transparent) 64%, transparent 70%);
+  box-shadow: inset -22px -20px 34px -33px color-mix(in oklab, #AE9CFF 85%, transparent), -8px 10px 70px -50px #AE9CFF;
+}
+
+.proof-planet--bottom {
+  width: clamp(550px, 70vw, 1180px);
+  aspect-ratio: 1;
+  left: -34vw;
+  bottom: -80vw;
+  background: radial-gradient(circle at 59% 28%, color-mix(in oklab, #5B3CF0 30%, transparent), color-mix(in oklab, #1A1A1F 20%, transparent) 44%, color-mix(in oklab, #0D0D10 5%, transparent) 71%);
+  box-shadow: inset 1px 20px 36px -32px #AE9CFF, 0 -10px 90px -62px #AE9CFF;
+}
+
+.proof-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  opacity: .095;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.27'/%3E%3C/svg%3E");
+}
+
+.proof-topline {
+  position: absolute;
+  top: clamp(28px, 5.5vh, 59px);
+  left: clamp(24px, 5.4vw, 92px);
+  right: clamp(24px, 5.4vw, 92px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 8;
+  color: color-mix(in oklab, #FFFFFF 70%, #66666E);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .25em;
+  font-weight: 650;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s cubic-bezier(.16, 1, .3, 1) 0.2s;
+}
+
+.proof.is-visible .proof-topline,
+.us-house.is-visible .proof-topline {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.proof-topline-left { display: flex; align-items: center; gap: 15px; }
+.proof-index { color: #AE9CFF; }
+.proof-topline-left::after { content: ""; height: 1px; width: 36px; order: 1; background: color-mix(in oklab, #5B3CF0 35%, #1A1A1F); }
+.proof-kicker { order: 2; }
+.proof-live { display: flex; align-items: center; gap: 11px; }
+.proof-live::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #AE9CFF;
+  box-shadow: 0 0 0 6px color-mix(in oklab, #AE9CFF 15%, transparent), 0 0 22px 2px #5B3CF0;
+  animation: proof-pulse 2.8s ease-in-out infinite;
+}
+
+.proof-main {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.proof-card-wrap {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: clamp(103px, 14.6vh, 157px);
+  width: min(780px, 58vw);
+  opacity: 0;
+  filter: blur(20px);
+  transform: translate(-50%, 86px) scale(.83) rotateX(12deg);
+  transition: opacity 1.1s ease, filter 1.1s ease,
+              transform 1.5s cubic-bezier(.16, 1, .3, 1);
+  perspective: 1200px;
+}
+
+.proof.is-visible .proof-card-wrap,
+.us-house.is-visible .proof-card-wrap {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate(-50%, 0) scale(1) rotateX(0);
+}
+
+.proof-card {
+  --spot-x: 50%;
+  --spot-y: 35%;
+  position: relative;
+  width: 100%;
+  padding: clamp(34px, 4.5vw, 65px) 34px clamp(33px, 3.8vw, 48px);
+  min-height: 355px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid color-mix(in oklab, #AE9CFF 38%, transparent);
+  border-radius: clamp(27px, 3.9vw, 52px);
+  background: linear-gradient(162deg, color-mix(in oklab, #5B3CF0 22%, #0D0D10) 0%, color-mix(in oklab, #1A1A1F 90%, #0D0D10) 55%, color-mix(in oklab, #5B3CF0 20%, #1A1A1F) 100%);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, #FFFFFF 17%, transparent),
+              inset 0 -27px 54px -42px color-mix(in oklab, #5B3CF0 65%, transparent),
+              0 10px 75px color-mix(in oklab, #0D0D10 70%, transparent),
+              0 -1px 34px -19px color-mix(in oklab, #AE9CFF 60%, transparent);
+  overflow: hidden;
+  transform: perspective(1200px) rotateX(var(--card-rx, 0deg)) rotateY(var(--card-ry, 0deg)) translate3d(0, var(--scroll-drift, 0px), 0);
+  transition: transform .26s ease-out;
+  will-change: transform;
+}
+
+.proof-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 1;
+  opacity: .63;
+  pointer-events: none;
+  background: radial-gradient(ellipse 62% 54% at var(--spot-x, 50%) var(--spot-y, 35%), color-mix(in oklab, #AE9CFF 18%, transparent), transparent 85%);
+}
+
+.proof-card::after {
+  content: "";
+  position: absolute;
+  inset: -150% -50%;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transform: translateX(-83%) rotate(23deg);
+  background: linear-gradient(90deg, transparent 46%, color-mix(in oklab, #AE9CFF 4%, transparent) 48%, color-mix(in oklab, #FFFFFF 20%, transparent) 50%, color-mix(in oklab, #AE9CFF 4%, transparent) 52%, transparent 54%);
+}
+
+.proof.is-visible .proof-card::after,
+.us-house.is-visible .proof-card::after {
+  animation: proof-cardSheen 2.3s 1.05s ease-out 1 both;
+}
+
+.card-rim {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 -5px 16px -12px #AE9CFF, inset -7px 7px 18px -17px #FFFFFF;
+}
+
+.card-lightwell {
+  position: absolute;
+  left: 14%; right: 14%; bottom: -112px;
+  height: 190px; border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, color-mix(in oklab, #5B3CF0 55%, transparent), color-mix(in oklab, #5B3CF0 25%, transparent) 38%, transparent 73%);
+  filter: blur(24px);
+  animation: proof-cardPulse 6s ease-in-out infinite alternate;
+}
+
+.card-horizon {
+  position: absolute;
+  pointer-events: none;
+  width: 104%;
+  height: 200px;
+  left: -2%;
+  bottom: -160px;
+  border-top: 1px solid color-mix(in oklab, #AE9CFF 35%, transparent);
+  border-radius: 50% 50% 0 0;
+  box-shadow: 0 -12px 45px -17px color-mix(in oklab, #5B3CF0 50%, transparent);
+}
+
+.proof-number {
+  position: relative;
+  z-index: 3;
+  display: inline-block;
+  white-space: nowrap;
+  font-size: clamp(96px, 10.25vw, 167px);
+  line-height: 1;
+  font-weight: 450;
+  letter-spacing: -.091em;
+  padding-right: .085em;
+  color: #AE9CFF;
+  background: linear-gradient(117deg, color-mix(in oklab, #5B3CF0 75%, #FFFFFF) 10%, #AE9CFF 44%, color-mix(in oklab, #5B3CF0 60%, #AE9CFF) 78%, color-mix(in oklab, #FFFFFF 20%, #AE9CFF) 98%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+  text-shadow: none;
+  transform: translateY(12px);
+  opacity: 0;
+  transition: transform .95s .24s var(--ease-out), opacity .85s .24s ease;
+}
+
+.proof.is-visible .proof-number,
+.us-house.is-visible .proof-number {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.proof-copy {
+  position: relative;
+  z-index: 3;
+  margin: 11px 0 0;
+  font-size: clamp(24px, 2.45vw, 40px);
+  font-weight: 410;
+  letter-spacing: -.05em;
+  line-height: 1.15;
+  color: color-mix(in oklab, #FFFFFF 95%, #AE9CFF);
+}
+
+.proof-copy span {
+  display: block;
+  overflow: hidden;
+}
+
+.proof-copy span > span {
+  display: inline-block;
+  transform: translateY(120%);
+  transition: transform 1.1s var(--ease-out);
+}
+
+.proof.is-visible .proof-copy span:nth-child(1) > span,
+.us-house.is-visible .proof-copy span:nth-child(1) > span {
+  transform: translateY(0);
+  transition-delay: .42s;
+}
+
+.proof.is-visible .proof-copy span:nth-child(2) > span,
+.us-house.is-visible .proof-copy span:nth-child(2) > span {
+  transform: translateY(0);
+  transition-delay: .56s;
+}
+
+.proof-accent {
+  position: relative;
+  z-index: 3;
+  width: 66px;
+  height: 5px;
+  margin-top: 30px;
+  border-radius: 99px;
+  background: #AE9CFF;
+  box-shadow: 0 0 11px #5B3CF0, 0 0 40px color-mix(in oklab, #AE9CFF 70%, transparent);
+  transform: scaleX(0);
+  transition: transform .7s 1.1s var(--ease-out);
+}
+
+.proof.is-visible .proof-accent,
+.us-house.is-visible .proof-accent {
+  transform: scaleX(1);
+}
+
+.proof-orbit-wrap {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: clamp(480px, 64vh, 625px);
+  width: min(1530px, 96vw);
+  height: clamp(230px, 28vh, 304px);
+  transform: translate3d(-50%, var(--scroll-drift, 0px), 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.proof-orbit {
+  position: absolute;
+  z-index: 0;
+  inset: -10% -2%;
+  width: 104%;
+  height: 120%;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(.89, .71);
+  transition: opacity 1.25s .32s ease, transform 1.8s .32s var(--ease-out);
+}
+
+.proof.is-visible .proof-orbit,
+.us-house.is-visible .proof-orbit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.orbit-outline {
+  fill: color-mix(in oklab, #5B3CF0 10%, transparent);
+  stroke: color-mix(in oklab, #5B3CF0 25%, transparent);
+  stroke-width: 1.1;
+  vector-effect: non-scaling-stroke;
+}
+
+.orbit-trace {
+  fill: none;
+  stroke: url(#orbitStroke);
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  filter: drop-shadow(0px 0px 6px color-mix(in oklab, #AE9CFF 65%, transparent));
+  transition: stroke-dashoffset 2.6s .35s cubic-bezier(.17, .8, .24, 1);
+}
+
+.proof.is-visible .orbit-trace,
+.us-house.is-visible .orbit-trace {
+  stroke-dashoffset: 0;
+}
+
+.orbit-inner {
+  fill: none;
+  stroke: color-mix(in oklab, #AE9CFF 12%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 2 10;
+  vector-effect: non-scaling-stroke;
+}
+
+.orbit-satellite {
+  fill: color-mix(in oklab, #FFFFFF 40%, #AE9CFF);
+  filter: drop-shadow(0 0 7px #AE9CFF);
+  opacity: 0;
+}
+
+.proof.is-visible .orbit-satellite,
+.us-house.is-visible .orbit-satellite {
+  opacity: 1;
+  transition: opacity 1s 1.6s;
+}
+
+.orbit-satellite--ghost {
+  fill: color-mix(in oklab, #5B3CF0 65%, #AE9CFF);
+  opacity: .55;
+}
+
+.proof-logo-cloud {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(15px, 2.5vh, 26px);
+  width: 90%;
+  transform: translate3d(calc(var(--parallax-x, 0px) * -.18), calc(var(--parallax-y, 0px) * -.18), 0);
+}
+
+.proof-logo-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(13px, 1.8vw, 26px);
+  width: 100%;
+}
+
+.proof-logo-row--last {
+  gap: clamp(22px, 3.5vw, 60px);
+}
+
+.brand {
+  --i: 0;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: clamp(5px, .6vw, 10px);
+  min-height: 39px;
+  padding: 5px 3px;
+  color: color-mix(in oklab, #FFFFFF 85%, #66666E);
+  font-size: clamp(13px, 1.16vw, 17px);
+  letter-spacing: -.035em;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  filter: blur(7px);
+  transform: translate3d(0, 27px, 0) scale(.92);
+  transition: opacity .75s ease, filter .8s ease,
+              transform 1s cubic-bezier(.16, 1, .3, 1), color .3s ease;
+  transition-delay: calc(.43s + var(--i) * .065s);
+}
+
+.brand:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: calc(clamp(13px, 1.8vw, 26px) * -.5);
+  height: 19px;
+  width: 1px;
+  background: color-mix(in oklab, #AE9CFF 20%, transparent);
+}
+
+.proof-logo-row--last .brand:not(:first-child)::before {
+  left: calc(clamp(22px, 3.5vw, 60px) * -.5);
+}
+
+.proof.is-visible .brand,
+.us-house.is-visible .brand {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.proof.is-visible .brand:hover,
+.us-house.is-visible .brand:hover {
+  color: #FFFFFF;
+  transform: translate3d(0, -4px, 0) scale(1.07);
+  text-shadow: 0 0 23px color-mix(in oklab, #AE9CFF 45%, transparent);
+  transition-delay: 0s;
+}
+
+.brand-icon {
+  display: inline-grid;
+  place-items: center;
+  min-width: 13px;
+  font-size: 17px;
+  line-height: 1;
+  font-style: normal;
+  color: color-mix(in oklab, #FFFFFF 90%, #AE9CFF);
+}
+
+.brand-word { font-weight: 670; }
+.brand-word--light { font-weight: 420; }
+.brand-word--caps { font-size: .81em; letter-spacing: .12em; font-weight: 740; }
+.brand-word--serif { font-family: Georgia, 'Times New Roman', serif; font-weight: 500; font-size: 1.1em; }
+.brand-word--mono { font-family: 'Courier New', monospace; font-weight: 700; letter-spacing: -.05em; }
+
+.proof-bottomline {
+  position: absolute;
+  z-index: 5;
+  left: clamp(24px, 5.4vw, 92px);
+  right: clamp(24px, 5.4vw, 92px);
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: color-mix(in oklab, #FFFFFF 45%, #66666E);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.8s ease 0.4s, transform 0.8s cubic-bezier(.16, 1, .3, 1) 0.4s;
+}
+
+.proof.is-visible .proof-bottomline,
+.us-house.is-visible .proof-bottomline {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.proof-bottomline .mini-track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mini-track::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: color-mix(in oklab, #5B3CF0 40%, #66666E);
+}
+
+.proof-progress {
+  height: 1px;
+  width: 89px;
+  background: color-mix(in oklab, #1A1A1F 70%, #0D0D10);
+  position: relative;
+  overflow: hidden;
+}
+
+.proof-progress::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #AE9CFF;
+  transform: scaleX(var(--scroll-glow, 0));
+  transform-origin: left;
+}
+
+@keyframes proof-pulse {
+  50% { box-shadow: 0 0 0 10px color-mix(in oklab, #AE9CFF 8%, transparent), 0 0 12px 1px #5B3CF0; }
+}
+
+@keyframes proof-cardSheen {
+  0% { transform: translateX(-85%) rotate(23deg); opacity: 0; }
+  20% { opacity: 1; }
+  70% { opacity: .65; }
+  100% { transform: translateX(85%) rotate(23deg); opacity: 0; }
+}
+
+@keyframes proof-cardPulse {
+  100% { opacity: .64; transform: scaleX(1.2) translateY(8px); }
+}
+
+@keyframes proof-ambientBreath {
+  100% { opacity: .73; filter: hue-rotate(11deg); }
+}
+
+@media (max-width: 1100px) {
+  .proof-card-wrap { width: min(730px, 73vw); }
+  .proof-orbit-wrap { top: 62vh; width: 98vw; }
+  .brand { font-size: clamp(10px, 1.23vw, 14px); }
+  .proof-logo-row { gap: 14px; }
+  .brand:not(:first-child)::before { left: -7px; }
+}
+
+@media (max-width: 760px) {
+  .proof-stage {
+    min-height: 0;
+    height: auto;
+    position: relative;
+    padding: 106px 18px 70px;
+    overflow: hidden;
+  }
+  .proof-topline { top: 26px; left: 23px; right: 23px; font-size: 9px; }
+  .proof-live { letter-spacing: .11em; }
+  .proof-main { height: auto; display: flex; flex-direction: column; align-items: center; }
+  .proof-card-wrap {
+    position: relative;
+    left: auto; top: auto;
+    width: 100%;
+    max-width: 590px;
+    transform: translateY(60px) scale(.88);
+  }
+  .proof.is-visible .proof-card-wrap,
+  .us-house.is-visible .proof-card-wrap { transform: translateY(0) scale(1); }
+  .proof-card { min-height: 310px; padding: 39px 15px 32px; border-radius: 32px; }
+  .proof-number { font-size: clamp(79px, 17vw, 137px); }
+  .proof-copy { font-size: clamp(24px, 5vw, 35px); }
+  .proof-accent { margin-top: 22px; }
+  .proof-orbit-wrap {
+    position: relative;
+    left: auto; top: auto;
+    margin-top: 68px;
+    transform: none;
+    width: 100%;
+    height: auto;
+    padding: 17px 4px 24px;
+  }
+  .proof-orbit { display: none; }
+  .proof-logo-cloud { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .proof-logo-row, .proof-logo-row--last { display: contents; }
+  .brand {
+    min-width: 0; min-height: 51px;
+    justify-content: flex-start;
+    padding: 13px 11px;
+    border: 1px solid color-mix(in oklab, #AE9CFF 15%, transparent);
+    border-radius: 12px;
+    font-size: clamp(12px, 3.15vw, 16px);
+    background: color-mix(in oklab, #1A1A1F 40%, transparent);
+  }
+  .brand:not(:first-child)::before { display: none; }
+  .brand-word--caps { font-size: .77em; }
+  .brand-icon { font-size: 15px; min-width: 14px; }
+  .proof-bottomline { left: 24px; right: 24px; bottom: 25px; font-size: 9px; }
+  .proof-bottomline .mini-track { display: none; }
+  .proof-planet--bottom { bottom: -100vw; }
+  .proof-planet--top { right: -63vw; top: -54vw; }
+}
+
+@media (max-width: 400px) {
+  .proof-stage { padding-left: 13px; padding-right: 13px; }
+  .proof-card { min-height: 272px; }
+  .proof-number { font-size: 19vw; }
+  .proof-copy { font-size: 22px; }
+  .brand { padding: 11px 7px; font-size: 11px; gap: 5px; }
+  .proof-topline { letter-spacing: .13em; }
+  .proof-topline-left { gap: 8px; }
+  .proof-topline-left::after { width: 19px; }
+}
+
+@media (min-width: 761px) and (max-height: 760px) {
+  .proof-card-wrap { top: 11vh; }
+  .proof-card { min-height: 285px; padding: 22px 25px; }
+  .proof-number { font-size: clamp(82px, 9vw, 125px); }
+  .proof-copy { font-size: clamp(24px, 2vw, 31px); }
+  .proof-accent { margin-top: 17px; }
+  .proof-orbit-wrap { top: 60vh; height: 28vh; }
+  .proof-logo-cloud { gap: 10px; }
+  .proof-bottomline { bottom: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proof-card-wrap, .proof-number, .proof-orbit, .brand, .proof-topline, .proof-bottomline {
+    opacity: 1 !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .proof-card-wrap { transform: translate(-50%, 0) scale(1) !important; }
+  .proof-copy span > span { transform: none !important; transition: none !important; }
+  .proof-accent { transform: none !important; transition: none !important; }
+  .proof-orbit { transform: none !important; }
+  .orbit-trace { stroke-dashoffset: 0 !important; }
+  .brand { transform: none !important; }
+}
+
 ]]>
     </file>
     <file path="src/app/(understudy)/understudy/ask/answer.ts">
@@ -3115,6 +3753,335 @@ export function Casting() {
 }
 ]]>
     </file>
+    <file path="src/app/(understudy)/understudy/sections/CompanyWeKeep.tsx">
+<![CDATA["use client";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+
+const ROW_1 = [
+  { id: "fernway", glyph: "◕", name: "fernway", cls: "" },
+  { id: "lumen", glyph: "✦", name: "LUMEN GAMES", cls: "brand-word--caps" },
+  { id: "quillo", glyph: "●", name: "Quillo", cls: "brand-word--light" },
+  { id: "tidewell", glyph: "▰", name: "Tidewell", cls: "" },
+  { id: "arbor", glyph: "▲", name: "Arbor&Co", cls: "brand-word--serif" },
+  { id: "kestrel", glyph: "▥", name: "kestrel", cls: "brand-word--mono" },
+  { id: "brightloop", glyph: "⦿", name: "Brightloop", cls: "" },
+];
+
+const ROW_2 = [
+  { id: "pinecrest", glyph: "▲", name: "PINECREST", cls: "brand-word--caps" },
+  { id: "saltbox", glyph: "■", name: "Saltbox", cls: "" },
+  { id: "nimbus", glyph: "◒", name: "Nimbus Rail", cls: "brand-word--light" },
+  { id: "copperline", glyph: "✦", name: "COPPERLINE", cls: "brand-word--caps" },
+  { id: "fieldnote", glyph: "◼", name: "Fieldnote", cls: "brand-word--mono" },
+  { id: "otterly", glyph: "◕", name: "otterly", cls: "" },
+  { id: "wavelength", glyph: "◒", name: "Wavelength", cls: "brand-word--serif", italic: true },
+];
+
+const ROW_3 = [
+  { id: "ledgerly", glyph: "▥", name: "Ledgerly", cls: "brand-word--light" },
+  { id: "parcelpost", glyph: "■", name: "Parcelpost", cls: "" },
+  { id: "halcyon", glyph: "⦿", name: "Halcyon Bank", cls: "brand-word--serif" },
+  { id: "sundry", glyph: "●", name: "sundry", cls: "" },
+];
+
+const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+const easeOutExpo = (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+const FINAL_COUNT = 3400;
+
+export function CompanyWeKeep({ forceVisible }: { forceVisible?: boolean }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const numberRef = useRef<HTMLDivElement>(null);
+  const orbiterRef = useRef<SVGCircleElement>(null);
+  const orbiter2Ref = useRef<SVGCircleElement>(null);
+
+  const [countText, setCountText] = useState("3,400+");
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const stage = stageRef.current;
+    const card = cardRef.current;
+    const number = numberRef.current;
+    const orbiter = orbiterRef.current;
+    const orbiter2 = orbiter2Ref.current;
+    if (!stage || !card || !number) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const coarsePointer = window.matchMedia("(pointer: coarse)");
+
+    let hasRevealed = false;
+    let onScreen = false;
+    let frameId = 0;
+    let countFrame = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    const animateCounter = () => {
+      if (reduceMotion.matches) {
+        setCountText("3,400+");
+        return;
+      }
+      const start = performance.now();
+      const duration = 1850;
+      const step = (now: number) => {
+        const progress = clamp((now - start) / duration, 0, 1);
+        const value = Math.round(FINAL_COUNT * easeOutExpo(progress));
+        setCountText(value.toLocaleString("en-US") + "+");
+        if (progress < 1) {
+          countFrame = requestAnimationFrame(step);
+        } else {
+          setCountText("3,400+");
+        }
+      };
+      countFrame = requestAnimationFrame(step);
+    };
+
+    const triggerReveal = () => {
+      if (hasRevealed) return;
+      hasRevealed = true;
+      container?.classList.add("is-visible");
+      animateCounter();
+    };
+
+    const resetReveal = () => {
+      if (!hasRevealed) return;
+      hasRevealed = false;
+      cancelAnimationFrame(countFrame);
+      container?.classList.remove("is-visible");
+      setCountText("0+");
+    };
+
+    // Watch for class changes on house / container if controlled by ScrollDirector
+    const observer = new MutationObserver(() => {
+      const parentHouse = container?.closest(".us-house");
+      const isVis = container?.classList.contains("is-visible") || parentHouse?.classList.contains("is-visible");
+      if (isVis && !hasRevealed) {
+        triggerReveal();
+      } else if (!isVis && hasRevealed && !reduceMotion.matches) {
+        resetReveal();
+      }
+    });
+
+    if (container) {
+      observer.observe(container, { attributes: true, attributeFilter: ["class"] });
+      const parentHouse = container.closest(".us-house");
+      if (parentHouse) {
+        observer.observe(parentHouse, { attributes: true, attributeFilter: ["class"] });
+      }
+    }
+
+    if (forceVisible) {
+      triggerReveal();
+    }
+
+    // Intersection observer for fallback standalone usage
+    const stageObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          onScreen = entry.isIntersecting;
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+            triggerReveal();
+          }
+          if (onScreen && !reduceMotion.matches && frameId === 0) {
+            frameId = requestAnimationFrame(tick);
+          }
+        }
+      },
+      { threshold: [0, 0.2, 0.5] }
+    );
+    stageObserver.observe(stage);
+
+    // Pointer-controlled light and spring-smoothed parallax
+    const handleStagePointerMove = (event: PointerEvent) => {
+      if (reduceMotion.matches || coarsePointer.matches) return;
+      const bounds = stage.getBoundingClientRect();
+      const u = (event.clientX - bounds.left) / bounds.width - 0.5;
+      const v = (event.clientY - bounds.top) / bounds.height - 0.5;
+      targetX = clamp(u, -0.5, 0.5);
+      targetY = clamp(v, -0.5, 0.5);
+    };
+
+    const handleStagePointerLeave = () => {
+      targetX = 0;
+      targetY = 0;
+    };
+
+    const handleCardPointerMove = (event: PointerEvent) => {
+      if (reduceMotion.matches || coarsePointer.matches) return;
+      const rect = card.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty("--spot-x", x.toFixed(2) + "%");
+      card.style.setProperty("--spot-y", y.toFixed(2) + "%");
+    };
+
+    const handleCardPointerLeave = () => {
+      card.style.setProperty("--spot-x", "50%");
+      card.style.setProperty("--spot-y", "35%");
+    };
+
+    stage.addEventListener("pointermove", handleStagePointerMove, { passive: true });
+    stage.addEventListener("pointerleave", handleStagePointerLeave);
+    card.addEventListener("pointermove", handleCardPointerMove, { passive: true });
+    card.addEventListener("pointerleave", handleCardPointerLeave);
+
+    function tick(now: number) {
+      frameId = 0;
+      if (!onScreen || reduceMotion.matches) return;
+      currentX = lerp(currentX, targetX, 0.065);
+      currentY = lerp(currentY, targetY, 0.065);
+      stage?.style.setProperty("--parallax-x", (currentX * 32).toFixed(2) + "px");
+      stage?.style.setProperty("--parallax-y", (currentY * 22).toFixed(2) + "px");
+      stage?.style.setProperty("--card-rx", (-currentY * 3.8).toFixed(2) + "deg");
+      stage?.style.setProperty("--card-ry", (currentX * 5).toFixed(2) + "deg");
+
+      // Satellites circulate continuously around the actual SVG ellipse
+      if (hasRevealed && orbiter && orbiter2 && window.innerWidth > 760) {
+        const angle = now * 0.00019 - Math.PI * 0.5;
+        const x = 800 + 758 * Math.cos(angle);
+        const y = 185 + 161 * Math.sin(angle);
+        orbiter.setAttribute("cx", x.toFixed(2));
+        orbiter.setAttribute("cy", y.toFixed(2));
+        const angle2 = angle + Math.PI * 1.32;
+        orbiter2.setAttribute("cx", (800 + 758 * Math.cos(angle2)).toFixed(2));
+        orbiter2.setAttribute("cy", (185 + 161 * Math.sin(angle2)).toFixed(2));
+      }
+      frameId = requestAnimationFrame(tick);
+    }
+
+    const onMotionChange = () => {
+      cancelAnimationFrame(countFrame);
+      if (reduceMotion.matches) {
+        cancelAnimationFrame(frameId);
+        frameId = 0;
+        setCountText("3,400+");
+        container?.classList.add("is-visible");
+        stage.style.setProperty("--parallax-x", "0px");
+        stage.style.setProperty("--parallax-y", "0px");
+        stage.style.setProperty("--card-rx", "0deg");
+        stage.style.setProperty("--card-ry", "0deg");
+        stage.style.setProperty("--scroll-drift", "0px");
+      } else if (onScreen && frameId === 0) {
+        frameId = requestAnimationFrame(tick);
+      }
+    };
+    reduceMotion.addEventListener?.("change", onMotionChange);
+    if (reduceMotion.matches) onMotionChange();
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      cancelAnimationFrame(countFrame);
+      observer.disconnect();
+      stageObserver.disconnect();
+      stage.removeEventListener("pointermove", handleStagePointerMove);
+      stage.removeEventListener("pointerleave", handleStagePointerLeave);
+      card.removeEventListener("pointermove", handleCardPointerMove);
+      card.removeEventListener("pointerleave", handleCardPointerLeave);
+      reduceMotion.removeEventListener?.("change", onMotionChange);
+    };
+  }, [forceVisible]);
+
+  return (
+    <div ref={containerRef} className="proof" id="studio-proof" aria-labelledby="proof-heading">
+      <div ref={stageRef} className="proof-stage">
+        <div className="proof-ambient" aria-hidden="true" />
+        <div className="proof-planet proof-planet--top" aria-hidden="true" />
+        <div className="proof-planet proof-planet--bottom" aria-hidden="true" />
+        <div className="proof-noise" aria-hidden="true" />
+
+        <div className="proof-topline" aria-hidden="true">
+          <div className="proof-topline-left">
+            <span className="proof-index">02 /</span>
+            <span className="proof-kicker">The company we keep</span>
+          </div>
+          <div className="proof-live">A growing network</div>
+        </div>
+
+        <div className="proof-main">
+          <div className="proof-card-wrap">
+            <div ref={cardRef} className="proof-card" id="proof-card">
+              <div className="card-lightwell" aria-hidden="true" />
+              <div className="card-horizon" aria-hidden="true" />
+              <div className="card-rim" aria-hidden="true" />
+              <div ref={numberRef} className="proof-number" id="proof-number" aria-label="3,400 plus">
+                {countText}
+              </div>
+              <h2 className="proof-copy us-house__h" id="proof-heading">
+                <span><span>companies casting</span></span>
+                <span><span>from our studio.</span></span>
+              </h2>
+              <span className="proof-accent" aria-hidden="true" />
+            </div>
+          </div>
+
+          <div className="proof-orbit-wrap">
+            <svg className="proof-orbit" viewBox="0 0 1600 370" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="orbitStroke" x1="0" y1="0.5" x2="1" y2="0.5">
+                  <stop offset="0" stopColor="#AE9CFF" stopOpacity=".85" />
+                  <stop offset=".22" stopColor="#5B3CF0" stopOpacity=".35" />
+                  <stop offset=".53" stopColor="#AE9CFF" stopOpacity=".25" />
+                  <stop offset=".82" stopColor="#5B3CF0" stopOpacity=".45" />
+                  <stop offset="1" stopColor="#AE9CFF" stopOpacity=".88" />
+                </linearGradient>
+              </defs>
+              <ellipse className="orbit-outline" cx="800" cy="185" rx="758" ry="161" />
+              <ellipse className="orbit-trace" cx="800" cy="185" rx="758" ry="161" pathLength={100} />
+              <ellipse className="orbit-inner" cx="800" cy="185" rx="705" ry="130" />
+              <circle ref={orbiterRef} className="orbit-satellite" id="orbit-satellite" cx="800" cy="24" r="4.5" />
+              <circle ref={orbiter2Ref} className="orbit-satellite orbit-satellite--ghost" id="orbit-satellite-2" cx="800" cy="346" r="2.7" />
+            </svg>
+
+            <div className="proof-logo-cloud" aria-label="A selection of companies in our studio community">
+              <div className="proof-logo-row">
+                {ROW_1.map((brand, i) => (
+                  <div key={brand.id} className="brand" style={{ "--i": i } as CSSProperties}>
+                    <i className="brand-icon" aria-hidden="true">{brand.glyph}</i>
+                    <span className={`brand-word ${brand.cls}`}>{brand.name}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="proof-logo-row">
+                {ROW_2.map((brand, i) => (
+                  <div key={brand.id} className="brand" style={{ "--i": i + 7 } as CSSProperties}>
+                    <i className="brand-icon" aria-hidden="true">{brand.glyph}</i>
+                    <span className={`brand-word ${brand.cls}`}>
+                      {brand.italic ? <em>{brand.name}</em> : brand.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="proof-logo-row proof-logo-row--last">
+                {ROW_3.map((brand, i) => (
+                  <div key={brand.id} className="brand" style={{ "--i": i + 14 } as CSSProperties}>
+                    <i className="brand-icon" aria-hidden="true">{brand.glyph}</i>
+                    <span className={`brand-word ${brand.cls}`}>{brand.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="proof-bottomline" aria-hidden="true">
+          <div>Stories in every direction</div>
+          <div className="mini-track">
+            <div className="proof-progress" />
+            <span>Scroll / Discover</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
     <file path="src/app/(understudy)/understudy/sections/Contract.tsx">
 <![CDATA[import { Magnetic } from "../motion/Magnetic";
 import { WaveLine, letterCount } from "../motion/WaveLine";
@@ -3254,20 +4221,16 @@ export function Finale() {
 ]]>
     </file>
     <file path="src/app/(understudy)/understudy/sections/Hero.tsx">
-<![CDATA[import type { CSSProperties } from "react";
-import { Mark } from "../brand/Logo";
+<![CDATA[import { Mark } from "../brand/Logo";
 import { CueDot } from "../brand/Props";
 import { StageFloor } from "../brand/StageFloor";
-import { CompanyMark } from "../brand/CompanyMark";
-import { CASTING_COMPANIES, HOUSE_ROWS } from "../content/companies";
-
-const FIGURE = CASTING_COMPANIES.toLocaleString("en-US") + "+";
+import { CompanyWeKeep } from "./CompanyWeKeep";
 
 /**
  * One held stage. At rest: the line, and under it the mark, a small proscenium with its
  * curtain breathing. Scrolling pushes in: the line lifts away, the arch opens to the whole
- * screen, the curtains part, and in the dark house the figure rises digit by digit over two
- * drifting rows of companies bent as if through a wide lens. Then the stage lets go.
+ * screen, the curtains part, and reveals Section 02 / The company we keep:
+ * an ambient cosmic stage with a 3D statistics card, glowing orbit and the studio companies.
  */
 export function Hero() {
   return (
@@ -3315,33 +4278,7 @@ export function Hero() {
             <i className="us-curtain us-curtain--r" />
             <i className="us-curtains__slit" />
           </div>
-          <div className="us-house__in">
-            <p className="us-house__tag us-mono">Direct Casting Network · Season 2026</p>
-            <h2 className="us-house__h">
-              <span className="us-house__n" aria-hidden="true">
-                {[...FIGURE].map((ch, i) => (
-                  <span key={i} className="us-digit" style={{ "--i": i } as CSSProperties}><span>{ch}</span></span>
-                ))}
-              </span>
-              <span className="us-sr">{FIGURE} </span>
-              <span className="us-house__say">
-                {["companies casting", "from our studio."].map((line, i) => (
-                  <span key={line} className="us-house__l" style={{ "--i": i } as CSSProperties}><span>{line}</span></span>
-                ))}
-              </span>
-            </h2>
-            <div className="us-house__rows" role="group" aria-label="Companies casting from the studio">
-              {HOUSE_ROWS.map((row, r) => (
-                <ul key={r} className="us-house__row" data-dir={r === 0 ? "1" : "-1"}>
-                  {[...row, ...row].map((company, i) => (
-                    <li key={`${company.id}-${i}`} className="us-house__item" aria-hidden={i >= row.length ? true : undefined} data-copy={i >= row.length ? "" : undefined}>
-                      <CompanyMark company={company} />
-                    </li>
-                  ))}
-                </ul>
-              ))}
-            </div>
-          </div>
+          <CompanyWeKeep />
         </div>
 
         <p className="us-nudge" aria-hidden="true">
@@ -3646,6 +4583,23 @@ export function ScrollDirector() {
       if (p > 0.2 !== house.hasAttribute("data-open")) house.toggleAttribute("data-open", p > 0.2);
       const foot = t >= 1 ? 0 : 3;
       house.style.clipPath = `inset(${a.top.toFixed(1)}px ${a.right.toFixed(1)}px ${a.bottom.toFixed(1)}px ${a.left.toFixed(1)}px round ${a.radius.toFixed(1)}px ${a.radius.toFixed(1)}px ${foot}px ${foot}px)`;
+      
+      const visible = p >= 0.44;
+      house.classList.toggle("is-visible", visible);
+      const proof = house.querySelector(".proof");
+      if (proof) proof.classList.toggle("is-visible", visible);
+
+      const driftProgress = range(p, 0.46, 0.90);
+      const driftY = (-11 * driftProgress).toFixed(2) + "px";
+      const glowVal = driftProgress.toFixed(4);
+      house.style.setProperty("--scroll-drift", driftY);
+      house.style.setProperty("--scroll-glow", glowVal);
+      const stageEl = house.querySelector<HTMLElement>(".proof-stage");
+      if (stageEl) {
+        stageEl.style.setProperty("--scroll-drift", driftY);
+        stageEl.style.setProperty("--scroll-glow", glowVal);
+      }
+
       runLens();
     };
 
@@ -3710,6 +4664,10 @@ export function ScrollDirector() {
       scenes.forEach((s) => { s.el.style.removeProperty("--p"); s.feeds?.style.removeProperty("--fed"); });
       house?.style.removeProperty("clip-path");
       house?.removeAttribute("data-open");
+      house?.classList.remove("is-visible");
+      house?.querySelector(".proof")?.classList.remove("is-visible");
+      house?.style.removeProperty("--scroll-drift");
+      house?.style.removeProperty("--scroll-glow");
       rows.forEach(({ items }) => items.forEach((item) => item.style.removeProperty("transform")));
       qa(".us-cast__co").forEach((chip) => chip.setAttribute("data-on", ""));
       qa(".us-odo__col").forEach((col, i) => col.style.setProperty("--d", String(digitsOf(10, 2)[i])));

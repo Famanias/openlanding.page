@@ -47,11 +47,11 @@ test.describe("Understudy", () => {
     expect(await clipOf(page)).toMatch(/inset\(0px( 0px)*( round 0px)?/);
     await expect(page.locator("html")).toHaveAttribute("data-us-dock", "dark");
     await expect(page.locator(".us-house__h")).toBeVisible();
-    // the lens rows are placed by script and drift
-    const item = page.locator(".us-house__row").first().locator(".us-house__item").first();
-    const a = await item.getAttribute("style");
+    // the orbit satellites and 3D proof card animate in the dark house
+    const orbiter = page.locator("#orbit-satellite");
+    const cx = await orbiter.getAttribute("cx");
     await page.waitForTimeout(300);
-    expect(await item.getAttribute("style")).not.toBe(a);
+    expect(await orbiter.getAttribute("cx")).not.toBe(cx);
   });
 
   test("the parts ring drifts in an endless loop, holds on hover and pause, drags, and steps", async ({ page }) => {
@@ -233,7 +233,7 @@ test.describe("Understudy", () => {
   test("buttons respond to hover and press", async ({ page }) => {
     await page.goto("/understudy#pricing");
     await toProgress(page, ".us-contract", 1);
-    const cta = page.getByRole("link", { name: "Book your first call time" });
+    const cta = page.locator("#pricing").getByRole("link", { name: "Book your first call time" });
     const fill = () => cta.evaluate((el) => getComputedStyle(el, "::before").transform);
     const rest = await fill();
     await cta.hover();
@@ -264,7 +264,8 @@ test.describe("Understudy with reduced motion", () => {
     }
     await expect(page.locator(".us-cast__co")).toHaveCount(10);
     for (const chip of await page.locator(".us-cast__co").all()) expect(Number(await chip.evaluate((n) => getComputedStyle(n).opacity))).toBe(1);
-    expect(await page.locator(".us-house__item").first().getAttribute("style")).toBeNull();
+    await expect(page.locator(".proof-number")).toHaveText("3,400+");
+    await expect(page.locator(".proof-card-wrap")).toBeVisible();
     // the parts ring doesn't run: a plain row that scrolls natively, and no pause control
     await expect(page.locator(".us-parts__track")).not.toHaveAttribute("data-ring", "on");
     expect(await page.locator(".us-part-slot").first().getAttribute("style")).not.toContain("translate3d");

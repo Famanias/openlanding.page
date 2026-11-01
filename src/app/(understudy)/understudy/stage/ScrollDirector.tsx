@@ -88,6 +88,23 @@ export function ScrollDirector() {
       if (p > 0.2 !== house.hasAttribute("data-open")) house.toggleAttribute("data-open", p > 0.2);
       const foot = t >= 1 ? 0 : 3;
       house.style.clipPath = `inset(${a.top.toFixed(1)}px ${a.right.toFixed(1)}px ${a.bottom.toFixed(1)}px ${a.left.toFixed(1)}px round ${a.radius.toFixed(1)}px ${a.radius.toFixed(1)}px ${foot}px ${foot}px)`;
+      
+      const visible = p >= 0.44;
+      house.classList.toggle("is-visible", visible);
+      const proof = house.querySelector(".proof");
+      if (proof) proof.classList.toggle("is-visible", visible);
+
+      const driftProgress = range(p, 0.46, 0.90);
+      const driftY = (-11 * driftProgress).toFixed(2) + "px";
+      const glowVal = driftProgress.toFixed(4);
+      house.style.setProperty("--scroll-drift", driftY);
+      house.style.setProperty("--scroll-glow", glowVal);
+      const stageEl = house.querySelector<HTMLElement>(".proof-stage");
+      if (stageEl) {
+        stageEl.style.setProperty("--scroll-drift", driftY);
+        stageEl.style.setProperty("--scroll-glow", glowVal);
+      }
+
       runLens();
     };
 
@@ -152,6 +169,10 @@ export function ScrollDirector() {
       scenes.forEach((s) => { s.el.style.removeProperty("--p"); s.feeds?.style.removeProperty("--fed"); });
       house?.style.removeProperty("clip-path");
       house?.removeAttribute("data-open");
+      house?.classList.remove("is-visible");
+      house?.querySelector(".proof")?.classList.remove("is-visible");
+      house?.style.removeProperty("--scroll-drift");
+      house?.style.removeProperty("--scroll-glow");
       rows.forEach(({ items }) => items.forEach((item) => item.style.removeProperty("transform")));
       qa(".us-cast__co").forEach((chip) => chip.setAttribute("data-on", ""));
       qa(".us-odo__col").forEach((col, i) => col.style.setProperty("--d", String(digitsOf(10, 2)[i])));
