@@ -1,22 +1,19 @@
-import type { CSSProperties } from "react";
 import { CueDot } from "../brand/Props";
-import { MaskLine, Reveal } from "../motion/Reveal";
 import { WaveLine, letterCount } from "../motion/WaveLine";
-import { SCENES } from "../rehearsal/scenes";
-import { SceneWindow } from "../rehearsal/Windows";
+import { RehearsalCarousel } from "../rehearsal/RehearsalCarousel";
 
 const LINE = ["Learn", "the", "part", "by", "playing", "it."];
 
 /**
- * The house lights come back up over a dark bowl that flattens as you arrive. The line is held
- * at the top while a cue runs through it, then the four scenes pass beneath it, strung on one
- * line the scroll draws: from the title, across to a rail, through a node beside each scene.
+ * The house lights come back up over a dark bowl that flattens as you arrive.
+ * The signature headline introduces the four acts of rehearsal, organized as an interactive
+ * stage carousel with dedicated act controls and scene navigation.
  */
 export function Rehearsal() {
   return (
     <section className="us-rehearse" id="rehearsal" data-scene="rehearse" data-flow data-line="1" data-tone="light" aria-labelledby="us-rehearse-t">
       <i className="us-bowl" aria-hidden="true" />
-      {/* a measuring strip: the held line can't be measured once stuck, so this feeds its cue progress */}
+      {/* a measuring strip: feeds cue progress to the headline */}
       <i className="us-rehearse__cue" data-scene="wave" data-flow data-line="0.8" data-feeds=".us-rehearse__hold" aria-hidden="true" />
       <div className="us-rehearse__hold">
         <h2 className="us-rehearse__t" id="us-rehearse-t">
@@ -33,27 +30,7 @@ export function Rehearsal() {
           <path d="M600 0C600 112 24 68 24 178" pathLength={1} />
         </svg>
         <i className="us-thread__rail" aria-hidden="true"><b /></i>
-        <ol className="us-scenes">
-          {SCENES.map((s, n) => (
-            <li key={s.id} className="us-sc" style={{ "--i": n } as CSSProperties}>
-              <div className="us-sc__h">
-                <Reveal variant="scale" className="us-sc__node"><i /></Reveal>
-                <div className="us-sc__meta">
-                  <Reveal variant="slide" as="span" className="us-mono us-sc__act">{s.act}</Reveal>
-                  <span className="us-sc__dot" aria-hidden="true">·</span>
-                  <Reveal variant="slide" as="span" className="us-mono us-sc__milestone">{s.milestone}</Reveal>
-                </div>
-                <h3 className="us-sc__t"><MaskLine>{s.lead} <em className="us-cueword">{s.cue}</em></MaskLine></h3>
-                <Reveal as="p" className="us-sc__p" index={1}>{s.body}</Reveal>
-                <Reveal as="blockquote" className="us-sc__quote" index={2}>
-                  <p className="us-sc__quotedir">{s.directorNote}</p>
-                  <cite className="us-mono us-sc__cite">Director Note</cite>
-                </Reveal>
-              </div>
-              <SceneWindow kind={s.id} title={s.window} />
-            </li>
-          ))}
-        </ol>
+        <RehearsalCarousel />
       </div>
     </section>
   );
