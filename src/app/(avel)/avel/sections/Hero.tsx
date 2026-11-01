@@ -1,0 +1,15 @@
+import { Picture } from "../assets";
+import { Logo, Mark } from "../brand/Logo";
+import { companies } from "../brand/companies";
+
+export function Hero() {
+  return <section className="avl-hero" id="top"><Picture assetKey="hero" alt="Sunlit limestone cliffs above a quiet sea" className="avl-hero-image" priority/><div className="avl-hero-wash"/>
+    <header className="avl-header"><a href="#top" aria-label="Avel home"><Logo /></a><nav aria-label="Main navigation"><a href="#models">Our models</a><a href="#how">How it works</a><a href="#stories">Our community</a></nav><a href="#get-started" className="avl-header-cta">Get started <span>↗</span></a></header>
+    <div className="avl-hero-copy"><span className="avl-eyebrow avl-hero-pill"><span>✳</span> A LITTLE MORE IS POSSIBLE</span><h1>More room for<br/><em>good thinking.</em></h1><p>Meet the AI that meets you where you are.<br/>A family of models made to help good ideas go further.</p><a href="#get-started" className="avl-btn avl-btn-dark">Get started <span>↗</span></a><span className="avl-hero-note">A little help for a lot of possibility.</span></div>
+    <div className="avl-hero-bottom"><div className="avl-trust-label">IMAGINED FOR PEOPLE AT</div><div className="avl-belt" role="img" aria-label={`Imagined for people at ${companies.map((company) => company.name).join(", ")}`}><div className="avl-belt-track" aria-hidden="true">{companies.map((company) => <span className={`avl-company-${company.style}`} key={company.name}><i>{company.mark}</i>{company.name}</span>)}</div></div>
+      <div className="avl-product"><aside className="avl-product-side"><div className="avl-product-logo"><Mark/> <strong>avel</strong><span>⌄</span></div><div className="avl-product-new">＋ &nbsp; New conversation <span>↗</span></div><div className="avl-product-side-label">YOUR SPACE</div><div className="avl-side-item active">◌ &nbsp; Good morning, Alex</div><div className="avl-side-item">▧ &nbsp; Brand launch ideas</div><div className="avl-side-item">✧ &nbsp; Things to explore</div><div className="avl-side-bottom"><span className="avl-avatar">A</span><span>Alex Morgan<small>Personal space</small></span><span>⌄</span></div></aside>
+      <div className="avl-product-main"><div className="avl-product-top"><span>Avel Core <small>⌄</small></span><span>◌ &nbsp; ↗</span></div><div className="avl-conversation"><div className="avl-convo-greeting"><span className="avl-model-icon">✳</span><span>YOUR THINKING SPACE</span></div><h2>What shall we<br/><em>think through today?</em></h2><p>Bring the big questions, the small tasks, and everything in between.</p><div className="avl-prompt-box"><span>Ask anything, or start with an idea...</span><span>＋</span><b>↑</b></div><div className="avl-suggestions"><span>✧ &nbsp; Make a plan</span><span>◈ &nbsp; Explore an idea</span><span>✎ &nbsp; Write something</span></div></div><div className="avl-product-foot">Made for the wonderfully curious. <span>✳</span></div></div>
+      <div className="avl-floating-note"><span>✳</span><div><strong>A little more clarity.</strong><small>One good question at a time.</small></div></div></div>
+    </div>
+  </section>;
+}
