@@ -18,6 +18,7 @@ import {
   validateDemoRequest,
 } from '../simulation/validation';
 import { ParallelWorldCanvas } from '../rendering/ParallelWorldCanvas';
+import { DeferredScene } from '../rendering/DeferredScene';
 import {
   WorkflowTwinCanvas,
   ProjectedHubCoord,
@@ -675,7 +676,7 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
           {/* Top spacer for layout balance */}
           <div className="hidden sm:flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.16em] text-[#F6F5F1]/65">
             <span>MERIDIAN METROPOLITAN DIGITAL TWIN</span>
-            <span>LIVE SPATIAL ENGINE // 60HZ</span>
+            <span>LIVE SPATIAL ENGINE</span>
           </div>
 
           {/* Center Monumental Typography & Dual CTAs */}
@@ -1707,6 +1708,7 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
                 >
                   {!(webglFailed || workflowWebglFailed) ? (
                     <>
+                      <DeferredScene>
                       <WorkflowTwinCanvas
                         activeStage={activeHowStep as WorkflowStageIndex}
                         selectedHubId={workflowSelectedHubId}
@@ -1719,6 +1721,7 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
                         onProjectedHubsUpdate={setWorkflowProjectedHubs}
                         onWebGLFailure={() => setWorkflowWebglFailed(true)}
                       />
+                      </DeferredScene>
 
                       {/* Top-Left Studio Scale Metadata Pill (Solid fill, zero backdrop-blur) */}
                       <div className="pointer-events-none absolute top-2.5 left-2.5 right-2.5 z-10 flex items-center justify-between sm:justify-start gap-2">

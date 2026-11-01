@@ -267,6 +267,7 @@ import {
   validateDemoRequest,
 } from '../simulation/validation';
 import { ParallelWorldCanvas } from '../rendering/ParallelWorldCanvas';
+import { DeferredScene } from '../rendering/DeferredScene';
 import {
   WorkflowTwinCanvas,
   ProjectedHubCoord,
@@ -924,7 +925,7 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
           {/* Top spacer for layout balance */}
           <div className="hidden sm:flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.16em] text-[#F6F5F1]/65">
             <span>MERIDIAN METROPOLITAN DIGITAL TWIN</span>
-            <span>LIVE SPATIAL ENGINE // 60HZ</span>
+            <span>LIVE SPATIAL ENGINE</span>
           </div>
 
           {/* Center Monumental Typography & Dual CTAs */}
@@ -1956,6 +1957,7 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
                 >
                   {!(webglFailed || workflowWebglFailed) ? (
                     <>
+                      <DeferredScene>
                       <WorkflowTwinCanvas
                         activeStage={activeHowStep as WorkflowStageIndex}
                         selectedHubId={workflowSelectedHubId}
@@ -1968,6 +1970,7 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
                         onProjectedHubsUpdate={setWorkflowProjectedHubs}
                         onWebGLFailure={() => setWorkflowWebglFailed(true)}
                       />
+                      </DeferredScene>
 
                       {/* Top-Left Studio Scale Metadata Pill (Solid fill, zero backdrop-blur) */}
                       <div className="pointer-events-none absolute top-2.5 left-2.5 right-2.5 z-10 flex items-center justify-between sm:justify-start gap-2">
@@ -3593,6 +3596,29 @@ export const WebGLFallbackView: React.FC = () => {
 };
 ]]>
     </file>
+    <file path="src/app/(parallel)/parallel/rendering/DeferredScene.tsx">
+<![CDATA['use client';
+
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+
+/** Build the below-fold scene only when the visitor approaches it. */
+export function DeferredScene({ children }: { children: ReactNode }) {
+  const container = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (!container.current) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setReady(true);
+      observer.disconnect();
+    }, { rootMargin: '200px 0px' });
+    observer.observe(container.current);
+    return () => observer.disconnect();
+  }, []);
+  return <div ref={container} className="w-full h-full">{ready ? children : null}</div>;
+}
+]]>
+    </file>
     <file path="src/app/(parallel)/parallel/rendering/ParallelWorldCanvas.tsx">
 <![CDATA['use client';
 
@@ -3607,12 +3633,11 @@ import {
   useParallelStore,
 } from '../store/useParallelStore';
 import {
-  BuildingDefinition,
   CityWorldData,
   DistrictId,
-  RoadEdge,
 } from '../world/cityGenerator';
 import { computeModeChoreography, dampValue } from '../simulation/cameraMath';
+import { createBudgetedRenderLoop, disposeSceneResources, getRenderPixelRatio } from './renderBudget';
 
 interface ParallelWorldCanvasProps {
   onWebGLFailure: () => void;
@@ -4330,7 +4355,7 @@ function buildCityArchitectureGroup(
 }
 
 export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.memo(
-  ({ onWebGLFailure }) => {
+  function ParallelWorldCanvas({ onWebGLFailure }) {
     const mountRef = useRef<HTMLDivElement | null>(null);
     const onWebGLFailureRef = useRef(onWebGLFailure);
     onWebGLFailureRef.current = onWebGLFailure;
@@ -4343,8 +4368,7 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
       let isSoftwareGl = false;
       try {
         const probeCanvas = document.createElement('canvas');
-        const gl =
-          probeCanvas.getContext('webgl2') || probeCanvas.getContext('webgl');
+        const gl = probeCanvas.getContext('webgl2', { powerPreference: 'low-power', antialias: false });
         if (!gl) {
           onWebGLFailureRef.current();
           return;
@@ -4364,9 +4388,8 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
       let renderer: THREE.WebGLRenderer;
       try {
         renderer = new THREE.WebGLRenderer({
-          antialias: !isSoftwareGl,
-          powerPreference: 'high-performance',
-          preserveDrawingBuffer: true,
+          antialias: false,
+          powerPreference: 'low-power',
         });
       } catch {
         onWebGLFailureRef.current();
@@ -4380,11 +4403,12 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.35;
       renderer.setPixelRatio(
-        isSoftwareGl ? 1 : Math.min(window.devicePixelRatio || 1, 2)
+        getRenderPixelRatio(getStageWidth(), getStageHeight())
       );
       renderer.setSize(getStageWidth(), getStageHeight());
       renderer.shadowMap.enabled = !isSoftwareGl;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.shadowMap.autoUpdate = false;
 
       renderer.domElement.setAttribute('data-testid', 'parallel-webgl-canvas');
       renderer.domElement.style.display = 'block';
@@ -4406,10 +4430,10 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
       scene.fog = new THREE.FogExp2(0x101315, 0.0052);
 
       const pmremGenerator = new THREE.PMREMGenerator(renderer);
-      scene.environment = pmremGenerator.fromScene(
-        new RoomEnvironment(),
-        0.04
-      ).texture;
+      const roomEnvironment = new RoomEnvironment();
+      const environmentTarget = pmremGenerator.fromScene(roomEnvironment, 0.04);
+      scene.environment = environmentTarget.texture;
+      roomEnvironment.dispose();
       pmremGenerator.dispose();
 
       const camera = new THREE.PerspectiveCamera(
@@ -4438,7 +4462,7 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
     const keyLight = new THREE.DirectionalLight(0xfff3e0, 3.2);
     keyLight.position.set(28, 46, 28);
     keyLight.castShadow = !isSoftwareGl;
-    keyLight.shadow.mapSize.set(1024, 1024);
+    keyLight.shadow.mapSize.set(512, 512);
     keyLight.shadow.camera.near = 5;
     keyLight.shadow.camera.far = 120;
     const d = 42;
@@ -4473,7 +4497,7 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
     scene.add(studioFloor);
 
     // 3. Shared Procedural Textures & Materials
-    const maxAniso = renderer.capabilities.getMaxAnisotropy();
+    const maxAniso = Math.min(2, renderer.capabilities.getMaxAnisotropy());
     const windowTex = createWindowGridTexture(maxAniso);
     const bumpTex = createMicroBumpTexture(maxAniso);
 
@@ -4582,11 +4606,6 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
     }
     scene.add(causalArcGroup);
 
-    // Pre-warm shaders on hardware GPUs
-    if (!isSoftwareGl) {
-      renderer.compile(scene, camera);
-    }
-
       // 6. Pointer Parallax & Raycast Selection
       const raycaster = new THREE.Raycaster();
       const pointerNdc = new THREE.Vector2(0, 0);
@@ -4594,7 +4613,6 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
       let userOrbiting = false;
       let hasManualOrbit = false;
       let lastCameraResetTick = useParallelStore.getState().cameraResetTick;
-      let isHeroInViewport = true;
 
       const handleControlStart = () => {
         userOrbiting = true;
@@ -4695,8 +4713,9 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
         const h = getStageHeight();
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
+        renderer.setPixelRatio(getRenderPixelRatio(w, h));
         renderer.setSize(w, h);
-        renderer.render(scene, camera);
+        renderLoop.requestRender();
       };
       window.addEventListener('resize', onResize);
 
@@ -4708,45 +4727,11 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
         resizeObserver.observe(container);
       }
 
-      let intersectionObserver: IntersectionObserver | null = null;
-      if (typeof IntersectionObserver !== 'undefined') {
-        intersectionObserver = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              isHeroInViewport = entry.isIntersecting;
-            }
-          },
-          { threshold: 0.02 }
-        );
-        intersectionObserver.observe(container);
-      }
-
-      // 7. Animation & Simulation Loop (with Software-WebGL fenceSync guard & offscreen pause)
-      const startTimeMs = performance.now();
-      let prevTimeMs = startTimeMs;
-      let frameId = 0;
+      // 7. Animation & simulation share a capped, visibility-aware scheduler.
+      let elapsed = 0;
+      let lastShadowUpdate = -Infinity;
       let simPlayAccumulator = 0;
       let lastLabelSyncTime = -1;
-
-      function afterDraw(cb: () => void) {
-        const gl = renderer.getContext() as WebGL2RenderingContext;
-        if (gl && typeof gl.fenceSync === 'function') {
-          const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
-          gl.flush();
-          const poll = () => {
-            const status = sync && gl.getSyncParameter(sync, gl.SYNC_STATUS);
-            if (status === gl.UNSIGNALED) {
-              frameId = window.setTimeout(poll, 5);
-            } else {
-              if (sync) gl.deleteSync(sync);
-              frameId = window.setTimeout(cb, 80);
-            }
-          };
-          frameId = window.setTimeout(poll, 5);
-        } else {
-          frameId = window.setTimeout(cb, 80);
-        }
-      }
 
       function updateVehiclesForCity(
         cityObj: ReturnType<typeof buildCityArchitectureGroup>,
@@ -4793,29 +4778,15 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
         cityObj.truckInstanced.instanceMatrix.needsUpdate = true;
       }
 
-      function tick() {
-        const nowMs = performance.now();
-        const dt = Math.min(0.45, Math.max(0.016, (nowMs - prevTimeMs) / 1000));
-        prevTimeMs = nowMs;
-
-        // Suspend unnecessary GPU & simulation work while hero is scrolled offscreen or covered by the warm-white curtain
-        const stCheck = useParallelStore.getState();
-        const isCoveredByCurtain =
-          !stCheck.isStageExpanded &&
-          typeof window !== 'undefined' &&
-          window.scrollY > Math.max(600, window.innerHeight * 0.92);
-        if (!isHeroInViewport || isCoveredByCurtain) {
-          frameId = window.setTimeout(tick, 200);
-          return;
-        }
-
-        const elapsed = (nowMs - startTimeMs) / 1000;
+      function tick(nowMs: number, frameDt: number, reducedMotion: boolean) {
+        const dt = reducedMotion ? 1 : frameDt;
+        if (!reducedMotion) elapsed += dt;
         const st = useParallelStore.getState();
         const isInteractive = st.heroState === 'interactive';
         const effectiveMode = isInteractive ? st.heroMode : 'explore';
 
         // Atmospheric opening sequence: ramp architectural window & street illumination over first ~2.0s
-        const introAwaken = isSoftwareGl
+        const introAwaken = isSoftwareGl || reducedMotion
           ? 1.0
           : Math.min(1.0, 0.35 + (elapsed / 2.0) * 0.65);
         materials.porcelainMat.emissiveIntensity = 0.38 * introAwaken;
@@ -4831,7 +4802,7 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
 
         // Advance simulation playback clock if playing
         if (st.isPlaying) {
-          simPlayAccumulator += dt * 35;
+          simPlayAccumulator += frameDt * 35;
           if (simPlayAccumulator >= 5) {
             const nextMin = st.simTimeMinutes + Math.floor(simPlayAccumulator);
             simPlayAccumulator = 0;
@@ -4860,12 +4831,12 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
 
         // Only allow wheel zoom when expanded fullscreen so normal page wheel scrolling is never hijacked
         controls.enableZoom = st.isStageExpanded;
-        const camLambda = isSoftwareGl ? 16.0 : 5.2;
+        const camLambda = reducedMotion ? 100 : isSoftwareGl ? 16.0 : 5.2;
 
         if (!userOrbiting && !hasManualOrbit) {
           // Subtle living drift + pointer parallax
-          const driftX = Math.sin(elapsed * 0.22) * 0.45;
-          const driftZ = Math.cos(elapsed * 0.18) * 0.35;
+          const driftX = reducedMotion ? 0 : Math.sin(elapsed * 0.22) * 0.45;
+          const driftZ = reducedMotion ? 0 : Math.cos(elapsed * 0.18) * 0.35;
           const px = choreo.pose.position.x + pointerNdc.x * 1.15 + driftX;
           const py = choreo.pose.position.y + pointerNdc.y * 0.65;
           const pz = choreo.pose.position.z + driftZ;
@@ -5056,7 +5027,7 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
         }
 
         // Throttled World-to-Stage projection for anchored HTML labels (<= 8Hz)
-        if (elapsed - lastLabelSyncTime > 0.12) {
+        if (reducedMotion || elapsed - lastLabelSyncTime > 0.12) {
           lastLabelSyncTime = elapsed;
           const stageW = getStageWidth();
           const stageH = getStageHeight();
@@ -5121,29 +5092,43 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
           }
         }
 
-        renderer.render(scene, camera);
-
-        if (isSoftwareGl) {
-          afterDraw(tick);
-        } else {
-          frameId = requestAnimationFrame(tick);
+        if (reducedMotion || nowMs - lastShadowUpdate >= 250) {
+          renderer.shadowMap.needsUpdate = true;
+          lastShadowUpdate = nowMs;
         }
+        renderer.render(scene, camera);
+        return st.isPlaying;
       }
 
-      frameId = requestAnimationFrame(tick);
+      const renderLoop = createBudgetedRenderLoop(container, tick, isSoftwareGl, () =>
+        useParallelStore.getState().isStageExpanded ||
+        window.scrollY <= Math.max(600, window.innerHeight * 0.92),
+        renderer.getContext()
+      );
+      const unsubscribe = useParallelStore.subscribe((next, prev) => {
+        // Projected labels are output of rendering, not an invalidation source.
+        if (next.projectedLabels === prev.projectedLabels) renderLoop.requestRender();
+      });
+      controls.addEventListener('change', renderLoop.requestRender);
+      renderer.domElement.addEventListener('pointermove', renderLoop.requestRender);
 
       return () => {
-        cancelAnimationFrame(frameId);
-        clearTimeout(frameId);
+        renderLoop.dispose();
+        unsubscribe();
         window.removeEventListener('resize', onResize);
         resizeObserver?.disconnect();
-        intersectionObserver?.disconnect();
+        controls.removeEventListener('change', renderLoop.requestRender);
+        renderer.domElement.removeEventListener('pointermove', renderLoop.requestRender);
         renderer.domElement.removeEventListener('pointermove', onPointerMove);
         renderer.domElement.removeEventListener('click', onPointerClick);
         renderer.domElement.removeEventListener('dblclick', onDoubleClick);
         renderer.domElement.removeEventListener('webglcontextlost', handleContextLost);
         controls.dispose();
+        disposeSceneResources(scene, Object.values(materials));
+        environmentTarget.dispose();
         renderer.dispose();
+        renderer.forceContextLoss();
+        renderer.domElement.remove();
       };
     }, []);
 
@@ -5156,6 +5141,140 @@ export const ParallelWorldCanvas: React.FC<ParallelWorldCanvasProps> = React.mem
     );
   }
 );
+]]>
+    </file>
+    <file path="src/app/(parallel)/parallel/rendering/renderBudget.ts">
+<![CDATA[import * as THREE from 'three';
+
+// Independent of monitor refresh rate and devicePixelRatio (including 4K displays).
+export function getRenderPixelRatio(width: number, height: number): number {
+  return Math.min(1, Math.sqrt(1_000_000 / Math.max(1, width * height)));
+}
+
+/** One pending frame at most; no polling or GPU work while hidden/offscreen. */
+export function createBudgetedRenderLoop(
+  container: HTMLElement,
+  draw: (now: number, dt: number, reducedMotion: boolean) => boolean | void,
+  software = false,
+  isVisible: () => boolean = () => true,
+  context?: WebGLRenderingContext | WebGL2RenderingContext,
+) {
+  const gl = context && 'fenceSync' in context ? context : undefined;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const interval = 1000 / (software ? 12 : 24);
+  let inViewport = false;
+  let disposed = false;
+  let frame = 0;
+  let timer = 0;
+  let previous = 0;
+  let lastDraw = -Infinity;
+  let pendingDraw: WebGLSync | null = null;
+
+  const active = () => !disposed && inViewport && !document.hidden && isVisible();
+  const cancel = () => {
+    cancelAnimationFrame(frame);
+    clearTimeout(timer);
+    frame = timer = 0;
+  };
+  const schedule = () => {
+    if (!active() || frame || timer) return;
+    const delay = Math.max(0, interval - (performance.now() - lastDraw));
+    timer = window.setTimeout(() => {
+      timer = 0;
+      if (!active()) return;
+      frame = requestAnimationFrame(tick);
+    }, delay);
+  };
+  const tick = (now: number) => {
+    frame = 0;
+    if (!active()) return;
+    // Timer rounding must never bypass the frame cap on high refresh displays.
+    if (now - lastDraw < interval) {
+      schedule();
+      return;
+    }
+    // Do not enqueue another scene while the GPU is still drawing the last one.
+    if (pendingDraw && gl) {
+      const status = gl.clientWaitSync(pendingDraw, 0, 0);
+      if (status === gl.TIMEOUT_EXPIRED) {
+        lastDraw = now;
+        schedule();
+        return;
+      }
+      gl.deleteSync(pendingDraw);
+      pendingDraw = null;
+    }
+    if (gl?.isContextLost()) return;
+    const dt = previous ? Math.min(0.1, (now - previous) / 1000) : interval / 1000;
+    previous = lastDraw = now;
+    const playing = draw(now, dt, motion.matches);
+    if (!disposed && gl) {
+      pendingDraw = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+      gl.flush();
+    }
+    if (!motion.matches || playing) schedule();
+  };
+  const requestRender = () => {
+    if (!active()) {
+      cancel();
+      previous = 0;
+      return;
+    }
+    schedule();
+  };
+  const onVisibility = () => {
+    previous = 0;
+    requestRender();
+  };
+  const observer = new IntersectionObserver(([entry]) => {
+    inViewport = entry.isIntersecting;
+    onVisibility();
+  }, { threshold: 0 });
+  observer.observe(container);
+  document.addEventListener('visibilitychange', onVisibility);
+  window.addEventListener('scroll', requestRender, { passive: true });
+  motion.addEventListener('change', requestRender);
+
+  return {
+    requestRender,
+    dispose() {
+      disposed = true;
+      cancel();
+      if (pendingDraw && gl) gl.deleteSync(pendingDraw);
+      pendingDraw = null;
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('scroll', requestRender);
+      motion.removeEventListener('change', requestRender);
+    },
+  };
+}
+
+/** Renderer.dispose alone does not release scene-owned GPU allocations. */
+export function disposeSceneResources(scene: THREE.Scene, extraMaterials: THREE.Material[] = []) {
+  const geometries = new Set<THREE.BufferGeometry>();
+  const materials = new Set(extraMaterials);
+  const textures = new Set<THREE.Texture>();
+  scene.traverse((object) => {
+    if (object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Points) {
+      geometries.add(object.geometry);
+      for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+        materials.add(material);
+      }
+    }
+    if (object instanceof THREE.InstancedMesh) object.dispose();
+    if (object instanceof THREE.DirectionalLight) object.shadow.dispose();
+  });
+  for (const material of materials) {
+    for (const value of Object.values(material)) {
+      if (value instanceof THREE.Texture) textures.add(value);
+    }
+    material.dispose();
+  }
+  geometries.forEach((geometry) => geometry.dispose());
+  textures.forEach((texture) => texture.dispose());
+  scene.clear();
+}
 ]]>
     </file>
     <file path="src/app/(parallel)/parallel/rendering/WorkflowTwinCanvas.tsx">
@@ -5173,6 +5292,7 @@ import {
   computeWorkflowStageChoreography,
 } from '../simulation/workflowTwinMath';
 import { dampValue } from '../simulation/cameraMath';
+import { createBudgetedRenderLoop, disposeSceneResources, getRenderPixelRatio } from './renderBudget';
 
 export interface ProjectedHubCoord {
   x: number;
@@ -5335,6 +5455,8 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
 
   const onProjectedHubsUpdateRef = useRef(onProjectedHubsUpdate);
   onProjectedHubsUpdateRef.current = onProjectedHubsUpdate;
+  const onWebGLFailureRef = useRef(onWebGLFailure);
+  onWebGLFailureRef.current = onWebGLFailure;
 
   const resetCameraFnRef = useRef<(() => void) | null>(null);
   const replayAssemblyFnRef = useRef<(() => void) | null>(null);
@@ -5365,18 +5487,19 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        powerPreference: 'high-performance',
+        antialias: false,
+        powerPreference: 'low-power',
         alpha: false,
       });
     } catch {
-      onWebGLFailure();
+      onWebGLFailureRef.current();
       return;
     }
 
     const gl = renderer.getContext();
     if (!gl) {
-      onWebGLFailure();
+      renderer.dispose();
+      onWebGLFailureRef.current();
       return;
     }
 
@@ -5390,14 +5513,16 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     const height = Math.max(280, container.clientHeight || 440);
 
     renderer.setSize(width, height);
-    renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(getRenderPixelRatio(width, height));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.06;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.shadowMap.enabled = !isSoftwareGl;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.autoUpdate = false;
 
     container.innerHTML = '';
+    renderer.domElement.setAttribute('data-testid', 'workflow-webgl-canvas');
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.display = 'block';
@@ -5406,7 +5531,7 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
 
     const onContextLost = (e: Event) => {
       e.preventDefault();
-      onWebGLFailure();
+      onWebGLFailureRef.current();
     };
     renderer.domElement.addEventListener('webglcontextlost', onContextLost);
 
@@ -5478,7 +5603,7 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     keyLight.position.set(11, 17, 12);
     if (!isSoftwareGl) {
       keyLight.castShadow = true;
-      keyLight.shadow.mapSize.set(1024, 1024);
+      keyLight.shadow.mapSize.set(512, 512);
       keyLight.shadow.camera.near = 2;
       keyLight.shadow.camera.far = 38;
       const d = 10.5;
@@ -6162,10 +6287,6 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     const pointPos = new THREE.Vector3();
     const tangentVec = new THREE.Vector3();
 
-    if (!isSoftwareGl) {
-      renderer.compile(scene, camera);
-    }
-
     // Raycasting setup for Hub Hover & Click
     const raycaster = new THREE.Raycaster();
     const pointerNdc = new THREE.Vector2();
@@ -6225,20 +6346,13 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
       const h = Math.max(280, container.clientHeight || 440);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
+      renderer.setPixelRatio(getRenderPixelRatio(w, h));
       renderer.setSize(w, h);
+      renderLoop.requestRender();
     };
     window.addEventListener('resize', onResize);
-
-    let isInViewport = true;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]) {
-          isInViewport = entries[0].isIntersecting;
-        }
-      },
-      { rootMargin: '160px 0px' }
-    );
-    observer.observe(container);
+    const resizeObserver = new ResizeObserver(onResize);
+    resizeObserver.observe(container);
 
     let assemblyClock = 0;
     let lastObservedStage = activeStageRef.current;
@@ -6252,11 +6366,8 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
       assemblyClock = 0;
     };
 
-    let rafId = 0;
-    let timeoutId = 0;
-    let disposed = false;
     let elapsed = 0;
-    let lastFrameTime = performance.now();
+    let lastShadowUpdate = -Infinity;
     let lastProjectionTime = 0;
     let lastProjectedCache: Record<string, ProjectedHubCoord> = {};
     const scratchProj = new THREE.Vector3();
@@ -6271,53 +6382,13 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     let smoothedResolvedAlpha = initialChoreo.resolvedPathAlpha;
     let smoothedDisruption = initialChoreo.bridgeDisrupted ? 1 : 0;
 
-    function afterDraw(cb: () => void) {
-      if (typeof (gl as WebGL2RenderingContext).fenceSync === 'function') {
-        const gl2 = gl as WebGL2RenderingContext;
-        const sync = gl2.fenceSync(gl2.SYNC_GPU_COMMANDS_COMPLETE, 0);
-        gl2.flush();
-        const poll = () => {
-          if (disposed) return;
-          if (!sync) {
-            cb();
-            return;
-          }
-          const status = gl2.clientWaitSync(sync, 0, 0);
-          if (
-            status === gl2.ALREADY_SIGNALED ||
-            status === gl2.CONDITION_SATISFIED
-          ) {
-            gl2.deleteSync(sync);
-            cb();
-          } else {
-            timeoutId = window.setTimeout(poll, 6);
-          }
-        };
-        timeoutId = window.setTimeout(poll, 6);
-      } else {
-        cb();
-      }
-    }
-
-    const tick = () => {
-      if (disposed) return;
-
-      const now = performance.now();
-      const dt = Math.min(0.1, Math.max(0.001, (now - lastFrameTime) / 1000));
-      lastFrameTime = now;
-
-      if (!isInViewport) {
-        timeoutId = window.setTimeout(() => {
-          rafId = requestAnimationFrame(tick);
-        }, 140);
-        return;
-      }
-
-      elapsed += dt;
-      assemblyClock += dt;
+    const tick = (now: number, frameDt: number, reducedMotion: boolean) => {
+      const dt = reducedMotion ? 1 : frameDt;
+      if (!reducedMotion) elapsed += dt;
+      assemblyClock = reducedMotion ? 10 : assemblyClock + dt;
 
       if (lastObservedStage !== activeStageRef.current) {
-        if (activeStageRef.current === 0) {
+        if (activeStageRef.current === 0 && !reducedMotion) {
           assemblyClock = 0.15;
         }
         userOrbitHoldTimer = 0;
@@ -6575,6 +6646,10 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
         }
       }
 
+      if (reducedMotion || now - lastShadowUpdate >= 250) {
+        renderer.shadowMap.needsUpdate = true;
+        lastShadowUpdate = now;
+      }
       renderer.render(scene, camera);
 
       // Project 3D Hub World Anchors to 2D Screen Coordinates (only notify React if coordinates moved >= 2px)
@@ -6621,54 +6696,34 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
         }
       }
 
-      if (isSoftwareGl) {
-        const camSettled =
-          Math.abs(camera.position.x - choreo.cameraPosition.x) < 0.08 &&
-          Math.abs(camera.position.y - choreo.cameraPosition.y) < 0.08 &&
-          Math.abs(camera.position.z - choreo.cameraPosition.z) < 0.08 &&
-          assemblyClock > 1.3 &&
-          !userInteracting;
-        const delayMs = camSettled ? 240 : 40;
-        afterDraw(() => {
-          if (!disposed) {
-            timeoutId = window.setTimeout(() => {
-              rafId = requestAnimationFrame(tick);
-            }, delayMs);
-          }
-        });
-      } else {
-        rafId = requestAnimationFrame(tick);
-      }
     };
 
-    wakeUpLoopFnRef.current = () => {
-      if (disposed || !isInViewport) return;
-      clearTimeout(timeoutId);
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(tick);
-    };
-
-    rafId = requestAnimationFrame(tick);
+    const renderLoop = createBudgetedRenderLoop(container, tick, isSoftwareGl, undefined, gl);
+    wakeUpLoopFnRef.current = renderLoop.requestRender;
+    controls.addEventListener('change', renderLoop.requestRender);
 
     return () => {
-      disposed = true;
-      cancelAnimationFrame(rafId);
-      clearTimeout(timeoutId);
-      observer.disconnect();
+      renderLoop.dispose();
+      wakeUpLoopFnRef.current = null;
+      resetCameraFnRef.current = null;
+      replayAssemblyFnRef.current = null;
+      resizeObserver.disconnect();
       window.removeEventListener('resize', onResize);
       controls.removeEventListener('start', onControlStart);
       controls.removeEventListener('end', onControlEnd);
+      controls.removeEventListener('change', renderLoop.requestRender);
       controls.dispose();
       renderer.domElement.removeEventListener('pointerdown', onPointerDown);
       renderer.domElement.removeEventListener('pointermove', onPointerMove);
       renderer.domElement.removeEventListener('pointerup', onPointerUp);
       renderer.domElement.removeEventListener('webglcontextlost', onContextLost);
       envTarget.dispose();
-      bumpTex.dispose();
-      shadowDiscTex.dispose();
+      disposeSceneResources(scene);
       renderer.dispose();
+      renderer.forceContextLoss();
+      renderer.domElement.remove();
     };
-  }, [onWebGLFailure]);
+  }, []);
 
   return (
     <div

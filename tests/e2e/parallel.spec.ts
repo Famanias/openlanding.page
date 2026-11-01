@@ -1,5 +1,8 @@
 import { test, expect } from "@playwright/test";
 
+// Keep the host GPU out of WebGL regression runs.
+test.use({ launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--disable-gpu'] } });
+
 test("renders the page, title, header, hero and main landmarks", async ({ page }) => {
   await page.goto("/parallel");
 
@@ -18,12 +21,12 @@ test("renders the page, title, header, hero and main landmarks", async ({ page }
   await exploreBtn.click();
 
   // Verify interactive chapter navigation appears
-  await expect(page.getByRole("button", { name: /01\s+Explore/i })).toBeVisible();
-  await expect(page.getByRole("button", { name: /02\s+Systems/i })).toBeVisible();
-  await expect(page.getByRole("button", { name: /03\s+Disrupt/i })).toBeVisible();
-  await expect(page.getByRole("button", { name: /04\s+Simulate/i })).toBeVisible();
-  await expect(page.getByRole("button", { name: /05\s+Explain/i })).toBeVisible();
-  await expect(page.getByRole("button", { name: /06\s+Outcome/i })).toBeVisible();
+  await expect(page.getByRole("tab", { name: /01\s+Explore/i })).toBeVisible();
+  await expect(page.getByRole("tab", { name: /02\s+Systems/i })).toBeVisible();
+  await expect(page.getByRole("tab", { name: /03\s+Disrupt/i })).toBeVisible();
+  await expect(page.getByRole("tab", { name: /04\s+Simulate/i })).toBeVisible();
+  await expect(page.getByRole("tab", { name: /05\s+Explain/i })).toBeVisible();
+  await expect(page.getByRole("tab", { name: /06\s+Outcome/i })).toBeVisible();
 
   // Verify request demo section landmark exists
   await expect(page.locator("#request-demo")).toBeVisible();

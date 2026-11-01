@@ -12,6 +12,7 @@ import {
   computeWorkflowStageChoreography,
 } from '../simulation/workflowTwinMath';
 import { dampValue } from '../simulation/cameraMath';
+import { createBudgetedRenderLoop, disposeSceneResources, getRenderPixelRatio } from './renderBudget';
 
 export interface ProjectedHubCoord {
   x: number;
@@ -174,6 +175,8 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
 
   const onProjectedHubsUpdateRef = useRef(onProjectedHubsUpdate);
   onProjectedHubsUpdateRef.current = onProjectedHubsUpdate;
+  const onWebGLFailureRef = useRef(onWebGLFailure);
+  onWebGLFailureRef.current = onWebGLFailure;
 
   const resetCameraFnRef = useRef<(() => void) | null>(null);
   const replayAssemblyFnRef = useRef<(() => void) | null>(null);
@@ -204,18 +207,19 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        powerPreference: 'high-performance',
+        antialias: false,
+        powerPreference: 'low-power',
         alpha: false,
       });
     } catch {
-      onWebGLFailure();
+      onWebGLFailureRef.current();
       return;
     }
 
     const gl = renderer.getContext();
     if (!gl) {
-      onWebGLFailure();
+      renderer.dispose();
+      onWebGLFailureRef.current();
       return;
     }
 
@@ -229,14 +233,16 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     const height = Math.max(280, container.clientHeight || 440);
 
     renderer.setSize(width, height);
-    renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(getRenderPixelRatio(width, height));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.06;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.shadowMap.enabled = !isSoftwareGl;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.autoUpdate = false;
 
     container.innerHTML = '';
+    renderer.domElement.setAttribute('data-testid', 'workflow-webgl-canvas');
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.display = 'block';
@@ -245,7 +251,7 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
 
     const onContextLost = (e: Event) => {
       e.preventDefault();
-      onWebGLFailure();
+      onWebGLFailureRef.current();
     };
     renderer.domElement.addEventListener('webglcontextlost', onContextLost);
 
@@ -317,7 +323,7 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     keyLight.position.set(11, 17, 12);
     if (!isSoftwareGl) {
       keyLight.castShadow = true;
-      keyLight.shadow.mapSize.set(1024, 1024);
+      keyLight.shadow.mapSize.set(512, 512);
       keyLight.shadow.camera.near = 2;
       keyLight.shadow.camera.far = 38;
       const d = 10.5;
@@ -1001,10 +1007,6 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     const pointPos = new THREE.Vector3();
     const tangentVec = new THREE.Vector3();
 
-    if (!isSoftwareGl) {
-      renderer.compile(scene, camera);
-    }
-
     // Raycasting setup for Hub Hover & Click
     const raycaster = new THREE.Raycaster();
     const pointerNdc = new THREE.Vector2();
@@ -1064,20 +1066,13 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
       const h = Math.max(280, container.clientHeight || 440);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
+      renderer.setPixelRatio(getRenderPixelRatio(w, h));
       renderer.setSize(w, h);
+      renderLoop.requestRender();
     };
     window.addEventListener('resize', onResize);
-
-    let isInViewport = true;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]) {
-          isInViewport = entries[0].isIntersecting;
-        }
-      },
-      { rootMargin: '160px 0px' }
-    );
-    observer.observe(container);
+    const resizeObserver = new ResizeObserver(onResize);
+    resizeObserver.observe(container);
 
     let assemblyClock = 0;
     let lastObservedStage = activeStageRef.current;
@@ -1091,11 +1086,8 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
       assemblyClock = 0;
     };
 
-    let rafId = 0;
-    let timeoutId = 0;
-    let disposed = false;
     let elapsed = 0;
-    let lastFrameTime = performance.now();
+    let lastShadowUpdate = -Infinity;
     let lastProjectionTime = 0;
     let lastProjectedCache: Record<string, ProjectedHubCoord> = {};
     const scratchProj = new THREE.Vector3();
@@ -1110,53 +1102,13 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
     let smoothedResolvedAlpha = initialChoreo.resolvedPathAlpha;
     let smoothedDisruption = initialChoreo.bridgeDisrupted ? 1 : 0;
 
-    function afterDraw(cb: () => void) {
-      if (typeof (gl as WebGL2RenderingContext).fenceSync === 'function') {
-        const gl2 = gl as WebGL2RenderingContext;
-        const sync = gl2.fenceSync(gl2.SYNC_GPU_COMMANDS_COMPLETE, 0);
-        gl2.flush();
-        const poll = () => {
-          if (disposed) return;
-          if (!sync) {
-            cb();
-            return;
-          }
-          const status = gl2.clientWaitSync(sync, 0, 0);
-          if (
-            status === gl2.ALREADY_SIGNALED ||
-            status === gl2.CONDITION_SATISFIED
-          ) {
-            gl2.deleteSync(sync);
-            cb();
-          } else {
-            timeoutId = window.setTimeout(poll, 6);
-          }
-        };
-        timeoutId = window.setTimeout(poll, 6);
-      } else {
-        cb();
-      }
-    }
-
-    const tick = () => {
-      if (disposed) return;
-
-      const now = performance.now();
-      const dt = Math.min(0.1, Math.max(0.001, (now - lastFrameTime) / 1000));
-      lastFrameTime = now;
-
-      if (!isInViewport) {
-        timeoutId = window.setTimeout(() => {
-          rafId = requestAnimationFrame(tick);
-        }, 140);
-        return;
-      }
-
-      elapsed += dt;
-      assemblyClock += dt;
+    const tick = (now: number, frameDt: number, reducedMotion: boolean) => {
+      const dt = reducedMotion ? 1 : frameDt;
+      if (!reducedMotion) elapsed += dt;
+      assemblyClock = reducedMotion ? 10 : assemblyClock + dt;
 
       if (lastObservedStage !== activeStageRef.current) {
-        if (activeStageRef.current === 0) {
+        if (activeStageRef.current === 0 && !reducedMotion) {
           assemblyClock = 0.15;
         }
         userOrbitHoldTimer = 0;
@@ -1414,6 +1366,10 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
         }
       }
 
+      if (reducedMotion || now - lastShadowUpdate >= 250) {
+        renderer.shadowMap.needsUpdate = true;
+        lastShadowUpdate = now;
+      }
       renderer.render(scene, camera);
 
       // Project 3D Hub World Anchors to 2D Screen Coordinates (only notify React if coordinates moved >= 2px)
@@ -1460,54 +1416,34 @@ export const WorkflowTwinCanvas: React.FC<WorkflowTwinCanvasProps> = ({
         }
       }
 
-      if (isSoftwareGl) {
-        const camSettled =
-          Math.abs(camera.position.x - choreo.cameraPosition.x) < 0.08 &&
-          Math.abs(camera.position.y - choreo.cameraPosition.y) < 0.08 &&
-          Math.abs(camera.position.z - choreo.cameraPosition.z) < 0.08 &&
-          assemblyClock > 1.3 &&
-          !userInteracting;
-        const delayMs = camSettled ? 240 : 40;
-        afterDraw(() => {
-          if (!disposed) {
-            timeoutId = window.setTimeout(() => {
-              rafId = requestAnimationFrame(tick);
-            }, delayMs);
-          }
-        });
-      } else {
-        rafId = requestAnimationFrame(tick);
-      }
     };
 
-    wakeUpLoopFnRef.current = () => {
-      if (disposed || !isInViewport) return;
-      clearTimeout(timeoutId);
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(tick);
-    };
-
-    rafId = requestAnimationFrame(tick);
+    const renderLoop = createBudgetedRenderLoop(container, tick, isSoftwareGl, undefined, gl);
+    wakeUpLoopFnRef.current = renderLoop.requestRender;
+    controls.addEventListener('change', renderLoop.requestRender);
 
     return () => {
-      disposed = true;
-      cancelAnimationFrame(rafId);
-      clearTimeout(timeoutId);
-      observer.disconnect();
+      renderLoop.dispose();
+      wakeUpLoopFnRef.current = null;
+      resetCameraFnRef.current = null;
+      replayAssemblyFnRef.current = null;
+      resizeObserver.disconnect();
       window.removeEventListener('resize', onResize);
       controls.removeEventListener('start', onControlStart);
       controls.removeEventListener('end', onControlEnd);
+      controls.removeEventListener('change', renderLoop.requestRender);
       controls.dispose();
       renderer.domElement.removeEventListener('pointerdown', onPointerDown);
       renderer.domElement.removeEventListener('pointermove', onPointerMove);
       renderer.domElement.removeEventListener('pointerup', onPointerUp);
       renderer.domElement.removeEventListener('webglcontextlost', onContextLost);
       envTarget.dispose();
-      bumpTex.dispose();
-      shadowDiscTex.dispose();
+      disposeSceneResources(scene);
       renderer.dispose();
+      renderer.forceContextLoss();
+      renderer.domElement.remove();
     };
-  }, [onWebGLFailure]);
+  }, []);
 
   return (
     <div
