@@ -53,6 +53,17 @@ Scene colours in `src/app/(loam)/loam/scene/` are exempt as content colours.
 - Keyboard inspect: Dedicated accessible button in overlay UI; Enter enters inspect mode, arrow keys rotate specimen, Escape exits.
 - Time-of-day slider: Synchronizes sun elevation angle, color temperature, tone mapping exposure, and CSS custom properties across 0.0 (dusk) to 1.0 (midday).
 
+## Rendering budget
+
+Lenis and chapter UI update independently of GPU submission. The scene targets
+60 fps during scrolling/inspection and 18 fps at rest (12/4 on software WebGL),
+with one GPU frame in flight. Render at most one million pixels at pixel ratio
+1 or below; lower resolution to 65% under sustained GPU pressure. Suspend the
+loop while the document is hidden. Use a low-power context, skip bloom outside
+the underground glow, render bloom at half resolution, and refresh hardware
+shadows at most ten times per second. Release scene resources and postprocessing
+targets on unmount. These limits preserve native-resolution HTML and controls.
+
 ## Motion
 
 - **Personality:** organic, subterranean, reverent, grounded.

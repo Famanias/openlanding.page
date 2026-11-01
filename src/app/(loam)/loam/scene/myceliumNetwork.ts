@@ -19,6 +19,7 @@ export interface BuiltMyceliumNetwork {
     elapsedSec: number,
     onReachMushroom: (mushroomIndex: number) => void,
   ) => void;
+  dispose: () => void;
 }
 
 /**
@@ -224,7 +225,7 @@ export function buildMyceliumNetworkScene(
   hitPlane.position.y = -1.5;
   group.add(hitPlane);
 
-  const scheduledTimeouts: number[] = [];
+  const scheduledTimeouts = new Set<number>();
 
   const updateNetwork = (params: {
     growth: number;
@@ -261,9 +262,10 @@ export function buildMyceliumNetworkScene(
       );
       const delayMs = Math.max(60, (dist / 6.8) * 1000);
       const tid = window.setTimeout(() => {
+        scheduledTimeouts.delete(tid);
         onReachMushroom(m.index);
       }, delayMs);
-      scheduledTimeouts.push(tid);
+      scheduledTimeouts.add(tid);
     }
   };
 
@@ -273,5 +275,9 @@ export function buildMyceliumNetworkScene(
     hitPlane,
     updateNetwork,
     triggerPulseAt,
+    dispose: () => {
+      scheduledTimeouts.forEach(id => window.clearTimeout(id));
+      scheduledTimeouts.clear();
+    },
   };
 }

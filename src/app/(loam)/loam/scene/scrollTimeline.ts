@@ -34,6 +34,7 @@ export function createScrollController(params: {
   let isPaused = false;
   let snapTimeoutId: number | null = null;
   let isProgrammaticScroll = false;
+  let programmaticTargetProgress = 0;
 
   const lenis = new Lenis({
     lerp: 0.09,
@@ -86,6 +87,7 @@ export function createScrollController(params: {
     const clamped = clamp01(targetProgress);
     const targetY = clamped * getMaxScrollPx();
     isProgrammaticScroll = true;
+    programmaticTargetProgress = clamped;
     if (snapTimeoutId !== null) {
       window.clearTimeout(snapTimeoutId);
       snapTimeoutId = null;
@@ -120,7 +122,10 @@ export function createScrollController(params: {
 
   const stepChapter = (direction: 1 | -1) => {
     if (isPaused || params.isInspectLocked()) return;
-    const nextProgress = getNextChapterProgress(masterProgress, direction);
+    const nextProgress = getNextChapterProgress(
+      isProgrammaticScroll ? programmaticTargetProgress : masterProgress,
+      direction,
+    );
     scrollToProgress(nextProgress, false);
   };
 

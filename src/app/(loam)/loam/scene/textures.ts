@@ -42,7 +42,7 @@ function configureTexture(
  * and projects `mushroom-from-above_90ef6842.png` onto the cap top albedo when loaded.
  */
 export function createProceduralTextures(renderer: THREE.WebGLRenderer): ProceduralTextureSet {
-  const maxAniso = Math.min(8, renderer.capabilities.getMaxAnisotropy() || 1);
+  const maxAniso = Math.min(2, renderer.capabilities.getMaxAnisotropy() || 1);
   const rand = createSeededRandom(7319);
 
   // 1. Stem snakeskin banding texture (Macrolepiota procera characteristic broken horizontal chevron bands on warm cream)

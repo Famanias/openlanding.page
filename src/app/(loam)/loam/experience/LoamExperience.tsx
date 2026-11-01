@@ -39,6 +39,7 @@ import {
   type SoundController,
 } from '../scene/soundSynth';
 import { OverlayUI } from '../components/OverlayUI';
+import { createRenderBudget } from '../scene/renderBudget';
 
 const _tempVecA = new THREE.Vector3();
 const _tempVecB = new THREE.Vector3();
@@ -85,6 +86,7 @@ export function LoamExperience() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [sunlight, setSunlight] = useState<number>(DEFAULT_SUNLIGHT);
   const targetSunlightRef = useRef<number>(DEFAULT_SUNLIGHT);
+  const markActiveRef = useRef<() => void>(() => {});
 
   const scrollControllerRef = useRef<ScrollController | null>(null);
   const inspectControllerRef = useRef<ReturnType<
@@ -96,6 +98,7 @@ export function LoamExperience() {
     const clamped = Math.max(0, Math.min(1, nextValue));
     targetSunlightRef.current = clamped;
     setSunlight(clamped);
+    markActiveRef.current();
     if (!webglActive) {
       applyRootSunlightCssVars(clamped);
     }
@@ -121,14 +124,24 @@ export function LoamExperience() {
     setWebglActive(true);
 
     const { renderer, scene, camera } = stack;
+    const renderBudget = createRenderBudget(renderer.getContext());
+    let disposed = false;
+    let frameId = 0;
+    let activeUntil = performance.now() + 1000;
+    let forceInstantNextFrame = true;
+    let stopExperience = () => {};
+    const markActive = () => { activeUntil = performance.now() + 800; };
+    markActiveRef.current = markActive;
 
     // Handle context loss
-    renderer.domElement.addEventListener('webglcontextlost', (e) => {
+    const handleContextLost = (e: Event) => {
       e.preventDefault();
+      stopExperience();
       document.documentElement.dataset.loamMode = 'specimen';
       document.getElementById('loam-specimen-root')?.removeAttribute('inert');
       setWebglActive(false);
-    });
+    };
+    renderer.domElement.addEventListener('webglcontextlost', handleContextLost);
 
     const textures = createProceduralTextures(renderer);
 
@@ -176,9 +189,6 @@ export function LoamExperience() {
     const trayModel = buildPackagingTray(textures, 505);
     trayPivot.add(trayModel.group);
 
-    // Pre-warm shaders
-    renderer.compile(scene, camera);
-
     const soundCtrl = createSoundController();
     soundControllerRef.current = soundCtrl;
 
@@ -186,6 +196,7 @@ export function LoamExperience() {
     let currentChapterState = getChapterStateAtProgress(0);
     const pointerWorld = new THREE.Vector3(0, -999, 0);
     const timer = new THREE.Timer();
+    timer.connect(document);
 
     // Initialize Hold-to-Inspect controller
     const inspectCtrl = createInspectController({
@@ -228,6 +239,7 @@ export function LoamExperience() {
     const scrollCtrl = createScrollController({
       scrollTrackElement: scrollTrack,
       onProgressUpdate: (prog) => {
+        if (Math.abs(currentMasterProgress - prog) > 0.00001) markActive();
         currentMasterProgress = prog;
       },
       isInspectLocked: () => inspectCtrl.getState().phase === 'inspecting',
@@ -243,17 +255,16 @@ export function LoamExperience() {
     let smoothedSunlight = targetSunlightRef.current;
     let lastAppliedSunlight = -1;
     let lastSyncedProgress = -1;
+    let lastSceneProgress = -1;
     let lastSyncedInspectPhase = '';
+    let lastChapterSyncMs = -Infinity;
 
-    let frameId = 0;
     let lastUiSyncMs = 0;
 
     const renderSingleStep = (nowMs: number, forceInstant = false) => {
       timer.update(nowMs);
       const dtSec = Math.min(0.1, timer.getDelta());
       const elapsedSec = timer.getElapsed();
-
-      scrollCtrl.tickLenis(nowMs);
 
       const dampFactor = forceInstant
         ? 1
@@ -378,10 +389,10 @@ export function LoamExperience() {
         currentChapterState.foxfireGlowFade,
       );
 
-      stack.renderFrame();
-
       const progressChanged =
-        Math.abs(currentMasterProgress - lastSyncedProgress) > 0.0004;
+        Math.abs(currentMasterProgress - lastSceneProgress) > 0.0004;
+      stack.renderFrame(progressChanged || inspectState.phase !== 'idle');
+      lastSceneProgress = currentMasterProgress;
       const inspectChanged =
         inspectState.phase !== lastSyncedInspectPhase ||
         inspectState.phase !== 'idle';
@@ -392,61 +403,109 @@ export function LoamExperience() {
           nowMs - lastUiSyncMs > (inspectState.phase !== 'idle' ? 28 : 60))
       ) {
         lastUiSyncMs = nowMs;
-        lastSyncedProgress = currentMasterProgress;
         lastSyncedInspectPhase = inspectState.phase;
-        setChapterState(currentChapterState);
         setInspectUI(inspectCtrl.getUIFrameState());
       }
     };
 
     const tick = (nowMs: number) => {
-      frameId = requestAnimationFrame(tick);
-      renderSingleStep(nowMs, false);
+      frameId = 0;
+      if (disposed || document.hidden) return;
+      // Lenis runs at the display's refresh rate, even when 3D frames are skipped.
+      scrollCtrl.tickLenis(nowMs);
+      // Headings, chapter buttons and scroll reveals must not wait on the GPU.
+      if (Math.abs(currentMasterProgress - lastSyncedProgress) > 0.0004 && nowMs - lastChapterSyncMs >= 1000 / 60) {
+        lastChapterSyncMs = nowMs;
+        lastSyncedProgress = currentMasterProgress;
+        currentChapterState = getChapterStateAtProgress(currentMasterProgress);
+        setChapterState(currentChapterState);
+      }
+      const active = nowMs < activeUntil || inspectCtrl.getState().phase !== 'idle';
+      if (renderBudget.shouldRender(nowMs, active)) {
+        stack.setResolutionScale(renderBudget.resolutionScale);
+        renderSingleStep(nowMs, forceInstantNextFrame);
+        forceInstantNextFrame = false;
+        renderBudget.submitted();
+      }
+      if (!disposed) frameId = requestAnimationFrame(tick);
+    };
+
+    const requestInstantFrame = () => {
+      forceInstantNextFrame = true;
+      markActive();
     };
 
     (window as unknown as Record<string, unknown>).__LOAM_TEST__ = {
       setProgress: (prog: number) => {
         scrollCtrl.scrollToProgress(prog, true);
         currentMasterProgress = prog;
-        renderSingleStep(performance.now(), true);
+        requestInstantFrame();
       },
       setSunlight: (sun: number) => {
         const clamped = Math.max(0, Math.min(1, sun));
         targetSunlightRef.current = clamped;
         smoothedSunlight = clamped;
         setSunlight(clamped);
-        renderSingleStep(performance.now(), true);
+        requestInstantFrame();
       },
       triggerInspect: (target: InspectableObjectId) => {
         inspectCtrl.triggerKeyboardInspect(target);
-        renderSingleStep(performance.now(), true);
+        requestInstantFrame();
       },
       exitInspect: () => {
         inspectCtrl.exitInspect();
-        renderSingleStep(performance.now(), true);
+        requestInstantFrame();
       },
     };
 
     const handleResize = () => {
       stack.resize(window.innerWidth, window.innerHeight);
+      markActive();
     };
     window.addEventListener('resize', handleResize);
-
-    renderSingleStep(performance.now(), true);
-    frameId = requestAnimationFrame(tick);
-
-    return () => {
+    const onPointerMove = () => {
+      if (currentChapterState.activeChapterIndex === 3 || inspectCtrl.getState().phase !== 'idle') markActive();
+    };
+    window.addEventListener('pointerdown', markActive, { passive: true });
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    const onVisibilityChange = () => {
       cancelAnimationFrame(frameId);
+      frameId = 0;
+      if (!document.hidden && !disposed) {
+        renderBudget.resetClock();
+        markActive();
+        frameId = requestAnimationFrame(tick);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    onVisibilityChange();
+
+    const cleanup = () => {
+      if (disposed) return;
+      disposed = true;
+      cancelAnimationFrame(frameId);
+      renderBudget.dispose();
+      markActiveRef.current = () => {};
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('pointerdown', markActive);
+      window.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      renderer.domElement.removeEventListener('webglcontextlost', handleContextLost);
       document.documentElement.dataset.loamMode = 'specimen';
       document.getElementById('loam-specimen-root')?.removeAttribute('inert');
       delete (window as unknown as Record<string, unknown>).__LOAM_TEST__;
       inspectCtrl.dispose();
       scrollCtrl.dispose();
       soundCtrl.dispose();
+      myceliumNetwork.dispose();
       stack.dispose();
       timer.dispose();
+      scrollControllerRef.current = null;
+      inspectControllerRef.current = null;
+      soundControllerRef.current = null;
     };
+    stopExperience = cleanup;
+    return cleanup;
   }, [canMount]);
 
   // If reduced-motion is requested or WebGL is unsupported, the 3D engine never mounts.

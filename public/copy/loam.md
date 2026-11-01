@@ -1773,6 +1773,7 @@ import {
   type SoundController,
 } from '../scene/soundSynth';
 import { OverlayUI } from '../components/OverlayUI';
+import { createRenderBudget } from '../scene/renderBudget';
 
 const _tempVecA = new THREE.Vector3();
 const _tempVecB = new THREE.Vector3();
@@ -1819,6 +1820,7 @@ export function LoamExperience() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [sunlight, setSunlight] = useState<number>(DEFAULT_SUNLIGHT);
   const targetSunlightRef = useRef<number>(DEFAULT_SUNLIGHT);
+  const markActiveRef = useRef<() => void>(() => {});
 
   const scrollControllerRef = useRef<ScrollController | null>(null);
   const inspectControllerRef = useRef<ReturnType<
@@ -1830,6 +1832,7 @@ export function LoamExperience() {
     const clamped = Math.max(0, Math.min(1, nextValue));
     targetSunlightRef.current = clamped;
     setSunlight(clamped);
+    markActiveRef.current();
     if (!webglActive) {
       applyRootSunlightCssVars(clamped);
     }
@@ -1855,14 +1858,24 @@ export function LoamExperience() {
     setWebglActive(true);
 
     const { renderer, scene, camera } = stack;
+    const renderBudget = createRenderBudget(renderer.getContext());
+    let disposed = false;
+    let frameId = 0;
+    let activeUntil = performance.now() + 1000;
+    let forceInstantNextFrame = true;
+    let stopExperience = () => {};
+    const markActive = () => { activeUntil = performance.now() + 800; };
+    markActiveRef.current = markActive;
 
     // Handle context loss
-    renderer.domElement.addEventListener('webglcontextlost', (e) => {
+    const handleContextLost = (e: Event) => {
       e.preventDefault();
+      stopExperience();
       document.documentElement.dataset.loamMode = 'specimen';
       document.getElementById('loam-specimen-root')?.removeAttribute('inert');
       setWebglActive(false);
-    });
+    };
+    renderer.domElement.addEventListener('webglcontextlost', handleContextLost);
 
     const textures = createProceduralTextures(renderer);
 
@@ -1910,9 +1923,6 @@ export function LoamExperience() {
     const trayModel = buildPackagingTray(textures, 505);
     trayPivot.add(trayModel.group);
 
-    // Pre-warm shaders
-    renderer.compile(scene, camera);
-
     const soundCtrl = createSoundController();
     soundControllerRef.current = soundCtrl;
 
@@ -1920,6 +1930,7 @@ export function LoamExperience() {
     let currentChapterState = getChapterStateAtProgress(0);
     const pointerWorld = new THREE.Vector3(0, -999, 0);
     const timer = new THREE.Timer();
+    timer.connect(document);
 
     // Initialize Hold-to-Inspect controller
     const inspectCtrl = createInspectController({
@@ -1962,6 +1973,7 @@ export function LoamExperience() {
     const scrollCtrl = createScrollController({
       scrollTrackElement: scrollTrack,
       onProgressUpdate: (prog) => {
+        if (Math.abs(currentMasterProgress - prog) > 0.00001) markActive();
         currentMasterProgress = prog;
       },
       isInspectLocked: () => inspectCtrl.getState().phase === 'inspecting',
@@ -1977,17 +1989,16 @@ export function LoamExperience() {
     let smoothedSunlight = targetSunlightRef.current;
     let lastAppliedSunlight = -1;
     let lastSyncedProgress = -1;
+    let lastSceneProgress = -1;
     let lastSyncedInspectPhase = '';
+    let lastChapterSyncMs = -Infinity;
 
-    let frameId = 0;
     let lastUiSyncMs = 0;
 
     const renderSingleStep = (nowMs: number, forceInstant = false) => {
       timer.update(nowMs);
       const dtSec = Math.min(0.1, timer.getDelta());
       const elapsedSec = timer.getElapsed();
-
-      scrollCtrl.tickLenis(nowMs);
 
       const dampFactor = forceInstant
         ? 1
@@ -2112,10 +2123,10 @@ export function LoamExperience() {
         currentChapterState.foxfireGlowFade,
       );
 
-      stack.renderFrame();
-
       const progressChanged =
-        Math.abs(currentMasterProgress - lastSyncedProgress) > 0.0004;
+        Math.abs(currentMasterProgress - lastSceneProgress) > 0.0004;
+      stack.renderFrame(progressChanged || inspectState.phase !== 'idle');
+      lastSceneProgress = currentMasterProgress;
       const inspectChanged =
         inspectState.phase !== lastSyncedInspectPhase ||
         inspectState.phase !== 'idle';
@@ -2126,61 +2137,109 @@ export function LoamExperience() {
           nowMs - lastUiSyncMs > (inspectState.phase !== 'idle' ? 28 : 60))
       ) {
         lastUiSyncMs = nowMs;
-        lastSyncedProgress = currentMasterProgress;
         lastSyncedInspectPhase = inspectState.phase;
-        setChapterState(currentChapterState);
         setInspectUI(inspectCtrl.getUIFrameState());
       }
     };
 
     const tick = (nowMs: number) => {
-      frameId = requestAnimationFrame(tick);
-      renderSingleStep(nowMs, false);
+      frameId = 0;
+      if (disposed || document.hidden) return;
+      // Lenis runs at the display's refresh rate, even when 3D frames are skipped.
+      scrollCtrl.tickLenis(nowMs);
+      // Headings, chapter buttons and scroll reveals must not wait on the GPU.
+      if (Math.abs(currentMasterProgress - lastSyncedProgress) > 0.0004 && nowMs - lastChapterSyncMs >= 1000 / 60) {
+        lastChapterSyncMs = nowMs;
+        lastSyncedProgress = currentMasterProgress;
+        currentChapterState = getChapterStateAtProgress(currentMasterProgress);
+        setChapterState(currentChapterState);
+      }
+      const active = nowMs < activeUntil || inspectCtrl.getState().phase !== 'idle';
+      if (renderBudget.shouldRender(nowMs, active)) {
+        stack.setResolutionScale(renderBudget.resolutionScale);
+        renderSingleStep(nowMs, forceInstantNextFrame);
+        forceInstantNextFrame = false;
+        renderBudget.submitted();
+      }
+      if (!disposed) frameId = requestAnimationFrame(tick);
+    };
+
+    const requestInstantFrame = () => {
+      forceInstantNextFrame = true;
+      markActive();
     };
 
     (window as unknown as Record<string, unknown>).__LOAM_TEST__ = {
       setProgress: (prog: number) => {
         scrollCtrl.scrollToProgress(prog, true);
         currentMasterProgress = prog;
-        renderSingleStep(performance.now(), true);
+        requestInstantFrame();
       },
       setSunlight: (sun: number) => {
         const clamped = Math.max(0, Math.min(1, sun));
         targetSunlightRef.current = clamped;
         smoothedSunlight = clamped;
         setSunlight(clamped);
-        renderSingleStep(performance.now(), true);
+        requestInstantFrame();
       },
       triggerInspect: (target: InspectableObjectId) => {
         inspectCtrl.triggerKeyboardInspect(target);
-        renderSingleStep(performance.now(), true);
+        requestInstantFrame();
       },
       exitInspect: () => {
         inspectCtrl.exitInspect();
-        renderSingleStep(performance.now(), true);
+        requestInstantFrame();
       },
     };
 
     const handleResize = () => {
       stack.resize(window.innerWidth, window.innerHeight);
+      markActive();
     };
     window.addEventListener('resize', handleResize);
-
-    renderSingleStep(performance.now(), true);
-    frameId = requestAnimationFrame(tick);
-
-    return () => {
+    const onPointerMove = () => {
+      if (currentChapterState.activeChapterIndex === 3 || inspectCtrl.getState().phase !== 'idle') markActive();
+    };
+    window.addEventListener('pointerdown', markActive, { passive: true });
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    const onVisibilityChange = () => {
       cancelAnimationFrame(frameId);
+      frameId = 0;
+      if (!document.hidden && !disposed) {
+        renderBudget.resetClock();
+        markActive();
+        frameId = requestAnimationFrame(tick);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    onVisibilityChange();
+
+    const cleanup = () => {
+      if (disposed) return;
+      disposed = true;
+      cancelAnimationFrame(frameId);
+      renderBudget.dispose();
+      markActiveRef.current = () => {};
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('pointerdown', markActive);
+      window.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      renderer.domElement.removeEventListener('webglcontextlost', handleContextLost);
       document.documentElement.dataset.loamMode = 'specimen';
       document.getElementById('loam-specimen-root')?.removeAttribute('inert');
       delete (window as unknown as Record<string, unknown>).__LOAM_TEST__;
       inspectCtrl.dispose();
       scrollCtrl.dispose();
       soundCtrl.dispose();
+      myceliumNetwork.dispose();
       stack.dispose();
       timer.dispose();
+      scrollControllerRef.current = null;
+      inspectControllerRef.current = null;
+      soundControllerRef.current = null;
     };
+    stopExperience = cleanup;
+    return cleanup;
   }, [canMount]);
 
   // If reduced-motion is requested or WebGL is unsupported, the 3D engine never mounts.
@@ -5826,6 +5885,7 @@ export interface BuiltMyceliumNetwork {
     elapsedSec: number,
     onReachMushroom: (mushroomIndex: number) => void,
   ) => void;
+  dispose: () => void;
 }
 
 /**
@@ -6031,7 +6091,7 @@ export function buildMyceliumNetworkScene(
   hitPlane.position.y = -1.5;
   group.add(hitPlane);
 
-  const scheduledTimeouts: number[] = [];
+  const scheduledTimeouts = new Set<number>();
 
   const updateNetwork = (params: {
     growth: number;
@@ -6068,9 +6128,10 @@ export function buildMyceliumNetworkScene(
       );
       const delayMs = Math.max(60, (dist / 6.8) * 1000);
       const tid = window.setTimeout(() => {
+        scheduledTimeouts.delete(tid);
         onReachMushroom(m.index);
       }, delayMs);
-      scheduledTimeouts.push(tid);
+      scheduledTimeouts.add(tid);
     }
   };
 
@@ -6080,6 +6141,79 @@ export function buildMyceliumNetworkScene(
     hitPlane,
     updateNetwork,
     triggerPulseAt,
+    dispose: () => {
+      scheduledTimeouts.forEach(id => window.clearTimeout(id));
+      scheduledTimeouts.clear();
+    },
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(loam)/loam/scene/renderBudget.ts">
+<![CDATA[/** Keep scroll updates independent of scene submission and bound GPU work. */
+export function getRenderPixelRatio(width: number, height: number, scale = 1): number {
+  return Math.min(1, Math.sqrt(1_000_000 / Math.max(1, width * height))) * scale;
+}
+
+export function isSoftwareRenderer(gl: WebGLRenderingContext | WebGL2RenderingContext): boolean {
+  const info = gl.getExtension('WEBGL_debug_renderer_info');
+  return /SwiftShader|llvmpipe|softpipe|Software|Basic Render/i.test(
+    String(gl.getParameter(info ? info.UNMASKED_RENDERER_WEBGL : gl.RENDERER)),
+  );
+}
+
+export function createRenderBudget(context: WebGLRenderingContext | WebGL2RenderingContext) {
+  const gl = 'fenceSync' in context ? context : undefined;
+  const software = isSoftwareRenderer(context);
+  let pending: WebGLSync | null = null;
+  let lastAttempt = -Infinity;
+  let busyChecks = 0;
+  let slowFrames = 0;
+  let scale = 1;
+  let disposed = false;
+
+  return {
+    get resolutionScale() { return scale; },
+    shouldRender(now: number, active: boolean) {
+      if (disposed || context.isContextLost()) return false;
+      const fps = software ? (active ? 12 : 4) : (active ? 60 : 18);
+      const interval = 1000 / fps;
+      if (now - lastAttempt < interval) return false;
+      // Preserve fractional time so a 144 Hz display doesn't fall to 48 fps.
+      lastAttempt = Number.isFinite(lastAttempt) ? now - ((now - lastAttempt) % interval) : now;
+      if (pending && gl) {
+        const status = gl.clientWaitSync(pending, 0, 0);
+        if (status === gl.TIMEOUT_EXPIRED) {
+          if (active) busyChecks++;
+          return false;
+        }
+        gl.deleteSync(pending);
+        pending = null;
+        // Lower resolution only after the previous frame has completed, avoiding
+        // repeated reallocations or a quality oscillation during scrolling.
+        slowFrames = busyChecks > 0 && active ? slowFrames + 1 : Math.max(0, slowFrames - 1);
+        if (busyChecks >= 4 || slowFrames >= 4) {
+          scale = Math.max(0.65, scale * 0.85);
+          slowFrames = 0;
+        }
+        busyChecks = 0;
+      }
+      return true;
+    },
+    submitted() {
+      if (!disposed && gl) {
+        pending = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+        gl.flush();
+      }
+    },
+    resetClock() {
+      lastAttempt = -Infinity;
+    },
+    dispose() {
+      disposed = true;
+      if (pending && gl) gl.deleteSync(pending);
+      pending = null;
+    },
   };
 }
 ]]>
@@ -6092,6 +6226,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { computeSunlightState, DEFAULT_SUNLIGHT } from '../logic/chapters';
+import { getRenderPixelRatio, isSoftwareRenderer } from './renderBudget';
 
 export interface RendererStack {
   renderer: THREE.WebGLRenderer;
@@ -6116,7 +6251,8 @@ export interface RendererStack {
     studioLightness?: number,
   ) => void;
   resize: (width: number, height: number) => void;
-  renderFrame: () => void;
+  setResolutionScale: (scale: number) => void;
+  renderFrame: (refreshShadows?: boolean) => void;
   dispose: () => void;
 }
 
@@ -6138,16 +6274,17 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
   const height = container.clientHeight || window.innerHeight;
 
   const renderer = new THREE.WebGLRenderer({
-    antialias: true,
-    powerPreference: 'high-performance',
+    antialias: false,
+    powerPreference: 'low-power',
   });
 
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.78;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(getRenderPixelRatio(width, height));
   renderer.setSize(width, height);
-  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.enabled = !isSoftwareRenderer(renderer.getContext());
+  renderer.shadowMap.autoUpdate = false;
   renderer.shadowMap.type = THREE.PCFShadowMap;
 
   container.innerHTML = '';
@@ -6160,7 +6297,10 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
 
   // Subtle PBR environment reflection map (kept low so matte specimens never wash out)
   const pmremGenerator = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+  const roomEnvironment = new RoomEnvironment();
+  const environmentTarget = pmremGenerator.fromScene(roomEnvironment, 0.04);
+  scene.environment = environmentTarget.texture;
+  roomEnvironment.dispose();
   scene.environmentIntensity = 0.15;
   pmremGenerator.dispose();
 
@@ -6174,7 +6314,7 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
   keyLight.target.position.set(0, 1.6, 0);
   scene.add(keyLight.target);
   keyLight.castShadow = true;
-  keyLight.shadow.mapSize.set(1024, 1024);
+  keyLight.shadow.mapSize.set(512, 512);
   const d = 5.5;
   keyLight.shadow.camera.left = -d;
   keyLight.shadow.camera.right = d;
@@ -6214,6 +6354,7 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     0.94, // threshold
   );
   composer.addPass(bloomPass);
+  bloomPass.enabled = false;
 
   const CinematicShader = {
     uniforms: {
@@ -6294,6 +6435,8 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
   const studioHemiSky = new THREE.Color('#f0e8da');
   const studioHemiGround = new THREE.Color('#c7baa5');
   const workColor = new THREE.Color();
+  let shadowsDirty = true;
+  let lastShadowUpdate = -Infinity;
 
   const setAtmosphereAtProgress = (
     undergroundFactor: number,
@@ -6403,9 +6546,10 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     if (
       Math.abs(keyLight.position.x - nextKeyX) > 0.02 ||
       Math.abs(keyLight.position.y - nextKeyY) > 0.02 ||
+      Math.abs(keyLight.position.z - nextKeyZ) > 0.02 ||
       Math.abs(keyLight.target.position.y - targetY) > 0.02
     ) {
-      renderer.shadowMap.needsUpdate = true;
+      shadowsDirty = true;
     }
     keyLight.position.set(nextKeyX, nextKeyY, nextKeyZ);
     keyLight.target.position.set(0, targetY, 0);
@@ -6459,6 +6603,7 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
       0.38 *
       Math.min(1.25, sunState.foxfireGlowMultiplier) *
       studioFoxfireCutoff;
+    bloomPass.enabled = bloomPass.strength > 0.005;
 
     cinematicPass.uniforms.uTime.value = elapsedSec;
     cinematicPass.uniforms.uStudioLightness.value = studioLit;
@@ -6468,19 +6613,70 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     cinematicPass.uniforms.uInspectStrength.value = inspectStrength;
   };
 
+  let renderWidth = width;
+  let renderHeight = height;
+  let resolutionScale = 1;
   const resize = (w: number, h: number) => {
+    renderWidth = Math.max(1, w);
+    renderHeight = Math.max(1, h);
+    const ratio = getRenderPixelRatio(renderWidth, renderHeight, resolutionScale);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-    composer.setSize(w, h);
+    renderer.setPixelRatio(ratio);
+    renderer.setSize(renderWidth, renderHeight);
+    composer.setPixelRatio(ratio);
+    composer.setSize(renderWidth, renderHeight);
+    // EffectComposer.addPass/setSize overrides the constructor's bloom size.
+    bloomPass.setSize(renderWidth * ratio * 0.5, renderHeight * ratio * 0.5);
+  };
+  resize(width, height);
+
+  const setResolutionScale = (scale: number) => {
+    const next = Math.max(0.65, Math.min(1, scale));
+    if (Math.abs(next - resolutionScale) < 0.001) return;
+    resolutionScale = next;
+    resize(renderWidth, renderHeight);
   };
 
-  const renderFrame = () => {
+  const renderFrame = (refreshShadows = false) => {
+    shadowsDirty ||= refreshShadows;
+    const now = performance.now();
+    renderer.shadowMap.needsUpdate = shadowsDirty && now - lastShadowUpdate >= 100;
+    if (renderer.shadowMap.needsUpdate) {
+      shadowsDirty = false;
+      lastShadowUpdate = now;
+    }
     composer.render();
   };
 
   const dispose = () => {
+    const geometries = new Set<THREE.BufferGeometry>();
+    const materials = new Set<THREE.Material>();
+    const textures = new Set<THREE.Texture>();
+    scene.traverse((object) => {
+      if (object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Points) {
+        geometries.add(object.geometry);
+        for (const material of Array.isArray(object.material) ? object.material : [object.material]) materials.add(material);
+      }
+      if (object instanceof THREE.InstancedMesh) object.dispose();
+      if (object instanceof THREE.DirectionalLight || object instanceof THREE.PointLight || object instanceof THREE.SpotLight) object.shadow.dispose();
+    });
+    for (const material of materials) {
+      for (const value of Object.values(material)) if (value instanceof THREE.Texture) textures.add(value);
+      if (material instanceof THREE.ShaderMaterial) {
+        for (const uniform of Object.values(material.uniforms)) if (uniform.value instanceof THREE.Texture) textures.add(uniform.value);
+      }
+      material.dispose();
+    }
+    geometries.forEach(geometry => geometry.dispose());
+    textures.forEach(texture => texture.dispose());
+    composer.passes.forEach(pass => pass.dispose());
+    composer.dispose();
+    environmentTarget.dispose();
+    scene.clear();
     renderer.dispose();
+    renderer.forceContextLoss();
+    renderer.domElement.remove();
   };
 
   return {
@@ -6499,6 +6695,7 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     setInspectVisualState,
     setAtmosphereAtProgress,
     resize,
+    setResolutionScale,
     renderFrame,
     dispose,
   };
@@ -6542,6 +6739,7 @@ export function createScrollController(params: {
   let isPaused = false;
   let snapTimeoutId: number | null = null;
   let isProgrammaticScroll = false;
+  let programmaticTargetProgress = 0;
 
   const lenis = new Lenis({
     lerp: 0.09,
@@ -6594,6 +6792,7 @@ export function createScrollController(params: {
     const clamped = clamp01(targetProgress);
     const targetY = clamped * getMaxScrollPx();
     isProgrammaticScroll = true;
+    programmaticTargetProgress = clamped;
     if (snapTimeoutId !== null) {
       window.clearTimeout(snapTimeoutId);
       snapTimeoutId = null;
@@ -6628,7 +6827,10 @@ export function createScrollController(params: {
 
   const stepChapter = (direction: 1 | -1) => {
     if (isPaused || params.isInspectLocked()) return;
-    const nextProgress = getNextChapterProgress(masterProgress, direction);
+    const nextProgress = getNextChapterProgress(
+      isProgrammaticScroll ? programmaticTargetProgress : masterProgress,
+      direction,
+    );
     scrollToProgress(nextProgress, false);
   };
 
@@ -8599,7 +8801,7 @@ function configureTexture(
  * and projects `mushroom-from-above_90ef6842.png` onto the cap top albedo when loaded.
  */
 export function createProceduralTextures(renderer: THREE.WebGLRenderer): ProceduralTextureSet {
-  const maxAniso = Math.min(8, renderer.capabilities.getMaxAnisotropy() || 1);
+  const maxAniso = Math.min(2, renderer.capabilities.getMaxAnisotropy() || 1);
   const rand = createSeededRandom(7319);
 
   // 1. Stem snakeskin banding texture (Macrolepiota procera characteristic broken horizontal chevron bands on warm cream)

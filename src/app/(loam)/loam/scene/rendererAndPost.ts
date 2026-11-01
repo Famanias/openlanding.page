@@ -5,6 +5,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { computeSunlightState, DEFAULT_SUNLIGHT } from '../logic/chapters';
+import { getRenderPixelRatio, isSoftwareRenderer } from './renderBudget';
 
 export interface RendererStack {
   renderer: THREE.WebGLRenderer;
@@ -29,7 +30,8 @@ export interface RendererStack {
     studioLightness?: number,
   ) => void;
   resize: (width: number, height: number) => void;
-  renderFrame: () => void;
+  setResolutionScale: (scale: number) => void;
+  renderFrame: (refreshShadows?: boolean) => void;
   dispose: () => void;
 }
 
@@ -51,16 +53,17 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
   const height = container.clientHeight || window.innerHeight;
 
   const renderer = new THREE.WebGLRenderer({
-    antialias: true,
-    powerPreference: 'high-performance',
+    antialias: false,
+    powerPreference: 'low-power',
   });
 
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.78;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(getRenderPixelRatio(width, height));
   renderer.setSize(width, height);
-  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.enabled = !isSoftwareRenderer(renderer.getContext());
+  renderer.shadowMap.autoUpdate = false;
   renderer.shadowMap.type = THREE.PCFShadowMap;
 
   container.innerHTML = '';
@@ -73,7 +76,10 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
 
   // Subtle PBR environment reflection map (kept low so matte specimens never wash out)
   const pmremGenerator = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+  const roomEnvironment = new RoomEnvironment();
+  const environmentTarget = pmremGenerator.fromScene(roomEnvironment, 0.04);
+  scene.environment = environmentTarget.texture;
+  roomEnvironment.dispose();
   scene.environmentIntensity = 0.15;
   pmremGenerator.dispose();
 
@@ -87,7 +93,7 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
   keyLight.target.position.set(0, 1.6, 0);
   scene.add(keyLight.target);
   keyLight.castShadow = true;
-  keyLight.shadow.mapSize.set(1024, 1024);
+  keyLight.shadow.mapSize.set(512, 512);
   const d = 5.5;
   keyLight.shadow.camera.left = -d;
   keyLight.shadow.camera.right = d;
@@ -127,6 +133,7 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     0.94, // threshold
   );
   composer.addPass(bloomPass);
+  bloomPass.enabled = false;
 
   const CinematicShader = {
     uniforms: {
@@ -207,6 +214,8 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
   const studioHemiSky = new THREE.Color('#f0e8da');
   const studioHemiGround = new THREE.Color('#c7baa5');
   const workColor = new THREE.Color();
+  let shadowsDirty = true;
+  let lastShadowUpdate = -Infinity;
 
   const setAtmosphereAtProgress = (
     undergroundFactor: number,
@@ -316,9 +325,10 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     if (
       Math.abs(keyLight.position.x - nextKeyX) > 0.02 ||
       Math.abs(keyLight.position.y - nextKeyY) > 0.02 ||
+      Math.abs(keyLight.position.z - nextKeyZ) > 0.02 ||
       Math.abs(keyLight.target.position.y - targetY) > 0.02
     ) {
-      renderer.shadowMap.needsUpdate = true;
+      shadowsDirty = true;
     }
     keyLight.position.set(nextKeyX, nextKeyY, nextKeyZ);
     keyLight.target.position.set(0, targetY, 0);
@@ -372,6 +382,7 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
       0.38 *
       Math.min(1.25, sunState.foxfireGlowMultiplier) *
       studioFoxfireCutoff;
+    bloomPass.enabled = bloomPass.strength > 0.005;
 
     cinematicPass.uniforms.uTime.value = elapsedSec;
     cinematicPass.uniforms.uStudioLightness.value = studioLit;
@@ -381,19 +392,70 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     cinematicPass.uniforms.uInspectStrength.value = inspectStrength;
   };
 
+  let renderWidth = width;
+  let renderHeight = height;
+  let resolutionScale = 1;
   const resize = (w: number, h: number) => {
+    renderWidth = Math.max(1, w);
+    renderHeight = Math.max(1, h);
+    const ratio = getRenderPixelRatio(renderWidth, renderHeight, resolutionScale);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-    composer.setSize(w, h);
+    renderer.setPixelRatio(ratio);
+    renderer.setSize(renderWidth, renderHeight);
+    composer.setPixelRatio(ratio);
+    composer.setSize(renderWidth, renderHeight);
+    // EffectComposer.addPass/setSize overrides the constructor's bloom size.
+    bloomPass.setSize(renderWidth * ratio * 0.5, renderHeight * ratio * 0.5);
+  };
+  resize(width, height);
+
+  const setResolutionScale = (scale: number) => {
+    const next = Math.max(0.65, Math.min(1, scale));
+    if (Math.abs(next - resolutionScale) < 0.001) return;
+    resolutionScale = next;
+    resize(renderWidth, renderHeight);
   };
 
-  const renderFrame = () => {
+  const renderFrame = (refreshShadows = false) => {
+    shadowsDirty ||= refreshShadows;
+    const now = performance.now();
+    renderer.shadowMap.needsUpdate = shadowsDirty && now - lastShadowUpdate >= 100;
+    if (renderer.shadowMap.needsUpdate) {
+      shadowsDirty = false;
+      lastShadowUpdate = now;
+    }
     composer.render();
   };
 
   const dispose = () => {
+    const geometries = new Set<THREE.BufferGeometry>();
+    const materials = new Set<THREE.Material>();
+    const textures = new Set<THREE.Texture>();
+    scene.traverse((object) => {
+      if (object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Points) {
+        geometries.add(object.geometry);
+        for (const material of Array.isArray(object.material) ? object.material : [object.material]) materials.add(material);
+      }
+      if (object instanceof THREE.InstancedMesh) object.dispose();
+      if (object instanceof THREE.DirectionalLight || object instanceof THREE.PointLight || object instanceof THREE.SpotLight) object.shadow.dispose();
+    });
+    for (const material of materials) {
+      for (const value of Object.values(material)) if (value instanceof THREE.Texture) textures.add(value);
+      if (material instanceof THREE.ShaderMaterial) {
+        for (const uniform of Object.values(material.uniforms)) if (uniform.value instanceof THREE.Texture) textures.add(uniform.value);
+      }
+      material.dispose();
+    }
+    geometries.forEach(geometry => geometry.dispose());
+    textures.forEach(texture => texture.dispose());
+    composer.passes.forEach(pass => pass.dispose());
+    composer.dispose();
+    environmentTarget.dispose();
+    scene.clear();
     renderer.dispose();
+    renderer.forceContextLoss();
+    renderer.domElement.remove();
   };
 
   return {
@@ -412,6 +474,7 @@ export function createRendererAndPostStack(container: HTMLElement): RendererStac
     setInspectVisualState,
     setAtmosphereAtProgress,
     resize,
+    setResolutionScale,
     renderFrame,
     dispose,
   };

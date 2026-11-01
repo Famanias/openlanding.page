@@ -29,6 +29,17 @@ Next.js 16 App Router (own route group `(loam)` with its own root layout), React
 
 loam `#080604`, spore `#F0E8D8`, cap `#7A5C43`, foxfire `#C8E64C` (the signature accent). Google Fonts: display **EB Garamond**, body **Host Grotesk**, monospace **Sono**.
 
+## Rendering performance
+
+Advance Lenis and chapter UI independently of GPU drawing. Target 60 fps for the
+3D scene while scrolling or inspecting and 18 fps while idle, with conservative
+12/4 fps limits for software WebGL. Keep one GPU frame in flight, cap rendering
+at one million pixels without exceeding pixel ratio 1, and lower resolution
+under sustained GPU pressure. Pause the loop when hidden. Use a low-power context,
+half-resolution bloom only for underground glow, and throttled shadows. Preserve
+native-resolution HTML and release geometry, textures, instancing buffers,
+postprocessing targets, and scheduled pulse callbacks on unmount.
+
 ## Accessibility & fallback
 
 Server-rendered static specimen sheet (`StaticFallbackPage`) with all chapter copy in order, product facts, reference photo plates, and sample kit form. With `prefers-reduced-motion: reduce`, disabled JavaScript, or WebGL initialization failure, the 3D engine never mounts.
