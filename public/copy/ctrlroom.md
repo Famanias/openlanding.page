@@ -81,19 +81,18 @@ export default function CtrlRoomLayout({
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import {
   ExternalLink,
   ArrowDown,
-  Sparkles,
-  Layers,
   RotateCcw,
-  Check,
-  Terminal,
-  Sliders,
 } from 'lucide-react';
 import { BrandHeader } from './components/layout/BrandHeader';
 import { BootSequence } from './components/motion/BootSequence';
+import { CtrlRoomMotion } from './components/motion/CtrlRoomMotion';
+import { RevealText } from './components/motion/RevealText';
+import { MotionDialog } from './components/motion/MotionDialog';
+import { scrollToCtrlRoom } from './components/motion/tokens';
 import { DesktopStage } from './components/os/DesktopStage';
 import { StreamDeckHardwareView } from './components/hardware/StreamDeckHardwareView';
 import { PixelActionIcon, CtrlRoomGlyphLogo } from './components/icons/PixelSprites';
@@ -133,6 +132,11 @@ import {
 } from './lib/os/windowReducer';
 
 export default function App() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const scanTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [bootReady, setBootReady] = useState(false);
+  const completeBoot = useCallback(() => setBootReady(true), []);
+  useEffect(() => () => { if (scanTimeout.current) clearTimeout(scanTimeout.current); }, []);
   const [wmState, dispatchWindow] = useReducer(
     windowReducer,
     undefined,
@@ -188,6 +192,8 @@ export default function App() {
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [editorialCategory, setEditorialCategory] = useState<ActionCategory>('CREATE');
   const [pendingProfileConfirm, setPendingProfileConfirm] = useState<ProfileId | null>(null);
+  const [profileConfirmOpen, setProfileConfirmOpen] = useState(false);
+  const [confirmFromProfile, setConfirmFromProfile] = useState<ProfileId>('STUDIO');
 
   // Internal sprint timer tick
   useEffect(() => {
@@ -286,10 +292,11 @@ export default function App() {
 
     soundEngine.playProfileScan();
     setIsScanningGrid(true);
-    window.setTimeout(() => setIsScanningGrid(false), 560);
+    if (scanTimeout.current) clearTimeout(scanTimeout.current);
+    scanTimeout.current = setTimeout(() => setIsScanningGrid(false), 560);
 
     setActiveProfile(targetProfile);
-    setPendingProfileConfirm(null);
+    setProfileConfirmOpen(false);
 
     const logEntry: RunLogEntry = {
       id: `prof-${Date.now()}`,
@@ -310,7 +317,9 @@ export default function App() {
   const handleSwitchProfileRequest = (targetProfile: ProfileId) => {
     if (targetProfile === activeProfile) return;
     if (isProfileModified(activeProfile, currentSlots)) {
+      setConfirmFromProfile(activeProfile);
       setPendingProfileConfirm(targetProfile);
+      setProfileConfirmOpen(true);
       return;
     }
     performProfileSwitch(targetProfile, false);
@@ -330,8 +339,13 @@ export default function App() {
       profiles: allProfiles,
       notesContent: simEnv.notesContent,
     });
+    if (!savedAt) {
+      setStatusAnnouncement('Save failed. Allow browser storage and try again.');
+      return false;
+    }
     setLastSavedTime(savedAt);
     setStatusAnnouncement(`Saved demo layout to browser localStorage at ${savedAt}.`);
+    return true;
   };
 
   const handleResetAllDemoData = () => {
@@ -369,32 +383,32 @@ export default function App() {
   };
 
   const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToCtrlRoom(id);
   };
 
   return (
-    <div id="top" className="min-h-screen flex flex-col bg-[#111A31] text-[#E8F0FF]">
+    <div id="top" ref={rootRef} data-cr-boot={bootReady ? 'ready' : 'waiting'} className="cr-shell min-h-screen flex flex-col bg-[#111A31] text-[#E8F0FF]">
+      <CtrlRoomMotion rootRef={rootRef} bootReady={bootReady} />
+      <a className="cr-skip" href="#cr-main">Skip to content</a>
       {/* Deterministic 4-strip Pixel Boot Shutter */}
-      <BootSequence />
+      <BootSequence onComplete={completeBoot} />
+      <noscript><style>{'.cr-boot { display: none !important; }'}</style></noscript>
 
       {/* Top Bar Contract Navigation */}
       <BrandHeader />
 
-      <main className="flex-1">
+      <main id="cr-main" className="flex-1" tabIndex={-1}>
         {/* =====================================================================
             SCREEN 00 — BOOT / WELCOME HERO
         ===================================================================== */}
         <section
           aria-labelledby="hero-heading"
-          className="relative border-b-2 border-[#2858FF] cr-bg-ctrl-dither overflow-hidden"
+          className="cr-hero relative border-b-2 border-[#2858FF] cr-bg-ctrl-dither overflow-hidden"
         >
           <div className="max-w-[1380px] mx-auto px-4 sm:px-8 py-10 lg:py-14">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               {/* Left Column: Campaign Hook, Copy, Primary CTA & Quick App Launchers */}
-              <div className="lg:col-span-6 space-y-6">
+              <div className="cr-hero-copy lg:col-span-6 space-y-6">
                 <div className="inline-flex items-center gap-2 text-xs cr-font-mono-code text-[#E4FF58]">
                   <span>C/R OS — BUILD 01.15</span>
                   <span aria-hidden="true">·</span>
@@ -405,7 +419,7 @@ export default function App() {
                   id="hero-heading"
                   className="cr-font-display text-4xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-[#E8F0FF] leading-[1.06] text-balance"
                 >
-                  WELCOME TO YOUR CONTROL ROOM.
+                  <RevealText text="WELCOME TO YOUR CONTROL ROOM." />
                 </h1>
 
                 <p className="text-base sm:text-lg text-[#B6D7F7] max-w-xl leading-relaxed">
@@ -415,12 +429,13 @@ export default function App() {
                 {/* Primary & Secondary Hero Actions */}
                 <div className="flex flex-wrap items-center gap-4 pt-1">
                   <button
+                    data-cr-magnetic
                     type="button"
                     onClick={() => {
                       handleOpenAppWindow('deck-lab');
                       scrollToSection('desktop-stage');
                     }}
-                    className="inline-flex items-center gap-2 px-6 py-3.5 text-sm cr-font-mono-code font-bold bg-[#E4FF58] text-[#111A31] hover:bg-[#E8F0FF] border-2 border-[#111A31] cr-shadow-ctrl-cobalt transition-all whitespace-nowrap shrink-0 cursor-pointer"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 text-sm cr-font-mono-code font-bold bg-[#E4FF58] text-[#111A31] hover:bg-[#E8F0FF] border-2 border-[#111A31] cr-shadow-ctrl-cobalt cr-transition-control whitespace-nowrap shrink-0 cursor-pointer"
                   >
                     <span>OPEN CTRL/ROOM OS</span>
                     <ArrowDown className="w-4 h-4" />
@@ -473,7 +488,7 @@ export default function App() {
               </div>
 
               {/* Right Column: Sharp Non-Pixelated Real Stream Deck MK.2 Hardware Anchor */}
-              <div className="lg:col-span-6">
+              <div className="cr-hero-hardware lg:col-span-6">
                 <div className="p-4 sm:p-5 bg-[#111A31] border-2 border-[#2858FF] cr-shadow-ctrl-lg">
                   <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#61728F]/40">
                     <span className="cr-font-mono-code text-xs font-bold text-[#E4FF58]">
@@ -603,7 +618,7 @@ export default function App() {
                   id="action-library-heading"
                   className="cr-font-display text-3xl sm:text-4xl font-bold text-[#E8F0FF] text-balance"
                 >
-                  YOUR WORKFLOW, ONE PRESS AWAY.
+                  <RevealText text="YOUR WORKFLOW, ONE PRESS AWAY." />
                 </h2>
                 <p className="text-sm sm:text-base text-[#B6D7F7] max-w-2xl">
                   Browse example shortcut tiles across four creative disciplines. Click any tile to assign it directly to{' '}
@@ -640,7 +655,8 @@ export default function App() {
                 return (
                   <div
                     key={action.id}
-                    className={`p-5 bg-[#15203D] border-2 transition-all flex flex-col justify-between gap-4 ${
+                    data-cr-reveal="tile"
+                    className={`cr-action-card p-5 bg-[#15203D] border-2 cr-transition-control flex flex-col justify-between gap-4 ${
                       isAssigned
                         ? 'border-[#E4FF58] cr-shadow-ctrl-active'
                         : 'border-[#2858FF] hover:border-[#B6D7F7] cr-shadow-ctrl'
@@ -712,7 +728,7 @@ export default function App() {
                 id="profiles-heading"
                 className="cr-font-display text-3xl sm:text-4xl font-bold text-[#E8F0FF] text-balance"
               >
-                ONE DEVICE. MANY WAYS TO WORK.
+                <RevealText text="ONE DEVICE. MANY WAYS TO WORK." />
               </h2>
               <p className="text-sm sm:text-base text-[#B6D7F7] max-w-2xl">
                 Switch between three curated demo profiles to see how the same 5×3 key surface adapts from video post-production to live broadcasting and everyday deep work.
@@ -728,7 +744,8 @@ export default function App() {
                 return (
                   <div
                     key={profId}
-                    className={`p-6 bg-[#111A31] border-2 flex flex-col justify-between gap-5 ${
+                    data-cr-reveal="tile"
+                    className={`cr-profile-card p-6 bg-[#111A31] border-2 flex flex-col justify-between gap-5 ${
                       isActive
                         ? 'border-[#E4FF58] cr-shadow-ctrl-active'
                         : 'border-[#2858FF] cr-shadow-ctrl'
@@ -835,7 +852,7 @@ export default function App() {
                   id="device-info-heading"
                   className="cr-font-display text-3xl sm:text-4xl font-bold text-[#E8F0FF] leading-tight text-balance"
                 >
-                  MEET THE BUTTONS BEHIND THE MAGIC.
+                  <RevealText text="MEET THE BUTTONS BEHIND THE MAGIC." />
                 </h2>
 
                 <p className="text-base text-[#B6D7F7] leading-relaxed">
@@ -907,11 +924,11 @@ export default function App() {
         ===================================================================== */}
         <section
           aria-labelledby="signoff-heading"
-          className="py-16 lg:py-24 cr-bg-ctrl-dither border-b-2 border-[#2858FF]"
+          className="cr-signoff py-16 lg:py-24 cr-bg-ctrl-dither border-b-2 border-[#2858FF]"
         >
           <div className="max-w-[1080px] mx-auto px-4 sm:px-8 text-center space-y-8">
             {/* Condensed Geometric Control Motif */}
-            <div className="inline-grid grid-cols-5 gap-2 p-4 bg-[#111A31] border-2 border-[#E4FF58] cr-shadow-ctrl-lg">
+            <div data-cr-reveal="matrix" className="cr-signoff-matrix inline-grid grid-cols-5 gap-2 p-4 bg-[#111A31] border-2 border-[#E4FF58] cr-shadow-ctrl-lg">
               {currentSlots.map((slot) => {
                 const act = getActionById(slot.actionId);
                 return (
@@ -944,7 +961,7 @@ export default function App() {
                 id="signoff-heading"
                 className="cr-font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-[#E8F0FF] tracking-tight text-balance"
               >
-                MAKE ONE BUTTON DO MORE.
+                <RevealText text="MAKE ONE BUTTON DO MORE." />
               </h2>
               <p className="text-base sm:text-lg text-[#B6D7F7] max-w-xl mx-auto">
                 Ready to bring 15 customizable LCD keys to your real desk? Explore the official Stream Deck MK.2 hardware directly from Elgato.
@@ -979,13 +996,7 @@ export default function App() {
       </main>
 
       {/* True Accessible Confirmation Modal when switching away from a user-edited profile */}
-      {pendingProfileConfirm && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="profile-switch-dialog-title"
-          className="fixed inset-0 z-[110] bg-[#111A31]/85 flex items-center justify-center p-4"
-        >
+      <MotionDialog open={profileConfirmOpen} onClose={() => setProfileConfirmOpen(false)} onAfterClose={() => setPendingProfileConfirm(null)} labelledBy="profile-switch-dialog-title">
           <div className="w-full max-w-md bg-[#111A31] border-2 border-[#E4FF58] cr-shadow-ctrl-lg p-6 space-y-4">
             <div className="cr-font-mono-code text-xs font-bold text-[#FC5FA9]">
               CUSTOMIZED PROFILE DETECTED
@@ -994,37 +1005,36 @@ export default function App() {
               id="profile-switch-dialog-title"
               className="cr-font-display text-lg font-bold text-[#E8F0FF]"
             >
-              Switch from {activeProfile} to {pendingProfileConfirm}?
+              Switch from {confirmFromProfile} to {pendingProfileConfirm}?
             </h3>
             <p className="text-xs text-[#B6D7F7] leading-relaxed">
-              You customized one or more slots in the <strong>{activeProfile}</strong> profile. Would you like to keep your edits in memory when switching, or restore {activeProfile} to its default preset?
+              You customized one or more slots in the <strong>{confirmFromProfile}</strong> profile. Would you like to keep your edits in memory when switching, or restore {confirmFromProfile} to its default preset?
             </p>
             <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
               <button
                 type="button"
-                onClick={() => setPendingProfileConfirm(null)}
+                onClick={() => setProfileConfirmOpen(false)}
                 className="px-3 py-2 text-xs cr-font-mono-code text-[#B6D7F7] hover:text-[#E8F0FF] border border-[#61728F]"
               >
                 CANCEL
               </button>
               <button
                 type="button"
-                onClick={() => performProfileSwitch(pendingProfileConfirm, true)}
+                onClick={() => pendingProfileConfirm && performProfileSwitch(pendingProfileConfirm, true)}
                 className="px-3 py-2 text-xs cr-font-mono-code font-bold bg-[#FC5FA9] text-[#111A31] hover:bg-[#E8F0FF]"
               >
                 RESET & SWITCH
               </button>
               <button
                 type="button"
-                onClick={() => performProfileSwitch(pendingProfileConfirm, false)}
+                onClick={() => pendingProfileConfirm && performProfileSwitch(pendingProfileConfirm, false)}
                 className="px-4 py-2 text-xs cr-font-mono-code font-bold bg-[#E4FF58] text-[#111A31] hover:bg-[#E8F0FF]"
               >
                 KEEP EDITS & SWITCH
               </button>
             </div>
           </div>
-        </div>
-      )}
+      </MotionDialog>
 
       {/* Quiet Footer */}
       <footer className="bg-[#0A1020] py-8 px-4 sm:px-8 text-xs text-[#B6D7F7]">
@@ -1197,6 +1207,126 @@ export default function App() {
   stroke-dasharray: 6 6;
   animation: crPatchDash 1.2s linear infinite;
 }
+
+/* Route-owned motion grammar. The underlying brand, layout and palette stay intact. */
+.cr-shell {
+  --cr-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --cr-ease-feedback: cubic-bezier(0.23, 1, 0.32, 1);
+  --cr-duration-feedback: 120ms;
+  --cr-duration-state: 280ms;
+  --cr-duration-reveal: 700ms;
+  scrollbar-color: var(--cr-hyper-cobalt) var(--cr-kernel-navy);
+}
+.cr-shell [id] { scroll-margin-top: 96px; }
+.cr-shell :is(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--cr-voltage-yellow);
+  outline-offset: 4px;
+}
+.cr-shell :is(input, textarea) { caret-color: var(--cr-voltage-yellow); }
+.cr-shell button { cursor: pointer; }
+.cr-shell button:disabled { cursor: not-allowed; opacity: 0.5; }
+.cr-shell :is(button, a, input, select, textarea) { transition-timing-function: var(--cr-ease); }
+.cr-shell .cr-transition-control { transition-property: transform, opacity, background-color, border-color, color; transition-duration: var(--cr-duration-feedback); }
+.cr-window-surface { transform-origin: top left; }
+.cr-save-icon, .cr-save-label { display: inline-grid; }
+.cr-save-icon > *, .cr-save-label > * { grid-area: 1 / 1; transition: opacity 160ms var(--cr-ease-feedback), transform 160ms var(--cr-ease-feedback); }
+.cr-save-success { opacity: 0; transform: translateY(6px); }
+[data-cr-save-state="saved"] .cr-save-success { opacity: 1; transform: none; }
+[data-cr-save-state="saved"] .cr-save-idle { opacity: 0; transform: translateY(-6px); }
+.cr-skip { position: fixed; z-index: 150; top: 8px; left: 8px; padding: 12px 24px; background: var(--cr-voltage-yellow); color: var(--cr-kernel-navy); transform: translateY(-160%); }
+.cr-skip:focus { transform: none; }
+.cr-word { display: inline-block; overflow: clip; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.cr-word-in { display: inline-block; }
+.cr-nav-progress { pointer-events: none; position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px; background: var(--cr-voltage-yellow); transform: scaleX(0); transform-origin: left; }
+.cr-header { transition: box-shadow var(--cr-duration-state) var(--cr-ease); }
+.cr-header[data-scrolled="true"] { box-shadow: 0 6px 0 color-mix(in srgb, var(--cr-kernel-navy) 80%, transparent); }
+.cr-nav-link { position: relative; transition: color var(--cr-duration-state) var(--cr-ease); }
+.cr-nav-link::after { content: ''; position: absolute; left: 0; bottom: -8px; width: 100%; height: 2px; background: var(--cr-voltage-yellow); transform: scaleX(0); transform-origin: right; transition: transform 350ms var(--cr-ease); }
+.cr-nav-link:is(:hover, :focus-visible, [aria-current]) { color: var(--cr-voltage-yellow); }
+.cr-nav-link:is(:hover, :focus-visible, [aria-current])::after { transform: scaleX(1); transform-origin: left; }
+.cr-dialog { margin: auto; padding: 0; border: 0; max-width: calc(100% - 32px); max-height: calc(100svh - 32px); width: fit-content; background: var(--cr-kernel-navy); color: var(--cr-monitor-frost); overflow: auto; }
+.cr-dialog::backdrop { background: color-mix(in srgb, var(--cr-kernel-navy) 90%, transparent); opacity: 1; transition: opacity 160ms var(--cr-ease); }
+.cr-dialog[data-cr-closing]::backdrop { opacity: 0; }
+@starting-style { .cr-dialog[open]::backdrop { opacity: 0; } }
+.cr-hardware-dialog { width: min(768px, calc(100% - 32px)); }
+.cr-hardware-stage { margin-block-end: 0; }
+.cr-nav-dialog { width: 100%; max-width: none; height: 100svh; max-height: 100svh; }
+.cr-mobile-navigation { padding: 24px; min-height: 100%; display: flex; flex-direction: column; gap: 64px; }
+.cr-mobile-navigation nav { display: flex; flex-direction: column; }
+.cr-mobile-navigation nav a { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px 0; font: 700 1.875rem/1.2 var(--cr-font-display); border-bottom: 1px solid var(--cr-hyper-cobalt); }
+.cr-mobile-navigation nav a[aria-current] { color: var(--cr-voltage-yellow); }
+.cr-nojs-nav { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; }
+.cr-header:has(.cr-nojs-nav) { flex-wrap: wrap; }
+.cr-header:has(.cr-nojs-nav) button { display: none; }
+.cr-window-titlebar { touch-action: none; }
+.cr-desktop:not([data-cr-playing="true"]) .cr-patch-cable-line,
+.cr-shell[data-cr-hidden="true"] .cr-patch-cable-line { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .cr-shell[data-cr-motion="live"][data-cr-boot="ready"] .cr-hero-copy h1 .cr-word-in {
+    animation: cr-word-arrive 800ms var(--cr-ease) calc(var(--cr-word) * 55ms) both;
+  }
+  .cr-shell[data-cr-motion="live"][data-cr-boot="ready"] .cr-hero-copy > :not(h1) {
+    animation: cr-copy-arrive 600ms var(--cr-ease) 180ms both;
+  }
+  .cr-shell[data-cr-motion="live"][data-cr-boot="ready"] .cr-hero-copy > :has(button, a) {
+    animation-name: cr-opacity-in;
+  }
+  .cr-shell[data-cr-motion="live"][data-cr-boot="ready"] .cr-hero-hardware > div {
+    animation: cr-hardware-arrive 800ms var(--cr-ease) 120ms both;
+  }
+  .cr-shell [data-cr-reveal] { transition: transform var(--cr-duration-reveal) var(--cr-ease), opacity 500ms var(--cr-ease); }
+  .cr-shell[data-cr-motion="live"] [data-cr-armed][data-cr-reveal] { opacity: 0; transform: translateY(24px); }
+  .cr-shell[data-cr-motion="live"] [data-cr-armed][data-cr-reveal="workspace"] { transform: translateY(32px) scale(0.99); }
+  .cr-shell [data-cr-heading] .cr-word-in { transition: transform var(--cr-duration-reveal) var(--cr-ease), opacity 500ms var(--cr-ease); transition-delay: calc(var(--cr-word) * 35ms); }
+  .cr-shell[data-cr-motion="live"] [data-cr-armed][data-cr-heading] .cr-word-in { transform: translateY(110%); opacity: 0; }
+  .cr-shell [data-cr-reveal="matrix"] > button { transition: transform 650ms var(--cr-ease), opacity 500ms var(--cr-ease); }
+  .cr-shell[data-cr-motion="live"] [data-cr-armed][data-cr-reveal="matrix"] > button { opacity: 0; transform: translateY(16px); }
+  .cr-signoff-matrix > button:nth-child(5n + 2) { transition-delay: 35ms; }
+  .cr-signoff-matrix > button:nth-child(5n + 3) { transition-delay: 70ms; }
+  .cr-signoff-matrix > button:nth-child(5n + 4) { transition-delay: 105ms; }
+  .cr-signoff-matrix > button:nth-child(5n) { transition-delay: 140ms; }
+  .cr-nav-dialog[open] nav a { animation: cr-copy-arrive 450ms var(--cr-ease) calc(var(--cr-item) * 45ms) both; }
+  .cr-app-panel, .cr-callout-detail, .cr-hardware-angle { animation: cr-state-arrive var(--cr-duration-state) var(--cr-ease); }
+  .cr-log-entry:first-child { animation: cr-log-arrive 220ms var(--cr-ease); }
+  .cr-deck-key-btn[data-cr-scanning="true"] > div { animation: cr-key-arrive 300ms var(--cr-ease) calc(var(--cr-key) * 25ms) both; }
+  .cr-shell :is(button, a):active { scale: 0.98; }
+  .cr-shell .cr-deck-key-btn:active { transform: translate(2px, 2px); }
+  .cr-shell .cr-deck-key-btn[data-pressed="true"]:not(:active) { transform: none; }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .cr-shell [data-cr-magnetic] { transition: translate 280ms var(--cr-ease), scale var(--cr-duration-feedback) var(--cr-ease-feedback), background-color 220ms var(--cr-ease); }
+  .cr-shell [data-cr-magnetic] > svg { transition: transform 280ms var(--cr-ease); }
+  .cr-shell [data-cr-magnetic]:hover > svg { transform: translate(2px, 2px); }
+  .cr-hardware-stage > .cr-hardware-angle { transition: transform 200ms var(--cr-ease-feedback); }
+  .cr-shell :is(.cr-action-card, .cr-profile-card) { transition: transform 350ms var(--cr-ease), opacity 250ms var(--cr-ease), border-color 220ms var(--cr-ease); }
+  .cr-shell :is(.cr-action-card, .cr-profile-card):is(:hover, :focus-within) { transform: translate(-2px, -4px); }
+  .cr-shell :is(.cr-action-card, .cr-profile-card) svg { transition: transform 350ms var(--cr-ease); }
+  .cr-shell :is(.cr-action-card, .cr-profile-card):hover svg { transform: translateY(-2px); }
+  .cr-shell .cr-deck-key-btn:hover { transform: translateY(-2px); }
+}
+.cr-shell [data-cr-instant][data-cr-reveal],
+.cr-shell [data-cr-instant][data-cr-heading] .cr-word-in,
+.cr-shell [data-cr-instant][data-cr-reveal="matrix"] > button { transition: none !important; opacity: 1 !important; transform: none !important; }
+@media (max-width: 639px) {
+  .cr-header > a { font-size: 16px; gap: 8px; }
+  .cr-header > div > a { padding-left: 12px; padding-right: 12px; }
+  .cr-mobile-navigation nav a { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cr-boot { display: none; }
+  .cr-shell *, .cr-shell *::before, .cr-shell *::after { animation: none !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
+  .cr-shell [data-cr-armed] { opacity: 1 !important; transform: none !important; }
+  .cr-shell .cr-deck-key-btn { transform: none !important; }
+}
+@keyframes cr-word-arrive { from { opacity: 0; transform: translateY(110%); } to { opacity: 1; transform: none; } }
+@keyframes cr-copy-arrive { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes cr-hardware-arrive { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cr-opacity-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cr-key-arrive { from { opacity: 0.3; transform: translateY(6px) scale(0.94); } to { opacity: 1; transform: none; } }
+@keyframes cr-state-arrive { from { opacity: 0.35; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes cr-log-arrive { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
 ]]>
     </file>
     <file path="src/app/(ctrlroom)/ctrlroom/icon.svg">
@@ -1444,7 +1574,7 @@ export const ActionLibraryApp: React.FC<ActionLibraryAppProps> = ({
                 e.dataTransfer.setData('text/plain', action.id);
               }}
               onMouseEnter={() => setHoveredActionId(action.id)}
-              className={`p-2.5 border-2 transition-all flex items-start justify-between gap-2.5 ${
+              className={`p-2.5 border-2 cr-transition-control flex items-start justify-between gap-2.5 ${
                 isAssignedToCurrent
                   ? 'bg-[#2858FF]/30 border-[#E4FF58]'
                   : 'bg-[#15203D] border-[#61728F]/60 hover:border-[#2858FF]'
@@ -1514,11 +1644,12 @@ export const ActionLibraryApp: React.FC<ActionLibraryAppProps> = ({
     </file>
     <file path="src/app/(ctrlroom)/ctrlroom/components/apps/DeckLabApp.tsx">
 <![CDATA['use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Play,
   RotateCcw,
   Save,
+  Check,
   Library,
   Terminal,
   Sliders,
@@ -1559,7 +1690,7 @@ interface DeckLabAppProps {
     }
   ) => void;
   onSwitchProfileRequest: (profileId: ProfileId) => void;
-  onSaveDemo: () => void;
+  onSaveDemo: () => boolean;
   onResetActiveProfile: () => void;
   onOpenApp: (appId: AppId) => void;
 }
@@ -1583,6 +1714,15 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
 }) => {
   const [interactionMode, setInteractionMode] = useState<'RUN' | 'CONFIGURE'>('RUN');
   const [dragOverSlot, setDragOverSlot] = useState<number | null>(null);
+  const [saveFeedback, setSaveFeedback] = useState<'idle' | 'saved' | 'error'>('idle');
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (saveTimer.current) clearTimeout(saveTimer.current); }, []);
+  const saveDemo = () => {
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    const saved = onSaveDemo();
+    setSaveFeedback(saved ? 'saved' : 'error');
+    if (saved) saveTimer.current = setTimeout(() => setSaveFeedback('idle'), 2000);
+  };
 
   const selectedSlot = slots[selectedSlotIndex] || slots[0];
   const selectedAction = getActionById(selectedSlot.actionId);
@@ -1715,6 +1855,7 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
             {/* Grid Scan Overlay on Profile Change */}
             {isScanningGrid && (
               <div
+                key={activeProfile}
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-b from-transparent via-[#E4FF58]/35 to-transparent cr-animate-grid-scan"
               />
@@ -1748,7 +1889,9 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
 
                 return (
                   <button
-                    key={slot.slotIndex}
+                    key={`${activeProfile}-${slot.slotIndex}`}
+                    style={{ '--cr-key': (slot.slotIndex % 5) + Math.floor(slot.slotIndex / 5) } as React.CSSProperties}
+                    data-cr-scanning={isScanningGrid}
                     type="button"
                     data-testid={`deck-slot-${slot.slotIndex}`}
                     data-pressed={isRecentlyTriggered ? 'true' : 'false'}
@@ -1774,7 +1917,7 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
                         onAssignAction(slot.slotIndex, droppedActionId);
                       }
                     }}
-                    className={`cr-deck-key-btn relative aspect-square p-1.5 sm:p-2 flex flex-col items-center justify-between border-2 transition-all focus-visible:outline-2 focus-visible:outline-[#E4FF58] ${getAccentClasses(
+                    className={`cr-deck-key-btn relative aspect-square p-1.5 sm:p-2 flex flex-col items-center justify-between border-2 cr-transition-control focus-visible:outline-2 focus-visible:outline-[#E4FF58] ${getAccentClasses(
                       accent,
                       isSelected
                     )} ${dragOverSlot === slot.slotIndex ? 'ring-2 ring-[#FC5FA9] scale-105' : ''}`}
@@ -1814,11 +1957,13 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={onSaveDemo}
+                  onClick={saveDemo}
+                  data-cr-save-state={saveFeedback}
+                  aria-label={saveFeedback === 'saved' ? 'Demo saved locally' : 'Save this demo'}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs cr-font-mono-code font-bold bg-[#E4FF58] text-[#111A31] hover:bg-[#E8F0FF] transition-colors whitespace-nowrap shrink-0"
                 >
-                  <Save className="w-3.5 h-3.5" />
-                  <span>SAVE THIS DEMO</span>
+                  <span className="cr-save-icon" aria-hidden="true"><Save className="cr-save-idle w-3.5 h-3.5" /><Check className="cr-save-success w-3.5 h-3.5" /></span>
+                  <span className="cr-save-label" aria-hidden="true"><span className="cr-save-idle">SAVE THIS DEMO</span><span className="cr-save-success">SAVED LOCALLY</span></span>
                 </button>
                 <button
                   type="button"
@@ -1836,6 +1981,7 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
                   : 'LOCAL BROWSER STORAGE ONLY'}
               </span>
             </div>
+            {saveFeedback === 'error' && <p role="status" className="text-xs text-[#FC5FA9]">Save failed. Allow browser storage and try again.</p>}
           </div>
         </div>
 
@@ -1854,7 +2000,7 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
 
             {/* Viewport Screen */}
             <div
-              className={`relative h-36 border border-[#2858FF] p-3 flex flex-col justify-between overflow-hidden transition-all ${getSceneFilterStyle()}`}
+              className={`relative h-36 border border-[#2858FF] p-3 flex flex-col justify-between overflow-hidden cr-transition-control ${getSceneFilterStyle()}`}
             >
               {/* Top Status Chips inside Monitor */}
               <div className="flex flex-wrap items-center justify-between gap-1.5 z-10">
@@ -2395,7 +2541,7 @@ export const RunLogApp: React.FC<RunLogAppProps> = ({
           {logs.map((entry) => (
             <div
               key={entry.id}
-              className="p-2.5 bg-[#0C1326] border-l-2 border-[#E4FF58] border-y border-r border-[#61728F]/40 text-xs"
+              className="cr-log-entry p-2.5 bg-[#0C1326] border-l-2 border-[#E4FF58] border-y border-r border-[#61728F]/40 text-xs"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
@@ -2424,6 +2570,7 @@ import { Maximize2, X, CheckCircle2, Usb, Layers, Sliders } from 'lucide-react';
 import { getActionById } from '../../lib/os/actions';
 import { DeckSlotConfig } from '../../lib/os/types';
 import { PixelActionIcon } from '../icons/PixelSprites';
+import { MotionDialog } from '../motion/MotionDialog';
 
 interface StreamDeckHardwareViewProps {
   slots: DeckSlotConfig[];
@@ -2610,7 +2757,7 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
                     type="button"
                     onClick={() => onSelectSlot?.(slot.slotIndex)}
                     aria-label={`Hardware preview key ${slot.slotIndex + 1}: ${label}`}
-                    className={`group relative aspect-square rounded-[10px] p-1.5 flex flex-col items-center justify-between overflow-hidden transition-all duration-150 ${
+                    className={`group relative aspect-square rounded-[10px] p-1.5 flex flex-col items-center justify-between overflow-hidden cr-transition-control duration-150 ${
                       isSelected
                         ? 'ring-2 ring-[#E4FF58] bg-gradient-to-b from-[#2858FF] to-[#132247] scale-[0.98]'
                         : 'bg-gradient-to-b from-[#1E263B] to-[#0F1420] hover:from-[#26324D] hover:to-[#131B2E]'
@@ -2703,8 +2850,8 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
       )}
 
       {/* Main High-Clarity Hardware Stage */}
-      <div className="relative rounded-none bg-gradient-to-b from-[#162242] to-[#0C1326] border-2 border-[#61728F]/60 p-4 sm:p-5">
-        {renderHardwareChassis(false)}
+      <div className="cr-hardware-stage relative rounded-none bg-gradient-to-b from-[#162242] to-[#0C1326] border-2 border-[#61728F]/60 p-4 sm:p-5">
+        <div key={angle} className="cr-hardware-angle">{renderHardwareChassis(false)}</div>
 
         {/* Interactive Feature Callout Pills */}
         {!compact && (
@@ -2732,7 +2879,7 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
                 </div>
                 <div className="mt-1 text-xs font-semibold text-[#E8F0FF]">{item.title}</div>
                 {activeCallout === idx && (
-                  <p className="mt-1.5 text-[11px] text-[#B6D7F7] leading-relaxed">{item.detail}</p>
+                  <p className="cr-callout-detail mt-1.5 text-[11px] text-[#B6D7F7] leading-relaxed">{item.detail}</p>
                 )}
               </button>
             ))}
@@ -2741,13 +2888,7 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
       </div>
 
       {/* Hardware Zoom Modal */}
-      {zoomOpen && (
-        <div
-          className="fixed inset-0 z-[120] bg-[#111A31]/90 backdrop-blur-xs flex items-center justify-center p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Stream Deck MK.2 Hardware Inspection Lightbox"
-        >
+      <MotionDialog open={zoomOpen} onClose={() => setZoomOpen(false)} label="Stream Deck MK.2 Hardware Inspection Lightbox" className="cr-hardware-dialog">
           <div className="w-full max-w-3xl bg-[#111A31] border-2 border-[#E4FF58] cr-shadow-ctrl-lg p-6">
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#61728F]/50">
               <div>
@@ -2784,8 +2925,7 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
               ))}
             </div>
           </div>
-        </div>
-      )}
+      </MotionDialog>
     </div>
   );
 };
@@ -3160,13 +3300,26 @@ export const CtrlRoomGlyphLogo: React.FC<{ className?: string }> = ({ className 
     </file>
     <file path="src/app/(ctrlroom)/ctrlroom/components/layout/BrandHeader.tsx">
 <![CDATA['use client';
-import React from 'react';
-import { ExternalLink } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { ExternalLink, Menu, X } from 'lucide-react';
 import { CtrlRoomGlyphLogo } from '../icons/PixelSprites';
+import { MotionDialog } from '../motion/MotionDialog';
+import { scrollToCtrlRoom } from '../motion/tokens';
+
+const NAV_LINKS = [
+  ['desktop-stage', 'Desktop OS'],
+  ['section-deck-lab', 'Deck Lab'],
+  ['section-action-library', 'Action Library'],
+  ['section-profiles', 'Profiles'],
+  ['section-device-info', 'Stream Deck MK.2'],
+] as const;
 
 export const BrandHeader: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const pendingAnchor = useRef<string | null>(null);
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between gap-8 px-4 sm:px-8 py-3.5 bg-[#111A31]/95 backdrop-blur-xs border-b-2 border-[#2858FF]">
+    <header className="cr-header sticky top-0 z-50 flex items-center justify-between gap-3 sm:gap-8 px-4 sm:px-8 py-3.5 bg-[#111A31]/95 backdrop-blur-xs border-b-2 border-[#2858FF]">
+      <span aria-hidden="true" className="cr-nav-progress" />
       {/* Zone 1: Single text element wordmark */}
       <a
         href="#top"
@@ -3179,52 +3332,46 @@ export const BrandHeader: React.FC = () => {
       {/* Zone 2: 5 clean single-line text navigation links */}
       <nav
         aria-label="Primary Navigation"
-        className="hidden md:flex items-center gap-6 text-sm font-medium text-[#B6D7F7]"
+        className="cr-header-nav hidden xl:flex items-center gap-6 text-sm font-medium text-[#B6D7F7]"
       >
-        <a
-          href="#desktop-stage"
-          className="hover:text-[#E4FF58] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0"
-        >
-          Desktop OS
-        </a>
-        <a
-          href="#section-deck-lab"
-          className="hover:text-[#E4FF58] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0"
-        >
-          Deck Lab
-        </a>
-        <a
-          href="#section-action-library"
-          className="hover:text-[#E4FF58] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0"
-        >
-          Action Library
-        </a>
-        <a
-          href="#section-profiles"
-          className="hover:text-[#E4FF58] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0"
-        >
-          Profiles
-        </a>
-        <a
-          href="#section-device-info"
-          className="hover:text-[#E4FF58] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0"
-        >
-          Stream Deck MK.2
-        </a>
+        {NAV_LINKS.map(([id, label]) => <a key={id} data-cr-nav href={`#${id}`} className="cr-nav-link whitespace-nowrap shrink-0">{label}</a>)}
       </nav>
 
       {/* Zone 3: 1 primary action */}
-      <div className="flex items-center shrink-0">
+      <div className="flex items-center gap-2 shrink-0">
         <a
           href="https://www.elgato.com/us/en/p/stream-deck"
           target="_blank"
           rel="noopener noreferrer"
+          data-cr-magnetic
           className="inline-flex items-center gap-2 px-4 py-2 text-xs cr-font-mono-code font-bold text-[#111A31] bg-[#E4FF58] hover:bg-[#E8F0FF] border-2 border-[#111A31] cr-shadow-ctrl-cobalt transition-colors whitespace-nowrap shrink-0"
         >
-          <span>SEE REAL PRODUCT</span>
+          <span className="hidden sm:inline">SEE REAL PRODUCT</span><span className="sm:hidden">PRODUCT</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </a>
+        <button type="button" aria-label="Open navigation" aria-expanded={menuOpen} aria-controls="cr-mobile-navigation"
+          onClick={() => setMenuOpen(true)} className="xl:hidden border-2 border-[#2858FF] p-2 text-[#E4FF58]">
+          <Menu className="w-5 h-5" />
+        </button>
       </div>
+      <MotionDialog open={menuOpen} onClose={() => setMenuOpen(false)} onAfterClose={() => {
+        if (pendingAnchor.current) { scrollToCtrlRoom(pendingAnchor.current, true); pendingAnchor.current = null; }
+      }} label="Navigation" className="cr-nav-dialog">
+        <div id="cr-mobile-navigation" className="cr-mobile-navigation">
+          <div className="flex items-center justify-between gap-4">
+            <span className="cr-font-mono-code text-sm text-[#E4FF58]">C/R OS // NAVIGATION</span>
+            <button type="button" onClick={() => setMenuOpen(false)} aria-label="Close navigation" className="p-2 border-2 border-[#2858FF]"><X /></button>
+          </div>
+          <nav aria-label="Mobile navigation">
+            {NAV_LINKS.map(([id, label], index) => <a key={id} data-cr-nav href={`#${id}`}
+              style={{ '--cr-item': index } as React.CSSProperties}
+              onClick={event => { event.preventDefault(); pendingAnchor.current = id; setMenuOpen(false); history.pushState(null, '', `#${id}`); }}>
+              <span>{label}</span><span aria-hidden="true">↗</span>
+            </a>)}
+          </nav>
+        </div>
+      </MotionDialog>
+      <noscript><nav aria-label="Page sections" className="cr-nojs-nav">{NAV_LINKS.map(([id, label]) => <a key={id} href={`#${id}`}>{label}</a>)}</nav></noscript>
     </header>
   );
 };
@@ -3241,26 +3388,29 @@ interface BootSequenceProps {
 
 /**
  * Deterministic 4-strip pixel shutter reveal per Section 4 & Section 6:
- * - Settles in ~650ms so it never blocks navigation.
+ * - Finishes all four shutter strips in 840ms without blocking input.
  * - Immediately bypassed when ?autostart=1, session repeat, or prefers-reduced-motion is active.
  */
 export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(true);
   const [step, setStep] = useState(0);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     if (params.get('autostart') === '1') {
+      setVisible(false);
       onComplete?.();
       return;
     }
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setVisible(false);
       onComplete?.();
       return;
     }
     try {
       if (window.sessionStorage.getItem('ctrl_room_booted') === '1') {
+        setVisible(false);
         onComplete?.();
         return;
       }
@@ -3268,6 +3418,10 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       // Ignore sessionStorage restrictions
     }
     setVisible(true);
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const settle = () => { if (preference.matches) { setVisible(false); onComplete?.(); } };
+    preference.addEventListener('change', settle);
+    return () => preference.removeEventListener('change', settle);
   }, [onComplete]);
 
   useEffect(() => {
@@ -3283,7 +3437,7 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       }
       setVisible(false);
       onComplete?.();
-    }, 680);
+    }, 840);
 
     return () => {
       window.clearTimeout(t1);
@@ -3296,9 +3450,8 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
 
   return (
     <div
-      onClick={() => setVisible(false)}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-[90] grid grid-rows-4 overflow-hidden"
+      className="cr-boot pointer-events-none fixed inset-0 z-[90] grid grid-rows-4 overflow-hidden"
     >
       {[0, 1, 2, 3].map((stripIdx) => (
         <div
@@ -3320,8 +3473,8 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
           {stripIdx === 2 && (
             <div className="w-full max-w-md h-2 bg-[#1A2747] border border-[#2858FF]">
               <div
-                className="h-full bg-[#E4FF58] transition-all duration-200"
-                style={{ width: step >= 1 ? '100%' : '35%' }}
+                className="h-full bg-[#E4FF58] origin-left transition-transform duration-200"
+                style={{ transform: `scaleX(${step >= 1 ? 1 : 0.35})` }}
               />
             </div>
           )}
@@ -3330,6 +3483,360 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
     </div>
   );
 };
+]]>
+    </file>
+    <file path="src/app/(ctrlroom)/ctrlroom/components/motion/CtrlRoomMotion.tsx">
+<![CDATA['use client';
+
+import { useEffect, type RefObject } from 'react';
+import { CR_MOTION, scrollToCtrlRoom } from './tokens';
+
+/** Event-driven writes only: no React updates or perpetual animation frame loop. */
+export function CtrlRoomMotion({ rootRef, bootReady }: { rootRef: RefObject<HTMLDivElement | null>; bootReady: boolean }) {
+  useEffect(() => {
+    if (!bootReady || !rootRef.current) return;
+    const preference = matchMedia('(prefers-reduced-motion: reduce)');
+    if (preference.matches) return;
+    // Animate only the original, visible key nodes. Later angle remounts stay ready.
+    const keys = Array.from(rootRef.current.querySelectorAll<HTMLElement>('.cr-hero-hardware [aria-label^="Hardware preview key"] > div'))
+      .filter(el => !el.closest('dialog'));
+    const animations = keys.map((key, index) => key.animate([
+      { opacity: 0.3, transform: 'translateY(6px) scale(0.94)' },
+      { opacity: 1, transform: 'none' },
+    ], { duration: CR_MOTION.glyph * 1000, delay: 300 + (index % 5) * 40, easing: CR_MOTION.cssEase, fill: 'backwards' }));
+    const cancel = () => animations.forEach(animation => animation.cancel());
+    preference.addEventListener('change', cancel);
+    return () => { cancel(); preference.removeEventListener('change', cancel); };
+  }, [rootRef, bootReady]);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const motion = matchMedia('(prefers-reduced-motion: no-preference)');
+    const fine = matchMedia('(hover: hover) and (pointer: fine)');
+    const wide = matchMedia('(min-width: 1024px)');
+    const hero = root.querySelector<HTMLElement>('.cr-hero');
+    const hardware = root.querySelector<HTMLElement>('.cr-hero-hardware');
+    const header = root.querySelector<HTMLElement>('.cr-header');
+    const progress = root.querySelector<HTMLElement>('.cr-nav-progress');
+    const chapters = Array.from(root.querySelectorAll<HTMLElement>('main > section[id]'));
+    const links = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-cr-nav]'));
+    root.querySelectorAll<HTMLElement>('main > section:not(.cr-hero) h2').forEach(el => { el.dataset.crHeading = ''; });
+    root.querySelectorAll<HTMLElement>('main > section:not(.cr-hero) > div').forEach((el, index) => {
+      if (!el.hasAttribute('data-cr-reveal')) el.dataset.crReveal = index === 0 ? 'workspace' : 'section';
+    });
+    const reveals = Array.from(root.querySelectorAll<HTMLElement>('[data-cr-reveal], [data-cr-heading]'));
+    let scrollFrame = 0;
+    let pointerFrame = 0;
+    let focusFrame = 0;
+    let pointerFocus = false;
+    let disposed = false;
+    let maxScroll = 1;
+    let heroTop = 0;
+    let heroHeight = 1;
+    let chapterTops: number[] = [];
+    let hover: HTMLElement | null = null;
+    let hoverPlane: HTMLElement | null = null;
+    let bounds: DOMRect | null = null;
+    let pointerX = 0;
+    let pointerY = 0;
+    const clamp = (value: number) => Math.max(0, Math.min(1, value));
+
+    const reveal = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const target = entry.target as HTMLElement;
+        target.dataset.crSeen = 'true';
+        delete target.dataset.crArmed;
+        reveal.unobserve(target);
+      }
+    }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
+    const ambient = new IntersectionObserver(entries => {
+      for (const entry of entries) (entry.target as HTMLElement).dataset.crPlaying = String(entry.isIntersecting);
+    });
+    root.querySelectorAll('[data-cr-ambient]').forEach(el => ambient.observe(el));
+
+    const paintScroll = () => {
+      scrollFrame = 0;
+      progress?.style.setProperty('transform', `scaleX(${clamp(scrollY / maxScroll)})`);
+      header?.setAttribute('data-scrolled', String(scrollY > 32));
+      // The hardware settles into the workspace as the existing hero leaves.
+      const departure = motion.matches && wide.matches ? clamp((scrollY - heroTop) / heroHeight) : 0;
+      if (hardware) {
+        if (motion.matches && wide.matches) hardware.style.transform = `translateY(${departure * 24}px) scale(${1 - departure * 0.025})`;
+        else hardware.style.removeProperty('transform');
+      }
+      let active = '';
+      chapterTops.forEach((top, index) => { if (top < scrollY + innerHeight * 0.4) active = chapters[index].id; });
+      for (const link of links) {
+        const current = link.hash === `#${active}`;
+        if (current) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      }
+    };
+    const scheduleScroll = () => { if (!scrollFrame) scrollFrame = requestAnimationFrame(paintScroll); };
+    const measure = () => {
+      maxScroll = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+      heroTop = (hero?.getBoundingClientRect().top ?? 0) + scrollY;
+      heroHeight = hero?.offsetHeight ?? 1;
+      chapterTops = chapters.map(el => el.getBoundingClientRect().top + scrollY);
+      resetPointer();
+      scheduleScroll();
+    };
+    const resetPointer = () => {
+      cancelAnimationFrame(pointerFrame); pointerFrame = 0;
+      hover?.style.removeProperty('translate');
+      hoverPlane?.style.removeProperty('transform');
+      hoverPlane = null;
+      hover = null; bounds = null;
+    };
+    const paintPointer = () => {
+      pointerFrame = 0;
+      if (!hover || !bounds) return;
+      const x = clamp((pointerX - bounds.left) / bounds.width) - 0.5;
+      const y = clamp((pointerY - bounds.top) / bounds.height) - 0.5;
+      if (hover.matches('.cr-hardware-stage')) {
+        hoverPlane = hover.querySelector<HTMLElement>('.cr-hardware-angle');
+        if (hoverPlane) hoverPlane.style.transform = `perspective(1000px) rotateX(${(-y * 3).toFixed(2)}deg) rotateY(${(x * 3).toFixed(2)}deg)`;
+      } else hover.style.translate = `${(x * 6).toFixed(2)}px ${(y * 4).toFixed(2)}px`;
+    };
+    const pointer = (event: PointerEvent) => {
+      if (!motion.matches || !fine.matches || event.pointerType === 'touch') return;
+      const target = (event.target as Element).closest<HTMLElement>('[data-cr-magnetic], .cr-hardware-stage');
+      if (target !== hover) {
+        resetPointer(); hover = target; bounds = target?.getBoundingClientRect() ?? null;
+      }
+      pointerX = event.clientX; pointerY = event.clientY;
+      if (hover && !pointerFrame) pointerFrame = requestAnimationFrame(paintPointer);
+    };
+    const pointerOut = (event: PointerEvent) => {
+      if (hover && (!(event.relatedTarget instanceof Node) || !hover.contains(event.relatedTarget))) resetPointer();
+    };
+    const settleFocus = (event: FocusEvent) => {
+      if (!(event.target instanceof HTMLElement)) return;
+      // A mouse press must keep its hit area still until the click is delivered.
+      if (pointerFocus) { resetPointer(); return; }
+      // Keyboard navigation must never land on a hidden reveal.
+      let target = event.target.closest<HTMLElement>('[data-cr-reveal], [data-cr-heading]');
+      while (target) {
+        target.dataset.crInstant = 'true';
+        target.dataset.crSeen = 'true'; delete target.dataset.crArmed; reveal.unobserve(target);
+        target = target.parentElement?.closest<HTMLElement>('[data-cr-reveal], [data-cr-heading]') ?? null;
+      }
+      resetPointer();
+    };
+    const beginPointerFocus = () => { cancelAnimationFrame(focusFrame); pointerFocus = true; };
+    const endPointerFocus = () => {
+      cancelAnimationFrame(focusFrame);
+      focusFrame = requestAnimationFrame(() => { pointerFocus = false; });
+    };
+    const keyboardFocus = () => { pointerFocus = false; };
+    const click = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const anchor = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
+      if (!anchor || anchor.hash.length < 2) return;
+      let id: string;
+      try { id = decodeURIComponent(anchor.hash.slice(1)); } catch { return; }
+      if (!document.getElementById(id)) return;
+      event.preventDefault();
+      scrollToCtrlRoom(id, true);
+      history.pushState(null, '', anchor.hash);
+    };
+    const mode = () => {
+      root.dataset.crMotion = motion.matches ? 'live' : 'static';
+      resetPointer(); reveal.disconnect();
+      for (const el of reveals) {
+        if (!motion.matches || el.dataset.crSeen || el.getBoundingClientRect().top < innerHeight * 0.94) {
+          el.dataset.crSeen = 'true'; delete el.dataset.crArmed;
+        } else { el.dataset.crArmed = 'true'; reveal.observe(el); }
+      }
+      measure();
+    };
+    const visibility = () => { root.dataset.crHidden = String(document.hidden); if (document.hidden) resetPointer(); };
+    const sizes = new ResizeObserver(measure);
+    sizes.observe(root);
+    mode(); visibility();
+    document.fonts.ready.then(() => { if (!disposed) measure(); });
+    addEventListener('scroll', scheduleScroll, { passive: true });
+    addEventListener('resize', measure, { passive: true });
+    motion.addEventListener('change', mode);
+    fine.addEventListener('change', resetPointer);
+    wide.addEventListener('change', measure);
+    document.addEventListener('visibilitychange', visibility);
+    root.addEventListener('pointermove', pointer, { passive: true });
+    root.addEventListener('pointerout', pointerOut);
+    root.addEventListener('focusin', settleFocus);
+    root.addEventListener('pointerdown', beginPointerFocus, true);
+    addEventListener('pointerup', endPointerFocus, true);
+    addEventListener('pointercancel', endPointerFocus, true);
+    addEventListener('keydown', keyboardFocus, true);
+    root.addEventListener('click', click);
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(scrollFrame); resetPointer();
+      cancelAnimationFrame(focusFrame);
+      reveal.disconnect(); ambient.disconnect(); sizes.disconnect();
+      removeEventListener('scroll', scheduleScroll); removeEventListener('resize', measure);
+      motion.removeEventListener('change', mode); fine.removeEventListener('change', resetPointer); wide.removeEventListener('change', measure);
+      document.removeEventListener('visibilitychange', visibility);
+      root.removeEventListener('pointermove', pointer); root.removeEventListener('pointerout', pointerOut);
+      root.removeEventListener('focusin', settleFocus); root.removeEventListener('click', click);
+      root.removeEventListener('pointerdown', beginPointerFocus, true);
+      removeEventListener('pointerup', endPointerFocus, true);
+      removeEventListener('pointercancel', endPointerFocus, true);
+      removeEventListener('keydown', keyboardFocus, true);
+      delete root.dataset.crMotion;
+      reveals.forEach(el => delete el.dataset.crArmed);
+      hardware?.style.removeProperty('transform');
+    };
+  }, [rootRef]);
+  return null;
+}
+]]>
+    </file>
+    <file path="src/app/(ctrlroom)/ctrlroom/components/motion/MotionDialog.tsx">
+<![CDATA['use client';
+
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from 'react';
+import { CR_MOTION } from './tokens';
+
+/** Native focus containment, Escape and focus restoration, with interruptible exits. */
+export function MotionDialog({ open, onClose, onAfterClose, label, labelledBy, children, className = '' }: {
+  open: boolean; onClose: () => void; onAfterClose?: () => void; label?: string; labelledBy?: string; children: ReactNode; className?: string;
+}) {
+  const ref = useRef<HTMLDialogElement>(null);
+  const animationRef = useRef<Animation | null>(null);
+  const unlockRef = useRef<(() => void) | null>(null);
+  const afterCloseRef = useRef(onAfterClose);
+  useLayoutEffect(() => { afterCloseRef.current = onAfterClose; }, [onAfterClose]);
+  useEffect(() => () => {
+    animationRef.current?.cancel();
+    unlockRef.current?.();
+  }, []);
+  useLayoutEffect(() => {
+    const dialog = ref.current;
+    if (!dialog) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const wasOpen = dialog.open;
+    // Read the displayed state before cancelling either an entrance or an exit.
+    const displayed = wasOpen ? { opacity: getComputedStyle(dialog).opacity, transform: getComputedStyle(dialog).transform } : {
+      opacity: '0', transform: className.includes('cr-nav-dialog') ? 'translateY(-24px)' : 'translateY(16px) scale(0.985)',
+    };
+    animationRef.current?.cancel();
+    if (!open && !wasOpen) return;
+    if (open) {
+      if (!wasOpen) dialog.showModal();
+      if (!unlockRef.current) {
+        const previous = document.body.style.overflow;
+        unlockRef.current = () => { document.body.style.overflow = previous; unlockRef.current = null; };
+      }
+      document.body.style.overflow = 'hidden';
+      delete dialog.dataset.crClosing;
+    } else dialog.dataset.crClosing = 'true';
+    const animation = dialog.animate([displayed, open
+      ? { opacity: '1', transform: 'none' }
+      : { opacity: '0', transform: displayed.transform }], {
+      duration: reduce.matches ? 0 : (open ? (className.includes('cr-nav-dialog') ? CR_MOTION.menu : CR_MOTION.dialog) : CR_MOTION.exit) * 1000,
+      easing: CR_MOTION.cssEase, fill: 'both',
+    });
+    animationRef.current = animation;
+    animation.finished.then(() => {
+      if (animationRef.current !== animation || open) return;
+      dialog.close();
+      delete dialog.dataset.crClosing;
+      animation.cancel();
+      animationRef.current = null;
+      unlockRef.current?.();
+      afterCloseRef.current?.();
+    }).catch(() => {});
+    const settlePreference = () => { if (reduce.matches) animation.finish(); };
+    reduce.addEventListener('change', settlePreference);
+    return () => { reduce.removeEventListener('change', settlePreference); };
+  }, [open, className]);
+  return <dialog ref={ref} aria-label={label} aria-labelledby={labelledBy}
+    onClickCapture={event => { if (!open) { event.preventDefault(); event.stopPropagation(); } }}
+    onCancel={event => { event.preventDefault(); onClose(); }}
+    onKeyDown={event => {
+      if (event.key !== 'Tab') return;
+      const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]'))
+        .filter(el => el.getClientRects().length > 0);
+      const first = items[0];
+      const last = items.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    }}
+    className={`cr-dialog ${className}`}>
+    {children}
+  </dialog>;
+}
+]]>
+    </file>
+    <file path="src/app/(ctrlroom)/ctrlroom/components/motion/RevealText.tsx">
+<![CDATA[import { Fragment, type CSSProperties } from 'react';
+
+/** Real text remains readable on the server and is announced once. */
+export function RevealText({ text }: { text: string }) {
+  return <span className="cr-split">
+    <span className="sr-only">{text}</span>
+    <span aria-hidden="true">{text.split(' ').map((word, index) => (
+      <Fragment key={index}><span className="cr-word"><span
+        className="cr-word-in" style={{ '--cr-word': index } as CSSProperties}
+      >{word}</span></span>{' '}</Fragment>
+    ))}</span>
+  </span>;
+}
+]]>
+    </file>
+    <file path="src/app/(ctrlroom)/ctrlroom/components/motion/tokens.ts">
+<![CDATA[/** Timings observed in Lumen, adapted to the faster CTRL/ROOM workspace. */
+export const CR_MOTION = {
+  ease: [0.16, 1, 0.3, 1],
+  feedback: 0.12,
+  window: 0.28,
+  exit: 0.16,
+  reveal: 0.7,
+  dialog: 0.32,
+  menu: 0.35,
+  glyph: 0.5,
+  cssEase: 'cubic-bezier(0.16, 1, 0.3, 1)',
+  cssTravel: 'cubic-bezier(0.77, 0, 0.175, 1)',
+} as const;
+
+export function scrollToCtrlRoom(id: string, focusTarget = false) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  if (focusTarget) {
+    if (!target.hasAttribute('tabindex')) {
+      target.setAttribute('tabindex', '-1');
+      target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
+    }
+    target.focus({ preventScroll: true });
+  }
+  target.scrollIntoView({
+    behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    block: 'start',
+  });
+}
+]]>
+    </file>
+    <file path="src/app/(ctrlroom)/ctrlroom/components/motion/useLiveReducedMotion.ts">
+<![CDATA['use client';
+
+import { useSyncExternalStore } from 'react';
+
+const query = '(prefers-reduced-motion: reduce)';
+const subscribe = (changed: () => void) => {
+  const preference = matchMedia(query);
+  preference.addEventListener('change', changed);
+  return () => preference.removeEventListener('change', changed);
+};
+const snapshot = () => matchMedia(query).matches;
+const serverSnapshot = () => true;
+
+/** Unlike Motion's mount-time snapshot, this also settles active window motion live. */
+export function useLiveReducedMotion() {
+  return useSyncExternalStore(subscribe, snapshot, serverSnapshot);
+}
 ]]>
     </file>
     <file path="src/app/(ctrlroom)/ctrlroom/components/os/DesktopStage.tsx">
@@ -3390,7 +3897,7 @@ interface DesktopStageProps {
   ) => void;
   onSwitchProfileRequest: (profileId: ProfileId) => void;
   onResetProfile: (profileId: ProfileId) => void;
-  onSaveDemo: () => void;
+  onSaveDemo: () => boolean;
   onClearLogs: () => void;
   onUpdateNotes: (text: string) => void;
   onToggleAudio: () => void;
@@ -3514,7 +4021,7 @@ export const DesktopStage: React.FC<DesktopStageProps> = ({
     !actionLibWin.isMinimized;
 
   return (
-    <div className="w-full border-2 border-[#2858FF] bg-[#111A31] cr-shadow-ctrl-lg overflow-hidden">
+    <div data-cr-ambient className="cr-desktop w-full border-2 border-[#2858FF] bg-[#111A31] cr-shadow-ctrl-lg overflow-hidden">
       {/* Top Proprietary CTRL/ROOM OS System Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 px-3 sm:px-4 py-2 bg-[#162242] border-b-2 border-[#2858FF]">
         <div className="flex items-center gap-2.5">
@@ -3589,7 +4096,7 @@ export const DesktopStage: React.FC<DesktopStageProps> = ({
                   onClick={() => onOpenWindow(app.id)}
                   onDoubleClick={() => onOpenWindow(app.id)}
                   aria-label={`Open ${app.shortTitle} application`}
-                  className={`group w-full p-2 text-left border-2 transition-all flex items-center justify-between gap-1.5 focus-visible:outline-2 focus-visible:outline-[#E4FF58] ${
+                  className={`group w-full p-2 text-left border-2 cr-transition-control flex items-center justify-between gap-1.5 focus-visible:outline-2 focus-visible:outline-[#E4FF58] ${
                     isFocused
                       ? 'bg-[#2858FF] border-[#E4FF58] text-[#E8F0FF] translate-x-0.5'
                       : isOpen
@@ -3774,7 +4281,8 @@ export const DesktopStage: React.FC<DesktopStageProps> = ({
         </div>
 
         {/* Active Mobile Panel */}
-        <div className="p-3 sm:p-4">{renderAppContent(activeMobileApp)}</div>
+        <div key={activeMobileApp} role="tabpanel" aria-label={APP_CATALOG.find(app => app.id === activeMobileApp)?.title}
+          className="cr-app-panel p-3 sm:p-4">{renderAppContent(activeMobileApp)}</div>
       </div>
     </div>
   );
@@ -3783,7 +4291,10 @@ export const DesktopStage: React.FC<DesktopStageProps> = ({
     </file>
     <file path="src/app/(ctrlroom)/ctrlroom/components/os/OSWindow.tsx">
 <![CDATA['use client';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { CR_MOTION } from '../motion/tokens';
+import { useLiveReducedMotion } from '../motion/useLiveReducedMotion';
 import {
   Minus,
   Maximize2,
@@ -3831,6 +4342,10 @@ export const OSWindow: React.FC<OSWindowProps> = ({
   children,
 }) => {
   const windowRef = useRef<HTMLDivElement | null>(null);
+  const surfaceRef = useRef<HTMLDivElement | null>(null);
+  const flipFrom = useRef<DOMRect | null>(null);
+  const flipAnimation = useRef<Animation | null>(null);
+  const reduceMotion = useLiveReducedMotion();
   const [showKeyboardMove, setShowKeyboardMove] = useState(false);
   const dragStateRef = useRef<{
     dragging: boolean;
@@ -3848,9 +4363,30 @@ export const OSWindow: React.FC<OSWindowProps> = ({
     rafId: null,
   });
 
-  if (!windowState.isOpen || windowState.isMinimized) {
-    return null;
-  }
+  useEffect(() => () => {
+    if (dragStateRef.current.rafId !== null) cancelAnimationFrame(dragStateRef.current.rafId);
+    flipAnimation.current?.cancel();
+  }, []);
+
+  useLayoutEffect(() => {
+    const surface = surfaceRef.current;
+    const from = flipFrom.current;
+    flipFrom.current = null;
+    flipAnimation.current?.cancel();
+    if (!surface || !from || reduceMotion) return;
+    const to = surface.getBoundingClientRect();
+    if (!to.width || !to.height) return;
+    // Commit geometry once; animate only the visual surface between states.
+    flipAnimation.current = surface.animate([
+      { transform: `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height})` },
+      { transform: 'none' },
+    ], { duration: CR_MOTION.window * 1000, easing: CR_MOTION.cssTravel });
+  }, [windowState.isMaximized, reduceMotion]);
+
+  const toggleMaximize = () => {
+    flipFrom.current = surfaceRef.current?.getBoundingClientRect() ?? null;
+    onToggleMaximize(windowState.id);
+  };
 
   const getStageDimensions = () => {
     const rect = stageRef.current?.getBoundingClientRect();
@@ -3864,6 +4400,7 @@ export const OSWindow: React.FC<OSWindowProps> = ({
     if ((e.target as HTMLElement).closest('button')) return;
     onFocus(windowState.id);
     if (windowState.isMaximized) return;
+    flipAnimation.current?.cancel();
 
     e.currentTarget.setPointerCapture(e.pointerId);
     dragStateRef.current = {
@@ -3900,6 +4437,10 @@ export const OSWindow: React.FC<OSWindowProps> = ({
       cancelAnimationFrame(dragStateRef.current.rafId);
       dragStateRef.current.rafId = null;
     }
+    // Flush the final pointer position instead of dropping the last pending frame.
+    const { width, height } = getStageDimensions();
+    onMove(windowState.id, dragStateRef.current.origX + e.clientX - dragStateRef.current.startX,
+      dragStateRef.current.origY + e.clientY - dragStateRef.current.startY, width, height);
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
     } catch {
@@ -3927,7 +4468,6 @@ export const OSWindow: React.FC<OSWindowProps> = ({
         width: windowState.id === 'deck-lab' ? 560 : 420,
         height: 460,
         zIndex: windowState.zIndex,
-        transform: 'scale(0.96)',
       }
     : {
         left: windowState.position.x,
@@ -3940,12 +4480,21 @@ export const OSWindow: React.FC<OSWindowProps> = ({
       };
 
   return (
-    <section
+    <AnimatePresence initial={false}>
+    {windowState.isOpen && !windowState.isMinimized && <motion.section
+      key={windowState.id}
       ref={windowRef}
+      data-cr-window={windowState.id}
+      initial={{ opacity: 0, transform: reduceMotion ? 'translateY(0px) scale(1)' : 'translateY(12px) scale(0.97)' }}
+      animate={{ opacity: 1, transform: condensedMode ? 'translateY(0px) scale(0.96)' : 'translateY(0px) scale(1)' }}
+      exit={{ opacity: 0, transform: reduceMotion ? 'translateY(0px) scale(1)' : 'translateY(10px) scale(0.98)', transition: { duration: reduceMotion ? 0 : CR_MOTION.exit } }}
+      transition={{ duration: reduceMotion ? 0 : CR_MOTION.window, ease: [...CR_MOTION.ease] }}
       aria-label={windowState.title}
       onMouseDown={() => onFocus(windowState.id)}
       style={style}
-      className={`absolute flex flex-col bg-[#111A31] transition-shadow duration-150 ${
+      className="absolute"
+    >
+      <div ref={surfaceRef} className={`cr-window-surface flex h-full flex-col bg-[#111A31] ${
         isFocused
           ? 'border-2 border-[#E4FF58] cr-shadow-ctrl-lg'
           : 'border-2 border-[#61728F] cr-shadow-ctrl opacity-95'
@@ -3957,7 +4506,7 @@ export const OSWindow: React.FC<OSWindowProps> = ({
         onPointerMove={handlePointerMoveTitlebar}
         onPointerUp={handlePointerUpTitlebar}
         onPointerCancel={handlePointerUpTitlebar}
-        className={`flex items-center justify-between gap-2 px-3 py-2 select-none cursor-grab active:cursor-grabbing border-b-2 ${
+        className={`cr-window-titlebar flex items-center justify-between gap-2 px-3 py-2 select-none cursor-grab active:cursor-grabbing border-b-2 ${
           isFocused
             ? 'bg-[#2858FF] text-[#E8F0FF] border-[#E4FF58]'
             : 'bg-[#192544] text-[#B6D7F7] border-[#61728F]'
@@ -4060,7 +4609,7 @@ export const OSWindow: React.FC<OSWindowProps> = ({
 
           <button
             type="button"
-            onClick={() => onToggleMaximize(windowState.id)}
+            onClick={toggleMaximize}
             aria-label={
               windowState.isMaximized
                 ? `Restore ${windowState.title}`
@@ -4092,7 +4641,9 @@ export const OSWindow: React.FC<OSWindowProps> = ({
       <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 bg-[#111A31] text-[#E8F0FF]">
         {children}
       </div>
-    </section>
+      </div>
+    </motion.section>}
+    </AnimatePresence>
   );
 };
 ]]>
@@ -4966,24 +5517,25 @@ export function loadDemoStateFromStorage(): StoredDemoState | null {
   }
 }
 
-export function saveDemoStateToStorage(state: Omit<StoredDemoState, 'savedAt'>): string {
+export function saveDemoStateToStorage(state: Omit<StoredDemoState, 'savedAt'>): string | null {
   const timestamp = new Date().toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
   });
-  if (typeof window !== 'undefined' && window.localStorage) {
-    try {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
       const payload: StoredDemoState = {
         ...state,
         savedAt: timestamp,
       };
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    } catch {
-      // Ignore quota errors in restricted sandboxes
+      return timestamp;
     }
+  } catch {
+    return null;
   }
-  return timestamp;
+  return null;
 }
 
 export function clearDemoStorage(): void {

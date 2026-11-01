@@ -4,19 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import {
   ExternalLink,
   ArrowDown,
-  Sparkles,
-  Layers,
   RotateCcw,
-  Check,
-  Terminal,
-  Sliders,
 } from 'lucide-react';
 import { BrandHeader } from './components/layout/BrandHeader';
 import { BootSequence } from './components/motion/BootSequence';
+import { CtrlRoomMotion } from './components/motion/CtrlRoomMotion';
+import { RevealText } from './components/motion/RevealText';
+import { MotionDialog } from './components/motion/MotionDialog';
+import { scrollToCtrlRoom } from './components/motion/tokens';
 import { DesktopStage } from './components/os/DesktopStage';
 import { StreamDeckHardwareView } from './components/hardware/StreamDeckHardwareView';
 import { PixelActionIcon, CtrlRoomGlyphLogo } from './components/icons/PixelSprites';
@@ -56,6 +55,11 @@ import {
 } from './lib/os/windowReducer';
 
 export default function App() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const scanTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [bootReady, setBootReady] = useState(false);
+  const completeBoot = useCallback(() => setBootReady(true), []);
+  useEffect(() => () => { if (scanTimeout.current) clearTimeout(scanTimeout.current); }, []);
   const [wmState, dispatchWindow] = useReducer(
     windowReducer,
     undefined,
@@ -111,6 +115,8 @@ export default function App() {
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [editorialCategory, setEditorialCategory] = useState<ActionCategory>('CREATE');
   const [pendingProfileConfirm, setPendingProfileConfirm] = useState<ProfileId | null>(null);
+  const [profileConfirmOpen, setProfileConfirmOpen] = useState(false);
+  const [confirmFromProfile, setConfirmFromProfile] = useState<ProfileId>('STUDIO');
 
   // Internal sprint timer tick
   useEffect(() => {
@@ -209,10 +215,11 @@ export default function App() {
 
     soundEngine.playProfileScan();
     setIsScanningGrid(true);
-    window.setTimeout(() => setIsScanningGrid(false), 560);
+    if (scanTimeout.current) clearTimeout(scanTimeout.current);
+    scanTimeout.current = setTimeout(() => setIsScanningGrid(false), 560);
 
     setActiveProfile(targetProfile);
-    setPendingProfileConfirm(null);
+    setProfileConfirmOpen(false);
 
     const logEntry: RunLogEntry = {
       id: `prof-${Date.now()}`,
@@ -233,7 +240,9 @@ export default function App() {
   const handleSwitchProfileRequest = (targetProfile: ProfileId) => {
     if (targetProfile === activeProfile) return;
     if (isProfileModified(activeProfile, currentSlots)) {
+      setConfirmFromProfile(activeProfile);
       setPendingProfileConfirm(targetProfile);
+      setProfileConfirmOpen(true);
       return;
     }
     performProfileSwitch(targetProfile, false);
@@ -253,8 +262,13 @@ export default function App() {
       profiles: allProfiles,
       notesContent: simEnv.notesContent,
     });
+    if (!savedAt) {
+      setStatusAnnouncement('Save failed. Allow browser storage and try again.');
+      return false;
+    }
     setLastSavedTime(savedAt);
     setStatusAnnouncement(`Saved demo layout to browser localStorage at ${savedAt}.`);
+    return true;
   };
 
   const handleResetAllDemoData = () => {
@@ -292,32 +306,32 @@ export default function App() {
   };
 
   const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToCtrlRoom(id);
   };
 
   return (
-    <div id="top" className="min-h-screen flex flex-col bg-[#111A31] text-[#E8F0FF]">
+    <div id="top" ref={rootRef} data-cr-boot={bootReady ? 'ready' : 'waiting'} className="cr-shell min-h-screen flex flex-col bg-[#111A31] text-[#E8F0FF]">
+      <CtrlRoomMotion rootRef={rootRef} bootReady={bootReady} />
+      <a className="cr-skip" href="#cr-main">Skip to content</a>
       {/* Deterministic 4-strip Pixel Boot Shutter */}
-      <BootSequence />
+      <BootSequence onComplete={completeBoot} />
+      <noscript><style>{'.cr-boot { display: none !important; }'}</style></noscript>
 
       {/* Top Bar Contract Navigation */}
       <BrandHeader />
 
-      <main className="flex-1">
+      <main id="cr-main" className="flex-1" tabIndex={-1}>
         {/* =====================================================================
             SCREEN 00 — BOOT / WELCOME HERO
         ===================================================================== */}
         <section
           aria-labelledby="hero-heading"
-          className="relative border-b-2 border-[#2858FF] cr-bg-ctrl-dither overflow-hidden"
+          className="cr-hero relative border-b-2 border-[#2858FF] cr-bg-ctrl-dither overflow-hidden"
         >
           <div className="max-w-[1380px] mx-auto px-4 sm:px-8 py-10 lg:py-14">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               {/* Left Column: Campaign Hook, Copy, Primary CTA & Quick App Launchers */}
-              <div className="lg:col-span-6 space-y-6">
+              <div className="cr-hero-copy lg:col-span-6 space-y-6">
                 <div className="inline-flex items-center gap-2 text-xs cr-font-mono-code text-[#E4FF58]">
                   <span>C/R OS — BUILD 01.15</span>
                   <span aria-hidden="true">·</span>
@@ -328,7 +342,7 @@ export default function App() {
                   id="hero-heading"
                   className="cr-font-display text-4xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-[#E8F0FF] leading-[1.06] text-balance"
                 >
-                  WELCOME TO YOUR CONTROL ROOM.
+                  <RevealText text="WELCOME TO YOUR CONTROL ROOM." />
                 </h1>
 
                 <p className="text-base sm:text-lg text-[#B6D7F7] max-w-xl leading-relaxed">
@@ -338,12 +352,13 @@ export default function App() {
                 {/* Primary & Secondary Hero Actions */}
                 <div className="flex flex-wrap items-center gap-4 pt-1">
                   <button
+                    data-cr-magnetic
                     type="button"
                     onClick={() => {
                       handleOpenAppWindow('deck-lab');
                       scrollToSection('desktop-stage');
                     }}
-                    className="inline-flex items-center gap-2 px-6 py-3.5 text-sm cr-font-mono-code font-bold bg-[#E4FF58] text-[#111A31] hover:bg-[#E8F0FF] border-2 border-[#111A31] cr-shadow-ctrl-cobalt transition-all whitespace-nowrap shrink-0 cursor-pointer"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 text-sm cr-font-mono-code font-bold bg-[#E4FF58] text-[#111A31] hover:bg-[#E8F0FF] border-2 border-[#111A31] cr-shadow-ctrl-cobalt cr-transition-control whitespace-nowrap shrink-0 cursor-pointer"
                   >
                     <span>OPEN CTRL/ROOM OS</span>
                     <ArrowDown className="w-4 h-4" />
@@ -396,7 +411,7 @@ export default function App() {
               </div>
 
               {/* Right Column: Sharp Non-Pixelated Real Stream Deck MK.2 Hardware Anchor */}
-              <div className="lg:col-span-6">
+              <div className="cr-hero-hardware lg:col-span-6">
                 <div className="p-4 sm:p-5 bg-[#111A31] border-2 border-[#2858FF] cr-shadow-ctrl-lg">
                   <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#61728F]/40">
                     <span className="cr-font-mono-code text-xs font-bold text-[#E4FF58]">
@@ -526,7 +541,7 @@ export default function App() {
                   id="action-library-heading"
                   className="cr-font-display text-3xl sm:text-4xl font-bold text-[#E8F0FF] text-balance"
                 >
-                  YOUR WORKFLOW, ONE PRESS AWAY.
+                  <RevealText text="YOUR WORKFLOW, ONE PRESS AWAY." />
                 </h2>
                 <p className="text-sm sm:text-base text-[#B6D7F7] max-w-2xl">
                   Browse example shortcut tiles across four creative disciplines. Click any tile to assign it directly to{' '}
@@ -563,7 +578,8 @@ export default function App() {
                 return (
                   <div
                     key={action.id}
-                    className={`p-5 bg-[#15203D] border-2 transition-all flex flex-col justify-between gap-4 ${
+                    data-cr-reveal="tile"
+                    className={`cr-action-card p-5 bg-[#15203D] border-2 cr-transition-control flex flex-col justify-between gap-4 ${
                       isAssigned
                         ? 'border-[#E4FF58] cr-shadow-ctrl-active'
                         : 'border-[#2858FF] hover:border-[#B6D7F7] cr-shadow-ctrl'
@@ -635,7 +651,7 @@ export default function App() {
                 id="profiles-heading"
                 className="cr-font-display text-3xl sm:text-4xl font-bold text-[#E8F0FF] text-balance"
               >
-                ONE DEVICE. MANY WAYS TO WORK.
+                <RevealText text="ONE DEVICE. MANY WAYS TO WORK." />
               </h2>
               <p className="text-sm sm:text-base text-[#B6D7F7] max-w-2xl">
                 Switch between three curated demo profiles to see how the same 5×3 key surface adapts from video post-production to live broadcasting and everyday deep work.
@@ -651,7 +667,8 @@ export default function App() {
                 return (
                   <div
                     key={profId}
-                    className={`p-6 bg-[#111A31] border-2 flex flex-col justify-between gap-5 ${
+                    data-cr-reveal="tile"
+                    className={`cr-profile-card p-6 bg-[#111A31] border-2 flex flex-col justify-between gap-5 ${
                       isActive
                         ? 'border-[#E4FF58] cr-shadow-ctrl-active'
                         : 'border-[#2858FF] cr-shadow-ctrl'
@@ -758,7 +775,7 @@ export default function App() {
                   id="device-info-heading"
                   className="cr-font-display text-3xl sm:text-4xl font-bold text-[#E8F0FF] leading-tight text-balance"
                 >
-                  MEET THE BUTTONS BEHIND THE MAGIC.
+                  <RevealText text="MEET THE BUTTONS BEHIND THE MAGIC." />
                 </h2>
 
                 <p className="text-base text-[#B6D7F7] leading-relaxed">
@@ -830,11 +847,11 @@ export default function App() {
         ===================================================================== */}
         <section
           aria-labelledby="signoff-heading"
-          className="py-16 lg:py-24 cr-bg-ctrl-dither border-b-2 border-[#2858FF]"
+          className="cr-signoff py-16 lg:py-24 cr-bg-ctrl-dither border-b-2 border-[#2858FF]"
         >
           <div className="max-w-[1080px] mx-auto px-4 sm:px-8 text-center space-y-8">
             {/* Condensed Geometric Control Motif */}
-            <div className="inline-grid grid-cols-5 gap-2 p-4 bg-[#111A31] border-2 border-[#E4FF58] cr-shadow-ctrl-lg">
+            <div data-cr-reveal="matrix" className="cr-signoff-matrix inline-grid grid-cols-5 gap-2 p-4 bg-[#111A31] border-2 border-[#E4FF58] cr-shadow-ctrl-lg">
               {currentSlots.map((slot) => {
                 const act = getActionById(slot.actionId);
                 return (
@@ -867,7 +884,7 @@ export default function App() {
                 id="signoff-heading"
                 className="cr-font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-[#E8F0FF] tracking-tight text-balance"
               >
-                MAKE ONE BUTTON DO MORE.
+                <RevealText text="MAKE ONE BUTTON DO MORE." />
               </h2>
               <p className="text-base sm:text-lg text-[#B6D7F7] max-w-xl mx-auto">
                 Ready to bring 15 customizable LCD keys to your real desk? Explore the official Stream Deck MK.2 hardware directly from Elgato.
@@ -902,13 +919,7 @@ export default function App() {
       </main>
 
       {/* True Accessible Confirmation Modal when switching away from a user-edited profile */}
-      {pendingProfileConfirm && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="profile-switch-dialog-title"
-          className="fixed inset-0 z-[110] bg-[#111A31]/85 flex items-center justify-center p-4"
-        >
+      <MotionDialog open={profileConfirmOpen} onClose={() => setProfileConfirmOpen(false)} onAfterClose={() => setPendingProfileConfirm(null)} labelledBy="profile-switch-dialog-title">
           <div className="w-full max-w-md bg-[#111A31] border-2 border-[#E4FF58] cr-shadow-ctrl-lg p-6 space-y-4">
             <div className="cr-font-mono-code text-xs font-bold text-[#FC5FA9]">
               CUSTOMIZED PROFILE DETECTED
@@ -917,37 +928,36 @@ export default function App() {
               id="profile-switch-dialog-title"
               className="cr-font-display text-lg font-bold text-[#E8F0FF]"
             >
-              Switch from {activeProfile} to {pendingProfileConfirm}?
+              Switch from {confirmFromProfile} to {pendingProfileConfirm}?
             </h3>
             <p className="text-xs text-[#B6D7F7] leading-relaxed">
-              You customized one or more slots in the <strong>{activeProfile}</strong> profile. Would you like to keep your edits in memory when switching, or restore {activeProfile} to its default preset?
+              You customized one or more slots in the <strong>{confirmFromProfile}</strong> profile. Would you like to keep your edits in memory when switching, or restore {confirmFromProfile} to its default preset?
             </p>
             <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
               <button
                 type="button"
-                onClick={() => setPendingProfileConfirm(null)}
+                onClick={() => setProfileConfirmOpen(false)}
                 className="px-3 py-2 text-xs cr-font-mono-code text-[#B6D7F7] hover:text-[#E8F0FF] border border-[#61728F]"
               >
                 CANCEL
               </button>
               <button
                 type="button"
-                onClick={() => performProfileSwitch(pendingProfileConfirm, true)}
+                onClick={() => pendingProfileConfirm && performProfileSwitch(pendingProfileConfirm, true)}
                 className="px-3 py-2 text-xs cr-font-mono-code font-bold bg-[#FC5FA9] text-[#111A31] hover:bg-[#E8F0FF]"
               >
                 RESET & SWITCH
               </button>
               <button
                 type="button"
-                onClick={() => performProfileSwitch(pendingProfileConfirm, false)}
+                onClick={() => pendingProfileConfirm && performProfileSwitch(pendingProfileConfirm, false)}
                 className="px-4 py-2 text-xs cr-font-mono-code font-bold bg-[#E4FF58] text-[#111A31] hover:bg-[#E8F0FF]"
               >
                 KEEP EDITS & SWITCH
               </button>
             </div>
           </div>
-        </div>
-      )}
+      </MotionDialog>
 
       {/* Quiet Footer */}
       <footer className="bg-[#0A1020] py-8 px-4 sm:px-8 text-xs text-[#B6D7F7]">

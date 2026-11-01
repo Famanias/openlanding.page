@@ -1,9 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Play,
   RotateCcw,
   Save,
+  Check,
   Library,
   Terminal,
   Sliders,
@@ -44,7 +45,7 @@ interface DeckLabAppProps {
     }
   ) => void;
   onSwitchProfileRequest: (profileId: ProfileId) => void;
-  onSaveDemo: () => void;
+  onSaveDemo: () => boolean;
   onResetActiveProfile: () => void;
   onOpenApp: (appId: AppId) => void;
 }
@@ -68,6 +69,15 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
 }) => {
   const [interactionMode, setInteractionMode] = useState<'RUN' | 'CONFIGURE'>('RUN');
   const [dragOverSlot, setDragOverSlot] = useState<number | null>(null);
+  const [saveFeedback, setSaveFeedback] = useState<'idle' | 'saved' | 'error'>('idle');
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (saveTimer.current) clearTimeout(saveTimer.current); }, []);
+  const saveDemo = () => {
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    const saved = onSaveDemo();
+    setSaveFeedback(saved ? 'saved' : 'error');
+    if (saved) saveTimer.current = setTimeout(() => setSaveFeedback('idle'), 2000);
+  };
 
   const selectedSlot = slots[selectedSlotIndex] || slots[0];
   const selectedAction = getActionById(selectedSlot.actionId);
@@ -200,6 +210,7 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
             {/* Grid Scan Overlay on Profile Change */}
             {isScanningGrid && (
               <div
+                key={activeProfile}
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-b from-transparent via-[#E4FF58]/35 to-transparent cr-animate-grid-scan"
               />
@@ -233,7 +244,9 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
 
                 return (
                   <button
-                    key={slot.slotIndex}
+                    key={`${activeProfile}-${slot.slotIndex}`}
+                    style={{ '--cr-key': (slot.slotIndex % 5) + Math.floor(slot.slotIndex / 5) } as React.CSSProperties}
+                    data-cr-scanning={isScanningGrid}
                     type="button"
                     data-testid={`deck-slot-${slot.slotIndex}`}
                     data-pressed={isRecentlyTriggered ? 'true' : 'false'}
@@ -259,7 +272,7 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
                         onAssignAction(slot.slotIndex, droppedActionId);
                       }
                     }}
-                    className={`cr-deck-key-btn relative aspect-square p-1.5 sm:p-2 flex flex-col items-center justify-between border-2 transition-all focus-visible:outline-2 focus-visible:outline-[#E4FF58] ${getAccentClasses(
+                    className={`cr-deck-key-btn relative aspect-square p-1.5 sm:p-2 flex flex-col items-center justify-between border-2 cr-transition-control focus-visible:outline-2 focus-visible:outline-[#E4FF58] ${getAccentClasses(
                       accent,
                       isSelected
                     )} ${dragOverSlot === slot.slotIndex ? 'ring-2 ring-[#FC5FA9] scale-105' : ''}`}
@@ -299,11 +312,13 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={onSaveDemo}
+                  onClick={saveDemo}
+                  data-cr-save-state={saveFeedback}
+                  aria-label={saveFeedback === 'saved' ? 'Demo saved locally' : 'Save this demo'}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs cr-font-mono-code font-bold bg-[#E4FF58] text-[#111A31] hover:bg-[#E8F0FF] transition-colors whitespace-nowrap shrink-0"
                 >
-                  <Save className="w-3.5 h-3.5" />
-                  <span>SAVE THIS DEMO</span>
+                  <span className="cr-save-icon" aria-hidden="true"><Save className="cr-save-idle w-3.5 h-3.5" /><Check className="cr-save-success w-3.5 h-3.5" /></span>
+                  <span className="cr-save-label" aria-hidden="true"><span className="cr-save-idle">SAVE THIS DEMO</span><span className="cr-save-success">SAVED LOCALLY</span></span>
                 </button>
                 <button
                   type="button"
@@ -321,6 +336,7 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
                   : 'LOCAL BROWSER STORAGE ONLY'}
               </span>
             </div>
+            {saveFeedback === 'error' && <p role="status" className="text-xs text-[#FC5FA9]">Save failed. Allow browser storage and try again.</p>}
           </div>
         </div>
 
@@ -339,7 +355,7 @@ export const DeckLabApp: React.FC<DeckLabAppProps> = ({
 
             {/* Viewport Screen */}
             <div
-              className={`relative h-36 border border-[#2858FF] p-3 flex flex-col justify-between overflow-hidden transition-all ${getSceneFilterStyle()}`}
+              className={`relative h-36 border border-[#2858FF] p-3 flex flex-col justify-between overflow-hidden cr-transition-control ${getSceneFilterStyle()}`}
             >
               {/* Top Status Chips inside Monitor */}
               <div className="flex flex-wrap items-center justify-between gap-1.5 z-10">

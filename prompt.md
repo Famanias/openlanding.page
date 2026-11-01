@@ -1,489 +1,571 @@
-build a new landing page template: a full-viewport space-themed hero section
-for a site called "SpaceEdu". No build step, no frameworks, no external JS libraries
-(use raw, native WebGL — no Three.js). All CSS in one <style> block in <head>, all JS
-(including GLSL shaders) in one <script> block before </body>. It must be pixel-faithful
-to the spec below and fully mobile responsive.
+# UNIVERSAL MOTION-ONLY REFERENCE EXTRACTION
 
-════════════════════════════════════════════════════════════════════════
-1. CONCEPT
-════════════════════════════════════════════════════════════════════════
-A cinematic astrophysics hero centered on the nearest known black hole to Earth: GAIA BH1.
-A real-time, interactive 3D WebGL scene of a black hole with gravitational lensing, a
-relativistic photon ring, and a dynamic 3D accretion disk fills the whole viewport as
-the background. Centred over it: eyebrow "SINGULARITY", a huge serif singularity name,
-a short cyan rule, a paragraph, and a glossy white pill button. Flanking the button,
-cropped by the left and right screen edges, sit two transparent WebGL 3D black hole
-sphere canvases with serif labels.
+## Reference-Agnostic Landing Page Motion System
 
-Three black holes exist: GAIA BH1 (nearest dormant stellar-mass binary black hole in
-Ophiuchus, ~1,560 light-years away), CYGNUS X-1 (high-mass X-ray binary with an intense
-blue-white accretion disk), and SGR A* (Sagittarius A*, the supermassive golden-orange
-singularity at the Milky Way's galactic center).
+### 1. Primary Objective
 
-Exactly one is "featured" (its 3D WebGL environment fills the background, its name is
-the headline). The other two occupy the left and right 3D WebGL slots. Clicking a side
-singularity makes it featured; the two slots then re-fill with the other two. GAIA BH1
-is featured on load. The rotation is fully reversible.
+Analyze the supplied landing page template, website, source code, or visual reference and extract its **motion language, interaction physics, animation timing, scroll behavior, transition choreography, and responsiveness**.
 
-════════════════════════════════════════════════════════════════════════
-2. 3D WEBGL ARCHITECTURE — NO EXTERNAL ASSETS OR IMAGES
-════════════════════════════════════════════════════════════════════════
-Do NOT use <video> or <img> tags. Every visual asset is rendered via procedural 3D
-WebGL (WebGL2 preferred, graceful fallback to WebGL1).
+Apply the extracted behaviors to the target landing page while preserving or creating a completely independent visual identity.
 
-1. Main Background Canvas (<canvas id="sky-gl">):
-   - Renders a 3D raymarched / gravitationally lensed black hole and starfield.
-   - Features a 3D event horizon sphere (pure black shadow), a bright relativistic photon
-     ring, and a tilted 3D volumetric accretion disk using procedural 3D simplex/fbm noise
-     and Doppler beaming (one side brighter/blueshifted, receding side dimmer/redshifted).
-   - Uniforms smoothly interpolate over 450ms (`u_mix` / `u_state`) when switching between
-     singularities:
-     · GAIA BH1 (`gaia`): Dormant binary system. Deep space starfield, dramatic Schwarzschild
-       gravitational lensing warping background stars, crisp cyan-white photon ring,
-       subtle/tenuous relativistic dust halo, and an orbiting G-type companion star glow in
-       the distance.Camera tilt: 14 deg.
-     · CYGNUS X-1 (`cygnus`): High-energy X-ray binary. Turbulent, fast-rotating electric
-       cyan and ultraviolet-blue 3D accretion disk with vertical relativistic jets.
-       Camera tilt: 22 deg.
-     · SGR A* (`sgra`): Supermassive galactic core. Dense, blindingly bright golden-amber
-       and crimson-orange thick torus accretion disk with intense gravitational bending.
-       Camera tilt: 8 deg.
-   - Subtle mouse/pointer parallax tilts the 3D camera orbit smoothly.
+**This is NOT a redesign, reskin, clone, or derivative implementation of the reference.**
 
-2. Flanking Side 3D Canvases (<canvas class="planet-gl"> inside each side button):
-   - 256x256 internal resolution (scaled cleanly via CSS) with `alpha: true` and
-     premultipliedAlpha disabled so the background is 100% transparent.
-   - Each renders an isolated, rotating 3D black hole sphere + miniature tilted accretion
-     ring filling ~97% of the square canvas bounds (matching the 139u sphere geometry).
-   - Driven by a single shared `requestAnimationFrame` loop that renders the main canvas
-     and both side canvases in synchronization.
-   - Switching active singularities updates the integer uniform `u_type` (0 = gaia,
-     1 = cygnus, 2 = sgra) on the side canvases, swapping the 3D representation in the
-     EXACT SAME FRAME (<1ms) with zero network latency or texture pop-in.
+The reference is a source of behavioral inspiration, not a design blueprint.
 
-3. Favicon:
-   - Dynamically generate a 64x64 data URL from an offscreen canvas drawing a dark event
-     horizon circle with a glowing cyan photon ring, assigned to <link rel="icon">.
+The fundamental objective is to transfer the *quality, responsiveness, and physical characteristics* of the experience without transferring its appearance.
 
-════════════════════════════════════════════════════════════════════════
-3. FONTS — load from Google Fonts
-════════════════════════════════════════════════════════════════════════
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-Load: Prata 400; Hanken Grotesk 400,500,600,700; Poppins 500,600.
-Stacks:
-  --font-serif : 'Prata', Georgia, serif
-  --font-body  : 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif
-  --font-logo  : 'Poppins', sans-serif
-Body text uses --font-body. Headline and the two side labels use --font-serif.
-The wordmark uses --font-logo.
+### 2. Reference and Target Definitions
 
-════════════════════════════════════════════════════════════════════════
-4. DESIGN SYSTEM — the single most important rule
-════════════════════════════════════════════════════════════════════════
-The layout is NOT built from rem/%/flex guesswork. It is a fixed composition measured
-from a 1353 x 1163 reference, expressed in ONE custom property --u = one design pixel.
-EVERY length in the file is calc(N * var(--u)). Do not substitute px values.
+**Reference Source**
 
-*, *::before, *::after { box-sizing:border-box; margin:0; padding:0 }
+The template or website provided for motion analysis.
 
-:root{
-  --dw:1353; --dh:1163; --gutter:25;
-  --u:max(min(.72px, calc(100vh / 700)), min(calc(100vw / 1353), calc(100vh / 1163)));
-  --dh-px:calc(1163 * var(--u));
-  --vshift:calc(max(0px, (100vh - var(--dh-px))) * .42);
-  --ink:#ffffff; --cyan:#79dce8; --cyan-logo:#5fd0e1;
-  --rule:rgba(255,255,255,.23); --btn-ink:#071227;
-}
-@supports (height:100dvh){
-  :root{
-    --u:max(min(.72px, calc(100dvh / 700)), min(calc(100vw / 1353), calc(100dvh / 1163)));
-    --vshift:calc(max(0px, (100dvh - var(--dh-px))) * .42);
-  }
-}
-html,body{height:100%}
-body{background:#04101f; color:var(--ink); font-family:var(--font-body);
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-  text-rendering:geometricPrecision; overflow:hidden}
+It may consist of:
 
---vshift pushes everything below the nav down on taller-than-design viewports so the
-composition stays balanced. --gutter offsets the content column left by half its value
-so the optical centre sits at x=664, not 676.
+- A live website or URL.
+- A downloaded HTML/CSS/JavaScript template.
+- A React, Next.js, Vue, Svelte, or other framework project.
+- A video demonstrating animations and interactions.
+- Screenshots showing different interaction states.
+- An existing project containing animation implementations.
 
-════════════════════════════════════════════════════════════════════════
-5. MARKUP
-════════════════════════════════════════════════════════════════════════
-<div class="stage">                     position:fixed; inset:0; overflow:hidden;
-                                        isolation:isolate
-  <div class="sky">                     absolute; inset:0; z-index:0;
-                                        background:radial-gradient(circle at 50% 45%, #0b2239 0%, #04101f 70%);
-    <canvas id="sky-gl" aria-hidden="true"></canvas>
-  </div>
-  <div class="ui">                      absolute; inset:0; z-index:3
-    <header class="navbar">
-      <div class="navrow">
-        <a class="logo" href="#">space<i>edu</i></a>
-        <nav class="links" id="site-nav">
-          <a href="#" aria-current="page">Objects</a>
-          <a href="#">Tution</a>            (keep this spelling)
-          <a href="#">Tutorials</a>
-          <a href="#">Blog</a>
-          <a class="enroll" href="#">Enroll</a>
-        </nav>
-        <button class="burger" type="button" aria-label="Open navigation"
-                aria-expanded="false" aria-controls="site-nav">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </header>
-    <div class="copy">
-      <div class="col eyebrow"><span class="ent-mask"><span class="ent-line">SINGULARITY</span></span></div>
-      <h1 class="col title"><span class="ent-mask"><span class="ent-line">GAIA BH1</span></span></h1>
-      <div class="col rule"><span></span></div>
-      <p class="col lede">Discover the nearest known black hole to Earth, a dormant
-         ten-solar-mass singularity<br>just 1,560 light-years away in Ophiuchus. Course
-         enrollment starts today, don&rsquo;t miss out!</p>
-      <div class="col cta">
-        <button class="planet planet-l" type="button" data-slot="l">
-          <canvas class="planet-gl" width="256" height="256" aria-hidden="true"></canvas>
-        </button>
-        <button class="planet planet-r" type="button" data-slot="r">
-          <canvas class="planet-gl" width="256" height="256" aria-hidden="true"></canvas>
-        </button>
-        <a href="#">GET STARTED</a>
-        <span class="label label-l"></span>     (empty — filled by script)
-        <span class="label label-r"></span>
-      </div>
-    </div>
-  </div>
-  <button class="scroll" type="button" aria-label="Scroll to next section">
-    <svg viewBox="0 0 26 33" fill="none" aria-hidden="true">
-      <path d="M13 1.5 V31.5 M1.9 20.4 L13 31.5 L24.1 20.4" stroke="#ffffff"
-            stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"/>
-    </svg>
-  </button>
-</div>
+**Target Project**
 
-CRITICAL: Each side slot uses an immediate-mode WebGL <canvas class="planet-gl"> with
-pre-compiled shaders. Switching updates its uniform state and renders immediately in the
-same synchronous frame — zero network fetches, zero blank frames.
+The landing page that will receive the extracted motion behaviors.
 
-════════════════════════════════════════════════════════════════════════
-6. CSS — exact values
-════════════════════════════════════════════════════════════════════════
-BACKDROP
-.sky canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+The target may already have its own branding, visual design, components, and content, or it may be developed independently as part of the assignment.
 
-SIDE SINGULARITY SLOTS (two slots, retaining .planet class names for spec parity)
-.planet{position:absolute; z-index:-1; padding:0; border:0; background:none;
-  -webkit-appearance:none; appearance:none; line-height:0; cursor:pointer;
-  pointer-events:auto;                      /* .copy disables pointers wholesale */
-  transition:transform .45s cubic-bezier(.22,1,.36,1)}
-.planet canvas{display:block; width:100%; height:auto; aspect-ratio:1/1}
-.planet:hover{transform:scale(1.045)}
-.planet:active{transform:scale(.99)}
-.planet-l{width:calc(143 * var(--u)); left:calc(-69.5 * var(--u)); top:calc(-38.3 * var(--u))}
-.planet-r{width:calc(143 * var(--u)); right:calc(-64.7 * var(--u)); top:calc(-40.6 * var(--u))}
-@media (prefers-reduced-motion:reduce){
-  .planet{transition:none} .planet:hover,.planet:active{transform:none} }
-(The 3D WebGL sphere + ring fills ~97% of its square canvas; these box sizes make the
- rendered 3D model 139u across with its centre 2u from the left edge / 6.8u from the right.)
+If a target project already exists, preserve its established design direction.
 
-LAYOUT
-.copy{position:absolute; inset:0; transform:translateY(var(--vshift)); pointer-events:none}
-.copy a{pointer-events:auto}
-.col{position:absolute; left:0; right:calc(var(--gutter) * var(--u)); text-align:center}
+If a target project does not exist, establish an original visual identity independently of the reference before integrating motion behaviors.
 
-NAV
-.navbar{position:absolute; top:0; left:0; right:0; z-index:6; height:calc(88 * var(--u))}
-.navbar::after{content:""; position:absolute; left:calc(25 * var(--u));
-  right:calc(49 * var(--u)); top:calc(86 * var(--u)); height:calc(2 * var(--u));
-  background:var(--rule)}
-.navrow{position:absolute; left:calc(25 * var(--u)); right:calc(49 * var(--u)); top:0;
-  height:calc(86 * var(--u)); display:flex; align-items:center; justify-content:space-between}
-.logo{font-family:var(--font-logo); font-weight:600; font-size:calc(18.4 * var(--u));
-  letter-spacing:calc(-0.15 * var(--u)); line-height:1; color:#fff; text-decoration:none;
-  white-space:nowrap; position:relative; top:calc(-1 * var(--u))}
-.logo i{font-style:normal; color:var(--cyan-logo)}
-.burger{display:none; position:relative; width:calc(46 * var(--u)); height:calc(46 * var(--u));
-  padding:0; border:0; background:none; cursor:pointer; flex-direction:column;
-  align-items:center; justify-content:center; gap:calc(6 * var(--u)); flex:none}
-.burger span{display:block; width:calc(24 * var(--u)); height:calc(2 * var(--u));
-  border-radius:calc(2 * var(--u)); background:#fff;
-  transition:transform .28s cubic-bezier(.4,0,.2,1), opacity .18s linear}
-.navrow[data-open="true"] .burger span:nth-child(1){transform:translateY(calc(8 * var(--u))) rotate(45deg)}
-.navrow[data-open="true"] .burger span:nth-child(2){opacity:0}
-.navrow[data-open="true"] .burger span:nth-child(3){transform:translateY(calc(-8 * var(--u))) rotate(-45deg)}
-.links{display:flex; align-items:center}
-.links a{position:relative; display:flex; align-items:center; height:calc(86 * var(--u));
-  font-size:calc(18.4 * var(--u)); font-weight:400; line-height:1; color:#fff;
-  text-decoration:none; padding:0 calc(17.5 * var(--u));
-  letter-spacing:calc(-1 * var(--u)); white-space:nowrap}
-.links a[aria-current="page"]::after{content:""; position:absolute; left:0; right:0;
-  top:calc(83.5 * var(--u)); height:calc(4 * var(--u)); background:var(--cyan);
-  border-radius:calc(1 * var(--u))}
-.links a:nth-child(3){letter-spacing:calc(-1.75 * var(--u))}
-.links a:nth-child(2){margin-left:calc(24 * var(--u))}
-.links a:nth-child(3){margin-left:calc(26 * var(--u))}
-.links a:nth-child(4){margin-left:calc(27 * var(--u))}
-.links a.enroll{margin-left:calc(28.5 * var(--u)); width:calc(107 * var(--u));
-  height:calc(38 * var(--u)); border-radius:calc(19 * var(--u)); display:flex;
-  align-items:center; justify-content:center; font-size:calc(17 * var(--u));
-  font-weight:600; letter-spacing:calc(-0.75 * var(--u)); line-height:1;
-  color:var(--btn-ink); text-decoration:none; padding-top:calc(2 * var(--u));
-  background:linear-gradient(180deg,#ffffff 0%,#d8ecfe 9%,#dceefe 72%,#f4f9ff 100%);
-  box-shadow:0 calc(3 * var(--u)) calc(14 * var(--u)) rgba(255,255,255,.22),
-              inset 0 0 0 calc(1.5 * var(--u)) rgba(255,255,255,.92);
-  flex:none}
+**Important:** Never assume the target and reference must share the same framework, component hierarchy, design system, or animation libraries.
 
-HERO COPY
-.eyebrow{top:calc(188.8 * var(--u)); font-size:calc(30.45 * var(--u)); font-weight:500;
-  line-height:1; letter-spacing:calc(4 * var(--u)); text-indent:calc(4 * var(--u)); color:#fff}
-h1.title{top:calc(268 * var(--u)); font-family:var(--font-serif); font-weight:400;
-  font-size:calc(112.4 * var(--u)); line-height:1; letter-spacing:calc(2 * var(--u));
-  text-indent:calc(2 * var(--u)); color:#fff}
-.rule{top:calc(405.5 * var(--u)); height:calc(5 * var(--u)); font-size:0; line-height:0;
-  padding-right:calc(2 * var(--u))}
-.rule span{display:inline-block; vertical-align:top; width:calc(100 * var(--u));
-  height:100%; border-radius:calc(2.5 * var(--u)); background:var(--cyan)}
-p.lede{top:calc(433.2 * var(--u)); font-size:calc(18.36 * var(--u)); font-weight:400;
-  line-height:calc(30 * var(--u)); color:rgba(255,255,255,.95)}
+---
 
-CTA ROW
-.cta{top:calc(597 * var(--u)); height:calc(66 * var(--u)); isolation:isolate}
-.cta a{display:inline-flex; align-items:center; justify-content:center;
-  width:calc(216 * var(--u)); height:calc(66 * var(--u)); border-radius:calc(33 * var(--u));
-  font-size:calc(17 * var(--u)); font-weight:700; letter-spacing:0; text-indent:0;
-  line-height:1; color:var(--btn-ink); text-decoration:none; padding-top:calc(2 * var(--u));
-  background:linear-gradient(180deg,#ffffff 0%,#d6e8f8 4%,#d9ecfe 72%,#ffffff 100%);
-  box-shadow:0 calc(10 * var(--u)) calc(18 * var(--u)) calc(-8 * var(--u)) rgba(255,255,255,.50),
-              0 0 calc(26 * var(--u)) rgba(255,255,255,.18),
-              inset 0 0 0 calc(2 * var(--u)) rgba(255,255,255,.9)}
-.label{position:absolute; top:calc(33 * var(--u)); font-family:var(--font-serif);
-  font-weight:400; font-size:calc(17.8 * var(--u)); letter-spacing:calc(4.6 * var(--u));
-  line-height:1; color:#fff; white-space:nowrap}
-.label.label-l{left:calc(111 * var(--u))}
-.label.label-r{right:calc(104 * var(--u))}
+### 3. Absolute Visual Independence
 
-SCROLL CONTROL
-.scroll{position:absolute; z-index:4; left:50%;
-  margin-left:calc((-48 - (var(--gutter) / 2)) * var(--u)); bottom:calc(68 * var(--u));
-  width:calc(96 * var(--u)); height:calc(96 * var(--u)); border-radius:50%;
-  background:rgba(24,30,42,.70); -webkit-backdrop-filter:blur(calc(6 * var(--u)));
-  backdrop-filter:blur(calc(6 * var(--u))); border:0; display:flex; align-items:center;
-  justify-content:center; cursor:pointer}
-.scroll svg{width:calc(20 * var(--u)); height:calc(25 * var(--u)); display:block}
+Do not copy, trace, adapt, or reproduce the reference's:
 
-FOCUS
-.scroll:focus-visible,.links a:focus-visible,.enroll:focus-visible,
-.cta a:focus-visible,.logo:focus-visible{
-  outline:calc(2 * var(--u)) solid var(--cyan); outline-offset:calc(3 * var(--u))}
-.planet:focus-visible{outline:calc(2 * var(--u)) solid var(--cyan);
-  outline-offset:calc(6 * var(--u)); border-radius:50%}
+- Page layouts, section compositions, or grid arrangements.
+- Typography, font combinations, or text treatments.
+- Color palettes, gradients, materials, or textures.
+- Illustrations, photography, 3D models, or artwork.
+- Background compositions or decorative graphics.
+- Buttons, cards, navigation, or distinctive component styling.
+- Hero compositions, section ordering, or visual storytelling.
+- Copywriting, branding, iconography, or product presentation.
+- CSS styling or component markup as a foundation for the target design.
 
-════════════════════════════════════════════════════════════════════════
-7. RESPONSIVE — six tiers, in this exact source order
-════════════════════════════════════════════════════════════════════════
-A) NAV COLLAPSE  @media (max-width:1030px), (max-height:620px)
-  .navrow{left:calc(25 * var(--u)); right:calc(25 * var(--u))}
-  .burger{display:flex}
-  .links{position:absolute; top:calc(96 * var(--u)); right:0; z-index:5;
-    width:min(calc(324 * var(--u)), calc(100vw - 50 * var(--u)));
-    flex-direction:column; align-items:stretch; padding:calc(12 * var(--u));
-    border-radius:calc(20 * var(--u)); background:rgba(9,21,42,.84);
-    backdrop-filter:blur(calc(18 * var(--u)));
-    border:calc(1 * var(--u)) solid rgba(255,255,255,.14);
-    box-shadow:0 calc(18 * var(--u)) calc(44 * var(--u)) rgba(2,8,20,.55);
-    opacity:0; visibility:hidden; transform:translateY(calc(-10 * var(--u)));
-    transition:opacity .24s ease, transform .28s cubic-bezier(.4,0,.2,1), visibility .28s}
-  .navrow[data-open="true"] .links{opacity:1; visibility:visible; transform:none}
-  .links a:nth-child(n){margin-left:0; height:auto; justify-content:flex-start;
-    padding:calc(14 * var(--u)) calc(16 * var(--u)); font-size:calc(19 * var(--u));
-    letter-spacing:calc(-.6 * var(--u))}
-  .links a + a{border-top:calc(1 * var(--u)) solid rgba(255,255,255,.08)}
-  .links a[aria-current="page"]::after{top:auto; bottom:calc(9 * var(--u));
-    left:calc(16 * var(--u)); right:auto; width:calc(26 * var(--u)); height:calc(3 * var(--u))}
-  .links a.enroll{margin:calc(14 * var(--u)) 0 calc(2 * var(--u)); width:100%;
-    height:calc(46 * var(--u)); border-radius:calc(23 * var(--u)); justify-content:center;
-    padding-top:calc(2 * var(--u)); font-size:calc(18 * var(--u));
-    letter-spacing:calc(-.4 * var(--u)); border-top:0}
-  .links a.enroll::after{content:none}
+Do not reconstruct the reference's interface and then change its colors, fonts, or imagery.
 
-B) TABLET  @media (min-width:580px) and (max-width:1030px) and (min-height:621px)
-  :root{--gutter:0;
-    --u:min(max(min(.85px, calc(100vh / 780)), min(calc(100vw / 900), calc(100vh / 1163))), 1.15px);
-    --dh-px:calc(1120 * var(--u));
-    --vshift:calc(max(0px, (100vh - var(--dh-px))) * .38)}
-  (repeat inside @supports (height:100dvh) with 100dvh)
-  .navbar::after{left:calc(25 * var(--u)); right:calc(25 * var(--u))}
-  p.lede br{display:none}
-  p.lede{max-width:calc(620 * var(--u)); margin-left:auto; margin-right:auto; text-wrap:pretty}
-  .label.label-r{right:calc(116 * var(--u))}
+**Visual independence must be structural, not merely cosmetic.**
 
-C) PHONE  @media (max-width:579px), (max-height:620px)
-  :root{--gutter:0;
-    --u:max(min(.92px, calc(100vh / 620)), min(calc(100vw / 430), calc(100vh / 880)));
-    --dh-px:calc(880 * var(--u));
-    --vshift:calc(max(0px, (100vh - var(--dh-px))) * .34)}
-  (repeat inside @supports (height:100dvh))
-  .navbar{height:calc(76 * var(--u))}
-  .navbar::after{left:calc(24 * var(--u)); right:calc(24 * var(--u)); top:calc(74 * var(--u))}
-  .navrow{left:calc(24 * var(--u)); right:calc(24 * var(--u)); height:calc(74 * var(--u))}
-  .links{top:calc(84 * var(--u))}
-  .copy{top:calc(76 * var(--u)); display:flex; flex-direction:column; align-items:center;
-    padding:calc(56 * var(--u)) calc(26 * var(--u)) 0}
-  .col{position:static; width:100%; right:auto}
-  .eyebrow{font-size:calc(20 * var(--u)); letter-spacing:calc(5 * var(--u)); text-indent:calc(5 * var(--u))}
-  h1.title{font-size:calc(86 * var(--u)); margin-top:calc(15 * var(--u))}
-  .rule{margin-top:calc(20 * var(--u)); height:calc(5 * var(--u)); padding-right:0}
-  .rule span{width:calc(84 * var(--u))}
-  p.lede{margin-top:calc(19 * var(--u)); font-size:calc(15.5 * var(--u));
-    line-height:calc(26 * var(--u)); max-width:calc(400 * var(--u)); text-wrap:balance}
-  p.lede br{display:none}
-  .cta{top:auto; margin-top:calc(32 * var(--u)); height:calc(60 * var(--u)); position:relative}
-  .cta a{width:calc(190 * var(--u)); height:calc(60 * var(--u)); border-radius:calc(30 * var(--u))}
-  .label{top:50%; transform:translateY(-50%); font-size:calc(16 * var(--u));
-    letter-spacing:calc(4 * var(--u))}
-  .label.label-l{left:calc(56 * var(--u))}
-  .label.label-r{right:calc(60 * var(--u))}
-  .planet-l{width:calc(89 * var(--u)); left:calc(-44.5 * var(--u)); top:calc(-17 * var(--u))}
-  .planet-r{width:calc(89 * var(--u)); right:calc(-44.5 * var(--u)); top:calc(-18.3 * var(--u))}
-  .scroll{width:calc(74 * var(--u)); height:calc(74 * var(--u));
-    margin-left:calc(-37 * var(--u)); bottom:calc(49 * var(--u))}
-  .scroll svg{width:calc(15.5 * var(--u)); height:calc(19.5 * var(--u))}
+The target landing page should remain visually unrelated to the reference when both are viewed as static screenshots.
 
-D) @media (max-height:660px){ .scroll{display:none} }
+Animation implementation may be studied and re-created technically, but the resulting animated elements must belong naturally to the target's original design.
 
-E) SHORT  @media (max-height:620px)
-  :root{--u:max(min(.85px, calc(100vh / 470)), min(calc(100vw / 640), calc(100vh / 560)));
-    --dh-px:calc(560 * var(--u)); --vshift:0px}
-  .copy{padding-top:calc(26 * var(--u))}
-  h1.title{font-size:calc(64 * var(--u)); margin-top:calc(8 * var(--u))}
-  .rule{margin-top:calc(12 * var(--u))}
-  p.lede{margin-top:calc(12 * var(--u))}
-  .cta{margin-top:calc(20 * var(--u))}
-  .label{top:50%; transform:translateY(-50%); font-size:calc(15 * var(--u))}
-  .label.label-l{left:calc(58 * var(--u))}
-  .label.label-r{right:calc(58 * var(--u))}
-@media (min-width:821px) and (max-height:660px){ .copy{transform:none} }
+Do not introduce decorative elements, new cards, floating objects, or additional sections merely to imitate a reference animation.
 
-F) NARROW PHONE  @media (max-width:500px)   — declared LAST so it wins inside tier E
-  .label{top:calc(100% + 34 * var(--u)); transform:none; font-size:calc(15 * var(--u))}
-  .label.label-l{left:calc(6 * var(--u))}
-  .label.label-r{right:calc(6 * var(--u))}
+---
 
-@media (prefers-reduced-motion:reduce){ .links,.burger span{transition:none} }
+### 4. Mandatory Reference Inspection
 
-════════════════════════════════════════════════════════════════════════
-8. ENTRANCE ANIMATION — runs once, then deletes itself
-════════════════════════════════════════════════════════════════════════
-In <head>, BEFORE the stylesheet, a blocking inline script so the opening frame is
-composed rather than flashing the finished page:
-  (function(){try{
-    if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){
-      document.documentElement.classList.add('anim');
-    }
-  }catch(e){}})();
+Before implementing anything, inspect the supplied reference to determine what animation and interaction behaviors actually exist.
 
-@keyframes ent-reveal{from{transform:translateY(115%)}to{transform:translateY(0)}}
-@keyframes ent-rise{from{opacity:0;transform:translateY(var(--rise,10px))}to{opacity:1;transform:none}}
-@keyframes ent-settle{from{opacity:0;transform:translateY(var(--rise,8px)) scale(.965)}to{opacity:1;transform:none}}
-@keyframes ent-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@keyframes ent-fade{from{opacity:0}to{opacity:1}}
+Do not assume that every reference uses the same techniques.
 
-.anim{--e-expo:cubic-bezier(.16,1,.3,1); --e-quint:cubic-bezier(.22,1,.36,1);
-      --e-slow:cubic-bezier(.4,0,.2,1)}
-.ent-mask,.ent-line{display:block}
-.anim .ent-mask{overflow:hidden; padding-top:.18em; margin-top:-.18em}
-.anim .ent-line{transform:translateY(115%); will-change:transform}
-.anim .navbar::after,.anim .links a[aria-current="page"]::after,.anim .rule span{transform:scaleX(0)}
-.anim .logo,.anim .links a,.anim .burger,.anim p.lede,.anim .label,.anim .cta a,
-.anim .scroll,.anim .sky{opacity:0}
-.anim .sky{will-change:opacity}
+#### A. Initial Page Load
 
-Sequence (all `both` fill):
-  .anim.play .sky                                ent-fade   1.6s  --e-slow   .25s
-  .anim.play .navbar::after                      ent-draw    .9s  --e-expo   .12s
-  .anim.play .logo              --rise 8u        ent-rise    .6s  --e-quint  .20s
-  .anim.play .links a           --rise 8u        ent-rise   .55s  --e-quint
-    nth-child(1) .26s · (2) .31s · (3) .36s · (4) .41s
-  .anim.play .links a.enroll, .burger  --rise 8u ent-settle  .6s  --e-quint  .46s
-  .anim.play .links a[aria-current]::after       ent-draw   .55s  --e-expo   .60s
-  .anim.play .eyebrow .ent-line                  ent-reveal .75s  --e-expo   .30s
-  .anim.play h1.title .ent-line                  ent-reveal .95s  --e-expo   .44s
-  .anim.play .rule span                          ent-draw   .65s  --e-expo   .78s
-  .anim.play p.lede             --rise 12u       ent-rise    .7s  --e-quint  .86s
-  .anim.play .label.label-l     --rise 8u        ent-rise    .6s  --e-quint 1.04s
-  .anim.play .label.label-r     --rise 8u        ent-rise    .6s  --e-quint 1.10s
-  .anim.play .cta a             --rise 8u        ent-settle  .7s  --e-quint 1.14s
-  .anim.play .scroll                             ent-settle  .6s  --e-quint 1.42s
+Analyze:
 
-Driver script: if <html> lacks .anim, return. Otherwise wait for document.fonts.ready
-(with a 500ms guard timeout), then two nested requestAnimationFrame calls, then add
-.play. After 2150ms remove BOTH .anim and .play.
+- Loading sequences and preloader behavior.
+- Initial element visibility.
+- Headline and text entrances.
+- Image, illustration, or media entrances.
+- Staggered animation sequences.
+- Delayed reveals.
+- Element overlap and timing relationships.
+- Transition from loading to the interactive page.
 
-════════════════════════════════════════════════════════════════════════
-9. SINGULARITY SWITCHER & WEBGL ENGINE — JS behaviour
-════════════════════════════════════════════════════════════════════════
-const ORDER = ['gaia','cygnus','sgra'];
-Per object store: name (uppercase), shader preset parameters (accretion color primary,
-secondary, disk density, relativistic jet intensity, camera tilt, companion star glow),
-and lede HTML:
-  gaia:   name: "GAIA BH1"
-          lede: "Discover the nearest known black hole to Earth, a dormant ten-solar-mass
-                 singularity<br>just 1,560 light-years away in Ophiuchus. Course enrollment
-                 starts today, don&rsquo;t miss out!"
-  cygnus: name: "CYGNUS X-1"
-          lede: "Explore a fierce stellar-mass X-ray binary stripping superheated plasma
-                 from a blue<br>supergiant companion star. Course enrollment starts today,
-                 don&rsquo;t miss out!"
-  sgra:   name: "SGR A*"
-          lede: "Journey to the supermassive four-million-solar-mass gravitational anchor
-                 at the heart<br>of our Milky Way galaxy. Course enrollment starts today,
-                 don&rsquo;t miss out!"
+Determine which elements animate, their approximate sequence, and the perceived movement characteristics.
 
-show(next):
-  1. bail if unknown or already featured
-  2. update the WebGL target state uniforms to interpolate the background 3D black hole
-     toward `next`'s physical parameters over 450ms (smooth cubic ease).
-  3. set the h1's .ent-line textContent to the object's name
-  4. set p.lede innerHTML to that object's lede
-  5. rest = ORDER minus `next`; slot L gets rest[0], slot R gets rest[1]. For each slot:
-     immediately update the side WebGL canvas uniform `u_type` and trigger an immediate
-     synchronous draw call so the 3D side sphere swaps in <1ms; set the button's
-     data-planet, set aria-label "Show <NAME>", set the label text.
+#### B. Scroll Behavior
 
-Bind click on both buttons -> show(this.dataset.planet). Call show('gaia') once at the
-end of setup to establish the initial state.
+Analyze:
 
-════════════════════════════════════════════════════════════════════════
-10. BURGER MENU — JS behaviour
-════════════════════════════════════════════════════════════════════════
-set(open) writes navrow.dataset.open, the button's aria-expanded, and its aria-label
-("Open navigation" / "Close navigation"). Initialise with set(false). Toggle on button
-click (stopPropagation). Close on: a document click outside the menu and button, Escape
-(then return focus to the button), and any click on a link inside the menu.
+- Native versus custom smooth scrolling.
+- Scroll acceleration, deceleration, and interpolation.
+- Scroll-triggered element entrances.
+- Scroll-scrubbed transformations.
+- Sticky or pinned sections.
+- Parallax movement and relative element speeds.
+- Horizontal scrolling, if present.
+- Background transformations.
+- Section-to-section continuity.
+- Animation direction and reversibility.
+- Scroll-trigger thresholds and completion conditions.
 
-════════════════════════════════════════════════════════════════════════
-11. ACCESSIBILITY
-════════════════════════════════════════════════════════════════════════
-· Side singularities are real <button type="button"> with a dynamic aria-label — keyboard
-  operable, focus-visible ringed in --cyan.
-· All <canvas> elements carry aria-hidden="true" — the labels and headings carry the
-  semantic meaning.
-· prefers-reduced-motion: no entrance sequence (.anim is never added); WebGL shaders
-  render a single high-detail static frame on load and on state change rather than
-  running a continuous time loop; no hover/press transforms; no nav transitions.
-· .copy spans the whole frame with pointer-events:none so it can never swallow nav
-  clicks; only .copy a and .planet re-enable pointers.
+Pay particular attention to how animations connect the page together rather than treating every section as an isolated animation.
 
-════════════════════════════════════════════════════════════════════════
-12. ACCEPTANCE CHECKS
-════════════════════════════════════════════════════════════════════════
-· Loads with GAIA BH1 featured in the 3D WebGL background, CYGNUS X-1 left, SGR A* right.
-· Clicking a side singularity swaps the 3D side model in the SAME FRAME (<1ms) and
-  smoothly morphs the 3D background black hole shader, headline, lede, and labels.
-· Gaia BH1 -> Cygnus X-1 -> Sgr A* -> Gaia BH1 returns to the exact initial state.
-· Zero external image or video network requests — 100% procedural WebGL 3D rendering.
-· body never scrolls horizontally at any width from 320px to 2560px.
-· Entrance runs once; afterwards <html> carries neither .anim nor .play.
+#### C. Hover and Pointer Interactions
+
+Inspect:
+
+- Hover elevation and translation.
+- Scale or rotation responses.
+- Pointer-following effects.
+- Magnetic attraction.
+- Cursor transformations.
+- Animated borders or highlights.
+- Image or content swapping.
+- Neighboring-element reactions.
+- Hover entrance and exit timing.
+- Spring-like settling and overshoot.
+- Pointer movement sensitivity.
+
+Only extract behaviors demonstrated by the reference.
+
+#### D. Interactive Components
+
+Inspect any meaningful interactive systems, such as:
+
+- Navigation menus.
+- Tabs and segmented controls.
+- Accordions and collapsible content.
+- Modals and overlays.
+- Carousels and galleries.
+- Pricing selectors.
+- Buttons and call-to-action interactions.
+- Dragging or gesture-based interactions.
+- Interactive illustrations or media.
+
+Observe how states enter, exit, reverse, and respond to repeated input.
+
+#### E. Advanced Motion Techniques
+
+If present, inspect:
+
+- WebGL, Three.js, or shader-driven animations.
+- Canvas-based visuals.
+- SVG path animation and morphing.
+- Text splitting, masking, or scrambling.
+- Clip-path and shape transitions.
+- Motion driven by pointer velocity.
+- Physics-based transitions.
+- 3D camera or object movement.
+- Interactive backgrounds.
+- Scroll-controlled video or frame sequences.
+
+Do not introduce these technologies solely because they are visually impressive.
+
+Use them only when an observed behavior and the target design justify the complexity.
+
+---
+
+### 5. Motion Inventory and Behavioral Extraction
+
+Create an internal motion inventory before implementation.
+
+For each meaningful animation, identify:
+
+| Property | What to extract |
+|---|---|
+| Trigger | Load, viewport entry, scroll, hover, click, drag, or state change |
+| Target | What type of element is animated |
+| Properties | Translation, scale, rotation, opacity, clipping, etc. |
+| Duration | Approximate time to completion |
+| Easing | Acceleration and deceleration characteristics |
+| Stagger | Delay between participating elements |
+| Progress | Time-based or interaction-driven |
+| Reversibility | Whether the animation can reverse |
+| Dependencies | Whether animations occur sequentially or simultaneously |
+| Responsive behavior | How motion changes across devices |
+| Perceived physics | Inertia, elasticity, damping, weight, or momentum |
+
+Separate observed facts from estimates.
+
+If the reference provides source code, inspect relevant implementation details to determine exact animation parameters where possible.
+
+If only a video or interactive preview is available, infer approximate timing and easing from visible behavior.
+
+Do not invent precise source measurements and present them as verified facts.
+
+The goal is to understand the reference's **motion principles**, not necessarily reproduce its exact numerical parameters.
+
+---
+
+### 6. Motion Adaptation Rules
+
+After extracting the reference's motion system, adapt the behaviors to the target project.
+
+**Apply behavior based on functional equivalence, not visual similarity.**
+
+For example:
+
+- A reference card reveal may inform the entrance of an original product feature.
+- A scroll-driven hero transformation may inform an entirely different hero composition.
+- A magnetic button response may be adapted to the target's own call-to-action design.
+- A staggered text animation may be applied to original headings without reproducing the reference's typography or line breaks.
+- A reference image transition may inspire motion between the target's existing media elements.
+
+Do not force a behavior onto an unrelated component.
+
+If a reference animation requires recreating a recognizable visual composition, reinterpret the underlying motion principle or omit it.
+
+Prioritize the target's usability, visual hierarchy, and original design over exact replication.
+
+### 7. Adaptive Motion System
+
+Develop reusable motion rules based on the behaviors actually observed.
+
+The following are categories to evaluate, **not mandatory effects to implement**.
+
+#### A. Entrance Choreography
+
+Where applicable:
+
+- Use staggered entrances for related elements.
+- Coordinate primary and secondary content.
+- Apply appropriate clipping, translation, opacity, or scaling.
+- Preserve the reading order and natural visual hierarchy.
+- Prevent unintended repeated entrances.
+
+Calibrate timing and easing to the reference's observed rhythm.
+
+#### B. Scroll-Driven Motion
+
+Where applicable:
+
+- Link animation progress smoothly to scroll progress.
+- Use pinning or sticky positioning only when structurally appropriate.
+- Coordinate section transitions without layout jumps.
+- Preserve consistent motion across scroll directions.
+- Prevent animation discontinuities during rapid scrolling.
+- Simplify complex sequences for small viewports.
+
+#### C. Hover Physics
+
+Where applicable:
+
+- Reproduce the perceived responsiveness of hover interactions.
+- Calibrate pointer sensitivity and movement ranges.
+- Preserve smooth transitions between active and resting states.
+- Avoid excessive movement that harms usability.
+- Support keyboard focus and touch-friendly alternatives.
+
+#### D. Component State Transitions
+
+Where applicable:
+
+- Animate state changes without unnecessarily remounting content.
+- Coordinate outgoing and incoming elements.
+- Preserve layout stability.
+- Allow interactions to reverse or interrupt gracefully.
+- Prevent overlapping or conflicting timelines.
+
+#### E. Navigation and Interaction Feedback
+
+Where applicable:
+
+- Coordinate navigation and scroll position.
+- Provide appropriate feedback for clicks and taps.
+- Animate menu opening and closing.
+- Maintain accurate active states.
+- Ensure navigation remains functional without animation.
+
+#### F. Continuous and Ambient Motion
+
+If the reference uses ambient motion:
+
+- Identify its purpose and movement pattern.
+- Adapt it to existing target assets.
+- Avoid distracting from essential content.
+- Pause or reduce unnecessary offscreen animation.
+- Respect reduced-motion preferences.
+- Avoid continuous rendering when the effect is not visible.
+
+**Do not add animations simply to maximize animation density.**
+
+---
+
+### 8. Timing, Easing, and Physics
+
+Build an internally consistent motion system informed by the reference.
+
+Extract and calibrate:
+
+- Fast interaction feedback.
+- Standard component transitions.
+- Major entrance sequences.
+- Large-scale scroll choreography.
+- Easing curves.
+- Spring stiffness and damping.
+- Pointer-response sensitivity.
+- Stagger spacing.
+- Momentum and inertial behavior.
+
+Preserve meaningful differences between interaction types.
+
+Not every animation should have the same duration or easing curve.
+
+Use source-derived values when reliable; otherwise, tune values experimentally to achieve comparable perceptual behavior.
+
+Establish reusable motion tokens instead of scattering unrelated animation values throughout the project.
+
+---
+
+### 9. Technical Implementation
+
+Inspect the target project's existing technology stack before selecting an implementation approach.
+
+**Do not assume Next.js, React, GSAP, Lenis, or any other library is mandatory.**
+
+Prefer compatibility with the existing codebase.
+
+Possible implementation tools include:
+
+- CSS transitions and keyframes for simple animations.
+- Web Animations API for native browser animation control.
+- GSAP for complex animation timelines.
+- ScrollTrigger for sophisticated scroll choreography.
+- Lenis for custom smooth scrolling when justified.
+- Motion or framework-specific animation libraries.
+- IntersectionObserver for viewport-based reveals.
+- RequestAnimationFrame for coordinated frame updates.
+- Three.js or WebGL for genuinely necessary graphics behavior.
+
+Use the smallest appropriate combination of technologies.
+
+Avoid introducing multiple libraries that solve the same problem without a clear reason.
+
+If Lenis and GSAP ScrollTrigger are used together, synchronize their updates correctly and refresh scroll measurements when the layout changes.
+
+Preserve native touch scrolling unless a custom approach is clearly necessary.
+
+#### Architecture
+
+Separate motion logic from visual presentation.
+
+Use reusable utilities, hooks, composables, or modules depending on the framework.
+
+Possible responsibilities:
+
+- Motion configuration and tokens.
+- Reduced-motion detection.
+- Scroll progress tracking.
+- Viewport reveal management.
+- Pointer-responsive interaction.
+- Timeline orchestration.
+- Component state transitions.
+- Animation initialization and cleanup.
+
+These are conceptual responsibilities, not a mandatory directory structure.
+
+Do not copy the reference's code architecture unnecessarily.
+
+---
+
+### 10. Performance Requirements
+
+All implemented motion must remain fluid and responsive.
+
+Prioritize:
+
+- Transform and opacity-based animations.
+- Efficient scroll and pointer event handling.
+- Minimal forced layout recalculation.
+- Proper cleanup of listeners, observers, and animation instances.
+- Avoidance of unnecessary React or framework state updates every frame.
+- GPU-friendly rendering where appropriate.
+- Reasonable memory and rendering budgets.
+- Lazy initialization of expensive effects.
+- Pausing invisible animations.
+- Responsive behavior on lower-powered devices.
+
+Avoid large animated blur surfaces, expensive filters, or unnecessary WebGL scenes solely to resemble the reference's visual effects.
+
+Use animation libraries deliberately rather than by default.
+
+---
+
+### 11. Accessibility and Responsive Adaptation
+
+All motion must support:
+
+- `prefers-reduced-motion`.
+- Keyboard navigation.
+- Visible focus indicators.
+- Touchscreen interactions.
+- Responsive viewport sizes.
+- Dynamic content and layout changes.
+- Functional interaction without JavaScript-driven animation wherever reasonably possible.
+
+Reduced-motion mode should remove or simplify nonessential movement without hiding required content or functionality.
+
+Complex desktop animation sequences must not automatically be forced onto mobile devices.
+
+Adjust or remove behaviors when they interfere with readability, scrolling, touch interactions, or performance.
+
+Ensure interaction state is never communicated through motion alone.
+
+---
+
+### 12. Mandatory Implementation Workflow
+
+#### Phase A — Reference Analysis
+
+1. Inspect the available reference materials.
+2. Identify actual animation and interaction behaviors.
+3. Document timing, easing, triggers, and dependencies.
+4. Distinguish verified measurements from estimates.
+5. Identify techniques that can be transferred without reproducing visual design.
+
+Do not begin implementing animations based on assumptions about the reference.
+
+#### Phase B — Target Design Assessment
+
+1. Inspect the target project's existing design and components.
+2. Preserve its branding, layout, typography, colors, and artwork.
+3. Determine which existing elements can naturally receive motion behavior.
+4. Identify behaviors that require adaptation.
+5. Reject effects that would compromise design independence or usability.
+
+If the target is being built from scratch, finalize its independently developed design direction before motion integration.
+
+#### Phase C — Motion Mapping
+
+Map source behaviors to suitable target components.
+
+For each mapped behavior, establish:
+
+- Source interaction principle.
+- Target element or interaction.
+- Adapted trigger and animation behavior.
+- Expected visual and functional result.
+- Responsive and accessibility fallback.
+
+Prioritize the most meaningful interactions rather than implementing every observable effect.
+
+#### Phase D — Implementation
+
+1. Establish reusable motion tokens and utilities.
+2. Implement the primary motion sequences.
+3. Integrate scroll behaviors.
+4. Add relevant hover and pointer interactions.
+5. Integrate component state transitions.
+6. Synchronize dependent animation timelines.
+7. Implement reduced-motion and mobile adaptations.
+8. Remove redundant or conflicting animation code.
+
+Keep all functional controls operational.
+
+#### Phase E — Quality Assurance
+
+Test the completed experience across:
+
+- Desktop, tablet, and mobile.
+- Mouse, touch, and keyboard input.
+- Slow and rapid scrolling.
+- Forward and reverse scrolling.
+- Repeated user interactions.
+- Browser resizing and content reflow.
+- Direct navigation to page anchors.
+- Reduced-motion preferences.
+- Lower-performance devices where practical.
+
+Check for layout shifts, stuck pinned sections, clipped content, scroll jumps, overlapping animations, and interaction delays.
+
+#### Phase F — Visual Independence Verification
+
+Compare representative static frames of the target and the reference.
+
+The target should not reproduce the reference's recognizable visual structure.
+
+Check for similarities in:
+
+- Layout composition.
+- Hero organization.
+- Typography treatment.
+- Decorative asset arrangement.
+- Component shapes.
+- Background composition.
+- Section structure.
+- Overall visual hierarchy.
+
+If distinctive visual similarities remain, redesign the affected target components instead of concealing the resemblance with superficial styling changes.
+
+Verify that the motion has been adapted to the target's own design rather than forcing the target to resemble the reference.
+
+---
+
+### 13. Expected Deliverables
+
+Provide the following as part of the implementation:
+
+**1. Motion Analysis Summary**
+
+A concise overview of the behaviors actually observed in the reference, including any uncertainty caused by incomplete reference materials.
+
+**2. Motion Mapping Summary**
+
+Explain which extracted behaviors were applied to which target components and why.
+
+**3. Implementation**
+
+Deliver the functioning motion system integrated into the existing target project.
+
+Avoid stopping at documentation, pseudocode, or a high-level plan when working source code can be implemented.
+
+**4. Technical Notes**
+
+Identify the animation tools used, important configuration decisions, and any significant performance considerations.
+
+**5. Verification Summary**
+
+Report what was tested, any limitations, and whether visual independence and responsive behavior were successfully maintained.
+
+---
+
+### 14. Acceptance Criteria
+
+The final implementation must satisfy all of the following:
+
+1. **Visual originality:** The target has an independent visual identity.
+2. **Motion fidelity:** The reference's observable interaction characteristics have been thoughtfully transferred.
+3. **Behavioral accuracy:** Animations reflect behaviors actually demonstrated by the reference.
+4. **Contextual adaptation:** Motion is integrated into the target's original components.
+5. **Functional integrity:** Navigation, buttons, controls, and interactive content work correctly.
+6. **Performance:** Motion remains fluid without unnecessary rendering overhead.
+7. **Responsiveness:** Animations adapt appropriately to device capabilities and viewport sizes.
+8. **Accessibility:** Reduced-motion, keyboard, and touch experiences remain usable.
+9. **Maintainability:** Motion logic is reusable, organized, and appropriate to the existing technology stack.
+10. **No visual dependency:** The target does not rely on reference-derived layouts, artwork, or distinctive styling.
+
+---
+
+### 15. Final Execution Principles
+
+**Analyze before implementing.**
+
+Do not apply a generic animation preset to every reference.
+
+**Extract behavior, not appearance.**
+
+Study how elements move, respond, transition, and coordinate—not how they are visually designed.
+
+**Adapt rather than reproduce.**
+
+Translate interaction principles into the target's own component system.
+
+**Preserve motion quality without forcing exact choreography.**
+
+Match the reference's perceived fluidity, responsiveness, timing, and intentionality while allowing the target to remain structurally original.
+
+**Never sacrifice performance, accessibility, or functionality for animation.**
+
+The goal is a polished, coherent experience, not the largest possible collection of visual effects.
+
+### Core Principle
+
+**Transfer the physics, rhythm, responsiveness, and interaction intelligence of the reference—never its visual identity.**

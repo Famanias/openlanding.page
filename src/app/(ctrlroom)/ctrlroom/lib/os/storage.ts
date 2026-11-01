@@ -39,24 +39,25 @@ export function loadDemoStateFromStorage(): StoredDemoState | null {
   }
 }
 
-export function saveDemoStateToStorage(state: Omit<StoredDemoState, 'savedAt'>): string {
+export function saveDemoStateToStorage(state: Omit<StoredDemoState, 'savedAt'>): string | null {
   const timestamp = new Date().toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
   });
-  if (typeof window !== 'undefined' && window.localStorage) {
-    try {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
       const payload: StoredDemoState = {
         ...state,
         savedAt: timestamp,
       };
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    } catch {
-      // Ignore quota errors in restricted sandboxes
+      return timestamp;
     }
+  } catch {
+    return null;
   }
-  return timestamp;
+  return null;
 }
 
 export function clearDemoStorage(): void {

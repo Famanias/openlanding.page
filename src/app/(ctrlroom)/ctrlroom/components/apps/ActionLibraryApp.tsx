@@ -121,7 +121,7 @@ export const ActionLibraryApp: React.FC<ActionLibraryAppProps> = ({
                 e.dataTransfer.setData('text/plain', action.id);
               }}
               onMouseEnter={() => setHoveredActionId(action.id)}
-              className={`p-2.5 border-2 transition-all flex items-start justify-between gap-2.5 ${
+              className={`p-2.5 border-2 cr-transition-control flex items-start justify-between gap-2.5 ${
                 isAssignedToCurrent
                   ? 'bg-[#2858FF]/30 border-[#E4FF58]'
                   : 'bg-[#15203D] border-[#61728F]/60 hover:border-[#2858FF]'
