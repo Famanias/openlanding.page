@@ -5,10 +5,10 @@ const proof = [
 
 export function Proof() {
   return (
-    <section className="as-proof as-container" data-as-reveal="card-cascade">
-      <div className="as-proof-top"><p className="as-kicker">Small teams, strong point of view</p><p className="as-proof-stat"><strong>17</strong> studies made · <strong>4.8/5</strong> clarity score</p></div>
+    <section className="as-proof as-container">
+      <div className="as-proof-top" data-as-reveal="paper-rise"><p className="as-kicker">Small teams, strong point of view</p><p className="as-proof-stat"><strong>17</strong> studies made · <strong>4.8/5</strong> clarity score</p></div>
       <div className="as-proof-grid">
-        {proof.map((item) => <figure className={`as-quote as-quote--${item.tone}`} key={item.name}><div className="as-quote-mark">“</div><blockquote>{item.quote}</blockquote><figcaption><strong>{item.name}</strong><span>{item.role}</span></figcaption><span className="as-quote-tape" aria-hidden="true" /></figure>)}
+        {proof.map((item, index) => <figure className={`as-quote as-quote--${item.tone}`} key={item.name} data-as-reveal="paper-rise" data-as-order={index}><div className="as-quote-mark">“</div><blockquote>{item.quote}</blockquote><figcaption><strong>{item.name}</strong><span>{item.role}</span></figcaption><span className="as-quote-tape" aria-hidden="true" /></figure>)}
       </div>
     </section>
   );

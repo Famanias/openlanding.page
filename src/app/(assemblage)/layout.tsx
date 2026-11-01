@@ -32,9 +32,6 @@ export default function AssemblageLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={`${manrope.variable} ${mono.variable} overflow-x-clip`}>
       <body className="assemblage-body overflow-x-clip">
-        <noscript>
-          <style>{`[data-as-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}[data-as-word]{color:inherit!important}`}</style>
-        </noscript>
         {children}
       </body>
     </html>

@@ -1,6 +1,7 @@
 import { RequestForm } from "./forms/RequestForm";
 import { Reveals } from "./motion/Reveals";
 import { ScrollMotion } from "./motion/ScrollMotion";
+import { PointerMotion } from "./motion/PointerMotion";
 import { Benefits } from "./sections/Benefits";
 import { FAQ } from "./sections/FAQ";
 import { Footer } from "./sections/Footer";
@@ -18,26 +19,26 @@ export default function AssemblagePage() {
       <main id="main">
         <Hero />
         <Benefits />
-        <section className="as-tagline" aria-label="Assemblage promise" data-as-reveal="tagline">
+        <section className="as-tagline" aria-label="Assemblage promise">
           <p className="as-kicker">A material point of view</p>
           <h2>
-            <span data-as-word data-as-word-index="0">Good ideas</span> <span data-as-word data-as-word-index="1">need a surface</span>
+            {"Good ideas need a surface".split(" ").map((word, index) => <span key={index}><span data-as-word>{word}</span>{index < 4 ? " " : ""}</span>)}
             <br />
-            <span data-as-word data-as-word-index="2">before they need a budget.</span>
+            {"before they need a budget.".split(" ").map((word, index) => <span key={index}><span data-as-word>{word}</span>{index < 4 ? " " : ""}</span>)}
           </h2>
         </section>
         <Process />
         <MaterialDeck />
         <Proof />
-        <section className="as-objections as-container" id="faq" data-as-reveal="paper-rise">
-          <div className="as-section-intro">
+        <section className="as-objections as-container" id="faq">
+          <div className="as-section-intro" data-as-reveal="paper-rise">
             <p className="as-kicker">The practical questions</p>
             <h2>Make room for the messy bit.</h2>
           </div>
           <FAQ />
         </section>
-        <section className="as-request as-container" id="request" data-as-reveal="clip-wipe">
-          <div className="as-request-copy">
+        <section className="as-request as-container" id="request">
+          <div className="as-request-copy" data-as-reveal="paper-rise">
             <p className="as-kicker">Start with the scraps</p>
             <h2>Bring the half formed idea.</h2>
             <p>
@@ -55,6 +56,7 @@ export default function AssemblagePage() {
       <Footer />
       <Reveals />
       <ScrollMotion />
+      <PointerMotion />
     </div>
   );
 }

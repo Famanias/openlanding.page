@@ -149,7 +149,7 @@ tally: {
   },
   assemblage: {
     name: "Assemblage",
-    dependencies: [],
+    dependencies: ["three"],
   },
 };
 

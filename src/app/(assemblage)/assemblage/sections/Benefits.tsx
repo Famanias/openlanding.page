@@ -7,10 +7,10 @@ const benefits = [
 
 export function Benefits() {
   return (
-    <section className="as-benefits as-container" id="benefits" data-as-reveal="paper-rise">
-      <div className="as-section-intro"><p className="as-kicker">Why a material study</p><h2>Put shape around the instinct.</h2></div>
+    <section className="as-benefits as-container" id="benefits">
+      <div className="as-section-intro" data-as-reveal="paper-rise"><p className="as-kicker">Why a material study</p><h2>Put shape around the instinct.</h2></div>
       <div className="as-benefit-grid">
-        {benefits.map(([title, copy], index) => <article className="as-benefit" key={title}><span className="as-index">0{index + 1}</span><h3>{title}</h3><p>{copy}</p></article>)}
+        {benefits.map(([title, copy], index) => <article className="as-benefit" key={title} data-as-reveal="paper-rise" data-as-order={index}><span className="as-index">0{index + 1}</span><h3>{title}</h3><p>{copy}</p></article>)}
       </div>
     </section>
   );
