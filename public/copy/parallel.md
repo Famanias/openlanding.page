@@ -279,6 +279,7 @@ import {
   computeWorkflowStageChoreography,
 } from '../simulation/workflowTwinMath';
 import { WebGLFallbackView } from './WebGLFallbackView';
+import { ParallelFuturesSection } from './ParallelFuturesSection';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -548,7 +549,6 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
     (h) => h.id === (workflowSelectedHubId || workflowHoveredHubId)
   );
 
-  const [futuresSplitSpread, setFuturesSplitSpread] = useState<number>(1);
   const [activeIndustryIdx, setActiveIndustryIdx] = useState<number>(0);
   const [activeExplainIdx, setActiveExplainIdx] = useState<number>(0);
 
@@ -660,23 +660,6 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
           ease: 'power3.out',
           scrollTrigger: {
             trigger: '#capabilities',
-            start: 'top 78%',
-          },
-        }
-      );
-
-      // Parallel Futures section reveal
-      gsap.fromTo(
-        '.futures-reveal',
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.85,
-          stagger: 0.12,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '#parallel-futures',
             start: 'top 78%',
           },
         }
@@ -2630,279 +2613,10 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
             SECTION 04 — PARALLEL FUTURES (#parallel-futures)
             "One decision." -> "Two possible futures."
            ------------------------------------------------------------------- */}
-        <section
-          id="parallel-futures"
-          data-testid="section-parallel-futures"
-          className="py-24 lg:py-36 border-b border-[#171A1C]/12 bg-[#E8E8E3]/45"
-        >
-          <div className="max-w-[1440px] mx-auto px-5 lg:px-10">
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <div className="futures-reveal font-mono text-xs uppercase tracking-[0.2em] text-[#E85D36] mb-3">
-                04 // SIDE-BY-SIDE REALITY COMPARISON
-              </div>
-              <h2 className="futures-reveal font-display font-bold text-3xl sm:text-5xl lg:text-6xl text-[#171A1C] tracking-[-0.03em] leading-[1.04]">
-                One decision.{' '}
-                <span className="text-[#E85D36]">Two possible futures.</span>
-              </h2>
-              <p className="futures-reveal mt-4 text-base sm:text-lg text-[#24282B]">
-                Compare how the exact same 07:30 Meridian Central Bridge closure unfolds without action versus with a coordinated response.
-              </p>
-
-              {/* Interactive Intervention Switcher for the Split Comparison */}
-              <div className="futures-reveal mt-7 inline-flex flex-wrap items-center justify-center gap-2 bg-[#F6F5F1] p-1.5 border border-[#171A1C]/15">
-                {(
-                  [
-                    { id: 'reroute_vehicles', label: 'Dynamic Rerouting' },
-                    { id: 'increase_transit', label: 'Transit Capacity Surge' },
-                    {
-                      id: 'coordinate_deliveries',
-                      label: 'Freight Window Slotting',
-                    },
-                  ] as { id: InterventionStrategy; label: string }[]
-                ).map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setIntervention(item.id)}
-                    className={`px-3.5 py-2 text-xs font-mono uppercase tracking-[0.1em] transition-colors cursor-pointer ${
-                      scenarioParams.intervention === item.id
-                        ? 'bg-[#171A1C] text-[#F6F5F1] font-semibold'
-                        : 'text-[#666D70] hover:text-[#171A1C]'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setFuturesSplitSpread(futuresSplitSpread === 1 ? 0 : 1)
-                  }
-                  className="px-3 py-2 text-xs font-mono uppercase tracking-[0.1em] text-[#E85D36] border-l border-[#171A1C]/12 cursor-pointer"
-                >
-                  {futuresSplitSpread === 1 ? 'Merge View' : 'Split Futures'}
-                </button>
-              </div>
-            </div>
-
-            {/* Two-Column Split Comparison Cards */}
-            <div
-              className={`grid grid-cols-1 lg:grid-cols-2 transition-all duration-500 ${
-                futuresSplitSpread === 1 ? 'gap-8 lg:gap-12' : 'gap-2'
-              }`}
-            >
-              {/* Left Side — BASELINE */}
-              <div
-                data-testid="parallel-future-baseline"
-                className="bg-[#F6F5F1] border-t-4 border-[#D94E3E] border-x border-b border-[#171A1C]/14 p-7 sm:p-10"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#D94E3E]">
-                    BASELINE
-                  </span>
-                  <span className="font-mono text-xs text-[#666D70]">
-                    FUTURE A // UNMITIGATED
-                  </span>
-                </div>
-                <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#171A1C] mb-6">
-                  Without intervention.
-                </h3>
-
-                {/* Architectural Corridor Schematic — Baseline */}
-                <div className="bg-[#E8E8E3]/70 border border-[#171A1C]/10 p-4 mb-6">
-                  <svg viewBox="0 0 400 130" className="w-full h-28">
-                    <rect
-                      x="0"
-                      y="54"
-                      width="400"
-                      height="22"
-                      fill="#171A1C"
-                      fillOpacity="0.08"
-                    />
-                    {/* Overloaded central queue spillback */}
-                    <path
-                      d="M 80 110 L 200 90 L 320 110"
-                      fill="none"
-                      stroke="#D94E3E"
-                      strokeWidth="4"
-                    />
-                    <path
-                      d="M 80 20 L 200 40 L 320 20"
-                      fill="none"
-                      stroke="#D94E3E"
-                      strokeWidth="3.5"
-                    />
-                    <line
-                      x1="200"
-                      y1="25"
-                      x2="200"
-                      y2="105"
-                      stroke="#D94E3E"
-                      strokeWidth="2.5"
-                      strokeDasharray="4 4"
-                    />
-                    <circle cx="200" cy="65" r="9" fill="#D94E3E" />
-                    <text
-                      x="200"
-                      y="124"
-                      textAnchor="middle"
-                      fill="#D94E3E"
-                      fontSize="9"
-                      fontFamily="IBM Plex Mono, monospace"
-                      fontWeight="600"
-                    >
-                      ARTERIAL GRIDLOCK &amp; QUEUE SPILLBACK
-                    </text>
-                  </svg>
-                </div>
-
-                {/* Live Metrics */}
-                <div className="grid grid-cols-3 gap-3 mb-6 pb-6 border-b border-[#171A1C]/12">
-                  <div>
-                    <div className="font-mono text-[10px] uppercase text-[#666D70]">
-                      Travel Delay
-                    </div>
-                    <div className="font-mono text-xl sm:text-2xl font-bold text-[#D94E3E]">
-                      {snapshotA.metrics.avgTravelDelayMin}m
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-mono text-[10px] uppercase text-[#666D70]">
-                      Congestion
-                    </div>
-                    <div className="font-mono text-xl sm:text-2xl font-bold text-[#171A1C]">
-                      {snapshotA.metrics.congestionIndex}%
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-mono text-[10px] uppercase text-[#666D70]">
-                      Deliveries
-                    </div>
-                    <div className="font-mono text-xl sm:text-2xl font-bold text-[#171A1C]">
-                      {snapshotA.metrics.completedDeliveries}
-                    </div>
-                  </div>
-                </div>
-
-                <ul className="space-y-2.5 text-sm text-[#24282B]">
-                  <li className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 bg-[#D94E3E]" />
-                    <span>Higher congestion across CBD and Harbor collectors</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 bg-[#D94E3E]" />
-                    <span>Longer travel delays during peak commuter windows</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 bg-[#D94E3E]" />
-                    <span>Reduced delivery reliability for hospital &amp; port freight</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Right Side — ALTERNATIVE */}
-              <div
-                data-testid="parallel-future-alternative"
-                className="bg-[#F6F5F1] border-t-4 border-[#2D8A61] border-x border-b border-[#171A1C]/14 p-7 sm:p-10"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#2D8A61]">
-                    ALTERNATIVE
-                  </span>
-                  <span className="font-mono text-xs text-[#E85D36] font-semibold">
-                    FUTURE B // COORDINATED RESPONSE
-                  </span>
-                </div>
-                <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#171A1C] mb-6">
-                  With a coordinated response.
-                </h3>
-
-                {/* Architectural Corridor Schematic — Alternative */}
-                <div className="bg-[#E8E8E3]/70 border border-[#171A1C]/10 p-4 mb-6">
-                  <svg viewBox="0 0 400 130" className="w-full h-28">
-                    <rect
-                      x="0"
-                      y="54"
-                      width="400"
-                      height="22"
-                      fill="#171A1C"
-                      fillOpacity="0.08"
-                    />
-                    {/* Balanced West & East Bypass Corridors */}
-                    <path
-                      d="M 85 105 C 85 65, 110 40, 145 22"
-                      fill="none"
-                      stroke="#2D8A61"
-                      strokeWidth="3.5"
-                    />
-                    <path
-                      d="M 315 105 C 315 65, 290 40, 255 22"
-                      fill="none"
-                      stroke="#2D8A61"
-                      strokeWidth="3.5"
-                    />
-                    <circle cx="85" cy="65" r="5" fill="#2D8A61" />
-                    <circle cx="315" cy="65" r="5" fill="#2D8A61" />
-                    <text
-                      x="200"
-                      y="124"
-                      textAnchor="middle"
-                      fill="#2D8A61"
-                      fontSize="9"
-                      fontFamily="IBM Plex Mono, monospace"
-                      fontWeight="600"
-                    >
-                      DYNAMIC WEST &amp; EAST VIADUCT LOAD BALANCING
-                    </text>
-                  </svg>
-                </div>
-
-                {/* Live Metrics */}
-                <div className="grid grid-cols-3 gap-3 mb-6 pb-6 border-b border-[#171A1C]/12">
-                  <div>
-                    <div className="font-mono text-[10px] uppercase text-[#666D70]">
-                      Travel Delay
-                    </div>
-                    <div className="font-mono text-xl sm:text-2xl font-bold text-[#2D8A61]">
-                      {snapshotB.metrics.avgTravelDelayMin}m
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-mono text-[10px] uppercase text-[#666D70]">
-                      Congestion
-                    </div>
-                    <div className="font-mono text-xl sm:text-2xl font-bold text-[#2D8A61]">
-                      {snapshotB.metrics.congestionIndex}%
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-mono text-[10px] uppercase text-[#666D70]">
-                      Deliveries
-                    </div>
-                    <div className="font-mono text-xl sm:text-2xl font-bold text-[#171A1C]">
-                      {snapshotB.metrics.completedDeliveries}
-                    </div>
-                  </div>
-                </div>
-
-                <ul className="space-y-2.5 text-sm text-[#24282B]">
-                  <li className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 bg-[#2D8A61]" />
-                    <span>Balanced traffic flow across alternate river crossings</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 bg-[#2D8A61]" />
-                    <span>Faster recovery (-{delaySaved} min average travel delay)</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 bg-[#2D8A61]" />
-                    <span>Improved system performance (+{extraDeliveries} completed deliveries)</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
+        <ParallelFuturesSection
+          activeIntervention={scenarioParams.intervention}
+          onSelectIntervention={setIntervention}
+        />
 
         {/* -------------------------------------------------------------------
             SECTION 05 — INDUSTRY SOLUTIONS (#solutions)
@@ -3497,6 +3211,1626 @@ export const EditorialInterface: React.FC<EditorialInterfaceProps> = ({
         </footer>
       </div>
     </div>
+  );
+};
+]]>
+    </file>
+    <file path="src/app/(parallel)/parallel/components/ParallelFuturesSection.tsx">
+<![CDATA['use client';
+
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { createBudgetedRenderLoop } from '../rendering/renderBudget';
+import { InterventionStrategy } from '../simulation/engine';
+import {
+  CanonicalCity25D,
+  EntityComparisonInspection,
+  FutureWorldState25D,
+  INTERVENTION_METADATA,
+  PARALLEL_FUTURES_CLOSURE_MIN,
+  PARALLEL_FUTURES_END_MIN,
+  PARALLEL_FUTURES_START_MIN,
+   computeRealitySplitChoreography,
+  evaluateParallelFuturesState,
+  getCanonicalCity25D,
+  getInspectableEntityComparison,
+} from '../simulation/parallelFutures25D';
+
+interface ParallelFuturesSectionProps {
+  activeIntervention: InterventionStrategy;
+  onSelectIntervention: (strategy: InterventionStrategy) => void;
+}
+
+type ViewportZoomMode = 'overview' | 'bridge_focus';
+
+interface IsometricCityViewportProps {
+  city: CanonicalCity25D;
+  worldState: FutureWorldState25D;
+  selectedEntityId: string;
+  hoveredEntityId: string | null;
+  onSelectEntity: (id: string) => void;
+  onHoverEntity: (id: string | null) => void;
+  zoomMode: ViewportZoomMode;
+  bridgeAlertIntensity: number;
+  divergenceAlpha: number;
+}
+
+interface StaticPlinthAndRiverLayerProps {
+  city: CanonicalCity25D;
+  uidPrefix: string;
+}
+
+const StaticPlinthAndRiverLayer: React.FC<StaticPlinthAndRiverLayerProps> = React.memo(
+  ({ city, uidPrefix }) => (
+    <>
+      <rect
+        x="0"
+        y="0"
+        width={city.viewBoxWidth}
+        height={city.viewBoxHeight}
+        fill={`url(#${uidPrefix}-studio-grid)`}
+      />
+
+      {/* 1. Architectural Base Plinth */}
+      <g>
+        <polygon
+          points={city.plinthLeftPolygon}
+          fill="#C6C8C4"
+          stroke="#24282B"
+          strokeOpacity="0.28"
+          strokeWidth="0.8"
+        />
+        <polygon
+          points={city.plinthRightPolygon}
+          fill="#B4B8B5"
+          stroke="#24282B"
+          strokeOpacity="0.28"
+          strokeWidth="0.8"
+        />
+        <polygon
+          points={city.plinthTopPolygon}
+          fill="#E5E4DF"
+          stroke="#24282B"
+          strokeOpacity="0.32"
+          strokeWidth="1"
+        />
+      </g>
+
+      {/* 2. Meridian River Channel & Recessed Embankments */}
+      <g>
+        <polygon
+          points={city.riverNorthBankPolygon}
+          fill="#BFC4C2"
+          stroke="#24282B"
+          strokeOpacity="0.25"
+          strokeWidth="0.7"
+        />
+        <polygon
+          points={city.riverSouthBankPolygon}
+          fill="#B3B9B7"
+          stroke="#24282B"
+          strokeOpacity="0.25"
+          strokeWidth="0.7"
+        />
+        <polygon
+          points={city.riverWaterPolygon}
+          fill={`url(#${uidPrefix}-river-grad)`}
+          stroke="#7A8B90"
+          strokeOpacity="0.4"
+          strokeWidth="0.8"
+        />
+        {city.riverFlowLines.map((d, idx) => (
+          <path
+            key={idx}
+            d={d}
+            fill="none"
+            stroke="#FAF9F6"
+            strokeOpacity="0.45"
+            strokeWidth="1"
+            strokeDasharray="8 10"
+          />
+        ))}
+      </g>
+    </>
+  )
+);
+
+StaticPlinthAndRiverLayer.displayName = 'StaticPlinthAndRiverLayer';
+
+interface ExtrudedBuildingsLayerProps {
+  city: CanonicalCity25D;
+  highlightedDistrictId: string | null;
+  onSelectEntity: (id: string) => void;
+  onHoverEntity: (id: string | null) => void;
+}
+
+const ExtrudedBuildingsLayer: React.FC<ExtrudedBuildingsLayerProps> = React.memo(
+  ({ city, highlightedDistrictId, onSelectEntity, onHoverEntity }) => (
+    <g>
+      {city.buildings.map((bld) => {
+        const isDistrictSelected = highlightedDistrictId === bld.districtId;
+        const topFill = isDistrictSelected ? '#FFFFFF' : '#FAF9F6';
+        const leftFill = isDistrictSelected ? '#DCDFD9' : '#D4D6D2';
+        const rightFill = isDistrictSelected ? '#C5CAC7' : '#BCC1BF';
+        const outlineStroke = isDistrictSelected ? '#171A1C' : '#24282B';
+        const outlineOpacity = isDistrictSelected ? 0.58 : 0.34;
+
+        return (
+          <g
+            key={bld.id}
+            className="cursor-pointer"
+            onClick={() => onSelectEntity(bld.districtId)}
+            onMouseEnter={() => onHoverEntity(bld.districtId)}
+            onMouseLeave={() => onHoverEntity(null)}
+          >
+            {/* Ground Contact Shadow */}
+            <polygon points={bld.shadowPolygon} fill="rgba(23, 26, 28, 0.085)" />
+
+            {/* Left Shaded Face */}
+            <polygon
+              points={bld.leftFacePolygon}
+              fill={leftFill}
+              stroke={outlineStroke}
+              strokeOpacity={outlineOpacity}
+              strokeWidth="0.65"
+              strokeLinejoin="round"
+            />
+
+            {/* Right Darker Shaded Face */}
+            <polygon
+              points={bld.rightFacePolygon}
+              fill={rightFill}
+              stroke={outlineStroke}
+              strokeOpacity={outlineOpacity}
+              strokeWidth="0.65"
+              strokeLinejoin="round"
+            />
+
+            {/* Subtle Facade Linework */}
+            {bld.facadeLines.map((fl, fIdx) => (
+              <line
+                key={fIdx}
+                x1={fl.x1}
+                y1={fl.y1}
+                x2={fl.x2}
+                y2={fl.y2}
+                stroke="#24282B"
+                strokeOpacity="0.14"
+                strokeWidth="0.5"
+              />
+            ))}
+
+            {/* Bright Top Roof Face */}
+            <polygon
+              points={bld.topFacePolygon}
+              fill={topFill}
+              stroke={outlineStroke}
+              strokeOpacity={outlineOpacity + 0.08}
+              strokeWidth="0.7"
+              strokeLinejoin="round"
+            />
+
+            {/* Roof Parapet Inset */}
+            <polygon
+              points={bld.parapetPolygon}
+              fill="none"
+              stroke="#24282B"
+              strokeOpacity="0.2"
+              strokeWidth="0.5"
+            />
+
+            {/* Stepped Tower Crown */}
+            {bld.crownFaces && (
+              <g>
+                <polygon
+                  points={bld.crownFaces.left}
+                  fill="#D4D6D2"
+                  stroke="#24282B"
+                  strokeOpacity="0.35"
+                  strokeWidth="0.55"
+                />
+                <polygon
+                  points={bld.crownFaces.right}
+                  fill="#BCC1BF"
+                  stroke="#24282B"
+                  strokeOpacity="0.35"
+                  strokeWidth="0.55"
+                />
+                <polygon
+                  points={bld.crownFaces.top}
+                  fill="#FAF9F6"
+                  stroke="#24282B"
+                  strokeOpacity="0.4"
+                  strokeWidth="0.6"
+                />
+              </g>
+            )}
+
+            {/* Roof Mechanical / Solar / Canopy Accents */}
+            {bld.roofDetails.accents.map((acc, aIdx) => (
+              <polygon
+                key={aIdx}
+                points={acc.points}
+                fill={acc.fill}
+                stroke="#24282B"
+                strokeOpacity="0.25"
+                strokeWidth="0.45"
+              />
+            ))}
+
+            {bld.roofDetails.lines.map((rl, rIdx) => (
+              <line
+                key={rIdx}
+                x1={rl.x1}
+                y1={rl.y1}
+                x2={rl.x2}
+                y2={rl.y2}
+                stroke="#24282B"
+                strokeOpacity="0.42"
+                strokeWidth="0.7"
+              />
+            ))}
+          </g>
+        );
+      })}
+    </g>
+  )
+);
+
+ExtrudedBuildingsLayer.displayName = 'ExtrudedBuildingsLayer';
+
+const IsometricCityViewport: React.FC<IsometricCityViewportProps> = React.memo(
+  ({
+    city,
+    worldState,
+    selectedEntityId,
+    hoveredEntityId,
+    onSelectEntity,
+    onHoverEntity,
+    zoomMode,
+    bridgeAlertIntensity,
+    divergenceAlpha,
+  }) => {
+    const isBaseline = worldState.futureId === 'A';
+    const activeInspectId = hoveredEntityId ?? selectedEntityId;
+    const highlightedDistrictId = city.districts.some((d) => d.id === activeInspectId)
+      ? activeInspectId
+      : null;
+    const uidPrefix = `iso25d-${worldState.futureId}`;
+
+    // Synchronized camera framing (overview vs bridge/corridor focus)
+    const viewBox =
+      zoomMode === 'bridge_focus' ? '105 62 510 296' : `0 0 ${city.viewBoxWidth} ${city.viewBoxHeight}`;
+
+    return (
+      <div className="relative w-full h-[360px] sm:h-[420px] xl:h-[445px] bg-[#EFECE6] border border-[#171A1C]/15 overflow-hidden select-none">
+        {/* Top HUD Bar inside Viewport (non-overlapping flex bar) */}
+        <div className="absolute top-0 inset-x-0 z-10 px-3 py-2 bg-[#FAF9F6]/95 border-b border-[#171A1C]/12 flex items-center justify-between gap-2 pointer-events-none">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span
+              className={`px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] font-semibold border shrink-0 ${
+                isBaseline
+                  ? 'bg-[#FAF9F6] text-[#D94E3E] border-[#D94E3E]/40'
+                  : 'bg-[#FAF9F6] text-[#259A6C] border-[#259A6C]/40'
+              }`}
+            >
+              {isBaseline ? 'FUTURE A' : 'FUTURE B'}
+            </span>
+            <span className="px-2 py-0.5 bg-[#F6F5F1] border border-[#171A1C]/15 font-mono text-[10px] text-[#171A1C] uppercase tracking-[0.1em] shrink-0">
+              {worldState.timeFormatted}
+            </span>
+            {worldState.bridgeClosed && (
+              <span
+                className={`px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em] font-semibold truncate ${
+                  isBaseline
+                    ? 'bg-[#E85D36] text-[#FAF9F6]'
+                    : 'bg-[#259A6C] text-[#FAF9F6]'
+                }`}
+              >
+                {isBaseline
+                  ? 'BRIDGE CLOSED'
+                  : INTERVENTION_METADATA[worldState.intervention].shortCode}
+              </span>
+            )}
+          </div>
+
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#666D70] hidden sm:inline">
+              THROUGHPUT
+            </span>
+            <span
+              className={`font-mono text-xs font-bold ${
+                isBaseline && worldState.bridgeClosed ? 'text-[#D94E3E]' : 'text-[#259A6C]'
+              }`}
+            >
+              {worldState.metrics.corridorThroughputPct}%
+            </span>
+          </div>
+        </div>
+
+        {/* 2.5D Isometric Architectural SVG Stage */}
+        <svg
+          viewBox={viewBox}
+          className="w-full h-full block transition-all duration-500 ease-out"
+          role="img"
+          aria-label={`${worldState.title} 2.5D isometric city simulation at ${worldState.timeFormatted}`}
+        >
+          <defs>
+            <pattern
+              id={`${uidPrefix}-studio-grid`}
+              width="28"
+              height="28"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M 28 0 L 0 0 0 28"
+                fill="none"
+                stroke="#171A1C"
+                strokeOpacity="0.045"
+                strokeWidth="0.75"
+              />
+            </pattern>
+            <linearGradient id={`${uidPrefix}-river-grad`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#CFD7D9" />
+              <stop offset="50%" stopColor="#C1CCCF" />
+              <stop offset="100%" stopColor="#B6C3C7" />
+            </linearGradient>
+          </defs>
+
+          {/* 1 & 2. Memoized Static Plinth & Meridian River Channel */}
+          <StaticPlinthAndRiverLayer city={city} uidPrefix={uidPrefix} />
+
+          {/* 3. Six District Terraces (Interactive Paired Highlight Targets) */}
+          <g>
+            {city.districts.map((dist) => {
+              const dState = worldState.districtStates[dist.id];
+              const isHighlighted = activeInspectId === dist.id;
+              const isHighPressure = isBaseline && worldState.bridgeClosed && dState.pressure > 0.72;
+              const isOptimizedDistrict =
+                !isBaseline &&
+                worldState.bridgeClosed &&
+                (dState.transitPulse > 0.7 || dState.freightActive || dState.pressure < 0.42);
+
+              let padFill = '#E8E8E3';
+              let padStroke = 'rgba(36, 40, 43, 0.28)';
+              if (isHighlighted) {
+                padFill = isBaseline ? '#F5E4DD' : '#DFEFE8';
+                padStroke = isBaseline ? '#E85D36' : '#259A6C';
+              } else if (isHighPressure) {
+                padFill = '#F0E3DC';
+                padStroke = 'rgba(232, 93, 54, 0.55)';
+              } else if (isOptimizedDistrict) {
+                padFill = '#E4ECE8';
+                padStroke = 'rgba(37, 154, 108, 0.48)';
+              }
+
+              return (
+                <g
+                  key={dist.id}
+                  className="cursor-pointer"
+                  onClick={() => onSelectEntity(dist.id)}
+                  onMouseEnter={() => onHoverEntity(dist.id)}
+                  onMouseLeave={() => onHoverEntity(null)}
+                >
+                  <polygon points={dist.leftEdgePolygon} fill="#CFD1CD" />
+                  <polygon points={dist.rightEdgePolygon} fill="#BEC2BF" />
+                  <polygon
+                    points={dist.plinthPolygon}
+                    fill={padFill}
+                    stroke={padStroke}
+                    strokeWidth={isHighlighted ? 1.8 : 0.9}
+                  />
+
+                  {/* Transit surge station halo when increase_transit is active */}
+                  {!isBaseline &&
+                    worldState.bridgeClosed &&
+                    worldState.intervention === 'increase_transit' &&
+                    dState.transitPulse > 0.6 && (
+                      <ellipse
+                        cx={dist.hubPos.sx}
+                        cy={dist.hubPos.sy}
+                        rx="22"
+                        ry="12"
+                        fill="rgba(37, 154, 108, 0.14)"
+                        stroke="#259A6C"
+                        strokeWidth="1.2"
+                        strokeDasharray="3 2"
+                      />
+                    )}
+
+                  {/* Freight dock indicator when coordinate_deliveries is active */}
+                  {!isBaseline &&
+                    worldState.bridgeClosed &&
+                    worldState.intervention === 'coordinate_deliveries' &&
+                    dState.freightActive && (
+                      <ellipse
+                        cx={dist.hubPos.sx}
+                        cy={dist.hubPos.sy}
+                        rx="20"
+                        ry="11"
+                        fill="rgba(37, 154, 108, 0.12)"
+                        stroke="#259A6C"
+                        strokeWidth="1.1"
+                      />
+                    )}
+                </g>
+              );
+            })}
+          </g>
+
+          {/* 4. Bridges & River Crossings (Piers, Decks, Trusses) */}
+          <g>
+            {city.bridges.map((bridge) => {
+              const isHighlighted =
+                activeInspectId === bridge.id || activeInspectId === bridge.corridorId;
+              const isClosedBridge = bridge.isPrimaryClosureTarget && worldState.bridgeClosed;
+
+              let deckFill = '#D4D6D2';
+              let deckStroke = '#24282B';
+              if (isClosedBridge) {
+                deckFill = '#F3DBD5';
+                deckStroke = '#D94E3E';
+              } else if (worldState.bridgeClosed) {
+                deckFill = isBaseline ? '#F2DFD8' : '#DCEEE6';
+                deckStroke = isBaseline ? '#E85D36' : '#259A6C';
+              }
+
+              return (
+                <g
+                  key={bridge.id}
+                  className="cursor-pointer"
+                  onClick={() => onSelectEntity(bridge.id)}
+                  onMouseEnter={() => onHoverEntity(bridge.id)}
+                  onMouseLeave={() => onHoverEntity(null)}
+                >
+                  <polygon points={bridge.shadowPolygon} fill="rgba(23, 26, 28, 0.12)" />
+                  {bridge.pierPolygons.map((pier, idx) => (
+                    <polygon
+                      key={idx}
+                      points={pier}
+                      fill="#9DA3A2"
+                      stroke="#24282B"
+                      strokeOpacity="0.35"
+                      strokeWidth="0.6"
+                    />
+                  ))}
+                  <polygon
+                    points={bridge.deckPolygon}
+                    fill={deckFill}
+                    stroke={deckStroke}
+                    strokeWidth={isHighlighted ? 2.2 : 1.2}
+                  />
+                  {bridge.trussLines.map((ln, idx) => (
+                    <line
+                      key={idx}
+                      x1={ln.x1}
+                      y1={ln.y1}
+                      x2={ln.x2}
+                      y2={ln.y2}
+                      stroke={isClosedBridge ? '#D94E3E' : '#24282B'}
+                      strokeOpacity={isClosedBridge ? 0.85 : 0.45}
+                      strokeWidth={isHighlighted ? 1.4 : 0.9}
+                    />
+                  ))}
+                </g>
+              );
+            })}
+          </g>
+
+          {/* 5. Coherent Road Network & Dynamic Flow Overlays */}
+          <g>
+            {city.corridors.map((cor) => {
+              const cState = worldState.corridorStates[cor.id];
+              const isHighlighted =
+                activeInspectId === cor.id ||
+                (cor.bridgeId && activeInspectId === cor.bridgeId);
+
+              // Hide dedicated transit/freight ring overlays unless active or highlighted
+              if (
+                cor.kind === 'transit' &&
+                (isBaseline || worldState.intervention !== 'increase_transit') &&
+                !isHighlighted
+              ) {
+                return null;
+              }
+              if (
+                cor.kind === 'freight' &&
+                (isBaseline || worldState.intervention !== 'coordinate_deliveries') &&
+                !isHighlighted
+              ) {
+                return null;
+              }
+
+              let strokeColor = '#777D7D';
+              let strokeDash = undefined as string | undefined;
+              let overlayAlpha = 0.88;
+
+              if (cState.closed) {
+                strokeColor = '#D94E3E';
+                strokeDash = '4 4';
+              } else if (cState.highlightLevel === 'disrupted') {
+                strokeColor = cState.congestion > 0.78 ? '#D94E3E' : '#E85D36';
+                overlayAlpha = 0.35 + divergenceAlpha * 0.65;
+              } else if (cState.highlightLevel === 'optimized') {
+                strokeColor = '#259A6C';
+                overlayAlpha = 0.35 + divergenceAlpha * 0.65;
+                if (cor.kind === 'transit') strokeDash = '6 3';
+              }
+
+              return (
+                <g
+                  key={cor.id}
+                  className="cursor-pointer"
+                  onClick={() => onSelectEntity(cor.bridgeId ?? cor.id)}
+                  onMouseEnter={() => onHoverEntity(cor.bridgeId ?? cor.id)}
+                  onMouseLeave={() => onHoverEntity(null)}
+                >
+                  {/* Road casing */}
+                  <path
+                    d={cor.svgPath}
+                    fill="none"
+                    stroke="#24282B"
+                    strokeOpacity="0.32"
+                    strokeWidth={cor.strokeWidth + 2.2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {/* Road surface */}
+                  <path
+                    d={cor.svgPath}
+                    fill="none"
+                    stroke="#C5C8C5"
+                    strokeWidth={cor.strokeWidth}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {/* Dynamic state overlay */}
+                  <path
+                    d={cor.svgPath}
+                    fill="none"
+                    stroke={strokeColor}
+                    strokeOpacity={overlayAlpha}
+                    strokeWidth={isHighlighted ? cor.strokeWidth + 1.2 : cor.strokeWidth - 0.8}
+                    strokeDasharray={strokeDash}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+
+                  {/* Congestion queue hotspots in Future A */}
+                  {isBaseline &&
+                    cState.queueClusters.map((q, qIdx) => (
+                      <g key={qIdx}>
+                        <ellipse
+                          cx={q.sx}
+                          cy={q.sy}
+                          rx={8 + q.intensity * 6}
+                          ry={4.5 + q.intensity * 3.5}
+                          fill="#E85D36"
+                          fillOpacity={0.22 * divergenceAlpha}
+                          stroke="#D94E3E"
+                          strokeOpacity={0.65 * divergenceAlpha}
+                          strokeWidth="0.9"
+                        />
+                      </g>
+                    ))}
+                </g>
+              );
+            })}
+          </g>
+
+          {/* 6. Memoized Extruded 2.5D Architectural Buildings (Depth-Sorted Back-to-Front) */}
+          <ExtrudedBuildingsLayer
+            city={city}
+            highlightedDistrictId={highlightedDistrictId}
+            onSelectEntity={onSelectEntity}
+            onHoverEntity={onHoverEntity}
+          />
+
+          {/* 7. Moving Vehicle & Transit/Freight Flow Markers (Strictly on Open Corridors) */}
+          <g>
+            {worldState.vehicles.map((veh) => {
+              let fill = '#24282B';
+              const stroke = '#FAF9F6';
+              let radius = 2.5;
+
+              if (veh.state === 'queued') {
+                fill = '#D94E3E';
+                radius = 2.8;
+              } else if (veh.state === 'optimized') {
+                fill = '#259A6C';
+                radius = veh.vehicleType === 'transit' ? 3.3 : veh.vehicleType === 'freight' ? 3.1 : 2.6;
+              } else if (veh.vehicleType === 'freight') {
+                fill = '#454C4F';
+                radius = 2.8;
+              }
+
+              return (
+                <g key={veh.id}>
+                  <circle
+                    cx={veh.sx}
+                    cy={veh.sy}
+                    r={radius}
+                    fill={fill}
+                    stroke={stroke}
+                    strokeWidth="0.8"
+                  />
+                  {veh.vehicleType !== 'car' && (
+                    <circle
+                      cx={veh.sx - veh.dx * 3.2}
+                      cy={veh.sy - veh.dy * 3.2}
+                      r={radius * 0.78}
+                      fill={fill}
+                      fillOpacity="0.8"
+                    />
+                  )}
+                </g>
+              );
+            })}
+          </g>
+
+          {/* 8. Elevated Coordination Data Pathways (Future B) */}
+          {!isBaseline && worldState.elevatedArcs.length > 0 && (
+            <g opacity={divergenceAlpha}>
+              {worldState.elevatedArcs.map((arc) => (
+                <g key={arc.id}>
+                  <path
+                    d={arc.svgPath}
+                    fill="none"
+                    stroke="#259A6C"
+                    strokeOpacity="0.22"
+                    strokeWidth="4"
+                  />
+                  <path
+                    d={arc.svgPath}
+                    fill="none"
+                    stroke="#259A6C"
+                    strokeWidth="1.6"
+                    strokeDasharray="5 4"
+                  />
+                </g>
+              ))}
+            </g>
+          )}
+
+          {/* 9. Central Bridge Closure Alert Marker & Barricade Callout */}
+          {worldState.bridgeClosed && (
+            <g
+              className="cursor-pointer"
+              onClick={() => onSelectEntity('BRIDGE_CENTRAL')}
+              onMouseEnter={() => onHoverEntity('BRIDGE_CENTRAL')}
+              onMouseLeave={() => onHoverEntity(null)}
+              opacity={Math.max(0.4, bridgeAlertIntensity)}
+            >
+              {(() => {
+                const centralBridge = city.bridges.find((b) => b.id === 'BRIDGE_CENTRAL')!;
+                const cx = centralBridge.centerPos.sx;
+                const cy = centralBridge.centerPos.sy;
+                return (
+                  <>
+                    <ellipse
+                      cx={cx}
+                      cy={cy}
+                      rx="18"
+                      ry="10"
+                      fill="rgba(217, 78, 62, 0.2)"
+                      stroke="#D94E3E"
+                      strokeWidth="1.3"
+                    />
+                    {/* Structural X Barricade */}
+                    <line
+                      x1={cx - 6}
+                      y1={cy - 4}
+                      x2={cx + 6}
+                      y2={cy + 4}
+                      stroke="#D94E3E"
+                      strokeWidth="2.2"
+                    />
+                    <line
+                      x1={cx - 6}
+                      y1={cy + 4}
+                      x2={cx + 6}
+                      y2={cy - 4}
+                      stroke="#D94E3E"
+                      strokeWidth="2.2"
+                    />
+                    {/* Callout stem & label pill */}
+                    <line
+                      x1={cx}
+                      y1={cy - 6}
+                      x2={cx}
+                      y2={cy - 28}
+                      stroke="#D94E3E"
+                      strokeWidth="1.1"
+                    />
+                    <rect
+                      x={cx - 64}
+                      y={cy - 44}
+                      width="128"
+                      height="16"
+                      fill="#171A1C"
+                      stroke="#D94E3E"
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={cx}
+                      y={cy - 33}
+                      textAnchor="middle"
+                      fill="#FAF9F6"
+                      fontSize="7.5"
+                      fontFamily="IBM Plex Mono, monospace"
+                      fontWeight="600"
+                      letterSpacing="0.08em"
+                    >
+                      07:30 CENTRAL SPAN CLOSED
+                    </text>
+                  </>
+                );
+              })()}
+            </g>
+          )}
+
+          {/* 10. Architectural Labels for Bridges & Districts */}
+          <g>
+            {city.bridges
+              .filter((b) => !b.isPrimaryClosureTarget || !worldState.bridgeClosed)
+              .map((bridge) => {
+                const isHighlighted = activeInspectId === bridge.id;
+                const isAltBridgeActive =
+                  worldState.bridgeClosed && !bridge.isPrimaryClosureTarget;
+                const badgeColor = isAltBridgeActive
+                  ? isBaseline
+                    ? '#E85D36'
+                    : '#259A6C'
+                  : '#24282B';
+
+                return (
+                  <g
+                    key={`lbl-${bridge.id}`}
+                    className="cursor-pointer"
+                    onClick={() => onSelectEntity(bridge.id)}
+                    onMouseEnter={() => onHoverEntity(bridge.id)}
+                    onMouseLeave={() => onHoverEntity(null)}
+                  >
+                    <rect
+                      x={bridge.centerPos.sx - 44}
+                      y={bridge.centerPos.sy - 24}
+                      width="88"
+                      height="14"
+                      fill="#FAF9F6"
+                      fillOpacity="0.94"
+                      stroke={badgeColor}
+                      strokeWidth={isHighlighted ? 1.4 : 0.8}
+                    />
+                    <text
+                      x={bridge.centerPos.sx}
+                      y={bridge.centerPos.sy - 14.5}
+                      textAnchor="middle"
+                      fill={badgeColor}
+                      fontSize="7.2"
+                      fontFamily="IBM Plex Mono, monospace"
+                      fontWeight="600"
+                    >
+                      {bridge.shortName.toUpperCase()}
+                    </text>
+                  </g>
+                );
+              })}
+
+            {city.districts.map((dist) => {
+              const isHighlighted = activeInspectId === dist.id;
+              return (
+                <g
+                  key={`dlbl-${dist.id}`}
+                  className="cursor-pointer"
+                  onClick={() => onSelectEntity(dist.id)}
+                  onMouseEnter={() => onHoverEntity(dist.id)}
+                  onMouseLeave={() => onHoverEntity(null)}
+                >
+                  <rect
+                    x={dist.labelPos.sx - 46}
+                    y={dist.labelPos.sy - 8}
+                    width="92"
+                    height="14"
+                    fill={isHighlighted ? '#171A1C' : '#FAF9F6'}
+                    fillOpacity="0.92"
+                    stroke="#171A1C"
+                    strokeOpacity={isHighlighted ? 0.9 : 0.25}
+                    strokeWidth="0.75"
+                  />
+                  <text
+                    x={dist.labelPos.sx}
+                    y={dist.labelPos.sy + 1.5}
+                    textAnchor="middle"
+                    fill={isHighlighted ? '#FAF9F6' : '#24282B'}
+                    fontSize="7"
+                    fontFamily="IBM Plex Mono, monospace"
+                    fontWeight="600"
+                    letterSpacing="0.06em"
+                  >
+                    {dist.code} · {dist.name.split(' ')[0].toUpperCase()}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+        </svg>
+
+        {/* Bottom System Headline Overlay Bar inside Viewport */}
+        <div className="absolute bottom-0 inset-x-0 px-3.5 py-2 bg-[#FAF9F6]/95 border-t border-[#171A1C]/12 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span
+              className={`w-2 h-2 shrink-0 ${
+                !worldState.bridgeClosed
+                  ? 'bg-[#777D7D]'
+                  : isBaseline
+                    ? 'bg-[#E85D36]'
+                    : 'bg-[#259A6C]'
+              }`}
+            />
+            <span className="font-mono text-[10px] uppercase tracking-[0.12em] font-semibold text-[#171A1C] truncate">
+              {worldState.systemHeadline}
+            </span>
+          </div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#666D70] shrink-0">
+            CLICK ANY BRIDGE OR DISTRICT TO COMPARE
+          </span>
+        </div>
+      </div>
+    );
+  }
+);
+
+IsometricCityViewport.displayName = 'IsometricCityViewport';
+
+export const ParallelFuturesSection: React.FC<ParallelFuturesSectionProps> = ({
+  activeIntervention,
+  onSelectIntervention,
+}) => {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const city = useMemo(() => getCanonicalCity25D(), []);
+
+  // Simulation time state (07:00 = 420 to 10:00 = 600, default 08:45 = 525 so peak contrast is immediately visible)
+  const [simTimeMinutes, setSimTimeMinutes] = useState<number>(525);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  // Presentation & Choreography state (strictly decoupled from simulation state)
+  const [splitProgress, setSplitProgress] = useState<number>(1);
+  const [isReplayingSplit, setIsReplayingSplit] = useState<boolean>(false);
+  const [zoomMode, setZoomMode] = useState<ViewportZoomMode>('overview');
+  const [mobileActiveTab, setMobileActiveTab] = useState<'both' | 'A' | 'B'>('both');
+
+  // Paired Entity Selection / Hover across Future A and Future B
+  const [selectedEntityId, setSelectedEntityId] = useState<string>('BRIDGE_CENTRAL');
+  const [hoveredEntityId, setHoveredEntityId] = useState<string | null>(null);
+
+  // Visibility & Reduced Motion detection
+  const [isSectionVisible, setIsSectionVisible] = useState<boolean>(false);
+  const [isPageVisible, setIsPageVisible] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
+
+  useEffect(() => {
+    const onVisibilityChange = () => setIsPageVisible(!document.hidden);
+    onVisibilityChange();
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', onVisibilityChange);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener?.('change', handler);
+    return () => mq.removeEventListener?.('change', handler);
+  }, []);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry) {
+          setIsSectionVisible(entry.isIntersecting);
+        }
+      },
+      { threshold: 0.12 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Replay Split choreography animation
+  useEffect(() => {
+    if (!isReplayingSplit) return;
+    if (prefersReducedMotion) {
+      setSplitProgress(1);
+      setSimTimeMinutes(525);
+      setIsReplayingSplit(false);
+      return;
+    }
+
+    const container = sectionRef.current;
+    if (!container) return;
+    let elapsed = 0;
+    const durationMs = 2400;
+
+    const loop = createBudgetedRenderLoop(container, (_now, dt) => {
+      elapsed += dt * 1000;
+      const p = Math.min(1, elapsed / durationMs);
+      setSplitProgress(p);
+      // Also synchronize time from 07:15 across the 07:30 closure into 08:45 during replay
+      const targetMinutes = Math.round(435 + p * 90);
+      setSimTimeMinutes(targetMinutes);
+
+      if (p >= 1) {
+        loop.dispose();
+        setIsReplayingSplit(false);
+      }
+    });
+    return () => loop.dispose();
+  }, [isReplayingSplit, prefersReducedMotion]);
+
+  // Synchronized Timeline playback loop (pauses automatically when offscreen)
+  useEffect(() => {
+    if (!isPlaying || !isSectionVisible || !isPageVisible) return;
+    const interval = window.setInterval(() => {
+      setSimTimeMinutes((prev) => {
+        if (prev >= PARALLEL_FUTURES_END_MIN) {
+          return PARALLEL_FUTURES_START_MIN;
+        }
+        return prev + 3;
+      });
+    }, 180);
+    return () => window.clearInterval(interval);
+  }, [isPlaying, isSectionVisible, isPageVisible]);
+
+  // Evaluate deterministic simulation state for both worlds
+  const comparisonState = useMemo(
+    () => evaluateParallelFuturesState(simTimeMinutes, activeIntervention),
+    [simTimeMinutes, activeIntervention]
+  );
+
+  const choreography = useMemo(
+    () => computeRealitySplitChoreography(splitProgress),
+    [splitProgress]
+  );
+
+  const activeInspection: EntityComparisonInspection = useMemo(
+    () =>
+      getInspectableEntityComparison(
+        hoveredEntityId ?? selectedEntityId,
+        comparisonState
+      ),
+    [hoveredEntityId, selectedEntityId, comparisonState]
+  );
+
+  const handleReplaySplit = () => {
+    setIsPlaying(false);
+    setSplitProgress(0);
+    setSimTimeMinutes(435); // 07:15 pre-closure
+    setIsReplayingSplit(true);
+  };
+
+  const handleToggleMergeSplit = () => {
+    setIsReplayingSplit(false);
+    setSplitProgress((prev) => (prev > 0.5 ? 0.15 : 1));
+  };
+
+  const handleResetView = () => {
+    setIsPlaying(false);
+    setIsReplayingSplit(false);
+    setSplitProgress(1);
+    setSimTimeMinutes(525); // 08:45 peak comparison
+    setZoomMode('overview');
+    setSelectedEntityId('BRIDGE_CENTRAL');
+  };
+
+  const closureMarkerPct =
+    ((PARALLEL_FUTURES_CLOSURE_MIN - PARALLEL_FUTURES_START_MIN) /
+      (PARALLEL_FUTURES_END_MIN - PARALLEL_FUTURES_START_MIN)) *
+    100;
+
+  return (
+    <section
+      ref={sectionRef}
+      id="parallel-futures"
+      data-testid="section-parallel-futures"
+      className="py-24 lg:py-32 border-b border-[#171A1C]/12 bg-[#F6F5F1]"
+    >
+      <div className="max-w-[1440px] mx-auto px-5 lg:px-10">
+        {/* 1. Section Header & Narrative Framing */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-10 border-b border-[#171A1C]/12 items-end">
+          <div className="lg:col-span-7">
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#E85D36]">
+                04 // SIDE-BY-SIDE REALITY COMPARISON
+              </span>
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#666D70] px-2.5 py-0.5 border border-[#171A1C]/15 bg-[#FAF9F6]">
+                PARALLEL REALITIES — ONE WORLD, TWO OUTCOMES
+              </span>
+            </div>
+            <h2 className="font-display text-3xl sm:text-5xl font-bold tracking-[-0.03em] leading-[1.04] text-[#171A1C]">
+              One decision. Two possible futures.
+            </h2>
+          </div>
+          <div className="lg:col-span-5">
+            <p className="text-base sm:text-lg text-[#24282B] leading-relaxed">
+              Compare how the same city responds without intervention versus with a
+              coordinated strategy after an unscheduled 07:30 lockdown on the Meridian
+              Central Bridge.
+            </p>
+          </div>
+        </div>
+
+        {/* 2. Intervention Strategy Bar & Exhibit Camera / Split Controls */}
+        <div className="mt-8 bg-[#FAF9F6] border border-[#171A1C]/15 p-4 sm:p-5 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="shrink-0">
+              <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#666D70]">
+                FUTURE B INTERVENTION STRATEGY
+              </div>
+              <div className="font-mono text-xs font-semibold text-[#171A1C]">
+                {comparisonState.interventionMeta.shortCode}
+              </div>
+            </div>
+            <div
+              className="flex flex-wrap gap-1.5"
+              role="group"
+              aria-label="Select coordinated intervention strategy"
+            >
+              {(
+                [
+                  { id: 'reroute_vehicles', label: 'Dynamic Rerouting' },
+                  { id: 'increase_transit', label: 'Transit Capacity Surge' },
+                  { id: 'coordinate_deliveries', label: 'Freight Window Slotting' },
+                ] as const
+              ).map((item) => {
+                const isActive = activeIntervention === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    data-testid={`futures-intervention-${item.id}`}
+                    onClick={() => onSelectIntervention(item.id)}
+                    className={`px-3.5 py-2 font-mono text-xs uppercase tracking-[0.12em] transition-colors cursor-pointer border ${
+                      isActive
+                        ? 'bg-[#171A1C] text-[#FAF9F6] border-[#171A1C] font-semibold'
+                        : 'bg-[#F6F5F1] text-[#24282B] border-[#171A1C]/15 hover:border-[#171A1C]/40'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Reality Split & Viewport Framing Controls */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#666D70] mr-1 hidden sm:inline">
+              {choreography.phaseLabel}
+            </span>
+            <button
+              type="button"
+              data-testid="futures-replay-split"
+              onClick={handleReplaySplit}
+              className="px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] border border-[#171A1C]/20 bg-[#F6F5F1] text-[#171A1C] hover:border-[#171A1C] transition-colors cursor-pointer"
+            >
+              Replay Split
+            </button>
+            <button
+              type="button"
+              data-testid="futures-split-toggle"
+              onClick={handleToggleMergeSplit}
+              className="px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] border border-[#171A1C]/20 bg-[#F6F5F1] text-[#171A1C] hover:border-[#171A1C] transition-colors cursor-pointer"
+            >
+              {choreography.splitAmount > 0.5 ? 'Merge View' : 'Split Futures'}
+            </button>
+            <button
+              type="button"
+              data-testid="futures-zoom-toggle"
+              onClick={() =>
+                setZoomMode((prev) =>
+                  prev === 'overview' ? 'bridge_focus' : 'overview'
+                )
+              }
+              className={`px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] border transition-colors cursor-pointer ${
+                zoomMode === 'bridge_focus'
+                  ? 'bg-[#171A1C] text-[#FAF9F6] border-[#171A1C]'
+                  : 'bg-[#F6F5F1] text-[#171A1C] border-[#171A1C]/20 hover:border-[#171A1C]'
+              }`}
+            >
+              {zoomMode === 'bridge_focus' ? 'Zoom: Crossings (1.28x)' : 'Focus Crossings'}
+            </button>
+            <button
+              type="button"
+              data-testid="futures-reset-view"
+              onClick={handleResetView}
+              className="px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] border border-[#171A1C]/20 bg-[#F6F5F1] text-[#666D70] hover:text-[#171A1C] hover:border-[#171A1C] transition-colors cursor-pointer"
+            >
+              Reset View
+            </button>
+          </div>
+        </div>
+
+        {/* 3. Synchronized Simulation Timeline Bar (07:00 to 10:00) */}
+        <div
+          data-testid="futures-synchronized-timeline"
+          className="mt-3 bg-[#FAF9F6] border border-[#171A1C]/15 p-4 sm:px-5 sm:py-3.5"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            {/* Left Playback & Clock Readout */}
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                type="button"
+                data-testid="futures-timeline-play"
+                onClick={() => setIsPlaying((p) => !p)}
+                className="px-3.5 py-1.5 bg-[#171A1C] text-[#FAF9F6] font-mono text-xs uppercase tracking-[0.14em] hover:bg-[#E85D36] transition-colors cursor-pointer"
+              >
+                {isPlaying ? 'Pause' : 'Play'}
+              </button>
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#666D70]">
+                  SYNCHRONIZED SIMULATION CLOCK
+                </div>
+                <div className="flex items-center gap-2">
+                  <span
+                    data-testid="futures-clock-display"
+                    className="font-mono text-lg font-bold text-[#171A1C]"
+                  >
+                    {comparisonState.timeFormatted}
+                  </span>
+                  <span
+                    className={`font-mono text-[10px] uppercase tracking-[0.12em] px-1.5 py-0.5 ${
+                      comparisonState.closureActive
+                        ? 'bg-[#E85D36]/15 text-[#D94E3E] font-semibold'
+                        : 'bg-[#171A1C]/10 text-[#24282B]'
+                    }`}
+                  >
+                    {comparisonState.closureActive
+                      ? `T+${comparisonState.minutesSinceClosure}M POST-CLOSURE`
+                      : 'PRE-DISRUPTION BASELINE'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Center Timeline Scrubber Track */}
+            <div className="flex-1 max-w-2xl">
+              <div className="relative pt-4 pb-1">
+                {/* 07:30 Bridge Closure Marker Pin */}
+                <div
+                  style={{ left: `${closureMarkerPct}%` }}
+                  className="absolute top-0 -translate-x-1/2 flex flex-col items-center pointer-events-none"
+                >
+                  <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#D94E3E] font-semibold whitespace-nowrap">
+                    07:30 BRIDGE CLOSURE
+                  </span>
+                  <span className="w-0.5 h-2.5 bg-[#D94E3E]" />
+                </div>
+
+                <input
+                  type="range"
+                  data-testid="futures-timeline-slider"
+                  aria-label="Synchronized simulation time (07:00 to 10:00)"
+                  min={PARALLEL_FUTURES_START_MIN}
+                  max={PARALLEL_FUTURES_END_MIN}
+                  step={5}
+                  value={comparisonState.timeMinutes}
+                  onChange={(e) => {
+                    setIsPlaying(false);
+                    setSimTimeMinutes(Number(e.target.value));
+                  }}
+                  className="w-full accent-[#171A1C] cursor-pointer h-1.5 bg-[#E0DFDA]"
+                />
+
+                <div className="flex justify-between font-mono text-[10px] text-[#666D70] mt-1">
+                  <span>07:00</span>
+                  <span>07:30</span>
+                  <span>08:15</span>
+                  <span>09:00</span>
+                  <span>10:00</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Quick Time Checkpoints */}
+            <div className="flex flex-wrap items-center gap-1.5 shrink-0">
+              {[
+                { min: 430, label: '07:10 Nominal' },
+                { min: 450, label: '07:30 Closure' },
+                { min: 525, label: '08:45 Peak' },
+                { min: 585, label: '09:45 Late' },
+              ].map((cp) => (
+                <button
+                  key={cp.min}
+                  type="button"
+                  data-testid={`futures-checkpoint-${cp.min}`}
+                  onClick={() => {
+                    setIsPlaying(false);
+                    setSimTimeMinutes(cp.min);
+                  }}
+                  className={`px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] border cursor-pointer transition-colors ${
+                    Math.abs(comparisonState.timeMinutes - cp.min) <= 5
+                      ? 'bg-[#171A1C] text-[#FAF9F6] border-[#171A1C]'
+                      : 'bg-[#F6F5F1] text-[#24282B] border-[#171A1C]/15 hover:border-[#171A1C]/40'
+                  }`}
+                >
+                  {cp.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile View Mode Switcher (visible on small screens) */}
+        <div className="mt-4 flex lg:hidden items-center justify-between bg-[#FAF9F6] border border-[#171A1C]/15 p-2">
+          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#666D70] pl-2">
+            MOBILE VIEWPORT MODE
+          </span>
+          <div className="flex gap-1">
+            {(
+              [
+                { id: 'both', label: 'Stacked' },
+                { id: 'A', label: 'Future A' },
+                { id: 'B', label: 'Future B' },
+              ] as const
+            ).map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => setMobileActiveTab(m.id)}
+                className={`px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] border ${
+                  mobileActiveTab === m.id
+                    ? 'bg-[#171A1C] text-[#FAF9F6] border-[#171A1C]'
+                    : 'bg-[#F6F5F1] text-[#24282B] border-[#171A1C]/15'
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 4. Synchronized Side-by-Side 2.5D Reality Comparison Stage */}
+        <div
+          className={`mt-6 grid grid-cols-1 lg:grid-cols-2 transition-all duration-500 ${
+            choreography.splitAmount > 0.5 ? 'gap-6 lg:gap-8' : 'gap-2 lg:gap-2'
+          }`}
+        >
+          {/* ===============================================================
+              LEFT PANEL — FUTURE A // BASELINE (WITHOUT INTERVENTION)
+              =============================================================== */}
+          <div
+            data-testid="parallel-future-baseline"
+            style={{
+              transform:
+                choreography.splitAmount < 1
+                  ? `translateX(${(1 - choreography.splitAmount) * 14}px)`
+                  : undefined,
+            }}
+            className={`bg-[#FAF9F6] border border-[#171A1C]/15 p-5 sm:p-7 flex flex-col justify-between transition-transform duration-500 ${
+              mobileActiveTab === 'B' ? 'hidden lg:flex' : 'flex'
+            }`}
+          >
+            <div>
+              {/* Panel Top Header */}
+              <div className="pb-5 mb-5 border-b border-[#171A1C]/12">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-[#E85D36]" />
+                    <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#D94E3E] font-semibold">
+                      FUTURE A // BASELINE
+                    </span>
+                  </div>
+                  <span className="px-2.5 py-0.5 bg-[#E85D36]/12 border border-[#E85D36]/30 text-[#D94E3E] font-mono text-[10px] uppercase tracking-[0.12em] font-semibold">
+                    UNCOORDINATED RESPONSE
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl sm:text-3xl font-bold text-[#171A1C] leading-tight">
+                  Without intervention.
+                </h3>
+                <p className="text-xs sm:text-sm text-[#666D70] mt-1">
+                  {comparisonState.baseline.subtitle}
+                </p>
+              </div>
+
+              {/* Large 2.5D Isometric City Viewport (~60% of panel height) */}
+              <IsometricCityViewport
+                city={city}
+                worldState={comparisonState.baseline}
+                selectedEntityId={selectedEntityId}
+                hoveredEntityId={hoveredEntityId}
+                onSelectEntity={setSelectedEntityId}
+                onHoverEntity={setHoveredEntityId}
+                zoomMode={zoomMode}
+                bridgeAlertIntensity={choreography.bridgeAlertIntensity}
+                divergenceAlpha={choreography.divergenceAlpha}
+              />
+
+              {/* 3 Key Comparative Metrics */}
+              <div
+                style={{ opacity: choreography.metricsAlpha }}
+                className="grid grid-cols-3 gap-3 mt-6 py-5 border-y border-[#171A1C]/12 transition-opacity duration-300"
+              >
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#666D70]">
+                    TRAVEL DELAY
+                  </div>
+                  <div
+                    data-testid="baseline-metric-delay"
+                    className="font-mono text-2xl sm:text-3xl font-bold text-[#D94E3E] mt-1"
+                  >
+                    {comparisonState.baseline.metrics.avgTravelDelayMin}m
+                  </div>
+                  <div className="font-mono text-[10px] text-[#666D70] mt-0.5">
+                    Cross-river average
+                  </div>
+                </div>
+
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#666D70]">
+                    CONGESTION
+                  </div>
+                  <div
+                    data-testid="baseline-metric-congestion"
+                    className="font-mono text-2xl sm:text-3xl font-bold text-[#D94E3E] mt-1"
+                  >
+                    {comparisonState.baseline.metrics.congestionIndex}%
+                  </div>
+                  <div className="font-mono text-[10px] text-[#666D70] mt-0.5">
+                    Arterial queue index
+                  </div>
+                </div>
+
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#666D70]">
+                    DELIVERIES
+                  </div>
+                  <div
+                    data-testid="baseline-metric-deliveries"
+                    className="font-mono text-2xl sm:text-3xl font-bold text-[#171A1C] mt-1"
+                  >
+                    {comparisonState.baseline.metrics.completedDeliveries}
+                  </div>
+                  <div className="font-mono text-[10px] text-[#666D70] mt-0.5">
+                    Completed shipments
+                  </div>
+                </div>
+              </div>
+
+              {/* 2 Concise Scenario Observations */}
+              <ul className="mt-5 space-y-2.5 text-sm text-[#24282B]">
+                {comparisonState.baseline.observations.map((obs, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <span className="w-2 h-2 bg-[#E85D36] mt-1.5 shrink-0" />
+                    <span>{obs}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* ===============================================================
+              RIGHT PANEL — FUTURE B // ALTERNATIVE (COORDINATED RESPONSE)
+              =============================================================== */}
+          <div
+            data-testid="parallel-future-alternative"
+            style={{
+              transform:
+                choreography.splitAmount < 1
+                  ? `translateX(-${(1 - choreography.splitAmount) * 14}px)`
+                  : undefined,
+            }}
+            className={`bg-[#FAF9F6] border-2 border-[#171A1C] p-5 sm:p-7 flex flex-col justify-between transition-transform duration-500 ${
+              mobileActiveTab === 'A' ? 'hidden lg:flex' : 'flex'
+            }`}
+          >
+            <div>
+              {/* Panel Top Header */}
+              <div className="pb-5 mb-5 border-b border-[#171A1C]/12">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-[#259A6C]" />
+                    <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#259A6C] font-semibold">
+                      FUTURE B // ALTERNATIVE
+                    </span>
+                  </div>
+                  <span className="px-2.5 py-0.5 bg-[#259A6C]/15 border border-[#259A6C]/35 text-[#259A6C] font-mono text-[10px] uppercase tracking-[0.12em] font-semibold">
+                    {comparisonState.interventionMeta.label.toUpperCase()}
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl sm:text-3xl font-bold text-[#171A1C] leading-tight">
+                  With a coordinated response.
+                </h3>
+                <p className="text-xs sm:text-sm text-[#666D70] mt-1">
+                  {comparisonState.alternative.subtitle}
+                </p>
+              </div>
+
+              {/* Large 2.5D Isometric City Viewport (~60% of panel height) */}
+              <IsometricCityViewport
+                city={city}
+                worldState={comparisonState.alternative}
+                selectedEntityId={selectedEntityId}
+                hoveredEntityId={hoveredEntityId}
+                onSelectEntity={setSelectedEntityId}
+                onHoverEntity={setHoveredEntityId}
+                zoomMode={zoomMode}
+                bridgeAlertIntensity={choreography.bridgeAlertIntensity}
+                divergenceAlpha={choreography.divergenceAlpha}
+              />
+
+              {/* 3 Key Comparative Metrics with Delta Badges */}
+              <div
+                style={{ opacity: choreography.metricsAlpha }}
+                className="grid grid-cols-3 gap-3 mt-6 py-5 border-y border-[#171A1C]/12 transition-opacity duration-300"
+              >
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#666D70]">
+                    TRAVEL DELAY
+                  </div>
+                  <div className="flex items-baseline gap-2 mt-1 flex-wrap">
+                    <span
+                      data-testid="alternative-metric-delay"
+                      className="font-mono text-2xl sm:text-3xl font-bold text-[#259A6C]"
+                    >
+                      {comparisonState.alternative.metrics.avgTravelDelayMin}m
+                    </span>
+                    {comparisonState.deltas.delaySavedMin > 0 && (
+                      <span className="font-mono text-[11px] font-semibold px-1.5 py-0.5 bg-[#259A6C]/12 text-[#259A6C]">
+                        -{comparisonState.deltas.delaySavedMin}m
+                      </span>
+                    )}
+                  </div>
+                  <div className="font-mono text-[10px] text-[#666D70] mt-0.5">
+                    Faster recovery
+                  </div>
+                </div>
+
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#666D70]">
+                    CONGESTION
+                  </div>
+                  <div className="flex items-baseline gap-2 mt-1 flex-wrap">
+                    <span
+                      data-testid="alternative-metric-congestion"
+                      className="font-mono text-2xl sm:text-3xl font-bold text-[#259A6C]"
+                    >
+                      {comparisonState.alternative.metrics.congestionIndex}%
+                    </span>
+                    {comparisonState.deltas.congestionReducedPct > 0 && (
+                      <span className="font-mono text-[11px] font-semibold px-1.5 py-0.5 bg-[#259A6C]/12 text-[#259A6C]">
+                        -{comparisonState.deltas.congestionReducedPct}%
+                      </span>
+                    )}
+                  </div>
+                  <div className="font-mono text-[10px] text-[#666D70] mt-0.5">
+                    Balanced load
+                  </div>
+                </div>
+
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#666D70]">
+                    DELIVERIES
+                  </div>
+                  <div className="flex items-baseline gap-2 mt-1 flex-wrap">
+                    <span
+                      data-testid="alternative-metric-deliveries"
+                      className="font-mono text-2xl sm:text-3xl font-bold text-[#171A1C]"
+                    >
+                      {comparisonState.alternative.metrics.completedDeliveries}
+                    </span>
+                    {comparisonState.deltas.extraDeliveries > 0 && (
+                      <span className="font-mono text-[11px] font-semibold px-1.5 py-0.5 bg-[#259A6C]/12 text-[#259A6C]">
+                        +{comparisonState.deltas.extraDeliveries}
+                      </span>
+                    )}
+                  </div>
+                  <div className="font-mono text-[10px] text-[#666D70] mt-0.5">
+                    Completed shipments
+                  </div>
+                </div>
+              </div>
+
+              {/* 2 Concise Scenario Observations (Dynamic per Intervention) */}
+              <ul className="mt-5 space-y-2.5 text-sm text-[#24282B]">
+                {comparisonState.alternative.observations.map((obs, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <span className="w-2 h-2 bg-[#259A6C] mt-1.5 shrink-0" />
+                    <span>{obs}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* 5. Synchronized Paired Entity Inspector Bar & Synthetic Data Disclosure */}
+        <div
+          data-testid="futures-paired-inspector"
+          className="mt-6 bg-[#FAF9F6] border border-[#171A1C]/15 p-4 sm:p-5"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#171A1C]/12">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#E85D36] font-semibold">
+                  PAIRED ENTITY INSPECTION // SYNCHRONIZED SELECTION
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.12em] px-2 py-0.5 bg-[#E8E8E3] text-[#171A1C]">
+                  {activeInspection.code}
+                </span>
+              </div>
+              <h4 className="font-display text-lg sm:text-xl font-bold text-[#171A1C] mt-1">
+                {activeInspection.name}
+              </h4>
+            </div>
+
+            {/* Quick Entity Selector Buttons */}
+            <div className="flex flex-wrap gap-1.5">
+              {[
+                { id: 'BRIDGE_CENTRAL', label: 'Central Bridge' },
+                { id: 'BRIDGE_WEST', label: 'West Viaduct' },
+                { id: 'BRIDGE_EAST', label: 'East Crossing' },
+                { id: 'FINANCIAL_CBD', label: 'Financial CBD' },
+                { id: 'MIDTOWN', label: 'Midtown' },
+                { id: 'WEST_HARBOR', label: 'West Harbor' },
+                { id: 'EAST_HUB', label: 'East Hub' },
+              ].map((item) => {
+                const isSelected = (hoveredEntityId ?? selectedEntityId) === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    data-testid={`inspect-entity-${item.id}`}
+                    onClick={() => setSelectedEntityId(item.id)}
+                    className={`px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] border cursor-pointer transition-colors ${
+                      isSelected
+                        ? 'bg-[#171A1C] text-[#FAF9F6] border-[#171A1C]'
+                        : 'bg-[#F6F5F1] text-[#24282B] border-[#171A1C]/15 hover:border-[#171A1C]/40'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 items-center">
+            <div className="p-3 bg-[#F6F5F1] border-l-2 border-[#E85D36]">
+              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#D94E3E] font-semibold">
+                FUTURE A // {activeInspection.baselineMetric}
+              </div>
+              <div className="text-xs sm:text-sm text-[#24282B] mt-1">
+                {activeInspection.baselineStatus}
+              </div>
+            </div>
+
+            <div className="p-3 bg-[#F6F5F1] border-l-2 border-[#259A6C]">
+              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#259A6C] font-semibold">
+                FUTURE B // {activeInspection.alternativeMetric}
+              </div>
+              <div className="text-xs sm:text-sm text-[#24282B] mt-1">
+                {activeInspection.alternativeStatus}
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row md:flex-col justify-between items-start sm:items-center md:items-end gap-2 text-right">
+              <div className="font-mono text-xs font-semibold text-[#259A6C] bg-[#259A6C]/10 px-2.5 py-1 border border-[#259A6C]/30">
+                {activeInspection.alternativeBenefit}
+              </div>
+              <div
+                data-testid="futures-synthetic-disclosure"
+                className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#666D70]"
+              >
+                Illustrative simulation · Synthetic data
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 ]]>
@@ -7617,6 +8951,1957 @@ export function getSnapshotAtTime(
         ).toFixed(1)
       ),
     },
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(parallel)/parallel/simulation/parallelFutures25D.ts">
+<![CDATA[import { InterventionStrategy } from './engine';
+
+export type ParallelEntityCategory = 'bridge' | 'district' | 'corridor';
+
+export interface IsoPoint2D {
+  sx: number;
+  sy: number;
+  depth: number;
+}
+
+export interface WorldPoint3D {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export type ArchitecturalBuildingFamily =
+  | 'commercial_tower'
+  | 'midrise_block'
+  | 'industrial_warehouse'
+  | 'transit_station'
+  | 'distribution_facility'
+  | 'utility_substation';
+
+export interface IsoBuilding25D {
+  id: string;
+  districtId: string;
+  family: ArchitecturalBuildingFamily;
+  label?: string;
+  wx: number;
+  wy: number;
+  ww: number;
+  wd: number;
+  wh: number;
+  depth: number;
+  shadowPolygon: string;
+  leftFacePolygon: string;
+  rightFacePolygon: string;
+  topFacePolygon: string;
+  parapetPolygon: string;
+  crownFaces?: {
+    left: string;
+    right: string;
+    top: string;
+  };
+  roofDetails: {
+    type: 'crown' | 'hvac' | 'sawtooth' | 'canopy' | 'solar' | 'gantry';
+    lines: Array<{ x1: number; y1: number; x2: number; y2: number }>;
+    accents: Array<{ points: string; fill: string }>;
+  };
+  facadeLines: Array<{ x1: number; y1: number; x2: number; y2: number }>;
+  topCenter: IsoPoint2D;
+}
+
+export interface IsoDistrict25D {
+  id: string;
+  code: string;
+  name: string;
+  subtitle: string;
+  bank: 'north' | 'south';
+  wx: number;
+  wy: number;
+  ww: number;
+  wd: number;
+  plinthPolygon: string;
+  leftEdgePolygon: string;
+  rightEdgePolygon: string;
+  labelPos: IsoPoint2D;
+  hubPos: IsoPoint2D;
+  worldHub: WorldPoint3D;
+}
+
+export interface IsoBridge25D {
+  id: string;
+  code: string;
+  name: string;
+  shortName: string;
+  isPrimaryClosureTarget: boolean;
+  corridorId: string;
+  wx: number;
+  wyStart: number;
+  wyEnd: number;
+  width: number;
+  deckPolygon: string;
+  sideFacePolygon: string;
+  shadowPolygon: string;
+  pierPolygons: string[];
+  trussLines: Array<{ x1: number; y1: number; x2: number; y2: number }>;
+  centerPos: IsoPoint2D;
+}
+
+export interface IsoCorridor25D {
+  id: string;
+  name: string;
+  shortLabel: string;
+  kind: 'bridge' | 'arterial' | 'collector' | 'transit' | 'freight';
+  bridgeId?: string;
+  fromDistrictId: string;
+  toDistrictId: string;
+  waypoints: WorldPoint3D[];
+  projectedPoints: IsoPoint2D[];
+  svgPath: string;
+  elevatedSvgPath: string;
+  strokeWidth: number;
+  midPoint: IsoPoint2D;
+}
+
+export interface CanonicalCity25D {
+  viewBoxWidth: number;
+  viewBoxHeight: number;
+  plinthTopPolygon: string;
+  plinthLeftPolygon: string;
+  plinthRightPolygon: string;
+  riverWaterPolygon: string;
+  riverNorthBankPolygon: string;
+  riverSouthBankPolygon: string;
+  riverFlowLines: string[];
+  districts: IsoDistrict25D[];
+  bridges: IsoBridge25D[];
+  corridors: IsoCorridor25D[];
+  buildings: IsoBuilding25D[];
+}
+
+export interface CorridorRuntimeState {
+  corridorId: string;
+  closed: boolean;
+  congestion: number; // 0 to 1
+  flowRate: number; // 0 to 100
+  statusTag: 'OPEN' | 'CLOSED' | 'CONGESTED' | 'REROUTED' | 'TRANSIT_SURGE' | 'FREIGHT_SLOT';
+  highlightLevel: 'neutral' | 'disrupted' | 'optimized' | 'closed';
+  queueClusters: Array<{ sx: number; sy: number; intensity: number }>;
+}
+
+export interface DistrictRuntimeState {
+  districtId: string;
+  pressure: number; // 0 to 1
+  transitPulse: number; // 0 to 1
+  freightActive: boolean;
+  statusSummary: string;
+}
+
+export interface VehicleMarker25D {
+  id: string;
+  corridorId: string;
+  vehicleType: 'car' | 'transit' | 'freight';
+  sx: number;
+  sy: number;
+  dx: number;
+  dy: number;
+  speedRatio: number;
+  state: 'normal' | 'queued' | 'optimized';
+}
+
+export interface ElevatedDataArc25D {
+  id: string;
+  fromDistrictId: string;
+  toDistrictId: string;
+  svgPath: string;
+  label: string;
+  color: string;
+  active: boolean;
+}
+
+export interface FutureWorldState25D {
+  futureId: 'A' | 'B';
+  title: string;
+  subtitle: string;
+  timeMinutes: number;
+  timeFormatted: string;
+  bridgeClosed: boolean;
+  intervention: InterventionStrategy;
+  corridorStates: Record<string, CorridorRuntimeState>;
+  districtStates: Record<string, DistrictRuntimeState>;
+  vehicles: VehicleMarker25D[];
+  elevatedArcs: ElevatedDataArc25D[];
+  metrics: {
+    avgTravelDelayMin: number;
+    congestionIndex: number;
+    completedDeliveries: number;
+    transitSharePct: number;
+    corridorThroughputPct: number;
+  };
+  observations: [string, string];
+  systemHeadline: string;
+}
+
+export interface ParallelFuturesComparisonState {
+  timeMinutes: number;
+  timeFormatted: string;
+  closureActive: boolean;
+  minutesSinceClosure: number;
+  intervention: InterventionStrategy;
+  interventionMeta: {
+    id: InterventionStrategy;
+    label: string;
+    shortCode: string;
+    mechanismSummary: string;
+    primaryCorridors: string[];
+  };
+  baseline: FutureWorldState25D;
+  alternative: FutureWorldState25D;
+  deltas: {
+    delaySavedMin: number;
+    congestionReducedPct: number;
+    extraDeliveries: number;
+  };
+}
+
+export interface EntityComparisonInspection {
+  entityId: string;
+  category: ParallelEntityCategory;
+  name: string;
+  code: string;
+  baselineStatus: string;
+  baselineMetric: string;
+  baselineSeverity: 'normal' | 'warning' | 'critical';
+  alternativeStatus: string;
+  alternativeMetric: string;
+  alternativeBenefit: string;
+}
+
+export interface RealitySplitChoreography {
+  progress: number; // 0 to 1
+  phase: 1 | 2 | 3 | 4 | 5;
+  phaseLabel: string;
+  splitAmount: number; // 0 (unified) to 1 (fully split side-by-side)
+  bridgeAlertIntensity: number; // 0 to 1
+  divergenceAlpha: number; // 0 to 1
+  metricsAlpha: number; // 0 to 1
+}
+
+export const PARALLEL_FUTURES_START_MIN = 420; // 07:00
+export const PARALLEL_FUTURES_CLOSURE_MIN = 450; // 07:30
+export const PARALLEL_FUTURES_END_MIN = 600; // 10:00
+
+export const INTERVENTION_METADATA: Record<
+  InterventionStrategy,
+  {
+    id: InterventionStrategy;
+    label: string;
+    shortCode: string;
+    mechanismSummary: string;
+    primaryCorridors: string[];
+  }
+> = {
+  reroute_vehicles: {
+    id: 'reroute_vehicles',
+    label: 'Dynamic Rerouting',
+    shortCode: 'POL-01 // REROUTE',
+    mechanismSummary:
+      'Predictive impedance re-weighting diverts cross-river flows to West Bypass Viaduct and East Innovation Crossing before central approaches gridlock.',
+    primaryCorridors: ['CORRIDOR_WEST_VIADUCT', 'CORRIDOR_EAST_CROSSING', 'CORRIDOR_NORTH_ARTERIAL_WEST'],
+  },
+  increase_transit: {
+    id: 'increase_transit',
+    label: 'Transit Capacity Surge',
+    shortCode: 'POL-02 // TRANSIT',
+    mechanismSummary:
+      'Deploys +45% high-frequency express transit headways across cross-river rail/bus corridors, absorbing commuter demand and thinning private vehicle queues.',
+    primaryCorridors: ['CORRIDOR_TRANSIT_EXPRESS', 'CORRIDOR_WEST_VIADUCT', 'CORRIDOR_EAST_CROSSING'],
+  },
+  coordinate_deliveries: {
+    id: 'coordinate_deliveries',
+    label: 'Freight Window Slotting',
+    shortCode: 'POL-03 // FREIGHT',
+    mechanismSummary:
+      'Re-slots heavy logistics dispatches onto the Southern & Eastern Freight Ring with staggered dock windows, keeping commuter crossings clear.',
+    primaryCorridors: ['CORRIDOR_FREIGHT_RING', 'CORRIDOR_EAST_CROSSING', 'CORRIDOR_SOUTH_ARTERIAL_EAST'],
+  },
+};
+
+/**
+ * Fixed Isometric Projection:
+ * World coordinates:
+ *   x in [-170, 170] (west to east)
+ *   y in [-115, 115] (north bank y < 0, river y in [-20, 20], south bank y > 0)
+ *   z in [0, 85] (vertical height)
+ */
+const ISO_COS = 0.8660254; // cos(30 deg)
+const ISO_SIN = 0.5; // sin(30 deg)
+const ISO_SCALE = 1.48;
+const ISO_ORIGIN_X = 360;
+const ISO_ORIGIN_Y = 216;
+
+export function projectIso(x: number, y: number, z: number = 0): IsoPoint2D {
+  const sx = ISO_ORIGIN_X + (x - y * 0.72) * ISO_COS * ISO_SCALE;
+  const sy = ISO_ORIGIN_Y + (x * 0.28 + y * 0.88) * ISO_SIN * ISO_SCALE - z * 1.18;
+  const depth = x * 0.35 + y * 1.0 + z * 0.01;
+  return {
+    sx: Number(sx.toFixed(2)),
+    sy: Number(sy.toFixed(2)),
+    depth: Number(depth.toFixed(3)),
+  };
+}
+
+function ptsToPolygon(pts: IsoPoint2D[]): string {
+  return pts.map((p) => `${p.sx},${p.sy}`).join(' ');
+}
+
+function buildExtrudedBoxPolygons(
+  wx: number,
+  wy: number,
+  ww: number,
+  wd: number,
+  zBase: number,
+  zTop: number
+) {
+  const x0 = wx - ww / 2;
+  const x1 = wx + ww / 2;
+  const y0 = wy - wd / 2;
+  const y1 = wy + wd / 2;
+
+  const tNW = projectIso(x0, y0, zTop);
+  const tNE = projectIso(x1, y0, zTop);
+  const tSE = projectIso(x1, y1, zTop);
+  const tSW = projectIso(x0, y1, zTop);
+
+  const bNW = projectIso(x0, y0, zBase);
+  const bNE = projectIso(x1, y0, zBase);
+  const bSE = projectIso(x1, y1, zBase);
+  const bSW = projectIso(x0, y1, zBase);
+
+  // Contact shadow projected slightly south-east on zBase
+  const shOffset = Math.min(10, (zTop - zBase) * 0.22);
+  const sSW = projectIso(x0 - 1.5, y1 + shOffset * 0.6, zBase);
+  const sSE = projectIso(x1 + shOffset * 0.85, y1 + shOffset * 0.6, zBase);
+  const sNE = projectIso(x1 + shOffset * 0.85, y0 + 1.5, zBase);
+
+  return {
+    topFacePolygon: ptsToPolygon([tNW, tNE, tSE, tSW]),
+    leftFacePolygon: ptsToPolygon([tSW, tSE, bSE, bSW]), // South-facing front/left shaded face
+    rightFacePolygon: ptsToPolygon([tSE, tNE, bNE, bSE]), // East-facing side shaded face
+    shadowPolygon: ptsToPolygon([bSW, sSW, sSE, sNE, bNE, bSE]),
+    cornersTop: { tNW, tNE, tSE, tSW },
+    cornersBase: { bNW, bNE, bSE, bSW },
+  };
+}
+
+function createBuilding25D(
+  id: string,
+  districtId: string,
+  family: ArchitecturalBuildingFamily,
+  wx: number,
+  wy: number,
+  ww: number,
+  wd: number,
+  wh: number,
+  label?: string
+): IsoBuilding25D {
+  const zBase = 0;
+  const box = buildExtrudedBoxPolygons(wx, wy, ww, wd, zBase, wh);
+
+  // Inner parapet inset on the roof
+  const inset = Math.min(2.2, ww * 0.14, wd * 0.14);
+  const pNW = projectIso(wx - ww / 2 + inset, wy - wd / 2 + inset, wh + 0.4);
+  const pNE = projectIso(wx + ww / 2 - inset, wy - wd / 2 + inset, wh + 0.4);
+  const pSE = projectIso(wx + ww / 2 - inset, wy + wd / 2 - inset, wh + 0.4);
+  const pSW = projectIso(wx - ww / 2 + inset, wy + wd / 2 - inset, wh + 0.4);
+  const parapetPolygon = ptsToPolygon([pNW, pNE, pSE, pSW]);
+
+  // Facade floor/structural lines on the front-south face and east face
+  const facadeLines: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
+  const stepZ = family === 'commercial_tower' ? 9 : family === 'midrise_block' ? 8 : 7;
+  for (let z = stepZ; z < wh - 3; z += stepZ) {
+    const fSW = projectIso(wx - ww / 2, wy + wd / 2, z);
+    const fSE = projectIso(wx + ww / 2, wy + wd / 2, z);
+    const fNE = projectIso(wx + ww / 2, wy - wd / 2, z);
+    facadeLines.push({ x1: fSW.sx, y1: fSW.sy, x2: fSE.sx, y2: fSE.sy });
+    facadeLines.push({ x1: fSE.sx, y1: fSE.sy, x2: fNE.sx, y2: fNE.sy });
+  }
+
+  let crownFaces: IsoBuilding25D['crownFaces'];
+  const roofLines: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
+  const roofAccents: Array<{ points: string; fill: string }> = [];
+
+  let detailType: IsoBuilding25D['roofDetails']['type'] = 'hvac';
+
+  if (family === 'commercial_tower') {
+    detailType = 'crown';
+    const cw = ww * 0.56;
+    const cd = wd * 0.56;
+    const ch = Math.max(5, wh * 0.16);
+    const crownBox = buildExtrudedBoxPolygons(wx, wy, cw, cd, wh, wh + ch);
+    crownFaces = {
+      left: crownBox.leftFacePolygon,
+      right: crownBox.rightFacePolygon,
+      top: crownBox.topFacePolygon,
+    };
+    const spireBase = projectIso(wx, wy, wh + ch);
+    const spireTip = projectIso(wx, wy, wh + ch + 7);
+    roofLines.push({
+      x1: spireBase.sx,
+      y1: spireBase.sy,
+      x2: spireTip.sx,
+      y2: spireTip.sy,
+    });
+  } else if (family === 'industrial_warehouse') {
+    detailType = 'sawtooth';
+    for (let frac = -0.28; frac <= 0.3; frac += 0.28) {
+      const r1 = projectIso(wx - ww * 0.36, wy + wd * frac, wh + 1.2);
+      const r2 = projectIso(wx + ww * 0.36, wy + wd * frac, wh + 1.2);
+      roofLines.push({ x1: r1.sx, y1: r1.sy, x2: r2.sx, y2: r2.sy });
+    }
+  } else if (family === 'transit_station') {
+    detailType = 'canopy';
+    const s1 = projectIso(wx - ww * 0.34, wy, wh + 1.4);
+    const s2 = projectIso(wx + ww * 0.34, wy, wh + 1.4);
+    roofLines.push({ x1: s1.sx, y1: s1.sy, x2: s2.sx, y2: s2.sy });
+    const cBox = buildExtrudedBoxPolygons(wx, wy, ww * 0.68, wd * 0.38, wh, wh + 2.4);
+    roofAccents.push({ points: cBox.topFacePolygon, fill: '#E2E6E4' });
+  } else if (family === 'distribution_facility') {
+    detailType = 'solar';
+    for (const offset of [-0.22, 0.22]) {
+      const panel = buildExtrudedBoxPolygons(
+        wx + ww * offset,
+        wy,
+        ww * 0.3,
+        wd * 0.58,
+        wh,
+        wh + 1.1
+      );
+      roofAccents.push({ points: panel.topFacePolygon, fill: '#D5DDD9' });
+    }
+  } else if (family === 'utility_substation') {
+    detailType = 'gantry';
+    const g1 = projectIso(wx - ww * 0.25, wy - wd * 0.2, wh);
+    const g2 = projectIso(wx - ww * 0.25, wy - wd * 0.2, wh + 6);
+    const g3 = projectIso(wx + ww * 0.25, wy - wd * 0.2, wh + 6);
+    const g4 = projectIso(wx + ww * 0.25, wy - wd * 0.2, wh);
+    roofLines.push(
+      { x1: g1.sx, y1: g1.sy, x2: g2.sx, y2: g2.sy },
+      { x1: g2.sx, y1: g2.sy, x2: g3.sx, y2: g3.sy },
+      { x1: g3.sx, y1: g3.sy, x2: g4.sx, y2: g4.sy }
+    );
+  } else {
+    detailType = 'hvac';
+    const hvac = buildExtrudedBoxPolygons(
+      wx - ww * 0.16,
+      wy - wd * 0.12,
+      ww * 0.28,
+      wd * 0.28,
+      wh,
+      wh + 2.5
+    );
+    roofAccents.push({ points: hvac.topFacePolygon, fill: '#E4E5E0' });
+  }
+
+  const topCenter = projectIso(wx, wy, wh + 2);
+  const depth = wx * 0.35 + wy * 1.0;
+
+  return {
+    id,
+    districtId,
+    family,
+    label,
+    wx,
+    wy,
+    ww,
+    wd,
+    wh,
+    depth,
+    shadowPolygon: box.shadowPolygon,
+    leftFacePolygon: box.leftFacePolygon,
+    rightFacePolygon: box.rightFacePolygon,
+    topFacePolygon: box.topFacePolygon,
+    parapetPolygon,
+    crownFaces,
+    roofDetails: {
+      type: detailType,
+      lines: roofLines,
+      accents: roofAccents,
+    },
+    facadeLines,
+    topCenter,
+  };
+}
+
+let cachedCanonicalCity: CanonicalCity25D | null = null;
+
+/**
+ * Generates and caches the canonical 2.5D miniature city shared by Future A and Future B.
+ */
+export function getCanonicalCity25D(): CanonicalCity25D {
+  if (cachedCanonicalCity) return cachedCanonicalCity;
+
+  // Architectural base plinth
+  const plinthBox = buildExtrudedBoxPolygons(0, 0, 328, 224, -8, 0);
+
+  // Meridian River channel (y from -19 to +19 across x in [-164, 164])
+  const rNW = projectIso(-164, -19, -2.5);
+  const rNE = projectIso(164, -19, -2.5);
+  const rSE = projectIso(164, 19, -2.5);
+  const rSW = projectIso(-164, 19, -2.5);
+
+  const rTopNW = projectIso(-164, -19, 0);
+  const rTopNE = projectIso(164, -19, 0);
+  const rTopSW = projectIso(-164, 19, 0);
+  const rTopSE = projectIso(164, 19, 0);
+
+  const riverFlowLines: string[] = [-10, -3, 4, 11].map((ry) => {
+    const p1 = projectIso(-158, ry, -2.2);
+    const p2 = projectIso(158, ry, -2.2);
+    return `M ${p1.sx} ${p1.sy} L ${p2.sx} ${p2.sy}`;
+  });
+
+  // 6 Canonical Districts
+  const rawDistricts: Array<{
+    id: string;
+    code: string;
+    name: string;
+    subtitle: string;
+    bank: 'north' | 'south';
+    wx: number;
+    wy: number;
+    ww: number;
+    wd: number;
+    hubX: number;
+    hubY: number;
+  }> = [
+    {
+      id: 'MIDTOWN',
+      code: 'SEC-01',
+      name: 'Midtown Core',
+      subtitle: 'North-West Commercial & Transit Hub',
+      bank: 'north',
+      wx: -102,
+      wy: -66,
+      ww: 88,
+      wd: 68,
+      hubX: -98,
+      hubY: -54,
+    },
+    {
+      id: 'FINANCIAL_CBD',
+      code: 'SEC-02',
+      name: 'Financial CBD',
+      subtitle: 'Central High-Density Tower Cluster',
+      bank: 'north',
+      wx: 0,
+      wy: -68,
+      ww: 92,
+      wd: 70,
+      hubX: 0,
+      hubY: -52,
+    },
+    {
+      id: 'EAST_HUB',
+      code: 'SEC-03',
+      name: 'East Civic & Tech Hub',
+      subtitle: 'Medical, Research & Eastern Exchange',
+      bank: 'north',
+      wx: 104,
+      wy: -66,
+      ww: 86,
+      wd: 68,
+      hubX: 100,
+      hubY: -54,
+    },
+    {
+      id: 'WEST_HARBOR',
+      code: 'SEC-04',
+      name: 'West Harbor Logistics',
+      subtitle: 'Intermodal Freight & Western Viaduct Gate',
+      bank: 'south',
+      wx: -104,
+      wy: 66,
+      ww: 88,
+      wd: 68,
+      hubX: -100,
+      hubY: 54,
+    },
+    {
+      id: 'SOUTH_PORT',
+      code: 'SEC-05',
+      name: 'South Port Terminal',
+      subtitle: 'Central Causeway & Maritime Dispatch',
+      bank: 'south',
+      wx: 0,
+      wy: 68,
+      ww: 92,
+      wd: 70,
+      hubX: 0,
+      hubY: 54,
+    },
+    {
+      id: 'SOUTH_IND',
+      code: 'SEC-06',
+      name: 'South Industrial Grid',
+      subtitle: 'Heavy Manufacturing & Freight Ring Hub',
+      bank: 'south',
+      wx: 104,
+      wy: 66,
+      ww: 86,
+      wd: 68,
+      hubX: 100,
+      hubY: 54,
+    },
+  ];
+
+  const districts: IsoDistrict25D[] = rawDistricts.map((d) => {
+    const pad = buildExtrudedBoxPolygons(d.wx, d.wy, d.ww, d.wd, 0, 1.6);
+    const labelPos = projectIso(d.wx, d.wy + (d.bank === 'north' ? -24 : 26), 2);
+    const hubPos = projectIso(d.hubX, d.hubY, 2.5);
+    return {
+      id: d.id,
+      code: d.code,
+      name: d.name,
+      subtitle: d.subtitle,
+      bank: d.bank,
+      wx: d.wx,
+      wy: d.wy,
+      ww: d.ww,
+      wd: d.wd,
+      plinthPolygon: pad.topFacePolygon,
+      leftEdgePolygon: pad.leftFacePolygon,
+      rightEdgePolygon: pad.rightFacePolygon,
+      labelPos,
+      hubPos,
+      worldHub: { x: d.hubX, y: d.hubY, z: 2.5 },
+    };
+  });
+
+  // 3 Bridges across the Meridian River
+  const bridgeSpecs: Array<{
+    id: string;
+    code: string;
+    name: string;
+    shortName: string;
+    isPrimaryClosureTarget: boolean;
+    corridorId: string;
+    wx: number;
+    width: number;
+  }> = [
+    {
+      id: 'BRIDGE_WEST',
+      code: 'BRG-01',
+      name: 'West Bypass Viaduct',
+      shortName: 'West Viaduct',
+      isPrimaryClosureTarget: false,
+      corridorId: 'CORRIDOR_WEST_VIADUCT',
+      wx: -100,
+      width: 15,
+    },
+    {
+      id: 'BRIDGE_CENTRAL',
+      code: 'BRG-02',
+      name: 'Meridian Central Bridge',
+      shortName: 'Central Bridge',
+      isPrimaryClosureTarget: true,
+      corridorId: 'CORRIDOR_CENTRAL_BRIDGE',
+      wx: 0,
+      width: 18,
+    },
+    {
+      id: 'BRIDGE_EAST',
+      code: 'BRG-03',
+      name: 'East Innovation Crossing',
+      shortName: 'East Crossing',
+      isPrimaryClosureTarget: false,
+      corridorId: 'CORRIDOR_EAST_CROSSING',
+      wx: 100,
+      width: 15,
+    },
+  ];
+
+  const bridges: IsoBridge25D[] = bridgeSpecs.map((b) => {
+    const wyStart = -24;
+    const wyEnd = 24;
+    const deck = buildExtrudedBoxPolygons(b.wx, 0, b.width, wyEnd - wyStart, 1.2, 4.2);
+    const pier1 = buildExtrudedBoxPolygons(b.wx, -9, b.width * 0.82, 4.5, -2.5, 1.5);
+    const pier2 = buildExtrudedBoxPolygons(b.wx, 9, b.width * 0.82, 4.5, -2.5, 1.5);
+
+    // Bridge arch / truss lines on both sides of the span
+    const trussLines: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
+    for (const side of [-1, 1]) {
+      const xEdge = b.wx + (b.width * 0.45) * side;
+      const pNorth = projectIso(xEdge, -20, 4.2);
+      const pMidN = projectIso(xEdge, -8, b.isPrimaryClosureTarget ? 12.5 : 9.5);
+      const pMidS = projectIso(xEdge, 8, b.isPrimaryClosureTarget ? 12.5 : 9.5);
+      const pSouth = projectIso(xEdge, 20, 4.2);
+
+      const dMidN = projectIso(xEdge, -8, 4.2);
+      const dMidS = projectIso(xEdge, 8, 4.2);
+
+      trussLines.push(
+        { x1: pNorth.sx, y1: pNorth.sy, x2: pMidN.sx, y2: pMidN.sy },
+        { x1: pMidN.sx, y1: pMidN.sy, x2: pMidS.sx, y2: pMidS.sy },
+        { x1: pMidS.sx, y1: pMidS.sy, x2: pSouth.sx, y2: pSouth.sy },
+        { x1: dMidN.sx, y1: dMidN.sy, x2: pMidN.sx, y2: pMidN.sy },
+        { x1: dMidS.sx, y1: dMidS.sy, x2: pMidS.sx, y2: pMidS.sy }
+      );
+    }
+
+    return {
+      id: b.id,
+      code: b.code,
+      name: b.name,
+      shortName: b.shortName,
+      isPrimaryClosureTarget: b.isPrimaryClosureTarget,
+      corridorId: b.corridorId,
+      wx: b.wx,
+      wyStart,
+      wyEnd,
+      width: b.width,
+      deckPolygon: deck.topFacePolygon,
+      sideFacePolygon: `${deck.leftFacePolygon} ${deck.rightFacePolygon}`,
+      shadowPolygon: deck.shadowPolygon,
+      pierPolygons: [pier1.leftFacePolygon, pier1.rightFacePolygon, pier2.leftFacePolygon, pier2.rightFacePolygon],
+      trussLines,
+      centerPos: projectIso(b.wx, 0, 5.5),
+    };
+  });
+
+  // 11 Coherent Road & Infrastructure Corridors
+  const corridorDefs: Array<{
+    id: string;
+    name: string;
+    shortLabel: string;
+    kind: IsoCorridor25D['kind'];
+    bridgeId?: string;
+    fromDistrictId: string;
+    toDistrictId: string;
+    strokeWidth: number;
+    waypoints: WorldPoint3D[];
+  }> = [
+    {
+      id: 'CORRIDOR_CENTRAL_BRIDGE',
+      name: 'Meridian Central Bridge Corridor',
+      shortLabel: 'Central Bridge',
+      kind: 'bridge',
+      bridgeId: 'BRIDGE_CENTRAL',
+      fromDistrictId: 'SOUTH_PORT',
+      toDistrictId: 'FINANCIAL_CBD',
+      strokeWidth: 6.5,
+      waypoints: [
+        { x: 0, y: 42, z: 2.2 },
+        { x: 0, y: 22, z: 3.8 },
+        { x: 0, y: 0, z: 4.5 },
+        { x: 0, y: -22, z: 3.8 },
+        { x: 0, y: -42, z: 2.2 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_WEST_VIADUCT',
+      name: 'West Bypass Viaduct Corridor',
+      shortLabel: 'West Viaduct',
+      kind: 'bridge',
+      bridgeId: 'BRIDGE_WEST',
+      fromDistrictId: 'WEST_HARBOR',
+      toDistrictId: 'MIDTOWN',
+      strokeWidth: 5.5,
+      waypoints: [
+        { x: -100, y: 52, z: 2.2 },
+        { x: -100, y: 22, z: 3.8 },
+        { x: -100, y: 0, z: 4.4 },
+        { x: -100, y: -22, z: 3.8 },
+        { x: -100, y: -52, z: 2.2 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_EAST_CROSSING',
+      name: 'East Innovation Crossing Corridor',
+      shortLabel: 'East Crossing',
+      kind: 'bridge',
+      bridgeId: 'BRIDGE_EAST',
+      fromDistrictId: 'SOUTH_IND',
+      toDistrictId: 'EAST_HUB',
+      strokeWidth: 5.5,
+      waypoints: [
+        { x: 100, y: 52, z: 2.2 },
+        { x: 100, y: 22, z: 3.8 },
+        { x: 100, y: 0, z: 4.4 },
+        { x: 100, y: -22, z: 3.8 },
+        { x: 100, y: -52, z: 2.2 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_MIDTOWN_APPROACH',
+      name: 'North Central Bridge Approach',
+      shortLabel: 'CBD Approach',
+      kind: 'collector',
+      fromDistrictId: 'FINANCIAL_CBD',
+      toDistrictId: 'FINANCIAL_CBD',
+      strokeWidth: 5,
+      waypoints: [
+        { x: -34, y: -52, z: 2.0 },
+        { x: 0, y: -52, z: 2.2 },
+        { x: 0, y: -36, z: 2.5 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_PORT_APPROACH',
+      name: 'South Port Bridge Causeway',
+      shortLabel: 'Port Causeway',
+      kind: 'collector',
+      fromDistrictId: 'SOUTH_PORT',
+      toDistrictId: 'SOUTH_PORT',
+      strokeWidth: 5,
+      waypoints: [
+        { x: -34, y: 52, z: 2.0 },
+        { x: 0, y: 52, z: 2.2 },
+        { x: 0, y: 36, z: 2.5 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_NORTH_ARTERIAL_WEST',
+      name: 'Midtown — CBD Crosstown Arterial',
+      shortLabel: 'Midtown Arterial',
+      kind: 'arterial',
+      fromDistrictId: 'MIDTOWN',
+      toDistrictId: 'FINANCIAL_CBD',
+      strokeWidth: 5,
+      waypoints: [
+        { x: -100, y: -52, z: 2.0 },
+        { x: -52, y: -52, z: 2.0 },
+        { x: 0, y: -52, z: 2.0 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_NORTH_ARTERIAL_EAST',
+      name: 'CBD — East Hub Exchange Arterial',
+      shortLabel: 'East Exchange',
+      kind: 'arterial',
+      fromDistrictId: 'FINANCIAL_CBD',
+      toDistrictId: 'EAST_HUB',
+      strokeWidth: 5,
+      waypoints: [
+        { x: 0, y: -52, z: 2.0 },
+        { x: 52, y: -52, z: 2.0 },
+        { x: 100, y: -52, z: 2.0 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_SOUTH_ARTERIAL_WEST',
+      name: 'West Harbor — South Port Causeway',
+      shortLabel: 'Harbor Causeway',
+      kind: 'arterial',
+      fromDistrictId: 'WEST_HARBOR',
+      toDistrictId: 'SOUTH_PORT',
+      strokeWidth: 5,
+      waypoints: [
+        { x: -100, y: 52, z: 2.0 },
+        { x: -52, y: 52, z: 2.0 },
+        { x: 0, y: 52, z: 2.0 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_SOUTH_ARTERIAL_EAST',
+      name: 'South Port — Industrial Arterial',
+      shortLabel: 'Industrial Way',
+      kind: 'arterial',
+      fromDistrictId: 'SOUTH_PORT',
+      toDistrictId: 'SOUTH_IND',
+      strokeWidth: 5,
+      waypoints: [
+        { x: 0, y: 52, z: 2.0 },
+        { x: 52, y: 52, z: 2.0 },
+        { x: 100, y: 52, z: 2.0 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_TRANSIT_EXPRESS',
+      name: 'Meridian Cross-River Transit Spine',
+      shortLabel: 'Transit Spine',
+      kind: 'transit',
+      fromDistrictId: 'WEST_HARBOR',
+      toDistrictId: 'EAST_HUB',
+      strokeWidth: 4,
+      waypoints: [
+        { x: -100, y: 66, z: 3.2 },
+        { x: -100, y: -66, z: 3.6 },
+        { x: 0, y: -66, z: 3.6 },
+        { x: 100, y: -66, z: 3.6 },
+      ],
+    },
+    {
+      id: 'CORRIDOR_FREIGHT_RING',
+      name: 'Southern & Eastern Logistics Ring',
+      shortLabel: 'Freight Ring',
+      kind: 'freight',
+      fromDistrictId: 'WEST_HARBOR',
+      toDistrictId: 'EAST_HUB',
+      strokeWidth: 4.2,
+      waypoints: [
+        { x: -100, y: 82, z: 2.4 },
+        { x: 0, y: 82, z: 2.4 },
+        { x: 100, y: 82, z: 2.4 },
+        { x: 100, y: -52, z: 3.6 },
+      ],
+    },
+  ];
+
+  const corridors: IsoCorridor25D[] = corridorDefs.map((c) => {
+    const projectedPoints = c.waypoints.map((w) => projectIso(w.x, w.y, w.z));
+    const elevatedPoints = c.waypoints.map((w) => projectIso(w.x, w.y, w.z + 5));
+    const svgPath = projectedPoints
+      .map((p, idx) => `${idx === 0 ? 'M' : 'L'} ${p.sx} ${p.sy}`)
+      .join(' ');
+    const elevatedSvgPath = elevatedPoints
+      .map((p, idx) => `${idx === 0 ? 'M' : 'L'} ${p.sx} ${p.sy}`)
+      .join(' ');
+    const midIdx = Math.floor(projectedPoints.length / 2);
+    return {
+      id: c.id,
+      name: c.name,
+      shortLabel: c.shortLabel,
+      kind: c.kind,
+      bridgeId: c.bridgeId,
+      fromDistrictId: c.fromDistrictId,
+      toDistrictId: c.toDistrictId,
+      waypoints: c.waypoints,
+      projectedPoints,
+      svgPath,
+      elevatedSvgPath,
+      strokeWidth: c.strokeWidth,
+      midPoint: projectedPoints[midIdx],
+    };
+  });
+
+  // 48 Canonical Extruded 2.5D Buildings (8 per district across all 6 districts)
+  const buildingSpecs: Array<{
+    id: string;
+    districtId: string;
+    family: ArchitecturalBuildingFamily;
+    wx: number;
+    wy: number;
+    ww: number;
+    wd: number;
+    wh: number;
+    label?: string;
+  }> = [
+    // MIDTOWN (8 buildings)
+    { id: 'BLD-MID-01', districtId: 'MIDTOWN', family: 'commercial_tower', wx: -126, wy: -86, ww: 15, wd: 14, wh: 44, label: 'Midtown West Tower' },
+    { id: 'BLD-MID-02', districtId: 'MIDTOWN', family: 'commercial_tower', wx: -102, wy: -88, ww: 16, wd: 15, wh: 52 },
+    { id: 'BLD-MID-03', districtId: 'MIDTOWN', family: 'midrise_block', wx: -76, wy: -84, ww: 16, wd: 14, wh: 30 },
+    { id: 'BLD-MID-04', districtId: 'MIDTOWN', family: 'transit_station', wx: -122, wy: -64, ww: 18, wd: 14, wh: 18, label: 'Midtown Rail Hub' },
+    { id: 'BLD-MID-05', districtId: 'MIDTOWN', family: 'midrise_block', wx: -80, wy: -64, ww: 15, wd: 13, wh: 26 },
+    { id: 'BLD-MID-06', districtId: 'MIDTOWN', family: 'midrise_block', wx: -126, wy: -40, ww: 14, wd: 12, wh: 24 },
+    { id: 'BLD-MID-07', districtId: 'MIDTOWN', family: 'utility_substation', wx: -78, wy: -38, ww: 13, wd: 12, wh: 15 },
+    { id: 'BLD-MID-08', districtId: 'MIDTOWN', family: 'commercial_tower', wx: -102, wy: -36, ww: 14, wd: 12, wh: 34 },
+
+    // FINANCIAL_CBD (8 buildings - tallest skyline cluster)
+    { id: 'BLD-CBD-01', districtId: 'FINANCIAL_CBD', family: 'commercial_tower', wx: -28, wy: -88, ww: 16, wd: 15, wh: 64 },
+    { id: 'BLD-CBD-02', districtId: 'FINANCIAL_CBD', family: 'commercial_tower', wx: -4, wy: -90, ww: 18, wd: 16, wh: 76, label: 'Meridian Exchange Spire' },
+    { id: 'BLD-CBD-03', districtId: 'FINANCIAL_CBD', family: 'commercial_tower', wx: 24, wy: -86, ww: 16, wd: 15, wh: 58 },
+    { id: 'BLD-CBD-04', districtId: 'FINANCIAL_CBD', family: 'midrise_block', wx: -32, wy: -66, ww: 15, wd: 14, wh: 40 },
+    { id: 'BLD-CBD-05', districtId: 'FINANCIAL_CBD', family: 'transit_station', wx: 0, wy: -68, ww: 19, wd: 14, wh: 22, label: 'Central Exchange Station' },
+    { id: 'BLD-CBD-06', districtId: 'FINANCIAL_CBD', family: 'commercial_tower', wx: 28, wy: -64, ww: 15, wd: 14, wh: 48 },
+    { id: 'BLD-CBD-07', districtId: 'FINANCIAL_CBD', family: 'midrise_block', wx: -24, wy: -38, ww: 14, wd: 12, wh: 32 },
+    { id: 'BLD-CBD-08', districtId: 'FINANCIAL_CBD', family: 'midrise_block', wx: 24, wy: -38, ww: 14, wd: 12, wh: 30 },
+
+    // EAST_HUB (8 buildings - tech, hospital, civic distribution)
+    { id: 'BLD-EAST-01', districtId: 'EAST_HUB', family: 'commercial_tower', wx: 78, wy: -86, ww: 15, wd: 14, wh: 46 },
+    { id: 'BLD-EAST-02', districtId: 'EAST_HUB', family: 'midrise_block', wx: 104, wy: -88, ww: 18, wd: 15, wh: 38, label: 'East Medical Center' },
+    { id: 'BLD-EAST-03', districtId: 'EAST_HUB', family: 'commercial_tower', wx: 128, wy: -84, ww: 15, wd: 14, wh: 42 },
+    { id: 'BLD-EAST-04', districtId: 'EAST_HUB', family: 'distribution_facility', wx: 76, wy: -64, ww: 16, wd: 14, wh: 20 },
+    { id: 'BLD-EAST-05', districtId: 'EAST_HUB', family: 'transit_station', wx: 124, wy: -64, ww: 17, wd: 14, wh: 18, label: 'East Tech Transit Hub' },
+    { id: 'BLD-EAST-06', districtId: 'EAST_HUB', family: 'midrise_block', wx: 78, wy: -38, ww: 14, wd: 12, wh: 26 },
+    { id: 'BLD-EAST-07', districtId: 'EAST_HUB', family: 'utility_substation', wx: 126, wy: -38, ww: 14, wd: 12, wh: 16 },
+    { id: 'BLD-EAST-08', districtId: 'EAST_HUB', family: 'midrise_block', wx: 102, wy: -36, ww: 15, wd: 12, wh: 28 },
+
+    // WEST_HARBOR (8 buildings - intermodal logistics, warehouses, port gate)
+    { id: 'BLD-WHB-01', districtId: 'WEST_HARBOR', family: 'distribution_facility', wx: -126, wy: 38, ww: 18, wd: 14, wh: 18, label: 'Harbor Cold-Chain Dock' },
+    { id: 'BLD-WHB-02', districtId: 'WEST_HARBOR', family: 'midrise_block', wx: -78, wy: 38, ww: 15, wd: 13, wh: 26 },
+    { id: 'BLD-WHB-03', districtId: 'WEST_HARBOR', family: 'transit_station', wx: -124, wy: 64, ww: 17, wd: 14, wh: 17 },
+    { id: 'BLD-WHB-04', districtId: 'WEST_HARBOR', family: 'industrial_warehouse', wx: -78, wy: 64, ww: 18, wd: 14, wh: 19 },
+    { id: 'BLD-WHB-05', districtId: 'WEST_HARBOR', family: 'distribution_facility', wx: -126, wy: 88, ww: 20, wd: 15, wh: 16 },
+    { id: 'BLD-WHB-06', districtId: 'WEST_HARBOR', family: 'industrial_warehouse', wx: -100, wy: 90, ww: 19, wd: 15, wh: 20 },
+    { id: 'BLD-WHB-07', districtId: 'WEST_HARBOR', family: 'utility_substation', wx: -74, wy: 88, ww: 14, wd: 13, wh: 15 },
+    { id: 'BLD-WHB-08', districtId: 'WEST_HARBOR', family: 'commercial_tower', wx: -102, wy: 36, ww: 14, wd: 12, wh: 32 },
+
+    // SOUTH_PORT (8 buildings - central port terminal & causeway dispatch)
+    { id: 'BLD-SPT-01', districtId: 'SOUTH_PORT', family: 'midrise_block', wx: -26, wy: 38, ww: 15, wd: 13, wh: 28 },
+    { id: 'BLD-SPT-02', districtId: 'SOUTH_PORT', family: 'midrise_block', wx: 26, wy: 38, ww: 15, wd: 13, wh: 26 },
+    { id: 'BLD-SPT-03', districtId: 'SOUTH_PORT', family: 'distribution_facility', wx: -30, wy: 66, ww: 18, wd: 14, wh: 20 },
+    { id: 'BLD-SPT-04', districtId: 'SOUTH_PORT', family: 'transit_station', wx: 0, wy: 68, ww: 18, wd: 14, wh: 19, label: 'South Port Dispatch' },
+    { id: 'BLD-SPT-05', districtId: 'SOUTH_PORT', family: 'industrial_warehouse', wx: 30, wy: 66, ww: 18, wd: 14, wh: 20 },
+    { id: 'BLD-SPT-06', districtId: 'SOUTH_PORT', family: 'industrial_warehouse', wx: -28, wy: 90, ww: 19, wd: 15, wh: 18 },
+    { id: 'BLD-SPT-07', districtId: 'SOUTH_PORT', family: 'distribution_facility', wx: 0, wy: 92, ww: 20, wd: 15, wh: 17 },
+    { id: 'BLD-SPT-08', districtId: 'SOUTH_PORT', family: 'utility_substation', wx: 28, wy: 90, ww: 15, wd: 13, wh: 15 },
+
+    // SOUTH_IND (8 buildings - heavy industrial & eastern logistics gate)
+    { id: 'BLD-SIN-01', districtId: 'SOUTH_IND', family: 'midrise_block', wx: 78, wy: 38, ww: 15, wd: 13, wh: 25 },
+    { id: 'BLD-SIN-02', districtId: 'SOUTH_IND', family: 'commercial_tower', wx: 124, wy: 38, ww: 15, wd: 13, wh: 34 },
+    { id: 'BLD-SIN-03', districtId: 'SOUTH_IND', family: 'industrial_warehouse', wx: 78, wy: 64, ww: 18, wd: 14, wh: 19 },
+    { id: 'BLD-SIN-04', districtId: 'SOUTH_IND', family: 'distribution_facility', wx: 126, wy: 64, ww: 18, wd: 14, wh: 20, label: 'East Freight Consolidation' },
+    { id: 'BLD-SIN-05', districtId: 'SOUTH_IND', family: 'industrial_warehouse', wx: 76, wy: 88, ww: 19, wd: 15, wh: 18 },
+    { id: 'BLD-SIN-06', districtId: 'SOUTH_IND', family: 'distribution_facility', wx: 102, wy: 90, ww: 20, wd: 15, wh: 17 },
+    { id: 'BLD-SIN-07', districtId: 'SOUTH_IND', family: 'utility_substation', wx: 128, wy: 88, ww: 15, wd: 13, wh: 16 },
+    { id: 'BLD-SIN-08', districtId: 'SOUTH_IND', family: 'midrise_block', wx: 102, wy: 36, ww: 14, wd: 12, wh: 24 },
+  ];
+
+  const buildings = buildingSpecs
+    .map((b) =>
+      createBuilding25D(
+        b.id,
+        b.districtId,
+        b.family,
+        b.wx,
+        b.wy,
+        b.ww,
+        b.wd,
+        b.wh,
+        b.label
+      )
+    )
+    .sort((a, b) => a.depth - b.depth);
+
+  cachedCanonicalCity = {
+    viewBoxWidth: 720,
+    viewBoxHeight: 420,
+    plinthTopPolygon: plinthBox.topFacePolygon,
+    plinthLeftPolygon: plinthBox.leftFacePolygon,
+    plinthRightPolygon: plinthBox.rightFacePolygon,
+    riverWaterPolygon: ptsToPolygon([rNW, rNE, rSE, rSW]),
+    riverNorthBankPolygon: ptsToPolygon([rTopNW, rTopNE, rNE, rNW]),
+    riverSouthBankPolygon: ptsToPolygon([rSW, rSE, rTopSE, rTopSW]),
+    riverFlowLines,
+    districts,
+    bridges,
+    corridors,
+    buildings,
+  };
+
+  return cachedCanonicalCity;
+}
+
+export function formatParallelTime(minutes: number): string {
+  const clamped = Math.max(0, Math.min(1439, Math.round(minutes)));
+  const h = Math.floor(clamped / 60);
+  const m = clamped % 60;
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+}
+
+function sampleAlongProjectedPolyline(
+  points: IsoPoint2D[],
+  tNormalized: number
+): { sx: number; sy: number; dx: number; dy: number } {
+  if (points.length === 0) return { sx: 0, sy: 0, dx: 1, dy: 0 };
+  if (points.length === 1) return { sx: points[0].sx, sy: points[0].sy, dx: 1, dy: 0 };
+
+  const t = ((tNormalized % 1) + 1) % 1;
+  const segLengths: number[] = [];
+  let totalLen = 0;
+
+  for (let i = 0; i < points.length - 1; i++) {
+    const dx = points[i + 1].sx - points[i].sx;
+    const dy = points[i + 1].sy - points[i].sy;
+    const len = Math.hypot(dx, dy);
+    segLengths.push(len);
+    totalLen += len;
+  }
+
+  if (totalLen <= 0.001) {
+    return { sx: points[0].sx, sy: points[0].sy, dx: 1, dy: 0 };
+  }
+
+  let targetDist = t * totalLen;
+  for (let i = 0; i < segLengths.length; i++) {
+    const segLen = segLengths[i];
+    if (targetDist <= segLen || i === segLengths.length - 1) {
+      const localT = segLen > 0 ? Math.max(0, Math.min(1, targetDist / segLen)) : 0;
+      const p0 = points[i];
+      const p1 = points[i + 1];
+      const dx = p1.sx - p0.sx;
+      const dy = p1.sy - p0.sy;
+      const norm = Math.hypot(dx, dy) || 1;
+      return {
+        sx: Number((p0.sx + dx * localT).toFixed(2)),
+        sy: Number((p0.sy + dy * localT).toFixed(2)),
+        dx: Number((dx / norm).toFixed(3)),
+        dy: Number((dy / norm).toFixed(3)),
+      };
+    }
+    targetDist -= segLen;
+  }
+
+  const last = points[points.length - 1];
+  return { sx: last.sx, sy: last.sy, dx: 1, dy: 0 };
+}
+
+function buildElevatedArcPath(from: WorldPoint3D, to: WorldPoint3D, apexZ: number): string {
+  const pStart = projectIso(from.x, from.y, from.z + 12);
+  const pEnd = projectIso(to.x, to.y, to.z + 12);
+  const midX = (from.x + to.x) * 0.5;
+  const midY = (from.y + to.y) * 0.5;
+  const pCtrl = projectIso(midX, midY, apexZ);
+  return `M ${pStart.sx} ${pStart.sy} Q ${pCtrl.sx} ${pCtrl.sy} ${pEnd.sx} ${pEnd.sy}`;
+}
+
+/**
+ * Pure deterministic simulation evaluator for Section 04 (07:00 to 10:00 morning disruption window).
+ * Guarantees:
+ * - Future A (Baseline) is completely independent of `intervention`.
+ * - After 07:30 (timeMinutes >= 450), `CORRIDOR_CENTRAL_BRIDGE` is closed and has ZERO moving vehicles in both futures.
+ * - Future B (Alternative) adapts road flows, vehicle types, elevated arcs, metrics, and observations based on `intervention`.
+ */
+const PARALLEL_FUTURES_STATE_CACHE = new Map<string, ParallelFuturesComparisonState>();
+const ENTITY_COMPARISON_CACHE = new Map<string, EntityComparisonInspection>();
+
+let futuresCacheHits = 0;
+let futuresCacheMisses = 0;
+
+export function getParallelFuturesCacheStats() {
+  return {
+    stateCacheSize: PARALLEL_FUTURES_STATE_CACHE.size,
+    entityCacheSize: ENTITY_COMPARISON_CACHE.size,
+    hits: futuresCacheHits,
+    misses: futuresCacheMisses,
+  };
+}
+
+export function clearParallelFuturesCache() {
+  PARALLEL_FUTURES_STATE_CACHE.clear();
+  ENTITY_COMPARISON_CACHE.clear();
+  futuresCacheHits = 0;
+  futuresCacheMisses = 0;
+}
+
+export function evaluateParallelFuturesState(
+  rawTimeMinutes: number,
+  intervention: InterventionStrategy
+): ParallelFuturesComparisonState {
+  const timeMinutes = Math.max(
+    PARALLEL_FUTURES_START_MIN,
+    Math.min(PARALLEL_FUTURES_END_MIN, Math.round(rawTimeMinutes))
+  );
+
+  const cacheKey = `${timeMinutes}:${intervention}`;
+  const cachedState = PARALLEL_FUTURES_STATE_CACHE.get(cacheKey);
+  if (cachedState) {
+    futuresCacheHits++;
+    return cachedState;
+  }
+  futuresCacheMisses++;
+
+  const city = getCanonicalCity25D();
+  const timeFormatted = formatParallelTime(timeMinutes);
+  const closureActive = timeMinutes >= PARALLEL_FUTURES_CLOSURE_MIN;
+  const minutesSinceClosure = closureActive
+    ? timeMinutes - PARALLEL_FUTURES_CLOSURE_MIN
+    : 0;
+
+  // Normalized progression after 07:30 closure (0 at 07:30, 1 at 09:15, sustained/recovering to 10:00)
+  const postClosureRamp = closureActive
+    ? Math.min(1, minutesSinceClosure / 90)
+    : 0;
+  // Slight late-morning stabilization after 09:15 (555 min)
+  const recoveryFactor =
+    timeMinutes > 555 ? (timeMinutes - 555) / 45 : 0;
+
+  // Pre-closure warm-up (07:00 to 07:30)
+  const preClosureWarmup = !closureActive
+    ? (timeMinutes - PARALLEL_FUTURES_START_MIN) / 30
+    : 1;
+
+  // -------------------------------------------------------------------------
+  // 1. FUTURE A — BASELINE (WITHOUT INTERVENTION)
+  //    Strictly independent of `intervention`!
+  // -------------------------------------------------------------------------
+  const baselineCorridors: Record<string, CorridorRuntimeState> = {};
+  for (const cor of city.corridors) {
+    let closed = false;
+    let congestion = 0.22 + preClosureWarmup * 0.06;
+    let flowRate = 48;
+    let statusTag: CorridorRuntimeState['statusTag'] = 'OPEN';
+    let highlightLevel: CorridorRuntimeState['highlightLevel'] = 'neutral';
+    const queueClusters: Array<{ sx: number; sy: number; intensity: number }> = [];
+
+    if (cor.id === 'CORRIDOR_CENTRAL_BRIDGE') {
+      if (closureActive) {
+        closed = true;
+        congestion = 1.0;
+        flowRate = 0;
+        statusTag = 'CLOSED';
+        highlightLevel = 'closed';
+      } else {
+        congestion = 0.34 + preClosureWarmup * 0.08;
+        flowRate = 82;
+      }
+    } else if (
+      cor.id === 'CORRIDOR_MIDTOWN_APPROACH' ||
+      cor.id === 'CORRIDOR_PORT_APPROACH'
+    ) {
+      if (closureActive) {
+        congestion = Math.min(0.98, 0.58 + postClosureRamp * 0.38);
+        flowRate = Math.round(18 + (1 - postClosureRamp) * 22);
+        statusTag = 'CONGESTED';
+        highlightLevel = 'disrupted';
+        const qPt1 = sampleAlongProjectedPolyline(cor.projectedPoints, 0.35);
+        const qPt2 = sampleAlongProjectedPolyline(cor.projectedPoints, 0.78);
+        queueClusters.push(
+          { sx: qPt1.sx, sy: qPt1.sy, intensity: congestion },
+          { sx: qPt2.sx, sy: qPt2.sy, intensity: congestion }
+        );
+      } else {
+        congestion = 0.28 + preClosureWarmup * 0.06;
+        flowRate = 64;
+      }
+    } else if (
+      cor.id === 'CORRIDOR_NORTH_ARTERIAL_WEST' ||
+      cor.id === 'CORRIDOR_SOUTH_ARTERIAL_WEST' ||
+      cor.id === 'CORRIDOR_NORTH_ARTERIAL_EAST' ||
+      cor.id === 'CORRIDOR_SOUTH_ARTERIAL_EAST'
+    ) {
+      if (closureActive) {
+        const isWest = cor.id.endsWith('WEST');
+        congestion = Math.min(
+          0.92,
+          (isWest ? 0.52 : 0.46) + postClosureRamp * (isWest ? 0.38 : 0.34) - recoveryFactor * 0.05
+        );
+        flowRate = Math.round(74 + postClosureRamp * 18);
+        statusTag = 'CONGESTED';
+        highlightLevel = 'disrupted';
+        const qPt = sampleAlongProjectedPolyline(cor.projectedPoints, 0.52);
+        queueClusters.push({ sx: qPt.sx, sy: qPt.sy, intensity: congestion });
+      } else {
+        congestion = 0.26 + preClosureWarmup * 0.05;
+        flowRate = 58;
+      }
+    } else if (
+      cor.id === 'CORRIDOR_WEST_VIADUCT' ||
+      cor.id === 'CORRIDOR_EAST_CROSSING'
+    ) {
+      if (closureActive) {
+        // Uncoordinated spillover jams the approaches of alternate bridges
+        const isWest = cor.id === 'CORRIDOR_WEST_VIADUCT';
+        congestion = Math.min(
+          0.9,
+          (isWest ? 0.5 : 0.44) + postClosureRamp * (isWest ? 0.38 : 0.32)
+        );
+        flowRate = Math.round(78 + postClosureRamp * 16);
+        statusTag = 'CONGESTED';
+        highlightLevel = 'disrupted';
+        const qPt = sampleAlongProjectedPolyline(cor.projectedPoints, 0.22);
+        queueClusters.push({ sx: qPt.sx, sy: qPt.sy, intensity: congestion * 0.9 });
+      } else {
+        congestion = 0.28 + preClosureWarmup * 0.05;
+        flowRate = 55;
+      }
+    } else {
+      // Transit & Freight corridors in Baseline remain under-utilized / uncoordinated
+      congestion = closureActive ? 0.48 + postClosureRamp * 0.22 : 0.22;
+      flowRate = closureActive ? 42 : 40;
+    }
+
+    baselineCorridors[cor.id] = {
+      corridorId: cor.id,
+      closed,
+      congestion: Number(congestion.toFixed(2)),
+      flowRate,
+      statusTag,
+      highlightLevel,
+      queueClusters,
+    };
+  }
+
+  const baselineDistricts: Record<string, DistrictRuntimeState> = {};
+  for (const dist of city.districts) {
+    let pressure = 0.24 + preClosureWarmup * 0.05;
+    let statusSummary = 'Nominal morning operations';
+    if (closureActive) {
+      if (dist.id === 'FINANCIAL_CBD' || dist.id === 'SOUTH_PORT') {
+        pressure = Math.min(0.95, 0.62 + postClosureRamp * 0.32);
+        statusSummary = 'Severe approach gridlock & spillover queues';
+      } else if (dist.id === 'MIDTOWN' || dist.id === 'WEST_HARBOR') {
+        pressure = Math.min(0.86, 0.5 + postClosureRamp * 0.34);
+        statusSummary = 'Uncoordinated bypass overflow (+18m delay)';
+      } else {
+        pressure = Math.min(0.78, 0.44 + postClosureRamp * 0.28);
+        statusSummary = 'Secondary arterial delay & late freight';
+      }
+    }
+    baselineDistricts[dist.id] = {
+      districtId: dist.id,
+      pressure: Number(pressure.toFixed(2)),
+      transitPulse: 0.15,
+      freightActive: false,
+      statusSummary,
+    };
+  }
+
+  // Generate deterministic vehicles for Future A
+  const baselineVehicles: VehicleMarker25D[] = [];
+  const timePhase = (timeMinutes - PARALLEL_FUTURES_START_MIN) / 60;
+  for (const cor of city.corridors) {
+    const cState = baselineCorridors[cor.id];
+    // NEVER place moving vehicles on a closed corridor!
+    if (cState.closed) continue;
+    if (cor.kind === 'transit' || cor.kind === 'freight') continue;
+
+    const count =
+      cor.kind === 'bridge'
+        ? closureActive
+          ? 5
+          : 4
+        : closureActive
+          ? 4
+          : 3;
+    const speedFactor = closureActive ? Math.max(0.18, 1 - cState.congestion * 0.78) : 0.85;
+
+    for (let i = 0; i < count; i++) {
+      const baseOffset = i / count;
+      const tPos = (baseOffset + timePhase * speedFactor * 0.55) % 1;
+      const pos = sampleAlongProjectedPolyline(cor.projectedPoints, tPos);
+      baselineVehicles.push({
+        id: `VEH-A-${cor.id}-${i}`,
+        corridorId: cor.id,
+        vehicleType: i % 3 === 0 ? 'freight' : 'car',
+        sx: pos.sx,
+        sy: pos.sy,
+        dx: pos.dx,
+        dy: pos.dy,
+        speedRatio: Number(speedFactor.toFixed(2)),
+        state: closureActive && cState.congestion > 0.55 ? 'queued' : 'normal',
+      });
+    }
+  }
+
+  const baselineDelay = !closureActive
+    ? Number((4.2 + preClosureWarmup * 0.9).toFixed(1))
+    : Number((6.8 + postClosureRamp * 19.6 - recoveryFactor * 1.4).toFixed(1));
+  const baselineCongestion = !closureActive
+    ? Math.round(22 + preClosureWarmup * 5)
+    : Math.round(36 + postClosureRamp * 48 - recoveryFactor * 4);
+  const elapsedHours = (timeMinutes - PARALLEL_FUTURES_START_MIN) / 60;
+  const baselineDeliveries = !closureActive
+    ? Math.round(18 + elapsedHours * 64)
+    : Math.round(50 + (minutesSinceClosure / 60) * (38 - postClosureRamp * 12));
+
+  const baselineObservations: [string, string] = !closureActive
+    ? [
+        'All three cross-river bridges operating within nominal morning capacity.',
+        'Cross-river freight and commuter flows concentrated on Meridian Central Bridge.',
+      ]
+    : [
+        'Uncoordinated detour queues lock Central Bridge approaches and spill across Midtown & Port collectors.',
+        'Secondary bottlenecks overload West Viaduct (+78% queue density) and stall cross-river freight dispatches.',
+      ];
+
+  const baselineState: FutureWorldState25D = {
+    futureId: 'A',
+    title: 'WITHOUT INTERVENTION',
+    subtitle: 'Uncoordinated response · Reactive congestion cascade',
+    timeMinutes,
+    timeFormatted,
+    bridgeClosed: closureActive,
+    intervention,
+    corridorStates: baselineCorridors,
+    districtStates: baselineDistricts,
+    vehicles: baselineVehicles,
+    elevatedArcs: [],
+    metrics: {
+      avgTravelDelayMin: baselineDelay,
+      congestionIndex: baselineCongestion,
+      completedDeliveries: baselineDeliveries,
+      transitSharePct: closureActive ? 24 : 26,
+      corridorThroughputPct: closureActive ? Math.round(52 - postClosureRamp * 14) : 88,
+    },
+    observations: baselineObservations,
+    systemHeadline: !closureActive
+      ? 'NOMINAL BASELINE TOPOLOGY'
+      : 'UNMITIGATED BRIDGE CLOSURE CASCADE',
+  };
+
+  // -------------------------------------------------------------------------
+  // 2. FUTURE B — COORDINATED RESPONSE (ADAPTS TO `intervention`)
+  // -------------------------------------------------------------------------
+  const altCorridors: Record<string, CorridorRuntimeState> = {};
+  for (const cor of city.corridors) {
+    let closed = false;
+    let congestion = 0.22 + preClosureWarmup * 0.06;
+    let flowRate = 48;
+    let statusTag: CorridorRuntimeState['statusTag'] = 'OPEN';
+    let highlightLevel: CorridorRuntimeState['highlightLevel'] = 'neutral';
+
+    if (cor.id === 'CORRIDOR_CENTRAL_BRIDGE') {
+      if (closureActive) {
+        closed = true;
+        congestion = 1.0;
+        flowRate = 0;
+        statusTag = 'CLOSED';
+        highlightLevel = 'closed';
+      } else {
+        congestion = 0.34 + preClosureWarmup * 0.08;
+        flowRate = 82;
+      }
+    } else if (closureActive) {
+      if (intervention === 'reroute_vehicles') {
+        if (
+          cor.id === 'CORRIDOR_WEST_VIADUCT' ||
+          cor.id === 'CORRIDOR_EAST_CROSSING' ||
+          cor.id === 'CORRIDOR_NORTH_ARTERIAL_WEST' ||
+          cor.id === 'CORRIDOR_NORTH_ARTERIAL_EAST' ||
+          cor.id === 'CORRIDOR_SOUTH_ARTERIAL_WEST' ||
+          cor.id === 'CORRIDOR_SOUTH_ARTERIAL_EAST'
+        ) {
+          congestion = Number((0.34 + postClosureRamp * 0.1 - recoveryFactor * 0.06).toFixed(2));
+          flowRate = Math.round(82 + postClosureRamp * 12);
+          statusTag = 'REROUTED';
+          highlightLevel = 'optimized';
+        } else if (
+          cor.id === 'CORRIDOR_MIDTOWN_APPROACH' ||
+          cor.id === 'CORRIDOR_PORT_APPROACH'
+        ) {
+          congestion = Number((0.22 + postClosureRamp * 0.06).toFixed(2));
+          flowRate = 24;
+          statusTag = 'OPEN';
+          highlightLevel = 'neutral';
+        }
+      } else if (intervention === 'increase_transit') {
+        if (
+          cor.id === 'CORRIDOR_TRANSIT_EXPRESS' ||
+          cor.id === 'CORRIDOR_WEST_VIADUCT' ||
+          cor.id === 'CORRIDOR_EAST_CROSSING'
+        ) {
+          congestion = Number((0.28 + postClosureRamp * 0.08 - recoveryFactor * 0.05).toFixed(2));
+          flowRate = Math.round(88 + postClosureRamp * 10);
+          statusTag = 'TRANSIT_SURGE';
+          highlightLevel = 'optimized';
+        } else if (cor.kind === 'arterial') {
+          congestion = Number((0.3 + postClosureRamp * 0.08).toFixed(2));
+          flowRate = 68;
+          statusTag = 'OPEN';
+          highlightLevel = 'optimized';
+        } else {
+          congestion = 0.2;
+          flowRate = 22;
+        }
+      } else if (intervention === 'coordinate_deliveries') {
+        if (
+          cor.id === 'CORRIDOR_FREIGHT_RING' ||
+          cor.id === 'CORRIDOR_EAST_CROSSING' ||
+          cor.id === 'CORRIDOR_SOUTH_ARTERIAL_EAST' ||
+          cor.id === 'CORRIDOR_NORTH_ARTERIAL_EAST'
+        ) {
+          congestion = Number((0.31 + postClosureRamp * 0.09 - recoveryFactor * 0.04).toFixed(2));
+          flowRate = Math.round(86 + postClosureRamp * 11);
+          statusTag = 'FREIGHT_SLOT';
+          highlightLevel = 'optimized';
+        } else if (cor.id === 'CORRIDOR_WEST_VIADUCT' || cor.id.endsWith('WEST')) {
+          congestion = Number((0.35 + postClosureRamp * 0.1).toFixed(2));
+          flowRate = 76;
+          statusTag = 'REROUTED';
+          highlightLevel = 'optimized';
+        } else {
+          congestion = 0.24;
+          flowRate = 25;
+        }
+      }
+    }
+
+    altCorridors[cor.id] = {
+      corridorId: cor.id,
+      closed,
+      congestion: Number(congestion.toFixed(2)),
+      flowRate,
+      statusTag,
+      highlightLevel,
+      queueClusters: [],
+    };
+  }
+
+  const altDistricts: Record<string, DistrictRuntimeState> = {};
+  for (const dist of city.districts) {
+    let pressure = 0.24 + preClosureWarmup * 0.05;
+    let transitPulse = 0.2;
+    let freightActive = false;
+    let statusSummary = 'Nominal morning operations';
+
+    if (closureActive) {
+      if (intervention === 'reroute_vehicles') {
+        pressure = Number((0.32 + postClosureRamp * 0.08).toFixed(2));
+        statusSummary =
+          dist.id === 'MIDTOWN' || dist.id === 'EAST_HUB' || dist.id === 'WEST_HARBOR'
+            ? 'Balanced bypass split absorbing diverted cross-river volume'
+            : 'Approaches cleared via upstream dynamic impedance routing';
+      } else if (intervention === 'increase_transit') {
+        pressure = Number((0.28 + postClosureRamp * 0.07).toFixed(2));
+        transitPulse =
+          dist.id === 'MIDTOWN' ||
+          dist.id === 'FINANCIAL_CBD' ||
+          dist.id === 'EAST_HUB' ||
+          dist.id === 'WEST_HARBOR'
+            ? 0.92
+            : 0.65;
+        statusSummary = 'High-frequency transit surge (+45% headways) shifting commuter mode share';
+      } else {
+        pressure = Number((0.33 + postClosureRamp * 0.09).toFixed(2));
+        freightActive =
+          dist.id === 'WEST_HARBOR' ||
+          dist.id === 'SOUTH_PORT' ||
+          dist.id === 'SOUTH_IND' ||
+          dist.id === 'EAST_HUB';
+        statusSummary = freightActive
+          ? 'Time-slotted logistics dispatch active on Eastern Crossing & Freight Ring'
+          : 'Commuter lanes isolated from heavy port freight queues';
+      }
+    }
+
+    altDistricts[dist.id] = {
+      districtId: dist.id,
+      pressure,
+      transitPulse,
+      freightActive,
+      statusSummary,
+    };
+  }
+
+  // Generate deterministic vehicles for Future B
+  const altVehicles: VehicleMarker25D[] = [];
+  for (const cor of city.corridors) {
+    const cState = altCorridors[cor.id];
+    // NEVER place moving vehicles on a closed corridor!
+    if (cState.closed) continue;
+
+    // Filter corridors based on active intervention
+    if (cor.kind === 'transit' && intervention !== 'increase_transit') continue;
+    if (cor.kind === 'freight' && intervention !== 'coordinate_deliveries') continue;
+    if (
+      closureActive &&
+      (cor.id === 'CORRIDOR_MIDTOWN_APPROACH' || cor.id === 'CORRIDOR_PORT_APPROACH')
+    ) {
+      // Upstream routing keeps closed bridge approaches clear in Future B
+      continue;
+    }
+
+    let count = 3;
+    if (closureActive) {
+      if (intervention === 'reroute_vehicles' && (cor.id === 'CORRIDOR_WEST_VIADUCT' || cor.id === 'CORRIDOR_EAST_CROSSING')) {
+        count = 5;
+      } else if (intervention === 'increase_transit' && cor.id === 'CORRIDOR_TRANSIT_EXPRESS') {
+        count = 6;
+      } else if (intervention === 'coordinate_deliveries' && cor.id === 'CORRIDOR_FREIGHT_RING') {
+        count = 6;
+      } else {
+        count = 3;
+      }
+    }
+
+    const speedFactor = closureActive ? 0.92 : 0.85;
+    for (let i = 0; i < count; i++) {
+      const baseOffset = i / count;
+      const tPos = (baseOffset + timePhase * speedFactor * 0.65) % 1;
+      const pos = sampleAlongProjectedPolyline(cor.projectedPoints, tPos);
+
+      let vehicleType: VehicleMarker25D['vehicleType'] = 'car';
+      if (cor.kind === 'transit' || (intervention === 'increase_transit' && i % 2 === 0)) {
+        vehicleType = 'transit';
+      } else if (cor.kind === 'freight' || (intervention === 'coordinate_deliveries' && i % 2 === 0)) {
+        vehicleType = 'freight';
+      }
+
+      altVehicles.push({
+        id: `VEH-B-${cor.id}-${i}`,
+        corridorId: cor.id,
+        vehicleType,
+        sx: pos.sx,
+        sy: pos.sy,
+        dx: pos.dx,
+        dy: pos.dy,
+        speedRatio: speedFactor,
+        state: closureActive && cState.highlightLevel === 'optimized' ? 'optimized' : 'normal',
+      });
+    }
+  }
+
+  // Elevated coordination data arcs for Future B when closure is active
+  const districtMap = new Map(city.districts.map((d) => [d.id, d]));
+  const elevatedArcs: ElevatedDataArc25D[] = [];
+  if (closureActive) {
+    if (intervention === 'reroute_vehicles') {
+      const wh = districtMap.get('WEST_HARBOR')!;
+      const mid = districtMap.get('MIDTOWN')!;
+      const cbd = districtMap.get('FINANCIAL_CBD')!;
+      const sin = districtMap.get('SOUTH_IND')!;
+      const eh = districtMap.get('EAST_HUB')!;
+      elevatedArcs.push(
+        {
+          id: 'ARC-REROUTE-WEST',
+          fromDistrictId: 'WEST_HARBOR',
+          toDistrictId: 'MIDTOWN',
+          svgPath: buildElevatedArcPath(wh.worldHub, mid.worldHub, 46),
+          label: 'WEST VIADUCT SPLIT (52%)',
+          color: '#259A6C',
+          active: true,
+        },
+        {
+          id: 'ARC-REROUTE-EAST',
+          fromDistrictId: 'SOUTH_IND',
+          toDistrictId: 'EAST_HUB',
+          svgPath: buildElevatedArcPath(sin.worldHub, eh.worldHub, 46),
+          label: 'EAST CROSSING SPLIT (48%)',
+          color: '#259A6C',
+          active: true,
+        },
+        {
+          id: 'ARC-REROUTE-CBD',
+          fromDistrictId: 'MIDTOWN',
+          toDistrictId: 'FINANCIAL_CBD',
+          svgPath: buildElevatedArcPath(mid.worldHub, cbd.worldHub, 42),
+          label: 'GREEN-WAVE SIGNAL SYNC',
+          color: '#259A6C',
+          active: true,
+        }
+      );
+    } else if (intervention === 'increase_transit') {
+      const wh = districtMap.get('WEST_HARBOR')!;
+      const mid = districtMap.get('MIDTOWN')!;
+      const cbd = districtMap.get('FINANCIAL_CBD')!;
+      const eh = districtMap.get('EAST_HUB')!;
+      elevatedArcs.push(
+        {
+          id: 'ARC-TRANSIT-1',
+          fromDistrictId: 'WEST_HARBOR',
+          toDistrictId: 'MIDTOWN',
+          svgPath: buildElevatedArcPath(wh.worldHub, mid.worldHub, 50),
+          label: 'EXPRESS RAIL SURGE (+45%)',
+          color: '#259A6C',
+          active: true,
+        },
+        {
+          id: 'ARC-TRANSIT-2',
+          fromDistrictId: 'MIDTOWN',
+          toDistrictId: 'FINANCIAL_CBD',
+          svgPath: buildElevatedArcPath(mid.worldHub, cbd.worldHub, 52),
+          label: 'CBD METRO SHUTTLE',
+          color: '#259A6C',
+          active: true,
+        },
+        {
+          id: 'ARC-TRANSIT-3',
+          fromDistrictId: 'FINANCIAL_CBD',
+          toDistrictId: 'EAST_HUB',
+          svgPath: buildElevatedArcPath(cbd.worldHub, eh.worldHub, 50),
+          label: 'CIVIC CORRIDOR PRIORITY',
+          color: '#259A6C',
+          active: true,
+        }
+      );
+    } else {
+      const wh = districtMap.get('WEST_HARBOR')!;
+      const spt = districtMap.get('SOUTH_PORT')!;
+      const sin = districtMap.get('SOUTH_IND')!;
+      const eh = districtMap.get('EAST_HUB')!;
+      elevatedArcs.push(
+        {
+          id: 'ARC-FREIGHT-1',
+          fromDistrictId: 'WEST_HARBOR',
+          toDistrictId: 'SOUTH_PORT',
+          svgPath: buildElevatedArcPath(wh.worldHub, spt.worldHub, 44),
+          label: 'PORT DISPATCH WINDOWING',
+          color: '#259A6C',
+          active: true,
+        },
+        {
+          id: 'ARC-FREIGHT-2',
+          fromDistrictId: 'SOUTH_PORT',
+          toDistrictId: 'SOUTH_IND',
+          svgPath: buildElevatedArcPath(spt.worldHub, sin.worldHub, 44),
+          label: 'FREIGHT RING PLATOON',
+          color: '#259A6C',
+          active: true,
+        },
+        {
+          id: 'ARC-FREIGHT-3',
+          fromDistrictId: 'SOUTH_IND',
+          toDistrictId: 'EAST_HUB',
+          svgPath: buildElevatedArcPath(sin.worldHub, eh.worldHub, 48),
+          label: 'COLD-CHAIN PRIORITY LANE',
+          color: '#259A6C',
+          active: true,
+        }
+      );
+    }
+  }
+
+  // Distinct metrics & observations per intervention for Future B
+  let altDelay = baselineDelay;
+  let altCongestion = baselineCongestion;
+  let altDeliveries = baselineDeliveries;
+  let altTransitShare = 26;
+  let altThroughput = 88;
+  let altObservations: [string, string] = baselineObservations;
+  let altHeadline = 'NOMINAL BASELINE TOPOLOGY';
+
+  if (closureActive) {
+    if (intervention === 'reroute_vehicles') {
+      altDelay = Number((5.8 + postClosureRamp * 6.4 - recoveryFactor * 1.1).toFixed(1));
+      altCongestion = Math.round(28 + postClosureRamp * 14 - recoveryFactor * 3);
+      altDeliveries = Math.round(baselineDeliveries + 12 + postClosureRamp * 28);
+      altTransitShare = 31;
+      altThroughput = Math.round(84 - postClosureRamp * 4 + recoveryFactor * 3);
+      altHeadline = 'DYNAMIC WEST & EAST VIADUCT LOAD BALANCING';
+      altObservations = [
+        'Cross-river flow splits 52% / 48% across West Bypass Viaduct and East Innovation Crossing before queues form.',
+        `Upstream signal coordination saves ${(baselineDelay - altDelay).toFixed(1)} min average travel delay and clears CBD approaches.`,
+      ];
+    } else if (intervention === 'increase_transit') {
+      altDelay = Number((5.4 + postClosureRamp * 5.2 - recoveryFactor * 1.0).toFixed(1));
+      altCongestion = Math.round(25 + postClosureRamp * 11 - recoveryFactor * 3);
+      altDeliveries = Math.round(baselineDeliveries + 9 + postClosureRamp * 22);
+      altTransitShare = Math.round(44 + postClosureRamp * 8);
+      altThroughput = Math.round(89 - postClosureRamp * 3 + recoveryFactor * 2);
+      altHeadline = 'HIGH-FREQUENCY CROSS-RIVER TRANSIT SURGE';
+      altObservations = [
+        'Express rail & bus headways surge +45%, absorbing commuter volume across Midtown, CBD, and East Hub stations.',
+        `Private vehicle density drops by ${baselineCongestion - altCongestion} percentage points, keeping alternate river crossings free-flowing.`,
+      ];
+    } else {
+      altDelay = Number((6.2 + postClosureRamp * 6.9 - recoveryFactor * 1.0).toFixed(1));
+      altCongestion = Math.round(30 + postClosureRamp * 15 - recoveryFactor * 3);
+      altDeliveries = Math.round(baselineDeliveries + 18 + postClosureRamp * 38);
+      altTransitShare = 29;
+      altThroughput = Math.round(86 - postClosureRamp * 3 + recoveryFactor * 3);
+      altHeadline = 'COORDINATED FREIGHT WINDOW SLOTTING';
+      altObservations = [
+        'Heavy port logistics platoons route via the Southern Freight Ring & East Crossing in staggered 15-min windows.',
+        `Completes +${Math.round(18 + postClosureRamp * 38)} time-critical hospital & cold-chain deliveries without blocking West Viaduct commuters.`,
+      ];
+    }
+  }
+
+  const alternativeState: FutureWorldState25D = {
+    futureId: 'B',
+    title: 'WITH COORDINATED RESPONSE',
+    subtitle: `${INTERVENTION_METADATA[intervention].label} · Active stabilization`,
+    timeMinutes,
+    timeFormatted,
+    bridgeClosed: closureActive,
+    intervention,
+    corridorStates: altCorridors,
+    districtStates: altDistricts,
+    vehicles: altVehicles,
+    elevatedArcs,
+    metrics: {
+      avgTravelDelayMin: altDelay,
+      congestionIndex: altCongestion,
+      completedDeliveries: altDeliveries,
+      transitSharePct: altTransitShare,
+      corridorThroughputPct: altThroughput,
+    },
+    observations: altObservations,
+    systemHeadline: altHeadline,
+  };
+
+  const result: ParallelFuturesComparisonState = {
+    timeMinutes,
+    timeFormatted,
+    closureActive,
+    minutesSinceClosure,
+    intervention,
+    interventionMeta: INTERVENTION_METADATA[intervention],
+    baseline: baselineState,
+    alternative: alternativeState,
+    deltas: {
+      delaySavedMin: Number(Math.max(0, baselineDelay - altDelay).toFixed(1)),
+      congestionReducedPct: Math.max(0, baselineCongestion - altCongestion),
+      extraDeliveries: Math.max(0, altDeliveries - baselineDeliveries),
+    },
+  };
+
+  PARALLEL_FUTURES_STATE_CACHE.set(cacheKey, result);
+  return result;
+}
+
+/**
+ * Paired entity inspection across Future A and Future B.
+ * Allows hovering or selecting any bridge, district, or corridor in one panel
+ * to highlight the matching element in both panels and compare their states.
+ */
+export function getInspectableEntityComparison(
+  entityId: string,
+  state: ParallelFuturesComparisonState
+): EntityComparisonInspection {
+  const entityCacheKey = `${entityId}:${state.timeMinutes}:${state.intervention}`;
+  const cachedEntity = ENTITY_COMPARISON_CACHE.get(entityCacheKey);
+  if (cachedEntity) {
+    return cachedEntity;
+  }
+
+  const city = getCanonicalCity25D();
+  let result: EntityComparisonInspection;
+
+  // 1. Check Bridges
+  const bridge = city.bridges.find((b) => b.id === entityId);
+  if (bridge) {
+    const cA = state.baseline.corridorStates[bridge.corridorId];
+    const cB = state.alternative.corridorStates[bridge.corridorId];
+
+    if (bridge.isPrimaryClosureTarget) {
+      result = {
+        entityId: bridge.id,
+        category: 'bridge',
+        name: bridge.name,
+        code: bridge.code,
+        baselineStatus: state.closureActive
+          ? 'CLOSED AT 07:30 · Unwarned approaches gridlocked'
+          : 'OPEN · Carrying 82 veh/min across central span',
+        baselineMetric: state.closureActive ? '0 veh/min · 96% approach queue' : '82 veh/min',
+        baselineSeverity: state.closureActive ? 'critical' : 'normal',
+        alternativeStatus: state.closureActive
+          ? 'CLOSED AT 07:30 · Upstream traffic pre-diverted'
+          : 'OPEN · Nominal cross-river span',
+        alternativeMetric: state.closureActive ? '0 veh/min · Approaches clear (22%)' : '82 veh/min',
+        alternativeBenefit: state.closureActive
+          ? 'Upstream beacon routing prevents approach spillback'
+          : 'Synchronized baseline monitoring',
+      };
+    } else {
+      result = {
+        entityId: bridge.id,
+        category: 'bridge',
+        name: bridge.name,
+        code: bridge.code,
+        baselineStatus: state.closureActive
+          ? `Overloaded by uncoordinated detour spillback (${Math.round(cA.congestion * 100)}% load)`
+          : 'Nominal cross-river flow',
+        baselineMetric: `${cA.flowRate} veh/min · ${Math.round(cA.congestion * 100)}% congestion`,
+        baselineSeverity: state.closureActive ? 'warning' : 'normal',
+        alternativeStatus: state.closureActive
+          ? `${cB.statusTag.replace('_', ' ')} · Balanced cross-river corridor`
+          : 'Nominal cross-river flow',
+        alternativeMetric: `${cB.flowRate} veh/min · ${Math.round(cB.congestion * 100)}% congestion`,
+        alternativeBenefit: state.closureActive
+          ? `-${Math.max(8, Math.round((cA.congestion - cB.congestion) * 100))}% queue density via ${state.interventionMeta.label}`
+          : 'Balanced capacity reserve',
+      };
+    }
+    ENTITY_COMPARISON_CACHE.set(entityCacheKey, result);
+    return result;
+  }
+
+  // 2. Check Districts
+  const district = city.districts.find((d) => d.id === entityId);
+  if (district) {
+    const dA = state.baseline.districtStates[district.id];
+    const dB = state.alternative.districtStates[district.id];
+    result = {
+      entityId: district.id,
+      category: 'district',
+      name: district.name,
+      code: district.code,
+      baselineStatus: dA.statusSummary,
+      baselineMetric: `${Math.round(dA.pressure * 100)}% network pressure`,
+      baselineSeverity: dA.pressure > 0.75 ? 'critical' : dA.pressure > 0.5 ? 'warning' : 'normal',
+      alternativeStatus: dB.statusSummary,
+      alternativeMetric: `${Math.round(dB.pressure * 100)}% network pressure`,
+      alternativeBenefit: state.closureActive
+        ? `-${Math.max(10, Math.round((dA.pressure - dB.pressure) * 100))}% district congestion load`
+        : 'Identical pre-disruption baseline',
+    };
+    ENTITY_COMPARISON_CACHE.set(entityCacheKey, result);
+    return result;
+  }
+
+  // 3. Check Corridors
+  const corridor = city.corridors.find((c) => c.id === entityId) ?? city.corridors[1];
+  const cA = state.baseline.corridorStates[corridor.id];
+  const cB = state.alternative.corridorStates[corridor.id];
+
+  result = {
+    entityId: corridor.id,
+    category: 'corridor',
+    name: corridor.name,
+    code: corridor.shortLabel.toUpperCase(),
+    baselineStatus: cA.closed
+      ? 'Closed span · Zero throughput'
+      : `Uncoordinated load (${cA.statusTag})`,
+    baselineMetric: `${cA.flowRate} veh/min · ${Math.round(cA.congestion * 100)}% congestion`,
+    baselineSeverity: cA.congestion > 0.7 ? 'critical' : cA.congestion > 0.45 ? 'warning' : 'normal',
+    alternativeStatus: cB.closed
+      ? 'Closed span · Approaches bypassed'
+      : `Coordinated flow (${cB.statusTag.replace('_', ' ')})`,
+    alternativeMetric: `${cB.flowRate} veh/min · ${Math.round(cB.congestion * 100)}% congestion`,
+    alternativeBenefit: state.closureActive
+      ? `${state.interventionMeta.label} stabilizes corridor speed`
+      : 'Nominal corridor state',
+  };
+  ENTITY_COMPARISON_CACHE.set(entityCacheKey, result);
+  return result;
+}
+
+/**
+ * Pure choreography function for the 5-phase "Reality Split" reveal.
+ * Strictly decoupled from simulation time and intervention parameters.
+ */
+export function computeRealitySplitChoreography(rawProgress: number): RealitySplitChoreography {
+  const progress = Math.max(0, Math.min(1, rawProgress));
+
+  let phase: 1 | 2 | 3 | 4 | 5 = 1;
+  let phaseLabel = 'PHASE 01 // UNIFIED BASELINE CITY';
+
+  if (progress < 0.18) {
+    phase = 1;
+    phaseLabel = 'PHASE 01 // UNIFIED BASELINE CITY';
+  } else if (progress < 0.36) {
+    phase = 2;
+    phaseLabel = 'PHASE 02 // 07:30 MERIDIAN BRIDGE CLOSURE';
+  } else if (progress < 0.64) {
+    phase = 3;
+    phaseLabel = 'PHASE 03 // REALITY SPLIT: ONE WORLD, TWO OUTCOMES';
+  } else if (progress < 0.84) {
+    phase = 4;
+    phaseLabel = 'PHASE 04 // DIVERGING CORRIDOR DYNAMICS';
+  } else {
+    phase = 5;
+    phaseLabel = 'PHASE 05 // COMPARATIVE OUTCOME TELEMETRY';
+  }
+
+  const splitAmount =
+    progress <= 0.25
+      ? 0
+      : progress >= 0.62
+        ? 1
+        : Number(((progress - 0.25) / 0.37).toFixed(3));
+
+  const bridgeAlertIntensity =
+    progress < 0.15
+      ? 0
+      : progress < 0.4
+        ? Number(((progress - 0.15) / 0.25).toFixed(3))
+        : 1;
+
+  const divergenceAlpha =
+    progress < 0.48
+      ? 0
+      : progress >= 0.8
+        ? 1
+        : Number(((progress - 0.48) / 0.32).toFixed(3));
+
+  const metricsAlpha =
+    progress < 0.68
+      ? 0.35
+      : progress >= 0.92
+        ? 1
+        : Number((0.35 + ((progress - 0.68) / 0.24) * 0.65).toFixed(3));
+
+  return {
+    progress: Number(progress.toFixed(3)),
+    phase,
+    phaseLabel,
+    splitAmount,
+    bridgeAlertIntensity,
+    divergenceAlpha,
+    metricsAlpha,
   };
 }
 ]]>

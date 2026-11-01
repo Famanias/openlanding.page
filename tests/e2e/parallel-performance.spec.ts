@@ -30,6 +30,8 @@ test('keeps workflow context stable and uses a bounded, low-power drawing buffer
     } as typeof original;
   });
   await page.goto('/parallel');
+  // Wait for hydration before scrolling; Lenis initializes from the current viewport.
+  await expect(page.getByTestId('parallel-webgl-canvas')).toBeVisible();
   const workflow = page.getByTestId('workflow-3d-viewport');
   await workflow.scrollIntoViewIfNeeded();
   await expect(workflow.locator('canvas')).toBeVisible();

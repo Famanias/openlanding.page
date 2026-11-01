@@ -61,6 +61,13 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
       "#808080", "#9CA3AF", "#D44D27", "#D94E3E", "#D99B26", "#D9C39E",
       "#E05A47", "#E85D36", "#E8E8E3", "#EFECE6", "#F4F1EA", "#F6F5F1",
       "#FF5522", "#FF6B42", "#FFE4B5",
+      // Architectural SVG colors from the upstream Section 04 update.
+      "#259A6C", "#454C4F", "#777D7D", "#7A8B90", "#9DA3A2", "#B3B9B7",
+      "#B4B8B5", "#B6C3C7", "#BCC1BF", "#BEC2BF", "#BFC4C2", "#C1CCCF",
+      "#C5C8C5", "#C5CAC7", "#C6C8C4", "#CFD1CD", "#CFD7D9", "#D4D6D2",
+      "#D5DDD9", "#DCDFD9", "#DCEEE6", "#DFEFE8", "#E0DFDA", "#E2E6E4",
+      "#E4E5E0", "#E4ECE8", "#E5E4DF", "#F0E3DC", "#F2DFD8", "#F3DBD5",
+      "#F5E4DD", "#FAF9F6", "#FFFFFF",
     ],
     paletteExempt: [
       "src/app/(parallel)/parallel/rendering/",
