@@ -387,19 +387,19 @@ export function createHeroPaintSimulation(options: HeroPaintSimulationOptions) {
 
         const intensity = Math.min(
           1,
-          (ridge * curtainEnv * rightBloom + spreadGlow) * topBottomVignette * 0.92
+          (ridge * curtainEnv * rightBloom + spreadGlow) * topBottomVignette * 0.70
         );
-        const crestHighlight = Math.pow(intensity, 2.15);
+        const crestHighlight = Math.pow(intensity, 2.3) * 0.55;
 
         // Blend between moss/mint folds and warm coral/peach folds from the index palette
         const warmMix = smoothstep(0.32, 0.78, sv + Math.sin(su * 3.4) * 0.08) * 0.52;
-        const midR = mossR * (1 - warmMix) + coralR * warmMix;
-        const midG = mossG * (1 - warmMix) + coralG * warmMix;
-        const midB = mossB * (1 - warmMix) + coralB * warmMix;
+        const midR = (mossR * (1 - warmMix) + coralR * warmMix) * 0.82;
+        const midG = (mossG * (1 - warmMix) + coralG * warmMix) * 0.82;
+        const midB = (mossB * (1 - warmMix) + coralB * warmMix) * 0.82;
 
-        const hiR = mintR * (1 - warmMix) + peachR * warmMix;
-        const hiG = mintG * (1 - warmMix) + peachG * warmMix;
-        const hiB = mintB * (1 - warmMix) + peachB * warmMix;
+        const hiR = (mintR * (1 - warmMix) + peachR * warmMix) * 0.78;
+        const hiG = (mintG * (1 - warmMix) + peachG * warmMix) * 0.78;
+        const hiB = (mintB * (1 - warmMix) + peachB * warmMix) * 0.78;
 
         const r = paperR + (midR - paperR) * intensity + (hiR - midR) * crestHighlight;
         const g = paperG + (midG - paperG) * intensity + (hiG - midG) * crestHighlight;
@@ -444,7 +444,7 @@ export function createHeroPaintSimulation(options: HeroPaintSimulationOptions) {
       radiusY: (persistent ? 44 : 34) + clampedSpeed * 0.06,
       spreadRateX: 48 + clampedSpeed * 0.24,
       spreadRateY: 26 + clampedSpeed * 0.1,
-      alpha: persistent ? 0.16 : 0.14,
+      alpha: persistent ? 0.13 : 0.11,
       age: 0,
       maxAge: 2.1,
       persistent,
