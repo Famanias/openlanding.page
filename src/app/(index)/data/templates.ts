@@ -1,4 +1,4 @@
-export type TemplateSlug = "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
+export type TemplateSlug = "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -35,6 +35,158 @@ export const CATEGORIES: Category[] = [
   { id: "editorial-magazine", label: "Editorial Magazine" },
   { id: "conversion", label: "Conversion Landing" },
 ];
+
+export const NOISECLUB_PROMPT = `# NOISE CLUB® — The World Is Your Sample Pack
+
+Build a complete, responsive, interaction-rich sound-culture publication and concept landing page for **NOISE CLUB® (NC—001)** featuring the **Teenage Engineering PO-33 K.O! micro-sampler**.
+
+## Brand and central idea
+
+NOISE CLUB is an independent sound-culture collective that treats the whole city as an open recording studio. Its core thesis: **Ordinary noises are unfinished music.** The landing page invites visitors to hear rhythm and melody in normal life—a train door, an espresso cup, footsteps in an underpass, rain on zinc, a dropped coin—and explore how a pocket sampler turns found sounds into beats.
+
+Mood: raw editorial print design meets high-precision signal graphics. Continuous Ink Black canvas \`#111313\` with tactile print grain, Paper Bone \`#F1EEE5\` typography, Signal Acid \`#CBFF49\` accents, and Record Red \`#FF6748\` indicators.
+
+## Visual system and typography
+
+- **Palette:**
+  - Ink Black: \`#111313\` (continuous background foundation)
+  - Paper Bone: \`#F1EEE5\` (editorial typography and wireframe hairlines)
+  - Signal Acid: \`#CBFF49\` (active steps, playhead, peak meters, interactive highlights)
+  - Record Red: \`#FF6748\` (recording active states and hardware badges)
+- **Typography:**
+  - Display: Anton (condensed, high-impact uppercase headlines)
+  - Body: Public Sans (clean, rhythmic editorial reading text)
+  - Technical / Metadata: IBM Plex Mono (tabular numbers, parameter values, sample rates, slot addresses)
+- **Textures:** Restrained radial print grain, 6px halftone strips, and 45-degree chamfered editorial corner cuts.
+
+## Narrative chapters & signature interactions
+
+00. **The Signal:** Campaign title poster with staggered entrance, amplitude fingerprint, and an interactive inline PO-33 hardware illustration with clickable pads.
+01. **Hear Everything:** Catalog of 5 authentic field recording specimens (Subway Door Pneumatic, Ceramic Cup & Spoon, Zinc Rain, Concrete Footsteps, Brass Coin Spin) with precalculated deterministic amplitude waveforms.
+02. **Capture It:** The recording story showcasing the built-in Knowles electret microphone, line-in sampling, and optional live browser microphone sampling.
+03. **Chop It Up:** Four-slice transient dissection per sound specimen with isolated slice auditioning and waveform visualization.
+04. **Build a Beat:** The signature interactive 16-step lookahead rhythm sequencer across 4 tracks with real-time audio playback, BPM control, pattern resets, and synchronized playhead telemetry.
+05. **Break the Rules:** Hardware effects playground demonstrating Stutter grain repeat, Reverse filtering, and Octave harmonic pitch-shifting.
+06. **Take the Noise:** Final hardware showcase with technical specifications, authentic Teenage Engineering disclaimer, and official store destination.
+
+## Audio & motion engineering
+
+- Physical modeling Web Audio synthesis for zero-latency, permissionless SSR previewing.
+- Lookahead 16-step sequencer with web audio clock scheduling.
+- GSAP + Lenis scroll orchestration with graceful degradation under \`prefers-reduced-motion\`.
+`;
+
+export const WARPWANDER_PROMPT = `# WARP & WANDER — Analogue Pocket Experience
+
+Create an original 16-bit-inspired side-scrolling product landing page for **WARP & WANDER** featuring the real **Analogue Pocket** multi-format portable handheld.
+
+## Brand and central idea
+
+An imaginative exploration club for people who love handheld adventures, playful discovery, and the feeling of finding a secret path. Friendly, curious, cinematic, whimsical, slightly mysterious; never corporate or edgy.
+
+**Central idea:** a continuous side-scrolling pixel world that moves with the user's scroll. Original protagonist Pip journeys across 6 narrative acts: Daybreak Portal, Cartridge Forest, Crystal Lake, Clockwork Ridge, Cloud City, and the Sanctuary Gate. Real Analogue Pocket hardware is visualized with sharp, accurate studio renders, contrasting the rich pixel-art adventure world.
+
+Mood: sunlit pixel fantasy, tactile retro nostalgia, adventurous, crisp, authentic.
+
+## Exclusive Color Palette
+
+- Twilight Indigo: \`#23244F\` (Deep horizon / night silhouettes)
+- Fern Forest: \`#2F644F\` (Foliage and foreground ground planes)
+- Golden Nectar: \`#FFD06A\` (Warm light, important highlights, CTA accents)
+- Coral Bloom: \`#FF907A\` (Character accents, collectible effects)
+- Daylight Cream: \`#FFF1D3\` (Text fields, page readability, warm sky)
+- Lagoon Mist: \`#6DDCC5\` (Rivers, magic particles, cool secondary accents)
+- Mulberry Shadow: \`#604A79\` (Distant mountains, detail contrast)
+
+## Page Acts & Features
+
+1. **Act 0 — The Portal / Hero:** Value proposition, Pip intro, portal cut-out reveal with authentic hardware render, and chapter navigator.
+2. **Act 1 — The Forest of Cartridges:** Discoverable cartridge artifacts highlighting Game Boy, Game Boy Color, and Game Boy Advance compatibility.
+3. **Act 2 — The Crystal Lake:** Interactive 3.5-inch 1600x1440 615 PPI display study with integer-scaling subpixel toggle.
+4. **Act 3 — Clockwork Ridge:** Hardware precision inspector featuring D-pad, action buttons, stereo speakers, and FPGA core details.
+5. **Act 4 — Cloud City:** Optional playable 2D platformer mini-game to collect 3 Compass Shards, with keyboard, touch controls, and skip options.
+6. **Act 5 — The Last Gate:** Sanctuary hardware showcase with Matte Black / Matte White colorway selection and rear cartridge bay view.
+`;
+
+export const CTRLROOM_PROMPT = `# CTRL/ROOM — Agent Implementation Prompt
+
+Build a complete, responsive, interactive landing page for **CTRL/ROOM**, an original 2D pixel-desktop operating system and interactive 15-key macro-deck simulator featuring the Elgato Stream Deck MK.2.
+
+## Brand and central idea
+
+CTRL/ROOM is a fictional software studio environment (C/R OS — Build 01.15) introducing the real Elgato Stream Deck MK.2 through playful productivity experiments. Visitors land on a pixelated custom operating-system desktop, open purposeful mini-apps, configure a 15-key virtual control surface, and trigger simulated workflows.
+
+**Central idea:** control, customization, and tactile delight. A working pixel desktop with authentic draggable, keyboard-accessible windows, genuine 15-key matrix configuration, profile switching, real-time run logs, and simulated studio workflows.
+
+Mood: graphic, deliberate, witty, electric, richly interactive. Hard-edged interface colors, high-contrast UI states, pixel iconography, and tactile control surfaces.
+
+## Exclusive palette
+
+- Kernel Navy: \`#111A31\` (desktop depth and high-contrast surfaces)
+- Hyper Cobalt: \`#2858FF\` (primary desktop, active window, buttons)
+- Monitor Frost: \`#E8F0FF\` (readable panels and text)
+- Voltage Yellow: \`#E4FF58\` (active actions, status indicators, CTA)
+- Bubble Magenta: \`#FC5FA9\` (secondary accents, playful system cues)
+- Registry Slate: \`#61728F\` (metadata, thin separators, inactive text)
+- Screen Ice: \`#B6D7F7\` (secondary interface panel surfaces)
+
+## Sections & Apps
+
+1. **Brand Header:** Wordmark with pixel glyph, anchor navigation (Desktop OS, Deck Lab, Action Library, Profiles, Stream Deck MK.2), and verified product link.
+2. **Hero:** Campaign hook, quick launch app triggers, and high-fidelity Stream Deck MK.2 hardware showcase anchor.
+3. **Desktop OS Stage:** Proprietary launcher rail, draggable freeform window manager with zero-latency pointer batching, keyboard directional nudge popover, and patch cable pulse.
+4. **Deck Lab App:** 15-key interactive virtual Stream Deck MK.2 (5 columns x 3 rows) with real-time simulated execution feedback, slot inspection, and customization.
+5. **Action Library App:** 25+ categorized drag-and-drop / 1-click assignable shortcut tiles across Stream, Edit, Organize, and Explore.
+6. **Profile Switcher App:** Instant matrix swapping between Studio (streaming/recording), Live (broadcasts/cues), and Everyday (deep work/automation) with edit protection.
+7. **Device Info App:** Verified Elgato Stream Deck MK.2 hardware facts, exploded architecture diagrams, and detachable stand specs.
+8. **Run Log App:** Live timestamped execution feed tracking simulated hardware triggers and system telemetry.
+9. **Notes App:** In-memory scratchpad and daily standup logger updated by simulated macros.
+10. **About Concept App:** Clear disclosure of fictional software brand and real product attribution.
+11. **Quiet Footer:** Independent creative concept attribution, official Elgato product links, and documentation references.
+`;
+
+export const PARALLEL_PROMPT = `# PARALLEL — AI Decision Intelligence & System Simulation
+
+Build a complete, responsive, conversion-focused single-page experience for **PARALLEL — AI Decision Intelligence & System Simulation**. The page showcases an interactive 3D urban digital twin where organizations model complex infrastructure systems, simulate disruptions, explore alternative futures, and evaluate coordinated interventions.
+
+## Brand and central idea
+
+Every decision changes a system. PARALLEL replaces static dashboards and speculative forecasts with deterministic, explainable simulations.
+
+**Central idea:** "The future isn't singular. See what happens next." The page centers on an interactive 3D architectural digital twin suspended on an illuminated plinth, demonstrating how a single disruption (a structural bridge closure) cascades into two divergent futures: Baseline uncoordinated decay vs. Coordinated dynamic intervention.
+
+Mood: scientific, architectural, authoritative, cinematic, precise. Dark technical ground \`#101315\` and \`#0B0C0E\` with crisp warm text \`#F6F5F1\`, alert ember accent \`#E85D36\` / \`#FF5522\`, cyber sky \`#38BDF8\`, and intervention emerald \`#2D8A61\`.
+
+## Visual system and identity
+
+- **Palette:**
+  - Base grounds: \`#101315\`, \`#0B0C0E\`, \`#12141A\`, \`#171A1C\`
+  - Text & paper: \`#F6F5F1\`, \`#F4F1EA\`, \`#EFECE6\`, \`#E8E8E3\`
+  - Accent / Primary Action: \`#E85D36\`, \`#FF5522\`
+  - Future A (Baseline / Delay): \`#D94E3E\`, \`#E05A47\`
+  - Future B (Intervention / Coordinated): \`#2D8A61\`, \`#38BDF8\`
+  - Muted metal & rules: \`#24282B\`, \`#2B303A\`, \`#666D70\`, \`#9CA3AF\`
+- **Typography:**
+  - Display: Outfit for commanding, clean headlines
+  - Body: Plus Jakarta Sans for legible technical exposition
+  - Mono: IBM Plex Mono for coordinates, timestamps, metrics, and simulation telemetry
+
+## Architecture and interactive modules
+
+1. **Header & Telemetry HUD:** Minimal sticky navigation with PARALLEL wordmark, system status indicator, mode shortcuts, anchor navigation, and primary "Request Simulation" CTA.
+2. **Hero Simulation Stage (The 3D Digital Twin):** Full-bleed procedural Three.js architectural model with 6 operational chapters:
+   - **01 // Explore:** Orbit the architectural city model, click districts (CBD, South Harbor, North Residential, East Tech, Industrial, Central Park) to inspect baseline loads.
+   - **02 // Systems:** Layer visualizer revealing the hidden infrastructure strata: mobility networks, electrical grid, and cold-chain logistics.
+   - **03 // Disrupt:** Real-time bridge lockdown severing the primary arterial corridor, initiating dual divergent futures.
+   - **04 // Simulate:** Interactive 16-hour timeline scrubber (06:00 to 22:00), dynamic demand tuning (60% to 160%), transit capacity adjustments, and strategy switches (Dynamic Reroute, Signal Coordination, Transit Surge).
+   - **05 // Explain:** Step-by-step 5-stage causal pathway detailing ripple effects from initial closure to final medical delivery impacts.
+   - **06 // Outcome:** Consolidated scenario scorecard comparing latency, throughput, energy overhead, and economic resilience.
+3. **Interactive 2.5D Workflow Twin Canvas:** Synchronized stage demonstrating automated graph re-weighting, dynamic corridor diversion, and real-time impedance optimization.
+4. **Side-by-Side Reality Comparison:** Synchronized dual-future view showing Future A (unmitigated gridlock) alongside Future B (orchestrated rerouting) with real-time bias scrubbing.
+5. **Causal Reasoning & Explainability Ledger:** Step-through inspection cards detailing why decisions are recommended, with confidence intervals and graph path evidence.
+6. **Proof of Impact & Performance Metrics:** Quantitative benchmarks (reduction in congestion spillovers, cross-river flow preservation, delivery time savings).
+7. **Simulation Intake Form:** Interactive client-side validated intake module with scenario parameter selection and submission confirmation.
+8. **Footer & Technical Specs:** Architecture specifications, platform requirements, model versioning telemetry, and full sitemap links.`;
 
 export const LUMEN_PROMPT = `# LUMEN — The AI Workflow Playbook
 
@@ -1181,6 +1333,58 @@ slug: "tally",
     badges: ["Glassmorphism", "AI Playbook", "Shader Studio", "WebGL2"],
     previewImage: "/templates/lumen/preview-1600.webp",
     promptMarkdown: LUMEN_PROMPT,
+    model: "Imported template",
+  },
+  {
+    slug: "noiseclub",
+    createdAt: "2026-11-01",
+    title: "NOISE CLUB",
+    description: "An independent sound-culture collective and interactive concept zine featuring the Teenage Engineering PO-33 K.O! micro-sampler.",
+    category: "scroll-showcase",
+    industry: "Sound Culture & Portable Instruments",
+    stack: "Next.js 16 · React 19 · Web Audio API · Tailwind v4 · GSAP · Lenis",
+    badges: ["Physical Modeling Audio", "16-Step Sequencer", "PO-33 Hardware Illustration", "Live Microphone Sampling"],
+    previewImage: "/templates/noiseclub/preview-1600.webp",
+    promptMarkdown: NOISECLUB_PROMPT,
+    model: "Imported template",
+  },
+  {
+    slug: "warpwander",
+    createdAt: "2026-10-31",
+    title: "WARP & WANDER",
+    description: "An original 16-bit-inspired side-scrolling pixel adventure and interactive concept showcasing the Analogue Pocket multi-format handheld.",
+    category: "scroll-showcase",
+    industry: "Gaming & Hardware",
+    stack: "Next.js 16 · React 19 · Canvas 2D · GSAP · Web Audio",
+    badges: ["16-Bit Pixel Art", "Analogue Pocket", "Side-Scrolling World", "Mini-Platformer"],
+    previewImage: "/templates/warpwander/preview-1600.webp",
+    promptMarkdown: WARPWANDER_PROMPT,
+    model: "Imported template",
+  },
+  {
+    slug: "ctrlroom",
+    createdAt: "2026-11-01",
+    title: "CTRL/ROOM",
+    description: "An original 2D pixel-desktop operating system and interactive 15-key macro-deck simulator featuring the Elgato Stream Deck MK.2.",
+    category: "conversion",
+    industry: "Hardware & Productivity",
+    stack: "Next.js 16 · React 19 · Tailwind v4 · Motion",
+    badges: ["Pixel Desktop OS", "15-Key Simulator", "Stream Deck MK.2", "Window Manager"],
+    previewImage: "/templates/ctrlroom/preview-1600.webp",
+    promptMarkdown: CTRLROOM_PROMPT,
+    model: "Imported template",
+  },
+  {
+    slug: "parallel",
+    createdAt: "2026-10-31",
+    title: "PARALLEL",
+    description: "Interactive 3D urban simulation and decision intelligence platform exploring divergent futures, infrastructure disruptions, and explainable interventions.",
+    category: "3d-webgpu",
+    industry: "AI & Simulation",
+    stack: "Next.js 16 · React 19 · Three.js · Zustand · Tailwind v4 · GSAP",
+    badges: ["Digital Twin", "Urban Simulation", "Dual Futures", "Causal Analysis"],
+    previewImage: "/templates/parallel/preview-1600.webp",
+    promptMarkdown: PARALLEL_PROMPT,
     model: "Imported template",
   },
 ];

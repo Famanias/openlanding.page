@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
+export type TemplateSlug = "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,61 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  noiseclub: {
+    palette: [
+      "#050505", "#070808", "#090A0A", "#090B0B", "#0A0B0B", "#0B0C0C",
+      "#0B0D0D", "#0C0E0E", "#0D0F0F", "#0E1010", "#111313", "#121414",
+      "#131616", "#141717", "#151818", "#161919", "#171A1A", "#171B1A",
+      "#181B1B", "#181C1C", "#191D1D", "#191E16", "#1A1D1D", "#1A1E1E",
+      "#1B1E1E", "#1B2018", "#1C2020", "#1D2020", "#1D2121", "#1E2121",
+      "#1E2222", "#202424", "#232727", "#252A2A", "#262929", "#262A2A",
+      "#262B2B", "#282E22", "#2A2E2E", "#2B3024", "#2C3030", "#2D3131",
+      "#2E3333", "#2E3434", "#323737", "#3A4040", "#525757", "#8A6619",
+      "#8F6B1A", "#B4B2A8", "#BDBAAD", "#C49A38", "#C79B3B", "#C8C6BC",
+      "#CBFF49", "#D6D3C9", "#E6C365", "#F0CE73", "#F1EEE5", "#FF6748",
+    ],
+    paletteExempt: ["src/app/(noiseclub)/noiseclub/components/interactive/"],
+    mediaExempt: true,
+  },
+  warpwander: {
+    palette: [
+      "#23244F", "#2F644F", "#FFD06A", "#FF907A", "#FFF1D3",
+      "#6DDCC5", "#604A79", "#151633", "#171838", "#191A3B",
+    ],
+    paletteExempt: [
+      "src/app/(warpwander)/warpwander/components/product/",
+      "src/app/(warpwander)/warpwander/product/",
+    ],
+    mediaExempt: true,
+  },
+  ctrlroom: {
+    palette: [
+      "#050608", "#090E1C", "#0A1020", "#0B0D12", "#0B1121", "#0C1326",
+      "#0D0F14", "#0D1529", "#0E1015", "#0F1420", "#111A31", "#131B2E",
+      "#132247", "#15203D", "#152347", "#162242", "#162344", "#171A21",
+      "#172342", "#17254A", "#181B22", "#182547", "#182649", "#192544",
+      "#19284B", "#19284F", "#1A2747", "#1B1F3D", "#1B284A", "#1B2E5E",
+      "#1E222B", "#1E2430", "#1E263B", "#262B36", "#26324D", "#272D3A",
+      "#2858FF", "#2B303C", "#2C3342", "#3A4252", "#3B4454", "#475166",
+      "#495366", "#61728F", "#94A3B8", "#B6D7F7", "#E4FF58", "#E8F0FF",
+      "#FC5FA9",
+    ],
+    mediaExempt: true,
+  },
+  parallel: {
+    palette: [
+      "#0B0C0E", "#101315", "#12141A", "#14171C", "#171A1C", "#181B20",
+      "#24282B", "#2B303A", "#2D8A61", "#38BDF8", "#666D70", "#6E6E6E",
+      "#808080", "#9CA3AF", "#D44D27", "#D94E3E", "#D99B26", "#D9C39E",
+      "#E05A47", "#E85D36", "#E8E8E3", "#EFECE6", "#F4F1EA", "#F6F5F1",
+      "#FF5522", "#FF6B42", "#FFE4B5",
+    ],
+    paletteExempt: [
+      "src/app/(parallel)/parallel/rendering/",
+      "src/app/(parallel)/parallel/world/",
+    ],
+    mediaExempt: true,
+  },
   lumen: {
     palette: [
       "#1E2432", "#252C43", "#5B8DEF", "#5BA59A", "#657187", "#8E7CE8",
