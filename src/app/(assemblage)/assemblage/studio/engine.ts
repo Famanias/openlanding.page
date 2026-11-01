@@ -1,327 +1,239 @@
 import * as THREE from "three";
-import { clamp, MATERIALS, materialPose, stepSpring, type Composition, type LayerId, type Pose, type Spring } from "./physics";
+import { advanceDrift, carouselLayout, clamp, CLOCKWISE_SPEED, MATERIALS, nearestSlide, releaseSlide, stepSpring, wrapIndex, type LayerId, type Spring } from "./physics";
 import { printTexture } from "./textures";
 
-export type StudioSettings = { mode: Composition; spread: number; light: number; revision: number; selected: LayerId | null };
-type Sheet = {
-  mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>;
-  springs: Record<keyof Pose, Spring>;
-  offset: { x: number; y: number };
-  bend: Spring;
-  texture: THREE.CanvasTexture;
-};
+export type StudioSettings = { spread: number; light: number; selected: LayerId };
 
-/** A bounded, on-demand paper simulation. React owns controls; this owns every rendered frame. */
-export function createPaperStudio(root: HTMLElement, host: HTMLElement, initial: StudioSettings, select: (id: LayerId) => void) {
+/** A full-bleed paper carousel. One spring owns its continuous position; React owns selection. */
+export function createPaperStudio(root: HTMLElement, host: HTMLElement, initial: StudioSettings, select: (id: LayerId, automatic?: boolean) => void) {
   const surface = host.parentElement!;
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "low-power" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.setClearColor(0x000000, 0);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = .95;
-  const canvas = renderer.domElement;
-  canvas.setAttribute("aria-hidden", "true");
-  host.appendChild(canvas);
-
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .95;
+  const canvas = renderer.domElement; canvas.setAttribute("aria-hidden", "true"); host.appendChild(canvas);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, 1, .1, 40);
-  camera.position.set(0, 0, 9.4);
-  const assembly = new THREE.Group();
-  scene.add(assembly);
-  const ambient = new THREE.HemisphereLight(0xf6f0e8, 0xe2d8c9, 2.7);
-  scene.add(ambient);
+  camera.position.z = 9.8;
+  const assembly = new THREE.Group(); scene.add(assembly);
+  scene.add(new THREE.HemisphereLight(0xf6f0e8, 0xe2d8c9, 2.7));
   const light = new THREE.DirectionalLight(0xffffff, 3.2);
   light.position.set(-3, 5, 8); light.castShadow = true;
   const shadowSize = matchMedia("(pointer: fine)").matches ? 2048 : 1024;
   light.shadow.mapSize.set(shadowSize, shadowSize);
-  light.shadow.camera.left = -6; light.shadow.camera.right = 6;
-  light.shadow.camera.top = 6; light.shadow.camera.bottom = -6;
-  light.shadow.normalBias = .015; light.shadow.bias = -.0003;
-  light.shadow.radius = 4;
-  scene.add(light);
-  const shadowGeometry = new THREE.PlaneGeometry(18, 18);
-  const shadowMaterial = new THREE.ShadowMaterial({ opacity: .17 });
-  const ground = new THREE.Mesh(shadowGeometry, shadowMaterial);
-  ground.position.z = -.8; ground.receiveShadow = true; scene.add(ground);
-
+  Object.assign(light.shadow.camera, { left: -8, right: 8, top: 6, bottom: -6 });
+  light.shadow.normalBias = .015; light.shadow.bias = -.0003; light.shadow.radius = 4; scene.add(light);
+  const shadowGeometry = new THREE.PlaneGeometry(22, 14);
+  const shadowMaterial = new THREE.ShadowMaterial({ opacity: .12, depthWrite: false });
+  const ground = new THREE.Mesh(shadowGeometry, shadowMaterial); ground.position.z = -.8; ground.receiveShadow = true; scene.add(ground);
   const styles = getComputedStyle(root);
   const bodyFont = styles.getPropertyValue("--font-assemblage-body").trim() || "sans-serif";
   const monoFont = styles.getPropertyValue("--font-assemblage-mono").trim() || "monospace";
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const fine = matchMedia("(pointer: fine)");
   let settings = initial;
-  let visible = false;
-  let disposed = false;
-  let contextAvailable = true;
-  let frame = 0;
-  let lastTime = 0;
-  let scrollOut = 0;
-  let hovered = -1;
-  let pointer: { id: number; index: number; x: number; y: number; startX: number; startY: number; moved: boolean; vx: number; vy: number; time: number } | null = null;
-  let intro = reduced.matches ? 1 : 0;
-  let started = 0;
-  let spinTarget = 0;
-  const orbitX: Spring = { value: 0, velocity: 0 };
-  const orbitY: Spring = { value: 0, velocity: 0 };
-  const cameraDepth: Spring = { value: 9.4, velocity: 0 };
-  let cameraBase = 9.4;
-  let orbitTargetX = 0;
-  let orbitTargetY = 0;
-  const raycaster = new THREE.Raycaster();
-  const mouse = new THREE.Vector2();
-  const dragPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -2);
-  const intersection = new THREE.Vector3();
-  const dragOffset = new THREE.Vector3();
-  const lightPosition = new THREE.Vector3();
-
-  const sheets: Sheet[] = MATERIALS.map((material, index) => {
+  let target = Math.max(0, MATERIALS.findIndex((material) => material.id === initial.selected));
+  const track: Spring = { value: target, velocity: 0 };
+  const drift = { speed: CLOCKWISE_SPEED };
+  let manualUntil = 0;
+  let announced = initial.selected;
+  const tilt: Spring = { value: 0, velocity: 0 };
+  let tiltTarget = 0;
+  let visible = false, disposed = false, contextAvailable = true;
+  let frame = 0, lastTime = 0, started = 0, hovered = -1, departure = 0;
+  let pointer: { id: number; startX: number; startY: number; x: number; time: number; velocity: number; position: number; drift: number; moved: boolean; hit: number } | null = null;
+  const raycaster = new THREE.Raycaster(), mouse = new THREE.Vector2(), corner = new THREE.Vector3();
+  const sheets = MATERIALS.map((material) => {
     const texture = printTexture(material.id, bodyFont, monoFont);
     const geometry = new THREE.PlaneGeometry(material.width, material.height, 22, 26);
-    const surface = new THREE.MeshStandardMaterial({
-      map: texture, side: THREE.DoubleSide, roughness: material.id === "signal" ? .32 : .92,
-      transparent: material.id === "signal", opacity: material.id === "signal" ? .84 : 1,
-      metalness: 0, depthWrite: material.id !== "signal",
-    });
-    const mesh = new THREE.Mesh(geometry, surface);
-    mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.index = index;
-    assembly.add(mesh);
-    const pose = materialPose(index, initial.mode, initial.spread, initial.revision, initial.selected);
-    const springs = Object.fromEntries(Object.entries(pose).map(([key, value]) => [key, { value, velocity: 0 }])) as Record<keyof Pose, Spring>;
-    return { mesh, springs, offset: { x: 0, y: 0 }, bend: { value: .04, velocity: 0 }, texture };
+    const surface = new THREE.MeshStandardMaterial({ map: texture, side: THREE.DoubleSide, roughness: material.id === "signal" ? .32 : .92, transparent: true, opacity: 1, metalness: 0, depthWrite: material.id !== "signal" });
+    const mesh = new THREE.Mesh(geometry, surface); mesh.castShadow = true; mesh.receiveShadow = true; assembly.add(mesh);
+    return { mesh, texture, bend: { value: .035, velocity: 0 } };
   });
-
-  function point(event: PointerEvent) {
-    const bounds = canvas.getBoundingClientRect();
-    mouse.set((event.clientX - bounds.left) / bounds.width * 2 - 1, -(event.clientY - bounds.top) / bounds.height * 2 + 1);
-    raycaster.setFromCamera(mouse, camera);
-    return raycaster.intersectObjects(sheets.map((sheet) => sheet.mesh), false)[0];
-  }
-
-  function insideSurface(event: PointerEvent) {
-    const bounds = surface.getBoundingClientRect();
-    return event.clientX >= bounds.left && event.clientX <= bounds.right && event.clientY >= bounds.top && event.clientY <= bounds.bottom;
-  }
-
-  function isControl(event: PointerEvent) {
-    return event.target instanceof Element && Boolean(event.target.closest("a, button, input, textarea, select, summary"));
-  }
 
   function paint(now: number) {
     frame = 0;
     if (disposed || !contextAvailable || !visible || document.hidden) return;
-    const dt = Math.min((now - lastTime) / 1000 || .016, .05);
-    lastTime = now;
+    const elapsed = (now - lastTime) / 1000 || .016;
+    const dt = Math.min(elapsed, .05); lastTime = now;
     if (!started) started = now;
-    intro = reduced.matches ? 1 : clamp((now - started) / 1550);
-    let moving = intro < 1;
-    stepSpring(cameraDepth, cameraBase + (settings.mode === "unpack" ? 2.2 : 0) + settings.spread * .008, dt, reduced.matches);
-    camera.position.z = cameraDepth.value;
-    moving ||= Math.abs(cameraDepth.velocity) > .001;
+    const intro = reduced.matches ? 1 : clamp((now - started) / 1100);
     const entrance = 1 - Math.pow(1 - intro, 4);
-    stepSpring(orbitX, reduced.matches ? 0 : orbitTargetX, dt, reduced.matches);
-    stepSpring(orbitY, reduced.matches ? 0 : orbitTargetY + spinTarget, dt, reduced.matches);
-    assembly.rotation.set(orbitX.value, orbitY.value, 0);
-    moving ||= Math.abs(orbitX.velocity) + Math.abs(orbitY.velocity) > .001;
+    const distance = advanceDrift(drift, Math.min(elapsed, .25), Boolean(pointer) || now < manualUntil, reduced.matches);
+    if (pointer) {
+      pointer.drift += distance;
+      track.value = pointer.position - (pointer.x - pointer.startX) / Math.max(180, surface.clientWidth * .65) + pointer.drift;
+      target = track.value;
+    } else {
+      target += distance;
+      stepSpring(track, target, dt, reduced.matches);
+    }
+    stepSpring(tilt, reduced.matches ? 0 : tiltTarget, dt, reduced.matches);
+    assembly.rotation.x = tilt.value;
+    let moving = intro < 1 || Boolean(pointer) || Math.abs(track.value - target) > Math.max(.04, Math.abs(drift.speed) * .2) || Math.abs(track.velocity - drift.speed) > .015 || Math.abs(tilt.velocity) > .001;
+    const poses = carouselLayout(track.value, 4.1 + settings.spread / 100 * .7, camera.position.z);
     sheets.forEach((sheet, index) => {
-      const material = MATERIALS[index];
-      const goal = materialPose(index, settings.mode, settings.spread, settings.revision, settings.selected);
-      goal.x += sheet.offset.x;
-      goal.y += sheet.offset.y;
-      if (!reduced.matches) {
-        goal.x += (index % 2 ? 1 : -1) * scrollOut * .8;
-        goal.z += scrollOut * index * .2 + (hovered === index ? .18 : 0);
-        goal.rx += scrollOut * (index % 2 ? .2 : -.2);
-      }
-      if (pointer?.index === index && pointer.moved) goal.z += .65;
-      for (const key of Object.keys(goal) as (keyof Pose)[]) {
-        stepSpring(sheet.springs[key], goal[key], dt, reduced.matches);
-        moving ||= Math.abs(sheet.springs[key].velocity) > .001 || Math.abs(sheet.springs[key].value - goal[key]) > .001;
-      }
-      const s = sheet.springs;
-      const stagger = Math.max(0, (entrance - index * .08) / (1 - index * .08));
-      sheet.mesh.position.set(s.x.value + (1 - stagger) * (index % 2 ? 3 : -3), s.y.value + (1 - stagger) * 2.5, s.z.value);
-      sheet.mesh.rotation.set(s.rx.value + (1 - stagger) * .7, s.ry.value + (1 - stagger) * -.9, s.rz.value + (1 - stagger) * (index % 2 ? -.5 : .5));
-      const bendGoal = reduced.matches ? .04 : pointer?.index === index && pointer.moved ? clamp(pointer.vx * -.02, -.3, .3) : hovered === index ? .12 : .035;
+      const material = MATERIALS[index], pose = poses[index];
+      const distance = Math.abs(pose.x) / 4.1;
+      sheet.mesh.position.set(pose.x, pose.y + (1 - entrance) * 1.5, pose.z - departure * distance * .35);
+      sheet.mesh.rotation.set(pose.rx + (1 - entrance) * .35, pose.ry, pose.rz);
+      sheet.mesh.scale.setScalar(pose.scale * (.92 + entrance * .08));
+      sheet.mesh.material.opacity = pose.opacity * entrance * (material.id === "signal" ? .88 : 1);
+      sheet.mesh.visible = pose.opacity > .001;
       const oldBend = sheet.bend.value;
-      stepSpring(sheet.bend, bendGoal, dt, reduced.matches);
+      stepSpring(sheet.bend, reduced.matches ? .035 : pointer?.moved ? clamp(pointer.velocity * .035, -.18, .18) : hovered === index ? .09 : .035, dt, reduced.matches);
       if (Math.abs(oldBend - sheet.bend.value) > .00005 || intro < 1 || !root.dataset.asSceneReady) {
         const vertices = sheet.mesh.geometry.attributes.position;
         for (let vertex = 0; vertex < vertices.count; vertex++) {
-          const x = vertices.getX(vertex) / material.width * 2;
-          const y = vertices.getY(vertex) / material.height * 2;
+          const x = vertices.getX(vertex) / material.width * 2, y = vertices.getY(vertex) / material.height * 2;
           vertices.setZ(vertex, Math.pow(Math.abs(x), 3) * sheet.bend.value + Math.sin(y * 2 + index) * .025);
         }
         vertices.needsUpdate = true; sheet.mesh.geometry.computeVertexNormals();
       }
       moving ||= Math.abs(sheet.bend.velocity) > .001;
-      // Exposed positions support diagnostics without retaining the WebGL scene on window.
-      root.style.setProperty(`--as-${material.id}-x`, s.x.value.toFixed(3));
-      root.style.setProperty(`--as-${material.id}-y`, s.y.value.toFixed(3));
     });
-    lightPosition.set(Math.cos(settings.light / 100 * Math.PI) * 6 - 2, 5, 8);
-    light.position.copy(lightPosition);
+    assembly.updateMatrixWorld(true); camera.updateMatrixWorld();
+    root.dataset.asMaterialBounds = JSON.stringify(sheets.map((sheet, index) => {
+      const material = MATERIALS[index];
+      const bounds = { left: Infinity, right: -Infinity, top: Infinity, bottom: -Infinity, opacity: sheet.mesh.material.opacity };
+      for (const x of [-1, 1]) for (const y of [-1, 1]) {
+        corner.set(x * material.width / 2, y * material.height / 2, .12).applyMatrix4(sheet.mesh.matrixWorld).project(camera);
+        bounds.left = Math.min(bounds.left, corner.x); bounds.right = Math.max(bounds.right, corner.x);
+        bounds.top = Math.min(bounds.top, corner.y); bounds.bottom = Math.max(bounds.bottom, corner.y);
+      }
+      return bounds;
+    }));
+    root.dataset.asCarouselPosition = track.value.toFixed(4);
+    root.dataset.asCarouselIndex = String(wrapIndex(Math.round(track.value)));
+    root.dataset.asDriftSpeed = drift.speed.toFixed(5);
+    root.dataset.asAutoplay = reduced.matches ? "reduced" : "clockwise";
+    const current = MATERIALS[wrapIndex(Math.round(track.value))].id;
+    // Do not echo automatic selection back into the spring as a new snap target.
+    if (!pointer && Math.abs(track.value - target) < .12 && current !== announced) {
+      announced = current; select(current, true);
+    }
+    light.position.set(Math.cos(settings.light / 100 * Math.PI) * 6 - 2, 5, 8);
     renderer.render(scene, camera);
     root.dataset.asSceneReady = "true";
-    root.dataset.asSceneSettled = String(!moving && !pointer);
-    if (moving || pointer) kick();
+    root.dataset.asSceneSettled = String(!moving);
+    if (moving || !reduced.matches) kick(false);
   }
-
-  function kick() {
+  function kick(markUnsettled = true) {
     if (disposed || !contextAvailable || frame || !visible || document.hidden) return;
-    if (!lastTime || performance.now() - lastTime > 100) lastTime = performance.now() - 16;
+    if (!lastTime || (markUnsettled && performance.now() - lastTime > 100)) lastTime = performance.now() - 16;
+    if (markUnsettled) root.dataset.asSceneSettled = "false";
     frame = requestAnimationFrame(paint);
   }
-
   function measure() {
-    const bounds = surface.getBoundingClientRect();
-    const width = Math.max(1, surface.clientWidth), height = Math.max(1, surface.clientHeight);
-    const bleed = parseFloat(getComputedStyle(host).getPropertyValue("--as-canvas-bleed"));
-    const renderWidth = document.documentElement.clientWidth;
-    const renderHeight = height + bleed * 2;
-    host.style.left = `${-bounds.left}px`;
-    host.style.width = `${renderWidth}px`;
-    camera.aspect = width / height;
-    cameraBase = camera.aspect < .85 ? 11 : 9.4;
-    if (intro === 0) cameraDepth.value = cameraBase;
-    // Expand the frustum beyond the nominal scene without changing the paper's scale or origin.
+    const bounds = surface.getBoundingClientRect(), width = Math.max(1, surface.clientWidth), height = Math.max(1, surface.clientHeight);
+    const bleed = parseFloat(getComputedStyle(host).getPropertyValue("--as-canvas-bleed")) || 224;
+    const renderWidth = document.documentElement.clientWidth, renderHeight = height + bleed * 2;
+    host.style.left = `${-bounds.left}px`; host.style.width = `${renderWidth}px`;
+    camera.position.z = width / height < .85 ? 11 : 9.8;
     camera.setViewOffset(width, height, -bounds.left, -bleed, renderWidth, renderHeight);
     camera.updateProjectionMatrix(); renderer.setSize(renderWidth, renderHeight, false); kick();
   }
-
-  function onDown(event: PointerEvent) {
-    if (event.button !== 0 || pointer || !visible || !contextAvailable || isControl(event)) return;
-    const hit = point(event);
-    if (!hit && !insideSurface(event)) return;
-    if (event.pointerType !== "touch" && hit) event.preventDefault();
-    const index = hit ? Number(hit.object.userData.index) : -1;
-    pointer = { id: event.pointerId, index, x: event.clientX, y: event.clientY, startX: event.clientX, startY: event.clientY, moved: false, vx: 0, vy: 0, time: performance.now() };
-    if (index >= 0 && raycaster.ray.intersectPlane(dragPlane, intersection)) {
-      dragOffset.copy(intersection).sub(sheets[index].mesh.position);
-    }
-    if (event.pointerType !== "touch") canvas.setPointerCapture(event.pointerId);
-    kick();
+  function point(event: PointerEvent) {
+    const bounds = canvas.getBoundingClientRect();
+    mouse.set((event.clientX - bounds.left) / bounds.width * 2 - 1, -(event.clientY - bounds.top) / bounds.height * 2 + 1);
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(sheets.filter(sheet => sheet.mesh.visible && sheet.mesh.material.opacity > .12).map(sheet => sheet.mesh), false);
+    return hits[0] ? sheets.findIndex(sheet => sheet.mesh === hits[0].object) : -1;
   }
-
+  function inside(event: PointerEvent) {
+    const bounds = surface.getBoundingClientRect();
+    return event.clientX >= bounds.left && event.clientX <= bounds.right && event.clientY >= bounds.top && event.clientY <= bounds.bottom;
+  }
+  const control = (event: PointerEvent) => event.target instanceof Element && Boolean(event.target.closest("a, button, input, textarea, select, summary"));
+  function onDown(event: PointerEvent) {
+    if (event.button !== 0 || pointer || !visible || !contextAvailable || root.dataset.asSceneReady !== "true" || control(event)) return;
+    const hit = point(event); if (hit < 0 && !inside(event)) return;
+    if (event.pointerType !== "touch") { event.preventDefault(); canvas.setPointerCapture(event.pointerId); }
+    pointer = { id: event.pointerId, startX: event.clientX, startY: event.clientY, x: event.clientX, time: performance.now(), velocity: 0, position: track.value, drift: 0, moved: false, hit };
+    manualUntil = performance.now() + 5000;
+    track.velocity = 0; kick();
+  }
   function onMove(event: PointerEvent) {
     if (!visible || !contextAvailable) return;
-    const hit = point(event);
     if (!pointer || pointer.id !== event.pointerId) {
-      const next = hit && !isControl(event) ? Number(hit.object.userData.index) : -1;
-      if (next !== hovered) { hovered = next; canvas.style.cursor = next >= 0 ? "grab" : "move"; kick(); }
-      if (fine.matches && !reduced.matches && (next >= 0 || insideSurface(event))) {
-        const bounds = surface.getBoundingClientRect();
-        orbitTargetX = clamp((event.clientY - bounds.top) / bounds.height * 2 - 1, -1, 1) * .1;
-        orbitTargetY = clamp((event.clientX - bounds.left) / bounds.width * 2 - 1, -1, 1) * .12;
-        kick();
-      } else if (orbitTargetX !== 0 || orbitTargetY !== 0) {
-        orbitTargetX = orbitTargetY = 0; kick();
-      }
+      const next = control(event) ? -1 : point(event);
+      if (next !== hovered) { hovered = next; kick(); }
+      const nextTilt = fine.matches && !reduced.matches && inside(event) ? clamp((event.clientY - surface.getBoundingClientRect().top) / surface.clientHeight - .5, -.5, .5) * .1 : 0;
+      if (nextTilt !== tiltTarget) { tiltTarget = nextTilt; kick(); }
       return;
     }
-    if (!pointer.moved && Math.hypot(event.clientX - pointer.startX, event.clientY - pointer.startY) < 6) return;
-    if (!pointer.moved && event.pointerType === "touch" && Math.abs(event.clientY - pointer.startY) > Math.abs(event.clientX - pointer.startX)) return;
-    if (!pointer.moved) {
-      pointer.moved = true; canvas.setPointerCapture(event.pointerId);
-      root.dataset.asDragging = "true"; canvas.style.cursor = "grabbing";
-    }
-    const time = performance.now(), dt = Math.max(8, time - pointer.time);
-    pointer.vx = (event.clientX - pointer.x) / dt;
-    pointer.vy = (event.clientY - pointer.y) / dt;
-    if (pointer.index >= 0) {
-      if (raycaster.ray.intersectPlane(dragPlane, intersection)) {
-        const sheet = sheets[pointer.index];
-        const base = materialPose(pointer.index, settings.mode, settings.spread, settings.revision, settings.selected);
-        sheet.offset.x = clamp(intersection.x - dragOffset.x - base.x, -1.8, 1.8);
-        sheet.offset.y = clamp(intersection.y - dragOffset.y - base.y, -1.6, 1.6);
-      }
-    } else if (!reduced.matches) {
-      spinTarget += (event.clientX - pointer.x) * .004;
-      orbitTargetX = clamp(orbitTargetX + (event.clientY - pointer.y) * .003, -.4, .4);
-    }
-    pointer.x = event.clientX; pointer.y = event.clientY; pointer.time = time; kick();
+    const dx = event.clientX - pointer.startX, dy = event.clientY - pointer.startY;
+    if (!pointer.moved && Math.hypot(dx, dy) < 6) return;
+    if (!pointer.moved && event.pointerType === "touch" && Math.abs(dy) > Math.abs(dx)) return;
+    if (!pointer.moved) { pointer.moved = true; canvas.setPointerCapture(event.pointerId); root.dataset.asDragging = "true"; }
+    const pixels = Math.max(180, surface.clientWidth * .65), now = performance.now();
+    const velocity = -(event.clientX - pointer.x) / Math.max(8, now - pointer.time) * 1000 / pixels;
+    pointer.velocity = pointer.velocity * .3 + velocity * .7;
+    track.value = pointer.position - dx / pixels + pointer.drift; track.velocity = 0;
+    pointer.x = event.clientX; pointer.time = now; kick();
   }
-
+  function goTo(value: number) {
+    target = Math.round(value); announced = MATERIALS[wrapIndex(target)].id;
+    manualUntil = performance.now() + 5000; select(announced); kick();
+  }
   function release(event: PointerEvent) {
     if (!pointer || pointer.id !== event.pointerId) return;
-    if (event.type === "pointerup" && pointer.index >= 0) {
-      if (!pointer.moved) select(MATERIALS[pointer.index].id);
-      else if (!reduced.matches && performance.now() - pointer.time < 90) {
-        const sheet = sheets[pointer.index];
-        sheet.offset.x = clamp(sheet.offset.x + pointer.vx * .2, -1.8, 1.8);
-        sheet.offset.y = clamp(sheet.offset.y - pointer.vy * .2, -1.6, 1.6);
-        sheet.springs.rz.velocity += pointer.vx * .5;
-      }
-    }
-    pointer = null; root.dataset.asDragging = "false"; canvas.style.cursor = "grab";
+    const drag = pointer; pointer = null; root.dataset.asDragging = "false";
+    if (event.type === "pointerup" && drag.moved) {
+      const velocity = !reduced.matches && performance.now() - drag.time < 100 ? drag.velocity : 0;
+      track.velocity = clamp(velocity, -6, 6); goTo(releaseSlide(track.value, velocity));
+    } else if (event.type === "pointerup" && drag.hit >= 0) {
+      goTo(nearestSlide(drag.hit, target));
+    } else { goTo(Math.round(track.value)); }
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-    kick();
   }
-
-  const leave = () => { if (!pointer) { hovered = -1; orbitTargetX = 0; orbitTargetY = 0; kick(); } };
   const scroll = () => {
     if (root.dataset.variant !== "hero") return;
-    const hero = root.closest<HTMLElement>(".as-hero-runway");
-    if (!hero) return;
-    const bounds = hero.getBoundingClientRect();
-    scrollOut = reduced.matches ? 0 : clamp(-bounds.top / Math.max(1, bounds.height - innerHeight));
-    kick();
+    const bounds = root.closest<HTMLElement>(".as-hero-runway")?.getBoundingClientRect();
+    departure = bounds && !reduced.matches ? clamp(-bounds.top / Math.max(1, bounds.height - innerHeight)) : 0; kick();
   };
-  const onVisibility = () => { if (document.hidden) { cancelAnimationFrame(frame); frame = 0; pointer = null; root.dataset.asDragging = "false"; } else kick(); };
-  const onMode = () => { pointer = null; root.dataset.asDragging = "false"; if (reduced.matches) intro = 1; scroll(); kick(); };
-  const contextLost = (event: Event) => { event.preventDefault(); contextAvailable = false; delete root.dataset.asSceneReady; cancelAnimationFrame(frame); frame = 0; };
-  const contextRestored = () => { contextAvailable = true; measure(); kick(); };
-  const observer = new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting;
-    if (visible) kick(); else { cancelAnimationFrame(frame); frame = 0; }
-  }, { rootMargin: "120px" });
+  const visibility = () => {
+    if (document.hidden) { cancelAnimationFrame(frame); frame = 0; pointer = null; root.dataset.asDragging = "false"; }
+    else kick();
+  };
+  const mode = () => { pointer = null; track.velocity = 0; root.dataset.asDragging = "false"; kick(); };
+  const lost = (event: Event) => { event.preventDefault(); contextAvailable = false; delete root.dataset.asSceneReady; cancelAnimationFrame(frame); frame = 0; };
+  const restored = () => { contextAvailable = true; measure(); kick(); };
+  const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) kick(); else { cancelAnimationFrame(frame); frame = 0; } }, { rootMargin: "120px" });
   observer.observe(root);
-  const sizeObserver = new ResizeObserver(measure); sizeObserver.observe(surface);
-  // Transparent overscan must not intercept links or controls under the canvas.
-  // Raycast document events so visible sheets remain draggable outside their original div.
-  document.addEventListener("pointerdown", onDown);
-  document.addEventListener("pointermove", onMove);
-  document.addEventListener("pointerup", release);
-  document.addEventListener("pointercancel", release);
+  const sizes = new ResizeObserver(measure); sizes.observe(surface);
+  document.addEventListener("pointerdown", onDown); document.addEventListener("pointermove", onMove);
+  document.addEventListener("pointerup", release); document.addEventListener("pointercancel", release);
   canvas.addEventListener("lostpointercapture", release);
-  canvas.addEventListener("pointerleave", leave);
-  canvas.addEventListener("webglcontextlost", contextLost);
-  canvas.addEventListener("webglcontextrestored", contextRestored);
-  window.addEventListener("scroll", scroll, { passive: true });
-  window.addEventListener("resize", measure);
-  document.addEventListener("visibilitychange", onVisibility);
-  reduced.addEventListener("change", onMode);
+  canvas.addEventListener("webglcontextlost", lost); canvas.addEventListener("webglcontextrestored", restored);
+  window.addEventListener("resize", measure); window.addEventListener("scroll", scroll, { passive: true });
+  document.addEventListener("visibilitychange", visibility); reduced.addEventListener("change", mode);
   measure(); scroll();
-
   return {
-    nudge(id: LayerId, x: number, y: number) {
-      const sheet = sheets[MATERIALS.findIndex((material) => material.id === id)];
-      sheet.offset.x = clamp(sheet.offset.x + x, -1.8, 1.8);
-      sheet.offset.y = clamp(sheet.offset.y + y, -1.6, 1.6);
-      kick();
+    advance(direction: number) {
+      target = Math.round(performance.now() < manualUntil ? target : track.value) + direction;
+      announced = MATERIALS[wrapIndex(target)].id; manualUntil = performance.now() + 5000; kick();
     },
     update(next: StudioSettings) {
-      if (next.revision !== settings.revision || next.mode !== settings.mode) {
-        sheets.forEach((sheet) => { sheet.offset = { x: 0, y: 0 }; });
-        spinTarget = 0; orbitTargetX = 0;
+      if (next.selected !== announced) {
+        target = nearestSlide(MATERIALS.findIndex(material => material.id === next.selected), track.value);
+        announced = next.selected; manualUntil = performance.now() + 5000;
       }
       settings = next; kick();
     },
     dispose() {
-      disposed = true; cancelAnimationFrame(frame); observer.disconnect(); sizeObserver.disconnect();
-      window.removeEventListener("scroll", scroll); document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("resize", measure);
-      reduced.removeEventListener("change", onMode);
+      disposed = true; cancelAnimationFrame(frame); observer.disconnect(); sizes.disconnect();
       document.removeEventListener("pointerdown", onDown); document.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerup", release); document.removeEventListener("pointercancel", release);
-      canvas.removeEventListener("lostpointercapture", release); canvas.removeEventListener("pointerleave", leave);
-      canvas.removeEventListener("webglcontextlost", contextLost); canvas.removeEventListener("webglcontextrestored", contextRestored);
-      sheets.forEach((sheet) => { sheet.mesh.geometry.dispose(); sheet.mesh.material.dispose(); sheet.texture.dispose(); });
+      canvas.removeEventListener("lostpointercapture", release);
+      canvas.removeEventListener("webglcontextlost", lost); canvas.removeEventListener("webglcontextrestored", restored);
+      window.removeEventListener("resize", measure); window.removeEventListener("scroll", scroll);
+      document.removeEventListener("visibilitychange", visibility); reduced.removeEventListener("change", mode);
+      sheets.forEach(sheet => { sheet.mesh.geometry.dispose(); sheet.mesh.material.dispose(); sheet.texture.dispose(); });
       shadowGeometry.dispose(); shadowMaterial.dispose(); light.shadow.map?.dispose();
-      renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); delete root.dataset.asSceneReady;
-      delete root.dataset.asSceneSettled;
+      renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); delete root.dataset.asSceneReady; delete root.dataset.asSceneSettled;
     },
   };
 }
