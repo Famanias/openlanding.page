@@ -1,5 +1,9 @@
 # CTRL/ROOM — Agent Implementation Prompt
 
+> **Implemented motion update (2026-11-01):** Preserve this template's existing visual identity. Its current motion runtime uses route-scoped CSS and an event-driven `CtrlRoomMotion` controller, Motion for window presence, and native animated dialogs. The boot finishes in 840 ms and hands off to masked text and a key-glyph assembly. Scroll gently settles the hardware and reveals sections once. Fine-pointer magnetic feedback, profile key stagger, active navigation/progress, mobile navigation, modal focus restoration, reduced motion and no-JavaScript content are implemented. See `docs/ctrlroom-motion.md` for the inspected local Lumen behaviors and their mapping. These implementation details supersede suggested animation tooling elsewhere in this brief.
+
+> **Motion audit fixes:** Keyboard anchors transfer focus and focused reveals settle immediately. Modal entrance/exit reverses from the displayed state. Rapid profile changes restart their scans; hardware inspection does not replay boot glyphs. Pointer transforms target their own elements and control transitions enumerate properties. Window maximize/restore uses an interruptible FLIP surface with live reduced-motion handling. Saving shows stable success feedback only after a successful browser-storage write, with inline failure feedback otherwise. Hero control hit areas remain stationary during startup.
+
 > **Project:** Original 2D pixel-desktop / interactive retro operating system landing page  
 > **Fictional brand:** CTRL/ROOM (an independent creative concept)  
 > **Real featured product:** [Elgato Stream Deck MK.2](https://www.elgato.com/us/en/p/stream-deck), by Elgato  

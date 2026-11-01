@@ -4,6 +4,7 @@ import { Maximize2, X, CheckCircle2, Usb, Layers, Sliders } from 'lucide-react';
 import { getActionById } from '../../lib/os/actions';
 import { DeckSlotConfig } from '../../lib/os/types';
 import { PixelActionIcon } from '../icons/PixelSprites';
+import { MotionDialog } from '../motion/MotionDialog';
 
 interface StreamDeckHardwareViewProps {
   slots: DeckSlotConfig[];
@@ -190,7 +191,7 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
                     type="button"
                     onClick={() => onSelectSlot?.(slot.slotIndex)}
                     aria-label={`Hardware preview key ${slot.slotIndex + 1}: ${label}`}
-                    className={`group relative aspect-square rounded-[10px] p-1.5 flex flex-col items-center justify-between overflow-hidden transition-all duration-150 ${
+                    className={`group relative aspect-square rounded-[10px] p-1.5 flex flex-col items-center justify-between overflow-hidden cr-transition-control duration-150 ${
                       isSelected
                         ? 'ring-2 ring-[#E4FF58] bg-gradient-to-b from-[#2858FF] to-[#132247] scale-[0.98]'
                         : 'bg-gradient-to-b from-[#1E263B] to-[#0F1420] hover:from-[#26324D] hover:to-[#131B2E]'
@@ -283,8 +284,8 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
       )}
 
       {/* Main High-Clarity Hardware Stage */}
-      <div className="relative rounded-none bg-gradient-to-b from-[#162242] to-[#0C1326] border-2 border-[#61728F]/60 p-4 sm:p-5">
-        {renderHardwareChassis(false)}
+      <div className="cr-hardware-stage relative rounded-none bg-gradient-to-b from-[#162242] to-[#0C1326] border-2 border-[#61728F]/60 p-4 sm:p-5">
+        <div key={angle} className="cr-hardware-angle">{renderHardwareChassis(false)}</div>
 
         {/* Interactive Feature Callout Pills */}
         {!compact && (
@@ -312,7 +313,7 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
                 </div>
                 <div className="mt-1 text-xs font-semibold text-[#E8F0FF]">{item.title}</div>
                 {activeCallout === idx && (
-                  <p className="mt-1.5 text-[11px] text-[#B6D7F7] leading-relaxed">{item.detail}</p>
+                  <p className="cr-callout-detail mt-1.5 text-[11px] text-[#B6D7F7] leading-relaxed">{item.detail}</p>
                 )}
               </button>
             ))}
@@ -321,13 +322,7 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
       </div>
 
       {/* Hardware Zoom Modal */}
-      {zoomOpen && (
-        <div
-          className="fixed inset-0 z-[120] bg-[#111A31]/90 backdrop-blur-xs flex items-center justify-center p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Stream Deck MK.2 Hardware Inspection Lightbox"
-        >
+      <MotionDialog open={zoomOpen} onClose={() => setZoomOpen(false)} label="Stream Deck MK.2 Hardware Inspection Lightbox" className="cr-hardware-dialog">
           <div className="w-full max-w-3xl bg-[#111A31] border-2 border-[#E4FF58] cr-shadow-ctrl-lg p-6">
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#61728F]/50">
               <div>
@@ -364,8 +359,7 @@ export const StreamDeckHardwareView: React.FC<StreamDeckHardwareViewProps> = ({
               ))}
             </div>
           </div>
-        </div>
-      )}
+      </MotionDialog>
     </div>
   );
 };

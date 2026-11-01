@@ -55,7 +55,7 @@ interface DesktopStageProps {
   ) => void;
   onSwitchProfileRequest: (profileId: ProfileId) => void;
   onResetProfile: (profileId: ProfileId) => void;
-  onSaveDemo: () => void;
+  onSaveDemo: () => boolean;
   onClearLogs: () => void;
   onUpdateNotes: (text: string) => void;
   onToggleAudio: () => void;
@@ -179,7 +179,7 @@ export const DesktopStage: React.FC<DesktopStageProps> = ({
     !actionLibWin.isMinimized;
 
   return (
-    <div className="w-full border-2 border-[#2858FF] bg-[#111A31] cr-shadow-ctrl-lg overflow-hidden">
+    <div data-cr-ambient className="cr-desktop w-full border-2 border-[#2858FF] bg-[#111A31] cr-shadow-ctrl-lg overflow-hidden">
       {/* Top Proprietary CTRL/ROOM OS System Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 px-3 sm:px-4 py-2 bg-[#162242] border-b-2 border-[#2858FF]">
         <div className="flex items-center gap-2.5">
@@ -254,7 +254,7 @@ export const DesktopStage: React.FC<DesktopStageProps> = ({
                   onClick={() => onOpenWindow(app.id)}
                   onDoubleClick={() => onOpenWindow(app.id)}
                   aria-label={`Open ${app.shortTitle} application`}
-                  className={`group w-full p-2 text-left border-2 transition-all flex items-center justify-between gap-1.5 focus-visible:outline-2 focus-visible:outline-[#E4FF58] ${
+                  className={`group w-full p-2 text-left border-2 cr-transition-control flex items-center justify-between gap-1.5 focus-visible:outline-2 focus-visible:outline-[#E4FF58] ${
                     isFocused
                       ? 'bg-[#2858FF] border-[#E4FF58] text-[#E8F0FF] translate-x-0.5'
                       : isOpen
@@ -439,7 +439,8 @@ export const DesktopStage: React.FC<DesktopStageProps> = ({
         </div>
 
         {/* Active Mobile Panel */}
-        <div className="p-3 sm:p-4">{renderAppContent(activeMobileApp)}</div>
+        <div key={activeMobileApp} role="tabpanel" aria-label={APP_CATALOG.find(app => app.id === activeMobileApp)?.title}
+          className="cr-app-panel p-3 sm:p-4">{renderAppContent(activeMobileApp)}</div>
       </div>
     </div>
   );

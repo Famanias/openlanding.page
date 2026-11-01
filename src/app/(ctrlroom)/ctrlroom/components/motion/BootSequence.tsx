@@ -8,26 +8,29 @@ interface BootSequenceProps {
 
 /**
  * Deterministic 4-strip pixel shutter reveal per Section 4 & Section 6:
- * - Settles in ~650ms so it never blocks navigation.
+ * - Finishes all four shutter strips in 840ms without blocking input.
  * - Immediately bypassed when ?autostart=1, session repeat, or prefers-reduced-motion is active.
  */
 export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(true);
   const [step, setStep] = useState(0);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     if (params.get('autostart') === '1') {
+      setVisible(false);
       onComplete?.();
       return;
     }
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setVisible(false);
       onComplete?.();
       return;
     }
     try {
       if (window.sessionStorage.getItem('ctrl_room_booted') === '1') {
+        setVisible(false);
         onComplete?.();
         return;
       }
@@ -35,6 +38,10 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       // Ignore sessionStorage restrictions
     }
     setVisible(true);
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const settle = () => { if (preference.matches) { setVisible(false); onComplete?.(); } };
+    preference.addEventListener('change', settle);
+    return () => preference.removeEventListener('change', settle);
   }, [onComplete]);
 
   useEffect(() => {
@@ -50,7 +57,7 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       }
       setVisible(false);
       onComplete?.();
-    }, 680);
+    }, 840);
 
     return () => {
       window.clearTimeout(t1);
@@ -63,9 +70,8 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
 
   return (
     <div
-      onClick={() => setVisible(false)}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-[90] grid grid-rows-4 overflow-hidden"
+      className="cr-boot pointer-events-none fixed inset-0 z-[90] grid grid-rows-4 overflow-hidden"
     >
       {[0, 1, 2, 3].map((stripIdx) => (
         <div
@@ -87,8 +93,8 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
           {stripIdx === 2 && (
             <div className="w-full max-w-md h-2 bg-[#1A2747] border border-[#2858FF]">
               <div
-                className="h-full bg-[#E4FF58] transition-all duration-200"
-                style={{ width: step >= 1 ? '100%' : '35%' }}
+                className="h-full bg-[#E4FF58] origin-left transition-transform duration-200"
+                style={{ transform: `scaleX(${step >= 1 ? 1 : 0.35})` }}
               />
             </div>
           )}

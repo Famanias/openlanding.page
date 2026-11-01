@@ -1,5 +1,8 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { CR_MOTION } from '../motion/tokens';
+import { useLiveReducedMotion } from '../motion/useLiveReducedMotion';
 import {
   Minus,
   Maximize2,
@@ -47,6 +50,10 @@ export const OSWindow: React.FC<OSWindowProps> = ({
   children,
 }) => {
   const windowRef = useRef<HTMLDivElement | null>(null);
+  const surfaceRef = useRef<HTMLDivElement | null>(null);
+  const flipFrom = useRef<DOMRect | null>(null);
+  const flipAnimation = useRef<Animation | null>(null);
+  const reduceMotion = useLiveReducedMotion();
   const [showKeyboardMove, setShowKeyboardMove] = useState(false);
   const dragStateRef = useRef<{
     dragging: boolean;
@@ -64,9 +71,30 @@ export const OSWindow: React.FC<OSWindowProps> = ({
     rafId: null,
   });
 
-  if (!windowState.isOpen || windowState.isMinimized) {
-    return null;
-  }
+  useEffect(() => () => {
+    if (dragStateRef.current.rafId !== null) cancelAnimationFrame(dragStateRef.current.rafId);
+    flipAnimation.current?.cancel();
+  }, []);
+
+  useLayoutEffect(() => {
+    const surface = surfaceRef.current;
+    const from = flipFrom.current;
+    flipFrom.current = null;
+    flipAnimation.current?.cancel();
+    if (!surface || !from || reduceMotion) return;
+    const to = surface.getBoundingClientRect();
+    if (!to.width || !to.height) return;
+    // Commit geometry once; animate only the visual surface between states.
+    flipAnimation.current = surface.animate([
+      { transform: `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height})` },
+      { transform: 'none' },
+    ], { duration: CR_MOTION.window * 1000, easing: CR_MOTION.cssTravel });
+  }, [windowState.isMaximized, reduceMotion]);
+
+  const toggleMaximize = () => {
+    flipFrom.current = surfaceRef.current?.getBoundingClientRect() ?? null;
+    onToggleMaximize(windowState.id);
+  };
 
   const getStageDimensions = () => {
     const rect = stageRef.current?.getBoundingClientRect();
@@ -80,6 +108,7 @@ export const OSWindow: React.FC<OSWindowProps> = ({
     if ((e.target as HTMLElement).closest('button')) return;
     onFocus(windowState.id);
     if (windowState.isMaximized) return;
+    flipAnimation.current?.cancel();
 
     e.currentTarget.setPointerCapture(e.pointerId);
     dragStateRef.current = {
@@ -116,6 +145,10 @@ export const OSWindow: React.FC<OSWindowProps> = ({
       cancelAnimationFrame(dragStateRef.current.rafId);
       dragStateRef.current.rafId = null;
     }
+    // Flush the final pointer position instead of dropping the last pending frame.
+    const { width, height } = getStageDimensions();
+    onMove(windowState.id, dragStateRef.current.origX + e.clientX - dragStateRef.current.startX,
+      dragStateRef.current.origY + e.clientY - dragStateRef.current.startY, width, height);
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
     } catch {
@@ -143,7 +176,6 @@ export const OSWindow: React.FC<OSWindowProps> = ({
         width: windowState.id === 'deck-lab' ? 560 : 420,
         height: 460,
         zIndex: windowState.zIndex,
-        transform: 'scale(0.96)',
       }
     : {
         left: windowState.position.x,
@@ -156,12 +188,21 @@ export const OSWindow: React.FC<OSWindowProps> = ({
       };
 
   return (
-    <section
+    <AnimatePresence initial={false}>
+    {windowState.isOpen && !windowState.isMinimized && <motion.section
+      key={windowState.id}
       ref={windowRef}
+      data-cr-window={windowState.id}
+      initial={{ opacity: 0, transform: reduceMotion ? 'translateY(0px) scale(1)' : 'translateY(12px) scale(0.97)' }}
+      animate={{ opacity: 1, transform: condensedMode ? 'translateY(0px) scale(0.96)' : 'translateY(0px) scale(1)' }}
+      exit={{ opacity: 0, transform: reduceMotion ? 'translateY(0px) scale(1)' : 'translateY(10px) scale(0.98)', transition: { duration: reduceMotion ? 0 : CR_MOTION.exit } }}
+      transition={{ duration: reduceMotion ? 0 : CR_MOTION.window, ease: [...CR_MOTION.ease] }}
       aria-label={windowState.title}
       onMouseDown={() => onFocus(windowState.id)}
       style={style}
-      className={`absolute flex flex-col bg-[#111A31] transition-shadow duration-150 ${
+      className="absolute"
+    >
+      <div ref={surfaceRef} className={`cr-window-surface flex h-full flex-col bg-[#111A31] ${
         isFocused
           ? 'border-2 border-[#E4FF58] cr-shadow-ctrl-lg'
           : 'border-2 border-[#61728F] cr-shadow-ctrl opacity-95'
@@ -173,7 +214,7 @@ export const OSWindow: React.FC<OSWindowProps> = ({
         onPointerMove={handlePointerMoveTitlebar}
         onPointerUp={handlePointerUpTitlebar}
         onPointerCancel={handlePointerUpTitlebar}
-        className={`flex items-center justify-between gap-2 px-3 py-2 select-none cursor-grab active:cursor-grabbing border-b-2 ${
+        className={`cr-window-titlebar flex items-center justify-between gap-2 px-3 py-2 select-none cursor-grab active:cursor-grabbing border-b-2 ${
           isFocused
             ? 'bg-[#2858FF] text-[#E8F0FF] border-[#E4FF58]'
             : 'bg-[#192544] text-[#B6D7F7] border-[#61728F]'
@@ -276,7 +317,7 @@ export const OSWindow: React.FC<OSWindowProps> = ({
 
           <button
             type="button"
-            onClick={() => onToggleMaximize(windowState.id)}
+            onClick={toggleMaximize}
             aria-label={
               windowState.isMaximized
                 ? `Restore ${windowState.title}`
@@ -308,6 +349,8 @@ export const OSWindow: React.FC<OSWindowProps> = ({
       <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 bg-[#111A31] text-[#E8F0FF]">
         {children}
       </div>
-    </section>
+      </div>
+    </motion.section>}
+    </AnimatePresence>
   );
 };

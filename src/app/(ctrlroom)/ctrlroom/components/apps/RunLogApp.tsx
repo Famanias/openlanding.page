@@ -64,7 +64,7 @@ export const RunLogApp: React.FC<RunLogAppProps> = ({
           {logs.map((entry) => (
             <div
               key={entry.id}
-              className="p-2.5 bg-[#0C1326] border-l-2 border-[#E4FF58] border-y border-r border-[#61728F]/40 text-xs"
+              className="cr-log-entry p-2.5 bg-[#0C1326] border-l-2 border-[#E4FF58] border-y border-r border-[#61728F]/40 text-xs"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
