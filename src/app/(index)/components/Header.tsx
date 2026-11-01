@@ -1,13 +1,39 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { GithubLogo, MagnifyingGlass, X, BracketsAngle } from "@phosphor-icons/react/dist/ssr";
+import { GithubLogo, MagnifyingGlass, X, BracketsAngle, Star } from "@phosphor-icons/react/dist/ssr";
 import { updateGalleryFilters, useGalleryFilters } from "./useGalleryFilters";
 
 export function Header() {
   const { query } = useGalleryFilters();
   const searchRef = useRef<HTMLInputElement>(null);
+  const [stars, setStars] = useState<number | null>(null);
+  const [starsUnavailable, setStarsUnavailable] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    async function loadStars() {
+      try {
+        const response = await fetch("/api/github-stars", { signal: controller.signal });
+        if (!response.ok) throw new Error("Star count unavailable");
+        const data = await response.json();
+        if (!Number.isSafeInteger(data.stars) || data.stars < 0) throw new Error("Invalid star count");
+        if (!controller.signal.aborted) setStars(data.stars);
+      } catch {
+        if (!controller.signal.aborted) setStarsUnavailable(true);
+      }
+    }
+    void loadStars();
+    return () => controller.abort();
+  }, []);
+
+  const starCount = stars === null ? null : new Intl.NumberFormat("en", {
+    notation: "compact", maximumFractionDigits: 1,
+  }).format(stars);
+  const starDescription = stars === null
+    ? (starsUnavailable ? "Star count unavailable" : "Loading star count")
+    : `${stars.toLocaleString("en-US")} ${stars === 1 ? "star" : "stars"}`;
   useEffect(() => {
     const shortcut = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
@@ -61,10 +87,15 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             className="nav-github"
-            aria-label="GitHub repository"
+            aria-label={`GitHub repository, ${starDescription}`}
+            title={starDescription}
           >
             <GithubLogo className="size-4" weight="bold" aria-hidden="true" />
-            <span>GitHub</span>
+            <span className="nav-github-label">GitHub</span>
+            <span className="nav-github-stars" aria-hidden="true" aria-busy={stars === null && !starsUnavailable}>
+              <Star size={12} weight="fill" />
+              <span>{starCount ?? (starsUnavailable ? "—" : "…")}</span>
+            </span>
           </a>
         </nav>
       </div>
