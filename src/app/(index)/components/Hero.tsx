@@ -19,7 +19,7 @@ export function Hero() {
         </p>
 
         <div className="hero-actions">
-          <a href="#gallery" className="primary-action"><ActionLabel>Explore the templates</ActionLabel><ArrowDown size={18} aria-hidden="true" /></a>
+          <a href="#contribute" className="primary-action"><ActionLabel>Request a template</ActionLabel><ArrowDown size={18} aria-hidden="true" /></a>
           <a
             href="https://github.com/Famanias/openlanding.page"
             target="_blank"

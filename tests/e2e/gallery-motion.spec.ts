@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("gallery controls keep one accessible label and show copy success", async ({ page }) => {
   await page.goto("/");
-  const explore = page.getByRole("link", { name: "Explore the templates", exact: true });
+  const explore = page.locator(".hero-actions").getByRole("link", { name: "Request a template", exact: true });
   await expect(explore).toBeVisible();
   await explore.hover();
   await expect.poll(() => explore.locator(".action-label-track").evaluate(el => getComputedStyle(el).transform)).not.toBe("none");
@@ -60,7 +60,7 @@ test("pending copy and failure recover without a stuck success state", async ({ 
 test("reduced motion keeps controls stationary and feedback readable", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  const explore = page.getByRole("link", { name: "Explore the templates", exact: true });
+  const explore = page.locator(".hero-actions").getByRole("link", { name: "Request a template", exact: true });
   await explore.hover();
   await expect(explore).toHaveCSS("transform", "none");
   await expect(explore.locator(".action-label-track")).toHaveCSS("transform", "none");

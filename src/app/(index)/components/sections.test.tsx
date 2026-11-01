@@ -22,6 +22,8 @@ describe("landing page sections", () => {
     expect(html).toContain("Not Just A Hero Section. One Click Download, 100% Free, No Paywalls.");
     expect(html).toContain("MIT License");
     expect(html).toContain("Give a star on GitHub");
+    expect(html).toContain('href="#contribute"');
+    expect(html).toContain("Request a template");
     expect(html).toContain('href="https://github.com/Famanias/openlanding.page"');
     expect(html).not.toContain("Issue #01");
     expect(html).not.toContain("3 Bespoke Drops");
@@ -29,13 +31,17 @@ describe("landing page sections", () => {
     expect(html).toContain("text-center");
   });
 
-  it("Contribute renders open-source contribution CTA with GitHub redirect", () => {
+  it("renders the template request offer and email form", () => {
     const html = renderToStaticMarkup(<Contribute />);
-    expect(html).toContain("Want to Contribute?");
-    expect(html).toContain("OpenLanding.page is open-sourced, share your landing page for everyone to use.");
+    expect(html).toContain("Your site, templated.");
+    expect(html).toContain("official OpenLanding.page gallery template, open source under the MIT license");
+    expect(html).toContain("Paid private commission");
+    expect(html).toContain("You own the code, and your design stays out of the gallery.");
+    expect(html).toContain('name="project_type"');
     expect(html).toContain('id="contribute"');
-    expect(html).toContain('href="https://github.com/Famanias/openlanding.page"');
-    expect(html).toContain("Contribute on GitHub");
+    expect(html).toContain('action="https://formsubmit.co/famianas.dev@gmail.com"');
+    expect(html).toContain('name="email"');
+    expect(html).toContain("Send request");
   });
 
   it("Footer renders minimal copyright notice with MIT license and craft attribution", () => {
