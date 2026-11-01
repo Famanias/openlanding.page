@@ -166,7 +166,7 @@ body:has(.pel-menu[open], .pel-legal[open]) { overflow: hidden; }
 .pel-hero-intro { padding-top: 44px; padding-bottom: 40px; text-align: center; }
 .pel-load-label { margin-bottom: 24px !important; color: var(--pel-aubergine); }
 .pel-hero h1 { font-size: clamp(48px, 7.1vw, 104px); line-height: 1.06; letter-spacing: -.075em; font-weight: 500; }
-.pel-line { display: block; overflow: clip; padding-bottom: .06em; }
+.pel-line { display: block; overflow: clip; overflow-clip-margin: .25em; padding-bottom: .25em; margin-bottom: -.25em; }
 .pel-line>span { display: block; }
 .pel-hero h1 em { font-style: normal; color: var(--pel-aubergine); }
 .pel-hero-support { display: flex; justify-content: center; align-items: center; gap: 40px; margin-top: 28px; }
@@ -408,7 +408,7 @@ body:has(.pel-menu[open], .pel-legal[open]) { overflow: hidden; }
   .pel-journal-image:hover .pel-journal-arrow { transform: rotate(45deg); }
 }
 @keyframes pel-settle { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes pel-headline { from { transform: translateY(110%); } to { transform: translateY(0); } }
+@keyframes pel-headline { from { transform: translateY(125%); } to { transform: translateY(0); } }
 @keyframes pel-panorama { from { clip-path: inset(10% 4% 0 round 24px); opacity: .4; } to { clip-path: inset(0 round 12px); opacity: 1; } }
 @keyframes pel-breathe { from { transform: translateY(0); } to { transform: translateY(-8px); } }
 @keyframes pel-shake { 25% { transform: translateX(-4px); } 50% { transform: translateX(4px); } 75% { transform: translateX(-2px); } }
