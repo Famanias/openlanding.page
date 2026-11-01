@@ -10,7 +10,7 @@ test("the work index filters real projects and keeps each empty image slot at 16
   await page.getByRole("button", { name: "Product", exact: true }).click();
   await expect(page.locator(".lx-project")).toHaveCount(2);
   await expect(page.locator(".lx-index-count")).toHaveText("SHOWING 02 / 06");
-  await expect(page.getByRole("link", { name: "Explore the Avel landing page" })).toHaveAttribute("href", "/avel");
+  await expect(page.locator("#lx-project-grid").getByRole("link", { name: "Explore the Avel landing page" })).toHaveAttribute("href", "/avel");
   await page.getByRole("button", { name: "All work" }).click();
   await expect(page.locator(".lx-project")).toHaveCount(6);
 });
@@ -21,6 +21,22 @@ test("the starter brief can be copied", async ({ page, context }) => {
   await page.getByRole("button", { name: /Copy brief/ }).click();
   await expect(page.getByRole("status")).toContainText("Copied");
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain("Create a landing page template");
+});
+
+test("scroll reveals and reduced motion keep every section visible", async ({ page }) => {
+  await page.goto("/landingx");
+  const processStep = page.locator(".lx-steps article").first();
+  await processStep.scrollIntoViewIfNeeded();
+  await expect(processStep).toHaveAttribute("data-in", "true");
+  expect(Number(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--lx-progress")))).toBeGreaterThan(0);
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/landingx");
+  const reveals = page.locator("[data-reveal]");
+  const count = await reveals.count();
+  for (let i = 0; i < count; i++) {
+    await expect(reveals.nth(i)).toBeVisible();
+  }
 });
 
 test("phone and no-JavaScript views keep the complete index visible", async ({ browser }) => {
