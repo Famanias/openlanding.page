@@ -81,7 +81,7 @@ describe("gallery template data", () => {
 
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
-    const argonSlugs = ["loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba"];
+    const argonSlugs = ["loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (t.slug === "pello" || t.slug === "avel" || t.slug === "landingx") {
         expect(t.model).toBe("GPT-6.1 Terra Max");
@@ -95,7 +95,7 @@ describe("gallery template data", () => {
         expect(t.model).toBe("GPT-6 Astra Max");
       } else if (t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
-      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "halodesk" || t.slug === "riff" || t.slug === "inesvale" || t.slug === "nicopark" || t.slug === "poppypatch" || t.slug === "razorline" || t.slug === "nexus" || t.slug === "starriot") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
