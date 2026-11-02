@@ -103,7 +103,7 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-4 text-xs text-[#F7ECD6]/70">
             <BotanicalSprig className="w-6 h-8" color="#F7ECD6" />
-            <span>© {new Date().getFullYear()} Poppy Patch Studio. All rights reserved.</span>
+            <span>© 2026 Poppy Patch Studio. All rights reserved.</span>
           </div>
         </div>
       </div>

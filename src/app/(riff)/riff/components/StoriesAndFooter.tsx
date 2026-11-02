@@ -351,7 +351,7 @@ export function StoriesAndFooter({
 
           <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[11px] text-[#777575]">
             <p>
-              &copy; {new Date().getFullYear()} RIFF PRESSING CO. · 18+ MUSIC-FIRST DATING CONCEPT DEMO · ALL ARTISTS &amp; SCENARIOS ILLUSTRATIVE.
+              &copy; 2026 RIFF PRESSING CO. · 18+ MUSIC-FIRST DATING CONCEPT DEMO · ALL ARTISTS &amp; SCENARIOS ILLUSTRATIVE.
             </p>
             <p className="text-[#AAA8A6]">
               FALL FOR THE SOUND BEFORE THE SELFIE.

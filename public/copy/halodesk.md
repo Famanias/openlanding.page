@@ -3299,7 +3299,7 @@ export const PricingPreviewSection: React.FC<PricingPreviewSectionProps> = ({
         </div>
 
         <div className="mt-10 pt-6 border-t border-[#3A4453]/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12.5px] text-[#66717F]">
-          <p>© {new Date().getFullYear()} Halo Desk. Interactive concept & functional web showcase.</p>
+          <p>© 2026 Halo Desk. Interactive concept & functional web showcase.</p>
           <p>Designed with warm ivory space & calm motion.</p>
         </div>
       </footer>

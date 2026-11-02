@@ -55,7 +55,7 @@ export const InquireSection: React.FC<InquireSectionProps> = ({ onNavigate }) =>
     window.location.href = mailto;
   };
 
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2026;
 
   return (
     <footer

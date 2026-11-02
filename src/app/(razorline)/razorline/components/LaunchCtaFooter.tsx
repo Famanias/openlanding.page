@@ -259,7 +259,7 @@ export const LaunchCtaFooter: React.FC<LaunchCtaFooterProps> = ({ onExploreColle
           </div>
 
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#777A7A] font-mono-tech">
-            <span>© {new Date().getFullYear()} RAZORLINE FOOTWEAR LAB. FICTIONAL DTC CONCEPT.</span>
+            <span>© 2026 RAZORLINE FOOTWEAR LAB. FICTIONAL DTC CONCEPT.</span>
             <span>RL-01 SERIES · ALL SPECIFICATIONS ARE DESIGN FICTION</span>
           </div>
         </div>

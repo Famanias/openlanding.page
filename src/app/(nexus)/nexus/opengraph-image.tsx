@@ -53,6 +53,7 @@ export default function OpenGraphImage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div
             style={{
+              display: "flex",
               fontSize: 72,
               lineHeight: 1.08,
               fontWeight: 800,
@@ -60,10 +61,12 @@ export default function OpenGraphImage() {
               letterSpacing: "-0.03em",
             }}
           >
-            Marketing that feels <span style={{ color: "#A45337", fontStyle: "italic" }}>human.</span>
+            <span>Marketing that feels</span>
+            <span style={{ color: "#A45337", fontStyle: "italic", marginLeft: 16 }}>human.</span>
           </div>
           <div
             style={{
+              display: "flex",
               fontSize: 26,
               color: "#5C5044",
               maxWidth: 900,
