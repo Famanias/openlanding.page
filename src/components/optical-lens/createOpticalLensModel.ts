@@ -28,7 +28,8 @@ function annulus(inner: number, outer: number, depth: number, segments: number, 
 }
 
 function flutedTorus(radius: number, tube: number, depth: number, flutes: number, amplitude: number, twist: number, segments: number) {
-  const geo = new THREE.TorusGeometry(radius, tube, 32, segments * 2);
+  const radialSegments = 48, tubularSegments = segments * 2;
+  const geo = new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments);
   const p = geo.getAttribute("position"), uv = geo.getAttribute("uv");
   for (let i = 0; i < p.count; i++) {
     const u = uv.getX(i) * Math.PI * 2, v = uv.getY(i) * Math.PI * 2;
@@ -37,6 +38,22 @@ function flutedTorus(radius: number, tube: number, depth: number, flutes: number
     p.setXYZ(i, r * Math.cos(u), r * Math.sin(u), (depth + relief) * Math.sin(v));
   }
   geo.computeVertexNormals();
+  const n = geo.getAttribute("normal");
+  const stride = tubularSegments + 1;
+  const v0 = new THREE.Vector3(), v1 = new THREE.Vector3();
+  for (let r = 0; r <= radialSegments; r++) {
+    const i0 = r * stride, i1 = i0 + tubularSegments;
+    v0.fromBufferAttribute(n, i0).add(v1.fromBufferAttribute(n, i1)).normalize();
+    n.setXYZ(i0, v0.x, v0.y, v0.z);
+    n.setXYZ(i1, v0.x, v0.y, v0.z);
+  }
+  for (let c = 0; c <= tubularSegments; c++) {
+    const i0 = c, i1 = radialSegments * stride + c;
+    v0.fromBufferAttribute(n, i0).add(v1.fromBufferAttribute(n, i1)).normalize();
+    n.setXYZ(i0, v0.x, v0.y, v0.z);
+    n.setXYZ(i1, v0.x, v0.y, v0.z);
+  }
+  n.needsUpdate = true;
   return geo;
 }
 
