@@ -143,7 +143,7 @@ test("context loss displays the fallback and restoration resumes the same scene"
   await page.goto("/mercer");
   const stage = page.locator(".jm-stage");
   await expect(stage).toHaveAttribute("data-state", "running");
-  const extension = await page.locator("canvas").evaluateHandle((element) => (element as HTMLCanvasElement).getContext("webgl2")?.getExtension("WEBGL_lose_context"));
+  const extension = await page.locator("canvas[data-mercer-renderer]").evaluateHandle((element) => (element as HTMLCanvasElement).getContext("webgl2")?.getExtension("WEBGL_lose_context"));
   await extension.evaluate((extension) => {
     if (!extension) throw new Error("Context loss extension unavailable");
     extension.loseContext();
@@ -152,21 +152,21 @@ test("context loss displays the fallback and restoration resumes the same scene"
   await expect(page.locator(".jm-knot-fallback")).toBeVisible();
   await extension.evaluate((extension) => extension?.restoreContext());
   await expect(stage).toHaveAttribute("data-state", "running");
-  await expect(page.locator("canvas")).toHaveCount(1);
+  await expect(page.locator("canvas[data-mercer-renderer]")).toHaveCount(1);
 });
 
 test("reduced motion never mounts WebGL and a preference change cleans up the renderer", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/mercer");
   await expect(page.locator(".jm-stage")).toHaveAttribute("data-state", "static");
-  await expect(page.locator("canvas")).toHaveCount(0);
+  await expect(page.locator("canvas[data-mercer-renderer]")).toHaveCount(0);
   await expect(page.locator(".jm-knot-fallback")).toBeVisible();
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(page.locator(".jm-stage")).toHaveAttribute("data-state", "running");
-  await expect(page.locator("canvas")).toHaveCount(1);
-  const removedCanvas = await page.locator("canvas").elementHandle();
+  await expect(page.locator("canvas[data-mercer-renderer]")).toHaveCount(1);
+  const removedCanvas = await page.locator("canvas[data-mercer-renderer]").elementHandle();
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator("canvas")).toHaveCount(0);
+  await expect(page.locator("canvas[data-mercer-renderer]")).toHaveCount(0);
   await expect(page.locator(".jm-stage")).toHaveAttribute("data-state", "static");
   await expect.poll(() => removedCanvas?.evaluate((element) => (element as HTMLCanvasElement).getContext("webgl2")?.isContextLost())).toBe(true);
 });
@@ -201,7 +201,7 @@ test("a blocked WebGL context leaves the complete static design visible", async 
   await page.goto("/mercer");
   await expect(page.locator(".jm-stage")).toHaveAttribute("data-state", "unavailable");
   await expect(page.locator(".jm-knot-fallback")).toBeVisible();
-  await expect(page.locator("canvas")).toHaveCount(0);
+  await expect(page.locator("canvas[data-mercer-renderer]")).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
 
@@ -211,6 +211,6 @@ test("without JavaScript the headline and procedural drawing are visible", async
   await page.goto("/mercer");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator(".jm-knot-fallback")).toBeVisible();
-  await expect(page.locator("canvas")).toHaveCount(0);
+  await expect(page.locator("canvas[data-mercer-renderer]")).toHaveCount(0);
   await context.close();
 });

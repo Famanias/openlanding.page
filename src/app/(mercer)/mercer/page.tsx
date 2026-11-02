@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import MercerApp from "./MercerApp";
+import MercerContinuation from "./continuation/MercerContinuation";
+import "./continuation/continuation.css";
 
 export const metadata: Metadata = {
   title: "Jules Mercer // Creative Developer Portfolio",
@@ -8,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function MercerPage() {
-  return <MercerApp />;
+  return <><MercerApp /><MercerContinuation /></>;
 }
