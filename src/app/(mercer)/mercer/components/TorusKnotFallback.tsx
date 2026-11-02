@@ -42,7 +42,8 @@ export default function TorusKnotFallback() {
         {Array.from({ length: 140 }, (_, index) => {
           const angle = index * 2.399963;
           const radius = 255 + Math.sin(angle * 3) * 24;
-          return <circle key={index} cx={320 + Math.cos(angle) * radius} cy={320 + Math.sin(angle) * radius} r={index % 7 === 0 ? 1.2 : 0.6} />;
+          // Keep SVG attributes identical across Node and browser Math implementations.
+          return <circle key={index} cx={(320 + Math.cos(angle) * radius).toFixed(3)} cy={(320 + Math.sin(angle) * radius).toFixed(3)} r={index % 7 === 0 ? 1.2 : 0.6} />;
         })}
       </g>
     </svg>
