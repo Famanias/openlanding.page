@@ -1715,7 +1715,9 @@ export function Picture({
       transition: transform 0.78s var(--ease-out-expo), opacity 0.65s ease;
     }
 
-    .js-anim-ready [data-reveal].is-inview {
+    .js-anim-ready [data-reveal].is-inview,
+    .js-anim-ready [data-reveal][data-inview="true"],
+    .js-anim-ready [data-inview="true"] {
       opacity: 1;
       transform: translateY(0) rotate(0deg) scale(1);
     }
@@ -1962,15 +1964,20 @@ export function NexusApp() {
     // IntersectionObserver for [data-reveal]
     const revealNodes = document.querySelectorAll("[data-reveal]");
     let observer: IntersectionObserver | undefined;
+    let mutationObserver: MutationObserver | undefined;
 
     if (!("IntersectionObserver" in window) || prefersReducedMotion) {
-      revealNodes.forEach((node) => node.classList.add("is-inview"));
+      revealNodes.forEach((node) => {
+        node.classList.add("is-inview");
+        node.setAttribute("data-inview", "true");
+      });
     } else {
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("is-inview");
+              (entry.target as HTMLElement).setAttribute("data-inview", "true");
               obs.unobserve(entry.target);
             }
           });
@@ -1980,6 +1987,28 @@ export function NexusApp() {
 
       revealNodes.forEach((node) => obs.observe(node));
       observer = obs;
+
+      // Preserve is-inview class if React re-renders any component containing [data-reveal]
+      if (typeof MutationObserver !== "undefined") {
+        const mo = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            if (m.type === "attributes" && m.attributeName === "class") {
+              const target = m.target as HTMLElement;
+              if (
+                target.getAttribute("data-inview") === "true" &&
+                !target.classList.contains("is-inview")
+              ) {
+                target.classList.add("is-inview");
+              }
+            }
+          }
+        });
+
+        revealNodes.forEach((node) => {
+          mo.observe(node, { attributes: true, attributeFilter: ["class"] });
+        });
+        mutationObserver = mo;
+      }
     }
 
     // Parallax on scroll for [data-parallax]
@@ -2054,6 +2083,7 @@ export function NexusApp() {
     return () => {
       if (timer) clearTimeout(timer);
       observer?.disconnect();
+      mutationObserver?.disconnect();
       window.removeEventListener("scroll", handleScroll);
       cleanupFns.forEach((fn) => fn());
       document.documentElement.classList.remove("js-anim-ready");
@@ -3204,8 +3234,7 @@ export function Manifesto() {
     <file path="src/app/(nexus)/nexus/components/Process.tsx">
 <![CDATA["use client";
 
-import { useEffect, useRef, useState } from "react";
-import { computeProcessMilestoneState } from "../model/agencyLogic";
+import { useEffect, useRef } from "react";
 
 interface Chapter {
   index: number;
@@ -3252,41 +3281,68 @@ const CHAPTERS: Chapter[] = [
 ];
 
 export function Process() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [reachedChapters, setReachedChapters] = useState<boolean[]>([true, false, false, false]);
-  const [dashOffset, setDashOffset] = useState(600);
-
   const timelineRef = useRef<HTMLDivElement>(null);
+  const vinePathRef = useRef<SVGPathElement>(null);
   const chapterRefs = useRef<(HTMLElement | null)[]>([]);
+  const pillRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!timelineRef.current) return;
-      const rect = timelineRef.current.getBoundingClientRect();
+    let ticking = false;
+
+    const updateOnScroll = () => {
+      const timeline = timelineRef.current;
+      const vinePath = vinePathRef.current;
+      if (!timeline || !vinePath) return;
+
+      const rect = timeline.getBoundingClientRect();
       const vh = window.innerHeight || 800;
       const rawProgress = (vh * 0.68 - rect.top) / Math.max(1, rect.height);
+      const clamped = Math.max(0.08, Math.min(1, rawProgress));
+      const dashOffset = Math.round(800 * (1 - clamped));
+      vinePath.style.strokeDashoffset = String(dashOffset);
 
-      const state = computeProcessMilestoneState(rawProgress, 4);
-      setActiveIdx(state.activeChapterIndex);
-      setReachedChapters(state.reachedChapters);
-      setDashOffset(Math.round(800 * (1 - state.clampedProgress)));
+      const thresholds = [0.08, 0.36, 0.64, 0.88];
+      let activeIdx = 0;
+      for (let c = 0; c < chapterRefs.current.length; c++) {
+        const card = chapterRefs.current[c];
+        if (!card) continue;
+        const reached = clamped >= thresholds[c];
+        card.classList.toggle("is-reached", reached);
+        if (reached) activeIdx = c;
+      }
+      for (let p = 0; p < pillRefs.current.length; p++) {
+        const pill = pillRefs.current[p];
+        if (!pill) continue;
+        pill.classList.toggle("is-active", p === activeIdx);
+      }
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateOnScroll);
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    updateOnScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
-  const jumpToChapter = (idx: number) => {
-    setActiveIdx(idx);
-    const updated = CHAPTERS.map((_, i) => i <= idx);
-    setReachedChapters(updated);
-    const manualProgress = [0.2, 0.48, 0.75, 1.0][idx] ?? 0.5;
-    setDashOffset(Math.round(800 * (1 - manualProgress)));
-
-    const targetEl = chapterRefs.current[idx];
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
+  const jumpToChapter = (targetIdx: number) => {
+    for (let p = 0; p < pillRefs.current.length; p++) {
+      const pill = pillRefs.current[p];
+      if (pill) {
+        pill.classList.toggle("is-active", p === targetIdx);
+      }
+    }
+    const targetCard = chapterRefs.current[targetIdx];
+    if (targetCard) {
+      targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   };
 
@@ -3312,8 +3368,11 @@ export function Process() {
               {CHAPTERS.map((c, i) => (
                 <button
                   key={c.pillText}
+                  ref={(el) => {
+                    pillRefs.current[i] = el;
+                  }}
                   type="button"
-                  className={`nx-process-pill ${activeIdx === i ? "is-active" : ""}`}
+                  className={`nx-process-pill ${i === 0 ? "is-active" : ""}`}
                   data-chapter-target={i}
                   onClick={() => jumpToChapter(i)}
                 >
@@ -3336,41 +3395,39 @@ export function Process() {
                 />
                 <path
                   id="growing-vine-path"
+                  ref={vinePathRef}
                   d="M22 8 C34 140, 10 260, 22 380 C34 500, 10 620, 22 752"
                   stroke="var(--sage)"
                   strokeWidth="4"
                   strokeLinecap="round"
                   style={{
                     strokeDasharray: 800,
-                    strokeDashoffset: dashOffset,
+                    strokeDashoffset: 600,
                     transition: "stroke-dashoffset 0.15s linear",
                   }}
                 />
               </svg>
             </div>
 
-            {CHAPTERS.map((c, i) => {
-              const reached = reachedChapters[i];
-              return (
-                <article
-                  key={c.label}
-                  ref={(el) => {
-                    chapterRefs.current[i] = el;
-                  }}
-                  className={`nx-chapter-card ${reached ? "is-reached" : ""}`}
-                  data-chapter-index={i}
-                  data-reveal
-                >
-                  <div className="nx-chapter-marker" aria-hidden="true">
-                    {i + 1}
-                  </div>
-                  <span className="nx-chapter-step">{c.label}</span>
-                  <h3 className="nx-chapter-title">{c.title}</h3>
-                  <p className="nx-chapter-body">{c.body}</p>
-                  <div className="nx-chapter-artifact">{c.artifact}</div>
-                </article>
-              );
-            })}
+            {CHAPTERS.map((c, i) => (
+              <article
+                key={c.label}
+                ref={(el) => {
+                  chapterRefs.current[i] = el;
+                }}
+                className={`nx-chapter-card ${i === 0 ? "is-reached" : ""}`}
+                data-chapter-index={i}
+                data-reveal
+              >
+                <div className="nx-chapter-marker" aria-hidden="true">
+                  {i + 1}
+                </div>
+                <span className="nx-chapter-step">{c.label}</span>
+                <h3 className="nx-chapter-title">{c.title}</h3>
+                <p className="nx-chapter-body">{c.body}</p>
+                <div className="nx-chapter-artifact">{c.artifact}</div>
+              </article>
+            ))}
           </div>
         </div>
       </div>
@@ -3484,8 +3541,6 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
     <file path="src/app/(nexus)/nexus/components/Services.tsx">
 <![CDATA["use client";
 
-import { useState } from "react";
-
 interface ServiceItem {
   num: string;
   title: string;
@@ -3595,13 +3650,17 @@ const SERVICES: ServiceItem[] = [
 ];
 
 export function Services() {
-  const [expandedMap, setExpandedMap] = useState<Record<number, boolean>>({});
-
-  const toggleExpanded = (index: number) => {
-    setExpandedMap((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+  const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const btn = e.currentTarget;
+    const card = btn.closest(".nx-service-card");
+    if (!card) return;
+    const expanded = card.classList.toggle("is-expanded");
+    btn.setAttribute("aria-expanded", expanded ? "true" : "false");
+    const spans = btn.querySelectorAll("span");
+    if (spans.length >= 2) {
+      spans[0].textContent = expanded ? "Hide craft notes" : "Inspect craft notes";
+      spans[1].textContent = expanded ? "−" : "+";
+    }
   };
 
   return (
@@ -3621,39 +3680,36 @@ export function Services() {
         </div>
 
         <div className="nx-services-grid">
-          {SERVICES.map((s, idx) => {
-            const isExpanded = !!expandedMap[idx];
-            return (
-              <article
-                key={s.num}
-                className={`nx-service-card ${isExpanded ? "is-expanded" : ""}`}
-                data-reveal
-                data-tilt
-              >
-                <div>
-                  <div className="nx-service-top">
-                    <span className="nx-service-num">{s.num}</span>
-                    {s.motif}
-                  </div>
-                  <h3 className="nx-service-title">{s.title}</h3>
-                  <p className="nx-service-desc">{s.desc}</p>
+          {SERVICES.map((s) => (
+            <article
+              key={s.num}
+              className="nx-service-card"
+              data-reveal
+              data-tilt
+            >
+              <div>
+                <div className="nx-service-top">
+                  <span className="nx-service-num">{s.num}</span>
+                  {s.motif}
                 </div>
-                <div>
-                  <div className="nx-service-meta">{s.meta}</div>
-                  <button
-                    type="button"
-                    className="nx-service-toggle"
-                    aria-expanded={isExpanded}
-                    onClick={() => toggleExpanded(idx)}
-                  >
-                    <span>{isExpanded ? "Hide craft notes" : "Inspect craft notes"}</span>
-                    <span aria-hidden="true">{isExpanded ? "−" : "+"}</span>
-                  </button>
-                  <div className="nx-service-drawer">{s.drawer}</div>
-                </div>
-              </article>
-            );
-          })}
+                <h3 className="nx-service-title">{s.title}</h3>
+                <p className="nx-service-desc">{s.desc}</p>
+              </div>
+              <div>
+                <div className="nx-service-meta">{s.meta}</div>
+                <button
+                  type="button"
+                  className="nx-service-toggle"
+                  aria-expanded="false"
+                  onClick={handleToggle}
+                >
+                  <span>Inspect craft notes</span>
+                  <span aria-hidden="true">+</span>
+                </button>
+                <div className="nx-service-drawer">{s.drawer}</div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

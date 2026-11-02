@@ -36,15 +36,20 @@ export function NexusApp() {
     // IntersectionObserver for [data-reveal]
     const revealNodes = document.querySelectorAll("[data-reveal]");
     let observer: IntersectionObserver | undefined;
+    let mutationObserver: MutationObserver | undefined;
 
     if (!("IntersectionObserver" in window) || prefersReducedMotion) {
-      revealNodes.forEach((node) => node.classList.add("is-inview"));
+      revealNodes.forEach((node) => {
+        node.classList.add("is-inview");
+        node.setAttribute("data-inview", "true");
+      });
     } else {
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("is-inview");
+              (entry.target as HTMLElement).setAttribute("data-inview", "true");
               obs.unobserve(entry.target);
             }
           });
@@ -54,6 +59,28 @@ export function NexusApp() {
 
       revealNodes.forEach((node) => obs.observe(node));
       observer = obs;
+
+      // Preserve is-inview class if React re-renders any component containing [data-reveal]
+      if (typeof MutationObserver !== "undefined") {
+        const mo = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            if (m.type === "attributes" && m.attributeName === "class") {
+              const target = m.target as HTMLElement;
+              if (
+                target.getAttribute("data-inview") === "true" &&
+                !target.classList.contains("is-inview")
+              ) {
+                target.classList.add("is-inview");
+              }
+            }
+          }
+        });
+
+        revealNodes.forEach((node) => {
+          mo.observe(node, { attributes: true, attributeFilter: ["class"] });
+        });
+        mutationObserver = mo;
+      }
     }
 
     // Parallax on scroll for [data-parallax]
@@ -128,6 +155,7 @@ export function NexusApp() {
     return () => {
       if (timer) clearTimeout(timer);
       observer?.disconnect();
+      mutationObserver?.disconnect();
       window.removeEventListener("scroll", handleScroll);
       cleanupFns.forEach((fn) => fn());
       document.documentElement.classList.remove("js-anim-ready");
