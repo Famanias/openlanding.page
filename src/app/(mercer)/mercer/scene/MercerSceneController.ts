@@ -1,7 +1,8 @@
 import {
   AdditiveBlending, BufferGeometry, Float32BufferAttribute, Group, Line, LineBasicMaterial,
-  Material, Mesh, PerspectiveCamera, Points, Scene, ShaderMaterial, SRGBColorSpace, WebGLRenderer,
+  Material, Mesh, PerspectiveCamera, Points, Scene, ShaderMaterial, SRGBColorSpace, Vector3, WebGLRenderer,
 } from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { buildGeodesicRibbonGeometry } from "../model/torusKnotMath";
 import { createLatticeGeometry, createParticleShellGeometry, createParticleShellMaterial, createTranslucentMembraneMaterial, createWireframeLatticeMaterial } from "./materials";
 
@@ -19,6 +20,7 @@ export function fitCameraDistance(width: number, height: number): number {
 interface SceneOptions {
   onFps?: (fps: number) => void;
   onContextChange?: (state: "lost" | "restored") => void;
+  onInteractionChange?: (dragging: boolean) => void;
 }
 
 export class MercerSceneController {
@@ -28,11 +30,16 @@ export class MercerSceneController {
   private readonly geometries = new Set<BufferGeometry>();
   private readonly materials = new Set<Material>();
   private renderer: WebGLRenderer | null = null;
+  private controls: OrbitControls | null = null;
   private disposed = false;
   private running = false;
   private contextLost = false;
   private pointer = { x: 0, y: 0 };
   private orbit = { x: 0, y: 0 };
+  private interacting = false;
+  private spin = 0;
+  private readonly hoverRight = new Vector3();
+  private readonly hoverUp = new Vector3();
   private lastTime: number | null = null;
   private elapsed = 0;
   private fpsTime = 0;
@@ -59,10 +66,33 @@ export class MercerSceneController {
       this.scene.add(this.knot);
       const bounds = container.getBoundingClientRect();
       this.resize(bounds.width, bounds.height);
+      this.createControls();
     } catch (error) {
       this.dispose();
       throw error;
     }
+  }
+
+  private createControls(): void {
+    if (!this.renderer) return;
+    const controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = controls;
+    controls.enableDamping = this.running;
+    controls.dampingFactor = 0.1;
+    controls.rotateSpeed = 0.8;
+    controls.panSpeed = 0.6;
+    controls.enableZoom = false;
+    controls.minPolarAngle = Math.PI * 0.2;
+    controls.maxPolarAngle = Math.PI * 0.8;
+    controls.maxTargetRadius = 0.45;
+    controls.cursorStyle = "grab";
+    // Horizontal touch gestures turn the object; vertical gestures retain native page scrolling.
+    this.renderer.domElement.style.touchAction = "pan-y pinch-zoom";
+    controls.addEventListener("start", this.handleInteractionStart);
+    controls.addEventListener("end", this.handleInteractionEnd);
+    controls.addEventListener("change", this.handleViewChange);
+    controls.update();
+    controls.saveState();
   }
 
   private geometry<T extends BufferGeometry>(geometry: T): T {
@@ -154,23 +184,61 @@ export class MercerSceneController {
     this.renderer.setPixelRatio(ratio);
     this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
-    this.camera.position.z = fitCameraDistance(width, height);
+    // Preserve the chosen view and pan target when the viewport or render resolution changes.
+    if (this.controls) this.camera.position.sub(this.controls.target);
+    const distance = fitCameraDistance(width, height);
+    if (this.camera.position.lengthSq() === 0) this.camera.position.set(0, 0, distance);
+    else this.camera.position.setLength(distance);
+    if (this.controls) this.camera.position.add(this.controls.target);
     this.camera.updateProjectionMatrix();
     for (const material of this.materials) {
       if (material instanceof ShaderMaterial && material.uniforms.uPixelRatio) material.uniforms.uPixelRatio.value = ratio;
     }
+    this.controls?.update();
     this.render();
   }
 
   setPointer(normX: number, normY: number): void {
-    if (this.disposed) return;
+    if (this.disposed || this.interacting) return;
     this.pointer.x = normalizePointer(normX);
     this.pointer.y = normalizePointer(normY);
+  }
+
+  rotateView(horizontal: number, vertical: number): void {
+    if (this.disposed || this.contextLost || !this.controls) return;
+    const x = normalizePointer(horizontal);
+    const y = normalizePointer(vertical);
+    if (x) this.controls.rotateLeft(x * 0.16);
+    if (y) this.controls.rotateUp(y * 0.16);
+  }
+
+  panView(horizontal: number, vertical: number): void {
+    if (this.disposed || this.contextLost || !this.controls) return;
+    this.controls.pan(normalizePointer(horizontal) * 20, normalizePointer(vertical) * 20);
+  }
+
+  resetView(): void {
+    if (this.disposed || this.contextLost || !this.controls) return;
+    this.pointer = { x: 0, y: 0 };
+    this.orbit = { x: 0, y: 0 };
+    this.spin = 0;
+    this.handleInteractionEnd();
+    // Drain any remaining inertia before restoring the canonical, size-correct front view.
+    this.controls.enableDamping = false;
+    this.controls.update();
+    this.controls.reset();
+    this.controls.target.set(0, 0, 0);
+    this.camera.position.set(0, 0, fitCameraDistance(this.viewport.width, this.viewport.height));
+    this.controls.update();
+    this.controls.saveState();
+    this.controls.enableDamping = this.running;
+    this.render();
   }
 
   start(): void {
     if (this.disposed || !this.renderer || this.running) return;
     this.running = true;
+    if (this.controls) this.controls.enableDamping = true;
     this.lastTime = null;
     this.fpsTime = 0;
     this.frames = 0;
@@ -182,6 +250,10 @@ export class MercerSceneController {
     this.running = false;
     this.lastTime = null;
     this.renderer?.setAnimationLoop(null);
+    if (this.controls && !this.contextLost) {
+      this.controls.enableDamping = false;
+      this.controls.update();
+    }
   }
 
   private tick = (time: number): void => {
@@ -190,9 +262,11 @@ export class MercerSceneController {
     const rawDelta = this.lastTime === null ? 0 : (time - this.lastTime) / 1000;
     this.lastTime = time;
     this.elapsed += delta;
+    if (!this.interacting) this.spin += delta * 0.025;
     const damping = 1 - Math.exp(-4 * delta);
     this.orbit.x += (this.pointer.x - this.orbit.x) * damping;
     this.orbit.y += (this.pointer.y - this.orbit.y) * damping;
+    this.controls?.update(delta);
     for (const material of this.materials) {
       if (material instanceof ShaderMaterial && material.uniforms.uTime) material.uniforms.uTime.value = this.elapsed;
     }
@@ -217,13 +291,35 @@ export class MercerSceneController {
 
   private render(): void {
     if (!this.renderer || this.disposed || this.contextLost) return;
-    this.knot.rotation.set(0.12 + this.orbit.y * 0.14, -0.18 + this.orbit.x * 0.2, -0.2 + this.elapsed * 0.025);
+    this.knot.rotation.set(0.12 + this.orbit.y * 0.14, -0.18 + this.orbit.x * 0.2, -0.2 + this.spin);
+    this.hoverRight.set(1, 0, 0).applyQuaternion(this.camera.quaternion);
+    this.hoverUp.set(0, 1, 0).applyQuaternion(this.camera.quaternion);
+    this.knot.position.copy(this.hoverRight).multiplyScalar(this.orbit.x * 0.12).addScaledVector(this.hoverUp, -this.orbit.y * 0.09);
     this.renderer.render(this.scene, this.camera);
   }
+
+  private handleInteractionStart = (): void => {
+    this.interacting = true;
+    this.pointer = { x: 0, y: 0 };
+    this.options.onInteractionChange?.(true);
+  };
+
+  private handleInteractionEnd = (): void => {
+    if (!this.interacting) return;
+    this.interacting = false;
+    this.options.onInteractionChange?.(false);
+  };
+
+  private handleViewChange = (): void => {
+    // Pausing the animation still allows deliberate dragging, keyboard input and reset.
+    if (!this.running) this.render();
+  };
 
   private handleContextLost = (event: Event): void => {
     event.preventDefault();
     this.contextLost = true;
+    this.handleInteractionEnd();
+    if (this.controls) this.controls.enabled = false;
     this.renderer?.setAnimationLoop(null);
     this.options.onContextChange?.("lost");
   };
@@ -231,6 +327,7 @@ export class MercerSceneController {
   private handleContextRestored = (): void => {
     if (this.disposed) return;
     this.contextLost = false;
+    if (this.controls) this.controls.enabled = true;
     this.lastTime = null;
     this.render();
     if (this.running) this.renderer?.setAnimationLoop(this.tick);
@@ -245,6 +342,14 @@ export class MercerSceneController {
     if (this.disposed) return;
     this.stop();
     this.disposed = true;
+    this.handleInteractionEnd();
+    if (this.controls) {
+      this.controls.removeEventListener("start", this.handleInteractionStart);
+      this.controls.removeEventListener("end", this.handleInteractionEnd);
+      this.controls.removeEventListener("change", this.handleViewChange);
+      this.controls.dispose();
+      this.controls = null;
+    }
     const renderer = this.renderer;
     this.renderer = null;
     if (renderer) {

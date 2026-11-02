@@ -6,7 +6,7 @@ Implement the supplied hero specification as an isolated `/mercer` Next.js route
 
 ## Concept and quality contract
 
-Code becomes a spatial material, so a continuous (2,3) ribbon responds to the visitor's pointer. Critical features: a readable central aperture, three interwoven lobes, cyan/lime triangulated filaments, a translucent inner membrane, and a sparse undulating particle envelope. Front, side and radial references guide topology; the supplied hero guides composition. The initial view stays near frontal and preserves the aperture. Pointer orbit is bounded. The knot must remain undistorted on narrow and wide viewports.
+Code becomes a spatial material, so a continuous (2,3) ribbon responds to the visitor's pointer. Critical features: a readable central aperture, three interwoven lobes, cyan/lime triangulated filaments, a translucent inner membrane, and a sparse undulating particle envelope. Front, side and radial references guide topology; the supplied hero guides composition. The initial view stays near frontal and preserves the aperture. Hover motion is bounded; direct dragging lets the visitor inspect the object from other angles. The knot must remain undistorted on narrow and wide viewports.
 
 ## Palette and type
 
@@ -24,14 +24,16 @@ The centerline uses `r = R(1 + .18 cos(3t))`, `x = r cos(2t)`, `y = r sin(2t)`, 
 
 ## Motion
 
-Personality: technical and restrained. Verbs: reveal, orbit. One signature moment: cyan and lime filaments weave through one another as the knot settles toward the pointer. Shared ease `cubic-bezier(.22,1,.36,1)`; fast 300 ms, base 500 ms, entrance 800 ms. Animation changes transforms and opacity. Delta-time damping keeps pointer behavior consistent across frame rates.
+Personality: technical and restrained. Verbs: reveal, orbit. One signature moment: cyan and lime filaments weave through one another as the knot settles toward the pointer. Shared ease `cubic-bezier(.22,1,.36,1)`; fast 300 ms, base 500 ms, entrance 800 ms. Animation changes transforms and opacity. Delta-time damping keeps hover behavior consistent across frame rates. Native Three.js OrbitControls provide drag rotation, inertia and Shift+drag panning. Vertical tilt is limited to 36–144 degrees and pan distance to 0.45 world units, so the shape stays recoverable. Wheel zoom is disabled to preserve page scrolling. Camera fitting preserves the chosen angle on resize.
+
+Hover adds a small tilt and movement in the camera's screen plane. Ambient spin pauses during an active drag. The dropped angle persists after release; reset returns to the original front view. A focusable canvas region supports Arrow keys to turn, Shift+Arrow keys to move, and R/Home to reset. The same controls work while the ambient animation is paused. Horizontal touch drags rotate, while vertical swipes and pinch zoom retain native browser behavior. OrbitControls and its document listeners are disposed with the renderer.
 
 | Element | Entrance | Pointer / focus | State / exit |
 | --- | --- | --- | --- |
 | Header | Short downward settle | Underline and visible focus ring | Mobile menu uses native details |
 | Headline | Three staggered masked lines | Static readable text | Always visible without JavaScript |
 | CTAs | Short staggered rise | Arrow translation and physical press | Open accessible native dialogs |
-| Knot | Opacity settle | Damped bounded parallax | Pause offscreen, hidden tab and modal; dispose on unmount |
+| Knot | Opacity settle | Damped hover, drag orbit and bounded Shift+drag pan; grab/grabbing cursor | Reset button and R/Home restore front view; pause offscreen, hidden tab and modal; dispose on unmount |
 | HUD | Staggered telemetry reveal | Terminal lifts; terminal and playback buttons have visible focus | Terminal opens experiment notes; native dialog suspends rendering and restores focus |
 | Projects | Quiet upward settle | Preview scale and arrow translation | Project dialog, Escape to close, restore focus |
 

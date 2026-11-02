@@ -8,12 +8,18 @@ describe("Mercer scene lifecycle", () => {
     expect(() => {
       controller.resize(800, 600);
       controller.setPointer(0.5, -0.2);
+      controller.rotateView(1, -1);
+      controller.panView(1, -1);
+      controller.resetView();
       controller.start();
       controller.stop();
       controller.dispose();
       controller.dispose();
       controller.resize(0, 0);
       controller.setPointer(NaN, Infinity);
+      controller.rotateView(NaN, Infinity);
+      controller.panView(Infinity, NaN);
+      controller.resetView();
       controller.start();
     }).not.toThrow();
     expect(controller.getRenderer()).toBeNull();

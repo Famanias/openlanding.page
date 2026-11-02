@@ -12,4 +12,12 @@ describe("canvas progressive enhancement", () => {
     expect(html).toContain("STATIC PREVIEW");
     expect(html).not.toContain("<canvas");
   });
+  it("provides a named keyboard interaction area and instructions before the scene loads", () => {
+    const html = renderToStaticMarkup(<MercerTorusKnotCanvas />);
+    expect(html).toContain('aria-label="Interactive torus knot"');
+    expect(html).toContain('aria-describedby="jm-knot-help"');
+    expect(html).toContain('id="jm-knot-help"');
+    expect(html).toContain("Arrow keys");
+    expect(html).toContain("DRAG TO ROTATE");
+  });
 });

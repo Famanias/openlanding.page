@@ -74,8 +74,9 @@
 .jm-button svg, .jm-contact svg, .jm-project svg { transition: transform var(--duration-jm-base) var(--ease-jm-out); }
 .jm-button:active, .jm-contact:active { transform: translateY(1px) scale(0.98); }
 
-.jm-stage { margin: 0 0 0 -10%; width: 110%; height: 100%; min-height: 580px; position: relative; touch-action: pan-y; }
-.jm-canvas-host { position: absolute; inset: 0; overflow: hidden; }
+.jm-stage { margin: 0 0 0 -10%; width: 110%; height: 100%; min-height: 580px; position: relative; touch-action: pan-y pinch-zoom; }
+.jm-canvas-host { position: absolute; inset: 0; overflow: hidden; user-select: none; cursor: grab; }
+.jm-canvas-host:focus-visible { outline: 2px solid #00e5ff; outline-offset: -8px; }
 .jm-canvas-host canvas { display: block; width: 100%; height: 100%; }
 .jm-knot-fallback { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .jm-stage[data-state="running"] .jm-knot-fallback, .jm-stage[data-state="paused"] .jm-knot-fallback { visibility: hidden; }
@@ -112,6 +113,8 @@
 .jm-project-preview { width: 100%; height: 100%; display: block; }
 .jm-scroll-cue { display: flex; align-items: center; gap: 8px; border: 0; background: transparent; color: var(--jm-muted) !important; font-size: 11px !important; white-space: nowrap; padding: 8px 0; }
 .jm-project:active .jm-project-thumb { transform: scale(0.98); }
+
+@media (hover: none) and (pointer: coarse) { .jm-pan-hint { display: none; } }
 
 .jm-dialog { width: min(680px, calc(100% - 32px)); max-height: calc(100svh - 64px); background: #0a0d10; color: #e8ecef; border: 1px solid var(--jm-line); border-radius: 4px; padding: 40px; margin: auto; overflow: auto; }
 .jm-dialog::backdrop { background: #0a0d10d9; backdrop-filter: blur(8px); }
