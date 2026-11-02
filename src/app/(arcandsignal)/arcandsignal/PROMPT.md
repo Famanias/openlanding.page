@@ -1,0 +1,3 @@
+# Arc & Signal — fictional marketing agency
+
+Build a responsive marketing agency landing page for Arc & Signal. Use a dark midnight and violet palette (#0B0A20, #181339, #A887FF, #D9C8FF, #8DCBFF, #F8F6FF, #B9B2D0), DM Serif Display with DM Sans, and an original abstract signal horizon image. Lead with a centered hero and a Contact Us action, followed by services, projects, process, fictional social proof and a contact close. Show fictional company marks in a continuously counterclockwise circular carousel, keep them upright, and offer pause and reduced-motion support. Use accessible HTML, responsive CSS and no WebGL or Three.js.

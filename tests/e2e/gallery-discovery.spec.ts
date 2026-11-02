@@ -1,9 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { TEMPLATES } from "../../src/app/(index)/data/templates";
+import { modelFamily } from "../../src/app/(index)/data/filters";
 
 test("search, provider, category, reset and URL hydration work together", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "OpenAI", exact: true }).click();
-  await expect(page.locator("article")).toHaveCount(20);
+  await expect(page.locator("article")).toHaveCount(TEMPLATES.filter((template) => modelFamily(template.model) === "openai").length);
   await page.getByRole("tab", { name: "3D & WebGPU" }).click();
   await expect(page.locator("article")).toHaveCount(4);
   await page.getByRole("searchbox").fill("trace");
@@ -15,17 +17,17 @@ test("search, provider, category, reset and URL hydration work together", async 
   await page.getByRole("button", { name: "Claude", exact: true }).click();
   await expect(page.getByText("No templates found.")).toBeVisible();
   await page.getByRole("button", { name: "Reset filters", exact: true }).click();
-  await expect(page.locator("article")).toHaveCount(43);
+  await expect(page.locator("article")).toHaveCount(TEMPLATES.length);
   await expect(page.getByRole("searchbox")).toHaveValue("");
 });
 
 test("all model families return real matching templates", async ({ page }) => {
   await page.goto("/");
 
-  for (const [model, count] of [["Claude", 17], ["OpenAI", 20], ["Gemini", 6]] as const) {
+  for (const [model, family] of [["Claude", "claude"], ["OpenAI", "openai"], ["Gemini", "gemini"]] as const) {
 
     await page.getByRole("button", { name: model, exact: true }).click();
-    await expect(page.locator("article")).toHaveCount(count);
+    await expect(page.locator("article")).toHaveCount(TEMPLATES.filter((template) => modelFamily(template.model) === family).length);
   }
 });
 
@@ -49,12 +51,12 @@ test("keyboard shortcut, clear, and browser history resynchronize the search", a
   await page.getByRole("searchbox").fill("keytu");
   await expect(page.locator("article")).toHaveCount(1);
   await page.keyboard.press("Escape");
-  await expect(page.locator("article")).toHaveCount(43);
+  await expect(page.locator("article")).toHaveCount(TEMPLATES.length);
   await page.evaluate(() => { history.pushState(null, "", "?model=gemini&q=bathys"); dispatchEvent(new PopStateEvent("popstate")); });
   await expect(page.getByRole("searchbox")).toHaveValue("bathys");
   await expect(page.locator("article")).toHaveCount(1);
   await page.goBack();
-  await expect(page.locator("article")).toHaveCount(43);
+  await expect(page.locator("article")).toHaveCount(TEMPLATES.length);
 });
 
 test("mobile retains search and still previews", async ({ page }) => {

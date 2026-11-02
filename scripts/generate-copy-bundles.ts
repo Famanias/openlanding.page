@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[] }
 > = {
+  arcandsignal: { name: "Arc & Signal", dependencies: [] },
   landingx: { name: "Landing X", dependencies: [] },
   avel: { name: "Avel", dependencies: [] },
   pello: { name: "Pello", dependencies: ["@phosphor-icons/react"] },
