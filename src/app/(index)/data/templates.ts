@@ -1,4 +1,4 @@
-export type TemplateSlug = "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk";
+export type TemplateSlug = "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -319,6 +319,222 @@ Build a complete, production-grade, single-page interactive Cyberpunk Technical 
 ### 2. Palette & Typography
 - Palette: #00F0FF, #090B0E, #11161D, #18222F, #475569, #94A3B8, #D4FF00, #E2E8F0, #F1F5F9, #F8FAFC, #FF007F, #FF7A00.
 - Fonts: Oswald (display), Manrope (body), JetBrains Mono (technical telemetry).`;
+
+export const HALODESK_PROMPT = `# Halo Desk — Organize your work without losing your calm
+
+Build a complete, responsive, interaction-rich desktop productivity application landing page for **Halo Desk**.
+
+## Brand and central idea
+
+Halo Desk is a focused desktop productivity app designed for intentional planning, clear priorities, and beautifully structured days. In contrast to high-stress, noisy productivity tools, Halo Desk grounds the user experience in calm, tactile surfaces, pastel organization palettes, and distraction-free execution.
+
+Mood: Serene, tactile, and thoughtfully engineered. Continuous warm-ivory canvas (\`#F8F5EE\`), soft pastel accent washes (lavender \`#DCD5F6\`, powder blue \`#CFDFEF\`, peach \`#F7D9CB\`, mint \`#D0EFE2\`, butter yellow \`#FFF1AE\`), crisp ink typography (\`#29313E\`), and physical stationery touches.
+
+## Visual system and typography
+
+- **Palette:**
+  - Ivory Foundation: \`#F8F5EE\`
+  - Cloud Surface: \`#FCFBF7\`
+  - Ink Body: \`#29313E\`
+  - Muted Text: \`#66717F\`
+  - Lavender Accent: \`#DCD5F6\`
+  - Powder Blue: \`#CFDFEF\`
+  - Peach Tint: \`#F7D9CB\`
+  - Mint Green: \`#D0EFE2\`
+  - Buttercup Yellow: \`#FFF1AE\`
+  - Slate Button: \`#6C798F\` / \`#2A3240\`
+- **Typography:**
+  - Display & Body: DM Sans (400, 500, 600, 700) for clean editorial reading and interface controls
+  - Tabular / Telemetry: JetBrains Mono (400, 500) for timers and metrics
+- **Textures:** Atmospheric multi-stop radial wash and faint dotted micro-matrix overlay in the hero region.
+
+## Sections and signature interactions
+
+1. **Navbar:** Refined top navigation bar with custom animated Halo logo icon, navigation anchors, and early-access download actions.
+2. **Hero & Desktop in Miniature:** Left column editorial copy with feature selector chips (Tasks, Calendar, Focus Mode, Notes); Right column interactive desktop window simulating the live Halo Desk application with task toggles, quick task creation, weekday calendar navigation, focus timer with progress circle, and realistic sticky notes.
+3. **The Calm System:** Interactive card showcase breaking down the 4 pillars of mindful productivity (Spatial Day Structuring, Timebox Alignment, Low-Cognitive Friction, Local-First Privacy).
+4. **Workflow Storyboard:** Step-by-step visual progression demonstrating how a peaceful day unfolds from morning planning to afternoon flow and evening reflection.
+5. **Feature Lab:** Hands-on sandbox letting visitors test drive the four key application modules (Tasks, Calendar, Focus, Notes) with interactive controls.
+6. **Curated Templates:** One-click rhythm presets (Deep Focus Sprint, Balanced Product Flow, Executive Alignment) that instantly reconfigure the hero simulation.
+7. **Meaningful Details:** Tactile micro-features including keyboard shortcuts, sensory feedback toggles, and notification shields.
+8. **Pricing & Early Access:** Transparent pricing tier comparison with an accessible modal supporting email validation and desktop download.
+`;
+
+export const RIFF_PROMPT = `# Prompt: rebuild "Riff" (Music-First Dating)
+
+Build a complete, production-grade, single-page interactive music-first dating application landing page named **Riff** (*Fall for the sound before the selfie. A music-first 18+ dating app that matches people through playlists, genres, favorite artists, and listening chemistry.*).
+
+### 1. Structure & Sections
+- **Sticky Editorial Header**: Hand-drawn SVG waveform logo, brand lockup, clean navigation jumps, mobile navigation drawer, and screenprint red "Join Riff" button.
+- **Dual-Phone Interactive Hero**: Live profile mockups (Mila, 24 & Julian, 26), 24s rotating 12-inch vinyl disc with side A/B flipping, and switchable shared tracks (Kyoto, Starburster, Chaise Longue) with live conversation starters.
+- **Wheat-Pasted Manifesto**: Bold torn-paper headline strips ("THERE'S MORE TO A PERSON THAN A PHOTO"), expandable liner notes accordion, and 3 product principles ("Taste first", "Connection second", "Meet when ready").
+- **How It Works (The First Three Tracks)**: Scrubbable audio progress rail with step indicators and an interactive perforated backstage ticket stub.
+- **Interactive Taste Matcher**: Client-side Jaccard similarity calculator matching user-selected scenes and habits against 4 partner profiles, with live overlap math and custom icebreakers.
+- **Music Chemistry Case Study**: 3-dimensional comparison matrix contrasting favorite records, concert habits, and late-night hours via dual phones and an unfurling torn paper bridge.
+- **The Scene Playlist Wall**: Filterable 6-sleeve playlist grid with expandable gatefold sleeve viewer, liner notes, track durations, and copyable conversation starters.
+- **Stories & Backstage Pass**: Real connection stories in zine format, and a client-side early-access ticket pass generator.
+
+### 2. Palette & Typography
+- Palette: #0B0B0B, #141414, #F4F0E8, #C92533, #741B24, #AAA8A6, #777575.
+- Fonts: Bodoni Moda (editorial headlines), Barlow Condensed (gig flyers/tickets), Plus Jakarta Sans (body UI), JetBrains Mono (track telemetry).`;
+
+export const INESVALE_PROMPT = `# Ines Vale — Independent Photographer Portfolio
+
+Build a complete, isolated editorial and fine-art photography portfolio landing page for independent photographer **Ines Vale** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand and Vision
+
+- **Identity:** Fine-art and editorial photography monograph presenting personal projects, coastal studies, intimate portraits, and architectural quietude.
+- **Tagline:** "Photographs of fleeting places, quiet emotions, and everything we almost miss."
+- **Tone:** Tactile, quiet, luminous, gallery-grade editorial publication.
+
+## Color Palette & Typography
+
+- **Palette:**
+  - Ivory ground: \`#F2ECE0\`
+  - Elevated paper: \`#F7F4ED\`
+  - Ink black: \`#201C19\`
+  - Terracotta rust: \`#A65D46\`
+  - Slate littoral: \`#6D8795\`
+  - Muted captions: \`#79756F\`
+  - Hairline rule: \`#BFB7AC\`
+- **Typography:**
+  - Serif display: Cormorant Garamond for titles and poetic editorial headlines.
+  - Sans body: Plus Jakarta Sans for body prose, EXIF metadata, and navigation.
+
+## Sections & Key Features
+
+1. **Header & Navigation:** 3-zone layout with animated viewfinder calibration rule, uppercase wordmark, section anchors, and inquiry shortcut. Includes accessible mobile menu sheet.
+2. **Hero Stage (The Beauty Between Moments):** Interactive shutter-wipe carousel with directional curtain transitions, contact sheet quick-selector, camera equipment tags, and keyboard arrow controls.
+3. **Selected Stories:** Curated project stories with monograph slide-out drawer reader for deep essays and high-resolution photo plates.
+4. **Archival Gallery:** Category-filtered photographic archive (All, Portraits, Places, Architecture, Details) with plate numbers and fullscreen archival lightbox with keyboard navigation.
+5. **A Closer Look:** Sticky 3-step editorial process study (Observe, Wait, Remember) exploring light, timing, and memory.
+6. **Artist Monograph:** Biographical introduction to Ines Vale, darkroom principles, and studio representation.
+7. **Field Notes:** Dispatches and journal observations from field expeditions.
+8. **Inquire & Acquisition:** Accessible commission inquiry form with instant client validation and mailto link generation.
+
+## Motion & Accessibility
+
+- Tactile motion using custom cubic bezier curves (\`--ease-editorial\`, \`--ease-shutter\`), aperture entrance reveals, and directional wipes.
+- Full support for \`prefers-reduced-motion: reduce\` ensuring all galleries and content remain instantly legible.
+- Complete keyboard accessibility with skip-to-content anchor and clear focus indicators.
+`;
+
+export const NICOPARK_PROMPT = `# Prompt: rebuild Nico Park — Product Design Portfolio
+
+Build an isolated Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 landing template for an independent industrial and digital product designer named Nico Park.
+
+Brand and central idea:
+Nico Park designs physical objects and tactile digital interfaces. The core thesis is "Design Should Feel Good." The landing page is built like a precision machined device: tactile panels with 2px solid outlines, spring physics, an 8-spoke asterisk mark, interactive exploded hardware schematics, and an interactive audio companion demo.
+
+Visual system and typography:
+Palette: warm canvas #F8F7F2, ink black #191919, signature cobalt #3049F0, signal coral #FF735D, butter yellow #F7E36B, lavender mist #D5C8FC, muted slate #515151, and outline #222222.
+Typography: Anton and Barlow Condensed for impactful condensed headers (font-display), Barlow Condensed for badges and labels (font-condensed), JetBrains Mono for engineering specs (font-mono-tech), and Plus Jakarta Sans for body text.
+
+Sections:
+1. Sticky Header with wordmark, spinning 8-spoke asterisk on hover, nav items (Work, Playground, About, Notes), magnetic Connect button, and mobile menu drawer.
+2. Hero section featuring "DESIGN SHOULD FEEL GOOD" headline, interactive 3D pointer-tilt stage, mini music player, modular tactile switches, and direct inspection links.
+3. Selected Work (01–03) showcasing LOOP audio hardware, FORMA workspace, and KINDRED brand system, with interactive full-screen case study modal.
+4. LOOP Anatomy featuring an exploded assembly stage with custom slider control (0 to 100% explode factor) and layer inspector (Cover, Dial, PCB, Buttons, USB-C).
+5. LOOP App preview featuring interactive software audio demo with waveform visualizer, playback controls, and track selector.
+6. Process section with 4-phase tactile design methodology and sketch artifacts.
+7. Playground section with parametric 8-pointed asterisk geometry generator and dial lab.
+8. About & Notes section with studio workspace illustration and editorial articles.
+9. Contact & Footer section with scope selector, validated inquiry form, mailto generator, and back-to-top navigation.
+
+Mechanic and motion:
+Pure tested logic in portfolioData.ts for exploded view coordinate transforms, cyclic navigation, asterisk geometry calculation, and contact form validation. Motion identity is tactile and mechanical with spring easing cubic-bezier(0.16, 1, 0.3, 1) and overshoot ease cubic-bezier(0.34, 1.56, 0.64, 1), accompanied by specular highlight sweeps and full reduced-motion accessibility.
+`;
+
+export const POPPYPATCH_PROMPT = `# Poppy Patch — At-Home Mushroom Growing Kits
+
+Build a playful, tactile landing page for Poppy Patch, an at-home mushroom growing kit brand. Use a warm vanilla and terracotta palette (#F7ECD6, #FAF3E3, #FBF6EA, #E58267, #D96E52, #F7D4C8, #A8B96C, #E3B6E0, #4A2E25, #735449), Fraunces serif display with Plus Jakarta Sans and Caveat handwriting accents.
+
+Lead with a warm story-first hero and mushroom sprout illustrations, followed by a purpose statement, an interactive kit catalog with bag drawer integration, interactive countertop growth condition estimator, tactile why-it-works cards, mushroom field journal articles with an article reader modal, community harvest reviews, FAQ accordion, and a newsletter signup with validation.
+
+Ensure interactive cart management (add, update quantity, slide-over drawer), keyboard accessibility (Escape to dismiss drawers/modals), reduced-motion support, responsive layouts, and pure unit-tested store calculations.`;
+
+export const RAZORLINE_PROMPT = `# Prompt: rebuild "RAZORLINE" (RL-01 Performance Footwear)
+
+Build a complete, production-grade, single-page interactive performance athletics DTC storefront for **RAZORLINE** featuring the **RL-01 Performance Footwear** series.
+
+### 1. Structure & Sections
+- **Sticky Header**: Brand wordmark and angular icon, smooth-scroll anchor navigation (Footwear, Technology, Athletes, Journal), shopping bag drawer counter, and high-contrast slanted CTA.
+- **Flagship Hero**: Slanted italic kinetic headline ("BREAK THE LIMIT. ENGINEERED TO OUTRUN EXPECTATIONS."), real-time 3D-feeling model switcher (RL-01 Voltage, RL-01 Cobalt, RL-01 Shadow), architectural telemetry HUD (coordinates, acceleration, energy return rate), and direct inspection modal trigger.
+- **Technical Marquee**: Continuous ticker with pacing benchmarks, cadence telemetry, and brand mottos.
+- **Footwear Collection Grid**: Interactive product matrix with colorway selection, interactive US shoe size picker (7.5 - 13.0), instant Add to Bag, and Quick View trigger.
+- **Exploded Breakaway Architecture**: 3-chamber hollow cavity sole, carbon monofilament matrix mesh, and cantilevered Achilles cradle.
+- **Technology Deep-Dive**: Interactive tabbed chapters with coordinate overlays, millimeter metrics, and hotspot inspection markers.
+- **Field Testing Athletes**: Test runner reports and session telemetry across Berlin, Tokyo, and Zurich testing sectors.
+- **Visual Lookbook**: Multi-frame studio and track photography carousel with technical aspect ratio tags.
+- **Launch Reservation & Footer**: Drop notification signup form with email validation and error feedback.
+- **Slide-Out Cart Drawer & Quick View Modal**: Interactive shopping bag with quantity controls, subtotal computation, and simulated checkout confirmation.
+
+### 2. Palette & Typography
+- Palette: #0B0B0A, #F1F0E9, #D3FF35, #375CFF, #777A7A, #1C1C1A, #262624.
+- Fonts: Barlow Condensed (display), Plus Jakarta Sans (body), JetBrains Mono (technical specs).
+`;
+
+export const NEXUS_PROMPT = `# nexus — Marketing That Feels Human
+
+Build a complete, responsive, interaction-rich creative agency landing page for **nexus** (\`/nexus\`), an independent marketing and brand studio dedicated to craft, feeling, and genuine human connection.
+
+## Brand and central idea
+
+Modern marketing shouts from generic templates and treats audiences as conversion metrics. **nexus** stands for the opposite: high-contrast organic visual worlds, tactile clay sculptures, hand-drawn botanical illustrations, and editorial serif typography that make brands unforgettable.
+
+Mood: warm tactile paper, earth pigments, editorial depth, handcrafted botanical curiosity. A harmonious balance between grounded craft and crisp agency rigor.
+
+## Visual system and typography
+
+- **Palette:**
+  - Ink Deep: \`#221B15\` (Primary typography and grounding accents)
+  - Paper Light: \`#FBF8F1\` (Page foundation and crisp card backgrounds)
+  - Paper Warm: \`#F5F1E8\` (Canvas and tonal contrast)
+  - Terracotta: \`#C85A32\` (Signature primary action and flourish underlines)
+  - Olive: \`#777B45\` (Botanical stems and natural contrast)
+  - Sage: \`#4C7262\` (Deep foliage and secondary stamps)
+  - Peach: \`#F6D6BA\` (Amoeba fields, soft glows, and organic backdrops)
+  - Mustard: \`#E5A93C\` (Sun dots and tactile clay seals)
+- **Typography:**
+  - Display & Body: Newsreader serif (editorial warmth, humanist italic flourishes, confident headlines)
+  - System sans-serif for high-contrast UI metadata and tags
+- **Textures & Motifs:** Hand-inked botanical sprigs, organic wave paths, 12-point terracotta starburst seals, and unglazed clay sculptures.
+
+## Narrative chapters & signature interactions
+
+01. **Header & Navigation:** Minimal serif navigation with active links, responsive mobile sheet with accessible drawer controls, and direct CTA.
+02. **Hero Stage:** Large editorial headline "Marketing that feels human" with animated hand-drawn terracotta flourish underline, tactile 3D clay cluster cutout, illustrated marketer holding a green sprout, animated ink botanical doodles, and circular spinning botanical seals ("Casual Badges" and "Clay-Made Culture").
+03. **Philosophy / Manifesto:** "Good ideas grow on people." Unboxed claim-to-proof metrics (+148% Brand Recall Lift, 94% Multi-Year Partnerships, 100% Hand-Crafted Studio Work), plus interactive principle tabs ("GROW WITH CARE" vs "MADE WITH FEELING") updating living studio notes.
+04. **Capabilities / Services:** Four core disciplines (Brand Strategy & Positioning, Campaign Creative & Storytelling, Social & Editorial Content, Experiences & Websites) featuring bespoke SVG motifs, tilt hover interactions, and expandable "Inspect craft notes" drawers.
+05. **Process / Cultivation Cycle:** Four sequential chapters (Listen, Imagine, Make, Grow) paired with a scroll-driven and clickable growing SVG botanical vine path with milestone indicators and smooth scroll tracking.
+06. **Selected Work & Case Study Dialog:** Filterable case study showcase (Solstice Apothecary, Loom & Meadow, Kith & Kin Roasters) across Brand World, Campaigns, and Experiences, complete with an accessible detailed modal reader.
+07. **Client Love / Testimonials:** Carousel slider with rotating founder quotes, author roles, and tabular note counters.
+08. **Start a Conversation / Seed Brief:** Interactive brief builder allowing clients to select focus areas, enter project details, run live validation, and generate ready-to-send mailto drafts with one-click clipboard copying.
+09. **Organic Footer:** Studio wordmark, copyright notices, and direct navigation links.
+`;
+
+export const STARRIOT_PROMPT = `# STAR RIOT — Neon Disco & After-Dark Club
+
+Build a complete, responsive, interaction-rich neon disco and after-dark dance club landing page for **STAR RIOT**.
+
+## Brand and central idea
+
+STAR RIOT is a high-voltage fictional nightlife experience where 70s/80s disco fever meets contemporary retro-pop futurism: **Tonight, we go supernova.**
+
+Continuous nearly-black plum canvas with intense neon light sources (Electric Mint, Hot Pink, Acid Lime, Electric Purple), heavy uppercase condensed display typography, colossal five-point star portal illustrations, vector dancers, interactive DJ lineup and equalizer controls, a scroll-controlled 3-stage sound track progression, an under-floor lighting matrix switcher, a sticker photo-wall carousel, and a client-validated guestlist pass generator.
+
+## Key Sections
+
+1. **Header & Navigation:** Split neon star brand mark, navigation links, mobile drawer.
+2. **Hero (The Ignition):** Headline "TONIGHT, WE GO SUPERNOVA.", interactive DJ lineup deck, equalizer visualizer with transport controls, tonight set slots, colossal neon starburst portal.
+3. **Manifesto:** "ORDINARY NIGHTS? NOT HERE.", spinning cosmic vinyl, animated ticker marquee.
+4. **Nights (Pick Your Frequency):** Frequency filter tabs (House, Classic Disco, Soul & Boogie), 3 poster cards with 3D tilt, accessible event details dialog modal.
+5. **Sound Stage (The Sound Takes Over):** Scroll-controlled 3-stage progression (Warm Up -> Turn Up -> All Out) with expanding bass wave rings, erupting supernova, and dancer silhouettes.
+6. **Space (Inside The Riot):** 4-zone architectural collage with interactive sprung floor lighting matrix switcher.
+7. **Movement (Voices From The 3 AM Floor):** Sticker snap carousel with peel note flips and FAQ accordion.
+8. **Guestlist Conversion:** Priority floor access form with instant validation, deterministic demo pass code generation (SR-XXXX-YYY), and live RSVP counter.
+9. **Footer:** Brand sign-off, quick links, concept disclaimer, back-to-top control.`;
 
 export const PERIGEE_PROMPT = `# Prompt: rebuild "PERIGEE"
 
@@ -712,46 +928,6 @@ export const STILLWATER_PROMPT = `# Prompt: rebuild Stillwater, private coastal 
 Create a complete, responsive, self-contained HTML landing page for Stillwater, a fictional collection of private coastal retreats. Use a full-bleed photograph of a limestone cliffside villa at dusk, an oversized ivory serif headline reading “Another pace of living.”, restrained navigation, and a compact booking strip. Keep the architecture photographic and use a portrait-friendly hero on mobile.
 
 Continue with a philosophy, three fictional sanctuaries, a selectable villa gallery, slow experiences, a coastal journal, a local inquiry preview, a closing coastal image, and a quiet footer. Use oyster, warm stone, forest slate and muted sage; pair Cormorant Garamond with Inter. Embed optimized imagery and fonts so the HTML opens directly from disk. Keep navigation, selectors, dialog, dates and guest controls functional and keyboard accessible. Validate dates and contact information, respect reduced motion, and make clear that the demo neither checks availability nor sends an inquiry. Do not invent reviews or real addresses.
-`;
-
-export const HALODESK_PROMPT = `# Halo Desk — Organize your work without losing your calm
-
-Build a complete, responsive, interaction-rich desktop productivity application landing page for **Halo Desk**.
-
-## Brand and central idea
-
-Halo Desk is a focused desktop productivity app designed for intentional planning, clear priorities, and beautifully structured days. In contrast to high-stress, noisy productivity tools, Halo Desk grounds the user experience in calm, tactile surfaces, pastel organization palettes, and distraction-free execution.
-
-Mood: Serene, tactile, and thoughtfully engineered. Continuous warm-ivory canvas (\`#F8F5EE\`), soft pastel accent washes (lavender \`#DCD5F6\`, powder blue \`#CFDFEF\`, peach \`#F7D9CB\`, mint \`#D0EFE2\`, butter yellow \`#FFF1AE\`), crisp ink typography (\`#29313E\`), and physical stationery touches.
-
-## Visual system and typography
-
-- **Palette:**
-  - Ivory Foundation: \`#F8F5EE\`
-  - Cloud Surface: \`#FCFBF7\`
-  - Ink Body: \`#29313E\`
-  - Muted Text: \`#66717F\`
-  - Lavender Accent: \`#DCD5F6\`
-  - Powder Blue: \`#CFDFEF\`
-  - Peach Tint: \`#F7D9CB\`
-  - Mint Green: \`#D0EFE2\`
-  - Buttercup Yellow: \`#FFF1AE\`
-  - Slate Button: \`#6C798F\` / \`#2A3240\`
-- **Typography:**
-  - Display & Body: DM Sans (400, 500, 600, 700) for clean editorial reading and interface controls
-  - Tabular / Telemetry: JetBrains Mono (400, 500) for timers and metrics
-- **Textures:** Atmospheric multi-stop radial wash and faint dotted micro-matrix overlay in the hero region.
-
-## Sections and signature interactions
-
-1. **Navbar:** Refined top navigation bar with custom animated Halo logo icon, navigation anchors, and early-access download actions.
-2. **Hero & Desktop in Miniature:** Left column editorial copy with feature selector chips (Tasks, Calendar, Focus Mode, Notes); Right column interactive desktop window simulating the live Halo Desk application with task toggles, quick task creation, weekday calendar navigation, focus timer with progress circle, and realistic sticky notes.
-3. **The Calm System:** Interactive card showcase breaking down the 4 pillars of mindful productivity (Spatial Day Structuring, Timebox Alignment, Low-Cognitive Friction, Local-First Privacy).
-4. **Workflow Storyboard:** Step-by-step visual progression demonstrating how a peaceful day unfolds from morning planning to afternoon flow and evening reflection.
-5. **Feature Lab:** Hands-on sandbox letting visitors test drive the four key application modules (Tasks, Calendar, Focus, Notes) with interactive controls.
-6. **Curated Templates:** One-click rhythm presets (Deep Focus Sprint, Balanced Product Flow, Executive Alignment) that instantly reconfigure the hero simulation.
-7. **Meaningful Details:** Tactile micro-features including keyboard shortcuts, sensory feedback toggles, and notification shields.
-8. **Pricing & Early Access:** Transparent pricing tier comparison with an accessible modal supporting email validation and desktop download.
 `;
 
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
@@ -1546,6 +1722,98 @@ slug: "tally",
     badges: ["Miniature Desktop App", "Focus Timer", "Curated Templates", "Calm UI"],
     previewImage: "/templates/halodesk/preview-1600.webp",
     promptMarkdown: HALODESK_PROMPT,
+    model: "Gemini 3.8 Flash High",
+  },
+  {
+    slug: "riff",
+    createdAt: "2026-11-02",
+    title: "Riff",
+    description: "Fall for the sound before the selfie. A music-first 18+ dating app that matches people through playlists, genres, favorite artists, and listening chemistry.",
+    category: "editorial-magazine",
+    industry: "Music & Dating",
+    stack: "Next.js 16 · Tailwind v4 · Lucide · Motion",
+    badges: ["Music First", "Taste Matcher", "Zine Aesthetic", "Zero-Skip Records"],
+    previewImage: "/templates/riff/preview-1600.webp",
+    promptMarkdown: RIFF_PROMPT,
+    model: "Gemini 3.8 Flash High",
+  },
+  {
+    slug: "inesvale",
+    createdAt: "2026-11-02",
+    title: "Ines Vale",
+    description: "Photographs of fleeting places, quiet emotions, and everything we almost miss. Fine-art and editorial photography portfolio of Ines Vale.",
+    category: "editorial-magazine",
+    industry: "Fine Art & Editorial Photography",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Monograph Drawer", "Archival Lightbox", "Shutter Carousel", "Field Journal"],
+    previewImage: "/templates/inesvale/preview-1600.webp",
+    promptMarkdown: INESVALE_PROMPT,
+    model: "Gemini 3.8 Flash High",
+  },
+  {
+    slug: "nicopark",
+    createdAt: "2026-11-02",
+    title: "Nico Park",
+    description: "Playful, modular, tactile industrial and digital product design portfolio for independent product designer Nico Park, featuring LOOP personal audio hardware, FORMA workspace, and interactive design experiments.",
+    category: "scroll-showcase",
+    industry: "Industrial & Product Design",
+    stack: "Next.js 16 · React 19 · Tailwind v4 · Lucide · Motion",
+    badges: ["Exploded Hardware", "Interactive Audio App", "Tactile Controls", "Asterisk Lab"],
+    previewImage: "/templates/nicopark/preview-1600.webp",
+    promptMarkdown: NICOPARK_PROMPT,
+    model: "Gemini 3.8 Flash High",
+  },
+  {
+    slug: "poppypatch",
+    createdAt: "2026-11-02",
+    title: "Poppy Patch",
+    description: "Playful, tactile starter kits for growing edible mushrooms at home. Easy to grow, impossible not to love.",
+    category: "conversion",
+    industry: "Food & Agriculture",
+    stack: "Next.js 16 · React 19 · Tailwind v4 · Motion",
+    badges: ["Tactile UI", "Mushroom Kits", "Interactive Drawer"],
+    previewImage: "/templates/poppypatch/preview-1600.webp",
+    promptMarkdown: POPPYPATCH_PROMPT,
+    model: "Gemini 3.8 Flash High",
+  },
+  {
+    slug: "razorline",
+    createdAt: "2026-11-02",
+    title: "RAZORLINE",
+    description: "Uncompromising velocity. Engineered rebellion. Direct-to-consumer launch flagship for the RAZORLINE RL-01 performance running series.",
+    category: "scroll-showcase",
+    industry: "Performance Footwear & Athletics",
+    stack: "Next.js 16 · React 19 · Tailwind v4 · Lucide",
+    badges: ["Hollow-Cavity Sole", "Telemetry HUD", "Kinetic Typography", "Cart Drawer"],
+    previewImage: "/templates/razorline/preview-1600.webp",
+    promptMarkdown: RAZORLINE_PROMPT,
+    model: "Gemini 3.8 Flash High",
+  },
+  {
+    slug: "nexus",
+    createdAt: "2026-11-02",
+    title: "nexus",
+    description:
+      "High-contrast organic and highly creative marketing agency website with tactile clay sculptures, hand-drawn botanical illustrations, and editorial serif typography.",
+    category: "editorial-magazine",
+    industry: "Marketing & Creative Agency",
+    stack: "Next.js 16 · React 19 · Motion",
+    badges: ["Clay Sculptures", "Botanical Art", "Editorial Serif"],
+    previewImage: "/templates/nexus/preview-1600.webp",
+    promptMarkdown: NEXUS_PROMPT,
+    model: "Gemini 3.8 Flash High",
+  },
+  {
+    slug: "starriot",
+    createdAt: "2026-11-02",
+    title: "STAR RIOT",
+    description: "Disco fever. Future sounds. Zero ordinary nights. Step into the place where the dance floor becomes the whole universe.",
+    category: "scroll-showcase",
+    industry: "Nightlife & Music",
+    stack: "Next.js 16 · React 19 · Motion · Lucide",
+    badges: ["Scroll Showcase", "Interactive Equalizer", "Guestlist Generator"],
+    previewImage: "/templates/starriot/preview-1600.webp",
+    promptMarkdown: STARRIOT_PROMPT,
     model: "Gemini 3.8 Flash High",
   },
 ];

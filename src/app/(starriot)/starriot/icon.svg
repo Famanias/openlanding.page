@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="iconStarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCF03C"/>
+      <stop offset="50%" stop-color="#30F0CC"/>
+      <stop offset="100%" stop-color="#FC3CCC"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="10" fill="#12041B"/>
+  <polygon points="24,4 29,17 43,18 32,27 36,41 24,33 12,41 16,27 5,18 19,17" fill="url(#iconStarGrad)" stroke="#FC3CCC" stroke-width="1.5"/>
+  <circle cx="24" cy="24" r="3" fill="#FFFDF8"/>
+</svg>

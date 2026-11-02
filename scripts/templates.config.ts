@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk";
+export type TemplateSlug = "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -21,6 +21,62 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
     paletteExempt: ["src/app/(halodesk)/"],
     mediaExempt: true,
   },
+  riff: {
+    palette: [
+      "#0B0B0B", "#141414", "#F4F0E8", "#C92533", "#741B24", "#AAA8A6", "#777575",
+    ],
+    paletteExempt: ["src/app/(riff)/"],
+    mediaExempt: true,
+  },
+  inesvale: {
+    palette: [
+      "#F2ECE0", "#F7F4ED", "#201C19", "#A65D46", "#6D8795", "#79756F", "#BFB7AC",
+    ],
+    paletteExempt: ["src/app/(inesvale)/"],
+    mediaExempt: true,
+  },
+  nicopark: {
+    palette: [
+      "#F8F7F2", "#191919", "#3049F0", "#FF735D", "#F7E36B", "#D5C8FC", "#515151", "#222222",
+    ],
+    paletteExempt: ["src/app/(nicopark)/"],
+    mediaExempt: true,
+  },
+  poppypatch: {
+    palette: [
+      "#F7ECD6", "#FAF3E3", "#FBF6EA", "#E58267", "#D96E52", "#F7D4C8",
+      "#A8B96C", "#E2EAC7", "#E3B6E0", "#F3E2F2", "#4A2E25", "#735449",
+      "#C3A58E",
+    ],
+    paletteExempt: ["src/app/(poppypatch)/"],
+    mediaExempt: true,
+  },
+  razorline: {
+    palette: [
+      "#0B0B0A", "#F1F0E9", "#D3FF35", "#375CFF", "#777A7A", "#1C1C1A", "#262624",
+    ],
+    paletteExempt: ["src/app/(razorline)/"],
+    mediaExempt: true,
+  },
+  nexus: {
+    palette: [
+      "#221B15", "#362E26", "#685F53", "#FBF8F1", "#F5F1E8", "#FFFFFF",
+      "#C85A32", "#D9824B", "#F6D6BA", "#4C7262", "#777B45", "#E5A93C",
+      "#E3DAC9",
+    ],
+    paletteExempt: ["src/app/(nexus)/"],
+    mediaExempt: true,
+  },
+  starriot: {
+    palette: [
+      "#12041B", "#1E092B", "#2C103B", "#30F0CC", "#FC3CCC",
+      "#FCF03C", "#9451FF", "#FF9BB0", "#FFFDF8", "#CAB9D4",
+    ],
+    paletteExempt: ["src/app/(starriot)/"],
+    mediaExempt: true,
+  },
+
+
   arcandsignal: { palette: ["#0B0A20", "#181339", "#A887FF", "#D9C8FF", "#8DCBFF", "#F8F6FF", "#B9B2D0"] },
   stillwater: { palette: ["#EEE9E0", "#F4F0E8", "#DED7CA", "#34332E", "#253733", "#182521", "#AEBDAF", "#C8AF98", "#FAF8F1"] },
   mercer: {
