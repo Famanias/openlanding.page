@@ -75,14 +75,16 @@ describe("gallery template data", () => {
     const argonSlugs = ["loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (t.slug === "pello" || t.slug === "avel" || t.slug === "landingx") {
-        expect(t.model).toBe("GPT-6");
+        expect(t.model).toBe("GPT-6.1 Terra Max");
+      } else if (t.slug === "mercer") {
+        expect(t.model).toBe("GPT-6.1 Sol Max");
       } else if (argonSlugs.includes(t.slug)) {
         expect(t.model).toBe("Gemini 4 Argon High");
       } else if (t.slug === "firstday") {
         expect(t.model).toBe("GPT-6 Astra Max");
       } else if (t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
-      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "mercer") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
