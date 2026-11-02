@@ -235,7 +235,7 @@ export function Closing() {
                 </div>
               </div>
 
-              <button type="submit" className="nx-btn" style={{ width: "100%" }}>
+              <button type="submit" className="nx-btn" style={{ width: "100%" }} data-magnetic>
                 <span>PREPARE STUDIO NOTE</span>
                 <svg className="nx-btn-arrow" viewBox="0 0 20 14" fill="none" aria-hidden="true">
                   <path

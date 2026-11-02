@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 interface ServiceItem {
   num: string;
   title: string;
@@ -111,13 +109,17 @@ const SERVICES: ServiceItem[] = [
 ];
 
 export function Services() {
-  const [expandedMap, setExpandedMap] = useState<Record<number, boolean>>({});
-
-  const toggleExpanded = (index: number) => {
-    setExpandedMap((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+  const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const btn = e.currentTarget;
+    const card = btn.closest(".nx-service-card");
+    if (!card) return;
+    const expanded = card.classList.toggle("is-expanded");
+    btn.setAttribute("aria-expanded", expanded ? "true" : "false");
+    const spans = btn.querySelectorAll("span");
+    if (spans.length >= 2) {
+      spans[0].textContent = expanded ? "Hide craft notes" : "Inspect craft notes";
+      spans[1].textContent = expanded ? "−" : "+";
+    }
   };
 
   return (
@@ -137,39 +139,36 @@ export function Services() {
         </div>
 
         <div className="nx-services-grid">
-          {SERVICES.map((s, idx) => {
-            const isExpanded = !!expandedMap[idx];
-            return (
-              <article
-                key={s.num}
-                className={`nx-service-card ${isExpanded ? "is-expanded" : ""}`}
-                data-reveal
-                data-tilt
-              >
-                <div>
-                  <div className="nx-service-top">
-                    <span className="nx-service-num">{s.num}</span>
-                    {s.motif}
-                  </div>
-                  <h3 className="nx-service-title">{s.title}</h3>
-                  <p className="nx-service-desc">{s.desc}</p>
+          {SERVICES.map((s) => (
+            <article
+              key={s.num}
+              className="nx-service-card"
+              data-reveal
+              data-tilt
+            >
+              <div>
+                <div className="nx-service-top">
+                  <span className="nx-service-num">{s.num}</span>
+                  {s.motif}
                 </div>
-                <div>
-                  <div className="nx-service-meta">{s.meta}</div>
-                  <button
-                    type="button"
-                    className="nx-service-toggle"
-                    aria-expanded={isExpanded}
-                    onClick={() => toggleExpanded(idx)}
-                  >
-                    <span>{isExpanded ? "Hide craft notes" : "Inspect craft notes"}</span>
-                    <span aria-hidden="true">{isExpanded ? "−" : "+"}</span>
-                  </button>
-                  <div className="nx-service-drawer">{s.drawer}</div>
-                </div>
-              </article>
-            );
-          })}
+                <h3 className="nx-service-title">{s.title}</h3>
+                <p className="nx-service-desc">{s.desc}</p>
+              </div>
+              <div>
+                <div className="nx-service-meta">{s.meta}</div>
+                <button
+                  type="button"
+                  className="nx-service-toggle"
+                  aria-expanded="false"
+                  onClick={handleToggle}
+                >
+                  <span>Inspect craft notes</span>
+                  <span aria-hidden="true">+</span>
+                </button>
+                <div className="nx-service-drawer">{s.drawer}</div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

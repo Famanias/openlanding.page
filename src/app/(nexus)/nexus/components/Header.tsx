@@ -49,7 +49,7 @@ export function Header() {
 
           {/* Zone 3: Primary Action + Mobile Menu Trigger */}
           <div className="nx-nav-actions">
-            <a href="#contact" className="nx-btn nx-nav-cta">
+            <a href="#contact" className="nx-btn nx-nav-cta" data-magnetic>
               <span>Let’s talk</span>
             </a>
             <button

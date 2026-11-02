@@ -14,6 +14,15 @@ test.describe("nexus landing page", () => {
     await expect(page.locator("#work")).toBeVisible();
     await expect(page.locator("#testimonials")).toBeVisible();
     await expect(page.locator("#contact")).toBeVisible();
+
+    // Verify sections with data-reveal gain is-inview and opacity 1 on scroll
+    for (const sectionId of ["#about", "#services", "#process", "#work", "#testimonials", "#contact"]) {
+      const section = page.locator(sectionId);
+      await section.scrollIntoViewIfNeeded();
+      const reveal = section.locator("[data-reveal]").first();
+      await expect(reveal).toHaveClass(/is-inview/);
+      await expect(reveal).toHaveCSS("opacity", "1");
+    }
   });
 
   test("interactive controls: principle tabs, services drawers, and testimonials carousel", async ({
@@ -43,6 +52,48 @@ test.describe("nexus landing page", () => {
     await expect(page.locator("#quote-counter")).toContainText("Note 01 of 03");
     await page.locator("#testimonial-next").click();
     await expect(page.locator("#quote-counter")).toContainText("Note 02 of 03");
+  });
+
+  test("capabilities cards and process chapter cards do not disappear on interaction or scroll", async ({
+    page,
+  }) => {
+    await page.goto("/nexus");
+
+    // 1. Check Capabilities cards do not disappear when clicking Inspect craft notes
+    const services = page.locator("#services");
+    await services.scrollIntoViewIfNeeded();
+    const serviceCards = services.locator(".nx-service-card");
+    await expect(serviceCards).toHaveCount(4);
+
+    for (let i = 0; i < 4; i++) {
+      const card = serviceCards.nth(i);
+      await expect(card).toHaveCSS("opacity", "1");
+      const toggleBtn = card.locator(".nx-service-toggle");
+      await toggleBtn.click();
+      // After click, the card must remain visible with opacity 1 and is-inview
+      await expect(card).toHaveCSS("opacity", "1");
+      await expect(card).toHaveClass(/is-inview/);
+      await expect(card).toHaveClass(/is-expanded/);
+    }
+
+    // 2. Check How We Work process cards do not disappear on scroll
+    const processSection = page.locator("#process");
+    await processSection.scrollIntoViewIfNeeded();
+    const chapterCards = processSection.locator(".nx-chapter-card");
+    await expect(chapterCards).toHaveCount(4);
+
+    // Scroll through the process section incrementally
+    for (let scrollStep = 0; scrollStep < 10; scrollStep++) {
+      await page.mouse.wheel(0, 150);
+      await page.waitForTimeout(50);
+    }
+
+    // All 4 chapter cards must remain visible with opacity 1 and is-inview
+    for (let i = 0; i < 4; i++) {
+      const chapterCard = chapterCards.nth(i);
+      await expect(chapterCard).toHaveCSS("opacity", "1");
+      await expect(chapterCard).toHaveClass(/is-inview/);
+    }
   });
 
   test("work filtering and case study modal reader", async ({ page }) => {

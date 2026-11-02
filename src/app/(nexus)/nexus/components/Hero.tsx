@@ -101,7 +101,7 @@ export function Hero() {
             </p>
 
             <div className="nx-hero-cta-row">
-              <a href="#contact" className="nx-btn nx-hero-cta">
+              <a href="#contact" className="nx-btn nx-hero-cta" data-magnetic>
                 <span>LET’S PARTNER UP</span>
                 <svg className="nx-btn-arrow" viewBox="0 0 20 14" fill="none" aria-hidden="true">
                   <path
@@ -278,6 +278,7 @@ export function Hero() {
               <button
                 type="button"
                 className="nx-seal-badge nx-seal-badge--sage"
+                data-seal-spin
                 aria-label="Casual Badges botanical seal"
                 onClick={handleSpin1}
                 style={{
@@ -327,6 +328,7 @@ export function Hero() {
               <button
                 type="button"
                 className="nx-seal-badge nx-seal-badge--mustard"
+                data-seal-spin
                 aria-label="Clay-Made Culture botanical seal"
                 onClick={handleSpin2}
                 style={{

@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import { filterWorkProjects, type WorkProject } from "../model/agencyLogic";
-import { ProjectModal } from "./ProjectModal";
+import { ProjectModal, type ModalProjectData } from "./ProjectModal";
 
-export const PROJECTS: (WorkProject & {
-  modalKicker: string;
+export const PROJECTS: (ModalProjectData & {
   artClass: string;
   svgArt: React.ReactNode;
 })[] = [
@@ -30,6 +29,7 @@ export const PROJECTS: (WorkProject & {
       "Interactive Web Flagship",
     ],
     modalKicker: "Solstice Apothecary · Brand World · 2026",
+    modalMetric: "+164% Direct Repeat Orders in 5 Months · 3.4x Press Mentions",
     artClass: "nx-work-art--solstice",
     svgArt: (
       <svg width="240" height="180" viewBox="0 0 240 180" fill="none" aria-hidden="true">
@@ -95,6 +95,7 @@ export const PROJECTS: (WorkProject & {
       "Social Storytelling",
     ],
     modalKicker: "Loom & Meadow · Campaigns · 2025",
+    modalMetric: "+210% Organic Story Shares Across 8 Weeks · +88% Direct Search Lift",
     artClass: "nx-work-art--loom",
     svgArt: (
       <svg width="240" height="180" viewBox="0 0 240 180" fill="none" aria-hidden="true">
@@ -145,6 +146,7 @@ export const PROJECTS: (WorkProject & {
       "Packaging",
     ],
     modalKicker: "Kith & Kin Roasters · Experiences · 2026",
+    modalMetric: "+138% Subscription Retention Over 6 Months · +62% Gift Subscriptions",
     artClass: "nx-work-art--kith",
     svgArt: (
       <svg width="240" height="180" viewBox="0 0 240 180" fill="none" aria-hidden="true">
@@ -188,7 +190,6 @@ export function Work() {
   const [filter, setFilter] = useState("all");
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
-  const displayedProjects = filterWorkProjects(PROJECTS, filter);
   const activeModalProject = PROJECTS.find((p) => p.id === selectedProjectId) ?? null;
 
   return (
@@ -239,35 +240,39 @@ export function Work() {
         </div>
 
         <div className="nx-work-grid" id="work-grid">
-          {displayedProjects.map((p) => (
-            <article
-              key={p.id}
-              className="nx-work-card"
-              data-category={p.category}
-              data-project-id={p.id}
-              data-reveal
-              data-tilt
-            >
-              <div className={`nx-work-art ${p.artClass}`}>{p.svgArt}</div>
-              <div className="nx-work-body">
-                <div className="nx-work-meta">
-                  {p.client} · {p.categoryLabel} · {p.year}
+          {PROJECTS.map((p) => {
+            const isVisible = filter === "all" || p.category === filter;
+            return (
+              <article
+                key={p.id}
+                className="nx-work-card"
+                data-category={p.category}
+                data-project-id={p.id}
+                data-reveal
+                data-tilt
+                style={{ display: isVisible ? "flex" : "none" }}
+              >
+                <div className={`nx-work-art ${p.artClass}`}>{p.svgArt}</div>
+                <div className="nx-work-body">
+                  <div className="nx-work-meta">
+                    {p.client} · {p.categoryLabel} · {p.year}
+                  </div>
+                  <h3 className="nx-work-title">{p.title}</h3>
+                  <p className="nx-work-summary">{p.summary}</p>
+                  <div className="nx-work-metric">{p.metric}</div>
+                  <button
+                    type="button"
+                    className="nx-work-open-btn"
+                    data-open-project={p.id}
+                    onClick={() => setSelectedProjectId(p.id)}
+                  >
+                    <span>Read Case Study</span>
+                    <span aria-hidden="true">→</span>
+                  </button>
                 </div>
-                <h3 className="nx-work-title">{p.title}</h3>
-                <p className="nx-work-summary">{p.summary}</p>
-                <div className="nx-work-metric">{p.metric}</div>
-                <button
-                  type="button"
-                  className="nx-work-open-btn"
-                  data-open-project={p.id}
-                  onClick={() => setSelectedProjectId(p.id)}
-                >
-                  <span>Read Case Study</span>
-                  <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </div>
 

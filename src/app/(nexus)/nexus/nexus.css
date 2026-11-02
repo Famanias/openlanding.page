@@ -1192,7 +1192,7 @@
       color: var(--ink-deep);
     }
 
-    .nx-chapter-body, .nx-body {
+    .nx-chapter-body {
       font-size: 1.05rem;
       color: var(--ink-muted);
       margin: 0 0 1rem 0;
@@ -1295,7 +1295,7 @@
       transform: translateY(-10px) scale(1.06) rotate(2deg);
     }
 
-    .nx-work-body, .nx-body {
+    .nx-work-body {
       padding: 1.75rem;
       display: flex;
       flex-direction: column;
@@ -1621,7 +1621,9 @@
       transition: transform 0.78s var(--ease-out-expo), opacity 0.65s ease;
     }
 
-    .js-anim-ready [data-reveal].is-inview {
+    .js-anim-ready [data-reveal].is-inview,
+    .js-anim-ready [data-reveal][data-inview="true"],
+    .js-anim-ready [data-inview="true"] {
       opacity: 1;
       transform: translateY(0) rotate(0deg) scale(1);
     }

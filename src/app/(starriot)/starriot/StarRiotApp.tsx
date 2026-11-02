@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
 import { ManifestoSection } from "./components/ManifestoSection";
@@ -16,6 +16,12 @@ export default function StarRiotApp() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalEventId, setModalEventId] = useState("friday-frequency");
   const [selectedNight, setSelectedNight] = useState<string>("friday-frequency");
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.search.indexOf("autostart=1") !== -1) {
+      document.body.classList.add("sr-autostart", "autostart");
+    }
+  }, []);
 
   const handleOpenModal = (eventId: string) => {
     setModalEventId(eventId);

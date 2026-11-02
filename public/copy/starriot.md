@@ -350,11 +350,12 @@ export default function StarRiotPage() {
         animation: sr-spotlightIgnite 1.15s var(--ease-out-expo) forwards;
       }
 
-      .sr-body.sr-autostart::before {
+      .sr-body.sr-autostart::before,
+      .sr-body.autostart::before {
         display: none;
       }
 
-      @keyframes sr-sr-spotlightIgnite {
+      @keyframes sr-spotlightIgnite {
         0% {
           opacity: 1;
           background: radial-gradient(circle at 65% 38%, transparent 2%, var(--night-0) 8%);
@@ -399,6 +400,7 @@ export default function StarRiotPage() {
         max-width: 100%;
       }
 
+      .sr-only,
       .sr-sr-only {
         position: absolute;
         width: 1px;
@@ -456,7 +458,7 @@ export default function StarRiotPage() {
         animation: sr-pulseSpark 2.4s infinite ease-in-out;
       }
 
-      @keyframes sr-sr-pulseSpark {
+      @keyframes sr-pulseSpark {
         0%, 100% { transform: scale(1) rotate(0deg); }
         50% { transform: scale(1.25) rotate(18deg); color: var(--hot-pink); }
       }
@@ -521,12 +523,12 @@ export default function StarRiotPage() {
         transform: rotate(-16deg) scale(1.12);
       }
 
-      @keyframes sr-sr-wordmarkSnapLeft {
+      @keyframes sr-wordmarkSnapLeft {
         0% { opacity: 0; transform: translateX(-22px) rotate(-35deg) scale(0.6); }
         100% { opacity: 1; transform: translateX(0) rotate(0deg) scale(1); }
       }
 
-      @keyframes sr-sr-wordmarkSnapRight {
+      @keyframes sr-wordmarkSnapRight {
         0% { opacity: 0; transform: translateX(22px) skewX(-18deg); }
         100% { opacity: 1; transform: translateX(0) skewX(0deg); }
       }
@@ -825,15 +827,15 @@ export default function StarRiotPage() {
         filter: drop-shadow(4px 4px 0px var(--hot-pink)) drop-shadow(0 0 18px rgba(48, 240, 204, 0.35));
       }
 
-      @keyframes sr-sr-heroWipe1 {
+      @keyframes sr-heroWipe1 {
         0% { opacity: 0; transform: translateY(28px) skewX(-12deg) scaleY(1.15); }
         100% { opacity: 1; transform: translateY(0) skewX(0deg) scaleY(1); }
       }
-      @keyframes sr-sr-heroWipe2 {
+      @keyframes sr-heroWipe2 {
         0% { opacity: 0; transform: translateX(-32px) skewX(10deg); }
         100% { opacity: 1; transform: translateX(0) skewX(0deg); }
       }
-      @keyframes sr-sr-heroWipe3 {
+      @keyframes sr-heroWipe3 {
         0% { opacity: 0; transform: translateY(34px) scale(0.88); }
         100% { opacity: 1; transform: translateY(0) scale(1); }
       }
@@ -904,12 +906,12 @@ export default function StarRiotPage() {
         animation: sr-starUnfold 1.1s var(--ease-spring) 0.15s both, sr-starFloat 6s ease-in-out 1.3s infinite alternate;
       }
 
-      @keyframes sr-sr-starUnfold {
+      @keyframes sr-starUnfold {
         0% { transform: scale(0.25) rotate(-42deg); opacity: 0; }
         100% { transform: scale(1) rotate(0deg); opacity: 1; }
       }
 
-      @keyframes sr-sr-starFloat {
+      @keyframes sr-starFloat {
         0% { transform: translate3d(0, 0, 0) rotate(0deg); }
         100% { transform: translate3d(0, -10px, 0) rotate(3.5deg); }
       }
@@ -919,7 +921,7 @@ export default function StarRiotPage() {
         animation: sr-discoSwing 4.5s ease-in-out infinite alternate;
       }
 
-      @keyframes sr-sr-discoSwing {
+      @keyframes sr-discoSwing {
         0% { transform: rotate(-3deg); }
         100% { transform: rotate(3.5deg); }
       }
@@ -934,22 +936,22 @@ export default function StarRiotPage() {
         animation: sr-dancerRightEnter 0.85s var(--ease-spring) 0.36s both, sr-dancerGrooveB 1.6s ease-in-out 1.2s infinite alternate;
       }
 
-      @keyframes sr-sr-dancerLeftEnter {
+      @keyframes sr-dancerLeftEnter {
         0% { opacity: 0; transform: translate(-35px, 40px) rotate(-10deg); }
         100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
       }
 
-      @keyframes sr-sr-dancerRightEnter {
+      @keyframes sr-dancerRightEnter {
         0% { opacity: 0; transform: translate(35px, 40px) rotate(10deg); }
         100% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
       }
 
-      @keyframes sr-sr-dancerGrooveA {
+      @keyframes sr-dancerGrooveA {
         0% { transform: rotate(-1.2deg) translateY(0); }
         100% { transform: rotate(1.6deg) translateY(-6px); }
       }
 
-      @keyframes sr-sr-dancerGrooveB {
+      @keyframes sr-dancerGrooveB {
         0% { transform: rotate(1.4deg) translateY(0); }
         100% { transform: rotate(-1.4deg) translateY(-7px); }
       }
@@ -1210,7 +1212,7 @@ export default function StarRiotPage() {
       .sr-eq-col:nth-child(6) .sr-eq-seg { background: var(--acid-lime); }
       .sr-eq-col:nth-child(7) .sr-eq-seg { background: var(--electric-mint); }
 
-      @keyframes sr-sr-eqBounce {
+      @keyframes sr-eqBounce {
         0%, 100% { transform: scaleY(0.35); opacity: 0.55; }
         50% { transform: scaleY(1); opacity: 1; }
       }
@@ -1427,7 +1429,7 @@ export default function StarRiotPage() {
         max-width: 270px;
       }
 
-      @keyframes sr-sr-slowSpin {
+      @keyframes sr-slowSpin {
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
       }
@@ -1465,7 +1467,7 @@ export default function StarRiotPage() {
         animation-play-state: paused;
       }
 
-      @keyframes sr-sr-tickerMarch {
+      @keyframes sr-tickerMarch {
         0% { transform: translateX(0); }
         100% { transform: translateX(-50%); }
       }
@@ -2341,7 +2343,7 @@ export default function StarRiotPage() {
     <file path="src/app/(starriot)/starriot/StarRiotApp.tsx">
 <![CDATA["use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
 import { ManifestoSection } from "./components/ManifestoSection";
@@ -2357,6 +2359,12 @@ export default function StarRiotApp() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalEventId, setModalEventId] = useState("friday-frequency");
   const [selectedNight, setSelectedNight] = useState<string>("friday-frequency");
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.search.indexOf("autostart=1") !== -1) {
+      document.body.classList.add("sr-autostart", "autostart");
+    }
+  }, []);
 
   const handleOpenModal = (eventId: string) => {
     setModalEventId(eventId);
