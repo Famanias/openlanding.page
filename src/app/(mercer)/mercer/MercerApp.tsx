@@ -6,8 +6,9 @@ import MercerHeader from "./components/MercerHeader";
 import MercerHeroCopy from "./components/MercerHeroCopy";
 import MercerTorusKnotCanvas from "./components/MercerTorusKnotCanvas";
 import ProjectTicker, { PROJECTS, ProjectPreview } from "./components/ProjectTicker";
+import ExperimentDetails from "./components/ExperimentDetails";
 
-type Detail = "projects" | "about" | number | null;
+type Detail = "projects" | "about" | "experiment" | number | null;
 
 export default function MercerApp() {
   const [detail, setDetail] = useState<Detail>(null);
@@ -37,18 +38,31 @@ export default function MercerApp() {
           <span className="jm-crosshair" /><span className="jm-crosshair" />
         </div>
         <MercerHeroCopy onExplore={() => setDetail("projects")} onAbout={() => setDetail("about")} />
-        <MercerTorusKnotCanvas suspended={detail !== null} />
+        <MercerTorusKnotCanvas suspended={detail !== null} onOpenExperiment={() => setDetail("experiment")} />
       </main>
       <ProjectTicker onSelect={setDetail} onExplore={() => setDetail("projects")} />
 
-      <dialog className="jm-dialog" ref={dialogRef} aria-labelledby="jm-dialog-title" onClose={() => setDetail(null)} onClick={(event) => {
+      <dialog id="jm-detail-dialog" className={`jm-dialog${detail === "experiment" ? " jm-dialog-experiment" : ""}`} ref={dialogRef} aria-labelledby="jm-dialog-title" onClose={() => setDetail(null)} onKeyDown={(event) => {
+        if (event.key !== "Tab") return;
+        const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>("button:not([disabled]), a[href], [tabindex='0']"))
+          .filter((element) => element.getClientRects().length > 0);
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }} onClick={(event) => {
         if (event.target === event.currentTarget) {
           const bounds = event.currentTarget.getBoundingClientRect();
           if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) setDetail(null);
         }
       }}>
-        <div className="jm-dialog-head jm-mono"><span>JULES MERCER // {detail === "about" ? "THE DEVELOPER" : "SELECTED WORK"}</span><button type="button" className="jm-dialog-close" aria-label="Close details" onClick={() => setDetail(null)}><X size={18} aria-hidden="true" /></button></div>
-        {detail === "about" ? <>
+        <div className="jm-dialog-head jm-mono"><span>JULES MERCER // {detail === "about" ? "THE DEVELOPER" : detail === "experiment" ? "EXPERIMENT NOTES / 001" : "SELECTED WORK"}</span><button type="button" className="jm-dialog-close" aria-label="Close details" onClick={() => setDetail(null)}><X size={18} aria-hidden="true" />{detail === "experiment" && <span>ESC</span>}</button></div>
+        {detail === "experiment" ? <ExperimentDetails onReturn={() => setDetail(null)} /> : detail === "about" ? <>
           <h2 id="jm-dialog-title">Design in mind.<br />Code at heart.</h2>
           <p>I’m Jules, an independent creative developer working at the intersection of design and technology. I turn ambitious ideas into considered digital experiences, from tactile interfaces to interactive worlds.</p>
           <p>Currently exploring procedural geometry, real-time graphics and the small details that make the web feel human.</p>

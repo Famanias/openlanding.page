@@ -26,17 +26,23 @@ const CODE = [
   "}",
 ];
 
-export function TerminalCodeCard() {
+export function AppletCode() {
   return (
-    <aside className="jm-terminal" aria-label="Procedural experiment code preview">
-      <div className="jm-terminal-bar"><span aria-hidden="true"><i /><i /><i /></span><span>applet.ts</span><span>↗</span></div>
-      <pre><code>{CODE.map((line, index) => (
+    <code>{CODE.map((line, index) => (
         <span className={`jm-code-line${[0, 2, 9].includes(index) ? " jm-code-accent" : ""}`} key={index}>
           <span className="jm-code-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{line}
         </span>
-      ))}</code></pre>
-      <div className="jm-terminal-footer"><span>TYPESCRIPT</span><span>UTF-8</span></div>
-    </aside>
+      ))}</code>
+  );
+}
+
+export function TerminalCodeCard({ onOpen }: { onOpen?: () => void }) {
+  return (
+    <button type="button" className="jm-terminal" aria-label="Open experiment notes" aria-haspopup="dialog" aria-controls="jm-detail-dialog" onClick={onOpen}>
+      <span className="jm-terminal-bar"><span aria-hidden="true"><i /><i /><i /></span><span>applet.ts</span><span aria-hidden="true">↗</span></span>
+      <span className="jm-terminal-code"><AppletCode /></span>
+      <span className="jm-terminal-footer"><span>TYPESCRIPT</span><span className="jm-terminal-invite">OPEN NOTES ↗</span></span>
+    </button>
   );
 }
 

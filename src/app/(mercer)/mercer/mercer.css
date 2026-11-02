@@ -87,10 +87,13 @@
 .jm-fps-bars { display: flex; align-items: flex-end; gap: 2px; height: 8px; }
 .jm-fps-bars i { display: block; width: 2px; height: 3px; background: #ccff00; }
 .jm-fps-bars i:nth-child(2) { height: 5px; }.jm-fps-bars i:nth-child(3) { height: 8px; }.jm-fps-bars i:nth-child(4) { height: 6px; background: #00e5ff; }
-.jm-terminal { position: absolute; bottom: 8%; left: 4%; width: 174px; background: #0a0d10e6; border: 1px solid var(--jm-line); border-radius: 3px; box-shadow: 0 8px 32px #0a0d10; overflow: hidden; transform: rotate(-0.5deg); }
+.jm-terminal { position: absolute; bottom: 8%; left: 4%; width: 174px; display: block; padding: 0; text-align: left; background: #0a0d10e6; border: 1px solid var(--jm-line); border-radius: 3px; box-shadow: 0 8px 32px #0a0d10; overflow: hidden; transform: rotate(-0.5deg); transition: transform var(--duration-jm-base) var(--ease-jm-out), border-color var(--duration-jm-fast) var(--ease-jm-out); }
+.jm-terminal:focus-visible { outline-offset: 4px !important; }
+.jm-terminal:active { transform: translateY(1px) rotate(0deg) scale(0.98); }
+.jm-terminal-invite { color: #ccff00; }
 .jm-terminal-bar { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--jm-line); padding: 5px 6px; color: var(--jm-muted); font-family: var(--font-jm-geist-mono), monospace; font-size: 6px; }
 .jm-terminal-bar > span:first-child { display: flex; gap: 3px; }.jm-terminal-bar i { width: 4px; height: 4px; background: var(--jm-muted); border-radius: 50%; }
-.jm-terminal pre { margin: 0; padding: 8px 6px; font-family: var(--font-jm-geist-mono), monospace; font-size: 5.5px; line-height: 1.65; color: var(--jm-muted); }
+.jm-terminal-code { display: block; margin: 0; padding: 8px 6px; font-family: var(--font-jm-geist-mono), monospace; font-size: 5.5px; line-height: 1.65; white-space: pre; color: var(--jm-muted); }
 .jm-code-line { display: block; }.jm-code-number { opacity: 0.35; margin-right: 7px; }.jm-code-accent { color: color-mix(in srgb, #ccff00 60%, #e8ecef); }
 .jm-terminal-footer { display: flex; justify-content: space-between; padding: 4px 6px; border-top: 1px solid var(--jm-line); color: var(--jm-muted); font: 5px var(--font-jm-geist-mono), monospace; }
 .jm-experiment-status { position: absolute; right: 6%; bottom: 20%; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: 8px; letter-spacing: -0.035em; }
@@ -119,12 +122,39 @@
 .jm-dialog-stack { font-size: 10px !important; margin-top: 24px; color: #ccff00 !important; }
 .jm-dialog-projects { display: grid; gap: 12px; }.jm-dialog-projects button { display: flex; align-items: center; justify-content: space-between; padding: 16px; text-align: left; border: 1px solid var(--jm-line); border-radius: 3px; background: transparent; font-size: 18px; }.jm-dialog-projects small { display: block; color: var(--jm-muted); font: 9px var(--font-jm-geist-mono), monospace; margin-top: 8px; }
 
+.jm-dialog-experiment { width: min(900px, calc(100% - 32px)); padding: 0; scrollbar-color: #00e5ff #0a0d10; scrollbar-width: thin; }
+.jm-dialog-experiment > .jm-dialog-head { position: sticky; top: 0; z-index: 2; padding: 16px 32px; margin: 0; border-bottom: 1px solid var(--jm-line); background: #0a0d10; color: #00e5ff; }
+.jm-dialog-experiment .jm-dialog-close { display: flex; align-items: center; justify-content: center; gap: 8px; width: auto; padding: 0 12px; color: #e8ecef; font-size: 9px; }
+.jm-experiment-detail { padding: 32px; }
+.jm-experiment-intro { display: grid; grid-template-columns: 1.1fr 1fr; align-items: end; gap: 32px; }
+.jm-experiment-intro h2 { margin: 0; font-size: clamp(36px, 4vw, 48px); letter-spacing: -0.04em; font-weight: 600; line-height: 1.05; }
+.jm-experiment-intro h2 span { color: #ccff00; }
+.jm-experiment-intro > p { margin: 0; font-size: 16px; line-height: 1.65; max-width: 38ch; }
+.jm-experiment-body { display: grid; grid-template-columns: 0.95fr 1.05fr; align-items: start; gap: 32px; margin-top: 32px; }
+.jm-experiment-study { margin: 0; min-width: 0; }
+.jm-experiment-preview { aspect-ratio: 1; position: relative; background-image: linear-gradient(to right, #e8ecef0d 1px, transparent 1px), linear-gradient(to bottom, #e8ecef0d 1px, transparent 1px); background-size: 25% 25%; }
+.jm-study-mark { position: absolute; bottom: 12px; left: 12px; color: var(--jm-muted); font-size: 8px; }
+.jm-experiment-specs { display: grid; gap: 12px; margin: 24px 0 0; font-size: 9px; line-height: 1.5; }
+.jm-experiment-specs > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.jm-experiment-specs dt { color: var(--jm-muted); }.jm-experiment-specs dd { margin: 0; text-align: right; }
+.jm-experiment-source { min-width: 0; border: 1px solid var(--jm-line); border-radius: 3px; overflow: hidden; }
+.jm-source-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 16px; border-bottom: 1px solid var(--jm-line); font-size: 9px; color: var(--jm-muted); }
+.jm-source-head h3 { font: inherit; color: #00e5ff; margin: 0; }
+.jm-experiment-code { margin: 0; padding: 16px; font-family: var(--font-jm-geist-mono), monospace; font-size: 12px; line-height: 1.75; white-space: pre; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; scrollbar-color: #00e5ff #0a0d10; }
+.jm-experiment-code .jm-code-line { min-height: 1.75em; }.jm-experiment-code .jm-code-number { margin-right: 12px; }
+.jm-dialog .jm-source-caption { font-size: 12px; line-height: 1.6; margin: 0; padding: 12px 16px; border-top: 1px solid var(--jm-line); }
+.jm-experiment-end { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--jm-line); }
+.jm-experiment-end > span { font-size: 9px; line-height: 1.6; color: var(--jm-muted); }
+.jm-experiment-end .jm-button { font-size: 12px !important; }
+
 @media (hover: hover) and (pointer: fine) {
   .jm-desktop-nav :is(a, button):hover::after { transform: scaleX(1); }
   .jm-button:hover { transform: translateY(-2px); }.jm-button:hover svg, .jm-contact:hover svg { transform: translate(2px, -2px); }
   .jm-project:hover .jm-project-name svg { transform: translateX(4px); }.jm-project:hover .jm-project-preview { transform: scale(1.07); }
   .jm-button-secondary:hover, .jm-project:hover .jm-project-name, .jm-scroll-cue:hover { color: #e8ecef !important; }
   .jm-dialog-projects button:hover { border-color: #ccff00; }
+  .jm-terminal:hover { transform: translateY(-4px) rotate(0deg); border-color: #ccff00; }
+  .jm-dialog-experiment .jm-dialog-close:hover { border-color: #ccff00; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -150,7 +180,7 @@
 @media (max-width: 1000px) {
   .jm-brand-name span { display: none; }.jm-header { gap: 24px; }.jm-desktop-nav { font-size: 12px; gap: 12px; }
   .jm-hero { min-height: 620px; }.jm-hero-copy { padding-left: 32px; }.jm-eyebrow span { display: block; }.jm-intro { max-width: 360px; font-size: 18px; }.jm-button { padding-inline: 16px; font-size: 12px !important; }.jm-hero-actions { gap: 8px; }
-  .jm-terminal { width: 150px; left: 7%; }.jm-terminal pre { font-size: 4.7px; }.jm-experiment-status { right: 6%; bottom: 26%; font-size: 6px; }.jm-system-status { font-size: 5px; max-width: 112px; }
+  .jm-terminal { width: 150px; left: 7%; }.jm-terminal-code { font-size: 4.7px; }.jm-experiment-status { right: 6%; bottom: 26%; font-size: 6px; }.jm-system-status { font-size: 5px; max-width: 112px; }
   .jm-projects { padding-inline: 32px; }.jm-project-list { gap: 24px; }.jm-project-thumb { display: none; }.jm-project-name { font-size: 16px; }
 }
 @media (max-width: 700px) {
@@ -159,9 +189,15 @@
   .jm-mobile-menu nav { position: absolute; top: 100%; right: 0; width: 100%; min-height: calc(100svh - 68px); background: #0a0d10f5; backdrop-filter: blur(12px); display: flex; flex-direction: column; align-items: flex-start; padding: 48px 32px; gap: 32px; font-size: 30px; }.jm-mobile-menu nav > span { display: none; }
   .jm-hero { display: flex; flex-direction: column; align-items: stretch; min-height: 0; }.jm-grid { background-size: 50% 100%, 100% 33.333%; }.jm-grid::before { left: 8px; }.jm-grid::after { right: 8px; }.jm-coordinate:nth-child(2), .jm-coordinate:nth-child(4) { display: none; }.jm-coordinate { font-size: 6px; }.jm-coordinate:nth-child(1), .jm-coordinate:nth-child(5) { left: 16px; }
   .jm-hero-copy { padding: 48px 24px 0; }.jm-eyebrow { font-size: 8px; margin-bottom: 16px; }.jm-eyebrow span { display: inline; }.jm-headline { font-size: clamp(60px, 13.8vw, 96px); margin-left: -2px; margin-bottom: 24px; }.jm-intro { margin: 24px 0; max-width: 370px; line-height: 1.45; font-size: 18px; }.jm-hero-actions { gap: 12px; }.jm-button { padding: 12px 16px; min-height: 48px; font-size: 12px !important; }
-  .jm-stage { min-height: 0; height: min(112vw, 570px); width: calc(100% + 16px); margin: 8px -8px 0; }.jm-fps { top: 10%; left: 12%; font-size: 8px; }.jm-reticle-one { top: 9%; }.jm-terminal { width: 128px; bottom: 9%; left: 8%; }.jm-terminal pre { font-size: 4px; }.jm-terminal-footer { font-size: 4px; }.jm-terminal-bar { font-size: 5px; }.jm-experiment-status { right: 7%; bottom: 22%; font-size: 5.5px; }.jm-system-status { font-size: 4.7px; max-width: 104px; }.jm-stage-controls { right: 24px; bottom: 8px; font-size: 6px; }.jm-stage-controls button { min-width: 40px; min-height: 40px; }
+  .jm-stage { min-height: 0; height: min(112vw, 570px); width: calc(100% + 16px); margin: 8px -8px 0; }.jm-fps { top: 10%; left: 12%; font-size: 8px; }.jm-reticle-one { top: 9%; }.jm-terminal { width: 128px; bottom: 9%; left: 8%; }.jm-terminal-code { font-size: 4px; }.jm-terminal-footer { font-size: 4px; }.jm-terminal-bar { font-size: 5px; }.jm-experiment-status { right: 7%; bottom: 22%; font-size: 5.5px; }.jm-system-status { font-size: 4.7px; max-width: 104px; }.jm-stage-controls { right: 24px; bottom: 8px; font-size: 6px; }.jm-stage-controls button { min-width: 40px; min-height: 40px; }
   .jm-projects { min-height: 120px; padding: 20px 24px; display: block; }.jm-project-list { display: flex; overflow-x: auto; padding: 4px 4px 16px; margin: -4px; scroll-snap-type: x mandatory; gap: 24px; }.jm-project { min-width: 250px; scroll-snap-align: start; }.jm-project-thumb { display: block; width: 96px; height: 56px; }.jm-project-name { font-size: 16px; }.jm-project-number { font-size: 16px; }.jm-scroll-cue { display: none; }
   .jm-dialog { padding: 24px; }.jm-dialog-head { margin-bottom: 24px; }.jm-dialog p { font-size: 16px; }.jm-dialog-projects button { font-size: 16px; }
+  .jm-dialog-experiment { padding: 0; max-height: calc(100svh - 32px); }
+  .jm-dialog-experiment > .jm-dialog-head { padding: 12px 24px; gap: 12px; font-size: 8px; }.jm-dialog-experiment .jm-dialog-close { gap: 4px; padding-inline: 8px; }
+  .jm-experiment-detail { padding: 24px; }.jm-experiment-intro { grid-template-columns: 1fr; gap: 16px; }.jm-experiment-intro h2 { font-size: 36px; }
+  .jm-experiment-body { grid-template-columns: 1fr; gap: 24px; margin-top: 24px; }.jm-experiment-preview { aspect-ratio: 1.15; }.jm-experiment-specs { margin-top: 16px; font-size: 8px; }
+  .jm-experiment-code { font-size: 11px; }.jm-dialog .jm-source-caption { font-size: 12px; }
+  .jm-experiment-end { align-items: stretch; flex-direction: column; gap: 16px; margin-top: 24px; }.jm-experiment-end > span br { display: none; }.jm-experiment-end .jm-button { padding-inline: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .jm-page *, .jm-page *::before, .jm-page *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }

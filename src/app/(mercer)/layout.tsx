@@ -11,7 +11,7 @@ export default function MercerLayout({ children }: { children: React.ReactNode }
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body className="jm-body">
-        <noscript><style>{`.jm-page *{animation:none!important;opacity:1!important}.jm-hero-actions,.jm-mobile-menu,.jm-desktop-nav button,.jm-scroll-cue{display:none!important}.jm-project{pointer-events:none}.jm-knot-fallback{visibility:visible!important}`}</style></noscript>
+        <noscript><style>{`.jm-page *{animation:none!important;opacity:1!important}.jm-hero-actions,.jm-mobile-menu,.jm-desktop-nav button,.jm-scroll-cue,.jm-terminal-invite{display:none!important}.jm-project,.jm-terminal{pointer-events:none}.jm-knot-fallback{visibility:visible!important}`}</style></noscript>
         {children}
       </body>
     </html>

@@ -13,6 +13,15 @@ describe("hero telemetry", () => {
     expect(html).toContain("<code>");
     expect(html).toContain("requestAnimationFrame");
   });
+  it("makes the whole terminal a keyboard-accessible dialog trigger", () => {
+    const html = renderToStaticMarkup(<TerminalCodeCard onOpen={() => {}} />);
+    expect(html).toContain('<button');
+    expect(html).toContain('aria-label="Open experiment notes"');
+    expect(html).toContain('aria-haspopup="dialog"');
+    expect(html).toContain('aria-controls="jm-detail-dialog"');
+    expect(html).toContain("OPEN NOTES");
+    expect(html).not.toContain("<pre>");
+  });
   it("distinguishes a live experiment from a static fallback", () => {
     expect(renderToStaticMarkup(<ExperimentStatusCard />)).toContain("SYSTEM ONLINE");
     expect(renderToStaticMarkup(<ExperimentStatusCard />)).toContain("INTERACTIVE EXPERIMENT / 001");

@@ -5,6 +5,60 @@ import sharp from "sharp";
 
 const shots = path.resolve(".openlanding-page/mercer/shots");
 
+test("the terminal opens Mercer experiment notes with keyboard access and restores focus", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/mercer");
+  await expect(page.locator(".jm-stage")).toHaveAttribute("data-state", "running");
+  const terminal = page.getByRole("button", { name: "Open experiment notes" });
+  await terminal.focus();
+  await terminal.press("Enter");
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("heading", { level: 2 })).toHaveText("A knot of possibilities.");
+  await expect(dialog.getByText("APPLET SKETCH", { exact: true })).toBeVisible();
+  await expect(page.locator(".jm-stage")).toHaveAttribute("data-state", "paused");
+  const close = dialog.getByRole("button", { name: "Close details" });
+  await close.focus();
+  await page.keyboard.press("Shift+Tab");
+  await expect(dialog.getByRole("button", { name: "RETURN TO EXPERIMENT" })).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(terminal).toBeFocused();
+  await expect(page.locator(".jm-stage")).toHaveAttribute("data-state", "running");
+  await terminal.click();
+  await expect(dialog).toHaveCSS("opacity", "1");
+  await mkdir(shots, { recursive: true });
+  await page.screenshot({ path: path.join(shots, "experiment-desktop.png") });
+  await dialog.getByRole("button", { name: "Close details" }).click();
+  await expect(dialog).not.toBeVisible();
+  await terminal.click();
+  await page.mouse.click(4, 4);
+  await expect(dialog).not.toBeVisible();
+});
+
+test("the terminal notes work on touch screens with scrollable content and a reachable close control", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  try {
+    const page = await context.newPage();
+    await page.goto("/mercer");
+    const terminal = page.getByRole("button", { name: "Open experiment notes" });
+    await terminal.tap();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveCSS("opacity", "1");
+    expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
+    await mkdir(shots, { recursive: true });
+    await page.screenshot({ path: path.join(shots, "experiment-mobile.png") });
+    await dialog.evaluate((element) => { element.scrollTop = element.scrollHeight; });
+    await expect(dialog.getByRole("button", { name: "Close details" })).toBeInViewport();
+    await expect(dialog.getByRole("button", { name: "RETURN TO EXPERIMENT" })).toBeInViewport();
+    await page.screenshot({ path: path.join(shots, "experiment-mobile-bottom.png") });
+    await dialog.getByRole("button", { name: "RETURN TO EXPERIMENT" }).tap();
+    await expect(dialog).not.toBeVisible();
+    await expect(terminal).toBeFocused();
+  } finally { await context.close(); }
+});
+
 test("desktop renders a compiled, colored WebGL knot and its complete hero", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));

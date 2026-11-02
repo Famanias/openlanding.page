@@ -8,7 +8,7 @@ import TorusKnotFallback from "./TorusKnotFallback";
 
 type RenderState = "preview" | "running" | "paused" | "static" | "unavailable" | "lost";
 
-export default function MercerTorusKnotCanvas({ suspended = false }: { suspended?: boolean }) {
+export default function MercerTorusKnotCanvas({ suspended = false, onOpenExperiment }: { suspended?: boolean; onOpenExperiment?: () => void }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const controllerRef = useRef<MercerSceneController | null>(null);
   const syncRef = useRef<(() => void) | null>(null);
@@ -117,7 +117,7 @@ export default function MercerTorusKnotCanvas({ suspended = false }: { suspended
       <div className="jm-stage-reticle jm-reticle-one" aria-hidden="true" />
       <div className="jm-stage-reticle jm-reticle-two" aria-hidden="true" />
       <FpsBadge fps={state === "running" ? fps : 0} />
-      <TerminalCodeCard />
+      <TerminalCodeCard onOpen={onOpenExperiment} />
       <ExperimentStatusCard online={online} paused={state === "paused"} />
       <div className="jm-stage-controls jm-mono">
         <span>{state === "static" ? "REDUCED MOTION / STATIC VIEW" : state === "unavailable" ? "WEBGL UNAVAILABLE / STATIC VIEW" : state === "lost" ? "RESTORING WEBGL / STATIC VIEW" : "MOVE POINTER TO INTERACT"}</span>

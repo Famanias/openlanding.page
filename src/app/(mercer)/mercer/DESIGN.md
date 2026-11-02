@@ -14,7 +14,9 @@ Blueprint slate `#0A0D10`; off-white `#E8ECEF`; electric cyan `#00E5FF`; seconda
 
 ## Layout and signature details
 
-A compact full-width header, left-aligned headline and CTAs, a large right-hand 3D stage, and three project previews across the bottom. Blueprint coordinate rules, edge rulers, crosshairs, telemetry and an acrylic code terminal recur throughout. At mobile widths the copy precedes the stage and the project strip scrolls horizontally. Native dialogs provide project and about details; the contact link uses email.
+A compact full-width header, left-aligned headline and CTAs, a large right-hand 3D stage, and three project previews across the bottom. Blueprint coordinate rules, edge rulers, crosshairs, telemetry and an acrylic code terminal recur throughout. At mobile widths the copy precedes the stage and the project strip scrolls horizontally. Native dialogs provide project, about and experiment details; the contact link uses email.
+
+The terminal is a full-card button with a lime “OPEN NOTES” cue, a small hover lift and a visible keyboard focus ring. It opens the shared native dialog as an experiment study: a wide two-column composition with an enlarged procedural knot, measured labels, a short description and a readable applet sketch. The dialog inherits Geist, Geist Mono, slate, cyan and lime. Mobile stacks the study and code, with a sticky close control and scrolling inside the panel. Escape, backdrop, close and return actions restore focus to the terminal. The hero renderer pauses while the notes are open.
 
 ## Procedural model
 
@@ -30,7 +32,7 @@ Personality: technical and restrained. Verbs: reveal, orbit. One signature momen
 | Headline | Three staggered masked lines | Static readable text | Always visible without JavaScript |
 | CTAs | Short staggered rise | Arrow translation and physical press | Open accessible native dialogs |
 | Knot | Opacity settle | Damped bounded parallax | Pause offscreen, hidden tab and modal; dispose on unmount |
-| HUD | Staggered telemetry reveal | Playback button with visible focus | Truthful running, paused and fallback statuses |
+| HUD | Staggered telemetry reveal | Terminal lifts; terminal and playback buttons have visible focus | Terminal opens experiment notes; native dialog suspends rendering and restores focus |
 | Projects | Quiet upward settle | Preview scale and arrow translation | Project dialog, Escape to close, restore focus |
 
 Reduced motion uses a static procedural SVG instead of mounting WebGL. The same fallback remains visible before hydration, when JavaScript is disabled and when a context cannot be created. Touch scrolling remains native. A user can pause animation independently.
