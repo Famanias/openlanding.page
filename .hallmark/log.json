@@ -1,0 +1,43 @@
+[
+ {
+  "shape": "photographic editorial",
+  "theme": "custom",
+  "axes": "dark/light editorial",
+  "hero": "coastal photographic stage",
+  "nav": "edge aligned",
+  "footer": "quiet mast",
+  "imagery": "generated architectural photography",
+  "photos": [
+   "hero",
+   "mobile",
+   "terrace",
+   "lounge",
+   "bedroom",
+   "coast"
+  ],
+  "entry": "Stillwater standalone hospitality concept",
+  "fingerprint": "full-bleed photograph / editorial split / collection / immersive feature",
+  "sections": [
+   "hero",
+   "philosophy",
+   "retreats",
+   "featured villa",
+   "experiences",
+   "journal",
+   "statement",
+   "inquiry",
+   "closing image",
+   "footer"
+  ],
+  "signature": "the illuminated cliffside villa at dusk",
+  "waived": [
+   "24b: optical spacing from reference",
+   "39b: generous gallery controls",
+   "59 and 79: intentional photographic breathing room",
+   "reference requires uppercase labels, eyebrow, tight hero lines and full supplied copy"
+  ],
+  "prompt": "Stillwater master prompt and attached hero reference",
+  "date": "2026-11-02",
+  "mode": "build"
+ }
+]

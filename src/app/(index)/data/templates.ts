@@ -1,4 +1,4 @@
-export type TemplateSlug = "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello";
+export type TemplateSlug = "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -701,6 +701,13 @@ Build an isolated Next.js portfolio hero at \`/mercer\`: a slate \`#0A0D10\` blu
 The hero object is a code-only (2,3) torus knot, using Three.js with custom antialiased barycentric lattice shaders, cyan \`#00E5FF\` and lime \`#CCFF00\` vertex colors, additive translucent membrane, longitudinal filaments and an undulating 1,200-point envelope. Use closed transported frames; cap membrane geometry at 200 × 24. Keep a clear central aperture. Hover parallax is clamped and damped. Start near frontal, then allow native OrbitControls drag rotation, bounded Shift+drag panning and reset to the original view. Arrow keys rotate, Shift+Arrow keys move, and R/Home reset the focused interaction region. Preserve native vertical scrolling for wheel and touch gestures, with horizontal touch dragging to turn the object. Resize with a bounding-sphere camera fit that preserves the chosen view, cap device pixel ratio at 1.5 and show measured FPS.
 
 The canvas must clean up all listeners, geometries, materials and renderer context, survive context loss/restoration, pause offscreen and when the tab or a dialog hides it, and provide a playback control. Reduced motion, no JavaScript and WebGL failure show a lightweight procedural SVG with truthful status. Mobile places the stage below the copy with native vertical scrolling and a horizontally scrollable project strip. Do not use external 3D assets or a bitmap in place of the procedural model.
+`;
+
+export const STILLWATER_PROMPT = `# Prompt: rebuild Stillwater, private coastal sanctuaries
+
+Create a complete, responsive, self-contained HTML landing page for Stillwater, a fictional collection of private coastal retreats. Use a full-bleed photograph of a limestone cliffside villa at dusk, an oversized ivory serif headline reading “Another pace of living.”, restrained navigation, and a compact booking strip. Keep the architecture photographic and use a portrait-friendly hero on mobile.
+
+Continue with a philosophy, three fictional sanctuaries, a selectable villa gallery, slow experiences, a coastal journal, a local inquiry preview, a closing coastal image, and a quiet footer. Use oyster, warm stone, forest slate and muted sage; pair Cormorant Garamond with Inter. Embed optimized imagery and fonts so the HTML opens directly from disk. Keep navigation, selectors, dialog, dates and guest controls functional and keyboard accessible. Validate dates and contact information, respect reduced motion, and make clear that the demo neither checks availability nor sends an inquiry. Do not invent reviews or real addresses.
 `;
 
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
@@ -1455,6 +1462,20 @@ slug: "tally",
     previewImage: "/templates/mercer/preview-1600.webp",
     promptMarkdown: MERCER_PROMPT,
     model: "GPT-6.1 Sol Max",
+  },
+  {
+    slug: "stillwater",
+    createdAt: "2026-11-02",
+    hasDownload: true,
+    title: "Stillwater",
+    description: "A cinematic coastal retreat with original architectural photography, a villa gallery, and a local inquiry preview.",
+    category: "scroll-showcase",
+    industry: "Hospitality & Travel",
+    stack: "HTML · CSS · JavaScript",
+    badges: ["Original Photography", "Retreat Gallery", "Standalone HTML"],
+    previewImage: "/templates/stillwater/preview-1600.webp",
+    promptMarkdown: STILLWATER_PROMPT,
+    model: "GPT-6",
   },
 ];
 

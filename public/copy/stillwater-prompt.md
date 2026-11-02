@@ -1,0 +1,5 @@
+# Prompt: rebuild Stillwater, private coastal sanctuaries
+
+Create a complete, responsive, self-contained HTML landing page for Stillwater, a fictional collection of private coastal retreats. Use a full-bleed photograph of a limestone cliffside villa at dusk, an oversized ivory serif headline reading “Another pace of living.”, restrained navigation, and a compact booking strip. Keep the architecture photographic and use a portrait-friendly hero on mobile.
+
+Continue with a philosophy, three fictional sanctuaries, a selectable villa gallery, slow experiences, a coastal journal, a local inquiry preview, a closing coastal image, and a quiet footer. Use oyster, warm stone, forest slate and muted sage; pair Cormorant Garamond with Inter. Embed optimized imagery and fonts so the HTML opens directly from disk. Keep navigation, selectors, dialog, dates and guest controls functional and keyboard accessible. Validate dates and contact information, respect reduced motion, and make clear that the demo neither checks availability nor sends an inquiry. Do not invent reviews or real addresses.
