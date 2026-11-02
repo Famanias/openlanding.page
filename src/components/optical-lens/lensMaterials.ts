@@ -51,7 +51,7 @@ export function createLensMaterials(spec: OpticalLensSpec, surface = false) {
     }
     if (s.id === "emerald") {
       material.emissive.set("#00E599");
-      material.emissiveIntensity = .55;
+      material.emissiveIntensity = .36;
       material.emissiveMap = emissiveMap;
     }
     materials.set(s.id, material);

@@ -1720,7 +1720,7 @@
       "clearcoat": 0.3,
       "anisotropy": 0,
       "emissive": "#00E599",
-      "emissiveIntensity": 0.35,
+      "emissiveIntensity": 0.55,
       "referencePbrLimitation": "Extraction records reflection/color evidence only. Reconstructed solid albedo and independent procedural channels preserve requested physical scalars, avoiding baked highlights.",
       "referencePbr": {
         "sourceImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\references\\emerald-crop.png",

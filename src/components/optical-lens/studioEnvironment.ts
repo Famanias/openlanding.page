@@ -17,9 +17,9 @@ export function createStudioEnvironment(renderer: THREE.WebGLRenderer, neon = fa
   panel([0, 3, -5], 7, 2, 7);
   panel([-5, -2, -2], 2, 5, 5);
   if (neon) {
-    panel([0, 0, 8], 7, 7, 1.5);
-    panel([-4, 4, 1], .65, 9, 16, "#D2F802");
-    panel([4, -3, 1], .75, 9, 14, "#A855F7");
+    panel([-2.5, 3.2, 6], 2.2, 3.5, 0.45);
+    panel([-4.2, 4, 0.6], 0.55, 8, 5.5, "#D2F802");
+    panel([4.2, -3, 0.6], 0.65, 8, 4.8, "#A855F7");
   }
   const generator = new THREE.PMREMGenerator(renderer);
   const target = generator.fromScene(studio, .055, .1, 30, { size: 256 });

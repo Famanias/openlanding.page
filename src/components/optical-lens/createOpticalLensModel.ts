@@ -15,6 +15,9 @@ export type LensRuntime = {
   sockets: Record<string, THREE.Object3D>;
   colliders: Record<string, { type: string; radius: number; depth: number }>;
   destructionGroups: Record<string, THREE.Object3D[]>;
+  setExplode: (amount: number) => void;
+  setFocusRing: (radians: number) => void;
+  pickPart: (object: THREE.Object3D | null) => THREE.Group | null;
   dispose: () => void;
 };
 
@@ -51,24 +54,48 @@ function prism(size: number, index: number) {
 export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, options: OpticalLensOptions = {}) {
   const root = new THREE.Group();
   root.name = "lenus-optical-lens";
-  const runtime: LensRuntime = { nodes: {}, meshes: {}, sockets: {}, colliders: {}, destructionGroups: {}, dispose: () => {} };
+  const runtime: LensRuntime = {
+    nodes: {},
+    meshes: {},
+    sockets: {},
+    colliders: {},
+    destructionGroups: {},
+    setExplode: () => {},
+    setFocusRing: () => {},
+    pickPart: () => null,
+    dispose: () => {},
+  };
   const segments = options.quality === "low" ? 64 : 128;
-  const stage = BUILD_PASSES.indexOf(options.pass ?? "blockout");
+  const stage = BUILD_PASSES.indexOf(options.pass ?? "optimization-pass");
+  const microSegments = stage >= 7 ? Math.max(48, segments >> 1) : segments;
   const geometries = new Set<THREE.BufferGeometry>();
   const materials = new Set<THREE.Material>();
   const clay = new THREE.MeshStandardMaterial({ color: "#9197a0", roughness: 0.65 });
   const physical = stage >= 3 ? createLensMaterials(spec, stage >= 4) : null;
   materials.add(clay);
 
-  for (const c of spec.components) {
+  for (const [componentIndex, c] of spec.components.entries()) {
     if (stage === 0 && c.level !== "macro") continue;
     const pivot = new THREE.Group();
     pivot.name = c.id;
     pivot.position.fromArray(c.position);
+    pivot.userData.basePosition = pivot.position.clone();
+    pivot.userData.componentIndex = componentIndex;
+    pivot.userData.parentComponent = c.parent ?? "root";
     runtime.nodes[c.id] = pivot;
     (runtime.nodes[c.parent ?? ""] ?? root).add(pivot);
     const g = c.geometry;
+    if (stage >= 6) {
+      const socket = new THREE.Object3D();
+      socket.name = `${c.id}-seat`;
+      pivot.add(socket);
+      runtime.sockets[socket.name] = socket;
+      runtime.colliders[c.id] = { type: "cylinder", radius: g.outer ?? g.radius ?? 0.5, depth: g.depth ?? 0.2 };
+      const groupKey = c.parent ?? c.id;
+      (runtime.destructionGroups[groupKey] ??= []).push(pivot);
+    }
     const add = (geometry: THREE.BufferGeometry, count = 0) => {
+      if (stage >= 7) geometry.computeBoundingSphere();
       geometries.add(geometry);
       const material = physical?.materials.get(c.material) ?? clay;
       const mesh = count ? new THREE.InstancedMesh(geometry, material, count) : new THREE.Mesh(geometry, material);
@@ -126,7 +153,7 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, opti
         continue;
       }
       case "beads": {
-        for (const radius of g.radii!) add(new THREE.TorusGeometry(radius, g.tube!, 6, segments));
+        for (const radius of g.radii!) add(new THREE.TorusGeometry(radius, g.tube!, 6, microSegments));
         continue;
       }
       case "prisms": {
@@ -135,6 +162,7 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, opti
           const mesh = add(geo);
           mesh.name = `shard-${pivot.children.length}`;
           mesh.position.set(x, y, z);
+          mesh.userData.basePosition = mesh.position.clone();
           if (stage >= 2) mesh.rotation.set(.25 + i * .37, .18 + i * .29, .4 + i * 1.7);
           pivot.add(mesh);
         }
@@ -144,8 +172,46 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, opti
     }
     add(geometry);
   }
+  runtime.setExplode = (amount: number) => {
+    const t = THREE.MathUtils.clamp(amount, 0, 1);
+    for (const pivot of Object.values(runtime.nodes)) {
+      const base = pivot.userData.basePosition as THREE.Vector3 | undefined;
+      if (!base) continue;
+      if (t === 0) {
+        pivot.position.copy(base);
+      } else if (pivot.userData.parentComponent === "root") {
+        const idx = Number(pivot.userData.componentIndex ?? 0);
+        const dir = base.z >= 0 ? 1 : -1;
+        pivot.position.set(base.x, base.y, base.z * (1 + t * 1.5) + dir * t * (0.08 + (idx % 4) * 0.045));
+      }
+      if (pivot.name === "shards") {
+        for (const child of pivot.children) {
+          const childBase = child.userData.basePosition as THREE.Vector3 | undefined;
+          if (!childBase) continue;
+          if (t === 0) child.position.copy(childBase);
+          else child.position.set(childBase.x * (1 + t * 0.35), childBase.y * (1 + t * 0.35), childBase.z + t * 0.25);
+        }
+      }
+    }
+  };
+  runtime.setFocusRing = (radians: number) => {
+    for (const id of ["collar-outer", "collar-middle", "shards"]) {
+      if (runtime.nodes[id]) runtime.nodes[id].rotation.z = radians;
+    }
+  };
+  runtime.pickPart = (object: THREE.Object3D | null) => {
+    let cur: THREE.Object3D | null = object;
+    while (cur && cur !== root) {
+      if (typeof cur.userData?.componentId === "string" && runtime.nodes[cur.userData.componentId]) {
+        return runtime.nodes[cur.userData.componentId];
+      }
+      if (runtime.nodes[cur.name]) return runtime.nodes[cur.name];
+      cur = cur.parent;
+    }
+    return null;
+  };
   runtime.dispose = () => { geometries.forEach((g) => g.dispose()); materials.forEach((m) => m.dispose()); physical?.dispose(); };
   root.userData.sculptRuntime = runtime;
-  root.userData.buildPass = options.pass ?? "blockout";
+  root.userData.buildPass = options.pass ?? "optimization-pass";
   return root;
 }

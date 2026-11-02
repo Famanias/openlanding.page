@@ -10,7 +10,7 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color("#202125");
-  const stage = BUILD_PASSES.indexOf(options.pass ?? "blockout");
+  const stage = BUILD_PASSES.indexOf(options.pass ?? "optimization-pass");
   const environment = stage >= 3 ? createStudioEnvironment(renderer, stage >= 5) : null;
   const neutralEnvironment = stage >= 5 ? createStudioEnvironment(renderer) : environment;
   scene.environment = environment?.texture ?? null;
@@ -24,12 +24,12 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
   const fill = new THREE.DirectionalLight(0xdde4ff, 1.4);
   fill.position.set(3, 0, -4);
   scene.add(fill);
-  const lime = new THREE.DirectionalLight("#D2F802", 8);
+  const lime = new THREE.DirectionalLight("#D2F802", 1.8);
   lime.name = "lime-top-left-rim";
-  lime.position.set(-4, 4, 1);
-  const purple = new THREE.DirectionalLight("#A855F7", 7);
+  lime.position.set(-4, 4, -0.4);
+  const purple = new THREE.DirectionalLight("#A855F7", 1.5);
   purple.name = "purple-bottom-right-rim";
-  purple.position.set(4, -3, 0);
+  purple.position.set(4, -3, -0.4);
   if (stage >= 5) scene.add(lime, purple);
   const render = () => renderer.render(scene, camera);
   function setLighting(mode: "neutral" | "grazing" | "reference") {
@@ -57,6 +57,14 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
     renderer.setSize(width, height, false);
     render();
   }
+  function setExplode(amount: number) {
+    (model.userData.sculptRuntime as LensRuntime).setExplode(amount);
+    render();
+  }
+  function setFocusRing(radians: number) {
+    (model.userData.sculptRuntime as LensRuntime).setFocusRing(radians);
+    render();
+  }
   setView(0);
-  return { renderer, scene, camera, model, render, setView, setLighting, resize, dispose() { (model.userData.sculptRuntime as LensRuntime).dispose(); environment?.dispose(); if(neutralEnvironment !== environment) neutralEnvironment?.dispose(); renderer.dispose(); } };
+  return { renderer, scene, camera, model, render, setView, setLighting, setExplode, setFocusRing, resize, dispose() { (model.userData.sculptRuntime as LensRuntime).dispose(); environment?.dispose(); if(neutralEnvironment !== environment) neutralEnvironment?.dispose(); renderer.dispose(); } };
 }
