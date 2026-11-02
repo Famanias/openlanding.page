@@ -32,7 +32,7 @@ export function TerminalCodeCard() {
       <div className="jm-terminal-bar"><span aria-hidden="true"><i /><i /><i /></span><span>applet.ts</span><span>↗</span></div>
       <pre><code>{CODE.map((line, index) => (
         <span className={`jm-code-line${[0, 2, 9].includes(index) ? " jm-code-accent" : ""}`} key={index}>
-          <span className="jm-code-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{line}{"\n"}
+          <span className="jm-code-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{line}
         </span>
       ))}</code></pre>
       <div className="jm-terminal-footer"><span>TYPESCRIPT</span><span>UTF-8</span></div>

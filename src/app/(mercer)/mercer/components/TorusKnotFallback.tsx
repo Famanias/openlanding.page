@@ -2,7 +2,7 @@ const TAU = Math.PI * 2;
 
 /** A lightweight projection of the same parametric centerline, with no WebGL dependency. */
 function project(t: number, crossSection: number) {
-  const radius = 2 * (1 + 0.32 * Math.cos(3 * t)) + Math.cos(crossSection) * 0.43;
+  const radius = 2 * (1 + 0.18 * Math.cos(3 * t)) + Math.cos(crossSection) * 0.43;
   const x = radius * Math.cos(2 * t);
   const y = radius * Math.sin(2 * t);
   const z = -0.8 * Math.sin(3 * t) + Math.sin(crossSection) * 0.15;

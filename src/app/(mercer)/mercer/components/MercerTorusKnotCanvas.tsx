@@ -54,6 +54,7 @@ export default function MercerTorusKnotCanvas({ suspended = false }: { suspended
         const { MercerSceneController: Controller } = await import("../scene/MercerSceneController");
         if (cancelled || motion.matches || currentGeneration !== generation) return;
         controllerRef.current?.dispose();
+        lost = false;
         const controller = new Controller({
           onFps: (measured) => { if (!cancelled) setFps(measured); },
           onContextChange: (context) => {

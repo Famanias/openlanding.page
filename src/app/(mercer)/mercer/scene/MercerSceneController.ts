@@ -37,13 +37,16 @@ export class MercerSceneController {
   private elapsed = 0;
   private fpsTime = 0;
   private frames = 0;
+  private resolutionScale = 1;
+  private slowSamples = 0;
+  private viewport = { width: 1, height: 1 };
 
   constructor(private readonly options: SceneOptions = {}) {}
 
   init(container: HTMLElement): void {
     if (this.disposed || this.renderer) return;
     try {
-      this.renderer = new WebGLRenderer({ alpha: true, antialias: true, powerPreference: "low-power" });
+      this.renderer = new WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
       this.renderer.setClearColor(0x0a0d10, 0);
       this.renderer.outputColorSpace = SRGBColorSpace;
       const canvas = this.renderer.domElement;
@@ -80,7 +83,7 @@ export class MercerSceneController {
     const lattice = this.geometry(createLatticeGeometry(source));
     source.dispose();
     const glow = this.material(createWireframeLatticeMaterial({ wireframeLineWidth: 3.6 }));
-    glow.uniforms.uOpacity.value = 0.07;
+    glow.uniforms.uOpacity.value = 0.09;
     this.knot.add(new Mesh(lattice, glow));
     this.knot.add(new Mesh(lattice, this.material(createWireframeLatticeMaterial())));
 
@@ -104,7 +107,30 @@ export class MercerSceneController {
       this.knot.add(new Line(rail, railMaterial));
     }
 
-    this.knot.add(new Points(this.geometry(createParticleShellGeometry()), this.material(createParticleShellMaterial())));
+    const shellMaterial = this.material(createParticleShellMaterial());
+    shellMaterial.uniforms.uOpacity.value = 0.75;
+    this.knot.add(new Points(this.geometry(createParticleShellGeometry(1080)), shellMaterial));
+
+    // Reserve 120 of the 1,200 total points for luminous junctions on the ribbon.
+    const junctions = this.geometry(new BufferGeometry());
+    const junctionPositions: number[] = [];
+    const junctionColors: number[] = [];
+    const junctionPhases: number[] = [];
+    const junctionSizes: number[] = [];
+    for (let index = 0; index < 120; index++) {
+      const vertex = Math.floor(index / 120 * 200) * 25 + (index * 7 % 24);
+      junctionPositions.push(positions.getX(vertex), positions.getY(vertex), positions.getZ(vertex));
+      junctionColors.push(colors.getX(vertex), colors.getY(vertex), colors.getZ(vertex));
+      junctionPhases.push(index * 2.399963);
+      junctionSizes.push(2.4 + index % 3 * 0.35);
+    }
+    junctions.setAttribute("position", new Float32BufferAttribute(junctionPositions, 3));
+    junctions.setAttribute("color", new Float32BufferAttribute(junctionColors, 3));
+    junctions.setAttribute("aPhase", new Float32BufferAttribute(junctionPhases, 1));
+    junctions.setAttribute("aSize", new Float32BufferAttribute(junctionSizes, 1));
+    const junctionMaterial = this.material(createParticleShellMaterial());
+    junctionMaterial.uniforms.uOpacity.value = 1;
+    this.knot.add(new Points(junctions, junctionMaterial));
 
     const orbitMaterial = this.material(new LineBasicMaterial({ color: "#00E5FF", transparent: true, opacity: 0.14, blending: AdditiveBlending, depthWrite: false }));
     for (let orbit = 0; orbit < 2; orbit++) {
@@ -123,7 +149,8 @@ export class MercerSceneController {
 
   resize(width: number, height: number): void {
     if (!this.renderer || this.disposed || !Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return;
-    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+    this.viewport = { width, height };
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.5) * this.resolutionScale;
     this.renderer.setPixelRatio(ratio);
     this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
@@ -147,6 +174,7 @@ export class MercerSceneController {
     this.lastTime = null;
     this.fpsTime = 0;
     this.frames = 0;
+    this.slowSamples = 0;
     if (!this.contextLost) this.renderer.setAnimationLoop(this.tick);
   }
 
@@ -172,7 +200,16 @@ export class MercerSceneController {
     this.fpsTime += rawDelta;
     this.frames++;
     if (this.fpsTime >= 1) {
-      this.options.onFps?.(Math.round((this.frames - 1) / this.fpsTime));
+      const fps = Math.round((this.frames - 1) / this.fpsTime);
+      this.options.onFps?.(fps);
+      // Sustained GPU pressure lowers only raster resolution, preserving topology and camera fit.
+      // Two slow seconds prevent a shader compilation or a single long task from triggering it.
+      this.slowSamples = fps < 55 ? this.slowSamples + 1 : 0;
+      if (this.slowSamples >= 2 && this.resolutionScale > 0.75) {
+        this.resolutionScale = Math.max(0.75, this.resolutionScale * 0.85);
+        this.slowSamples = 0;
+        this.resize(this.viewport.width, this.viewport.height);
+      }
       this.fpsTime = 0;
       this.frames = 1;
     }

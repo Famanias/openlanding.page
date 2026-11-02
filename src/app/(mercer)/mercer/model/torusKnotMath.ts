@@ -19,7 +19,7 @@ export function calculateTorusKnotPoint(t: number, p = 2, q = 3, radius = 2, hei
   positive(heightScale, "heightScale");
   subdivisions(p, 1, 20, "p");
   subdivisions(q, 1, 20, "q");
-  const radial = radius * (1 + 0.32 * Math.cos(q * t));
+  const radial = radius * (1 + 0.18 * Math.cos(q * t));
   return new Vector3(radial * Math.cos(p * t), radial * Math.sin(p * t), -heightScale * Math.sin(q * t));
 }
 
@@ -30,6 +30,8 @@ export function generateTorusKnotSamples(samples: number, p = 2, q = 3, radius =
 }
 
 class KnotCurve extends Curve<Vector3> {
+  constructor() { super(); }
+
   getPoint(t: number, target = new Vector3()) {
     return target.copy(calculateTorusKnotPoint(t * TAU));
   }

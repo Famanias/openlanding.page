@@ -18,7 +18,7 @@ A compact full-width header, left-aligned headline and CTAs, a large right-hand 
 
 ## Procedural model
 
-The centerline uses `r = R(1 + .32 cos(3t))`, `x = r cos(2t)`, `y = r sin(2t)`, `z = -.8 sin(3t)`. Closed transported frames extrude an elliptical ribbon with welded shading seams. A 200 × 24 membrane and a coarser barycentric triangle lattice share that centerline. Shader derivatives give antialiased glowing edges; no reliance on unsupported WebGL line widths. A deterministic 1,200-point spherical envelope is radially modulated into an undulating shell. Geometry budgets are enforced before allocation.
+The centerline uses `r = R(1 + .18 cos(3t))`, `x = r cos(2t)`, `y = r sin(2t)`, `z = -.8 sin(3t)`. The shallow radial modulation preserves a rounded aperture while depth retains the three crossings. Closed transported frames extrude an elliptical ribbon with welded shading seams. A 200 × 24 membrane and a coarser barycentric triangle lattice share that centerline. Shader derivatives give antialiased glowing edges; no reliance on unsupported WebGL line widths. The 1,200-point budget is split between a deterministic 1,080-point undulating shell and 120 luminous lattice junctions. Geometry budgets are enforced before allocation.
 
 ## Motion
 
@@ -34,6 +34,8 @@ Personality: technical and restrained. Verbs: reveal, orbit. One signature momen
 | Projects | Quiet upward settle | Preview scale and arrow translation | Project dialog, Escape to close, restore focus |
 
 Reduced motion uses a static procedural SVG instead of mounting WebGL. The same fallback remains visible before hydration, when JavaScript is disabled and when a context cannot be created. Touch scrolling remains native. A user can pause animation independently.
+
+Additive double-sided surfaces render in a single pass. Device pixel ratio is capped at 1.5. After two consecutive seconds below 55 FPS, raster resolution steps down by 15%, to a minimum 75% scale; it remains stable for the session rather than oscillating. Geometry, camera fit, pointer bounds and the measured FPS readout are unchanged by this adjustment.
 
 ## Files and verification
 

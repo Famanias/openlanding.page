@@ -16,7 +16,7 @@ export default function MercerHeader({ onProjects, onAbout }: HeaderProps) {
     <header className="jm-header">
       <a className="jm-brand" href="#index" aria-label="Jules Mercer, home">
         <span className="jm-brand-mark">JM.</span>
-        <span className="jm-brand-name jm-mono">JULES MERCER <span>// CREATIVE DEVELOPER</span></span>
+        <span className="jm-brand-name jm-mono">JULES MERCER <span>{"// CREATIVE DEVELOPER"}</span></span>
       </a>
       <nav className="jm-desktop-nav jm-mono" aria-label="Main navigation">{links}</nav>
       <span className="jm-availability jm-mono"><i aria-hidden="true" />AVAILABLE FOR SELECT PROJECTS</span>
