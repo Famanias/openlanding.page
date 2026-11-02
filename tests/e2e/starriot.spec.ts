@@ -40,3 +40,28 @@ test("STAR RIOT mobile viewport has no horizontal overflow", async ({ page }) =>
   });
   expect(hasOverflow).toBe(false);
 });
+
+test("STAR RIOT executes CSS keyframe animations (star portal, eq bounce, vinyl spin, ticker march)", async ({
+  page,
+}) => {
+  await page.goto("/starriot");
+
+  // 1. Star portal and disco ball have animation-name assigned
+  const starPortal = page.locator(".sr-svg-star-portal");
+  await expect(starPortal).toHaveCSS("animation-name", /sr-starUnfold/);
+
+  const discoBall = page.locator(".sr-svg-disco-ball");
+  await expect(discoBall).toHaveCSS("animation-name", "sr-discoSwing");
+
+  // 2. EQ columns bounce when playing
+  const eqCol1 = page.locator(".sr-eq-playing .sr-eq-col").first();
+  await expect(eqCol1).toHaveCSS("animation-name", "sr-eqBounce");
+
+  // 3. Spinning vinyl discs in Manifesto & Guestlist
+  const vinylDisc = page.locator(".sr-spin-vinyl").first();
+  await expect(vinylDisc).toHaveCSS("animation-name", "sr-slowSpin");
+
+  // 4. Marching ticker track
+  const tickerTrack = page.locator(".sr-ticker-track");
+  await expect(tickerTrack).toHaveCSS("animation-name", "sr-tickerMarch");
+});
