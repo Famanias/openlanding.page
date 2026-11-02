@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(56);
+    expect(TEMPLATES).toHaveLength(57);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["stillwater","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -83,7 +83,11 @@ describe("gallery template data", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
     const argonSlugs = ["loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
-      if (t.slug === "pello" || t.slug === "avel" || t.slug === "landingx" || t.slug === "stillwater") {
+      if (t.slug === "pello" || t.slug === "avel" || t.slug === "landingx") {
+        expect(t.model).toBe("GPT-6.1 Terra Max");
+      } else if (t.slug === "mercer") {
+        expect(t.model).toBe("GPT-6.1 Sol Max");
+      } else if (t.slug === "stillwater") {
         expect(t.model).toBe("GPT-6");
       } else if (argonSlugs.includes(t.slug)) {
         expect(t.model).toBe("Gemini 4 Argon High");
@@ -222,5 +226,12 @@ describe("gallery template data", () => {
     expect(parallel?.category).toBe("3d-webgpu");
     expect(parallel?.promptMarkdown).toContain("PARALLEL");
     expect(parallel?.promptMarkdown).toContain("#E85D36");
+  });
+
+  it("files Jules Mercer under 3D & WebGPU with its rebuild prompt inlined", () => {
+    const mercer = TEMPLATES.find((t) => t.slug === "mercer");
+    expect(mercer?.category).toBe("3d-webgpu");
+    expect(mercer?.promptMarkdown).toContain("Jules Mercer");
+    expect(mercer?.promptMarkdown).toContain("#0A0D10");
   });
 });

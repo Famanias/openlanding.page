@@ -10,6 +10,7 @@ const COPY_METADATA: Record<
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
   stillwater: { name: "Stillwater", dependencies: [], includeDownload: true },
+  mercer: { name: "Jules Mercer", dependencies: ["three", "lucide-react"] },
   landingx: { name: "Landing X", dependencies: [] },
   avel: { name: "Avel", dependencies: [] },
   pello: { name: "Pello", dependencies: ["@phosphor-icons/react"] },

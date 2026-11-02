@@ -1,4 +1,4 @@
-export type TemplateSlug = "stillwater" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello";
+export type TemplateSlug = "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -693,6 +693,15 @@ export const PELLO_PROMPT = "# Prompt: rebuild \"Pello\" — money for the life 
 export const AVEL_PROMPT = "# Prompt: rebuild “Avel” — more room for good thinking\n\nCreate an isolated, responsive landing page for Avel, a fictional AI company with several models. Use a wide, original coastal hero photograph with soft pastel brown sky, quiet limestone cliffs and deep pine water. Layer a polished AI product window into the hero, following the editorial feel of the supplied reference without copying a real product. Use a companion coastal photograph across the closing signup and footer, with light and dark treatments that keep text readable. Make “Get started” the primary CTA.\n\nUse pastel clay #CDB3A3, ivory #F8F5EF, deep pine #243A32, white #FFFFFF, sand #E8DDD2 and muted pine #5A6A60. Pair Newsreader serif headlines with Manrope sans-serif body and DM Mono utility labels. The original Avel mark is a small four-point star and wordmark.\n\nCompose the page from a landscape hero and product preview, a fictional logo belt, four benefits, a selectable model family, three steps, a company-logo orbit with a fictional testimonial, FAQ, demo signup and footer. The models are Avel Core for everyday tasks, Avel Reason for deeper questions and Avel Spark for creative work. Selection must update the model description and example response. The orbit must continuously rotate counterclockwise, with each logo staying upright; pause it offscreen and under reduced motion. Keep the company names and testimonial explicitly fictional.\n\nUse calm, warm motion: drift and settle. Animate entrances with subtle position and scale, include button and focus feedback, pause loops offscreen, show all content when JavaScript is unavailable and honor reduced motion. Use semantic controls, accessible labels, keyboard support, responsive images and a local-only signup demonstration that sends or stores nothing. Do not use WebGL, Three.js, canvas or 3D. Include metadata, a favicon, accessible contrast, and desktop and mobile layouts.\n\nThe hero and closing image sources and exact generation prompts are documented in docs/image-prompts/avel.md. Use the processed local responsive image assets. Do not deploy or commit unless asked.\n";
 
 export const LANDINGX_PROMPT = "# Rebuild Landing X — a creative skill for landing pages\n\nBuild a complete responsive landing page for Landing X, the public-facing name of the create-landing-template agent skill. The site should showcase a diverse collection of real landing-page templates as its main attraction. Use impeccable.style only as inspiration for its restrained editorial typography, precise interface details, and motion; do not reproduce its layout, artwork, words, or before-and-after component.\n\n## Identity\n\nUse #BEAA97 as the primary light brown canvas and #815751 as the complementary rust. Use #E5DDD7, #E8EEEE, #4B3C2E and #826851 for supporting surfaces and text. Derive tints from these colors and darken the ink for small text on light brown. Use Barlow Condensed for tall, light display type, Manrope for body, and IBM Plex Mono for labels. Create an original crossed-X mark.\n\n## Composition\n\nBegin with a full-width typographic masthead and a small strip of three project previews, then move directly into a substantial project index and 16:9 gallery. Give the work enough space to be the focus. Show Avel, Pello, Satsuma, Firstday, Rill, and Hiyas as six projects, each with a clearly labeled image placeholder until the user supplies its screenshot. Include accessible category filters and links to the existing local examples. Follow with a concise explanation of the skill, a three-step brief-to-build sequence, a copyable starter brief, and a footer. Avoid the reference website's side-by-side hero and demo layout.\n\n## Interaction and quality\n\nUse the gallery filter and staggered project sheets as the signature interaction. Use subtle state changes, visible focus, restrained motion, and a scroll-progress indicator. All content must be visible without JavaScript and under reduced motion. The copy button should report success or failure honestly, while the brief remains selectable. Do not claim a fake install command or collect user data. Include metadata, a favicon, a standalone HTML version, responsive layouts, and meaningful browser tests.\n\n## Screenshots\n\nDo not generate project images. The six user-supplied 16:9 filenames and processing instructions are in docs/image-prompts/landingx.md. Use labelled, compositionally intentional placeholders until those assets are added.\n";
+
+export const MERCER_PROMPT = `# Jules Mercer // Creative Developer
+
+Build an isolated Next.js portfolio hero at \`/mercer\`: a slate \`#0A0D10\` blueprint grid, Geist headline reading “I BUILD / WHAT YOU / IMAGINE.”, chartreuse \`#CCFF00\` final line and CTA, off-white \`#E8ECEF\` copy, Geist Mono navigation and telemetry. Include the JM. lockup, availability, email contact, project previews, and accessible project/about dialogs.
+
+The hero object is a code-only (2,3) torus knot, using Three.js with custom antialiased barycentric lattice shaders, cyan \`#00E5FF\` and lime \`#CCFF00\` vertex colors, additive translucent membrane, longitudinal filaments and an undulating 1,200-point envelope. Use closed transported frames; cap membrane geometry at 200 × 24. Keep a clear central aperture. Hover parallax is clamped and damped. Start near frontal, then allow native OrbitControls drag rotation, bounded Shift+drag panning and reset to the original view. Arrow keys rotate, Shift+Arrow keys move, and R/Home reset the focused interaction region. Preserve native vertical scrolling for wheel and touch gestures, with horizontal touch dragging to turn the object. Resize with a bounding-sphere camera fit that preserves the chosen view, cap device pixel ratio at 1.5 and show measured FPS.
+
+The canvas must clean up all listeners, geometries, materials and renderer context, survive context loss/restoration, pause offscreen and when the tab or a dialog hides it, and provide a playback control. Reduced motion, no JavaScript and WebGL failure show a lightweight procedural SVG with truthful status. Mobile places the stage below the copy with native vertical scrolling and a horizontally scrollable project strip. Do not use external 3D assets or a bitmap in place of the procedural model.
+`;
 
 export const STILLWATER_PROMPT = `# Prompt: rebuild Stillwater, private coastal sanctuaries
 
@@ -1411,7 +1420,7 @@ slug: "tally",
     badges: ["Balance Planner", "Original Photography", "Purposeful Motion"],
     previewImage: "/templates/pello/preview-1600.webp",
     promptMarkdown: PELLO_PROMPT,
-    model: "GPT-6",
+    model: "GPT-6.1 Terra Max",
   },
   {
     slug: "avel",
@@ -1425,7 +1434,7 @@ slug: "tally",
     badges: ["Model Switcher", "Original Photography", "Orbit Carousel"],
     previewImage: "/templates/avel/preview-1600.webp",
     promptMarkdown: AVEL_PROMPT,
-    model: "GPT-6",
+    model: "GPT-6.1 Terra Max",
   },
   {
     slug: "landingx",
@@ -1439,7 +1448,20 @@ slug: "tally",
     badges: ["Project Showcase", "Agent Skill", "16:9 Image Slots"],
     previewImage: "/templates/landingx/preview-1600.webp",
     promptMarkdown: LANDINGX_PROMPT,
-    model: "GPT-6",
+    model: "GPT-6.1 Terra Max",
+  },
+  {
+    slug: "mercer",
+    createdAt: "2026-11-02",
+    title: "Jules Mercer",
+    description: "Creative developer portfolio featuring an interactive procedural (2,3) torus knot in Three.js, blueprint telemetry HUD, and interactive code experiments.",
+    category: "3d-webgpu",
+    industry: "Creative Development & 3D Web",
+    stack: "Next.js 16 · React 19 · Three.js · Tailwind v4 · Lucide",
+    badges: ["Procedural Torus Knot", "Custom Shaders", "Interactive HUD", "Blueprint Telemetry"],
+    previewImage: "/templates/mercer/preview-1600.webp",
+    promptMarkdown: MERCER_PROMPT,
+    model: "GPT-6.1 Sol Max",
   },
   {
     slug: "stillwater",

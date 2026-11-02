@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "stillwater" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello";
+export type TemplateSlug = "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -14,6 +14,13 @@ export type TemplateConfig = {
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
   stillwater: { palette: ["#EEE9E0", "#F4F0E8", "#DED7CA", "#34332E", "#253733", "#182521", "#AEBDAF", "#C8AF98", "#FAF8F1"] },
+  mercer: {
+    palette: [
+      "#0A0D10", "#E8ECEF", "#00E5FF", "#1E88E5", "#CCFF00", "#D2FF00",
+    ],
+    paletteExempt: ["src/app/(mercer)/mercer/continuation/"],
+    mediaExempt: true,
+  },
   landingx: { palette: ["#BEAA97", "#815751", "#E5DDD7", "#E8EEEE", "#4B3C2E", "#826851"] },
   avel: { palette: ["#CDB3A3", "#F8F5EF", "#243A32", "#FFFFFF", "#E8DDD2", "#5A6A60"] },
   pello: { palette: ["#FFF9F1", "#F2E7E4", "#321C2D", "#653453", "#EF9A9A", "#DCE5BA", "#45624A", "#70616F"] },
