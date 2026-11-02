@@ -14,6 +14,15 @@ test.describe("nexus landing page", () => {
     await expect(page.locator("#work")).toBeVisible();
     await expect(page.locator("#testimonials")).toBeVisible();
     await expect(page.locator("#contact")).toBeVisible();
+
+    // Verify sections with data-reveal gain is-inview and opacity 1 on scroll
+    for (const sectionId of ["#about", "#services", "#process", "#work", "#testimonials", "#contact"]) {
+      const section = page.locator(sectionId);
+      await section.scrollIntoViewIfNeeded();
+      const reveal = section.locator("[data-reveal]").first();
+      await expect(reveal).toHaveClass(/is-inview/);
+      await expect(reveal).toHaveCSS("opacity", "1");
+    }
   });
 
   test("interactive controls: principle tabs, services drawers, and testimonials carousel", async ({

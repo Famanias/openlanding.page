@@ -1286,7 +1286,7 @@ export function Picture({
       color: var(--ink-deep);
     }
 
-    .nx-chapter-body, .nx-body {
+    .nx-chapter-body {
       font-size: 1.05rem;
       color: var(--ink-muted);
       margin: 0 0 1rem 0;
@@ -1389,7 +1389,7 @@ export function Picture({
       transform: translateY(-10px) scale(1.06) rotate(2deg);
     }
 
-    .nx-work-body, .nx-body {
+    .nx-work-body {
       padding: 1.75rem;
       display: flex;
       flex-direction: column;
@@ -1950,38 +1950,113 @@ export function NexusApp() {
     }
 
     // Flourish stroke drawing
+    let timer: ReturnType<typeof setTimeout> | undefined;
     const flourish = document.getElementById("human-flourish-path");
     if (flourish && !prefersReducedMotion) {
       flourish.style.strokeDashoffset = "320";
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         flourish.style.strokeDashoffset = "0";
       }, 520);
-      return () => clearTimeout(timer);
     }
 
     // IntersectionObserver for [data-reveal]
     const revealNodes = document.querySelectorAll("[data-reveal]");
+    let observer: IntersectionObserver | undefined;
+
     if (!("IntersectionObserver" in window) || prefersReducedMotion) {
       revealNodes.forEach((node) => node.classList.add("is-inview"));
-      return;
+    } else {
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-inview");
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      revealNodes.forEach((node) => obs.observe(node));
+      observer = obs;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-inview");
-            observer.unobserve(entry.target);
-          }
+    // Parallax on scroll for [data-parallax]
+    let ticking = false;
+    const handleScroll = () => {
+      if (prefersReducedMotion) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+          const parallaxItems = document.querySelectorAll<HTMLElement>("[data-parallax]");
+          parallaxItems.forEach((el) => {
+            const speed = parseFloat(el.getAttribute("data-parallax") || "0");
+            const offset = Math.max(-45, Math.min(45, scrollY * speed));
+            el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
+          });
+          ticking = false;
         });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-    );
+        ticking = true;
+      }
+    };
 
-    revealNodes.forEach((node) => observer.observe(node));
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    // Microinteractions (Magnetic CTAs, 3D Tilt Cards)
+    const cleanupFns: (() => void)[] = [];
+    const finePointer =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    if (finePointer && !prefersReducedMotion) {
+      const magneticBtns = document.querySelectorAll<HTMLElement>("[data-magnetic]");
+      magneticBtns.forEach((btn) => {
+        const handleMouseMove = (e: MouseEvent) => {
+          const r = btn.getBoundingClientRect();
+          const dx = ((e.clientX - (r.left + r.width / 2)) / (r.width / 2)) * 6;
+          const dy = ((e.clientY - (r.top + r.height / 2)) / (r.height / 2)) * 5;
+          btn.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0)`;
+        };
+        const handleMouseLeave = () => {
+          btn.style.transform = "";
+        };
+        btn.addEventListener("mousemove", handleMouseMove);
+        btn.addEventListener("mouseleave", handleMouseLeave);
+        cleanupFns.push(() => {
+          btn.removeEventListener("mousemove", handleMouseMove);
+          btn.removeEventListener("mouseleave", handleMouseLeave);
+        });
+      });
+
+      const tiltCards = document.querySelectorAll<HTMLElement>("[data-tilt]");
+      tiltCards.forEach((card) => {
+        const handleMouseMove = (e: MouseEvent) => {
+          const r = card.getBoundingClientRect();
+          const rx = ((e.clientY - r.top) / r.height - 0.5) * -3.2;
+          const ry = ((e.clientX - r.left) / r.width - 0.5) * 3.2;
+          card.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-4px)`;
+        };
+        const handleMouseLeave = () => {
+          card.style.transform = "";
+        };
+        card.addEventListener("mousemove", handleMouseMove);
+        card.addEventListener("mouseleave", handleMouseLeave);
+        cleanupFns.push(() => {
+          card.removeEventListener("mousemove", handleMouseMove);
+          card.removeEventListener("mouseleave", handleMouseLeave);
+        });
+      });
+    }
 
     return () => {
-      observer.disconnect();
+      if (timer) clearTimeout(timer);
+      observer?.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+      cleanupFns.forEach((fn) => fn());
+      document.documentElement.classList.remove("js-anim-ready");
     };
   }, []);
 
@@ -2355,7 +2430,7 @@ export function Closing() {
                 </div>
               </div>
 
-              <button type="submit" className="nx-btn" style={{ width: "100%" }}>
+              <button type="submit" className="nx-btn" style={{ width: "100%" }} data-magnetic>
                 <span>PREPARE STUDIO NOTE</span>
                 <svg className="nx-btn-arrow" viewBox="0 0 20 14" fill="none" aria-hidden="true">
                   <path
@@ -2527,7 +2602,7 @@ export function Header() {
 
           {/* Zone 3: Primary Action + Mobile Menu Trigger */}
           <div className="nx-nav-actions">
-            <a href="#contact" className="nx-btn nx-nav-cta">
+            <a href="#contact" className="nx-btn nx-nav-cta" data-magnetic>
               <span>Let’s talk</span>
             </a>
             <button
@@ -2728,7 +2803,7 @@ export function Hero() {
             </p>
 
             <div className="nx-hero-cta-row">
-              <a href="#contact" className="nx-btn nx-hero-cta">
+              <a href="#contact" className="nx-btn nx-hero-cta" data-magnetic>
                 <span>LET’S PARTNER UP</span>
                 <svg className="nx-btn-arrow" viewBox="0 0 20 14" fill="none" aria-hidden="true">
                   <path
@@ -2905,6 +2980,7 @@ export function Hero() {
               <button
                 type="button"
                 className="nx-seal-badge nx-seal-badge--sage"
+                data-seal-spin
                 aria-label="Casual Badges botanical seal"
                 onClick={handleSpin1}
                 style={{
@@ -2954,6 +3030,7 @@ export function Hero() {
               <button
                 type="button"
                 className="nx-seal-badge nx-seal-badge--mustard"
+                data-seal-spin
                 aria-label="Clay-Made Culture botanical seal"
                 onClick={handleSpin2}
                 style={{
@@ -3305,15 +3382,26 @@ export function Process() {
     <file path="src/app/(nexus)/nexus/components/ProjectModal.tsx">
 <![CDATA["use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { WorkProject } from "../model/agencyLogic";
 
+export interface ModalProjectData extends WorkProject {
+  modalKicker: string;
+  modalMetric?: string;
+}
+
 interface ProjectModalProps {
-  project: (WorkProject & { modalKicker: string }) | null;
+  project: ModalProjectData | null;
   onClose: () => void;
 }
 
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const lastProjectRef = useRef<ModalProjectData | null>(null);
+  if (project) {
+    lastProjectRef.current = project;
+  }
+  const current = project || lastProjectRef.current;
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -3324,14 +3412,15 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [project, onClose]);
 
-  if (!project) return null;
+  const isOpen = Boolean(project);
 
   return (
     <div
-      className="nx-modal-backdrop is-open"
+      className={`nx-modal-backdrop ${isOpen ? "is-open" : ""}`}
       id="project-modal"
       role="dialog"
       aria-modal="true"
+      aria-hidden={!isOpen}
       aria-labelledby="modal-project-title"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -3348,32 +3437,32 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           Close
         </button>
         <span className="nx-kicker" id="modal-project-kicker">
-          {project.modalKicker}
+          {current?.modalKicker ?? ""}
         </span>
         <h3
           className="nx-section-title"
           id="modal-project-title"
           style={{ fontSize: "2.2rem", marginBottom: "0.5rem" }}
         >
-          {project.title}
+          {current?.title ?? ""}
         </h3>
         <div
           id="modal-project-metric"
           style={{ fontWeight: 700, color: "var(--terracotta)", marginBottom: "1.25rem" }}
         >
-          {project.metric}
+          {current?.modalMetric ?? current?.metric ?? ""}
         </div>
         <p
           id="modal-project-challenge"
           style={{ fontSize: "1.05rem", color: "var(--ink)", marginBottom: "1rem" }}
         >
-          {project.challenge}
+          {current?.challenge ?? ""}
         </p>
         <p
           id="modal-project-outcome"
           style={{ fontSize: "1.05rem", color: "var(--ink-muted)", marginBottom: "1.5rem" }}
         >
-          {project.outcome}
+          {current?.outcome ?? ""}
         </p>
         <div style={{ borderTop: "1px dashed var(--stroke)", paddingTop: "1rem" }}>
           <strong style={{ display: "block", marginBottom: "0.4rem" }}>
@@ -3383,7 +3472,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
             id="modal-project-deliverables"
             style={{ color: "var(--olive)", fontWeight: 600 }}
           >
-            {project.deliverables.join(" · ")}
+            {current?.deliverables.join(" · ") ?? ""}
           </div>
         </div>
       </div>
@@ -3690,10 +3779,9 @@ export function Testimonials() {
 
 import { useState } from "react";
 import { filterWorkProjects, type WorkProject } from "../model/agencyLogic";
-import { ProjectModal } from "./ProjectModal";
+import { ProjectModal, type ModalProjectData } from "./ProjectModal";
 
-export const PROJECTS: (WorkProject & {
-  modalKicker: string;
+export const PROJECTS: (ModalProjectData & {
   artClass: string;
   svgArt: React.ReactNode;
 })[] = [
@@ -3718,6 +3806,7 @@ export const PROJECTS: (WorkProject & {
       "Interactive Web Flagship",
     ],
     modalKicker: "Solstice Apothecary · Brand World · 2026",
+    modalMetric: "+164% Direct Repeat Orders in 5 Months · 3.4x Press Mentions",
     artClass: "nx-work-art--solstice",
     svgArt: (
       <svg width="240" height="180" viewBox="0 0 240 180" fill="none" aria-hidden="true">
@@ -3783,6 +3872,7 @@ export const PROJECTS: (WorkProject & {
       "Social Storytelling",
     ],
     modalKicker: "Loom & Meadow · Campaigns · 2025",
+    modalMetric: "+210% Organic Story Shares Across 8 Weeks · +88% Direct Search Lift",
     artClass: "nx-work-art--loom",
     svgArt: (
       <svg width="240" height="180" viewBox="0 0 240 180" fill="none" aria-hidden="true">
@@ -3833,6 +3923,7 @@ export const PROJECTS: (WorkProject & {
       "Packaging",
     ],
     modalKicker: "Kith & Kin Roasters · Experiences · 2026",
+    modalMetric: "+138% Subscription Retention Over 6 Months · +62% Gift Subscriptions",
     artClass: "nx-work-art--kith",
     svgArt: (
       <svg width="240" height="180" viewBox="0 0 240 180" fill="none" aria-hidden="true">
@@ -3876,7 +3967,6 @@ export function Work() {
   const [filter, setFilter] = useState("all");
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
-  const displayedProjects = filterWorkProjects(PROJECTS, filter);
   const activeModalProject = PROJECTS.find((p) => p.id === selectedProjectId) ?? null;
 
   return (
@@ -3927,35 +4017,39 @@ export function Work() {
         </div>
 
         <div className="nx-work-grid" id="work-grid">
-          {displayedProjects.map((p) => (
-            <article
-              key={p.id}
-              className="nx-work-card"
-              data-category={p.category}
-              data-project-id={p.id}
-              data-reveal
-              data-tilt
-            >
-              <div className={`nx-work-art ${p.artClass}`}>{p.svgArt}</div>
-              <div className="nx-work-body">
-                <div className="nx-work-meta">
-                  {p.client} · {p.categoryLabel} · {p.year}
+          {PROJECTS.map((p) => {
+            const isVisible = filter === "all" || p.category === filter;
+            return (
+              <article
+                key={p.id}
+                className="nx-work-card"
+                data-category={p.category}
+                data-project-id={p.id}
+                data-reveal
+                data-tilt
+                style={{ display: isVisible ? "flex" : "none" }}
+              >
+                <div className={`nx-work-art ${p.artClass}`}>{p.svgArt}</div>
+                <div className="nx-work-body">
+                  <div className="nx-work-meta">
+                    {p.client} · {p.categoryLabel} · {p.year}
+                  </div>
+                  <h3 className="nx-work-title">{p.title}</h3>
+                  <p className="nx-work-summary">{p.summary}</p>
+                  <div className="nx-work-metric">{p.metric}</div>
+                  <button
+                    type="button"
+                    className="nx-work-open-btn"
+                    data-open-project={p.id}
+                    onClick={() => setSelectedProjectId(p.id)}
+                  >
+                    <span>Read Case Study</span>
+                    <span aria-hidden="true">→</span>
+                  </button>
                 </div>
-                <h3 className="nx-work-title">{p.title}</h3>
-                <p className="nx-work-summary">{p.summary}</p>
-                <div className="nx-work-metric">{p.metric}</div>
-                <button
-                  type="button"
-                  className="nx-work-open-btn"
-                  data-open-project={p.id}
-                  onClick={() => setSelectedProjectId(p.id)}
-                >
-                  <span>Read Case Study</span>
-                  <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </div>
 
