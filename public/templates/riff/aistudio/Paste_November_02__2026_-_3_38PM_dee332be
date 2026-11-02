@@ -1,0 +1,254 @@
+# RIFF — ONE-SHOT MUSIC-FIRST DATING LANDING PAGE MASTER PROMPT
+
+> **Attach this file and `riff-reference.png` to your coding agent.** You are to build a finished, usable, visually distinctive marketing website immediately—not return a concept, wireframe, or design-only response. The attached hero screenshot is the dominant visual reference. **The product's name is `Riff` (not Rift)**.
+
+## 0 — Your assignment
+
+Act as an award-winning independent art director, frontend engineer, motion designer, and interaction designer. Build a complete landing website for **Riff**, a fictional **18+ dating app where musical taste matters more than physical appearance**. Matching revolves around overlapping artists, genre interests, listening rituals, favorite records, playlists, and conversation starters, not image-based swiping.
+
+**Required output:** a working responsive `index.html` with embedded CSS and JavaScript. For generated artwork (album-cover images, vintage gig posters, grain tiles, ticket-stub art), local compressed assets in an `assets/` folder are acceptable; include the full folder or a zip so it runs without broken dependencies. No framework build setup required. Generated images can be used instead of hard-coding illustrations or photorealistic art. However **text, mobile app mockups, buttons, audio bars, and clickable screens must be live HTML/CSS/SVG**, not one flat image.
+
+Priority order:
+1. Faithfulness to the attached screenshot's **alternative-music editorial design**, black/bone/red identity, noise, ink textures, halftone patterns, vinyl, stars, flyer collage.
+2. Real **interactive music-first product storytelling**, especially the two visible phone screens.
+3. A complete multi-section marketing narrative with increasingly creative scroll scenes.
+4. Meaningful motion and interaction on all relevant elements—not generic fades or motion for motion's sake.
+5. Mobile quality, accessible UI, performance, and functional non-deceptive calls to action.
+
+## 1 — Deep visual audit of the supplied image
+
+This is **not** a typical red-and-black mobile app template. It looks like a music fanzine / underground gig flyer translated into sophisticated product marketing.
+
+### Composition
+- Canvas is near-black with fine **photographic grain** and barely perceptible speckles. Rough paper/print texture grounds the visuals, but headings remain razor sharp.
+- A narrow upper navigation line: at left a **Riff wordmark** in ivory retro-editorial serif preceded by a small drawn waveform icon; centered spaced nav `How It Works / Matches / Playlists / Stories`; right `Sign In` and an assertive **rectangular red** `Join Riff` button. Avoid pill-everything SaaS design.
+- Left half is dominated by beautifully kerned, huge **high-contrast serif** lettering, stacked as **“Fall for / the sound / before the selfie.”** The middle phrase **`the sound`** is bold italic, deep crimson red, with a different typographic rhythm. Whitespace is intentional. The hero looks more like a record sleeve than a corporate website.
+- Beneath: legible cool/gray text explaining music-first chemistry, red primary button `Download the App`, white-outlined secondary `See How Matching Works`, then uppercase small-type feature rail `PLAYLIST MATCHING · TASTE COMPATIBILITY · SHARED ARTISTS · CONVERSATION STARTERS`.
+- Right half is a **layered collage**: two slightly rotated, overlapping **black mobile phones** displaying realistic dark app UI. First phone is a music-first profile with monochrome grainy portrait, `MILA, 24`, circular `94% MATCH`, waveform, artist/genre/track information. Second is the compatibility view headed `YOU MATCHED THROUGH MUSIC TASTE`, huge `91% Compatibility`, shared tracks, album-art thumbnails and conversation starter. These values are **demo illustrations**, not verified compatibility science.
+- Behind the phones: physically plausible black vinyl discs with grooves, red-center record labels, torn concert stubs and paper fragments, ripped music-zine snippets, monochrome band-photo blocks, ragged collage layers, handwritten white star symbols, marginal arrows, sketched waveforms, freehand tagline `MUSIC > LOOKS`, and **halftone patches** that become apparent in concentrated sections rather than blanketing the whole page.
+- Palette is intentionally restricted to near-black, warm ivory and striking red, plus muted gray. The page's sense of disorder is carefully art-directed; it is layered but the main headline remains immaculate.
+- **Alternative motifs** must feel hand-made: asymmetrical four-/five-point hand-inked stars, little rough arrows, musical wave scribbles, angular underlines, torn-paper edges, distressed circle stamps, micro zine labels. Do not substitute glossy red hearts, generic sparkles, emoji, or Valentine's designs.
+
+### Locked identity tokens
+Approximate reference values and apply systematically:
+
+```css
+:root {
+  --riff-black: #0B0B0B;
+  --riff-ink: #141414;
+  --riff-paper: #F4F0E8;
+  --riff-crimson: #C92533;
+  --riff-deep-red: #741B24;
+  --riff-grey: #AAA8A6;
+  --riff-dim: #777575;
+  --riff-rule: rgba(244, 240, 232, .22);
+}
+```
+
+**Color usage rule:** ~75% black, ~17% cream/white, ~8% red / accent. Red should have tremendous visual impact because it is rare. Do not introduce purple, neon green, bright pink, glowy blue, or generic music-app gradients.
+
+### Typography
+- Hero: expressive dramatic serif, e.g. `Bodoni Moda`, `Instrument Serif`, `DM Serif Display`, or a similar high-contrast editorial face. Red italic `the sound` should be art-directed, not just colored ordinary text.
+- Interface, nav, small labels: a modern neutral grotesk and occasional condensed uppercase. Micro metadata uses mono when appropriate. Balance display serif personality against disciplined, functional mobile UI.
+- On desktop headline ~72–112px depending on viewport, set responsive and prevent clipping; light ivory/black contrast, no background overlay interfering with legibility.
+
+## 2 — Brand positioning and copy
+
+**Product:** Riff. **Audience:** adults 18+ who connect through post-punk, shoegaze, indie, alternative rock, darkwave, emo, dream pop, and other music cultures. It's welcoming and inclusive, not a gatekeeping scene or a superficial photo-first dating product.
+
+Keep screenshot hero message exactly:
+
+> **Fall for the sound before the selfie.**
+
+Styling: “the sound” crimson italic. Supporting copy:
+
+> A music-first dating app that matches people through playlists, genres, favorite artists, and listening chemistry.
+
+CTAs: `Download the App` and `See How Matching Works`. Keep the handwritten tagline `MUSIC > LOOKS` as an iconic recurring motif.
+
+Tone: witty, cool, emotionally grounded, slightly rebellious, never mean or mocking users' appearance. Use phrases like *“A shared song is a better hello”*, *“Find your frequency”*, *“Less swipe. More soundtrack.”* Avoid empty marketing buzzwords and unverifiable algorithm claims.
+
+**Important product honesty:** This is a fictional marketing demo. Don't invent App Store links, real installs, user counts, endorsements, or live matchmaking. If native apps/backend are absent, clicking `Download` should reveal a transparent `Preview / Coming soon` state or an honestly labeled demo registration mechanism; do not pretend a download or account creation occurred. Never expose private user data or require real user details to explore the site.
+
+## 3 — Full page architecture: eight distinct scenes
+
+Do **not** simply copy the hero's collage into a long stack of identical cards. Each section should feel like a new spread in the *same* zine, sharing red/black/ivory, music paper, hand-drawn star language, and visual rhythm.
+
+### A. Hero — Two phones, one chemistry
+Rebuild screenshot closely. Use realistic CSS phone shells with live UI inside rather than static mockup artwork. The two phones should not move as a rigid unit: one can shift/tilt in response to small pointer movements; the other responds with opposite depth. Vinyl and torn-paper layers drift very subtly. The star stickers and waveform accents breathe, but not at seizure-inducing intensity.
+
+**Real hero interactions:**
+- Click `See How Matching Works` to smooth-scroll to Section C.
+- Press the featured profile's `Music / Compatibility` tabs or mini hot spots to change on-device screen content; clearly labeled and keyboard usable.
+- Click artist/genre chips to highlight overlapping interests and update a demo score/description.
+- Click the little shared track album tile to reveal context and a conversation prompt inline.
+- Keep portraits secondary; mobile screenshots should emphasize taste, songs, album art, and prompts.
+
+### B. Manifesto — Music before looks
+Oversized cream typography alternates with rough red serif; words assemble as if individual posters are being wheat-pasted onto a wall. The statement **“THERE'S MORE TO A PERSON THAN A PHOTO”** emerges from staggered torn strips. On scroll, smaller lyrics-free phrases and stars pull apart to expose the sentence *“A shared song is a better hello.”* Include 3 small truthful product principles with expand-in-place text reveals: `Taste first`, `Connection second`, `Meet when ready`.
+
+### C. How it works — The first three tracks
+A *music-player progress rail* tells a three-step narrative:
+1. **Drop your favorites** — choose genres, artists, and listening moods.
+2. **Find your overlap** — see shared interests and why a pairing might click.
+3. **Start a conversation** — use real prompts about a song or memory.
+
+Build a short scroll-progress scene (desktop only) in which a rough-edged paper ticket is passed between visual stations and an animated groove/waveform draws itself. Side content reorganizes rather than simply appearing. As the user scrolls back, the transition reverses. Mobile uses discrete visible steps—no scroll traps.
+
+### D. Interactive taste matcher — The centerpiece
+A **working front-end micro-demo**, with two panels and chips: pick favorites from e.g. `shoegaze`, `post-punk`, `indie rock`, `dream pop`, `darkwave`, `emo`, `alt folk`. Offer a sample taste profile for a fictional person and toggle listening habits (`night drives`, `live gigs`, `vinyl`, `late-night headphones`). On selection, visually compute a **simple, plainly explained demo overlap percentage** from shared selections (e.g. Jaccard overlap with an optional baseline), not a scientifically authoritative romantic compatibility claim. Show `Shared scenes`, `Could talk about`, and an intro prompt. Make results deterministic, meaningful, and visibly derived from input. Allow reset, undo/clear, and keyboard activation. Keep users' data in memory only unless they explicitly choose to save demo choices locally.
+
+**Animation:** selected genre chips snap onto a physical-looking strip, other chips slide out of the way, overlap circles redraw as red ink rings, and a generated vinyl record temporarily rotates faster when compatibility recalculates. Avoid flashing the entire screen.
+
+### E. Music chemistry / Phones in motion
+A large two-phone interactive case-study-like section. Feature a demo `Mila` and a second invented 18+ fictional profile. Small control panel toggles `Favorite records`, `Concert energy`, `Late-night playlist`, visibly changing content inside both phones. The album tiles should be **original fictional artwork**. A paper strip unfurls between screens showing shared interests; its connector draws and retracts with the selection. Do not use copyrighted lyrics, existing album-cover reproductions, or unlicensed recordings. Avoid inventing partnerships with Spotify, Apple Music, etc.; if no APIs are integrated, use clearly labeled fictional listening data.
+
+### F. The scene / Playlist culture
+An editorial collage wall showcasing fictional playlists, concert-poster designs, and ticket stubs: `Midnight Static`, `After the Encore`, `Songs to Walk Home To`, `Basement Show Memories`. Cards overlap with meaningful hierarchy. Filter by listening mood/genre and transition visible collage items with shuffle/reflow animation (FLIP technique). Clicking an item opens an **inline expanding sleeve** or accessible side drawer with artwork, context, genre, and a suggested conversation question. No arbitrary repetitive modals.
+
+### G. Stories & values
+A vertical zine article layout with 2–3 **clearly fictional/demo** vignettes about connection via music, or quotes framed as illustrative copy—not fabricated verified testimonials. Add readable editorial typography, tear-edge separators, hand-stamped symbols, and a little carousel that has true next/previous keyboard controls and visible current slide. Include an understated safety/privacy section: 18+, consent and respectful conversation, ability to report/block would require a real app backend; don't pretend they're operational here. If representing safety tools, label them as proposed product features.
+
+### H. Final CTA + footer
+Closing statement: **“YOUR NEXT FAVORITE PERSON MIGHT HAVE YOUR NEXT FAVORITE SONG.”** Set this in huge cream and crimson typographic contrast on a near-black field with a large **slow-turning red-label vinyl** whose center acts like a visual punctuation mark. CTA `Join the Riff` (opens honest preview / waitlist state). Secondary `Explore the Match Demo` scrolls back to Section D. Footer styled like the bottom of a record sleeve with real anchor links, discreet copyright, original hand-inked symbol, and `BACK TO THE TOP ↗` interaction. No dead outbound links.
+
+## 4 — Advanced animation & interaction brief
+
+**The site cannot be a gallery of fade-up animations.** Motion should feel **hand-printed, cut, spun, dragged, tapped, scratched, and assembled**, analogous to physical concert memorabilia.
+
+### On-load cinematic choreography (~0.4–2.4s)
+- Riff waveform logo draws a jagged audio stroke left-to-right.
+- Hero headline reveals with a **paper-slit mask**: each line appears as a horizontal paper shutter pulls sideways. The red italic phrase enters by letter tracking and slight shear, then snaps into a confident resting baseline.
+- Tiny stars draw their outlines with `stroke-dashoffset` and occasionally twitch/rotate independently.
+- One phone pivots up as if laid on a table; the second slips from behind it, settling at a contrasting angle. Images inside should not float out of alignment with the phone shells.
+- Vinyl circles peek from the collage and begin **very slow continuous rotation** (one complete rotation in ~18–30s). Ticket stubs travel along slightly different vectors then settle; halftone patterns are static or move only subtly.
+
+### Hover, click, focus
+- **Buttons:** sharp cut-paper hover wipe; red block shifts a few pixels like misregistered screen print; border underline or magnetic micro-shift; accessible focus outline is always visible.
+- **Star symbols:** mouse hover rotates slightly and alters stroke shape/size; click on explicitly interactive star can pin/unpin one accent near the cursor within safe bounds, with a clear label. Decorative stars without behavior must not be keyboard targets.
+- **Vinyl record:** hover accelerates rotation smoothly; keyboard-accessible play/pause motion control; clicking changes the featured record art or flips label side. Do not autoplay audio.
+- **Album tiles:** hover lifts the paper sleeve, reveals small genre metadata; click updates the inline song/playlist panel.
+- **Ticket edges:** hover exposes a second ink color and small paper lift; click expands real event/genre information.
+- **Nav links:** kinetic underlines; the active section marker slides as observer events fire.
+- **Music-match chips:** tactile toggling, animated inner check, shared artists or genres connect with ink strokes. Scores update only after state changes and explain basis.
+- **Phone switcher:** animated card-stack reordering and in-device UI changes. CSS transitions should manipulate transforms and clip paths; avoid simple cross-fade only.
+
+### Scroll-directed sequences
+- **Manifesto:** paper strips slide into alignment and overlap; several small image windows unmask using rough-edge masks, not opaque blocks.
+- **How it works:** track progression like moving a playhead along a record groove; dynamic labels advance; return scroll rewinds smoothly.
+- **Playlist wall:** album sleeves fan outward and reorganize as filters change; layout doesn't jump.
+- **Stories:** a faux-negative strip moves horizontally while the document scrolls vertically; no uncontrolled horizontal scroll-jacking.
+- **Final CTA:** a single stylized star grows through a rough SVG path morph while a vinyl disc settles behind the typography.
+
+**Restraint:** The brutalism is in the visuals, not in hurting usability. Keep most ambient movement 10–30s per cycle, microinteractions 150–350ms, section motions 500–1200ms. No constant large-scale flashing, shaking text, aggressive scrolling overrides, or looping giant movement behind paragraphs.
+
+## 5 — Grain, halftone, and printed textures: mandatory details
+
+The texture details are **core brand assets**, not optional decoration. Implement carefully:
+
+### Grain / noise
+- Use a small seamless monochrome PNG/WebP noise tile (generated or algorithmically made), at low opacity (typically ~4–10%, subject to visual QA), in a fixed or section-level non-interfering overlay with `pointer-events:none`.
+- Alternately use subtle SVG turbulence with care; do not put a GPU-expensive animated filter over the whole viewport.
+- The black surface must feel like lightly grained printed paper, **not** dirty static television.
+- Film-grain finish on original black-and-white portrait/art assets. Keep readable UI labels free of strong noise.
+
+### Halftone
+- Create CSS `radial-gradient` / SVG dot screens as carefully masked patches (e.g. behind flyers or near the lower corners and collage edge). Change dot size or frequency between two areas for organic depth.
+- Use irregular halftone clipping and perspective on paper fragments; avoid a perfect repetitive full-page polka-dot grid.
+- Halftone should harmonize with ripped concert ticket and band-zine art.
+
+### Stars and hand-drawn marks
+- Create original inline SVG art for uneven ink stars, zigzag scribbles, underlines, record grooves, soundwaves, cross-hatches, and directional arrows.
+- Hand-drawn lines have character: imperfect, slightly asymmetrical, rough ends, variable stroke width. Don't use stock star icons, emoji sparkles or glossy Web3 gradients.
+- A few symbols should appear repeatedly as motifs, with varied sizes and rotations, rather than randomly littering every centimeter.
+
+### Collage depth
+- Separate art into layers: back vinyl (70–90% opacity), ripped paper photos, tickets, UI device shells, sketch marks in foreground. Use restrained real drop shadows and slight rotation variations. Do not turn the entire hero into one raster image. Preserve the 50/50 narrative balance: large left headline remains readable.
+
+## 6 — Asset generation brief (original, separate, reusable)
+
+You **may generate images**, and are encouraged to for the analog artifacts. Generate **individual assets** rather than a full webpage screenshot and cutting it apart. Use transparent backgrounds where possible; preserve clean alpha edges.
+
+Use these directions as subprompts for your available image model:
+
+1. **Vinyl record** — *Top-down 12-inch black vinyl record, black glossy concentric grooves, small deep-crimson circular center label with original abstract typography, slight side-lit reflections, isolated as transparent PNG/WebP, no background, crisp studio realism, no famous labels or copyrighted art.*
+2. **Concert ticket pieces** — *Set of original indie/punk concert ticket stubs in warm gray/cream and faded crimson, perforated edges, cheap ink-print texture, generic fictional venues and bands, slight torn paper, isolated objects on transparent background, no branded real concerts.*
+3. **Photographic zine fragments** — *Four original black-and-white analog-style band rehearsal / underground gig images, documentary 35mm grain, no identifiable famous musicians or trademarks, high quality editorial compositions, no logos, generated as independent assets.*
+4. **Original album sleeves** — *Six square album-cover artworks for fictional post-punk, shoegaze, indie, alt folk, darkwave and dream-pop artists, muted monochrome with rare crimson accents, distressed halftone/screen-printed imagery, no existing record covers, separate square files.*
+5. **Torn paper details** — *Original distressed black and off-white paper strip set with ripped fibrous edges, halftone fragments, white ink scribbles, transparent backgrounds, no lettering.*
+6. **Texture tile** — *Seamless delicate monochrome analog paper grain, small repeat tile, no legible text, low contrast, suitable for black website background.*
+
+**Do not copy/recreate real artist album covers, copyrighted lyrics, or logos.** Original assets can evoke genres without reproducing anyone's protected packaging. If portraits appear, they should depict clearly fictional adults; visual age should match 18+ presentation.
+
+## 7 — Product demo mechanics & accessibility
+
+The actual dating product isn't connected to a server. Build honest functional demos, not phony backend workflows.
+
+- User selections in the `Taste Matcher` update real local JS state and derived UI. Use a simple deterministic overlap function; don't represent it as validated scientific romance matching.
+- The `Join Riff` or `Get the App` CTA must disclose preview status if no working app/store link exists. You may offer an accessible local demo input or pre-composed email link **only if** a real destination is supplied; do not invent a mailbox or tell visitors their email was saved when it wasn't.
+- No autoplay copyrighted music. Optional animation equalizer is visual only and labeled so; no fake audio playback claim. If audio previews are added, use only truly licensed/original audio and provide controls/mute.
+- Mobile profiles should avoid mandatory face imagery and show taste before portraits. Use accessible alternative text for meaningful collage images; decorative motifs `aria-hidden`.
+- Respect user safety/privacy: adult-only positioning, clearly demo data, never request sensitive personal details, do not persist user input without consent.
+- Keyboard users can operate dropdowns, tabs, album cards, genre selection, view modes, and the motion toggle. Provide focus rings legible on black, and `aria-live` to announce calculated overlap.
+- `prefers-reduced-motion: reduce` disables record rotation, parallax, disruptive reveals, and scroll pinning. All features and information remain accessible.
+
+## 8 — Responsive and engineering constraints
+
+### Desktop 1440–1920
+- Preserve screenshot's left typographic field (~48%) and right collage (52%). Keep white space around editorial headline and a high-quality sense of physical depth.
+- Responsive phones scale together but their actual screens remain legible.
+
+### Tablet
+- Allow the collage to rebalance, bringing one phone forward and shifting vinyl to the edges. Headline may wrap across 3–4 carefully controlled lines.
+
+### Mobile 320–430px
+- Stack editorial copy before device artwork. Display two phones as an intentional compact layered composition or a user-operated switcher—not a squashed desktop collage.
+- No horizontal overflow, missing images, microscopic buttons, inaccessible fixed overlays, or long pinned-scroll traps.
+- Scale the texture intensity down; retain red accents, star language, and collage identity with only a few carefully selected pieces.
+- Buttons need good tap targets and copy remains readable.
+
+### Performance
+- Use transform/opacity and SVG path animation primarily; avoid animating expensive CSS filters on multiple large surfaces.
+- Use `IntersectionObserver` for starting/pausing offscreen ambience and `requestAnimationFrame` for time-sensitive loops.
+- Lazy-load art below the fold, preload a few hero-critical assets only, compress images to WebP/AVIF or optimized PNG if alpha required.
+- Use image `width`/`height`, explicit aspect ratios, and avoid cumulative layout shift.
+- If using GSAP/ScrollTrigger, only when substantial choreography benefits; keep graceful fallback if library load fails. No huge dependency graph required.
+
+## 9 — Click map and section IDs
+
+Implement exact working anchors or actions:
+
+| Item | Action |
+|---|---|
+| Riff logo | scroll to `#home` |
+| How It Works | scroll to `#how-it-works` |
+| Matches | scroll to `#taste-matcher` |
+| Playlists | scroll to `#playlists` |
+| Stories | scroll to `#stories` |
+| `See How Matching Works` | scroll to `#how-it-works` |
+| `Download the App` | honest app-preview/download-status UI |
+| `Join Riff` | honest preview/interest flow, no false saved state |
+| Taste chips | update selections and overlap results |
+| Album tiles | expand corresponding music details inline |
+| Phone view mode tabs | actually change phone UI content |
+| Motion toggle | pause/resume ambient rotations |
+| `Back to top` | smooth scroll to `#home` |
+
+No `href="#"` dead links or clickable visuals with no outcome. If a secondary feature is not implemented, make it visually non-interactive rather than misleading.
+
+## 10 — QA and completion checklist
+
+Do not declare victory until you've actually opened and checked the site at 1440×900, 1280×800, 768×1024, 390×844 and 320×568 (where browser tooling exists). Verify:
+
+- **Riff looks like the supplied hero**: distinct serif/red italic editorial type, dark grainy surface, visually varied torn-paper collage, vinyl, sketched star symbols, concentrated halftone patches, two phones.
+- The website doesn't look like a generic pink dating app or a goth theme kit with stock cards.
+- The device screens are real HTML and can be manipulated; taste selections update the demo UI.
+- Hero CTA and nav work; no deceptive app download or fabricated waitlist success.
+- Different sections each have their own **genuine mechanical motion**: paper slit, print registration, card shuffle, turntable, path drawing, typography assembly.
+- Reduced motion works; keyboard focus and tab controls work; buttons are visible at small widths.
+- All generated assets are original, local, and load without external hotlinks.
+- No console errors, no layout jank, no blocking scroll hijack, no illegible text over grain.
+
+## 11 — Final execution instruction
+
+**BUILD THE COMPLETE RIFF SITE NOW.** Treat the supplied Riff hero image as the hard visual reference, particularly its handmade alternative star marks, dense but controlled print grain, halftone spots, rough gig-ticket collage, black/ivory/red contrast, and two interactive music-first phones. Deliver an expressive eight-section, fully responsive landing page with meaningful UI behavior and advanced scroll/hover/press animation—not a static hero, a gallery of screenshots, or a stack of generic fading cards. Provide the finished `index.html` and any required image assets, ready to open locally.
