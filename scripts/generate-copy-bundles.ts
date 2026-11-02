@@ -7,9 +7,11 @@ import { TEMPLATES, type TemplateSlug } from "./templates.config";
 
 const COPY_METADATA: Record<
   TemplateSlug,
-  { name: string; dependencies: string[] }
+  { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
   arcandsignal: { name: "Arc & Signal", dependencies: [] },
+  stillwater: { name: "Stillwater", dependencies: [], includeDownload: true },
+  mercer: { name: "Jules Mercer", dependencies: ["three", "lucide-react"] },
   landingx: { name: "Landing X", dependencies: [] },
   avel: { name: "Avel", dependencies: [] },
   pello: { name: "Pello", dependencies: ["@phosphor-icons/react"] },
@@ -161,7 +163,7 @@ export const TEMPLATE_METADATA = Object.fromEntries(Object.entries(COPY_METADATA
   ...meta,
   createdAt: TEMPLATES[slug as TemplateSlug].createdAt,
   downloadPath: TEMPLATES[slug as TemplateSlug].hasDownload ? `/downloads/${slug}.html` : null,
-}])) as Record<TemplateSlug, { name: string; dependencies: string[]; createdAt: string; downloadPath: string | null }>;
+}])) as Record<TemplateSlug, { name: string; dependencies: string[]; createdAt: string; downloadPath: string | null; includeDownload?: boolean }>;
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
   try {
@@ -247,8 +249,16 @@ export function generateCopyBundles(outputDir = path.resolve(process.cwd(), "pub
     const meta = TEMPLATE_METADATA[slug] ?? {
       name: slug.charAt(0).toUpperCase() + slug.slice(1),
       dependencies: [],
+      downloadPath: null,
+      includeDownload: false,
     };
     const files = readTemplateFiles(slug);
+    if (meta.includeDownload && meta.downloadPath) {
+      const downloadPath = path.join("public", "downloads", `${slug}.html`);
+      if (fs.existsSync(downloadPath)) {
+        files.push({ path: downloadPath, source: fs.readFileSync(downloadPath, "utf8") });
+      }
+    }
     const bundleXml = formatRepomixBundle(slug, meta.name, files, meta.dependencies);
 
     const bundlePath = path.join(outputDir, `${slug}.md`);
