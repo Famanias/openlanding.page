@@ -75,6 +75,11 @@ describe("generate-copy-bundles", () => {
       const kojiBundle = fs.readFileSync(path.join(tempDir, "koji.md"), "utf8");
       expect(kojiBundle).toContain('"three"');
       expect(kojiBundle).not.toContain('"motion"');
+
+      const stillwaterBundle = fs.readFileSync(path.join(tempDir, "stillwater.md"), "utf8");
+      expect(stillwaterBundle).toContain('<file path="src/app/(stillwater)/stillwater/route.ts">');
+      expect(stillwaterBundle).toContain('<file path="public/downloads/stillwater.html">');
+      expect(stillwaterBundle).toContain('id="inquiry-form"');
     } finally {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
