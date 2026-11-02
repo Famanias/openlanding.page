@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  halodesk: { name: "Halo Desk", dependencies: ["lucide-react", "motion"] },
   arcandsignal: { name: "Arc & Signal", dependencies: [] },
   stillwater: { name: "Stillwater", dependencies: [], includeDownload: true },
   mercer: { name: "Jules Mercer", dependencies: ["three", "lucide-react"] },
