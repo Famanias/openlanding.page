@@ -1,0 +1,7 @@
+# Jules Mercer // Creative Developer
+
+Build an isolated Next.js portfolio hero at `/mercer`: a slate `#0A0D10` blueprint grid, Geist headline reading “I BUILD / WHAT YOU / IMAGINE.”, chartreuse `#CCFF00` final line and CTA, off-white `#E8ECEF` copy, Geist Mono navigation and telemetry. Include the JM. lockup, availability, email contact, project previews, and accessible project/about dialogs.
+
+The hero object is a code-only (2,3) torus knot, using Three.js with custom antialiased barycentric lattice shaders, cyan `#00E5FF` and lime `#CCFF00` vertex colors, additive translucent membrane, longitudinal filaments and an undulating 1,200-point envelope. Use closed transported frames; cap membrane geometry at 200 × 24. Keep a clear central aperture. Pointer parallax is clamped and damped; rotation stays near frontal. Resize with a bounding-sphere camera fit, cap device pixel ratio at 1.5 and show measured FPS.
+
+The canvas must clean up all listeners, geometries, materials and renderer context, survive context loss/restoration, pause offscreen and when the tab or a dialog hides it, and provide a playback control. Reduced motion, no JavaScript and WebGL failure show a lightweight procedural SVG with truthful status. Mobile places the stage below the copy with native vertical scrolling and a horizontally scrollable project strip. Do not use external 3D assets or a bitmap in place of the procedural model.
