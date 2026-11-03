@@ -30,17 +30,47 @@ test("desktop compiles a colored WebGL lens over the complete reference hero",as
   });
   expect(gl.error).toBe(0);expect(gl.alpha).toBe(true);expect(gl.ratio).toBeLessThanOrEqual(1.51);
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();
-  const pixels=await sharp(await canvas.screenshot()).removeAlpha().raw().toBuffer({resolveWithObject:true});
   let emerald=0,lime=0,violet=0;
-  for(let i=0;i<pixels.data.length;i+=pixels.info.channels){
-    const [r,g,b]=pixels.data.subarray(i,i+3);
-    if(g>75&&g>r*1.25&&b<g*.95)emerald++;
-    if(r>50&&g>75&&b<g*.65&&g>r*.8)lime++;
-    if(r>65&&b>65&&g<b*.8&&r>g*.9)violet++;
+  // Reflected rim colors move with the lens. Check representative poses, not one arbitrary phase.
+  for(let sample=0;sample<4;sample++){
+    const pixels=await sharp(await canvas.screenshot()).removeAlpha().raw().toBuffer({resolveWithObject:true});
+    let frameEmerald=0,frameLime=0,frameViolet=0;
+    for(let i=0;i<pixels.data.length;i+=pixels.info.channels){
+      const [r,g,b]=pixels.data.subarray(i,i+3);
+      if(g>75&&g>r*1.25&&b<g*.95)frameEmerald++;
+      if(r>50&&g>75&&b<g*.65&&g>r*.8)frameLime++;
+      if(r>65&&b>65&&g<b*.8&&r>g*.9)frameViolet++;
+    }
+    emerald=Math.max(emerald,frameEmerald);lime=Math.max(lime,frameLime);violet=Math.max(violet,frameViolet);
+    if(emerald>100&&lime>5&&violet>5)break;
+    if(sample<3){
+      await page.getByRole("button",{name:"Play animation",exact:true}).click();
+      await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","running");
+      await page.waitForTimeout(4000);
+      await page.getByRole("button",{name:"Pause animation",exact:true}).click();
+    }
   }
   expect(emerald).toBeGreaterThan(100);expect(lime).toBeGreaterThan(5);expect(violet).toBeGreaterThan(5);
   await mkdir(shots,{recursive:true});await page.screenshot({path:path.join(shots,"desktop-1440.png"),fullPage:true,animations:"disabled"});
   expect(errors).toEqual([]);
+});
+
+test("the lens moves on its own, freezes when paused, and resumes its loop",async({page})=>{
+  await page.setViewportSize({width:1440,height:900});await page.goto("/lenus");
+  const stage=page.locator(".ln-stage"),canvas=page.locator("canvas[data-lenus-renderer]");
+  await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
+  await page.mouse.move(0,0);
+  const before=await canvas.screenshot();
+  await page.waitForTimeout(1800);
+  expect((await canvas.screenshot()).equals(before)).toBe(false);
+  await page.getByRole("button",{name:"Pause animation",exact:true}).click();
+  const frozen=await canvas.screenshot();
+  await page.waitForTimeout(350);
+  expect((await canvas.screenshot()).equals(frozen)).toBe(true);
+  await page.getByRole("button",{name:"Play animation",exact:true}).click();
+  await expect(stage).toHaveAttribute("data-state","running");
+  await page.evaluate(()=>new Promise<void>(resolve=>{let frames=0;const frame=()=>{if(++frames>=3)resolve();else requestAnimationFrame(frame);};requestAnimationFrame(frame);}));
+  expect((await canvas.screenshot()).equals(frozen)).toBe(false);
 });
 
 test("explosion, focus and keyboard part inspection operate the authored assembly",async({page})=>{

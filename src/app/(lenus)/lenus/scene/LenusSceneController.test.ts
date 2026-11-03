@@ -2,6 +2,20 @@ import { describe, expect, it, vi } from "vitest";
 import { fitHeroFrustumHalfHeight, getPartTelemetry, LenusSceneController, normalizePointer } from "./LenusSceneController";
 
 describe("LenusSceneController", () => {
+  it("retains a supplied animation clock across renderer reconstruction",()=>{
+    const c=new LenusSceneController({initialAnimationTime:7.5});
+    expect(c.getAnimationTime()).toBe(7.5);
+    c.dispose();
+    const restored=new LenusSceneController({initialAnimationTime:c.getAnimationTime()});
+    expect(restored.getAnimationTime()).toBe(7.5);
+    restored.dispose();
+  });
+  it("retains adaptive resolution within its 75–100 percent bounds",()=>{
+    const saved=new LenusSceneController({initialResolutionScale:.85});
+    expect(saved.getResolutionScale()).toBe(.85);saved.dispose();
+    const bounded=new LenusSceneController({initialResolutionScale:.2});
+    expect(bounded.getResolutionScale()).toBe(.75);bounded.dispose();
+  });
   it("guards calls before initialization and after repeated disposal", () => {
     const c = new LenusSceneController({ onFps: vi.fn() });
     expect(c.getRenderer()).toBeNull();

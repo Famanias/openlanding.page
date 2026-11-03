@@ -104,18 +104,20 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
 .ln-stage-marker-top{top:8px;right:0}.ln-stage-marker-bottom{bottom:8px;left:8px}
 .ln-stage-marker-bottom span{margin-left:16px}
 .ln-stage-help{color:var(--color-ln-muted);font-size:11px;text-align:right;line-height:16px;margin:8px 0 12px}
-.ln-hud{width:min(100%,360px);justify-self:end;position:relative;z-index:4;padding:16px 20px;border:1px solid color-mix(in srgb,var(--color-ln-muted) 20%,transparent);background:color-mix(in srgb,var(--color-ln-glass) 60%,transparent);border-radius:16px;backdrop-filter:blur(20px)}
+.ln-hud{width:min(100%,720px);min-height:108px;display:grid;grid-template-columns:minmax(0,1.2fr) max-content minmax(0,1fr);grid-template-rows:18px auto;gap:4px 24px;align-items:center;justify-self:end;position:relative;z-index:4;padding:8px 20px;border:1px solid color-mix(in srgb,var(--color-ln-muted) 20%,transparent);background:color-mix(in srgb,var(--color-ln-glass) 60%,transparent);border-radius:16px;backdrop-filter:blur(20px)}
 .ln-hud-top,.ln-hud-actions,.ln-playback{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ln-hud-top{grid-column:1;grid-row:1;min-width:0}
+.ln-hud-actions{grid-column:2;grid-row:1 / 3;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px}
 .ln-micro,.ln-status,.ln-part-material,.ln-hud-sliders label{font-family:var(--font-ln-data);font-size:9px;line-height:16px;color:var(--color-ln-muted)}
 .ln-status{white-space:nowrap;display:flex;gap:6px;align-items:center}
 .ln-status i{width:4px;height:4px;background:var(--color-ln-muted);border-radius:50%}.ln-status[data-live="true"] i{background:var(--color-ln-emerald)}
-.ln-part-readout{margin:12px 0}
+.ln-part-readout{grid-column:1;grid-row:2;min-width:0;margin:0}
 .ln-part-readout select{appearance:auto;width:100%;border:0;background:transparent;color:var(--color-ln-white);font-family:var(--font-ln-data);font-size:11px;font-weight:500;padding:0 0 4px;cursor:pointer}
 .ln-part-readout option{background:var(--color-ln-glass);color:var(--color-ln-white)}
-.ln-part-material{margin:0;font-size:8px}.ln-part-description{font-size:10px;line-height:16px;color:var(--color-ln-muted);margin:4px 0 0;min-height:16px}
+.ln-part-material{margin:0;font-size:8px}.ln-part-description{font-size:10px;line-height:16px;color:var(--color-ln-muted);margin:4px 0 0;min-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ln-explode{display:inline-flex;gap:8px;align-items:center;background:none;border:0;padding:8px 0;color:var(--color-ln-lime);font-size:10px;font-weight:700;white-space:nowrap}
 .ln-icon-button{border:0;border-radius:6px;padding:6px;background:transparent;color:var(--color-ln-muted);display:inline-flex;align-items:center;justify-content:center;transition:color var(--duration-ln-ui) var(--ease-ln-out),transform var(--duration-ln-ui) var(--ease-ln-out)}
-.ln-playback{gap:4px}.ln-hud-sliders{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:4px}.ln-hud-sliders label{display:block;font-size:8px}
+.ln-playback{gap:4px}.ln-hud-sliders{grid-column:3;grid-row:1 / 3;display:grid;grid-template-columns:1fr;gap:8px;margin:0;min-width:0}.ln-hud-sliders label{display:block;font-size:8px}
 .ln-hud-sliders label>span{display:flex;justify-content:space-between;gap:4px}.ln-hud-sliders output{color:var(--color-ln-white);font-variant-numeric:tabular-nums}
 .ln-hud input[type="range"]{display:block;width:100%;height:16px;margin:4px 0 0;accent-color:var(--color-ln-lime);cursor:pointer}
 .ln-hud input[type="range"]:disabled{cursor:default;opacity:.4}
@@ -160,6 +162,7 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
 @media(max-width:1100px){.ln-desktop-nav{gap:24px}.ln-header{gap:24px}.ln-hero-copy h1{font-size:clamp(80px,8vw,104px)}.ln-subtitle{font-size:18px}.ln-desktop-break{display:none}}
 @media(max-width:959px){.ln-hero{grid-template-columns:1fr;padding-inline:40px;max-width:800px}.ln-hero-copy{padding:48px 0 16px}.ln-hero-copy h1{font-size:clamp(64px,11vw,100px);max-width:680px}.ln-subtitle{max-width:480px}.ln-copy-footnote{margin-top:32px}.ln-lens-plot{height:620px}.ln-hud{justify-self:center}.ln-stage-help{text-align:center}.ln-stage-marker-top{right:8px}.ln-footer{margin-top:32px}}
 @media(max-width:700px){.ln-header{display:flex;gap:12px;justify-content:space-between;margin:12px 16px;padding:16px 20px;border-radius:20px}.ln-wordmark{width:100px}.ln-desktop-nav,.ln-contact-cta{display:none}.ln-menu-toggle{display:flex}.ln-hero{padding:0 24px 24px}.ln-hero-copy{padding-top:32px;padding-bottom:16px}.ln-hero-copy h1{font-size:clamp(52px,14.8vw,88px);letter-spacing:-.065em;margin-bottom:24px}.ln-subtitle{font-size:16px;line-height:26px;margin-bottom:24px}.ln-step-inside{min-height:52px;padding:12px 20px;font-size:14px}.ln-copy-footnote{display:none}.ln-lens-plot{height:auto;aspect-ratio:1;min-height:0;margin:24px -8px 0}.ln-hud{width:100%;padding:16px}.ln-stage-marker{font-size:8px}.ln-stage-help{font-size:10px;margin-bottom:16px}.ln-footer{padding-inline:24px;flex-wrap:wrap;font-size:8px}.ln-space::before{top:30%;width:160vw;height:160vw;right:-70vw}}
+@media(max-width:700px){.ln-hud{min-height:0;grid-template-columns:minmax(0,1fr);grid-template-rows:auto;gap:12px}.ln-hud-top,.ln-part-readout,.ln-hud-actions,.ln-hud-sliders{grid-column:auto;grid-row:auto}.ln-hud-actions{flex-direction:row;align-items:center;justify-content:space-between}.ln-hud-sliders{grid-template-columns:1fr 1fr;gap:20px}.ln-part-description{white-space:normal;overflow:visible;text-overflow:clip}}
 @media(prefers-reduced-motion:reduce){.ln-body *,.ln-body *::before,.ln-body *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.ln-lens-fallback{visibility:visible!important;opacity:1!important}}
 @media(max-width:700px){.ln-dialog{width:calc(100vw - 24px);max-height:calc(100svh - 24px);border-radius:20px}.ln-dialog-content{padding:12px 24px 32px}.ln-dialog h2{font-size:36px}.ln-dialog-studies article{padding:16px}.ln-dialog-close{top:8px;left:calc(100% - 48px)}}
 /* Optical labels remain readable at their actual phone rendering size. */
@@ -323,7 +326,7 @@ export function LenusHudControls(p:Props){
         {OPTICAL_PARTS.map(part=><option key={part.id} value={part.id}>{part.label}</option>)}
       </select>
       <p className="ln-part-material">{p.activePart.material}</p>
-      <p className="ln-part-description">{p.activePart.role}</p>
+      <p className="ln-part-description" title={p.activePart.role}>{p.activePart.role}</p>
     </div>
     <div className="ln-hud-actions">
       <button type="button" className="ln-explode" aria-pressed={p.exploded} onClick={p.onToggleExplode} disabled={disabled}><Layers size={14} aria-hidden="true"/>EXPLODE ASSEMBLY</button>
@@ -387,6 +390,8 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const synchronize=useRef<()=>void>(()=>{});
   const activate=useRef<()=>void>(()=>{});
   const pose=useRef({explode:0,focus:0});
+  const animationTime=useRef(0);
+  const resolutionScale=useRef(1);
   const policy=useRef({suspended,paused:false});
   const [state,setState]=useState<LenusStageState>("preview");
   const [fps,setFps]=useState(0);
@@ -419,6 +424,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
     const boot=async()=>{
       if(controller.current&&!media.matches){sync();return;}
       const ticket=++revision;
+      if(controller.current){animationTime.current=controller.current.getAnimationTime();resolutionScale.current=controller.current.getResolutionScale();}
       controller.current?.dispose();controller.current=null;lost=false;
       if(media.matches){setActivationNeeded(false);setState("static");return;}
       if(!activated&&(window.matchMedia("(pointer: coarse)").matches||window.innerWidth<700)){
@@ -430,6 +436,8 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
         const {LenusSceneController}=await import("../scene/LenusSceneController");
         if(!active||ticket!==revision||media.matches)return;
         const instance=new LenusSceneController({
+          initialAnimationTime:animationTime.current,
+          initialResolutionScale:resolutionScale.current,
           onFps:value=>{if(active&&ticket===revision)setFps(value);},
           onContextChange:value=>{if(!active||ticket!==revision)return;lost=value==="lost";sync();},
           onPartChange:part=>{if(active&&ticket===revision)setActivePart(current=>current.id===part.id?current:part);},
@@ -3223,12 +3231,31 @@ export function createStudioEnvironment(renderer: THREE.WebGLRenderer, neon = fa
 }
 ]]>
     </file>
+    <file path="src/app/(lenus)/lenus/scene/lensMotion.ts">
+<![CDATA[export const LENS_LOOP_SECONDS=24;
+
+/** One continuous cycle; all secondary motion uses harmonics of the same clock. */
+export function getLensLoopPose(elapsedSeconds:number){
+  const seconds=Number.isFinite(elapsedSeconds)?elapsedSeconds:0;
+  const phase=((seconds%LENS_LOOP_SECONDS+LENS_LOOP_SECONDS)%LENS_LOOP_SECONDS)/LENS_LOOP_SECONDS*Math.PI*2;
+  return {
+    spin:phase,
+    yaw:.11*Math.sin(phase),
+    pitch:.05*Math.sin(phase*2),
+    collar:.16*Math.sin(phase*2),
+    shardOrbit:-2*phase,
+    shardY:.035*Math.sin(phase*3),
+  };
+}
+]]>
+    </file>
     <file path="src/app/(lenus)/lenus/scene/LenusSceneController.ts">
 <![CDATA[import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { createOpticalLensModel, type LensRuntime } from "../model/createOpticalLensModel";
 import { createStudioEnvironment } from "../model/studioEnvironment";
 import { getPartTelemetry, type LenusPartInfo } from "./telemetry";
+import { getLensLoopPose } from "./lensMotion";
 export { getPartTelemetry, type LenusPartInfo } from "./telemetry";
 
 export function normalizePointer(value: number) { return Number.isFinite(value) ? THREE.MathUtils.clamp(value,-1,1) : 0; }
@@ -3239,6 +3266,8 @@ export function fitHeroFrustumHalfHeight(width: number, height: number) {
 const BASE_YAW=-.46, BASE_POLAR=Math.PI/2-.14, RADIUS=12;
 const finite=(n:number,fallback=0)=>Number.isFinite(n)?n:fallback;
 export interface LenusSceneOptions {
+  initialAnimationTime?: number;
+  initialResolutionScale?: number;
   onFps?: (fps:number)=>void;
   onContextChange?: (state:"lost"|"restored")=>void;
   onInteractionChange?: (dragging:boolean)=>void;
@@ -3260,6 +3289,7 @@ export class LenusSceneController {
   private contextLost=false;
   private dragging=false;
   private pointer={x:0,y:0};
+  private parallax={x:0,y:0};
   private explodeTarget=0;
   private explode=0;
   private focusTarget=0;
@@ -3271,7 +3301,10 @@ export class LenusSceneController {
   private slowTime=0;
   private resolutionScale=1;
   private viewport={width:1,height:1};
-  constructor(private readonly options:LenusSceneOptions={}) {}
+  constructor(private readonly options:LenusSceneOptions={}) {
+    this.elapsed=Math.max(0,finite(options.initialAnimationTime??0));
+    this.resolutionScale=THREE.MathUtils.clamp(finite(options.initialResolutionScale??1,1),.75,1);
+  }
 
   init(container:HTMLElement) {
     if(this.disposed||this.renderer)return;
@@ -3293,6 +3326,7 @@ export class LenusSceneController {
       this.scene.environment=this.environment.texture;
       this.model=createOpticalLensModel(undefined,{pass:"optimization-pass",quality:"high"});
       this.runtime=this.model.userData.sculptRuntime as LensRuntime;
+      this.applyLoopPose();
       this.scene.add(this.model,new THREE.HemisphereLight(0xe5eeff,0x282631,2));
       for(const [color,intensity,position] of [
         [0xffffff,3,[-3,5,4]],[0xdde4ff,1.4,[3,0,-4]],
@@ -3318,6 +3352,8 @@ export class LenusSceneController {
     } catch(error) { this.dispose();throw error; }
   }
   getRenderer(){return this.renderer;}
+  getAnimationTime(){return this.elapsed;}
+  getResolutionScale(){return this.resolutionScale;}
   resize(width:number,height:number){
     if(this.disposed||!this.renderer)return;
     this.viewport={width:Math.max(1,finite(width,1)),height:Math.max(1,finite(height,1))};
@@ -3338,15 +3374,14 @@ export class LenusSceneController {
     this.explodeTarget=THREE.MathUtils.clamp(finite(amount),0,1);
     if(!this.running){
       this.explode=this.explodeTarget;this.runtime?.setExplode(this.explode);
-      const shards=this.runtime?.nodes.shards;
-      if(shards)shards.position.y=Math.sin(this.elapsed*.65)*.035;
+      this.applyLoopPose();
       this.render();
     }
   }
   setFocusTarget(radians:number){
     if(this.disposed)return;
     this.focusTarget=THREE.MathUtils.clamp(finite(radians),-Math.PI/2,Math.PI/2);
-    if(!this.running){this.focus=this.focusTarget;this.runtime?.setFocusRing(this.focus);this.render();}
+    if(!this.running){this.focus=this.focusTarget;this.runtime?.setFocusRing(this.focus);this.applyLoopPose();this.render();}
   }
   pickAtNormalizedCanvas(nx:number,ny:number){
     if(this.disposed||this.contextLost||!this.model||!this.runtime)return getPartTelemetry(null);
@@ -3368,9 +3403,9 @@ export class LenusSceneController {
   }
   resetView(){
     if(this.disposed)return;
-    this.pointer={x:0,y:0};this.setExplodeTarget(0);this.setFocusTarget(0);
+    this.pointer={x:0,y:0};this.parallax={x:0,y:0};this.setExplodeTarget(0);this.setFocusTarget(0);
     if(!this.renderer)return;
-    this.model?.rotation.set(0,0,0);this.placeCamera(BASE_YAW,BASE_POLAR);
+    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);
     if(!this.contextLost)this.render();
   }
   start(){
@@ -3387,15 +3422,15 @@ export class LenusSceneController {
     if(!this.running||this.disposed||this.contextLost||!this.renderer||!this.model||!this.runtime)return;
     const delta=this.lastTime===null?0:Math.min(.1,(time-this.lastTime)/1000);
     const realDelta=this.lastTime===null?0:(time-this.lastTime)/1000;
-    this.lastTime=time;this.elapsed+=delta;
+    this.lastTime=time;
+    if(!this.dragging)this.elapsed+=Math.max(0,realDelta);
     const damp=1-Math.exp(-5*delta);
     this.explode+=(this.explodeTarget-this.explode)*damp;
     this.focus+=(this.focusTarget-this.focus)*damp;
     this.runtime.setExplode(this.explode);this.runtime.setFocusRing(this.focus);
-    this.model.rotation.y+=((this.dragging?0:this.pointer.x*.14)-this.model.rotation.y)*damp;
-    this.model.rotation.x+=((this.dragging?0:-this.pointer.y*.1)-this.model.rotation.x)*damp;
-    const shards=this.runtime.nodes.shards;
-    if(shards)shards.position.y=Math.sin(this.elapsed*.65)*.035;
+    this.parallax.y+=((this.dragging?0:this.pointer.x*.14)-this.parallax.y)*damp;
+    this.parallax.x+=((this.dragging?0:-this.pointer.y*.1)-this.parallax.x)*damp;
+    this.applyLoopPose();
     this.frames++;this.sampleTime+=realDelta;
     if(this.sampleTime>=1){
       const fps=this.frames/this.sampleTime;
@@ -3407,6 +3442,15 @@ export class LenusSceneController {
     // A buffer resize clears its pixels; render afterwards so pausing cannot freeze a blank frame.
     this.render();
   };
+  private applyLoopPose(){
+    if(!this.model||!this.runtime)return;
+    const pose=getLensLoopPose(this.elapsed);
+    this.model.rotation.set(pose.pitch+this.parallax.x,pose.yaw+this.parallax.y,pose.spin);
+    const collar=this.runtime.nodes["collar-inner"];
+    if(collar)collar.rotation.z=pose.collar;
+    const shards=this.runtime.nodes.shards;
+    if(shards){shards.position.y=pose.shardY;shards.rotation.z=this.focus+pose.shardOrbit;}
+  }
   private render(){if(this.renderer&&!this.contextLost)this.renderer.render(this.scene,this.camera);}
   private onDragStart=()=>{this.dragging=true;this.options.onInteractionChange?.(true);};
   private onDragEnd=()=>{this.dragging=false;this.options.onInteractionChange?.(false);};

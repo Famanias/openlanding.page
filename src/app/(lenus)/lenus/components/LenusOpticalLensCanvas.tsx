@@ -12,6 +12,8 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const synchronize=useRef<()=>void>(()=>{});
   const activate=useRef<()=>void>(()=>{});
   const pose=useRef({explode:0,focus:0});
+  const animationTime=useRef(0);
+  const resolutionScale=useRef(1);
   const policy=useRef({suspended,paused:false});
   const [state,setState]=useState<LenusStageState>("preview");
   const [fps,setFps]=useState(0);
@@ -44,6 +46,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
     const boot=async()=>{
       if(controller.current&&!media.matches){sync();return;}
       const ticket=++revision;
+      if(controller.current){animationTime.current=controller.current.getAnimationTime();resolutionScale.current=controller.current.getResolutionScale();}
       controller.current?.dispose();controller.current=null;lost=false;
       if(media.matches){setActivationNeeded(false);setState("static");return;}
       if(!activated&&(window.matchMedia("(pointer: coarse)").matches||window.innerWidth<700)){
@@ -55,6 +58,8 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
         const {LenusSceneController}=await import("../scene/LenusSceneController");
         if(!active||ticket!==revision||media.matches)return;
         const instance=new LenusSceneController({
+          initialAnimationTime:animationTime.current,
+          initialResolutionScale:resolutionScale.current,
           onFps:value=>{if(active&&ticket===revision)setFps(value);},
           onContextChange:value=>{if(!active||ticket!==revision)return;lost=value==="lost";sync();},
           onPartChange:part=>{if(active&&ticket===revision)setActivePart(current=>current.id===part.id?current:part);},

@@ -3,6 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { createOpticalLensModel, type LensRuntime } from "../model/createOpticalLensModel";
 import { createStudioEnvironment } from "../model/studioEnvironment";
 import { getPartTelemetry, type LenusPartInfo } from "./telemetry";
+import { getLensLoopPose } from "./lensMotion";
 export { getPartTelemetry, type LenusPartInfo } from "./telemetry";
 
 export function normalizePointer(value: number) { return Number.isFinite(value) ? THREE.MathUtils.clamp(value,-1,1) : 0; }
@@ -13,6 +14,8 @@ export function fitHeroFrustumHalfHeight(width: number, height: number) {
 const BASE_YAW=-.46, BASE_POLAR=Math.PI/2-.14, RADIUS=12;
 const finite=(n:number,fallback=0)=>Number.isFinite(n)?n:fallback;
 export interface LenusSceneOptions {
+  initialAnimationTime?: number;
+  initialResolutionScale?: number;
   onFps?: (fps:number)=>void;
   onContextChange?: (state:"lost"|"restored")=>void;
   onInteractionChange?: (dragging:boolean)=>void;
@@ -34,6 +37,7 @@ export class LenusSceneController {
   private contextLost=false;
   private dragging=false;
   private pointer={x:0,y:0};
+  private parallax={x:0,y:0};
   private explodeTarget=0;
   private explode=0;
   private focusTarget=0;
@@ -45,7 +49,10 @@ export class LenusSceneController {
   private slowTime=0;
   private resolutionScale=1;
   private viewport={width:1,height:1};
-  constructor(private readonly options:LenusSceneOptions={}) {}
+  constructor(private readonly options:LenusSceneOptions={}) {
+    this.elapsed=Math.max(0,finite(options.initialAnimationTime??0));
+    this.resolutionScale=THREE.MathUtils.clamp(finite(options.initialResolutionScale??1,1),.75,1);
+  }
 
   init(container:HTMLElement) {
     if(this.disposed||this.renderer)return;
@@ -67,6 +74,7 @@ export class LenusSceneController {
       this.scene.environment=this.environment.texture;
       this.model=createOpticalLensModel(undefined,{pass:"optimization-pass",quality:"high"});
       this.runtime=this.model.userData.sculptRuntime as LensRuntime;
+      this.applyLoopPose();
       this.scene.add(this.model,new THREE.HemisphereLight(0xe5eeff,0x282631,2));
       for(const [color,intensity,position] of [
         [0xffffff,3,[-3,5,4]],[0xdde4ff,1.4,[3,0,-4]],
@@ -92,6 +100,8 @@ export class LenusSceneController {
     } catch(error) { this.dispose();throw error; }
   }
   getRenderer(){return this.renderer;}
+  getAnimationTime(){return this.elapsed;}
+  getResolutionScale(){return this.resolutionScale;}
   resize(width:number,height:number){
     if(this.disposed||!this.renderer)return;
     this.viewport={width:Math.max(1,finite(width,1)),height:Math.max(1,finite(height,1))};
@@ -112,15 +122,14 @@ export class LenusSceneController {
     this.explodeTarget=THREE.MathUtils.clamp(finite(amount),0,1);
     if(!this.running){
       this.explode=this.explodeTarget;this.runtime?.setExplode(this.explode);
-      const shards=this.runtime?.nodes.shards;
-      if(shards)shards.position.y=Math.sin(this.elapsed*.65)*.035;
+      this.applyLoopPose();
       this.render();
     }
   }
   setFocusTarget(radians:number){
     if(this.disposed)return;
     this.focusTarget=THREE.MathUtils.clamp(finite(radians),-Math.PI/2,Math.PI/2);
-    if(!this.running){this.focus=this.focusTarget;this.runtime?.setFocusRing(this.focus);this.render();}
+    if(!this.running){this.focus=this.focusTarget;this.runtime?.setFocusRing(this.focus);this.applyLoopPose();this.render();}
   }
   pickAtNormalizedCanvas(nx:number,ny:number){
     if(this.disposed||this.contextLost||!this.model||!this.runtime)return getPartTelemetry(null);
@@ -142,9 +151,9 @@ export class LenusSceneController {
   }
   resetView(){
     if(this.disposed)return;
-    this.pointer={x:0,y:0};this.setExplodeTarget(0);this.setFocusTarget(0);
+    this.pointer={x:0,y:0};this.parallax={x:0,y:0};this.setExplodeTarget(0);this.setFocusTarget(0);
     if(!this.renderer)return;
-    this.model?.rotation.set(0,0,0);this.placeCamera(BASE_YAW,BASE_POLAR);
+    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);
     if(!this.contextLost)this.render();
   }
   start(){
@@ -161,15 +170,15 @@ export class LenusSceneController {
     if(!this.running||this.disposed||this.contextLost||!this.renderer||!this.model||!this.runtime)return;
     const delta=this.lastTime===null?0:Math.min(.1,(time-this.lastTime)/1000);
     const realDelta=this.lastTime===null?0:(time-this.lastTime)/1000;
-    this.lastTime=time;this.elapsed+=delta;
+    this.lastTime=time;
+    if(!this.dragging)this.elapsed+=Math.max(0,realDelta);
     const damp=1-Math.exp(-5*delta);
     this.explode+=(this.explodeTarget-this.explode)*damp;
     this.focus+=(this.focusTarget-this.focus)*damp;
     this.runtime.setExplode(this.explode);this.runtime.setFocusRing(this.focus);
-    this.model.rotation.y+=((this.dragging?0:this.pointer.x*.14)-this.model.rotation.y)*damp;
-    this.model.rotation.x+=((this.dragging?0:-this.pointer.y*.1)-this.model.rotation.x)*damp;
-    const shards=this.runtime.nodes.shards;
-    if(shards)shards.position.y=Math.sin(this.elapsed*.65)*.035;
+    this.parallax.y+=((this.dragging?0:this.pointer.x*.14)-this.parallax.y)*damp;
+    this.parallax.x+=((this.dragging?0:-this.pointer.y*.1)-this.parallax.x)*damp;
+    this.applyLoopPose();
     this.frames++;this.sampleTime+=realDelta;
     if(this.sampleTime>=1){
       const fps=this.frames/this.sampleTime;
@@ -181,6 +190,15 @@ export class LenusSceneController {
     // A buffer resize clears its pixels; render afterwards so pausing cannot freeze a blank frame.
     this.render();
   };
+  private applyLoopPose(){
+    if(!this.model||!this.runtime)return;
+    const pose=getLensLoopPose(this.elapsed);
+    this.model.rotation.set(pose.pitch+this.parallax.x,pose.yaw+this.parallax.y,pose.spin);
+    const collar=this.runtime.nodes["collar-inner"];
+    if(collar)collar.rotation.z=pose.collar;
+    const shards=this.runtime.nodes.shards;
+    if(shards){shards.position.y=pose.shardY;shards.rotation.z=this.focus+pose.shardOrbit;}
+  }
   private render(){if(this.renderer&&!this.contextLost)this.renderer.render(this.scene,this.camera);}
   private onDragStart=()=>{this.dragging=true;this.options.onInteractionChange?.(true);};
   private onDragEnd=()=>{this.dragging=false;this.options.onInteractionChange?.(false);};

@@ -48,3 +48,11 @@ Dialog and form-success entrances retain the 800ms reveal token. A shorter UI en
 - Commits stay on the existing `Famanias/brittlestar` branch and worktree.
 
 Build warnings about repository font metrics, metadataBase and unsupported social-image z-index were non-blocking. No publish or deployment was requested.
+
+## Follow-up: compact controls and looping lens
+
+- The desktop HUD now measures 720 × 108px at 1920px, 1440px and 900px viewports. It fits within a 390px phone viewport, where controls stack without horizontal overflow.
+- The complete lens turns around its optical axis in a seamless 24-second cycle, with harmonic tilt, an oscillating inner collar and counter-orbiting shards. Dragging holds the loop for inspection. Pause, visibility suspension, dialogs and reduced motion retain their previous behavior.
+- Loop phase and adaptive resolution survive preference-driven renderer reconstruction. User-controlled explosion and focus remain independent of the loop.
+- The updated production build, 1,237 unit tests, TypeScript, scoped lint and repository guards pass. Production browser checks cover automatic movement, frozen Pause, resumed playback, settings restoration, context recovery, mobile and reduced motion. Reflected colors are checked across representative animation poses rather than one arbitrary frozen phase.
+- Template and gallery previews were refreshed from the rendered production hero. The authored model geometry and materials remain unchanged.

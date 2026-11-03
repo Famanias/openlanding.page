@@ -18,7 +18,7 @@ export function LenusHudControls(p:Props){
         {OPTICAL_PARTS.map(part=><option key={part.id} value={part.id}>{part.label}</option>)}
       </select>
       <p className="ln-part-material">{p.activePart.material}</p>
-      <p className="ln-part-description">{p.activePart.role}</p>
+      <p className="ln-part-description" title={p.activePart.role}>{p.activePart.role}</p>
     </div>
     <div className="ln-hud-actions">
       <button type="button" className="ln-explode" aria-pressed={p.exploded} onClick={p.onToggleExplode} disabled={disabled}><Layers size={14} aria-hidden="true"/>EXPLODE ASSEMBLY</button>
