@@ -15,8 +15,8 @@
   --header-h: clamp(68px, 7vw, 104px);
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --font-display: 'Cormorant Garamond', 'Bodoni Moda', Georgia, serif;
-  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: var(--font-cormorant-garamond), var(--font-bodoni-moda), 'Cormorant Garamond', 'Bodoni Moda', Georgia, serif;
+  --font-sans: var(--font-dm-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 * {

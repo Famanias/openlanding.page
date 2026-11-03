@@ -22,12 +22,20 @@ const KNOWN_GOOGLE_FONTS: Record<string, { importName: string; variable: string 
   "Poppins": { importName: "Poppins", variable: "--font-poppins" },
   "Lora": { importName: "Lora", variable: "--font-lora" },
   "Cinzel Decorative": { importName: "Cinzel_Decorative", variable: "--font-cinzel-decorative" },
+  "Bodoni Moda": { importName: "Bodoni_Moda", variable: "--font-bodoni-moda" },
+  "Barlow Condensed": { importName: "Barlow_Condensed", variable: "--font-barlow-condensed" },
+  "Anton": { importName: "Anton", variable: "--font-anton" },
+  "Caveat": { importName: "Caveat", variable: "--font-caveat" },
+  "Newsreader": { importName: "Newsreader", variable: "--font-newsreader" },
+  "Instrument Serif": { importName: "Instrument_Serif", variable: "--font-instrument-serif" },
+  "Bebas Neue": { importName: "Bebas_Neue", variable: "--font-bebas-neue" },
 };
 
 interface ParsedMeta {
   title: string;
   description: string;
   brandName: string;
+  htmlClasses: string;
   bodyClasses: string;
   fonts: Array<{ name: string; originalFamily: string }>;
   googleFontsLink?: string;
@@ -116,6 +124,7 @@ function extractMetadata(sourceDir: string, fallbackTitle: string): ParsedMeta {
   let title = fallbackTitle;
   let description = "A modern, responsive landing page template.";
   let brandName = fallbackTitle;
+  let htmlClasses = "";
   let bodyClasses = "bg-[#0b0b0b] text-[#f4f0e8] antialiased";
   const fonts: Array<{ name: string; originalFamily: string }> = [];
   let googleFontsLink: string | undefined;
@@ -154,6 +163,11 @@ function extractMetadata(sourceDir: string, fallbackTitle: string): ParsedMeta {
       html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']description["']/i);
     if (descMatch) {
       description = descMatch[1].trim();
+    }
+
+    const htmlTagMatch = html.match(/<html[^>]*class=["']([^"']+)["']/i);
+    if (htmlTagMatch) {
+      htmlClasses = htmlTagMatch[1].trim();
     }
 
     const bodyMatch = html.match(/<body[^>]*class=["']([^"']+)["']/i);
@@ -195,6 +209,7 @@ function extractMetadata(sourceDir: string, fallbackTitle: string): ParsedMeta {
     title,
     description,
     brandName: brandName || title || "Template",
+    htmlClasses,
     bodyClasses,
     fonts,
     googleFontsLink,
@@ -280,15 +295,29 @@ function generateLayoutTsx(meta: ParsedMeta, slug: string, pascalSlug: string): 
   const fontDeclarations =
     fontInstantiations.length > 0 ? `\n${fontInstantiations.join("\n\n")}\n` : "";
 
-  const classList = fontClassVariables.length > 0
-    ? `\`${fontClassVariables.join(" ")} scroll-smooth\``
-    : `"scroll-smooth"`;
+  const htmlClassSet = new Set<string>();
+  if (meta.htmlClasses) {
+    for (const cls of meta.htmlClasses.split(/\s+/)) {
+      if (cls && cls !== "scroll-smooth") htmlClassSet.add(cls);
+    }
+  }
+  for (const v of fontClassVariables) {
+    htmlClassSet.add(v);
+  }
+  htmlClassSet.add("scroll-smooth");
+  const classList = `\`${Array.from(htmlClassSet).join(" ")}\``;
 
-  const externalFontLink = meta.googleFontsLink
-    ? `\n        <link rel="preconnect" href="https://fonts.googleapis.com" />
+  // Next.js font optimization: next/font/google self-hosts fonts at build time.
+  // Only fallback to <head> with <link> if no next/font was generated and googleFontsLink exists.
+  // In React 19 / Turbopack, stylesheet links must have precedence="default" and live inside <head>.
+  const externalFontHead =
+    fontImports.length === 0 && meta.googleFontsLink
+      ? `\n      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="${meta.googleFontsLink}" rel="stylesheet" />`
-    : "";
+        <link href="${meta.googleFontsLink}" rel="stylesheet" precedence="default" />
+      </head>`
+      : "";
 
   return `import type { Metadata, Viewport } from "next";
 ${importNextFont}import "./${slug}/${slug}.css";
@@ -317,7 +346,7 @@ export default function ${pascalSlug}Layout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={${classList}}>${externalFontLink}
+    <html lang="en" className={${classList}}>${externalFontHead}
       <body className="${meta.bodyClasses}">
         {children}
       </body>
