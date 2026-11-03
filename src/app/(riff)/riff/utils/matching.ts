@@ -62,6 +62,8 @@ export interface PlaylistItem {
   trackCount: number;
   rotationDeg: number;
   artVariant: 'crimson-horizon' | 'static-guitar' | 'tube-amp' | 'basement-flyer' | 'tape-reel' | 'rain-window';
+  sleeveAsset: string;
+  gatefoldAsset: string | null;
   context: string;
   conversationQuestion: string;
   tracks: { number: string; title: string; artist: string; length: string }[];
@@ -221,6 +223,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 11,
     rotationDeg: -1.8,
     artVariant: 'crimson-horizon',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-01-midnight-static.webp',
+    gatefoldAsset: '/assets/riff/gatefolds/riff-sc-open-01-midnight-static.webp',
     context:
       'Built for walking home after your ears are still ringing from the encore. Heavy glide guitar and buried vocals.',
     conversationQuestion: 'Which song on here sounds most like your walk home after a gig?',
@@ -242,6 +246,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 10,
     rotationDeg: 1.5,
     artVariant: 'static-guitar',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-02-after-the-encore.webp',
+    gatefoldAsset: '/assets/riff/gatefolds/riff-sc-open-02-after-the-encore.webp',
     context:
       'When the house lights come up too fast and nobody wants to leave the pavement outside the venue.',
     conversationQuestion: 'What is the smallest room you have ever seen a life-changing set in?',
@@ -263,6 +269,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 13,
     rotationDeg: -1.2,
     artVariant: 'rain-window',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-03-songs-to-walk-home-to.webp',
+    gatefoldAsset: '/assets/riff/gatefolds/riff-sc-open-03-songs-to-walk-home-to.webp',
     context:
       'Intimate four-track recordings and sparse piano endings where you can hear the room tone and creaking floorboards.',
     conversationQuestion: 'Do you listen to lyrics first, or the chord changes underneath?',
@@ -284,6 +292,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 12,
     rotationDeg: 2.1,
     artVariant: 'basement-flyer',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-04-basement-show-memories.webp',
+    gatefoldAsset: '/assets/riff/gatefolds/riff-sc-open-04-basement-show-memories.webp',
     context:
       'Sweaty brick walls, a drum kit held together with gaffer tape, and thirty people who know every word.',
     conversationQuestion: 'Have you ever kept a paper ticket stub or gig flyer in your wallet for years?',
@@ -305,6 +315,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 11,
     rotationDeg: -2.0,
     artVariant: 'tube-amp',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-05-cathode-ray-lullabies.webp',
+    gatefoldAsset: null,
     context:
       'Hypnotic 118 BPM pulse for empty ring roads, rain streaks on windshields, and 24-hour diners.',
     conversationQuestion: 'What is your ultimate 1 A.M. driving album from start to finish?',
@@ -318,7 +330,7 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
   {
     id: 'rain-on-the-amp-case',
     title: 'Rain on the Amp Case',
-    subtitle: 'twelve-string jangle meeting Marshall stack distortion.',
+    subtitle: 'Twelve-string jangle meeting Marshall stack distortion.',
     mood: 'shoegaze',
     moodLabel: 'Shoegaze / Dream Pop',
     curator: 'Curated by Riff Pressing Plant Club',
@@ -326,6 +338,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 10,
     rotationDeg: 1.4,
     artVariant: 'tape-reel',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-06-rain-on-the-amp-case.webp',
+    gatefoldAsset: null,
     context:
       'Where sweet vocal harmonies dissolve into a warm ocean of reverse reverb and fuzz.',
     conversationQuestion: 'Which band would you travel to another city just to catch on a Tuesday night?',

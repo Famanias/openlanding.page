@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import { PlaylistItem } from '../utils/matching';
 
@@ -268,7 +266,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#0D0D10] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/album-kyoto.jpg"
+            src="/assets/album-kyoto.jpg"
             alt="Midnight Static shoegaze cover artwork"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-90 mix-blend-lighten scale-105"
@@ -285,7 +283,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#121212] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/match-art-1.jpg"
+            src="/assets/match-art-1.jpg"
             alt="Post-punk guitar silhouette cover art"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover grayscale contrast-125 opacity-85"
@@ -305,7 +303,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#111317] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/shared-track-2.jpg"
+            src="/assets/shared-track-2.jpg"
             alt="Songs to Walk Home To misty silhouette cover art"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-90"
@@ -321,7 +319,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#151412] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/zine-band-photo.jpg"
+            src="/assets/zine-band-photo.jpg"
             alt="Basement Show Memories underground band photograph"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover contrast-125 opacity-85"
@@ -337,7 +335,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#160B0D] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/shared-track-3.jpg"
+            src="/assets/shared-track-3.jpg"
             alt="Cathode Ray Lullabies darkwave red glow artwork"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-90"
@@ -354,7 +352,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#101216] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/match-art-2.jpg"
+            src="/assets/match-art-2.jpg"
             alt="Rain on the Amp Case atmospheric album sleeve"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-90"

@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { HeroSection } from './components/HeroSection';
 import { ManifestoAndHowItWorks } from './components/ManifestoAndHowItWorks';
-import { TasteMatcherSection } from './components/TasteMatcherSection';
 import { ChemistryAndSceneSections } from './components/ChemistryAndSceneSections';
 import { StoriesAndFooter } from './components/StoriesAndFooter';
 import { HandStar, WaveformLogo } from './components/ZineMotifs';
@@ -86,10 +85,10 @@ export default function App() {
               How It Works
             </a>
             <a
-              href="#taste-matcher"
+              href="#music-chemistry"
               className="hover:text-[#C92533] transition-colors whitespace-nowrap shrink-0"
             >
-              Matches
+              Chemistry
             </a>
             <a
               href="#playlists"
@@ -151,11 +150,11 @@ export default function App() {
               How It Works
             </a>
             <a
-              href="#taste-matcher"
+              href="#music-chemistry"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 text-[#F4F0E8] hover:text-[#C92533]"
             >
-              Matches (Interactive Demo)
+              Chemistry
             </a>
             <a
               href="#playlists"
@@ -207,13 +206,10 @@ export default function App() {
         {/* Section B: Manifesto & Section C: How It Works */}
         <ManifestoAndHowItWorks />
 
-        {/* Section D: Interactive Taste Matcher */}
-        <TasteMatcherSection />
-
-        {/* Section E: Music Chemistry & Section F: The Scene / Playlist Wall */}
+        {/* Section D: Music Chemistry & Section E: The Scene / Playlist Wall */}
         <ChemistryAndSceneSections />
 
-        {/* Section G: Stories & Values + Section H: Final CTA & Footer */}
+        {/* Section F: Stories & Values + Section G: Final CTA & Footer */}
         <StoriesAndFooter
           motionEnabled={motionEnabled}
           onToggleMotion={() => setMotionEnabled((m) => !m)}
@@ -317,11 +313,11 @@ export default function App() {
                 </button>
 
                 <a
-                  href="#taste-matcher"
+                  href="#music-chemistry"
                   onClick={handleClosePreview}
                   className="text-xs font-mono-code uppercase text-[#AAA8A6] hover:text-[#F4F0E8] underline"
                 >
-                  Or jump to the Taste Matcher &rarr;
+                  Or jump to Music Chemistry &rarr;
                 </a>
               </div>
             </form>

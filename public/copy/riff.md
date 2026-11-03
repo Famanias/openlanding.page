@@ -85,7 +85,6 @@ export default function RiffLayout({
 import React, { useState } from 'react';
 import { HeroSection } from './components/HeroSection';
 import { ManifestoAndHowItWorks } from './components/ManifestoAndHowItWorks';
-import { TasteMatcherSection } from './components/TasteMatcherSection';
 import { ChemistryAndSceneSections } from './components/ChemistryAndSceneSections';
 import { StoriesAndFooter } from './components/StoriesAndFooter';
 import { HandStar, WaveformLogo } from './components/ZineMotifs';
@@ -168,10 +167,10 @@ export default function App() {
               How It Works
             </a>
             <a
-              href="#taste-matcher"
+              href="#music-chemistry"
               className="hover:text-[#C92533] transition-colors whitespace-nowrap shrink-0"
             >
-              Matches
+              Chemistry
             </a>
             <a
               href="#playlists"
@@ -233,11 +232,11 @@ export default function App() {
               How It Works
             </a>
             <a
-              href="#taste-matcher"
+              href="#music-chemistry"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 text-[#F4F0E8] hover:text-[#C92533]"
             >
-              Matches (Interactive Demo)
+              Chemistry
             </a>
             <a
               href="#playlists"
@@ -289,13 +288,10 @@ export default function App() {
         {/* Section B: Manifesto & Section C: How It Works */}
         <ManifestoAndHowItWorks />
 
-        {/* Section D: Interactive Taste Matcher */}
-        <TasteMatcherSection />
-
-        {/* Section E: Music Chemistry & Section F: The Scene / Playlist Wall */}
+        {/* Section D: Music Chemistry & Section E: The Scene / Playlist Wall */}
         <ChemistryAndSceneSections />
 
-        {/* Section G: Stories & Values + Section H: Final CTA & Footer */}
+        {/* Section F: Stories & Values + Section G: Final CTA & Footer */}
         <StoriesAndFooter
           motionEnabled={motionEnabled}
           onToggleMotion={() => setMotionEnabled((m) => !m)}
@@ -399,11 +395,11 @@ export default function App() {
                 </button>
 
                 <a
-                  href="#taste-matcher"
+                  href="#music-chemistry"
                   onClick={handleClosePreview}
                   className="text-xs font-mono-code uppercase text-[#AAA8A6] hover:text-[#F4F0E8] underline"
                 >
-                  Or jump to the Taste Matcher &rarr;
+                  Or jump to Music Chemistry &rarr;
                 </a>
               </div>
             </form>
@@ -680,7 +676,7 @@ export default function RiffPage() {
 
 /* Analog photographic grain overlay */
 .riff-grain-overlay {
-  background-image: url("/templates/riff/noise-tile.png");
+  background-image: url("/assets/noise-tile.png");
   background-repeat: repeat;
   background-size: 160px 160px;
   opacity: 0.24;
@@ -795,10 +791,100 @@ export default function RiffPage() {
   animation: paper-slit-reveal 820ms cubic-bezier(0.16, 1, 0.3, 1) 180ms both;
 }
 
+/* Section 01-04 Art-Directed Motion Choreography */
+@keyframes riff-sleeve-wipe {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(12px) scale(0.985);
+    opacity: 0.35;
+  }
+  100% {
+    clip-path: inset(0 0% 0 0);
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes riff-ring-expand {
+  0% {
+    clip-path: circle(14% at 68% 30%);
+    transform: scale(0.98);
+    opacity: 0.4;
+  }
+  100% {
+    clip-path: circle(140% at 68% 30%);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes riff-band-sweep {
+  0% {
+    clip-path: circle(18% at 50% 44%);
+    opacity: 0.45;
+  }
+  100% {
+    clip-path: circle(135% at 50% 44%);
+    opacity: 1;
+  }
+}
+
+@keyframes riff-ticket-whip {
+  0% {
+    clip-path: inset(0 0 0 100%);
+    transform: translateX(-14px) rotate(-1.2deg);
+    opacity: 0.3;
+  }
+  100% {
+    clip-path: inset(0 0 0 0%);
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes riff-gatefold-unfold {
+  0% {
+    clip-path: inset(0 48% 0 0);
+    transform: perspective(1100px) rotateY(-8deg) scale(0.98);
+    opacity: 0.35;
+  }
+  100% {
+    clip-path: inset(0 0% 0 0);
+    transform: perspective(1100px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.anim-sleeve-wipe {
+  animation: riff-sleeve-wipe 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-ring-expand {
+  animation: riff-ring-expand 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-band-sweep {
+  animation: riff-band-sweep 440ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-ticket-whip {
+  animation: riff-ticket-whip 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-gatefold-unfold {
+  animation: riff-gatefold-unfold 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* Pause animations when user toggles motion off or prefers reduced motion */
 .motion-paused .animate-vinyl-slow,
-.motion-paused .animate-vinyl-fast {
-  animation-play-state: paused !important;
+.motion-paused .animate-vinyl-fast,
+.motion-paused .anim-sleeve-wipe,
+.motion-paused .anim-ring-expand,
+.motion-paused .anim-band-sweep,
+.motion-paused .anim-ticket-whip,
+.motion-paused .anim-gatefold-unfold {
+  animation: none !important;
+  clip-path: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -809,7 +895,12 @@ export default function RiffPage() {
   .animate-vinyl-fast,
   .reveal-paper-slit-1,
   .reveal-paper-slit-2,
-  .reveal-paper-slit-3 {
+  .reveal-paper-slit-3,
+  .anim-sleeve-wipe,
+  .anim-ring-expand,
+  .anim-band-sweep,
+  .anim-ticket-whip,
+  .anim-gatefold-unfold {
     animation: none !important;
     clip-path: none !important;
     transform: none !important;
@@ -824,7 +915,6 @@ export default function RiffPage() {
 import React, { useState } from 'react';
 import { HeroSection } from './components/HeroSection';
 import { ManifestoAndHowItWorks } from './components/ManifestoAndHowItWorks';
-import { TasteMatcherSection } from './components/TasteMatcherSection';
 import { ChemistryAndSceneSections } from './components/ChemistryAndSceneSections';
 import { StoriesAndFooter } from './components/StoriesAndFooter';
 import { HandStar, WaveformLogo } from './components/ZineMotifs';
@@ -907,10 +997,10 @@ export default function App() {
               How It Works
             </a>
             <a
-              href="#taste-matcher"
+              href="#music-chemistry"
               className="hover:text-[#C92533] transition-colors whitespace-nowrap shrink-0"
             >
-              Matches
+              Chemistry
             </a>
             <a
               href="#playlists"
@@ -972,11 +1062,11 @@ export default function App() {
               How It Works
             </a>
             <a
-              href="#taste-matcher"
+              href="#music-chemistry"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 text-[#F4F0E8] hover:text-[#C92533]"
             >
-              Matches (Interactive Demo)
+              Chemistry
             </a>
             <a
               href="#playlists"
@@ -1028,13 +1118,10 @@ export default function App() {
         {/* Section B: Manifesto & Section C: How It Works */}
         <ManifestoAndHowItWorks />
 
-        {/* Section D: Interactive Taste Matcher */}
-        <TasteMatcherSection />
-
-        {/* Section E: Music Chemistry & Section F: The Scene / Playlist Wall */}
+        {/* Section D: Music Chemistry & Section E: The Scene / Playlist Wall */}
         <ChemistryAndSceneSections />
 
-        {/* Section G: Stories & Values + Section H: Final CTA & Footer */}
+        {/* Section F: Stories & Values + Section G: Final CTA & Footer */}
         <StoriesAndFooter
           motionEnabled={motionEnabled}
           onToggleMotion={() => setMotionEnabled((m) => !m)}
@@ -1138,11 +1225,11 @@ export default function App() {
                 </button>
 
                 <a
-                  href="#taste-matcher"
+                  href="#music-chemistry"
                   onClick={handleClosePreview}
                   className="text-xs font-mono-code uppercase text-[#AAA8A6] hover:text-[#F4F0E8] underline"
                 >
-                  Or jump to the Taste Matcher &rarr;
+                  Or jump to Music Chemistry &rarr;
                 </a>
               </div>
             </form>
@@ -1181,21 +1268,22 @@ export default function App() {
 ]]>
     </file>
     <file path="src/app/(riff)/riff/components/ChemistryAndSceneSections.tsx">
-<![CDATA['use client';
-
-import React, { useState } from 'react';
+<![CDATA[import React, { useState } from 'react';
 import {
   PlaylistItem,
   SCENE_PLAYLISTS,
   filterPlaylists,
 } from '../utils/matching';
-import { AlbumArtGraphic, HandStar } from './ZineMotifs';
+import { HandStar, VinylDisc } from './ZineMotifs';
 
 type ChemistryMode = 'records' | 'concert' | 'latenight';
 
 interface ChemistryCase {
   id: ChemistryMode;
   label: string;
+  compositeAsset: string;
+  compositeAlt: string;
+  tiltStyle: string;
   paperBridgeTitle: string;
   paperBridgeDetail: string;
   sharedPrompt: string;
@@ -1203,7 +1291,6 @@ interface ChemistryCase {
     header: string;
     primaryTitle: string;
     primaryMeta: string;
-    artVariant: PlaylistItem['artVariant'];
     bullets: string[];
     badge: string;
   };
@@ -1211,7 +1298,6 @@ interface ChemistryCase {
     header: string;
     primaryTitle: string;
     primaryMeta: string;
-    artVariant: PlaylistItem['artVariant'];
     bullets: string[];
     badge: string;
   };
@@ -1221,30 +1307,32 @@ const CHEMISTRY_MODES: ChemistryCase[] = [
   {
     id: 'records',
     label: 'Favorite records',
+    compositeAsset: '/assets/riff/chemistry/riff-mc-01-favorite-records.webp',
+    compositeAlt: 'Paired phones comparing Mila’s Crate (Sulk LP) and Julian’s Crate (Out of Time EP)',
+    tiltStyle: 'perspective(1200px) rotateZ(-0.6deg) rotateY(2deg)',
     paperBridgeTitle: 'SHARED LP DNA // 1990s SHOEGAZE & ANALOG REVERB',
     paperBridgeDetail:
       'Both pinned heavy glide-guitar pressings in their top 3 records and prefer full-side vinyl listens.',
-    sharedPrompt: '"If we only had 40 minutes before the record shop closed, which crate are you heading to first?"',
+    sharedPrompt:
+      '"If we only had 40 minutes before the record shop closed, which crate are you heading to first?"',
     milaScreen: {
       header: 'MILA, 24 · FAVORITE RECORDS',
-      primaryTitle: 'Glass Platform (Mono LP)',
-      primaryMeta: 'Velvet Escalator · Pressed on 180g crimson wax',
-      artVariant: 'crimson-horizon',
+      primaryTitle: 'Sulk (Crimson Mono LP)',
+      primaryMeta: 'Sweetest Dream / Echo Valley · 180g pressing',
       bullets: [
-        'Side A: "Sodium Vapor" (zero-skip opener)',
-        'Side B: "Last Overground North" (rainy walk anthem)',
+        'Side A: "Sweetest Dream — Fade" (zero-skip opener)',
+        'Side B: "Echo Valley — Ghosts" (rainy walk anthem)',
         'Sleeves kept in poly outer jackets, sorted by mood',
       ],
       badge: 'CRATE ANCHOR #01',
     },
     julianScreen: {
       header: 'JULIAN, 26 · FAVORITE RECORDS',
-      primaryTitle: 'Reverse Cathedral (12" EP)',
-      primaryMeta: 'Pale Filament · Rough Trade white-label pressing',
-      artVariant: 'tape-reel',
+      primaryTitle: 'Out of Time EP (12" Cut)',
+      primaryMeta: 'Shiver / Glass · White-label pressing',
       bullets: [
-        'Side A: "Velvet Capo" (Fender Jaguar + reverse delay)',
-        'Side B: "Runout Groove Loop" (infinite locked groove)',
+        'Side A: "Shiver — Slo-Blur" (Fender Jaguar + reverse delay)',
+        'Side B: "Last Call — Echoes" (infinite locked groove)',
         'Repaired a 1984 belt-drive turntable just for this EP',
       ],
       badge: 'CRATE ANCHOR #01',
@@ -1253,15 +1341,18 @@ const CHEMISTRY_MODES: ChemistryCase[] = [
   {
     id: 'concert',
     label: 'Concert energy',
+    compositeAsset: '/assets/riff/chemistry/riff-mc-02-concert-energy.webp',
+    compositeAlt: 'Paired phones comparing Mila’s Gigs (Barrier / 200-Cap Rooms) and Julian’s Gigs (Soundboard / Intimate Rooms)',
+    tiltStyle: 'perspective(1200px) rotateZ(0.6deg) rotateY(-2deg)',
     paperBridgeTitle: 'MATCHED GIG RITUAL // 200-CAP ROOMS & SOUNDBOARD SPOT',
     paperBridgeDetail:
-      'Neither talks during the acoustic support set; both stand ten feet in front of the mixing desk.',
-    sharedPrompt: '"We both arrive for the 8:15 PM opening band — want to split a £10 basement show next Thursday?"',
+      'Neither talks during the acoustic support set; both stand inside intimate 200-capacity basement rooms.',
+    sharedPrompt:
+      '"We both arrive for the 8:15 PM opening band — want to split a £10 basement show next Thursday?"',
     milaScreen: {
       header: 'MILA, 24 · CONCERT ENERGY',
-      primaryTitle: 'Front-Left Speaker Stack',
-      primaryMeta: '200-capacity basements & mid-week residencies',
-      artVariant: 'basement-flyer',
+      primaryTitle: 'Barrier / The Pit · 200-Cap Rooms',
+      primaryMeta: 'The Subway DIY & mid-week basement residencies',
       bullets: [
         'Always catches the first local support band at 8:00 PM',
         'Earplugs in coat pocket, setlist folded into phone case',
@@ -1271,9 +1362,8 @@ const CHEMISTRY_MODES: ChemistryCase[] = [
     },
     julianScreen: {
       header: 'JULIAN, 26 · CONCERT ENERGY',
-      primaryTitle: 'Right by the Soundboard',
-      primaryMeta: 'Small warehouse stages & DIY tape-release nights',
-      artVariant: 'static-guitar',
+      primaryTitle: 'Soundboard · Intimate Rooms',
+      primaryMeta: 'The Warehouse DIY & small tape-release stages',
       bullets: [
         'Watches the pedalboard changes between every song',
         'Buys the 7-inch or cassette directly from the merch table',
@@ -1285,34 +1375,66 @@ const CHEMISTRY_MODES: ChemistryCase[] = [
   {
     id: 'latenight',
     label: 'Late-night playlist',
-    paperBridgeTitle: 'SYNCHRONIZED HOURS // 11:30 PM — 01:45 AM ROTATION',
+    compositeAsset: '/assets/riff/chemistry/riff-mc-03-late-night-playlist.webp',
+    compositeAlt: 'Paired phones comparing Mila’s Late-Night (2 AM Stories) and Julian’s Late-Night (Midnight Drive)',
+    tiltStyle: 'perspective(1200px) rotateZ(-0.4deg) rotateY(1.5deg)',
+    paperBridgeTitle: 'SYNCHRONIZED HOURS // 11:30 PM — 02:00 AM ROTATION',
     paperBridgeDetail:
-      'Both switch from angular post-punk to sparse four-track indie and darkwave after midnight.',
-    sharedPrompt: '"Trade me your favorite song for staring out the night-bus window at 1 A.M."',
+      'Both switch from angular post-punk to nocturnal lo-fi, dusty tape echoes, and darkwave after midnight.',
+    sharedPrompt:
+      '"Trade me your favorite song for staring out the night-bus window at 2 A.M."',
     milaScreen: {
       header: 'MILA, 24 · AFTER MIDNIGHT MIX',
-      primaryTitle: 'Songs for the N29 Night Bus',
-      primaryMeta: '11 fictional demo tracks · 47 minutes · No shuffle',
-      artVariant: 'rain-window',
+      primaryTitle: '2 AM Stories (Side A)',
+      primaryMeta: 'Nightwalk · After Hours · The Crypt',
       bullets: [
-        '01. Clara Vance — "Radiator Hum in B-Flat"',
-        '02. Siren & the Static — "Tremolo Letter"',
-        '03. Pine & Mercury — "Voicemail from October"',
+        '01. "Nightwalk — Lo-Fi" (rain-streaked window cut)',
+        '02. "After Hours — Nocturne" (sparse four-track)',
+        '03. "The Crypt — Ambient" (headphone closer)',
       ],
-      badge: 'PEAK HOUR: 00:30 AM',
+      badge: 'PEAK HOUR: 02:00 AM',
     },
     julianScreen: {
       header: 'JULIAN, 26 · AFTER MIDNIGHT MIX',
-      primaryTitle: 'Sodium Streetlight Tape #09',
-      primaryMeta: '10 fictional demo tracks · 51 minutes · Analog warmth',
-      artVariant: 'tube-amp',
+      primaryTitle: 'Midnight Drive (Side B)',
+      primaryMeta: 'Midnight Special · Taped Echoes · Neon Shadows',
       bullets: [
-        '01. Mirror Bahnhof — "Fluorescent Exit"',
-        '02. Starling Engine — "Fuzz Pedal Lullaby"',
-        '03. Half-Lit Windows — "Corner Bodega Tulips"',
+        '01. "Midnight Special — Dusty" (empty highway pulse)',
+        '02. "Taped Echoes — Raw" (analog warmth)',
+        '03. "Neon Shadows — Ambient" (late-night insomnia)',
       ],
-      badge: 'PEAK HOUR: 00:45 AM',
+      badge: 'PEAK HOUR: 01:45 AM',
     },
+  },
+];
+
+const SCENE_EPHEMERA = [
+  {
+    id: 'flyer-culture',
+    tag: 'EPHEMERA 01 · XEROX FLYER WALL',
+    title: 'Basement Night Live! DIY Bill',
+    detail: 'Photocopied venue handbills pinned at record counters and rehearsal rooms.',
+    src: '/assets/riff/ephemera/riff-sc-support-01-flyer-culture.webp',
+    alt: 'Riff Presents Basement Night Live photocopied punk and shoegaze concert flyer',
+    rotate: '-1.5deg',
+  },
+  {
+    id: 'ticket-ephemera',
+    tag: 'EPHEMERA 02 · SAVED WRISTBANDS & STUBS',
+    title: 'Live at the Subterranean Stubs',
+    detail: 'Perforated paper admit-one tickets kept in coat pockets long after the encore.',
+    src: '/assets/riff/ephemera/riff-sc-support-02-ticket-ephemera.webp',
+    alt: 'Collage of torn Riff Subterranean concert ticket stubs with red ink stamps',
+    rotate: '1.2deg',
+  },
+  {
+    id: 'scene-photo',
+    tag: 'EPHEMERA 03 · 35MM CONTACT SHEET',
+    title: 'RIFF 400 Film Proof Sheet',
+    detail: 'Grainy 35mm frames from soundcheck, record bins, and late-night train platforms.',
+    src: '/assets/riff/ephemera/riff-sc-support-03-scene-photo.webp',
+    alt: 'RIFF 400 black-and-white 35mm film contact sheet with red grease-pencil crop marks',
+    rotate: '-0.8deg',
   },
 ];
 
@@ -1342,7 +1464,7 @@ export function ChemistryAndSceneSections() {
   return (
     <>
       {/* ====================================================================
-          SECTION E: MUSIC CHEMISTRY / PHONES IN MOTION
+          SECTION D (02): MUSIC CHEMISTRY / PHONES IN MOTION
          ==================================================================== */}
       <section
         id="music-chemistry"
@@ -1354,13 +1476,13 @@ export function ChemistryAndSceneSections() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
               <div className="text-xs font-mono-code uppercase tracking-widest text-[#C92533]">
-                03. MUSIC CHEMISTRY · PHONES IN MOTION CASE STUDY
+                02. MUSIC CHEMISTRY · PHONES IN MOTION CASE STUDY
               </div>
               <h2 className="mt-2 font-editorial font-bold text-3xl sm:text-5xl text-[#F4F0E8] tracking-tight">
                 Two crates. One conversation.
               </h2>
               <p className="mt-2 text-sm sm:text-base text-[#AAA8A6] max-w-2xl">
-                Switch the lens below to see how Mila (24) and Julian (26) connect across original demo records, concert habits, and late-night playlists.
+                Switch the lens below to see how Mila (24) and Julian (26) connect across favorite records, concert energy, and late-night playlists.
               </p>
             </div>
 
@@ -1392,123 +1514,153 @@ export function ChemistryAndSceneSections() {
             </div>
           </div>
 
-          {/* Dual Phones + Unfurling Paper Connector Strip */}
-          <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            {/* Phone A: Mila, 24 */}
-            <div className="lg:col-span-4 flex justify-center">
-              <div className="w-full max-w-[330px] rounded-[38px] bg-[#161619] p-3 border-2 border-[#323236] shadow-2xl transform lg:-rotate-2 transition-transform duration-300">
-                <div className="rounded-[28px] bg-[#0C0C0E] p-4 border border-white/10">
-                  <div className="flex items-center justify-between text-[10px] font-mono-code text-[#AAA8A6] pb-2 border-b border-white/10">
-                    <span>{activeChemistry.milaScreen.header}</span>
-                    <span className="text-[#C92533]">DEMO DATA</span>
-                  </div>
+          {/* Cohesive Dual-Phone Cutout Stage + Animated Red Connecting Thread + Torn Paper Bridge */}
+          <div className="mt-10 bg-[#141414] border border-[#F4F0E8]/20 rounded-[4px] p-5 sm:p-8 relative overflow-hidden">
+            <div
+              aria-hidden="true"
+              className="halftone-patch absolute inset-0 opacity-20 pointer-events-none"
+            />
 
-                  <div className="mt-3 h-36 rounded-xl overflow-hidden border border-white/15">
-                    <AlbumArtGraphic variant={activeChemistry.milaScreen.artVariant} />
-                  </div>
-
-                  <div className="mt-3">
-                    <span className="inline-block text-[10px] font-mono-code uppercase text-[#C92533]">
-                      {activeChemistry.milaScreen.badge}
-                    </span>
-                    <h3 className="text-lg font-bold text-[#F4F0E8] mt-0.5">
-                      {activeChemistry.milaScreen.primaryTitle}
-                    </h3>
-                    <p className="text-xs text-[#AAA8A6]">
-                      {activeChemistry.milaScreen.primaryMeta}
-                    </p>
-                  </div>
-
-                  <ul className="mt-3 pt-3 border-t border-white/10 space-y-1.5 text-xs text-[#F4F0E8]/90">
-                    {activeChemistry.milaScreen.bullets.map((b, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#C92533] font-mono-code">&bull;</span>
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Center Unfurling Paper Strip Bridge */}
-            <div className="lg:col-span-4 flex flex-col items-center justify-center relative py-4">
-              {/* SVG Ink Connector Line */}
+            {/* Composite Dual-Phone Cutout Container with SVG Connector Thread Behind/Across */}
+            <div className="relative z-10 max-w-[1060px] mx-auto">
+              {/* Animated SVG Red Ink Thread & Waveform Spanning Between Mila (left) and Julian (right) */}
               <svg
-                viewBox="0 0 300 44"
-                className="hidden lg:block w-full h-11 text-[#C92533] mb-2"
+                viewBox="0 0 600 180"
+                className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[56%] h-auto pointer-events-none z-0"
                 aria-hidden="true"
               >
                 <path
-                  d="M4 22 C85 4, 215 40, 296 22"
+                  d="M 10 90 C 160 20, 440 160, 590 90"
                   fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeDasharray="6 4"
+                  stroke="#C92533"
+                  strokeWidth="2.8"
+                  strokeDasharray="8 6"
                 />
-                <circle cx="8" cy="22" r="4" fill="#C92533" />
-                <circle cx="292" cy="22" r="4" fill="#C92533" />
+                <path
+                  d="M 10 90 C 180 145, 420 35, 590 90"
+                  fill="none"
+                  stroke="rgba(244,240,232,0.3)"
+                  strokeWidth="1.4"
+                  strokeDasharray="4 4"
+                />
+                <circle cx="16" cy="90" r="6" fill="#C92533" />
+                <circle cx="584" cy="90" r="6" fill="#C92533" />
               </svg>
 
-              <div className="torn-paper-strip w-full bg-[#EFECE4] text-[#0B0B0B] p-5 sm:p-6 shadow-2xl transform -rotate-1">
-                <div className="flex items-center justify-between border-b border-[#0B0B0B]/25 pb-2 text-[10px] font-mono-code uppercase">
-                  <span className="font-bold text-[#C92533]">OVERLAP CONNECTOR</span>
-                  <span>MODE: {activeChemistry.label.toUpperCase()}</span>
-                </div>
+              {/* Transparent Paired-Phone Composite Asset */}
+              <div
+                key={activeChemistry.id}
+                data-testid="chemistry-composite-stage"
+                data-chemistry-mode={activeChemistry.id}
+                className="relative z-10 w-full aspect-[1440/902] anim-ticket-whip transition-transform duration-500"
+                style={{ transform: activeChemistry.tiltStyle }}
+              >
+                <img
+                  src={activeChemistry.compositeAsset}
+                  alt={activeChemistry.compositeAlt}
+                  className="w-full h-full object-contain drop-shadow-[0_24px_44px_rgba(0,0,0,0.9)] select-none"
+                />
 
-                <div className="mt-2.5 font-condensed font-extrabold text-xl uppercase leading-tight">
-                  {activeChemistry.paperBridgeTitle}
-                </div>
+                {/* Center Floating Torn-Paper Bridge Positioned in the Gap Between the Two Phones on Desktop */}
+                <div className="hidden lg:flex absolute inset-y-0 left-[34%] right-[34%] items-center justify-center pointer-events-auto">
+                  <div className="torn-paper-strip w-full bg-[#EFECE4] text-[#0B0B0B] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] transform -rotate-1 border border-[#0B0B0B]/20">
+                    <div className="flex items-center justify-between border-b border-[#0B0B0B]/25 pb-1.5 text-[9px] font-mono-code uppercase">
+                      <span className="font-bold text-[#C92533]">OVERLAP CONNECTOR</span>
+                      <span>LENS: {activeChemistry.label.toUpperCase()}</span>
+                    </div>
 
-                <p className="mt-2 text-xs sm:text-sm text-[#141414]/85 leading-relaxed">
-                  {activeChemistry.paperBridgeDetail}
-                </p>
+                    <div className="mt-2 font-condensed font-extrabold text-lg xl:text-xl uppercase leading-tight">
+                      {activeChemistry.paperBridgeTitle}
+                    </div>
 
-                <div className="mt-4 p-3 bg-[#0B0B0B] text-[#F4F0E8] rounded-[2px]">
-                  <div className="text-[9px] font-mono-code uppercase text-[#C92533]">
-                    Instant Conversation Starter
+                    <p className="mt-1.5 text-xs text-[#141414]/85 leading-relaxed">
+                      {activeChemistry.paperBridgeDetail}
+                    </p>
+
+                    <div className="mt-3 p-2.5 bg-[#0B0B0B] text-[#F4F0E8] rounded-[2px]">
+                      <div className="text-[8px] font-mono-code uppercase text-[#C92533]">
+                        Instant Conversation Starter
+                      </div>
+                      <p className="mt-0.5 text-xs italic font-editorial">
+                        {activeChemistry.sharedPrompt}
+                      </p>
+                    </div>
                   </div>
-                  <p className="mt-1 text-xs italic font-editorial">
-                    {activeChemistry.sharedPrompt}
+                </div>
+              </div>
+
+              {/* Mobile / Tablet Torn-Paper Bridge Below Composite */}
+              <div className="lg:hidden mt-4">
+                <div className="torn-paper-strip w-full bg-[#EFECE4] text-[#0B0B0B] p-5 shadow-2xl transform -rotate-1">
+                  <div className="flex items-center justify-between border-b border-[#0B0B0B]/25 pb-2 text-[10px] font-mono-code uppercase">
+                    <span className="font-bold text-[#C92533]">OVERLAP CONNECTOR</span>
+                    <span>MODE: {activeChemistry.label.toUpperCase()}</span>
+                  </div>
+
+                  <div className="mt-2 font-condensed font-extrabold text-xl uppercase leading-tight">
+                    {activeChemistry.paperBridgeTitle}
+                  </div>
+
+                  <p className="mt-1.5 text-xs sm:text-sm text-[#141414]/85 leading-relaxed">
+                    {activeChemistry.paperBridgeDetail}
                   </p>
+
+                  <div className="mt-3 p-3 bg-[#0B0B0B] text-[#F4F0E8] rounded-[2px]">
+                    <div className="text-[9px] font-mono-code uppercase text-[#C92533]">
+                      Instant Conversation Starter
+                    </div>
+                    <p className="mt-1 text-xs italic font-editorial">
+                      {activeChemistry.sharedPrompt}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Phone B: Julian, 26 */}
-            <div className="lg:col-span-4 flex justify-center">
-              <div className="w-full max-w-[330px] rounded-[38px] bg-[#161619] p-3 border-2 border-[#323236] shadow-2xl transform lg:rotate-2 transition-transform duration-300">
-                <div className="rounded-[28px] bg-[#0C0C0E] p-4 border border-white/10">
-                  <div className="flex items-center justify-between text-[10px] font-mono-code text-[#AAA8A6] pb-2 border-b border-white/10">
-                    <span>{activeChemistry.julianScreen.header}</span>
-                    <span className="text-[#C92533]">DEMO DATA</span>
-                  </div>
-
-                  <div className="mt-3 h-36 rounded-xl overflow-hidden border border-white/15">
-                    <AlbumArtGraphic variant={activeChemistry.julianScreen.artVariant} />
-                  </div>
-
-                  <div className="mt-3">
-                    <span className="inline-block text-[10px] font-mono-code uppercase text-[#C92533]">
-                      {activeChemistry.julianScreen.badge}
-                    </span>
-                    <h3 className="text-lg font-bold text-[#F4F0E8] mt-0.5">
-                      {activeChemistry.julianScreen.primaryTitle}
-                    </h3>
-                    <p className="text-xs text-[#AAA8A6]">
-                      {activeChemistry.julianScreen.primaryMeta}
-                    </p>
-                  </div>
-
-                  <ul className="mt-3 pt-3 border-t border-white/10 space-y-1.5 text-xs text-[#F4F0E8]/90">
-                    {activeChemistry.julianScreen.bullets.map((b, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#C92533] font-mono-code">&bull;</span>
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
+            {/* Synchronized Accessible Crate Liner Breakdown Strip Below the Phones */}
+            <div className="relative z-10 mt-6 pt-6 border-t border-[#F4F0E8]/15 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Mila Liner Summary */}
+              <div className="p-4 sm:p-5 bg-[#0B0B0B] border border-[#F4F0E8]/15 rounded-[3px]">
+                <div className="flex items-center justify-between text-[11px] font-mono-code text-[#AAA8A6] pb-2 border-b border-[#F4F0E8]/10">
+                  <span>{activeChemistry.milaScreen.header}</span>
+                  <span className="text-[#C92533] font-bold">{activeChemistry.milaScreen.badge}</span>
                 </div>
+                <h3 className="mt-2.5 font-editorial font-bold text-xl text-[#F4F0E8]">
+                  {activeChemistry.milaScreen.primaryTitle}
+                </h3>
+                <p className="text-xs font-mono-code text-[#AAA8A6] mt-0.5">
+                  {activeChemistry.milaScreen.primaryMeta}
+                </p>
+                <ul className="mt-3 space-y-1 text-xs text-[#F4F0E8]/90">
+                  {activeChemistry.milaScreen.bullets.map((b, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-[#C92533] font-mono-code">&bull;</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Julian Liner Summary */}
+              <div className="p-4 sm:p-5 bg-[#0B0B0B] border border-[#F4F0E8]/15 rounded-[3px]">
+                <div className="flex items-center justify-between text-[11px] font-mono-code text-[#AAA8A6] pb-2 border-b border-[#F4F0E8]/10">
+                  <span>{activeChemistry.julianScreen.header}</span>
+                  <span className="text-[#C92533] font-bold">{activeChemistry.julianScreen.badge}</span>
+                </div>
+                <h3 className="mt-2.5 font-editorial font-bold text-xl text-[#F4F0E8]">
+                  {activeChemistry.julianScreen.primaryTitle}
+                </h3>
+                <p className="text-xs font-mono-code text-[#AAA8A6] mt-0.5">
+                  {activeChemistry.julianScreen.primaryMeta}
+                </p>
+                <ul className="mt-3 space-y-1 text-xs text-[#F4F0E8]/90">
+                  {activeChemistry.julianScreen.bullets.map((b, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-[#C92533] font-mono-code">&bull;</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
@@ -1516,7 +1668,7 @@ export function ChemistryAndSceneSections() {
       </section>
 
       {/* ====================================================================
-          SECTION F: THE SCENE / PLAYLIST CULTURE (#playlists)
+          SECTION E (03): THE SCENE / PLAYLIST CULTURE (#playlists)
          ==================================================================== */}
       <section
         id="playlists"
@@ -1533,13 +1685,13 @@ export function ChemistryAndSceneSections() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
               <div className="text-xs font-mono-code uppercase tracking-widest text-[#C92533]">
-                04. THE SCENE · PLAYLIST &amp; FLYER CULTURE
+                03. THE SCENE · PLAYLIST &amp; FLYER CULTURE
               </div>
               <h2 className="mt-2 font-editorial font-bold text-3xl sm:text-5xl text-[#F4F0E8] tracking-tight">
                 Playlists are the new love letters.
               </h2>
               <p className="mt-2 text-sm sm:text-base text-[#AAA8A6] max-w-xl">
-                Filter the collage wall by listening mood and click any record sleeve to open its gatefold liner notes and conversation starter inline.
+                Filter the collage wall by listening mood and click any record sleeve to unfold its gatefold liner notes, tracklist, and conversation starter inline.
               </p>
             </div>
 
@@ -1580,22 +1732,73 @@ export function ChemistryAndSceneSections() {
 
           {/* Inline Expanding Gatefold Record Sleeve Drawer */}
           {selectedPlaylist && (
-            <div className="mt-10 bg-[#141414] border-2 border-[#C92533]/75 rounded-[4px] p-6 sm:p-8 shadow-2xl">
+            <div
+              key={selectedPlaylist.id}
+              data-testid="scene-gatefold-drawer"
+              data-playlist-id={selectedPlaylist.id}
+              className="mt-10 bg-[#141414] border-2 border-[#C92533]/75 rounded-[4px] p-5 sm:p-8 shadow-2xl anim-gatefold-unfold"
+            >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                {/* Sleeve Artwork */}
-                <div className="lg:col-span-4">
-                  <div className="aspect-square max-w-[280px] mx-auto rounded-[4px] overflow-hidden border border-[#F4F0E8]/25 shadow-2xl relative">
-                    <AlbumArtGraphic variant={selectedPlaylist.artVariant} />
-                  </div>
+                {/* Gatefold Spread Visual (Open Gatefold for 01–04, Full Square Sleeve + Vinyl Backing for 05–06) */}
+                <div className="lg:col-span-5">
+                  {selectedPlaylist.gatefoldAsset ? (
+                    <div className="relative rounded-[4px] overflow-hidden border border-[#F4F0E8]/25 shadow-2xl bg-[#0B0B0B]">
+                      <img
+                        src={selectedPlaylist.gatefoldAsset}
+                        alt={`Opened gatefold record spread for ${selectedPlaylist.title}`}
+                        className="w-full h-auto object-cover block"
+                      />
+                      {/* Subtle Live Liner Stamp Overlay on the Right-Hand Open Gatefold Sheet */}
+                      <div className="hidden sm:flex absolute top-[14%] right-[7%] w-[41%] bottom-[14%] flex-col justify-between p-3 text-[#0B0B0B] pointer-events-none">
+                        <div className="border-b border-[#0B0B0B]/30 pb-1 flex items-center justify-between text-[8px] font-mono-code uppercase">
+                          <span className="font-bold text-[#C92533]">RIFF PRESSING</span>
+                          <span>{selectedPlaylist.duration}</span>
+                        </div>
+                        <div className="space-y-1 my-auto">
+                          {selectedPlaylist.tracks.map((tr) => (
+                            <div
+                              key={tr.number}
+                              className="text-[8.5px] font-mono-code leading-tight truncate border-b border-[#0B0B0B]/15 pb-0.5"
+                            >
+                              <span className="font-bold text-[#C92533]">{tr.number}.</span>{' '}
+                              <span className="font-semibold">{tr.title}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="text-[7.5px] font-mono-code uppercase tracking-wider text-[#0B0B0B]/70">
+                          SIDE A / B &bull; {selectedPlaylist.moodLabel}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Covers 05 & 06: Full-Size Square Sleeve Art + Peeking Vinyl Record in Gatefold Frame */
+                    <div className="relative flex items-center justify-center py-2">
+                      <div className="relative w-full max-w-[340px] flex items-center">
+                        <div className="relative z-10 w-[82%] aspect-square rounded-[4px] overflow-hidden border border-[#F4F0E8]/30 shadow-2xl">
+                          <img
+                            src={selectedPlaylist.sleeveAsset}
+                            alt={`Full record sleeve artwork for ${selectedPlaylist.title}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="w-[54%] -ml-[36%] z-0">
+                          <VinylDisc className="w-full h-full drop-shadow-2xl" labelSide="B" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Sleeve Liner Notes + Tracklist + Prompt */}
-                <div className="lg:col-span-8">
+                {/* Sleeve Liner Notes + Live HTML Tracklist + Copyable Icebreaker */}
+                <div className="lg:col-span-7">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono-code text-[#AAA8A6]">
                     <span className="text-[#C92533] font-bold uppercase">
-                      OPEN GATEFOLD SLEEVE &bull; {selectedPlaylist.moodLabel}
+                      {selectedPlaylist.gatefoldAsset
+                        ? 'OPEN GATEFOLD SPREAD'
+                        : 'SLEEVE EDITION LINER NOTES'}{' '}
+                      &bull; {selectedPlaylist.moodLabel}
                     </span>
-                    <span>
+                    <span className="tabular-nums">
                       {selectedPlaylist.trackCount} TRACKS &bull; {selectedPlaylist.duration}
                     </span>
                   </div>
@@ -1664,7 +1867,7 @@ export function ChemistryAndSceneSections() {
             </div>
           )}
 
-          {/* Collage Grid of Playlist Sleeves */}
+          {/* Collage Grid of 6 Square Record Sleeves */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {visiblePlaylists.map((item) => {
               const isSelected = selectedPlaylist?.id === item.id;
@@ -1682,8 +1885,16 @@ export function ChemistryAndSceneSections() {
                   }`}
                 >
                   <div>
-                    <div className="h-48 w-full rounded-[3px] overflow-hidden border border-white/10 relative">
-                      <AlbumArtGraphic variant={item.artVariant} />
+                    {/* Square Record Sleeve Image + Peeking Vinyl Accent */}
+                    <div className="relative aspect-square w-full rounded-[3px] overflow-hidden border border-white/10 bg-[#0B0B0B]">
+                      <img
+                        src={item.sleeveAsset}
+                        alt={`${item.title} record sleeve cover art`}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                      />
+                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-[#0B0B0B]/85 border border-[#F4F0E8]/25 text-[10px] font-mono-code uppercase text-[#F4F0E8]">
+                        {item.gatefoldAsset ? 'Gatefold LP' : '12" Sleeve'}
+                      </div>
                     </div>
 
                     <div className="mt-4 flex items-center justify-between text-xs font-mono-code text-[#AAA8A6]">
@@ -1712,6 +1923,52 @@ export function ChemistryAndSceneSections() {
               );
             })}
           </div>
+
+          {/* Tactile Scene Ephemera Strip (3 Supplied Ephemera Support Assets) */}
+          <div className="mt-14 pt-10 border-t border-[#F4F0E8]/15">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+              <div>
+                <div className="text-xs font-mono-code uppercase tracking-widest text-[#C92533]">
+                  PHYSICAL SCENE ARTIFACTS · FLYER, TICKET &amp; 35MM ARCHIVE
+                </div>
+                <h3 className="mt-1 font-editorial font-bold text-2xl sm:text-3xl text-[#F4F0E8]">
+                  Built from basement bills, torn stubs, and contact sheets.
+                </h3>
+              </div>
+              <span className="text-xs font-mono-code uppercase text-[#AAA8A6]">
+                ARCHIVE SERIES 01–03
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+              {SCENE_EPHEMERA.map((ep) => (
+                <article
+                  key={ep.id}
+                  style={{ transform: `rotate(${ep.rotate})` }}
+                  className="bg-[#141414] border border-[#F4F0E8]/20 p-4 rounded-[4px] flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1 shadow-xl"
+                >
+                  <div>
+                    <div className="h-56 sm:h-64 w-full rounded-[3px] overflow-hidden bg-[#0B0B0B] border border-[#F4F0E8]/15">
+                      <img
+                        src={ep.src}
+                        alt={ep.alt}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="mt-3 text-[10px] font-mono-code uppercase tracking-wider text-[#C92533] font-bold">
+                      {ep.tag}
+                    </div>
+                    <h4 className="mt-1 font-editorial font-bold text-xl text-[#F4F0E8]">
+                      {ep.title}
+                    </h4>
+                  </div>
+                  <p className="mt-1.5 text-xs text-[#AAA8A6] leading-relaxed">
+                    {ep.detail}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </>
@@ -1720,9 +1977,7 @@ export function ChemistryAndSceneSections() {
 ]]>
     </file>
     <file path="src/app/(riff)/riff/components/HeroSection.tsx">
-<![CDATA['use client';
-
-import React, { useState } from 'react';
+<![CDATA[import React, { useState } from 'react';
 import {
   HandStar,
   MusicGreaterLooksScrawl,
@@ -1750,7 +2005,7 @@ const HERO_SHARED_TRACKS: SharedTrackItem[] = [
     title: 'Kyoto',
     artist: 'Phoebe Bridgers',
     album: 'Punisher',
-    thumb: '/templates/riff/album-kyoto.jpg',
+    thumb: '/assets/album-kyoto.jpg',
     icebreaker: 'Ask them about "Punisher"',
     sharedStat: 'Both played after midnight 4x this week',
   },
@@ -1759,7 +2014,7 @@ const HERO_SHARED_TRACKS: SharedTrackItem[] = [
     title: 'Starburster',
     artist: 'Fontaines D.C.',
     album: 'Romance',
-    thumb: '/templates/riff/shared-track-2.jpg',
+    thumb: '/assets/shared-track-2.jpg',
     icebreaker: 'Ask which Fontaines D.C. opener hit hardest live',
     sharedStat: 'Top 2% overlap on Dublin post-punk',
   },
@@ -1768,7 +2023,7 @@ const HERO_SHARED_TRACKS: SharedTrackItem[] = [
     title: 'Chaise Longue',
     artist: 'Wet Leg',
     album: 'Wet Leg',
-    thumb: '/templates/riff/shared-track-3.jpg',
+    thumb: '/assets/shared-track-3.jpg',
     icebreaker: 'Ask about their loudest basement gig memory',
     sharedStat: 'Saved on both "Walk to the Train" playlists',
   },
@@ -2153,7 +2408,7 @@ export function HeroSection({
                   </svg>
                 </div>
                 <img
-                  src="/templates/riff/zine-strip-photo.jpg"
+                  src="/assets/zine-strip-photo.jpg"
                   alt=""
                   referrerPolicy="no-referrer"
                   className="w-full h-24 object-cover grayscale contrast-125 mt-1"
@@ -2170,7 +2425,7 @@ export function HeroSection({
                 </div>
                 <div className="my-1.5 bg-[#0B0B0B] overflow-hidden">
                   <img
-                    src="/templates/riff/zine-band-photo.jpg"
+                    src="/assets/zine-band-photo.jpg"
                     alt=""
                     referrerPolicy="no-referrer"
                     className="w-full h-28 object-cover grayscale contrast-125"
@@ -2259,7 +2514,7 @@ export function HeroSection({
                       {/* Portrait Card with Grainy Monochrome Photo */}
                       <div className="relative w-full h-40 rounded-2xl overflow-hidden bg-[#1A1A1A] border border-white/10">
                         <img
-                          src="/templates/riff/mila-portrait.jpg"
+                          src="/assets/mila-portrait.jpg"
                           alt="Mila, 24 monochrome analog portrait"
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-cover object-top contrast-110"
@@ -2387,7 +2642,7 @@ export function HeroSection({
                         >
                           <div className="flex items-center gap-2.5">
                             <img
-                              src="/templates/riff/album-kyoto.jpg"
+                              src="/assets/album-kyoto.jpg"
                               alt="Kyoto single cover art"
                               referrerPolicy="no-referrer"
                               className="w-10 h-10 rounded-md object-cover shrink-0 border border-white/10"
@@ -2541,7 +2796,7 @@ export function HeroSection({
                     {/* Left Circle */}
                     <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#F4F0E8]/40 shadow-lg -mr-5 z-10 bg-[#18181B]">
                       <img
-                        src="/templates/riff/match-art-1.jpg"
+                        src="/assets/match-art-1.jpg"
                         alt="Shared artist sleeve left"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
@@ -2550,7 +2805,7 @@ export function HeroSection({
                     {/* Center Circle (Crimson Border Ring) */}
                     <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-[#C92533] shadow-2xl z-20 bg-[#121215]">
                       <img
-                        src="/templates/riff/match-art-2.jpg"
+                        src="/assets/match-art-2.jpg"
                         alt="Shared artist sleeve center"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
@@ -2643,10 +2898,8 @@ export function HeroSection({
 ]]>
     </file>
     <file path="src/app/(riff)/riff/components/ManifestoAndHowItWorks.tsx">
-<![CDATA['use client';
-
-import React, { useState } from 'react';
-import { HandStar, MusicGreaterLooksScrawl } from './ZineMotifs';
+<![CDATA[import React, { useEffect, useRef, useState } from 'react';
+import { HandStar, MusicGreaterLooksScrawl, VinylDisc } from './ZineMotifs';
 
 interface PrincipleItem {
   id: string;
@@ -2662,7 +2915,8 @@ const PRINCIPLES: PrincipleItem[] = [
     id: 'taste-first',
     number: '01.',
     title: 'Taste first',
-    shortLine: 'Profiles open with your rotation, last three gigs, and desert-island records — never a full-screen selfie carousel.',
+    shortLine:
+      'Profiles open with your rotation, last three gigs, and desert-island records — never a full-screen selfie carousel.',
     expandedDetail:
       'Photos stay softly tucked inside a secondary sleeve until you have actually read what someone listens to at 1 A.M. You never swipe on a face in isolation.',
     zineNote: 'NO EGO SWIPING · CRATE BEFORE CAMERA',
@@ -2671,7 +2925,8 @@ const PRINCIPLES: PrincipleItem[] = [
     id: 'connection-second',
     number: '02.',
     title: 'Connection second',
-    shortLine: 'Every match comes with a real reason you overlapped and a specific track or album memory to break the ice.',
+    shortLine:
+      'Every match comes with a real reason you overlapped and a specific track or album memory to break the ice.',
     expandedDetail:
       'Instead of "hey, how was your weekend?", Riff highlights the exact post-punk B-side, shoegaze pedal tone, or late-night playlist habit you share.',
     zineNote: 'ZERO DEAD OPENERS · SONG-LED PROMPTS',
@@ -2680,15 +2935,96 @@ const PRINCIPLES: PrincipleItem[] = [
     id: 'meet-when-ready',
     number: '03.',
     title: 'Meet when ready',
-    shortLine: 'Trade a three-song mini-mix, talk about a record sleeve, and suggest catching a local support band when the vibe clicks.',
+    shortLine:
+      'Trade a three-song mini-mix, talk about a record sleeve, and suggest catching a local support band when the vibe clicks.',
     expandedDetail:
       'Designed for 18+ music lovers who prefer low-pressure coffee near a record shop or a £10 basement gig over high-stakes dinner interviews.',
     zineNote: '18+ COMMUNITY · RESPECTFUL PACE',
   },
 ];
 
+export type HowVisualStageId = 'hm-01' | 'hm-00' | 'hm-02' | 'hm-03';
+
+interface VisualStageSpec {
+  stageId: HowVisualStageId;
+  parentStepIndex: number; // Maps to 0, 1, or 2 in the 3-step onboarding structure
+  badge: string;
+  captionTitle: string;
+  captionLine: string;
+  imageSrc: string;
+  imageAlt: string;
+  transitionClass: 'anim-sleeve-wipe' | 'anim-ring-expand';
+  tiltStyle: string;
+  ringOverlay?: {
+    centerXPct: string;
+    centerYPct: string;
+    score: number;
+    sublabel: string;
+  };
+}
+
+const VISUAL_STAGES: VisualStageSpec[] = [
+  {
+    stageId: 'hm-01',
+    parentStepIndex: 0,
+    badge: 'STEP 01 OF 03 · DROP YOUR FAVORITES',
+    captionTitle: 'Log your core scenes, anchor artists & nocturnal habits.',
+    captionLine: 'Start by tagging Shoegaze, Post-Punk, Indie Rock, and the records on heavy rotation.',
+    imageSrc: '/assets/riff/phones/riff-hm-01-drop-favorites.webp',
+    imageAlt: 'Riff app screen Step 01: Drop Your Favorites with core genres, artists on repeat, and listening habits',
+    transitionClass: 'anim-sleeve-wipe',
+    tiltStyle: 'perspective(1100px) rotateZ(-1.2deg) rotateY(4deg)',
+  },
+  {
+    stageId: 'hm-00',
+    parentStepIndex: 0,
+    badge: 'MUSIC IDENTITY BRIDGE · MILA, 24',
+    captionTitle: 'Meet Mila. A personality told through music.',
+    captionLine: 'Before matching, your crate becomes an editorial music identity card with live compatibility readiness.',
+    imageSrc: '/assets/riff/phones/riff-hm-00-music-identity.webp',
+    imageAlt: 'Riff app screen Music Identity: Mila 24 profile with scene tags, top artists, and Kyoto waveform',
+    transitionClass: 'anim-sleeve-wipe',
+    tiltStyle: 'perspective(1100px) rotateZ(0.6deg) rotateY(-3deg)',
+    ringOverlay: {
+      centerXPct: '69.5%',
+      centerYPct: '40.6%',
+      score: 94,
+      sublabel: 'MATCH',
+    },
+  },
+  {
+    stageId: 'hm-02',
+    parentStepIndex: 1,
+    badge: 'STEP 02 OF 03 · FIND YOUR OVERLAP',
+    captionTitle: 'Surface shared artists, scenes & concert rituals.',
+    captionLine: 'Riff maps exact intersections between your crate and Mila’s — no opaque romance black box.',
+    imageSrc: '/assets/riff/phones/riff-hm-02-find-overlap.webp',
+    imageAlt: 'Riff app screen Step 02: Find Your Overlap showing shared genres, artists in common, and shared rituals',
+    transitionClass: 'anim-ring-expand',
+    tiltStyle: 'perspective(1100px) rotateZ(1.2deg) rotateY(-4deg)',
+    ringOverlay: {
+      centerXPct: '71.3%',
+      centerYPct: '31.7%',
+      score: 91,
+      sublabel: 'MATCH',
+    },
+  },
+  {
+    stageId: 'hm-03',
+    parentStepIndex: 2,
+    badge: 'STEP 03 OF 03 · START A CONVERSATION',
+    captionTitle: 'Skip small talk with a song-first icebreaker.',
+    captionLine: 'Tap a shared mini-mix or prompt to open the chat with a specific record memory.',
+    imageSrc: '/assets/riff/phones/riff-hm-03-start-conversation.webp',
+    imageAlt: 'Riff app screen Step 03: Start a Conversation with shared mini-mix After the Encore and message composer',
+    transitionClass: 'anim-sleeve-wipe',
+    tiltStyle: 'perspective(1100px) rotateZ(-0.7deg) rotateY(2.5deg)',
+  },
+];
+
 interface TrackStep {
   index: number;
+  defaultVisualStage: HowVisualStageId;
   trackCode: string;
   duration: string;
   title: string;
@@ -2703,6 +3039,7 @@ interface TrackStep {
 const HOW_IT_WORKS_STEPS: TrackStep[] = [
   {
     index: 0,
+    defaultVisualStage: 'hm-01',
     trackCode: 'TRACK 01 / SIDE A',
     duration: '0:00 — 1:18',
     title: 'Drop your favorites',
@@ -2716,6 +3053,7 @@ const HOW_IT_WORKS_STEPS: TrackStep[] = [
   },
   {
     index: 1,
+    defaultVisualStage: 'hm-02',
     trackCode: 'TRACK 02 / SIDE A',
     duration: '1:19 — 2:44',
     title: 'Find your overlap',
@@ -2729,6 +3067,7 @@ const HOW_IT_WORKS_STEPS: TrackStep[] = [
   },
   {
     index: 2,
+    defaultVisualStage: 'hm-03',
     trackCode: 'TRACK 03 / SIDE B',
     duration: '2:45 — 4:02',
     title: 'Start a conversation',
@@ -2738,14 +3077,16 @@ const HOW_IT_WORKS_STEPS: TrackStep[] = [
     ticketStamp: 'STATION 03 · FRONT BARRIER HELLO',
     ticketSerial: 'RF-030442',
     previewChips: ['Ask about "Punisher"', 'Trade a 3-song mix', 'Compare first gigs'],
-    sampleOutput: 'Icebreaker queued: "Which track on Souvlaki do you play loudest?"',
+    sampleOutput: 'Icebreaker queued: "We both love shoegaze and late-night drives. What’s your zero-skip album?"',
   },
 ];
 
 export function ManifestoAndHowItWorks() {
   const [expandedPrinciples, setExpandedPrinciples] = useState<string[]>(['taste-first']);
   const [revealSongQuote, setRevealSongQuote] = useState<boolean>(true);
-  const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
+  const [visualStageId, setVisualStageId] = useState<HowVisualStageId>('hm-01');
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const manualOverrideUntilRef = useRef<number>(0);
 
   const togglePrinciple = (id: string) => {
     setExpandedPrinciples((prev) =>
@@ -2753,8 +3094,71 @@ export function ManifestoAndHowItWorks() {
     );
   };
 
-  const currentTrack = HOW_IT_WORKS_STEPS[activeStepIndex];
-  const progressPercent = ((activeStepIndex + 1) / HOW_IT_WORKS_STEPS.length) * 100;
+  const currentVisualIndex = Math.max(
+    0,
+    VISUAL_STAGES.findIndex((s) => s.stageId === visualStageId)
+  );
+  const currentVisual = VISUAL_STAGES[currentVisualIndex] || VISUAL_STAGES[0];
+  const activeStepIndex = currentVisual.parentStepIndex;
+  const currentTrack = HOW_IT_WORKS_STEPS[activeStepIndex] || HOW_IT_WORKS_STEPS[0];
+
+  // Progress bar reflects the 4 visual stages smoothly (25%, 50%, 75%, 100%)
+  const progressPercent = ((currentVisualIndex + 1) / VISUAL_STAGES.length) * 100;
+
+  // Reversible scroll-driven progression across the 4 visual states when scrolling through Section 01
+  useEffect(() => {
+    const handleScroll = () => {
+      if (Date.now() < manualOverrideUntilRef.current) return;
+      const el = sectionRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || 900;
+
+      // Only sync when section is actively traversing the viewport
+      if (rect.bottom < vh * 0.25 || rect.top > vh * 0.75) return;
+
+      const totalTravel = rect.height + vh * 0.3;
+      const traveled = vh * 0.65 - rect.top;
+      const ratio = Math.max(0, Math.min(0.999, traveled / Math.max(1, totalTravel)));
+      const stageIdx = Math.min(
+        VISUAL_STAGES.length - 1,
+        Math.floor(ratio * VISUAL_STAGES.length)
+      );
+      const nextStage = VISUAL_STAGES[stageIdx]?.stageId;
+      if (nextStage) {
+        setVisualStageId((prev) => (prev === nextStage ? prev : nextStage));
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const selectStepManually = (stepIdx: number) => {
+    manualOverrideUntilRef.current = Date.now() + 4000;
+    const step = HOW_IT_WORKS_STEPS[stepIdx];
+    if (step) {
+      setVisualStageId(step.defaultVisualStage);
+    }
+  };
+
+  const selectVisualStageManually = (stageId: HowVisualStageId) => {
+    manualOverrideUntilRef.current = Date.now() + 4000;
+    setVisualStageId(stageId);
+  };
+
+  const handlePrevTrack = () => {
+    manualOverrideUntilRef.current = Date.now() + 4000;
+    const nextStep =
+      activeStepIndex > 0 ? activeStepIndex - 1 : HOW_IT_WORKS_STEPS.length - 1;
+    setVisualStageId(HOW_IT_WORKS_STEPS[nextStep].defaultVisualStage);
+  };
+
+  const handleNextTrack = () => {
+    manualOverrideUntilRef.current = Date.now() + 4000;
+    const nextStep = (activeStepIndex + 1) % HOW_IT_WORKS_STEPS.length;
+    setVisualStageId(HOW_IT_WORKS_STEPS[nextStep].defaultVisualStage);
+  };
 
   return (
     <>
@@ -2885,9 +3289,10 @@ export function ManifestoAndHowItWorks() {
       </section>
 
       {/* ====================================================================
-          SECTION C: HOW IT WORKS — THE FIRST THREE TRACKS
+          SECTION C (01): HOW MATCHING WORKS — THE FIRST THREE TRACKS
          ==================================================================== */}
       <section
+        ref={sectionRef}
         id="how-it-works"
         aria-label="How Riff matching works in three tracks"
         className="relative py-20 lg:py-28 border-b border-[#F4F0E8]/15 overflow-hidden"
@@ -2904,19 +3309,19 @@ export function ManifestoAndHowItWorks() {
               </h2>
             </div>
             <p className="text-sm sm:text-base text-[#AAA8A6] max-w-md">
-              Click any track station below or scrub the groove rail to pass the ticket stub from crate curation to your first conversation.
+              Click any track station below or scrub the groove rail to move from dropping your favorites, through Mila&rsquo;s music identity, to overlap and conversation.
             </p>
           </div>
 
-          {/* Music-Player Progress Rail & Animated Groove */}
+          {/* Music-Player Progress Rail & 3 Core Track Stations */}
           <div className="mt-10 bg-[#141414] border border-[#F4F0E8]/20 p-5 sm:p-7 rounded-[4px]">
             <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-code text-[#AAA8A6] mb-3">
-              <span>PLAYHEAD: {currentTrack.trackCode}</span>
+              <span>PLAYHEAD: {currentTrack.trackCode} ({currentVisual.badge})</span>
               <span className="tabular-nums">{currentTrack.duration}</span>
             </div>
 
-            {/* Interactive SVG Groove Waveform Progress Bar */}
-            <div className="relative h-12 flex items-center">
+            {/* Interactive Groove Waveform Progress Bar */}
+            <div className="relative py-2">
               <div className="w-full h-1.5 bg-[#0B0B0B] border border-[#F4F0E8]/20 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-[#C92533] transition-all duration-300"
@@ -2924,8 +3329,8 @@ export function ManifestoAndHowItWorks() {
                 />
               </div>
 
-              {/* Station Nodes on the Rail */}
-              <div className="absolute inset-0 flex items-center justify-between px-2 sm:px-8 pointer-events-none">
+              {/* 3 Core Onboarding Station Nodes */}
+              <div className="mt-3 sm:mt-0 sm:absolute sm:inset-0 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:px-4 pointer-events-none">
                 {HOW_IT_WORKS_STEPS.map((step) => {
                   const reached = step.index <= activeStepIndex;
                   const isCurrent = step.index === activeStepIndex;
@@ -2933,11 +3338,11 @@ export function ManifestoAndHowItWorks() {
                     <button
                       key={step.trackCode}
                       type="button"
-                      onClick={() => setActiveStepIndex(step.index)}
+                      onClick={() => selectStepManually(step.index)}
                       aria-label={`Jump to ${step.title}`}
-                      className={`pointer-events-auto px-3 py-1.5 rounded-[3px] text-xs font-mono-code uppercase tracking-wider border transition-all cursor-pointer whitespace-nowrap ${
+                      className={`pointer-events-auto px-2.5 sm:px-3 py-1.5 rounded-[3px] text-[11px] sm:text-xs font-mono-code uppercase tracking-wider border transition-all cursor-pointer whitespace-nowrap ${
                         isCurrent
-                          ? 'bg-[#C92533] text-[#F4F0E8] border-[#F4F0E8] scale-105 shadow-lg'
+                          ? 'bg-[#C92533] text-[#F4F0E8] border-[#F4F0E8] sm:scale-105 shadow-lg'
                           : reached
                           ? 'bg-[#1D1D20] text-[#F4F0E8] border-[#C92533]/60'
                           : 'bg-[#0B0B0B] text-[#AAA8A6] border-[#F4F0E8]/25 hover:border-[#F4F0E8]/60'
@@ -2950,57 +3355,113 @@ export function ManifestoAndHowItWorks() {
               </div>
             </div>
 
-            {/* Traveling Paper Ticket Pass + Active Station Breakdown */}
+            {/* 4-Stage Visual Screen Sequence Switcher (including intermediate HM-00 Music Identity bridge) */}
+            <div
+              role="group"
+              aria-label="Visual phone screen sequence"
+              className="mt-4 pt-3 border-t border-[#F4F0E8]/10 flex flex-wrap items-center justify-between gap-2"
+            >
+              <span className="text-[11px] font-mono-code uppercase text-[#AAA8A6]">
+                Screen Walkthrough Sequence:
+              </span>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {VISUAL_STAGES.map((stage, idx) => {
+                  const active = stage.stageId === visualStageId;
+                  const label =
+                    stage.stageId === 'hm-01'
+                      ? '01. Drop Favorites'
+                      : stage.stageId === 'hm-00'
+                      ? '↳ Music Identity (Mila)'
+                      : stage.stageId === 'hm-02'
+                      ? '02. Find Overlap'
+                      : '03. Start Conversation';
+                  return (
+                    <button
+                      key={stage.stageId}
+                      type="button"
+                      onClick={() => selectVisualStageManually(stage.stageId)}
+                      aria-pressed={active}
+                      className={`px-2.5 py-1 rounded-[3px] text-[11px] font-mono-code uppercase transition-colors cursor-pointer whitespace-nowrap ${
+                        active
+                          ? 'bg-[#F4F0E8] text-[#0B0B0B] font-bold'
+                          : 'bg-[#0B0B0B] text-[#AAA8A6] border border-[#F4F0E8]/20 hover:text-[#F4F0E8]'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Main Stage: Central Phone Cutout Walkthrough + Perforated Ticket & Track Details */}
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-              {/* Left 5 Cols: Travelling Perforated Paper Ticket */}
-              <div className="lg:col-span-5 flex items-center justify-center bg-[#0B0B0B] border border-[#F4F0E8]/15 p-6 rounded-[4px] relative overflow-hidden">
+              {/* Left/Center 5 Cols: Stabilized Phone Cutout Stage with Vinyl Grooves & Masked Transitions */}
+              <div className="lg:col-span-5 flex flex-col items-center justify-between bg-[#0B0B0B] border border-[#F4F0E8]/15 p-5 sm:p-6 rounded-[4px] relative overflow-hidden">
                 <div
                   aria-hidden="true"
-                  className="halftone-patch absolute inset-0 opacity-25 pointer-events-none"
+                  className="halftone-patch absolute inset-0 opacity-20 pointer-events-none"
                 />
 
+                {/* Subtle Concentric Vinyl Groove Backdrop Behind Device */}
                 <div
-                  className="ticket-perforated relative z-10 w-full max-w-sm bg-[#EAE3D5] text-[#0B0B0B] p-5 shadow-2xl transition-transform duration-300"
-                  style={{
-                    transform: `rotate(${
-                      activeStepIndex === 0 ? '-2deg' : activeStepIndex === 1 ? '1.5deg' : '-1deg'
-                    })`,
-                  }}
+                  aria-hidden="true"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[310px] h-[310px] opacity-25 pointer-events-none"
                 >
-                  <div className="border-2 border-[#0B0B0B] p-4">
-                    <div className="flex items-center justify-between border-b border-[#0B0B0B]/40 pb-2 text-[10px] font-mono-code uppercase">
-                      <span className="font-bold">{currentTrack.ticketStamp}</span>
-                      <span>#{currentTrack.ticketSerial}</span>
-                    </div>
+                  <VinylDisc className="w-full h-full" labelSide={activeStepIndex === 2 ? 'B' : 'A'} />
+                </div>
 
-                    <div className="mt-3 font-condensed font-extrabold text-3xl uppercase leading-none tracking-tight">
-                      0{currentTrack.index + 1}. {currentTrack.title}
-                    </div>
+                {/* Stage Top Caption Badge */}
+                <div className="relative z-10 w-full flex items-center justify-between text-[11px] font-mono-code uppercase text-[#AAA8A6] border-b border-[#F4F0E8]/15 pb-2 mb-3">
+                  <span className="text-[#C92533] font-bold">{currentVisual.badge}</span>
+                  <span className="tabular-nums">VIEW {currentVisualIndex + 1}/4</span>
+                </div>
 
-                    <p className="mt-1.5 text-xs font-medium text-[#141414]/80">
-                      {currentTrack.subtitle}
-                    </p>
+                {/* Aspect-Ratio Locked Phone Cutout Container */}
+                <div
+                  key={currentVisual.stageId}
+                  data-testid="how-it-works-phone-stage"
+                  data-visual-stage={currentVisual.stageId}
+                  className={`relative z-10 w-full max-w-[275px] aspect-[720/1490] mx-auto transition-transform duration-500 ${currentVisual.transitionClass}`}
+                  style={{ transform: currentVisual.tiltStyle }}
+                >
+                  <img
+                    src={currentVisual.imageSrc}
+                    alt={currentVisual.imageAlt}
+                    className="w-full h-full object-contain drop-shadow-[0_20px_38px_rgba(0,0,0,0.85)] select-none"
+                  />
 
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {currentTrack.previewChips.map((chip) => (
-                        <span
-                          key={chip}
-                          className="px-2 py-0.5 bg-[#0B0B0B] text-[#F4F0E8] text-[10px] font-mono-code uppercase"
-                        >
-                          {chip}
-                        </span>
-                      ))}
+                  {/* Live Compatibility Score Overlay Centered Inside HM-00 (94%) and HM-02 (91%) Ring */}
+                  {currentVisual.ringOverlay && (
+                    <div
+                      style={{
+                        left: currentVisual.ringOverlay.centerXPct,
+                        top: currentVisual.ringOverlay.centerYPct,
+                      }}
+                      className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none text-center"
+                    >
+                      <span className="font-sans-ui font-extrabold text-lg sm:text-xl text-[#F4F0E8] tabular-nums leading-none drop-shadow">
+                        {currentVisual.ringOverlay.score}%
+                      </span>
+                      <span className="text-[7.5px] font-mono-code uppercase tracking-widest text-[#C92533] font-bold mt-1">
+                        {currentVisual.ringOverlay.sublabel}
+                      </span>
                     </div>
+                  )}
+                </div>
 
-                    <div className="mt-4 pt-2 border-t border-dashed border-[#0B0B0B]/50 flex items-center justify-between text-[10px] font-mono-code">
-                      <span className="text-[#C92533] font-bold">ADMIT TWO · 18+</span>
-                      <span>MUSIC &gt; LOOKS</span>
-                    </div>
+                {/* Editorial Bridge Caption Under Phone */}
+                <div className="relative z-10 w-full mt-4 pt-3 border-t border-[#F4F0E8]/15 text-center">
+                  <div className="font-editorial italic text-base sm:text-lg text-[#F4F0E8]">
+                    {currentVisual.captionTitle}
                   </div>
+                  <p className="mt-0.5 text-xs text-[#AAA8A6]">
+                    {currentVisual.captionLine}
+                  </p>
                 </div>
               </div>
 
-              {/* Right 7 Cols: Station Details & Step Controls */}
+              {/* Right 7 Cols: Station Details, Travelling Perforated Ticket & Step Controls */}
               <div className="lg:col-span-7 flex flex-col justify-between bg-[#0B0B0B] border border-[#F4F0E8]/15 p-6 sm:p-8 rounded-[4px]">
                 <div>
                   <div className="flex items-center justify-between gap-2">
@@ -3020,13 +3481,75 @@ export function ManifestoAndHowItWorks() {
                     {currentTrack.description}
                   </p>
 
-                  <div className="mt-6 p-4 bg-[#141414] border border-[#F4F0E8]/15 rounded-[3px]">
-                    <div className="text-[11px] font-mono-code uppercase text-[#AAA8A6]">
-                      Live Station Output
+                  {/* Travelling Perforated Paper Ticket Stub */}
+                  <div className="mt-6">
+                    <div
+                      className="ticket-perforated w-full bg-[#EAE3D5] text-[#0B0B0B] p-4 sm:p-5 shadow-xl transition-transform duration-300"
+                      style={{
+                        transform: `rotate(${
+                          activeStepIndex === 0 ? '-0.8deg' : activeStepIndex === 1 ? '0.8deg' : '-0.5deg'
+                        })`,
+                      }}
+                    >
+                      <div className="border-2 border-[#0B0B0B] p-3.5 sm:p-4">
+                        <div className="flex items-center justify-between border-b border-[#0B0B0B]/40 pb-2 text-[10px] font-mono-code uppercase">
+                          <span className="font-bold">{currentTrack.ticketStamp}</span>
+                          <span>#{currentTrack.ticketSerial}</span>
+                        </div>
+
+                        <div className="mt-2.5 flex flex-wrap items-baseline justify-between gap-2">
+                          <div className="font-condensed font-extrabold text-2xl sm:text-3xl uppercase leading-none tracking-tight">
+                            0{currentTrack.index + 1}. {currentTrack.title}
+                          </div>
+                          <span className="text-[11px] font-mono-code uppercase text-[#C92533] font-bold">
+                            {currentTrack.subtitle}
+                          </span>
+                        </div>
+
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          {currentTrack.previewChips.map((chip) => (
+                            <span
+                              key={chip}
+                              className="px-2 py-0.5 bg-[#0B0B0B] text-[#F4F0E8] text-[10px] font-mono-code uppercase"
+                            >
+                              {chip}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="mt-3 pt-2 border-t border-dashed border-[#0B0B0B]/50 flex items-center justify-between text-[10px] font-mono-code">
+                          <span className="text-[#C92533] font-bold">ADMIT TWO · 18+</span>
+                          <span>MUSIC &gt; LOOKS</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-1 text-sm font-mono-code text-[#F4F0E8]">
-                      {currentTrack.sampleOutput}
+                  </div>
+
+                  {/* Live Station Output + Optional Bridge Toggle */}
+                  <div className="mt-6 p-4 bg-[#141414] border border-[#F4F0E8]/15 rounded-[3px] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                      <div className="text-[11px] font-mono-code uppercase text-[#AAA8A6]">
+                        Live Station Output
+                      </div>
+                      <div className="mt-1 text-sm font-mono-code text-[#F4F0E8]">
+                        {currentTrack.sampleOutput}
+                      </div>
                     </div>
+                    {activeStepIndex === 0 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          selectVisualStageManually(
+                            visualStageId === 'hm-00' ? 'hm-01' : 'hm-00'
+                          )
+                        }
+                        className="px-3 py-1.5 text-[11px] font-mono-code uppercase border border-[#C92533] text-[#F4F0E8] hover:bg-[#C92533] rounded-[3px] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                      >
+                        {visualStageId === 'hm-00'
+                          ? '← Back to Favorites (HM-01)'
+                          : 'Inspect Mila Identity (HM-00) →'}
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -3034,7 +3557,7 @@ export function ManifestoAndHowItWorks() {
                 <div className="mt-8 pt-4 border-t border-[#F4F0E8]/15 flex items-center justify-between gap-4">
                   <button
                     type="button"
-                    onClick={() => setActiveStepIndex((i) => (i > 0 ? i - 1 : HOW_IT_WORKS_STEPS.length - 1))}
+                    onClick={handlePrevTrack}
                     className="px-4 py-2 text-xs font-mono-code uppercase border border-[#F4F0E8]/30 text-[#F4F0E8] hover:border-[#F4F0E8] rounded-[3px] transition-colors cursor-pointer whitespace-nowrap"
                   >
                     &larr; Previous Track
@@ -3045,7 +3568,7 @@ export function ManifestoAndHowItWorks() {
                       <button
                         key={s.index}
                         type="button"
-                        onClick={() => setActiveStepIndex(s.index)}
+                        onClick={() => selectStepManually(s.index)}
                         aria-label={`Select Track 0${s.index + 1}`}
                         className={`w-2.5 h-2.5 rounded-full transition-colors cursor-pointer ${
                           s.index === activeStepIndex ? 'bg-[#C92533]' : 'bg-[#F4F0E8]/25'
@@ -3056,7 +3579,7 @@ export function ManifestoAndHowItWorks() {
 
                   <button
                     type="button"
-                    onClick={() => setActiveStepIndex((i) => (i + 1) % HOW_IT_WORKS_STEPS.length)}
+                    onClick={handleNextTrack}
                     className="px-4 py-2 text-xs font-mono-code uppercase bg-[#C92533] text-[#F4F0E8] hover:bg-[#b51f2c] rounded-[3px] transition-colors cursor-pointer whitespace-nowrap"
                   >
                     Next Track &rarr;
@@ -3073,9 +3596,7 @@ export function ManifestoAndHowItWorks() {
 ]]>
     </file>
     <file path="src/app/(riff)/riff/components/StoriesAndFooter.tsx">
-<![CDATA['use client';
-
-import React, { useState } from 'react';
+<![CDATA[import React, { useState } from 'react';
 import {
   HandStar,
   MusicGreaterLooksScrawl,
@@ -3346,10 +3867,10 @@ export function StoriesAndFooter({
                 </button>
 
                 <a
-                  href="#taste-matcher"
+                  href="#music-chemistry"
                   className="btn-screenprint bg-transparent hover:bg-[#F4F0E8]/8 text-[#F4F0E8] font-medium text-base sm:text-lg px-7 py-4 rounded-[4px] border border-[#F4F0E8]/75 whitespace-nowrap"
                 >
-                  Explore the Match Demo
+                  Explore Music Chemistry
                 </a>
               </div>
             </div>
@@ -3398,8 +3919,8 @@ export function StoriesAndFooter({
               <a href="#how-it-works" className="hover:text-[#F4F0E8] transition-colors">
                 How It Works
               </a>
-              <a href="#taste-matcher" className="hover:text-[#F4F0E8] transition-colors">
-                Matches
+              <a href="#music-chemistry" className="hover:text-[#F4F0E8] transition-colors">
+                Chemistry
               </a>
               <a href="#playlists" className="hover:text-[#F4F0E8] transition-colors">
                 Playlists
@@ -3439,523 +3960,8 @@ export function StoriesAndFooter({
 }
 ]]>
     </file>
-    <file path="src/app/(riff)/riff/components/TasteMatcherSection.tsx">
-<![CDATA['use client';
-
-import React, { useEffect, useState } from 'react';
-import {
-  ALL_GENRES,
-  ALL_HABITS,
-  GenreId,
-  HabitId,
-  SAMPLE_PROFILES,
-  calculateTasteOverlap,
-} from '../utils/matching';
-import { HandStar, VinylDisc } from './ZineMotifs';
-
-const DEFAULT_GENRES: GenreId[] = ['shoegaze', 'post-punk', 'indie rock'];
-const DEFAULT_HABITS: HabitId[] = ['night drives', 'live gigs', 'late-night headphones'];
-
-export function TasteMatcherSection() {
-  const [selectedGenres, setSelectedGenres] = useState<GenreId[]>(DEFAULT_GENRES);
-  const [selectedHabits, setSelectedHabits] = useState<HabitId[]>(DEFAULT_HABITS);
-  const [partnerId, setPartnerId] = useState<string>('mila');
-  const [historyStack, setHistoryStack] = useState<{ genres: GenreId[]; habits: HabitId[] }[]>([]);
-  const [spinningBoost, setSpinningBoost] = useState<boolean>(false);
-  const [savedNotice, setSavedNotice] = useState<string | null>(null);
-  const [copiedPrompt, setCopiedPrompt] = useState<boolean>(false);
-
-  const partner =
-    SAMPLE_PROFILES.find((p) => p.id === partnerId) || SAMPLE_PROFILES[0];
-
-  const overlap = calculateTasteOverlap(selectedGenres, selectedHabits, partner);
-
-  // Trigger brief vinyl spin acceleration whenever selections change
-  useEffect(() => {
-    setSpinningBoost(true);
-    const timer = setTimeout(() => setSpinningBoost(false), 950);
-    return () => clearTimeout(timer);
-  }, [selectedGenres, selectedHabits, partnerId]);
-
-  const pushHistory = () => {
-    setHistoryStack((prev) => [
-      ...prev.slice(-8),
-      { genres: [...selectedGenres], habits: [...selectedHabits] },
-    ]);
-  };
-
-  const handleToggleGenre = (id: GenreId) => {
-    pushHistory();
-    setSelectedGenres((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-    setSavedNotice(null);
-  };
-
-  const handleToggleHabit = (id: HabitId) => {
-    pushHistory();
-    setSelectedHabits((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-    setSavedNotice(null);
-  };
-
-  const handleUndo = () => {
-    if (historyStack.length === 0) return;
-    const last = historyStack[historyStack.length - 1];
-    setSelectedGenres(last.genres);
-    setSelectedHabits(last.habits);
-    setHistoryStack((prev) => prev.slice(0, -1));
-  };
-
-  const handleReset = () => {
-    pushHistory();
-    setSelectedGenres(DEFAULT_GENRES);
-    setSelectedHabits(DEFAULT_HABITS);
-    setSavedNotice('Reset to default post-punk / shoegaze demo crate.');
-  };
-
-  const handleClear = () => {
-    pushHistory();
-    setSelectedGenres([]);
-    setSelectedHabits([]);
-    setSavedNotice('Cleared all selections.');
-  };
-
-  const handleSaveLocally = () => {
-    try {
-      localStorage.setItem(
-        'riff_demo_crate',
-        JSON.stringify({ genres: selectedGenres, habits: selectedHabits, partnerId })
-      );
-      setSavedNotice('Saved your demo crate to browser localStorage (local only).');
-    } catch {
-      setSavedNotice('Kept in session memory.');
-    }
-  };
-
-  const handleCopyPrompt = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(overlap.introPrompt).catch(() => {});
-    }
-    setCopiedPrompt(true);
-    setTimeout(() => setCopiedPrompt(false), 2000);
-  };
-
-  // Red ink ring circumference math
-  const radius = 58;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset =
-    circumference - (overlap.percentage / 100) * circumference;
-
-  return (
-    <section
-      id="taste-matcher"
-      aria-label="Interactive Taste Matcher Demo"
-      className="relative py-20 lg:py-28 border-b border-[#F4F0E8]/15 overflow-hidden"
-    >
-      <div
-        aria-hidden="true"
-        className="halftone-patch absolute bottom-8 right-8 w-80 h-64 opacity-40 pointer-events-none"
-      />
-
-      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-        {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-mono-code uppercase tracking-widest text-[#C92533]">
-              <span>02. INTERACTIVE TASTE MATCHER · LIVE FRONT-END DEMO</span>
-            </div>
-            <h2 className="mt-2 font-editorial font-bold text-3xl sm:text-5xl text-[#F4F0E8] tracking-tight">
-              Find your frequency.
-            </h2>
-          </div>
-          <p className="text-sm sm:text-base text-[#AAA8A6] max-w-xl">
-            Toggle your favorite scenes and listening rituals below. Overlap is calculated deterministically in your browser from shared genres and habits — an honest taste-overlap illustration, not verified romance science.
-          </p>
-        </div>
-
-        {/* Two-Panel Matcher Workspace */}
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* LEFT PANEL (7 Cols): User Genre & Ritual Selector */}
-          <div className="lg:col-span-7 bg-[#141414] border border-[#F4F0E8]/20 p-6 sm:p-8 rounded-[4px]">
-            {/* Physical Tape Strip showing currently snapped genres & habits */}
-            <div className="p-4 bg-[#EAE3D5] text-[#0B0B0B] rounded-[2px] shadow-md transform -rotate-[0.4deg]">
-              <div className="flex items-center justify-between border-b border-[#0B0B0B]/25 pb-1.5 text-[11px] font-mono-code uppercase">
-                <span className="font-bold">YOUR ACTIVE TAPE STRIP ({selectedGenres.length} GENRES · {selectedHabits.length} RITUALS)</span>
-                <span className="text-[#C92533] font-bold">SIDE A</span>
-              </div>
-              <div className="mt-2.5 flex flex-wrap gap-1.5 min-h-[28px] items-center">
-                {selectedGenres.length === 0 && selectedHabits.length === 0 ? (
-                  <span className="text-xs font-mono-code italic text-[#0B0B0B]/65">
-                    Tape strip is blank — click genre or ritual chips below to snap them onto your reel.
-                  </span>
-                ) : (
-                  <>
-                    {selectedGenres.map((g) => (
-                      <span
-                        key={g}
-                        className="px-2 py-0.5 bg-[#0B0B0B] text-[#F4F0E8] text-xs font-mono-code uppercase tracking-wider"
-                      >
-                        {g}
-                      </span>
-                    ))}
-                    {selectedHabits.map((h) => (
-                      <span
-                        key={h}
-                        className="px-2 py-0.5 bg-[#C92533] text-[#F4F0E8] text-xs font-mono-code uppercase tracking-wider"
-                      >
-                        {h}
-                      </span>
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* Step 1: Genre Chips */}
-            <div className="mt-7">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-mono-code uppercase tracking-wider text-[#F4F0E8]">
-                  1. Pick your core genres
-                </h3>
-                <span className="text-xs font-mono-code text-[#AAA8A6]">
-                  {selectedGenres.length} of {ALL_GENRES.length} selected
-                </span>
-              </div>
-
-              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {ALL_GENRES.map((genre) => {
-                  const isSelected = selectedGenres.includes(genre.id);
-                  const isSharedWithPartner =
-                    isSelected && partner.genres.includes(genre.id);
-                  return (
-                    <button
-                      key={genre.id}
-                      type="button"
-                      onClick={() => handleToggleGenre(genre.id)}
-                      aria-pressed={isSelected}
-                      className={`p-3 rounded-[3px] border text-left transition-all cursor-pointer flex items-start justify-between gap-2 ${
-                        isSelected
-                          ? 'bg-[#1D1D22] border-[#C92533] text-[#F4F0E8] shadow-[3px_3px_0px_rgba(201,37,51,0.45)]'
-                          : 'bg-[#0B0B0B] border-[#F4F0E8]/20 text-[#AAA8A6] hover:border-[#F4F0E8]/50 hover:text-[#F4F0E8]'
-                      }`}
-                    >
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-sm">{genre.label}</span>
-                          {isSharedWithPartner && (
-                            <span className="text-[10px] font-mono-code uppercase text-[#C92533] font-bold">
-                              &bull; Shared with {partner.name}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-xs text-[#AAA8A6] mt-0.5">{genre.subnote}</p>
-                      </div>
-                      <span
-                        aria-hidden="true"
-                        className={`w-5 h-5 rounded-[2px] border flex items-center justify-center text-xs font-mono-code shrink-0 mt-0.5 ${
-                          isSelected
-                            ? 'bg-[#C92533] border-[#C92533] text-[#F4F0E8]'
-                            : 'border-[#F4F0E8]/30 text-transparent'
-                        }`}
-                      >
-                        ✓
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Step 2: Listening Habits / Rituals */}
-            <div className="mt-7">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-mono-code uppercase tracking-wider text-[#F4F0E8]">
-                  2. Toggle listening rituals
-                </h3>
-                <span className="text-xs font-mono-code text-[#AAA8A6]">
-                  {selectedHabits.length} of {ALL_HABITS.length} active
-                </span>
-              </div>
-
-              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {ALL_HABITS.map((habit) => {
-                  const isSelected = selectedHabits.includes(habit.id);
-                  const isSharedWithPartner =
-                    isSelected && partner.habits.includes(habit.id);
-                  return (
-                    <button
-                      key={habit.id}
-                      type="button"
-                      onClick={() => handleToggleHabit(habit.id)}
-                      aria-pressed={isSelected}
-                      className={`p-3 rounded-[3px] border text-left transition-all cursor-pointer flex items-start justify-between gap-2 ${
-                        isSelected
-                          ? 'bg-[#1D1D22] border-[#F4F0E8]/80 text-[#F4F0E8]'
-                          : 'bg-[#0B0B0B] border-[#F4F0E8]/20 text-[#AAA8A6] hover:border-[#F4F0E8]/50 hover:text-[#F4F0E8]'
-                      }`}
-                    >
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-sm">{habit.label}</span>
-                          {isSharedWithPartner && (
-                            <span className="text-[10px] font-mono-code uppercase text-[#C92533] font-bold">
-                              &bull; Match
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-xs text-[#AAA8A6] mt-0.5">{habit.detail}</p>
-                      </div>
-                      <span
-                        aria-hidden="true"
-                        className={`w-5 h-5 rounded-[2px] border flex items-center justify-center text-xs font-mono-code shrink-0 mt-0.5 ${
-                          isSelected
-                            ? 'bg-[#F4F0E8] border-[#F4F0E8] text-[#0B0B0B]'
-                            : 'border-[#F4F0E8]/30 text-transparent'
-                        }`}
-                      >
-                        ✓
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Action Bar: Reset, Undo, Clear, Optional Local Save */}
-            <div className="mt-7 pt-5 border-t border-[#F4F0E8]/15 flex flex-wrap items-center justify-between gap-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="px-3.5 py-2 text-xs font-mono-code uppercase border border-[#F4F0E8]/35 text-[#F4F0E8] hover:border-[#F4F0E8] rounded-[3px] cursor-pointer whitespace-nowrap"
-                >
-                  Reset Default
-                </button>
-                <button
-                  type="button"
-                  onClick={handleUndo}
-                  disabled={historyStack.length === 0}
-                  className="px-3.5 py-2 text-xs font-mono-code uppercase border border-[#F4F0E8]/25 text-[#AAA8A6] hover:text-[#F4F0E8] disabled:opacity-40 rounded-[3px] cursor-pointer whitespace-nowrap"
-                >
-                  Undo
-                </button>
-                <button
-                  type="button"
-                  onClick={handleClear}
-                  className="px-3.5 py-2 text-xs font-mono-code uppercase border border-[#F4F0E8]/25 text-[#AAA8A6] hover:text-[#C92533] hover:border-[#C92533] rounded-[3px] cursor-pointer whitespace-nowrap"
-                >
-                  Clear All
-                </button>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleSaveLocally}
-                className="px-3.5 py-2 text-xs font-mono-code uppercase bg-[#0B0B0B] border border-[#C92533]/70 text-[#F4F0E8] hover:bg-[#C92533] rounded-[3px] transition-colors cursor-pointer whitespace-nowrap"
-              >
-                Save Demo Choices Locally
-              </button>
-            </div>
-
-            {savedNotice && (
-              <p role="status" className="mt-3 text-xs font-mono-code text-[#C92533]">
-                {savedNotice}
-              </p>
-            )}
-          </div>
-
-          {/* RIGHT PANEL (5 Cols): Sample Profile Switcher + Live Overlap Result */}
-          <div className="lg:col-span-5 bg-[#141414] border border-[#F4F0E8]/20 p-6 sm:p-8 rounded-[4px] relative">
-            {/* Partner Profile Selector Tabs */}
-            <div>
-              <div className="text-xs font-mono-code uppercase tracking-wider text-[#AAA8A6]">
-                Compare your crate against sample 18+ profile:
-              </div>
-              <div
-                role="tablist"
-                aria-label="Sample profiles"
-                className="mt-2.5 grid grid-cols-2 sm:grid-cols-4 gap-2"
-              >
-                {SAMPLE_PROFILES.map((p) => {
-                  const active = p.id === partner.id;
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={active}
-                      onClick={() => setPartnerId(p.id)}
-                      className={`py-2 px-3 rounded-[3px] text-xs font-mono-code uppercase border transition-colors cursor-pointer whitespace-nowrap ${
-                        active
-                          ? 'bg-[#C92533] text-[#F4F0E8] border-[#C92533] font-bold'
-                          : 'bg-[#0B0B0B] text-[#AAA8A6] border-[#F4F0E8]/20 hover:text-[#F4F0E8]'
-                      }`}
-                    >
-                      {p.name}, {p.age}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Partner Bio Header */}
-            <div className="mt-5 p-4 bg-[#0B0B0B] border border-[#F4F0E8]/15 rounded-[3px]">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="font-condensed font-extrabold text-2xl uppercase text-[#F4F0E8]">
-                    {partner.name}, {partner.age}
-                  </span>
-                  <span className="ml-2 text-xs font-mono-code text-[#AAA8A6]">
-                    ({partner.pronouns}) &bull; {partner.city}
-                  </span>
-                </div>
-                <HandStar className="w-7 h-7 text-[#C92533]" variant={1} />
-              </div>
-              <p className="mt-1.5 text-xs text-[#AAA8A6]">{partner.tagline}</p>
-              <div className="mt-2 text-[11px] font-mono-code text-[#F4F0E8]/85">
-                Top artists: {partner.topArtists.join(' · ')}
-              </div>
-            </div>
-
-            {/* Red Ink Overlap Ring + Accelerating Vinyl Readout */}
-            <div
-              className="mt-6 flex items-center justify-around gap-4 py-4 px-3 bg-[#0B0B0B] border border-[#F4F0E8]/15 rounded-[3px]"
-              aria-live="polite"
-            >
-              {/* Red Ink Ring */}
-              <div className="relative w-36 h-36 flex items-center justify-center shrink-0">
-                <svg viewBox="0 0 140 140" className="w-full h-full -rotate-90">
-                  <circle
-                    cx="70"
-                    cy="70"
-                    r={radius}
-                    fill="none"
-                    stroke="rgba(244,240,232,0.14)"
-                    strokeWidth="6"
-                  />
-                  <circle
-                    cx="70"
-                    cy="70"
-                    r={radius}
-                    fill="none"
-                    stroke="#C92533"
-                    strokeWidth="6.5"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
-                    strokeLinecap="round"
-                    className="transition-all duration-500"
-                  />
-                  <circle
-                    cx="70"
-                    cy="70"
-                    r={radius - 9}
-                    fill="none"
-                    stroke="rgba(244,240,232,0.35)"
-                    strokeWidth="1.2"
-                    strokeDasharray="5 3"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span
-                    data-testid="taste-overlap-score"
-                    className="font-sans-ui font-extrabold text-4xl text-[#F4F0E8] tabular-nums leading-none"
-                  >
-                    {overlap.percentage}%
-                  </span>
-                  <span className="text-[10px] font-mono-code uppercase tracking-wider text-[#AAA8A6] mt-1">
-                    Demo Overlap
-                  </span>
-                </div>
-              </div>
-
-              {/* Spinning Vinyl that accelerates on state changes */}
-              <div className="flex flex-col items-center">
-                <VinylDisc
-                  className="w-28 h-28"
-                  fast={spinningBoost}
-                  labelSide="A"
-                />
-                <span className="mt-2 text-[10px] font-mono-code text-[#AAA8A6] uppercase">
-                  {spinningBoost ? 'Recalculating crate...' : 'Turntable locked'}
-                </span>
-              </div>
-            </div>
-
-            {/* Plainly Explained Formula Note */}
-            <p className="mt-3 text-[11px] font-mono-code text-[#AAA8A6] leading-relaxed">
-              {overlap.formulaSummary}
-            </p>
-
-            {/* Shared Scenes */}
-            <div className="mt-5">
-              <div className="text-xs font-mono-code uppercase tracking-wider text-[#F4F0E8]">
-                Shared scenes &amp; rituals ({overlap.sharedScenes.length})
-              </div>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {overlap.sharedScenes.length > 0 ? (
-                  overlap.sharedScenes.map((scene) => (
-                    <span
-                      key={scene}
-                      className="px-2.5 py-1 bg-[#1D1D22] border border-[#C92533]/60 text-[#F4F0E8] text-xs font-mono-code"
-                    >
-                      {scene}
-                    </span>
-                  ))
-                ) : (
-                  <span className="text-xs text-[#AAA8A6]">
-                    No direct overlap yet — opposite crates make great mixtape trades.
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* Could Talk About */}
-            <div className="mt-5">
-              <div className="text-xs font-mono-code uppercase tracking-wider text-[#F4F0E8]">
-                Could talk about:
-              </div>
-              <ul className="mt-2 space-y-1.5 text-xs sm:text-sm text-[#AAA8A6]">
-                {overlap.couldTalkAbout.map((topic, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-[#C92533] font-mono-code">&rarr;</span>
-                    <span>{topic}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Intro Prompt Box */}
-            <div className="mt-5 p-4 bg-[#0B0B0B] border border-[#C92533]/60 rounded-[3px]">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono-code uppercase text-[#C92533] font-semibold">
-                  Suggested Intro Prompt
-                </span>
-                <button
-                  type="button"
-                  onClick={handleCopyPrompt}
-                  className="text-[11px] font-mono-code uppercase text-[#F4F0E8] hover:text-[#C92533] underline cursor-pointer"
-                >
-                  {copiedPrompt ? 'Copied!' : 'Copy Prompt'}
-                </button>
-              </div>
-              <p className="mt-1.5 text-sm font-editorial italic text-[#F4F0E8]">
-                {overlap.introPrompt}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-]]>
-    </file>
     <file path="src/app/(riff)/riff/components/ZineMotifs.tsx">
-<![CDATA['use client';
-
-import React, { useState } from 'react';
+<![CDATA[import React, { useState } from 'react';
 import { PlaylistItem } from '../utils/matching';
 
 /**
@@ -4223,7 +4229,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#0D0D10] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/album-kyoto.jpg"
+            src="/assets/album-kyoto.jpg"
             alt="Midnight Static shoegaze cover artwork"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-90 mix-blend-lighten scale-105"
@@ -4240,7 +4246,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#121212] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/match-art-1.jpg"
+            src="/assets/match-art-1.jpg"
             alt="Post-punk guitar silhouette cover art"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover grayscale contrast-125 opacity-85"
@@ -4260,7 +4266,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#111317] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/shared-track-2.jpg"
+            src="/assets/shared-track-2.jpg"
             alt="Songs to Walk Home To misty silhouette cover art"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-90"
@@ -4276,7 +4282,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#151412] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/zine-band-photo.jpg"
+            src="/assets/zine-band-photo.jpg"
             alt="Basement Show Memories underground band photograph"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover contrast-125 opacity-85"
@@ -4292,7 +4298,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#160B0D] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/shared-track-3.jpg"
+            src="/assets/shared-track-3.jpg"
             alt="Cathode Ray Lullabies darkwave red glow artwork"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-90"
@@ -4309,7 +4315,7 @@ export function AlbumArtGraphic({
       return (
         <div className={`relative bg-[#101216] overflow-hidden ${className}`}>
           <img
-            src="/templates/riff/match-art-2.jpg"
+            src="/assets/match-art-2.jpg"
             alt="Rain on the Amp Case atmospheric album sleeve"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover opacity-90"
@@ -4389,6 +4395,8 @@ export interface PlaylistItem {
   trackCount: number;
   rotationDeg: number;
   artVariant: 'crimson-horizon' | 'static-guitar' | 'tube-amp' | 'basement-flyer' | 'tape-reel' | 'rain-window';
+  sleeveAsset: string;
+  gatefoldAsset: string | null;
   context: string;
   conversationQuestion: string;
   tracks: { number: string; title: string; artist: string; length: string }[];
@@ -4548,6 +4556,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 11,
     rotationDeg: -1.8,
     artVariant: 'crimson-horizon',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-01-midnight-static.webp',
+    gatefoldAsset: '/assets/riff/gatefolds/riff-sc-open-01-midnight-static.webp',
     context:
       'Built for walking home after your ears are still ringing from the encore. Heavy glide guitar and buried vocals.',
     conversationQuestion: 'Which song on here sounds most like your walk home after a gig?',
@@ -4569,6 +4579,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 10,
     rotationDeg: 1.5,
     artVariant: 'static-guitar',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-02-after-the-encore.webp',
+    gatefoldAsset: '/assets/riff/gatefolds/riff-sc-open-02-after-the-encore.webp',
     context:
       'When the house lights come up too fast and nobody wants to leave the pavement outside the venue.',
     conversationQuestion: 'What is the smallest room you have ever seen a life-changing set in?',
@@ -4590,6 +4602,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 13,
     rotationDeg: -1.2,
     artVariant: 'rain-window',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-03-songs-to-walk-home-to.webp',
+    gatefoldAsset: '/assets/riff/gatefolds/riff-sc-open-03-songs-to-walk-home-to.webp',
     context:
       'Intimate four-track recordings and sparse piano endings where you can hear the room tone and creaking floorboards.',
     conversationQuestion: 'Do you listen to lyrics first, or the chord changes underneath?',
@@ -4611,6 +4625,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 12,
     rotationDeg: 2.1,
     artVariant: 'basement-flyer',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-04-basement-show-memories.webp',
+    gatefoldAsset: '/assets/riff/gatefolds/riff-sc-open-04-basement-show-memories.webp',
     context:
       'Sweaty brick walls, a drum kit held together with gaffer tape, and thirty people who know every word.',
     conversationQuestion: 'Have you ever kept a paper ticket stub or gig flyer in your wallet for years?',
@@ -4632,6 +4648,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 11,
     rotationDeg: -2.0,
     artVariant: 'tube-amp',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-05-cathode-ray-lullabies.webp',
+    gatefoldAsset: null,
     context:
       'Hypnotic 118 BPM pulse for empty ring roads, rain streaks on windshields, and 24-hour diners.',
     conversationQuestion: 'What is your ultimate 1 A.M. driving album from start to finish?',
@@ -4645,7 +4663,7 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
   {
     id: 'rain-on-the-amp-case',
     title: 'Rain on the Amp Case',
-    subtitle: 'twelve-string jangle meeting Marshall stack distortion.',
+    subtitle: 'Twelve-string jangle meeting Marshall stack distortion.',
     mood: 'shoegaze',
     moodLabel: 'Shoegaze / Dream Pop',
     curator: 'Curated by Riff Pressing Plant Club',
@@ -4653,6 +4671,8 @@ export const SCENE_PLAYLISTS: PlaylistItem[] = [
     trackCount: 10,
     rotationDeg: 1.4,
     artVariant: 'tape-reel',
+    sleeveAsset: '/assets/riff/sleeves/riff-sc-06-rain-on-the-amp-case.webp',
+    gatefoldAsset: null,
     context:
       'Where sweet vocal harmonies dissolve into a warm ocean of reverse reverb and fuzz.',
     conversationQuestion: 'Which band would you travel to another city just to catch on a Tuesday night?',
