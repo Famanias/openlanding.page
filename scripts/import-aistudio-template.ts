@@ -247,6 +247,12 @@ function copyDirectoryRecursive(src: string, dest: string, slug: string) {
     if (entry.isDirectory()) {
       copyDirectoryRecursive(srcPath, destPath, slug);
     } else {
+      const isTextFile = /\.(tsx?|jsx?|json|html|css|md|txt|svg)$/i.test(entry.name);
+      if (!isTextFile) {
+        fs.copyFileSync(srcPath, destPath);
+        continue;
+      }
+
       let content = fs.readFileSync(srcPath, "utf-8");
 
       if (/\.(tsx|jsx)$/.test(entry.name)) {
