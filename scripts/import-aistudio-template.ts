@@ -677,13 +677,28 @@ export function importTemplate() {
     fs.writeFileSync(path.join(destTemplateDir, `${pascalSlug}App.tsx`), appContent, "utf-8");
   }
 
-  // 5. Copy components, lib, data, utils, motion
-  const subdirs = ["components", "lib", "data", "utils", "motion"];
-  for (const sub of subdirs) {
-    const srcSub = path.join(sourceDir, "src", sub);
-    const destSub = path.join(destTemplateDir, sub);
-    if (fs.existsSync(srcSub)) {
-      copyDirectoryRecursive(srcSub, destSub, slug);
+  // 5. Copy all subdirectories and helper files in src/ (components, hooks, lib, data, utils, motion, types, etc.)
+  const srcDir = path.join(sourceDir, "src");
+  if (fs.existsSync(srcDir)) {
+    const srcEntries = fs.readdirSync(srcDir, { withFileTypes: true });
+    for (const entry of srcEntries) {
+      if (entry.isDirectory() && entry.name !== "node_modules") {
+        const srcSub = path.join(srcDir, entry.name);
+        const destSub = path.join(destTemplateDir, entry.name);
+        copyDirectoryRecursive(srcSub, destSub, slug);
+      } else if (
+        entry.isFile() &&
+        !["App.tsx", "App.jsx", "main.tsx", "main.jsx", "index.css", "vite-env.d.ts"].includes(entry.name) &&
+        /\.(ts|tsx|js|jsx)$/.test(entry.name)
+      ) {
+        let content = fs.readFileSync(path.join(srcDir, entry.name), "utf-8");
+        if (/\.(tsx|jsx)$/.test(entry.name) && !content.includes("'use client'") && !content.includes('"use client"')) {
+          content = `'use client';\n\n${content}`;
+        }
+        content = content.replace(/\/assets\//g, `/templates/${slug}/`);
+        content = content.replace(/["']\.\.?\/assets\//g, (m) => `${m[0]}/templates/${slug}/`);
+        fs.writeFileSync(path.join(destTemplateDir, entry.name), content, "utf-8");
+      }
     }
   }
 
