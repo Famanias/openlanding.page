@@ -269,10 +269,10 @@ export function StoriesAndFooter({
                 </button>
 
                 <a
-                  href="#taste-matcher"
+                  href="#music-chemistry"
                   className="btn-screenprint bg-transparent hover:bg-[#F4F0E8]/8 text-[#F4F0E8] font-medium text-base sm:text-lg px-7 py-4 rounded-[4px] border border-[#F4F0E8]/75 whitespace-nowrap"
                 >
-                  Explore the Match Demo
+                  Explore Music Chemistry
                 </a>
               </div>
             </div>
@@ -321,8 +321,8 @@ export function StoriesAndFooter({
               <a href="#how-it-works" className="hover:text-[#F4F0E8] transition-colors">
                 How It Works
               </a>
-              <a href="#taste-matcher" className="hover:text-[#F4F0E8] transition-colors">
-                Matches
+              <a href="#music-chemistry" className="hover:text-[#F4F0E8] transition-colors">
+                Chemistry
               </a>
               <a href="#playlists" className="hover:text-[#F4F0E8] transition-colors">
                 Playlists

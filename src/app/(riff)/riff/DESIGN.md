@@ -9,10 +9,9 @@ The page features:
 2. A dual-phone hero showcase displaying interactive listener profiles (Mila & Julian), soundwave animations, flipping vinyl records, and shared track discovery.
 3. An editorial manifesto wheat-pasting torn-paper headline strips and 3 expandable product principles.
 4. "The First Three Tracks" interactive progress rail simulating tape/needle tracking with perforated paper ticket stubs.
-5. An interactive Taste Matcher calculating deterministic Jaccard + ritual overlap across 7 underground scenes and 4 listening rituals.
-6. A dual-phone "Music Chemistry" comparison unit highlighting shared records, concert energy, and synchronized late-night hours.
-7. "The Scene" playlist wall featuring interactive gatefold record sleeves, liner notes, tracklists, and one-click icebreaker copy.
-8. Real listener stories, cultural values, and an interactive local backstage pass stamper dialog.
+5. A dual-phone "Music Chemistry" comparison unit highlighting shared records, concert energy, and synchronized late-night hours.
+6. "The Scene" playlist wall featuring interactive gatefold record sleeves, liner notes, tracklists, and one-click icebreaker copy.
+7. Real listener stories, cultural values, and an interactive local backstage pass stamper dialog.
 
 ## Concept
 
@@ -46,10 +45,9 @@ A gritty, analog photocopied music zine fused with a high-fidelity dark-mode mob
 2. **Hero Section (Two Phones, One Chemistry)**: 12-column grid featuring Mila's profile (Phone 1), Julian's profile (Phone 2), interactive vinyl player with side A/B flipping, and shared track selector (`Kyoto`, `Starburster`, `Chaise Longue`).
 3. **Manifesto Section**: Wheat-pasted torn paper banners ("THERE'S MORE TO A PERSON THAN A PHOTO"), pull-apart quote accordion, and three product principles ("Taste first", "Connection second", "Meet when ready").
 4. **How It Works (Three Tracks)**: Scrubbable audio progress rail with step indicators and an interactive perforated backstage ticket stub.
-5. **Interactive Taste Matcher**: Jaccard similarity calculator matching user-selected scenes and habits against 4 sample profiles (Mila, Julian, Sora, Deon).
-6. **Music Chemistry Case Study**: Three-tab interactive phone comparator contrasting favorite records, concert energy, and late-night listening habits.
-7. **The Scene Playlist Wall**: Filterable 6-sleeve playlist grid with expandable gatefold sleeve viewer, liner notes, track durations, and copyable conversation starters.
-8. **Stories & Backstage Pass**: Real connection stories in zine format, and a client-side early-access ticket pass generator.
+5. **Music Chemistry Case Study**: Three-tab interactive phone comparator contrasting favorite records, concert energy, and late-night listening habits.
+6. **The Scene Playlist Wall**: Filterable 6-sleeve playlist grid with expandable gatefold sleeve viewer, liner notes, track durations, and copyable conversation starters.
+7. **Stories & Backstage Pass**: Real connection stories in zine format, and a client-side early-access ticket pass generator.
 
 ## The Mechanics
 

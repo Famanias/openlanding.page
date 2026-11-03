@@ -194,7 +194,7 @@ export function ChemistryAndSceneSections() {
   return (
     <>
       {/* ====================================================================
-          SECTION E (03): MUSIC CHEMISTRY / PHONES IN MOTION
+          SECTION D (02): MUSIC CHEMISTRY / PHONES IN MOTION
          ==================================================================== */}
       <section
         id="music-chemistry"
@@ -206,7 +206,7 @@ export function ChemistryAndSceneSections() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
               <div className="text-xs font-mono-code uppercase tracking-widest text-[#C92533]">
-                03. MUSIC CHEMISTRY · PHONES IN MOTION CASE STUDY
+                02. MUSIC CHEMISTRY · PHONES IN MOTION CASE STUDY
               </div>
               <h2 className="mt-2 font-editorial font-bold text-3xl sm:text-5xl text-[#F4F0E8] tracking-tight">
                 Two crates. One conversation.
@@ -398,7 +398,7 @@ export function ChemistryAndSceneSections() {
       </section>
 
       {/* ====================================================================
-          SECTION F (04): THE SCENE / PLAYLIST CULTURE (#playlists)
+          SECTION E (03): THE SCENE / PLAYLIST CULTURE (#playlists)
          ==================================================================== */}
       <section
         id="playlists"
@@ -415,7 +415,7 @@ export function ChemistryAndSceneSections() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
               <div className="text-xs font-mono-code uppercase tracking-widest text-[#C92533]">
-                04. THE SCENE · PLAYLIST &amp; FLYER CULTURE
+                03. THE SCENE · PLAYLIST &amp; FLYER CULTURE
               </div>
               <h2 className="mt-2 font-editorial font-bold text-3xl sm:text-5xl text-[#F4F0E8] tracking-tight">
                 Playlists are the new love letters.
