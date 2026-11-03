@@ -309,8 +309,7 @@ body::before {
 }
 
 .cutout-shadow-world {
-  filter: drop-shadow(0 28px 56px rgba(0, 0, 0, 0.82))
-          drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.22));
   will-change: transform;
 }
 
@@ -2850,7 +2849,7 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
       id="work"
       ref={sectionRef}
       aria-labelledby="work-heading"
-      className="relative w-full lg:aspect-[1920/1143] flex flex-col justify-center py-12 sm:py-16 lg:py-12 overflow-hidden"
+      className="relative w-full min-h-screen py-20 sm:py-24 lg:py-28 flex flex-col justify-start"
     >
       {/* Live SVG Studio Archive Grid, Cobalt/Violet Ribbon, & Continuous Signal Path */}
       <svg
@@ -2866,25 +2865,6 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
             <stop offset="100%" stopColor="#9D86FF" />
           </linearGradient>
         </defs>
-
-        {/* Studio Archive Registration Frame behind compositions */}
-        <rect
-          x="832"
-          y="155"
-          width="1026"
-          height="790"
-          fill="none"
-          stroke="rgba(242,240,235,0.18)"
-          strokeWidth="1"
-        />
-        <line
-          x1="832"
-          y1="612"
-          x2="1858"
-          y2="612"
-          stroke="rgba(242,240,235,0.16)"
-          strokeWidth="1"
-        />
 
         {/* Top-right Concentric Registration Rings */}
         <circle
@@ -2947,10 +2927,10 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
             id="work-heading"
             className="zeno-display-work uppercase text-[#F2F0EB] select-none mb-3 sm:mb-4"
           >
-            <span className="block overflow-hidden pb-1">
+            <span className="block overflow-hidden pt-2 sm:pt-3 pb-1 sm:pb-2">
               <span className="work-line-inner block">WORK THAT</span>
             </span>
-            <span className="block overflow-hidden pb-1">
+            <span className="block overflow-hidden pt-2 sm:pt-3 pb-1 sm:pb-2">
               <span className="work-line-inner block">
                 CHANGES{' '}
                 <em className="zeno-accent-italic not-italic font-editorial italic pr-2">
@@ -2966,7 +2946,7 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
         </div>
 
         {/* Asymmetric Two-World Case Study Composition with Transparent Cutout Collages */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end mt-4 lg:-mt-8 perspective-stage">
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end mt-8 sm:mt-12 lg:mt-14 perspective-stage">
           {/* PROJECT 01: AUREN HOUSE (Spans 7 of 12 cols, sits wider and lower on left-center) */}
           <article
             onMouseEnter={() => setHoveredProject(auren.id)}

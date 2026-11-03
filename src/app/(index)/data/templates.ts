@@ -1,4 +1,4 @@
-export type TemplateSlug = "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno";
+export type TemplateSlug = "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -940,6 +940,16 @@ Build a complete, responsive, interaction-rich landing page for **ZENO.** using 
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
 `;
 
+export const PENUMBRA_PROMPT = `# PENUMBRA — Architectural Lighting Practice — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **PENUMBRA** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** PENUMBRA — Architectural Lighting Practice
+- **Description:** Architecture, after dark. An independent architectural lighting design practice shaping how spaces are seen, felt, and remembered through light.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   {
     slug: "amaoto",
@@ -1846,6 +1856,20 @@ slug: "tally",
     badges: ["Interactive Landing", "Responsive", "Accessible"],
     previewImage: "/templates/zeno/preview-1600.webp",
     promptMarkdown: ZENO_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "penumbra",
+    createdAt: "2026-11-03",
+    hasDownload: false,
+    title: "PENUMBRA",
+    description: "Architecture, after dark. An independent architectural lighting design practice shaping how spaces are seen, felt, and remembered through light.",
+    category: "scroll-showcase" as TemplateCategory,
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/penumbra/preview-1600.webp",
+    promptMarkdown: PENUMBRA_PROMPT,
     model: "Gemini 4 Argon High",
   },
 ];
