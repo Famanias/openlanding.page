@@ -3470,6 +3470,30 @@ export const siteConfig = {
 };
 ]]>
     </file>
+    <file path="src/app/(zeno)/zeno/hooks/useReducedMotion.ts">
+<![CDATA[import { useState, useEffect } from 'react';
+
+export function useReducedMotion(): boolean {
+  const [reducedMotion, setReducedMotion] = useState<boolean>(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleChange = (event: MediaQueryListEvent) => {
+      setReducedMotion(event.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  return reducedMotion;
+}
+]]>
+    </file>
     <file path="src/app/(zeno)/zeno/utils/contactValidation.ts">
 <![CDATA[export interface ContactFormInput {
   name: string;
