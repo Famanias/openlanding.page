@@ -121,8 +121,7 @@ body::before {
 }
 
 .cutout-shadow-world {
-  filter: drop-shadow(0 28px 56px rgba(0, 0, 0, 0.82))
-          drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.22));
   will-change: transform;
 }
 
