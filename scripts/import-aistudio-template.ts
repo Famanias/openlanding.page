@@ -240,6 +240,10 @@ function copyDirectoryRecursive(src: string, dest: string, slug: string) {
         }
       }
 
+      if (/\.test\.(ts|tsx|js|jsx)$/.test(entry.name)) {
+        content = content.replace(/from\s+['"]node:test['"]/g, "from 'vitest'");
+      }
+
       content = content.replace(/\/assets\//g, `/templates/${slug}/`);
       content = content.replace(/["']\.\.?\/assets\//g, (m) => `${m[0]}/templates/${slug}/`);
 
@@ -737,11 +741,29 @@ export function importTemplate() {
   const galleryPath = path.join(destGalleryDir, `${slug}.webp`);
   const sampleFallbackWebp = path.join(destGalleryDir, "halodesk.webp");
 
-  if (!fs.existsSync(previewPath) && fs.existsSync(sampleFallbackWebp)) {
-    fs.copyFileSync(sampleFallbackWebp, previewPath);
+  let bestCandidateImage: string | null = null;
+  const publicFiles = fs.existsSync(destPublicDir) ? fs.readdirSync(destPublicDir) : [];
+  const imageFiles = publicFiles.filter((f) => /\.(webp|png|jpg|jpeg)$/i.test(f) && f !== "preview-1600.webp");
+
+  // Prefer hero or preview named files
+  const heroMatch = imageFiles.find((f) => /hero/i.test(f));
+  if (heroMatch) {
+    bestCandidateImage = path.join(destPublicDir, heroMatch);
+  } else if (imageFiles.length > 0) {
+    // Pick largest file
+    imageFiles.sort((a, b) => fs.statSync(path.join(destPublicDir, b)).size - fs.statSync(path.join(destPublicDir, a)).size);
+    bestCandidateImage = path.join(destPublicDir, imageFiles[0]);
   }
-  if (!fs.existsSync(galleryPath) && fs.existsSync(sampleFallbackWebp)) {
-    fs.copyFileSync(sampleFallbackWebp, galleryPath);
+
+  const chosenSource = bestCandidateImage || sampleFallbackWebp;
+
+  if (fs.existsSync(chosenSource)) {
+    if (!fs.existsSync(previewPath) || fs.statSync(previewPath).size === 0) {
+      fs.copyFileSync(chosenSource, previewPath);
+    }
+    if (!fs.existsSync(galleryPath) || fs.statSync(galleryPath).size === 0) {
+      fs.copyFileSync(chosenSource, galleryPath);
+    }
   }
 
   // 10. Automatic Gallery Registration
