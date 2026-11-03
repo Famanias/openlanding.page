@@ -29,6 +29,16 @@ const KNOWN_GOOGLE_FONTS: Record<string, { importName: string; variable: string 
   "Newsreader": { importName: "Newsreader", variable: "--font-newsreader" },
   "Instrument Serif": { importName: "Instrument_Serif", variable: "--font-instrument-serif" },
   "Bebas Neue": { importName: "Bebas_Neue", variable: "--font-bebas-neue" },
+  "Space Mono": { importName: "Space_Mono", variable: "--font-space-mono" },
+  "Inconsolata": { importName: "Inconsolata", variable: "--font-inconsolata" },
+  "Fira Code": { importName: "Fira_Code", variable: "--font-fira-code" },
+  "Roboto": { importName: "Roboto", variable: "--font-roboto" },
+  "Roboto Mono": { importName: "Roboto_Mono", variable: "--font-roboto-mono" },
+  "Open Sans": { importName: "Open_Sans", variable: "--font-open-sans" },
+  "Lato": { importName: "Lato", variable: "--font-lato" },
+  "Merriweather": { importName: "Merriweather", variable: "--font-merriweather" },
+  "Crimson Pro": { importName: "Crimson_Pro", variable: "--font-crimson-pro" },
+  "Italiana": { importName: "Italiana", variable: "--font-italiana" },
 };
 
 interface ParsedMeta {
@@ -235,7 +245,7 @@ function deriveSlug(givenSlug: string, repoName: string, brandName: string): str
   return sanitizeSlug(clean) || "template";
 }
 
-function copyDirectoryRecursive(src: string, dest: string, slug: string) {
+function copyDirectoryRecursive(src: string, dest: string, slug: string, destTemplateDir?: string) {
   if (!fs.existsSync(src)) return;
   fs.mkdirSync(dest, { recursive: true });
 
@@ -245,7 +255,7 @@ function copyDirectoryRecursive(src: string, dest: string, slug: string) {
     const destPath = path.join(dest, entry.name);
 
     if (entry.isDirectory()) {
-      copyDirectoryRecursive(srcPath, destPath, slug);
+      copyDirectoryRecursive(srcPath, destPath, slug, destTemplateDir);
     } else {
       const isTextFile = /\.(tsx?|jsx?|json|html|css|md|txt|svg)$/i.test(entry.name);
       if (!isTextFile) {
@@ -262,11 +272,20 @@ function copyDirectoryRecursive(src: string, dest: string, slug: string) {
       }
 
       if (/\.test\.(ts|tsx|js|jsx)$/.test(entry.name)) {
+        content = content.replace(/import\s+test\s+from\s+['"]node:test['"]/g, "import { test } from 'vitest'");
         content = content.replace(/from\s+['"]node:test['"]/g, "from 'vitest'");
       }
 
-      content = content.replace(/\/assets\//g, `/templates/${slug}/`);
-      content = content.replace(/["']\.\.?\/assets\//g, (m) => `${m[0]}/templates/${slug}/`);
+      // Rewrite asset paths: /assets/, ./assets/, ../assets/, assets/ -> /templates/<slug>/
+      content = content.replace(/(["'(])(\.\.?\/)?assets\//g, `$1/templates/${slug}/`);
+
+      // Rewrite Vite "@/..." alias to relative path within the template folder
+      if (destTemplateDir && /\.(tsx?|jsx?)$/.test(entry.name)) {
+        const fileDir = path.dirname(destPath);
+        const relToTemplate = path.relative(fileDir, destTemplateDir).replace(/\\/g, "/") || ".";
+        content = content.replace(/from\s+['"]@\/([^'"]+)['"]/g, `from '${relToTemplate}/$1'`);
+        content = content.replace(/import\s+['"]@\/([^'"]+)['"]/g, `import '${relToTemplate}/$1'`);
+      }
 
       fs.writeFileSync(destPath, content, "utf-8");
     }
@@ -344,6 +363,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "${meta.palette[0] || "#0B0B0B"}",
 };
 
 export default function ${pascalSlug}Layout({
@@ -638,6 +658,14 @@ Build a complete, responsive, interaction-rich landing page for **${meta.brandNa
     fs.writeFileSync(specPath, generateE2eSpec(meta, slug), "utf-8");
     console.log(`[import] Generated tests/e2e/${slug}.spec.ts`);
   }
+
+  // 7. Auto-generate copy bundle public/copy/<slug>.md
+  try {
+    console.log(`[import] Generating copy bundle public/copy/${slug}.md...`);
+    execSync("npx tsx scripts/generate-copy-bundles.ts", { cwd: repoRoot, stdio: "inherit" });
+  } catch (err) {
+    console.warn(`[import] Note: Failed to generate copy bundles automatically:`, err);
+  }
 }
 
 export function importTemplate() {
@@ -700,15 +728,19 @@ export function importTemplate() {
   const pageContent = generatePageTsx(pascalSlug);
   fs.writeFileSync(path.join(destTemplateDir, "page.tsx"), pageContent, "utf-8");
 
-  // 4. Copy & adapt App.tsx -> <PascalSlug>App.tsx
-  const srcAppPath = path.join(sourceDir, "src", "App.tsx");
-  if (fs.existsSync(srcAppPath)) {
-    let appContent = fs.readFileSync(srcAppPath, "utf-8");
+  // 4. Copy & adapt App.tsx / App.jsx -> <PascalSlug>App.tsx
+  const srcAppCandidate = ["App.tsx", "App.jsx"].map((f) => path.join(sourceDir, "src", f)).find((f) => fs.existsSync(f));
+  if (srcAppCandidate) {
+    let appContent = fs.readFileSync(srcAppCandidate, "utf-8");
     if (!appContent.includes("'use client'") && !appContent.includes('"use client"')) {
       appContent = `'use client';\n\n${appContent}`;
     }
-    appContent = appContent.replace(/\/assets\//g, `/templates/${slug}/`);
-    appContent = appContent.replace(/["']\.\.?\/assets\//g, (m) => `${m[0]}/templates/${slug}/`);
+    appContent = appContent.replace(/import\s+['"][^'"]*(?:index|App)\.css['"];?\r?\n?/g, "");
+    appContent = appContent.replace(/\bfunction\s+App\b/, `function ${pascalSlug}App`);
+    appContent = appContent.replace(/\bconst\s+App\b/, `const ${pascalSlug}App`);
+    appContent = appContent.replace(/(["'(])(\.\.?\/)?assets\//g, `$1/templates/${slug}/`);
+    appContent = appContent.replace(/from\s+['"]@\/([^'"]+)['"]/g, `from './$1'`);
+    appContent = appContent.replace(/import\s+['"]@\/([^'"]+)['"]/g, `import './$1'`);
     fs.writeFileSync(path.join(destTemplateDir, `${pascalSlug}App.tsx`), appContent, "utf-8");
   }
 
@@ -720,7 +752,7 @@ export function importTemplate() {
       if (entry.isDirectory() && entry.name !== "node_modules") {
         const srcSub = path.join(srcDir, entry.name);
         const destSub = path.join(destTemplateDir, entry.name);
-        copyDirectoryRecursive(srcSub, destSub, slug);
+        copyDirectoryRecursive(srcSub, destSub, slug, destTemplateDir);
       } else if (
         entry.isFile() &&
         !["App.tsx", "App.jsx", "main.tsx", "main.jsx", "index.css", "vite-env.d.ts"].includes(entry.name) &&
@@ -730,19 +762,31 @@ export function importTemplate() {
         if (/\.(tsx|jsx)$/.test(entry.name) && !content.includes("'use client'") && !content.includes('"use client"')) {
           content = `'use client';\n\n${content}`;
         }
-        content = content.replace(/\/assets\//g, `/templates/${slug}/`);
-        content = content.replace(/["']\.\.?\/assets\//g, (m) => `${m[0]}/templates/${slug}/`);
+        content = content.replace(/(["'(])(\.\.?\/)?assets\//g, `$1/templates/${slug}/`);
+        content = content.replace(/from\s+['"]@\/([^'"]+)['"]/g, `from './$1'`);
+        content = content.replace(/import\s+['"]@\/([^'"]+)['"]/g, `import './$1'`);
         fs.writeFileSync(path.join(destTemplateDir, entry.name), content, "utf-8");
       }
     }
   }
 
-  // 6. Copy CSS
+  // 6. Copy CSS & map Google font variables
   const srcCssPath = path.join(sourceDir, "src", "index.css");
   let cssContent = `@import "tailwindcss";\n\n`;
   if (fs.existsSync(srcCssPath)) {
     const rawCss = fs.readFileSync(srcCssPath, "utf-8");
     cssContent = rawCss.includes('@import "tailwindcss"') ? rawCss : `${cssContent}${rawCss}`;
+  }
+  cssContent = cssContent.replace(/(["'(])(\.\.?\/)?assets\//g, `$1/templates/${slug}/`);
+
+  // Map Google font families to Next.js CSS variables
+  for (const font of meta.fonts) {
+    const known = KNOWN_GOOGLE_FONTS[font.name];
+    if (known) {
+      const escapedFontName = font.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const fontRegex = new RegExp(`(?<!var\\(${known.variable}\\),\\s*)['"]${escapedFontName}['"]`, "g");
+      cssContent = cssContent.replace(fontRegex, `var(${known.variable}), '${font.name}'`);
+    }
   }
   fs.writeFileSync(path.join(destTemplateDir, `${slug}.css`), cssContent, "utf-8");
 
