@@ -65,7 +65,7 @@ function parseCliArgs() {
   let repoOrPath = "";
   let slug = "";
   let title = "";
-  let category = "scroll-showcase";
+  let category = "showcase";
   let dryRun = false;
   let force = false;
   let noRegister = false;
@@ -616,6 +616,7 @@ Build a complete, responsive, interaction-rich landing page for **${meta.brandNa
     title: "${meta.brandName}",
     description: ${JSON.stringify(meta.description)},
     category: "${category}" as TemplateCategory,
+    categories: ["${category}" as TemplateCategory],
     industry: "Digital Experience & Technology",
     stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
     badges: ["Interactive Landing", "Responsive", "Accessible"],

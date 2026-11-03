@@ -67,7 +67,7 @@ describe("FilterBar", () => {
   it("applies high-contrast monochrome inversion to the active chip", () => {
     const html = renderToStaticMarkup(
       <FilterBar
-        activeCategory="keynote-deck"
+        activeCategory="deck"
         onSelectCategory={() => {}}
         totalCount={3}
         filteredCount={1}
@@ -104,9 +104,9 @@ describe("FilterBar", () => {
         onReset={() => {}}
         categoryCounts={{
           all: 3,
-          "keynote-deck": 1,
-          "scroll-showcase": 1,
-          "3d-webgpu": 1,
+          deck: 1,
+          showcase: 1,
+          "3d": 1,
         }}
       />
     );

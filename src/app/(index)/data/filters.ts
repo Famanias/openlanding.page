@@ -1,4 +1,4 @@
-import { CATEGORIES, type CategoryId, type TemplateItem } from "./templates";
+import { CATEGORIES, type CategoryId, type TemplateItem, getTemplateCategories } from "./templates";
 
 export const MODEL_FILTERS = [
   { id: "all", label: "All models" },
@@ -33,11 +33,14 @@ export function readFilters(search: string): GalleryFilters {
 export function filterTemplates(templates: TemplateItem[], filters: Pick<GalleryFilters, "category" | "model" | "query">) {
   const terms = filters.query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
   return templates.filter((template) => {
-    if (filters.category !== "all" && filters.category !== template.category) return false;
+    const templateCategories = getTemplateCategories(template);
+    if (filters.category !== "all" && !templateCategories.includes(filters.category)) return false;
     if (filters.model !== "all" && filters.model !== modelFamily(template.model)) return false;
-    const category = CATEGORIES.find((item) => item.id === template.category)?.label ?? "";
+    const categoryLabels = templateCategories
+      .map((catId) => CATEGORIES.find((item) => item.id === catId)?.label ?? "")
+      .join(" ");
     const haystack = [template.title, template.description, template.industry, template.stack,
-      template.model, modelFamily(template.model), category, ...template.badges].join(" ").toLocaleLowerCase();
+      template.model, modelFamily(template.model), categoryLabels, ...template.badges].join(" ").toLocaleLowerCase();
     return terms.every((term) => haystack.includes(term));
   });
 }

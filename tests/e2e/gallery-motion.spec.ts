@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { TEMPLATES } from "../../src/app/(index)/data/templates";
+import { TEMPLATES, getTemplateCategories } from "../../src/app/(index)/data/templates";
 
 test("gallery controls keep one accessible label and show copy success", async ({ page }) => {
   await page.goto("/");
@@ -19,17 +19,17 @@ test("gallery controls keep one accessible label and show copy success", async (
 
 test("rapid category changes settle on the current selection and keyboard stays immediate", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("tab", { name: "3D & WebGPU" }).click();
-  await page.getByRole("tab", { name: "Keynote & Deck" }).click();
+  await page.getByRole("tab", { name: /^3D/ }).click();
+  await page.getByRole("tab", { name: /^Deck/ }).click();
   await page.getByRole("tab", { name: /^All/ }).click();
   await expect(page.locator(".template-card")).toHaveCount(TEMPLATES.length);
   await expect(page.locator("[role=tab][aria-selected=true]")).toHaveAccessibleName(/^All/);
   await page.keyboard.press("ArrowRight");
-  await expect(page.getByRole("tab", { name: "Keynote & Deck" })).toBeFocused();
+  await expect(page.getByRole("tab", { name: /^Showcase/ })).toBeFocused();
   await expect(page.locator("#gallery")).toHaveAttribute("data-instant-motion", "true");
-  await expect(page.locator(".template-card")).toHaveCount(TEMPLATES.filter((template) => template.category === "keynote-deck").length);
+  await expect(page.locator(".template-card")).toHaveCount(TEMPLATES.filter((template) => getTemplateCategories(template).includes("showcase")).length);
   await expect(page.locator(".template-card").first()).toHaveCSS("transition-duration", "0s");
-  await expect(page.getByRole("tab", { name: "Keynote & Deck" })).toHaveCSS("outline-style", "solid");
+  await expect(page.getByRole("tab", { name: /^Showcase/ })).toHaveCSS("outline-style", "solid");
   await page.keyboard.press("Control+k");
   await page.getByRole("searchbox").fill("orrery");
   await page.keyboard.press("Escape");
@@ -78,9 +78,9 @@ test("mobile touch has no hover lift or horizontal overflow", async ({ browser }
   const context = await browser.newContext({ viewport: { width: 375, height: 812 }, hasTouch: true, isMobile: true });
   const page = await context.newPage();
   await page.goto(test.info().project.use.baseURL + "/");
-  await page.getByRole("tab", { name: "3D & WebGPU" }).tap();
-  await expect(page.locator(".template-card")).toHaveCount(TEMPLATES.filter((template) => template.category === "3d-webgpu").length);
-  await expect(page.getByRole("tab", { name: "3D & WebGPU" })).toHaveCSS("transform", "none");
+  await page.getByRole("tab", { name: /^3D/ }).tap();
+  await expect(page.locator(".template-card")).toHaveCount(TEMPLATES.filter((template) => getTemplateCategories(template).includes("3d")).length);
+  await expect(page.getByRole("tab", { name: /^3D/ })).toHaveCSS("transform", "none");
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
   await context.close();
 });
