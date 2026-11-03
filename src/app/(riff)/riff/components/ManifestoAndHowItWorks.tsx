@@ -1,7 +1,5 @@
-'use client';
-
-import React, { useState } from 'react';
-import { HandStar, MusicGreaterLooksScrawl } from './ZineMotifs';
+import React, { useEffect, useRef, useState } from 'react';
+import { HandStar, MusicGreaterLooksScrawl, VinylDisc } from './ZineMotifs';
 
 interface PrincipleItem {
   id: string;
@@ -17,7 +15,8 @@ const PRINCIPLES: PrincipleItem[] = [
     id: 'taste-first',
     number: '01.',
     title: 'Taste first',
-    shortLine: 'Profiles open with your rotation, last three gigs, and desert-island records — never a full-screen selfie carousel.',
+    shortLine:
+      'Profiles open with your rotation, last three gigs, and desert-island records — never a full-screen selfie carousel.',
     expandedDetail:
       'Photos stay softly tucked inside a secondary sleeve until you have actually read what someone listens to at 1 A.M. You never swipe on a face in isolation.',
     zineNote: 'NO EGO SWIPING · CRATE BEFORE CAMERA',
@@ -26,7 +25,8 @@ const PRINCIPLES: PrincipleItem[] = [
     id: 'connection-second',
     number: '02.',
     title: 'Connection second',
-    shortLine: 'Every match comes with a real reason you overlapped and a specific track or album memory to break the ice.',
+    shortLine:
+      'Every match comes with a real reason you overlapped and a specific track or album memory to break the ice.',
     expandedDetail:
       'Instead of "hey, how was your weekend?", Riff highlights the exact post-punk B-side, shoegaze pedal tone, or late-night playlist habit you share.',
     zineNote: 'ZERO DEAD OPENERS · SONG-LED PROMPTS',
@@ -35,15 +35,96 @@ const PRINCIPLES: PrincipleItem[] = [
     id: 'meet-when-ready',
     number: '03.',
     title: 'Meet when ready',
-    shortLine: 'Trade a three-song mini-mix, talk about a record sleeve, and suggest catching a local support band when the vibe clicks.',
+    shortLine:
+      'Trade a three-song mini-mix, talk about a record sleeve, and suggest catching a local support band when the vibe clicks.',
     expandedDetail:
       'Designed for 18+ music lovers who prefer low-pressure coffee near a record shop or a £10 basement gig over high-stakes dinner interviews.',
     zineNote: '18+ COMMUNITY · RESPECTFUL PACE',
   },
 ];
 
+export type HowVisualStageId = 'hm-01' | 'hm-00' | 'hm-02' | 'hm-03';
+
+interface VisualStageSpec {
+  stageId: HowVisualStageId;
+  parentStepIndex: number; // Maps to 0, 1, or 2 in the 3-step onboarding structure
+  badge: string;
+  captionTitle: string;
+  captionLine: string;
+  imageSrc: string;
+  imageAlt: string;
+  transitionClass: 'anim-sleeve-wipe' | 'anim-ring-expand';
+  tiltStyle: string;
+  ringOverlay?: {
+    centerXPct: string;
+    centerYPct: string;
+    score: number;
+    sublabel: string;
+  };
+}
+
+const VISUAL_STAGES: VisualStageSpec[] = [
+  {
+    stageId: 'hm-01',
+    parentStepIndex: 0,
+    badge: 'STEP 01 OF 03 · DROP YOUR FAVORITES',
+    captionTitle: 'Log your core scenes, anchor artists & nocturnal habits.',
+    captionLine: 'Start by tagging Shoegaze, Post-Punk, Indie Rock, and the records on heavy rotation.',
+    imageSrc: '/assets/riff/phones/riff-hm-01-drop-favorites.webp',
+    imageAlt: 'Riff app screen Step 01: Drop Your Favorites with core genres, artists on repeat, and listening habits',
+    transitionClass: 'anim-sleeve-wipe',
+    tiltStyle: 'perspective(1100px) rotateZ(-1.2deg) rotateY(4deg)',
+  },
+  {
+    stageId: 'hm-00',
+    parentStepIndex: 0,
+    badge: 'MUSIC IDENTITY BRIDGE · MILA, 24',
+    captionTitle: 'Meet Mila. A personality told through music.',
+    captionLine: 'Before matching, your crate becomes an editorial music identity card with live compatibility readiness.',
+    imageSrc: '/assets/riff/phones/riff-hm-00-music-identity.webp',
+    imageAlt: 'Riff app screen Music Identity: Mila 24 profile with scene tags, top artists, and Kyoto waveform',
+    transitionClass: 'anim-sleeve-wipe',
+    tiltStyle: 'perspective(1100px) rotateZ(0.6deg) rotateY(-3deg)',
+    ringOverlay: {
+      centerXPct: '69.5%',
+      centerYPct: '40.6%',
+      score: 94,
+      sublabel: 'MATCH',
+    },
+  },
+  {
+    stageId: 'hm-02',
+    parentStepIndex: 1,
+    badge: 'STEP 02 OF 03 · FIND YOUR OVERLAP',
+    captionTitle: 'Surface shared artists, scenes & concert rituals.',
+    captionLine: 'Riff maps exact intersections between your crate and Mila’s — no opaque romance black box.',
+    imageSrc: '/assets/riff/phones/riff-hm-02-find-overlap.webp',
+    imageAlt: 'Riff app screen Step 02: Find Your Overlap showing shared genres, artists in common, and shared rituals',
+    transitionClass: 'anim-ring-expand',
+    tiltStyle: 'perspective(1100px) rotateZ(1.2deg) rotateY(-4deg)',
+    ringOverlay: {
+      centerXPct: '71.3%',
+      centerYPct: '31.7%',
+      score: 91,
+      sublabel: 'MATCH',
+    },
+  },
+  {
+    stageId: 'hm-03',
+    parentStepIndex: 2,
+    badge: 'STEP 03 OF 03 · START A CONVERSATION',
+    captionTitle: 'Skip small talk with a song-first icebreaker.',
+    captionLine: 'Tap a shared mini-mix or prompt to open the chat with a specific record memory.',
+    imageSrc: '/assets/riff/phones/riff-hm-03-start-conversation.webp',
+    imageAlt: 'Riff app screen Step 03: Start a Conversation with shared mini-mix After the Encore and message composer',
+    transitionClass: 'anim-sleeve-wipe',
+    tiltStyle: 'perspective(1100px) rotateZ(-0.7deg) rotateY(2.5deg)',
+  },
+];
+
 interface TrackStep {
   index: number;
+  defaultVisualStage: HowVisualStageId;
   trackCode: string;
   duration: string;
   title: string;
@@ -58,6 +139,7 @@ interface TrackStep {
 const HOW_IT_WORKS_STEPS: TrackStep[] = [
   {
     index: 0,
+    defaultVisualStage: 'hm-01',
     trackCode: 'TRACK 01 / SIDE A',
     duration: '0:00 — 1:18',
     title: 'Drop your favorites',
@@ -71,6 +153,7 @@ const HOW_IT_WORKS_STEPS: TrackStep[] = [
   },
   {
     index: 1,
+    defaultVisualStage: 'hm-02',
     trackCode: 'TRACK 02 / SIDE A',
     duration: '1:19 — 2:44',
     title: 'Find your overlap',
@@ -84,6 +167,7 @@ const HOW_IT_WORKS_STEPS: TrackStep[] = [
   },
   {
     index: 2,
+    defaultVisualStage: 'hm-03',
     trackCode: 'TRACK 03 / SIDE B',
     duration: '2:45 — 4:02',
     title: 'Start a conversation',
@@ -93,14 +177,16 @@ const HOW_IT_WORKS_STEPS: TrackStep[] = [
     ticketStamp: 'STATION 03 · FRONT BARRIER HELLO',
     ticketSerial: 'RF-030442',
     previewChips: ['Ask about "Punisher"', 'Trade a 3-song mix', 'Compare first gigs'],
-    sampleOutput: 'Icebreaker queued: "Which track on Souvlaki do you play loudest?"',
+    sampleOutput: 'Icebreaker queued: "We both love shoegaze and late-night drives. What’s your zero-skip album?"',
   },
 ];
 
 export function ManifestoAndHowItWorks() {
   const [expandedPrinciples, setExpandedPrinciples] = useState<string[]>(['taste-first']);
   const [revealSongQuote, setRevealSongQuote] = useState<boolean>(true);
-  const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
+  const [visualStageId, setVisualStageId] = useState<HowVisualStageId>('hm-01');
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const manualOverrideUntilRef = useRef<number>(0);
 
   const togglePrinciple = (id: string) => {
     setExpandedPrinciples((prev) =>
@@ -108,8 +194,71 @@ export function ManifestoAndHowItWorks() {
     );
   };
 
-  const currentTrack = HOW_IT_WORKS_STEPS[activeStepIndex];
-  const progressPercent = ((activeStepIndex + 1) / HOW_IT_WORKS_STEPS.length) * 100;
+  const currentVisualIndex = Math.max(
+    0,
+    VISUAL_STAGES.findIndex((s) => s.stageId === visualStageId)
+  );
+  const currentVisual = VISUAL_STAGES[currentVisualIndex] || VISUAL_STAGES[0];
+  const activeStepIndex = currentVisual.parentStepIndex;
+  const currentTrack = HOW_IT_WORKS_STEPS[activeStepIndex] || HOW_IT_WORKS_STEPS[0];
+
+  // Progress bar reflects the 4 visual stages smoothly (25%, 50%, 75%, 100%)
+  const progressPercent = ((currentVisualIndex + 1) / VISUAL_STAGES.length) * 100;
+
+  // Reversible scroll-driven progression across the 4 visual states when scrolling through Section 01
+  useEffect(() => {
+    const handleScroll = () => {
+      if (Date.now() < manualOverrideUntilRef.current) return;
+      const el = sectionRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || 900;
+
+      // Only sync when section is actively traversing the viewport
+      if (rect.bottom < vh * 0.25 || rect.top > vh * 0.75) return;
+
+      const totalTravel = rect.height + vh * 0.3;
+      const traveled = vh * 0.65 - rect.top;
+      const ratio = Math.max(0, Math.min(0.999, traveled / Math.max(1, totalTravel)));
+      const stageIdx = Math.min(
+        VISUAL_STAGES.length - 1,
+        Math.floor(ratio * VISUAL_STAGES.length)
+      );
+      const nextStage = VISUAL_STAGES[stageIdx]?.stageId;
+      if (nextStage) {
+        setVisualStageId((prev) => (prev === nextStage ? prev : nextStage));
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const selectStepManually = (stepIdx: number) => {
+    manualOverrideUntilRef.current = Date.now() + 4000;
+    const step = HOW_IT_WORKS_STEPS[stepIdx];
+    if (step) {
+      setVisualStageId(step.defaultVisualStage);
+    }
+  };
+
+  const selectVisualStageManually = (stageId: HowVisualStageId) => {
+    manualOverrideUntilRef.current = Date.now() + 4000;
+    setVisualStageId(stageId);
+  };
+
+  const handlePrevTrack = () => {
+    manualOverrideUntilRef.current = Date.now() + 4000;
+    const nextStep =
+      activeStepIndex > 0 ? activeStepIndex - 1 : HOW_IT_WORKS_STEPS.length - 1;
+    setVisualStageId(HOW_IT_WORKS_STEPS[nextStep].defaultVisualStage);
+  };
+
+  const handleNextTrack = () => {
+    manualOverrideUntilRef.current = Date.now() + 4000;
+    const nextStep = (activeStepIndex + 1) % HOW_IT_WORKS_STEPS.length;
+    setVisualStageId(HOW_IT_WORKS_STEPS[nextStep].defaultVisualStage);
+  };
 
   return (
     <>
@@ -240,9 +389,10 @@ export function ManifestoAndHowItWorks() {
       </section>
 
       {/* ====================================================================
-          SECTION C: HOW IT WORKS — THE FIRST THREE TRACKS
+          SECTION C (01): HOW MATCHING WORKS — THE FIRST THREE TRACKS
          ==================================================================== */}
       <section
+        ref={sectionRef}
         id="how-it-works"
         aria-label="How Riff matching works in three tracks"
         className="relative py-20 lg:py-28 border-b border-[#F4F0E8]/15 overflow-hidden"
@@ -259,19 +409,19 @@ export function ManifestoAndHowItWorks() {
               </h2>
             </div>
             <p className="text-sm sm:text-base text-[#AAA8A6] max-w-md">
-              Click any track station below or scrub the groove rail to pass the ticket stub from crate curation to your first conversation.
+              Click any track station below or scrub the groove rail to move from dropping your favorites, through Mila&rsquo;s music identity, to overlap and conversation.
             </p>
           </div>
 
-          {/* Music-Player Progress Rail & Animated Groove */}
+          {/* Music-Player Progress Rail & 3 Core Track Stations */}
           <div className="mt-10 bg-[#141414] border border-[#F4F0E8]/20 p-5 sm:p-7 rounded-[4px]">
             <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono-code text-[#AAA8A6] mb-3">
-              <span>PLAYHEAD: {currentTrack.trackCode}</span>
+              <span>PLAYHEAD: {currentTrack.trackCode} ({currentVisual.badge})</span>
               <span className="tabular-nums">{currentTrack.duration}</span>
             </div>
 
-            {/* Interactive SVG Groove Waveform Progress Bar */}
-            <div className="relative h-12 flex items-center">
+            {/* Interactive Groove Waveform Progress Bar */}
+            <div className="relative py-2">
               <div className="w-full h-1.5 bg-[#0B0B0B] border border-[#F4F0E8]/20 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-[#C92533] transition-all duration-300"
@@ -279,8 +429,8 @@ export function ManifestoAndHowItWorks() {
                 />
               </div>
 
-              {/* Station Nodes on the Rail */}
-              <div className="absolute inset-0 flex items-center justify-between px-2 sm:px-8 pointer-events-none">
+              {/* 3 Core Onboarding Station Nodes */}
+              <div className="mt-3 sm:mt-0 sm:absolute sm:inset-0 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:px-4 pointer-events-none">
                 {HOW_IT_WORKS_STEPS.map((step) => {
                   const reached = step.index <= activeStepIndex;
                   const isCurrent = step.index === activeStepIndex;
@@ -288,11 +438,11 @@ export function ManifestoAndHowItWorks() {
                     <button
                       key={step.trackCode}
                       type="button"
-                      onClick={() => setActiveStepIndex(step.index)}
+                      onClick={() => selectStepManually(step.index)}
                       aria-label={`Jump to ${step.title}`}
-                      className={`pointer-events-auto px-3 py-1.5 rounded-[3px] text-xs font-mono-code uppercase tracking-wider border transition-all cursor-pointer whitespace-nowrap ${
+                      className={`pointer-events-auto px-2.5 sm:px-3 py-1.5 rounded-[3px] text-[11px] sm:text-xs font-mono-code uppercase tracking-wider border transition-all cursor-pointer whitespace-nowrap ${
                         isCurrent
-                          ? 'bg-[#C92533] text-[#F4F0E8] border-[#F4F0E8] scale-105 shadow-lg'
+                          ? 'bg-[#C92533] text-[#F4F0E8] border-[#F4F0E8] sm:scale-105 shadow-lg'
                           : reached
                           ? 'bg-[#1D1D20] text-[#F4F0E8] border-[#C92533]/60'
                           : 'bg-[#0B0B0B] text-[#AAA8A6] border-[#F4F0E8]/25 hover:border-[#F4F0E8]/60'
@@ -305,57 +455,113 @@ export function ManifestoAndHowItWorks() {
               </div>
             </div>
 
-            {/* Traveling Paper Ticket Pass + Active Station Breakdown */}
+            {/* 4-Stage Visual Screen Sequence Switcher (including intermediate HM-00 Music Identity bridge) */}
+            <div
+              role="group"
+              aria-label="Visual phone screen sequence"
+              className="mt-4 pt-3 border-t border-[#F4F0E8]/10 flex flex-wrap items-center justify-between gap-2"
+            >
+              <span className="text-[11px] font-mono-code uppercase text-[#AAA8A6]">
+                Screen Walkthrough Sequence:
+              </span>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {VISUAL_STAGES.map((stage, idx) => {
+                  const active = stage.stageId === visualStageId;
+                  const label =
+                    stage.stageId === 'hm-01'
+                      ? '01. Drop Favorites'
+                      : stage.stageId === 'hm-00'
+                      ? '↳ Music Identity (Mila)'
+                      : stage.stageId === 'hm-02'
+                      ? '02. Find Overlap'
+                      : '03. Start Conversation';
+                  return (
+                    <button
+                      key={stage.stageId}
+                      type="button"
+                      onClick={() => selectVisualStageManually(stage.stageId)}
+                      aria-pressed={active}
+                      className={`px-2.5 py-1 rounded-[3px] text-[11px] font-mono-code uppercase transition-colors cursor-pointer whitespace-nowrap ${
+                        active
+                          ? 'bg-[#F4F0E8] text-[#0B0B0B] font-bold'
+                          : 'bg-[#0B0B0B] text-[#AAA8A6] border border-[#F4F0E8]/20 hover:text-[#F4F0E8]'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Main Stage: Central Phone Cutout Walkthrough + Perforated Ticket & Track Details */}
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-              {/* Left 5 Cols: Travelling Perforated Paper Ticket */}
-              <div className="lg:col-span-5 flex items-center justify-center bg-[#0B0B0B] border border-[#F4F0E8]/15 p-6 rounded-[4px] relative overflow-hidden">
+              {/* Left/Center 5 Cols: Stabilized Phone Cutout Stage with Vinyl Grooves & Masked Transitions */}
+              <div className="lg:col-span-5 flex flex-col items-center justify-between bg-[#0B0B0B] border border-[#F4F0E8]/15 p-5 sm:p-6 rounded-[4px] relative overflow-hidden">
                 <div
                   aria-hidden="true"
-                  className="halftone-patch absolute inset-0 opacity-25 pointer-events-none"
+                  className="halftone-patch absolute inset-0 opacity-20 pointer-events-none"
                 />
 
+                {/* Subtle Concentric Vinyl Groove Backdrop Behind Device */}
                 <div
-                  className="ticket-perforated relative z-10 w-full max-w-sm bg-[#EAE3D5] text-[#0B0B0B] p-5 shadow-2xl transition-transform duration-300"
-                  style={{
-                    transform: `rotate(${
-                      activeStepIndex === 0 ? '-2deg' : activeStepIndex === 1 ? '1.5deg' : '-1deg'
-                    })`,
-                  }}
+                  aria-hidden="true"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[310px] h-[310px] opacity-25 pointer-events-none"
                 >
-                  <div className="border-2 border-[#0B0B0B] p-4">
-                    <div className="flex items-center justify-between border-b border-[#0B0B0B]/40 pb-2 text-[10px] font-mono-code uppercase">
-                      <span className="font-bold">{currentTrack.ticketStamp}</span>
-                      <span>#{currentTrack.ticketSerial}</span>
-                    </div>
+                  <VinylDisc className="w-full h-full" labelSide={activeStepIndex === 2 ? 'B' : 'A'} />
+                </div>
 
-                    <div className="mt-3 font-condensed font-extrabold text-3xl uppercase leading-none tracking-tight">
-                      0{currentTrack.index + 1}. {currentTrack.title}
-                    </div>
+                {/* Stage Top Caption Badge */}
+                <div className="relative z-10 w-full flex items-center justify-between text-[11px] font-mono-code uppercase text-[#AAA8A6] border-b border-[#F4F0E8]/15 pb-2 mb-3">
+                  <span className="text-[#C92533] font-bold">{currentVisual.badge}</span>
+                  <span className="tabular-nums">VIEW {currentVisualIndex + 1}/4</span>
+                </div>
 
-                    <p className="mt-1.5 text-xs font-medium text-[#141414]/80">
-                      {currentTrack.subtitle}
-                    </p>
+                {/* Aspect-Ratio Locked Phone Cutout Container */}
+                <div
+                  key={currentVisual.stageId}
+                  data-testid="how-it-works-phone-stage"
+                  data-visual-stage={currentVisual.stageId}
+                  className={`relative z-10 w-full max-w-[275px] aspect-[720/1490] mx-auto transition-transform duration-500 ${currentVisual.transitionClass}`}
+                  style={{ transform: currentVisual.tiltStyle }}
+                >
+                  <img
+                    src={currentVisual.imageSrc}
+                    alt={currentVisual.imageAlt}
+                    className="w-full h-full object-contain drop-shadow-[0_20px_38px_rgba(0,0,0,0.85)] select-none"
+                  />
 
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {currentTrack.previewChips.map((chip) => (
-                        <span
-                          key={chip}
-                          className="px-2 py-0.5 bg-[#0B0B0B] text-[#F4F0E8] text-[10px] font-mono-code uppercase"
-                        >
-                          {chip}
-                        </span>
-                      ))}
+                  {/* Live Compatibility Score Overlay Centered Inside HM-00 (94%) and HM-02 (91%) Ring */}
+                  {currentVisual.ringOverlay && (
+                    <div
+                      style={{
+                        left: currentVisual.ringOverlay.centerXPct,
+                        top: currentVisual.ringOverlay.centerYPct,
+                      }}
+                      className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none text-center"
+                    >
+                      <span className="font-sans-ui font-extrabold text-lg sm:text-xl text-[#F4F0E8] tabular-nums leading-none drop-shadow">
+                        {currentVisual.ringOverlay.score}%
+                      </span>
+                      <span className="text-[7.5px] font-mono-code uppercase tracking-widest text-[#C92533] font-bold mt-1">
+                        {currentVisual.ringOverlay.sublabel}
+                      </span>
                     </div>
+                  )}
+                </div>
 
-                    <div className="mt-4 pt-2 border-t border-dashed border-[#0B0B0B]/50 flex items-center justify-between text-[10px] font-mono-code">
-                      <span className="text-[#C92533] font-bold">ADMIT TWO · 18+</span>
-                      <span>MUSIC &gt; LOOKS</span>
-                    </div>
+                {/* Editorial Bridge Caption Under Phone */}
+                <div className="relative z-10 w-full mt-4 pt-3 border-t border-[#F4F0E8]/15 text-center">
+                  <div className="font-editorial italic text-base sm:text-lg text-[#F4F0E8]">
+                    {currentVisual.captionTitle}
                   </div>
+                  <p className="mt-0.5 text-xs text-[#AAA8A6]">
+                    {currentVisual.captionLine}
+                  </p>
                 </div>
               </div>
 
-              {/* Right 7 Cols: Station Details & Step Controls */}
+              {/* Right 7 Cols: Station Details, Travelling Perforated Ticket & Step Controls */}
               <div className="lg:col-span-7 flex flex-col justify-between bg-[#0B0B0B] border border-[#F4F0E8]/15 p-6 sm:p-8 rounded-[4px]">
                 <div>
                   <div className="flex items-center justify-between gap-2">
@@ -375,13 +581,75 @@ export function ManifestoAndHowItWorks() {
                     {currentTrack.description}
                   </p>
 
-                  <div className="mt-6 p-4 bg-[#141414] border border-[#F4F0E8]/15 rounded-[3px]">
-                    <div className="text-[11px] font-mono-code uppercase text-[#AAA8A6]">
-                      Live Station Output
+                  {/* Travelling Perforated Paper Ticket Stub */}
+                  <div className="mt-6">
+                    <div
+                      className="ticket-perforated w-full bg-[#EAE3D5] text-[#0B0B0B] p-4 sm:p-5 shadow-xl transition-transform duration-300"
+                      style={{
+                        transform: `rotate(${
+                          activeStepIndex === 0 ? '-0.8deg' : activeStepIndex === 1 ? '0.8deg' : '-0.5deg'
+                        })`,
+                      }}
+                    >
+                      <div className="border-2 border-[#0B0B0B] p-3.5 sm:p-4">
+                        <div className="flex items-center justify-between border-b border-[#0B0B0B]/40 pb-2 text-[10px] font-mono-code uppercase">
+                          <span className="font-bold">{currentTrack.ticketStamp}</span>
+                          <span>#{currentTrack.ticketSerial}</span>
+                        </div>
+
+                        <div className="mt-2.5 flex flex-wrap items-baseline justify-between gap-2">
+                          <div className="font-condensed font-extrabold text-2xl sm:text-3xl uppercase leading-none tracking-tight">
+                            0{currentTrack.index + 1}. {currentTrack.title}
+                          </div>
+                          <span className="text-[11px] font-mono-code uppercase text-[#C92533] font-bold">
+                            {currentTrack.subtitle}
+                          </span>
+                        </div>
+
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          {currentTrack.previewChips.map((chip) => (
+                            <span
+                              key={chip}
+                              className="px-2 py-0.5 bg-[#0B0B0B] text-[#F4F0E8] text-[10px] font-mono-code uppercase"
+                            >
+                              {chip}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="mt-3 pt-2 border-t border-dashed border-[#0B0B0B]/50 flex items-center justify-between text-[10px] font-mono-code">
+                          <span className="text-[#C92533] font-bold">ADMIT TWO · 18+</span>
+                          <span>MUSIC &gt; LOOKS</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-1 text-sm font-mono-code text-[#F4F0E8]">
-                      {currentTrack.sampleOutput}
+                  </div>
+
+                  {/* Live Station Output + Optional Bridge Toggle */}
+                  <div className="mt-6 p-4 bg-[#141414] border border-[#F4F0E8]/15 rounded-[3px] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                      <div className="text-[11px] font-mono-code uppercase text-[#AAA8A6]">
+                        Live Station Output
+                      </div>
+                      <div className="mt-1 text-sm font-mono-code text-[#F4F0E8]">
+                        {currentTrack.sampleOutput}
+                      </div>
                     </div>
+                    {activeStepIndex === 0 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          selectVisualStageManually(
+                            visualStageId === 'hm-00' ? 'hm-01' : 'hm-00'
+                          )
+                        }
+                        className="px-3 py-1.5 text-[11px] font-mono-code uppercase border border-[#C92533] text-[#F4F0E8] hover:bg-[#C92533] rounded-[3px] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                      >
+                        {visualStageId === 'hm-00'
+                          ? '← Back to Favorites (HM-01)'
+                          : 'Inspect Mila Identity (HM-00) →'}
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -389,7 +657,7 @@ export function ManifestoAndHowItWorks() {
                 <div className="mt-8 pt-4 border-t border-[#F4F0E8]/15 flex items-center justify-between gap-4">
                   <button
                     type="button"
-                    onClick={() => setActiveStepIndex((i) => (i > 0 ? i - 1 : HOW_IT_WORKS_STEPS.length - 1))}
+                    onClick={handlePrevTrack}
                     className="px-4 py-2 text-xs font-mono-code uppercase border border-[#F4F0E8]/30 text-[#F4F0E8] hover:border-[#F4F0E8] rounded-[3px] transition-colors cursor-pointer whitespace-nowrap"
                   >
                     &larr; Previous Track
@@ -400,7 +668,7 @@ export function ManifestoAndHowItWorks() {
                       <button
                         key={s.index}
                         type="button"
-                        onClick={() => setActiveStepIndex(s.index)}
+                        onClick={() => selectStepManually(s.index)}
                         aria-label={`Select Track 0${s.index + 1}`}
                         className={`w-2.5 h-2.5 rounded-full transition-colors cursor-pointer ${
                           s.index === activeStepIndex ? 'bg-[#C92533]' : 'bg-[#F4F0E8]/25'
@@ -411,7 +679,7 @@ export function ManifestoAndHowItWorks() {
 
                   <button
                     type="button"
-                    onClick={() => setActiveStepIndex((i) => (i + 1) % HOW_IT_WORKS_STEPS.length)}
+                    onClick={handleNextTrack}
                     className="px-4 py-2 text-xs font-mono-code uppercase bg-[#C92533] text-[#F4F0E8] hover:bg-[#b51f2c] rounded-[3px] transition-colors cursor-pointer whitespace-nowrap"
                   >
                     Next Track &rarr;

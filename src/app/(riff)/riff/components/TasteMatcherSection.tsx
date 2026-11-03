@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect, useState } from 'react';
 import {
   ALL_GENRES,
@@ -14,10 +12,13 @@ import { HandStar, VinylDisc } from './ZineMotifs';
 const DEFAULT_GENRES: GenreId[] = ['shoegaze', 'post-punk', 'indie rock'];
 const DEFAULT_HABITS: HabitId[] = ['night drives', 'live gigs', 'late-night headphones'];
 
+export type TasteBandId = 'tm-01' | 'tm-02' | 'tm-03' | 'tm-04';
+
 export function TasteMatcherSection() {
   const [selectedGenres, setSelectedGenres] = useState<GenreId[]>(DEFAULT_GENRES);
   const [selectedHabits, setSelectedHabits] = useState<HabitId[]>(DEFAULT_HABITS);
   const [partnerId, setPartnerId] = useState<string>('mila');
+  const [conversationFocus, setConversationFocus] = useState<boolean>(false);
   const [historyStack, setHistoryStack] = useState<{ genres: GenreId[]; habits: HabitId[] }[]>([]);
   const [spinningBoost, setSpinningBoost] = useState<boolean>(false);
   const [savedNotice, setSavedNotice] = useState<string | null>(null);
@@ -28,7 +29,51 @@ export function TasteMatcherSection() {
 
   const overlap = calculateTasteOverlap(selectedGenres, selectedHabits, partner);
 
-  // Trigger brief vinyl spin acceleration whenever selections change
+  // Determine which of the 4 cutout phone states is active based on live score + conversation focus
+  const scoreBand: 'high' | 'medium' | 'low' =
+    overlap.percentage >= 85
+      ? 'high'
+      : overlap.percentage >= 65
+      ? 'medium'
+      : 'low';
+
+  const activePhoneState: TasteBandId = conversationFocus
+    ? 'tm-04'
+    : scoreBand === 'high'
+    ? 'tm-01'
+    : scoreBand === 'medium'
+    ? 'tm-02'
+    : 'tm-03';
+
+  const phoneAssetMap: Record<
+    TasteBandId,
+    { src: string; alt: string; bandLabel: string }
+  > = {
+    'tm-01': {
+      src: '/assets/riff/phones/riff-tm-01-high-overlap.webp',
+      alt: 'Riff Taste Matcher phone in high overlap state with illuminated crimson ring',
+      bandLabel: 'HIGH FREQUENCY (85%+)',
+    },
+    'tm-02': {
+      src: '/assets/riff/phones/riff-tm-02-medium-overlap.webp',
+      alt: 'Riff Taste Matcher phone in medium overlap state with segmented crimson arc',
+      bandLabel: 'SOLID OVERLAP (65–84%)',
+    },
+    'tm-03': {
+      src: '/assets/riff/phones/riff-tm-03-low-overlap.webp',
+      alt: 'Riff Taste Matcher phone in low overlap state with sparse dotted ring and chalk arrows',
+      bandLabel: 'CRATE CONTRAST (<65%)',
+    },
+    'tm-04': {
+      src: '/assets/riff/phones/riff-tm-04-conversation-focus.webp',
+      alt: 'Riff Taste Matcher phone in conversation focus state showing perforated First Riff prompt card',
+      bandLabel: 'THE FIRST RIFF · PROMPT CARD',
+    },
+  };
+
+  const activePhoneMeta = phoneAssetMap[activePhoneState];
+
+  // Trigger brief vinyl spin + waveform pulse whenever selections change
   useEffect(() => {
     setSpinningBoost(true);
     const timer = setTimeout(() => setSpinningBoost(false), 950);
@@ -70,6 +115,7 @@ export function TasteMatcherSection() {
     pushHistory();
     setSelectedGenres(DEFAULT_GENRES);
     setSelectedHabits(DEFAULT_HABITS);
+    setConversationFocus(false);
     setSavedNotice('Reset to default post-punk / shoegaze demo crate.');
   };
 
@@ -77,6 +123,7 @@ export function TasteMatcherSection() {
     pushHistory();
     setSelectedGenres([]);
     setSelectedHabits([]);
+    setConversationFocus(false);
     setSavedNotice('Cleared all selections.');
   };
 
@@ -100,11 +147,25 @@ export function TasteMatcherSection() {
     setTimeout(() => setCopiedPrompt(false), 2000);
   };
 
-  // Red ink ring circumference math
-  const radius = 58;
+  // Red ink ring circumference math for the live SVG trace overlay inside the phone ring
+  const radius = 44;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset =
     circumference - (overlap.percentage / 100) * circumference;
+
+  // Format up to 3 shared genre slots and 3 shared habit slots for the phone's pill slots
+  const genreSlots = [0, 1, 2].map((idx) => {
+    const gId = overlap.sharedGenres[idx];
+    if (!gId) return null;
+    return ALL_GENRES.find((g) => g.id === gId)?.label || gId;
+  });
+
+  const habitSlots = [0, 1, 2].map((idx) => {
+    const hId = overlap.sharedHabits[idx];
+    if (!hId) return null;
+    const label = ALL_HABITS.find((h) => h.id === hId)?.label || hId;
+    return label.replace('Vinyl crate digging', 'Vinyl').replace('Late-night headphones', 'Headphones');
+  });
 
   return (
     <section
@@ -140,7 +201,9 @@ export function TasteMatcherSection() {
             {/* Physical Tape Strip showing currently snapped genres & habits */}
             <div className="p-4 bg-[#EAE3D5] text-[#0B0B0B] rounded-[2px] shadow-md transform -rotate-[0.4deg]">
               <div className="flex items-center justify-between border-b border-[#0B0B0B]/25 pb-1.5 text-[11px] font-mono-code uppercase">
-                <span className="font-bold">YOUR ACTIVE TAPE STRIP ({selectedGenres.length} GENRES · {selectedHabits.length} RITUALS)</span>
+                <span className="font-bold">
+                  YOUR ACTIVE TAPE STRIP ({selectedGenres.length} GENRES · {selectedHabits.length} RITUALS)
+                </span>
                 <span className="text-[#C92533] font-bold">SIDE A</span>
               </div>
               <div className="mt-2.5 flex flex-wrap gap-1.5 min-h-[28px] items-center">
@@ -324,7 +387,7 @@ export function TasteMatcherSection() {
             )}
           </div>
 
-          {/* RIGHT PANEL (5 Cols): Sample Profile Switcher + Live Overlap Result */}
+          {/* RIGHT PANEL (5 Cols): Sample Profile Switcher + Live Cutout Phone Composite + DOM Overlays */}
           <div className="lg:col-span-5 bg-[#141414] border border-[#F4F0E8]/20 p-6 sm:p-8 rounded-[4px] relative">
             {/* Partner Profile Selector Tabs */}
             <div>
@@ -358,86 +421,210 @@ export function TasteMatcherSection() {
               </div>
             </div>
 
-            {/* Partner Bio Header */}
-            <div className="mt-5 p-4 bg-[#0B0B0B] border border-[#F4F0E8]/15 rounded-[3px]">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="font-condensed font-extrabold text-2xl uppercase text-[#F4F0E8]">
-                    {partner.name}, {partner.age}
-                  </span>
-                  <span className="ml-2 text-xs font-mono-code text-[#AAA8A6]">
-                    ({partner.pronouns}) &bull; {partner.city}
-                  </span>
-                </div>
-                <HandStar className="w-7 h-7 text-[#C92533]" variant={1} />
+            {/* Phone View Mode Switcher: Score Dial (TM-01/02/03) vs Conversation Focus (TM-04) */}
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-2 bg-[#0B0B0B] p-2.5 border border-[#F4F0E8]/15 rounded-[3px]">
+              <div className="flex items-center gap-2">
+                <VinylDisc className="w-7 h-7 shrink-0" fast={spinningBoost} labelSide="A" />
+                <span className="text-[11px] font-mono-code uppercase text-[#AAA8A6]">
+                  {activePhoneMeta.bandLabel}
+                </span>
               </div>
-              <p className="mt-1.5 text-xs text-[#AAA8A6]">{partner.tagline}</p>
-              <div className="mt-2 text-[11px] font-mono-code text-[#F4F0E8]/85">
-                Top artists: {partner.topArtists.join(' · ')}
+
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setConversationFocus(false)}
+                  aria-pressed={!conversationFocus}
+                  className={`px-2.5 py-1 text-[10px] font-mono-code uppercase rounded-[2px] cursor-pointer transition-colors whitespace-nowrap ${
+                    !conversationFocus
+                      ? 'bg-[#C92533] text-[#F4F0E8] font-bold'
+                      : 'bg-[#141414] text-[#AAA8A6] hover:text-[#F4F0E8]'
+                  }`}
+                >
+                  Score Dial
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setConversationFocus(true)}
+                  aria-pressed={conversationFocus}
+                  className={`px-2.5 py-1 text-[10px] font-mono-code uppercase rounded-[2px] cursor-pointer transition-colors whitespace-nowrap ${
+                    conversationFocus
+                      ? 'bg-[#C92533] text-[#F4F0E8] font-bold'
+                      : 'bg-[#141414] text-[#AAA8A6] hover:text-[#F4F0E8]'
+                  }`}
+                >
+                  First Riff Card
+                </button>
               </div>
             </div>
 
-            {/* Red Ink Overlap Ring + Accelerating Vinyl Readout */}
+            {/* Cutout Phone Stage with Normalized Live DOM Overlays */}
             <div
-              className="mt-6 flex items-center justify-around gap-4 py-4 px-3 bg-[#0B0B0B] border border-[#F4F0E8]/15 rounded-[3px]"
+              className="mt-5 py-4 px-2 bg-[#0B0B0B] border border-[#F4F0E8]/15 rounded-[4px] relative overflow-hidden flex flex-col items-center"
               aria-live="polite"
             >
-              {/* Red Ink Ring */}
-              <div className="relative w-36 h-36 flex items-center justify-center shrink-0">
-                <svg viewBox="0 0 140 140" className="w-full h-full -rotate-90">
-                  <circle
-                    cx="70"
-                    cy="70"
-                    r={radius}
-                    fill="none"
-                    stroke="rgba(244,240,232,0.14)"
-                    strokeWidth="6"
-                  />
-                  <circle
-                    cx="70"
-                    cy="70"
-                    r={radius}
-                    fill="none"
-                    stroke="#C92533"
-                    strokeWidth="6.5"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
-                    strokeLinecap="round"
-                    className="transition-all duration-500"
-                  />
-                  <circle
-                    cx="70"
-                    cy="70"
-                    r={radius - 9}
-                    fill="none"
-                    stroke="rgba(244,240,232,0.35)"
-                    strokeWidth="1.2"
-                    strokeDasharray="5 3"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span
-                    data-testid="taste-overlap-score"
-                    className="font-sans-ui font-extrabold text-4xl text-[#F4F0E8] tabular-nums leading-none"
-                  >
-                    {overlap.percentage}%
-                  </span>
-                  <span className="text-[10px] font-mono-code uppercase tracking-wider text-[#AAA8A6] mt-1">
-                    Demo Overlap
-                  </span>
-                </div>
-              </div>
+              <div
+                aria-hidden="true"
+                className="halftone-patch absolute inset-0 opacity-20 pointer-events-none"
+              />
 
-              {/* Spinning Vinyl that accelerates on state changes */}
-              <div className="flex flex-col items-center">
-                <VinylDisc
-                  className="w-28 h-28"
-                  fast={spinningBoost}
-                  labelSide="A"
+              {/* Aspect-Ratio Locked Phone Cutout Wrapper (720 x 1490) */}
+              <div
+                key={activePhoneState}
+                data-testid="taste-matcher-phone"
+                data-phone-state={activePhoneState}
+                className="relative z-10 w-full max-w-[300px] aspect-[720/1490] mx-auto anim-band-sweep"
+              >
+                <img
+                  src={activePhoneMeta.src}
+                  alt={activePhoneMeta.alt}
+                  className="w-full h-full object-contain drop-shadow-[0_18px_36px_rgba(0,0,0,0.9)] select-none"
                 />
-                <span className="mt-2 text-[10px] font-mono-code text-[#AAA8A6] uppercase">
-                  {spinningBoost ? 'Recalculating crate...' : 'Turntable locked'}
-                </span>
+
+                {/* Dynamic Partner Header Overlay when comparing against Julian, Sora, or Deon */}
+                {partner.id !== 'mila' && (
+                  <div
+                    style={{ top: '20.2%', left: '22.5%', width: '69%', height: '6.8%' }}
+                    className="absolute bg-[#121214]/95 border border-[#C92533]/40 rounded-[4px] px-2.5 flex flex-col justify-center"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-editorial font-bold text-sm text-[#F4F0E8] uppercase tracking-tight">
+                        {partner.name} / {partner.age}
+                      </span>
+                      <span className="text-[8px] font-mono-code uppercase text-[#C92533]">
+                        {partner.city}
+                      </span>
+                    </div>
+                    <span className="text-[8px] font-mono-code uppercase text-[#AAA8A6] truncate">
+                      {partner.topArtists.join(' · ')}
+                    </span>
+                  </div>
+                )}
+
+                {/* OVERLAY MODE A: SCORE DIAL (TM-01, TM-02, TM-03) */}
+                {!conversationFocus ? (
+                  <>
+                    {/* Central Compatibility Ring Score Readout Centered at Y=47.5% */}
+                    <div
+                      style={{ top: '38.5%', left: '24%', width: '52%', height: '18%' }}
+                      className="absolute flex flex-col items-center justify-center text-center pointer-events-none"
+                    >
+                      <span
+                        data-testid="taste-overlap-score"
+                        className="font-sans-ui font-extrabold text-3xl sm:text-4xl text-[#F4F0E8] tabular-nums leading-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]"
+                      >
+                        {overlap.percentage}%
+                      </span>
+                      <span className="mt-1 text-[8px] font-mono-code uppercase tracking-widest text-[#C92533] font-bold">
+                        {partner.name.toUpperCase()} OVERLAP
+                      </span>
+                    </div>
+
+                    {/* SHARED SCENES 3 Pill Slots Overlay (Y=65.5%..68.7%) */}
+                    <div
+                      style={{ top: '65.5%', left: '7.5%', width: '85%', height: '3.2%' }}
+                      className="absolute grid grid-cols-3 gap-1.5 items-center pointer-events-none"
+                    >
+                      {genreSlots.map((label, idx) => (
+                        <div
+                          key={idx}
+                          className="h-full flex items-center justify-center px-1 rounded-full text-[7.5px] font-mono-code uppercase tracking-tighter truncate text-[#F4F0E8] font-semibold"
+                        >
+                          {label || '—'}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* LISTENING RITUALS 3 Pill Slots Overlay (Y=72.0%..75.2%) */}
+                    <div
+                      style={{ top: '72.0%', left: '7.5%', width: '85%', height: '3.2%' }}
+                      className="absolute grid grid-cols-3 gap-1.5 items-center pointer-events-none"
+                    >
+                      {habitSlots.map((label, idx) => (
+                        <div
+                          key={idx}
+                          className="h-full flex items-center justify-center px-1 rounded-full text-[7.5px] font-mono-code uppercase tracking-tighter truncate text-[#F4F0E8] font-semibold"
+                        >
+                          {label || '—'}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* YOUR INTRO Live Text Slot Overlay (Y=76.5%..80.5%) */}
+                    <div
+                      style={{ top: '76.5%', left: '8.0%', width: '84%', height: '4.1%' }}
+                      className="absolute flex items-center px-2.5 bg-[#0D0D0F]/92 rounded-[3px] pointer-events-none"
+                    >
+                      <p className="text-[8px] font-mono-code text-[#F4F0E8] leading-tight line-clamp-2">
+                        {overlap.introPrompt}
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  /* OVERLAY MODE B: CONVERSATION FOCUS (TM-04) */
+                  <>
+                    {/* SHARED SOUND Top Slot (Y=36.2%..43.2%) */}
+                    <div
+                      style={{ top: '36.2%', left: '8.0%', width: '84%', height: '6.8%' }}
+                      className="absolute flex items-center justify-between px-3 pointer-events-none"
+                    >
+                      <div className="truncate pr-2">
+                        <div className="text-[8px] font-mono-code uppercase text-[#C92533] font-bold">
+                          SHARED CRATE WITH {partner.name.toUpperCase()}
+                        </div>
+                        <div className="text-[8.5px] font-mono-code text-[#F4F0E8] truncate mt-0.5">
+                          {overlap.sharedScenes.length > 0
+                            ? overlap.sharedScenes.slice(0, 3).join(' · ')
+                            : 'Opposite crates · Mixtape trade'}
+                        </div>
+                      </div>
+                      <span
+                        data-testid="taste-overlap-score"
+                        className="px-2 py-0.5 bg-[#C92533] text-[#F4F0E8] font-sans-ui font-extrabold text-xs tabular-nums rounded-[2px] shrink-0"
+                      >
+                        {overlap.percentage}%
+                      </span>
+                    </div>
+
+                    {/* Perforated Stamp-Edged Blackboard Card Overlay (Y=48.5%..72.0%) */}
+                    <div
+                      style={{ top: '48.5%', left: '12.0%', width: '76%', height: '23.2%' }}
+                      className="absolute flex flex-col justify-between p-3 text-left pointer-events-none"
+                    >
+                      <div className="text-[8px] font-mono-code uppercase tracking-widest text-[#C92533] font-bold">
+                        ICEBREAKER FOR {partner.name.toUpperCase()}, {partner.age}
+                      </div>
+                      <p className="font-editorial italic text-xs sm:text-[13px] text-[#F4F0E8] leading-snug">
+                        {overlap.introPrompt}
+                      </p>
+                      <div className="pt-1.5 border-t border-[#F4F0E8]/15 text-[8px] font-mono-code text-[#AAA8A6] truncate">
+                        &rarr; {overlap.couldTalkAbout[0]}
+                      </div>
+                    </div>
+
+                    {/* Lower Track Context Slot (Y=76.5%..80.8%) */}
+                    <div
+                      style={{ top: '76.5%', left: '8.0%', width: '84%', height: '4.3%' }}
+                      className="absolute flex items-center justify-between px-2.5 bg-[#0D0D0F]/85 rounded-[3px] pointer-events-none"
+                    >
+                      <span className="text-[8px] font-mono-code text-[#F4F0E8] truncate">
+                        ON REPEAT: {partner.recentTrack.title} — {partner.recentTrack.artist}
+                      </span>
+                    </div>
+                  </>
+                )}
+
+                {/* Interactive Bottom Phone CTA Button ("SEND A RIFF ->", Y=82.5%..87.5%) */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleCopyPrompt();
+                    setConversationFocus((prev) => !prev);
+                  }}
+                  style={{ top: '82.5%', left: '7.5%', width: '85%', height: '5.0%' }}
+                  aria-label="Send a Riff: copy conversation prompt and toggle First Riff card"
+                  className="absolute rounded-[5px] cursor-pointer focus-visible:ring-2 focus-visible:ring-[#F4F0E8] hover:bg-white/10 transition-colors"
+                />
               </div>
             </div>
 
@@ -447,7 +634,7 @@ export function TasteMatcherSection() {
             </p>
 
             {/* Shared Scenes */}
-            <div className="mt-5">
+            <div className="mt-4">
               <div className="text-xs font-mono-code uppercase tracking-wider text-[#F4F0E8]">
                 Shared scenes &amp; rituals ({overlap.sharedScenes.length})
               </div>
@@ -470,7 +657,7 @@ export function TasteMatcherSection() {
             </div>
 
             {/* Could Talk About */}
-            <div className="mt-5">
+            <div className="mt-4">
               <div className="text-xs font-mono-code uppercase tracking-wider text-[#F4F0E8]">
                 Could talk about:
               </div>
@@ -485,8 +672,8 @@ export function TasteMatcherSection() {
             </div>
 
             {/* Intro Prompt Box */}
-            <div className="mt-5 p-4 bg-[#0B0B0B] border border-[#C92533]/60 rounded-[3px]">
-              <div className="flex items-center justify-between">
+            <div className="mt-4 p-4 bg-[#0B0B0B] border border-[#C92533]/60 rounded-[3px]">
+              <div className="flex items-center justify-between gap-2">
                 <span className="text-[11px] font-mono-code uppercase text-[#C92533] font-semibold">
                   Suggested Intro Prompt
                 </span>

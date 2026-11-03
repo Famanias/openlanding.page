@@ -51,4 +51,13 @@ describe('Riff matching logic', () => {
     expect(ok.valid).toBe(true);
     expect(ok.normalizedHandle).toBe('Mila');
   });
+
+  it('SCENE_PLAYLISTS maps 6 square sleeves and 4 dedicated gatefold spreads accurately', () => {
+    expect(SCENE_PLAYLISTS.length).toBe(6);
+    const withGatefold = SCENE_PLAYLISTS.filter((p) => p.gatefoldAsset !== null);
+    const sleeveOnly = SCENE_PLAYLISTS.filter((p) => p.gatefoldAsset === null);
+    expect(withGatefold.length).toBe(4);
+    expect(sleeveOnly.length).toBe(2);
+    expect(SCENE_PLAYLISTS.every((p) => p.sleeveAsset.startsWith('/assets/riff/sleeves/'))).toBe(true);
+  });
 });

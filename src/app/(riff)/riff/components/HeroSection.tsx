@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import {
   HandStar,
@@ -28,7 +26,7 @@ const HERO_SHARED_TRACKS: SharedTrackItem[] = [
     title: 'Kyoto',
     artist: 'Phoebe Bridgers',
     album: 'Punisher',
-    thumb: '/templates/riff/album-kyoto.jpg',
+    thumb: '/assets/album-kyoto.jpg',
     icebreaker: 'Ask them about "Punisher"',
     sharedStat: 'Both played after midnight 4x this week',
   },
@@ -37,7 +35,7 @@ const HERO_SHARED_TRACKS: SharedTrackItem[] = [
     title: 'Starburster',
     artist: 'Fontaines D.C.',
     album: 'Romance',
-    thumb: '/templates/riff/shared-track-2.jpg',
+    thumb: '/assets/shared-track-2.jpg',
     icebreaker: 'Ask which Fontaines D.C. opener hit hardest live',
     sharedStat: 'Top 2% overlap on Dublin post-punk',
   },
@@ -46,7 +44,7 @@ const HERO_SHARED_TRACKS: SharedTrackItem[] = [
     title: 'Chaise Longue',
     artist: 'Wet Leg',
     album: 'Wet Leg',
-    thumb: '/templates/riff/shared-track-3.jpg',
+    thumb: '/assets/shared-track-3.jpg',
     icebreaker: 'Ask about their loudest basement gig memory',
     sharedStat: 'Saved on both "Walk to the Train" playlists',
   },
@@ -431,7 +429,7 @@ export function HeroSection({
                   </svg>
                 </div>
                 <img
-                  src="/templates/riff/zine-strip-photo.jpg"
+                  src="/assets/zine-strip-photo.jpg"
                   alt=""
                   referrerPolicy="no-referrer"
                   className="w-full h-24 object-cover grayscale contrast-125 mt-1"
@@ -448,7 +446,7 @@ export function HeroSection({
                 </div>
                 <div className="my-1.5 bg-[#0B0B0B] overflow-hidden">
                   <img
-                    src="/templates/riff/zine-band-photo.jpg"
+                    src="/assets/zine-band-photo.jpg"
                     alt=""
                     referrerPolicy="no-referrer"
                     className="w-full h-28 object-cover grayscale contrast-125"
@@ -537,7 +535,7 @@ export function HeroSection({
                       {/* Portrait Card with Grainy Monochrome Photo */}
                       <div className="relative w-full h-40 rounded-2xl overflow-hidden bg-[#1A1A1A] border border-white/10">
                         <img
-                          src="/templates/riff/mila-portrait.jpg"
+                          src="/assets/mila-portrait.jpg"
                           alt="Mila, 24 monochrome analog portrait"
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-cover object-top contrast-110"
@@ -665,7 +663,7 @@ export function HeroSection({
                         >
                           <div className="flex items-center gap-2.5">
                             <img
-                              src="/templates/riff/album-kyoto.jpg"
+                              src="/assets/album-kyoto.jpg"
                               alt="Kyoto single cover art"
                               referrerPolicy="no-referrer"
                               className="w-10 h-10 rounded-md object-cover shrink-0 border border-white/10"
@@ -819,7 +817,7 @@ export function HeroSection({
                     {/* Left Circle */}
                     <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#F4F0E8]/40 shadow-lg -mr-5 z-10 bg-[#18181B]">
                       <img
-                        src="/templates/riff/match-art-1.jpg"
+                        src="/assets/match-art-1.jpg"
                         alt="Shared artist sleeve left"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
@@ -828,7 +826,7 @@ export function HeroSection({
                     {/* Center Circle (Crimson Border Ring) */}
                     <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-[#C92533] shadow-2xl z-20 bg-[#121215]">
                       <img
-                        src="/templates/riff/match-art-2.jpg"
+                        src="/assets/match-art-2.jpg"
                         alt="Shared artist sleeve center"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"

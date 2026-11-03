@@ -1,18 +1,19 @@
-'use client';
-
 import React, { useState } from 'react';
 import {
   PlaylistItem,
   SCENE_PLAYLISTS,
   filterPlaylists,
 } from '../utils/matching';
-import { AlbumArtGraphic, HandStar } from './ZineMotifs';
+import { HandStar, VinylDisc } from './ZineMotifs';
 
 type ChemistryMode = 'records' | 'concert' | 'latenight';
 
 interface ChemistryCase {
   id: ChemistryMode;
   label: string;
+  compositeAsset: string;
+  compositeAlt: string;
+  tiltStyle: string;
   paperBridgeTitle: string;
   paperBridgeDetail: string;
   sharedPrompt: string;
@@ -20,7 +21,6 @@ interface ChemistryCase {
     header: string;
     primaryTitle: string;
     primaryMeta: string;
-    artVariant: PlaylistItem['artVariant'];
     bullets: string[];
     badge: string;
   };
@@ -28,7 +28,6 @@ interface ChemistryCase {
     header: string;
     primaryTitle: string;
     primaryMeta: string;
-    artVariant: PlaylistItem['artVariant'];
     bullets: string[];
     badge: string;
   };
@@ -38,30 +37,32 @@ const CHEMISTRY_MODES: ChemistryCase[] = [
   {
     id: 'records',
     label: 'Favorite records',
+    compositeAsset: '/assets/riff/chemistry/riff-mc-01-favorite-records.webp',
+    compositeAlt: 'Paired phones comparing Mila’s Crate (Sulk LP) and Julian’s Crate (Out of Time EP)',
+    tiltStyle: 'perspective(1200px) rotateZ(-0.6deg) rotateY(2deg)',
     paperBridgeTitle: 'SHARED LP DNA // 1990s SHOEGAZE & ANALOG REVERB',
     paperBridgeDetail:
       'Both pinned heavy glide-guitar pressings in their top 3 records and prefer full-side vinyl listens.',
-    sharedPrompt: '"If we only had 40 minutes before the record shop closed, which crate are you heading to first?"',
+    sharedPrompt:
+      '"If we only had 40 minutes before the record shop closed, which crate are you heading to first?"',
     milaScreen: {
       header: 'MILA, 24 · FAVORITE RECORDS',
-      primaryTitle: 'Glass Platform (Mono LP)',
-      primaryMeta: 'Velvet Escalator · Pressed on 180g crimson wax',
-      artVariant: 'crimson-horizon',
+      primaryTitle: 'Sulk (Crimson Mono LP)',
+      primaryMeta: 'Sweetest Dream / Echo Valley · 180g pressing',
       bullets: [
-        'Side A: "Sodium Vapor" (zero-skip opener)',
-        'Side B: "Last Overground North" (rainy walk anthem)',
+        'Side A: "Sweetest Dream — Fade" (zero-skip opener)',
+        'Side B: "Echo Valley — Ghosts" (rainy walk anthem)',
         'Sleeves kept in poly outer jackets, sorted by mood',
       ],
       badge: 'CRATE ANCHOR #01',
     },
     julianScreen: {
       header: 'JULIAN, 26 · FAVORITE RECORDS',
-      primaryTitle: 'Reverse Cathedral (12" EP)',
-      primaryMeta: 'Pale Filament · Rough Trade white-label pressing',
-      artVariant: 'tape-reel',
+      primaryTitle: 'Out of Time EP (12" Cut)',
+      primaryMeta: 'Shiver / Glass · White-label pressing',
       bullets: [
-        'Side A: "Velvet Capo" (Fender Jaguar + reverse delay)',
-        'Side B: "Runout Groove Loop" (infinite locked groove)',
+        'Side A: "Shiver — Slo-Blur" (Fender Jaguar + reverse delay)',
+        'Side B: "Last Call — Echoes" (infinite locked groove)',
         'Repaired a 1984 belt-drive turntable just for this EP',
       ],
       badge: 'CRATE ANCHOR #01',
@@ -70,15 +71,18 @@ const CHEMISTRY_MODES: ChemistryCase[] = [
   {
     id: 'concert',
     label: 'Concert energy',
+    compositeAsset: '/assets/riff/chemistry/riff-mc-02-concert-energy.webp',
+    compositeAlt: 'Paired phones comparing Mila’s Gigs (Barrier / 200-Cap Rooms) and Julian’s Gigs (Soundboard / Intimate Rooms)',
+    tiltStyle: 'perspective(1200px) rotateZ(0.6deg) rotateY(-2deg)',
     paperBridgeTitle: 'MATCHED GIG RITUAL // 200-CAP ROOMS & SOUNDBOARD SPOT',
     paperBridgeDetail:
-      'Neither talks during the acoustic support set; both stand ten feet in front of the mixing desk.',
-    sharedPrompt: '"We both arrive for the 8:15 PM opening band — want to split a £10 basement show next Thursday?"',
+      'Neither talks during the acoustic support set; both stand inside intimate 200-capacity basement rooms.',
+    sharedPrompt:
+      '"We both arrive for the 8:15 PM opening band — want to split a £10 basement show next Thursday?"',
     milaScreen: {
       header: 'MILA, 24 · CONCERT ENERGY',
-      primaryTitle: 'Front-Left Speaker Stack',
-      primaryMeta: '200-capacity basements & mid-week residencies',
-      artVariant: 'basement-flyer',
+      primaryTitle: 'Barrier / The Pit · 200-Cap Rooms',
+      primaryMeta: 'The Subway DIY & mid-week basement residencies',
       bullets: [
         'Always catches the first local support band at 8:00 PM',
         'Earplugs in coat pocket, setlist folded into phone case',
@@ -88,9 +92,8 @@ const CHEMISTRY_MODES: ChemistryCase[] = [
     },
     julianScreen: {
       header: 'JULIAN, 26 · CONCERT ENERGY',
-      primaryTitle: 'Right by the Soundboard',
-      primaryMeta: 'Small warehouse stages & DIY tape-release nights',
-      artVariant: 'static-guitar',
+      primaryTitle: 'Soundboard · Intimate Rooms',
+      primaryMeta: 'The Warehouse DIY & small tape-release stages',
       bullets: [
         'Watches the pedalboard changes between every song',
         'Buys the 7-inch or cassette directly from the merch table',
@@ -102,34 +105,66 @@ const CHEMISTRY_MODES: ChemistryCase[] = [
   {
     id: 'latenight',
     label: 'Late-night playlist',
-    paperBridgeTitle: 'SYNCHRONIZED HOURS // 11:30 PM — 01:45 AM ROTATION',
+    compositeAsset: '/assets/riff/chemistry/riff-mc-03-late-night-playlist.webp',
+    compositeAlt: 'Paired phones comparing Mila’s Late-Night (2 AM Stories) and Julian’s Late-Night (Midnight Drive)',
+    tiltStyle: 'perspective(1200px) rotateZ(-0.4deg) rotateY(1.5deg)',
+    paperBridgeTitle: 'SYNCHRONIZED HOURS // 11:30 PM — 02:00 AM ROTATION',
     paperBridgeDetail:
-      'Both switch from angular post-punk to sparse four-track indie and darkwave after midnight.',
-    sharedPrompt: '"Trade me your favorite song for staring out the night-bus window at 1 A.M."',
+      'Both switch from angular post-punk to nocturnal lo-fi, dusty tape echoes, and darkwave after midnight.',
+    sharedPrompt:
+      '"Trade me your favorite song for staring out the night-bus window at 2 A.M."',
     milaScreen: {
       header: 'MILA, 24 · AFTER MIDNIGHT MIX',
-      primaryTitle: 'Songs for the N29 Night Bus',
-      primaryMeta: '11 fictional demo tracks · 47 minutes · No shuffle',
-      artVariant: 'rain-window',
+      primaryTitle: '2 AM Stories (Side A)',
+      primaryMeta: 'Nightwalk · After Hours · The Crypt',
       bullets: [
-        '01. Clara Vance — "Radiator Hum in B-Flat"',
-        '02. Siren & the Static — "Tremolo Letter"',
-        '03. Pine & Mercury — "Voicemail from October"',
+        '01. "Nightwalk — Lo-Fi" (rain-streaked window cut)',
+        '02. "After Hours — Nocturne" (sparse four-track)',
+        '03. "The Crypt — Ambient" (headphone closer)',
       ],
-      badge: 'PEAK HOUR: 00:30 AM',
+      badge: 'PEAK HOUR: 02:00 AM',
     },
     julianScreen: {
       header: 'JULIAN, 26 · AFTER MIDNIGHT MIX',
-      primaryTitle: 'Sodium Streetlight Tape #09',
-      primaryMeta: '10 fictional demo tracks · 51 minutes · Analog warmth',
-      artVariant: 'tube-amp',
+      primaryTitle: 'Midnight Drive (Side B)',
+      primaryMeta: 'Midnight Special · Taped Echoes · Neon Shadows',
       bullets: [
-        '01. Mirror Bahnhof — "Fluorescent Exit"',
-        '02. Starling Engine — "Fuzz Pedal Lullaby"',
-        '03. Half-Lit Windows — "Corner Bodega Tulips"',
+        '01. "Midnight Special — Dusty" (empty highway pulse)',
+        '02. "Taped Echoes — Raw" (analog warmth)',
+        '03. "Neon Shadows — Ambient" (late-night insomnia)',
       ],
-      badge: 'PEAK HOUR: 00:45 AM',
+      badge: 'PEAK HOUR: 01:45 AM',
     },
+  },
+];
+
+const SCENE_EPHEMERA = [
+  {
+    id: 'flyer-culture',
+    tag: 'EPHEMERA 01 · XEROX FLYER WALL',
+    title: 'Basement Night Live! DIY Bill',
+    detail: 'Photocopied venue handbills pinned at record counters and rehearsal rooms.',
+    src: '/assets/riff/ephemera/riff-sc-support-01-flyer-culture.webp',
+    alt: 'Riff Presents Basement Night Live photocopied punk and shoegaze concert flyer',
+    rotate: '-1.5deg',
+  },
+  {
+    id: 'ticket-ephemera',
+    tag: 'EPHEMERA 02 · SAVED WRISTBANDS & STUBS',
+    title: 'Live at the Subterranean Stubs',
+    detail: 'Perforated paper admit-one tickets kept in coat pockets long after the encore.',
+    src: '/assets/riff/ephemera/riff-sc-support-02-ticket-ephemera.webp',
+    alt: 'Collage of torn Riff Subterranean concert ticket stubs with red ink stamps',
+    rotate: '1.2deg',
+  },
+  {
+    id: 'scene-photo',
+    tag: 'EPHEMERA 03 · 35MM CONTACT SHEET',
+    title: 'RIFF 400 Film Proof Sheet',
+    detail: 'Grainy 35mm frames from soundcheck, record bins, and late-night train platforms.',
+    src: '/assets/riff/ephemera/riff-sc-support-03-scene-photo.webp',
+    alt: 'RIFF 400 black-and-white 35mm film contact sheet with red grease-pencil crop marks',
+    rotate: '-0.8deg',
   },
 ];
 
@@ -159,7 +194,7 @@ export function ChemistryAndSceneSections() {
   return (
     <>
       {/* ====================================================================
-          SECTION E: MUSIC CHEMISTRY / PHONES IN MOTION
+          SECTION E (03): MUSIC CHEMISTRY / PHONES IN MOTION
          ==================================================================== */}
       <section
         id="music-chemistry"
@@ -177,7 +212,7 @@ export function ChemistryAndSceneSections() {
                 Two crates. One conversation.
               </h2>
               <p className="mt-2 text-sm sm:text-base text-[#AAA8A6] max-w-2xl">
-                Switch the lens below to see how Mila (24) and Julian (26) connect across original demo records, concert habits, and late-night playlists.
+                Switch the lens below to see how Mila (24) and Julian (26) connect across favorite records, concert energy, and late-night playlists.
               </p>
             </div>
 
@@ -209,123 +244,153 @@ export function ChemistryAndSceneSections() {
             </div>
           </div>
 
-          {/* Dual Phones + Unfurling Paper Connector Strip */}
-          <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            {/* Phone A: Mila, 24 */}
-            <div className="lg:col-span-4 flex justify-center">
-              <div className="w-full max-w-[330px] rounded-[38px] bg-[#161619] p-3 border-2 border-[#323236] shadow-2xl transform lg:-rotate-2 transition-transform duration-300">
-                <div className="rounded-[28px] bg-[#0C0C0E] p-4 border border-white/10">
-                  <div className="flex items-center justify-between text-[10px] font-mono-code text-[#AAA8A6] pb-2 border-b border-white/10">
-                    <span>{activeChemistry.milaScreen.header}</span>
-                    <span className="text-[#C92533]">DEMO DATA</span>
-                  </div>
+          {/* Cohesive Dual-Phone Cutout Stage + Animated Red Connecting Thread + Torn Paper Bridge */}
+          <div className="mt-10 bg-[#141414] border border-[#F4F0E8]/20 rounded-[4px] p-5 sm:p-8 relative overflow-hidden">
+            <div
+              aria-hidden="true"
+              className="halftone-patch absolute inset-0 opacity-20 pointer-events-none"
+            />
 
-                  <div className="mt-3 h-36 rounded-xl overflow-hidden border border-white/15">
-                    <AlbumArtGraphic variant={activeChemistry.milaScreen.artVariant} />
-                  </div>
-
-                  <div className="mt-3">
-                    <span className="inline-block text-[10px] font-mono-code uppercase text-[#C92533]">
-                      {activeChemistry.milaScreen.badge}
-                    </span>
-                    <h3 className="text-lg font-bold text-[#F4F0E8] mt-0.5">
-                      {activeChemistry.milaScreen.primaryTitle}
-                    </h3>
-                    <p className="text-xs text-[#AAA8A6]">
-                      {activeChemistry.milaScreen.primaryMeta}
-                    </p>
-                  </div>
-
-                  <ul className="mt-3 pt-3 border-t border-white/10 space-y-1.5 text-xs text-[#F4F0E8]/90">
-                    {activeChemistry.milaScreen.bullets.map((b, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#C92533] font-mono-code">&bull;</span>
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Center Unfurling Paper Strip Bridge */}
-            <div className="lg:col-span-4 flex flex-col items-center justify-center relative py-4">
-              {/* SVG Ink Connector Line */}
+            {/* Composite Dual-Phone Cutout Container with SVG Connector Thread Behind/Across */}
+            <div className="relative z-10 max-w-[1060px] mx-auto">
+              {/* Animated SVG Red Ink Thread & Waveform Spanning Between Mila (left) and Julian (right) */}
               <svg
-                viewBox="0 0 300 44"
-                className="hidden lg:block w-full h-11 text-[#C92533] mb-2"
+                viewBox="0 0 600 180"
+                className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[56%] h-auto pointer-events-none z-0"
                 aria-hidden="true"
               >
                 <path
-                  d="M4 22 C85 4, 215 40, 296 22"
+                  d="M 10 90 C 160 20, 440 160, 590 90"
                   fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeDasharray="6 4"
+                  stroke="#C92533"
+                  strokeWidth="2.8"
+                  strokeDasharray="8 6"
                 />
-                <circle cx="8" cy="22" r="4" fill="#C92533" />
-                <circle cx="292" cy="22" r="4" fill="#C92533" />
+                <path
+                  d="M 10 90 C 180 145, 420 35, 590 90"
+                  fill="none"
+                  stroke="rgba(244,240,232,0.3)"
+                  strokeWidth="1.4"
+                  strokeDasharray="4 4"
+                />
+                <circle cx="16" cy="90" r="6" fill="#C92533" />
+                <circle cx="584" cy="90" r="6" fill="#C92533" />
               </svg>
 
-              <div className="torn-paper-strip w-full bg-[#EFECE4] text-[#0B0B0B] p-5 sm:p-6 shadow-2xl transform -rotate-1">
-                <div className="flex items-center justify-between border-b border-[#0B0B0B]/25 pb-2 text-[10px] font-mono-code uppercase">
-                  <span className="font-bold text-[#C92533]">OVERLAP CONNECTOR</span>
-                  <span>MODE: {activeChemistry.label.toUpperCase()}</span>
-                </div>
+              {/* Transparent Paired-Phone Composite Asset */}
+              <div
+                key={activeChemistry.id}
+                data-testid="chemistry-composite-stage"
+                data-chemistry-mode={activeChemistry.id}
+                className="relative z-10 w-full aspect-[1440/902] anim-ticket-whip transition-transform duration-500"
+                style={{ transform: activeChemistry.tiltStyle }}
+              >
+                <img
+                  src={activeChemistry.compositeAsset}
+                  alt={activeChemistry.compositeAlt}
+                  className="w-full h-full object-contain drop-shadow-[0_24px_44px_rgba(0,0,0,0.9)] select-none"
+                />
 
-                <div className="mt-2.5 font-condensed font-extrabold text-xl uppercase leading-tight">
-                  {activeChemistry.paperBridgeTitle}
-                </div>
+                {/* Center Floating Torn-Paper Bridge Positioned in the Gap Between the Two Phones on Desktop */}
+                <div className="hidden lg:flex absolute inset-y-0 left-[34%] right-[34%] items-center justify-center pointer-events-auto">
+                  <div className="torn-paper-strip w-full bg-[#EFECE4] text-[#0B0B0B] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] transform -rotate-1 border border-[#0B0B0B]/20">
+                    <div className="flex items-center justify-between border-b border-[#0B0B0B]/25 pb-1.5 text-[9px] font-mono-code uppercase">
+                      <span className="font-bold text-[#C92533]">OVERLAP CONNECTOR</span>
+                      <span>LENS: {activeChemistry.label.toUpperCase()}</span>
+                    </div>
 
-                <p className="mt-2 text-xs sm:text-sm text-[#141414]/85 leading-relaxed">
-                  {activeChemistry.paperBridgeDetail}
-                </p>
+                    <div className="mt-2 font-condensed font-extrabold text-lg xl:text-xl uppercase leading-tight">
+                      {activeChemistry.paperBridgeTitle}
+                    </div>
 
-                <div className="mt-4 p-3 bg-[#0B0B0B] text-[#F4F0E8] rounded-[2px]">
-                  <div className="text-[9px] font-mono-code uppercase text-[#C92533]">
-                    Instant Conversation Starter
+                    <p className="mt-1.5 text-xs text-[#141414]/85 leading-relaxed">
+                      {activeChemistry.paperBridgeDetail}
+                    </p>
+
+                    <div className="mt-3 p-2.5 bg-[#0B0B0B] text-[#F4F0E8] rounded-[2px]">
+                      <div className="text-[8px] font-mono-code uppercase text-[#C92533]">
+                        Instant Conversation Starter
+                      </div>
+                      <p className="mt-0.5 text-xs italic font-editorial">
+                        {activeChemistry.sharedPrompt}
+                      </p>
+                    </div>
                   </div>
-                  <p className="mt-1 text-xs italic font-editorial">
-                    {activeChemistry.sharedPrompt}
+                </div>
+              </div>
+
+              {/* Mobile / Tablet Torn-Paper Bridge Below Composite */}
+              <div className="lg:hidden mt-4">
+                <div className="torn-paper-strip w-full bg-[#EFECE4] text-[#0B0B0B] p-5 shadow-2xl transform -rotate-1">
+                  <div className="flex items-center justify-between border-b border-[#0B0B0B]/25 pb-2 text-[10px] font-mono-code uppercase">
+                    <span className="font-bold text-[#C92533]">OVERLAP CONNECTOR</span>
+                    <span>MODE: {activeChemistry.label.toUpperCase()}</span>
+                  </div>
+
+                  <div className="mt-2 font-condensed font-extrabold text-xl uppercase leading-tight">
+                    {activeChemistry.paperBridgeTitle}
+                  </div>
+
+                  <p className="mt-1.5 text-xs sm:text-sm text-[#141414]/85 leading-relaxed">
+                    {activeChemistry.paperBridgeDetail}
                   </p>
+
+                  <div className="mt-3 p-3 bg-[#0B0B0B] text-[#F4F0E8] rounded-[2px]">
+                    <div className="text-[9px] font-mono-code uppercase text-[#C92533]">
+                      Instant Conversation Starter
+                    </div>
+                    <p className="mt-1 text-xs italic font-editorial">
+                      {activeChemistry.sharedPrompt}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Phone B: Julian, 26 */}
-            <div className="lg:col-span-4 flex justify-center">
-              <div className="w-full max-w-[330px] rounded-[38px] bg-[#161619] p-3 border-2 border-[#323236] shadow-2xl transform lg:rotate-2 transition-transform duration-300">
-                <div className="rounded-[28px] bg-[#0C0C0E] p-4 border border-white/10">
-                  <div className="flex items-center justify-between text-[10px] font-mono-code text-[#AAA8A6] pb-2 border-b border-white/10">
-                    <span>{activeChemistry.julianScreen.header}</span>
-                    <span className="text-[#C92533]">DEMO DATA</span>
-                  </div>
-
-                  <div className="mt-3 h-36 rounded-xl overflow-hidden border border-white/15">
-                    <AlbumArtGraphic variant={activeChemistry.julianScreen.artVariant} />
-                  </div>
-
-                  <div className="mt-3">
-                    <span className="inline-block text-[10px] font-mono-code uppercase text-[#C92533]">
-                      {activeChemistry.julianScreen.badge}
-                    </span>
-                    <h3 className="text-lg font-bold text-[#F4F0E8] mt-0.5">
-                      {activeChemistry.julianScreen.primaryTitle}
-                    </h3>
-                    <p className="text-xs text-[#AAA8A6]">
-                      {activeChemistry.julianScreen.primaryMeta}
-                    </p>
-                  </div>
-
-                  <ul className="mt-3 pt-3 border-t border-white/10 space-y-1.5 text-xs text-[#F4F0E8]/90">
-                    {activeChemistry.julianScreen.bullets.map((b, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#C92533] font-mono-code">&bull;</span>
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
+            {/* Synchronized Accessible Crate Liner Breakdown Strip Below the Phones */}
+            <div className="relative z-10 mt-6 pt-6 border-t border-[#F4F0E8]/15 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Mila Liner Summary */}
+              <div className="p-4 sm:p-5 bg-[#0B0B0B] border border-[#F4F0E8]/15 rounded-[3px]">
+                <div className="flex items-center justify-between text-[11px] font-mono-code text-[#AAA8A6] pb-2 border-b border-[#F4F0E8]/10">
+                  <span>{activeChemistry.milaScreen.header}</span>
+                  <span className="text-[#C92533] font-bold">{activeChemistry.milaScreen.badge}</span>
                 </div>
+                <h3 className="mt-2.5 font-editorial font-bold text-xl text-[#F4F0E8]">
+                  {activeChemistry.milaScreen.primaryTitle}
+                </h3>
+                <p className="text-xs font-mono-code text-[#AAA8A6] mt-0.5">
+                  {activeChemistry.milaScreen.primaryMeta}
+                </p>
+                <ul className="mt-3 space-y-1 text-xs text-[#F4F0E8]/90">
+                  {activeChemistry.milaScreen.bullets.map((b, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-[#C92533] font-mono-code">&bull;</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Julian Liner Summary */}
+              <div className="p-4 sm:p-5 bg-[#0B0B0B] border border-[#F4F0E8]/15 rounded-[3px]">
+                <div className="flex items-center justify-between text-[11px] font-mono-code text-[#AAA8A6] pb-2 border-b border-[#F4F0E8]/10">
+                  <span>{activeChemistry.julianScreen.header}</span>
+                  <span className="text-[#C92533] font-bold">{activeChemistry.julianScreen.badge}</span>
+                </div>
+                <h3 className="mt-2.5 font-editorial font-bold text-xl text-[#F4F0E8]">
+                  {activeChemistry.julianScreen.primaryTitle}
+                </h3>
+                <p className="text-xs font-mono-code text-[#AAA8A6] mt-0.5">
+                  {activeChemistry.julianScreen.primaryMeta}
+                </p>
+                <ul className="mt-3 space-y-1 text-xs text-[#F4F0E8]/90">
+                  {activeChemistry.julianScreen.bullets.map((b, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-[#C92533] font-mono-code">&bull;</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
@@ -333,7 +398,7 @@ export function ChemistryAndSceneSections() {
       </section>
 
       {/* ====================================================================
-          SECTION F: THE SCENE / PLAYLIST CULTURE (#playlists)
+          SECTION F (04): THE SCENE / PLAYLIST CULTURE (#playlists)
          ==================================================================== */}
       <section
         id="playlists"
@@ -356,7 +421,7 @@ export function ChemistryAndSceneSections() {
                 Playlists are the new love letters.
               </h2>
               <p className="mt-2 text-sm sm:text-base text-[#AAA8A6] max-w-xl">
-                Filter the collage wall by listening mood and click any record sleeve to open its gatefold liner notes and conversation starter inline.
+                Filter the collage wall by listening mood and click any record sleeve to unfold its gatefold liner notes, tracklist, and conversation starter inline.
               </p>
             </div>
 
@@ -397,22 +462,73 @@ export function ChemistryAndSceneSections() {
 
           {/* Inline Expanding Gatefold Record Sleeve Drawer */}
           {selectedPlaylist && (
-            <div className="mt-10 bg-[#141414] border-2 border-[#C92533]/75 rounded-[4px] p-6 sm:p-8 shadow-2xl">
+            <div
+              key={selectedPlaylist.id}
+              data-testid="scene-gatefold-drawer"
+              data-playlist-id={selectedPlaylist.id}
+              className="mt-10 bg-[#141414] border-2 border-[#C92533]/75 rounded-[4px] p-5 sm:p-8 shadow-2xl anim-gatefold-unfold"
+            >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                {/* Sleeve Artwork */}
-                <div className="lg:col-span-4">
-                  <div className="aspect-square max-w-[280px] mx-auto rounded-[4px] overflow-hidden border border-[#F4F0E8]/25 shadow-2xl relative">
-                    <AlbumArtGraphic variant={selectedPlaylist.artVariant} />
-                  </div>
+                {/* Gatefold Spread Visual (Open Gatefold for 01–04, Full Square Sleeve + Vinyl Backing for 05–06) */}
+                <div className="lg:col-span-5">
+                  {selectedPlaylist.gatefoldAsset ? (
+                    <div className="relative rounded-[4px] overflow-hidden border border-[#F4F0E8]/25 shadow-2xl bg-[#0B0B0B]">
+                      <img
+                        src={selectedPlaylist.gatefoldAsset}
+                        alt={`Opened gatefold record spread for ${selectedPlaylist.title}`}
+                        className="w-full h-auto object-cover block"
+                      />
+                      {/* Subtle Live Liner Stamp Overlay on the Right-Hand Open Gatefold Sheet */}
+                      <div className="hidden sm:flex absolute top-[14%] right-[7%] w-[41%] bottom-[14%] flex-col justify-between p-3 text-[#0B0B0B] pointer-events-none">
+                        <div className="border-b border-[#0B0B0B]/30 pb-1 flex items-center justify-between text-[8px] font-mono-code uppercase">
+                          <span className="font-bold text-[#C92533]">RIFF PRESSING</span>
+                          <span>{selectedPlaylist.duration}</span>
+                        </div>
+                        <div className="space-y-1 my-auto">
+                          {selectedPlaylist.tracks.map((tr) => (
+                            <div
+                              key={tr.number}
+                              className="text-[8.5px] font-mono-code leading-tight truncate border-b border-[#0B0B0B]/15 pb-0.5"
+                            >
+                              <span className="font-bold text-[#C92533]">{tr.number}.</span>{' '}
+                              <span className="font-semibold">{tr.title}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="text-[7.5px] font-mono-code uppercase tracking-wider text-[#0B0B0B]/70">
+                          SIDE A / B &bull; {selectedPlaylist.moodLabel}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Covers 05 & 06: Full-Size Square Sleeve Art + Peeking Vinyl Record in Gatefold Frame */
+                    <div className="relative flex items-center justify-center py-2">
+                      <div className="relative w-full max-w-[340px] flex items-center">
+                        <div className="relative z-10 w-[82%] aspect-square rounded-[4px] overflow-hidden border border-[#F4F0E8]/30 shadow-2xl">
+                          <img
+                            src={selectedPlaylist.sleeveAsset}
+                            alt={`Full record sleeve artwork for ${selectedPlaylist.title}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="w-[54%] -ml-[36%] z-0">
+                          <VinylDisc className="w-full h-full drop-shadow-2xl" labelSide="B" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Sleeve Liner Notes + Tracklist + Prompt */}
-                <div className="lg:col-span-8">
+                {/* Sleeve Liner Notes + Live HTML Tracklist + Copyable Icebreaker */}
+                <div className="lg:col-span-7">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono-code text-[#AAA8A6]">
                     <span className="text-[#C92533] font-bold uppercase">
-                      OPEN GATEFOLD SLEEVE &bull; {selectedPlaylist.moodLabel}
+                      {selectedPlaylist.gatefoldAsset
+                        ? 'OPEN GATEFOLD SPREAD'
+                        : 'SLEEVE EDITION LINER NOTES'}{' '}
+                      &bull; {selectedPlaylist.moodLabel}
                     </span>
-                    <span>
+                    <span className="tabular-nums">
                       {selectedPlaylist.trackCount} TRACKS &bull; {selectedPlaylist.duration}
                     </span>
                   </div>
@@ -481,7 +597,7 @@ export function ChemistryAndSceneSections() {
             </div>
           )}
 
-          {/* Collage Grid of Playlist Sleeves */}
+          {/* Collage Grid of 6 Square Record Sleeves */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {visiblePlaylists.map((item) => {
               const isSelected = selectedPlaylist?.id === item.id;
@@ -499,8 +615,16 @@ export function ChemistryAndSceneSections() {
                   }`}
                 >
                   <div>
-                    <div className="h-48 w-full rounded-[3px] overflow-hidden border border-white/10 relative">
-                      <AlbumArtGraphic variant={item.artVariant} />
+                    {/* Square Record Sleeve Image + Peeking Vinyl Accent */}
+                    <div className="relative aspect-square w-full rounded-[3px] overflow-hidden border border-white/10 bg-[#0B0B0B]">
+                      <img
+                        src={item.sleeveAsset}
+                        alt={`${item.title} record sleeve cover art`}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                      />
+                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-[#0B0B0B]/85 border border-[#F4F0E8]/25 text-[10px] font-mono-code uppercase text-[#F4F0E8]">
+                        {item.gatefoldAsset ? 'Gatefold LP' : '12" Sleeve'}
+                      </div>
                     </div>
 
                     <div className="mt-4 flex items-center justify-between text-xs font-mono-code text-[#AAA8A6]">
@@ -528,6 +652,52 @@ export function ChemistryAndSceneSections() {
                 </button>
               );
             })}
+          </div>
+
+          {/* Tactile Scene Ephemera Strip (3 Supplied Ephemera Support Assets) */}
+          <div className="mt-14 pt-10 border-t border-[#F4F0E8]/15">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+              <div>
+                <div className="text-xs font-mono-code uppercase tracking-widest text-[#C92533]">
+                  PHYSICAL SCENE ARTIFACTS · FLYER, TICKET &amp; 35MM ARCHIVE
+                </div>
+                <h3 className="mt-1 font-editorial font-bold text-2xl sm:text-3xl text-[#F4F0E8]">
+                  Built from basement bills, torn stubs, and contact sheets.
+                </h3>
+              </div>
+              <span className="text-xs font-mono-code uppercase text-[#AAA8A6]">
+                ARCHIVE SERIES 01–03
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+              {SCENE_EPHEMERA.map((ep) => (
+                <article
+                  key={ep.id}
+                  style={{ transform: `rotate(${ep.rotate})` }}
+                  className="bg-[#141414] border border-[#F4F0E8]/20 p-4 rounded-[4px] flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1 shadow-xl"
+                >
+                  <div>
+                    <div className="h-56 sm:h-64 w-full rounded-[3px] overflow-hidden bg-[#0B0B0B] border border-[#F4F0E8]/15">
+                      <img
+                        src={ep.src}
+                        alt={ep.alt}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="mt-3 text-[10px] font-mono-code uppercase tracking-wider text-[#C92533] font-bold">
+                      {ep.tag}
+                    </div>
+                    <h4 className="mt-1 font-editorial font-bold text-xl text-[#F4F0E8]">
+                      {ep.title}
+                    </h4>
+                  </div>
+                  <p className="mt-1.5 text-xs text-[#AAA8A6] leading-relaxed">
+                    {ep.detail}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
