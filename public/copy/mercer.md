@@ -247,26 +247,6 @@ export default function MercerLayout({ children }: { children: React.ReactNode }
 }
 ]]>
     </file>
-    <file path="src/app/(mercer)/mercer/MercerApp.test.tsx">
-<![CDATA[import { describe, expect, it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import MercerApp from "./MercerApp";
-
-describe("Mercer portfolio hero", () => {
-  it("assembles the header, experiment, selected projects and accessible dialogs", () => {
-    const html = renderToStaticMarkup(<MercerApp />);
-    for (const text of ["JULES MERCER", "IMAGINE.", "MONOCHROME", "SHIFT SYSTEM", "FORM STUDY"]) expect(html).toContain(text);
-    expect(html).toContain('id="main-content"');
-    expect(html).toContain('href="#main-content"');
-    expect(html).toContain('<dialog');
-    expect(html).toContain('aria-label="Close details"');
-    expect(html.match(/<main/g)).toHaveLength(1);
-    expect(html.match(/<h1/g)).toHaveLength(1);
-    expect(html).not.toContain('href="#"');
-  });
-});
-]]>
-    </file>
     <file path="src/app/(mercer)/mercer/MercerApp.tsx">
 <![CDATA["use client";
 
@@ -373,28 +353,6 @@ export default function MercerPage() {
 }
 ]]>
     </file>
-    <file path="src/app/(mercer)/mercer/components/ExperimentDetails.test.tsx">
-<![CDATA[import { describe, expect, it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import ExperimentDetails from "./ExperimentDetails";
-
-describe("Mercer experiment notes", () => {
-  it("presents the linked knot study and a readable applet sketch inside the shared dialog", () => {
-    const html = renderToStaticMarkup(<ExperimentDetails onReturn={() => {}} />);
-    expect(html).toContain('id="jm-dialog-title"');
-    const heading = html.match(/<h2[^>]*>(.*?)<\/h2>/)?.[1].replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-    expect(heading).toBe("A knot of possibilities.");
-    expect(html).toContain("(2, 3) TORUS KNOT");
-    expect(html).toContain("APPLET SKETCH");
-    expect(html).toContain("function applet()");
-    expect(html).toContain("RETURN TO EXPERIMENT");
-    expect(html).toContain('<svg');
-    expect(html).not.toContain('<dialog');
-    expect(html).not.toContain('<iframe');
-  });
-});
-]]>
-    </file>
     <file path="src/app/(mercer)/mercer/components/ExperimentDetails.tsx">
 <![CDATA[import { ArrowUpRight } from "lucide-react";
 import { AppletCode } from "./HudCards";
@@ -433,41 +391,6 @@ export default function ExperimentDetails({ onReturn }: { onReturn: () => void }
     </div>
   );
 }
-]]>
-    </file>
-    <file path="src/app/(mercer)/mercer/components/HudCards.test.tsx">
-<![CDATA[import { describe, expect, it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import { ExperimentStatusCard, FpsBadge, TerminalCodeCard } from "./HudCards";
-
-describe("hero telemetry", () => {
-  it("displays measured FPS and does not invent an initial reading", () => {
-    expect(renderToStaticMarkup(<FpsBadge fps={60} />)).toContain("60 FPS");
-    expect(renderToStaticMarkup(<FpsBadge fps={0} />)).toContain("— FPS");
-  });
-  it("renders the code window as code, with no HTML injection", () => {
-    const html = renderToStaticMarkup(<TerminalCodeCard />);
-    expect(html).toContain("function applet()");
-    expect(html).toContain("<code>");
-    expect(html).toContain("requestAnimationFrame");
-  });
-  it("makes the whole terminal a keyboard-accessible dialog trigger", () => {
-    const html = renderToStaticMarkup(<TerminalCodeCard onOpen={() => {}} />);
-    expect(html).toContain('<button');
-    expect(html).toContain('aria-label="Open experiment notes"');
-    expect(html).toContain('aria-haspopup="dialog"');
-    expect(html).toContain('aria-controls="jm-detail-dialog"');
-    expect(html).toContain("OPEN NOTES");
-    expect(html).not.toContain("<pre>");
-  });
-  it("distinguishes a live experiment from a static fallback", () => {
-    expect(renderToStaticMarkup(<ExperimentStatusCard />)).toContain("SYSTEM ONLINE");
-    expect(renderToStaticMarkup(<ExperimentStatusCard />)).toContain("INTERACTIVE EXPERIMENT / 001");
-    const fallback = renderToStaticMarkup(<ExperimentStatusCard online={false} />);
-    expect(fallback).toContain("STATIC PREVIEW");
-    expect(fallback).not.toContain("SYSTEM ONLINE");
-  });
-});
 ]]>
     </file>
     <file path="src/app/(mercer)/mercer/components/HudCards.tsx">
@@ -567,22 +490,6 @@ export default function MercerHeader({ onProjects, onAbout }: HeaderProps) {
 }
 ]]>
     </file>
-    <file path="src/app/(mercer)/mercer/components/MercerHeroCopy.test.tsx">
-<![CDATA[import { describe, expect, it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import MercerHeroCopy from "./MercerHeroCopy";
-
-describe("Mercer hero copy", () => {
-  it("renders one three-line headline, the supplied description and both actions", () => {
-    const html = renderToStaticMarkup(<MercerHeroCopy />);
-    expect(html.match(/<h1/g)).toHaveLength(1);
-    for (const text of ["I BUILD", "WHAT YOU", "IMAGINE.", "EXPLORE PROJECTS", "ABOUT ME", "code becomes creativity"]) expect(html).toContain(text);
-    expect(html.match(/<button/g)).toHaveLength(2);
-    expect(html).toContain('class="jm-headline-accent"');
-  });
-});
-]]>
-    </file>
     <file path="src/app/(mercer)/mercer/components/MercerHeroCopy.tsx">
 <![CDATA[import { ArrowUpRight } from "lucide-react";
 
@@ -603,32 +510,6 @@ export default function MercerHeroCopy({ onExplore, onAbout }: { onExplore?: () 
     </div>
   );
 }
-]]>
-    </file>
-    <file path="src/app/(mercer)/mercer/components/MercerTorusKnotCanvas.test.tsx">
-<![CDATA[import { describe, expect, it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import MercerTorusKnotCanvas from "./MercerTorusKnotCanvas";
-
-describe("canvas progressive enhancement", () => {
-  it("server renders a procedural fallback and HUD before any browser APIs run", () => {
-    const html = renderToStaticMarkup(<MercerTorusKnotCanvas />);
-    expect(html).toContain('data-testid="mercer-canvas-container"');
-    expect(html).toContain('data-state="preview"');
-    expect(html).toContain('<svg');
-    expect(html).toContain("INTERACTIVE EXPERIMENT / 001");
-    expect(html).toContain("STATIC PREVIEW");
-    expect(html).not.toContain("<canvas");
-  });
-  it("provides a named keyboard interaction area and instructions before the scene loads", () => {
-    const html = renderToStaticMarkup(<MercerTorusKnotCanvas />);
-    expect(html).toContain('aria-label="Interactive torus knot"');
-    expect(html).toContain('aria-describedby="jm-knot-help"');
-    expect(html).toContain('id="jm-knot-help"');
-    expect(html).toContain("Arrow keys");
-    expect(html).toContain("DRAG TO ROTATE");
-  });
-});
 ]]>
     </file>
     <file path="src/app/(mercer)/mercer/components/MercerTorusKnotCanvas.tsx">
@@ -827,36 +708,6 @@ export default function ProjectTicker({ onSelect, onExplore }: { onSelect?: (ind
     </footer>
   );
 }
-]]>
-    </file>
-    <file path="src/app/(mercer)/mercer/components/TorusKnotFallback.test.tsx">
-<![CDATA[import { afterEach, describe, expect, it, vi } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-
-afterEach(() => {
-  vi.restoreAllMocks();
-  vi.resetModules();
-});
-
-async function renderFallback() {
-  const { default: TorusKnotFallback } = await import("./TorusKnotFallback");
-  return renderToStaticMarkup(<TorusKnotFallback />);
-}
-
-describe("fallback SVG hydration", () => {
-  it.each([-1, 1])("emits identical server/client markup with direction %i floating-point drift", async (direction) => {
-    vi.resetModules();
-    const serverMarkup = await renderFallback();
-    const originalSin = Math.sin;
-    const originalCos = Math.cos;
-    // Model the tiny Math implementation differences between Node and browser runtimes.
-    vi.spyOn(Math, "sin").mockImplementation((angle) => originalSin(angle) + direction * Number.EPSILON);
-    vi.spyOn(Math, "cos").mockImplementation((angle) => originalCos(angle) + direction * Number.EPSILON);
-    vi.resetModules();
-    const clientMarkup = await renderFallback();
-    expect(clientMarkup.split("><")).toEqual(serverMarkup.split("><"));
-  });
-});
 ]]>
     </file>
     <file path="src/app/(mercer)/mercer/components/TorusKnotFallback.tsx">
@@ -1204,28 +1055,6 @@ all.forEach(s=>{s.resizePending=true;drawState(s)});if(!reduced)requestFrame(ani
     delete root.dataset.active;
   };
 }
-]]>
-    </file>
-    <file path="src/app/(mercer)/mercer/continuation/MercerContinuation.test.tsx">
-<![CDATA[import { describe, expect, it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import MercerContinuation from "./MercerContinuation";
-
-describe("authored Mercer continuation", () => {
-  it("starts at Selected Work and includes the supplied three studies, contact and footer", () => {
-    const html = renderToStaticMarkup(<MercerContinuation />);
-    expect(html).toContain("02 / SELECTED WORK");
-    expect(html).toContain('id="jm-work"');
-    for (const id of ["jm-project-one", "jm-project-two", "jm-project-three", "jm-contact", "jm-footer"]) expect(html).toContain(`id="${id}"`);
-    expect(html.match(/<canvas/g)).toHaveLength(3);
-    expect(html).toContain("COPY EMAIL");
-    expect(html).not.toContain('id="jm-about"');
-    expect(html).not.toContain('href="#jm-about"');
-    expect(html).not.toContain("<h1");
-    expect(html).not.toContain("<iframe");
-    expect(html).not.toContain("<script");
-  });
-});
 ]]>
     </file>
     <file path="src/app/(mercer)/mercer/continuation/MercerContinuation.tsx">

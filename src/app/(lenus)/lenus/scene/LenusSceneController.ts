@@ -26,7 +26,7 @@ export class LenusSceneController {
   private readonly raycaster=new THREE.Raycaster();
   private renderer:THREE.WebGLRenderer|null=null;
   private controls:OrbitControls|null=null;
-  private environment:THREE.WebGLCubeRenderTarget|null=null;
+  private environment:THREE.WebGLRenderTarget|null=null;
   private model:THREE.Group|null=null;
   private runtime:LensRuntime|null=null;
   private disposed=false;
@@ -73,7 +73,7 @@ export class LenusSceneController {
         [0xD2F802,1.8,[-4,4,-.4]],[0xA855F7,1.5,[4,-3,-.4]],
       ] as const) {
         const light=new THREE.DirectionalLight(color,intensity);
-        light.position.set(...position);this.scene.add(light);
+        light.position.set(position[0],position[1],position[2]);this.scene.add(light);
       }
       this.placeCamera(BASE_YAW,BASE_POLAR);
       const controls=new OrbitControls(this.camera,canvas);
@@ -81,7 +81,8 @@ export class LenusSceneController {
       controls.enableZoom=false;controls.enablePan=false;controls.enableDamping=false;
       controls.rotateSpeed=.5;
       controls.minPolarAngle=Math.PI*.2;controls.maxPolarAngle=Math.PI*.8;
-      controls.minAzimuthAngle=BASE_YAW-Math.PI;controls.maxAzimuthAngle=BASE_YAW+Math.PI;
+      // OrbitControls normalizes bounds outside ±π; base±π wraps both to the same rear angle.
+      controls.minAzimuthAngle=-Math.PI;controls.maxAzimuthAngle=Math.PI;
       controls.addEventListener("start",this.onDragStart);
       controls.addEventListener("end",this.onDragEnd);
       // Preserve vertical page scrolling on touch; horizontal drags still inspect the lens.
@@ -106,8 +107,21 @@ export class LenusSceneController {
     this.renderer.setSize(this.viewport.width,this.viewport.height,false);
   }
   setPointer(x:number,y:number){if(!this.disposed)this.pointer={x:normalizePointer(x),y:normalizePointer(y)};}
-  setExplodeTarget(amount:number){if(!this.disposed)this.explodeTarget=THREE.MathUtils.clamp(finite(amount),0,1);}
-  setFocusTarget(radians:number){if(!this.disposed)this.focusTarget=THREE.MathUtils.clamp(finite(radians),-Math.PI/2,Math.PI/2);}
+  setExplodeTarget(amount:number){
+    if(this.disposed)return;
+    this.explodeTarget=THREE.MathUtils.clamp(finite(amount),0,1);
+    if(!this.running){
+      this.explode=this.explodeTarget;this.runtime?.setExplode(this.explode);
+      const shards=this.runtime?.nodes.shards;
+      if(shards)shards.position.y=Math.sin(this.elapsed*.65)*.035;
+      this.render();
+    }
+  }
+  setFocusTarget(radians:number){
+    if(this.disposed)return;
+    this.focusTarget=THREE.MathUtils.clamp(finite(radians),-Math.PI/2,Math.PI/2);
+    if(!this.running){this.focus=this.focusTarget;this.runtime?.setFocusRing(this.focus);this.render();}
+  }
   pickAtNormalizedCanvas(nx:number,ny:number){
     if(this.disposed||this.contextLost||!this.model||!this.runtime)return getPartTelemetry(null);
     this.scene.updateMatrixWorld(true);this.camera.updateMatrixWorld(true);
@@ -123,7 +137,7 @@ export class LenusSceneController {
   rotateView(deltaYaw:number,deltaPitch:number){
     if(this.disposed||!this.renderer||this.contextLost)return;
     const p=new THREE.Spherical().setFromVector3(this.camera.position);
-    this.placeCamera(THREE.MathUtils.clamp(p.theta+finite(deltaYaw),BASE_YAW-Math.PI,BASE_YAW+Math.PI),THREE.MathUtils.clamp(p.phi+finite(deltaPitch),Math.PI*.2,Math.PI*.8));
+    this.placeCamera(THREE.MathUtils.clamp(p.theta+finite(deltaYaw),-Math.PI,Math.PI),THREE.MathUtils.clamp(p.phi+finite(deltaPitch),Math.PI*.2,Math.PI*.8));
     this.render();
   }
   resetView(){
@@ -156,7 +170,6 @@ export class LenusSceneController {
     this.model.rotation.x+=((this.dragging?0:-this.pointer.y*.1)-this.model.rotation.x)*damp;
     const shards=this.runtime.nodes.shards;
     if(shards)shards.position.y=Math.sin(this.elapsed*.65)*.035;
-    this.render();
     this.frames++;this.sampleTime+=realDelta;
     if(this.sampleTime>=1){
       const fps=this.frames/this.sampleTime;
@@ -165,6 +178,8 @@ export class LenusSceneController {
       if(this.slowTime>=2&&this.resolutionScale>.75){this.resolutionScale=Math.max(.75,this.resolutionScale*.85);this.resizeBuffer();this.slowTime=0;}
       this.frames=0;this.sampleTime=0;
     }
+    // A buffer resize clears its pixels; render afterwards so pausing cannot freeze a blank frame.
+    this.render();
   };
   private render(){if(this.renderer&&!this.contextLost)this.renderer.render(this.scene,this.camera);}
   private onDragStart=()=>{this.dragging=true;this.options.onInteractionChange?.(true);};

@@ -24,7 +24,7 @@ Personality: technical and cinematic. Verbs: reveal, focus. Easing: cubic-bezier
 | HUD | Small upward reveal | FPS updates at most once a second | Accessible sliders, reversible explosion | Always usable in fallback mode |
 | Dialog | Short rise with opacity | Scrolls within viewport | Native focus trap; validated form | Escape / backdrop / close restore focus |
 
-Signature moment: STEP INSIDE separates the optical assembly and brings its controls into focus. No WebGL, parallax, smooth scrolling or ambient motion under reduced motion. The SVG is server-rendered and survives no-JS, blocked WebGL and context loss. Context restoration rebuilds GPU resources before resuming. Slow frames lower drawing-buffer resolution, with device pixel ratio capped at 1.5.
+Signature moment: STEP INSIDE separates the optical assembly and brings its controls into focus. Desktop starts rendering at idle; coarse-pointer and narrow screens retain SVG until a tap, Enter, or STEP INSIDE activates the scene. Commands made during loading and settings retained across preference changes are replayed before the new scene is shown. Pause stops ambient movement while explicit focus, separation and reset remain usable. No WebGL, parallax, smooth scrolling or ambient motion under reduced motion. The SVG is server-rendered and survives no-JS, blocked WebGL and context loss. Context restoration rebuilds GPU resources before resuming. Slow frames lower drawing-buffer resolution, with device pixel ratio capped at 1.5.
 
 ## Signature details
 Geometric LENUS lockup; violet START. optical bloom; radial aperture architecture behind transparent glass; selected-part optical telemetry; lime primary actions.

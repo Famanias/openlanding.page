@@ -7,6 +7,6 @@ export function readTemplateFiles(slug: string, includeData = false): SourceFile
   const pattern = `src/app/\\(${slug}\\)/**/*.{ts,tsx,js,jsx,css,svg${includeData ? ",json" : ""}}`;
   return fg
     .sync(pattern, { dot: false })
-    .filter((p) => !p.endsWith(".test.ts"))
+    .filter((p) => !/\.test\.[cm]?[jt]sx?$/.test(p))
     .map((p) => ({ path: p, source: readFileSync(p, "utf8") }));
 }

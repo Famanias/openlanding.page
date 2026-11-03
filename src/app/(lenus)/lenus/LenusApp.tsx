@@ -1,5 +1,6 @@
 "use client";
 import { useEffect,useRef,useState,type MouseEvent } from "react";
+import Link from "next/link";
 import { ArrowUpRight,X } from "lucide-react";
 import LenusHeader,{type LenusDialogSection} from "./components/LenusHeader";
 import LenusHeroCopy from "./components/LenusHeroCopy";
@@ -45,7 +46,7 @@ export default function LenusApp(){
     <a className="ln-skip" href="#ln-main">Skip to content</a><div className="ln-space" aria-hidden="true"/>
     <LenusHeader onNavigate={navigate}/>
     <main className="ln-hero" id="ln-main"><LenusHeroCopy onStepInside={stepInside}/><div className="ln-stage-slot" ref={stage}><LenusOpticalLensCanvas suspended={activeDialog!==null} externalExplodeRequest={explodeFromCta}/></div></main>
-    <footer className="ln-footer"><span>INDEPENDENT MINDS. SHARED POSSIBILITIES.</span><a href="/">EXPLORE THE GALLERY <ArrowUpRight size={11} aria-hidden="true"/></a></footer>
+    <footer className="ln-footer"><span>INDEPENDENT MINDS. SHARED POSSIBILITIES.</span><Link href="/">EXPLORE THE GALLERY <ArrowUpRight size={11} aria-hidden="true"/></Link></footer>
     <dialog ref={dialog} className="ln-dialog" aria-labelledby="ln-dialog-title" onCancel={event=>{event.preventDefault();close();}} onClick={backdrop}>
       <button type="button" className="ln-dialog-close ln-icon-button" aria-label="Close panel" onClick={close}><X size={22} aria-hidden="true"/></button>
       <div className="ln-dialog-content">

@@ -5,4 +5,9 @@ describe("copyable template sources",()=>{
     const files=readTemplateFiles("lenus",true);
     expect(files.find(file=>file.path==="src/app/(lenus)/lenus/model/lens-spec.json")?.source).toContain('"outer-glass"');
   });
+  it("exports runnable template source without Vitest component test files",()=>{
+    const files=readTemplateFiles("lenus",true);
+    expect(files.map(file=>file.path)).not.toContain("src/app/(lenus)/lenus/LenusApp.test.tsx");
+    expect(files.some(file=>/\.test\.[jt]sx?$/.test(file.path))).toBe(false);
+  });
 });

@@ -18,7 +18,7 @@
 }
 .ln-body{margin:0;background:var(--color-ln-midnight);color:var(--color-ln-white);font-family:var(--font-ln-body);-webkit-font-smoothing:antialiased}
 .ln-body *{box-sizing:border-box}
-.ln-body button,.ln-body input,.ln-body select,.ln-body textarea{font:inherit}
+:where(.ln-body) :where(button,input,select,textarea){font:inherit}
 .ln-body button,.ln-body a,.ln-body input,.ln-body select,.ln-body textarea{-webkit-tap-highlight-color:transparent}
 .ln-body button{cursor:pointer}
 .ln-body button:disabled{cursor:default;opacity:.4}
@@ -51,7 +51,7 @@
 .ln-headline-line>span{display:inline-block}
 .ln-headline-lime{color:var(--color-ln-lime)}
 .ln-headline-white{color:var(--color-ln-white)}
-.ln-headline-violet{color:var(--color-ln-violet);text-shadow:0 0 44px color-mix(in srgb,var(--color-ln-violet) 28%,transparent)}
+.ln-headline-violet{color:var(--color-ln-violet);margin-left:.08em;text-shadow:0 0 44px color-mix(in srgb,var(--color-ln-violet) 28%,transparent)}
 .ln-subtitle{max-width:460px;margin:0 0 32px;color:var(--color-ln-muted);font-size:20px;line-height:1.6;text-wrap:pretty}
 .ln-step-inside{padding:16px 24px;min-height:56px}
 .ln-step-inside svg{transition:transform var(--duration-ln-ui) var(--ease-ln-out)}
@@ -130,3 +130,6 @@
 @media(max-width:700px){.ln-header{display:flex;gap:12px;justify-content:space-between;margin:12px 16px;padding:16px 20px;border-radius:20px}.ln-wordmark{width:100px}.ln-desktop-nav,.ln-contact-cta{display:none}.ln-menu-toggle{display:flex}.ln-hero{padding:0 24px 24px}.ln-hero-copy{padding-top:32px;padding-bottom:16px}.ln-hero-copy h1{font-size:clamp(52px,14.8vw,88px);letter-spacing:-.065em;margin-bottom:24px}.ln-subtitle{font-size:16px;line-height:26px;margin-bottom:24px}.ln-step-inside{min-height:52px;padding:12px 20px;font-size:14px}.ln-copy-footnote{display:none}.ln-lens-plot{height:auto;aspect-ratio:1;min-height:0;margin:24px -8px 0}.ln-hud{width:100%;padding:16px}.ln-stage-marker{font-size:8px}.ln-stage-help{font-size:10px;margin-bottom:16px}.ln-footer{padding-inline:24px;flex-wrap:wrap;font-size:8px}.ln-space::before{top:30%;width:160vw;height:160vw;right:-70vw}}
 @media(prefers-reduced-motion:reduce){.ln-body *,.ln-body *::before,.ln-body *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.ln-lens-fallback{visibility:visible!important;opacity:1!important}}
 @media(max-width:700px){.ln-dialog{width:calc(100vw - 24px);max-height:calc(100svh - 24px);border-radius:20px}.ln-dialog-content{padding:12px 24px 32px}.ln-dialog h2{font-size:36px}.ln-dialog-studies article{padding:16px}.ln-dialog-close{top:8px;left:calc(100% - 48px)}}
+/* Optical labels remain readable at their actual phone rendering size. */
+.ln-copy-footnote,.ln-stage-marker,.ln-stage-help,.ln-micro,.ln-status,.ln-part-material,.ln-part-description,.ln-explode,.ln-hud-sliders label,.ln-footer,.ln-dialog-eyebrow,.ln-form-note{font-size:12px;line-height:18px}
+.ln-part-readout select{font-size:12px;line-height:20px}

@@ -7,4 +7,7 @@ describe("project brief validation",()=>{
   it("accepts a concrete local project brief",()=>{
     expect(validateBrief({name:"Morgan",email:"morgan@example.com",brief:"Build an immersive product experience for our launch."})).toEqual({});
   });
+  it.each(["a@@example.com","person@site@com.test","person @example.com"])("rejects malformed email %s",email=>{
+    expect(validateBrief({name:"Morgan",email,brief:"An immersive launch experience for our new product."}).email).toBe("Enter a valid email address.");
+  });
 });

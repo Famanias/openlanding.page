@@ -50,7 +50,7 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
 }
 .ln-body{margin:0;background:var(--color-ln-midnight);color:var(--color-ln-white);font-family:var(--font-ln-body);-webkit-font-smoothing:antialiased}
 .ln-body *{box-sizing:border-box}
-.ln-body button,.ln-body input,.ln-body select,.ln-body textarea{font:inherit}
+:where(.ln-body) :where(button,input,select,textarea){font:inherit}
 .ln-body button,.ln-body a,.ln-body input,.ln-body select,.ln-body textarea{-webkit-tap-highlight-color:transparent}
 .ln-body button{cursor:pointer}
 .ln-body button:disabled{cursor:default;opacity:.4}
@@ -83,7 +83,7 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
 .ln-headline-line>span{display:inline-block}
 .ln-headline-lime{color:var(--color-ln-lime)}
 .ln-headline-white{color:var(--color-ln-white)}
-.ln-headline-violet{color:var(--color-ln-violet);text-shadow:0 0 44px color-mix(in srgb,var(--color-ln-violet) 28%,transparent)}
+.ln-headline-violet{color:var(--color-ln-violet);margin-left:.08em;text-shadow:0 0 44px color-mix(in srgb,var(--color-ln-violet) 28%,transparent)}
 .ln-subtitle{max-width:460px;margin:0 0 32px;color:var(--color-ln-muted);font-size:20px;line-height:1.6;text-wrap:pretty}
 .ln-step-inside{padding:16px 24px;min-height:56px}
 .ln-step-inside svg{transition:transform var(--duration-ln-ui) var(--ease-ln-out)}
@@ -162,19 +162,9 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
 @media(max-width:700px){.ln-header{display:flex;gap:12px;justify-content:space-between;margin:12px 16px;padding:16px 20px;border-radius:20px}.ln-wordmark{width:100px}.ln-desktop-nav,.ln-contact-cta{display:none}.ln-menu-toggle{display:flex}.ln-hero{padding:0 24px 24px}.ln-hero-copy{padding-top:32px;padding-bottom:16px}.ln-hero-copy h1{font-size:clamp(52px,14.8vw,88px);letter-spacing:-.065em;margin-bottom:24px}.ln-subtitle{font-size:16px;line-height:26px;margin-bottom:24px}.ln-step-inside{min-height:52px;padding:12px 20px;font-size:14px}.ln-copy-footnote{display:none}.ln-lens-plot{height:auto;aspect-ratio:1;min-height:0;margin:24px -8px 0}.ln-hud{width:100%;padding:16px}.ln-stage-marker{font-size:8px}.ln-stage-help{font-size:10px;margin-bottom:16px}.ln-footer{padding-inline:24px;flex-wrap:wrap;font-size:8px}.ln-space::before{top:30%;width:160vw;height:160vw;right:-70vw}}
 @media(prefers-reduced-motion:reduce){.ln-body *,.ln-body *::before,.ln-body *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.ln-lens-fallback{visibility:visible!important;opacity:1!important}}
 @media(max-width:700px){.ln-dialog{width:calc(100vw - 24px);max-height:calc(100svh - 24px);border-radius:20px}.ln-dialog-content{padding:12px 24px 32px}.ln-dialog h2{font-size:36px}.ln-dialog-studies article{padding:16px}.ln-dialog-close{top:8px;left:calc(100% - 48px)}}
-]]>
-    </file>
-    <file path="src/app/(lenus)/lenus/LenusApp.test.tsx">
-<![CDATA[import { describe,expect,it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import LenusApp from "./LenusApp";
-describe("LenusApp",()=>{
-  it("server renders the complete hero and native dialog shell",()=>{
-    const html=renderToStaticMarkup(<LenusApp/>);
-    for(const part of ["LENUS","REALITY","START.","STEP INSIDE",'data-testid="lenus-canvas-container"',"<dialog"])expect(html).toContain(part);
-    expect(html).not.toContain("<canvas");
-  });
-});
+/* Optical labels remain readable at their actual phone rendering size. */
+.ln-copy-footnote,.ln-stage-marker,.ln-stage-help,.ln-micro,.ln-status,.ln-part-material,.ln-part-description,.ln-explode,.ln-hud-sliders label,.ln-footer,.ln-dialog-eyebrow,.ln-form-note{font-size:12px;line-height:18px}
+.ln-part-readout select{font-size:12px;line-height:20px}
 ]]>
     </file>
     <file path="src/app/(lenus)/lenus/LenusApp.tsx">
@@ -296,25 +286,6 @@ export default function LenusHeader({onNavigate}:{onNavigate:(section:Exclude<Le
 }
 ]]>
     </file>
-    <file path="src/app/(lenus)/lenus/components/LenusHeroCopy.test.tsx">
-<![CDATA[import { describe,expect,it,vi } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import LenusHeroCopy from "./LenusHeroCopy";
-import LenusHeader from "./LenusHeader";
-describe("Lenus hero composition",()=>{
-  it("renders the reference wordmark and navigation actions",()=>{
-    const html=renderToStaticMarkup(<LenusHeader onNavigate={vi.fn()}/>);
-    for(const word of ["LENUS","WORK","EXPERTISE","TECHNOLOGY","ABOUT","GET IN TOUCH"])expect(html).toContain(word);
-    expect(html).toContain('aria-label="Toggle navigation"');
-  });
-  it("renders exact reference copy and the step inside action",()=>{
-    const html=renderToStaticMarkup(<LenusHeroCopy onStepInside={vi.fn()}/>);
-    for(const word of ["REALITY","IS JUST","THE","START.","We build experiences that move brands","beyond the expected.","STEP INSIDE"])expect(html).toContain(word);
-    expect(html).toContain('aria-label="REALITY IS JUST THE START."');
-  });
-});
-]]>
-    </file>
     <file path="src/app/(lenus)/lenus/components/LenusHeroCopy.tsx">
 <![CDATA[import { ArrowRight } from "lucide-react";
 export default function LenusHeroCopy({onStepInside}:{onStepInside:()=>void}){
@@ -329,21 +300,6 @@ export default function LenusHeroCopy({onStepInside}:{onStepInside:()=>void}){
     <div className="ln-copy-footnote"><span aria-hidden="true">↗</span> A DIFFERENT WAY TO SEE WHAT’S NEXT.</div>
   </div>;
 }
-]]>
-    </file>
-    <file path="src/app/(lenus)/lenus/components/LenusHudControls.test.tsx">
-<![CDATA[import { describe,expect,it,vi } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import { LenusHudControls } from "./LenusHudControls";
-import {getPartTelemetry} from "../scene/telemetry";
-describe("Lenus optical HUD",()=>{
-  it("exposes named assembly, focus and playback controls",()=>{
-    const html=renderToStaticMarkup(<LenusHudControls state="running" fps={60} exploded={false} explodeAmount={0} focusAngle={0} activePart={getPartTelemetry("front-lens")} paused={false} onToggleExplode={vi.fn()} onExplodeChange={vi.fn()} onFocusChange={vi.fn()} onResetView={vi.fn()} onTogglePause={vi.fn()}/>);
-    expect(html).toContain("EMERALD OBJECTIVE CORE");expect(html).toContain("60 FPS");
-    expect(html).toContain('aria-label="Explode optical assembly"');expect(html).toContain('aria-label="Focus ring rotation"');
-    expect(html).toContain('aria-label="Pause animation"');expect(html).toContain("EXPLODE ASSEMBLY");
-  });
-});
 ]]>
     </file>
     <file path="src/app/(lenus)/lenus/components/LenusHudControls.tsx">
@@ -381,21 +337,6 @@ export function LenusHudControls(p:Props){
 }
 ]]>
     </file>
-    <file path="src/app/(lenus)/lenus/components/LenusLensFallback.test.tsx">
-<![CDATA[import { describe, expect, it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import LenusLensFallback from "./LenusLensFallback";
-describe("LenusLensFallback",()=>{
-  it("renders an accessible procedural optical assembly without JavaScript",()=>{
-    const html=renderToStaticMarkup(<LenusLensFallback/>);
-    expect(html).toContain('class="ln-lens-fallback"');
-    expect(html).toContain('<svg');expect(html).toContain('viewBox="-280 -280 560 560"');
-    expect(html).toContain('Optical lens');expect(html).toContain('data-optical-ring');
-    expect(html).toContain('#00E599');
-  });
-});
-]]>
-    </file>
     <file path="src/app/(lenus)/lenus/components/LenusLensFallback.tsx">
 <![CDATA[import { useId } from "react";
 
@@ -431,20 +372,6 @@ export default function LenusLensFallback(){
 }
 ]]>
     </file>
-    <file path="src/app/(lenus)/lenus/components/LenusOpticalLensCanvas.test.tsx">
-<![CDATA[import { describe,expect,it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
-import LenusOpticalLensCanvas from "./LenusOpticalLensCanvas";
-describe("Lenus progressive enhancement",()=>{
-  it("server renders the optical fallback and controls before mounting WebGL",()=>{
-    const html=renderToStaticMarkup(<LenusOpticalLensCanvas/>);
-    expect(html).toContain('data-testid="lenus-canvas-container"');expect(html).toContain('data-state="preview"');
-    expect(html).toContain('class="ln-lens-fallback"');expect(html).toContain('aria-label="Interactive Lenus optical lens assembly"');
-    expect(html).toContain("EXPLODE ASSEMBLY");expect(html).not.toContain("<canvas");
-  });
-});
-]]>
-    </file>
     <file path="src/app/(lenus)/lenus/components/LenusOpticalLensCanvas.tsx">
 <![CDATA["use client";
 
@@ -458,6 +385,8 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const host=useRef<HTMLDivElement>(null);
   const controller=useRef<LenusSceneController|null>(null);
   const synchronize=useRef<()=>void>(()=>{});
+  const activate=useRef<()=>void>(()=>{});
+  const pose=useRef({explode:0,focus:0});
   const policy=useRef({suspended,paused:false});
   const [state,setState]=useState<LenusStageState>("preview");
   const [fps,setFps]=useState(0);
@@ -466,6 +395,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const [focusAngle,setFocusAngle]=useState(0);
   const [activePart,setActivePart]=useState(()=>getPartTelemetry(null));
   const [locked,setLocked]=useState(false);
+  const [activationNeeded,setActivationNeeded]=useState(false);
   const lastPick=useRef(0),pointerStart=useRef({x:0,y:0});
   const instructions=useId();
 
@@ -476,7 +406,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   useEffect(()=>{
     const container=host.current;
     if(!container)return;
-    let active=true,revision=0,inView=true,lost=false;
+    let active=true,revision=0,inView=true,lost=false,activated=false;
     const media=window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync=()=>{
       const c=controller.current;
@@ -487,9 +417,14 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
     };
     synchronize.current=sync;
     const boot=async()=>{
+      if(controller.current&&!media.matches){sync();return;}
       const ticket=++revision;
       controller.current?.dispose();controller.current=null;lost=false;
-      if(media.matches){setState("static");return;}
+      if(media.matches){setActivationNeeded(false);setState("static");return;}
+      if(!activated&&(window.matchMedia("(pointer: coarse)").matches||window.innerWidth<700)){
+        setActivationNeeded(true);setState("preview");return;
+      }
+      setActivationNeeded(false);
       setState("preview");
       try {
         const {LenusSceneController}=await import("../scene/LenusSceneController");
@@ -500,11 +435,15 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
           onPartChange:part=>{if(active&&ticket===revision)setActivePart(current=>current.id===part.id?current:part);},
         });
         controller.current=instance;
-        instance.init(container);sync();
+        instance.init(container);
+        // Commands can arrive before this import resolves or survive a preference change.
+        instance.setExplodeTarget(pose.current.explode);instance.setFocusTarget(pose.current.focus);
+        sync();
       } catch {
         if(active&&ticket===revision){controller.current?.dispose();controller.current=null;setState("unavailable");}
       }
     };
+    activate.current=()=>{activated=true;void boot();};
     const resize=new ResizeObserver(entries=>{
       const rect=entries[0]?.contentRect;
       if(rect)controller.current?.resize(rect.width,rect.height);
@@ -516,22 +455,23 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
     media.addEventListener("change",onPreference);
     document.addEventListener("visibilitychange",sync);
     // The SVG and copy paint first; reduced motion never imports the rendering engine.
-    const timer=window.setTimeout(()=>{void boot();},0);
+    const idle="requestIdleCallback" in window;
+    const timer=idle?window.requestIdleCallback(()=>{void boot();},{timeout:1500}):window.setTimeout(()=>{void boot();},0);
     return()=>{
-      active=false;revision++;window.clearTimeout(timer);resize.disconnect();intersection.disconnect();
+      active=false;revision++;if(idle)window.cancelIdleCallback(timer);else window.clearTimeout(timer);resize.disconnect();intersection.disconnect();
       media.removeEventListener("change",onPreference);document.removeEventListener("visibilitychange",sync);
-      synchronize.current=()=>{};controller.current?.dispose();controller.current=null;
+      synchronize.current=()=>{};activate.current=()=>{};controller.current?.dispose();controller.current=null;
     };
   },[]);
 
-  useEffect(()=>{controller.current?.setExplodeTarget(explodeAmount);},[explodeAmount]);
-  useEffect(()=>{controller.current?.setFocusTarget(focusAngle);},[focusAngle]);
   useEffect(()=>{
-    if(externalExplodeRequest>0){setExplodeAmount(1);setPaused(false);}
+    if(externalExplodeRequest>0){pose.current.explode=1;setExplodeAmount(1);controller.current?.setExplodeTarget(1);setPaused(false);activate.current();}
   },[externalExplodeRequest]);
 
-  const reset=()=>{setExplodeAmount(0);setFocusAngle(0);setLocked(false);setActivePart(getPartTelemetry(null));controller.current?.resetView();};
-  const toggleExplode=()=>setExplodeAmount(value=>value>.5?0:1);
+  const changeExplode=(value:number)=>{pose.current.explode=value;setExplodeAmount(value);controller.current?.setExplodeTarget(value);};
+  const changeFocus=(value:number)=>{pose.current.focus=value;setFocusAngle(value);controller.current?.setFocusTarget(value);};
+  const reset=()=>{changeExplode(0);changeFocus(0);setLocked(false);setActivePart(getPartTelemetry(null));controller.current?.resetView();};
+  const toggleExplode=()=>changeExplode(pose.current.explode>.5?0:1);
   const coordinates=(event:PointerEvent<HTMLDivElement>)=>{
     const canvas=controller.current?.getRenderer()?.domElement;
     const rect=(canvas??event.currentTarget).getBoundingClientRect();
@@ -544,25 +484,28 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   };
   const pick=(event:PointerEvent<HTMLDivElement>)=>{
     if(Math.hypot(event.clientX-pointerStart.current.x,event.clientY-pointerStart.current.y)>6)return;
+    if(activationNeeded){activate.current();return;}
     const p=coordinates(event);controller.current?.pickAtNormalizedCanvas(p.x,p.y);setLocked(true);
   };
   const keyboard=(event:KeyboardEvent<HTMLDivElement>)=>{
-    if(event.target!==event.currentTarget||!["running","paused"].includes(state))return;
+    if(event.target!==event.currentTarget)return;
+    if(activationNeeded&&(event.key==="Enter"||event.key===" ")){event.preventDefault();activate.current();return;}
+    if(!["running","paused"].includes(state))return;
     const actions:Record<string,()=>void>={ArrowLeft:()=>controller.current?.rotateView(-.12,0),ArrowRight:()=>controller.current?.rotateView(.12,0),ArrowUp:()=>controller.current?.rotateView(0,-.1),ArrowDown:()=>controller.current?.rotateView(0,.1),e:toggleExplode,E:toggleExplode,r:reset,R:reset,Home:reset,Escape:()=>setLocked(false)};
     if(actions[event.key]){event.preventDefault();actions[event.key]();}
   };
-  const message:Record<LenusStageState,string>={preview:"Optical preview. Interactive controls load when available.",running:"Drag to explore. Select a fragment to inspect.",paused:suspended?"Optical view paused while the panel is open.":"Optical view paused.",static:"Reduced motion is on. Showing a still optical preview.",unavailable:"Interactive graphics are unavailable. Showing a still optical preview.",lost:"Graphics connection lost. Showing the preview while reconnecting."};
+  const message:Record<LenusStageState,string>={preview:activationNeeded?"Tap the lens to explore in 3D.":"Optical preview. Interactive controls load when available.",running:"Drag to explore. Select a fragment to inspect.",paused:suspended?"Optical view paused while the panel is open.":"Optical view paused.",static:"Reduced motion is on. Showing a still optical preview.",unavailable:"Interactive graphics are unavailable. Showing a still optical preview.",lost:"Graphics connection lost. Showing the preview while reconnecting."};
   return <section className="ln-stage" data-state={state} data-exploded={explodeAmount>.5} aria-label="Optical lens experience">
     <div className="ln-lens-plot">
       <div className="ln-aperture" aria-hidden="true"/>
       <LenusLensFallback/>
-      <div ref={host} className="ln-canvas-host" data-testid="lenus-canvas-container" tabIndex={0} role="group" aria-label="Interactive Lenus optical lens assembly" aria-describedby={instructions} onPointerMove={move} onPointerLeave={()=>controller.current?.setPointer(0,0)} onPointerDown={event=>{pointerStart.current={x:event.clientX,y:event.clientY};}} onPointerUp={pick} onKeyDown={keyboard}/>
+      <div ref={host} className="ln-canvas-host" data-testid="lenus-canvas-container" tabIndex={0} role={activationNeeded?"button":"group"} aria-label="Interactive Lenus optical lens assembly" aria-describedby={instructions} onPointerMove={move} onPointerLeave={()=>controller.current?.setPointer(0,0)} onPointerDown={event=>{pointerStart.current={x:event.clientX,y:event.clientY};}} onPointerUp={pick} onKeyDown={keyboard}/>
       <span className="ln-stage-marker ln-stage-marker-top" aria-hidden="true">LENUS / OPTICAL SYSTEMS</span>
       <span className="ln-stage-marker ln-stage-marker-bottom" aria-hidden="true">N 1.52 <span>19 PARTS</span></span>
     </div>
-    <p id={instructions} className="ln-sr-only">Use arrow keys to rotate, E to separate the assembly, R or Home to reset. Use the part selector to inspect each component.</p>
+    <p id={instructions} className="ln-sr-only">{activationNeeded?"Press Enter or tap to start the optical experience. ":""}Use arrow keys to rotate, E to separate the assembly, R or Home to reset. Use the part selector to inspect each component.</p>
     <p className="ln-stage-help" role="status">{message[state]}</p>
-    <LenusHudControls state={state} fps={fps} paused={paused} exploded={explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={setExplodeAmount} onFocusChange={setFocusAngle} onResetView={reset} onTogglePause={()=>setPaused(value=>!value)} onPartSelect={id=>{setLocked(true);setActivePart(getPartTelemetry(id));}}/>
+    <LenusHudControls state={state} fps={fps} paused={paused} exploded={explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={()=>setPaused(value=>!value)} onPartSelect={id=>{setLocked(true);setActivePart(getPartTelemetry(id));}}/>
   </section>;
 }
 ]]>
@@ -572,7 +515,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
 export function validateBrief(values:ProjectBrief):Partial<Record<keyof ProjectBrief,string>>{
   const errors:Partial<Record<keyof ProjectBrief,string>>={};
   if(!values.name.trim()||values.name.length>100)errors.name="Tell us your name.";
-  if(values.email.length>254||!/^\S+@[^\s@]+\.[^\s@]+$/.test(values.email.trim()))errors.email="Enter a valid email address.";
+  if(values.email.length>254||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim()))errors.email="Enter a valid email address.";
   if(values.brief.trim().length<20||values.brief.length>2000)errors.brief="Add at least 20 characters about your project.";
   return errors;
 }
@@ -3309,7 +3252,7 @@ export class LenusSceneController {
   private readonly raycaster=new THREE.Raycaster();
   private renderer:THREE.WebGLRenderer|null=null;
   private controls:OrbitControls|null=null;
-  private environment:THREE.WebGLCubeRenderTarget|null=null;
+  private environment:THREE.WebGLRenderTarget|null=null;
   private model:THREE.Group|null=null;
   private runtime:LensRuntime|null=null;
   private disposed=false;
@@ -3356,7 +3299,7 @@ export class LenusSceneController {
         [0xD2F802,1.8,[-4,4,-.4]],[0xA855F7,1.5,[4,-3,-.4]],
       ] as const) {
         const light=new THREE.DirectionalLight(color,intensity);
-        light.position.set(...position);this.scene.add(light);
+        light.position.set(position[0],position[1],position[2]);this.scene.add(light);
       }
       this.placeCamera(BASE_YAW,BASE_POLAR);
       const controls=new OrbitControls(this.camera,canvas);
@@ -3364,7 +3307,8 @@ export class LenusSceneController {
       controls.enableZoom=false;controls.enablePan=false;controls.enableDamping=false;
       controls.rotateSpeed=.5;
       controls.minPolarAngle=Math.PI*.2;controls.maxPolarAngle=Math.PI*.8;
-      controls.minAzimuthAngle=BASE_YAW-Math.PI;controls.maxAzimuthAngle=BASE_YAW+Math.PI;
+      // OrbitControls normalizes bounds outside ±π; base±π wraps both to the same rear angle.
+      controls.minAzimuthAngle=-Math.PI;controls.maxAzimuthAngle=Math.PI;
       controls.addEventListener("start",this.onDragStart);
       controls.addEventListener("end",this.onDragEnd);
       // Preserve vertical page scrolling on touch; horizontal drags still inspect the lens.
@@ -3389,8 +3333,21 @@ export class LenusSceneController {
     this.renderer.setSize(this.viewport.width,this.viewport.height,false);
   }
   setPointer(x:number,y:number){if(!this.disposed)this.pointer={x:normalizePointer(x),y:normalizePointer(y)};}
-  setExplodeTarget(amount:number){if(!this.disposed)this.explodeTarget=THREE.MathUtils.clamp(finite(amount),0,1);}
-  setFocusTarget(radians:number){if(!this.disposed)this.focusTarget=THREE.MathUtils.clamp(finite(radians),-Math.PI/2,Math.PI/2);}
+  setExplodeTarget(amount:number){
+    if(this.disposed)return;
+    this.explodeTarget=THREE.MathUtils.clamp(finite(amount),0,1);
+    if(!this.running){
+      this.explode=this.explodeTarget;this.runtime?.setExplode(this.explode);
+      const shards=this.runtime?.nodes.shards;
+      if(shards)shards.position.y=Math.sin(this.elapsed*.65)*.035;
+      this.render();
+    }
+  }
+  setFocusTarget(radians:number){
+    if(this.disposed)return;
+    this.focusTarget=THREE.MathUtils.clamp(finite(radians),-Math.PI/2,Math.PI/2);
+    if(!this.running){this.focus=this.focusTarget;this.runtime?.setFocusRing(this.focus);this.render();}
+  }
   pickAtNormalizedCanvas(nx:number,ny:number){
     if(this.disposed||this.contextLost||!this.model||!this.runtime)return getPartTelemetry(null);
     this.scene.updateMatrixWorld(true);this.camera.updateMatrixWorld(true);
@@ -3406,7 +3363,7 @@ export class LenusSceneController {
   rotateView(deltaYaw:number,deltaPitch:number){
     if(this.disposed||!this.renderer||this.contextLost)return;
     const p=new THREE.Spherical().setFromVector3(this.camera.position);
-    this.placeCamera(THREE.MathUtils.clamp(p.theta+finite(deltaYaw),BASE_YAW-Math.PI,BASE_YAW+Math.PI),THREE.MathUtils.clamp(p.phi+finite(deltaPitch),Math.PI*.2,Math.PI*.8));
+    this.placeCamera(THREE.MathUtils.clamp(p.theta+finite(deltaYaw),-Math.PI,Math.PI),THREE.MathUtils.clamp(p.phi+finite(deltaPitch),Math.PI*.2,Math.PI*.8));
     this.render();
   }
   resetView(){
@@ -3439,7 +3396,6 @@ export class LenusSceneController {
     this.model.rotation.x+=((this.dragging?0:-this.pointer.y*.1)-this.model.rotation.x)*damp;
     const shards=this.runtime.nodes.shards;
     if(shards)shards.position.y=Math.sin(this.elapsed*.65)*.035;
-    this.render();
     this.frames++;this.sampleTime+=realDelta;
     if(this.sampleTime>=1){
       const fps=this.frames/this.sampleTime;
@@ -3448,6 +3404,8 @@ export class LenusSceneController {
       if(this.slowTime>=2&&this.resolutionScale>.75){this.resolutionScale=Math.max(.75,this.resolutionScale*.85);this.resizeBuffer();this.slowTime=0;}
       this.frames=0;this.sampleTime=0;
     }
+    // A buffer resize clears its pixels; render afterwards so pausing cannot freeze a blank frame.
+    this.render();
   };
   private render(){if(this.renderer&&!this.contextLost)this.renderer.render(this.scene,this.camera);}
   private onDragStart=()=>{this.dragging=true;this.options.onInteractionChange?.(true);};

@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import { TEMPLATES, ARCHIVED_TEMPLATES, CATEGORIES } from "./templates";
 import fs from "node:fs";
 import path from "node:path";
@@ -132,10 +132,10 @@ describe("gallery template data", () => {
     expect(wowflutter?.promptMarkdown).toContain("#FF3D8B");
   });
 
-  it("files Maison VÃ©rane under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files Maison Vérane under Scroll Showcase with its rebuild prompt inlined", () => {
     const verane = TEMPLATES.find((t) => t.slug === "verane");
     expect(verane?.category).toBe("scroll-showcase");
-    expect(verane?.promptMarkdown).toContain('rebuild "MAISON VÃ‰RANE"');
+    expect(verane?.promptMarkdown).toContain('rebuild "MAISON VÉRANE"');
     expect(verane?.promptMarkdown).toContain("#2A1E22");
   });
 
@@ -237,4 +237,3 @@ describe("gallery template data", () => {
     expect(mercer?.promptMarkdown).toContain("#0A0D10");
   });
 });
-
