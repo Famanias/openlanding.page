@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(66);
+    expect(TEMPLATES).toHaveLength(67);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","arcandsignal","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","arcandsignal","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -81,7 +81,7 @@ describe("gallery template data", () => {
 
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
-    const argonSlugs = ["loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
+    const argonSlugs = ["zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (t.slug === "pello" || t.slug === "avel" || t.slug === "landingx") {
         expect(t.model).toBe("GPT-6.1 Terra Max");

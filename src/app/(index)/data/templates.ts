@@ -1,4 +1,4 @@
-export type TemplateSlug = "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot";
+export type TemplateSlug = "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -930,6 +930,16 @@ Create a complete, responsive, self-contained HTML landing page for Stillwater, 
 Continue with a philosophy, three fictional sanctuaries, a selectable villa gallery, slow experiences, a coastal journal, a local inquiry preview, a closing coastal image, and a quiet footer. Use oyster, warm stone, forest slate and muted sage; pair Cormorant Garamond with Inter. Embed optimized imagery and fonts so the HTML opens directly from disk. Keep navigation, selectors, dialog, dates and guest controls functional and keyboard accessible. Validate dates and contact information, respect reduced motion, and make clear that the demo neither checks availability nor sends an inquiry. Do not invent reviews or real addresses.
 `;
 
+export const ZENO_PROMPT = `# ZENO. — Independent Creative Practice — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **ZENO.** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** ZENO. — Independent Creative Practice
+- **Description:** ZENO is an independent creative practice building identities, campaigns, and digital experiences for brands ready to challenge convention.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   {
     slug: "amaoto",
@@ -1822,6 +1832,20 @@ slug: "tally",
     badges: ["Scroll Showcase", "Interactive Equalizer", "Guestlist Generator"],
     previewImage: "/templates/starriot/preview-1600.webp",
     promptMarkdown: STARRIOT_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "zeno",
+    createdAt: "2026-11-03",
+    hasDownload: false,
+    title: "ZENO.",
+    description: "ZENO is an independent creative practice building identities, campaigns, and digital experiences for brands ready to challenge convention.",
+    category: "scroll-showcase" as TemplateCategory,
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/zeno/preview-1600.webp",
+    promptMarkdown: ZENO_PROMPT,
     model: "Gemini 4 Argon High",
   },
 ];
