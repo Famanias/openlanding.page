@@ -46,73 +46,73 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose, onNavigat
       role="dialog"
       aria-modal="true"
       aria-label="Site Navigation"
-      className="fixed inset-0 z-40 md:hidden bg-[#111318]/96 backdrop-blur-xl pt-24 pb-10 px-6 flex flex-col justify-between border-b border-[#F2EBE2]/18"
+      className="fixed inset-0 z-40 md:hidden bg-[#111318]/96 backdrop-blur-xl pt-24 pb-10 px-6 flex flex-col justify-between border-b border-[#F2EBE2]/10"
     >
-      <nav aria-label="Mobile Navigation" className="flex flex-col divide-y divide-[#F2EBE2]/12">
+      <nav aria-label="Mobile Navigation" className="flex flex-col divide-y divide-[#F2EBE2]/10">
         <a
           ref={firstLinkRef}
           href="#projects"
           onClick={(e) => handleSelect(e, 'projects')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
             Projects
           </span>
-          <span className="font-mono-tech text-xs text-[#A6A29F]">01</span>
+          <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">01</span>
         </a>
         <a
           href="#practice"
           onClick={(e) => handleSelect(e, 'practice')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
             Practice
           </span>
-          <span className="font-mono-tech text-xs text-[#A6A29F]">02</span>
+          <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">02</span>
         </a>
         <a
           href="#light-lab"
           onClick={(e) => handleSelect(e, 'light-lab')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
-            Light in Motion
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+            Light in motion
           </span>
-          <span className="font-mono-tech text-xs text-[#A6A29F]">03</span>
+          <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">03</span>
         </a>
         <a
           href="#process"
           onClick={(e) => handleSelect(e, 'process')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
             Approach
           </span>
-          <span className="font-mono-tech text-xs text-[#A6A29F]">04</span>
+          <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">04</span>
         </a>
         <a
           href="#journal"
           onClick={(e) => handleSelect(e, 'journal')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
             Journal
           </span>
           <span className="font-mono-tech text-xs text-[#A6A29F]">Essay</span>
         </a>
       </nav>
 
-      <div className="pt-6 border-t border-[#F2EBE2]/15 flex flex-col gap-4">
-        <p className="text-xs tracking-[0.16em] uppercase text-[#A6A29F]">
-          Independent Lighting Practice · Est. 2026
+      <div className="pt-6 border-t border-[#F2EBE2]/10 flex flex-col gap-4">
+        <p className="text-xs tracking-wider uppercase text-[#A6A29F]">
+          Independent lighting practice · Est. 2026
         </p>
         <a
           href="#contact"
           onClick={(e) => handleSelect(e, 'contact')}
-          className="inline-flex items-center justify-between px-5 py-4 text-xs tracking-[0.18em] uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
+          className="inline-flex items-center justify-between px-5 py-3.5 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
         >
-          <span>START A PROJECT</span>
-          <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+          <span>Start a project</span>
+          <ArrowUpRight className="w-4 h-4 text-[#111318]" strokeWidth={1.5} aria-hidden="true" />
         </a>
       </div>
     </div>

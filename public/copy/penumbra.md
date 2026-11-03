@@ -193,13 +193,15 @@ export default function PenumbraPage() {
 
 :root {
   --ink: #111318;              /* midnight graphite */
-  --slate: #20252D;            /* deeper material surface */
+  --slate: #1c2027;            /* quiet dark surface */
+  --slate-raised: #232832;     /* raised surface step */
   --ivory: #F2EBE2;            /* primary foreground */
-  --amber: #D7A779;            /* architectural light */
-  --amber-bright: #E9BB86;     /* tiny specular accents */
-  --steel: #7E91A8;            /* blue hour */
+  --amber: #D7A779;            /* architectural warm accent */
+  --amber-bright: #E9BB86;     /* specular highlight */
+  --steel: #7E91A8;            /* blue hour twilight */
   --stone: #A6A29F;            /* secondary neutral */
-  --line: rgba(242, 235, 226, 0.18);
+  --line: rgba(242, 235, 226, 0.10);
+  --ease-craft: cubic-bezier(0.22, 1, 0.36, 1);
 
   --font-serif: var(--font-instrument-serif), 'Instrument Serif', var(--font-cormorant-garamond), 'Cormorant Garamond', Georgia, serif;
   --font-sans: var(--font-manrope), 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -307,8 +309,8 @@ export default function PenumbraPage() {
   --spot-r: 260px;
   background: radial-gradient(
     circle calc(var(--spot-r) * 1.15) at var(--spot-x) var(--spot-y),
-    rgba(215, 167, 121, 0.09) 0%,
-    rgba(215, 167, 121, 0.03) 55%,
+    rgba(215, 167, 121, 0.08) 0%,
+    rgba(215, 167, 121, 0.02) 55%,
     transparent 100%
   );
   pointer-events: none;
@@ -318,7 +320,7 @@ export default function PenumbraPage() {
 input[type='range'].penumbra-slider {
   -webkit-appearance: none;
   appearance: none;
-  background: rgba(242, 235, 226, 0.14);
+  background: rgba(242, 235, 226, 0.12);
   height: 2px;
   border-radius: 999px;
   cursor: pointer;
@@ -327,23 +329,23 @@ input[type='range'].penumbra-slider {
 input[type='range'].penumbra-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: var(--amber-bright);
-  border: 2px solid var(--ink);
-  box-shadow: 0 0 0 1px rgba(215, 167, 121, 0.5);
-  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease;
+  border: 1.5px solid var(--ink);
+  box-shadow: 0 0 0 1px rgba(215, 167, 121, 0.35);
+  transition: transform 120ms cubic-bezier(0.22, 1, 0.36, 1), background-color 120ms ease;
 }
 
 input[type='range'].penumbra-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
+  transform: scale(1.12);
   background: var(--ivory);
 }
 
 input[type='range'].penumbra-slider:focus-visible {
   outline: 2px solid var(--amber-bright);
-  outline-offset: 6px;
+  outline-offset: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -543,7 +545,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
     try {
       await navigator.clipboard.writeText('hello@penumbra.example');
       setCopiedEmail(true);
-      window.setTimeout(() => setCopiedEmail(false), 2500);
+      window.setTimeout(() => setCopiedEmail(false), 2200);
     } catch {
       setCopiedEmail(true);
     }
@@ -553,40 +555,40 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
     <footer
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative bg-gradient-to-b from-[#111318] via-[#171A21] to-[#111318] border-t border-[#F2EBE2]/18"
+      className="relative bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       {/* Final CTA Section */}
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-36">
+      <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Monumental Final CTA */}
           <div className="lg:col-span-7">
-            <span className="font-mono-tech text-xs tracking-[0.22em] uppercase text-[#D7A779]">
-              05 / COMMISSION & INQUIRY
+            <span className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779]">
+              05 / Commission & inquiry
             </span>
 
             <h2
               id="contact-heading"
-              className="mt-5 font-display text-5xl sm:text-6xl md:text-7xl leading-[0.96] tracking-tight text-[#F2EBE2]"
+              className="mt-4 font-display text-5xl sm:text-6xl md:text-7xl leading-[0.98] tracking-tight text-[#F2EBE2]"
             >
-              <span className="block">LET&apos;S CHANGE HOW</span>
-              <span className="block italic text-[#E9BB86]">THE WORLD IS SEEN.</span>
+              <span className="block">Let&apos;s change how</span>
+              <span className="block italic text-[#E9BB86]">the world is seen</span>
             </h2>
 
-            <p className="mt-6 text-base sm:text-lg md:text-xl text-[#A6A29F] max-w-xl leading-relaxed">
+            <p className="mt-5 text-base sm:text-lg text-[#A6A29F] max-w-xl leading-relaxed">
               Every extraordinary space deserves an extraordinary night. Tell us what you are imagining.
             </p>
 
             {/* Primary & Secondary CTAs */}
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <button
                 type="button"
                 onClick={() => setIsComposerOpen((prev) => !prev)}
                 aria-expanded={isComposerOpen}
                 aria-controls="inquiry-composer-panel"
-                className="inline-flex items-center gap-2.5 px-6 py-4 text-xs tracking-[0.18em] uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2] focus-visible:outline-offset-4"
+                className="inline-flex items-center gap-2 px-6 py-3.5 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2] focus-visible:outline-offset-4"
               >
-                <span>START A CONVERSATION</span>
-                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                <span>Start a conversation</span>
+                <ArrowUpRight className="w-4 h-4 text-[#111318]" strokeWidth={1.5} aria-hidden="true" />
               </button>
 
               <a
@@ -595,23 +597,23 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                   e.preventDefault();
                   onNavigate('projects');
                 }}
-                className="inline-flex items-center gap-2 px-6 py-4 text-xs tracking-[0.18em] uppercase text-[#F2EBE2] border border-[#F2EBE2]/28 hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+                className="inline-flex items-center gap-2 px-6 py-3.5 text-xs tracking-wider uppercase text-[#F2EBE2] border border-[#F2EBE2]/20 bg-[#1c2027] hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
               >
-                <span>BACK TO PROJECTS</span>
+                <span>Back to projects</span>
               </a>
             </div>
 
-            {/* Direct Placeholder Studio Address */}
-            <div className="mt-12 pt-8 border-t border-[#F2EBE2]/15 flex flex-wrap items-center gap-6">
+            {/* Studio Address */}
+            <div className="mt-10 pt-6 border-t border-[#F2EBE2]/10 flex flex-wrap items-center gap-6">
               <div>
-                <p className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-[#A6A29F]">
-                  Concept Studio Dispatch (Placeholder)
+                <p className="font-mono-tech text-xs uppercase tracking-wider text-[#A6A29F]">
+                  Studio dispatch
                 </p>
                 <a
                   href="mailto:hello@penumbra.example?subject=PENUMBRA%20Architectural%20Lighting%20Inquiry"
                   className="mt-1 inline-flex items-center gap-2 font-mono-tech text-sm sm:text-base text-[#F2EBE2] hover:text-[#E9BB86] transition-colors"
                 >
-                  <Mail className="w-4 h-4 text-[#D7A779]" aria-hidden="true" />
+                  <Mail className="w-4 h-4 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
                   <span>hello@penumbra.example</span>
                 </a>
               </div>
@@ -619,64 +621,64 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
               <button
                 type="button"
                 onClick={handleCopyAddress}
-                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono-tech uppercase tracking-[0.14em] border border-[#F2EBE2]/20 text-[#A6A29F] hover:text-[#F2EBE2] hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono-tech uppercase tracking-wider border border-[#F2EBE2]/16 bg-[#1c2027] text-[#A6A29F] hover:text-[#F2EBE2] hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
               >
                 {copiedEmail ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-[#E9BB86]" aria-hidden="true" />
-                    <span className="text-[#E9BB86]">Address Copied</span>
+                    <Check className="w-3.5 h-3.5 text-[#E9BB86]" strokeWidth={1.5} aria-hidden="true" />
+                    <span className="text-[#E9BB86]">Address copied</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>Copy Address</span>
+                    <Copy className="w-3.5 h-3.5 text-[#A6A29F]" strokeWidth={1.5} aria-hidden="true" />
+                    <span>Copy address</span>
                   </>
                 )}
               </button>
             </div>
           </div>
 
-          {/* Right Column: Honest Demo Inquiry Composer */}
+          {/* Right Column: Inquiry Composer */}
           <div
             id="inquiry-composer-panel"
-            className="lg:col-span-5 bg-[#20252D]/60 border border-[#F2EBE2]/18 p-6 sm:p-8"
+            className="lg:col-span-5 bg-[#1c2027] border border-[#F2EBE2]/10 p-6 sm:p-7"
           >
-            <div className="flex items-center justify-between gap-2 pb-4 border-b border-[#F2EBE2]/15">
-              <h3 className="font-mono-tech text-xs uppercase tracking-[0.18em] text-[#D7A779]">
-                Project Brief Composer
+            <div className="flex items-center justify-between gap-2 pb-4 border-b border-[#F2EBE2]/10">
+              <h3 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
+                Project brief composer
               </h3>
-              <span className="font-mono-tech text-[11px] text-[#A6A29F]">
-                DEMO FORM · MAILTO DRAFT
+              <span className="font-mono-tech text-xs text-[#A6A29F]">
+                Mailto draft
               </span>
             </div>
 
             <p className="mt-3 text-xs text-[#A6A29F] leading-relaxed">
-              Demo form — connect your email service before publishing, or validate your brief below to open a pre-addressed <code className="text-[#F2EBE2]">mailto:hello@penumbra.example</code> dispatch.
+              Validate your brief below to open a pre-addressed <code className="text-[#F2EBE2]">hello@penumbra.example</code> dispatch in your mail client.
             </p>
 
-            <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-5">
+            <form onSubmit={handleSubmit} noValidate className="mt-5 space-y-4">
               <div>
                 <label
                   htmlFor="contact-name"
-                  className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                 >
-                  Name or Architectural Practice *
+                  Name or practice *
                 </label>
                 <input
                   id="contact-name"
                   type="text"
                   value={draft.name}
                   onChange={(e) => handleFieldChange('name', e.target.value)}
-                  placeholder="e.g., Atelier Moreau"
+                  placeholder="e.g. Atelier Moreau"
                   aria-invalid={Boolean(errors.name)}
                   aria-describedby={errors.name ? 'contact-name-error' : undefined}
-                  className="w-full px-4 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] placeholder:text-[#A6A29F]/45 focus:border-[#D7A779] focus:outline-none"
+                  className="w-full px-3.5 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] placeholder:text-[#A6A29F]/40 focus:border-[#D7A779] focus:outline-none"
                 />
                 {errors.name && (
                   <p
                     id="contact-name-error"
                     role="alert"
-                    className="mt-1.5 text-xs text-[#E9BB86]"
+                    className="mt-1 text-xs text-[#E9BB86]"
                   >
                     {errors.name}
                   </p>
@@ -686,9 +688,9 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
               <div>
                 <label
                   htmlFor="contact-email"
-                  className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                 >
-                  Return Email *
+                  Return email *
                 </label>
                 <input
                   id="contact-email"
@@ -698,13 +700,13 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                   placeholder="studio@practice.example"
                   aria-invalid={Boolean(errors.email)}
                   aria-describedby={errors.email ? 'contact-email-error' : undefined}
-                  className="w-full px-4 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] placeholder:text-[#A6A29F]/45 focus:border-[#D7A779] focus:outline-none"
+                  className="w-full px-3.5 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] placeholder:text-[#A6A29F]/40 focus:border-[#D7A779] focus:outline-none"
                 />
                 {errors.email && (
                   <p
                     id="contact-email-error"
                     role="alert"
-                    className="mt-1.5 text-xs text-[#E9BB86]"
+                    className="mt-1 text-xs text-[#E9BB86]"
                   >
                     {errors.email}
                   </p>
@@ -715,7 +717,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                 <div>
                   <label
                     htmlFor="contact-typology"
-                    className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                    className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                   >
                     Typology
                   </label>
@@ -723,7 +725,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                     id="contact-typology"
                     value={draft.projectType}
                     onChange={(e) => handleFieldChange('projectType', e.target.value)}
-                    className="w-full px-3.5 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] focus:border-[#D7A779] focus:outline-none"
+                    className="w-full px-3 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] focus:border-[#D7A779] focus:outline-none"
                   >
                     <option value="Cultural / Architectural Pavilion">Cultural / Pavilion</option>
                     <option value="Private Residence / Sanctuary">Private Residence</option>
@@ -737,7 +739,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                 <div>
                   <label
                     htmlFor="contact-timeline"
-                    className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                    className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                   >
                     Horizon
                   </label>
@@ -746,7 +748,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                     type="text"
                     value={draft.timeline}
                     onChange={(e) => handleFieldChange('timeline', e.target.value)}
-                    className="w-full px-3.5 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] focus:border-[#D7A779] focus:outline-none"
+                    className="w-full px-3 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] focus:border-[#D7A779] focus:outline-none"
                   />
                 </div>
               </div>
@@ -754,25 +756,25 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
               <div>
                 <label
                   htmlFor="contact-message"
-                  className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                 >
-                  Architectural Space & Lighting Intent *
+                  Space & lighting intent *
                 </label>
                 <textarea
                   id="contact-message"
                   rows={3}
                   value={draft.message}
                   onChange={(e) => handleFieldChange('message', e.target.value)}
-                  placeholder="Describe the materials, nocturnal setting, and atmosphere..."
+                  placeholder="Describe the materials, setting, and atmosphere..."
                   aria-invalid={Boolean(errors.message)}
                   aria-describedby={errors.message ? 'contact-message-error' : undefined}
-                  className="w-full px-4 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] placeholder:text-[#A6A29F]/45 focus:border-[#D7A779] focus:outline-none"
+                  className="w-full px-3.5 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] placeholder:text-[#A6A29F]/40 focus:border-[#D7A779] focus:outline-none"
                 />
                 {errors.message && (
                   <p
                     id="contact-message-error"
                     role="alert"
-                    className="mt-1.5 text-xs text-[#E9BB86]"
+                    className="mt-1 text-xs text-[#E9BB86]"
                   >
                     {errors.message}
                   </p>
@@ -781,25 +783,25 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
 
               <button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 text-xs font-mono-tech uppercase tracking-[0.18em] bg-[#F2EBE2] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-xs font-mono-tech uppercase tracking-wider bg-[#F2EBE2] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
               >
-                <span>Prepare Mailto Dispatch</span>
-                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                <span>Prepare mailto dispatch</span>
+                <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
               </button>
 
               {preparedMailto && (
                 <div
                   role="status"
-                  className="p-4 bg-[#111318] border border-[#D7A779]/50 space-y-2"
+                  className="p-3.5 bg-[#111318] border border-[#D7A779]/40 space-y-1.5"
                 >
                   <p className="font-mono-tech text-xs text-[#E9BB86]">
-                    Inquiry draft validated (no server backend connected in this concept template).
+                    Inquiry draft ready.
                   </p>
                   <a
                     href={preparedMailto}
-                    className="inline-flex items-center gap-2 text-xs font-mono-tech uppercase tracking-[0.16em] text-[#F2EBE2] underline decoration-[#D7A779] underline-offset-4 hover:text-[#E9BB86]"
+                    className="inline-flex items-center gap-1.5 text-xs font-mono-tech uppercase tracking-wider text-[#F2EBE2] underline decoration-[#D7A779] underline-offset-4 hover:text-[#E9BB86]"
                   >
-                    <span>Open in Default Mail Client (hello@penumbra.example) ↗</span>
+                    <span>Open in default mail client ↗</span>
                   </a>
                 </div>
               )}
@@ -809,18 +811,18 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
       </div>
 
       {/* Bottom Architectural Footer */}
-      <div className="border-t border-[#F2EBE2]/15 bg-[#111318]">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          <div className="space-y-2">
+      <div className="border-t border-[#F2EBE2]/10 bg-[#111318]">
+        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-1.5">
             <a
               href="#home"
               onClick={(e) => {
                 e.preventDefault();
                 onNavigate('home');
               }}
-              className="font-display text-2xl tracking-[0.14em] text-[#F2EBE2]"
+              className="font-display text-2xl tracking-wider text-[#F2EBE2]"
             >
-              PENUMBRA<span className="text-[#D7A779]">.</span>
+              PENUMBRA
             </a>
             <p className="text-xs text-[#A6A29F] max-w-md">
               Independent architectural lighting design practice. Designing the relationship between light, architecture, and emotion.
@@ -829,7 +831,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
 
           <nav
             aria-label="Footer Navigation"
-            className="flex flex-wrap items-center gap-6 text-xs font-mono-tech uppercase tracking-[0.16em] text-[#A6A29F]"
+            className="flex flex-wrap items-center gap-6 text-xs font-mono-tech uppercase tracking-wider text-[#A6A29F]"
           >
             <a
               href="#projects"
@@ -886,18 +888,18 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
           <button
             type="button"
             onClick={() => onNavigate('home')}
-            className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-mono-tech uppercase tracking-[0.16em] text-[#F2EBE2] border border-[#F2EBE2]/20 hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono-tech uppercase tracking-wider text-[#F2EBE2] border border-[#F2EBE2]/18 bg-[#1c2027] hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
           >
-            <span>Back to Top</span>
-            <ArrowUp className="w-3.5 h-3.5 text-[#D7A779]" aria-hidden="true" />
+            <span>Back to top</span>
+            <ArrowUp className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
           </button>
         </div>
 
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-5 border-t border-[#F2EBE2]/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11px] font-mono-tech text-[#A6A29F]/80">
+        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-4 border-t border-[#F2EBE2]/08 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-mono-tech text-[#A6A29F]">
           <span>
-            © 2026 PENUMBRA. Fictional architectural lighting concept & interactive exhibition template.
+            © 2026 PENUMBRA. Architectural lighting concept.
           </span>
-          <span>Architecture, after dark.</span>
+          <span>Architecture, after dark</span>
         </div>
       </div>
     </footer>
@@ -927,7 +929,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 36);
+      setScrolled(window.scrollY > 32);
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -941,73 +943,73 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${
         scrolled
-          ? 'bg-[#111318]/88 backdrop-blur-md border-b border-[#F2EBE2]/15'
-          : 'bg-gradient-to-b from-[#111318]/75 via-[#111318]/30 to-transparent border-b border-transparent'
+          ? 'bg-[#111318]/92 backdrop-blur-md border-b border-[#F2EBE2]/10'
+          : 'bg-[#111318]/40 backdrop-blur-xs border-b border-[#F2EBE2]/08'
       }`}
     >
-      <div className="mx-auto max-w-[1440px] flex items-center justify-between gap-8 px-6 md:px-12 h-20">
-        {/* Zone 1: Single text element wordmark */}
+      <div className="mx-auto max-w-[1440px] flex items-center justify-between gap-8 px-6 md:px-12 h-[72px]">
+        {/* Wordmark without trailing period */}
         <a
           href="#home"
           onClick={(e) => handleLinkClick(e, 'home')}
-          className="font-display text-2xl tracking-[0.14em] text-[#F2EBE2] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+          className="font-display text-2xl tracking-wider text-[#F2EBE2] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
         >
-          PENUMBRA<span className="text-[#D7A779]">.</span>
+          PENUMBRA
         </a>
 
-        {/* Zone 2: 4–5 clean single-line text navigation links */}
+        {/* Clean, quiet navigation links */}
         <nav
           aria-label="Primary Navigation"
-          className="hidden md:flex items-center gap-9 text-xs tracking-[0.18em] uppercase text-[#F2EBE2]/80"
+          className="hidden md:flex items-center gap-8 text-xs tracking-wider uppercase text-[#A6A29F]"
         >
           <a
             href="#projects"
             onClick={(e) => handleLinkClick(e, 'projects')}
-            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779]/60 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
           >
             Projects
           </a>
           <a
             href="#practice"
             onClick={(e) => handleLinkClick(e, 'practice')}
-            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779]/60 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
           >
             Practice
           </a>
           <a
             href="#process"
             onClick={(e) => handleLinkClick(e, 'process')}
-            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779]/60 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
           >
             Approach
           </a>
           <a
             href="#light-lab"
             onClick={(e) => handleLinkClick(e, 'light-lab')}
-            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779]/60 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
           >
             Light Lab
           </a>
           <a
             href="#journal"
             onClick={(e) => handleLinkClick(e, 'journal')}
-            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779]/60 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+            className="hover:text-[#F2EBE2] transition-colors py-1 border-b border-transparent hover:border-[#D7A779] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
           >
             Journal
           </a>
         </nav>
 
-        {/* Zone 3: 1 primary action + mobile menu button */}
-        <div className="flex items-center gap-4 shrink-0">
+        {/* Quiet primary action + mobile menu toggle */}
+        <div className="flex items-center gap-3 shrink-0">
           <a
             href="#contact"
             onClick={(e) => handleLinkClick(e, 'contact')}
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 text-xs tracking-[0.16em] uppercase text-[#F2EBE2] border border-[#F2EBE2]/25 hover:border-[#D7A779] hover:text-[#E9BB86] bg-[#111318]/40 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wider uppercase text-[#F2EBE2] border border-[#F2EBE2]/18 bg-[#1c2027] hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
           >
-            <span>START A PROJECT</span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-[#D7A779]" aria-hidden="true" />
+            <span>Start a project</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
           </a>
 
           <button
@@ -1016,12 +1018,12 @@ export const Header: React.FC<HeaderProps> = ({
             aria-expanded={isMobileNavOpen}
             aria-controls="mobile-navigation-drawer"
             aria-label={isMobileNavOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            className="md:hidden inline-flex items-center justify-center w-11 h-11 text-[#F2EBE2] border border-[#F2EBE2]/20 bg-[#111318]/60 hover:border-[#D7A779] transition-colors focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-2"
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 text-[#F2EBE2] border border-[#F2EBE2]/18 bg-[#1c2027] hover:border-[#D7A779] transition-colors focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-2"
           >
             {isMobileNavOpen ? (
-              <X className="w-5 h-5" aria-hidden="true" />
+              <X className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
             ) : (
-              <Menu className="w-5 h-5" aria-hidden="true" />
+              <Menu className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
             )}
           </button>
         </div>
@@ -1037,7 +1039,7 @@ export const Header: React.FC<HeaderProps> = ({
 import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowUpRight, Sun, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Sun, Focus } from 'lucide-react';
 import { SpotlightReveal } from './SpotlightReveal';
 import { useSpotlight } from '../hooks/useSpotlight';
 import { SpotlightMode } from '../lib/motion';
@@ -1087,7 +1089,7 @@ export const Hero: React.FC<HeroProps> = ({
     onFirstPointerMove: () => setHasMovedPointer(true),
   });
 
-  // Handle mouse/pen pointer movement across the hero section
+  // Handle pointer movement across the hero section
   const handleHeroPointerMove = (e: React.PointerEvent<HTMLElement>) => {
     if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
       updatePointerFromClient(e.clientX, e.clientY);
@@ -1096,43 +1098,34 @@ export const Hero: React.FC<HeroProps> = ({
     }
   };
 
-  // Intro choreography & desktop ScrollTrigger full-illumination takeover
+  // Editorial typography entrance & desktop ScrollTrigger illumination takeover
   useEffect(() => {
     const sectionEl = sectionRef.current;
     if (!sectionEl) return;
 
     const ctx = gsap.context(() => {
       if (!reducedMotion) {
-        // 1. Subtle shared architecture scale settle (1.035 -> 1)
-        if (imageWrapperRef.current) {
-          gsap.fromTo(
-            imageWrapperRef.current,
-            { scale: 1.035 },
-            { scale: 1, duration: 1.75, ease: 'power3.out' }
-          );
-        }
-
-        // 2. Line-by-line headline reveal & supporting copy rise
+        // Line-by-line headline reveal & supporting copy rise (no arbitrary image scale zoom)
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
         if (headlineLine1Ref.current && headlineLine2Ref.current) {
           tl.fromTo(
             [headlineLine1Ref.current, headlineLine2Ref.current],
-            { yPercent: 28, opacity: 0 },
-            { yPercent: 0, opacity: 1, duration: 1.05, stagger: 0.14 },
-            0.12
+            { yPercent: 24, opacity: 0 },
+            { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.12 },
+            0.1
           );
         }
         if (subcopyRef.current) {
           tl.fromTo(
             subcopyRef.current,
-            { y: 16, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.9 },
-            0.42
+            { y: 12, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.75 },
+            0.38
           );
         }
       }
 
-      // 3. Reversible scroll-driven illumination takeover on desktop viewports
+      // Reversible scroll-driven illumination takeover on desktop viewports
       const mm = gsap.matchMedia();
       mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
         ScrollTrigger.create({
@@ -1146,9 +1139,9 @@ export const Hero: React.FC<HeroProps> = ({
             if (editorialContentRef.current) {
               const p = self.progress;
               editorialContentRef.current.style.transform = `translate3d(0, ${Math.round(
-                -p * 42
+                -p * 36
               )}px, 0)`;
-              editorialContentRef.current.style.opacity = `${Math.max(0.12, 1 - p * 0.85)}`;
+              editorialContentRef.current.style.opacity = `${Math.max(0.12, 1 - p * 0.88)}`;
             }
           },
         });
@@ -1184,8 +1177,8 @@ export const Hero: React.FC<HeroProps> = ({
       ref={sectionRef}
       onPointerMove={handleHeroPointerMove}
       onPointerLeave={handlePointerLeave}
-      aria-label="Hero — Architecture, After Dark"
-      className="relative w-full min-h-[680px] h-[100dvh] overflow-hidden bg-[#111318] select-none"
+      aria-label="Architecture, after dark"
+      className="relative w-full min-h-[640px] h-[100dvh] overflow-hidden bg-[#111318] select-none"
     >
       {/* Shared-coordinate Base & Illuminated Architectural Stage */}
       <div className="absolute inset-0 z-0">
@@ -1206,84 +1199,84 @@ export const Hero: React.FC<HeroProps> = ({
         />
       </div>
 
-      {/* Measured left-to-right and bottom-to-top contrast scrims for guaranteed text readability in both states */}
+      {/* Subtle architectural contrast scrims for text legibility */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-[#111318]/90 via-[#111318]/52 to-transparent"
+        className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-[#111318]/85 via-[#111318]/40 to-transparent"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-[#111318] via-transparent to-[#111318]/45"
+        className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-[#111318] via-transparent to-[#111318]/30"
       />
 
-      {/* Layer 3 & 4: Editorial Hero Content + Interactive Controls */}
-      <div className="relative z-20 mx-auto max-w-[1440px] h-full px-6 md:px-12 pt-24 pb-8 md:pb-12 flex flex-col justify-between pointer-events-none">
+      {/* Editorial Hero Content + Interactive Controls */}
+      <div className="relative z-20 mx-auto max-w-[1440px] h-full px-6 md:px-12 pt-24 pb-8 md:pb-10 flex flex-col justify-between pointer-events-none">
         {/* Top studio calibration bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-[#F2EBE2]/15">
-          <p className="font-mono-tech text-[10px] sm:text-xs tracking-[0.13em] sm:tracking-[0.22em] uppercase text-[#D7A779] whitespace-nowrap">
-            INDEPENDENT LIGHTING PRACTICE / EST. 2026
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-[#F2EBE2]/10">
+          <p className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779] whitespace-nowrap">
+            Independent lighting practice · Est. 2026
           </p>
-          <span className="hidden sm:inline font-mono-tech text-[11px] tracking-[0.18em] uppercase text-[#F2EBE2]/65">
-            SCENE 00 · BLUE HOUR TO 2700K WARMTH
+          <span className="hidden sm:inline font-mono-tech text-xs tracking-wider uppercase text-[#A6A29F]">
+            Scene 00 · Blue hour to 2700K warmth
           </span>
         </div>
 
-        {/* Asymmetric Left/Center Editorial Lockup */}
+        {/* Asymmetric Left Editorial Lockup */}
         <div ref={editorialContentRef} className="my-auto max-w-3xl py-6 will-change-transform">
-          <h1 className="font-display text-[3.35rem] sm:text-[4.75rem] md:text-[6.1rem] lg:text-[6.8rem] leading-[0.94] tracking-[-0.015em] text-[#F2EBE2]">
+          <h1 className="font-display text-[3.25rem] sm:text-[4.5rem] md:text-[5.75rem] lg:text-[6.5rem] leading-[0.96] tracking-tight text-[#F2EBE2]">
             <span className="block overflow-hidden pb-1">
               <span ref={headlineLine1Ref} className="block">
-                ARCHITECTURE,
+                Architecture,
               </span>
             </span>
             <span className="block overflow-hidden pb-1">
               <span ref={headlineLine2Ref} className="block italic text-[#E9BB86]">
-                AFTER DARK.
+                after dark
               </span>
             </span>
           </h1>
 
           <div ref={subcopyRef} className="mt-6 md:mt-8 max-w-xl">
-            <p className="text-base sm:text-lg md:text-xl text-[#F2EBE2]/90 font-light leading-relaxed">
+            <p className="text-base sm:text-lg text-[#F2EBE2] font-light leading-relaxed">
               We shape how spaces are seen, felt, and remembered through light.
             </p>
 
             {/* Primary & Secondary CTAs */}
-            <div className="mt-8 md:mt-10 flex flex-wrap items-center gap-4 pointer-events-auto">
+            <div className="mt-8 flex flex-wrap items-center gap-4 pointer-events-auto">
               <a
                 href="#projects"
                 onClick={(e) => handleAnchorClick(e, 'projects')}
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 text-xs tracking-[0.18em] uppercase bg-[#F2EBE2] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+                className="inline-flex items-center gap-2 px-5 py-3 text-xs tracking-wider uppercase bg-[#F2EBE2] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
               >
-                <span>EXPLORE OUR WORK</span>
-                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                <span>Explore work</span>
+                <ArrowUpRight className="w-4 h-4 text-[#111318]" strokeWidth={1.5} aria-hidden="true" />
               </a>
 
               <a
                 href="#process"
                 onClick={(e) => handleAnchorClick(e, 'process')}
-                className="inline-flex items-center gap-2 px-6 py-3.5 text-xs tracking-[0.18em] uppercase text-[#F2EBE2] border border-[#F2EBE2]/35 bg-[#111318]/55 hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+                className="inline-flex items-center gap-2 px-5 py-3 text-xs tracking-wider uppercase text-[#F2EBE2] border border-[#F2EBE2]/20 bg-[#1c2027]/70 hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
               >
-                <span>OUR APPROACH</span>
+                <span>Our approach</span>
               </a>
             </div>
           </div>
         </div>
 
         {/* Bottom Architectural Bar: Instruction Cue + Accessible Illumination Controls */}
-        <div className="pt-5 border-t border-[#F2EBE2]/18 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pointer-events-auto">
+        <div className="pt-4 border-t border-[#F2EBE2]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pointer-events-auto">
           {/* Pointer discovery cue */}
           <div className="flex items-center gap-3">
             <span
-              className={`font-mono-tech text-xs tracking-[0.2em] uppercase transition-opacity duration-500 ${
+              className={`font-mono-tech text-xs tracking-wider uppercase transition-opacity duration-300 ${
                 hasMovedPointer || illuminationVisible
-                  ? 'text-[#A6A29F]/75'
+                  ? 'text-[#A6A29F]'
                   : 'text-[#E9BB86]'
               }`}
             >
-              MOVE TO REVEAL THE LIGHT
+              Move to reveal lighting
             </span>
-            <span className="hidden md:inline text-xs text-[#A6A29F]/60" aria-hidden="true">
+            <span className="hidden md:inline text-xs text-[#A6A29F]" aria-hidden="true">
               ·
             </span>
             <span className="hidden md:inline font-mono-tech text-xs text-[#A6A29F]">
@@ -1297,37 +1290,37 @@ export const Hero: React.FC<HeroProps> = ({
 
           {/* Accessible Keyboard & Mobile Reveal Controls */}
           <div className="flex flex-wrap items-center gap-3">
-            {/* Mobile opt-in touch sweep zone button so normal vertical scrolling is never hijacked */}
+            {/* Mobile opt-in touch sweep zone button */}
             <button
               type="button"
               onClick={() => setTouchSweepActive((prev) => !prev)}
               aria-pressed={touchSweepActive}
-              className="md:hidden inline-flex items-center gap-2 px-3.5 py-2 text-xs tracking-[0.14em] uppercase border border-[#F2EBE2]/25 bg-[#111318]/75 text-[#F2EBE2] hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+              className="md:hidden inline-flex items-center gap-2 px-3.5 py-2 text-xs tracking-wider uppercase border border-[#F2EBE2]/18 bg-[#1c2027] text-[#F2EBE2] hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#D7A779]" aria-hidden="true" />
-              <span>{touchSweepActive ? 'Touch Sweep: On' : 'Touch Sweep'}</span>
+              <Focus className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
+              <span>{touchSweepActive ? 'Touch sweep: On' : 'Touch sweep'}</span>
             </button>
 
             <button
               type="button"
               onClick={onToggleIllumination}
               aria-pressed={illuminationVisible}
-              className={`inline-flex items-center gap-2 px-4 py-2 text-xs tracking-[0.16em] uppercase border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-2 ${
+              className={`inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wider uppercase border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-2 ${
                 illuminationVisible
                   ? 'border-[#E9BB86] bg-[#D7A779]/20 text-[#E9BB86]'
-                  : 'border-[#F2EBE2]/25 bg-[#111318]/75 text-[#F2EBE2] hover:border-[#D7A779]'
+                  : 'border-[#F2EBE2]/18 bg-[#1c2027] text-[#F2EBE2] hover:border-[#D7A779]'
               }`}
             >
-              <Sun className="w-3.5 h-3.5 text-[#D7A779]" aria-hidden="true" />
-              <span>{illuminationVisible ? 'Restore Blue Hour' : 'Reveal Lighting'}</span>
+              <Sun className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
+              <span>{illuminationVisible ? 'Restore blue hour' : 'Reveal lighting'}</span>
             </button>
 
             <a
               href="#projects"
               onClick={(e) => handleAnchorClick(e, 'projects')}
-              className="hidden lg:inline-flex items-center gap-2 font-mono-tech text-xs tracking-[0.16em] uppercase text-[#A6A29F] hover:text-[#F2EBE2] transition-colors pl-2 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+              className="hidden lg:inline-flex items-center gap-2 font-mono-tech text-xs tracking-wider uppercase text-[#A6A29F] hover:text-[#F2EBE2] transition-colors pl-2 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
             >
-              <span>SCROLL</span>
+              <span>Scroll</span>
               <span aria-hidden="true">↓</span>
             </a>
           </div>
@@ -1392,32 +1385,32 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
     <section
       id="light-lab"
       aria-labelledby="light-lab-heading"
-      className="relative py-24 md:py-36 bg-[#20252D]/35 border-t border-[#F2EBE2]/18"
+      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="light-lab-heading">
           <SectionHeading
-            label="03 / LIGHT IN MOTION"
-            headline="SEE WHAT LIGHT CAN DO."
+            label="03 / Light in motion"
+            headline="See what light can do"
             intro="A small interactive study of intensity, warmth, and direction."
           />
         </div>
 
-        <div className="mt-14 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
+        <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           {/* Left/Top: Shared-Coordinate Illustrative Architectural Stage */}
-          <div className="lg:col-span-8 flex flex-col justify-between bg-[#111318] border border-[#F2EBE2]/18 overflow-hidden">
+          <div className="lg:col-span-8 flex flex-col justify-between bg-[#111318] border border-[#F2EBE2]/10 overflow-hidden">
             {/* Top Telemetry Bar */}
-            <div className="px-5 py-3.5 border-b border-[#F2EBE2]/15 flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech">
+            <div className="px-5 py-3 border-b border-[#F2EBE2]/10 flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech">
               <div className="flex items-center gap-3">
-                <span className="text-[#D7A779]">ILLUSTRATIVE STUDY STAGE</span>
+                <span className="text-[#D7A779] uppercase tracking-wider">Study stage</span>
                 <span aria-hidden="true" className="text-[#A6A29F]">
                   ·
                 </span>
                 <span className="text-[#F2EBE2]">{visuals.kelvinLabel}</span>
               </div>
-              <div className="flex items-center gap-4 text-[#A6A29F]">
-                <span>OUTPUT: {state.intensity}%</span>
-                <span>VECTOR: {state.direction > 0 ? `+${state.direction}°` : `${state.direction}°`}</span>
+              <div className="flex items-center gap-4 text-[#A6A29F] tabular-nums">
+                <span>Output: {state.intensity}%</span>
+                <span>Vector: {state.direction > 0 ? `+${state.direction}°` : `${state.direction}°`}</span>
               </div>
             </div>
 
@@ -1460,46 +1453,46 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                   backgroundColor: visuals.tintOverlayColor,
                   opacity: visuals.revealOpacity * 0.75,
                 }}
-                className="pointer-events-none absolute inset-0 mix-blend-color transition-colors duration-300"
+                className="pointer-events-none absolute inset-0 mix-blend-color transition-colors duration-200"
               />
 
               {/* Directional Beam Axis Indicator */}
               <div
                 aria-hidden="true"
                 style={{ left: `${visuals.beamSweepXPercent}%` }}
-                className="pointer-events-none absolute top-0 bottom-0 w-px bg-gradient-to-b from-[#E9BB86]/70 via-[#D7A779]/25 to-transparent transition-all duration-200"
+                className="pointer-events-none absolute top-0 bottom-0 w-px bg-gradient-to-b from-[#E9BB86]/70 via-[#D7A779]/20 to-transparent transition-all duration-150"
               >
-                <span className="absolute top-3 -translate-x-1/2 px-2 py-0.5 bg-[#111318]/90 border border-[#E9BB86]/40 font-mono-tech text-[10px] text-[#E9BB86] whitespace-nowrap">
-                  {state.direction}° AXIS
+                <span className="absolute top-3 -translate-x-1/2 px-2 py-0.5 bg-[#111318]/90 border border-[#E9BB86]/40 font-mono-tech text-xs text-[#E9BB86] tabular-nums whitespace-nowrap">
+                  {state.direction}°
                 </span>
               </div>
             </div>
 
-            {/* Bottom Honest Disclaimer & Optical Readout */}
-            <div className="px-5 py-3.5 border-t border-[#F2EBE2]/15 bg-[#111318] flex flex-wrap items-center justify-between gap-3 text-xs text-[#A6A29F]">
+            {/* Bottom Disclaimer & Optical Readout */}
+            <div className="px-5 py-3 border-t border-[#F2EBE2]/10 bg-[#111318] flex flex-wrap items-center justify-between gap-3 text-xs text-[#A6A29F]">
               <span>
-                Visual illustration of relative mood, Kelvin warmth, and directional emphasis — not physically accurate photometric software.
+                Visual illustration of relative mood, Kelvin warmth, and directional emphasis.
               </span>
-              <span className="font-mono-tech text-[#E9BB86]">
-                EST. ILLUMINANCE: {visuals.footcandleEstimate}
+              <span className="font-mono-tech text-[#E9BB86] tabular-nums">
+                Est. illuminance: {visuals.footcandleEstimate}
               </span>
             </div>
           </div>
 
           {/* Right: Tactile Control Console */}
-          <div className="lg:col-span-4 bg-[#111318] border border-[#F2EBE2]/18 p-6 sm:p-8 flex flex-col justify-between space-y-8">
-            <div className="space-y-8">
+          <div className="lg:col-span-4 bg-[#1c2027] border border-[#F2EBE2]/10 p-6 sm:p-7 flex flex-col justify-between space-y-7">
+            <div className="space-y-7">
               {/* Control 1: Intensity Slider (0-100%) */}
               <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
+                <div className="flex items-center justify-between gap-2 mb-2.5">
                   <label
                     htmlFor="light-lab-intensity"
-                    className="flex items-center gap-2 font-mono-tech text-xs uppercase tracking-[0.18em] text-[#F2EBE2]"
+                    className="flex items-center gap-2 font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2]"
                   >
-                    <Sliders className="w-3.5 h-3.5 text-[#D7A779]" aria-hidden="true" />
+                    <Sliders className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
                     <span>1. Intensity</span>
                   </label>
-                  <span className="font-mono-tech text-sm text-[#E9BB86]">
+                  <span className="font-mono-tech text-sm text-[#E9BB86] tabular-nums">
                     {state.intensity}%
                   </span>
                 </div>
@@ -1513,21 +1506,21 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                   onChange={handleIntensityChange}
                   className="w-full penumbra-slider"
                 />
-                <div className="mt-2 flex justify-between font-mono-tech text-[11px] text-[#A6A29F]">
-                  <span>0% (Blue Hour)</span>
+                <div className="mt-2 flex justify-between font-mono-tech text-xs text-[#A6A29F]">
+                  <span>0% (Blue hour)</span>
                   <span>50% (Dusk)</span>
-                  <span>100% (Full Glow)</span>
+                  <span>100% (Full glow)</span>
                 </div>
               </div>
 
               {/* Control 2: Color Temperature (Cool -> Neutral -> Warm) */}
-              <div className="pt-6 border-t border-[#F2EBE2]/12">
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="flex items-center gap-2 font-mono-tech text-xs uppercase tracking-[0.18em] text-[#F2EBE2]">
-                    <Thermometer className="w-3.5 h-3.5 text-[#D7A779]" aria-hidden="true" />
+              <div className="pt-5 border-t border-[#F2EBE2]/10">
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <span className="flex items-center gap-2 font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2]">
+                    <Thermometer className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
                     <span>2. Temperature</span>
                   </span>
-                  <span className="font-mono-tech text-xs text-[#A6A29F]">
+                  <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">
                     {visuals.cctValue}K
                   </span>
                 </div>
@@ -1535,7 +1528,7 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                 <div
                   role="group"
                   aria-label="Color Temperature"
-                  className="grid grid-cols-3 gap-2 p-1 bg-[#20252D] border border-[#F2EBE2]/15"
+                  className="grid grid-cols-3 gap-2 p-1 bg-[#111318] border border-[#F2EBE2]/10"
                 >
                   {(
                     [
@@ -1551,18 +1544,18 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                         type="button"
                         onClick={() => handleTemperatureChange(option.id)}
                         aria-pressed={active}
-                        className={`py-2.5 px-2 text-center transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
+                        className={`py-2 px-2 text-center transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
                           active
-                            ? 'bg-[#D7A779] text-[#111318] font-medium'
-                            : 'text-[#F2EBE2]/80 hover:text-[#F2EBE2] hover:bg-[#111318]/50'
+                            ? 'bg-[#D7A779] text-[#111318] font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]'
+                            : 'text-[#A6A29F] hover:text-[#F2EBE2] hover:bg-[#1c2027]'
                         }`}
                       >
-                        <span className="block text-xs tracking-[0.12em] uppercase">
+                        <span className="block text-xs tracking-wider uppercase">
                           {option.label}
                         </span>
                         <span
-                          className={`block font-mono-tech text-[10px] mt-0.5 ${
-                            active ? 'text-[#111318]/80' : 'text-[#A6A29F]'
+                          className={`block font-mono-tech text-xs mt-0.5 tabular-nums ${
+                            active ? 'text-[#111318]/90 font-medium' : 'text-[#A6A29F]'
                           }`}
                         >
                           {option.kelvin}
@@ -1574,16 +1567,16 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
               </div>
 
               {/* Control 3: Direction (-60° to +60° Angle Selector) */}
-              <div className="pt-6 border-t border-[#F2EBE2]/12">
-                <div className="flex items-center justify-between gap-2 mb-3">
+              <div className="pt-5 border-t border-[#F2EBE2]/10">
+                <div className="flex items-center justify-between gap-2 mb-2.5">
                   <label
                     htmlFor="light-lab-direction"
-                    className="flex items-center gap-2 font-mono-tech text-xs uppercase tracking-[0.18em] text-[#F2EBE2]"
+                    className="flex items-center gap-2 font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2]"
                   >
-                    <Compass className="w-3.5 h-3.5 text-[#D7A779]" aria-hidden="true" />
+                    <Compass className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
                     <span>3. Direction</span>
                   </label>
-                  <span className="font-mono-tech text-xs text-[#E9BB86]">
+                  <span className="font-mono-tech text-xs text-[#E9BB86] tabular-nums">
                     {state.direction > 0 ? `+${state.direction}° East` : state.direction < 0 ? `${state.direction}° West` : '0° Center'}
                   </span>
                 </div>
@@ -1609,10 +1602,10 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                       key={preset.label}
                       type="button"
                       onClick={() => handleDirectionChange(preset.angle)}
-                      className={`py-2 px-2 font-mono-tech text-[11px] border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
+                      className={`py-2 px-1.5 font-mono-tech text-xs border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
                         state.direction === preset.angle
-                          ? 'border-[#D7A779] text-[#E9BB86] bg-[#20252D]'
-                          : 'border-[#F2EBE2]/15 text-[#A6A29F] hover:text-[#F2EBE2]'
+                          ? 'border-[#D7A779] text-[#E9BB86] bg-[#111318]'
+                          : 'border-[#F2EBE2]/12 text-[#A6A29F] hover:text-[#F2EBE2] hover:bg-[#111318]/50'
                       }`}
                     >
                       {preset.label}
@@ -1623,19 +1616,19 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
             </div>
 
             {/* Control 4: Reset Button */}
-            <div className="pt-6 border-t border-[#F2EBE2]/15 flex items-center justify-between gap-4">
+            <div className="pt-5 border-t border-[#F2EBE2]/10 flex items-center justify-between gap-4">
               <button
                 type="button"
                 onClick={onReset}
                 disabled={isDefault}
-                className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-xs font-mono-tech uppercase tracking-[0.18em] border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
+                className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono-tech uppercase tracking-wider border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
                   isDefault
-                    ? 'border-[#F2EBE2]/12 text-[#A6A29F]/50 cursor-not-allowed'
-                    : 'border-[#F2EBE2]/30 text-[#F2EBE2] hover:border-[#D7A779] hover:text-[#E9BB86]'
+                    ? 'border-[#F2EBE2]/10 text-[#A6A29F]/40 cursor-not-allowed'
+                    : 'border-[#F2EBE2]/20 text-[#F2EBE2] hover:border-[#D7A779] hover:text-[#E9BB86] bg-[#111318]/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'
                 }`}
               >
-                <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Reset Default Scene</span>
+                <RotateCcw className="w-3.5 h-3.5" strokeWidth={1.5} aria-hidden="true" />
+                <span>Reset default scene</span>
               </button>
             </div>
           </div>
@@ -1695,73 +1688,73 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose, onNavigat
       role="dialog"
       aria-modal="true"
       aria-label="Site Navigation"
-      className="fixed inset-0 z-40 md:hidden bg-[#111318]/96 backdrop-blur-xl pt-24 pb-10 px-6 flex flex-col justify-between border-b border-[#F2EBE2]/18"
+      className="fixed inset-0 z-40 md:hidden bg-[#111318]/96 backdrop-blur-xl pt-24 pb-10 px-6 flex flex-col justify-between border-b border-[#F2EBE2]/10"
     >
-      <nav aria-label="Mobile Navigation" className="flex flex-col divide-y divide-[#F2EBE2]/12">
+      <nav aria-label="Mobile Navigation" className="flex flex-col divide-y divide-[#F2EBE2]/10">
         <a
           ref={firstLinkRef}
           href="#projects"
           onClick={(e) => handleSelect(e, 'projects')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
             Projects
           </span>
-          <span className="font-mono-tech text-xs text-[#A6A29F]">01</span>
+          <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">01</span>
         </a>
         <a
           href="#practice"
           onClick={(e) => handleSelect(e, 'practice')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
             Practice
           </span>
-          <span className="font-mono-tech text-xs text-[#A6A29F]">02</span>
+          <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">02</span>
         </a>
         <a
           href="#light-lab"
           onClick={(e) => handleSelect(e, 'light-lab')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
-            Light in Motion
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+            Light in motion
           </span>
-          <span className="font-mono-tech text-xs text-[#A6A29F]">03</span>
+          <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">03</span>
         </a>
         <a
           href="#process"
           onClick={(e) => handleSelect(e, 'process')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
             Approach
           </span>
-          <span className="font-mono-tech text-xs text-[#A6A29F]">04</span>
+          <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">04</span>
         </a>
         <a
           href="#journal"
           onClick={(e) => handleSelect(e, 'journal')}
-          className="py-5 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+          className="py-4 flex items-baseline justify-between group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
         >
-          <span className="font-display text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
+          <span className="font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#D7A779] transition-colors">
             Journal
           </span>
           <span className="font-mono-tech text-xs text-[#A6A29F]">Essay</span>
         </a>
       </nav>
 
-      <div className="pt-6 border-t border-[#F2EBE2]/15 flex flex-col gap-4">
-        <p className="text-xs tracking-[0.16em] uppercase text-[#A6A29F]">
-          Independent Lighting Practice · Est. 2026
+      <div className="pt-6 border-t border-[#F2EBE2]/10 flex flex-col gap-4">
+        <p className="text-xs tracking-wider uppercase text-[#A6A29F]">
+          Independent lighting practice · Est. 2026
         </p>
         <a
           href="#contact"
           onClick={(e) => handleSelect(e, 'contact')}
-          className="inline-flex items-center justify-between px-5 py-4 text-xs tracking-[0.18em] uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
+          className="inline-flex items-center justify-between px-5 py-3.5 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
         >
-          <span>START A PROJECT</span>
-          <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+          <span>Start a project</span>
+          <ArrowUpRight className="w-4 h-4 text-[#111318]" strokeWidth={1.5} aria-hidden="true" />
         </a>
       </div>
     </div>
@@ -1785,28 +1778,28 @@ export const Practice: React.FC = () => {
     <section
       id="practice"
       aria-labelledby="practice-heading"
-      className="relative py-24 md:py-36 bg-[#111318] border-t border-[#F2EBE2]/18"
+      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="practice-heading">
           <SectionHeading
-            label="02 / THE PRACTICE"
-            headline="LIGHT IS NEVER JUST LIGHT."
+            label="02 / The practice"
+            headline="Light is never just light"
             intro="It defines a threshold, reveals a texture, slows a moment, and gives architecture a second life after sunset. We begin with the space, then design what the light allows you to feel."
           />
         </div>
 
         {/* Three Editorial Principles + Architectural Detail Study */}
-        <div className="mt-16 md:mt-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div className="mt-12 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           {/* Left: Three Editorial Principles List */}
-          <div className="lg:col-span-7 divide-y divide-[#F2EBE2]/15 border-t border-b border-[#F2EBE2]/15">
+          <div className="lg:col-span-7 divide-y divide-[#F2EBE2]/10 border-t border-b border-[#F2EBE2]/10">
             {PRACTICE_PRINCIPLES.map((item, idx) => {
               const isSelected = activePrincipleIndex === idx;
               return (
                 <div
                   key={item.number}
-                  className={`py-8 md:py-10 transition-colors ${
-                    isSelected ? 'bg-[#20252D]/45 px-5 -mx-5' : ''
+                  className={`py-8 md:py-9 transition-colors ${
+                    isSelected ? 'bg-[#1c2027] px-6 -mx-6 border-l-2 border-[#D7A779]' : ''
                   }`}
                 >
                   <button
@@ -1816,7 +1809,7 @@ export const Practice: React.FC = () => {
                     className="w-full text-left group focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
                   >
                     <div className="flex items-baseline justify-between gap-4">
-                      <span className="font-mono-tech text-xs tracking-[0.2em] uppercase text-[#D7A779]">
+                      <span className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779] tabular-nums">
                         {item.number}
                       </span>
                       <span className="font-mono-tech text-xs text-[#A6A29F]">
@@ -1828,12 +1821,12 @@ export const Practice: React.FC = () => {
                       {item.title}
                     </h3>
 
-                    <p className="mt-4 text-sm sm:text-base text-[#A6A29F] leading-relaxed max-w-2xl">
+                    <p className="mt-3 text-sm sm:text-base text-[#A6A29F] leading-relaxed max-w-2xl">
                       {item.summary}
                     </p>
 
                     {isSelected && (
-                      <p className="mt-4 pt-4 border-t border-[#F2EBE2]/12 text-sm text-[#F2EBE2]/85 leading-relaxed max-w-2xl">
+                      <p className="mt-4 pt-4 border-t border-[#F2EBE2]/10 text-sm text-[#F2EBE2] leading-relaxed max-w-2xl">
                         {item.detail}
                       </p>
                     )}
@@ -1844,18 +1837,18 @@ export const Practice: React.FC = () => {
           </div>
 
           {/* Right: Tactile Architectural Close-up & Shadow Study */}
-          <div className="lg:col-span-5 flex flex-col justify-between bg-[#20252D]/50 border border-[#F2EBE2]/15 p-6 sm:p-8">
-            <div className="flex items-center justify-between gap-4 pb-4 border-b border-[#F2EBE2]/12">
-              <span className="font-mono-tech text-xs uppercase tracking-[0.18em] text-[#D7A779]">
-                Material Study · Board-Formed Concrete
+          <div className="lg:col-span-5 flex flex-col justify-between bg-[#1c2027] border border-[#F2EBE2]/10 p-6 sm:p-8">
+            <div className="flex items-center justify-between gap-4 pb-4 border-b border-[#F2EBE2]/10">
+              <span className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
+                Material study · Concrete formwork
               </span>
-              <span className="font-mono-tech text-xs text-[#A6A29F]">
+              <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">
                 0{activePrincipleIndex + 1} / 03
               </span>
             </div>
 
             {/* Cropped close-up corresponding to the active principle */}
-            <div className="relative my-6 h-72 sm:h-80 overflow-hidden bg-[#111318] border border-[#F2EBE2]/12">
+            <div className="relative my-6 h-72 sm:h-80 overflow-hidden bg-[#111318] border border-[#F2EBE2]/10">
               <img
                 src={HERO_BASE}
                 alt="Architectural concrete and twilight reflection study"
@@ -1867,9 +1860,9 @@ export const Practice: React.FC = () => {
                       : activePrincipleIndex === 1
                       ? '46% 62%'
                       : '78% 64%',
-                  transform: 'scale(1.38)',
+                  transform: 'scale(1.36)',
                 }}
-                className="w-full h-full object-cover transition-all duration-700"
+                className="w-full h-full object-cover transition-transform duration-500 ease-out"
               />
               <img
                 src={HERO_REVEAL}
@@ -1883,16 +1876,16 @@ export const Practice: React.FC = () => {
                       : activePrincipleIndex === 1
                       ? '46% 62%'
                       : '78% 64%',
-                  transform: 'scale(1.38)',
+                  transform: 'scale(1.36)',
                   opacity: activePrincipleIndex === 0 ? 0.25 : activePrincipleIndex === 1 ? 0.88 : 1,
                 }}
-                className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
+                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-out"
               />
               <div
                 aria-hidden="true"
                 className="absolute inset-0 bg-gradient-to-t from-[#111318]/80 via-transparent to-transparent"
               />
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs font-mono-tech text-[#F2EBE2]/90">
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs font-mono-tech text-[#F2EBE2]">
                 <span>
                   {activePrincipleIndex === 0
                     ? 'Phase I: Blue Hour Ambient'
@@ -1900,7 +1893,7 @@ export const Practice: React.FC = () => {
                     ? 'Phase II: Grazing & Shadow Relief'
                     : 'Phase III: Warm Interior Threshold'}
                 </span>
-                <span className="text-[#E9BB86]">
+                <span className="text-[#E9BB86] tabular-nums">
                   {activePrincipleIndex === 0
                     ? '4200K Sky'
                     : activePrincipleIndex === 1
@@ -1911,22 +1904,22 @@ export const Practice: React.FC = () => {
             </div>
 
             <p className="text-xs sm:text-sm text-[#A6A29F] leading-relaxed">
-              Select each principle to observe how PENUMBRA transitions from unlit twilight observation (01 / Observe) to structural relief (02 / Sculpt) and interior warmth (03 / Reveal).
+              Select each principle to observe how Penumbra transitions from unlit twilight observation (01 / Observe) to structural relief (02 / Sculpt) and interior warmth (03 / Reveal).
             </p>
           </div>
         </div>
 
-        {/* On-Page Editorial Journal Note (#journal) so the Header 'Journal' link leads to a rich studio essay */}
+        {/* Studio Monograph Note (#journal) */}
         <div
           id="journal"
-          className="mt-20 md:mt-28 pt-12 border-t border-[#F2EBE2]/18 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+          className="mt-16 md:mt-24 pt-10 border-t border-[#F2EBE2]/10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
         >
           <div className="lg:col-span-4">
-            <span className="font-mono-tech text-xs tracking-[0.2em] uppercase text-[#D7A779]">
-              STUDIO JOURNAL / NOTE 01
+            <span className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779]">
+              Studio journal · Note 01
             </span>
             <h3 className="mt-3 font-display text-3xl text-[#F2EBE2]">
-              In Praise of the Unlit Surface.
+              In Praise of the Unlit Surface
             </h3>
             <p className="mt-2 font-mono-tech text-xs text-[#A6A29F]">
               Autumn 2026 · Editorial Monograph Note
@@ -1934,14 +1927,14 @@ export const Practice: React.FC = () => {
           </div>
 
           <div className="lg:col-span-8 space-y-4 text-sm sm:text-base text-[#A6A29F] leading-relaxed">
-            <p className="text-[#F2EBE2]/90">
+            <p className="text-[#F2EBE2]">
               When every facade is washed at uniform intensity, architecture loses its gravity. A cantilever only appears to float when the eye can read the darkness beneath and above it.
             </p>
             <p>
               In our conceptual studies, we deliberately leave over sixty percent of the building envelope in natural twilight shadow. By concentrating warm 2400K–2700K illumination along structural seams, soffit reveals, and water edges, the eye is invited to linger rather than squint.
             </p>
             {essayExpanded && (
-              <p className="text-[#F2EBE2]/85 pt-2 border-t border-[#F2EBE2]/12">
+              <p className="text-[#F2EBE2] pt-2 border-t border-[#F2EBE2]/10">
                 True nocturnal comfort also relies on preserving the reflection of the night sky in still water. Shielded apertures ensure that visitors never see the diode or lamp source directly—only its warm consequence across stone and concrete.
               </p>
             )}
@@ -1950,9 +1943,9 @@ export const Practice: React.FC = () => {
                 type="button"
                 onClick={() => setEssayExpanded((prev) => !prev)}
                 aria-expanded={essayExpanded}
-                className="font-mono-tech text-xs uppercase tracking-[0.18em] text-[#D7A779] hover:text-[#E9BB86] transition-colors focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779] hover:text-[#E9BB86] transition-colors focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
               >
-                {essayExpanded ? 'Collapse Monograph Note ↑' : 'Read Full Monograph Note ↓'}
+                {essayExpanded ? 'Collapse monograph note ↑' : 'Read full monograph note ↓'}
               </button>
             </div>
           </div>
@@ -2016,72 +2009,72 @@ export const Process: React.FC<ProcessProps> = ({ reducedMotion }) => {
       id="process"
       ref={sectionRef}
       aria-labelledby="process-heading"
-      className="relative py-24 md:py-36 bg-[#111318] border-t border-[#F2EBE2]/18"
+      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="process-heading">
           <SectionHeading
-            label="04 / OUR APPROACH"
-            headline="FROM FIRST SHADOW TO FINAL GLOW."
+            label="04 / Our approach"
+            headline="From first shadow to final glow"
             intro="Four deliberate phases that carry an architectural space from initial twilight observation to commissioned evening permanence."
           />
         </div>
 
         {/* Progressive Architectural Timeline Bar */}
-        <div className="mt-16 md:mt-20">
-          <div className="relative h-px w-full bg-[#F2EBE2]/15 overflow-hidden">
+        <div className="mt-12 md:mt-16">
+          <div className="relative h-px w-full bg-[#F2EBE2]/10 overflow-hidden">
             <div
               ref={progressLineRef}
               style={{ transform: reducedMotion ? 'scaleX(1)' : 'scaleX(0.25)' }}
-              className="origin-left h-full w-full bg-gradient-to-r from-[#D7A779] via-[#E9BB86] to-[#D7A779] transition-transform duration-150"
+              className="origin-left h-full w-full bg-[#D7A779] transition-transform duration-150"
             />
           </div>
 
           {/* Four Architectural Stages Grid */}
-          <ol className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+          <ol className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {PROCESS_STAGES.map((stage, idx) => {
               const isIlluminated = reducedMotion || idx <= activeStepIndex;
               return (
                 <li
                   key={stage.step}
-                  className={`flex flex-col justify-between p-6 border transition-colors duration-300 ${
+                  className={`flex flex-col justify-between p-6 border transition-colors duration-200 ${
                     isIlluminated
-                      ? 'border-[#D7A779]/55 bg-[#20252D]/55'
-                      : 'border-[#F2EBE2]/14 bg-[#111318]'
+                      ? 'border-[#D7A779]/50 bg-[#1c2027]'
+                      : 'border-[#F2EBE2]/10 bg-[#111318]'
                   }`}
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-2 pb-4 border-b border-[#F2EBE2]/12">
+                    <div className="flex items-center justify-between gap-2 pb-4 border-b border-[#F2EBE2]/10">
                       <span
-                        className={`font-mono-tech text-xs tracking-[0.2em] uppercase ${
+                        className={`font-mono-tech text-xs tracking-wider uppercase tabular-nums ${
                           isIlluminated ? 'text-[#E9BB86]' : 'text-[#A6A29F]'
                         }`}
                       >
-                        STAGE {stage.step}
+                        Stage {stage.step}
                       </span>
                       <button
                         type="button"
                         onClick={() => setActiveStepIndex(idx)}
-                        className="font-mono-tech text-[11px] uppercase tracking-[0.14em] text-[#A6A29F] hover:text-[#F2EBE2] focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                        className="font-mono-tech text-xs uppercase tracking-wider text-[#A6A29F] hover:text-[#F2EBE2] focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
                       >
                         {idx === activeStepIndex ? 'Active' : 'Inspect'}
                       </button>
                     </div>
 
-                    <h3 className="mt-6 font-display text-3xl sm:text-4xl text-[#F2EBE2]">
+                    <h3 className="mt-5 font-display text-3xl sm:text-4xl text-[#F2EBE2]">
                       {stage.title}
                     </h3>
 
-                    <p className="mt-4 text-sm sm:text-base text-[#F2EBE2]/85 leading-relaxed">
+                    <p className="mt-3 text-sm text-[#A6A29F] leading-relaxed">
                       {stage.summary}
                     </p>
                   </div>
 
-                  <div className="mt-8 pt-4 border-t border-[#F2EBE2]/12 space-y-1.5">
-                    <p className="font-mono-tech text-[11px] uppercase tracking-[0.14em] text-[#D7A779]">
+                  <div className="mt-8 pt-4 border-t border-[#F2EBE2]/10 space-y-1">
+                    <p className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
                       {stage.deliverable}
                     </p>
-                    <p className="font-mono-tech text-xs text-[#A6A29F]">
+                    <p className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">
                       {stage.luxTarget}
                     </p>
                   </div>
@@ -2115,30 +2108,30 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   align = 'split',
 }) => {
   return (
-    <div className="pb-12 md:pb-16 border-b border-[#F2EBE2]/18">
-      <div className="flex items-center gap-4 mb-5">
-        <span className="font-mono-tech text-xs tracking-[0.22em] uppercase text-[#D7A779]">
+    <div className="pb-10 md:pb-14 border-b border-[#F2EBE2]/10">
+      <div className="flex items-center gap-4 mb-4">
+        <span className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779]">
           {label}
         </span>
-        <span className="h-px flex-1 max-w-24 bg-[#F2EBE2]/18" aria-hidden="true" />
+        <span className="h-px flex-1 max-w-24 bg-[#F2EBE2]/10" aria-hidden="true" />
       </div>
 
       {align === 'split' && intro ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
-          <h2 className="lg:col-span-7 font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#F2EBE2] leading-[1.03] text-balance">
+          <h2 className="lg:col-span-7 font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#F2EBE2] leading-[1.04] text-balance">
             {headline}
           </h2>
-          <p className="lg:col-span-5 text-base md:text-lg text-[#A6A29F] leading-relaxed max-w-xl">
+          <p className="lg:col-span-5 text-base text-[#A6A29F] leading-relaxed max-w-xl">
             {intro}
           </p>
         </div>
       ) : (
         <div className="max-w-3xl">
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#F2EBE2] leading-[1.03] text-balance">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#F2EBE2] leading-[1.04] text-balance">
             {headline}
           </h2>
           {intro && (
-            <p className="mt-5 text-base md:text-lg text-[#A6A29F] leading-relaxed max-w-2xl">
+            <p className="mt-4 text-base text-[#A6A29F] leading-relaxed max-w-2xl">
               {intro}
             </p>
           )}
@@ -2173,15 +2166,15 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
         role="img"
         aria-label="Section diagram showing linear knife-edge soffit cove and vertical concrete grazing"
       >
-        <line x1="16" y1="118" x2="344" y2="118" stroke="rgba(242,235,226,0.25)" strokeWidth="1" />
+        <line x1="16" y1="118" x2="344" y2="118" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
         {/* Cantilever concrete canopy */}
         <rect
           x="44"
           y="36"
           width="210"
           height="20"
-          fill="rgba(32,37,45,0.9)"
-          stroke="rgba(242,235,226,0.45)"
+          fill="#1c2027"
+          stroke="rgba(242,235,226,0.3)"
           strokeWidth="1"
         />
         {/* Core wall */}
@@ -2190,20 +2183,20 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
           y="56"
           width="36"
           height="62"
-          fill="rgba(32,37,45,0.9)"
-          stroke="rgba(242,235,226,0.45)"
+          fill="#1c2027"
+          stroke="rgba(242,235,226,0.3)"
           strokeWidth="1"
         />
         {/* Warm linear soffit glow */}
-        <line x1="48" y1="58" x2="248" y2="58" stroke="#E9BB86" strokeWidth="2.5" />
+        <line x1="48" y1="58" x2="248" y2="58" stroke="#E9BB86" strokeWidth="2" />
         {/* Grazing light cones */}
-        <polygon points="126,116 112,58 130,58" fill="rgba(215,167,121,0.28)" />
-        <polygon points="170,116 166,58 186,58" fill="rgba(215,167,121,0.28)" />
+        <polygon points="126,116 112,58 130,58" fill="rgba(215,167,121,0.22)" />
+        <polygon points="170,116 166,58 186,58" fill="rgba(215,167,121,0.22)" />
         <text x="50" y="26" fill="#A6A29F" fontSize="9" fontFamily="monospace">
-          2650K RECESSED SOFFIT KNIFE-EDGE
+          2650K Recessed soffit knife-edge
         </text>
         <text x="196" y="96" fill="#D7A779" fontSize="9" fontFamily="monospace">
-          ASYMMETRIC GRAZE (14:1)
+          Asymmetric graze (14:1)
         </text>
       </svg>
     );
@@ -2217,8 +2210,8 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
         role="img"
         aria-label="Section diagram showing ceiling framing optics on interior stone boulder behind low-iron glass"
       >
-        <line x1="16" y1="118" x2="344" y2="118" stroke="rgba(242,235,226,0.25)" strokeWidth="1" />
-        <line x1="40" y1="24" x2="320" y2="24" stroke="rgba(242,235,226,0.35)" strokeWidth="1" />
+        <line x1="16" y1="118" x2="344" y2="118" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
+        <line x1="40" y1="24" x2="320" y2="24" stroke="rgba(242,235,226,0.24)" strokeWidth="1" />
         {/* Glazing line */}
         <line
           x1="116"
@@ -2232,18 +2225,18 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
         {/* Sculptural stone monolith */}
         <path
           d="M196 118 L206 74 L244 64 L276 82 L284 118 Z"
-          fill="rgba(215,167,121,0.22)"
+          fill="rgba(215,167,121,0.18)"
           stroke="#E9BB86"
           strokeWidth="1.2"
         />
         {/* Pin-spot beam from recessed ceiling slot */}
-        <polygon points="222,24 192,118 286,118" fill="rgba(215,167,121,0.16)" />
-        <circle cx="222" cy="24" r="3" fill="#E9BB86" />
+        <polygon points="222,24 192,118 286,118" fill="rgba(215,167,121,0.14)" />
+        <circle cx="222" cy="24" r="2.5" fill="#E9BB86" />
         <text x="42" y="72" fill="#7E91A8" fontSize="9" fontFamily="monospace">
-          LOW-IRON GLASS
+          Low-iron glass
         </text>
         <text x="190" y="44" fill="#D7A779" fontSize="9" fontFamily="monospace">
-          2400K FRAMING OPTIC
+          2400K Framing optic
         </text>
       </svg>
     );
@@ -2257,8 +2250,8 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
       aria-label="Section diagram showing shielded low-level bollard casting downward light across water edge"
     >
       {/* Deck and reflecting basin */}
-      <line x1="16" y1="92" x2="195" y2="92" stroke="rgba(242,235,226,0.45)" strokeWidth="1.5" />
-      <line x1="195" y1="92" x2="195" y2="116" stroke="rgba(242,235,226,0.45)" strokeWidth="1.5" />
+      <line x1="16" y1="92" x2="195" y2="92" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
+      <line x1="195" y1="92" x2="195" y2="116" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
       <line x1="195" y1="106" x2="344" y2="106" stroke="#7E91A8" strokeWidth="1.5" />
       {/* Shielded bollard */}
       <rect x="154" y="64" width="8" height="28" fill="#D7A779" />
@@ -2268,17 +2261,17 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
         y1="64"
         x2="270"
         y2="64"
-        stroke="rgba(242,235,226,0.2)"
+        stroke="rgba(242,235,226,0.15)"
         strokeWidth="1"
         strokeDasharray="4 4"
       />
       {/* Downward fan */}
-      <polygon points="158,68 95,92 225,106" fill="rgba(215,167,121,0.24)" />
+      <polygon points="158,68 95,92 225,106" fill="rgba(215,167,121,0.2)" />
       <text x="82" y="54" fill="#A6A29F" fontSize="9" fontFamily="monospace">
-        0% UPLIGHT CUTOFF HORIZON
+        0% Uplight cutoff
       </text>
       <text x="208" y="88" fill="#D7A779" fontSize="9" fontFamily="monospace">
-        2200K SPECULAR WATER REFLECTION
+        2200K Specular water reflection
       </text>
     </svg>
   );
@@ -2289,7 +2282,7 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
   onSelectProject,
   onNavigateToContact,
 }) => {
-  // Per-card illumination study state (default 85% illuminated so visitors can also compare unlit vs lit on each study)
+  // Per-card illumination study state
   const [studyMix, setStudyMix] = useState<Record<string, boolean>>({
     'solace-pavilion': true,
     'nocturne-house': true,
@@ -2325,13 +2318,13 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
     <section
       id="projects"
       aria-labelledby="projects-heading"
-      className="relative py-24 md:py-36 bg-[#111318] border-t border-[#F2EBE2]/15"
+      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="projects-heading">
           <SectionHeading
-            label="01 / SELECTED PROJECTS"
-            headline="LIGHT CHANGES EVERYTHING."
+            label="01 / Selected projects"
+            headline="Light changes everything"
             intro="Three studies in how illumination changes the way we experience architecture."
           />
         </div>
@@ -2341,13 +2334,13 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
           <p>
             Each study isolates a distinct architectural zone from our primary brutalist pavilion plate to examine grazing, interior transparency, and threshold orientation.
           </p>
-          <span className="font-mono-tech uppercase tracking-[0.16em] text-[#D7A779]">
-            CONCEPTUAL ARCHITECTURAL STUDIES · 2026
+          <span className="font-mono-tech uppercase tracking-wider text-[#D7A779]">
+            Conceptual architectural studies · 2026
           </span>
         </div>
 
         {/* Editorial Staggered Project Studies */}
-        <div className="mt-14 md:mt-20 space-y-20 md:space-y-28">
+        <div className="mt-12 md:mt-16 space-y-16 md:space-y-24">
           {CONCEPT_PROJECTS.map((project, idx) => {
             const isLit = studyMix[project.id] ?? true;
             const isEven = idx % 2 === 1;
@@ -2355,15 +2348,15 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
             return (
               <article
                 key={project.id}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch pt-8 border-t border-[#F2EBE2]/12 first:border-t-0 first:pt-0"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch pt-8 border-t border-[#F2EBE2]/10 first:border-t-0 first:pt-0"
               >
                 {/* Photographic Crop Stage */}
                 <div
                   className={`lg:col-span-7 ${
                     isEven ? 'lg:order-2' : 'lg:order-1'
-                  } relative group overflow-hidden bg-[#20252D] border border-[#F2EBE2]/15 min-h-[340px] sm:min-h-[440px] flex flex-col justify-between`}
+                  } relative group overflow-hidden bg-[#1c2027] border border-[#F2EBE2]/10 min-h-[340px] sm:min-h-[420px] flex flex-col justify-between`}
                 >
-                  {/* Shared-coordinate cropped architectural study */}
+                  {/* Cropped architectural study */}
                   <div className="absolute inset-0 overflow-hidden">
                     <img
                       src={HERO_BASE}
@@ -2373,7 +2366,7 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                         objectPosition: project.focalCropPosition,
                         transform: `scale(${project.focalScale})`,
                       }}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.24]"
+                      className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.22]"
                     />
                     <img
                       src={HERO_REVEAL}
@@ -2385,20 +2378,17 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                         transform: `scale(${project.focalScale})`,
                         opacity: isLit ? 1 : 0.08,
                       }}
-                      className="
-                        absolute inset-0 w-full h-full object-cover
-                        transition-all duration-700 group-hover:scale-[1.24]
-                      "
+                      className="absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.22]"
                     />
                     <div
                       aria-hidden="true"
-                      className="absolute inset-0 bg-gradient-to-t from-[#111318]/85 via-transparent to-[#111318]/35"
+                      className="absolute inset-0 bg-gradient-to-t from-[#111318]/80 via-transparent to-[#111318]/30"
                     />
                   </div>
 
                   {/* Top Crop Metadata Bar */}
                   <div className="relative z-10 p-5 flex items-center justify-between gap-4">
-                    <span className="font-mono-tech text-xs tracking-[0.18em] uppercase text-[#F2EBE2]/90">
+                    <span className="font-mono-tech text-xs tracking-wider uppercase text-[#F2EBE2]">
                       {project.studyLabel}
                     </span>
 
@@ -2406,19 +2396,19 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                       type="button"
                       onClick={() => toggleCardLighting(project.id)}
                       aria-pressed={isLit}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono-tech tracking-[0.14em] uppercase bg-[#111318]/80 text-[#F2EBE2] border border-[#F2EBE2]/25 hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono-tech tracking-wider uppercase bg-[#111318]/85 text-[#F2EBE2] border border-[#F2EBE2]/18 hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
                     >
-                      <SlidersHorizontal className="w-3 h-3 text-[#D7A779]" aria-hidden="true" />
-                      <span>{isLit ? 'State: Illuminated' : 'State: Blue Hour'}</span>
+                      <SlidersHorizontal className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
+                      <span>{isLit ? 'State: Illuminated' : 'State: Blue hour'}</span>
                     </button>
                   </div>
 
                   {/* Bottom Optical Readout */}
-                  <div className="relative z-10 p-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#F2EBE2]/15 bg-[#111318]/65 backdrop-blur-xs">
-                    <span className="font-mono-tech text-xs text-[#E9BB86]">
+                  <div className="relative z-10 p-4 px-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#F2EBE2]/10 bg-[#111318]/70 backdrop-blur-xs">
+                    <span className="font-mono-tech text-xs text-[#E9BB86] tabular-nums">
                       {project.kelvinProfile}
                     </span>
-                    <span className="font-mono-tech text-xs text-[#A6A29F]">
+                    <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">
                       {project.contrastRatio}
                     </span>
                   </div>
@@ -2431,50 +2421,50 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                   } flex flex-col justify-between py-2`}
                 >
                   <div>
-                    {/* Unboxed clean metadata with typographic separator */}
-                    <div className="flex items-center gap-3 text-xs tracking-[0.16em] uppercase text-[#A6A29F]">
-                      <span className="font-mono-tech text-[#D7A779]">{project.index}</span>
+                    {/* Unboxed clean metadata */}
+                    <div className="flex items-center gap-3 text-xs tracking-wider uppercase text-[#A6A29F]">
+                      <span className="font-mono-tech text-[#D7A779] tabular-nums">{project.index}</span>
                       <span aria-hidden="true">—</span>
                       <span>{project.category}</span>
                     </div>
 
-                    <h3 className="mt-4 font-display text-3xl sm:text-4xl md:text-5xl text-[#F2EBE2] tracking-tight">
+                    <h3 className="mt-3 font-display text-3xl sm:text-4xl md:text-5xl text-[#F2EBE2] tracking-tight">
                       {project.title}
                     </h3>
 
-                    <p className="mt-4 text-lg text-[#F2EBE2]/90 font-light leading-relaxed">
+                    <p className="mt-4 text-base sm:text-lg text-[#F2EBE2] font-light leading-relaxed">
                       {project.microcopy}
                     </p>
 
-                    <p className="mt-4 text-sm text-[#A6A29F] leading-relaxed">
+                    <p className="mt-3 text-sm text-[#A6A29F] leading-relaxed">
                       {project.conceptSummary}
                     </p>
 
                     {/* Mood & Photometric Section Diagram */}
-                    <div className="mt-6 pt-5 border-t border-[#F2EBE2]/15">
-                      <p className="font-mono-tech text-[11px] uppercase tracking-[0.16em] text-[#A6A29F] mb-2">
+                    <div className="mt-6 pt-5 border-t border-[#F2EBE2]/10">
+                      <p className="font-mono-tech text-xs uppercase tracking-wider text-[#A6A29F] mb-2">
                         Atmosphere: <span className="text-[#F2EBE2]">{project.mood}</span>
                       </p>
-                      <div className="mt-3 p-3 bg-[#20252D]/60 border border-[#F2EBE2]/12">
+                      <div className="mt-3 p-4 bg-[#1c2027] border border-[#F2EBE2]/10">
                         <ArchitecturalDiagram type={project.diagramType} />
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-8 pt-5 border-t border-[#F2EBE2]/15 flex items-center justify-between gap-4">
+                  <div className="mt-8 pt-5 border-t border-[#F2EBE2]/10 flex items-center justify-between gap-4">
                     <button
                       type="button"
                       onClick={(e) => {
                         lastTriggerRef.current = e.currentTarget;
                         onSelectProject(project);
                       }}
-                      className="inline-flex items-center gap-2.5 px-5 py-3 text-xs tracking-[0.18em] uppercase bg-[#20252D] text-[#F2EBE2] border border-[#F2EBE2]/25 hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-2"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-wider uppercase bg-[#1c2027] text-[#F2EBE2] border border-[#F2EBE2]/20 hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-2"
                     >
-                      <span>Inspect Concept Study</span>
-                      <ArrowUpRight className="w-4 h-4 text-[#D7A779]" aria-hidden="true" />
+                      <span>Inspect study</span>
+                      <ArrowUpRight className="w-4 h-4 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
                     </button>
 
-                    <span className="font-mono-tech text-xs text-[#A6A29F]">
+                    <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">
                       {project.index} / 03
                     </span>
                   </div>
@@ -2485,13 +2475,13 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
         </div>
       </div>
 
-      {/* Accessible Project Detail Modal / Drawer */}
+      {/* Accessible Project Detail Modal */}
       {activeProject && (
         <div
           role="dialog"
           aria-modal="true"
           aria-labelledby="project-dialog-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 bg-[#111318]/88 backdrop-blur-md overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 bg-[#111318]/90 backdrop-blur-md overflow-y-auto"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               onSelectProject(null);
@@ -2499,11 +2489,11 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
             }
           }}
         >
-          <div className="relative w-full max-w-4xl bg-[#20252D] border border-[#F2EBE2]/25 text-[#F2EBE2] my-auto overflow-hidden shadow-2xl">
+          <div className="relative w-full max-w-4xl bg-[#1c2027] border border-[#F2EBE2]/18 text-[#F2EBE2] my-auto overflow-hidden shadow-2xl">
             {/* Modal Header */}
-            <div className="flex items-center justify-between gap-4 px-6 sm:px-8 py-5 border-b border-[#F2EBE2]/15 bg-[#111318]">
-              <div className="flex items-center gap-3 text-xs font-mono-tech uppercase tracking-[0.18em] text-[#D7A779]">
-                <span>{activeProject.index}</span>
+            <div className="flex items-center justify-between gap-4 px-6 sm:px-8 py-4 border-b border-[#F2EBE2]/10 bg-[#111318]">
+              <div className="flex items-center gap-3 text-xs font-mono-tech uppercase tracking-wider text-[#D7A779]">
+                <span className="tabular-nums">{activeProject.index}</span>
                 <span aria-hidden="true">·</span>
                 <span>{activeProject.studyLabel}</span>
               </div>
@@ -2514,17 +2504,17 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                   onSelectProject(null);
                   lastTriggerRef.current?.focus();
                 }}
-                aria-label={`Close ${activeProject.title} concept details`}
-                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono-tech uppercase tracking-[0.16em] text-[#F2EBE2] border border-[#F2EBE2]/20 hover:border-[#D7A779] transition-colors focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                aria-label={`Close ${activeProject.title} details`}
+                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono-tech uppercase tracking-wider text-[#F2EBE2] border border-[#F2EBE2]/18 hover:border-[#D7A779] transition-colors focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
               >
                 <span>Close</span>
-                <X className="w-4 h-4" aria-hidden="true" />
+                <X className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
               </button>
             </div>
 
-            {/* Side-by-side Unlit vs Illuminated Comparison Strip */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 border-b border-[#F2EBE2]/15">
-              <div className="relative h-52 sm:h-64 overflow-hidden border-b sm:border-b-0 sm:border-r border-[#F2EBE2]/15">
+            {/* Comparison Strip */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 border-b border-[#F2EBE2]/10">
+              <div className="relative h-52 sm:h-64 overflow-hidden border-b sm:border-b-0 sm:border-r border-[#F2EBE2]/10">
                 <img
                   src={HERO_BASE}
                   alt={`${activeProject.title} unlit ambient state`}
@@ -2534,8 +2524,8 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                   }}
                   className="w-full h-full object-cover"
                 />
-                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-[#111318]/85 text-[11px] font-mono-tech uppercase tracking-[0.16em] text-[#A6A29F]">
-                  Before · Ambient Blue Hour
+                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#A6A29F]">
+                  Before · Ambient blue hour
                 </span>
               </div>
 
@@ -2549,16 +2539,16 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                   }}
                   className="w-full h-full object-cover"
                 />
-                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-[#111318]/85 text-[11px] font-mono-tech uppercase tracking-[0.16em] text-[#E9BB86]">
+                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#E9BB86] tabular-nums">
                   After · {activeProject.kelvinProfile}
                 </span>
               </div>
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-8 bg-[#111318]/95">
+            <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-8 bg-[#111318]">
               <div className="md:col-span-7 space-y-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-[#A6A29F]">
+                <p className="text-xs uppercase tracking-wider text-[#A6A29F]">
                   {activeProject.category}
                 </p>
                 <h3
@@ -2570,12 +2560,12 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                 <p className="text-base text-[#E9BB86] italic font-display">
                   “{activeProject.microcopy}”
                 </p>
-                <p className="text-sm text-[#F2EBE2]/85 leading-relaxed">
+                <p className="text-sm text-[#F2EBE2] leading-relaxed">
                   {activeProject.conceptSummary}
                 </p>
-                <div className="pt-3 border-t border-[#F2EBE2]/12">
-                  <h4 className="font-mono-tech text-xs uppercase tracking-[0.16em] text-[#D7A779]">
-                    Architectural Strategy
+                <div className="pt-3 border-t border-[#F2EBE2]/10">
+                  <h4 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
+                    Architectural strategy
                   </h4>
                   <p className="mt-2 text-sm text-[#A6A29F] leading-relaxed">
                     {activeProject.lightingStrategy}
@@ -2583,12 +2573,12 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                 </div>
               </div>
 
-              <div className="md:col-span-5 flex flex-col justify-between space-y-6 border-t md:border-t-0 md:border-l border-[#F2EBE2]/15 pt-6 md:pt-0 md:pl-6">
+              <div className="md:col-span-5 flex flex-col justify-between space-y-6 border-t md:border-t-0 md:border-l border-[#F2EBE2]/10 pt-6 md:pt-0 md:pl-6">
                 <div>
-                  <h4 className="font-mono-tech text-xs uppercase tracking-[0.16em] text-[#D7A779]">
-                    Conceptual Scope & Deliverables
+                  <h4 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
+                    Scope & deliverables
                   </h4>
-                  <ul className="mt-3 space-y-2.5 text-sm text-[#F2EBE2]/85">
+                  <ul className="mt-3 space-y-2 text-sm text-[#F2EBE2]">
                     {activeProject.services.map((service) => (
                       <li key={service} className="flex items-start gap-2.5">
                         <span className="text-[#D7A779] font-mono-tech">—</span>
@@ -2597,12 +2587,12 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                     ))}
                   </ul>
 
-                  <div className="mt-6 pt-4 border-t border-[#F2EBE2]/15">
+                  <div className="mt-6 pt-4 border-t border-[#F2EBE2]/10">
                     <ArchitecturalDiagram type={activeProject.diagramType} />
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#F2EBE2]/15">
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#F2EBE2]/10">
                   <button
                     type="button"
                     onClick={() => {
@@ -2610,10 +2600,10 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                       onSelectProject(null);
                       onNavigateToContact(title);
                     }}
-                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-xs tracking-[0.18em] uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
+                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
                   >
-                    <span>Discuss a Similar Typology</span>
-                    <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                    <span>Discuss this typology</span>
+                    <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
                   </button>
                 </div>
               </div>

@@ -65,7 +65,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
     try {
       await navigator.clipboard.writeText('hello@penumbra.example');
       setCopiedEmail(true);
-      window.setTimeout(() => setCopiedEmail(false), 2500);
+      window.setTimeout(() => setCopiedEmail(false), 2200);
     } catch {
       setCopiedEmail(true);
     }
@@ -75,40 +75,40 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
     <footer
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative bg-gradient-to-b from-[#111318] via-[#171A21] to-[#111318] border-t border-[#F2EBE2]/18"
+      className="relative bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       {/* Final CTA Section */}
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-36">
+      <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Monumental Final CTA */}
           <div className="lg:col-span-7">
-            <span className="font-mono-tech text-xs tracking-[0.22em] uppercase text-[#D7A779]">
-              05 / COMMISSION & INQUIRY
+            <span className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779]">
+              05 / Commission & inquiry
             </span>
 
             <h2
               id="contact-heading"
-              className="mt-5 font-display text-5xl sm:text-6xl md:text-7xl leading-[0.96] tracking-tight text-[#F2EBE2]"
+              className="mt-4 font-display text-5xl sm:text-6xl md:text-7xl leading-[0.98] tracking-tight text-[#F2EBE2]"
             >
-              <span className="block">LET&apos;S CHANGE HOW</span>
-              <span className="block italic text-[#E9BB86]">THE WORLD IS SEEN.</span>
+              <span className="block">Let&apos;s change how</span>
+              <span className="block italic text-[#E9BB86]">the world is seen</span>
             </h2>
 
-            <p className="mt-6 text-base sm:text-lg md:text-xl text-[#A6A29F] max-w-xl leading-relaxed">
+            <p className="mt-5 text-base sm:text-lg text-[#A6A29F] max-w-xl leading-relaxed">
               Every extraordinary space deserves an extraordinary night. Tell us what you are imagining.
             </p>
 
             {/* Primary & Secondary CTAs */}
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <button
                 type="button"
                 onClick={() => setIsComposerOpen((prev) => !prev)}
                 aria-expanded={isComposerOpen}
                 aria-controls="inquiry-composer-panel"
-                className="inline-flex items-center gap-2.5 px-6 py-4 text-xs tracking-[0.18em] uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2] focus-visible:outline-offset-4"
+                className="inline-flex items-center gap-2 px-6 py-3.5 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2] focus-visible:outline-offset-4"
               >
-                <span>START A CONVERSATION</span>
-                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                <span>Start a conversation</span>
+                <ArrowUpRight className="w-4 h-4 text-[#111318]" strokeWidth={1.5} aria-hidden="true" />
               </button>
 
               <a
@@ -117,23 +117,23 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                   e.preventDefault();
                   onNavigate('projects');
                 }}
-                className="inline-flex items-center gap-2 px-6 py-4 text-xs tracking-[0.18em] uppercase text-[#F2EBE2] border border-[#F2EBE2]/28 hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
+                className="inline-flex items-center gap-2 px-6 py-3.5 text-xs tracking-wider uppercase text-[#F2EBE2] border border-[#F2EBE2]/20 bg-[#1c2027] hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
               >
-                <span>BACK TO PROJECTS</span>
+                <span>Back to projects</span>
               </a>
             </div>
 
-            {/* Direct Placeholder Studio Address */}
-            <div className="mt-12 pt-8 border-t border-[#F2EBE2]/15 flex flex-wrap items-center gap-6">
+            {/* Studio Address */}
+            <div className="mt-10 pt-6 border-t border-[#F2EBE2]/10 flex flex-wrap items-center gap-6">
               <div>
-                <p className="font-mono-tech text-[11px] uppercase tracking-[0.18em] text-[#A6A29F]">
-                  Concept Studio Dispatch (Placeholder)
+                <p className="font-mono-tech text-xs uppercase tracking-wider text-[#A6A29F]">
+                  Studio dispatch
                 </p>
                 <a
                   href="mailto:hello@penumbra.example?subject=PENUMBRA%20Architectural%20Lighting%20Inquiry"
                   className="mt-1 inline-flex items-center gap-2 font-mono-tech text-sm sm:text-base text-[#F2EBE2] hover:text-[#E9BB86] transition-colors"
                 >
-                  <Mail className="w-4 h-4 text-[#D7A779]" aria-hidden="true" />
+                  <Mail className="w-4 h-4 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
                   <span>hello@penumbra.example</span>
                 </a>
               </div>
@@ -141,64 +141,64 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
               <button
                 type="button"
                 onClick={handleCopyAddress}
-                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono-tech uppercase tracking-[0.14em] border border-[#F2EBE2]/20 text-[#A6A29F] hover:text-[#F2EBE2] hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono-tech uppercase tracking-wider border border-[#F2EBE2]/16 bg-[#1c2027] text-[#A6A29F] hover:text-[#F2EBE2] hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
               >
                 {copiedEmail ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-[#E9BB86]" aria-hidden="true" />
-                    <span className="text-[#E9BB86]">Address Copied</span>
+                    <Check className="w-3.5 h-3.5 text-[#E9BB86]" strokeWidth={1.5} aria-hidden="true" />
+                    <span className="text-[#E9BB86]">Address copied</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>Copy Address</span>
+                    <Copy className="w-3.5 h-3.5 text-[#A6A29F]" strokeWidth={1.5} aria-hidden="true" />
+                    <span>Copy address</span>
                   </>
                 )}
               </button>
             </div>
           </div>
 
-          {/* Right Column: Honest Demo Inquiry Composer */}
+          {/* Right Column: Inquiry Composer */}
           <div
             id="inquiry-composer-panel"
-            className="lg:col-span-5 bg-[#20252D]/60 border border-[#F2EBE2]/18 p-6 sm:p-8"
+            className="lg:col-span-5 bg-[#1c2027] border border-[#F2EBE2]/10 p-6 sm:p-7"
           >
-            <div className="flex items-center justify-between gap-2 pb-4 border-b border-[#F2EBE2]/15">
-              <h3 className="font-mono-tech text-xs uppercase tracking-[0.18em] text-[#D7A779]">
-                Project Brief Composer
+            <div className="flex items-center justify-between gap-2 pb-4 border-b border-[#F2EBE2]/10">
+              <h3 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
+                Project brief composer
               </h3>
-              <span className="font-mono-tech text-[11px] text-[#A6A29F]">
-                DEMO FORM · MAILTO DRAFT
+              <span className="font-mono-tech text-xs text-[#A6A29F]">
+                Mailto draft
               </span>
             </div>
 
             <p className="mt-3 text-xs text-[#A6A29F] leading-relaxed">
-              Demo form — connect your email service before publishing, or validate your brief below to open a pre-addressed <code className="text-[#F2EBE2]">mailto:hello@penumbra.example</code> dispatch.
+              Validate your brief below to open a pre-addressed <code className="text-[#F2EBE2]">hello@penumbra.example</code> dispatch in your mail client.
             </p>
 
-            <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-5">
+            <form onSubmit={handleSubmit} noValidate className="mt-5 space-y-4">
               <div>
                 <label
                   htmlFor="contact-name"
-                  className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                 >
-                  Name or Architectural Practice *
+                  Name or practice *
                 </label>
                 <input
                   id="contact-name"
                   type="text"
                   value={draft.name}
                   onChange={(e) => handleFieldChange('name', e.target.value)}
-                  placeholder="e.g., Atelier Moreau"
+                  placeholder="e.g. Atelier Moreau"
                   aria-invalid={Boolean(errors.name)}
                   aria-describedby={errors.name ? 'contact-name-error' : undefined}
-                  className="w-full px-4 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] placeholder:text-[#A6A29F]/45 focus:border-[#D7A779] focus:outline-none"
+                  className="w-full px-3.5 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] placeholder:text-[#A6A29F]/40 focus:border-[#D7A779] focus:outline-none"
                 />
                 {errors.name && (
                   <p
                     id="contact-name-error"
                     role="alert"
-                    className="mt-1.5 text-xs text-[#E9BB86]"
+                    className="mt-1 text-xs text-[#E9BB86]"
                   >
                     {errors.name}
                   </p>
@@ -208,9 +208,9 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
               <div>
                 <label
                   htmlFor="contact-email"
-                  className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                 >
-                  Return Email *
+                  Return email *
                 </label>
                 <input
                   id="contact-email"
@@ -220,13 +220,13 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                   placeholder="studio@practice.example"
                   aria-invalid={Boolean(errors.email)}
                   aria-describedby={errors.email ? 'contact-email-error' : undefined}
-                  className="w-full px-4 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] placeholder:text-[#A6A29F]/45 focus:border-[#D7A779] focus:outline-none"
+                  className="w-full px-3.5 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] placeholder:text-[#A6A29F]/40 focus:border-[#D7A779] focus:outline-none"
                 />
                 {errors.email && (
                   <p
                     id="contact-email-error"
                     role="alert"
-                    className="mt-1.5 text-xs text-[#E9BB86]"
+                    className="mt-1 text-xs text-[#E9BB86]"
                   >
                     {errors.email}
                   </p>
@@ -237,7 +237,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                 <div>
                   <label
                     htmlFor="contact-typology"
-                    className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                    className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                   >
                     Typology
                   </label>
@@ -245,7 +245,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                     id="contact-typology"
                     value={draft.projectType}
                     onChange={(e) => handleFieldChange('projectType', e.target.value)}
-                    className="w-full px-3.5 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] focus:border-[#D7A779] focus:outline-none"
+                    className="w-full px-3 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] focus:border-[#D7A779] focus:outline-none"
                   >
                     <option value="Cultural / Architectural Pavilion">Cultural / Pavilion</option>
                     <option value="Private Residence / Sanctuary">Private Residence</option>
@@ -259,7 +259,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                 <div>
                   <label
                     htmlFor="contact-timeline"
-                    className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                    className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                   >
                     Horizon
                   </label>
@@ -268,7 +268,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                     type="text"
                     value={draft.timeline}
                     onChange={(e) => handleFieldChange('timeline', e.target.value)}
-                    className="w-full px-3.5 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] focus:border-[#D7A779] focus:outline-none"
+                    className="w-full px-3 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] focus:border-[#D7A779] focus:outline-none"
                   />
                 </div>
               </div>
@@ -276,25 +276,25 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
               <div>
                 <label
                   htmlFor="contact-message"
-                  className="block font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F2EBE2]/90 mb-2"
+                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
                 >
-                  Architectural Space & Lighting Intent *
+                  Space & lighting intent *
                 </label>
                 <textarea
                   id="contact-message"
                   rows={3}
                   value={draft.message}
                   onChange={(e) => handleFieldChange('message', e.target.value)}
-                  placeholder="Describe the materials, nocturnal setting, and atmosphere..."
+                  placeholder="Describe the materials, setting, and atmosphere..."
                   aria-invalid={Boolean(errors.message)}
                   aria-describedby={errors.message ? 'contact-message-error' : undefined}
-                  className="w-full px-4 py-2.5 text-sm bg-[#111318] border border-[#F2EBE2]/20 text-[#F2EBE2] placeholder:text-[#A6A29F]/45 focus:border-[#D7A779] focus:outline-none"
+                  className="w-full px-3.5 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] placeholder:text-[#A6A29F]/40 focus:border-[#D7A779] focus:outline-none"
                 />
                 {errors.message && (
                   <p
                     id="contact-message-error"
                     role="alert"
-                    className="mt-1.5 text-xs text-[#E9BB86]"
+                    className="mt-1 text-xs text-[#E9BB86]"
                   >
                     {errors.message}
                   </p>
@@ -303,25 +303,25 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
 
               <button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 text-xs font-mono-tech uppercase tracking-[0.18em] bg-[#F2EBE2] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-xs font-mono-tech uppercase tracking-wider bg-[#F2EBE2] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
               >
-                <span>Prepare Mailto Dispatch</span>
-                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                <span>Prepare mailto dispatch</span>
+                <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
               </button>
 
               {preparedMailto && (
                 <div
                   role="status"
-                  className="p-4 bg-[#111318] border border-[#D7A779]/50 space-y-2"
+                  className="p-3.5 bg-[#111318] border border-[#D7A779]/40 space-y-1.5"
                 >
                   <p className="font-mono-tech text-xs text-[#E9BB86]">
-                    Inquiry draft validated (no server backend connected in this concept template).
+                    Inquiry draft ready.
                   </p>
                   <a
                     href={preparedMailto}
-                    className="inline-flex items-center gap-2 text-xs font-mono-tech uppercase tracking-[0.16em] text-[#F2EBE2] underline decoration-[#D7A779] underline-offset-4 hover:text-[#E9BB86]"
+                    className="inline-flex items-center gap-1.5 text-xs font-mono-tech uppercase tracking-wider text-[#F2EBE2] underline decoration-[#D7A779] underline-offset-4 hover:text-[#E9BB86]"
                   >
-                    <span>Open in Default Mail Client (hello@penumbra.example) ↗</span>
+                    <span>Open in default mail client ↗</span>
                   </a>
                 </div>
               )}
@@ -331,18 +331,18 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
       </div>
 
       {/* Bottom Architectural Footer */}
-      <div className="border-t border-[#F2EBE2]/15 bg-[#111318]">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          <div className="space-y-2">
+      <div className="border-t border-[#F2EBE2]/10 bg-[#111318]">
+        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-1.5">
             <a
               href="#home"
               onClick={(e) => {
                 e.preventDefault();
                 onNavigate('home');
               }}
-              className="font-display text-2xl tracking-[0.14em] text-[#F2EBE2]"
+              className="font-display text-2xl tracking-wider text-[#F2EBE2]"
             >
-              PENUMBRA<span className="text-[#D7A779]">.</span>
+              PENUMBRA
             </a>
             <p className="text-xs text-[#A6A29F] max-w-md">
               Independent architectural lighting design practice. Designing the relationship between light, architecture, and emotion.
@@ -351,7 +351,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
 
           <nav
             aria-label="Footer Navigation"
-            className="flex flex-wrap items-center gap-6 text-xs font-mono-tech uppercase tracking-[0.16em] text-[#A6A29F]"
+            className="flex flex-wrap items-center gap-6 text-xs font-mono-tech uppercase tracking-wider text-[#A6A29F]"
           >
             <a
               href="#projects"
@@ -408,18 +408,18 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
           <button
             type="button"
             onClick={() => onNavigate('home')}
-            className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-mono-tech uppercase tracking-[0.16em] text-[#F2EBE2] border border-[#F2EBE2]/20 hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono-tech uppercase tracking-wider text-[#F2EBE2] border border-[#F2EBE2]/18 bg-[#1c2027] hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
           >
-            <span>Back to Top</span>
-            <ArrowUp className="w-3.5 h-3.5 text-[#D7A779]" aria-hidden="true" />
+            <span>Back to top</span>
+            <ArrowUp className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
           </button>
         </div>
 
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-5 border-t border-[#F2EBE2]/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11px] font-mono-tech text-[#A6A29F]/80">
+        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-4 border-t border-[#F2EBE2]/08 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-mono-tech text-[#A6A29F]">
           <span>
-            © 2026 PENUMBRA. Fictional architectural lighting concept & interactive exhibition template.
+            © 2026 PENUMBRA. Architectural lighting concept.
           </span>
-          <span>Architecture, after dark.</span>
+          <span>Architecture, after dark</span>
         </div>
       </div>
     </footer>

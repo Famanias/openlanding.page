@@ -3,13 +3,15 @@
 
 :root {
   --ink: #111318;              /* midnight graphite */
-  --slate: #20252D;            /* deeper material surface */
+  --slate: #1c2027;            /* quiet dark surface */
+  --slate-raised: #232832;     /* raised surface step */
   --ivory: #F2EBE2;            /* primary foreground */
-  --amber: #D7A779;            /* architectural light */
-  --amber-bright: #E9BB86;     /* tiny specular accents */
-  --steel: #7E91A8;            /* blue hour */
+  --amber: #D7A779;            /* architectural warm accent */
+  --amber-bright: #E9BB86;     /* specular highlight */
+  --steel: #7E91A8;            /* blue hour twilight */
   --stone: #A6A29F;            /* secondary neutral */
-  --line: rgba(242, 235, 226, 0.18);
+  --line: rgba(242, 235, 226, 0.10);
+  --ease-craft: cubic-bezier(0.22, 1, 0.36, 1);
 
   --font-serif: var(--font-instrument-serif), 'Instrument Serif', var(--font-cormorant-garamond), 'Cormorant Garamond', Georgia, serif;
   --font-sans: var(--font-manrope), 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -117,8 +119,8 @@
   --spot-r: 260px;
   background: radial-gradient(
     circle calc(var(--spot-r) * 1.15) at var(--spot-x) var(--spot-y),
-    rgba(215, 167, 121, 0.09) 0%,
-    rgba(215, 167, 121, 0.03) 55%,
+    rgba(215, 167, 121, 0.08) 0%,
+    rgba(215, 167, 121, 0.02) 55%,
     transparent 100%
   );
   pointer-events: none;
@@ -128,7 +130,7 @@
 input[type='range'].penumbra-slider {
   -webkit-appearance: none;
   appearance: none;
-  background: rgba(242, 235, 226, 0.14);
+  background: rgba(242, 235, 226, 0.12);
   height: 2px;
   border-radius: 999px;
   cursor: pointer;
@@ -137,23 +139,23 @@ input[type='range'].penumbra-slider {
 input[type='range'].penumbra-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: var(--amber-bright);
-  border: 2px solid var(--ink);
-  box-shadow: 0 0 0 1px rgba(215, 167, 121, 0.5);
-  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease;
+  border: 1.5px solid var(--ink);
+  box-shadow: 0 0 0 1px rgba(215, 167, 121, 0.35);
+  transition: transform 120ms cubic-bezier(0.22, 1, 0.36, 1), background-color 120ms ease;
 }
 
 input[type='range'].penumbra-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
+  transform: scale(1.12);
   background: var(--ivory);
 }
 
 input[type='range'].penumbra-slider:focus-visible {
   outline: 2px solid var(--amber-bright);
-  outline-offset: 6px;
+  outline-offset: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
