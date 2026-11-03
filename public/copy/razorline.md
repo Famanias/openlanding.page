@@ -334,11 +334,11 @@ export default function RazorlinePage() {
 /* Opening Choreographed Keyframes (0 - 1800ms) */
 @keyframes maskSlideReveal {
   0% {
-    clip-path: inset(0 100% 0 0);
+    clip-path: inset(-0.2em 100% -0.2em -0.5em);
     transform: translateX(-28px) skewX(-10deg);
   }
   100% {
-    clip-path: inset(0 0% 0 0);
+    clip-path: inset(-0.2em -0.5em -0.2em -0.5em);
     transform: translateX(0) skewX(-6deg);
   }
 }
@@ -1264,17 +1264,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               aria-label="BREAK THE LIMIT."
               className="flex flex-col select-none mb-5 sm:mb-6 pl-1"
             >
-              <span className="overflow-hidden py-0.5 pr-4">
+              <span className="overflow-hidden py-0.5 pl-3 sm:pl-4 pr-6 sm:pr-8 -ml-3 sm:-ml-4">
                 <span className="hero-headline-word animate-mask-word-1 text-[#F1F0E9] text-[clamp(4.6rem,11vw,9.2rem)]">
                   BREAK
                 </span>
               </span>
-              <span className="overflow-hidden py-0.5 pr-4 -mt-1 sm:-mt-2">
+              <span className="overflow-hidden py-0.5 pl-3 sm:pl-4 pr-6 sm:pr-8 -ml-3 sm:-ml-4 -mt-1 sm:-mt-2">
                 <span className="hero-headline-word animate-mask-word-2 text-[#375CFF] text-[clamp(4.6rem,11vw,9.2rem)]">
                   THE
                 </span>
               </span>
-              <span className="overflow-hidden py-0.5 pr-4 -mt-1 sm:-mt-2">
+              <span className="overflow-hidden py-0.5 pl-3 sm:pl-4 pr-6 sm:pr-8 -ml-3 sm:-ml-4 -mt-1 sm:-mt-2">
                 <span className="hero-headline-word animate-mask-word-3 text-[#D3FF35] text-[clamp(4.6rem,11vw,9.2rem)]">
                   LIMIT.
                 </span>
