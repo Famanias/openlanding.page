@@ -4,14 +4,11 @@ export interface ConceptProject {
   title: string;
   category: string;
   studyLabel: string;
-  mood: string;
-  microcopy: string;
   focalCropPosition: string;
   focalScale: number;
   kelvinProfile: string;
   contrastRatio: string;
   conceptSummary: string;
-  architecturalContext: string;
   lightingStrategy: string;
   services: string[];
   diagramType: 'cantilever-graze' | 'interior-reflection' | 'pathway-bollard';
@@ -21,7 +18,6 @@ export interface PracticePrinciple {
   number: string;
   title: string;
   summary: string;
-  detail: string;
   opticalNote: string;
 }
 
@@ -38,25 +34,20 @@ export const CONCEPT_PROJECTS: ConceptProject[] = [
     id: 'solace-pavilion',
     index: '01',
     title: 'Solace Pavilion',
-    category: 'Cultural · Architectural lighting concept',
-    studyLabel: 'Conceptual Study I — Cantilever & Monolith Grazing',
-    mood: 'Monumental concrete, intimate pools of warm light',
-    microcopy: 'A quiet monument to the moments between shadow and form.',
+    category: 'Cultural Pavilion',
+    studyLabel: 'Study 01 · Cantilever Graze',
     focalCropPosition: '28% 52%',
     focalScale: 1.18,
-    kelvinProfile: '2650K Linear Cove + 2400K Uplight',
-    contrastRatio: '14:1 Perimeter-to-Sky Balance',
+    kelvinProfile: '2650K Linear Cove',
+    contrastRatio: '14:1 Graze Ratio',
     conceptSummary:
-      'An architectural study exploring how a recessed linear knife-edge cove beneath a cantilevered board-formed concrete canopy can dissolve structural mass after dusk while anchoring the volume to its reflecting basin.',
-    architecturalContext:
-      'Raw architectural concrete meets still water and mountain twilight. Without careful shielding, floodlighting would flatten the formwork texture and destroy the nocturnal reflection.',
+      'Concealed knife-edge grazing beneath a cantilevered concrete canopy, dissolving structural mass after dusk while preserving water reflections.',
     lightingStrategy:
-      'Concealed asymmetric grazing slots wash the vertical concrete core from base to soffit, while a continuous warm soffit reveal traces the floating horizontal plane.',
+      'Asymmetric grazing slots wash the vertical concrete core from base to soffit, while a continuous warm reveal traces the floating horizontal plane.',
     services: [
-      'Daylight-to-Dusk Transition Study',
-      'Custom Recessed Soffit Detailing',
-      'Vertical Concrete Grazing Mockups',
-      'Glare-Free Water Reflection Calibration',
+      'Daylight-to-dusk transition study',
+      'Recessed knife-edge soffit detailing',
+      'Vertical concrete grazing calibration',
     ],
     diagramType: 'cantilever-graze',
   },
@@ -64,25 +55,20 @@ export const CONCEPT_PROJECTS: ConceptProject[] = [
     id: 'nocturne-house',
     index: '02',
     title: 'Nocturne House',
-    category: 'Residential · Lighting concept',
-    studyLabel: 'Conceptual Study II — Interior Sanctuary & Stone Volume',
-    mood: 'Warm interiors, stone, reflective surfaces',
-    microcopy: 'A private retreat shaped by restraint and the warmth of evening.',
+    category: 'Private Residence',
+    studyLabel: 'Study 02 · Monolith Framing',
     focalCropPosition: '82% 58%',
     focalScale: 1.28,
-    kelvinProfile: '2400K Deep Warm Dimming',
-    contrastRatio: '8:1 Interior-to-Threshold Gradient',
+    kelvinProfile: '2400K Warm Dimming',
+    contrastRatio: '8:1 Threshold Balance',
     conceptSummary:
-      'A residential sanctuary concept centered on an interior sculptural boulder and floor-to-ceiling low-iron glazing. By illuminating vertical interior surfaces rather than floors, glass reflections become transparent at blue hour.',
-    architecturalContext:
-      'Expansive structural glass often turns into an impenetrable black mirror at night when downlights create harsh horizontal hotspots.',
+      'Pin-spot framing optics sculpt an interior stone volume, keeping floor-to-ceiling glazing transparent at blue hour without specular mirror glare.',
     lightingStrategy:
-      'Pin-spot framing optics sculpt the interior monolith with 2400K high-CRI warmth, balanced by low-output ceiling slots that preserve uninterrupted views into the twilight landscape.',
+      'Framing projectors illuminate vertical interior stone instead of horizontal floors, preserving uninterrupted outward sightlines into the dark landscape.',
     services: [
-      'Low-Reflectance Glazing Balance',
-      'Sculptural Object Framing Optics',
-      'Circadian Evening Scene Programming',
-      'Architectural Hardware Integration',
+      'Low-reflectance glazing balance',
+      'Sculptural object framing optics',
+      'Circadian evening scene programming',
     ],
     diagramType: 'interior-reflection',
   },
@@ -90,25 +76,20 @@ export const CONCEPT_PROJECTS: ConceptProject[] = [
     id: 'meridian-walk',
     index: '03',
     title: 'Meridian Walk',
-    category: 'Public realm · Lighting concept',
-    studyLabel: 'Conceptual Study III — Waterline & Threshold Orientation',
-    mood: 'Pathway illumination, natural landscape, orientation',
-    microcopy: 'Guiding movement through landscape without overpowering night.',
+    category: 'Public Waterfront',
+    studyLabel: 'Study 03 · Waterline Baffle',
     focalCropPosition: '46% 84%',
     focalScale: 1.22,
-    kelvinProfile: '2200K Amber Shielded Bollards',
-    contrastRatio: '5:1 Low-Horizon Visual Comfort',
+    kelvinProfile: '2200K Shielded Amber',
+    contrastRatio: '5:1 Horizon Comfort',
     conceptSummary:
-      'A nocturnal landscape study investigating how minimal, low-level point sources along a stone plinth and water edge can guide human movement without upward light trespass or skyglow.',
-    architecturalContext:
-      'Navigating the edge between cast stone, boulders, and dark water requires visual clarity at foot level while keeping the human eye adapted to the surrounding night sky.',
+      'Deep-baffled bronze bollards cast controlled 180° light fans across stone plinths and dark water without upward spill or skyglow.',
     lightingStrategy:
-      'Deep-baffled bronze bollards cast controlled 180-degree fans across the limestone deck and water surface, creating rhythmic vertical reflections that mark the threshold.',
+      'Low-horizon cutoff optics guide movement at foot level while allowing the human eye to stay adapted to the open night sky.',
     services: [
-      'Dark-Sky Compliant Optics',
-      'Custom Bronze Bollard Specification',
-      'Subtle Water-Edge Specular Study',
-      'Pedestrian Mesopic Vision Calibration',
+      'Dark-sky zero-uplight optics',
+      'Custom bronze bollard specification',
+      'Water-edge specular reflection study',
     ],
     diagramType: 'pathway-bollard',
   },
@@ -117,30 +98,24 @@ export const CONCEPT_PROJECTS: ConceptProject[] = [
 export const PRACTICE_PRINCIPLES: PracticePrinciple[] = [
   {
     number: '01 / Observe',
-    title: 'Understand the architecture and the people who inhabit it.',
+    title: 'Map natural twilight and untouched shadow',
     summary:
-      'Before specifying a single luminaire, we study how natural twilight moves across concrete, timber, stone, and water—and where darkness itself should remain untouched.',
-    detail:
-      'Every structure possesses an inherent nocturnal quietness. We map sightlines, material specularity, and human thresholds so artificial light feels native to the building.',
-    opticalNote: 'Mesopic adaptation · Material reflectance analysis',
+      'Before placing a luminaire, we study how blue hour moves across concrete, stone, and water—identifying where darkness must remain untouched.',
+    opticalNote: 'Mesopic adaptation · Reflectance',
   },
   {
     number: '02 / Sculpt',
-    title: 'Shape contrast, shadow, temperature, and rhythm with intention.',
+    title: 'Conceal the source, reveal the surface',
     summary:
-      'Uniform brightness flattens space. By orchestrating shadow alongside warm 2200K–2700K pools of light, we establish depth, hierarchy, and emotional cadence.',
-    detail:
-      'We conceal the source wherever possible so the visitor perceives only the illuminated surface—concrete grain, weathered stone, and tranquil water reflections.',
-    opticalNote: 'Asymmetric grazing · Shielded aperture geometry',
+      'Uniform illumination flattens form. We orchestrate warm grazing and deep shadow to bring out material texture, depth, and structural grain.',
+    opticalNote: 'Asymmetric graze · Concealed aperture',
   },
   {
     number: '03 / Reveal',
-    title: 'Make the extraordinary visible without losing the quiet.',
+    title: 'Transition from dusk to nocturnal quiet',
     summary:
-      'As evening deepens, architecture should not shout against the night sky. Our scenes transition imperceptibly from blue hour to late night.',
-    detail:
-      'Through subtle dimming curves and zoned scenes, a building breathes with the evening—inviting gathering at dusk and settling into a calm ember glow at midnight.',
-    opticalNote: 'Warm-dim curves · Zero uplight sky preservation',
+      'Architecture should breathe with the evening. Our scenes dim imperceptibly from twilight clarity into a calm midnight ember glow.',
+    opticalNote: 'Warm-dim curve · Zero uplight',
   },
 ];
 
@@ -148,29 +123,29 @@ export const PROCESS_STAGES: ProcessStage[] = [
   {
     step: '01',
     title: 'Listen',
-    summary: 'Establish how a space is used and what it should evoke.',
-    deliverable: 'Nocturnal Narrative & Threshold Brief',
-    luxTarget: 'Darkness Baseline Audit',
+    summary: 'Define nocturnal character, sightlines, and darkness baseline.',
+    deliverable: 'Nocturnal Brief',
+    luxTarget: 'Baseline Darkness Audit',
   },
   {
     step: '02',
     title: 'Explore',
-    summary: 'Study light, material, perspective, and contrast.',
-    deliverable: 'Material Grazing & Kelvin Mockup Studies',
-    luxTarget: '2200K – 3200K Spectral Range',
+    summary: 'Test material grazing, shadow relief, and Kelvin warmth.',
+    deliverable: 'Photometric Mockups',
+    luxTarget: '2200K – 3200K Range',
   },
   {
     step: '03',
     title: 'Compose',
-    summary: 'Prototype scenes, accents, and moments of revelation.',
-    deliverable: 'Architectural Cove & Detail Integration',
-    luxTarget: 'Concealed Source Detailing',
+    summary: 'Detail concealed coves, optical apertures, and controls.',
+    deliverable: 'Architectural Details',
+    luxTarget: 'Shielded Source Specs',
   },
   {
     step: '04',
-    title: 'Refine',
-    summary: 'Tune the experience so it feels inevitable, never excessive.',
-    deliverable: 'After-Dark Aiming & Scene Commissioning',
-    luxTarget: 'Dusk-to-Midnight Scene Curve',
+    title: 'Commission',
+    summary: 'Aim fixtures on-site and tune dusk-to-midnight scene curves.',
+    deliverable: 'Scene Commissioning',
+    luxTarget: 'Night-to-Dawn Curves',
   },
 ];

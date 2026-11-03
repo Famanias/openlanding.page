@@ -16,42 +16,38 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
   if (type === 'cantilever-graze') {
     return (
       <svg
-        viewBox="0 0 360 140"
-        className="w-full h-32 text-[#F2EBE2]"
+        viewBox="0 0 360 130"
+        className="w-full h-28 text-[#F2EBE2]"
         role="img"
         aria-label="Section diagram showing linear knife-edge soffit cove and vertical concrete grazing"
       >
-        <line x1="16" y1="118" x2="344" y2="118" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
-        {/* Cantilever concrete canopy */}
+        <line x1="16" y1="112" x2="344" y2="112" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
         <rect
           x="44"
-          y="36"
+          y="32"
           width="210"
-          height="20"
+          height="18"
           fill="#1c2027"
           stroke="rgba(242,235,226,0.3)"
           strokeWidth="1"
         />
-        {/* Core wall */}
         <rect
           x="130"
-          y="56"
+          y="50"
           width="36"
           height="62"
           fill="#1c2027"
           stroke="rgba(242,235,226,0.3)"
           strokeWidth="1"
         />
-        {/* Warm linear soffit glow */}
-        <line x1="48" y1="58" x2="248" y2="58" stroke="#E9BB86" strokeWidth="2" />
-        {/* Grazing light cones */}
-        <polygon points="126,116 112,58 130,58" fill="rgba(215,167,121,0.22)" />
-        <polygon points="170,116 166,58 186,58" fill="rgba(215,167,121,0.22)" />
-        <text x="50" y="26" fill="#A6A29F" fontSize="9" fontFamily="monospace">
-          2650K Recessed soffit knife-edge
+        <line x1="48" y1="50" x2="248" y2="50" stroke="#E9BB86" strokeWidth="2" />
+        <polygon points="126,110 112,50 130,50" fill="rgba(215,167,121,0.22)" />
+        <polygon points="170,110 166,50 186,50" fill="rgba(215,167,121,0.22)" />
+        <text x="50" y="24" fill="#A6A29F" fontSize="9" fontFamily="monospace">
+          2650K Soffit knife-edge
         </text>
-        <text x="196" y="96" fill="#D7A779" fontSize="9" fontFamily="monospace">
-          Asymmetric graze (14:1)
+        <text x="196" y="90" fill="#D7A779" fontSize="9" fontFamily="monospace">
+          14:1 Asymmetric graze
         </text>
       </svg>
     );
@@ -60,37 +56,34 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
   if (type === 'interior-reflection') {
     return (
       <svg
-        viewBox="0 0 360 140"
-        className="w-full h-32 text-[#F2EBE2]"
+        viewBox="0 0 360 130"
+        className="w-full h-28 text-[#F2EBE2]"
         role="img"
         aria-label="Section diagram showing ceiling framing optics on interior stone boulder behind low-iron glass"
       >
-        <line x1="16" y1="118" x2="344" y2="118" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
-        <line x1="40" y1="24" x2="320" y2="24" stroke="rgba(242,235,226,0.24)" strokeWidth="1" />
-        {/* Glazing line */}
+        <line x1="16" y1="112" x2="344" y2="112" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
+        <line x1="40" y1="20" x2="320" y2="20" stroke="rgba(242,235,226,0.24)" strokeWidth="1" />
         <line
           x1="116"
-          y1="24"
+          y1="20"
           x2="116"
-          y2="118"
+          y2="112"
           stroke="#7E91A8"
           strokeWidth="1.5"
           strokeDasharray="3 3"
         />
-        {/* Sculptural stone monolith */}
         <path
-          d="M196 118 L206 74 L244 64 L276 82 L284 118 Z"
+          d="M196 112 L206 68 L244 58 L276 76 L284 112 Z"
           fill="rgba(215,167,121,0.18)"
           stroke="#E9BB86"
           strokeWidth="1.2"
         />
-        {/* Pin-spot beam from recessed ceiling slot */}
-        <polygon points="222,24 192,118 286,118" fill="rgba(215,167,121,0.14)" />
-        <circle cx="222" cy="24" r="2.5" fill="#E9BB86" />
-        <text x="42" y="72" fill="#7E91A8" fontSize="9" fontFamily="monospace">
+        <polygon points="222,20 192,112 286,112" fill="rgba(215,167,121,0.14)" />
+        <circle cx="222" cy="20" r="2.5" fill="#E9BB86" />
+        <text x="42" y="66" fill="#7E91A8" fontSize="9" fontFamily="monospace">
           Low-iron glass
         </text>
-        <text x="190" y="44" fill="#D7A779" fontSize="9" fontFamily="monospace">
+        <text x="190" y="38" fill="#D7A779" fontSize="9" fontFamily="monospace">
           2400K Framing optic
         </text>
       </svg>
@@ -99,34 +92,30 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
 
   return (
     <svg
-      viewBox="0 0 360 140"
-      className="w-full h-32 text-[#F2EBE2]"
+      viewBox="0 0 360 130"
+      className="w-full h-28 text-[#F2EBE2]"
       role="img"
       aria-label="Section diagram showing shielded low-level bollard casting downward light across water edge"
     >
-      {/* Deck and reflecting basin */}
-      <line x1="16" y1="92" x2="195" y2="92" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
-      <line x1="195" y1="92" x2="195" y2="116" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
-      <line x1="195" y1="106" x2="344" y2="106" stroke="#7E91A8" strokeWidth="1.5" />
-      {/* Shielded bollard */}
-      <rect x="154" y="64" width="8" height="28" fill="#D7A779" />
-      {/* Zero-uplight cutoff line */}
+      <line x1="16" y1="88" x2="195" y2="88" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
+      <line x1="195" y1="88" x2="195" y2="112" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
+      <line x1="195" y1="102" x2="344" y2="102" stroke="#7E91A8" strokeWidth="1.5" />
+      <rect x="154" y="60" width="8" height="28" fill="#D7A779" />
       <line
         x1="80"
-        y1="64"
+        y1="60"
         x2="270"
-        y2="64"
+        y2="60"
         stroke="rgba(242,235,226,0.15)"
         strokeWidth="1"
         strokeDasharray="4 4"
       />
-      {/* Downward fan */}
-      <polygon points="158,68 95,92 225,106" fill="rgba(215,167,121,0.2)" />
-      <text x="82" y="54" fill="#A6A29F" fontSize="9" fontFamily="monospace">
+      <polygon points="158,64 95,88 225,102" fill="rgba(215,167,121,0.2)" />
+      <text x="82" y="50" fill="#A6A29F" fontSize="9" fontFamily="monospace">
         0% Uplight cutoff
       </text>
-      <text x="208" y="88" fill="#D7A779" fontSize="9" fontFamily="monospace">
-        2200K Specular water reflection
+      <text x="208" y="82" fill="#D7A779" fontSize="9" fontFamily="monospace">
+        2200K Water reflection
       </text>
     </svg>
   );
@@ -137,7 +126,6 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
   onSelectProject,
   onNavigateToContact,
 }) => {
-  // Per-card illumination study state
   const [studyMix, setStudyMix] = useState<Record<string, boolean>>({
     'solace-pavilion': true,
     'nocturne-house': true,
@@ -173,29 +161,19 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
     <section
       id="projects"
       aria-labelledby="projects-heading"
-      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
+      className="relative py-20 md:py-28 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="projects-heading">
           <SectionHeading
-            label="01 / Selected projects"
+            label="01 / Projects"
             headline="Light changes everything"
-            intro="Three studies in how illumination changes the way we experience architecture."
+            intro="Three studies in how illumination shapes the experience of architecture."
           />
         </div>
 
-        {/* Conceptual Study Notice */}
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-[#A6A29F]">
-          <p>
-            Each study isolates a distinct architectural zone from our primary brutalist pavilion plate to examine grazing, interior transparency, and threshold orientation.
-          </p>
-          <span className="font-mono-tech uppercase tracking-wider text-[#D7A779]">
-            Conceptual architectural studies · 2026
-          </span>
-        </div>
-
-        {/* Editorial Staggered Project Studies */}
-        <div className="mt-12 md:mt-16 space-y-16 md:space-y-24">
+        {/* Staggered Project Studies */}
+        <div className="mt-12 md:mt-16 space-y-16 md:space-y-20">
           {CONCEPT_PROJECTS.map((project, idx) => {
             const isLit = studyMix[project.id] ?? true;
             const isEven = idx % 2 === 1;
@@ -209,13 +187,12 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                 <div
                   className={`lg:col-span-7 ${
                     isEven ? 'lg:order-2' : 'lg:order-1'
-                  } relative group overflow-hidden bg-[#1c2027] border border-[#F2EBE2]/10 min-h-[340px] sm:min-h-[420px] flex flex-col justify-between`}
+                  } relative group overflow-hidden bg-[#1c2027] border border-[#F2EBE2]/10 min-h-[320px] sm:min-h-[380px] flex flex-col justify-between`}
                 >
-                  {/* Cropped architectural study */}
                   <div className="absolute inset-0 overflow-hidden">
                     <img
                       src={HERO_BASE}
-                      alt={`${project.title} — unlit blue hour study crop`}
+                      alt={`${project.title} study crop`}
                       loading="lazy"
                       style={{
                         objectPosition: project.focalCropPosition,
@@ -241,8 +218,8 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                     />
                   </div>
 
-                  {/* Top Crop Metadata Bar */}
-                  <div className="relative z-10 p-5 flex items-center justify-between gap-4">
+                  {/* Top Bar */}
+                  <div className="relative z-10 p-4 px-5 flex items-center justify-between gap-4">
                     <span className="font-mono-tech text-xs tracking-wider uppercase text-[#F2EBE2]">
                       {project.studyLabel}
                     </span>
@@ -251,15 +228,15 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                       type="button"
                       onClick={() => toggleCardLighting(project.id)}
                       aria-pressed={isLit}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono-tech tracking-wider uppercase bg-[#111318]/85 text-[#F2EBE2] border border-[#F2EBE2]/18 hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                      className="inline-flex items-center gap-2 px-3 py-1 text-xs font-mono-tech tracking-wider uppercase bg-[#111318]/85 text-[#F2EBE2] border border-[#F2EBE2]/18 hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
                     >
                       <SlidersHorizontal className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
-                      <span>{isLit ? 'State: Illuminated' : 'State: Blue hour'}</span>
+                      <span>{isLit ? 'Lit' : 'Unlit'}</span>
                     </button>
                   </div>
 
-                  {/* Bottom Optical Readout */}
-                  <div className="relative z-10 p-4 px-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#F2EBE2]/10 bg-[#111318]/70 backdrop-blur-xs">
+                  {/* Bottom Readout */}
+                  <div className="relative z-10 p-3 px-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#F2EBE2]/10 bg-[#111318]/70 backdrop-blur-xs">
                     <span className="font-mono-tech text-xs text-[#E9BB86] tabular-nums">
                       {project.kelvinProfile}
                     </span>
@@ -269,51 +246,41 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                   </div>
                 </div>
 
-                {/* Editorial Specification Column */}
+                {/* Specification Column */}
                 <div
                   className={`lg:col-span-5 ${
                     isEven ? 'lg:order-1' : 'lg:order-2'
                   } flex flex-col justify-between py-2`}
                 >
                   <div>
-                    {/* Unboxed clean metadata */}
-                    <div className="flex items-center gap-3 text-xs tracking-wider uppercase text-[#A6A29F]">
+                    <div className="flex items-center gap-2.5 text-xs tracking-wider uppercase text-[#A6A29F]">
                       <span className="font-mono-tech text-[#D7A779] tabular-nums">{project.index}</span>
                       <span aria-hidden="true">—</span>
                       <span>{project.category}</span>
                     </div>
 
-                    <h3 className="mt-3 font-display text-3xl sm:text-4xl md:text-5xl text-[#F2EBE2] tracking-tight">
+                    <h3 className="mt-3 font-display text-3xl sm:text-4xl text-[#F2EBE2] tracking-tight">
                       {project.title}
                     </h3>
 
-                    <p className="mt-4 text-base sm:text-lg text-[#F2EBE2] font-light leading-relaxed">
-                      {project.microcopy}
-                    </p>
-
-                    <p className="mt-3 text-sm text-[#A6A29F] leading-relaxed">
+                    <p className="mt-3 text-sm sm:text-base text-[#A6A29F] leading-relaxed">
                       {project.conceptSummary}
                     </p>
 
-                    {/* Mood & Photometric Section Diagram */}
-                    <div className="mt-6 pt-5 border-t border-[#F2EBE2]/10">
-                      <p className="font-mono-tech text-xs uppercase tracking-wider text-[#A6A29F] mb-2">
-                        Atmosphere: <span className="text-[#F2EBE2]">{project.mood}</span>
-                      </p>
-                      <div className="mt-3 p-4 bg-[#1c2027] border border-[#F2EBE2]/10">
-                        <ArchitecturalDiagram type={project.diagramType} />
-                      </div>
+                    {/* Section Diagram */}
+                    <div className="mt-5 p-3 bg-[#1c2027] border border-[#F2EBE2]/10">
+                      <ArchitecturalDiagram type={project.diagramType} />
                     </div>
                   </div>
 
-                  <div className="mt-8 pt-5 border-t border-[#F2EBE2]/10 flex items-center justify-between gap-4">
+                  <div className="mt-6 pt-4 border-t border-[#F2EBE2]/10 flex items-center justify-between gap-4">
                     <button
                       type="button"
                       onClick={(e) => {
                         lastTriggerRef.current = e.currentTarget;
                         onSelectProject(project);
                       }}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-wider uppercase bg-[#1c2027] text-[#F2EBE2] border border-[#F2EBE2]/20 hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-2"
+                      className="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wider uppercase bg-[#1c2027] text-[#F2EBE2] border border-[#F2EBE2]/20 hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
                     >
                       <span>Inspect study</span>
                       <ArrowUpRight className="w-4 h-4 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
@@ -330,7 +297,7 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
         </div>
       </div>
 
-      {/* Accessible Project Detail Modal */}
+      {/* Modal */}
       {activeProject && (
         <div
           role="dialog"
@@ -344,9 +311,8 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
             }
           }}
         >
-          <div className="relative w-full max-w-4xl bg-[#1c2027] border border-[#F2EBE2]/18 text-[#F2EBE2] my-auto overflow-hidden shadow-2xl">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between gap-4 px-6 sm:px-8 py-4 border-b border-[#F2EBE2]/10 bg-[#111318]">
+          <div className="relative w-full max-w-3xl bg-[#1c2027] border border-[#F2EBE2]/18 text-[#F2EBE2] my-auto overflow-hidden shadow-2xl">
+            <div className="flex items-center justify-between gap-4 px-6 py-4 border-b border-[#F2EBE2]/10 bg-[#111318]">
               <div className="flex items-center gap-3 text-xs font-mono-tech uppercase tracking-wider text-[#D7A779]">
                 <span className="tabular-nums">{activeProject.index}</span>
                 <span aria-hidden="true">·</span>
@@ -367,100 +333,75 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
               </button>
             </div>
 
-            {/* Comparison Strip */}
             <div className="grid grid-cols-1 sm:grid-cols-2 border-b border-[#F2EBE2]/10">
-              <div className="relative h-52 sm:h-64 overflow-hidden border-b sm:border-b-0 sm:border-r border-[#F2EBE2]/10">
+              <div className="relative h-48 sm:h-56 overflow-hidden border-b sm:border-b-0 sm:border-r border-[#F2EBE2]/10">
                 <img
                   src={HERO_BASE}
-                  alt={`${activeProject.title} unlit ambient state`}
+                  alt={`${activeProject.title} unlit`}
                   style={{
                     objectPosition: activeProject.focalCropPosition,
                     transform: `scale(${activeProject.focalScale})`,
                   }}
                   className="w-full h-full object-cover"
                 />
-                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#A6A29F]">
-                  Before · Ambient blue hour
+                <span className="absolute bottom-3 left-3 px-2 py-0.5 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#A6A29F]">
+                  Blue hour
                 </span>
               </div>
 
-              <div className="relative h-52 sm:h-64 overflow-hidden">
+              <div className="relative h-48 sm:h-56 overflow-hidden">
                 <img
                   src={HERO_REVEAL}
-                  alt={`${activeProject.title} illuminated state`}
+                  alt={`${activeProject.title} lit`}
                   style={{
                     objectPosition: activeProject.focalCropPosition,
                     transform: `scale(${activeProject.focalScale})`,
                   }}
                   className="w-full h-full object-cover"
                 />
-                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#E9BB86] tabular-nums">
-                  After · {activeProject.kelvinProfile}
+                <span className="absolute bottom-3 left-3 px-2 py-0.5 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#E9BB86] tabular-nums">
+                  {activeProject.kelvinProfile}
                 </span>
               </div>
             </div>
 
-            {/* Modal Body */}
-            <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-8 bg-[#111318]">
-              <div className="md:col-span-7 space-y-4">
-                <p className="text-xs uppercase tracking-wider text-[#A6A29F]">
-                  {activeProject.category}
-                </p>
-                <h3
-                  id="project-dialog-title"
-                  className="font-display text-3xl sm:text-4xl text-[#F2EBE2]"
-                >
+            <div className="p-6 sm:p-7 space-y-5 bg-[#111318]">
+              <div>
+                <h3 id="project-dialog-title" className="font-display text-3xl text-[#F2EBE2]">
                   {activeProject.title}
                 </h3>
-                <p className="text-base text-[#E9BB86] italic font-display">
-                  “{activeProject.microcopy}”
+                <p className="mt-2 text-sm text-[#A6A29F] leading-relaxed">
+                  {activeProject.lightingStrategy}
                 </p>
-                <p className="text-sm text-[#F2EBE2] leading-relaxed">
-                  {activeProject.conceptSummary}
-                </p>
-                <div className="pt-3 border-t border-[#F2EBE2]/10">
-                  <h4 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
-                    Architectural strategy
-                  </h4>
-                  <p className="mt-2 text-sm text-[#A6A29F] leading-relaxed">
-                    {activeProject.lightingStrategy}
-                  </p>
-                </div>
               </div>
 
-              <div className="md:col-span-5 flex flex-col justify-between space-y-6 border-t md:border-t-0 md:border-l border-[#F2EBE2]/10 pt-6 md:pt-0 md:pl-6">
-                <div>
-                  <h4 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
-                    Scope & deliverables
-                  </h4>
-                  <ul className="mt-3 space-y-2 text-sm text-[#F2EBE2]">
-                    {activeProject.services.map((service) => (
-                      <li key={service} className="flex items-start gap-2.5">
-                        <span className="text-[#D7A779] font-mono-tech">—</span>
-                        <span>{service}</span>
-                      </li>
-                    ))}
-                  </ul>
+              <div className="pt-4 border-t border-[#F2EBE2]/10">
+                <h4 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779] mb-2.5">
+                  Deliverables
+                </h4>
+                <ul className="space-y-1.5 text-xs text-[#F2EBE2]">
+                  {activeProject.services.map((service) => (
+                    <li key={service} className="flex items-center gap-2">
+                      <span className="text-[#D7A779] font-mono-tech">—</span>
+                      <span>{service}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                  <div className="mt-6 pt-4 border-t border-[#F2EBE2]/10">
-                    <ArchitecturalDiagram type={activeProject.diagramType} />
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#F2EBE2]/10">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const title = activeProject.title;
-                      onSelectProject(null);
-                      onNavigateToContact(title);
-                    }}
-                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
-                  >
-                    <span>Discuss this typology</span>
-                    <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-                  </button>
-                </div>
+              <div className="pt-4 border-t border-[#F2EBE2]/10 flex items-center justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const title = activeProject.title;
+                    onSelectProject(null);
+                    onNavigateToContact(title);
+                  }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
+                >
+                  <span>Discuss this typology</span>
+                  <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+                </button>
               </div>
             </div>
           </div>

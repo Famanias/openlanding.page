@@ -50,18 +50,18 @@ export const Process: React.FC<ProcessProps> = ({ reducedMotion }) => {
       id="process"
       ref={sectionRef}
       aria-labelledby="process-heading"
-      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
+      className="relative py-20 md:py-28 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="process-heading">
           <SectionHeading
-            label="04 / Our approach"
+            label="04 / Approach"
             headline="From first shadow to final glow"
-            intro="Four deliberate phases that carry an architectural space from initial twilight observation to commissioned evening permanence."
+            intro="Four deliberate phases from initial twilight observation to evening commissioning."
           />
         </div>
 
-        {/* Progressive Architectural Timeline Bar */}
+        {/* Timeline Bar */}
         <div className="mt-12 md:mt-16">
           <div className="relative h-px w-full bg-[#F2EBE2]/10 overflow-hidden">
             <div
@@ -71,7 +71,7 @@ export const Process: React.FC<ProcessProps> = ({ reducedMotion }) => {
             />
           </div>
 
-          {/* Four Architectural Stages Grid */}
+          {/* Four Stages Grid */}
           <ol className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {PROCESS_STAGES.map((stage, idx) => {
               const isIlluminated = reducedMotion || idx <= activeStepIndex;
@@ -85,7 +85,7 @@ export const Process: React.FC<ProcessProps> = ({ reducedMotion }) => {
                   }`}
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-2 pb-4 border-b border-[#F2EBE2]/10">
+                    <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F2EBE2]/10">
                       <span
                         className={`font-mono-tech text-xs tracking-wider uppercase tabular-nums ${
                           isIlluminated ? 'text-[#E9BB86]' : 'text-[#A6A29F]'
@@ -98,26 +98,22 @@ export const Process: React.FC<ProcessProps> = ({ reducedMotion }) => {
                         onClick={() => setActiveStepIndex(idx)}
                         className="font-mono-tech text-xs uppercase tracking-wider text-[#A6A29F] hover:text-[#F2EBE2] focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
                       >
-                        {idx === activeStepIndex ? 'Active' : 'Inspect'}
+                        {idx === activeStepIndex ? 'Active' : 'View'}
                       </button>
                     </div>
 
-                    <h3 className="mt-5 font-display text-3xl sm:text-4xl text-[#F2EBE2]">
+                    <h3 className="mt-4 font-display text-3xl text-[#F2EBE2]">
                       {stage.title}
                     </h3>
 
-                    <p className="mt-3 text-sm text-[#A6A29F] leading-relaxed">
+                    <p className="mt-2 text-sm text-[#A6A29F] leading-relaxed">
                       {stage.summary}
                     </p>
                   </div>
 
-                  <div className="mt-8 pt-4 border-t border-[#F2EBE2]/10 space-y-1">
-                    <p className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
-                      {stage.deliverable}
-                    </p>
-                    <p className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">
-                      {stage.luxTarget}
-                    </p>
+                  <div className="mt-6 pt-3 border-t border-[#F2EBE2]/10 flex items-center justify-between text-xs font-mono-tech">
+                    <span className="text-[#D7A779] uppercase tracking-wider">{stage.deliverable}</span>
+                    <span className="text-[#A6A29F]">{stage.luxTarget}</span>
                   </div>
                 </li>
               );

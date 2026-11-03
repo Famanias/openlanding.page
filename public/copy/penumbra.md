@@ -502,7 +502,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
     name: '',
     email: '',
     projectType: initialProjectTopic || 'Cultural / Architectural Pavilion',
-    timeline: 'Concept Phase · 2026–2027',
+    timeline: '2026–2027',
     message: '',
   });
   const [errors, setErrors] = useState<Partial<Record<keyof ContactDraft, string>>>({});
@@ -557,53 +557,40 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
       aria-labelledby="contact-heading"
       className="relative bg-[#111318] border-t border-[#F2EBE2]/10"
     >
-      {/* Final CTA Section */}
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Monumental Final CTA */}
+      <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-20 md:py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          {/* Left Column */}
           <div className="lg:col-span-7">
             <span className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779]">
-              05 / Commission & inquiry
+              05 / Commission
             </span>
 
             <h2
               id="contact-heading"
               className="mt-4 font-display text-5xl sm:text-6xl md:text-7xl leading-[0.98] tracking-tight text-[#F2EBE2]"
             >
-              <span className="block">Let&apos;s change how</span>
-              <span className="block italic text-[#E9BB86]">the world is seen</span>
+              <span className="block">Let&apos;s shape</span>
+              <span className="block italic text-[#E9BB86]">the night</span>
             </h2>
 
-            <p className="mt-5 text-base sm:text-lg text-[#A6A29F] max-w-xl leading-relaxed">
+            <p className="mt-4 text-base sm:text-lg text-[#A6A29F] max-w-lg leading-relaxed">
               Every extraordinary space deserves an extraordinary night. Tell us what you are imagining.
             </p>
 
-            {/* Primary & Secondary CTAs */}
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex items-center gap-4">
               <button
                 type="button"
                 onClick={() => setIsComposerOpen((prev) => !prev)}
                 aria-expanded={isComposerOpen}
                 aria-controls="inquiry-composer-panel"
-                className="inline-flex items-center gap-2 px-6 py-3.5 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2] focus-visible:outline-offset-4"
+                className="inline-flex items-center gap-2 px-6 py-3.5 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
               >
                 <span>Start a conversation</span>
                 <ArrowUpRight className="w-4 h-4 text-[#111318]" strokeWidth={1.5} aria-hidden="true" />
               </button>
-
-              <a
-                href="#projects"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavigate('projects');
-                }}
-                className="inline-flex items-center gap-2 px-6 py-3.5 text-xs tracking-wider uppercase text-[#F2EBE2] border border-[#F2EBE2]/20 bg-[#1c2027] hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-4"
-              >
-                <span>Back to projects</span>
-              </a>
             </div>
 
-            {/* Studio Address */}
+            {/* Direct Studio Email */}
             <div className="mt-10 pt-6 border-t border-[#F2EBE2]/10 flex flex-wrap items-center gap-6">
               <div>
                 <p className="font-mono-tech text-xs uppercase tracking-wider text-[#A6A29F]">
@@ -621,7 +608,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
               <button
                 type="button"
                 onClick={handleCopyAddress}
-                className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono-tech uppercase tracking-wider border border-[#F2EBE2]/16 bg-[#1c2027] text-[#A6A29F] hover:text-[#F2EBE2] hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono-tech uppercase tracking-wider border border-[#F2EBE2]/16 bg-[#1c2027] text-[#A6A29F] hover:text-[#F2EBE2] hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
               >
                 {copiedEmail ? (
                   <>
@@ -643,26 +630,22 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
             id="inquiry-composer-panel"
             className="lg:col-span-5 bg-[#1c2027] border border-[#F2EBE2]/10 p-6 sm:p-7"
           >
-            <div className="flex items-center justify-between gap-2 pb-4 border-b border-[#F2EBE2]/10">
+            <div className="flex items-center justify-between pb-3 border-b border-[#F2EBE2]/10">
               <h3 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
-                Project brief composer
+                Project brief
               </h3>
               <span className="font-mono-tech text-xs text-[#A6A29F]">
-                Mailto draft
+                Inquiry
               </span>
             </div>
 
-            <p className="mt-3 text-xs text-[#A6A29F] leading-relaxed">
-              Validate your brief below to open a pre-addressed <code className="text-[#F2EBE2]">hello@penumbra.example</code> dispatch in your mail client.
-            </p>
-
-            <form onSubmit={handleSubmit} noValidate className="mt-5 space-y-4">
+            <form onSubmit={handleSubmit} noValidate className="mt-4 space-y-4">
               <div>
                 <label
                   htmlFor="contact-name"
-                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
+                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1"
                 >
-                  Name or practice *
+                  Name or studio *
                 </label>
                 <input
                   id="contact-name"
@@ -675,11 +658,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                   className="w-full px-3.5 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] placeholder:text-[#A6A29F]/40 focus:border-[#D7A779] focus:outline-none"
                 />
                 {errors.name && (
-                  <p
-                    id="contact-name-error"
-                    role="alert"
-                    className="mt-1 text-xs text-[#E9BB86]"
-                  >
+                  <p id="contact-name-error" role="alert" className="mt-1 text-xs text-[#E9BB86]">
                     {errors.name}
                   </p>
                 )}
@@ -688,7 +667,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
               <div>
                 <label
                   htmlFor="contact-email"
-                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
+                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1"
                 >
                   Return email *
                 </label>
@@ -703,21 +682,17 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                   className="w-full px-3.5 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] placeholder:text-[#A6A29F]/40 focus:border-[#D7A779] focus:outline-none"
                 />
                 {errors.email && (
-                  <p
-                    id="contact-email-error"
-                    role="alert"
-                    className="mt-1 text-xs text-[#E9BB86]"
-                  >
+                  <p id="contact-email-error" role="alert" className="mt-1 text-xs text-[#E9BB86]">
                     {errors.email}
                   </p>
                 )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label
                     htmlFor="contact-typology"
-                    className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
+                    className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1"
                   >
                     Typology
                   </label>
@@ -727,21 +702,18 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                     onChange={(e) => handleFieldChange('projectType', e.target.value)}
                     className="w-full px-3 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] focus:border-[#D7A779] focus:outline-none"
                   >
-                    <option value="Cultural / Architectural Pavilion">Cultural / Pavilion</option>
-                    <option value="Private Residence / Sanctuary">Private Residence</option>
-                    <option value="Public Realm / Landscape">Public Realm / Landscape</option>
-                    <option value="Solace Pavilion Study Inquiry">Solace Pavilion Study Inquiry</option>
-                    <option value="Nocturne House Study Inquiry">Nocturne House Study Inquiry</option>
-                    <option value="Meridian Walk Study Inquiry">Meridian Walk Study Inquiry</option>
+                    <option value="Cultural Pavilion">Cultural Pavilion</option>
+                    <option value="Private Residence">Private Residence</option>
+                    <option value="Public Realm">Public Realm</option>
                   </select>
                 </div>
 
                 <div>
                   <label
                     htmlFor="contact-timeline"
-                    className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
+                    className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1"
                   >
-                    Horizon
+                    Timeline
                   </label>
                   <input
                     id="contact-timeline"
@@ -756,26 +728,22 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
               <div>
                 <label
                   htmlFor="contact-message"
-                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1.5"
+                  className="block font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2] mb-1"
                 >
-                  Space & lighting intent *
+                  Brief *
                 </label>
                 <textarea
                   id="contact-message"
                   rows={3}
                   value={draft.message}
                   onChange={(e) => handleFieldChange('message', e.target.value)}
-                  placeholder="Describe the materials, setting, and atmosphere..."
+                  placeholder="Describe the space and lighting intent..."
                   aria-invalid={Boolean(errors.message)}
                   aria-describedby={errors.message ? 'contact-message-error' : undefined}
                   className="w-full px-3.5 py-2 text-sm bg-[#111318] border border-[#F2EBE2]/16 text-[#F2EBE2] placeholder:text-[#A6A29F]/40 focus:border-[#D7A779] focus:outline-none"
                 />
                 {errors.message && (
-                  <p
-                    id="contact-message-error"
-                    role="alert"
-                    className="mt-1 text-xs text-[#E9BB86]"
-                  >
+                  <p id="contact-message-error" role="alert" className="mt-1 text-xs text-[#E9BB86]">
                     {errors.message}
                   </p>
                 )}
@@ -785,15 +753,12 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                 type="submit"
                 className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-xs font-mono-tech uppercase tracking-wider bg-[#F2EBE2] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
               >
-                <span>Prepare mailto dispatch</span>
+                <span>Send inquiry</span>
                 <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
               </button>
 
               {preparedMailto && (
-                <div
-                  role="status"
-                  className="p-3.5 bg-[#111318] border border-[#D7A779]/40 space-y-1.5"
-                >
+                <div role="status" className="p-3 bg-[#111318] border border-[#D7A779]/40 space-y-1">
                   <p className="font-mono-tech text-xs text-[#E9BB86]">
                     Inquiry draft ready.
                   </p>
@@ -801,7 +766,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
                     href={preparedMailto}
                     className="inline-flex items-center gap-1.5 text-xs font-mono-tech uppercase tracking-wider text-[#F2EBE2] underline decoration-[#D7A779] underline-offset-4 hover:text-[#E9BB86]"
                   >
-                    <span>Open in default mail client ↗</span>
+                    <span>Open in mail client ↗</span>
                   </a>
                 </div>
               )}
@@ -810,24 +775,19 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
         </div>
       </div>
 
-      {/* Bottom Architectural Footer */}
+      {/* Bottom Footer */}
       <div className="border-t border-[#F2EBE2]/10 bg-[#111318]">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="space-y-1.5">
-            <a
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('home');
-              }}
-              className="font-display text-2xl tracking-wider text-[#F2EBE2]"
-            >
-              PENUMBRA
-            </a>
-            <p className="text-xs text-[#A6A29F] max-w-md">
-              Independent architectural lighting design practice. Designing the relationship between light, architecture, and emotion.
-            </p>
-          </div>
+        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('home');
+            }}
+            className="font-display text-xl tracking-wider text-[#F2EBE2]"
+          >
+            PENUMBRA
+          </a>
 
           <nav
             aria-label="Footer Navigation"
@@ -873,33 +833,16 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({
             >
               Approach
             </a>
-            <a
-              href="#journal"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('journal');
-              }}
-              className="hover:text-[#F2EBE2] transition-colors"
-            >
-              Journal
-            </a>
           </nav>
 
           <button
             type="button"
             onClick={() => onNavigate('home')}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono-tech uppercase tracking-wider text-[#F2EBE2] border border-[#F2EBE2]/18 bg-[#1c2027] hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono-tech uppercase tracking-wider text-[#F2EBE2] border border-[#F2EBE2]/18 bg-[#1c2027] hover:border-[#D7A779] hover:text-[#E9BB86] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
           >
             <span>Back to top</span>
             <ArrowUp className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
           </button>
-        </div>
-
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-4 border-t border-[#F2EBE2]/08 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-mono-tech text-[#A6A29F]">
-          <span>
-            © 2026 PENUMBRA. Architectural lighting concept.
-          </span>
-          <span>Architecture, after dark</span>
         </div>
       </div>
     </footer>
@@ -1089,23 +1032,18 @@ export const Hero: React.FC<HeroProps> = ({
     onFirstPointerMove: () => setHasMovedPointer(true),
   });
 
-  // Handle pointer movement across the hero section
   const handleHeroPointerMove = (e: React.PointerEvent<HTMLElement>) => {
-    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
-      updatePointerFromClient(e.clientX, e.clientY);
-    } else if (touchSweepActive) {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen' || touchSweepActive) {
       updatePointerFromClient(e.clientX, e.clientY);
     }
   };
 
-  // Editorial typography entrance & desktop ScrollTrigger illumination takeover
   useEffect(() => {
     const sectionEl = sectionRef.current;
     if (!sectionEl) return;
 
     const ctx = gsap.context(() => {
       if (!reducedMotion) {
-        // Line-by-line headline reveal & supporting copy rise (no arbitrary image scale zoom)
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
         if (headlineLine1Ref.current && headlineLine2Ref.current) {
           tl.fromTo(
@@ -1125,7 +1063,6 @@ export const Hero: React.FC<HeroProps> = ({
         }
       }
 
-      // Reversible scroll-driven illumination takeover on desktop viewports
       const mm = gsap.matchMedia();
       mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
         ScrollTrigger.create({
@@ -1147,7 +1084,6 @@ export const Hero: React.FC<HeroProps> = ({
         });
       });
 
-      // Fallback non-pinned scroll reveal for tablet/mobile
       mm.add('(max-width: 1023px) and (prefers-reduced-motion: no-preference)', () => {
         ScrollTrigger.create({
           trigger: sectionEl,
@@ -1180,7 +1116,7 @@ export const Hero: React.FC<HeroProps> = ({
       aria-label="Architecture, after dark"
       className="relative w-full min-h-[640px] h-[100dvh] overflow-hidden bg-[#111318] select-none"
     >
-      {/* Shared-coordinate Base & Illuminated Architectural Stage */}
+      {/* Base & Illuminated Stage */}
       <div className="absolute inset-0 z-0">
         <SpotlightReveal
           stageRef={stageRef}
@@ -1199,7 +1135,7 @@ export const Hero: React.FC<HeroProps> = ({
         />
       </div>
 
-      {/* Subtle architectural contrast scrims for text legibility */}
+      {/* Scrims */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-[#111318]/85 via-[#111318]/40 to-transparent"
@@ -1209,19 +1145,16 @@ export const Hero: React.FC<HeroProps> = ({
         className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-[#111318] via-transparent to-[#111318]/30"
       />
 
-      {/* Editorial Hero Content + Interactive Controls */}
+      {/* Hero Editorial Lockup */}
       <div className="relative z-20 mx-auto max-w-[1440px] h-full px-6 md:px-12 pt-24 pb-8 md:pb-10 flex flex-col justify-between pointer-events-none">
-        {/* Top studio calibration bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-[#F2EBE2]/10">
-          <p className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779] whitespace-nowrap">
+        {/* Distilled top studio line */}
+        <div className="flex items-center justify-between pt-2 border-t border-[#F2EBE2]/10">
+          <p className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779]">
             Independent lighting practice · Est. 2026
           </p>
-          <span className="hidden sm:inline font-mono-tech text-xs tracking-wider uppercase text-[#A6A29F]">
-            Scene 00 · Blue hour to 2700K warmth
-          </span>
         </div>
 
-        {/* Asymmetric Left Editorial Lockup */}
+        {/* Headline & Subhead */}
         <div ref={editorialContentRef} className="my-auto max-w-3xl py-6 will-change-transform">
           <h1 className="font-display text-[3.25rem] sm:text-[4.5rem] md:text-[5.75rem] lg:text-[6.5rem] leading-[0.96] tracking-tight text-[#F2EBE2]">
             <span className="block overflow-hidden pb-1">
@@ -1236,12 +1169,12 @@ export const Hero: React.FC<HeroProps> = ({
             </span>
           </h1>
 
-          <div ref={subcopyRef} className="mt-6 md:mt-8 max-w-xl">
+          <div ref={subcopyRef} className="mt-6 md:mt-8 max-w-lg">
             <p className="text-base sm:text-lg text-[#F2EBE2] font-light leading-relaxed">
               We shape how spaces are seen, felt, and remembered through light.
             </p>
 
-            {/* Primary & Secondary CTAs */}
+            {/* Clean 2-action CTAs */}
             <div className="mt-8 flex flex-wrap items-center gap-4 pointer-events-auto">
               <a
                 href="#projects"
@@ -1263,34 +1196,19 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
         </div>
 
-        {/* Bottom Architectural Bar: Instruction Cue + Accessible Illumination Controls */}
+        {/* Distilled Bottom Bar */}
         <div className="pt-4 border-t border-[#F2EBE2]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pointer-events-auto">
-          {/* Pointer discovery cue */}
-          <div className="flex items-center gap-3">
-            <span
-              className={`font-mono-tech text-xs tracking-wider uppercase transition-opacity duration-300 ${
-                hasMovedPointer || illuminationVisible
-                  ? 'text-[#A6A29F]'
-                  : 'text-[#E9BB86]'
-              }`}
-            >
-              Move to reveal lighting
-            </span>
-            <span className="hidden md:inline text-xs text-[#A6A29F]" aria-hidden="true">
-              ·
-            </span>
-            <span className="hidden md:inline font-mono-tech text-xs text-[#A6A29F]">
-              {illuminationVisible
-                ? 'Full architectural illumination active'
-                : spotlightMode === 'scroll' || spotlightMode === 'complete'
-                ? 'Scroll takeover active'
-                : 'Interactive spotlight active'}
-            </span>
-          </div>
+          <span
+            className={`font-mono-tech text-xs tracking-wider uppercase transition-opacity duration-300 ${
+              hasMovedPointer || illuminationVisible
+                ? 'text-[#A6A29F]'
+                : 'text-[#E9BB86]'
+            }`}
+          >
+            Move to reveal lighting
+          </span>
 
-          {/* Accessible Keyboard & Mobile Reveal Controls */}
           <div className="flex flex-wrap items-center gap-3">
-            {/* Mobile opt-in touch sweep zone button */}
             <button
               type="button"
               onClick={() => setTouchSweepActive((prev) => !prev)}
@@ -1318,7 +1236,7 @@ export const Hero: React.FC<HeroProps> = ({
             <a
               href="#projects"
               onClick={(e) => handleAnchorClick(e, 'projects')}
-              className="hidden lg:inline-flex items-center gap-2 font-mono-tech text-xs tracking-wider uppercase text-[#A6A29F] hover:text-[#F2EBE2] transition-colors pl-2 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+              className="hidden lg:inline-flex items-center gap-1.5 font-mono-tech text-xs tracking-wider uppercase text-[#A6A29F] hover:text-[#F2EBE2] transition-colors pl-2 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
             >
               <span>Scroll</span>
               <span aria-hidden="true">↓</span>
@@ -1385,24 +1303,24 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
     <section
       id="light-lab"
       aria-labelledby="light-lab-heading"
-      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
+      className="relative py-20 md:py-28 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="light-lab-heading">
           <SectionHeading
-            label="03 / Light in motion"
+            label="03 / Light lab"
             headline="See what light can do"
-            intro="A small interactive study of intensity, warmth, and direction."
+            intro="An interactive study of intensity, warmth, and direction."
           />
         </div>
 
         <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
-          {/* Left/Top: Shared-Coordinate Illustrative Architectural Stage */}
+          {/* Left/Top: Architectural Stage */}
           <div className="lg:col-span-8 flex flex-col justify-between bg-[#111318] border border-[#F2EBE2]/10 overflow-hidden">
             {/* Top Telemetry Bar */}
             <div className="px-5 py-3 border-b border-[#F2EBE2]/10 flex flex-wrap items-center justify-between gap-4 text-xs font-mono-tech">
               <div className="flex items-center gap-3">
-                <span className="text-[#D7A779] uppercase tracking-wider">Study stage</span>
+                <span className="text-[#D7A779] uppercase tracking-wider">Calibration stage</span>
                 <span aria-hidden="true" className="text-[#A6A29F]">
                   ·
                 </span>
@@ -1419,15 +1337,13 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
               className="relative w-full aspect-video overflow-hidden bg-[#111318]"
               data-testid="light-lab-stage"
             >
-              {/* Unlit Base Image */}
               <img
                 src={HERO_BASE}
-                alt="Unlit architectural base in Light Lab"
+                alt="Unlit architectural base"
                 loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover object-center"
               />
 
-              {/* Illuminated Layer modulated by Intensity, Temperature Filter, and Directional Sweep Mask */}
               <div
                 aria-hidden="true"
                 style={{
@@ -1446,7 +1362,6 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                 />
               </div>
 
-              {/* Subtle Kelvin Atmosphere Wash */}
               <div
                 aria-hidden="true"
                 style={{
@@ -1456,7 +1371,6 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                 className="pointer-events-none absolute inset-0 mix-blend-color transition-colors duration-200"
               />
 
-              {/* Directional Beam Axis Indicator */}
               <div
                 aria-hidden="true"
                 style={{ left: `${visuals.beamSweepXPercent}%` }}
@@ -1468,29 +1382,27 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
               </div>
             </div>
 
-            {/* Bottom Disclaimer & Optical Readout */}
-            <div className="px-5 py-3 border-t border-[#F2EBE2]/10 bg-[#111318] flex flex-wrap items-center justify-between gap-3 text-xs text-[#A6A29F]">
-              <span>
-                Visual illustration of relative mood, Kelvin warmth, and directional emphasis.
-              </span>
+            {/* Bottom Readout */}
+            <div className="px-5 py-2.5 border-t border-[#F2EBE2]/10 bg-[#111318] flex items-center justify-between text-xs text-[#A6A29F]">
+              <span className="font-mono-tech">Interactive photometric study</span>
               <span className="font-mono-tech text-[#E9BB86] tabular-nums">
-                Est. illuminance: {visuals.footcandleEstimate}
+                Est. {visuals.footcandleEstimate}
               </span>
             </div>
           </div>
 
           {/* Right: Tactile Control Console */}
-          <div className="lg:col-span-4 bg-[#1c2027] border border-[#F2EBE2]/10 p-6 sm:p-7 flex flex-col justify-between space-y-7">
-            <div className="space-y-7">
-              {/* Control 1: Intensity Slider (0-100%) */}
+          <div className="lg:col-span-4 bg-[#1c2027] border border-[#F2EBE2]/10 p-6 sm:p-7 flex flex-col justify-between space-y-6">
+            <div className="space-y-6">
+              {/* Control 1: Intensity Slider */}
               <div>
-                <div className="flex items-center justify-between gap-2 mb-2.5">
+                <div className="flex items-center justify-between gap-2 mb-2">
                   <label
                     htmlFor="light-lab-intensity"
                     className="flex items-center gap-2 font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2]"
                   >
                     <Sliders className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
-                    <span>1. Intensity</span>
+                    <span>Intensity</span>
                   </label>
                   <span className="font-mono-tech text-sm text-[#E9BB86] tabular-nums">
                     {state.intensity}%
@@ -1506,19 +1418,14 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                   onChange={handleIntensityChange}
                   className="w-full penumbra-slider"
                 />
-                <div className="mt-2 flex justify-between font-mono-tech text-xs text-[#A6A29F]">
-                  <span>0% (Blue hour)</span>
-                  <span>50% (Dusk)</span>
-                  <span>100% (Full glow)</span>
-                </div>
               </div>
 
-              {/* Control 2: Color Temperature (Cool -> Neutral -> Warm) */}
-              <div className="pt-5 border-t border-[#F2EBE2]/10">
-                <div className="flex items-center justify-between gap-2 mb-2.5">
+              {/* Control 2: Color Temperature */}
+              <div className="pt-4 border-t border-[#F2EBE2]/10">
+                <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="flex items-center gap-2 font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2]">
                     <Thermometer className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
-                    <span>2. Temperature</span>
+                    <span>Temperature</span>
                   </span>
                   <span className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">
                     {visuals.cctValue}K
@@ -1544,21 +1451,14 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                         type="button"
                         onClick={() => handleTemperatureChange(option.id)}
                         aria-pressed={active}
-                        className={`py-2 px-2 text-center transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
+                        className={`py-1.5 px-2 text-center transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
                           active
-                            ? 'bg-[#D7A779] text-[#111318] font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]'
+                            ? 'bg-[#D7A779] text-[#111318] font-medium'
                             : 'text-[#A6A29F] hover:text-[#F2EBE2] hover:bg-[#1c2027]'
                         }`}
                       >
                         <span className="block text-xs tracking-wider uppercase">
                           {option.label}
-                        </span>
-                        <span
-                          className={`block font-mono-tech text-xs mt-0.5 tabular-nums ${
-                            active ? 'text-[#111318]/90 font-medium' : 'text-[#A6A29F]'
-                          }`}
-                        >
-                          {option.kelvin}
                         </span>
                       </button>
                     );
@@ -1566,18 +1466,18 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                 </div>
               </div>
 
-              {/* Control 3: Direction (-60° to +60° Angle Selector) */}
-              <div className="pt-5 border-t border-[#F2EBE2]/10">
-                <div className="flex items-center justify-between gap-2 mb-2.5">
+              {/* Control 3: Direction */}
+              <div className="pt-4 border-t border-[#F2EBE2]/10">
+                <div className="flex items-center justify-between gap-2 mb-2">
                   <label
                     htmlFor="light-lab-direction"
                     className="flex items-center gap-2 font-mono-tech text-xs uppercase tracking-wider text-[#F2EBE2]"
                   >
                     <Compass className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
-                    <span>3. Direction</span>
+                    <span>Direction</span>
                   </label>
                   <span className="font-mono-tech text-xs text-[#E9BB86] tabular-nums">
-                    {state.direction > 0 ? `+${state.direction}° East` : state.direction < 0 ? `${state.direction}° West` : '0° Center'}
+                    {state.direction > 0 ? `+${state.direction}°` : `${state.direction}°`}
                   </span>
                 </div>
 
@@ -1592,17 +1492,17 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
                   className="w-full penumbra-slider"
                 />
 
-                <div className="mt-3 grid grid-cols-3 gap-2">
+                <div className="mt-2.5 grid grid-cols-3 gap-2">
                   {[
-                    { label: 'West (-42°)', angle: -42 },
-                    { label: 'Center (0°)', angle: 0 },
-                    { label: 'East (+42°)', angle: 42 },
+                    { label: '-42°', angle: -42 },
+                    { label: '0°', angle: 0 },
+                    { label: '+42°', angle: 42 },
                   ].map((preset) => (
                     <button
                       key={preset.label}
                       type="button"
                       onClick={() => handleDirectionChange(preset.angle)}
-                      className={`py-2 px-1.5 font-mono-tech text-xs border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
+                      className={`py-1.5 px-1 font-mono-tech text-xs border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
                         state.direction === preset.angle
                           ? 'border-[#D7A779] text-[#E9BB86] bg-[#111318]'
                           : 'border-[#F2EBE2]/12 text-[#A6A29F] hover:text-[#F2EBE2] hover:bg-[#111318]/50'
@@ -1615,20 +1515,20 @@ export const LightLab: React.FC<LightLabProps> = ({ state, onChange, onReset }) 
               </div>
             </div>
 
-            {/* Control 4: Reset Button */}
-            <div className="pt-5 border-t border-[#F2EBE2]/10 flex items-center justify-between gap-4">
+            {/* Reset Button */}
+            <div className="pt-4 border-t border-[#F2EBE2]/10">
               <button
                 type="button"
                 onClick={onReset}
                 disabled={isDefault}
-                className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono-tech uppercase tracking-wider border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
+                className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-mono-tech uppercase tracking-wider border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] ${
                   isDefault
                     ? 'border-[#F2EBE2]/10 text-[#A6A29F]/40 cursor-not-allowed'
                     : 'border-[#F2EBE2]/20 text-[#F2EBE2] hover:border-[#D7A779] hover:text-[#E9BB86] bg-[#111318]/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'
                 }`}
               >
                 <RotateCcw className="w-3.5 h-3.5" strokeWidth={1.5} aria-hidden="true" />
-                <span>Reset default scene</span>
+                <span>Reset scene</span>
               </button>
             </div>
           </div>
@@ -1772,25 +1672,24 @@ import { HERO_BASE, HERO_REVEAL } from '../lib/motion';
 
 export const Practice: React.FC = () => {
   const [activePrincipleIndex, setActivePrincipleIndex] = useState<number>(1);
-  const [essayExpanded, setEssayExpanded] = useState<boolean>(false);
 
   return (
     <section
       id="practice"
       aria-labelledby="practice-heading"
-      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
+      className="relative py-20 md:py-28 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="practice-heading">
           <SectionHeading
-            label="02 / The practice"
+            label="02 / Practice"
             headline="Light is never just light"
-            intro="It defines a threshold, reveals a texture, slows a moment, and gives architecture a second life after sunset. We begin with the space, then design what the light allows you to feel."
+            intro="It defines a threshold, reveals texture, and gives architecture a second life after sunset."
           />
         </div>
 
-        {/* Three Editorial Principles + Architectural Detail Study */}
-        <div className="mt-12 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        {/* Three Editorial Principles + Visual Material Study */}
+        <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           {/* Left: Three Editorial Principles List */}
           <div className="lg:col-span-7 divide-y divide-[#F2EBE2]/10 border-t border-b border-[#F2EBE2]/10">
             {PRACTICE_PRINCIPLES.map((item, idx) => {
@@ -1798,7 +1697,7 @@ export const Practice: React.FC = () => {
               return (
                 <div
                   key={item.number}
-                  className={`py-8 md:py-9 transition-colors ${
+                  className={`py-7 md:py-8 transition-colors ${
                     isSelected ? 'bg-[#1c2027] px-6 -mx-6 border-l-2 border-[#D7A779]' : ''
                   }`}
                 >
@@ -1817,28 +1716,22 @@ export const Practice: React.FC = () => {
                       </span>
                     </div>
 
-                    <h3 className="mt-3 font-display text-2xl sm:text-3xl md:text-4xl text-[#F2EBE2] group-hover:text-[#E9BB86] transition-colors leading-snug">
+                    <h3 className="mt-2.5 font-display text-2xl sm:text-3xl text-[#F2EBE2] group-hover:text-[#E9BB86] transition-colors leading-snug">
                       {item.title}
                     </h3>
 
-                    <p className="mt-3 text-sm sm:text-base text-[#A6A29F] leading-relaxed max-w-2xl">
+                    <p className="mt-2.5 text-sm sm:text-base text-[#A6A29F] leading-relaxed max-w-xl">
                       {item.summary}
                     </p>
-
-                    {isSelected && (
-                      <p className="mt-4 pt-4 border-t border-[#F2EBE2]/10 text-sm text-[#F2EBE2] leading-relaxed max-w-2xl">
-                        {item.detail}
-                      </p>
-                    )}
                   </button>
                 </div>
               );
             })}
           </div>
 
-          {/* Right: Tactile Architectural Close-up & Shadow Study */}
-          <div className="lg:col-span-5 flex flex-col justify-between bg-[#1c2027] border border-[#F2EBE2]/10 p-6 sm:p-8">
-            <div className="flex items-center justify-between gap-4 pb-4 border-b border-[#F2EBE2]/10">
+          {/* Right: Tactile Material Close-up & Phase Study */}
+          <div className="lg:col-span-5 flex flex-col justify-between bg-[#1c2027] border border-[#F2EBE2]/10 p-6 sm:p-7">
+            <div className="flex items-center justify-between gap-4 pb-3 border-b border-[#F2EBE2]/10">
               <span className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
                 Material study · Concrete formwork
               </span>
@@ -1847,11 +1740,10 @@ export const Practice: React.FC = () => {
               </span>
             </div>
 
-            {/* Cropped close-up corresponding to the active principle */}
-            <div className="relative my-6 h-72 sm:h-80 overflow-hidden bg-[#111318] border border-[#F2EBE2]/10">
+            <div className="relative my-5 h-64 sm:h-72 overflow-hidden bg-[#111318] border border-[#F2EBE2]/10">
               <img
                 src={HERO_BASE}
-                alt="Architectural concrete and twilight reflection study"
+                alt="Architectural concrete study"
                 loading="lazy"
                 style={{
                   objectPosition:
@@ -1885,69 +1777,49 @@ export const Practice: React.FC = () => {
                 aria-hidden="true"
                 className="absolute inset-0 bg-gradient-to-t from-[#111318]/80 via-transparent to-transparent"
               />
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs font-mono-tech text-[#F2EBE2]">
+              <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs font-mono-tech text-[#F2EBE2]">
                 <span>
                   {activePrincipleIndex === 0
-                    ? 'Phase I: Blue Hour Ambient'
+                    ? 'Phase I · Blue Hour'
                     : activePrincipleIndex === 1
-                    ? 'Phase II: Grazing & Shadow Relief'
-                    : 'Phase III: Warm Interior Threshold'}
+                    ? 'Phase II · Graze & Relief'
+                    : 'Phase III · Warm Core'}
                 </span>
                 <span className="text-[#E9BB86] tabular-nums">
                   {activePrincipleIndex === 0
-                    ? '4200K Sky'
+                    ? '4200K'
                     : activePrincipleIndex === 1
-                    ? '2650K Linear'
-                    : '2400K Core'}
+                    ? '2650K'
+                    : '2400K'}
                 </span>
               </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-[#A6A29F] leading-relaxed">
-              Select each principle to observe how Penumbra transitions from unlit twilight observation (01 / Observe) to structural relief (02 / Sculpt) and interior warmth (03 / Reveal).
-            </p>
+            <div className="flex items-center justify-between text-xs font-mono-tech text-[#A6A29F]">
+              <span>Interactive stage</span>
+              <span className="text-[#D7A779]">Click principles to compare</span>
+            </div>
           </div>
         </div>
 
-        {/* Studio Monograph Note (#journal) */}
+        {/* Distilled Studio Monograph Note (#journal) */}
         <div
           id="journal"
-          className="mt-16 md:mt-24 pt-10 border-t border-[#F2EBE2]/10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+          className="mt-16 md:mt-20 pt-8 border-t border-[#F2EBE2]/10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
         >
           <div className="lg:col-span-4">
             <span className="font-mono-tech text-xs tracking-wider uppercase text-[#D7A779]">
               Studio journal · Note 01
             </span>
-            <h3 className="mt-3 font-display text-3xl text-[#F2EBE2]">
+            <h3 className="mt-2 font-display text-2xl sm:text-3xl text-[#F2EBE2]">
               In Praise of the Unlit Surface
             </h3>
-            <p className="mt-2 font-mono-tech text-xs text-[#A6A29F]">
-              Autumn 2026 · Editorial Monograph Note
-            </p>
           </div>
 
-          <div className="lg:col-span-8 space-y-4 text-sm sm:text-base text-[#A6A29F] leading-relaxed">
-            <p className="text-[#F2EBE2]">
-              When every facade is washed at uniform intensity, architecture loses its gravity. A cantilever only appears to float when the eye can read the darkness beneath and above it.
+          <div className="lg:col-span-8 text-base text-[#A6A29F] leading-relaxed">
+            <p className="text-[#F2EBE2] text-lg font-light leading-relaxed">
+              “Architecture only floats when the eye can read the shadow beneath it. We concentrate warm 2400K–2700K illumination along structural seams—leaving over sixty percent of the building envelope in natural twilight quiet.”
             </p>
-            <p>
-              In our conceptual studies, we deliberately leave over sixty percent of the building envelope in natural twilight shadow. By concentrating warm 2400K–2700K illumination along structural seams, soffit reveals, and water edges, the eye is invited to linger rather than squint.
-            </p>
-            {essayExpanded && (
-              <p className="text-[#F2EBE2] pt-2 border-t border-[#F2EBE2]/10">
-                True nocturnal comfort also relies on preserving the reflection of the night sky in still water. Shielded apertures ensure that visitors never see the diode or lamp source directly—only its warm consequence across stone and concrete.
-              </p>
-            )}
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={() => setEssayExpanded((prev) => !prev)}
-                aria-expanded={essayExpanded}
-                className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779] hover:text-[#E9BB86] transition-colors focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
-              >
-                {essayExpanded ? 'Collapse monograph note ↑' : 'Read full monograph note ↓'}
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -2009,18 +1881,18 @@ export const Process: React.FC<ProcessProps> = ({ reducedMotion }) => {
       id="process"
       ref={sectionRef}
       aria-labelledby="process-heading"
-      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
+      className="relative py-20 md:py-28 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="process-heading">
           <SectionHeading
-            label="04 / Our approach"
+            label="04 / Approach"
             headline="From first shadow to final glow"
-            intro="Four deliberate phases that carry an architectural space from initial twilight observation to commissioned evening permanence."
+            intro="Four deliberate phases from initial twilight observation to evening commissioning."
           />
         </div>
 
-        {/* Progressive Architectural Timeline Bar */}
+        {/* Timeline Bar */}
         <div className="mt-12 md:mt-16">
           <div className="relative h-px w-full bg-[#F2EBE2]/10 overflow-hidden">
             <div
@@ -2030,7 +1902,7 @@ export const Process: React.FC<ProcessProps> = ({ reducedMotion }) => {
             />
           </div>
 
-          {/* Four Architectural Stages Grid */}
+          {/* Four Stages Grid */}
           <ol className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {PROCESS_STAGES.map((stage, idx) => {
               const isIlluminated = reducedMotion || idx <= activeStepIndex;
@@ -2044,7 +1916,7 @@ export const Process: React.FC<ProcessProps> = ({ reducedMotion }) => {
                   }`}
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-2 pb-4 border-b border-[#F2EBE2]/10">
+                    <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F2EBE2]/10">
                       <span
                         className={`font-mono-tech text-xs tracking-wider uppercase tabular-nums ${
                           isIlluminated ? 'text-[#E9BB86]' : 'text-[#A6A29F]'
@@ -2057,26 +1929,22 @@ export const Process: React.FC<ProcessProps> = ({ reducedMotion }) => {
                         onClick={() => setActiveStepIndex(idx)}
                         className="font-mono-tech text-xs uppercase tracking-wider text-[#A6A29F] hover:text-[#F2EBE2] focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
                       >
-                        {idx === activeStepIndex ? 'Active' : 'Inspect'}
+                        {idx === activeStepIndex ? 'Active' : 'View'}
                       </button>
                     </div>
 
-                    <h3 className="mt-5 font-display text-3xl sm:text-4xl text-[#F2EBE2]">
+                    <h3 className="mt-4 font-display text-3xl text-[#F2EBE2]">
                       {stage.title}
                     </h3>
 
-                    <p className="mt-3 text-sm text-[#A6A29F] leading-relaxed">
+                    <p className="mt-2 text-sm text-[#A6A29F] leading-relaxed">
                       {stage.summary}
                     </p>
                   </div>
 
-                  <div className="mt-8 pt-4 border-t border-[#F2EBE2]/10 space-y-1">
-                    <p className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
-                      {stage.deliverable}
-                    </p>
-                    <p className="font-mono-tech text-xs text-[#A6A29F] tabular-nums">
-                      {stage.luxTarget}
-                    </p>
+                  <div className="mt-6 pt-3 border-t border-[#F2EBE2]/10 flex items-center justify-between text-xs font-mono-tech">
+                    <span className="text-[#D7A779] uppercase tracking-wider">{stage.deliverable}</span>
+                    <span className="text-[#A6A29F]">{stage.luxTarget}</span>
                   </div>
                 </li>
               );
@@ -2161,42 +2029,38 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
   if (type === 'cantilever-graze') {
     return (
       <svg
-        viewBox="0 0 360 140"
-        className="w-full h-32 text-[#F2EBE2]"
+        viewBox="0 0 360 130"
+        className="w-full h-28 text-[#F2EBE2]"
         role="img"
         aria-label="Section diagram showing linear knife-edge soffit cove and vertical concrete grazing"
       >
-        <line x1="16" y1="118" x2="344" y2="118" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
-        {/* Cantilever concrete canopy */}
+        <line x1="16" y1="112" x2="344" y2="112" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
         <rect
           x="44"
-          y="36"
+          y="32"
           width="210"
-          height="20"
+          height="18"
           fill="#1c2027"
           stroke="rgba(242,235,226,0.3)"
           strokeWidth="1"
         />
-        {/* Core wall */}
         <rect
           x="130"
-          y="56"
+          y="50"
           width="36"
           height="62"
           fill="#1c2027"
           stroke="rgba(242,235,226,0.3)"
           strokeWidth="1"
         />
-        {/* Warm linear soffit glow */}
-        <line x1="48" y1="58" x2="248" y2="58" stroke="#E9BB86" strokeWidth="2" />
-        {/* Grazing light cones */}
-        <polygon points="126,116 112,58 130,58" fill="rgba(215,167,121,0.22)" />
-        <polygon points="170,116 166,58 186,58" fill="rgba(215,167,121,0.22)" />
-        <text x="50" y="26" fill="#A6A29F" fontSize="9" fontFamily="monospace">
-          2650K Recessed soffit knife-edge
+        <line x1="48" y1="50" x2="248" y2="50" stroke="#E9BB86" strokeWidth="2" />
+        <polygon points="126,110 112,50 130,50" fill="rgba(215,167,121,0.22)" />
+        <polygon points="170,110 166,50 186,50" fill="rgba(215,167,121,0.22)" />
+        <text x="50" y="24" fill="#A6A29F" fontSize="9" fontFamily="monospace">
+          2650K Soffit knife-edge
         </text>
-        <text x="196" y="96" fill="#D7A779" fontSize="9" fontFamily="monospace">
-          Asymmetric graze (14:1)
+        <text x="196" y="90" fill="#D7A779" fontSize="9" fontFamily="monospace">
+          14:1 Asymmetric graze
         </text>
       </svg>
     );
@@ -2205,37 +2069,34 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
   if (type === 'interior-reflection') {
     return (
       <svg
-        viewBox="0 0 360 140"
-        className="w-full h-32 text-[#F2EBE2]"
+        viewBox="0 0 360 130"
+        className="w-full h-28 text-[#F2EBE2]"
         role="img"
         aria-label="Section diagram showing ceiling framing optics on interior stone boulder behind low-iron glass"
       >
-        <line x1="16" y1="118" x2="344" y2="118" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
-        <line x1="40" y1="24" x2="320" y2="24" stroke="rgba(242,235,226,0.24)" strokeWidth="1" />
-        {/* Glazing line */}
+        <line x1="16" y1="112" x2="344" y2="112" stroke="rgba(242,235,226,0.18)" strokeWidth="1" />
+        <line x1="40" y1="20" x2="320" y2="20" stroke="rgba(242,235,226,0.24)" strokeWidth="1" />
         <line
           x1="116"
-          y1="24"
+          y1="20"
           x2="116"
-          y2="118"
+          y2="112"
           stroke="#7E91A8"
           strokeWidth="1.5"
           strokeDasharray="3 3"
         />
-        {/* Sculptural stone monolith */}
         <path
-          d="M196 118 L206 74 L244 64 L276 82 L284 118 Z"
+          d="M196 112 L206 68 L244 58 L276 76 L284 112 Z"
           fill="rgba(215,167,121,0.18)"
           stroke="#E9BB86"
           strokeWidth="1.2"
         />
-        {/* Pin-spot beam from recessed ceiling slot */}
-        <polygon points="222,24 192,118 286,118" fill="rgba(215,167,121,0.14)" />
-        <circle cx="222" cy="24" r="2.5" fill="#E9BB86" />
-        <text x="42" y="72" fill="#7E91A8" fontSize="9" fontFamily="monospace">
+        <polygon points="222,20 192,112 286,112" fill="rgba(215,167,121,0.14)" />
+        <circle cx="222" cy="20" r="2.5" fill="#E9BB86" />
+        <text x="42" y="66" fill="#7E91A8" fontSize="9" fontFamily="monospace">
           Low-iron glass
         </text>
-        <text x="190" y="44" fill="#D7A779" fontSize="9" fontFamily="monospace">
+        <text x="190" y="38" fill="#D7A779" fontSize="9" fontFamily="monospace">
           2400K Framing optic
         </text>
       </svg>
@@ -2244,34 +2105,30 @@ const ArchitecturalDiagram: React.FC<{ type: ConceptProject['diagramType'] }> = 
 
   return (
     <svg
-      viewBox="0 0 360 140"
-      className="w-full h-32 text-[#F2EBE2]"
+      viewBox="0 0 360 130"
+      className="w-full h-28 text-[#F2EBE2]"
       role="img"
       aria-label="Section diagram showing shielded low-level bollard casting downward light across water edge"
     >
-      {/* Deck and reflecting basin */}
-      <line x1="16" y1="92" x2="195" y2="92" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
-      <line x1="195" y1="92" x2="195" y2="116" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
-      <line x1="195" y1="106" x2="344" y2="106" stroke="#7E91A8" strokeWidth="1.5" />
-      {/* Shielded bollard */}
-      <rect x="154" y="64" width="8" height="28" fill="#D7A779" />
-      {/* Zero-uplight cutoff line */}
+      <line x1="16" y1="88" x2="195" y2="88" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
+      <line x1="195" y1="88" x2="195" y2="112" stroke="rgba(242,235,226,0.3)" strokeWidth="1.5" />
+      <line x1="195" y1="102" x2="344" y2="102" stroke="#7E91A8" strokeWidth="1.5" />
+      <rect x="154" y="60" width="8" height="28" fill="#D7A779" />
       <line
         x1="80"
-        y1="64"
+        y1="60"
         x2="270"
-        y2="64"
+        y2="60"
         stroke="rgba(242,235,226,0.15)"
         strokeWidth="1"
         strokeDasharray="4 4"
       />
-      {/* Downward fan */}
-      <polygon points="158,68 95,92 225,106" fill="rgba(215,167,121,0.2)" />
-      <text x="82" y="54" fill="#A6A29F" fontSize="9" fontFamily="monospace">
+      <polygon points="158,64 95,88 225,102" fill="rgba(215,167,121,0.2)" />
+      <text x="82" y="50" fill="#A6A29F" fontSize="9" fontFamily="monospace">
         0% Uplight cutoff
       </text>
-      <text x="208" y="88" fill="#D7A779" fontSize="9" fontFamily="monospace">
-        2200K Specular water reflection
+      <text x="208" y="82" fill="#D7A779" fontSize="9" fontFamily="monospace">
+        2200K Water reflection
       </text>
     </svg>
   );
@@ -2282,7 +2139,6 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
   onSelectProject,
   onNavigateToContact,
 }) => {
-  // Per-card illumination study state
   const [studyMix, setStudyMix] = useState<Record<string, boolean>>({
     'solace-pavilion': true,
     'nocturne-house': true,
@@ -2318,29 +2174,19 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
     <section
       id="projects"
       aria-labelledby="projects-heading"
-      className="relative py-24 md:py-32 bg-[#111318] border-t border-[#F2EBE2]/10"
+      className="relative py-20 md:py-28 bg-[#111318] border-t border-[#F2EBE2]/10"
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div id="projects-heading">
           <SectionHeading
-            label="01 / Selected projects"
+            label="01 / Projects"
             headline="Light changes everything"
-            intro="Three studies in how illumination changes the way we experience architecture."
+            intro="Three studies in how illumination shapes the experience of architecture."
           />
         </div>
 
-        {/* Conceptual Study Notice */}
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-[#A6A29F]">
-          <p>
-            Each study isolates a distinct architectural zone from our primary brutalist pavilion plate to examine grazing, interior transparency, and threshold orientation.
-          </p>
-          <span className="font-mono-tech uppercase tracking-wider text-[#D7A779]">
-            Conceptual architectural studies · 2026
-          </span>
-        </div>
-
-        {/* Editorial Staggered Project Studies */}
-        <div className="mt-12 md:mt-16 space-y-16 md:space-y-24">
+        {/* Staggered Project Studies */}
+        <div className="mt-12 md:mt-16 space-y-16 md:space-y-20">
           {CONCEPT_PROJECTS.map((project, idx) => {
             const isLit = studyMix[project.id] ?? true;
             const isEven = idx % 2 === 1;
@@ -2354,13 +2200,12 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                 <div
                   className={`lg:col-span-7 ${
                     isEven ? 'lg:order-2' : 'lg:order-1'
-                  } relative group overflow-hidden bg-[#1c2027] border border-[#F2EBE2]/10 min-h-[340px] sm:min-h-[420px] flex flex-col justify-between`}
+                  } relative group overflow-hidden bg-[#1c2027] border border-[#F2EBE2]/10 min-h-[320px] sm:min-h-[380px] flex flex-col justify-between`}
                 >
-                  {/* Cropped architectural study */}
                   <div className="absolute inset-0 overflow-hidden">
                     <img
                       src={HERO_BASE}
-                      alt={`${project.title} — unlit blue hour study crop`}
+                      alt={`${project.title} study crop`}
                       loading="lazy"
                       style={{
                         objectPosition: project.focalCropPosition,
@@ -2386,8 +2231,8 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                     />
                   </div>
 
-                  {/* Top Crop Metadata Bar */}
-                  <div className="relative z-10 p-5 flex items-center justify-between gap-4">
+                  {/* Top Bar */}
+                  <div className="relative z-10 p-4 px-5 flex items-center justify-between gap-4">
                     <span className="font-mono-tech text-xs tracking-wider uppercase text-[#F2EBE2]">
                       {project.studyLabel}
                     </span>
@@ -2396,15 +2241,15 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                       type="button"
                       onClick={() => toggleCardLighting(project.id)}
                       aria-pressed={isLit}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono-tech tracking-wider uppercase bg-[#111318]/85 text-[#F2EBE2] border border-[#F2EBE2]/18 hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
+                      className="inline-flex items-center gap-2 px-3 py-1 text-xs font-mono-tech tracking-wider uppercase bg-[#111318]/85 text-[#F2EBE2] border border-[#F2EBE2]/18 hover:border-[#D7A779] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
                     >
                       <SlidersHorizontal className="w-3.5 h-3.5 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
-                      <span>{isLit ? 'State: Illuminated' : 'State: Blue hour'}</span>
+                      <span>{isLit ? 'Lit' : 'Unlit'}</span>
                     </button>
                   </div>
 
-                  {/* Bottom Optical Readout */}
-                  <div className="relative z-10 p-4 px-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#F2EBE2]/10 bg-[#111318]/70 backdrop-blur-xs">
+                  {/* Bottom Readout */}
+                  <div className="relative z-10 p-3 px-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#F2EBE2]/10 bg-[#111318]/70 backdrop-blur-xs">
                     <span className="font-mono-tech text-xs text-[#E9BB86] tabular-nums">
                       {project.kelvinProfile}
                     </span>
@@ -2414,51 +2259,41 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
                   </div>
                 </div>
 
-                {/* Editorial Specification Column */}
+                {/* Specification Column */}
                 <div
                   className={`lg:col-span-5 ${
                     isEven ? 'lg:order-1' : 'lg:order-2'
                   } flex flex-col justify-between py-2`}
                 >
                   <div>
-                    {/* Unboxed clean metadata */}
-                    <div className="flex items-center gap-3 text-xs tracking-wider uppercase text-[#A6A29F]">
+                    <div className="flex items-center gap-2.5 text-xs tracking-wider uppercase text-[#A6A29F]">
                       <span className="font-mono-tech text-[#D7A779] tabular-nums">{project.index}</span>
                       <span aria-hidden="true">—</span>
                       <span>{project.category}</span>
                     </div>
 
-                    <h3 className="mt-3 font-display text-3xl sm:text-4xl md:text-5xl text-[#F2EBE2] tracking-tight">
+                    <h3 className="mt-3 font-display text-3xl sm:text-4xl text-[#F2EBE2] tracking-tight">
                       {project.title}
                     </h3>
 
-                    <p className="mt-4 text-base sm:text-lg text-[#F2EBE2] font-light leading-relaxed">
-                      {project.microcopy}
-                    </p>
-
-                    <p className="mt-3 text-sm text-[#A6A29F] leading-relaxed">
+                    <p className="mt-3 text-sm sm:text-base text-[#A6A29F] leading-relaxed">
                       {project.conceptSummary}
                     </p>
 
-                    {/* Mood & Photometric Section Diagram */}
-                    <div className="mt-6 pt-5 border-t border-[#F2EBE2]/10">
-                      <p className="font-mono-tech text-xs uppercase tracking-wider text-[#A6A29F] mb-2">
-                        Atmosphere: <span className="text-[#F2EBE2]">{project.mood}</span>
-                      </p>
-                      <div className="mt-3 p-4 bg-[#1c2027] border border-[#F2EBE2]/10">
-                        <ArchitecturalDiagram type={project.diagramType} />
-                      </div>
+                    {/* Section Diagram */}
+                    <div className="mt-5 p-3 bg-[#1c2027] border border-[#F2EBE2]/10">
+                      <ArchitecturalDiagram type={project.diagramType} />
                     </div>
                   </div>
 
-                  <div className="mt-8 pt-5 border-t border-[#F2EBE2]/10 flex items-center justify-between gap-4">
+                  <div className="mt-6 pt-4 border-t border-[#F2EBE2]/10 flex items-center justify-between gap-4">
                     <button
                       type="button"
                       onClick={(e) => {
                         lastTriggerRef.current = e.currentTarget;
                         onSelectProject(project);
                       }}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-wider uppercase bg-[#1c2027] text-[#F2EBE2] border border-[#F2EBE2]/20 hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86] focus-visible:outline-offset-2"
+                      className="inline-flex items-center gap-2 px-4 py-2 text-xs tracking-wider uppercase bg-[#1c2027] text-[#F2EBE2] border border-[#F2EBE2]/20 hover:border-[#D7A779] hover:text-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#E9BB86]"
                     >
                       <span>Inspect study</span>
                       <ArrowUpRight className="w-4 h-4 text-[#D7A779]" strokeWidth={1.5} aria-hidden="true" />
@@ -2475,7 +2310,7 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
         </div>
       </div>
 
-      {/* Accessible Project Detail Modal */}
+      {/* Modal */}
       {activeProject && (
         <div
           role="dialog"
@@ -2489,9 +2324,8 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
             }
           }}
         >
-          <div className="relative w-full max-w-4xl bg-[#1c2027] border border-[#F2EBE2]/18 text-[#F2EBE2] my-auto overflow-hidden shadow-2xl">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between gap-4 px-6 sm:px-8 py-4 border-b border-[#F2EBE2]/10 bg-[#111318]">
+          <div className="relative w-full max-w-3xl bg-[#1c2027] border border-[#F2EBE2]/18 text-[#F2EBE2] my-auto overflow-hidden shadow-2xl">
+            <div className="flex items-center justify-between gap-4 px-6 py-4 border-b border-[#F2EBE2]/10 bg-[#111318]">
               <div className="flex items-center gap-3 text-xs font-mono-tech uppercase tracking-wider text-[#D7A779]">
                 <span className="tabular-nums">{activeProject.index}</span>
                 <span aria-hidden="true">·</span>
@@ -2512,100 +2346,75 @@ export const SelectedProjects: React.FC<SelectedProjectsProps> = ({
               </button>
             </div>
 
-            {/* Comparison Strip */}
             <div className="grid grid-cols-1 sm:grid-cols-2 border-b border-[#F2EBE2]/10">
-              <div className="relative h-52 sm:h-64 overflow-hidden border-b sm:border-b-0 sm:border-r border-[#F2EBE2]/10">
+              <div className="relative h-48 sm:h-56 overflow-hidden border-b sm:border-b-0 sm:border-r border-[#F2EBE2]/10">
                 <img
                   src={HERO_BASE}
-                  alt={`${activeProject.title} unlit ambient state`}
+                  alt={`${activeProject.title} unlit`}
                   style={{
                     objectPosition: activeProject.focalCropPosition,
                     transform: `scale(${activeProject.focalScale})`,
                   }}
                   className="w-full h-full object-cover"
                 />
-                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#A6A29F]">
-                  Before · Ambient blue hour
+                <span className="absolute bottom-3 left-3 px-2 py-0.5 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#A6A29F]">
+                  Blue hour
                 </span>
               </div>
 
-              <div className="relative h-52 sm:h-64 overflow-hidden">
+              <div className="relative h-48 sm:h-56 overflow-hidden">
                 <img
                   src={HERO_REVEAL}
-                  alt={`${activeProject.title} illuminated state`}
+                  alt={`${activeProject.title} lit`}
                   style={{
                     objectPosition: activeProject.focalCropPosition,
                     transform: `scale(${activeProject.focalScale})`,
                   }}
                   className="w-full h-full object-cover"
                 />
-                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#E9BB86] tabular-nums">
-                  After · {activeProject.kelvinProfile}
+                <span className="absolute bottom-3 left-3 px-2 py-0.5 bg-[#111318]/85 text-xs font-mono-tech uppercase tracking-wider text-[#E9BB86] tabular-nums">
+                  {activeProject.kelvinProfile}
                 </span>
               </div>
             </div>
 
-            {/* Modal Body */}
-            <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-8 bg-[#111318]">
-              <div className="md:col-span-7 space-y-4">
-                <p className="text-xs uppercase tracking-wider text-[#A6A29F]">
-                  {activeProject.category}
-                </p>
-                <h3
-                  id="project-dialog-title"
-                  className="font-display text-3xl sm:text-4xl text-[#F2EBE2]"
-                >
+            <div className="p-6 sm:p-7 space-y-5 bg-[#111318]">
+              <div>
+                <h3 id="project-dialog-title" className="font-display text-3xl text-[#F2EBE2]">
                   {activeProject.title}
                 </h3>
-                <p className="text-base text-[#E9BB86] italic font-display">
-                  “{activeProject.microcopy}”
+                <p className="mt-2 text-sm text-[#A6A29F] leading-relaxed">
+                  {activeProject.lightingStrategy}
                 </p>
-                <p className="text-sm text-[#F2EBE2] leading-relaxed">
-                  {activeProject.conceptSummary}
-                </p>
-                <div className="pt-3 border-t border-[#F2EBE2]/10">
-                  <h4 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
-                    Architectural strategy
-                  </h4>
-                  <p className="mt-2 text-sm text-[#A6A29F] leading-relaxed">
-                    {activeProject.lightingStrategy}
-                  </p>
-                </div>
               </div>
 
-              <div className="md:col-span-5 flex flex-col justify-between space-y-6 border-t md:border-t-0 md:border-l border-[#F2EBE2]/10 pt-6 md:pt-0 md:pl-6">
-                <div>
-                  <h4 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779]">
-                    Scope & deliverables
-                  </h4>
-                  <ul className="mt-3 space-y-2 text-sm text-[#F2EBE2]">
-                    {activeProject.services.map((service) => (
-                      <li key={service} className="flex items-start gap-2.5">
-                        <span className="text-[#D7A779] font-mono-tech">—</span>
-                        <span>{service}</span>
-                      </li>
-                    ))}
-                  </ul>
+              <div className="pt-4 border-t border-[#F2EBE2]/10">
+                <h4 className="font-mono-tech text-xs uppercase tracking-wider text-[#D7A779] mb-2.5">
+                  Deliverables
+                </h4>
+                <ul className="space-y-1.5 text-xs text-[#F2EBE2]">
+                  {activeProject.services.map((service) => (
+                    <li key={service} className="flex items-center gap-2">
+                      <span className="text-[#D7A779] font-mono-tech">—</span>
+                      <span>{service}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                  <div className="mt-6 pt-4 border-t border-[#F2EBE2]/10">
-                    <ArchitecturalDiagram type={activeProject.diagramType} />
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#F2EBE2]/10">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const title = activeProject.title;
-                      onSelectProject(null);
-                      onNavigateToContact(title);
-                    }}
-                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
-                  >
-                    <span>Discuss this typology</span>
-                    <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-                  </button>
-                </div>
+              <div className="pt-4 border-t border-[#F2EBE2]/10 flex items-center justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const title = activeProject.title;
+                    onSelectProject(null);
+                    onNavigateToContact(title);
+                  }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-wider uppercase bg-[#D7A779] text-[#111318] font-medium hover:bg-[#E9BB86] transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-[#F2EBE2]"
+                >
+                  <span>Discuss this typology</span>
+                  <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+                </button>
               </div>
             </div>
           </div>
@@ -3331,14 +3140,11 @@ export function buildContactMailtoUri(draft: ContactDraft): string {
   title: string;
   category: string;
   studyLabel: string;
-  mood: string;
-  microcopy: string;
   focalCropPosition: string;
   focalScale: number;
   kelvinProfile: string;
   contrastRatio: string;
   conceptSummary: string;
-  architecturalContext: string;
   lightingStrategy: string;
   services: string[];
   diagramType: 'cantilever-graze' | 'interior-reflection' | 'pathway-bollard';
@@ -3348,7 +3154,6 @@ export interface PracticePrinciple {
   number: string;
   title: string;
   summary: string;
-  detail: string;
   opticalNote: string;
 }
 
@@ -3365,25 +3170,20 @@ export const CONCEPT_PROJECTS: ConceptProject[] = [
     id: 'solace-pavilion',
     index: '01',
     title: 'Solace Pavilion',
-    category: 'Cultural · Architectural lighting concept',
-    studyLabel: 'Conceptual Study I — Cantilever & Monolith Grazing',
-    mood: 'Monumental concrete, intimate pools of warm light',
-    microcopy: 'A quiet monument to the moments between shadow and form.',
+    category: 'Cultural Pavilion',
+    studyLabel: 'Study 01 · Cantilever Graze',
     focalCropPosition: '28% 52%',
     focalScale: 1.18,
-    kelvinProfile: '2650K Linear Cove + 2400K Uplight',
-    contrastRatio: '14:1 Perimeter-to-Sky Balance',
+    kelvinProfile: '2650K Linear Cove',
+    contrastRatio: '14:1 Graze Ratio',
     conceptSummary:
-      'An architectural study exploring how a recessed linear knife-edge cove beneath a cantilevered board-formed concrete canopy can dissolve structural mass after dusk while anchoring the volume to its reflecting basin.',
-    architecturalContext:
-      'Raw architectural concrete meets still water and mountain twilight. Without careful shielding, floodlighting would flatten the formwork texture and destroy the nocturnal reflection.',
+      'Concealed knife-edge grazing beneath a cantilevered concrete canopy, dissolving structural mass after dusk while preserving water reflections.',
     lightingStrategy:
-      'Concealed asymmetric grazing slots wash the vertical concrete core from base to soffit, while a continuous warm soffit reveal traces the floating horizontal plane.',
+      'Asymmetric grazing slots wash the vertical concrete core from base to soffit, while a continuous warm reveal traces the floating horizontal plane.',
     services: [
-      'Daylight-to-Dusk Transition Study',
-      'Custom Recessed Soffit Detailing',
-      'Vertical Concrete Grazing Mockups',
-      'Glare-Free Water Reflection Calibration',
+      'Daylight-to-dusk transition study',
+      'Recessed knife-edge soffit detailing',
+      'Vertical concrete grazing calibration',
     ],
     diagramType: 'cantilever-graze',
   },
@@ -3391,25 +3191,20 @@ export const CONCEPT_PROJECTS: ConceptProject[] = [
     id: 'nocturne-house',
     index: '02',
     title: 'Nocturne House',
-    category: 'Residential · Lighting concept',
-    studyLabel: 'Conceptual Study II — Interior Sanctuary & Stone Volume',
-    mood: 'Warm interiors, stone, reflective surfaces',
-    microcopy: 'A private retreat shaped by restraint and the warmth of evening.',
+    category: 'Private Residence',
+    studyLabel: 'Study 02 · Monolith Framing',
     focalCropPosition: '82% 58%',
     focalScale: 1.28,
-    kelvinProfile: '2400K Deep Warm Dimming',
-    contrastRatio: '8:1 Interior-to-Threshold Gradient',
+    kelvinProfile: '2400K Warm Dimming',
+    contrastRatio: '8:1 Threshold Balance',
     conceptSummary:
-      'A residential sanctuary concept centered on an interior sculptural boulder and floor-to-ceiling low-iron glazing. By illuminating vertical interior surfaces rather than floors, glass reflections become transparent at blue hour.',
-    architecturalContext:
-      'Expansive structural glass often turns into an impenetrable black mirror at night when downlights create harsh horizontal hotspots.',
+      'Pin-spot framing optics sculpt an interior stone volume, keeping floor-to-ceiling glazing transparent at blue hour without specular mirror glare.',
     lightingStrategy:
-      'Pin-spot framing optics sculpt the interior monolith with 2400K high-CRI warmth, balanced by low-output ceiling slots that preserve uninterrupted views into the twilight landscape.',
+      'Framing projectors illuminate vertical interior stone instead of horizontal floors, preserving uninterrupted outward sightlines into the dark landscape.',
     services: [
-      'Low-Reflectance Glazing Balance',
-      'Sculptural Object Framing Optics',
-      'Circadian Evening Scene Programming',
-      'Architectural Hardware Integration',
+      'Low-reflectance glazing balance',
+      'Sculptural object framing optics',
+      'Circadian evening scene programming',
     ],
     diagramType: 'interior-reflection',
   },
@@ -3417,25 +3212,20 @@ export const CONCEPT_PROJECTS: ConceptProject[] = [
     id: 'meridian-walk',
     index: '03',
     title: 'Meridian Walk',
-    category: 'Public realm · Lighting concept',
-    studyLabel: 'Conceptual Study III — Waterline & Threshold Orientation',
-    mood: 'Pathway illumination, natural landscape, orientation',
-    microcopy: 'Guiding movement through landscape without overpowering night.',
+    category: 'Public Waterfront',
+    studyLabel: 'Study 03 · Waterline Baffle',
     focalCropPosition: '46% 84%',
     focalScale: 1.22,
-    kelvinProfile: '2200K Amber Shielded Bollards',
-    contrastRatio: '5:1 Low-Horizon Visual Comfort',
+    kelvinProfile: '2200K Shielded Amber',
+    contrastRatio: '5:1 Horizon Comfort',
     conceptSummary:
-      'A nocturnal landscape study investigating how minimal, low-level point sources along a stone plinth and water edge can guide human movement without upward light trespass or skyglow.',
-    architecturalContext:
-      'Navigating the edge between cast stone, boulders, and dark water requires visual clarity at foot level while keeping the human eye adapted to the surrounding night sky.',
+      'Deep-baffled bronze bollards cast controlled 180° light fans across stone plinths and dark water without upward spill or skyglow.',
     lightingStrategy:
-      'Deep-baffled bronze bollards cast controlled 180-degree fans across the limestone deck and water surface, creating rhythmic vertical reflections that mark the threshold.',
+      'Low-horizon cutoff optics guide movement at foot level while allowing the human eye to stay adapted to the open night sky.',
     services: [
-      'Dark-Sky Compliant Optics',
-      'Custom Bronze Bollard Specification',
-      'Subtle Water-Edge Specular Study',
-      'Pedestrian Mesopic Vision Calibration',
+      'Dark-sky zero-uplight optics',
+      'Custom bronze bollard specification',
+      'Water-edge specular reflection study',
     ],
     diagramType: 'pathway-bollard',
   },
@@ -3444,30 +3234,24 @@ export const CONCEPT_PROJECTS: ConceptProject[] = [
 export const PRACTICE_PRINCIPLES: PracticePrinciple[] = [
   {
     number: '01 / Observe',
-    title: 'Understand the architecture and the people who inhabit it.',
+    title: 'Map natural twilight and untouched shadow',
     summary:
-      'Before specifying a single luminaire, we study how natural twilight moves across concrete, timber, stone, and water—and where darkness itself should remain untouched.',
-    detail:
-      'Every structure possesses an inherent nocturnal quietness. We map sightlines, material specularity, and human thresholds so artificial light feels native to the building.',
-    opticalNote: 'Mesopic adaptation · Material reflectance analysis',
+      'Before placing a luminaire, we study how blue hour moves across concrete, stone, and water—identifying where darkness must remain untouched.',
+    opticalNote: 'Mesopic adaptation · Reflectance',
   },
   {
     number: '02 / Sculpt',
-    title: 'Shape contrast, shadow, temperature, and rhythm with intention.',
+    title: 'Conceal the source, reveal the surface',
     summary:
-      'Uniform brightness flattens space. By orchestrating shadow alongside warm 2200K–2700K pools of light, we establish depth, hierarchy, and emotional cadence.',
-    detail:
-      'We conceal the source wherever possible so the visitor perceives only the illuminated surface—concrete grain, weathered stone, and tranquil water reflections.',
-    opticalNote: 'Asymmetric grazing · Shielded aperture geometry',
+      'Uniform illumination flattens form. We orchestrate warm grazing and deep shadow to bring out material texture, depth, and structural grain.',
+    opticalNote: 'Asymmetric graze · Concealed aperture',
   },
   {
     number: '03 / Reveal',
-    title: 'Make the extraordinary visible without losing the quiet.',
+    title: 'Transition from dusk to nocturnal quiet',
     summary:
-      'As evening deepens, architecture should not shout against the night sky. Our scenes transition imperceptibly from blue hour to late night.',
-    detail:
-      'Through subtle dimming curves and zoned scenes, a building breathes with the evening—inviting gathering at dusk and settling into a calm ember glow at midnight.',
-    opticalNote: 'Warm-dim curves · Zero uplight sky preservation',
+      'Architecture should breathe with the evening. Our scenes dim imperceptibly from twilight clarity into a calm midnight ember glow.',
+    opticalNote: 'Warm-dim curve · Zero uplight',
   },
 ];
 
@@ -3475,30 +3259,30 @@ export const PROCESS_STAGES: ProcessStage[] = [
   {
     step: '01',
     title: 'Listen',
-    summary: 'Establish how a space is used and what it should evoke.',
-    deliverable: 'Nocturnal Narrative & Threshold Brief',
-    luxTarget: 'Darkness Baseline Audit',
+    summary: 'Define nocturnal character, sightlines, and darkness baseline.',
+    deliverable: 'Nocturnal Brief',
+    luxTarget: 'Baseline Darkness Audit',
   },
   {
     step: '02',
     title: 'Explore',
-    summary: 'Study light, material, perspective, and contrast.',
-    deliverable: 'Material Grazing & Kelvin Mockup Studies',
-    luxTarget: '2200K – 3200K Spectral Range',
+    summary: 'Test material grazing, shadow relief, and Kelvin warmth.',
+    deliverable: 'Photometric Mockups',
+    luxTarget: '2200K – 3200K Range',
   },
   {
     step: '03',
     title: 'Compose',
-    summary: 'Prototype scenes, accents, and moments of revelation.',
-    deliverable: 'Architectural Cove & Detail Integration',
-    luxTarget: 'Concealed Source Detailing',
+    summary: 'Detail concealed coves, optical apertures, and controls.',
+    deliverable: 'Architectural Details',
+    luxTarget: 'Shielded Source Specs',
   },
   {
     step: '04',
-    title: 'Refine',
-    summary: 'Tune the experience so it feels inevitable, never excessive.',
-    deliverable: 'After-Dark Aiming & Scene Commissioning',
-    luxTarget: 'Dusk-to-Midnight Scene Curve',
+    title: 'Commission',
+    summary: 'Aim fixtures on-site and tune dusk-to-midnight scene curves.',
+    deliverable: 'Scene Commissioning',
+    luxTarget: 'Night-to-Dawn Curves',
   },
 ];
 ]]>
