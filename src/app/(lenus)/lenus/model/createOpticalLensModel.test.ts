@@ -1,0 +1,35 @@
+import { describe, expect, it } from "vitest";
+import * as THREE from "three";
+import { createOpticalLensModel, type LensRuntime } from "./createOpticalLensModel";
+
+describe("Lenus optical model integration", () => {
+  it("retains all 19 authored parts, sockets and welded torus normals", () => {
+    const model = createOpticalLensModel(undefined, { quality: "low" });
+    const runtime = model.userData.sculptRuntime as LensRuntime;
+    try {
+      expect(Object.keys(runtime.nodes)).toHaveLength(19);
+      expect(Object.keys(runtime.sockets)).toHaveLength(19);
+      expect(Object.keys(runtime.nodes)).toEqual(expect.arrayContaining(["outer-glass", "front-lens", "rear-fins", "gold-contacts", "shards"]));
+      const normals = runtime.meshes["outer-glass"].geometry.getAttribute("normal");
+      const a = 12 * 129, b = a + 128;
+      expect(normals.getX(a)).toBeCloseTo(normals.getX(b), 5);
+      expect(normals.getY(a)).toBeCloseTo(normals.getY(b), 5);
+      expect(normals.getZ(a)).toBeCloseTo(normals.getZ(b), 5);
+    } finally { runtime.dispose(); }
+  });
+
+  it("explodes reversibly, turns the focus collar and resolves picked meshes", () => {
+    const runtime = createOpticalLensModel(undefined, { quality: "low" }).userData.sculptRuntime as LensRuntime;
+    try {
+      const z = runtime.nodes["front-lens"].position.z;
+      runtime.setExplode(1);
+      expect(runtime.nodes["front-lens"].position.z).toBeGreaterThan(z);
+      runtime.setExplode(0);
+      expect(runtime.nodes["front-lens"].position.z).toBeCloseTo(z, 5);
+      runtime.setFocusRing(.45);
+      expect(runtime.nodes["collar-outer"].rotation.z).toBeCloseTo(.45, 5);
+      expect(runtime.pickPart(runtime.meshes["front-lens"])?.name).toBe("front-lens");
+      expect(runtime.pickPart(new THREE.Object3D())).toBeNull();
+    } finally { runtime.dispose(); }
+  });
+});
