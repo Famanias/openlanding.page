@@ -47,10 +47,7 @@ export default function ZenoLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${bodoni_Moda.variable} ${cormorant_Garamond.variable} ${dM_Sans.variable} ${playfair_Display.variable} dark scroll-smooth`}
-    >
+    <html lang="en" className={`dark ${bodoni_Moda.variable} ${cormorant_Garamond.variable} ${dM_Sans.variable} ${playfair_Display.variable} scroll-smooth`}>
       <body className="bg-[#111117] text-[#F2F0EB] antialiased selection:bg-[#A58AFF]/30 selection:text-[#F2F0EB] overflow-x-hidden">
         {children}
       </body>

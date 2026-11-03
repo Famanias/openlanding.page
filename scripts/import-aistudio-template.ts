@@ -277,7 +277,8 @@ function copyDirectoryRecursive(src: string, dest: string, slug: string, destTem
       }
 
       // Rewrite asset paths: /assets/, ./assets/, ../assets/, assets/ -> /templates/<slug>/
-      content = content.replace(/(["'(])(\.\.?\/)?assets\//g, `$1/templates/${slug}/`);
+      content = content.replace(/\/assets\//g, `/templates/${slug}/`);
+      content = content.replace(/(["\'(])(?:\.{1,2}\/)?assets\//g, `$1/templates/${slug}/`);
 
       // Rewrite Vite "@/..." alias to relative path within the template folder
       if (destTemplateDir && /\.(tsx?|jsx?)$/.test(entry.name)) {
@@ -621,24 +622,26 @@ Build a complete, responsive, interaction-rich landing page for **${meta.brandNa
   if (fs.existsSync(testPath)) {
     let content = fs.readFileSync(testPath, "utf-8");
 
-    const lengthMatch = content.match(/expect\(TEMPLATES\)\.toHaveLength\((\d+)\);/);
-    if (lengthMatch) {
-      const currentLen = parseInt(lengthMatch[1], 10);
-      content = content.replace(`toHaveLength(${currentLen})`, `toHaveLength(${currentLen + 1})`);
-    }
+    if (!content.includes(`"${slug}"`)) {
+      const lengthMatch = content.match(/expect\(TEMPLATES\)\.toHaveLength\((\d+)\);/);
+      if (lengthMatch) {
+        const currentLen = parseInt(lengthMatch[1], 10);
+        content = content.replace(`toHaveLength(${currentLen})`, `toHaveLength(${currentLen + 1})`);
+      }
 
-    const slugsMatch = content.match(/expect\(slugs\)\.toEqual\(\[([^\]]+)\]\);/);
-    if (slugsMatch && !slugsMatch[1].includes(`"${slug}"`)) {
-      content = content.replace(/expect\(slugs\)\.toEqual\(\[/, `expect(slugs).toEqual(["${slug}", `);
-    }
+      const slugsMatch = content.match(/expect\(slugs\)\.toEqual\(\[([^\]]+)\]\);/);
+      if (slugsMatch && !slugsMatch[1].includes(`"${slug}"`)) {
+        content = content.replace(/expect\(slugs\)\.toEqual\(\[/, `expect(slugs).toEqual(["${slug}", `);
+      }
 
-    const argonMatch = content.match(/const argonSlugs = \[([^\]]+)\];/);
-    if (argonMatch && !argonMatch[1].includes(`"${slug}"`)) {
-      content = content.replace(/const argonSlugs = \[/, `const argonSlugs = ["${slug}", `);
-    }
+      const argonMatch = content.match(/const argonSlugs = \[([^\]]+)\];/);
+      if (argonMatch && !argonMatch[1].includes(`"${slug}"`)) {
+        content = content.replace(/const argonSlugs = \[/, `const argonSlugs = ["${slug}", `);
+      }
 
-    fs.writeFileSync(testPath, content, "utf-8");
-    console.log(`[import] Updated src/app/(index)/data/templates.test.ts`);
+      fs.writeFileSync(testPath, content, "utf-8");
+      console.log(`[import] Updated src/app/(index)/data/templates.test.ts`);
+    }
   }
 
   // 5. tests/e2e/templates.ts
@@ -738,7 +741,8 @@ export function importTemplate() {
     appContent = appContent.replace(/import\s+['"][^'"]*(?:index|App)\.css['"];?\r?\n?/g, "");
     appContent = appContent.replace(/\bfunction\s+App\b/, `function ${pascalSlug}App`);
     appContent = appContent.replace(/\bconst\s+App\b/, `const ${pascalSlug}App`);
-    appContent = appContent.replace(/(["'(])(\.\.?\/)?assets\//g, `$1/templates/${slug}/`);
+    appContent = appContent.replace(/\/assets\//g, `/templates/${slug}/`);
+    appContent = appContent.replace(/(["\'(])(?:\.{1,2}\/)?assets\//g, `$1/templates/${slug}/`);
     appContent = appContent.replace(/from\s+['"]@\/([^'"]+)['"]/g, `from './$1'`);
     appContent = appContent.replace(/import\s+['"]@\/([^'"]+)['"]/g, `import './$1'`);
     fs.writeFileSync(path.join(destTemplateDir, `${pascalSlug}App.tsx`), appContent, "utf-8");
@@ -762,7 +766,8 @@ export function importTemplate() {
         if (/\.(tsx|jsx)$/.test(entry.name) && !content.includes("'use client'") && !content.includes('"use client"')) {
           content = `'use client';\n\n${content}`;
         }
-        content = content.replace(/(["'(])(\.\.?\/)?assets\//g, `$1/templates/${slug}/`);
+        content = content.replace(/\/assets\//g, `/templates/${slug}/`);
+      content = content.replace(/(["\'(])(?:\.{1,2}\/)?assets\//g, `$1/templates/${slug}/`);
         content = content.replace(/from\s+['"]@\/([^'"]+)['"]/g, `from './$1'`);
         content = content.replace(/import\s+['"]@\/([^'"]+)['"]/g, `import './$1'`);
         fs.writeFileSync(path.join(destTemplateDir, entry.name), content, "utf-8");
@@ -777,7 +782,8 @@ export function importTemplate() {
     const rawCss = fs.readFileSync(srcCssPath, "utf-8");
     cssContent = rawCss.includes('@import "tailwindcss"') ? rawCss : `${cssContent}${rawCss}`;
   }
-  cssContent = cssContent.replace(/(["'(])(\.\.?\/)?assets\//g, `$1/templates/${slug}/`);
+  cssContent = cssContent.replace(/\/assets\//g, `/templates/${slug}/`);
+  cssContent = cssContent.replace(/(["\'(])(?:\.{1,2}\/)?assets\//g, `$1/templates/${slug}/`);
 
   // Map Google font families to Next.js CSS variables
   for (const font of meta.fonts) {

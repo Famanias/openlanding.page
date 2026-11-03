@@ -223,8 +223,8 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
           </p>
         </div>
 
-        {/* Asymmetric Two-World Case Study Composition */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end mt-4 lg:-mt-8">
+        {/* Asymmetric Two-World Case Study Composition with Transparent Cutout Collages */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end mt-4 lg:-mt-8 perspective-stage">
           {/* PROJECT 01: AUREN HOUSE (Spans 7 of 12 cols, sits wider and lower on left-center) */}
           <article
             onMouseEnter={() => setHoveredProject(auren.id)}
@@ -241,7 +241,7 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
               </span>
             </div>
 
-            {/* Interactive Artwork Trigger */}
+            {/* Interactive Transparent Cutout Collage Trigger */}
             <div
               onClick={() => onSelectProject(auren)}
               role="button"
@@ -253,18 +253,21 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
                   onSelectProject(auren);
                 }
               }}
-              className="zeno-focus group relative w-full aspect-[1192/515] cursor-pointer overflow-hidden transition-all duration-500 ring-1 ring-[#F2F0EB]/12 hover:ring-[#E6DEC8]/55 shadow-[0_24px_60px_rgba(0,0,0,0.75)]"
+              className="zeno-focus group relative w-full aspect-[1130/500] cursor-pointer transition-transform duration-500 ease-out hover:-translate-y-1.5"
             >
-              <img
-                src={auren.artwork}
-                alt={auren.artworkAlt}
-                width={1192}
-                height={504}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center crop-blend-world transition-transform duration-700 ease-out group-hover:scale-[1.018]"
-              />
+              <picture className="w-full h-full block">
+                <source srcSet={auren.artwork} type="image/webp" />
+                <img
+                  src={auren.artwork.replace(/\.webp/, '.png')}
+                  alt={auren.artworkAlt}
+                  width={1130}
+                  height={500}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-contain object-center cutout-shadow-world select-none transition-transform duration-700 ease-out group-hover:scale-[1.018]"
+                />
+              </picture>
             </div>
 
             {/* Project 01 Live Metadata & CTA Row matching reference 03 */}
@@ -303,13 +306,13 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
             </div>
           </article>
 
-          {/* PROJECT 02: MORROW FIELD (Spans 5 of 12 cols, rises higher on right with tall posters) */}
+          {/* PROJECT 02: MORROW FIELD (Spans 5 of 12 cols, rises higher on right with tall transparent poster stack) */}
           <article
             onMouseEnter={() => setHoveredProject(morrow.id)}
             onMouseLeave={() => setHoveredProject(null)}
             className="work-world-morrow lg:col-span-5 flex flex-col relative"
           >
-            {/* Interactive Artwork Trigger */}
+            {/* Interactive Transparent Cutout Collage Trigger */}
             <div
               onClick={() => onSelectProject(morrow)}
               role="button"
@@ -321,18 +324,21 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
                   onSelectProject(morrow);
                 }
               }}
-              className="zeno-focus group relative w-full lg:w-[88%] lg:ml-auto aspect-[810/880] cursor-pointer overflow-hidden transition-all duration-500 ring-1 ring-[#F2F0EB]/12 hover:ring-[#5367F9]/75 shadow-[0_28px_68px_rgba(0,0,0,0.8)]"
+              className="zeno-focus group relative w-full lg:w-[88%] lg:ml-auto aspect-[605/809] cursor-pointer transition-transform duration-500 ease-out hover:-translate-y-2"
             >
-              <img
-                src={morrow.artwork}
-                alt={morrow.artworkAlt}
-                width={810}
-                height={1080}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top crop-blend-world transition-transform duration-700 ease-out group-hover:-translate-y-1.5 group-hover:scale-[1.015]"
-              />
+              <picture className="w-full h-full block">
+                <source srcSet={morrow.artwork} type="image/webp" />
+                <img
+                  src={morrow.artwork.replace(/\.webp$/, '.png')}
+                  alt={morrow.artworkAlt}
+                  width={605}
+                  height={809}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-contain object-top cutout-shadow-world select-none transition-transform duration-700 ease-out group-hover:scale-[1.018]"
+                />
+              </picture>
             </div>
 
             {/* Project 02 Live Metadata & CTA Row matching reference 03 */}

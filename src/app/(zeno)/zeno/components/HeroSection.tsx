@@ -81,7 +81,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenStudio }) => {
       });
     }, sectionRef);
 
-    // Subtle pointer parallax on fine-pointer desktop screens
+    // Subtle 3D pointer parallax & tilt on fine-pointer desktop screens
     const isFinePointer = window.matchMedia('(pointer: fine) and (min-width: 1024px)').matches;
     let handlePointerMove: ((e: MouseEvent) => void) | null = null;
 
@@ -89,13 +89,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenStudio }) => {
       const xTo = gsap.quickTo(collageWrapRef.current, 'x', { duration: 0.6, ease: 'power2.out' });
       const yTo = gsap.quickTo(collageWrapRef.current, 'y', { duration: 0.6, ease: 'power2.out' });
       const rotTo = gsap.quickTo(collageWrapRef.current, 'rotation', { duration: 0.7, ease: 'power2.out' });
+      const rotYTo = gsap.quickTo(collageWrapRef.current, 'rotationY', { duration: 0.7, ease: 'power2.out' });
+      const rotXTo = gsap.quickTo(collageWrapRef.current, 'rotationX', { duration: 0.7, ease: 'power2.out' });
 
       handlePointerMove = (e: MouseEvent) => {
         const nx = (e.clientX / window.innerWidth - 0.5) * 2;
         const ny = (e.clientY / window.innerHeight - 0.5) * 2;
-        xTo(nx * 11);
+        xTo(nx * 12);
         yTo(ny * 9);
-        rotTo(nx * 0.9);
+        rotTo(nx * 0.85);
+        rotYTo(nx * 3.2);
+        rotXTo(-ny * 2.6);
       };
 
       window.addEventListener('mousemove', handlePointerMove, { passive: true });
@@ -194,40 +198,49 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenStudio }) => {
           </div>
         </div>
 
-        {/* Right Column (~46% -> 5 of 12 cols): Layered Hero Collage Artwork + Live SVG Marks */}
-        <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end">
+        {/* Right Column (~46% -> 5 of 12 cols): Transparent Hero Cutout Collage + Coded Ambient Glow & SVG Marks */}
+        <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end perspective-stage">
+          {/* Coded Ambient Cobalt/Violet Backlight behind Transparent Collage */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute w-[78%] h-[78%] rounded-full bg-[radial-gradient(circle_at_52%_48%,rgba(83,103,249,0.22),rgba(165,138,255,0.08)_52%,transparent_75%)] blur-2xl"
+          />
+
           <div
             ref={collageWrapRef}
-            className="hero-collage-group relative w-full max-w-[580px] lg:max-w-[740px] aspect-[1000/1030]"
+            className="hero-collage-group relative w-full max-w-[580px] lg:max-w-[740px] aspect-[789/853]"
           >
-            {/* Primary Art-Directed Collage Crop */}
-            <img
-              src="/templates/zeno/hero-collage.webp"
-              alt="ZENO Studio System 04 layered editorial collage with monochrome architecture, cobalt arc, folded silver ribbon, and oversized serif Z"
-              width={1000}
-              height={1030}
-              fetchPriority="high"
-              decoding="async"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-contain crop-blend-hero select-none pointer-events-none drop-shadow-[0_24px_48px_rgba(0,0,0,0.65)]"
-            />
+            {/* Isolated Transparent Hero Collage Asset (.webp with .png fallback) */}
+            <picture>
+              <source srcSet="/templates/zeno/hero-collage.webp" type="image/webp" />
+              <img
+                src="/templates/zeno/hero-collage.png"
+                alt="ZENO Studio System 04 transparent layered editorial collage with monochrome architecture, cobalt arc, folded silver ribbon, and oversized serif Z"
+                width={789}
+                height={853}
+                fetchPriority="high"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-contain cutout-shadow-hero select-none pointer-events-none"
+              />
+            </picture>
 
             {/* Live SVG editorial registration marks & crosshair overlays */}
             <svg
               aria-hidden="true"
-              viewBox="0 0 600 620"
+              viewBox="0 0 600 648"
               className="pointer-events-none absolute inset-0 w-full h-full overflow-visible"
             >
               {/* Top-left subtle crosshair */}
-              <g className="hero-svg-mark" opacity="0.45">
-                <circle cx="24" cy="36" r="6" stroke="#F2F0EB" strokeWidth="1" fill="none" />
-                <line x1="14" y1="36" x2="34" y2="36" stroke="#F2F0EB" strokeWidth="1" />
-                <line x1="24" y1="26" x2="24" y2="46" stroke="#F2F0EB" strokeWidth="1" />
+              <g className="hero-svg-mark" opacity="0.52">
+                <circle cx="18" cy="28" r="6" stroke="#F2F0EB" strokeWidth="1" fill="none" />
+                <line x1="8" y1="28" x2="28" y2="28" stroke="#F2F0EB" strokeWidth="1" />
+                <line x1="18" y1="18" x2="18" y2="38" stroke="#F2F0EB" strokeWidth="1" />
               </g>
               {/* Bottom-right registration target near Z */}
-              <g className="hero-svg-mark" opacity="0.55">
-                <line x1="568" y1="585" x2="588" y2="585" stroke="#A58AFF" strokeWidth="1.2" />
-                <line x1="578" y1="575" x2="578" y2="595" stroke="#A58AFF" strokeWidth="1.2" />
+              <g className="hero-svg-mark" opacity="0.68">
+                <line x1="564" y1="606" x2="586" y2="606" stroke="#A58AFF" strokeWidth="1.3" />
+                <line x1="575" y1="595" x2="575" y2="617" stroke="#A58AFF" strokeWidth="1.3" />
               </g>
             </svg>
           </div>

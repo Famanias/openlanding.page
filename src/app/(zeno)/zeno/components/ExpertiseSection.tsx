@@ -48,27 +48,26 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
 
       // Four service nodes enter from 4 distinct directional vectors
       const vectors = [
-        { selector: '.service-node-strategy', x: -28, y: -22 },
-        { selector: '.service-node-identity', x: 28, y: -22 },
-        { selector: '.service-node-campaigns', x: -28, y: 24 },
-        { selector: '.service-node-digital', x: 28, y: 24 },
+        { selector: '.service-node-strategy', x: -20, y: -16 },
+        { selector: '.service-node-identity', x: 20, y: -16 },
+        { selector: '.service-node-campaigns', x: -20, y: 18 },
+        { selector: '.service-node-digital', x: 20, y: 18 },
       ];
 
       vectors.forEach((v, idx) => {
         gsap.fromTo(
           v.selector,
-          { x: v.x, y: v.y, opacity: 0 },
+          { x: v.x, y: v.y },
           {
             x: 0,
             y: 0,
-            opacity: 1,
-            duration: 0.8,
-            delay: idx * 0.08,
+            duration: 0.75,
+            delay: idx * 0.06,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: 'top 70%',
-              toggleActions: 'play none none reverse',
+              start: 'top 82%',
+              toggleActions: 'play none none none',
             },
           }
         );
@@ -356,15 +355,16 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
               />
             </svg>
 
-            {/* 2x2 Connected Discipline Modules */}
+            {/* 2x2 Connected Discipline Modules with Transparent Cutout Artworks */}
             <div
               role="group"
               aria-label="ZENO four core creative disciplines"
-              className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-10 lg:gap-y-12"
+              className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-10 lg:gap-y-12 perspective-stage"
             >
               {servicesData.map((service) => {
                 const isSelected = activeServiceId === service.id;
                 const isTopRow = service.labelPosition === 'above';
+                const pngFallback = service.artwork.replace(/\.webp$/, '.png');
 
                 return (
                   <button
@@ -377,8 +377,8 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
                       isTopRow ? 'justify-start' : 'justify-end'
                     } transition-all duration-300 cursor-pointer ${
                       isSelected
-                        ? 'opacity-100 -translate-y-1.5'
-                        : 'opacity-82 hover:opacity-100 hover:-translate-y-1'
+                        ? 'opacity-100 -translate-y-2'
+                        : 'opacity-90 hover:opacity-100 hover:-translate-y-1'
                     }`}
                   >
                     {/* Top Row Labels sit ABOVE artwork (01 Strategy & 02 Identity) */}
@@ -407,24 +407,39 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
                       </div>
                     )}
 
-                    {/* Artwork Frame */}
-                    <div
-                      className={`relative w-full aspect-[410/300] overflow-hidden transition-all duration-300 ${
-                        isSelected
-                          ? 'ring-1 ring-[#A58AFF]/70 shadow-[0_20px_40px_rgba(0,0,0,0.65)]'
-                          : 'ring-1 ring-[#F2F0EB]/12'
-                      }`}
-                    >
-                      <img
-                        src={service.artwork}
-                        alt={service.artworkAlt}
-                        width={410}
-                        height={300}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover crop-blend-card transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                    {/* Transparent Cutout Artwork Stage (no opaque box clipping so SVG ribbons & grid pass behind) */}
+                    <div className="relative w-full aspect-[410/300] flex items-center justify-center transition-transform duration-500 ease-out group-hover:scale-[1.025]">
+                      {/* Subtle registration corner ticks */}
+                      <span
+                        aria-hidden="true"
+                        className={`pointer-events-none absolute -top-1.5 -left-1.5 w-2.5 h-2.5 border-t border-l transition-colors duration-300 ${
+                          isSelected ? 'border-[#A58AFF]' : 'border-[#F2F0EB]/20'
+                        }`}
                       />
+                      <span
+                        aria-hidden="true"
+                        className={`pointer-events-none absolute -bottom-1.5 -right-1.5 w-2.5 h-2.5 border-b border-r transition-colors duration-300 ${
+                          isSelected ? 'border-[#A58AFF]' : 'border-[#F2F0EB]/20'
+                        }`}
+                      />
+
+                      <picture className="w-full h-full block">
+                        <source srcSet={service.artwork} type="image/webp" />
+                        <img
+                          src={pngFallback}
+                          alt={service.artworkAlt}
+                          width={410}
+                          height={300}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          className={`w-full h-full object-contain select-none transition-all duration-500 ease-out ${
+                            isSelected
+                              ? 'cutout-shadow-card-active scale-[1.015]'
+                              : 'cutout-shadow-card'
+                          }`}
+                        />
+                      </picture>
                     </div>
 
                     {/* Bottom Row Labels sit BELOW artwork (03 Campaigns & 04 Digital) */}

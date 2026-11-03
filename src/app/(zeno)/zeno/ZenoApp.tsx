@@ -12,7 +12,7 @@ import { ProjectDetailDialog } from './components/ProjectDetailDialog';
 import { ContactDialog } from './components/ContactDialog';
 import { ProjectItem } from './data/projects';
 
-export default function App() {
+export default function ZenoApp() {
   const [studioOpen, setStudioOpen] = useState(false);
   const [approachOpen, setApproachOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);

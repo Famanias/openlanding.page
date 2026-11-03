@@ -47,13 +47,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         }
       );
 
-      // Giant cobalt ring subtle entrance without breaking its upper-right arc
+      // Giant cobalt ring subtle entrance and orbital drift without breaking its upper-right arc
       if (cobaltRingRef.current) {
         gsap.fromTo(
           cobaltRingRef.current,
-          { opacity: 0.75 },
+          { opacity: 0.78 },
           {
-            opacity: 0.96,
+            opacity: 0.98,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -64,6 +64,23 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
           }
         );
       }
+
+      gsap.fromTo(
+        '.cta-transparent-ring-asset',
+        { rotation: -4, opacity: 0.85 },
+        {
+          rotation: 0,
+          opacity: 1,
+          ease: 'none',
+          svgOrigin: '1322 545',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 90%',
+            end: 'bottom bottom',
+            scrub: 0.6,
+          },
+        }
+      );
     }, sectionRef);
 
     // Subtle magnetic hover on primary CTA button for desktop pointer
@@ -129,7 +146,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     >
       {/* UPPER CTA AREA: Starts at y=0 (touching #work bottom) with locked 1920:880 desktop aspect ratio so circle is round, top is never clipped, and spine at x=1322 never detaches */}
       <div className="relative w-full lg:aspect-[1920/880] flex flex-col justify-center pt-16 sm:pt-20 lg:pt-16 pb-12 sm:pb-16 lg:pb-14 [clip-path:inset(-300px_0px_0px_0px)]">
-        {/* Single Unified SVG for Continuous Violet Signal Spine, Coordinate Frame, and Giant Cobalt Ring */}
+        {/* Single Unified SVG for Continuous Violet Signal Spine, Coordinate Frame, and Transparent CTA Ring */}
         <svg
           aria-hidden="true"
           viewBox="0 0 1920 880"
@@ -193,85 +210,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
             <text x="1334" y="869">258  X0238</text>
           </g>
 
-          {/* Outer & Inner Concentric Registration Hairlines matching reference 04 */}
-          <circle
-            cx="1322"
-            cy="545"
-            r="465"
-            fill="none"
-            stroke="rgba(242,240,235,0.16)"
-            strokeWidth="1"
+          {/* Standalone Self-Generated Transparent CTA Ring Asset centered at (1322, 545) with 1000x1000 span (r=400 matches 440/1100*1000) */}
+          <image
+            href="/templates/zeno/cta-ring.webp"
+            x="822"
+            y="45"
+            width="1000"
+            height="1000"
+            className="cta-transparent-ring-asset"
           />
-          <circle
-            cx="1322"
-            cy="545"
-            r="448"
-            fill="none"
-            stroke="rgba(242,240,235,0.24)"
-            strokeWidth="1.2"
-          />
-          <circle
-            cx="1322"
-            cy="545"
-            r="348"
-            fill="none"
-            stroke="rgba(242,240,235,0.22)"
-            strokeWidth="1.1"
-          />
-          <circle
-            cx="1322"
-            cy="545"
-            r="328"
-            fill="none"
-            stroke="rgba(242,240,235,0.14)"
-            strokeWidth="1"
-          />
-          <circle
-            cx="1322"
-            cy="545"
-            r="258"
-            fill="none"
-            stroke="rgba(242,240,235,0.18)"
-            strokeWidth="1"
-          />
-          <circle
-            cx="1322"
-            cy="575"
-            r="105"
-            fill="none"
-            stroke="rgba(242,240,235,0.22)"
-            strokeWidth="1.1"
-          />
-
-          {/* THE GIANT COBALT CIRCULAR ARC (full top clearance at y=119, cropped at bottom y=880 by footer rule) */}
-          <circle
-            ref={cobaltRingRef}
-            cx="1322"
-            cy="545"
-            r="400"
-            fill="none"
-            stroke="url(#ctaRingGrad)"
-            strokeWidth="52"
-            strokeLinecap="butt"
-            opacity="0.96"
-          />
-
-          {/* Inner fine line inside cobalt ring */}
-          <circle
-            cx="1322"
-            cy="545"
-            r="400"
-            fill="none"
-            stroke="rgba(242,240,235,0.28)"
-            strokeWidth="1"
-          />
-
-          {/* Violet 6-Pointed Asterisk / Star Marker inside the right side of the Cobalt Ring */}
-          <g transform="translate(1718, 578)" stroke="#A58AFF" strokeWidth="4.5" strokeLinecap="round">
-            <line x1="0" y1="-20" x2="0" y2="20" />
-            <line x1="-17" y1="-10" x2="17" y2="10" />
-            <line x1="-17" y1="10" x2="17" y2="-10" />
-          </g>
 
           {/* Continuous Violet Signal Path entering straight down at x=1322, y=0 from #work */}
           <path

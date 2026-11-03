@@ -61,10 +61,7 @@ export default function ZenoLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${bodoni_Moda.variable} ${cormorant_Garamond.variable} ${dM_Sans.variable} ${playfair_Display.variable} dark scroll-smooth`}
-    >
+    <html lang="en" className={`dark ${bodoni_Moda.variable} ${cormorant_Garamond.variable} ${dM_Sans.variable} ${playfair_Display.variable} scroll-smooth`}>
       <body className="bg-[#111117] text-[#F2F0EB] antialiased selection:bg-[#A58AFF]/30 selection:text-[#F2F0EB] overflow-x-hidden">
         {children}
       </body>
@@ -206,7 +203,7 @@ export default function ZenoPage() {
   --header-h: clamp(68px, 7vw, 104px);
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --font-display: var(--font-cormorant-garamond), var(--font-bodoni-moda), 'Cormorant Garamond', 'Bodoni Moda', Georgia, serif;
+  --font-display: var(--font-cormorant-garamond), 'Cormorant Garamond', var(--font-bodoni-moda), 'Bodoni Moda', Georgia, serif;
   --font-sans: var(--font-dm-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -292,22 +289,33 @@ body::before {
   text-shadow: 3px 2px 0px rgba(165, 138, 255, 0.2), -1.5px -1px 0px rgba(83, 103, 249, 0.18);
 }
 
-/* Crop Edge Blending so raster crops merge seamlessly into #111117 */
-.crop-blend-hero {
-  mask-image: radial-gradient(115% 115% at 52% 50%, #000 83%, transparent 100%);
-  -webkit-mask-image: radial-gradient(115% 115% at 52% 50%, #000 83%, transparent 100%);
+/* Transparent Cutout Contour Shadows & 3D Depth Layering */
+.cutout-shadow-hero {
+  filter: drop-shadow(0 28px 52px rgba(0, 0, 0, 0.78))
+          drop-shadow(0 6px 18px rgba(83, 103, 249, 0.16));
+  will-change: transform;
 }
 
-.crop-blend-card {
-  mask-image: linear-gradient(to right, transparent 0%, #000 3%, #000 97%, transparent 100%),
-              linear-gradient(to bottom, transparent 0%, #000 3%, #000 97%, transparent 100%);
-  mask-composite: intersect;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 3%, #000 97%, transparent 100%);
+.cutout-shadow-card {
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.76))
+          drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
+  will-change: transform;
 }
 
-.crop-blend-world {
-  mask-image: radial-gradient(120% 120% at 50% 50%, #000 86%, transparent 100%);
-  -webkit-mask-image: radial-gradient(120% 120% at 50% 50%, #000 86%, transparent 100%);
+.cutout-shadow-card-active {
+  filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.86))
+          drop-shadow(0 0 26px rgba(165, 138, 255, 0.22));
+  will-change: transform;
+}
+
+.cutout-shadow-world {
+  filter: drop-shadow(0 28px 56px rgba(0, 0, 0, 0.82))
+          drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
+  will-change: transform;
+}
+
+.perspective-stage {
+  perspective: 1200px;
 }
 
 /* Focus accessibility ring */
@@ -338,7 +346,7 @@ import { ProjectDetailDialog } from './components/ProjectDetailDialog';
 import { ContactDialog } from './components/ContactDialog';
 import { ProjectItem } from './data/projects';
 
-export default function App() {
+export default function ZenoApp() {
   const [studioOpen, setStudioOpen] = useState(false);
   const [approachOpen, setApproachOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
@@ -879,13 +887,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         }
       );
 
-      // Giant cobalt ring subtle entrance without breaking its upper-right arc
+      // Giant cobalt ring subtle entrance and orbital drift without breaking its upper-right arc
       if (cobaltRingRef.current) {
         gsap.fromTo(
           cobaltRingRef.current,
-          { opacity: 0.75 },
+          { opacity: 0.78 },
           {
-            opacity: 0.96,
+            opacity: 0.98,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -896,6 +904,23 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
           }
         );
       }
+
+      gsap.fromTo(
+        '.cta-transparent-ring-asset',
+        { rotation: -4, opacity: 0.85 },
+        {
+          rotation: 0,
+          opacity: 1,
+          ease: 'none',
+          svgOrigin: '1322 545',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 90%',
+            end: 'bottom bottom',
+            scrub: 0.6,
+          },
+        }
+      );
     }, sectionRef);
 
     // Subtle magnetic hover on primary CTA button for desktop pointer
@@ -961,7 +986,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     >
       {/* UPPER CTA AREA: Starts at y=0 (touching #work bottom) with locked 1920:880 desktop aspect ratio so circle is round, top is never clipped, and spine at x=1322 never detaches */}
       <div className="relative w-full lg:aspect-[1920/880] flex flex-col justify-center pt-16 sm:pt-20 lg:pt-16 pb-12 sm:pb-16 lg:pb-14 [clip-path:inset(-300px_0px_0px_0px)]">
-        {/* Single Unified SVG for Continuous Violet Signal Spine, Coordinate Frame, and Giant Cobalt Ring */}
+        {/* Single Unified SVG for Continuous Violet Signal Spine, Coordinate Frame, and Transparent CTA Ring */}
         <svg
           aria-hidden="true"
           viewBox="0 0 1920 880"
@@ -1025,85 +1050,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
             <text x="1334" y="869">258  X0238</text>
           </g>
 
-          {/* Outer & Inner Concentric Registration Hairlines matching reference 04 */}
-          <circle
-            cx="1322"
-            cy="545"
-            r="465"
-            fill="none"
-            stroke="rgba(242,240,235,0.16)"
-            strokeWidth="1"
+          {/* Standalone Self-Generated Transparent CTA Ring Asset centered at (1322, 545) with 1000x1000 span (r=400 matches 440/1100*1000) */}
+          <image
+            href="/templates/zeno/cta-ring.webp"
+            x="822"
+            y="45"
+            width="1000"
+            height="1000"
+            className="cta-transparent-ring-asset"
           />
-          <circle
-            cx="1322"
-            cy="545"
-            r="448"
-            fill="none"
-            stroke="rgba(242,240,235,0.24)"
-            strokeWidth="1.2"
-          />
-          <circle
-            cx="1322"
-            cy="545"
-            r="348"
-            fill="none"
-            stroke="rgba(242,240,235,0.22)"
-            strokeWidth="1.1"
-          />
-          <circle
-            cx="1322"
-            cy="545"
-            r="328"
-            fill="none"
-            stroke="rgba(242,240,235,0.14)"
-            strokeWidth="1"
-          />
-          <circle
-            cx="1322"
-            cy="545"
-            r="258"
-            fill="none"
-            stroke="rgba(242,240,235,0.18)"
-            strokeWidth="1"
-          />
-          <circle
-            cx="1322"
-            cy="575"
-            r="105"
-            fill="none"
-            stroke="rgba(242,240,235,0.22)"
-            strokeWidth="1.1"
-          />
-
-          {/* THE GIANT COBALT CIRCULAR ARC (full top clearance at y=119, cropped at bottom y=880 by footer rule) */}
-          <circle
-            ref={cobaltRingRef}
-            cx="1322"
-            cy="545"
-            r="400"
-            fill="none"
-            stroke="url(#ctaRingGrad)"
-            strokeWidth="52"
-            strokeLinecap="butt"
-            opacity="0.96"
-          />
-
-          {/* Inner fine line inside cobalt ring */}
-          <circle
-            cx="1322"
-            cy="545"
-            r="400"
-            fill="none"
-            stroke="rgba(242,240,235,0.28)"
-            strokeWidth="1"
-          />
-
-          {/* Violet 6-Pointed Asterisk / Star Marker inside the right side of the Cobalt Ring */}
-          <g transform="translate(1718, 578)" stroke="#A58AFF" strokeWidth="4.5" strokeLinecap="round">
-            <line x1="0" y1="-20" x2="0" y2="20" />
-            <line x1="-17" y1="-10" x2="17" y2="10" />
-            <line x1="-17" y1="10" x2="17" y2="-10" />
-          </g>
 
           {/* Continuous Violet Signal Path entering straight down at x=1322, y=0 from #work */}
           <path
@@ -1360,27 +1315,26 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
 
       // Four service nodes enter from 4 distinct directional vectors
       const vectors = [
-        { selector: '.service-node-strategy', x: -28, y: -22 },
-        { selector: '.service-node-identity', x: 28, y: -22 },
-        { selector: '.service-node-campaigns', x: -28, y: 24 },
-        { selector: '.service-node-digital', x: 28, y: 24 },
+        { selector: '.service-node-strategy', x: -20, y: -16 },
+        { selector: '.service-node-identity', x: 20, y: -16 },
+        { selector: '.service-node-campaigns', x: -20, y: 18 },
+        { selector: '.service-node-digital', x: 20, y: 18 },
       ];
 
       vectors.forEach((v, idx) => {
         gsap.fromTo(
           v.selector,
-          { x: v.x, y: v.y, opacity: 0 },
+          { x: v.x, y: v.y },
           {
             x: 0,
             y: 0,
-            opacity: 1,
-            duration: 0.8,
-            delay: idx * 0.08,
+            duration: 0.75,
+            delay: idx * 0.06,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: 'top 70%',
-              toggleActions: 'play none none reverse',
+              start: 'top 82%',
+              toggleActions: 'play none none none',
             },
           }
         );
@@ -1668,15 +1622,16 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
               />
             </svg>
 
-            {/* 2x2 Connected Discipline Modules */}
+            {/* 2x2 Connected Discipline Modules with Transparent Cutout Artworks */}
             <div
               role="group"
               aria-label="ZENO four core creative disciplines"
-              className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-10 lg:gap-y-12"
+              className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-10 lg:gap-y-12 perspective-stage"
             >
               {servicesData.map((service) => {
                 const isSelected = activeServiceId === service.id;
                 const isTopRow = service.labelPosition === 'above';
+                const pngFallback = service.artwork.replace(/\.webp$/, '.png');
 
                 return (
                   <button
@@ -1689,8 +1644,8 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
                       isTopRow ? 'justify-start' : 'justify-end'
                     } transition-all duration-300 cursor-pointer ${
                       isSelected
-                        ? 'opacity-100 -translate-y-1.5'
-                        : 'opacity-82 hover:opacity-100 hover:-translate-y-1'
+                        ? 'opacity-100 -translate-y-2'
+                        : 'opacity-90 hover:opacity-100 hover:-translate-y-1'
                     }`}
                   >
                     {/* Top Row Labels sit ABOVE artwork (01 Strategy & 02 Identity) */}
@@ -1719,24 +1674,39 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
                       </div>
                     )}
 
-                    {/* Artwork Frame */}
-                    <div
-                      className={`relative w-full aspect-[410/300] overflow-hidden transition-all duration-300 ${
-                        isSelected
-                          ? 'ring-1 ring-[#A58AFF]/70 shadow-[0_20px_40px_rgba(0,0,0,0.65)]'
-                          : 'ring-1 ring-[#F2F0EB]/12'
-                      }`}
-                    >
-                      <img
-                        src={service.artwork}
-                        alt={service.artworkAlt}
-                        width={410}
-                        height={300}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover crop-blend-card transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                    {/* Transparent Cutout Artwork Stage (no opaque box clipping so SVG ribbons & grid pass behind) */}
+                    <div className="relative w-full aspect-[410/300] flex items-center justify-center transition-transform duration-500 ease-out group-hover:scale-[1.025]">
+                      {/* Subtle registration corner ticks */}
+                      <span
+                        aria-hidden="true"
+                        className={`pointer-events-none absolute -top-1.5 -left-1.5 w-2.5 h-2.5 border-t border-l transition-colors duration-300 ${
+                          isSelected ? 'border-[#A58AFF]' : 'border-[#F2F0EB]/20'
+                        }`}
                       />
+                      <span
+                        aria-hidden="true"
+                        className={`pointer-events-none absolute -bottom-1.5 -right-1.5 w-2.5 h-2.5 border-b border-r transition-colors duration-300 ${
+                          isSelected ? 'border-[#A58AFF]' : 'border-[#F2F0EB]/20'
+                        }`}
+                      />
+
+                      <picture className="w-full h-full block">
+                        <source srcSet={service.artwork} type="image/webp" />
+                        <img
+                          src={pngFallback}
+                          alt={service.artworkAlt}
+                          width={410}
+                          height={300}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          className={`w-full h-full object-contain select-none transition-all duration-500 ease-out ${
+                            isSelected
+                              ? 'cutout-shadow-card-active scale-[1.015]'
+                              : 'cutout-shadow-card'
+                          }`}
+                        />
+                      </picture>
                     </div>
 
                     {/* Bottom Row Labels sit BELOW artwork (03 Campaigns & 04 Digital) */}
@@ -1862,7 +1832,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenStudio }) => {
       });
     }, sectionRef);
 
-    // Subtle pointer parallax on fine-pointer desktop screens
+    // Subtle 3D pointer parallax & tilt on fine-pointer desktop screens
     const isFinePointer = window.matchMedia('(pointer: fine) and (min-width: 1024px)').matches;
     let handlePointerMove: ((e: MouseEvent) => void) | null = null;
 
@@ -1870,13 +1840,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenStudio }) => {
       const xTo = gsap.quickTo(collageWrapRef.current, 'x', { duration: 0.6, ease: 'power2.out' });
       const yTo = gsap.quickTo(collageWrapRef.current, 'y', { duration: 0.6, ease: 'power2.out' });
       const rotTo = gsap.quickTo(collageWrapRef.current, 'rotation', { duration: 0.7, ease: 'power2.out' });
+      const rotYTo = gsap.quickTo(collageWrapRef.current, 'rotationY', { duration: 0.7, ease: 'power2.out' });
+      const rotXTo = gsap.quickTo(collageWrapRef.current, 'rotationX', { duration: 0.7, ease: 'power2.out' });
 
       handlePointerMove = (e: MouseEvent) => {
         const nx = (e.clientX / window.innerWidth - 0.5) * 2;
         const ny = (e.clientY / window.innerHeight - 0.5) * 2;
-        xTo(nx * 11);
+        xTo(nx * 12);
         yTo(ny * 9);
-        rotTo(nx * 0.9);
+        rotTo(nx * 0.85);
+        rotYTo(nx * 3.2);
+        rotXTo(-ny * 2.6);
       };
 
       window.addEventListener('mousemove', handlePointerMove, { passive: true });
@@ -1975,40 +1949,49 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenStudio }) => {
           </div>
         </div>
 
-        {/* Right Column (~46% -> 5 of 12 cols): Layered Hero Collage Artwork + Live SVG Marks */}
-        <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end">
+        {/* Right Column (~46% -> 5 of 12 cols): Transparent Hero Cutout Collage + Coded Ambient Glow & SVG Marks */}
+        <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end perspective-stage">
+          {/* Coded Ambient Cobalt/Violet Backlight behind Transparent Collage */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute w-[78%] h-[78%] rounded-full bg-[radial-gradient(circle_at_52%_48%,rgba(83,103,249,0.22),rgba(165,138,255,0.08)_52%,transparent_75%)] blur-2xl"
+          />
+
           <div
             ref={collageWrapRef}
-            className="hero-collage-group relative w-full max-w-[580px] lg:max-w-[740px] aspect-[1000/1030]"
+            className="hero-collage-group relative w-full max-w-[580px] lg:max-w-[740px] aspect-[789/853]"
           >
-            {/* Primary Art-Directed Collage Crop */}
-            <img
-              src="/templates/zeno/hero-collage.webp"
-              alt="ZENO Studio System 04 layered editorial collage with monochrome architecture, cobalt arc, folded silver ribbon, and oversized serif Z"
-              width={1000}
-              height={1030}
-              fetchPriority="high"
-              decoding="async"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-contain crop-blend-hero select-none pointer-events-none drop-shadow-[0_24px_48px_rgba(0,0,0,0.65)]"
-            />
+            {/* Isolated Transparent Hero Collage Asset (.webp with .png fallback) */}
+            <picture>
+              <source srcSet="/templates/zeno/hero-collage.webp" type="image/webp" />
+              <img
+                src="/templates/zeno/hero-collage.png"
+                alt="ZENO Studio System 04 transparent layered editorial collage with monochrome architecture, cobalt arc, folded silver ribbon, and oversized serif Z"
+                width={789}
+                height={853}
+                fetchPriority="high"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-contain cutout-shadow-hero select-none pointer-events-none"
+              />
+            </picture>
 
             {/* Live SVG editorial registration marks & crosshair overlays */}
             <svg
               aria-hidden="true"
-              viewBox="0 0 600 620"
+              viewBox="0 0 600 648"
               className="pointer-events-none absolute inset-0 w-full h-full overflow-visible"
             >
               {/* Top-left subtle crosshair */}
-              <g className="hero-svg-mark" opacity="0.45">
-                <circle cx="24" cy="36" r="6" stroke="#F2F0EB" strokeWidth="1" fill="none" />
-                <line x1="14" y1="36" x2="34" y2="36" stroke="#F2F0EB" strokeWidth="1" />
-                <line x1="24" y1="26" x2="24" y2="46" stroke="#F2F0EB" strokeWidth="1" />
+              <g className="hero-svg-mark" opacity="0.52">
+                <circle cx="18" cy="28" r="6" stroke="#F2F0EB" strokeWidth="1" fill="none" />
+                <line x1="8" y1="28" x2="28" y2="28" stroke="#F2F0EB" strokeWidth="1" />
+                <line x1="18" y1="18" x2="18" y2="38" stroke="#F2F0EB" strokeWidth="1" />
               </g>
               {/* Bottom-right registration target near Z */}
-              <g className="hero-svg-mark" opacity="0.55">
-                <line x1="568" y1="585" x2="588" y2="585" stroke="#A58AFF" strokeWidth="1.2" />
-                <line x1="578" y1="575" x2="578" y2="595" stroke="#A58AFF" strokeWidth="1.2" />
+              <g className="hero-svg-mark" opacity="0.68">
+                <line x1="564" y1="606" x2="586" y2="606" stroke="#A58AFF" strokeWidth="1.3" />
+                <line x1="575" y1="595" x2="575" y2="617" stroke="#A58AFF" strokeWidth="1.3" />
               </g>
             </svg>
           </div>
@@ -2982,8 +2965,8 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
           </p>
         </div>
 
-        {/* Asymmetric Two-World Case Study Composition */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end mt-4 lg:-mt-8">
+        {/* Asymmetric Two-World Case Study Composition with Transparent Cutout Collages */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end mt-4 lg:-mt-8 perspective-stage">
           {/* PROJECT 01: AUREN HOUSE (Spans 7 of 12 cols, sits wider and lower on left-center) */}
           <article
             onMouseEnter={() => setHoveredProject(auren.id)}
@@ -3000,7 +2983,7 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
               </span>
             </div>
 
-            {/* Interactive Artwork Trigger */}
+            {/* Interactive Transparent Cutout Collage Trigger */}
             <div
               onClick={() => onSelectProject(auren)}
               role="button"
@@ -3012,18 +2995,21 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
                   onSelectProject(auren);
                 }
               }}
-              className="zeno-focus group relative w-full aspect-[1192/515] cursor-pointer overflow-hidden transition-all duration-500 ring-1 ring-[#F2F0EB]/12 hover:ring-[#E6DEC8]/55 shadow-[0_24px_60px_rgba(0,0,0,0.75)]"
+              className="zeno-focus group relative w-full aspect-[1130/500] cursor-pointer transition-transform duration-500 ease-out hover:-translate-y-1.5"
             >
-              <img
-                src={auren.artwork}
-                alt={auren.artworkAlt}
-                width={1192}
-                height={504}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center crop-blend-world transition-transform duration-700 ease-out group-hover:scale-[1.018]"
-              />
+              <picture className="w-full h-full block">
+                <source srcSet={auren.artwork} type="image/webp" />
+                <img
+                  src={auren.artwork.replace(/\.webp/, '.png')}
+                  alt={auren.artworkAlt}
+                  width={1130}
+                  height={500}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-contain object-center cutout-shadow-world select-none transition-transform duration-700 ease-out group-hover:scale-[1.018]"
+                />
+              </picture>
             </div>
 
             {/* Project 01 Live Metadata & CTA Row matching reference 03 */}
@@ -3062,13 +3048,13 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
             </div>
           </article>
 
-          {/* PROJECT 02: MORROW FIELD (Spans 5 of 12 cols, rises higher on right with tall posters) */}
+          {/* PROJECT 02: MORROW FIELD (Spans 5 of 12 cols, rises higher on right with tall transparent poster stack) */}
           <article
             onMouseEnter={() => setHoveredProject(morrow.id)}
             onMouseLeave={() => setHoveredProject(null)}
             className="work-world-morrow lg:col-span-5 flex flex-col relative"
           >
-            {/* Interactive Artwork Trigger */}
+            {/* Interactive Transparent Cutout Collage Trigger */}
             <div
               onClick={() => onSelectProject(morrow)}
               role="button"
@@ -3080,18 +3066,21 @@ export const WorkSection: React.FC<WorkSectionProps> = ({ onSelectProject }) => 
                   onSelectProject(morrow);
                 }
               }}
-              className="zeno-focus group relative w-full lg:w-[88%] lg:ml-auto aspect-[810/880] cursor-pointer overflow-hidden transition-all duration-500 ring-1 ring-[#F2F0EB]/12 hover:ring-[#5367F9]/75 shadow-[0_28px_68px_rgba(0,0,0,0.8)]"
+              className="zeno-focus group relative w-full lg:w-[88%] lg:ml-auto aspect-[605/809] cursor-pointer transition-transform duration-500 ease-out hover:-translate-y-2"
             >
-              <img
-                src={morrow.artwork}
-                alt={morrow.artworkAlt}
-                width={810}
-                height={1080}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top crop-blend-world transition-transform duration-700 ease-out group-hover:-translate-y-1.5 group-hover:scale-[1.015]"
-              />
+              <picture className="w-full h-full block">
+                <source srcSet={morrow.artwork} type="image/webp" />
+                <img
+                  src={morrow.artwork.replace(/\.webp$/, '.png')}
+                  alt={morrow.artworkAlt}
+                  width={605}
+                  height={809}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-contain object-top cutout-shadow-world select-none transition-transform duration-700 ease-out group-hover:scale-[1.018]"
+                />
+              </picture>
             </div>
 
             {/* Project 02 Live Metadata & CTA Row matching reference 03 */}
