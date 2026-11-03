@@ -1,4 +1,4 @@
-export type TemplateSlug = "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello";
+export type TemplateSlug = "lenus" | "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello";
 
 export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
 
@@ -35,6 +35,8 @@ export const CATEGORIES: Category[] = [
   { id: "editorial-magazine", label: "Editorial Magazine" },
   { id: "conversion", label: "Conversion Landing" },
 ];
+
+export const LENUS_PROMPT = "# LENUS — Reality is just the start\n\nBuild an isolated Next.js 16 / React 19 / TypeScript / Tailwind CSS creative-studio hero at `/lenus`. Use `three` and `lucide-react`. All imports must remain inside `src/app/(lenus)/` or npm packages. No external 3D assets or HDR downloads.\n\nMatch this composition: a floating translucent header, tall stacked headline on the left, and a large oblique optical lens on the right. Exact headline: REALITY / IS JUST / THE START. Make REALITY lime, IS JUST and THE white, START. violet. Subtitle: “We build experiences that move brands beyond the expected.” Primary pill action: “STEP INSIDE” with an arrow. Header: original geometric LENUS wordmark, WORK, EXPERTISE, TECHNOLOGY, ABOUT, and GET IN TOUCH.\n\nPalette: #08090D midnight, #10131C cosmos, #161924 glass surface, #F8FAFC white, #9499A6 muted text, #D2F802 lime, #A855F7 violet, #00E599 emerald, #0A0B0E button ink. Typography: Archivo 800 with condensed width axis; Plus Jakarta Sans; JetBrains Mono. Load through next/font using distinct CSS variables.\n\nThe central idea is optical depth: STEP INSIDE separates an explodable lens. Keep a 44/56 desktop copy/stage grid, stack below 960px, and prevent overflow at 390px. CSS radial aperture architecture, sparse stars and restrained violet glow sit behind an alpha-transparent canvas. Keep the complete ring inside its stage and reserve room for the compact glass HUD.\n\nPreserve the procedural model in `model/`: 19 named components, including two fluted glass annuli, stepped titanium collars, front emerald convex lens, rear mount and cooling fins, screws, gold contacts, retaining beads and twelve beveled prism shards. The original design plan's 16-part count is stale. Outer radius 2.49. Glass uses MeshPhysicalMaterial, transmission .98, roughness .03, IOR 1.52, dispersion .08. Titanium has metalness .85 and roughness .25. Normal, roughness and emissive data fields are independent. A procedural HalfFloat PMREM studio with lime and violet strips supplies reflections. Do not paint reflections into albedo.\n\nBuild a lifecycle-guarded `LenusSceneController`: orthographic half-height max(2.75,2.75/aspect), yaw −.46 rad, pitch +.14 rad, bounded drag inspection, pointer parallax, part raycasting, reversible explosion, focus-collar rotation, and subtle shard float. Use delta-time damping. Cap DPR at 1.5 and lower buffer scale by 15% to a 75% floor after two seconds below 55 FPS. Rebuild environment resources after context restoration. Dispose every context, texture, geometry, listener and observer on unmount.\n\nThe HUD includes part selection and material information, explosion toggle and slider, focus-collar slider, pause/resume and reset. Keyboard: arrows rotate, E separates, R/Home resets; do not intercept slider keys. Pause rendering offscreen, in hidden tabs, behind dialogs, and manually. Mount no WebGL under reduced motion, including a runtime preference change. Always server-render a complete procedural SVG preview for no-JS, reduced motion, unavailable graphics and context loss.\n\nNavigation opens accessible native dialogs with Escape/backdrop dismissal, trapped focus and focus restoration. Work, expertise and about explain the fictional studio's practice. Technology explains the interactive optical system. GET IN TOUCH validates a name, email and project description and prepares a downloadable local brief, explicitly stating it has not been sent. Never pretend to deliver a message without a backend.\n\nUse masked headline entrances, staggered copy, responsive button/arrow feedback, smooth interruptible separation and restrained ambient motion. Reduced motion is a complete still composition. Add scoped CSS, favicon, 1200×630 Open Graph image and DESIGN.md. Register in all six gallery locations and capture a real 1600px WebP hero preview. Verify unit tests, production build, isolation/palette/media checks, TypeScript, lint, and browser guarantees for WebGL, controls, dialogs, context recovery, mobile, reduced motion and no-JS.\n";
 
 export const NOISECLUB_PROMPT = `# NOISE CLUB® — The World Is Your Sample Pack
 
@@ -1493,6 +1495,19 @@ slug: "tally",
     previewImage: "/templates/arcandsignal/preview-1600.webp",
     promptMarkdown: ARCANDSIGNAL_PROMPT,
     model: "GPT-6",
+  },
+  {
+    slug: "lenus",
+    createdAt: "2026-11-03",
+    title: "LENUS",
+    description: "Reality is just the start. A creative studio with a procedural optical lens, explodable assembly, focus controls and an accessible still preview.",
+    category: "3d-webgpu",
+    industry: "Creative Studio & Immersive Experiences",
+    stack: "Next.js 16 · React 19 · Three.js · TypeScript · Tailwind CSS",
+    badges: ["Procedural Optics", "Interactive Assembly", "Physical Glass", "Accessible Fallback"],
+    previewImage: "/templates/lenus/preview-1600.webp",
+    promptMarkdown: LENUS_PROMPT,
+    model: "GPT-6.1 Sol",
   },
 ];
 

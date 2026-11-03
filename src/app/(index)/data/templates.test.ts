@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+﻿import { describe, it, expect } from "vitest";
 import { TEMPLATES, ARCHIVED_TEMPLATES, CATEGORIES } from "./templates";
 import fs from "node:fs";
 import path from "node:path";
@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(58);
+    expect(TEMPLATES).toHaveLength(59);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["arcandsignal","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["lenus","arcandsignal","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -85,6 +85,8 @@ describe("gallery template data", () => {
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (t.slug === "pello" || t.slug === "avel" || t.slug === "landingx") {
         expect(t.model).toBe("GPT-6.1 Terra Max");
+      } else if (t.slug === "lenus") {
+        expect(t.model).toBe("GPT-6.1 Sol");
       } else if (t.slug === "mercer") {
         expect(t.model).toBe("GPT-6.1 Sol Max");
       } else if (t.slug === "arcandsignal" || t.slug === "stillwater") {
@@ -130,10 +132,10 @@ describe("gallery template data", () => {
     expect(wowflutter?.promptMarkdown).toContain("#FF3D8B");
   });
 
-  it("files Maison Vérane under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files Maison VÃ©rane under Scroll Showcase with its rebuild prompt inlined", () => {
     const verane = TEMPLATES.find((t) => t.slug === "verane");
     expect(verane?.category).toBe("scroll-showcase");
-    expect(verane?.promptMarkdown).toContain('rebuild "MAISON VÉRANE"');
+    expect(verane?.promptMarkdown).toContain('rebuild "MAISON VÃ‰RANE"');
     expect(verane?.promptMarkdown).toContain("#2A1E22");
   });
 
@@ -235,3 +237,4 @@ describe("gallery template data", () => {
     expect(mercer?.promptMarkdown).toContain("#0A0D10");
   });
 });
+
