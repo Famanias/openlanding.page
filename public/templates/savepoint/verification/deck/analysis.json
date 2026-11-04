@@ -1,0 +1,31 @@
+{
+  "classification": "hard-surface electronic hardware",
+  "primaryDomain": "object",
+  "confidence": 0.96,
+  "silhouette": "bilateral low extruded wedge, front +Z, rear elevated",
+  "hierarchy": [
+    "shell",
+    "screenBezel",
+    "screenGlass",
+    "slotLip",
+    "slotInterior",
+    "ventRibs",
+    "frontButtons",
+    "powerIndicator",
+    "baseSeam"
+  ],
+  "relationships": "screen embedded in sloping shell; rear slot open to cavity",
+  "materials": "charcoal satin dielectric polymer, low roughness glass, metal contacts",
+  "identity": [
+    "shell",
+    "screenBezel",
+    "screenGlass",
+    "slotLip",
+    "slotInterior",
+    "ventRibs",
+    "frontButtons",
+    "powerIndicator",
+    "baseSeam"
+  ],
+  "uncertainty": "internal PCB and underside inferred; dimensions conceptual; reference rear has two visible screw wells, master prompt requests four"
+}

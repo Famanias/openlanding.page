@@ -1,0 +1,86 @@
+{
+  "completedAt": "2026-11-04T15:24:21.276108+00:00",
+  "productionBuild": {
+    "exitCode": 0,
+    "completedAt": "2026-11-04T15:20:34.213Z"
+  },
+  "isolation": "passed",
+  "palette": "passed",
+  "media": "passed",
+  "unitTests": {
+    "files": 232,
+    "passed": 1260,
+    "failed": 0
+  },
+  "playwright": {
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "channel": "msedge",
+    "server": "production",
+    "workers": 1,
+    "trace": "off"
+  },
+  "tests": [
+    {
+      "title": "all ten cartridges navigate, wrap and round-trip without leaked canvases",
+      "status": "expected",
+      "durationMs": 25335
+    },
+    {
+      "title": "drag snaps without booting and Escape can cancel an unfinished intro",
+      "status": "expected",
+      "durationMs": 5662
+    },
+    {
+      "title": "deep links and browser history restore the corresponding world",
+      "status": "expected",
+      "durationMs": 7055
+    },
+    {
+      "title": "mobile reduced motion keeps controls visible and supports immediate boot",
+      "status": "expected",
+      "durationMs": 5274
+    },
+    {
+      "title": "context loss keeps the image archive usable and restoration recreates one scene",
+      "status": "expected",
+      "durationMs": 6140
+    },
+    {
+      "title": "catalog filters preserve matching artwork and select the requested shelf cartridge",
+      "status": "expected",
+      "durationMs": 7714
+    },
+    {
+      "title": "catalog boot runs the physical sequence and returns to the selected world",
+      "status": "expected",
+      "durationMs": 12324
+    },
+    {
+      "title": "hardware presets, wireframe, manifesto and footer are functional",
+      "status": "expected",
+      "durationMs": 8294
+    },
+    {
+      "title": "all five viewport sizes show complete sections without overflow or missing media",
+      "status": "expected",
+      "durationMs": 7712
+    },
+    {
+      "title": "touch and reduced motion support catalog boot without a custom cursor",
+      "status": "expected",
+      "durationMs": 5850
+    },
+    {
+      "title": "a native horizontal touch swipe browses and releases without booting",
+      "status": "expected",
+      "durationMs": 4059
+    },
+    {
+      "title": "all ten detail worlds contain their own lore, telemetry and approved world plate",
+      "status": "expected",
+      "durationMs": 8723
+    }
+  ]
+}

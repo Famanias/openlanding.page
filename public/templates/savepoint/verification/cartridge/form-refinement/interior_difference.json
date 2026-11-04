@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "kind": "interior-difference",
+  "baseline": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\cartridge\\form-refinement\\reference.png",
+  "render": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\cartridge\\form-refinement\\small-35.png",
+  "band": {
+    "from": 0.0,
+    "to": 1.0
+  },
+  "grid": 192,
+  "cellsCompared": 32832,
+  "warnings": [],
+  "interiorDifference": 0.17024843847545518,
+  "status": "measured"
+}

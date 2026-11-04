@@ -1,0 +1,32 @@
+{
+  "count": 26,
+  "unchangedFromApprovedSource": true,
+  "files": [
+    "cartridge-shell-front.png",
+    "cartridge-shell-rear.png",
+    "cartridge-shell-three-quarter.png",
+    "deck-01-front.png",
+    "deck-01-slot-detail.png",
+    "deck-01-three-quarter.png",
+    "label-dead-channel.png",
+    "label-deep-current.png",
+    "label-ghost-frequency.png",
+    "label-lost-signal.png",
+    "label-moon-relay.png",
+    "label-mossheart.png",
+    "label-neon-ruins.png",
+    "label-paper-kingdom.png",
+    "label-sunken-arcade.png",
+    "label-turbo-saints.png",
+    "world-dead-channel.webp",
+    "world-deep-current.webp",
+    "world-ghost-frequency.webp",
+    "world-lost-signal.webp",
+    "world-moon-relay.webp",
+    "world-mossheart.webp",
+    "world-neon-ruins.webp",
+    "world-paper-kingdom.webp",
+    "world-sunken-arcade.webp",
+    "world-turbo-saints.webp"
+  ]
+}

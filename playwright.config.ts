@@ -18,7 +18,7 @@ export default defineConfig({
     trace: "retain-on-failure",
     permissions: ["clipboard-read", "clipboard-write"],
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"], channel: process.env.PLAYWRIGHT_CHROMIUM_CHANNEL } }],
   webServer: {
     // Tailwind is wired through turbopack.rules in next.config.ts, so build with Turbopack: `--webpack` skips
     // it and drops every utility class (overflow-hidden, overflow-x-auto, ...) from templates that use them.

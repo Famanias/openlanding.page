@@ -1,0 +1,220 @@
+{
+  "checkedAt": "2026-11-04T15:21:46.143265+00:00",
+  "approvedAssetCount": 26,
+  "allOriginalsUnchanged": true,
+  "assets": [
+    {
+      "file": "cartridge-shell-front.png",
+      "sha256": "e87ce278359460041a59c60c56122f4e99c3b2eed7481231bb6e98a741e31f46",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "cartridge-shell-rear.png",
+      "sha256": "84ed29c86f156ed8dbc8f7ca2260b6b44636cbfc7e181428b3f48270751b8a6e",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "cartridge-shell-three-quarter.png",
+      "sha256": "0b5772a8ce645405d03521df4d46b5f9986d8bd4a48cfe4e7def9cb63776f273",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "deck-01-front.png",
+      "sha256": "be22eacb5cf4fd339156ec04925069611c1a2e3bc5b728bf542138f99c3998b6",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "deck-01-slot-detail.png",
+      "sha256": "551de5b8d475c2b9b75f2b4cac66ecf69fca3cfe7eaecb8e7851e98fa3169e8b",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "deck-01-three-quarter.png",
+      "sha256": "431620816970faf2209aaca440896669a94fde7a7ebb5a7436cbfaf7fcedc161",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-dead-channel.png",
+      "sha256": "bf339c35eb0da1b016814a4933b3a5d97e6f4922c8478470b3ca065e2a0d8cb4",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-deep-current.png",
+      "sha256": "9e0b826db598e3990f30e7242f3cbc007ecf169b1a51ec355eaefebd828ba711",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-ghost-frequency.png",
+      "sha256": "7a3703320ffb1e45384b6e1aed8f88793278836ef73f4b17675dd2295d70f860",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-lost-signal.png",
+      "sha256": "20fb8f283101eaaf96116db676201cf8779c9e811da59f6f8b6363515e0a3b3a",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-moon-relay.png",
+      "sha256": "3e8e5558187a56b918a6fa8237156d2d0f2a81473c342b2e872c8537b9850b65",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-mossheart.png",
+      "sha256": "b603be82aa7da7193ab6a162c2792d7cc390008d5ab9c6414731a307a4da1449",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-neon-ruins.png",
+      "sha256": "f9c260cb4258d56277d9cc7a589c2f53190175a3af899947fa8dfc81b0b65029",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-paper-kingdom.png",
+      "sha256": "8c855026d0777584e62a28d205ac7ade7863d4231d78c851a4a0a26c5475c8e6",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-sunken-arcade.png",
+      "sha256": "25ac5abd8b7475785a05728488a8fa4598bee7e759fa4576018880b228795e71",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "label-turbo-saints.png",
+      "sha256": "77120a638b939cc96dc9a8bf3d5079bae39d2b02404929db70846a55855794f0",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-dead-channel.webp",
+      "sha256": "ad22ce094a6b95db5ee2d5be1a504709c383b0deda63ece1bb81bbb9a0137c1b",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-deep-current.webp",
+      "sha256": "47f503d990b89491cf8d30721f16667eac892c8384e30a982d14da72e080b800",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-ghost-frequency.webp",
+      "sha256": "99e15cd69d3647694664f40eb3cbfdc2a5646371e3ebd7dabce903643a0c57e9",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-lost-signal.webp",
+      "sha256": "c284cdeefe726847fefab962d4e7c3d53a26914a63fb319196089c90f9970060",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-moon-relay.webp",
+      "sha256": "dac4267b6323285786e103a35803d7cf91605f151d839b48e20818e47cdba9ac",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-mossheart.webp",
+      "sha256": "ca7f5fc40bff00876a44fbfb9a48890dfe19f575fa322ab420a3603aee32829c",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-neon-ruins.webp",
+      "sha256": "16b6b336e86f0096567f3cdc702bbe5b8bce98d5d0e4e8c84e23fd2943156b67",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-paper-kingdom.webp",
+      "sha256": "8aa334d1225e6b33bdad2bf69bc62c3769c71dd706c3c4572ae77186c3ce8746",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-sunken-arcade.webp",
+      "sha256": "a612a228b7a69a1c326e604ad83e54dc5a5e07c12fb0384b4aa416c2fce6027d",
+      "matchesApprovedSource": true
+    },
+    {
+      "file": "world-turbo-saints.webp",
+      "sha256": "324cb7a05021d2e9ffe6377e7acc1c8affe1192e572bdc15e0c138a071bfcaa9",
+      "matchesApprovedSource": true
+    }
+  ],
+  "gameCount": 10,
+  "games": [
+    {
+      "id": "lost-signal",
+      "catalog": "SVP-01 / 98",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    },
+    {
+      "id": "mossheart",
+      "catalog": "SVP-02 / 96",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    },
+    {
+      "id": "turbo-saints",
+      "catalog": "SVP-03 / 99",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    },
+    {
+      "id": "dead-channel",
+      "catalog": "SVP-04 / 01",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    },
+    {
+      "id": "moon-relay",
+      "catalog": "SVP-05 / 97",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    },
+    {
+      "id": "neon-ruins",
+      "catalog": "SVP-06 / 02",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    },
+    {
+      "id": "paper-kingdom",
+      "catalog": "SVP-07 / 95",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    },
+    {
+      "id": "deep-current",
+      "catalog": "SVP-08 / 00",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    },
+    {
+      "id": "ghost-frequency",
+      "catalog": "SVP-09 / 03",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    },
+    {
+      "id": "sunken-arcade",
+      "catalog": "SVP-10 / 94",
+      "descriptionComplete": true,
+      "worldNoteCount": 2,
+      "telemetryComplete": true,
+      "matchingArtwork": true
+    }
+  ]
+}
