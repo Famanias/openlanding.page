@@ -1,4 +1,5 @@
 import type { ClearanceViolation, LensLayout, OpticalLensSpec } from "./lensTypes";
+import { opticalProfileMetrics } from "./opticalProfile";
 
 export const OPTICAL_ORDER = ["front-meniscus", "front-biconvex", "front-compensator", "front-lens", "rear-relay", "rear-plano", "rear-lens"] as const;
 export const INTERIOR_IDS = ["front-meniscus-cell", "front-meniscus", "front-biconvex-cell", "front-biconvex", "front-compensator-cell", "front-compensator", "rear-relay-cell", "rear-relay", "rear-plano-cell", "rear-plano", "internal-barrel", "core-carrier", "spacer-stack", "rear-baffles", "carrier-fasteners", "core-retaining-beads", "housing-panel-0", "housing-panel-1", "housing-panel-2", "housing-panel-3", "guide-rails", "panel-linkages"] as const;
@@ -25,7 +26,7 @@ export function deriveInteriorLayout(spec: OpticalLensSpec): LensLayout {
     const c = spec.components.find(c => c.id === id);
     if (!c) throw new Error(`Missing optical group: ${id}`);
     const g = c.geometry;
-    const thickness = g.kind === "lens" ? g.depth! + 2 * g.sag! : g.edgeThickness! + g.frontSag! - g.backSag!;
+    const thickness = g.kind === "lens" ? g.depth! + 2 * g.sag! : opticalProfileMetrics({shape:g.shape!,radius:g.radius!,edgeThickness:g.edgeThickness!,frontSag:g.frontSag!,backSag:g.backSag!,chamfer:g.chamfer}).depth;
     const z = worldZ(id);
     return { id, radius: g.radius!, minZ: z - thickness / 2, maxZ: z + thickness / 2 };
   });

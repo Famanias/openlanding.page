@@ -2,6 +2,7 @@ import * as THREE from "three";
 import type { LensRuntime } from "./createOpticalLensModel";
 import { INTERIOR_IDS, OPTICAL_ORDER } from "./interiorLayout";
 import type { LensComponent, OpticalLensSpec } from "./lensTypes";
+import { buildOpticalCellGeometry, buildOpticalElementGeometry } from "./opticalLensGeometry";
 
 export type InteriorContext = {
   root: THREE.Group;
@@ -54,9 +55,15 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
     switch(g.kind) {
       case "optical-element": {
         const thickness=g.edgeThickness!+g.frontSag!-g.backSag!;
-        addMesh(id,new THREE.SphereGeometry(g.radius!,24,12).scale(1,1,thickness/(2*g.radius!)));break;
+        addMesh(id,context.stage>=2?buildOpticalElementGeometry({shape:g.shape!,radius:g.radius!,edgeThickness:g.edgeThickness!,frontSag:g.frontSag!,backSag:g.backSag!,chamfer:g.chamfer},64):new THREE.SphereGeometry(g.radius!,24,12).scale(1,1,thickness/(2*g.radius!)));break;
       }
-      case "cell": addMesh(id,annulus(g.innerRadius!,g.outerRadius!,g.depth!));if(context.stage>=1)supports(c);break;
+      case "cell": {
+        const optic=descriptors.get(id.replace(/-cell$/,""))?.geometry;
+        const profile=optic?.kind==="optical-element"?{shape:optic.shape!,radius:optic.radius!,edgeThickness:optic.edgeThickness!,frontSag:optic.frontSag!,backSag:optic.backSag!,chamfer:optic.chamfer}:undefined;
+        const radius=profile?.radius??.59;
+        addMesh(id,context.stage>=2?buildOpticalCellGeometry(radius,g.outerRadius!,g.depth!,profile,48):annulus(g.innerRadius!,g.outerRadius!,g.depth!));
+        if(context.stage>=1)supports(c);break;
+      }
       case "open-frame": {
         for(const z of [-.67,.90])addMesh(id,annulus(g.innerRadius!,g.outerRadius!, .06)).position.z=z;
         if(context.stage>=1)for(const z of [-.67,.90]) {

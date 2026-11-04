@@ -791,14 +791,14 @@
       "position": [
         0,
         0,
-        0.12
+        0.16
       ],
       "material": "titanium",
       "geometry": {
         "kind": "cell",
         "innerRadius": 1.038,
         "outerRadius": 1.12,
-        "depth": 0.12,
+        "depth": 0.22,
         "seatLip": 0.02
       },
       "features": [
@@ -835,8 +835,8 @@
         "shape": "meniscus",
         "radius": 1.05,
         "edgeThickness": 0.035,
-        "frontSag": 0.06,
-        "backSag": 0.025,
+        "frontSag": 0.15,
+        "backSag": 0.08,
         "chamfer": 0.004
       },
       "features": [
@@ -881,7 +881,7 @@
       "position": [
         0,
         0,
-        -0.24
+        -0.25
       ],
       "material": "titanium",
       "geometry": {
@@ -925,22 +925,22 @@
         "shape": "biconvex",
         "radius": 0.98,
         "edgeThickness": 0.03,
-        "frontSag": 0.035,
-        "backSag": -0.035,
+        "frontSag": 0.085,
+        "backSag": -0.085,
         "chamfer": 0.004
       },
       "features": [
         {
           "id": "biconvex-curvature",
           "type": "bevel",
-          "description": "Two convex faces with .03 perimeter and .10 center thickness",
+          "description": "Two convex faces with .03 perimeter and .20 center thickness",
           "placement": {
             "x": 0.1,
             "y": 0.1,
             "width": 0.8,
             "height": 0.8
           },
-          "geometryEffect": "Two convex faces with .03 perimeter and .10 center thickness",
+          "geometryEffect": "Two convex faces with .03 perimeter and .20 center thickness",
           "confidence": 0.8,
           "evidenceRefs": [
             "keyframe-4"
@@ -971,7 +971,7 @@
       "position": [
         0,
         0,
-        -0.4
+        -0.44
       ],
       "material": "titanium",
       "geometry": {
@@ -1015,8 +1015,8 @@
         "shape": "biconvex",
         "radius": 0.84,
         "edgeThickness": 0.03,
-        "frontSag": 0.025,
-        "backSag": -0.025,
+        "frontSag": 0.045,
+        "backSag": -0.045,
         "chamfer": 0.004
       },
       "features": [
@@ -1089,8 +1089,8 @@
         "shape": "biconvex",
         "radius": 0.74,
         "edgeThickness": 0.03,
-        "frontSag": 0.035,
-        "backSag": -0.035,
+        "frontSag": 0.055,
+        "backSag": -0.055,
         "chamfer": 0.004
       },
       "features": [
@@ -1126,7 +1126,7 @@
         "kind": "cell",
         "innerRadius": 0.528,
         "outerRadius": 0.6100000000000001,
-        "depth": 0.12,
+        "depth": 0.14,
         "seatLip": 0.02
       },
       "features": [
@@ -1163,7 +1163,7 @@
         "shape": "plano-convex",
         "radius": 0.54,
         "edgeThickness": 0.03,
-        "frontSag": 0.05,
+        "frontSag": 0.07,
         "backSag": 0,
         "chamfer": 0.004
       },
@@ -1374,7 +1374,7 @@
       "position": [
         0,
         0,
-        0
+        0.255
       ],
       "material": "titanium",
       "geometry": {

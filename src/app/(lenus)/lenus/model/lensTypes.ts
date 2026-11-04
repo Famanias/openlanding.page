@@ -7,6 +7,7 @@ export type OpticalElementProfile = {
   edgeThickness: number;
   frontSag: number;
   backSag: number;
+  chamfer?: number;
 };
 export type LensGeometry = {
   kind: LensGeometryKind;

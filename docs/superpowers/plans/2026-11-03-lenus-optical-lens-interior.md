@@ -109,15 +109,15 @@ Object coordinates remain **+Y up, +Z front**, with the optical axis along Z. Th
 
 | Part ID | Status | Shape | Radius | Center Z | Approx. center thickness |
 |---|---|---|---:|---:|---:|
-| `front-meniscus` | New | One convex and one concave curved surface | 1.05 | +0.12 | 0.10 |
-| `front-biconvex` | New | Two convex surfaces | 0.98 | −0.24 | 0.10 |
-| `front-compensator` | New | Thinner, lower-sag element | 0.84 | −0.40 | 0.08 |
+| `front-meniscus` | New | One convex and one concave curved surface | 1.05 | +0.16 | 0.105 |
+| `front-biconvex` | New | Two convex surfaces | 0.98 | −0.25 | 0.20 |
+| `front-compensator` | New | Thinner, lower-sag element | 0.84 | −0.44 | 0.12 |
 | `front-lens` | Existing ID preserved | Existing convex emerald optic | 0.59 | −0.78 | 0.46, existing shape |
-| `rear-relay` | New | Small biconvex relay element | 0.74 | −1.14 | 0.10 |
-| `rear-plano` | New | One plane face and one convex face | 0.54 | −1.32 | 0.08 |
+| `rear-relay` | New | Small biconvex relay element | 0.74 | −1.14 | 0.14 |
+| `rear-plano` | New | One plane face and one convex face | 0.54 | −1.32 | 0.10 |
 | `rear-lens` | Existing ID preserved | Existing dark rear optic | 0.35 | −1.65 | 0.26, existing shape |
 
-The proposed centers leave clear separations between optical volumes. Lens-cell contact is intentional; glass-to-glass intersections are not. The front meniscus also needs to clear the old collar apertures. Validate sampled profiles, not just the table's center thicknesses.
+**Task 4 form refinement:** the table reflects stronger optical curvature against image 4, replacing the initial shallow .10/.08 estimates. The primary biconvex depth/diameter ratio increased from .051 to .102; the meniscus carrier moved forward .04 and the next cells moved back .01/.04. The seven optical envelopes still fit the approximately 2.1-unit body, with minimum .03 air gaps. Meniscus center thickness differs from its recentered axial envelope. Lens-cell contact is intentional; glass-to-glass intersections are not. Validate sampled profiles, not just center thicknesses.
 
 Existing layout changes:
 
@@ -190,7 +190,7 @@ Record each feature's reference filename, image region and confidence. Distingui
 - Mechanical cells/barrels use closed revolved profiles with actual shoulders. Surface maps may supply microscopic brushing; visible ledges and bevels require geometry.
 - The automatic reveal and manual interior view use physical panel deployment and axial separation. All glass remains intact. Address opaque existing collars through carriage travel and actual apertures; do not swap in clipped or hidden housing geometry during the loop.
 - A partial lathe without end caps fails. Each panel is a closed shell with finished boundary faces and consistent normals; caps belong to the panel's semantic ID. Original glass-ring geometry stays continuous.
-- New thin glass reuses the established clear-glass scalars with thickness-specific material variants, approximately **0.10** and **0.08**. Reuse procedural maps and HDR data; do not project the picture's highlights onto glass.
+- New optical glass reuses the established clear-glass scalars with thickness-specific material variants derived from the accepted profiles. The initial .10/.08 estimates are superseded by Task 4's stronger curvature. Reuse procedural maps and HDR data; do not project the picture's highlights onto glass.
 - Nested real-time transmission is approximate. If the core disappears behind new panes, stop material acceptance and test compositing/visibility strategies. A small procedural opaque emissive backing inside the core is an optional rendering technique, not an observed mechanical component; only add it if the look-dev evidence justifies it.
 - In hero mode the 24-second loop continues. In cutaway mode, hold the automatic clock, disable pointer parallax and use a canonical inspection orientation. Manual focus, separation, camera orbit and picking remain available.
 - Exiting cutaway restores the saved hero clock/view. Reset returns to the normal hero view. Manual Pause, hidden-tab/offscreen suspension and reduced motion retain priority over automatic movement.
@@ -231,6 +231,7 @@ Record each feature's reference filename, image region and confidence. Distingui
 | Create `model/interiorLayout.ts` + test | Axial packing, rear-module/core offsets, rest poses, carriage sockets and clearance checks |
 | Create `model/lensTransformation.ts` + test | Pure 24-second pose sampler, stagger/easing, panel linkage solution and travel descriptors |
 | Create `model/opticalLensGeometry.ts` + test | Meniscus, biconvex and plano-convex closed volumes |
+| Create `model/opticalProfile.ts` | Renderer-independent profile validation, sampling and recentered envelope metrics shared with layout |
 | Create `model/sectionGeometry.ts` + test | Closed revolved panel sectors with real boundary faces and shell thickness |
 | Create `model/createLensInterior.ts` + test | Optical train, panel/rail/linkage rig using shared materials and resource owner |
 | Modify `model/createOpticalLensModel.ts` + test | Additive dispatch, shared transform ownership, deterministic pose application, picking and disposal |
@@ -327,12 +328,12 @@ function buildClosedRevolvedSection(profile: RevolvedProfile, options: {
 }): THREE.BufferGeometry;
 ```
 
-- [ ] Write failing tests for positive edge/center thickness, correct convex/concave profiles, finite vertices, more than ten distinct axial samples on curved optics, welded seams and closed boundaries.
-- [ ] Unlock form refinement. Replace the new blockout proxies with sampled curved volumes, real seat shoulders, chamfers and visible baffle edges. Use geometric profile clearance checks at overlapping radii to catch glass/holder intersections that center-Z intervals miss.
-- [ ] Give planar shoulders/cut faces appropriate normals and curved walls analytic circumferential tangents. Do not reintroduce the previous radial reflection-sector artifact.
-- [ ] Test legitimate contact tolerances separately from accidental solid interpenetration. Do not insert dark discs to imitate concave volumes or hidden sockets.
-- [ ] Run geometry integrity/self-intersection checks on actual built geometry, stating sampling coverage and undecided cases. Review front, side and three-quarter cross-sections; material cannot repair an incorrect lens profile.
-- [ ] Keep the form pass open for Task 5. Commit the geometry checkpoint after its unit checks, but do not record `continue` or unlock materials before closed panel geometry and deployment form review are complete.
+- [x] Write failing tests for positive edge/center thickness, correct convex/concave profiles, finite vertices, more than ten distinct axial samples on curved optics, welded seams and closed boundaries.
+- [x] Unlock form refinement. Replace the new blockout proxies with sampled curved volumes, real seat shoulders, chamfers and visible baffle edges. Use geometric profile clearance checks at overlapping radii to catch glass/holder intersections that center-Z intervals miss.
+- [x] Give planar shoulders/cut faces appropriate normals and curved walls analytic circumferential tangents. Do not reintroduce the previous radial reflection-sector artifact.
+- [x] Test legitimate contact tolerances separately from accidental solid interpenetration. Do not insert dark discs to imitate concave volumes or hidden sockets.
+- [x] Run geometry integrity/self-intersection checks on actual built geometry, stating sampling coverage and undecided cases. Review front, side and three-quarter cross-sections; material cannot repair an incorrect lens profile.
+- [x] Keep the form pass open for Task 5. Commit the geometry checkpoint after its unit checks, but do not record `continue` or unlock materials before closed panel geometry and deployment form review are complete.
 
 ## Task 5: Closed Articulated Panels and Deterministic Deployment Poses
 
