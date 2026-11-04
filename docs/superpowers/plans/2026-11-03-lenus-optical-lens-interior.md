@@ -297,14 +297,14 @@ python "$forgeRoot/forge/next.py" --state "$runRoot/state.json" "$runRoot/interi
 
 **Interfaces:** `createLensInterior(context, spec): void`, where `context` supplies the existing root, runtime maps, shared materials, quality tier and geometry/resource registration functions. It must not allocate a second renderer, HDR environment or duplicate full material system.
 
-- [ ] Write failing tests that every new semantic ID has built geometry, a stable pivot/socket, material binding, collider metadata and a valid picking route.
-- [ ] Unlock the structure pass. Build cells, stationary open support frame, carrier, spacers/baffles, four panel pivots, rail carriages, compact linkages and instanced fasteners. Make parent ordering and moving/stationary attachment relationships explicit; a continuous hidden inner barrel must not block the reveal.
-- [ ] Replace the old explosion inference based only on `sign(base.z)` and component index with assembly-aware axial spacing. Lens + cell + integral trim travel together; existing rear subassemblies remain rigid.
-- [ ] Test world positions and increasing inter-cell gaps. The old assertion that the emerald node's *local* Z must increase is no longer a valid test once it belongs to a recessed carrier. Verify world-space poses against the current transformation plus inspection offset.
-- [ ] Create one pose-application path and independent pivots for focus, collar unlocking and front translation. Define `setExplode(0)` as a zero inspection-separation offset; with a zero transformation pose it restores assembly, and with the deployed pose it preserves the deployed rig. Update tests to assert those compositions explicitly.
-- [ ] Check mechanically linked supports at closed, partial and deployed static poses. Rail sockets must retain each cell; front carriage travel must preserve the glass rings; panels remain attached and retain the same four semantic IDs. Reject independent arm motion that disconnects linkage endpoints.
-- [ ] Validate new contact surfaces and measured sockets. A generic anchor report with zero applicable worn/held attachments is not proof that lens cells contact the barrel.
-- [ ] Capture/review the structure pass and run the state gate before proceeding. Commit only after structure is accepted.
+- [x] Write failing tests that every new semantic ID has built geometry, a stable pivot/socket, material binding, collider metadata and a valid picking route.
+- [x] Unlock the structure pass. Build cells, stationary open support frame, carrier, spacers/baffles, four panel pivots, rail carriages, compact linkages and instanced fasteners. Make parent ordering and moving/stationary attachment relationships explicit; a continuous hidden inner barrel must not block the reveal.
+- [x] Replace the old explosion inference based only on `sign(base.z)` and component index with assembly-aware axial spacing. Lens + cell + integral trim travel together; existing rear subassemblies remain rigid.
+- [x] Test world positions and increasing inter-cell gaps. The old assertion that the emerald node's *local* Z must increase is no longer a valid test once it belongs to a recessed carrier. Verify world-space poses against the current transformation plus inspection offset.
+- [x] Create one pose-application path and independent pivots for focus, collar unlocking and front translation. Define `setExplode(0)` as a zero inspection-separation offset; with a zero transformation pose it restores assembly, and with the deployed pose it preserves the deployed rig. Update tests to assert those compositions explicitly.
+- [x] Check mechanically linked supports at closed, partial and deployed static poses. Rail sockets must retain each cell; front carriage travel must preserve the glass rings; panels remain attached and retain the same four semantic IDs. Reject independent arm motion that disconnects linkage endpoints.
+- [x] Validate new contact surfaces and measured sockets. A generic anchor report with zero applicable worn/held attachments is not proof that lens cells contact the barrel.
+- [x] Capture/review the structure pass and run the state gate before proceeding. Commit only after structure is accepted.
 
 ## Task 4: Curved Glass and Mechanical Form Refinement
 

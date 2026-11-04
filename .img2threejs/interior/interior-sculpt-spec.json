@@ -1000,16 +1000,16 @@
       "interaction-pass",
       "optimization-pass"
     ],
-    "currentPass": "structural-pass",
+    "currentPass": "form-refinement",
     "completedPasses": [
-      "blockout"
+      "blockout",
+      "structural-pass"
     ],
-    "lastCompletedPass": "blockout",
+    "lastCompletedPass": "structural-pass",
     "blockedReason": "",
     "nextRequiredEvidence": [
-      "Macro, meso, and repeated structures meet qualityContract.minimumSpecDepth.",
-      "Parent-child relations, joints, seams, sockets, and contact points are explicit.",
-      "Every attached child appendage/connector has parentSocket, localStart/localEnd, contactType, embedDepth or overlap, and gapTolerance.",
+      "Important visible forms are represented in component geometryDescriptor, deformations, localFeatures, or repetitionSystems.",
+      "Endpoint-based child parts are rooted at their attachment sockets and do not visibly float away from parents.",
       "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold.",
       "attachment contracts for child appendages/connectors",
       "no floating child roots/joints in the browser screenshot",
@@ -7458,7 +7458,7 @@
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
       },
-      "parent": "root",
+      "parent": "core-carrier",
       "attachment": {
         "parentSocket": "root-seat",
         "localStart": [
@@ -7488,7 +7488,7 @@
         "position": [
           0,
           0,
-          -0.78
+          0
         ],
         "rotation": [
           0,
@@ -8809,7 +8809,7 @@
           "kind": "linkages",
           "count": 8,
           "armRadius": 0.025,
-          "linkLength": 0.62,
+          "linkLength": 0.32,
           "endpointTolerance": 0.005
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
@@ -11073,6 +11073,46 @@
       "cameraView": "",
       "notes": "",
       "aiVisionNotes": "Blockout-only review of the full reference/render pair plus closed and side views: fixed seven-group axial volumes, recessed core, four closed coarse housing sectors and preserved front/rear identity are established. The shorter 2.1-unit body intentionally adapts the supplied long barrel to the existing hero. Closed Tier1, both turntables and sampled self-intersection checks pass. Gray proxies intentionally do not prove glass curvature/transmission, final panel bevels, moving contacts or cinematic motion; those remain gated to later passes. Generic attachment report has zero applicable entries and is not accepted as contact evidence. Rails currently extend visibly beyond the front; structure must seat carriages and trim travel endpoints. The dense front occluding collar will require physical opening, not visibility swapping."
+    },
+    {
+      "timestamp": "2026-11-04T23:25:35.286013+00:00",
+      "passId": "structural-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.58,
+        "materialSurface": 0.2,
+        "lightingCamera": 0.79
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Seven fixed groups and cell correspondence retained in the compact axial layout; final glass profiles still pending."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Visible rail sleeves/support arms and retained hinge linkages; measured physical endpoints, bearing radii and axial overlap pass the static deployment contract."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Original exterior dimensions and IDs retained; front carriage and independent focus pivot support future coordinated motion. This is hierarchy acceptance, not completed animation acceptance."
+        }
+      ],
+      "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\references\\lenus-interior-transformation\\4.png",
+      "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\structural-pass\\deployed\\60.png",
+      "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\structural-pass\\comparison-deployed.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": "Structure-only review: the compact optical train now has six rail-mounted carriers with visible support arms/bearings, a shared front carriage, four rear hinges and eight two-arm linkage supports. Measured 16 link endpoints stay within 6.1e-8 units; 24 rail sockets remain coaxial; bearing/track radial gap is .001 and minimum axial engagement .08 across static deployment samples. Rear optical train stays seated during automatic opening to preserve its mount; manual separation still spreads all seven groups coherently. Existing front metal occluders still hide part of the stack and must be physically opened in the form pass. Glass is coarse clay, panel profile is faceted, and final curvature/finish/motion remain unaccepted. 152736 model triangles and 84 calls; sampled self-intersection and both turntables pass, with 24 undecided sampled vertices disclosed. Generic attachment tool reports zero applicable anchors; actual rig socket/geometry measurements and tamper-sensitive tests supply contact evidence."
     }
   ],
   "reviewHistory": [
@@ -11129,6 +11169,66 @@
         "cameraView": "",
         "notes": "",
         "aiVisionNotes": "Blockout-only review of the full reference/render pair plus closed and side views: fixed seven-group axial volumes, recessed core, four closed coarse housing sectors and preserved front/rear identity are established. The shorter 2.1-unit body intentionally adapts the supplied long barrel to the existing hero. Closed Tier1, both turntables and sampled self-intersection checks pass. Gray proxies intentionally do not prove glass curvature/transmission, final panel bevels, moving contacts or cinematic motion; those remain gated to later passes. Generic attachment report has zero applicable entries and is not accepted as contact evidence. Rails currently extend visibly beyond the front; structure must seat carriages and trim travel endpoints. The dense front occluding collar will require physical opening, not visibility swapping."
+      }
+    },
+    {
+      "timestamp": "2026-11-04T23:25:35.286013+00:00",
+      "passId": "structural-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.58,
+        "materialSurface": 0.2,
+        "lightingCamera": 0.79
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Seven fixed groups and cell correspondence retained in the compact axial layout; final glass profiles still pending."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Visible rail sleeves/support arms and retained hinge linkages; measured physical endpoints, bearing radii and axial overlap pass the static deployment contract."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Original exterior dimensions and IDs retained; front carriage and independent focus pivot support future coordinated motion. This is hierarchy acceptance, not completed animation acceptance."
+        }
+      ],
+      "action": "continue",
+      "summary": "Structure-only review: the compact optical train now has six rail-mounted carriers with visible support arms/bearings, a shared front carriage, four rear hinges and eight two-arm linkage supports. Measured 16 link endpoints stay within 6.1e-8 units; 24 rail sockets remain coaxial; bearing/track radial gap is .001 and minimum axial engagement .08 across static deployment samples. Rear optical train stays seated during automatic opening to preserve its mount; manual separation still spreads all seven groups coherently. Existing front metal occluders still hide part of the stack and must be physically opened in the form pass. Glass is coarse clay, panel profile is faceted, and final curvature/finish/motion remain unaccepted. 152736 model triangles and 84 calls; sampled self-intersection and both turntables pass, with 24 undecided sampled vertices disclosed. Generic attachment tool reports zero applicable anchors; actual rig socket/geometry measurements and tamper-sensitive tests supply contact evidence.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "reviewViewpoints": [
+        "front",
+        "three-quarter",
+        "side",
+        "rear",
+        "left",
+        "thickness-axis",
+        "long-axis",
+        "closed",
+        "deployed"
+      ],
+      "visualEvidence": {
+        "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\references\\lenus-interior-transformation\\4.png",
+        "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\structural-pass\\deployed\\60.png",
+        "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\structural-pass\\comparison-deployed.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": "Structure-only review: the compact optical train now has six rail-mounted carriers with visible support arms/bearings, a shared front carriage, four rear hinges and eight two-arm linkage supports. Measured 16 link endpoints stay within 6.1e-8 units; 24 rail sockets remain coaxial; bearing/track radial gap is .001 and minimum axial engagement .08 across static deployment samples. Rear optical train stays seated during automatic opening to preserve its mount; manual separation still spreads all seven groups coherently. Existing front metal occluders still hide part of the stack and must be physically opened in the form pass. Glass is coarse clay, panel profile is faceted, and final curvature/finish/motion remain unaccepted. 152736 model triangles and 84 calls; sampled self-intersection and both turntables pass, with 24 undecided sampled vertices disclosed. Generic attachment tool reports zero applicable anchors; actual rig socket/geometry measurements and tamper-sensitive tests supply contact evidence."
       }
     }
   ],
@@ -11330,9 +11430,8 @@
       "maskWarnings": [
         "reference: 11.6% of foreground cells lie outside the largest connected blob and were excluded from the bounding box; if the subject really has separated parts in this projection, they are not being measured"
       ],
-      "renderHash": "fa76eaabf97ccb68",
-      "passId": "blockout",
-      "mapStrippedRender": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\blockout\\closed\\0.png"
+      "renderHash": "0ac4cc3231d5a9cc",
+      "passId": "structural-pass"
     }
   ],
   "validationOverrides": [
@@ -11467,6 +11566,17 @@
       "heroYaw": -0.46,
       "interiorYaw": 1.0471975512,
       "elevation": 0.14
-    }
+    },
+    "automaticOpticalOffsets": [
+      0.65,
+      0.24,
+      0.12,
+      0,
+      0,
+      0,
+      0
+    ],
+    "rearTrainPolicy": "Rear optics stay seated during automatic opening; manual inspection separation can explode the train as coherent cells.",
+    "railContactPolicy": "Front meniscus carriage rides the .025-radius translating rod in a .026-radius bearing. Other cells ride the .042-radius fixed tube in .043-radius bearings; tube ends at z=.06 and the second cell stays at or behind z=0 during automatic deployment."
   }
 }

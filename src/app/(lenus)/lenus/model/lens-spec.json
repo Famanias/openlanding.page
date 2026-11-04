@@ -1334,12 +1334,12 @@
     },
     {
       "id": "carrier-fasteners",
-      "parent": "root",
+      "parent": "core-carrier",
       "level": "micro",
       "position": [
         0,
         0,
-        -0.78
+        0
       ],
       "material": "titanium",
       "geometry": {
@@ -1630,7 +1630,7 @@
         "kind": "linkages",
         "count": 8,
         "armRadius": 0.025,
-        "linkLength": 0.62,
+        "linkLength": 0.32,
         "endpointTolerance": 0.005
       },
       "features": [
