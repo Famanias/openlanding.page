@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(68);
+    expect(TEMPLATES).toHaveLength(69);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["savepoint", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","arcandsignal","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["savepoint", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","arcandsignal","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -73,7 +73,7 @@ describe("gallery template data", () => {
   it("registers Stillwater with its standalone download and matching rebuild prompt", () => {
     const stillwater = TEMPLATES.find((template) => template.slug === "stillwater");
     expect(stillwater?.hasDownload).toBe(true);
-    expect(stillwater?.category).toBe("scroll-showcase");
+    expect(stillwater?.category).toBe("showcase");
     expect(stillwater?.promptMarkdown.trim()).toBe(
       fs.readFileSync(path.join(process.cwd(), "src/app/(stillwater)/stillwater/PROMPT.md"), "utf8").replace(/\r\n/g, "\n").trim(),
     );
@@ -88,7 +88,7 @@ describe("gallery template data", () => {
 
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
-    const argonSlugs = ["zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
+    const argonSlugs = ["penumbra", "zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (t.slug === "savepoint") {
         expect(t.model).toBe("GPT-6.1");
@@ -125,121 +125,131 @@ describe("gallery template data", () => {
   it("contains the expected categories including 'all'", () => {
     const categoryIds = CATEGORIES.map((c) => c.id);
     expect(categoryIds).toContain("all");
-    expect(categoryIds).toContain("keynote-deck");
-    expect(categoryIds).toContain("scroll-showcase");
-    expect(categoryIds).toContain("3d-webgpu");
-    expect(categoryIds).toContain("editorial-magazine");
-    expect(categoryIds).toContain("conversion");
+    expect(categoryIds).toContain("showcase");
+    expect(categoryIds).toContain("3d");
+    expect(categoryIds).toContain("editorial");
+    expect(categoryIds).toContain("commerce");
+    expect(categoryIds).toContain("deck");
+    expect(categoryIds).toContain("ai");
+    expect(categoryIds).toContain("saas");
+    expect(categoryIds).toContain("app");
+    expect(categoryIds).toContain("marketing");
+    expect(categoryIds).toContain("portfolio");
+    expect(categoryIds).toContain("gradient");
+    expect(categoryIds).toContain("glass");
+    expect(categoryIds).toContain("minimal");
+    expect(categoryIds).toContain("brutalist");
+    expect(categoryIds).toContain("studio");
   });
 
-  it("files WOWFLUTTER under Editorial Magazine with its rebuild prompt inlined", () => {
+  it("files WOWFLUTTER under Editorial with its rebuild prompt inlined", () => {
     const wowflutter = TEMPLATES.find((t) => t.slug === "wowflutter");
-    expect(wowflutter?.category).toBe("editorial-magazine");
+    expect(wowflutter?.category).toBe("editorial");
     expect(wowflutter?.promptMarkdown).toContain('rebuild "WOWFLUTTER"');
     expect(wowflutter?.promptMarkdown).toContain("#FF3D8B");
   });
 
-  it("files Maison Vérane under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files Maison Vérane under Showcase with its rebuild prompt inlined", () => {
     const verane = TEMPLATES.find((t) => t.slug === "verane");
-    expect(verane?.category).toBe("scroll-showcase");
+    expect(verane?.category).toBe("showcase");
     expect(verane?.promptMarkdown).toContain('rebuild "MAISON VÉRANE"');
     expect(verane?.promptMarkdown).toContain("#2A1E22");
   });
 
-  it("files Noctiluca under 3D & WebGPU with its rebuild prompt inlined", () => {
+  it("files Noctiluca under 3D with its rebuild prompt inlined", () => {
     const noctiluca = TEMPLATES.find((t) => t.slug === "noctiluca");
-    expect(noctiluca?.category).toBe("3d-webgpu");
+    expect(noctiluca?.category).toBe("3d");
     expect(noctiluca?.promptMarkdown).toContain('rebuild "Noctiluca"');
     expect(noctiluca?.promptMarkdown).toContain("#C9B8FF");
   });
 
-  it("files IRIDIA under 3D & WebGPU with its rebuild prompt inlined", () => {
+  it("files IRIDIA under 3D with its rebuild prompt inlined", () => {
     const iridia = TEMPLATES.find((t) => t.slug === "iridia");
-    expect(iridia?.category).toBe("3d-webgpu");
+    expect(iridia?.category).toBe("3d");
     expect(iridia?.promptMarkdown).toContain('rebuild "IRIDIA"');
     expect(iridia?.promptMarkdown).toContain("#00F0FF");
   });
 
-  it("files BATHYS under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files BATHYS under Showcase with its rebuild prompt inlined", () => {
     const bathys = TEMPLATES.find((t) => t.slug === "bathys");
-    expect(bathys?.category).toBe("scroll-showcase");
+    expect(bathys?.category).toBe("showcase");
     expect(bathys?.promptMarkdown).toContain('rebuild "BATHYS"');
     expect(bathys?.promptMarkdown).toContain("#00E5FF");
   });
 
-  it("files AUBADE under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files AUBADE under Showcase with its rebuild prompt inlined", () => {
     const aubade = TEMPLATES.find((t) => t.slug === "aubade");
-    expect(aubade?.category).toBe("scroll-showcase");
+    expect(aubade?.category).toBe("showcase");
     expect(aubade?.promptMarkdown).toContain('rebuild "AUBADE"');
     expect(aubade?.promptMarkdown).toContain("#8E1F3A");
   });
 
-  it("files Satsuma under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files Satsuma under Showcase with its rebuild prompt inlined", () => {
     const satsuma = TEMPLATES.find((t) => t.slug === "satsuma");
-    expect(satsuma?.category).toBe("scroll-showcase");
+    expect(satsuma?.category).toBe("showcase");
     expect(satsuma?.promptMarkdown).toContain('rebuild "Satsuma"');
     expect(satsuma?.promptMarkdown).toContain("#FF7A2F");
   });
 
-  it("files CALDER & ROWE under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files CALDER & ROWE under Showcase with its rebuild prompt inlined", () => {
     const calder = TEMPLATES.find((t) => t.slug === "calder");
-    expect(calder?.category).toBe("scroll-showcase");
+    expect(calder?.category).toBe("showcase");
     expect(calder?.promptMarkdown).toContain('rebuild "CALDER & ROWE"');
     expect(calder?.promptMarkdown).toContain("#C9A55A");
   });
 
-  it("files KINETIC under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files KINETIC under Showcase with its rebuild prompt inlined", () => {
     const kinetic = TEMPLATES.find((t) => t.slug === "kinetic");
-    expect(kinetic?.category).toBe("scroll-showcase");
+    expect(kinetic?.category).toBe("showcase");
     expect(kinetic?.promptMarkdown).toContain('rebuild "KINETIC"');
     expect(kinetic?.promptMarkdown).toContain("#FF6B2B");
   });
 
-  it("files RILL under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files RILL under Showcase with its rebuild prompt inlined", () => {
     const rill = TEMPLATES.find((t) => t.slug === "rill");
-    expect(rill?.category).toBe("scroll-showcase");
+    expect(rill?.category).toBe("showcase");
     expect(rill?.promptMarkdown).toContain('rebuild "RILL"');
     expect(rill?.promptMarkdown).toContain("#14231E");
   });
 
-  it("files HIYAS under Scroll Showcase with its rebuild prompt inlined", () => {
+  it("files HIYAS under App with its rebuild prompt inlined", () => {
     const hiyas = TEMPLATES.find((t) => t.slug === "hiyas");
-    expect(hiyas?.category).toBe("scroll-showcase");
+    expect(hiyas?.category).toBe("app");
     expect(hiyas?.promptMarkdown).toContain('rebuild "HIYAS"');
     expect(hiyas?.promptMarkdown).toContain("#0B2A4A");
   });
 
-  it("files SEREIN under Editorial Magazine with its fold-out prompt inlined", () => {
+  it("files SEREIN under Minimal with its fold-out prompt inlined", () => {
     const serein = TEMPLATES.find((t) => t.slug === "serein");
-    expect(serein?.category).toBe("editorial-magazine");
+    expect(serein?.category).toBe("minimal");
     expect(serein?.promptMarkdown).toContain('rebuild "SEREIN Bureau"');
     expect(serein?.promptMarkdown).toContain("#A8D6CC");
   });
 
-  it("files PERIGEE under 3D & WebGPU with its rebuild prompt inlined", () => {
+  it("files PERIGEE under 3D with its rebuild prompt inlined", () => {
     const perigee = TEMPLATES.find((t) => t.slug === "perigee");
-    expect(perigee?.category).toBe("3d-webgpu");
+    expect(perigee?.category).toBe("3d");
     expect(perigee?.promptMarkdown).toContain('rebuild "PERIGEE"');
     expect(perigee?.promptMarkdown).toContain("#FFB36B");
   });
 
-  it("files LOAM under 3D & WebGPU with its rebuild prompt inlined", () => {
+  it("files LOAM under 3D with its rebuild prompt inlined", () => {
     const loam = TEMPLATES.find((t) => t.slug === "loam");
-    expect(loam?.category).toBe("3d-webgpu");
+    expect(loam?.category).toBe("3d");
     expect(loam?.promptMarkdown).toContain('rebuild "LOAM"');
     expect(loam?.promptMarkdown).toContain("#C8E64C");
   });
 
-  it("files PARALLEL under 3D & WebGPU with its rebuild prompt inlined", () => {
+  it("files PARALLEL under AI with its rebuild prompt inlined", () => {
     const parallel = TEMPLATES.find((t) => t.slug === "parallel");
-    expect(parallel?.category).toBe("3d-webgpu");
+    expect(parallel?.category).toBe("ai");
     expect(parallel?.promptMarkdown).toContain("PARALLEL");
     expect(parallel?.promptMarkdown).toContain("#E85D36");
   });
 
-  it("files Jules Mercer under 3D & WebGPU with its rebuild prompt inlined", () => {
+  it("files Jules Mercer under Portfolio with its rebuild prompt inlined", () => {
     const mercer = TEMPLATES.find((t) => t.slug === "mercer");
-    expect(mercer?.category).toBe("3d-webgpu");
+    expect(mercer?.category).toBe("portfolio");
     expect(mercer?.promptMarkdown).toContain("Jules Mercer");
     expect(mercer?.promptMarkdown).toContain("#0A0D10");
   });

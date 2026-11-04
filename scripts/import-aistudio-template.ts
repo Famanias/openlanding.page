@@ -3,7 +3,15 @@ import path from "node:path";
 import { execSync } from "node:child_process";
 
 // Supported Google fonts in next/font/google with standard configurations
-const KNOWN_GOOGLE_FONTS: Record<string, { importName: string; variable: string }> = {
+const KNOWN_GOOGLE_FONTS: Record<
+  string,
+  {
+    importName: string;
+    variable: string;
+    weight?: string | string[];
+    style?: string[];
+  }
+> = {
   "DM Sans": { importName: "DM_Sans", variable: "--font-dm-sans" },
   "JetBrains Mono": { importName: "JetBrains_Mono", variable: "--font-jetbrains-mono" },
   "Inter": { importName: "Inter", variable: "--font-inter" },
@@ -19,26 +27,26 @@ const KNOWN_GOOGLE_FONTS: Record<string, { importName: string; variable: string 
   "Cinzel": { importName: "Cinzel", variable: "--font-cinzel" },
   "Manrope": { importName: "Manrope", variable: "--font-manrope" },
   "Montserrat": { importName: "Montserrat", variable: "--font-montserrat" },
-  "Poppins": { importName: "Poppins", variable: "--font-poppins" },
+  "Poppins": { importName: "Poppins", variable: "--font-poppins", weight: ["400", "500", "600", "700"] },
   "Lora": { importName: "Lora", variable: "--font-lora" },
-  "Cinzel Decorative": { importName: "Cinzel_Decorative", variable: "--font-cinzel-decorative" },
+  "Cinzel Decorative": { importName: "Cinzel_Decorative", variable: "--font-cinzel-decorative", weight: ["400", "700", "900"] },
   "Bodoni Moda": { importName: "Bodoni_Moda", variable: "--font-bodoni-moda" },
-  "Barlow Condensed": { importName: "Barlow_Condensed", variable: "--font-barlow-condensed" },
-  "Anton": { importName: "Anton", variable: "--font-anton" },
+  "Barlow Condensed": { importName: "Barlow_Condensed", variable: "--font-barlow-condensed", weight: ["400", "500", "600", "700"] },
+  "Anton": { importName: "Anton", variable: "--font-anton", weight: "400" },
   "Caveat": { importName: "Caveat", variable: "--font-caveat" },
   "Newsreader": { importName: "Newsreader", variable: "--font-newsreader" },
-  "Instrument Serif": { importName: "Instrument_Serif", variable: "--font-instrument-serif" },
-  "Bebas Neue": { importName: "Bebas_Neue", variable: "--font-bebas-neue" },
-  "Space Mono": { importName: "Space_Mono", variable: "--font-space-mono" },
+  "Instrument Serif": { importName: "Instrument_Serif", variable: "--font-instrument-serif", weight: "400", style: ["normal", "italic"] },
+  "Bebas Neue": { importName: "Bebas_Neue", variable: "--font-bebas-neue", weight: "400" },
+  "Space Mono": { importName: "Space_Mono", variable: "--font-space-mono", weight: ["400", "700"] },
   "Inconsolata": { importName: "Inconsolata", variable: "--font-inconsolata" },
   "Fira Code": { importName: "Fira_Code", variable: "--font-fira-code" },
-  "Roboto": { importName: "Roboto", variable: "--font-roboto" },
+  "Roboto": { importName: "Roboto", variable: "--font-roboto", weight: ["400", "500", "700"] },
   "Roboto Mono": { importName: "Roboto_Mono", variable: "--font-roboto-mono" },
   "Open Sans": { importName: "Open_Sans", variable: "--font-open-sans" },
-  "Lato": { importName: "Lato", variable: "--font-lato" },
-  "Merriweather": { importName: "Merriweather", variable: "--font-merriweather" },
+  "Lato": { importName: "Lato", variable: "--font-lato", weight: ["400", "700"] },
+  "Merriweather": { importName: "Merriweather", variable: "--font-merriweather", weight: ["400", "700"] },
   "Crimson Pro": { importName: "Crimson_Pro", variable: "--font-crimson-pro" },
-  "Italiana": { importName: "Italiana", variable: "--font-italiana" },
+  "Italiana": { importName: "Italiana", variable: "--font-italiana", weight: "400" },
 };
 
 interface ParsedMeta {
@@ -57,7 +65,7 @@ function parseCliArgs() {
   let repoOrPath = "";
   let slug = "";
   let title = "";
-  let category = "scroll-showcase";
+  let category = "showcase";
   let dryRun = false;
   let force = false;
   let noRegister = false;
@@ -304,10 +312,15 @@ function generateLayoutTsx(meta: ParsedMeta, slug: string, pascalSlug: string): 
       if (!fontImports.includes(known.importName)) {
         fontImports.push(known.importName);
         const varName = known.importName.charAt(0).toLowerCase() + known.importName.slice(1);
-        fontInstantiations.push(`const ${varName} = ${known.importName}({
-  subsets: ["latin"],
-  variable: "${known.variable}",
-});`);
+        const options: string[] = ['subsets: ["latin"]'];
+        if (known.weight) {
+          options.push(`weight: ${JSON.stringify(known.weight)}`);
+        }
+        if (known.style) {
+          options.push(`style: ${JSON.stringify(known.style)}`);
+        }
+        options.push(`variable: "${known.variable}"`);
+        fontInstantiations.push(`const ${varName} = ${known.importName}({\n  ${options.join(",\n  ")},\n});`);
         fontClassVariables.push(`\${${varName}.variable}`);
       }
     }
@@ -603,6 +616,7 @@ Build a complete, responsive, interaction-rich landing page for **${meta.brandNa
     title: "${meta.brandName}",
     description: ${JSON.stringify(meta.description)},
     category: "${category}" as TemplateCategory,
+    categories: ["${category}" as TemplateCategory],
     industry: "Digital Experience & Technology",
     stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
     badges: ["Interactive Landing", "Responsive", "Accessible"],

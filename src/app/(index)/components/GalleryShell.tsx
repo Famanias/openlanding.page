@@ -2,7 +2,7 @@
 
 import React, { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { LayoutGroup } from "motion/react";
-import { CATEGORIES, TEMPLATES, type CategoryId } from "../data/templates";
+import { CATEGORIES, TEMPLATES, type CategoryId, type TemplateCategory, getTemplateCategories } from "../data/templates";
 import { filterTemplates, sortTemplates } from "../data/filters";
 import { FilterBar } from "./FilterBar";
 import { TemplateCard } from "./TemplateCard";
@@ -29,7 +29,7 @@ export function GalleryShell() {
   const categoryCounts = useMemo(() => {
     const matching = filterTemplates(TEMPLATES, { category: "all", model: filters.model, query });
     return Object.fromEntries(CATEGORIES.map((cat) => [cat.id,
-      cat.id === "all" ? matching.length : matching.filter((template) => template.category === cat.id).length]));
+      cat.id === "all" ? matching.length : matching.filter((template) => getTemplateCategories(template).includes(cat.id as TemplateCategory)).length]));
   }, [filters.model, query]);
   const filteredTemplates = sortTemplates(filterTemplates(TEMPLATES, { ...filters, query }), filters.sort, filters.dir, votes.counts);
   const handleSelectCategory = (category: CategoryId) => updateGalleryFilters({ category });

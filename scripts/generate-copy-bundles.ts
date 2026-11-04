@@ -10,6 +10,7 @@ const COPY_METADATA: Record<
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
   savepoint: { name: "SAVEPOINT.", dependencies: ["three", "@types/three", "gsap", "zustand"] },
+  penumbra: { name: "PENUMBRA", dependencies: ["lucide-react", "motion"] },
   zeno: { name: "ZENO.", dependencies: ["lucide-react", "motion"] },
   halodesk: { name: "Halo Desk", dependencies: ["lucide-react", "motion"] },
   riff: { name: "Riff", dependencies: ["lucide-react", "motion"] },

@@ -10,8 +10,8 @@ describe("gallery discovery", () => {
     expect(modelFamily("MiMo v2.6 Flash Free")).toBe("other");
   });
   it("intersects search, category, and model", () => {
-    expect(filterTemplates(TEMPLATES, { query: "trace", category: "3d-webgpu", model: "openai" }).map((item) => item.slug)).toEqual(["trace"]);
-    expect(filterTemplates(TEMPLATES, { query: "trace", category: "3d-webgpu", model: "claude" })).toEqual([]);
+    expect(filterTemplates(TEMPLATES, { query: "trace", category: "3d", model: "openai" }).map((item) => item.slug)).toEqual(["trace"]);
+    expect(filterTemplates(TEMPLATES, { query: "trace", category: "3d", model: "claude" })).toEqual([]);
   });
   it("searches multiword descriptions and provider aliases without case sensitivity", () => {
     const matches = filterTemplates(TEMPLATES, { query: " OPENAI spatial ", category: "all", model: "all" });

@@ -1,0 +1,679 @@
+# PENUMBRA — Complete One-Shot Landing Page Master Prompt
+
+> **Execution instruction for the coding agent:** Implement the entire working website, not a concept, wireframe, or partial hero. Inspect the existing project, use the supplied assets, make reasonable decisions without stopping for routine clarification, write the code, run the available checks, and fix errors. This document is the single authoritative specification for the PENUMBRA website.
+
+---
+
+## 0. NON-NEGOTIABLE PROJECT RULES
+
+These rules take precedence over convenience, framework defaults, and other examples.
+
+### Rule 1 — Client directives
+
+The **literal first line** of `src/App.tsx` **must** be:
+
+```tsx
+'use client';
+```
+
+The **literal first line of every React component file in `src/components/`** (`.tsx` or `.jsx`) must also be:
+
+```tsx
+'use client';
+```
+
+- The directive must precede imports, comments, type declarations, blank lines, and other statements.
+- Keep this convention even though the project uses Vite, where the directive is not technically required.
+- Any newly created component under `src/components/` must follow the rule. Verify automatically or manually before completion.
+
+### Rule 2 — Asset ownership and paths
+
+**All images, SVG asset files, illustrations, video, and other static visual assets belong inside `public/assets/`.** Reference every such asset in code using a root-relative URL of the form:
+
+```tsx
+<img src="/assets/architecture-base.webp" alt="..." />
+```
+
+Use **`/assets/<filename>`**, not `./assets/`, `/public/assets/`, a third-party image URL, or an import from `src/assets/`. Do not place static image/SVG asset files in other folders. React-rendered inline SVG for interactive lines and controls, CSS gradients, and `lucide-react` icons are programmatic UI, not external SVG asset files, and may be built directly in code.
+
+Specifically, place these two provided hero assets at:
+
+```text
+public/assets/architecture-base.webp
+public/assets/architecture-illuminated.webp
+```
+
+Refer to them exactly as:
+
+```ts
+const HERO_BASE = '/assets/architecture-base.webp';
+const HERO_REVEAL = '/assets/architecture-illuminated.webp';
+```
+
+Do not regenerate these two hero images. Do not substitute remote stock photographs or fabricated image URLs. If additional imagery is needed, use a provided file, generate it **only if the project's available tools actually support generation**, save it under `public/assets/`, or construct a deliberate alternative with HTML/CSS/SVG. Never claim to have generated assets that do not exist.
+
+### Rule 3 — Real website, not flat screenshots
+
+All headings, navigation, buttons, form fields, controls, metadata, overlays, and interactive elements must be real HTML/React elements. Do not turn sections into flat image screenshots. Use the photographic assets as photographs and implement the spotlight mask in the browser.
+
+### Rule 4 — Preserve source-image alignment
+
+The two supplied hero files are an intentionally paired **1920 × 1080, 16:9** architectural scene: the same modern brutalist concrete building at blue hour, unlit versus warmly illuminated. Their crop coordinates match; small AI-generated detail differences may remain. Do **not** generate a new camera view, individually move either layer, or aggressively warp the images. They must share one image stage, identical width/height, `object-fit`, `object-position`, and transforms.
+
+---
+
+## 1. PROJECT OVERVIEW
+
+**Name:** PENUMBRA.
+
+**Type:** Fictional independent architectural lighting design practice / premium interactive agency landing-page template.
+
+**Core positioning:** Designing the relationship between light, architecture, and emotion.
+
+**Tagline:** **Architecture, after dark.**
+
+**One-sentence concept:** Visitors discover how architectural lighting transforms a concrete building by sweeping a soft cursor-following spotlight over a dark blue-hour photograph to reveal the identically framed illuminated version underneath.
+
+The result should feel like an interactive architectural photography exhibition and an expensive art-directed studio website, not an ordinary design-agency template with an image-mask gimmick.
+
+**Priority order:** (1) visual fidelity and exact reveal alignment; (2) flawless signature interaction; (3) typography/art direction; (4) functional complete website; (5) scroll choreography; (6) responsive, accessible performance.
+
+**No invented claims:** This is a fictional concept brand. Do not invent real clientele, architectural awards, energy savings, project metrics, professional certifications, or testimonials. Clearly present any fictional work as conceptual projects. The contact experience must not pretend to submit data to a backend that does not exist.
+
+---
+
+## 2. REQUIRED TECHNOLOGY AND PROJECT SETUP
+
+Use the existing project if one is supplied; otherwise scaffold:
+
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS (configure using the appropriate installed version)
+- `gsap` and `gsap/ScrollTrigger` for scroll choreography
+- `lucide-react` for functional UI icons
+- Native CSS masks and `requestAnimationFrame` for the spotlight
+
+No Three.js is necessary. The core experience is photographic illumination, not a 3D object viewer. Avoid heavy WebGL shaders, high-cost canvas encoding, and unnecessary dependency bloat.
+
+Suggested structure:
+
+```text
+index.html
+package.json
+src/
+  main.tsx
+  App.tsx                         # FIRST LINE: 'use client';
+  index.css
+  components/
+    Header.tsx                    # FIRST LINE: 'use client';
+    Hero.tsx                      # FIRST LINE: 'use client';
+    SpotlightReveal.tsx           # FIRST LINE: 'use client';
+    SectionHeading.tsx            # FIRST LINE: 'use client';
+    SelectedProjects.tsx          # FIRST LINE: 'use client';
+    Practice.tsx                  # FIRST LINE: 'use client';
+    LightLab.tsx                  # FIRST LINE: 'use client';
+    Process.tsx                   # FIRST LINE: 'use client';
+    ContactFooter.tsx             # FIRST LINE: 'use client';
+    MobileNav.tsx                 # FIRST LINE: 'use client';
+  hooks/
+    useReducedMotion.ts
+    useSpotlight.ts
+  lib/
+    motion.ts
+    projectData.ts
+public/
+  assets/
+    architecture-base.webp
+    architecture-illuminated.webp
+    ...any additional actual images/SVG/video assets...
+```
+
+This structure is guidance; prefer a clear modular implementation over unnecessary files. If you place a component inside `src/components/`, the directive rule applies **without exception**.
+
+Quality standards:
+
+- Use semantic HTML and TypeScript types.
+- Keep interactive behavior in React rather than attaching unrelated imperative listeners everywhere.
+- Correctly clean up animation frames, pointer listeners, observers, and ScrollTriggers.
+- Avoid layout shifts and runtime console errors.
+- All navigation and CTAs must actually respond to interaction.
+- Keep motion intentional; no generic simultaneous fade-in on every card.
+
+---
+
+## 3. ART DIRECTION AND DESIGN TOKENS
+
+### 3.1 Identity
+
+PENUMBRA is a quiet, design-literate lighting practice. The aesthetics should be **architectural, cinematic, minimal, tactile, and emotionally controlled**.
+
+Avoid sci-fi glow, AI-company purple, glass dashboards, blurry UI cards, unrelated abstract orbs, glitter particles, excessive lens flares, and loud marketing tropes.
+
+### 3.2 Palette
+
+```css
+:root {
+  --ink: #111318;              /* midnight graphite */
+  --slate: #20252D;            /* deeper material surface */
+  --ivory: #F2EBE2;            /* primary foreground */
+  --amber: #D7A779;            /* architectural light */
+  --amber-bright: #E9BB86;     /* tiny specular accents */
+  --steel: #7E91A8;            /* blue hour */
+  --stone: #A6A29F;            /* secondary neutral */
+  --line: rgba(242,235,226,.18);
+}
+```
+
+The actual photograph provides most of the visual richness. UI colors should support—not overwhelm—it. Build background surfaces in CSS, not in background PNG screenshots.
+
+### 3.3 Typography
+
+Use a sophisticated high-contrast display serif such as **Instrument Serif** or a comparably refined available serif, paired with a restrained contemporary sans such as **Manrope** / **Inter**. Use consistent fallbacks if network fonts are unavailable.
+
+- Hero headline: monumental serif, artistic line breaks, generous negative space, not decorative cursive.
+- Body: clean, small-to-medium, highly legible, editorial line length.
+- Eyebrows/metadata: tracked uppercase sans-serif.
+- Buttons: restrained, tactile, refined interaction states.
+- Mobile: preserve hierarchy without huge text clipping.
+
+### 3.4 Layout language
+
+- Full-bleed architecture as the hero canvas.
+- Asymmetric editorial composition; text layered over controlled dark negative space.
+- Fine rules, careful typographic alignment, generous margins.
+- Uncluttered sections with a slower visual rhythm.
+- Elegant photography/crop treatment rather than generic three-column marketing cards.
+- Lighting and shadows—not saturated gradients—are the recurring visual motif.
+
+---
+
+## 4. APPROVED HERO ASSET CONTRACT
+
+The following assets are supplied by the user and MUST be used:
+
+| Role | File | URL |
+|---|---|---|
+| Base / unlit | `architecture-base.webp` | `/assets/architecture-base.webp` |
+| Reveal / illuminated | `architecture-illuminated.webp` | `/assets/architecture-illuminated.webp` |
+
+Both are **1920×1080**, landscape 16:9, identical crop coordinates.
+
+The scene includes: a large contemporary concrete structure, glass facade, trees/boulders, distant mountains, reflecting pool, dramatic blue-hour atmosphere, and warm architectural illumination in the reveal version. These assets are the *visual source of truth*. Do not regenerate them.
+
+Required construction:
+
+```tsx
+<div className="hero-image-stage">
+  <img src="/assets/architecture-base.webp" alt="Modern concrete architecture at blue hour before lighting" />
+  <div className="illuminated-layer" aria-hidden="true">
+    <img src="/assets/architecture-illuminated.webp" alt="" />
+  </div>
+</div>
+```
+
+Adapt markup as needed, but preserve one shared coordinate system. Set both images to absolute inset 0, width/height 100%, `object-fit: cover`, and `object-position: center`. A shared zoom may be applied to a common wrapper, **never** to the layers independently.
+
+Use one meaningful accessible description for the image pair; avoid duplicate screen-reader announcements.
+
+If there are small structural differences between the images, do not promise pixel-perfect registration. Use broad, feathered masking to make the transition pleasing. Never use aggressive warping that distorts architecture or sacrifices image quality.
+
+Preload the base image early. Start fetching the illuminated image promptly so the first pointer interaction does not reveal a blank area. Do not block the rest of the page indefinitely if it loads slowly; display the base image gracefully.
+
+---
+
+## 5. SITE ARCHITECTURE AND EXACT CONTENT
+
+Build a **complete** single-page site with these sections in this order:
+
+1. Fixed navigation + full-screen interactive Hero
+2. Selected Projects
+3. The Practice / studio philosophy
+4. Light in Motion / interactive Light Lab
+5. Our Process
+6. Final CTA + Footer
+
+Give sections meaningful IDs: `#home`, `#projects`, `#practice`, `#light-lab`, `#process`, `#contact`.
+
+### 5.1 Header / Navigation
+
+Header initially transparent over hero; gains a restrained dark translucent backing and thin bottom border after scrolling. It must remain readable on both dark and illuminated imagery.
+
+- Brand left: **PENUMBRA.** (small warm amber accent dot or typographic mark).
+- Desktop nav: **Projects / Practice / Approach / Journal**. Map Approach to `#process`. Map Journal to a real on-page editorial note or the Practice section; do not leave dead links.
+- Primary right CTA: **START A PROJECT ↗** → `#contact`.
+- Mobile: accessible toggle, actual expanding menu, Esc-to-close, visible focus states, and close-on-navigation.
+- Respect hero pointer interactions: nav has an interaction layer above the spotlight and stays clickable.
+
+### 5.2 HERO — `#home`
+
+Hero height approximately `100dvh`, with safe minimum for content and mobile browser chrome. Use image background stage with dark left-to-right scrim for text contrast—not a heavy opaque panel.
+
+Copy:
+
+**Eyebrow:** `INDEPENDENT LIGHTING PRACTICE / EST. 2026`
+
+**Headline, two deliberate lines:**
+
+> ARCHITECTURE,
+> AFTER DARK.
+
+**Supporting copy:**
+
+> We shape how spaces are seen, felt, and remembered through light.
+
+**Primary CTA:** `EXPLORE OUR WORK ↗` → `#projects`.
+
+**Secondary CTA:** `OUR APPROACH` → `#process`.
+
+**Instruction label:** `MOVE TO REVEAL THE LIGHT` (for pointer-capable devices).
+
+Add a subtle scroll cue, edge rules, and small unobtrusive studio metadata. Do not compete with the building.
+
+Desktop text should occupy the left/left-center; spotlight must remain free to move over the whole image. On narrow screens, use deliberate text shielding or stronger local scrim so lighting does not make text unreadable.
+
+### 5.3 SELECTED PROJECTS — `#projects`
+
+Label: `01 / SELECTED PROJECTS`
+
+Headline: **LIGHT CHANGES EVERYTHING.**
+
+Intro: `Three studies in how illumination changes the way we experience architecture.`
+
+Create three fictional *concept* projects that demonstrate visual range:
+
+**01 — Solace Pavilion**
+- Category: Cultural / Architectural lighting concept
+- Mood: monumental concrete, intimate pools of warm light
+- Microcopy: `A quiet monument to the moments between shadow and form.`
+
+**02 — Nocturne House**
+- Category: Residential / Lighting concept
+- Mood: warm interiors, stone, reflective surfaces
+- Microcopy: `A private retreat shaped by restraint and the warmth of evening.`
+
+**03 — Meridian Walk**
+- Category: Public realm / Lighting concept
+- Mood: pathway illumination, natural landscape, orientation
+- Microcopy: `Guiding movement through landscape without overpowering night.`
+
+**Asset rule:** Do not show unrelated external photos. If project-specific image generation is genuinely available, generate suitable original architecture concept images **into `public/assets/`** and reference by `/assets/<filename>`. If it is unavailable, create a design-conscious presentation using the supplied architectural photographs with honest cropping/labels, coded diagrams, and thoughtful editorial typography; avoid fake broken placeholders. Do not misrepresent one photograph as three real completed client projects.
+
+**Interactions:** Project cards are actually clickable. Opening a project should show an accessible detail drawer/dialog or inline expanded editorial view with concept summary, services, and a relevant visual. Provide a working close button, Escape behavior, and keyboard focus management.
+
+**Motion:** Use photographic masked reveals and slow lateral composition shifts. No obligatory fade-up of every individual element.
+
+### 5.4 THE PRACTICE — `#practice`
+
+Label: `02 / THE PRACTICE`
+
+Headline: **LIGHT IS NEVER JUST LIGHT.**
+
+Body:
+
+> It defines a threshold, reveals a texture, slows a moment, and gives architecture a second life after sunset. We begin with the space, then design what the light allows you to feel.
+
+Present three editorial principles, without generic feature-card visuals:
+
+- **01 / Observe** — Understand the architecture and the people who inhabit it.
+- **02 / Sculpt** — Shape contrast, shadow, temperature, and rhythm with intention.
+- **03 / Reveal** — Make the extraordinary visible without losing the quiet.
+
+Visual treatment: large typography, cropped architectural close-ups or coded light/shadow diagrams, fine divider rules, and varying light gradients. Keep the section calm.
+
+### 5.5 LIGHT IN MOTION — `#light-lab`
+
+Label: `03 / LIGHT IN MOTION`
+
+Headline: **SEE WHAT LIGHT CAN DO.**
+
+Body: `A small interactive study of intensity, warmth, and direction.`
+
+Build a **working front-end lighting demonstration**, not decorative controls.
+
+Controls:
+
+1. **Intensity:** functional slider from 0–100%.
+2. **Temperature:** cool → neutral → warm, with a meaningful visible change.
+3. **Direction:** a segmented control or pointer-driven horizontal angle selector, with visibly changed illumination direction.
+4. **Reset:** restores the default scene.
+
+Implementation: preferably use the architectural asset pair in a smaller, clearly labeled **illustrative preview**, combining reveal strength, color-temperature overlays, and gradients to demonstrate how mood changes. Preserve source fidelity and clarify that this is a visual illustration, **not physically accurate photometric software**. The effects must really respond to input, remain legible, and be usable on touch and keyboard.
+
+Do not embed the entire hero spotlight implementation in every little control; this should be an efficient independent demo using CSS opacity/masks/filters on a separate image stage.
+
+### 5.6 OUR PROCESS — `#process`
+
+Label: `04 / OUR APPROACH`
+
+Headline: **FROM FIRST SHADOW TO FINAL GLOW.**
+
+Provide a real, readable four-step process:
+
+1. **Listen** — Establish how a space is used and what it should evoke.
+2. **Explore** — Study light, material, perspective, and contrast.
+3. **Compose** — Prototype scenes, accents, and moments of revelation.
+4. **Refine** — Tune the experience so it feels inevitable, never excessive.
+
+Use a fine architectural timeline that progressively illuminates as the user scrolls. This should be accessible even with JavaScript motion disabled.
+
+### 5.7 FINAL CTA & FOOTER — `#contact`
+
+Headline:
+
+> LET'S CHANGE HOW
+> THE WORLD IS SEEN.
+
+Supporting text:
+
+> Every extraordinary space deserves an extraordinary night. Tell us what you are imagining.
+
+CTAs:
+- **START A CONVERSATION ↗** — opens an accessible contact dialog or an explicit `mailto:` draft.
+- **BACK TO PROJECTS** — scrolls to `#projects`.
+
+Contact handling: this is a fictional brand template. Use `hello@penumbra.example` as an explicitly placeholder contact address **or** expose a clearly marked demo form. If a working backend is not provided, do not claim a message was delivered; instead validate fields and offer a `mailto:` draft or show “Demo form — connect your email service before publishing.”
+
+Footer: PENUMBRA. wordmark, navigation, studio descriptor, 2026 concept-site notice, legal/demo disclaimer where helpful, and a functional back-to-top link. No fake social profiles.
+
+---
+
+## 6. SIGNATURE SPOTLIGHT — IMPLEMENTATION SPECIFICATION
+
+This is the centerpiece of the project. Build it carefully and test it in the browser.
+
+### 6.1 Layer stack
+
+Within the hero:
+
+1. **Layer 0:** Base unlit image, fully visible.
+2. **Layer 1:** Identically aligned illuminated image, revealed only through the radial mask.
+3. **Layer 2:** Extremely subtle optional glow / amber scattering, with `pointer-events: none`.
+4. **Layer 3:** Text / editorial content with text contrast protection.
+5. **Layer 4:** Nav and clickable controls, always fully interactive.
+
+Never use a hidden canvas followed by `canvas.toDataURL()` each frame. The primary effect must use a native CSS radial mask (`mask-image` and `-webkit-mask-image`).
+
+### 6.2 Cursor coordinate tracking
+
+- Listen to `pointermove` on the hero/image stage for mouse/pen pointers.
+- Calculate coordinates **relative to the element's `getBoundingClientRect()`**, not raw viewport coordinates.
+- Keep target and eased values in refs/imperative state, rather than `setState` every frame.
+- Update CSS variables directly on the mask element inside `requestAnimationFrame`.
+- Recommended time-step-independent interpolation:
+
+```ts
+const alpha = 1 - Math.exp(-10 * deltaSeconds);
+smoothX += (targetX - smoothX) * alpha;
+smoothY += (targetY - smoothY) * alpha;
+```
+
+- Cancel RAF when inactive; stop or reduce updates when tab hidden or component out of view.
+- Handle resize, pointer exit, image-loading changes, and unmount without a jump or memory leak.
+
+### 6.3 Radial mask
+
+Use an equivalent of:
+
+```css
+.illuminated-layer {
+  --spot-x: 50%;
+  --spot-y: 55%;
+  --spot-r: 260px;
+  mask-image: radial-gradient(
+    circle var(--spot-r) at var(--spot-x) var(--spot-y),
+    #000 0%,
+    #000 38%,
+    rgba(0,0,0,.9) 49%,
+    rgba(0,0,0,.65) 65%,
+    rgba(0,0,0,.25) 82%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle var(--spot-r) at var(--spot-x) var(--spot-y),
+    #000 0%,
+    #000 38%,
+    rgba(0,0,0,.9) 49%,
+    rgba(0,0,0,.65) 65%,
+    rgba(0,0,0,.25) 82%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+```
+
+The value `260px` is a **radius** (about 520px diameter). Adjust responsively by viewport size / CSS `clamp()`. Use percentages or pixel positions consistently—never mix a viewport-space pointer with a section-space mask.
+
+If a browser exhibits CSS-variable mask interpolation limitations, generate the complete mask gradient string on the masked element directly from the RAF loop; still **do not** encode canvases every frame.
+
+### 6.4 Spotlight interaction lifecycle
+
+- **On intro:** initial small warm point appears at an architectural focal point, grows to a moderate radius, then smoothly hands off to the pointer position.
+- **On pointer entry:** spotlight fades/scales to normal radius with no hard edge.
+- **On pointer motion:** moves with controlled inertia; no snapping, no visible lag severe enough to make exploration frustrating.
+- **On pointer stop:** settles, remains stable.
+- **On pointer exit:** spotlight and its decorative halo fade down smoothly; do not clear the mask abruptly.
+- **On click / buttons:** no reveal layer should steal events.
+- **Optional:** one small amber cursor indicator, but do not draw a giant visible circular border around the spotlight.
+
+An optional tiny glow follows the same center, but **the architectural image itself is the primary light effect**. Avoid fake sunbeams or opaque orange globs.
+
+### 6.5 Text readability
+
+The spotlight can pass behind the headline and nav; ensure typography remains readable in both image states with intelligent local scrims, text color, and z-index. The layout should not cause pointer movement to block CTAs. Decorative layers use `pointer-events: none`.
+
+---
+
+## 7. CINEMATIC INTRO AND SCROLL TRANSITION
+
+### 7.1 Intro choreography (roughly first 1.5–2.5 seconds)
+
+This is a suggested sequence, not a reason to introduce arbitrary waiting or a splash screen:
+
+1. **Architecture settles:** base photograph appears with a restrained shared scale movement (e.g., 1.035 → 1), preferably under 1.8 seconds.
+2. **Wordmark and rule:** quiet, precise entrance.
+3. **Headline:** line-by-line overflow-mask reveal; second line follows the first.
+4. **Supporting body and CTAs:** short directional rise, low displacement, no excessive blur.
+5. **First light:** small amber focus activates on a meaningful part of the building and expands.
+6. **Interaction handoff:** pointer begins controlling the reveal; instruction label becomes visible and recedes after actual interaction.
+
+Never permanently hide content while waiting for interaction. Avoid intro replay on every scroll return.
+
+### 7.2 Scroll-driven illumination takeover
+
+At the end of the hero, create a short reversible **GSAP ScrollTrigger pinned transition on suitable desktop viewports**:
+
+- The spotlight radius progressively expands until the illuminated image is visible across the full stage.
+- Compute maximum reveal radius from the distance between the mask center and the farthest stage corner. Avoid an almost-complete circle that leaves dark corners.
+- The image pair remains perfectly registered throughout.
+- Hero text exits via directional masks / composed position changes as the image becomes fully illuminated.
+- The fully illuminated building visually hands off to the Selected Projects section (same tonal color scheme; no abrupt black rectangle/edge seam).
+- Scrolling upward reverses the reveal naturally.
+
+**Critical arbitration:** Cursor-following and scroll-progress must not both write conflicting mask values. Use an explicit mode or progress ownership system, e.g. `intro` → `pointer` → `scroll` → `complete`. During the pinned section, scroll controls expansion; pointer coordinates may be latched or gently blended, but should never fight the animation. On reverse, hand control back smoothly.
+
+On mobile or short viewports, reduce or remove pinned duration if it harms navigation. Favor a simpler scroll reveal, without scroll trapping or layout jumps.
+
+### 7.3 Elsewhere on page
+
+Every scroll animation should relate to light or architecture:
+
+- Image reveals from darkness to illumination.
+- Thin architectural rules draw with section progress.
+- Project imagery reveals through deliberate rectangular masks.
+- Fine highlights trace material edges.
+- Process stages illuminate sequentially.
+- Final CTA gently evolves from cool graphite to warm architectural amber.
+
+Avoid repetitive animation presets on every card. Use progressive enhancement: content remains present and readable without animation.
+
+---
+
+## 8. RESPONSIVE, TOUCH, AND ACCESSIBILITY
+
+### Desktop (>= 1024px)
+
+- Full cinematic 16:9 hero filling at least one viewport.
+- Asymmetric headline composition and interactive pointer spotlight.
+- Fixed/overlay navigation and sophisticated scroll handoff.
+- Projects in editorial staggered or wide compositions rather than three tiny cards.
+
+### Tablet
+
+- Rebalance typography and visual crop.
+- Smaller spotlight diameter (approx. 340–460px).
+- Ensure navigation collapses when needed and text does not overlap architectural focal points.
+
+### Mobile (< 768px)
+
+- Use `100dvh` sensibly, with content-safe height; avoid clipped CTAs on short devices.
+- Make the architecture remain visually appealing in a portrait crop using one **shared** `object-position` for both images.
+- Shorter headlines and readable line lengths; no horizontal scroll.
+- No mandatory cursor interaction. Supply **a clearly labelled “Reveal lighting” toggle** (unlit / illuminated) and optional touch-and-drag reveal.
+- When enabling touch drag, restrict drag capture to an intentional interaction zone or explicit active mode; **do not hijack normal vertical page scrolling**.
+- Avoid heavy pinning; keep scrolling smooth.
+
+### Keyboard / assistive tech
+
+- Reveal toggle operable by keyboard and screen readers, with state (`aria-pressed`, label, or equivalent).
+- Menu is navigable by keyboard, includes Esc-to-close, and returns focus appropriately.
+- Modal/project detail interface has labelled heading, focus trap or managed focus, and a real close path.
+- Form fields have labels and errors announced accessibly.
+- Visible focus indicators on all interactive controls.
+- Decorative layers excluded from accessibility tree.
+- Contrast remains sufficient in all reveal states.
+
+### Reduced motion
+
+If `prefers-reduced-motion: reduce`:
+
+- Do not run pointer inertia, long pinned scroll sequences, moving parallax, or elaborate intro choreography.
+- Show a legible static hero (default unlit or stable mix) with an accessible instant/short toggle to reveal illumination.
+- Keep all content and controls fully available.
+
+---
+
+## 9. FUNCTIONALITY AND STATE MODEL
+
+Use explicit functional UI states:
+
+- `spotlightMode: 'intro' | 'pointer' | 'scroll' | 'complete' | 'toggle'`
+- `illuminationVisible` for keyboard/mobile toggle
+- `isMobileNavOpen`
+- `activeProject` for detail view
+- `lightLab.intensity` (0–100)
+- `lightLab.temperature` (cool/neutral/warm or a numeric continuum)
+- `lightLab.direction` (reasonable angle range)
+- `contactDialogOpen` and validated contact draft state, if using a dialog
+
+These names are suggestions; architecture can vary. Avoid a collection of independent animations that overwrite each other.
+
+**CTAs must work:**
+
+- Explore Our Work → selected projects.
+- Our Approach → process.
+- Start a Project → contact.
+- Selected Project → real concept detail view.
+- Light Lab sliders/toggles → actual visual updates.
+- Contact → mailto draft or honestly labeled demo handling.
+- Back to Top → scrolls home.
+
+**No false functionality:** Never add buttons that do nothing, empty links, fabricated account/login flows, fake newsletter submissions, or simulated backend success messages masquerading as real submissions.
+
+---
+
+## 10. PERFORMANCE, IMAGE QUALITY, AND CODE SAFETY
+
+- Preload the base hero image and fetch the reveal image promptly.
+- Use optimized provided WebP images; PNG originals are optional archival sources, not necessary for page rendering.
+- Render the two hero layers within one shared image stage.
+- No per-frame React rerenders for cursor tracking; use RAF and direct CSS var updates.
+- Never call `canvas.toDataURL()` or `getImageData()` every pointer frame.
+- Avoid global `pointermove` listeners unless absolutely needed; use hero-local listeners, properly cleaned up.
+- Use GSAP contexts and `revert()` on unmount; register ScrollTrigger only as needed.
+- Call ScrollTrigger refresh after layout/image readiness, but avoid loops.
+- Handle navigation header offsets for anchor scrolling.
+- Do not update layout-affecting properties every frame; prefer transforms, opacity, masks.
+- Avoid excessive shadows, blur filters, full-page scroll-driven noise, and heavy JS animation on low-power devices.
+- Pause RAF when hero isn't visible.
+- Avoid hydration/client runtime issues. Vite use is client-side; the required `'use client';` directive remains in place as specified.
+- Respect `prefers-reduced-motion`, `prefers-reduced-data` where useful, and touch targets.
+- Test actual asset paths—do not silently substitute base64 placeholders or remote URLs.
+
+If no image-generation capability exists for additional section visuals, make the page polished with real CSS/SVG compositions and the existing pair rather than fabricating stock URLs or showing broken images.
+
+---
+
+## 11. FINAL QA AND ACCEPTANCE TESTS
+
+Complete implementation, then check and fix the following:
+
+### Architecture and assets
+
+- [ ] `src/App.tsx` begins with the exact literal `'use client';`.
+- [ ] Every `.tsx`/`.jsx` component under `src/components/` begins with the exact literal `'use client';`.
+- [ ] Every image/SVG/video asset file lives under `public/assets/`.
+- [ ] Every image/SVG/video asset reference uses `/assets/<filename>`; no `/public/assets/` prefixes or non-project URLs.
+- [ ] Both supplied hero WebPs resolve without network errors.
+- [ ] All visible interface copy is real text, not baked into an image.
+
+### Signature reveal
+
+- [ ] Base and illuminated images have the same crop, size, position, and transforms at all breakpoints.
+- [ ] No obvious registration jump when revealing windows, walls, or reflections.
+- [ ] Soft mask has no hard edge, square clipping, flicker, or blank areas.
+- [ ] Spotlight position is computed in hero-local coordinates.
+- [ ] Pointer tracking is smooth; no frame-by-frame React rerender storm.
+- [ ] Reveal UI does not block nav, scroll, or CTAs.
+- [ ] Intro has an accessible and graceful fallback.
+- [ ] Scroll expands reveal fully, including corners, and reverses correctly.
+- [ ] Scroll control and pointer control never conflict.
+
+### Complete website
+
+- [ ] All six major sections are implemented, with visually consistent art direction.
+- [ ] Projects open/close meaningful details.
+- [ ] Light Lab changes are visibly functional.
+- [ ] Every nav and CTA goes to a real destination or honest front-end demo flow.
+- [ ] Contact does not claim server delivery without a real backend.
+- [ ] Footer and mobile menu work.
+
+### Devices/accessibility
+
+- [ ] Desktop at ~1440×900 and 1920×1080 looks composed.
+- [ ] Tablet at ~768–1024px has no broken layout.
+- [ ] Mobile at 390×844 and 375×667 has no clipping or horizontal overflow.
+- [ ] Keyboard navigation and focus states work.
+- [ ] Touch interaction does not trap scrolling.
+- [ ] Reduced-motion mode works without hidden content.
+
+### Quality gate
+
+- [ ] Run the project's typecheck/build commands and fix errors.
+- [ ] Test in the available browser/runtime where possible.
+- [ ] Fix console errors, broken assets, z-index mistakes, and responsive overflow.
+- [ ] Deliver the finished code, not a plan-only response.
+
+---
+
+## 12. EXECUTION ORDER FOR THE CODING AGENT
+
+1. Inspect the existing project and determine whether files/config already exist.
+2. Verify the two provided WebP images and place them under `public/assets/`.
+3. Establish global typography, color tokens, and page shell.
+4. Build the hero image stack and prove the two layers register correctly.
+5. Implement the performant cursor spotlight using CSS masking.
+6. Implement accessible touch/keyboard reveal states and reduced-motion fallback.
+7. Build the hero intro and reversible scroll-driven full-illumination sequence.
+8. Implement Selected Projects, Practice, Light Lab, Process, CTA, and Footer.
+9. Connect every nav item, CTA, project detail, Light Lab control, and contact action.
+10. Add thoughtful section choreography and responsive layouts.
+11. Verify directive/asset-path rules, test build and interactions, fix issues, and provide a concise summary of what was implemented.
+
+Do not ask for more creative direction; the art direction, assets, copy, and interactions are already specified here. If an optional asset cannot be generated, use an intentional supported alternative without compromising the core hero experience.
+
+**Final experience objective:**
+
+> **Architecture is the canvas. Light is the medium. Interaction is the discovery.**
+
+PENUMBRA should feel like an illuminated building waking up beneath the visitor's cursor, then unfolding into a complete architectural storytelling website.
