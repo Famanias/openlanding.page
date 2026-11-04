@@ -1,0 +1,98 @@
+{
+  "angles": [
+    {
+      "azimuth": 0.0,
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\cartridge\\material-pass\\small-0.png",
+      "isReference": true,
+      "segmented": true,
+      "holed": false,
+      "interiorHolePixelCount": 1,
+      "interiorHoleFraction": 1.3668858240271191e-05,
+      "largestHolePixelCount": 1,
+      "largestHoleBBox": {
+        "x": 148,
+        "y": 149,
+        "width": 1,
+        "height": 1
+      },
+      "areaFraction": 0.6116973244147157,
+      "ratio": 1.0,
+      "degenerate": false
+    },
+    {
+      "azimuth": 90.0,
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\cartridge\\material-pass\\small-90.png",
+      "isReference": false,
+      "segmented": true,
+      "holed": false,
+      "interiorHolePixelCount": 0,
+      "interiorHoleFraction": 0.0,
+      "largestHolePixelCount": 0,
+      "largestHoleBBox": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "areaFraction": 0.14448160535117058,
+      "ratio": 0.2361978703918862,
+      "degenerate": false
+    },
+    {
+      "azimuth": 180.0,
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\cartridge\\material-pass\\small-180.png",
+      "isReference": false,
+      "segmented": true,
+      "holed": false,
+      "interiorHolePixelCount": 0,
+      "interiorHoleFraction": 0.0,
+      "largestHolePixelCount": 0,
+      "largestHoleBBox": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "areaFraction": 0.6115635451505017,
+      "ratio": 0.9997812982681558,
+      "degenerate": false
+    },
+    {
+      "azimuth": 270.0,
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\cartridge\\material-pass\\small-270.png",
+      "isReference": false,
+      "segmented": true,
+      "holed": false,
+      "interiorHolePixelCount": 62,
+      "interiorHoleFraction": 0.0035788501500808125,
+      "largestHolePixelCount": 6,
+      "largestHoleBBox": {
+        "x": 154,
+        "y": 100,
+        "width": 6,
+        "height": 1
+      },
+      "areaFraction": 0.1448494983277592,
+      "ratio": 0.2367993001544581,
+      "degenerate": false
+    }
+  ],
+  "referenceAzimuth": 0.0,
+  "requiredAzimuths": [
+    0.0,
+    90.0,
+    180.0,
+    270.0
+  ],
+  "azimuthTolerance": 5.0,
+  "missingAzimuths": [],
+  "covered": true,
+  "collapseRatio": 0.15,
+  "degenerate": false,
+  "allowHoles": false,
+  "holed": false,
+  "unsegmentedAzimuths": [],
+  "segmentationReliable": true,
+  "passed": true,
+  "note": "deterministic; zero token; mandatory azimuth coverage catches off-axis-only defects, interior-hole flood fill catches silhouette-enclosed background that an area-only check misses"
+}

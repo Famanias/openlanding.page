@@ -1,0 +1,20 @@
+{
+  "referenceAreaFraction": 0.45494147157190634,
+  "angles": [
+    {
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\deck\\interaction-pass\\small-0.png",
+      "areaFraction": 0.4530183946488294,
+      "ratio": 0.9957729135652718,
+      "degenerate": false
+    },
+    {
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\deck\\interaction-pass\\small-180.png",
+      "areaFraction": 0.38949832775919735,
+      "ratio": 0.8561504107625297,
+      "degenerate": false
+    }
+  ],
+  "degenerate": false,
+  "collapseRatio": 0.15,
+  "note": "deterministic; zero token; a flat-plane-faking-a-volume collapses in silhouette area when orbited"
+}
