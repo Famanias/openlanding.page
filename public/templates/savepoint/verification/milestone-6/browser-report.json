@@ -1,0 +1,170 @@
+{
+  "viewports": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "sections": [
+        {
+          "selector": "#the-deck",
+          "overflow": false,
+          "y": 1032
+        },
+        {
+          "selector": "#manifest",
+          "overflow": false,
+          "y": 2557
+        },
+        {
+          "selector": "#index",
+          "overflow": false,
+          "y": 3915
+        },
+        {
+          "selector": ".site-footer",
+          "overflow": false,
+          "y": 9608
+        }
+      ],
+      "bootVisible": true
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "sections": [
+        {
+          "selector": "#the-deck",
+          "overflow": false,
+          "y": 911
+        },
+        {
+          "selector": "#manifest",
+          "overflow": false,
+          "y": 2087
+        },
+        {
+          "selector": "#index",
+          "overflow": false,
+          "y": 3419
+        },
+        {
+          "selector": ".site-footer",
+          "overflow": false,
+          "y": 8309
+        }
+      ],
+      "bootVisible": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "sections": [
+        {
+          "selector": "#the-deck",
+          "overflow": false,
+          "y": 817
+        },
+        {
+          "selector": "#manifest",
+          "overflow": false,
+          "y": 1994
+        },
+        {
+          "selector": "#index",
+          "overflow": false,
+          "y": 3201
+        },
+        {
+          "selector": ".site-footer",
+          "overflow": false,
+          "y": 7184
+        }
+      ],
+      "bootVisible": true
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "sections": [
+        {
+          "selector": "#the-deck",
+          "overflow": false,
+          "y": 976
+        },
+        {
+          "selector": "#manifest",
+          "overflow": false,
+          "y": 2216
+        },
+        {
+          "selector": "#index",
+          "overflow": false,
+          "y": 3455
+        },
+        {
+          "selector": ".site-footer",
+          "overflow": false,
+          "y": 6960
+        }
+      ],
+      "bootVisible": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "sections": [
+        {
+          "selector": "#the-deck",
+          "overflow": false,
+          "y": 796
+        },
+        {
+          "selector": "#manifest",
+          "overflow": false,
+          "y": 2486
+        },
+        {
+          "selector": "#index",
+          "overflow": false,
+          "y": 3935
+        },
+        {
+          "selector": ".site-footer",
+          "overflow": false,
+          "y": 9248
+        }
+      ],
+      "bootVisible": true
+    }
+  ],
+  "errors": [],
+  "missing": [],
+  "captures": [
+    "hero-1920.webp",
+    "the-deck-1920.webp",
+    "manifest-1920.webp",
+    "index-1920.webp",
+    "site-footer-1920.webp",
+    "hero-1366.webp",
+    "the-deck-1366.webp",
+    "manifest-1366.webp",
+    "index-1366.webp",
+    "site-footer-1366.webp",
+    "hardware-slot-guide.webp",
+    "hardware-wireframe.webp",
+    "hero-1024.webp",
+    "the-deck-1024.webp",
+    "manifest-1024.webp",
+    "index-1024.webp",
+    "site-footer-1024.webp",
+    "hero-768.webp",
+    "the-deck-768.webp",
+    "manifest-768.webp",
+    "index-768.webp",
+    "site-footer-768.webp",
+    "hero-390.webp",
+    "the-deck-390.webp",
+    "manifest-390.webp",
+    "index-390.webp",
+    "site-footer-390.webp"
+  ]
+}

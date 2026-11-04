@@ -75,7 +75,14 @@ describe("gallery template data", () => {
     expect(stillwater?.hasDownload).toBe(true);
     expect(stillwater?.category).toBe("scroll-showcase");
     expect(stillwater?.promptMarkdown.trim()).toBe(
-      fs.readFileSync(path.join(process.cwd(), "src/app/(stillwater)/stillwater/PROMPT.md"), "utf8").trim(),
+      fs.readFileSync(path.join(process.cwd(), "src/app/(stillwater)/stillwater/PROMPT.md"), "utf8").replace(/\r\n/g, "\n").trim(),
+    );
+  });
+
+  it("exports the complete SAVEPOINT rebuild prompt in the gallery", () => {
+    const savepoint = TEMPLATES.find((template) => template.slug === "savepoint");
+    expect(savepoint?.promptMarkdown.trim()).toBe(
+      fs.readFileSync(path.join(process.cwd(), "src/app/(savepoint)/savepoint/PROMPT.md"), "utf8").replace(/\r\n/g, "\n").trim(),
     );
   });
 

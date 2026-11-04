@@ -9,7 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
-  savepoint: { name: "SAVEPOINT.", dependencies: ["three", "gsap", "zustand", "lucide-react", "lenis"] },
+  savepoint: { name: "SAVEPOINT.", dependencies: ["three", "@types/three", "gsap", "zustand"] },
   zeno: { name: "ZENO.", dependencies: ["lucide-react", "motion"] },
   halodesk: { name: "Halo Desk", dependencies: ["lucide-react", "motion"] },
   riff: { name: "Riff", dependencies: ["lucide-react", "motion"] },

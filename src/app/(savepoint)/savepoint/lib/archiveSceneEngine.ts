@@ -18,6 +18,7 @@ export interface SceneController {
     back: () => void;
     skip: () => void;
     select: (index: number) => void;
+    selectAndBoot: (index: number) => void;
     openWorld: (index: number) => void;
     dispose: () => void;
 }
@@ -30,7 +31,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
     renderer.toneMappingExposure = 1.05;
     renderer.localClippingEnabled = true;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x121419, 9, 16);
     const camera = new THREE.PerspectiveCamera(34, 1, .05, 100);
@@ -102,7 +103,9 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     const store = useArchiveStore;
     const phase = () => store.getState().phase;
-    let announced = 0, expansion = 0, introRetreat = 0;
+    let announced = 0, expansion = 0, introRetreat = 0, pendingBoot = false, sceneVisible = true;
+    const visibility = new IntersectionObserver(([entry]) => { sceneVisible = entry.isIntersecting; });
+    visibility.observe(canvas);
     const announce = () => {
         const index = Math.round(target);
         if (index !== announced) {
@@ -114,14 +117,21 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
     function step(d: number) {
         if (phase() !== 'archive')
             return;
+        pendingBoot = false;
         target += d;
         announce();
     }
     function select(index: number) {
         if (phase() !== 'archive')
             return;
+        pendingBoot = false;
         target += modulo(index - modulo(Math.round(target)) + 5) - 5;
         announce();
+    }
+    function selectAndBoot(index: number) {
+        if (phase() !== 'archive') return;
+        select(index);
+        pendingBoot = true;
     }
     function resize() {
         const r = canvas.getBoundingClientRect();
@@ -176,6 +186,8 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
     function boot() {
         if (phase() !== 'archive')
             return;
+        pendingBoot = false;
+        delete canvas.dataset.cursor;
         dragging = false;
         hover = -1;
         pointer.set(0, 0);
@@ -215,6 +227,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
             finish();
     }
     function back(pushHistory = true) {
+        pendingBoot = false;
         if (phase() === 'archive' || phase() === 'returning')
             return;
         const early = phase() !== 'game-detail' && phase() !== 'screen-expanding';
@@ -266,6 +279,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
     function down(e: PointerEvent) {
         if (phase() !== 'archive')
             return;
+        pendingBoot = false;
         startX = lastX = e.clientX;
         moved = false;
         dragging = true;
@@ -275,6 +289,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
         if (phase() !== 'archive')
             return;
         hover = hit(e);
+        canvas.dataset.cursor = hover < 0 ? 'default' : Math.abs(modulo(hover - s + 15, 30) - 15) < .2 ? 'boot' : 'spine';
         canvas.style.cursor = dragging ? 'grabbing' : hover >= 0 ? 'pointer' : 'grab';
         if (dragging) {
             if (Math.abs(e.clientX - startX) > 6)
@@ -290,6 +305,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
         if (!dragging)
             return;
         dragging = false;
+        if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
         if (moved) {
             target = Math.round(target);
             announce();
@@ -306,9 +322,11 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
             announce();
         }
     }
-    function cancel() { dragging = false; target = Math.round(target); }
+    function cancel(e: PointerEvent) { dragging = false; target = Math.round(target); if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId); }
+    function leave() { hover = -1; delete canvas.dataset.cursor; }
     function wheel(e: WheelEvent) {
         if (phase() === 'archive' && Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            pendingBoot = false;
             e.preventDefault();
             target += e.deltaX * .008;
             announce();
@@ -321,7 +339,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
             back();
             return;
         }
-        if (phase() === 'archive' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+        if (phase() === 'archive' && canvas.getBoundingClientRect().bottom > 0 && canvas.getBoundingClientRect().top < innerHeight && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
             e.preventDefault();
             step(e.key === 'ArrowRight' ? 1 : -1);
         }
@@ -346,6 +364,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
     canvas.addEventListener('pointermove', move);
     canvas.addEventListener('pointerup', up);
     canvas.addEventListener('pointercancel', cancel);
+    canvas.addEventListener('pointerleave', leave);
     canvas.addEventListener('wheel', wheel, { passive: false });
     canvas.addEventListener('webglcontextlost', lost);
     window.addEventListener('keydown', keydown);
@@ -374,10 +393,12 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
         floor.visible = !inspect && phase() === 'archive';
         const dt = Math.min((now - last) / 1000, .05);
         last = now;
+        if (!sceneVisible && phase() === 'archive' && !inspect) { frame = requestAnimationFrame(tick); return; }
         if (!inspect) {
             if (phase() === 'archive') {
                 s = reduced.matches ? target : s + (target - s) * (1 - Math.exp(-(dragging ? 18 : 5.2) * dt));
                 rail();
+                if (pendingBoot && Math.abs(s - target) < .015) boot();
             }
             else {
                 for (let index = 0; index < carts.length; index++) {
@@ -416,15 +437,17 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
     frame = requestAnimationFrame(tick);
     if (new URLSearchParams(location.search).has('game'))
         historyChange();
-    return { step, select, boot, back, skip: () => finish(), openWorld(index) { disableClip(); activeCart.group.visible = false; target = s = index; announced = index; store.getState().select(index); activeCart = carts[index]; finish(); }, dispose() {
+    return { step, select, selectAndBoot, boot, back, skip: () => finish(), openWorld(index) { disableClip(); activeCart.group.visible = false; target = s = index; announced = index; store.getState().select(index); activeCart = carts[index]; finish(); }, dispose() {
             destroyed = true;
             timeline?.kill();
             cancelAnimationFrame(frame);
             observer.disconnect();
+            visibility.disconnect();
             canvas.removeEventListener('pointerdown', down);
             canvas.removeEventListener('pointermove', move);
             canvas.removeEventListener('pointerup', up);
             canvas.removeEventListener('pointercancel', cancel);
+            canvas.removeEventListener('pointerleave', leave);
             canvas.removeEventListener('wheel', wheel);
             canvas.removeEventListener('webglcontextlost', lost);
             window.removeEventListener('keydown', keydown);

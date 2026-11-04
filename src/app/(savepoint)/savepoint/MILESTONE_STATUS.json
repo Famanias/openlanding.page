@@ -3,28 +3,48 @@
     "1": "passed: assets, route scaffold, typed catalog and gallery registration",
     "2": "passed: both procedural hardware models completed all eight sculpt passes and final geometry/coverage gates",
     "3": "passed: 30-cartridge infinite rail, arrows, keyboard, drag/snap, raycast selection and directional captions",
-    "4": "passed: world-space insertion, physical cavity occlusion, boot display, projected takeover, skip, reverse ejection, focus, history, reduced motion and context recovery"
+    "4": "passed: world-space insertion, physical cavity occlusion, boot display, projected takeover, skip, reverse ejection, focus, history, reduced motion and context recovery",
+    "5": "passed: hardware inspection, manifesto, ten-world filtered catalog, working shelf/boot actions, footer, fine-pointer cursor, design and complete rebuild documentation",
+    "6": "passed: production build and TypeScript, isolation/palette/media, copy bundles, all 1260 unit tests, 12 production Playwright tests, five-size visual and content QA"
   },
-  "route": "http://localhost:3000/savepoint",
-  "stoppedAfterMilestone": 4,
-  "milestones5And6Implemented": false,
+  "route": "http://localhost:3100/savepoint",
+  "milestones5And6Implemented": true,
   "checks": {
     "typescript": "repository-wide tsc --noEmit passed",
     "isolation": "passed",
-    "focusedPlaywrightTests": {
-      "passed": 5,
-      "failed": 0
-    },
     "approvedAssets": {
       "count": 26,
       "unchangedFromSource": true
     },
     "browser": {
       "errors": [],
-      "archiveDrawCalls": 301,
-      "archiveTriangles": 321202,
-      "canvasCount": 1,
-      "mobileOverflow": false
+      "httpFailures": [],
+      "primaryCanvasCount": 1,
+      "inspectionCanvasCount": 1,
+      "horizontalOverflow": false,
+      "viewports": [
+        [
+          1920,
+          1080
+        ],
+        [
+          1366,
+          768
+        ],
+        [
+          1024,
+          768
+        ],
+        [
+          768,
+          1024
+        ],
+        [
+          390,
+          844
+        ]
+      ],
+      "visualReport": "public/templates/savepoint/verification/milestone-6/browser-report.json"
     },
     "insertionCalibration": {
       "sampleCount": 22,
@@ -94,7 +114,29 @@
         "clippedFrames": 0,
         "firstClipped": []
       }
-    ]
+    ],
+    "productionBuild": {
+      "exitCode": 0,
+      "completedAt": "2026-11-04T15:20:34.213Z"
+    },
+    "unitTests": {
+      "files": 232,
+      "passed": 1260,
+      "failed": 0
+    },
+    "savepointPlaywrightTests": {
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "channel": "msedge",
+      "server": "production",
+      "workers": 1,
+      "trace": "off"
+    },
+    "copyBundles": "complete source and prompt generated with three, @types/three, gsap and zustand",
+    "palette": "passed",
+    "media": "passed",
+    "contentAudit": "public/templates/savepoint/verification/milestone-6/content-audit.json"
   },
   "models": {
     "deck01": {
@@ -115,7 +157,9 @@
   "evidenceDirectory": "public/templates/savepoint/verification",
   "limitations": [
     "Hardware dimensions, hidden sides and polymer micrograin are procedural approximations of the supplied renders.",
-    "Self-intersection tests cover closed geometry prototypes; flat artwork carriers are excluded and shared instanced prototypes are evaluated once.",
-    "Secondary editorial sections and the full Milestone 6 repository-wide release checklist remain outside this delivery."
-  ]
+    "Self-intersection tests cover closed geometry prototypes; flat artwork carriers are excluded and shared instanced prototypes are evaluated once."
+  ],
+  "completedThroughMilestone": 6,
+  "awaitingUserInstructions": true,
+  "completedAt": "2026-11-04T15:24:21.276108+00:00"
 }
