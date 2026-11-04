@@ -221,12 +221,12 @@
     },
     {
       "id": "front-lens",
-      "parent": "root",
+      "parent": "core-carrier",
       "level": "macro",
       "position": [
         0,
         0,
-        0.02
+        0
       ],
       "material": "emerald",
       "geometry": {
@@ -277,7 +277,7 @@
       "position": [
         0,
         0,
-        -0.3
+        -1.45
       ],
       "material": "titanium",
       "geometry": {
@@ -313,7 +313,7 @@
       "position": [
         0,
         0,
-        -0.39
+        -1.54
       ],
       "material": "titanium",
       "geometry": {
@@ -365,7 +365,7 @@
       "position": [
         0,
         0,
-        -0.45
+        -1.5999999999999999
       ],
       "material": "dark-metal",
       "geometry": {
@@ -384,7 +384,7 @@
       "position": [
         0,
         0,
-        -0.5
+        -1.65
       ],
       "material": "rear-glass",
       "geometry": {
@@ -624,8 +624,6 @@
       "geometry": {
         "kind": "beads",
         "radii": [
-          0.615,
-          0.66,
           1.11,
           1.36,
           1.64,
@@ -782,6 +780,874 @@
           "confidence": 0.9,
           "evidenceRefs": [
             "front"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-meniscus-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0.12
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 1.038,
+        "outerRadius": 1.12,
+        "depth": 0.12,
+        "seatLip": 0.02
+      },
+      "features": [
+        {
+          "id": "seat-shoulder",
+          "type": "ridge",
+          "description": "Stepped retaining shoulder contacts glass edge",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Stepped retaining shoulder contacts glass edge",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-meniscus",
+      "parent": "front-meniscus-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "meniscus",
+        "radius": 1.05,
+        "edgeThickness": 0.035,
+        "frontSag": 0.06,
+        "backSag": 0.025,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "meniscus-curvature",
+          "type": "bevel",
+          "description": "Closed curved front and back surfaces, positive perimeter thickness",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Closed curved front and back surfaces, positive perimeter thickness",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        },
+        {
+          "id": "positive-edge",
+          "type": "bevel",
+          "description": "Positive thickness across sampled profile",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Positive thickness across sampled profile",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-biconvex-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -0.24
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.968,
+        "outerRadius": 1.05,
+        "depth": 0.12,
+        "seatLip": 0.02
+      },
+      "features": [
+        {
+          "id": "cell-socket",
+          "type": "hole",
+          "description": "Named carrier socket remains engaged with rail",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Named carrier socket remains engaged with rail",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-biconvex",
+      "parent": "front-biconvex-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "biconvex",
+        "radius": 0.98,
+        "edgeThickness": 0.03,
+        "frontSag": 0.035,
+        "backSag": -0.035,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "biconvex-curvature",
+          "type": "bevel",
+          "description": "Two convex faces with .03 perimeter and .10 center thickness",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Two convex faces with .03 perimeter and .10 center thickness",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        },
+        {
+          "id": "glass-chamfer",
+          "type": "bevel",
+          "description": ".004 polished edge chamfer",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": ".004 polished edge chamfer",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-compensator-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -0.4
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.828,
+        "outerRadius": 0.9099999999999999,
+        "depth": 0.12,
+        "seatLip": 0.02
+      },
+      "features": [
+        {
+          "id": "front-compensator-cell-finished-edge",
+          "type": "bevel",
+          "description": "Closed positive-thickness profile with fitted edge shoulder",
+          "geometryEffect": ".008 chamfered mounting edge",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "confidence": 0.75,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-compensator",
+      "parent": "front-compensator-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "biconvex",
+        "radius": 0.84,
+        "edgeThickness": 0.03,
+        "frontSag": 0.025,
+        "backSag": -0.025,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "compensator-sag",
+          "type": "bevel",
+          "description": "Lower-sag curved compensating element",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Lower-sag curved compensating element",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-relay-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -1.14
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.728,
+        "outerRadius": 0.81,
+        "depth": 0.12,
+        "seatLip": 0.02
+      },
+      "features": [
+        {
+          "id": "rear-relay-cell-finished-edge",
+          "type": "bevel",
+          "description": "Closed positive-thickness profile with fitted edge shoulder",
+          "geometryEffect": ".008 chamfered mounting edge",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "confidence": 0.75,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-relay",
+      "parent": "rear-relay-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "biconvex",
+        "radius": 0.74,
+        "edgeThickness": 0.03,
+        "frontSag": 0.035,
+        "backSag": -0.035,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "relay-curvature",
+          "type": "bevel",
+          "description": "Small curved relay optic behind emerald",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Small curved relay optic behind emerald",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-plano-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -1.32
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.528,
+        "outerRadius": 0.6100000000000001,
+        "depth": 0.12,
+        "seatLip": 0.02
+      },
+      "features": [
+        {
+          "id": "rear-plano-cell-finished-edge",
+          "type": "bevel",
+          "description": "Closed positive-thickness profile with fitted edge shoulder",
+          "geometryEffect": ".008 chamfered mounting edge",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "confidence": 0.75,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-plano",
+      "parent": "rear-plano-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "plano-convex",
+        "radius": 0.54,
+        "edgeThickness": 0.03,
+        "frontSag": 0.05,
+        "backSag": 0,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "plano-face",
+          "type": "bevel",
+          "description": "Plane rear surface and convex front profile",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Plane rear surface and convex front profile",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "internal-barrel",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "open-frame",
+        "innerRadius": 1.42,
+        "outerRadius": 1.5,
+        "depth": 2.1
+      },
+      "features": [
+        {
+          "id": "frame-brushing",
+          "type": "scratch",
+          "description": "Directional normal/roughness on stationary metal supports",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Directional normal/roughness on stationary metal supports",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "core-carrier",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.578,
+        "outerRadius": 0.71,
+        "depth": 0.5,
+        "seatLip": 0.02
+      },
+      "features": [
+        {
+          "id": "core-shoulder",
+          "type": "ridge",
+          "description": "Stepped annular emerald retaining shoulder",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Stepped annular emerald retaining shoulder",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spacer-stack",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "spacers",
+        "radii": [
+          1.12,
+          1.05,
+          0.91,
+          0.81,
+          0.61
+        ],
+        "depth": 0.04
+      },
+      "features": [
+        {
+          "id": "spacer-lips",
+          "type": "ridge",
+          "description": "Closed annular spacers with real mounting lips",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Closed annular spacers with real mounting lips",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-baffles",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -1.48
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "baffles",
+        "innerRadius": 0.38,
+        "outerRadius": 0.56,
+        "depth": 0.06
+      },
+      "features": [
+        {
+          "id": "baffle-aperture",
+          "type": "hole",
+          "description": "Thin annular stop with visible chamfered aperture",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Thin annular stop with visible chamfered aperture",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "carrier-fasteners",
+      "parent": "root",
+      "level": "micro",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "bolts",
+        "radius": 0.68,
+        "count": 6,
+        "size": 0.035
+      },
+      "features": [
+        {
+          "id": "fastener-crowns",
+          "type": "fastener",
+          "description": "Six repeated small metallic crowns on carrier",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Six repeated small metallic crowns on carrier",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "core-retaining-beads",
+      "parent": "core-carrier",
+      "level": "micro",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "beads",
+        "radii": [
+          0.615,
+          0.66
+        ],
+        "tube": 0.012
+      },
+      "features": [
+        {
+          "id": "polished-trim",
+          "type": "gloss",
+          "description": "Relocated small concentric retaining trim",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Relocated small concentric retaining trim",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housing-panel-0",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "panel",
+        "innerRadius": 1.5,
+        "outerRadius": 1.56,
+        "depth": 1.9,
+        "startRadians": 0.012,
+        "sweepRadians": 1.5467963267948965,
+        "hingeZ": -1.73,
+        "radialSlide": 0.24,
+        "pivotRadians": 0.58
+      },
+      "features": [
+        {
+          "id": "panel-brushing",
+          "type": "scratch",
+          "description": "Independent microscopic directional metal normal and roughness",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Independent microscopic directional metal normal and roughness",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housing-panel-1",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "panel",
+        "innerRadius": 1.5,
+        "outerRadius": 1.56,
+        "depth": 1.9,
+        "startRadians": 1.5827963267948966,
+        "sweepRadians": 1.5467963267948965,
+        "hingeZ": -1.73,
+        "radialSlide": 0.24,
+        "pivotRadians": 0.58
+      },
+      "features": [
+        {
+          "id": "panel-edge-faces",
+          "type": "bevel",
+          "description": "Finished closed sector boundary faces with flat normals",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Finished closed sector boundary faces with flat normals",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housing-panel-2",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "panel",
+        "innerRadius": 1.5,
+        "outerRadius": 1.56,
+        "depth": 1.9,
+        "startRadians": 3.153592653589793,
+        "sweepRadians": 1.5467963267948965,
+        "hingeZ": -1.73,
+        "radialSlide": 0.24,
+        "pivotRadians": 0.58
+      },
+      "features": [
+        {
+          "id": "docking-seam",
+          "type": "seam",
+          "description": "Stable panel seams and closed docking shoulders",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Stable panel seams and closed docking shoulders",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housing-panel-3",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "panel",
+        "innerRadius": 1.5,
+        "outerRadius": 1.56,
+        "depth": 1.9,
+        "startRadians": 4.724388980384689,
+        "sweepRadians": 1.5467963267948965,
+        "hingeZ": -1.73,
+        "radialSlide": 0.24,
+        "pivotRadians": 0.58
+      },
+      "features": [
+        {
+          "id": "rigid-deployment",
+          "type": "contour",
+          "description": "Same closed shell opens by slide and pivot, fixed scale",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Same closed shell opens by slide and pivot, fixed scale",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guide-rails",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "rails",
+        "radius": 1.3,
+        "count": 4,
+        "rodRadius": 0.025,
+        "depth": 4.0
+      },
+      "features": [
+        {
+          "id": "optical-air-gaps",
+          "type": "seam",
+          "description": "At least .03 gap between sampled optical envelopes",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "At least .03 gap between sampled optical envelopes",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-3"
+          ]
+        },
+        {
+          "id": "rail-sockets",
+          "type": "ridge",
+          "description": "Four axial guides and seated translating carriage sockets",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Four axial guides and seated translating carriage sockets",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "panel-linkages",
+      "parent": "root",
+      "level": "micro",
+      "position": [
+        0,
+        0,
+        -1.73
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "linkages",
+        "count": 8,
+        "armRadius": 0.025,
+        "linkLength": 0.62,
+        "endpointTolerance": 0.005
+      },
+      "features": [
+        {
+          "id": "hinge-crowns",
+          "type": "fastener",
+          "description": "Retained support arms with linked endpoints and compact pivot crowns",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Retained support arms with linked endpoints and compact pivot crowns",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-3"
           ]
         }
       ]

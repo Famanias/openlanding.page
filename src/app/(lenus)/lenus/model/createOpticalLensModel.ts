@@ -2,10 +2,12 @@ import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import defaultSpec from "./lens-spec.json";
 import { createLensMaterials } from "./lensMaterials";
+import { deriveInteriorLayout, validateInteriorClearances } from "./interiorLayout";
+import type { OpticalLensSpec } from "./lensTypes";
+export type { OpticalLensSpec } from "./lensTypes";
 
 export const BUILD_PASSES = ["blockout", "structural-pass", "form-refinement", "material-pass", "surface-pass", "lighting-pass", "interaction-pass", "optimization-pass"] as const;
 export type LensBuildPass = (typeof BUILD_PASSES)[number];
-export type OpticalLensSpec = typeof defaultSpec;
 export type OpticalLensOptions = { pass?: LensBuildPass; quality?: "high" | "low" };
 export { defaultSpec as opticalLensSpec };
 
@@ -25,6 +27,20 @@ function annulus(inner: number, outer: number, depth: number, segments: number, 
   const h = depth / 2, b = Math.min(bevel, h * .8, (outer - inner) * .2);
   const points = [[inner + b, -h], [outer - b, -h], [outer, -h + b], [outer, h - b], [outer - b, h], [inner + b, h], [inner, h - b], [inner, -h + b], [inner + b, -h]].map(([r, z]) => new THREE.Vector2(r, z));
   return new THREE.LatheGeometry(points, segments).rotateX(Math.PI / 2);
+}
+
+function supportAnnulus(inner: number, outer: number, depth: number) {
+  const source = annulus(inner, outer, depth, 48, .004);
+  const geometry = source.toNonIndexed();
+  source.dispose();
+  geometry.computeVertexNormals();
+  const p = geometry.getAttribute("position"), n = geometry.getAttribute("normal");
+  for(let i=0;i<p.count;i++) {
+    const theta=Math.atan2(p.getY(i),p.getX(i));
+    const radial=Math.hypot(n.getX(i),n.getY(i))*Math.sign(n.getX(i)*Math.cos(theta)+n.getY(i)*Math.sin(theta));
+    n.setXYZ(i,radial*Math.cos(theta),radial*Math.sin(theta),n.getZ(i));
+  }
+  return geometry;
 }
 
 function flutedTorus(radius: number, tube: number, depth: number, flutes: number, amplitude: number, twist: number, segments: number) {
@@ -68,7 +84,10 @@ function prism(size: number, index: number) {
 }
 
 /** Procedural reconstruction, +Z front / +Y up. Dimensions are relative units. */
-export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, options: OpticalLensOptions = {}) {
+export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as OpticalLensSpec, options: OpticalLensOptions = {}) {
+  const layout = deriveInteriorLayout(spec);
+  const clearance = validateInteriorClearances(layout);
+  if (!clearance.passed) throw new Error(`Invalid optical clearances: ${JSON.stringify(clearance.violations)}`);
   const root = new THREE.Group();
   root.name = "lenus-optical-lens";
   const runtime: LensRuntime = {
@@ -83,24 +102,31 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, opti
     dispose: () => {},
   };
   const segments = options.quality === "low" ? 64 : 128;
-  const stage = BUILD_PASSES.indexOf(options.pass ?? "optimization-pass");
+  const interiorStage = BUILD_PASSES.indexOf(options.pass ?? "optimization-pass");
+  // Accepted exterior form remains intact while the new interior progresses through its passes.
+  const stage = 7;
   const microSegments = stage >= 7 ? Math.max(48, segments >> 1) : segments;
   const geometries = new Set<THREE.BufferGeometry>();
   const materials = new Set<THREE.Material>();
   const clay = new THREE.MeshStandardMaterial({ color: "#9197a0", roughness: 0.65 });
-  const physical = stage >= 3 ? createLensMaterials(spec, stage >= 4) : null;
+  const physical = interiorStage >= 3 ? createLensMaterials(spec, interiorStage >= 4) : null;
   materials.add(clay);
 
-  for (const [componentIndex, c] of spec.components.entries()) {
-    if (stage === 0 && c.level !== "macro") continue;
+  for (const c of spec.components) {
     const pivot = new THREE.Group();
     pivot.name = c.id;
     pivot.position.fromArray(c.position);
+    runtime.nodes[c.id] = pivot;
+  }
+  for (const c of spec.components) {
+    (c.parent === "root" ? root : runtime.nodes[c.parent]).add(runtime.nodes[c.id]);
+  }
+
+  for (const [componentIndex, c] of spec.components.entries()) {
+    const pivot = runtime.nodes[c.id];
     pivot.userData.basePosition = pivot.position.clone();
     pivot.userData.componentIndex = componentIndex;
     pivot.userData.parentComponent = c.parent ?? "root";
-    runtime.nodes[c.id] = pivot;
-    (runtime.nodes[c.parent ?? ""] ?? root).add(pivot);
     const g = c.geometry;
     if (stage >= 6) {
       const socket = new THREE.Object3D();
@@ -185,7 +211,48 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, opti
         }
         continue;
       }
-      default: continue;
+      case "optical-element": {
+        const thickness = g.edgeThickness! + g.frontSag! - g.backSag!;
+        geometry = new THREE.SphereGeometry(g.radius!, 24, 12).scale(1, 1, thickness / (2 * g.radius!));
+        break;
+      }
+      case "cell": geometry = supportAnnulus(g.innerRadius!, g.outerRadius!, g.depth!); break;
+      case "open-frame": {
+        for (const z of [-.95, .90]) add(supportAnnulus(g.innerRadius!, g.outerRadius!, .06)).position.z = z;
+        continue;
+      }
+      case "spacers": {
+        for (const [i, radius] of g.radii!.entries()) add(supportAnnulus(radius-.025, radius+.025, g.depth!)).position.z = [-.10,-.32,-.50,-1.03,-1.40][i];
+        continue;
+      }
+      case "baffles": geometry = supportAnnulus(g.innerRadius!, g.outerRadius!, g.depth!); break;
+      case "panel": {
+        const start = g.startRadians!, end = start + g.sweepRadians!;
+        const shape = new THREE.Shape();
+        shape.absarc(0,0,g.outerRadius!,start,end,false);
+        shape.lineTo(Math.cos(end)*g.innerRadius!,Math.sin(end)*g.innerRadius!);
+        shape.absarc(0,0,g.innerRadius!,end,start,true);
+        shape.closePath();
+        geometry = new THREE.ExtrudeGeometry(shape,{depth:g.depth!,bevelEnabled:false,curveSegments:4,steps:1}).translate(0,0,-g.depth!/2);
+        break;
+      }
+      case "rails": {
+        for (let i=0;i<g.count!;i++) {
+          const theta = i*Math.PI/2+Math.PI/4;
+          const mesh = add(new THREE.CylinderGeometry(g.rodRadius!,g.rodRadius!,g.depth!,8).rotateX(Math.PI/2));
+          mesh.position.set(Math.cos(theta)*g.radius!,Math.sin(theta)*g.radius!,0);
+        }
+        continue;
+      }
+      case "linkages": {
+        for(let i=0;i<4;i++) {
+          const theta=i*Math.PI/2+Math.PI/4;
+          const mesh=add(new THREE.BoxGeometry(.06,.06,.62));
+          mesh.position.set(Math.cos(theta)*1.5,Math.sin(theta)*1.5,0);
+        }
+        continue;
+      }
+      default: throw new Error(`Unknown lens geometry: ${g.kind}`);
     }
     add(geometry);
   }

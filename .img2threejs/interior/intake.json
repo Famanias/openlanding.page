@@ -1,0 +1,31 @@
+{
+  "target": "Lenus articulated optical lens interior",
+  "domain": "object",
+  "suitability": "conditional",
+  "acceptedApproximation": "User approved reference-inspired procedural optics and an authored mechanical transformation; exact manufacturing geometry and cinematic caustics are not required.",
+  "layers": {
+    "identification": "Coaxial hard-surface optical assembly with transparent curved glass and articulated metallic housing; confidence 0.98.",
+    "silhouette": "Radial assembled cylinders and concentric annuli. Deployment creates a longer axial stack and radially interrupted panel silhouette.",
+    "hierarchy": "Macro front carriage, stationary rear mount/frame, optical train and four panels; meso individual cells/carrier, rail sockets and linkages; micro retaining lips, spacers, fastener crowns, chamfers and brushing.",
+    "relationships": "Each curved glass volume is seated inside its retaining cell. Cells slide on axial rails. Four housing panels remain connected to the rear frame through articulated supports. Exterior glass rings travel together on the front carriage.",
+    "materials": "Clear low-roughness dielectric glass, emerald transmitting core, dark brushed titanium and existing rear hardware. Violet/lime highlights are illumination and reflection, not painted stripes.",
+    "finish": "Gloss glass with narrow perimeter highlights; satin dark metal with directional brushing. Preserve established material scalars and procedural HDR.",
+    "identity": "Continuous fluted front rings, emerald center, concentric curved surfaces, compact articulated panel supports, visible axial air gaps and retained original shard/rear identity.",
+    "uncertainty": "Rear-side linkage geometry, exact optical count/curvature and travel are inferred. Generated keyframes change panel segmentation and front optical surfaces; reconcile with a fixed four-panel/seven-group hierarchy. Compress barrel and travel for the existing hero."
+  },
+  "referencePriority": {
+    "4.png": "Interior and fully deployed pose",
+    "3.png": "Linkages, guide rails and moving-cell support",
+    "1.png": "Assembled appearance, finish and readable green core",
+    "2.png": "Unlocking pose",
+    "5.png": "Secondary closing rhythm; reject extra panel divisions",
+    "6.png": "Secondary near-closed pose; reject weak green-core visibility",
+    "lenus-interior-cutaway-reference.png": "Supporting optical curvature and sectional support evidence"
+  },
+  "fixedInventory": {"originalSemanticParts":19,"newSemanticPartsProposed":22,"opticalGroups":7,"housingPanels":4},
+  "projectionRoute": "not-applicable: transparent glass and unpainted brushed metal use existing procedural PBR; photographs contain lighting rather than albedo. User explicitly requires no runtime raster textures.",
+  "criticalSystems": ["optical curvature/order", "closed/open core visibility", "rail/cell/linkage attachment across travel", "closed panel surfaces and collision-free deployment", "recognizable exterior and seamless 24-second transformation"],
+  "correctionBudget": {"perPass":3,"total":6},
+  "baseline": {"commit":"b04e8c7583faa0e303ffd670cc5208581a9638b2","reconstructionState":"../state.json","preserveOriginalEvidence":true},
+  "reviewViews": ["front", "right", "rear", "left", "reference-three-quarter", "neutral", "grazing", "closed-and-deployed", "intermediate-travel"]
+}
