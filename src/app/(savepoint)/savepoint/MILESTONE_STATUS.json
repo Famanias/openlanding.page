@@ -1,0 +1,121 @@
+{
+  "milestones": {
+    "1": "passed: assets, route scaffold, typed catalog and gallery registration",
+    "2": "passed: both procedural hardware models completed all eight sculpt passes and final geometry/coverage gates",
+    "3": "passed: 30-cartridge infinite rail, arrows, keyboard, drag/snap, raycast selection and directional captions",
+    "4": "passed: world-space insertion, physical cavity occlusion, boot display, projected takeover, skip, reverse ejection, focus, history, reduced motion and context recovery"
+  },
+  "route": "http://localhost:3000/savepoint",
+  "stoppedAfterMilestone": 4,
+  "milestones5And6Implemented": false,
+  "checks": {
+    "typescript": "repository-wide tsc --noEmit passed",
+    "isolation": "passed",
+    "focusedPlaywrightTests": {
+      "passed": 5,
+      "failed": 0
+    },
+    "approvedAssets": {
+      "count": 26,
+      "unchangedFromSource": true
+    },
+    "browser": {
+      "errors": [],
+      "archiveDrawCalls": 301,
+      "archiveTriangles": 321202,
+      "canvasCount": 1,
+      "mobileOverflow": false
+    },
+    "insertionCalibration": {
+      "sampleCount": 22,
+      "axisError": 0,
+      "dockError": 0,
+      "slotRay": {
+        "name": "slot-contact-14",
+        "point": [
+          0,
+          0.3935000000793672,
+          -1.05
+        ]
+      },
+      "slotEntrance": [
+        0,
+        0.655,
+        -1.05
+      ],
+      "fullyInserted": [
+        0,
+        0.42,
+        -1.05
+      ],
+      "projectedScreen": {
+        "points": [
+          {
+            "x": 550.8272749399214,
+            "y": 396.6322592011064
+          },
+          {
+            "x": 821.8020282893688,
+            "y": 404.2730326231883
+          },
+          {
+            "x": 824.5817401196863,
+            "y": 530.4232602509833
+          },
+          {
+            "x": 524.8299173687851,
+            "y": 520.0327312829656
+          }
+        ],
+        "left": 524.8299173687851,
+        "top": 396.6322592011064,
+        "width": 299.75182275090117,
+        "height": 133.79100104987685
+      },
+      "drawCalls": 74,
+      "triangles": 63610
+    },
+    "framing": [
+      {
+        "viewport": {
+          "width": 1366,
+          "height": 768
+        },
+        "sampleCount": 407,
+        "clippedFrames": 0,
+        "firstClipped": []
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sampleCount": 439,
+        "clippedFrames": 0,
+        "firstClipped": []
+      }
+    ]
+  },
+  "models": {
+    "deck01": {
+      "silhouetteIoU": 0.867,
+      "partCoverageErrors": 0,
+      "partCoverageWarnings": 0,
+      "selfIntersection": false,
+      "closedPrototypeVerticesSampled": 52893
+    },
+    "cartridge": {
+      "silhouetteIoU": 0.9037,
+      "partCoverageErrors": 0,
+      "partCoverageWarnings": 0,
+      "selfIntersection": false,
+      "closedPrototypeVerticesSampled": 6334
+    }
+  },
+  "evidenceDirectory": "public/templates/savepoint/verification",
+  "limitations": [
+    "Hardware dimensions, hidden sides and polymer micrograin are procedural approximations of the supplied renders.",
+    "Self-intersection tests cover closed geometry prototypes; flat artwork carriers are excluded and shared instanced prototypes are evaluated once.",
+    "Secondary editorial sections and the full Milestone 6 repository-wide release checklist remain outside this delivery."
+  ]
+}

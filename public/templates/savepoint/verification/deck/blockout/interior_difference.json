@@ -1,0 +1,17 @@
+usage: interior_difference.py [-h] [--from BAND_FROM] [--to BAND_TO]
+                              [--grid GRID] [--json]
+                              baseline renders [renders ...]
+
+Appearance difference INSIDE the silhouette, banded by height, against a
+baseline render.
+
+positional arguments:
+  baseline
+  renders
+
+options:
+  -h, --help        show this help message and exit
+  --from BAND_FROM
+  --to BAND_TO
+  --grid GRID
+  --json

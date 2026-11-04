@@ -1,0 +1,20 @@
+{
+  "referenceAreaFraction": 0.5788879598662208,
+  "angles": [
+    {
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\cartridge\\structural-pass\\small-0.png",
+      "areaFraction": 0.6120652173913044,
+      "ratio": 1.0573120531523073,
+      "degenerate": false
+    },
+    {
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\cartridge\\structural-pass\\small-180.png",
+      "areaFraction": 0.6134197324414715,
+      "ratio": 1.0596519101610455,
+      "degenerate": false
+    }
+  ],
+  "degenerate": false,
+  "collapseRatio": 0.15,
+  "note": "deterministic; zero token; a flat-plane-faking-a-volume collapses in silhouette area when orbited"
+}

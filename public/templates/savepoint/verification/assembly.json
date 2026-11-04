@@ -1,0 +1,16 @@
+[
+  {
+    "model": "DECK-01",
+    "partCount": 10,
+    "explode": true,
+    "restoredExactly": true,
+    "picking": true
+  },
+  {
+    "model": "universal-cartridge",
+    "partCount": 11,
+    "explode": true,
+    "restoredExactly": true,
+    "picking": true
+  }
+]

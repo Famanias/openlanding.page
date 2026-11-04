@@ -1,0 +1,20 @@
+{
+  "referenceAreaFraction": 0.45602842809364547,
+  "angles": [
+    {
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\deck\\lighting-pass\\small-0.png",
+      "areaFraction": 0.4535953177257525,
+      "ratio": 0.994664564272749,
+      "degenerate": false
+    },
+    {
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\deck\\lighting-pass\\small-180.png",
+      "areaFraction": 0.38949832775919735,
+      "ratio": 0.8541097522964376,
+      "degenerate": false
+    }
+  ],
+  "degenerate": false,
+  "collapseRatio": 0.15,
+  "note": "deterministic; zero token; a flat-plane-faking-a-volume collapses in silhouette area when orbited"
+}
