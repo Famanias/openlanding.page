@@ -119,7 +119,7 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
 .ln-part-material{margin:0;font-size:8px}.ln-part-description{font-size:10px;line-height:16px;color:var(--color-ln-muted);margin:4px 0 0;min-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ln-explode{display:inline-flex;gap:8px;align-items:center;background:none;border:0;padding:8px 0;color:var(--color-ln-lime);font-size:10px;font-weight:700;white-space:nowrap}
 .ln-icon-button{border:0;border-radius:6px;padding:6px;background:transparent;color:var(--color-ln-muted);display:inline-flex;align-items:center;justify-content:center;transition:color var(--duration-ln-ui) var(--ease-ln-out),transform var(--duration-ln-ui) var(--ease-ln-out)}
-.ln-playback{gap:4px}.ln-hud-sliders{grid-column:3;grid-row:1 / 3;display:grid;grid-template-columns:1fr;gap:8px;margin:0;min-width:0}.ln-hud-sliders label{display:block;font-size:8px}
+.ln-playback{gap:4px}.ln-hud-sliders{grid-column:3;grid-row:1 / 3;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0;min-width:0}.ln-hud-sliders label{display:block;font-size:8px;min-width:0}.ln-transformation-control{grid-column:1 / -1}
 .ln-hud-sliders label>span{display:flex;justify-content:space-between;gap:4px}.ln-hud-sliders output{color:var(--color-ln-white);font-variant-numeric:tabular-nums}
 .ln-hud input[type="range"]{display:block;width:100%;height:16px;margin:4px 0 0;accent-color:var(--color-ln-lime);cursor:pointer}
 .ln-hud input[type="range"]:disabled{cursor:default;opacity:.4}
@@ -317,6 +317,7 @@ type Props={
   onToggleExplode:()=>void; onExplodeChange:(value:number)=>void; onFocusChange:(radians:number)=>void;
   onResetView:()=>void; onTogglePause:()=>void; onPartSelect?:(id:string)=>void;
   cutaway?:boolean;onToggleCutaway?:()=>void;
+  transformation?:number;onTransformationChange?:(value:number)=>void;
 };
 export function LenusHudControls(p:Props){
   const disabled=!["running","paused"].includes(p.state);
@@ -336,8 +337,9 @@ export function LenusHudControls(p:Props){
       <div className="ln-playback"><button type="button" className="ln-icon-button" aria-label={p.cutaway?"Return to automatic hero view":"Inspect lens interior"} title="Inspect interior (C)" aria-pressed={!!p.cutaway} onClick={p.onToggleCutaway}><ScanLine size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label="Reset optical view" title="Reset view (R)" onClick={p.onResetView} disabled={disabled}><RotateCcw size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label={p.paused?"Play animation":"Pause animation"} onClick={p.onTogglePause} disabled={disabled}>{p.paused?<Play size={15} aria-hidden="true"/>:<Pause size={15} aria-hidden="true"/>}</button></div>
     </div>
     <div className="ln-hud-sliders">
+      <label className="ln-transformation-control"><span>TRANSFORMATION <output>{Math.round((p.transformation??0)*100)}%</output></span><input type="range" min="0" max="100" step="1" value={Math.round((p.transformation??0)*100)} aria-label="Lens transformation" aria-valuetext={`${Math.round((p.transformation??0)*100)}% transformed`} title="0: fully closed. 100: fully transformed. Play resumes the loop." disabled={disabled} onChange={e=>p.onTransformationChange?.(Number(e.target.value)/100)}/></label>
       <label><span>SEPARATION <output>{Math.round(p.explodeAmount*100)}%</output></span><input type="range" min="0" max="1" step=".01" value={p.explodeAmount} aria-label="Explode optical assembly" disabled={disabled} onChange={e=>p.onExplodeChange(Number(e.target.value))}/></label>
-      <label><span>FOCUS COLLAR <output>{Math.round(p.focusAngle*180/Math.PI)}°</output></span><input type="range" min="-1.57" max="1.57" step=".01" value={p.focusAngle} aria-label="Focus ring rotation" disabled={disabled} onChange={e=>p.onFocusChange(Number(e.target.value))}/></label>
+      <label><span>FOCUS <output>{Math.round(p.focusAngle*180/Math.PI)}°</output></span><input type="range" min="-1.57" max="1.57" step=".01" value={p.focusAngle} aria-label="Focus ring rotation" disabled={disabled} onChange={e=>p.onFocusChange(Number(e.target.value))}/></label>
     </div>
   </aside>;
 }
@@ -412,7 +414,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const controller=useRef<LenusSceneController|null>(null);
   const synchronize=useRef<()=>void>(()=>{});
   const activate=useRef<()=>void>(()=>{});
-  const pose=useRef({explode:0,focus:0});
+  const pose=useRef<{explode:number;focus:number;transformation:number|null}>({explode:0,focus:0,transformation:null});
   const animationTime=useRef(0);
   const resolutionScale=useRef(1);
   const inspectionState=useRef<LenusInspectionSnapshot|null>(null);
@@ -423,6 +425,8 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const [paused,setPaused]=useState(false);
   const [explodeAmount,setExplodeAmount]=useState(0);
   const [focusAngle,setFocusAngle]=useState(0);
+  const [transformation,setTransformation]=useState(0);
+  const [transformationMoving,setTransformationMoving]=useState(false);
   const [activePart,setActivePart]=useState(()=>getPartTelemetry(null));
   const [locked,setLocked]=useState(false);
   const [activationNeeded,setActivationNeeded]=useState(false);
@@ -468,13 +472,16 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
           onFps:value=>{if(active&&ticket===revision)setFps(value);},
           onContextChange:value=>{if(!active||ticket!==revision)return;lost=value==="lost";sync();},
           onPartChange:part=>{if(active&&ticket===revision)setActivePart(current=>current.id===part.id?current:part);},
+          onTransformationChange:(progress,target,settled)=>{if(active&&ticket===revision){pose.current.transformation=target;setTransformationMoving(!settled);if(target!==null&&pose.current.explode!==0){pose.current.explode=0;setExplodeAmount(0);}const value=target??progress;setTransformation(current=>Math.round(current*100)===Math.round(value*100)?current:value);}},
         });
         controller.current=instance;
+        const requestedTransformation=pose.current.transformation;
         instance.init(container);
         // Commands can arrive before this import resolves or survive a preference change.
         if(!inspectionState.current||inspectionState.current.controls.explode!==pose.current.explode)instance.setExplodeTarget(pose.current.explode,false);
         if(!inspectionState.current||inspectionState.current.controls.focus!==pose.current.focus)instance.setFocusTarget(pose.current.focus);
         instance.setInspectionMode(cutawayValue.current?"cutaway":"hero");
+        if(requestedTransformation!==null&&requestedTransformation!==inspectionState.current?.transformation?.target)instance.setTransformationTarget(requestedTransformation);
         sync();
       } catch {
         if(active&&ticket===revision){controller.current?.dispose();controller.current=null;setState("unavailable");}
@@ -508,7 +515,12 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const changeInspection=(value:boolean)=>{cutawayValue.current=value;setCutaway(value);controller.current?.setInspectionMode(value?"cutaway":"hero");if(!value){setLocked(false);setActivePart(getPartTelemetry(null));}};
   const changeExplode=(value:number)=>{if(!cutawayValue.current)changeInspection(true);pose.current.explode=value;setExplodeAmount(value);controller.current?.setExplodeTarget(value);};
   const changeFocus=(value:number)=>{pose.current.focus=value;setFocusAngle(value);controller.current?.setFocusTarget(value);};
-  const reset=()=>{pose.current={explode:0,focus:0};animationTime.current=0;inspectionState.current=null;cutawayValue.current=false;setCutaway(false);setExplodeAmount(0);setFocusAngle(0);setLocked(false);setActivePart(getPartTelemetry(null));controller.current?.resetView();};
+  const changeTransformation=(value:number)=>{
+    pose.current.transformation=value;pose.current.explode=0;cutawayValue.current=false;setCutaway(false);setExplodeAmount(0);setTransformation(value);setLocked(false);setActivePart(getPartTelemetry(null));
+    controller.current?.setTransformationTarget(value);policy.current.paused=true;setPaused(true);synchronize.current();
+  };
+  const togglePause=()=>{if(paused)controller.current?.resumeTransformationLoop();setPaused(value=>!value);};
+  const reset=()=>{pose.current={explode:0,focus:0,transformation:null};animationTime.current=0;inspectionState.current=null;cutawayValue.current=false;setCutaway(false);setTransformation(0);setExplodeAmount(0);setFocusAngle(0);setLocked(false);setActivePart(getPartTelemetry(null));controller.current?.resetView();};
   const toggleExplode=()=>changeExplode(cutawayValue.current&&pose.current.explode>.5?0:1);
   const selectPart=(id:string)=>{const part=getPartTelemetry(id);if(isInteriorPart(part.id)||prefersRearView(part.id))changeInspection(true);controller.current?.inspectPart(part.id);setLocked(part.id!=="assembly");setActivePart(part);};
   const coordinates=(event:PointerEvent<HTMLDivElement>)=>{
@@ -534,18 +546,18 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
     const actions:Record<string,()=>void>={ArrowLeft:()=>controller.current?.rotateView(-.12,0),ArrowRight:()=>controller.current?.rotateView(.12,0),ArrowUp:()=>controller.current?.rotateView(0,-.1),ArrowDown:()=>controller.current?.rotateView(0,.1),e:toggleExplode,E:toggleExplode,r:reset,R:reset,Home:reset,Escape:()=>setLocked(false)};
     if(actions[event.key]){event.preventDefault();actions[event.key]();}
   };
-  const message:Record<LenusStageState,string>={preview:activationNeeded?"Tap the lens to explore in 3D.":"Optical preview. Interactive controls load when available.",running:"Drag to explore. Select a fragment to inspect.",paused:suspended?"Optical view paused while the panel is open.":"Optical view paused.",static:"Reduced motion is on. Showing a still optical preview.",unavailable:"Interactive graphics are unavailable. Showing a still optical preview.",lost:"Graphics connection lost. Showing the preview while reconnecting."};
-  return <section className="ln-stage" data-state={state} data-inspection-mode={cutaway?"cutaway":"hero"} data-exploded={cutaway&&explodeAmount>.5} aria-label="Optical lens experience">
+  const message:Record<LenusStageState,string>={preview:activationNeeded?"Tap the lens to explore in 3D.":"Optical preview. Interactive controls load when available.",running:"Drag to explore. Select a fragment to inspect.",paused:suspended?"Optical view paused while the panel is open.":pose.current.transformation!==null?"Manual transformation. Play resumes the loop.":"Optical view paused.",static:"Reduced motion is on. Showing a still optical preview.",unavailable:"Interactive graphics are unavailable. Showing a still optical preview.",lost:"Graphics connection lost. Showing the preview while reconnecting."};
+  return <section className="ln-stage" data-state={state} data-inspection-mode={cutaway?"cutaway":"hero"} data-exploded={cutaway&&explodeAmount>.5} aria-busy={transformationMoving&&["running","paused"].includes(state)} aria-label="Optical lens experience">
     <div className="ln-lens-plot">
       <div className="ln-aperture" aria-hidden="true"/>
-      <LenusLensFallback cutaway={cutaway}/>
+      <LenusLensFallback cutaway={cutaway||(pose.current.transformation!==null&&transformation>=.5)}/>
       <div ref={host} className="ln-canvas-host" data-testid="lenus-canvas-container" tabIndex={0} role={activationNeeded?"button":"group"} aria-label="Interactive Lenus optical lens assembly" aria-describedby={instructions} onPointerMove={move} onPointerLeave={()=>controller.current?.setPointer(0,0)} onPointerDown={event=>{pointerStart.current={x:event.clientX,y:event.clientY};}} onPointerUp={pick} onKeyDown={keyboard}/>
       <span className="ln-stage-marker ln-stage-marker-top" aria-hidden="true">LENUS / OPTICAL SYSTEMS</span>
       <span className="ln-stage-marker ln-stage-marker-bottom" aria-hidden="true">N 1.52 <span>{getSemanticPartCount()} PARTS</span></span>
     </div>
     <p id={instructions} className="ln-sr-only">{activationNeeded?"Press Enter or tap to start the optical experience. ":""}Use arrow keys to rotate, C to inspect the interior, E to separate the assembly, R or Home to reset. Use the part selector to inspect each component.</p>
     <p className="ln-stage-help" role="status">{message[state]}</p>
-    <LenusHudControls state={state} fps={fps} paused={paused} cutaway={cutaway} onToggleCutaway={()=>changeInspection(!cutawayValue.current)} exploded={cutaway&&explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={()=>setPaused(value=>!value)} onPartSelect={selectPart}/>
+    <LenusHudControls state={state} fps={fps} paused={paused} cutaway={cutaway} onToggleCutaway={()=>changeInspection(!cutawayValue.current)} transformation={transformation} onTransformationChange={changeTransformation} exploded={cutaway&&explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={togglePause} onPartSelect={selectPart}/>
   </section>;
 }
 ]]>
@@ -4594,6 +4606,7 @@ export function createLensMaterials(spec: OpticalLensSpec, surface = false) {
 export const LENS_INTERIOR_YAW=Math.PI*5/18;
 export type LensTransformationPose={
   seconds:number;
+  progress:number;
   phase:"assembled"|"unlock"|"deploy"|"interior"|"reassemble"|"lock";
   body:number;unlock:number;frontCarriage:number;guideExtension:number;shutter:number;
   opticalOffsets:readonly number[];panelSlide:readonly number[];panelPivot:readonly number[];
@@ -4605,24 +4618,39 @@ function ramp(t:number,start:number,end:number) {
   return u*u*u*(u*(u*6-15)+10);
 }
 
-/** Absolute, reversible pose sampling; each channel shares the existing 24-second clock. */
-export function getLensTransformationPose(elapsedSeconds:number):LensTransformationPose {
-  const t=Number.isFinite(elapsedSeconds)?((elapsedSeconds%24)+24)%24:0;
-  const lift=ramp(t,4,5)*(1-ramp(t,20,21));
-  const body=ramp(t,6,10)*(1-ramp(t,15,19));
+/** One mechanical path for the slider, automatic opening and reverse closing. */
+export function getLensDeploymentPose(progress:number):LensTransformationPose {
+  const p=Number.isFinite(progress)?Math.max(0,Math.min(1,progress)):0,t=3+7*p;
+  const lift=ramp(t,4,5);
+  const body=ramp(t,6,10);
   const frontCarriage=.5*lift+.55*body;
-  const opticalB=ramp(t,6.25,9.75)*(1-ramp(t,15.25,18.75));
-  const opticalC=ramp(t,6.5,10)*(1-ramp(t,15,18.5));
+  const opticalB=ramp(t,6.25,9.75);
+  const opticalC=ramp(t,6.5,10);
   return {
-    seconds:t,
-    phase:t<3||t>=22?"assembled":t<6?"unlock":t<10?"deploy":t<15?"interior":t<20?"reassemble":"lock",
-    body,unlock:ramp(t,3,4)*(1-ramp(t,21,22)),frontCarriage,guideExtension:frontCarriage,
-    shutter:ramp(t,3.5,6.5)*(1-ramp(t,19,21.5)),
+    seconds:t,progress:p,phase:p===0?"assembled":p===1?"interior":"deploy",
+    body,unlock:ramp(t,3,4),frontCarriage,guideExtension:frontCarriage,
+    shutter:ramp(t,3.5,6.5),
     opticalOffsets:[.5*lift+.15*body,.24*opticalB,.12*opticalC,0,0,0,0],
-    panelSlide:Array.from({length:4},(_,i)=>ramp(t,5+i*.06,6+i*.06)*(1-ramp(t,18.5+i*.06,19.2+i*.06))),
-    panelPivot:Array.from({length:4},(_,i)=>ramp(t,6.3+i*.06,9.5+i*.06)*(1-ramp(t,15+(3-i)*.06,18+(3-i)*.06))),
+    panelSlide:Array.from({length:4},(_,i)=>ramp(t,5+i*.06,6+i*.06)),
+    panelPivot:Array.from({length:4},(_,i)=>ramp(t,6.3+i*.06,9.5+i*.06)),
     cameraBlend:body,ambientWeight:1-body,
   };
+}
+
+export function getLensTransformationPose(elapsedSeconds:number):LensTransformationPose {
+  const t=Number.isFinite(elapsedSeconds)?((elapsedSeconds%24)+24)%24:0;
+  const progress=t<3?0:t<10?(t-3)/7:t<15?1:t<22?(22-t)/7:0;
+  return {...getLensDeploymentPose(progress),seconds:t,phase:t<3||t>=22?"assembled":t<6?"unlock":t<10?"deploy":t<15?"interior":t<20?"reassemble":"lock"};
+}
+
+/** Bounded, interruptible easing, with exact endpoint settling in either direction. */
+export function advanceTransformationProgress(current:number,target:number,seconds:number){
+  const a=Number.isFinite(current)?Math.max(0,Math.min(1,current)):0;
+  const b=Number.isFinite(target)?Math.max(0,Math.min(1,target)):0;
+  const dt=Number.isFinite(seconds)?Math.max(0,Math.min(.1,seconds)):0;
+  const step=(b-a)*(1-Math.exp(-10*dt)),limit=.8*dt;
+  const next=a+Math.max(-limit,Math.min(limit,step));
+  return Math.abs(next-b)<.0001?b:next;
 }
 ]]>
     </file>
@@ -4883,7 +4911,7 @@ export function getLensLoopPose(elapsedSeconds:number){
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { createOpticalLensModel, type LensRuntime } from "../model/createOpticalLensModel";
 import { createStudioEnvironment } from "../model/studioEnvironment";
-import { getLensTransformationPose, LENS_INTERIOR_YAW } from "../model/lensTransformation";
+import { advanceTransformationProgress, getLensDeploymentPose, getLensTransformationPose, LENS_INTERIOR_YAW } from "../model/lensTransformation";
 import { getPartTelemetry, isInteriorPart, prefersRearView, type LenusPartInfo } from "./telemetry";
 import { getLensLoopPose } from "./lensMotion";
 export { getPartTelemetry, type LenusPartInfo } from "./telemetry";
@@ -4896,15 +4924,18 @@ export function fitHeroFrustumHalfHeight(width:number,height:number,inspection=f
 }
 const BASE_YAW=-.46,BASE_POLAR=Math.PI/2-.14,RADIUS=12;
 const finite=(n:number,fallback=0)=>Number.isFinite(n)?n:fallback;
+const normalizeProgress=(value:number)=>THREE.MathUtils.clamp(finite(value),0,1);
 type CameraPose={yaw:number;polar:number};
 type OrbitOffset={yaw:number;polar:number};
-type HeroView={elapsed:number;camera:CameraPose;orbit:OrbitOffset;pointer:{x:number;y:number};parallax:{x:number;y:number}};
+type ManualTransformation={progress:number;target:number;direction:1|-1;wideFrame:boolean};
+type HeroView={elapsed:number;camera:CameraPose;orbit:OrbitOffset;pointer:{x:number;y:number};parallax:{x:number;y:number};transformation?:ManualTransformation|null;manualExplode?:number};
 export type LensInspectionMode="hero"|"cutaway";
-export type LenusInspectionSnapshot={mode:LensInspectionMode;camera:CameraPose;orbit:OrbitOffset;pointer?:{x:number;y:number};parallax?:{x:number;y:number};hero:HeroView|null;controls:{explode:number;focus:number;currentExplode?:number;currentFocus?:number}};
+export type LenusInspectionSnapshot={mode:LensInspectionMode;camera:CameraPose;orbit:OrbitOffset;pointer?:{x:number;y:number};parallax?:{x:number;y:number};transformation?:ManualTransformation|null;hero:HeroView|null;controls:{explode:number;focus:number;currentExplode?:number;currentFocus?:number}};
 export interface LenusSceneOptions{
   initialAnimationTime?:number;initialResolutionScale?:number;initialInspectionState?:LenusInspectionSnapshot;
   onFps?:(fps:number)=>void;onContextChange?:(state:"lost"|"restored")=>void;
   onInteractionChange?:(dragging:boolean)=>void;onPartChange?:(part:LenusPartInfo)=>void;
+  onTransformationChange?:(progress:number,target:number|null,settled:boolean)=>void;
 }
 
 /** One renderer, one clock, and one owner for automatic/inspection transforms. */
@@ -4920,6 +4951,7 @@ export class LenusSceneController{
   private disposed=false;private running=false;private contextLost=false;private dragging=false;private placingCamera=false;
   private pointer={x:0,y:0};private parallax={x:0,y:0};private orbit:OrbitOffset={yaw:0,polar:0};
   private mode:LensInspectionMode="hero";private hero:HeroView|null=null;
+  private transformation:ManualTransformation|null=null;private allowManualMotion=false;private animating=false;private publishedTransformation="";
   private explodeTarget=0;private explode=0;private focusTarget=0;private focus=0;
   private elapsed=0;private lastTime:number|null=null;private frames=0;private sampleTime=0;private slowTime=0;
   private resolutionScale=1;private viewport={width:1,height:1};
@@ -4929,6 +4961,7 @@ export class LenusSceneController{
     const saved=options.initialInspectionState;
     if(saved){
       this.mode=saved.mode;this.hero=saved.hero?structuredClone(saved.hero):null;this.orbit={...saved.orbit};
+      if(saved.transformation)this.transformation={...saved.transformation,progress:normalizeProgress(saved.transformation.progress),target:normalizeProgress(saved.transformation.target)};
       this.pointer={x:normalizePointer(saved.pointer?.x??0),y:normalizePointer(saved.pointer?.y??0)};
       this.parallax={x:finite(saved.parallax?.x??0),y:finite(saved.parallax?.y??0)};
       this.explodeTarget=THREE.MathUtils.clamp(finite(saved.controls.explode),0,1);
@@ -4975,15 +5008,17 @@ export class LenusSceneController{
   getRenderer(){return this.renderer;}
   getAnimationTime(){return this.elapsed;}
   getResolutionScale(){return this.resolutionScale;}
+  getTransformationProgress(){return this.currentTransformationPose().progress;}
+  getTransformationTarget(){return this.transformation?.target??null;}
   getInspectionSnapshot():LenusInspectionSnapshot{
     const camera=this.cameraPose(),base=this.automaticCamera();
     // OrbitControls can be mid-drag, before onDragEnd commits its offset.
     const orbit=this.mode==="hero"?{yaw:camera.yaw-base.yaw,polar:camera.polar-base.polar}:{...this.orbit};
-    return {mode:this.mode,camera,orbit,pointer:{...this.pointer},parallax:{...this.parallax},hero:this.hero?structuredClone(this.hero):null,controls:{explode:this.explodeTarget,focus:this.focusTarget,currentExplode:this.explode,currentFocus:this.focus}};
+    return {mode:this.mode,camera,orbit,pointer:{...this.pointer},parallax:{...this.parallax},transformation:this.transformation?{...this.transformation}:null,hero:this.hero?structuredClone(this.hero):null,controls:{explode:this.explodeTarget,focus:this.focusTarget,currentExplode:this.explode,currentFocus:this.focus}};
   }
   private cameraPose():CameraPose{const p=new THREE.Spherical().setFromVector3(this.camera.position);return {yaw:p.theta,polar:p.phi};}
   private automaticCamera():CameraPose{
-    const blend=getLensTransformationPose(this.elapsed).cameraBlend;
+    const blend=this.currentTransformationPose().cameraBlend;
     return {yaw:BASE_YAW+(LENS_INTERIOR_YAW-BASE_YAW)*blend,polar:BASE_POLAR};
   }
   private captureOrbit(){const view=this.cameraPose(),base=this.automaticCamera();this.orbit={yaw:view.yaw-base.yaw,polar:view.polar-base.polar};}
@@ -4991,14 +5026,45 @@ export class LenusSceneController{
     if(this.disposed||mode===this.mode)return;
     if(mode==="cutaway"){
       if(this.dragging)this.captureOrbit();
-      this.hero={elapsed:this.elapsed,camera:this.cameraPose(),orbit:{...this.orbit},pointer:{...this.pointer},parallax:{...this.parallax}};
+      this.hero={elapsed:this.elapsed,camera:this.cameraPose(),orbit:{...this.orbit},pointer:{...this.pointer},parallax:{...this.parallax},transformation:this.transformation?{...this.transformation}:null,manualExplode:this.explode};
+      this.transformation=null;
       this.mode=mode;this.placeCamera(LENS_INTERIOR_YAW,BASE_POLAR);
     }else{
       this.mode="hero";
-      if(this.hero){const saved=this.hero;this.elapsed=saved.elapsed;this.orbit={...saved.orbit};this.pointer={...saved.pointer};this.parallax={...saved.parallax};this.placeCamera(saved.camera.yaw,saved.camera.polar);}
+      if(this.hero){const saved=this.hero;this.elapsed=saved.elapsed;this.orbit={...saved.orbit};this.pointer={...saved.pointer};this.parallax={...saved.parallax};this.transformation=saved.transformation?{...saved.transformation}:null;if(this.transformation){this.explode=saved.manualExplode??0;this.explodeTarget=0;}this.placeCamera(saved.camera.yaw,saved.camera.polar);}
       this.hero=null;
     }
-    this.lastTime=null;this.applyLoopPose();this.resize(this.viewport.width,this.viewport.height);
+    this.lastTime=null;this.applyLoopPose();this.resize(this.viewport.width,this.viewport.height);this.updateAnimationLoop();
+  }
+  setTransformationTarget(amount:number){
+    if(this.disposed)return;
+    const progress=this.getTransformationProgress(),target=normalizeProgress(amount),camera=this.cameraPose();
+    const wideFrame=this.mode==="cutaway"||!!this.transformation?.wideFrame;
+    if(this.mode==="hero"&&!this.transformation)this.explode=0;
+    this.mode="hero";this.hero=null;
+    this.transformation={progress,target,direction:target>=progress?1:-1,wideFrame};
+    this.explodeTarget=0;
+    const base=this.automaticCamera();this.orbit={yaw:camera.yaw-base.yaw,polar:camera.polar-base.polar};
+    // Preserve the existing projection and drawing buffer while scrubbing.
+    this.applyLoopPose();this.render();this.updateAnimationLoop();
+  }
+  resumeTransformationLoop(){
+    if(this.disposed||!this.transformation)return;
+    const {progress,direction}=this.transformation,camera=this.cameraPose();
+    const rotation=this.model?.rotation.clone();
+    this.elapsed=progress===0?0:progress===1?(direction<0?15:10):direction>0?3+7*progress:22-7*progress;
+    this.transformation=null;this.hero=null;this.mode="hero";
+    const base=this.automaticCamera();this.orbit={yaw:camera.yaw-base.yaw,polar:camera.polar-base.polar};
+    const ambient=getLensLoopPose(this.elapsed),weight=getLensTransformationPose(this.elapsed).ambientWeight;
+    if(rotation&&weight>.0001){this.parallax.x=(rotation.x-ambient.pitch)/weight;this.parallax.y=(rotation.y-ambient.yaw)/weight;}
+    this.lastTime=null;this.applyLoopPose();this.resize(this.viewport.width,this.viewport.height);this.updateAnimationLoop();
+  }
+  private currentTransformationPose(){return this.mode==="cutaway"?getLensDeploymentPose(1):this.transformation?getLensDeploymentPose(this.transformation.progress):getLensTransformationPose(this.elapsed);}
+  private hasManualMotion(){return !!this.transformation&&(this.transformation.progress!==this.transformation.target||Math.abs(this.explode-this.explodeTarget)>.0001);}
+  private updateAnimationLoop(){
+    if(!this.renderer||this.disposed||this.contextLost)return;
+    const active=this.running||(this.allowManualMotion&&this.hasManualMotion());
+    if(active!==this.animating){this.animating=active;this.lastTime=null;this.renderer.setAnimationLoop(active?this.tick:null);}
   }
   inspectPart(id:string){
     const part=getPartTelemetry(id);
@@ -5014,7 +5080,7 @@ export class LenusSceneController{
   resize(width:number,height:number){
     if(this.disposed||!this.renderer)return;
     this.viewport={width:Math.max(1,finite(width,1)),height:Math.max(1,finite(height,1))};
-    const aspect=this.viewport.width/this.viewport.height,h=fitHeroFrustumHalfHeight(width,height,this.mode==="cutaway");
+    const aspect=this.viewport.width/this.viewport.height,h=fitHeroFrustumHalfHeight(width,height,this.mode==="cutaway"||!!this.transformation?.wideFrame);
     this.camera.left=-h*aspect;this.camera.right=h*aspect;this.camera.top=h;this.camera.bottom=-h;this.camera.updateProjectionMatrix();
     this.resizeBuffer();if(!this.contextLost)this.render();
   }
@@ -5023,7 +5089,7 @@ export class LenusSceneController{
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5)*this.resolutionScale);
     this.renderer.setSize(this.viewport.width,this.viewport.height,false);
   }
-  setPointer(x:number,y:number){if(!this.disposed&&this.mode==="hero")this.pointer={x:normalizePointer(x),y:normalizePointer(y)};}
+  setPointer(x:number,y:number){if(!this.disposed&&this.mode==="hero"&&!this.transformation)this.pointer={x:normalizePointer(x),y:normalizePointer(y)};}
   setExplodeTarget(amount:number,reveal=true){
     if(this.disposed)return;
     if(reveal)this.setInspectionMode("cutaway");
@@ -5052,24 +5118,27 @@ export class LenusSceneController{
   }
   resetView(){
     if(this.disposed)return;
-    this.mode="hero";this.hero=null;this.elapsed=0;this.lastTime=null;this.orbit={yaw:0,polar:0};
+    this.mode="hero";this.hero=null;this.transformation=null;this.elapsed=0;this.lastTime=null;this.orbit={yaw:0,polar:0};
     this.pointer={x:0,y:0};this.parallax={x:0,y:0};this.explode=this.explodeTarget=0;this.focus=this.focusTarget=0;
-    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);this.resize(this.viewport.width,this.viewport.height);
+    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);this.resize(this.viewport.width,this.viewport.height);this.updateAnimationLoop();
   }
   start(){
-    if(this.disposed||!this.renderer)return;this.running=true;this.lastTime=null;
-    if(this.controls)this.controls.enabled=!this.contextLost;if(!this.contextLost)this.renderer.setAnimationLoop(this.tick);
+    if(this.disposed||!this.renderer)return;if(!this.running)this.lastTime=null;this.running=true;this.allowManualMotion=true;
+    if(this.controls)this.controls.enabled=!this.contextLost;this.updateAnimationLoop();
   }
   stop(allowInteraction=false){
-    this.running=false;this.lastTime=null;this.renderer?.setAnimationLoop(null);
+    if(this.running)this.lastTime=null;this.running=false;this.allowManualMotion=allowInteraction;
+    if(!this.disposed)this.updateAnimationLoop();
     if(this.controls)this.controls.enabled=allowInteraction&&!this.contextLost;
   }
   private tick=(time:number)=>{
-    if(!this.running||this.disposed||this.contextLost||!this.renderer||!this.model||!this.runtime)return;
+    if((!this.running&&!(this.allowManualMotion&&this.hasManualMotion()))||this.disposed||this.contextLost||!this.renderer||!this.model||!this.runtime)return;
     const realDelta=this.lastTime===null?0:Math.max(0,(time-this.lastTime)/1000),delta=Math.min(.1,realDelta);this.lastTime=time;
-    if(!this.dragging&&this.mode==="hero")this.elapsed+=realDelta;
+    if(this.running&&!this.dragging&&this.mode==="hero"&&!this.transformation)this.elapsed+=realDelta;
+    if(this.transformation&&!this.dragging)this.transformation.progress=advanceTransformationProgress(this.transformation.progress,this.transformation.target,delta);
     const damp=1-Math.exp(-5*delta);this.explode+=(this.explodeTarget-this.explode)*damp;this.focus+=(this.focusTarget-this.focus)*damp;
-    if(this.mode==="hero"){
+    if(Math.abs(this.explode-this.explodeTarget)<.0001)this.explode=this.explodeTarget;
+    if(this.mode==="hero"&&!this.transformation){
       this.parallax.y+=((this.dragging?0:this.pointer.x*.14)-this.parallax.y)*damp;
       this.parallax.x+=((this.dragging?0:-this.pointer.y*.1)-this.parallax.x)*damp;
     }
@@ -5079,13 +5148,16 @@ export class LenusSceneController{
       if(this.slowTime>=2&&this.resolutionScale>.75){this.resolutionScale=Math.max(.75,this.resolutionScale*.85);this.resizeBuffer();this.slowTime=0;}
       this.frames=0;this.sampleTime=0;
     }
-    this.render();
+    this.render();if(!this.running)this.updateAnimationLoop();
   };
   private applyLoopPose(){
+    const transform=this.currentTransformationPose(),target=this.getTransformationTarget();
+    const settled=!this.hasManualMotion(),key=`${Math.round(transform.progress*100)}:${target}:${settled}`;
+    if(key!==this.publishedTransformation){this.publishedTransformation=key;this.options.onTransformationChange?.(transform.progress,target,settled);}
     if(!this.model||!this.runtime)return;
-    const seconds=this.mode==="cutaway"?12:this.elapsed,transform=getLensTransformationPose(seconds);
     const ambient=this.mode==="cutaway"?{spin:0,yaw:0,pitch:0,collar:0,shardOrbit:0,shardY:0}:getLensLoopPose(this.elapsed);
-    this.runtime.setTransformationPose(transform);this.runtime.setExplode(this.mode==="cutaway"?this.explode:0);this.runtime.setFocusRing(this.focus);this.runtime.setAmbientPose(ambient);
+    if(this.transformation){const originalWeight=getLensTransformationPose(this.elapsed).ambientWeight,ratio=originalWeight>.0001?transform.ambientWeight/originalWeight:0;for(const key of ["spin","yaw","pitch","collar","shardOrbit","shardY"] as const)ambient[key]*=ratio;}
+    this.runtime.setTransformationPose(transform);this.runtime.setExplode(this.mode==="cutaway"||this.transformation?this.explode:0);this.runtime.setFocusRing(this.focus);this.runtime.setAmbientPose(ambient);
     const parallax=this.mode==="hero"?transform.ambientWeight:0;
     this.model.rotation.set(ambient.pitch+this.parallax.x*parallax,ambient.yaw+this.parallax.y*parallax,ambient.spin);
     if(this.mode==="hero"&&!this.dragging){const view=this.automaticCamera();this.placeCamera(view.yaw+this.orbit.yaw,view.polar+this.orbit.polar);}
@@ -5096,7 +5168,7 @@ export class LenusSceneController{
   private onDragEnd=()=>{if(this.mode==="hero")this.captureOrbit();this.dragging=false;this.options.onInteractionChange?.(false);};
   private onLost=(event:Event)=>{
     event.preventDefault();if(this.disposed)return;if(this.dragging&&this.mode==="hero")this.captureOrbit();this.dragging=false;
-    this.contextLost=true;this.renderer?.setAnimationLoop(null);this.lastTime=null;if(this.controls)this.controls.enabled=false;
+    this.contextLost=true;this.animating=false;this.renderer?.setAnimationLoop(null);this.lastTime=null;if(this.controls)this.controls.enabled=false;
     this.options.onContextChange?.("lost");
   };
   private onRestored=()=>{

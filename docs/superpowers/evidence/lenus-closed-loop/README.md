@@ -1,5 +1,7 @@
 # Closed → reveal → closed correction
 
+**Latest addition:** [0-100 transformation slider with smooth reverse motion](../lenus-transformation-slider/README.md).
+
 The user's clarification was that the assembled lens must **conceal its interior**, then visibly transform to reveal it and close again automatically. The earlier assembly exposed its optics even when its rear housing was closed.
 
 The corrected asset has four solid, beveled titanium shutter petals in front of the optics. They unfold on fixed mounting posts while the existing housing opens, hold the interior view, and close after the optical train reseats. The same geometry remains present throughout; no opacity, visibility or scale trick hides the interior. The original floating glass moves clear of the petal sweep.

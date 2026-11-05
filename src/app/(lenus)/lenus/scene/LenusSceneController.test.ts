@@ -2,6 +2,15 @@ import { describe, expect, it, vi } from "vitest";
 import { fitHeroFrustumHalfHeight, getPartTelemetry, LenusSceneController, normalizePointer } from "./LenusSceneController";
 
 describe("LenusSceneController", () => {
+  it("holds a manual target without jumping and preserves it across reconstruction",()=>{
+    const c=new LenusSceneController({initialAnimationTime:6.5});
+    c.setTransformationTarget(1);expect(c.getTransformationProgress()).toBeCloseTo(.5);expect(c.getTransformationTarget()).toBe(1);
+    const restored=new LenusSceneController({initialAnimationTime:c.getAnimationTime(),initialInspectionState:c.getInspectionSnapshot()});
+    expect(restored.getTransformationProgress()).toBeCloseTo(.5);expect(restored.getTransformationTarget()).toBe(1);
+    c.setInspectionMode("cutaway");expect(c.getTransformationProgress()).toBe(1);c.setInspectionMode("hero");expect(c.getTransformationProgress()).toBeCloseTo(.5);
+    c.resumeTransformationLoop();expect(c.getTransformationTarget()).toBeNull();expect(c.getTransformationProgress()).toBeCloseTo(.5);
+    c.dispose();restored.dispose();
+  });
   it("faces the selected housing quadrant instead of leaving far panels behind the stack",()=>{
     const c=new LenusSceneController();
     for(let i=0;i<4;i++){c.inspectPart(`housing-panel-${i}`);const view=c.getInspectionSnapshot().camera;

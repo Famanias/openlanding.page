@@ -117,6 +117,24 @@ test("automatic transformation reveals and reassembles without entering inspecti
   await expect(stage).toHaveAttribute("data-state","paused");
 });
 
+test("transformation slider smoothly opens and closes, holds intermediate poses and resumes playback",async({page})=>{
+  await page.goto("/lenus");const stage=page.locator(".ln-stage"),canvas=page.locator("canvas[data-lenus-renderer]"),range=page.getByRole("slider",{name:"Lens transformation",exact:true});
+  await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
+  await page.getByRole("button",{name:"Pause animation",exact:true}).click();await page.getByRole("button",{name:"Reset optical view"}).click();
+  await expect(range).toHaveValue("0");const closed=await canvas.screenshot();
+  await range.focus();await range.press("End");await expect(range).toHaveValue("100");
+  await expect(stage).toHaveAttribute("aria-busy","true");await expect(stage).toHaveAttribute("data-state","paused");
+  await expect(stage).toHaveAttribute("aria-busy","false",{timeout:45_000});const open=await canvas.screenshot();expect(await meanFrameDifference(open,closed)).toBeGreaterThan(1);
+  await range.press("Home");await expect(range).toHaveValue("0");await expect(stage).toHaveAttribute("aria-busy","true");
+  await expect(stage).toHaveAttribute("aria-busy","false",{timeout:45_000});expect(await meanFrameDifference(await canvas.screenshot(),closed)).toBeLessThan(.1);
+  await setRange(range,50);await expect(stage).toHaveAttribute("aria-busy","false",{timeout:45_000});const half=await canvas.screenshot();
+  await page.waitForTimeout(250);expect(await meanFrameDifference(await canvas.screenshot(),half)).toBeLessThan(.001);
+  await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
+  await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","paused",{timeout:60_000});await expect(range).toHaveValue("50");
+  await page.getByRole("button",{name:"Play animation",exact:true}).click();await expect(stage).toHaveAttribute("data-state","running");
+  await expect.poll(()=>range.inputValue()).not.toBe("50");
+});
+
 test("explosion, focus and keyboard part inspection operate the authored assembly",async({page})=>{
   await page.goto("/lenus");const stage=page.locator(".ln-stage");
   await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});

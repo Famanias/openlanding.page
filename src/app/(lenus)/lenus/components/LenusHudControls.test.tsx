@@ -14,5 +14,6 @@ describe("Lenus optical HUD",()=>{
     expect(html).toContain("EMERALD OBJECTIVE CORE");expect(html).toContain("60 FPS");
     expect(html).toContain('aria-label="Explode optical assembly"');expect(html).toContain('aria-label="Focus ring rotation"');
     expect(html).toContain('aria-label="Pause animation"');expect(html).toContain("EXPLODE ASSEMBLY");
+    expect(html).toMatch(/min="0" max="100" step="1"[^>]+aria-label="Lens transformation"/);
   });
 });
