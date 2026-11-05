@@ -4,8 +4,13 @@ import { createLensMaterials } from "./lensMaterials";
 import { createOpticalLensModel, opticalLensSpec, type OpticalLensSpec, type LensRuntime } from "./createOpticalLensModel";
 
 describe("interior optical material ownership",()=>{
+  it("gives the contained fluorescent backing enough depth for side inspection",()=>{
+    const model=createOpticalLensModel(undefined,{pass:"interaction-pass",quality:"low"});
+    const r=model.userData.sculptRuntime as LensRuntime;
+    try{r.nodes["front-lens"].traverse(o=>{const m=o as THREE.Mesh;if(!m.isMesh||(m.material as THREE.Material).name!=="emerald-scattering-backing")return;m.geometry.computeBoundingBox();expect(m.geometry.boundingBox!.max.z-m.geometry.boundingBox!.min.z).toBeGreaterThanOrEqual(.37);});}finally{r.dispose();}
+  });
   it("keeps every core rendering surface inside the original emerald volume",()=>{
-    const model=createOpticalLensModel(undefined,{pass:"material-pass",quality:"low"});
+    const model=createOpticalLensModel(undefined,{pass:"interaction-pass",quality:"low"});
     const r=model.userData.sculptRuntime as LensRuntime;
     try {
       r.nodes["front-lens"].traverse(o=>{

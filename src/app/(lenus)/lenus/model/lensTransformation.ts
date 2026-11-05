@@ -1,5 +1,6 @@
 export const LENS_TRANSFORMATION_SECONDS=24;
-export const LENS_INTERIOR_YAW=Math.PI/3;
+// A 50-degree side view preserves depth while keeping the recessed core readable.
+export const LENS_INTERIOR_YAW=Math.PI*5/18;
 export type LensTransformationPose={
   seconds:number;
   phase:"assembled"|"unlock"|"deploy"|"interior"|"reassemble"|"lock";

@@ -1000,27 +1000,21 @@
       "interaction-pass",
       "optimization-pass"
     ],
-    "currentPass": "interaction-pass",
+    "currentPass": "optimization-pass",
     "completedPasses": [
       "blockout",
       "structural-pass",
       "form-refinement",
       "material-pass",
       "surface-pass",
-      "lighting-pass"
+      "lighting-pass",
+      "interaction-pass"
     ],
-    "lastCompletedPass": "lighting-pass",
+    "lastCompletedPass": "interaction-pass",
     "blockedReason": "",
     "nextRequiredEvidence": [
-      "Macro and movable meso components have stable pivot nodes.",
-      "Sockets, collider proxies, and destruction metadata are present for future runtime actions.",
-      "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold.",
-      "browser render screenshot from your agent's browser/screenshot tool",
-      "side-by-side reference/render comparison sheet for AI vision review",
-      "banded interior difference vs the reference baseline (forge/stage4_review/interior_difference.py --from/--to per region)",
-      "AI vision score at or above the visual acceptance threshold",
-      "all critical semantic feature scores from the shared image pair at or above their thresholds",
-      "self-correction review appended with action=continue before the next pass"
+      "Triangle count, draw calls, instancing, LOD strategy, and FPS target are documented or verified.",
+      "Repeated detail is instanced or simplified where possible without breaking silhouette/material believability."
     ]
   },
   "lookDevTargets": {
@@ -11438,6 +11432,110 @@
       "cameraView": "",
       "notes": "",
       "aiVisionNotes": "Lighting review: reuse the accepted procedural HDR, lime/purple rim lights, ACES exposure1 and neutral/grazing validation modes. New curved optics and capped shell edges catch controlled white/neon highlights; dark metal cavities retain contrast and brushing. Four material comparisons pass (glass .8890, titanium .9679, emerald .8949, prism .7762). The original fluorescent core plus internal procedural-density backing remains readable in actual component-hidden tests: 6408 closed, 7141 opening and 1376 deployed green pixels, each above its unchanged projected-area threshold. New permanent open retaining clips preserve the +60-degree/+8-degree inspection sightline. Closed/deployed Tier1, turntables, self-intersection and phase/contact checks pass; nested real-time transmission remains approximate. Measured runtime files are authoritative: 185808 model triangles before optimization and 153 PBR calls including transmission. The draw budget remains an explicit Task8 item. Automatic application motion and lifecycle are still unaccepted until Task7."
+    },
+    {
+      "timestamp": "2026-11-05T05:36:43.705476+00:00",
+      "passId": "interaction-pass",
+      "estimatedFidelity": 0.79,
+      "aiVisionScore": 0.79,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.78,
+        "componentStructure": 0.81,
+        "formDetail": 0.8,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.78,
+          "visible": true,
+          "notes": "Seven fixed groups including five new curved elements remain present through deployment; short original barrel is preserved rather than copying inconsistent generated lengths."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.77,
+          "visible": true,
+          "notes": "Core remains green in closed and deployed captures; side visibility is smaller and nested transmission remains approximate."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Absolute phase matrices and measured link endpoints/guide contact pass over193 samples plus actual browser phase captures; manual separation retains guide engagement."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four capped panels slide before pivoting and stay present during closing; phase captures show no disappearing parts."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.83,
+          "visible": true,
+          "notes": "Recorded complete real-controller loop, exact deterministic0/24 matrices, stable reveal camera, and phase interruption/recovery. Reset returns phase0 while keeping Pause."
+        }
+      ],
+      "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+      "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\interaction-pass\\deployed\\60.png",
+      "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\interaction-pass\\comparison-deployed.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": "The real production controller completed an uninterrupted 24-second loop, recorded in controller/*.webm and sampled every three seconds in motion-sheet.png. Panels unlock and open before the side view holds, then close with a smooth return to the assembled hero; no continuous axial spin remains. All 12 phase interruption/recovery checks hold the saved clock exactly and restore the camera, including phase24. Context restoration preserves the complete inspection snapshot. The native browser suite passed motion, pause, focus/separation, dialogs, context recovery, preferences, phone activation, queued import and blocked/no-JS paths; the old arbitrary-phase Reset assertion was corrected to the specified phase-zero contract and reran successfully. Actual reference comparisons retain the recognisable fluted exterior and open support/glass stack but deliberately retain a much shorter barrel than reference4. Nested transmission is approximate and the green core is narrower in the side view. Geometry/contact and unchanged Tier1/turntable/self-intersection gates pass. 185808 model triangles and153 PBR calls remain before the explicitly pending optimization pass."
+    },
+    {
+      "timestamp": "2026-11-05T05:42:35.601258+00:00",
+      "passId": "interaction-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.78,
+        "componentStructure": 0.81,
+        "formDetail": 0.8,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.8,
+          "visible": true,
+          "notes": "The adjusted production camera exposes staggered curved glass and retaining clips while keeping depth; seven-group inventory and original compact body are preserved. Reference4 remains longer and more finely engineered."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Corrected production view shows3607 actual core-green pixels versus1376 before camera/backing correction; separate60-degree reference remains1438. Full contained proxy geometry tested inside the original ellipsoid."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Absolute phase matrices and measured link endpoints/guide contact pass over193 samples plus actual browser phase captures; manual separation retains guide engagement."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four capped panels slide before pivoting and stay present during closing; phase captures show no disappearing parts."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.83,
+          "visible": true,
+          "notes": "Recorded complete real-controller loop, exact deterministic0/24 matrices, stable reveal camera, and phase interruption/recovery. Reset returns phase0 while keeping Pause."
+        }
+      ],
+      "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+      "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\interaction-pass\\deployed\\60.png",
+      "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\interaction-pass\\comparison-production.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": "Corrected interaction review: production inspection now uses a50-degree side-biased camera while preserving separate60-degree reference captures. The contained fluorescent backing has.3822 depth within the original emerald ellipsoid. Actual green footprints6460 closed,7344 opening,3607 deployed production and1438 deployed reference all exceed unchanged8-percent projected-area thresholds. The production view now separates the bright core from the reflective front optics and shows a supported seven-group train. Complete native-controller recording and all phase interruption/recovery checks cover the adjusted camera, with exact clock restoration, context restoration, pause and Reset semantics. Compact original barrel and stylised quarter-shells remain deliberate reference-inspired adaptations, not an exact reconstruction. Geometry/contact/turntable/Tier1 checks rerun; optimization remains153 calls /185808 model triangles."
     }
   ],
   "reviewHistory": [
@@ -11867,6 +11965,150 @@
         "notes": "",
         "aiVisionNotes": "Lighting review: reuse the accepted procedural HDR, lime/purple rim lights, ACES exposure1 and neutral/grazing validation modes. New curved optics and capped shell edges catch controlled white/neon highlights; dark metal cavities retain contrast and brushing. Four material comparisons pass (glass .8890, titanium .9679, emerald .8949, prism .7762). The original fluorescent core plus internal procedural-density backing remains readable in actual component-hidden tests: 6408 closed, 7141 opening and 1376 deployed green pixels, each above its unchanged projected-area threshold. New permanent open retaining clips preserve the +60-degree/+8-degree inspection sightline. Closed/deployed Tier1, turntables, self-intersection and phase/contact checks pass; nested real-time transmission remains approximate. Measured runtime files are authoritative: 185808 model triangles before optimization and 153 PBR calls including transmission. The draw budget remains an explicit Task8 item. Automatic application motion and lifecycle are still unaccepted until Task7."
       }
+    },
+    {
+      "timestamp": "2026-11-05T05:36:43.705476+00:00",
+      "passId": "interaction-pass",
+      "estimatedFidelity": 0.79,
+      "aiVisionScore": 0.79,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.78,
+        "componentStructure": 0.81,
+        "formDetail": 0.8,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.78,
+          "visible": true,
+          "notes": "Seven fixed groups including five new curved elements remain present through deployment; short original barrel is preserved rather than copying inconsistent generated lengths."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.77,
+          "visible": true,
+          "notes": "Core remains green in closed and deployed captures; side visibility is smaller and nested transmission remains approximate."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Absolute phase matrices and measured link endpoints/guide contact pass over193 samples plus actual browser phase captures; manual separation retains guide engagement."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four capped panels slide before pivoting and stay present during closing; phase captures show no disappearing parts."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.83,
+          "visible": true,
+          "notes": "Recorded complete real-controller loop, exact deterministic0/24 matrices, stable reveal camera, and phase interruption/recovery. Reset returns phase0 while keeping Pause."
+        }
+      ],
+      "action": "refine-code",
+      "summary": "The real production controller completed an uninterrupted 24-second loop, recorded in controller/*.webm and sampled every three seconds in motion-sheet.png. Panels unlock and open before the side view holds, then close with a smooth return to the assembled hero; no continuous axial spin remains. All 12 phase interruption/recovery checks hold the saved clock exactly and restore the camera, including phase24. Context restoration preserves the complete inspection snapshot. The native browser suite passed motion, pause, focus/separation, dialogs, context recovery, preferences, phone activation, queued import and blocked/no-JS paths; the old arbitrary-phase Reset assertion was corrected to the specified phase-zero contract and reran successfully. Actual reference comparisons retain the recognisable fluted exterior and open support/glass stack but deliberately retain a much shorter barrel than reference4. Nested transmission is approximate and the green core is narrower in the side view. Geometry/contact and unchanged Tier1/turntable/self-intersection gates pass. 185808 model triangles and153 PBR calls remain before the explicitly pending optimization pass.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "reviewViewpoints": [
+        "front",
+        "three-quarter",
+        "side",
+        "rear",
+        "left",
+        "thickness-axis",
+        "long-axis",
+        "closed",
+        "deployed"
+      ],
+      "visualEvidence": {
+        "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+        "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\interaction-pass\\deployed\\60.png",
+        "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\interaction-pass\\comparison-deployed.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": "The real production controller completed an uninterrupted 24-second loop, recorded in controller/*.webm and sampled every three seconds in motion-sheet.png. Panels unlock and open before the side view holds, then close with a smooth return to the assembled hero; no continuous axial spin remains. All 12 phase interruption/recovery checks hold the saved clock exactly and restore the camera, including phase24. Context restoration preserves the complete inspection snapshot. The native browser suite passed motion, pause, focus/separation, dialogs, context recovery, preferences, phone activation, queued import and blocked/no-JS paths; the old arbitrary-phase Reset assertion was corrected to the specified phase-zero contract and reran successfully. Actual reference comparisons retain the recognisable fluted exterior and open support/glass stack but deliberately retain a much shorter barrel than reference4. Nested transmission is approximate and the green core is narrower in the side view. Geometry/contact and unchanged Tier1/turntable/self-intersection gates pass. 185808 model triangles and153 PBR calls remain before the explicitly pending optimization pass."
+      }
+    },
+    {
+      "timestamp": "2026-11-05T05:42:35.601258+00:00",
+      "passId": "interaction-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.78,
+        "componentStructure": 0.81,
+        "formDetail": 0.8,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.8,
+          "visible": true,
+          "notes": "The adjusted production camera exposes staggered curved glass and retaining clips while keeping depth; seven-group inventory and original compact body are preserved. Reference4 remains longer and more finely engineered."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Corrected production view shows3607 actual core-green pixels versus1376 before camera/backing correction; separate60-degree reference remains1438. Full contained proxy geometry tested inside the original ellipsoid."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Absolute phase matrices and measured link endpoints/guide contact pass over193 samples plus actual browser phase captures; manual separation retains guide engagement."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four capped panels slide before pivoting and stay present during closing; phase captures show no disappearing parts."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.83,
+          "visible": true,
+          "notes": "Recorded complete real-controller loop, exact deterministic0/24 matrices, stable reveal camera, and phase interruption/recovery. Reset returns phase0 while keeping Pause."
+        }
+      ],
+      "action": "continue",
+      "summary": "Corrected interaction review: production inspection now uses a50-degree side-biased camera while preserving separate60-degree reference captures. The contained fluorescent backing has.3822 depth within the original emerald ellipsoid. Actual green footprints6460 closed,7344 opening,3607 deployed production and1438 deployed reference all exceed unchanged8-percent projected-area thresholds. The production view now separates the bright core from the reflective front optics and shows a supported seven-group train. Complete native-controller recording and all phase interruption/recovery checks cover the adjusted camera, with exact clock restoration, context restoration, pause and Reset semantics. Compact original barrel and stylised quarter-shells remain deliberate reference-inspired adaptations, not an exact reconstruction. Geometry/contact/turntable/Tier1 checks rerun; optimization remains153 calls /185808 model triangles.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "reviewViewpoints": [
+        "front",
+        "three-quarter",
+        "side",
+        "rear",
+        "left",
+        "thickness-axis",
+        "long-axis",
+        "closed",
+        "deployed"
+      ],
+      "visualEvidence": {
+        "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+        "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\interaction-pass\\deployed\\60.png",
+        "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\interaction-pass\\comparison-production.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": "Corrected interaction review: production inspection now uses a50-degree side-biased camera while preserving separate60-degree reference captures. The contained fluorescent backing has.3822 depth within the original emerald ellipsoid. Actual green footprints6460 closed,7344 opening,3607 deployed production and1438 deployed reference all exceed unchanged8-percent projected-area thresholds. The production view now separates the bright core from the reflective front optics and shows a supported seven-group train. Complete native-controller recording and all phase interruption/recovery checks cover the adjusted camera, with exact clock restoration, context restoration, pause and Reset semantics. Compact original barrel and stylised quarter-shells remain deliberate reference-inspired adaptations, not an exact reconstruction. Geometry/contact/turntable/Tier1 checks rerun; optimization remains153 calls /185808 model triangles."
+      }
     }
   ],
   "lodPlan": [
@@ -11982,7 +12224,7 @@
         "key_path": "categories.rendering_shader_mapping[9]",
         "score": 8.524095052699,
         "snippets": [
-          "Maps to parts generated by revolving a 2D profile around an axis. \u00c1nh x\u1ea1 t\u1edbi c\u00e1c b\u1ed9 ph\u1eadn t\u1ea1o ra b\u1eb1ng c\u00e1ch xoay m\u1ed9t bi\u00ean d\u1ea1ng 2D quanh m\u1ed9t tr\u1ee5c. Recognition cues: Contoured, fully radially-symmetric part \u2014 turned wood/metal handle, some muzzle ..."
+          "Maps to parts generated by revolving a 2D profile around an axis. Ánh xạ tới các bộ phận tạo ra bằng cách xoay một biên dạng 2D quanh một trục. Recognition cues: Contoured, fully radially-symmetric part — turned wood/metal handle, some muzzle ..."
         ],
         "source_refs": [
           {
@@ -12006,7 +12248,7 @@
         "key_path": "categories.rendering_shader_mapping[5]",
         "score": 7.964121613602,
         "snippets": [
-          "... \u00c1nh x\u1ea1 t\u1edbi c\u00e1c c\u1ee5m l\u1eafp r\u00e1p h\u00ecnh ch\u1eef nh\u1eadt/kh\u1ed1i. Recognition cues: Flat-faced, roughly rectangular volume (pistol slide, receiver/frame, grip, panel) D\u1ea5u hi\u1ec7u nh\u1eadn di\u1ec7n: Kh\u1ed1i g\u1ea7n ch\u1eef nh\u1eadt v\u1edbi c\u00e1c m\u1eb7t ph\u1eb3ng (kh\u00f3a n\u00f2ng s\u00fang l\u1ee5c, ..."
+          "... Ánh xạ tới các cụm lắp ráp hình chữ nhật/khối. Recognition cues: Flat-faced, roughly rectangular volume (pistol slide, receiver/frame, grip, panel) Dấu hiệu nhận diện: Khối gần chữ nhật với các mặt phẳng (khóa nòng súng lục, ..."
         ],
         "source_refs": [
           {
@@ -12030,7 +12272,7 @@
         "key_path": "categories.rendering_shader_mapping[4]",
         "score": 3.752966399396,
         "snippets": [
-          "... part. \u00c1nh x\u1ea1 t\u1edbi m\u1ecdi b\u1ed9 ph\u1eadn c\u00f3 ti\u1ebft di\u1ec7n tr\u00f2n d\u1ea1ng n\u00f2ng. Recognition cues: Long uniform-cross-section round part (barrel, suppressor, muzzle brake body, cleaning rod, magazine tube) D\u1ea5u hi\u1ec7u nh\u1eadn di\u1ec7n: B\u1ed9 ph\u1eadn tr\u00f2n c\u00f3 ti\u1ebft di\u1ec7n \u0111\u1ec1u ..."
+          "... part. Ánh xạ tới mọi bộ phận có tiết diện tròn dạng nòng. Recognition cues: Long uniform-cross-section round part (barrel, suppressor, muzzle brake body, cleaning rod, magazine tube) Dấu hiệu nhận diện: Bộ phận tròn có tiết diện đều ..."
         ],
         "source_refs": [
           {

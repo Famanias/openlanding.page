@@ -114,7 +114,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
     if(density){density.colorSpace=THREE.NoColorSpace;density.needsUpdate=true;}
     const backing=new THREE.MeshBasicMaterial({name:"emerald-scattering-backing",color:"#00E599",map:density});
     backing.addEventListener("dispose",()=>density?.dispose());
-    addMesh("front-lens",new THREE.SphereGeometry(.49,48,24).scale(1,1,.245),0,backing).position.z=-.02;
+    addMesh("front-lens",new THREE.SphereGeometry(.49,48,24).scale(1,1,context.stage>=6?.39:.245),0,backing).position.z=-.02;
   }
 
   const carriage=new THREE.Group();carriage.name="front-carriage";root.add(carriage);
