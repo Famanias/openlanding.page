@@ -896,9 +896,9 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
     renderer.shadowMap.type = THREE.PCFShadowMap;
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x121419, 9, 16);
-    const camera = new THREE.PerspectiveCamera(34, 1, .05, 100);
+    const camera = new THREE.PerspectiveCamera(38, 1, .05, 100);
     camera.position.set(0, .85, 3.2);
-    camera.lookAt(0, .52, 0);
+    camera.lookAt(0, .60, 0);
     const environmentGenerator = new THREE.PMREMGenerator(renderer), room = new RoomEnvironment();
     const environment = environmentGenerator.fromScene(room, .04);
     scene.environment = environment.texture;
@@ -999,7 +999,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
         const r = canvas.getBoundingClientRect();
         renderer.setSize(r.width, r.height, false);
         camera.aspect = r.width / r.height;
-        camera.fov = r.width < 600 ? 45 : 34;
+        camera.fov = r.width < 600 ? 45 : 38;
         camera.updateProjectionMatrix();
         if (phase() === 'screen-expanding' || phase() === 'returning' || phase() === 'game-detail')
             updateProjection(expansion);
@@ -1103,7 +1103,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
             timeline = gsap.timeline({ onComplete: () => { deck.group.visible = false; store.getState().setPhase('archive'); rail(); } });
             timeline.to(motion, { p: 1, duration: reduced.matches ? .01 : .55, onUpdate: () => interpolatePose(activeCart.group, from, to, smoothstep01(motion.p)) });
             timeline.to(deck.group.position, { y: -3, duration: .4 }, '<');
-            timeline.to(camera.position, { x: 0, y: .85, z: 3.2, duration: .5, onUpdate: () => camera.lookAt(0, .52, 0) }, '<');
+            timeline.to(camera.position, { x: 0, y: .85, z: 3.2, duration: .5, onUpdate: () => camera.lookAt(0, .60, 0) }, '<');
             if (pushHistory) {
                 const url = new URL(location.href);
                 url.searchParams.delete('game');
@@ -1122,7 +1122,7 @@ export function createArchiveScene(canvas: HTMLCanvasElement, onProjection: (rec
         const shelf: Pose = { position: new THREE.Vector3(0, .25, .32), quaternion: new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, -.061)) };
         timeline.to(motion, { t: 1, duration: reduced.matches ? .01 : .7, onUpdate: () => interpolatePose(activeCart.group, above, shelf, smoothstep01(motion.t)) });
         timeline.to(deck.group.position, { y: -3, duration: .6 }, '<');
-        timeline.to(camera.position, { x: 0, y: .85, z: 3.2, duration: .6, onUpdate: () => camera.lookAt(0, .52, 0) }, '<');
+        timeline.to(camera.position, { x: 0, y: .85, z: 3.2, duration: .6, onUpdate: () => camera.lookAt(0, .60, 0) }, '<');
         const u = new URL(location.href);
         u.searchParams.delete('game');
         if (pushHistory)
