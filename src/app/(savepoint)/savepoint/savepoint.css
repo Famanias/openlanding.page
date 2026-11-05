@@ -71,7 +71,7 @@ html{scroll-behavior:smooth;scroll-padding-top:24px;scrollbar-color:var(--surfac
 .catalog-actions{display:flex;gap:24px;flex-wrap:wrap}
 .catalog-actions button{display:flex;gap:22px;justify-content:space-between;align-items:center;background:transparent;border:0;border-bottom:1px solid var(--border);color:var(--text);font:9px var(--font-mono),monospace;min-height:44px;padding:0 0 8px}
 .catalog-actions button:last-child{color:var(--accent)}.catalog-actions button:hover{border-color:var(--accent)}
-.site-footer{padding-bottom:28px;text-align:center;background:var(--bg-deep)}
+.site-footer{position:relative;padding-bottom:28px;text-align:center;background-color:var(--bg-deep);background-image:linear-gradient(180deg,rgba(11,13,18,.92) 0%,rgba(11,13,18,.68) 42%,rgba(11,13,18,.95) 100%),url('/templates/savepoint/footer-deck-wide.webp');background-position:center bottom;background-size:cover;background-repeat:no-repeat}
 .site-footer .section-rule{text-align:left}
 .site-footer .section-title{margin-top:100px;margin-bottom:45px}
 .return-button{background:var(--accent);color:var(--bg-deep);border:0;padding:22px 25px;display:inline-flex;gap:65px;font:10px var(--font-mono),monospace}
