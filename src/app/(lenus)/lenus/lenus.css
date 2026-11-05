@@ -82,8 +82,7 @@
 .ln-status{white-space:nowrap;display:flex;gap:6px;align-items:center}
 .ln-status i{width:4px;height:4px;background:var(--color-ln-muted);border-radius:50%}.ln-status[data-live="true"] i{background:var(--color-ln-emerald)}
 .ln-part-readout{grid-column:1;grid-row:2;min-width:0;margin:0}
-.ln-part-readout select{appearance:auto;width:100%;border:0;background:transparent;color:var(--color-ln-white);font-family:var(--font-ln-data);font-size:11px;font-weight:500;padding:0 0 4px;cursor:pointer}
-.ln-part-readout option{background:var(--color-ln-glass);color:var(--color-ln-white)}
+.ln-part-label{width:100%;margin:0 0 4px;color:var(--color-ln-white);font-family:var(--font-ln-data);font-size:12px;line-height:20px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ln-part-material{margin:0;font-size:8px}.ln-part-description{font-size:10px;line-height:16px;color:var(--color-ln-muted);margin:4px 0 0;min-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ln-explode{display:inline-flex;gap:8px;align-items:center;background:none;border:0;padding:8px 0;color:var(--color-ln-lime);font-size:10px;font-weight:700;white-space:nowrap}
 .ln-icon-button{border:0;border-radius:6px;padding:6px;background:transparent;color:var(--color-ln-muted);display:inline-flex;align-items:center;justify-content:center;transition:color var(--duration-ln-ui) var(--ease-ln-out),transform var(--duration-ln-ui) var(--ease-ln-out)}
@@ -137,4 +136,3 @@
 @media(max-width:700px){.ln-dialog{width:calc(100vw - 24px);max-height:calc(100svh - 24px);border-radius:20px}.ln-dialog-content{padding:12px 24px 32px}.ln-dialog h2{font-size:36px}.ln-dialog-studies article{padding:16px}.ln-dialog-close{top:8px;left:calc(100% - 48px)}}
 /* Optical labels remain readable at their actual phone rendering size. */
 .ln-copy-footnote,.ln-stage-marker,.ln-stage-help,.ln-micro,.ln-status,.ln-part-material,.ln-part-description,.ln-explode,.ln-hud-sliders label,.ln-footer,.ln-dialog-eyebrow,.ln-form-note{font-size:12px;line-height:18px}
-.ln-part-readout select{font-size:12px;line-height:20px}

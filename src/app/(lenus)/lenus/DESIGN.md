@@ -47,3 +47,5 @@ Manual inspection uses a conservative4.3-unit frustum extent (expanded for portr
 
 ## Transformation slider
 The primary0-100 slider controls the entire deployment:0 is sealed and100 is fully transformed. Input takes manual control and holds its target; Play resumes from the current position/direction. The same canonical mechanical path is used forwards and backwards, with bounded eased progress and exact endpoints. Manual settling continues while autoplay is paused, stops offscreen/behind dialogs, and survives reconstruction. The HUD keeps its720x108 desktop layout: full-width transformation slider above separation/focus.
+
+The HUD has no parts dropdown. Its compact readout is plain text; transformation, separation, focus and playback controls remain.

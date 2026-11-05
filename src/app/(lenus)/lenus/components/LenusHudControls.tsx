@@ -1,11 +1,11 @@
 import { Layers, Pause, Play, RotateCcw, ScanLine } from "lucide-react";
-import { OPTICAL_PARTS, type LenusPartInfo } from "../scene/telemetry";
+import type { LenusPartInfo } from "../scene/telemetry";
 
 export type LenusStageState="preview"|"running"|"paused"|"static"|"unavailable"|"lost";
 type Props={
   state:LenusStageState; fps:number; exploded:boolean; explodeAmount:number; focusAngle:number; activePart:LenusPartInfo; paused:boolean;
   onToggleExplode:()=>void; onExplodeChange:(value:number)=>void; onFocusChange:(radians:number)=>void;
-  onResetView:()=>void; onTogglePause:()=>void; onPartSelect?:(id:string)=>void;
+  onResetView:()=>void; onTogglePause:()=>void;
   cutaway?:boolean;onToggleCutaway?:()=>void;
   transformation?:number;onTransformationChange?:(value:number)=>void;
 };
@@ -15,10 +15,7 @@ export function LenusHudControls(p:Props){
   return <aside className="ln-hud" aria-label="Optical lens controls">
     <div className="ln-hud-top"><span className="ln-micro">OPTICAL ENGINE / 01</span><span className="ln-status" data-live={p.state==="running"}><i aria-hidden="true"/>{status}</span></div>
     <div className="ln-part-readout">
-      <label className="ln-sr-only" htmlFor="ln-part">Inspect an optical part</label>
-      <select id="ln-part" value={p.activePart.id} onChange={e=>p.onPartSelect?.(e.target.value)} aria-label="Inspect an optical part">
-        {OPTICAL_PARTS.map(part=><option key={part.id} value={part.id}>{part.label}</option>)}
-      </select>
+      <p className="ln-part-label">{p.activePart.label}</p>
       <p className="ln-part-material">{p.activePart.material}</p>
       <p className="ln-part-description" title={p.activePart.role}>{p.activePart.role}</p>
     </div>

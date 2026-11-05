@@ -114,8 +114,7 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
 .ln-status{white-space:nowrap;display:flex;gap:6px;align-items:center}
 .ln-status i{width:4px;height:4px;background:var(--color-ln-muted);border-radius:50%}.ln-status[data-live="true"] i{background:var(--color-ln-emerald)}
 .ln-part-readout{grid-column:1;grid-row:2;min-width:0;margin:0}
-.ln-part-readout select{appearance:auto;width:100%;border:0;background:transparent;color:var(--color-ln-white);font-family:var(--font-ln-data);font-size:11px;font-weight:500;padding:0 0 4px;cursor:pointer}
-.ln-part-readout option{background:var(--color-ln-glass);color:var(--color-ln-white)}
+.ln-part-label{width:100%;margin:0 0 4px;color:var(--color-ln-white);font-family:var(--font-ln-data);font-size:12px;line-height:20px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ln-part-material{margin:0;font-size:8px}.ln-part-description{font-size:10px;line-height:16px;color:var(--color-ln-muted);margin:4px 0 0;min-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ln-explode{display:inline-flex;gap:8px;align-items:center;background:none;border:0;padding:8px 0;color:var(--color-ln-lime);font-size:10px;font-weight:700;white-space:nowrap}
 .ln-icon-button{border:0;border-radius:6px;padding:6px;background:transparent;color:var(--color-ln-muted);display:inline-flex;align-items:center;justify-content:center;transition:color var(--duration-ln-ui) var(--ease-ln-out),transform var(--duration-ln-ui) var(--ease-ln-out)}
@@ -169,7 +168,6 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
 @media(max-width:700px){.ln-dialog{width:calc(100vw - 24px);max-height:calc(100svh - 24px);border-radius:20px}.ln-dialog-content{padding:12px 24px 32px}.ln-dialog h2{font-size:36px}.ln-dialog-studies article{padding:16px}.ln-dialog-close{top:8px;left:calc(100% - 48px)}}
 /* Optical labels remain readable at their actual phone rendering size. */
 .ln-copy-footnote,.ln-stage-marker,.ln-stage-help,.ln-micro,.ln-status,.ln-part-material,.ln-part-description,.ln-explode,.ln-hud-sliders label,.ln-footer,.ln-dialog-eyebrow,.ln-form-note{font-size:12px;line-height:18px}
-.ln-part-readout select{font-size:12px;line-height:20px}
 ]]>
     </file>
     <file path="src/app/(lenus)/lenus/LenusApp.tsx">
@@ -309,13 +307,13 @@ export default function LenusHeroCopy({onStepInside}:{onStepInside:()=>void}){
     </file>
     <file path="src/app/(lenus)/lenus/components/LenusHudControls.tsx">
 <![CDATA[import { Layers, Pause, Play, RotateCcw, ScanLine } from "lucide-react";
-import { OPTICAL_PARTS, type LenusPartInfo } from "../scene/telemetry";
+import type { LenusPartInfo } from "../scene/telemetry";
 
 export type LenusStageState="preview"|"running"|"paused"|"static"|"unavailable"|"lost";
 type Props={
   state:LenusStageState; fps:number; exploded:boolean; explodeAmount:number; focusAngle:number; activePart:LenusPartInfo; paused:boolean;
   onToggleExplode:()=>void; onExplodeChange:(value:number)=>void; onFocusChange:(radians:number)=>void;
-  onResetView:()=>void; onTogglePause:()=>void; onPartSelect?:(id:string)=>void;
+  onResetView:()=>void; onTogglePause:()=>void;
   cutaway?:boolean;onToggleCutaway?:()=>void;
   transformation?:number;onTransformationChange?:(value:number)=>void;
 };
@@ -325,10 +323,7 @@ export function LenusHudControls(p:Props){
   return <aside className="ln-hud" aria-label="Optical lens controls">
     <div className="ln-hud-top"><span className="ln-micro">OPTICAL ENGINE / 01</span><span className="ln-status" data-live={p.state==="running"}><i aria-hidden="true"/>{status}</span></div>
     <div className="ln-part-readout">
-      <label className="ln-sr-only" htmlFor="ln-part">Inspect an optical part</label>
-      <select id="ln-part" value={p.activePart.id} onChange={e=>p.onPartSelect?.(e.target.value)} aria-label="Inspect an optical part">
-        {OPTICAL_PARTS.map(part=><option key={part.id} value={part.id}>{part.label}</option>)}
-      </select>
+      <p className="ln-part-label">{p.activePart.label}</p>
       <p className="ln-part-material">{p.activePart.material}</p>
       <p className="ln-part-description" title={p.activePart.role}>{p.activePart.role}</p>
     </div>
@@ -555,9 +550,9 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
       <span className="ln-stage-marker ln-stage-marker-top" aria-hidden="true">LENUS / OPTICAL SYSTEMS</span>
       <span className="ln-stage-marker ln-stage-marker-bottom" aria-hidden="true">N 1.52 <span>{getSemanticPartCount()} PARTS</span></span>
     </div>
-    <p id={instructions} className="ln-sr-only">{activationNeeded?"Press Enter or tap to start the optical experience. ":""}Use arrow keys to rotate, C to inspect the interior, E to separate the assembly, R or Home to reset. Use the part selector to inspect each component.</p>
+    <p id={instructions} className="ln-sr-only">{activationNeeded?"Press Enter or tap to start the optical experience. ":""}Use arrow keys to rotate, C to inspect the interior, E to separate the assembly, R or Home to reset. Select a visible lens part to inspect it.</p>
     <p className="ln-stage-help" role="status">{message[state]}</p>
-    <LenusHudControls state={state} fps={fps} paused={paused} cutaway={cutaway} onToggleCutaway={()=>changeInspection(!cutawayValue.current)} transformation={transformation} onTransformationChange={changeTransformation} exploded={cutaway&&explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={togglePause} onPartSelect={selectPart}/>
+    <LenusHudControls state={state} fps={fps} paused={paused} cutaway={cutaway} onToggleCutaway={()=>changeInspection(!cutawayValue.current)} transformation={transformation} onTransformationChange={changeTransformation} exploded={cutaway&&explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={togglePause}/>
   </section>;
 }
 ]]>

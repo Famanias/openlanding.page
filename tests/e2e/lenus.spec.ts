@@ -108,11 +108,11 @@ test("automatic transformation reveals and reassembles without entering inspecti
   expect(green(open)).toBeGreaterThan(green(closed)+15);
   await expect(stage).toHaveAttribute("data-inspection-mode","hero");
   await expect(page.getByRole("button",{name:"Inspect lens interior",exact:true})).toHaveAttribute("aria-pressed","false");
-  await expect(page.getByRole("combobox",{name:"Inspect an optical part"}).locator("option")).toHaveCount(43);
+  await expect(page.getByRole("combobox",{name:"Inspect an optical part"})).toHaveCount(0);
   await advance();const returned=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
   expect(delta(closed,returned)).toBeLessThan(openingDifference*.45);
   expect(green(returned)).toBeLessThanOrEqual(green(closed)+5);
-  await page.getByRole("combobox",{name:"Inspect an optical part"}).selectOption("housing-panel-2");
+  await page.getByRole("button",{name:"Inspect lens interior",exact:true}).click();
   await expect(stage).toHaveAttribute("data-inspection-mode","cutaway");
   await expect(stage).toHaveAttribute("data-state","paused");
 });
@@ -135,7 +135,7 @@ test("transformation slider smoothly opens and closes, holds intermediate poses 
   await expect.poll(()=>range.inputValue()).not.toBe("50");
 });
 
-test("explosion, focus and keyboard part inspection operate the authored assembly",async({page})=>{
+test("explosion, focus and keyboard controls operate the authored assembly",async({page})=>{
   await page.goto("/lenus");const stage=page.locator(".ln-stage");
   await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
   const canvas=page.locator("canvas[data-lenus-renderer]");
@@ -148,8 +148,7 @@ test("explosion, focus and keyboard part inspection operate the authored assembl
   const focus=page.getByRole("slider",{name:"Focus ring rotation"});await setRange(focus,.8);
   await expect(focus).toHaveValue("0.8");
   await focus.focus();await focus.press("ArrowRight");await expect(focus).toHaveValue("0.81");
-  await page.getByRole("combobox",{name:"Inspect an optical part"}).selectOption("front-lens");
-  await expect(page.locator(".ln-part-material")).toHaveText("DOPED FLUORITE / N=1.52");
+  await expect(page.getByRole("combobox",{name:"Inspect an optical part"})).toHaveCount(0);
   const host=page.getByTestId("lenus-canvas-container");await host.focus();await host.press("r");
   await expect(stage).toHaveAttribute("data-exploded","false");await expect(focus).toHaveValue("0");
   await host.press("e");await expect(stage).toHaveAttribute("data-exploded","true");

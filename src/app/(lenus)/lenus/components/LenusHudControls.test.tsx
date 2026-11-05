@@ -12,6 +12,7 @@ describe("Lenus optical HUD",()=>{
   it("exposes named assembly, focus and playback controls",()=>{
     const html=renderToStaticMarkup(<LenusHudControls state="running" fps={60} exploded={false} explodeAmount={0} focusAngle={0} activePart={getPartTelemetry("front-lens")} paused={false} onToggleExplode={vi.fn()} onExplodeChange={vi.fn()} onFocusChange={vi.fn()} onResetView={vi.fn()} onTogglePause={vi.fn()}/>);
     expect(html).toContain("EMERALD OBJECTIVE CORE");expect(html).toContain("60 FPS");
+    expect(html).not.toContain("<select");
     expect(html).toContain('aria-label="Explode optical assembly"');expect(html).toContain('aria-label="Focus ring rotation"');
     expect(html).toContain('aria-label="Pause animation"');expect(html).toContain("EXPLODE ASSEMBLY");
     expect(html).toMatch(/min="0" max="100" step="1"[^>]+aria-label="Lens transformation"/);
