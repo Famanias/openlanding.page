@@ -456,7 +456,6 @@ export default function DeviceStory() {
                 <p className="utility study-detail">{study.detail}</p>
             </div>
         </div>
-        <div className="hardware-plates"><figure><img src={assetUrl(study.image)} alt={`Approved DECK/01 reference: ${study.title.toLowerCase()}`} loading="lazy" width="1536" height="1024" /><figcaption className="utility">FIG. A / {study.title}</figcaption></figure><figure><div className="shell-pair"><img src={assetUrl('cartridge-shell-front.png')} alt="Cartridge shell front with recessed label area" loading="lazy" width="1024" height="1024" /><img src={assetUrl('cartridge-shell-rear.png')} alt="Cartridge shell rear with grip ribs and screws" loading="lazy" width="1024" height="1024" /></div><figcaption className="utility">FIG. B / ONE SHELL. TEN IDENTITIES.</figcaption></figure></div>
     </section>;
 }
 ]]>
