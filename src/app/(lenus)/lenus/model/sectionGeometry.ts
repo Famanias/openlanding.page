@@ -2,6 +2,12 @@ import * as THREE from "three";
 
 export type RevolvedProfile=ReadonlyArray<readonly [radius:number,z:number]>;
 
+export function annularProfile(inner:number,outer:number,depth:number,bevel=.006):RevolvedProfile {
+  if(![inner,outer,depth,bevel].every(Number.isFinite)||inner<=0||outer<=inner||depth<=0||bevel<0)throw new Error("Invalid annular profile");
+  const h=depth/2,b=Math.min(bevel,h*.8,(outer-inner)*.2);
+  return [[inner+b,-h],[outer-b,-h],[outer,-h+b],[outer,h-b],[outer-b,h],[inner+b,h],[inner,h-b],[inner,-h+b]];
+}
+
 /** Closed profile around +Z; partial sweeps include triangulated boundary faces. */
 export function buildClosedRevolvedSection(profile:RevolvedProfile,options:{segments:number;startRadians:number;sweepRadians:number}) {
   const {segments,startRadians,sweepRadians}=options;

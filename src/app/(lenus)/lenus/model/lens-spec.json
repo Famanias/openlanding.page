@@ -99,14 +99,14 @@
       "position": [
         0,
         0,
-        -0.06
+        -0.03
       ],
       "material": "titanium",
       "geometry": {
         "kind": "annulus",
-        "inner": 0.6,
-        "outer": 1.67,
-        "depth": 0.22,
+        "inner": 1.38,
+        "outer": 1.6,
+        "depth": 0.2,
         "bevel": 0.025
       },
       "features": []
@@ -149,12 +149,12 @@
     },
     {
       "id": "collar-middle",
-      "parent": "root",
+      "parent": "front-meniscus-cell",
       "level": "meso",
       "position": [
         0,
         0,
-        0.06
+        -0.1
       ],
       "material": "titanium",
       "geometry": {
@@ -185,17 +185,17 @@
     },
     {
       "id": "collar-inner",
-      "parent": "root",
+      "parent": "core-carrier",
       "level": "meso",
       "position": [
         0,
         0,
-        -0.01
+        0.17
       ],
       "material": "titanium",
       "geometry": {
         "kind": "annulus",
-        "inner": 0.65,
+        "inner": 0.715,
         "outer": 1.09,
         "depth": 0.1,
         "bevel": 0.018
@@ -1411,17 +1411,17 @@
       "position": [
         0,
         0,
-        -0.78
+        -1.05
       ],
       "material": "titanium",
       "geometry": {
         "kind": "panel",
-        "innerRadius": 1.5,
-        "outerRadius": 1.56,
-        "depth": 1.9,
-        "startRadians": 0.012,
-        "sweepRadians": 1.5467963267948965,
-        "hingeZ": -1.73,
+        "innerRadius": 2.17,
+        "outerRadius": 2.23,
+        "depth": 1.56,
+        "startRadians": 0.003,
+        "sweepRadians": 1.5647963267948966,
+        "hingeZ": -1.83,
         "radialSlide": 0.24,
         "pivotRadians": 0.58
       },
@@ -1451,17 +1451,17 @@
       "position": [
         0,
         0,
-        -0.78
+        -1.05
       ],
       "material": "titanium",
       "geometry": {
         "kind": "panel",
-        "innerRadius": 1.5,
-        "outerRadius": 1.56,
-        "depth": 1.9,
-        "startRadians": 1.5827963267948966,
-        "sweepRadians": 1.5467963267948965,
-        "hingeZ": -1.73,
+        "innerRadius": 2.17,
+        "outerRadius": 2.23,
+        "depth": 1.56,
+        "startRadians": 1.5737963267948964,
+        "sweepRadians": 1.5647963267948966,
+        "hingeZ": -1.83,
         "radialSlide": 0.24,
         "pivotRadians": 0.58
       },
@@ -1491,17 +1491,17 @@
       "position": [
         0,
         0,
-        -0.78
+        -1.05
       ],
       "material": "titanium",
       "geometry": {
         "kind": "panel",
-        "innerRadius": 1.5,
-        "outerRadius": 1.56,
-        "depth": 1.9,
-        "startRadians": 3.153592653589793,
-        "sweepRadians": 1.5467963267948965,
-        "hingeZ": -1.73,
+        "innerRadius": 2.17,
+        "outerRadius": 2.23,
+        "depth": 1.56,
+        "startRadians": 3.1445926535897932,
+        "sweepRadians": 1.5647963267948966,
+        "hingeZ": -1.83,
         "radialSlide": 0.24,
         "pivotRadians": 0.58
       },
@@ -1531,17 +1531,17 @@
       "position": [
         0,
         0,
-        -0.78
+        -1.05
       ],
       "material": "titanium",
       "geometry": {
         "kind": "panel",
-        "innerRadius": 1.5,
-        "outerRadius": 1.56,
-        "depth": 1.9,
-        "startRadians": 4.724388980384689,
-        "sweepRadians": 1.5467963267948965,
-        "hingeZ": -1.73,
+        "innerRadius": 2.17,
+        "outerRadius": 2.23,
+        "depth": 1.56,
+        "startRadians": 4.71538898038469,
+        "sweepRadians": 1.5647963267948966,
+        "hingeZ": -1.83,
         "radialSlide": 0.24,
         "pivotRadians": 0.58
       },
@@ -1623,7 +1623,7 @@
       "position": [
         0,
         0,
-        -1.73
+        -1.83
       ],
       "material": "titanium",
       "geometry": {

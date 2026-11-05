@@ -10,11 +10,11 @@ describe("interior axial packing", () => {
     const runtime = model.userData.sculptRuntime as LensRuntime;
     try {
       const mesh = runtime.meshes["housing-panel-0"];
-      mesh.updateMatrix();
+      mesh.updateWorldMatrix(true,false);
       const p = mesh.geometry.getAttribute("position"), vertex = new THREE.Vector3();
       for(let i=0;i<p.count;i++) {
-        vertex.fromBufferAttribute(p,i).applyMatrix4(mesh.matrix);
-        expect(Math.hypot(vertex.x,vertex.y)).toBeLessThanOrEqual(1.561);
+        vertex.fromBufferAttribute(p,i).applyMatrix4(mesh.matrixWorld);
+        expect(Math.hypot(vertex.x,vertex.y)).toBeLessThanOrEqual(2.231);
       }
     } finally { runtime.dispose(); }
   });

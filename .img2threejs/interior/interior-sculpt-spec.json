@@ -1000,19 +1000,30 @@
       "interaction-pass",
       "optimization-pass"
     ],
-    "currentPass": "form-refinement",
+    "currentPass": "material-pass",
     "completedPasses": [
       "blockout",
-      "structural-pass"
+      "structural-pass",
+      "form-refinement"
     ],
-    "lastCompletedPass": "structural-pass",
+    "lastCompletedPass": "form-refinement",
     "blockedReason": "",
     "nextRequiredEvidence": [
-      "Important visible forms are represented in component geometryDescriptor, deformations, localFeatures, or repetitionSystems.",
-      "Endpoint-based child parts are rooted at their attachment sockets and do not visibly float away from parents.",
+      "Reference-derived albedo palette records dominant, secondary, and accent colors per visible material.",
+      "Each important material defines roughness variation and at least one normal/bump/displacement response.",
+      "Local material overrides, dirt/wear/stains/moss/chips/scratches or equivalent masks are tied to evidenceRefs.",
+      "Thin, transparent, reflective, wet, or fibrous materials document alpha/transmission/clearcoat/metalness/fiber response when relevant.",
+      "Generated preview uses procedural albedo/roughness/bump texture or vertex color variation instead of one flat color.",
+      "Generated preview uses independent PBR maps at 1024px or higher for the quality-first tier.",
+      "If source pixels are available, referencePbr extraction passed at confidence >= 0.7 or the pass is stopped/requesting better references.",
+      "Macro, meso, and micro surface frequency bands are visible at the intended review distance without obvious tiling.",
       "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold.",
-      "attachment contracts for child appendages/connectors",
-      "no floating child roots/joints in the browser screenshot",
+      "reference-derived albedo palette with dominant, secondary, and accent colors",
+      "independent albedo, roughness, height/normal, and AO maps",
+      "macro, meso, and micro surface-frequency response at 1024px or higher",
+      "local material masks: AO, dirt, wear, stains, moss, chips, scratches, wetness, or equivalent",
+      "neutral, grazing-light close-up, and reference-matched browser screenshots",
+      "AI vision comparison sheet score meeting the visual acceptance threshold",
       "browser render screenshot from your agent's browser/screenshot tool",
       "side-by-side reference/render comparison sheet for AI vision review",
       "banded interior difference vs the reference baseline (forge/stage4_review/interior_difference.py --from/--to per region)",
@@ -1838,9 +1849,9 @@
         "normalStrategy": "analytic or area weighted normals",
         "runtimeGeometry": {
           "kind": "annulus",
-          "inner": 0.6,
-          "outer": 1.67,
-          "depth": 0.22,
+          "inner": 1.38,
+          "outer": 1.6,
+          "depth": 0.2,
           "bevel": 0.025
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
@@ -1858,7 +1869,7 @@
         "position": [
           0,
           0,
-          -0.06
+          -0.03
         ],
         "rotation": [
           0,
@@ -2164,7 +2175,7 @@
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
       },
-      "parent": "root",
+      "parent": "front-meniscus-cell",
       "attachment": null,
       "dimensions": {
         "width": 1.0,
@@ -2177,7 +2188,7 @@
         "position": [
           0,
           0,
-          0.06
+          -0.1
         ],
         "rotation": [
           0,
@@ -2325,14 +2336,14 @@
         "normalStrategy": "analytic or area weighted normals",
         "runtimeGeometry": {
           "kind": "annulus",
-          "inner": 0.65,
+          "inner": 0.715,
           "outer": 1.09,
           "depth": 0.1,
           "bevel": 0.018
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
       },
-      "parent": "root",
+      "parent": "core-carrier",
       "attachment": null,
       "dimensions": {
         "width": 1.0,
@@ -2345,7 +2356,7 @@
         "position": [
           0,
           0,
-          -0.01
+          0.17
         ],
         "rotation": [
           0,
@@ -7830,12 +7841,12 @@
         "normalStrategy": "analytic or area weighted normals",
         "runtimeGeometry": {
           "kind": "panel",
-          "innerRadius": 1.5,
-          "outerRadius": 1.56,
-          "depth": 1.9,
-          "startRadians": 0.012,
-          "sweepRadians": 1.5467963267948965,
-          "hingeZ": -1.73,
+          "innerRadius": 2.17,
+          "outerRadius": 2.23,
+          "depth": 1.56,
+          "startRadians": 0.003,
+          "sweepRadians": 1.5647963267948966,
+          "hingeZ": -1.83,
           "radialSlide": 0.24,
           "pivotRadians": 0.58
         },
@@ -7861,9 +7872,9 @@
         "notes": "Geometric seating contact; optical air volumes remain separated."
       },
       "dimensions": {
-        "width": 3.12,
-        "height": 3.12,
-        "depth": 1.9,
+        "width": 4.46,
+        "height": 4.46,
+        "depth": 1.56,
         "units": "relative",
         "confidence": 0.75
       },
@@ -7871,7 +7882,7 @@
         "position": [
           0,
           0,
-          -0.78
+          -1.05
         ],
         "rotation": [
           0,
@@ -8023,12 +8034,12 @@
         "normalStrategy": "analytic or area weighted normals",
         "runtimeGeometry": {
           "kind": "panel",
-          "innerRadius": 1.5,
-          "outerRadius": 1.56,
-          "depth": 1.9,
-          "startRadians": 1.5827963267948966,
-          "sweepRadians": 1.5467963267948965,
-          "hingeZ": -1.73,
+          "innerRadius": 2.17,
+          "outerRadius": 2.23,
+          "depth": 1.56,
+          "startRadians": 1.5737963267948964,
+          "sweepRadians": 1.5647963267948966,
+          "hingeZ": -1.83,
           "radialSlide": 0.24,
           "pivotRadians": 0.58
         },
@@ -8054,9 +8065,9 @@
         "notes": "Geometric seating contact; optical air volumes remain separated."
       },
       "dimensions": {
-        "width": 3.12,
-        "height": 3.12,
-        "depth": 1.9,
+        "width": 4.46,
+        "height": 4.46,
+        "depth": 1.56,
         "units": "relative",
         "confidence": 0.75
       },
@@ -8064,7 +8075,7 @@
         "position": [
           0,
           0,
-          -0.78
+          -1.05
         ],
         "rotation": [
           0,
@@ -8216,12 +8227,12 @@
         "normalStrategy": "analytic or area weighted normals",
         "runtimeGeometry": {
           "kind": "panel",
-          "innerRadius": 1.5,
-          "outerRadius": 1.56,
-          "depth": 1.9,
-          "startRadians": 3.153592653589793,
-          "sweepRadians": 1.5467963267948965,
-          "hingeZ": -1.73,
+          "innerRadius": 2.17,
+          "outerRadius": 2.23,
+          "depth": 1.56,
+          "startRadians": 3.1445926535897932,
+          "sweepRadians": 1.5647963267948966,
+          "hingeZ": -1.83,
           "radialSlide": 0.24,
           "pivotRadians": 0.58
         },
@@ -8247,9 +8258,9 @@
         "notes": "Geometric seating contact; optical air volumes remain separated."
       },
       "dimensions": {
-        "width": 3.12,
-        "height": 3.12,
-        "depth": 1.9,
+        "width": 4.46,
+        "height": 4.46,
+        "depth": 1.56,
         "units": "relative",
         "confidence": 0.75
       },
@@ -8257,7 +8268,7 @@
         "position": [
           0,
           0,
-          -0.78
+          -1.05
         ],
         "rotation": [
           0,
@@ -8409,12 +8420,12 @@
         "normalStrategy": "analytic or area weighted normals",
         "runtimeGeometry": {
           "kind": "panel",
-          "innerRadius": 1.5,
-          "outerRadius": 1.56,
-          "depth": 1.9,
-          "startRadians": 4.724388980384689,
-          "sweepRadians": 1.5467963267948965,
-          "hingeZ": -1.73,
+          "innerRadius": 2.17,
+          "outerRadius": 2.23,
+          "depth": 1.56,
+          "startRadians": 4.71538898038469,
+          "sweepRadians": 1.5647963267948966,
+          "hingeZ": -1.83,
           "radialSlide": 0.24,
           "pivotRadians": 0.58
         },
@@ -8440,9 +8451,9 @@
         "notes": "Geometric seating contact; optical air volumes remain separated."
       },
       "dimensions": {
-        "width": 3.12,
-        "height": 3.12,
-        "depth": 1.9,
+        "width": 4.46,
+        "height": 4.46,
+        "depth": 1.56,
         "units": "relative",
         "confidence": 0.75
       },
@@ -8450,7 +8461,7 @@
         "position": [
           0,
           0,
-          -0.78
+          -1.05
         ],
         "rotation": [
           0,
@@ -8844,7 +8855,7 @@
         "position": [
           0,
           0,
-          -1.73
+          -1.83
         ],
         "rotation": [
           0,
@@ -11113,6 +11124,52 @@
       "cameraView": "",
       "notes": "",
       "aiVisionNotes": "Structure-only review: the compact optical train now has six rail-mounted carriers with visible support arms/bearings, a shared front carriage, four rear hinges and eight two-arm linkage supports. Measured 16 link endpoints stay within 6.1e-8 units; 24 rail sockets remain coaxial; bearing/track radial gap is .001 and minimum axial engagement .08 across static deployment samples. Rear optical train stays seated during automatic opening to preserve its mount; manual separation still spreads all seven groups coherently. Existing front metal occluders still hide part of the stack and must be physically opened in the form pass. Glass is coarse clay, panel profile is faceted, and final curvature/finish/motion remain unaccepted. 152736 model triangles and 84 calls; sampled self-intersection and both turntables pass, with 24 undecided sampled vertices disclosed. Generic attachment tool reports zero applicable anchors; actual rig socket/geometry measurements and tamper-sensitive tests supply contact evidence."
+    },
+    {
+      "timestamp": "2026-11-05T00:33:59.267076+00:00",
+      "passId": "form-refinement",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.83,
+        "materialSurface": 0.2,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Fixed seven-group order with genuinely curved volumes, stepped retaining cells and verified air gaps; primary biconvex profile has readable .102 depth/diameter."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "28 real rail sockets, measured bearing fit and 16 connected linkage arms; tamper-sensitive measurements and dense phase sampling prove the modeled contact contract."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.86,
+          "visible": true,
+          "notes": "Capped beveled sectors, real radial seams and no hidden/swapped panel geometry; rear-flange collision regression and continuous-glass clearance envelope pass."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Original ring/shard/green identity retained with a compact reference-inspired housing. All geometry remains present and identical matrices return after 24 seconds; runtime scheduling acceptance remains Task 7."
+        }
+      ],
+      "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+      "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\form-refinement\\deployed\\60.png",
+      "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\form-refinement\\comparison-deployed-full.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": "Form-only review of complete uncropped reference/render pairs and phase/side views. Five new closed curved glass volumes have positive rims, a true meniscus and plano back, fitted stepped holders and rounded seat fillets. Four closed quarter-cylinder panels use capped bevel profiles and wrap outside the existing rear flange. The compact body deliberately differs in length from the generated reference. Original glass-ring dimensions, emerald geometry and semantic IDs remain; front support aperture/collar placement are repacked to retain optics and clear travel. A front-carriage lift clears continuous glass before radial panel motion; .32-unit linkages on rear anchor posts remain connected. Sampled optical minimum gap .03, bearing gap .001, axial engagement .08 and stable 41-part geometry inventory pass throughout travel. Closed/deployed turntables, unmodified sampled self-intersection and Tier1 pass. 188480 model triangles / 86 calls. Gray form review does not accept transmission, green visibility or final motion rhythm; those remain later gates. The shorter cartridge and stronger primary glass curvature are explicit reference-inspired adaptations."
     }
   ],
   "reviewHistory": [
@@ -11229,6 +11286,72 @@
         "cameraView": "",
         "notes": "",
         "aiVisionNotes": "Structure-only review: the compact optical train now has six rail-mounted carriers with visible support arms/bearings, a shared front carriage, four rear hinges and eight two-arm linkage supports. Measured 16 link endpoints stay within 6.1e-8 units; 24 rail sockets remain coaxial; bearing/track radial gap is .001 and minimum axial engagement .08 across static deployment samples. Rear optical train stays seated during automatic opening to preserve its mount; manual separation still spreads all seven groups coherently. Existing front metal occluders still hide part of the stack and must be physically opened in the form pass. Glass is coarse clay, panel profile is faceted, and final curvature/finish/motion remain unaccepted. 152736 model triangles and 84 calls; sampled self-intersection and both turntables pass, with 24 undecided sampled vertices disclosed. Generic attachment tool reports zero applicable anchors; actual rig socket/geometry measurements and tamper-sensitive tests supply contact evidence."
+      }
+    },
+    {
+      "timestamp": "2026-11-05T00:33:59.267076+00:00",
+      "passId": "form-refinement",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.83,
+        "materialSurface": 0.2,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Fixed seven-group order with genuinely curved volumes, stepped retaining cells and verified air gaps; primary biconvex profile has readable .102 depth/diameter."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "28 real rail sockets, measured bearing fit and 16 connected linkage arms; tamper-sensitive measurements and dense phase sampling prove the modeled contact contract."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.86,
+          "visible": true,
+          "notes": "Capped beveled sectors, real radial seams and no hidden/swapped panel geometry; rear-flange collision regression and continuous-glass clearance envelope pass."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Original ring/shard/green identity retained with a compact reference-inspired housing. All geometry remains present and identical matrices return after 24 seconds; runtime scheduling acceptance remains Task 7."
+        }
+      ],
+      "action": "continue",
+      "summary": "Form-only review of complete uncropped reference/render pairs and phase/side views. Five new closed curved glass volumes have positive rims, a true meniscus and plano back, fitted stepped holders and rounded seat fillets. Four closed quarter-cylinder panels use capped bevel profiles and wrap outside the existing rear flange. The compact body deliberately differs in length from the generated reference. Original glass-ring dimensions, emerald geometry and semantic IDs remain; front support aperture/collar placement are repacked to retain optics and clear travel. A front-carriage lift clears continuous glass before radial panel motion; .32-unit linkages on rear anchor posts remain connected. Sampled optical minimum gap .03, bearing gap .001, axial engagement .08 and stable 41-part geometry inventory pass throughout travel. Closed/deployed turntables, unmodified sampled self-intersection and Tier1 pass. 188480 model triangles / 86 calls. Gray form review does not accept transmission, green visibility or final motion rhythm; those remain later gates. The shorter cartridge and stronger primary glass curvature are explicit reference-inspired adaptations.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "reviewViewpoints": [
+        "front",
+        "three-quarter",
+        "side",
+        "rear",
+        "left",
+        "thickness-axis",
+        "long-axis",
+        "closed",
+        "deployed"
+      ],
+      "visualEvidence": {
+        "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+        "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\form-refinement\\deployed\\60.png",
+        "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\form-refinement\\comparison-deployed-full.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": "Form-only review of complete uncropped reference/render pairs and phase/side views. Five new closed curved glass volumes have positive rims, a true meniscus and plano back, fitted stepped holders and rounded seat fillets. Four closed quarter-cylinder panels use capped bevel profiles and wrap outside the existing rear flange. The compact body deliberately differs in length from the generated reference. Original glass-ring dimensions, emerald geometry and semantic IDs remain; front support aperture/collar placement are repacked to retain optics and clear travel. A front-carriage lift clears continuous glass before radial panel motion; .32-unit linkages on rear anchor posts remain connected. Sampled optical minimum gap .03, bearing gap .001, axial engagement .08 and stable 41-part geometry inventory pass throughout travel. Closed/deployed turntables, unmodified sampled self-intersection and Tier1 pass. 188480 model triangles / 86 calls. Gray form review does not accept transmission, green visibility or final motion rhythm; those remain later gates. The shorter cartridge and stronger primary glass curvature are explicit reference-inspired adaptations."
       }
     }
   ],
@@ -11421,17 +11544,17 @@
     {
       "passed": true,
       "checks": {
-        "silhouetteIoU": 0.9316,
+        "silhouetteIoU": 0.9298,
         "aspectRatioDelta": 0.0325,
         "scaleDelta": 0.0325,
-        "bilateralSymmetryError": 0.0082
+        "bilateralSymmetryError": 0.0101
       },
       "failures": [],
       "maskWarnings": [
         "reference: 11.6% of foreground cells lie outside the largest connected blob and were excluded from the bounding box; if the subject really has separated parts in this projection, they are not being measured"
       ],
-      "renderHash": "0ac4cc3231d5a9cc",
-      "passId": "structural-pass"
+      "renderHash": "82e43d98a167aaa8",
+      "passId": "form-refinement"
     }
   ],
   "validationOverrides": [
@@ -11577,7 +11700,11 @@
       0
     ],
     "rearTrainPolicy": "Rear optics stay seated during automatic opening; manual inspection separation can explode the train as coherent cells.",
-    "railContactPolicy": "Front meniscus carriage rides the .025-radius translating rod in a .026-radius bearing. Other cells ride the .042-radius fixed tube in .043-radius bearings; tube ends at z=.06 and the second cell stays at or behind z=0 during automatic deployment."
+    "railContactPolicy": "Front meniscus carriage rides the .025-radius translating rod in a .026-radius bearing. Other cells ride the .042-radius fixed tube in .043-radius bearings; tube ends at z=.06 and the second cell stays at or behind z=0 during automatic deployment.",
+    "frontLiftBeforePanelSlide": 0.5,
+    "frontCarriageTotalTravel": 1.05,
+    "collarRepacking": "Front support 1.38..1.60 radius, .20 depth at z=-.03; middle collar parent front-meniscus-cell at local z=-.10; inner collar parent core-carrier at local z=.17, bore .715.",
+    "housingClearance": "Closed panel radii 2.17..2.23, depth1.56, rear hinge -1.83; rear-frame anchors radial2.10 at local z=-.465, .355 axial posts and fixed .32 links."
   },
   "formRefinementNotes": [
     "Increase optical sag against keyframe 4 so primary clear elements read as curved volumes in profile.",

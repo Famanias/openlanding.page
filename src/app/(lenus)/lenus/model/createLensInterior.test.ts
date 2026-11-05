@@ -4,6 +4,24 @@ import { createOpticalLensModel, type LensRuntime } from "./createOpticalLensMod
 import { INTERIOR_IDS, OPTICAL_ORDER } from "./interiorLayout";
 
 describe("interior support and assembly hierarchy", () => {
+  it("exposes deterministic transformation and physical inspection on the existing runtime", () => {
+    const model=createOpticalLensModel(undefined,{quality:"low",pass:"form-refinement"});
+    const r=model.userData.sculptRuntime as LensRuntime;
+    try {
+      expect(typeof r.setTransformationPose).toBe("function");
+      expect(typeof r.setCutaway).toBe("function");
+    } finally {r.dispose();}
+  });
+
+  it("refines each housing quarter into a curved closed shell", () => {
+    const model=createOpticalLensModel(undefined,{quality:"low",pass:"form-refinement"});
+    const r=model.userData.sculptRuntime as LensRuntime;
+    try {
+      const p=r.meshes["housing-panel-0"].geometry.getAttribute("position");
+      const angles=new Set(Array.from({length:p.count},(_,i)=>Math.atan2(p.getY(i),p.getX(i)).toFixed(5)));
+      expect(angles.size).toBeGreaterThan(16);
+    } finally {r.dispose();}
+  });
   it("releases shared geometry once when lifecycle cleanup repeats", () => {
     const model=createOpticalLensModel(undefined,{quality:"low",pass:"structural-pass"});
     const r=model.userData.sculptRuntime as LensRuntime;

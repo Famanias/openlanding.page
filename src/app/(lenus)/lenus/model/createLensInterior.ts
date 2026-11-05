@@ -3,6 +3,8 @@ import type { LensRuntime } from "./createOpticalLensModel";
 import { INTERIOR_IDS, OPTICAL_ORDER } from "./interiorLayout";
 import type { LensComponent, OpticalLensSpec } from "./lensTypes";
 import { buildOpticalCellGeometry, buildOpticalElementGeometry } from "./opticalLensGeometry";
+import { annularProfile, buildClosedRevolvedSection } from "./sectionGeometry";
+import { getLensTransformationPose, type LensTransformationPose } from "./lensTransformation";
 
 export type InteriorContext = {
   root: THREE.Group;
@@ -11,7 +13,7 @@ export type InteriorContext = {
   addMesh: (id:string, geometry:THREE.BufferGeometry, count?:number)=>THREE.Mesh;
   annulus: (inner:number,outer:number,depth:number)=>THREE.BufferGeometry;
 };
-const frontIds=["outer-glass","inner-glass","front-shell","collar-outer","collar-middle","collar-inner","retaining-beads","shards"];
+const frontIds=["outer-glass","inner-glass","front-shell","collar-outer","retaining-beads","shards"];
 const axis=new THREE.Vector3(0,0,1);
 const one=new THREE.Vector3(1,1,1);
 const clamp=(x:number)=>Number.isFinite(x)?THREE.MathUtils.clamp(x,0,1):0;
@@ -65,8 +67,8 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
         if(context.stage>=1)supports(c);break;
       }
       case "open-frame": {
-        for(const z of [-.67,.90])addMesh(id,annulus(g.innerRadius!,g.outerRadius!, .06)).position.z=z;
-        if(context.stage>=1)for(const z of [-.67,.90]) {
+        for(const z of [-.67,-.55])addMesh(id,annulus(g.innerRadius!,g.outerRadius!, .06)).position.z=z;
+        if(context.stage>=1)for(const z of [-.67]) {
           const arms=addMesh(id,new THREE.BoxGeometry(.22,.05,.06),4) as THREE.InstancedMesh;
           for(let i=0;i<4;i++) {
             const t=i*Math.PI/2+Math.PI/4;
@@ -83,6 +85,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
       case "beads":for(const radius of g.radii!)addMesh(id,new THREE.TorusGeometry(radius,g.tube!,6,48));break;
       case "bolts":radialInstances(id,new THREE.TorusGeometry(g.size!*.72,g.size!*.20,8,16),g.count!,g.radius!);break;
       case "panel": {
+        if(context.stage>=2){addMesh(id,buildClosedRevolvedSection(annularProfile(g.innerRadius!,g.outerRadius!,g.depth!),{segments:24,startRadians:g.startRadians!,sweepRadians:g.sweepRadians!}));break;}
         const start=g.startRadians!,end=start+g.sweepRadians!;
         const shape=new THREE.Shape();shape.absarc(0,0,g.outerRadius!,start,end,false);
         shape.lineTo(Math.cos(end)*g.innerRadius!,Math.sin(end)*g.innerRadius!);
@@ -91,7 +94,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
       }
       case "rails":
         fixedGuide=radialInstances(id,annulus(.027,.042,1.81),4,g.radius!);fixedGuide.position.z=-.065;
-        slidingGuide=radialInstances(id,new THREE.CylinderGeometry(.025,.025,2.05,8).rotateX(Math.PI/2),4,g.radius!);slidingGuide.name="sliding-guide-rods";
+        slidingGuide=radialInstances(id,new THREE.CylinderGeometry(.025,.025,2.25,8).rotateX(Math.PI/2),4,g.radius!);slidingGuide.name="sliding-guide-rods";
         break;
       case "linkages":break;
       default:throw new Error(`Unsupported interior geometry: ${g.kind}`);
@@ -101,14 +104,28 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   const carriage=new THREE.Group();carriage.name="front-carriage";root.add(carriage);
   for(const id of frontIds)carriage.add(r.nodes[id]);
   const collarUnlock=new THREE.Group();collarUnlock.name="collar-unlock";carriage.add(collarUnlock);collarUnlock.add(r.nodes["collar-outer"]);
+  const frontBearings=radialInstances("guide-rails",annulus(.026,.065,.08),4,1.3);
+  bearings.push({mesh:frontBearings,moving:true});
+  const clampLength=Math.hypot(.12,.115);
+  const frontClamps=addMesh("guide-rails",new THREE.CylinderGeometry(.018,.018,clampLength,8).rotateX(Math.PI/2),4) as THREE.InstancedMesh;
+  for(let i=0;i<4;i++) {
+    const t=i*Math.PI/2+Math.PI/4;
+    const direction=new THREE.Vector3(.12*Math.cos(t),.12*Math.sin(t),-.115).normalize();
+    matrix.compose(new THREE.Vector3(1.41*Math.cos(t),1.41*Math.sin(t),0),new THREE.Quaternion().setFromUnitVectors(axis,direction),one);frontClamps.setMatrixAt(i,matrix);
+    socket(`front-carriage-rail-${i}`,carriage,new THREE.Vector3(1.3*Math.cos(t),1.3*Math.sin(t),.245));
+  }
+  frontClamps.instanceMatrix.needsUpdate=true;
   r.nodes["core-carrier"].add(r.nodes["carrier-fasteners"]);r.nodes["carrier-fasteners"].position.set(0,0,0);
   const rests=new Map(Object.entries(r.nodes).map(([id,o])=>[id,{position:o.position.clone(),rotation:o.rotation.clone()}]));
   const hinges:THREE.Group[]=[];
+  const hingeRadius=descriptors.get("housing-panel-0")!.geometry.innerRadius!;
+  const anchorRadius=2.10;
+  const anchorLocalZ=-.465;
   for(let i=0;i<4;i++) {
     const c=descriptors.get(`housing-panel-${i}`)!;
     const t=c.geometry.startRadians!+c.geometry.sweepRadians!/2;
     const hinge=new THREE.Group();hinge.name=`housing-panel-${i}-hinge`;
-    hinge.position.set(Math.cos(t)*1.5,Math.sin(t)*1.5,-c.geometry.depth!/2);
+    hinge.position.set(Math.cos(t)*hingeRadius,Math.sin(t)*hingeRadius,-c.geometry.depth!/2);
     const panel=r.nodes[c.id];
     for(const mesh of [...panel.children].filter(o=>(o as THREE.Mesh).isMesh)) {
       mesh.position.sub(hinge.position);hinge.add(mesh);
@@ -117,18 +134,27 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   }
   const armLength=descriptors.get("panel-linkages")!.geometry.linkLength!;
   const linkMesh=addMesh("panel-linkages",new THREE.CylinderGeometry(.025,.025,armLength,8).rotateX(Math.PI/2),16) as THREE.InstancedMesh;
-  const crowns=addMesh("panel-linkages",new THREE.SphereGeometry(.043,8,6),24) as THREE.InstancedMesh;
+  const crowns=addMesh("panel-linkages",new THREE.SphereGeometry(.020,8,6),24) as THREE.InstancedMesh;
+  const anchorPosts=addMesh("panel-linkages",new THREE.CylinderGeometry(.025,.025,.355,8).rotateX(Math.PI/2),8) as THREE.InstancedMesh;
   const linkageSockets:{a:THREE.Object3D;b:THREE.Object3D;knee:THREE.Object3D;t:number;side:number}[]=[];
   for(let i=0;i<4;i++)for(let side=0;side<2;side++) {
     const t=i*Math.PI/2+Math.PI/4,s=(side===0?-1:1)*.2;
-    const a=socket(`housing-panel-${i}-link-root-${side}`,r.nodes["rear-frame"],new THREE.Vector3(Math.cos(t)*1.65-Math.sin(t)*s,Math.sin(t)*1.65+Math.cos(t)*s,-.11));
+    const a=socket(`housing-panel-${i}-link-root-${side}`,r.nodes["rear-frame"],new THREE.Vector3(Math.cos(t)*anchorRadius-Math.sin(t)*s,Math.sin(t)*anchorRadius+Math.cos(t)*s,anchorLocalZ));
     const b=socket(`housing-panel-${i}-link-panel-${side}`,hinges[i],new THREE.Vector3(-Math.sin(t)*s,Math.cos(t)*s,0));
     const knee=socket(`housing-panel-${i}-link-knee-${side}`,r.nodes["panel-linkages"],new THREE.Vector3());
     linkageSockets.push({a,b,knee,t,side:s});
+    const postZ=r.nodes["rear-frame"].position.z-.2875-r.nodes["panel-linkages"].position.z;
+    matrix.makeTranslation(Math.cos(t)*anchorRadius-Math.sin(t)*s,Math.sin(t)*anchorRadius+Math.cos(t)*s,postZ);anchorPosts.setMatrixAt(i*2+side,matrix);
   }
+  anchorPosts.instanceMatrix.needsUpdate=true;
   const spacerMeshes=r.nodes["spacer-stack"].children.filter(o=>(o as THREE.Mesh).isMesh);
   const spacerRest=spacerMeshes.map(m=>m.position.clone());
-  let deployment=0,separation=0,focus=0;
+  const movingTrim=r.nodes["retaining-beads"].children.filter(o=>(o as THREE.Mesh).isMesh).flatMap(o=>{
+    const radius=((o as THREE.Mesh).geometry as THREE.TorusGeometry).parameters.radius;
+    if(radius!==1.11&&radius!==1.36)return [];
+    return [{mesh:o,worldZ:radius===1.11?.275:.115}];
+  });
+  let pose=getLensTransformationPose(0),separation=0,focus=0;
   const vector=new THREE.Vector3(),quaternion=new THREE.Quaternion();
   const putArm=(index:number,a:THREE.Vector3,b:THREE.Vector3)=>{
     const midpoint=a.clone().add(b).multiplyScalar(.5).sub(r.nodes["panel-linkages"].position);
@@ -137,32 +163,36 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   };
   function apply() {
     for(const [id,rest]of rests){r.nodes[id].position.copy(rest.position);r.nodes[id].rotation.copy(rest.rotation);}
-    carriage.position.z=deployment*1.05+separation*.64;
-    // The rear train remains seated in its accepted mount during automatic opening.
-    const offsets=[.65,.24,.12,0,0,0,0];
+    carriage.position.z=pose.frontCarriage+separation*.64;
+    collarUnlock.rotation.z=.2*pose.unlock;
+    const offsets=pose.opticalOffsets,inspectionOffsets=[.48,.32,.16,0,-.16,-.32,-.64];
     for(const [i,id]of OPTICAL_ORDER.entries()) {
       const target=id==="front-lens"?"core-carrier":r.nodes[id].parent===root?id:`${id}-cell`;
-      r.nodes[target].position.z+=deployment*offsets[i]+separation*(3-i)*.16;
+      r.nodes[target].position.z+=offsets[i]+separation*inspectionOffsets[i];
     }
-    r.nodes["rear-seat"].position.z+=deployment*offsets[6]-separation*.48;
-    for(let i=0;i<spacerMeshes.length;i++)spacerMeshes[i].position.copy(spacerRest[i]).add(vector.set(0,0,deployment*offsets[[0,1,2,4,5][i]]+separation*(3-[0,1,2,4,5][i])*.16));
+    for(const id of ["rear-frame","rear-hub","rear-seat","panel-linkages"])r.nodes[id].position.z-=separation*.64;
+    for(const trim of movingTrim)trim.mesh.position.z=trim.worldZ-r.nodes["retaining-beads"].position.z+offsets[0]+inspectionOffsets[0]*separation-carriage.position.z;
+    frontBearings.position.z=.245-r.nodes["guide-rails"].position.z+carriage.position.z;
+    frontClamps.position.z=.1875-r.nodes["guide-rails"].position.z+carriage.position.z;
+    for(let i=0;i<spacerMeshes.length;i++){const index=[0,1,2,4,5][i];spacerMeshes[i].position.copy(spacerRest[i]).add(vector.set(0,0,offsets[index]+separation*inspectionOffsets[index]));}
     for(let i=0;i<4;i++) {
       const t=i*Math.PI/2+Math.PI/4;
-      r.nodes[`housing-panel-${i}`].position.x+=Math.cos(t)*.24*deployment;
-      r.nodes[`housing-panel-${i}`].position.y+=Math.sin(t)*.24*deployment;
-      hinges[i].quaternion.setFromAxisAngle(vector.set(-Math.sin(t),Math.cos(t),0),.58*deployment);
+      r.nodes[`housing-panel-${i}`].position.x+=Math.cos(t)*.24*pose.panelSlide[i];
+      r.nodes[`housing-panel-${i}`].position.y+=Math.sin(t)*.24*pose.panelSlide[i];
+      r.nodes[`housing-panel-${i}`].position.z-=separation*.64;
+      hinges[i].quaternion.setFromAxisAngle(vector.set(-Math.sin(t),Math.cos(t),0),.58*pose.panelPivot[i]);
     }
     for(const id of ["collar-outer","collar-middle","shards"])r.nodes[id].rotation.z=focus;
     const rods=r.nodes["guide-rails"].getObjectByName("sliding-guide-rods");
-    if(rods)rods.position.z=-.025+deployment*1.05+separation*.64;
+    if(rods)rods.position.z=-.025+pose.guideExtension+separation*.64;
     for(const [i,link]of linkageSockets.entries()) {
-      const panelIndex=Math.floor(i/2),radial=1.5+.24*deployment;
-      const az=r.nodes["rear-frame"].position.z-.11,bz=r.nodes[`housing-panel-${panelIndex}`].position.z-.95;
-      const dx=radial-1.65,dz=bz-az,distance=Math.hypot(dx,dz);
+      const panelIndex=Math.floor(i/2),radial=hingeRadius+.24*pose.panelSlide[panelIndex];
+      const az=r.nodes["rear-frame"].position.z+anchorLocalZ,bz=r.nodes[`housing-panel-${panelIndex}`].position.z+hinges[panelIndex].position.z;
+      const dx=radial-anchorRadius,dz=bz-az,distance=Math.hypot(dx,dz);
       const height=Math.sqrt(Math.max(0,armLength**2-distance**2/4));
-      const kr=(radial+1.65)/2-dz/distance*height,kz=(az+bz)/2+dx/distance*height;
+      const kr=(radial+anchorRadius)/2-dz/distance*height,kz=(az+bz)/2+dx/distance*height;
       const point=(radius:number,z:number)=>new THREE.Vector3(Math.cos(link.t)*radius-Math.sin(link.t)*link.side,Math.sin(link.t)*radius+Math.cos(link.t)*link.side,z);
-      const a=point(1.65,az),b=point(radial,bz),k=point(kr,kz);
+      const a=point(anchorRadius,az),b=point(radial,bz),k=point(kr,kz);
       link.knee.position.copy(k).sub(r.nodes["panel-linkages"].position);
       putArm(i*2,a,k);putArm(i*2+1,k,b);
       for(const [j,p]of [a,k,b].entries()){
@@ -205,7 +235,11 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
     return {linkGap,railOffset,railSurfaceGap,railAxialOverlap,linkCount:16,railSocketCount:Object.keys(r.sockets).filter(id=>/-rail-\d$/.test(id)).length};
   }
   apply();
-  const rig={carriage,collarUnlock,hinges,setDeployment(amount:number){deployment=clamp(amount);apply();},setSeparation(amount:number){separation=clamp(amount);apply();},setFocus(radians:number){focus=Number.isFinite(radians)?THREE.MathUtils.clamp(radians,-Math.PI/2,Math.PI/2):0;apply();},measureAttachments};
+  const setPose=(next:LensTransformationPose)=>{
+    if(next.opticalOffsets.length!==7||next.panelSlide.length!==4||next.panelPivot.length!==4||![next.frontCarriage,next.guideExtension,next.unlock,...next.opticalOffsets,...next.panelSlide,...next.panelPivot].every(Number.isFinite))throw new Error("Invalid lens transformation pose");
+    pose=next;apply();
+  };
+  const rig={carriage,collarUnlock,hinges,setPose,setDeployment(amount:number){const u=clamp(amount);setPose(getLensTransformationPose(u===0?0:3+9*u));},setSeparation(amount:number){separation=clamp(amount);apply();},setFocus(radians:number){focus=Number.isFinite(radians)?THREE.MathUtils.clamp(radians,-Math.PI/2,Math.PI/2):0;apply();},measureAttachments};
   root.userData.interiorRig=rig;
   return rig;
 }

@@ -124,7 +124,7 @@ Existing layout changes:
 - Move `front-lens` from `z = +0.02` to `−0.78` through the new core-carrier hierarchy.
 - Translate the existing rear root components (`rear-frame`, `rear-hub`, `rear-seat`, `rear-lens`) by **−1.15 Z**, with their children following exactly once.
 - Split the two small radii (`0.615`, `0.66`) out of the current `retaining-beads` mesh set into a new core-retaining group. They must follow the recessed green optic rather than remain inside a new front glass element. Keep the original `retaining-beads` ID for the remaining exterior beads.
-- Keep the front outer/inner glass rings and visible front collar silhouettes in their original **assembled** positions. Mount them on one axial front carriage for deployment. Put small collar unlocking rotation on a separate pivot so focus rotation and translation cannot overwrite one another. Confine seat-related shape edits to the internal cross-section and review against the baseline.
+- Keep the front outer/inner glass rings in their original **assembled** positions on an axial front carriage. Task 5 repacks the metal retainers to clear real travel: `front-shell` is a wide-bore support (1.38–1.60 radius, .20 depth, z=−.03); `collar-middle` follows the front meniscus cell at local z=−.10 (assembled world z remains +.06); `collar-inner` follows the core carrier at local z=+.17 (world z=−.61), with a .715 bore. Original IDs, glass dimensions and rear-hardware relationships remain. A separate collar-unlock pivot keeps its short rotation independent from user focus. These adaptations supersede the initial fixed-collar assumption and are recorded in the execution ledger.
 
 ```mermaid
 flowchart LR
@@ -140,9 +140,9 @@ flowchart LR
 ### Mechanical additions
 
 - `internal-barrel`: stepped stationary support frame joining the front structure to the rear module. Start mounting radii near **1.42–1.50**, then solve actual profiles during structure review. Use annular end supports and rails; a continuous opaque inner tube would hide the reveal and is not acceptable.
-- `housing-panel-0` through `housing-panel-3`: four closed quarter-cylinder shells on fixed radial slide/pivot hierarchies, with real edge thickness and compact mounting brackets. Preserve four panels even where the references suggest extra subdivisions.
+- `housing-panel-0` through `housing-panel-3`: four closed quarter-cylinder shells on radial slide/pivot hierarchies, with real edge thickness and mounting brackets. Task 5 uses inner/outer radii **2.17/2.23**, depth **1.56**, rear hinge z=**−1.83**, and .24 radial travel before a .58-radian pivot. This clears the preserved 2.12-radius rear flange while retaining the assembled 2.49-radius envelope. Preserve four panels even where the references suggest extra subdivisions.
 - `guide-rails`: shared axial rails and carriage sockets for translating the front assembly and optical groups. Cell contacts remain valid throughout separation.
-- `panel-linkages`: compact repeated articulated supports inspired by image 3. Define pivot centers, link lengths, travel bounds and panel connections; solve linked endpoints at each pose rather than independently rotating disconnected bars.
+- `panel-linkages`: eight repeated two-arm supports inspired by image 3, each arm .32 units long. Rear anchor posts at radius 2.10 extend .355 units behind the frame; roots use frame-local z=−.465. Solve linked endpoints at each pose rather than independently rotating disconnected bars. The posts and inboard folds keep the supports clear of the rear flange.
 - Five named optical cells: `front-meniscus-cell`, `front-biconvex-cell`, `front-compensator-cell`, `rear-relay-cell`, `rear-plano-cell`. Each lens and its cell form one coherent explosion assembly.
 - `core-carrier`: stepped support around the preserved emerald optic; the optical path stays clear.
 - `spacer-stack`: annular spacers between cells, with real ledges and stable parent relationships.
@@ -341,13 +341,13 @@ function buildClosedRevolvedSection(profile: RevolvedProfile, options: {
 
 **Interfaces:** add `getLensTransformationPose(elapsedSeconds): LensTransformationPose` and `LensRuntime.setTransformationPose(pose): void`. Add `setCutaway(enabled: boolean): void` as a compatibility/inspection wrapper for the same physical rig, with state restoration managed by the controller. Preserve maps and `setExplode`, `setFocusRing`, `pickPart`, `dispose` signatures. Add deterministic phase sampling to the capture scene; it must use the real production sampler/application path.
 
-- [ ] Write failing tests for closed panel boundaries, unchanged geometry/semantic IDs across poses, intact glass, valid linkage endpoints, and restoration of exact rest transforms at phase 0/24. Repeated sampling and backward time sampling must not accumulate drift.
-- [ ] Build four finished quarter-cylinder shells, real seams, brackets and docking shoulders. Each shell uses the closed-sector helper; verify boundary edges, winding, thickness and cap normals. Fit seams and intentional mounting contact separately from solid intersections.
-- [ ] Implement named rig channels and linked travel paths for statically sampled choreography poses, using the single pose-application path. Panels slide clear before pivoting; cells and front carriage move along rails with their trim; no clipping planes, disappearing panels, newly materialized glass or changing part scales.
-- [ ] Validate sampled intermediate travel, including both directions, phase boundaries, stagger extrema and the most constrained panel/collar crossings. Measure optical air gaps, carriage/rail engagement and linkage endpoint residuals. Record tolerances and sampling coverage; endpoint-only tests are insufficient.
-- [ ] Capture closed, unlock, partial-open, full-open, staggered-close and near-closed poses with reference cameras. Produce comparisons against images 1–4; use images 5–6 only for closing arrangement and preserve the fixed topology. Check that original opaque collars no longer block the opening.
-- [ ] Ensure exports/picking report the same semantic parts in closed and open poses, including panel boundary faces. Resource ownership must release panel/linkage geometry and shared materials once without leaks or double-disposal.
-- [ ] Add deterministic phase and interior-preset capture controls to `createOpticalLensScene.ts`. Review the complete form pass covering Task 4 optical profiles and Task 5 panel/rig geometry. Record the decision, sync state and commit accepted form before unlocking materials. Interactive scheduling and motion-quality acceptance remain Task 7.
+- [x] Write failing tests for closed panel boundaries, unchanged geometry/semantic IDs across poses, intact glass, valid linkage endpoints, and restoration of exact rest transforms at phase 0/24. Repeated sampling and backward time sampling must not accumulate drift.
+- [x] Build four finished quarter-cylinder shells, real seams, brackets and docking shoulders. Each shell uses the closed-sector helper; verify boundary edges, winding, thickness and cap normals. Fit seams and intentional mounting contact separately from solid intersections.
+- [x] Implement named rig channels and linked travel paths for statically sampled choreography poses, using the single pose-application path. Panels slide clear before pivoting; cells and front carriage move along rails with their trim; no clipping planes, disappearing panels, newly materialized glass or changing part scales.
+- [x] Validate sampled intermediate travel, including both directions, phase boundaries, stagger extrema and the most constrained panel/collar crossings. Measure optical air gaps, carriage/rail engagement and linkage endpoint residuals. Record tolerances and sampling coverage; endpoint-only tests are insufficient.
+- [x] Capture closed, unlock, partial-open, full-open, staggered-close and near-closed poses with reference cameras. Produce comparisons against images 1–4; use images 5–6 only for closing arrangement and preserve the fixed topology. Check that original opaque collars no longer block the opening.
+- [x] Ensure exports/picking report the same semantic parts in closed and open poses, including panel boundary faces. Resource ownership must release panel/linkage geometry and shared materials once without leaks or double-disposal.
+- [x] Add deterministic phase and interior-preset capture controls to `createOpticalLensScene.ts`. Review the complete form pass covering Task 4 optical profiles and Task 5 panel/rig geometry. Record the decision, sync state and commit accepted form before unlocking materials. Interactive scheduling and motion-quality acceptance remain Task 7.
 
 ## Task 6: Materials, Internal Visibility and Lighting
 
@@ -423,7 +423,7 @@ The implementation is complete only when five additional curved optical elements
 
 The finished result is described as a **reference-inspired procedural interior and authored mechanical transformation**, not an exact optical prescription or manufacturing reconstruction. Hidden construction, exact kinematics and the generated references' full barrel length remain inferred or deliberately adapted.
 
-## Planning Self-Review
+## Planning Self-Review (before native execution)
 
 - [x] Inspected the original cutaway and all six new reference images; reviewed the existing canonical model, controls and motion source.
 - [x] Preserved the historical completed reconstruction baseline; verified that the original state still reports complete. New admission/spec/build gates remain unexecuted.

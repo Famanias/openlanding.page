@@ -5,6 +5,7 @@ import { createLensMaterials } from "./lensMaterials";
 import { deriveInteriorLayout, INTERIOR_IDS, validateInteriorClearances } from "./interiorLayout";
 import { createLensInterior } from "./createLensInterior";
 import type { OpticalLensSpec } from "./lensTypes";
+import { getLensTransformationPose, type LensTransformationPose } from "./lensTransformation";
 export type { OpticalLensSpec } from "./lensTypes";
 
 export const BUILD_PASSES = ["blockout", "structural-pass", "form-refinement", "material-pass", "surface-pass", "lighting-pass", "interaction-pass", "optimization-pass"] as const;
@@ -20,6 +21,8 @@ export type LensRuntime = {
   destructionGroups: Record<string, THREE.Object3D[]>;
   setExplode: (amount: number) => void;
   setFocusRing: (radians: number) => void;
+  setTransformationPose: (pose:LensTransformationPose) => void;
+  setCutaway: (enabled:boolean) => void;
   pickPart: (object: THREE.Object3D | null) => THREE.Group | null;
   dispose: () => void;
 };
@@ -99,6 +102,8 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as Op
     destructionGroups: {},
     setExplode: () => {},
     setFocusRing: () => {},
+    setTransformationPose: () => {},
+    setCutaway: () => {},
     pickPart: () => null,
     dispose: () => {},
   };
@@ -220,6 +225,8 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as Op
   const rig=createLensInterior({root,runtime,stage:interiorStage,addMesh,annulus:supportAnnulus},spec);
   runtime.setExplode=rig.setSeparation;
   runtime.setFocusRing=rig.setFocus;
+  runtime.setTransformationPose=rig.setPose;
+  runtime.setCutaway=(enabled:boolean)=>rig.setPose(getLensTransformationPose(enabled?12:0));
   runtime.pickPart = (object: THREE.Object3D | null) => {
     let cur: THREE.Object3D | null = object;
     while (cur && cur !== root) {
