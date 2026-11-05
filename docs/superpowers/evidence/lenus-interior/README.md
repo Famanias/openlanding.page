@@ -30,3 +30,5 @@ The generic plugin runner assumes workspace/.img2threejs/state.json. A faithful 
 The gallery images, rebuild prompt and generated copy bundle are refreshed. The bundle includes every runtime helper/JSON and excludes tests. Nothing was published.
 
 Final independent review found three Important issues in dynamic linkage picking and gesture/reconstruction continuity. All were reproduced, fixed, and verified in one pass. See [final review and fixes](final-review.md), [exact initialized recovery matrices](initialized-recovery.json), [unit results](logs/final-suite.log) and [production browser results](logs/final-e2e-verified.log). Deferred minors: none.
+
+Automatic approval review rejected deleting the temporary execution-metadata directory with "blocked by policy"; it remains intact alongside this durable archive.
