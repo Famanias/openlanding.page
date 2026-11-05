@@ -54,11 +54,13 @@ describe("closed curved optical volumes",()=>{
     const material=new THREE.MeshBasicMaterial({side:THREE.DoubleSide});
     try {
       const glass=r.meshes["front-meniscus"];
-      const body=r.nodes["front-meniscus-cell"].children.find(o=>(o as THREE.Mesh).isMesh&&!(o as THREE.InstancedMesh).isInstancedMesh) as THREE.Mesh;
-      const metalProbe=new THREE.Mesh(body.geometry,material),glassProbe=new THREE.Mesh(glass.geometry,material);
+      const body=r.nodes["front-meniscus-cell"].children.find(o=>(o as THREE.Mesh).isMesh) as THREE.Mesh;
+      const metalProbe=(body as THREE.InstancedMesh).isInstancedMesh?new THREE.InstancedMesh(body.geometry,material,(body as THREE.InstancedMesh).count):new THREE.Mesh(body.geometry,material);
+      if((body as THREE.InstancedMesh).isInstancedMesh)for(let i=0;i<(body as THREE.InstancedMesh).count;i++){const m=new THREE.Matrix4();(body as THREE.InstancedMesh).getMatrixAt(i,m);(metalProbe as THREE.InstancedMesh).setMatrixAt(i,m);}
+      const glassProbe=new THREE.Mesh(glass.geometry,material);
       const hits=(mesh:THREE.Mesh,radius:number)=>{
         mesh.updateMatrixWorld(true);
-        return [...new Set(new THREE.Raycaster(new THREE.Vector3(radius,0,2),new THREE.Vector3(0,0,-1)).intersectObject(mesh).map(h=>Number(h.point.z.toFixed(6))))].sort((a,b)=>b-a);
+        return [...new Set(new THREE.Raycaster(new THREE.Vector3(radius*Math.SQRT1_2,radius*Math.SQRT1_2,2),new THREE.Vector3(0,0,-1)).intersectObject(mesh).map(h=>Number(h.point.z.toFixed(6))))].sort((a,b)=>b-a);
       };
       for(const radius of [1.041,1.045,1.049]) {
         const gz=hits(glassProbe,radius),mz=hits(metalProbe,radius);

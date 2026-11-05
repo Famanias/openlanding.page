@@ -30,6 +30,10 @@ function assertClosed(g:THREE.BufferGeometry) {
 }
 
 describe("closed revolved surfaces",()=>{
+  it("closes the retaining clip cross-sections without smoothing their cut faces",()=>{
+    const g=buildOpticalCellGeometry(1.05,1.12,.22,{shape:"meniscus",radius:1.05,edgeThickness:.035,frontSag:.15,backSag:.08},8,{startRadians:-Math.PI/24,sweepRadians:Math.PI/12});
+    try {assertClosed(g);} finally {g.dispose();}
+  });
   it("closes the stepped and rounded retaining shoulders with outward normals",()=>{
     const g=buildOpticalCellGeometry(1.05,1.12,.12,{shape:"meniscus",radius:1.05,edgeThickness:.035,frontSag:.06,backSag:.025},48);
     try {assertClosed(g);} finally {g.dispose();}

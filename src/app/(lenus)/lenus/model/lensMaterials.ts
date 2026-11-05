@@ -56,5 +56,13 @@ export function createLensMaterials(spec: OpticalLensSpec, surface = false) {
     }
     materials.set(s.id, material);
   }
-  return { materials, dispose() { materials.forEach(m => m.dispose()); roughnessMap.dispose(); normalMap.dispose(); emissiveMap.dispose(); } };
+  const clear=materials.get("glass");
+  if(clear)for(const component of spec.components) {
+    const g=component.geometry;if(g.kind!=="optical-element")continue;
+    const material=clear.clone();material.name=`glass:${component.id}`;
+    material.thickness=Math.max(g.edgeThickness!,g.edgeThickness!+g.frontSag!-g.backSag!);
+    materials.set(material.name,material);
+  }
+  let disposed=false;
+  return { materials, dispose() { if(disposed)return;disposed=true;materials.forEach(m => m.dispose()); roughnessMap.dispose(); normalMap.dispose(); emissiveMap.dispose(); } };
 }

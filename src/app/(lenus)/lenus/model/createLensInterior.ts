@@ -10,7 +10,7 @@ export type InteriorContext = {
   root: THREE.Group;
   runtime: LensRuntime;
   stage: number;
-  addMesh: (id:string, geometry:THREE.BufferGeometry, count?:number)=>THREE.Mesh;
+  addMesh: (id:string, geometry:THREE.BufferGeometry, count?:number,material?:THREE.Material)=>THREE.Mesh;
   annulus: (inner:number,outer:number,depth:number)=>THREE.BufferGeometry;
 };
 const frontIds=["outer-glass","inner-glass","front-shell","collar-outer","retaining-beads","shards"];
@@ -63,7 +63,13 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
         const optic=descriptors.get(id.replace(/-cell$/,""))?.geometry;
         const profile=optic?.kind==="optical-element"?{shape:optic.shape!,radius:optic.radius!,edgeThickness:optic.edgeThickness!,frontSag:optic.frontSag!,backSag:optic.backSag!,chamfer:optic.chamfer}:undefined;
         const radius=profile?.radius??.59;
-        addMesh(id,context.stage>=2?buildOpticalCellGeometry(radius,g.outerRadius!,g.depth!,profile,48):annulus(g.innerRadius!,g.outerRadius!,g.depth!));
+        const sweep=g.sweepRadians??Math.PI*2;
+        const geometry=context.stage>=2?buildOpticalCellGeometry(radius,g.outerRadius!,g.depth!,profile,sweep<Math.PI*2?8:48,{startRadians:g.startRadians??0,sweepRadians:sweep}):annulus(g.innerRadius!,g.outerRadius!,g.depth!);
+        if(context.stage>=2&&sweep<Math.PI*2) {
+          const clips=addMesh(id,geometry,4) as THREE.InstancedMesh;
+          for(let i=0;i<4;i++){matrix.makeRotationZ(Math.PI/4+i*Math.PI/2);clips.setMatrixAt(i,matrix);}
+          clips.instanceMatrix.needsUpdate=true;
+        }else addMesh(id,geometry);
         if(context.stage>=1)supports(c);break;
       }
       case "open-frame": {
@@ -99,6 +105,16 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
       case "linkages":break;
       default:throw new Error(`Unsupported interior geometry: ${g.kind}`);
     }
+  }
+  if(context.stage>=3) {
+    // An internal scattering proxy makes the fluorescent core available to the
+    // opaque transmission buffer; the original glass material remains intact.
+    const originalCore=r.meshes["front-lens"].material as THREE.MeshPhysicalMaterial;
+    const density=originalCore.emissiveMap?.clone()??null;
+    if(density){density.colorSpace=THREE.NoColorSpace;density.needsUpdate=true;}
+    const backing=new THREE.MeshBasicMaterial({name:"emerald-scattering-backing",color:"#00E599",map:density});
+    backing.addEventListener("dispose",()=>density?.dispose());
+    addMesh("front-lens",new THREE.SphereGeometry(.49,48,24).scale(1,1,.245),0,backing).position.z=-.02;
   }
 
   const carriage=new THREE.Group();carriage.name="front-carriage";root.add(carriage);

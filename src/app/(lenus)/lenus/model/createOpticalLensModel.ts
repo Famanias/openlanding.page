@@ -118,11 +118,12 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as Op
   const physical = interiorStage >= 3 ? createLensMaterials(spec, interiorStage >= 4) : null;
   materials.add(clay);
   const descriptors = new Map(spec.components.map(c=>[c.id,c]));
-  const addMesh = (id:string, geometry:THREE.BufferGeometry, count=0) => {
+  const addMesh = (id:string, geometry:THREE.BufferGeometry, count=0,override?:THREE.Material) => {
     geometry.computeBoundingSphere();
     geometries.add(geometry);
     const c=descriptors.get(id)!;
-    const material=physical?.materials.get(c.material)??clay;
+    const material=override??physical?.materials.get(c.geometry.kind==="optical-element"?`glass:${id}`:c.material)??clay;
+    if(override)materials.add(override);
     const mesh=count?new THREE.InstancedMesh(geometry,material,count):new THREE.Mesh(geometry,material);
     mesh.name=`${id}-mesh-${runtime.nodes[id].children.length}`;
     mesh.userData.componentId=id;mesh.userData.explodeWithParent=true;

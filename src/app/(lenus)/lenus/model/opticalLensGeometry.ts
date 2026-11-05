@@ -53,15 +53,17 @@ export function buildOpticalCellProfile(radius:number,outer:number,depth:number,
   return opticalCellSections(radius,outer,depth,profile).profile;
 }
 
-export function buildOpticalCellGeometry(radius:number,outer:number,depth:number,profile:OpticalElementProfile|undefined,segments:number) {
+export function buildOpticalCellGeometry(radius:number,outer:number,depth:number,profile:OpticalElementProfile|undefined,segments:number,options={startRadians:0,sweepRadians:Math.PI*2}) {
   const section=opticalCellSections(radius,outer,depth,profile);
-  const geometry=buildClosedRevolvedSection(section.profile,{segments,startRadians:0,sweepRadians:Math.PI*2});
+  const geometry=buildClosedRevolvedSection(section.profile,{segments,startRadians:options.startRadians,sweepRadians:options.sweepRadians});
   const p=geometry.getAttribute("position"),n=geometry.getAttribute("normal");
   for(let i=0;i<p.count;i++) {
     const r=Math.hypot(p.getX(i),p.getY(i)),z=p.getZ(i);
     const smooth=section.smooth.find(s=>Math.abs(s.r-r)<1e-6&&Math.abs(s.z-z)<1e-6);
     if(!smooth)continue;
-    const theta=Math.atan2(p.getY(i),p.getX(i));n.setXYZ(i,smooth.nr*Math.cos(theta),smooth.nr*Math.sin(theta),smooth.nz);
+    const theta=Math.atan2(p.getY(i),p.getX(i));
+    if(Math.abs(n.getX(i)*Math.cos(theta)+n.getY(i)*Math.sin(theta))<1e-6&&Math.abs(n.getZ(i))<1e-6)continue;
+    n.setXYZ(i,smooth.nr*Math.cos(theta),smooth.nr*Math.sin(theta),smooth.nz);
   }
   n.needsUpdate=true;return geometry;
 }

@@ -799,7 +799,10 @@
         "innerRadius": 1.038,
         "outerRadius": 1.12,
         "depth": 0.22,
-        "seatLip": 0.02
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
       },
       "features": [
         {
@@ -889,7 +892,10 @@
         "innerRadius": 0.968,
         "outerRadius": 1.05,
         "depth": 0.12,
-        "seatLip": 0.02
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
       },
       "features": [
         {
@@ -979,7 +985,10 @@
         "innerRadius": 0.828,
         "outerRadius": 0.9099999999999999,
         "depth": 0.12,
-        "seatLip": 0.02
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
       },
       "features": [
         {
@@ -1053,7 +1062,10 @@
         "innerRadius": 0.728,
         "outerRadius": 0.81,
         "depth": 0.12,
-        "seatLip": 0.02
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
       },
       "features": [
         {
@@ -1127,7 +1139,10 @@
         "innerRadius": 0.528,
         "outerRadius": 0.6100000000000001,
         "depth": 0.14,
-        "seatLip": 0.02
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
       },
       "features": [
         {

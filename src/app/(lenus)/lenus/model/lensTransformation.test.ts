@@ -18,6 +18,21 @@ function vertices(root:THREE.Object3D,visit:(v:THREE.Vector3)=>void) {
 }
 
 describe("mechanical transformation poses",()=>{
+  it("leaves the core sightline clear of opaque retaining cells at the reference view",()=>{
+    const model=createOpticalLensModel(undefined,{quality:"low",pass:"form-refinement"});
+    const r=model.userData.sculptRuntime as LensRuntime;
+    try {
+      r.setTransformationPose(getLensTransformationPose(12));model.updateMatrixWorld(true);
+      const camera=new THREE.OrthographicCamera(-5,5,3,-3,.1,50);
+      camera.position.setFromSphericalCoords(12,Math.PI/2-.14,Math.PI/3);camera.lookAt(0,0,0);camera.updateMatrixWorld(true);
+      const point=r.nodes["front-lens"].localToWorld(new THREE.Vector3(0,0,.2)).project(camera);
+      const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(point.x,point.y),camera);
+      const hits=ray.intersectObject(model,true);
+      const core=hits.find(h=>h.object.userData.componentId==="front-lens");expect(core).toBeDefined();
+      const occluders=hits.filter(h=>h.distance<core!.distance&&String(h.object.userData.componentId).endsWith("-cell"));
+      expect(occluders.map(h=>h.object.userData.componentId)).toEqual([]);
+    } finally {r.dispose();}
+  });
   it("preserves the original assembled radius across all actual mesh instances",()=>{
     const model=createOpticalLensModel(undefined,{quality:"low",pass:"form-refinement"});
     const r=model.userData.sculptRuntime as LensRuntime;

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { BUILD_PASSES, createOpticalLensModel, type LensBuildPass, type LensRuntime } from "./createOpticalLensModel";
 import { createStudioEnvironment } from "./studioEnvironment";
-import { getLensTransformationPose } from "./lensTransformation";
+import { getLensTransformationPose, LENS_INTERIOR_YAW } from "./lensTransformation";
 
 /** Renderer owner. No browser globals are accessed until this function is called. */
 export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pass?: LensBuildPass; quality?: "high" | "low" } = {}) {
@@ -70,7 +70,7 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
     (model.userData.sculptRuntime as LensRuntime).setTransformationPose(getLensTransformationPose(seconds));render();
   }
   function setInteriorView() {
-    camera.position.setFromSphericalCoords(12,Math.PI/2-.14,Math.PI/3);camera.lookAt(0,0,0);render();
+    camera.position.setFromSphericalCoords(12,Math.PI/2-.14,LENS_INTERIOR_YAW);camera.lookAt(0,0,0);render();
   }
   function setCutaway(enabled:boolean) {
     (model.userData.sculptRuntime as LensRuntime).setCutaway(enabled);

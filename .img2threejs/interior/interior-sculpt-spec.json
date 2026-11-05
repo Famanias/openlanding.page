@@ -1000,30 +1000,21 @@
       "interaction-pass",
       "optimization-pass"
     ],
-    "currentPass": "material-pass",
+    "currentPass": "interaction-pass",
     "completedPasses": [
       "blockout",
       "structural-pass",
-      "form-refinement"
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass"
     ],
-    "lastCompletedPass": "form-refinement",
+    "lastCompletedPass": "lighting-pass",
     "blockedReason": "",
     "nextRequiredEvidence": [
-      "Reference-derived albedo palette records dominant, secondary, and accent colors per visible material.",
-      "Each important material defines roughness variation and at least one normal/bump/displacement response.",
-      "Local material overrides, dirt/wear/stains/moss/chips/scratches or equivalent masks are tied to evidenceRefs.",
-      "Thin, transparent, reflective, wet, or fibrous materials document alpha/transmission/clearcoat/metalness/fiber response when relevant.",
-      "Generated preview uses procedural albedo/roughness/bump texture or vertex color variation instead of one flat color.",
-      "Generated preview uses independent PBR maps at 1024px or higher for the quality-first tier.",
-      "If source pixels are available, referencePbr extraction passed at confidence >= 0.7 or the pass is stopped/requesting better references.",
-      "Macro, meso, and micro surface frequency bands are visible at the intended review distance without obvious tiling.",
+      "Macro and movable meso components have stable pivot nodes.",
+      "Sockets, collider proxies, and destruction metadata are present for future runtime actions.",
       "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold.",
-      "reference-derived albedo palette with dominant, secondary, and accent colors",
-      "independent albedo, roughness, height/normal, and AO maps",
-      "macro, meso, and micro surface-frequency response at 1024px or higher",
-      "local material masks: AO, dirt, wear, stains, moss, chips, scratches, wetness, or equivalent",
-      "neutral, grazing-light close-up, and reference-matched browser screenshots",
-      "AI vision comparison sheet score meeting the visual acceptance threshold",
       "browser render screenshot from your agent's browser/screenshot tool",
       "side-by-side reference/render comparison sheet for AI vision review",
       "banded interior difference vs the reference baseline (forge/stage4_review/interior_difference.py --from/--to per region)",
@@ -4776,7 +4767,10 @@
           "innerRadius": 1.038,
           "outerRadius": 1.12,
           "depth": 0.22,
-          "seatLip": 0.02
+          "seatLip": 0.02,
+          "startRadians": -0.1308996938995747,
+          "sweepRadians": 0.2617993877991494,
+          "count": 4
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
       },
@@ -4909,6 +4903,23 @@
           "geometryEffect": "Stepped retaining shoulder contacts glass edge",
           "confidence": 0.8,
           "evidenceRefs": [
+            "keyframe-4"
+          ]
+        },
+        {
+          "id": "front-meniscus-cell-open-retainers",
+          "type": "bevel",
+          "description": "Four closed 15-degree retaining clips with capped faces leave the optical surfaces exposed, following keyframes 3/4.",
+          "geometryEffect": "Partial revolved retaining profile, repeated at 45/135/225/315 degrees.",
+          "placement": {
+            "x": 0.25,
+            "y": 0.25,
+            "width": 0.5,
+            "height": 0.5
+          },
+          "confidence": 0.85,
+          "evidenceRefs": [
+            "keyframe-3",
             "keyframe-4"
           ]
         }
@@ -5172,7 +5183,10 @@
           "innerRadius": 0.968,
           "outerRadius": 1.05,
           "depth": 0.12,
-          "seatLip": 0.02
+          "seatLip": 0.02,
+          "startRadians": -0.1308996938995747,
+          "sweepRadians": 0.2617993877991494,
+          "count": 4
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
       },
@@ -5305,6 +5319,23 @@
           "geometryEffect": "Named carrier socket remains engaged with rail",
           "confidence": 0.8,
           "evidenceRefs": [
+            "keyframe-4"
+          ]
+        },
+        {
+          "id": "front-biconvex-cell-open-retainers",
+          "type": "bevel",
+          "description": "Four closed 15-degree retaining clips with capped faces leave the optical surfaces exposed, following keyframes 3/4.",
+          "geometryEffect": "Partial revolved retaining profile, repeated at 45/135/225/315 degrees.",
+          "placement": {
+            "x": 0.25,
+            "y": 0.25,
+            "width": 0.5,
+            "height": 0.5
+          },
+          "confidence": 0.85,
+          "evidenceRefs": [
+            "keyframe-3",
             "keyframe-4"
           ]
         }
@@ -5568,7 +5599,10 @@
           "innerRadius": 0.828,
           "outerRadius": 0.9099999999999999,
           "depth": 0.12,
-          "seatLip": 0.02
+          "seatLip": 0.02,
+          "startRadians": -0.1308996938995747,
+          "sweepRadians": 0.2617993877991494,
+          "count": 4
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
       },
@@ -5701,6 +5735,23 @@
           },
           "confidence": 0.75,
           "evidenceRefs": [
+            "keyframe-4"
+          ]
+        },
+        {
+          "id": "front-compensator-cell-open-retainers",
+          "type": "bevel",
+          "description": "Four closed 15-degree retaining clips with capped faces leave the optical surfaces exposed, following keyframes 3/4.",
+          "geometryEffect": "Partial revolved retaining profile, repeated at 45/135/225/315 degrees.",
+          "placement": {
+            "x": 0.25,
+            "y": 0.25,
+            "width": 0.5,
+            "height": 0.5
+          },
+          "confidence": 0.85,
+          "evidenceRefs": [
+            "keyframe-3",
             "keyframe-4"
           ]
         }
@@ -5948,7 +5999,10 @@
           "innerRadius": 0.728,
           "outerRadius": 0.81,
           "depth": 0.12,
-          "seatLip": 0.02
+          "seatLip": 0.02,
+          "startRadians": -0.1308996938995747,
+          "sweepRadians": 0.2617993877991494,
+          "count": 4
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
       },
@@ -6081,6 +6135,23 @@
           },
           "confidence": 0.75,
           "evidenceRefs": [
+            "keyframe-4"
+          ]
+        },
+        {
+          "id": "rear-relay-cell-open-retainers",
+          "type": "bevel",
+          "description": "Four closed 15-degree retaining clips with capped faces leave the optical surfaces exposed, following keyframes 3/4.",
+          "geometryEffect": "Partial revolved retaining profile, repeated at 45/135/225/315 degrees.",
+          "placement": {
+            "x": 0.25,
+            "y": 0.25,
+            "width": 0.5,
+            "height": 0.5
+          },
+          "confidence": 0.85,
+          "evidenceRefs": [
+            "keyframe-3",
             "keyframe-4"
           ]
         }
@@ -6328,7 +6399,10 @@
           "innerRadius": 0.528,
           "outerRadius": 0.6100000000000001,
           "depth": 0.14,
-          "seatLip": 0.02
+          "seatLip": 0.02,
+          "startRadians": -0.1308996938995747,
+          "sweepRadians": 0.2617993877991494,
+          "count": 4
         },
         "surfacePassNormalStrategy": "flat planar shoulder face normals; same positions, analytic chamfers"
       },
@@ -6461,6 +6535,23 @@
           },
           "confidence": 0.75,
           "evidenceRefs": [
+            "keyframe-4"
+          ]
+        },
+        {
+          "id": "rear-plano-cell-open-retainers",
+          "type": "bevel",
+          "description": "Four closed 15-degree retaining clips with capped faces leave the optical surfaces exposed, following keyframes 3/4.",
+          "geometryEffect": "Partial revolved retaining profile, repeated at 45/135/225/315 degrees.",
+          "placement": {
+            "x": 0.25,
+            "y": 0.25,
+            "width": 0.5,
+            "height": 0.5
+          },
+          "confidence": 0.85,
+          "evidenceRefs": [
+            "keyframe-3",
             "keyframe-4"
           ]
         }
@@ -11170,6 +11261,183 @@
       "cameraView": "",
       "notes": "",
       "aiVisionNotes": "Form-only review of complete uncropped reference/render pairs and phase/side views. Five new closed curved glass volumes have positive rims, a true meniscus and plano back, fitted stepped holders and rounded seat fillets. Four closed quarter-cylinder panels use capped bevel profiles and wrap outside the existing rear flange. The compact body deliberately differs in length from the generated reference. Original glass-ring dimensions, emerald geometry and semantic IDs remain; front support aperture/collar placement are repacked to retain optics and clear travel. A front-carriage lift clears continuous glass before radial panel motion; .32-unit linkages on rear anchor posts remain connected. Sampled optical minimum gap .03, bearing gap .001, axial engagement .08 and stable 41-part geometry inventory pass throughout travel. Closed/deployed turntables, unmodified sampled self-intersection and Tier1 pass. 188480 model triangles / 86 calls. Gray form review does not accept transmission, green visibility or final motion rhythm; those remain later gates. The shorter cartridge and stronger primary glass curvature are explicit reference-inspired adaptations."
+    },
+    {
+      "timestamp": "2026-11-05T04:24:31.532677+00:00",
+      "passId": "material-pass",
+      "estimatedFidelity": 0.66,
+      "aiVisionScore": 0.66,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.82,
+        "formDetail": 0.8,
+        "materialSurface": 0.65,
+        "lightingCamera": 0.6
+      },
+      "featureReviews": [],
+      "referenceScreenshot": "references/lenus-interior-transformation/4.png",
+      "renderScreenshot": ".img2threejs\\interior\\captures\\material-pass\\deployed\\60.png",
+      "comparisonImage": ".img2threejs\\interior\\captures\\material-pass\\comparison-retainer-occlusion.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-05T04:39:37.390353+00:00",
+      "passId": "material-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.84,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.77
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Curved closed glass and permanently open-sided retaining clips separate clear optics from metal without changing the seven-group inventory."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Real component-hidden footprint tests pass for the closed hero, intermediate opening and full reference-angle inspection; density-backed internal fluorescence retains the approved core geometry/material."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four retained clips per new cell meet their radial support arms; all 28 rail sockets and 16 linkage arms remain within measured tolerances."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.86,
+          "visible": true,
+          "notes": "Capped housing sectors and retainer clips remain closed; independent topology, winding and sampled self-intersection checks pass."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Preserved exterior glass/green/shard identity and absolute phase poses; automatic app scheduling remains Task 7."
+        }
+      ],
+      "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+      "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\material-pass\\deployed\\60.png",
+      "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\material-pass\\comparison-deployed.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": "Material review after one recorded spec-refinement iteration: open retaining clips preserve the reference sightline while keeping all cells physically seated. The original outer glass and titanium scalars/maps are unchanged; five interior glass clones use profile-specific thickness. A small permanent opaque backing inside the emerald volume reuses the existing procedural emission-density field so nested screen-space transmission retains a readable core; this is a rendering approximation, not an observed extra mechanical part. The original emerald material remains intact. Canonical closed/opening/deployed core footprints pass at -26/17/60 degrees with +8-degree elevation. Four approved separate material comparisons pass (glass .8896, titanium .9798, emerald .8991, prism .7849), and neutral/grazing/reference views are captured. Current material artifact reran all geometry/turntable/self-intersection checks after the clip refinement; previous reviews and failed visibility reports remain preserved. Final neon lighting and surface emphasis remain later passes. Total PBR calls 153 exceed the final 110 budget and remain an explicit Task 8 optimization item."
+    },
+    {
+      "timestamp": "2026-11-05T04:45:45.713587+00:00",
+      "passId": "surface-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.84,
+        "materialSurface": 0.84,
+        "lightingCamera": 0.78
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Curved closed glass and permanently open-sided retaining clips separate clear optics from metal without changing the seven-group inventory."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Real component-hidden footprint tests pass for the closed hero, intermediate opening and full reference-angle inspection; density-backed internal fluorescence retains the approved core geometry/material."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four retained clips per new cell meet their radial support arms; all 28 rail sockets and 16 linkage arms remain within measured tolerances."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.86,
+          "visible": true,
+          "notes": "Capped housing sectors and retainer clips remain closed; independent topology, winding and sampled self-intersection checks pass."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Preserved exterior glass/green/shard identity and absolute phase poses; automatic app scheduling remains Task 7."
+        }
+      ],
+      "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+      "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\surface-pass\\deployed\\60.png",
+      "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\surface-pass\\comparison-deployed.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": "Surface-only review: reused independent 1024px roughness/normal fields with the accepted .22/.08 normal scale and .18 anisotropy. Grazing and neutral captures show directional metal brushing on the housing, real rim bevel highlights and coherent dark cell recesses; the glass/core recipes and geometry are unchanged. Four visible-footprint material comparisons pass (glass .8811, titanium .9655, emerald .8958, prism .7831). Closed/deployed geometry, turntables, phase/contact measurements and sampled self-intersection checks pass. The short reference-inspired cartridge and original glass-ring forms remain deliberate adaptations; final neon lighting and application timing are not accepted by this surface review. Render-call optimization remains Task 8."
+    },
+    {
+      "timestamp": "2026-11-05T04:58:47.439360+00:00",
+      "passId": "lighting-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.84,
+        "materialSurface": 0.84,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Curved closed glass and permanently open-sided retaining clips separate clear optics from metal without changing the seven-group inventory."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Real component-hidden footprint tests pass for the closed hero, intermediate opening and full reference-angle inspection; density-backed internal fluorescence retains the approved core geometry/material."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four retained clips per new cell meet their radial support arms; all 28 rail sockets and 16 linkage arms remain within measured tolerances."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.86,
+          "visible": true,
+          "notes": "Capped housing sectors and retainer clips remain closed; independent topology, winding and sampled self-intersection checks pass."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Preserved exterior glass/green/shard identity and absolute phase poses; automatic app scheduling remains Task 7."
+        }
+      ],
+      "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+      "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\lighting-pass\\deployed\\60.png",
+      "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\lighting-pass\\comparison-deployed.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": "Lighting review: reuse the accepted procedural HDR, lime/purple rim lights, ACES exposure1 and neutral/grazing validation modes. New curved optics and capped shell edges catch controlled white/neon highlights; dark metal cavities retain contrast and brushing. Four material comparisons pass (glass .8890, titanium .9679, emerald .8949, prism .7762). The original fluorescent core plus internal procedural-density backing remains readable in actual component-hidden tests: 6408 closed, 7141 opening and 1376 deployed green pixels, each above its unchanged projected-area threshold. New permanent open retaining clips preserve the +60-degree/+8-degree inspection sightline. Closed/deployed Tier1, turntables, self-intersection and phase/contact checks pass; nested real-time transmission remains approximate. Measured runtime files are authoritative: 185808 model triangles before optimization and 153 PBR calls including transmission. The draw budget remains an explicit Task8 item. Automatic application motion and lifecycle are still unaccepted until Task7."
     }
   ],
   "reviewHistory": [
@@ -11353,6 +11621,252 @@
         "notes": "",
         "aiVisionNotes": "Form-only review of complete uncropped reference/render pairs and phase/side views. Five new closed curved glass volumes have positive rims, a true meniscus and plano back, fitted stepped holders and rounded seat fillets. Four closed quarter-cylinder panels use capped bevel profiles and wrap outside the existing rear flange. The compact body deliberately differs in length from the generated reference. Original glass-ring dimensions, emerald geometry and semantic IDs remain; front support aperture/collar placement are repacked to retain optics and clear travel. A front-carriage lift clears continuous glass before radial panel motion; .32-unit linkages on rear anchor posts remain connected. Sampled optical minimum gap .03, bearing gap .001, axial engagement .08 and stable 41-part geometry inventory pass throughout travel. Closed/deployed turntables, unmodified sampled self-intersection and Tier1 pass. 188480 model triangles / 86 calls. Gray form review does not accept transmission, green visibility or final motion rhythm; those remain later gates. The shorter cartridge and stronger primary glass curvature are explicit reference-inspired adaptations."
       }
+    },
+    {
+      "timestamp": "2026-11-05T04:24:31.532677+00:00",
+      "passId": "material-pass",
+      "estimatedFidelity": 0.66,
+      "aiVisionScore": 0.66,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.82,
+        "formDetail": 0.8,
+        "materialSurface": 0.65,
+        "lightingCamera": 0.6
+      },
+      "featureReviews": [],
+      "action": "refine-spec",
+      "summary": "Material look-development reveals opaque full annular cells obscuring the core at the reference inspection view. Ray evidence identifies the retaining walls. Specify four closed narrow metal retaining clips per new optical cell, preserving IDs, sockets, glass geometry and all exterior material scalars; rerun geometry and material gates on the current material artifact. Earlier accepted form evidence remains preserved against its prior spec version.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "references/lenus-interior-transformation/4.png",
+        "renderScreenshot": ".img2threejs\\interior\\captures\\material-pass\\deployed\\60.png",
+        "comparisonImage": ".img2threejs\\interior\\captures\\material-pass\\comparison-retainer-occlusion.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-05T04:39:37.390353+00:00",
+      "passId": "material-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.84,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.77
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Curved closed glass and permanently open-sided retaining clips separate clear optics from metal without changing the seven-group inventory."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Real component-hidden footprint tests pass for the closed hero, intermediate opening and full reference-angle inspection; density-backed internal fluorescence retains the approved core geometry/material."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four retained clips per new cell meet their radial support arms; all 28 rail sockets and 16 linkage arms remain within measured tolerances."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.86,
+          "visible": true,
+          "notes": "Capped housing sectors and retainer clips remain closed; independent topology, winding and sampled self-intersection checks pass."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Preserved exterior glass/green/shard identity and absolute phase poses; automatic app scheduling remains Task 7."
+        }
+      ],
+      "action": "continue",
+      "summary": "Material review after one recorded spec-refinement iteration: open retaining clips preserve the reference sightline while keeping all cells physically seated. The original outer glass and titanium scalars/maps are unchanged; five interior glass clones use profile-specific thickness. A small permanent opaque backing inside the emerald volume reuses the existing procedural emission-density field so nested screen-space transmission retains a readable core; this is a rendering approximation, not an observed extra mechanical part. The original emerald material remains intact. Canonical closed/opening/deployed core footprints pass at -26/17/60 degrees with +8-degree elevation. Four approved separate material comparisons pass (glass .8896, titanium .9798, emerald .8991, prism .7849), and neutral/grazing/reference views are captured. Current material artifact reran all geometry/turntable/self-intersection checks after the clip refinement; previous reviews and failed visibility reports remain preserved. Final neon lighting and surface emphasis remain later passes. Total PBR calls 153 exceed the final 110 budget and remain an explicit Task 8 optimization item.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "reviewViewpoints": [
+        "front",
+        "three-quarter",
+        "side",
+        "rear",
+        "left",
+        "thickness-axis",
+        "long-axis",
+        "closed",
+        "deployed"
+      ],
+      "visualEvidence": {
+        "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+        "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\material-pass\\deployed\\60.png",
+        "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\material-pass\\comparison-deployed.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": "Material review after one recorded spec-refinement iteration: open retaining clips preserve the reference sightline while keeping all cells physically seated. The original outer glass and titanium scalars/maps are unchanged; five interior glass clones use profile-specific thickness. A small permanent opaque backing inside the emerald volume reuses the existing procedural emission-density field so nested screen-space transmission retains a readable core; this is a rendering approximation, not an observed extra mechanical part. The original emerald material remains intact. Canonical closed/opening/deployed core footprints pass at -26/17/60 degrees with +8-degree elevation. Four approved separate material comparisons pass (glass .8896, titanium .9798, emerald .8991, prism .7849), and neutral/grazing/reference views are captured. Current material artifact reran all geometry/turntable/self-intersection checks after the clip refinement; previous reviews and failed visibility reports remain preserved. Final neon lighting and surface emphasis remain later passes. Total PBR calls 153 exceed the final 110 budget and remain an explicit Task 8 optimization item."
+      }
+    },
+    {
+      "timestamp": "2026-11-05T04:45:45.713587+00:00",
+      "passId": "surface-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.84,
+        "materialSurface": 0.84,
+        "lightingCamera": 0.78
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Curved closed glass and permanently open-sided retaining clips separate clear optics from metal without changing the seven-group inventory."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Real component-hidden footprint tests pass for the closed hero, intermediate opening and full reference-angle inspection; density-backed internal fluorescence retains the approved core geometry/material."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four retained clips per new cell meet their radial support arms; all 28 rail sockets and 16 linkage arms remain within measured tolerances."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.86,
+          "visible": true,
+          "notes": "Capped housing sectors and retainer clips remain closed; independent topology, winding and sampled self-intersection checks pass."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Preserved exterior glass/green/shard identity and absolute phase poses; automatic app scheduling remains Task 7."
+        }
+      ],
+      "action": "continue",
+      "summary": "Surface-only review: reused independent 1024px roughness/normal fields with the accepted .22/.08 normal scale and .18 anisotropy. Grazing and neutral captures show directional metal brushing on the housing, real rim bevel highlights and coherent dark cell recesses; the glass/core recipes and geometry are unchanged. Four visible-footprint material comparisons pass (glass .8811, titanium .9655, emerald .8958, prism .7831). Closed/deployed geometry, turntables, phase/contact measurements and sampled self-intersection checks pass. The short reference-inspired cartridge and original glass-ring forms remain deliberate adaptations; final neon lighting and application timing are not accepted by this surface review. Render-call optimization remains Task 8.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "reviewViewpoints": [
+        "front",
+        "three-quarter",
+        "side",
+        "rear",
+        "left",
+        "thickness-axis",
+        "long-axis",
+        "closed",
+        "deployed"
+      ],
+      "visualEvidence": {
+        "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+        "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\surface-pass\\deployed\\60.png",
+        "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\surface-pass\\comparison-deployed.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": "Surface-only review: reused independent 1024px roughness/normal fields with the accepted .22/.08 normal scale and .18 anisotropy. Grazing and neutral captures show directional metal brushing on the housing, real rim bevel highlights and coherent dark cell recesses; the glass/core recipes and geometry are unchanged. Four visible-footprint material comparisons pass (glass .8811, titanium .9655, emerald .8958, prism .7831). Closed/deployed geometry, turntables, phase/contact measurements and sampled self-intersection checks pass. The short reference-inspired cartridge and original glass-ring forms remain deliberate adaptations; final neon lighting and application timing are not accepted by this surface review. Render-call optimization remains Task 8."
+      }
+    },
+    {
+      "timestamp": "2026-11-05T04:58:47.439360+00:00",
+      "passId": "lighting-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.84,
+        "formDetail": 0.84,
+        "materialSurface": 0.84,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "optical-stack",
+          "score": 0.84,
+          "visible": true,
+          "notes": "Curved closed glass and permanently open-sided retaining clips separate clear optics from metal without changing the seven-group inventory."
+        },
+        {
+          "id": "emerald-visibility",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Real component-hidden footprint tests pass for the closed hero, intermediate opening and full reference-angle inspection; density-backed internal fluorescence retains the approved core geometry/material."
+        },
+        {
+          "id": "moving-attachments",
+          "score": 0.85,
+          "visible": true,
+          "notes": "Four retained clips per new cell meet their radial support arms; all 28 rail sockets and 16 linkage arms remain within measured tolerances."
+        },
+        {
+          "id": "closed-panels",
+          "score": 0.86,
+          "visible": true,
+          "notes": "Capped housing sectors and retainer clips remain closed; independent topology, winding and sampled self-intersection checks pass."
+        },
+        {
+          "id": "exterior-loop",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Preserved exterior glass/green/shard identity and absolute phase poses; automatic app scheduling remains Task 7."
+        }
+      ],
+      "action": "continue",
+      "summary": "Lighting review: reuse the accepted procedural HDR, lime/purple rim lights, ACES exposure1 and neutral/grazing validation modes. New curved optics and capped shell edges catch controlled white/neon highlights; dark metal cavities retain contrast and brushing. Four material comparisons pass (glass .8890, titanium .9679, emerald .8949, prism .7762). The original fluorescent core plus internal procedural-density backing remains readable in actual component-hidden tests: 6408 closed, 7141 opening and 1376 deployed green pixels, each above its unchanged projected-area threshold. New permanent open retaining clips preserve the +60-degree/+8-degree inspection sightline. Closed/deployed Tier1, turntables, self-intersection and phase/contact checks pass; nested real-time transmission remains approximate. Measured runtime files are authoritative: 185808 model triangles before optimization and 153 PBR calls including transmission. The draw budget remains an explicit Task8 item. Automatic application motion and lifecycle are still unaccepted until Task7.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "reviewViewpoints": [
+        "front",
+        "three-quarter",
+        "side",
+        "rear",
+        "left",
+        "thickness-axis",
+        "long-axis",
+        "closed",
+        "deployed"
+      ],
+      "visualEvidence": {
+        "referenceScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\review-references\\4.png",
+        "renderScreenshot": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\lighting-pass\\deployed\\60.png",
+        "comparisonImage": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\lighting-pass\\comparison-deployed.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": "Lighting review: reuse the accepted procedural HDR, lime/purple rim lights, ACES exposure1 and neutral/grazing validation modes. New curved optics and capped shell edges catch controlled white/neon highlights; dark metal cavities retain contrast and brushing. Four material comparisons pass (glass .8890, titanium .9679, emerald .8949, prism .7762). The original fluorescent core plus internal procedural-density backing remains readable in actual component-hidden tests: 6408 closed, 7141 opening and 1376 deployed green pixels, each above its unchanged projected-area threshold. New permanent open retaining clips preserve the +60-degree/+8-degree inspection sightline. Closed/deployed Tier1, turntables, self-intersection and phase/contact checks pass; nested real-time transmission remains approximate. Measured runtime files are authoritative: 185808 model triangles before optimization and 153 PBR calls including transmission. The draw budget remains an explicit Task8 item. Automatic application motion and lifecycle are still unaccepted until Task7."
+      }
     }
   ],
   "lodPlan": [
@@ -11468,7 +11982,7 @@
         "key_path": "categories.rendering_shader_mapping[9]",
         "score": 8.524095052699,
         "snippets": [
-          "Maps to parts generated by revolving a 2D profile around an axis. \u00c1nh x\u1ea1 t\u1edbi c\u00e1c b\u1ed9 ph\u1eadn t\u1ea1o ra b\u1eb1ng c\u00e1ch xoay m\u1ed9t bi\u00ean d\u1ea1ng 2D quanh m\u1ed9t tr\u1ee5c. Recognition cues: Contoured, fully radially-symmetric part \u2014 turned wood/metal handle, some muzzle ..."
+          "Maps to parts generated by revolving a 2D profile around an axis. Ánh xạ tới các bộ phận tạo ra bằng cách xoay một biên dạng 2D quanh một trục. Recognition cues: Contoured, fully radially-symmetric part — turned wood/metal handle, some muzzle ..."
         ],
         "source_refs": [
           {
@@ -11492,7 +12006,7 @@
         "key_path": "categories.rendering_shader_mapping[5]",
         "score": 7.964121613602,
         "snippets": [
-          "... \u00c1nh x\u1ea1 t\u1edbi c\u00e1c c\u1ee5m l\u1eafp r\u00e1p h\u00ecnh ch\u1eef nh\u1eadt/kh\u1ed1i. Recognition cues: Flat-faced, roughly rectangular volume (pistol slide, receiver/frame, grip, panel) D\u1ea5u hi\u1ec7u nh\u1eadn di\u1ec7n: Kh\u1ed1i g\u1ea7n ch\u1eef nh\u1eadt v\u1edbi c\u00e1c m\u1eb7t ph\u1eb3ng (kh\u00f3a n\u00f2ng s\u00fang l\u1ee5c, ..."
+          "... Ánh xạ tới các cụm lắp ráp hình chữ nhật/khối. Recognition cues: Flat-faced, roughly rectangular volume (pistol slide, receiver/frame, grip, panel) Dấu hiệu nhận diện: Khối gần chữ nhật với các mặt phẳng (khóa nòng súng lục, ..."
         ],
         "source_refs": [
           {
@@ -11516,7 +12030,7 @@
         "key_path": "categories.rendering_shader_mapping[4]",
         "score": 3.752966399396,
         "snippets": [
-          "... part. \u00c1nh x\u1ea1 t\u1edbi m\u1ecdi b\u1ed9 ph\u1eadn c\u00f3 ti\u1ebft di\u1ec7n tr\u00f2n d\u1ea1ng n\u00f2ng. Recognition cues: Long uniform-cross-section round part (barrel, suppressor, muzzle brake body, cleaning rod, magazine tube) D\u1ea5u hi\u1ec7u nh\u1eadn di\u1ec7n: B\u1ed9 ph\u1eadn tr\u00f2n c\u00f3 ti\u1ebft di\u1ec7n \u0111\u1ec1u ..."
+          "... part. Ánh xạ tới mọi bộ phận có tiết diện tròn dạng nòng. Recognition cues: Long uniform-cross-section round part (barrel, suppressor, muzzle brake body, cleaning rod, magazine tube) Dấu hiệu nhận diện: Bộ phận tròn có tiết diện đều ..."
         ],
         "source_refs": [
           {
@@ -11538,13 +12052,14 @@
   "reconstructionNotes": [
     "Side reference is a 3/4 view: true 90/270-degree thickness is inferred and cannot be reference-verified.",
     "User physical scalars override extraction roughness: reflection streaks must remain lighting.",
-    "Geometry is procedural; runtimeGeometry is canonical data for custom current-pass factory refinements."
+    "Geometry is procedural; runtimeGeometry is canonical data for custom current-pass factory refinements.",
+    "Material visibility refinement: five new optical cells use four permanent capped retaining clips each instead of opaque full annuli. No geometry disappears during animation. Revalidate geometry and materials in the current material artifact; previous pass history is preserved."
   ],
   "tier1Results": [
     {
       "passed": true,
       "checks": {
-        "silhouetteIoU": 0.9298,
+        "silhouetteIoU": 0.9297,
         "aspectRatioDelta": 0.0325,
         "scaleDelta": 0.0325,
         "bilateralSymmetryError": 0.0101
@@ -11553,8 +12068,8 @@
       "maskWarnings": [
         "reference: 11.6% of foreground cells lie outside the largest connected blob and were excluded from the bounding box; if the subject really has separated parts in this projection, they are not being measured"
       ],
-      "renderHash": "82e43d98a167aaa8",
-      "passId": "form-refinement"
+      "renderHash": "2c2a907f5df87574",
+      "passId": "lighting-pass"
     }
   ],
   "validationOverrides": [
@@ -11711,5 +12226,78 @@
     "Move front meniscus cell to +.16, biconvex to -.25, compensator to -.44; preserve the 2.1-unit body target and >=.03 optical air gaps.",
     "Front meniscus holder depth .22 and rear plano holder depth .14 accommodate recentered edge seats.",
     "Derive new glass material thickness variants from the final optical profile envelopes, superseding the initial .10/.08 look-development estimates."
-  ]
+  ],
+  "materialPipeline": {
+    "schemaVersion": 1,
+    "registry": "docs/materials/material-reference.json",
+    "status": "proceed",
+    "regions": [
+      {
+        "regionId": "glass",
+        "specMaterialId": "glass",
+        "componentId": "outer-glass",
+        "profileId": "glass.clear",
+        "status": "proceed",
+        "authority": "Preserved user-specified physical scalars and approved material calibration crops; new glass/titanium reference evidence corroborates finish. Opaque core backing is a documented rendering approximation.",
+        "comparison": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\lighting-pass\\materials\\glass-comparison.json"
+      },
+      {
+        "regionId": "titanium",
+        "specMaterialId": "titanium",
+        "componentId": "housing-panel-0",
+        "profileId": "metal.steel-brushed",
+        "status": "proceed",
+        "authority": "Preserved user-specified physical scalars and approved material calibration crops; new glass/titanium reference evidence corroborates finish. Opaque core backing is a documented rendering approximation.",
+        "comparison": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\lighting-pass\\materials\\titanium-comparison.json"
+      },
+      {
+        "regionId": "emerald",
+        "specMaterialId": "emerald",
+        "componentId": "front-lens",
+        "profileId": "glass.clear",
+        "status": "proceed",
+        "authority": "Preserved user-specified physical scalars and approved material calibration crops; new glass/titanium reference evidence corroborates finish. Opaque core backing is a documented rendering approximation.",
+        "comparison": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\lighting-pass\\materials\\emerald-comparison.json"
+      },
+      {
+        "regionId": "prism",
+        "specMaterialId": "prism",
+        "componentId": "shards",
+        "profileId": "glass.clear",
+        "status": "proceed",
+        "authority": "Preserved user-specified physical scalars and approved material calibration crops; new glass/titanium reference evidence corroborates finish. Opaque core backing is a documented rendering approximation.",
+        "comparison": "E:\\orca\\workspaces\\webflow-projects\\codex-session-112-619\\.img2threejs\\interior\\captures\\lighting-pass\\materials\\prism-comparison.json"
+      }
+    ]
+  },
+  "materialGate": {
+    "schemaVersion": 1,
+    "kind": "img2threejs.material-gate",
+    "passed": true,
+    "failures": [],
+    "warnings": [],
+    "comparisonCount": 4,
+    "compatibility": {
+      "schemaVersion": 1,
+      "passed": true,
+      "failures": [],
+      "warnings": [],
+      "checked": {
+        "materialCount": 9,
+        "componentCount": 42,
+        "referencedMaterialCount": 9,
+        "riggedComponentCount": 0,
+        "lodPresent": true,
+        "collisionPresent": false
+      },
+      "invariant": "material IDs and UV/map contracts survive geometry, skinning, collision and LOD changes"
+    },
+    "requiredEvidence": [
+      "materialPipeline.status=proceed",
+      "all material regions status=proceed",
+      "per-region crop comparison passed",
+      "multi-angle controlled view plan and screenshot readback",
+      "geometry/UV/skinning/collision/LOD material ID compatibility passed"
+    ]
+  }
 }

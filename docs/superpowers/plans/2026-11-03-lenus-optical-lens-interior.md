@@ -143,7 +143,7 @@ flowchart LR
 - `housing-panel-0` through `housing-panel-3`: four closed quarter-cylinder shells on radial slide/pivot hierarchies, with real edge thickness and mounting brackets. Task 5 uses inner/outer radii **2.17/2.23**, depth **1.56**, rear hinge z=**−1.83**, and .24 radial travel before a .58-radian pivot. This clears the preserved 2.12-radius rear flange while retaining the assembled 2.49-radius envelope. Preserve four panels even where the references suggest extra subdivisions.
 - `guide-rails`: shared axial rails and carriage sockets for translating the front assembly and optical groups. Cell contacts remain valid throughout separation.
 - `panel-linkages`: eight repeated two-arm supports inspired by image 3, each arm .32 units long. Rear anchor posts at radius 2.10 extend .355 units behind the frame; roots use frame-local z=−.465. Solve linked endpoints at each pose rather than independently rotating disconnected bars. The posts and inboard folds keep the supports clear of the rear flange.
-- Five named optical cells: `front-meniscus-cell`, `front-biconvex-cell`, `front-compensator-cell`, `rear-relay-cell`, `rear-plano-cell`. Each lens and its cell form one coherent explosion assembly.
+- Five named optical cells: `front-meniscus-cell`, `front-biconvex-cell`, `front-compensator-cell`, `rear-relay-cell`, `rear-plano-cell`. The material visibility refinement uses four permanent capped 15-degree retaining clips per cell, linked to four support arms/bearings. This follows the open-sided supports in images 3–4 and clears the reference sightline. Each lens and its cell form one coherent explosion assembly; no geometry disappears during the loop.
 - `core-carrier`: stepped support around the preserved emerald optic; the optical path stays clear.
 - `spacer-stack`: annular spacers between cells, with real ledges and stable parent relationships.
 - `rear-baffles`: thin annular stops near the rear optics, with a visible inner edge and no blockage of the objective.
@@ -353,13 +353,13 @@ function buildClosedRevolvedSection(profile: RevolvedProfile, options: {
 
 **Files:** `model/lensMaterials.ts`, scoped material evidence and controlled captures.
 
-- [ ] Add material tests for preserved outer-glass/titanium scalars, thin-glass thickness variants, independent maps and shared resource ownership.
-- [ ] Work the material, surface and lighting passes **one at a time**. Start only the currently unlocked pass. Verify new reference crops visually before finish/PBR extraction; treat bright stripes as lighting evidence, not albedo or surface grooves.
-- [ ] Reuse existing material families; author only the thin-glass variants and locality the new pieces require. Do not label inferred material evidence as recovered physical truth.
-- [ ] Capture neutral, grazing and reference-match views of the closed and deployed stack. Compare closed finish/core with image 1 and deployed glass/cells with image 4; use the original cutaway as supporting finish evidence. Require the emerald core to remain distinguishable through the front optics at both ends and during the reveal. Do not reproduce image 6's diminished core visibility.
-- [ ] Use the approved per-material visible-footprint route, including component-hidden captures. Preserve failed reports; no color/geometry gate is marked passing merely because the whole-image score is acceptable.
-- [ ] If nested transmission obscures the core, choose one bounded rendering correction, recapture, and record its limitation. Do not change the exterior material scalars or add a painted highlight texture as a shortcut.
-- [ ] Review/record the material pass before starting surface refinement. Review/record the surface pass before starting lighting. Reuse the procedural HDR environment and two neon rims; adjust scene presentation only when evidence shows the interior is unreadable. Review/record lighting before Task 7 can begin, and commit accepted look-dev.
+- [x] Add material tests for preserved outer-glass/titanium scalars, thin-glass thickness variants, independent maps and shared resource ownership.
+- [x] Work the material, surface and lighting passes **one at a time**. Start only the currently unlocked pass. Verify new reference crops visually before finish/PBR extraction; treat bright stripes as lighting evidence, not albedo or surface grooves.
+- [x] Reuse existing material families; author only the thin-glass variants and locality the new pieces require. Do not label inferred material evidence as recovered physical truth.
+- [x] Capture neutral, grazing and reference-match views of the closed and deployed stack. Compare closed finish/core with image 1 and deployed glass/cells with image 4; use the original cutaway as supporting finish evidence. Require the emerald core to remain distinguishable through the front optics at both ends and during the reveal. Do not reproduce image 6's diminished core visibility.
+- [x] Use the approved per-material visible-footprint route, including component-hidden captures. Preserve failed reports; no color/geometry gate is marked passing merely because the whole-image score is acceptable.
+- [x] If nested transmission obscures the core, choose one bounded rendering correction, recapture, and record its limitation. Do not change the exterior material scalars or add a painted highlight texture as a shortcut.
+- [x] Review/record the material pass before starting surface refinement. Review/record the surface pass before starting lighting. Reuse the procedural HDR environment and two neon rims; adjust scene presentation only when evidence shows the interior is unreadable. Review/record lighting before Task 7 can begin, and commit accepted look-dev.
 
 ## Task 7: Automatic Transformation, Interior Inspection and Fallback
 
