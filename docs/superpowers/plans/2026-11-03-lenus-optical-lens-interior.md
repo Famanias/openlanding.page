@@ -1,5 +1,7 @@
 # Lenus Optical Lens Interior Implementation Plan
 
+**User clarification - 2026-11-06:** The closed pose must conceal the interior before revealing it and closing again. This supersedes the earlier closed-core-visibility requirement. [Correction and verification](../evidence/lenus-closed-loop/README.md).
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans for native execution, or superpowers:subagent-driven-development if that execution method is selected. Implement task by task, with the img2threejs state and sculpt-pass gates remaining authoritative. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Add a readable, procedural internal optical train to the existing Lenus lens and a seamless **24-second automatic mechanical transformation**: assembled lens → unlock → housing deployment and optical separation → interior reveal → staged reassembly → assembled lens. Use the six approved generated references and original cutaway, preserve the recognizable hero asset, and retain manual inspection and current controls.

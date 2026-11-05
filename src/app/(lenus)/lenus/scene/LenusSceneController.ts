@@ -8,9 +8,10 @@ import { getLensLoopPose } from "./lensMotion";
 export { getPartTelemetry, type LenusPartInfo } from "./telemetry";
 
 export function normalizePointer(value:number){return Number.isFinite(value)?THREE.MathUtils.clamp(value,-1,1):0;}
-export function fitHeroFrustumHalfHeight(width:number,height:number){
+export function fitHeroFrustumHalfHeight(width:number,height:number,inspection=false){
   const aspect=Math.max(1,Number.isFinite(width)?width:1)/Math.max(1,Number.isFinite(height)?height:1);
-  return Math.max(3.7,3.7/aspect);
+  const extent=inspection?4.3:3.7;
+  return Math.max(extent,extent/aspect);
 }
 const BASE_YAW=-.46,BASE_POLAR=Math.PI/2-.14,RADIUS=12;
 const finite=(n:number,fallback=0)=>Number.isFinite(n)?n:fallback;
@@ -116,7 +117,7 @@ export class LenusSceneController{
       if(this.hero){const saved=this.hero;this.elapsed=saved.elapsed;this.orbit={...saved.orbit};this.pointer={...saved.pointer};this.parallax={...saved.parallax};this.placeCamera(saved.camera.yaw,saved.camera.polar);}
       this.hero=null;
     }
-    this.lastTime=null;this.applyLoopPose();this.render();
+    this.lastTime=null;this.applyLoopPose();this.resize(this.viewport.width,this.viewport.height);
   }
   inspectPart(id:string){
     const part=getPartTelemetry(id);
@@ -132,7 +133,7 @@ export class LenusSceneController{
   resize(width:number,height:number){
     if(this.disposed||!this.renderer)return;
     this.viewport={width:Math.max(1,finite(width,1)),height:Math.max(1,finite(height,1))};
-    const aspect=this.viewport.width/this.viewport.height,h=fitHeroFrustumHalfHeight(width,height);
+    const aspect=this.viewport.width/this.viewport.height,h=fitHeroFrustumHalfHeight(width,height,this.mode==="cutaway");
     this.camera.left=-h*aspect;this.camera.right=h*aspect;this.camera.top=h;this.camera.bottom=-h;this.camera.updateProjectionMatrix();
     this.resizeBuffer();if(!this.contextLost)this.render();
   }
@@ -172,7 +173,7 @@ export class LenusSceneController{
     if(this.disposed)return;
     this.mode="hero";this.hero=null;this.elapsed=0;this.lastTime=null;this.orbit={yaw:0,polar:0};
     this.pointer={x:0,y:0};this.parallax={x:0,y:0};this.explode=this.explodeTarget=0;this.focus=this.focusTarget=0;
-    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);this.render();
+    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);this.resize(this.viewport.width,this.viewport.height);
   }
   start(){
     if(this.disposed||!this.renderer)return;this.running=true;this.lastTime=null;

@@ -94,7 +94,7 @@ describe("mechanical transformation poses",()=>{
       r.setTransformationPose(getLensTransformationPose(0));model.updateMatrixWorld(true);const rest=matrices();
       for(const t of [5,8,12,18,21,3,12,0,24]){
         r.setTransformationPose(getLensTransformationPose(t));
-        expect(Object.keys(r.nodes)).toHaveLength(41);
+        expect(Object.keys(r.nodes)).toHaveLength(42);
         const current:string[]=[];model.traverse(o=>{expect(o.visible).toBe(true);if((o as THREE.Mesh).isMesh)current.push((o as THREE.Mesh).geometry.uuid);});
         expect(current).toEqual(geometry);
         for(const o of Object.values(r.nodes))expect(o.scale.toArray()).toEqual([1,1,1]);

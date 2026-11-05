@@ -7,7 +7,7 @@ describe("Lenus optical model integration", () => {
     const model = createOpticalLensModel(undefined, { quality: "low" });
     const runtime = model.userData.sculptRuntime as LensRuntime;
     try {
-      expect(Object.keys(runtime.nodes)).toHaveLength(41);
+      expect(Object.keys(runtime.nodes)).toHaveLength(42);
       for (const id of Object.keys(runtime.nodes)) expect(runtime.sockets[`${id}-seat`]).toBeDefined();
       expect(Object.keys(runtime.nodes)).toEqual(expect.arrayContaining(["outer-glass", "front-lens", "rear-fins", "gold-contacts", "shards"]));
       const normals = runtime.meshes["outer-glass"].geometry.getAttribute("normal");

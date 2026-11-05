@@ -2,8 +2,8 @@ import type { ClearanceViolation, LensLayout, OpticalLensSpec } from "./lensType
 import { opticalProfileMetrics } from "./opticalProfile";
 
 export const OPTICAL_ORDER = ["front-meniscus", "front-biconvex", "front-compensator", "front-lens", "rear-relay", "rear-plano", "rear-lens"] as const;
-export const INTERIOR_IDS = ["front-meniscus-cell", "front-meniscus", "front-biconvex-cell", "front-biconvex", "front-compensator-cell", "front-compensator", "rear-relay-cell", "rear-relay", "rear-plano-cell", "rear-plano", "internal-barrel", "core-carrier", "spacer-stack", "rear-baffles", "carrier-fasteners", "core-retaining-beads", "housing-panel-0", "housing-panel-1", "housing-panel-2", "housing-panel-3", "guide-rails", "panel-linkages"] as const;
-const kinds = new Set(["fluted-torus", "annulus", "lens", "radial-boxes", "bolts", "contacts", "beads", "prisms", "optical-element", "cell", "open-frame", "spacers", "baffles", "panel", "rails", "linkages"]);
+export const INTERIOR_IDS = ["front-meniscus-cell", "front-meniscus", "front-biconvex-cell", "front-biconvex", "front-compensator-cell", "front-compensator", "rear-relay-cell", "rear-relay", "rear-plano-cell", "rear-plano", "internal-barrel", "core-carrier", "spacer-stack", "rear-baffles", "carrier-fasteners", "core-retaining-beads", "housing-panel-0", "housing-panel-1", "housing-panel-2", "housing-panel-3", "guide-rails", "panel-linkages", "front-shutter"] as const;
+const kinds = new Set(["fluted-torus", "annulus", "lens", "radial-boxes", "bolts", "contacts", "beads", "prisms", "optical-element", "cell", "open-frame", "spacers", "baffles", "panel", "rails", "linkages", "front-shutter"]);
 
 /** Pure rest-layout resolver; parent offsets are applied once through the graph. */
 export function deriveInteriorLayout(spec: OpticalLensSpec): LensLayout {

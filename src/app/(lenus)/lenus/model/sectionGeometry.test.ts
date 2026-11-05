@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import { buildClosedRevolvedSection } from "./sectionGeometry";
 import { buildOpticalCellGeometry, buildOpticalElementGeometry } from "./opticalLensGeometry";
+import {createOpticalLensModel,type LensRuntime} from "./createOpticalLensModel";
 
 function assertClosed(g:THREE.BufferGeometry) {
   const p=g.getAttribute("position"),n=g.getAttribute("normal"),t=g.getAttribute("tangent");
@@ -30,6 +31,10 @@ function assertClosed(g:THREE.BufferGeometry) {
 }
 
 describe("closed revolved surfaces",()=>{
+  it("closes the opaque shutter's axis, bevel and radial boundary faces",()=>{
+    const model=createOpticalLensModel(undefined,{quality:"low",pass:"form-refinement"});const r=model.userData.sculptRuntime as LensRuntime;
+    try{assertClosed(r.meshes["front-shutter"].geometry);}finally{r.dispose();}
+  });
   it("closes the retaining clip cross-sections without smoothing their cut faces",()=>{
     const g=buildOpticalCellGeometry(1.05,1.12,.22,{shape:"meniscus",radius:1.05,edgeThickness:.035,frontSag:.15,backSag:.08},8,{startRadians:-Math.PI/24,sweepRadians:Math.PI/12});
     try {assertClosed(g);} finally {g.dispose();}

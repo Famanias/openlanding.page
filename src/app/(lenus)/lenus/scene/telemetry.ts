@@ -18,6 +18,7 @@ const rearView=new Set(["rear-frame","rear-hub","rear-seat","rear-lens","rear-fi
 export function isInteriorPart(id:string){return interior.has(id);}
 export function prefersRearView(id:string){return rearView.has(id);}
 const roles:Record<string,string>={
+  "front-shutter":"Four solid titanium petals seal the optical aperture, then fold out to expose the interior.",
   "core-carrier":"Recessed support around the emerald objective.",
   "spacer-stack":"Annular seats keep the optical groups separated.",
   "rear-baffles":"Rear stops keep the optical path clear.",

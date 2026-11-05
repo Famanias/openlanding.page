@@ -1666,6 +1666,31 @@
           ]
         }
       ]
+    },
+    {
+      "id": "front-shutter",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "front-shutter",
+        "radius": 1.58,
+        "depth": 0.09,
+        "count": 4,
+        "hingeZ": 0.45,
+        "pivotRadians": 2.705260340591211
+      },
+      "features": [
+        {
+          "id": "closed-aperture-petals",
+          "description": "Four closed beveled petals physically conceal the optics at rest and fold forward/outward to reveal them."
+        }
+      ]
     }
   ],
   "materials": [

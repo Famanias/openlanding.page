@@ -102,13 +102,16 @@ test("automatic transformation reveals and reassembles without entering inspecti
   };
   await advance();const open=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
   const delta=(a:Buffer,b:Buffer)=>a.reduce((sum,value,i)=>sum+Math.abs(value-b[i]),0)/a.length;
+  const green=(pixels:Buffer)=>{let count=0;for(let i=0;i<pixels.length;i+=3)if(pixels[i+1]>75&&pixels[i+1]>pixels[i]*1.25&&pixels[i+1]>pixels[i+2]*1.1)count++;return count;};
   const openingDifference=delta(closed,open);
   expect(openingDifference).toBeGreaterThan(1);
+  expect(green(open)).toBeGreaterThan(green(closed)+15);
   await expect(stage).toHaveAttribute("data-inspection-mode","hero");
   await expect(page.getByRole("button",{name:"Inspect lens interior",exact:true})).toHaveAttribute("aria-pressed","false");
-  await expect(page.getByRole("combobox",{name:"Inspect an optical part"}).locator("option")).toHaveCount(42);
+  await expect(page.getByRole("combobox",{name:"Inspect an optical part"}).locator("option")).toHaveCount(43);
   await advance();const returned=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
   expect(delta(closed,returned)).toBeLessThan(openingDifference*.45);
+  expect(green(returned)).toBeLessThanOrEqual(green(closed)+5);
   await page.getByRole("combobox",{name:"Inspect an optical part"}).selectOption("housing-panel-2");
   await expect(stage).toHaveAttribute("data-inspection-mode","cutaway");
   await expect(stage).toHaveAttribute("data-state","paused");

@@ -1,6 +1,6 @@
 import type originalSpec from "./lens-spec.json";
 
-export type LensGeometryKind = "fluted-torus" | "annulus" | "lens" | "radial-boxes" | "bolts" | "contacts" | "beads" | "prisms" | "optical-element" | "cell" | "open-frame" | "spacers" | "baffles" | "panel" | "rails" | "linkages";
+export type LensGeometryKind = "fluted-torus" | "annulus" | "lens" | "radial-boxes" | "bolts" | "contacts" | "beads" | "prisms" | "optical-element" | "cell" | "open-frame" | "spacers" | "baffles" | "panel" | "rails" | "linkages" | "front-shutter";
 export type OpticalElementProfile = {
   shape: "meniscus" | "biconvex" | "plano-convex";
   radius: number;

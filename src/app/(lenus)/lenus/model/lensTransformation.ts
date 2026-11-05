@@ -4,7 +4,7 @@ export const LENS_INTERIOR_YAW=Math.PI*5/18;
 export type LensTransformationPose={
   seconds:number;
   phase:"assembled"|"unlock"|"deploy"|"interior"|"reassemble"|"lock";
-  body:number;unlock:number;frontCarriage:number;guideExtension:number;
+  body:number;unlock:number;frontCarriage:number;guideExtension:number;shutter:number;
   opticalOffsets:readonly number[];panelSlide:readonly number[];panelPivot:readonly number[];
   cameraBlend:number;ambientWeight:number;
 };
@@ -26,6 +26,7 @@ export function getLensTransformationPose(elapsedSeconds:number):LensTransformat
     seconds:t,
     phase:t<3||t>=22?"assembled":t<6?"unlock":t<10?"deploy":t<15?"interior":t<20?"reassemble":"lock",
     body,unlock:ramp(t,3,4)*(1-ramp(t,21,22)),frontCarriage,guideExtension:frontCarriage,
+    shutter:ramp(t,3.5,6.5)*(1-ramp(t,19,21.5)),
     opticalOffsets:[.5*lift+.15*body,.24*opticalB,.12*opticalC,0,0,0,0],
     panelSlide:Array.from({length:4},(_,i)=>ramp(t,5+i*.06,6+i*.06)*(1-ramp(t,18.5+i*.06,19.2+i*.06))),
     panelPivot:Array.from({length:4},(_,i)=>ramp(t,6.3+i*.06,9.5+i*.06)*(1-ramp(t,15+(3-i)*.06,18+(3-i)*.06))),

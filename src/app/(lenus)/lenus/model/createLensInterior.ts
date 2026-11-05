@@ -13,7 +13,7 @@ export type InteriorContext = {
   addMesh: (id:string, geometry:THREE.BufferGeometry, count?:number,material?:THREE.Material)=>THREE.Mesh;
   annulus: (inner:number,outer:number,depth:number)=>THREE.BufferGeometry;
 };
-const frontIds=["outer-glass","inner-glass","front-shell","collar-outer","retaining-beads","shards"];
+const frontIds=["outer-glass","inner-glass","front-shell","collar-outer","retaining-beads","shards","front-shutter"];
 const axis=new THREE.Vector3(0,0,1);
 const one=new THREE.Vector3(1,1,1);
 const clamp=(x:number)=>Number.isFinite(x)?THREE.MathUtils.clamp(x,0,1):0;
@@ -103,6 +103,14 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
         slidingGuide=radialInstances(id,new THREE.CylinderGeometry(.025,.025,2.25,8).rotateX(Math.PI/2),4,g.radius!);slidingGuide.name="sliding-guide-rods";
         break;
       case "linkages":break;
+      case "front-shutter": {
+        const radius=g.radius!,half=g.depth!/2,bevel=.018;
+        // A real closed quarter-disc, with finished rim and radial boundary
+        // faces. All four petals remain present throughout the transformation.
+        const geometry=buildClosedRevolvedSection([[0,-half],[radius-bevel,-half],[radius,-half+bevel],[radius,half-bevel],[radius-bevel,half],[0,half]],{segments:32,startRadians:0,sweepRadians:Math.PI/2});
+        geometry.translate(-Math.SQRT1_2*radius,-Math.SQRT1_2*radius,0);
+        addMesh(id,geometry,4);break;
+      }
       default:throw new Error(`Unsupported interior geometry: ${g.kind}`);
     }
   }
@@ -136,6 +144,8 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   frontClamps.instanceMatrix.needsUpdate=true;
   r.nodes["core-carrier"].add(r.nodes["carrier-fasteners"]);r.nodes["carrier-fasteners"].position.set(0,0,0);
   const rests=new Map(Object.entries(r.nodes).map(([id,o])=>[id,{position:o.position.clone(),rotation:o.rotation.clone()}]));
+  const shutter=r.meshes["front-shutter"] as THREE.InstancedMesh|undefined;
+  const shutterSpec=descriptors.get("front-shutter")?.geometry;
   const hinges:THREE.Group[]=[];
   const hingeRadius=descriptors.get("housing-panel-0")!.geometry.innerRadius!;
   const anchorRadius=2.10;
@@ -183,6 +193,19 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   function apply() {
     for(const [id,rest]of rests){r.nodes[id].position.copy(rest.position);r.nodes[id].rotation.copy(rest.rotation);}
     carriage.position.z=pose.frontCarriage+separation*.64;
+    // The existing floating glass clears the entire petal sweep, rather than
+    // letting a solid lid pass through it while opening or closing.
+    shardOrbit.position.z=.18+1.58*Math.sin((shutterSpec?.pivotRadians??0)*pose.shutter);
+    if(shutter&&shutterSpec){
+      const tilt=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(-Math.SQRT1_2,Math.SQRT1_2,0),shutterSpec.pivotRadians!*pose.shutter);
+      for(let i=0;i<4;i++){
+        const angle=i*Math.PI/2,theta=angle+Math.PI/4;
+        quaternion.setFromAxisAngle(axis,angle).multiply(tilt);
+        matrix.compose(new THREE.Vector3(Math.cos(theta)*shutterSpec.radius!,Math.sin(theta)*shutterSpec.radius!,shutterSpec.hingeZ!),quaternion,one);
+        shutter.setMatrixAt(i,matrix);
+      }
+      shutter.instanceMatrix.needsUpdate=true;shutter.computeBoundingSphere();
+    }
     collarUnlock.rotation.z=.2*pose.unlock;
     const offsets=pose.opticalOffsets,inspectionOffsets=[.48,.03,.02,0,-.16,-.32,-.64];
     for(const fragment of fragmentRest)fragment.node.position.set(fragment.position.x*(1+separation*.35),fragment.position.y*(1+separation*.35),fragment.position.z+separation*.25);
@@ -259,7 +282,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   }
   apply();
   const setPose=(next:LensTransformationPose)=>{
-    if(next.opticalOffsets.length!==7||next.panelSlide.length!==4||next.panelPivot.length!==4||![next.frontCarriage,next.guideExtension,next.unlock,...next.opticalOffsets,...next.panelSlide,...next.panelPivot].every(Number.isFinite))throw new Error("Invalid lens transformation pose");
+    if(next.opticalOffsets.length!==7||next.panelSlide.length!==4||next.panelPivot.length!==4||![next.frontCarriage,next.guideExtension,next.unlock,next.shutter,...next.opticalOffsets,...next.panelSlide,...next.panelPivot].every(Number.isFinite))throw new Error("Invalid lens transformation pose");
     pose=next;apply();
   };
   const setAmbientPose=(ambient:{collar:number;shardOrbit:number;shardY:number})=>{

@@ -33,7 +33,10 @@ try{
    if(delta>8){footprintPixels++;if(full[i+1]>full[i]*1.25&&full[i+1]>full[i+2]*1.1&&full[i+1]>55)greenPixels++;}
   }
   const minimum=Math.max(100,Math.floor((roi.x1-roi.x0)*(roi.y1-roi.y0)*.08));
-  const report={pose,seconds,angle,roi,greenPixels,minimum,footprintPixels,passed:greenPixels>=minimum};reports.push(report);console.log(JSON.stringify(report));
+  // The clarified closed-pose contract conceals the core completely. Only the
+  // opening/deployed views are required to expose green optical glass.
+  const concealed=seconds===0||seconds===24;
+  const report={pose,seconds,angle,roi,greenPixels,minimum,footprintPixels,expectation:concealed?'concealed':'visible',passed:concealed?footprintPixels===0:greenPixels>=minimum};reports.push(report);console.log(JSON.stringify(report));
  }
  await writeFile(`${base}/${sweep?'report-sweep':'report'}.json`,JSON.stringify(reports,null,2));
  if(!sweep&&reports.some(r=>!r.passed))process.exitCode=1;

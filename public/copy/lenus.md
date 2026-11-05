@@ -371,7 +371,7 @@ export default function LenusLensFallback({cutaway=false}:{cutaway?:boolean}={})
   </div>;
   return <div className="ln-lens-fallback">
     <svg viewBox="-280 -280 560 560" role="img" aria-labelledby={`${id}-title`}>
-      <title id={`${id}-title`}>Optical lens with fluted glass, titanium collars and an emerald core</title>
+      <title id={`${id}-title`}>Optical lens with a closed titanium shutter and fluted glass</title>
       <defs>
         <linearGradient id={`${id}-glass`} x1="0" y1="0" x2="1" y2="1">
           <stop stopColor="#F8FAFC" stopOpacity=".8"/><stop offset=".16" stopColor="#10131C"/>
@@ -387,12 +387,11 @@ export default function LenusLensFallback({cutaway=false}:{cutaway?:boolean}={})
         <circle data-optical-ring="inner" r="198" fill="none" stroke={`url(#${id}-glass)`} strokeWidth="29"/>
         {Array.from({length:18},(_,i)=><path key={i} d="M 23 -259 C 6 -240 14 -229 36 -225" transform={`rotate(${i*20})`} fill="none" stroke="#F8FAFC" strokeWidth="1.2" opacity=".27"/>)}
         {[262,255,231,224,216,210,186,178].map((r,i)=><circle key={r} r={r} fill="none" stroke={i%3===0?"#D2F802":i%3===1?"#A855F7":"#F8FAFC"} strokeWidth={i%3===2?1.2:.65} opacity={i%3===2?.55:.65}/>)}
-        <circle r="156" fill="#08090D" stroke="#161924" strokeWidth="20"/>
-        {[142,120,97,69].map((r,i)=><circle key={r} r={r} fill="none" stroke={`url(#${id}-titanium)`} strokeWidth={18-i*3}/>)}
-        {[153,132,111,86,67].map(r=><circle key={r} r={r} fill="none" stroke="#9499A6" strokeWidth=".7" opacity=".65"/>)}
-        <circle r="60" fill={`url(#${id}-core)`} stroke="#00E599" strokeOpacity=".65" strokeWidth="1.5"/>
-        <ellipse cx="-15" cy="-24" rx="18" ry="8" fill="#F8FAFC" opacity=".15" transform="rotate(-40)"/>
-        {[["-120,-88 -84,-101 -72,-69 -91,-60"], ["-126,83 -91,69 -78,89 -119,99"], ["26,-133 31,-117 22,-113 18,-128"], ["-22,125 -5,117 5,133 -17,142"], ["126,32 138,27 144,37 130,43"]].map(([points],i)=><polygon key={i} points={points} fill="#9499A6" fillOpacity=".12" stroke="#F8FAFC" strokeOpacity=".7" strokeWidth=".7"/>)}
+        <g data-closed-shutter="true">
+          <circle r="164" fill={`url(#${id}-titanium)`} stroke="#9499A6" strokeWidth="3"/>
+          <path d="M-164 0H164M0-164V164" stroke="#08090D" strokeWidth="2"/>
+          <circle r="145" fill="none" stroke="#9499A6" strokeOpacity=".3" strokeWidth="1"/>
+        </g>
       </g>
     </svg>
   </div>;
@@ -658,7 +657,7 @@ export type InteriorContext = {
   addMesh: (id:string, geometry:THREE.BufferGeometry, count?:number,material?:THREE.Material)=>THREE.Mesh;
   annulus: (inner:number,outer:number,depth:number)=>THREE.BufferGeometry;
 };
-const frontIds=["outer-glass","inner-glass","front-shell","collar-outer","retaining-beads","shards"];
+const frontIds=["outer-glass","inner-glass","front-shell","collar-outer","retaining-beads","shards","front-shutter"];
 const axis=new THREE.Vector3(0,0,1);
 const one=new THREE.Vector3(1,1,1);
 const clamp=(x:number)=>Number.isFinite(x)?THREE.MathUtils.clamp(x,0,1):0;
@@ -748,6 +747,14 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
         slidingGuide=radialInstances(id,new THREE.CylinderGeometry(.025,.025,2.25,8).rotateX(Math.PI/2),4,g.radius!);slidingGuide.name="sliding-guide-rods";
         break;
       case "linkages":break;
+      case "front-shutter": {
+        const radius=g.radius!,half=g.depth!/2,bevel=.018;
+        // A real closed quarter-disc, with finished rim and radial boundary
+        // faces. All four petals remain present throughout the transformation.
+        const geometry=buildClosedRevolvedSection([[0,-half],[radius-bevel,-half],[radius,-half+bevel],[radius,half-bevel],[radius-bevel,half],[0,half]],{segments:32,startRadians:0,sweepRadians:Math.PI/2});
+        geometry.translate(-Math.SQRT1_2*radius,-Math.SQRT1_2*radius,0);
+        addMesh(id,geometry,4);break;
+      }
       default:throw new Error(`Unsupported interior geometry: ${g.kind}`);
     }
   }
@@ -781,6 +788,8 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   frontClamps.instanceMatrix.needsUpdate=true;
   r.nodes["core-carrier"].add(r.nodes["carrier-fasteners"]);r.nodes["carrier-fasteners"].position.set(0,0,0);
   const rests=new Map(Object.entries(r.nodes).map(([id,o])=>[id,{position:o.position.clone(),rotation:o.rotation.clone()}]));
+  const shutter=r.meshes["front-shutter"] as THREE.InstancedMesh|undefined;
+  const shutterSpec=descriptors.get("front-shutter")?.geometry;
   const hinges:THREE.Group[]=[];
   const hingeRadius=descriptors.get("housing-panel-0")!.geometry.innerRadius!;
   const anchorRadius=2.10;
@@ -828,6 +837,19 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   function apply() {
     for(const [id,rest]of rests){r.nodes[id].position.copy(rest.position);r.nodes[id].rotation.copy(rest.rotation);}
     carriage.position.z=pose.frontCarriage+separation*.64;
+    // The existing floating glass clears the entire petal sweep, rather than
+    // letting a solid lid pass through it while opening or closing.
+    shardOrbit.position.z=.18+1.58*Math.sin((shutterSpec?.pivotRadians??0)*pose.shutter);
+    if(shutter&&shutterSpec){
+      const tilt=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(-Math.SQRT1_2,Math.SQRT1_2,0),shutterSpec.pivotRadians!*pose.shutter);
+      for(let i=0;i<4;i++){
+        const angle=i*Math.PI/2,theta=angle+Math.PI/4;
+        quaternion.setFromAxisAngle(axis,angle).multiply(tilt);
+        matrix.compose(new THREE.Vector3(Math.cos(theta)*shutterSpec.radius!,Math.sin(theta)*shutterSpec.radius!,shutterSpec.hingeZ!),quaternion,one);
+        shutter.setMatrixAt(i,matrix);
+      }
+      shutter.instanceMatrix.needsUpdate=true;shutter.computeBoundingSphere();
+    }
     collarUnlock.rotation.z=.2*pose.unlock;
     const offsets=pose.opticalOffsets,inspectionOffsets=[.48,.03,.02,0,-.16,-.32,-.64];
     for(const fragment of fragmentRest)fragment.node.position.set(fragment.position.x*(1+separation*.35),fragment.position.y*(1+separation*.35),fragment.position.z+separation*.25);
@@ -904,7 +926,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   }
   apply();
   const setPose=(next:LensTransformationPose)=>{
-    if(next.opticalOffsets.length!==7||next.panelSlide.length!==4||next.panelPivot.length!==4||![next.frontCarriage,next.guideExtension,next.unlock,...next.opticalOffsets,...next.panelSlide,...next.panelPivot].every(Number.isFinite))throw new Error("Invalid lens transformation pose");
+    if(next.opticalOffsets.length!==7||next.panelSlide.length!==4||next.panelPivot.length!==4||![next.frontCarriage,next.guideExtension,next.unlock,next.shutter,...next.opticalOffsets,...next.panelSlide,...next.panelPivot].every(Number.isFinite))throw new Error("Invalid lens transformation pose");
     pose=next;apply();
   };
   const setAmbientPose=(ambient:{collar:number;shardOrbit:number;shardY:number})=>{
@@ -922,6 +944,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
     <file path="src/app/(lenus)/lenus/model/createOpticalLensModel.ts">
 <![CDATA[import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import {mergeGeometries} from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import defaultSpec from "./lens-spec.json";
 import { createLensMaterials } from "./lensMaterials";
 import { deriveInteriorLayout, INTERIOR_IDS, validateInteriorClearances } from "./interiorLayout";
@@ -969,6 +992,21 @@ function supportAnnulus(inner: number, outer: number, depth: number) {
     n.setXYZ(i,radial*Math.cos(theta),radial*Math.sin(theta),n.getZ(i));
   }
   return geometry;
+}
+
+/** Fixed posts join the front shell to the four stationary shutter pivots.
+ * Bake them into the existing shell submission to preserve the draw budget. */
+function withShutterMounts(body:THREE.BufferGeometry){
+  const pieces=[body];
+  for(let i=0;i<4;i++){
+    const angle=Math.PI/4+i*Math.PI/2;
+    const post=new THREE.CylinderGeometry(.028,.028,.40,8).rotateX(Math.PI/2).translate(1.58*Math.cos(angle),1.58*Math.sin(angle),.28);
+    post.computeTangents();pieces.push(post.toNonIndexed());post.dispose();
+  }
+  const merged=mergeGeometries(pieces,false);
+  pieces.forEach(piece=>piece.dispose());
+  if(!merged)throw new Error("Unable to build shutter mounts");
+  return merged;
 }
 
 function flutedTorus(radius: number, tube: number, depth: number, flutes: number, amplitude: number, twist: number, segments: number) {
@@ -1104,6 +1142,7 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as Op
           }
           geometry.setAttribute("tangent", new THREE.BufferAttribute(tangents, 4));
         }
+        if(c.id==="front-shell"&&descriptors.has("front-shutter"))geometry=withShutterMounts(geometry);
         break;
       }
       case "lens": geometry = new THREE.SphereGeometry(g.radius!, segments, 24).scale(1, 1, (g.depth! / 2 + g.sag!) / g.radius!); break;
@@ -1264,8 +1303,8 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
 import { opticalProfileMetrics } from "./opticalProfile";
 
 export const OPTICAL_ORDER = ["front-meniscus", "front-biconvex", "front-compensator", "front-lens", "rear-relay", "rear-plano", "rear-lens"] as const;
-export const INTERIOR_IDS = ["front-meniscus-cell", "front-meniscus", "front-biconvex-cell", "front-biconvex", "front-compensator-cell", "front-compensator", "rear-relay-cell", "rear-relay", "rear-plano-cell", "rear-plano", "internal-barrel", "core-carrier", "spacer-stack", "rear-baffles", "carrier-fasteners", "core-retaining-beads", "housing-panel-0", "housing-panel-1", "housing-panel-2", "housing-panel-3", "guide-rails", "panel-linkages"] as const;
-const kinds = new Set(["fluted-torus", "annulus", "lens", "radial-boxes", "bolts", "contacts", "beads", "prisms", "optical-element", "cell", "open-frame", "spacers", "baffles", "panel", "rails", "linkages"]);
+export const INTERIOR_IDS = ["front-meniscus-cell", "front-meniscus", "front-biconvex-cell", "front-biconvex", "front-compensator-cell", "front-compensator", "rear-relay-cell", "rear-relay", "rear-plano-cell", "rear-plano", "internal-barrel", "core-carrier", "spacer-stack", "rear-baffles", "carrier-fasteners", "core-retaining-beads", "housing-panel-0", "housing-panel-1", "housing-panel-2", "housing-panel-3", "guide-rails", "panel-linkages", "front-shutter"] as const;
+const kinds = new Set(["fluted-torus", "annulus", "lens", "radial-boxes", "bolts", "contacts", "beads", "prisms", "optical-element", "cell", "open-frame", "spacers", "baffles", "panel", "rails", "linkages", "front-shutter"]);
 
 /** Pure rest-layout resolver; parent offsets are applied once through the graph. */
 export function deriveInteriorLayout(spec: OpticalLensSpec): LensLayout {
@@ -2975,6 +3014,31 @@ export function validateInteriorClearances(layout: LensLayout): { passed: boolea
           ]
         }
       ]
+    },
+    {
+      "id": "front-shutter",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "front-shutter",
+        "radius": 1.58,
+        "depth": 0.09,
+        "count": 4,
+        "hingeZ": 0.45,
+        "pivotRadians": 2.705260340591211
+      },
+      "features": [
+        {
+          "id": "closed-aperture-petals",
+          "description": "Four closed beveled petals physically conceal the optics at rest and fold forward/outward to reveal them."
+        }
+      ]
     }
   ],
   "materials": [
@@ -4531,7 +4595,7 @@ export const LENS_INTERIOR_YAW=Math.PI*5/18;
 export type LensTransformationPose={
   seconds:number;
   phase:"assembled"|"unlock"|"deploy"|"interior"|"reassemble"|"lock";
-  body:number;unlock:number;frontCarriage:number;guideExtension:number;
+  body:number;unlock:number;frontCarriage:number;guideExtension:number;shutter:number;
   opticalOffsets:readonly number[];panelSlide:readonly number[];panelPivot:readonly number[];
   cameraBlend:number;ambientWeight:number;
 };
@@ -4553,6 +4617,7 @@ export function getLensTransformationPose(elapsedSeconds:number):LensTransformat
     seconds:t,
     phase:t<3||t>=22?"assembled":t<6?"unlock":t<10?"deploy":t<15?"interior":t<20?"reassemble":"lock",
     body,unlock:ramp(t,3,4)*(1-ramp(t,21,22)),frontCarriage,guideExtension:frontCarriage,
+    shutter:ramp(t,3.5,6.5)*(1-ramp(t,19,21.5)),
     opticalOffsets:[.5*lift+.15*body,.24*opticalB,.12*opticalC,0,0,0,0],
     panelSlide:Array.from({length:4},(_,i)=>ramp(t,5+i*.06,6+i*.06)*(1-ramp(t,18.5+i*.06,19.2+i*.06))),
     panelPivot:Array.from({length:4},(_,i)=>ramp(t,6.3+i*.06,9.5+i*.06)*(1-ramp(t,15+(3-i)*.06,18+(3-i)*.06))),
@@ -4564,7 +4629,7 @@ export function getLensTransformationPose(elapsedSeconds:number):LensTransformat
     <file path="src/app/(lenus)/lenus/model/lensTypes.ts">
 <![CDATA[import type originalSpec from "./lens-spec.json";
 
-export type LensGeometryKind = "fluted-torus" | "annulus" | "lens" | "radial-boxes" | "bolts" | "contacts" | "beads" | "prisms" | "optical-element" | "cell" | "open-frame" | "spacers" | "baffles" | "panel" | "rails" | "linkages";
+export type LensGeometryKind = "fluted-torus" | "annulus" | "lens" | "radial-boxes" | "bolts" | "contacts" | "beads" | "prisms" | "optical-element" | "cell" | "open-frame" | "spacers" | "baffles" | "panel" | "rails" | "linkages" | "front-shutter";
 export type OpticalElementProfile = {
   shape: "meniscus" | "biconvex" | "plano-convex";
   radius: number;
@@ -4824,9 +4889,10 @@ import { getLensLoopPose } from "./lensMotion";
 export { getPartTelemetry, type LenusPartInfo } from "./telemetry";
 
 export function normalizePointer(value:number){return Number.isFinite(value)?THREE.MathUtils.clamp(value,-1,1):0;}
-export function fitHeroFrustumHalfHeight(width:number,height:number){
+export function fitHeroFrustumHalfHeight(width:number,height:number,inspection=false){
   const aspect=Math.max(1,Number.isFinite(width)?width:1)/Math.max(1,Number.isFinite(height)?height:1);
-  return Math.max(3.7,3.7/aspect);
+  const extent=inspection?4.3:3.7;
+  return Math.max(extent,extent/aspect);
 }
 const BASE_YAW=-.46,BASE_POLAR=Math.PI/2-.14,RADIUS=12;
 const finite=(n:number,fallback=0)=>Number.isFinite(n)?n:fallback;
@@ -4932,7 +4998,7 @@ export class LenusSceneController{
       if(this.hero){const saved=this.hero;this.elapsed=saved.elapsed;this.orbit={...saved.orbit};this.pointer={...saved.pointer};this.parallax={...saved.parallax};this.placeCamera(saved.camera.yaw,saved.camera.polar);}
       this.hero=null;
     }
-    this.lastTime=null;this.applyLoopPose();this.render();
+    this.lastTime=null;this.applyLoopPose();this.resize(this.viewport.width,this.viewport.height);
   }
   inspectPart(id:string){
     const part=getPartTelemetry(id);
@@ -4948,7 +5014,7 @@ export class LenusSceneController{
   resize(width:number,height:number){
     if(this.disposed||!this.renderer)return;
     this.viewport={width:Math.max(1,finite(width,1)),height:Math.max(1,finite(height,1))};
-    const aspect=this.viewport.width/this.viewport.height,h=fitHeroFrustumHalfHeight(width,height);
+    const aspect=this.viewport.width/this.viewport.height,h=fitHeroFrustumHalfHeight(width,height,this.mode==="cutaway");
     this.camera.left=-h*aspect;this.camera.right=h*aspect;this.camera.top=h;this.camera.bottom=-h;this.camera.updateProjectionMatrix();
     this.resizeBuffer();if(!this.contextLost)this.render();
   }
@@ -4988,7 +5054,7 @@ export class LenusSceneController{
     if(this.disposed)return;
     this.mode="hero";this.hero=null;this.elapsed=0;this.lastTime=null;this.orbit={yaw:0,polar:0};
     this.pointer={x:0,y:0};this.parallax={x:0,y:0};this.explode=this.explodeTarget=0;this.focus=this.focusTarget=0;
-    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);this.render();
+    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);this.resize(this.viewport.width,this.viewport.height);
   }
   start(){
     if(this.disposed||!this.renderer)return;this.running=true;this.lastTime=null;
@@ -5073,6 +5139,7 @@ const rearView=new Set(["rear-frame","rear-hub","rear-seat","rear-lens","rear-fi
 export function isInteriorPart(id:string){return interior.has(id);}
 export function prefersRearView(id:string){return rearView.has(id);}
 const roles:Record<string,string>={
+  "front-shutter":"Four solid titanium petals seal the optical aperture, then fold out to expose the interior.",
   "core-carrier":"Recessed support around the emerald objective.",
   "spacer-stack":"Annular seats keep the optical groups separated.",
   "rear-baffles":"Rear stops keep the optical path clear.",

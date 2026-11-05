@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import {mergeGeometries} from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import defaultSpec from "./lens-spec.json";
 import { createLensMaterials } from "./lensMaterials";
 import { deriveInteriorLayout, INTERIOR_IDS, validateInteriorClearances } from "./interiorLayout";
@@ -47,6 +48,21 @@ function supportAnnulus(inner: number, outer: number, depth: number) {
     n.setXYZ(i,radial*Math.cos(theta),radial*Math.sin(theta),n.getZ(i));
   }
   return geometry;
+}
+
+/** Fixed posts join the front shell to the four stationary shutter pivots.
+ * Bake them into the existing shell submission to preserve the draw budget. */
+function withShutterMounts(body:THREE.BufferGeometry){
+  const pieces=[body];
+  for(let i=0;i<4;i++){
+    const angle=Math.PI/4+i*Math.PI/2;
+    const post=new THREE.CylinderGeometry(.028,.028,.40,8).rotateX(Math.PI/2).translate(1.58*Math.cos(angle),1.58*Math.sin(angle),.28);
+    post.computeTangents();pieces.push(post.toNonIndexed());post.dispose();
+  }
+  const merged=mergeGeometries(pieces,false);
+  pieces.forEach(piece=>piece.dispose());
+  if(!merged)throw new Error("Unable to build shutter mounts");
+  return merged;
 }
 
 function flutedTorus(radius: number, tube: number, depth: number, flutes: number, amplitude: number, twist: number, segments: number) {
@@ -182,6 +198,7 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as Op
           }
           geometry.setAttribute("tangent", new THREE.BufferAttribute(tangents, 4));
         }
+        if(c.id==="front-shell"&&descriptors.has("front-shutter"))geometry=withShutterMounts(geometry);
         break;
       }
       case "lens": geometry = new THREE.SphereGeometry(g.radius!, segments, 24).scale(1, 1, (g.depth! / 2 + g.sag!) / g.radius!); break;

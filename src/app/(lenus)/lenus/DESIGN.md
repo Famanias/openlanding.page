@@ -1,7 +1,7 @@
-# LENUS — Reality is just the start
+# LENUS â€” Reality is just the start
 
 ## Requirements and concept
-Build the supplied hero reference as an isolated /lenus template. Optical depth is the central idea. The original19 named parts are augmented with22 interior/rig parts, five new curved optics and four articulated housing shells. References1-6 guide the procedural interior; image4 governs optics, image3 mechanisms and image1 the assembled identity. The compact body, seven-group inventory and authored kinematics resolve inconsistencies between the generated images.
+Build the supplied hero reference as an isolated /lenus template. Optical depth is the central idea. The original19 named parts are augmented with23 interior/rig parts, five new curved optics and four articulated housing shells. References1-6 guide the procedural interior; image4 governs optics, image3 mechanisms and image1 the assembled identity. The compact body, seven-group inventory and authored kinematics resolve inconsistencies between the generated images.
 
 ## Palette
 Midnight #08090D, cosmos #10131C, glass #161924, display #F8FAFC, muted #9499A6, lime #D2F802, violet #A855F7, emerald #00E599, button ink #0A0B0E. Model colors are exempt from the interface palette guard.
@@ -10,7 +10,7 @@ Midnight #08090D, cosmos #10131C, glass #161924, display #F8FAFC, muted #9499A6,
 Archivo Black for the tall, compressed display; Plus Jakarta Sans for body and navigation; JetBrains Mono for optical measurements. The floating header sits above a 44/56 desktop hero. At widths below 960px, copy and lens stack. Full glass-ring bounds stay inside the stage at every aspect ratio. The HUD belongs below the optical volume: a horizontal strip up to 720px wide and about 108px tall, with part information, assembly actions and sliders in reading order. It stays within its container and stacks on phones. Long part descriptions retain their full accessible text and hover title.
 
 ## Mechanic
-The route owns its Three.js modules. Compatibility re-exports preserve capture tooling. Orthographic hero camera: yaw-.46, elevation+.14, radius12, half-height max(3.7,3.7/aspect), fixed across the full cycle. Manual inspection uses a50-degree side view with independent orbit, focus and bounded extra separation.41 parts share one picking/telemetry registry. Opaque hardware batches only within a rigid semantic part; independently moving optics, shells and shards remain separate.
+The route owns its Three.js modules. Compatibility re-exports preserve capture tooling. Orthographic hero camera: yaw-.46, elevation+.14, radius12, half-height max(3.7,3.7/aspect), fixed across the full cycle. Manual inspection uses a50-degree side view with independent orbit, focus and bounded extra separation.42 parts share one picking/telemetry registry. Opaque hardware batches only within a rigid semantic part; independently moving optics, shells and shards remain separate.
 
 ## Motion
 Personality: technical and cinematic. Verbs: reveal, focus. Easing: cubic-bezier(0.22,1,0.36,1); UI 300ms, entrance 800ms, headline stagger 70ms. Delta-time damping prevents frame-rate-dependent motion.
@@ -36,3 +36,11 @@ Geometric LENUS lockup; violet START. optical bloom; radial aperture architectur
 Preserve reference copy, tri-color hierarchy and the completed asset. Keep forms honest: preparing a brief is local and does not claim a message was sent. Do not mount WebGL under reduced motion, announce FPS continuously to screen readers, or steal arrow keys from sliders.
 
 Install dependencies with `npm i three lucide-react` in a Next.js / React / TypeScript / Tailwind project.
+
+## Closed-to-open correction
+The default hero is sealed by four solid titanium shutter petals. They physically hide the optical train during the assembled hold, fold outward during unlock/deployment, and reclose after reassembly. The same geometry stays present and unscaled throughout. Exterior glass fragments move clear of the petal sweep. The existing24-second clock and inspection controls remain; reduced-motion/no-JS defaults also show the closed cover. Current inventory42 parts,186992 triangles and109 total PBR calls.
+
+## Closed-to-open correction
+The default hero is sealed by four solid titanium shutter petals. They physically hide the optical train during the assembled hold, fold outward during unlock/deployment, and reclose after reassembly. The same geometry stays present and unscaled throughout. Exterior glass fragments move clear of the petal sweep. The existing24-second clock and inspection controls remain; reduced-motion/no-JS defaults also show the closed cover. Current inventory42 parts,186992 triangles and109 total PBR calls.
+
+Manual inspection uses a conservative4.3-unit frustum extent (expanded for portrait aspect) to contain the opened petals and fully separated floating glass through orbit. Automatic hero framing remains3.7; framing changes only on mode/viewport changes. Four fixed mounting posts are baked into the front-shell submission, so the supported cover still costs one additional instanced draw.

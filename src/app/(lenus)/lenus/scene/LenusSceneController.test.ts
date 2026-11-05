@@ -69,6 +69,7 @@ describe("LenusSceneController", () => {
     expect(fitHeroFrustumHalfHeight(1200,800)).toBeGreaterThanOrEqual(3.6);
     expect(fitHeroFrustumHalfHeight(360,640) * 360 / 640).toBeGreaterThanOrEqual(3.6);
     expect(Number.isFinite(fitHeroFrustumHalfHeight(0,0))).toBe(true);
+    expect(fitHeroFrustumHalfHeight(390,844,true)*390/844).toBeGreaterThanOrEqual(4.3);
   });
   it("maps picked model IDs to optical telemetry", () => {
     expect(getPartTelemetry("front-lens")).toEqual({ id:"front-lens",label:"EMERALD OBJECTIVE CORE",material:"DOPED FLUORITE / N=1.52",role:"Primary chromatic-dispersion singlet with internal 520nm fluorescence" });

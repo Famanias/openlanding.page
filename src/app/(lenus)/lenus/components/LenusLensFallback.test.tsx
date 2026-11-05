@@ -14,5 +14,7 @@ describe("LenusLensFallback",()=>{
     expect(html).toContain('<svg');expect(html).toContain('viewBox="-280 -280 560 560"');
     expect(html).toContain('Optical lens');expect(html).toContain('data-optical-ring');
     expect(html).toContain('#00E599');
+    expect(html).toContain('data-closed-shutter="true"');
+    expect(html).not.toContain('data-interior-optic=');
   });
 });

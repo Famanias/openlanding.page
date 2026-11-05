@@ -23,7 +23,7 @@ describe("rigid hardware batching",()=>{
     const batched=createOpticalLensModel(undefined,{pass:"optimization-pass",quality:"low"});
     const a=original.userData.sculptRuntime as LensRuntime,b=batched.userData.sculptRuntime as LensRuntime;
     try{
-      expect(inventory(batched).calls).toBeLessThanOrEqual(64);
+      expect(inventory(batched).calls).toBeLessThanOrEqual(65);
       expect(Object.keys(a.nodes)).toEqual(Object.keys(b.nodes));
       for(const [time,separation]of [[0,0],[8,0],[12,0],[12,1],[18,0]]){
         a.setTransformationPose(getLensTransformationPose(time));b.setTransformationPose(getLensTransformationPose(time));a.setExplode(separation);b.setExplode(separation);

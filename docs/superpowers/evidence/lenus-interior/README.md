@@ -1,5 +1,7 @@
 # Lenus interior implementation evidence
 
+**Latest correction:** [The asset now starts closed, reveals its interior, and closes again](../lenus-closed-loop/README.md). The evidence below describes the earlier implementation.
+
 Implemented the approved plan natively in the existing isolated workspace. The automatic24-second loop unlocks the lens, opens four attached housing panels, separates a fixed seven-group optical train, holds a side view, and reassembles.41 parts are individually inspectable. Manual inspection, Pause, focus/separation, reset, drag and lifecycle recovery use one pose owner.
 
 Production inspection uses50 degrees to expose the recessed green core; independent reference captures retain60 degrees. The original19 parts, exterior radii and approved material scalars remain. Five new curved optical volumes use open fitted retaining clips and measured guide engagement. The internal fluorescent backing is contained inside the original emerald ellipsoid. This is a reference-inspired procedural interior and authored transformation: barrel length, hidden construction and kinematics are adapted, not a manufacturing reconstruction.
