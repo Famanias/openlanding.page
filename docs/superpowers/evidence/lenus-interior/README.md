@@ -6,11 +6,11 @@ Production inspection uses50 degrees to expose the recessed green core; independ
 
 ## Verification
 
-- Full unit suite:241 files /1285 tests passed with the existing5-second timeout and maxWorkers2. Earlier concurrent build/software-rendering runs timed out; the isolated final run passed without changing those timeouts.
-- Production native-GPU browser suite:15/15 passed. Includes automatic opening/return, manual inspection, keyboard controls, Pause/reset, context loss, preference reconstruction, no-JS, blocked graphics and phone activation.
+- Full unit suite:241 files /1286 tests passed with the existing5-second timeout and maxWorkers2. Earlier concurrent build/software-rendering runs timed out; the isolated final run passed without changing those timeouts.
+- Production native-GPU browser suite:18/18 passed. Includes automatic opening/return, manual inspection, keyboard controls, Pause/reset, context loss, preference reconstruction, no-JS, blocked graphics and phone activation.
 - Production build, TypeScript, Lenus/e2e ESLint, isolation, palette and media checks passed. Build warnings concern fallback metrics for unrelated fonts.
 - Measured model185808 triangles;107 total PBR draw calls, down from153 without deleting geometry.295024 rendered triangles include109216 repeated transmission-pass triangles. Inspection at maximum extra separation also107 calls.
-- Native900x700 controller recording: RTX2060 /ANGLE D3D11,92-181 sampled FPS. This is a local headless measurement, not a device-independent guarantee. SwiftShader software rendering measured1-2 FPS.
+- Native900x700 controller recording: RTX2060 /ANGLE D3D11,171-180 sampled FPS. This is a local headless measurement, not a device-independent guarantee. SwiftShader software rendering measured1-2 FPS.
 - Actual production-camera bounds at12 phases and1440x900,900x700,390x844: maximum projected extent.85182; full model stays within the stage. Desktop HUD720x108; phone342x245 with no overlap/overflow.
 - Optical gaps at least.03; maximum linkage endpoint residual about6e-8; bearing/track radial clearance.001; measured axial bearing engagement at least.02, including extra separation.193 automatic phase samples plus browser captures cover intermediate travel.
 -41 specified/41 built semantic parts;0 coverage errors/warnings. Closed/deployed turntables and original Tier1 geometry gate pass. Closed self-intersection review samples28361 vertices across293 actual solids/instances,0 inside/61 undecided retained points. This is sampled evidence, not exhaustive pairwise collision proof.
@@ -28,3 +28,5 @@ Production inspection uses50 degrees to expose the recessed green core; independ
 The generic plugin runner assumes workspace/.img2threejs/state.json. A faithful snapshot of the scoped completed action-ready state was supplied in an isolated gate workspace; no original state was overwritten. No domain plugin contributed steps, so the unmodified runner returned an empty successful result. Native factory emission remains the existing route-local factory, with no external target/plugin selected.
 
 The gallery images, rebuild prompt and generated copy bundle are refreshed. The bundle includes every runtime helper/JSON and excludes tests. Nothing was published.
+
+Final independent review found three Important issues in dynamic linkage picking and gesture/reconstruction continuity. All were reproduced, fixed, and verified in one pass. See [final review and fixes](final-review.md), [exact initialized recovery matrices](initialized-recovery.json), [unit results](logs/final-suite.log) and [production browser results](logs/final-e2e-verified.log). Deferred minors: none.

@@ -4,6 +4,17 @@ import { createOpticalLensModel, type LensRuntime } from "./createOpticalLensMod
 import { INTERIOR_IDS, OPTICAL_ORDER } from "./interiorLayout";
 
 describe("interior support and assembly hierarchy", () => {
+  it("raycasts deployed linkage hardware after its assembled bounds were cached",()=>{
+    const model=createOpticalLensModel(undefined,{quality:"low"});
+    const r=model.userData.sculptRuntime as LensRuntime;
+    try{
+      model.traverse(o=>{const mesh=o as THREE.InstancedMesh;if(mesh.isInstancedMesh)mesh.computeBoundingSphere();});
+      r.setCutaway(true);model.updateMatrixWorld(true);
+      const ray=new THREE.Raycaster(new THREE.Vector3(1.4820351601,-.2933589165,-12.1599088108),new THREE.Vector3(-1.21266485e-16,-.1395431146,.9902159962).normalize());
+      const hit=ray.intersectObject(model,true)[0];
+      expect(r.pickPart(hit?.object??null)?.name).toBe("panel-linkages");
+    }finally{r.dispose();}
+  });
   it("bounds additional inspection separation to the guide travel",()=>{
     const model=createOpticalLensModel(undefined,{pass:"form-refinement",quality:"low"});
     const r=model.userData.sculptRuntime as LensRuntime;

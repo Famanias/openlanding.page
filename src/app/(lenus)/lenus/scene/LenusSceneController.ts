@@ -18,7 +18,7 @@ type CameraPose={yaw:number;polar:number};
 type OrbitOffset={yaw:number;polar:number};
 type HeroView={elapsed:number;camera:CameraPose;orbit:OrbitOffset;pointer:{x:number;y:number};parallax:{x:number;y:number}};
 export type LensInspectionMode="hero"|"cutaway";
-export type LenusInspectionSnapshot={mode:LensInspectionMode;camera:CameraPose;orbit:OrbitOffset;hero:HeroView|null;controls:{explode:number;focus:number;currentExplode?:number;currentFocus?:number}};
+export type LenusInspectionSnapshot={mode:LensInspectionMode;camera:CameraPose;orbit:OrbitOffset;pointer?:{x:number;y:number};parallax?:{x:number;y:number};hero:HeroView|null;controls:{explode:number;focus:number;currentExplode?:number;currentFocus?:number}};
 export interface LenusSceneOptions{
   initialAnimationTime?:number;initialResolutionScale?:number;initialInspectionState?:LenusInspectionSnapshot;
   onFps?:(fps:number)=>void;onContextChange?:(state:"lost"|"restored")=>void;
@@ -47,6 +47,8 @@ export class LenusSceneController{
     const saved=options.initialInspectionState;
     if(saved){
       this.mode=saved.mode;this.hero=saved.hero?structuredClone(saved.hero):null;this.orbit={...saved.orbit};
+      this.pointer={x:normalizePointer(saved.pointer?.x??0),y:normalizePointer(saved.pointer?.y??0)};
+      this.parallax={x:finite(saved.parallax?.x??0),y:finite(saved.parallax?.y??0)};
       this.explodeTarget=THREE.MathUtils.clamp(finite(saved.controls.explode),0,1);
       this.focusTarget=THREE.MathUtils.clamp(finite(saved.controls.focus),-Math.PI/2,Math.PI/2);
       this.explode=THREE.MathUtils.clamp(finite(saved.controls.currentExplode??this.explodeTarget),0,1);
@@ -92,7 +94,10 @@ export class LenusSceneController{
   getAnimationTime(){return this.elapsed;}
   getResolutionScale(){return this.resolutionScale;}
   getInspectionSnapshot():LenusInspectionSnapshot{
-    return {mode:this.mode,camera:this.cameraPose(),orbit:{...this.orbit},hero:this.hero?structuredClone(this.hero):null,controls:{explode:this.explodeTarget,focus:this.focusTarget,currentExplode:this.explode,currentFocus:this.focus}};
+    const camera=this.cameraPose(),base=this.automaticCamera();
+    // OrbitControls can be mid-drag, before onDragEnd commits its offset.
+    const orbit=this.mode==="hero"?{yaw:camera.yaw-base.yaw,polar:camera.polar-base.polar}:{...this.orbit};
+    return {mode:this.mode,camera,orbit,pointer:{...this.pointer},parallax:{...this.parallax},hero:this.hero?structuredClone(this.hero):null,controls:{explode:this.explodeTarget,focus:this.focusTarget,currentExplode:this.explode,currentFocus:this.focus}};
   }
   private cameraPose():CameraPose{const p=new THREE.Spherical().setFromVector3(this.camera.position);return {yaw:p.theta,polar:p.phi};}
   private automaticCamera():CameraPose{
@@ -105,7 +110,7 @@ export class LenusSceneController{
     if(mode==="cutaway"){
       if(this.dragging)this.captureOrbit();
       this.hero={elapsed:this.elapsed,camera:this.cameraPose(),orbit:{...this.orbit},pointer:{...this.pointer},parallax:{...this.parallax}};
-      this.mode=mode;this.dragging=false;this.placeCamera(LENS_INTERIOR_YAW,BASE_POLAR);
+      this.mode=mode;this.placeCamera(LENS_INTERIOR_YAW,BASE_POLAR);
     }else{
       this.mode="hero";
       if(this.hero){const saved=this.hero;this.elapsed=saved.elapsed;this.orbit={...saved.orbit};this.pointer={...saved.pointer};this.parallax={...saved.parallax};this.placeCamera(saved.camera.yaw,saved.camera.polar);}

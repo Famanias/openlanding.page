@@ -221,6 +221,9 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
       }
     }
     linkMesh.instanceMatrix.needsUpdate=true;crowns.instanceMatrix.needsUpdate=true;
+    // InstancedMesh does not invalidate its cached raycast/frustum sphere when
+    // setMatrixAt changes the mechanism's extent.
+    linkMesh.computeBoundingSphere();crowns.computeBoundingSphere();
     root.updateMatrixWorld(true);
   }
   function measureAttachments() {

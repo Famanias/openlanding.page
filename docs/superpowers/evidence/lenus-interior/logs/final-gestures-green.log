@@ -1,0 +1,16 @@
+
+Running 3 tests using 1 worker
+
+node : (node:30104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:57
++ ... ORT='4322'; node node_modules/@playwright/test/cli.js test tests/e2e/ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:30104) Wa... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [chromium] › tests\e2e\lenus.spec.ts:279:5 › inspection toggles preserve a held pointer drag until release (5.1s)
+  ok 2 [chromium] › tests\e2e\lenus.spec.ts:300:5 › preference reconstruction retains paused hero parallax (3.0s)
+  ok 3 [chromium] › tests\e2e\lenus.spec.ts:313:5 › preference reconstruction retains an active drag view (3.9s)
+
+  3 passed (15.0s)

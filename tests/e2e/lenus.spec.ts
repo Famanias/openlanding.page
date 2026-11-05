@@ -276,6 +276,53 @@ test("restoring the scene replays the separation and focus shown by its controls
   await expect(page.getByRole("slider",{name:"Focus ring rotation"})).toHaveValue("0.9");
 });
 
+test("inspection toggles preserve a held pointer drag until release",async({page})=>{
+  await page.addInitScript(()=>{
+    const raf=window.requestAnimationFrame.bind(window);Object.defineProperty(window,"__lenusTimeOffset",{value:0,writable:true});
+    window.requestAnimationFrame=callback=>raf(()=>callback(Number(Reflect.get(window,"__lenusTimeOffset"))));
+  });
+  await page.goto("/lenus");const stage=page.locator(".ln-stage"),host=page.getByTestId("lenus-canvas-container"),canvas=page.locator("canvas[data-lenus-renderer]");
+  await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});await host.focus();await page.keyboard.press("r");
+  const box=(await host.boundingBox())!;const x=box.x+box.width*.5,y=box.y+box.height*.5;
+  await page.mouse.move(x,y);await page.mouse.down();
+  try{
+    await page.mouse.move(x+70,y-30,{steps:5});await page.keyboard.press("c");await page.keyboard.press("c");
+    await expect(stage).toHaveAttribute("data-inspection-mode","hero");const held=await canvas.screenshot();
+    // One virtual second proves the drag holds time without deliberately
+    // triggering the renderer's slow-frame resolution fallback.
+    await page.evaluate(()=>Reflect.set(window,"__lenusTimeOffset",1000));
+    await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
+    expect(await meanFrameDifference(held,await canvas.screenshot())).toBeLessThan(.1);
+    await page.mouse.move(x+120,y-45,{steps:5});expect(await meanFrameDifference(held,await canvas.screenshot())).toBeGreaterThan(.1);
+  }finally{await page.mouse.up();}
+});
+
+test("preference reconstruction retains paused hero parallax",async({page})=>{
+  await page.goto("/lenus");const stage=page.locator(".ln-stage"),host=page.getByTestId("lenus-canvas-container"),canvas=page.locator("canvas[data-lenus-renderer]");
+  await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
+  const box=(await host.boundingBox())!;await page.mouse.move(box.x+box.width*.85,box.y+box.height*.2);await page.waitForTimeout(500);
+  await page.getByRole("button",{name:"Pause animation",exact:true}).click();await expect(stage).toHaveAttribute("data-state","paused");
+  const before=await canvas.screenshot();
+  await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
+  await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","paused",{timeout:60_000});
+  // Match the existing cross-context raster tolerance; the initialized camera
+  // and model matrices are checked separately by the native recovery probe.
+  expect(await meanFrameDifference(before,await canvas.screenshot())).toBeLessThan(3);
+});
+
+test("preference reconstruction retains an active drag view",async({page})=>{
+  await page.goto("/lenus");const stage=page.locator(".ln-stage"),host=page.getByTestId("lenus-canvas-container"),canvas=page.locator("canvas[data-lenus-renderer]");
+  await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
+  await page.getByRole("button",{name:"Pause animation",exact:true}).click();await expect(stage).toHaveAttribute("data-state","paused");
+  const box=(await host.boundingBox())!;await page.mouse.move(box.x+box.width*.5,box.y+box.height*.5);await page.mouse.down();
+  try{
+    await page.mouse.move(box.x+box.width*.7,box.y+box.height*.4,{steps:5});const before=await canvas.screenshot();
+    await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
+    await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","paused",{timeout:60_000});
+    expect(await meanFrameDifference(before,await canvas.screenshot())).toBeLessThan(3);
+  }finally{await page.mouse.up();}
+});
+
 test("phones retain the still preview until the visitor starts the optical experience",async({browser,baseURL})=>{
   const context=await browser.newContext({baseURL,viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   try{
