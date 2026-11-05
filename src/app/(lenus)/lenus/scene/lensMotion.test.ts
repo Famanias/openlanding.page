@@ -9,12 +9,13 @@ describe("optical lens motion loop",()=>{
     for(const key of Object.keys(start) as (keyof typeof start)[])expect(end[key]).toBeCloseTo(start[key],12);
     expect(getLensLoopPose(7.5)).toEqual(getLensLoopPose(31.5));
   });
-  it("turns the complete lens while its collar and glass shards move independently",()=>{
+  it("keeps the interior reveal still while retaining bounded secondary motion",()=>{
     const quarter=getLensLoopPose(6),eighth=getLensLoopPose(3);
-    expect(quarter.spin).toBeCloseTo(Math.PI/2,12);
+    expect(quarter.spin).toBeCloseTo(0,12);
     expect(quarter.yaw).toBeCloseTo(.11,12);
-    expect(quarter.shardOrbit).toBeCloseTo(-Math.PI,12);
+    expect(Math.abs(quarter.shardOrbit)).toBeLessThanOrEqual(.22);
     expect(eighth.collar).toBeCloseTo(.16,12);
+    for(const value of Object.values(getLensLoopPose(12)))expect(Math.abs(value)).toBeLessThan(1e-10);
   });
   it("crosses the repeat boundary without a visible orientation jump",()=>{
     const a=getLensLoopPose(24-.001),b=getLensLoopPose(.001);

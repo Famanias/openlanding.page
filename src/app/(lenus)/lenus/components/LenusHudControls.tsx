@@ -1,4 +1,4 @@
-import { Layers, Pause, Play, RotateCcw } from "lucide-react";
+import { Layers, Pause, Play, RotateCcw, ScanLine } from "lucide-react";
 import { OPTICAL_PARTS, type LenusPartInfo } from "../scene/telemetry";
 
 export type LenusStageState="preview"|"running"|"paused"|"static"|"unavailable"|"lost";
@@ -6,6 +6,7 @@ type Props={
   state:LenusStageState; fps:number; exploded:boolean; explodeAmount:number; focusAngle:number; activePart:LenusPartInfo; paused:boolean;
   onToggleExplode:()=>void; onExplodeChange:(value:number)=>void; onFocusChange:(radians:number)=>void;
   onResetView:()=>void; onTogglePause:()=>void; onPartSelect?:(id:string)=>void;
+  cutaway?:boolean;onToggleCutaway?:()=>void;
 };
 export function LenusHudControls(p:Props){
   const disabled=!["running","paused"].includes(p.state);
@@ -22,7 +23,7 @@ export function LenusHudControls(p:Props){
     </div>
     <div className="ln-hud-actions">
       <button type="button" className="ln-explode" aria-pressed={p.exploded} onClick={p.onToggleExplode} disabled={disabled}><Layers size={14} aria-hidden="true"/>EXPLODE ASSEMBLY</button>
-      <div className="ln-playback"><button type="button" className="ln-icon-button" aria-label="Reset optical view" title="Reset view (R)" onClick={p.onResetView} disabled={disabled}><RotateCcw size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label={p.paused?"Play animation":"Pause animation"} onClick={p.onTogglePause} disabled={disabled}>{p.paused?<Play size={15} aria-hidden="true"/>:<Pause size={15} aria-hidden="true"/>}</button></div>
+      <div className="ln-playback"><button type="button" className="ln-icon-button" aria-label={p.cutaway?"Return to automatic hero view":"Inspect lens interior"} title="Inspect interior (C)" aria-pressed={!!p.cutaway} onClick={p.onToggleCutaway}><ScanLine size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label="Reset optical view" title="Reset view (R)" onClick={p.onResetView} disabled={disabled}><RotateCcw size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label={p.paused?"Play animation":"Pause animation"} onClick={p.onTogglePause} disabled={disabled}>{p.paused?<Play size={15} aria-hidden="true"/>:<Pause size={15} aria-hidden="true"/>}</button></div>
     </div>
     <div className="ln-hud-sliders">
       <label><span>SEPARATION <output>{Math.round(p.explodeAmount*100)}%</output></span><input type="range" min="0" max="1" step=".01" value={p.explodeAmount} aria-label="Explode optical assembly" disabled={disabled} onChange={e=>p.onExplodeChange(Number(e.target.value))}/></label>

@@ -4,6 +4,34 @@ import { createOpticalLensModel, type LensRuntime } from "./createOpticalLensMod
 import { INTERIOR_IDS, OPTICAL_ORDER } from "./interiorLayout";
 
 describe("interior support and assembly hierarchy", () => {
+  it("bounds additional inspection separation to the guide travel",()=>{
+    const model=createOpticalLensModel(undefined,{pass:"form-refinement",quality:"low"});
+    const r=model.userData.sculptRuntime as LensRuntime;
+    try {
+      r.setCutaway(true);r.setExplode(1);
+      expect(model.userData.interiorRig.measureAttachments().railAxialOverlap).toBeGreaterThan(.02);
+    }finally{r.dispose();}
+  });
+  it("composes ambient shard motion separately from user focus",()=>{
+    const model=createOpticalLensModel(undefined,{pass:"form-refinement",quality:"low"});
+    const r=model.userData.sculptRuntime as LensRuntime;
+    try {
+      expect(typeof r.setAmbientPose).toBe("function");
+      r.setFocusRing(.45);r.setAmbientPose({collar:.1,shardOrbit:.2,shardY:.03});
+      expect(r.nodes.shards.rotation.z).toBeCloseTo(.45);
+      expect(r.nodes.shards.parent?.rotation.z).toBeCloseTo(.2);
+    }finally{r.dispose();}
+  });
+  it("retains reversible separation of the original individual glass fragments",()=>{
+    const model=createOpticalLensModel(undefined,{pass:"form-refinement",quality:"low"});
+    const r=model.userData.sculptRuntime as LensRuntime;
+    try {
+      const shard=r.nodes.shards.children.find(o=>(o as THREE.Mesh).isMesh)!;
+      const before=shard.position.clone();r.setExplode(1);
+      expect(Math.hypot(shard.position.x,shard.position.y)).toBeGreaterThan(Math.hypot(before.x,before.y));
+      r.setExplode(0);expect(shard.position.toArray()).toEqual(before.toArray());
+    }finally{r.dispose();}
+  });
   it("exposes deterministic transformation and physical inspection on the existing runtime", () => {
     const model=createOpticalLensModel(undefined,{quality:"low",pass:"form-refinement"});
     const r=model.userData.sculptRuntime as LensRuntime;

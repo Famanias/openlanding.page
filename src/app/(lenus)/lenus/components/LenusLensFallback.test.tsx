@@ -2,6 +2,12 @@ import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import LenusLensFallback from "./LenusLensFallback";
 describe("LenusLensFallback",()=>{
+  it("shows seven static interior groups without a rendering engine",()=>{
+    const html=renderToStaticMarkup(<LenusLensFallback cutaway/>);
+    expect(html).toContain("Interior optical train");
+    expect((html.match(/data-interior-optic=/g)??[]).length).toBe(7);
+    expect(html).not.toContain("<canvas");
+  });
   it("renders an accessible procedural optical assembly without JavaScript",()=>{
     const html=renderToStaticMarkup(<LenusLensFallback/>);
     expect(html).toContain('class="ln-lens-fallback"');

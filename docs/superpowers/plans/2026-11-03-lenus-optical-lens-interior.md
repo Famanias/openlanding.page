@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans for native execution, or superpowers:subagent-driven-development if that execution method is selected. Implement task by task, with the img2threejs state and sculpt-pass gates remaining authoritative. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add a readable, procedural internal optical train to the existing Lenus lens and a seamless **24-second automatic mechanical transformation**: assembled lens → unlock → housing deployment and optical separation → interior reveal → staged reassembly → assembled lens. Use the six approved generated references and original cutaway, preserve the recognizable hero asset, and retain manual inspection and current controls.
+**Goal:** Add a readable, procedural internal optical train to the existing Lenus lens and a seamless **24-second automatic mechanical transformation**: assembled lens â†’ unlock â†’ housing deployment and optical separation â†’ interior reveal â†’ staged reassembly â†’ assembled lens. Use the six approved generated references and original cutaway, preserve the recognizable hero asset, and retain manual inspection and current controls.
 
 **Architecture:** Extend the current model through a separate interior construction module, closed optical/sector geometry helpers, and a deterministic transformation pose sampler. Preserve the original 19 semantic part IDs; add optical cells, four articulated housing panels, guide rails and linkages. The automatic hero and manual interior inspection use the **same components and rig**. Reuse the existing runtime, materials, lighting, inspector and lifecycle controller.
 
@@ -12,7 +12,7 @@
 
 **Execution baseline:** Commit `b04e8c7` (`Add seamless 24-second motion loop and compact HUD to Lenus`). The working tree was clean when inspected. `.img2threejs/state.json` reports **complete**, with its existing review history intact. This document is the planning deliverable; implementation and a new reconstruction run start after plan review.
 
-**Revision — 2026-11-05:** The user approved the six-image assessment and the reference priorities below. This revision supersedes the earlier manual-cutaway-only scope. The original baseline above is historical; recheck HEAD and local changes before execution. This revision changes documentation and archives references only; it does not start a reconstruction run or implement production code.
+**Revision â€” 2026-11-05:** The user approved the six-image assessment and the reference priorities below. This revision supersedes the earlier manual-cutaway-only scope. The original baseline above is historical; recheck HEAD and local changes before execution. This revision changes documentation and archives references only; it does not start a reconstruction run or implement production code.
 
 ---
 
@@ -23,9 +23,9 @@
 - Keep the existing glass recipe: `transmission: 0.98`, `roughness: 0.03`, `ior: 1.52`, `dispersion: 0.08`. New optical elements may use thickness-specific clones; do not change the established outer-glass material to compensate for new geometry.
 - Keep titanium `metalness: 0.85`, `roughness: 0.25`, the existing procedural surface maps, and lime **#D2F802** / purple **#A855F7** illumination with procedural HDR reflections.
 - Keep all original 19 part IDs, their picking behavior, and rear hardware relationships. New containers/cut-surface meshes must not inflate the semantic part count.
-- Preserve the **720 × 108px** desktop HUD and its phone layout. Add the cutaway action to the existing icon row, not another tall control card.
+- Preserve the **720 Ã— 108px** desktop HUD and its phone layout. Add the cutaway action to the existing icon row, not another tall control card.
 - Preserve the **24-second duration and seamless continuity**, pause/resume, drag inspection, focus/explode controls, context recovery, and adaptive resolution. Replace the old full axial turn with the coordinated transformation below; continuous spinning must not rotate the interior out of view. Reduced motion must still mount **no WebGL**.
-- Keep current hero camera defaults: yaw **−0.46 rad**, elevation **+0.14 rad**, radius **12**. Inspection gets its own camera preset and conservative bounds fit.
+- Keep current hero camera defaults: yaw **âˆ’0.46 rad**, elevation **+0.14 rad**, radius **12**. Inspection gets its own camera preset and conservative bounds fit.
 - Existing geometry budget: **200,000 triangles**, **110 draw calls**, **1024px maps**, DPR cap **1.5**, adaptive buffer floor **75%**. Record rendered transmission work separately from model triangle count.
 - Preserve the original completed `.img2threejs/state.json` and original sculpt spec. New work uses `.img2threejs/interior/` and a fresh state file; do not erase or relabel previous reviews.
 - Reuse the user's approved separate-material validation approach in `.img2threejs/material-validation-override.json` where applicable. Do not reintroduce the known whole-frame color-cluster test for hidden parts, and do not weaken geometry gates.
@@ -45,7 +45,7 @@
 
 ### Approved reference set and priority
 
-The six user-generated image files were supplied from `D:/downloads/lenus/interior/` and copied unchanged to `docs/superpowers/references/lenus-interior-transformation/`. All six are **2752 × 1536 JPEG images stored with `.png` filenames**; retain the supplied names and bytes, and use content-aware image decoding for intake. Treat them as **art direction and key-pose evidence**, not six mechanically consistent photographs. Inspect all six before spec authoring. Use repository-relative paths during execution; the Downloads folder is provenance only.
+The six user-generated image files were supplied from `D:/downloads/lenus/interior/` and copied unchanged to `docs/superpowers/references/lenus-interior-transformation/`. All six are **2752 Ã— 1536 JPEG images stored with `.png` filenames**; retain the supplied names and bytes, and use content-aware image decoding for intake. Treat them as **art direction and key-pose evidence**, not six mechanically consistent photographs. Inspect all six before spec authoring. Use repository-relative paths during execution; the Downloads folder is provenance only.
 
 | Reference | Role | Authority and adaptation |
 |---|---|---|
@@ -59,7 +59,7 @@ The six user-generated image files were supplied from `D:/downloads/lenus/interi
 
 **Conflict resolution:** image **4** governs the interior, image **3** governs mechanism appearance, and image **1** governs the assembled appearance. The existing accepted asset governs preserved dimensions and semantic IDs. Resolve all poses into one buildable hierarchy before geometry begins:
 
-- Use **four quarter-cylinder housing panels**, each a single rigid part, through the entire loop. Images 5–6 appear to add axial panel divisions; do not copy that changing topology. Far-side hardware is inferred and must be reviewed off-axis.
+- Use **four quarter-cylinder housing panels**, each a single rigid part, through the entire loop. Images 5â€“6 appear to add axial panel divisions; do not copy that changing topology. Far-side hardware is inferred and must be reviewed off-axis.
 - Fix **seven optical groups**: three new clear front elements, existing emerald core, two new clear rear elements, existing dark rear objective. The prominent front glass surface in image 4 must map to an existing named element, not appear midway through the loop. Keep the original exterior glass rings intact.
 - Preserve the same shapes, scales, panel seams, fasteners and attachment points in every phase. Motion uses rigid transforms; visibility toggles, clipping and shape changes cannot substitute for physical opening.
 - Keep the core readable in both closed and open poses; image 6's weak green appearance is not a target. Simplify incidental wiring or ambiguous hardware; select the rails and compact linkages visible in image 3 as the mechanism vocabulary.
@@ -80,7 +80,7 @@ The six user-generated image files were supplied from `D:/downloads/lenus/interi
 
 ### What the original cutaway establishes
 
-The 1376 × 768 PNG is a three-quarter sectional illustration of a coaxial optical assembly. Its large front glass rim is toward the viewer; a longer housing and rear mount extend behind it. Portions of the outer housing are removed to expose internal curved glass surfaces and stepped metal supports.
+The 1376 Ã— 768 PNG is a three-quarter sectional illustration of a coaxial optical assembly. Its large front glass rim is toward the viewer; a longer housing and rear mount extend behind it. Portions of the outer housing are removed to expose internal curved glass surfaces and stepped metal supports.
 
 | System | Directly observable evidence | Proposed interpretation | Confidence |
 |---|---|---|---|
@@ -101,7 +101,7 @@ Build a **reference-inspired internal cartridge with an articulated housing**. T
 
 The reference is much longer than the existing prop. A literal length match would substantially redesign the hero. Instead, start with a compressed but physically separated stack approximately **2.1 units deep**, measured across the optical body and excluding the detached shards. This requires moving the existing green element and rear assembly rearward. The exact depth is locked only after the blockout/structure review confirms clearance and framing.
 
-The current solid optical body spans approximately `z = −0.63 … +0.285`; the green optic itself spans approximately `−0.21 … +0.25`. Inserting multiple discs into the current space without repacking would cause intersections. The layout task must address this explicitly.
+The current solid optical body spans approximately `z = âˆ’0.63 â€¦ +0.285`; the green optic itself spans approximately `âˆ’0.21 â€¦ +0.25`. Inserting multiple discs into the current space without repacking would cause intersections. The layout task must address this explicitly.
 
 ### Proposed optical train
 
@@ -110,21 +110,21 @@ Object coordinates remain **+Y up, +Z front**, with the optical axis along Z. Th
 | Part ID | Status | Shape | Radius | Center Z | Approx. center thickness |
 |---|---|---|---:|---:|---:|
 | `front-meniscus` | New | One convex and one concave curved surface | 1.05 | +0.16 | 0.105 |
-| `front-biconvex` | New | Two convex surfaces | 0.98 | −0.25 | 0.20 |
-| `front-compensator` | New | Thinner, lower-sag element | 0.84 | −0.44 | 0.12 |
-| `front-lens` | Existing ID preserved | Existing convex emerald optic | 0.59 | −0.78 | 0.46, existing shape |
-| `rear-relay` | New | Small biconvex relay element | 0.74 | −1.14 | 0.14 |
-| `rear-plano` | New | One plane face and one convex face | 0.54 | −1.32 | 0.10 |
-| `rear-lens` | Existing ID preserved | Existing dark rear optic | 0.35 | −1.65 | 0.26, existing shape |
+| `front-biconvex` | New | Two convex surfaces | 0.98 | âˆ’0.25 | 0.20 |
+| `front-compensator` | New | Thinner, lower-sag element | 0.84 | âˆ’0.44 | 0.12 |
+| `front-lens` | Existing ID preserved | Existing convex emerald optic | 0.59 | âˆ’0.78 | 0.46, existing shape |
+| `rear-relay` | New | Small biconvex relay element | 0.74 | âˆ’1.14 | 0.14 |
+| `rear-plano` | New | One plane face and one convex face | 0.54 | âˆ’1.32 | 0.10 |
+| `rear-lens` | Existing ID preserved | Existing dark rear optic | 0.35 | âˆ’1.65 | 0.26, existing shape |
 
 **Task 4 form refinement:** the table reflects stronger optical curvature against image 4, replacing the initial shallow .10/.08 estimates. The primary biconvex depth/diameter ratio increased from .051 to .102; the meniscus carrier moved forward .04 and the next cells moved back .01/.04. The seven optical envelopes still fit the approximately 2.1-unit body, with minimum .03 air gaps. Meniscus center thickness differs from its recentered axial envelope. Lens-cell contact is intentional; glass-to-glass intersections are not. Validate sampled profiles, not just center thicknesses.
 
 Existing layout changes:
 
-- Move `front-lens` from `z = +0.02` to `−0.78` through the new core-carrier hierarchy.
-- Translate the existing rear root components (`rear-frame`, `rear-hub`, `rear-seat`, `rear-lens`) by **−1.15 Z**, with their children following exactly once.
+- Move `front-lens` from `z = +0.02` to `âˆ’0.78` through the new core-carrier hierarchy.
+- Translate the existing rear root components (`rear-frame`, `rear-hub`, `rear-seat`, `rear-lens`) by **âˆ’1.15 Z**, with their children following exactly once.
 - Split the two small radii (`0.615`, `0.66`) out of the current `retaining-beads` mesh set into a new core-retaining group. They must follow the recessed green optic rather than remain inside a new front glass element. Keep the original `retaining-beads` ID for the remaining exterior beads.
-- Keep the front outer/inner glass rings in their original **assembled** positions on an axial front carriage. Task 5 repacks the metal retainers to clear real travel: `front-shell` is a wide-bore support (1.38–1.60 radius, .20 depth, z=−.03); `collar-middle` follows the front meniscus cell at local z=−.10 (assembled world z remains +.06); `collar-inner` follows the core carrier at local z=+.17 (world z=−.61), with a .715 bore. Original IDs, glass dimensions and rear-hardware relationships remain. A separate collar-unlock pivot keeps its short rotation independent from user focus. These adaptations supersede the initial fixed-collar assumption and are recorded in the execution ledger.
+- Keep the front outer/inner glass rings in their original **assembled** positions on an axial front carriage. Task 5 repacks the metal retainers to clear real travel: `front-shell` is a wide-bore support (1.38â€“1.60 radius, .20 depth, z=âˆ’.03); `collar-middle` follows the front meniscus cell at local z=âˆ’.10 (assembled world z remains +.06); `collar-inner` follows the core carrier at local z=+.17 (world z=âˆ’.61), with a .715 bore. Original IDs, glass dimensions and rear-hardware relationships remain. A separate collar-unlock pivot keeps its short rotation independent from user focus. These adaptations supersede the initial fixed-collar assumption and are recorded in the execution ledger.
 
 ```mermaid
 flowchart LR
@@ -139,11 +139,11 @@ flowchart LR
 
 ### Mechanical additions
 
-- `internal-barrel`: stepped stationary support frame joining the front structure to the rear module. Start mounting radii near **1.42–1.50**, then solve actual profiles during structure review. Use annular end supports and rails; a continuous opaque inner tube would hide the reveal and is not acceptable.
-- `housing-panel-0` through `housing-panel-3`: four closed quarter-cylinder shells on radial slide/pivot hierarchies, with real edge thickness and mounting brackets. Task 5 uses inner/outer radii **2.17/2.23**, depth **1.56**, rear hinge z=**−1.83**, and .24 radial travel before a .58-radian pivot. This clears the preserved 2.12-radius rear flange while retaining the assembled 2.49-radius envelope. Preserve four panels even where the references suggest extra subdivisions.
+- `internal-barrel`: stepped stationary support frame joining the front structure to the rear module. Start mounting radii near **1.42â€“1.50**, then solve actual profiles during structure review. Use annular end supports and rails; a continuous opaque inner tube would hide the reveal and is not acceptable.
+- `housing-panel-0` through `housing-panel-3`: four closed quarter-cylinder shells on radial slide/pivot hierarchies, with real edge thickness and mounting brackets. Task 5 uses inner/outer radii **2.17/2.23**, depth **1.56**, rear hinge z=**âˆ’1.83**, and .24 radial travel before a .58-radian pivot. This clears the preserved 2.12-radius rear flange while retaining the assembled 2.49-radius envelope. Preserve four panels even where the references suggest extra subdivisions.
 - `guide-rails`: shared axial rails and carriage sockets for translating the front assembly and optical groups. Cell contacts remain valid throughout separation.
-- `panel-linkages`: eight repeated two-arm supports inspired by image 3, each arm .32 units long. Rear anchor posts at radius 2.10 extend .355 units behind the frame; roots use frame-local z=−.465. Solve linked endpoints at each pose rather than independently rotating disconnected bars. The posts and inboard folds keep the supports clear of the rear flange.
-- Five named optical cells: `front-meniscus-cell`, `front-biconvex-cell`, `front-compensator-cell`, `rear-relay-cell`, `rear-plano-cell`. The material visibility refinement uses four permanent capped 15-degree retaining clips per cell, linked to four support arms/bearings. This follows the open-sided supports in images 3–4 and clears the reference sightline. Each lens and its cell form one coherent explosion assembly; no geometry disappears during the loop.
+- `panel-linkages`: eight repeated two-arm supports inspired by image 3, each arm .32 units long. Rear anchor posts at radius 2.10 extend .355 units behind the frame; roots use frame-local z=âˆ’.465. Solve linked endpoints at each pose rather than independently rotating disconnected bars. The posts and inboard folds keep the supports clear of the rear flange.
+- Five named optical cells: `front-meniscus-cell`, `front-biconvex-cell`, `front-compensator-cell`, `rear-relay-cell`, `rear-plano-cell`. The material visibility refinement uses four permanent capped 15-degree retaining clips per cell, linked to four support arms/bearings. This follows the open-sided supports in images 3â€“4 and clears the reference sightline. Each lens and its cell form one coherent explosion assembly; no geometry disappears during the loop.
 - `core-carrier`: stepped support around the preserved emerald optic; the optical path stays clear.
 - `spacer-stack`: annular spacers between cells, with real ledges and stable parent relationships.
 - `rear-baffles`: thin annular stops near the rear optics, with a visible inner edge and no blockage of the objective.
@@ -156,37 +156,37 @@ The interior-only design proposed **16 new semantic parts**. Four panels plus `g
 
 At least these 24 distinct observed/inferred features must have real `localFeatures` or `localOverrides` mappings:
 
-1. Front meniscus curvature and thin perimeter → `front-meniscus` geometry.
-2. Biconvex front/back surfaces → `front-biconvex` geometry.
-3. Compensator's lower sag → `front-compensator` geometry.
-4. Recessed green-core placement → `front-lens` layout/attachment.
-5. Rear relay curvature → `rear-relay` geometry.
-6. Plano/convex rear profile → `rear-plano` geometry.
-7. Positive edge thickness on every new optical element → optical profile descriptors.
-8. Small glass edge chamfers → all five optical elements.
-9. Axial air gaps → measured layout constraints.
-10. Stepped retaining shoulders → optical-cell profiles.
-11. Cell-to-barrel contacts → named sockets and contact records.
-12. Core-carrier shoulder → `core-carrier` profile.
-13. Annular spacer lips → `spacer-stack` geometry.
-14. Rear baffle aperture edges → `rear-baffles` geometry.
-15. Directional barrel lining → `internal-barrel` normal/roughness locality.
-16. Circumferential metal brushing → existing titanium channel recipe.
-17. Radially repeated fastener crowns → `carrier-fasteners` instancing.
-18. Finished panel boundary faces → closed sector geometry for the four housing panels.
-19. Intact exterior glass-ring profiles → axial front-carriage assembly.
-20. Relocated polished retaining edges → `core-retaining-beads` geometry.
-21. Axial guide rails and moving cell sockets → `guide-rails` and carriage hierarchy, image 3.
-22. Panel support arms and pivot crowns → `panel-linkages`, image 3.
-23. Consistent closed panel seams and docking shoulders → `housing-panel-*`, images 1–2.
-24. Positive optical air gaps in the reveal → shared transformation descriptors, image 4.
+1. Front meniscus curvature and thin perimeter â†’ `front-meniscus` geometry.
+2. Biconvex front/back surfaces â†’ `front-biconvex` geometry.
+3. Compensator's lower sag â†’ `front-compensator` geometry.
+4. Recessed green-core placement â†’ `front-lens` layout/attachment.
+5. Rear relay curvature â†’ `rear-relay` geometry.
+6. Plano/convex rear profile â†’ `rear-plano` geometry.
+7. Positive edge thickness on every new optical element â†’ optical profile descriptors.
+8. Small glass edge chamfers â†’ all five optical elements.
+9. Axial air gaps â†’ measured layout constraints.
+10. Stepped retaining shoulders â†’ optical-cell profiles.
+11. Cell-to-barrel contacts â†’ named sockets and contact records.
+12. Core-carrier shoulder â†’ `core-carrier` profile.
+13. Annular spacer lips â†’ `spacer-stack` geometry.
+14. Rear baffle aperture edges â†’ `rear-baffles` geometry.
+15. Directional barrel lining â†’ `internal-barrel` normal/roughness locality.
+16. Circumferential metal brushing â†’ existing titanium channel recipe.
+17. Radially repeated fastener crowns â†’ `carrier-fasteners` instancing.
+18. Finished panel boundary faces â†’ closed sector geometry for the four housing panels.
+19. Intact exterior glass-ring profiles â†’ axial front-carriage assembly.
+20. Relocated polished retaining edges â†’ `core-retaining-beads` geometry.
+21. Axial guide rails and moving cell sockets â†’ `guide-rails` and carriage hierarchy, image 3.
+22. Panel support arms and pivot crowns â†’ `panel-linkages`, image 3.
+23. Consistent closed panel seams and docking shoulders â†’ `housing-panel-*`, images 1â€“2.
+24. Positive optical air gaps in the reveal â†’ shared transformation descriptors, image 4.
 
 Record each feature's reference filename, image region and confidence. Distinguish visible linkage appearance from inferred kinematics. Incidental wiring in generated references is excluded from the agreed mechanism; concentrate on rails, cells and compact linkages.
 
 ### Geometry, material and animation contracts
 
 - Optical elements are **closed curved volumes**, made from sampled revolved cross-sections. A scaled flat disc, torus, or photographic projection is not an acceptable substitute.
-- Define sag signs explicitly: for a first paraboloid approximation, `q(r) = 1 − (r / radius)²`, `frontZ(r) = edgeThickness / 2 + frontSag × q(r)`, and `backZ(r) = −edgeThickness / 2 + backSag × q(r)`. Biconvex uses positive front / negative back sag; a meniscus uses same-sign sags with positive thickness throughout; plano-convex sets one sag to zero. Center the completed profile's axial envelope before applying its layout position. These are modeling approximations, not an optical prescription.
+- Define sag signs explicitly: for a first paraboloid approximation, `q(r) = 1 âˆ’ (r / radius)Â²`, `frontZ(r) = edgeThickness / 2 + frontSag Ã— q(r)`, and `backZ(r) = âˆ’edgeThickness / 2 + backSag Ã— q(r)`. Biconvex uses positive front / negative back sag; a meniscus uses same-sign sags with positive thickness throughout; plano-convex sets one sag to zero. Center the completed profile's axial envelope before applying its layout position. These are modeling approximations, not an optical prescription.
 - Mechanical cells/barrels use closed revolved profiles with actual shoulders. Surface maps may supply microscopic brushing; visible ledges and bevels require geometry.
 - The automatic reveal and manual interior view use physical panel deployment and axial separation. All glass remains intact. Address opaque existing collars through carriage travel and actual apertures; do not swap in clipped or hidden housing geometry during the loop.
 - A partial lathe without end caps fails. Each panel is a closed shell with finished boundary faces and consistent normals; caps belong to the panel's semantic ID. Original glass-ring geometry stays continuous.
@@ -201,18 +201,18 @@ Record each feature's reference filename, image region and confidence. Distingui
 
 | Time | Phase | Required behavior | Reference |
 |---|---|---|---|
-| 0–3 s | Assembled hold | Recognizable closed silhouette, emerald visible, subtle bounded ambient motion. | 1 |
-| 3–6 s | Unlock | Short collar rotation, front carriage starts translating, narrow radial panel gaps; clear seating interfaces before pivoting. | 2 |
-| 6–10 s | Deploy | Four panels slide out and pivot on retained linkages; front carriage advances; optical cell groups separate with a deliberate stagger. | 3 |
-| 10–15 s | Interior hold | Clearly readable seven-group optical stack, visible core, panels outside primary sightlines; hold mechanical channels still. | 4 |
-| 15–20 s | Reassemble | Cells return along their rails; panels close in a stagger after clearance is available. Use one hierarchy and the same travel paths. | 5, secondary |
-| 20–22 s | Dock and lock | Seat panels, return front carriage, finish the collar locking rotation. | 6, secondary; finish at 1 |
-| 22–24 s | Assembled hold | Exact opening mechanical pose and camera; settle before the loop boundary. | 1 |
+| 0â€“3 s | Assembled hold | Recognizable closed silhouette, emerald visible, subtle bounded ambient motion. | 1 |
+| 3â€“6 s | Unlock | Short collar rotation, front carriage starts translating, narrow radial panel gaps; clear seating interfaces before pivoting. | 2 |
+| 6â€“10 s | Deploy | Four panels slide out and pivot on retained linkages; front carriage advances; optical cell groups separate with a deliberate stagger. | 3 |
+| 10â€“15 s | Interior hold | Clearly readable seven-group optical stack, visible core, panels outside primary sightlines; hold mechanical channels still. | 4 |
+| 15â€“20 s | Reassemble | Cells return along their rails; panels close in a stagger after clearance is available. Use one hierarchy and the same travel paths. | 5, secondary |
+| 20â€“22 s | Dock and lock | Seat panels, return front carriage, finish the collar locking rotation. | 6, secondary; finish at 1 |
+| 22â€“24 s | Assembled hold | Exact opening mechanical pose and camera; settle before the loop boundary. | 1 |
 
 - Use a pure `getLensTransformationPose(elapsedSeconds)` sampler driven by the existing single 24-second clock. Define named normalized channels for collar unlocking, front translation, per-panel slide/pivot, and per-cell axial separation. Sample from rest transforms; do not accumulate transforms frame by frame.
 - Use smooth monotonic ease-in-out curves with zero endpoint velocity for travel, plus a small bounded stagger. The mechanical character comes from coordinated rigid rotations/slides and deliberate stops. Do not use elastic overshoot that breaches clearances. Closing may have different timing, but must follow the same collision-safe geometric path.
-- Preserve the hero camera defaults for closed holds. Ease toward a side-biased reference-inspired view during deployment, hold the view through the interior hold, and restore it during reassembly. Start look development near **+60° yaw / +8° elevation**; lock the final preset through overlay and production-layout review. Keep camera transitions bounded and continuous; fit full-cycle bounds on mode/viewport changes, not per frame.
-- Replace the previous continuous 360° spin with bounded motion that keeps the reveal facing the viewer. Coordinate shard/collar ambient channels with the same period and suppress distracting motion during the interior hold. Every animated channel, including camera and shards, must match position/orientation and velocity across 24 → 0 seconds.
+- Preserve the hero camera defaults for closed holds. Ease toward a side-biased reference-inspired view during deployment, hold the view through the interior hold, and restore it during reassembly. Start look development near **+60Â° yaw / +8Â° elevation**; lock the final preset through overlay and production-layout review. Keep camera transitions bounded and continuous; fit full-cycle bounds on mode/viewport changes, not per frame.
+- Replace the previous continuous 360Â° spin with bounded motion that keeps the reveal facing the viewer. Coordinate shard/collar ambient channels with the same period and suppress distracting motion during the interior hold. Every animated channel, including camera and shards, must match position/orientation and velocity across 24 â†’ 0 seconds.
 - One transform owner composes rest layout, sampled transformation, inspection separation, user focus, and pointer parallax through explicit pivots. `setExplode`, `setFocusRing` and loop application must not overwrite the same transform independently.
 - Manual separation enters interior inspection and applies its slider as additional bounded separation on the deployed pose. Retain slider values for inspection; they do not override automatic assembly in hero mode. User focus remains available through its own pivot. Dragging in hero holds the current clock/pose and allows orbit; release resumes from that phase without a jump.
 - Interior inspection saves the hero clock, camera and ambient pose, holds the rig fully deployed, and suppresses automatic camera/parallax. Exiting restores the saved phase/view, respecting Pause. Rapid toggles settle to the latest requested mode. Reset sets phase **0**, assembled layout, canonical hero view and default sliders while preserving the user's Pause preference.
@@ -345,7 +345,7 @@ function buildClosedRevolvedSection(profile: RevolvedProfile, options: {
 - [x] Build four finished quarter-cylinder shells, real seams, brackets and docking shoulders. Each shell uses the closed-sector helper; verify boundary edges, winding, thickness and cap normals. Fit seams and intentional mounting contact separately from solid intersections.
 - [x] Implement named rig channels and linked travel paths for statically sampled choreography poses, using the single pose-application path. Panels slide clear before pivoting; cells and front carriage move along rails with their trim; no clipping planes, disappearing panels, newly materialized glass or changing part scales.
 - [x] Validate sampled intermediate travel, including both directions, phase boundaries, stagger extrema and the most constrained panel/collar crossings. Measure optical air gaps, carriage/rail engagement and linkage endpoint residuals. Record tolerances and sampling coverage; endpoint-only tests are insufficient.
-- [x] Capture closed, unlock, partial-open, full-open, staggered-close and near-closed poses with reference cameras. Produce comparisons against images 1–4; use images 5–6 only for closing arrangement and preserve the fixed topology. Check that original opaque collars no longer block the opening.
+- [x] Capture closed, unlock, partial-open, full-open, staggered-close and near-closed poses with reference cameras. Produce comparisons against images 1â€“4; use images 5â€“6 only for closing arrangement and preserve the fixed topology. Check that original opaque collars no longer block the opening.
 - [x] Ensure exports/picking report the same semantic parts in closed and open poses, including panel boundary faces. Resource ownership must release panel/linkage geometry and shared materials once without leaks or double-disposal.
 - [x] Add deterministic phase and interior-preset capture controls to `createOpticalLensScene.ts`. Review the complete form pass covering Task 4 optical profiles and Task 5 panel/rig geometry. Record the decision, sync state and commit accepted form before unlocking materials. Interactive scheduling and motion-quality acceptance remain Task 7.
 
@@ -369,16 +369,16 @@ function buildClosedRevolvedSection(profile: RevolvedProfile, options: {
 
 Add HUD props `cutaway: boolean` and `onToggleCutaway: () => void`. Keep the existing four-field `LenusPartInfo` display contract; add pure registry helpers `getSemanticPartCount(): number` and `isInteriorPart(componentId: string): boolean`. Hero visibility is phase-dependent: picking uses the actual posed scene; explicit interior selection enters inspection. Do not encode a single always-visible hero flag or import the renderer into fallback/telemetry UI.
 
-- [ ] Test the pure sampler at all phase boundaries, intermediate times and negative/wrapped times. Verify every mechanical, camera and ambient channel matches across 24 → 0, with matching boundary velocity, finite transforms and no accumulated drift. Replace old full-turn assertions with transformation continuity and reveal-hold assertions.
-- [ ] Integrate the choreography with the existing single animation clock. Automatic opening/reassembly must run without user input; remove the continuous axial spin, coordinate bounded ambient motion, and hold the side-biased camera throughout the interior reveal. Validate scene matrices, not only returned scalar values.
-- [ ] Test entry/exit to inspection during each phase while running, paused, dragged, separated and focused. On entry save the hero clock/view/ambient pose; hold the fully deployed rig, suppress parallax, and use the canonical reference-inspired inspection view. Repeated toggles must settle to the latest mode without competing transform writers.
-- [ ] Route manual separation into inspection and apply its retained slider value as additional bounded separation. Focus uses an independent pivot. Keep rendering for manual orbit/focus/separation while the ambient clock is held; explicit actions while paused render immediately. Drag in hero freezes its current phase and permits orbit; release resumes that phase. Test every precedence combination from the choreography contract.
-- [ ] On exit restore the saved hero phase and view, without counting inspection time; respect manual Pause. Reset sets phase 0, assembled pose, canonical hero camera and default sliders while preserving Pause preference. Context/preference reconstruction preserves mode, phase, adaptive quality, slider values and the saved pre-inspection snapshot.
-- [ ] Add an accessible icon next to reset/play, with `aria-pressed` and labels `Inspect lens interior` / `Return to automatic hero view`. The interior toggle stays pressed only for manual inspection, independent of automatic open phases. Add **C** only on the focused stage; never steal keys from inputs or sliders.
-- [ ] Explicit interior selection opens inspection and reveals the selected geometry. Hover only updates readout; it must not switch mode/camera. Verify picking on moving optical cells, panels and linkages; derive the semantic count and test parity between modeled and inspectable IDs.
-- [ ] Update the SVG fallback with static assembled and opened internal-layer views. The interior toggle remains usable for reduced-motion/blocked-graphics states independently of disabled 3D sliders, and must not activate WebGL or animate. Preserve the server-rendered assembled no-JS preview.
-- [ ] Record and inspect a complete 24-second cycle, including opening/closing rhythm, stable reveal hold, camera return and wraparound. Pair it with phase comparison sheets. Actual motion review, measured clearances and interrupt/resume checks must pass before accepting the interaction pass.
-- [ ] Verify 720 × 108px desktop HUD fit, phone wrapping, native keyboard focus and long part labels. Commit the accepted interaction pass.
+- [x] Test the pure sampler at all phase boundaries, intermediate times and negative/wrapped times. Verify every mechanical, camera and ambient channel matches across 24 â†’ 0, with matching boundary velocity, finite transforms and no accumulated drift. Replace old full-turn assertions with transformation continuity and reveal-hold assertions.
+- [x] Integrate the choreography with the existing single animation clock. Automatic opening/reassembly must run without user input; remove the continuous axial spin, coordinate bounded ambient motion, and hold the side-biased camera throughout the interior reveal. Validate scene matrices, not only returned scalar values.
+- [x] Test entry/exit to inspection during each phase while running, paused, dragged, separated and focused. On entry save the hero clock/view/ambient pose; hold the fully deployed rig, suppress parallax, and use the canonical reference-inspired inspection view. Repeated toggles must settle to the latest mode without competing transform writers.
+- [x] Route manual separation into inspection and apply its retained slider value as additional bounded separation. Focus uses an independent pivot. Keep rendering for manual orbit/focus/separation while the ambient clock is held; explicit actions while paused render immediately. Drag in hero freezes its current phase and permits orbit; release resumes that phase. Test every precedence combination from the choreography contract.
+- [x] On exit restore the saved hero phase and view, without counting inspection time; respect manual Pause. Reset sets phase 0, assembled pose, canonical hero camera and default sliders while preserving Pause preference. Context/preference reconstruction preserves mode, phase, adaptive quality, slider values and the saved pre-inspection snapshot.
+- [x] Add an accessible icon next to reset/play, with `aria-pressed` and labels `Inspect lens interior` / `Return to automatic hero view`. The interior toggle stays pressed only for manual inspection, independent of automatic open phases. Add **C** only on the focused stage; never steal keys from inputs or sliders.
+- [x] Explicit interior selection opens inspection and reveals the selected geometry. Hover only updates readout; it must not switch mode/camera. Verify picking on moving optical cells, panels and linkages; derive the semantic count and test parity between modeled and inspectable IDs.
+- [x] Update the SVG fallback with static assembled and opened internal-layer views. The interior toggle remains usable for reduced-motion/blocked-graphics states independently of disabled 3D sliders, and must not activate WebGL or animate. Preserve the server-rendered assembled no-JS preview.
+- [x] Record and inspect a complete 24-second cycle, including opening/closing rhythm, stable reveal hold, camera return and wraparound. Pair it with phase comparison sheets. Actual motion review, measured clearances and interrupt/resume checks must pass before accepting the interaction pass.
+- [x] Verify 720 Ã— 108px desktop HUD fit, phone wrapping, native keyboard focus and long part labels. Commit the accepted interaction pass.
 
 ## Task 8: Optimization, Evidence Gates and Delivery
 
@@ -387,7 +387,7 @@ Add HUD props `cutaway: boolean` and `onToggleCutaway: () => void`. Keep the exi
 - [ ] Add production browser regressions for automatic unlock/reveal/reassembly without a click, exact loop return, fixed geometry/part inventory, inspection/picking, reversible separation, focus, drag/pause/resume/reset, context loss, reduced motion, phone activation, no-JS and blocked WebGL.
 - [ ] Measure model triangles including instance multiplicity; target no more than **200k total** and roughly **60k additional** triangles. Record closed, intermediate, deployed and inspection draw calls against **110**. Report transmission-pass triangles/overdraw separately; profile representative phases rather than inferring FPS from triangle count.
 - [ ] Share materials/maps, instance repeated hardware, and release panel/rail/linkage resources correctly. Optimize without removing identity-defining curved glass, finished panel edges or mechanism attachments.
-- [ ] Capture a deterministic frozen review set for assembled and fully deployed modes: **0°, 90°, 180°, 270°**, plus matched reference views and grazing detail. Add phase captures at **0, 3, 6, 8, 10, 12, 15, 18, 20, 22, 23.99, 24 seconds** and more samples at clearance extrema. Existing front/rear images remain exterior evidence; the original file named side-profile is not true 90° ground truth.
+- [ ] Capture a deterministic frozen review set for assembled and fully deployed modes: **0Â°, 90Â°, 180Â°, 270Â°**, plus matched reference views and grazing detail. Add phase captures at **0, 3, 6, 8, 10, 12, 15, 18, 20, 22, 23.99, 24 seconds** and more samples at clearance extrema. Existing front/rear images remain exterior evidence; the original file named side-profile is not true 90Â° ground truth.
 - [ ] Before visual `continue`, read `gates_reference.md` and `self_correction.md` completely; run Tier 1 geometry diagnostics, multi-angle diagnostics, the turntable gate, self-intersection, measured attachments and banded interior difference. Produce one reference/render comparison sheet per reviewed system/view set.
 
 ```powershell
@@ -411,7 +411,7 @@ npm run check
 node node_modules/@playwright/test/cli.js test tests/e2e/lenus.spec.ts --workers=1
 ```
 
-- [ ] Inspect 1440 × 900, 900 × 700 and 390 × 844 captures at closed, maximum deployment, camera-transition and closing phases. Fit full-cycle conservative bounds on resize/mode/separation changes; prevent panel clipping and HUD overlap without zooming every frame. Verify the same 24-second sequence after phone activation and static views under reduced motion.
+- [ ] Inspect 1440 Ã— 900, 900 Ã— 700 and 390 Ã— 844 captures at closed, maximum deployment, camera-transition and closing phases. Fit full-cycle conservative bounds on resize/mode/separation changes; prevent panel clipping and HUD overlap without zooming every frame. Verify the same 24-second sequence after phone activation and static views under reduced motion.
 - [ ] Refresh the two gallery images, inline rebuild prompt and copy bundle. Confirm every imported JSON/helper is included and test dependencies remain excluded.
 - [ ] Record final accepted/approximate features, geometric statistics, runtime limitations and all gate reports. Mark part coverage/action readiness only with actual evidence, complete the scoped state, and commit the verified augmentation.
 
@@ -427,7 +427,7 @@ The finished result is described as a **reference-inspired procedural interior a
 
 - [x] Inspected the original cutaway and all six new reference images; reviewed the existing canonical model, controls and motion source.
 - [x] Preserved the historical completed reconstruction baseline; verified that the original state still reports complete. New admission/spec/build gates remain unexecuted.
-- [x] Archived the six new images unchanged, verified source/archive SHA-256 matches, and decoded their true JPEG format and 2752 × 1536 dimensions; retained the original cutaway and its recorded provenance.
+- [x] Archived the six new images unchanged, verified source/archive SHA-256 matches, and decoded their true JPEG format and 2752 Ã— 1536 dimensions; retained the original cutaway and its recorded provenance.
 - [x] Distinguished observed structure from inferred counts, dimensions and hidden hardware.
 - [x] Recorded image 4 / image 3 / image 1 priorities, fixed four-panel/seven-optical-group topology and explicit resolutions for generated-image inconsistencies.
 - [x] Addressed the existing shallow body, opaque front-shell clearance and retaining-bead relocation.

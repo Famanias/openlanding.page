@@ -64,6 +64,8 @@
 .ln-canvas-host{z-index:2;cursor:grab}
 .ln-canvas-host:active{cursor:grabbing}
 .ln-canvas-host canvas{width:100%;height:100%;display:block}
+.ln-stage:not([data-state="running"]):not([data-state="paused"]) .ln-canvas-host canvas{visibility:hidden}
+.ln-icon-button[aria-pressed="true"]{color:var(--color-ln-lime);border-color:var(--color-ln-lime)}
 .ln-lens-fallback{visibility:visible;opacity:1;transition:opacity var(--duration-ln-ui) var(--ease-ln-out)}
 .ln-lens-fallback svg{display:block;width:100%;height:100%}
 .ln-stage[data-state="running"] .ln-lens-fallback,.ln-stage[data-state="paused"] .ln-lens-fallback{visibility:hidden;opacity:0}

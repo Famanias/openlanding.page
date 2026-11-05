@@ -120,6 +120,9 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   const carriage=new THREE.Group();carriage.name="front-carriage";root.add(carriage);
   for(const id of frontIds)carriage.add(r.nodes[id]);
   const collarUnlock=new THREE.Group();collarUnlock.name="collar-unlock";carriage.add(collarUnlock);collarUnlock.add(r.nodes["collar-outer"]);
+  const shardOrbit=new THREE.Group();shardOrbit.name="shard-orbit";carriage.add(shardOrbit);shardOrbit.add(r.nodes.shards);
+  const collarIdle=new THREE.Group();collarIdle.name="core-collar-idle";r.nodes["core-carrier"].add(collarIdle);collarIdle.add(r.nodes["collar-inner"]);
+  const fragmentRest=r.nodes.shards.children.filter(o=>(o as THREE.Mesh).isMesh).map(o=>({node:o,position:o.position.clone()}));
   const frontBearings=radialInstances("guide-rails",annulus(.026,.065,.08),4,1.3);
   bearings.push({mesh:frontBearings,moving:true});
   const clampLength=Math.hypot(.12,.115);
@@ -181,7 +184,8 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
     for(const [id,rest]of rests){r.nodes[id].position.copy(rest.position);r.nodes[id].rotation.copy(rest.rotation);}
     carriage.position.z=pose.frontCarriage+separation*.64;
     collarUnlock.rotation.z=.2*pose.unlock;
-    const offsets=pose.opticalOffsets,inspectionOffsets=[.48,.32,.16,0,-.16,-.32,-.64];
+    const offsets=pose.opticalOffsets,inspectionOffsets=[.48,.03,.02,0,-.16,-.32,-.64];
+    for(const fragment of fragmentRest)fragment.node.position.set(fragment.position.x*(1+separation*.35),fragment.position.y*(1+separation*.35),fragment.position.z+separation*.25);
     for(const [i,id]of OPTICAL_ORDER.entries()) {
       const target=id==="front-lens"?"core-carrier":r.nodes[id].parent===root?id:`${id}-cell`;
       r.nodes[target].position.z+=offsets[i]+separation*inspectionOffsets[i];
@@ -255,7 +259,13 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
     if(next.opticalOffsets.length!==7||next.panelSlide.length!==4||next.panelPivot.length!==4||![next.frontCarriage,next.guideExtension,next.unlock,...next.opticalOffsets,...next.panelSlide,...next.panelPivot].every(Number.isFinite))throw new Error("Invalid lens transformation pose");
     pose=next;apply();
   };
-  const rig={carriage,collarUnlock,hinges,setPose,setDeployment(amount:number){const u=clamp(amount);setPose(getLensTransformationPose(u===0?0:3+9*u));},setSeparation(amount:number){separation=clamp(amount);apply();},setFocus(radians:number){focus=Number.isFinite(radians)?THREE.MathUtils.clamp(radians,-Math.PI/2,Math.PI/2):0;apply();},measureAttachments};
+  const setAmbientPose=(ambient:{collar:number;shardOrbit:number;shardY:number})=>{
+    collarIdle.rotation.z=Number.isFinite(ambient.collar)?ambient.collar:0;
+    shardOrbit.rotation.z=Number.isFinite(ambient.shardOrbit)?ambient.shardOrbit:0;
+    shardOrbit.position.y=Number.isFinite(ambient.shardY)?ambient.shardY:0;
+    root.updateMatrixWorld(true);
+  };
+  const rig={carriage,collarUnlock,hinges,setPose,setAmbientPose,setDeployment(amount:number){const u=clamp(amount);setPose(getLensTransformationPose(u===0?0:3+9*u));},setSeparation(amount:number){separation=clamp(amount);apply();},setFocus(radians:number){focus=Number.isFinite(radians)?THREE.MathUtils.clamp(radians,-Math.PI/2,Math.PI/2):0;apply();},measureAttachments};
   root.userData.interiorRig=rig;
   return rig;
 }

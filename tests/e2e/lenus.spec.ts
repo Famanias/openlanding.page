@@ -152,6 +152,13 @@ test("reduced motion never mounts WebGL and runtime changes dispose the context"
   await page.emulateMedia({reducedMotion:"reduce"});await page.goto("/lenus");const stage=page.locator(".ln-stage");
   await expect(stage).toHaveAttribute("data-state","static");await expect(page.locator("canvas[data-lenus-renderer]")).toHaveCount(0);
   await expect(page.locator(".ln-lens-fallback")).toBeVisible();
+  const interior=page.getByRole("button",{name:"Inspect lens interior",exact:true});
+  await interior.click();await expect(stage).toHaveAttribute("data-inspection-mode","cutaway");
+  await expect(page.getByRole("button",{name:"Return to automatic hero view"})).toHaveAttribute("aria-pressed","true");
+  await expect(page.locator(".ln-lens-fallback [data-interior-optic]")).toHaveCount(7);
+  await expect(page.locator("canvas[data-lenus-renderer]")).toHaveCount(0);
+  await page.getByTestId("lenus-canvas-container").focus();await page.keyboard.press("c");
+  await expect(stage).toHaveAttribute("data-inspection-mode","hero");
   await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
   const oldCanvas=await page.locator("canvas[data-lenus-renderer]").elementHandle();
   await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
@@ -191,8 +198,15 @@ test("no JavaScript and blocked graphics retain the headline and full SVG previe
 test("paused geometry still responds to explicit explosion, focus and reset commands",async({page})=>{
   await page.goto("/lenus");await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","running",{timeout:60_000});
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();
+  await page.getByRole("button",{name:"Reset optical view"}).click();
   const canvas=page.locator("canvas[data-lenus-renderer]");
   const assembled=await canvas.screenshot();
+  await page.getByTestId("lenus-canvas-container").focus();await page.keyboard.press("c");
+  await expect(page.locator(".ln-stage")).toHaveAttribute("data-inspection-mode","cutaway");
+  await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","paused");
+  await page.keyboard.press("c");
+  await expect(page.locator(".ln-stage")).toHaveAttribute("data-inspection-mode","hero");
+  await expect.poll(async()=>(await canvas.screenshot()).equals(assembled)).toBe(true);
   await page.getByRole("button",{name:"EXPLODE ASSEMBLY",exact:true}).click();
   await expect.poll(async()=>(await canvas.screenshot()).equals(assembled)).toBe(false);
   const exploded=await canvas.screenshot();

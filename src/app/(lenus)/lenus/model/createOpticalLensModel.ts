@@ -23,6 +23,7 @@ export type LensRuntime = {
   setFocusRing: (radians: number) => void;
   setTransformationPose: (pose:LensTransformationPose) => void;
   setCutaway: (enabled:boolean) => void;
+  setAmbientPose: (pose:{collar:number;shardOrbit:number;shardY:number}) => void;
   pickPart: (object: THREE.Object3D | null) => THREE.Group | null;
   dispose: () => void;
 };
@@ -104,6 +105,7 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as Op
     setFocusRing: () => {},
     setTransformationPose: () => {},
     setCutaway: () => {},
+    setAmbientPose: () => {},
     pickPart: () => null,
     dispose: () => {},
   };
@@ -228,6 +230,7 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as Op
   runtime.setFocusRing=rig.setFocus;
   runtime.setTransformationPose=rig.setPose;
   runtime.setCutaway=(enabled:boolean)=>rig.setPose(getLensTransformationPose(enabled?12:0));
+  runtime.setAmbientPose=rig.setAmbientPose;
   runtime.pickPart = (object: THREE.Object3D | null) => {
     let cur: THREE.Object3D | null = object;
     while (cur && cur !== root) {

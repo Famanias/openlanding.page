@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import type { LenusSceneController } from "../scene/LenusSceneController";
-import { getPartTelemetry } from "../scene/telemetry";
+import type { LenusSceneController, LenusInspectionSnapshot } from "../scene/LenusSceneController";
+import { getPartTelemetry, getSemanticPartCount, isInteriorPart, prefersRearView } from "../scene/telemetry";
 import LenusLensFallback from "./LenusLensFallback";
 import { LenusHudControls, type LenusStageState } from "./LenusHudControls";
 
@@ -14,6 +14,8 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const pose=useRef({explode:0,focus:0});
   const animationTime=useRef(0);
   const resolutionScale=useRef(1);
+  const inspectionState=useRef<LenusInspectionSnapshot|null>(null);
+  const cutawayValue=useRef(false);
   const policy=useRef({suspended,paused:false});
   const [state,setState]=useState<LenusStageState>("preview");
   const [fps,setFps]=useState(0);
@@ -23,6 +25,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const [activePart,setActivePart]=useState(()=>getPartTelemetry(null));
   const [locked,setLocked]=useState(false);
   const [activationNeeded,setActivationNeeded]=useState(false);
+  const [cutaway,setCutaway]=useState(false);
   const lastPick=useRef(0),pointerStart=useRef({x:0,y:0});
   const instructions=useId();
 
@@ -39,14 +42,14 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
       const c=controller.current;
       if(!active||!c)return;
       const shouldRun=inView&&document.visibilityState!=="hidden"&&!policy.current.suspended&&!policy.current.paused;
-      if(shouldRun)c.start();else c.stop();
+      if(shouldRun)c.start();else c.stop(policy.current.paused&&inView&&document.visibilityState!=="hidden"&&!policy.current.suspended&&!lost);
       setState(lost?"lost":shouldRun?"running":"paused");
     };
     synchronize.current=sync;
     const boot=async()=>{
       if(controller.current&&!media.matches){sync();return;}
       const ticket=++revision;
-      if(controller.current){animationTime.current=controller.current.getAnimationTime();resolutionScale.current=controller.current.getResolutionScale();}
+      if(controller.current){animationTime.current=controller.current.getAnimationTime();resolutionScale.current=controller.current.getResolutionScale();inspectionState.current=controller.current.getInspectionSnapshot();}
       controller.current?.dispose();controller.current=null;lost=false;
       if(media.matches){setActivationNeeded(false);setState("static");return;}
       if(!activated&&(window.matchMedia("(pointer: coarse)").matches||window.innerWidth<700)){
@@ -60,6 +63,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
         const instance=new LenusSceneController({
           initialAnimationTime:animationTime.current,
           initialResolutionScale:resolutionScale.current,
+          initialInspectionState:inspectionState.current??undefined,
           onFps:value=>{if(active&&ticket===revision)setFps(value);},
           onContextChange:value=>{if(!active||ticket!==revision)return;lost=value==="lost";sync();},
           onPartChange:part=>{if(active&&ticket===revision)setActivePart(current=>current.id===part.id?current:part);},
@@ -67,7 +71,9 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
         controller.current=instance;
         instance.init(container);
         // Commands can arrive before this import resolves or survive a preference change.
-        instance.setExplodeTarget(pose.current.explode);instance.setFocusTarget(pose.current.focus);
+        if(!inspectionState.current||inspectionState.current.controls.explode!==pose.current.explode)instance.setExplodeTarget(pose.current.explode,false);
+        if(!inspectionState.current||inspectionState.current.controls.focus!==pose.current.focus)instance.setFocusTarget(pose.current.focus);
+        instance.setInspectionMode(cutawayValue.current?"cutaway":"hero");
         sync();
       } catch {
         if(active&&ticket===revision){controller.current?.dispose();controller.current=null;setState("unavailable");}
@@ -95,13 +101,15 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   },[]);
 
   useEffect(()=>{
-    if(externalExplodeRequest>0){pose.current.explode=1;setExplodeAmount(1);controller.current?.setExplodeTarget(1);setPaused(false);activate.current();}
+    if(externalExplodeRequest>0){cutawayValue.current=true;setCutaway(true);pose.current.explode=1;setExplodeAmount(1);controller.current?.setInspectionMode("cutaway");controller.current?.setExplodeTarget(1);activate.current();}
   },[externalExplodeRequest]);
 
-  const changeExplode=(value:number)=>{pose.current.explode=value;setExplodeAmount(value);controller.current?.setExplodeTarget(value);};
+  const changeInspection=(value:boolean)=>{cutawayValue.current=value;setCutaway(value);controller.current?.setInspectionMode(value?"cutaway":"hero");if(!value){setLocked(false);setActivePart(getPartTelemetry(null));}};
+  const changeExplode=(value:number)=>{if(!cutawayValue.current)changeInspection(true);pose.current.explode=value;setExplodeAmount(value);controller.current?.setExplodeTarget(value);};
   const changeFocus=(value:number)=>{pose.current.focus=value;setFocusAngle(value);controller.current?.setFocusTarget(value);};
-  const reset=()=>{changeExplode(0);changeFocus(0);setLocked(false);setActivePart(getPartTelemetry(null));controller.current?.resetView();};
-  const toggleExplode=()=>changeExplode(pose.current.explode>.5?0:1);
+  const reset=()=>{pose.current={explode:0,focus:0};animationTime.current=0;inspectionState.current=null;cutawayValue.current=false;setCutaway(false);setExplodeAmount(0);setFocusAngle(0);setLocked(false);setActivePart(getPartTelemetry(null));controller.current?.resetView();};
+  const toggleExplode=()=>changeExplode(cutawayValue.current&&pose.current.explode>.5?0:1);
+  const selectPart=(id:string)=>{const part=getPartTelemetry(id);if(isInteriorPart(part.id)||prefersRearView(part.id))changeInspection(true);controller.current?.inspectPart(part.id);setLocked(part.id!=="assembly");setActivePart(part);};
   const coordinates=(event:PointerEvent<HTMLDivElement>)=>{
     const canvas=controller.current?.getRenderer()?.domElement;
     const rect=(canvas??event.currentTarget).getBoundingClientRect();
@@ -115,26 +123,27 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const pick=(event:PointerEvent<HTMLDivElement>)=>{
     if(Math.hypot(event.clientX-pointerStart.current.x,event.clientY-pointerStart.current.y)>6)return;
     if(activationNeeded){activate.current();return;}
-    const p=coordinates(event);controller.current?.pickAtNormalizedCanvas(p.x,p.y);setLocked(true);
+    const p=coordinates(event);const part=controller.current?.pickAtNormalizedCanvas(p.x,p.y);if(part)selectPart(part.id);
   };
   const keyboard=(event:KeyboardEvent<HTMLDivElement>)=>{
     if(event.target!==event.currentTarget)return;
+    if(event.key==="c"||event.key==="C"){event.preventDefault();changeInspection(!cutawayValue.current);return;}
     if(activationNeeded&&(event.key==="Enter"||event.key===" ")){event.preventDefault();activate.current();return;}
     if(!["running","paused"].includes(state))return;
     const actions:Record<string,()=>void>={ArrowLeft:()=>controller.current?.rotateView(-.12,0),ArrowRight:()=>controller.current?.rotateView(.12,0),ArrowUp:()=>controller.current?.rotateView(0,-.1),ArrowDown:()=>controller.current?.rotateView(0,.1),e:toggleExplode,E:toggleExplode,r:reset,R:reset,Home:reset,Escape:()=>setLocked(false)};
     if(actions[event.key]){event.preventDefault();actions[event.key]();}
   };
   const message:Record<LenusStageState,string>={preview:activationNeeded?"Tap the lens to explore in 3D.":"Optical preview. Interactive controls load when available.",running:"Drag to explore. Select a fragment to inspect.",paused:suspended?"Optical view paused while the panel is open.":"Optical view paused.",static:"Reduced motion is on. Showing a still optical preview.",unavailable:"Interactive graphics are unavailable. Showing a still optical preview.",lost:"Graphics connection lost. Showing the preview while reconnecting."};
-  return <section className="ln-stage" data-state={state} data-exploded={explodeAmount>.5} aria-label="Optical lens experience">
+  return <section className="ln-stage" data-state={state} data-inspection-mode={cutaway?"cutaway":"hero"} data-exploded={cutaway&&explodeAmount>.5} aria-label="Optical lens experience">
     <div className="ln-lens-plot">
       <div className="ln-aperture" aria-hidden="true"/>
-      <LenusLensFallback/>
+      <LenusLensFallback cutaway={cutaway}/>
       <div ref={host} className="ln-canvas-host" data-testid="lenus-canvas-container" tabIndex={0} role={activationNeeded?"button":"group"} aria-label="Interactive Lenus optical lens assembly" aria-describedby={instructions} onPointerMove={move} onPointerLeave={()=>controller.current?.setPointer(0,0)} onPointerDown={event=>{pointerStart.current={x:event.clientX,y:event.clientY};}} onPointerUp={pick} onKeyDown={keyboard}/>
       <span className="ln-stage-marker ln-stage-marker-top" aria-hidden="true">LENUS / OPTICAL SYSTEMS</span>
-      <span className="ln-stage-marker ln-stage-marker-bottom" aria-hidden="true">N 1.52 <span>19 PARTS</span></span>
+      <span className="ln-stage-marker ln-stage-marker-bottom" aria-hidden="true">N 1.52 <span>{getSemanticPartCount()} PARTS</span></span>
     </div>
-    <p id={instructions} className="ln-sr-only">{activationNeeded?"Press Enter or tap to start the optical experience. ":""}Use arrow keys to rotate, E to separate the assembly, R or Home to reset. Use the part selector to inspect each component.</p>
+    <p id={instructions} className="ln-sr-only">{activationNeeded?"Press Enter or tap to start the optical experience. ":""}Use arrow keys to rotate, C to inspect the interior, E to separate the assembly, R or Home to reset. Use the part selector to inspect each component.</p>
     <p className="ln-stage-help" role="status">{message[state]}</p>
-    <LenusHudControls state={state} fps={fps} paused={paused} exploded={explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={()=>setPaused(value=>!value)} onPartSelect={id=>{setLocked(true);setActivePart(getPartTelemetry(id));}}/>
+    <LenusHudControls state={state} fps={fps} paused={paused} cutaway={cutaway} onToggleCutaway={()=>changeInspection(!cutawayValue.current)} exploded={cutaway&&explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={()=>setPaused(value=>!value)} onPartSelect={selectPart}/>
   </section>;
 }
