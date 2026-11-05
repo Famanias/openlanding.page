@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waypoint — Pitch with intention. Land the offer.</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --wyp-bg-canvas: #EDE6DF;
+      --wyp-bg-canvas-subtle: #F5EFEB;
+      --wyp-bg-surface: #FFFFFF;
+      --wyp-border-subtle: #E5DDD4;
+      --wyp-text-primary: #121417;
+      --wyp-text-secondary: #2B2F38;
+      --wyp-text-muted: #666E7D;
+      --wyp-accent-sage: #D8EADF;
+      --wyp-accent-sky: #DBE8FA;
+      --wyp-accent-apricot: #FCE8DC;
+      --wyp-accent-lavender: #ECE6F6;
+      --wyp-bg-footer: #16181D;
+      --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    body {
+      background-color: var(--wyp-bg-canvas);
+      color: var(--wyp-text-primary);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* Container */
+    .wyp-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    .wyp-header {
+      position: sticky;
+      top: 16px;
+      z-index: 50;
+      max-width: 1200px;
+      margin: 16px auto 0;
+      padding: 0 24px;
+    }
+    .wyp-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      padding: 0 24px;
+      background-color: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 9999px;
+      box-shadow: 0 4px 20px rgba(18, 20, 23, 0.04);
+    }
+    .wyp-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: -0.03em;
+      color: var(--wyp-text-primary);
+    }
+    .wyp-logo-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--wyp-text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .wyp-logo-mark svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--wyp-accent-sage);
+    }
+    .wyp-nav-links {
+      display: none;
+      align-items: center;
+      gap: 32px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--wyp-text-muted);
+    }
+    @media (min-width: 768px) {
+      .wyp-nav-links { display: flex; }
+    }
+    .wyp-nav-links a:hover {
+      color: var(--wyp-text-primary);
+    }
+    .wyp-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .wyp-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--wyp-text-primary);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 9999px;
+      transition: opacity 0.15s ease;
+    }
+    .wyp-btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    /* Hero Section */
+    .wyp-hero {
+      padding: 80px 0 40px;
+      text-align: center;
+    }
+    .wyp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--wyp-bg-surface);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--wyp-text-secondary);
+      margin-bottom: 24px;
+    }
+    .wyp-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10B981;
+    }
+    .wyp-hero h1 {
+      font-size: clamp(38px, 6vw, 68px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      color: var(--wyp-text-primary);
+      max-width: 900px;
+      margin: 0 auto 20px;
+    }
+    .wyp-hero p {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--wyp-text-muted);
+      max-width: 640px;
+      margin: 0 auto 36px;
+      line-height: 1.5;
+    }
+    .wyp-hero-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+    .wyp-btn-hero-pri {
+      background: var(--wyp-text-primary);
+      color: #FFFFFF;
+      padding: 14px 28px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 15px;
+      box-shadow: 0 4px 12px rgba(18, 20, 23, 0.12);
+    }
+    .wyp-btn-hero-sec {
+      background: var(--wyp-bg-surface);
+      color: var(--wyp-text-primary);
+      border: 1px solid var(--wyp-border-subtle);
+      padding: 14px 28px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    /* Hero Dashboard Deck */
+    .wyp-deck-container {
+      margin-top: 20px;
+      background: var(--wyp-bg-surface);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(18, 20, 23, 0.08);
+      text-align: left;
+    }
+    .wyp-deck-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--wyp-border-subtle);
+    }
+    .wyp-deck-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--wyp-text-primary);
+    }
+    .wyp-deck-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .wyp-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      color: var(--wyp-text-primary);
+    }
+    .wyp-pill-sage { background: var(--wyp-accent-sage); }
+    .wyp-pill-sky { background: var(--wyp-accent-sky); }
+    .wyp-pill-apricot { background: var(--wyp-accent-apricot); }
+
+    .wyp-deck-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .wyp-col {
+      background: var(--wyp-bg-canvas-subtle);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .wyp-col-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--wyp-text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .wyp-col-count {
+      background: var(--wyp-border-subtle);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 11px;
+      color: var(--wyp-text-muted);
+    }
+    .wyp-card {
+      background: var(--wyp-bg-surface);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 8px;
+      padding: 12px 14px;
+      box-shadow: 0 2px 6px rgba(18, 20, 23, 0.03);
+    }
+    .wyp-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .wyp-card-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--wyp-text-primary);
+    }
+    .wyp-card-role {
+      font-size: 11px;
+      color: var(--wyp-text-muted);
+      margin-bottom: 8px;
+    }
+    .wyp-card-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .wyp-card-offer {
+      border: 2px solid var(--wyp-accent-sage);
+      background: var(--wyp-bg-surface);
+    }
+    .wyp-card-offer .wyp-offer-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--wyp-text-primary);
+      margin: 8px 0 2px;
+    }
+
+    /* Bento Grid Section */
+    .wyp-section {
+      padding: 80px 0;
+    }
+    .wyp-section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+    .wyp-section-header h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--wyp-text-primary);
+      margin-bottom: 12px;
+    }
+    .wyp-section-header p {
+      font-size: 16px;
+      color: var(--wyp-text-muted);
+    }
+
+    .wyp-bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+    .wyp-bento-card {
+      background: var(--wyp-bg-surface);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(18, 20, 23, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .wyp-bento-large {
+      grid-column: span 12;
+    }
+    @media (min-width: 768px) {
+      .wyp-bento-span-7 { grid-column: span 7; }
+      .wyp-bento-span-5 { grid-column: span 5; }
+      .wyp-bento-span-6 { grid-column: span 6; }
+    }
+    .wyp-bento-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--wyp-text-primary);
+      margin-bottom: 6px;
+    }
+    .wyp-bento-card p {
+      font-size: 13px;
+      color: var(--wyp-text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* Interactive Calendar Widget */
+    .wyp-calendar {
+      background: var(--wyp-bg-canvas-subtle);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .wyp-cal-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .wyp-cal-day-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--wyp-text-muted);
+    }
+    .wyp-cal-btn {
+      padding: 8px 4px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--wyp-text-primary);
+      background: var(--wyp-bg-surface);
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+    .wyp-cal-btn:hover {
+      border-color: var(--wyp-border-subtle);
+    }
+    .wyp-cal-btn.active {
+      background: var(--wyp-text-primary);
+      color: #FFFFFF;
+    }
+
+    /* Interactive Kanban Widget */
+    .wyp-kanban-preview {
+      background: var(--wyp-bg-canvas-subtle);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .wyp-kanban-steps {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .wyp-kanban-step-pill {
+      flex: 1;
+      text-align: center;
+      padding: 6px 4px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 6px;
+      background: var(--wyp-bg-surface);
+      color: var(--wyp-text-muted);
+      border: 1px solid var(--wyp-border-subtle);
+      transition: all 0.2s ease;
+    }
+    .wyp-kanban-step-pill.active {
+      background: var(--wyp-accent-sage);
+      color: var(--wyp-text-primary);
+      border-color: var(--wyp-accent-sage);
+    }
+    .wyp-btn-cycle {
+      width: 100%;
+      padding: 8px 0;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--wyp-text-primary);
+      color: #FFFFFF;
+      border-radius: 6px;
+    }
+
+    /* Encryption Toggle Widget */
+    .wyp-crypto-box {
+      background: var(--wyp-bg-canvas-subtle);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .wyp-crypto-info {
+      font-size: 12px;
+      color: var(--wyp-text-secondary);
+    }
+    .wyp-crypto-key {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--wyp-text-muted);
+      margin-top: 4px;
+    }
+    .wyp-toggle-btn {
+      background: var(--wyp-accent-sage);
+      color: var(--wyp-text-primary);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+
+    /* Live Inbound Toast Widget */
+    .wyp-toast-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .wyp-toast-item {
+      background: var(--wyp-bg-canvas-subtle);
+      border-left: 3px solid var(--wyp-accent-sky);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+    .wyp-toast-author {
+      font-weight: 700;
+      color: var(--wyp-text-primary);
+      display: flex;
+      justify-content: space-between;
+    }
+    .wyp-toast-msg {
+      color: var(--wyp-text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Pricing Section */
+    .wyp-pricing {
+      padding: 80px 0;
+      background: var(--wyp-bg-canvas-subtle);
+    }
+    .wyp-cadence-switch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--wyp-bg-surface);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 9999px;
+      padding: 4px;
+      width: fit-content;
+      margin: 0 auto 40px;
+    }
+    .wyp-cadence-btn {
+      padding: 8px 20px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--wyp-text-muted);
+      transition: all 0.2s;
+    }
+    .wyp-cadence-btn.active {
+      background: var(--wyp-text-primary);
+      color: #FFFFFF;
+    }
+
+    .wyp-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .wyp-price-card {
+      background: var(--wyp-bg-surface);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 16px;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .wyp-price-card.featured {
+      border: 2px solid var(--wyp-text-primary);
+      box-shadow: 0 12px 30px rgba(18, 20, 23, 0.08);
+    }
+    .wyp-price-badge {
+      position: absolute;
+      top: -12px;
+      right: 24px;
+      background: var(--wyp-text-primary);
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+    .wyp-plan-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--wyp-text-primary);
+      margin-bottom: 4px;
+    }
+    .wyp-plan-desc {
+      font-size: 13px;
+      color: var(--wyp-text-muted);
+      margin-bottom: 24px;
+    }
+    .wyp-plan-price {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--wyp-text-primary);
+      letter-spacing: -0.04em;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 24px;
+    }
+    .wyp-plan-period {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--wyp-text-muted);
+    }
+    .wyp-features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+      font-size: 13px;
+      color: var(--wyp-text-secondary);
+    }
+    .wyp-features-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .wyp-check-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--wyp-accent-sage);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .wyp-check-icon svg {
+      width: 10px;
+      height: 10px;
+      stroke: var(--wyp-text-primary);
+    }
+
+    /* FAQ Accordion Section */
+    .wyp-faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .wyp-faq-item {
+      background: var(--wyp-bg-surface);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .wyp-faq-q {
+      width: 100%;
+      text-align: left;
+      padding: 20px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--wyp-text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .wyp-faq-q svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s ease;
+    }
+    .wyp-faq-item.open .wyp-faq-q svg {
+      transform: rotate(180deg);
+    }
+    .wyp-faq-a {
+      display: none;
+      padding: 0 24px 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--wyp-text-muted);
+    }
+    .wyp-faq-item.open .wyp-faq-a {
+      display: block;
+    }
+
+    /* Waitlist Conversion Section */
+    .wyp-conversion-card {
+      background: var(--wyp-bg-surface);
+      border: 1px solid var(--wyp-border-subtle);
+      border-radius: 24px;
+      padding: 56px 32px;
+      text-align: center;
+      box-shadow: 0 16px 36px rgba(18, 20, 23, 0.06);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .wyp-conversion-card h2 {
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 800;
+      color: var(--wyp-text-primary);
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .wyp-conversion-card p {
+      font-size: 15px;
+      color: var(--wyp-text-muted);
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+    .wyp-form {
+      display: flex;
+      gap: 8px;
+      max-width: 440px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .wyp-input {
+      flex: 1;
+      min-width: 240px;
+      padding: 12px 18px;
+      border-radius: 9999px;
+      border: 1px solid var(--wyp-border-subtle);
+      font-size: 14px;
+      color: var(--wyp-text-primary);
+      background: var(--wyp-bg-canvas-subtle);
+      outline: none;
+    }
+    .wyp-input:focus {
+      border-color: var(--wyp-text-primary);
+    }
+    .wyp-form-success {
+      display: none;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #065F46;
+      background: var(--wyp-accent-sage);
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+
+    /* Footer Colophon */
+    .wyp-footer {
+      background: var(--wyp-bg-footer);
+      color: #A3AAB8;
+      padding: 80px 0 40px;
+      margin-top: 80px;
+    }
+    .wyp-footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    @media (max-width: 768px) {
+      .wyp-footer-top { grid-template-columns: 1fr; }
+    }
+    .wyp-footer-brand h4 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+    .wyp-footer-brand p {
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 300px;
+    }
+    .wyp-footer-col h5 {
+      font-size: 12px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .wyp-footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .wyp-footer-col a:hover {
+      color: #FFFFFF;
+    }
+    .wyp-footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 32px;
+      font-size: 12px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .wyp-footer-watermark {
+      font-size: clamp(48px, 10vw, 120px);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: rgba(255, 255, 255, 0.03);
+      user-select: none;
+      text-align: center;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Glass Header -->
+  <header class="wyp-header">
+    <div class="wyp-header-inner">
+      <a href="#hero" class="wyp-logo">
+        <div class="wyp-logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </div>
+        <span>waypoint</span>
+      </a>
+
+      <nav class="wyp-nav-links">
+        <a href="#pipeline">Pipeline</a>
+        <a href="#intelligence">Intelligence</a>
+        <a href="#security">Security</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="wyp-header-actions">
+        <a href="#waitlist" class="wyp-btn-primary">Request Invite</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section id="hero" class="wyp-hero">
+      <div class="wyp-container">
+        <div class="wyp-badge">
+          <span class="wyp-badge-dot"></span>
+          <span>Direct outreach for senior engineers &amp; designers</span>
+        </div>
+
+        <h1>Pitch with intention. Land the offer.</h1>
+
+        <p>The calm, systematic career outreach pipeline. Bypass applicant tracking systems and deliver confidential, structured pitches directly to hiring executives.</p>
+
+        <div class="wyp-hero-cta">
+          <a href="#waitlist" class="wyp-btn-hero-pri">Start Your Private Search</a>
+          <a href="#pipeline" class="wyp-btn-hero-sec">View Pipeline Mechanics</a>
+        </div>
+
+        <!-- Fold-Peeking Hero Pipeline Deck -->
+        <div id="pipeline" class="wyp-deck-container">
+          <div class="wyp-deck-header">
+            <div>
+              <div class="wyp-deck-title">Active Search: Senior Principal / Staff Infrastructure</div>
+              <div style="font-size: 12px; color: var(--wyp-text-muted); margin-top: 2px;">Confidential Candidate ID: WYP-8842-CA</div>
+            </div>
+            <div class="wyp-deck-pills">
+              <span class="wyp-pill wyp-pill-sage">24-hr SLA Active</span>
+              <span class="wyp-pill wyp-pill-sky">AES-256 E2EE</span>
+              <span class="wyp-pill wyp-pill-apricot">Executive Backchannel</span>
+            </div>
+          </div>
+
+          <div class="wyp-deck-columns">
+            <!-- Pitched Column -->
+            <div class="wyp-col">
+              <div class="wyp-col-title">
+                <span>PITCHED</span>
+                <span class="wyp-col-count">3</span>
+              </div>
+              <div class="wyp-card">
+                <div class="wyp-card-top">
+                  <div class="wyp-card-name">Linear</div>
+                  <span class="wyp-card-tag" style="background: var(--wyp-accent-sky);">Warm Pitch</span>
+                </div>
+                <div class="wyp-card-role">Staff Product Engineer</div>
+                <div style="font-size: 10px; color: var(--wyp-text-muted);">Delivered to CTO · Today</div>
+              </div>
+              <div class="wyp-card">
+                <div class="wyp-card-top">
+                  <div class="wyp-card-name">Stripe</div>
+                  <span class="wyp-card-tag" style="background: var(--wyp-accent-apricot);">Exec Referral</span>
+                </div>
+                <div class="wyp-card-role">Principal Architect</div>
+                <div style="font-size: 10px; color: var(--wyp-text-muted);">Opened by VP Eng · 2h ago</div>
+              </div>
+              <div class="wyp-card">
+                <div class="wyp-card-top">
+                  <div class="wyp-card-name">Figma</div>
+                  <span class="wyp-card-tag" style="background: var(--wyp-accent-lavender);">VP Reach</span>
+                </div>
+                <div class="wyp-card-role">Design Systems Lead</div>
+                <div style="font-size: 10px; color: var(--wyp-text-muted);">Queued dispatch</div>
+              </div>
+            </div>
+
+            <!-- In Review Column -->
+            <div class="wyp-col">
+              <div class="wyp-col-title">
+                <span>IN REVIEW</span>
+                <span class="wyp-col-count">2</span>
+              </div>
+              <div class="wyp-card">
+                <div class="wyp-card-top">
+                  <div class="wyp-card-name">OpenAI</div>
+                  <span class="wyp-card-tag" style="background: var(--wyp-accent-sage);">Recruiter Screen</span>
+                </div>
+                <div class="wyp-card-role">Compute &amp; Infrastructure</div>
+                <div style="font-size: 11px; font-weight: 600; color: var(--wyp-text-primary);">Async feedback received</div>
+              </div>
+              <div class="wyp-card">
+                <div class="wyp-card-top">
+                  <div class="wyp-card-name">Datadog</div>
+                  <span class="wyp-card-tag" style="background: var(--wyp-accent-sky);">Tech Sync</span>
+                </div>
+                <div class="wyp-card-role">Platform Reliability</div>
+                <div style="font-size: 11px; font-weight: 600; color: var(--wyp-text-primary);">Reviewing design doc</div>
+              </div>
+            </div>
+
+            <!-- Panel Round Column -->
+            <div class="wyp-col">
+              <div class="wyp-col-title">
+                <span>PANEL ROUND</span>
+                <span class="wyp-col-count">1</span>
+              </div>
+              <div class="wyp-card">
+                <div class="wyp-card-top">
+                  <div class="wyp-card-name">Airbnb</div>
+                  <span class="wyp-card-tag" style="background: var(--wyp-accent-apricot);">Full Loop</span>
+                </div>
+                <div class="wyp-card-role">Guest Platform Lead</div>
+                <div style="font-size: 11px; font-weight: 600; color: var(--wyp-text-secondary); margin-top: 4px;">Scheduled: Nov 12 · 2:00 PM</div>
+                <div style="font-size: 10px; color: var(--wyp-text-muted); margin-top: 2px;">4 Sessions · Architecture &amp; Values</div>
+              </div>
+            </div>
+
+            <!-- Offer Stage Column -->
+            <div class="wyp-col" style="border-color: var(--wyp-accent-sage);">
+              <div class="wyp-col-title">
+                <span style="color: var(--wyp-text-primary);">OFFER STAGE</span>
+                <span class="wyp-col-count" style="background: var(--wyp-accent-sage); color: var(--wyp-text-primary);">1</span>
+              </div>
+              <div class="wyp-card wyp-card-offer">
+                <div class="wyp-card-top">
+                  <div class="wyp-card-name">Anthropic</div>
+                  <span class="wyp-card-tag" style="background: var(--wyp-accent-sage); font-weight: 700;">OFFER RECEIVED</span>
+                </div>
+                <div class="wyp-card-role">Staff Research Systems</div>
+                <div class="wyp-offer-val">$420,000</div>
+                <div style="font-size: 11px; color: var(--wyp-text-muted); margin-bottom: 12px;">Base + Significant Equity Grant</div>
+                <button class="wyp-btn-primary" style="width: 100%; font-size: 11px; padding: 8px;">Review Formal Terms</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bento Grid Section -->
+    <section id="intelligence" class="wyp-section">
+      <div class="wyp-container">
+        <div class="wyp-section-header">
+          <h2>Purpose-built for executive career moves</h2>
+          <p>Every tool engineered to give senior technical talent clarity, agency, and uncompromising privacy.</p>
+        </div>
+
+        <div class="wyp-bento-grid">
+          <!-- Bento 1: Calendar Sync -->
+          <div class="wyp-bento-card wyp-bento-span-7">
+            <div>
+              <h3>Interview Round Scheduler</h3>
+              <p>Coordinate loops without exposing personal calendars or leaving corporate breadcrumbs.</p>
+            </div>
+            <div class="wyp-calendar">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--wyp-text-primary);">
+                <span>November 2026</span>
+                <span id="cal-status" style="color: var(--wyp-text-muted);">Select a date</span>
+              </div>
+              <div class="wyp-cal-days">
+                <span class="wyp-cal-day-label">M</span>
+                <span class="wyp-cal-day-label">T</span>
+                <span class="wyp-cal-day-label">W</span>
+                <span class="wyp-cal-day-label">T</span>
+                <span class="wyp-cal-day-label">F</span>
+                <span class="wyp-cal-day-label">S</span>
+                <span class="wyp-cal-day-label">S</span>
+                <button class="wyp-cal-btn" onclick="selectDate(this, 9)">9</button>
+                <button class="wyp-cal-btn" onclick="selectDate(this, 10)">10</button>
+                <button class="wyp-cal-btn" onclick="selectDate(this, 11)">11</button>
+                <button class="wyp-cal-btn active" onclick="selectDate(this, 12)">12</button>
+                <button class="wyp-cal-btn" onclick="selectDate(this, 13)">13</button>
+                <button class="wyp-cal-btn" onclick="selectDate(this, 14)">14</button>
+                <button class="wyp-cal-btn" onclick="selectDate(this, 15)">15</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 2: Kanban Card Advance -->
+          <div class="wyp-bento-card wyp-bento-span-5">
+            <div>
+              <h3>Dynamic Stage Progression</h3>
+              <p>Simulate pipeline velocity. Advance candidate cards through verified review stages.</p>
+            </div>
+            <div class="wyp-kanban-preview">
+              <div class="wyp-kanban-steps">
+                <div id="step-0" class="wyp-kanban-step-pill active">Pitched</div>
+                <div id="step-1" class="wyp-kanban-step-pill">Review</div>
+                <div id="step-2" class="wyp-kanban-step-pill">Panel</div>
+                <div id="step-3" class="wyp-kanban-step-pill">Offer</div>
+              </div>
+              <div id="kanban-target-name" style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Linear · Staff Product Engineer</div>
+              <button class="wyp-btn-cycle" onclick="advanceKanban()">Advance Stage &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Bento 3: Zero-Knowledge Encryption -->
+          <div id="security" class="wyp-bento-card wyp-bento-span-6">
+            <div>
+              <h3>Client-Side Zero-Knowledge Encryption</h3>
+              <p>Your compensation goals, pitch letters, and current company status are encrypted in your browser.</p>
+            </div>
+            <div class="wyp-crypto-box">
+              <div class="wyp-crypto-info">
+                <div id="crypto-state-text" style="font-weight: 700;">AES-GCM-256: Active</div>
+                <div id="crypto-key-text" class="wyp-crypto-key">Key: 7f8a9e...3d2c (Client-Only)</div>
+              </div>
+              <button id="crypto-toggle-btn" class="wyp-toggle-btn" onclick="toggleCrypto()">Verified</button>
+            </div>
+          </div>
+
+          <!-- Bento 4: Simulated Inbound Toast Feed -->
+          <div class="wyp-bento-card wyp-bento-span-6">
+            <div>
+              <h3>Verified Inbound Direct Responses</h3>
+              <p>Live responses from hiring leaders delivered directly into your private console.</p>
+            </div>
+            <div class="wyp-toast-feed" id="toast-feed">
+              <div class="wyp-toast-item">
+                <div class="wyp-toast-author">
+                  <span>Head of Infrastructure @ OpenAI</span>
+                  <span style="font-size: 10px; color: var(--wyp-text-muted);">14m ago</span>
+                </div>
+                <div class="wyp-toast-msg">"Reviewed the distributed systems doc. Let's set up 45m with the team this week."</div>
+              </div>
+            </div>
+            <button style="margin-top: 10px; font-size: 11px; font-weight: 600; color: var(--wyp-text-muted); text-align: right;" onclick="simulateInboundToast()">+ Simulate Inbound Ping</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="wyp-pricing">
+      <div class="wyp-container">
+        <div class="wyp-section-header">
+          <h2>Transparent, candidate-aligned pricing</h2>
+          <p>No recruiter commissions. No percentage of your first year salary. Pay a simple flat cadence for the duration of your search.</p>
+        </div>
+
+        <div class="wyp-cadence-switch">
+          <button id="cadence-monthly" class="wyp-cadence-btn active" onclick="setCadence('monthly')">Monthly</button>
+          <button id="cadence-annual" class="wyp-cadence-btn" onclick="setCadence('annual')">Annual (Save 20%)</button>
+        </div>
+
+        <div class="wyp-pricing-grid">
+          <!-- Plan 1: Scout -->
+          <div class="wyp-price-card">
+            <div>
+              <div class="wyp-plan-name">Scout</div>
+              <div class="wyp-plan-desc">For passive monitoring and exploring selective opportunities.</div>
+              <div class="wyp-plan-price">
+                <span id="price-scout">$0</span>
+                <span class="wyp-plan-period">/ forever</span>
+              </div>
+              <ul class="wyp-features-list">
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Up to 2 concurrent pitches</li>
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Verified executive directory access</li>
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> End-to-end encrypted profile</li>
+              </ul>
+            </div>
+            <a href="#waitlist" class="wyp-btn-hero-sec" style="text-align: center;">Get Started</a>
+          </div>
+
+          <!-- Plan 2: Pro (Featured) -->
+          <div class="wyp-price-card featured">
+            <div class="wyp-price-badge">MOST POPULAR</div>
+            <div>
+              <div class="wyp-plan-name">Pro</div>
+              <div class="wyp-plan-desc">For active senior searches aiming for top-of-market compensation.</div>
+              <div class="wyp-plan-price">
+                <span id="price-pro">$28</span>
+                <span class="wyp-plan-period" id="period-pro">/ month</span>
+              </div>
+              <ul class="wyp-features-list">
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Unlimited concurrent pitches</li>
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> 24-hour recruiter SLA guarantee</li>
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Custom pitch letter engineering</li>
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Interview loop calendar intelligence</li>
+              </ul>
+            </div>
+            <a href="#waitlist" class="wyp-btn-primary" style="text-align: center; padding: 14px;">Select Pro</a>
+          </div>
+
+          <!-- Plan 3: Studio -->
+          <div class="wyp-price-card">
+            <div>
+              <div class="wyp-plan-name">Studio</div>
+              <div class="wyp-plan-desc">White-glove representation with dedicated executive search partner.</div>
+              <div class="wyp-plan-price">
+                <span id="price-studio">$58</span>
+                <span class="wyp-plan-period" id="period-studio">/ month</span>
+              </div>
+              <ul class="wyp-features-list">
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Everything in Pro</li>
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Dedicated career agent representation</li>
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Offer negotiation &amp; equity modeling</li>
+                <li><span class="wyp-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Private backchannel reference checking</li>
+              </ul>
+            </div>
+            <a href="#waitlist" class="wyp-btn-hero-sec" style="text-align: center;">Join Studio</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion Section -->
+    <section id="faq" class="wyp-section">
+      <div class="wyp-container">
+        <div class="wyp-section-header">
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know about navigating your confidential career pipeline.</p>
+        </div>
+
+        <div class="wyp-faq-list">
+          <div class="wyp-faq-item">
+            <button class="wyp-faq-q" onclick="toggleFaq(this)">
+              <span>How does Waypoint protect my confidentiality from my current employer?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="wyp-faq-a">
+              Waypoint enforces hard exclusions for your current company domain, its investors, and subsidiary entities. Your profile and pitch packets are strictly zero-knowledge encrypted on your machine and never appear on public directories.
+            </div>
+          </div>
+
+          <div class="wyp-faq-item">
+            <button class="wyp-faq-q" onclick="toggleFaq(this)">
+              <span>Do companies pay fees or take a cut of my compensation?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="wyp-faq-a">
+              No. Unlike contingency recruiters who take 20-25% of your base salary, Waypoint operates solely on a flat subscription paid by you. This eliminates conflicting incentives and leaves hiring managers with full budget flexibility for your offer.
+            </div>
+          </div>
+
+          <div class="wyp-faq-item">
+            <button class="wyp-faq-q" onclick="toggleFaq(this)">
+              <span>What level of experience is Waypoint tailored for?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="wyp-faq-a">
+              Waypoint is built specifically for Staff, Principal, and Executive engineering and product design leaders who are seeking high-impact, selective placements rather than volume applications.
+            </div>
+          </div>
+
+          <div class="wyp-faq-item">
+            <button class="wyp-faq-q" onclick="toggleFaq(this)">
+              <span>How quickly do hiring executives typically respond?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="wyp-faq-a">
+              Because Waypoint pitches are delivered with verified candidate seniority and tailored technical summaries directly to executive inboxes, our median time to initial response is under 36 hours.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Waitlist Conversion Card -->
+    <section id="waitlist" class="wyp-section">
+      <div class="wyp-container">
+        <div class="wyp-conversion-card">
+          <h2>Ready to orchestrate your next move?</h2>
+          <p>Join over 4,200 senior engineers and designers quietly navigating high-leverage offers.</p>
+          <form class="wyp-form" id="waitlist-form" onsubmit="handleWaitlist(event)">
+            <input type="email" id="waitlist-email" class="wyp-input" placeholder="Enter your private email..." required>
+            <button type="submit" class="wyp-btn-primary" style="padding: 12px 24px;">Request Early Access</button>
+          </form>
+          <div id="waitlist-success" class="wyp-form-success">
+            &#10003; Verification link sent. Check your private inbox to finalize your credentials.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Deep Obsidian Colophon Footer -->
+  <footer class="wyp-footer">
+    <div class="wyp-container">
+      <div class="wyp-footer-top">
+        <div class="wyp-footer-brand">
+          <h4>waypoint</h4>
+          <p>Pitch with intention. Land the offer. The calm, confidential direct outreach console for senior technical leaders.</p>
+        </div>
+        <div class="wyp-footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="#pipeline">Pipeline Deck</a></li>
+            <li><a href="#intelligence">Intelligence Feed</a></li>
+            <li><a href="#security">Zero-Knowledge Vault</a></li>
+            <li><a href="#pricing">Pricing Plans</a></li>
+          </ul>
+        </div>
+        <div class="wyp-footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#">Candidate Manifesto</a></li>
+            <li><a href="#">Compensation Index</a></li>
+            <li><a href="#">Privacy Protocol</a></li>
+            <li><a href="#">Security Audit</a></li>
+          </ul>
+        </div>
+        <div class="wyp-footer-col">
+          <h5>Legal</h5>
+          <ul>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Candidate NDA</a></li>
+            <li><a href="#">Security Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="wyp-footer-bottom">
+        <div>&copy; 2026 Waypoint Systems Inc. All rights reserved.</div>
+        <div>Encrypted &bull; Candidate-Owned &bull; No Recruiter Fees</div>
+      </div>
+
+      <div class="wyp-footer-watermark">
+        waypoint
+      </div>
+    </div>
+  </footer>
+
+  <!-- Vanilla Client Script for Offline Interactivity -->
+  <script>
+    // Calendar selector
+    function selectDate(btn, day) {
+      document.querySelectorAll('.wyp-cal-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('cal-status').textContent = 'Selected Nov ' + day + ', 2026';
+    }
+
+    // Kanban stage cycler
+    var kanbanIndex = 0;
+    var stages = ['Pitched', 'Review', 'Panel', 'Offer'];
+    function advanceKanban() {
+      kanbanIndex = (kanbanIndex + 1) % 4;
+      for (var i = 0; i < 4; i++) {
+        var el = document.getElementById('step-' + i);
+        if (i === kanbanIndex) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      }
+    }
+
+    // Encryption toggle
+    var cryptoActive = true;
+    function toggleCrypto() {
+      cryptoActive = !cryptoActive;
+      var textEl = document.getElementById('crypto-state-text');
+      var keyEl = document.getElementById('crypto-key-text');
+      var btnEl = document.getElementById('crypto-toggle-btn');
+      if (cryptoActive) {
+        textEl.textContent = 'AES-GCM-256: Active';
+        keyEl.textContent = 'Key: 7f8a9e...3d2c (Client-Only)';
+        btnEl.textContent = 'Verified';
+        btnEl.style.background = 'var(--wyp-accent-sage)';
+      } else {
+        textEl.textContent = 'AES-GCM-256: Paused';
+        keyEl.textContent = 'Key: [Unloaded from RAM]';
+        btnEl.textContent = 'Enable';
+        btnEl.style.background = 'var(--wyp-border-subtle)';
+      }
+    }
+
+    // Simulate inbound toast
+    var toastCount = 0;
+    var extraToasts = [
+      { author: 'VP of Product @ Stripe', msg: '"Love the portfolio case study. When can we talk architecture?"' },
+      { author: 'CTO @ Linear', msg: '"Your proposal on desktop sync reliability is spot on. Invited you to Slack."' },
+      { author: 'Design Director @ Figma', msg: '"Our design systems team would love to review your latest framework."' }
+    ];
+    function simulateInboundToast() {
+      var toast = extraToasts[toastCount % extraToasts.length];
+      toastCount++;
+      var feed = document.getElementById('toast-feed');
+      var div = document.createElement('div');
+      div.className = 'wyp-toast-item';
+      div.innerHTML = '<div class="wyp-toast-author"><span>' + toast.author + '</span><span style="font-size: 10px; color: var(--wyp-text-muted);">Just now</span></div><div class="wyp-toast-msg">' + toast.msg + '</div>';
+      feed.prepend(div);
+    }
+
+    // Pricing Cadence
+    function setCadence(cadence) {
+      var btnM = document.getElementById('cadence-monthly');
+      var btnA = document.getElementById('cadence-annual');
+      var pricePro = document.getElementById('price-pro');
+      var periodPro = document.getElementById('period-pro');
+      var priceStudio = document.getElementById('price-studio');
+      var periodStudio = document.getElementById('period-studio');
+
+      if (cadence === 'annual') {
+        btnM.classList.remove('active');
+        btnA.classList.add('active');
+        pricePro.textContent = '$22';
+        periodPro.textContent = '/ month (billed annually)';
+        priceStudio.textContent = '$48';
+        periodStudio.textContent = '/ month (billed annually)';
+      } else {
+        btnA.classList.remove('active');
+        btnM.classList.add('active');
+        pricePro.textContent = '$28';
+        periodPro.textContent = '/ month';
+        priceStudio.textContent = '$58';
+        periodStudio.textContent = '/ month';
+      }
+    }
+
+    // Accordion Toggle
+    function toggleFaq(btn) {
+      var item = btn.parentElement;
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.wyp-faq-item').forEach(function(i) { i.classList.remove('open'); });
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    }
+
+    // Form submission
+    function handleWaitlist(e) {
+      e.preventDefault();
+      var input = document.getElementById('waitlist-email');
+      var success = document.getElementById('waitlist-success');
+      if (input.value && input.value.indexOf('@') !== -1) {
+        success.style.display = 'block';
+        input.value = '';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-wyp-canvas: #EDE6DF;
+  --color-wyp-hero: #F5EFEB;
+  --color-wyp-surface-tint: #E5DDD4;
+  --color-wyp-card: #FFFFFF;
+  --color-wyp-card-subtle: #FAF8F5;
+
+  --color-wyp-obsidian: #121417;
+  --color-wyp-charcoal: #2B2F38;
+  --color-wyp-slate: #666E7D;
+
+  --color-wyp-sage: #D8EADF;
+  --color-wyp-sky: #DBE8FA;
+  --color-wyp-apricot: #FCE8DC;
+  --color-wyp-lavender: #ECE6F6;
+  --color-wyp-colophon: #16181D;
+
+  --font-display: var(--font-jakarta), var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-inter), system-ui, -apple-system, sans-serif;
+
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Base resets & typography */
+.wyp-body {
+  font-family: var(--font-body);
+  background-color: var(--color-wyp-canvas);
+  color: var(--color-wyp-obsidian);
+  min-height: 100vh;
+}
+
+/* Odometer rolling animation support */
+.wyp-odometer-wheel {
+  display: inline-flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 1em;
+  line-height: 1;
+}
+
+.wyp-odometer-strip {
+  transition: transform 420ms var(--ease-smooth);
+}
+
+/* Accessible reduced-motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-parallax] {
+    transform: none !important;
+  }
+}
