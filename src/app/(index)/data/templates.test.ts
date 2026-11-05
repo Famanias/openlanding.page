@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(69);
+    expect(TEMPLATES).toHaveLength(72);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["savepoint", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","arcandsignal","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["khora", "pitchlane", "strata", "savepoint", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","arcandsignal","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -77,6 +77,16 @@ describe("gallery template data", () => {
     expect(stillwater?.promptMarkdown.trim()).toBe(
       fs.readFileSync(path.join(process.cwd(), "src/app/(stillwater)/stillwater/PROMPT.md"), "utf8").replace(/\r\n/g, "\n").trim(),
     );
+  });
+
+  it("registers Khora, Pitchlane, and Strata with standalone downloads and matching rebuild prompts", () => {
+    for (const slug of ["khora", "pitchlane", "strata"] as const) {
+      const template = TEMPLATES.find((t) => t.slug === slug);
+      expect(template?.hasDownload).toBe(true);
+      expect(template?.promptMarkdown.trim()).toBe(
+        fs.readFileSync(path.join(process.cwd(), `src/app/(${slug})/${slug}/PROMPT.md`), "utf8").replace(/\r\n/g, "\n").trim(),
+      );
+    }
   });
 
   it("exports the complete SAVEPOINT rebuild prompt in the gallery", () => {

@@ -9,6 +9,9 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  khora: { name: "KHORA", dependencies: [], includeDownload: true },
+  pitchlane: { name: "Pitchlane", dependencies: [], includeDownload: true },
+  strata: { name: "STRATA", dependencies: [], includeDownload: true },
   savepoint: { name: "SAVEPOINT.", dependencies: ["three", "@types/three", "gsap", "zustand"] },
   penumbra: { name: "PENUMBRA", dependencies: ["lucide-react", "motion"] },
   zeno: { name: "ZENO.", dependencies: ["lucide-react", "motion"] },

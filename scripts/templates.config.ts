@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "savepoint" | "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra";
+export type TemplateSlug = "savepoint" | "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,21 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  khora: {
+    palette: ["#0F1012", "#E8EAE3", "#F7F8F5", "#17181C", "#91959B", "#E25822", "#7FA4A6", "#D2D9D9", "#FFFFFF", "#111111"],
+    paletteExempt: ["src/app/(khora)/"],
+    mediaExempt: true,
+  },
+  pitchlane: {
+    palette: ["#F7F8FF", "#17182B", "#687085", "#F8F9FF", "#7654DF", "#E6DFFB", "#FF716C", "#61BBFA", "#7A66E9", "#DDD3FF"],
+    paletteExempt: ["src/app/(pitchlane)/"],
+    mediaExempt: true,
+  },
+  strata: {
+    palette: ["#24221F", "#292620", "#E9E1D6", "#EFE9DF", "#BDA78F", "#AF765D", "#B89C81", "#1F1D19", "#C58E6A", "#F2E8DC"],
+    paletteExempt: ["src/app/(strata)/"],
+    mediaExempt: true,
+  },
   savepoint: { palette: ["#121419", "#0B0D12", "#1B1F28", "#252934", "#F2F0E8", "#A9ADB7", "#CDF266", "#7971B7", "#F47D62"], paletteExempt: ["src/app/(savepoint)/"], mediaExempt: true },
   penumbra: {
     palette: ["#111318", "#20252D", "#F2EBE2", "#D7A779", "#E9BB86", "#7E91A8", "#A6A29F"],
