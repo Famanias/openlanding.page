@@ -24,7 +24,6 @@ const COPY_METADATA: Record<
   nexus: { name: "nexus", dependencies: ["lucide-react", "motion"] },
   starriot: { name: "STAR RIOT", dependencies: ["lucide-react", "motion"] },
 
-  arcandsignal: { name: "Arc & Signal", dependencies: [] },
   stillwater: { name: "Stillwater", dependencies: [], includeDownload: true },
   mercer: { name: "Jules Mercer", dependencies: ["three", "lucide-react"] },
   landingx: { name: "Landing X", dependencies: [] },

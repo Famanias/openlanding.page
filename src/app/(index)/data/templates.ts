@@ -1,4 +1,4 @@
-export type TemplateSlug = "savepoint" | "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata";
+export type TemplateSlug = "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata";
 
 export type CategoryId =
   | "all"
@@ -944,10 +944,6 @@ export const AVEL_PROMPT = "# Prompt: rebuild “Avel” — more room for good 
 
 export const LANDINGX_PROMPT = "# Rebuild Landing X — a creative skill for landing pages\n\nBuild a complete responsive landing page for Landing X, the public-facing name of the create-landing-template agent skill. The site should showcase a diverse collection of real landing-page templates as its main attraction. Use impeccable.style only as inspiration for its restrained editorial typography, precise interface details, and motion; do not reproduce its layout, artwork, words, or before-and-after component.\n\n## Identity\n\nUse #BEAA97 as the primary light brown canvas and #815751 as the complementary rust. Use #E5DDD7, #E8EEEE, #4B3C2E and #826851 for supporting surfaces and text. Derive tints from these colors and darken the ink for small text on light brown. Use Barlow Condensed for tall, light display type, Manrope for body, and IBM Plex Mono for labels. Create an original crossed-X mark.\n\n## Composition\n\nBegin with a full-width typographic masthead and a small strip of three project previews, then move directly into a substantial project index and 16:9 gallery. Give the work enough space to be the focus. Show Avel, Pello, Satsuma, Firstday, Rill, and Hiyas as six projects, each with a clearly labeled image placeholder until the user supplies its screenshot. Include accessible category filters and links to the existing local examples. Follow with a concise explanation of the skill, a three-step brief-to-build sequence, a copyable starter brief, and a footer. Avoid the reference website's side-by-side hero and demo layout.\n\n## Interaction and quality\n\nUse the gallery filter and staggered project sheets as the signature interaction. Use subtle state changes, visible focus, restrained motion, and a scroll-progress indicator. All content must be visible without JavaScript and under reduced motion. The copy button should report success or failure honestly, while the brief remains selectable. Do not claim a fake install command or collect user data. Include metadata, a favicon, a standalone HTML version, responsive layouts, and meaningful browser tests.\n\n## Screenshots\n\nDo not generate project images. The six user-supplied 16:9 filenames and processing instructions are in docs/image-prompts/landingx.md. Use labelled, compositionally intentional placeholders until those assets are added.\n";
 
-export const ARCANDSIGNAL_PROMPT = `# Arc & Signal — fictional marketing agency
-
-Build a responsive marketing agency landing page for Arc & Signal. Use a dark midnight and violet palette (#0B0A20, #181339, #A887FF, #D9C8FF, #8DCBFF, #F8F6FF, #B9B2D0), DM Serif Display with DM Sans, and an original abstract signal horizon image. Lead with a centered hero and a Contact Us action, followed by services, projects, process, fictional social proof and a contact close. Show fictional company marks in a continuously counterclockwise circular carousel, keep them upright, and offer pause and reduced-motion support. Use accessible HTML, responsive CSS and no WebGL or Three.js.`;
-
 export const MERCER_PROMPT = `# Jules Mercer // Creative Developer
 
 Build an isolated Next.js portfolio hero at \`/mercer\`: a slate \`#0A0D10\` blueprint grid, Geist headline reading “I BUILD / WHAT YOU / IMAGINE.”, chartreuse \`#CCFF00\` final line and CTA, off-white \`#E8ECEF\` copy, Geist Mono navigation and telemetry. Include the JM. lockup, availability, email contact, project previews, and accessible project/about dialogs.
@@ -1812,20 +1808,6 @@ slug: "tally",
     badges: ["Original Photography", "Retreat Gallery", "Standalone HTML"],
     previewImage: "/templates/stillwater/preview-1600.webp",
     promptMarkdown: STILLWATER_PROMPT,
-    model: "GPT-6",
-  },
-  {
-    slug: "arcandsignal",
-    createdAt: "2026-11-02",
-    title: "Arc & Signal",
-    description: "A luminous marketing studio landing page with an original signal horizon and a counterclockwise orbit of fictional client brands.",
-    category: "marketing",
-    categories: ["marketing","minimal","saas","studio"],
-    industry: "Marketing & Creative Agency",
-    stack: "Next.js 16 · React 19 · Native Motion",
-    badges: ["Original Artwork", "Client Orbit", "Agency Portfolio"],
-    previewImage: "/templates/arcandsignal/preview-1600.webp",
-    promptMarkdown: ARCANDSIGNAL_PROMPT,
     model: "GPT-6",
   },
   {
