@@ -26,7 +26,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
     const o=new THREE.Object3D();o.name=name;o.position.copy(position);parent.add(o);r.sockets[name]=o;return o;
   };
   const matrix=new THREE.Matrix4();
-  const bearings: {mesh:THREE.InstancedMesh;moving:boolean}[]=[];
+  const bearings: {mesh:THREE.InstancedMesh;parent:THREE.Object3D;moving:boolean}[]=[];
   let fixedGuide:THREE.InstancedMesh,slidingGuide:THREE.InstancedMesh;
   function radialInstances(id:string,geometry:THREE.BufferGeometry,count:number,radius:number) {
     const mesh=addMesh(id,geometry,count) as THREE.InstancedMesh;
@@ -42,7 +42,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
     const armLength=1.3-.05-outer+.02;
     const arms=addMesh(c.id,new THREE.BoxGeometry(armLength,.045,.06),4) as THREE.InstancedMesh;
     const bearingMesh=radialInstances(c.id,annulus(c.id==="front-meniscus-cell"?.026:.043,.065,.08),4,1.3);
-    bearings.push({mesh:bearingMesh,moving:c.id==="front-meniscus-cell"});
+    bearings.push({mesh:bearingMesh,parent:r.nodes[c.id],moving:c.id==="front-meniscus-cell"});
     for(let i=0;i<4;i++) {
       const t=i*Math.PI/2+Math.PI/4;
       matrix.compose(new THREE.Vector3(Math.cos(t)*(outer-.02+armLength/2),Math.sin(t)*(outer-.02+armLength/2),0),new THREE.Quaternion().setFromAxisAngle(axis,t),one);
@@ -124,7 +124,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
   const collarIdle=new THREE.Group();collarIdle.name="core-collar-idle";r.nodes["core-carrier"].add(collarIdle);collarIdle.add(r.nodes["collar-inner"]);
   const fragmentRest=r.nodes.shards.children.filter(o=>(o as THREE.Mesh).isMesh).map(o=>({node:o,position:o.position.clone()}));
   const frontBearings=radialInstances("guide-rails",annulus(.026,.065,.08),4,1.3);
-  bearings.push({mesh:frontBearings,moving:true});
+  bearings.push({mesh:frontBearings,parent:frontBearings.parent!,moving:true});
   const clampLength=Math.hypot(.12,.115);
   const frontClamps=addMesh("guide-rails",new THREE.CylinderGeometry(.018,.018,clampLength,8).rotateX(Math.PI/2),4) as THREE.InstancedMesh;
   for(let i=0;i<4;i++) {
@@ -248,7 +248,7 @@ export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec
       railSurfaceGap=Math.max(railSurfaceGap,Math.abs(gap));
       guide.geometry.computeBoundingBox();bearing.mesh.geometry.computeBoundingBox();
       const guideZ=root.worldToLocal(guide.getWorldPosition(new THREE.Vector3())).z;
-      const bearingZ=root.worldToLocal(bearing.mesh.getWorldPosition(new THREE.Vector3())).z;
+      const bearingZ=root.worldToLocal(bearing.parent.localToWorld(bearing.mesh.position.clone())).z;
       const gb=guide.geometry.boundingBox!,bb=bearing.mesh.geometry.boundingBox!;
       railAxialOverlap=Math.min(railAxialOverlap,Math.min(guideZ+gb.max.z,bearingZ+bb.max.z)-Math.max(guideZ+gb.min.z,bearingZ+bb.min.z));
     }

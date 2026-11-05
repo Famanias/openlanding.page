@@ -4,13 +4,14 @@ import defaultSpec from "./lens-spec.json";
 import { createLensMaterials } from "./lensMaterials";
 import { deriveInteriorLayout, INTERIOR_IDS, validateInteriorClearances } from "./interiorLayout";
 import { createLensInterior } from "./createLensInterior";
+import { batchRigidHardware } from "./batchRigidHardware";
 import type { OpticalLensSpec } from "./lensTypes";
 import { getLensTransformationPose, type LensTransformationPose } from "./lensTransformation";
 export type { OpticalLensSpec } from "./lensTypes";
 
 export const BUILD_PASSES = ["blockout", "structural-pass", "form-refinement", "material-pass", "surface-pass", "lighting-pass", "interaction-pass", "optimization-pass"] as const;
 export type LensBuildPass = (typeof BUILD_PASSES)[number];
-export type OpticalLensOptions = { pass?: LensBuildPass; quality?: "high" | "low" };
+export type OpticalLensOptions = { pass?: LensBuildPass; quality?: "high" | "low"; batchOpaque?:boolean };
 export { defaultSpec as opticalLensSpec };
 
 export type LensRuntime = {
@@ -231,6 +232,7 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as Op
   runtime.setTransformationPose=rig.setPose;
   runtime.setCutaway=(enabled:boolean)=>rig.setPose(getLensTransformationPose(enabled?12:0));
   runtime.setAmbientPose=rig.setAmbientPose;
+  if(interiorStage>=7&&options.batchOpaque!==false)batchRigidHardware(root,runtime,addMesh);
   runtime.pickPart = (object: THREE.Object3D | null) => {
     let cur: THREE.Object3D | null = object;
     while (cur && cur !== root) {

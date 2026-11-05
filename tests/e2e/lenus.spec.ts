@@ -4,6 +4,8 @@ import path from "node:path";
 import sharp from "sharp";
 
 test.setTimeout(120_000);
+// Optional Windows native-GPU run; the default remains portable software CI.
+if(process.env.LENUS_NATIVE_GPU==="1")test.use({channel:"chromium",launchOptions:{args:["--use-angle=d3d11","--enable-webgl","--ignore-gpu-blocklist"]}});
 const shots=path.resolve(".openlanding-page/lenus/shots");
 async function setRange(control:Locator,value:number){
   await control.evaluate((element,value)=>{
@@ -12,6 +14,10 @@ async function setRange(control:Locator,value:number){
     input.dispatchEvent(new Event("input",{bubbles:true}));
     input.dispatchEvent(new Event("change",{bubbles:true}));
   },value);
+}
+async function meanFrameDifference(a:Buffer,b:Buffer){
+  const pixels=await Promise.all([a,b].map(buffer=>sharp(buffer).resize(128,128).removeAlpha().raw().toBuffer()));
+  return pixels[0].reduce((sum,value,i)=>sum+Math.abs(value-pixels[1][i]),0)/pixels[0].length;
 }
 
 test("desktop compiles a colored WebGL lens over the complete reference hero",async({page})=>{
@@ -64,13 +70,48 @@ test("the lens moves on its own, freezes when paused, and resumes its loop",asyn
   await page.waitForTimeout(1800);
   expect((await canvas.screenshot()).equals(before)).toBe(false);
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();
+  await expect(stage).toHaveAttribute("data-state","paused");
   const frozen=await canvas.screenshot();
   await page.waitForTimeout(350);
-  expect((await canvas.screenshot()).equals(frozen)).toBe(true);
+  // Native MSAA readback can vary by one byte with zero new WebGL draws.
+  expect(await meanFrameDifference(await canvas.screenshot(),frozen)).toBeLessThan(.001);
   await page.getByRole("button",{name:"Play animation",exact:true}).click();
   await expect(stage).toHaveAttribute("data-state","running");
   await page.evaluate(()=>new Promise<void>(resolve=>{let frames=0;const frame=()=>{if(++frames>=3)resolve();else requestAnimationFrame(frame);};requestAnimationFrame(frame);}));
   expect((await canvas.screenshot()).equals(frozen)).toBe(false);
+});
+
+test("automatic transformation reveals and reassembles without entering inspection",async({page})=>{
+  // Advance the browser's RAF timestamps through a complete cycle; production
+  // still owns its clock, pose application, camera and renderer.
+  await page.addInitScript(()=>{
+    const raf=window.requestAnimationFrame.bind(window);
+    Object.defineProperty(window,"__lenusTimeOffset",{value:0,writable:true});
+    window.requestAnimationFrame=callback=>raf(()=>callback(Number(Reflect.get(window,"__lenusTimeOffset"))));
+  });
+  await page.goto("/lenus");const stage=page.locator(".ln-stage"),canvas=page.locator("canvas[data-lenus-renderer]");
+  await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
+  await page.getByRole("button",{name:"Pause animation",exact:true}).click();await page.getByRole("button",{name:"Reset optical view"}).click();
+  const closed=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
+  const advance=async()=>{
+    await page.getByRole("button",{name:"Play animation",exact:true}).click();
+    await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
+    await page.evaluate(()=>{Reflect.set(window,"__lenusTimeOffset",Number(Reflect.get(window,"__lenusTimeOffset"))+12000);});
+    await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
+    await page.getByRole("button",{name:"Pause animation",exact:true}).click();
+  };
+  await advance();const open=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
+  const delta=(a:Buffer,b:Buffer)=>a.reduce((sum,value,i)=>sum+Math.abs(value-b[i]),0)/a.length;
+  const openingDifference=delta(closed,open);
+  expect(openingDifference).toBeGreaterThan(1);
+  await expect(stage).toHaveAttribute("data-inspection-mode","hero");
+  await expect(page.getByRole("button",{name:"Inspect lens interior",exact:true})).toHaveAttribute("aria-pressed","false");
+  await expect(page.getByRole("combobox",{name:"Inspect an optical part"}).locator("option")).toHaveCount(42);
+  await advance();const returned=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
+  expect(delta(closed,returned)).toBeLessThan(openingDifference*.45);
+  await page.getByRole("combobox",{name:"Inspect an optical part"}).selectOption("housing-panel-2");
+  await expect(stage).toHaveAttribute("data-inspection-mode","cutaway");
+  await expect(stage).toHaveAttribute("data-state","paused");
 });
 
 test("explosion, focus and keyboard part inspection operate the authored assembly",async({page})=>{
@@ -100,7 +141,7 @@ test("pause freezes the frame and compact-laptop resize keeps the full canvas as
   await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","paused");
   const canvas=page.locator("canvas[data-lenus-renderer]"),before=await canvas.screenshot();
   await page.mouse.move(1000,200);await page.waitForTimeout(150);
-  expect((await canvas.screenshot()).equals(before)).toBe(true);
+  expect(await meanFrameDifference(await canvas.screenshot(),before)).toBeLessThan(.001);
   await page.setViewportSize({width:900,height:700});
   await expect.poll(()=>canvas.evaluate(element=>{
     const c=element as HTMLCanvasElement;return Math.abs(c.width/c.height-c.clientWidth/c.clientHeight);
@@ -206,14 +247,14 @@ test("paused geometry still responds to explicit explosion, focus and reset comm
   await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","paused");
   await page.keyboard.press("c");
   await expect(page.locator(".ln-stage")).toHaveAttribute("data-inspection-mode","hero");
-  await expect.poll(async()=>(await canvas.screenshot()).equals(assembled)).toBe(true);
+  await expect.poll(async()=>meanFrameDifference(await canvas.screenshot(),assembled)).toBeLessThan(.1);
   await page.getByRole("button",{name:"EXPLODE ASSEMBLY",exact:true}).click();
   await expect.poll(async()=>(await canvas.screenshot()).equals(assembled)).toBe(false);
   const exploded=await canvas.screenshot();
   await setRange(page.getByRole("slider",{name:"Focus ring rotation"}),.8);
   await expect.poll(async()=>(await canvas.screenshot()).equals(exploded)).toBe(false);
   await page.getByRole("button",{name:"Reset optical view"}).click();
-  await expect.poll(async()=>(await canvas.screenshot()).equals(assembled)).toBe(true);
+  await expect.poll(async()=>meanFrameDifference(await canvas.screenshot(),assembled)).toBeLessThan(.1);
   await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","paused");
 });
 

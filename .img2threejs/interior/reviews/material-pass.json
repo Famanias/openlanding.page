@@ -1,0 +1,13 @@
+{
+  "action":"continue",
+  "score":0.81,
+  "summary":"Material review after one recorded spec-refinement iteration: open retaining clips preserve the reference sightline while keeping all cells physically seated. The original outer glass and titanium scalars/maps are unchanged; five interior glass clones use profile-specific thickness. A small permanent opaque backing inside the emerald volume reuses the existing procedural emission-density field so nested screen-space transmission retains a readable core; this is a rendering approximation, not an observed extra mechanical part. The original emerald material remains intact. Canonical closed/opening/deployed core footprints pass at -26/17/60 degrees with +8-degree elevation. Four approved separate material comparisons pass (glass .8896, titanium .9798, emerald .8991, prism .7849), and neutral/grazing/reference views are captured. Current material artifact reran all geometry/turntable/self-intersection checks after the clip refinement; previous reviews and failed visibility reports remain preserved. Final neon lighting and surface emphasis remain later passes. Total PBR calls 153 exceed the final 110 budget and remain an explicit Task 8 optimization item.",
+  "layers":{"silhouetteProportion":0.81,"componentStructure":0.84,"formDetail":0.84,"materialSurface":0.82,"lightingCamera":0.77},
+  "features":[
+    {"id":"optical-stack","score":0.84,"visible":true,"notes":"Curved closed glass and permanently open-sided retaining clips separate clear optics from metal without changing the seven-group inventory."},
+    {"id":"emerald-visibility","score":0.81,"visible":true,"notes":"Real component-hidden footprint tests pass for the closed hero, intermediate opening and full reference-angle inspection; density-backed internal fluorescence retains the approved core geometry/material."},
+    {"id":"moving-attachments","score":0.85,"visible":true,"notes":"Four retained clips per new cell meet their radial support arms; all 28 rail sockets and 16 linkage arms remain within measured tolerances."},
+    {"id":"closed-panels","score":0.86,"visible":true,"notes":"Capped housing sectors and retainer clips remain closed; independent topology, winding and sampled self-intersection checks pass."},
+    {"id":"exterior-loop","score":0.82,"visible":true,"notes":"Preserved exterior glass/green/shard identity and absolute phase poses; automatic app scheduling remains Task 7."}
+  ]
+}

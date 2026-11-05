@@ -96,6 +96,8 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
 .ln-canvas-host{z-index:2;cursor:grab}
 .ln-canvas-host:active{cursor:grabbing}
 .ln-canvas-host canvas{width:100%;height:100%;display:block}
+.ln-stage:not([data-state="running"]):not([data-state="paused"]) .ln-canvas-host canvas{visibility:hidden}
+.ln-icon-button[aria-pressed="true"]{color:var(--color-ln-lime);border-color:var(--color-ln-lime)}
 .ln-lens-fallback{visibility:visible;opacity:1;transition:opacity var(--duration-ln-ui) var(--ease-ln-out)}
 .ln-lens-fallback svg{display:block;width:100%;height:100%}
 .ln-stage[data-state="running"] .ln-lens-fallback,.ln-stage[data-state="paused"] .ln-lens-fallback{visibility:hidden;opacity:0}
@@ -306,7 +308,7 @@ export default function LenusHeroCopy({onStepInside}:{onStepInside:()=>void}){
 ]]>
     </file>
     <file path="src/app/(lenus)/lenus/components/LenusHudControls.tsx">
-<![CDATA[import { Layers, Pause, Play, RotateCcw } from "lucide-react";
+<![CDATA[import { Layers, Pause, Play, RotateCcw, ScanLine } from "lucide-react";
 import { OPTICAL_PARTS, type LenusPartInfo } from "../scene/telemetry";
 
 export type LenusStageState="preview"|"running"|"paused"|"static"|"unavailable"|"lost";
@@ -314,6 +316,7 @@ type Props={
   state:LenusStageState; fps:number; exploded:boolean; explodeAmount:number; focusAngle:number; activePart:LenusPartInfo; paused:boolean;
   onToggleExplode:()=>void; onExplodeChange:(value:number)=>void; onFocusChange:(radians:number)=>void;
   onResetView:()=>void; onTogglePause:()=>void; onPartSelect?:(id:string)=>void;
+  cutaway?:boolean;onToggleCutaway?:()=>void;
 };
 export function LenusHudControls(p:Props){
   const disabled=!["running","paused"].includes(p.state);
@@ -330,7 +333,7 @@ export function LenusHudControls(p:Props){
     </div>
     <div className="ln-hud-actions">
       <button type="button" className="ln-explode" aria-pressed={p.exploded} onClick={p.onToggleExplode} disabled={disabled}><Layers size={14} aria-hidden="true"/>EXPLODE ASSEMBLY</button>
-      <div className="ln-playback"><button type="button" className="ln-icon-button" aria-label="Reset optical view" title="Reset view (R)" onClick={p.onResetView} disabled={disabled}><RotateCcw size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label={p.paused?"Play animation":"Pause animation"} onClick={p.onTogglePause} disabled={disabled}>{p.paused?<Play size={15} aria-hidden="true"/>:<Pause size={15} aria-hidden="true"/>}</button></div>
+      <div className="ln-playback"><button type="button" className="ln-icon-button" aria-label={p.cutaway?"Return to automatic hero view":"Inspect lens interior"} title="Inspect interior (C)" aria-pressed={!!p.cutaway} onClick={p.onToggleCutaway}><ScanLine size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label="Reset optical view" title="Reset view (R)" onClick={p.onResetView} disabled={disabled}><RotateCcw size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label={p.paused?"Play animation":"Pause animation"} onClick={p.onTogglePause} disabled={disabled}>{p.paused?<Play size={15} aria-hidden="true"/>:<Pause size={15} aria-hidden="true"/>}</button></div>
     </div>
     <div className="ln-hud-sliders">
       <label><span>SEPARATION <output>{Math.round(p.explodeAmount*100)}%</output></span><input type="range" min="0" max="1" step=".01" value={p.explodeAmount} aria-label="Explode optical assembly" disabled={disabled} onChange={e=>p.onExplodeChange(Number(e.target.value))}/></label>
@@ -343,8 +346,29 @@ export function LenusHudControls(p:Props){
     <file path="src/app/(lenus)/lenus/components/LenusLensFallback.tsx">
 <![CDATA[import { useId } from "react";
 
-export default function LenusLensFallback(){
+export default function LenusLensFallback({cutaway=false}:{cutaway?:boolean}={}){
   const id=useId().replaceAll(":","");
+  if(cutaway)return <div className="ln-lens-fallback">
+    <svg viewBox="-340 -280 680 560" role="img" aria-labelledby={`${id}-interior-title`}>
+      <title id={`${id}-interior-title`}>Interior optical train with seven glass groups, guide rails and opened titanium panels</title>
+      <defs>
+        <linearGradient id={`${id}-section-glass`}><stop stopColor="#F8FAFC" stopOpacity=".7"/><stop offset=".35" stopColor="#161924" stopOpacity=".2"/><stop offset=".8" stopColor="#9499A6" stopOpacity=".3"/><stop offset="1" stopColor="#A855F7" stopOpacity=".5"/></linearGradient>
+        <radialGradient id={`${id}-section-core`}><stop stopColor="#F8FAFC"/><stop offset=".2" stopColor="#00E599"/><stop offset="1" stopColor="#00E599" stopOpacity=".25"/></radialGradient>
+      </defs>
+      <g transform="rotate(-5)">
+        <path d="M-170-164 174-164 216-212-126-212Z M-170 164 174 164 216 212-126 212Z" fill="#161924" stroke="#9499A6" strokeWidth="2"/>
+        <path d="M-200-142H218M-200 142H218" stroke="#9499A6" strokeWidth="5"/>
+        <ellipse cx="220" rx="24" ry="180" fill="none" stroke="#9499A6" strokeWidth="8"/>
+        <ellipse cx="-264" rx="42" ry="223" fill="none" stroke={`url(#${id}-section-glass)`} strokeWidth="24"/>
+        <ellipse cx="-252" rx="34" ry="183" fill="none" stroke={`url(#${id}-section-glass)`} strokeWidth="14"/>
+        {[[-205,28,126],[-128,25,117],[-62,22,103],[10,28,80],[82,20,88],[142,18,72],[194,14,55]].map(([x,rx,ry],i)=><g key={x} data-interior-optic={i+1}>
+          <ellipse cx={x} rx={rx} ry={ry} fill={i===3?`url(#${id}-section-core)`:`url(#${id}-section-glass)`} stroke={i===3?"#00E599":"#F8FAFC"} strokeWidth={i===3?3:1.5}/>
+          <path d={`M${x-8} ${-ry-7}h16v-11M${x-8} ${ry+7}h16v11`} fill="none" stroke="#9499A6" strokeWidth="4"/>
+        </g>)}
+        <path d="M151-155 174-190M151 155 174 190" stroke="#D2F802" strokeOpacity=".65" strokeWidth="2"/>
+      </g>
+    </svg>
+  </div>;
   return <div className="ln-lens-fallback">
     <svg viewBox="-280 -280 560 560" role="img" aria-labelledby={`${id}-title`}>
       <title id={`${id}-title`}>Optical lens with fluted glass, titanium collars and an emerald core</title>
@@ -379,8 +403,8 @@ export default function LenusLensFallback(){
 <![CDATA["use client";
 
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import type { LenusSceneController } from "../scene/LenusSceneController";
-import { getPartTelemetry } from "../scene/telemetry";
+import type { LenusSceneController, LenusInspectionSnapshot } from "../scene/LenusSceneController";
+import { getPartTelemetry, getSemanticPartCount, isInteriorPart, prefersRearView } from "../scene/telemetry";
 import LenusLensFallback from "./LenusLensFallback";
 import { LenusHudControls, type LenusStageState } from "./LenusHudControls";
 
@@ -392,6 +416,8 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const pose=useRef({explode:0,focus:0});
   const animationTime=useRef(0);
   const resolutionScale=useRef(1);
+  const inspectionState=useRef<LenusInspectionSnapshot|null>(null);
+  const cutawayValue=useRef(false);
   const policy=useRef({suspended,paused:false});
   const [state,setState]=useState<LenusStageState>("preview");
   const [fps,setFps]=useState(0);
@@ -401,6 +427,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const [activePart,setActivePart]=useState(()=>getPartTelemetry(null));
   const [locked,setLocked]=useState(false);
   const [activationNeeded,setActivationNeeded]=useState(false);
+  const [cutaway,setCutaway]=useState(false);
   const lastPick=useRef(0),pointerStart=useRef({x:0,y:0});
   const instructions=useId();
 
@@ -417,14 +444,14 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
       const c=controller.current;
       if(!active||!c)return;
       const shouldRun=inView&&document.visibilityState!=="hidden"&&!policy.current.suspended&&!policy.current.paused;
-      if(shouldRun)c.start();else c.stop();
+      if(shouldRun)c.start();else c.stop(policy.current.paused&&inView&&document.visibilityState!=="hidden"&&!policy.current.suspended&&!lost);
       setState(lost?"lost":shouldRun?"running":"paused");
     };
     synchronize.current=sync;
     const boot=async()=>{
       if(controller.current&&!media.matches){sync();return;}
       const ticket=++revision;
-      if(controller.current){animationTime.current=controller.current.getAnimationTime();resolutionScale.current=controller.current.getResolutionScale();}
+      if(controller.current){animationTime.current=controller.current.getAnimationTime();resolutionScale.current=controller.current.getResolutionScale();inspectionState.current=controller.current.getInspectionSnapshot();}
       controller.current?.dispose();controller.current=null;lost=false;
       if(media.matches){setActivationNeeded(false);setState("static");return;}
       if(!activated&&(window.matchMedia("(pointer: coarse)").matches||window.innerWidth<700)){
@@ -438,6 +465,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
         const instance=new LenusSceneController({
           initialAnimationTime:animationTime.current,
           initialResolutionScale:resolutionScale.current,
+          initialInspectionState:inspectionState.current??undefined,
           onFps:value=>{if(active&&ticket===revision)setFps(value);},
           onContextChange:value=>{if(!active||ticket!==revision)return;lost=value==="lost";sync();},
           onPartChange:part=>{if(active&&ticket===revision)setActivePart(current=>current.id===part.id?current:part);},
@@ -445,7 +473,9 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
         controller.current=instance;
         instance.init(container);
         // Commands can arrive before this import resolves or survive a preference change.
-        instance.setExplodeTarget(pose.current.explode);instance.setFocusTarget(pose.current.focus);
+        if(!inspectionState.current||inspectionState.current.controls.explode!==pose.current.explode)instance.setExplodeTarget(pose.current.explode,false);
+        if(!inspectionState.current||inspectionState.current.controls.focus!==pose.current.focus)instance.setFocusTarget(pose.current.focus);
+        instance.setInspectionMode(cutawayValue.current?"cutaway":"hero");
         sync();
       } catch {
         if(active&&ticket===revision){controller.current?.dispose();controller.current=null;setState("unavailable");}
@@ -473,13 +503,15 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   },[]);
 
   useEffect(()=>{
-    if(externalExplodeRequest>0){pose.current.explode=1;setExplodeAmount(1);controller.current?.setExplodeTarget(1);setPaused(false);activate.current();}
+    if(externalExplodeRequest>0){cutawayValue.current=true;setCutaway(true);pose.current.explode=1;setExplodeAmount(1);controller.current?.setInspectionMode("cutaway");controller.current?.setExplodeTarget(1);activate.current();}
   },[externalExplodeRequest]);
 
-  const changeExplode=(value:number)=>{pose.current.explode=value;setExplodeAmount(value);controller.current?.setExplodeTarget(value);};
+  const changeInspection=(value:boolean)=>{cutawayValue.current=value;setCutaway(value);controller.current?.setInspectionMode(value?"cutaway":"hero");if(!value){setLocked(false);setActivePart(getPartTelemetry(null));}};
+  const changeExplode=(value:number)=>{if(!cutawayValue.current)changeInspection(true);pose.current.explode=value;setExplodeAmount(value);controller.current?.setExplodeTarget(value);};
   const changeFocus=(value:number)=>{pose.current.focus=value;setFocusAngle(value);controller.current?.setFocusTarget(value);};
-  const reset=()=>{changeExplode(0);changeFocus(0);setLocked(false);setActivePart(getPartTelemetry(null));controller.current?.resetView();};
-  const toggleExplode=()=>changeExplode(pose.current.explode>.5?0:1);
+  const reset=()=>{pose.current={explode:0,focus:0};animationTime.current=0;inspectionState.current=null;cutawayValue.current=false;setCutaway(false);setExplodeAmount(0);setFocusAngle(0);setLocked(false);setActivePart(getPartTelemetry(null));controller.current?.resetView();};
+  const toggleExplode=()=>changeExplode(cutawayValue.current&&pose.current.explode>.5?0:1);
+  const selectPart=(id:string)=>{const part=getPartTelemetry(id);if(isInteriorPart(part.id)||prefersRearView(part.id))changeInspection(true);controller.current?.inspectPart(part.id);setLocked(part.id!=="assembly");setActivePart(part);};
   const coordinates=(event:PointerEvent<HTMLDivElement>)=>{
     const canvas=controller.current?.getRenderer()?.domElement;
     const rect=(canvas??event.currentTarget).getBoundingClientRect();
@@ -493,27 +525,28 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const pick=(event:PointerEvent<HTMLDivElement>)=>{
     if(Math.hypot(event.clientX-pointerStart.current.x,event.clientY-pointerStart.current.y)>6)return;
     if(activationNeeded){activate.current();return;}
-    const p=coordinates(event);controller.current?.pickAtNormalizedCanvas(p.x,p.y);setLocked(true);
+    const p=coordinates(event);const part=controller.current?.pickAtNormalizedCanvas(p.x,p.y);if(part)selectPart(part.id);
   };
   const keyboard=(event:KeyboardEvent<HTMLDivElement>)=>{
     if(event.target!==event.currentTarget)return;
+    if(event.key==="c"||event.key==="C"){event.preventDefault();changeInspection(!cutawayValue.current);return;}
     if(activationNeeded&&(event.key==="Enter"||event.key===" ")){event.preventDefault();activate.current();return;}
     if(!["running","paused"].includes(state))return;
     const actions:Record<string,()=>void>={ArrowLeft:()=>controller.current?.rotateView(-.12,0),ArrowRight:()=>controller.current?.rotateView(.12,0),ArrowUp:()=>controller.current?.rotateView(0,-.1),ArrowDown:()=>controller.current?.rotateView(0,.1),e:toggleExplode,E:toggleExplode,r:reset,R:reset,Home:reset,Escape:()=>setLocked(false)};
     if(actions[event.key]){event.preventDefault();actions[event.key]();}
   };
   const message:Record<LenusStageState,string>={preview:activationNeeded?"Tap the lens to explore in 3D.":"Optical preview. Interactive controls load when available.",running:"Drag to explore. Select a fragment to inspect.",paused:suspended?"Optical view paused while the panel is open.":"Optical view paused.",static:"Reduced motion is on. Showing a still optical preview.",unavailable:"Interactive graphics are unavailable. Showing a still optical preview.",lost:"Graphics connection lost. Showing the preview while reconnecting."};
-  return <section className="ln-stage" data-state={state} data-exploded={explodeAmount>.5} aria-label="Optical lens experience">
+  return <section className="ln-stage" data-state={state} data-inspection-mode={cutaway?"cutaway":"hero"} data-exploded={cutaway&&explodeAmount>.5} aria-label="Optical lens experience">
     <div className="ln-lens-plot">
       <div className="ln-aperture" aria-hidden="true"/>
-      <LenusLensFallback/>
+      <LenusLensFallback cutaway={cutaway}/>
       <div ref={host} className="ln-canvas-host" data-testid="lenus-canvas-container" tabIndex={0} role={activationNeeded?"button":"group"} aria-label="Interactive Lenus optical lens assembly" aria-describedby={instructions} onPointerMove={move} onPointerLeave={()=>controller.current?.setPointer(0,0)} onPointerDown={event=>{pointerStart.current={x:event.clientX,y:event.clientY};}} onPointerUp={pick} onKeyDown={keyboard}/>
       <span className="ln-stage-marker ln-stage-marker-top" aria-hidden="true">LENUS / OPTICAL SYSTEMS</span>
-      <span className="ln-stage-marker ln-stage-marker-bottom" aria-hidden="true">N 1.52 <span>19 PARTS</span></span>
+      <span className="ln-stage-marker ln-stage-marker-bottom" aria-hidden="true">N 1.52 <span>{getSemanticPartCount()} PARTS</span></span>
     </div>
-    <p id={instructions} className="ln-sr-only">{activationNeeded?"Press Enter or tap to start the optical experience. ":""}Use arrow keys to rotate, E to separate the assembly, R or Home to reset. Use the part selector to inspect each component.</p>
+    <p id={instructions} className="ln-sr-only">{activationNeeded?"Press Enter or tap to start the optical experience. ":""}Use arrow keys to rotate, C to inspect the interior, E to separate the assembly, R or Home to reset. Use the part selector to inspect each component.</p>
     <p className="ln-stage-help" role="status">{message[state]}</p>
-    <LenusHudControls state={state} fps={fps} paused={paused} exploded={explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={()=>setPaused(value=>!value)} onPartSelect={id=>{setLocked(true);setActivePart(getPartTelemetry(id));}}/>
+    <LenusHudControls state={state} fps={fps} paused={paused} cutaway={cutaway} onToggleCutaway={()=>changeInspection(!cutawayValue.current)} exploded={cutaway&&explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={()=>setPaused(value=>!value)} onPartSelect={selectPart}/>
   </section>;
 }
 ]]>
@@ -561,16 +594,343 @@ export function ProjectBriefForm(){
 }
 ]]>
     </file>
+    <file path="src/app/(lenus)/lenus/model/batchRigidHardware.ts">
+<![CDATA[import * as THREE from "three";
+import {mergeGeometries} from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import type {LensRuntime} from "./createOpticalLensModel";
+
+/** Bake only solids that share a semantic pivot, material and rigid motion. */
+export function batchRigidHardware(root:THREE.Group,runtime:LensRuntime,addMesh:(id:string,geometry:THREE.BufferGeometry)=>THREE.Mesh){
+  const ids=["front-meniscus-cell","front-biconvex-cell","front-compensator-cell","core-carrier","rear-relay-cell","rear-plano-cell","internal-barrel","rear-beads","core-retaining-beads","retaining-beads"];
+  root.updateMatrixWorld(true);
+  for(const id of ids){
+    const node=runtime.nodes[id],sources:THREE.Mesh[]=[];
+    node.traverse(o=>{const mesh=o as THREE.Mesh;if(!mesh.isMesh||mesh.userData.componentId!==id)return;
+      // The two inner trim rings have independent axial motion.
+      if(id==="retaining-beads"&&((mesh.geometry as THREE.TorusGeometry).parameters.radius<1.6))return;
+      sources.push(mesh);
+    });
+    if(sources.length<2)continue;
+    if(sources.some(mesh=>mesh.material!==sources[0].material))throw new Error(`Rigid batch material mismatch: ${id}`);
+    const inverse=node.matrixWorld.clone().invert(),pieces:THREE.BufferGeometry[]=[];
+    const ranges:{name:string;vertexStart:number;vertexCount:number}[]=[];let vertexStart=0;
+    try{
+      for(const source of sources){
+        const instanced=source as THREE.InstancedMesh;
+        for(let i=0;i<(instanced.isInstancedMesh?instanced.count:1);i++){
+          let geometry=source.geometry.clone();
+          if(!geometry.getAttribute("tangent")){
+            if(!geometry.index)geometry.setIndex(Array.from({length:geometry.getAttribute("position").count},(_,index)=>index));
+            geometry.computeTangents();
+          }
+          if(geometry.index){const flat=geometry.toNonIndexed();geometry.dispose();geometry=flat;}
+          const matrix=inverse.clone().multiply(source.matrixWorld);
+          if(instanced.isInstancedMesh){const instance=new THREE.Matrix4();instanced.getMatrixAt(i,instance);matrix.multiply(instance);}
+          geometry.applyMatrix4(matrix);
+          const vertexCount=geometry.getAttribute("position").count;
+          ranges.push({name:`${source.name}/${i}`,vertexStart,vertexCount});vertexStart+=vertexCount;pieces.push(geometry);
+        }
+      }
+      const merged=mergeGeometries(pieces,false);if(!merged)throw new Error(`Rigid batch failed: ${id}`);
+      // Review adapters can split the actual merged buffer back into its closed
+      // solids, including embedded joints, without omitting any rendered vertex.
+      merged.userData.rigidSources=ranges;
+      const mesh=addMesh(id,merged);mesh.name=`${id}-rigid-hardware`;
+      for(const source of sources)source.removeFromParent();
+    }finally{pieces.forEach(geometry=>geometry.dispose());}
+  }
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/model/createLensInterior.ts">
+<![CDATA[import * as THREE from "three";
+import type { LensRuntime } from "./createOpticalLensModel";
+import { INTERIOR_IDS, OPTICAL_ORDER } from "./interiorLayout";
+import type { LensComponent, OpticalLensSpec } from "./lensTypes";
+import { buildOpticalCellGeometry, buildOpticalElementGeometry } from "./opticalLensGeometry";
+import { annularProfile, buildClosedRevolvedSection } from "./sectionGeometry";
+import { getLensTransformationPose, type LensTransformationPose } from "./lensTransformation";
+
+export type InteriorContext = {
+  root: THREE.Group;
+  runtime: LensRuntime;
+  stage: number;
+  addMesh: (id:string, geometry:THREE.BufferGeometry, count?:number,material?:THREE.Material)=>THREE.Mesh;
+  annulus: (inner:number,outer:number,depth:number)=>THREE.BufferGeometry;
+};
+const frontIds=["outer-glass","inner-glass","front-shell","collar-outer","retaining-beads","shards"];
+const axis=new THREE.Vector3(0,0,1);
+const one=new THREE.Vector3(1,1,1);
+const clamp=(x:number)=>Number.isFinite(x)?THREE.MathUtils.clamp(x,0,1):0;
+
+/** Builds into the existing resource owner; no renderer, environment or duplicate material system. */
+export function createLensInterior(context:InteriorContext, spec:OpticalLensSpec) {
+  const {root,runtime:r,addMesh,annulus}=context;
+  const descriptors=new Map(spec.components.map(c=>[c.id,c]));
+  const socket=(name:string,parent:THREE.Object3D,position:THREE.Vector3)=>{
+    const o=new THREE.Object3D();o.name=name;o.position.copy(position);parent.add(o);r.sockets[name]=o;return o;
+  };
+  const matrix=new THREE.Matrix4();
+  const bearings: {mesh:THREE.InstancedMesh;parent:THREE.Object3D;moving:boolean}[]=[];
+  let fixedGuide:THREE.InstancedMesh,slidingGuide:THREE.InstancedMesh;
+  function radialInstances(id:string,geometry:THREE.BufferGeometry,count:number,radius:number) {
+    const mesh=addMesh(id,geometry,count) as THREE.InstancedMesh;
+    for(let i=0;i<count;i++) {
+      const t=i*Math.PI*2/count+Math.PI/4;
+      matrix.makeTranslation(Math.cos(t)*radius,Math.sin(t)*radius,0);
+      mesh.setMatrixAt(i,matrix);
+    }
+    mesh.instanceMatrix.needsUpdate=true;return mesh;
+  }
+  function supports(c:LensComponent) {
+    const outer=c.geometry.outerRadius!;
+    const armLength=1.3-.05-outer+.02;
+    const arms=addMesh(c.id,new THREE.BoxGeometry(armLength,.045,.06),4) as THREE.InstancedMesh;
+    const bearingMesh=radialInstances(c.id,annulus(c.id==="front-meniscus-cell"?.026:.043,.065,.08),4,1.3);
+    bearings.push({mesh:bearingMesh,parent:r.nodes[c.id],moving:c.id==="front-meniscus-cell"});
+    for(let i=0;i<4;i++) {
+      const t=i*Math.PI/2+Math.PI/4;
+      matrix.compose(new THREE.Vector3(Math.cos(t)*(outer-.02+armLength/2),Math.sin(t)*(outer-.02+armLength/2),0),new THREE.Quaternion().setFromAxisAngle(axis,t),one);
+      arms.setMatrixAt(i,matrix);
+      socket(`${c.id}-rail-${i}`,r.nodes[c.id],new THREE.Vector3(Math.cos(t)*1.3,Math.sin(t)*1.3,0));
+    }
+    arms.instanceMatrix.needsUpdate=true;
+    return bearingMesh;
+  }
+  for(const id of INTERIOR_IDS) {
+    const c=descriptors.get(id)!;const g=c.geometry;
+    switch(g.kind) {
+      case "optical-element": {
+        const thickness=g.edgeThickness!+g.frontSag!-g.backSag!;
+        addMesh(id,context.stage>=2?buildOpticalElementGeometry({shape:g.shape!,radius:g.radius!,edgeThickness:g.edgeThickness!,frontSag:g.frontSag!,backSag:g.backSag!,chamfer:g.chamfer},64):new THREE.SphereGeometry(g.radius!,24,12).scale(1,1,thickness/(2*g.radius!)));break;
+      }
+      case "cell": {
+        const optic=descriptors.get(id.replace(/-cell$/,""))?.geometry;
+        const profile=optic?.kind==="optical-element"?{shape:optic.shape!,radius:optic.radius!,edgeThickness:optic.edgeThickness!,frontSag:optic.frontSag!,backSag:optic.backSag!,chamfer:optic.chamfer}:undefined;
+        const radius=profile?.radius??.59;
+        const sweep=g.sweepRadians??Math.PI*2;
+        const geometry=context.stage>=2?buildOpticalCellGeometry(radius,g.outerRadius!,g.depth!,profile,sweep<Math.PI*2?8:48,{startRadians:g.startRadians??0,sweepRadians:sweep}):annulus(g.innerRadius!,g.outerRadius!,g.depth!);
+        if(context.stage>=2&&sweep<Math.PI*2) {
+          const clips=addMesh(id,geometry,4) as THREE.InstancedMesh;
+          for(let i=0;i<4;i++){matrix.makeRotationZ(Math.PI/4+i*Math.PI/2);clips.setMatrixAt(i,matrix);}
+          clips.instanceMatrix.needsUpdate=true;
+        }else addMesh(id,geometry);
+        if(context.stage>=1)supports(c);break;
+      }
+      case "open-frame": {
+        for(const z of [-.67,-.55])addMesh(id,annulus(g.innerRadius!,g.outerRadius!, .06)).position.z=z;
+        if(context.stage>=1)for(const z of [-.67]) {
+          const arms=addMesh(id,new THREE.BoxGeometry(.22,.05,.06),4) as THREE.InstancedMesh;
+          for(let i=0;i<4;i++) {
+            const t=i*Math.PI/2+Math.PI/4;
+            matrix.compose(new THREE.Vector3(Math.cos(t)*1.39,Math.sin(t)*1.39,z),new THREE.Quaternion().setFromAxisAngle(axis,t),one);arms.setMatrixAt(i,matrix);
+          }
+          arms.instanceMatrix.needsUpdate=true;
+        }
+        break;
+      }
+      case "spacers":
+        for(const [i,radius]of g.radii!.entries())addMesh(id,annulus(radius-.025,radius+.025,g.depth!)).position.z=[-.10,-.32,-.50,-1.03,-1.40][i];
+        break;
+      case "baffles":addMesh(id,annulus(g.innerRadius!,g.outerRadius!,g.depth!));break;
+      case "beads":for(const radius of g.radii!)addMesh(id,new THREE.TorusGeometry(radius,g.tube!,6,48));break;
+      case "bolts":radialInstances(id,new THREE.TorusGeometry(g.size!*.72,g.size!*.20,8,16),g.count!,g.radius!);break;
+      case "panel": {
+        if(context.stage>=2){addMesh(id,buildClosedRevolvedSection(annularProfile(g.innerRadius!,g.outerRadius!,g.depth!),{segments:24,startRadians:g.startRadians!,sweepRadians:g.sweepRadians!}));break;}
+        const start=g.startRadians!,end=start+g.sweepRadians!;
+        const shape=new THREE.Shape();shape.absarc(0,0,g.outerRadius!,start,end,false);
+        shape.lineTo(Math.cos(end)*g.innerRadius!,Math.sin(end)*g.innerRadius!);
+        shape.absarc(0,0,g.innerRadius!,end,start,true);shape.closePath();
+        addMesh(id,new THREE.ExtrudeGeometry(shape,{depth:g.depth!,bevelEnabled:false,curveSegments:4,steps:1}).translate(0,0,-g.depth!/2));break;
+      }
+      case "rails":
+        fixedGuide=radialInstances(id,annulus(.027,.042,1.81),4,g.radius!);fixedGuide.position.z=-.065;
+        slidingGuide=radialInstances(id,new THREE.CylinderGeometry(.025,.025,2.25,8).rotateX(Math.PI/2),4,g.radius!);slidingGuide.name="sliding-guide-rods";
+        break;
+      case "linkages":break;
+      default:throw new Error(`Unsupported interior geometry: ${g.kind}`);
+    }
+  }
+  if(context.stage>=3) {
+    // An internal scattering proxy makes the fluorescent core available to the
+    // opaque transmission buffer; the original glass material remains intact.
+    const originalCore=r.meshes["front-lens"].material as THREE.MeshPhysicalMaterial;
+    const density=originalCore.emissiveMap?.clone()??null;
+    if(density){density.colorSpace=THREE.NoColorSpace;density.needsUpdate=true;}
+    const backing=new THREE.MeshBasicMaterial({name:"emerald-scattering-backing",color:"#00E599",map:density});
+    backing.addEventListener("dispose",()=>density?.dispose());
+    addMesh("front-lens",new THREE.SphereGeometry(.49,48,24).scale(1,1,context.stage>=6?.39:.245),0,backing).position.z=-.02;
+  }
+
+  const carriage=new THREE.Group();carriage.name="front-carriage";root.add(carriage);
+  for(const id of frontIds)carriage.add(r.nodes[id]);
+  const collarUnlock=new THREE.Group();collarUnlock.name="collar-unlock";carriage.add(collarUnlock);collarUnlock.add(r.nodes["collar-outer"]);
+  const shardOrbit=new THREE.Group();shardOrbit.name="shard-orbit";carriage.add(shardOrbit);shardOrbit.add(r.nodes.shards);
+  const collarIdle=new THREE.Group();collarIdle.name="core-collar-idle";r.nodes["core-carrier"].add(collarIdle);collarIdle.add(r.nodes["collar-inner"]);
+  const fragmentRest=r.nodes.shards.children.filter(o=>(o as THREE.Mesh).isMesh).map(o=>({node:o,position:o.position.clone()}));
+  const frontBearings=radialInstances("guide-rails",annulus(.026,.065,.08),4,1.3);
+  bearings.push({mesh:frontBearings,parent:frontBearings.parent!,moving:true});
+  const clampLength=Math.hypot(.12,.115);
+  const frontClamps=addMesh("guide-rails",new THREE.CylinderGeometry(.018,.018,clampLength,8).rotateX(Math.PI/2),4) as THREE.InstancedMesh;
+  for(let i=0;i<4;i++) {
+    const t=i*Math.PI/2+Math.PI/4;
+    const direction=new THREE.Vector3(.12*Math.cos(t),.12*Math.sin(t),-.115).normalize();
+    matrix.compose(new THREE.Vector3(1.41*Math.cos(t),1.41*Math.sin(t),0),new THREE.Quaternion().setFromUnitVectors(axis,direction),one);frontClamps.setMatrixAt(i,matrix);
+    socket(`front-carriage-rail-${i}`,carriage,new THREE.Vector3(1.3*Math.cos(t),1.3*Math.sin(t),.245));
+  }
+  frontClamps.instanceMatrix.needsUpdate=true;
+  r.nodes["core-carrier"].add(r.nodes["carrier-fasteners"]);r.nodes["carrier-fasteners"].position.set(0,0,0);
+  const rests=new Map(Object.entries(r.nodes).map(([id,o])=>[id,{position:o.position.clone(),rotation:o.rotation.clone()}]));
+  const hinges:THREE.Group[]=[];
+  const hingeRadius=descriptors.get("housing-panel-0")!.geometry.innerRadius!;
+  const anchorRadius=2.10;
+  const anchorLocalZ=-.465;
+  for(let i=0;i<4;i++) {
+    const c=descriptors.get(`housing-panel-${i}`)!;
+    const t=c.geometry.startRadians!+c.geometry.sweepRadians!/2;
+    const hinge=new THREE.Group();hinge.name=`housing-panel-${i}-hinge`;
+    hinge.position.set(Math.cos(t)*hingeRadius,Math.sin(t)*hingeRadius,-c.geometry.depth!/2);
+    const panel=r.nodes[c.id];
+    for(const mesh of [...panel.children].filter(o=>(o as THREE.Mesh).isMesh)) {
+      mesh.position.sub(hinge.position);hinge.add(mesh);
+    }
+    panel.add(hinge);hinges.push(hinge);
+  }
+  const armLength=descriptors.get("panel-linkages")!.geometry.linkLength!;
+  const linkMesh=addMesh("panel-linkages",new THREE.CylinderGeometry(.025,.025,armLength,8).rotateX(Math.PI/2),16) as THREE.InstancedMesh;
+  const crowns=addMesh("panel-linkages",new THREE.SphereGeometry(.020,8,6),24) as THREE.InstancedMesh;
+  const anchorPosts=addMesh("panel-linkages",new THREE.CylinderGeometry(.025,.025,.355,8).rotateX(Math.PI/2),8) as THREE.InstancedMesh;
+  const linkageSockets:{a:THREE.Object3D;b:THREE.Object3D;knee:THREE.Object3D;t:number;side:number}[]=[];
+  for(let i=0;i<4;i++)for(let side=0;side<2;side++) {
+    const t=i*Math.PI/2+Math.PI/4,s=(side===0?-1:1)*.2;
+    const a=socket(`housing-panel-${i}-link-root-${side}`,r.nodes["rear-frame"],new THREE.Vector3(Math.cos(t)*anchorRadius-Math.sin(t)*s,Math.sin(t)*anchorRadius+Math.cos(t)*s,anchorLocalZ));
+    const b=socket(`housing-panel-${i}-link-panel-${side}`,hinges[i],new THREE.Vector3(-Math.sin(t)*s,Math.cos(t)*s,0));
+    const knee=socket(`housing-panel-${i}-link-knee-${side}`,r.nodes["panel-linkages"],new THREE.Vector3());
+    linkageSockets.push({a,b,knee,t,side:s});
+    const postZ=r.nodes["rear-frame"].position.z-.2875-r.nodes["panel-linkages"].position.z;
+    matrix.makeTranslation(Math.cos(t)*anchorRadius-Math.sin(t)*s,Math.sin(t)*anchorRadius+Math.cos(t)*s,postZ);anchorPosts.setMatrixAt(i*2+side,matrix);
+  }
+  anchorPosts.instanceMatrix.needsUpdate=true;
+  const spacerMeshes=r.nodes["spacer-stack"].children.filter(o=>(o as THREE.Mesh).isMesh);
+  const spacerRest=spacerMeshes.map(m=>m.position.clone());
+  const movingTrim=r.nodes["retaining-beads"].children.filter(o=>(o as THREE.Mesh).isMesh).flatMap(o=>{
+    const radius=((o as THREE.Mesh).geometry as THREE.TorusGeometry).parameters.radius;
+    if(radius!==1.11&&radius!==1.36)return [];
+    return [{mesh:o,worldZ:radius===1.11?.275:.115}];
+  });
+  let pose=getLensTransformationPose(0),separation=0,focus=0;
+  const vector=new THREE.Vector3(),quaternion=new THREE.Quaternion();
+  const putArm=(index:number,a:THREE.Vector3,b:THREE.Vector3)=>{
+    const midpoint=a.clone().add(b).multiplyScalar(.5).sub(r.nodes["panel-linkages"].position);
+    quaternion.setFromUnitVectors(axis,b.clone().sub(a).normalize());
+    matrix.compose(midpoint,quaternion,one);linkMesh.setMatrixAt(index,matrix);
+  };
+  function apply() {
+    for(const [id,rest]of rests){r.nodes[id].position.copy(rest.position);r.nodes[id].rotation.copy(rest.rotation);}
+    carriage.position.z=pose.frontCarriage+separation*.64;
+    collarUnlock.rotation.z=.2*pose.unlock;
+    const offsets=pose.opticalOffsets,inspectionOffsets=[.48,.03,.02,0,-.16,-.32,-.64];
+    for(const fragment of fragmentRest)fragment.node.position.set(fragment.position.x*(1+separation*.35),fragment.position.y*(1+separation*.35),fragment.position.z+separation*.25);
+    for(const [i,id]of OPTICAL_ORDER.entries()) {
+      const target=id==="front-lens"?"core-carrier":r.nodes[id].parent===root?id:`${id}-cell`;
+      r.nodes[target].position.z+=offsets[i]+separation*inspectionOffsets[i];
+    }
+    for(const id of ["rear-frame","rear-hub","rear-seat","panel-linkages"])r.nodes[id].position.z-=separation*.64;
+    for(const trim of movingTrim)trim.mesh.position.z=trim.worldZ-r.nodes["retaining-beads"].position.z+offsets[0]+inspectionOffsets[0]*separation-carriage.position.z;
+    frontBearings.position.z=.245-r.nodes["guide-rails"].position.z+carriage.position.z;
+    frontClamps.position.z=.1875-r.nodes["guide-rails"].position.z+carriage.position.z;
+    for(let i=0;i<spacerMeshes.length;i++){const index=[0,1,2,4,5][i];spacerMeshes[i].position.copy(spacerRest[i]).add(vector.set(0,0,offsets[index]+separation*inspectionOffsets[index]));}
+    for(let i=0;i<4;i++) {
+      const t=i*Math.PI/2+Math.PI/4;
+      r.nodes[`housing-panel-${i}`].position.x+=Math.cos(t)*.24*pose.panelSlide[i];
+      r.nodes[`housing-panel-${i}`].position.y+=Math.sin(t)*.24*pose.panelSlide[i];
+      r.nodes[`housing-panel-${i}`].position.z-=separation*.64;
+      hinges[i].quaternion.setFromAxisAngle(vector.set(-Math.sin(t),Math.cos(t),0),.58*pose.panelPivot[i]);
+    }
+    for(const id of ["collar-outer","collar-middle","shards"])r.nodes[id].rotation.z=focus;
+    const rods=r.nodes["guide-rails"].getObjectByName("sliding-guide-rods");
+    if(rods)rods.position.z=-.025+pose.guideExtension+separation*.64;
+    for(const [i,link]of linkageSockets.entries()) {
+      const panelIndex=Math.floor(i/2),radial=hingeRadius+.24*pose.panelSlide[panelIndex];
+      const az=r.nodes["rear-frame"].position.z+anchorLocalZ,bz=r.nodes[`housing-panel-${panelIndex}`].position.z+hinges[panelIndex].position.z;
+      const dx=radial-anchorRadius,dz=bz-az,distance=Math.hypot(dx,dz);
+      const height=Math.sqrt(Math.max(0,armLength**2-distance**2/4));
+      const kr=(radial+anchorRadius)/2-dz/distance*height,kz=(az+bz)/2+dx/distance*height;
+      const point=(radius:number,z:number)=>new THREE.Vector3(Math.cos(link.t)*radius-Math.sin(link.t)*link.side,Math.sin(link.t)*radius+Math.cos(link.t)*link.side,z);
+      const a=point(anchorRadius,az),b=point(radial,bz),k=point(kr,kz);
+      link.knee.position.copy(k).sub(r.nodes["panel-linkages"].position);
+      putArm(i*2,a,k);putArm(i*2+1,k,b);
+      for(const [j,p]of [a,k,b].entries()){
+        const local=p.clone().sub(r.nodes["panel-linkages"].position);
+        matrix.makeTranslation(local.x,local.y,local.z);crowns.setMatrixAt(i*3+j,matrix);
+      }
+    }
+    linkMesh.instanceMatrix.needsUpdate=true;crowns.instanceMatrix.needsUpdate=true;
+    root.updateMatrixWorld(true);
+  }
+  function measureAttachments() {
+    root.updateMatrixWorld(true);let linkGap=0,railOffset=0,railSurfaceGap=0,railAxialOverlap=Infinity;
+    for(const [i,link]of linkageSockets.entries())for(const [j,pair]of [[link.a,link.knee],[link.knee,link.b]].entries()) {
+      linkMesh.getMatrixAt(i*2+j,matrix);
+      for(let end=0;end<2;end++) {
+        const endpoint=new THREE.Vector3(0,0,(end===0?-.5:.5)*armLength).applyMatrix4(matrix);
+        linkMesh.localToWorld(endpoint);
+        linkGap=Math.max(linkGap,endpoint.distanceTo(pair[end].getWorldPosition(new THREE.Vector3())));
+      }
+    }
+    for(const [id,o]of Object.entries(r.sockets))if(/-rail-\d$/.test(id)) {
+      const p=root.worldToLocal(o.getWorldPosition(new THREE.Vector3()));
+      railOffset=Math.max(railOffset,Math.abs(Math.hypot(p.x,p.y)-1.3));
+    }
+    const radii=(geometry:THREE.BufferGeometry)=>{
+      const p=geometry.getAttribute("position");let min=Infinity,max=0;
+      for(let i=0;i<p.count;i++){const radius=Math.hypot(p.getX(i),p.getY(i));min=Math.min(min,radius);max=Math.max(max,radius);}
+      return {min,max};
+    };
+    for(const bearing of bearings) {
+      const guide=bearing.moving?slidingGuide:fixedGuide;
+      const gap=radii(bearing.mesh.geometry).min-radii(guide.geometry).max;
+      railSurfaceGap=Math.max(railSurfaceGap,Math.abs(gap));
+      guide.geometry.computeBoundingBox();bearing.mesh.geometry.computeBoundingBox();
+      const guideZ=root.worldToLocal(guide.getWorldPosition(new THREE.Vector3())).z;
+      const bearingZ=root.worldToLocal(bearing.parent.localToWorld(bearing.mesh.position.clone())).z;
+      const gb=guide.geometry.boundingBox!,bb=bearing.mesh.geometry.boundingBox!;
+      railAxialOverlap=Math.min(railAxialOverlap,Math.min(guideZ+gb.max.z,bearingZ+bb.max.z)-Math.max(guideZ+gb.min.z,bearingZ+bb.min.z));
+    }
+    return {linkGap,railOffset,railSurfaceGap,railAxialOverlap,linkCount:16,railSocketCount:Object.keys(r.sockets).filter(id=>/-rail-\d$/.test(id)).length};
+  }
+  apply();
+  const setPose=(next:LensTransformationPose)=>{
+    if(next.opticalOffsets.length!==7||next.panelSlide.length!==4||next.panelPivot.length!==4||![next.frontCarriage,next.guideExtension,next.unlock,...next.opticalOffsets,...next.panelSlide,...next.panelPivot].every(Number.isFinite))throw new Error("Invalid lens transformation pose");
+    pose=next;apply();
+  };
+  const setAmbientPose=(ambient:{collar:number;shardOrbit:number;shardY:number})=>{
+    collarIdle.rotation.z=Number.isFinite(ambient.collar)?ambient.collar:0;
+    shardOrbit.rotation.z=Number.isFinite(ambient.shardOrbit)?ambient.shardOrbit:0;
+    shardOrbit.position.y=Number.isFinite(ambient.shardY)?ambient.shardY:0;
+    root.updateMatrixWorld(true);
+  };
+  const rig={carriage,collarUnlock,hinges,setPose,setAmbientPose,setDeployment(amount:number){const u=clamp(amount);setPose(getLensTransformationPose(u===0?0:3+9*u));},setSeparation(amount:number){separation=clamp(amount);apply();},setFocus(radians:number){focus=Number.isFinite(radians)?THREE.MathUtils.clamp(radians,-Math.PI/2,Math.PI/2):0;apply();},measureAttachments};
+  root.userData.interiorRig=rig;
+  return rig;
+}
+]]>
+    </file>
     <file path="src/app/(lenus)/lenus/model/createOpticalLensModel.ts">
 <![CDATA[import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import defaultSpec from "./lens-spec.json";
 import { createLensMaterials } from "./lensMaterials";
+import { deriveInteriorLayout, INTERIOR_IDS, validateInteriorClearances } from "./interiorLayout";
+import { createLensInterior } from "./createLensInterior";
+import { batchRigidHardware } from "./batchRigidHardware";
+import type { OpticalLensSpec } from "./lensTypes";
+import { getLensTransformationPose, type LensTransformationPose } from "./lensTransformation";
+export type { OpticalLensSpec } from "./lensTypes";
 
 export const BUILD_PASSES = ["blockout", "structural-pass", "form-refinement", "material-pass", "surface-pass", "lighting-pass", "interaction-pass", "optimization-pass"] as const;
 export type LensBuildPass = (typeof BUILD_PASSES)[number];
-export type OpticalLensSpec = typeof defaultSpec;
-export type OpticalLensOptions = { pass?: LensBuildPass; quality?: "high" | "low" };
+export type OpticalLensOptions = { pass?: LensBuildPass; quality?: "high" | "low"; batchOpaque?:boolean };
 export { defaultSpec as opticalLensSpec };
 
 export type LensRuntime = {
@@ -581,6 +941,9 @@ export type LensRuntime = {
   destructionGroups: Record<string, THREE.Object3D[]>;
   setExplode: (amount: number) => void;
   setFocusRing: (radians: number) => void;
+  setTransformationPose: (pose:LensTransformationPose) => void;
+  setCutaway: (enabled:boolean) => void;
+  setAmbientPose: (pose:{collar:number;shardOrbit:number;shardY:number}) => void;
   pickPart: (object: THREE.Object3D | null) => THREE.Group | null;
   dispose: () => void;
 };
@@ -589,6 +952,20 @@ function annulus(inner: number, outer: number, depth: number, segments: number, 
   const h = depth / 2, b = Math.min(bevel, h * .8, (outer - inner) * .2);
   const points = [[inner + b, -h], [outer - b, -h], [outer, -h + b], [outer, h - b], [outer - b, h], [inner + b, h], [inner, h - b], [inner, -h + b], [inner + b, -h]].map(([r, z]) => new THREE.Vector2(r, z));
   return new THREE.LatheGeometry(points, segments).rotateX(Math.PI / 2);
+}
+
+function supportAnnulus(inner: number, outer: number, depth: number) {
+  const source = annulus(inner, outer, depth, 48, .004);
+  const geometry = source.toNonIndexed();
+  source.dispose();
+  geometry.computeVertexNormals();
+  const p = geometry.getAttribute("position"), n = geometry.getAttribute("normal");
+  for(let i=0;i<p.count;i++) {
+    const theta=Math.atan2(p.getY(i),p.getX(i));
+    const radial=Math.hypot(n.getX(i),n.getY(i))*Math.sign(n.getX(i)*Math.cos(theta)+n.getY(i)*Math.sin(theta));
+    n.setXYZ(i,radial*Math.cos(theta),radial*Math.sin(theta),n.getZ(i));
+  }
+  return geometry;
 }
 
 function flutedTorus(radius: number, tube: number, depth: number, flutes: number, amplitude: number, twist: number, segments: number) {
@@ -632,7 +1009,10 @@ function prism(size: number, index: number) {
 }
 
 /** Procedural reconstruction, +Z front / +Y up. Dimensions are relative units. */
-export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, options: OpticalLensOptions = {}) {
+export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec as OpticalLensSpec, options: OpticalLensOptions = {}) {
+  const layout = deriveInteriorLayout(spec);
+  const clearance = validateInteriorClearances(layout);
+  if (!clearance.passed) throw new Error(`Invalid optical clearances: ${JSON.stringify(clearance.violations)}`);
   const root = new THREE.Group();
   root.name = "lenus-optical-lens";
   const runtime: LensRuntime = {
@@ -643,50 +1023,62 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, opti
     destructionGroups: {},
     setExplode: () => {},
     setFocusRing: () => {},
+    setTransformationPose: () => {},
+    setCutaway: () => {},
+    setAmbientPose: () => {},
     pickPart: () => null,
     dispose: () => {},
   };
   const segments = options.quality === "low" ? 64 : 128;
-  const stage = BUILD_PASSES.indexOf(options.pass ?? "optimization-pass");
+  const interiorStage = BUILD_PASSES.indexOf(options.pass ?? "optimization-pass");
+  // Accepted exterior form remains intact while the new interior progresses through its passes.
+  const stage = 7;
   const microSegments = stage >= 7 ? Math.max(48, segments >> 1) : segments;
   const geometries = new Set<THREE.BufferGeometry>();
   const materials = new Set<THREE.Material>();
   const clay = new THREE.MeshStandardMaterial({ color: "#9197a0", roughness: 0.65 });
-  const physical = stage >= 3 ? createLensMaterials(spec, stage >= 4) : null;
+  const physical = interiorStage >= 3 ? createLensMaterials(spec, interiorStage >= 4) : null;
   materials.add(clay);
+  const descriptors = new Map(spec.components.map(c=>[c.id,c]));
+  const addMesh = (id:string, geometry:THREE.BufferGeometry, count=0,override?:THREE.Material) => {
+    geometry.computeBoundingSphere();
+    geometries.add(geometry);
+    const c=descriptors.get(id)!;
+    const material=override??physical?.materials.get(c.geometry.kind==="optical-element"?`glass:${id}`:c.material)??clay;
+    if(override)materials.add(override);
+    const mesh=count?new THREE.InstancedMesh(geometry,material,count):new THREE.Mesh(geometry,material);
+    mesh.name=`${id}-mesh-${runtime.nodes[id].children.length}`;
+    mesh.userData.componentId=id;mesh.userData.explodeWithParent=true;
+    runtime.nodes[id].add(mesh);runtime.meshes[id]=mesh;return mesh;
+  };
 
-  for (const [componentIndex, c] of spec.components.entries()) {
-    if (stage === 0 && c.level !== "macro") continue;
+  for (const c of spec.components) {
     const pivot = new THREE.Group();
     pivot.name = c.id;
     pivot.position.fromArray(c.position);
+    runtime.nodes[c.id] = pivot;
+  }
+  for (const c of spec.components) {
+    (c.parent === "root" ? root : runtime.nodes[c.parent]).add(runtime.nodes[c.id]);
+  }
+
+  for (const [componentIndex, c] of spec.components.entries()) {
+    const pivot = runtime.nodes[c.id];
     pivot.userData.basePosition = pivot.position.clone();
     pivot.userData.componentIndex = componentIndex;
     pivot.userData.parentComponent = c.parent ?? "root";
-    runtime.nodes[c.id] = pivot;
-    (runtime.nodes[c.parent ?? ""] ?? root).add(pivot);
     const g = c.geometry;
     if (stage >= 6) {
       const socket = new THREE.Object3D();
       socket.name = `${c.id}-seat`;
       pivot.add(socket);
       runtime.sockets[socket.name] = socket;
-      runtime.colliders[c.id] = { type: "cylinder", radius: g.outer ?? g.radius ?? 0.5, depth: g.depth ?? 0.2 };
+      runtime.colliders[c.id] = { type: "cylinder", radius: g.outer ?? g.outerRadius ?? g.radius ?? 0.5, depth: g.depth ?? 0.2 };
       const groupKey = c.parent ?? c.id;
       (runtime.destructionGroups[groupKey] ??= []).push(pivot);
     }
-    const add = (geometry: THREE.BufferGeometry, count = 0) => {
-      if (stage >= 7) geometry.computeBoundingSphere();
-      geometries.add(geometry);
-      const material = physical?.materials.get(c.material) ?? clay;
-      const mesh = count ? new THREE.InstancedMesh(geometry, material, count) : new THREE.Mesh(geometry, material);
-      mesh.name = `${c.id}-mesh-${pivot.children.length}`;
-      mesh.userData.componentId = c.id;
-      mesh.userData.explodeWithParent = true;
-      pivot.add(mesh);
-      runtime.meshes[c.id] = mesh;
-      return mesh;
-    };
+    if ((INTERIOR_IDS as readonly string[]).includes(c.id)) continue;
+    const add = (geometry:THREE.BufferGeometry,count=0) => addMesh(c.id,geometry,count);
     let geometry: THREE.BufferGeometry;
     switch (g.kind) {
       case "fluted-torus": geometry = stage >= 2 ? flutedTorus(g.radius!, g.tube!, g.depth!, g.flutes!, g.amplitude!, g.twist!, segments) : new THREE.TorusGeometry(g.radius!, g.tube!, 20, segments); break;
@@ -749,37 +1141,17 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, opti
         }
         continue;
       }
-      default: continue;
+      default: throw new Error(`Unknown lens geometry: ${g.kind}`);
     }
     add(geometry);
   }
-  runtime.setExplode = (amount: number) => {
-    const t = THREE.MathUtils.clamp(amount, 0, 1);
-    for (const pivot of Object.values(runtime.nodes)) {
-      const base = pivot.userData.basePosition as THREE.Vector3 | undefined;
-      if (!base) continue;
-      if (t === 0) {
-        pivot.position.copy(base);
-      } else if (pivot.userData.parentComponent === "root") {
-        const idx = Number(pivot.userData.componentIndex ?? 0);
-        const dir = base.z >= 0 ? 1 : -1;
-        pivot.position.set(base.x, base.y, base.z * (1 + t * 1.5) + dir * t * (0.08 + (idx % 4) * 0.045));
-      }
-      if (pivot.name === "shards") {
-        for (const child of pivot.children) {
-          const childBase = child.userData.basePosition as THREE.Vector3 | undefined;
-          if (!childBase) continue;
-          if (t === 0) child.position.copy(childBase);
-          else child.position.set(childBase.x * (1 + t * 0.35), childBase.y * (1 + t * 0.35), childBase.z + t * 0.25);
-        }
-      }
-    }
-  };
-  runtime.setFocusRing = (radians: number) => {
-    for (const id of ["collar-outer", "collar-middle", "shards"]) {
-      if (runtime.nodes[id]) runtime.nodes[id].rotation.z = radians;
-    }
-  };
+  const rig=createLensInterior({root,runtime,stage:interiorStage,addMesh,annulus:supportAnnulus},spec);
+  runtime.setExplode=rig.setSeparation;
+  runtime.setFocusRing=rig.setFocus;
+  runtime.setTransformationPose=rig.setPose;
+  runtime.setCutaway=(enabled:boolean)=>rig.setPose(getLensTransformationPose(enabled?12:0));
+  runtime.setAmbientPose=rig.setAmbientPose;
+  if(interiorStage>=7&&options.batchOpaque!==false)batchRigidHardware(root,runtime,addMesh);
   runtime.pickPart = (object: THREE.Object3D | null) => {
     let cur: THREE.Object3D | null = object;
     while (cur && cur !== root) {
@@ -791,7 +1163,8 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, opti
     }
     return null;
   };
-  runtime.dispose = () => { geometries.forEach((g) => g.dispose()); materials.forEach((m) => m.dispose()); physical?.dispose(); };
+  let disposed=false;
+  runtime.dispose = () => { if(disposed)return;disposed=true;geometries.forEach((g) => g.dispose()); materials.forEach((m) => m.dispose()); physical?.dispose(); };
   root.userData.sculptRuntime = runtime;
   root.userData.buildPass = options.pass ?? "optimization-pass";
   return root;
@@ -802,6 +1175,7 @@ export function createOpticalLensModel(spec: OpticalLensSpec = defaultSpec, opti
 <![CDATA[import * as THREE from "three";
 import { BUILD_PASSES, createOpticalLensModel, type LensBuildPass, type LensRuntime } from "./createOpticalLensModel";
 import { createStudioEnvironment } from "./studioEnvironment";
+import { getLensTransformationPose, LENS_INTERIOR_YAW } from "./lensTransformation";
 
 /** Renderer owner. No browser globals are accessed until this function is called. */
 export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pass?: LensBuildPass; quality?: "high" | "low" } = {}) {
@@ -866,8 +1240,66 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
     (model.userData.sculptRuntime as LensRuntime).setFocusRing(radians);
     render();
   }
+  function setPhase(seconds:number) {
+    (model.userData.sculptRuntime as LensRuntime).setTransformationPose(getLensTransformationPose(seconds));render();
+  }
+  function setInteriorView() {
+    camera.position.setFromSphericalCoords(12,Math.PI/2-.14,LENS_INTERIOR_YAW);camera.lookAt(0,0,0);render();
+  }
+  function setCutaway(enabled:boolean) {
+    (model.userData.sculptRuntime as LensRuntime).setCutaway(enabled);
+    if(enabled)setInteriorView();else setView(0);
+    render();
+  }
   setView(0);
-  return { renderer, scene, camera, model, render, setView, setLighting, setExplode, setFocusRing, resize, dispose() { (model.userData.sculptRuntime as LensRuntime).dispose(); environment?.dispose(); if(neutralEnvironment !== environment) neutralEnvironment?.dispose(); renderer.dispose(); } };
+  return { renderer, scene, camera, model, render, setView, setLighting, setExplode, setFocusRing, setPhase, setCutaway, setInteriorView, resize, dispose() { (model.userData.sculptRuntime as LensRuntime).dispose(); environment?.dispose(); if(neutralEnvironment !== environment) neutralEnvironment?.dispose(); renderer.dispose(); } };
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/model/interiorLayout.ts">
+<![CDATA[import type { ClearanceViolation, LensLayout, OpticalLensSpec } from "./lensTypes";
+import { opticalProfileMetrics } from "./opticalProfile";
+
+export const OPTICAL_ORDER = ["front-meniscus", "front-biconvex", "front-compensator", "front-lens", "rear-relay", "rear-plano", "rear-lens"] as const;
+export const INTERIOR_IDS = ["front-meniscus-cell", "front-meniscus", "front-biconvex-cell", "front-biconvex", "front-compensator-cell", "front-compensator", "rear-relay-cell", "rear-relay", "rear-plano-cell", "rear-plano", "internal-barrel", "core-carrier", "spacer-stack", "rear-baffles", "carrier-fasteners", "core-retaining-beads", "housing-panel-0", "housing-panel-1", "housing-panel-2", "housing-panel-3", "guide-rails", "panel-linkages"] as const;
+const kinds = new Set(["fluted-torus", "annulus", "lens", "radial-boxes", "bolts", "contacts", "beads", "prisms", "optical-element", "cell", "open-frame", "spacers", "baffles", "panel", "rails", "linkages"]);
+
+/** Pure rest-layout resolver; parent offsets are applied once through the graph. */
+export function deriveInteriorLayout(spec: OpticalLensSpec): LensLayout {
+  const transforms: LensLayout["transforms"] = Object.create(null);
+  for (const c of spec.components) {
+    if (transforms[c.id]) throw new Error(`Duplicate lens component: ${c.id}`);
+    if (!kinds.has(c.geometry.kind)) throw new Error(`Unknown lens geometry: ${c.geometry.kind}`);
+    if (c.position.length !== 3 || !c.position.every(Number.isFinite)) throw new Error(`Invalid position: ${c.id}`);
+    transforms[c.id] = { parent: c.parent, position: [...c.position] };
+  }
+  function worldZ(id: string, ancestors = new Set<string>()): number {
+    if (id === "root") return 0;
+    if (ancestors.has(id)) throw new Error(`Cyclic lens parent: ${id}`);
+    const t = transforms[id];
+    if (!t) throw new Error(`Unresolved lens parent: ${id}`);
+    return t.position[2] + worldZ(t.parent, new Set([...ancestors, id]));
+  }
+  for (const c of spec.components) worldZ(c.id);
+  const optics = OPTICAL_ORDER.map(id => {
+    const c = spec.components.find(c => c.id === id);
+    if (!c) throw new Error(`Missing optical group: ${id}`);
+    const g = c.geometry;
+    const thickness = g.kind === "lens" ? g.depth! + 2 * g.sag! : opticalProfileMetrics({shape:g.shape!,radius:g.radius!,edgeThickness:g.edgeThickness!,frontSag:g.frontSag!,backSag:g.backSag!,chamfer:g.chamfer}).depth;
+    const z = worldZ(id);
+    return { id, radius: g.radius!, minZ: z - thickness / 2, maxZ: z + thickness / 2 };
+  });
+  return { transforms, optics, assemblies: OPTICAL_ORDER.map(id => id === "front-lens" ? ["core-carrier", id, "core-retaining-beads", "carrier-fasteners"] : [id, `${id}-cell`].filter(cid => transforms[cid])) };
+}
+
+export function validateInteriorClearances(layout: LensLayout): { passed: boolean; violations: ClearanceViolation[] } {
+  const violations: ClearanceViolation[] = [];
+  for (let i = 1; i < layout.optics.length; i++) {
+    const front = layout.optics[i-1], rear = layout.optics[i];
+    const gap = front.minZ - rear.maxZ;
+    if (!Number.isFinite(gap) || gap < .03 - 1e-6) violations.push({ front: front.id, rear: rear.id, gap });
+  }
+  return { passed: violations.length === 0, violations };
 }
 ]]>
     </file>
@@ -973,14 +1405,14 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
       "position": [
         0,
         0,
-        -0.06
+        -0.03
       ],
       "material": "titanium",
       "geometry": {
         "kind": "annulus",
-        "inner": 0.6,
-        "outer": 1.67,
-        "depth": 0.22,
+        "inner": 1.38,
+        "outer": 1.6,
+        "depth": 0.2,
         "bevel": 0.025
       },
       "features": []
@@ -1023,12 +1455,12 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
     },
     {
       "id": "collar-middle",
-      "parent": "root",
+      "parent": "front-meniscus-cell",
       "level": "meso",
       "position": [
         0,
         0,
-        0.06
+        -0.1
       ],
       "material": "titanium",
       "geometry": {
@@ -1059,17 +1491,17 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
     },
     {
       "id": "collar-inner",
-      "parent": "root",
+      "parent": "core-carrier",
       "level": "meso",
       "position": [
         0,
         0,
-        -0.01
+        0.17
       ],
       "material": "titanium",
       "geometry": {
         "kind": "annulus",
-        "inner": 0.65,
+        "inner": 0.715,
         "outer": 1.09,
         "depth": 0.1,
         "bevel": 0.018
@@ -1095,12 +1527,12 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
     },
     {
       "id": "front-lens",
-      "parent": "root",
+      "parent": "core-carrier",
       "level": "macro",
       "position": [
         0,
         0,
-        0.02
+        0
       ],
       "material": "emerald",
       "geometry": {
@@ -1151,7 +1583,7 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
       "position": [
         0,
         0,
-        -0.3
+        -1.45
       ],
       "material": "titanium",
       "geometry": {
@@ -1187,7 +1619,7 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
       "position": [
         0,
         0,
-        -0.39
+        -1.54
       ],
       "material": "titanium",
       "geometry": {
@@ -1239,7 +1671,7 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
       "position": [
         0,
         0,
-        -0.45
+        -1.5999999999999999
       ],
       "material": "dark-metal",
       "geometry": {
@@ -1258,7 +1690,7 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
       "position": [
         0,
         0,
-        -0.5
+        -1.65
       ],
       "material": "rear-glass",
       "geometry": {
@@ -1498,8 +1930,6 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
       "geometry": {
         "kind": "beads",
         "radii": [
-          0.615,
-          0.66,
           1.11,
           1.36,
           1.64,
@@ -1656,6 +2086,889 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
           "confidence": 0.9,
           "evidenceRefs": [
             "front"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-meniscus-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0.16
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 1.038,
+        "outerRadius": 1.12,
+        "depth": 0.22,
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
+      },
+      "features": [
+        {
+          "id": "seat-shoulder",
+          "type": "ridge",
+          "description": "Stepped retaining shoulder contacts glass edge",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Stepped retaining shoulder contacts glass edge",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-meniscus",
+      "parent": "front-meniscus-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "meniscus",
+        "radius": 1.05,
+        "edgeThickness": 0.035,
+        "frontSag": 0.15,
+        "backSag": 0.08,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "meniscus-curvature",
+          "type": "bevel",
+          "description": "Closed curved front and back surfaces, positive perimeter thickness",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Closed curved front and back surfaces, positive perimeter thickness",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        },
+        {
+          "id": "positive-edge",
+          "type": "bevel",
+          "description": "Positive thickness across sampled profile",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Positive thickness across sampled profile",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-biconvex-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -0.25
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.968,
+        "outerRadius": 1.05,
+        "depth": 0.12,
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
+      },
+      "features": [
+        {
+          "id": "cell-socket",
+          "type": "hole",
+          "description": "Named carrier socket remains engaged with rail",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Named carrier socket remains engaged with rail",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-biconvex",
+      "parent": "front-biconvex-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "biconvex",
+        "radius": 0.98,
+        "edgeThickness": 0.03,
+        "frontSag": 0.085,
+        "backSag": -0.085,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "biconvex-curvature",
+          "type": "bevel",
+          "description": "Two convex faces with .03 perimeter and .20 center thickness",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Two convex faces with .03 perimeter and .20 center thickness",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        },
+        {
+          "id": "glass-chamfer",
+          "type": "bevel",
+          "description": ".004 polished edge chamfer",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": ".004 polished edge chamfer",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-compensator-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -0.44
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.828,
+        "outerRadius": 0.9099999999999999,
+        "depth": 0.12,
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
+      },
+      "features": [
+        {
+          "id": "front-compensator-cell-finished-edge",
+          "type": "bevel",
+          "description": "Closed positive-thickness profile with fitted edge shoulder",
+          "geometryEffect": ".008 chamfered mounting edge",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "confidence": 0.75,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "front-compensator",
+      "parent": "front-compensator-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "biconvex",
+        "radius": 0.84,
+        "edgeThickness": 0.03,
+        "frontSag": 0.045,
+        "backSag": -0.045,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "compensator-sag",
+          "type": "bevel",
+          "description": "Lower-sag curved compensating element",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Lower-sag curved compensating element",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-relay-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -1.14
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.728,
+        "outerRadius": 0.81,
+        "depth": 0.12,
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
+      },
+      "features": [
+        {
+          "id": "rear-relay-cell-finished-edge",
+          "type": "bevel",
+          "description": "Closed positive-thickness profile with fitted edge shoulder",
+          "geometryEffect": ".008 chamfered mounting edge",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "confidence": 0.75,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-relay",
+      "parent": "rear-relay-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "biconvex",
+        "radius": 0.74,
+        "edgeThickness": 0.03,
+        "frontSag": 0.055,
+        "backSag": -0.055,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "relay-curvature",
+          "type": "bevel",
+          "description": "Small curved relay optic behind emerald",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Small curved relay optic behind emerald",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-plano-cell",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -1.32
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.528,
+        "outerRadius": 0.6100000000000001,
+        "depth": 0.14,
+        "seatLip": 0.02,
+        "startRadians": -0.1308996938995747,
+        "sweepRadians": 0.2617993877991494,
+        "count": 4
+      },
+      "features": [
+        {
+          "id": "rear-plano-cell-finished-edge",
+          "type": "bevel",
+          "description": "Closed positive-thickness profile with fitted edge shoulder",
+          "geometryEffect": ".008 chamfered mounting edge",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "confidence": 0.75,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-plano",
+      "parent": "rear-plano-cell",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "glass",
+      "geometry": {
+        "kind": "optical-element",
+        "shape": "plano-convex",
+        "radius": 0.54,
+        "edgeThickness": 0.03,
+        "frontSag": 0.07,
+        "backSag": 0,
+        "chamfer": 0.004
+      },
+      "features": [
+        {
+          "id": "plano-face",
+          "type": "bevel",
+          "description": "Plane rear surface and convex front profile",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Plane rear surface and convex front profile",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "internal-barrel",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "open-frame",
+        "innerRadius": 1.42,
+        "outerRadius": 1.5,
+        "depth": 2.1
+      },
+      "features": [
+        {
+          "id": "frame-brushing",
+          "type": "scratch",
+          "description": "Directional normal/roughness on stationary metal supports",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Directional normal/roughness on stationary metal supports",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "core-carrier",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "cell",
+        "innerRadius": 0.578,
+        "outerRadius": 0.71,
+        "depth": 0.5,
+        "seatLip": 0.02
+      },
+      "features": [
+        {
+          "id": "core-shoulder",
+          "type": "ridge",
+          "description": "Stepped annular emerald retaining shoulder",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Stepped annular emerald retaining shoulder",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spacer-stack",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "spacers",
+        "radii": [
+          1.12,
+          1.05,
+          0.91,
+          0.81,
+          0.61
+        ],
+        "depth": 0.04
+      },
+      "features": [
+        {
+          "id": "spacer-lips",
+          "type": "ridge",
+          "description": "Closed annular spacers with real mounting lips",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Closed annular spacers with real mounting lips",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear-baffles",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -1.48
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "baffles",
+        "innerRadius": 0.38,
+        "outerRadius": 0.56,
+        "depth": 0.06
+      },
+      "features": [
+        {
+          "id": "baffle-aperture",
+          "type": "hole",
+          "description": "Thin annular stop with visible chamfered aperture",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Thin annular stop with visible chamfered aperture",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "carrier-fasteners",
+      "parent": "core-carrier",
+      "level": "micro",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "bolts",
+        "radius": 0.68,
+        "count": 6,
+        "size": 0.035
+      },
+      "features": [
+        {
+          "id": "fastener-crowns",
+          "type": "fastener",
+          "description": "Six repeated small metallic crowns on carrier",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Six repeated small metallic crowns on carrier",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "core-retaining-beads",
+      "parent": "core-carrier",
+      "level": "micro",
+      "position": [
+        0,
+        0,
+        0.255
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "beads",
+        "radii": [
+          0.615,
+          0.66
+        ],
+        "tube": 0.012
+      },
+      "features": [
+        {
+          "id": "polished-trim",
+          "type": "gloss",
+          "description": "Relocated small concentric retaining trim",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Relocated small concentric retaining trim",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housing-panel-0",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -1.05
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "panel",
+        "innerRadius": 2.17,
+        "outerRadius": 2.23,
+        "depth": 1.56,
+        "startRadians": 0.003,
+        "sweepRadians": 1.5647963267948966,
+        "hingeZ": -1.83,
+        "radialSlide": 0.24,
+        "pivotRadians": 0.58
+      },
+      "features": [
+        {
+          "id": "panel-brushing",
+          "type": "scratch",
+          "description": "Independent microscopic directional metal normal and roughness",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Independent microscopic directional metal normal and roughness",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housing-panel-1",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -1.05
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "panel",
+        "innerRadius": 2.17,
+        "outerRadius": 2.23,
+        "depth": 1.56,
+        "startRadians": 1.5737963267948964,
+        "sweepRadians": 1.5647963267948966,
+        "hingeZ": -1.83,
+        "radialSlide": 0.24,
+        "pivotRadians": 0.58
+      },
+      "features": [
+        {
+          "id": "panel-edge-faces",
+          "type": "bevel",
+          "description": "Finished closed sector boundary faces with flat normals",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Finished closed sector boundary faces with flat normals",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housing-panel-2",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -1.05
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "panel",
+        "innerRadius": 2.17,
+        "outerRadius": 2.23,
+        "depth": 1.56,
+        "startRadians": 3.1445926535897932,
+        "sweepRadians": 1.5647963267948966,
+        "hingeZ": -1.83,
+        "radialSlide": 0.24,
+        "pivotRadians": 0.58
+      },
+      "features": [
+        {
+          "id": "docking-seam",
+          "type": "seam",
+          "description": "Stable panel seams and closed docking shoulders",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Stable panel seams and closed docking shoulders",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "housing-panel-3",
+      "parent": "root",
+      "level": "macro",
+      "position": [
+        0,
+        0,
+        -1.05
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "panel",
+        "innerRadius": 2.17,
+        "outerRadius": 2.23,
+        "depth": 1.56,
+        "startRadians": 4.71538898038469,
+        "sweepRadians": 1.5647963267948966,
+        "hingeZ": -1.83,
+        "radialSlide": 0.24,
+        "pivotRadians": 0.58
+      },
+      "features": [
+        {
+          "id": "rigid-deployment",
+          "type": "contour",
+          "description": "Same closed shell opens by slide and pivot, fixed scale",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Same closed shell opens by slide and pivot, fixed scale",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guide-rails",
+      "parent": "root",
+      "level": "meso",
+      "position": [
+        0,
+        0,
+        -0.78
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "rails",
+        "radius": 1.3,
+        "count": 4,
+        "rodRadius": 0.025,
+        "depth": 4.0
+      },
+      "features": [
+        {
+          "id": "optical-air-gaps",
+          "type": "seam",
+          "description": "At least .03 gap between sampled optical envelopes",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "At least .03 gap between sampled optical envelopes",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-3"
+          ]
+        },
+        {
+          "id": "rail-sockets",
+          "type": "ridge",
+          "description": "Four axial guides and seated translating carriage sockets",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Four axial guides and seated translating carriage sockets",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "panel-linkages",
+      "parent": "root",
+      "level": "micro",
+      "position": [
+        0,
+        0,
+        -1.83
+      ],
+      "material": "titanium",
+      "geometry": {
+        "kind": "linkages",
+        "count": 8,
+        "armRadius": 0.025,
+        "linkLength": 0.32,
+        "endpointTolerance": 0.005
+      },
+      "features": [
+        {
+          "id": "hinge-crowns",
+          "type": "fastener",
+          "description": "Retained support arms with linked endpoints and compact pivot crowns",
+          "placement": {
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          },
+          "geometryEffect": "Retained support arms with linked endpoints and compact pivot crowns",
+          "confidence": 0.8,
+          "evidenceRefs": [
+            "keyframe-3"
           ]
         }
       ]
@@ -3134,7 +4447,8 @@ export function createOpticalLensScene(canvas: HTMLCanvasElement, options: { pas
     "fpsTarget": 30,
     "optimizationPolicy": "Reach accepted visual fidelity first, then optimize without removing reference-critical geometry or surface layers."
   }
-}]]>
+}
+]]>
     </file>
     <file path="src/app/(lenus)/lenus/model/lensMaterials.ts">
 <![CDATA[import * as THREE from "three";
@@ -3195,7 +4509,252 @@ export function createLensMaterials(spec: OpticalLensSpec, surface = false) {
     }
     materials.set(s.id, material);
   }
-  return { materials, dispose() { materials.forEach(m => m.dispose()); roughnessMap.dispose(); normalMap.dispose(); emissiveMap.dispose(); } };
+  const clear=materials.get("glass");
+  if(clear)for(const component of spec.components) {
+    const g=component.geometry;if(g.kind!=="optical-element")continue;
+    const material=clear.clone();material.name=`glass:${component.id}`;
+    material.thickness=Math.max(g.edgeThickness!,g.edgeThickness!+g.frontSag!-g.backSag!);
+    materials.set(material.name,material);
+  }
+  let disposed=false;
+  return { materials, dispose() { if(disposed)return;disposed=true;materials.forEach(m => m.dispose()); roughnessMap.dispose(); normalMap.dispose(); emissiveMap.dispose(); } };
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/model/lensTransformation.ts">
+<![CDATA[export const LENS_TRANSFORMATION_SECONDS=24;
+// A 50-degree side view preserves depth while keeping the recessed core readable.
+export const LENS_INTERIOR_YAW=Math.PI*5/18;
+export type LensTransformationPose={
+  seconds:number;
+  phase:"assembled"|"unlock"|"deploy"|"interior"|"reassemble"|"lock";
+  body:number;unlock:number;frontCarriage:number;guideExtension:number;
+  opticalOffsets:readonly number[];panelSlide:readonly number[];panelPivot:readonly number[];
+  cameraBlend:number;ambientWeight:number;
+};
+
+function ramp(t:number,start:number,end:number) {
+  const u=Math.max(0,Math.min(1,(t-start)/(end-start)));
+  return u*u*u*(u*(u*6-15)+10);
+}
+
+/** Absolute, reversible pose sampling; each channel shares the existing 24-second clock. */
+export function getLensTransformationPose(elapsedSeconds:number):LensTransformationPose {
+  const t=Number.isFinite(elapsedSeconds)?((elapsedSeconds%24)+24)%24:0;
+  const lift=ramp(t,4,5)*(1-ramp(t,20,21));
+  const body=ramp(t,6,10)*(1-ramp(t,15,19));
+  const frontCarriage=.5*lift+.55*body;
+  const opticalB=ramp(t,6.25,9.75)*(1-ramp(t,15.25,18.75));
+  const opticalC=ramp(t,6.5,10)*(1-ramp(t,15,18.5));
+  return {
+    seconds:t,
+    phase:t<3||t>=22?"assembled":t<6?"unlock":t<10?"deploy":t<15?"interior":t<20?"reassemble":"lock",
+    body,unlock:ramp(t,3,4)*(1-ramp(t,21,22)),frontCarriage,guideExtension:frontCarriage,
+    opticalOffsets:[.5*lift+.15*body,.24*opticalB,.12*opticalC,0,0,0,0],
+    panelSlide:Array.from({length:4},(_,i)=>ramp(t,5+i*.06,6+i*.06)*(1-ramp(t,18.5+i*.06,19.2+i*.06))),
+    panelPivot:Array.from({length:4},(_,i)=>ramp(t,6.3+i*.06,9.5+i*.06)*(1-ramp(t,15+(3-i)*.06,18+(3-i)*.06))),
+    cameraBlend:body,ambientWeight:1-body,
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/model/lensTypes.ts">
+<![CDATA[import type originalSpec from "./lens-spec.json";
+
+export type LensGeometryKind = "fluted-torus" | "annulus" | "lens" | "radial-boxes" | "bolts" | "contacts" | "beads" | "prisms" | "optical-element" | "cell" | "open-frame" | "spacers" | "baffles" | "panel" | "rails" | "linkages";
+export type OpticalElementProfile = {
+  shape: "meniscus" | "biconvex" | "plano-convex";
+  radius: number;
+  edgeThickness: number;
+  frontSag: number;
+  backSag: number;
+  chamfer?: number;
+};
+export type LensGeometry = {
+  kind: LensGeometryKind;
+  radius?: number; tube?: number; depth?: number; flutes?: number; amplitude?: number; twist?: number;
+  inner?: number; outer?: number; bevel?: number; sag?: number; count?: number; width?: number; height?: number; phase?: number; size?: number;
+  radii?: number[]; points?: number[][]; seed?: number;
+  shape?: OpticalElementProfile["shape"]; edgeThickness?: number; frontSag?: number; backSag?: number; chamfer?: number;
+  innerRadius?: number; outerRadius?: number; seatLip?: number; startRadians?: number; sweepRadians?: number;
+  hingeZ?: number; radialSlide?: number; pivotRadians?: number; rodRadius?: number; armRadius?: number; linkLength?: number; endpointTolerance?: number;
+};
+export type LensComponent = {
+  id: string; parent: string; level: "macro" | "meso" | "micro";
+  position: number[]; material: string; geometry: LensGeometry;
+  features?: { id: string; description: string }[];
+};
+export type OpticalLensSpec = { components: LensComponent[]; materials: typeof originalSpec.materials };
+export type LensLayout = {
+  transforms: Record<string, { parent: string; position: number[] }>;
+  optics: { id: string; radius: number; minZ: number; maxZ: number }[];
+  assemblies: string[][];
+};
+export type ClearanceViolation = { front: string; rear: string; gap: number };
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/model/opticalLensGeometry.ts">
+<![CDATA[import * as THREE from "three";
+import type { OpticalElementProfile } from "./lensTypes";
+import { opticalProfileMetrics, sampleOpticalProfile } from "./opticalProfile";
+import { buildClosedRevolvedSection, type RevolvedProfile } from "./sectionGeometry";
+
+export function buildOpticalElementGeometry(profile:OpticalElementProfile,segments:number) {
+  const metrics=opticalProfileMetrics(profile);
+  const geometry=buildClosedRevolvedSection(sampleOpticalProfile(profile),{segments,startRadians:0,sweepRadians:Math.PI*2});
+  const p=geometry.getAttribute("position"),n=geometry.getAttribute("normal");
+  const normal=new THREE.Vector3();
+  for(let i=0;i<p.count;i++) {
+    const radius=Math.hypot(p.getX(i),p.getY(i)),rawZ=p.getZ(i)+metrics.center;
+    if(radius>metrics.edgeRadius+1e-6)continue;
+    const front=Math.abs(rawZ-metrics.surface(radius,true))<1e-6;
+    const back=Math.abs(rawZ-metrics.surface(radius,false))<1e-6;
+    if(!front&&!back)continue;
+    const sag=front?profile.frontSag:profile.backSag;
+    const derivative=-2*sag*radius/profile.radius**2;
+    const theta=Math.atan2(p.getY(i),p.getX(i));
+    normal.set((front?-1:1)*derivative*Math.cos(theta),(front?-1:1)*derivative*Math.sin(theta),front?1:-1).normalize();
+    n.setXYZ(i,normal.x,normal.y,normal.z);
+  }
+  n.needsUpdate=true;return geometry;
+}
+
+/** Stepped seats clear the actual curved glass instead of overlapping its edge. */
+function opticalCellSections(radius:number,outer:number,depth:number,profile?:OpticalElementProfile) {
+  const seat=radius-.012,wall=radius+.003,h=depth/2,b=.004;
+  let front:number,back:number;
+  if(profile){const m=opticalProfileMetrics(profile);front=m.surface(seat,true)-m.center+.002;back=m.surface(seat,false)-m.center-.002;}
+  else {const z=.23*Math.sqrt(1-(seat/radius)**2);front=z+.002;back=-z-.002;}
+  const lip=.006;
+  const points:[number,number][]=[[wall,-h+b],[wall+b,-h],[outer-b,-h],[outer,-h+b],[outer,h-b],[outer-b,h],[wall+b,h],[wall,h-b],[wall,front+lip],[seat,front+lip],[seat,front],[wall,front],[wall,back],[seat,back],[seat,back-lip],[wall,back-lip]];
+  const smooth:{r:number;z:number;nr:number;nz:number}[]=[];
+  const result=points.flatMap((p,i)=>{
+    if(i<8)return [p];
+    const previous=points[(i+points.length-1)%points.length],next=points[(i+1)%points.length];
+    const before=Math.hypot(previous[0]-p[0],previous[1]-p[1]),after=Math.hypot(next[0]-p[0],next[1]-p[1]);
+    const bevel=Math.min(.0015,before*.2,after*.2);
+    const a=[p[0]+(previous[0]-p[0])*bevel/before,p[1]+(previous[1]-p[1])*bevel/before];
+    const b=[p[0]+(next[0]-p[0])*bevel/after,p[1]+(next[1]-p[1])*bevel/after];
+    return Array.from({length:4},(_,step)=>{
+      const t=step/3,u=1-t;
+      const r=u*u*a[0]+2*u*t*p[0]+t*t*b[0],z=u*u*a[1]+2*u*t*p[1]+t*t*b[1];
+      const dr=2*u*(p[0]-a[0])+2*t*(b[0]-p[0]),dz=2*u*(p[1]-a[1])+2*t*(b[1]-p[1]),length=Math.hypot(dr,dz);
+      smooth.push({r,z,nr:dz/length,nz:-dr/length});return [r,z] as [number,number];
+    });
+  });
+  return {profile:result,smooth};
+}
+
+export function buildOpticalCellProfile(radius:number,outer:number,depth:number,profile?:OpticalElementProfile):RevolvedProfile {
+  return opticalCellSections(radius,outer,depth,profile).profile;
+}
+
+export function buildOpticalCellGeometry(radius:number,outer:number,depth:number,profile:OpticalElementProfile|undefined,segments:number,options={startRadians:0,sweepRadians:Math.PI*2}) {
+  const section=opticalCellSections(radius,outer,depth,profile);
+  const geometry=buildClosedRevolvedSection(section.profile,{segments,startRadians:options.startRadians,sweepRadians:options.sweepRadians});
+  const p=geometry.getAttribute("position"),n=geometry.getAttribute("normal");
+  for(let i=0;i<p.count;i++) {
+    const r=Math.hypot(p.getX(i),p.getY(i)),z=p.getZ(i);
+    const smooth=section.smooth.find(s=>Math.abs(s.r-r)<1e-6&&Math.abs(s.z-z)<1e-6);
+    if(!smooth)continue;
+    const theta=Math.atan2(p.getY(i),p.getX(i));
+    if(Math.abs(n.getX(i)*Math.cos(theta)+n.getY(i)*Math.sin(theta))<1e-6&&Math.abs(n.getZ(i))<1e-6)continue;
+    n.setXYZ(i,smooth.nr*Math.cos(theta),smooth.nr*Math.sin(theta),smooth.nz);
+  }
+  n.needsUpdate=true;return geometry;
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/model/opticalProfile.ts">
+<![CDATA[import type { OpticalElementProfile } from "./lensTypes";
+
+export function opticalProfileMetrics(p:OpticalElementProfile) {
+  const {radius,edgeThickness,frontSag,backSag}=p;
+  const validShape=p.shape==="meniscus"?frontSag*backSag>0:p.shape==="biconvex"?frontSag>0&&backSag<0:p.shape==="plano-convex"&&((frontSag>0&&backSag===0)||(frontSag===0&&backSag<0));
+  if(![radius,edgeThickness,frontSag,backSag,p.chamfer??.004].every(Number.isFinite)||radius<=0||edgeThickness<=0||edgeThickness+frontSag-backSag<=0||!validShape||(p.chamfer??.004)<0)throw new Error("Invalid optical profile");
+  const chamfer=Math.min(p.chamfer??.004,edgeThickness*.2,radius*.02);
+  const surface=(r:number,front:boolean)=>(front?edgeThickness/2:-edgeThickness/2)+(front?frontSag:backSag)*(1-(r/radius)**2);
+  const edgeRadius=radius-chamfer;
+  const ends=[surface(0,true),surface(edgeRadius,true),surface(0,false),surface(edgeRadius,false),edgeThickness/2-chamfer,-edgeThickness/2+chamfer];
+  const min=Math.min(...ends),max=Math.max(...ends),center=(min+max)/2;
+  return {chamfer,edgeRadius,min,max,center,depth:max-min,surface};
+}
+
+export function sampleOpticalProfile(p:OpticalElementProfile,radialSteps=12):readonly (readonly [number,number])[] {
+  const m=opticalProfileMetrics(p),points:[number,number][]=[];
+  for(let i=0;i<=radialSteps;i++){const r=m.edgeRadius*i/radialSteps;points.push([r,m.surface(r,true)-m.center]);}
+  points.push([p.radius,p.edgeThickness/2-m.chamfer-m.center],[p.radius,-p.edgeThickness/2+m.chamfer-m.center]);
+  for(let i=radialSteps;i>=0;i--){const r=m.edgeRadius*i/radialSteps;points.push([r,m.surface(r,false)-m.center]);}
+  return points;
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/model/sectionGeometry.ts">
+<![CDATA[import * as THREE from "three";
+
+export type RevolvedProfile=ReadonlyArray<readonly [radius:number,z:number]>;
+
+export function annularProfile(inner:number,outer:number,depth:number,bevel=.006):RevolvedProfile {
+  if(![inner,outer,depth,bevel].every(Number.isFinite)||inner<=0||outer<=inner||depth<=0||bevel<0)throw new Error("Invalid annular profile");
+  const h=depth/2,b=Math.min(bevel,h*.8,(outer-inner)*.2);
+  return [[inner+b,-h],[outer-b,-h],[outer,-h+b],[outer,h-b],[outer-b,h],[inner+b,h],[inner,h-b],[inner,-h+b]];
+}
+
+/** Closed profile around +Z; partial sweeps include triangulated boundary faces. */
+export function buildClosedRevolvedSection(profile:RevolvedProfile,options:{segments:number;startRadians:number;sweepRadians:number}) {
+  const {segments,startRadians,sweepRadians}=options;
+  if(!Number.isInteger(segments)||segments<3||segments>512||![startRadians,sweepRadians].every(Number.isFinite)||sweepRadians<=0||sweepRadians>Math.PI*2+1e-8)throw new Error("Invalid revolved section");
+  let points=profile.map(([r,z])=>new THREE.Vector2(r,z));
+  if(points.some(p=>!Number.isFinite(p.x)||!Number.isFinite(p.y)||p.x<0))throw new Error("Invalid revolved profile");
+  points=points.filter((p,i)=>i===0||p.distanceToSquared(points[i-1])>1e-20);
+  if(points.length>1&&points[0].distanceToSquared(points.at(-1)!)<1e-20)points.pop();
+  let changed=true;
+  while(changed&&points.length>3){changed=false;for(let i=0;i<points.length;i++){
+    const a=points[(i+points.length-1)%points.length],b=points[i],c=points[(i+1)%points.length];
+    const ab=b.clone().sub(a),bc=c.clone().sub(b);
+    if(Math.abs(ab.cross(bc))<1e-12&&ab.dot(bc)>=0){points.splice(i,1);changed=true;break;}
+  }}
+  const area=points.reduce((a,p,i)=>{const q=points[(i+1)%points.length];return a+p.x*q.y-q.x*p.y;},0);
+  if(points.length<3||Math.abs(area)<1e-12)throw new Error("Degenerate revolved profile");
+  if(area<0)points.reverse();
+  const positions:number[]=[],normals:number[]=[],uvs:number[]=[],tangents:number[]=[],indices:number[]=[];
+  const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3();
+  const vertex=(r:number,z:number,t:number,nr:number,nz:number,u:number,v:number)=>{
+    const index=positions.length/3,cos=Math.cos(t),sin=Math.sin(t);
+    positions.push(r*cos,r*sin,z);normals.push(nr*cos,nr*sin,nz);uvs.push(u,v);tangents.push(-sin,cos,0,1);return index;
+  };
+  const triangle=(i:number,j:number,k:number)=>{
+    a.fromArray(positions,i*3);b.fromArray(positions,j*3);c.fromArray(positions,k*3);
+    if(b.sub(a).cross(c.sub(a)).lengthSq()>1e-24)indices.push(i,j,k);
+  };
+  for(let j=0;j<points.length;j++) {
+    const p=points[j],q=points[(j+1)%points.length],dr=q.x-p.x,dz=q.y-p.y,length=Math.hypot(dr,dz),base=positions.length/3;
+    for(let i=0;i<=segments;i++) {
+      const t=startRadians+sweepRadians*i/segments;
+      vertex(p.x,p.y,t,dz/length,-dr/length,i/segments,j/points.length);
+      vertex(q.x,q.y,t,dz/length,-dr/length,i/segments,(j+1)/points.length);
+    }
+    for(let i=0;i<segments;i++){const k=base+i*2;triangle(k,k+2,k+3);triangle(k,k+3,k+1);}
+  }
+  if(sweepRadians<Math.PI*2-1e-8) {
+    const faces=THREE.ShapeUtils.triangulateShape(points,[]);
+    for(const [side,t]of [startRadians,startRadians+sweepRadians].entries()) {
+      const base=positions.length/3,sign=side===0?-1:1;
+      const desired=new THREE.Vector3(-Math.sin(t)*sign,Math.cos(t)*sign,0);
+      for(const p of points){vertex(p.x,p.y,t,0,0,p.x,p.y);normals.splice(normals.length-3,3,desired.x,desired.y,0);tangents.splice(tangents.length-4,4,Math.cos(t),Math.sin(t),0,1);}
+      for(const face of faces){
+        a.fromArray(positions,(base+face[0])*3);b.fromArray(positions,(base+face[1])*3);c.fromArray(positions,(base+face[2])*3);
+        const outward=b.sub(a).cross(c.sub(a)).dot(desired)>=0;
+        triangle(base+face[0],base+face[outward?1:2],base+face[outward?2:1]);
+      }
+    }
+  }
+  const geometry=new THREE.BufferGeometry();
+  geometry.setAttribute("position",new THREE.Float32BufferAttribute(positions,3));
+  geometry.setAttribute("normal",new THREE.Float32BufferAttribute(normals,3));
+  geometry.setAttribute("uv",new THREE.Float32BufferAttribute(uvs,2));
+  geometry.setAttribute("tangent",new THREE.Float32BufferAttribute(tangents,4));
+  geometry.setIndex(indices);geometry.computeBoundingBox();geometry.computeBoundingSphere();return geometry;
 }
 ]]>
     </file>
@@ -3232,19 +4791,21 @@ export function createStudioEnvironment(renderer: THREE.WebGLRenderer, neon = fa
 ]]>
     </file>
     <file path="src/app/(lenus)/lenus/scene/lensMotion.ts">
-<![CDATA[export const LENS_LOOP_SECONDS=24;
+<![CDATA[import { getLensTransformationPose, LENS_TRANSFORMATION_SECONDS } from "../model/lensTransformation";
+export const LENS_LOOP_SECONDS=LENS_TRANSFORMATION_SECONDS;
 
 /** One continuous cycle; all secondary motion uses harmonics of the same clock. */
 export function getLensLoopPose(elapsedSeconds:number){
   const seconds=Number.isFinite(elapsedSeconds)?elapsedSeconds:0;
   const phase=((seconds%LENS_LOOP_SECONDS+LENS_LOOP_SECONDS)%LENS_LOOP_SECONDS)/LENS_LOOP_SECONDS*Math.PI*2;
+  const weight=getLensTransformationPose(seconds).ambientWeight;
   return {
-    spin:phase,
-    yaw:.11*Math.sin(phase),
-    pitch:.05*Math.sin(phase*2),
-    collar:.16*Math.sin(phase*2),
-    shardOrbit:-2*phase,
-    shardY:.035*Math.sin(phase*3),
+    spin:0,
+    yaw:.11*Math.sin(phase)*weight,
+    pitch:.05*Math.sin(phase*2)*weight,
+    collar:.16*Math.sin(phase*2)*weight,
+    shardOrbit:.22*Math.sin(phase)*weight,
+    shardY:.035*Math.sin(phase*3)*weight,
   };
 }
 ]]>
@@ -3254,28 +4815,31 @@ export function getLensLoopPose(elapsedSeconds:number){
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { createOpticalLensModel, type LensRuntime } from "../model/createOpticalLensModel";
 import { createStudioEnvironment } from "../model/studioEnvironment";
-import { getPartTelemetry, type LenusPartInfo } from "./telemetry";
+import { getLensTransformationPose, LENS_INTERIOR_YAW } from "../model/lensTransformation";
+import { getPartTelemetry, isInteriorPart, prefersRearView, type LenusPartInfo } from "./telemetry";
 import { getLensLoopPose } from "./lensMotion";
 export { getPartTelemetry, type LenusPartInfo } from "./telemetry";
 
-export function normalizePointer(value: number) { return Number.isFinite(value) ? THREE.MathUtils.clamp(value,-1,1) : 0; }
-export function fitHeroFrustumHalfHeight(width: number, height: number) {
-  const aspect = Math.max(1,Number.isFinite(width)?width:1) / Math.max(1,Number.isFinite(height)?height:1);
-  return Math.max(2.75,2.75/aspect);
+export function normalizePointer(value:number){return Number.isFinite(value)?THREE.MathUtils.clamp(value,-1,1):0;}
+export function fitHeroFrustumHalfHeight(width:number,height:number){
+  const aspect=Math.max(1,Number.isFinite(width)?width:1)/Math.max(1,Number.isFinite(height)?height:1);
+  return Math.max(3.7,3.7/aspect);
 }
-const BASE_YAW=-.46, BASE_POLAR=Math.PI/2-.14, RADIUS=12;
+const BASE_YAW=-.46,BASE_POLAR=Math.PI/2-.14,RADIUS=12;
 const finite=(n:number,fallback=0)=>Number.isFinite(n)?n:fallback;
-export interface LenusSceneOptions {
-  initialAnimationTime?: number;
-  initialResolutionScale?: number;
-  onFps?: (fps:number)=>void;
-  onContextChange?: (state:"lost"|"restored")=>void;
-  onInteractionChange?: (dragging:boolean)=>void;
-  onPartChange?: (part:LenusPartInfo)=>void;
+type CameraPose={yaw:number;polar:number};
+type OrbitOffset={yaw:number;polar:number};
+type HeroView={elapsed:number;camera:CameraPose;orbit:OrbitOffset;pointer:{x:number;y:number};parallax:{x:number;y:number}};
+export type LensInspectionMode="hero"|"cutaway";
+export type LenusInspectionSnapshot={mode:LensInspectionMode;camera:CameraPose;orbit:OrbitOffset;hero:HeroView|null;controls:{explode:number;focus:number;currentExplode?:number;currentFocus?:number}};
+export interface LenusSceneOptions{
+  initialAnimationTime?:number;initialResolutionScale?:number;initialInspectionState?:LenusInspectionSnapshot;
+  onFps?:(fps:number)=>void;onContextChange?:(state:"lost"|"restored")=>void;
+  onInteractionChange?:(dragging:boolean)=>void;onPartChange?:(part:LenusPartInfo)=>void;
 }
 
-/** Owns the canvas, GPU resources and render clock; no browser work occurs in construction. */
-export class LenusSceneController {
+/** One renderer, one clock, and one owner for automatic/inspection transforms. */
+export class LenusSceneController{
   private readonly scene=new THREE.Scene();
   private readonly camera=new THREE.OrthographicCamera(-3,3,3,-3,.1,60);
   private readonly raycaster=new THREE.Raycaster();
@@ -3284,199 +4848,196 @@ export class LenusSceneController {
   private environment:THREE.WebGLRenderTarget|null=null;
   private model:THREE.Group|null=null;
   private runtime:LensRuntime|null=null;
-  private disposed=false;
-  private running=false;
-  private contextLost=false;
-  private dragging=false;
-  private pointer={x:0,y:0};
-  private parallax={x:0,y:0};
-  private explodeTarget=0;
-  private explode=0;
-  private focusTarget=0;
-  private focus=0;
-  private elapsed=0;
-  private lastTime:number|null=null;
-  private frames=0;
-  private sampleTime=0;
-  private slowTime=0;
-  private resolutionScale=1;
-  private viewport={width:1,height:1};
-  constructor(private readonly options:LenusSceneOptions={}) {
+  private disposed=false;private running=false;private contextLost=false;private dragging=false;private placingCamera=false;
+  private pointer={x:0,y:0};private parallax={x:0,y:0};private orbit:OrbitOffset={yaw:0,polar:0};
+  private mode:LensInspectionMode="hero";private hero:HeroView|null=null;
+  private explodeTarget=0;private explode=0;private focusTarget=0;private focus=0;
+  private elapsed=0;private lastTime:number|null=null;private frames=0;private sampleTime=0;private slowTime=0;
+  private resolutionScale=1;private viewport={width:1,height:1};
+  constructor(private readonly options:LenusSceneOptions={}){
     this.elapsed=Math.max(0,finite(options.initialAnimationTime??0));
     this.resolutionScale=THREE.MathUtils.clamp(finite(options.initialResolutionScale??1,1),.75,1);
+    const saved=options.initialInspectionState;
+    if(saved){
+      this.mode=saved.mode;this.hero=saved.hero?structuredClone(saved.hero):null;this.orbit={...saved.orbit};
+      this.explodeTarget=THREE.MathUtils.clamp(finite(saved.controls.explode),0,1);
+      this.focusTarget=THREE.MathUtils.clamp(finite(saved.controls.focus),-Math.PI/2,Math.PI/2);
+      this.explode=THREE.MathUtils.clamp(finite(saved.controls.currentExplode??this.explodeTarget),0,1);
+      this.focus=THREE.MathUtils.clamp(finite(saved.controls.currentFocus??this.focusTarget),-Math.PI/2,Math.PI/2);
+      this.placeCamera(saved.camera.yaw,saved.camera.polar);
+    }else{const view=this.automaticCamera();this.placeCamera(view.yaw,view.polar);}
   }
-
-  init(container:HTMLElement) {
+  init(container:HTMLElement){
     if(this.disposed||this.renderer)return;
-    try {
-      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:"high-performance"});
-      this.renderer=renderer;
-      renderer.setClearColor(0x000000,0);
-      renderer.outputColorSpace=THREE.SRGBColorSpace;
-      renderer.toneMapping=THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure=1;
-      const canvas=renderer.domElement;
-      canvas.dataset.lenusRenderer="true";
-      canvas.setAttribute("aria-hidden","true");
-      canvas.addEventListener("webglcontextlost",this.onLost);
-      canvas.addEventListener("webglcontextrestored",this.onRestored);
-      container.appendChild(canvas);
-      this.scene.background=null;
-      this.environment=createStudioEnvironment(renderer,true);
-      this.scene.environment=this.environment.texture;
-      this.model=createOpticalLensModel(undefined,{pass:"optimization-pass",quality:"high"});
-      this.runtime=this.model.userData.sculptRuntime as LensRuntime;
-      this.applyLoopPose();
-      this.scene.add(this.model,new THREE.HemisphereLight(0xe5eeff,0x282631,2));
-      for(const [color,intensity,position] of [
-        [0xffffff,3,[-3,5,4]],[0xdde4ff,1.4,[3,0,-4]],
-        [0xD2F802,1.8,[-4,4,-.4]],[0xA855F7,1.5,[4,-3,-.4]],
-      ] as const) {
-        const light=new THREE.DirectionalLight(color,intensity);
-        light.position.set(position[0],position[1],position[2]);this.scene.add(light);
+    try{
+      const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:"high-performance"});this.renderer=renderer;
+      renderer.setClearColor(0x000000,0);renderer.outputColorSpace=THREE.SRGBColorSpace;
+      renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1;
+      const canvas=renderer.domElement;canvas.dataset.lenusRenderer="true";canvas.setAttribute("aria-hidden","true");
+      canvas.addEventListener("webglcontextlost",this.onLost);canvas.addEventListener("webglcontextrestored",this.onRestored);
+      container.appendChild(canvas);this.scene.background=null;
+      this.environment=createStudioEnvironment(renderer,true);this.scene.environment=this.environment.texture;
+      this.rebuildModel();this.scene.add(new THREE.HemisphereLight(0xe5eeff,0x282631,2));
+      for(const [color,intensity,position]of [[0xffffff,3,[-3,5,4]],[0xdde4ff,1.4,[3,0,-4]],[0xD2F802,1.8,[-4,4,-.4]],[0xA855F7,1.5,[4,-3,-.4]]] as const){
+        const light=new THREE.DirectionalLight(color,intensity);light.position.set(position[0],position[1],position[2]);this.scene.add(light);
       }
-      this.placeCamera(BASE_YAW,BASE_POLAR);
-      const controls=new OrbitControls(this.camera,canvas);
-      this.controls=controls;
-      controls.enableZoom=false;controls.enablePan=false;controls.enableDamping=false;
-      controls.rotateSpeed=.5;
-      controls.minPolarAngle=Math.PI*.2;controls.maxPolarAngle=Math.PI*.8;
-      // OrbitControls normalizes bounds outside ±π; base±π wraps both to the same rear angle.
-      controls.minAzimuthAngle=-Math.PI;controls.maxAzimuthAngle=Math.PI;
-      controls.addEventListener("start",this.onDragStart);
-      controls.addEventListener("end",this.onDragEnd);
-      // Preserve vertical page scrolling on touch; horizontal drags still inspect the lens.
-      canvas.style.touchAction="pan-y pinch-zoom";
-      const bounds=container.getBoundingClientRect();
-      this.resize(bounds.width,bounds.height);
-    } catch(error) { this.dispose();throw error; }
+      this.configureControls(canvas);
+      const bounds=container.getBoundingClientRect();this.resize(bounds.width,bounds.height);
+    }catch(error){this.dispose();throw error;}
+  }
+  private rebuildModel(){
+    if(this.model)this.scene.remove(this.model);this.runtime?.dispose();
+    this.model=createOpticalLensModel(undefined,{pass:"optimization-pass",quality:"high"});
+    this.runtime=this.model.userData.sculptRuntime as LensRuntime;this.scene.add(this.model);this.applyLoopPose();
+  }
+  private releaseControls(){
+    this.controls?.removeEventListener("start",this.onDragStart);this.controls?.removeEventListener("end",this.onDragEnd);
+    this.controls?.removeEventListener("change",this.onControlChange);this.controls?.dispose();this.controls=null;
+  }
+  private configureControls(canvas:HTMLCanvasElement){
+    this.releaseControls();const controls=new OrbitControls(this.camera,canvas);this.controls=controls;
+    controls.enableZoom=false;controls.enablePan=false;controls.enableDamping=false;controls.rotateSpeed=.5;
+    controls.minPolarAngle=Math.PI*.2;controls.maxPolarAngle=Math.PI*.8;
+    controls.addEventListener("start",this.onDragStart);controls.addEventListener("end",this.onDragEnd);controls.addEventListener("change",this.onControlChange);
+    canvas.style.touchAction="pan-y pinch-zoom";
   }
   getRenderer(){return this.renderer;}
   getAnimationTime(){return this.elapsed;}
   getResolutionScale(){return this.resolutionScale;}
+  getInspectionSnapshot():LenusInspectionSnapshot{
+    return {mode:this.mode,camera:this.cameraPose(),orbit:{...this.orbit},hero:this.hero?structuredClone(this.hero):null,controls:{explode:this.explodeTarget,focus:this.focusTarget,currentExplode:this.explode,currentFocus:this.focus}};
+  }
+  private cameraPose():CameraPose{const p=new THREE.Spherical().setFromVector3(this.camera.position);return {yaw:p.theta,polar:p.phi};}
+  private automaticCamera():CameraPose{
+    const blend=getLensTransformationPose(this.elapsed).cameraBlend;
+    return {yaw:BASE_YAW+(LENS_INTERIOR_YAW-BASE_YAW)*blend,polar:BASE_POLAR};
+  }
+  private captureOrbit(){const view=this.cameraPose(),base=this.automaticCamera();this.orbit={yaw:view.yaw-base.yaw,polar:view.polar-base.polar};}
+  setInspectionMode(mode:LensInspectionMode){
+    if(this.disposed||mode===this.mode)return;
+    if(mode==="cutaway"){
+      if(this.dragging)this.captureOrbit();
+      this.hero={elapsed:this.elapsed,camera:this.cameraPose(),orbit:{...this.orbit},pointer:{...this.pointer},parallax:{...this.parallax}};
+      this.mode=mode;this.dragging=false;this.placeCamera(LENS_INTERIOR_YAW,BASE_POLAR);
+    }else{
+      this.mode="hero";
+      if(this.hero){const saved=this.hero;this.elapsed=saved.elapsed;this.orbit={...saved.orbit};this.pointer={...saved.pointer};this.parallax={...saved.parallax};this.placeCamera(saved.camera.yaw,saved.camera.polar);}
+      this.hero=null;
+    }
+    this.lastTime=null;this.applyLoopPose();this.render();
+  }
+  inspectPart(id:string){
+    const part=getPartTelemetry(id);
+    if(isInteriorPart(id)||prefersRearView(id))this.setInspectionMode("cutaway");
+    if(this.mode==="cutaway"){
+      const panel=/^housing-panel-([0-3])$/.exec(id);
+      if(panel){const i=Number(panel[1]);this.placeCamera(i===0||i===3?Math.PI/3:-Math.PI/3,Math.PI/2+(i<2?-.32:.32));}
+      else this.placeCamera(prefersRearView(id)?Math.PI:LENS_INTERIOR_YAW,BASE_POLAR);
+      this.render();
+    }
+    return part;
+  }
   resize(width:number,height:number){
     if(this.disposed||!this.renderer)return;
     this.viewport={width:Math.max(1,finite(width,1)),height:Math.max(1,finite(height,1))};
     const aspect=this.viewport.width/this.viewport.height,h=fitHeroFrustumHalfHeight(width,height);
-    this.camera.left=-h*aspect;this.camera.right=h*aspect;this.camera.top=h;this.camera.bottom=-h;
-    this.camera.updateProjectionMatrix();
-    this.resizeBuffer();
-    if(!this.contextLost)this.render();
+    this.camera.left=-h*aspect;this.camera.right=h*aspect;this.camera.top=h;this.camera.bottom=-h;this.camera.updateProjectionMatrix();
+    this.resizeBuffer();if(!this.contextLost)this.render();
   }
   private resizeBuffer(){
     if(!this.renderer||this.contextLost)return;
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5)*this.resolutionScale);
     this.renderer.setSize(this.viewport.width,this.viewport.height,false);
   }
-  setPointer(x:number,y:number){if(!this.disposed)this.pointer={x:normalizePointer(x),y:normalizePointer(y)};}
-  setExplodeTarget(amount:number){
+  setPointer(x:number,y:number){if(!this.disposed&&this.mode==="hero")this.pointer={x:normalizePointer(x),y:normalizePointer(y)};}
+  setExplodeTarget(amount:number,reveal=true){
     if(this.disposed)return;
+    if(reveal)this.setInspectionMode("cutaway");
     this.explodeTarget=THREE.MathUtils.clamp(finite(amount),0,1);
-    if(!this.running){
-      this.explode=this.explodeTarget;this.runtime?.setExplode(this.explode);
-      this.applyLoopPose();
-      this.render();
-    }
+    if(!this.running){this.explode=this.explodeTarget;this.applyLoopPose();this.render();}
   }
   setFocusTarget(radians:number){
-    if(this.disposed)return;
-    this.focusTarget=THREE.MathUtils.clamp(finite(radians),-Math.PI/2,Math.PI/2);
-    if(!this.running){this.focus=this.focusTarget;this.runtime?.setFocusRing(this.focus);this.applyLoopPose();this.render();}
+    if(this.disposed)return;this.focusTarget=THREE.MathUtils.clamp(finite(radians),-Math.PI/2,Math.PI/2);
+    if(!this.running){this.focus=this.focusTarget;this.applyLoopPose();this.render();}
   }
   pickAtNormalizedCanvas(nx:number,ny:number){
     if(this.disposed||this.contextLost||!this.model||!this.runtime)return getPartTelemetry(null);
     this.scene.updateMatrixWorld(true);this.camera.updateMatrixWorld(true);
     this.raycaster.setFromCamera(new THREE.Vector2(normalizePointer(nx),normalizePointer(ny)),this.camera);
-    const hit=this.raycaster.intersectObject(this.model,true)[0];
-    const part=getPartTelemetry(this.runtime.pickPart(hit?.object??null)?.name??null);
+    const hit=this.raycaster.intersectObject(this.model,true)[0];const part=getPartTelemetry(this.runtime.pickPart(hit?.object??null)?.name??null);
     this.options.onPartChange?.(part);return part;
   }
   private placeCamera(yaw:number,polar:number){
-    this.camera.position.setFromSphericalCoords(RADIUS,polar,yaw);this.camera.lookAt(0,0,0);
-    this.controls?.update();
+    const angle=finite(yaw,BASE_YAW);
+    this.camera.position.setFromSphericalCoords(RADIUS,THREE.MathUtils.clamp(finite(polar,BASE_POLAR),Math.PI*.2,Math.PI*.8),Math.atan2(Math.sin(angle),Math.cos(angle)));
+    this.camera.lookAt(0,0,0);this.placingCamera=true;this.controls?.update();this.placingCamera=false;
   }
   rotateView(deltaYaw:number,deltaPitch:number){
-    if(this.disposed||!this.renderer||this.contextLost)return;
-    const p=new THREE.Spherical().setFromVector3(this.camera.position);
-    this.placeCamera(THREE.MathUtils.clamp(p.theta+finite(deltaYaw),-Math.PI,Math.PI),THREE.MathUtils.clamp(p.phi+finite(deltaPitch),Math.PI*.2,Math.PI*.8));
-    this.render();
+    if(this.disposed||this.contextLost)return;const p=this.cameraPose();
+    this.placeCamera(p.yaw+finite(deltaYaw),p.polar+finite(deltaPitch));if(this.mode==="hero")this.captureOrbit();this.render();
   }
   resetView(){
     if(this.disposed)return;
-    this.pointer={x:0,y:0};this.parallax={x:0,y:0};this.setExplodeTarget(0);this.setFocusTarget(0);
-    if(!this.renderer)return;
-    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);
-    if(!this.contextLost)this.render();
+    this.mode="hero";this.hero=null;this.elapsed=0;this.lastTime=null;this.orbit={yaw:0,polar:0};
+    this.pointer={x:0,y:0};this.parallax={x:0,y:0};this.explode=this.explodeTarget=0;this.focus=this.focusTarget=0;
+    this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);this.render();
   }
   start(){
-    if(this.disposed||!this.renderer)return;
-    this.running=true;this.lastTime=null;
-    if(this.controls)this.controls.enabled=!this.contextLost;
-    if(!this.contextLost)this.renderer.setAnimationLoop(this.tick);
+    if(this.disposed||!this.renderer)return;this.running=true;this.lastTime=null;
+    if(this.controls)this.controls.enabled=!this.contextLost;if(!this.contextLost)this.renderer.setAnimationLoop(this.tick);
   }
-  stop(){
+  stop(allowInteraction=false){
     this.running=false;this.lastTime=null;this.renderer?.setAnimationLoop(null);
-    if(this.controls)this.controls.enabled=false;
+    if(this.controls)this.controls.enabled=allowInteraction&&!this.contextLost;
   }
   private tick=(time:number)=>{
     if(!this.running||this.disposed||this.contextLost||!this.renderer||!this.model||!this.runtime)return;
-    const delta=this.lastTime===null?0:Math.min(.1,(time-this.lastTime)/1000);
-    const realDelta=this.lastTime===null?0:(time-this.lastTime)/1000;
-    this.lastTime=time;
-    if(!this.dragging)this.elapsed+=Math.max(0,realDelta);
-    const damp=1-Math.exp(-5*delta);
-    this.explode+=(this.explodeTarget-this.explode)*damp;
-    this.focus+=(this.focusTarget-this.focus)*damp;
-    this.runtime.setExplode(this.explode);this.runtime.setFocusRing(this.focus);
-    this.parallax.y+=((this.dragging?0:this.pointer.x*.14)-this.parallax.y)*damp;
-    this.parallax.x+=((this.dragging?0:-this.pointer.y*.1)-this.parallax.x)*damp;
-    this.applyLoopPose();
-    this.frames++;this.sampleTime+=realDelta;
+    const realDelta=this.lastTime===null?0:Math.max(0,(time-this.lastTime)/1000),delta=Math.min(.1,realDelta);this.lastTime=time;
+    if(!this.dragging&&this.mode==="hero")this.elapsed+=realDelta;
+    const damp=1-Math.exp(-5*delta);this.explode+=(this.explodeTarget-this.explode)*damp;this.focus+=(this.focusTarget-this.focus)*damp;
+    if(this.mode==="hero"){
+      this.parallax.y+=((this.dragging?0:this.pointer.x*.14)-this.parallax.y)*damp;
+      this.parallax.x+=((this.dragging?0:-this.pointer.y*.1)-this.parallax.x)*damp;
+    }
+    this.applyLoopPose();this.frames++;this.sampleTime+=realDelta;
     if(this.sampleTime>=1){
-      const fps=this.frames/this.sampleTime;
-      this.options.onFps?.(Math.round(fps));
-      this.slowTime=fps<55?this.slowTime+this.sampleTime:0;
+      const fps=this.frames/this.sampleTime;this.options.onFps?.(Math.round(fps));this.slowTime=fps<55?this.slowTime+this.sampleTime:0;
       if(this.slowTime>=2&&this.resolutionScale>.75){this.resolutionScale=Math.max(.75,this.resolutionScale*.85);this.resizeBuffer();this.slowTime=0;}
       this.frames=0;this.sampleTime=0;
     }
-    // A buffer resize clears its pixels; render afterwards so pausing cannot freeze a blank frame.
     this.render();
   };
   private applyLoopPose(){
     if(!this.model||!this.runtime)return;
-    const pose=getLensLoopPose(this.elapsed);
-    this.model.rotation.set(pose.pitch+this.parallax.x,pose.yaw+this.parallax.y,pose.spin);
-    const collar=this.runtime.nodes["collar-inner"];
-    if(collar)collar.rotation.z=pose.collar;
-    const shards=this.runtime.nodes.shards;
-    if(shards){shards.position.y=pose.shardY;shards.rotation.z=this.focus+pose.shardOrbit;}
+    const seconds=this.mode==="cutaway"?12:this.elapsed,transform=getLensTransformationPose(seconds);
+    const ambient=this.mode==="cutaway"?{spin:0,yaw:0,pitch:0,collar:0,shardOrbit:0,shardY:0}:getLensLoopPose(this.elapsed);
+    this.runtime.setTransformationPose(transform);this.runtime.setExplode(this.mode==="cutaway"?this.explode:0);this.runtime.setFocusRing(this.focus);this.runtime.setAmbientPose(ambient);
+    const parallax=this.mode==="hero"?transform.ambientWeight:0;
+    this.model.rotation.set(ambient.pitch+this.parallax.x*parallax,ambient.yaw+this.parallax.y*parallax,ambient.spin);
+    if(this.mode==="hero"&&!this.dragging){const view=this.automaticCamera();this.placeCamera(view.yaw+this.orbit.yaw,view.polar+this.orbit.polar);}
   }
   private render(){if(this.renderer&&!this.contextLost)this.renderer.render(this.scene,this.camera);}
+  private onControlChange=()=>{if(!this.running&&!this.placingCamera)this.render();};
   private onDragStart=()=>{this.dragging=true;this.options.onInteractionChange?.(true);};
-  private onDragEnd=()=>{this.dragging=false;this.options.onInteractionChange?.(false);};
+  private onDragEnd=()=>{if(this.mode==="hero")this.captureOrbit();this.dragging=false;this.options.onInteractionChange?.(false);};
   private onLost=(event:Event)=>{
-    event.preventDefault();if(this.disposed)return;
-    this.contextLost=true;this.renderer?.setAnimationLoop(null);this.lastTime=null;
+    event.preventDefault();if(this.disposed)return;if(this.dragging&&this.mode==="hero")this.captureOrbit();this.dragging=false;
+    this.contextLost=true;this.renderer?.setAnimationLoop(null);this.lastTime=null;if(this.controls)this.controls.enabled=false;
     this.options.onContextChange?.("lost");
   };
   private onRestored=()=>{
     if(this.disposed||!this.renderer)return;
-    this.contextLost=false;this.environment?.dispose();
-    this.environment=createStudioEnvironment(this.renderer,true);this.scene.environment=this.environment.texture;
-    this.resizeBuffer();this.render();this.options.onContextChange?.("restored");
-    if(this.running)this.start();
+    try{
+      this.contextLost=false;this.environment?.dispose();this.environment=createStudioEnvironment(this.renderer,true);this.scene.environment=this.environment.texture;
+      this.rebuildModel();this.configureControls(this.renderer.domElement);this.resizeBuffer();this.applyLoopPose();this.render();
+      this.options.onContextChange?.("restored");if(this.running)this.start();
+    }catch{this.contextLost=true;this.stop();this.options.onContextChange?.("lost");}
   };
   dispose(){
-    if(this.disposed)return;
-    this.stop();this.disposed=true;
-    this.controls?.removeEventListener("start",this.onDragStart);this.controls?.removeEventListener("end",this.onDragEnd);
-    this.controls?.dispose();this.controls=null;
-    const renderer=this.renderer;
+    if(this.disposed)return;this.stop();this.disposed=true;this.releaseControls();const renderer=this.renderer;
     if(renderer){
-      renderer.domElement.removeEventListener("webglcontextlost",this.onLost);
-      renderer.domElement.removeEventListener("webglcontextrestored",this.onRestored);
-      this.runtime?.dispose();this.environment?.dispose();this.scene.clear();
-      renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();
+      renderer.domElement.removeEventListener("webglcontextlost",this.onLost);renderer.domElement.removeEventListener("webglcontextrestored",this.onRestored);
+      this.runtime?.dispose();this.environment?.dispose();this.scene.clear();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();
     }
     this.renderer=null;this.runtime=null;this.model=null;this.environment=null;
   }
@@ -3484,10 +5045,12 @@ export class LenusSceneController {
 ]]>
     </file>
     <file path="src/app/(lenus)/lenus/scene/telemetry.ts">
-<![CDATA[export type LenusPartInfo = { id: string; label: string; material: string; role: string };
+<![CDATA[import spec from "../model/lens-spec.json";
+import { INTERIOR_IDS, OPTICAL_ORDER } from "../model/interiorLayout";
 
-export const OPTICAL_PARTS: readonly LenusPartInfo[] = [
-  { id:"assembly", label:"OPTICAL ASSEMBLY", material:"19 PARTS / PROCEDURAL OPTICS", role:"Select a part to look a little closer." },
+export type LenusPartInfo = { id: string; label: string; material: string; role: string };
+
+const legacyParts: readonly LenusPartInfo[] = [
   { id:"front-lens", label:"EMERALD OBJECTIVE CORE", material:"DOPED FLUORITE / N=1.52", role:"Primary chromatic-dispersion singlet with internal 520nm fluorescence" },
   ...["outer-glass","inner-glass"].map((id,i)=>({id,label:i===0?"OUTER FLUTED GLASS":"INNER GLASS ANNULUS",material:"OPTICAL GLASS / N=1.52",role:"Fluted transmission surface with chromatic dispersion."})),
   ...["front-shell","collar-outer","collar-middle","collar-inner","rear-frame","rear-hub","rear-seat","rear-fins","rear-bridges","outer-screws","inner-screws"].map(id=>({id,label:id.replaceAll("-"," ").toUpperCase(),material:"BRUSHED TITANIUM",role:id.includes("collar")?"Concentric focus collar, independently addressable.":"Machined support in the optical assembly."})),
@@ -3495,6 +5058,28 @@ export const OPTICAL_PARTS: readonly LenusPartInfo[] = [
   {id:"gold-contacts",label:"GOLD CONTACT ARRAY",material:"GOLD ELECTRICAL CONTACTS",role:"Thirteen radial contact pads around the rear optical seat."},
   ...["retaining-beads","rear-beads"].map(id=>({id,label:id.replaceAll("-"," ").toUpperCase(),material:"POLISHED METAL",role:"Narrow concentric retaining edges."})),
   {id:"shards",label:"ORBITING GLASS PRISMS",material:"BEVELED OPTICAL GLASS",role:"Twelve independent faceted prisms orbit the objective."},
+];
+export function getSemanticPartCount(){return spec.components.length;}
+const interior=new Set<string>([...INTERIOR_IDS,...OPTICAL_ORDER,"collar-inner"]);
+const rearView=new Set(["rear-frame","rear-hub","rear-seat","rear-lens","rear-fins","rear-bridges","outer-screws","inner-screws","gold-contacts","rear-beads"]);
+export function isInteriorPart(id:string){return interior.has(id);}
+export function prefersRearView(id:string){return rearView.has(id);}
+const roles:Record<string,string>={
+  "core-carrier":"Recessed support around the emerald objective.",
+  "spacer-stack":"Annular seats keep the optical groups separated.",
+  "rear-baffles":"Rear stops keep the optical path clear.",
+  "carrier-fasteners":"Radial fasteners secure the core carrier.",
+  "core-retaining-beads":"Polished retaining edges around the recessed core.",
+  "guide-rails":"Telescoping guides keep the optical carriages aligned.",
+  "panel-linkages":"Paired support arms connect each housing panel to the rear frame.",
+};
+export const OPTICAL_PARTS:readonly LenusPartInfo[]=[
+  {id:"assembly",label:"OPTICAL ASSEMBLY",material:`${getSemanticPartCount()} PARTS / PROCEDURAL OPTICS`,role:"Select a part to look a little closer."},
+  ...spec.components.map(c=>legacyParts.find(p=>p.id===c.id)??{
+    id:c.id,label:c.id.replaceAll("-"," ").toUpperCase(),
+    material:c.material==="glass"?"OPTICAL GLASS / N=1.52":"BRUSHED TITANIUM",
+    role:c.geometry.kind==="optical-element"?"Curved optical glass seated in its own retaining cell.":c.id.endsWith("-cell")?"Four titanium retainers hold the element on its guide carriage.":c.id.startsWith("housing-panel-")?"Articulated housing panel that opens to reveal the optical train.":roles[c.id]??"Machined support in the optical assembly.",
+  }),
 ];
 export function getPartTelemetry(id: string | null): LenusPartInfo {
   return OPTICAL_PARTS.find(p=>p.id===id) ?? OPTICAL_PARTS[0];

@@ -1,0 +1,372 @@
+{
+  "errors": [],
+  "evidence": [
+    {
+      "completeCycle": 24.193200000000296,
+      "fps": [
+        181,
+        180,
+        180,
+        163,
+        165,
+        166,
+        149,
+        166,
+        153,
+        169,
+        162,
+        149,
+        138,
+        118,
+        118,
+        118,
+        92,
+        118,
+        129,
+        135,
+        151,
+        132,
+        113,
+        116
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 (0x00001F08) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "phase": 0,
+      "heldTime": 0,
+      "restoredYaw": -0.46,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.6697716666835453,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.6697716666835453,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7589052584095476,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "heldTime": 3,
+      "restoredYaw": -0.46,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.6773375377752201,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.6773375377752201,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7699371244679155,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 6,
+      "heldTime": 6,
+      "restoredYaw": -0.46,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.7052979252777357,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.7052979252777357,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.8119766059770295,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 8,
+      "heldTime": 8,
+      "restoredYaw": 0.20633231299858243,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.7458993415906231,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.7458993415906231,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7474149709512832,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 10,
+      "heldTime": 10,
+      "restoredYaw": 0.8726646259971649,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.8518197378937888,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.8518197378937888,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7596503134633239,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 12,
+      "heldTime": 12,
+      "restoredYaw": 0.8726646259971649,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.8518197378937888,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.8518197378937888,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7596503134633239,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 15,
+      "heldTime": 15,
+      "restoredYaw": 0.8726646259971649,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.8518197378937888,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.8518197378937888,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7596503134633239,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 18,
+      "heldTime": 18,
+      "restoredYaw": -0.3220483883245122,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.7107525733426423,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.7107525733426423,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7416760878509828,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 20,
+      "heldTime": 20,
+      "restoredYaw": -0.46,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.683163204867124,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.683163204867124,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7387049173277438,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 22,
+      "heldTime": 22,
+      "restoredYaw": -0.46,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.6715034634786743,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.6715034634786743,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7479997408608389,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 23.99,
+      "heldTime": 23.99,
+      "restoredYaw": -0.46,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.6697853092739775,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.6697853092739775,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7588552745482005,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    },
+    {
+      "phase": 24,
+      "heldTime": 24,
+      "restoredYaw": -0.46,
+      "fit": [
+        {
+          "width": 1440,
+          "height": 900,
+          "maximumProjectedExtent": 0.6697716666835453,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 900,
+          "height": 700,
+          "maximumProjectedExtent": 0.6697716666835453,
+          "calls": 107,
+          "renderedTriangles": 295024
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "maximumProjectedExtent": 0.7589052584095476,
+          "calls": 107,
+          "renderedTriangles": 295024
+        }
+      ]
+    }
+  ],
+  "contextRestore": true
+}

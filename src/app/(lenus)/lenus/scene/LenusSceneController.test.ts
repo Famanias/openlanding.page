@@ -2,6 +2,13 @@ import { describe, expect, it, vi } from "vitest";
 import { fitHeroFrustumHalfHeight, getPartTelemetry, LenusSceneController, normalizePointer } from "./LenusSceneController";
 
 describe("LenusSceneController", () => {
+  it("faces the selected housing quadrant instead of leaving far panels behind the stack",()=>{
+    const c=new LenusSceneController();
+    for(let i=0;i<4;i++){c.inspectPart(`housing-panel-${i}`);const view=c.getInspectionSnapshot().camera;
+      expect(Math.sign(view.yaw)).toBe(i===0||i===3?1:-1);
+      expect(Math.sign(Math.PI/2-view.polar)).toBe(i<2?1:-1);
+    }c.dispose();
+  });
   it("allows keyboard orbit past the rear inspection preset",()=>{
     const c=new LenusSceneController();c.inspectPart("rear-lens");c.rotateView(.12,0);
     expect(Math.abs(c.getInspectionSnapshot().camera.yaw-Math.PI)).toBeGreaterThan(.01);c.dispose();

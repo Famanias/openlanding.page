@@ -116,7 +116,12 @@ export class LenusSceneController{
   inspectPart(id:string){
     const part=getPartTelemetry(id);
     if(isInteriorPart(id)||prefersRearView(id))this.setInspectionMode("cutaway");
-    if(this.mode==="cutaway"){this.placeCamera(prefersRearView(id)?Math.PI:LENS_INTERIOR_YAW,BASE_POLAR);this.render();}
+    if(this.mode==="cutaway"){
+      const panel=/^housing-panel-([0-3])$/.exec(id);
+      if(panel){const i=Number(panel[1]);this.placeCamera(i===0||i===3?Math.PI/3:-Math.PI/3,Math.PI/2+(i<2?-.32:.32));}
+      else this.placeCamera(prefersRearView(id)?Math.PI:LENS_INTERIOR_YAW,BASE_POLAR);
+      this.render();
+    }
     return part;
   }
   resize(width:number,height:number){

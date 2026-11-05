@@ -1,0 +1,167 @@
+[
+  {
+    "seconds": 0,
+    "linkGap": 5.6848960507001274e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 3,
+    "linkGap": 5.6848960507001274e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 4,
+    "linkGap": 5.6848960507001274e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 5,
+    "linkGap": 5.6848960507001274e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 6,
+    "linkGap": 6.066614385775045e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 8,
+    "linkGap": 5.4099943576899555e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.059999998956918876,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 10,
+    "linkGap": 5.4099943576899555e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.059999998956918876,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 12,
+    "linkGap": 5.4099943576899555e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.059999998956918876,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 15,
+    "linkGap": 5.4099943576899555e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.059999998956918876,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 18,
+    "linkGap": 5.4099943576899555e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.04388350077322317,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 20,
+    "linkGap": 5.6848960507001274e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 21,
+    "linkGap": 5.6848960507001274e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 22,
+    "linkGap": 5.6848960507001274e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 23.99,
+    "linkGap": 5.6848960507001274e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  },
+  {
+    "seconds": 24,
+    "linkGap": 5.6848960507001274e-8,
+    "railOffset": 0,
+    "railSurfaceGap": 0.0009999985846327886,
+    "railAxialOverlap": 0.07999999821186066,
+    "linkCount": 16,
+    "railSocketCount": 28,
+    "minimumOpticalGap": 0.02999999985098839,
+    "semanticCount": 41
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "action":"continue",
+  "score":0.78,
+  "summary":"Blockout-only review of the full reference/render pair plus closed and side views: fixed seven-group axial volumes, recessed core, four closed coarse housing sectors and preserved front/rear identity are established. The shorter 2.1-unit body intentionally adapts the supplied long barrel to the existing hero. Closed Tier1, both turntables and sampled self-intersection checks pass. Gray proxies intentionally do not prove glass curvature/transmission, final panel bevels, moving contacts or cinematic motion; those remain gated to later passes. Generic attachment report has zero applicable entries and is not accepted as contact evidence. Rails currently extend visibly beyond the front; structure must seat carriages and trim travel endpoints. The dense front occluding collar will require physical opening, not visibility swapping.",
+  "layers":{"silhouetteProportion":0.81,"componentStructure":0.80,"formDetail":0.45,"materialSurface":0.20,"lightingCamera":0.78},
+  "features":[
+    {"id":"optical-stack","score":0.81,"visible":true,"notes":"Coarse separated coaxial group volumes and ordering established, with bounds/air gaps checked independently. Curvature belongs to form refinement."},
+    {"id":"exterior-loop","score":0.83,"visible":true,"notes":"Original ring dimensions and rear/shard identity retained; static deployment envelope fits review viewports. This is exterior/layout acceptance only; no motion acceptance is claimed."}
+  ]
+}
