@@ -19,8 +19,8 @@ function createSvg(width: number, height: number): string {
     </filter>
   </defs>
 
-  <!-- Background -->
-  <rect width="${width}" height="${height}" fill="url(#canvasGrad)" />
+  <!-- Background Fallback -->
+  <rect width="${width}" height="${height}" fill="url(#canvasGrad)" fill-opacity="0.35" />
 
   <g transform="scale(${scale})">
     <!-- Header Bar -->
@@ -198,17 +198,34 @@ function createSvg(width: number, height: number): string {
 }
 
 async function run() {
+  const heroBg = path.resolve("public/templates/waypoint/hero-bg.webp");
   const previewSvg = Buffer.from(createSvg(1600, 900));
   const gallerySvg = Buffer.from(createSvg(1920, 1080));
 
   const previewOut = path.resolve("public/templates/waypoint/preview-1600.webp");
   const galleryOut = path.resolve("public/gallery/waypoint.webp");
 
-  await sharp(previewSvg).webp({ quality: 90 }).toFile(previewOut);
-  console.log(`Generated ${previewOut}`);
+  if (fs.existsSync(heroBg)) {
+    const bg1600 = await sharp(heroBg).resize(1600, 900, { fit: "cover" }).toBuffer();
+    await sharp(bg1600)
+      .composite([{ input: previewSvg }])
+      .webp({ quality: 90 })
+      .toFile(previewOut);
+    console.log(`Generated ${previewOut} with scenery background`);
 
-  await sharp(gallerySvg).webp({ quality: 90 }).toFile(galleryOut);
-  console.log(`Generated ${galleryOut}`);
+    const bg1920 = await sharp(heroBg).resize(1920, 1080, { fit: "cover" }).toBuffer();
+    await sharp(bg1920)
+      .composite([{ input: gallerySvg }])
+      .webp({ quality: 90 })
+      .toFile(galleryOut);
+    console.log(`Generated ${galleryOut} with scenery background`);
+  } else {
+    await sharp(previewSvg).webp({ quality: 90 }).toFile(previewOut);
+    console.log(`Generated ${previewOut}`);
+
+    await sharp(gallerySvg).webp({ quality: 90 }).toFile(galleryOut);
+    console.log(`Generated ${galleryOut}`);
+  }
 }
 
 run().catch((err) => {

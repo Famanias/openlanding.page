@@ -767,15 +767,21 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-gradient-to-b from-[#F5EFEB] via-[#EDE6DF] to-[#E5DDD4] text-center"
+      className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-[#EDE6DF] text-center"
     >
-      {/* Subtle warm atmospheric glow */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 pointer-events-none opacity-60"
-        style={{
-          background: "radial-gradient(circle at 50% 20%, #FAF8F5 0%, rgba(237,230,223,0) 70%)",
-        }}
-      />
+      {/* Full-bleed 16:9 Scenery Background Image */}
+      <div className="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/templates/waypoint/hero-bg-1920.webp"
+          alt="Waypoint scenic landscape illustration"
+          className="w-full h-full object-cover object-top sm:object-center opacity-85"
+        />
+        {/* Soft atmospheric gradient wash to blend into bottom canvas & guarantee text contrast */}
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-[#F5EFEB]/50 via-transparent to-[#EDE6DF]"
+        />
+      </div>
 
       <div className="relative max-w-5xl mx-auto px-6 z-10">
         {/* Eyebrow Pill */}
