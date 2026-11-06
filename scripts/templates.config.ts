@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "savepoint" | "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra";
+export type TemplateSlug = "lenus" | "savepoint" | "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,11 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  lenus: {
+    palette: ["#08090D", "#10131C", "#161924", "#F8FAFC", "#9499A6", "#D2F802", "#A855F7", "#00E599", "#0A0B0E"],
+    paletteExempt: ["src/app/(lenus)/lenus/model/"],
+    mediaExempt: true,
+  },
   savepoint: { palette: ["#121419", "#0B0D12", "#1B1F28", "#252934", "#F2F0E8", "#A9ADB7", "#CDF266", "#7971B7", "#F47D62"], paletteExempt: ["src/app/(savepoint)/"], mediaExempt: true },
   penumbra: {
     palette: ["#111318", "#20252D", "#F2EBE2", "#D7A779", "#E9BB86", "#7E91A8", "#A6A29F"],
@@ -86,8 +91,6 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
     paletteExempt: ["src/app/(starriot)/"],
     mediaExempt: true,
   },
-
-
   arcandsignal: { palette: ["#0B0A20", "#181339", "#A887FF", "#D9C8FF", "#8DCBFF", "#F8F6FF", "#B9B2D0"] },
   stillwater: { palette: ["#EEE9E0", "#F4F0E8", "#DED7CA", "#34332E", "#253733", "#182521", "#AEBDAF", "#C8AF98", "#FAF8F1"] },
   mercer: {

@@ -1,0 +1,13 @@
+{
+  "action":"continue",
+  "score":0.82,
+  "comparisonImage":"comparison-deployed-full.png",
+  "summary":"Form-only review of complete uncropped reference/render pairs and phase/side views. Five new closed curved glass volumes have positive rims, a true meniscus and plano back, fitted stepped holders and rounded seat fillets. Four closed quarter-cylinder panels use capped bevel profiles and wrap outside the existing rear flange. The compact body deliberately differs in length from the generated reference. Original glass-ring dimensions, emerald geometry and semantic IDs remain; front support aperture/collar placement are repacked to retain optics and clear travel. A front-carriage lift clears continuous glass before radial panel motion; .32-unit linkages on rear anchor posts remain connected. Sampled optical minimum gap .03, bearing gap .001, axial engagement .08 and stable 41-part geometry inventory pass throughout travel. Closed/deployed turntables, unmodified sampled self-intersection and Tier1 pass. 188480 model triangles / 86 calls. Gray form review does not accept transmission, green visibility or final motion rhythm; those remain later gates. The shorter cartridge and stronger primary glass curvature are explicit reference-inspired adaptations.",
+  "layers":{"silhouetteProportion":0.81,"componentStructure":0.84,"formDetail":0.83,"materialSurface":0.20,"lightingCamera":0.80},
+  "features":[
+    {"id":"optical-stack","score":0.84,"visible":true,"notes":"Fixed seven-group order with genuinely curved volumes, stepped retaining cells and verified air gaps; primary biconvex profile has readable .102 depth/diameter."},
+    {"id":"moving-attachments","score":0.85,"visible":true,"notes":"28 real rail sockets, measured bearing fit and 16 connected linkage arms; tamper-sensitive measurements and dense phase sampling prove the modeled contact contract."},
+    {"id":"closed-panels","score":0.86,"visible":true,"notes":"Capped beveled sectors, real radial seams and no hidden/swapped panel geometry; rear-flange collision regression and continuous-glass clearance envelope pass."},
+    {"id":"exterior-loop","score":0.82,"visible":true,"notes":"Original ring/shard/green identity retained with a compact reference-inspired housing. All geometry remains present and identical matrices return after 24 seconds; runtime scheduling acceptance remains Task 7."}
+  ]
+}

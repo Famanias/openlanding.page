@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  lenus: { name: "LENUS", dependencies: ["three", "lucide-react"] },
   savepoint: { name: "SAVEPOINT.", dependencies: ["three", "@types/three", "gsap", "zustand"] },
   penumbra: { name: "PENUMBRA", dependencies: ["lucide-react", "motion"] },
   zeno: { name: "ZENO.", dependencies: ["lucide-react", "motion"] },
@@ -20,7 +21,6 @@ const COPY_METADATA: Record<
   razorline: { name: "RAZORLINE", dependencies: ["lucide-react", "motion"] },
   nexus: { name: "nexus", dependencies: ["lucide-react", "motion"] },
   starriot: { name: "STAR RIOT", dependencies: ["lucide-react", "motion"] },
-
   arcandsignal: { name: "Arc & Signal", dependencies: [] },
   stillwater: { name: "Stillwater", dependencies: [], includeDownload: true },
   mercer: { name: "Jules Mercer", dependencies: ["three", "lucide-react"] },
@@ -264,7 +264,7 @@ export function generateCopyBundles(outputDir = path.resolve(process.cwd(), "pub
       downloadPath: null,
       includeDownload: false,
     };
-    const files = readTemplateFiles(slug);
+    const files = readTemplateFiles(slug, true);
     if (meta.includeDownload && meta.downloadPath) {
       const downloadPath = path.join("public", "downloads", `${slug}.html`);
       if (fs.existsSync(downloadPath)) {

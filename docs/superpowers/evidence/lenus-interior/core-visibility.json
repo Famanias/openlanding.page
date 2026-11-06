@@ -1,0 +1,62 @@
+[
+  {
+    "pose": "closed",
+    "seconds": 0,
+    "angle": -26.35605857601787,
+    "roi": {
+      "x0": 589,
+      "y0": 308,
+      "x1": 717,
+      "y1": 440
+    },
+    "greenPixels": 6468,
+    "minimum": 1351,
+    "footprintPixels": 6871,
+    "passed": true
+  },
+  {
+    "pose": "opening",
+    "seconds": 8,
+    "angle": 11.821970711991066,
+    "roi": {
+      "x0": 641,
+      "y0": 309,
+      "x1": 768,
+      "y1": 438
+    },
+    "greenPixels": 7344,
+    "minimum": 1310,
+    "footprintPixels": 7734,
+    "passed": true
+  },
+  {
+    "pose": "deployed",
+    "seconds": 12,
+    "angle": 50,
+    "roi": {
+      "x0": 692,
+      "y0": 309,
+      "x1": 805,
+      "y1": 445
+    },
+    "greenPixels": 3787,
+    "minimum": 1229,
+    "footprintPixels": 4945,
+    "passed": true
+  },
+  {
+    "pose": "reference-deployed",
+    "seconds": 12,
+    "angle": 60,
+    "roi": {
+      "x0": 706,
+      "y0": 310,
+      "x1": 807,
+      "y1": 447
+    },
+    "greenPixels": 1414,
+    "minimum": 1106,
+    "footprintPixels": 1853,
+    "passed": true
+  }
+]

@@ -1,0 +1,295 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "reduced": false,
+    "errors": [],
+    "chapters": [
+      {
+        "position": "6.944444444444445e-7",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": ""
+      },
+      {
+        "position": "1",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-manifesto"
+      },
+      {
+        "position": "2",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-work"
+      },
+      {
+        "position": "3",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-expertise"
+      },
+      {
+        "position": "4",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-technology"
+      },
+      {
+        "position": "5",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-studio"
+      },
+      {
+        "position": "6",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-contact"
+      }
+    ]
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "reduced": false,
+    "errors": [],
+    "chapters": [
+      {
+        "position": "7.320644216691068e-7",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": ""
+      },
+      {
+        "position": "0.9999990483162519",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-manifesto"
+      },
+      {
+        "position": "1.999998096632504",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-work"
+      },
+      {
+        "position": "3.0000028550512443",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-expertise"
+      },
+      {
+        "position": "4.0000019033674965",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-technology"
+      },
+      {
+        "position": "5.000000951683748",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-studio"
+      },
+      {
+        "position": "6",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-contact"
+      }
+    ]
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "reduced": false,
+    "errors": [],
+    "chapters": [
+      {
+        "position": "5.208333333333334e-7",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": ""
+      },
+      {
+        "position": "1",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-manifesto"
+      },
+      {
+        "position": "2",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-work"
+      },
+      {
+        "position": "3",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-expertise"
+      },
+      {
+        "position": "4",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-technology"
+      },
+      {
+        "position": "5",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-studio"
+      },
+      {
+        "position": "6",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-contact"
+      }
+    ]
+  },
+  {
+    "width": 900,
+    "height": 700,
+    "reduced": false,
+    "errors": [],
+    "chapters": [
+      {
+        "position": "0",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": ""
+      },
+      {
+        "position": "1",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-manifesto"
+      },
+      {
+        "position": "2",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-work"
+      },
+      {
+        "position": "3",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-expertise"
+      },
+      {
+        "position": "4",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-technology"
+      },
+      {
+        "position": "5",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-studio"
+      },
+      {
+        "position": "6",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-contact"
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "reduced": false,
+    "errors": [],
+    "chapters": [
+      {
+        "position": "0",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": ""
+      },
+      {
+        "position": "1",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-manifesto"
+      },
+      {
+        "position": "2",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-work"
+      },
+      {
+        "position": "3",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-expertise"
+      },
+      {
+        "position": "4",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-technology"
+      },
+      {
+        "position": "5",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-studio"
+      },
+      {
+        "position": "6",
+        "canvas": 1,
+        "overflow": 0,
+        "chapter": "#ln-contact"
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "reduced": true,
+    "errors": [],
+    "chapters": [
+      {
+        "canvas": 0,
+        "overflow": 0,
+        "chapter": ""
+      },
+      {
+        "canvas": 0,
+        "overflow": 0,
+        "chapter": "#ln-manifesto"
+      },
+      {
+        "canvas": 0,
+        "overflow": 0,
+        "chapter": "#ln-work"
+      },
+      {
+        "canvas": 0,
+        "overflow": 0,
+        "chapter": "#ln-expertise"
+      },
+      {
+        "canvas": 0,
+        "overflow": 0,
+        "chapter": "#ln-technology"
+      },
+      {
+        "canvas": 0,
+        "overflow": 0,
+        "chapter": "#ln-studio"
+      },
+      {
+        "canvas": 0,
+        "overflow": 0,
+        "chapter": "#ln-contact"
+      }
+    ]
+  }
+]
