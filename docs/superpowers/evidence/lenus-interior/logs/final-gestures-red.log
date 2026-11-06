@@ -1,0 +1,102 @@
+
+Running 3 tests using 1 worker
+
+node : (node:5796) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:57
++ ... ORT='4322'; node node_modules/@playwright/test/cli.js test tests/e2e/ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:5796) War... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [chromium] › tests\e2e\lenus.spec.ts:279:5 › inspection toggles preserve a held pointer drag until release (4.9s)
+(node:28580) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [chromium] › tests\e2e\lenus.spec.ts:298:5 › preference reconstruction retains paused hero parallax (6.2s)
+(node:15508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 [chromium] › tests\e2e\lenus.spec.ts:309:5 › preference reconstruction retains an active drag view (5.6s)
+
+
+  1) [chromium] › tests\e2e\lenus.spec.ts:279:5 › inspection toggles preserve a held pointer drag until release 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 0.1
+    Received:   31.602498372395832
+
+      291 |     await page.evaluate(()=>Reflect.set(window,"__lenusTimeOffset",10000));
+      292 |     await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
+    > 293 |     expect(await meanFrameDifference(held,await canvas.screenshot())).toBeLessThan(.1);
+          |                                                                       ^
+      294 |     await page.mouse.move(x+120,y-45,{steps:5});expect(await meanFrameDifference(held,await canvas.screenshot())).toBeGreaterThan(.1);
+      295 |   }finally{await page.mouse.up();}
+      296 | });
+        at E:\orca\workspaces\webflow-projects\codex-session-112-619\tests\e2e\lenus.spec.ts:293:71
+
+    Error Context: test-results\lenus-inspection-toggles-p-03b97--pointer-drag-until-release-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\lenus-inspection-toggles-p-03b97--pointer-drag-until-release-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\lenus-inspection-toggles-p-03b97--pointer-drag-until-release-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests\e2e\lenus.spec.ts:298:5 › preference reconstruction retains paused hero parallax 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 0.1
+    Received:   12.172526041666666
+
+      304 |   await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
+      305 |   await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","paused",{timeout:60_000});
+    > 306 |   expect(await meanFrameDifference(before,await canvas.screenshot())).toBeLessThan(.1);
+          |                                                                       ^
+      307 | });
+      308 |
+      309 | test("preference reconstruction retains an active drag view",async({page})=>{
+        at E:\orca\workspaces\webflow-projects\codex-session-112-619\tests\e2e\lenus.spec.ts:306:71
+
+    Error Context: test-results\lenus-preference-reconstruction-retains-paused-hero-parallax-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\lenus-preference-reconstruction-retains-paused-hero-parallax-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\lenus-preference-reconstruction-retains-paused-hero-parallax-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › tests\e2e\lenus.spec.ts:309:5 › preference reconstruction retains an active drag view 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 0.1
+    Received:   31.337972005208332
+
+      316 |     await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
+      317 |     await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","paused",{timeout:60_000});
+    > 318 |     expect(await meanFrameDifference(before,await canvas.screenshot())).toBeLessThan(.1);
+          |                                                                         ^
+      319 |   }finally{await page.mouse.up();}
+      320 | });
+      321 |
+        at E:\orca\workspaces\webflow-projects\codex-session-112-619\tests\e2e\lenus.spec.ts:318:73
+
+    Error Context: test-results\lenus-preference-reconstruction-retains-an-active-drag-view-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\lenus-preference-reconstruction-retains-an-active-drag-view-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\lenus-preference-reconstruction-retains-an-active-drag-view-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › tests\e2e\lenus.spec.ts:279:5 › inspection toggles preserve a held pointer drag until release 
+    [chromium] › tests\e2e\lenus.spec.ts:298:5 › preference reconstruction retains paused hero parallax 
+    [chromium] › tests\e2e\lenus.spec.ts:309:5 › preference reconstruction retains an active drag view 

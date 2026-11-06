@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  lenus: { name: "LENUS", dependencies: ["three", "lucide-react"] },
   arcsignal: { name: "Arc & Signal", dependencies: ["lucide-react", "motion"] },
   khora: { name: "KHORA", dependencies: [], includeDownload: true },
   pitchlane: { name: "Pitchlane", dependencies: [], includeDownload: true },
@@ -267,7 +268,7 @@ export function generateCopyBundles(outputDir = path.resolve(process.cwd(), "pub
       downloadPath: null,
       includeDownload: false,
     };
-    const files = readTemplateFiles(slug);
+    const files = readTemplateFiles(slug, true);
     if (meta.includeDownload && meta.downloadPath) {
       const downloadPath = path.join("public", "downloads", `${slug}.html`);
       if (fs.existsSync(downloadPath)) {

@@ -27,6 +27,174 @@ export default function Layout({ children }: {
 }) { return <html lang="en" className={`${display.variable} ${mono.variable} ${sans.variable}`}><body>{children}</body></html>; }
 ]]>
     </file>
+    <file path="src/app/(savepoint)/savepoint/MILESTONE_STATUS.json">
+<![CDATA[{
+  "milestones": {
+    "1": "passed: assets, route scaffold, typed catalog and gallery registration",
+    "2": "passed: both procedural hardware models completed all eight sculpt passes and final geometry/coverage gates",
+    "3": "passed: 30-cartridge infinite rail, arrows, keyboard, drag/snap, raycast selection and directional captions",
+    "4": "passed: world-space insertion, physical cavity occlusion, boot display, projected takeover, skip, reverse ejection, focus, history, reduced motion and context recovery",
+    "5": "passed: hardware inspection, manifesto, ten-world filtered catalog, working shelf/boot actions, footer, fine-pointer cursor, design and complete rebuild documentation",
+    "6": "passed: production build and TypeScript, isolation/palette/media, copy bundles, all 1260 unit tests, 12 production Playwright tests, five-size visual and content QA"
+  },
+  "route": "http://localhost:3100/savepoint",
+  "milestones5And6Implemented": true,
+  "checks": {
+    "typescript": "repository-wide tsc --noEmit passed",
+    "isolation": "passed",
+    "approvedAssets": {
+      "count": 26,
+      "unchangedFromSource": true
+    },
+    "browser": {
+      "errors": [],
+      "httpFailures": [],
+      "primaryCanvasCount": 1,
+      "inspectionCanvasCount": 1,
+      "horizontalOverflow": false,
+      "viewports": [
+        [
+          1920,
+          1080
+        ],
+        [
+          1366,
+          768
+        ],
+        [
+          1024,
+          768
+        ],
+        [
+          768,
+          1024
+        ],
+        [
+          390,
+          844
+        ]
+      ],
+      "visualReport": "public/templates/savepoint/verification/milestone-6/browser-report.json"
+    },
+    "insertionCalibration": {
+      "sampleCount": 22,
+      "axisError": 0,
+      "dockError": 0,
+      "slotRay": {
+        "name": "slot-contact-14",
+        "point": [
+          0,
+          0.3935000000793672,
+          -1.05
+        ]
+      },
+      "slotEntrance": [
+        0,
+        0.655,
+        -1.05
+      ],
+      "fullyInserted": [
+        0,
+        0.42,
+        -1.05
+      ],
+      "projectedScreen": {
+        "points": [
+          {
+            "x": 550.8272749399214,
+            "y": 396.6322592011064
+          },
+          {
+            "x": 821.8020282893688,
+            "y": 404.2730326231883
+          },
+          {
+            "x": 824.5817401196863,
+            "y": 530.4232602509833
+          },
+          {
+            "x": 524.8299173687851,
+            "y": 520.0327312829656
+          }
+        ],
+        "left": 524.8299173687851,
+        "top": 396.6322592011064,
+        "width": 299.75182275090117,
+        "height": 133.79100104987685
+      },
+      "drawCalls": 74,
+      "triangles": 63610
+    },
+    "framing": [
+      {
+        "viewport": {
+          "width": 1366,
+          "height": 768
+        },
+        "sampleCount": 407,
+        "clippedFrames": 0,
+        "firstClipped": []
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "sampleCount": 439,
+        "clippedFrames": 0,
+        "firstClipped": []
+      }
+    ],
+    "productionBuild": {
+      "exitCode": 0,
+      "completedAt": "2026-11-04T15:20:34.213Z"
+    },
+    "unitTests": {
+      "files": 232,
+      "passed": 1260,
+      "failed": 0
+    },
+    "savepointPlaywrightTests": {
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "channel": "msedge",
+      "server": "production",
+      "workers": 1,
+      "trace": "off"
+    },
+    "copyBundles": "complete source and prompt generated with three, @types/three, gsap and zustand",
+    "palette": "passed",
+    "media": "passed",
+    "contentAudit": "public/templates/savepoint/verification/milestone-6/content-audit.json"
+  },
+  "models": {
+    "deck01": {
+      "silhouetteIoU": 0.867,
+      "partCoverageErrors": 0,
+      "partCoverageWarnings": 0,
+      "selfIntersection": false,
+      "closedPrototypeVerticesSampled": 52893
+    },
+    "cartridge": {
+      "silhouetteIoU": 0.9037,
+      "partCoverageErrors": 0,
+      "partCoverageWarnings": 0,
+      "selfIntersection": false,
+      "closedPrototypeVerticesSampled": 6334
+    }
+  },
+  "evidenceDirectory": "public/templates/savepoint/verification",
+  "limitations": [
+    "Hardware dimensions, hidden sides and polymer micrograin are procedural approximations of the supplied renders.",
+    "Self-intersection tests cover closed geometry prototypes; flat artwork carriers are excluded and shared instanced prototypes are evaluated once."
+  ],
+  "completedThroughMilestone": 6,
+  "awaitingUserInstructions": true,
+  "completedAt": "2026-11-04T15:24:21.276108+00:00"
+}
+]]>
+    </file>
     <file path="src/app/(savepoint)/savepoint/page.tsx">
 <![CDATA['use client';
 import SavepointApp from './SavepointApp';
@@ -1663,6 +1831,5965 @@ export function createLabelTexture(game: Game, renderer: THREE.WebGLRenderer) {
 export function createSpineTexture(game: Game) { const c = document.createElement('canvas'); c.width = 128; c.height = 1024; const x = c.getContext('2d')!; x.fillStyle = '#252934'; x.fillRect(0, 0, 128, 1024); x.fillStyle = game.accent; x.fillRect(0, 40, 128, 16); x.save(); x.translate(78, 100); x.rotate(Math.PI / 2); x.fillStyle = '#f2f0e8'; x.font = 'bold 39px sans-serif'; x.fillText(game.title.toUpperCase(), 0, 0); x.restore(); x.font = '29px monospace'; x.fillStyle = game.accent; x.fillText(game.indexNumber, 39, 964); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; }
 ]]>
     </file>
+    <file path="src/app/(savepoint)/savepoint/models/cartridge-sculpt-spec.json">
+<![CDATA[{
+  "targetName": "cartridge",
+  "targetId": "cartridge",
+  "schemaVersion": "2.1",
+  "terminologyProfile": {
+    "domain": "real-time procedural Three.js asset",
+    "geometryTerms": [
+      "silhouette",
+      "topology",
+      "primitive",
+      "bevel",
+      "chamfer",
+      "taper",
+      "bend",
+      "boolean cut",
+      "edge loop",
+      "surface normal",
+      "displacement"
+    ],
+    "materialTerms": [
+      "albedo",
+      "baseColor",
+      "roughness",
+      "metalness",
+      "normal map",
+      "bump map",
+      "ambient occlusion",
+      "cavity dirt",
+      "edge wear",
+      "clearcoat"
+    ],
+    "lightingTerms": [
+      "key light",
+      "fill light",
+      "rim light",
+      "HDRI/environment reflection",
+      "contact shadow"
+    ],
+    "descriptionRule": "Use measurable 3D graphics terms. Avoid vague words unless they are paired with concrete geometry/material/shader parameters."
+  },
+  "sourceImage": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+  "referenceCamera": {
+    "solved": true,
+    "fovDegrees": 34,
+    "aspect": 0.7466666666666667,
+    "orientation": {
+      "yaw": 0.3,
+      "pitch": 0.1,
+      "roll": 0
+    },
+    "positionHint": [
+      0.65,
+      0.7,
+      2.1
+    ],
+    "note": "Review camera is calibrated to the reference footprint. Runtime canvas capture awaits a rendered frame and recomputes the view offset after resizing."
+  },
+  "suitability": "pass",
+  "scores": {
+    "object_isolation": 3,
+    "silhouette_readability": 3,
+    "depth_inference": 3,
+    "primitive_decomposition": 3,
+    "material_procedurality": 3,
+    "occlusion_risk": 3,
+    "interaction_fit": 3
+  },
+  "preSpecAssessment": {
+    "objectClass": {
+      "primaryType": "hard-surface electronic hardware",
+      "primaryDomain": "object",
+      "formLanguage": [
+        "hard-surface",
+        "geometric"
+      ],
+      "structureKind": [
+        "layered shell",
+        "compound object"
+      ],
+      "motionPotential": [
+        "whole-object transform",
+        "detachable"
+      ],
+      "materialFamilies": [
+        "plastic",
+        "glass",
+        "metal"
+      ],
+      "notes": "upright beveled slab with clipped upper shoulder and projecting narrow connector"
+    },
+    "complexity": {
+      "tier": "complex",
+      "scores": {
+        "silhouetteComplexity": 2,
+        "componentCount": 2,
+        "hierarchyDepth": 2,
+        "repetitionDensity": 2,
+        "materialLayerCount": 2,
+        "localDetailDensity": 2,
+        "occlusionRisk": 2,
+        "actionReadinessNeed": 2
+      },
+      "estimatedCounts": {
+        "macroComponents": 4,
+        "mesoComponents": 8,
+        "microFeatureGroups": 6,
+        "materialLayers": 4,
+        "repetitionSystems": 2
+      },
+      "reasoning": [
+        "Three views reveal a compound hard-surface shell, layered panels, repeated contact/vent/fastener systems and an action-ready hierarchy."
+      ]
+    },
+    "specDepthDecision": {
+      "requiredDepth": "complex",
+      "minimumComponentLevels": [
+        "macro",
+        "meso",
+        "micro"
+      ],
+      "needsRepetitionSystems": true,
+      "needsMaterialLocalOverrides": true,
+      "needsMultipleReviewViews": true,
+      "needsActionReadyHierarchy": true,
+      "rationale": "Separate shell, aperture and contact assemblies with repeated molded details."
+    },
+    "unknownsToResolveBeforeImplementation": [],
+    "detailInventory": {
+      "scanMethod": "component-zones",
+      "targetMinDetails": 10,
+      "details": [
+        {
+          "id": "shell",
+          "kind": "bevel",
+          "description": "shell authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "shell"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "connectorTongue",
+          "kind": "bevel",
+          "description": "connectorTongue authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "connectorTongue"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "frontFrame",
+          "kind": "bevel",
+          "description": "frontFrame authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "frontFrame"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "labelRecess",
+          "kind": "bevel",
+          "description": "labelRecess authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "labelRecess"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "labelPanel",
+          "kind": "decal",
+          "description": "labelPanel authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "labelPanel"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rearShell",
+          "kind": "bevel",
+          "description": "rearShell authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rearShell"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "spine",
+          "kind": "decal",
+          "description": "spine authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "spine"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "contacts",
+          "kind": "bevel",
+          "description": "contacts authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "contacts"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "contact-array",
+          "kind": "bevel",
+          "description": "contact-array authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "contact-array"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "screwWells",
+          "kind": "fastener",
+          "description": "screwWells authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "screwWells"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "well-array",
+          "kind": "bevel",
+          "description": "well-array authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "well-array"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "screw-array",
+          "kind": "fastener",
+          "description": "screw-array authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "screw-array"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "gripCorners",
+          "kind": "bevel",
+          "description": "gripCorners authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "gripCorners"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "grip-array",
+          "kind": "bevel",
+          "description": "grip-array authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "grip-array"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "seam",
+          "kind": "bevel",
+          "description": "seam authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "seam"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "mold-seam-array",
+          "kind": "bevel",
+          "description": "mold-seam-array authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "mold-seam-array"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "connectorTip",
+          "kind": "bevel",
+          "description": "connectorTip authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "connectorTip"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ]
+    },
+    "sourceImage": "public/templates/savepoint/cartridge-shell-three-quarter.png"
+  },
+  "qualityContract": {
+    "qualityBar": "complex",
+    "definitionOfDone": [
+      "upright beveled slab with clipped upper shoulder and projecting narrow connector",
+      "label inset inside front frame; tongue below shell; rear fasteners embedded",
+      "Nine named physical assemblies with dielectric polymer, glass and contact metal; front, rear and orbit inspection."
+    ],
+    "minimumSpecDepth": {
+      "macroComponents": 3,
+      "mesoComponents": 8,
+      "microFeatureGroups": 5,
+      "materialLayers": 3,
+      "repetitionSystems": 1,
+      "reviewViewpoints": 4
+    },
+    "featureGroups": [
+      {
+        "id": "overall-silhouette",
+        "name": "Overall silhouette and proportions",
+        "required": true,
+        "qualityCriteria": [
+          "Bounding shape, dominant curves, negative spaces, and scale relationships are explicitly described."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "model reads as a generic placeholder instead of the reference object",
+          "major proportions are guessed without evidence"
+        ]
+      },
+      {
+        "id": "primary-structure",
+        "name": "Primary structure and hierarchy",
+        "required": true,
+        "qualityCriteria": [
+          "Major parts, joints, seams, contact points, and parent-child relationships are named before code generation."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "large visible parts are merged into one mesh",
+          "component hierarchy is too shallow for the observed complexity"
+        ]
+      },
+      {
+        "id": "attachment-joint-correctness",
+        "name": "Attachment and joint correctness",
+        "required": true,
+        "qualityCriteria": [
+          "Every visible child appendage, branch, limb, handle, connector, tube, cable, horn, wing, leg, or hinged part has an attachment contract with parent socket, localStart/localEnd, contact type, embed/overlap, and gap tolerance."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "child part root floats away from the parent",
+          "branch/limb/tube is centered in space instead of pivoting from its root",
+          "parent-child transform mixes world and local coordinates"
+        ]
+      },
+      {
+        "id": "surface-material-response",
+        "name": "Surface material response",
+        "required": true,
+        "qualityCriteria": [
+          "Albedo zones, roughness, normal/bump/displacement intent, cavity dirt, edge wear, and local overrides are specified where visible.",
+          "Important materials define independent albedo, roughness, height/normal, and AO responses instead of reusing one texture for unrelated PBR channels.",
+          "Surface response is decomposed into macro, meso, and micro frequency bands with scale and amplitude tied to object scale."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "surface looks like flat plastic",
+          "local material variation is missing or not tied to image evidence"
+        ]
+      },
+      {
+        "id": "reference-lookdev",
+        "name": "Reference color, material, and lighting response",
+        "required": true,
+        "qualityCriteria": [
+          "Material-pass names the reference-derived albedo palette, roughness variation, tactile normal/bump/displacement response, and local masks.",
+          "When a source image is available, run reference PBR extraction and require confidence >= 0.7 before treating maps as implementation-ready.",
+          "Lighting-pass names key/fill/rim or environment light, exposure, tone mapping, background, and contact shadow behavior.",
+          "Neutral, grazing-angle, and reference-matched renders prove that surface relief survives relighting and is not painted into albedo."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "model has acceptable shape but reads as flat shaded or plastic",
+          "colors are a generic average instead of reference-observed local color zones",
+          "lighting is evenly ambient and cannot reproduce the source value range"
+        ]
+      }
+    ],
+    "visualDeltaChecks": [
+      "silhouette and negative-space delta",
+      "component hierarchy depth delta",
+      "repetition density and distribution delta",
+      "material albedo/roughness/normal response delta",
+      "local feature placement and scale delta"
+    ],
+    "antiShallowSpecRules": [
+      "Do not proceed to code if qualityContract.qualityBar is unassessed.",
+      "Do not proceed to code if the spec only contains a root component for a moderate or complex object.",
+      "Do not proceed to code if required featureGroups are not represented by componentTree, materials, or repetitionSystems.",
+      "Do not proceed to code if visible local features are described only in prose and not attached to components/materials/evidenceRefs.",
+      "Do not proceed past structural-pass if attached child parts lack attachment.parentSocket, localStart, localEnd, embedDepth/overlap, and gapTolerance.",
+      "Do not pass material look-dev when albedo is reused as roughness, height, normal, or AO.",
+      "Do not pass material look-dev without macro, meso, and micro surface frequency bands for close-up materials.",
+      "Do not pass reference-fidelity material look-dev from a source image without usable referencePbr maps or an explicit documented limitation.",
+      "Do not patch a spec with extracted PBR maps when extraction confidence is below the target threshold unless the user explicitly accepts lower fidelity.",
+      "Do not place adjacent separate-geometry parts below 0.02 world-unit seam overlap (source: grimoire/build/geometry_patterns.md).",
+      "Do not satisfy raised or recessed relief, fasteners, or grip structure with a map alone when the feature affects form; use geometry or displacement (source: grimoire/build/geometry_patterns.md).",
+      "Adjacent components must overlap by at least 0.02 world units at shared seams (source: grimoire/build/geometry_patterns.md).",
+      "Raised or recessed relief and fasteners must be geometry, instanced micro-parts, or displacement; a map alone is an approximation (source: grimoire/build/geometry_patterns.md)."
+    ],
+    "mustNotDo": [
+      "Do not proceed to code if qualityContract.qualityBar is unassessed.",
+      "Do not proceed to code if the spec only contains a root component for a moderate or complex object.",
+      "Do not proceed to code if required featureGroups are not represented by componentTree, materials, or repetitionSystems.",
+      "Do not proceed to code if visible local features are described only in prose and not attached to components/materials/evidenceRefs.",
+      "Do not proceed past structural-pass if attached child parts lack attachment.parentSocket, localStart, localEnd, embedDepth/overlap, and gapTolerance.",
+      "Do not pass material look-dev when albedo is reused as roughness, height, normal, or AO.",
+      "Do not pass material look-dev without macro, meso, and micro surface frequency bands for close-up materials.",
+      "Do not pass reference-fidelity material look-dev from a source image without usable referencePbr maps or an explicit documented limitation.",
+      "Do not patch a spec with extracted PBR maps when extraction confidence is below the target threshold unless the user explicitly accepts lower fidelity.",
+      "Do not place adjacent separate-geometry parts below 0.02 world-unit seam overlap (source: grimoire/build/geometry_patterns.md).",
+      "Do not satisfy raised or recessed relief, fasteners, or grip structure with a map alone when the feature affects form; use geometry or displacement (source: grimoire/build/geometry_patterns.md).",
+      "Adjacent components must overlap by at least 0.02 world units at shared seams (source: grimoire/build/geometry_patterns.md).",
+      "Raised or recessed relief and fasteners must be geometry, instanced micro-parts, or displacement; a map alone is an approximation (source: grimoire/build/geometry_patterns.md)."
+    ]
+  },
+  "qualityTargets": {
+    "targetFidelity": 0.7,
+    "mustMatch": [
+      "macro silhouette and proportions",
+      "primary material albedo/roughness response",
+      "reference-derived PBR material response at or above 0.7 confidence when source pixels are usable",
+      "most recognizable local features"
+    ],
+    "niceToHave": [
+      "micro scratches, stains, chips, and dirt masks",
+      "secondary lighting match"
+    ],
+    "fpsTarget": 60,
+    "reviewViewpoints": [
+      "front",
+      "three-quarter",
+      "side",
+      "thickness-axis",
+      "long-axis"
+    ]
+  },
+  "selfCorrectLoop": {
+    "enabled": true,
+    "visualAcceptance": {
+      "reviewer": "ai-vision",
+      "threshold": 0.7,
+      "comparisonArtifactRequired": true,
+      "layerScoresRequired": true,
+      "codePixelDiffIsAcceptanceAuthority": false,
+      "scoringRule": "AI vision must inspect a side-by-side reference/render sheet and score the current pass from 0 to 1. Pixel-diff code may assist diagnostics but cannot approve a pass.",
+      "requiredLayerScores": [
+        "silhouetteProportion",
+        "componentStructure",
+        "formDetail",
+        "materialSurface",
+        "lightingCamera"
+      ],
+      "featureReviewPolicy": {
+        "enabled": true,
+        "reviewUnit": "semantic-subsystem",
+        "maxCriticalFeaturesPerPass": 5,
+        "maxImportantFeaturesPerPass": 3,
+        "criticalDefaultThreshold": 0.8,
+        "importantAverageThreshold": 0.65,
+        "adaptiveEscalation": true,
+        "singleImagePairOnly": true,
+        "selectionRule": "Choose only the most visually salient, identity-defining, user-prioritized, or high-risk semantic systems. Group repeated parts instead of reviewing every mesh. AI vision scores every selected feature from the same full reference/render pair."
+      }
+    },
+    "reviewAfterPasses": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "allowedActions": [
+      "continue",
+      "refine-spec",
+      "refine-code",
+      "request-input",
+      "stop"
+    ],
+    "specRefineTriggers": [
+      "missing component",
+      "wrong primitive family",
+      "wrong proportions",
+      "material layer under-specified",
+      "local feature not traceable to viewEvidence",
+      "reference ambiguity discovered during implementation"
+    ],
+    "codeRefineTriggers": [
+      "spec is adequate but generated geometry/material does not match",
+      "browser render differs from reference",
+      "performance budget exceeded",
+      "lighting hides geometry or material response"
+    ],
+    "stopCriteria": [
+      "target fidelity reached or user accepts current approximation",
+      "remaining gaps require new reference images or manual art"
+    ],
+    "screenshotPolicy": {
+      "requiredForPasses": [
+        "blockout",
+        "structural-pass",
+        "form-refinement",
+        "material-pass",
+        "surface-pass",
+        "lighting-pass",
+        "interaction-pass"
+      ],
+      "preferredCapture": "in-app-browser-screenshot",
+      "fallbackCapture": "user-supplied-screenshot-path",
+      "minimumEvidence": "Each visual pass needs a reference image, rendered screenshot, side-by-side comparison sheet, AI vision score, layer scores, and critique before choosing continue.",
+      "reviewPairRule": "Compare the same camera/viewpoint whenever possible; do not judge a front reference against a random render angle.",
+      "acceptanceAuthority": "AI vision review of the comparison sheet. Code-generated pixel similarity is not sufficient evidence."
+    }
+  },
+  "featureReviewTargets": [
+    {
+      "id": "silhouette",
+      "name": "Stepped shell silhouette and connector proportions",
+      "tier": "critical",
+      "passIds": [
+        "blockout"
+      ],
+      "threshold": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "stepped-shell",
+      "name": "stepped-shell",
+      "tier": "critical",
+      "passIds": [
+        "structural-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "recessed-label",
+      "name": "recessed-label",
+      "tier": "critical",
+      "passIds": [
+        "structural-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "contacts-and-fasteners",
+      "name": "contacts-and-fasteners",
+      "tier": "critical",
+      "passIds": [
+        "form-refinement"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "polymer-label",
+      "name": "polymer-label",
+      "tier": "critical",
+      "passIds": [
+        "material-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "surface-response",
+      "name": "surface-response",
+      "tier": "critical",
+      "passIds": [
+        "surface-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "form-lighting",
+      "name": "form-lighting",
+      "tier": "critical",
+      "passIds": [
+        "lighting-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "connector-axis",
+      "name": "connector-axis",
+      "tier": "critical",
+      "passIds": [
+        "interaction-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    }
+  ],
+  "lookDevTargets": {
+    "qualityPriority": "reference-fidelity",
+    "materialPass": {
+      "albedoPaletteRequired": true,
+      "roughnessVariationRequired": true,
+      "normalOrBumpRequired": true,
+      "localOverridesRequired": true,
+      "minimumTextureResolution": 1024,
+      "preferredTextureResolution": 2048,
+      "independentMapChannels": [
+        "albedo",
+        "roughness",
+        "height",
+        "normal",
+        "ambient-occlusion"
+      ],
+      "requiredSurfaceFrequencyBands": [
+        "macro",
+        "meso",
+        "micro"
+      ],
+      "geometryReliefRequiredWhenSilhouetteAffected": true,
+      "referencePbrExtraction": {
+        "requiredWhenSourceImagePresent": true,
+        "targetThreshold": 0.7,
+        "stopOnLowConfidence": true,
+        "script": "forge/stage1_intake/extract_pbr_evidence.py",
+        "acceptedLimitation": "single-image extraction is reference-derived inference, not exact photogrammetry"
+      },
+      "mustAvoid": [
+        "single flat albedo per material",
+        "uniform roughness",
+        "albedo texture reused as roughness/height/normal/AO",
+        "single-frequency random noise",
+        "plastic-looking smooth bark, stone, cloth, foliage, or aged material",
+        "local color/detail described only in prose without material masks",
+        "claiming exact PBR recovery when confidence is below the target threshold"
+      ]
+    },
+    "lightingPass": {
+      "requiredTerms": [
+        "key light",
+        "fill light",
+        "rim or environment light",
+        "exposure",
+        "tone mapping",
+        "background",
+        "contact shadow"
+      ],
+      "mustAvoid": [
+        "ambient-only lighting",
+        "flat value range",
+        "missing contact shadow",
+        "reference lighting copied without separating material readability"
+      ]
+    },
+    "screenshotReview": [
+      "Compare albedo palette and local color zones.",
+      "Compare roughness/normal/bump response under light.",
+      "Compare cavity dirt, edge wear, stains, moss, scratches, or other local masks.",
+      "Compare key/fill/rim structure, exposure, tone mapping, background, and contact shadows.",
+      "Capture a neutral-light render to verify material readability without reference lighting.",
+      "Capture a grazing-light close-up to expose flat normals, uniform roughness, tiling, and plastic highlights.",
+      "Capture a reference-matched render from the same camera framing as the source."
+    ]
+  },
+  "actionReadiness": {
+    "contract": "Every macro/meso component should be generated as a stable named Object3D pivot node with a mesh child, action metadata, optional sockets, collider proxy, and destruction metadata.",
+    "defaultRigType": "action-ready-static-rig",
+    "rootMotionNode": "root",
+    "requiredComponentFields": [
+      "id",
+      "parent",
+      "transform",
+      "attachment for child appendages, connectors, limbs, tubes, handles, legs, horns, wings, branches, or cables",
+      "actionProfile.animationRole",
+      "actionProfile.pivot",
+      "actionProfile.collider",
+      "actionProfile.destruction"
+    ],
+    "transformChannels": [
+      "translate",
+      "rotate",
+      "scale",
+      "bend",
+      "twist",
+      "detach",
+      "visibility",
+      "material-state"
+    ],
+    "authoringRules": [
+      "Do not collapse independently movable parts into one mesh.",
+      "Put transforms on component pivot groups, not only on raw meshes.",
+      "For attached child parts, put the pivot at the semantic root/socket and build visible geometry from localStart to localEnd.",
+      "Represent hinge, socket, detachable, and breakable intent even when no animation is implemented yet.",
+      "Use simplified collider proxies for runtime physics instead of visual mesh colliders by default."
+    ],
+    "destructionPolicy": {
+      "defaultBreakable": false,
+      "fractureGroupNaming": "Use stable semantic names such as body-shell, left-hinge, glass-panel, branch-segment.",
+      "debrisStrategy": "Prefer detachable component groups and a small number of procedural fragments over random mesh explosion."
+    }
+  },
+  "assumptions": [
+    "Conceptual dimensions are inferred from approved renders; hidden electronics and manufacturing tolerances are not reconstructed.",
+    "Polymer micrograin is procedural. The approved surface art is used verbatim as its own texture source."
+  ],
+  "coordinateFrame": {
+    "front": "+Z",
+    "up": "+Y",
+    "scaleReference": "100 mm per scene unit; reference-derived proportions take precedence over approximate conceptual dimensions"
+  },
+  "silhouette": {
+    "boundingShape": "upright beveled slab with clipped upper shoulder and projecting narrow connector",
+    "aspectRatios": [
+      0.84,
+      0.96,
+      0.14
+    ],
+    "symmetry": "bilateral",
+    "dominantCurves": [
+      "beveled edges"
+    ],
+    "negativeSpaces": [
+      "label recess"
+    ],
+    "landmarks": [
+      "shell",
+      "rearShell",
+      "labelRecess",
+      "labelPanel",
+      "connectorTongue",
+      "contacts",
+      "screwWells",
+      "gripCorners",
+      "seam"
+    ]
+  },
+  "viewEvidence": [
+    {
+      "id": "full-object",
+      "view": "primary",
+      "imageRegion": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1.0,
+        "height": 1.0,
+        "units": "normalized"
+      },
+      "observations": [
+        "label inset inside front frame; tongue below shell; rear fasteners embedded",
+        "charcoal satin dielectric polymer, low roughness glass, metal contacts"
+      ],
+      "confidence": 0.95
+    }
+  ],
+  "componentTree": [
+    {
+      "id": "universal-cartridge",
+      "name": "universal-cartridge",
+      "level": "macro",
+      "role": "pivot",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": null,
+      "attachment": null,
+      "dimensions": {
+        "width": 0.8650000112056733,
+        "height": 1.1820000439882279,
+        "depth": 0.16000000005215406,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "universal-cartridge",
+          "type": "bevel",
+          "description": "universal-cartridge authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "shell",
+      "name": "shell",
+      "level": "macro",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.8640000224113464,
+        "height": 1.0540000349283218,
+        "depth": 0.14000000059604645,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "shell",
+          "type": "bevel",
+          "description": "shell authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "connectorTongue",
+      "name": "connectorTongue",
+      "level": "macro",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          0,
+          0.075,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.075,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.699999988079071,
+        "height": 0.15000000596046448,
+        "depth": 0.09000000357627869,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.075,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "connectorTongue",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "connectorTongue",
+          "type": "bevel",
+          "description": "connectorTongue authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "frontFrame",
+      "name": "frontFrame",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.7300000190734863,
+        "height": 0.8700000047683716,
+        "depth": 0.014000000052154071,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "frontFrame",
+          "type": "bevel",
+          "description": "frontFrame authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "labelRecess",
+      "name": "labelRecess",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "frontFrame",
+      "attachment": {
+        "parentSocket": "frontFrame",
+        "localStart": [
+          0,
+          0.675,
+          0.071
+        ],
+        "localEnd": [
+          0,
+          0.675,
+          0.071
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.7300000190734863,
+        "height": 0.8700000047683716,
+        "depth": 0.012000000104308128,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.675,
+          0.071
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "labelRecess",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "labelRecess",
+          "type": "bevel",
+          "description": "labelRecess authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "labelPanel",
+      "name": "labelPanel",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "plane-card",
+      "topologyClass": "material-only",
+      "topologyRationale": "Flat artwork/display carrier with explicit UV coordinates.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "frontFrame",
+      "attachment": {
+        "parentSocket": "frontFrame",
+        "localStart": [
+          0,
+          0.7,
+          0.079
+        ],
+        "localEnd": [
+          0,
+          0.7,
+          0.079
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.6399999856948853,
+        "height": 0.6499999761581421,
+        "depth": 0.001,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.7,
+          0.079
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "labelPanel",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "label",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "labelPanel",
+          "type": "decal",
+          "description": "labelPanel authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rearShell",
+      "name": "rearShell",
+      "level": "macro",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          0,
+          0.675,
+          -0.075
+        ],
+        "localEnd": [
+          0,
+          0.675,
+          -0.075
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.75,
+        "height": 0.8799999952316284,
+        "depth": 0.012000000104308128,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.675,
+          -0.075
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "rearShell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rearShell",
+          "type": "bevel",
+          "description": "rearShell authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "spine",
+      "name": "spine",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "plane-card",
+      "topologyClass": "material-only",
+      "topologyRationale": "Flat artwork/display carrier with explicit UV coordinates.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          -0.433,
+          0.655,
+          0
+        ],
+        "localEnd": [
+          -0.433,
+          0.655,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.001,
+        "height": 0.8999999761581421,
+        "depth": 0.10499999672174454,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.433,
+          0.655,
+          0
+        ],
+        "rotation": [
+          0,
+          -1.5707963267948966,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "label",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "spine",
+          "type": "decal",
+          "description": "spine authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "contacts",
+      "name": "contacts",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.6319999918341637,
+        "height": 0.027000000700354576,
+        "depth": 0.006000000052154064,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "contacts",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "contacts",
+          "type": "bevel",
+          "description": "contacts authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "contact-array",
+      "name": "contact-array",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "contacts",
+      "attachment": {
+        "parentSocket": "contacts",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.6319999918341637,
+        "height": 0.027000000700354576,
+        "depth": 0.006000000052154064,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "contact-array",
+          "type": "bevel",
+          "description": "contact-array authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "screwWells",
+      "name": "screwWells",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.650000024586916,
+        "height": 0.8900000639259815,
+        "depth": 0.008804222801700234,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "screwWells",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "screwWells",
+          "type": "bevel",
+          "description": "screwWells authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "well-array",
+      "name": "well-array",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "screwWells",
+      "attachment": {
+        "parentSocket": "screwWells",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.650000024586916,
+        "height": 0.8900000639259815,
+        "depth": 0.007608452346175909,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "well-array",
+          "type": "bevel",
+          "description": "well-array authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "screw-array",
+      "name": "screw-array",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "screwWells",
+      "attachment": {
+        "parentSocket": "screwWells",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.6260000243782997,
+        "height": 0.8660000637173653,
+        "depth": 0.006000000052154064,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "screw-array",
+          "type": "bevel",
+          "description": "screw-array authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "gripCorners",
+      "name": "gripCorners",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.754999989643693,
+        "height": 0.07899999246001244,
+        "depth": 0.014999999664723873,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "gripCorners",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "gripCorners",
+          "type": "bevel",
+          "description": "gripCorners authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "grip-array",
+      "name": "grip-array",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "gripCorners",
+      "attachment": {
+        "parentSocket": "gripCorners",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.754999989643693,
+        "height": 0.07899999246001244,
+        "depth": 0.014999999664723873,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "grip-array",
+          "type": "bevel",
+          "description": "grip-array authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "seam",
+      "name": "seam",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.7639999827370048,
+        "height": 0.8700000047683716,
+        "depth": 0.008999999612569809,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "seam",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "seam",
+          "type": "bevel",
+          "description": "seam authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "mold-seam-array",
+      "name": "mold-seam-array",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "seam",
+      "attachment": {
+        "parentSocket": "seam",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.7639999827370048,
+        "height": 0.8700000047683716,
+        "depth": 0.008999999612569809,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "mold-seam-array",
+          "type": "bevel",
+          "description": "mold-seam-array authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "connectorTip",
+      "name": "connectorTip",
+      "level": "micro",
+      "role": "pivot",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "material-only",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "universal-cartridge",
+      "attachment": {
+        "parentSocket": "universal-cartridge",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.001,
+        "height": 0.001,
+        "depth": 0.001,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "connectorTip",
+          "type": "bevel",
+          "description": "connectorTip authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    }
+  ],
+  "materials": [
+    {
+      "id": "base",
+      "name": "Base material",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial / PBR approximation",
+      "baseColor": "#24262c",
+      "color": "#24262c",
+      "albedo": {
+        "dominant": "#303238",
+        "secondary": [
+          "#202228",
+          "#41444b"
+        ],
+        "samplingNotes": "Neutral charcoal shell; highlights excluded from albedo"
+      },
+      "colorVariation": {
+        "palette": [
+          "#8A7A5F",
+          "#6E614B",
+          "#A08F70"
+        ],
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
+      },
+      "textureResolution": 1024,
+      "textureProjection": {
+        "mode": "uv",
+        "repeat": [
+          2.0,
+          2.0
+        ],
+        "anisotropy": 8,
+        "texelDensityIntent": "Preserve stable world/object-scale detail; do not stretch micro detail with component scale."
+      },
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 2.0,
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
+        },
+        {
+          "id": "meso",
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
+        },
+        {
+          "id": "micro",
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
+        }
+      ],
+      "roughness": {
+        "base": 0.66,
+        "variation": 0.06,
+        "map": "independent 1024px deterministic roughness field"
+      },
+      "metalness": {
+        "base": 0,
+        "variation": 0
+      },
+      "normal": {
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "independent molded grain height",
+        "amplitude": 0.0008,
+        "scale": 3
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.25,
+        "contactShadowBias": 0.35,
+        "notes": "Darken creases, seams, intersections, and recessed local features."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#2F2A22"
+      },
+      "localOverrides": [
+        {
+          "id": "cavity-darkening",
+          "region": "labelRecess and screwWells",
+          "baseColor": "#090b10",
+          "roughness": 0.88,
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "shaderNotes": [
+        "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
+        "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
+        "Use normal/bump/displacement only when they map to observed surface relief.",
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
+      ],
+      "notes": "Reference-derived inference; authored scalars and geometry implement the visible response. No manufacturing accuracy is claimed.",
+      "referencePbr": {
+        "usable": true,
+        "confidence": 0.843,
+        "maps": {
+          "albedo": {
+            "path": "public/templates/savepoint/pbr/polymer/base_albedo.png",
+            "url": "base_albedo.png",
+            "channel": "albedo",
+            "source": "reference-pixel-extraction"
+          },
+          "roughness": {
+            "path": "public/templates/savepoint/pbr/polymer/base_roughness.png",
+            "url": "base_roughness.png",
+            "channel": "roughness",
+            "source": "reference-pixel-extraction"
+          },
+          "height": {
+            "path": "public/templates/savepoint/pbr/polymer/base_height.png",
+            "url": "base_height.png",
+            "channel": "height",
+            "source": "reference-pixel-extraction"
+          },
+          "normal": {
+            "path": "public/templates/savepoint/pbr/polymer/base_normal.png",
+            "url": "base_normal.png",
+            "channel": "normal",
+            "source": "reference-pixel-extraction"
+          },
+          "ao": {
+            "path": "public/templates/savepoint/pbr/polymer/base_ao.png",
+            "url": "base_ao.png",
+            "channel": "ao",
+            "source": "reference-pixel-extraction"
+          }
+        },
+        "sourceImage": "public/templates/savepoint/verification/polymer.png",
+        "method": "reference-pixel-extraction",
+        "hardLimit": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+      }
+    },
+    {
+      "id": "glass",
+      "name": "Display glass",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial / PBR approximation",
+      "baseColor": "#0b0d12",
+      "color": "#0b0d12",
+      "albedo": {
+        "dominant": "#303238",
+        "secondary": [
+          "#202228",
+          "#41444b"
+        ],
+        "samplingNotes": "Neutral charcoal shell; highlights excluded from albedo"
+      },
+      "colorVariation": {
+        "palette": [
+          "#8A7A5F",
+          "#6E614B",
+          "#A08F70"
+        ],
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
+      },
+      "textureResolution": 1024,
+      "textureProjection": {
+        "mode": "uv",
+        "repeat": [
+          2.0,
+          2.0
+        ],
+        "anisotropy": 8,
+        "texelDensityIntent": "Preserve stable world/object-scale detail; do not stretch micro detail with component scale."
+      },
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 2.0,
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
+        },
+        {
+          "id": "meso",
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
+        },
+        {
+          "id": "micro",
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
+        }
+      ],
+      "roughness": {
+        "base": 0.75,
+        "variation": 0.15,
+        "map": "independent-procedural-field",
+        "localResponse": "higher roughness in cavities, lower roughness on worn edges"
+      },
+      "metalness": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "normal": {
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.25,
+        "contactShadowBias": 0.35,
+        "notes": "Darken creases, seams, intersections, and recessed local features."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#2F2A22"
+      },
+      "localOverrides": [
+        {
+          "id": "cavity-darkening",
+          "region": "labelRecess and screwWells",
+          "baseColor": "#090b10",
+          "roughness": 0.88,
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "shaderNotes": [
+        "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
+        "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
+        "Use normal/bump/displacement only when they map to observed surface relief.",
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
+      ],
+      "notes": "Reference-derived inference; authored scalars and geometry implement the visible response. No manufacturing accuracy is claimed.",
+      "referencePbr": {
+        "usable": true,
+        "confidence": 0.716,
+        "maps": {
+          "albedo": {
+            "path": "public/templates/savepoint/pbr/glass/glass_albedo.png",
+            "url": "glass_albedo.png",
+            "channel": "albedo",
+            "source": "reference-pixel-extraction"
+          },
+          "roughness": {
+            "path": "public/templates/savepoint/pbr/glass/glass_roughness.png",
+            "url": "glass_roughness.png",
+            "channel": "roughness",
+            "source": "reference-pixel-extraction"
+          },
+          "height": {
+            "path": "public/templates/savepoint/pbr/glass/glass_height.png",
+            "url": "glass_height.png",
+            "channel": "height",
+            "source": "reference-pixel-extraction"
+          },
+          "normal": {
+            "path": "public/templates/savepoint/pbr/glass/glass_normal.png",
+            "url": "glass_normal.png",
+            "channel": "normal",
+            "source": "reference-pixel-extraction"
+          },
+          "ao": {
+            "path": "public/templates/savepoint/pbr/glass/glass_ao.png",
+            "url": "glass_ao.png",
+            "channel": "ao",
+            "source": "reference-pixel-extraction"
+          }
+        },
+        "sourceImage": "public/templates/savepoint/verification/glass.png",
+        "method": "reference-pixel-extraction",
+        "hardLimit": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+      }
+    },
+    {
+      "id": "metal",
+      "name": "Contact metal",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial / PBR approximation",
+      "baseColor": "#b49d66",
+      "color": "#b49d66",
+      "albedo": {
+        "dominant": "#303238",
+        "secondary": [
+          "#202228",
+          "#41444b"
+        ],
+        "samplingNotes": "Neutral charcoal shell; highlights excluded from albedo"
+      },
+      "colorVariation": {
+        "palette": [
+          "#8A7A5F",
+          "#6E614B",
+          "#A08F70"
+        ],
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
+      },
+      "textureResolution": 1024,
+      "textureProjection": {
+        "mode": "uv",
+        "repeat": [
+          2.0,
+          2.0
+        ],
+        "anisotropy": 8,
+        "texelDensityIntent": "Preserve stable world/object-scale detail; do not stretch micro detail with component scale."
+      },
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 2.0,
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
+        },
+        {
+          "id": "meso",
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
+        },
+        {
+          "id": "micro",
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
+        }
+      ],
+      "roughness": {
+        "base": 0.75,
+        "variation": 0.15,
+        "map": "independent-procedural-field",
+        "localResponse": "higher roughness in cavities, lower roughness on worn edges"
+      },
+      "metalness": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "normal": {
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.25,
+        "contactShadowBias": 0.35,
+        "notes": "Darken creases, seams, intersections, and recessed local features."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#2F2A22"
+      },
+      "localOverrides": [
+        {
+          "id": "cavity-darkening",
+          "region": "labelRecess and screwWells",
+          "baseColor": "#090b10",
+          "roughness": 0.88,
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "shaderNotes": [
+        "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
+        "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
+        "Use normal/bump/displacement only when they map to observed surface relief.",
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
+      ],
+      "notes": "Reference-derived inference; authored scalars and geometry implement the visible response. No manufacturing accuracy is claimed.",
+      "referencePbr": {
+        "usable": true,
+        "confidence": 0.843,
+        "maps": {
+          "albedo": {
+            "path": "public/templates/savepoint/pbr/polymer/base_albedo.png",
+            "url": "base_albedo.png",
+            "channel": "albedo",
+            "source": "reference-pixel-extraction"
+          },
+          "roughness": {
+            "path": "public/templates/savepoint/pbr/polymer/base_roughness.png",
+            "url": "base_roughness.png",
+            "channel": "roughness",
+            "source": "reference-pixel-extraction"
+          },
+          "height": {
+            "path": "public/templates/savepoint/pbr/polymer/base_height.png",
+            "url": "base_height.png",
+            "channel": "height",
+            "source": "reference-pixel-extraction"
+          },
+          "normal": {
+            "path": "public/templates/savepoint/pbr/polymer/base_normal.png",
+            "url": "base_normal.png",
+            "channel": "normal",
+            "source": "reference-pixel-extraction"
+          },
+          "ao": {
+            "path": "public/templates/savepoint/pbr/polymer/base_ao.png",
+            "url": "base_ao.png",
+            "channel": "ao",
+            "source": "reference-pixel-extraction"
+          }
+        },
+        "sourceImage": "public/templates/savepoint/verification/polymer.png",
+        "method": "reference-pixel-extraction",
+        "hardLimit": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+      }
+    },
+    {
+      "id": "label",
+      "name": "Approved label and display carrier",
+      "type": "standard",
+      "shaderModel": "MeshBasicMaterial with sRGB CanvasTexture",
+      "baseColor": "#24262c",
+      "color": "#24262c",
+      "albedo": {
+        "dominant": "#303238",
+        "secondary": [
+          "#202228",
+          "#41444b"
+        ],
+        "samplingNotes": "Neutral charcoal shell; highlights excluded from albedo"
+      },
+      "colorVariation": {
+        "palette": [
+          "#8A7A5F",
+          "#6E614B",
+          "#A08F70"
+        ],
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
+      },
+      "textureResolution": 1024,
+      "textureProjection": {
+        "mode": "uv",
+        "repeat": [
+          2.0,
+          2.0
+        ],
+        "anisotropy": 8,
+        "texelDensityIntent": "Preserve stable world/object-scale detail; do not stretch micro detail with component scale."
+      },
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 2.0,
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
+        },
+        {
+          "id": "meso",
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
+        },
+        {
+          "id": "micro",
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
+        }
+      ],
+      "roughness": {
+        "base": 0.66,
+        "variation": 0.06,
+        "map": "independent 1024px deterministic roughness field"
+      },
+      "metalness": {
+        "base": 0,
+        "variation": 0
+      },
+      "normal": {
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "independent molded grain height",
+        "amplitude": 0.0008,
+        "scale": 3
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.25,
+        "contactShadowBias": 0.35,
+        "notes": "Darken creases, seams, intersections, and recessed local features."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#2F2A22"
+      },
+      "localOverrides": [
+        {
+          "id": "cavity-darkening",
+          "region": "labelRecess and screwWells",
+          "baseColor": "#090b10",
+          "roughness": 0.88,
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "shaderNotes": [
+        "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
+        "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
+        "Use normal/bump/displacement only when they map to observed surface relief.",
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
+      ],
+      "notes": "Actual supplied label artwork and world plates are composed without stretching; UI title and catalog typography are rendered into the label band.",
+      "referencePbr": {
+        "usable": true,
+        "confidence": 0.843,
+        "maps": {
+          "albedo": {
+            "path": "public/templates/savepoint/pbr/polymer/base_albedo.png",
+            "url": "base_albedo.png",
+            "channel": "albedo",
+            "source": "reference-pixel-extraction"
+          },
+          "roughness": {
+            "path": "public/templates/savepoint/pbr/polymer/base_roughness.png",
+            "url": "base_roughness.png",
+            "channel": "roughness",
+            "source": "reference-pixel-extraction"
+          },
+          "height": {
+            "path": "public/templates/savepoint/pbr/polymer/base_height.png",
+            "url": "base_height.png",
+            "channel": "height",
+            "source": "reference-pixel-extraction"
+          },
+          "normal": {
+            "path": "public/templates/savepoint/pbr/polymer/base_normal.png",
+            "url": "base_normal.png",
+            "channel": "normal",
+            "source": "reference-pixel-extraction"
+          },
+          "ao": {
+            "path": "public/templates/savepoint/pbr/polymer/base_ao.png",
+            "url": "base_ao.png",
+            "channel": "ao",
+            "source": "reference-pixel-extraction"
+          }
+        },
+        "sourceImage": "public/templates/savepoint/verification/polymer.png",
+        "method": "reference-pixel-extraction",
+        "hardLimit": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+      },
+      "qualityTier": "utility"
+    }
+  ],
+  "repetitionSystems": [
+    {
+      "id": "repeated-hardware",
+      "componentRef": "contacts",
+      "count": 20,
+      "distribution": "linear",
+      "spacing": 0.035,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    }
+  ],
+  "buildPasses": [
+    {
+      "id": "blockout",
+      "goal": "Match macro silhouette and proportions.",
+      "componentRefs": [
+        "shell",
+        "rearShell",
+        "labelRecess",
+        "labelPanel",
+        "connectorTongue",
+        "contacts",
+        "screwWells",
+        "gripCorners",
+        "seam"
+      ],
+      "acceptance": [
+        "Silhouette reads correctly without materials.",
+        "Quality contract has named all required macro feature groups before code generation.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "structural-pass",
+      "goal": "Build the component hierarchy implied by the pre-spec complexity assessment.",
+      "componentRefs": [
+        "shell",
+        "rearShell",
+        "labelRecess",
+        "labelPanel",
+        "connectorTongue",
+        "contacts",
+        "screwWells",
+        "gripCorners",
+        "seam"
+      ],
+      "acceptance": [
+        "Macro, meso, and repeated structures meet qualityContract.minimumSpecDepth.",
+        "Parent-child relations, joints, seams, sockets, and contact points are explicit.",
+        "Every attached child appendage/connector has parentSocket, localStart/localEnd, contactType, embedDepth or overlap, and gapTolerance.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "form-refinement",
+      "goal": "Refine shape, deformation, bevels, tapers, curves, asymmetry, and visible local geometry.",
+      "componentRefs": [
+        "shell",
+        "rearShell",
+        "labelRecess",
+        "labelPanel",
+        "connectorTongue",
+        "contacts",
+        "screwWells",
+        "gripCorners",
+        "seam"
+      ],
+      "acceptance": [
+        "Important visible forms are represented in component geometryDescriptor, deformations, localFeatures, or repetitionSystems.",
+        "Endpoint-based child parts are rooted at their attachment sockets and do not visibly float away from parents.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "material-pass",
+      "goal": "Match material color, roughness, bump, and local variation.",
+      "componentRefs": [
+        "shell",
+        "rearShell",
+        "labelRecess",
+        "labelPanel",
+        "connectorTongue",
+        "contacts",
+        "screwWells",
+        "gripCorners",
+        "seam"
+      ],
+      "acceptance": [
+        "Reference-derived albedo palette records dominant, secondary, and accent colors per visible material.",
+        "Each important material defines roughness variation and at least one normal/bump/displacement response.",
+        "Local material overrides, dirt/wear/stains/moss/chips/scratches or equivalent masks are tied to evidenceRefs.",
+        "Thin, transparent, reflective, wet, or fibrous materials document alpha/transmission/clearcoat/metalness/fiber response when relevant.",
+        "Generated preview uses procedural albedo/roughness/bump texture or vertex color variation instead of one flat color.",
+        "Generated preview uses independent PBR maps at 1024px or higher for the quality-first tier.",
+        "If source pixels are available, referencePbr extraction passed at confidence >= 0.7 or the pass is stopped/requesting better references.",
+        "Macro, meso, and micro surface frequency bands are visible at the intended review distance without obvious tiling.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "surface-pass",
+      "goal": "Add procedural surface locality such as normal/bump/displacement, AO, dirt, stains, chips, grain, moss, scratches, and wear.",
+      "componentRefs": [
+        "shell",
+        "rearShell",
+        "labelRecess",
+        "labelPanel",
+        "connectorTongue",
+        "contacts",
+        "screwWells",
+        "gripCorners",
+        "seam"
+      ],
+      "acceptance": [
+        "Every required material feature group has local overrides or surfaceDetail tied to evidenceRefs.",
+        "A grazing-angle close-up proves that normal/height detail breaks highlights naturally and does not read as smooth plastic.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "lighting-pass",
+      "goal": "Make material and form readable under neutral turntable lighting plus optional reference lighting.",
+      "componentRefs": [
+        "shell",
+        "rearShell",
+        "labelRecess",
+        "labelPanel",
+        "connectorTongue",
+        "contacts",
+        "screwWells",
+        "gripCorners",
+        "seam"
+      ],
+      "acceptance": [
+        "lightingFromPhoto identifies key light direction/color/intensity, fill light, rim or environment light, and ambient color.",
+        "Exposure, tone mapping, background color/gradient, shadow softness, and contact shadow behavior are specified.",
+        "Lighting does not hide geometry/material gaps and screenshots can be compared fairly to the reference.",
+        "Neutral, grazing, and reference-matched lighting checks distinguish material errors from lighting errors.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "interaction-pass",
+      "goal": "Make the model ready for future animation, transformation, physics, or destruction.",
+      "componentRefs": [
+        "shell",
+        "rearShell",
+        "labelRecess",
+        "labelPanel",
+        "connectorTongue",
+        "contacts",
+        "screwWells",
+        "gripCorners",
+        "seam"
+      ],
+      "acceptance": [
+        "Macro and movable meso components have stable pivot nodes.",
+        "Sockets, collider proxies, and destruction metadata are present for future runtime actions.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "optimization-pass",
+      "goal": "Protect runtime performance after visual fidelity is accepted.",
+      "componentRefs": [
+        "shell",
+        "rearShell",
+        "labelRecess",
+        "labelPanel",
+        "connectorTongue",
+        "contacts",
+        "screwWells",
+        "gripCorners",
+        "seam"
+      ],
+      "acceptance": [
+        "Triangle count, draw calls, instancing, LOD strategy, and FPS target are documented or verified.",
+        "Repeated detail is instanced or simplified where possible without breaking silhouette/material believability."
+      ]
+    }
+  ],
+  "visualEvidence": [
+    {
+      "timestamp": "2026-11-04T09:04:13.042515+00:00",
+      "passId": "blockout",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.5,
+        "formDetail": 0.4,
+        "materialSurface": 0.5,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "silhouette",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Unlit map-stripped silhouette and physical thickness accepted for blockout only. The reference corner footprint and projecting connector read correctly. Recesses, slot cavity, molding and final materials belong to subsequent passes."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/cartridge/blockout/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/cartridge/blockout/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:10:38.297805+00:00",
+      "passId": "structural-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.81,
+        "formDetail": 0.81,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "stepped-shell",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes."
+        },
+        {
+          "id": "recessed-label",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/cartridge/structural-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/cartridge/structural-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:14:35.381432+00:00",
+      "passId": "form-refinement",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "contacts-and-fasteners",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Form pass accepted: repeated vent recesses and contacts, front controls, softened shell edges, stepped grip corners, inset molding and rear screw wells are present across the orbit. Physical screen is landscape; exact molded grain and reflected studio response remain approximate."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/cartridge/form-refinement/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/cartridge/form-refinement/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:19:27.222921+00:00",
+      "passId": "material-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.8,
+        "componentStructure": 0.8,
+        "formDetail": 0.8,
+        "materialSurface": 0.8,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "polymer-label",
+          "score": 0.8,
+          "visible": true,
+          "notes": "Dielectric charcoal shell, darker cavity, low-roughness glass and metal contacts are distinct. Supplied label pixels retain their sRGB color without environment washout. Studio reflection strength still differs from the reference and will be bounded in the lighting pass."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/cartridge/material-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/cartridge/material-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:22:50.956637+00:00",
+      "passId": "surface-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.8,
+        "componentStructure": 0.8,
+        "formDetail": 0.8,
+        "materialSurface": 0.8,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "surface-response",
+          "score": 0.8,
+          "visible": true,
+          "notes": "Independent 1024px roughness and height fields provide restrained molded grain with deterministic seed 19341. Relief is subtle at archive distance and visible under grazing light. The procedural grain approximates the reference polymer; it does not claim exact microtexture recovery."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/cartridge/surface-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/cartridge/surface-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:25:21.322919+00:00",
+      "passId": "lighting-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.81,
+        "formDetail": 0.81,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "form-lighting",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Reduced key, hemisphere and exposure preserve charcoal value and distinct glass response under a neutral studio environment. Four orbit views retain volume. Reference lighting is approximated; archive contact shadows use a bounded shadow map and only shell casters."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/cartridge/lighting-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/cartridge/lighting-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:37:01.914942+00:00",
+      "passId": "interaction-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "connector-axis",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Runtime calibration sampled 22 insertion frames with zero lateral axis error and zero dock-position error. A downward ray through the actual aperture first hits internal slot-contact-14, below the lip. Separate closed rear-frame segments pass self-intersection; part coverage and action-ready pivots are retained."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/cartridge/interaction-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/cartridge/interaction-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:51:46.205482+00:00",
+      "passId": "optimization-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [],
+      "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/cartridge/optimization-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/cartridge/optimization-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    }
+  ],
+  "reviewHistory": [
+    {
+      "timestamp": "2026-11-04T09:04:13.042515+00:00",
+      "passId": "blockout",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.5,
+        "formDetail": 0.4,
+        "materialSurface": 0.5,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "silhouette",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Unlit map-stripped silhouette and physical thickness accepted for blockout only. The reference corner footprint and projecting connector read correctly. Recesses, slot cavity, molding and final materials belong to subsequent passes."
+        }
+      ],
+      "action": "continue",
+      "summary": "Unlit map-stripped silhouette and physical thickness accepted for blockout only. The reference corner footprint and projecting connector read correctly. Recesses, slot cavity, molding and final materials belong to subsequent passes.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "mapStrippedRender": "public/templates/savepoint/verification/cartridge/blockout/small-35.png",
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/cartridge/blockout/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/cartridge/blockout/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:07:54.419805+00:00",
+      "passId": "structural-pass",
+      "estimatedFidelity": 0.79,
+      "aiVisionScore": null,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {},
+      "featureReviews": [],
+      "action": "refine-code",
+      "summary": "Stepped shell adds the specified molded shoulder to the bounding footprint. Increase the review camera distance from 2.40 to 2.45 to preserve reference framing; no model dimensions change.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": []
+    },
+    {
+      "timestamp": "2026-11-04T09:10:38.297805+00:00",
+      "passId": "structural-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.81,
+        "formDetail": 0.81,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "stepped-shell",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes."
+        },
+        {
+          "id": "recessed-label",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes."
+        }
+      ],
+      "action": "continue",
+      "summary": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/cartridge/structural-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/cartridge/structural-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:14:35.381432+00:00",
+      "passId": "form-refinement",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "contacts-and-fasteners",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Form pass accepted: repeated vent recesses and contacts, front controls, softened shell edges, stepped grip corners, inset molding and rear screw wells are present across the orbit. Physical screen is landscape; exact molded grain and reflected studio response remain approximate."
+        }
+      ],
+      "action": "continue",
+      "summary": "Form pass accepted: repeated vent recesses and contacts, front controls, softened shell edges, stepped grip corners, inset molding and rear screw wells are present across the orbit. Physical screen is landscape; exact molded grain and reflected studio response remain approximate.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/cartridge/form-refinement/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/cartridge/form-refinement/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:17:41.163081+00:00",
+      "passId": "material-pass",
+      "estimatedFidelity": 0.72,
+      "aiVisionScore": null,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {},
+      "featureReviews": [],
+      "action": "refine-code",
+      "summary": "Environment lighting washed out the approved printed label and caused the silhouette mask to classify its moon as a hole. Preserve the supplied artwork with an unlit sRGB label carrier while keeping the shell PBR.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": []
+    },
+    {
+      "timestamp": "2026-11-04T09:19:27.222921+00:00",
+      "passId": "material-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.8,
+        "componentStructure": 0.8,
+        "formDetail": 0.8,
+        "materialSurface": 0.8,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "polymer-label",
+          "score": 0.8,
+          "visible": true,
+          "notes": "Dielectric charcoal shell, darker cavity, low-roughness glass and metal contacts are distinct. Supplied label pixels retain their sRGB color without environment washout. Studio reflection strength still differs from the reference and will be bounded in the lighting pass."
+        }
+      ],
+      "action": "continue",
+      "summary": "Dielectric charcoal shell, darker cavity, low-roughness glass and metal contacts are distinct. Supplied label pixels retain their sRGB color without environment washout. Studio reflection strength still differs from the reference and will be bounded in the lighting pass.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/cartridge/material-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/cartridge/material-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:22:50.956637+00:00",
+      "passId": "surface-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.8,
+        "componentStructure": 0.8,
+        "formDetail": 0.8,
+        "materialSurface": 0.8,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "surface-response",
+          "score": 0.8,
+          "visible": true,
+          "notes": "Independent 1024px roughness and height fields provide restrained molded grain with deterministic seed 19341. Relief is subtle at archive distance and visible under grazing light. The procedural grain approximates the reference polymer; it does not claim exact microtexture recovery."
+        }
+      ],
+      "action": "continue",
+      "summary": "Independent 1024px roughness and height fields provide restrained molded grain with deterministic seed 19341. Relief is subtle at archive distance and visible under grazing light. The procedural grain approximates the reference polymer; it does not claim exact microtexture recovery.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/cartridge/surface-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/cartridge/surface-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:25:21.322919+00:00",
+      "passId": "lighting-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.81,
+        "formDetail": 0.81,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "form-lighting",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Reduced key, hemisphere and exposure preserve charcoal value and distinct glass response under a neutral studio environment. Four orbit views retain volume. Reference lighting is approximated; archive contact shadows use a bounded shadow map and only shell casters."
+        }
+      ],
+      "action": "continue",
+      "summary": "Reduced key, hemisphere and exposure preserve charcoal value and distinct glass response under a neutral studio environment. Four orbit views retain volume. Reference lighting is approximated; archive contact shadows use a bounded shadow map and only shell casters.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/cartridge/lighting-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/cartridge/lighting-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:37:01.914942+00:00",
+      "passId": "interaction-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "connector-axis",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Runtime calibration sampled 22 insertion frames with zero lateral axis error and zero dock-position error. A downward ray through the actual aperture first hits internal slot-contact-14, below the lip. Separate closed rear-frame segments pass self-intersection; part coverage and action-ready pivots are retained."
+        }
+      ],
+      "action": "continue",
+      "summary": "Runtime calibration sampled 22 insertion frames with zero lateral axis error and zero dock-position error. A downward ray through the actual aperture first hits internal slot-contact-14, below the lip. Separate closed rear-frame segments pass self-intersection; part coverage and action-ready pivots are retained.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/cartridge/interaction-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/cartridge/interaction-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:51:46.205482+00:00",
+      "passId": "optimization-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [],
+      "action": "continue",
+      "summary": "Shared shell geometries and base materials, per-game label/spine materials, instanced contacts/fasteners and isolated clipping clones preserve the accepted appearance. Both models pass complete part coverage, self-intersection and reversible assembly/picking checks. Geometry and procedural surfaces remain approximate reconstructions of the approved renders.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/cartridge-shell-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/cartridge/optimization-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/cartridge/optimization-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    }
+  ],
+  "lodPlan": [
+    {
+      "tier": "near",
+      "distance": 0,
+      "strategy": "full component tree and material layers"
+    },
+    {
+      "tier": "far",
+      "distance": 30,
+      "strategy": "merge static components and reduce local feature geometry"
+    }
+  ],
+  "performanceBudget": {
+    "qualityPriority": "reference-fidelity",
+    "targetTriangles": 80000,
+    "maxDrawCalls": 100,
+    "textureSize": 1024,
+    "fpsTarget": 60,
+    "optimizationPolicy": "Reach accepted visual fidelity first, then optimize without removing reference-critical geometry or surface layers."
+  },
+  "lightingFromPhoto": [
+    "large upper-left key light",
+    "soft fill light",
+    "rear rim light",
+    "ACES tone mapping exposure 1.2",
+    "neutral background and contact shadow"
+  ],
+  "proceduralStrategy": [
+    "Block out macro silhouette first.",
+    "Add component hierarchy and joints.",
+    "Create stable pivot groups, sockets, collider proxies, and destruction metadata before visual polish.",
+    "Refine forms with bevels, tapers, bends, and procedural noise.",
+    "Run reference PBR extraction for important source-image materials and stop when confidence is below the target threshold.",
+    "Add material variation before adding expensive micro-geometry."
+  ],
+  "animationAnchors": [
+    "root pivot node supports whole-object translation, rotation, scale, and visibility changes",
+    "component pivot groups support later local transforms without rebuilding geometry"
+  ],
+  "destructionAnchors": [
+    "actionProfile.destruction.fractureGroup marks detachable or breakable component sets",
+    "component seams and sockets define plausible break points instead of random explosions"
+  ],
+  "risks": [],
+  "localSpecSearch": {
+    "collection": "core_3d",
+    "query": "cartridge beveled hard surface plastic shell glass roughness",
+    "index": {
+      "status": "hit",
+      "reason": "current",
+      "fingerprint": "06f0b2ece2935e441653f5c3533f91b3a4d6163f2aec4267559d7d8419bdd040"
+    },
+    "matches": [
+      {
+        "record_id": "core.pbr-opacity-alpha",
+        "file_path": "docs/raw/img2threejs-skill-dataset.json",
+        "heading": null,
+        "key_path": "categories.material_pbr[8]",
+        "score": 6.173944048162,
+        "snippets": [
+          "... l\u00e0m k\u00eanh d\u1eef li\u1ec7u, kh\u00f4ng ph\u1ea3i \u0111\u1ed9 trong su\u1ed1t. Recognition cues: Standard opacity: soft edge fade or full transparency in glass/plastic parts; CS2-specific: alpha channel of the base color texture instead encodes a Wearness Mask, not visual ..."
+        ],
+        "source_refs": [
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.material_pbr[8]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation"
+          }
+        ]
+      },
+      {
+        "record_id": "core.pbr-roughness",
+        "file_path": "grimoire/glossary/3d_vocabulary.md",
+        "heading": "Material And PBR",
+        "key_path": null,
+        "score": 4.20187819032,
+        "snippets": [
+          "Roughness is microfacet scatter: high roughness reads matte and low roughness reads glossy. Recognition cues: low roughness reads as a sharp, mirror-like, tight specular highlight; high roughness reads as a blurry, wide, dim highlight and matte ..."
+        ],
+        "source_refs": [
+          {
+            "path": "grimoire/glossary/3d_vocabulary.md",
+            "heading": "Material And PBR",
+            "key_path": null
+          },
+          {
+            "path": "grimoire/intake/image_analysis.md",
+            "heading": "Layer 5 \u2014 Materials & surface (PBR)",
+            "key_path": null
+          },
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.material_pbr[1]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "grimoire/glossary/3d_vocabulary.md"
+          },
+          {
+            "kind": "notebooklm-research",
+            "ref": "notebooklm:4b03c2f9-8393-411f-b5b4-039ab9532843",
+            "note": "Validated generic schema vocabulary; numeric claims remain backed by local source_refs."
+          },
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation \u2014 merged recognition cues + Three.js target instead of duplicating this entity."
+          }
+        ]
+      },
+      {
+        "record_id": "core.description-honest-uncertainty-single-image-limits-convention",
+        "file_path": "docs/raw/img2threejs-skill-dataset.json",
+        "heading": null,
+        "key_path": "categories.description_conventions[6]",
+        "score": 3.986222861816,
+        "snippets": [
+          "... \u0111\u1ecbnh' thay v\u00ec b\u1ecba ra chi ti\u1ebft tr\u00f4ng h\u1ee3p l\u00fd nh\u01b0ng kh\u00f4ng th\u1ea5y trong \u1ea3nh tham chi\u1ebfu. Recognition cues: Any attribute for a surface not visible in the reference image should be flagged explicitly rather than filled with a guessed value; This is ..."
+        ],
+        "source_refs": [
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.description_conventions[6]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation"
+          }
+        ]
+      }
+    ]
+  },
+  "revision": {
+    "number": 2,
+    "authorization": "User approved revised specs and a new correction budget on 2026-11-04.",
+    "previousEvidence": "Revision 01 retained in local .img2threejs history; revision 02 was authorized by the user."
+  },
+  "sculptPipeline": {
+    "passGateMode": "locked-sequential",
+    "passOrder": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "currentPass": "complete",
+    "completedPasses": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "lastCompletedPass": "optimization-pass",
+    "blockedReason": "all build passes completed",
+    "nextRequiredEvidence": []
+  },
+  "tier1Results": [
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9097,
+        "aspectRatioDelta": 0.0386,
+        "scaleDelta": 0.0721,
+        "bilateralSymmetryError": 0.0963,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 1.06,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "bd1fd0860220e8e1",
+      "passId": "blockout",
+      "mapStrippedRender": "public/templates/savepoint/verification/cartridge/blockout/small-35.png"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9097,
+        "aspectRatioDelta": 0.0386,
+        "scaleDelta": 0.0721,
+        "bilateralSymmetryError": 0.0963,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 1.06,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "bd1fd0860220e8e1",
+      "passId": "blockout",
+      "mapStrippedRender": "public/templates/savepoint/verification/cartridge/blockout/small-35.png"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9097,
+        "aspectRatioDelta": 0.0386,
+        "scaleDelta": 0.0721,
+        "bilateralSymmetryError": 0.0963,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 1.06,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            },
+            {
+              "componentId": null,
+              "deltaE": 1.06
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "bd1fd0860220e8e1",
+      "passId": "blockout",
+      "mapStrippedRender": "public/templates/savepoint/verification/cartridge/blockout/small-35.png"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9116,
+        "aspectRatioDelta": 0.0386,
+        "scaleDelta": 0.0721,
+        "bilateralSymmetryError": 0.0941,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 18.17,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 18.17
+            },
+            {
+              "componentId": null,
+              "deltaE": 18.17
+            },
+            {
+              "componentId": null,
+              "deltaE": 18.17
+            },
+            {
+              "componentId": null,
+              "deltaE": 18.17
+            },
+            {
+              "componentId": null,
+              "deltaE": 18.17
+            },
+            {
+              "componentId": null,
+              "deltaE": 18.17
+            },
+            {
+              "componentId": null,
+              "deltaE": 18.17
+            },
+            {
+              "componentId": null,
+              "deltaE": 18.17
+            },
+            {
+              "componentId": null,
+              "deltaE": 18.17
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "6c0eacb115d9a17f",
+      "passId": "blockout",
+      "mapStrippedRender": "public/templates/savepoint/verification/cartridge/blockout/small-35.png"
+    },
+    {
+      "passed": false,
+      "checks": {
+        "silhouetteIoU": 0.8947,
+        "aspectRatioDelta": 0.0462,
+        "scaleDelta": 0.1144,
+        "bilateralSymmetryError": 0.0943,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 0.57,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 0.57
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.57
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.57
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.57
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.57
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.57
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.57
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.57
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.57
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [
+        "scale delta 0.114 exceeds threshold 0.08"
+      ],
+      "maskWarnings": [],
+      "renderHash": "29b1cbc7260142b7",
+      "passId": "structural-pass"
+    },
+    {
+      "passed": false,
+      "checks": {
+        "silhouetteIoU": 0.9087,
+        "aspectRatioDelta": 0.0557,
+        "scaleDelta": 0.067,
+        "bilateralSymmetryError": 0.0892,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 0.81,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 0.81
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.81
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.81
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.81
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.81
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.81
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.81
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.81
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.81
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [
+        "aspect-ratio delta 0.056 exceeds threshold 0.05"
+      ],
+      "maskWarnings": [],
+      "renderHash": "4695714d99be83a1",
+      "passId": "structural-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9032,
+        "aspectRatioDelta": 0.0325,
+        "scaleDelta": 0.0659,
+        "bilateralSymmetryError": 0.1018,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 0.75,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 0.75
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.75
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.75
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.75
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.75
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.75
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.75
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.75
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.75
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "060f55010a2e9c6b",
+      "passId": "structural-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.901,
+        "aspectRatioDelta": 0.0435,
+        "scaleDelta": 0.0547,
+        "bilateralSymmetryError": 0.1015,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 0.73,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 0.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 0.73
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "f02cf1c7c887c48e",
+      "passId": "form-refinement"
+    },
+    {
+      "passed": false,
+      "checks": {
+        "silhouetteIoU": 0.819,
+        "aspectRatioDelta": 0.0435,
+        "scaleDelta": 0.0547,
+        "bilateralSymmetryError": 0.1968,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 11.3,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 11.3
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.3
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.3
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.3
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.3
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.3
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.3
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.3
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.3
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [
+        "silhouette IoU 0.819 is below threshold 0.85"
+      ],
+      "maskWarnings": [],
+      "renderHash": "af9210a8152fb4c7",
+      "passId": "material-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9037,
+        "aspectRatioDelta": 0.0435,
+        "scaleDelta": 0.0547,
+        "bilateralSymmetryError": 0.098,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 15.07,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 15.07
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.07
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.07
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.07
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.07
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.07
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.07
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.07
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.07
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "ea637a3ff08c22bf",
+      "passId": "material-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9037,
+        "aspectRatioDelta": 0.0435,
+        "scaleDelta": 0.0547,
+        "bilateralSymmetryError": 0.0981,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 15.29,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 15.29
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.29
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.29
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.29
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.29
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.29
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.29
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.29
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.29
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "49ba14ea98d25820",
+      "passId": "surface-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9037,
+        "aspectRatioDelta": 0.0435,
+        "scaleDelta": 0.0547,
+        "bilateralSymmetryError": 0.0982,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 6.11,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "df679ca92433dd73",
+      "passId": "lighting-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9037,
+        "aspectRatioDelta": 0.0435,
+        "scaleDelta": 0.0547,
+        "bilateralSymmetryError": 0.0982,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 6.11,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "df679ca92433dd73",
+      "passId": "interaction-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9037,
+        "aspectRatioDelta": 0.0435,
+        "scaleDelta": 0.0547,
+        "bilateralSymmetryError": 0.0982,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 6.11,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "df679ca92433dd73",
+      "passId": "interaction-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.9037,
+        "aspectRatioDelta": 0.0435,
+        "scaleDelta": 0.0547,
+        "bilateralSymmetryError": 0.0982,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 6.11,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            },
+            {
+              "componentId": null,
+              "deltaE": 6.11
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "882781b838bf741e",
+      "passId": "optimization-pass"
+    }
+  ],
+  "verification": {
+    "revision": 2,
+    "runtimePartCount": 18,
+    "clearance": {
+      "slotWidth": 0.99,
+      "slotDepth": 0.18,
+      "cartridgeWidth": 0.864,
+      "cartridgeDepth": 0.14
+    },
+    "calibration": "public/templates/savepoint/verification/calibration.json",
+    "selfIntersection": "Passed on all individually closed procedural prototypes; open artwork planes are excluded, repeated instance topology is tested once.",
+    "attachmentGate": "Worn/held attachment gate is non-applicable; physical insertion is measured separately."
+  }
+}]]>
+    </file>
     <file path="src/app/(savepoint)/savepoint/models/createCartridgeModel.ts">
 <![CDATA[import * as THREE from 'three';
 import { box, part, polymer, enableAssembly } from './geometry';
@@ -1874,6 +8001,14828 @@ export function createDeck01Model() {
     return { group, anchors, parts, assembly, setBootState(state: number) { indicator.material.emissiveIntensity = state * 2 + .05; screen.material.color.set(state ? 0xcdf266 : 0x080c12); } };
 }
 ]]>
+    </file>
+    <file path="src/app/(savepoint)/savepoint/models/deck01-sculpt-spec.json">
+<![CDATA[{
+  "targetName": "deck",
+  "targetId": "deck",
+  "schemaVersion": "2.1",
+  "terminologyProfile": {
+    "domain": "real-time procedural Three.js asset",
+    "geometryTerms": [
+      "silhouette",
+      "topology",
+      "primitive",
+      "bevel",
+      "chamfer",
+      "taper",
+      "bend",
+      "boolean cut",
+      "edge loop",
+      "surface normal",
+      "displacement"
+    ],
+    "materialTerms": [
+      "albedo",
+      "baseColor",
+      "roughness",
+      "metalness",
+      "normal map",
+      "bump map",
+      "ambient occlusion",
+      "cavity dirt",
+      "edge wear",
+      "clearcoat"
+    ],
+    "lightingTerms": [
+      "key light",
+      "fill light",
+      "rim light",
+      "HDRI/environment reflection",
+      "contact shadow"
+    ],
+    "descriptionRule": "Use measurable 3D graphics terms. Avoid vague words unless they are paired with concrete geometry/material/shader parameters."
+  },
+  "sourceImage": "public/templates/savepoint/deck-01-three-quarter.png",
+  "referenceCamera": {
+    "solved": true,
+    "fovDegrees": 34,
+    "aspect": 1.3392857142857142,
+    "orientation": {
+      "yaw": 0.616,
+      "pitch": 0.7,
+      "roll": 0
+    },
+    "positionHint": [
+      2.75,
+      4.0,
+      3.9
+    ],
+    "note": "Review camera is calibrated to the reference footprint. Runtime canvas capture awaits a rendered frame and recomputes the view offset after resizing."
+  },
+  "suitability": "pass",
+  "scores": {
+    "object_isolation": 3,
+    "silhouette_readability": 3,
+    "depth_inference": 3,
+    "primitive_decomposition": 3,
+    "material_procedurality": 3,
+    "occlusion_risk": 3,
+    "interaction_fit": 3
+  },
+  "preSpecAssessment": {
+    "objectClass": {
+      "primaryType": "hard-surface electronic hardware",
+      "primaryDomain": "object",
+      "formLanguage": [
+        "hard-surface",
+        "geometric"
+      ],
+      "structureKind": [
+        "layered shell",
+        "compound object"
+      ],
+      "motionPotential": [
+        "whole-object transform",
+        "detachable"
+      ],
+      "materialFamilies": [
+        "plastic",
+        "glass",
+        "metal"
+      ],
+      "notes": "bilateral low extruded wedge, front +Z, rear elevated"
+    },
+    "complexity": {
+      "tier": "complex",
+      "scores": {
+        "silhouetteComplexity": 2,
+        "componentCount": 2,
+        "hierarchyDepth": 2,
+        "repetitionDensity": 2,
+        "materialLayerCount": 2,
+        "localDetailDensity": 2,
+        "occlusionRisk": 2,
+        "actionReadinessNeed": 2
+      },
+      "estimatedCounts": {
+        "macroComponents": 4,
+        "mesoComponents": 13,
+        "microFeatureGroups": 55,
+        "materialLayers": 4,
+        "repetitionSystems": 2
+      },
+      "reasoning": [
+        "Three views reveal a compound hard-surface shell, layered panels, repeated contact/vent/fastener systems and an action-ready hierarchy."
+      ]
+    },
+    "specDepthDecision": {
+      "requiredDepth": "complex",
+      "minimumComponentLevels": [
+        "macro",
+        "meso",
+        "micro"
+      ],
+      "needsRepetitionSystems": true,
+      "needsMaterialLocalOverrides": true,
+      "needsMultipleReviewViews": true,
+      "needsActionReadyHierarchy": true,
+      "rationale": "Separate shell, aperture and contact assemblies with repeated molded details."
+    },
+    "unknownsToResolveBeforeImplementation": [],
+    "detailInventory": {
+      "scanMethod": "component-zones",
+      "targetMinDetails": 10,
+      "details": [
+        {
+          "id": "shell",
+          "kind": "bevel",
+          "description": "shell authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "shell"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "lower-shell",
+          "kind": "bevel",
+          "description": "lower-shell authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "lower-shell"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "right-cheek",
+          "kind": "bevel",
+          "description": "right-cheek authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "right-cheek"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "left-cheek",
+          "kind": "bevel",
+          "description": "left-cheek authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "left-cheek"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rear-wall",
+          "kind": "bevel",
+          "description": "rear-wall authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rear-wall"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "front-lip",
+          "kind": "bevel",
+          "description": "front-lip authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "front-lip"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "inclined-panel",
+          "kind": "bevel",
+          "description": "inclined-panel authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "inclined-panel"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rear-deck",
+          "kind": "bevel",
+          "description": "rear-deck authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rear-deck"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rear-frame-side-left",
+          "kind": "bevel",
+          "description": "rear-frame-side-left authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rear-frame-side-left"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rear-frame-edge-rear",
+          "kind": "bevel",
+          "description": "rear-frame-edge-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rear-frame-edge-rear"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rear-frame-side-right",
+          "kind": "bevel",
+          "description": "rear-frame-side-right authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rear-frame-side-right"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rear-frame-edge-front",
+          "kind": "bevel",
+          "description": "rear-frame-edge-front authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rear-frame-edge-front"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rubber-foot-left-rear",
+          "kind": "bevel",
+          "description": "rubber-foot-left-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rubber-foot-left-rear"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rubber-foot-left-front",
+          "kind": "bevel",
+          "description": "rubber-foot-left-front authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rubber-foot-left-front"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rubber-foot-right-rear",
+          "kind": "bevel",
+          "description": "rubber-foot-right-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rubber-foot-right-rear"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "rubber-foot-right-front",
+          "kind": "bevel",
+          "description": "rubber-foot-right-front authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "rubber-foot-right-front"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slotLip",
+          "kind": "bevel",
+          "description": "slotLip authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slotLip"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-edge-rear",
+          "kind": "bevel",
+          "description": "slot-edge-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-edge-rear"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-end-left",
+          "kind": "bevel",
+          "description": "slot-end-left authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-end-left"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-edge-front",
+          "kind": "bevel",
+          "description": "slot-edge-front authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-edge-front"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-end-right",
+          "kind": "bevel",
+          "description": "slot-end-right authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-end-right"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slotInterior",
+          "kind": "bevel",
+          "description": "slotInterior authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slotInterior"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-wall-rear",
+          "kind": "bevel",
+          "description": "slot-wall-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-wall-rear"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "end-guide-left",
+          "kind": "bevel",
+          "description": "end-guide-left authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "end-guide-left"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-wall-front",
+          "kind": "bevel",
+          "description": "slot-wall-front authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-wall-front"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "end-guide-right",
+          "kind": "bevel",
+          "description": "end-guide-right authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "end-guide-right"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-floor",
+          "kind": "bevel",
+          "description": "slot-floor authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-floor"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-0",
+          "kind": "bevel",
+          "description": "slot-contact-0 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-0"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-1",
+          "kind": "bevel",
+          "description": "slot-contact-1 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-1"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-2",
+          "kind": "bevel",
+          "description": "slot-contact-2 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-2"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-3",
+          "kind": "bevel",
+          "description": "slot-contact-3 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-3"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-4",
+          "kind": "bevel",
+          "description": "slot-contact-4 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-4"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-5",
+          "kind": "bevel",
+          "description": "slot-contact-5 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-5"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-6",
+          "kind": "bevel",
+          "description": "slot-contact-6 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-6"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-7",
+          "kind": "bevel",
+          "description": "slot-contact-7 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-7"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-8",
+          "kind": "bevel",
+          "description": "slot-contact-8 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-8"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-9",
+          "kind": "bevel",
+          "description": "slot-contact-9 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-9"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-10",
+          "kind": "bevel",
+          "description": "slot-contact-10 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-10"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-11",
+          "kind": "bevel",
+          "description": "slot-contact-11 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-11"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-12",
+          "kind": "bevel",
+          "description": "slot-contact-12 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-12"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-13",
+          "kind": "bevel",
+          "description": "slot-contact-13 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-13"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-14",
+          "kind": "bevel",
+          "description": "slot-contact-14 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-14"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-15",
+          "kind": "bevel",
+          "description": "slot-contact-15 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-15"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-16",
+          "kind": "bevel",
+          "description": "slot-contact-16 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-16"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-17",
+          "kind": "bevel",
+          "description": "slot-contact-17 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-17"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-18",
+          "kind": "bevel",
+          "description": "slot-contact-18 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-18"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-19",
+          "kind": "bevel",
+          "description": "slot-contact-19 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-19"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-20",
+          "kind": "bevel",
+          "description": "slot-contact-20 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-20"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-21",
+          "kind": "bevel",
+          "description": "slot-contact-21 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-21"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-22",
+          "kind": "bevel",
+          "description": "slot-contact-22 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-22"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-23",
+          "kind": "bevel",
+          "description": "slot-contact-23 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-23"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-24",
+          "kind": "bevel",
+          "description": "slot-contact-24 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-24"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-25",
+          "kind": "bevel",
+          "description": "slot-contact-25 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-25"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-26",
+          "kind": "bevel",
+          "description": "slot-contact-26 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-26"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slot-contact-27",
+          "kind": "bevel",
+          "description": "slot-contact-27 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slot-contact-27"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "screenBezel",
+          "kind": "bevel",
+          "description": "screenBezel authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "screenBezel"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "screenGlass",
+          "kind": "bevel",
+          "description": "screenGlass authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "screenGlass"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slotEntrance",
+          "kind": "bevel",
+          "description": "slotEntrance authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slotEntrance"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slotAlignment",
+          "kind": "bevel",
+          "description": "slotAlignment authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slotAlignment"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "slotFullyInserted",
+          "kind": "bevel",
+          "description": "slotFullyInserted authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "slotFullyInserted"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "frontButtons",
+          "kind": "bevel",
+          "description": "frontButtons authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "frontButtons"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "button-left-0.84",
+          "kind": "bevel",
+          "description": "button-left-0.84 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "button-left-0.84"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "button-left-0.58",
+          "kind": "bevel",
+          "description": "button-left-0.58 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "button-left-0.58"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "button-right-0.58",
+          "kind": "bevel",
+          "description": "button-right-0.58 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "button-right-0.58"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "button-right-0.84",
+          "kind": "bevel",
+          "description": "button-right-0.84 authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "button-right-0.84"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "powerIndicator",
+          "kind": "bevel",
+          "description": "powerIndicator authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "powerIndicator"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "baseSeam",
+          "kind": "bevel",
+          "description": "baseSeam authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "baseSeam"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "ventRibs",
+          "kind": "ridge",
+          "description": "ventRibs authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "ventRibs"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "lower-vent-recesses",
+          "kind": "ridge",
+          "description": "lower-vent-recesses authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "lower-vent-recesses"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        },
+        {
+          "id": "upper-vent-recesses",
+          "kind": "ridge",
+          "description": "upper-vent-recesses authored as a named runtime assembly with measured dimensions and transform.",
+          "mapsTo": {
+            "ref": "upper-vent-recesses"
+          },
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ]
+    },
+    "sourceImage": "public/templates/savepoint/deck-01-three-quarter.png"
+  },
+  "qualityContract": {
+    "qualityBar": "complex",
+    "definitionOfDone": [
+      "bilateral low extruded wedge, front +Z, rear elevated",
+      "screen embedded in sloping shell; rear slot open to cavity",
+      "Nine named physical assemblies with dielectric polymer, glass and contact metal; front, rear and orbit inspection."
+    ],
+    "minimumSpecDepth": {
+      "macroComponents": 3,
+      "mesoComponents": 8,
+      "microFeatureGroups": 5,
+      "materialLayers": 3,
+      "repetitionSystems": 1,
+      "reviewViewpoints": 4
+    },
+    "featureGroups": [
+      {
+        "id": "overall-silhouette",
+        "name": "Overall silhouette and proportions",
+        "required": true,
+        "qualityCriteria": [
+          "Bounding shape, dominant curves, negative spaces, and scale relationships are explicitly described."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "model reads as a generic placeholder instead of the reference object",
+          "major proportions are guessed without evidence"
+        ]
+      },
+      {
+        "id": "primary-structure",
+        "name": "Primary structure and hierarchy",
+        "required": true,
+        "qualityCriteria": [
+          "Major parts, joints, seams, contact points, and parent-child relationships are named before code generation."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "large visible parts are merged into one mesh",
+          "component hierarchy is too shallow for the observed complexity"
+        ]
+      },
+      {
+        "id": "attachment-joint-correctness",
+        "name": "Attachment and joint correctness",
+        "required": true,
+        "qualityCriteria": [
+          "Every visible child appendage, branch, limb, handle, connector, tube, cable, horn, wing, leg, or hinged part has an attachment contract with parent socket, localStart/localEnd, contact type, embed/overlap, and gap tolerance."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "child part root floats away from the parent",
+          "branch/limb/tube is centered in space instead of pivoting from its root",
+          "parent-child transform mixes world and local coordinates"
+        ]
+      },
+      {
+        "id": "surface-material-response",
+        "name": "Surface material response",
+        "required": true,
+        "qualityCriteria": [
+          "Albedo zones, roughness, normal/bump/displacement intent, cavity dirt, edge wear, and local overrides are specified where visible.",
+          "Important materials define independent albedo, roughness, height/normal, and AO responses instead of reusing one texture for unrelated PBR channels.",
+          "Surface response is decomposed into macro, meso, and micro frequency bands with scale and amplitude tied to object scale."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "surface looks like flat plastic",
+          "local material variation is missing or not tied to image evidence"
+        ]
+      },
+      {
+        "id": "reference-lookdev",
+        "name": "Reference color, material, and lighting response",
+        "required": true,
+        "qualityCriteria": [
+          "Material-pass names the reference-derived albedo palette, roughness variation, tactile normal/bump/displacement response, and local masks.",
+          "When a source image is available, run reference PBR extraction and require confidence >= 0.7 before treating maps as implementation-ready.",
+          "Lighting-pass names key/fill/rim or environment light, exposure, tone mapping, background, and contact shadow behavior.",
+          "Neutral, grazing-angle, and reference-matched renders prove that surface relief survives relighting and is not painted into albedo."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "model has acceptable shape but reads as flat shaded or plastic",
+          "colors are a generic average instead of reference-observed local color zones",
+          "lighting is evenly ambient and cannot reproduce the source value range"
+        ]
+      }
+    ],
+    "visualDeltaChecks": [
+      "silhouette and negative-space delta",
+      "component hierarchy depth delta",
+      "repetition density and distribution delta",
+      "material albedo/roughness/normal response delta",
+      "local feature placement and scale delta"
+    ],
+    "antiShallowSpecRules": [
+      "Do not proceed to code if qualityContract.qualityBar is unassessed.",
+      "Do not proceed to code if the spec only contains a root component for a moderate or complex object.",
+      "Do not proceed to code if required featureGroups are not represented by componentTree, materials, or repetitionSystems.",
+      "Do not proceed to code if visible local features are described only in prose and not attached to components/materials/evidenceRefs.",
+      "Do not proceed past structural-pass if attached child parts lack attachment.parentSocket, localStart, localEnd, embedDepth/overlap, and gapTolerance.",
+      "Do not pass material look-dev when albedo is reused as roughness, height, normal, or AO.",
+      "Do not pass material look-dev without macro, meso, and micro surface frequency bands for close-up materials.",
+      "Do not pass reference-fidelity material look-dev from a source image without usable referencePbr maps or an explicit documented limitation.",
+      "Do not patch a spec with extracted PBR maps when extraction confidence is below the target threshold unless the user explicitly accepts lower fidelity.",
+      "Do not place adjacent separate-geometry parts below 0.02 world-unit seam overlap (source: grimoire/build/geometry_patterns.md).",
+      "Do not satisfy raised or recessed relief, fasteners, or grip structure with a map alone when the feature affects form; use geometry or displacement (source: grimoire/build/geometry_patterns.md).",
+      "Adjacent components must overlap by at least 0.02 world units at shared seams (source: grimoire/build/geometry_patterns.md).",
+      "Raised or recessed relief and fasteners must be geometry, instanced micro-parts, or displacement; a map alone is an approximation (source: grimoire/build/geometry_patterns.md)."
+    ],
+    "mustNotDo": [
+      "Do not proceed to code if qualityContract.qualityBar is unassessed.",
+      "Do not proceed to code if the spec only contains a root component for a moderate or complex object.",
+      "Do not proceed to code if required featureGroups are not represented by componentTree, materials, or repetitionSystems.",
+      "Do not proceed to code if visible local features are described only in prose and not attached to components/materials/evidenceRefs.",
+      "Do not proceed past structural-pass if attached child parts lack attachment.parentSocket, localStart, localEnd, embedDepth/overlap, and gapTolerance.",
+      "Do not pass material look-dev when albedo is reused as roughness, height, normal, or AO.",
+      "Do not pass material look-dev without macro, meso, and micro surface frequency bands for close-up materials.",
+      "Do not pass reference-fidelity material look-dev from a source image without usable referencePbr maps or an explicit documented limitation.",
+      "Do not patch a spec with extracted PBR maps when extraction confidence is below the target threshold unless the user explicitly accepts lower fidelity.",
+      "Do not place adjacent separate-geometry parts below 0.02 world-unit seam overlap (source: grimoire/build/geometry_patterns.md).",
+      "Do not satisfy raised or recessed relief, fasteners, or grip structure with a map alone when the feature affects form; use geometry or displacement (source: grimoire/build/geometry_patterns.md).",
+      "Adjacent components must overlap by at least 0.02 world units at shared seams (source: grimoire/build/geometry_patterns.md).",
+      "Raised or recessed relief and fasteners must be geometry, instanced micro-parts, or displacement; a map alone is an approximation (source: grimoire/build/geometry_patterns.md)."
+    ]
+  },
+  "qualityTargets": {
+    "targetFidelity": 0.7,
+    "mustMatch": [
+      "macro silhouette and proportions",
+      "primary material albedo/roughness response",
+      "reference-derived PBR material response at or above 0.7 confidence when source pixels are usable",
+      "most recognizable local features"
+    ],
+    "niceToHave": [
+      "micro scratches, stains, chips, and dirt masks",
+      "secondary lighting match"
+    ],
+    "fpsTarget": 60,
+    "reviewViewpoints": [
+      "front",
+      "three-quarter",
+      "side",
+      "thickness-axis",
+      "long-axis"
+    ]
+  },
+  "selfCorrectLoop": {
+    "enabled": true,
+    "visualAcceptance": {
+      "reviewer": "ai-vision",
+      "threshold": 0.7,
+      "comparisonArtifactRequired": true,
+      "layerScoresRequired": true,
+      "codePixelDiffIsAcceptanceAuthority": false,
+      "scoringRule": "AI vision must inspect a side-by-side reference/render sheet and score the current pass from 0 to 1. Pixel-diff code may assist diagnostics but cannot approve a pass.",
+      "requiredLayerScores": [
+        "silhouetteProportion",
+        "componentStructure",
+        "formDetail",
+        "materialSurface",
+        "lightingCamera"
+      ],
+      "featureReviewPolicy": {
+        "enabled": true,
+        "reviewUnit": "semantic-subsystem",
+        "maxCriticalFeaturesPerPass": 5,
+        "maxImportantFeaturesPerPass": 3,
+        "criticalDefaultThreshold": 0.8,
+        "importantAverageThreshold": 0.65,
+        "adaptiveEscalation": true,
+        "singleImagePairOnly": true,
+        "selectionRule": "Choose only the most visually salient, identity-defining, user-prioritized, or high-risk semantic systems. Group repeated parts instead of reviewing every mesh. AI vision scores every selected feature from the same full reference/render pair."
+      }
+    },
+    "reviewAfterPasses": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "allowedActions": [
+      "continue",
+      "refine-spec",
+      "refine-code",
+      "request-input",
+      "stop"
+    ],
+    "specRefineTriggers": [
+      "missing component",
+      "wrong primitive family",
+      "wrong proportions",
+      "material layer under-specified",
+      "local feature not traceable to viewEvidence",
+      "reference ambiguity discovered during implementation"
+    ],
+    "codeRefineTriggers": [
+      "spec is adequate but generated geometry/material does not match",
+      "browser render differs from reference",
+      "performance budget exceeded",
+      "lighting hides geometry or material response"
+    ],
+    "stopCriteria": [
+      "target fidelity reached or user accepts current approximation",
+      "remaining gaps require new reference images or manual art"
+    ],
+    "screenshotPolicy": {
+      "requiredForPasses": [
+        "blockout",
+        "structural-pass",
+        "form-refinement",
+        "material-pass",
+        "surface-pass",
+        "lighting-pass",
+        "interaction-pass"
+      ],
+      "preferredCapture": "in-app-browser-screenshot",
+      "fallbackCapture": "user-supplied-screenshot-path",
+      "minimumEvidence": "Each visual pass needs a reference image, rendered screenshot, side-by-side comparison sheet, AI vision score, layer scores, and critique before choosing continue.",
+      "reviewPairRule": "Compare the same camera/viewpoint whenever possible; do not judge a front reference against a random render angle.",
+      "acceptanceAuthority": "AI vision review of the comparison sheet. Code-generated pixel similarity is not sufficient evidence."
+    }
+  },
+  "featureReviewTargets": [
+    {
+      "id": "silhouette",
+      "name": "Chassis footprint and wedge slope",
+      "tier": "critical",
+      "passIds": [
+        "blockout"
+      ],
+      "threshold": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "slot-cavity",
+      "name": "slot-cavity",
+      "tier": "critical",
+      "passIds": [
+        "structural-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "inclined-aperture",
+      "name": "inclined-aperture",
+      "tier": "critical",
+      "passIds": [
+        "structural-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "vent-and-controls",
+      "name": "vent-and-controls",
+      "tier": "critical",
+      "passIds": [
+        "form-refinement"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "polymer-glass",
+      "name": "polymer-glass",
+      "tier": "critical",
+      "passIds": [
+        "material-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "surface-response",
+      "name": "surface-response",
+      "tier": "critical",
+      "passIds": [
+        "surface-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "form-lighting",
+      "name": "form-lighting",
+      "tier": "critical",
+      "passIds": [
+        "lighting-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "slot-calibration",
+      "name": "slot-calibration",
+      "tier": "critical",
+      "passIds": [
+        "interaction-pass"
+      ],
+      "minimumScore": 0.8,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    }
+  ],
+  "lookDevTargets": {
+    "qualityPriority": "reference-fidelity",
+    "materialPass": {
+      "albedoPaletteRequired": true,
+      "roughnessVariationRequired": true,
+      "normalOrBumpRequired": true,
+      "localOverridesRequired": true,
+      "minimumTextureResolution": 1024,
+      "preferredTextureResolution": 2048,
+      "independentMapChannels": [
+        "albedo",
+        "roughness",
+        "height",
+        "normal",
+        "ambient-occlusion"
+      ],
+      "requiredSurfaceFrequencyBands": [
+        "macro",
+        "meso",
+        "micro"
+      ],
+      "geometryReliefRequiredWhenSilhouetteAffected": true,
+      "referencePbrExtraction": {
+        "requiredWhenSourceImagePresent": true,
+        "targetThreshold": 0.7,
+        "stopOnLowConfidence": true,
+        "script": "forge/stage1_intake/extract_pbr_evidence.py",
+        "acceptedLimitation": "single-image extraction is reference-derived inference, not exact photogrammetry"
+      },
+      "mustAvoid": [
+        "single flat albedo per material",
+        "uniform roughness",
+        "albedo texture reused as roughness/height/normal/AO",
+        "single-frequency random noise",
+        "plastic-looking smooth bark, stone, cloth, foliage, or aged material",
+        "local color/detail described only in prose without material masks",
+        "claiming exact PBR recovery when confidence is below the target threshold"
+      ]
+    },
+    "lightingPass": {
+      "requiredTerms": [
+        "key light",
+        "fill light",
+        "rim or environment light",
+        "exposure",
+        "tone mapping",
+        "background",
+        "contact shadow"
+      ],
+      "mustAvoid": [
+        "ambient-only lighting",
+        "flat value range",
+        "missing contact shadow",
+        "reference lighting copied without separating material readability"
+      ]
+    },
+    "screenshotReview": [
+      "Compare albedo palette and local color zones.",
+      "Compare roughness/normal/bump response under light.",
+      "Compare cavity dirt, edge wear, stains, moss, scratches, or other local masks.",
+      "Compare key/fill/rim structure, exposure, tone mapping, background, and contact shadows.",
+      "Capture a neutral-light render to verify material readability without reference lighting.",
+      "Capture a grazing-light close-up to expose flat normals, uniform roughness, tiling, and plastic highlights.",
+      "Capture a reference-matched render from the same camera framing as the source."
+    ]
+  },
+  "actionReadiness": {
+    "contract": "Every macro/meso component should be generated as a stable named Object3D pivot node with a mesh child, action metadata, optional sockets, collider proxy, and destruction metadata.",
+    "defaultRigType": "action-ready-static-rig",
+    "rootMotionNode": "root",
+    "requiredComponentFields": [
+      "id",
+      "parent",
+      "transform",
+      "attachment for child appendages, connectors, limbs, tubes, handles, legs, horns, wings, branches, or cables",
+      "actionProfile.animationRole",
+      "actionProfile.pivot",
+      "actionProfile.collider",
+      "actionProfile.destruction"
+    ],
+    "transformChannels": [
+      "translate",
+      "rotate",
+      "scale",
+      "bend",
+      "twist",
+      "detach",
+      "visibility",
+      "material-state"
+    ],
+    "authoringRules": [
+      "Do not collapse independently movable parts into one mesh.",
+      "Put transforms on component pivot groups, not only on raw meshes.",
+      "For attached child parts, put the pivot at the semantic root/socket and build visible geometry from localStart to localEnd.",
+      "Represent hinge, socket, detachable, and breakable intent even when no animation is implemented yet.",
+      "Use simplified collider proxies for runtime physics instead of visual mesh colliders by default."
+    ],
+    "destructionPolicy": {
+      "defaultBreakable": false,
+      "fractureGroupNaming": "Use stable semantic names such as body-shell, left-hinge, glass-panel, branch-segment.",
+      "debrisStrategy": "Prefer detachable component groups and a small number of procedural fragments over random mesh explosion."
+    }
+  },
+  "assumptions": [
+    "Conceptual dimensions are inferred from approved renders; hidden electronics and manufacturing tolerances are not reconstructed.",
+    "Polymer micrograin is procedural. The approved surface art is used verbatim as its own texture source."
+  ],
+  "coordinateFrame": {
+    "front": "+Z",
+    "up": "+Y",
+    "scaleReference": "100 mm per scene unit; reference-derived proportions take precedence over approximate conceptual dimensions"
+  },
+  "silhouette": {
+    "boundingShape": "Beveled rectangular wedge, 2.4 X by 2.745 Z; front height .22 and rear height 1.10",
+    "aspectRatios": [
+      2.4,
+      0.6,
+      1.8
+    ],
+    "symmetry": "bilateral",
+    "dominantCurves": [
+      "beveled edges"
+    ],
+    "negativeSpaces": [
+      "slot cavity"
+    ],
+    "landmarks": [
+      "shell",
+      "screenBezel",
+      "screenGlass",
+      "slotLip",
+      "slotInterior",
+      "ventRibs",
+      "frontButtons",
+      "powerIndicator",
+      "baseSeam"
+    ]
+  },
+  "viewEvidence": [
+    {
+      "id": "full-object",
+      "view": "primary",
+      "imageRegion": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1.0,
+        "height": 1.0,
+        "units": "normalized"
+      },
+      "observations": [
+        "screen embedded in sloping shell; rear slot open to cavity",
+        "charcoal satin dielectric polymer, low roughness glass, metal contacts"
+      ],
+      "confidence": 0.95
+    }
+  ],
+  "componentTree": [
+    {
+      "id": "DECK-01",
+      "name": "DECK-01",
+      "level": "macro",
+      "role": "pivot",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": null,
+      "attachment": null,
+      "dimensions": {
+        "width": 2.4500000069290397,
+        "height": 1.1480000300705433,
+        "depth": 2.7760000228881836,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "DECK-01",
+          "type": "bevel",
+          "description": "DECK-01 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "shell",
+      "name": "shell",
+      "level": "macro",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.4500000069290397,
+        "height": 1.1480000300705433,
+        "depth": 2.7760000228881836,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "shell",
+          "type": "bevel",
+          "description": "shell authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "lower-shell",
+      "name": "lower-shell",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          0,
+          0.11,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.11,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.4000000953674316,
+        "height": 0.2199999988079071,
+        "depth": 2.744999885559082,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.11,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "lower-shell",
+          "type": "bevel",
+          "description": "lower-shell authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "right-cheek",
+      "name": "right-cheek",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          1.06,
+          0,
+          0
+        ],
+        "localEnd": [
+          1.06,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.19000000692903996,
+        "height": 0.956000030040741,
+        "depth": 2.7760000228881836,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          1.06,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "right-cheek",
+          "type": "bevel",
+          "description": "right-cheek authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "left-cheek",
+      "name": "left-cheek",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          -1.2,
+          0,
+          0
+        ],
+        "localEnd": [
+          -1.2,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.19000000692903996,
+        "height": 0.956000030040741,
+        "depth": 2.7760000228881836,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -1.2,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "left-cheek",
+          "type": "bevel",
+          "description": "left-cheek authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rear-wall",
+      "name": "rear-wall",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          0,
+          0.64,
+          -1.31
+        ],
+        "localEnd": [
+          0,
+          0.64,
+          -1.31
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.1500000953674316,
+        "height": 0.8299999833106996,
+        "depth": 0.09000000357627869,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.64,
+          -1.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rear-wall",
+          "type": "bevel",
+          "description": "rear-wall authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "front-lip",
+      "name": "front-lip",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          0,
+          0.265,
+          1.31
+        ],
+        "localEnd": [
+          0,
+          0.265,
+          1.31
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.180000066757202,
+        "height": 0.14000000059604645,
+        "depth": 0.09000000357627869,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.265,
+          1.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "front-lip",
+          "type": "bevel",
+          "description": "front-lip authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "inclined-panel",
+      "name": "inclined-panel",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          0,
+          0.6675616438356164,
+          0.245
+        ],
+        "localEnd": [
+          0,
+          0.6675616438356164,
+          0.245
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.180000066757202,
+        "height": 0.8255052382634864,
+        "depth": 2.202293632293811,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.6675616438356164,
+          0.245
+        ],
+        "rotation": [
+          0.3421558850831803,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "inclined-panel",
+          "type": "bevel",
+          "description": "inclined-panel authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rear-deck",
+      "name": "rear-deck",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.1800000286102295,
+        "height": 0.04500000178813934,
+        "depth": 0.510000006556511,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rear-deck",
+          "type": "bevel",
+          "description": "rear-deck authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rear-frame-side-left",
+      "name": "rear-frame-side-left",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "rear-deck",
+      "attachment": {
+        "parentSocket": "rear-deck",
+        "localStart": [
+          -0.7925,
+          1.0475,
+          -1.05
+        ],
+        "localEnd": [
+          -0.7925,
+          1.0475,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.5950000286102295,
+        "height": 0.04500000178813934,
+        "depth": 0.5099999904632568,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.7925,
+          1.0475,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rear-frame-side-left",
+          "type": "bevel",
+          "description": "rear-frame-side-left authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rear-frame-edge-rear",
+      "name": "rear-frame-edge-rear",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "rear-deck",
+      "attachment": {
+        "parentSocket": "rear-deck",
+        "localStart": [
+          0,
+          1.0475,
+          -1.2225000000000001
+        ],
+        "localEnd": [
+          0,
+          1.0475,
+          -1.2225000000000001
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.0499999523162842,
+        "height": 0.04500000178813934,
+        "depth": 0.16500000655651093,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          1.0475,
+          -1.2225000000000001
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rear-frame-edge-rear",
+          "type": "bevel",
+          "description": "rear-frame-edge-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rear-frame-side-right",
+      "name": "rear-frame-side-right",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "rear-deck",
+      "attachment": {
+        "parentSocket": "rear-deck",
+        "localStart": [
+          0.7925,
+          1.0475,
+          -1.05
+        ],
+        "localEnd": [
+          0.7925,
+          1.0475,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.5950000286102295,
+        "height": 0.04500000178813934,
+        "depth": 0.5099999904632568,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.7925,
+          1.0475,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rear-frame-side-right",
+          "type": "bevel",
+          "description": "rear-frame-side-right authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rear-frame-edge-front",
+      "name": "rear-frame-edge-front",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "rear-deck",
+      "attachment": {
+        "parentSocket": "rear-deck",
+        "localStart": [
+          0,
+          1.0475,
+          -0.8775000000000001
+        ],
+        "localEnd": [
+          0,
+          1.0475,
+          -0.8775000000000001
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.0499999523162842,
+        "height": 0.04500000178813934,
+        "depth": 0.16500000655651093,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          1.0475,
+          -0.8775000000000001
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rear-frame-edge-front",
+          "type": "bevel",
+          "description": "rear-frame-edge-front authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rubber-foot-left-rear",
+      "name": "rubber-foot-left-rear",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          -0.9,
+          -0.01,
+          -1.12
+        ],
+        "localEnd": [
+          -0.9,
+          -0.01,
+          -1.12
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.20999999344348896,
+        "height": 0.03999999910593033,
+        "depth": 0.18000000715255737,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.9,
+          -0.01,
+          -1.12
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rubber-foot-left-rear",
+          "type": "bevel",
+          "description": "rubber-foot-left-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rubber-foot-left-front",
+      "name": "rubber-foot-left-front",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          -0.9,
+          -0.01,
+          1.12
+        ],
+        "localEnd": [
+          -0.9,
+          -0.01,
+          1.12
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.20999999344348896,
+        "height": 0.03999999910593033,
+        "depth": 0.18000000715255737,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.9,
+          -0.01,
+          1.12
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rubber-foot-left-front",
+          "type": "bevel",
+          "description": "rubber-foot-left-front authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rubber-foot-right-rear",
+      "name": "rubber-foot-right-rear",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          0.9,
+          -0.01,
+          -1.12
+        ],
+        "localEnd": [
+          0.9,
+          -0.01,
+          -1.12
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.20999999344348896,
+        "height": 0.03999999910593033,
+        "depth": 0.18000000715255737,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.9,
+          -0.01,
+          -1.12
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rubber-foot-right-rear",
+          "type": "bevel",
+          "description": "rubber-foot-right-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "rubber-foot-right-front",
+      "name": "rubber-foot-right-front",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "shell",
+      "attachment": {
+        "parentSocket": "shell",
+        "localStart": [
+          0.9,
+          -0.01,
+          1.12
+        ],
+        "localEnd": [
+          0.9,
+          -0.01,
+          1.12
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.20999999344348896,
+        "height": 0.03999999910593033,
+        "depth": 0.18000000715255737,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.9,
+          -0.01,
+          1.12
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "rubber-foot-right-front",
+          "type": "bevel",
+          "description": "rubber-foot-right-front authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slotLip",
+      "name": "slotLip",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.057000000372529,
+        "height": 0.017999999225139618,
+        "depth": 0.2330000003725291,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "slotLip",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slotLip",
+          "type": "bevel",
+          "description": "slotLip authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-edge-rear",
+      "name": "slot-edge-rear",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotLip",
+      "attachment": {
+        "parentSocket": "slotLip",
+        "localStart": [
+          0,
+          1.075,
+          -1.1540000000000001
+        ],
+        "localEnd": [
+          0,
+          1.075,
+          -1.1540000000000001
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.0499999523162842,
+        "height": 0.017999999225139618,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          1.075,
+          -1.1540000000000001
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-edge-rear",
+          "type": "bevel",
+          "description": "slot-edge-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-end-left",
+      "name": "slot-end-left",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotLip",
+      "attachment": {
+        "parentSocket": "slotLip",
+        "localStart": [
+          -0.516,
+          1.075,
+          -1.05
+        ],
+        "localEnd": [
+          -0.516,
+          1.075,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.02500000037252903,
+        "height": 0.017999999225139618,
+        "depth": 0.20000000298023224,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.516,
+          1.075,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-end-left",
+          "type": "bevel",
+          "description": "slot-end-left authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-edge-front",
+      "name": "slot-edge-front",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotLip",
+      "attachment": {
+        "parentSocket": "slotLip",
+        "localStart": [
+          0,
+          1.075,
+          -0.9460000000000001
+        ],
+        "localEnd": [
+          0,
+          1.075,
+          -0.9460000000000001
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.0499999523162842,
+        "height": 0.017999999225139618,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          1.075,
+          -0.9460000000000001
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-edge-front",
+          "type": "bevel",
+          "description": "slot-edge-front authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-end-right",
+      "name": "slot-end-right",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotLip",
+      "attachment": {
+        "parentSocket": "slotLip",
+        "localStart": [
+          0.516,
+          1.075,
+          -1.05
+        ],
+        "localEnd": [
+          0.516,
+          1.075,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.02500000037252903,
+        "height": 0.017999999225139618,
+        "depth": 0.20000000298023224,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.516,
+          1.075,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-end-right",
+          "type": "bevel",
+          "description": "slot-end-right authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slotInterior",
+      "name": "slotInterior",
+      "level": "macro",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.043000000372529,
+        "height": 0.3075000006705524,
+        "depth": 0.235000000372529,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "slotInterior",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slotInterior",
+          "type": "bevel",
+          "description": "slotInterior authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-wall-rear",
+      "name": "slot-wall-rear",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0,
+          0.91,
+          -1.155
+        ],
+        "localEnd": [
+          0,
+          0.91,
+          -1.155
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.0199999809265137,
+        "height": 0.280000001192093,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.91,
+          -1.155
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-wall-rear",
+          "type": "bevel",
+          "description": "slot-wall-rear authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "end-guide-left",
+      "name": "end-guide-left",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.509,
+          0.91,
+          -1.05
+        ],
+        "localEnd": [
+          -0.509,
+          0.91,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.02500000037252903,
+        "height": 0.280000001192093,
+        "depth": 0.18000000715255737,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.509,
+          0.91,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "end-guide-left",
+          "type": "bevel",
+          "description": "end-guide-left authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-wall-front",
+      "name": "slot-wall-front",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0,
+          0.91,
+          -0.9450000000000001
+        ],
+        "localEnd": [
+          0,
+          0.91,
+          -0.9450000000000001
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.0199999809265137,
+        "height": 0.280000001192093,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.91,
+          -0.9450000000000001
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-wall-front",
+          "type": "bevel",
+          "description": "slot-wall-front authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "end-guide-right",
+      "name": "end-guide-right",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.509,
+          0.91,
+          -1.05
+        ],
+        "localEnd": [
+          0.509,
+          0.91,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.02500000037252903,
+        "height": 0.280000001192093,
+        "depth": 0.18000000715255737,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.509,
+          0.91,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "end-guide-right",
+          "type": "bevel",
+          "description": "end-guide-right authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-floor",
+      "name": "slot-floor",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0,
+          0.76,
+          -1.05
+        ],
+        "localEnd": [
+          0,
+          0.76,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.9900000095367432,
+        "height": 0.03500000014901161,
+        "depth": 0.18000000715255737,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.76,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-floor",
+          "type": "bevel",
+          "description": "slot-floor authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-0",
+      "name": "slot-contact-0",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.33,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.33,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.33,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-0",
+          "type": "bevel",
+          "description": "slot-contact-0 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-1",
+      "name": "slot-contact-1",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.306,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.306,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.306,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-1",
+          "type": "bevel",
+          "description": "slot-contact-1 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-2",
+      "name": "slot-contact-2",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.28200000000000003,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.28200000000000003,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.28200000000000003,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-2",
+          "type": "bevel",
+          "description": "slot-contact-2 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-3",
+      "name": "slot-contact-3",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.258,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.258,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.258,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-3",
+          "type": "bevel",
+          "description": "slot-contact-3 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-4",
+      "name": "slot-contact-4",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.234,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.234,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.234,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-4",
+          "type": "bevel",
+          "description": "slot-contact-4 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-5",
+      "name": "slot-contact-5",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.21000000000000002,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.21000000000000002,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.21000000000000002,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-5",
+          "type": "bevel",
+          "description": "slot-contact-5 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-6",
+      "name": "slot-contact-6",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.186,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.186,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.186,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-6",
+          "type": "bevel",
+          "description": "slot-contact-6 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-7",
+      "name": "slot-contact-7",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.162,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.162,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.162,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-7",
+          "type": "bevel",
+          "description": "slot-contact-7 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-8",
+      "name": "slot-contact-8",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.138,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.138,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.138,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-8",
+          "type": "bevel",
+          "description": "slot-contact-8 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-9",
+      "name": "slot-contact-9",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.11400000000000002,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.11400000000000002,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.11400000000000002,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-9",
+          "type": "bevel",
+          "description": "slot-contact-9 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-10",
+      "name": "slot-contact-10",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.09000000000000002,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.09000000000000002,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.09000000000000002,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-10",
+          "type": "bevel",
+          "description": "slot-contact-10 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-11",
+      "name": "slot-contact-11",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.066,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.066,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.066,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-11",
+          "type": "bevel",
+          "description": "slot-contact-11 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-12",
+      "name": "slot-contact-12",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.04199999999999998,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.04199999999999998,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.04199999999999998,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-12",
+          "type": "bevel",
+          "description": "slot-contact-12 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-13",
+      "name": "slot-contact-13",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          -0.018000000000000016,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          -0.018000000000000016,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.018000000000000016,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-13",
+          "type": "bevel",
+          "description": "slot-contact-13 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-14",
+      "name": "slot-contact-14",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.006000000000000005,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.006000000000000005,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.006000000000000005,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-14",
+          "type": "bevel",
+          "description": "slot-contact-14 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-15",
+      "name": "slot-contact-15",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.02999999999999997,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.02999999999999997,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.02999999999999997,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-15",
+          "type": "bevel",
+          "description": "slot-contact-15 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-16",
+      "name": "slot-contact-16",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.05399999999999999,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.05399999999999999,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.05399999999999999,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-16",
+          "type": "bevel",
+          "description": "slot-contact-16 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-17",
+      "name": "slot-contact-17",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.07800000000000001,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.07800000000000001,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.07800000000000001,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-17",
+          "type": "bevel",
+          "description": "slot-contact-17 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-18",
+      "name": "slot-contact-18",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.10199999999999998,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.10199999999999998,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.10199999999999998,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-18",
+          "type": "bevel",
+          "description": "slot-contact-18 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-19",
+      "name": "slot-contact-19",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.126,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.126,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.126,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-19",
+          "type": "bevel",
+          "description": "slot-contact-19 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-20",
+      "name": "slot-contact-20",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.14999999999999997,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.14999999999999997,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.14999999999999997,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-20",
+          "type": "bevel",
+          "description": "slot-contact-20 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-21",
+      "name": "slot-contact-21",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.174,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.174,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.174,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-21",
+          "type": "bevel",
+          "description": "slot-contact-21 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-22",
+      "name": "slot-contact-22",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.198,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.198,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.198,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-22",
+          "type": "bevel",
+          "description": "slot-contact-22 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-23",
+      "name": "slot-contact-23",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.22200000000000003,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.22200000000000003,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.22200000000000003,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-23",
+          "type": "bevel",
+          "description": "slot-contact-23 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-24",
+      "name": "slot-contact-24",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.24600000000000005,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.24600000000000005,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.24600000000000005,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-24",
+          "type": "bevel",
+          "description": "slot-contact-24 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-25",
+      "name": "slot-contact-25",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.26999999999999996,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.26999999999999996,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.26999999999999996,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-25",
+          "type": "bevel",
+          "description": "slot-contact-25 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-26",
+      "name": "slot-contact-26",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.294,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.294,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.294,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-26",
+          "type": "bevel",
+          "description": "slot-contact-26 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slot-contact-27",
+      "name": "slot-contact-27",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "slotInterior",
+      "attachment": {
+        "parentSocket": "slotInterior",
+        "localStart": [
+          0.318,
+          0.803,
+          -1.05
+        ],
+        "localEnd": [
+          0.318,
+          0.803,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.012000000104308128,
+        "height": 0.02500000037252903,
+        "depth": 0.02500000037252903,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.318,
+          0.803,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "metal",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slot-contact-27",
+          "type": "bevel",
+          "description": "slot-contact-27 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "screenBezel",
+      "name": "screenBezel",
+      "level": "macro",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          0.693095890410959,
+          0.28
+        ],
+        "localEnd": [
+          0,
+          0.693095890410959,
+          0.28
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.9600000381469727,
+        "height": 0.47679802059396703,
+        "depth": 1.2555629654628628,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.693095890410959,
+          0.28
+        ],
+        "rotation": [
+          0.3421558850831803,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "screenBezel",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "screenBezel",
+          "type": "bevel",
+          "description": "screenBezel authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "screenGlass",
+      "name": "screenGlass",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          0.724095890410959,
+          0.28
+        ],
+        "localEnd": [
+          0,
+          0.724095890410959,
+          0.28
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.8300000429153442,
+        "height": 0.4195791620929208,
+        "depth": 1.1364796012354097,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.724095890410959,
+          0.28
+        ],
+        "rotation": [
+          0.3421558850831803,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "screenGlass",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "glass",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "screenGlass",
+          "type": "bevel",
+          "description": "screenGlass authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "activeScreenPlane",
+      "name": "activeScreenPlane",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "plane-card",
+      "topologyClass": "material-only",
+      "topologyRationale": "Flat artwork/display carrier with explicit UV coordinates.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "screenGlass",
+      "attachment": {
+        "parentSocket": "screenGlass",
+        "localStart": [
+          0,
+          0.015072536245633428,
+          -0.005368300580636563
+        ],
+        "localEnd": [
+          0,
+          0.015072536245633428,
+          -0.005368300580636563
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.7300000190734863,
+        "height": 0.3522947096054949,
+        "depth": 0.9891351462000424,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.015072536245633428,
+          -0.005368300580636563
+        ],
+        "rotation": [
+          -1.5707963267948963,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "label",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "activeScreenPlane",
+          "type": "decal",
+          "description": "activeScreenPlane authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slotEntrance",
+      "name": "slotEntrance",
+      "level": "micro",
+      "role": "pivot",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "material-only",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          1.075,
+          -1.05
+        ],
+        "localEnd": [
+          0,
+          1.075,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.001,
+        "height": 0.001,
+        "depth": 0.001,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          1.075,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slotEntrance",
+          "type": "bevel",
+          "description": "slotEntrance authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slotAlignment",
+      "name": "slotAlignment",
+      "level": "micro",
+      "role": "pivot",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "material-only",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          1.55,
+          -1.05
+        ],
+        "localEnd": [
+          0,
+          1.55,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.001,
+        "height": 0.001,
+        "depth": 0.001,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          1.55,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slotAlignment",
+          "type": "bevel",
+          "description": "slotAlignment authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "slotFullyInserted",
+      "name": "slotFullyInserted",
+      "level": "micro",
+      "role": "pivot",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "material-only",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          0.84,
+          -1.05
+        ],
+        "localEnd": [
+          0,
+          0.84,
+          -1.05
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.001,
+        "height": 0.001,
+        "depth": 0.001,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -1.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "slotFullyInserted",
+          "type": "bevel",
+          "description": "slotFullyInserted authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "frontButtons",
+      "name": "frontButtons",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 1.8500000017881393,
+        "height": 0.05299999937415123,
+        "depth": 0.03500000014901161,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "frontButtons",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "frontButtons",
+          "type": "bevel",
+          "description": "frontButtons authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "button-left-0.84",
+      "name": "button-left-0.84",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "frontButtons",
+      "attachment": {
+        "parentSocket": "frontButtons",
+        "localStart": [
+          -0.84,
+          0.275,
+          1.367
+        ],
+        "localEnd": [
+          -0.84,
+          0.275,
+          1.367
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.17000000178813934,
+        "height": 0.05299999937415123,
+        "depth": 0.03500000014901161,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.84,
+          0.275,
+          1.367
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "button-left-0.84",
+          "type": "bevel",
+          "description": "button-left-0.84 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "button-left-0.58",
+      "name": "button-left-0.58",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "frontButtons",
+      "attachment": {
+        "parentSocket": "frontButtons",
+        "localStart": [
+          -0.58,
+          0.275,
+          1.367
+        ],
+        "localEnd": [
+          -0.58,
+          0.275,
+          1.367
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.17000000178813934,
+        "height": 0.05299999937415123,
+        "depth": 0.03500000014901161,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          -0.58,
+          0.275,
+          1.367
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "button-left-0.58",
+          "type": "bevel",
+          "description": "button-left-0.58 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "button-right-0.58",
+      "name": "button-right-0.58",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "frontButtons",
+      "attachment": {
+        "parentSocket": "frontButtons",
+        "localStart": [
+          0.58,
+          0.275,
+          1.367
+        ],
+        "localEnd": [
+          0.58,
+          0.275,
+          1.367
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.17000000178813934,
+        "height": 0.05299999937415123,
+        "depth": 0.03500000014901161,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.58,
+          0.275,
+          1.367
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "button-right-0.58",
+          "type": "bevel",
+          "description": "button-right-0.58 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "button-right-0.84",
+      "name": "button-right-0.84",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "frontButtons",
+      "attachment": {
+        "parentSocket": "frontButtons",
+        "localStart": [
+          0.84,
+          0.275,
+          1.367
+        ],
+        "localEnd": [
+          0.84,
+          0.275,
+          1.367
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.17000000178813934,
+        "height": 0.05299999937415123,
+        "depth": 0.03500000014901161,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.84,
+          0.275,
+          1.367
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "button-right-0.84",
+          "type": "bevel",
+          "description": "button-right-0.84 authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "powerIndicator",
+      "name": "powerIndicator",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0.84,
+          0.39123287671232887,
+          1.15
+        ],
+        "localEnd": [
+          0.84,
+          0.39123287671232887,
+          1.15
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 0.035999998450279236,
+        "height": 0.035999998450279236,
+        "depth": 0.035999998450279236,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0.84,
+          0.39123287671232887,
+          1.15
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "powerIndicator",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "powerIndicator",
+          "type": "bevel",
+          "description": "powerIndicator authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "baseSeam",
+      "name": "baseSeam",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          0.22,
+          0
+        ],
+        "localEnd": [
+          0,
+          0.22,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.369999885559082,
+        "height": 0.014999999664723873,
+        "depth": 2.7100000381469727,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0.22,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "baseSeam",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "baseSeam",
+          "type": "bevel",
+          "description": "baseSeam authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "ventRibs",
+      "name": "ventRibs",
+      "level": "meso",
+      "role": "panel",
+      "importance": 0.9,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "DECK-01",
+      "attachment": {
+        "parentSocket": "DECK-01",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.4220000859349966,
+        "height": 1.0345000084489584,
+        "depth": 2.5245000002905726,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "ventRibs",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "ventRibs",
+          "type": "bevel",
+          "description": "ventRibs authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "lower-vent-recesses",
+      "name": "lower-vent-recesses",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "ventRibs",
+      "attachment": {
+        "parentSocket": "ventRibs",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.4220000859349966,
+        "height": 0.10499999672174454,
+        "depth": 2.483000038191676,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "lower-vent-recesses",
+          "type": "bevel",
+          "description": "lower-vent-recesses authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    },
+    {
+      "id": "upper-vent-recesses",
+      "name": "upper-vent-recesses",
+      "level": "micro",
+      "role": "panel",
+      "importance": 0.6,
+      "confidence": 0.86,
+      "primitive": "box",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Named manufactured rigid assembly; closed solids are exported for the self-intersection gate.",
+      "geometryDescriptor": {
+        "topologyIntent": "Manufactured beveled assembly with physical recesses and clearances.",
+        "edgeTreatment": {
+          "type": "bevel",
+          "bevelRadius": 0.015,
+          "segments": 3
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": "ventRibs",
+      "attachment": {
+        "parentSocket": "ventRibs",
+        "localStart": [
+          0,
+          0,
+          0
+        ],
+        "localEnd": [
+          0,
+          0,
+          0
+        ],
+        "contactType": "embed",
+        "embedDepth": 0.02,
+        "gapTolerance": 0.001
+      },
+      "dimensions": {
+        "width": 2.3999999463558197,
+        "height": 0.03679456189274788,
+        "depth": 0.5199999585747719,
+        "units": "scene-units",
+        "confidence": 0.85
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "center",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.5
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": false,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Measured box proxy for picking; rendering and slot clearance use the actual procedural surfaces."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "shell",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "base"
+        }
+      },
+      "material": "base",
+      "materialLayers": [
+        "base"
+      ],
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "upper-vent-recesses",
+          "type": "bevel",
+          "description": "upper-vent-recesses authored as a named runtime assembly with measured dimensions and transform.",
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.66,
+        "microRoughness": 0.05,
+        "bumpAmplitude": 0.0008,
+        "normalPattern": "independent deterministic molded grain",
+        "displacementPattern": "none",
+        "occlusionPattern": "physical cavity walls and shadow casters",
+        "edgeWearPattern": "molded bevel highlights",
+        "notes": "Seed 19341; independent 1024px roughness and height channels. Flat artwork carriers retain source colors."
+      },
+      "evidenceRefs": [
+        "full-object"
+      ],
+      "details": [],
+      "fidelityTier": "final",
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(36,38,44,1)",
+        "secondaryAlbedo": "rgba(9,11,16,1)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.86
+      }
+    }
+  ],
+  "materials": [
+    {
+      "id": "base",
+      "name": "Base material",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial / PBR approximation",
+      "baseColor": "#24262c",
+      "color": "#24262c",
+      "albedo": {
+        "dominant": "#303238",
+        "secondary": [
+          "#202228",
+          "#41444b"
+        ],
+        "samplingNotes": "Neutral charcoal shell; highlights excluded from albedo"
+      },
+      "colorVariation": {
+        "palette": [
+          "#8A7A5F",
+          "#6E614B",
+          "#A08F70"
+        ],
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
+      },
+      "textureResolution": 1024,
+      "textureProjection": {
+        "mode": "uv",
+        "repeat": [
+          2.0,
+          2.0
+        ],
+        "anisotropy": 8,
+        "texelDensityIntent": "Preserve stable world/object-scale detail; do not stretch micro detail with component scale."
+      },
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 2.0,
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
+        },
+        {
+          "id": "meso",
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
+        },
+        {
+          "id": "micro",
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
+        }
+      ],
+      "roughness": {
+        "base": 0.66,
+        "variation": 0.06,
+        "map": "independent 1024px deterministic roughness field"
+      },
+      "metalness": {
+        "base": 0,
+        "variation": 0
+      },
+      "normal": {
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "independent molded grain height",
+        "amplitude": 0.0008,
+        "scale": 3
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.25,
+        "contactShadowBias": 0.35,
+        "notes": "Darken creases, seams, intersections, and recessed local features."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#2F2A22"
+      },
+      "localOverrides": [
+        {
+          "id": "cavity-darkening",
+          "region": "slotInterior and ventRibs",
+          "baseColor": "#090b10",
+          "roughness": 0.88,
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "shaderNotes": [
+        "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
+        "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
+        "Use normal/bump/displacement only when they map to observed surface relief.",
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
+      ],
+      "notes": "Reference-derived inference; authored scalars and geometry implement the visible response. No manufacturing accuracy is claimed.",
+      "referencePbr": {
+        "usable": true,
+        "confidence": 0.843,
+        "maps": {
+          "albedo": {
+            "path": "public/templates/savepoint/pbr/polymer/base_albedo.png",
+            "url": "base_albedo.png",
+            "channel": "albedo",
+            "source": "reference-pixel-extraction"
+          },
+          "roughness": {
+            "path": "public/templates/savepoint/pbr/polymer/base_roughness.png",
+            "url": "base_roughness.png",
+            "channel": "roughness",
+            "source": "reference-pixel-extraction"
+          },
+          "height": {
+            "path": "public/templates/savepoint/pbr/polymer/base_height.png",
+            "url": "base_height.png",
+            "channel": "height",
+            "source": "reference-pixel-extraction"
+          },
+          "normal": {
+            "path": "public/templates/savepoint/pbr/polymer/base_normal.png",
+            "url": "base_normal.png",
+            "channel": "normal",
+            "source": "reference-pixel-extraction"
+          },
+          "ao": {
+            "path": "public/templates/savepoint/pbr/polymer/base_ao.png",
+            "url": "base_ao.png",
+            "channel": "ao",
+            "source": "reference-pixel-extraction"
+          }
+        },
+        "sourceImage": "public/templates/savepoint/verification/polymer.png",
+        "method": "reference-pixel-extraction",
+        "hardLimit": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+      }
+    },
+    {
+      "id": "glass",
+      "name": "Display glass",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial / PBR approximation",
+      "baseColor": "#0b0d12",
+      "color": "#0b0d12",
+      "albedo": {
+        "dominant": "#303238",
+        "secondary": [
+          "#202228",
+          "#41444b"
+        ],
+        "samplingNotes": "Neutral charcoal shell; highlights excluded from albedo"
+      },
+      "colorVariation": {
+        "palette": [
+          "#8A7A5F",
+          "#6E614B",
+          "#A08F70"
+        ],
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
+      },
+      "textureResolution": 1024,
+      "textureProjection": {
+        "mode": "uv",
+        "repeat": [
+          2.0,
+          2.0
+        ],
+        "anisotropy": 8,
+        "texelDensityIntent": "Preserve stable world/object-scale detail; do not stretch micro detail with component scale."
+      },
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 2.0,
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
+        },
+        {
+          "id": "meso",
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
+        },
+        {
+          "id": "micro",
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
+        }
+      ],
+      "roughness": {
+        "base": 0.75,
+        "variation": 0.15,
+        "map": "independent-procedural-field",
+        "localResponse": "higher roughness in cavities, lower roughness on worn edges"
+      },
+      "metalness": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "normal": {
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.25,
+        "contactShadowBias": 0.35,
+        "notes": "Darken creases, seams, intersections, and recessed local features."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#2F2A22"
+      },
+      "localOverrides": [
+        {
+          "id": "cavity-darkening",
+          "region": "slotInterior and ventRibs",
+          "baseColor": "#090b10",
+          "roughness": 0.88,
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "shaderNotes": [
+        "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
+        "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
+        "Use normal/bump/displacement only when they map to observed surface relief.",
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
+      ],
+      "notes": "Reference-derived inference; authored scalars and geometry implement the visible response. No manufacturing accuracy is claimed.",
+      "referencePbr": {
+        "usable": true,
+        "confidence": 0.716,
+        "maps": {
+          "albedo": {
+            "path": "public/templates/savepoint/pbr/glass/glass_albedo.png",
+            "url": "glass_albedo.png",
+            "channel": "albedo",
+            "source": "reference-pixel-extraction"
+          },
+          "roughness": {
+            "path": "public/templates/savepoint/pbr/glass/glass_roughness.png",
+            "url": "glass_roughness.png",
+            "channel": "roughness",
+            "source": "reference-pixel-extraction"
+          },
+          "height": {
+            "path": "public/templates/savepoint/pbr/glass/glass_height.png",
+            "url": "glass_height.png",
+            "channel": "height",
+            "source": "reference-pixel-extraction"
+          },
+          "normal": {
+            "path": "public/templates/savepoint/pbr/glass/glass_normal.png",
+            "url": "glass_normal.png",
+            "channel": "normal",
+            "source": "reference-pixel-extraction"
+          },
+          "ao": {
+            "path": "public/templates/savepoint/pbr/glass/glass_ao.png",
+            "url": "glass_ao.png",
+            "channel": "ao",
+            "source": "reference-pixel-extraction"
+          }
+        },
+        "sourceImage": "public/templates/savepoint/verification/glass.png",
+        "method": "reference-pixel-extraction",
+        "hardLimit": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+      }
+    },
+    {
+      "id": "metal",
+      "name": "Contact metal",
+      "type": "standard",
+      "shaderModel": "MeshStandardMaterial / PBR approximation",
+      "baseColor": "#b49d66",
+      "color": "#b49d66",
+      "albedo": {
+        "dominant": "#303238",
+        "secondary": [
+          "#202228",
+          "#41444b"
+        ],
+        "samplingNotes": "Neutral charcoal shell; highlights excluded from albedo"
+      },
+      "colorVariation": {
+        "palette": [
+          "#8A7A5F",
+          "#6E614B",
+          "#A08F70"
+        ],
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
+      },
+      "textureResolution": 1024,
+      "textureProjection": {
+        "mode": "uv",
+        "repeat": [
+          2.0,
+          2.0
+        ],
+        "anisotropy": 8,
+        "texelDensityIntent": "Preserve stable world/object-scale detail; do not stretch micro detail with component scale."
+      },
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 2.0,
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
+        },
+        {
+          "id": "meso",
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
+        },
+        {
+          "id": "micro",
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
+        }
+      ],
+      "roughness": {
+        "base": 0.75,
+        "variation": 0.15,
+        "map": "independent-procedural-field",
+        "localResponse": "higher roughness in cavities, lower roughness on worn edges"
+      },
+      "metalness": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "normal": {
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.25,
+        "contactShadowBias": 0.35,
+        "notes": "Darken creases, seams, intersections, and recessed local features."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#2F2A22"
+      },
+      "localOverrides": [
+        {
+          "id": "cavity-darkening",
+          "region": "slotInterior and ventRibs",
+          "baseColor": "#090b10",
+          "roughness": 0.88,
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "shaderNotes": [
+        "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
+        "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
+        "Use normal/bump/displacement only when they map to observed surface relief.",
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
+      ],
+      "notes": "Reference-derived inference; authored scalars and geometry implement the visible response. No manufacturing accuracy is claimed.",
+      "referencePbr": {
+        "usable": true,
+        "confidence": 0.843,
+        "maps": {
+          "albedo": {
+            "path": "public/templates/savepoint/pbr/polymer/base_albedo.png",
+            "url": "base_albedo.png",
+            "channel": "albedo",
+            "source": "reference-pixel-extraction"
+          },
+          "roughness": {
+            "path": "public/templates/savepoint/pbr/polymer/base_roughness.png",
+            "url": "base_roughness.png",
+            "channel": "roughness",
+            "source": "reference-pixel-extraction"
+          },
+          "height": {
+            "path": "public/templates/savepoint/pbr/polymer/base_height.png",
+            "url": "base_height.png",
+            "channel": "height",
+            "source": "reference-pixel-extraction"
+          },
+          "normal": {
+            "path": "public/templates/savepoint/pbr/polymer/base_normal.png",
+            "url": "base_normal.png",
+            "channel": "normal",
+            "source": "reference-pixel-extraction"
+          },
+          "ao": {
+            "path": "public/templates/savepoint/pbr/polymer/base_ao.png",
+            "url": "base_ao.png",
+            "channel": "ao",
+            "source": "reference-pixel-extraction"
+          }
+        },
+        "sourceImage": "public/templates/savepoint/verification/polymer.png",
+        "method": "reference-pixel-extraction",
+        "hardLimit": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+      }
+    },
+    {
+      "id": "label",
+      "name": "Approved label and display carrier",
+      "type": "standard",
+      "shaderModel": "MeshBasicMaterial with sRGB CanvasTexture",
+      "baseColor": "#24262c",
+      "color": "#24262c",
+      "albedo": {
+        "dominant": "#303238",
+        "secondary": [
+          "#202228",
+          "#41444b"
+        ],
+        "samplingNotes": "Neutral charcoal shell; highlights excluded from albedo"
+      },
+      "colorVariation": {
+        "palette": [
+          "#8A7A5F",
+          "#6E614B",
+          "#A08F70"
+        ],
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
+      },
+      "textureResolution": 1024,
+      "textureProjection": {
+        "mode": "uv",
+        "repeat": [
+          2.0,
+          2.0
+        ],
+        "anisotropy": 8,
+        "texelDensityIntent": "Preserve stable world/object-scale detail; do not stretch micro detail with component scale."
+      },
+      "surfaceFrequencyBands": [
+        {
+          "id": "macro",
+          "frequency": 2.0,
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
+        },
+        {
+          "id": "meso",
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
+        },
+        {
+          "id": "micro",
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
+        }
+      ],
+      "roughness": {
+        "base": 0.66,
+        "variation": 0.06,
+        "map": "independent 1024px deterministic roughness field"
+      },
+      "metalness": {
+        "base": 0,
+        "variation": 0
+      },
+      "normal": {
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
+        "space": "tangent"
+      },
+      "bump": {
+        "pattern": "independent molded grain height",
+        "amplitude": 0.0008,
+        "scale": 3
+      },
+      "displacement": {
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0,
+        "silhouetteAffects": false
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.25,
+        "contactShadowBias": 0.35,
+        "notes": "Darken creases, seams, intersections, and recessed local features."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#2F2A22"
+      },
+      "localOverrides": [
+        {
+          "id": "cavity-darkening",
+          "region": "slotInterior and ventRibs",
+          "baseColor": "#090b10",
+          "roughness": 0.88,
+          "evidenceRefs": [
+            "full-object"
+          ]
+        }
+      ],
+      "shaderNotes": [
+        "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
+        "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
+        "Use normal/bump/displacement only when they map to observed surface relief.",
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
+      ],
+      "notes": "Actual supplied label artwork and world plates are composed without stretching; UI title and catalog typography are rendered into the label band.",
+      "referencePbr": {
+        "usable": true,
+        "confidence": 0.843,
+        "maps": {
+          "albedo": {
+            "path": "public/templates/savepoint/pbr/polymer/base_albedo.png",
+            "url": "base_albedo.png",
+            "channel": "albedo",
+            "source": "reference-pixel-extraction"
+          },
+          "roughness": {
+            "path": "public/templates/savepoint/pbr/polymer/base_roughness.png",
+            "url": "base_roughness.png",
+            "channel": "roughness",
+            "source": "reference-pixel-extraction"
+          },
+          "height": {
+            "path": "public/templates/savepoint/pbr/polymer/base_height.png",
+            "url": "base_height.png",
+            "channel": "height",
+            "source": "reference-pixel-extraction"
+          },
+          "normal": {
+            "path": "public/templates/savepoint/pbr/polymer/base_normal.png",
+            "url": "base_normal.png",
+            "channel": "normal",
+            "source": "reference-pixel-extraction"
+          },
+          "ao": {
+            "path": "public/templates/savepoint/pbr/polymer/base_ao.png",
+            "url": "base_ao.png",
+            "channel": "ao",
+            "source": "reference-pixel-extraction"
+          }
+        },
+        "sourceImage": "public/templates/savepoint/verification/polymer.png",
+        "method": "reference-pixel-extraction",
+        "hardLimit": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+      },
+      "qualityTier": "utility"
+    }
+  ],
+  "repetitionSystems": [
+    {
+      "id": "repeated-hardware",
+      "componentRef": "ventRibs",
+      "count": 20,
+      "distribution": "linear",
+      "spacing": 0.035,
+      "evidenceRefs": [
+        "full-object"
+      ]
+    }
+  ],
+  "buildPasses": [
+    {
+      "id": "blockout",
+      "goal": "Match macro silhouette and proportions.",
+      "componentRefs": [
+        "shell",
+        "screenBezel",
+        "screenGlass",
+        "slotLip",
+        "slotInterior",
+        "ventRibs",
+        "frontButtons",
+        "powerIndicator",
+        "baseSeam"
+      ],
+      "acceptance": [
+        "Silhouette reads correctly without materials.",
+        "Quality contract has named all required macro feature groups before code generation.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "structural-pass",
+      "goal": "Build the component hierarchy implied by the pre-spec complexity assessment.",
+      "componentRefs": [
+        "shell",
+        "screenBezel",
+        "screenGlass",
+        "slotLip",
+        "slotInterior",
+        "ventRibs",
+        "frontButtons",
+        "powerIndicator",
+        "baseSeam"
+      ],
+      "acceptance": [
+        "Macro, meso, and repeated structures meet qualityContract.minimumSpecDepth.",
+        "Parent-child relations, joints, seams, sockets, and contact points are explicit.",
+        "Every attached child appendage/connector has parentSocket, localStart/localEnd, contactType, embedDepth or overlap, and gapTolerance.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "form-refinement",
+      "goal": "Refine shape, deformation, bevels, tapers, curves, asymmetry, and visible local geometry.",
+      "componentRefs": [
+        "shell",
+        "screenBezel",
+        "screenGlass",
+        "slotLip",
+        "slotInterior",
+        "ventRibs",
+        "frontButtons",
+        "powerIndicator",
+        "baseSeam"
+      ],
+      "acceptance": [
+        "Important visible forms are represented in component geometryDescriptor, deformations, localFeatures, or repetitionSystems.",
+        "Endpoint-based child parts are rooted at their attachment sockets and do not visibly float away from parents.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "material-pass",
+      "goal": "Match material color, roughness, bump, and local variation.",
+      "componentRefs": [
+        "shell",
+        "screenBezel",
+        "screenGlass",
+        "slotLip",
+        "slotInterior",
+        "ventRibs",
+        "frontButtons",
+        "powerIndicator",
+        "baseSeam"
+      ],
+      "acceptance": [
+        "Reference-derived albedo palette records dominant, secondary, and accent colors per visible material.",
+        "Each important material defines roughness variation and at least one normal/bump/displacement response.",
+        "Local material overrides, dirt/wear/stains/moss/chips/scratches or equivalent masks are tied to evidenceRefs.",
+        "Thin, transparent, reflective, wet, or fibrous materials document alpha/transmission/clearcoat/metalness/fiber response when relevant.",
+        "Generated preview uses procedural albedo/roughness/bump texture or vertex color variation instead of one flat color.",
+        "Generated preview uses independent PBR maps at 1024px or higher for the quality-first tier.",
+        "If source pixels are available, referencePbr extraction passed at confidence >= 0.7 or the pass is stopped/requesting better references.",
+        "Macro, meso, and micro surface frequency bands are visible at the intended review distance without obvious tiling.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "surface-pass",
+      "goal": "Add procedural surface locality such as normal/bump/displacement, AO, dirt, stains, chips, grain, moss, scratches, and wear.",
+      "componentRefs": [
+        "shell",
+        "screenBezel",
+        "screenGlass",
+        "slotLip",
+        "slotInterior",
+        "ventRibs",
+        "frontButtons",
+        "powerIndicator",
+        "baseSeam"
+      ],
+      "acceptance": [
+        "Every required material feature group has local overrides or surfaceDetail tied to evidenceRefs.",
+        "A grazing-angle close-up proves that normal/height detail breaks highlights naturally and does not read as smooth plastic.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "lighting-pass",
+      "goal": "Make material and form readable under neutral turntable lighting plus optional reference lighting.",
+      "componentRefs": [
+        "shell",
+        "screenBezel",
+        "screenGlass",
+        "slotLip",
+        "slotInterior",
+        "ventRibs",
+        "frontButtons",
+        "powerIndicator",
+        "baseSeam"
+      ],
+      "acceptance": [
+        "lightingFromPhoto identifies key light direction/color/intensity, fill light, rim or environment light, and ambient color.",
+        "Exposure, tone mapping, background color/gradient, shadow softness, and contact shadow behavior are specified.",
+        "Lighting does not hide geometry/material gaps and screenshots can be compared fairly to the reference.",
+        "Neutral, grazing, and reference-matched lighting checks distinguish material errors from lighting errors.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "interaction-pass",
+      "goal": "Make the model ready for future animation, transformation, physics, or destruction.",
+      "componentRefs": [
+        "shell",
+        "screenBezel",
+        "screenGlass",
+        "slotLip",
+        "slotInterior",
+        "ventRibs",
+        "frontButtons",
+        "powerIndicator",
+        "baseSeam"
+      ],
+      "acceptance": [
+        "Macro and movable meso components have stable pivot nodes.",
+        "Sockets, collider proxies, and destruction metadata are present for future runtime actions.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "optimization-pass",
+      "goal": "Protect runtime performance after visual fidelity is accepted.",
+      "componentRefs": [
+        "shell",
+        "screenBezel",
+        "screenGlass",
+        "slotLip",
+        "slotInterior",
+        "ventRibs",
+        "frontButtons",
+        "powerIndicator",
+        "baseSeam"
+      ],
+      "acceptance": [
+        "Triangle count, draw calls, instancing, LOD strategy, and FPS target are documented or verified.",
+        "Repeated detail is instanced or simplified where possible without breaking silhouette/material believability."
+      ]
+    }
+  ],
+  "visualEvidence": [
+    {
+      "timestamp": "2026-11-04T09:04:10.245273+00:00",
+      "passId": "blockout",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.5,
+        "formDetail": 0.4,
+        "materialSurface": 0.5,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "silhouette",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Unlit map-stripped silhouette and physical thickness accepted for blockout only. The reference corner footprint and projecting connector read correctly. Recesses, slot cavity, molding and final materials belong to subsequent passes."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/deck/blockout/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/deck/blockout/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:10:35.393878+00:00",
+      "passId": "structural-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.81,
+        "formDetail": 0.81,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "slot-cavity",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes."
+        },
+        {
+          "id": "inclined-aperture",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/deck/structural-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/deck/structural-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:14:32.693595+00:00",
+      "passId": "form-refinement",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "vent-and-controls",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Form pass accepted: repeated vent recesses and contacts, front controls, softened shell edges, stepped grip corners, inset molding and rear screw wells are present across the orbit. Physical screen is landscape; exact molded grain and reflected studio response remain approximate."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/deck/form-refinement/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/deck/form-refinement/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:19:24.122105+00:00",
+      "passId": "material-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.8,
+        "componentStructure": 0.8,
+        "formDetail": 0.8,
+        "materialSurface": 0.8,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "polymer-glass",
+          "score": 0.8,
+          "visible": true,
+          "notes": "Dielectric charcoal shell, darker cavity, low-roughness glass and metal contacts are distinct. Supplied label pixels retain their sRGB color without environment washout. Studio reflection strength still differs from the reference and will be bounded in the lighting pass."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/deck/material-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/deck/material-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:22:47.547230+00:00",
+      "passId": "surface-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.8,
+        "componentStructure": 0.8,
+        "formDetail": 0.8,
+        "materialSurface": 0.8,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "surface-response",
+          "score": 0.8,
+          "visible": true,
+          "notes": "Independent 1024px roughness and height fields provide restrained molded grain with deterministic seed 19341. Relief is subtle at archive distance and visible under grazing light. The procedural grain approximates the reference polymer; it does not claim exact microtexture recovery."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/deck/surface-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/deck/surface-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:25:18.056088+00:00",
+      "passId": "lighting-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.81,
+        "formDetail": 0.81,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "form-lighting",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Reduced key, hemisphere and exposure preserve charcoal value and distinct glass response under a neutral studio environment. Four orbit views retain volume. Reference lighting is approximated; archive contact shadows use a bounded shadow map and only shell casters."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/deck/lighting-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/deck/lighting-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:36:58.624218+00:00",
+      "passId": "interaction-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "slot-calibration",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Runtime calibration sampled 22 insertion frames with zero lateral axis error and zero dock-position error. A downward ray through the actual aperture first hits internal slot-contact-14, below the lip. Separate closed rear-frame segments pass self-intersection; part coverage and action-ready pivots are retained."
+        }
+      ],
+      "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/deck/interaction-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/deck/interaction-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    },
+    {
+      "timestamp": "2026-11-04T09:51:42.555335+00:00",
+      "passId": "optimization-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [],
+      "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+      "renderScreenshot": "public/templates/savepoint/verification/deck/optimization-pass/small-35.png",
+      "comparisonImage": "public/templates/savepoint/verification/deck/optimization-pass/comparison.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
+    }
+  ],
+  "reviewHistory": [
+    {
+      "timestamp": "2026-11-04T08:57:46.273671+00:00",
+      "passId": "blockout",
+      "estimatedFidelity": 0.65,
+      "aiVisionScore": null,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {},
+      "featureReviews": [],
+      "action": "refine-spec",
+      "summary": "Reference side-wall thickness was missing from the landmark fit. Raise the rear wedge from .67 to 1.10 and fit the lower rear corner as well as top corners.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": []
+    },
+    {
+      "timestamp": "2026-11-04T09:04:10.245273+00:00",
+      "passId": "blockout",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.5,
+        "formDetail": 0.4,
+        "materialSurface": 0.5,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "silhouette",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Unlit map-stripped silhouette and physical thickness accepted for blockout only. The reference corner footprint and projecting connector read correctly. Recesses, slot cavity, molding and final materials belong to subsequent passes."
+        }
+      ],
+      "action": "continue",
+      "summary": "Unlit map-stripped silhouette and physical thickness accepted for blockout only. The reference corner footprint and projecting connector read correctly. Recesses, slot cavity, molding and final materials belong to subsequent passes.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "mapStrippedRender": "public/templates/savepoint/verification/deck/blockout/small-35.png",
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/deck/blockout/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/deck/blockout/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:10:35.393878+00:00",
+      "passId": "structural-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.81,
+        "formDetail": 0.81,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "slot-cavity",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes."
+        },
+        {
+          "id": "inclined-aperture",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes."
+        }
+      ],
+      "action": "continue",
+      "summary": "Structure accepted: the console has an inclined screen, discrete shell panels and an open cavity with walls and floor; cartridge has a stepped shell, projecting tongue and inset front label. Molded microgeometry and dielectric finish remain for form and material passes.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/deck/structural-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/deck/structural-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:14:32.693595+00:00",
+      "passId": "form-refinement",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "vent-and-controls",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Form pass accepted: repeated vent recesses and contacts, front controls, softened shell edges, stepped grip corners, inset molding and rear screw wells are present across the orbit. Physical screen is landscape; exact molded grain and reflected studio response remain approximate."
+        }
+      ],
+      "action": "continue",
+      "summary": "Form pass accepted: repeated vent recesses and contacts, front controls, softened shell edges, stepped grip corners, inset molding and rear screw wells are present across the orbit. Physical screen is landscape; exact molded grain and reflected studio response remain approximate.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/deck/form-refinement/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/deck/form-refinement/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:19:24.122105+00:00",
+      "passId": "material-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.8,
+        "componentStructure": 0.8,
+        "formDetail": 0.8,
+        "materialSurface": 0.8,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "polymer-glass",
+          "score": 0.8,
+          "visible": true,
+          "notes": "Dielectric charcoal shell, darker cavity, low-roughness glass and metal contacts are distinct. Supplied label pixels retain their sRGB color without environment washout. Studio reflection strength still differs from the reference and will be bounded in the lighting pass."
+        }
+      ],
+      "action": "continue",
+      "summary": "Dielectric charcoal shell, darker cavity, low-roughness glass and metal contacts are distinct. Supplied label pixels retain their sRGB color without environment washout. Studio reflection strength still differs from the reference and will be bounded in the lighting pass.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/deck/material-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/deck/material-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:22:47.547230+00:00",
+      "passId": "surface-pass",
+      "estimatedFidelity": 0.8,
+      "aiVisionScore": 0.8,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.8,
+        "componentStructure": 0.8,
+        "formDetail": 0.8,
+        "materialSurface": 0.8,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "surface-response",
+          "score": 0.8,
+          "visible": true,
+          "notes": "Independent 1024px roughness and height fields provide restrained molded grain with deterministic seed 19341. Relief is subtle at archive distance and visible under grazing light. The procedural grain approximates the reference polymer; it does not claim exact microtexture recovery."
+        }
+      ],
+      "action": "continue",
+      "summary": "Independent 1024px roughness and height fields provide restrained molded grain with deterministic seed 19341. Relief is subtle at archive distance and visible under grazing light. The procedural grain approximates the reference polymer; it does not claim exact microtexture recovery.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/deck/surface-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/deck/surface-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:25:18.056088+00:00",
+      "passId": "lighting-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": 0.81,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.81,
+        "componentStructure": 0.81,
+        "formDetail": 0.81,
+        "materialSurface": 0.81,
+        "lightingCamera": 0.81
+      },
+      "featureReviews": [
+        {
+          "id": "form-lighting",
+          "score": 0.81,
+          "visible": true,
+          "notes": "Reduced key, hemisphere and exposure preserve charcoal value and distinct glass response under a neutral studio environment. Four orbit views retain volume. Reference lighting is approximated; archive contact shadows use a bounded shadow map and only shell casters."
+        }
+      ],
+      "action": "continue",
+      "summary": "Reduced key, hemisphere and exposure preserve charcoal value and distinct glass response under a neutral studio environment. Four orbit views retain volume. Reference lighting is approximated; archive contact shadows use a bounded shadow map and only shell casters.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/deck/lighting-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/deck/lighting-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:32:57.391505+00:00",
+      "passId": "interaction-pass",
+      "estimatedFidelity": 0.78,
+      "aiVisionScore": null,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {},
+      "featureReviews": [],
+      "action": "refine-code",
+      "summary": "The 3D self-intersection check identified six invalid normals/vertices at the concave bevel corners of the extruded rear-deck aperture. Replace the single holed extrusion with four overlapping closed frame segments, preserving the exact receiving clearances.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": []
+    },
+    {
+      "timestamp": "2026-11-04T09:36:58.624218+00:00",
+      "passId": "interaction-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [
+        {
+          "id": "slot-calibration",
+          "score": 0.82,
+          "visible": true,
+          "notes": "Runtime calibration sampled 22 insertion frames with zero lateral axis error and zero dock-position error. A downward ray through the actual aperture first hits internal slot-contact-14, below the lip. Separate closed rear-frame segments pass self-intersection; part coverage and action-ready pivots are retained."
+        }
+      ],
+      "action": "continue",
+      "summary": "Runtime calibration sampled 22 insertion frames with zero lateral axis error and zero dock-position error. A downward ray through the actual aperture first hits internal slot-contact-14, below the lip. Separate closed rear-frame segments pass self-intersection; part coverage and action-ready pivots are retained.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/deck/interaction-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/deck/interaction-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    },
+    {
+      "timestamp": "2026-11-04T09:50:02.690336+00:00",
+      "passId": "optimization-pass",
+      "estimatedFidelity": 0.81,
+      "aiVisionScore": null,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {},
+      "featureReviews": [],
+      "action": "refine-code",
+      "summary": "Full part coverage found sign-only node names collapse under its punctuation-insensitive normalization. Give left/right and front/rear frame members semantic names, preserving all geometry and transforms.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": []
+    },
+    {
+      "timestamp": "2026-11-04T09:51:42.555335+00:00",
+      "passId": "optimization-pass",
+      "estimatedFidelity": 0.82,
+      "aiVisionScore": 0.82,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.82,
+        "componentStructure": 0.82,
+        "formDetail": 0.82,
+        "materialSurface": 0.82,
+        "lightingCamera": 0.82
+      },
+      "featureReviews": [],
+      "action": "continue",
+      "summary": "Shared shell geometries and base materials, per-game label/spine materials, instanced contacts/fasteners and isolated clipping clones preserve the accepted appearance. Both models pass complete part coverage, self-intersection and reversible assembly/picking checks. Geometry and procedural surfaces remain approximate reconstructions of the approved renders.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "visualEvidence": {
+        "referenceScreenshot": "public/templates/savepoint/deck-01-three-quarter.png",
+        "renderScreenshot": "public/templates/savepoint/verification/deck/optimization-pass/small-35.png",
+        "comparisonImage": "public/templates/savepoint/verification/deck/optimization-pass/comparison.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    }
+  ],
+  "lodPlan": [
+    {
+      "tier": "near",
+      "distance": 0,
+      "strategy": "full component tree and material layers"
+    },
+    {
+      "tier": "far",
+      "distance": 30,
+      "strategy": "merge static components and reduce local feature geometry"
+    }
+  ],
+  "performanceBudget": {
+    "qualityPriority": "reference-fidelity",
+    "targetTriangles": 80000,
+    "maxDrawCalls": 100,
+    "textureSize": 1024,
+    "fpsTarget": 60,
+    "optimizationPolicy": "Reach accepted visual fidelity first, then optimize without removing reference-critical geometry or surface layers."
+  },
+  "lightingFromPhoto": [
+    "large upper-left key light",
+    "soft fill light",
+    "rear rim light",
+    "ACES tone mapping exposure 1.2",
+    "neutral background and contact shadow"
+  ],
+  "proceduralStrategy": [
+    "Block out macro silhouette first.",
+    "Add component hierarchy and joints.",
+    "Create stable pivot groups, sockets, collider proxies, and destruction metadata before visual polish.",
+    "Refine forms with bevels, tapers, bends, and procedural noise.",
+    "Run reference PBR extraction for important source-image materials and stop when confidence is below the target threshold.",
+    "Add material variation before adding expensive micro-geometry."
+  ],
+  "animationAnchors": [
+    "root pivot node supports whole-object translation, rotation, scale, and visibility changes",
+    "component pivot groups support later local transforms without rebuilding geometry"
+  ],
+  "destructionAnchors": [
+    "actionProfile.destruction.fractureGroup marks detachable or breakable component sets",
+    "component seams and sockets define plausible break points instead of random explosions"
+  ],
+  "risks": [],
+  "localSpecSearch": {
+    "collection": "core_3d",
+    "query": "deck beveled hard surface plastic shell glass roughness",
+    "index": {
+      "status": "hit",
+      "reason": "current",
+      "fingerprint": "06f0b2ece2935e441653f5c3533f91b3a4d6163f2aec4267559d7d8419bdd040"
+    },
+    "matches": [
+      {
+        "record_id": "core.pbr-opacity-alpha",
+        "file_path": "docs/raw/img2threejs-skill-dataset.json",
+        "heading": null,
+        "key_path": "categories.material_pbr[8]",
+        "score": 6.173944048162,
+        "snippets": [
+          "... l\u00e0m k\u00eanh d\u1eef li\u1ec7u, kh\u00f4ng ph\u1ea3i \u0111\u1ed9 trong su\u1ed1t. Recognition cues: Standard opacity: soft edge fade or full transparency in glass/plastic parts; CS2-specific: alpha channel of the base color texture instead encodes a Wearness Mask, not visual ..."
+        ],
+        "source_refs": [
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.material_pbr[8]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation"
+          }
+        ]
+      },
+      {
+        "record_id": "core.pbr-roughness",
+        "file_path": "grimoire/glossary/3d_vocabulary.md",
+        "heading": "Material And PBR",
+        "key_path": null,
+        "score": 4.20187819032,
+        "snippets": [
+          "Roughness is microfacet scatter: high roughness reads matte and low roughness reads glossy. Recognition cues: low roughness reads as a sharp, mirror-like, tight specular highlight; high roughness reads as a blurry, wide, dim highlight and matte ..."
+        ],
+        "source_refs": [
+          {
+            "path": "grimoire/glossary/3d_vocabulary.md",
+            "heading": "Material And PBR",
+            "key_path": null
+          },
+          {
+            "path": "grimoire/intake/image_analysis.md",
+            "heading": "Layer 5 \u2014 Materials & surface (PBR)",
+            "key_path": null
+          },
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.material_pbr[1]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "grimoire/glossary/3d_vocabulary.md"
+          },
+          {
+            "kind": "notebooklm-research",
+            "ref": "notebooklm:4b03c2f9-8393-411f-b5b4-039ab9532843",
+            "note": "Validated generic schema vocabulary; numeric claims remain backed by local source_refs."
+          },
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation \u2014 merged recognition cues + Three.js target instead of duplicating this entity."
+          }
+        ]
+      },
+      {
+        "record_id": "core.description-honest-uncertainty-single-image-limits-convention",
+        "file_path": "docs/raw/img2threejs-skill-dataset.json",
+        "heading": null,
+        "key_path": "categories.description_conventions[6]",
+        "score": 3.986222861816,
+        "snippets": [
+          "... \u0111\u1ecbnh' thay v\u00ec b\u1ecba ra chi ti\u1ebft tr\u00f4ng h\u1ee3p l\u00fd nh\u01b0ng kh\u00f4ng th\u1ea5y trong \u1ea3nh tham chi\u1ebfu. Recognition cues: Any attribute for a surface not visible in the reference image should be flagged explicitly rather than filled with a guessed value; This is ..."
+        ],
+        "source_refs": [
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.description_conventions[6]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation"
+          }
+        ]
+      }
+    ]
+  },
+  "revision": {
+    "number": 2,
+    "authorization": "User approved revised specs and a new correction budget on 2026-11-04.",
+    "previousEvidence": "Revision 01 retained in local .img2threejs history; revision 02 was authorized by the user."
+  },
+  "sculptPipeline": {
+    "passGateMode": "locked-sequential",
+    "passOrder": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "currentPass": "complete",
+    "completedPasses": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "lastCompletedPass": "optimization-pass",
+    "blockedReason": "all build passes completed",
+    "nextRequiredEvidence": []
+  },
+  "tier1Results": [
+    {
+      "passed": false,
+      "checks": {
+        "silhouetteIoU": 0.8098,
+        "aspectRatioDelta": 0.0602,
+        "scaleDelta": 0.0114,
+        "bilateralSymmetryError": 0.2156,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 2.26,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [
+        "silhouette IoU 0.810 is below threshold 0.85",
+        "aspect-ratio delta 0.060 exceeds threshold 0.05"
+      ],
+      "maskWarnings": [],
+      "renderHash": "d1b5411c36ad1dde",
+      "passId": "blockout",
+      "mapStrippedRender": "public/templates/savepoint/verification/deck/blockout/small-35.png"
+    },
+    {
+      "passed": false,
+      "checks": {
+        "silhouetteIoU": 0.4863,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.3264,
+        "bilateralSymmetryError": 0.0022,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 11.6,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 11.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.6
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [
+        "silhouette IoU 0.486 is below threshold 0.85",
+        "scale delta 0.326 exceeds threshold 0.08"
+      ],
+      "maskWarnings": [
+        "render: image is not clearly isolated from background; using most pixels as material evidence"
+      ],
+      "renderHash": "e09832af18bbb545",
+      "passId": "blockout",
+      "mapStrippedRender": "public/templates/savepoint/verification/deck/blockout/small-35.png"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8667,
+        "aspectRatioDelta": 0.0001,
+        "scaleDelta": 0.0207,
+        "bilateralSymmetryError": 0.1717,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 3.22,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 3.22
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.22
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.22
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.22
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.22
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.22
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.22
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.22
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.22
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "455ed199d75bc179",
+      "passId": "blockout",
+      "mapStrippedRender": "public/templates/savepoint/verification/deck/blockout/small-35.png"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8667,
+        "aspectRatioDelta": 0.0001,
+        "scaleDelta": 0.0207,
+        "bilateralSymmetryError": 0.1717,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 17.85,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 17.85
+            },
+            {
+              "componentId": null,
+              "deltaE": 17.85
+            },
+            {
+              "componentId": null,
+              "deltaE": 17.85
+            },
+            {
+              "componentId": null,
+              "deltaE": 17.85
+            },
+            {
+              "componentId": null,
+              "deltaE": 17.85
+            },
+            {
+              "componentId": null,
+              "deltaE": 17.85
+            },
+            {
+              "componentId": null,
+              "deltaE": 17.85
+            },
+            {
+              "componentId": null,
+              "deltaE": 17.85
+            },
+            {
+              "componentId": null,
+              "deltaE": 17.85
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "8d54e5c2cd037ec9",
+      "passId": "blockout",
+      "mapStrippedRender": "public/templates/savepoint/verification/deck/blockout/small-35.png"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8656,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0155,
+        "bilateralSymmetryError": 0.1399,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 2.08,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "eb0ec40f5875d24d",
+      "passId": "structural-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8656,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0155,
+        "bilateralSymmetryError": 0.1399,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 2.08,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "eb0ec40f5875d24d",
+      "passId": "structural-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8656,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0155,
+        "bilateralSymmetryError": 0.1399,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 2.08,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.08
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "eb0ec40f5875d24d",
+      "passId": "structural-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8691,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0259,
+        "bilateralSymmetryError": 0.1391,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 3.66,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 3.66
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.66
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.66
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.66
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.66
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.66
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.66
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.66
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.66
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "293128162135413f",
+      "passId": "form-refinement"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8691,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0259,
+        "bilateralSymmetryError": 0.1392,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 3.38,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "0a62a1c5c9950cd4",
+      "passId": "material-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8691,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0259,
+        "bilateralSymmetryError": 0.1392,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 3.38,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.38
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "0a62a1c5c9950cd4",
+      "passId": "material-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.869,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0259,
+        "bilateralSymmetryError": 0.1392,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 3.39,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 3.39
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.39
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.39
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.39
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.39
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.39
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.39
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.39
+            },
+            {
+              "componentId": null,
+              "deltaE": 3.39
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "dea396137575326a",
+      "passId": "surface-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8691,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0259,
+        "bilateralSymmetryError": 0.1392,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 2.93,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "478e7d36c78fdc4d",
+      "passId": "lighting-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8691,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0259,
+        "bilateralSymmetryError": 0.1392,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 2.93,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.93
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "478e7d36c78fdc4d",
+      "passId": "interaction-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.867,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0259,
+        "bilateralSymmetryError": 0.1374,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 2.84,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "a698bbbe786d7762",
+      "passId": "interaction-pass"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.867,
+        "aspectRatioDelta": 0.0052,
+        "scaleDelta": 0.0259,
+        "bilateralSymmetryError": 0.1374,
+        "colorDelta": {
+          "checked": 9,
+          "maxDeltaE": 2.84,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            },
+            {
+              "componentId": null,
+              "deltaE": 2.84
+            }
+          ],
+          "gated": true
+        }
+      },
+      "failures": [],
+      "maskWarnings": [],
+      "renderHash": "a698bbbe786d7762",
+      "passId": "optimization-pass"
+    }
+  ],
+  "verification": {
+    "revision": 2,
+    "runtimePartCount": 72,
+    "clearance": {
+      "slotWidth": 0.99,
+      "slotDepth": 0.18,
+      "cartridgeWidth": 0.864,
+      "cartridgeDepth": 0.14
+    },
+    "calibration": "public/templates/savepoint/verification/calibration.json",
+    "selfIntersection": "Passed on all individually closed procedural prototypes; open artwork planes are excluded, repeated instance topology is tested once.",
+    "attachmentGate": "Worn/held attachment gate is non-applicable; physical insertion is measured separately."
+  }
+}]]>
     </file>
     <file path="src/app/(savepoint)/savepoint/models/geometry.ts">
 <![CDATA[import * as THREE from 'three';
