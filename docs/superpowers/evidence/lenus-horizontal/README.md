@@ -2,6 +2,8 @@
 
 The later presentation-style scrolling and arrow-key update is documented in [presentation navigation](presentation-navigation.md). The original seven-chapter build evidence below is retained for comparison.
 
+The user-requested generated footer artwork and its current production captures are documented in [footer artwork](footer-art.md).
+
 Primary specification: [master prompt](../../plans/LENUS_HORIZONTAL_EXPERIENCE_MASTER_PROMPT.md). Implemented directly in the existing `/lenus` route, preserving the original hero copy, logo, fonts, palette, procedural optical assembly, material recipes and functional controls. The model factory and geometry/material files have no changes from the preceding parts-menu removal commit, `68f9be9`.
 
 ## Architecture and implementation sequence
