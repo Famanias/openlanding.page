@@ -1,4 +1,4 @@
-export type TemplateSlug = "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal";
+export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal";
 
 export type CategoryId =
   | "all"
@@ -2317,6 +2317,28 @@ Use the following records verbatim as the runtime content source. Artwork URLs p
 `;
 RAW_TEMPLATES.push({ slug: "savepoint", createdAt: "2026-11-04", hasDownload: false, title: "SAVEPOINT.", description: "Ten strange little universes. One console. A tactile cartridge archive with a physical insertion ritual.", category: "3d", categories: ["3d", "showcase", "editorial"], industry: "Independent Games", stack: "Next.js 16 · React 19 · Three.js · GSAP · Tailwind v4", badges: ["Procedural 3D", "Physical Boot", "Interactive Archive"], previewImage: "/templates/savepoint/preview-1600.webp", promptMarkdown: SAVEPOINT_PROMPT, model: "GPT-6.1" });
 
+export const WAYPOINT_PROMPT = `# Waypoint Rebuild Prompt
+
+Build a high-craft career outreach and pipeline tracking landing page for "Waypoint" based on an editorial aesthetic with warm pastel brown surfaces, crisp obsidian typography, and interactive client-side sandboxes.
+
+## Key Features & Structure
+1. **Brand Identity:** Waypoint ("Pitch with intention. Land the offer."). The calm, systematic direct-outreach pipeline for senior engineers and product designers.
+2. **Color Palette:**
+   - Background Canvas: Light Pastel Brown (\`#EDE6DF\` / \`#F5EFEB\`).
+   - Cards & Elevated Surfaces: Crisp White (\`#FFFFFF\`).
+   - Typography: Obsidian (\`#121417\`) and Dark Charcoal (\`#2B2F38\`). Strictly NO brown text for high contrast.
+   - Pastel Accents: Soft Sage (\`#D8EADF\`), Pastel Sky (\`#DBE8FA\`), Pastel Apricot (\`#FCE8DC\`), Pastel Lavender (\`#ECE6F6\`).
+   - Colophon Footer: Deep Obsidian Navy (\`#16181D\`).
+3. **Sections:**
+   - Floating glass header with brand lockup, section navigation, and sign-in controls.
+   - Full-bleed atmospheric hero with half-shown pipeline board peeking at the fold, elevating smoothly on continuous scroll parallax.
+   - 4-card feature bento grid with playable micro-widgets: interview round calendar, Kanban stage advancer, zero-knowledge encryption switch, and live simulated recruiter response toast.
+   - Three-tier pricing grid with Monthly/Annual billing cadence switch animating prices with rolling vertical odometer numbers.
+   - 4-question accessible accordion FAQ section.
+   - Early access waitlist card with email validation and floating tech logo cluster.
+   - Deep contrast colophon footer with 4 link columns and an embossed lowercase watermark "waypoint".
+`;
+
 RAW_TEMPLATES.push(
   {
     slug: "strata",
@@ -2377,6 +2399,21 @@ RAW_TEMPLATES.push(
     previewImage: "/templates/arcsignal/preview-1600.webp",
     promptMarkdown: ARCSIGNAL_PROMPT,
     model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "waypoint",
+    createdAt: "2026-11-05",
+    hasDownload: true,
+    title: "Waypoint",
+    description: "The direct career outreach and pipeline deck for senior engineers and designers.",
+    category: "saas",
+    categories: ["saas", "app", "minimal", "editorial"],
+    industry: "Career & Recruiting",
+    stack: "Next.js 16 · React 19 · Tailwind v4",
+    badges: ["Continuous Parallax", "Playable Bento", "Rolling Odometer", "Zero-Knowledge Encryption"],
+    previewImage: "/templates/waypoint/preview-1600.webp",
+    promptMarkdown: WAYPOINT_PROMPT,
+    model: "Gemini 3.8 Flash High",
   }
 );
 

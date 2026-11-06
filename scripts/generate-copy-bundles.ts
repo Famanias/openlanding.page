@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  waypoint: { name: "Waypoint", dependencies: ["gsap", "@gsap/react", "@phosphor-icons/react"], includeDownload: true },
   lenus: { name: "LENUS", dependencies: ["three", "lucide-react"] },
   arcsignal: { name: "Arc & Signal", dependencies: ["lucide-react", "motion"] },
   khora: { name: "KHORA", dependencies: [], includeDownload: true },

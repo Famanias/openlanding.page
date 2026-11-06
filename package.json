@@ -22,9 +22,11 @@
     "preview": "tsx scripts/capture-gallery-previews.ts",
     "media:truecut": "npm run images -- truecut && npm run clips -- truecut",
     "process-images": "tsx scripts/process-images.ts",
-    "process-clips": "tsx scripts/process-clips.ts"
+    "process-clips": "tsx scripts/process-clips.ts",
+    "export:waypoint": "tsx scripts/export-waypoint.ts"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@phosphor-icons/react": "^2.1.10",
     "@upstash/ratelimit": "^2.2.0",
     "@upstash/redis": "^1.40.0",
@@ -47,6 +49,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.186.0",
+    "esbuild": "0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
     "fast-glob": "^3.3.3",
