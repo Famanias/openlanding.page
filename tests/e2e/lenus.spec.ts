@@ -19,6 +19,9 @@ async function meanFrameDifference(a:Buffer,b:Buffer){
   const pixels=await Promise.all([a,b].map(buffer=>sharp(buffer).resize(128,128).removeAlpha().raw().toBuffer()));
   return pixels[0].reduce((sum,value,i)=>sum+Math.abs(value-pixels[1][i]),0)/pixels[0].length;
 }
+// The persistent canvas spans the viewport. Hide DOM siblings for optical pixel
+// comparisons so animated background, header and HUD are not mistaken for draws.
+async function opticalFrame(canvas:Locator){return canvas.screenshot({style:".ln-horizontal-track,.ln-controls-mount,.ln-navigation-layer,.ln-annotation-layer,.ln-header,.ln-space,.ln-stage-marker,.ln-stage-help,.ln-aperture{visibility:hidden!important}"});}
 
 test("desktop compiles a colored WebGL lens over the complete reference hero",async({page})=>{
   const errors:string[]=[];
@@ -39,7 +42,7 @@ test("desktop compiles a colored WebGL lens over the complete reference hero",as
   let emerald=0,lime=0,violet=0;
   // Reflected rim colors move with the lens. Check representative poses, not one arbitrary phase.
   for(let sample=0;sample<4;sample++){
-    const pixels=await sharp(await canvas.screenshot()).removeAlpha().raw().toBuffer({resolveWithObject:true});
+    const pixels=await sharp(await opticalFrame(canvas)).removeAlpha().raw().toBuffer({resolveWithObject:true});
     let frameEmerald=0,frameLime=0,frameViolet=0;
     for(let i=0;i<pixels.data.length;i+=pixels.info.channels){
       const [r,g,b]=pixels.data.subarray(i,i+3);
@@ -66,19 +69,19 @@ test("the lens moves on its own, freezes when paused, and resumes its loop",asyn
   const stage=page.locator(".ln-stage"),canvas=page.locator("canvas[data-lenus-renderer]");
   await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
   await page.mouse.move(0,0);
-  const before=await canvas.screenshot();
+  const before=await opticalFrame(canvas);
   await page.waitForTimeout(1800);
-  expect((await canvas.screenshot()).equals(before)).toBe(false);
+  expect((await opticalFrame(canvas)).equals(before)).toBe(false);
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();
   await expect(stage).toHaveAttribute("data-state","paused");
-  const frozen=await canvas.screenshot();
+  const frozen=await opticalFrame(canvas);
   await page.waitForTimeout(350);
   // Native MSAA readback can vary by one byte with zero new WebGL draws.
-  expect(await meanFrameDifference(await canvas.screenshot(),frozen)).toBeLessThan(.001);
+  expect(await meanFrameDifference(await opticalFrame(canvas),frozen)).toBeLessThan(.001);
   await page.getByRole("button",{name:"Play animation",exact:true}).click();
   await expect(stage).toHaveAttribute("data-state","running");
   await page.evaluate(()=>new Promise<void>(resolve=>{let frames=0;const frame=()=>{if(++frames>=3)resolve();else requestAnimationFrame(frame);};requestAnimationFrame(frame);}));
-  expect((await canvas.screenshot()).equals(frozen)).toBe(false);
+  expect((await opticalFrame(canvas)).equals(frozen)).toBe(false);
 });
 
 test("automatic transformation reveals and reassembles without entering inspection",async({page})=>{
@@ -92,7 +95,7 @@ test("automatic transformation reveals and reassembles without entering inspecti
   await page.goto("/lenus");const stage=page.locator(".ln-stage"),canvas=page.locator("canvas[data-lenus-renderer]");
   await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();await page.getByRole("button",{name:"Reset optical view"}).click();
-  const closed=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
+  const closed=await sharp(await opticalFrame(canvas)).resize(128,128).removeAlpha().raw().toBuffer();
   const advance=async()=>{
     await page.getByRole("button",{name:"Play animation",exact:true}).click();
     await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
@@ -100,7 +103,7 @@ test("automatic transformation reveals and reassembles without entering inspecti
     await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
     await page.getByRole("button",{name:"Pause animation",exact:true}).click();
   };
-  await advance();const open=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
+  await advance();const open=await sharp(await opticalFrame(canvas)).resize(128,128).removeAlpha().raw().toBuffer();
   const delta=(a:Buffer,b:Buffer)=>a.reduce((sum,value,i)=>sum+Math.abs(value-b[i]),0)/a.length;
   const green=(pixels:Buffer)=>{let count=0;for(let i=0;i<pixels.length;i+=3)if(pixels[i+1]>75&&pixels[i+1]>pixels[i]*1.25&&pixels[i+1]>pixels[i+2]*1.1)count++;return count;};
   const openingDifference=delta(closed,open);
@@ -109,7 +112,7 @@ test("automatic transformation reveals and reassembles without entering inspecti
   await expect(stage).toHaveAttribute("data-inspection-mode","hero");
   await expect(page.getByRole("button",{name:"Inspect lens interior",exact:true})).toHaveAttribute("aria-pressed","false");
   await expect(page.getByRole("combobox",{name:"Inspect an optical part"})).toHaveCount(0);
-  await advance();const returned=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
+  await advance();const returned=await sharp(await opticalFrame(canvas)).resize(128,128).removeAlpha().raw().toBuffer();
   expect(delta(closed,returned)).toBeLessThan(openingDifference*.45);
   expect(green(returned)).toBeLessThanOrEqual(green(closed)+5);
   await page.getByRole("button",{name:"Inspect lens interior",exact:true}).click();
@@ -121,14 +124,14 @@ test("transformation slider smoothly opens and closes, holds intermediate poses 
   await page.goto("/lenus");const stage=page.locator(".ln-stage"),canvas=page.locator("canvas[data-lenus-renderer]"),range=page.getByRole("slider",{name:"Lens transformation",exact:true});
   await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();await page.getByRole("button",{name:"Reset optical view"}).click();
-  await expect(range).toHaveValue("0");const closed=await canvas.screenshot();
+  await expect(range).toHaveValue("0");const closed=await opticalFrame(canvas);
   await range.focus();await range.press("End");await expect(range).toHaveValue("100");
   await expect(stage).toHaveAttribute("aria-busy","true");await expect(stage).toHaveAttribute("data-state","paused");
-  await expect(stage).toHaveAttribute("aria-busy","false",{timeout:45_000});const open=await canvas.screenshot();expect(await meanFrameDifference(open,closed)).toBeGreaterThan(1);
+  await expect(stage).toHaveAttribute("aria-busy","false",{timeout:45_000});const open=await opticalFrame(canvas);expect(await meanFrameDifference(open,closed)).toBeGreaterThan(1);
   await range.press("Home");await expect(range).toHaveValue("0");await expect(stage).toHaveAttribute("aria-busy","true");
-  await expect(stage).toHaveAttribute("aria-busy","false",{timeout:45_000});expect(await meanFrameDifference(await canvas.screenshot(),closed)).toBeLessThan(.1);
-  await setRange(range,50);await expect(stage).toHaveAttribute("aria-busy","false",{timeout:45_000});const half=await canvas.screenshot();
-  await page.waitForTimeout(250);expect(await meanFrameDifference(await canvas.screenshot(),half)).toBeLessThan(.001);
+  await expect(stage).toHaveAttribute("aria-busy","false",{timeout:45_000});expect(await meanFrameDifference(await opticalFrame(canvas),closed)).toBeLessThan(.1);
+  await setRange(range,50);await expect(stage).toHaveAttribute("aria-busy","false",{timeout:45_000});const half=await opticalFrame(canvas);
+  await page.waitForTimeout(250);expect(await meanFrameDifference(await opticalFrame(canvas),half)).toBeLessThan(.001);
   await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
   await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","paused",{timeout:60_000});await expect(range).toHaveValue("50");
   await page.getByRole("button",{name:"Play animation",exact:true}).click();await expect(stage).toHaveAttribute("data-state","running");
@@ -139,12 +142,12 @@ test("explosion, focus and keyboard controls operate the authored assembly",asyn
   await page.goto("/lenus");const stage=page.locator(".ln-stage");
   await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
   const canvas=page.locator("canvas[data-lenus-renderer]");
-  const initial=await canvas.screenshot();
-  await page.getByRole("button",{name:"STEP INSIDE",exact:true}).click();
+  const initial=await opticalFrame(canvas);
+  await page.getByRole("button",{name:"EXPLODE ASSEMBLY",exact:true}).click();
   await expect(stage).toHaveAttribute("data-exploded","true");
   await expect(page.getByRole("slider",{name:"Explode optical assembly"})).toHaveValue("1");
   await page.waitForTimeout(600);
-  expect((await canvas.screenshot()).equals(initial)).toBe(false);
+  expect((await opticalFrame(canvas)).equals(initial)).toBe(false);
   const focus=page.getByRole("slider",{name:"Focus ring rotation"});await setRange(focus,.8);
   await expect(focus).toHaveValue("0.8");
   await focus.focus();await focus.press("ArrowRight");await expect(focus).toHaveValue("0.81");
@@ -159,20 +162,23 @@ test("pause freezes the frame and compact-laptop resize keeps the full canvas as
   await page.goto("/lenus");await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","running",{timeout:60_000});
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();
   await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","paused");
-  const canvas=page.locator("canvas[data-lenus-renderer]"),before=await canvas.screenshot();
+  const canvas=page.locator("canvas[data-lenus-renderer]"),before=await opticalFrame(canvas);
   await page.mouse.move(1000,200);await page.waitForTimeout(150);
-  expect(await meanFrameDifference(await canvas.screenshot(),before)).toBeLessThan(.001);
+  expect(await meanFrameDifference(await opticalFrame(canvas),before)).toBeLessThan(.001);
   await page.setViewportSize({width:900,height:700});
   await expect.poll(()=>canvas.evaluate(element=>{
     const c=element as HTMLCanvasElement;return Math.abs(c.width/c.height-c.clientWidth/c.clientHeight);
   })).toBeLessThan(.01);
   await page.screenshot({path:path.join(shots,"laptop-900.png"),fullPage:true,animations:"disabled"});
+  await page.getByRole("button",{name:/OPTICAL CONTROLS/}).click();
   await page.getByRole("button",{name:"Play animation",exact:true}).click();
 });
 
-test("native navigation dialogs trap focus, suspend rendering and restore the trigger",async({page})=>{
+test("contact dialog traps focus, suspends rendering and restores the trigger",async({page})=>{
   await page.goto("/lenus");await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","running",{timeout:60_000});
-  for(const name of ["WORK","TECHNOLOGY","GET IN TOUCH"]){
+  await page.locator("header").getByRole("link",{name:"GET IN TOUCH",exact:true}).click();
+  await expect.poll(async()=>Number(await page.locator(".ln-stage").getAttribute("data-story-position"))).toBeCloseTo(6,2);
+  for(const name of ["GET IN TOUCH"]){
     const trigger=page.getByRole("button",{name,exact:true});await trigger.click();
     const dialog=page.getByRole("dialog");await expect(dialog).toBeVisible();
     await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","paused");
@@ -184,7 +190,7 @@ test("native navigation dialogs trap focus, suspend rendering and restore the tr
 });
 
 test("contact validates inputs and downloads a local brief without claiming delivery",async({page})=>{
-  await page.goto("/lenus");await page.getByRole("button",{name:"GET IN TOUCH",exact:true}).click();
+  await page.goto("/lenus#ln-contact");await page.getByRole("button",{name:"GET IN TOUCH",exact:true}).click();
   const dialog=page.getByRole("dialog");await dialog.getByRole("button",{name:"Prepare project brief"}).click();
   await expect(dialog.getByText("Enter a valid email address.")).toBeVisible();
   await dialog.getByLabel("Your name",{exact:false}).fill("Morgan");
@@ -209,7 +215,7 @@ test("context loss reveals the fallback and recovery resumes the scene",async({p
   await expect(stage).toHaveAttribute("data-state","running",{timeout:30_000});await expect(page.locator("canvas[data-lenus-renderer]")).toHaveCount(1);
 });
 
-test("reduced motion never mounts WebGL and runtime changes dispose the context",async({page})=>{
+test("initial reduced motion avoids WebGL and runtime changes retain the shared context",async({page})=>{
   await page.emulateMedia({reducedMotion:"reduce"});await page.goto("/lenus");const stage=page.locator(".ln-stage");
   await expect(stage).toHaveAttribute("data-state","static");await expect(page.locator("canvas[data-lenus-renderer]")).toHaveCount(0);
   await expect(page.locator(".ln-lens-fallback")).toBeVisible();
@@ -223,8 +229,8 @@ test("reduced motion never mounts WebGL and runtime changes dispose the context"
   await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
   const oldCanvas=await page.locator("canvas[data-lenus-renderer]").elementHandle();
   await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
-  await expect(page.locator("canvas[data-lenus-renderer]")).toHaveCount(0);
-  await expect.poll(()=>oldCanvas!.evaluate(element=>(element as HTMLCanvasElement).getContext("webgl2")?.isContextLost())).toBe(true);
+  await expect(page.locator("canvas[data-lenus-renderer]")).toHaveCount(1);
+  expect(await oldCanvas!.evaluate(element=>element===document.querySelector("canvas[data-lenus-renderer]")&&!(element as HTMLCanvasElement).getContext("webgl2")?.isContextLost())).toBe(true);
 });
 
 test("mobile stays within the viewport and its navigation disclosure works",async({browser,baseURL})=>{
@@ -233,9 +239,9 @@ test("mobile stays within the viewport and its navigation disclosure works",asyn
     const page=await context.newPage();await page.goto("/lenus");
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     const toggle=page.getByRole("button",{name:"Toggle navigation"});await toggle.tap();await expect(toggle).toHaveAttribute("aria-expanded","true");
-    await page.getByRole("navigation",{name:"Mobile navigation"}).getByRole("button",{name:"ABOUT"}).tap();
-    await expect(page.getByRole("dialog")).toBeVisible();await page.getByRole("button",{name:"Close panel"}).tap();
-    await expect(toggle).toHaveAttribute("aria-expanded","false");await expect(toggle).toBeFocused();
+    await page.getByRole("navigation",{name:"Mobile navigation"}).getByRole("link",{name:"ABOUT"}).tap();
+    await expect(page).toHaveURL(/#ln-studio$/);
+    await expect(toggle).toHaveAttribute("aria-expanded","false");
     await page.screenshot({path:path.join(shots,"mobile-390.png"),fullPage:true,animations:"disabled"});
   }finally{await context.close();}
 });
@@ -261,20 +267,20 @@ test("paused geometry still responds to explicit explosion, focus and reset comm
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();
   await page.getByRole("button",{name:"Reset optical view"}).click();
   const canvas=page.locator("canvas[data-lenus-renderer]");
-  const assembled=await canvas.screenshot();
+  const assembled=await opticalFrame(canvas);
   await page.getByTestId("lenus-canvas-container").focus();await page.keyboard.press("c");
   await expect(page.locator(".ln-stage")).toHaveAttribute("data-inspection-mode","cutaway");
   await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","paused");
   await page.keyboard.press("c");
   await expect(page.locator(".ln-stage")).toHaveAttribute("data-inspection-mode","hero");
-  await expect.poll(async()=>meanFrameDifference(await canvas.screenshot(),assembled)).toBeLessThan(.1);
+  await expect.poll(async()=>meanFrameDifference(await opticalFrame(canvas),assembled)).toBeLessThan(.1);
   await page.getByRole("button",{name:"EXPLODE ASSEMBLY",exact:true}).click();
-  await expect.poll(async()=>(await canvas.screenshot()).equals(assembled)).toBe(false);
-  const exploded=await canvas.screenshot();
+  await expect.poll(async()=>(await opticalFrame(canvas)).equals(assembled)).toBe(false);
+  const exploded=await opticalFrame(canvas);
   await setRange(page.getByRole("slider",{name:"Focus ring rotation"}),.8);
-  await expect.poll(async()=>(await canvas.screenshot()).equals(exploded)).toBe(false);
+  await expect.poll(async()=>(await opticalFrame(canvas)).equals(exploded)).toBe(false);
   await page.getByRole("button",{name:"Reset optical view"}).click();
-  await expect.poll(async()=>meanFrameDifference(await canvas.screenshot(),assembled)).toBeLessThan(.1);
+  await expect.poll(async()=>meanFrameDifference(await opticalFrame(canvas),assembled)).toBeLessThan(.1);
   await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","paused");
 });
 
@@ -286,10 +292,10 @@ test("restoring the scene replays the separation and focus shown by its controls
   await page.evaluate(()=>new Promise<void>(resolve=>{let frames=0;const frame=()=>{if(++frames>=26)resolve();else requestAnimationFrame(frame);};requestAnimationFrame(frame);}));
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();
   const canvas=page.locator("canvas[data-lenus-renderer]");
-  const before=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
+  const before=await sharp(await opticalFrame(canvas)).resize(128,128).removeAlpha().raw().toBuffer();
   await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
   await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","paused",{timeout:60_000});
-  const after=await sharp(await canvas.screenshot()).resize(128,128).removeAlpha().raw().toBuffer();
+  const after=await sharp(await opticalFrame(canvas)).resize(128,128).removeAlpha().raw().toBuffer();
   const delta=before.reduce((sum,value,index)=>sum+Math.abs(value-after[index]),0)/before.length;
   expect(delta).toBeLessThan(3);
   await expect(page.getByRole("slider",{name:"Explode optical assembly"})).toHaveValue("1");
@@ -307,13 +313,17 @@ test("inspection toggles preserve a held pointer drag until release",async({page
   await page.mouse.move(x,y);await page.mouse.down();
   try{
     await page.mouse.move(x+70,y-30,{steps:5});await page.keyboard.press("c");await page.keyboard.press("c");
-    await expect(stage).toHaveAttribute("data-inspection-mode","hero");const held=await canvas.screenshot();
+    await expect(stage).toHaveAttribute("data-inspection-mode","hero");const held=await opticalFrame(canvas);
     // One virtual second proves the drag holds time without deliberately
     // triggering the renderer's slow-frame resolution fallback.
     await page.evaluate(()=>Reflect.set(window,"__lenusTimeOffset",1000));
     await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
-    expect(await meanFrameDifference(held,await canvas.screenshot())).toBeLessThan(.1);
-    await page.mouse.move(x+120,y-45,{steps:5});expect(await meanFrameDifference(held,await canvas.screenshot())).toBeGreaterThan(.1);
+    expect(await meanFrameDifference(held,await opticalFrame(canvas))).toBeLessThan(.1);
+    await page.mouse.move(x+120,y-45,{steps:5});
+    // Permit one new 60Hz frame while the held gesture still freezes the loop.
+    await page.evaluate(()=>Reflect.set(window,"__lenusTimeOffset",1020));
+    await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
+    expect(await meanFrameDifference(held,await opticalFrame(canvas))).toBeGreaterThan(.1);
   }finally{await page.mouse.up();}
 });
 
@@ -322,12 +332,12 @@ test("preference reconstruction retains paused hero parallax",async({page})=>{
   await expect(stage).toHaveAttribute("data-state","running",{timeout:60_000});
   const box=(await host.boundingBox())!;await page.mouse.move(box.x+box.width*.85,box.y+box.height*.2);await page.waitForTimeout(500);
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();await expect(stage).toHaveAttribute("data-state","paused");
-  const before=await canvas.screenshot();
+  const before=await opticalFrame(canvas);
   await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
   await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","paused",{timeout:60_000});
   // Match the existing cross-context raster tolerance; the initialized camera
   // and model matrices are checked separately by the native recovery probe.
-  expect(await meanFrameDifference(before,await canvas.screenshot())).toBeLessThan(3);
+  expect(await meanFrameDifference(before,await opticalFrame(canvas))).toBeLessThan(3);
 });
 
 test("preference reconstruction retains an active drag view",async({page})=>{
@@ -336,22 +346,22 @@ test("preference reconstruction retains an active drag view",async({page})=>{
   await page.getByRole("button",{name:"Pause animation",exact:true}).click();await expect(stage).toHaveAttribute("data-state","paused");
   const box=(await host.boundingBox())!;await page.mouse.move(box.x+box.width*.5,box.y+box.height*.5);await page.mouse.down();
   try{
-    await page.mouse.move(box.x+box.width*.7,box.y+box.height*.4,{steps:5});const before=await canvas.screenshot();
+    await page.mouse.move(box.x+box.width*.7,box.y+box.height*.4,{steps:5});const before=await opticalFrame(canvas);
     await page.emulateMedia({reducedMotion:"reduce"});await expect(stage).toHaveAttribute("data-state","static");
     await page.emulateMedia({reducedMotion:"no-preference"});await expect(stage).toHaveAttribute("data-state","paused",{timeout:60_000});
-    expect(await meanFrameDifference(before,await canvas.screenshot())).toBeLessThan(3);
+    expect(await meanFrameDifference(before,await opticalFrame(canvas))).toBeLessThan(3);
   }finally{await page.mouse.up();}
 });
 
-test("phones retain the still preview until the visitor starts the optical experience",async({browser,baseURL})=>{
+test("phones retain one live engine while STEP INSIDE enters the native story",async({browser,baseURL})=>{
   const context=await browser.newContext({baseURL,viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   try{
     const page=await context.newPage();await page.goto("/lenus");
-    await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","preview");
-    await expect(page.locator("canvas[data-lenus-renderer]")).toHaveCount(0);
+    await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","running",{timeout:60_000});
+    await expect(page.locator("canvas[data-lenus-renderer]")).toHaveCount(1);
     await page.getByRole("button",{name:"STEP INSIDE",exact:true}).tap();
     await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","running",{timeout:60_000});
-    await expect(page.getByRole("slider",{name:"Explode optical assembly"})).toHaveValue("1");
+    await expect.poll(async()=>Number(await page.locator(".ln-stage").getAttribute("data-story-position"))).toBeCloseTo(1,1);
   }finally{await context.close();}
 });
 
@@ -368,9 +378,7 @@ test("a STEP INSIDE command queued before the rendering module loads is replayed
     await page.getByRole("button",{name:"STEP INSIDE",exact:true}).click();
     release();await expect(page.locator(".ln-stage")).toHaveAttribute("data-state","running",{timeout:60_000});
     await page.evaluate(()=>new Promise<void>(resolve=>{let n=0;const frame=()=>{if(++n>=26)resolve();else requestAnimationFrame(frame);};requestAnimationFrame(frame);}));
-    await page.getByRole("button",{name:"Pause animation",exact:true}).click();
-    const canvas=page.locator("canvas[data-lenus-renderer]"),queued=await canvas.screenshot();
-    await setRange(page.getByRole("slider",{name:"Explode optical assembly"}),0);
-    await expect.poll(async()=>(await canvas.screenshot()).equals(queued)).toBe(false);
+    await expect.poll(async()=>Number(await page.locator(".ln-stage").getAttribute("data-story-position"))).toBeCloseTo(1,2);
+    await expect.poll(async()=>Number(await page.locator(".ln-stage").getAttribute("data-model-deployment"))).toBeCloseTo(1,2);
   }finally{release();}
 });

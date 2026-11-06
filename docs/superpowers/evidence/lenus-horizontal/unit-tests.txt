@@ -1,0 +1,16 @@
+
+> openlandingpage@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 E:/orca/workspaces/webflow-projects/codex-session-112-619
+
+
+ Test Files  244 passed (244)
+      Tests  1298 passed (1298)
+   Start at  08:55:47
+   Duration  13.50s (import 70%, tests 24%, transform 4%, worker 2%)
+
+    Isolate  244 workers spawned · ~282ms startup each (spawn + environment, per file)
+             at least ~4.31s faster with isolate: false — reuses workers across files instead of one per file
+

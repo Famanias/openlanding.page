@@ -1,6 +1,7 @@
 import type {Metadata,Viewport} from "next";
 import {Archivo,Plus_Jakarta_Sans,JetBrains_Mono} from "next/font/google";
 import "./lenus/lenus.css";
+import "./lenus/story/story.css";
 const display=Archivo({subsets:["latin"],axes:["wdth"],variable:"--font-ln-display",display:"swap"});
 const body=Plus_Jakarta_Sans({subsets:["latin"],weight:["400","500","600","700"],variable:"--font-ln-sans",display:"swap"});
 const mono=JetBrains_Mono({subsets:["latin"],weight:["400","500"],variable:"--font-ln-mono",display:"swap",preload:false});

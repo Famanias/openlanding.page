@@ -15,6 +15,7 @@
 <![CDATA[import type {Metadata,Viewport} from "next";
 import {Archivo,Plus_Jakarta_Sans,JetBrains_Mono} from "next/font/google";
 import "./lenus/lenus.css";
+import "./lenus/story/story.css";
 const display=Archivo({subsets:["latin"],axes:["wdth"],variable:"--font-ln-display",display:"swap"});
 const body=Plus_Jakarta_Sans({subsets:["latin"],weight:["400","500","600","700"],variable:"--font-ln-sans",display:"swap"});
 const mono=JetBrains_Mono({subsets:["latin"],weight:["400","500"],variable:"--font-ln-mono",display:"swap",preload:false});
@@ -172,61 +173,145 @@ export default function LenusLayout({children}:{children:React.ReactNode}){
     </file>
     <file path="src/app/(lenus)/lenus/LenusApp.tsx">
 <![CDATA["use client";
-import { useEffect,useRef,useState,type MouseEvent } from "react";
+import {useCallback,useEffect,useRef,useState,type MouseEvent} from "react";
 import Link from "next/link";
-import { ArrowUpRight,X } from "lucide-react";
+import {ArrowRight,ArrowUpRight,X} from "lucide-react";
 import LenusHeader,{type LenusDialogSection} from "./components/LenusHeader";
 import LenusHeroCopy from "./components/LenusHeroCopy";
 import LenusOpticalLensCanvas from "./components/LenusOpticalLensCanvas";
 import {ProjectBriefForm} from "./forms/ProjectBriefForm";
-
-const content={
-  work:{eyebrow:"SELECTED DIRECTIONS",title:"Beyond the screen.",description:"A few of the worlds we like to build.",items:[{name:"FIELD / 01",title:"A brand you can step inside.",text:"Spatial storytelling that turns a launch into somewhere people want to explore."},{name:"AFTERIMAGE / 02",title:"Products in a new light.",text:"Interactive product worlds, built around the details that make them different."},{name:"COMMON GROUND / 03",title:"Digital, with a human pulse.",text:"Considered interfaces that connect a clear idea with a memorable experience."}]},
-  expertise:{eyebrow:"OUR PRACTICE",title:"From possibility to presence.",description:"Strategy, design and technology, brought into focus together.",items:[{name:"01 / STRATEGY",title:"Find the unexpected.",text:"Brand direction, experience strategy and the right question to start with."},{name:"02 / DESIGN",title:"Make it felt.",text:"Visual identities, digital experiences and purposeful motion that reward curiosity."},{name:"03 / DEVELOPMENT",title:"Bring it to life.",text:"Creative development, real-time worlds and thoughtful interaction across devices."}]},
-  technology:{eyebrow:"THE OPTICAL ENGINE",title:"Made to move you.",description:"Technology is part of the story. Explore the lens to see it at work.",items:[{name:"REAL LIGHT",title:"Depth you can feel.",text:"Physical glass, chromatic dispersion and a procedural reflection environment give every surface its own response."},{name:"REAL INTERACTION",title:"Look a little closer.",text:"Separate 19 optical components, turn the focus collar, and inspect the architecture from another angle."},{name:"CONSIDERED MOTION",title:"At your pace.",text:"Motion pauses when you do. A complete still preview keeps the experience open to everyone."}]},
-  about:{eyebrow:"HELLO, WE’RE LENUS",title:"Curious by nature.",description:"We’re an independent experience studio working where design and technology meet. We build things that make people look twice.",items:[{name:"OUR POINT OF VIEW",title:"The expected is a starting point.",text:"Good experiences begin with a clear idea, grow through experimentation, and leave room for discovery. That’s the space we work in."}]},
-};
+import {useHorizontalStory,type StorySample} from "./story/useHorizontalStory";
+import {CHAPTERS,chapterWeight,smooth,type ChapterId} from "./story/storyMath";
+import {sampleStoryPose,type EngineStoryPose} from "./story/chapterPoseMap";
+import type {EngineExperienceApi,StoryNavigation} from "./story/experienceTypes";
+import WorkGallery,{WORK_STUDIES,type GalleryApi} from "./story/WorkGallery";
+import ExpertiseAnnotations,{type AnnotationsApi} from "./story/ExpertiseAnnotations";
+import {CAPABILITIES,type NarrativeRenderFrame} from "./story/projectedAnchors";
 
 export default function LenusApp(){
-  const [activeDialog,setActiveDialog]=useState<LenusDialogSection>(null);
-  const [explodeFromCta,setExplodeFromCta]=useState(0);
-  const dialog=useRef<HTMLDialogElement>(null),stage=useRef<HTMLDivElement>(null),opener=useRef<HTMLElement|null>(null);
+  const shell=useRef<HTMLElement>(null),pin=useRef<HTMLDivElement>(null),track=useRef<HTMLDivElement>(null),hero=useRef<HTMLDivElement>(null);
+  const engine=useRef<EngineExperienceApi|null>(null),navigation=useRef<StoryNavigation|null>(null),gallery=useRef<GalleryApi|null>(null),annotations=useRef<AnnotationsApi|null>(null);
+  const activeIndex=useRef(0),mode=useRef({horizontal:false,reduced:false}),sample=useRef<StorySample|null>(null);
+  const [active,setActive]=useState(0),[horizontal,setHorizontal]=useState(false),[reduced,setReduced]=useState(false),[enhanced,setEnhanced]=useState(false);
+  const [menuOpen,setMenuOpen]=useState(false),[dialogContent,setDialogContent]=useState<"contact"|number|null>(null);
+  const [controlsMount,setControlsMount]=useState<HTMLDivElement|null>(null);const hasRendered=useRef(false);
+  const dialog=useRef<HTMLDialogElement>(null),opener=useRef<HTMLElement|null>(null);
+  const applyVisual=useCallback((position:number,pose:EngineStoryPose,manual=false)=>{
+    const root=pin.current;if(!root)return;
+    root.style.setProperty("--ln-engine-x",`${pose.x*100}%`);root.style.setProperty("--ln-engine-y",`${pose.y*100}%`);
+    root.style.setProperty("--ln-engine-scale",String(pose.scale));
+    root.style.setProperty("--ln-violet-strength",`${Math.min(28,pose.violet*14)}%`);
+    const atmosphere=document.querySelector<HTMLElement>(".ln-space");
+    atmosphere?.style.setProperty("--ln-glow-x",`${pose.x*100+7}%`);atmosphere?.style.setProperty("--ln-glow-y",`${pose.y*100+27}%`);
+    atmosphere?.style.setProperty("--ln-violet-strength",`${Math.min(28,pose.violet*14)}%`);
+    atmosphere?.style.setProperty("--ln-orbit-turn",`${position*9}deg`);
+    const weight=Math.max(chapterWeight(position,0,.72),chapterWeight(position,4,.7),manual?1:0);
+    root.style.setProperty("--ln-hud-weight",String(weight));
+    const drawer=root.querySelector<HTMLElement>(".ln-controls-drawer");if(drawer)drawer.inert=weight<.25&&drawer.dataset.open!=="true";
+  },[]);
+  const onFrame=useCallback((frame:NarrativeRenderFrame)=>{
+    hasRendered.current=true;applyVisual(frame.position,frame.pose,frame.manual);annotations.current?.update(frame);
+    const stage=pin.current?.querySelector<HTMLElement>(".ln-stage");
+    if(stage){stage.dataset.storyPosition=String(frame.position);stage.dataset.modelDeployment=String(frame.pose.deployment);}
+  },[applyVisual]);
+  const onSample=useCallback((value:StorySample)=>{
+    sample.current=value;gallery.current?.setPosition(value.position,value.workProgress??0);
+    if(value.active!==activeIndex.current){if(activeIndex.current===3||activeIndex.current===4)engine.current?.focusPart(null);activeIndex.current=value.active;setActive(value.active);}
+    pin.current?.style.setProperty("--ln-story-progress",String(value.progress));
+    const pose=sampleStoryPose(value);
+    if(mode.current.reduced){pose.x=value.compact?.5:.76;pose.y=.28;pose.scale=value.hero.scale*.7;}
+    if(!hasRendered.current||mode.current.reduced)applyVisual(value.position,pose);
+    const content=track.current;if(!content)return;
+    const work=content.querySelector<HTMLElement>(".ln-work-content");if(work)work.style.transform=value.horizontal?`translate3d(${Math.max(0,Math.min(value.workOverflow,value.workOffset))}px,0,0)`:"none";
+    content.querySelectorAll<HTMLElement>("[data-chapter]").forEach((el,i)=>{el.inert=value.horizontal&&i!==value.active;});
+    const heroLines=content.querySelectorAll<HTMLElement>("#ln-hero .ln-headline-line");
+    heroLines.forEach((el,i)=>{el.style.transform=value.horizontal?`translate3d(${-smooth(value.position)*(70+i*90)}px,0,0) skewX(${-smooth(value.position)*(i+1)*2}deg)`:"none";});
+    const manifesto=content.querySelectorAll<HTMLElement>("[data-manifesto-line]");
+    manifesto.forEach((el,i)=>{const p=value.position-1;el.style.transform=value.horizontal?`translate3d(${p*(i%2?120:-90)}px,0,0) rotateY(${p*(i%2?-6:6)}deg)`:"none";});
+    content.querySelectorAll<HTMLElement>("[data-studio-line]").forEach((el,i)=>{const p=value.position-5;el.style.transform=value.horizontal?`translate3d(${p*(i?100:-80)}px,0,0) rotateY(${p*(i?-4:4)}deg)`:"none";});
+  },[applyVisual]);
+  const onMode=useCallback((h:boolean,r:boolean)=>{mode.current={horizontal:h,reduced:r};setHorizontal(h);setReduced(r);setEnhanced(true);},[]);
+  useHorizontalStory({shell,pin,track,hero,engine,navigation,onSample,onMode});
+  const menuChange=useCallback((open:boolean)=>setMenuOpen(open),[]);
+  useEffect(()=>{navigation.current?.suspend(dialogContent!==null||menuOpen);},[dialogContent,menuOpen]);
   useEffect(()=>{
-    const panel=dialog.current;if(!activeDialog||!panel)return;
-    const overflow=document.body.style.overflow;
-    panel.showModal();document.body.style.overflow="hidden";
-    return()=>{
-      panel.close();document.body.style.overflow=overflow;
-      const target=opener.current;
-      if(target?.getClientRects().length)target.focus();
-      else document.querySelector<HTMLButtonElement>('.ln-menu-toggle')?.focus();
-    };
-  },[activeDialog]);
-  const navigate=(section:Exclude<LenusDialogSection,null>)=>{opener.current=document.activeElement instanceof HTMLElement?document.activeElement:null;setActiveDialog(section);};
-  const close=()=>setActiveDialog(null);
+    const element=dialog.current;if(dialogContent===null||!element)return;
+    const overflow=document.body.style.overflow;element.showModal();document.body.style.overflow="hidden";
+    return()=>{element.close();document.body.style.overflow=overflow;opener.current?.focus({preventScroll:true});};
+  },[dialogContent]);
+  const navigate=(id:ChapterId)=>{if(navigation.current)navigation.current.chapter(id);else document.getElementById(`ln-${id}`)?.scrollIntoView();};
+  const headerNavigate=(section:Exclude<LenusDialogSection,null>)=>navigate(section==="about"?"studio":section as ChapterId);
+  const openDialog=(value:"contact"|number)=>{opener.current=document.activeElement instanceof HTMLElement?document.activeElement:null;setDialogContent(value);};
+  const closeDialog=()=>setDialogContent(null);
   const backdrop=(event:MouseEvent<HTMLDialogElement>)=>{
-    if(event.target!==event.currentTarget)return;
-    const r=event.currentTarget.getBoundingClientRect();
-    if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)close();
+    if(event.target!==event.currentTarget)return;const r=event.currentTarget.getBoundingClientRect();
+    if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeDialog();
   };
-  const stepInside=()=>{
-    setExplodeFromCta(count=>count+1);
-    const target=stage.current?.querySelector<HTMLElement>('[data-testid="lenus-canvas-container"]');
-    target?.focus({preventScroll:true});target?.scrollIntoView({block:"center",behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});
-  };
-  const details=activeDialog&&activeDialog!=="contact"?content[activeDialog]:null;
-  return <div className="ln-experience" id="top">
-    <a className="ln-skip" href="#ln-main">Skip to content</a><div className="ln-space" aria-hidden="true"/>
-    <LenusHeader onNavigate={navigate}/>
-    <main className="ln-hero" id="ln-main"><LenusHeroCopy onStepInside={stepInside}/><div className="ln-stage-slot" ref={stage}><LenusOpticalLensCanvas suspended={activeDialog!==null} externalExplodeRequest={explodeFromCta}/></div></main>
-    <footer className="ln-footer"><span>INDEPENDENT MINDS. SHARED POSSIBILITIES.</span><Link href="/">EXPLORE THE GALLERY <ArrowUpRight size={11} aria-hidden="true"/></Link></footer>
-    <dialog ref={dialog} className="ln-dialog" aria-labelledby="ln-dialog-title" onCancel={event=>{event.preventDefault();close();}} onClick={backdrop}>
-      <button type="button" className="ln-dialog-close ln-icon-button" aria-label="Close panel" onClick={close}><X size={22} aria-hidden="true"/></button>
-      <div className="ln-dialog-content">
-        <span className="ln-dialog-eyebrow">{activeDialog==="contact"?"LET’S MAKE SOMETHING MATTER.":details?.eyebrow}</span>
-        <h2 id="ln-dialog-title">{activeDialog==="contact"?"What’s your next possibility?":details?.title}</h2>
-        {activeDialog==="contact"?<ProjectBriefForm/>:details&&<><p className="ln-dialog-intro">{details.description}</p><div className="ln-dialog-studies">{details.items.map(item=><article key={item.name}><span>{item.name}</span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div><button type="button" className="ln-text-button" onClick={close}>BACK TO THE EXPERIENCE <ArrowUpRight size={16} aria-hidden="true"/></button></>}
+  const footer=()=>{history.pushState({...history.state},"","#ln-footer");navigation.current?.footer();};
+  const study=typeof dialogContent==="number"?WORK_STUDIES[dialogContent]:null;
+  return <div className="ln-experience ln-narrative" id="top" data-reduced={reduced}>
+    <a className="ln-skip" href="#ln-main">Skip to content</a>
+    <div className="ln-space" aria-hidden="true"/>
+    <LenusHeader onNavigate={headerNavigate} active={active} onMenuChange={menuChange}/>
+    <main ref={shell} id="ln-main" className="ln-story-shell" data-story-mode={horizontal?"horizontal":"vertical"}>
+      <div ref={pin} className="ln-story-pin">
+        <div className="ln-scene-layer">
+          <LenusOpticalLensCanvas experienceRef={engine} controlsMount={controlsMount} onNarrativeFrame={onFrame} suspended={dialogContent!==null||menuOpen}/>
+        </div>
+        <ExpertiseAnnotations ref={annotations} active={active} onFocus={id=>engine.current?.focusPart(id)} onInspect={id=>engine.current?.inspectPart(id)}/>
+        <div className="ln-controls-mount" ref={setControlsMount}/>
+        <div className="ln-navigation-layer"><nav className="ln-chapter-navigation" aria-label="Chapter navigation">
+          <p aria-live="polite" aria-atomic="true"><span>{String(active+1).padStart(2,"0")} / 07</span> {CHAPTERS[active].label}</p>
+          <div className="ln-chapter-dots">{CHAPTERS.map((item,i)=><a href={`#ln-${item.id}`} aria-label={`Go to ${item.label}`} aria-current={active===i?"step":undefined} key={item.id} onClick={event=>{event.preventDefault();navigate(item.id);}}><span/></a>)}</div>
+          <span className="ln-global-progress" aria-hidden="true"><i/></span>
+          <a className="ln-skip-experience" href="#ln-footer" onClick={event=>{event.preventDefault();footer();}}>SKIP EXPERIENCE <ArrowRight size={12} aria-hidden="true"/></a>
+        </nav></div>
+        <div className="ln-horizontal-viewport"><div ref={track} className="ln-horizontal-track">
+          <section id="ln-hero" data-chapter="hero" className="ln-chapter ln-hero" aria-label="Reality">
+            <LenusHeroCopy onStepInside={()=>{engine.current?.activate();navigate("manifesto");}}/>
+            <div ref={hero} className="ln-stage-slot ln-engine-reference" aria-hidden="true"/>
+          </section>
+          <section id="ln-manifesto" data-chapter="manifesto" className="ln-chapter ln-manifesto" aria-labelledby="ln-manifesto-title">
+            <div className="ln-story-content ln-manifesto-copy"><span className="ln-story-eyebrow">01 / A DIFFERENT WAY TO SEE</span>
+              <h2 id="ln-manifesto-title" tabIndex={-1} aria-label="WE DON'T FOLLOW REALITY. WE REDEFINE IT."><span data-manifesto-line>WE DON’T FOLLOW</span><span data-manifesto-line>REALITY.</span><span data-manifesto-line className="ln-phrase-lime">WE REDEFINE IT.</span></h2>
+              <p>Unexpected ideas deserve to become working experiences. We bring creative direction, design and technology into the same room.</p>
+              <span className="ln-story-coordinate" aria-hidden="true">POSSIBILITY → REALIZATION</span>
+            </div>
+          </section>
+          <section id="ln-work" data-chapter="work" className="ln-chapter ln-work" aria-labelledby="ln-work-title">
+            <div className="ln-story-content ln-work-content"><span className="ln-story-eyebrow">02 / SELECTED DIRECTIONS</span><h2 id="ln-work-title" tabIndex={-1}>EXPERIENCES<br/><span className="ln-phrase-violet">BEYOND EXPECTED.</span></h2>
+              <WorkGallery ref={gallery} motion={enhanced&&!reduced} suspended={dialogContent!==null||menuOpen} onOpen={index=>openDialog(index)} onAim={value=>engine.current?.setWorkProgress(value)}/>
+            </div>
+          </section>
+          <section id="ln-expertise" data-chapter="expertise" className="ln-chapter ln-expertise" aria-labelledby="ln-expertise-title">
+            <div className="ln-story-content ln-expertise-copy"><span className="ln-story-eyebrow">03 / CONNECTED CAPABILITIES</span><h2 id="ln-expertise-title" tabIndex={-1}>WHAT WE MAKE<br/><span className="ln-phrase-lime">POSSIBLE.</span></h2><p>One idea. Many disciplines.<br/>Every part working together.</p>
+              <div className="ln-capability-list">{CAPABILITIES.map((item,i)=><details key={item.id} onToggle={event=>engine.current?.focusPart(event.currentTarget.open?item.part:null)}><summary><span>0{i+1}</span>{item.name}</summary><p>{item.description}</p></details>)}</div>
+            </div>
+          </section>
+          <section id="ln-technology" data-chapter="technology" className="ln-chapter ln-technology" aria-labelledby="ln-technology-title">
+            <div className="ln-story-content ln-technology-copy"><span className="ln-story-eyebrow">04 / THE OPTICAL LABORATORY</span><h2 id="ln-technology-title" tabIndex={-1}>INSIDE<br/><span className="ln-phrase-violet">THE ENGINE.</span></h2><p>This is the real thing. Rotate the lens, separate the assembly and bring its inner workings into focus.</p>
+              <button type="button" className="ln-text-button" onClick={()=>engine.current?.openControls()}>TAKE THE CONTROLS <ArrowUpRight size={18} aria-hidden="true"/></button>
+              <p className="ln-lab-note">Drag to rotate. Use the sliders to transform.<br/>Scroll on when you’re ready.</p>
+            </div>
+          </section>
+          <section id="ln-studio" data-chapter="studio" className="ln-chapter ln-studio" aria-labelledby="ln-studio-title">
+            <div className="ln-story-content ln-studio-copy"><span className="ln-story-eyebrow">05 / HOW WE SEE THINGS</span><h2 id="ln-studio-title" tabIndex={-1} aria-label="INDEPENDENT MINDS. SHARED POSSIBILITIES."><span data-studio-line>INDEPENDENT<br/>MINDS.</span><span data-studio-line className="ln-phrase-violet">SHARED<br/>POSSIBILITIES.</span></h2><p>Curious by nature. Open to the unexpected.<br/>An independent studio working where design and technology meet.</p></div>
+          </section>
+          <section id="ln-contact" data-chapter="contact" className="ln-chapter ln-contact" aria-labelledby="ln-contact-title">
+            <div className="ln-story-content ln-contact-copy"><span className="ln-story-eyebrow">06 / YOUR NEXT POSSIBILITY</span><h2 id="ln-contact-title" tabIndex={-1}>LET’S MAKE<br/><span className="ln-phrase-lime">WHAT’S NEXT.</span></h2><p>A question, an ambition, a different point of view.<br/>Let’s give it a place to start.</p><button type="button" className="ln-button" aria-haspopup="dialog" onClick={()=>openDialog("contact")}>GET IN TOUCH <ArrowUpRight size={22} aria-hidden="true"/></button></div>
+            <div className="ln-contact-thread" aria-hidden="true"><span>CONTINUE THE CONVERSATION</span><i/></div>
+          </section>
+        </div></div>
       </div>
+    </main>
+    <footer className="ln-native-footer" id="ln-footer">
+      <div className="ln-footer-lead"><span className="ln-story-eyebrow">THE EXPECTED IS ONLY THE BEGINNING.</span><h2 tabIndex={-1}>A NEW CHAPTER<br/><span className="ln-phrase-violet">STARTS WITH YOU.</span></h2><button type="button" className="ln-button" aria-haspopup="dialog" onClick={()=>openDialog("contact")}>PREPARE A PROJECT BRIEF <ArrowUpRight size={20} aria-hidden="true"/></button><p>Prepared on your device. Nothing is sent from this demo.</p></div>
+      <div className="ln-footer-navigation"><a href="#ln-hero" className="ln-footer-brand" onClick={event=>{event.preventDefault();navigate("hero");}}>LENUS</a><nav aria-label="Footer navigation">{(["work","expertise","technology","studio","contact"] as ChapterId[]).map(id=><a key={id} href={`#ln-${id}`} onClick={event=>{event.preventDefault();navigate(id);}}>{id==="studio"?"ABOUT":id.toUpperCase()}</a>)}</nav><a href="#ln-hero" className="ln-text-button" onClick={event=>{event.preventDefault();navigate("hero");}}>BACK TO BEGINNING ↑</a></div>
+      <div className="ln-footer-meta"><span>INDEPENDENT MINDS. SHARED POSSIBILITIES.</span><Link href="/">EXPLORE THE GALLERY <ArrowUpRight size={12} aria-hidden="true"/></Link></div>
+    </footer>
+    <dialog ref={dialog} className="ln-dialog" aria-labelledby="ln-dialog-title" onCancel={event=>{event.preventDefault();closeDialog();}} onClick={backdrop}>
+      <button type="button" className="ln-dialog-close ln-icon-button" aria-label="Close panel" onClick={closeDialog}><X size={22} aria-hidden="true"/></button>
+      <div className="ln-dialog-content"><span className="ln-dialog-eyebrow">{dialogContent==="contact"?"LET'S MAKE SOMETHING MATTER.":"CONCEPT STUDY / LIVE EXHIBITION"}</span><h2 id="ln-dialog-title">{dialogContent==="contact"?"What's your next possibility?":study?.name}</h2>{dialogContent==="contact"?<ProjectBriefForm/>:study&&<><p className="ln-dialog-intro">{study.description}</p><p>This conceptual exploration was created for this exhibition. It is not presented as commissioned client work.</p><button type="button" className="ln-text-button" onClick={closeDialog}>BACK TO THE EXPERIENCE <ArrowUpRight size={18} aria-hidden="true"/></button></>}</div>
     </dialog>
   </div>;
 }
@@ -254,12 +339,13 @@ export default function LenusPage(){return <LenusApp/>;}
 <![CDATA["use client";
 import { useEffect,useRef,useState } from "react";
 import { Menu,X } from "lucide-react";
-export type LenusDialogSection="work"|"expertise"|"technology"|"about"|"contact"|null;
+export type LenusDialogSection="hero"|"work"|"expertise"|"technology"|"about"|"contact"|null;
 const sections=["work","expertise","technology","about"] as const;
 
-export default function LenusHeader({onNavigate}:{onNavigate:(section:Exclude<LenusDialogSection,null>)=>void}){
+export default function LenusHeader({onNavigate,active=0,onMenuChange}:{onNavigate:(section:Exclude<LenusDialogSection,null>)=>void;active?:number;onMenuChange?:(open:boolean)=>void}){
   const [open,setOpen]=useState(false);
   const header=useRef<HTMLElement>(null),toggle=useRef<HTMLButtonElement>(null);
+  useEffect(()=>{onMenuChange?.(open);},[open,onMenuChange]);
   useEffect(()=>{
     if(!open)return;
     const previous=document.body.style.overflow;document.body.style.overflow="hidden";
@@ -277,14 +363,14 @@ export default function LenusHeader({onNavigate}:{onNavigate:(section:Exclude<Le
   },[open]);
   const navigate=(section:Exclude<LenusDialogSection,null>)=>{setOpen(false);onNavigate(section);};
   return <header className="ln-header" ref={header}>
-    <a href="#top" className="ln-wordmark" aria-label="LENUS home">
+    <a href="#ln-hero" className="ln-wordmark" aria-label="LENUS home" onClick={event=>{event.preventDefault();navigate("hero");}}>
       <span className="ln-sr-only">LENUS</span>
       <svg viewBox="0 0 171 26" aria-hidden="true"><path d="M2 2V24H28M36 3H62M36 13H59M36 23H62M72 24V3L99 23V2M110 2V17Q110 24 119 24H125Q134 24 134 17V2M169 3H149Q143 3 143 8Q143 13 149 13H162Q168 13 168 18Q168 23 162 23H142" fill="none" stroke="currentColor" strokeWidth="3.8" strokeLinejoin="round"/></svg>
     </a>
-    <nav className="ln-desktop-nav" aria-label="Main navigation">{sections.map(section=><button key={section} type="button" aria-haspopup="dialog" onClick={()=>navigate(section)}>{section.toUpperCase()}</button>)}</nav>
-    <button type="button" className="ln-button ln-contact-cta" aria-haspopup="dialog" onClick={()=>navigate("contact")}>GET IN TOUCH</button>
+    <nav className="ln-desktop-nav" aria-label="Main navigation">{sections.map((section,i)=><a key={section} href={`#ln-${section==="about"?"studio":section}`} aria-current={active===[2,3,4,5][i]?"location":undefined} onClick={event=>{event.preventDefault();navigate(section);}}>{section.toUpperCase()}</a>)}</nav>
+    <a className="ln-button ln-contact-cta" href="#ln-contact" onClick={event=>{event.preventDefault();navigate("contact");}}>GET IN TOUCH</a>
     <button ref={toggle} type="button" className="ln-menu-toggle" aria-label="Toggle navigation" aria-expanded={open} aria-controls="ln-mobile-menu" onClick={()=>setOpen(value=>!value)}>{open?<X aria-hidden="true"/>:<Menu aria-hidden="true"/>}</button>
-    <nav id="ln-mobile-menu" className="ln-mobile-menu" hidden={!open} aria-label="Mobile navigation">{[...sections,"contact" as const].map((section,i)=><button key={section} type="button" aria-haspopup="dialog" onClick={()=>navigate(section)}><span>0{i+1}</span>{section==="contact"?"GET IN TOUCH":section.toUpperCase()}</button>)}</nav>
+    <nav id="ln-mobile-menu" className="ln-mobile-menu" hidden={!open} aria-label="Mobile navigation">{[...sections,"contact" as const].map((section,i)=><a key={section} href={`#ln-${section==="about"?"studio":section}`} onClick={event=>{event.preventDefault();navigate(section);toggle.current?.focus();}}><span>0{i+1}</span>{section==="contact"?"GET IN TOUCH":section.toUpperCase()}</a>)}</nav>
   </header>;
 }
 ]]>
@@ -293,7 +379,7 @@ export default function LenusHeader({onNavigate}:{onNavigate:(section:Exclude<Le
 <![CDATA[import { ArrowRight } from "lucide-react";
 export default function LenusHeroCopy({onStepInside}:{onStepInside:()=>void}){
   return <div className="ln-hero-copy">
-    <h1 aria-label="REALITY IS JUST THE START.">
+    <h1 aria-label="REALITY IS JUST THE START." tabIndex={-1}>
       <span className="ln-headline-line" aria-hidden="true"><span className="ln-headline-lime">REALITY</span></span>
       <span className="ln-headline-line" aria-hidden="true"><span className="ln-headline-white">IS JUST</span></span>
       <span className="ln-headline-line" aria-hidden="true"><span><span className="ln-headline-white">THE </span><span className="ln-headline-violet">START.</span></span></span>
@@ -316,6 +402,7 @@ type Props={
   onResetView:()=>void; onTogglePause:()=>void;
   cutaway?:boolean;onToggleCutaway?:()=>void;
   transformation?:number;onTransformationChange?:(value:number)=>void;
+  onControlGesture?:(active:boolean)=>void;
 };
 export function LenusHudControls(p:Props){
   const disabled=!["running","paused"].includes(p.state);
@@ -331,7 +418,7 @@ export function LenusHudControls(p:Props){
       <button type="button" className="ln-explode" aria-pressed={p.exploded} onClick={p.onToggleExplode} disabled={disabled}><Layers size={14} aria-hidden="true"/>EXPLODE ASSEMBLY</button>
       <div className="ln-playback"><button type="button" className="ln-icon-button" aria-label={p.cutaway?"Return to automatic hero view":"Inspect lens interior"} title="Inspect interior (C)" aria-pressed={!!p.cutaway} onClick={p.onToggleCutaway}><ScanLine size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label="Reset optical view" title="Reset view (R)" onClick={p.onResetView} disabled={disabled}><RotateCcw size={15} aria-hidden="true"/></button><button type="button" className="ln-icon-button" aria-label={p.paused?"Play animation":"Pause animation"} onClick={p.onTogglePause} disabled={disabled}>{p.paused?<Play size={15} aria-hidden="true"/>:<Pause size={15} aria-hidden="true"/>}</button></div>
     </div>
-    <div className="ln-hud-sliders">
+    <div className="ln-hud-sliders" onPointerDown={()=>p.onControlGesture?.(true)} onKeyDown={event=>{if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Home","End","PageUp","PageDown"].includes(event.key))p.onControlGesture?.(true);}} onKeyUp={()=>p.onControlGesture?.(false)}>
       <label className="ln-transformation-control"><span>TRANSFORMATION <output>{Math.round((p.transformation??0)*100)}%</output></span><input type="range" min="0" max="100" step="1" value={Math.round((p.transformation??0)*100)} aria-label="Lens transformation" aria-valuetext={`${Math.round((p.transformation??0)*100)}% transformed`} title="0: fully closed. 100: fully transformed. Play resumes the loop." disabled={disabled} onChange={e=>p.onTransformationChange?.(Number(e.target.value)/100)}/></label>
       <label><span>SEPARATION <output>{Math.round(p.explodeAmount*100)}%</output></span><input type="range" min="0" max="1" step=".01" value={p.explodeAmount} aria-label="Explode optical assembly" disabled={disabled} onChange={e=>p.onExplodeChange(Number(e.target.value))}/></label>
       <label><span>FOCUS <output>{Math.round(p.focusAngle*180/Math.PI)}°</output></span><input type="range" min="-1.57" max="1.57" step=".01" value={p.focusAngle} aria-label="Focus ring rotation" disabled={disabled} onChange={e=>p.onFocusChange(Number(e.target.value))}/></label>
@@ -398,13 +485,17 @@ export default function LenusLensFallback({cutaway=false}:{cutaway?:boolean}={})
     <file path="src/app/(lenus)/lenus/components/LenusOpticalLensCanvas.tsx">
 <![CDATA["use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent, type RefObject } from "react";
 import type { LenusSceneController, LenusInspectionSnapshot } from "../scene/LenusSceneController";
 import { getPartTelemetry, getSemanticPartCount, isInteriorPart, prefersRearView } from "../scene/telemetry";
 import LenusLensFallback from "./LenusLensFallback";
 import { LenusHudControls, type LenusStageState } from "./LenusHudControls";
+import {createPortal} from "react-dom";
+import type {EngineExperienceApi} from "../story/experienceTypes";
+import type {StoryInput} from "../story/chapterPoseMap";
+import type {NarrativeRenderFrame} from "../story/projectedAnchors";
 
-export default function LenusOpticalLensCanvas({suspended=false,externalExplodeRequest=0}:{suspended?:boolean;externalExplodeRequest?:number}){
+export default function LenusOpticalLensCanvas({suspended=false,externalExplodeRequest=0,experienceRef,onNarrativeFrame,controlsMount}:{suspended?:boolean;externalExplodeRequest?:number;experienceRef?:RefObject<EngineExperienceApi|null>;onNarrativeFrame?:(frame:NarrativeRenderFrame)=>void;controlsMount?:HTMLDivElement|null}){
   const host=useRef<HTMLDivElement>(null);
   const controller=useRef<LenusSceneController|null>(null);
   const synchronize=useRef<()=>void>(()=>{});
@@ -414,6 +505,9 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
   const resolutionScale=useRef(1);
   const inspectionState=useRef<LenusInspectionSnapshot|null>(null);
   const cutawayValue=useRef(false);
+  const narrative=useRef<StoryInput|null>(null),reduced=useRef(false);
+  const manualWorkProgress=useRef<number|null>(null);
+  const [controlsOpen,setControlsOpen]=useState(false);
   const policy=useRef({suspended,paused:false});
   const [state,setState]=useState<LenusStageState>("preview");
   const [fps,setFps]=useState(0);
@@ -441,18 +535,21 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
     const sync=()=>{
       const c=controller.current;
       if(!active||!c)return;
-      const shouldRun=inView&&document.visibilityState!=="hidden"&&!policy.current.suspended&&!policy.current.paused;
+      if(media.matches){c.setPresentationSuspended(true);c.stop(false);setState("static");return;}
+      const visible=inView&&document.visibilityState!=="hidden"&&!policy.current.suspended&&!lost;
+      c.setPresentationSuspended(!visible);
+      const shouldRun=visible&&!policy.current.paused;
       if(shouldRun)c.start();else c.stop(policy.current.paused&&inView&&document.visibilityState!=="hidden"&&!policy.current.suspended&&!lost);
       setState(lost?"lost":shouldRun?"running":"paused");
     };
     synchronize.current=sync;
     const boot=async()=>{
-      if(controller.current&&!media.matches){sync();return;}
+      reduced.current=media.matches;
+      if(controller.current){sync();return;}
       const ticket=++revision;
-      if(controller.current){animationTime.current=controller.current.getAnimationTime();resolutionScale.current=controller.current.getResolutionScale();inspectionState.current=controller.current.getInspectionSnapshot();}
-      controller.current?.dispose();controller.current=null;lost=false;
+      lost=false;
       if(media.matches){setActivationNeeded(false);setState("static");return;}
-      if(!activated&&(window.matchMedia("(pointer: coarse)").matches||window.innerWidth<700)){
+      if(!experienceRef&&!activated&&(window.matchMedia("(pointer: coarse)").matches||window.innerWidth<700)){
         setActivationNeeded(true);setState("preview");return;
       }
       setActivationNeeded(false);
@@ -468,21 +565,37 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
           onContextChange:value=>{if(!active||ticket!==revision)return;lost=value==="lost";sync();},
           onPartChange:part=>{if(active&&ticket===revision)setActivePart(current=>current.id===part.id?current:part);},
           onTransformationChange:(progress,target,settled)=>{if(active&&ticket===revision){pose.current.transformation=target;setTransformationMoving(!settled);if(target!==null&&pose.current.explode!==0){pose.current.explode=0;setExplodeAmount(0);}const value=target??progress;setTransformation(current=>Math.round(current*100)===Math.round(value*100)?current:value);}},
+          onNarrativeFrame:frame=>{
+            if(!active||ticket!==revision)return;
+            if(!frame.manual){pose.current.explode=frame.pose.separation;pose.current.focus=frame.pose.focus;setExplodeAmount(v=>Math.round(v*100)===Math.round(frame.pose.separation*100)?v:frame.pose.separation);setFocusAngle(v=>Math.round(v*100)===Math.round(frame.pose.focus*100)?v:frame.pose.focus);}
+            if(cutawayValue.current!==frame.inspection){cutawayValue.current=frame.inspection;setCutaway(frame.inspection);if(!frame.inspection){setLocked(false);setActivePart(getPartTelemetry(null));}}
+            if(!frame.manual&&frame.position>.9&&Math.abs(frame.position-4)>.8)setControlsOpen(false);
+            onNarrativeFrame?.(frame);
+          },
         });
         controller.current=instance;
         const requestedTransformation=pose.current.transformation;
+        if(narrative.current)instance.setNarrativeFrame(narrative.current);
         instance.init(container);
         // Commands can arrive before this import resolves or survive a preference change.
-        if(!inspectionState.current||inspectionState.current.controls.explode!==pose.current.explode)instance.setExplodeTarget(pose.current.explode,false);
-        if(!inspectionState.current||inspectionState.current.controls.focus!==pose.current.focus)instance.setFocusTarget(pose.current.focus);
-        instance.setInspectionMode(cutawayValue.current?"cutaway":"hero");
-        if(requestedTransformation!==null&&requestedTransformation!==inspectionState.current?.transformation?.target)instance.setTransformationTarget(requestedTransformation);
+        if(!experienceRef){
+          if(!inspectionState.current||inspectionState.current.controls.explode!==pose.current.explode)instance.setExplodeTarget(pose.current.explode,false);
+          if(!inspectionState.current||inspectionState.current.controls.focus!==pose.current.focus)instance.setFocusTarget(pose.current.focus);
+          instance.setInspectionMode(cutawayValue.current?"cutaway":"hero");
+          if(requestedTransformation!==null&&requestedTransformation!==inspectionState.current?.transformation?.target)instance.setTransformationTarget(requestedTransformation);
+        }
         sync();
       } catch {
         if(active&&ticket===revision){controller.current?.dispose();controller.current=null;setState("unavailable");}
       }
     };
     activate.current=()=>{activated=true;void boot();};
+    if(experienceRef)experienceRef.current={
+      setNarrativeFrame:input=>{if(input.position<1.65||input.position>3.05)manualWorkProgress.current=null;const frame=manualWorkProgress.current===null?input:{...input,workProgress:manualWorkProgress.current};narrative.current=frame;controller.current?.setNarrativeFrame(frame);},
+      focusPart:id=>controller.current?.focusPart(id),inspectPart:id=>{const part=getPartTelemetry(id);cutawayValue.current=true;setCutaway(true);controller.current?.inspectPart(id);setLocked(id!=="assembly");setActivePart(part);setControlsOpen(true);},
+      releaseInteraction:()=>controller.current?.releaseInteraction(),activate:()=>activate.current(),openControls:()=>{setControlsOpen(true);activate.current();},
+      setWorkProgress:progress=>{if(manualWorkProgress.current===progress)return;manualWorkProgress.current=progress;if(narrative.current&&progress!==null){narrative.current={...narrative.current,workProgress:progress};controller.current?.setNarrativeFrame(narrative.current);}},
+    };
     const resize=new ResizeObserver(entries=>{
       const rect=entries[0]?.contentRect;
       if(rect)controller.current?.resize(rect.width,rect.height);
@@ -493,15 +606,19 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
     const onPreference=()=>{void boot();};
     media.addEventListener("change",onPreference);
     document.addEventListener("visibilitychange",sync);
+    const endControlGesture=()=>controller.current?.setControlGesture(false);
+    window.addEventListener("pointerup",endControlGesture);window.addEventListener("pointercancel",endControlGesture);window.addEventListener("blur",endControlGesture);
     // The SVG and copy paint first; reduced motion never imports the rendering engine.
     const idle="requestIdleCallback" in window;
     const timer=idle?window.requestIdleCallback(()=>{void boot();},{timeout:1500}):window.setTimeout(()=>{void boot();},0);
     return()=>{
       active=false;revision++;if(idle)window.cancelIdleCallback(timer);else window.clearTimeout(timer);resize.disconnect();intersection.disconnect();
       media.removeEventListener("change",onPreference);document.removeEventListener("visibilitychange",sync);
+      window.removeEventListener("pointerup",endControlGesture);window.removeEventListener("pointercancel",endControlGesture);window.removeEventListener("blur",endControlGesture);
       synchronize.current=()=>{};activate.current=()=>{};controller.current?.dispose();controller.current=null;
+      if(experienceRef)experienceRef.current=null;
     };
-  },[]);
+  },[experienceRef,onNarrativeFrame]);
 
   useEffect(()=>{
     if(externalExplodeRequest>0){cutawayValue.current=true;setCutaway(true);pose.current.explode=1;setExplodeAmount(1);controller.current?.setInspectionMode("cutaway");controller.current?.setExplodeTarget(1);activate.current();}
@@ -538,11 +655,15 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
     if(event.key==="c"||event.key==="C"){event.preventDefault();changeInspection(!cutawayValue.current);return;}
     if(activationNeeded&&(event.key==="Enter"||event.key===" ")){event.preventDefault();activate.current();return;}
     if(!["running","paused"].includes(state))return;
-    const actions:Record<string,()=>void>={ArrowLeft:()=>controller.current?.rotateView(-.12,0),ArrowRight:()=>controller.current?.rotateView(.12,0),ArrowUp:()=>controller.current?.rotateView(0,-.1),ArrowDown:()=>controller.current?.rotateView(0,.1),e:toggleExplode,E:toggleExplode,r:reset,R:reset,Home:reset,Escape:()=>setLocked(false)};
+    const actions:Record<string,()=>void>={ArrowLeft:()=>controller.current?.rotateView(-.12,0),ArrowRight:()=>controller.current?.rotateView(.12,0),ArrowUp:()=>controller.current?.rotateView(0,-.1),ArrowDown:()=>controller.current?.rotateView(0,.1),e:toggleExplode,E:toggleExplode,r:reset,R:reset,Home:reset,Escape:()=>{setLocked(false);setActivePart(getPartTelemetry(null));controller.current?.releaseInteraction();}};
     if(actions[event.key]){event.preventDefault();actions[event.key]();}
   };
   const message:Record<LenusStageState,string>={preview:activationNeeded?"Tap the lens to explore in 3D.":"Optical preview. Interactive controls load when available.",running:"Drag to explore. Select a fragment to inspect.",paused:suspended?"Optical view paused while the panel is open.":pose.current.transformation!==null?"Manual transformation. Play resumes the loop.":"Optical view paused.",static:"Reduced motion is on. Showing a still optical preview.",unavailable:"Interactive graphics are unavailable. Showing a still optical preview.",lost:"Graphics connection lost. Showing the preview while reconnecting."};
-  return <section className="ln-stage" data-state={state} data-inspection-mode={cutaway?"cutaway":"hero"} data-exploded={cutaway&&explodeAmount>.5} aria-busy={transformationMoving&&["running","paused"].includes(state)} aria-label="Optical lens experience">
+  const controls=<div className="ln-controls-drawer" data-open={controlsOpen}>
+    {experienceRef&&<button type="button" className="ln-drawer-toggle" aria-expanded={controlsOpen} aria-controls={`${instructions}-controls`} onClick={()=>setControlsOpen(v=>!v)}>OPTICAL CONTROLS <span aria-hidden="true">{controlsOpen?"−":"+"}</span></button>}
+    <div id={`${instructions}-controls`}><LenusHudControls state={state} fps={fps} paused={paused} cutaway={cutaway} onControlGesture={active=>controller.current?.setControlGesture(active)} onToggleCutaway={()=>changeInspection(!cutawayValue.current)} transformation={transformation} onTransformationChange={changeTransformation} exploded={cutaway&&explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={togglePause}/></div>
+  </div>;
+  return <section className={`ln-stage${experienceRef?" ln-story-engine":""}`} data-state={state} data-inspection-mode={cutaway?"cutaway":"hero"} data-exploded={cutaway&&explodeAmount>.5} aria-busy={transformationMoving&&["running","paused"].includes(state)} aria-label="Optical lens experience">
     <div className="ln-lens-plot">
       <div className="ln-aperture" aria-hidden="true"/>
       <LenusLensFallback cutaway={cutaway||(pose.current.transformation!==null&&transformation>=.5)}/>
@@ -552,7 +673,7 @@ export default function LenusOpticalLensCanvas({suspended=false,externalExplodeR
     </div>
     <p id={instructions} className="ln-sr-only">{activationNeeded?"Press Enter or tap to start the optical experience. ":""}Use arrow keys to rotate, C to inspect the interior, E to separate the assembly, R or Home to reset. Select a visible lens part to inspect it.</p>
     <p className="ln-stage-help" role="status">{message[state]}</p>
-    <LenusHudControls state={state} fps={fps} paused={paused} cutaway={cutaway} onToggleCutaway={()=>changeInspection(!cutawayValue.current)} transformation={transformation} onTransformationChange={changeTransformation} exploded={cutaway&&explodeAmount>.5} explodeAmount={explodeAmount} focusAngle={focusAngle} activePart={activePart} onToggleExplode={toggleExplode} onExplodeChange={changeExplode} onFocusChange={changeFocus} onResetView={reset} onTogglePause={togglePause}/>
+    {controlsMount?createPortal(controls,controlsMount):controls}
   </section>;
 }
 ]]>
@@ -4909,6 +5030,9 @@ import { createStudioEnvironment } from "../model/studioEnvironment";
 import { advanceTransformationProgress, getLensDeploymentPose, getLensTransformationPose, LENS_INTERIOR_YAW } from "../model/lensTransformation";
 import { getPartTelemetry, isInteriorPart, prefersRearView, type LenusPartInfo } from "./telemetry";
 import { getLensLoopPose } from "./lensMotion";
+import {blendStoryPose,sampleStoryPose,type EngineStoryPose,type StoryInput} from "../story/chapterPoseMap";
+import {CAPABILITIES,type NarrativeRenderFrame} from "../story/projectedAnchors";
+import {interactionWeight,smooth} from "../story/storyMath";
 export { getPartTelemetry, type LenusPartInfo } from "./telemetry";
 
 export function normalizePointer(value:number){return Number.isFinite(value)?THREE.MathUtils.clamp(value,-1,1):0;}
@@ -4925,12 +5049,16 @@ type OrbitOffset={yaw:number;polar:number};
 type ManualTransformation={progress:number;target:number;direction:1|-1;wideFrame:boolean};
 type HeroView={elapsed:number;camera:CameraPose;orbit:OrbitOffset;pointer:{x:number;y:number};parallax:{x:number;y:number};transformation?:ManualTransformation|null;manualExplode?:number};
 export type LensInspectionMode="hero"|"cutaway";
-export type LenusInspectionSnapshot={mode:LensInspectionMode;camera:CameraPose;orbit:OrbitOffset;pointer?:{x:number;y:number};parallax?:{x:number;y:number};transformation?:ManualTransformation|null;hero:HeroView|null;controls:{explode:number;focus:number;currentExplode?:number;currentFocus?:number}};
+type ControlSnapshot={mode:LensInspectionMode;camera:CameraPose;orbit:OrbitOffset;pointer?:{x:number;y:number};parallax?:{x:number;y:number};transformation?:ManualTransformation|null;hero:HeroView|null;controls:{explode:number;focus:number;currentExplode?:number;currentFocus?:number}};
+type StoryOverride={origin:number;frame:EngineStoryPose;kind:"drag"|"slider"|"inspect";entry:number;release:number;releasing:boolean;camera?:CameraPose};
+type NarrativeMemory={input:StoryInput;hero:{frame:EngineStoryPose;controls:ControlSnapshot;elapsed:number}|null;override:StoryOverride|null};
+export type LenusInspectionSnapshot=ControlSnapshot&{narrative?:NarrativeMemory|null};
 export interface LenusSceneOptions{
   initialAnimationTime?:number;initialResolutionScale?:number;initialInspectionState?:LenusInspectionSnapshot;
   onFps?:(fps:number)=>void;onContextChange?:(state:"lost"|"restored")=>void;
   onInteractionChange?:(dragging:boolean)=>void;onPartChange?:(part:LenusPartInfo)=>void;
   onTransformationChange?:(progress:number,target:number|null,settled:boolean)=>void;
+  onNarrativeFrame?:(frame:NarrativeRenderFrame)=>void;
 }
 
 /** One renderer, one clock, and one owner for automatic/inspection transforms. */
@@ -4950,6 +5078,11 @@ export class LenusSceneController{
   private explodeTarget=0;private explode=0;private focusTarget=0;private focus=0;
   private elapsed=0;private lastTime:number|null=null;private frames=0;private sampleTime=0;private slowTime=0;
   private resolutionScale=1;private viewport={width:1,height:1};
+  private narrative:NarrativeMemory|null=null;private appliedStory:EngineStoryPose|null=null;private presentationSuspended=false;
+  private controlGesture=false;
+  private readonly storyLights:THREE.DirectionalLight[]=[];
+  private outline:THREE.BoxHelper|null=null;private focusedPart:string|null=null;private renderedAt=0;
+  private readonly projectedPoint=new THREE.Vector3();
   constructor(private readonly options:LenusSceneOptions={}){
     this.elapsed=Math.max(0,finite(options.initialAnimationTime??0));
     this.resolutionScale=THREE.MathUtils.clamp(finite(options.initialResolutionScale??1,1),.75,1);
@@ -4965,6 +5098,7 @@ export class LenusSceneController{
       this.focus=THREE.MathUtils.clamp(finite(saved.controls.currentFocus??this.focusTarget),-Math.PI/2,Math.PI/2);
       this.placeCamera(saved.camera.yaw,saved.camera.polar);
     }else{const view=this.automaticCamera();this.placeCamera(view.yaw,view.polar);}
+    if(saved?.narrative)this.narrative=structuredClone(saved.narrative);
   }
   init(container:HTMLElement){
     if(this.disposed||this.renderer)return;
@@ -4978,7 +5112,7 @@ export class LenusSceneController{
       this.environment=createStudioEnvironment(renderer,true);this.scene.environment=this.environment.texture;
       this.rebuildModel();this.scene.add(new THREE.HemisphereLight(0xe5eeff,0x282631,2));
       for(const [color,intensity,position]of [[0xffffff,3,[-3,5,4]],[0xdde4ff,1.4,[3,0,-4]],[0xD2F802,1.8,[-4,4,-.4]],[0xA855F7,1.5,[4,-3,-.4]]] as const){
-        const light=new THREE.DirectionalLight(color,intensity);light.position.set(position[0],position[1],position[2]);this.scene.add(light);
+        const light=new THREE.DirectionalLight(color,intensity);light.position.set(position[0],position[1],position[2]);this.scene.add(light);this.storyLights.push(light);
       }
       this.configureControls(canvas);
       const bounds=container.getBoundingClientRect();this.resize(bounds.width,bounds.height);
@@ -4995,7 +5129,7 @@ export class LenusSceneController{
   }
   private configureControls(canvas:HTMLCanvasElement){
     this.releaseControls();const controls=new OrbitControls(this.camera,canvas);this.controls=controls;
-    controls.enableZoom=false;controls.enablePan=false;controls.enableDamping=false;controls.rotateSpeed=.5;
+    controls.enableZoom=false;controls.enablePan=false;controls.enableDamping=false;controls.rotateSpeed=.5/Math.max(.35,this.narrative?.input.hero.heightRatio??1);
     controls.minPolarAngle=Math.PI*.2;controls.maxPolarAngle=Math.PI*.8;
     controls.addEventListener("start",this.onDragStart);controls.addEventListener("end",this.onDragEnd);controls.addEventListener("change",this.onControlChange);
     canvas.style.touchAction="pan-y pinch-zoom";
@@ -5003,13 +5137,115 @@ export class LenusSceneController{
   getRenderer(){return this.renderer;}
   getAnimationTime(){return this.elapsed;}
   getResolutionScale(){return this.resolutionScale;}
-  getTransformationProgress(){return this.currentTransformationPose().progress;}
+  getTransformationProgress(){return this.narrative&&this.appliedStory?this.appliedStory.deployment:this.currentTransformationPose().progress;}
   getTransformationTarget(){return this.transformation?.target??null;}
   getInspectionSnapshot():LenusInspectionSnapshot{
+    return {...this.controlSnapshot(),narrative:this.narrative?structuredClone(this.narrative):null};
+  }
+  private controlSnapshot():ControlSnapshot{
     const camera=this.cameraPose(),base=this.automaticCamera();
     // OrbitControls can be mid-drag, before onDragEnd commits its offset.
     const orbit=this.mode==="hero"?{yaw:camera.yaw-base.yaw,polar:camera.polar-base.polar}:{...this.orbit};
     return {mode:this.mode,camera,orbit,pointer:{...this.pointer},parallax:{...this.parallax},transformation:this.transformation?{...this.transformation}:null,hero:this.hero?structuredClone(this.hero):null,controls:{explode:this.explodeTarget,focus:this.focusTarget,currentExplode:this.explode,currentFocus:this.focus}};
+  }
+  private restoreControls(saved:ControlSnapshot){
+    this.mode=saved.mode;this.hero=saved.hero?structuredClone(saved.hero):null;this.orbit={...saved.orbit};
+    this.transformation=saved.transformation?{...saved.transformation}:null;
+    this.pointer={...(saved.pointer??{x:0,y:0})};this.parallax={...(saved.parallax??{x:0,y:0})};
+    this.explodeTarget=saved.controls.explode;this.explode=saved.controls.currentExplode??this.explodeTarget;
+    this.focusTarget=saved.controls.focus;this.focus=saved.controls.currentFocus??this.focusTarget;
+    this.placeCamera(saved.camera.yaw,saved.camera.polar);
+  }
+  setPresentationSuspended(value:boolean){
+    if(this.presentationSuspended===value)return;this.presentationSuspended=value;
+    if(value){this.renderer?.setAnimationLoop(null);this.animating=false;this.lastTime=null;if(this.controls)this.controls.enabled=false;}
+    else{this.resizeBuffer();this.applyLoopPose();this.render();this.updateAnimationLoop();}
+  }
+  setNarrativeFrame(input:StoryInput){
+    const safe={...input,position:THREE.MathUtils.clamp(finite(input.position),0,6),progress:normalizeProgress(input.progress)};
+    const previous=this.narrative?.input.position??0;
+    if(!this.narrative)this.narrative={input:safe,hero:null,override:null};
+    if(previous<=.00001&&safe.position>.00001&&!this.narrative.hero)this.narrative.hero={frame:structuredClone(this.appliedStory??this.legacyStoryPose()),controls:this.controlSnapshot(),elapsed:this.elapsed};
+    if(previous>.00001&&safe.position<=.00001&&this.narrative.hero){const saved=this.narrative.hero;this.restoreControls(saved.controls);this.elapsed=saved.elapsed;this.narrative.hero=null;this.narrative.override=null;}
+    this.narrative.input=safe;
+    if(this.controls)this.controls.rotateSpeed=.5/Math.max(.35,safe.hero.heightRatio??1);
+    if(!this.presentationSuspended&&!this.running){this.applyLoopPose();this.render();}
+  }
+  focusPart(id:string|null){
+    this.focusedPart=id&&this.runtime?.nodes[id]?id:null;
+    if(this.focusedPart&&!this.outline){this.outline=new THREE.BoxHelper(this.runtime!.nodes[this.focusedPart],0xD2F802);const material=this.outline.material as THREE.Material;material.transparent=true;material.opacity=.65;material.depthTest=false;material.depthWrite=false;this.outline.renderOrder=50;this.scene.add(this.outline);}
+    if(this.outline)this.outline.visible=!!this.focusedPart;
+    if(this.narrative)this.applyLoopPose();this.render();
+  }
+  releaseInteraction(){if(this.narrative?.override){this.narrative.override.releasing=true;this.narrative.override.release=0;this.updateAnimationLoop();}this.focusPart(null);}
+  setControlGesture(active:boolean){
+    if(this.controlGesture===active)return;
+    if(active){this.beginStoryInteraction("slider");this.controlGesture=true;}else{this.controlGesture=false;this.finishStoryGesture();}
+    this.updateAnimationLoop();
+  }
+  private finishStoryGesture(){
+    const o=this.narrative?.override;if(!o||!this.appliedStory)return;
+    o.origin=this.narrative!.input.position;o.frame=structuredClone(this.appliedStory);o.entry=1;
+    if(this.transformation)this.transformation.progress=this.appliedStory.deployment;
+    this.explode=this.appliedStory.separation;this.focus=this.appliedStory.focus;this.captureOrbit();
+    if(o.origin<3.55||o.origin>4.45){o.releasing=true;o.release=0;}
+  }
+  private storyActive(){return !!this.narrative&&this.narrative.input.position>.00001;}
+  private beginStoryInteraction(kind:StoryOverride["kind"]){
+    if(this.disposed||!this.storyActive()||!this.appliedStory)return false;
+    const existing=this.narrative!.override;if(existing&&!existing.releasing&&existing.kind===kind&&(this.dragging||this.controlGesture||interactionWeight(this.narrative!.input.position,existing.origin,1,0)>.98))return true;
+    const frame=structuredClone(this.appliedStory),camera=this.cameraPose();
+    this.mode="hero";this.hero=null;this.transformation={progress:frame.deployment,target:frame.deployment,direction:1,wideFrame:false};
+    this.explode=this.explodeTarget=frame.separation;this.focus=this.focusTarget=frame.focus;
+    this.pointer={x:0,y:0};this.parallax={x:0,y:0};
+    const base=this.automaticCamera();this.orbit={yaw:camera.yaw-base.yaw,polar:camera.polar-base.polar};
+    this.narrative!.override={origin:this.narrative!.input.position,frame,kind,entry:kind==="drag"?1:0,release:0,releasing:false};
+    return true;
+  }
+  private hasStoryMotion(){const o=this.narrative?.override;return !!o&&(o.entry<1||(o.releasing&&o.release<1));}
+  private legacyStoryPose():EngineStoryPose{
+    const transform=this.currentTransformationPose(),a=this.mode==="cutaway"?{spin:0,yaw:0,pitch:0,collar:0,shardOrbit:0,shardY:0}:getLensLoopPose(this.elapsed);
+    if(this.transformation){const w=getLensTransformationPose(this.elapsed).ambientWeight,r=w>.0001?transform.ambientWeight/w:0;for(const key of ["spin","yaw","pitch","collar","shardOrbit","shardY"] as const)a[key]*=r;}
+    const base=this.automaticCamera(),camera=this.mode==="cutaway"||this.dragging?this.cameraPose():{yaw:base.yaw+this.orbit.yaw,polar:base.polar+this.orbit.polar};
+    const hero=this.narrative?.input.hero??{x:.72,y:.46,scale:.68};
+    const sweep=.25*Math.sin(Math.PI*Math.min(1,this.elapsed/1.2))**2;
+    return {deployment:transform.progress,separation:this.mode==="cutaway"||this.transformation?this.explode:0,focus:this.focus,scale:hero.scale*((this.mode==="cutaway"||this.transformation?.wideFrame)?3.7/4.3:1),x:hero.x,y:hero.y,yaw:camera.yaw,polar:camera.polar,distance:12,rotation:[a.pitch+this.parallax.x*transform.ambientWeight,a.yaw+this.parallax.y*transform.ambientWeight,a.spin],violet:1,lime:1,key:1+sweep*.4,exposure:1,sweep,collarIdle:a.collar,shardOrbit:a.shardOrbit,shardY:a.shardY};
+  }
+  private applyNarrativePose(){
+    const story=this.narrative!,input=story.input,legacy=this.legacyStoryPose();
+    let pose=legacy,manual=!this.storyActive()&&(this.mode==="cutaway"||!!this.transformation),inspection=this.mode==="cutaway";
+    if(this.storyActive()){
+      const base=story.hero?.frame??legacy;
+      pose=blendStoryPose(base,sampleStoryPose(input),smooth((input.position-.08)/.92));
+      const o=story.override;
+      if(o){
+        const weight=interactionWeight(input.position,o.origin,o.entry,o.release,this.dragging||this.controlGesture);
+        const camera=this.dragging?this.cameraPose():o.camera??{yaw:legacy.yaw,polar:legacy.polar};
+        const desired={...o.frame,deployment:legacy.deployment,separation:legacy.separation,focus:legacy.focus,yaw:camera.yaw,polar:camera.polar};
+        pose=blendStoryPose(pose,blendStoryPose(o.frame,desired,smooth(o.entry)),weight);
+        manual=!o.releasing&&(this.dragging||this.controlGesture||interactionWeight(input.position,o.origin,1,0)>.02);inspection=manual&&o.kind==="inspect";
+      }else inspection=false;
+    }
+    this.appliedStory=pose;
+    this.publishTransformation(pose.deployment,manual?this.getTransformationTarget():null,!this.hasManualMotion()&&!this.hasStoryMotion());
+    if(!this.model||!this.runtime)return;
+    this.runtime.setTransformationPose(getLensDeploymentPose(pose.deployment));this.runtime.setExplode(pose.separation);this.runtime.setFocusRing(pose.focus);
+    this.runtime.setAmbientPose({collar:pose.collarIdle,shardOrbit:pose.shardOrbit,shardY:pose.shardY});
+    this.model.quaternion.setFromEuler(new THREE.Euler(...pose.rotation));this.model.scale.setScalar(pose.scale);
+    if(!this.dragging)this.placeCamera(pose.yaw,pose.polar,pose.distance);
+    this.camera.updateMatrixWorld(true);
+    const right=new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld,0),up=new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld,1);
+    this.model.position.copy(right.multiplyScalar((pose.x*2-1)*this.camera.right)).add(up.multiplyScalar((1-pose.y*2)*this.camera.top));
+    this.model.updateMatrixWorld(true);
+    for(const [i,light]of this.storyLights.entries())light.intensity=[3*pose.key,1.4*pose.key,1.8*pose.lime,1.5*pose.violet][i];
+    this.storyLights[0]?.position.set(-3+pose.sweep*2,5,4-pose.sweep);
+    if(this.renderer)this.renderer.toneMappingExposure=pose.exposure;
+    this.storyFrameFlags={manual,inspection};
+  }
+  private storyFrameFlags={manual:false,inspection:false};
+  private publishTransformation(progress:number,target:number|null,settled:boolean){
+    const key=`${Math.round(progress*100)}:${target}:${settled}`;
+    if(key!==this.publishedTransformation){this.publishedTransformation=key;this.options.onTransformationChange?.(progress,target,settled);}
   }
   private cameraPose():CameraPose{const p=new THREE.Spherical().setFromVector3(this.camera.position);return {yaw:p.theta,polar:p.phi};}
   private automaticCamera():CameraPose{
@@ -5018,6 +5254,13 @@ export class LenusSceneController{
   }
   private captureOrbit(){const view=this.cameraPose(),base=this.automaticCamera();this.orbit={yaw:view.yaw-base.yaw,polar:view.polar-base.polar};}
   setInspectionMode(mode:LensInspectionMode){
+    if(this.storyActive()){
+      if(mode==="hero"){this.releaseInteraction();return;}
+      this.beginStoryInteraction("inspect");
+      if(this.transformation)this.transformation.target=1;
+      if(this.narrative?.override)this.narrative.override.camera={yaw:LENS_INTERIOR_YAW,polar:BASE_POLAR};
+      this.applyLoopPose();this.render();this.updateAnimationLoop();return;
+    }
     if(this.disposed||mode===this.mode)return;
     if(mode==="cutaway"){
       if(this.dragging)this.captureOrbit();
@@ -5033,6 +5276,7 @@ export class LenusSceneController{
   }
   setTransformationTarget(amount:number){
     if(this.disposed)return;
+    this.beginStoryInteraction("slider");
     const progress=this.getTransformationProgress(),target=normalizeProgress(amount),camera=this.cameraPose();
     const wideFrame=this.mode==="cutaway"||!!this.transformation?.wideFrame;
     if(this.mode==="hero"&&!this.transformation)this.explode=0;
@@ -5044,6 +5288,7 @@ export class LenusSceneController{
     this.applyLoopPose();this.render();this.updateAnimationLoop();
   }
   resumeTransformationLoop(){
+    if(this.storyActive()){this.releaseInteraction();return;}
     if(this.disposed||!this.transformation)return;
     const {progress,direction}=this.transformation,camera=this.cameraPose();
     const rotation=this.model?.rotation.clone();
@@ -5057,12 +5302,19 @@ export class LenusSceneController{
   private currentTransformationPose(){return this.mode==="cutaway"?getLensDeploymentPose(1):this.transformation?getLensDeploymentPose(this.transformation.progress):getLensTransformationPose(this.elapsed);}
   private hasManualMotion(){return !!this.transformation&&(this.transformation.progress!==this.transformation.target||Math.abs(this.explode-this.explodeTarget)>.0001);}
   private updateAnimationLoop(){
-    if(!this.renderer||this.disposed||this.contextLost)return;
-    const active=this.running||(this.allowManualMotion&&this.hasManualMotion());
+    if(!this.renderer||this.disposed||this.contextLost||this.presentationSuspended)return;
+    const active=this.running||(this.allowManualMotion&&(this.hasManualMotion()||this.hasStoryMotion()));
     if(active!==this.animating){this.animating=active;this.lastTime=null;this.renderer.setAnimationLoop(active?this.tick:null);}
   }
   inspectPart(id:string){
     const part=getPartTelemetry(id);
+    if(this.storyActive()){
+      this.beginStoryInteraction("inspect");if(this.transformation)this.transformation.target=1;
+      if(this.narrative?.override)this.narrative.override.camera={yaw:prefersRearView(id)?Math.PI:LENS_INTERIOR_YAW,polar:BASE_POLAR};
+      this.focusPart(id==="assembly"?null:id);
+      this.applyLoopPose();this.render();this.updateAnimationLoop();return part;
+    }
+    this.focusPart(id==="assembly"?null:id);
     if(isInteriorPart(id)||prefersRearView(id))this.setInspectionMode("cutaway");
     if(this.mode==="cutaway"){
       const panel=/^housing-panel-([0-3])$/.exec(id);
@@ -5075,23 +5327,28 @@ export class LenusSceneController{
   resize(width:number,height:number){
     if(this.disposed||!this.renderer)return;
     this.viewport={width:Math.max(1,finite(width,1)),height:Math.max(1,finite(height,1))};
-    const aspect=this.viewport.width/this.viewport.height,h=fitHeroFrustumHalfHeight(width,height,this.mode==="cutaway"||!!this.transformation?.wideFrame);
+    const aspect=this.viewport.width/this.viewport.height,h=fitHeroFrustumHalfHeight(width,height,!this.narrative&&(this.mode==="cutaway"||!!this.transformation?.wideFrame));
     this.camera.left=-h*aspect;this.camera.right=h*aspect;this.camera.top=h;this.camera.bottom=-h;this.camera.updateProjectionMatrix();
-    this.resizeBuffer();if(!this.contextLost)this.render();
+    this.resizeBuffer();this.applyLoopPose();if(!this.contextLost)this.render();
   }
   private resizeBuffer(){
-    if(!this.renderer||this.contextLost)return;
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5)*this.resolutionScale);
+    if(!this.renderer||this.contextLost||this.presentationSuspended)return;
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,this.narrative?.input.compact?1:1.5)*this.resolutionScale);
     this.renderer.setSize(this.viewport.width,this.viewport.height,false);
   }
   setPointer(x:number,y:number){if(!this.disposed&&this.mode==="hero"&&!this.transformation)this.pointer={x:normalizePointer(x),y:normalizePointer(y)};}
   setExplodeTarget(amount:number,reveal=true){
     if(this.disposed)return;
+    if(this.storyActive()&&reveal){
+      this.beginStoryInteraction("slider");if(this.transformation)this.transformation.target=1;
+      this.explodeTarget=normalizeProgress(amount);this.applyLoopPose();this.render();this.updateAnimationLoop();return;
+    }
     if(reveal)this.setInspectionMode("cutaway");
     this.explodeTarget=THREE.MathUtils.clamp(finite(amount),0,1);
     if(!this.running){this.explode=this.explodeTarget;this.applyLoopPose();this.render();}
   }
   setFocusTarget(radians:number){
+    this.beginStoryInteraction("slider");
     if(this.disposed)return;this.focusTarget=THREE.MathUtils.clamp(finite(radians),-Math.PI/2,Math.PI/2);
     if(!this.running){this.focus=this.focusTarget;this.applyLoopPose();this.render();}
   }
@@ -5102,17 +5359,20 @@ export class LenusSceneController{
     const hit=this.raycaster.intersectObject(this.model,true)[0];const part=getPartTelemetry(this.runtime.pickPart(hit?.object??null)?.name??null);
     this.options.onPartChange?.(part);return part;
   }
-  private placeCamera(yaw:number,polar:number){
+  private placeCamera(yaw:number,polar:number,distance=RADIUS){
     const angle=finite(yaw,BASE_YAW);
-    this.camera.position.setFromSphericalCoords(RADIUS,THREE.MathUtils.clamp(finite(polar,BASE_POLAR),Math.PI*.2,Math.PI*.8),Math.atan2(Math.sin(angle),Math.cos(angle)));
+    this.camera.position.setFromSphericalCoords(distance,THREE.MathUtils.clamp(finite(polar,BASE_POLAR),Math.PI*.2,Math.PI*.8),Math.atan2(Math.sin(angle),Math.cos(angle)));
     this.camera.lookAt(0,0,0);this.placingCamera=true;this.controls?.update();this.placingCamera=false;
   }
   rotateView(deltaYaw:number,deltaPitch:number){
-    if(this.disposed||this.contextLost)return;const p=this.cameraPose();
-    this.placeCamera(p.yaw+finite(deltaYaw),p.polar+finite(deltaPitch));if(this.mode==="hero")this.captureOrbit();this.render();
+    if(this.disposed||this.contextLost)return;this.beginStoryInteraction("drag");const p=this.cameraPose();
+    this.placeCamera(p.yaw+finite(deltaYaw),p.polar+finite(deltaPitch));if(this.mode==="hero")this.captureOrbit();
+    if(this.narrative){this.applyLoopPose();if(this.storyActive()&&(this.narrative.input.position<3.55||this.narrative.input.position>4.45))this.releaseInteraction();}
+    this.render();this.updateAnimationLoop();
   }
   resetView(){
     if(this.disposed)return;
+    if(this.storyActive()){this.narrative!.override=null;this.focusPart(null);this.applyLoopPose();this.render();return;}
     this.mode="hero";this.hero=null;this.transformation=null;this.elapsed=0;this.lastTime=null;this.orbit={yaw:0,polar:0};
     this.pointer={x:0,y:0};this.parallax={x:0,y:0};this.explode=this.explodeTarget=0;this.focus=this.focusTarget=0;
     this.applyLoopPose();this.placeCamera(BASE_YAW,BASE_POLAR);this.resize(this.viewport.width,this.viewport.height);this.updateAnimationLoop();
@@ -5127,9 +5387,11 @@ export class LenusSceneController{
     if(this.controls)this.controls.enabled=allowInteraction&&!this.contextLost;
   }
   private tick=(time:number)=>{
-    if((!this.running&&!(this.allowManualMotion&&this.hasManualMotion()))||this.disposed||this.contextLost||!this.renderer||!this.model||!this.runtime)return;
+    if((!this.running&&!(this.allowManualMotion&&(this.hasManualMotion()||this.hasStoryMotion())))||this.disposed||this.contextLost||this.presentationSuspended||!this.renderer||!this.model||!this.runtime)return;
+    if(this.narrative&&this.lastTime!==null&&time-this.renderedAt<15)return;this.renderedAt=time;
     const realDelta=this.lastTime===null?0:Math.max(0,(time-this.lastTime)/1000),delta=Math.min(.1,realDelta);this.lastTime=time;
-    if(this.running&&!this.dragging&&this.mode==="hero"&&!this.transformation)this.elapsed+=realDelta;
+    if(this.running&&!this.dragging&&this.mode==="hero"&&!this.transformation&&!this.storyActive())this.elapsed+=realDelta;
+    const override=this.narrative?.override;if(override){override.entry=Math.min(1,override.entry+delta*2.5);if(override.releasing)override.release=Math.min(1,override.release+delta*1.4);}
     if(this.transformation&&!this.dragging)this.transformation.progress=advanceTransformationProgress(this.transformation.progress,this.transformation.target,delta);
     const damp=1-Math.exp(-5*delta);this.explode+=(this.explodeTarget-this.explode)*damp;this.focus+=(this.focusTarget-this.focus)*damp;
     if(Math.abs(this.explode-this.explodeTarget)<.0001)this.explode=this.explodeTarget;
@@ -5146,9 +5408,9 @@ export class LenusSceneController{
     this.render();if(!this.running)this.updateAnimationLoop();
   };
   private applyLoopPose(){
+    if(this.narrative){this.applyNarrativePose();return;}
     const transform=this.currentTransformationPose(),target=this.getTransformationTarget();
-    const settled=!this.hasManualMotion(),key=`${Math.round(transform.progress*100)}:${target}:${settled}`;
-    if(key!==this.publishedTransformation){this.publishedTransformation=key;this.options.onTransformationChange?.(transform.progress,target,settled);}
+    this.publishTransformation(transform.progress,target,!this.hasManualMotion());
     if(!this.model||!this.runtime)return;
     const ambient=this.mode==="cutaway"?{spin:0,yaw:0,pitch:0,collar:0,shardOrbit:0,shardY:0}:getLensLoopPose(this.elapsed);
     if(this.transformation){const originalWeight=getLensTransformationPose(this.elapsed).ambientWeight,ratio=originalWeight>.0001?transform.ambientWeight/originalWeight:0;for(const key of ["spin","yaw","pitch","collar","shardOrbit","shardY"] as const)ambient[key]*=ratio;}
@@ -5157,13 +5419,23 @@ export class LenusSceneController{
     this.model.rotation.set(ambient.pitch+this.parallax.x*parallax,ambient.yaw+this.parallax.y*parallax,ambient.spin);
     if(this.mode==="hero"&&!this.dragging){const view=this.automaticCamera();this.placeCamera(view.yaw+this.orbit.yaw,view.polar+this.orbit.polar);}
   }
-  private render(){if(this.renderer&&!this.contextLost)this.renderer.render(this.scene,this.camera);}
-  private onControlChange=()=>{if(!this.running&&!this.placingCamera)this.render();};
-  private onDragStart=()=>{this.dragging=true;this.options.onInteractionChange?.(true);};
-  private onDragEnd=()=>{if(this.mode==="hero")this.captureOrbit();this.dragging=false;this.options.onInteractionChange?.(false);};
+  private render(){
+    if(!this.renderer||this.contextLost||this.presentationSuspended)return;
+    if(this.outline&&this.focusedPart&&this.runtime?.nodes[this.focusedPart]){
+      const node=this.runtime.nodes[this.focusedPart];node.traverse(o=>{if((o as THREE.InstancedMesh).isInstancedMesh)(o as THREE.InstancedMesh).computeBoundingBox();});this.outline.setFromObject(node);
+    }
+    this.renderer.render(this.scene,this.camera);
+    if(this.narrative&&this.appliedStory&&this.runtime){
+      const anchors=CAPABILITIES.map(a=>{const node=a.socket?this.runtime!.sockets[a.socket]:this.runtime!.nodes[a.part];if(!node)return {id:a.id,x:0,y:0,visible:false};this.projectedPoint.set(a.point[0],a.point[1],a.point[2]);node.localToWorld(this.projectedPoint);this.projectedPoint.project(this.camera);return {id:a.id,x:(this.projectedPoint.x+1)*.5*this.viewport.width,y:(1-this.projectedPoint.y)*.5*this.viewport.height,visible:Math.abs(this.projectedPoint.x)<1.05&&Math.abs(this.projectedPoint.y)<1.05};});
+      this.options.onNarrativeFrame?.({position:this.narrative.input.position,progress:this.narrative.input.progress,pose:this.appliedStory,anchors,...this.storyFrameFlags});
+    }
+  }
+  private onControlChange=()=>{if(!this.running&&!this.placingCamera){if(this.narrative)this.applyLoopPose();this.render();}};
+  private onDragStart=()=>{this.beginStoryInteraction("drag");this.dragging=true;this.options.onInteractionChange?.(true);};
+  private onDragEnd=()=>{if(this.mode==="hero")this.captureOrbit();this.dragging=false;if(this.storyActive())this.finishStoryGesture();this.updateAnimationLoop();this.options.onInteractionChange?.(false);};
   private onLost=(event:Event)=>{
     event.preventDefault();if(this.disposed)return;if(this.dragging&&this.mode==="hero")this.captureOrbit();this.dragging=false;
-    this.contextLost=true;this.animating=false;this.renderer?.setAnimationLoop(null);this.lastTime=null;if(this.controls)this.controls.enabled=false;
+    this.contextLost=true;this.controlGesture=false;this.animating=false;this.renderer?.setAnimationLoop(null);this.lastTime=null;if(this.controls)this.controls.enabled=false;
     this.options.onContextChange?.("lost");
   };
   private onRestored=()=>{
@@ -5178,7 +5450,7 @@ export class LenusSceneController{
     if(this.disposed)return;this.stop();this.disposed=true;this.releaseControls();const renderer=this.renderer;
     if(renderer){
       renderer.domElement.removeEventListener("webglcontextlost",this.onLost);renderer.domElement.removeEventListener("webglcontextrestored",this.onRestored);
-      this.runtime?.dispose();this.environment?.dispose();this.scene.clear();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();
+      this.runtime?.dispose();this.environment?.dispose();this.outline?.dispose();this.scene.clear();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();
     }
     this.renderer=null;this.runtime=null;this.model=null;this.environment=null;
   }
@@ -5225,6 +5497,453 @@ export const OPTICAL_PARTS:readonly LenusPartInfo[]=[
 ];
 export function getPartTelemetry(id: string | null): LenusPartInfo {
   return OPTICAL_PARTS.find(p=>p.id===id) ?? OPTICAL_PARTS[0];
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/story/chapterPoseMap.ts">
+<![CDATA[import {clamp01,mix,mixAngle,smooth} from "./storyMath";
+export type HeroFrame={x:number;y:number;scale:number;heightRatio?:number};
+export type StoryInput={position:number;progress:number;compact:boolean;hero:HeroFrame;workProgress?:number};
+export type EngineStoryPose={
+  deployment:number;separation:number;focus:number;scale:number;x:number;y:number;
+  yaw:number;polar:number;distance:number;rotation:[number,number,number];
+  violet:number;lime:number;key:number;exposure:number;sweep:number;collarIdle:number;shardOrbit:number;shardY:number;
+};
+const targets=[
+  [.18,.05,1,.72,.46,-.46,.14,12,1,1,1,1,0,0,0],
+  [1,.34,1.12,.66,.54,.95,.22,10.8,1.7,1.05,.95,1,-.06,.12,-.04],
+  [.88,.22,.78,.80,.56,.65,.10,13.2,.85,.85,.9,.96,.06,.18,-.06],
+  [1,.78,1.10,.66,.54,1.05,.2,12,1.25,1.15,1.1,1.02,.03,-.08,.04],
+  [1,.55,1.08,.64,.49,Math.PI*5/18,.14,12,1,1,1.05,1,0,0,0],
+  [.3,.12,.66,.78,.31,-.6,.08,14,.6,.5,.75,.94,.09,-.22,.02],
+  [0,0,1.02,.72,.48,-.46,.14,12,1,1.2,1,1.02,0,0,0],
+];
+function target(index:number,input:StoryInput):EngineStoryPose{
+  const a=targets[index],compactScales=[1,.98,.78,.88,.88,.74,.96],compactX=[.5,.5,.56,.5,.5,.56,.5];
+  return {deployment:a[0],separation:a[1],focus:0,scale:input.hero.scale*(input.compact?compactScales[index]:a[2]),x:input.compact?compactX[index]:index===0?input.hero.x:a[3],y:input.compact?.28:index===0?input.hero.y:a[4],yaw:a[5],polar:Math.PI/2-a[6],distance:a[7],violet:a[8],lime:a[9],key:a[10],exposure:a[11],sweep:index===5?-.2:index===3?.25:0,rotation:[a[12],a[13],a[14]],collarIdle:0,shardOrbit:0,shardY:0};
+}
+export function blendStoryPose(a:EngineStoryPose,b:EngineStoryPose,t:number):EngineStoryPose{
+  const p=clamp01(t),out={...a};
+  for(const key of ["deployment","separation","focus","scale","x","y","polar","distance","violet","lime","key","exposure","sweep","collarIdle","shardOrbit","shardY"] as const)out[key]=mix(a[key],b[key],p);
+  out.yaw=mixAngle(a.yaw,b.yaw,p);out.rotation=a.rotation.map((v,i)=>mixAngle(v,b.rotation[i],p)) as [number,number,number];return out;
+}
+export function sampleStoryPose(input:StoryInput):EngineStoryPose{
+  const position=Math.max(0,Math.min(6,Number.isFinite(input.position)?input.position:0)),i=Math.min(5,Math.floor(position));
+  const pose=blendStoryPose(target(i,input),target(i+1,input),smooth(position-i));
+  // A bounded spatial glint, not a timer: reverse scrolling reverses it exactly.
+  if(position>5)pose.lime+=.45*Math.sin(Math.PI*smooth(position-5))**2;
+  pose.yaw+=((input.workProgress??0)-.5)*.18*(1-smooth(Math.abs(position-2)/.75));
+  return pose;
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/story/experienceTypes.ts">
+<![CDATA[import type {StoryInput} from "./chapterPoseMap";
+export type EngineExperienceApi={
+  setNarrativeFrame:(input:StoryInput)=>void;
+  focusPart:(id:string|null)=>void;
+  inspectPart:(id:string)=>void;
+  releaseInteraction:()=>void;
+  activate:()=>void;
+  openControls:()=>void;
+  setWorkProgress:(progress:number|null)=>void;
+};
+export type StoryNavigation={
+  chapter:(id:import("./storyMath").ChapterId,history?:boolean)=>void;
+  footer:()=>void;
+  suspend:(value:boolean)=>void;
+};
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/story/ExpertiseAnnotations.tsx">
+<![CDATA["use client";
+import {useImperativeHandle,useRef,useState,type Ref} from "react";
+import {CAPABILITIES,type NarrativeRenderFrame} from "./projectedAnchors";
+import {chapterWeight,smooth} from "./storyMath";
+export type AnnotationsApi={update:(frame:NarrativeRenderFrame)=>void};
+export default function ExpertiseAnnotations({ref,active,onFocus,onInspect}:{ref:Ref<AnnotationsApi>;active:number;onFocus:(id:string|null)=>void;onInspect:(id:string)=>void}){
+  const [expanded,setExpanded]=useState<string|null>(null),labels=useRef<(HTMLDivElement|null)[]>([]),lines=useRef<(SVGLineElement|null)[]>([]),dots=useRef<(HTMLButtonElement|null)[]>([]),layer=useRef<HTMLDivElement>(null);
+  useImperativeHandle(ref,()=>({update(frame){
+    const expertise=chapterWeight(frame.position,3,.7),technology=chapterWeight(frame.position,4,.65);
+    layer.current?.style.setProperty("--annotation-weight",String(expertise));layer.current?.style.setProperty("--hotspot-weight",String(technology));
+    for(const [i,a]of CAPABILITIES.entries()){
+      const p=frame.anchors.find(v=>v.id===a.id);if(!p)continue;
+      const dock=smooth((frame.position-(2.4+i*.12))/.24)*(1-smooth((frame.position-(3.35+i*.08))/.3));
+      const x=Math.max(20,Math.min(innerWidth-252,p.x+a.offset[0]))+(1-dock)*(a.offset[0]<0?-40:40),y=Math.max(144,Math.min(innerHeight-100,p.y+a.offset[1]))+(1-dock)*16;
+      labels.current[i]?.style.setProperty("--label-x",`${x}px`);labels.current[i]?.style.setProperty("--label-y",`${y}px`);
+      if(labels.current[i]){labels.current[i]!.style.opacity=String(dock);labels.current[i]!.dataset.flip=y>innerHeight*.5?"up":"down";labels.current[i]!.style.visibility=p.visible?"visible":"hidden";}
+      const line=lines.current[i];if(line){line.setAttribute("x1",String(p.x));line.setAttribute("y1",String(p.y));line.setAttribute("x2",String(x+(a.offset[0]<0?232:0)));line.setAttribute("y2",String(y+18));line.style.opacity=String(dock);}
+      dots.current[i]?.style.setProperty("--dot-x",`${p.x}px`);dots.current[i]?.style.setProperty("--dot-y",`${p.y}px`);
+    }
+  }}));
+  return <div ref={layer} className="ln-annotation-layer" data-chapter-active={active}>
+    <svg className="ln-annotation-lines" aria-hidden="true">{CAPABILITIES.map((a,i)=><line ref={el=>{lines.current[i]=el;}} key={a.id}/>)}</svg>
+    <aside className="ln-projected-callouts" aria-label="Expertise linked to optical components" inert={active!==3}>
+      {CAPABILITIES.map((a,i)=><div className="ln-projected-label" key={a.id} ref={el=>{labels.current[i]=el;}}><button type="button" aria-expanded={expanded===a.id} aria-controls={`ln-capability-${a.id}`} onMouseEnter={()=>onFocus(a.part)} onMouseLeave={()=>{if(expanded!==a.id)onFocus(null);}} onFocus={()=>onFocus(a.part)} onBlur={()=>{if(expanded!==a.id)onFocus(null);}} onClick={()=>{setExpanded(expanded===a.id?null:a.id);onFocus(expanded===a.id?null:a.part);}} onKeyDown={event=>{if(event.key==="Escape"){setExpanded(null);onFocus(null);}}}><span>0{i+1}</span>{a.name}<i aria-hidden="true">{expanded===a.id?"−":"+"}</i></button><p id={`ln-capability-${a.id}`} hidden={expanded!==a.id}>{a.description}</p></div>)}
+    </aside>
+    <div className="ln-engine-hotspots" inert={active!==4}>{CAPABILITIES.map((a,i)=><button key={a.id} ref={el=>{dots.current[i]=el;}} type="button" aria-label={`Inspect ${a.name.toLowerCase()} component`} onFocus={()=>onFocus(a.part)} onBlur={()=>onFocus(null)} onMouseEnter={()=>onFocus(a.part)} onMouseLeave={()=>onFocus(null)} onClick={()=>onInspect(a.part)}>0{i+1}</button>)}</div>
+  </div>;
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/story/projectedAnchors.ts">
+<![CDATA[export const CAPABILITIES=[
+  {id:"direction",name:"Creative Direction",part:"outer-glass",point:[2.26,0,.23],socket:null,offset:[-480,-30],description:"A clear creative idea brings identity, space and interaction into focus."},
+  {id:"immersive",name:"Immersive Experiences",part:"housing-panel-0",point:[0,0,0],socket:"housing-panel-0-link-panel-0",offset:[132,-92],description:"Connected environments invite people to step beyond the screen."},
+  {id:"realtime",name:"Real-Time 3D",part:"front-lens",point:[0,0,.2],socket:null,offset:[-400,330],description:"Physical materials and responsive rendering give digital objects depth and presence."},
+  {id:"systems",name:"Interactive Systems",part:"guide-rails",point:[0,0,0],socket:"front-carriage-rail-1",offset:[400,420],description:"Interfaces, motion and engineering work together as one responsive system."},
+] as const;
+export type ProjectedAnchor={id:string;x:number;y:number;visible:boolean};
+export type NarrativeRenderFrame={position:number;progress:number;pose:import("./chapterPoseMap").EngineStoryPose;anchors:ProjectedAnchor[];manual:boolean;inspection:boolean};
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/story/story.css">
+<![CDATA[/* Shared narrative layers. The canvas never enters the translated DOM track. */
+.ln-narrative .ln-header{position:fixed;left:0;right:0;top:0;z-index:40}
+.ln-narrative .ln-header a{text-decoration:none}
+.ln-desktop-nav a{position:relative;padding:8px 0;color:var(--color-ln-muted);font-size:14px;line-height:20px;transition:color var(--duration-ln-ui) var(--ease-ln-out)}
+.ln-desktop-nav a::after{content:"";position:absolute;inset:auto 0 0;height:1px;background:var(--color-ln-lime);transform:scaleX(0);transform-origin:left;transition:transform var(--duration-ln-ui) var(--ease-ln-out)}
+.ln-desktop-nav a:hover,.ln-desktop-nav a[aria-current]{color:var(--color-ln-white)}
+.ln-desktop-nav a:hover::after,.ln-desktop-nav a[aria-current]::after{transform:scaleX(1)}
+.ln-mobile-menu a{color:var(--color-ln-white);text-decoration:none;text-align:left;padding:16px 0;font-family:var(--font-ln-heading);font-size:30px;line-height:36px}
+.ln-mobile-menu a span{display:inline-block;width:40px;color:var(--color-ln-muted);font-family:var(--font-ln-data);font-size:12px}
+.ln-narrative>.ln-space{position:fixed;background:radial-gradient(ellipse at var(--ln-glow-x,79%) var(--ln-glow-y,73%),color-mix(in srgb,var(--color-ln-violet) var(--ln-violet-strength,14%),transparent),transparent 40%),radial-gradient(ellipse at 54% 4%,var(--color-ln-cosmos),transparent 55%)}
+.ln-narrative>.ln-space::before{transform:rotate(var(--ln-orbit-turn,0deg))}
+.ln-story-shell,.ln-story-pin{position:relative;min-width:0;overflow-anchor:none}.ln-story-pin{width:100vw}
+.ln-story-pin{--ln-engine-x:70%;--ln-engine-y:46%;--ln-engine-scale:.68;--ln-hud-weight:1}
+.ln-scene-layer,.ln-annotation-layer,.ln-controls-mount,.ln-navigation-layer{position:sticky;top:0;height:100svh;margin-bottom:-100svh;pointer-events:none}
+.ln-scene-layer{z-index:2}.ln-annotation-layer{z-index:5}.ln-navigation-layer{z-index:7}.ln-controls-mount{z-index:8}
+.ln-horizontal-track{position:relative;z-index:3;pointer-events:none}
+.ln-horizontal-viewport{pointer-events:none}
+.ln-chapter{position:relative;min-height:100svh;width:100%;padding:110px clamp(24px,4.5vw,88px) 96px;scroll-margin-top:0;pointer-events:none}
+.ln-story-content{position:relative;pointer-events:auto}
+.ln-narrative .ln-hero-copy{pointer-events:auto}
+.ln-chapter.ln-hero{padding-top:110px;padding-bottom:24px;margin:0}
+.ln-engine-reference{height:clamp(520px,68vh,760px)}
+.ln-story-engine{position:absolute;inset:0;display:block;pointer-events:none}
+.ln-story-engine .ln-lens-plot{position:absolute;inset:0;height:100%;min-height:0;width:100%;margin:0;aspect-ratio:auto}
+.ln-story-engine .ln-canvas-host{pointer-events:auto}
+.ln-story-engine .ln-lens-fallback{position:absolute;left:var(--ln-engine-x);top:var(--ln-engine-y);right:auto;bottom:auto;width:100vw;height:100svh;transform:translate(-50%,-50%) scale(var(--ln-engine-scale));transform-origin:center}
+.ln-story-engine .ln-aperture{left:var(--ln-engine-x);top:var(--ln-engine-y);width:var(--ln-aperture-width,72vw);transform:translate(-50%,-50%) rotate(calc(-12deg + var(--ln-aperture-turn,0deg)))}
+.ln-story-engine .ln-stage-marker-top{top:118px;right:clamp(24px,4.5vw,88px)}
+.ln-story-engine .ln-stage-marker-bottom{left:45vw;bottom:194px;opacity:calc(var(--ln-hud-weight)*.6)}
+.ln-story-engine .ln-stage-help{position:absolute;right:clamp(24px,4.5vw,88px);bottom:164px;margin:0;opacity:var(--ln-hud-weight)}
+.ln-controls-drawer,.ln-controls-drawer>div{display:contents}
+.ln-narrative .ln-controls-drawer{display:block;position:absolute;right:clamp(24px,4.5vw,88px);bottom:46px;width:min(720px,calc(100vw - 48px));pointer-events:auto;opacity:var(--ln-hud-weight);transform:translateY(calc((1 - var(--ln-hud-weight))*24px));transition:opacity 240ms var(--ease-ln-out),transform 240ms var(--ease-ln-out)}
+.ln-narrative .ln-controls-drawer .ln-hud{width:100%;background:color-mix(in srgb,var(--color-ln-glass) 82%,transparent)}
+.ln-drawer-toggle{display:none}
+.ln-story-eyebrow{display:block;font-family:var(--font-ln-data);font-size:12px;line-height:18px;letter-spacing:.08em;color:var(--color-ln-muted);margin-bottom:24px}
+.ln-story-content h2,.ln-native-footer h2{font-family:var(--font-ln-heading);font-variation-settings:"wdth" 75;font-weight:800;font-size:clamp(48px,7.5vw,128px);line-height:.94;letter-spacing:-.055em;margin:0;text-wrap:balance}
+.ln-phrase-lime{color:var(--color-ln-lime)}.ln-phrase-violet{color:var(--color-ln-violet)}
+.ln-story-content>p{max-width:360px;font-size:18px;line-height:28px;color:var(--color-ln-muted);text-wrap:pretty;margin:32px 0}
+.ln-story-coordinate{font-family:var(--font-ln-data);font-size:12px;letter-spacing:.12em;color:var(--color-ln-lime)}
+.ln-manifesto h2 span{display:block;transform-origin:left center}
+.ln-manifesto h2 span:nth-child(2){margin-left:12vw;color:var(--color-ln-violet)}
+.ln-manifesto h2 span:last-child{margin-top:32px;font-size:.66em}
+.ln-manifesto-copy>p{margin-top:40px}
+.ln-work-content{max-width:1100px}
+.ln-work-content h2{font-size:clamp(48px,5vw,72px)}
+.ln-work-gallery{margin-top:24px;min-width:0;perspective:1400px;overflow:clip}
+.ln-work-stages{position:relative;touch-action:pan-y;cursor:grab;perspective:1400px}
+.ln-work-stages:active{cursor:grabbing}
+.ln-study{margin-bottom:40px;border:1px solid color-mix(in srgb,var(--color-ln-muted) 25%,transparent);background:var(--color-ln-midnight);border-radius:8px;overflow:hidden;transform-style:preserve-3d}
+.ln-study-art{position:relative;height:300px;overflow:hidden;background:var(--color-ln-cosmos)}
+.ln-study-copy{position:relative;padding:16px 20px}
+.ln-study-copy .ln-story-eyebrow{font-size:12px;margin:0 0 8px}
+.ln-study-copy h3{margin:0;font-size:24px;line-height:32px;font-weight:500;letter-spacing:-.04em}
+.ln-study-copy p{margin:4px 0 0;font-size:14px;line-height:20px;color:var(--color-ln-muted)}
+.ln-study-copy .ln-text-button{margin-top:8px;font-size:12px}
+.ln-study-art--spatial{perspective:600px;color:var(--color-ln-white)}
+.ln-spatial-floor{position:absolute;inset:30% -30% -70%;background-image:linear-gradient(color-mix(in srgb,var(--color-ln-muted) 22%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--color-ln-muted) 22%,transparent) 1px,transparent 1px);background-size:40px 40px;transform:rotateX(62deg) rotateZ(-25deg)}
+.ln-spatial-frame{position:absolute;left:22%;top:12%;width:45%;height:72%;border:1px solid color-mix(in srgb,var(--color-ln-white) 65%,transparent);transform:translate3d(calc(var(--frame)*20px),calc(var(--frame)*-9px),calc(var(--frame)*-35px)) rotateY(-25deg);box-shadow:inset 0 0 0 8px color-mix(in srgb,var(--color-ln-violet) 8%,transparent)}
+.ln-spatial-frame:nth-of-type(3){border-color:var(--color-ln-lime)}
+.ln-study-art--spatial>span{position:absolute;left:8%;top:35%;font-family:var(--font-ln-heading);font-size:clamp(24px,3vw,48px);line-height:.95;letter-spacing:-.05em;transform:translateX(calc(var(--study-progress,0)*16px))}
+.ln-study-art--identity{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;background:var(--color-ln-violet);color:var(--color-ln-midnight);padding:24px 32px}
+.ln-study-art--identity strong{font-family:var(--font-ln-heading);font-size:clamp(72px,8vw,128px);font-weight:800;line-height:.7;letter-spacing:-.08em;transform:translateX(calc(var(--study-progress,0)*-20px))}
+.ln-study-art--identity strong+strong{align-self:flex-end;color:var(--color-ln-white);transform:translateX(calc(var(--study-progress,0)*20px))}
+.ln-study-art--identity i{position:absolute;width:30%;height:130%;background:var(--color-ln-lime);left:40%;top:-15%;transform:rotate(23deg);mix-blend-mode:multiply;pointer-events:none}
+.ln-study-art--identity small{position:absolute;bottom:16px;left:20px;font-family:var(--font-ln-data);font-size:12px}
+.ln-study-art--worlds{color:var(--color-ln-lime)}
+.ln-study-art--worlds svg{position:absolute;inset:0;width:100%;height:100%;transform:translateY(calc(var(--study-progress,0)*-16px))}
+.ln-study-art--worlds>span{position:absolute;left:8%;top:12%;font-family:var(--font-ln-heading);font-weight:800;font-size:clamp(30px,3.2vw,48px);line-height:.95;color:var(--color-ln-white);letter-spacing:-.05em}
+.ln-world-beacon{position:absolute;left:70%;top:55%;width:8px;height:8px;border-radius:50%;background:var(--color-ln-violet);box-shadow:0 0 0 16px color-mix(in srgb,var(--color-ln-violet) 12%,transparent),0 0 0 32px color-mix(in srgb,var(--color-ln-violet) 6%,transparent)}
+.ln-gallery-controls{display:flex;align-items:center;gap:16px;font-family:var(--font-ln-data);font-size:12px;color:var(--color-ln-muted)}
+.ln-gallery-line{width:100px;height:1px;background:var(--color-ln-glass);position:relative}.ln-gallery-line i{position:absolute;left:0;top:0;width:33.333%;height:1px;background:var(--color-ln-lime);transform:translateX(calc(var(--study-progress,0)*200%))}
+.ln-work-note{font-size:12px;line-height:18px;color:var(--color-ln-muted);margin:8px 0 0}
+.ln-work-gallery[data-interactive="true"] .ln-work-stages{height:clamp(300px,44svh,420px)}
+.ln-work-gallery[data-interactive="true"] .ln-study{position:absolute;inset:0 auto auto 0;width:74%;height:100%;margin:0;transform:translateX(calc(var(--study-offset,0)*74%)) translateZ(calc(var(--study-distance,0)*-130px)) rotateY(calc(var(--study-offset,0)*-12deg)) scale(calc(1 - min(var(--study-distance,0),2)*.16));opacity:calc(1 - min(var(--study-distance,0),2)*.36);z-index:calc(20 - var(--study-distance,0)*5)}
+.ln-work-gallery[data-interactive="true"] .ln-study-art{height:calc(100% - 154px)}
+.ln-work-gallery[data-interactive="false"] .ln-gallery-controls{display:none}
+.ln-expertise-copy>p{margin-top:24px}.ln-capability-list{display:grid;gap:16px;max-width:600px;margin-top:32px}
+.ln-capability-list details{border:1px solid color-mix(in srgb,var(--color-ln-muted) 20%,transparent);padding:16px;border-radius:8px;background:var(--color-ln-cosmos)}
+.ln-capability-list summary{cursor:pointer;font-size:18px;line-height:28px}.ln-capability-list summary span{font-family:var(--font-ln-data);font-size:12px;color:var(--color-ln-lime);margin-right:16px}.ln-capability-list p{font-size:16px;line-height:24px;color:var(--color-ln-muted)}
+.ln-annotation-lines{position:absolute;inset:0;width:100%;height:100%;opacity:var(--annotation-weight,0);overflow:visible}
+.ln-annotation-lines line{stroke:var(--color-ln-muted);stroke-width:.7;stroke-dasharray:3 5}
+.ln-projected-callouts{opacity:var(--annotation-weight,0)}
+.ln-projected-label{position:absolute;left:0;top:0;width:232px;transform:translate3d(var(--label-x,-9999px),var(--label-y,-9999px),0);pointer-events:auto}
+.ln-projected-label button{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:12px;background:color-mix(in srgb,var(--color-ln-midnight) 88%,transparent);border:1px solid color-mix(in srgb,var(--color-ln-muted) 28%,transparent);border-radius:4px;color:var(--color-ln-white);font-size:14px;line-height:20px}
+.ln-projected-label button span{font-family:var(--font-ln-data);color:var(--color-ln-lime);font-size:12px}.ln-projected-label button i{margin-left:auto;font-style:normal;color:var(--color-ln-lime)}
+.ln-projected-label p{position:absolute;top:100%;margin:8px 0;padding:12px;background:var(--color-ln-midnight);font-size:14px;line-height:20px;color:var(--color-ln-muted)}.ln-projected-label[data-flip="up"] p{top:auto;bottom:100%}
+.ln-engine-hotspots{opacity:var(--hotspot-weight,0)}
+.ln-engine-hotspots button{position:absolute;left:0;top:0;transform:translate3d(calc(var(--dot-x,-9999px) - 16px),calc(var(--dot-y,-9999px) - 16px),0);width:32px;height:32px;border:1px solid var(--color-ln-lime);border-radius:50%;background:var(--color-ln-midnight);color:var(--color-ln-lime);font-family:var(--font-ln-data);font-size:12px;pointer-events:auto}
+.ln-technology-copy .ln-text-button{margin:0}.ln-technology-copy .ln-lab-note{font-family:var(--font-ln-data);font-size:12px;line-height:20px;margin-top:40px}
+.ln-studio-copy h2>span{display:block}.ln-studio-copy h2>span+span{margin:48px 0 0 20vw}
+.ln-studio-copy>p{margin-top:32px}
+.ln-contact-copy .ln-button{padding:16px 24px;margin-top:8px}
+.ln-contact-thread{position:absolute;left:68%;right:8%;bottom:0;height:100px;display:flex;flex-direction:column;align-items:center;gap:16px;color:var(--color-ln-muted);font-family:var(--font-ln-data);font-size:12px;pointer-events:none}
+.ln-contact-thread i{width:1px;flex:1;background:color-mix(in srgb,var(--color-ln-lime) 45%,transparent)}
+.ln-chapter-navigation{position:absolute;left:clamp(24px,4.5vw,88px);bottom:18px;pointer-events:auto;min-width:160px}
+.ln-chapter-navigation p{font-family:var(--font-ln-data);font-size:12px;line-height:18px;color:var(--color-ln-white);margin:0 0 4px}.ln-chapter-navigation p>span{color:var(--color-ln-muted);margin-right:12px}
+.ln-chapter-dots{display:flex;gap:4px}.ln-chapter-dots a{display:flex;align-items:center;justify-content:center;width:24px;height:24px}.ln-chapter-dots span{display:block;width:4px;height:4px;border-radius:50%;background:var(--color-ln-muted);transition:width 200ms var(--ease-ln-out),background 200ms var(--ease-ln-out)}
+.ln-chapter-dots a[aria-current] span{width:16px;border-radius:2px;background:var(--color-ln-lime)}
+.ln-global-progress{display:block;width:192px;height:1px;background:color-mix(in srgb,var(--color-ln-muted) 20%,transparent)}.ln-global-progress i{display:block;height:1px;background:var(--color-ln-lime);transform-origin:left;transform:scaleX(var(--ln-story-progress,0))}
+.ln-skip-experience{display:flex;align-items:center;gap:8px;width:max-content;margin-top:8px;color:var(--color-ln-muted);font-family:var(--font-ln-data);font-size:10px;line-height:16px;text-decoration:none}.ln-skip-experience:hover{color:var(--color-ln-lime)}
+.ln-native-footer{position:relative;z-index:4;display:flex;flex-direction:column;padding:96px clamp(24px,6vw,96px) 32px;background:transparent;border-top:1px solid color-mix(in srgb,var(--color-ln-muted) 24%,transparent);min-height:100svh}
+.ln-native-footer h2{font-size:clamp(48px,6vw,96px)}
+.ln-footer-lead .ln-button{margin-top:32px;padding:16px 24px}.ln-footer-lead>p{font-size:12px;line-height:20px;color:var(--color-ln-muted)}
+.ln-footer-navigation{display:flex;align-items:flex-start;justify-content:space-between;gap:40px;margin-top:80px;padding-top:32px;border-top:1px solid color-mix(in srgb,var(--color-ln-muted) 16%,transparent)}
+.ln-footer-brand{font-family:var(--font-ln-heading);font-size:36px;line-height:40px;letter-spacing:.12em;color:var(--color-ln-white);text-decoration:none}
+.ln-footer-navigation nav{display:flex;gap:24px;flex-wrap:wrap}.ln-footer-navigation nav a,.ln-footer-navigation>a:last-child{font-size:12px;line-height:20px;color:var(--color-ln-muted);text-decoration:none}.ln-footer-navigation a:hover{color:var(--color-ln-lime)}
+.ln-footer-meta{display:flex;justify-content:space-between;gap:24px;margin-top:auto;padding-top:48px;font-family:var(--font-ln-data);font-size:12px;line-height:18px;color:var(--color-ln-muted)}.ln-footer-meta a{display:flex;gap:8px;align-items:center;color:inherit;text-decoration:none}
+/* Actual measured widths are consumed by the single GSAP ScrollTrigger. */
+[data-story-mode="horizontal"] .ln-story-pin{height:100svh;overflow:clip}
+[data-story-mode="horizontal"] .ln-scene-layer,[data-story-mode="horizontal"] .ln-annotation-layer,[data-story-mode="horizontal"] .ln-controls-mount,[data-story-mode="horizontal"] .ln-navigation-layer{position:absolute;inset:0;margin:0;height:100%}
+[data-story-mode="horizontal"] .ln-horizontal-viewport{position:absolute;inset:0;overflow:clip}
+[data-story-mode="horizontal"] .ln-horizontal-track{display:flex;width:max-content;height:100%;will-change:transform}
+[data-story-mode="horizontal"] .ln-chapter{flex:0 0 100vw;height:100%;min-height:0;overflow:clip}
+[data-story-mode="horizontal"] .ln-work{flex-basis:140vw}
+[data-story-mode="horizontal"] .ln-story-content{position:absolute;left:clamp(24px,4.5vw,88px);top:126px}
+[data-story-mode="horizontal"] .ln-hero-copy{position:relative;left:auto;top:auto}
+[data-story-mode="horizontal"] .ln-manifesto-copy{width:90vw}
+[data-story-mode="horizontal"] .ln-manifesto h2{font-size:clamp(72px,8vw,128px)}
+[data-story-mode="horizontal"] .ln-work-content{width:58vw}
+[data-story-mode="horizontal"] .ln-expertise-copy,[data-story-mode="horizontal"] .ln-technology-copy{width:40vw}
+[data-story-mode="horizontal"] .ln-expertise-copy h2,[data-story-mode="horizontal"] .ln-technology-copy h2{font-size:clamp(60px,6vw,96px)}
+[data-story-mode="horizontal"] .ln-capability-list{display:none}
+[data-story-mode="horizontal"] .ln-studio-copy{width:90vw}
+[data-story-mode="horizontal"] .ln-studio-copy h2{font-size:clamp(64px,7vw,112px)}
+[data-story-mode="horizontal"] .ln-studio-copy h2>span+span{margin-top:32px;margin-left:36vw}
+[data-story-mode="horizontal"] .ln-studio-copy>p{position:absolute;left:0;top:40svh}
+[data-story-mode="horizontal"] .ln-contact-copy{width:53vw}
+[data-story-mode="vertical"] .ln-projected-callouts,[data-story-mode="vertical"] .ln-annotation-lines{display:none}
+.ln-narrative[data-reduced="true"] .ln-scene-layer{opacity:.3}
+.ln-narrative[data-reduced="true"]>.ln-space::before{transform:none}
+.ln-narrative[data-reduced="true"] .ln-engine-hotspots{display:none}
+.ln-narrative[data-reduced="true"] .ln-story-content{max-width:900px}
+@media(max-height:820px) and (min-width:1024px){
+  .ln-narrative .ln-hero-copy{padding-top:32px;padding-bottom:24px}.ln-narrative .ln-hero-copy h1{font-size:clamp(72px,7.8vw,112px)}.ln-narrative .ln-copy-footnote{display:none}
+  [data-story-mode="horizontal"] .ln-story-content{top:110px}[data-story-mode="horizontal"] .ln-hero-copy{top:auto}
+  [data-story-mode="horizontal"] .ln-manifesto h2{font-size:clamp(64px,7vw,96px)}.ln-manifesto h2 span:last-child{margin-top:20px}.ln-manifesto-copy>p{margin-top:24px}
+  .ln-work-content h2{font-size:48px}.ln-work-gallery[data-interactive="true"] .ln-work-stages{height:300px}
+  [data-story-mode="horizontal"] .ln-expertise-copy h2,[data-story-mode="horizontal"] .ln-technology-copy h2{font-size:72px}
+  [data-story-mode="horizontal"] .ln-studio-copy h2{font-size:clamp(64px,6.5vw,96px)}
+  .ln-narrative .ln-controls-drawer{bottom:24px}.ln-story-engine .ln-stage-help{bottom:142px}.ln-story-engine .ln-stage-marker-bottom{bottom:170px}
+}
+@media(max-width:1023px){
+  .ln-story-pin{--ln-engine-x:50%;--ln-engine-y:28%;--ln-engine-scale:.8}
+  .ln-narrative .ln-header{display:flex;justify-content:space-between;gap:12px;margin:12px 16px;padding:16px 20px;border-radius:20px}
+  .ln-narrative .ln-desktop-nav,.ln-narrative .ln-contact-cta{display:none}.ln-narrative .ln-menu-toggle{display:flex}
+  .ln-chapter,.ln-chapter.ln-hero{display:block;max-width:none;min-height:100svh;padding:46svh 24px 96px}
+  .ln-engine-reference{display:none}.ln-narrative .ln-hero-copy{padding:24px 0 0}.ln-narrative .ln-hero-copy h1{font-size:clamp(52px,12vw,100px)}
+  .ln-narrative .ln-copy-footnote{display:none}.ln-narrative .ln-subtitle{font-size:16px;line-height:26px;max-width:480px}.ln-narrative .ln-desktop-break{display:none}
+  .ln-story-content{position:relative;max-width:none;width:100%}.ln-story-content h2{font-size:clamp(48px,8vw,96px)}.ln-story-eyebrow{margin-bottom:16px}
+  .ln-story-content>p{font-size:16px;line-height:26px;max-width:480px;margin:24px 0}
+  .ln-story-engine .ln-stage-marker-top{top:98px;right:16px;font-size:10px}.ln-story-engine .ln-stage-marker-bottom{left:16px;top:42svh;bottom:auto;font-size:10px}
+  .ln-story-engine .ln-stage-help{display:none}.ln-story-engine .ln-aperture{width:120vw}
+  .ln-narrative .ln-controls-drawer{right:16px;bottom:16px;width:calc(100vw - 32px);max-width:720px}
+  .ln-drawer-toggle{display:flex;gap:20px;align-items:center;justify-content:space-between;margin-left:auto;padding:12px 16px;border:1px solid color-mix(in srgb,var(--color-ln-muted) 30%,transparent);border-radius:8px;background:var(--color-ln-glass);color:var(--color-ln-lime);font-family:var(--font-ln-data);font-size:12px;line-height:20px;pointer-events:auto}
+  .ln-controls-drawer[data-open="false"] .ln-hud{display:none}.ln-controls-drawer[data-open="true"]{opacity:1;transform:none}
+  .ln-controls-drawer .ln-hud{position:absolute;right:0;bottom:56px;max-height:calc(55svh - 56px);overflow:auto;background:var(--color-ln-glass)}
+  .ln-chapter-navigation{left:16px;bottom:16px;min-width:0;max-width:calc(100vw - 208px)}.ln-chapter-navigation p{font-size:10px}.ln-chapter-navigation p>span{margin-right:4px}.ln-chapter-dots{gap:0}.ln-chapter-dots a{width:18px;height:24px}.ln-global-progress{width:126px}.ln-skip-experience{font-size:9px;margin-top:4px}
+  .ln-manifesto h2 span:nth-child(2){margin-left:0}.ln-manifesto h2 span:last-child{font-size:.8em;margin-top:24px}.ln-story-coordinate{font-size:10px}
+  .ln-work-content h2{font-size:clamp(36px,7.6vw,64px)}.ln-work-gallery{margin-top:24px}.ln-work-gallery[data-interactive="true"] .ln-work-stages{height:380px}.ln-work-gallery[data-interactive="true"] .ln-study{width:86%;transform:translateX(calc(var(--study-offset,0)*65%)) translateZ(calc(var(--study-distance,0)*-120px)) rotateY(calc(var(--study-offset,0)*-8deg)) scale(calc(1 - min(var(--study-distance,0),2)*.13))}
+  .ln-study-art--spatial>span{font-size:30px}.ln-study-art--identity strong{font-size:96px}.ln-study-art--worlds>span{font-size:30px}.ln-study-copy{padding:12px 16px}.ln-study-copy h3{font-size:20px;line-height:28px}.ln-study-copy .ln-text-button{font-size:10px}
+  .ln-studio-copy h2>span+span{margin:24px 0 0}.ln-contact-thread{display:none}
+  .ln-projected-callouts,.ln-annotation-lines{display:none}.ln-engine-hotspots button{width:28px;height:28px;font-size:10px}
+  .ln-native-footer{padding:80px 24px 32px}.ln-native-footer h2{font-size:clamp(48px,8vw,72px)}.ln-footer-navigation{flex-direction:column;gap:24px;margin-top:48px}.ln-footer-navigation nav{gap:16px}.ln-footer-meta{flex-direction:column;font-size:10px;gap:16px}
+}
+@media(prefers-reduced-motion:reduce){
+  .ln-horizontal-track{will-change:auto}.ln-story-content h2 span,.ln-headline-line{transform:none!important}
+}
+@media(min-width:768px) and (max-width:1023px){
+  .ln-chapter-navigation{top:106px;bottom:auto;left:24px}
+}
+@keyframes ln-story-word-reveal{from{transform:translateY(110%) rotateX(12deg) skewY(2deg)}to{transform:translateY(0) rotateX(0) skewY(0)}}
+@media(prefers-reduced-motion:no-preference){.ln-narrative .ln-headline-line>span{animation-name:ln-story-word-reveal}}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/story/storyMath.ts">
+<![CDATA[export const CHAPTERS=[
+  {id:"hero",label:"Reality"},{id:"manifesto",label:"Manifesto"},{id:"work",label:"Selected Work"},
+  {id:"expertise",label:"Expertise"},{id:"technology",label:"Technology"},{id:"studio",label:"Studio"},{id:"contact",label:"Contact"},
+] as const;
+export type ChapterId=(typeof CHAPTERS)[number]["id"];
+export const clamp01=(v:number)=>Number.isFinite(v)?Math.max(0,Math.min(1,v)):0;
+export const smooth=(v:number)=>{const t=clamp01(v);return t*t*t*(t*(t*6-15)+10);};
+export const mix=(a:number,b:number,t:number)=>a+(b-a)*t;
+export function mixAngle(a:number,b:number,t:number){return a+Math.atan2(Math.sin(b-a),Math.cos(b-a))*t;}
+export function chapterPosition(distance:number,offsets:readonly number[]){
+  if(!offsets.length||distance<=offsets[0])return 0;
+  for(let i=0;i<offsets.length-1;i++)if(distance<offsets[i+1])return i+clamp01((distance-offsets[i])/Math.max(1,offsets[i+1]-offsets[i]));
+  return offsets.length-1;
+}
+export function dominantChapter(distance:number,viewport:number,offsets:readonly number[],sizes:readonly number[]){
+  let result=0,largest=-1;
+  for(let i=0;i<offsets.length;i++){const overlap=Math.max(0,Math.min(distance+viewport,offsets[i]+sizes[i])-Math.max(distance,offsets[i]));if(overlap>largest){largest=overlap;result=i;}}
+  return result;
+}
+export function interactionWeight(position:number,origin:number,entry:number,release:number,dragging=false){
+  if(dragging)return 1;
+  const spatial=1-smooth((Math.abs(position-origin)-.12)/.7);
+  return smooth(entry)*(1-smooth(release))*spatial;
+}
+export function chapterWeight(position:number,index:number,width=.8){return 1-smooth(Math.abs(position-index)/width);}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/story/useHorizontalStory.ts">
+<![CDATA["use client";
+import {useEffect,type RefObject} from "react";
+import type {gsap} from "gsap";
+import type {EngineExperienceApi,StoryNavigation} from "./experienceTypes";
+import {CHAPTERS,chapterPosition,dominantChapter,type ChapterId} from "./storyMath";
+import type {StoryInput} from "./chapterPoseMap";
+
+export type StorySample=StoryInput&{active:number;distance:number;horizontal:boolean;workOffset:number;workOverflow:number};
+type Props={shell:RefObject<HTMLElement|null>;pin:RefObject<HTMLDivElement|null>;track:RefObject<HTMLDivElement|null>;hero:RefObject<HTMLDivElement|null>;engine:RefObject<EngineExperienceApi|null>;navigation:RefObject<StoryNavigation|null>;onSample:(sample:StorySample)=>void;onMode:(horizontal:boolean,reduced:boolean)=>void};
+export function useHorizontalStory(props:Props){
+  const {shell:shellRef,pin:pinRef,track:trackRef,hero:heroRef,engine,navigation:navigationRef,onSample,onMode:modeChanged}=props;
+  useEffect(()=>{
+    const shell=shellRef.current,pin=pinRef.current,track=trackRef.current;if(!shell||!pin||!track)return;
+    const chapters=Array.from(track.querySelectorAll<HTMLElement>("[data-chapter]"));
+    const desktop=matchMedia("(min-width:1024px)"),reduced=matchMedia("(prefers-reduced-motion:reduce)");
+    let alive=true,generation=0,horizontal=false,raf=0,refreshRaf=0,focusTimer=0,resizeTimer=0,initialized=false,changingMode=false;
+    let resizePosition:number|null=null;
+    let tween:gsap.core.Tween|null=null,context:gsap.Context|null=null,navTween:gsap.core.Tween|null=null;
+    let library:typeof import("gsap").gsap|null=null,suspended=false;
+    let restoreRefresh:(()=>void)|null=null;
+    let offsets:number[]=[],sizes:number[]=[],travel=1,docTop=0,currentPosition=0,currentDistance=0,measuredWidth=innerWidth,measuredHeight=innerHeight;
+    let heroFrame={x:.72,y:.46,scale:.68,heightRatio:.68};
+    const measure=()=>{
+      measuredWidth=innerWidth;measuredHeight=innerHeight;
+      offsets=chapters.map(el=>horizontal?el.offsetLeft:el.offsetTop);sizes=chapters.map(el=>horizontal?el.offsetWidth:el.offsetHeight);
+      travel=horizontal?Math.max(1,track.scrollWidth-pin.clientWidth):Math.max(1,offsets.at(-1)??1);
+      docTop=shell.getBoundingClientRect().top+window.scrollY;
+      if(innerWidth<1024)heroFrame={x:.5,y:.28,scale:Math.min(.9,.4*Math.max(1,innerHeight/innerWidth)),heightRatio:.4};
+      else{
+        const el=heroRef.current;
+        if(el&&el.offsetHeight){const h=el.offsetHeight,w=el.offsetWidth,full=Math.max(3.7,3.7*innerHeight/innerWidth),local=Math.max(3.7,3.7*h/w);heroFrame={x:(el.offsetLeft+w/2)/innerWidth,y:(el.offsetTop+h/2)/innerHeight,scale:h*full/(local*innerHeight),heightRatio:h/innerHeight};shell.style.setProperty("--ln-aperture-width",`${w*1.4}px`);}
+      }
+    };
+    const update=(distance:number)=>{
+      if(!alive||changingMode||resizePosition!==null||horizontal!==(innerWidth>=1024&&!reduced.matches)||measuredWidth!==innerWidth||measuredHeight!==innerHeight)return;
+      currentDistance=Math.max(0,Math.min(travel,distance));currentPosition=chapterPosition(currentDistance,offsets);
+      const workOverflow=horizontal?Math.max(1,sizes[2]-innerWidth):Math.max(1,innerHeight*.5);
+      const workOffset=horizontal?currentDistance-offsets[2]:currentDistance-offsets[2]-innerHeight*.15;
+      const input={position:currentPosition,progress:currentDistance/travel,compact:innerWidth<1024,hero:heroFrame,workProgress:Math.max(0,Math.min(1,workOffset/workOverflow))};
+      engine.current?.setNarrativeFrame(input);
+      onSample({...input,active:dominantChapter(currentDistance,horizontal?innerWidth:innerHeight,offsets,sizes),distance:currentDistance,horizontal,workOffset,workOverflow});
+    };
+    const targetFor=(position:number)=>{const index=Math.min(6,Math.floor(position));return (offsets[index]??0)+(index<6?(position-index)*((offsets[index+1]??offsets[index])-offsets[index]):0);};
+    const moveTo=(top:number,focus?:HTMLElement|null,instant=false)=>{
+      navTween?.kill();window.clearTimeout(focusTimer);
+      if(reduced.matches||instant||!library){window.scrollTo({top,behavior:"instant"});focus?.focus({preventScroll:true});return;}
+      const value={y:window.scrollY};navTween=library.to(value,{y:top,duration:.95,ease:"power3.inOut",onUpdate:()=>window.scrollTo(0,value.y)});
+      focusTimer=window.setTimeout(()=>focus?.focus({preventScroll:true}),1700);
+    };
+    const navigate=(id:ChapterId,history=true)=>{
+      const index=CHAPTERS.findIndex(c=>c.id===id);if(index<0)return;
+      if(history)window.history.pushState({...window.history.state,lenusChapter:id},"",`#ln-${id}`);
+      const start=horizontal?tween?.scrollTrigger?.start??docTop:docTop;
+      moveTo(start+(offsets[index]??0),chapters[index].querySelector<HTMLElement>("h1,h2"));
+    };
+    navigationRef.current={chapter:navigate,footer:()=>{const el=document.getElementById("ln-footer");if(el)moveTo(el.getBoundingClientRect().top+scrollY,el.querySelector<HTMLElement>("h2"));},suspend:value=>{suspended=value;tween?.scrollTrigger?.getTween()?.paused(value);navTween?.paused(value);if(!value&&!horizontal)update(window.scrollY-docTop);}};
+    const onScroll=()=>{if(horizontal||raf)return;raf=requestAnimationFrame(()=>{raf=0;if(!suspended)update(window.scrollY-docTop);});};
+    const refresh=(preserve=false,position=currentPosition)=>{
+      if(!alive||changingMode||horizontal!==(desktop.matches&&!reduced.matches))return;measure();
+      if(horizontal&&tween?.scrollTrigger){
+        tween.scrollTrigger.refresh();measure();
+        if(preserve){const distance=targetFor(position);window.scrollTo({top:tween.scrollTrigger.start+distance,behavior:"instant"});tween.scrollTrigger.update();tween.scrollTrigger.getTween()?.progress(1);tween.progress(distance/travel);update(distance);}
+      }else{if(preserve)window.scrollTo({top:docTop+targetFor(position),behavior:"instant"});update(window.scrollY-docTop);}
+    };
+    const settleResize=()=>{clearTimeout(resizeTimer);resizeTimer=window.setTimeout(()=>{const position=resizePosition;resizePosition=null;if(position!==null)refresh(true,position);},280);};
+    const scheduleRefresh=()=>{cancelAnimationFrame(refreshRaf);refreshRaf=requestAnimationFrame(()=>refresh(false));};
+    const setup=async()=>{
+      const token=++generation,position=resizePosition??currentPosition;changingMode=true;
+      if(initialized){resizePosition=position;settleResize();}
+      context?.revert();context=null;tween=null;navTween?.kill();
+      horizontal=desktop.matches&&!reduced.matches;shell.dataset.storyMode=horizontal?"horizontal":"vertical";
+      modeChanged(horizontal,reduced.matches);currentDistance=0;measure();
+      if(!initialized){changingMode=false;update(0);changingMode=true;}
+      if(horizontal){
+        const [{gsap:gsapLibrary},{ScrollTrigger}]=await Promise.all([import("gsap"),import("gsap/ScrollTrigger")]);
+        if(!alive||token!==generation)return;library=gsapLibrary;library.registerPlugin(ScrollTrigger);
+        // This route measures and preserves chapter position itself. A second,
+        // delayed global resize refresh would restore the old pixel scroll value.
+        ScrollTrigger.config({autoRefreshEvents:"visibilitychange,DOMContentLoaded,load"});
+        restoreRefresh=()=>ScrollTrigger.config({autoRefreshEvents:"visibilitychange,DOMContentLoaded,load,resize"});
+        context=library.context(()=>{
+          tween=gsapLibrary.fromTo(track,{x:0},{x:()=>-travel,ease:"none",onUpdate:()=>update(-Number(gsapLibrary.getProperty(track,"x"))),scrollTrigger:{trigger:pin,start:"top top",end:()=>`+=${travel}`,pin:true,pinSpacing:true,scrub:.65,anticipatePin:1,invalidateOnRefresh:true}});
+        },shell);
+        tween!.scrollTrigger!.refresh();measure();
+      }
+      if(!alive||token!==generation)return;changingMode=false;
+      const hash=window.location.hash.slice(1),index=CHAPTERS.findIndex(c=>`ln-${c.id}`===hash);
+      const desired=!initialized&&index>=0?index:position,liveTween=tween as gsap.core.Tween|null;initialized=true;
+      if(desired>0){const start=horizontal?liveTween?.scrollTrigger?.start??docTop:docTop;window.scrollTo({top:start+targetFor(desired),behavior:"instant"});if(horizontal){liveTween?.scrollTrigger?.update();liveTween?.scrollTrigger?.getTween()?.progress(1);}update(targetFor(desired));}
+      else update(horizontal?0:window.scrollY-docTop);
+    };
+    const onResize=()=>{resizePosition??=currentPosition;cancelAnimationFrame(refreshRaf);settleResize();};
+    const onMode=()=>{void setup();};
+    const onUserScroll=()=>{navTween?.kill();window.clearTimeout(focusTimer);};
+    const onHash=()=>{if(location.hash==="#ln-footer"){const el=document.getElementById("ln-footer");if(el)moveTo(el.getBoundingClientRect().top+scrollY);return;}const id=location.hash.replace(/^#ln-/,"") as ChapterId;if(CHAPTERS.some(c=>c.id===id))navigate(id,false);};
+    const observer=new ResizeObserver(scheduleRefresh);observer.observe(track);if(heroRef.current)observer.observe(heroRef.current);
+    window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("resize",onResize);window.addEventListener("hashchange",onHash);
+    window.addEventListener("wheel",onUserScroll,{passive:true});window.addEventListener("touchstart",onUserScroll,{passive:true});
+    desktop.addEventListener("change",onMode);reduced.addEventListener("change",onMode);
+    void setup();void document.fonts.ready.then(()=>{if(alive)scheduleRefresh();});
+    return()=>{alive=false;generation++;context?.revert();restoreRefresh?.();navTween?.kill();observer.disconnect();cancelAnimationFrame(raf);cancelAnimationFrame(refreshRaf);clearTimeout(focusTimer);clearTimeout(resizeTimer);window.removeEventListener("scroll",onScroll);window.removeEventListener("resize",onResize);window.removeEventListener("hashchange",onHash);window.removeEventListener("wheel",onUserScroll);window.removeEventListener("touchstart",onUserScroll);desktop.removeEventListener("change",onMode);reduced.removeEventListener("change",onMode);navigationRef.current=null;};
+  },[shellRef,pinRef,trackRef,heroRef,engine,navigationRef,onSample,modeChanged]);
+}
+]]>
+    </file>
+    <file path="src/app/(lenus)/lenus/story/WorkGallery.tsx">
+<![CDATA["use client";
+import {useEffect,useImperativeHandle,useRef,useState,type Ref} from "react";
+import {ArrowLeft,ArrowRight,ArrowUpRight} from "lucide-react";
+import {gsap} from "gsap";
+import {clamp01} from "./storyMath";
+export const WORK_STUDIES=[
+  {id:"spatial",name:"Spatial Experiences",subtitle:"An idea you can step inside.",description:"A study in spatial storytelling: a sequence of thresholds, changing perspectives and moments of discovery."},
+  {id:"identity",name:"Living Identities",subtitle:"A character, always becoming.",description:"A study in identity as a responsive system. Type, rhythm and interaction make room for a brand to move."},
+  {id:"worlds",name:"Interactive Worlds",subtitle:"Possibility, made navigable.",description:"A study in exploration. A connected landscape responds to curiosity and lets the visitor choose a path."},
+] as const;
+export type GalleryApi={setPosition:(position:number,exhibition:number)=>void};
+export default function WorkGallery({ref,motion,suspended,onOpen,onAim}:{ref:Ref<GalleryApi>;motion:boolean;suspended:boolean;onOpen:(index:number)=>void;onAim:(progress:number|null)=>void}){
+  const [active,setActive]=useState(0);const root=useRef<HTMLDivElement>(null),cards=useRef<(HTMLElement|null)[]>([]);
+  const value=useRef({index:0}),manual=useRef(false),pointer=useRef<{id:number;x:number;index:number}|null>(null),tween=useRef<gsap.core.Tween|null>(null),index=useRef(0);
+  const apply=(position:number)=>{
+    value.current.index=Math.max(0,Math.min(2,position));const next=Math.round(value.current.index);
+    if(next!==index.current){index.current=next;setActive(next);}
+    cards.current.forEach((card,i)=>{if(!card)return;const d=i-value.current.index;card.style.setProperty("--study-offset",String(d));card.style.setProperty("--study-distance",String(Math.abs(d)));card.style.zIndex=String(20-Math.round(Math.abs(d)*5));});
+    root.current?.style.setProperty("--study-progress",String(value.current.index/2));
+    onAim(manual.current?value.current.index/2:null);
+  };
+  useImperativeHandle(ref,()=>({setPosition(position,exhibition){if(position<1.65||position>3.05)manual.current=false;if(!manual.current&&!pointer.current){tween.current?.kill();apply(clamp01(exhibition)*2);}}}));
+  useEffect(()=>{tween.current?.paused(suspended);},[suspended]);
+  useEffect(()=>()=>{tween.current?.kill();},[]);
+  const navigate=(next:number)=>{manual.current=true;tween.current?.kill();tween.current=gsap.to(value.current,{index:Math.max(0,Math.min(2,next)),duration:motion?.65:0,ease:"power3.inOut",onUpdate:()=>apply(value.current.index)});};
+  return <div className="ln-work-gallery" ref={root} data-interactive={motion} aria-roledescription="gallery" aria-label="Conceptual work studies">
+    <div className="ln-work-stages" onPointerDown={event=>{if((event.target as HTMLElement).closest("button,a"))return;pointer.current={id:event.pointerId,x:event.clientX,index:value.current.index};event.currentTarget.setPointerCapture(event.pointerId);tween.current?.kill();event.stopPropagation();}} onPointerMove={event=>{if(!pointer.current)return;manual.current=true;apply(pointer.current.index+(pointer.current.x-event.clientX)/260);}} onPointerUp={()=>{if(pointer.current){pointer.current=null;navigate(Math.round(value.current.index));}}} onPointerCancel={()=>{pointer.current=null;navigate(Math.round(value.current.index));}}>
+      {WORK_STUDIES.map((study,i)=><article key={study.id} ref={el=>{cards.current[i]=el;}} className={`ln-study ln-study--${study.id}`} aria-label={`${study.name}, concept study`} inert={motion&&active!==i}>
+        <div className={`ln-study-art ln-study-art--${study.id}`} aria-hidden="true">
+          {i===0?<><div className="ln-spatial-floor"/>{[0,1,2,3].map(n=><i key={n} className="ln-spatial-frame" style={{"--frame":n} as React.CSSProperties}/>)}<span>SPACE<br/>TO DISCOVER.</span></>:i===1?<><strong>IN</strong><strong>FORM.</strong><i/><small>A LIVING SYSTEM / 02</small></>:<><svg viewBox="0 0 600 320">{Array.from({length:20},(_,j)=><path key={j} d={Array.from({length:31},(_,k)=>`${k===0?"M":"L"}${k*20} ${(80+j*9+Math.sin(k*.4+j*.16)*Math.sin(j*.16)*55).toFixed(3)}`).join(" ")} fill="none" stroke="currentColor" strokeWidth=".7"/>)}</svg><span>WORLDS<br/>WITHIN REACH.</span><i className="ln-world-beacon"/></>}
+        </div>
+        <div className="ln-study-copy"><span className="ln-story-eyebrow">CONCEPT STUDY / 0{i+1}</span><h3>{study.name}</h3><p>{study.subtitle}</p><button type="button" className="ln-text-button" onClick={()=>onOpen(i)}>EXPLORE THE STUDY <ArrowUpRight size={16} aria-hidden="true"/></button></div>
+      </article>)}
+    </div>
+    <div className="ln-gallery-controls"><span>{String(active+1).padStart(2,"0")} / 03</span><span className="ln-gallery-line"><i/></span><button type="button" className="ln-icon-button" aria-label="Previous study" disabled={active===0} onClick={()=>navigate(active-1)}><ArrowLeft size={20}/></button><button type="button" className="ln-icon-button" aria-label="Next study" disabled={active===2} onClick={()=>navigate(active+1)}><ArrowRight size={20}/></button></div>
+    <p className="ln-work-note">Conceptual explorations, not client commissions.</p>
+  </div>;
 }
 ]]>
     </file>

@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 export default function LenusHeroCopy({onStepInside}:{onStepInside:()=>void}){
   return <div className="ln-hero-copy">
-    <h1 aria-label="REALITY IS JUST THE START.">
+    <h1 aria-label="REALITY IS JUST THE START." tabIndex={-1}>
       <span className="ln-headline-line" aria-hidden="true"><span className="ln-headline-lime">REALITY</span></span>
       <span className="ln-headline-line" aria-hidden="true"><span className="ln-headline-white">IS JUST</span></span>
       <span className="ln-headline-line" aria-hidden="true"><span><span className="ln-headline-white">THE </span><span className="ln-headline-violet">START.</span></span></span>
