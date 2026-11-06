@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
+import { pathToFileURL } from "node:url";
 
 // Supported Google fonts in next/font/google with standard configurations
 const KNOWN_GOOGLE_FONTS: Record<
@@ -49,7 +50,7 @@ const KNOWN_GOOGLE_FONTS: Record<
   "Italiana": { importName: "Italiana", variable: "--font-italiana", weight: "400" },
 };
 
-interface ParsedMeta {
+export interface ParsedMeta {
   title: string;
   description: string;
   brandName: string;
@@ -547,7 +548,7 @@ test.describe("${meta.brandName}", () => {
 `;
 }
 
-function updateGalleryRegistrations(meta: ParsedMeta, slug: string, category: string, repoRoot: string) {
+export function updateGalleryRegistrations(meta: ParsedMeta, slug: string, category: string, repoRoot: string) {
   const slugUpper = slug.toUpperCase();
   const today = new Date().toISOString().split("T")[0];
 
@@ -556,8 +557,10 @@ function updateGalleryRegistrations(meta: ParsedMeta, slug: string, category: st
   if (fs.existsSync(configPath)) {
     let content = fs.readFileSync(configPath, "utf-8");
 
-    if (!content.includes(`"${slug}"`)) {
-      content = content.replace(/(export type TemplateSlug = [^;]+);/, `$1 | "${slug}";`);
+    const slugTypeRegex = /(export type TemplateSlug = [^;]+);/;
+    const slugTypeMatch = content.match(slugTypeRegex);
+    if (slugTypeMatch && !slugTypeMatch[1].includes(`"${slug}"`)) {
+      content = content.replace(slugTypeRegex, `$1 | "${slug}";`);
     }
 
     if (!content.includes(`${slug}: {`)) {
@@ -590,8 +593,10 @@ function updateGalleryRegistrations(meta: ParsedMeta, slug: string, category: st
   if (fs.existsSync(templatesDataPath)) {
     let content = fs.readFileSync(templatesDataPath, "utf-8");
 
-    if (!content.includes(`"${slug}"`)) {
-      content = content.replace(/(export type TemplateSlug = [^;]+);/, `$1 | "${slug}";`);
+    const slugTypeRegex = /(export type TemplateSlug = [^;]+);/;
+    const slugTypeMatch = content.match(slugTypeRegex);
+    if (slugTypeMatch && !slugTypeMatch[1].includes(`"${slug}"`)) {
+      content = content.replace(slugTypeRegex, `$1 | "${slug}";`);
     }
 
     const promptConstName = `${slugUpper}_PROMPT`;
@@ -623,8 +628,19 @@ Build a complete, responsive, interaction-rich landing page for **${meta.brandNa
     previewImage: "/templates/${slug}/preview-1600.webp",
     promptMarkdown: ${promptConstName},
     model: "Gemini 4 Argon High",
-  },\n`;
-      content = content.replace(/\r?\n\];\r?\n\r?\nconst registeredTemplates:/, `\n${templateItem}];\n\nconst registeredTemplates:`);
+  }`;
+
+      if (/(\}\r?\n)\);\r?\n\r?\nconst registeredTemplates:/.test(content)) {
+        content = content.replace(/(\}\r?\n)\);\r?\n\r?\nconst registeredTemplates:/, `$1,\n${templateItem}\n);\n\nconst registeredTemplates:`);
+      } else if (/(\}\r?\n)\];\r?\n\r?\nconst registeredTemplates:/.test(content)) {
+        content = content.replace(/(\}\r?\n)\];\r?\n\r?\nconst registeredTemplates:/, `$1,\n${templateItem}\n];\n\nconst registeredTemplates:`);
+      } else {
+        content = content.replace(/(\r?\n)(const registeredTemplates:)/, `$1RAW_TEMPLATES.push(\n${templateItem}\n);\n\n$2`);
+      }
+
+      if (!content.includes(`slug: "${slug}",`)) {
+        throw new Error(`[import] Failed to register "${slug}" into RAW_TEMPLATES in ${templatesDataPath}`);
+      }
     }
 
     fs.writeFileSync(templatesDataPath, content, "utf-8");
@@ -636,17 +652,15 @@ Build a complete, responsive, interaction-rich landing page for **${meta.brandNa
   if (fs.existsSync(testPath)) {
     let content = fs.readFileSync(testPath, "utf-8");
 
-    if (!content.includes(`"${slug}"`)) {
+    const slugsMatch = content.match(/expect\(slugs\)\.toEqual\(\[([^\]]+)\]\);/);
+    if (slugsMatch && !slugsMatch[1].includes(`"${slug}"`)) {
       const lengthMatch = content.match(/expect\(TEMPLATES\)\.toHaveLength\((\d+)\);/);
       if (lengthMatch) {
         const currentLen = parseInt(lengthMatch[1], 10);
         content = content.replace(`toHaveLength(${currentLen})`, `toHaveLength(${currentLen + 1})`);
       }
 
-      const slugsMatch = content.match(/expect\(slugs\)\.toEqual\(\[([^\]]+)\]\);/);
-      if (slugsMatch && !slugsMatch[1].includes(`"${slug}"`)) {
-        content = content.replace(/expect\(slugs\)\.toEqual\(\[/, `expect(slugs).toEqual(["${slug}", `);
-      }
+      content = content.replace(/expect\(slugs\)\.toEqual\(\[/, `expect(slugs).toEqual(["${slug}", `);
 
       const argonMatch = content.match(/const argonSlugs = \[([^\]]+)\];/);
       if (argonMatch && !argonMatch[1].includes(`"${slug}"`)) {
@@ -895,4 +909,6 @@ export function importTemplate() {
   console.log(`   open http://localhost:3000/${slug}`);
 }
 
-importTemplate();
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
+  importTemplate();
+}

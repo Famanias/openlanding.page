@@ -2424,6 +2424,21 @@ RAW_TEMPLATES.push(
     previewImage: "/templates/waypoint/preview-1600.webp",
     promptMarkdown: WAYPOINT_PROMPT,
     model: "Gemini 3.8 Flash High",
+  },
+  {
+    slug: "aurel",
+    createdAt: "2026-11-06",
+    hasDownload: false,
+    title: "AUREL",
+    description: "An exploration of precision, permanence, and the art of making time. Discover AUREL Collection 01 — The Origin.",
+    category: "showcase" as TemplateCategory,
+    categories: ["showcase" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/aurel/preview-1600.webp",
+    promptMarkdown: AUREL_PROMPT,
+    model: "Gemini 4 Argon High",
   }
 );
 
