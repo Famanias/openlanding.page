@@ -11,6 +11,7 @@ import { CalendarWidget } from "./bento/CalendarWidget";
 import { KanbanWidget } from "./bento/KanbanWidget";
 import { EncryptionWidget } from "./bento/EncryptionWidget";
 import { ReplyFeedWidget } from "./bento/ReplyFeedWidget";
+import { HeroDashboard } from "./HeroDashboard";
 
 const tools = [
   {
@@ -134,6 +135,13 @@ export function BentoGrid() {
               <tool.component />
             </article>
           ))}
+        </div>
+        <div
+          className="wyp-lab-full-pipeline"
+          hidden={selected >= 0 && selected !== 1}
+        >
+          <p className="wyp-kicker">Your complete interactive pipeline</p>
+          <HeroDashboard />
         </div>
         <p className="wyp-lab-disclaimer">
           A hands-on product demonstration. Sample data stays in this page and

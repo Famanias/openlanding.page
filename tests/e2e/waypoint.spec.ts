@@ -8,11 +8,17 @@ test.describe("Waypoint landing template (/waypoint)", () => {
     await page.waitForLoadState("networkidle");
   });
 
-  test("loads with primary heading and hero dashboard", async ({ page }) => {
+  test("loads with the primary heading, supplied hero artwork, and live board", async ({
+    page,
+  }) => {
     const h1 = page.getByRole("heading", { level: 1 });
     await expect(h1).toHaveCount(1);
     await expect(h1).toContainText("Pitch with intention.");
     await expect(h1).toContainText("Land the offer.");
+    await expect(page.locator(".wyp-hero-artwork img")).toHaveAttribute(
+      "data-supplied-artwork",
+      "1",
+    );
 
     // Hero Dashboard is visible with pipeline columns
     const heroDashboard = page.locator("[data-parallax]");
@@ -22,6 +28,30 @@ test.describe("Waypoint landing template (/waypoint)", () => {
       heroDashboard.getByText("Anthropic", { exact: true }),
     ).toBeVisible();
     await expect(heroDashboard.getByText("$420k Total Comp")).toBeVisible();
+  });
+
+  test("supplied artwork gallery switches between the ZIP images", async ({
+    page,
+  }) => {
+    const gallery = page.locator(".wyp-artwork-gallery");
+    const active = gallery.locator(".wyp-gallery-image.is-active img");
+    await expect(active).toHaveAttribute("data-supplied-artwork", "9");
+    await gallery
+      .getByRole("button", { name: "The details, together", exact: true })
+      .click();
+    await expect(active).toHaveAttribute("data-supplied-artwork", "3");
+    await gallery.getByRole("button", { name: "Next concept artwork" }).click();
+    await expect(active).toHaveAttribute("data-supplied-artwork", "6");
+    await gallery.getByRole("button", { name: "Next concept artwork" }).click();
+    await expect(active).toHaveAttribute("data-supplied-artwork", "7");
+    await gallery
+      .getByRole("button", { name: "Previous concept artwork" })
+      .click();
+    await expect(active).toHaveAttribute("data-supplied-artwork", "6");
+    await expect(page.locator(".wyp-journal-artwork img")).toHaveAttribute(
+      "data-supplied-artwork",
+      "10",
+    );
   });
 
   test("calendar widget updates interview details on day click", async ({
@@ -234,16 +264,16 @@ test.describe("Waypoint landing template (/waypoint)", () => {
     await expect(
       story.getByRole("button", { name: "Show Own it" }),
     ).toHaveAttribute("aria-pressed", "true");
-    await expect(story.locator(".wyp-story-visual.is-active")).toContainText(
-      "Your next move is yours.",
-    );
+    await expect(
+      story.locator(".wyp-story-visual.is-active img"),
+    ).toHaveAttribute("data-supplied-artwork", "6");
     await story.getByRole("button", { name: "Show Prepare" }).click();
     await expect(
       story.getByRole("button", { name: "Show Prepare" }),
     ).toHaveAttribute("aria-pressed", "true");
-    await expect(story.locator(".wyp-story-visual.is-active")).toContainText(
-      "Interview radar",
-    );
+    await expect(
+      story.locator(".wyp-story-visual.is-active img"),
+    ).toHaveAttribute("data-supplied-artwork", "5");
   });
 
   test("opportunity notes and employer selections respond", async ({

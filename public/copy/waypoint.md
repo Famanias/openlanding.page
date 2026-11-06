@@ -703,182 +703,14 @@ export default function WaypointPage() {
 .wyp-panorama-artboard {
   padding: 56px;
   border-radius: 16px;
-  background: #e5ddd4 url("/templates/waypoint/topographic-1600.webp") center /
-    cover;
-}
-.wyp-workspace {
-  display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
-  background: #faf8f5;
-  border: 1px solid #c5b9ac;
-  border-radius: 10px;
-  box-shadow: 0 16px 32px #69534520;
-  overflow: hidden;
-}
-.wyp-workspace-sidebar {
-  background: #ede6df80;
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 16px;
-  font-size: 10px;
-  color: #666e7d;
-}
-.wyp-workspace-sidebar > span:first-child {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 15px;
-  color: #121417;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-.wyp-workspace-sidebar > p {
-  font-size: 9px;
-}
-.wyp-workspace-sidebar > strong {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #121417;
-  font-weight: 500;
-  background: #e5ddd4;
-  padding: 10px;
-  border-radius: 4px;
-  margin: 0 -6px;
-}
-.wyp-workspace-aside-note {
-  margin-top: auto;
-  padding-top: 40px;
-  color: #535964;
-}
-.wyp-workspace-aside-note p {
-  margin-top: 12px;
-  font-size: 10px;
-  line-height: 1.8;
-}
-.wyp-workspace-content {
-  padding: 24px 32px 16px;
-}
-.wyp-workspace-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 9px;
-  color: #666e7d;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e5ddd4;
-}
-.wyp-workspace-welcome {
-  margin-block: 28px;
-}
-.wyp-workspace-welcome h3 {
-  font-size: 32px;
-  font-weight: 500;
-  letter-spacing: -0.05em;
-  line-height: 1.15;
-}
-.wyp-workspace-welcome p {
-  font-size: 11px;
-  color: #666e7d;
-  margin-top: 12px;
-}
-.wyp-overview-grid {
-  display: grid;
-  grid-auto-flow: dense;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 20px;
-}
-.wyp-overview-opportunities,
-.wyp-overview-next {
-  padding: 16px;
-  border: 1px solid #d8d0c580;
-  border-radius: 8px;
-  background: #fff;
+  background: #e5ddd4
+    url("/templates/waypoint/waypoint-08-topographic-background-1600.webp")
+    center / cover;
 }
 .wyp-tiny {
   font-size: 10px;
   color: #666e7d;
   font-weight: 500;
-}
-.wyp-opportunity-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-block: 16px;
-  border-bottom: 1px solid #ede6df;
-}
-.wyp-opportunity-row:last-of-type {
-  border-bottom: 0;
-}
-.wyp-opportunity-row > div {
-  min-width: 0;
-}
-.wyp-opportunity-row strong {
-  font-size: 11px;
-  font-weight: 600;
-}
-.wyp-opportunity-row p {
-  font-size: 9px;
-  margin-top: 3px;
-  color: #666e7d;
-}
-.wyp-opportunity-row > span:last-child {
-  margin-left: auto;
-  font-size: 8px;
-  border-radius: 4px;
-  background: #ede6df;
-  padding: 5px 6px;
-  white-space: nowrap;
-}
-.wyp-date-display {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-block: 20px;
-}
-.wyp-date-display strong {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 44px;
-  font-weight: 400;
-  letter-spacing: -0.06em;
-  line-height: 1;
-}
-.wyp-date-display span {
-  font-size: 10px;
-  color: #666e7d;
-  line-height: 1.8;
-}
-.wyp-overview-next h4 {
-  font-size: 11px;
-  font-weight: 600;
-}
-.wyp-overview-next > p {
-  font-size: 10px;
-  color: #666e7d;
-  margin-top: 8px;
-}
-.wyp-prepared {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 9px;
-  color: #216143;
-  margin-top: 20px;
-}
-.wyp-workspace-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 9px;
-  padding-top: 20px;
-  color: #666e7d;
-}
-.wyp-workspace-bottom span {
-  display: flex;
-  gap: 6px;
-  align-items: center;
 }
 .wyp-panorama-caption {
   display: flex;
@@ -984,8 +816,9 @@ export default function WaypointPage() {
   width: 100%;
   min-height: 500px;
   border-radius: 12px;
-  background: #e5ddd4 url("/templates/waypoint/topographic-800.webp") center /
-    cover;
+  background: #e5ddd4
+    url("/templates/waypoint/waypoint-08-topographic-background-800.webp")
+    center / cover;
   padding: 24px;
 }
 .wyp-canvas-label {
@@ -1022,118 +855,6 @@ export default function WaypointPage() {
   transform: none;
   clip-path: inset(0);
 }
-.wyp-story-ui {
-  background: #faf8f5;
-  border: 1px solid #d8d0c5;
-  border-radius: 8px;
-  overflow: hidden;
-  min-height: 385px;
-  box-shadow: 0 8px 24px #69534515;
-}
-.wyp-ui-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 11px;
-  padding: 18px 20px;
-  border-bottom: 1px solid #e5ddd4;
-}
-.wyp-ui-top > span:last-child {
-  margin-left: auto;
-  color: #666e7d;
-  font-size: 9px;
-}
-.wyp-week {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin: 20px;
-}
-.wyp-week > div {
-  border: 1px solid #e5ddd4;
-  border-radius: 6px;
-  text-align: center;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-}
-.wyp-week span {
-  font-size: 9px;
-  color: #666e7d;
-}
-.wyp-week strong {
-  font-size: 20px;
-  font-weight: 500;
-}
-.wyp-week i {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: #d8d0c5;
-}
-.wyp-week .is-today {
-  background: #121417;
-  color: #f5efeb;
-  border-color: #121417;
-}
-.wyp-week .is-today span {
-  color: #e5ddd4;
-}
-.wyp-week .is-today i {
-  background: #d8eadf;
-}
-.wyp-round {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0 20px;
-}
-.wyp-round h4 {
-  font-size: 13px;
-  font-weight: 600;
-  margin-top: 4px;
-}
-.wyp-round p {
-  font-size: 10px;
-  color: #666e7d;
-  margin-top: 4px;
-}
-.wyp-prep-list {
-  margin: 20px;
-  border-top: 1px solid #e5ddd4;
-  padding-top: 14px;
-  font-size: 10px;
-  color: #535964;
-}
-.wyp-prep-list > span {
-  font-size: 9px;
-  color: #666e7d;
-}
-.wyp-prep-list p {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 8px;
-}
-.wyp-prep-list svg {
-  color: #216143;
-}
-.wyp-check-empty {
-  width: 12px;
-  height: 12px;
-  border: 1px solid #d8d0c5;
-  border-radius: 2px;
-  margin-inline: 2px;
-}
-.wyp-ui-foot {
-  font-size: 9px;
-  color: #666e7d;
-  border-top: 1px solid #e5ddd4;
-  padding: 14px 20px;
-  margin-top: 16px;
-}
 .wyp-story-progress {
   display: flex;
   gap: 8px;
@@ -1164,7 +885,7 @@ export default function WaypointPage() {
   flex-shrink: 0;
   transition: background 0.4s;
 }
-.wyp-story-progress button > .is-complete {
+.wyp-story-progress button > span.is-complete {
   background: #8a3e1b;
 }
 .wyp-progress-label {
@@ -1191,136 +912,6 @@ export default function WaypointPage() {
   font-size: 9px;
   text-align: center;
   color: #535964;
-}
-.wyp-flow-path {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  padding: 24px 20px;
-  font-size: 10px;
-  color: #666e7d;
-}
-.wyp-flow-path svg {
-  width: 14px;
-}
-.wyp-mini-pipeline .wyp-opportunity-row {
-  margin-inline: 20px;
-  padding-block: 20px;
-}
-.wyp-mini-pipeline .wyp-ui-foot {
-  margin-top: 20px;
-}
-.wyp-message-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 24px 20px;
-}
-.wyp-avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 36px;
-  width: 36px;
-  background: #d8eadf;
-  border-radius: 50%;
-  font-size: 11px;
-  color: #216143;
-}
-.wyp-message-meta strong {
-  font-size: 11px;
-}
-.wyp-message-meta p {
-  font-size: 9px;
-  color: #666e7d;
-  margin-top: 4px;
-}
-.wyp-message-meta > span:last-child {
-  margin-left: auto;
-  font-size: 9px;
-  color: #666e7d;
-}
-.wyp-letter {
-  margin-inline: 20px;
-  padding: 20px;
-  background: #fff;
-  border: 1px solid #e5ddd4;
-  border-radius: 6px;
-}
-.wyp-letter > span {
-  font-size: 9px;
-  color: #666e7d;
-}
-.wyp-letter > p {
-  font-size: 15px;
-  line-height: 1.8;
-  margin-top: 16px;
-  letter-spacing: -0.02em;
-}
-.wyp-message-route {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 9px;
-  margin-top: 24px;
-}
-.wyp-message-route > span:nth-child(2) {
-  flex: 1;
-  height: 1px;
-  background: #d8d0c5;
-}
-.wyp-message-route strong {
-  background: #d8eadf;
-  color: #216143;
-  padding: 5px 8px;
-  border-radius: 4px;
-  font-weight: 500;
-}
-.wyp-story-privacy {
-  text-align: center;
-}
-.wyp-lock-orbit {
-  position: relative;
-  width: 110px;
-  height: 110px;
-  display: grid;
-  place-items: center;
-  margin: 28px auto 20px;
-}
-.wyp-lock-orbit span {
-  border-radius: 50%;
-  border: 1px solid #d8d0c5;
-  position: absolute;
-  inset: 0;
-}
-.wyp-lock-orbit span:last-child {
-  inset: 12px;
-  border-style: dashed;
-}
-.wyp-story-privacy h4 {
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: -0.04em;
-}
-.wyp-story-privacy > p {
-  color: #666e7d;
-  font-size: 11px;
-  line-height: 1.8;
-  margin-top: 12px;
-}
-.wyp-cipher {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 12px;
-  margin: 16px 20px;
-  padding: 12px;
-  border: 1px solid #d8d0c5;
-  border-radius: 4px;
-  color: #666e7d;
 }
 
 /* Existing functional widgets, with optional keyboard-controlled focus. */
@@ -1548,19 +1139,6 @@ export default function WaypointPage() {
   padding: 24px 32px;
   box-shadow: 0 16px 32px #69534510;
 }
-.wyp-journal-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 10px;
-  color: #666e7d;
-  border-bottom: 1px solid #e5ddd4;
-  padding-bottom: 24px;
-}
-.wyp-journal-top > span:last-child {
-  margin-left: auto;
-  font-size: 9px;
-}
 .wyp-journal-entry {
   min-height: 310px;
   padding-top: 32px;
@@ -1728,7 +1306,8 @@ export default function WaypointPage() {
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: url("/templates/waypoint/topographic-1600.webp") center / cover;
+  background: url("/templates/waypoint/waypoint-08-topographic-background-1600.webp")
+    center / cover;
   opacity: 0.28;
   mask-image: linear-gradient(90deg, transparent, #000);
 }
@@ -1978,12 +1557,6 @@ export default function WaypointPage() {
   .wyp-panorama-artboard {
     padding: 32px;
   }
-  .wyp-workspace {
-    grid-template-columns: 140px minmax(0, 1fr);
-  }
-  .wyp-workspace-content {
-    padding-inline: 24px;
-  }
   .wyp-paper-layout {
     gap: 64px;
   }
@@ -1995,12 +1568,6 @@ export default function WaypointPage() {
   }
   .wyp-lab-tabs > button {
     padding-inline: 12px;
-  }
-  .wyp-opportunity-row {
-    gap: 8px;
-  }
-  .wyp-overview-grid {
-    gap: 12px;
   }
 }
 @media (max-width: 1023px),
@@ -2038,9 +1605,6 @@ export default function WaypointPage() {
   }
   .wyp-story-step h3 {
     font-size: 28px;
-  }
-  .wyp-story-ui {
-    min-height: 415px;
   }
   .wyp-story-step > a {
     margin-top: 12px;
@@ -2080,21 +1644,6 @@ export default function WaypointPage() {
   }
   .wyp-column-heading > svg {
     display: none;
-  }
-  .wyp-workspace-sidebar {
-    display: none;
-  }
-  .wyp-workspace {
-    grid-template-columns: 1fr;
-  }
-  .wyp-workspace-content {
-    padding: 24px;
-  }
-  .wyp-overview-opportunities {
-    padding: 16px 12px;
-  }
-  .wyp-overview-next {
-    padding: 16px;
   }
   .wyp-panorama {
     padding-top: 32px;
@@ -2138,12 +1687,6 @@ export default function WaypointPage() {
   }
   .wyp-journal-entry {
     min-height: 350px;
-  }
-  .wyp-journal-top {
-    gap: 8px;
-  }
-  .wyp-journal-top > span:last-child {
-    display: none;
   }
   .wyp-conversion-grid {
     gap: 32px;
@@ -2301,58 +1844,6 @@ export default function WaypointPage() {
     margin-inline: -8px;
     border-radius: 8px;
   }
-  .wyp-workspace {
-    border-radius: 6px;
-  }
-  .wyp-workspace-content {
-    padding: 16px;
-  }
-  .wyp-workspace-header {
-    font-size: 8px;
-    gap: 16px;
-    padding-bottom: 12px;
-  }
-  .wyp-workspace-header > span:last-child {
-    font-size: 7px;
-    text-align: right;
-    max-width: 100px;
-  }
-  .wyp-workspace-welcome {
-    margin-block: 24px;
-  }
-  .wyp-workspace-welcome h3 {
-    font-size: 26px;
-  }
-  .wyp-workspace-welcome p {
-    font-size: 9px;
-  }
-  .wyp-overview-grid {
-    grid-template-columns: 1fr;
-  }
-  .wyp-overview-next {
-    display: none;
-  }
-  .wyp-overview-opportunities {
-    padding: 12px;
-  }
-  .wyp-opportunity-row {
-    gap: 8px;
-    padding-block: 12px;
-  }
-  .wyp-opportunity-row strong {
-    font-size: 10px;
-  }
-  .wyp-opportunity-row p {
-    font-size: 8px;
-  }
-  .wyp-opportunity-row > span:last-child {
-    font-size: 7px;
-    padding: 4px;
-  }
-  .wyp-workspace-bottom {
-    font-size: 8px;
-    padding-top: 16px;
-  }
   .wyp-panorama-caption {
     flex-direction: column;
     align-items: start;
@@ -2384,61 +1875,6 @@ export default function WaypointPage() {
     font-size: 11px;
     gap: 12px;
     margin-bottom: 20px;
-  }
-  .wyp-story-ui {
-    min-height: 385px;
-  }
-  .wyp-story-step .wyp-ui-foot {
-    font-size: 8px;
-  }
-  .wyp-week {
-    gap: 6px;
-    margin: 16px;
-  }
-  .wyp-week > div {
-    padding: 8px 4px;
-  }
-  .wyp-ui-top {
-    padding: 16px;
-    font-size: 10px;
-  }
-  .wyp-ui-top > span:last-child {
-    font-size: 8px;
-  }
-  .wyp-round {
-    margin-inline: 16px;
-  }
-  .wyp-round h4 {
-    font-size: 12px;
-  }
-  .wyp-prep-list {
-    margin: 16px;
-    font-size: 9px;
-  }
-  .wyp-story-privacy h4 {
-    font-size: 24px;
-  }
-  .wyp-letter {
-    margin-inline: 16px;
-    padding: 16px;
-  }
-  .wyp-letter > p {
-    font-size: 14px;
-  }
-  .wyp-message-meta {
-    margin: 24px 16px;
-    gap: 8px;
-  }
-  .wyp-message-meta > span:last-child {
-    font-size: 8px;
-  }
-  .wyp-flow-path {
-    font-size: 9px;
-    padding-inline: 16px;
-  }
-  .wyp-mini-pipeline .wyp-opportunity-row {
-    margin-inline: 16px;
-    padding-block: 24px;
   }
   .wyp-lab-toolbar {
     flex-direction: column;
@@ -2521,10 +1957,6 @@ export default function WaypointPage() {
   }
   .wyp-journal-entry > p:not(.wyp-tiny) {
     font-size: 12px;
-  }
-  .wyp-journal-top {
-    padding-bottom: 20px;
-    font-size: 9px;
   }
   .wyp-journal-controls {
     gap: 8px;
@@ -2621,6 +2053,232 @@ export default function WaypointPage() {
   background-color: var(--color-wyp-canvas);
   color: var(--color-wyp-obsidian);
   min-height: 100vh;
+}
+
+/* Supplied ZIP artboards are preserved as full, flat images. */
+.wyp-supplied-artwork {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.wyp-hero-artwork {
+  overflow: hidden;
+  border-radius: 10px;
+}
+.wyp-hero-artwork figcaption {
+  padding-top: 16px;
+  font-size: 10px;
+  color: #666e7d;
+  text-align: center;
+}
+.wyp-page .wyp-panorama-artboard {
+  padding: 0;
+  overflow: hidden;
+  background: #e5ddd4;
+}
+.wyp-gallery-frame {
+  position: relative;
+  aspect-ratio: 2752 / 1536;
+}
+.wyp-gallery-image {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  opacity: 0;
+  clip-path: inset(0 0 0 6%);
+  transition:
+    opacity 0.45s var(--wyp-ease),
+    clip-path 0.6s var(--wyp-ease),
+    visibility 0.45s;
+}
+.wyp-gallery-image.is-active {
+  visibility: visible;
+  opacity: 1;
+  clip-path: inset(0);
+}
+.wyp-artwork-gallery-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.wyp-artwork-gallery-tabs button {
+  padding: 12px 16px;
+  border: 1px solid #d8d0c5;
+  border-radius: 6px;
+  font-size: 11px;
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+.wyp-artwork-gallery-tabs button[aria-pressed="true"] {
+  background: #121417;
+  color: #f5efeb;
+  border-color: #121417;
+}
+.wyp-artwork-gallery-tabs button:hover {
+  background: #e5ddd4;
+  color: #121417;
+}
+.wyp-gallery-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding-top: 24px;
+}
+.wyp-gallery-caption h3 {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+.wyp-gallery-caption p {
+  font-size: 12px;
+  color: #666e7d;
+  line-height: 1.8;
+  margin-top: 8px;
+}
+.wyp-gallery-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+.wyp-gallery-controls button {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d8d0c5;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+.wyp-gallery-controls button:hover {
+  background: #e5ddd4;
+}
+.wyp-gallery-controls > span {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  color: #666e7d;
+}
+.wyp-artwork-note {
+  color: #666e7d;
+  font-size: 10px;
+  line-height: 1.8;
+  margin-top: 24px;
+}
+.wyp-page .wyp-story-canvas {
+  padding: 0;
+  background: transparent;
+  min-height: 0;
+}
+.wyp-story-visual-frame {
+  min-height: 0;
+  aspect-ratio: 2752 / 1536;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.wyp-story-visual .wyp-supplied-artwork {
+  height: 100%;
+  object-fit: contain;
+}
+.wyp-mobile-story-visual {
+  overflow: hidden;
+  border-radius: 8px;
+}
+.wyp-lab-full-pipeline {
+  margin-top: 48px;
+}
+.wyp-lab-full-pipeline[hidden] {
+  display: none;
+}
+.wyp-page .wyp-paper-layout {
+  grid-template-columns: 0.65fr 1.5fr;
+  gap: 64px;
+}
+.wyp-journal-artwork {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.wyp-journal-artwork figcaption {
+  padding-top: 16px;
+  color: #666e7d;
+  font-size: 10px;
+}
+.wyp-note-under {
+  display: none;
+}
+.wyp-opportunity-note {
+  position: relative;
+  margin-top: 24px;
+}
+.wyp-opportunity-note .wyp-journal-entry {
+  min-height: 0;
+  padding-top: 0;
+}
+.wyp-opportunity-note .wyp-journal-entry h3 {
+  font-size: 24px;
+  margin-block: 12px;
+}
+.wyp-opportunity-note .wyp-journal-next {
+  margin-top: 16px;
+  padding-top: 12px;
+}
+.wyp-opportunity-note .wyp-journal-controls {
+  margin-top: 16px;
+  padding-top: 16px;
+}
+@media (max-width: 900px) {
+  .wyp-page .wyp-paper-layout {
+    gap: 32px;
+    grid-template-columns: 0.7fr 1.3fr;
+  }
+}
+@media (max-width: 640px) {
+  .wyp-hero-artwork {
+    margin-inline: -12px;
+    border-radius: 6px;
+  }
+  .wyp-hero-artwork figcaption {
+    font-size: 8px;
+    padding: 12px;
+  }
+  .wyp-gallery-caption {
+    align-items: start;
+    gap: 16px;
+  }
+  .wyp-gallery-caption h3 {
+    font-size: 16px;
+  }
+  .wyp-gallery-caption p {
+    font-size: 10px;
+  }
+  .wyp-gallery-controls {
+    gap: 8px;
+  }
+  .wyp-gallery-controls button {
+    width: 32px;
+    height: 32px;
+  }
+  .wyp-gallery-controls > span {
+    font-size: 8px;
+  }
+  .wyp-artwork-gallery-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .wyp-artwork-gallery-tabs button {
+    padding: 12px 8px;
+    font-size: 10px;
+  }
+  .wyp-artwork-note {
+    font-size: 9px;
+  }
+  .wyp-journal-artwork figcaption {
+    font-size: 9px;
+  }
 }
 
 .wyp-mobile-nav {
@@ -2816,6 +2474,7 @@ import { CalendarWidget } from "./bento/CalendarWidget";
 import { KanbanWidget } from "./bento/KanbanWidget";
 import { EncryptionWidget } from "./bento/EncryptionWidget";
 import { ReplyFeedWidget } from "./bento/ReplyFeedWidget";
+import { HeroDashboard } from "./HeroDashboard";
 
 const tools = [
   {
@@ -2939,6 +2598,13 @@ export function BentoGrid() {
               <tool.component />
             </article>
           ))}
+        </div>
+        <div
+          className="wyp-lab-full-pipeline"
+          hidden={selected >= 0 && selected !== 1}
+        >
+          <p className="wyp-kicker">Your complete interactive pipeline</p>
+          <HeroDashboard />
         </div>
         <p className="wyp-lab-disclaimer">
           A hands-on product demonstration. Sample data stays in this page and
@@ -3396,7 +3062,7 @@ export function Footer() {
 <![CDATA["use client";
 
 import { ArrowDown, ArrowUpRight } from "@phosphor-icons/react";
-import { HeroDashboard } from "./HeroDashboard";
+import { SuppliedArtwork } from "./SuppliedArtwork";
 
 export function Hero() {
   return (
@@ -3431,11 +3097,19 @@ export function Hero() {
       <div className="wyp-hero-deck wyp-container" id="pipeline">
         <div className="wyp-deck-caption">
           <span>Less scattered. More intentional.</span>
-          <span>
-            Interactive preview <span className="wyp-status-dot" />
-          </span>
+          <span>A view of what comes next</span>
         </div>
-        <HeroDashboard />
+        <figure className="wyp-hero-artwork">
+          <SuppliedArtwork
+            id={1}
+            priority
+            sizes="(max-width: 1200px) 100vw, 1104px"
+          />
+          <figcaption>
+            Waypoint interface concept · Explore the interactive flight deck
+            below
+          </figcaption>
+        </figure>
       </div>
       <div className="wyp-horizon" aria-hidden="true">
         <span />
@@ -3864,8 +3538,8 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
-  Notebook,
 } from "@phosphor-icons/react";
+import { SuppliedArtwork } from "./SuppliedArtwork";
 
 const moments = [
   {
@@ -3950,15 +3624,14 @@ export function PaperTrail() {
           <div className="wyp-note-stack">
             <div className="wyp-note-under" data-stack-note />
             <div className="wyp-note-under" data-stack-note />
+            <figure className="wyp-journal-artwork">
+              <SuppliedArtwork id={10} />
+              <figcaption>Supplied journal workspace concept</figcaption>
+            </figure>
             <article
-              className="wyp-journal"
+              className="wyp-opportunity-note"
               aria-label="Sample opportunity notes"
             >
-              <div className="wyp-journal-top">
-                <Notebook size={20} />
-                <span>Opportunity notes / Anthropic</span>
-                <span>Personal</span>
-              </div>
               <div key={selected} className="wyp-journal-entry">
                 <p className="wyp-tiny">
                   {moment.date} · {moment.stage}
@@ -4241,15 +3914,39 @@ export function PricingSection() {
 ]]>
     </file>
     <file path="src/app/(waypoint)/waypoint/components/ProductPanorama.tsx">
-<![CDATA[import {
-  ArrowDown,
-  ArrowUpRight,
-  Check,
-  NavigationArrow,
-  Notebook,
-} from "@phosphor-icons/react/dist/ssr";
+<![CDATA["use client";
+
+import { useState } from "react";
+import { ArrowDown, ArrowLeft, ArrowRight } from "@phosphor-icons/react";
+import { SuppliedArtwork, type ArtworkId } from "./SuppliedArtwork";
+
+const views: { id: ArtworkId; title: string; description: string }[] = [
+  {
+    id: 9,
+    title: "The bigger picture",
+    description:
+      "A considered collection of the details that make a workspace feel calm.",
+  },
+  {
+    id: 3,
+    title: "The details, together",
+    description: "Notes, context, and the next conversation, held in one view.",
+  },
+  {
+    id: 6,
+    title: "Small things, considered",
+    description:
+      "A closer look at the interface, on its original warm paper canvas.",
+  },
+  {
+    id: 7,
+    title: "A change of scenery",
+    description: "The same visual language, imagined for a smaller screen.",
+  },
+];
 
 export function ProductPanorama() {
+  const [selected, setSelected] = useState(0);
   return (
     <section className="wyp-panorama wyp-chapter" id="overview">
       <div className="wyp-container">
@@ -4271,107 +3968,72 @@ export function ProductPanorama() {
             </a>
           </p>
         </div>
-        <div className="wyp-panorama-artboard" data-panorama>
-          <div className="wyp-workspace">
-            <aside className="wyp-workspace-sidebar">
-              <span>
-                <NavigationArrow weight="fill" /> Waypoint
-              </span>
-              <p>My workspace</p>
-              <strong>
-                <span className="wyp-status-dot" /> Overview
-              </strong>
-              <span>My pipeline</span>
-              <span>Conversations</span>
-              <span>Interview notes</span>
-              <div className="wyp-workspace-aside-note">
-                <Notebook size={24} />
-                <p>
-                  A little space
-                  <br />
-                  for your next big move.
-                </p>
-              </div>
-            </aside>
-            <div className="wyp-workspace-content">
-              <div className="wyp-workspace-header">
-                <span>Your next chapter</span>
-                <span>Personal workspace / Illustration</span>
-              </div>
-              <div className="wyp-workspace-welcome">
-                <h3>
-                  A clearer view of
-                  <br />
-                  what comes next.
-                </h3>
-                <p>Every possibility, with a next step.</p>
-              </div>
-              <div className="wyp-overview-grid grid-flow-dense">
-                <div className="wyp-overview-opportunities">
-                  <span className="wyp-tiny">Conversations in motion</span>
-                  {[
-                    {
-                      name: "Linear",
-                      role: "Staff Design Engineer",
-                      stage: "Pitched",
-                      c: "linear",
-                    },
-                    {
-                      name: "Vercel",
-                      role: "Lead Framework Architect",
-                      stage: "Panel round",
-                      c: "vercel",
-                    },
-                    {
-                      name: "Anthropic",
-                      role: "Research Systems",
-                      stage: "Offer stage",
-                      c: "anthropic",
-                    },
-                  ].map((c) => (
-                    <div className="wyp-opportunity-row" key={c.name}>
-                      <span className={`wyp-company-mark wyp-mark-${c.c}`}>
-                        {c.name[0]}
-                      </span>
-                      <div>
-                        <strong>{c.name}</strong>
-                        <p>{c.role}</p>
-                      </div>
-                      <span>{c.stage}</span>
-                    </div>
-                  ))}
+        <div
+          className="wyp-artwork-gallery"
+          aria-label="Waypoint concept artwork"
+        >
+          <div
+            className="wyp-artwork-gallery-tabs"
+            role="group"
+            aria-label="Choose an artwork view"
+          >
+            {views.map((view, i) => (
+              <button
+                type="button"
+                key={view.id}
+                onClick={() => setSelected(i)}
+                aria-pressed={selected === i}
+              >
+                {view.title}
+              </button>
+            ))}
+          </div>
+          <div className="wyp-panorama-artboard" data-panorama>
+            <div className="wyp-gallery-frame">
+              {views.map((view, i) => (
+                <div
+                  key={view.id}
+                  className={`wyp-gallery-image ${selected === i ? "is-active" : ""}`}
+                  aria-hidden={selected !== i}
+                >
+                  <SuppliedArtwork
+                    id={view.id}
+                    sizes="(max-width: 1280px) 100vw, 1200px"
+                  />
                 </div>
-                <div className="wyp-overview-next">
-                  <span className="wyp-tiny">On the horizon</span>
-                  <div className="wyp-date-display">
-                    <strong>05</strong>
-                    <span>
-                      November
-                      <br />
-                      Wednesday
-                    </span>
-                  </div>
-                  <h4>Architecture &amp; systems</h4>
-                  <p>Anthropic · 2:00 pm</p>
-                  <span className="wyp-prepared">
-                    <Check size={13} /> Preparation notes, right here
-                  </span>
-                </div>
-              </div>
-              <div className="wyp-workspace-bottom">
-                <span>
-                  <span className="wyp-status-dot" /> One thoughtful step at a
-                  time.
-                </span>
-                <ArrowUpRight size={18} />
-              </div>
+              ))}
+            </div>
+          </div>
+          <div className="wyp-gallery-caption">
+            <div aria-live="polite">
+              <h3>{views[selected].title}</h3>
+              <p>{views[selected].description}</p>
+            </div>
+            <div className="wyp-gallery-controls">
+              <button
+                type="button"
+                aria-label="Previous concept artwork"
+                onClick={() =>
+                  setSelected((selected + views.length - 1) % views.length)
+                }
+              >
+                <ArrowLeft size={18} />
+              </button>
+              <span>{String(selected + 1).padStart(2, "0")} / 04</span>
+              <button
+                type="button"
+                aria-label="Next concept artwork"
+                onClick={() => setSelected((selected + 1) % views.length)}
+              >
+                <ArrowRight size={18} />
+              </button>
             </div>
           </div>
         </div>
-        <div className="wyp-panorama-caption">
-          <span>Built around your search. At your pace.</span>
-          <span>Illustrative product workspace · Sample opportunities</span>
-        </div>
+        <p className="wyp-artwork-note">
+          Supplied interface concepts, including hiring-side sample screens.
+          Explore Waypoint’s working job-search demos below.
+        </p>
       </div>
     </section>
   );
@@ -4385,14 +4047,8 @@ import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  ArrowUpRight,
-  CalendarBlank,
-  Check,
-  EnvelopeSimple,
-  LockKey,
-  SquaresFour,
-} from "@phosphor-icons/react";
+import { ArrowUpRight } from "@phosphor-icons/react";
+import { SuppliedArtwork, type ArtworkId } from "./SuppliedArtwork";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -4419,157 +4075,10 @@ const steps = [
   },
 ];
 
+const storyArtwork: ArtworkId[] = [5, 2, 4, 6];
+
 export function StoryVisual({ index }: { index: number }) {
-  if (index === 0)
-    return (
-      <div className="wyp-story-ui wyp-radar">
-        <div className="wyp-ui-top">
-          <CalendarBlank size={20} />
-          <span>Interview radar</span>
-          <span>November</span>
-        </div>
-        <div className="wyp-week">
-          {["Mon", "Tue", "Wed", "Thu", "Fri"].map((d, i) => (
-            <div key={d} className={i === 2 ? "is-today" : ""}>
-              <span>{d}</span>
-              <strong>{i + 3}</strong>
-              <i />
-            </div>
-          ))}
-        </div>
-        <div className="wyp-round">
-          <span className="wyp-company-mark wyp-mark-anthropic">A</span>
-          <div>
-            <span className="wyp-tiny">Your next conversation</span>
-            <h4>Architecture &amp; systems</h4>
-            <p>Anthropic · Wednesday, 2:00 pm</p>
-          </div>
-        </div>
-        <div className="wyp-prep-list">
-          <span>Room to arrive prepared</span>
-          <p>
-            <Check size={16} /> Review consensus and failover notes
-          </p>
-          <p>
-            <Check size={16} /> Bring questions for the engineering team
-          </p>
-          <p>
-            <span className="wyp-check-empty" /> Revisit compensation priorities
-          </p>
-        </div>
-        <div className="wyp-ui-foot">
-          A clear next step, before you step into the room.
-        </div>
-      </div>
-    );
-  if (index === 1)
-    return (
-      <div className="wyp-story-ui wyp-mini-pipeline">
-        <div className="wyp-ui-top">
-          <SquaresFour size={20} />
-          <span>My pipeline</span>
-          <span>In motion</span>
-        </div>
-        <div className="wyp-flow-path">
-          <span>Pitched</span>
-          <ArrowUpRight />
-          <span>In review</span>
-          <ArrowUpRight />
-          <span>Panel round</span>
-        </div>
-        {[
-          {
-            company: "Linear",
-            role: "Staff Design Engineer",
-            status: "First conversation",
-            cls: "linear",
-          },
-          {
-            company: "Vercel",
-            role: "Lead Framework Architect",
-            status: "Panel round",
-            cls: "vercel",
-          },
-          {
-            company: "Anthropic",
-            role: "Research Systems",
-            status: "Offer stage",
-            cls: "anthropic",
-          },
-        ].map((c) => (
-          <div className="wyp-opportunity-row" key={c.company}>
-            <span className={`wyp-company-mark wyp-mark-${c.cls}`}>
-              {c.company[0]}
-            </span>
-            <div>
-              <strong>{c.company}</strong>
-              <p>{c.role}</p>
-            </div>
-            <span>{c.status}</span>
-          </div>
-        ))}
-        <div className="wyp-ui-foot">A place for every possibility.</div>
-      </div>
-    );
-  if (index === 2)
-    return (
-      <div className="wyp-story-ui wyp-story-inbox">
-        <div className="wyp-ui-top">
-          <EnvelopeSimple size={20} />
-          <span>Conversations</span>
-          <span className="wyp-status-dot" />
-        </div>
-        <div className="wyp-message-meta">
-          <span className="wyp-avatar">EV</span>
-          <div>
-            <strong>Elena at Anthropic</strong>
-            <p>Re: a different approach to systems</p>
-          </div>
-          <span>Just now</span>
-        </div>
-        <div className="wyp-letter">
-          <span>A new conversation begins.</span>
-          <p>
-            “Loved your distributed systems write-up. Are you available for a
-            technical discussion this Wednesday?”
-          </p>
-          <div className="wyp-message-route">
-            <span>First pitch</span>
-            <span />
-            <strong>In review</strong>
-          </div>
-        </div>
-        <div className="wyp-ui-foot">
-          Illustrative conversation · No email integration connected
-        </div>
-      </div>
-    );
-  return (
-    <div className="wyp-story-ui wyp-story-privacy">
-      <div className="wyp-ui-top">
-        <LockKey size={20} />
-        <span>A space of your own</span>
-        <span>Privacy concept</span>
-      </div>
-      <div className="wyp-lock-orbit">
-        <LockKey size={44} weight="light" />
-        <span />
-        <span />
-      </div>
-      <h4>Your next move is yours.</h4>
-      <p>
-        Outreach notes. Private priorities.
-        <br />
-        The things that belong to you.
-      </p>
-      <div className="wyp-cipher">
-        •••• •••• •••• •••• <LockKey size={14} />
-      </div>
-      <div className="wyp-ui-foot">
-        Explore the simulated privacy switch below.
-      </div>
-    </div>
-  );
+  return <SuppliedArtwork id={storyArtwork[index]} />;
 }
 
 export function ProductStory() {
@@ -4706,7 +4215,7 @@ export function ProductStory() {
               ))}
             </div>
             <p className="wyp-canvas-footnote">
-              A workflow illustration. The live tools are just ahead.
+              Supplied concept artwork. The live tools are just ahead.
             </p>
           </div>
         </div>
@@ -4796,6 +4305,85 @@ export function SiteHeader() {
         onClose={() => setMobileMenuOpen(false)}
       />
     </header>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(waypoint)/waypoint/components/SuppliedArtwork.tsx">
+<![CDATA[const artwork = {
+  1: {
+    key: "waypoint-01-hero-dashboard",
+    alt: "Supplied Waypoint dashboard concept with a front-facing pipeline, tasks, and activity panel.",
+  },
+  2: {
+    key: "waypoint-02-pipeline-board",
+    alt: "Supplied Waypoint pipeline board concept with saved, applied, screening, interview, and offer columns.",
+  },
+  3: {
+    key: "waypoint-03-candidate-profile",
+    alt: "Supplied Waypoint profile concept with contextual notes, a checklist, and a stage tracker.",
+  },
+  4: {
+    key: "waypoint-04-outreach-workspace",
+    alt: "Supplied Waypoint outreach workspace concept showing a message draft and follow-up panels.",
+  },
+  5: {
+    key: "waypoint-05-insights-dashboard",
+    alt: "Supplied Waypoint insights concept with charts and illustrative hiring metrics.",
+  },
+  6: {
+    key: "waypoint-06-ui-fragments",
+    alt: "Supplied Waypoint interface fragments on their original opaque sand and topographic background.",
+  },
+  7: {
+    key: "waypoint-07-mobile-screens",
+    alt: "Supplied Waypoint mobile screen concepts presented as four flat interface panels.",
+  },
+  8: {
+    key: "waypoint-08-topographic-background",
+    alt: "Supplied Waypoint sand-colored topographic artwork.",
+  },
+  9: {
+    key: "waypoint-09-feature-collage",
+    alt: "Supplied Waypoint feature collage combining profile, pipeline, tasks, and activity concepts.",
+  },
+  10: {
+    key: "waypoint-10-journal-workspace",
+    alt: "Supplied Waypoint journal workspace concept with a central writing area and saved observations.",
+  },
+} as const;
+
+export type ArtworkId = keyof typeof artwork;
+
+export function SuppliedArtwork({
+  id,
+  priority = false,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1023px) 50vw, 800px",
+  className = "",
+}: {
+  id: ArtworkId;
+  priority?: boolean;
+  sizes?: string;
+  className?: string;
+}) {
+  const image = artwork[id];
+  const base = `/templates/waypoint/${image.key}`;
+  return (
+    // These are optimized copies of the supplied ZIP artwork; the images are never reconstructed or relabeled.
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      className={`wyp-supplied-artwork ${className}`}
+      src={`${base}-1600.webp`}
+      srcSet={`${base}-800.webp 800w, ${base}-1600.webp 1600w`}
+      sizes={sizes}
+      width={2752}
+      height={1536}
+      alt={image.alt}
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : undefined}
+      decoding="async"
+      data-supplied-artwork={id}
+    />
   );
 }
 ]]>

@@ -1,12 +1,36 @@
-import {
-  ArrowDown,
-  ArrowUpRight,
-  Check,
-  NavigationArrow,
-  Notebook,
-} from "@phosphor-icons/react/dist/ssr";
+"use client";
+
+import { useState } from "react";
+import { ArrowDown, ArrowLeft, ArrowRight } from "@phosphor-icons/react";
+import { SuppliedArtwork, type ArtworkId } from "./SuppliedArtwork";
+
+const views: { id: ArtworkId; title: string; description: string }[] = [
+  {
+    id: 9,
+    title: "The bigger picture",
+    description:
+      "A considered collection of the details that make a workspace feel calm.",
+  },
+  {
+    id: 3,
+    title: "The details, together",
+    description: "Notes, context, and the next conversation, held in one view.",
+  },
+  {
+    id: 6,
+    title: "Small things, considered",
+    description:
+      "A closer look at the interface, on its original warm paper canvas.",
+  },
+  {
+    id: 7,
+    title: "A change of scenery",
+    description: "The same visual language, imagined for a smaller screen.",
+  },
+];
 
 export function ProductPanorama() {
+  const [selected, setSelected] = useState(0);
   return (
     <section className="wyp-panorama wyp-chapter" id="overview">
       <div className="wyp-container">
@@ -28,107 +52,72 @@ export function ProductPanorama() {
             </a>
           </p>
         </div>
-        <div className="wyp-panorama-artboard" data-panorama>
-          <div className="wyp-workspace">
-            <aside className="wyp-workspace-sidebar">
-              <span>
-                <NavigationArrow weight="fill" /> Waypoint
-              </span>
-              <p>My workspace</p>
-              <strong>
-                <span className="wyp-status-dot" /> Overview
-              </strong>
-              <span>My pipeline</span>
-              <span>Conversations</span>
-              <span>Interview notes</span>
-              <div className="wyp-workspace-aside-note">
-                <Notebook size={24} />
-                <p>
-                  A little space
-                  <br />
-                  for your next big move.
-                </p>
-              </div>
-            </aside>
-            <div className="wyp-workspace-content">
-              <div className="wyp-workspace-header">
-                <span>Your next chapter</span>
-                <span>Personal workspace / Illustration</span>
-              </div>
-              <div className="wyp-workspace-welcome">
-                <h3>
-                  A clearer view of
-                  <br />
-                  what comes next.
-                </h3>
-                <p>Every possibility, with a next step.</p>
-              </div>
-              <div className="wyp-overview-grid grid-flow-dense">
-                <div className="wyp-overview-opportunities">
-                  <span className="wyp-tiny">Conversations in motion</span>
-                  {[
-                    {
-                      name: "Linear",
-                      role: "Staff Design Engineer",
-                      stage: "Pitched",
-                      c: "linear",
-                    },
-                    {
-                      name: "Vercel",
-                      role: "Lead Framework Architect",
-                      stage: "Panel round",
-                      c: "vercel",
-                    },
-                    {
-                      name: "Anthropic",
-                      role: "Research Systems",
-                      stage: "Offer stage",
-                      c: "anthropic",
-                    },
-                  ].map((c) => (
-                    <div className="wyp-opportunity-row" key={c.name}>
-                      <span className={`wyp-company-mark wyp-mark-${c.c}`}>
-                        {c.name[0]}
-                      </span>
-                      <div>
-                        <strong>{c.name}</strong>
-                        <p>{c.role}</p>
-                      </div>
-                      <span>{c.stage}</span>
-                    </div>
-                  ))}
+        <div
+          className="wyp-artwork-gallery"
+          aria-label="Waypoint concept artwork"
+        >
+          <div
+            className="wyp-artwork-gallery-tabs"
+            role="group"
+            aria-label="Choose an artwork view"
+          >
+            {views.map((view, i) => (
+              <button
+                type="button"
+                key={view.id}
+                onClick={() => setSelected(i)}
+                aria-pressed={selected === i}
+              >
+                {view.title}
+              </button>
+            ))}
+          </div>
+          <div className="wyp-panorama-artboard" data-panorama>
+            <div className="wyp-gallery-frame">
+              {views.map((view, i) => (
+                <div
+                  key={view.id}
+                  className={`wyp-gallery-image ${selected === i ? "is-active" : ""}`}
+                  aria-hidden={selected !== i}
+                >
+                  <SuppliedArtwork
+                    id={view.id}
+                    sizes="(max-width: 1280px) 100vw, 1200px"
+                  />
                 </div>
-                <div className="wyp-overview-next">
-                  <span className="wyp-tiny">On the horizon</span>
-                  <div className="wyp-date-display">
-                    <strong>05</strong>
-                    <span>
-                      November
-                      <br />
-                      Wednesday
-                    </span>
-                  </div>
-                  <h4>Architecture &amp; systems</h4>
-                  <p>Anthropic · 2:00 pm</p>
-                  <span className="wyp-prepared">
-                    <Check size={13} /> Preparation notes, right here
-                  </span>
-                </div>
-              </div>
-              <div className="wyp-workspace-bottom">
-                <span>
-                  <span className="wyp-status-dot" /> One thoughtful step at a
-                  time.
-                </span>
-                <ArrowUpRight size={18} />
-              </div>
+              ))}
+            </div>
+          </div>
+          <div className="wyp-gallery-caption">
+            <div aria-live="polite">
+              <h3>{views[selected].title}</h3>
+              <p>{views[selected].description}</p>
+            </div>
+            <div className="wyp-gallery-controls">
+              <button
+                type="button"
+                aria-label="Previous concept artwork"
+                onClick={() =>
+                  setSelected((selected + views.length - 1) % views.length)
+                }
+              >
+                <ArrowLeft size={18} />
+              </button>
+              <span>{String(selected + 1).padStart(2, "0")} / 04</span>
+              <button
+                type="button"
+                aria-label="Next concept artwork"
+                onClick={() => setSelected((selected + 1) % views.length)}
+              >
+                <ArrowRight size={18} />
+              </button>
             </div>
           </div>
         </div>
-        <div className="wyp-panorama-caption">
-          <span>Built around your search. At your pace.</span>
-          <span>Illustrative product workspace · Sample opportunities</span>
-        </div>
+        <p className="wyp-artwork-note">
+          Supplied interface concepts, including hiring-side sample screens.
+          Explore Waypoint’s working job-search demos below.
+        </p>
       </div>
     </section>
   );

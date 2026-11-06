@@ -5,45 +5,40 @@ Implemented in the existing Next.js route at `/waypoint`. Local preview: http://
 ## What changed
 
 - Retained the original sepia landscape, paper palette, headline, job-seeker positioning, and existing plan prices. Plus Jakarta Sans now carries both the interface and display typography, with JetBrains Mono for route numbers.
-- Added a full-width product panorama built from accessible HTML, followed by a four-stage editorial story. GSAP pins its flat illustration canvas on desktop screens at least 1024px wide and 720px high. Scroll reverses correctly; manual controls navigate to the corresponding chapter.
+- Integrated the supplied ZIP artwork throughout the hero, a manually controlled four-view gallery, the four-stage editorial story, and the journal chapter. Marketing dashboards are images from the ZIP rather than reconstructed HTML. GSAP pins its flat illustration canvas on desktop screens at least 1024px wide and 720px high. Scroll reverses correctly; manual controls navigate to the corresponding chapter.
 - Added a keyboard-controlled live tool selector and an all-tools view. Widget instances remain mounted so tab switches preserve manual choices.
-- Added a paper-trail chapter with scroll-revealed words, a drawn timeline, stacked paper, and three manually selected sample opportunity notes.
-- Restored working hero card progression and Reset, calendar note checkboxes, native kanban drag/drop, reply thread expansion, employer selection, and workspace dialogs. Preserved the existing calendar, inbound simulation, privacy toggle, pricing odometers, and FAQ.
+- Added a paper-trail chapter with scroll-revealed words, a drawn timeline, the supplied journal image, and three manually selected sample opportunity notes outside the image.
+- Preserved the working full pipeline with card progression and Reset in the live demo section, together with calendar note checkboxes, native kanban drag/drop, reply thread expansion, employer selection, and workspace dialogs. Preserved the existing calendar, inbound simulation, privacy toggle, pricing odometers, and FAQ.
 - Replaced unsupported hero social proof with product-oriented copy. Sign-in, plan selection, and footer information links now reach dialogs instead of unresolved anchors. Native modal dialogs provide keyboard focus containment and Escape dismissal.
 - Early access and workspace forms validate locally and explain that no account, email, subscription, or encryption service is connected. The original examples remain demonstrations, not production integrations.
 - Added the motion and icon dependencies to the gallery's copy-bundle metadata and regenerated the Waypoint source bundle.
 
 ## Asset audit and use
 
-Every supplied image was inspected. All are 2752 × 1536 and opaque, including the PNG. No generated image was treated as a transparent cutout. No new images were generated and no existing image was edited.
+All ten images were extracted directly from `D:\downloads\New folder (16)\waypoint\waypoint-images.zip`. Their original artwork and baked-in labels are preserved. The revised page uses the images instead of reconstructed marketing dashboards. The live tools remain separate and playable.
 
-| Supplied asset | Decision |
+Every source is 2752 ? 1536 and opaque, including the PNG. Artwork stays flat and fully visible, without perspective, fabricated transparency, relabeling, or replacement UI. Brief captions identify concept artwork where sample hiring-side labels differ from the working job-search demos.
+
+| Supplied asset | Placement |
 | --- | --- |
-| 01 — Hero dashboard | Omitted: general hiring pipeline and candidate management. Replaced with genuine job-seeker HTML. |
-| 02 — Pipeline board | Omitted: Add Candidate and employer hiring stages. Existing interactive board retained. |
-| 03 — Candidate profile | Omitted: recruiter evaluation workflow. |
-| 04 — Outreach workspace | Omitted: outreach to candidates, portfolio review, and unsupported engagement metrics. |
-| 05 — Insights dashboard | Omitted: hiring analytics and unsourced candidate totals. |
-| 06 — UI fragments | Omitted: opaque artboard with employer tasks, candidate cards, and Add Candidate control. |
-| 07 — Mobile screens | Omitted: employer candidate detail and hiring workflow. |
-| 08 — Topographic background | Used as an ambient surface for the panorama, story canvas, and final invitation. |
-| 09 — Feature collage | Omitted: candidate assessment and time-to-hire claims. |
-| 10 — Journal workspace | Omitted: hiring-manager candidate evaluation. Replaced with a personal opportunity journal. |
+| 01 ? Hero dashboard | Flagship image beneath the landscape hero. |
+| 02 ? Pipeline board | Navigate stage in the scroll story. |
+| 03 ? Candidate profile | ?The details, together? gallery view. |
+| 04 ? Outreach workspace | Connect stage in the scroll story. |
+| 05 ? Insights dashboard | Prepare stage in the scroll story. |
+| 06 ? UI fragments | ?Small things, considered? gallery view and fourth story stage, on the original opaque background. |
+| 07 ? Mobile screens | ?A change of scenery? gallery view. |
+| 08 ? Topographic background | Ambient surface in the final invitation. |
+| 09 ? Feature collage | Initial ?The bigger picture? gallery view. |
+| 10 ? Journal workspace | Paper-trail chapter, with interactive opportunity notes beneath the image. |
 
-The original `/templates/waypoint/hero-bg-1920.webp` remains the hero artwork and supplies the small inline landscape detail. New optimized assets:
-
-| Public path | Role | Dimensions | Bytes |
-| --- | --- | --- | --- |
-| `/templates/waypoint/topographic-800.webp` | Small story-canvas backdrop | 800 × 447 | 16,800 |
-| `/templates/waypoint/topographic-1600.webp` | Wide editorial surfaces | 1600 × 893 | 58,422 |
-
-Both are decorative CSS backgrounds. Product copy and controls are HTML. The additional raster payload is approximately 75 KB, rather than the 23 MB source pack.
+Each image has traceable `-800.webp` and `-1600.webp` derivatives under `/templates/waypoint/`, retaining its `waypoint-01` through `waypoint-10` source name. Both size sets together total **1,388,582 bytes**, compared with the 23 MB original ZIP. Responsive `srcset`, lazy loading, explicit image dimensions, descriptive alt text, and hero loading priority are implemented. The original sepia landscape is preserved. No new imagery was generated.
 
 ## Verification
 
 Completed on 2026-11-06 in local Chromium:
 
-- **18 Playwright tests passed**, covering the original interactive widgets, hero progression/reset, checklist persistence, pricing in both directions, FAQ, forms, dialogs, mobile navigation, persistent tab state, narrative selection, opportunity notes, and employer selection.
+- **19 Playwright tests passed**, covering the original interactive widgets, supplied hero artwork, gallery selection and arrows, pipeline progression/reset, checklist persistence, pricing in both directions, FAQ, forms, dialogs, mobile navigation, persistent tab state, narrative selection, opportunity notes, and employer selection.
 - **12 existing logic tests passed** across pipeline, pricing, and parallax math.
 - **TypeScript passed** and **ESLint reported no errors**. Four pre-existing unused-type-import warnings remain in the unchanged logic test files.
 - **Production build passed** with all 200 pages generated, including `/waypoint`. The repository-wide build still prints font fallback, social metadata, and image-renderer warnings from existing routes.
@@ -74,8 +69,9 @@ Screenshots were captured and visually inspected. They are local working artifac
 - `after-desktop.png`, `after-mobile.png` (full-page layout captures)
 - `hero-desktop.png`, `panorama-desktop.png`, `story-replies-desktop.png`, `paper-trail-desktop.png`
 - `hero-mobile.png`, `lab-mobile.png`, `hero-320.png`
+- Current ZIP revision: `zip-hero-desktop.png`, `zip-panorama-desktop.png`, `zip-paper-desktop.png`, `zip-mobile.png`, `zip-story-desktop.png`, `zip-full-desktop.png`
 
-The ten-image contact sheet is `artifacts/waypoint/waypoint-asset-audit.png`. Full-page screenshots of the animated page show its state at capture time; use the chapter captures or the running page to assess pinned transitions.
+The current ZIP contact sheet is `artifacts/waypoint/zip-contact-sheet.png`. Full-page screenshots of the animated page show its state at capture time; use the chapter captures or the running page to assess pinned transitions.
 
 ## Practical limits
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDown, ArrowUpRight } from "@phosphor-icons/react";
-import { HeroDashboard } from "./HeroDashboard";
+import { SuppliedArtwork } from "./SuppliedArtwork";
 
 export function Hero() {
   return (
@@ -36,11 +36,19 @@ export function Hero() {
       <div className="wyp-hero-deck wyp-container" id="pipeline">
         <div className="wyp-deck-caption">
           <span>Less scattered. More intentional.</span>
-          <span>
-            Interactive preview <span className="wyp-status-dot" />
-          </span>
+          <span>A view of what comes next</span>
         </div>
-        <HeroDashboard />
+        <figure className="wyp-hero-artwork">
+          <SuppliedArtwork
+            id={1}
+            priority
+            sizes="(max-width: 1200px) 100vw, 1104px"
+          />
+          <figcaption>
+            Waypoint interface concept · Explore the interactive flight deck
+            below
+          </figcaption>
+        </figure>
       </div>
       <div className="wyp-horizon" aria-hidden="true">
         <span />

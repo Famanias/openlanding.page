@@ -6,8 +6,8 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
-  Notebook,
 } from "@phosphor-icons/react";
+import { SuppliedArtwork } from "./SuppliedArtwork";
 
 const moments = [
   {
@@ -92,15 +92,14 @@ export function PaperTrail() {
           <div className="wyp-note-stack">
             <div className="wyp-note-under" data-stack-note />
             <div className="wyp-note-under" data-stack-note />
+            <figure className="wyp-journal-artwork">
+              <SuppliedArtwork id={10} />
+              <figcaption>Supplied journal workspace concept</figcaption>
+            </figure>
             <article
-              className="wyp-journal"
+              className="wyp-opportunity-note"
               aria-label="Sample opportunity notes"
             >
-              <div className="wyp-journal-top">
-                <Notebook size={20} />
-                <span>Opportunity notes / Anthropic</span>
-                <span>Personal</span>
-              </div>
               <div key={selected} className="wyp-journal-entry">
                 <p className="wyp-tiny">
                   {moment.date} · {moment.stage}
