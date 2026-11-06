@@ -1,0 +1,13 @@
+
+ RUN  v5.0.5 E:/orca/workspaces/webflow-projects/codex-session-112-619
+
+
+ Test Files  17 passed (17)
+      Tests  72 passed (72)
+   Start at  18:02:40
+   Duration  6.68s (import 54%, tests 43%, transform 2%, worker 1%)
+
+     Import  51 modules were evaluated 87 times · 5.97s total, 54% of tracked time
+             ~618ms faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+

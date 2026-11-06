@@ -3,8 +3,6 @@ import {
   advanceCardStage,
   countByStage,
   INITIAL_PIPELINE,
-  type PipelineCard,
-  type PipelineStage,
 } from "./pipelineState";
 
 describe("pipelineState logic", () => {

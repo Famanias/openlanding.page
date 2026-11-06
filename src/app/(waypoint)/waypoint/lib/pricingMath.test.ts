@@ -2,8 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   calculatePlanPrice,
   formatOdometerDigits,
-  type BillingCadence,
-  type PlanId,
 } from "./pricingMath";
 
 describe("pricingMath logic", () => {

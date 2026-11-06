@@ -1,0 +1,5 @@
+Running 1 test using 1 worker
+
+  ok 1 [chromium] › tests\e2e\lenus.spec.ts:87:5 › automatic transformation reveals and reassembles without entering inspection (5.1s)
+
+  1 passed (6.1s)
