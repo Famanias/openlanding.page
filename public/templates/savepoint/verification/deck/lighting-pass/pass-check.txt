@@ -1,0 +1,3 @@
+STATUS pass=lighting-pass completed=5 blocked=none next=forge/stage3_build/orchestrate_passes.py check C:\Users\User\orca\openlanding.page\src\app\(savepoint)\savepoint\models\deck01-sculpt-spec.json
+PASS
+pass 'lighting-pass' is the current unlocked pass

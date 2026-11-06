@@ -1,6 +1,22 @@
-export type TemplateSlug = "lenus" | "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello";
+export type TemplateSlug = "lenus" | "savepoint" | "arcandsignal" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra";
 
-export type CategoryId = "all" | "keynote-deck" | "scroll-showcase" | "3d-webgpu" | "editorial-magazine" | "conversion";
+export type CategoryId =
+  | "all"
+  | "showcase"
+  | "3d"
+  | "editorial"
+  | "commerce"
+  | "deck"
+  | "ai"
+  | "saas"
+  | "app"
+  | "marketing"
+  | "portfolio"
+  | "gradient"
+  | "glass"
+  | "minimal"
+  | "brutalist"
+  | "studio";
 
 export type TemplateCategory = Exclude<CategoryId, "all">;
 
@@ -18,6 +34,7 @@ export interface TemplateItem {
   title: string;
   description: string;
   category: TemplateCategory;
+  categories: TemplateCategory[];
   industry: string;
   stack: string;
   badges: string[];
@@ -27,13 +44,30 @@ export interface TemplateItem {
   archived?: boolean;
 }
 
+export function getTemplateCategories(template: TemplateItem): TemplateCategory[] {
+  if (template.categories && template.categories.length > 0) {
+    return template.categories;
+  }
+  return [template.category];
+}
+
 export const CATEGORIES: Category[] = [
   { id: "all", label: "All" },
-  { id: "keynote-deck", label: "Keynote & Deck" },
-  { id: "scroll-showcase", label: "Scroll Showcase" },
-  { id: "3d-webgpu", label: "3D & WebGPU" },
-  { id: "editorial-magazine", label: "Editorial Magazine" },
-  { id: "conversion", label: "Conversion Landing" },
+  { id: "showcase", label: "Showcase" },
+  { id: "3d", label: "3D" },
+  { id: "editorial", label: "Editorial" },
+  { id: "commerce", label: "Commerce" },
+  { id: "deck", label: "Deck" },
+  { id: "ai", label: "AI" },
+  { id: "saas", label: "SaaS" },
+  { id: "app", label: "App" },
+  { id: "marketing", label: "Marketing" },
+  { id: "portfolio", label: "Portfolio" },
+  { id: "gradient", label: "Gradient" },
+  { id: "glass", label: "Glass" },
+  { id: "minimal", label: "Minimal" },
+  { id: "brutalist", label: "Brutalist" },
+  { id: "studio", label: "Studio" },
 ];
 
 export const LENUS_PROMPT = "# LENUS — Reality is just the start\n\nBuild an isolated Next.js 16 / React 19 / TypeScript / Tailwind CSS creative-studio hero at `/lenus`. Use `three` and `lucide-react`. All imports must remain inside `src/app/(lenus)/` or npm packages. No external 3D assets or HDR downloads.\n\nMatch this composition: a floating translucent header, tall stacked headline on the left, and a large oblique optical lens on the right. Exact headline: REALITY / IS JUST / THE START. Make REALITY lime, IS JUST and THE white, START. violet. Subtitle: “We build experiences that move brands beyond the expected.” Primary pill action: “STEP INSIDE” with an arrow. Header: original geometric LENUS wordmark, WORK, EXPERTISE, TECHNOLOGY, ABOUT, and GET IN TOUCH.\n\nPalette: #08090D midnight, #10131C cosmos, #161924 glass surface, #F8FAFC white, #9499A6 muted text, #D2F802 lime, #A855F7 violet, #00E599 emerald, #0A0B0E button ink. Typography: Archivo 800 with condensed width axis; Plus Jakarta Sans; JetBrains Mono. Load through next/font using distinct CSS variables.\n\nThe central idea is optical depth: STEP INSIDE separates an explodable lens. Keep a 44/56 desktop copy/stage grid, stack below 960px, and prevent overflow at 390px. CSS radial aperture architecture, sparse stars and restrained violet glow sit behind an alpha-transparent canvas. Keep the complete ring inside its stage and reserve room for the horizontal glass HUD, up to 720px wide and approximately 108px tall on desktop, stacking within the viewport on phones.\n\nPreserve the procedural model in `model/`: 19 named components, including two fluted glass annuli, stepped titanium collars, front emerald convex lens, rear mount and cooling fins, screws, gold contacts, retaining beads and twelve beveled prism shards. The original design plan's 16-part count is stale. Outer radius 2.49. Glass uses MeshPhysicalMaterial, transmission .98, roughness .03, IOR 1.52, dispersion .08. Titanium has metalness .85 and roughness .25. Normal, roughness and emissive data fields are independent. A procedural HalfFloat PMREM studio with lime and violet strips supplies reflections. Do not paint reflections into albedo.\n\nBuild a lifecycle-guarded `LenusSceneController`: orthographic half-height max(2.75,2.75/aspect), yaw −.46 rad, pitch +.14 rad, bounded drag inspection, pointer parallax, part raycasting, reversible explosion and focus-collar rotation. Animate the complete lens on a seamless 24-second cycle: a full turn around its optical axis, gentle bounded pitch/yaw, an oscillating inner collar and counter-orbiting glass shards. Drive every channel with harmonics of one clock, compose parallax separately and hold the clock while dragging. Use real elapsed time for the loop and delta-time damping for user controls. Pause/resume and renderer reconstruction retain the loop phase. Cap DPR at 1.5 and lower buffer scale by 15% to a 75% floor after two seconds below 55 FPS. Rebuild environment resources after context restoration. Dispose every context, texture, geometry, listener and observer on unmount.\n\nThe HUD includes part selection and material information, explosion toggle and slider, focus-collar slider, pause/resume and reset. Keyboard: arrows rotate, E separates, R/Home resets; do not intercept slider keys. Pause ambient rendering offscreen, in hidden tabs, behind dialogs, and manually, while explicit geometry controls still render their requested pose. Replay the current separation and focus values when a new scene initializes. Start desktop rendering at idle; on coarse-pointer or narrow screens, keep the SVG until a tap, Enter or STEP INSIDE activates live 3D. Mount no WebGL under reduced motion, including a runtime preference change. Always server-render a complete procedural SVG preview for no-JS, reduced motion, unavailable graphics and context loss.\n\nNavigation opens accessible native dialogs with Escape/backdrop dismissal, trapped focus and focus restoration. Work, expertise and about explain the fictional studio's practice. Technology explains the interactive optical system. GET IN TOUCH validates a name, email and project description and prepares a downloadable local brief, explicitly stating it has not been sent. Never pretend to deliver a message without a backend.\n\nUse masked headline entrances, staggered copy, responsive button/arrow feedback, smooth interruptible separation and restrained ambient motion. Reduced motion is a complete still composition. Add scoped CSS, favicon, 1200×630 Open Graph image and DESIGN.md. Register in all six gallery locations and capture a real 1600px WebP hero preview. Verify unit tests, production build, isolation/palette/media checks, TypeScript, lint, and browser guarantees for WebGL, controls, dialogs, context recovery, mobile, reduced motion and no-JS.\n";
@@ -321,6 +355,222 @@ Build a complete, production-grade, single-page interactive Cyberpunk Technical 
 ### 2. Palette & Typography
 - Palette: #00F0FF, #090B0E, #11161D, #18222F, #475569, #94A3B8, #D4FF00, #E2E8F0, #F1F5F9, #F8FAFC, #FF007F, #FF7A00.
 - Fonts: Oswald (display), Manrope (body), JetBrains Mono (technical telemetry).`;
+
+export const HALODESK_PROMPT = `# Halo Desk — Organize your work without losing your calm
+
+Build a complete, responsive, interaction-rich desktop productivity application landing page for **Halo Desk**.
+
+## Brand and central idea
+
+Halo Desk is a focused desktop productivity app designed for intentional planning, clear priorities, and beautifully structured days. In contrast to high-stress, noisy productivity tools, Halo Desk grounds the user experience in calm, tactile surfaces, pastel organization palettes, and distraction-free execution.
+
+Mood: Serene, tactile, and thoughtfully engineered. Continuous warm-ivory canvas (\`#F8F5EE\`), soft pastel accent washes (lavender \`#DCD5F6\`, powder blue \`#CFDFEF\`, peach \`#F7D9CB\`, mint \`#D0EFE2\`, butter yellow \`#FFF1AE\`), crisp ink typography (\`#29313E\`), and physical stationery touches.
+
+## Visual system and typography
+
+- **Palette:**
+  - Ivory Foundation: \`#F8F5EE\`
+  - Cloud Surface: \`#FCFBF7\`
+  - Ink Body: \`#29313E\`
+  - Muted Text: \`#66717F\`
+  - Lavender Accent: \`#DCD5F6\`
+  - Powder Blue: \`#CFDFEF\`
+  - Peach Tint: \`#F7D9CB\`
+  - Mint Green: \`#D0EFE2\`
+  - Buttercup Yellow: \`#FFF1AE\`
+  - Slate Button: \`#6C798F\` / \`#2A3240\`
+- **Typography:**
+  - Display & Body: DM Sans (400, 500, 600, 700) for clean editorial reading and interface controls
+  - Tabular / Telemetry: JetBrains Mono (400, 500) for timers and metrics
+- **Textures:** Atmospheric multi-stop radial wash and faint dotted micro-matrix overlay in the hero region.
+
+## Sections and signature interactions
+
+1. **Navbar:** Refined top navigation bar with custom animated Halo logo icon, navigation anchors, and early-access download actions.
+2. **Hero & Desktop in Miniature:** Left column editorial copy with feature selector chips (Tasks, Calendar, Focus Mode, Notes); Right column interactive desktop window simulating the live Halo Desk application with task toggles, quick task creation, weekday calendar navigation, focus timer with progress circle, and realistic sticky notes.
+3. **The Calm System:** Interactive card showcase breaking down the 4 pillars of mindful productivity (Spatial Day Structuring, Timebox Alignment, Low-Cognitive Friction, Local-First Privacy).
+4. **Workflow Storyboard:** Step-by-step visual progression demonstrating how a peaceful day unfolds from morning planning to afternoon flow and evening reflection.
+5. **Feature Lab:** Hands-on sandbox letting visitors test drive the four key application modules (Tasks, Calendar, Focus, Notes) with interactive controls.
+6. **Curated Templates:** One-click rhythm presets (Deep Focus Sprint, Balanced Product Flow, Executive Alignment) that instantly reconfigure the hero simulation.
+7. **Meaningful Details:** Tactile micro-features including keyboard shortcuts, sensory feedback toggles, and notification shields.
+8. **Pricing & Early Access:** Transparent pricing tier comparison with an accessible modal supporting email validation and desktop download.
+`;
+
+export const RIFF_PROMPT = `# Prompt: rebuild "Riff" (Music-First Dating)
+
+Build a complete, production-grade, single-page interactive music-first dating application landing page named **Riff** (*Fall for the sound before the selfie. A music-first 18+ dating app that matches people through playlists, genres, favorite artists, and listening chemistry.*).
+
+### 1. Structure & Sections
+- **Sticky Editorial Header**: Hand-drawn SVG waveform logo, brand lockup, clean navigation jumps, mobile navigation drawer, and screenprint red "Join Riff" button.
+- **Dual-Phone Interactive Hero**: Live profile mockups (Mila, 24 & Julian, 26), 24s rotating 12-inch vinyl disc with side A/B flipping, and switchable shared tracks (Kyoto, Starburster, Chaise Longue) with live conversation starters.
+- **Wheat-Pasted Manifesto**: Bold torn-paper headline strips ("THERE'S MORE TO A PERSON THAN A PHOTO"), expandable liner notes accordion, and 3 product principles ("Taste first", "Connection second", "Meet when ready").
+- **How It Works (The First Three Tracks)**: Scrubbable audio progress rail with step indicators and an interactive perforated backstage ticket stub.
+- **Interactive Taste Matcher**: Client-side Jaccard similarity calculator matching user-selected scenes and habits against 4 partner profiles, with live overlap math and custom icebreakers.
+- **Music Chemistry Case Study**: 3-dimensional comparison matrix contrasting favorite records, concert habits, and late-night hours via dual phones and an unfurling torn paper bridge.
+- **The Scene Playlist Wall**: Filterable 6-sleeve playlist grid with expandable gatefold sleeve viewer, liner notes, track durations, and copyable conversation starters.
+- **Stories & Backstage Pass**: Real connection stories in zine format, and a client-side early-access ticket pass generator.
+
+### 2. Palette & Typography
+- Palette: #0B0B0B, #141414, #F4F0E8, #C92533, #741B24, #AAA8A6, #777575.
+- Fonts: Bodoni Moda (editorial headlines), Barlow Condensed (gig flyers/tickets), Plus Jakarta Sans (body UI), JetBrains Mono (track telemetry).`;
+
+export const INESVALE_PROMPT = `# Ines Vale — Independent Photographer Portfolio
+
+Build a complete, isolated editorial and fine-art photography portfolio landing page for independent photographer **Ines Vale** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand and Vision
+
+- **Identity:** Fine-art and editorial photography monograph presenting personal projects, coastal studies, intimate portraits, and architectural quietude.
+- **Tagline:** "Photographs of fleeting places, quiet emotions, and everything we almost miss."
+- **Tone:** Tactile, quiet, luminous, gallery-grade editorial publication.
+
+## Color Palette & Typography
+
+- **Palette:**
+  - Ivory ground: \`#F2ECE0\`
+  - Elevated paper: \`#F7F4ED\`
+  - Ink black: \`#201C19\`
+  - Terracotta rust: \`#A65D46\`
+  - Slate littoral: \`#6D8795\`
+  - Muted captions: \`#79756F\`
+  - Hairline rule: \`#BFB7AC\`
+- **Typography:**
+  - Serif display: Cormorant Garamond for titles and poetic editorial headlines.
+  - Sans body: Plus Jakarta Sans for body prose, EXIF metadata, and navigation.
+
+## Sections & Key Features
+
+1. **Header & Navigation:** 3-zone layout with animated viewfinder calibration rule, uppercase wordmark, section anchors, and inquiry shortcut. Includes accessible mobile menu sheet.
+2. **Hero Stage (The Beauty Between Moments):** Interactive shutter-wipe carousel with directional curtain transitions, contact sheet quick-selector, camera equipment tags, and keyboard arrow controls.
+3. **Selected Stories:** Curated project stories with monograph slide-out drawer reader for deep essays and high-resolution photo plates.
+4. **Archival Gallery:** Category-filtered photographic archive (All, Portraits, Places, Architecture, Details) with plate numbers and fullscreen archival lightbox with keyboard navigation.
+5. **A Closer Look:** Sticky 3-step editorial process study (Observe, Wait, Remember) exploring light, timing, and memory.
+6. **Artist Monograph:** Biographical introduction to Ines Vale, darkroom principles, and studio representation.
+7. **Field Notes:** Dispatches and journal observations from field expeditions.
+8. **Inquire & Acquisition:** Accessible commission inquiry form with instant client validation and mailto link generation.
+
+## Motion & Accessibility
+
+- Tactile motion using custom cubic bezier curves (\`--ease-editorial\`, \`--ease-shutter\`), aperture entrance reveals, and directional wipes.
+- Full support for \`prefers-reduced-motion: reduce\` ensuring all galleries and content remain instantly legible.
+- Complete keyboard accessibility with skip-to-content anchor and clear focus indicators.
+`;
+
+export const NICOPARK_PROMPT = `# Prompt: rebuild Nico Park — Product Design Portfolio
+
+Build an isolated Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 landing template for an independent industrial and digital product designer named Nico Park.
+
+Brand and central idea:
+Nico Park designs physical objects and tactile digital interfaces. The core thesis is "Design Should Feel Good." The landing page is built like a precision machined device: tactile panels with 2px solid outlines, spring physics, an 8-spoke asterisk mark, interactive exploded hardware schematics, and an interactive audio companion demo.
+
+Visual system and typography:
+Palette: warm canvas #F8F7F2, ink black #191919, signature cobalt #3049F0, signal coral #FF735D, butter yellow #F7E36B, lavender mist #D5C8FC, muted slate #515151, and outline #222222.
+Typography: Anton and Barlow Condensed for impactful condensed headers (font-display), Barlow Condensed for badges and labels (font-condensed), JetBrains Mono for engineering specs (font-mono-tech), and Plus Jakarta Sans for body text.
+
+Sections:
+1. Sticky Header with wordmark, spinning 8-spoke asterisk on hover, nav items (Work, Playground, About, Notes), magnetic Connect button, and mobile menu drawer.
+2. Hero section featuring "DESIGN SHOULD FEEL GOOD" headline, interactive 3D pointer-tilt stage, mini music player, modular tactile switches, and direct inspection links.
+3. Selected Work (01–03) showcasing LOOP audio hardware, FORMA workspace, and KINDRED brand system, with interactive full-screen case study modal.
+4. LOOP Anatomy featuring an exploded assembly stage with custom slider control (0 to 100% explode factor) and layer inspector (Cover, Dial, PCB, Buttons, USB-C).
+5. LOOP App preview featuring interactive software audio demo with waveform visualizer, playback controls, and track selector.
+6. Process section with 4-phase tactile design methodology and sketch artifacts.
+7. Playground section with parametric 8-pointed asterisk geometry generator and dial lab.
+8. About & Notes section with studio workspace illustration and editorial articles.
+9. Contact & Footer section with scope selector, validated inquiry form, mailto generator, and back-to-top navigation.
+
+Mechanic and motion:
+Pure tested logic in portfolioData.ts for exploded view coordinate transforms, cyclic navigation, asterisk geometry calculation, and contact form validation. Motion identity is tactile and mechanical with spring easing cubic-bezier(0.16, 1, 0.3, 1) and overshoot ease cubic-bezier(0.34, 1.56, 0.64, 1), accompanied by specular highlight sweeps and full reduced-motion accessibility.
+`;
+
+export const POPPYPATCH_PROMPT = `# Poppy Patch — At-Home Mushroom Growing Kits
+
+Build a playful, tactile landing page for Poppy Patch, an at-home mushroom growing kit brand. Use a warm vanilla and terracotta palette (#F7ECD6, #FAF3E3, #FBF6EA, #E58267, #D96E52, #F7D4C8, #A8B96C, #E3B6E0, #4A2E25, #735449), Fraunces serif display with Plus Jakarta Sans and Caveat handwriting accents.
+
+Lead with a warm story-first hero and mushroom sprout illustrations, followed by a purpose statement, an interactive kit catalog with bag drawer integration, interactive countertop growth condition estimator, tactile why-it-works cards, mushroom field journal articles with an article reader modal, community harvest reviews, FAQ accordion, and a newsletter signup with validation.
+
+Ensure interactive cart management (add, update quantity, slide-over drawer), keyboard accessibility (Escape to dismiss drawers/modals), reduced-motion support, responsive layouts, and pure unit-tested store calculations.`;
+
+export const RAZORLINE_PROMPT = `# Prompt: rebuild "RAZORLINE" (RL-01 Performance Footwear)
+
+Build a complete, production-grade, single-page interactive performance athletics DTC storefront for **RAZORLINE** featuring the **RL-01 Performance Footwear** series.
+
+### 1. Structure & Sections
+- **Sticky Header**: Brand wordmark and angular icon, smooth-scroll anchor navigation (Footwear, Technology, Athletes, Journal), shopping bag drawer counter, and high-contrast slanted CTA.
+- **Flagship Hero**: Slanted italic kinetic headline ("BREAK THE LIMIT. ENGINEERED TO OUTRUN EXPECTATIONS."), real-time 3D-feeling model switcher (RL-01 Voltage, RL-01 Cobalt, RL-01 Shadow), architectural telemetry HUD (coordinates, acceleration, energy return rate), and direct inspection modal trigger.
+- **Technical Marquee**: Continuous ticker with pacing benchmarks, cadence telemetry, and brand mottos.
+- **Footwear Collection Grid**: Interactive product matrix with colorway selection, interactive US shoe size picker (7.5 - 13.0), instant Add to Bag, and Quick View trigger.
+- **Exploded Breakaway Architecture**: 3-chamber hollow cavity sole, carbon monofilament matrix mesh, and cantilevered Achilles cradle.
+- **Technology Deep-Dive**: Interactive tabbed chapters with coordinate overlays, millimeter metrics, and hotspot inspection markers.
+- **Field Testing Athletes**: Test runner reports and session telemetry across Berlin, Tokyo, and Zurich testing sectors.
+- **Visual Lookbook**: Multi-frame studio and track photography carousel with technical aspect ratio tags.
+- **Launch Reservation & Footer**: Drop notification signup form with email validation and error feedback.
+- **Slide-Out Cart Drawer & Quick View Modal**: Interactive shopping bag with quantity controls, subtotal computation, and simulated checkout confirmation.
+
+### 2. Palette & Typography
+- Palette: #0B0B0A, #F1F0E9, #D3FF35, #375CFF, #777A7A, #1C1C1A, #262624.
+- Fonts: Barlow Condensed (display), Plus Jakarta Sans (body), JetBrains Mono (technical specs).
+`;
+
+export const NEXUS_PROMPT = `# nexus — Marketing That Feels Human
+
+Build a complete, responsive, interaction-rich creative agency landing page for **nexus** (\`/nexus\`), an independent marketing and brand studio dedicated to craft, feeling, and genuine human connection.
+
+## Brand and central idea
+
+Modern marketing shouts from generic templates and treats audiences as conversion metrics. **nexus** stands for the opposite: high-contrast organic visual worlds, tactile clay sculptures, hand-drawn botanical illustrations, and editorial serif typography that make brands unforgettable.
+
+Mood: warm tactile paper, earth pigments, editorial depth, handcrafted botanical curiosity. A harmonious balance between grounded craft and crisp agency rigor.
+
+## Visual system and typography
+
+- **Palette:**
+  - Ink Deep: \`#221B15\` (Primary typography and grounding accents)
+  - Paper Light: \`#FBF8F1\` (Page foundation and crisp card backgrounds)
+  - Paper Warm: \`#F5F1E8\` (Canvas and tonal contrast)
+  - Terracotta: \`#C85A32\` (Signature primary action and flourish underlines)
+  - Olive: \`#777B45\` (Botanical stems and natural contrast)
+  - Sage: \`#4C7262\` (Deep foliage and secondary stamps)
+  - Peach: \`#F6D6BA\` (Amoeba fields, soft glows, and organic backdrops)
+  - Mustard: \`#E5A93C\` (Sun dots and tactile clay seals)
+- **Typography:**
+  - Display & Body: Newsreader serif (editorial warmth, humanist italic flourishes, confident headlines)
+  - System sans-serif for high-contrast UI metadata and tags
+- **Textures & Motifs:** Hand-inked botanical sprigs, organic wave paths, 12-point terracotta starburst seals, and unglazed clay sculptures.
+
+## Narrative chapters & signature interactions
+
+01. **Header & Navigation:** Minimal serif navigation with active links, responsive mobile sheet with accessible drawer controls, and direct CTA.
+02. **Hero Stage:** Large editorial headline "Marketing that feels human" with animated hand-drawn terracotta flourish underline, tactile 3D clay cluster cutout, illustrated marketer holding a green sprout, animated ink botanical doodles, and circular spinning botanical seals ("Casual Badges" and "Clay-Made Culture").
+03. **Philosophy / Manifesto:** "Good ideas grow on people." Unboxed claim-to-proof metrics (+148% Brand Recall Lift, 94% Multi-Year Partnerships, 100% Hand-Crafted Studio Work), plus interactive principle tabs ("GROW WITH CARE" vs "MADE WITH FEELING") updating living studio notes.
+04. **Capabilities / Services:** Four core disciplines (Brand Strategy & Positioning, Campaign Creative & Storytelling, Social & Editorial Content, Experiences & Websites) featuring bespoke SVG motifs, tilt hover interactions, and expandable "Inspect craft notes" drawers.
+05. **Process / Cultivation Cycle:** Four sequential chapters (Listen, Imagine, Make, Grow) paired with a scroll-driven and clickable growing SVG botanical vine path with milestone indicators and smooth scroll tracking.
+06. **Selected Work & Case Study Dialog:** Filterable case study showcase (Solstice Apothecary, Loom & Meadow, Kith & Kin Roasters) across Brand World, Campaigns, and Experiences, complete with an accessible detailed modal reader.
+07. **Client Love / Testimonials:** Carousel slider with rotating founder quotes, author roles, and tabular note counters.
+08. **Start a Conversation / Seed Brief:** Interactive brief builder allowing clients to select focus areas, enter project details, run live validation, and generate ready-to-send mailto drafts with one-click clipboard copying.
+09. **Organic Footer:** Studio wordmark, copyright notices, and direct navigation links.
+`;
+
+export const STARRIOT_PROMPT = `# STAR RIOT — Neon Disco & After-Dark Club
+
+Build a complete, responsive, interaction-rich neon disco and after-dark dance club landing page for **STAR RIOT**.
+
+## Brand and central idea
+
+STAR RIOT is a high-voltage fictional nightlife experience where 70s/80s disco fever meets contemporary retro-pop futurism: **Tonight, we go supernova.**
+
+Continuous nearly-black plum canvas with intense neon light sources (Electric Mint, Hot Pink, Acid Lime, Electric Purple), heavy uppercase condensed display typography, colossal five-point star portal illustrations, vector dancers, interactive DJ lineup and equalizer controls, a scroll-controlled 3-stage sound track progression, an under-floor lighting matrix switcher, a sticker photo-wall carousel, and a client-validated guestlist pass generator.
+
+## Key Sections
+
+1. **Header & Navigation:** Split neon star brand mark, navigation links, mobile drawer.
+2. **Hero (The Ignition):** Headline "TONIGHT, WE GO SUPERNOVA.", interactive DJ lineup deck, equalizer visualizer with transport controls, tonight set slots, colossal neon starburst portal.
+3. **Manifesto:** "ORDINARY NIGHTS? NOT HERE.", spinning cosmic vinyl, animated ticker marquee.
+4. **Nights (Pick Your Frequency):** Frequency filter tabs (House, Classic Disco, Soul & Boogie), 3 poster cards with 3D tilt, accessible event details dialog modal.
+5. **Sound Stage (The Sound Takes Over):** Scroll-controlled 3-stage progression (Warm Up -> Turn Up -> All Out) with expanding bass wave rings, erupting supernova, and dancer silhouettes.
+6. **Space (Inside The Riot):** 4-zone architectural collage with interactive sprung floor lighting matrix switcher.
+7. **Movement (Voices From The 3 AM Floor):** Sticker snap carousel with peel note flips and FAQ accordion.
+8. **Guestlist Conversion:** Priority floor access form with instant validation, deterministic demo pass code generation (SR-XXXX-YYY), and live RSVP counter.
+9. **Footer:** Brand sign-off, quick links, concept disclaimer, back-to-top control.`;
 
 export const PERIGEE_PROMPT = `# Prompt: rebuild "PERIGEE"
 
@@ -716,13 +966,34 @@ Create a complete, responsive, self-contained HTML landing page for Stillwater, 
 Continue with a philosophy, three fictional sanctuaries, a selectable villa gallery, slow experiences, a coastal journal, a local inquiry preview, a closing coastal image, and a quiet footer. Use oyster, warm stone, forest slate and muted sage; pair Cormorant Garamond with Inter. Embed optimized imagery and fonts so the HTML opens directly from disk. Keep navigation, selectors, dialog, dates and guest controls functional and keyboard accessible. Validate dates and contact information, respect reduced motion, and make clear that the demo neither checks availability nor sends an inquiry. Do not invent reviews or real addresses.
 `;
 
+export const ZENO_PROMPT = `# ZENO. — Independent Creative Practice — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **ZENO.** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** ZENO. — Independent Creative Practice
+- **Description:** ZENO is an independent creative practice building identities, campaigns, and digital experiences for brands ready to challenge convention.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const PENUMBRA_PROMPT = `# PENUMBRA — Architectural Lighting Practice — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **PENUMBRA** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** PENUMBRA — Architectural Lighting Practice
+- **Description:** Architecture, after dark. An independent architectural lighting design practice shaping how spaces are seen, felt, and remembered through light.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   {
     slug: "amaoto",
     createdAt: "2026-10-26",
     title: "AMAOTO",
     description: "The sound of rain, kept dry. A wagasa atelier landing page with a scroll-driven procedural umbrella.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","minimal","studio"],
     industry: "Wagasa Atelier",
     stack: "Next.js 16 - Three.js WebGL - Procedural Model - CSS Motion",
     badges: ["40-Rib Umbrella", "Scroll Open", "Commission Form"],
@@ -737,7 +1008,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "Orrery",
     description:
       "The orchestration layer for teams of AI agents. A 10-slide keynote experience with clockwork motion.",
-    category: "keynote-deck",
+    category: "ai",
+    categories: ["ai","saas","deck","showcase","3d","glass"],
     industry: "AI & DevTools",
     stack: "Next.js 16 · Tailwind v4 · GSAP Observer · Motion",
     badges: ["Keynote Deck", "GSAP", "Keyboard Nav"],
@@ -751,7 +1023,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "KEYTU",
     description:
       "Technical mountaineering apparel told as an ascent of K2. Pinned altitude meter and tritone photography.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","commerce","marketing"],
     industry: "Apparel & Goods",
     stack: "Next.js 16 · Tailwind v4 · GSAP ScrollTrigger · Lenis",
     badges: ["Scroll Journey", "Altitude Meter", "Tritone Photos"],
@@ -765,7 +1038,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "KŌJI",
     description:
       "Fermentation kitchen in Tokyo with 3D WebGPU dish showcase, brutalist aesthetics, and scroll-scrubbed video.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","commerce","studio"],
     industry: "Hospitality & Dining",
     stack: "Next.js 16 · Three.js (WebGPU/TSL) · Scroll-World",
     badges: ["WebGPU 3D", "Scroll Video", "TSL Shaders"],
@@ -779,7 +1053,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "TRACE",
     description:
       "Spatial intelligence for the moving city. A parallax field guide with a scroll-reactive Three.js signal orb.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","saas","glass"],
     industry: "Urban Systems",
     stack: "Next.js 16 · Three.js · Scroll Parallax · IntersectionObserver",
     badges: ["Scroll Field", "Three.js 3D", "Parallax Type"],
@@ -793,7 +1068,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "CALDER & ROWE",
     description:
       "Hard decisions, argued well. A small law firm's page that is a bound brief being drafted: a pinned memorandum writes itself word by word as you scroll, margin notes arrive in gold, and filing a matter presses the firm's seal onto a docket number.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","studio","editorial"],
     industry: "Law & Advisory",
     stack: "Next.js 16 · Tailwind v4 · React 19 · SVG · Lenis",
     badges: ["Self-Drafting Brief", "Seal Press", "Midnight & Gold"],
@@ -807,7 +1083,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "VECTOR/90",
     description:
       "Runtime maps for systems in motion. A retro 90s wireframe developer-tool landing page powered by procedural Three.js geometry.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","saas","brutalist"],
     industry: "Developer Tools",
     stack: "Next.js 16 · Three.js · WebGL Wireframe · Scroll Motion",
     badges: ["Retro CGI", "Runtime Maps", "Three.js Scene"],
@@ -821,7 +1098,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "LOOPHOUSE",
     description:
       "Tools in circulation, work in common. A community workshop landing page with an interactive modular pegboard tool wall, magnetic dock unlatching, and live project tray staging.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","commerce","studio"],
     industry: "Workshop & Tool Library",
     stack: "Next.js 16 · Tailwind v4 · Interactive Pegboard · Clockwork Motion",
     badges: ["Pegboard Tool Wall", "Trade Kits", "Magnetic Docking"],
@@ -835,7 +1113,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "WOWFLUTTER",
     description:
       "Every record is an issue. An independent label's site built as a magazine you turn by hand: drag a page corner and the leaf lifts on a real hinge.",
-    category: "editorial-magazine",
+    category: "editorial",
+    categories: ["editorial","gradient","marketing"],
     industry: "Music & Records",
     stack: "Next.js 16 · Tailwind v4 · CSS 3D Page-Turn · Pointer Events",
     badges: ["Page-Turn Magazine", "Drag to Turn", "Riso Print"],
@@ -849,7 +1128,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "Maison Vérane",
     description:
       "Composed slowly, worn for hours. A Grasse haute perfumery landing page with an interactive twelve-hour dry-down clock and raw organ composer.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","editorial","commerce"],
     industry: "Haute Parfumerie",
     stack: "Next.js 16 · Tailwind v4 · React 19 · External Store",
     badges: ["Dry-Down Clock", "Interactive Organ", "Scroll Journey"],
@@ -863,7 +1143,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "Noctiluca",
     description:
       "A house made of moving light. The page is a 3D corridor you walk through: scroll moves the camera room by room, and every wall is a live shader gradient.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","showcase","studio"],
     industry: "Light Museum",
     stack: "Next.js 16 · Tailwind v4 · React 19 · WebGL2 · CSS 3D",
     badges: ["Walkable 3D Page", "Live Gradients", "Light Composer"],
@@ -877,7 +1158,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "IRIDIA",
     description:
       "The spatial architecture of kinetic light. The page is an orbital 3D prismatic pavilion with live Navier-Stokes shader gradients, real-time Cauchy dispersion and interactive synthesizer.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","showcase","gradient","commerce"],
     industry: "Kinetic Light & Optics",
     stack: "Next.js 16 · Tailwind v4 · React 19 · WebGL2 · CSS 3D",
     badges: ["Orbital 3D Page", "Live Gradients", "Spectral Synthesizer"],
@@ -891,7 +1173,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "BATHYS",
     description:
       "Autonomous hadal exploration vehicles engineered for the 11,000-metre breach. Pinned hydrostatic dive stage with live pressure gauge, water-column absorption, and procedural acoustic sonar.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","editorial","3d"],
     industry: "Oceanography & Robotics",
     stack: "Next.js 16 · Tailwind v4 · React 19 · Canvas Sonar · Hydrostatic Physics",
     badges: ["Hadal Dive", "Sonar Radar", "Hydrostatic Telemetry"],
@@ -905,7 +1188,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "AUBADE",
     description:
       "Leave at dusk. Wake somewhere else. An overnight-sleeper landing page where the page is the train window: scroll becomes lateral travel through five flat colour-field legs of the night, with the Simplon tunnel as the set piece.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","marketing","editorial"],
     industry: "Night Train",
     stack: "Next.js 16 · Tailwind v4 · React 19 · SVG · Lenis",
     badges: ["Scroll-to-Travel Window", "Colour-Field Landscapes", "Split-Flap Board"],
@@ -919,7 +1203,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "Satsuma",
     description:
       "Reels that land, made by hand. A short-reel marketplace whose hero is a curved video wheel: ten cards on the inside of a cylinder drift, can be flung with momentum, and each card's width, lean and edge height come from one pure function of its position.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","commerce","app"],
     industry: "Creator Marketplace",
     stack: "Next.js 16 · Tailwind v4 · React 19 · SVG · Lenis",
     badges: ["Curved Video Wheel", "Drag & Momentum", "Segment Packs"],
@@ -933,7 +1218,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "KINETIC",
     description:
       "Autonomous 3D delivery journey and freight operations. Pinned 5-chapter route narrative with procedural electric truck Unit 104 travelling a 1,400-meter highway, live HUD telemetry tags, and interactive command center console.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","gradient","studio"],
     industry: "Freight & Autonomous Logistics",
     stack: "Next.js 16 · Tailwind v4 · React 19 · Three.js WebGL · Lenis",
     badges: ["3D Delivery Truck", "1,400m Route", "Command Center"],
@@ -947,7 +1233,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "VOLUME ZERO",
     description:
       "Acoustic architecture for rooms that listen back. A WebGPU chamber maps source, listener and reflection paths as you scroll.",
-    category: "3d-webgpu",
+    category: "studio",
+    categories: ["studio","3d","minimal","commerce"],
     industry: "Acoustic Architecture",
     stack: "Next.js 16 · React 19 · Three.js WebGPU · TSL · SVG",
     badges: ["Acoustic Chamber", "WebGPU / WebGL2", "Live Ray Field"],
@@ -961,7 +1248,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "OPENHOUSE",
     description:
       "A single-action conversion page for small businesses, built around a threshold form that turns a first click into a clear next step.",
-    category: "conversion",
+    category: "marketing",
+    categories: ["marketing","commerce","minimal"],
     industry: "Small Business Services",
     stack: "Next.js 16 · Tailwind v4 · Local Form State · CSS Motion",
     badges: ["Single CTA", "Threshold Form", "Reduced Motion"],
@@ -974,7 +1262,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     createdAt: "2026-10-23",
     title: "HANDOFF",
     description: "Good work, routed well. A builder-friendly conversion page for small teams that need reliable operators.",
-    category: "conversion",
+    category: "marketing",
+    categories: ["marketing","saas","minimal"],
     industry: "Outsourcing & Operations",
     stack: "Next.js 16 · Tailwind v4 · Local Form State · CSS Motion",
     badges: ["Pipeline Route", "Fit Brief", "Builder Ready"],
@@ -988,7 +1277,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "TRUECUT Works",
     description:
       "Field engineering, shown clearly. An image-led conversion page with a survey-line field log, proof reels, and one site-visit action.",
-    category: "conversion",
+    category: "commerce",
+    categories: ["commerce","marketing","brutalist"],
     industry: "Field Engineering & Commissioning",
     stack: "Next.js 16 · Tailwind v4 · Local Form State · CSS Motion · Media Placeholders",
     badges: ["Field Log", "Proof Reels", "Single CTA"],
@@ -1001,7 +1291,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     createdAt: "2026-10-23",
     title: "NOMI",
     description: "A light, plastic-tinted mobile workspace landing page for tutoring studios, built around a pinned phone that unlocks four moments.",
-    category: "conversion",
+    category: "commerce",
+    categories: ["commerce","marketing","minimal"],
     industry: "Tutoring & Education",
     stack: "Next.js 16 · Tailwind v4 · CSS/DOM Phone UI · Local Form State",
     badges: ["Light Mode", "Pinned Phone", "Plastic UI"],
@@ -1014,7 +1305,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     createdAt: "2026-10-24",
     title: "Studio Kazeko",
     description: "A little wonder. A world of feeling. A Japanese-inspired animation studio with an original countryside illustration and a scroll-driven pencil-to-colour scene.",
-    category: "scroll-showcase",
+    category: "studio",
+    categories: ["studio","showcase","minimal","portfolio"],
     industry: "Animation & Film",
     stack: "Next.js 16 · SVG Illustration · CSS Motion · Lenis",
     badges: ["2D Animation", "Pencil to Picture", "Countryside"],
@@ -1029,7 +1321,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     title: "ALPINE REEL",
     description:
       "Fourteen eight-thousanders as one moving film frame. A cold-blue horizontal reel with snap physics, parallax and a door-tilt peak dossier.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","marketing","studio"],
     industry: "Mountain Cinema",
     stack: "Next.js 16 · React 19 · Horizontal Reel · Pointer Physics",
     badges: ["14-Peak Reel", "Snap Physics", "Door-Tilt Dossier"],
@@ -1042,7 +1335,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     createdAt: "2026-10-24",
     title: "RILL",
     description: "Field hydrology for farms that keep water in the ground. An image-led watershed story with a live rain gauge and ecosystem footer.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","editorial","minimal"],
     industry: "Climate Agriculture",
     stack: "Next.js 16 · Tailwind v4 · React 19 · SVG Watershed · Motion",
     badges: ["Watershed Stage", "Image-led", "42 mm Threshold"],
@@ -1055,7 +1349,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     createdAt: "2026-10-24",
     title: "HIYAS",
     description: "Guided eight-thousand-metre expeditions planned with precision. A live route room for peaks, camp rhythm, support and return.",
-    category: "scroll-showcase",
+    category: "app",
+    categories: ["app","showcase","minimal"],
     industry: "High-Altitude Expeditions",
     stack: "Next.js 16 · Tailwind v4 · React 19 · SVG Planner · Motion",
     badges: ["Route Planner", "14 Peaks", "Sherpa Partnership"],
@@ -1068,7 +1363,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     createdAt: "2026-10-24",
     title: "Mio Hazuki",
     description: "Little worlds, made just for you. A digital artist commission portfolio with an original coded twilight harbor, illustrated worlds, and a lantern-led invitation.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","studio","editorial"],
     industry: "Digital Artist & Illustration",
     stack: "Next.js 16 · Original 2D SVG · CSS Motion · Lenis",
     badges: ["Coded Harbor", "Artist Portfolio", "Commission Brief"],
@@ -1081,7 +1377,8 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     createdAt: "2026-10-25",
     title: "里山日和 — Satoyama",
     description: "A slower kind of day. A fully code-illustrated picture book about rural Japan, with living landscapes, six chapters and a little wandering.",
-    category: "keynote-deck",
+    category: "deck",
+    categories: ["deck","editorial","minimal","portfolio"],
     industry: "Culture & Rural Life",
     stack: "Next.js 16 · React 19 · SVG · CSS Animation",
     badges: ["Illustrated Picture Book", "Living Landscape", "Activity Carousel"],
@@ -1094,7 +1391,8 @@ slug: "tally",
     createdAt: "2026-10-25",
     title: "TALLY",
     description: "Sell your hours like your goods. A pastel shop-counter landing page for service-led small Shopify businesses, built around a perforated two-part claim ticket that stamps and detaches at checkout.",
-    category: "scroll-showcase",
+    category: "deck",
+    categories: ["deck","saas","minimal"],
     industry: "Shopify & Service Commerce",
     stack: "Next.js 16 · Tailwind v4 · React 19 · Original SVG · Lenis",
     badges: ["Perforated Claim Stub", "Deposit Calculator", "Pastel Shop Counter"],
@@ -1107,7 +1405,8 @@ slug: "tally",
     createdAt: "2026-10-25",
     title: "AFTERCART",
     description: "A pastel store-health console for small Shopify shops that need a calm partner after launch.",
-    category: "conversion",
+    category: "saas",
+    categories: ["saas","commerce","marketing"],
     industry: "Shopify Care Services",
     stack: "Next.js 16 · React 19 · SVG UI · Local Form State · CSS Motion",
     badges: ["Health Console", "Care Tracks", "Local Call Form"],
@@ -1120,7 +1419,8 @@ slug: "tally",
     createdAt: "2026-10-25",
     title: "FIXTURE",
     description: "Your shop, fitted out properly. A Shopify studio for small merchants whose storefront fits itself out as you scroll: shell, fixtures, wiring, signage, then the sign flips to OPEN.",
-    category: "scroll-showcase",
+    category: "commerce",
+    categories: ["commerce","marketing","studio"],
     industry: "E-commerce Services",
     stack: "Next.js 16 · Tailwind v4 · React 19 · DOM Storefront · Lenis",
     badges: ["Self-building Store", "Swiss Grid", "Flat-price Tags"],
@@ -1133,7 +1433,8 @@ slug: "tally",
     createdAt: "2026-10-25",
     title: "CHINAGRAPH",
     description: "Marked for keeps. A deadstock fashion label edited on a contact sheet: a loupe sweeps the roll, six frames get looped in grease pencil, and each enlarges to a full-screen look in a strobe flash.",
-    category: "scroll-showcase",
+    category: "editorial",
+    categories: ["editorial","commerce","minimal"],
     industry: "Fashion & Apparel",
     stack: "Next.js 16 · Tailwind v4 · React 19 · AI-generated stills · Lenis",
     badges: ["Contact Sheet", "Image-led", "Shoppable Looks"],
@@ -1147,7 +1448,8 @@ slug: "tally",
     title: "VALENCE",
     description:
       "Ask only for what the asset earns. A smooth pastel B2B lead-capture showcase where a 3D capsule dossier unseals across a Splash Gate, a 1-field Squeeze Page, and a 4-field Lead Capture configurator.",
-    category: "conversion",
+    category: "marketing",
+    categories: ["marketing","saas","commerce","glass"],
     industry: "B2B Lead Generation & Funnel Intelligence",
     stack: "Next.js 16 · Tailwind v4 · Three.js 3D · Pill UI · Lenis",
     badges: ["3D Pastel Capsule", "Splash · Squeeze · Lead Gen", "Live Asset Preview"],
@@ -1160,7 +1462,8 @@ slug: "tally",
     createdAt: "2026-10-25",
     title: "Pipkin",
     description: "Cooked Tuesday, at your door Friday. A pastel jam-shop page that follows one jar from order to doorstep through five illustrated scenes, then lets you build a box.",
-    category: "scroll-showcase",
+    category: "commerce",
+    categories: ["commerce","editorial","minimal"],
     industry: "Small Shop & E-commerce",
     stack: "Next.js 16 · React 19 · Original SVG · CSS Motion · Lenis",
     badges: ["Order-to-Doorstep Scroll", "Live Box Builder", "Pastel SVG World"],
@@ -1173,7 +1476,8 @@ slug: "tally",
     createdAt: "2026-10-25",
     title: "SEREIN Bureau",
     description: "Small weather, closely observed. A fold-out atmospheric almanac with procedural isobars, a pressure trace and an accordion forecast strip.",
-    category: "editorial-magazine",
+    category: "minimal",
+    categories: ["minimal","editorial","marketing"],
     industry: "Weather & Publishing",
     stack: "Next.js 16 · SVG/CSS · Accordion Physics · Local Form State",
     badges: ["Accordion Almanac", "Procedural SVG", "Pastel Field Notes"],
@@ -1186,7 +1490,8 @@ slug: "tally",
     createdAt: "2026-10-25",
     title: "NULO",
     description: "An optical lab for moving days, built as a draggable focus dial that tunes frames through screen, street, and night.",
-    category: "scroll-showcase",
+    category: "minimal",
+    categories: ["minimal","showcase","app"],
     industry: "Optical Lab & Eyewear",
     stack: "Next.js 16 · React 19 · SVG / CSS Geometry · Lenis",
     badges: ["Focus Dial", "Frame Configurator", "No Photos"],
@@ -1199,7 +1504,8 @@ slug: "tally",
     createdAt: "2026-10-26",
     title: "Flori",
     description: "A little bloom, a brighter day. A pastel flower club with original botanical postcards, a live bouquet composer, and a signup that remembers your flower feeling.",
-    category: "scroll-showcase",
+    category: "commerce",
+    categories: ["commerce","minimal","marketing"],
     industry: "Flowers & Lifestyle",
     stack: "Next.js 16 · React 19 · Original SVG · CSS Motion · Lenis",
     badges: ["Bouquet Composer", "Botanical Postcards", "Pastel Flower Club"],
@@ -1212,7 +1518,8 @@ slug: "tally",
     createdAt: "2026-10-26",
     title: "Understudy",
     description: "Your first job, rehearsed. A rehearsal studio for first jobs where the scroll pushes you through the logo's proscenium into the dark house, then runs the page like a show: an endless ring of parts, rehearsal, casting and a signed contract.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","editorial","minimal","portfolio"],
     industry: "Careers & Education",
     stack: "Next.js 16 · React 19 · Scroll-Driven CSS · Original SVG · Lenis",
     badges: ["Proscenium Push-In", "Held Scroll Scenes", "No Photos"],
@@ -1225,7 +1532,8 @@ slug: "tally",
     createdAt: "2026-10-26",
     title: "NIGHTLINE",
     description: "A European sleeper-train booking page where the window is the interface and scroll is the speed of the journey.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","editorial","minimal"],
     industry: "Night Train Travel",
     stack: "Next.js 16 ? Raw WebGL2 ? CSS Motion ? Local Form State",
     badges: ["Rain Window", "Raw WebGL2", "Station Rail"],
@@ -1238,7 +1546,8 @@ slug: "tally",
     createdAt: "2026-10-26",
     title: "Cullet",
     description: "Designed in glass. A real-time material studio whose hero is a slab of frosted quartz cut into shards that tilt, lift and carry selectable text; scrolling cleaves it apart into a pinned glossary of five optical terms, a live WebGL glass sampler with a glTF readout, and a library of six cuts.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","commerce","glass"],
     industry: "3D & Design Tools",
     stack: "Next.js 16 · React 19 · three.js WebGL · Scroll-Driven CSS · Lenis",
     badges: ["Cleaving Glass Hero", "Live Material Sampler", "No Photos"],
@@ -1251,7 +1560,8 @@ slug: "tally",
     createdAt: "2026-10-26",
     title: "ASSEMBLAGE",
     description: "Make the idea visible before you make it real. A mixed media material study for independent brands, built from paper, acetate, ink and one clear next step.",
-    category: "conversion",
+    category: "marketing",
+    categories: ["marketing","studio","minimal"],
     industry: "Brand Direction & Creative Strategy",
     stack: "Next.js 16 · Tailwind v4 · CSS Collage · Local Form State",
     badges: ["Mixed Media", "Material Index", "Single CTA"],
@@ -1264,7 +1574,8 @@ slug: "tally",
     createdAt: "2026-10-26",
     title: "FIRSTDAY",
     description: "Big futures. Small first steps. An original miniature campus opens into an interactive learning world with project briefs, a sticky workspace story, and a local first-day preview.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","marketing","minimal"],
     industry: "Education & Career Exploration",
     stack: "Next.js 16 · React 19 · Original Isometric Artwork · CSS Motion · Lenis",
     badges: ["Miniature Campus", "Scroll Project Story", "Interactive Learning Paths"],
@@ -1277,7 +1588,8 @@ slug: "tally",
     createdAt: "2026-10-27",
     title: "LOWTIDE",
     description: "Let the tide go out. A sleep ring told as one night on a moonlit tidal flat: scroll is the clock, five low tides tell the story.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","showcase","glass"],
     industry: "Sleep Tech & Wearables",
     stack: "Next.js 16 · React 19 · Three.js WebGL · GSAP · Lenis · Tone.js",
     badges: ["Scroll Is The Clock", "Lantern Reveal", "Generative Sound"],
@@ -1290,7 +1602,8 @@ slug: "tally",
     createdAt: "2026-10-28",
     title: "LOAM",
     description: "Grown, not made. An interactive 3D macro experience through living mycelium networks: scroll descends from the fruiting mushroom into the subterranean web that LOAM cultivates into custom molded packaging.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","minimal","studio"],
     industry: "Biomaterials & Sustainable Packaging",
     stack: "Next.js 16 · React 19 · Three.js WebGL · GSAP · Lenis",
     badges: ["3D Subterranean Descent", "Hold To Inspect", "Procedural Mycelium"],
@@ -1303,7 +1616,8 @@ slug: "tally",
     createdAt: "2026-10-30",
     title: "PERIGEE",
     description: "At the edge of curved spacetime. A full-screen 3D relativistic Schwarzschild black hole scroll experience and geodesic telemetry observatory.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d","showcase","saas"],
     industry: "Astrophysics & Deep Space Telemetry",
     stack: "Next.js 16 · React 19 · Three.js WebGL · GSAP · Lenis",
     badges: ["Raymarched Black Hole", "Geodesic Slingshot", "Singularity Inspector"],
@@ -1316,7 +1630,8 @@ slug: "tally",
     createdAt: "2026-10-30",
     title: "XIBALBA",
     description: "Night of the Jade Cenote. An interactive vertical descent scroll into the subterranean botanical reserve and nocturnal equinox ceremony of Xibalba.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","3d","gradient"],
     industry: "Botanical Reserve & Ceremony",
     stack: "Next.js 16 · React 19 · Canvas Additive Physics · Black-Key Alpha",
     badges: ["Vertical Descent Scroll", "Canvas Waterfalls", "Alpha Keying", "Sprite Physics"],
@@ -1329,7 +1644,8 @@ slug: "tally",
     createdAt: "2026-10-30",
     title: "Synapxe",
     description: "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
-    category: "conversion",
+    category: "commerce",
+    categories: ["commerce","3d","ai","brutalist"],
     industry: "Cyberpunk Techwear & Apparel",
     stack: "Next.js 16 · React 19 · Three.js 3D · Tailwind v4 · Canvas Rain",
     badges: ["3D Fabric Lab", "Loadout Builder", "Biometric Sizing", "Hardware Cart"],
@@ -1342,7 +1658,8 @@ slug: "tally",
     createdAt: "2026-10-31",
     title: "MORTA",
     description: "A sculptural sterling-silver jewellery house with cinematic photography and interactive ring studies.",
-    category: "scroll-showcase",
+    category: "3d",
+    categories: ["3d","editorial","studio"],
     industry: "Jewellery & Craft",
     stack: "Next.js 16 ? React 19 ? Three.js ? Tailwind v4",
     badges: ["3D Ring Study", "Editorial", "Bespoke Commissions"],
@@ -1355,7 +1672,8 @@ slug: "tally",
     createdAt: "2026-10-31",
     title: "LUMEN",
     description: "The AI Workflow Playbook landing page featuring real-time optical glassmorphism, interactive workflow choreography, and custom shader studio.",
-    category: "conversion",
+    category: "3d",
+    categories: ["3d","ai","glass","showcase"],
     industry: "AI & Productivity",
     stack: "Next.js 16 · React 19 · Three.js · Tailwind v4 · GSAP",
     badges: ["Glassmorphism", "AI Playbook", "Shader Studio", "WebGL2"],
@@ -1368,7 +1686,8 @@ slug: "tally",
     createdAt: "2026-11-01",
     title: "NOISE CLUB",
     description: "An independent sound-culture collective and interactive concept zine featuring the Teenage Engineering PO-33 K.O! micro-sampler.",
-    category: "scroll-showcase",
+    category: "editorial",
+    categories: ["editorial","brutalist","showcase","app"],
     industry: "Sound Culture & Portable Instruments",
     stack: "Next.js 16 · React 19 · Web Audio API · Tailwind v4 · GSAP · Lenis",
     badges: ["Physical Modeling Audio", "16-Step Sequencer", "PO-33 Hardware Illustration", "Live Microphone Sampling"],
@@ -1381,7 +1700,8 @@ slug: "tally",
     createdAt: "2026-10-31",
     title: "WARP & WANDER",
     description: "An original 16-bit-inspired side-scrolling pixel adventure and interactive concept showcasing the Analogue Pocket multi-format handheld.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","editorial","studio","app"],
     industry: "Gaming & Hardware",
     stack: "Next.js 16 · React 19 · Canvas 2D · GSAP · Web Audio",
     badges: ["16-Bit Pixel Art", "Analogue Pocket", "Side-Scrolling World", "Mini-Platformer"],
@@ -1394,7 +1714,8 @@ slug: "tally",
     createdAt: "2026-11-01",
     title: "CTRL/ROOM",
     description: "An original 2D pixel-desktop operating system and interactive 15-key macro-deck simulator featuring the Elgato Stream Deck MK.2.",
-    category: "conversion",
+    category: "app",
+    categories: ["app","saas","brutalist"],
     industry: "Hardware & Productivity",
     stack: "Next.js 16 · React 19 · Tailwind v4 · Motion",
     badges: ["Pixel Desktop OS", "15-Key Simulator", "Stream Deck MK.2", "Window Manager"],
@@ -1407,7 +1728,8 @@ slug: "tally",
     createdAt: "2026-10-31",
     title: "PARALLEL",
     description: "Interactive 3D urban simulation and decision intelligence platform exploring divergent futures, infrastructure disruptions, and explainable interventions.",
-    category: "3d-webgpu",
+    category: "ai",
+    categories: ["ai","saas","3d","showcase"],
     industry: "AI & Simulation",
     stack: "Next.js 16 · React 19 · Three.js · Zustand · Tailwind v4 · GSAP",
     badges: ["Digital Twin", "Urban Simulation", "Dual Futures", "Causal Analysis"],
@@ -1420,7 +1742,8 @@ slug: "tally",
     createdAt: "2026-11-01",
     title: "Pello",
     description: "Money for the life you want. An editorial finance experience with original lifestyle photography and a live balance-to-goals planner.",
-    category: "conversion",
+    category: "commerce",
+    categories: ["commerce","marketing","minimal","app"],
     industry: "Personal Finance",
     stack: "Next.js 16 · React 19 · Tailwind v4 · Native Motion",
     badges: ["Balance Planner", "Original Photography", "Purposeful Motion"],
@@ -1434,7 +1757,8 @@ slug: "tally",
     hasDownload: true,
     title: "Avel",
     description: "A warm, editorial AI landing page with a family of model personalities, an original coastal hero, and a rotating community orbit.",
-    category: "conversion",
+    category: "ai",
+    categories: ["ai","commerce","minimal","editorial"],
     industry: "Artificial Intelligence",
     stack: "Next.js 16 · React 19 · Native Motion",
     badges: ["Model Switcher", "Original Photography", "Orbit Carousel"],
@@ -1448,7 +1772,8 @@ slug: "tally",
     hasDownload: true,
     title: "Landing X",
     description: "An editorial showcase for a landing-page agent skill, with a filterable project index and six ready-to-fill 16:9 image slots.",
-    category: "conversion",
+    category: "marketing",
+    categories: ["marketing","ai","saas","gradient"],
     industry: "Creative Tools & AI",
     stack: "Next.js 16 · React 19 · Native Motion",
     badges: ["Project Showcase", "Agent Skill", "16:9 Image Slots"],
@@ -1461,7 +1786,8 @@ slug: "tally",
     createdAt: "2026-11-02",
     title: "Jules Mercer",
     description: "Creative developer portfolio featuring an interactive procedural (2,3) torus knot in Three.js, blueprint telemetry HUD, and interactive code experiments.",
-    category: "3d-webgpu",
+    category: "portfolio",
+    categories: ["portfolio","3d","showcase"],
     industry: "Creative Development & 3D Web",
     stack: "Next.js 16 · React 19 · Three.js · Tailwind v4 · Lucide",
     badges: ["Procedural Torus Knot", "Custom Shaders", "Interactive HUD", "Blueprint Telemetry"],
@@ -1475,7 +1801,8 @@ slug: "tally",
     hasDownload: true,
     title: "Stillwater",
     description: "A cinematic coastal retreat with original architectural photography, a villa gallery, and a local inquiry preview.",
-    category: "scroll-showcase",
+    category: "showcase",
+    categories: ["showcase","minimal","editorial"],
     industry: "Hospitality & Travel",
     stack: "HTML · CSS · JavaScript",
     badges: ["Original Photography", "Retreat Gallery", "Standalone HTML"],
@@ -1488,7 +1815,8 @@ slug: "tally",
     createdAt: "2026-11-02",
     title: "Arc & Signal",
     description: "A luminous marketing studio landing page with an original signal horizon and a counterclockwise orbit of fictional client brands.",
-    category: "conversion",
+    category: "marketing",
+    categories: ["marketing","minimal","saas","studio"],
     industry: "Marketing & Creative Agency",
     stack: "Next.js 16 · React 19 · Native Motion",
     badges: ["Original Artwork", "Client Orbit", "Agency Portfolio"],
@@ -1497,11 +1825,164 @@ slug: "tally",
     model: "GPT-6",
   },
   {
+    slug: "halodesk",
+    createdAt: "2026-11-02",
+    hasDownload: true,
+    title: "Halo Desk",
+    description:
+      "A desktop productivity app for focused planning, clear priorities, and beautifully structured days.",
+    category: "saas",
+    categories: ["saas","app","commerce","minimal"],
+    industry: "Productivity & Desktop Software",
+    stack: "Next.js 16 · React 19 · Tailwind v4 · Lucide",
+    badges: ["Miniature Desktop App", "Focus Timer", "Curated Templates", "Calm UI"],
+    previewImage: "/templates/halodesk/preview-1600.webp",
+    promptMarkdown: HALODESK_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "riff",
+    createdAt: "2026-11-02",
+    hasDownload: true,
+    title: "Riff",
+    description: "Fall for the sound before the selfie. A music-first 18+ dating app that matches people through playlists, genres, favorite artists, and listening chemistry.",
+    category: "app",
+    categories: ["app","editorial","marketing"],
+    industry: "Music & Dating",
+    stack: "Next.js 16 · Tailwind v4 · Lucide · Motion",
+    badges: ["Music First", "Taste Matcher", "Zine Aesthetic", "Zero-Skip Records"],
+    previewImage: "/templates/riff/preview-1600.webp",
+    promptMarkdown: RIFF_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "inesvale",
+    createdAt: "2026-11-02",
+    hasDownload: true,
+    title: "Ines Vale",
+    description: "Photographs of fleeting places, quiet emotions, and everything we almost miss. Fine-art and editorial photography portfolio of Ines Vale.",
+    category: "portfolio",
+    categories: ["portfolio","editorial","minimal"],
+    industry: "Fine Art & Editorial Photography",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Monograph Drawer", "Archival Lightbox", "Shutter Carousel", "Field Journal"],
+    previewImage: "/templates/inesvale/preview-1600.webp",
+    promptMarkdown: INESVALE_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "nicopark",
+    createdAt: "2026-11-02",
+    hasDownload: true,
+    title: "Nico Park",
+    description: "Playful, modular, tactile industrial and digital product design portfolio for independent product designer Nico Park, featuring LOOP personal audio hardware, FORMA workspace, and interactive design experiments.",
+    category: "portfolio",
+    categories: ["portfolio","showcase","brutalist","app"],
+    industry: "Industrial & Product Design",
+    stack: "Next.js 16 · React 19 · Tailwind v4 · Lucide · Motion",
+    badges: ["Exploded Hardware", "Interactive Audio App", "Tactile Controls", "Asterisk Lab"],
+    previewImage: "/templates/nicopark/preview-1600.webp",
+    promptMarkdown: NICOPARK_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "poppypatch",
+    createdAt: "2026-11-02",
+    hasDownload: true,
+    title: "Poppy Patch",
+    description: "Playful, tactile starter kits for growing edible mushrooms at home. Easy to grow, impossible not to love.",
+    category: "commerce",
+    categories: ["commerce","marketing","minimal"],
+    industry: "Food & Agriculture",
+    stack: "Next.js 16 · React 19 · Tailwind v4 · Motion",
+    badges: ["Tactile UI", "Mushroom Kits", "Interactive Drawer"],
+    previewImage: "/templates/poppypatch/preview-1600.webp",
+    promptMarkdown: POPPYPATCH_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "razorline",
+    createdAt: "2026-11-02",
+    hasDownload: true,
+    title: "RAZORLINE",
+    description: "Uncompromising velocity. Engineered rebellion. Direct-to-consumer launch flagship for the RAZORLINE RL-01 performance running series.",
+    category: "commerce",
+    categories: ["commerce","showcase","brutalist"],
+    industry: "Performance Footwear & Athletics",
+    stack: "Next.js 16 · React 19 · Tailwind v4 · Lucide",
+    badges: ["Hollow-Cavity Sole", "Telemetry HUD", "Kinetic Typography", "Cart Drawer"],
+    previewImage: "/templates/razorline/preview-1600.webp",
+    promptMarkdown: RAZORLINE_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "nexus",
+    createdAt: "2026-11-02",
+    hasDownload: true,
+    title: "nexus",
+    description:
+      "High-contrast organic and highly creative marketing agency website with tactile clay sculptures, hand-drawn botanical illustrations, and editorial serif typography.",
+    category: "marketing",
+    categories: ["marketing","editorial","studio"],
+    industry: "Marketing & Creative Agency",
+    stack: "Next.js 16 · React 19 · Motion",
+    badges: ["Clay Sculptures", "Botanical Art", "Editorial Serif"],
+    previewImage: "/templates/nexus/preview-1600.webp",
+    promptMarkdown: NEXUS_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "starriot",
+    createdAt: "2026-11-02",
+    hasDownload: true,
+    title: "STAR RIOT",
+    description: "Disco fever. Future sounds. Zero ordinary nights. Step into the place where the dance floor becomes the whole universe.",
+    category: "showcase",
+    categories: ["showcase","marketing","gradient","glass"],
+    industry: "Nightlife & Music",
+    stack: "Next.js 16 · React 19 · Motion · Lucide",
+    badges: ["Scroll Showcase", "Interactive Equalizer", "Guestlist Generator"],
+    previewImage: "/templates/starriot/preview-1600.webp",
+    promptMarkdown: STARRIOT_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "zeno",
+    createdAt: "2026-11-03",
+    hasDownload: false,
+    title: "ZENO.",
+    description: "ZENO is an independent creative practice building identities, campaigns, and digital experiences for brands ready to challenge convention.",
+    category: "portfolio",
+    categories: ["portfolio", "studio", "showcase", "editorial"],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/zeno/preview-1600.webp",
+    promptMarkdown: ZENO_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
+    slug: "penumbra",
+    createdAt: "2026-11-03",
+    hasDownload: false,
+    title: "PENUMBRA",
+    description: "Architecture, after dark. An independent architectural lighting design practice shaping how spaces are seen, felt, and remembered through light.",
+    category: "studio",
+    categories: ["studio", "showcase", "editorial", "minimal"],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/penumbra/preview-1600.webp",
+    promptMarkdown: PENUMBRA_PROMPT,
+    model: "Gemini 4 Argon High",
+  },
+  {
     slug: "lenus",
     createdAt: "2026-11-03",
     title: "LENUS",
     description: "Reality is just the start. A creative studio with a procedural optical lens, explodable assembly, focus controls and an accessible still preview.",
-    category: "3d-webgpu",
+    category: "3d",
+    categories: ["3d", "showcase", "studio"],
     industry: "Creative Studio & Immersive Experiences",
     stack: "Next.js 16 · React 19 · Three.js · TypeScript · Tailwind CSS",
     badges: ["Procedural Optics", "Interactive Assembly", "Physical Glass", "Accessible Fallback"],
@@ -1510,6 +1991,333 @@ slug: "tally",
     model: "GPT-6.1 Sol",
   },
 ];
+
+export const SAVEPOINT_PROMPT = `# Rebuild SAVEPOINT. — Every cartridge holds a world.
+
+Build a complete, isolated fictional game archive at \`/savepoint\` in Next.js App Router, React, TypeScript and Tailwind v4. Use imperative Three.js, GSAP with ScrollTrigger and Zustand. Read the installed Next.js documentation before using its APIs. Do not use React Three Fiber or Drei. All source belongs in \`src/app/(savepoint)/\`; imports must be installed packages or relative imports contained in that route group. Every interactive component, SavepointApp.tsx and page.tsx starts with \`'use client';\`. Keep the layout a server component for fonts and metadata.
+
+This is an imaginary collection, not a store, emulator or playable game service. Use no checkout, trailer, download or licensing claims. Build all five sections and the reversible physical game-detail interaction. Every control must work and every game record must be complete.
+
+## Assets
+
+Reuse the supplied assets, unchanged, from \`/templates/savepoint/\`. The six hardware references are \`deck-01-three-quarter.png\`, \`deck-01-front.png\`, \`deck-01-slot-detail.png\`, \`cartridge-shell-front.png\`, \`cartridge-shell-three-quarter.png\` and \`cartridge-shell-rear.png\`. For every game ID in the complete catalog below, the label is \`label-<id>.png\` and the matching world plate is \`world-<id>.webp\`. All 26 originals are required. Preserve label aspect ratios; never substitute generic artwork or remote photos. Put the icon, generated textures and previews in the same public directory, with the gallery preview at \`/gallery/savepoint.webp\`.
+
+## Visual direction
+
+Dark, tactile, editorial and spacious. Use charcoal #121419, deep #0B0D12, surfaces #1B1F28 and #252934, warm white #F2F0E8, muted #A9ADB7, thin warm-white rules at 15% opacity, and functional acid lime #CDF266. Violet #7971B7 and coral #F47D62 are secondary accents. The ten approved worlds supply the color. Load Space Grotesk for display, IBM Plex Mono for utility and Plus Jakarta Sans for body through next/font/google, with system fallbacks. No generic SaaS feature grids, neon backgrounds, fake CRT noise or split headline/illustration hero.
+
+## Section 01 — The archive
+
+Header: SAVEPOINT. wordmark; working ARCHIVE, THE DECK, MANIFEST and INDEX anchors; status \`10 WORLDS / 01 CONSOLE\`. Center the heading \`EVERY CARTRIDGE / HOLDS A WORLD.\` above \`Ten strange little universes. One console. Pick a cartridge and press start.\`
+
+Render a real infinite rail of thirty physical cartridges using one reusable shell factory. Show the active cover raised and turned outward at center, with neighboring spines spreading apart. Give each game its real artwork, crisp title band, accent and readable spine. Render realistic matte polymer, soft lighting and contact shadows. A floating index damps toward an integer target, wraps without gaps and drives spread, opening and caption direction. Provide previous/next buttons, keyboard arrows, raycast selection, horizontal drag/swipe with a six-pixel click threshold, and horizontal wheel browsing. Vertical scrolling must stay native. Clicking an inactive spine selects; clicking the active cover boots. Drag release only snaps. Keep React updates out of the frame loop.
+
+Below: index, title, year, genre, \`BOOT THIS GAME ↗\`, \`CHOOSE A WORLD. INSERT TO BEGIN.\`, navigation instructions and \`SCROLL TO DISCOVER ↓\`. Keep the whole hero centered and usable in one viewport, including a 390×844 phone.
+
+## Procedural hardware and physical boot
+
+Use the img2threejs workflow against all six reference renders to construct \`createDeck01Model.ts\` and \`createCartridgeModel.ts\`; preserve staged geometry and reference comparisons, semantic parts, materials, anchors and assembly controls. DECK/01 is the approved low charcoal wedge with an inclined wide landscape screen, real recessed rear/top slot, four front controls, vent ribs, seam and lime LED. Never replace it with an upright monitor. The universal shell has a recessed front label, grip marks, rear screws, seam and connector tongue.
+
+Console dimensions: width 2.4, depth 2.745, front height about .30, rear 1.08. Slot local width .99, depth .18, entrance y=1.075 and z=-1.05, floor y=.76, dock y=.84, alignment y=1.55. Expose Object3D slotEntrance, slotAlignment, slotFullyInserted and screenPlane anchors. Transform anchors to world space before interpolating cartridge position and quaternion. These coordinates must agree with actual modeled geometry.
+
+One main scene owns the rail, active cartridge, console and camera. Choreograph archive → extracting → console-entering → aligning → inserting → booting → screen-expanding → game-detail. Retreat neighboring objects and pull the camera back during extraction so the moving cartridge stays framed. Align directly above the aperture, seat the connector down its vertical axis, and clip only the active shell below the cavity rim. Wake the physical screen with READING ROM and WORLD FOUND telemetry plus the correct world art. Project all four screen-plane corners into viewport coordinates; expand the semantic HTML takeover from that actual quadrilateral. Never open detail by a fake unrelated image swap.
+
+Support SKIP INTRO, early Escape cancellation, reverse physical ejection, repeated boot/return cycles, focus restoration, reduced motion, \`?game=<id>\` deep links and browser Back/Forward. The dialog uses the matching world plate, large title, metadata, tagline, full description, WORLD NOTES and ARCHIVE DATA, with working previous/next world and BACK TO ARCHIVE actions. Trap focus, make background sections inert and lock body scrolling while busy. Dispose timelines, listeners, observers, frame loops, geometries, materials and textures on unmount. WebGL failure must preserve an accessible image archive and boot/back controls.
+
+## Section 02 — Hardware interlude
+
+Heading \`ONE CONSOLE. INFINITE DETOURS.\` Use a lightweight imperative secondary canvas with the same DECK/01 factory. Provide four real camera/callout presets: \`01 / INCLINED WIDE APERTURE\`, \`02 / TOP-LOADING SLOT CAVITY\`, \`03 / TACTILE DECK CONTROLS\`, \`04 / VENTED POLYMER CHASSIS\`. Show a downward alignment guide in the slot view and a working diagnostic wireframe toggle. Pair this studio with all three approved deck references and cartridge front/rear studies. Pause rendering with IntersectionObserver offscreen; render only on invalidation or camera motion. Own and dispose its resources independently of the primary scene. Supply a reference-image fallback if unavailable.
+
+## Section 03 — Manifesto
+
+Heading \`THE BEST WORLDS DON'T ASK YOU TO HURRY.\` Write a short, thoughtful essay about curiosity, self-contained worlds, physical-media rituals and memory slots. Layer cropped Mossheart and Deep Current world plates next to the text with small archive annotations. Scope restrained GSAP ScrollTrigger clipped-line reveals and subtle image parallax to this section; reduced motion shows everything immediately. Keep the continuous charcoal background and generous editorial rhythm.
+
+## Section 04 — Complete catalog
+
+Heading \`FIND YOUR NEXT DETOUR.\` List all ten games as open artwork/editorial rows, with actual world art, a smaller matching label, SVP-01 through SVP-10, year, genres and hook. Stack rows on mobile. Filters: ALL (ten); EXPLORATION (Lost Signal, Mossheart, Deep Current); MYSTERY & HORROR (Dead Channel, Ghost Frequency); ACTION & ARCADE (Turbo Saints, Neon Ruins, Sunken Arcade); STRATEGY & FANTASY (Mossheart, Moon Relay, Paper Kingdom). Expose selection using aria-pressed and announce the result count.
+
+Every row has working SELECT ON SHELF and INSERT & BOOT actions. Select the correct shortest wrapped target and scroll/focus the archive. For boot, wait for scrolling to reach the stage and for the physical rail to settle, then run the full insertion sequence. Do not use arbitrary timeouts or directly jump to detail. A new browse gesture cancels a pending request.
+
+## Section 05 — Footer and cursor
+
+Heading \`YOUR NEXT WORLD IS WAITING.\` Provide \`RETURN TO THE CARTRIDGES ↑\`, which scrolls to the hero and focuses its boot control. Footer contains SAVEPOINT., \`10 ARCHIVED WORLDS / REVISION 01\`, \`AN IMAGINARY COLLECTION, BUILT TO BE EXPLORED\`, the four working anchors and a clearly fictional copyright note. Add a fine-pointer-only cursor enhancement: understated outline ring, smaller over spines and acid-lime BOOT pill over the active cover. Keep native cursor and visible semantic actions; never show it on touch or make it necessary.
+
+## Release requirements
+
+Use relative route-local imports and public template asset URLs. Include DESIGN.md, this complete rebuild prompt, icon and gallery previews. Register the template in the gallery and copy-bundle metadata with all runtime dependencies. Run \`npm run check\`, copy-bundle generation, TypeScript, \`npm run test\` and \`npx playwright test tests/e2e/savepoint.spec.ts\`. Verify 1920×1080, 1366×768, 1024×768, 768×1024 and 390×844, keyboard-only use, touch, reduced motion, filters, all anchors, history, context recovery and repeated physical boot/eject. Require zero page errors, hydration warnings, missing media or horizontal overflow. Record real results and model evidence in VERIFICATION.md and MILESTONE_STATUS.json.
+
+## Complete game catalog
+
+Use the following records verbatim as the runtime content source. Artwork URLs point to the approved local files.
+
+
+\`\`\`json
+[
+  {
+    "id": "lost-signal",
+    "title": "Lost Signal",
+    "year": 1998,
+    "genre": [
+      "Sci-fi",
+      "Exploration",
+      "Puzzle"
+    ],
+    "accent": "#8BAAF7",
+    "hook": "A distant transmission draws a lone explorer into a forgotten planetary observatory.",
+    "tagline": "Some messages were never meant to be answered.",
+    "description": "Beyond the mapped edge of the system, an abandoned observatory has begun transmitting again. Cross silent canyons, restore forgotten relays, and uncover who \\u2014 or what \\u2014 is still listening.",
+    "worldNotes": [
+      "The observatory was built to record the sky. Its final log contains a voice from beneath the planet.",
+      "Every relay restores a fragment of a conversation that began before the station existed."
+    ],
+    "indexNumber": "01",
+    "archiveSpecs": {
+      "catalogCode": "SVP-01 / 98",
+      "romCapacity": "64 MEGABIT MASK ROM",
+      "saveBattery": "SRAM + LITHIUM CELL (3 SLOTS)",
+      "perspective": "ISOMETRIC / FIXED TELEMETRY"
+    },
+    "labelUrl": "/templates/savepoint/label-lost-signal.png",
+    "worldUrl": "/templates/savepoint/world-lost-signal.webp"
+  },
+  {
+    "id": "mossheart",
+    "title": "Mossheart",
+    "year": 1996,
+    "genre": [
+      "Fantasy",
+      "Adventure"
+    ],
+    "accent": "#9EBC7B",
+    "hook": "Ancient machinery sleeps beneath a forest that remembers everything.",
+    "tagline": "The roots remember your name.",
+    "description": "Follow a wandering seedkeeper into the green machinery beneath an ancient woodland. Mend forgotten engines without breaking the living roots that have made them home.",
+    "worldNotes": [
+      "Trees archive their memories in rings of copper and sap. Read the oldest trunks to find paths that have vanished.",
+      "Repair changes the forest rather than resetting it; each awakened machine earns its place in the canopy."
+    ],
+    "indexNumber": "02",
+    "archiveSpecs": {
+      "catalogCode": "SVP-02 / 96",
+      "romCapacity": "32 MEGABIT MASK ROM",
+      "saveBattery": "EEPROM (2 GARDENS)",
+      "perspective": "TOP-DOWN / HAND-PAINTED"
+    },
+    "labelUrl": "/templates/savepoint/label-mossheart.png",
+    "worldUrl": "/templates/savepoint/world-mossheart.webp"
+  },
+  {
+    "id": "turbo-saints",
+    "title": "Turbo Saints",
+    "year": 1999,
+    "genre": [
+      "Arcade",
+      "Racing"
+    ],
+    "accent": "#F58A5C",
+    "hook": "Chase sunset, speed and the final finish line across impossible highways.",
+    "tagline": "One last lap before the sun goes out.",
+    "description": "Race a crew of roadside legends across highways suspended over a burning sea. Trade clean corners for dangerous shortcuts as the sunset clock counts down the final championship.",
+    "worldNotes": [
+      "Each driver carries a cassette recorded for someone waiting at the finish. The radio reveals their stories between races.",
+      "Roads fold through abandoned toll booths, coastal flyovers and the ruins of a city built around speed."
+    ],
+    "indexNumber": "03",
+    "archiveSpecs": {
+      "catalogCode": "SVP-03 / 99",
+      "romCapacity": "96 MEGABIT MASK ROM",
+      "saveBattery": "EEPROM / LAP RECORDS",
+      "perspective": "CHASE CAMERA / ARCADE"
+    },
+    "labelUrl": "/templates/savepoint/label-turbo-saints.png",
+    "worldUrl": "/templates/savepoint/world-turbo-saints.webp"
+  },
+  {
+    "id": "dead-channel",
+    "title": "Dead Channel",
+    "year": 2001,
+    "genre": [
+      "Horror",
+      "Mystery"
+    ],
+    "accent": "#D45E66",
+    "hook": "A broadcast from a town erased from every map refuses to go silent.",
+    "tagline": "Stay tuned. Stay inside.",
+    "description": "A late-night television repair leads you to a town absent from every map. Follow its emergency broadcasts through empty rooms and discover why every screen is showing tomorrow.",
+    "worldNotes": [
+      "The broadcast schedule is the only reliable clock in town. Missing a program changes what waits outside.",
+      "Domestic spaces repeat with subtle errors: an extra door, a photograph turned around, a voice one room ahead."
+    ],
+    "indexNumber": "04",
+    "archiveSpecs": {
+      "catalogCode": "SVP-04 / 01",
+      "romCapacity": "128 MEGABIT MASK ROM",
+      "saveBattery": "SRAM (1 TRANSMISSION)",
+      "perspective": "FIXED CAMERA / ANALOGUE"
+    },
+    "labelUrl": "/templates/savepoint/label-dead-channel.png",
+    "worldUrl": "/templates/savepoint/world-dead-channel.webp"
+  },
+  {
+    "id": "moon-relay",
+    "title": "Moon Relay",
+    "year": 1997,
+    "genre": [
+      "Puzzle",
+      "Strategy"
+    ],
+    "accent": "#D9C68E",
+    "hook": "Reconnect a silent lunar network one brilliant circuit at a time.",
+    "tagline": "A small light. A very long way home.",
+    "description": "Route power across a stranded lunar communications network. Balance fragile circuits, moving shadows and limited reserves to carry one final message back to Earth.",
+    "worldNotes": [
+      "Sunlight travels slowly across the crater floor, turning safe routes into frozen gaps.",
+      "Every station holds a handwritten message from its former operator; reconnecting them assembles a shared farewell."
+    ],
+    "indexNumber": "05",
+    "archiveSpecs": {
+      "catalogCode": "SVP-05 / 97",
+      "romCapacity": "24 MEGABIT MASK ROM",
+      "saveBattery": "EEPROM / 12 CIRCUITS",
+      "perspective": "ORTHOGRAPHIC / GRID"
+    },
+    "labelUrl": "/templates/savepoint/label-moon-relay.png",
+    "worldUrl": "/templates/savepoint/world-moon-relay.webp"
+  },
+  {
+    "id": "neon-ruins",
+    "title": "Neon Ruins",
+    "year": 2002,
+    "genre": [
+      "Action",
+      "Platformer"
+    ],
+    "accent": "#B58AF5",
+    "hook": "Carry a forbidden signal across the rooftops of a collapsing neon city.",
+    "tagline": "Keep the signal moving.",
+    "description": "Leap between unstable towers in a city dismantling itself at dawn. A stolen transmitter is your only weapon, opening routes through the electric ghosts of its infrastructure.",
+    "worldNotes": [
+      "The skyline is a circuit diagram. Redirecting current can save a platform and darken an entire neighborhood.",
+      "Billboards preserve fragments of a language the city has ordered its residents to forget."
+    ],
+    "indexNumber": "06",
+    "archiveSpecs": {
+      "catalogCode": "SVP-06 / 02",
+      "romCapacity": "128 MEGABIT MASK ROM",
+      "saveBattery": "FLASH / CHECKPOINTS",
+      "perspective": "SIDE-SCROLLING / PARALLAX"
+    },
+    "labelUrl": "/templates/savepoint/label-neon-ruins.png",
+    "worldUrl": "/templates/savepoint/world-neon-ruins.webp"
+  },
+  {
+    "id": "paper-kingdom",
+    "title": "Paper Kingdom",
+    "year": 1995,
+    "genre": [
+      "Tactical",
+      "Fantasy"
+    ],
+    "accent": "#D99B79",
+    "hook": "Rewrite the fate of a kingdom folded from maps, letters and memories.",
+    "tagline": "Every fold changes the story.",
+    "description": "Command a tiny court across maps that fold into mountains and letters that become bridges. Rewrite a disputed inheritance with careful tactics and the memories hidden in the margins.",
+    "worldNotes": [
+      "Units carry histories on their reverse sides. Turning a soldier over can reveal a diplomat.",
+      "Rain is the kingdom\\u2019s oldest enemy; protecting an archive may matter more than holding a fortress."
+    ],
+    "indexNumber": "07",
+    "archiveSpecs": {
+      "catalogCode": "SVP-07 / 95",
+      "romCapacity": "16 MEGABIT MASK ROM",
+      "saveBattery": "SRAM / 3 CHRONICLES",
+      "perspective": "ISOMETRIC / TURN-BASED"
+    },
+    "labelUrl": "/templates/savepoint/label-paper-kingdom.png",
+    "worldUrl": "/templates/savepoint/world-paper-kingdom.webp"
+  },
+  {
+    "id": "deep-current",
+    "title": "Deep Current",
+    "year": 2000,
+    "genre": [
+      "Underwater",
+      "Exploration"
+    ],
+    "accent": "#64C1C2",
+    "hook": "Descend beyond the last charted depth in a fragile research vessel.",
+    "tagline": "There is still light below.",
+    "description": "Pilot a fragile survey vessel past the last marked contour on the ocean floor. Listen to the hull, ration your power and follow an impossible light into the deep.",
+    "worldNotes": [
+      "Sonar reveals architecture where geology should be. No two survey passes return the same shape.",
+      "The cabin is a small refuge: a thermos, a notebook and a window that becomes a mirror as you descend."
+    ],
+    "indexNumber": "08",
+    "archiveSpecs": {
+      "catalogCode": "SVP-08 / 00",
+      "romCapacity": "96 MEGABIT MASK ROM",
+      "saveBattery": "SRAM / DIVE LOG",
+      "perspective": "FIRST-PERSON / SONAR"
+    },
+    "labelUrl": "/templates/savepoint/label-deep-current.png",
+    "worldUrl": "/templates/savepoint/world-deep-current.webp"
+  },
+  {
+    "id": "ghost-frequency",
+    "title": "Ghost Frequency",
+    "year": 2003,
+    "genre": [
+      "Rhythm",
+      "Mystery"
+    ],
+    "accent": "#B4A2F3",
+    "hook": "Decode the city hidden between music, static and midnight transmissions.",
+    "tagline": "Somewhere between stations, a city listens.",
+    "description": "Tune a pirate receiver to rhythms that reveal a second city after midnight. Follow missing musicians through its stations and reconstruct the song that keeps its streets from disappearing.",
+    "worldNotes": [
+      "Each district occupies a different band of the spectrum. Their melodies overlap at places the map cannot show.",
+      "Silence is a deliberate note; listening without playing can reveal an entirely different route."
+    ],
+    "indexNumber": "09",
+    "archiveSpecs": {
+      "catalogCode": "SVP-09 / 03",
+      "romCapacity": "128 MEGABIT MASK ROM",
+      "saveBattery": "FLASH / MIX TAPES",
+      "perspective": "SIDE VIEW / RHYTHMIC"
+    },
+    "labelUrl": "/templates/savepoint/label-ghost-frequency.png",
+    "worldUrl": "/templates/savepoint/world-ghost-frequency.webp"
+  },
+  {
+    "id": "sunken-arcade",
+    "title": "Sunken Arcade",
+    "year": 1994,
+    "genre": [
+      "Surreal",
+      "Platformer"
+    ],
+    "accent": "#F2A57C",
+    "hook": "Beneath the waves, every arcade cabinet opens another dream.",
+    "tagline": "One more coin. One more dream.",
+    "description": "Explore a drowned amusement hall where each glowing cabinet opens a pocket universe. Collect forgotten tokens and follow the tide toward the machine still waiting for its first player.",
+    "worldNotes": [
+      "The water never reaches the screens. Their glow draws tiny schools of fish through the abandoned aisles.",
+      "Dreams borrow pieces from neighboring games, turning familiar platforms into shifting conversations."
+    ],
+    "indexNumber": "10",
+    "archiveSpecs": {
+      "catalogCode": "SVP-10 / 94",
+      "romCapacity": "16 MEGABIT MASK ROM",
+      "saveBattery": "PASSWORD / TOKEN LEDGER",
+      "perspective": "SIDE-SCROLLING / DREAM LOGIC"
+    },
+    "labelUrl": "/templates/savepoint/label-sunken-arcade.png",
+    "worldUrl": "/templates/savepoint/world-sunken-arcade.webp"
+  }
+]
+\`\`\`
+`;
+RAW_TEMPLATES.push({ slug: "savepoint", createdAt: "2026-11-04", hasDownload: false, title: "SAVEPOINT.", description: "Ten strange little universes. One console. A tactile cartridge archive with a physical insertion ritual.", category: "3d", categories: ["3d", "showcase", "editorial"], industry: "Independent Games", stack: "Next.js 16 · React 19 · Three.js · GSAP · Tailwind v4", badges: ["Procedural 3D", "Physical Boot", "Interactive Archive"], previewImage: "/templates/savepoint/preview-1600.webp", promptMarkdown: SAVEPOINT_PROMPT, model: "GPT-6.1" });
 
 const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
 export const ARCHIVED_TEMPLATES = registeredTemplates.filter((template) => Boolean(template.archived));

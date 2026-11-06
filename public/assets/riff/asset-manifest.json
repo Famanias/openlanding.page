@@ -1,0 +1,365 @@
+[
+  {
+    "id": "hm-01",
+    "section": "01-how-matching-works",
+    "role": "Step 01 — Drop Your Favorites",
+    "src": "riff-hm-01-drop-favorites_911349f0.png",
+    "dest": "phones/riff-hm-01-drop-favorites.webp",
+    "type": "single-phone",
+    "publicPath": "/assets/riff/phones/riff-hm-01-drop-favorites.webp",
+    "sourceWidth": 1536,
+    "sourceHeight": 2752,
+    "outputWidth": 720,
+    "outputHeight": 1490,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 14.26,
+      "topPct": 8.28,
+      "widthPct": 71.42,
+      "heightPct": 83.87
+    }
+  },
+  {
+    "id": "hm-00",
+    "section": "01-how-matching-works",
+    "role": "Intermediate State — Music Identity (Mila, 24)",
+    "src": "riff-hm-00-music-identity_00554185.png",
+    "dest": "phones/riff-hm-00-music-identity.webp",
+    "type": "single-phone",
+    "publicPath": "/assets/riff/phones/riff-hm-00-music-identity.webp",
+    "sourceWidth": 1536,
+    "sourceHeight": 2752,
+    "outputWidth": 720,
+    "outputHeight": 1490,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 14.19,
+      "topPct": 8.28,
+      "widthPct": 71.48,
+      "heightPct": 83.9
+    }
+  },
+  {
+    "id": "hm-02",
+    "section": "01-how-matching-works",
+    "role": "Step 02 — Find Your Overlap",
+    "src": "riff-hm-02-find-overlap_e9ccd5b3.png",
+    "dest": "phones/riff-hm-02-find-overlap.webp",
+    "type": "single-phone",
+    "publicPath": "/assets/riff/phones/riff-hm-02-find-overlap.webp",
+    "sourceWidth": 1536,
+    "sourceHeight": 2752,
+    "outputWidth": 720,
+    "outputHeight": 1490,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 14.39,
+      "topPct": 8.47,
+      "widthPct": 71.29,
+      "heightPct": 83.61
+    }
+  },
+  {
+    "id": "hm-03",
+    "section": "01-how-matching-works",
+    "role": "Step 03 — Start a Conversation",
+    "src": "riff-hm-03-start-conversation_3ee35f91.png",
+    "dest": "phones/riff-hm-03-start-conversation.webp",
+    "type": "single-phone",
+    "publicPath": "/assets/riff/phones/riff-hm-03-start-conversation.webp",
+    "sourceWidth": 1536,
+    "sourceHeight": 2752,
+    "outputWidth": 720,
+    "outputHeight": 1490,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 14.39,
+      "topPct": 8.47,
+      "widthPct": 71.29,
+      "heightPct": 83.65
+    }
+  },
+  {
+    "id": "tm-01",
+    "section": "02-taste-matcher",
+    "role": "High Overlap State (>= 85%)",
+    "src": "riff-tm-01-high-overlap_5796835b.png",
+    "dest": "phones/riff-tm-01-high-overlap.webp",
+    "type": "single-phone",
+    "publicPath": "/assets/riff/phones/riff-tm-01-high-overlap.webp",
+    "sourceWidth": 1536,
+    "sourceHeight": 2752,
+    "outputWidth": 720,
+    "outputHeight": 1490,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 14.45,
+      "topPct": 8.5,
+      "widthPct": 71.22,
+      "heightPct": 83.54
+    }
+  },
+  {
+    "id": "tm-02",
+    "section": "02-taste-matcher",
+    "role": "Medium Overlap State (65-84%)",
+    "src": "riff-tm-02-medium-overlap_5262bc31.png",
+    "dest": "phones/riff-tm-02-medium-overlap.webp",
+    "type": "single-phone",
+    "publicPath": "/assets/riff/phones/riff-tm-02-medium-overlap.webp",
+    "sourceWidth": 1536,
+    "sourceHeight": 2752,
+    "outputWidth": 720,
+    "outputHeight": 1490,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 14.58,
+      "topPct": 8.54,
+      "widthPct": 71.09,
+      "heightPct": 83.47
+    }
+  },
+  {
+    "id": "tm-03",
+    "section": "02-taste-matcher",
+    "role": "Low Overlap State (< 65%)",
+    "src": "riff-tm-03-low-overlap_69a5ac5c.png",
+    "dest": "phones/riff-tm-03-low-overlap.webp",
+    "type": "single-phone",
+    "publicPath": "/assets/riff/phones/riff-tm-03-low-overlap.webp",
+    "sourceWidth": 1536,
+    "sourceHeight": 2752,
+    "outputWidth": 720,
+    "outputHeight": 1490,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 14.58,
+      "topPct": 8.54,
+      "widthPct": 71.09,
+      "heightPct": 83.54
+    }
+  },
+  {
+    "id": "tm-04",
+    "section": "02-taste-matcher",
+    "role": "Conversation Focus State (The First Riff)",
+    "src": "riff-tm-04-conversation-focus_b25a25a6.png",
+    "dest": "phones/riff-tm-04-conversation-focus.webp",
+    "type": "single-phone",
+    "publicPath": "/assets/riff/phones/riff-tm-04-conversation-focus.webp",
+    "sourceWidth": 1536,
+    "sourceHeight": 2752,
+    "outputWidth": 720,
+    "outputHeight": 1490,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 14.71,
+      "topPct": 8.54,
+      "widthPct": 70.96,
+      "heightPct": 83.54
+    }
+  },
+  {
+    "id": "mc-01",
+    "section": "03-music-chemistry",
+    "role": "Lens 01 — Favorite Records (Mila & Julian)",
+    "src": "riff-mc-01-favorite-records_2f533fae.png",
+    "dest": "chemistry/riff-mc-01-favorite-records.webp",
+    "type": "dual-phone",
+    "publicPath": "/assets/riff/chemistry/riff-mc-01-favorite-records.webp",
+    "sourceWidth": 2752,
+    "sourceHeight": 1536,
+    "outputWidth": 1440,
+    "outputHeight": 902,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 12.35,
+      "topPct": 6.25,
+      "widthPct": 78.31,
+      "heightPct": 89.19
+    }
+  },
+  {
+    "id": "mc-02",
+    "section": "03-music-chemistry",
+    "role": "Lens 02 — Concert Energy (Mila & Julian)",
+    "src": "riff-mc-02-concert-energy_a90b85fa.png",
+    "dest": "chemistry/riff-mc-02-concert-energy.webp",
+    "type": "dual-phone",
+    "publicPath": "/assets/riff/chemistry/riff-mc-02-concert-energy.webp",
+    "sourceWidth": 2752,
+    "sourceHeight": 1536,
+    "outputWidth": 1440,
+    "outputHeight": 902,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 12.32,
+      "topPct": 6.25,
+      "widthPct": 78.34,
+      "heightPct": 89.19
+    }
+  },
+  {
+    "id": "mc-03",
+    "section": "03-music-chemistry",
+    "role": "Lens 03 — Late-Night Playlist (Mila & Julian)",
+    "src": "riff-mc-03-late-night-playlist_fcc4358b.png",
+    "dest": "chemistry/riff-mc-03-late-night-playlist.webp",
+    "type": "dual-phone",
+    "publicPath": "/assets/riff/chemistry/riff-mc-03-late-night-playlist.webp",
+    "sourceWidth": 2752,
+    "sourceHeight": 1536,
+    "outputWidth": 1440,
+    "outputHeight": 902,
+    "chromaKeyRemoved": true,
+    "normalizedBounds": {
+      "leftPct": 12.35,
+      "topPct": 6.25,
+      "widthPct": 78.31,
+      "heightPct": 89.13
+    }
+  },
+  {
+    "id": "sc-01",
+    "section": "04-the-scene-sleeves",
+    "role": "Sleeve 01 — Midnight Static",
+    "src": "riff-sc-01-midnight-static_5f2abda7.png",
+    "dest": "sleeves/riff-sc-01-midnight-static.webp",
+    "type": "sleeve",
+    "publicPath": "/assets/riff/sleeves/riff-sc-01-midnight-static.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1024x1024"
+  },
+  {
+    "id": "sc-02",
+    "section": "04-the-scene-sleeves",
+    "role": "Sleeve 02 — After the Encore",
+    "src": "riff-sc-02-after-the-encore_afaa7734.png",
+    "dest": "sleeves/riff-sc-02-after-the-encore.webp",
+    "type": "sleeve",
+    "publicPath": "/assets/riff/sleeves/riff-sc-02-after-the-encore.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1024x1024"
+  },
+  {
+    "id": "sc-03",
+    "section": "04-the-scene-sleeves",
+    "role": "Sleeve 03 — Songs to Walk Home To",
+    "src": "riff-sc-03-songs-to-walk-home-to_4798155e.png",
+    "dest": "sleeves/riff-sc-03-songs-to-walk-home-to.webp",
+    "type": "sleeve",
+    "publicPath": "/assets/riff/sleeves/riff-sc-03-songs-to-walk-home-to.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1024x1024"
+  },
+  {
+    "id": "sc-04",
+    "section": "04-the-scene-sleeves",
+    "role": "Sleeve 04 — Basement Show Memories",
+    "src": "riff-sc-04-basement-show-memories_3471de03.png",
+    "dest": "sleeves/riff-sc-04-basement-show-memories.webp",
+    "type": "sleeve",
+    "publicPath": "/assets/riff/sleeves/riff-sc-04-basement-show-memories.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1024x1024"
+  },
+  {
+    "id": "sc-05",
+    "section": "04-the-scene-sleeves",
+    "role": "Sleeve 05 — Cathode Ray Lullabies",
+    "src": "riff-sc-05-cathode-ray-lullabies_a0529796.png",
+    "dest": "sleeves/riff-sc-05-cathode-ray-lullabies.webp",
+    "type": "sleeve",
+    "publicPath": "/assets/riff/sleeves/riff-sc-05-cathode-ray-lullabies.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1024x1024"
+  },
+  {
+    "id": "sc-06",
+    "section": "04-the-scene-sleeves",
+    "role": "Sleeve 06 — Rain on the Amp Case",
+    "src": "riff-sc-06-rain-on-the-amp-case_393bdbc4.png",
+    "dest": "sleeves/riff-sc-06-rain-on-the-amp-case.webp",
+    "type": "sleeve",
+    "publicPath": "/assets/riff/sleeves/riff-sc-06-rain-on-the-amp-case.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1024x1024"
+  },
+  {
+    "id": "sc-open-01",
+    "section": "04-the-scene-gatefolds",
+    "role": "Gatefold 01 — Midnight Static (Open Spread)",
+    "src": "riff-sc-open-01-midnight-static_b9480520.png",
+    "dest": "gatefolds/riff-sc-open-01-midnight-static.webp",
+    "type": "gatefold",
+    "publicPath": "/assets/riff/gatefolds/riff-sc-open-01-midnight-static.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1400x1045"
+  },
+  {
+    "id": "sc-open-02",
+    "section": "04-the-scene-gatefolds",
+    "role": "Gatefold 02 — After the Encore (Open Spread)",
+    "src": "riff-sc-open-02-after-the-encore_68787b42.png",
+    "dest": "gatefolds/riff-sc-open-02-after-the-encore.webp",
+    "type": "gatefold",
+    "publicPath": "/assets/riff/gatefolds/riff-sc-open-02-after-the-encore.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1400x1045"
+  },
+  {
+    "id": "sc-open-03",
+    "section": "04-the-scene-gatefolds",
+    "role": "Gatefold 03 — Songs to Walk Home To (Open Spread)",
+    "src": "riff-sc-open-03-songs-to-walk-home-to_39a971fd.png",
+    "dest": "gatefolds/riff-sc-open-03-songs-to-walk-home-to.webp",
+    "type": "gatefold",
+    "publicPath": "/assets/riff/gatefolds/riff-sc-open-03-songs-to-walk-home-to.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1400x1045"
+  },
+  {
+    "id": "sc-open-04",
+    "section": "04-the-scene-gatefolds",
+    "role": "Gatefold 04 — Basement Show Memories (Open Spread)",
+    "src": "riff-sc-open-04-basement-show-memories_aa6c72a6.png",
+    "dest": "gatefolds/riff-sc-open-04-basement-show-memories.webp",
+    "type": "gatefold",
+    "publicPath": "/assets/riff/gatefolds/riff-sc-open-04-basement-show-memories.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1400x1045"
+  },
+  {
+    "id": "sc-support-01",
+    "section": "04-the-scene-ephemera",
+    "role": "Ephemera 01 — Flyer Culture (Basement Night Live)",
+    "src": "riff-sc-support-01-flyer-culture_4f0d75d2.png",
+    "dest": "ephemera/riff-sc-support-01-flyer-culture.webp",
+    "type": "ephemera-portrait",
+    "publicPath": "/assets/riff/ephemera/riff-sc-support-01-flyer-culture.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "960x1286"
+  },
+  {
+    "id": "sc-support-02",
+    "section": "04-the-scene-ephemera",
+    "role": "Ephemera 02 — Ticket Ephemera (Subterranean Stubs)",
+    "src": "riff-sc-support-02-ticket-ephemera_28d71190.png",
+    "dest": "ephemera/riff-sc-support-02-ticket-ephemera.webp",
+    "type": "ephemera-portrait",
+    "publicPath": "/assets/riff/ephemera/riff-sc-support-02-ticket-ephemera.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "960x1286"
+  },
+  {
+    "id": "sc-support-03",
+    "section": "04-the-scene-ephemera",
+    "role": "Ephemera 03 — Scene Photo (RIFF 400 Contact Sheet)",
+    "src": "riff-sc-support-03-scene-photo_8533d2f6.png",
+    "dest": "ephemera/riff-sc-support-03-scene-photo.webp",
+    "type": "ephemera-landscape",
+    "publicPath": "/assets/riff/ephemera/riff-sc-support-03-scene-photo.webp",
+    "chromaKeyRemoved": false,
+    "outputSize": "1280x956"
+  }
+]

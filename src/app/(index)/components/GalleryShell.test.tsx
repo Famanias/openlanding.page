@@ -15,10 +15,11 @@ describe("GalleryShell", () => {
     const html = renderToStaticMarkup(<GalleryShell />);
     expect(html).toContain('role="tablist"');
     expect(html).toContain("All");
-    expect(html).toContain("Keynote &amp; Deck");
-    expect(html).toContain("Scroll Showcase");
-    expect(html).toContain("3D &amp; WebGPU");
-    expect(html).toContain("Editorial Magazine");
+    expect(html).toContain("Showcase");
+    expect(html).toContain("3D");
+    expect(html).toContain("Editorial");
+    expect(html).toContain("Commerce");
+    expect(html).toContain("Deck");
     expect(html).toContain(`Showing ${TEMPLATES.length} of ${TEMPLATES.length} templates`);
   });
 

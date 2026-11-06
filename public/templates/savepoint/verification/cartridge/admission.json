@@ -1,0 +1,14 @@
+{
+  "admitted": true,
+  "reasons": [],
+  "provenance": {
+    "viewpoint": "reference",
+    "sourcePath": "C:\\Users\\User\\Downloads\\SAVEPOINT-20261104T070016Z-1-001\\SAVEPOINT\\cartridge-shell-three-quarter.png",
+    "width": 1792,
+    "height": 2400,
+    "foregroundCoverage": 0.5813,
+    "largestComponentFraction": 1.0,
+    "pHash": 18420847992123730080,
+    "duplicateOfHash": null
+  }
+}

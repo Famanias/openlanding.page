@@ -10,6 +10,17 @@ const COPY_METADATA: Record<
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
   lenus: { name: "LENUS", dependencies: ["three", "lucide-react"] },
+  savepoint: { name: "SAVEPOINT.", dependencies: ["three", "@types/three", "gsap", "zustand"] },
+  penumbra: { name: "PENUMBRA", dependencies: ["lucide-react", "motion"] },
+  zeno: { name: "ZENO.", dependencies: ["lucide-react", "motion"] },
+  halodesk: { name: "Halo Desk", dependencies: ["lucide-react", "motion"] },
+  riff: { name: "Riff", dependencies: ["lucide-react", "motion"] },
+  inesvale: { name: "Ines Vale", dependencies: ["lucide-react", "motion"] },
+  nicopark: { name: "Nico Park", dependencies: ["lucide-react", "motion"] },
+  poppypatch: { name: "Poppy Patch", dependencies: ["lucide-react", "motion"] },
+  razorline: { name: "RAZORLINE", dependencies: ["lucide-react", "motion"] },
+  nexus: { name: "nexus", dependencies: ["lucide-react", "motion"] },
+  starriot: { name: "STAR RIOT", dependencies: ["lucide-react", "motion"] },
   arcandsignal: { name: "Arc & Signal", dependencies: [] },
   stillwater: { name: "Stillwater", dependencies: [], includeDownload: true },
   mercer: { name: "Jules Mercer", dependencies: ["three", "lucide-react"] },

@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "checks": {
+    "silhouetteIoU": 0.8667,
+    "aspectRatioDelta": 0.0001,
+    "scaleDelta": 0.0207,
+    "bilateralSymmetryError": 0.1717,
+    "colorDelta": {
+      "checked": 9,
+      "maxDeltaE": 17.85,
+      "perComponent": [
+        {
+          "componentId": null,
+          "deltaE": 17.85
+        },
+        {
+          "componentId": null,
+          "deltaE": 17.85
+        },
+        {
+          "componentId": null,
+          "deltaE": 17.85
+        },
+        {
+          "componentId": null,
+          "deltaE": 17.85
+        },
+        {
+          "componentId": null,
+          "deltaE": 17.85
+        },
+        {
+          "componentId": null,
+          "deltaE": 17.85
+        },
+        {
+          "componentId": null,
+          "deltaE": 17.85
+        },
+        {
+          "componentId": null,
+          "deltaE": 17.85
+        },
+        {
+          "componentId": null,
+          "deltaE": 17.85
+        }
+      ],
+      "gated": false
+    }
+  },
+  "failures": [],
+  "maskWarnings": [],
+  "renderHash": "8d54e5c2cd037ec9",
+  "passId": "blockout",
+  "mapStrippedRender": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\deck\\blockout\\small-35.png"
+}

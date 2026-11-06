@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="600" height="420">
+    <rect width="600" height="420" fill="#F8F7F2"/>
+    <g stroke="#DEDAD0" stroke-width="1">
+      <line x1="0" y1="70" x2="600" y2="70"/><line x1="0" y1="140" x2="600" y2="140"/>
+      <line x1="0" y1="210" x2="600" y2="210"/><line x1="0" y1="280" x2="600" y2="280"/>
+      <line x1="0" y1="350" x2="600" y2="350"/>
+      <line x1="100" y1="0" x2="100" y2="420"/><line x1="200" y1="0" x2="200" y2="420"/>
+      <line x1="300" y1="0" x2="300" y2="420"/><line x1="400" y1="0" x2="400" y2="420"/>
+      <line x1="500" y1="0" x2="500" y2="420"/>
+    </g>
+    <rect x="145" y="75" width="260" height="260" rx="68" fill="#DCCFFA" fill-opacity="0.45" stroke="#191919" stroke-width="2.5"/>
+    <circle cx="275" cy="205" r="92" fill="#F7E36B" fill-opacity="0.5" stroke="#3049F0" stroke-width="2.5" stroke-dasharray="8 5"/>
+    <circle cx="275" cy="205" r="32" fill="#FF735D" stroke="#191919" stroke-width="2"/>
+    <line x1="95" y1="205" x2="455" y2="205" stroke="#191919" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="275" y1="40" x2="275" y2="375" stroke="#191919" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="145" y1="365" x2="405" y2="365" stroke="#3049F0" stroke-width="2"/>
+    <circle cx="145" cy="365" r="4" fill="#3049F0"/><circle cx="405" cy="365" r="4" fill="#3049F0"/>
+  </svg>

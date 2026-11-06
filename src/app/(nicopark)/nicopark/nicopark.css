@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #F8F7F2;
+  --ink: #191919;
+  --cobalt: #3049F0;
+  --coral: #FF735D;
+  --butter: #F7E36B;
+  --lavender: #D5C8FC;
+  --muted: #515151;
+  --outline: #222222;
+  --radius-panel: 24px;
+  --spring-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --overshoot-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@layer base {
+  body {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+.font-display {
+  font-family: var(--font-anton), 'Anton', var(--font-barlow-condensed), 'Barlow Condensed', Impact, sans-serif;
+  letter-spacing: -0.015em;
+  line-height: 0.91;
+}
+
+.font-condensed {
+  font-family: var(--font-barlow-condensed), 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.font-mono-tech {
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tactile Panel Surface Rules */
+.tactile-panel {
+  border: 2px solid var(--outline);
+  border-radius: var(--radius-panel);
+  transition: transform 280ms var(--spring-ease), box-shadow 280ms var(--spring-ease);
+}
+
+.tactile-panel-sm {
+  border: 1.75px solid var(--outline);
+  border-radius: 18px;
+  transition: transform 240ms var(--spring-ease), box-shadow 240ms var(--spring-ease);
+}
+
+/* Specular sweep across LOOP clear dial */
+@keyframes specularSweep {
+  0%, 75% {
+    transform: translateX(-140%) rotate(25deg);
+    opacity: 0;
+  }
+  82% {
+    opacity: 0.55;
+  }
+  92% {
+    transform: translateX(140%) rotate(25deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(140%) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0) rotate(-0.8deg);
+  }
+}
+
+@keyframes slowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-gentle-float {
+  animation: gentleFloat 6.5s ease-in-out infinite;
+}
+
+.animate-slow-spin {
+  animation: slowSpin 28s linear infinite;
+}
+
+.animate-specular-sweep {
+  animation: specularSweep 9s ease-in-out infinite;
+}
+
+/* Reduced motion compliance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-gentle-float,
+  .animate-slow-spin,
+  .animate-specular-sweep {
+    animation: none !important;
+  }
+}

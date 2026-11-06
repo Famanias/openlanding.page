@@ -1,0 +1,31 @@
+{
+  "classification": "hard-surface electronic hardware",
+  "primaryDomain": "object",
+  "confidence": 0.96,
+  "silhouette": "upright beveled slab with clipped upper shoulder and projecting narrow connector",
+  "hierarchy": [
+    "shell",
+    "rearShell",
+    "labelRecess",
+    "labelPanel",
+    "connectorTongue",
+    "contacts",
+    "screwWells",
+    "gripCorners",
+    "seam"
+  ],
+  "relationships": "label inset inside front frame; tongue below shell; rear fasteners embedded",
+  "materials": "charcoal satin dielectric polymer, low roughness glass, metal contacts",
+  "identity": [
+    "shell",
+    "rearShell",
+    "labelRecess",
+    "labelPanel",
+    "connectorTongue",
+    "contacts",
+    "screwWells",
+    "gripCorners",
+    "seam"
+  ],
+  "uncertainty": "internal PCB and underside inferred; dimensions conceptual; reference rear has two visible screw wells, master prompt requests four"
+}

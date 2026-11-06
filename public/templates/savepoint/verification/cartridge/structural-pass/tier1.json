@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "checks": {
+    "silhouetteIoU": 0.9032,
+    "aspectRatioDelta": 0.0325,
+    "scaleDelta": 0.0659,
+    "bilateralSymmetryError": 0.1018,
+    "colorDelta": {
+      "checked": 9,
+      "maxDeltaE": 0.75,
+      "perComponent": [
+        {
+          "componentId": null,
+          "deltaE": 0.75
+        },
+        {
+          "componentId": null,
+          "deltaE": 0.75
+        },
+        {
+          "componentId": null,
+          "deltaE": 0.75
+        },
+        {
+          "componentId": null,
+          "deltaE": 0.75
+        },
+        {
+          "componentId": null,
+          "deltaE": 0.75
+        },
+        {
+          "componentId": null,
+          "deltaE": 0.75
+        },
+        {
+          "componentId": null,
+          "deltaE": 0.75
+        },
+        {
+          "componentId": null,
+          "deltaE": 0.75
+        },
+        {
+          "componentId": null,
+          "deltaE": 0.75
+        }
+      ],
+      "gated": false
+    }
+  },
+  "failures": [],
+  "maskWarnings": [],
+  "renderHash": "060f55010a2e9c6b",
+  "passId": "structural-pass"
+}

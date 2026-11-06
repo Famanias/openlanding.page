@@ -1,0 +1,20 @@
+{
+  "referenceAreaFraction": 0.45384615384615384,
+  "angles": [
+    {
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\deck\\blockout\\small-0.png",
+      "areaFraction": 0.454005016722408,
+      "ratio": 1.0003500368459837,
+      "degenerate": false
+    },
+    {
+      "path": "C:\\Users\\User\\orca\\openlanding.page\\.img2threejs\\revision-02\\deck\\blockout\\small-180.png",
+      "areaFraction": 0.3783612040133779,
+      "ratio": 0.8336772291820191,
+      "degenerate": false
+    }
+  ],
+  "degenerate": false,
+  "collapseRatio": 0.15,
+  "note": "deterministic; zero token; a flat-plane-faking-a-volume collapses in silhouette area when orbited"
+}
