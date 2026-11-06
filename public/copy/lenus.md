@@ -5744,14 +5744,14 @@ export type NarrativeRenderFrame={position:number;progress:number;pose:import(".
 .ln-chapter-key-hint{display:none;font-family:var(--font-ln-data);font-size:9px;line-height:14px;color:var(--color-ln-muted);margin-top:6px}
 [data-story-mode="horizontal"] .ln-chapter-key-hint{display:block}
 .ln-skip-experience{display:flex;align-items:center;gap:8px;width:max-content;margin-top:8px;color:var(--color-ln-muted);font-family:var(--font-ln-data);font-size:10px;line-height:16px;text-decoration:none}.ln-skip-experience:hover{color:var(--color-ln-lime)}
-.ln-native-footer{position:relative;z-index:4;display:flex;flex-direction:column;padding:96px clamp(24px,6vw,96px) 32px;background:var(--color-ln-midnight);border-top:1px solid color-mix(in srgb,var(--color-ln-muted) 24%,transparent);min-height:100svh}
+.ln-native-footer{position:relative;z-index:4;display:flex;flex-direction:column;padding:96px clamp(24px,6vw,96px) 32px;background:var(--color-ln-midnight);border-top:1px solid color-mix(in srgb,var(--color-ln-muted) 24%,transparent);overflow:clip}
 .ln-native-footer::before{content:"";position:absolute;inset:0 0 auto;height:min(700px,78svh);z-index:-1;pointer-events:none;background:linear-gradient(90deg,var(--color-ln-midnight),transparent 70%),url("/templates/lenus/footer-optical-v1.webp") right top/cover no-repeat;opacity:.9;mask-image:linear-gradient(to bottom,transparent,var(--color-ln-midnight) 12%,var(--color-ln-midnight) 35%,transparent 76%)}
 .ln-native-footer h2{font-size:clamp(48px,6vw,96px)}
 .ln-footer-lead .ln-button{margin-top:32px;padding:16px 24px}.ln-footer-lead>p{font-size:12px;line-height:20px;color:var(--color-ln-muted)}
 .ln-footer-navigation{display:flex;align-items:flex-start;justify-content:space-between;gap:40px;margin-top:80px;padding-top:32px;border-top:1px solid color-mix(in srgb,var(--color-ln-muted) 16%,transparent)}
 .ln-footer-brand{font-family:var(--font-ln-heading);font-size:36px;line-height:40px;letter-spacing:.12em;color:var(--color-ln-white);text-decoration:none}
 .ln-footer-navigation nav{display:flex;gap:24px;flex-wrap:wrap}.ln-footer-navigation nav a,.ln-footer-navigation>a:last-child{font-size:12px;line-height:20px;color:var(--color-ln-muted);text-decoration:none}.ln-footer-navigation a:hover{color:var(--color-ln-lime)}
-.ln-footer-meta{display:flex;justify-content:space-between;gap:24px;margin-top:auto;padding-top:48px;font-family:var(--font-ln-data);font-size:12px;line-height:18px;color:var(--color-ln-muted)}.ln-footer-meta a{display:flex;gap:8px;align-items:center;color:inherit;text-decoration:none}
+.ln-footer-meta{display:flex;justify-content:space-between;gap:24px;margin-top:0;padding-top:48px;font-family:var(--font-ln-data);font-size:12px;line-height:18px;color:var(--color-ln-muted)}.ln-footer-meta a{display:flex;gap:8px;align-items:center;color:inherit;text-decoration:none}
 /* Actual measured widths are consumed by the single GSAP ScrollTrigger. */
 [data-story-mode="horizontal"] .ln-story-pin{height:100svh;overflow:clip}
 [data-story-mode="horizontal"] .ln-scene-layer,[data-story-mode="horizontal"] .ln-annotation-layer,[data-story-mode="horizontal"] .ln-controls-mount,[data-story-mode="horizontal"] .ln-navigation-layer{position:absolute;inset:0;margin:0;height:100%}
@@ -5896,6 +5896,7 @@ export function useHorizontalStory(props:Props){
     const targetFor=(position:number)=>{const index=Math.min(6,Math.floor(position));return (offsets[index]??0)+(index<6?(position-index)*((offsets[index+1]??offsets[index])-offsets[index]):0);};
     const moveTo=(top:number,focus?:HTMLElement|null,instant=false,destination:number|null=null)=>{
       navTween?.kill();navTween=null;
+      top=Math.max(0,Math.min(top,document.documentElement.scrollHeight-innerHeight));
       slideTarget=destination;
       if(reduced.matches||instant||!library){slideTarget=null;window.scrollTo({top,behavior:"instant"});focus?.focus({preventScroll:true});return;}
       const value={y:window.scrollY};navTween=library.to(value,{y:top,duration:1.15,ease:"power3.inOut",onUpdate:()=>window.scrollTo(0,value.y),onComplete:()=>{slideTarget=null;navTween=null;focus?.focus({preventScroll:true});}});

@@ -45,6 +45,7 @@ export function useHorizontalStory(props:Props){
     const targetFor=(position:number)=>{const index=Math.min(6,Math.floor(position));return (offsets[index]??0)+(index<6?(position-index)*((offsets[index+1]??offsets[index])-offsets[index]):0);};
     const moveTo=(top:number,focus?:HTMLElement|null,instant=false,destination:number|null=null)=>{
       navTween?.kill();navTween=null;
+      top=Math.max(0,Math.min(top,document.documentElement.scrollHeight-innerHeight));
       slideTarget=destination;
       if(reduced.matches||instant||!library){slideTarget=null;window.scrollTo({top,behavior:"instant"});focus?.focus({preventScroll:true});return;}
       const value={y:window.scrollY};navTween=library.to(value,{y:top,duration:1.15,ease:"power3.inOut",onUpdate:()=>window.scrollTo(0,value.y),onComplete:()=>{slideTarget=null;navTween=null;focus?.focus({preventScroll:true});}});

@@ -28,7 +28,7 @@ test("one live canvas survives all chapters, reverse scroll, footer exit and nat
     expect(await canvas!.evaluate(el=>el===document.querySelector("canvas[data-lenus-renderer]"))).toBe(true);
   }
   await go(page,6);await page.getByRole("link",{name:"SKIP EXPERIENCE",exact:true}).click();
-  await expect.poll(()=>page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeLessThan(2);
+  await expect.poll(()=>page.locator("footer").evaluate(el=>Math.abs(el.getBoundingClientRect().bottom-innerHeight))).toBeLessThan(2);
   await page.getByRole("button",{name:"PREPARE A PROJECT BRIEF",exact:true}).click();await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");await page.getByRole("link",{name:/BACK TO BEGINNING/}).click();await expect.poll(()=>position(page)).toBeCloseTo(0,2);
   expect(errors).toEqual([]);
@@ -71,7 +71,7 @@ test("arrow keys slide chapters, can reverse a slide, and leave lens/range keys 
 
 test("chapter stepping exits to the native footer and returns without trapping scrolling",async({page})=>{
   await boot(page);await go(page,6);await page.mouse.move(30,450);await page.mouse.wheel(0,100);
-  await expect.poll(()=>page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeLessThan(2);
+  await expect.poll(()=>page.locator("footer").evaluate(el=>Math.abs(el.getBoundingClientRect().bottom-innerHeight))).toBeLessThan(2);
   await expect(page.locator("footer h2")).toBeFocused();
   await page.keyboard.press("ArrowLeft");await expect.poll(()=>position(page)).toBeCloseTo(6,2);
   await expect.poll(()=>page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeGreaterThan(895);
@@ -79,9 +79,10 @@ test("chapter stepping exits to the native footer and returns without trapping s
   await page.getByRole("button",{name:"GET IN TOUCH",exact:true}).click();const dialog=page.getByRole("dialog",{name:"What's your next possibility?"});await expect(dialog).toBeVisible();const input=dialog.getByLabel("Your name",{exact:false});
   await input.fill("Morgan");await input.press("ArrowLeft");await expect(input).toHaveValue("Morgan");expect(await position(page)).toBeCloseTo(6,2);
   await page.keyboard.press("Escape");await page.getByRole("link",{name:"SKIP EXPERIENCE",exact:true}).click();
-  await expect.poll(()=>page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeLessThan(2);
+  await expect.poll(()=>page.locator("footer").evaluate(el=>Math.abs(el.getBoundingClientRect().bottom-innerHeight))).toBeLessThan(2);
+  const footerTop=await page.locator("footer").evaluate(el=>el.getBoundingClientRect().top);
   await page.mouse.wheel(0,-120);await page.waitForTimeout(300);
-  expect(await page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeGreaterThan(20);
+  expect(await page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeGreaterThan(footerTop+20);
 });
 
 test("gallery arrows, local drag and study dialog own their interaction",async({page})=>{
