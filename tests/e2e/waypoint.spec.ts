@@ -1,10 +1,18 @@
 import { test, expect } from "@playwright/test";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+
+const standaloneFile = process.env.WAYPOINT_STANDALONE_FILE;
 
 test.describe("Waypoint landing template (/waypoint)", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test.beforeEach(async ({ page }) => {
-    await page.goto("/waypoint");
+    await page.goto(
+      standaloneFile
+        ? pathToFileURL(resolve(standaloneFile)).href
+        : "/waypoint",
+    );
     await page.waitForLoadState("networkidle");
   });
 

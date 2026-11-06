@@ -75,4 +75,21 @@ The current ZIP contact sheet is `artifacts/waypoint/zip-contact-sheet.png`. Ful
 
 ## Practical limits
 
+The downloadable `/downloads/waypoint.html` now uses the same current React components as the site. All supplied artwork, the original landscape, fonts, CSS, React runtime, and GSAP behavior are embedded in one approximately 7 MB HTML file. It opens directly from disk and needs no server, CDN, or network connection. The Waypoint copy bundle includes the updated download.
+
+Rebuild it after changing the page:
+
+```sh
+npm run build
+npm run export:waypoint
+```
+
+The exporter refuses a stale production build, preserves the current component behavior, and bundles only local assets. Test the file directly with networking disabled:
+
+```sh
+node node_modules/@playwright/test/cli.js test --config playwright.waypoint-standalone.config.ts --workers=2
+```
+
+All 19 browser tests passed against the local `file://` download with the browser offline. An additional runtime sweep found zero external network requests, script exceptions, or broken images. Desktop and mobile screenshots are saved as `download-desktop.png` and `download-mobile.png` in the QA screenshot directory.
+
 This remains a frontend product demonstration. Forms have no backend, sample replies are simulated, the privacy switch changes presentation only, and sign-in does not authenticate. No production deployment was requested or performed. Browser testing used Chromium; other browser engines and physical touch devices were not tested.
