@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0A0B0D;
+  --bg-soft: #111317;
+  --metal-dark: #23272B;
+  --ivory: #F0ECE5;
+  --silver: #C7CDD2;
+  --muted: #89919A;
+  --ice: #9DB8C9;
+  --rule: #374047;
+  --button-light: #F1EEE9;
+  --gutter: clamp(20px, 4.6vw, 84px);
+  --max-content: 1600px;
+
+  --font-display: var(--font-cormorant-garamond), 'Cormorant Garamond', Georgia, serif;
+  --font-sans: var(--font-manrope), 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+@layer base {
+  html {
+    background-color: var(--bg);
+    color: var(--ivory);
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ivory);
+    overflow-x: hidden;
+    margin: 0;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-sans-ui {
+  font-family: var(--font-sans);
+}
+
+.font-mono-tech {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.aurel-container {
+  width: 100%;
+  max-width: var(--max-content);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* Subtle radial studio vignette matching the approved hero reference */
+.hero-radial-stage {
+  background:
+    radial-gradient(circle at 50% 54%, rgba(36, 44, 54, 0.34) 0%, rgba(17, 19, 23, 0.18) 34%, rgba(10, 11, 13, 0.96) 72%, #0A0B0D 100%);
+}
+
+/* Restrained idle drift when motion is permitted */
+@keyframes aurelWatchFloat {
+  0%, 100% {
+    transform: translate3d(0, 0px, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+@keyframes aurelSlowRing {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-watch-float {
+  animation: aurelWatchFloat 7.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.animate-ring-crawl {
+  animation: aurelSlowRing 240s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-watch-float,
+  .animate-ring-crawl {
+    animation: none !important;
+    transform: none !important;
+  }
+}
