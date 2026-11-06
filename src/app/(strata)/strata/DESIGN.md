@@ -2,7 +2,7 @@
 
 ## Requirements and concept
 
-STRATA is a study of contemporary ceramic vessels, earth, form, and considered living ("Formed by earth"). The page presents an immersive tactile journey through architectural ceramics, clay extraction, wheel craft, interior scale, and material finishes. Built as a first-class Next.js App Router landing page with modular React components, paired with an offline standalone downloadable HTML export at `/downloads/strata.html`.
+STRATA is a study of contemporary ceramic vessels, earth, form, and considered living ("Formed by earth"). The page presents an immersive tactile journey through architectural ceramics, clay extraction, wheel craft, interior scale, and material finishes. The gallery route serves the same self-contained document as the HTML download, keeping the live preview and offline template identical.
 
 ## Palette and type
 
@@ -26,3 +26,8 @@ The page unfolds through a sequence of sculptural chapters:
 ## Motion and accessibility
 
 Motion reflects heavy ceramic stillness and precision: slow scale reveals, radial gradient rotation, fluid custom cursor with difference blending, and sticky scroll tracking. Under `prefers-reduced-motion`, animations are neutralized, positions become static, the custom cursor is disabled, and all content remains immediately readable and navigable.
+
+## Files and imagery
+
+`public/downloads/strata.html` is the canonical gallery and download document; `route.ts` serves it at `/strata`. The document embeds all required high-resolution vessel renders and craft photography. `public/gallery/strata.webp` is the gallery capture and `public/templates/strata/preview-1600.webp` is its fallback.
+

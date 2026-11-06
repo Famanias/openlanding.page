@@ -1,11 +1,11 @@
 # Prompt: rebuild STRATA, contemporary ceramic vessels
 
-Create a complete, responsive Next.js landing page template for **STRATA** — contemporary ceramic vessels and sculptural studio with the title *"Formed by Earth"*.
+Create a complete, responsive, self-contained HTML landing page for **STRATA** — contemporary ceramic vessels and sculptural studio with the title *"Formed by Earth"*.
 
 ## Brand & Visual System
 - Palette: Basalt `#24221F`, Charcoal Ink `#292620`, Bone `#E9E1D6`, Clay Paper `#EFE9DF`, Raw Stone `#BDA78F`, Terracotta Clay `#AF765D`, Sandstone `#B89C81`, Ceramic Blush `#C58E6A`.
-- Typography: High-contrast architectural serif (EB Garamond / Bodoni MT / Didot) paired with clean geometric sans-serif (Inter).
-- Media: High-resolution vessel renders, craft photography, and material variants.
+- Typography: High-contrast architectural serif (Bodoni MT / Didot / EB Garamond) paired with clean geometric sans-serif (Inter).
+- Media: Self-contained base64 embedded imagery and procedural grain filters for zero external network dependency.
 
 ## Key Sections & Interactions
 1. **Hero (Centered Gallery Composition):** Distinct vertical hierarchy featuring collection identifier `CONTEMPORARY CERAMICS / COLLECTION 001`, fully readable headline `FORMED BY EARTH.` in upper 17–28%, centered ceramic vessel (55–65svh) with warm spotlight bloom and atmospheric concentric rings, and lower italic subtitle *Defined by time.* Breathing scroll indicator and collection metadata.
