@@ -20,6 +20,8 @@
   --font-display: var(--font-jakarta), system-ui, sans-serif;
   --font-body: var(--font-jakarta), system-ui, sans-serif;
 
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -30,7 +32,7 @@
   --wyp-line: #d8d0c5;
   --wyp-muted: #666e7d;
   --wyp-ink: #121417;
-  --wyp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --wyp-ease: cubic-bezier(0.23, 1, 0.32, 1);
   font-size: 14px;
 }
 .wyp-page main {
@@ -53,10 +55,11 @@
 }
 .wyp-page button {
   cursor: pointer;
+  transition: transform 160ms var(--ease-out);
 }
 .wyp-page button:active,
 .wyp-button:active {
-  transform: translateY(1px);
+  transform: scale(0.97);
 }
 .wyp-page :focus-visible {
   outline: 2px solid #1e4f94;
@@ -112,9 +115,9 @@
   font-size: 13px;
   font-weight: 600;
   transition:
-    background 0.3s,
-    box-shadow 0.3s,
-    transform 0.4s var(--wyp-ease);
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 160ms var(--ease-out);
 }
 .wyp-button-dark {
   background: #121417;
@@ -601,13 +604,13 @@
   inset: 0;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(14px);
-  clip-path: inset(0 0 0 10%);
+  transform: translateX(12px);
+  clip-path: inset(0 0 0 6%);
   transition:
-    opacity 0.45s var(--wyp-ease),
-    transform 0.6s var(--wyp-ease),
-    clip-path 0.6s var(--wyp-ease),
-    visibility 0.45s;
+    opacity 280ms var(--ease-out),
+    transform 320ms var(--ease-out),
+    clip-path 320ms var(--ease-out),
+    visibility 280ms;
 }
 .wyp-story-visual.is-active {
   opacity: 1;
@@ -700,8 +703,9 @@
   padding: 12px 16px;
   border-radius: 6px;
   transition:
-    background 0.3s,
-    color 0.3s;
+    background 0.16s ease,
+    color 0.16s ease,
+    transform 160ms var(--ease-out);
 }
 .wyp-lab-tabs > button:hover {
   background: #ede6df;
@@ -1234,10 +1238,40 @@
   margin: auto;
   box-shadow: 0 24px 96px #12141740;
   color: #121417;
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 220ms var(--ease-out),
+    transform 220ms var(--ease-out),
+    overlay 220ms var(--ease-out) allow-discrete,
+    display 220ms var(--ease-out) allow-discrete;
+}
+.wyp-dialog[open] {
+  opacity: 1;
+  transform: scale(1);
+}
+@starting-style {
+  .wyp-dialog[open] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
 }
 .wyp-dialog::backdrop {
   background: #12141766;
   backdrop-filter: blur(8px);
+  opacity: 0;
+  transition:
+    opacity 220ms var(--ease-out),
+    overlay 220ms var(--ease-out) allow-discrete,
+    display 220ms var(--ease-out) allow-discrete;
+}
+.wyp-dialog[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  .wyp-dialog[open]::backdrop {
+    opacity: 0;
+  }
 }
 .wyp-dialog-close {
   position: absolute;
@@ -1845,11 +1879,11 @@
   inset: 0;
   visibility: hidden;
   opacity: 0;
-  clip-path: inset(0 0 0 6%);
+  clip-path: inset(0 0 0 4%);
   transition:
-    opacity 0.45s var(--wyp-ease),
-    clip-path 0.6s var(--wyp-ease),
-    visibility 0.45s;
+    opacity 280ms var(--ease-out),
+    clip-path 320ms var(--ease-out),
+    visibility 280ms;
 }
 .wyp-gallery-image.is-active {
   visibility: visible;
@@ -1868,8 +1902,10 @@
   border-radius: 6px;
   font-size: 11px;
   transition:
-    background 0.3s,
-    color 0.3s;
+    background 0.16s ease,
+    color 0.16s ease,
+    border-color 0.16s ease,
+    transform 160ms var(--ease-out);
 }
 .wyp-artwork-gallery-tabs button[aria-pressed="true"] {
   background: #121417;
@@ -2053,9 +2089,39 @@
   border: 0;
   background: #f5efeb;
   color: #121417;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 240ms var(--ease-out),
+    transform 240ms var(--ease-out),
+    overlay 240ms var(--ease-out) allow-discrete,
+    display 240ms var(--ease-out) allow-discrete;
+}
+.wyp-mobile-nav[open] {
+  opacity: 1;
+  transform: translateY(0);
+}
+@starting-style {
+  .wyp-mobile-nav[open] {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
 }
 .wyp-mobile-nav::backdrop {
   background: #12141750;
+  opacity: 0;
+  transition:
+    opacity 240ms var(--ease-out),
+    overlay 240ms var(--ease-out) allow-discrete,
+    display 240ms var(--ease-out) allow-discrete;
+}
+.wyp-mobile-nav[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  .wyp-mobile-nav[open]::backdrop {
+    opacity: 0;
+  }
 }
 .wyp-mobile-nav-header {
   display: flex;
@@ -2092,22 +2158,61 @@
 }
 
 .wyp-odometer-strip {
-  transition: transform 420ms var(--ease-smooth);
+  transition: transform 260ms var(--ease-out);
 }
 
-/* Accessible reduced-motion overrides */
+/* Tactile micro-transitions for Bento widgets */
+@keyframes wyp-card-advance {
+  from {
+    opacity: 0.35;
+    transform: translateX(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.wyp-kanban-card-enter {
+  animation: wyp-card-advance 200ms var(--ease-out) both;
+}
+
+@keyframes wyp-fade-blur {
+  from {
+    opacity: 0.5;
+    filter: blur(1.5px);
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+.wyp-schedule-crossfade {
+  animation: wyp-fade-blur 180ms var(--ease-out) both;
+}
+
+/* Accessible reduced-motion overrides: eliminate motion/transforms, preserve feedback */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
   ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 
-  [data-parallax] {
+  [data-parallax],
+  [data-hero-line],
+  .wyp-hero-deck,
+  .wyp-hero-landscape,
+  .wpv-outline,
+  .wyp-odometer-strip {
     transform: none !important;
+    animation: none !important;
+    transition: none !important;
   }
 }
 
@@ -2210,13 +2315,21 @@
   font-weight: 600;
   border-bottom: 1px solid #b99a7c;
   padding-bottom: 13px;
-  transition: gap 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s;
+  transition: color 0.2s ease;
   text-decoration: none;
 }
 
+.wpv-interlude-link [aria-hidden="true"] {
+  display: inline-block;
+  transition: transform 200ms var(--ease-out);
+}
+
 .wpv-interlude-link:hover {
-  gap: 36px;
   color: #f1cfae;
+}
+
+.wpv-interlude-link:hover [aria-hidden="true"] {
+  transform: translate(6px, -6px);
 }
 
 .wpv-interlude-map {
@@ -2375,6 +2488,7 @@
   -webkit-text-stroke: 1px rgba(238, 220, 200, 0.08);
   white-space: nowrap;
   pointer-events: none;
+  will-change: transform;
   animation: wpvOutline 24s ease-in-out infinite alternate;
 }
 

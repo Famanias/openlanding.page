@@ -76,7 +76,7 @@ export function CalendarWidget() {
               aria-pressed={isSelected}
               disabled={!hasInterview}
               onClick={() => hasInterview && setSelectedDay(day)}
-              className={`h-7 rounded text-xs font-semibold flex items-center justify-center transition-all ${
+              className={`h-7 rounded text-xs font-semibold flex items-center justify-center transition-[background-color,color,transform] duration-160 ease-out active:scale-[0.94] ${
                 isPastMonth
                   ? "text-[#666E7D]/40 pointer-events-none"
                   : isSelected
@@ -94,7 +94,10 @@ export function CalendarWidget() {
 
       {/* Active Schedule Card */}
       {activeSchedule ? (
-        <div className="bg-[#FFFFFF] border border-[#DBE8FA] rounded-lg p-3 shadow-xs">
+        <div
+          key={selectedDay}
+          className="bg-[#FFFFFF] border border-[#DBE8FA] rounded-lg p-3 shadow-xs wyp-schedule-crossfade"
+        >
           <div className="flex items-center justify-between gap-2 mb-1">
             <span className="text-xs font-bold text-[#121417]">
               {activeSchedule.company} • {activeSchedule.round}

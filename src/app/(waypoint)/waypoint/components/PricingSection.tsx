@@ -23,15 +23,23 @@ export function PricingSection() {
             applications cost nothing.
           </p>
 
-          {/* Cadence Switcher */}
-          <div className="mt-8 inline-flex items-center p-1 rounded-full bg-[#E5DDD4] border border-[#D8D0C5]">
+          {/* Cadence Switcher with Sliding Indicator */}
+          <div className="mt-8 inline-grid grid-cols-2 p-1 rounded-full bg-[#E5DDD4] border border-[#D8D0C5] relative">
+            <span
+              className="absolute top-1 bottom-1 rounded-full bg-[#FFFFFF] shadow-xs transition-transform duration-220 ease-[cubic-bezier(0.23,1,0.32,1)]"
+              style={{
+                width: "calc(50% - 4px)",
+                transform: cadence === "monthly" ? "translateX(4px)" : "translateX(calc(100% + 4px))",
+              }}
+              aria-hidden="true"
+            />
             <button
               type="button"
               onClick={() => setCadence("monthly")}
               aria-pressed={cadence === "monthly"}
-              className={`px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              className={`relative z-10 px-5 py-2 rounded-full text-xs font-bold transition-colors duration-200 cursor-pointer active:scale-[0.97] text-center ${
                 cadence === "monthly"
-                  ? "bg-[#FFFFFF] text-[#121417] shadow-xs"
+                  ? "text-[#121417]"
                   : "text-[#666E7D] hover:text-[#121417]"
               }`}
             >
@@ -41,9 +49,9 @@ export function PricingSection() {
               type="button"
               onClick={() => setCadence("annual")}
               aria-pressed={cadence === "annual"}
-              className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              className={`relative z-10 flex items-center justify-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-colors duration-200 cursor-pointer active:scale-[0.97] ${
                 cadence === "annual"
-                  ? "bg-[#FFFFFF] text-[#121417] shadow-xs"
+                  ? "text-[#121417]"
                   : "text-[#666E7D] hover:text-[#121417]"
               }`}
             >
