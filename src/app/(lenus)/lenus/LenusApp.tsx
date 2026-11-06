@@ -90,6 +90,7 @@ export default function LenusApp(){
           <p aria-live="polite" aria-atomic="true"><span>{String(active+1).padStart(2,"0")} / 07</span> {CHAPTERS[active].label}</p>
           <div className="ln-chapter-dots">{CHAPTERS.map((item,i)=><a href={`#ln-${item.id}`} aria-label={`Go to ${item.label}`} aria-current={active===i?"step":undefined} key={item.id} onClick={event=>{event.preventDefault();navigate(item.id);}}><span/></a>)}</div>
           <span className="ln-global-progress" aria-hidden="true"><i/></span>
+          <span className="ln-chapter-key-hint">SCROLL / ← → CHAPTERS</span>
           <a className="ln-skip-experience" href="#ln-footer" onClick={event=>{event.preventDefault();footer();}}>SKIP EXPERIENCE <ArrowRight size={12} aria-hidden="true"/></a>
         </nav></div>
         <div className="ln-horizontal-viewport"><div ref={track} className="ln-horizontal-track">

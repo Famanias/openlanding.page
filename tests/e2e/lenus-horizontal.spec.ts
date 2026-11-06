@@ -21,6 +21,7 @@ test("one live canvas survives all chapters, reverse scroll, footer exit and nat
   await boot(page);const canvas=await page.locator("canvas[data-lenus-renderer]").elementHandle();
   expect(await page.locator(".ln-horizontal-track canvas").count()).toBe(0);
   await page.mouse.move(30,450);await page.mouse.wheel(0,720);await expect.poll(()=>position(page)).toBeGreaterThan(.35);
+  await expect(page.locator("#ln-manifesto h2")).toBeFocused();
   const poses=[.18,1,.88,1,1,.3,0];
   for(const i of [1,2,3,4,5,6,5,4,3,2,1]){
     await go(page,i);await expect.poll(()=>deployment(page)).toBeCloseTo(poses[i],2);
@@ -31,6 +32,56 @@ test("one live canvas survives all chapters, reverse scroll, footer exit and nat
   await page.getByRole("button",{name:"PREPARE A PROJECT BRIEF",exact:true}).click();await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");await page.getByRole("link",{name:/BACK TO BEGINNING/}).click();await expect.poll(()=>position(page)).toBeCloseTo(0,2);
   expect(errors).toEqual([]);
+});
+
+test("one wheel gesture slides exactly one chapter and absorbs a long momentum tail",async({page})=>{
+  await boot(page);await page.mouse.move(30,450);
+  await page.mouse.wheel(0,90);
+  // Replay the tail in the browser so automation round-trips cannot turn one
+  // physical stroke into several strokes separated by the quiet interval.
+  const mid=await page.evaluate(()=>new Promise<number>(resolve=>{let ticks=0,mid=0;const timer=setInterval(()=>{
+    window.dispatchEvent(new WheelEvent("wheel",{deltaY:40,bubbles:true,cancelable:true}));
+    if(++ticks===3)mid=Number(document.querySelector<HTMLElement>(".ln-stage")?.dataset.storyPosition);
+    if(ticks===25){clearInterval(timer);resolve(mid);}
+  },60);}));
+  expect(mid).toBeGreaterThan(0);expect(mid).toBeLessThan(1);
+  await expect.poll(()=>position(page)).toBeCloseTo(1,2);
+  await page.waitForTimeout(450);expect(await position(page)).toBeCloseTo(1,2);
+  await page.mouse.wheel(0,120);await expect.poll(()=>position(page)).toBeCloseTo(2,2);
+  await page.waitForTimeout(300);await page.mouse.wheel(0,-120);await expect.poll(()=>position(page)).toBeCloseTo(1,2);
+  await page.waitForTimeout(300);await page.mouse.wheel(0,-120);await expect.poll(()=>position(page)).toBeCloseTo(0,2);
+});
+
+test("arrow keys slide chapters, can reverse a slide, and leave lens/range keys alone",async({page})=>{
+  await boot(page);await page.keyboard.press("ArrowRight");await page.waitForTimeout(250);
+  expect(await position(page)).toBeGreaterThan(0);expect(await position(page)).toBeLessThan(1);
+  await page.keyboard.press("ArrowLeft");await expect.poll(()=>position(page)).toBeCloseTo(0,2);
+  await expect(page.locator("#ln-hero h1")).toBeFocused();
+  await page.keyboard.press("ArrowDown");await expect.poll(()=>position(page)).toBeCloseTo(1,2);
+  await expect(page.locator("#ln-manifesto h2")).toBeFocused();
+  await page.keyboard.press("ArrowRight");await expect.poll(()=>position(page)).toBeCloseTo(2,2);
+  await expect(page.locator("#ln-work h2")).toBeFocused();
+  await page.keyboard.press("ArrowUp");await expect.poll(()=>position(page)).toBeCloseTo(1,2);
+  await expect(page.locator("#ln-manifesto h2")).toBeFocused();
+  await go(page,4);const range=page.getByRole("slider",{name:"Lens transformation",exact:true});
+  await range.focus();await range.press("Home");await range.press("ArrowRight");await expect(range).toHaveValue("1");expect(await position(page)).toBeCloseTo(4,2);
+  const host=page.getByTestId("lenus-canvas-container");await host.focus();await host.press("ArrowRight");expect(await position(page)).toBeCloseTo(4,2);
+  await page.getByRole("button",{name:/Inspect .* component/}).first().focus();await page.keyboard.press("ArrowLeft");expect(await position(page)).toBeCloseTo(4,2);
+});
+
+test("chapter stepping exits to the native footer and returns without trapping scrolling",async({page})=>{
+  await boot(page);await go(page,6);await page.mouse.move(30,450);await page.mouse.wheel(0,100);
+  await expect.poll(()=>page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeLessThan(2);
+  await expect(page.locator("footer h2")).toBeFocused();
+  await page.keyboard.press("ArrowLeft");await expect.poll(()=>position(page)).toBeCloseTo(6,2);
+  await expect.poll(()=>page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeGreaterThan(895);
+  await expect(page.locator("#ln-contact h2")).toBeFocused();
+  await page.getByRole("button",{name:"GET IN TOUCH",exact:true}).click();const dialog=page.getByRole("dialog",{name:"What's your next possibility?"});await expect(dialog).toBeVisible();const input=dialog.getByLabel("Your name",{exact:false});
+  await input.fill("Morgan");await input.press("ArrowLeft");await expect(input).toHaveValue("Morgan");expect(await position(page)).toBeCloseTo(6,2);
+  await page.keyboard.press("Escape");await page.getByRole("link",{name:"SKIP EXPERIENCE",exact:true}).click();
+  await expect.poll(()=>page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeLessThan(2);
+  await page.mouse.wheel(0,-120);await page.waitForTimeout(300);
+  expect(await page.locator("footer").evaluate(el=>el.getBoundingClientRect().top)).toBeGreaterThan(20);
 });
 
 test("gallery arrows, local drag and study dialog own their interaction",async({page})=>{
