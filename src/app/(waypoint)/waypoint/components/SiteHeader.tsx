@@ -44,7 +44,7 @@ export function SiteHeader() {
           </a>
           <a
             href="#get-started"
-            className="inline-flex items-center justify-center text-[13px] font-bold bg-[#121417] text-[#F5EFEB] px-4 py-2 rounded-full shadow-sm hover:bg-[#2B2F38] hover:shadow transition-all"
+            className="inline-flex items-center justify-center text-[13px] font-bold bg-[#121417] text-[#F5EFEB] px-4 py-2 rounded-full shadow-sm hover:bg-[#2B2F38] hover:shadow transition-[background-color,box-shadow,transform] duration-160 ease-out active:scale-[0.97]"
           >
             Start free
           </a>
@@ -52,7 +52,7 @@ export function SiteHeader() {
 
         <button
           onClick={() => setMobileMenuOpen(true)}
-          className="md:hidden p-2 rounded-lg text-[#121417] hover:bg-[#E5DDD4] transition"
+          className="md:hidden p-2 rounded-lg text-[#121417] hover:bg-[#E5DDD4] transition-colors duration-160 active:scale-[0.95]"
           aria-label="Open navigation menu"
           aria-expanded={mobileMenuOpen}
           aria-controls="waypoint-mobile-navigation"

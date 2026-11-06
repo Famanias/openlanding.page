@@ -21,17 +21,32 @@ export function InterludeSection() {
       route.style.strokeDasharray = `${totalLength}`;
     } catch {}
 
-    const handleScroll = () => {
+    const isReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (isReduced) {
+      setRoutePercent(100);
+      route.style.strokeDashoffset = "0";
+      return;
+    }
+
+    let ticking = false;
+    let lastPercent = -1;
+
+    const updateRoute = () => {
       const rect = section.getBoundingClientRect();
       const viewH = window.innerHeight || 1;
       if (rect.top < viewH && rect.bottom > 0) {
         // Progress through the section
         const progress = Math.max(
           0,
-          Math.min(1, (viewH * 0.8 - rect.top) / Math.max(1, rect.height * 0.75))
+          Math.min(1, (viewH * 0.8 - rect.top) / Math.max(1, rect.height * 0.75)),
         );
         const percent = Math.round(progress * 100);
-        setRoutePercent(percent);
+        if (percent !== lastPercent) {
+          lastPercent = percent;
+          setRoutePercent(percent);
+        }
 
         if (totalLength > 0) {
           route.style.strokeDashoffset = `${totalLength * (1 - progress)}`;
@@ -43,6 +58,14 @@ export function InterludeSection() {
             }
           } catch {}
         }
+      }
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateRoute);
+        ticking = true;
       }
     };
 

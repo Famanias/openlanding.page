@@ -33,7 +33,7 @@ export function PricingCard({
     <div
       data-popular={isPopular ? "true" : undefined}
       style={isPopular ? { backgroundColor: "#836953", color: "#ffffff", border: 0, outline: 0 } : undefined}
-      className={`rounded-2xl p-7 md:p-8 flex flex-col justify-between transition-all ${
+      className={`rounded-2xl p-7 md:p-8 flex flex-col justify-between transition-[border-color,box-shadow,transform] duration-200 ease-out ${
         isPopular
           ? "bg-[#836953] text-white border-0 outline-none shadow-xl md:-translate-y-2 relative"
           : "bg-[#FFFFFF] border border-[#E5DDD4] shadow-xs hover:border-[#D8D0C5]"
@@ -102,7 +102,7 @@ export function PricingCard({
           href="#get-started"
           data-dialog-title={`Explore ${title}${planId !== "starter" ? ` ($${priceData.amount}/month, ${cadence})` : ""}`}
           style={isPopular ? { backgroundColor: "#ffffff", color: "#836953", border: 0, outline: 0 } : undefined}
-          className={`w-full py-3 px-4 rounded-xl text-xs font-bold text-center block transition-all ${
+          className={`w-full py-3 px-4 rounded-xl text-xs font-bold text-center block transition-[background-color,color,box-shadow,transform] duration-160 ease-out active:scale-[0.97] ${
             isPopular
               ? "bg-white text-[#836953] shadow-md hover:bg-[#F5EFEB] border-0 outline-none"
               : "bg-[#FAF8F5] text-[#121417] border border-[#E5DDD4] hover:bg-[#E5DDD4]/60"

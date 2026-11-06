@@ -65,14 +65,14 @@ export function KanbanWidget() {
                 <div className="space-y-1.5" aria-live="polite">
                   {cards.map((card) => (
                     <button
-                      key={card.id}
+                      key={`${card.id}-${card.stage}`}
                       type="button"
                       draggable
                       onDragStart={(event) =>
                         event.dataTransfer.setData("text/plain", card.id)
                       }
                       onClick={() => handleCardClick(card.id)}
-                      className={`w-full text-left p-2 rounded border transition-all cursor-pointer hover:shadow-xs active:scale-98 ${
+                      className={`w-full text-left p-2 rounded border wyp-kanban-card-enter transition-[transform,box-shadow,background-color,border-color] duration-160 ease-out cursor-pointer hover:shadow-xs hover:border-[#D8D0C5] active:scale-[0.97] ${
                         isOffer
                           ? "bg-[#FAF8F5] border-[#DBE8FA]"
                           : "bg-[#FFFFFF] border-[#E5DDD4]"

@@ -30,7 +30,7 @@ export function OdometerCounter({ value, className = "" }: OdometerCounterProps)
             style={{ width: "0.62em" }}
           >
             <span
-              className="wyp-odometer-strip inline-flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              className="wyp-odometer-strip inline-flex flex-col"
               style={{
                 transform: `translateY(${translateY}%)`,
               }}

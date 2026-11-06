@@ -260,6 +260,8 @@ export default function WaypointPage() {
   --font-display: var(--font-jakarta), system-ui, sans-serif;
   --font-body: var(--font-jakarta), system-ui, sans-serif;
 
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -270,7 +272,7 @@ export default function WaypointPage() {
   --wyp-line: #d8d0c5;
   --wyp-muted: #666e7d;
   --wyp-ink: #121417;
-  --wyp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --wyp-ease: cubic-bezier(0.23, 1, 0.32, 1);
   font-size: 14px;
 }
 .wyp-page main {
@@ -293,10 +295,11 @@ export default function WaypointPage() {
 }
 .wyp-page button {
   cursor: pointer;
+  transition: transform 160ms var(--ease-out);
 }
 .wyp-page button:active,
 .wyp-button:active {
-  transform: translateY(1px);
+  transform: scale(0.97);
 }
 .wyp-page :focus-visible {
   outline: 2px solid #1e4f94;
@@ -352,9 +355,9 @@ export default function WaypointPage() {
   font-size: 13px;
   font-weight: 600;
   transition:
-    background 0.3s,
-    box-shadow 0.3s,
-    transform 0.4s var(--wyp-ease);
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 160ms var(--ease-out);
 }
 .wyp-button-dark {
   background: #121417;
@@ -841,13 +844,13 @@ export default function WaypointPage() {
   inset: 0;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(14px);
-  clip-path: inset(0 0 0 10%);
+  transform: translateX(12px);
+  clip-path: inset(0 0 0 6%);
   transition:
-    opacity 0.45s var(--wyp-ease),
-    transform 0.6s var(--wyp-ease),
-    clip-path 0.6s var(--wyp-ease),
-    visibility 0.45s;
+    opacity 280ms var(--ease-out),
+    transform 320ms var(--ease-out),
+    clip-path 320ms var(--ease-out),
+    visibility 280ms;
 }
 .wyp-story-visual.is-active {
   opacity: 1;
@@ -940,8 +943,9 @@ export default function WaypointPage() {
   padding: 12px 16px;
   border-radius: 6px;
   transition:
-    background 0.3s,
-    color 0.3s;
+    background 0.16s ease,
+    color 0.16s ease,
+    transform 160ms var(--ease-out);
 }
 .wyp-lab-tabs > button:hover {
   background: #ede6df;
@@ -1474,10 +1478,40 @@ export default function WaypointPage() {
   margin: auto;
   box-shadow: 0 24px 96px #12141740;
   color: #121417;
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 220ms var(--ease-out),
+    transform 220ms var(--ease-out),
+    overlay 220ms var(--ease-out) allow-discrete,
+    display 220ms var(--ease-out) allow-discrete;
+}
+.wyp-dialog[open] {
+  opacity: 1;
+  transform: scale(1);
+}
+@starting-style {
+  .wyp-dialog[open] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
 }
 .wyp-dialog::backdrop {
   background: #12141766;
   backdrop-filter: blur(8px);
+  opacity: 0;
+  transition:
+    opacity 220ms var(--ease-out),
+    overlay 220ms var(--ease-out) allow-discrete,
+    display 220ms var(--ease-out) allow-discrete;
+}
+.wyp-dialog[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  .wyp-dialog[open]::backdrop {
+    opacity: 0;
+  }
 }
 .wyp-dialog-close {
   position: absolute;
@@ -2085,11 +2119,11 @@ export default function WaypointPage() {
   inset: 0;
   visibility: hidden;
   opacity: 0;
-  clip-path: inset(0 0 0 6%);
+  clip-path: inset(0 0 0 4%);
   transition:
-    opacity 0.45s var(--wyp-ease),
-    clip-path 0.6s var(--wyp-ease),
-    visibility 0.45s;
+    opacity 280ms var(--ease-out),
+    clip-path 320ms var(--ease-out),
+    visibility 280ms;
 }
 .wyp-gallery-image.is-active {
   visibility: visible;
@@ -2108,8 +2142,10 @@ export default function WaypointPage() {
   border-radius: 6px;
   font-size: 11px;
   transition:
-    background 0.3s,
-    color 0.3s;
+    background 0.16s ease,
+    color 0.16s ease,
+    border-color 0.16s ease,
+    transform 160ms var(--ease-out);
 }
 .wyp-artwork-gallery-tabs button[aria-pressed="true"] {
   background: #121417;
@@ -2293,9 +2329,39 @@ export default function WaypointPage() {
   border: 0;
   background: #f5efeb;
   color: #121417;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 240ms var(--ease-out),
+    transform 240ms var(--ease-out),
+    overlay 240ms var(--ease-out) allow-discrete,
+    display 240ms var(--ease-out) allow-discrete;
+}
+.wyp-mobile-nav[open] {
+  opacity: 1;
+  transform: translateY(0);
+}
+@starting-style {
+  .wyp-mobile-nav[open] {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
 }
 .wyp-mobile-nav::backdrop {
   background: #12141750;
+  opacity: 0;
+  transition:
+    opacity 240ms var(--ease-out),
+    overlay 240ms var(--ease-out) allow-discrete,
+    display 240ms var(--ease-out) allow-discrete;
+}
+.wyp-mobile-nav[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  .wyp-mobile-nav[open]::backdrop {
+    opacity: 0;
+  }
 }
 .wyp-mobile-nav-header {
   display: flex;
@@ -2332,23 +2398,460 @@ export default function WaypointPage() {
 }
 
 .wyp-odometer-strip {
-  transition: transform 420ms var(--ease-smooth);
+  transition: transform 260ms var(--ease-out);
 }
 
-/* Accessible reduced-motion overrides */
+/* Tactile micro-transitions for Bento widgets */
+@keyframes wyp-card-advance {
+  from {
+    opacity: 0.35;
+    transform: translateX(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.wyp-kanban-card-enter {
+  animation: wyp-card-advance 200ms var(--ease-out) both;
+}
+
+@keyframes wyp-fade-blur {
+  from {
+    opacity: 0.5;
+    filter: blur(1.5px);
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+.wyp-schedule-crossfade {
+  animation: wyp-fade-blur 180ms var(--ease-out) both;
+}
+
+/* Accessible reduced-motion overrides: eliminate motion/transforms, preserve feedback */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
   ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 
-  [data-parallax] {
+  [data-parallax],
+  [data-hero-line],
+  .wyp-hero-deck,
+  .wyp-hero-landscape,
+  .wpv-outline,
+  .wyp-odometer-strip {
     transform: none !important;
+    animation: none !important;
+    transition: none !important;
   }
+}
+
+
+/* ===================================================================
+   WAYPOINT / EDITORIAL INTERLUDE: A CONSIDERED WAY FORWARD / 03 — 04
+   =================================================================== */
+#wpv-interlude {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #171c1c;
+  color: #f3ede5;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 145px max(5vw, 24px);
+  border-block: 1px solid #302b28;
+}
+
+#wpv-interlude:before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 48% 70% at 77% 52%, rgba(115, 88, 72, 0.24), transparent 72%),
+    radial-gradient(ellipse 50% 70% at 0% 100%, rgba(143, 117, 101, 0.17), transparent 80%),
+    linear-gradient(120deg, #171919, #23201e);
+}
+
+#wpv-interlude:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 78px);
+  mask-image: linear-gradient(90deg, transparent, #000 40%, transparent);
+  opacity: 0.14;
+}
+
+.wpv-interlude-wrap {
+  width: min(100%, 1320px);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 0.82fr;
+  align-items: center;
+  gap: clamp(35px, 6vw, 115px);
+  position: relative;
+  z-index: 2;
+}
+
+.wpv-interlude-overline {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.19em;
+  color: #c6a989;
+  text-transform: uppercase;
+  margin: 0 0 42px;
+}
+
+.wpv-interlude-title {
+  font-family: var(--font-jakarta), var(--font-display), sans-serif;
+  font-size: clamp(64px, 8vw, 150px);
+  line-height: 0.88;
+  letter-spacing: -0.092em;
+  max-width: 850px;
+  font-weight: 720;
+  margin: 0;
+}
+
+.wpv-interlude-title span {
+  display: block;
+}
+
+.wpv-interlude-title .wpv-title-tan {
+  color: #d9b591;
+  font-weight: 550;
+}
+
+.wpv-interlude-sub {
+  max-width: 430px;
+  color: #c3b5aa;
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.9;
+  margin: 43px 0 35px;
+}
+
+.wpv-interlude-link {
+  color: #ede6df;
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  border-bottom: 1px solid #b99a7c;
+  padding-bottom: 13px;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.wpv-interlude-link [aria-hidden="true"] {
+  display: inline-block;
+  transition: transform 200ms var(--ease-out);
+}
+
+.wpv-interlude-link:hover {
+  color: #f1cfae;
+}
+
+.wpv-interlude-link:hover [aria-hidden="true"] {
+  transform: translate(6px, -6px);
+}
+
+.wpv-interlude-map {
+  position: relative;
+  aspect-ratio: 1 / 1.06;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.wpv-interlude-map > svg {
+  width: 105%;
+  height: 105%;
+  overflow: visible;
+  filter: drop-shadow(0 0 38px rgba(206, 169, 133, 0.08));
+}
+
+.wpv-interlude-map .wpv-route-base {
+  stroke: rgba(187, 155, 128, 0.44);
+  stroke-dasharray: 3 10;
+  stroke-width: 1.8;
+  fill: none;
+}
+
+.wpv-interlude-map .wpv-route-active {
+  stroke: #e7c39d;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 7px rgba(240, 205, 160, 0.62));
+}
+
+.wpv-interlude-map .wpv-route-mapring {
+  stroke: rgba(182, 153, 122, 0.17);
+  stroke-width: 1;
+  fill: none;
+}
+
+#wpv-route-dot {
+  fill: #f2d9b5;
+  stroke: #ffffff;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 12px #e8ba8c);
+}
+
+.wpv-route-label {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 10px;
+  fill: #cfbaa6;
+  letter-spacing: 0.12em;
+}
+
+.wpv-map-hud {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  color: #bcaa98;
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.wpv-map-hud .wpv-hud-line {
+  height: 1px;
+  width: 65px;
+  background: #d1b08c;
+}
+
+.wpv-interlude-corner {
+  position: absolute;
+  right: 35px;
+  top: 35px;
+  color: #bda48b;
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.wpv-interlude-counter {
+  position: absolute;
+  right: 35px;
+  bottom: 35px;
+  color: #d5b591;
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+/* Right side chapter reader HUD (matches screenshot 04 / 08 | A NEW DIRECTION) */
+.wpv-interlude-chapter-hud {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.wpv-interlude-chapter-hud .wpv-interlude-chapter-index {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 10px;
+  color: #a88d75;
+  font-variant-numeric: tabular-nums;
+}
+
+.wpv-interlude-chapter-hud .wpv-interlude-chapter-bar {
+  height: 80px;
+  width: 1px;
+  background: rgba(156, 134, 122, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.wpv-interlude-chapter-hud .wpv-interlude-chapter-bar span {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 35%;
+  background: #c6a989;
+}
+
+.wpv-interlude-chapter-hud .wpv-interlude-chapter-name {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a88d75;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+#wpv-interlude .wpv-outline {
+  position: absolute;
+  z-index: 0;
+  font-size: clamp(100px, 18vw, 340px);
+  font-weight: 800;
+  letter-spacing: -0.09em;
+  bottom: -0.41em;
+  left: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(238, 220, 200, 0.08);
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: transform;
+  animation: wpvOutline 24s ease-in-out infinite alternate;
+}
+
+@keyframes wpvOutline {
+  from {
+    transform: translateX(-2%);
+  }
+  to {
+    transform: translateX(2%);
+  }
+}
+
+@media (max-width: 1024px) {
+  .wpv-interlude-wrap {
+    grid-template-columns: 1fr 0.85fr;
+  }
+}
+
+@media (max-width: 860px) {
+  #wpv-interlude {
+    min-height: 0;
+    padding: 115px 28px;
+  }
+  .wpv-interlude-wrap {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .wpv-interlude-title {
+    font-size: clamp(66px, 11vw, 115px);
+  }
+  .wpv-interlude-map {
+    max-width: 540px;
+    aspect-ratio: 1.3;
+    margin: 0 auto;
+  }
+  .wpv-interlude-map > svg {
+    height: 100%;
+  }
+  .wpv-interlude-chapter-hud {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .wpv-interlude-title {
+    font-size: clamp(60px, 14vw, 94px);
+  }
+  .wpv-interlude-sub {
+    margin-top: 25px;
+  }
+  #wpv-interlude {
+    padding: 95px 22px 120px;
+  }
+  .wpv-interlude-corner {
+    right: 20px;
+    top: 22px;
+    font-size: 8px;
+  }
+  .wpv-interlude-map {
+    aspect-ratio: 1;
+  }
+  .wpv-map-hud {
+    bottom: -4px;
+  }
+  #wpv-route-dot {
+    filter: none;
+  }
+}
+
+/* ===================================================================
+   WAYPOINT / HERO ACCENT & PRICING PROFESSIONAL OVERRIDES
+   =================================================================== */
+#hero-heading .wyp-line:last-child [data-hero-line],
+#hero-heading .wyp-line:last-child span,
+.wyp-hero-accent {
+  color: #836953 !important;
+}
+
+.wyp-page #pricing .grid > div:nth-child(2),
+.wyp-page #pricing [data-popular="true"],
+.wyp-page #pricing .border-2 {
+  background: #836953 !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  border-width: 0 !important;
+  outline: 0 !important;
+  outline-width: 0 !important;
+  outline-style: none !important;
+  box-shadow: 0 20px 46px rgba(131, 105, 83, 0.28) !important;
+}
+
+.wyp-page #pricing .grid > div:nth-child(2) h3,
+.wyp-page #pricing .grid > div:nth-child(2) p,
+.wyp-page #pricing .grid > div:nth-child(2) span,
+.wyp-page #pricing .grid > div:nth-child(2) div,
+.wyp-page #pricing .grid > div:nth-child(2) [data-odometer-digit],
+.wyp-page #pricing [data-popular="true"] h3,
+.wyp-page #pricing [data-popular="true"] p,
+.wyp-page #pricing [data-popular="true"] span,
+.wyp-page #pricing [data-popular="true"] div,
+.wyp-page #pricing .border-2 h3,
+.wyp-page #pricing .border-2 p,
+.wyp-page #pricing .border-2 span,
+.wyp-page #pricing .border-2 div {
+  color: #ffffff !important;
+}
+
+.wyp-page #pricing .grid > div:nth-child(2) a,
+.wyp-page #pricing [data-popular="true"] a,
+.wyp-page #pricing .border-2 a {
+  background: #ffffff !important;
+  color: #836953 !important;
+  border: 0 !important;
+  border-width: 0 !important;
+  outline: 0 !important;
+  font-weight: 700 !important;
+}
+
+.wyp-page #pricing .grid > div:nth-child(2) a:hover,
+.wyp-page #pricing [data-popular="true"] a:hover,
+.wyp-page #pricing .border-2 a:hover {
+  background: #f5efeb !important;
+  color: #6a5240 !important;
 }
 ]]>
     </file>
@@ -2365,6 +2868,7 @@ import { ConversionCard } from "./components/ConversionCard";
 import { Footer } from "./components/Footer";
 import { ProductPanorama } from "./components/ProductPanorama";
 import { ProductStory } from "./components/ProductStory";
+import { InterludeSection } from "./components/InterludeSection";
 import { PaperTrail } from "./components/PaperTrail";
 import { Motion } from "./components/Motion";
 import { WorkspaceDialog } from "./components/WorkspaceDialog";
@@ -2381,6 +2885,7 @@ export function WaypointApp() {
           <Hero />
           <ProductPanorama />
           <ProductStory />
+          <InterludeSection />
           <BentoGrid />
           <PaperTrail />
           <PricingSection />
@@ -2419,21 +2924,21 @@ export function AccordionItem({
   const headerId = `faq-header-${index}`;
 
   return (
-    <div className="bg-[#FFFFFF] border border-[#E5DDD4] rounded-xl overflow-hidden transition-all shadow-2xs">
+    <div className="bg-[#FFFFFF] border border-[#E5DDD4] rounded-xl overflow-hidden shadow-2xs">
       <button
         id={headerId}
         type="button"
         aria-expanded={isOpen}
         aria-controls={contentId}
         onClick={onToggle}
-        className="w-full py-4.5 px-6 flex items-center justify-between text-left cursor-pointer hover:bg-[#FAF8F5] transition-colors"
+        className="w-full py-4.5 px-6 flex items-center justify-between text-left cursor-pointer hover:bg-[#FAF8F5] transition-colors duration-150"
       >
         <span className="text-sm md:text-base font-bold text-[#121417] pr-4">
           {question}
         </span>
         <span
-          className={`shrink-0 w-6 h-6 rounded-full bg-[#FAF8F5] border border-[#E5DDD4] flex items-center justify-center text-xs font-bold text-[#121417] transition-transform duration-300 ${
-            isOpen ? "rotate-180 bg-[#121417] text-[#F5EFEB]" : ""
+          className={`shrink-0 w-6 h-6 rounded-full border border-[#E5DDD4] flex items-center justify-center text-xs font-bold transition-[transform,background-color,color] duration-200 ease-out ${
+            isOpen ? "rotate-180 bg-[#121417] text-[#F5EFEB]" : "bg-[#FAF8F5] text-[#121417]"
           }`}
         >
           {isOpen ? "−" : "+"}
@@ -2445,7 +2950,7 @@ export function AccordionItem({
         role="region"
         aria-labelledby={headerId}
         aria-hidden={!isOpen}
-        className={`grid transition-all duration-300 ease-in-out ${
+        className={`grid transition-[grid-template-rows,opacity] duration-240 ease-[cubic-bezier(0.23,1,0.32,1)] ${
           isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >
@@ -3077,7 +3582,9 @@ export function Hero() {
             <span data-hero-line>Pitch with intention.</span>
           </span>
           <span className="wyp-line">
-            <span data-hero-line className="text-[#836953]">Land the offer.</span>
+            <span data-hero-line className="text-[#836953] wyp-hero-accent" style={{ color: "#836953" }}>
+              Land the offer.
+            </span>
           </span>
         </h1>
         <p className="wyp-hero-description">
@@ -3236,6 +3743,226 @@ export function HeroDashboard({
         {announcement}
       </span>
     </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(waypoint)/waypoint/components/InterludeSection.tsx">
+<![CDATA["use client";
+
+import React, { useEffect, useRef, useState } from "react";
+import { ArrowUpRight } from "@phosphor-icons/react";
+
+export function InterludeSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const routeRef = useRef<SVGPathElement>(null);
+  const dotRef = useRef<SVGCircleElement>(null);
+  const [routePercent, setRoutePercent] = useState(100);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const route = routeRef.current;
+    const dot = dotRef.current;
+    if (!section || !route) return;
+
+    let totalLength = 0;
+    try {
+      totalLength = route.getTotalLength();
+      route.style.strokeDasharray = `${totalLength}`;
+    } catch {}
+
+    const isReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (isReduced) {
+      setRoutePercent(100);
+      route.style.strokeDashoffset = "0";
+      return;
+    }
+
+    let ticking = false;
+    let lastPercent = -1;
+
+    const updateRoute = () => {
+      const rect = section.getBoundingClientRect();
+      const viewH = window.innerHeight || 1;
+      if (rect.top < viewH && rect.bottom > 0) {
+        // Progress through the section
+        const progress = Math.max(
+          0,
+          Math.min(1, (viewH * 0.8 - rect.top) / Math.max(1, rect.height * 0.75)),
+        );
+        const percent = Math.round(progress * 100);
+        if (percent !== lastPercent) {
+          lastPercent = percent;
+          setRoutePercent(percent);
+        }
+
+        if (totalLength > 0) {
+          route.style.strokeDashoffset = `${totalLength * (1 - progress)}`;
+          try {
+            const point = route.getPointAtLength(totalLength * progress);
+            if (dot) {
+              dot.setAttribute("cx", point.x.toFixed(2));
+              dot.setAttribute("cy", point.y.toFixed(2));
+            }
+          } catch {}
+        }
+      }
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateRoute);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="wpv-interlude"
+      className="wpv-interlude-section"
+      aria-labelledby="wpv-interlude-title"
+    >
+      {/* Background outline watermark */}
+      <span className="wpv-outline" aria-hidden="true">
+        WAYPOINT
+      </span>
+
+      {/* Top right coordinate / chapter marker */}
+      <span className="wpv-interlude-corner" aria-hidden="true">
+        40° 43′ 55.3″ N / THE WAY FORWARD
+      </span>
+
+      {/* Right side chapter reader HUD (as seen in screenshot: 04 / 08 | A NEW DIRECTION) */}
+      <aside className="wpv-interlude-chapter-hud" aria-hidden="true">
+        <span className="wpv-interlude-chapter-index">04 / 08</span>
+        <div className="wpv-interlude-chapter-bar">
+          <span />
+        </div>
+        <span className="wpv-interlude-chapter-name">A NEW DIRECTION</span>
+      </aside>
+
+      <div className="wpv-interlude-wrap">
+        {/* Left Column: Editorial Copy */}
+        <div className="wpv-interlude-copy">
+          <p className="wpv-interlude-overline">
+            A considered way forward <span aria-hidden="true">/ 03 — 04</span>
+          </p>
+
+          <h2 id="wpv-interlude-title" className="wpv-interlude-title">
+            <span>LESS</span>
+            <span className="wpv-title-tan">GUESSING.</span>
+            <span className="wpv-title-tan">MORE</span>
+            <span>MOVING.</span>
+          </h2>
+
+          <p className="wpv-interlude-sub">
+            Every reply is a waypoint. Every conversation moves the story
+            forward. Keep your bearings—and make the next move count.
+          </p>
+
+          <a className="wpv-interlude-link" href="#features">
+            <span>Explore your flight deck</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        {/* Right Column: Radial Compass Route Map */}
+        <div className="wpv-interlude-map" aria-hidden="true">
+          <svg viewBox="0 0 560 580" role="presentation">
+            <defs>
+              <radialGradient id="wpv-map-glow">
+                <stop offset="0" stopColor="#d0ac84" stopOpacity="0.14" />
+                <stop offset="1" stopColor="#d0ac84" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+
+            {/* Radar ambient glow */}
+            <circle cx="280" cy="280" r="257" fill="url(#wpv-map-glow)" />
+
+            {/* Concentric distance rings */}
+            <circle className="wpv-route-mapring" cx="280" cy="280" r="225" />
+            <circle className="wpv-route-mapring" cx="280" cy="280" r="170" />
+            <circle className="wpv-route-mapring" cx="280" cy="280" r="110" />
+            <circle className="wpv-route-mapring" cx="280" cy="280" r="45" />
+
+            {/* Crosshairs & grid lines */}
+            <path className="wpv-route-mapring" d="M30 280H530M280 30V530" />
+            <path
+              className="wpv-route-mapring"
+              d="M85 90Q280 160 475 90M50 485Q280 410 510 480"
+            />
+
+            {/* Inactive base route (dashed) */}
+            <path
+              id="wpv-route-base"
+              className="wpv-route-base"
+              d="M84 466 C120 422 106 338 191 343 S291 445 324 344 C350 265 258 240 318 181 S459 179 478 82"
+            />
+
+            {/* Active illuminated route */}
+            <path
+              ref={routeRef}
+              id="wpv-route-active"
+              className="wpv-route-active"
+              d="M84 466 C120 422 106 338 191 343 S291 445 324 344 C350 265 258 240 318 181 S459 179 478 82"
+            />
+
+            {/* Route waypoints */}
+            <circle cx="84" cy="466" r="6" fill="#c6a17e" />
+            <circle cx="191" cy="343" r="5" fill="#c6a17e" />
+            <circle cx="324" cy="344" r="5" fill="#c6a17e" />
+            <circle cx="478" cy="82" r="7" fill="#f2d9b5" />
+
+            {/* Labels */}
+            <text className="wpv-route-label" x="42" y="495">
+              START
+            </text>
+            <text className="wpv-route-label" x="345" y="356">
+              CONNECT
+            </text>
+            <text className="wpv-route-label" x="404" y="65">
+              WHAT'S NEXT
+            </text>
+
+            {/* Moving active glowing route beacon */}
+            <circle
+              ref={dotRef}
+              id="wpv-route-dot"
+              cx="478"
+              cy="82"
+              r="7"
+            />
+          </svg>
+
+          {/* Map HUD readout */}
+          <div className="wpv-map-hud">
+            <span className="wpv-hud-line" />
+            <span id="wpv-map-status">
+              ROUTE / {String(routePercent).padStart(2, "0")}% COMPLETE
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom right motto */}
+      <span className="wpv-interlude-counter">
+        GOOD WORK TAKES DIRECTION — NOT LUCK
+      </span>
+    </section>
   );
 }
 ]]>
@@ -3507,7 +4234,7 @@ export function OdometerCounter({ value, className = "" }: OdometerCounterProps)
             style={{ width: "0.62em" }}
           >
             <span
-              className="wyp-odometer-strip inline-flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              className="wyp-odometer-strip inline-flex flex-col"
               style={{
                 transform: `translateY(${translateY}%)`,
               }}
@@ -3708,7 +4435,9 @@ export function PricingCard({
 
   return (
     <div
-      className={`rounded-2xl p-7 md:p-8 flex flex-col justify-between transition-all ${
+      data-popular={isPopular ? "true" : undefined}
+      style={isPopular ? { backgroundColor: "#836953", color: "#ffffff", border: 0, outline: 0 } : undefined}
+      className={`rounded-2xl p-7 md:p-8 flex flex-col justify-between transition-[border-color,box-shadow,transform] duration-200 ease-out ${
         isPopular
           ? "bg-[#836953] text-white border-0 outline-none shadow-xl md:-translate-y-2 relative"
           : "bg-[#FFFFFF] border border-[#E5DDD4] shadow-xs hover:border-[#D8D0C5]"
@@ -3776,7 +4505,8 @@ export function PricingCard({
         <a
           href="#get-started"
           data-dialog-title={`Explore ${title}${planId !== "starter" ? ` ($${priceData.amount}/month, ${cadence})` : ""}`}
-          className={`w-full py-3 px-4 rounded-xl text-xs font-bold text-center block transition-all ${
+          style={isPopular ? { backgroundColor: "#ffffff", color: "#836953", border: 0, outline: 0 } : undefined}
+          className={`w-full py-3 px-4 rounded-xl text-xs font-bold text-center block transition-[background-color,color,box-shadow,transform] duration-160 ease-out active:scale-[0.97] ${
             isPopular
               ? "bg-white text-[#836953] shadow-md hover:bg-[#F5EFEB] border-0 outline-none"
               : "bg-[#FAF8F5] text-[#121417] border border-[#E5DDD4] hover:bg-[#E5DDD4]/60"
@@ -3816,15 +4546,23 @@ export function PricingSection() {
             applications cost nothing.
           </p>
 
-          {/* Cadence Switcher */}
-          <div className="mt-8 inline-flex items-center p-1 rounded-full bg-[#E5DDD4] border border-[#D8D0C5]">
+          {/* Cadence Switcher with Sliding Indicator */}
+          <div className="mt-8 inline-grid grid-cols-2 p-1 rounded-full bg-[#E5DDD4] border border-[#D8D0C5] relative">
+            <span
+              className="absolute top-1 bottom-1 rounded-full bg-[#FFFFFF] shadow-xs transition-transform duration-220 ease-[cubic-bezier(0.23,1,0.32,1)]"
+              style={{
+                width: "calc(50% - 4px)",
+                transform: cadence === "monthly" ? "translateX(4px)" : "translateX(calc(100% + 4px))",
+              }}
+              aria-hidden="true"
+            />
             <button
               type="button"
               onClick={() => setCadence("monthly")}
               aria-pressed={cadence === "monthly"}
-              className={`px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              className={`relative z-10 px-5 py-2 rounded-full text-xs font-bold transition-colors duration-200 cursor-pointer active:scale-[0.97] text-center ${
                 cadence === "monthly"
-                  ? "bg-[#FFFFFF] text-[#121417] shadow-xs"
+                  ? "text-[#121417]"
                   : "text-[#666E7D] hover:text-[#121417]"
               }`}
             >
@@ -3834,9 +4572,9 @@ export function PricingSection() {
               type="button"
               onClick={() => setCadence("annual")}
               aria-pressed={cadence === "annual"}
-              className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              className={`relative z-10 flex items-center justify-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-colors duration-200 cursor-pointer active:scale-[0.97] ${
                 cadence === "annual"
-                  ? "bg-[#FFFFFF] text-[#121417] shadow-xs"
+                  ? "text-[#121417]"
                   : "text-[#666E7D] hover:text-[#121417]"
               }`}
             >
@@ -4274,7 +5012,7 @@ export function SiteHeader() {
           </a>
           <a
             href="#get-started"
-            className="inline-flex items-center justify-center text-[13px] font-bold bg-[#121417] text-[#F5EFEB] px-4 py-2 rounded-full shadow-sm hover:bg-[#2B2F38] hover:shadow transition-all"
+            className="inline-flex items-center justify-center text-[13px] font-bold bg-[#121417] text-[#F5EFEB] px-4 py-2 rounded-full shadow-sm hover:bg-[#2B2F38] hover:shadow transition-[background-color,box-shadow,transform] duration-160 ease-out active:scale-[0.97]"
           >
             Start free
           </a>
@@ -4282,7 +5020,7 @@ export function SiteHeader() {
 
         <button
           onClick={() => setMobileMenuOpen(true)}
-          className="md:hidden p-2 rounded-lg text-[#121417] hover:bg-[#E5DDD4] transition"
+          className="md:hidden p-2 rounded-lg text-[#121417] hover:bg-[#E5DDD4] transition-colors duration-160 active:scale-[0.95]"
           aria-label="Open navigation menu"
           aria-expanded={mobileMenuOpen}
           aria-controls="waypoint-mobile-navigation"
@@ -4858,7 +5596,7 @@ export function CalendarWidget() {
               aria-pressed={isSelected}
               disabled={!hasInterview}
               onClick={() => hasInterview && setSelectedDay(day)}
-              className={`h-7 rounded text-xs font-semibold flex items-center justify-center transition-all ${
+              className={`h-7 rounded text-xs font-semibold flex items-center justify-center transition-[background-color,color,transform] duration-160 ease-out active:scale-[0.94] ${
                 isPastMonth
                   ? "text-[#666E7D]/40 pointer-events-none"
                   : isSelected
@@ -4876,7 +5614,10 @@ export function CalendarWidget() {
 
       {/* Active Schedule Card */}
       {activeSchedule ? (
-        <div className="bg-[#FFFFFF] border border-[#DBE8FA] rounded-lg p-3 shadow-xs">
+        <div
+          key={selectedDay}
+          className="bg-[#FFFFFF] border border-[#DBE8FA] rounded-lg p-3 shadow-xs wyp-schedule-crossfade"
+        >
           <div className="flex items-center justify-between gap-2 mb-1">
             <span className="text-xs font-bold text-[#121417]">
               {activeSchedule.company} • {activeSchedule.round}
@@ -4942,7 +5683,7 @@ export function EncryptionWidget() {
             type="button"
             aria-pressed={isEncrypted}
             onClick={() => setIsEncrypted((prev) => !prev)}
-            className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+            className={`px-3 py-1 rounded-full text-xs font-bold transition-[background-color,color,border-color,transform] duration-160 ease-out active:scale-[0.96] cursor-pointer ${
               isEncrypted
                 ? "bg-[#D8EADF] text-[#216143] border border-[#216143]/20"
                 : "bg-[#FCE8DC] text-[#8A3E1B] border border-[#8A3E1B]/20"
@@ -5048,14 +5789,14 @@ export function KanbanWidget() {
                 <div className="space-y-1.5" aria-live="polite">
                   {cards.map((card) => (
                     <button
-                      key={card.id}
+                      key={`${card.id}-${card.stage}`}
                       type="button"
                       draggable
                       onDragStart={(event) =>
                         event.dataTransfer.setData("text/plain", card.id)
                       }
                       onClick={() => handleCardClick(card.id)}
-                      className={`w-full text-left p-2 rounded border transition-all cursor-pointer hover:shadow-xs active:scale-98 ${
+                      className={`w-full text-left p-2 rounded border wyp-kanban-card-enter transition-[transform,box-shadow,background-color,border-color] duration-160 ease-out cursor-pointer hover:shadow-xs hover:border-[#D8D0C5] active:scale-[0.97] ${
                         isOffer
                           ? "bg-[#FAF8F5] border-[#DBE8FA]"
                           : "bg-[#FFFFFF] border-[#E5DDD4]"

@@ -27,7 +27,7 @@ export function EncryptionWidget() {
             type="button"
             aria-pressed={isEncrypted}
             onClick={() => setIsEncrypted((prev) => !prev)}
-            className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+            className={`px-3 py-1 rounded-full text-xs font-bold transition-[background-color,color,border-color,transform] duration-160 ease-out active:scale-[0.96] cursor-pointer ${
               isEncrypted
                 ? "bg-[#D8EADF] text-[#216143] border border-[#216143]/20"
                 : "bg-[#FCE8DC] text-[#8A3E1B] border border-[#8A3E1B]/20"
