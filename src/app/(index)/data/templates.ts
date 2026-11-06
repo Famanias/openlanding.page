@@ -2346,6 +2346,21 @@ RAW_TEMPLATES.push(
     previewImage: "/templates/khora/preview-1600.webp",
     promptMarkdown: KHORA_PROMPT,
     model: "GPT-6 Astra Max",
+  },
+  {
+    slug: "arcsignal",
+    createdAt: "2026-11-06",
+    hasDownload: false,
+    title: "Arc & Signal",
+    description: "Connect models, agents, tools, and data in one orchestration layer built for clarity, control, and scale.",
+    category: "ai",
+    categories: ["ai", "saas", "showcase", "3d"],
+    industry: "Enterprise AI & Infrastructure",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Procedural 2.5D Core", "Continuous Signal", "Interactive Control Plane"],
+    previewImage: "/templates/arcsignal/preview-1600.webp",
+    promptMarkdown: ARCSIGNAL_PROMPT,
+    model: "Gemini 4 Argon High",
   }
 );
 

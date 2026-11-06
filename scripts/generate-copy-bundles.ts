@@ -176,8 +176,8 @@ tally: {
 
 export const TEMPLATE_METADATA = Object.fromEntries(Object.entries(COPY_METADATA).map(([slug, meta]) => [slug, {
   ...meta,
-  createdAt: TEMPLATES[slug as TemplateSlug].createdAt,
-  downloadPath: TEMPLATES[slug as TemplateSlug].hasDownload ? `/downloads/${slug}.html` : null,
+  createdAt: TEMPLATES[slug as TemplateSlug]?.createdAt ?? "",
+  downloadPath: TEMPLATES[slug as TemplateSlug]?.hasDownload ? `/downloads/${slug}.html` : null,
 }])) as Record<TemplateSlug, { name: string; dependencies: string[]; createdAt: string; downloadPath: string | null; includeDownload?: boolean }>;
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
