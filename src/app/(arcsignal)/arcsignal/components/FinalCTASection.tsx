@@ -397,20 +397,20 @@ export const FinalCTASection: React.FC<FinalCTASectionProps> = ({
                 <g
                   stroke="rgba(157, 167, 199, 0.28)"
                   strokeWidth="1"
-                  transform={`translate(365, 235) rotate(${scrollRotorDegrees * 0.35}) translate(-365, -235)`}
+                  transform={`translate(365, 235) rotate(${Math.round(scrollRotorDegrees * 0.35 * 100) / 100}) translate(-365, -235)`}
                 >
                   {Array.from({ length: 36 }).map((_, idx) => {
                     const deg = idx * 10;
-                    const rad = (deg * Math.PI) / 180;
                     const innerR = idx % 3 === 0 ? 182 : 186;
                     const outerR = 192;
                     return (
                       <line
                         key={deg}
-                        x1={365 + Math.cos(rad) * innerR}
-                        y1={235 + Math.sin(rad) * innerR}
-                        x2={365 + Math.cos(rad) * outerR}
-                        y2={235 + Math.sin(rad) * outerR}
+                        x1={365 + innerR}
+                        y1={235}
+                        x2={365 + outerR}
+                        y2={235}
+                        transform={`rotate(${deg}, 365, 235)`}
                       />
                     );
                   })}
