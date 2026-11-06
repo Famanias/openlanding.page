@@ -1,4 +1,3 @@
-
 Running 27 tests using 1 worker
 
   ok  1 [chromium] › tests\e2e\lenus-horizontal.spec.ts:19:5 › one live canvas survives all chapters, reverse scroll, footer exit and native wheel (18.1s)

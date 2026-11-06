@@ -1,4 +1,3 @@
-
 > openlandingpage@0.1.0 test
 > vitest run
 
@@ -13,4 +12,3 @@
 
     Isolate  244 workers spawned · ~282ms startup each (spawn + environment, per file)
              at least ~4.31s faster with isolate: false — reuses workers across files instead of one per file
-
