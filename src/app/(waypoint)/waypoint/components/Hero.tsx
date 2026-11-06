@@ -16,7 +16,9 @@ export function Hero() {
             <span data-hero-line>Pitch with intention.</span>
           </span>
           <span className="wyp-line">
-            <span data-hero-line>Land the offer.</span>
+            <span data-hero-line className="text-[#836953] wyp-hero-accent" style={{ color: "#836953" }}>
+              Land the offer.
+            </span>
           </span>
         </h1>
         <p className="wyp-hero-description">

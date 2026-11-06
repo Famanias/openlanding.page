@@ -10,6 +10,7 @@ import { ConversionCard } from "./components/ConversionCard";
 import { Footer } from "./components/Footer";
 import { ProductPanorama } from "./components/ProductPanorama";
 import { ProductStory } from "./components/ProductStory";
+import { InterludeSection } from "./components/InterludeSection";
 import { PaperTrail } from "./components/PaperTrail";
 import { Motion } from "./components/Motion";
 import { WorkspaceDialog } from "./components/WorkspaceDialog";
@@ -26,6 +27,7 @@ export function WaypointApp() {
           <Hero />
           <ProductPanorama />
           <ProductStory />
+          <InterludeSection />
           <BentoGrid />
           <PaperTrail />
           <PricingSection />

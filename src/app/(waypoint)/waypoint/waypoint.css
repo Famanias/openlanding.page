@@ -2110,3 +2110,392 @@
     transform: none !important;
   }
 }
+
+
+/* ===================================================================
+   WAYPOINT / EDITORIAL INTERLUDE: A CONSIDERED WAY FORWARD / 03 — 04
+   =================================================================== */
+#wpv-interlude {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #171c1c;
+  color: #f3ede5;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 145px max(5vw, 24px);
+  border-block: 1px solid #302b28;
+}
+
+#wpv-interlude:before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 48% 70% at 77% 52%, rgba(115, 88, 72, 0.24), transparent 72%),
+    radial-gradient(ellipse 50% 70% at 0% 100%, rgba(143, 117, 101, 0.17), transparent 80%),
+    linear-gradient(120deg, #171919, #23201e);
+}
+
+#wpv-interlude:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 78px);
+  mask-image: linear-gradient(90deg, transparent, #000 40%, transparent);
+  opacity: 0.14;
+}
+
+.wpv-interlude-wrap {
+  width: min(100%, 1320px);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 0.82fr;
+  align-items: center;
+  gap: clamp(35px, 6vw, 115px);
+  position: relative;
+  z-index: 2;
+}
+
+.wpv-interlude-overline {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.19em;
+  color: #c6a989;
+  text-transform: uppercase;
+  margin: 0 0 42px;
+}
+
+.wpv-interlude-title {
+  font-family: var(--font-jakarta), var(--font-display), sans-serif;
+  font-size: clamp(64px, 8vw, 150px);
+  line-height: 0.88;
+  letter-spacing: -0.092em;
+  max-width: 850px;
+  font-weight: 720;
+  margin: 0;
+}
+
+.wpv-interlude-title span {
+  display: block;
+}
+
+.wpv-interlude-title .wpv-title-tan {
+  color: #d9b591;
+  font-weight: 550;
+}
+
+.wpv-interlude-sub {
+  max-width: 430px;
+  color: #c3b5aa;
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.9;
+  margin: 43px 0 35px;
+}
+
+.wpv-interlude-link {
+  color: #ede6df;
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  border-bottom: 1px solid #b99a7c;
+  padding-bottom: 13px;
+  transition: gap 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s;
+  text-decoration: none;
+}
+
+.wpv-interlude-link:hover {
+  gap: 36px;
+  color: #f1cfae;
+}
+
+.wpv-interlude-map {
+  position: relative;
+  aspect-ratio: 1 / 1.06;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.wpv-interlude-map > svg {
+  width: 105%;
+  height: 105%;
+  overflow: visible;
+  filter: drop-shadow(0 0 38px rgba(206, 169, 133, 0.08));
+}
+
+.wpv-interlude-map .wpv-route-base {
+  stroke: rgba(187, 155, 128, 0.44);
+  stroke-dasharray: 3 10;
+  stroke-width: 1.8;
+  fill: none;
+}
+
+.wpv-interlude-map .wpv-route-active {
+  stroke: #e7c39d;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 7px rgba(240, 205, 160, 0.62));
+}
+
+.wpv-interlude-map .wpv-route-mapring {
+  stroke: rgba(182, 153, 122, 0.17);
+  stroke-width: 1;
+  fill: none;
+}
+
+#wpv-route-dot {
+  fill: #f2d9b5;
+  stroke: #ffffff;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 12px #e8ba8c);
+}
+
+.wpv-route-label {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 10px;
+  fill: #cfbaa6;
+  letter-spacing: 0.12em;
+}
+
+.wpv-map-hud {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  color: #bcaa98;
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.wpv-map-hud .wpv-hud-line {
+  height: 1px;
+  width: 65px;
+  background: #d1b08c;
+}
+
+.wpv-interlude-corner {
+  position: absolute;
+  right: 35px;
+  top: 35px;
+  color: #bda48b;
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.wpv-interlude-counter {
+  position: absolute;
+  right: 35px;
+  bottom: 35px;
+  color: #d5b591;
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+/* Right side chapter reader HUD (matches screenshot 04 / 08 | A NEW DIRECTION) */
+.wpv-interlude-chapter-hud {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.wpv-interlude-chapter-hud .wpv-interlude-chapter-index {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 10px;
+  color: #a88d75;
+  font-variant-numeric: tabular-nums;
+}
+
+.wpv-interlude-chapter-hud .wpv-interlude-chapter-bar {
+  height: 80px;
+  width: 1px;
+  background: rgba(156, 134, 122, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.wpv-interlude-chapter-hud .wpv-interlude-chapter-bar span {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 35%;
+  background: #c6a989;
+}
+
+.wpv-interlude-chapter-hud .wpv-interlude-chapter-name {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a88d75;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+#wpv-interlude .wpv-outline {
+  position: absolute;
+  z-index: 0;
+  font-size: clamp(100px, 18vw, 340px);
+  font-weight: 800;
+  letter-spacing: -0.09em;
+  bottom: -0.41em;
+  left: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(238, 220, 200, 0.08);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: wpvOutline 24s ease-in-out infinite alternate;
+}
+
+@keyframes wpvOutline {
+  from {
+    transform: translateX(-2%);
+  }
+  to {
+    transform: translateX(2%);
+  }
+}
+
+@media (max-width: 1024px) {
+  .wpv-interlude-wrap {
+    grid-template-columns: 1fr 0.85fr;
+  }
+}
+
+@media (max-width: 860px) {
+  #wpv-interlude {
+    min-height: 0;
+    padding: 115px 28px;
+  }
+  .wpv-interlude-wrap {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .wpv-interlude-title {
+    font-size: clamp(66px, 11vw, 115px);
+  }
+  .wpv-interlude-map {
+    max-width: 540px;
+    aspect-ratio: 1.3;
+    margin: 0 auto;
+  }
+  .wpv-interlude-map > svg {
+    height: 100%;
+  }
+  .wpv-interlude-chapter-hud {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .wpv-interlude-title {
+    font-size: clamp(60px, 14vw, 94px);
+  }
+  .wpv-interlude-sub {
+    margin-top: 25px;
+  }
+  #wpv-interlude {
+    padding: 95px 22px 120px;
+  }
+  .wpv-interlude-corner {
+    right: 20px;
+    top: 22px;
+    font-size: 8px;
+  }
+  .wpv-interlude-map {
+    aspect-ratio: 1;
+  }
+  .wpv-map-hud {
+    bottom: -4px;
+  }
+  #wpv-route-dot {
+    filter: none;
+  }
+}
+
+/* ===================================================================
+   WAYPOINT / HERO ACCENT & PRICING PROFESSIONAL OVERRIDES
+   =================================================================== */
+#hero-heading .wyp-line:last-child [data-hero-line],
+#hero-heading .wyp-line:last-child span,
+.wyp-hero-accent {
+  color: #836953 !important;
+}
+
+.wyp-page #pricing .grid > div:nth-child(2),
+.wyp-page #pricing [data-popular="true"],
+.wyp-page #pricing .border-2 {
+  background: #836953 !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  border-width: 0 !important;
+  outline: 0 !important;
+  outline-width: 0 !important;
+  outline-style: none !important;
+  box-shadow: 0 20px 46px rgba(131, 105, 83, 0.28) !important;
+}
+
+.wyp-page #pricing .grid > div:nth-child(2) h3,
+.wyp-page #pricing .grid > div:nth-child(2) p,
+.wyp-page #pricing .grid > div:nth-child(2) span,
+.wyp-page #pricing .grid > div:nth-child(2) div,
+.wyp-page #pricing .grid > div:nth-child(2) [data-odometer-digit],
+.wyp-page #pricing [data-popular="true"] h3,
+.wyp-page #pricing [data-popular="true"] p,
+.wyp-page #pricing [data-popular="true"] span,
+.wyp-page #pricing [data-popular="true"] div,
+.wyp-page #pricing .border-2 h3,
+.wyp-page #pricing .border-2 p,
+.wyp-page #pricing .border-2 span,
+.wyp-page #pricing .border-2 div {
+  color: #ffffff !important;
+}
+
+.wyp-page #pricing .grid > div:nth-child(2) a,
+.wyp-page #pricing [data-popular="true"] a,
+.wyp-page #pricing .border-2 a {
+  background: #ffffff !important;
+  color: #836953 !important;
+  border: 0 !important;
+  border-width: 0 !important;
+  outline: 0 !important;
+  font-weight: 700 !important;
+}
+
+.wyp-page #pricing .grid > div:nth-child(2) a:hover,
+.wyp-page #pricing [data-popular="true"] a:hover,
+.wyp-page #pricing .border-2 a:hover {
+  background: #f5efeb !important;
+  color: #6a5240 !important;
+}
