@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" fill="none">
+  <defs>
+    <radialGradient id="core-well" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#05070E" />
+      <stop offset="55%" stop-color="#0C0F1B" />
+      <stop offset="100%" stop-color="#171D32" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="arc-violet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4C9FF" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#A58AFF" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#5367F9" stop-opacity="0.35" />
+    </linearGradient>
+  </defs>
+  <circle cx="300" cy="300" r="240" fill="url(#core-well)" />
+  <circle cx="300" cy="300" r="220" stroke="rgba(157,167,199,0.18)" stroke-width="1" stroke-dasharray="6 8" />
+  <path d="M 120 230 A 195 195 0 0 1 450 175" stroke="url(#arc-violet)" stroke-width="26" stroke-linecap="butt" />
+  <path d="M 475 245 A 185 185 0 0 1 260 480" stroke="url(#arc-violet)" stroke-width="22" stroke-linecap="butt" />
+  <path d="M 165 360 A 145 145 0 0 1 395 185" stroke="#9DA7C7" stroke-opacity="0.35" stroke-width="14" />
+  <circle cx="300" cy="300" r="110" stroke="#A58AFF" stroke-opacity="0.5" stroke-width="8" stroke-dasharray="140 50 90 60" />
+  <circle cx="300" cy="300" r="72" fill="#070A14" stroke="rgba(212,201,255,0.4)" stroke-width="2" />
+  <circle cx="300" cy="300" r="42" fill="#04060C" stroke="rgba(83,103,249,0.5)" stroke-width="1.5" stroke-dasharray="4 4" />
+  <path d="M 560 70 C 440 120, 370 210, 300 300 C 240 380, 180 480, 120 580" stroke="#D4C9FF" stroke-width="3" />
+</svg>

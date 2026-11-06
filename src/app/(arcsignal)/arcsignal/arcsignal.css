@@ -1,0 +1,289 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0C0F1B;
+  --bg-abyss: #080b16;
+  --bg-deep: #0c1020;
+  --bg-elevated: #10172a;
+  --bg-violet: #8c72ff;
+  --bg-periwinkle: #5d6bff;
+  --bg-cyan-subtle: #7fb5d4;
+  --bg-field-intensity: 0.36;
+  --bg-grid-opacity: 0.11;
+  --bg-focus-x: 68%;
+  --bg-focus-y: 42%;
+  --bg-secondary-x: 74%;
+  --bg-secondary-y: 52%;
+  --panel: #11172A;
+  --panel-raised: #171D32;
+  --white: #F3F4FA;
+  --steel: #9DA7C7;
+  --muted: #9299B4;
+  --violet: #A58AFF;
+  --cobalt: #5367F9;
+  --line: rgba(157, 167, 199, 0.18);
+  --signal-core: #D4C9FF;
+  --signal-mid: #977FFF;
+  --signal-edge: #5367F9;
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-cinematic: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+@layer base {
+  html {
+    background-color: var(--bg-abyss);
+    color: var(--white);
+    font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-abyss);
+    color: var(--white);
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.font-display {
+  font-family: var(--font-outfit), 'Outfit', var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-mono-tech {
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Crisp violet-to-cobalt gradient text matching References 01 & 02 */
+.text-signal-gradient {
+  background: linear-gradient(92deg, #C4B0FF 0%, #977FFF 45%, #5367F9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Outlined luminous headline treatment for Reference 04 "AS ONE." */
+.text-as-one-glow {
+  background: linear-gradient(90deg, rgba(165, 138, 255, 0.35) 0%, rgba(83, 103, 249, 0.35) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.5px #A58AFF;
+  filter: drop-shadow(0 0 18px rgba(151, 127, 255, 0.45));
+}
+
+/* Primary button matching Reference 01 & 04 */
+.btn-signal-primary {
+  background: linear-gradient(92deg, #9B82FF 0%, #6D73FC 55%, #5367F9 100%);
+  box-shadow: 0 0 24px rgba(151, 127, 255, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(212, 201, 255, 0.5);
+  transition: transform 220ms var(--ease-editorial), box-shadow 220ms var(--ease-editorial);
+}
+
+.btn-signal-primary:hover {
+  box-shadow: 0 0 32px rgba(165, 138, 255, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.52);
+}
+
+/* Secondary outlined pill button matching References 01, 02, 03, 04 */
+.btn-signal-outline {
+  background: rgba(17, 23, 42, 0.65);
+  border: 1px solid rgba(157, 167, 199, 0.32);
+  box-shadow: inset 0 0 12px rgba(151, 127, 255, 0.06);
+  transition: transform 220ms var(--ease-editorial), border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.btn-signal-outline:hover {
+  border-color: rgba(165, 138, 255, 0.75);
+  background: rgba(23, 29, 50, 0.9);
+  box-shadow: 0 0 20px rgba(151, 127, 255, 0.24), inset 0 0 14px rgba(151, 127, 255, 0.14);
+}
+
+/* Directional arrow slide on button hover */
+.btn-arrow-icon {
+  transition: transform 240ms var(--ease-editorial);
+}
+
+button:hover .btn-arrow-icon,
+a:hover .btn-arrow-icon {
+  transform: translate(2.5px, -2.5px);
+}
+
+/* Masked typography line container */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.04em;
+}
+
+.line-mask-inner {
+  display: block;
+  will-change: transform;
+  transition: transform 720ms var(--ease-editorial), letter-spacing 820ms var(--ease-editorial);
+}
+
+/* Subtle architectural dot grid for canvases */
+.bg-dot-matrix {
+  background-image: radial-gradient(rgba(157, 167, 199, 0.16) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Legacy utility kept transparent so #ambient-system owns the continuous viewport environment */
+.bg-architectural-grid {
+  background-color: transparent;
+}
+
+/* ============================================================================
+   PERSISTENT LIVING SIGNAL FIELD (#ambient-system)
+   One fixed, viewport-sized 7-layer atmospheric world shared across all scenes
+   ============================================================================ */
+#ambient-system {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--bg-abyss);
+}
+
+.ambient-system__color,
+.ambient-system__volumes,
+.ambient-system__structure,
+.ambient-system__grid,
+.ambient-system__grain,
+.ambient-system__reading-guard {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Layer 1: Deep Color Foundation — soft midnight/near-black field with localized focus */
+.ambient-system__color {
+  background:
+    radial-gradient(
+      ellipse 58% 66% at var(--bg-focus-x) var(--bg-focus-y),
+      rgba(92, 78, 178, calc(var(--bg-field-intensity) * 0.42)) 0%,
+      rgba(48, 60, 136, calc(var(--bg-field-intensity) * 0.18)) 44%,
+      transparent 74%
+    ),
+    radial-gradient(
+      ellipse 46% 52% at var(--bg-secondary-x) var(--bg-secondary-y),
+      rgba(74, 92, 196, calc(var(--bg-field-intensity) * 0.24)) 0%,
+      transparent 70%
+    ),
+    linear-gradient(152deg, var(--bg-abyss) 0%, var(--bg-deep) 58%, #090c18 100%);
+}
+
+/* Layer 2: Atmospheric Subsurface Volumes — feathered low-contrast dispersions */
+.ambient-system__volumes {
+  background:
+    radial-gradient(
+      ellipse 36% 48% at var(--bg-focus-x) var(--bg-focus-y),
+      rgba(130, 108, 235, calc(var(--bg-field-intensity) * 0.28)) 0%,
+      rgba(83, 103, 249, calc(var(--bg-field-intensity) * 0.11)) 48%,
+      transparent 76%
+    ),
+    radial-gradient(
+      ellipse 52% 42% at 76% 78%,
+      rgba(52, 72, 158, calc(var(--bg-field-intensity) * 0.19)) 0%,
+      transparent 74%
+    );
+  transform: translateZ(0);
+}
+
+/* Layer 3 & 5: Engineered Structural Field & Ghost Signal Conduits (SVG) */
+.ambient-system__structure {
+  opacity: 0.92;
+  will-change: transform;
+}
+
+/* Layer 4: Selective Technical Reference Grid — masked so it never looks like uniform wallpaper */
+.ambient-system__grid {
+  background-image:
+    linear-gradient(to right, rgba(142, 152, 206, 0.085) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(142, 152, 206, 0.085) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: var(--bg-grid-opacity);
+  -webkit-mask-image:
+    radial-gradient(
+      ellipse 56% 64% at var(--bg-focus-x) var(--bg-focus-y),
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.45) 48%,
+      rgba(0, 0, 0, 0.08) 78%,
+      transparent 96%
+    );
+  mask-image:
+    radial-gradient(
+      ellipse 56% 64% at var(--bg-focus-x) var(--bg-focus-y),
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.45) 48%,
+      rgba(0, 0, 0, 0.08) 78%,
+      transparent 96%
+    );
+}
+
+/* Layer 6: Controlled Fine Film Grain / Anti-Banding Dither */
+.ambient-system__grain {
+  opacity: 0.024;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* Layer 7: Reading Protection Vignette — keeps left editorial column & frame perimeter calm and high-contrast */
+.ambient-system__reading-guard {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(8, 11, 22, 0.78) 0%,
+      rgba(8, 11, 22, 0.52) 28%,
+      rgba(8, 11, 22, 0.12) 48%,
+      rgba(8, 11, 22, 0) 68%
+    ),
+    radial-gradient(
+      ellipse 95% 92% at 52% 50%,
+      transparent 58%,
+      rgba(6, 9, 18, 0.68) 100%
+    );
+}
+
+/* Scene 0 opening traveling grid light sweep */
+@keyframes gridLightSweep {
+  0% {
+    transform: translate3d(-35%, -25%, 0) rotate(-18deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(55%, 35%, 0) rotate(-18deg);
+    opacity: 0;
+  }
+}
+
+.hero-grid-sweep {
+  background: radial-gradient(
+    ellipse 520px 180px at 50% 50%,
+    rgba(165, 138, 255, 0.22) 0%,
+    rgba(83, 103, 249, 0.10) 45%,
+    rgba(12, 15, 27, 0) 75%
+  );
+  animation: gridLightSweep 2.1s var(--ease-editorial) 1 forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-grid-sweep {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}

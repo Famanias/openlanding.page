@@ -30,10 +30,12 @@ describe("TemplateCard", () => {
   });
 
   it("renders persistent actions for prompt and template download", () => {
-    const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES.find(t => t.slug === "alpine-reel")!} isEager={false} />);
-    expect(html).toContain("Copy prompt");
-    expect(html).toContain("Download HTML");
-    expect(html).not.toMatch(/<button[^>]*aria-label="Download HTML"[^>]*disabled=""/);
+    for (const slug of ["alpine-reel", "khora", "pitchlane", "strata"] as const) {
+      const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES.find(t => t.slug === slug)!} isEager={false} />);
+      expect(html).toContain("Copy prompt");
+      expect(html).toContain("Download HTML");
+      expect(html).not.toMatch(/<button[^>]*aria-label="Download HTML"[^>]*disabled=""/);
+    }
   });
 
   it("renders a still hero preview", () => {

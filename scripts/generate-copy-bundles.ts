@@ -10,6 +10,10 @@ const COPY_METADATA: Record<
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
   lenus: { name: "LENUS", dependencies: ["three", "lucide-react"] },
+  arcsignal: { name: "Arc & Signal", dependencies: ["lucide-react", "motion"] },
+  khora: { name: "KHORA", dependencies: [], includeDownload: true },
+  pitchlane: { name: "Pitchlane", dependencies: [], includeDownload: true },
+  strata: { name: "STRATA", dependencies: [], includeDownload: true },
   savepoint: { name: "SAVEPOINT.", dependencies: ["three", "@types/three", "gsap", "zustand"] },
   penumbra: { name: "PENUMBRA", dependencies: ["lucide-react", "motion"] },
   zeno: { name: "ZENO.", dependencies: ["lucide-react", "motion"] },
@@ -21,7 +25,7 @@ const COPY_METADATA: Record<
   razorline: { name: "RAZORLINE", dependencies: ["lucide-react", "motion"] },
   nexus: { name: "nexus", dependencies: ["lucide-react", "motion"] },
   starriot: { name: "STAR RIOT", dependencies: ["lucide-react", "motion"] },
-  arcandsignal: { name: "Arc & Signal", dependencies: [] },
+
   stillwater: { name: "Stillwater", dependencies: [], includeDownload: true },
   mercer: { name: "Jules Mercer", dependencies: ["three", "lucide-react"] },
   landingx: { name: "Landing X", dependencies: [] },
@@ -173,8 +177,8 @@ tally: {
 
 export const TEMPLATE_METADATA = Object.fromEntries(Object.entries(COPY_METADATA).map(([slug, meta]) => [slug, {
   ...meta,
-  createdAt: TEMPLATES[slug as TemplateSlug].createdAt,
-  downloadPath: TEMPLATES[slug as TemplateSlug].hasDownload ? `/downloads/${slug}.html` : null,
+  createdAt: TEMPLATES[slug as TemplateSlug]?.createdAt ?? "",
+  downloadPath: TEMPLATES[slug as TemplateSlug]?.hasDownload ? `/downloads/${slug}.html` : null,
 }])) as Record<TemplateSlug, { name: string; dependencies: string[]; createdAt: string; downloadPath: string | null; includeDownload?: boolean }>;
 
 export function getPackageDependencies(packageJsonPath?: string): Record<string, string> {
