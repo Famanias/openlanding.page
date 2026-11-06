@@ -47,8 +47,8 @@ export function PricingCard({
                 badgeStyle === "free"
                   ? "bg-[#D8EADF] text-[#216143]"
                   : badgeStyle === "popular"
-                  ? "bg-[#DBE8FA] text-[#1E4F94]"
-                  : "bg-[#FAF8F5] text-[#2B2F38] border border-[#E5DDD4]"
+                    ? "bg-[#DBE8FA] text-[#1E4F94]"
+                    : "bg-[#FAF8F5] text-[#2B2F38] border border-[#E5DDD4]"
               }`}
             >
               {badge}
@@ -69,10 +69,20 @@ export function PricingCard({
           </span>
         </div>
 
+        {cadence === "annual" && planId !== "starter" && (
+          <p className="text-xs text-[#666E7D] mb-5">
+            Billed ${priceData.amount * 12} yearly. Save $
+            {((planId === "pro" ? 28 : 58) - priceData.amount) * 12} a year.
+          </p>
+        )}
+
         {/* Feature List */}
         <div className="space-y-3 pt-6 border-t border-[#E5DDD4]">
           {features.map((feature, i) => (
-            <div key={i} className="flex items-start gap-2.5 text-xs text-[#2B2F38]">
+            <div
+              key={i}
+              className="flex items-start gap-2.5 text-xs text-[#2B2F38]"
+            >
               <span className="text-[#216143] font-bold text-sm leading-none shrink-0">
                 ✓
               </span>
@@ -86,6 +96,7 @@ export function PricingCard({
       <div className="mt-8 pt-4">
         <a
           href="#get-started"
+          data-dialog-title={`Explore ${title}${planId !== "starter" ? ` ($${priceData.amount}/month, ${cadence})` : ""}`}
           className={`w-full py-3 px-4 rounded-xl text-xs font-bold text-center block transition-all ${
             isPopular
               ? "bg-[#121417] text-[#F5EFEB] shadow-md hover:bg-[#2B2F38]"

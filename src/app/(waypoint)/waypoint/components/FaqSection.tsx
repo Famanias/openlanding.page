@@ -7,7 +7,7 @@ const FAQ_ITEMS = [
   {
     question: "How does the direct email outreach integration work?",
     answer:
-      "Waypoint connects directly to your personal Gmail or Google Workspace inbox via secure OAuth with send-on-behalf permissions. Your outreach sends directly from your personal account, ensuring 100% authentic deliverability without falling into promotional tabs or spam filters.",
+      "Waypoint connects directly to your personal Gmail or Google Workspace inbox via secure OAuth with send-on-behalf permissions. Your outreach sends directly from your personal account, keeping the sender identity personal. This landing page is a product demonstration; no email account is connected here.",
   },
   {
     question: "Is my candidate outreach data kept private from recruiters?",
@@ -20,7 +20,8 @@ const FAQ_ITEMS = [
       "At any moment you can export your entire pipeline—including conversation histories, stage timelines, recruiter contact emails, and preparation notes—into structured CSV or JSON format with a single click.",
   },
   {
-    question: "What happens when I reach the 25 application limit on the free Starter plan?",
+    question:
+      "What happens when I reach the 25 application limit on the free Starter plan?",
     answer:
       "You retain permanent access to view, update, and manage all existing applications and replies. You only need to upgrade to the Professional plan if you choose to expand your outreach volume.",
   },
@@ -38,13 +39,14 @@ export function FaqSection() {
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFFFFF] border border-[#E5DDD4] text-xs font-bold text-[#1E4F94] mb-3">
-            Questions &bull; Clear Answers
+            A few things worth knowing
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-[-0.035em] text-[#121417] leading-tight mb-4">
-            Frequently Asked Questions
+            A clearer picture.
           </h2>
           <p className="text-base text-[#2B2F38] leading-relaxed">
-            Everything you need to know about direct outreach deliverability, encryption privacy, and pipeline ownership.
+            Everything you need to know about direct outreach deliverability,
+            encryption privacy, and pipeline ownership.
           </p>
         </div>
 

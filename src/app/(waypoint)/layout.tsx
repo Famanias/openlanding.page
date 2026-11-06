@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./waypoint/waypoint.css";
 
-const inter = Inter({
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-jetbrains",
   display: "swap",
 });
 
@@ -16,10 +16,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Waypoint — Direct Career Outreach & Pipeline Deck",
-  description: "Waypoint turns unstructured job hunting into an intentional, visual career pipeline for senior software engineers and product designers.",
+  description:
+    "Waypoint turns unstructured job hunting into an intentional, visual career pipeline for senior software engineers and product designers.",
   openGraph: {
     title: "Waypoint — Direct Career Outreach & Pipeline Deck",
-    description: "Waypoint turns unstructured job hunting into an intentional, visual career pipeline for senior software engineers and product designers.",
+    description:
+      "Waypoint turns unstructured job hunting into an intentional, visual career pipeline for senior software engineers and product designers.",
     type: "website",
   },
   twitter: {
@@ -39,7 +41,10 @@ export default function WaypointLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable} scroll-smooth`}>
+    <html
+      lang="en"
+      className={`${jetbrains.variable} ${plusJakartaSans.variable} scroll-smooth`}
+    >
       <head>
         <noscript>
           <style>{`[data-reveal] { opacity: 1 !important; transform: none !important; }`}</style>

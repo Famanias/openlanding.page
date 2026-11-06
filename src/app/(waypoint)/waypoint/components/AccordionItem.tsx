@@ -38,7 +38,7 @@ export function AccordionItem({
             isOpen ? "rotate-180 bg-[#121417] text-[#F5EFEB]" : ""
           }`}
         >
-          ↓
+          {isOpen ? "−" : "+"}
         </span>
       </button>
 
@@ -46,6 +46,7 @@ export function AccordionItem({
         id={contentId}
         role="region"
         aria-labelledby={headerId}
+        aria-hidden={!isOpen}
         className={`grid transition-all duration-300 ease-in-out ${
           isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}

@@ -36,6 +36,7 @@ const SCHEDULES: Record<number, InterviewSchedule> = {
 
 export function CalendarWidget() {
   const [selectedDay, setSelectedDay] = useState<number>(5);
+  const [completed, setCompleted] = useState<Record<number, boolean>>({});
   const activeSchedule = SCHEDULES[selectedDay];
 
   const days = [31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
@@ -56,7 +57,10 @@ export function CalendarWidget() {
       {/* Weekday Grid */}
       <div className="grid grid-cols-7 gap-1.5 text-center mb-4">
         {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-          <span key={i} className="text-[10px] font-bold text-[#666E7D] uppercase">
+          <span
+            key={i}
+            className="text-[10px] font-bold text-[#666E7D] uppercase"
+          >
             {d}
           </span>
         ))}
@@ -69,15 +73,17 @@ export function CalendarWidget() {
             <button
               key={day}
               type="button"
+              aria-pressed={isSelected}
+              disabled={!hasInterview}
               onClick={() => hasInterview && setSelectedDay(day)}
               className={`h-7 rounded text-xs font-semibold flex items-center justify-center transition-all ${
                 isPastMonth
                   ? "text-[#666E7D]/40 pointer-events-none"
                   : isSelected
-                  ? "bg-[#121417] text-[#F5EFEB] shadow-xs"
-                  : hasInterview
-                  ? "bg-[#DBE8FA] text-[#1E4F94] hover:bg-[#DBE8FA]/80 cursor-pointer font-bold"
-                  : "text-[#2B2F38] hover:bg-[#E5DDD4]/50"
+                    ? "bg-[#121417] text-[#F5EFEB] shadow-xs"
+                    : hasInterview
+                      ? "bg-[#DBE8FA] text-[#1E4F94] hover:bg-[#DBE8FA]/80 cursor-pointer font-bold"
+                      : "text-[#2B2F38] hover:bg-[#E5DDD4]/50"
               }`}
             >
               {day}
@@ -97,9 +103,22 @@ export function CalendarWidget() {
               {activeSchedule.status}
             </span>
           </div>
-          <p className="text-[11px] text-[#666E7D] leading-relaxed">
-            {activeSchedule.notes}
-          </p>
+          <label className="flex items-start gap-2 text-[11px] text-[#666E7D] leading-relaxed cursor-pointer mt-2">
+            <input
+              type="checkbox"
+              checked={Boolean(completed[selectedDay])}
+              onChange={() =>
+                setCompleted((prev) => ({
+                  ...prev,
+                  [selectedDay]: !prev[selectedDay],
+                }))
+              }
+              className="mt-0.5 accent-[#216143]"
+            />
+            <span className={completed[selectedDay] ? "line-through" : ""}>
+              {activeSchedule.notes}
+            </span>
+          </label>
         </div>
       ) : (
         <div className="bg-[#FFFFFF] border border-[#E5DDD4] rounded-lg p-3 text-center text-xs text-[#666E7D]">

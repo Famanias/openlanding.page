@@ -16,7 +16,8 @@ const SAMPLE_REPLIES: ReplyMessage[] = [
     id: "anthropic-1",
     sender: "Elena Rostova",
     company: "Anthropic",
-    preview: "Loved your distributed systems write-up. Are you available for a technical discussion this Wednesday?",
+    preview:
+      "Loved your distributed systems write-up. Are you available for a technical discussion this Wednesday?",
     timeAgo: "Just now",
     actionText: "Accept Call",
   },
@@ -24,7 +25,8 @@ const SAMPLE_REPLIES: ReplyMessage[] = [
     id: "linear-1",
     sender: "Karri Saarinen",
     company: "Linear",
-    preview: "Impressive attention to keyboard interactions. Let's schedule an intro with our product team.",
+    preview:
+      "Impressive attention to keyboard interactions. Let's schedule an intro with our product team.",
     timeAgo: "2h ago",
     actionText: "View Thread",
   },
@@ -32,7 +34,8 @@ const SAMPLE_REPLIES: ReplyMessage[] = [
     id: "figma-1",
     sender: "Dylan Field",
     company: "Figma",
-    preview: "Checked your engine demo. We have a founding role on canvas performance opening up.",
+    preview:
+      "Checked your engine demo. We have a founding role on canvas performance opening up.",
     timeAgo: "Yesterday",
     actionText: "Book Meeting",
   },
@@ -41,6 +44,7 @@ const SAMPLE_REPLIES: ReplyMessage[] = [
 export function ReplyFeedWidget() {
   const [replies, setReplies] = useState<ReplyMessage[]>([SAMPLE_REPLIES[0]]);
   const [index, setIndex] = useState<number>(1);
+  const [thread, setThread] = useState<string | null>(null);
 
   function simulateNewReply() {
     const nextMsg = SAMPLE_REPLIES[index % SAMPLE_REPLIES.length];
@@ -57,7 +61,9 @@ export function ReplyFeedWidget() {
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#E5DDD4]">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#216143] animate-ping" />
-            <span className="text-xs font-bold text-[#121417]">Live Recruiter Signal</span>
+            <span className="text-xs font-bold text-[#121417]">
+              Live Recruiter Signal
+            </span>
           </div>
           <button
             type="button"
@@ -68,7 +74,7 @@ export function ReplyFeedWidget() {
           </button>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2" aria-live="polite" aria-relevant="additions">
           {replies.map((reply) => (
             <div
               key={reply.id}
@@ -78,7 +84,9 @@ export function ReplyFeedWidget() {
                 <span className="text-xs font-bold text-[#121417]">
                   {reply.sender} at {reply.company}
                 </span>
-                <span className="text-[10px] text-[#666E7D]">{reply.timeAgo}</span>
+                <span className="text-[10px] text-[#666E7D]">
+                  {reply.timeAgo}
+                </span>
               </div>
               <p className="text-[11px] text-[#2B2F38] line-clamp-2 leading-relaxed mb-2">
                 &ldquo;{reply.preview}&rdquo;
@@ -89,18 +97,29 @@ export function ReplyFeedWidget() {
                 </span>
                 <button
                   type="button"
+                  aria-expanded={thread === reply.id}
+                  onClick={() =>
+                    setThread(thread === reply.id ? null : reply.id)
+                  }
                   className="text-[10px] font-bold text-[#121417] hover:underline"
                 >
                   {reply.actionText} &rarr;
                 </button>
               </div>
+              {thread === reply.id && (
+                <p className="text-[11px] text-[#666E7D] mt-3 border-t border-[#E5DDD4] pt-3">
+                  Sample thread with {reply.sender}. In the product, this is
+                  where you would review the conversation and choose a next
+                  step. No message or meeting is sent from this demo.
+                </p>
+              )}
             </div>
           ))}
         </div>
       </div>
 
       <div className="mt-3 text-[10px] text-[#666E7D] text-center">
-        Incoming replies trigger automated pipeline stage updates.
+        Sample inbox simulation. No email or calendar is connected.
       </div>
     </div>
   );

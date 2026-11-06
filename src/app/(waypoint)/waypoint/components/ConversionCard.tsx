@@ -1,109 +1,134 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
+import { ArrowUpRight, Check, NavigationArrow } from "@phosphor-icons/react";
 
-const COMPANY_PILLS = [
-  { name: "Linear", mark: "L", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "Stripe", mark: "S", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "Figma", mark: "F", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "Anthropic", mark: "A", style: "bg-[#DBE8FA] text-[#1E4F94] border-[#DBE8FA]" },
-  { name: "Vercel", mark: "▲", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "Airbnb", mark: "❖", style: "bg-[#FCE8DC] text-[#8A3E1B] border-[#FCE8DC]" },
-  { name: "Notion", mark: "N", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "OpenAI", mark: "✶", style: "bg-[#D8EADF] text-[#216143] border-[#D8EADF]" },
+const companies = [
+  "Linear",
+  "Stripe",
+  "Figma",
+  "Anthropic",
+  "Vercel",
+  "Airbnb",
 ];
 
 export function ConversionCard() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
-
+  const [employer, setEmployer] = useState("Anthropic");
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email || !email.includes("@") || !email.includes(".")) {
-      setError("Please provide a valid email address.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+      setError("Enter a valid email address, such as you@domain.com.");
       return;
     }
     setError("");
     setSubmitted(true);
   }
-
   return (
-    <div className="max-w-5xl mx-auto px-6 mb-16 relative z-10">
-      <div className="bg-[#FFFFFF] rounded-3xl p-8 sm:p-12 border border-[#E5DDD4] shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left Side: Form */}
-        <div className="lg:col-span-7">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#DBE8FA] text-xs font-bold text-[#1E4F94] mb-3">
-            Early Access &bull; Professional &amp; Studio
-          </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-[-0.035em] text-[#121417] leading-tight mb-3">
-            Give every outreach conversation a clear paper trail.
-          </h2>
-          <p className="text-sm text-[#2B2F38] leading-relaxed mb-6 max-w-lg">
-            Every cold pitch, follow-up ping, and technical interview in one calm interface, so you always know which conversations are moving forward.
+    <section id="early-access" className="wyp-conversion wyp-chapter">
+      <div className="wyp-container wyp-conversion-grid">
+        <div>
+          <p className="wyp-kicker">
+            <NavigationArrow size={16} weight="fill" /> Your next chapter starts
+            here
           </p>
-
+          <h2>
+            Give every outreach
+            <br />
+            conversation a<br />
+            clear paper trail.
+          </h2>
+          <p className="wyp-conversion-copy">
+            A little less scattered. A little more certain.
+            <br />
+            Make space for the work you want to do next.
+          </p>
           {submitted ? (
-            <div className="p-4 rounded-xl bg-[#D8EADF] border border-[#216143]/20 text-[#216143] text-sm font-semibold animate-in fade-in">
-              ✓ You&apos;re confirmed for early access! We&apos;ll notify you at <span className="font-bold">{email}</span>.
+            <div className="wyp-form-success" role="status">
+              <Check size={20} />
+              <div>
+                <strong>Your early access preview is ready.</strong>
+                <p>
+                  {email.trim()} is confirmed in this local demo. No signup or
+                  email has been sent.
+                </p>
+              </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-2">
-              <div className="flex flex-col sm:flex-row gap-2.5">
+            <form onSubmit={handleSubmit} noValidate className="wyp-email-form">
+              <label className="sr-only" htmlFor="early-access-email">
+                Email address
+              </label>
+              <div>
                 <input
+                  id="early-access-email"
                   type="email"
+                  autoComplete="email"
+                  maxLength={254}
+                  required
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    if (error) setError("");
+                    setError("");
                   }}
+                  aria-invalid={Boolean(error)}
+                  aria-describedby={
+                    error ? "early-access-error" : "early-access-note"
+                  }
                   placeholder="Enter your personal work email"
-                  className="flex-1 px-4 py-3 rounded-xl bg-[#FAF8F5] border border-[#D8D0C5] text-sm text-[#121417] placeholder-[#666E7D] focus:outline-none focus:ring-2 focus:ring-[#121417] transition"
                 />
-                <button
-                  type="submit"
-                  className="px-6 py-3 rounded-xl bg-[#121417] text-[#F5EFEB] text-sm font-bold shadow hover:bg-[#2B2F38] transition cursor-pointer shrink-0"
-                >
-                  Join early access
+                <button type="submit">
+                  Join early access <ArrowUpRight size={18} />
                 </button>
               </div>
               {error && (
-                <p className="text-xs font-medium text-[#8A3E1B] pl-1">{error}</p>
+                <p id="early-access-error" role="alert">
+                  {error}
+                </p>
               )}
             </form>
           )}
-
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-[11px] text-[#666E7D]">
-            <span>Starter stays free forever</span>
-            <span>•</span>
-            <span>No credit card required</span>
-            <span>•</span>
-            <span>Client-side encrypted</span>
-          </div>
-        </div>
-
-        {/* Right Side: Floating Company Pill Badges */}
-        <div className="lg:col-span-5 bg-[#FAF8F5] rounded-2xl p-6 border border-[#E5DDD4] flex flex-col justify-center items-center">
-          <div className="text-[11px] font-bold text-[#666E7D] uppercase tracking-wider mb-4 text-center">
-            Pitched &amp; Tracked In Waypoint
-          </div>
-          <div className="grid grid-cols-4 gap-3 w-full justify-items-center">
-            {COMPANY_PILLS.map((pill, i) => (
-              <div
-                key={i}
-                className={`w-12 h-12 rounded-full border shadow-2xs flex flex-col items-center justify-center font-bold transition-transform hover:scale-110 cursor-default ${pill.style}`}
-                title={pill.name}
-              >
-                <span className="text-sm">{pill.mark}</span>
-                <span className="text-[8px] font-semibold opacity-75">{pill.name}</span>
-              </div>
-            ))}
-          </div>
-          <p className="text-[10px] text-[#666E7D] mt-4 text-center">
-            Connects with direct engineering management directories.
+          <p className="wyp-form-note" id="early-access-note">
+            Starter stays free. No credit card required.
+            <br />
+            Local demo only · No information is transmitted.
           </p>
         </div>
+        <div className="wyp-destination">
+          <span className="wyp-destination-route" aria-hidden="true" />
+          <NavigationArrow
+            className="wyp-destination-mark"
+            size={36}
+            weight="light"
+          />
+          <p>
+            Where do you want
+            <br />
+            to go next?
+          </p>
+          <div className="wyp-employer-grid">
+            {companies.map((name) => (
+              <button
+                key={name}
+                type="button"
+                aria-pressed={employer === name}
+                onClick={() => setEmployer(name)}
+              >
+                {name}
+                <ArrowUpRight size={14} />
+              </button>
+            ))}
+          </div>
+          <div className="wyp-employer-readout" role="status">
+            Your next possibility: <strong>{employer}</strong>
+          </div>
+          <small>
+            Illustrative destinations. No affiliation or endorsement.
+          </small>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

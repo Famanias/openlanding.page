@@ -25,6 +25,7 @@
     "process-clips": "tsx scripts/process-clips.ts"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@phosphor-icons/react": "^2.1.10",
     "@upstash/ratelimit": "^2.2.0",
     "@upstash/redis": "^1.40.0",

@@ -1,7 +1,11 @@
 <template slug="waypoint" name="Waypoint">
   <dependencies>
     {
-      "dependencies": {}
+      "dependencies": {
+        "gsap": "^3.15.0",
+        "@gsap/react": "^2.1.2",
+        "@phosphor-icons/react": "^2.1.10"
+      }
     }
   </dependencies>
   <instructions>
@@ -10,12 +14,12 @@
   <files>
     <file path="src/app/(waypoint)/layout.tsx">
 <![CDATA[import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./waypoint/waypoint.css";
 
-const inter = Inter({
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-jetbrains",
   display: "swap",
 });
 
@@ -27,10 +31,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Waypoint — Direct Career Outreach & Pipeline Deck",
-  description: "Waypoint turns unstructured job hunting into an intentional, visual career pipeline for senior software engineers and product designers.",
+  description:
+    "Waypoint turns unstructured job hunting into an intentional, visual career pipeline for senior software engineers and product designers.",
   openGraph: {
     title: "Waypoint — Direct Career Outreach & Pipeline Deck",
-    description: "Waypoint turns unstructured job hunting into an intentional, visual career pipeline for senior software engineers and product designers.",
+    description:
+      "Waypoint turns unstructured job hunting into an intentional, visual career pipeline for senior software engineers and product designers.",
     type: "website",
   },
   twitter: {
@@ -50,7 +56,10 @@ export default function WaypointLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable} scroll-smooth`}>
+    <html
+      lang="en"
+      className={`${jetbrains.variable} ${plusJakartaSans.variable} scroll-smooth`}
+    >
       <head>
         <noscript>
           <style>{`[data-reveal] { opacity: 1 !important; transform: none !important; }`}</style>
@@ -232,27 +241,2378 @@ export default function WaypointPage() {
 <![CDATA[@import "tailwindcss";
 
 @theme {
-  --color-wyp-canvas: #EDE6DF;
-  --color-wyp-hero: #F5EFEB;
-  --color-wyp-surface-tint: #E5DDD4;
-  --color-wyp-card: #FFFFFF;
-  --color-wyp-card-subtle: #FAF8F5;
+  --color-wyp-canvas: #ede6df;
+  --color-wyp-hero: #f5efeb;
+  --color-wyp-surface-tint: #e5ddd4;
+  --color-wyp-card: #ffffff;
+  --color-wyp-card-subtle: #faf8f5;
 
   --color-wyp-obsidian: #121417;
-  --color-wyp-charcoal: #2B2F38;
-  --color-wyp-slate: #666E7D;
+  --color-wyp-charcoal: #2b2f38;
+  --color-wyp-slate: #666e7d;
 
-  --color-wyp-sage: #D8EADF;
-  --color-wyp-sky: #DBE8FA;
-  --color-wyp-apricot: #FCE8DC;
-  --color-wyp-lavender: #ECE6F6;
-  --color-wyp-colophon: #16181D;
+  --color-wyp-sage: #d8eadf;
+  --color-wyp-sky: #dbe8fa;
+  --color-wyp-apricot: #fce8dc;
+  --color-wyp-lavender: #ece6f6;
+  --color-wyp-colophon: #16181d;
 
-  --font-display: var(--font-jakarta), var(--font-inter), system-ui, -apple-system, sans-serif;
-  --font-body: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-jakarta), system-ui, sans-serif;
+  --font-body: var(--font-jakarta), system-ui, sans-serif;
 
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* A calm field guide, built on the original Waypoint paper palette. */
+.wyp-page {
+  --wyp-paper: #f5efeb;
+  --wyp-line: #d8d0c5;
+  --wyp-muted: #666e7d;
+  --wyp-ink: #121417;
+  --wyp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  font-size: 14px;
+}
+.wyp-page main {
+  overflow: clip;
+}
+.wyp-page * {
+  box-sizing: border-box;
+}
+.wyp-page h1,
+.wyp-page h2,
+.wyp-page h3 {
+  text-wrap: balance;
+}
+.wyp-page p {
+  text-wrap: pretty;
+}
+.wyp-page button,
+.wyp-page a {
+  -webkit-tap-highlight-color: transparent;
+}
+.wyp-page button {
+  cursor: pointer;
+}
+.wyp-page button:active,
+.wyp-button:active {
+  transform: translateY(1px);
+}
+.wyp-page :focus-visible {
+  outline: 2px solid #1e4f94;
+  outline-offset: 5px;
+}
+.wyp-page [id] {
+  scroll-margin-top: 110px;
+}
+.wyp-container {
+  width: min(1200px, calc(100% - 96px));
+  margin-inline: auto;
+}
+.wyp-chapter {
+  padding-block: 144px;
+}
+.wyp-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #535964;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+.wyp-page .wyp-chapter h2 {
+  font-size: clamp(36px, 4.2vw, 60px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+.wyp-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  padding-block: 8px;
+}
+.wyp-text-link svg {
+  transition: transform 0.4s var(--wyp-ease);
+}
+.wyp-text-link:hover svg {
+  transform: translate(3px, -3px);
+}
+.wyp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  border-radius: 8px;
+  padding: 16px 24px;
+  min-height: 52px;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    background 0.3s,
+    box-shadow 0.3s,
+    transform 0.4s var(--wyp-ease);
+}
+.wyp-button-dark {
+  background: #121417;
+  color: #f5efeb;
+}
+.wyp-button-dark:hover {
+  background: #2b2f38;
+  box-shadow: 0 4px 16px #12141715;
+}
+.wyp-button-light {
+  background: #faf8f5dd;
+  color: #121417;
+  border: 1px solid #d8d0c5;
+}
+.wyp-button-light:hover {
+  background: #fff;
+}
+.wyp-status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #216143;
+  flex-shrink: 0;
+}
+.wyp-skip-link {
+  position: fixed;
+  left: 24px;
+  top: -80px;
+  z-index: 100;
+  background: #121417;
+  color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+}
+.wyp-skip-link:focus {
+  top: 12px;
+}
+
+/* Landscape, split-line entrance, and a working planar flight deck. */
+.wyp-hero {
+  position: relative;
+  padding: 164px 0 64px;
+  background: #f5efeb;
+  isolation: isolate;
+}
+.wyp-hero-landscape {
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0;
+  background: url("/templates/waypoint/hero-bg-1920.webp") center 40% / cover
+    no-repeat;
+  opacity: 0.64;
+  mask-image: linear-gradient(#0009, #000 62%, transparent 98%);
+  pointer-events: none;
+}
+.wyp-hero-copy {
+  text-align: center;
+}
+.wyp-hero-intro {
+  font-size: 12px;
+  margin-bottom: 28px;
+  color: #535964;
+}
+.wyp-hero h1 {
+  font-size: clamp(48px, 6.2vw, 88px);
+  letter-spacing: -0.065em;
+  font-weight: 500;
+  line-height: 1.08;
+  margin: 0 auto 28px;
+}
+.wyp-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.wyp-line > span {
+  display: block;
+}
+.wyp-hero-description {
+  max-width: 510px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #2b2f38;
+}
+.wyp-hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+.wyp-hero-deck {
+  position: relative;
+  margin-top: 80px;
+  max-width: 1104px;
+}
+.wyp-deck-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #535964;
+  margin: 0 4px 16px;
+}
+.wyp-deck-caption > span:last-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wyp-dashboard {
+  padding: 24px;
+  border-radius: 14px;
+  background: #faf8f5;
+  border: 1px solid #d8d0c5;
+  box-shadow: 0 20px 70px -30px #69534545;
+  text-align: left;
+}
+.wyp-dashboard-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 24px;
+}
+.wyp-dashboard-title {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+}
+.wyp-dashboard-title > span {
+  color: #666e7d;
+  font-size: 11px;
+}
+.wyp-dashboard-title svg {
+  color: #8a3e1b;
+}
+.wyp-reset {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  padding: 8px 12px;
+  border: 1px solid #d8d0c5;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+.wyp-reset:hover {
+  background: #ede6df;
+}
+.wyp-board-columns {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.wyp-board-column {
+  min-width: 0;
+  padding: 12px;
+  background: #ede6df80;
+  border-radius: 8px;
+  min-height: 280px;
+}
+.wyp-column-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  margin-bottom: 16px;
+}
+.wyp-column-heading strong {
+  font-weight: 600;
+}
+.wyp-column-heading > span:nth-last-child(2) {
+  font-family: var(--font-jetbrains), monospace;
+  color: #666e7d;
+}
+.wyp-column-heading svg {
+  margin-left: auto;
+}
+.wyp-stage-dot {
+  height: 6px;
+  width: 6px;
+  border: 1px solid #666e7d;
+  border-radius: 50%;
+}
+.wyp-stage-1 {
+  background: #dbe8fa;
+  border-color: #1e4f94;
+}
+.wyp-stage-2 {
+  background: #fce8dc;
+  border-color: #8a3e1b;
+}
+.wyp-stage-3 {
+  background: #d8eadf;
+  border-color: #216143;
+}
+.wyp-column-cards {
+  display: grid;
+  gap: 8px;
+}
+.wyp-company-card {
+  background: #fff;
+  border: 1px solid #d8d0c580;
+  border-radius: 6px;
+  text-align: left;
+  padding: 16px 12px 12px;
+  width: 100%;
+  transition:
+    transform 0.4s var(--wyp-ease),
+    box-shadow 0.4s;
+}
+.wyp-company-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px #69534512;
+}
+.wyp-company-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #ece6f6;
+  color: #4b3878;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.wyp-mark-anthropic {
+  background: #e5ddd4;
+  color: #121417;
+}
+.wyp-mark-vercel {
+  background: #121417;
+  color: #fff;
+}
+.wyp-mark-figma {
+  background: #fce8dc;
+  color: #8a3e1b;
+}
+.wyp-mark-stripe {
+  background: #dbe8fa;
+  color: #1e4f94;
+}
+.wyp-company-card > strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.wyp-company-card p {
+  font-size: 10px;
+  color: #535964;
+  margin-top: 4px;
+}
+.wyp-card-contact {
+  display: block;
+  color: #666e7d;
+  font-size: 9px;
+  margin-top: 12px;
+}
+.wyp-card-highlight {
+  display: inline-block;
+  font-size: 9px;
+  margin-top: 12px;
+  padding: 4px 6px;
+  background: #d8eadf;
+  color: #216143;
+  border-radius: 3px;
+}
+.wyp-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+  color: #666e7d;
+  border-top: 1px solid #ede6df;
+  margin-top: 12px;
+  padding-top: 8px;
+}
+.wyp-empty-column {
+  padding: 24px 4px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #666e7d;
+}
+.wyp-board-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  gap: 12px;
+  font-size: 9px;
+  color: #666e7d;
+}
+.wyp-board-footer > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wyp-horizon {
+  margin: 64px auto 0;
+  width: 1px;
+  height: 80px;
+  background: #d8d0c5;
+  position: relative;
+}
+.wyp-horizon span {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border: 1px solid #8a3e1b;
+  background: #f5efeb;
+  border-radius: 50%;
+  left: -3px;
+  top: 0;
+}
+
+/* Wide product panorama. All text is real DOM, backed by the supplied contour art. */
+.wyp-panorama {
+  background: #f5efeb;
+  padding-top: 48px;
+}
+.wyp-panorama-heading,
+.wyp-lab-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 48px;
+  margin-bottom: 56px;
+}
+.wyp-panorama-heading > p,
+.wyp-lab-heading > p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #535964;
+  width: 300px;
+  padding-bottom: 4px;
+}
+.wyp-panorama-heading .wyp-text-link {
+  margin-top: 16px;
+  color: #121417;
+}
+.wyp-panorama-artboard {
+  padding: 56px;
+  border-radius: 16px;
+  background: #e5ddd4 url("/templates/waypoint/topographic-1600.webp") center /
+    cover;
+}
+.wyp-workspace {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  background: #faf8f5;
+  border: 1px solid #c5b9ac;
+  border-radius: 10px;
+  box-shadow: 0 16px 32px #69534520;
+  overflow: hidden;
+}
+.wyp-workspace-sidebar {
+  background: #ede6df80;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+  font-size: 10px;
+  color: #666e7d;
+}
+.wyp-workspace-sidebar > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: #121417;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.wyp-workspace-sidebar > p {
+  font-size: 9px;
+}
+.wyp-workspace-sidebar > strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #121417;
+  font-weight: 500;
+  background: #e5ddd4;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 0 -6px;
+}
+.wyp-workspace-aside-note {
+  margin-top: auto;
+  padding-top: 40px;
+  color: #535964;
+}
+.wyp-workspace-aside-note p {
+  margin-top: 12px;
+  font-size: 10px;
+  line-height: 1.8;
+}
+.wyp-workspace-content {
+  padding: 24px 32px 16px;
+}
+.wyp-workspace-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #666e7d;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5ddd4;
+}
+.wyp-workspace-welcome {
+  margin-block: 28px;
+}
+.wyp-workspace-welcome h3 {
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1.15;
+}
+.wyp-workspace-welcome p {
+  font-size: 11px;
+  color: #666e7d;
+  margin-top: 12px;
+}
+.wyp-overview-grid {
+  display: grid;
+  grid-auto-flow: dense;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+}
+.wyp-overview-opportunities,
+.wyp-overview-next {
+  padding: 16px;
+  border: 1px solid #d8d0c580;
+  border-radius: 8px;
+  background: #fff;
+}
+.wyp-tiny {
+  font-size: 10px;
+  color: #666e7d;
+  font-weight: 500;
+}
+.wyp-opportunity-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 16px;
+  border-bottom: 1px solid #ede6df;
+}
+.wyp-opportunity-row:last-of-type {
+  border-bottom: 0;
+}
+.wyp-opportunity-row > div {
+  min-width: 0;
+}
+.wyp-opportunity-row strong {
+  font-size: 11px;
+  font-weight: 600;
+}
+.wyp-opportunity-row p {
+  font-size: 9px;
+  margin-top: 3px;
+  color: #666e7d;
+}
+.wyp-opportunity-row > span:last-child {
+  margin-left: auto;
+  font-size: 8px;
+  border-radius: 4px;
+  background: #ede6df;
+  padding: 5px 6px;
+  white-space: nowrap;
+}
+.wyp-date-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-block: 20px;
+}
+.wyp-date-display strong {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 44px;
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+.wyp-date-display span {
+  font-size: 10px;
+  color: #666e7d;
+  line-height: 1.8;
+}
+.wyp-overview-next h4 {
+  font-size: 11px;
+  font-weight: 600;
+}
+.wyp-overview-next > p {
+  font-size: 10px;
+  color: #666e7d;
+  margin-top: 8px;
+}
+.wyp-prepared {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: #216143;
+  margin-top: 20px;
+}
+.wyp-workspace-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+  padding-top: 20px;
+  color: #666e7d;
+}
+.wyp-workspace-bottom span {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.wyp-panorama-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  color: #666e7d;
+  font-size: 10px;
+  margin-top: 20px;
+}
+
+/* A measured four-stop route. GSAP pins only on sufficiently tall desktop screens. */
+.wyp-story {
+  background: #ede6df;
+}
+.wyp-editorial-heading {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 48px;
+  align-items: end;
+  margin-bottom: 80px;
+}
+.wyp-editorial-heading .wyp-kicker {
+  grid-column: 1/-1;
+}
+.wyp-editorial-heading > p:last-child {
+  justify-self: end;
+  font-size: 14px;
+  line-height: 1.9;
+  width: 300px;
+  color: #535964;
+}
+.wyp-story-body {
+  display: grid;
+  grid-template-columns: 0.85fr 1.3fr;
+  column-gap: 96px;
+  align-items: start;
+}
+.wyp-story-step {
+  min-height: 68vh;
+  padding: 48px 0 120px 32px;
+  position: relative;
+  border-left: 1px solid #d8d0c5;
+}
+.wyp-story-step:last-child {
+  min-height: 600px;
+  padding-bottom: 200px;
+}
+.wyp-story-step-button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  text-align: left;
+  color: #666e7d;
+  font-size: 12px;
+  margin-bottom: 32px;
+}
+.wyp-story-step-button > svg {
+  margin-left: auto;
+}
+.wyp-route-marker {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #d8d0c5;
+  background: #ede6df;
+  border-radius: 50%;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -49px;
+  transition:
+    background 0.4s,
+    color 0.4s;
+}
+.is-active .wyp-route-marker {
+  background: #121417;
+  color: #fff;
+  border-color: #121417;
+}
+.wyp-story-step h3 {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.05em;
+  margin-bottom: 24px;
+}
+.wyp-story-step > p {
+  font-size: 14px;
+  line-height: 1.85;
+  color: #535964;
+  max-width: 320px;
+}
+.wyp-story-step > a {
+  margin-top: 24px;
+}
+.wyp-mobile-story-visual {
+  display: none;
+}
+.wyp-story-canvas {
+  width: 100%;
+  min-height: 500px;
+  border-radius: 12px;
+  background: #e5ddd4 url("/templates/waypoint/topographic-800.webp") center /
+    cover;
+  padding: 24px;
+}
+.wyp-canvas-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #535964;
+  margin-bottom: 24px;
+}
+.wyp-canvas-label > span:last-child {
+  font-family: var(--font-jetbrains), monospace;
+}
+.wyp-story-visual-frame {
+  position: relative;
+  min-height: 385px;
+}
+.wyp-story-visual {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(14px);
+  clip-path: inset(0 0 0 10%);
+  transition:
+    opacity 0.45s var(--wyp-ease),
+    transform 0.6s var(--wyp-ease),
+    clip-path 0.6s var(--wyp-ease),
+    visibility 0.45s;
+}
+.wyp-story-visual.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  clip-path: inset(0);
+}
+.wyp-story-ui {
+  background: #faf8f5;
+  border: 1px solid #d8d0c5;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 385px;
+  box-shadow: 0 8px 24px #69534515;
+}
+.wyp-ui-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e5ddd4;
+}
+.wyp-ui-top > span:last-child {
+  margin-left: auto;
+  color: #666e7d;
+  font-size: 9px;
+}
+.wyp-week {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin: 20px;
+}
+.wyp-week > div {
+  border: 1px solid #e5ddd4;
+  border-radius: 6px;
+  text-align: center;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.wyp-week span {
+  font-size: 9px;
+  color: #666e7d;
+}
+.wyp-week strong {
+  font-size: 20px;
+  font-weight: 500;
+}
+.wyp-week i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #d8d0c5;
+}
+.wyp-week .is-today {
+  background: #121417;
+  color: #f5efeb;
+  border-color: #121417;
+}
+.wyp-week .is-today span {
+  color: #e5ddd4;
+}
+.wyp-week .is-today i {
+  background: #d8eadf;
+}
+.wyp-round {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 20px;
+}
+.wyp-round h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.wyp-round p {
+  font-size: 10px;
+  color: #666e7d;
+  margin-top: 4px;
+}
+.wyp-prep-list {
+  margin: 20px;
+  border-top: 1px solid #e5ddd4;
+  padding-top: 14px;
+  font-size: 10px;
+  color: #535964;
+}
+.wyp-prep-list > span {
+  font-size: 9px;
+  color: #666e7d;
+}
+.wyp-prep-list p {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+.wyp-prep-list svg {
+  color: #216143;
+}
+.wyp-check-empty {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #d8d0c5;
+  border-radius: 2px;
+  margin-inline: 2px;
+}
+.wyp-ui-foot {
+  font-size: 9px;
+  color: #666e7d;
+  border-top: 1px solid #e5ddd4;
+  padding: 14px 20px;
+  margin-top: 16px;
+}
+.wyp-story-progress {
+  display: flex;
+  gap: 8px;
+  margin: 24px auto 12px;
+  width: min(340px, 100%);
+}
+.wyp-story-progress button {
+  flex: 1;
+  height: 36px;
+  min-width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #d8d0c580;
+  border-radius: 4px;
+  transition:
+    flex 0.45s var(--wyp-ease),
+    background 0.3s;
+}
+.wyp-story-progress button > span:first-child {
+  display: block;
+  background: #faf8f5;
+  border-radius: 4px;
+  height: 3px;
+  width: 16px;
+  flex-shrink: 0;
+  transition: background 0.4s;
+}
+.wyp-story-progress button > .is-complete {
+  background: #8a3e1b;
+}
+.wyp-progress-label {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 9px;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+}
+.wyp-story-progress button:hover,
+.wyp-story-progress button:focus-visible,
+.wyp-story-progress button[aria-pressed="true"] {
+  flex: 2.4;
+  background: #faf8f5a0;
+}
+.wyp-story-progress
+  button:is(:hover, :focus-visible, [aria-pressed="true"])
+  .wyp-progress-label {
+  max-width: 80px;
+  opacity: 1;
+}
+.wyp-canvas-footnote {
+  font-size: 9px;
+  text-align: center;
+  color: #535964;
+}
+.wyp-flow-path {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 20px;
+  font-size: 10px;
+  color: #666e7d;
+}
+.wyp-flow-path svg {
+  width: 14px;
+}
+.wyp-mini-pipeline .wyp-opportunity-row {
+  margin-inline: 20px;
+  padding-block: 20px;
+}
+.wyp-mini-pipeline .wyp-ui-foot {
+  margin-top: 20px;
+}
+.wyp-message-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 20px;
+}
+.wyp-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  background: #d8eadf;
+  border-radius: 50%;
+  font-size: 11px;
+  color: #216143;
+}
+.wyp-message-meta strong {
+  font-size: 11px;
+}
+.wyp-message-meta p {
+  font-size: 9px;
+  color: #666e7d;
+  margin-top: 4px;
+}
+.wyp-message-meta > span:last-child {
+  margin-left: auto;
+  font-size: 9px;
+  color: #666e7d;
+}
+.wyp-letter {
+  margin-inline: 20px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e5ddd4;
+  border-radius: 6px;
+}
+.wyp-letter > span {
+  font-size: 9px;
+  color: #666e7d;
+}
+.wyp-letter > p {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-top: 16px;
+  letter-spacing: -0.02em;
+}
+.wyp-message-route {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 9px;
+  margin-top: 24px;
+}
+.wyp-message-route > span:nth-child(2) {
+  flex: 1;
+  height: 1px;
+  background: #d8d0c5;
+}
+.wyp-message-route strong {
+  background: #d8eadf;
+  color: #216143;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.wyp-story-privacy {
+  text-align: center;
+}
+.wyp-lock-orbit {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  display: grid;
+  place-items: center;
+  margin: 28px auto 20px;
+}
+.wyp-lock-orbit span {
+  border-radius: 50%;
+  border: 1px solid #d8d0c5;
+  position: absolute;
+  inset: 0;
+}
+.wyp-lock-orbit span:last-child {
+  inset: 12px;
+  border-style: dashed;
+}
+.wyp-story-privacy h4 {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+.wyp-story-privacy > p {
+  color: #666e7d;
+  font-size: 11px;
+  line-height: 1.8;
+  margin-top: 12px;
+}
+.wyp-cipher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  margin: 16px 20px;
+  padding: 12px;
+  border: 1px solid #d8d0c5;
+  border-radius: 4px;
+  color: #666e7d;
+}
+
+/* Existing functional widgets, with optional keyboard-controlled focus. */
+.wyp-lab {
+  background: #f5efeb;
+}
+.wyp-lab-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 16px;
+  border-block: 1px solid #d8d0c5;
+  margin-bottom: 32px;
+}
+.wyp-lab-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wyp-lab-tabs > button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+.wyp-lab-tabs > button:hover {
+  background: #ede6df;
+}
+.wyp-lab-tabs > button[aria-selected="true"] {
+  background: #121417;
+  color: #f5efeb;
+}
+.wyp-all-tools {
+  border: 1px solid #d8d0c5;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.wyp-all-tools.is-active {
+  background: #ede6df;
+}
+.wyp-lab-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  gap: 20px;
+}
+.wyp-lab-card {
+  background: #fff;
+  padding: 32px;
+  border: 1px solid #d8d0c5;
+  border-radius: 10px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.wyp-lab-card[hidden] {
+  display: none;
+}
+.wyp-lab-card > div:last-child {
+  margin-top: auto;
+  min-width: 0;
+}
+.wyp-lab-grid.is-focused {
+  grid-template-columns: 1fr;
+}
+.is-focused .wyp-lab-card {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 64px;
+  align-items: center;
+}
+.is-focused .wyp-lab-card[hidden] {
+  display: none;
+}
+.wyp-tool-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d8d0c5;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+.wyp-lab-card h3 {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+.wyp-lab-card-copy > p {
+  color: #666e7d;
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 12px;
+  max-width: 340px;
+}
+.wyp-lab-disclaimer {
+  font-size: 10px;
+  color: #666e7d;
+  margin-top: 24px;
+}
+
+/* Paper trail: a drawn route, stacked sheets, and manually selected context. */
+.wyp-paper-trail {
+  background: #ede6df;
+}
+.wyp-page .wyp-statement {
+  font-size: clamp(40px, 5.8vw, 80px);
+  max-width: 1100px;
+  line-height: 1.13;
+  letter-spacing: -0.06em;
+  margin-bottom: 64px;
+}
+.wyp-inline-landscape {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 12px;
+  width: 120px;
+  height: 52px;
+  border-radius: 50px;
+  background: url("/templates/waypoint/hero-bg-1920.webp") 25% 65% / 240%;
+  border: 1px solid #d8d0c5;
+}
+.wyp-paper-layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: 120px;
+  align-items: center;
+}
+.wyp-paper-intro {
+  font-size: 14px;
+  color: #535964;
+  line-height: 1.9;
+  max-width: 360px;
+}
+.wyp-timeline {
+  position: relative;
+  margin-top: 40px;
+}
+.wyp-timeline-line {
+  position: absolute;
+  left: 15px;
+  top: 30px;
+  bottom: 30px;
+  width: 1px;
+  background: #d8d0c5;
+}
+.wyp-timeline-line span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #8a3e1b;
+}
+.wyp-timeline-moment {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-block: 16px;
+  text-align: left;
+}
+.wyp-timeline-moment > span {
+  display: grid;
+  place-items: center;
+  background: #ede6df;
+  border: 1px solid #d8d0c5;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 9px;
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+.wyp-timeline-moment.is-selected > span {
+  background: #121417;
+  border-color: #121417;
+  color: #fff;
+}
+.wyp-timeline-moment strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+}
+.wyp-timeline-moment small {
+  display: block;
+  color: #666e7d;
+  font-size: 10px;
+  margin-top: 4px;
+}
+.wyp-timeline-moment > svg {
+  margin-left: auto;
+  color: #666e7d;
+}
+.wyp-note-stack {
+  position: relative;
+  margin: 24px 0 0;
+}
+.wyp-note-under {
+  position: absolute;
+  inset: -12px 12px 12px;
+  border: 1px solid #d8d0c5;
+  border-radius: 8px;
+  background: #faf8f5;
+}
+.wyp-note-under:nth-child(2) {
+  inset: -24px 24px 24px;
+}
+.wyp-journal {
+  position: relative;
+  border: 1px solid #d8d0c5;
+  background: #faf8f5;
+  border-radius: 8px;
+  padding: 24px 32px;
+  box-shadow: 0 16px 32px #69534510;
+}
+.wyp-journal-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: #666e7d;
+  border-bottom: 1px solid #e5ddd4;
+  padding-bottom: 24px;
+}
+.wyp-journal-top > span:last-child {
+  margin-left: auto;
+  font-size: 9px;
+}
+.wyp-journal-entry {
+  min-height: 310px;
+  padding-top: 32px;
+  animation: wyp-note-in 0.4s var(--wyp-ease);
+}
+.wyp-journal-entry h3 {
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1.15;
+  margin: 16px 0 20px;
+}
+.wyp-journal-entry > p:not(.wyp-tiny) {
+  font-size: 13px;
+  color: #535964;
+  line-height: 1.9;
+}
+.wyp-journal-next {
+  border-top: 1px solid #d8d0c5;
+  padding-top: 20px;
+  margin-top: 24px;
+}
+.wyp-journal-next p {
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 8px;
+}
+.wyp-journal-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e5ddd4;
+  padding-top: 24px;
+  margin-top: 24px;
+  gap: 12px;
+}
+.wyp-journal-controls > span {
+  font-size: 9px;
+  color: #666e7d;
+}
+.wyp-journal-controls > div {
+  display: flex;
+  gap: 8px;
+}
+.wyp-journal-controls button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d8d0c5;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+.wyp-journal-controls button:hover {
+  background: #ede6df;
+}
+@keyframes wyp-note-in {
+  from {
+    opacity: 0.25;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Quiet decision chapters keep the original prices and controls. */
+.wyp-page #pricing {
+  padding-block: 144px;
+  background: #f5efeb;
+  border-top: 1px solid #d8d0c550;
+}
+.wyp-page #pricing h2,
+.wyp-page #faq h2 {
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+.wyp-page #pricing > div > div:first-child > div:first-child,
+.wyp-page #faq > div > div:first-child > div:first-child {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-weight: 500;
+  color: #666e7d;
+  border-radius: 0;
+}
+.wyp-page #pricing > div > div:nth-child(2) {
+  gap: 16px;
+  max-width: 1200px;
+}
+.wyp-page #pricing > div > div:nth-child(2) > div {
+  box-shadow: none;
+  transform: none;
+  border-radius: 10px;
+  padding: 32px 24px;
+}
+.wyp-page #pricing h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.wyp-page #pricing [data-odometer-value] {
+  font-weight: 500;
+}
+.wyp-page #pricing .border-2 {
+  border-width: 1px;
+  border-color: #121417;
+  background: #ede6df70;
+}
+.wyp-page #pricing .border-2 a {
+  background: #121417;
+  color: #f5efeb;
+}
+.wyp-page #pricing h3 + span {
+  font-size: 9px;
+  padding: 4px 8px;
+}
+.wyp-page #pricing .text-4xl {
+  font-size: 48px;
+}
+.wyp-page #faq {
+  padding-block: 128px;
+  background: #f5efeb;
+}
+.wyp-page #faq > div {
+  max-width: 1000px;
+}
+.wyp-page #faq > div > div:first-child {
+  text-align: left;
+  max-width: none;
+  margin-left: 0;
+}
+.wyp-page #faq > div > div:last-child {
+  border-top: 1px solid #d8d0c5;
+}
+.wyp-page #faq > div > div:last-child > div {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #d8d0c5;
+  box-shadow: none;
+  background: transparent;
+  border-radius: 0;
+}
+.wyp-page #faq button {
+  padding: 24px 0;
+}
+.wyp-page #faq button > span:first-child {
+  font-weight: 500;
+}
+.wyp-page #faq [role="region"] > div > div {
+  padding-left: 0;
+  padding-right: 40px;
+  border: 0;
+  max-width: 720px;
+}
+
+/* The route resolves into a paper invitation and the original ink footer. */
+.wyp-conversion {
+  position: relative;
+  background: #ede6df;
+  isolation: isolate;
+}
+.wyp-conversion::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: url("/templates/waypoint/topographic-1600.webp") center / cover;
+  opacity: 0.28;
+  mask-image: linear-gradient(90deg, transparent, #000);
+}
+.wyp-conversion-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+.wyp-page .wyp-conversion h2 {
+  font-size: clamp(36px, 4.2vw, 60px);
+  letter-spacing: -0.055em;
+}
+.wyp-conversion-copy {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #535964;
+  margin-top: 28px;
+}
+.wyp-email-form {
+  margin-top: 32px;
+}
+.wyp-email-form > div {
+  display: flex;
+  gap: 8px;
+}
+.wyp-email-form input {
+  background: #faf8f5;
+  border: 1px solid #d8d0c5;
+  border-radius: 6px;
+  width: 100%;
+  min-width: 0;
+  padding: 16px;
+  font-size: 11px;
+}
+.wyp-email-form button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  background: #121417;
+  color: #f5efeb;
+  border-radius: 6px;
+  padding: 16px 20px;
+  font-size: 11px;
+  white-space: nowrap;
+  transition: background 0.3s;
+}
+.wyp-email-form button:hover {
+  background: #2b2f38;
+}
+.wyp-email-form > p {
+  color: #8a3e1b;
+  font-size: 12px;
+  margin-top: 12px;
+}
+.wyp-form-note {
+  font-size: 10px;
+  color: #666e7d;
+  line-height: 1.9;
+  margin-top: 20px;
+}
+.wyp-form-success {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  color: #216143;
+  background: #d8eadf;
+  border: 1px solid #21614330;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 32px;
+  font-size: 12px;
+}
+.wyp-form-success svg {
+  flex-shrink: 0;
+}
+.wyp-form-success p {
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.8;
+}
+.wyp-destination {
+  position: relative;
+  text-align: center;
+  padding: 48px 32px;
+  border: 1px solid #d8d0c5;
+  border-radius: 160px 160px 12px 12px;
+  background: #f5efeb80;
+}
+.wyp-destination-mark {
+  margin: 8px auto 24px;
+}
+.wyp-destination > p {
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+  margin-bottom: 32px;
+}
+.wyp-employer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.wyp-employer-grid button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  font-size: 11px;
+  border: 1px solid #d8d0c5;
+  border-radius: 6px;
+  background: #faf8f5;
+  transition:
+    background 0.3s,
+    transform 0.4s var(--wyp-ease);
+}
+.wyp-employer-grid button:hover {
+  transform: translateY(-2px);
+}
+.wyp-employer-grid button[aria-pressed="true"] {
+  background: #121417;
+  color: #f5efeb;
+  border-color: #121417;
+}
+.wyp-employer-readout {
+  margin-top: 24px;
+  font-size: 10px;
+  color: #535964;
+}
+.wyp-destination > small {
+  display: block;
+  font-size: 9px;
+  color: #666e7d;
+  margin-top: 16px;
+  line-height: 1.7;
+}
+.wyp-page footer {
+  padding-block: 80px 32px;
+}
+.wyp-page footer > div {
+  max-width: 1296px;
+}
+.wyp-page footer .font-black {
+  font-weight: 500;
+  color: #f5efeb12;
+  font-size: clamp(80px, 17vw, 250px);
+  letter-spacing: -0.07em;
+}
+.wyp-page footer .font-extrabold {
+  font-weight: 500;
+}
+.wyp-page footer button:hover {
+  color: white;
+}
+.wyp-dialog {
+  background: #faf8f5;
+  border: 1px solid #d8d0c5;
+  border-radius: 12px;
+  padding: 40px;
+  width: min(520px, calc(100% - 32px));
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  margin: auto;
+  box-shadow: 0 24px 96px #12141740;
+  color: #121417;
+}
+.wyp-dialog::backdrop {
+  background: #12141766;
+  backdrop-filter: blur(8px);
+}
+.wyp-dialog-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 8px;
+}
+.wyp-dialog h2 {
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  padding-right: 16px;
+}
+.wyp-dialog h3 {
+  margin-top: 24px;
+  font-size: 20px;
+}
+.wyp-dialog p:not(.wyp-kicker) {
+  font-size: 13px;
+  color: #535964;
+  line-height: 1.8;
+  margin-block: 20px;
+}
+.wyp-dialog form {
+  margin-top: 24px;
+}
+.wyp-dialog label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  margin-block: 16px 8px;
+}
+.wyp-dialog input {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #d8d0c5;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 13px;
+}
+.wyp-dialog .wyp-button {
+  margin-top: 24px;
+  width: 100%;
+}
+.wyp-dialog small {
+  display: block;
+  font-size: 10px;
+  color: #666e7d;
+  margin-top: 20px;
+}
+.wyp-dialog [role="alert"] {
+  color: #8a3e1b !important;
+}
+
+@media (min-width: 768px) {
+  .wyp-page > header {
+    left: 24px;
+    right: 24px;
+    top: 16px;
+    border: 1px solid #d8d0c5a0;
+    border-radius: 10px;
+    background: #f5efebdd;
+  }
+  .wyp-page > header > div {
+    max-width: 1248px;
+    height: 64px;
+  }
+  .wyp-page > header .rounded-full {
+    border-radius: 6px;
+  }
+}
+@media (max-width: 1199px) {
+  .wyp-story-body {
+    column-gap: 48px;
+  }
+  .wyp-panorama-artboard {
+    padding: 32px;
+  }
+  .wyp-workspace {
+    grid-template-columns: 140px minmax(0, 1fr);
+  }
+  .wyp-workspace-content {
+    padding-inline: 24px;
+  }
+  .wyp-paper-layout {
+    gap: 64px;
+  }
+  .wyp-conversion-grid {
+    gap: 48px;
+  }
+  .wyp-lab-card {
+    padding: 24px;
+  }
+  .wyp-lab-tabs > button {
+    padding-inline: 12px;
+  }
+  .wyp-opportunity-row {
+    gap: 8px;
+  }
+  .wyp-overview-grid {
+    gap: 12px;
+  }
+}
+@media (max-width: 1023px),
+  (max-height: 719px),
+  (prefers-reduced-motion: reduce) {
+  .wyp-story-canvas {
+    display: none;
+  }
+  .wyp-story-body {
+    display: block;
+  }
+  .wyp-story-steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 32px;
+  }
+  .wyp-story-step,
+  .wyp-story-step:last-child {
+    min-height: 0;
+    border: 0;
+    padding: 0;
+  }
+  .wyp-route-marker {
+    margin-left: 0;
+  }
+  .wyp-story-step-button {
+    margin-bottom: 24px;
+  }
+  .wyp-mobile-story-visual {
+    display: block;
+    margin-top: 24px;
+  }
+  .wyp-story-step > p {
+    max-width: none;
+  }
+  .wyp-story-step h3 {
+    font-size: 28px;
+  }
+  .wyp-story-ui {
+    min-height: 415px;
+  }
+  .wyp-story-step > a {
+    margin-top: 12px;
+  }
+}
+@media (max-width: 900px) {
+  .wyp-container {
+    width: calc(100% - 64px);
+  }
+  .wyp-chapter {
+    padding-block: 96px;
+  }
+  .wyp-hero {
+    padding-top: 144px;
+  }
+  .wyp-hero h1 {
+    font-size: clamp(48px, 7.5vw, 68px);
+  }
+  .wyp-hero-deck {
+    margin-top: 64px;
+  }
+  .wyp-board-column {
+    padding: 8px;
+  }
+  .wyp-company-card {
+    padding: 12px 8px;
+  }
+  .wyp-board-columns {
+    gap: 8px;
+  }
+  .wyp-dashboard {
+    padding: 16px;
+  }
+  .wyp-column-heading {
+    font-size: 9px;
+    gap: 4px;
+  }
+  .wyp-column-heading > svg {
+    display: none;
+  }
+  .wyp-workspace-sidebar {
+    display: none;
+  }
+  .wyp-workspace {
+    grid-template-columns: 1fr;
+  }
+  .wyp-workspace-content {
+    padding: 24px;
+  }
+  .wyp-overview-opportunities {
+    padding: 16px 12px;
+  }
+  .wyp-overview-next {
+    padding: 16px;
+  }
+  .wyp-panorama {
+    padding-top: 32px;
+  }
+  .wyp-panorama-heading > p,
+  .wyp-lab-heading > p,
+  .wyp-editorial-heading > p:last-child {
+    width: auto;
+  }
+  .wyp-panorama-heading,
+  .wyp-lab-heading {
+    gap: 24px;
+  }
+  .wyp-editorial-heading {
+    margin-bottom: 56px;
+  }
+  .wyp-lab-tabs {
+    gap: 0;
+  }
+  .wyp-lab-tabs > button {
+    font-size: 10px;
+    padding: 12px;
+    gap: 6px;
+  }
+  .wyp-lab-card {
+    padding: 20px;
+  }
+  .wyp-lab-grid {
+    gap: 16px;
+  }
+  .is-focused .wyp-lab-card {
+    gap: 32px;
+    grid-template-columns: 1fr 1.3fr;
+  }
+  .wyp-paper-layout {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 32px;
+  }
+  .wyp-journal {
+    padding: 20px;
+  }
+  .wyp-journal-entry {
+    min-height: 350px;
+  }
+  .wyp-journal-top {
+    gap: 8px;
+  }
+  .wyp-journal-top > span:last-child {
+    display: none;
+  }
+  .wyp-conversion-grid {
+    gap: 32px;
+  }
+  .wyp-destination {
+    padding: 40px 20px 32px;
+  }
+  .wyp-email-form > div {
+    flex-direction: column;
+  }
+  .wyp-email-form button {
+    justify-content: center;
+  }
+  .wyp-page #pricing {
+    padding-block: 96px;
+  }
+  .wyp-page #pricing > div > div:nth-child(2) > div {
+    padding: 24px 16px;
+  }
+  .wyp-page #pricing h3 {
+    font-size: 16px;
+  }
+  .wyp-page #pricing h3 + span {
+    padding: 4px;
+    font-size: 8px;
+  }
+  .wyp-page #pricing .text-4xl {
+    font-size: 36px;
+  }
+}
+@media (max-width: 640px) {
+  .wyp-container {
+    width: calc(100% - 40px);
+  }
+  .wyp-chapter {
+    padding-block: 80px;
+  }
+  .wyp-kicker {
+    margin-bottom: 20px;
+    font-size: 10px;
+  }
+  .wyp-hero {
+    padding-top: 124px;
+    padding-bottom: 32px;
+  }
+  .wyp-hero-intro {
+    font-size: 10px;
+    margin-bottom: 24px;
+  }
+  .wyp-hero h1 {
+    font-size: clamp(32px, 8.3vw, 52px);
+    letter-spacing: -0.065em;
+    line-height: 1.12;
+    margin-bottom: 24px;
+  }
+  .wyp-hero-description {
+    font-size: 13px;
+    line-height: 1.85;
+    max-width: 350px;
+  }
+  .wyp-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 24px;
+    padding-inline: 16px;
+  }
+  .wyp-button {
+    font-size: 12px;
+    min-height: 48px;
+    padding: 14px 20px;
+  }
+  .wyp-hero-deck {
+    margin-top: 56px;
+  }
+  .wyp-deck-caption {
+    font-size: 8px;
+    margin-bottom: 12px;
+  }
+  .wyp-deck-caption > span:last-child {
+    gap: 5px;
+  }
+  .wyp-dashboard {
+    padding: 12px;
+    border-radius: 10px;
+  }
+  .wyp-dashboard-toolbar {
+    padding-bottom: 16px;
+  }
+  .wyp-dashboard-title {
+    font-size: 10px;
+    gap: 6px;
+  }
+  .wyp-dashboard-title > span {
+    display: none;
+  }
+  .wyp-reset {
+    padding: 6px 8px;
+    font-size: 9px;
+  }
+  .wyp-board-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .wyp-board-column {
+    min-height: 190px;
+  }
+  .wyp-company-card {
+    padding: 12px;
+  }
+  .wyp-company-card > strong {
+    font-size: 11px;
+  }
+  .wyp-column-heading {
+    font-size: 9px;
+  }
+  .wyp-company-mark {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+  .wyp-board-footer {
+    flex-direction: column;
+    align-items: center;
+    font-size: 8px;
+    gap: 8px;
+    padding-top: 16px;
+  }
+  .wyp-horizon {
+    margin-top: 40px;
+    height: 48px;
+  }
+  .wyp-page .wyp-chapter h2 {
+    font-size: 36px;
+  }
+  .wyp-panorama {
+    padding-top: 32px;
+  }
+  .wyp-panorama-heading,
+  .wyp-lab-heading {
+    display: block;
+    margin-bottom: 32px;
+  }
+  .wyp-panorama-heading > p,
+  .wyp-lab-heading > p {
+    font-size: 12px;
+    margin-top: 24px;
+    line-height: 1.9;
+  }
+  .wyp-panorama-heading .wyp-text-link {
+    margin-top: 8px;
+  }
+  .wyp-panorama-artboard {
+    padding: 16px;
+    margin-inline: -8px;
+    border-radius: 8px;
+  }
+  .wyp-workspace {
+    border-radius: 6px;
+  }
+  .wyp-workspace-content {
+    padding: 16px;
+  }
+  .wyp-workspace-header {
+    font-size: 8px;
+    gap: 16px;
+    padding-bottom: 12px;
+  }
+  .wyp-workspace-header > span:last-child {
+    font-size: 7px;
+    text-align: right;
+    max-width: 100px;
+  }
+  .wyp-workspace-welcome {
+    margin-block: 24px;
+  }
+  .wyp-workspace-welcome h3 {
+    font-size: 26px;
+  }
+  .wyp-workspace-welcome p {
+    font-size: 9px;
+  }
+  .wyp-overview-grid {
+    grid-template-columns: 1fr;
+  }
+  .wyp-overview-next {
+    display: none;
+  }
+  .wyp-overview-opportunities {
+    padding: 12px;
+  }
+  .wyp-opportunity-row {
+    gap: 8px;
+    padding-block: 12px;
+  }
+  .wyp-opportunity-row strong {
+    font-size: 10px;
+  }
+  .wyp-opportunity-row p {
+    font-size: 8px;
+  }
+  .wyp-opportunity-row > span:last-child {
+    font-size: 7px;
+    padding: 4px;
+  }
+  .wyp-workspace-bottom {
+    font-size: 8px;
+    padding-top: 16px;
+  }
+  .wyp-panorama-caption {
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+    font-size: 8px;
+    margin-top: 16px;
+  }
+  .wyp-editorial-heading {
+    display: block;
+    margin-bottom: 40px;
+  }
+  .wyp-editorial-heading > p:last-child {
+    font-size: 12px;
+    line-height: 1.9;
+    margin-top: 24px;
+  }
+  .wyp-story-steps {
+    grid-template-columns: 1fr;
+    gap: 64px;
+  }
+  .wyp-story-step h3 {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+  .wyp-story-step > p {
+    font-size: 13px;
+  }
+  .wyp-story-step-button {
+    font-size: 11px;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .wyp-story-ui {
+    min-height: 385px;
+  }
+  .wyp-story-step .wyp-ui-foot {
+    font-size: 8px;
+  }
+  .wyp-week {
+    gap: 6px;
+    margin: 16px;
+  }
+  .wyp-week > div {
+    padding: 8px 4px;
+  }
+  .wyp-ui-top {
+    padding: 16px;
+    font-size: 10px;
+  }
+  .wyp-ui-top > span:last-child {
+    font-size: 8px;
+  }
+  .wyp-round {
+    margin-inline: 16px;
+  }
+  .wyp-round h4 {
+    font-size: 12px;
+  }
+  .wyp-prep-list {
+    margin: 16px;
+    font-size: 9px;
+  }
+  .wyp-story-privacy h4 {
+    font-size: 24px;
+  }
+  .wyp-letter {
+    margin-inline: 16px;
+    padding: 16px;
+  }
+  .wyp-letter > p {
+    font-size: 14px;
+  }
+  .wyp-message-meta {
+    margin: 24px 16px;
+    gap: 8px;
+  }
+  .wyp-message-meta > span:last-child {
+    font-size: 8px;
+  }
+  .wyp-flow-path {
+    font-size: 9px;
+    padding-inline: 16px;
+  }
+  .wyp-mini-pipeline .wyp-opportunity-row {
+    margin-inline: 16px;
+    padding-block: 24px;
+  }
+  .wyp-lab-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  .wyp-lab-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+  .wyp-lab-tabs > button {
+    font-size: 11px;
+    justify-content: center;
+    padding: 12px 8px;
+  }
+  .wyp-all-tools {
+    align-self: start;
+    padding: 8px 12px;
+    font-size: 10px;
+  }
+  .wyp-lab-grid {
+    grid-template-columns: 1fr;
+  }
+  .is-focused .wyp-lab-card {
+    display: flex;
+    gap: 24px;
+  }
+  .wyp-lab-card {
+    padding: 20px 16px;
+    gap: 24px;
+  }
+  .wyp-lab-card h3 {
+    font-size: 24px;
+  }
+  .wyp-tool-icon {
+    margin-bottom: 16px;
+    width: 32px;
+    height: 32px;
+  }
+  .wyp-lab-card-copy > p {
+    font-size: 12px;
+  }
+  .wyp-lab-disclaimer {
+    font-size: 9px;
+    line-height: 1.8;
+  }
+  .wyp-page .wyp-statement {
+    font-size: clamp(30px, 8vw, 44px);
+    margin-bottom: 40px;
+  }
+  .wyp-inline-landscape {
+    width: 56px;
+    height: 26px;
+    margin-left: 4px;
+  }
+  .wyp-paper-layout {
+    display: block;
+  }
+  .wyp-paper-intro {
+    font-size: 13px;
+    max-width: none;
+  }
+  .wyp-timeline {
+    margin-top: 24px;
+  }
+  .wyp-note-stack {
+    margin-top: 64px;
+  }
+  .wyp-journal {
+    padding: 20px;
+  }
+  .wyp-journal-entry {
+    min-height: 310px;
+    padding-top: 24px;
+  }
+  .wyp-journal-entry h3 {
+    font-size: 28px;
+  }
+  .wyp-journal-entry > p:not(.wyp-tiny) {
+    font-size: 12px;
+  }
+  .wyp-journal-top {
+    padding-bottom: 20px;
+    font-size: 9px;
+  }
+  .wyp-journal-controls {
+    gap: 8px;
+  }
+  .wyp-journal-controls > span {
+    font-size: 8px;
+  }
+  .wyp-page #pricing,
+  .wyp-page #faq {
+    padding-block: 80px;
+  }
+  .wyp-page #pricing h2,
+  .wyp-page #faq h2 {
+    font-size: 36px;
+  }
+  .wyp-page #pricing > div > div:nth-child(2) > div {
+    padding: 28px 24px;
+  }
+  .wyp-page #pricing h3 {
+    font-size: 20px;
+  }
+  .wyp-page #pricing h3 + span {
+    font-size: 9px;
+    padding: 5px 8px;
+  }
+  .wyp-page #pricing .text-4xl {
+    font-size: 48px;
+  }
+  .wyp-page #pricing button {
+    padding-inline: 16px;
+    font-size: 11px;
+  }
+  .wyp-page #pricing button > span:last-child {
+    font-size: 8px;
+  }
+  .wyp-page #faq button {
+    padding-block: 24px;
+  }
+  .wyp-page #faq button > span:first-child {
+    font-size: 13px;
+    padding-right: 12px;
+  }
+  .wyp-page #faq [role="region"] > div > div {
+    padding-right: 0;
+  }
+  .wyp-conversion-grid {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+  .wyp-page .wyp-conversion h2 {
+    font-size: 36px;
+  }
+  .wyp-conversion-copy {
+    font-size: 13px;
+    margin-top: 24px;
+  }
+  .wyp-email-form {
+    margin-top: 24px;
+  }
+  .wyp-email-form button {
+    justify-content: space-between;
+    font-size: 12px;
+  }
+  .wyp-email-form input {
+    font-size: 12px;
+  }
+  .wyp-destination {
+    padding: 40px 24px 32px;
+    max-width: 360px;
+    width: 100%;
+    margin-inline: auto;
+  }
+  .wyp-destination > p {
+    font-size: 28px;
+  }
+  .wyp-dialog {
+    padding: 32px 24px;
+  }
+  .wyp-dialog h2 {
+    font-size: 28px;
+  }
+  .wyp-dialog .wyp-kicker {
+    padding-right: 24px;
+    font-size: 9px;
+  }
+  .wyp-page footer {
+    padding-block: 64px 32px;
+  }
 }
 
 /* Base resets & typography */
@@ -261,6 +2621,47 @@ export default function WaypointPage() {
   background-color: var(--color-wyp-canvas);
   color: var(--color-wyp-obsidian);
   min-height: 100vh;
+}
+
+.wyp-mobile-nav {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 24px;
+  border: 0;
+  background: #f5efeb;
+  color: #121417;
+}
+.wyp-mobile-nav::backdrop {
+  background: #12141750;
+}
+.wyp-mobile-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wyp-mobile-nav-header button {
+  padding: 12px;
+}
+.wyp-mobile-nav nav {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-block: 64px;
+}
+.wyp-mobile-nav nav a {
+  font-size: 32px;
+  letter-spacing: -0.05em;
+  animation: wyp-note-in 0.45s var(--ease-smooth) both;
+}
+.wyp-mobile-nav-actions {
+  display: grid;
+  gap: 24px;
+  text-align: center;
 }
 
 /* Odometer rolling animation support */
@@ -278,7 +2679,9 @@ export default function WaypointPage() {
 
 /* Accessible reduced-motion overrides */
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
+  *,
+  ::before,
+  ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -302,20 +2705,34 @@ import { PricingSection } from "./components/PricingSection";
 import { FaqSection } from "./components/FaqSection";
 import { ConversionCard } from "./components/ConversionCard";
 import { Footer } from "./components/Footer";
+import { ProductPanorama } from "./components/ProductPanorama";
+import { ProductStory } from "./components/ProductStory";
+import { PaperTrail } from "./components/PaperTrail";
+import { Motion } from "./components/Motion";
+import { WorkspaceDialog } from "./components/WorkspaceDialog";
 
 export function WaypointApp() {
   return (
-    <div className="min-h-screen bg-[#EDE6DF] text-[#121417]">
-      <SiteHeader />
-      <main id="main-content">
-        <Hero />
-        <BentoGrid />
-        <PricingSection />
-        <FaqSection />
-        <ConversionCard />
-      </main>
-      <Footer />
-    </div>
+    <Motion>
+      <div className="wyp-page min-h-screen bg-[#EDE6DF] text-[#121417]">
+        <a className="wyp-skip-link" href="#main-content">
+          Skip to content
+        </a>
+        <SiteHeader />
+        <main id="main-content" className="overflow-x-hidden w-full max-w-full">
+          <Hero />
+          <ProductPanorama />
+          <ProductStory />
+          <BentoGrid />
+          <PaperTrail />
+          <PricingSection />
+          <FaqSection />
+          <ConversionCard />
+        </main>
+        <Footer />
+        <WorkspaceDialog />
+      </div>
+    </Motion>
   );
 }
 ]]>
@@ -361,7 +2778,7 @@ export function AccordionItem({
             isOpen ? "rotate-180 bg-[#121417] text-[#F5EFEB]" : ""
           }`}
         >
-          ↓
+          {isOpen ? "−" : "+"}
         </span>
       </button>
 
@@ -369,6 +2786,7 @@ export function AccordionItem({
         id={contentId}
         role="region"
         aria-labelledby={headerId}
+        aria-hidden={!isOpen}
         className={`grid transition-all duration-300 ease-in-out ${
           isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
@@ -385,90 +2803,147 @@ export function AccordionItem({
 ]]>
     </file>
     <file path="src/app/(waypoint)/waypoint/components/BentoGrid.tsx">
-<![CDATA[import React from "react";
+<![CDATA["use client";
+
+import { useRef, useState, type KeyboardEvent } from "react";
+import {
+  CalendarBlank,
+  EnvelopeSimple,
+  LockKey,
+  SquaresFour,
+} from "@phosphor-icons/react";
 import { CalendarWidget } from "./bento/CalendarWidget";
 import { KanbanWidget } from "./bento/KanbanWidget";
 import { EncryptionWidget } from "./bento/EncryptionWidget";
 import { ReplyFeedWidget } from "./bento/ReplyFeedWidget";
 
+const tools = [
+  {
+    name: "Interview radar",
+    title: "Rounds in focus",
+    text: "Select an interview day. Open your preparation notes. Arrive with the right things in mind.",
+    icon: CalendarBlank,
+    component: CalendarWidget,
+  },
+  {
+    name: "Pipeline",
+    title: "One board for every stage",
+    text: "Tap an opportunity to move it forward. The board keeps up with the conversation.",
+    icon: SquaresFour,
+    component: KanbanWidget,
+  },
+  {
+    name: "Privacy",
+    title: "Personal, by design",
+    text: "Toggle the simulated sealed state. This demonstration does not encrypt or store real data.",
+    icon: LockKey,
+    component: EncryptionWidget,
+  },
+  {
+    name: "Replies",
+    title: "Make room for a reply",
+    text: "Simulate an inbound message and explore the thread. Sample conversations, without a connected inbox.",
+    icon: EnvelopeSimple,
+    component: ReplyFeedWidget,
+  },
+];
+
 export function BentoGrid() {
+  const [selected, setSelected] = useState(-1);
+  const tabs = useRef<HTMLDivElement>(null);
+  function navigate(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let next = index;
+    if (event.key === "ArrowRight") next = (index + 1) % 4;
+    else if (event.key === "ArrowLeft") next = (index + 3) % 4;
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = 3;
+    else return;
+    event.preventDefault();
+    setSelected(next);
+    tabs.current
+      ?.querySelectorAll<HTMLButtonElement>("[role=tab]")
+      [next]?.focus();
+  }
   return (
-    <section id="features" className="py-20 md:py-28 bg-[#EDE6DF] relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFFFFF] border border-[#E5DDD4] text-xs font-bold text-[#1E4F94] mb-3">
-            Features &bull; Direct Agency
+    <section id="features" className="wyp-lab wyp-chapter">
+      <div className="wyp-container">
+        <div className="wyp-lab-heading">
+          <div>
+            <p className="wyp-kicker">
+              <span className="wyp-status-dot" /> Interactive demo
+            </p>
+            <h2>
+              A little less theory.
+              <br />A little more trying.
+            </h2>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[-0.035em] text-[#121417] leading-tight mb-4">
-            A pipeline designed for candidate leverage.
-          </h2>
-          <p className="text-base text-[#2B2F38] leading-relaxed">
-            Every interview note, candidate discussion, and cold pitch stays anchored to the application it belongs to.
+          <p>
+            Move a card. Pick a day.
+            <br />
+            Get a feel for your next chapter.
           </p>
         </div>
-
-        {/* 4-Card Asymmetric Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Card 1: Rounds in Focus */}
-          <div className="md:col-span-5 bg-[#FFFFFF] rounded-2xl p-6 md:p-8 border border-[#E5DDD4] shadow-xs flex flex-col justify-between">
-            <div className="mb-6">
-              <CalendarWidget />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-[#121417] mb-2">
-                Rounds in focus
-              </h3>
-              <p className="text-sm text-[#2B2F38] leading-relaxed">
-                Dates, rounds, and preparation checklists all sit directly next to the active company track.
-              </p>
-            </div>
+        <div className="wyp-lab-toolbar">
+          <div
+            className="wyp-lab-tabs"
+            role="tablist"
+            aria-label="Flight deck tools"
+            ref={tabs}
+          >
+            {tools.map((tool, i) => (
+              <button
+                type="button"
+                id={`tool-tab-${i}`}
+                key={tool.name}
+                role="tab"
+                aria-selected={selected === i}
+                aria-controls={`tool-panel-${i}`}
+                tabIndex={selected === i || (selected < 0 && i === 0) ? 0 : -1}
+                onClick={() => setSelected(i)}
+                onKeyDown={(e) => navigate(e, i)}
+              >
+                <tool.icon size={17} />
+                {tool.name}
+              </button>
+            ))}
           </div>
-
-          {/* Card 2: One board for every stage */}
-          <div className="md:col-span-7 bg-[#FFFFFF] rounded-2xl p-6 md:p-8 border border-[#E5DDD4] shadow-xs flex flex-col justify-between">
-            <div className="mb-6">
-              <KanbanWidget />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-[#121417] mb-2">
-                One board for every stage
-              </h3>
-              <p className="text-sm text-[#2B2F38] leading-relaxed">
-                Pitched, review, panel, offer. Drag or tap a card when conversations change and the whole search stays readable at a glance.
-              </p>
-            </div>
-          </div>
-
-          {/* Card 3: Private by architecture */}
-          <div className="md:col-span-6 bg-[#FFFFFF] rounded-2xl p-6 md:p-8 border border-[#E5DDD4] shadow-xs flex flex-col justify-between">
-            <div className="mb-6">
-              <EncryptionWidget />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-[#121417] mb-2">
-                Private by architecture
-              </h3>
-              <p className="text-sm text-[#2B2F38] leading-relaxed">
-                Client-side zero-knowledge encryption ensures outreach pitches, target lists, and compensation discussions are readable only on your hardware.
-              </p>
-            </div>
-          </div>
-
-          {/* Card 4: Know the moment they reply */}
-          <div className="md:col-span-6 bg-[#FFFFFF] rounded-2xl p-6 md:p-8 border border-[#E5DDD4] shadow-xs flex flex-col justify-between">
-            <div className="mb-6">
-              <ReplyFeedWidget />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-[#121417] mb-2">
-                Know the moment they reply
-              </h3>
-              <p className="text-sm text-[#2B2F38] leading-relaxed">
-                Replies, follow-ups, and offer drafts land in a live feed, and your pipeline card advances stage on its own.
-              </p>
-            </div>
-          </div>
+          <button
+            type="button"
+            className={`wyp-all-tools ${selected === -1 ? "is-active" : ""}`}
+            aria-pressed={selected === -1}
+            onClick={() => setSelected(-1)}
+          >
+            All tools
+          </button>
         </div>
+        <div
+          className={`wyp-lab-grid grid-flow-dense ${selected >= 0 ? "is-focused" : ""}`}
+        >
+          {tools.map((tool, i) => (
+            <article
+              id={`tool-panel-${i}`}
+              key={tool.name}
+              role={selected >= 0 ? "tabpanel" : undefined}
+              aria-labelledby={selected >= 0 ? `tool-tab-${i}` : undefined}
+              tabIndex={selected >= 0 ? 0 : undefined}
+              hidden={selected >= 0 && selected !== i}
+              className="wyp-lab-card"
+            >
+              <div className="wyp-lab-card-copy">
+                <span className="wyp-tool-icon">
+                  <tool.icon size={22} weight="light" />
+                </span>
+                <h3>{tool.title}</h3>
+                <p>{tool.text}</p>
+              </div>
+              <tool.component />
+            </article>
+          ))}
+        </div>
+        <p className="wyp-lab-disclaimer">
+          A hands-on product demonstration. Sample data stays in this page and
+          resets when you reload.
+        </p>
       </div>
     </section>
   );
@@ -478,111 +2953,136 @@ export function BentoGrid() {
     <file path="src/app/(waypoint)/waypoint/components/ConversionCard.tsx">
 <![CDATA["use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
+import { ArrowUpRight, Check, NavigationArrow } from "@phosphor-icons/react";
 
-const COMPANY_PILLS = [
-  { name: "Linear", mark: "L", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "Stripe", mark: "S", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "Figma", mark: "F", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "Anthropic", mark: "A", style: "bg-[#DBE8FA] text-[#1E4F94] border-[#DBE8FA]" },
-  { name: "Vercel", mark: "▲", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "Airbnb", mark: "❖", style: "bg-[#FCE8DC] text-[#8A3E1B] border-[#FCE8DC]" },
-  { name: "Notion", mark: "N", style: "bg-[#FFFFFF] text-[#121417] border-[#E5DDD4]" },
-  { name: "OpenAI", mark: "✶", style: "bg-[#D8EADF] text-[#216143] border-[#D8EADF]" },
+const companies = [
+  "Linear",
+  "Stripe",
+  "Figma",
+  "Anthropic",
+  "Vercel",
+  "Airbnb",
 ];
 
 export function ConversionCard() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
-
+  const [employer, setEmployer] = useState("Anthropic");
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email || !email.includes("@") || !email.includes(".")) {
-      setError("Please provide a valid email address.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+      setError("Enter a valid email address, such as you@domain.com.");
       return;
     }
     setError("");
     setSubmitted(true);
   }
-
   return (
-    <div className="max-w-5xl mx-auto px-6 mb-16 relative z-10">
-      <div className="bg-[#FFFFFF] rounded-3xl p-8 sm:p-12 border border-[#E5DDD4] shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left Side: Form */}
-        <div className="lg:col-span-7">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#DBE8FA] text-xs font-bold text-[#1E4F94] mb-3">
-            Early Access &bull; Professional &amp; Studio
-          </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-[-0.035em] text-[#121417] leading-tight mb-3">
-            Give every outreach conversation a clear paper trail.
-          </h2>
-          <p className="text-sm text-[#2B2F38] leading-relaxed mb-6 max-w-lg">
-            Every cold pitch, follow-up ping, and technical interview in one calm interface, so you always know which conversations are moving forward.
+    <section id="early-access" className="wyp-conversion wyp-chapter">
+      <div className="wyp-container wyp-conversion-grid">
+        <div>
+          <p className="wyp-kicker">
+            <NavigationArrow size={16} weight="fill" /> Your next chapter starts
+            here
           </p>
-
+          <h2>
+            Give every outreach
+            <br />
+            conversation a<br />
+            clear paper trail.
+          </h2>
+          <p className="wyp-conversion-copy">
+            A little less scattered. A little more certain.
+            <br />
+            Make space for the work you want to do next.
+          </p>
           {submitted ? (
-            <div className="p-4 rounded-xl bg-[#D8EADF] border border-[#216143]/20 text-[#216143] text-sm font-semibold animate-in fade-in">
-              ✓ You&apos;re confirmed for early access! We&apos;ll notify you at <span className="font-bold">{email}</span>.
+            <div className="wyp-form-success" role="status">
+              <Check size={20} />
+              <div>
+                <strong>Your early access preview is ready.</strong>
+                <p>
+                  {email.trim()} is confirmed in this local demo. No signup or
+                  email has been sent.
+                </p>
+              </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-2">
-              <div className="flex flex-col sm:flex-row gap-2.5">
+            <form onSubmit={handleSubmit} noValidate className="wyp-email-form">
+              <label className="sr-only" htmlFor="early-access-email">
+                Email address
+              </label>
+              <div>
                 <input
+                  id="early-access-email"
                   type="email"
+                  autoComplete="email"
+                  maxLength={254}
+                  required
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    if (error) setError("");
+                    setError("");
                   }}
+                  aria-invalid={Boolean(error)}
+                  aria-describedby={
+                    error ? "early-access-error" : "early-access-note"
+                  }
                   placeholder="Enter your personal work email"
-                  className="flex-1 px-4 py-3 rounded-xl bg-[#FAF8F5] border border-[#D8D0C5] text-sm text-[#121417] placeholder-[#666E7D] focus:outline-none focus:ring-2 focus:ring-[#121417] transition"
                 />
-                <button
-                  type="submit"
-                  className="px-6 py-3 rounded-xl bg-[#121417] text-[#F5EFEB] text-sm font-bold shadow hover:bg-[#2B2F38] transition cursor-pointer shrink-0"
-                >
-                  Join early access
+                <button type="submit">
+                  Join early access <ArrowUpRight size={18} />
                 </button>
               </div>
               {error && (
-                <p className="text-xs font-medium text-[#8A3E1B] pl-1">{error}</p>
+                <p id="early-access-error" role="alert">
+                  {error}
+                </p>
               )}
             </form>
           )}
-
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-[11px] text-[#666E7D]">
-            <span>Starter stays free forever</span>
-            <span>•</span>
-            <span>No credit card required</span>
-            <span>•</span>
-            <span>Client-side encrypted</span>
-          </div>
-        </div>
-
-        {/* Right Side: Floating Company Pill Badges */}
-        <div className="lg:col-span-5 bg-[#FAF8F5] rounded-2xl p-6 border border-[#E5DDD4] flex flex-col justify-center items-center">
-          <div className="text-[11px] font-bold text-[#666E7D] uppercase tracking-wider mb-4 text-center">
-            Pitched &amp; Tracked In Waypoint
-          </div>
-          <div className="grid grid-cols-4 gap-3 w-full justify-items-center">
-            {COMPANY_PILLS.map((pill, i) => (
-              <div
-                key={i}
-                className={`w-12 h-12 rounded-full border shadow-2xs flex flex-col items-center justify-center font-bold transition-transform hover:scale-110 cursor-default ${pill.style}`}
-                title={pill.name}
-              >
-                <span className="text-sm">{pill.mark}</span>
-                <span className="text-[8px] font-semibold opacity-75">{pill.name}</span>
-              </div>
-            ))}
-          </div>
-          <p className="text-[10px] text-[#666E7D] mt-4 text-center">
-            Connects with direct engineering management directories.
+          <p className="wyp-form-note" id="early-access-note">
+            Starter stays free. No credit card required.
+            <br />
+            Local demo only · No information is transmitted.
           </p>
         </div>
+        <div className="wyp-destination">
+          <span className="wyp-destination-route" aria-hidden="true" />
+          <NavigationArrow
+            className="wyp-destination-mark"
+            size={36}
+            weight="light"
+          />
+          <p>
+            Where do you want
+            <br />
+            to go next?
+          </p>
+          <div className="wyp-employer-grid">
+            {companies.map((name) => (
+              <button
+                key={name}
+                type="button"
+                aria-pressed={employer === name}
+                onClick={() => setEmployer(name)}
+              >
+                {name}
+                <ArrowUpRight size={14} />
+              </button>
+            ))}
+          </div>
+          <div className="wyp-employer-readout" role="status">
+            Your next possibility: <strong>{employer}</strong>
+          </div>
+          <small>
+            Illustrative destinations. No affiliation or endorsement.
+          </small>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 ]]>
@@ -597,7 +3097,7 @@ const FAQ_ITEMS = [
   {
     question: "How does the direct email outreach integration work?",
     answer:
-      "Waypoint connects directly to your personal Gmail or Google Workspace inbox via secure OAuth with send-on-behalf permissions. Your outreach sends directly from your personal account, ensuring 100% authentic deliverability without falling into promotional tabs or spam filters.",
+      "Waypoint connects directly to your personal Gmail or Google Workspace inbox via secure OAuth with send-on-behalf permissions. Your outreach sends directly from your personal account, keeping the sender identity personal. This landing page is a product demonstration; no email account is connected here.",
   },
   {
     question: "Is my candidate outreach data kept private from recruiters?",
@@ -610,7 +3110,8 @@ const FAQ_ITEMS = [
       "At any moment you can export your entire pipeline—including conversation histories, stage timelines, recruiter contact emails, and preparation notes—into structured CSV or JSON format with a single click.",
   },
   {
-    question: "What happens when I reach the 25 application limit on the free Starter plan?",
+    question:
+      "What happens when I reach the 25 application limit on the free Starter plan?",
     answer:
       "You retain permanent access to view, update, and manage all existing applications and replies. You only need to upgrade to the Professional plan if you choose to expand your outreach volume.",
   },
@@ -628,13 +3129,14 @@ export function FaqSection() {
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFFFFF] border border-[#E5DDD4] text-xs font-bold text-[#1E4F94] mb-3">
-            Questions &bull; Clear Answers
+            A few things worth knowing
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-[-0.035em] text-[#121417] leading-tight mb-4">
-            Frequently Asked Questions
+            A clearer picture.
           </h2>
           <p className="text-base text-[#2B2F38] leading-relaxed">
-            Everything you need to know about direct outreach deliverability, encryption privacy, and pipeline ownership.
+            Everything you need to know about direct outreach deliverability,
+            encryption privacy, and pipeline ownership.
           </p>
         </div>
 
@@ -658,7 +3160,6 @@ export function FaqSection() {
     </file>
     <file path="src/app/(waypoint)/waypoint/components/Footer.tsx">
 <![CDATA[import React from "react";
-import { Logo } from "./Logo";
 
 export function Footer() {
   return (
@@ -670,7 +3171,12 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <div className="flex items-center justify-center rounded-xl bg-[#F5EFEB] text-[#121417] w-7 h-7 shadow-sm">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M8 2L13 13L8 10.5L3 13L8 2Z" fill="#121417" stroke="#121417" strokeWidth="0.5" />
+                  <path
+                    d="M8 2L13 13L8 10.5L3 13L8 2Z"
+                    fill="#121417"
+                    stroke="#121417"
+                    strokeWidth="0.5"
+                  />
                   <circle cx="8" cy="10.5" r="1" fill="#1E4F94" />
                 </svg>
               </div>
@@ -679,7 +3185,9 @@ export function Footer() {
               </span>
             </div>
             <p className="text-xs text-[#F5EFEB]/70 max-w-sm leading-relaxed mb-6">
-              The career outreach pipeline for senior software engineers and product designers. Pitch directly, monitor candidate momentum, and pilot your search to the offer stage.
+              The career outreach pipeline for senior software engineers and
+              product designers. Pitch directly, track your momentum, and pilot
+              your search to the offer stage.
             </p>
             <div className="text-xs text-[#F5EFEB]/50">
               © 2026 Waypoint Systems. All rights reserved.
@@ -693,10 +3201,31 @@ export function Footer() {
                 Product
               </div>
               <ul className="space-y-2 text-xs text-[#F5EFEB]/70">
-                <li><a href="#features" className="hover:text-white transition">Features</a></li>
-                <li><a href="#pipeline" className="hover:text-white transition">Pipeline Deck</a></li>
-                <li><a href="#pricing" className="hover:text-white transition">Pricing</a></li>
-                <li><a href="#pitch-drafter" className="hover:text-white transition">Pitch Drafter</a></li>
+                <li>
+                  <a href="#features" className="hover:text-white transition">
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a href="#pipeline" className="hover:text-white transition">
+                    Pipeline Deck
+                  </a>
+                </li>
+                <li>
+                  <a href="#pricing" className="hover:text-white transition">
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Pitch Drafter"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Pitch Drafter
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -705,10 +3234,46 @@ export function Footer() {
                 Company
               </div>
               <ul className="space-y-2 text-xs text-[#F5EFEB]/70">
-                <li><a href="#about" className="hover:text-white transition">About</a></li>
-                <li><a href="#manifesto" className="hover:text-white transition">Manifesto</a></li>
-                <li><a href="#careers" className="hover:text-white transition">Careers</a></li>
-                <li><a href="#contact" className="hover:text-white transition">Contact</a></li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="About"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    About
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Manifesto"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Manifesto
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Careers"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Careers
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Contact"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Contact
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -717,10 +3282,46 @@ export function Footer() {
                 Resources
               </div>
               <ul className="space-y-2 text-xs text-[#F5EFEB]/70">
-                <li><a href="#guides" className="hover:text-white transition">Outreach Guides</a></li>
-                <li><a href="#templates" className="hover:text-white transition">Pitch Templates</a></li>
-                <li><a href="#changelog" className="hover:text-white transition">Changelog</a></li>
-                <li><a href="#status" className="hover:text-white transition">System Status</a></li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Outreach Guides"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Outreach Guides
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Pitch Templates"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Pitch Templates
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Changelog"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Changelog
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="System Status"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    System Status
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -729,10 +3330,46 @@ export function Footer() {
                 Legal
               </div>
               <ul className="space-y-2 text-xs text-[#F5EFEB]/70">
-                <li><a href="#privacy" className="hover:text-white transition">Privacy Policy</a></li>
-                <li><a href="#terms" className="hover:text-white transition">Terms of Service</a></li>
-                <li><a href="#security" className="hover:text-white transition">Security Audit</a></li>
-                <li><a href="#gdpr" className="hover:text-white transition">GDPR Compliance</a></li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Privacy Policy"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Privacy Policy
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Terms of Service"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Terms of Service
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Security Audit"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Security Audit
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="GDPR Compliance"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    GDPR Compliance
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
@@ -746,7 +3383,8 @@ export function Footer() {
         </div>
 
         <div className="text-[11px] text-[#F5EFEB]/40 text-center pt-4">
-          Company marks and logos are depicted for portfolio illustration purposes only.
+          Company marks and logos are depicted for portfolio illustration
+          purposes only.
         </div>
       </div>
     </footer>
@@ -757,92 +3395,50 @@ export function Footer() {
     <file path="src/app/(waypoint)/waypoint/components/Hero.tsx">
 <![CDATA["use client";
 
-import React from "react";
-import { useParallax } from "../hooks/useParallax";
+import { ArrowDown, ArrowUpRight } from "@phosphor-icons/react";
 import { HeroDashboard } from "./HeroDashboard";
 
 export function Hero() {
-  const parallaxOffset = useParallax(110, 0.22);
-
   return (
-    <section
-      id="top"
-      className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-[#EDE6DF] text-center"
-    >
-      {/* Full-bleed 16:9 Scenery Background Image */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/templates/waypoint/hero-bg-1920.webp"
-          alt="Waypoint scenic landscape illustration"
-          className="w-full h-full object-cover object-top sm:object-center opacity-85"
-        />
-        {/* Soft atmospheric gradient wash to blend into bottom canvas & guarantee text contrast */}
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-[#F5EFEB]/50 via-transparent to-[#EDE6DF]"
-        />
-      </div>
-
-      <div className="relative max-w-5xl mx-auto px-6 z-10">
-        {/* Eyebrow Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFFFF]/80 backdrop-blur-md border border-[#121417]/08 shadow-xs text-xs font-semibold text-[#2B2F38] mb-6">
-          <span className="w-2 h-2 rounded-full bg-[#216143]" />
-          <span>Direct career outreach &amp; pipeline tracking</span>
-          <span className="text-[#666E7D]">•</span>
-          <span className="text-[#1E4F94]">Free to start</span>
-        </div>
-
-        {/* Hero Headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.04em] text-[#121417] leading-[1.08] mb-6 max-w-4xl mx-auto">
-          Pitch with intention.
-          <br />
-          <span className="text-[#121417]">Land the offer.</span>
-        </h1>
-
-        {/* Subtitle */}
-        <p className="text-base sm:text-lg md:text-xl text-[#2B2F38] max-w-2xl mx-auto leading-relaxed mb-8 font-normal">
-          Waypoint turns unstructured job hunting into an automated flight deck. Personalize outreach to engineering leaders, track replies in real time, and pilot every application from first note to signed contract.
+    <section id="top" className="wyp-hero">
+      <div className="wyp-hero-landscape" aria-hidden="true" />
+      <div className="wyp-hero-copy wyp-container">
+        <p className="wyp-hero-intro">
+          A little direction. A world of possibility.
         </p>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-12">
-          <a
-            href="#get-started"
-            className="w-full sm:w-auto inline-flex items-center justify-center text-sm font-bold bg-[#121417] text-[#F5EFEB] px-7 py-3.5 rounded-full shadow-md hover:bg-[#2B2F38] hover:shadow-lg transition-all"
-          >
-            Start your pipeline →
+        <h1 id="hero-heading" className="max-w-6xl">
+          <span className="wyp-line">
+            <span data-hero-line>Pitch with intention.</span>
+          </span>
+          <span className="wyp-line">
+            <span data-hero-line>Land the offer.</span>
+          </span>
+        </h1>
+        <p className="wyp-hero-description">
+          Your next chapter deserves more than a spreadsheet. A personal flight
+          deck for senior engineers and designers, from the first pitch to the
+          right offer.
+        </p>
+        <div className="wyp-hero-actions">
+          <a href="#get-started" className="wyp-button wyp-button-dark">
+            Start your pipeline <ArrowUpRight size={18} />
           </a>
-          <a
-            href="#features"
-            className="w-full sm:w-auto inline-flex items-center justify-center text-sm font-semibold bg-[#FFFFFF] text-[#121417] px-6 py-3.5 rounded-full border border-[#D8D0C5] shadow-xs hover:bg-[#FAF8F5] transition-all"
-          >
-            See the flight deck
+          <a href="#features" className="wyp-button wyp-button-light">
+            Explore the flight deck <ArrowDown size={17} />
           </a>
-        </div>
-
-        {/* Social Proof Avatars */}
-        <div className="flex items-center justify-center gap-3 text-xs text-[#666E7D] mb-12">
-          <div className="flex -space-x-2 overflow-hidden">
-            <div className="inline-block h-7 w-7 rounded-full ring-2 ring-[#EDE6DF] bg-[#DBE8FA] text-[#1E4F94] font-bold text-[10px] leading-7 text-center">
-              AK
-            </div>
-            <div className="inline-block h-7 w-7 rounded-full ring-2 ring-[#EDE6DF] bg-[#D8EADF] text-[#216143] font-bold text-[10px] leading-7 text-center">
-              MR
-            </div>
-            <div className="inline-block h-7 w-7 rounded-full ring-2 ring-[#EDE6DF] bg-[#FCE8DC] text-[#8A3E1B] font-bold text-[10px] leading-7 text-center">
-              ST
-            </div>
-            <div className="inline-block h-7 w-7 rounded-full ring-2 ring-[#EDE6DF] bg-[#ECE6F6] text-[#4B3878] font-bold text-[10px] leading-7 text-center">
-              JL
-            </div>
-          </div>
-          <span>Trusted by 3,400+ engineers and designers searching this month</span>
         </div>
       </div>
-
-      {/* Half-shown Dashboard peaking at the fold with Parallax */}
-      <div className="relative px-4 sm:px-6 mt-4">
-        <HeroDashboard parallaxOffset={parallaxOffset} />
+      <div className="wyp-hero-deck wyp-container" id="pipeline">
+        <div className="wyp-deck-caption">
+          <span>Less scattered. More intentional.</span>
+          <span>
+            Interactive preview <span className="wyp-status-dot" />
+          </span>
+        </div>
+        <HeroDashboard />
+      </div>
+      <div className="wyp-horizon" aria-hidden="true">
+        <span />
       </div>
     </section>
   );
@@ -852,102 +3448,119 @@ export function Hero() {
     <file path="src/app/(waypoint)/waypoint/components/HeroDashboard.tsx">
 <![CDATA["use client";
 
-import React from "react";
-import { INITIAL_PIPELINE, STAGES } from "../lib/pipelineState";
+import { useState } from "react";
+import {
+  ArrowRight,
+  ArrowCounterClockwise,
+  DotsThree,
+  NavigationArrow,
+} from "@phosphor-icons/react";
+import {
+  advanceCardStage,
+  INITIAL_PIPELINE,
+  STAGES,
+} from "../lib/pipelineState";
 
-interface HeroDashboardProps {
+export function HeroDashboard({
+  parallaxOffset = 0,
+}: {
   parallaxOffset?: number;
-}
-
-export function HeroDashboard({ parallaxOffset = 0 }: HeroDashboardProps) {
+}) {
+  const [pipeline, setPipeline] = useState(INITIAL_PIPELINE);
+  const [announcement, setAnnouncement] = useState("");
+  function advance(id: string) {
+    const next = advanceCardStage(pipeline, id);
+    const card = next.find((c) => c.id === id)!;
+    setPipeline(next);
+    setAnnouncement(
+      `${card.company} moved to ${STAGES.find((s) => s.id === card.stage)!.label}.`,
+    );
+  }
   return (
     <div
       data-parallax
-      className="w-full max-w-5xl mx-auto transition-transform duration-75 will-change-transform"
-      style={{
-        transform: `translate3d(0, -${parallaxOffset}px, 0)`,
-      }}
+      className="wyp-dashboard"
+      style={{ transform: `translateY(-${parallaxOffset}px)` }}
     >
-      <div className="bg-[#FFFFFF] rounded-2xl shadow-[0_20px_60px_-15px_rgba(18,20,23,0.12),0_0_0_1px_rgba(18,20,23,0.06)] p-5 md:p-6 text-left">
-        {/* Top Board Meta Bar */}
-        <div className="flex flex-wrap items-center justify-between pb-4 mb-5 border-b border-[#E5DDD4] gap-3">
-          <div className="flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#1E4F94] shadow-[0_0_8px_rgba(30,79,148,0.5)]" />
-            <span className="text-xs md:text-sm font-bold text-[#121417]">Active Pipeline</span>
-            <span className="text-xs text-[#666E7D]">/ Q4 Senior Search</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#D8EADF] text-[#216143]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#216143] animate-pulse" />
-              Elena at Anthropic replied • 12m ago
-            </span>
-          </div>
+      <div className="wyp-dashboard-toolbar">
+        <div className="wyp-dashboard-title">
+          <NavigationArrow weight="fill" size={19} />
+          <strong>Active Pipeline</strong>
+          <span>/ My next chapter</span>
         </div>
-
-        {/* 4 Pipeline Columns */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          {STAGES.map((stage) => {
-            const cards = INITIAL_PIPELINE.filter((c) => c.stage === stage.id);
-            const isOffer = stage.id === "offer_stage";
-
-            return (
-              <div
-                key={stage.id}
-                className={`rounded-xl p-3 flex flex-col justify-between border ${
-                  isOffer
-                    ? "bg-[#FAF8F5] border-[#DBE8FA] shadow-sm"
-                    : "bg-[#FAF8F5] border-[#E5DDD4]"
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[11px] font-bold tracking-wide uppercase text-[#666E7D]">
-                      {stage.label}
-                    </span>
-                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#FFFFFF] border border-[#E5DDD4] text-[#121417]">
-                      {cards.length}
-                    </span>
-                  </div>
-
-                  <div className="space-y-2.5">
-                    {cards.map((card) => (
-                      <div
-                        key={card.id}
-                        className={`p-3 rounded-lg border transition-all ${
-                          isOffer
-                            ? "bg-[#FFFFFF] border-[#DBE8FA] shadow-md"
-                            : "bg-[#FFFFFF] border-[#E5DDD4] shadow-xs"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between gap-1 mb-1">
-                          <span className="text-xs font-bold text-[#121417] truncate">
-                            {card.company}
-                          </span>
-                          <span className="text-[10px] text-[#666E7D] shrink-0">
-                            {card.daysAgo}d ago
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-[#2B2F38] font-medium leading-snug line-clamp-1">
-                          {card.role}
-                        </p>
-                        {card.highlight && (
-                          <div className="mt-2 text-[10px] font-bold text-[#1E4F94] bg-[#DBE8FA] px-2 py-0.5 rounded inline-block">
-                            {card.highlight}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-4 pt-2 border-t border-[#E5DDD4]/60 text-[10px] text-[#666E7D] text-center">
-                  {isOffer ? "1 offer pending review" : `Pitched via verified OAuth`}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <button
+          type="button"
+          className="wyp-reset"
+          onClick={() => {
+            setPipeline(INITIAL_PIPELINE);
+            setAnnouncement("Pipeline reset.");
+          }}
+        >
+          <ArrowCounterClockwise size={14} /> Reset
+        </button>
       </div>
+      <div className="wyp-board-columns">
+        {STAGES.map((stage, i) => {
+          const cards = pipeline.filter((c) => c.stage === stage.id);
+          return (
+            <div
+              key={stage.id}
+              className="wyp-board-column"
+              data-stage={stage.id}
+            >
+              <div className="wyp-column-heading">
+                <span className={`wyp-stage-dot wyp-stage-${i}`} />
+                <strong>{stage.label}</strong>
+                <span>{cards.length}</span>
+                <DotsThree size={20} />
+              </div>
+              <div className="wyp-column-cards">
+                {cards.map((card) => (
+                  <button
+                    type="button"
+                    key={card.id}
+                    className="wyp-company-card"
+                    onClick={() => advance(card.id)}
+                    aria-label={`Advance ${card.company} to next stage`}
+                  >
+                    <span className={`wyp-company-mark wyp-mark-${card.id}`}>
+                      {card.company.slice(0, 1)}
+                    </span>
+                    <strong>{card.company}</strong>
+                    <p>{card.role}</p>
+                    <span className="wyp-card-contact">
+                      With {card.contactName}
+                    </span>
+                    {card.highlight && (
+                      <span className="wyp-card-highlight">
+                        {card.highlight}
+                      </span>
+                    )}
+                    <span className="wyp-card-bottom">
+                      <span>{card.daysAgo}d ago</span>
+                      <ArrowRight size={14} />
+                    </span>
+                  </button>
+                ))}
+                {!cards.length && (
+                  <p className="wyp-empty-column">
+                    A little room for what comes next.
+                  </p>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="wyp-board-footer">
+        <span>
+          <span className="wyp-status-dot" /> Your search. Your direction.
+        </span>
+        <span>Sample opportunities · Tap a card to advance</span>
+      </div>
+      <span className="sr-only" role="status">
+        {announcement}
+      </span>
     </div>
   );
 }
@@ -996,105 +3609,194 @@ export function Logo({ className = "", size = 28 }: LogoProps) {
     <file path="src/app/(waypoint)/waypoint/components/MobileNav.tsx">
 <![CDATA["use client";
 
-import React, { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { X } from "@phosphor-icons/react";
 import { Logo } from "./Logo";
+import { containDialogFocus } from "../lib/dialogFocus";
 
-interface MobileNavProps {
+export function MobileNav({
+  isOpen,
+  onClose,
+}: {
   isOpen: boolean;
   onClose: () => void;
-}
-
-export function MobileNav({ isOpen, onClose }: MobileNavProps) {
+}) {
+  const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
-    }
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (isOpen) dialog.current?.showModal();
+    else dialog.current?.close();
+    const previous = document.body.style.overflow;
+    if (isOpen) document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previous;
     };
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
-
+  }, [isOpen]);
   return (
-    <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true">
-      <div
-        className="fixed inset-0 bg-[#121417]/40 backdrop-blur-sm transition-opacity"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-      <div className="fixed right-0 top-0 bottom-0 w-3/4 max-w-xs bg-[#EDE6DF] p-6 shadow-2xl flex flex-col justify-between border-l border-[#D8D0C5]">
-        <div>
-          <div className="flex items-center justify-between pb-6 border-b border-[#D8D0C5]">
-            <Logo size={26} />
-            <button
-              onClick={onClose}
-              className="p-2 rounded-lg text-[#121417] hover:bg-[#E5DDD4] transition"
-              aria-label="Close menu"
-            >
-              ✕
-            </button>
-          </div>
-          <nav className="mt-6 flex flex-col gap-4">
-            <a
-              href="#features"
-              onClick={onClose}
-              className="text-base font-semibold text-[#121417] hover:text-[#2B2F38] transition"
-            >
-              Features
-            </a>
-            <a
-              href="#pipeline"
-              onClick={onClose}
-              className="text-base font-semibold text-[#121417] hover:text-[#2B2F38] transition"
-            >
-              Pipeline
-            </a>
-            <a
-              href="#pricing"
-              onClick={onClose}
-              className="text-base font-semibold text-[#121417] hover:text-[#2B2F38] transition"
-            >
-              Pricing
-            </a>
-            <a
-              href="#faq"
-              onClick={onClose}
-              className="text-base font-semibold text-[#121417] hover:text-[#2B2F38] transition"
-            >
-              FAQ
-            </a>
-          </nav>
-        </div>
-
-        <div className="flex flex-col gap-3 pt-6 border-t border-[#D8D0C5]">
-          <a
-            href="#signin"
-            onClick={onClose}
-            className="w-full text-center py-2.5 text-sm font-semibold text-[#121417] hover:bg-[#E5DDD4] rounded-lg transition"
-          >
-            Sign in
-          </a>
-          <a
-            href="#get-started"
-            onClick={onClose}
-            className="w-full text-center py-2.5 text-sm font-bold bg-[#121417] text-[#F5EFEB] rounded-full shadow hover:bg-[#2B2F38] transition"
-          >
-            Get started free
-          </a>
-        </div>
+    <dialog
+      ref={dialog}
+      id="waypoint-mobile-navigation"
+      className="wyp-mobile-nav"
+      aria-label="Mobile navigation"
+      onKeyDown={containDialogFocus}
+      onCancel={onClose}
+    >
+      <div className="wyp-mobile-nav-header">
+        <Logo />
+        <button type="button" onClick={onClose} aria-label="Close menu">
+          <X size={24} />
+        </button>
       </div>
-    </div>
+      <nav>
+        {[
+          { href: "#features", label: "Features" },
+          { href: "#pipeline", label: "Pipeline" },
+          { href: "#pricing", label: "Pricing" },
+          { href: "#faq", label: "FAQ" },
+        ].map((link, i) => (
+          <a
+            href={link.href}
+            key={link.href}
+            style={{ animationDelay: `${i * 60}ms` }}
+            onClick={onClose}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+      <div className="wyp-mobile-nav-actions">
+        <a href="#signin" onClick={onClose}>
+          Sign in
+        </a>
+        <a
+          href="#get-started"
+          className="wyp-button wyp-button-dark"
+          onClick={onClose}
+        >
+          Get started free
+        </a>
+      </div>
+    </dialog>
   );
+}
+]]>
+    </file>
+    <file path="src/app/(waypoint)/waypoint/components/Motion.tsx">
+<![CDATA["use client";
+
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+export function Motion({ children }: { children: React.ReactNode }) {
+  const root = useRef<HTMLDivElement>(null);
+  useGSAP(
+    () => {
+      const media = gsap.matchMedia();
+      media.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from("[data-hero-line]", {
+          yPercent: 110,
+          duration: 0.95,
+          stagger: 0.12,
+          ease: "power3.out",
+          clearProps: "all",
+        });
+        gsap.from(".wyp-hero-description, .wyp-hero-actions", {
+          opacity: 0,
+          y: 14,
+          duration: 0.7,
+          stagger: 0.1,
+          delay: 0.3,
+          clearProps: "all",
+        });
+        gsap.from(".wyp-hero-deck", {
+          clipPath: "inset(0 0 35% 0 round 16px)",
+          y: 35,
+          duration: 1.1,
+          delay: 0.2,
+          ease: "power3.out",
+          clearProps: "all",
+        });
+        gsap.to(".wyp-hero-landscape", {
+          y: 65,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".wyp-hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+        gsap.fromTo(
+          "[data-panorama]",
+          { clipPath: "inset(8% 4% 8% 4% round 24px)", scale: 0.96 },
+          {
+            clipPath: "inset(0% 0% 0% 0% round 16px)",
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: "[data-panorama]",
+              start: "top 90%",
+              end: "center 60%",
+              scrub: 0.5,
+            },
+          },
+        );
+        gsap.from("[data-word]", {
+          opacity: 0.14,
+          stagger: 0.15,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".wyp-statement",
+            start: "top 85%",
+            end: "bottom 45%",
+            scrub: true,
+          },
+        });
+        gsap.fromTo(
+          "[data-route-line]",
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            transformOrigin: "top",
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".wyp-timeline",
+              start: "top 80%",
+              end: "bottom 55%",
+              scrub: true,
+            },
+          },
+        );
+        gsap.from("[data-stack-note]", {
+          y: 55,
+          stagger: 0.1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".wyp-note-stack",
+            start: "top 90%",
+            end: "center 65%",
+            scrub: true,
+          },
+        });
+      });
+      let disposed = false;
+      document.fonts.ready.then(() => {
+        if (!disposed) ScrollTrigger.refresh();
+      });
+      const observer = new ResizeObserver(() => ScrollTrigger.refresh());
+      if (root.current) observer.observe(root.current);
+      return () => {
+        disposed = true;
+        observer.disconnect();
+        media.revert();
+      };
+    },
+    { scope: root },
+  );
+  return <div ref={root}>{children}</div>;
 }
 ]]>
     </file>
@@ -1153,6 +3855,152 @@ export function OdometerCounter({ value, className = "" }: OdometerCounterProps)
 }
 ]]>
     </file>
+    <file path="src/app/(waypoint)/waypoint/components/PaperTrail.tsx">
+<![CDATA["use client";
+
+import { useState } from "react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Notebook,
+} from "@phosphor-icons/react";
+
+const moments = [
+  {
+    stage: "First pitch",
+    date: "October 22",
+    title: "Start with something specific.",
+    body: "Shared my distributed systems write-up with Elena. Mentioned the scheduling problem their team is working on.",
+    next: "Follow up with the benchmark notes.",
+  },
+  {
+    stage: "A real conversation",
+    date: "October 28",
+    title: "Keep the context close.",
+    body: "Elena replied. The team is interested in cluster failover. Bring a practical example, and ask how they measure reliability.",
+    next: "Prepare for Wednesday’s architecture discussion.",
+  },
+  {
+    stage: "The next chapter",
+    date: "November 05",
+    title: "Make the next step yours.",
+    body: "Architecture conversation complete. Good alignment on the work. Revisit the team’s priorities and my own before the next round.",
+    next: "Send a considered follow-up and a short technical recap.",
+  },
+];
+
+export function PaperTrail() {
+  const [selected, setSelected] = useState(1);
+  const moment = moments[selected];
+  return (
+    <section id="paper-trail" className="wyp-paper-trail wyp-chapter">
+      <div className="wyp-container">
+        <p className="wyp-kicker">The details make the difference</p>
+        <h2 className="wyp-statement">
+          {["Every", "conversation"].map((w) => (
+            <span data-word key={w}>
+              {w}{" "}
+            </span>
+          ))}
+          <span className="wyp-inline-landscape" aria-hidden="true" />
+          <br />
+          {["has", "a", "next", "step."].map((w) => (
+            <span data-word key={w}>
+              {w}{" "}
+            </span>
+          ))}
+        </h2>
+        <div className="wyp-paper-layout">
+          <div>
+            <p className="wyp-paper-intro">
+              The first note. The detail you almost forgot. The question you
+              want to ask next. Give your search a memory, so you can give each
+              conversation your attention.
+            </p>
+            <div className="wyp-timeline">
+              <div className="wyp-timeline-line" aria-hidden="true">
+                <span data-route-line />
+              </div>
+              {moments.map((item, i) => (
+                <button
+                  type="button"
+                  key={item.stage}
+                  className={`wyp-timeline-moment ${selected === i ? "is-selected" : ""}`}
+                  onClick={() => setSelected(i)}
+                  aria-pressed={selected === i}
+                >
+                  <span>
+                    {i < selected ? (
+                      <Check size={13} />
+                    ) : (
+                      String(i + 1).padStart(2, "0")
+                    )}
+                  </span>
+                  <div>
+                    <strong>{item.stage}</strong>
+                    <small>{item.date}</small>
+                  </div>
+                  <ArrowUpRight size={17} />
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="wyp-note-stack">
+            <div className="wyp-note-under" data-stack-note />
+            <div className="wyp-note-under" data-stack-note />
+            <article
+              className="wyp-journal"
+              aria-label="Sample opportunity notes"
+            >
+              <div className="wyp-journal-top">
+                <Notebook size={20} />
+                <span>Opportunity notes / Anthropic</span>
+                <span>Personal</span>
+              </div>
+              <div key={selected} className="wyp-journal-entry">
+                <p className="wyp-tiny">
+                  {moment.date} · {moment.stage}
+                </p>
+                <h3>{moment.title}</h3>
+                <p>{moment.body}</p>
+                <div className="wyp-journal-next">
+                  <span className="wyp-tiny">A clear next step</span>
+                  <p>{moment.next}</p>
+                </div>
+              </div>
+              <div className="wyp-journal-controls">
+                <span>
+                  Illustrative notes · {String(selected + 1).padStart(2, "0")} /
+                  03
+                </span>
+                <div>
+                  <button
+                    type="button"
+                    aria-label="Previous opportunity note"
+                    onClick={() => setSelected((selected + 2) % 3)}
+                  >
+                    <ArrowLeft size={18} />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Next opportunity note"
+                    onClick={() => setSelected((selected + 1) % 3)}
+                  >
+                    <ArrowRight size={18} />
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+]]>
+    </file>
     <file path="src/app/(waypoint)/waypoint/components/PricingCard.tsx">
 <![CDATA["use client";
 
@@ -1203,8 +4051,8 @@ export function PricingCard({
                 badgeStyle === "free"
                   ? "bg-[#D8EADF] text-[#216143]"
                   : badgeStyle === "popular"
-                  ? "bg-[#DBE8FA] text-[#1E4F94]"
-                  : "bg-[#FAF8F5] text-[#2B2F38] border border-[#E5DDD4]"
+                    ? "bg-[#DBE8FA] text-[#1E4F94]"
+                    : "bg-[#FAF8F5] text-[#2B2F38] border border-[#E5DDD4]"
               }`}
             >
               {badge}
@@ -1225,10 +4073,20 @@ export function PricingCard({
           </span>
         </div>
 
+        {cadence === "annual" && planId !== "starter" && (
+          <p className="text-xs text-[#666E7D] mb-5">
+            Billed ${priceData.amount * 12} yearly. Save $
+            {((planId === "pro" ? 28 : 58) - priceData.amount) * 12} a year.
+          </p>
+        )}
+
         {/* Feature List */}
         <div className="space-y-3 pt-6 border-t border-[#E5DDD4]">
           {features.map((feature, i) => (
-            <div key={i} className="flex items-start gap-2.5 text-xs text-[#2B2F38]">
+            <div
+              key={i}
+              className="flex items-start gap-2.5 text-xs text-[#2B2F38]"
+            >
               <span className="text-[#216143] font-bold text-sm leading-none shrink-0">
                 ✓
               </span>
@@ -1242,6 +4100,7 @@ export function PricingCard({
       <div className="mt-8 pt-4">
         <a
           href="#get-started"
+          data-dialog-title={`Explore ${title}${planId !== "starter" ? ` ($${priceData.amount}/month, ${cadence})` : ""}`}
           className={`w-full py-3 px-4 rounded-xl text-xs font-bold text-center block transition-all ${
             isPopular
               ? "bg-[#121417] text-[#F5EFEB] shadow-md hover:bg-[#2B2F38]"
@@ -1271,13 +4130,15 @@ export function PricingSection() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFFFFF] border border-[#E5DDD4] text-xs font-bold text-[#1E4F94] mb-3">
-            Pricing &bull; Direct Agency
+            Room to begin. Space to grow.
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[-0.035em] text-[#121417] leading-tight mb-4">
             Transparent while you search.
           </h2>
           <p className="text-base text-[#2B2F38] leading-relaxed">
-            No agency middleman taking 25% of your signing bonus. You write the pitches, you own the relationship, and your first 25 tracked applications cost nothing.
+            No agency middleman taking 25% of your signing bonus. You write the
+            pitches, you own the relationship, and your first 25 tracked
+            applications cost nothing.
           </p>
 
           {/* Cadence Switcher */}
@@ -1285,6 +4146,7 @@ export function PricingSection() {
             <button
               type="button"
               onClick={() => setCadence("monthly")}
+              aria-pressed={cadence === "monthly"}
               className={`px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                 cadence === "monthly"
                   ? "bg-[#FFFFFF] text-[#121417] shadow-xs"
@@ -1296,6 +4158,7 @@ export function PricingSection() {
             <button
               type="button"
               onClick={() => setCadence("annual")}
+              aria-pressed={cadence === "annual"}
               className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                 cadence === "annual"
                   ? "bg-[#FFFFFF] text-[#121417] shadow-xs"
@@ -1304,7 +4167,7 @@ export function PricingSection() {
             >
               <span>Annual Billing</span>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#D8EADF] text-[#216143]">
-                Save 20%
+                Annual savings
               </span>
             </button>
           </div>
@@ -1368,8 +4231,485 @@ export function PricingSection() {
         </div>
 
         <p className="mt-12 text-center text-xs text-[#666E7D]">
-          All plans include client-side zero-knowledge encryption. Cancel or export anytime in one click.
+          Illustrative plan information. No purchase or subscription is created
+          by this demo.
         </p>
+      </div>
+    </section>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(waypoint)/waypoint/components/ProductPanorama.tsx">
+<![CDATA[import {
+  ArrowDown,
+  ArrowUpRight,
+  Check,
+  NavigationArrow,
+  Notebook,
+} from "@phosphor-icons/react/dist/ssr";
+
+export function ProductPanorama() {
+  return (
+    <section className="wyp-panorama wyp-chapter" id="overview">
+      <div className="wyp-container">
+        <div className="wyp-panorama-heading">
+          <div>
+            <p className="wyp-kicker">Find your bearings</p>
+            <h2>
+              Your search,
+              <br />
+              in one place.
+            </h2>
+          </div>
+          <p>
+            Not another tab to keep open.
+            <br />A place to bring it all together.
+            <br />
+            <a className="wyp-text-link" href="#story">
+              Follow the journey <ArrowDown size={16} />
+            </a>
+          </p>
+        </div>
+        <div className="wyp-panorama-artboard" data-panorama>
+          <div className="wyp-workspace">
+            <aside className="wyp-workspace-sidebar">
+              <span>
+                <NavigationArrow weight="fill" /> Waypoint
+              </span>
+              <p>My workspace</p>
+              <strong>
+                <span className="wyp-status-dot" /> Overview
+              </strong>
+              <span>My pipeline</span>
+              <span>Conversations</span>
+              <span>Interview notes</span>
+              <div className="wyp-workspace-aside-note">
+                <Notebook size={24} />
+                <p>
+                  A little space
+                  <br />
+                  for your next big move.
+                </p>
+              </div>
+            </aside>
+            <div className="wyp-workspace-content">
+              <div className="wyp-workspace-header">
+                <span>Your next chapter</span>
+                <span>Personal workspace / Illustration</span>
+              </div>
+              <div className="wyp-workspace-welcome">
+                <h3>
+                  A clearer view of
+                  <br />
+                  what comes next.
+                </h3>
+                <p>Every possibility, with a next step.</p>
+              </div>
+              <div className="wyp-overview-grid grid-flow-dense">
+                <div className="wyp-overview-opportunities">
+                  <span className="wyp-tiny">Conversations in motion</span>
+                  {[
+                    {
+                      name: "Linear",
+                      role: "Staff Design Engineer",
+                      stage: "Pitched",
+                      c: "linear",
+                    },
+                    {
+                      name: "Vercel",
+                      role: "Lead Framework Architect",
+                      stage: "Panel round",
+                      c: "vercel",
+                    },
+                    {
+                      name: "Anthropic",
+                      role: "Research Systems",
+                      stage: "Offer stage",
+                      c: "anthropic",
+                    },
+                  ].map((c) => (
+                    <div className="wyp-opportunity-row" key={c.name}>
+                      <span className={`wyp-company-mark wyp-mark-${c.c}`}>
+                        {c.name[0]}
+                      </span>
+                      <div>
+                        <strong>{c.name}</strong>
+                        <p>{c.role}</p>
+                      </div>
+                      <span>{c.stage}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="wyp-overview-next">
+                  <span className="wyp-tiny">On the horizon</span>
+                  <div className="wyp-date-display">
+                    <strong>05</strong>
+                    <span>
+                      November
+                      <br />
+                      Wednesday
+                    </span>
+                  </div>
+                  <h4>Architecture &amp; systems</h4>
+                  <p>Anthropic · 2:00 pm</p>
+                  <span className="wyp-prepared">
+                    <Check size={13} /> Preparation notes, right here
+                  </span>
+                </div>
+              </div>
+              <div className="wyp-workspace-bottom">
+                <span>
+                  <span className="wyp-status-dot" /> One thoughtful step at a
+                  time.
+                </span>
+                <ArrowUpRight size={18} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="wyp-panorama-caption">
+          <span>Built around your search. At your pace.</span>
+          <span>Illustrative product workspace · Sample opportunities</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(waypoint)/waypoint/components/ProductStory.tsx">
+<![CDATA["use client";
+
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  ArrowUpRight,
+  CalendarBlank,
+  Check,
+  EnvelopeSimple,
+  LockKey,
+  SquaresFour,
+} from "@phosphor-icons/react";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const steps = [
+  {
+    title: "Rounds in focus.",
+    short: "Prepare",
+    text: "Walk into the conversation with a clear head. Keep the date, the people, and your preparation right beside the opportunity.",
+  },
+  {
+    title: "One board. Every stage.",
+    short: "Navigate",
+    text: "From a hopeful first pitch to an offer worth considering. See where each conversation stands, and choose your next move.",
+  },
+  {
+    title: "A reply. A new possibility.",
+    short: "Connect",
+    text: "Keep the conversation close. Bring replies and follow-up context together, so a promising introduction never disappears in your inbox.",
+  },
+  {
+    title: "Personal stays personal.",
+    short: "Own it",
+    text: "Your contacts, your notes, your next chapter. Explore the privacy demo and see how sealed and readable states are represented.",
+  },
+];
+
+export function StoryVisual({ index }: { index: number }) {
+  if (index === 0)
+    return (
+      <div className="wyp-story-ui wyp-radar">
+        <div className="wyp-ui-top">
+          <CalendarBlank size={20} />
+          <span>Interview radar</span>
+          <span>November</span>
+        </div>
+        <div className="wyp-week">
+          {["Mon", "Tue", "Wed", "Thu", "Fri"].map((d, i) => (
+            <div key={d} className={i === 2 ? "is-today" : ""}>
+              <span>{d}</span>
+              <strong>{i + 3}</strong>
+              <i />
+            </div>
+          ))}
+        </div>
+        <div className="wyp-round">
+          <span className="wyp-company-mark wyp-mark-anthropic">A</span>
+          <div>
+            <span className="wyp-tiny">Your next conversation</span>
+            <h4>Architecture &amp; systems</h4>
+            <p>Anthropic · Wednesday, 2:00 pm</p>
+          </div>
+        </div>
+        <div className="wyp-prep-list">
+          <span>Room to arrive prepared</span>
+          <p>
+            <Check size={16} /> Review consensus and failover notes
+          </p>
+          <p>
+            <Check size={16} /> Bring questions for the engineering team
+          </p>
+          <p>
+            <span className="wyp-check-empty" /> Revisit compensation priorities
+          </p>
+        </div>
+        <div className="wyp-ui-foot">
+          A clear next step, before you step into the room.
+        </div>
+      </div>
+    );
+  if (index === 1)
+    return (
+      <div className="wyp-story-ui wyp-mini-pipeline">
+        <div className="wyp-ui-top">
+          <SquaresFour size={20} />
+          <span>My pipeline</span>
+          <span>In motion</span>
+        </div>
+        <div className="wyp-flow-path">
+          <span>Pitched</span>
+          <ArrowUpRight />
+          <span>In review</span>
+          <ArrowUpRight />
+          <span>Panel round</span>
+        </div>
+        {[
+          {
+            company: "Linear",
+            role: "Staff Design Engineer",
+            status: "First conversation",
+            cls: "linear",
+          },
+          {
+            company: "Vercel",
+            role: "Lead Framework Architect",
+            status: "Panel round",
+            cls: "vercel",
+          },
+          {
+            company: "Anthropic",
+            role: "Research Systems",
+            status: "Offer stage",
+            cls: "anthropic",
+          },
+        ].map((c) => (
+          <div className="wyp-opportunity-row" key={c.company}>
+            <span className={`wyp-company-mark wyp-mark-${c.cls}`}>
+              {c.company[0]}
+            </span>
+            <div>
+              <strong>{c.company}</strong>
+              <p>{c.role}</p>
+            </div>
+            <span>{c.status}</span>
+          </div>
+        ))}
+        <div className="wyp-ui-foot">A place for every possibility.</div>
+      </div>
+    );
+  if (index === 2)
+    return (
+      <div className="wyp-story-ui wyp-story-inbox">
+        <div className="wyp-ui-top">
+          <EnvelopeSimple size={20} />
+          <span>Conversations</span>
+          <span className="wyp-status-dot" />
+        </div>
+        <div className="wyp-message-meta">
+          <span className="wyp-avatar">EV</span>
+          <div>
+            <strong>Elena at Anthropic</strong>
+            <p>Re: a different approach to systems</p>
+          </div>
+          <span>Just now</span>
+        </div>
+        <div className="wyp-letter">
+          <span>A new conversation begins.</span>
+          <p>
+            “Loved your distributed systems write-up. Are you available for a
+            technical discussion this Wednesday?”
+          </p>
+          <div className="wyp-message-route">
+            <span>First pitch</span>
+            <span />
+            <strong>In review</strong>
+          </div>
+        </div>
+        <div className="wyp-ui-foot">
+          Illustrative conversation · No email integration connected
+        </div>
+      </div>
+    );
+  return (
+    <div className="wyp-story-ui wyp-story-privacy">
+      <div className="wyp-ui-top">
+        <LockKey size={20} />
+        <span>A space of your own</span>
+        <span>Privacy concept</span>
+      </div>
+      <div className="wyp-lock-orbit">
+        <LockKey size={44} weight="light" />
+        <span />
+        <span />
+      </div>
+      <h4>Your next move is yours.</h4>
+      <p>
+        Outreach notes. Private priorities.
+        <br />
+        The things that belong to you.
+      </p>
+      <div className="wyp-cipher">
+        •••• •••• •••• •••• <LockKey size={14} />
+      </div>
+      <div className="wyp-ui-foot">
+        Explore the simulated privacy switch below.
+      </div>
+    </div>
+  );
+}
+
+export function ProductStory() {
+  const root = useRef<HTMLElement>(null);
+  const [active, setActive] = useState(0);
+  useGSAP(
+    () => {
+      const media = gsap.matchMedia();
+      media.add(
+        "(min-width: 1024px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          const articles = gsap.utils.toArray<HTMLElement>(
+            ".wyp-story-step",
+            root.current,
+          );
+          ScrollTrigger.create({
+            trigger: ".wyp-story-body",
+            start: "top 130px",
+            end: "bottom bottom-=80px",
+            pin: ".wyp-story-canvas",
+            pinSpacing: false,
+            invalidateOnRefresh: true,
+          });
+          articles.forEach((article, i) =>
+            ScrollTrigger.create({
+              trigger: article,
+              start: "top 52%",
+              end: "bottom 52%",
+              onEnter: () => setActive(i),
+              onEnterBack: () => setActive(i),
+            }),
+          );
+        },
+      );
+      return () => media.revert();
+    },
+    { scope: root },
+  );
+
+  function selectStep(index: number) {
+    setActive(index);
+    const element =
+      root.current?.querySelectorAll<HTMLElement>(".wyp-story-step")[index];
+    if (!element) return;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const top =
+      window.scrollY +
+      element.getBoundingClientRect().top -
+      Math.min(220, window.innerHeight * 0.24);
+    window.scrollTo({ top, behavior: reduce ? "instant" : "smooth" });
+  }
+
+  return (
+    <section id="story" className="wyp-story wyp-chapter" ref={root}>
+      <div className="wyp-container">
+        <div className="wyp-editorial-heading">
+          <p className="wyp-kicker">A little clarity goes a long way</p>
+          <h2>
+            From first pitch
+            <br />
+            to real momentum.
+          </h2>
+          <p>
+            One considered step at a time.
+            <br />A calmer way to find what comes next.
+          </p>
+        </div>
+        <div className="wyp-story-body">
+          <div className="wyp-story-steps">
+            {steps.map((step, i) => (
+              <article
+                className={`wyp-story-step ${active === i ? "is-active" : ""}`}
+                key={step.short}
+              >
+                <button
+                  type="button"
+                  onClick={() => selectStep(i)}
+                  aria-current={active === i ? "step" : undefined}
+                  className="wyp-story-step-button"
+                >
+                  <span className="wyp-route-marker">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span>{step.short}</span>
+                  <ArrowUpRight size={18} />
+                </button>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+                <a href="#features" className="wyp-text-link">
+                  Try it yourself <ArrowUpRight size={15} />
+                </a>
+                <div className="wyp-mobile-story-visual">
+                  <StoryVisual index={i} />
+                </div>
+              </article>
+            ))}
+          </div>
+          <div
+            className="wyp-story-canvas"
+            aria-label="Illustrative workflow preview"
+          >
+            <div className="wyp-canvas-label">
+              <span>Waypoint / The way forward</span>
+              <span>{String(active + 1).padStart(2, "0")} / 04</span>
+            </div>
+            <div className="wyp-story-visual-frame">
+              {steps.map((step, i) => (
+                <div
+                  key={step.short}
+                  className={`wyp-story-visual ${active === i ? "is-active" : ""}`}
+                  aria-hidden={active !== i}
+                >
+                  <StoryVisual index={i} />
+                </div>
+              ))}
+            </div>
+            <div
+              className="wyp-story-progress"
+              aria-label="Choose a workflow stage"
+            >
+              {steps.map((step, i) => (
+                <button
+                  type="button"
+                  key={step.short}
+                  onClick={() => selectStep(i)}
+                  aria-label={`Show ${step.short}`}
+                  aria-pressed={active === i}
+                >
+                  <span className={active >= i ? "is-complete" : ""} />
+                  <span className="wyp-progress-label">{step.short}</span>
+                </button>
+              ))}
+            </div>
+            <p className="wyp-canvas-footnote">
+              A workflow illustration. The live tools are just ahead.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -1394,10 +4734,16 @@ export function SiteHeader() {
         </a>
 
         <nav className="hidden md:flex items-center gap-8 text-[14px] font-medium text-[#2B2F38]">
-          <a href="#features" className="hover:text-[#121417] transition-colors">
+          <a
+            href="#features"
+            className="hover:text-[#121417] transition-colors"
+          >
             Features
           </a>
-          <a href="#pipeline" className="hover:text-[#121417] transition-colors">
+          <a
+            href="#pipeline"
+            className="hover:text-[#121417] transition-colors"
+          >
             Pipeline
           </a>
           <a href="#pricing" className="hover:text-[#121417] transition-colors">
@@ -1427,8 +4773,17 @@ export function SiteHeader() {
           onClick={() => setMobileMenuOpen(true)}
           className="md:hidden p-2 rounded-lg text-[#121417] hover:bg-[#E5DDD4] transition"
           aria-label="Open navigation menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="waypoint-mobile-navigation"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <line x1="3" y1="12" x2="21" y2="12" />
             <line x1="3" y1="6" x2="21" y2="6" />
             <line x1="3" y1="18" x2="21" y2="18" />
@@ -1436,8 +4791,192 @@ export function SiteHeader() {
         </button>
       </div>
 
-      <MobileNav isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      <MobileNav
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+      />
     </header>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(waypoint)/waypoint/components/WorkspaceDialog.tsx">
+<![CDATA["use client";
+
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, X } from "@phosphor-icons/react";
+import { containDialogFocus } from "../lib/dialogFocus";
+
+export function WorkspaceDialog() {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const [title, setTitle] = useState("Start your Waypoint pipeline");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("Anthropic");
+  const [role, setRole] = useState("Staff Systems Engineer");
+  const [error, setError] = useState("");
+  const [done, setDone] = useState(false);
+  const [info, setInfo] = useState(false);
+  useEffect(() => {
+    const element = dialog.current;
+    if (!element) return;
+    function restoreScroll() {
+      document.body.style.overflow = "";
+    }
+    const observer = new MutationObserver(() => {
+      document.body.style.overflow = element?.open ? "hidden" : "";
+    });
+    observer.observe(element, { attributes: true, attributeFilter: ["open"] });
+    element.addEventListener("close", restoreScroll);
+    return () => {
+      observer.disconnect();
+      element.removeEventListener("close", restoreScroll);
+      restoreScroll();
+    };
+  }, []);
+  useEffect(() => {
+    function handleClick(event: MouseEvent) {
+      const target =
+        event.target instanceof Element
+          ? event.target.closest<HTMLElement>(
+              "a[href='#get-started'], a[href='#signin'], [data-dialog-title]",
+            )
+          : null;
+      if (!target) return;
+      event.preventDefault();
+      setTitle(
+        target.dataset.dialogTitle ||
+          (target.getAttribute("href") === "#signin"
+            ? "Welcome back to Waypoint"
+            : "Start your Waypoint pipeline"),
+      );
+      setInfo(Boolean(target.dataset.dialogInfo));
+      setDone(false);
+      setError("");
+      dialog.current?.showModal();
+    }
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+  return (
+    <dialog
+      className="wyp-dialog"
+      ref={dialog}
+      aria-labelledby="workspace-title"
+      onKeyDown={containDialogFocus}
+      onClick={(event) => {
+        if (event.target === dialog.current) dialog.current.close();
+      }}
+    >
+      <button
+        type="button"
+        className="wyp-dialog-close"
+        aria-label="Close workspace dialog"
+        onClick={() => dialog.current?.close()}
+      >
+        <X size={22} />
+      </button>
+      <p className="wyp-kicker">Waypoint / Workspace preview</p>
+      <h2 id="workspace-title">{title}</h2>
+      {info ? (
+        <>
+          <p>
+            This page is a Waypoint product demonstration. No live accounts,
+            email integrations, purchases, encryption service, or published
+            legal documents are connected.
+          </p>
+          <p>
+            Explore the working pipeline, interview calendar, reply simulation,
+            and privacy controls in the flight deck.
+          </p>
+          <button
+            type="button"
+            className="wyp-button wyp-button-dark"
+            onClick={() => dialog.current?.close()}
+          >
+            Back to Waypoint
+          </button>
+        </>
+      ) : done ? (
+        <div role="status">
+          <h3>Your preview is ready.</h3>
+          <p>
+            A sample pipeline for <strong>{company}</strong>, pursuing{" "}
+            <strong>{role}</strong>. This is a local preview for {email}. No
+            account was created and no email was sent.
+          </p>
+          <button
+            type="button"
+            className="wyp-button wyp-button-dark"
+            onClick={() => {
+              dialog.current?.close();
+              document.getElementById("pipeline")?.scrollIntoView();
+            }}
+          >
+            Explore the flight deck <ArrowUpRight size={18} />
+          </button>
+        </div>
+      ) : (
+        <>
+          <p>
+            Give your next chapter a starting point. Try the local workspace
+            preview.
+          </p>
+          <form
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+                setError("Enter a valid email address.");
+                return;
+              }
+              setError("");
+              setDone(true);
+            }}
+          >
+            <label htmlFor="workspace-email">Your email address</label>
+            <input
+              id="workspace-email"
+              autoComplete="email"
+              type="email"
+              maxLength={254}
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              aria-invalid={Boolean(error)}
+              aria-describedby={error ? "workspace-error" : undefined}
+              placeholder="you@domain.com"
+            />
+            <label htmlFor="workspace-company">First target company</label>
+            <input
+              id="workspace-company"
+              value={company}
+              maxLength={100}
+              onChange={(e) => setCompany(e.target.value)}
+              required
+            />
+            <label htmlFor="workspace-role">Target role</label>
+            <input
+              id="workspace-role"
+              value={role}
+              maxLength={100}
+              onChange={(e) => setRole(e.target.value)}
+              required
+            />
+            {error && (
+              <p role="alert" id="workspace-error">
+                {error}
+              </p>
+            )}
+            <button type="submit" className="wyp-button wyp-button-dark">
+              Preview my workspace <ArrowUpRight size={18} />
+            </button>
+          </form>
+          <small>
+            Local browser demo. No data is sent or stored after reload.
+          </small>
+        </>
+      )}
+    </dialog>
   );
 }
 ]]>
@@ -1479,6 +5018,30 @@ export function useParallax(maxOffset: number = 110, factor: number = 0.22): num
   }, [maxOffset, factor]);
 
   return offset;
+}
+]]>
+    </file>
+    <file path="src/app/(waypoint)/waypoint/lib/dialogFocus.ts">
+<![CDATA[import type { KeyboardEvent } from "react";
+
+/** Keep Tab navigation inside the dialog, including at the browser chrome boundary. */
+export function containDialogFocus(event: KeyboardEvent<HTMLDialogElement>) {
+  if (event.key !== "Tab") return;
+  const controls = Array.from(
+    event.currentTarget.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex="0"]',
+    ),
+  ).filter((element) => element.getClientRects().length > 0);
+  const first = controls[0];
+  const last = controls[controls.length - 1];
+  if (!first) return;
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 }
 ]]>
     </file>
@@ -1665,6 +5228,7 @@ const SCHEDULES: Record<number, InterviewSchedule> = {
 
 export function CalendarWidget() {
   const [selectedDay, setSelectedDay] = useState<number>(5);
+  const [completed, setCompleted] = useState<Record<number, boolean>>({});
   const activeSchedule = SCHEDULES[selectedDay];
 
   const days = [31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
@@ -1685,7 +5249,10 @@ export function CalendarWidget() {
       {/* Weekday Grid */}
       <div className="grid grid-cols-7 gap-1.5 text-center mb-4">
         {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-          <span key={i} className="text-[10px] font-bold text-[#666E7D] uppercase">
+          <span
+            key={i}
+            className="text-[10px] font-bold text-[#666E7D] uppercase"
+          >
             {d}
           </span>
         ))}
@@ -1698,15 +5265,17 @@ export function CalendarWidget() {
             <button
               key={day}
               type="button"
+              aria-pressed={isSelected}
+              disabled={!hasInterview}
               onClick={() => hasInterview && setSelectedDay(day)}
               className={`h-7 rounded text-xs font-semibold flex items-center justify-center transition-all ${
                 isPastMonth
                   ? "text-[#666E7D]/40 pointer-events-none"
                   : isSelected
-                  ? "bg-[#121417] text-[#F5EFEB] shadow-xs"
-                  : hasInterview
-                  ? "bg-[#DBE8FA] text-[#1E4F94] hover:bg-[#DBE8FA]/80 cursor-pointer font-bold"
-                  : "text-[#2B2F38] hover:bg-[#E5DDD4]/50"
+                    ? "bg-[#121417] text-[#F5EFEB] shadow-xs"
+                    : hasInterview
+                      ? "bg-[#DBE8FA] text-[#1E4F94] hover:bg-[#DBE8FA]/80 cursor-pointer font-bold"
+                      : "text-[#2B2F38] hover:bg-[#E5DDD4]/50"
               }`}
             >
               {day}
@@ -1726,9 +5295,22 @@ export function CalendarWidget() {
               {activeSchedule.status}
             </span>
           </div>
-          <p className="text-[11px] text-[#666E7D] leading-relaxed">
-            {activeSchedule.notes}
-          </p>
+          <label className="flex items-start gap-2 text-[11px] text-[#666E7D] leading-relaxed cursor-pointer mt-2">
+            <input
+              type="checkbox"
+              checked={Boolean(completed[selectedDay])}
+              onChange={() =>
+                setCompleted((prev) => ({
+                  ...prev,
+                  [selectedDay]: !prev[selectedDay],
+                }))
+              }
+              className="mt-0.5 accent-[#216143]"
+            />
+            <span className={completed[selectedDay] ? "line-through" : ""}>
+              {activeSchedule.notes}
+            </span>
+          </label>
         </div>
       ) : (
         <div className="bg-[#FFFFFF] border border-[#E5DDD4] rounded-lg p-3 text-center text-xs text-[#666E7D]">
@@ -1744,6 +5326,7 @@ export function CalendarWidget() {
 <![CDATA["use client";
 
 import React, { useState } from "react";
+import { ShieldCheck } from "@phosphor-icons/react";
 
 export function EncryptionWidget() {
   const [isEncrypted, setIsEncrypted] = useState<boolean>(true);
@@ -1754,15 +5337,20 @@ export function EncryptionWidget() {
         <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#E5DDD4]">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-[#ECE6F6] text-[#4B3878] flex items-center justify-center font-bold text-sm shadow-xs">
-              🛡️
+              <ShieldCheck size={20} />
             </div>
             <div>
-              <div className="text-xs font-bold text-[#121417]">Client Cryptography</div>
-              <div className="text-[10px] text-[#666E7D]">AES-GCM-256 local key store</div>
+              <div className="text-xs font-bold text-[#121417]">
+                Client Cryptography
+              </div>
+              <div className="text-[10px] text-[#666E7D]">
+                AES-GCM-256 local key store
+              </div>
             </div>
           </div>
           <button
             type="button"
+            aria-pressed={isEncrypted}
             onClick={() => setIsEncrypted((prev) => !prev)}
             className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
               isEncrypted
@@ -1781,17 +5369,21 @@ export function EncryptionWidget() {
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="text-[#666E7D]">Email Body Encryption</span>
-            <span className="font-bold text-[#121417]">{isEncrypted ? "Client-Only Decrypt" : "Plaintext Cached"}</span>
+            <span className="font-bold text-[#121417]">
+              {isEncrypted ? "Client-Only Decrypt" : "Plaintext Cached"}
+            </span>
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="text-[#666E7D]">Target Contact Scraping</span>
-            <span className="font-bold text-[#121417]">Zero Third-Party Sync</span>
+            <span className="font-bold text-[#121417]">
+              Zero Third-Party Sync
+            </span>
           </div>
         </div>
       </div>
 
       <div className="mt-4 text-[10px] text-[#666E7D] text-center">
-        Toggle state to simulate client-side cryptographic isolation.
+        Simulated privacy states only. No real encryption is performed.
       </div>
     </div>
   );
@@ -1820,8 +5412,12 @@ export function KanbanWidget() {
     <div className="bg-[#FAF8F5] rounded-xl p-4 md:p-5 border border-[#E5DDD4]">
       <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#E5DDD4]">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-[#121417]">Live Pipeline</span>
-          <span className="text-[11px] text-[#666E7D]">Click any card to advance stage</span>
+          <span className="text-xs font-bold text-[#121417]">
+            Live Pipeline
+          </span>
+          <span className="text-[11px] text-[#666E7D]">
+            Click any card to advance stage
+          </span>
         </div>
         <span className="text-[10px] font-bold text-[#1E4F94] bg-[#DBE8FA] px-2 py-0.5 rounded-full">
           {pipeline.length} Total Tracks
@@ -1836,6 +5432,17 @@ export function KanbanWidget() {
           return (
             <div
               key={stage.id}
+              data-kanban-stage={stage.id}
+              onDragOver={(event) => event.preventDefault()}
+              onDrop={(event) => {
+                event.preventDefault();
+                const id = event.dataTransfer.getData("text/plain");
+                setPipeline((prev) =>
+                  prev.map((card) =>
+                    card.id === id ? { ...card, stage: stage.id } : card,
+                  ),
+                );
+              }}
               className="bg-[#FFFFFF] border border-[#E5DDD4] rounded-lg p-2.5 flex flex-col justify-between min-h-[140px]"
             >
               <div>
@@ -1848,11 +5455,15 @@ export function KanbanWidget() {
                   </span>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1.5" aria-live="polite">
                   {cards.map((card) => (
                     <button
                       key={card.id}
                       type="button"
+                      draggable
+                      onDragStart={(event) =>
+                        event.dataTransfer.setData("text/plain", card.id)
+                      }
                       onClick={() => handleCardClick(card.id)}
                       className={`w-full text-left p-2 rounded border transition-all cursor-pointer hover:shadow-xs active:scale-98 ${
                         isOffer
@@ -1870,7 +5481,7 @@ export function KanbanWidget() {
                   ))}
                   {cards.length === 0 && (
                     <div className="text-[10px] text-[#666E7D]/60 text-center py-4 border border-dashed border-[#E5DDD4] rounded">
-                      Drop stage
+                      Ready for your next opportunity
                     </div>
                   )}
                 </div>
@@ -1907,7 +5518,8 @@ const SAMPLE_REPLIES: ReplyMessage[] = [
     id: "anthropic-1",
     sender: "Elena Rostova",
     company: "Anthropic",
-    preview: "Loved your distributed systems write-up. Are you available for a technical discussion this Wednesday?",
+    preview:
+      "Loved your distributed systems write-up. Are you available for a technical discussion this Wednesday?",
     timeAgo: "Just now",
     actionText: "Accept Call",
   },
@@ -1915,7 +5527,8 @@ const SAMPLE_REPLIES: ReplyMessage[] = [
     id: "linear-1",
     sender: "Karri Saarinen",
     company: "Linear",
-    preview: "Impressive attention to keyboard interactions. Let's schedule an intro with our product team.",
+    preview:
+      "Impressive attention to keyboard interactions. Let's schedule an intro with our product team.",
     timeAgo: "2h ago",
     actionText: "View Thread",
   },
@@ -1923,7 +5536,8 @@ const SAMPLE_REPLIES: ReplyMessage[] = [
     id: "figma-1",
     sender: "Dylan Field",
     company: "Figma",
-    preview: "Checked your engine demo. We have a founding role on canvas performance opening up.",
+    preview:
+      "Checked your engine demo. We have a founding role on canvas performance opening up.",
     timeAgo: "Yesterday",
     actionText: "Book Meeting",
   },
@@ -1932,6 +5546,7 @@ const SAMPLE_REPLIES: ReplyMessage[] = [
 export function ReplyFeedWidget() {
   const [replies, setReplies] = useState<ReplyMessage[]>([SAMPLE_REPLIES[0]]);
   const [index, setIndex] = useState<number>(1);
+  const [thread, setThread] = useState<string | null>(null);
 
   function simulateNewReply() {
     const nextMsg = SAMPLE_REPLIES[index % SAMPLE_REPLIES.length];
@@ -1948,7 +5563,9 @@ export function ReplyFeedWidget() {
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#E5DDD4]">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#216143] animate-ping" />
-            <span className="text-xs font-bold text-[#121417]">Live Recruiter Signal</span>
+            <span className="text-xs font-bold text-[#121417]">
+              Live Recruiter Signal
+            </span>
           </div>
           <button
             type="button"
@@ -1959,7 +5576,7 @@ export function ReplyFeedWidget() {
           </button>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2" aria-live="polite" aria-relevant="additions">
           {replies.map((reply) => (
             <div
               key={reply.id}
@@ -1969,7 +5586,9 @@ export function ReplyFeedWidget() {
                 <span className="text-xs font-bold text-[#121417]">
                   {reply.sender} at {reply.company}
                 </span>
-                <span className="text-[10px] text-[#666E7D]">{reply.timeAgo}</span>
+                <span className="text-[10px] text-[#666E7D]">
+                  {reply.timeAgo}
+                </span>
               </div>
               <p className="text-[11px] text-[#2B2F38] line-clamp-2 leading-relaxed mb-2">
                 &ldquo;{reply.preview}&rdquo;
@@ -1980,18 +5599,29 @@ export function ReplyFeedWidget() {
                 </span>
                 <button
                   type="button"
+                  aria-expanded={thread === reply.id}
+                  onClick={() =>
+                    setThread(thread === reply.id ? null : reply.id)
+                  }
                   className="text-[10px] font-bold text-[#121417] hover:underline"
                 >
                   {reply.actionText} &rarr;
                 </button>
               </div>
+              {thread === reply.id && (
+                <p className="text-[11px] text-[#666E7D] mt-3 border-t border-[#E5DDD4] pt-3">
+                  Sample thread with {reply.sender}. In the product, this is
+                  where you would review the conversation and choose a next
+                  step. No message or meeting is sent from this demo.
+                </p>
+              )}
             </div>
           ))}
         </div>
       </div>
 
       <div className="mt-3 text-[10px] text-[#666E7D] text-center">
-        Incoming replies trigger automated pipeline stage updates.
+        Sample inbox simulation. No email or calendar is connected.
       </div>
     </div>
   );

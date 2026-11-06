@@ -15,10 +15,16 @@ export function SiteHeader() {
         </a>
 
         <nav className="hidden md:flex items-center gap-8 text-[14px] font-medium text-[#2B2F38]">
-          <a href="#features" className="hover:text-[#121417] transition-colors">
+          <a
+            href="#features"
+            className="hover:text-[#121417] transition-colors"
+          >
             Features
           </a>
-          <a href="#pipeline" className="hover:text-[#121417] transition-colors">
+          <a
+            href="#pipeline"
+            className="hover:text-[#121417] transition-colors"
+          >
             Pipeline
           </a>
           <a href="#pricing" className="hover:text-[#121417] transition-colors">
@@ -48,8 +54,17 @@ export function SiteHeader() {
           onClick={() => setMobileMenuOpen(true)}
           className="md:hidden p-2 rounded-lg text-[#121417] hover:bg-[#E5DDD4] transition"
           aria-label="Open navigation menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="waypoint-mobile-navigation"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <line x1="3" y1="12" x2="21" y2="12" />
             <line x1="3" y1="6" x2="21" y2="6" />
             <line x1="3" y1="18" x2="21" y2="18" />
@@ -57,7 +72,10 @@ export function SiteHeader() {
         </button>
       </div>
 
-      <MobileNav isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      <MobileNav
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+      />
     </header>
   );
 }

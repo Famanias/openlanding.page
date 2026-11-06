@@ -1,5 +1,4 @@
 import React from "react";
-import { Logo } from "./Logo";
 
 export function Footer() {
   return (
@@ -11,7 +10,12 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <div className="flex items-center justify-center rounded-xl bg-[#F5EFEB] text-[#121417] w-7 h-7 shadow-sm">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M8 2L13 13L8 10.5L3 13L8 2Z" fill="#121417" stroke="#121417" strokeWidth="0.5" />
+                  <path
+                    d="M8 2L13 13L8 10.5L3 13L8 2Z"
+                    fill="#121417"
+                    stroke="#121417"
+                    strokeWidth="0.5"
+                  />
                   <circle cx="8" cy="10.5" r="1" fill="#1E4F94" />
                 </svg>
               </div>
@@ -20,7 +24,9 @@ export function Footer() {
               </span>
             </div>
             <p className="text-xs text-[#F5EFEB]/70 max-w-sm leading-relaxed mb-6">
-              The career outreach pipeline for senior software engineers and product designers. Pitch directly, monitor candidate momentum, and pilot your search to the offer stage.
+              The career outreach pipeline for senior software engineers and
+              product designers. Pitch directly, track your momentum, and pilot
+              your search to the offer stage.
             </p>
             <div className="text-xs text-[#F5EFEB]/50">
               © 2026 Waypoint Systems. All rights reserved.
@@ -34,10 +40,31 @@ export function Footer() {
                 Product
               </div>
               <ul className="space-y-2 text-xs text-[#F5EFEB]/70">
-                <li><a href="#features" className="hover:text-white transition">Features</a></li>
-                <li><a href="#pipeline" className="hover:text-white transition">Pipeline Deck</a></li>
-                <li><a href="#pricing" className="hover:text-white transition">Pricing</a></li>
-                <li><a href="#pitch-drafter" className="hover:text-white transition">Pitch Drafter</a></li>
+                <li>
+                  <a href="#features" className="hover:text-white transition">
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a href="#pipeline" className="hover:text-white transition">
+                    Pipeline Deck
+                  </a>
+                </li>
+                <li>
+                  <a href="#pricing" className="hover:text-white transition">
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Pitch Drafter"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Pitch Drafter
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -46,10 +73,46 @@ export function Footer() {
                 Company
               </div>
               <ul className="space-y-2 text-xs text-[#F5EFEB]/70">
-                <li><a href="#about" className="hover:text-white transition">About</a></li>
-                <li><a href="#manifesto" className="hover:text-white transition">Manifesto</a></li>
-                <li><a href="#careers" className="hover:text-white transition">Careers</a></li>
-                <li><a href="#contact" className="hover:text-white transition">Contact</a></li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="About"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    About
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Manifesto"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Manifesto
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Careers"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Careers
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Contact"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Contact
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -58,10 +121,46 @@ export function Footer() {
                 Resources
               </div>
               <ul className="space-y-2 text-xs text-[#F5EFEB]/70">
-                <li><a href="#guides" className="hover:text-white transition">Outreach Guides</a></li>
-                <li><a href="#templates" className="hover:text-white transition">Pitch Templates</a></li>
-                <li><a href="#changelog" className="hover:text-white transition">Changelog</a></li>
-                <li><a href="#status" className="hover:text-white transition">System Status</a></li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Outreach Guides"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Outreach Guides
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Pitch Templates"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Pitch Templates
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Changelog"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Changelog
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="System Status"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    System Status
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -70,10 +169,46 @@ export function Footer() {
                 Legal
               </div>
               <ul className="space-y-2 text-xs text-[#F5EFEB]/70">
-                <li><a href="#privacy" className="hover:text-white transition">Privacy Policy</a></li>
-                <li><a href="#terms" className="hover:text-white transition">Terms of Service</a></li>
-                <li><a href="#security" className="hover:text-white transition">Security Audit</a></li>
-                <li><a href="#gdpr" className="hover:text-white transition">GDPR Compliance</a></li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Privacy Policy"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Privacy Policy
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Terms of Service"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Terms of Service
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="Security Audit"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    Security Audit
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    data-dialog-title="GDPR Compliance"
+                    data-dialog-info="true"
+                    className="hover:text-white transition"
+                  >
+                    GDPR Compliance
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
@@ -87,7 +222,8 @@ export function Footer() {
         </div>
 
         <div className="text-[11px] text-[#F5EFEB]/40 text-center pt-4">
-          Company marks and logos are depicted for portfolio illustration purposes only.
+          Company marks and logos are depicted for portfolio illustration
+          purposes only.
         </div>
       </div>
     </footer>

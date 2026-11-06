@@ -12,13 +12,15 @@ export function PricingSection() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFFFFF] border border-[#E5DDD4] text-xs font-bold text-[#1E4F94] mb-3">
-            Pricing &bull; Direct Agency
+            Room to begin. Space to grow.
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[-0.035em] text-[#121417] leading-tight mb-4">
             Transparent while you search.
           </h2>
           <p className="text-base text-[#2B2F38] leading-relaxed">
-            No agency middleman taking 25% of your signing bonus. You write the pitches, you own the relationship, and your first 25 tracked applications cost nothing.
+            No agency middleman taking 25% of your signing bonus. You write the
+            pitches, you own the relationship, and your first 25 tracked
+            applications cost nothing.
           </p>
 
           {/* Cadence Switcher */}
@@ -26,6 +28,7 @@ export function PricingSection() {
             <button
               type="button"
               onClick={() => setCadence("monthly")}
+              aria-pressed={cadence === "monthly"}
               className={`px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                 cadence === "monthly"
                   ? "bg-[#FFFFFF] text-[#121417] shadow-xs"
@@ -37,6 +40,7 @@ export function PricingSection() {
             <button
               type="button"
               onClick={() => setCadence("annual")}
+              aria-pressed={cadence === "annual"}
               className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                 cadence === "annual"
                   ? "bg-[#FFFFFF] text-[#121417] shadow-xs"
@@ -45,7 +49,7 @@ export function PricingSection() {
             >
               <span>Annual Billing</span>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#D8EADF] text-[#216143]">
-                Save 20%
+                Annual savings
               </span>
             </button>
           </div>
@@ -109,7 +113,8 @@ export function PricingSection() {
         </div>
 
         <p className="mt-12 text-center text-xs text-[#666E7D]">
-          All plans include client-side zero-knowledge encryption. Cancel or export anytime in one click.
+          Illustrative plan information. No purchase or subscription is created
+          by this demo.
         </p>
       </div>
     </section>

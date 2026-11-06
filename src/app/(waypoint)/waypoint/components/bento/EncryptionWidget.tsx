@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { ShieldCheck } from "@phosphor-icons/react";
 
 export function EncryptionWidget() {
   const [isEncrypted, setIsEncrypted] = useState<boolean>(true);
@@ -11,15 +12,20 @@ export function EncryptionWidget() {
         <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#E5DDD4]">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-[#ECE6F6] text-[#4B3878] flex items-center justify-center font-bold text-sm shadow-xs">
-              🛡️
+              <ShieldCheck size={20} />
             </div>
             <div>
-              <div className="text-xs font-bold text-[#121417]">Client Cryptography</div>
-              <div className="text-[10px] text-[#666E7D]">AES-GCM-256 local key store</div>
+              <div className="text-xs font-bold text-[#121417]">
+                Client Cryptography
+              </div>
+              <div className="text-[10px] text-[#666E7D]">
+                AES-GCM-256 local key store
+              </div>
             </div>
           </div>
           <button
             type="button"
+            aria-pressed={isEncrypted}
             onClick={() => setIsEncrypted((prev) => !prev)}
             className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
               isEncrypted
@@ -38,17 +44,21 @@ export function EncryptionWidget() {
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="text-[#666E7D]">Email Body Encryption</span>
-            <span className="font-bold text-[#121417]">{isEncrypted ? "Client-Only Decrypt" : "Plaintext Cached"}</span>
+            <span className="font-bold text-[#121417]">
+              {isEncrypted ? "Client-Only Decrypt" : "Plaintext Cached"}
+            </span>
           </div>
           <div className="flex items-center justify-between text-xs">
             <span className="text-[#666E7D]">Target Contact Scraping</span>
-            <span className="font-bold text-[#121417]">Zero Third-Party Sync</span>
+            <span className="font-bold text-[#121417]">
+              Zero Third-Party Sync
+            </span>
           </div>
         </div>
       </div>
 
       <div className="mt-4 text-[10px] text-[#666E7D] text-center">
-        Toggle state to simulate client-side cryptographic isolation.
+        Simulated privacy states only. No real encryption is performed.
       </div>
     </div>
   );
