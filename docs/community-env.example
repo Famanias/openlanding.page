@@ -1,0 +1,11 @@
+# Public Next.js Frontend Configuration (Vercel / .env.local)
+# Note: NEXT_PUBLIC_* values are embedded at Next.js build time.
+# Changing these values in Vercel requires a frontend rebuild/redeploy.
+
+NEXT_PUBLIC_COMMUNITY_API_URL=https://community.example.com
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=0x4AAAAAA...
+
+# Existing gallery vote configuration remains unchanged:
+# UPSTASH_REDIS_REST_URL=
+# UPSTASH_REDIS_REST_TOKEN=
+# VOTES_HASH_SALT=

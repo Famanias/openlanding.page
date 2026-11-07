@@ -70,8 +70,11 @@ bun run check
 # Run unit tests
 bun run test
 
-# Run end-to-end tests
+# Run end-to-end tests (templates & gallery)
 bun run test:e2e
+
+# Run Community UI end-to-end tests
+bun run test:e2e:community
 
 # Run linter
 bun run lint
@@ -88,9 +91,13 @@ Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTIN
 
 ---
 
-## License
+## License &amp; Community Scope
 
-This project is licensed under the [MIT License](LICENSE).
+Repository source code, built-in gallery templates (`src/app/(template_name)/` and `public/downloads/`), and optional standalone HTML templates explicitly contributed through the Community submission workflow are licensed under the [MIT License](LICENSE).
+
+- **Curated Templates &amp; Contributed HTML:** Licensed under the [MIT License](LICENSE) for personal and commercial use, modification, and redistribution with preserved copyright and permission notices.
+- **Community Website Listings:** External websites listed in the **Community** tab retain their own copyright, branding, and terms of service. Submitting or displaying a website link and preview screenshot in the Community gallery does **not** grant an MIT license over the linked website.
+- **Community Terms &amp; Privacy:** See `/community-terms` and `/community-privacy` in the application for consent versions, moderation rules, data retention, and takedown contact details.
 
 ### Third-Party Notices &amp; GSAP License
 

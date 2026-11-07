@@ -1,4 +1,7 @@
 import { describe, it, expect } from "vitest";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as THREE from "three";
@@ -57,6 +60,13 @@ describe("landing page sections", () => {
     expect(html).not.toContain('href="#gallery"');
     expect(html).not.toContain('href="#how-it-works"');
     expect(html).not.toContain("<span>openlandingpage</span>");
+    expect(html).toContain("/community-terms");
+    expect(html).toContain("/community-privacy");
+    expect(html).toContain("External community websites keep their own terms.");
+
+    const licenseBytes = readFileSync(path.resolve(process.cwd(), "LICENSE"));
+    const licenseSha256 = createHash("sha256").update(licenseBytes).digest("hex");
+    expect(licenseSha256).toBe("a9fb8dc126580c276ee676b93d63d7009b174f11be054afc778d4b6957e26853");
   });
 
   it("maps pointer coordinates inside the footer scene into sculpture local space", () => {

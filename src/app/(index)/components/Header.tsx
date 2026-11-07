@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { GithubLogo, MagnifyingGlass, X, BracketsAngle, Star } from "@phosphor-icons/react/dist/ssr";
+import { requestOpenCommunitySubmission } from "./GalleryShell";
 import { updateGalleryFilters, useGalleryFilters } from "./useGalleryFilters";
 
 export function Header() {
@@ -76,6 +77,13 @@ export function Header() {
           >
             Gallery
           </a>
+          <button
+            type="button"
+            onClick={requestOpenCommunitySubmission}
+            className="nav-link nav-button-link"
+          >
+            Add your website
+          </button>
           <a
             href="#contact"
             className="nav-link"

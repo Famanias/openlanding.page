@@ -16,11 +16,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://openlandingpage.vercel.app"),
   title: "openlandingpage — Landing Pages, from Header to Footer.",
   description:
-    "Not Just A Hero Section. One Click Download, 100% Free, No Paywalls. · MIT License",
+    "Not Just A Hero Section. One Click Download, 100% Free, No Paywalls. · MIT-licensed templates & contributed HTML; linked community websites keep their own terms.",
   openGraph: {
     title: "openlandingpage — Landing Pages, from Header to Footer.",
     description:
-      "Not Just A Hero Section. One Click Download, 100% Free, No Paywalls. · MIT License",
+      "Not Just A Hero Section. One Click Download, 100% Free, No Paywalls. · MIT-licensed templates & contributed HTML; linked community websites keep their own terms.",
     type: "website",
   },
   icons: {
