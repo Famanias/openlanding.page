@@ -40,6 +40,27 @@
   --acid-volt: #D4FF00;
 }
 
+/* Let the telemetry text shrink before applying its existing ellipsis. */
+.synapxe-root [data-testid="fabric-weather-control-bar"] > div > div {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 639px) {
+  /* Keep every header action available without compressing the wordmark. */
+  .synapxe-root > header > div {
+    height: auto;
+    flex-wrap: wrap;
+    padding-block: 12px;
+  }
+
+  .synapxe-root > header > div > div:last-child {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+
 .chamfer-btn {
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
 }

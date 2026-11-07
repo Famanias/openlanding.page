@@ -1011,6 +1011,7 @@ Build a complete, responsive, interaction-rich landing page for **AUREL** using 
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   {
     slug: "amaoto",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "AMAOTO",
     description: "The sound of rain, kept dry. A wagasa atelier landing page with a scroll-driven procedural umbrella.",
@@ -1026,6 +1027,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
 
   {
     slug: "orrery",
+    hasDownload: true,
     createdAt: "2026-10-20",
     title: "Orrery",
     description:
@@ -1056,6 +1058,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "koji",
+    hasDownload: true,
     createdAt: "2026-10-20",
     title: "KŌJI",
     description:
@@ -1071,6 +1074,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "trace",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "TRACE",
     description:
@@ -1102,6 +1106,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "vector",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "VECTOR/90",
     description:
@@ -1163,6 +1168,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "noctiluca",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "Noctiluca",
     description:
@@ -1178,6 +1184,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "iridia",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "IRIDIA",
     description:
@@ -1193,6 +1200,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "bathys",
+    hasDownload: true,
     createdAt: "2026-10-22",
     title: "BATHYS",
     description:
@@ -1253,6 +1261,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "volume-zero",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "VOLUME ZERO",
     description:
@@ -1581,6 +1590,7 @@ slug: "tally",
   },
   {
     slug: "cullet",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "Cullet",
     description: "Designed in glass. A real-time material studio whose hero is a slab of frosted quartz cut into shards that tilt, lift and carry selectable text; scrolling cleaves it apart into a pinned glossary of five optical terms, a live WebGL glass sampler with a glTF readout, and a library of six cuts.",
@@ -1624,6 +1634,7 @@ slug: "tally",
   },
   {
     slug: "lowtide",
+    hasDownload: true,
     createdAt: "2026-10-27",
     title: "LOWTIDE",
     description: "Let the tide go out. A sleep ring told as one night on a moonlit tidal flat: scroll is the clock, five low tides tell the story.",
@@ -1638,6 +1649,7 @@ slug: "tally",
   },
   {
     slug: "loam",
+    hasDownload: true,
     createdAt: "2026-10-28",
     title: "LOAM",
     description: "Grown, not made. An interactive 3D macro experience through living mycelium networks: scroll descends from the fruiting mushroom into the subterranean web that LOAM cultivates into custom molded packaging.",
@@ -1652,6 +1664,7 @@ slug: "tally",
   },
   {
     slug: "perigee",
+    hasDownload: true,
     createdAt: "2026-10-30",
     title: "PERIGEE",
     description: "At the edge of curved spacetime. A full-screen 3D relativistic Schwarzschild black hole scroll experience and geodesic telemetry observatory.",
@@ -1666,6 +1679,7 @@ slug: "tally",
   },
   {
     slug: "xibalba",
+    hasDownload: true,
     createdAt: "2026-10-30",
     title: "XIBALBA",
     description: "Night of the Jade Cenote. An interactive vertical descent scroll into the subterranean botanical reserve and nocturnal equinox ceremony of Xibalba.",
@@ -1680,6 +1694,7 @@ slug: "tally",
   },
   {
     slug: "synapxe",
+    hasDownload: true,
     createdAt: "2026-10-30",
     title: "Synapxe",
     description: "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
@@ -1694,6 +1709,7 @@ slug: "tally",
   },
   {
     slug: "morta",
+    hasDownload: true,
     createdAt: "2026-10-31",
     title: "MORTA",
     description: "A sculptural sterling-silver jewellery house with cinematic photography and interactive ring studies.",
@@ -1708,6 +1724,7 @@ slug: "tally",
   },
   {
     slug: "lumen",
+    hasDownload: true,
     createdAt: "2026-10-31",
     title: "LUMEN",
     description: "The AI Workflow Playbook landing page featuring real-time optical glassmorphism, interactive workflow choreography, and custom shader studio.",
@@ -1764,6 +1781,7 @@ slug: "tally",
   },
   {
     slug: "parallel",
+    hasDownload: true,
     createdAt: "2026-10-31",
     title: "PARALLEL",
     description: "Interactive 3D urban simulation and decision intelligence platform exploring divergent futures, infrastructure disruptions, and explainable interventions.",
@@ -1823,6 +1841,7 @@ slug: "tally",
   },
   {
     slug: "mercer",
+    hasDownload: true,
     createdAt: "2026-11-02",
     title: "Jules Mercer",
     description: "Creative developer portfolio featuring an interactive procedural (2,3) torus knot in Three.js, blueprint telemetry HUD, and interactive code experiments.",
@@ -2004,6 +2023,7 @@ slug: "tally",
   },
   {
     slug: "lenus",
+    hasDownload: true,
     createdAt: "2026-11-03",
     title: "LENUS",
     description: "Reality is just the start. A creative studio with a procedural optical lens, explodable assembly, focus controls and an accessible still preview.",
@@ -2343,7 +2363,7 @@ Use the following records verbatim as the runtime content source. Artwork URLs p
 ]
 \`\`\`
 `;
-RAW_TEMPLATES.push({ slug: "savepoint", createdAt: "2026-11-04", hasDownload: false, title: "SAVEPOINT.", description: "Ten strange little universes. One console. A tactile cartridge archive with a physical insertion ritual.", category: "3d", categories: ["3d", "showcase", "editorial"], industry: "Independent Games", stack: "Next.js 16 · React 19 · Three.js · GSAP · Tailwind v4", badges: ["Procedural 3D", "Physical Boot", "Interactive Archive"], previewImage: "/templates/savepoint/preview-1600.webp", promptMarkdown: SAVEPOINT_PROMPT, model: "GPT-6.1" });
+RAW_TEMPLATES.push({ slug: "savepoint", createdAt: "2026-11-04", hasDownload: true, title: "SAVEPOINT.", description: "Ten strange little universes. One console. A tactile cartridge archive with a physical insertion ritual.", category: "3d", categories: ["3d", "showcase", "editorial"], industry: "Independent Games", stack: "Next.js 16 · React 19 · Three.js · GSAP · Tailwind v4", badges: ["Procedural 3D", "Physical Boot", "Interactive Archive"], previewImage: "/templates/savepoint/preview-1600.webp", promptMarkdown: SAVEPOINT_PROMPT, model: "GPT-6.1" });
 
 export const WAYPOINT_PROMPT = `# Waypoint Rebuild Prompt
 
@@ -2416,7 +2436,7 @@ RAW_TEMPLATES.push(
   {
     slug: "arcsignal",
     createdAt: "2026-11-06",
-    hasDownload: false,
+    hasDownload: true,
     title: "Arc & Signal",
     description: "Connect models, agents, tools, and data in one orchestration layer built for clarity, control, and scale.",
     category: "ai",

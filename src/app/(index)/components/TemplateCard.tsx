@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Copy, DownloadSimple, Check, ThumbsUp, ThumbsDown } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
+import { downloadStandalone } from "../lib/download";
 
 import type { VoteCounts, VoteDirection } from "../../../lib/votes/types";
 
@@ -45,18 +46,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
     setCopiedAction(null);
     setBusy(true);
     try {
-      const response = await fetch(`/downloads/${template.slug}.html`);
-      if (!response.ok) throw new Error("HTML unavailable");
-      const content = await response.text();
-      const blob = new Blob([content], { type: "text/html;charset=utf-8" });
-      const downloadUrl = URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = downloadUrl;
-      anchor.download = `${template.slug}.html`;
-      document.body.appendChild(anchor);
-      anchor.click();
-      anchor.remove();
-      setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+      await downloadStandalone(template.slug);
       setCopiedAction("template");
     } catch { setCopyError("Couldn't download. Please try again."); }
     finally { setBusy(false); }

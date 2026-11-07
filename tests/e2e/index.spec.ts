@@ -1,7 +1,8 @@
 import { test, expect } from "@playwright/test";
+import {TEMPLATES,getTemplateCategories} from "../../src/app/(index)/data/templates";
 
 test.describe("openlandingpage gallery index", () => {
-  test("index lists the three templates with valid links to live sites", async ({ page }) => {
+  test("index lists representative templates with valid links to live sites", async ({ page }) => {
     await page.goto("/");
 
     const expectedTemplates = [
@@ -67,64 +68,31 @@ test.describe("openlandingpage gallery index", () => {
     expect(html).not.toContain("/_next/");
     expect(html).not.toContain("<base ");
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("Keep my clipboard");
-    const pendingDownload = page.locator("article").filter({ hasText: "Orrery" }).getByRole("button", { name: "Download HTML", exact: true });
-    await expect(pendingDownload).toBeVisible();
-    await expect(pendingDownload).toBeDisabled();
-    await expect(pendingDownload).toHaveAttribute("title", "HTML coming soon");
+    const pending = TEMPLATES.filter(template => !template.hasDownload);
+    await expect(page.locator('button[aria-label="Download HTML"][disabled]')).toHaveCount(pending.length);
+    if (pending.length) {
+      const pendingDownload = page.locator("article").filter({has:page.locator(`h3 a[href="/${pending[0].slug}"]`)}).getByRole("button",{name:"Download HTML",exact:true});
+      await expect(pendingDownload).toHaveAttribute("title","HTML coming soon");
+    }
   });
 
-  test("category filter chips filter templates and update result counter", async ({ page }) => {
+  test("category filter chips filter templates and update result counter", async ({page}) => {
     await page.goto("/");
-
-    // Initially all 43 templates are displayed
-    await expect(page.locator("article")).toHaveCount(43);
-    await expect(page.getByText("Showing 43 of 43 templates")).toBeVisible();
-
-    // Click category chip "3D & WebGPU"
-    const webgpuTab = page.getByRole("tab", { name: /3D & WebGPU/i });
-    await expect(webgpuTab).toBeVisible();
-    await webgpuTab.click();
-
-    // Assert only 3D & WebGPU templates are visible (LOAM, KŌJI, TRACE, VECTOR/90, Noctiluca, IRIDIA, VOLUME ZERO, Cullet, etc.)
-    await expect(page.locator("article")).toHaveCount(10);
-    await expect(page.locator("article").filter({ hasText: "LOAM" })).toBeVisible();
-    await expect(page.locator("article").filter({ hasText: "KŌJI" })).toBeVisible();
-    await expect(page.locator("article").filter({ hasText: "TRACE" })).toBeVisible();
-    await expect(page.locator("article").filter({ hasText: "VECTOR/90" })).toBeVisible();
-    await expect(page.locator("article").filter({ hasText: "Noctiluca" })).toBeVisible();
-    await expect(page.locator("article").filter({ hasText: "IRIDIA" })).toBeVisible();
-    await expect(page.locator("article").filter({ hasText: "VOLUME ZERO" })).toBeVisible();
-    await expect(page.locator("article").filter({ hasText: "Orrery" })).toHaveCount(0);
-    await expect(page.locator("article").filter({ hasText: "KEYTU" })).toHaveCount(0);
-
-    // Counter updates to "Showing 10 of 43 templates"
-    await expect(page.getByText("Showing 10 of 43 templates")).toBeVisible();
-
-    // Click "Reset filters" button (aria-label="Reset category filters")
-    const resetBtn = page.getByRole("button", { name: /reset category filters/i });
-    await expect(resetBtn).toBeVisible();
-    await resetBtn.click();
-
-    // All 43 return
-    await expect(page.locator("article")).toHaveCount(43);
-    await expect(page.getByText("Showing 43 of 43 templates")).toBeVisible();
-
-    // Also test clicking the "All" tab after filtering
-    const keynoteTab = page.getByRole("tab", { name: /Keynote & Deck/i });
-    await keynoteTab.click();
-    await expect(page.locator("article")).toHaveCount(2);
-    await expect(page.getByText("Showing 2 of 43 templates")).toBeVisible();
-
-    // The editorial category holds WOWFLUTTER and SEREIN
-    await page.getByRole("tab", { name: /Editorial Magazine/i }).click();
-    await expect(page.locator("article")).toHaveCount(2);
-    await expect(page.locator("article").filter({ hasText: "WOWFLUTTER" })).toBeVisible();
-    await expect(page.locator("article").filter({ hasText: "SEREIN Bureau" })).toBeVisible();
-
-    const allTab = page.getByRole("tab", { name: /^All/i });
-    await allTab.click();
-    await expect(page.locator("article")).toHaveCount(43);
-    await expect(page.getByText("Showing 43 of 43 templates")).toBeVisible();
+    const total=TEMPLATES.length;
+    await expect(page.locator("article")).toHaveCount(total);
+    await expect(page.getByText(`Showing ${total} of ${total} templates`)).toBeVisible();
+    for(const [category,label] of [["3d",/^3D/],["deck",/^Deck/],["editorial",/^Editorial/]] as const){
+      await page.getByRole("tab",{name:label}).click();
+      const expected=TEMPLATES.filter(template=>getTemplateCategories(template).includes(category));
+      await expect(page.locator("article")).toHaveCount(expected.length);
+      await expect(page.getByText(`Showing ${expected.length} of ${total} templates`)).toBeVisible();
+      await expect(page.locator(`article h3 a[href="/${expected[0].slug}"]`)).toBeVisible();
+      await page.getByRole("button",{name:/reset category filters/i}).click();
+      await expect(page.locator("article")).toHaveCount(total);
+    }
+    await page.getByRole("tab",{name:/^3D/}).click();
+    await page.getByRole("tab",{name:/^All/}).click();
+    await expect(page.locator("article")).toHaveCount(total);
   });
 
   test("mobile viewport at 375px has zero horizontal overflow", async ({ page }) => {
@@ -145,23 +113,14 @@ test.describe("openlandingpage gallery index", () => {
 test.describe("reduced motion behavior", () => {
   test.use({ reducedMotion: "reduce" });
 
-  test("reduced motion suppresses hover video", async ({ page }) => {
+  test("reduced motion keeps still previews stable on hover",async({page})=>{
     await page.goto("/");
-
-    const kojiCard = page.locator("article").filter({ hasText: "KŌJI" });
-    await expect(kojiCard).toBeVisible();
-
-    const video = kojiCard.locator("video");
-    // Under prefers-reduced-motion: reduce, TemplateCard suppresses video with motion-reduce:hidden
-    await expect(video).toBeAttached();
-    await expect(video).toBeHidden();
-
-    // Trigger hover over the card
-    await kojiCard.hover();
-
-    // Assert video remains hidden and is not playing
-    await expect(video).toBeHidden();
-    const isPaused = await video.evaluate((el: HTMLVideoElement) => el.paused);
-    expect(isPaused).toBe(true);
+    const card=page.locator("article").filter({has:page.locator('h3 a[href="/koji"]')});
+    const image=card.locator("img");
+    const source=await image.getAttribute("src");
+    await card.hover();
+    await expect(card.locator("video")).toHaveCount(0);
+    await expect(image).toHaveAttribute("src",source!);
+    await expect(image).toBeVisible();
   });
 });

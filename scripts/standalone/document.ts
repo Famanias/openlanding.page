@@ -3,7 +3,8 @@ import path from "node:path";
 import { AssetStore } from "./assets";
 
 export function extractDocument(html: string, root: string, assets: AssetStore) {
-  const styles = [...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*>/g)].map(([tag]) => {
+  const links = [...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*>/g)];
+  const styles = links.filter(([tag]) => /href="\/_next\/static\//.test(tag)).map(([tag]) => {
     const href = tag.match(/href="([^"]+)"/)?.[1];
     if (!href?.startsWith("/_next/static/")) throw new Error("Unexpected production stylesheet");
     const file = path.resolve(root, ".next", href.slice(7));
@@ -11,7 +12,28 @@ export function extractDocument(html: string, root: string, assets: AssetStore) 
     return assets.css(fs.readFileSync(file, "utf8"), file);
   });
   if (!styles.length) throw new Error("Missing production styles; build the site first");
-  const css = styles.join("\n");
+  let css = styles.join("\n");
+  for (const [tag] of links.filter(([tag]) => !/href="\/_next\/static\//.test(tag))) {
+    const href=tag.match(/href="([^"]+)"/)?.[1]?.replace(/&amp;/g,"&");
+    if (!href) throw new Error("Unexpected production stylesheet");
+    const url=new URL(href);
+    const families=url.searchParams.getAll("family").map(family=>family.split(":")[0]);
+    // Some templates redundantly link the same Google families already supplied by next/font.
+    if (url.hostname!=="fonts.googleapis.com" || !families.length) throw new Error(`Unexpected external stylesheet: ${href}`);
+    for (const family of families) {
+      if (css.includes(`font-family:${family}`) || css.includes(`font-family:"${family}"`)) continue;
+      const faces=new Set<string>();
+      for(const entry of fs.readdirSync(path.join(root,".next/static"),{recursive:true,withFileTypes:true}).filter(entry=>entry.isFile()&&entry.name.endsWith(".css"))){
+        const file=path.join(entry.parentPath,entry.name);
+        for(const [face] of fs.readFileSync(file,"utf8").matchAll(/@font-face\s*\{[^}]*\}/g)){
+          const actual=face.match(/font-family:\s*(?:"([^"]+)"|'([^']+)'|([^;]+))/);
+          if((actual?.[1]??actual?.[2]??actual?.[3])?.trim()===family)faces.add(assets.css(face,file));
+        }
+      }
+      if(!faces.size)throw new Error(`External font is not available in the local build: ${family}`);
+      css+="\n"+[...faces].join("\n");
+    }
+  }
   if (/<\/style/i.test(css)) throw new Error("Unsafe closing style tag in CSS");
   const initialization = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)]
     .filter(([, attrs, code]) => !/\bsrc=/.test(attrs) && /document\.documentElement/.test(code) && !/__next_f|\/_next\//.test(code))

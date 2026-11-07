@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "../motion/useReducedMotion";
 
 export type OrbitStep = 0 | 1 | 2 | 3 | 4;
 const FINAL: OrbitStep = 4;
