@@ -5,17 +5,16 @@ import { build, type Plugin, type PluginBuild } from "esbuild";
 import { readTemplateFiles } from "../template-files";
 import { AssetStore } from "./assets";
 import { extractDocument } from "./document";
-import { GRAPHICS_SLUGS, type StandaloneSlug } from "./config";
+import { type StandaloneSlug } from "./config";
 import { rewriteAssetConsumers, assetLiterals } from "./source-assets";
 import { nextAdapters } from "./next-adapters";
 
 const require = createRequire(import.meta.url);
 
-async function collectAssets(slug: StandaloneSlug, root: string, assets: AssetStore) {
-  const graphics = (GRAPHICS_SLUGS as readonly string[]).includes(slug);
+export async function collectAssets(slug: StandaloneSlug, root: string, assets: AssetStore) {
   const optimize = ["savepoint", "synapxe", "xibalba"].includes(slug);
   const prepare = (url: string) => assets.prepare(url, optimize);
-  const media = graphics ? fs.readdirSync(path.join(root, "public/templates", slug), {recursive:true, withFileTypes:true}).filter(file => file.isFile() && !/aistudio/.test(file.parentPath)).map(file => path.join(file.parentPath, file.name)) : [];
+  const media = fs.readdirSync(path.join(root, "public/templates", slug), {recursive:true, withFileTypes:true}).filter(file => file.isFile() && !/aistudio/.test(file.parentPath)).map(file => path.join(file.parentPath, file.name));
   for (const file of readTemplateFiles(slug, true)) {
     if (/\/(?:layout|opengraph-image)\.tsx$/.test(file.path)) continue;
     const literals=/\.[jt]sx?$/.test(file.path)?assetLiterals(file.source,file.path):[];
@@ -37,7 +36,7 @@ async function collectAssets(slug: StandaloneSlug, root: string, assets: AssetSt
         }
       }
     }
-    if (graphics) {
+    {
       // Authored helpers construct paths from BASE plus these literal basenames.
       for (const [name] of literals.join("\n").matchAll(/[\w.-]+\.(?:png|jpe?g|webp|avif|svg|glb|ttf|woff2?|mp4)\b/g)) {
         const candidates = media.filter(file => path.basename(file) === name).sort((a,b) => a.length - b.length);
@@ -45,7 +44,7 @@ async function collectAssets(slug: StandaloneSlug, root: string, assets: AssetSt
       }
     }
   }
-  if (graphics && ["koji", "noctiluca"].includes(slug)) {
+  if (["koji", "noctiluca"].includes(slug)) {
     for (const file of media.filter(file => file.endsWith(".mp4") && file.includes(`${path.sep}clips${path.sep}`))) await prepare("/" + path.relative(path.join(root,"public"), file).replace(/\\/g,"/"));
   }
 }
@@ -84,7 +83,10 @@ export async function exportTemplate(slug: StandaloneSlug, outputDirectory: stri
   const sourceFiles = readTemplateFiles(slug, true);
   if (sourceFiles.some(file => fs.statSync(file.path).mtimeMs > fs.statSync(routeFile).mtimeMs)) throw new Error(`Stale production build for ${slug}; rebuild the site`);
   const assets = new AssetStore(root);
-  const shell = extractDocument(fs.readFileSync(routeFile, "utf8"), root, assets);
+  const metaFile = routeFile.replace(/\.html$/, ".meta");
+  const meta = fs.existsSync(metaFile) ? JSON.parse(fs.readFileSync(metaFile, "utf8")) : null;
+  const fontPreloadHeader = typeof meta?.headers?.link === "string" ? meta.headers.link : "";
+  const shell = extractDocument(fs.readFileSync(routeFile, "utf8"), root, assets, fontPreloadHeader);
   await collectAssets(slug, root, assets);
   const entry = `./src/app/(${slug})/${slug}/page.tsx`;
   const common = {
@@ -124,8 +126,8 @@ export async function exportTemplate(slug: StandaloneSlug, outputDirectory: stri
   const html = `<!DOCTYPE html>
 <!-- Generated from the current ${slug} components. Regenerate with npm run export:templates -- ${slug}. -->
 <html${shell.htmlAttributes}><head><meta charset="utf-8"><title>${shell.title}</title>
-${shell.metadata}${favicon}<style>${shell.css}</style>${shell.noscript}</head>
-<body${shell.bodyAttributes}>${shell.initialization}<div id="standalone-root">${markup}</div>
+${shell.metadata}${favicon}${shell.fontPreloads}<style>${shell.css}</style>${shell.noscript}</head>
+<body${shell.bodyAttributes}>${shell.initialization}<div id="standalone-root" style="display:contents">${markup}</div>
 <script>${script}</script></body></html>\n`;
   if (!/<h1[\s>]/i.test(html) || /\/_next\//.test(html) || /<base[\s>]/i.test(html)) throw new Error(`Invalid standalone output for ${slug}`);
   fs.mkdirSync(outputDirectory, { recursive: true });

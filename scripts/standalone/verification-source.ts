@@ -28,6 +28,16 @@ const lenusIdleGate = `  // Offline equivalent: hold the authored idle boot, rat
 /** Keep authored interaction assertions while adapting transport assumptions to file exports. */
 export function adaptVerificationSource(source: string, filename: string): string {
   const name = filename.replace(/\\/g, "/").split("/").pop();
+  if (name === "hiyas.spec.ts") {
+    return source.replace('toHaveAttribute("src", `/templates/hiyas/clips/${clip}.mp4`)', 'toHaveAttribute("data-standalone-src", `/templates/hiyas/clips/${clip}.mp4`)');
+  }
+  if (name === "keytu.spec.ts") {
+    // A downloaded file cannot implement the server's legacy /cairn redirect.
+    return source.replace('test("legacy /cairn URL redirects to /keytu"', 'test.skip("legacy /cairn URL redirects to /keytu"');
+  }
+  if (name === "loophouse.spec.ts") {
+    return source.replace('if (!req.url().startsWith("http://localhost")) networkRequestMade = true;', 'if (/^https?:/.test(req.url()) && !req.url().startsWith("http://localhost")) networkRequestMade = true;');
+  }
   if (name === "lumen.spec.ts") {
     // Three's data-URL loader does not produce an HTTP response event. Check the
     // actual input file, then retain the authored parsed-model/GPU readiness assertions.

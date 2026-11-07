@@ -37,7 +37,8 @@ describe("standalone asset handling", () => {
     }finally{URL.revokeObjectURL(url);}
   });
   it("limits export targets to the supported manifest and deduplicates explicit selections", () => {
-    expect(selectSlugs([])).toHaveLength(42);
+    expect(selectSlugs([])).toHaveLength(59);
+    expect(selectSlugs(["--remaining"])).toHaveLength(17);
     expect(selectSlugs(["--3d"])).toHaveLength(22);
     expect(selectSlugs(["--all"])).toEqual([...STANDALONE_SLUGS]);
     expect(selectSlugs(["aftercart", "aftercart"])).toEqual(["aftercart"]);
@@ -99,6 +100,21 @@ describe("standalone asset handling", () => {
 });
 
 describe("standalone document shell", () => {
+  it("embeds the production HTTP font preload hints before styles without including other preloads", () => {
+    const root = fixture();
+    fs.writeFileSync(path.join(root, ".next/static/css/main.css"), "body{margin:0}");
+    const html = '<html><head><link rel="stylesheet" href="/_next/static/css/main.css"/></head><body></body></html>';
+    const header = '</_next/static/media/font.woff2>; rel=preload; as="font"; crossorigin=""; type="font/woff2", </poster.jpg>; rel=preload; as="image"';
+    const store = new AssetStore(root);
+    const shell = extractDocument(html, root, store, header);
+    expect(store.entries).toEqual({});
+    expect(shell.fontPreloads).toContain('href="data:font/woff2;base64,Zm9udA=="');
+    expect(shell.fontPreloads).toContain('crossorigin="anonymous"');
+    expect(shell.fontPreloads).not.toContain('/poster.jpg');
+    expect(shell.fontPreloads).not.toContain('/_next/');
+    expect(() => extractDocument(html, root, new AssetStore(root), '<https://example.com/font.woff2>; rel=preload; as="font"')).toThrow(/external|local/i);
+  });
+
   it("covers a remote Google font declaration with an existing locally built font face", () => {
     const root=fixture();
     fs.writeFileSync(path.join(root,".next/static/css/main.css"),"body{margin:0}");

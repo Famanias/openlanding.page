@@ -13,7 +13,7 @@ export class AssetStore {
   readonly aliases: Record<string, string> = {};
   constructor(readonly root: string) {}
 
-  add(url: string, fromFile?: string): string {
+  add(url: string, fromFile?: string, register = true): string {
     if (url.startsWith("data:") || url.startsWith("#")) return url;
     if (/^(?:[a-z]+:|\/\/)/i.test(url)) throw new Error(`External asset is not local: ${url}`);
     if (!fromFile && !url.startsWith("/templates/") && !url.startsWith("/assets/") && !url.startsWith("/_next/")) throw new Error(`Invalid local asset: ${url}`);
@@ -31,7 +31,7 @@ export class AssetStore {
     if (!mime) throw new Error(`Unsupported standalone asset: ${url}`);
     const result = `data:${mime};base64,${bytes.toString("base64")}`;
     // Relative CSS URLs are resolved per stylesheet, never reused across directories.
-    if (url.startsWith("/")) this.entries[url] = result;
+    if (register && url.startsWith("/")) this.entries[url] = result;
     return result;
   }
 

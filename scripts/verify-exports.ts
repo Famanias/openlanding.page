@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
-import { selectSlugs, GRAPHICS_SLUGS } from "./standalone/config";
+import { selectSlugs, LIVE_GRAPHICS_SLUGS } from "./standalone/config";
 import { adaptVerificationSource } from "./standalone/verification-source";
 
 const require = createRequire(import.meta.url);
@@ -40,15 +40,16 @@ if (!args.includes("--smoke") && !args.includes("--graphics-only")) for (const s
 }
 const smoke = fs.readFileSync(path.join(root, "tests/standalone/smoke.ts"), "utf8");
 if(!args.includes("--graphics-only")){
-fs.writeFileSync(path.join(output, "tests/smoke.spec.ts"), smoke.replace('"./open"', JSON.stringify(path.join(root, "tests/standalone/open"))).replace("/* SLUGS */[]", JSON.stringify(selected)).replace("/* GRAPHICS */[]",JSON.stringify(GRAPHICS_SLUGS)));
+fs.writeFileSync(path.join(output, "tests/smoke.spec.ts"), smoke.replace('"./open"', JSON.stringify(path.join(root, "tests/standalone/open"))).replace("/* SLUGS */[]", JSON.stringify(selected)).replace("/* GRAPHICS */[]",JSON.stringify(LIVE_GRAPHICS_SLUGS)));
 names.push("smoke.spec.ts");
 }
-const graphics=selected.filter(slug=>(GRAPHICS_SLUGS as readonly string[]).includes(slug));
+const graphics=selected.filter(slug=>(LIVE_GRAPHICS_SLUGS as readonly string[]).includes(slug));
 if(graphics.length&&!args.includes("--smoke")){
  const source=fs.readFileSync(path.join(root,"tests/standalone/graphics-run.ts"),"utf8").replace('"./open"',JSON.stringify(path.join(root,"tests/standalone/open"))).replace('"./graphics"',JSON.stringify(path.join(root,"tests/standalone/graphics"))).replace("/* SLUGS */[]",JSON.stringify(graphics));
  fs.writeFileSync(path.join(output,"tests/graphics.spec.ts"),source);names.push("graphics.spec.ts");
 }
-const workers=args.includes("--graphics-only")?1:2;
+// The two paper-studio renderers contend heavily with another software-GPU page.
+const workers=args.includes("--graphics-only") || selected.includes("assemblage") ? 1 : 2;
 const timeout=graphics.length?120000:30000;
 const expectationTimeout=graphics.length?60000:5000;
 const config = `import {defineConfig} from '@playwright/test';export default defineConfig({testDir:'./tests',testMatch:${JSON.stringify(names)},fullyParallel:true,workers:${workers},timeout:${timeout},expect:{timeout:${expectationTimeout}},reporter:[['list'],['json',{outputFile:'${path.join(output, "results.json").replace(/\\/g, "/")}'}]],outputDir:'./results',use:{offline:true,permissions:['clipboard-read','clipboard-write'],viewport:{width:1440,height:900},baseURL:'http://localhost:3100',trace:'retain-on-failure',screenshot:'only-on-failure'}});`;

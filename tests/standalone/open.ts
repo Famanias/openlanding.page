@@ -6,6 +6,7 @@ import { selectSlugs } from "../../scripts/standalone/config";
 
 /** Run the original interaction suites against real file origins, including query/hash state. */
 export function openStandalone(page: Page, href: string, options?: Parameters<Page["goto"]>[1]) {
+  if (href === "about:blank") return page.goto(href, options);
   const url = new URL(href, "http://localhost:3100");
   const [slug] = selectSlugs([url.pathname.replace(/^\//, "")]);
   const file = pathToFileURL(path.resolve(process.env.STANDALONE_DIRECTORY ?? "public/downloads", `${slug}.html`));

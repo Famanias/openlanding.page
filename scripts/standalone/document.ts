@@ -2,7 +2,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { AssetStore } from "./assets";
 
-export function extractDocument(html: string, root: string, assets: AssetStore) {
+export function extractDocument(html: string, root: string, assets: AssetStore, fontPreloadHeader = "") {
+  // Next emits font hints in prerender metadata/HTTP Link headers, outside the HTML.
+  const fontPreloads = [...new Set([...fontPreloadHeader.matchAll(/<([^>]+)>([^,]*)(?:,|$)/g)]
+    .filter(([, , attrs]) => /(?:^|;)\s*rel=(?:"preload"|preload)(?:;|$)/.test(attrs) && /(?:^|;)\s*as=(?:"font"|font)(?:;|$)/.test(attrs))
+    .map(([, url]) => {
+      const embedded = assets.add(url, undefined, false);
+      if (!embedded.startsWith("data:font/")) throw new Error(`Invalid font preload: ${url}`);
+      const type = embedded.slice(5, embedded.indexOf(";"));
+      return `<link rel="preload" as="font" type="${type}" crossorigin="anonymous" href="${embedded}">`;
+    }))].join("\n");
   const links = [...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*>/g)];
   const styles = links.filter(([tag]) => /href="\/_next\/static\//.test(tag)).map(([tag]) => {
     const href = tag.match(/href="([^"]+)"/)?.[1];
@@ -39,6 +48,7 @@ export function extractDocument(html: string, root: string, assets: AssetStore) 
     .filter(([, attrs, code]) => !/\bsrc=/.test(attrs) && /document\.documentElement/.test(code) && !/__next_f|\/_next\//.test(code))
     .map(([, , code]) => `<script>${code}</script>`).join("\n");
   return {
+    fontPreloads,
     htmlAttributes: html.match(/<html\b([^>]*)>/)?.[1] ?? ' lang="en"',
     bodyAttributes: html.match(/<body\b([^>]*)>/)?.[1] ?? "",
     title: html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? "Landing page",

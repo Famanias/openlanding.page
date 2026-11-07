@@ -122,6 +122,10 @@ export async function installGraphicsProbe(page: Page): Promise<void> {
 }
 
 const scenes: Record<string, string> = {
+  assemblage: ".as-studio--hero canvas",
+  warpwander: '[data-testid="world-canvas-container"] canvas',
+  nightline: "canvas.nli-webgl",
+  kinetic: "canvas.journeyCanvas",
   vector: "canvas.vector-canvas",
   trace: "canvas.trace-scene",
   "volume-zero": "canvas.vz-chamber__canvas",
@@ -225,6 +229,8 @@ export async function verifyGraphics(page: Page, slug: string): Promise<void> {
     await scrollTo(page, '[aria-label="Interactive 3D Prism Light Dispersion Model"]');
   }
   const markers: Record<string, [string, string, string]> = {
+    assemblage: [".as-studio--hero", "data-as-scene-ready", "true"],
+    kinetic: ["[data-journey]", "data-journey", "live"],
     savepoint: [selector, "data-scene-ready", "true"],
     lenus: [".ln-stage", "data-state", "running"],
     mercer: [".jm-stage", "data-state", "running"],
@@ -239,7 +245,7 @@ export async function verifyGraphics(page: Page, slug: string): Promise<void> {
   const marker = markers[slug];
   if (marker) await expect(page.locator(marker[0])).toHaveAttribute(marker[1], marker[2], { timeout });
   if (slug === "lowtide") await expect(page.locator(".lt-xp")).toHaveAttribute("data-ready", "true", { timeout });
-  await proveDraws(page, slug, selector, slug === "xibalba" ? "2d" : "webgl", timeout);
+  await proveDraws(page, slug, selector, ["xibalba", "warpwander"].includes(slug) ? "2d" : "webgl", timeout);
   if (slug === "lumen") {
     const footer = page.getByTestId("footer-glass");
     await footer.scrollIntoViewIfNeeded();

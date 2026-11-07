@@ -46,7 +46,7 @@ test.describe("TALLY — Shopify service-counter landing page", () => {
     // Carry setup to the onboarding form
     await page.getByRole("link", { name: /Use This Counter Setup/i }).click();
     await expect(page).toHaveURL(/#open-counter$/);
-    await expect(page.getByLabel("Primary service archetype")).toHaveValue("cycle");
+    await expect(page.getByLabel("Service archetype", { exact: true })).toHaveValue("cycle");
   });
 
   test("toggles service modes and opens/closes a merchant receipt modal with Escape", async ({ page }) => {

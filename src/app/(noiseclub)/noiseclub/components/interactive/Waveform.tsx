@@ -93,7 +93,7 @@ export const Waveform: React.FC<WaveformProps> = ({
                 backgroundColor: barColor,
                 transition: 'height 320ms cubic-bezier(0.16, 1, 0.3, 1), background-color 220ms ease',
               }}
-              className="flex-1 min-w-[2px]"
+              className="flex-1 min-w-0"
             />
           );
         })}

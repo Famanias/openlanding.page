@@ -1043,6 +1043,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "keytu",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "KEYTU",
     description:
@@ -1122,6 +1123,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "loophouse",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "LOOPHOUSE",
     description:
@@ -1137,6 +1139,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "wowflutter",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "WOWFLUTTER",
     description:
@@ -1216,6 +1219,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "aubade",
+    hasDownload: true,
     createdAt: "2026-10-22",
     title: "AUBADE",
     description:
@@ -1231,6 +1235,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "satsuma",
+    hasDownload: true,
     createdAt: "2026-10-22",
     title: "Satsuma",
     description:
@@ -1246,6 +1251,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "kinetic",
+    hasDownload: true,
     createdAt: "2026-10-22",
     title: "KINETIC",
     description:
@@ -1385,6 +1391,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "hiyas",
+    hasDownload: true,
     createdAt: "2026-10-24",
     title: "HIYAS",
     description: "Guided eight-thousand-metre expeditions planned with precision. A live route room for peaks, camp rhythm, support and return.",
@@ -1429,6 +1436,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
 slug: "tally",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "TALLY",
     description: "Sell your hours like your goods. A pastel shop-counter landing page for service-led small Shopify businesses, built around a perforated two-part claim ticket that stamps and detaches at checkout.",
@@ -1488,6 +1496,7 @@ slug: "tally",
   },
   {
     slug: "valence",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "VALENCE",
     description:
@@ -1503,6 +1512,7 @@ slug: "tally",
   },
   {
     slug: "pipkin",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "Pipkin",
     description: "Cooked Tuesday, at your door Friday. A pastel jam-shop page that follows one jar from order to doorstep through five illustrated scenes, then lets you build a box.",
@@ -1562,6 +1572,7 @@ slug: "tally",
   },
   {
     slug: "understudy",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "Understudy",
     description: "Your first job, rehearsed. A rehearsal studio for first jobs where the scroll pushes you through the logo's proscenium into the dark house, then runs the page like a show: an endless ring of parts, rehearsal, casting and a signed contract.",
@@ -1576,6 +1587,7 @@ slug: "tally",
   },
   {
     slug: "nightline",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "NIGHTLINE",
     description: "A European sleeper-train booking page where the window is the interface and scroll is the speed of the journey.",
@@ -1605,6 +1617,7 @@ slug: "tally",
   },
   {
     slug: "assemblage",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "ASSEMBLAGE",
     description: "Make the idea visible before you make it real. A mixed media material study for independent brands, built from paper, acetate, ink and one clear next step.",
@@ -1739,6 +1752,7 @@ slug: "tally",
   },
   {
     slug: "noiseclub",
+    hasDownload: true,
     createdAt: "2026-11-01",
     title: "NOISE CLUB",
     description: "An independent sound-culture collective and interactive concept zine featuring the Teenage Engineering PO-33 K.O! micro-sampler.",
@@ -1753,6 +1767,7 @@ slug: "tally",
   },
   {
     slug: "warpwander",
+    hasDownload: true,
     createdAt: "2026-10-31",
     title: "WARP & WANDER",
     description: "An original 16-bit-inspired side-scrolling pixel adventure and interactive concept showcasing the Analogue Pocket multi-format handheld.",
@@ -1767,6 +1782,7 @@ slug: "tally",
   },
   {
     slug: "ctrlroom",
+    hasDownload: true,
     createdAt: "2026-11-01",
     title: "CTRL/ROOM",
     description: "An original 2D pixel-desktop operating system and interactive 15-key macro-deck simulator featuring the Elgato Stream Deck MK.2.",
@@ -2466,7 +2482,7 @@ RAW_TEMPLATES.push(
   {
     slug: "aurel",
     createdAt: "2026-11-06",
-    hasDownload: false,
+    hasDownload: true,
     title: "AUREL",
     description: "An exploration of precision, permanence, and the art of making time. Discover AUREL Collection 01 — The Origin.",
     category: "showcase" as TemplateCategory,

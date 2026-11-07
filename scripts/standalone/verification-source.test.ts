@@ -15,6 +15,19 @@ async function runSetup(source: string, page: Page) {
 }
 
 describe("standalone verification source adaptations", () => {
+  it("retains HIYAS clip identity and excludes only KEYTU's server redirect from file verification", () => {
+    const hiyas = adaptVerificationSource(readSuite("hiyas"), "hiyas.spec.ts");
+    expect(hiyas).toContain('toHaveAttribute("data-standalone-src", `/templates/hiyas/clips/${clip}.mp4`)');
+    const keytu = adaptVerificationSource(readSuite("keytu"), "keytu.spec.ts");
+    expect(keytu).toContain('test.skip("legacy /cairn URL redirects to /keytu"');
+    expect(keytu).toContain('the colourway swatches switch the hero image from the keyboard');
+  });
+  it("does not classify local file navigation as an external form submission", () => {
+    const adapted = adaptVerificationSource(readSuite("loophouse"), "loophouse.spec.ts");
+    expect(adapted).toContain('if (/^https?:/.test(req.url()) && !req.url().startsWith("http://localhost")) networkRequestMade = true;');
+    expect(adapted).toContain('expect(networkRequestMade).toBe(false)');
+  });
+
   it("checks the real model file and retains parsed-model/GPU assertions without waiting for an HTTP event", () => {
     const adapted = adaptVerificationSource(readSuite("lumen"), "lumen.spec.ts");
     expect(adapted).toContain('localAssetStatus("/templates/lumen/footer-glass-mesh.glb")');
