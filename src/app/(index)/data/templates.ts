@@ -1,4 +1,4 @@
-export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel";
+export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra";
 
 export type CategoryId =
   | "all"
@@ -2439,6 +2439,60 @@ RAW_TEMPLATES.push(
     previewImage: "/templates/aurel/preview-1600.webp",
     promptMarkdown: AUREL_PROMPT,
     model: "Gemini 4 Argon High",
+  }
+);
+
+export const CIRRO_PROMPT = "# Rebuild CIRRO — standalone landing page\n\nRecreate the supplied CIRRO experience as one complete, self-contained HTML document at /cirro. The canonical source is public/downloads/cirro.html, imported from CIRRO_Standalone_Experience.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nAn independent creative growth studio combining strategy, inventive creative, and a culture of experimentation. Growth is engineered: service selectors, case-study dialogs, a six-step method, and a configurable growth lab turn the studio story into an experiment.\n\n## Page structure\nPhotographic hero, manifesto, services, featured work, project gallery, method, growth lab, about, and contact.\n\n## Visual system\nPreserve the original composition and typography: system sans-serif, Georgia serif accents where present, and monospaced technical labels. Use the supplied palette: #0a1b14, #10291d, #173b2b, #d3ff61, #f4f5ef, #e7ede4, #0c1b14, #9fb4a7, #a5c3fc. Preserve the original inline imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the service selector, FUSE/NORTH/HUSH project dialogs, budget slider, creative and channel selectors, signal recalculation, mobile menu, and local inquiry preview. The inquiry must explicitly say that no message was sent.\n\nRetain the hero and footer WebGL light fields, masked heading entrances, staggered reveals, sticky method progression, hover states, and pointer response. Preserve the original reduced-motion and coarse-pointer branches.\n\n## Integration and verification\nServe the same document at /cirro and /downloads/cirro.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+export const OROVA_PROMPT = "# Rebuild OROVA — standalone landing page\n\nRecreate the supplied OROVA experience as one complete, self-contained HTML document at /orova. The canonical source is public/downloads/orova.html, imported from OROVA_Editorial_Reimagined.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nAn independent creative practice exploring identity, objects, imagery, and the spaces in between. We make it matter: a sculptural optical lens and editorial project studies frame an independent creative practice through form, color, space, gesture, identity, and object.\n\n## Page structure\nTypographic hero, manifesto, six selected projects, pinned stories, expertise, approach, studio, and contact.\n\n## Visual system\nPreserve the original composition and typography: system sans-serif, Georgia serif accents where present, and monospaced technical labels. Use the supplied palette: #f5f0e7, #e7ded1, #d4c2b0, #1b1e1c, #696964, #d4cec4, #3146be, #f0ab92. Preserve the original inline imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the six project buttons and native project-viewer dialog with previous/next navigation, expertise controls, mobile drawer, and contact action. Keep the contact action as the supplied concept interaction without inventing a backend.\n\nRetain the original optical-lens WebGL shader, pointer response, masked hero typography, project hover effects, staggered reveals, and three-chapter pinned image wipes with progress indicators. Preserve mobile and reduced-motion fallbacks.\n\n## Integration and verification\nServe the same document at /orova and /downloads/orova.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+export const VYRA_PROMPT = "# Rebuild VYRA — standalone landing page\n\nRecreate the supplied VYRA experience as one complete, self-contained HTML document at /vyra. The canonical source is public/downloads/vyra.html, imported from VYRA_Standalone_Experience.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nA sound-design concept with sculptable frequency fields, interactive presets, and a visual studio for shaping ideas. Sound you can shape: procedural wave fields become a hands-on visual sound studio with adjustable texture, intensity, spread, motion, and character.\n\n## Page structure\nWave-field hero, manifesto, interactive studio, features, frequency chapter, preset library, process, pricing, and waitlist finale.\n\n## Visual system\nPreserve the original composition and typography: system sans-serif, Georgia serif accents where present, and monospaced technical labels. Use the supplied palette: #f5f7fb, #edf2f8, #111b32, #101a31, #64718a, #d9e0ec, #39c9dd, #77ebed, #8488f4, #b9f4e7. Preserve the original inline imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve Harmonic Drift, Glass Tide, Pulse Mesh, and Afterimage presets; Flow/Focus/Fray character selection; intensity/spread/motion sliders; field reset; library filters and previous/next controls; monthly/yearly pricing; mobile menu; and locally validated waitlist feedback. No signup data is submitted or saved.\n\nRetain the procedural hero field, animated studio canvas, scroll-linked feature selection, frequency-line transformations, process progress, library movement, and tactile control states. Keep the original background-tab, viewport, and reduced-motion guards.\n\n## Integration and verification\nServe the same document at /vyra and /downloads/vyra.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+RAW_TEMPLATES.push(
+  {
+    slug: "cirro",
+    title: "CIRRO",
+    description: "An independent creative growth studio combining strategy, inventive creative, and a culture of experimentation.",
+    category: "studio",
+    categories: ["studio", "marketing", "showcase"],
+    industry: "Creative Agency & Growth Marketing",
+    badges: ["Standalone HTML", "Growth Lab", "Interactive Case Studies"],
+    createdAt: "2026-11-07",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/cirro/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: CIRRO_PROMPT,
+  },
+  {
+    slug: "orova",
+    title: "OROVA",
+    description: "An independent creative practice exploring identity, objects, imagery, and the spaces in between.",
+    category: "editorial",
+    categories: ["editorial", "studio", "portfolio"],
+    industry: "Creative Practice & Art Direction",
+    badges: ["Standalone HTML", "Editorial Portfolio", "Optical Lens Shader"],
+    createdAt: "2026-11-07",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/orova/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: OROVA_PROMPT,
+  },
+  {
+    slug: "vyra",
+    title: "VYRA",
+    description: "A sound-design concept with sculptable frequency fields, interactive presets, and a visual studio for shaping ideas.",
+    category: "app",
+    categories: ["app", "saas", "showcase"],
+    industry: "Music & Sound Design",
+    badges: ["Standalone HTML", "Interactive Sound Fields", "Preset Library"],
+    createdAt: "2026-11-07",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/vyra/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: VYRA_PROMPT,
   }
 );
 
