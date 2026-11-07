@@ -31,7 +31,10 @@ export function Hero() {
             <ActionLabel>Give a star on GitHub</ActionLabel>
           </a>
         </div>
-        <p className="hero-license">Open source. Yours to make your own. <span>MIT License</span></p>
+        <p className="hero-license">
+          Open source templates &amp; contributed HTML. Yours to make your own.{" "}
+          <span>MIT License</span> <span>Linked community sites keep their own terms</span>
+        </p>
       </div>
     </section>
   );

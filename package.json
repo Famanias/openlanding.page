@@ -13,6 +13,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:e2e:community": "playwright test --config playwright.community.config.ts",
     "import-template": "tsx scripts/import-aistudio-template.ts",
     "check": "tsx scripts/check-isolation.ts && tsx scripts/check-palette.ts && tsx scripts/check-media.ts",
     "archive": "tsx scripts/archive-templates.ts",
