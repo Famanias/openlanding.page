@@ -1,7 +1,7 @@
 # Community submissions
 
 Date: 2026-11-07
-Status: Proposed design for owner review. Product implementation has not started.
+Status: Approved for implementation planning by the owner's request "write the plan" on 2026-11-07. Product implementation has not started.
 Builder check: An independent software-engineer reviewer reported "nothing important left" on 2026-11-07.
 
 ## Intent
