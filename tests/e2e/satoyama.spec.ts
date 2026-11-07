@@ -1,5 +1,17 @@
 import { expect, test } from "@playwright/test";
 
+test("phone header stays within the viewport with reduced motion and without scripts", async ({ browser }) => {
+  for (const javaScriptEnabled of [true, false]) {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce", javaScriptEnabled });
+    try {
+      const page = await context.newPage();
+      await page.goto("/satoyama");
+      await page.evaluate(() => document.fonts.ready);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+    } finally { await context.close(); }
+  }
+});
+
 test("chapter slides preserve outgoing scenery and keep panel edges together", async ({ page }) => {
   await page.goto("/satoyama#the-landscape");
   await expect(page.locator('.st-book')).toHaveAttribute("data-ready", "true");
@@ -182,7 +194,9 @@ test("slide 4 forest paints after the panel arrives and does not replay", async 
     } while (performance.now() - start < 2700);
     return samples;
   });
-  const arriving = frames.find(frame => frame.ms >= 800)!;
+  // The 800ms transition starts on the browser's style frame, after React's commit.
+  // Leave scheduling tolerance while still checking before the 1240ms forest paint.
+  const arriving = frames.find(frame => frame.ms >= 900)!;
   expect(Math.abs(arriving.x)).toBeLessThan(1);
   expect(arriving.opacity).toBe(0);
   expect(frames.some(frame => frame.ms > 1000 && frame.x === 0 && frame.opacity > 0 && frame.opacity < 1)).toBe(true);

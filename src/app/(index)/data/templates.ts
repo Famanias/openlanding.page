@@ -1086,6 +1086,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "calder",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "CALDER & ROWE",
     description:
@@ -1146,6 +1147,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "verane",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "Maison Vérane",
     description:
@@ -1266,6 +1268,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "openhouse",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "OPENHOUSE",
     description:
@@ -1281,6 +1284,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "handoff",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "HANDOFF",
     description: "Good work, routed well. A builder-friendly conversion page for small teams that need reliable operators.",
@@ -1295,6 +1299,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "truecut",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "TRUECUT Works",
     description:
@@ -1310,6 +1315,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "nomi",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "NOMI",
     description: "A light, plastic-tinted mobile workspace landing page for tutoring studios, built around a pinned phone that unlocks four moments.",
@@ -1324,6 +1330,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "kazeko",
+    hasDownload: true,
     createdAt: "2026-10-24",
     title: "Studio Kazeko",
     description: "A little wonder. A world of feeling. A Japanese-inspired animation studio with an original countryside illustration and a scroll-driven pencil-to-colour scene.",
@@ -1354,6 +1361,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "rill",
+    hasDownload: true,
     createdAt: "2026-10-24",
     title: "RILL",
     description: "Field hydrology for farms that keep water in the ground. An image-led watershed story with a live rain gauge and ecosystem footer.",
@@ -1382,6 +1390,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "mio",
+    hasDownload: true,
     createdAt: "2026-10-24",
     title: "Mio Hazuki",
     description: "Little worlds, made just for you. A digital artist commission portfolio with an original coded twilight harbor, illustrated worlds, and a lantern-led invitation.",
@@ -1396,6 +1405,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "satoyama",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "里山日和 — Satoyama",
     description: "A slower kind of day. A fully code-illustrated picture book about rural Japan, with living landscapes, six chapters and a little wandering.",
@@ -1424,6 +1434,7 @@ slug: "tally",
   },
   {
     slug: "aftercart",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "AFTERCART",
     description: "A pastel store-health console for small Shopify shops that need a calm partner after launch.",
@@ -1438,6 +1449,7 @@ slug: "tally",
   },
   {
     slug: "fixture",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "FIXTURE",
     description: "Your shop, fitted out properly. A Shopify studio for small merchants whose storefront fits itself out as you scroll: shell, fixtures, wiring, signage, then the sign flips to OPEN.",
@@ -1452,6 +1464,7 @@ slug: "tally",
   },
   {
     slug: "chinagraph",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "CHINAGRAPH",
     description: "Marked for keeps. A deadstock fashion label edited on a contact sheet: a loupe sweeps the roll, six frames get looped in grease pencil, and each enlarges to a full-screen look in a strobe flash.",
@@ -1495,6 +1508,7 @@ slug: "tally",
   },
   {
     slug: "serein",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "SEREIN Bureau",
     description: "Small weather, closely observed. A fold-out atmospheric almanac with procedural isobars, a pressure trace and an accordion forecast strip.",
@@ -1509,6 +1523,7 @@ slug: "tally",
   },
   {
     slug: "nulo",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "NULO",
     description: "An optical lab for moving days, built as a draggable focus dial that tunes frames through screen, street, and night.",
@@ -1523,6 +1538,7 @@ slug: "tally",
   },
   {
     slug: "flori",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "Flori",
     description: "A little bloom, a brighter day. A pastel flower club with original botanical postcards, a live bouquet composer, and a signup that remembers your flower feeling.",
@@ -1593,6 +1609,7 @@ slug: "tally",
   },
   {
     slug: "firstday",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "FIRSTDAY",
     description: "Big futures. Small first steps. An original miniature campus opens into an interactive learning world with project briefs, a sticky workspace story, and a local first-day preview.",
@@ -1761,6 +1778,7 @@ slug: "tally",
   },
   {
     slug: "pello",
+    hasDownload: true,
     createdAt: "2026-11-01",
     title: "Pello",
     description: "Money for the life you want. An editorial finance experience with original lifestyle photography and a live balance-to-goals planner.",
@@ -1957,7 +1975,7 @@ slug: "tally",
   {
     slug: "zeno",
     createdAt: "2026-11-03",
-    hasDownload: false,
+    hasDownload: true,
     title: "ZENO.",
     description: "ZENO is an independent creative practice building identities, campaigns, and digital experiences for brands ready to challenge convention.",
     category: "portfolio",
@@ -1972,7 +1990,7 @@ slug: "tally",
   {
     slug: "penumbra",
     createdAt: "2026-11-03",
-    hasDownload: false,
+    hasDownload: true,
     title: "PENUMBRA",
     description: "Architecture, after dark. An independent architectural lighting design practice shaping how spaces are seen, felt, and remembered through light.",
     category: "studio",
