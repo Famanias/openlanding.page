@@ -2,7 +2,7 @@
 
 No image or video API keys were detected, so the user generates these on any platform, drops the raw files in `assets/incoming/patchbay/` using the filenames below, then runs `npm run images -- patchbay`.
 
-Shared direction: matte editorial hardware and software instrumentation photography. Subtle analog grain, dark studio lighting with crisp amber backlights, graphite matte surfaces, technical typography, crisp macro details. Shot on 50mm f/2.8 lens. No people's faces, no external company logos, no watermarks, no stock illustration look.
+Shared direction: **Neo-brutalist informational graphics and technical Swiss exhibition poster art**. Distorted 3D perspective wireframe terrain meshes, isometric geometric cubes with hatched diagonal striping, sweeping spiral ribbon curves, retro 4-point sparkle stars, technical crosshairs, and bold architectural typography with brutalist hyphenation. Dark graphite (`#15161A`) background, structural seams (`#34373D`), crisp bone white (`#ECE8DF`) linework, and vibrant signal amber (`#F2A93B`) accent geometry. Ultra-sharp vector clarity, matte screenprint finish, zero realistic photographic clutter, no watermarks, no generic 3D stock renders.
 
 | Key | Aspect | Used in |
 |---|---|---|
@@ -20,37 +20,37 @@ Shared direction: matte editorial hardware and software instrumentation photogra
 | `case-fieldnote` | 4:3 | Case study: Fieldnote glove-friendly mobile UI |
 
 ### `project-tidegrid`
-High-density retail performance data dashboard displayed on a matte black high-resolution monitor. Dark theme interface with crisp modular typography, dense grid tables, and restrained amber signal status indicators. Overhead angled perspective, crisp reflections on matte bezel, ambient graphite background. Aspect ratio 16:10. No watermarks.
+Neo-brutalist informational graphic poster, Swiss typography meets technical vector aesthetic. Dark graphite (#15161A) canvas with a flowing 3D perspective wireframe terrain mesh in bone white (#ECE8DF) undulating across the lower half. Isometric data column cubes with diagonal black-and-amber (#F2A93B) hatched striping rise from the grid valleys. Bold brutalist display typography reads "TIDE / GRID" with hyphenated block text, surrounded by 4-point sparkle stars, technical coordinate markers, and pill badge stamps. Clean vector linework, high contrast, matte screenprint look. Aspect ratio 16:10. No watermarks.
 
 ### `project-ledgerline`
-Event-driven ledger architecture visualization and telemetry console on an ultra-wide screen. Precision timeline streams, immutable entry records, and idempotent queue metrics. Dark instrument theme with amber signal pulse badges. Clean industrial aesthetic. Aspect ratio 16:10. No watermarks.
+Neo-brutalist informational graphic poster. Dark graphite (#15161A) background overlaid with an orthogonal isometric coordinate grid. Cascading interlocking isometric wireframe blocks representing an immutable event ledger, interconnected by a sweeping amber (#F2A93B) spiral ribbon curve. Geometric directional arrows, hatched diagonal line fills, and technical data stamps. Large structural grotesk typography reading "LEDG / LINE" and "SYS · 02". Retro technical crosshairs and pill-shaped status badges. Crisp vector geometry, print poster quality. Aspect ratio 16:10. No watermarks.
 
 ### `project-marginalia`
-Evaluation suite dashboard for conversational AI retrieval. Split view showing ground truth citations, confidence scores, and regression test heatmaps. Precision dark interface with amber highlights indicating successful grounding checks. Aspect ratio 16:10. No watermarks.
+Neo-brutalist informational graphic poster. Dark graphite (#15161A) ground with a large 3D wireframe perspective tunnel and floating geodesic sphere. Concentric geometric octagons pulse outwards from the center, overlaid with amber (#F2A93B) citation vector lines and confidence score target crosshairs. Bold architectural typography reads "EVAL / SYS" and "340 · ACCURACY". Retro 4-point sparkle stars and technical metadata captions aligned to a Swiss grid. High contrast, sharp vector lines, screenprint aesthetic. Aspect ratio 16:10. No watermarks.
 
 ### `project-fieldnote`
-High-contrast mobile interface shown on a ruggedized smartphone lying on a weathered wooden workbench alongside work gloves and mechanical pencils. Clear four-step field service flow with oversized touch targets and high-visibility typography. Aspect ratio 16:10. No watermarks.
+Neo-brutalist informational graphic poster. Dark graphite (#15161A) background with bold topographical wireframe elevation contours. High-contrast geometric touch-target markers and oversized isometric cubes with diagonal hazard stripes in bone (#ECE8DF) and signal amber (#F2A93B). Structural brutalist typography reading "FIELD / NOTE" with large numerals "04". Technical calipers, directional vector arrows, and rounded pill date badges. Crisp industrial graphic design, zero photographic clutter. Aspect ratio 16:10. No watermarks.
 
 ### `project-quillbase`
-Design token and component library documentation viewer. Grid of modular UI components, strict spacing calipers, and interactive token inspectors. Neutral graphite surfaces with warm amber active states. Aspect ratio 16:10. No watermarks.
+Neo-brutalist informational graphic poster celebrating design systems. Dark graphite (#15161A) composition structured by modular typographic baseline calipers and coordinate ticks. Aligned geometric primitives: an isometric wireframe cube, a hatched cone, and an amber (#F2A93B) solid sphere resting on a strict specimen grid. Bold Swiss typography reads "TOKEN / 41" and "SYSTEM". Monoline alignment lines, corner registration marks, and 4-point spark stars. High aesthetic precision, matte poster print feel. Aspect ratio 16:10. No watermarks.
 
 ### `project-driftwatch`
-LLM inference tracing terminal and cost optimization dashboard. Real-time latency waterfall graphs, model routing nodes, and budget burn-down gauges. Matte screen surface in a dimly lit studio with subtle amber glow. Aspect ratio 16:10. No watermarks.
+Neo-brutalist informational graphic poster. Dark graphite (#15161A) backdrop with a descending stepped wireframe staircase representing a latency waterfall trace. Amber (#F2A93B) vector nodes connected by thin signal lines route through intersecting wireframe planes. Bold typography reading "DRIFT / TRACE" and metric badge "-62%". Geometric radar circles, technical crosshair reticles, and diagonal arrow clusters. Crisp vector illustration, Swiss post-digital poster aesthetic. Aspect ratio 16:10. No watermarks.
 
 ### `project-kerbside`
-Simplified civic permit purchase application running on an edge-to-edge tablet display. Four-step journey with clean step counters and instant fee calculation. Daylight soft shadows on a slate architectural surface. Aspect ratio 16:10. No watermarks.
+Neo-brutalist informational graphic poster. Dark graphite (#15161A) plane featuring an isometric urban grid matrix in thin bone (#ECE8DF) wireframes. A curving amber (#F2A93B) path weaves cleanly through four numbered geometric checkpoint stages. Structural display typography reading "TRANSIT / 04" and "ROUTE". Isometric cubes with zebra hatching, pill badge stamps with time stamps, and retro 4-point stars. Clean vector art, high contrast. Aspect ratio 16:10. No watermarks.
 
 ### `project-paperplane`
-Figma-to-code agent workflow terminal. Side-by-side view of an annotated interface frame and a generated, verified TypeScript component with diff annotations. Crisp monospaced text and minimal wireframe previews. Aspect ratio 16:10. No watermarks.
+Neo-brutalist informational graphic poster. Dark graphite (#15161A) canvas with a split geometric plane: an annotated isometric wireframe interface box on the left folding along a dashed amber (#F2A93B) axis into a solid extruded geometric polyhedron on the right. Bold brutalist typography reading "PROTO / CODE" and "70% · MERGE". Monoline vector crosshairs, code glyph brackets, and technical alignment rules. Screenprinted poster aesthetic, sharp vector clarity. Aspect ratio 16:10. No watermarks.
 
 ### `case-tidegrid`
-Detailed split-screen inspection of the Tidegrid virtualised table rendering pipeline: DOM node count comparison graphs, flame charts demonstrating 60 fps scroll stability, and keyboard navigation focus outlines. Clean editorial graphic layout. Aspect ratio 4:3. No watermarks.
+Neo-brutalist informational graphic poster, split-screen technical comparison. Dark graphite (#15161A) background. Left half shows turbulent, distorted 3D wireframe mesh turbulence (representing unoptimized legacy DOM). Right half transitions cleanly into an ultra-precise, stabilized rectilinear grid matrix illuminated in signal amber (#F2A93B). Bold Swiss typography reads "VIRT / TABLE" and "1.7s · 60FPS". Monoline technical calipers, 4-point stars, and pill status badges. Aspect ratio 4:3. No watermarks.
 
 ### `case-ledgerline`
-Technical architectural diagram of the Ledgerline payout reconciliation pipeline: Postgres event streams, idempotent webhook consumers, and automated settlement audit reports. Elegant technical drawing style on deep graphite canvas. Aspect ratio 4:3. No watermarks.
+Neo-brutalist informational graphic poster. Dark graphite (#15161A) composition showing a dual-entry balanced ledger diagram: two interlocking monumental isometric cubes with dense diagonal line shading, linked by an unbroken circular amber (#F2A93B) pipeline ribbon. Bold architectural typography reading "LEDGER / ZERO" and "AUDIT · REPLAY". Technical registration crosshairs, timestamp badges, and precision measurement calipers. Aspect ratio 4:3. No watermarks.
 
 ### `case-marginalia`
-Telemetry breakdown of AI retrieval accuracy and cost routing: benchmark curve comparing 340 test cases before and after hybrid search, with citation coverage matrices highlighted in amber. Aspect ratio 4:3. No watermarks.
+Neo-brutalist informational graphic poster. Dark graphite (#15161A) background with a multi-axis radar chart constructed from monoline wireframe meshes. A bold amber (#F2A93B) geometric polygon bounds the grounded accuracy benchmark curve, accented by citation crosshair targets and coordinate grids. Bold brutalist display typography reading "GROUND / 91%" and "EVAL · SUITE". Retro 4-point stars, pill badges, and Swiss typographic annotations. Aspect ratio 4:3. No watermarks.
 
 ### `case-fieldnote`
-Product design case study layout showing technician journey maps, user testing notes, and wireframe iterations from 9 steps down to 4. Macro detail of high-contrast tactile mobile components. Aspect ratio 4:3. No watermarks.
+Neo-brutalist informational graphic poster. Dark graphite (#15161A) canvas depicting a workflow transformation diagram: nine chaotic, overlapping wireframe lines funneling smoothly into four bold, oversized geometric columns in bone (#ECE8DF) and signal amber (#F2A93B). Large brutalist type reading "FLOW / 04" and "+38% · LIFT". Caliper spacing guides, glove touch-target reticles, and technical date stamps. Aspect ratio 4:3. No watermarks.

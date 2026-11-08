@@ -73,7 +73,6 @@ export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 
   return (
     <picture className={className}>
       <source type="image/avif" srcSet={set("avif")} sizes={sizes} />
-      {/* eslint-disable-next-line @next/next/no-img-element -- processed AVIF/WebP set with explicit dimensions */}
       <img src={webp800} srcSet={set("webp")} sizes={sizes} width={w} height={h} alt={alt} loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined} decoding="async" data-asset={assetKey} />
     </picture>
   );
