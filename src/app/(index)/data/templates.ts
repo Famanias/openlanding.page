@@ -1,4 +1,4 @@
-export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel";
+export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra";
 
 export type CategoryId =
   | "all"
@@ -1011,6 +1011,7 @@ Build a complete, responsive, interaction-rich landing page for **AUREL** using 
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   {
     slug: "amaoto",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "AMAOTO",
     description: "The sound of rain, kept dry. A wagasa atelier landing page with a scroll-driven procedural umbrella.",
@@ -1026,6 +1027,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
 
   {
     slug: "orrery",
+    hasDownload: true,
     createdAt: "2026-10-20",
     title: "Orrery",
     description:
@@ -1041,6 +1043,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "keytu",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "KEYTU",
     description:
@@ -1056,6 +1059,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "koji",
+    hasDownload: true,
     createdAt: "2026-10-20",
     title: "KŌJI",
     description:
@@ -1071,6 +1075,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "trace",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "TRACE",
     description:
@@ -1086,6 +1091,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "calder",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "CALDER & ROWE",
     description:
@@ -1101,6 +1107,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "vector",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "VECTOR/90",
     description:
@@ -1116,6 +1123,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "loophouse",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "LOOPHOUSE",
     description:
@@ -1131,6 +1139,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "wowflutter",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "WOWFLUTTER",
     description:
@@ -1146,6 +1155,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "verane",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "Maison Vérane",
     description:
@@ -1161,6 +1171,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "noctiluca",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "Noctiluca",
     description:
@@ -1176,6 +1187,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "iridia",
+    hasDownload: true,
     createdAt: "2026-10-21",
     title: "IRIDIA",
     description:
@@ -1191,6 +1203,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "bathys",
+    hasDownload: true,
     createdAt: "2026-10-22",
     title: "BATHYS",
     description:
@@ -1206,6 +1219,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "aubade",
+    hasDownload: true,
     createdAt: "2026-10-22",
     title: "AUBADE",
     description:
@@ -1221,6 +1235,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "satsuma",
+    hasDownload: true,
     createdAt: "2026-10-22",
     title: "Satsuma",
     description:
@@ -1236,6 +1251,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "kinetic",
+    hasDownload: true,
     createdAt: "2026-10-22",
     title: "KINETIC",
     description:
@@ -1251,6 +1267,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "volume-zero",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "VOLUME ZERO",
     description:
@@ -1266,6 +1283,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "openhouse",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "OPENHOUSE",
     description:
@@ -1281,6 +1299,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "handoff",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "HANDOFF",
     description: "Good work, routed well. A builder-friendly conversion page for small teams that need reliable operators.",
@@ -1295,6 +1314,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "truecut",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "TRUECUT Works",
     description:
@@ -1310,6 +1330,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "nomi",
+    hasDownload: true,
     createdAt: "2026-10-23",
     title: "NOMI",
     description: "A light, plastic-tinted mobile workspace landing page for tutoring studios, built around a pinned phone that unlocks four moments.",
@@ -1324,6 +1345,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "kazeko",
+    hasDownload: true,
     createdAt: "2026-10-24",
     title: "Studio Kazeko",
     description: "A little wonder. A world of feeling. A Japanese-inspired animation studio with an original countryside illustration and a scroll-driven pencil-to-colour scene.",
@@ -1354,6 +1376,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "rill",
+    hasDownload: true,
     createdAt: "2026-10-24",
     title: "RILL",
     description: "Field hydrology for farms that keep water in the ground. An image-led watershed story with a live rain gauge and ecosystem footer.",
@@ -1368,6 +1391,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "hiyas",
+    hasDownload: true,
     createdAt: "2026-10-24",
     title: "HIYAS",
     description: "Guided eight-thousand-metre expeditions planned with precision. A live route room for peaks, camp rhythm, support and return.",
@@ -1382,6 +1406,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "mio",
+    hasDownload: true,
     createdAt: "2026-10-24",
     title: "Mio Hazuki",
     description: "Little worlds, made just for you. A digital artist commission portfolio with an original coded twilight harbor, illustrated worlds, and a lantern-led invitation.",
@@ -1396,6 +1421,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
     slug: "satoyama",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "里山日和 — Satoyama",
     description: "A slower kind of day. A fully code-illustrated picture book about rural Japan, with living landscapes, six chapters and a little wandering.",
@@ -1410,6 +1436,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
   },
   {
 slug: "tally",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "TALLY",
     description: "Sell your hours like your goods. A pastel shop-counter landing page for service-led small Shopify businesses, built around a perforated two-part claim ticket that stamps and detaches at checkout.",
@@ -1424,6 +1451,7 @@ slug: "tally",
   },
   {
     slug: "aftercart",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "AFTERCART",
     description: "A pastel store-health console for small Shopify shops that need a calm partner after launch.",
@@ -1438,6 +1466,7 @@ slug: "tally",
   },
   {
     slug: "fixture",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "FIXTURE",
     description: "Your shop, fitted out properly. A Shopify studio for small merchants whose storefront fits itself out as you scroll: shell, fixtures, wiring, signage, then the sign flips to OPEN.",
@@ -1452,6 +1481,7 @@ slug: "tally",
   },
   {
     slug: "chinagraph",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "CHINAGRAPH",
     description: "Marked for keeps. A deadstock fashion label edited on a contact sheet: a loupe sweeps the roll, six frames get looped in grease pencil, and each enlarges to a full-screen look in a strobe flash.",
@@ -1466,6 +1496,7 @@ slug: "tally",
   },
   {
     slug: "valence",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "VALENCE",
     description:
@@ -1481,6 +1512,7 @@ slug: "tally",
   },
   {
     slug: "pipkin",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "Pipkin",
     description: "Cooked Tuesday, at your door Friday. A pastel jam-shop page that follows one jar from order to doorstep through five illustrated scenes, then lets you build a box.",
@@ -1495,6 +1527,7 @@ slug: "tally",
   },
   {
     slug: "serein",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "SEREIN Bureau",
     description: "Small weather, closely observed. A fold-out atmospheric almanac with procedural isobars, a pressure trace and an accordion forecast strip.",
@@ -1509,6 +1542,7 @@ slug: "tally",
   },
   {
     slug: "nulo",
+    hasDownload: true,
     createdAt: "2026-10-25",
     title: "NULO",
     description: "An optical lab for moving days, built as a draggable focus dial that tunes frames through screen, street, and night.",
@@ -1523,6 +1557,7 @@ slug: "tally",
   },
   {
     slug: "flori",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "Flori",
     description: "A little bloom, a brighter day. A pastel flower club with original botanical postcards, a live bouquet composer, and a signup that remembers your flower feeling.",
@@ -1537,6 +1572,7 @@ slug: "tally",
   },
   {
     slug: "understudy",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "Understudy",
     description: "Your first job, rehearsed. A rehearsal studio for first jobs where the scroll pushes you through the logo's proscenium into the dark house, then runs the page like a show: an endless ring of parts, rehearsal, casting and a signed contract.",
@@ -1551,6 +1587,7 @@ slug: "tally",
   },
   {
     slug: "nightline",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "NIGHTLINE",
     description: "A European sleeper-train booking page where the window is the interface and scroll is the speed of the journey.",
@@ -1565,6 +1602,7 @@ slug: "tally",
   },
   {
     slug: "cullet",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "Cullet",
     description: "Designed in glass. A real-time material studio whose hero is a slab of frosted quartz cut into shards that tilt, lift and carry selectable text; scrolling cleaves it apart into a pinned glossary of five optical terms, a live WebGL glass sampler with a glTF readout, and a library of six cuts.",
@@ -1579,6 +1617,7 @@ slug: "tally",
   },
   {
     slug: "assemblage",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "ASSEMBLAGE",
     description: "Make the idea visible before you make it real. A mixed media material study for independent brands, built from paper, acetate, ink and one clear next step.",
@@ -1593,6 +1632,7 @@ slug: "tally",
   },
   {
     slug: "firstday",
+    hasDownload: true,
     createdAt: "2026-10-26",
     title: "FIRSTDAY",
     description: "Big futures. Small first steps. An original miniature campus opens into an interactive learning world with project briefs, a sticky workspace story, and a local first-day preview.",
@@ -1607,6 +1647,7 @@ slug: "tally",
   },
   {
     slug: "lowtide",
+    hasDownload: true,
     createdAt: "2026-10-27",
     title: "LOWTIDE",
     description: "Let the tide go out. A sleep ring told as one night on a moonlit tidal flat: scroll is the clock, five low tides tell the story.",
@@ -1621,6 +1662,7 @@ slug: "tally",
   },
   {
     slug: "loam",
+    hasDownload: true,
     createdAt: "2026-10-28",
     title: "LOAM",
     description: "Grown, not made. An interactive 3D macro experience through living mycelium networks: scroll descends from the fruiting mushroom into the subterranean web that LOAM cultivates into custom molded packaging.",
@@ -1635,6 +1677,7 @@ slug: "tally",
   },
   {
     slug: "perigee",
+    hasDownload: true,
     createdAt: "2026-10-30",
     title: "PERIGEE",
     description: "At the edge of curved spacetime. A full-screen 3D relativistic Schwarzschild black hole scroll experience and geodesic telemetry observatory.",
@@ -1649,6 +1692,7 @@ slug: "tally",
   },
   {
     slug: "xibalba",
+    hasDownload: true,
     createdAt: "2026-10-30",
     title: "XIBALBA",
     description: "Night of the Jade Cenote. An interactive vertical descent scroll into the subterranean botanical reserve and nocturnal equinox ceremony of Xibalba.",
@@ -1663,6 +1707,7 @@ slug: "tally",
   },
   {
     slug: "synapxe",
+    hasDownload: true,
     createdAt: "2026-10-30",
     title: "Synapxe",
     description: "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
@@ -1677,6 +1722,7 @@ slug: "tally",
   },
   {
     slug: "morta",
+    hasDownload: true,
     createdAt: "2026-10-31",
     title: "MORTA",
     description: "A sculptural sterling-silver jewellery house with cinematic photography and interactive ring studies.",
@@ -1691,6 +1737,7 @@ slug: "tally",
   },
   {
     slug: "lumen",
+    hasDownload: true,
     createdAt: "2026-10-31",
     title: "LUMEN",
     description: "The AI Workflow Playbook landing page featuring real-time optical glassmorphism, interactive workflow choreography, and custom shader studio.",
@@ -1705,6 +1752,7 @@ slug: "tally",
   },
   {
     slug: "noiseclub",
+    hasDownload: true,
     createdAt: "2026-11-01",
     title: "NOISE CLUB",
     description: "An independent sound-culture collective and interactive concept zine featuring the Teenage Engineering PO-33 K.O! micro-sampler.",
@@ -1719,6 +1767,7 @@ slug: "tally",
   },
   {
     slug: "warpwander",
+    hasDownload: true,
     createdAt: "2026-10-31",
     title: "WARP & WANDER",
     description: "An original 16-bit-inspired side-scrolling pixel adventure and interactive concept showcasing the Analogue Pocket multi-format handheld.",
@@ -1733,6 +1782,7 @@ slug: "tally",
   },
   {
     slug: "ctrlroom",
+    hasDownload: true,
     createdAt: "2026-11-01",
     title: "CTRL/ROOM",
     description: "An original 2D pixel-desktop operating system and interactive 15-key macro-deck simulator featuring the Elgato Stream Deck MK.2.",
@@ -1747,6 +1797,7 @@ slug: "tally",
   },
   {
     slug: "parallel",
+    hasDownload: true,
     createdAt: "2026-10-31",
     title: "PARALLEL",
     description: "Interactive 3D urban simulation and decision intelligence platform exploring divergent futures, infrastructure disruptions, and explainable interventions.",
@@ -1761,6 +1812,7 @@ slug: "tally",
   },
   {
     slug: "pello",
+    hasDownload: true,
     createdAt: "2026-11-01",
     title: "Pello",
     description: "Money for the life you want. An editorial finance experience with original lifestyle photography and a live balance-to-goals planner.",
@@ -1805,6 +1857,7 @@ slug: "tally",
   },
   {
     slug: "mercer",
+    hasDownload: true,
     createdAt: "2026-11-02",
     title: "Jules Mercer",
     description: "Creative developer portfolio featuring an interactive procedural (2,3) torus knot in Three.js, blueprint telemetry HUD, and interactive code experiments.",
@@ -1957,7 +2010,7 @@ slug: "tally",
   {
     slug: "zeno",
     createdAt: "2026-11-03",
-    hasDownload: false,
+    hasDownload: true,
     title: "ZENO.",
     description: "ZENO is an independent creative practice building identities, campaigns, and digital experiences for brands ready to challenge convention.",
     category: "portfolio",
@@ -1972,7 +2025,7 @@ slug: "tally",
   {
     slug: "penumbra",
     createdAt: "2026-11-03",
-    hasDownload: false,
+    hasDownload: true,
     title: "PENUMBRA",
     description: "Architecture, after dark. An independent architectural lighting design practice shaping how spaces are seen, felt, and remembered through light.",
     category: "studio",
@@ -1986,6 +2039,7 @@ slug: "tally",
   },
   {
     slug: "lenus",
+    hasDownload: true,
     createdAt: "2026-11-03",
     title: "LENUS",
     description: "Reality is just the start. A creative studio with a procedural optical lens, explodable assembly, focus controls and an accessible still preview.",
@@ -2325,7 +2379,7 @@ Use the following records verbatim as the runtime content source. Artwork URLs p
 ]
 \`\`\`
 `;
-RAW_TEMPLATES.push({ slug: "savepoint", createdAt: "2026-11-04", hasDownload: false, title: "SAVEPOINT.", description: "Ten strange little universes. One console. A tactile cartridge archive with a physical insertion ritual.", category: "3d", categories: ["3d", "showcase", "editorial"], industry: "Independent Games", stack: "Next.js 16 · React 19 · Three.js · GSAP · Tailwind v4", badges: ["Procedural 3D", "Physical Boot", "Interactive Archive"], previewImage: "/templates/savepoint/preview-1600.webp", promptMarkdown: SAVEPOINT_PROMPT, model: "GPT-6.1" });
+RAW_TEMPLATES.push({ slug: "savepoint", createdAt: "2026-11-04", hasDownload: true, title: "SAVEPOINT.", description: "Ten strange little universes. One console. A tactile cartridge archive with a physical insertion ritual.", category: "3d", categories: ["3d", "showcase", "editorial"], industry: "Independent Games", stack: "Next.js 16 · React 19 · Three.js · GSAP · Tailwind v4", badges: ["Procedural 3D", "Physical Boot", "Interactive Archive"], previewImage: "/templates/savepoint/preview-1600.webp", promptMarkdown: SAVEPOINT_PROMPT, model: "GPT-6.1" });
 
 export const WAYPOINT_PROMPT = `# Waypoint Rebuild Prompt
 
@@ -2398,7 +2452,7 @@ RAW_TEMPLATES.push(
   {
     slug: "arcsignal",
     createdAt: "2026-11-06",
-    hasDownload: false,
+    hasDownload: true,
     title: "Arc & Signal",
     description: "Connect models, agents, tools, and data in one orchestration layer built for clarity, control, and scale.",
     category: "ai",
@@ -2428,7 +2482,7 @@ RAW_TEMPLATES.push(
   {
     slug: "aurel",
     createdAt: "2026-11-06",
-    hasDownload: false,
+    hasDownload: true,
     title: "AUREL",
     description: "An exploration of precision, permanence, and the art of making time. Discover AUREL Collection 01 — The Origin.",
     category: "showcase" as TemplateCategory,
@@ -2439,6 +2493,60 @@ RAW_TEMPLATES.push(
     previewImage: "/templates/aurel/preview-1600.webp",
     promptMarkdown: AUREL_PROMPT,
     model: "Gemini 4 Argon High",
+  }
+);
+
+export const CIRRO_PROMPT = "# Rebuild CIRRO — standalone landing page\n\nRecreate the supplied CIRRO experience as one complete, self-contained HTML document at /cirro. The canonical source is public/downloads/cirro.html, imported from CIRRO_Standalone_Experience.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nAn independent creative growth studio combining strategy, inventive creative, and a culture of experimentation. Growth is engineered: service selectors, case-study dialogs, a six-step method, and a configurable growth lab turn the studio story into an experiment.\n\n## Page structure\nPhotographic hero, manifesto, services, featured work, project gallery, method, growth lab, about, and contact.\n\n## Visual system\nPreserve the original composition and typography: system sans-serif, Georgia serif accents where present, and monospaced technical labels. Use the supplied palette: #0a1b14, #10291d, #173b2b, #d3ff61, #f4f5ef, #e7ede4, #0c1b14, #9fb4a7, #a5c3fc. Preserve the original inline imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the service selector, FUSE/NORTH/HUSH project dialogs, budget slider, creative and channel selectors, signal recalculation, mobile menu, and local inquiry preview. The inquiry must explicitly say that no message was sent.\n\nRetain the hero and footer WebGL light fields, masked heading entrances, staggered reveals, sticky method progression, hover states, and pointer response. Preserve the original reduced-motion and coarse-pointer branches.\n\n## Integration and verification\nServe the same document at /cirro and /downloads/cirro.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+export const OROVA_PROMPT = "# Rebuild OROVA — standalone landing page\n\nRecreate the supplied OROVA experience as one complete, self-contained HTML document at /orova. The canonical source is public/downloads/orova.html, imported from OROVA_Editorial_Reimagined.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nAn independent creative practice exploring identity, objects, imagery, and the spaces in between. We make it matter: a sculptural optical lens and editorial project studies frame an independent creative practice through form, color, space, gesture, identity, and object.\n\n## Page structure\nTypographic hero, manifesto, six selected projects, pinned stories, expertise, approach, studio, and contact.\n\n## Visual system\nPreserve the original composition and typography: system sans-serif, Georgia serif accents where present, and monospaced technical labels. Use the supplied palette: #f5f0e7, #e7ded1, #d4c2b0, #1b1e1c, #696964, #d4cec4, #3146be, #f0ab92. Preserve the original inline imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the six project buttons and native project-viewer dialog with previous/next navigation, expertise controls, mobile drawer, and contact action. Keep the contact action as the supplied concept interaction without inventing a backend.\n\nRetain the original optical-lens WebGL shader, pointer response, masked hero typography, project hover effects, staggered reveals, and three-chapter pinned image wipes with progress indicators. Preserve mobile and reduced-motion fallbacks.\n\n## Integration and verification\nServe the same document at /orova and /downloads/orova.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+export const VYRA_PROMPT = "# Rebuild VYRA — standalone landing page\n\nRecreate the supplied VYRA experience as one complete, self-contained HTML document at /vyra. The canonical source is public/downloads/vyra.html, imported from VYRA_Standalone_Experience.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nA sound-design concept with sculptable frequency fields, interactive presets, and a visual studio for shaping ideas. Sound you can shape: procedural wave fields become a hands-on visual sound studio with adjustable texture, intensity, spread, motion, and character.\n\n## Page structure\nWave-field hero, manifesto, interactive studio, features, frequency chapter, preset library, process, pricing, and waitlist finale.\n\n## Visual system\nPreserve the original composition and typography: system sans-serif, Georgia serif accents where present, and monospaced technical labels. Use the supplied palette: #f5f7fb, #edf2f8, #111b32, #101a31, #64718a, #d9e0ec, #39c9dd, #77ebed, #8488f4, #b9f4e7. Preserve the original inline imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve Harmonic Drift, Glass Tide, Pulse Mesh, and Afterimage presets; Flow/Focus/Fray character selection; intensity/spread/motion sliders; field reset; library filters and previous/next controls; monthly/yearly pricing; mobile menu; and locally validated waitlist feedback. No signup data is submitted or saved.\n\nRetain the procedural hero field, animated studio canvas, scroll-linked feature selection, frequency-line transformations, process progress, library movement, and tactile control states. Keep the original background-tab, viewport, and reduced-motion guards.\n\n## Integration and verification\nServe the same document at /vyra and /downloads/vyra.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+RAW_TEMPLATES.push(
+  {
+    slug: "cirro",
+    title: "CIRRO",
+    description: "An independent creative growth studio combining strategy, inventive creative, and a culture of experimentation.",
+    category: "studio",
+    categories: ["studio", "marketing", "showcase"],
+    industry: "Creative Agency & Growth Marketing",
+    badges: ["Standalone HTML", "Growth Lab", "Interactive Case Studies"],
+    createdAt: "2026-11-07",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/cirro/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: CIRRO_PROMPT,
+  },
+  {
+    slug: "orova",
+    title: "OROVA",
+    description: "An independent creative practice exploring identity, objects, imagery, and the spaces in between.",
+    category: "editorial",
+    categories: ["editorial", "studio", "portfolio"],
+    industry: "Creative Practice & Art Direction",
+    badges: ["Standalone HTML", "Editorial Portfolio", "Optical Lens Shader"],
+    createdAt: "2026-11-07",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/orova/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: OROVA_PROMPT,
+  },
+  {
+    slug: "vyra",
+    title: "VYRA",
+    description: "A sound-design concept with sculptable frequency fields, interactive presets, and a visual studio for shaping ideas.",
+    category: "app",
+    categories: ["app", "saas", "showcase"],
+    industry: "Music & Sound Design",
+    badges: ["Standalone HTML", "Interactive Sound Fields", "Preset Library"],
+    createdAt: "2026-11-07",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/vyra/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: VYRA_PROMPT,
   }
 );
 

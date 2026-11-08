@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "../motion/useReducedMotion";
 import { Eyebrow, rv } from "./Eyebrow";
 
 const RESULTS = [

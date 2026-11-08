@@ -32,7 +32,7 @@ test.describe('WARP & WANDER template (/warpwander)', () => {
   test('toggles audio sound effects state', async ({ page }) => {
     await page.goto('/warpwander');
 
-    const soundBtn = page.getByRole('button', { name: /AUDIO/i });
+    const soundBtn = page.getByRole('button', { name: /sound effects/i });
     await expect(soundBtn).toBeVisible();
     await expect(soundBtn).toHaveAttribute('aria-pressed', 'false');
 
@@ -81,7 +81,7 @@ test.describe('WARP & WANDER template (/warpwander)', () => {
     await act3.scrollIntoViewIfNeeded();
 
     // Verify precision marker inspector buttons
-    const dpadMarkerBtn = page.getByRole('button', { name: /Inspect Recessed D-Pad/i });
+    const dpadMarkerBtn = page.getByRole('button', { name: /Inspect Tactile Directional Pad/i });
     await expect(dpadMarkerBtn).toBeVisible();
     await dpadMarkerBtn.click();
     await expect(dpadMarkerBtn).toHaveAttribute('aria-pressed', 'true');
@@ -116,9 +116,21 @@ test.describe('WARP & WANDER template (/warpwander)', () => {
     await expect(whiteBtn).toHaveAttribute('aria-pressed', 'true');
 
     // Toggle rear cartridge bay
-    const rearBayBtn = page.getByRole('button', { name: /REAR CARTRIDGE BAY/i });
+    const rearBayBtn = page.getByRole('button', { name: /View (?:Rear Cartridge Bay|Front Display)/i });
     await expect(rearBayBtn).toBeVisible();
     await rearBayBtn.click();
     await expect(rearBayBtn).toHaveAttribute('aria-pressed', 'true');
   });
+});
+
+
+test("the authored pixel font is served locally without a Google runtime request", async ({ page }) => {
+  const remoteFonts: string[] = [];
+  page.on("request", request => {
+    if (/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\//.test(request.url())) remoteFonts.push(request.url());
+  });
+  await page.goto("/warpwander");
+  await page.evaluate(() => document.fonts.ready);
+  expect(remoteFonts).toEqual([]);
+  expect(await page.evaluate(() => Array.from(document.fonts).some(face => face.family.includes("Pixelify Sans") && face.status === "loaded"))).toBe(true);
 });

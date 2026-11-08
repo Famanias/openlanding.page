@@ -24,7 +24,9 @@
     "media:truecut": "npm run images -- truecut && npm run clips -- truecut",
     "process-images": "tsx scripts/process-images.ts",
     "process-clips": "tsx scripts/process-clips.ts",
-    "export:waypoint": "tsx scripts/export-waypoint.ts"
+    "export:waypoint": "tsx scripts/export-waypoint.ts",
+    "export:templates": "tsx scripts/export-templates.ts",
+    "verify:exports": "tsx scripts/verify-exports.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

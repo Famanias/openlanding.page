@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(75);
+    expect(TEMPLATES).toHaveLength(78);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -79,8 +79,8 @@ describe("gallery template data", () => {
     );
   });
 
-  it("registers Khora, Pitchlane, and Strata with standalone downloads and matching rebuild prompts", () => {
-    for (const slug of ["khora", "pitchlane", "strata"] as const) {
+  it("registers imported standalone templates with downloads and matching rebuild prompts", () => {
+    for (const slug of ["khora", "pitchlane", "strata", "cirro", "orova", "vyra"] as const) {
       const template = TEMPLATES.find((t) => t.slug === slug);
       expect(template?.hasDownload).toBe(true);
       expect(template?.promptMarkdown.trim()).toBe(
@@ -100,7 +100,9 @@ describe("gallery template data", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
     const argonSlugs = ["aurel", "arcsignal", "penumbra", "zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
-      if (t.slug === "savepoint") {
+      if (["cirro", "orova", "vyra"].includes(t.slug)) {
+        expect(t.model).toBe("Imported HTML");
+      } else if (t.slug === "savepoint") {
         expect(t.model).toBe("GPT-6.1");
       } else if (t.slug === "pello" || t.slug === "avel" || t.slug === "landingx") {
         expect(t.model).toBe("GPT-6.1 Terra Max");

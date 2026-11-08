@@ -7,7 +7,7 @@ import { TEMPLATES } from "../data/templates";
 describe("TemplateCard", () => {
   it("keeps Download HTML visible when the standalone export is not ready", () => {
     const template = TEMPLATES.find(t => t.slug === "orrery")!;
-    const html = renderToStaticMarkup(<TemplateCard template={template} />);
+    const html = renderToStaticMarkup(<TemplateCard template={{...template,hasDownload:false}} />);
     expect(html).toContain('aria-label="Download HTML"');
     expect(html).toContain('title="HTML coming soon"');
     expect(html).toMatch(/<button[^>]*aria-label="Download HTML"[^>]*disabled=""/);

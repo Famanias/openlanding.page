@@ -16,7 +16,8 @@ test.describe("NULO optical lab", () => {
   test("fitting request validates locally and shows a reference", async ({ page }) => {
     await page.goto("/nulo#fitting");
     await page.getByRole("button", { name: /Send the request/ }).click();
-    await expect(page.getByRole("alert")).toHaveCount(3);
+    // Count form errors, excluding Next's empty route-announcer alert.
+    await expect(page.locator(".nu-form").getByRole("alert")).toHaveCount(2);
     await page.getByLabel("Your name").fill("Mina Park");
     await page.getByLabel("Email").fill("mina@example.com");
     await page.getByLabel("Fold 02").check({ force: true });

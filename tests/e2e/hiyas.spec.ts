@@ -207,3 +207,25 @@ test.describe("HIYAS expedition planner", () => {
   });
 });
 
+
+
+test("both authored clips decode, play and seek", async ({ page }) => {
+  await page.goto("/hiyas");
+  for (const clip of ["route-dawn", "camp-wind"]) {
+    const video = page.locator(`[data-clip="${clip}"] video`);
+    await video.scrollIntoViewIfNeeded();
+    await expect.poll(() => video.evaluate(node => {
+      const media = node as HTMLVideoElement;
+      return media.readyState >= 2 && media.videoWidth > 0 && media.duration > 0;
+    })).toBe(true);
+    await video.evaluate(async node => {
+      const media = node as HTMLVideoElement;
+      await media.play();
+      media.currentTime = Math.min(0.4, media.duration / 2);
+    });
+    await expect.poll(() => video.evaluate(node => {
+      const media = node as HTMLVideoElement;
+      return media.currentTime > 0 && !media.seeking && !media.paused;
+    })).toBe(true);
+  }
+});

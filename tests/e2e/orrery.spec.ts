@@ -1,5 +1,14 @@
 import { test, expect } from "@playwright/test";
 
+test("reduced-motion hydration builds the diagram without recovery errors",async({page})=>{
+  const errors:string[]=[];
+  page.on("pageerror",error=>errors.push(error.message));
+  await page.emulateMedia({reducedMotion:"reduce"});
+  await page.goto("/orrery");
+  await expect(page.locator('[data-orbit-step="4"]')).toBeAttached();
+  expect(errors).toEqual([]);
+});
+
 test.describe("Orrery deck (desktop)", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
