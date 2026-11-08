@@ -42,6 +42,7 @@
 html {
   scroll-padding-top: 72px;
   background: var(--color-ink);
+  overflow-x: clip;
 }
 .pby-shell {
   width: 100%;
@@ -453,6 +454,12 @@ html {
   gap: 16px;
   margin: 40px 0 0;
   max-width: 760px;
+}
+@media (max-width: 540px) {
+  .pby-metrics {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 .pby-metric dt {
   color: var(--color-steel);

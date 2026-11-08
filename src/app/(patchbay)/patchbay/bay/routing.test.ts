@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { PROJECTS } from "../content/projects";
 import { ROLE_IDS, ROLES } from "../content/roles";
-import { cablePath, isRoleId, jackCenterX, parseRole, rankForRole, roleHref, stepRole } from "./route";
+import { cablePath, isRoleId, jackCenterX, parseRole, rankForRole, roleHref, stepRole } from "./routing";
 
 describe("role parsing", () => {
   it("accepts every known role", () => {

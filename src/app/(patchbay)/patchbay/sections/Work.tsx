@@ -3,7 +3,7 @@
 import type { CSSProperties } from "react";
 import { Picture } from "../assets";
 import { useRole } from "../bay/RoleProvider";
-import { rankForRole } from "../bay/route";
+import { rankForRole } from "../bay/routing";
 import { PROJECTS } from "../content/projects";
 import { Reveal } from "../motion/Reveal";
 import { TiltCard } from "../motion/TiltCard";

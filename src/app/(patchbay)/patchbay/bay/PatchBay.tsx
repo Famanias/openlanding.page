@@ -5,7 +5,7 @@ import { ROLE_IDS, ROLE_LIST, type RoleId } from "../content/roles";
 import { isSettled, springStep, type SpringState } from "../motion/math";
 import { useReducedMotion } from "../motion/useReducedMotion";
 import { useRole } from "./RoleProvider";
-import { cablePath, jackCenterX, stepRole } from "./route";
+import { cablePath, jackCenterX, stepRole } from "./routing";
 
 const HEIGHT = 168;
 const PLUG_Y = 84;
