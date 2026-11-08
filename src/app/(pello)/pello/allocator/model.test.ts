@@ -20,6 +20,6 @@ describe("Pello balance plans", () => {
   it("allowlists shared plans and restores safe defaults", () => {
     expect(readPlan(new URLSearchParams("plan=adventure&goal=840"))).toEqual({ plan: "adventure", goal: 84000 });
     expect(readPlan(new URLSearchParams("plan=bad&goal=oops"))).toEqual({ plan: "balanced", goal: 48000 });
-    expect(signupHref("steady", 24000)).toBe("/pello?plan=steady&goal=240#begin");
+    expect(signupHref("steady", 24000)).toBe("/templates/pello?plan=steady&goal=240#begin");
   });
 });

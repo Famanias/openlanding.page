@@ -20,6 +20,6 @@ export function readPlan(params: URLSearchParams): { plan: PlanId; goal: number 
   return { plan: plan.id, goal: allocate(plan.id, goal).weekend };
 }
 export function signupHref(id: string, goal: number) {
-  return "/pello?plan=" + getPlan(id).id + "&goal=" + allocate(id, goal).weekend / 100 + "#begin";
+  return "/templates/pello?plan=" + getPlan(id).id + "&goal=" + allocate(id, goal).weekend / 100 + "#begin";
 }
 export const money = (cents: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(cents / 100);
