@@ -14,7 +14,7 @@ export const OpticalLab: React.FC = () => {
     APERTURE_PRESETS[0];
 
   // Calculate SVG iris opening radius (in viewBox 0..200)
-  const irisOpeningRadius = (activePreset.irisRadiusPercent / 100) * 68;
+  const irisOpeningRadius = Number(((activePreset.irisRadiusPercent / 100) * 68).toFixed(2));
 
   return (
     <section
@@ -106,13 +106,19 @@ export const OpticalLab: React.FC = () => {
               >
                 {Array.from({ length: 9 }).map((_, idx) => {
                   const angle = idx * 40;
+                  const rad1 = (angle * Math.PI) / 180;
+                  const rad2 = ((angle + 55) * Math.PI) / 180;
+                  const x1 = Number((100 + irisOpeningRadius * Math.cos(rad1)).toFixed(2));
+                  const y1 = Number((100 + irisOpeningRadius * Math.sin(rad1)).toFixed(2));
+                  const x2 = Number((100 + 82 * Math.cos(rad2)).toFixed(2));
+                  const y2 = Number((100 + 82 * Math.sin(rad2)).toFixed(2));
                   return (
                     <line
                       key={idx}
-                      x1={100 + irisOpeningRadius * Math.cos((angle * Math.PI) / 180)}
-                      y1={100 + irisOpeningRadius * Math.sin((angle * Math.PI) / 180)}
-                      x2={100 + 82 * Math.cos(((angle + 55) * Math.PI) / 180)}
-                      y2={100 + 82 * Math.sin(((angle + 55) * Math.PI) / 180)}
+                      x1={x1}
+                      y1={y1}
+                      x2={x2}
+                      y2={y2}
                       stroke="rgba(242, 239, 233, 0.48)"
                       strokeWidth="1.25"
                     />
