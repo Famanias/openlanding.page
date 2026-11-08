@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  patchbay: { name: "Patchbay", dependencies: ["lenis"] },
   kairok: { name: "KAIRO K", dependencies: ["lucide-react", "motion"] },
   auven: { name: "AUVEN", dependencies: [], includeDownload: true },
   nema: { name: "NEMA", dependencies: [], includeDownload: true },
