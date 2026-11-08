@@ -5,6 +5,14 @@ import { TemplateCard } from "./TemplateCard";
 import { TEMPLATES } from "../data/templates";
 
 describe("TemplateCard", () => {
+  it("links both live actions directly to the public namespace for every template", () => {
+    for (const template of TEMPLATES) {
+      const html = renderToStaticMarkup(<TemplateCard template={template} />);
+      expect(html.split(`href="/templates/${template.slug}"`)).toHaveLength(3);
+      expect(html).not.toContain(`href="/${template.slug}"`);
+      expect(html).toContain(`/gallery/${template.slug}.webp`);
+    }
+  });
   it("keeps Download HTML visible when the standalone export is not ready", () => {
     const template = TEMPLATES.find(t => t.slug === "orrery")!;
     const html = renderToStaticMarkup(<TemplateCard template={{...template,hasDownload:false}} />);
@@ -24,7 +32,7 @@ describe("TemplateCard", () => {
   it("renders a video-aspect preview frame with correct live template link", () => {
     const orrery = TEMPLATES.find((t) => t.slug === "orrery")!;
     const html = renderToStaticMarkup(<TemplateCard template={orrery} isEager={true} />);
-    expect(html).toContain('href="/orrery"');
+    expect(html).toContain('href="/templates/orrery"');
     expect(html).toContain("aspect-video");
     expect(html).toContain("Orrery");
   });

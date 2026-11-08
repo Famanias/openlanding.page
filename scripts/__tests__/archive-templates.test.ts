@@ -208,7 +208,7 @@ export default function Page() {
     });
 
     it("updates e2e templates list to remove and add slug", () => {
-      const mockE2eContent = `export const TEMPLATE_PATHS: string[] = ["/orrery", "/keytu"];\n`;
+      const mockE2eContent = `export const TEMPLATE_PATHS: string[] = ["/templates/orrery", "/templates/keytu"];\n`;
       const e2ePath = path.join(tempDir, "templates.ts");
       fs.writeFileSync(e2ePath, mockE2eContent, "utf8");
 
@@ -217,8 +217,8 @@ export default function Page() {
       expect(archiveRes.changed).toBe(true);
 
       let content = fs.readFileSync(e2ePath, "utf8");
-      expect(content).not.toContain('"/orrery"');
-      expect(content).toContain('"/keytu"');
+      expect(content).not.toContain('"/templates/orrery"');
+      expect(content).toContain('"/templates/keytu"');
 
       // Idempotent archive
       expect(updateE2eTemplatesList(e2ePath, "orrery", true).changed).toBe(false);
@@ -228,7 +228,8 @@ export default function Page() {
       expect(unarchiveRes.changed).toBe(true);
 
       content = fs.readFileSync(e2ePath, "utf8");
-      expect(content).toContain('"/orrery"');
+      expect(content).toContain('"/templates/orrery"');
+      expect(updateE2eTemplatesList(e2ePath, "/orrery", false).changed).toBe(false);
     });
 
     it("loads and parses existing templates correctly from templates.ts", () => {
