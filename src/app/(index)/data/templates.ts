@@ -1,4 +1,4 @@
-export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok";
+export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay";
 
 export type CategoryId =
   | "all"
@@ -1016,6 +1016,40 @@ Build a complete, responsive, interaction-rich landing page for **KAIRO K** usin
 - **Title:** KAIRO K-01 — Concept Mirrorless Camera
 - **Description:** See beyond the expected. An interactive cinematic product experience and optical exploration for the fictional KAIRO K-01 mirrorless camera concept.
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const PATCHBAY_PROMPT = `# PATCHBAY — One Developer Portfolio, Four Disciplines
+
+Build an isolated Next.js 16 / React 19 / TypeScript / Tailwind CSS role-switching developer portfolio at \`/patchbay\`. Use \`lenis\` for smooth scrolling. All template code and styles must reside strictly within \`src/app/(patchbay)/\`. CSS class prefix \`pby-\`.
+
+## Central Idea & Signature Mechanic
+A portfolio for multi-disciplinary developers (Web front-end, Full-stack, AI engineer, UX/UI designer) driven by an interactive hardware patch bay. The user plugs a spring-animated cable into any of the four discipline jacks, or navigates via query parameter \`?role=<role>\`:
+- The hero headline, subcopy, and metrics re-compose.
+- Selected work projects re-rank according to role relevance weights.
+- The signal flow stack updates inputs, patched tools, and shipped outputs.
+- Process steps adapt to the discipline's methodology.
+- The case study deep dive swaps to a relevant technical narrative.
+- An amber signal pulse sweeps down the page as sections re-rank.
+
+## Palette
+Strict 6-color palette:
+- Graphite \`#15161A\` (page canvas)
+- Panel \`#1E2024\` (surface cards, chassis, case study background)
+- Seam \`#34373D\` (hairlines, borders, empty jack holes)
+- Bone \`#ECE8DF\` (high-contrast display text, headings)
+- Steel \`#9A9CA3\` (muted text, telemetry labels, mono accents)
+- Amber \`#F2A93B\` (the only signal accent: patch cable, LEDs, active state, focus rings)
+
+## Key Sections
+1. Fixed Header with active link sliding indicator and role chips.
+2. Hero with mask-revealed headline, CTAs, interactive Patch Bay, count-ups, and availability marquee.
+3. Selected Work cards with 3D tilt, spotlight, and animated fit meters.
+4. Signal Flow stack diagram with travelling pulse wires.
+5. Process roadmap with expanding rules and numbered steps.
+6. Case Study deep-dive with problem, approach, and metric counters.
+7. About & Timeline with career milestones.
+8. Contact Brief Generator with validation and downloadable local brief ticket.
+9. Footer with SVG jack mark.
 `;
 
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
@@ -2647,6 +2681,22 @@ RAW_TEMPLATES.push(
     model: "Gemini 4 Argon High",
   }
 );
+
+RAW_TEMPLATES.push({
+  slug: "patchbay",
+  createdAt: "2026-11-08",
+  hasDownload: true,
+  title: "PATCHBAY",
+  description: "A developer portfolio that re-routes itself. Plug into Web, Full-stack, AI, or UX/UI to re-compose the page around that discipline.",
+  category: "portfolio" as TemplateCategory,
+  categories: ["portfolio" as TemplateCategory, "showcase" as TemplateCategory],
+  industry: "Developer Portfolio & Software Engineering",
+  stack: "Next.js 16 · React 19 · Lenis · Tailwind v4",
+  badges: ["Role Switcher", "Spring Physics", "Signal Flow"],
+  previewImage: "/templates/patchbay/preview-1600.webp",
+  promptMarkdown: PATCHBAY_PROMPT,
+  model: "Claude Sonnet 5.5 Low",
+});
 
 const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
 export const ARCHIVED_TEMPLATES = registeredTemplates.filter((template) => Boolean(template.archived));
