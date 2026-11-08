@@ -2623,7 +2623,7 @@ RAW_TEMPLATES.push({
   industry: "Ceramics & Pottery",
   badges: ["Lathe Configurator", "Scroll-Pulled Clay", "Procedural 3D"],
   createdAt: "2026-11-08",
-  hasDownload: false,
+  hasDownload: true,
   stack: "Next.js 16 · React 19 · Three.js · Lenis · Tailwind v4",
   previewImage: "/templates/tourne/preview-1600.webp",
   model: "Claude Sonnet 5.5 Low",
@@ -2634,7 +2634,7 @@ RAW_TEMPLATES.push(
   {
     slug: "kairok",
     createdAt: "2026-11-08",
-    hasDownload: false,
+    hasDownload: true,
     title: "KAIRO K",
     description: "See beyond the expected. An interactive cinematic product experience and optical exploration for the fictional KAIRO K-01 mirrorless camera concept.",
     category: "showcase" as TemplateCategory,

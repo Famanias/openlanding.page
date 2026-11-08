@@ -13,7 +13,7 @@ const COPY_METADATA: Record<
   auven: { name: "AUVEN", dependencies: [], includeDownload: true },
   nema: { name: "NEMA", dependencies: [], includeDownload: true },
   velora: { name: "VELORA", dependencies: [], includeDownload: true },
-  tourne: { name: "TOURNE", dependencies: ["three", "lenis"], includeDownload: false },
+  tourne: { name: "TOURNE", dependencies: ["three", "lenis"], includeDownload: true },
   cirro: { name: "CIRRO", dependencies: [], includeDownload: true },
   orova: { name: "OROVA", dependencies: [], includeDownload: true },
   vyra: { name: "VYRA", dependencies: [], includeDownload: true },
