@@ -17,7 +17,7 @@
 /* Hero */
 .hero{min-height:860px;min-height:100svh;display:flex;align-items:stretch;overflow:hidden;background:#071810}.hero-image,.footer-image{position:absolute;inset:-2%;width:104%;height:104%;object-fit:cover;object-position:center;z-index:-5;will-change:transform}.hero:before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,13,8,.86) 0%,rgba(3,18,12,.70) 37%,rgba(2,17,10,.19) 83%),linear-gradient(0deg,rgba(0,0,0,.67),transparent 35%,rgba(0,0,0,.35));z-index:-3}.hero:after{content:'';position:absolute;inset:0;opacity:.18;background:radial-gradient(ellipse at 50% 35%,transparent 20%,#07140d 100%);z-index:-2;pointer-events:none}.signal-webgl{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen;opacity:.42}.hero-in{width:min(100% - 9vw,1530px);margin:auto;position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:150px 0 130px}.hero-kicker{display:flex;gap:12px;align-items:center;color:var(--lime);margin-bottom:24px;animation:heroLift .8s .18s both}.blinkdot{width:8px;height:8px;background:var(--lime);border-radius:50%;box-shadow:0 0 25px var(--lime);animation:blink 2s infinite}.hero h1{margin:0;font-size:clamp(58px,9vw,158px);line-height:.93;font-weight:800;letter-spacing:-.095em;max-width:1340px;text-wrap:balance}.hero h1 .h-line{display:block;overflow:hidden;padding-right:.07em;padding-bottom:.06em}.hero h1 .h-line>span{display:inline-block;animation:heroLift 1.3s var(--ease) both}.hero h1 .h-line:nth-child(1)>span{animation-delay:.2s}.hero h1 .h-line:nth-child(2)>span{animation-delay:.33s}.hero h1 .h-line:nth-child(3)>span{animation-delay:.46s}.lime{color:var(--lime)}.hero-bottom{display:flex;align-items:end;justify-content:space-between;gap:40px;margin-top:43px;animation:heroLift 1.1s .9s both}.hero-lede{max-width:350px;color:#d8e7db;font-size:15px;line-height:1.6}.hero-lede strong{color:white}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.hero-index{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:12px;min-width:210px}.hero-index .rule{width:180px;height:1px;background:rgba(255,255,255,.38)}.hero-index small{color:#d1e2d8;font:10px/1.5 var(--mono);letter-spacing:.12em}.hero-corner{position:absolute;right:4.5vw;top:48%;z-index:2;border:1px solid rgba(255,255,255,.4);background:rgba(3,17,11,.35);backdrop-filter:blur(12px);padding:18px 20px;width:230px;display:flex;flex-direction:column;gap:11px;transform:translateY(-10%);animation:heroLift .9s 1.2s both}.hero-corner-top{display:flex;align-items:center;justify-content:space-between;color:var(--lime)}.hero-corner svg{width:100%;height:52px}.hero-corner p{font:10px/1.5 var(--mono);color:#d9e7d9;margin:0}.hero-corner b{font-size:20px;letter-spacing:-.04em}.hero-down{position:absolute;bottom:29px;left:4.5vw;display:flex;align-items:center;gap:12px;color:#d1ddd3;font:10px/1 var(--mono);letter-spacing:.14em;animation:heroLift 1s 1.35s both}.hero-down i{width:1px;height:35px;background:var(--lime);display:block;transform-origin:top;animation:linePulse 2.5s ease infinite}
 /* Signal tape */
-.signal-tape{background:var(--lime);color:var(--forest);padding:15px 0;overflow:hidden;border-block:1px solid var(--forest)}.tape-track{display:flex;white-space:nowrap;width:max-content;animation:tape 28s linear infinite;gap:0}.tape-track span{font:800 14px/1.1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-right:32px}.tape-track em{font-style:normal;margin-right:32px;font-size:18px}
+.signal-tape{background:var(--lime);color:var(--forest);padding:15px 0;overflow:hidden;border-block:1px solid var(--forest)}.tape-track{display:flex;align-items:center;white-space:nowrap;width:max-content;gap:0;animation:tape var(--tape-duration,48s) linear infinite;will-change:transform}.tape-group{display:flex;align-items:center;flex:none;white-space:nowrap}.tape-group span{font:800 14px/1.1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-right:32px;flex:none}.tape-group em{font-style:normal;margin-right:32px;font-size:18px;flex:none}
 /* Manifesto */
 .manifesto{background:var(--paper);color:var(--ink);padding:160px 0 145px;overflow:hidden}.manifesto-head{display:grid;grid-template-columns:.2fr 1fr;gap:42px;align-items:start}.manifesto-head .eyebrow{padding-top:20px}.manifesto h2{font-size:clamp(55px,8vw,130px);line-height:.96;letter-spacing:-.095em;font-weight:800;margin:0;max-width:1240px}.manifesto h2 em{font-family:var(--serif);font-weight:400;letter-spacing:-.085em}.manifesto-lower{display:flex;align-items:end;justify-content:space-between;gap:50px;margin-top:98px;padding-top:31px;border-top:1px solid #b6bdb5}.manifesto-lower p{max-width:510px;font-size:clamp(18px,2vw,25px);line-height:1.4;letter-spacing:-.035em}.manifesto-badge{font:700 11px/1.5 var(--mono);text-align:right}.manifesto-badge span{display:block;font-size:72px;line-height:.95;letter-spacing:-.12em;font-family:var(--sans)}.manifesto-cross{position:absolute;right:3vw;top:145px;opacity:.08;font-size:460px;font-weight:900;pointer-events:none;line-height:1}
 /* Services */
@@ -58,7 +58,7 @@ dialog{border:0;padding:0;max-width:min(820px,calc(100vw - 34px));width:100%;max
 <div class="hero-corner" aria-hidden="true"><div class="hero-corner-top"><span class="micro">SIGNAL FIELD / ACTIVE</span><span class="blinkdot"></span></div><svg viewBox="0 0 200 52"><path d="M0 29L16 29L25 18L35 42L46 27L58 30L67 12L77 40L90 29L111 30L120 6L131 44L143 30L153 26L163 13L172 39L187 29L200 29" stroke="#d3ff61" stroke-width="1.8" fill="none"/><path d="M0 38H200" stroke="#c1dcc022"/></svg><p>CREATIVE ↗ PERFORMANCE</p><b>ALWAYS TESTING.</b></div>
 <div class="hero-down"><i></i><span>SCROLL TO SHIFT THE SIGNAL</span></div>
 </section>
-<div class="signal-tape" aria-hidden="true"><div class="tape-track"><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em></div></div>
+<div class="signal-tape" aria-label="CIRRO ticker: no more guesswork, make the signal matter"><div class="tape-track" id="cirroTickerTrack"><div class="tape-group" id="cirroTickerGroup"><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em></div><div class="tape-group" aria-hidden="true"><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em><span>NO MORE GUESSWORK</span><em>✳</em><span>MAKE THE SIGNAL MATTER</span><em>✳</em><span>CREATIVE × CULTURE × PERFORMANCE</span><em>✳</em></div></div></div>
 <section class="manifesto" id="manifesto"><div class="manifesto-cross" aria-hidden="true">↗</div><div class="container"><div class="manifesto-head"><span class="eyebrow" data-reveal>[ 001 / OUR POINT OF VIEW ]</span><h2 data-reveal>Attention <em>is earned.</em><br>Momentum is <span style="color:#369461">built.</span></h2></div><div class="manifesto-lower"><p data-reveal>We don't chase the algorithm. We connect what people feel with what brands need to achieve. Then we make, measure and make it better.</p><div class="manifesto-badge" data-reveal><span>→</span>CONVICTION, NOT CONVENTION<br>BEAUTY MEETS BEHAVIOR</div></div></div></section>
 <section class="services" id="services"><div class="container"><div class="sec-label eyebrow" data-reveal><span>[ 002 / WHAT WE DO ]</span><span>Four disciplines. One direction.</span></div><h2 class="section-big-title" data-reveal>We move<br><span class="lime">the needle.</span></h2><div class="services-grid"><div><div class="service-list" role="group" aria-label="Explore CIRRO services"><button type="button" class="service-row" data-service="creative" aria-pressed="true"><span class="sn">01</span><span class="st">Creative systems</span><span class="arr">↗</span></button><button type="button" class="service-row" data-service="media" aria-pressed="false"><span class="sn">02</span><span class="st">Media & performance</span><span class="arr">↗</span></button><button type="button" class="service-row" data-service="brand" aria-pressed="false"><span class="sn">03</span><span class="st">Brand to demand</span><span class="arr">↗</span></button><button type="button" class="service-row" data-service="conversion" aria-pressed="false"><span class="sn">04</span><span class="st">Conversion architecture</span><span class="arr">↗</span></button></div><p class="service-description" id="serviceDescription" aria-live="polite">Ideas that look different, move faster, and learn from every interaction. Built to adapt—not simply decorate a feed.</p></div><div class="service-preview" id="servicePreview" data-view="creative" aria-label="Animated visual illustration of the selected service"><div class="preview-header"><span class="micro" id="previewTitle">CREATIVE SYSTEMS</span><span class="micro">LIVE MODEL / 01</span></div><div class="preview-canvas" aria-hidden="true"><div class="grid-pattern"></div><div class="preview-ring"></div><div class="preview-ring"></div><div class="preview-ring"></div><div class="preview-core"></div><div class="preview-satellite"></div><div class="preview-satellite second"></div><div class="preview-large-label" id="previewWord">IDEA</div></div><div class="preview-footer"><span class="micro">EXPLORE / THE POSSIBLE</span><span class="micro">CIRRO©</span></div></div></div></div></section>
 <section class="work-intro" id="work"><div class="container"><div class="sec-label eyebrow" data-reveal><span>[ 003 / SELECTED EXPERIMENTS ]</span><span>Not case studies. Possibilities.</span></div><h2 class="section-big-title" data-reveal>Not campaigns.<br><em>Controlled chaos.</em></h2><div class="work-intro-low"><p data-reveal>Three fictional campaign explorations. Three different audiences. One constant: a willingness to try something unexpected.</p><span class="giant-asterisk" aria-hidden="true">✳</span></div></div></section>
@@ -122,5 +122,44 @@ $$('[data-signal-canvas]').forEach(startSignalShader);
 addEventListener('load',()=>{onScroll();setTimeout(()=>{if(!('IntersectionObserver' in window))revealTargets.forEach(el=>el.classList.add('is-revealed'));},500);});onScroll();
 })();
 </script>
-</body>
+<script>
+/* CIRRO seamless marquee. Two identical full-width groups permit an exact
+   -50% looping translation without blank space or a visible reset. */
+(function () {
+  const track = document.getElementById('cirroTickerTrack');
+  const group = document.getElementById('cirroTickerGroup');
+  if (!track || !group) return;
+  const original = group.innerHTML;
+  const follower = track.querySelector('.tape-group[aria-hidden="true"]');
+  let prevViewport = 0, pending = 0;
+
+  function sizeTicker(force) {
+    const viewport = document.documentElement.clientWidth;
+    if (!force && viewport === prevViewport) return;
+    prevViewport = viewport;
+    track.style.animation = 'none';
+    group.innerHTML = original;
+    const minWidth = Math.max(1200, viewport * 1.3);
+    let copies = 0;
+    while (group.getBoundingClientRect().width < minWidth && copies < 20) {
+      group.insertAdjacentHTML('beforeend', original);
+      copies++;
+    }
+    follower.innerHTML = group.innerHTML;
+    const groupWidth = group.getBoundingClientRect().width;
+    track.style.setProperty('--tape-duration', (groupWidth / 65).toFixed(2) + 's');
+    void track.offsetWidth;
+    track.style.animation = '';
+  }
+
+  sizeTicker(true);
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(pending);
+    pending = requestAnimationFrame(() => sizeTicker(false));
+  }, {passive:true});
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => sizeTicker(true));
+  }
+})();
+</script></body>
 </html>

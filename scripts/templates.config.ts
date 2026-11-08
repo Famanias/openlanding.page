@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra";
+export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,9 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  auven: { palette: ["#0a151e", "#111f2a", "#060e14", "#a2aeb6", "#d7b698", "#f0d7bd", "#f0eee9", "#e2dfd8"], mediaExempt: true },
+  nema: { palette: ["#f8f2ea", "#f3ece4", "#342d46", "#756b7e", "#e67c61", "#b7cdb7", "#e8d9e5", "#dcd3d0", "#fffdfb"], mediaExempt: true },
+  velora: { palette: ["#06131c", "#081925", "#0d2631", "#8bf4bc", "#7ce9e7", "#ccff9b", "#f4fbf8", "#a4bbc5"], mediaExempt: true },
   cirro: { palette: ["#0a1b14", "#10291d", "#173b2b", "#d3ff61", "#f4f5ef", "#e7ede4", "#0c1b14", "#9fb4a7", "#a5c3fc"], mediaExempt: true },
   orova: { palette: ["#f5f0e7", "#e7ded1", "#d4c2b0", "#1b1e1c", "#696964", "#d4cec4", "#3146be", "#f0ab92"], mediaExempt: true },
   vyra: { palette: ["#f5f7fb", "#edf2f8", "#111b32", "#101a31", "#64718a", "#d9e0ec", "#39c9dd", "#77ebed", "#8488f4", "#b9f4e7"], mediaExempt: true },

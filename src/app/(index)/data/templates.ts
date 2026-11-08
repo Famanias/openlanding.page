@@ -1,4 +1,4 @@
-export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra";
+export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora";
 
 export type CategoryId =
   | "all"
@@ -2379,6 +2379,13 @@ Use the following records verbatim as the runtime content source. Artwork URLs p
 ]
 \`\`\`
 `;
+
+export const AUVEN_PROMPT = "# Rebuild AUVEN — standalone landing page\n\nRecreate the supplied AUVEN experience as one complete, self-contained HTML document at /auven. The canonical source is public/downloads/auven.html, imported from AUVEN_Standalone_Experience.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nA premium outsourcing partner combining elite global talent with seamless operational integration. The people behind what's next: a silk-inspired fullscreen depth-map hero, interactive capability explorer, team culture showcase, engagement model selector, and operational process framework.\n\n## Page structure\nSilk depth-map hero, marquee ticker, editorial introduction, interactive capabilities explorer, people and culture gallery, engagement model selector, five-stage operational framework, business impact metrics, trust indicators, and contact connection form.\n\n## Visual system\nPreserve the original composition and typography: system sans-serif, Georgia serif accents, and monospaced technical labels. Use the supplied palette: #0a151e, #111f2a, #060e14, #a2aeb6, #d7b698, #f0d7bd, #f0eee9, #e2dfd8. Preserve the original inline WebP imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the capability tab switcher with animated stats and images, interactive model selector cards, mobile drawer menu, and locally handled inquiry submission. The connection form must explicitly confirm that no message was sent without a backend.\n\nRetain the fullscreen depth-map WebGL silk canvas with pointer response, masked headline rises, staggered section reveals, ticker marquee, hover image zoom, and subtle smooth transitions. Preserve the original reduced-motion and coarse-pointer fallbacks.\n\n## Integration and verification\nServe the same document at /auven and /downloads/auven.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+export const NEMA_PROMPT = "# Rebuild NEMA — standalone landing page\n\nRecreate the supplied NEMA experience as one complete, self-contained HTML document at /nema. The canonical source is public/downloads/nema.html, imported from NEMA_Transparent_Cloud_Footer.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nA fictional conversational AI workspace for questions that become ideas, research, and creative projects. Think out loud. Go further: an editorial AI workspace combining a live conversation shell, interactive artifact studio, spatial workbench, structured research dossiers, and curated collections.\n\n## Page structure\nInteractive conversation hero, marquee ticker, editorial statement, artifact chapter with step progression, spatial workbench with draggable cards, dark research dossier, travel collection showcase with sidecard, interactive project map, prompt slips, transparent pricing table, FAQ accordion, cloudscape finale, and accessible modal dialog.\n\n## Visual system\nPreserve the original composition and typography: Arial/Helvetica sans-serif, Georgia serif italic accents, and Courier New monospace labels. Use the supplied palette: #f8f2ea, #f3ece4, #342d46, #756b7e, #e67c61, #b7cdb7, #e8d9e5, #dcd3d0, #fffdfb. Preserve the original inline WebP imagery, cloudscape backgrounds, and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the interactive conversation input and prompt chips, draggable workbench cards, research tab switcher, artifact viewer dialog, interactive map stage with connected svg nodes, collection selector, and local newsletter form. All forms must explicitly state that no details are submitted or stored.\n\nRetain smooth in-view entrance reveals, spinning orbit motifs, floating sticker transforms, ticker marquee, hover card tilts, and dialog transitions. Preserve the original reduced-motion and coarse-pointer branches.\n\n## Integration and verification\nServe the same document at /nema and /downloads/nema.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+export const VELORA_PROMPT = "# Rebuild VELORA — standalone landing page\n\nRecreate the supplied VELORA experience as one complete, self-contained HTML document at /velora. The canonical source is public/downloads/velora.html, imported from VELORA_Standalone_Experience.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nA fictional instant global money transfer app. Money moves. You don't wait: centered copy framing a sticky interactive globe, live currency converter, seamless transfer flow breakdown, and corridor coverage map.\n\n## Page structure\nSticky globe hero runway, live exchange rates and transfer calculator, interactive 4-step transfer flow, human story showcase, app features split, corridor coverage map, security FAQ accordion, fee transparency overview, final CTA scene, footer, and sign-up dialog modal.\n\n## Visual system\nPreserve the original composition and typography: Trebuchet MS and Avenir Next type stacks, and SFMono monospace labels. Use the supplied palette: #06131c, #081925, #0d2631, #8bf4bc, #7ce9e7, #ccff9b, #f4fbf8, #a4bbc5. Preserve the original inline WebP imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the live exchange calculator with dynamic currency conversion and currency swap, flow stage step switcher, corridor selector with speed estimates, security FAQ accordion, and native HTML dialog signup modal with local success message. The signup modal must explicitly state that no information is sent or saved.\n\nRetain the sticky scroll-linked globe shell with orbit canvas, scroll progress indicator, pulse indicators, hover card elevations, tab transitions, and smooth modal entrances. Preserve the original reduced-motion and coarse-pointer branches.\n\n## Integration and verification\nServe the same document at /velora and /downloads/velora.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
 RAW_TEMPLATES.push({ slug: "savepoint", createdAt: "2026-11-04", hasDownload: true, title: "SAVEPOINT.", description: "Ten strange little universes. One console. A tactile cartridge archive with a physical insertion ritual.", category: "3d", categories: ["3d", "showcase", "editorial"], industry: "Independent Games", stack: "Next.js 16 · React 19 · Three.js · GSAP · Tailwind v4", badges: ["Procedural 3D", "Physical Boot", "Interactive Archive"], previewImage: "/templates/savepoint/preview-1600.webp", promptMarkdown: SAVEPOINT_PROMPT, model: "GPT-6.1" });
 
 export const WAYPOINT_PROMPT = `# Waypoint Rebuild Prompt
@@ -2404,6 +2411,51 @@ Build a high-craft career outreach and pipeline tracking landing page for "Waypo
 `;
 
 RAW_TEMPLATES.push(
+  {
+    slug: "auven",
+    title: "AUVEN",
+    description: "A premium outsourcing partner combining elite global talent with seamless operational integration.",
+    category: "saas",
+    categories: ["saas", "showcase", "marketing"],
+    industry: "Global Talent & Operations",
+    badges: ["Standalone HTML", "Depth-Map Shader", "Interactive Capabilities"],
+    createdAt: "2026-11-08",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/auven/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: AUVEN_PROMPT,
+  },
+  {
+    slug: "nema",
+    title: "NEMA",
+    description: "A fictional conversational AI workspace for questions that become ideas, research, and creative projects.",
+    category: "ai",
+    categories: ["ai", "studio", "showcase"],
+    industry: "Conversational AI & Creative Tools",
+    badges: ["Standalone HTML", "AI Workspace", "Spatial Canvas"],
+    createdAt: "2026-11-08",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/nema/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: NEMA_PROMPT,
+  },
+  {
+    slug: "velora",
+    title: "VELORA",
+    description: "A fictional instant global money transfer app concept with interactive rates, sticky globe visual, and currency exchange calculator.",
+    category: "app",
+    categories: ["app", "saas", "showcase"],
+    industry: "Fintech & Global Payments",
+    badges: ["Standalone HTML", "Currency Calculator", "Interactive Globe"],
+    createdAt: "2026-11-08",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/velora/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: VELORA_PROMPT,
+  },
   {
     slug: "strata",
     createdAt: "2026-11-05",
