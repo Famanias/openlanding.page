@@ -1,14 +1,17 @@
 # Standalone template exports
 
-The 59 templates in `scripts/standalone/config.ts` (20 DOM/SVG templates, 22 gallery entries tagged 3D and 17 further interactive templates) export from their current page components. React, ReactDOM, motion/rendering libraries, CSS, fonts and local artwork are embedded in a single HTML file. No CDN, Next runtime, or site-origin asset requests are required.
+The exporter discovers component-backed templates from the authoritative gallery registry (`RAW_TEMPLATES`) and their `src/app/(slug)/slug/page.tsx`, `.ts`, `.jsx` or `.js` files. New registered templates need no additional exporter allowlist entry. React, ReactDOM, motion/rendering libraries, CSS, fonts and local artwork are embedded in a single HTML file. No CDN, Next runtime, or site-origin asset requests are required by the generated document.
+
+Discovery makes a page eligible for export; missing assets, remote stylesheets and unsupported framework/server dependencies can still require an adapter or a source correction. Imported HTML-only route handlers retain their canonical `public/downloads/<slug>.html` files and are excluded from component regeneration. Exporting does not automatically enable gallery download flags or change copy-bundle metadata.
 
 ## Regeneration
 
-Build the site, then export one template or the complete supported set:
+Build the site, then export one template or the discovered set. In Windows PowerShell, use `npm.cmd` instead of `npm` when forwarding flags such as `--list` or `--output`; this avoids the `npm.ps1` shim consuming them.
 
 ```sh
 npm run build
-npm run export:templates -- aftercart
+npm run export:templates -- kairok tourne
+npm run export:templates -- --list
 npm run export:templates -- --all
 npm run verify:exports -- --all
 npm run export:templates -- --3d
@@ -17,7 +20,9 @@ npm run export:templates -- --remaining
 npm run verify:exports -- --remaining
 ```
 
-The exporter rejects stale template source, unsupported slugs, missing media and paths outside `public/` or `.next/`. Outputs go to `public/downloads/<slug>.html`; existing templates outside the supported set are untouched. The Waypoint-specific exporter remains available as `npm run export:waypoint`.
+`--all` (also the default without arguments) selects all discovered component pages. `--3d` uses current gallery categories; `--remaining` selects component pages not yet marked `hasDownload: true`. `--list` prints the selection without building or writing HTML and can be combined with those selectors. In Windows PowerShell use `npm.cmd` when forwarding flags if the `npm.ps1` shim consumes them, for example `npm.cmd run export:templates -- --list --remaining`.
+
+The exporter rejects unregistered/invalid slugs, missing component pages, escaping source symlinks, stale production builds, missing media and assets outside `public/` or `.next/`. Outputs go to `public/downloads/<slug>.html`. The Waypoint-specific exporter remains available as `npm run export:waypoint`.
 
 To verify a new generation before replacing public downloads:
 
@@ -31,7 +36,7 @@ Set `STANDALONE_DIRECTORY=.openlanding-page/standalone-exports/staging` in the s
 
 `verify:exports` adapts the existing template-specific Playwright suites to navigate real `file://` URLs, preserving their query strings and hashes, and runs them offline. It also checks each template for runtime/hydration errors, attempted HTTP requests, missing images, phone overflow, reduced motion, and readable content without JavaScript. Generated suites and reports stay under the ignored `.openlanding-page/standalone-exports/verification/` directory. `--smoke` runs just the shared checks.
 
-For 3D entries, `--graphics-only` proves real visible presentation draws from the original scene, exercises on-demand renderers with authored controls, checks LUMEN's GLB load, and checks KŌJI's decoded/seeked video. Screenshots and frame evidence are attached to the report. These checks currently validate Chromium WebGL/Canvas and the source's WebGL fallback; hardware-specific native WebGPU behavior is preserved but not certified by this software-renderer run. Orrery is tagged 3D in the gallery but uses an SVG/CSS deck, so its deck behavior is checked instead. Outside that category, ASSEMBLAGE, NIGHTLINE and KINETIC also receive native WebGL checks, and WARP & WANDER receives a native Canvas2D check.
+For templates with dedicated renderer probes, `--graphics-only` proves real visible presentation draws from the original scene, exercises on-demand renderers with authored controls, checks LUMEN's GLB load, and checks KŌJI's decoded/seeked video. Screenshots and frame evidence are attached to the report. These renderer-specific checks are separate from export eligibility; newly discovered pages still get their authored interaction suites and shared offline checks. A `--graphics-only` selection without a dedicated probe reports that limitation instead of claiming a rendering check. These checks currently validate Chromium WebGL/Canvas and the source's WebGL fallback; hardware-specific native WebGPU behavior is preserved but not certified by this software-renderer run. Orrery is tagged 3D in the gallery but uses an SVG/CSS deck, so its deck behavior is checked instead. Outside that category, ASSEMBLAGE, NIGHTLINE and KINETIC also receive native WebGL checks, and WARP & WANDER receives a native Canvas2D check.
 
 `STANDALONE_VERIFICATION_DIRECTORY` selects an isolated report/suite directory for parallel verification runs. Legacy HTTP asset preconditions become real filesystem checks, while media-rendering assertions remain. The server-only KEYTU `/cairn` redirect is explicitly skipped for file exports; the remaining navigation assertions run against downloaded files. ASSEMBLAGE runs with one worker to avoid software-GPU competition. Original image references are retained as `data-standalone-src`/`data-standalone-background` metadata alongside the embedded URLs.
 
@@ -42,7 +47,7 @@ Compare desktop and phone screenshots with the live page when changing layout, a
 - `scripts/standalone/export.ts` renders the original page with React SSR and bundles the same page for hydration with esbuild. The hydration wrapper uses `display: contents` to preserve body flex/grid layout, including WOWFLUTTER's desktop book.
 - `document.ts` takes the compiled styles, font variables, document attributes, metadata, authored initialization scripts and no-JavaScript fallbacks from the production build. It preserves font preload hints from Next's prerender `.meta` HTTP headers as embedded font links, preventing first-paint font shifts. Next scripts and resource links are not copied.
 - `assets.ts` embeds local CSS/font/media dependencies and rejects missing files, traversal and escaping symlinks.
-- `source-assets.ts` adapts direct JavaScript loaders, Image/video assignments, fetch calls and in-world font inputs to the same embedded registry. Asset literals are parsed without treating source comments as dependencies.
+- `source-assets.ts` adapts direct JavaScript loaders, Image/video assignments, fetch calls and in-world font inputs to the same embedded registry. Asset literals are parsed without treating source comments as dependencies. Computed template-string and concatenated filename families (such as numbered scrub frames) are matched against the owning template's local media files and embedded without per-template lists.
 - `next-adapters.ts` replaces the specific Link/Image/client-dynamic boundaries used by these pages. Model and clip bytes stay embedded; authored renderers, shaders, audio and state remain bundled from the original source.
 - The shared JSX adapter resolves image, SVG and inline-style URLs identically during SSR and hydration. Generated responsive images use one high-resolution WebP per asset; responsive source variants are omitted in the single-file export to avoid embedding duplicate encodings.
 - The asset registry keeps data URLs identical for SSR and initial hydration, then caches local Blob URLs after mounting so repeated scene interactions do not repeatedly parse large embedded media. Byte-identical assets share one embedded value.
@@ -71,3 +76,9 @@ The source NOISE CLUB waveform bars now shrink to fit phone widths, including wi
 Final artifact verification covers offline requests/images, phone layouts, reduced motion, no JavaScript, real graphics, forms, keyboard controls, audio scheduling, video decode/play/seek and page turns. The 16-template interaction run passed 188 cases with one explicit server-redirect skip. ASSEMBLAGE's ten interaction cases passed across isolated runs, together with its dedicated native-rendering and two offline/fallback checks. Its initial simultaneous software-GPU and one workshop startup runs failed; those timing failures and subsequent passing checks remain recorded in the local ledger. Hardware-native WebGPU, other browser engines and physical devices are outside this run.
 
 All 17 new gallery downloads passed streamed SHA-256 comparisons, and all 11 gallery index/motion regressions passed. The final unit run passed 1,475 tests across 268 files; production build, TypeScript, targeted ESLint and project guards passed. Large-artifact unit tests used a temporary directory on the workspace volume. The largest new export is HIYAS at 89.84 MB.
+
+## Automatic discovery verification (2026-11-08)
+
+KAIRO K (`kairok`) and TOURNE (`tourne`) were discovered and exported into local staging without export registrations. Discovery tests also use an invented future registration; real CLI fixtures generate TSX, TS, JSX and JavaScript pages without an asset directory. Regression checks cover slug validation, escaping route junctions, dynamic selectors, literal regex punctuation and KAIRO K's 120 computed sequence frame files. Existing public HTML and gallery publication flags remain unchanged by this update.
+
+The update passed 14 real offline browser checks for KAIRO K and TOURNE, 1,548 unit tests across 278 files, and a final 38-test focused regression run covering future page formats and media discovery. TypeScript, targeted ESLint and project guards passed.

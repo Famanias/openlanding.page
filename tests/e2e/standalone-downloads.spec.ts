@@ -10,7 +10,8 @@ async function sha256(file: string) {
   return hash.digest("hex");
 }
 
-for (const slug of STANDALONE_SLUGS) {
+// Export eligibility does not publish a gallery download. Test only enabled buttons.
+for (const slug of STANDALONE_SLUGS.filter(slug => TEMPLATES.some(template => template.slug === slug && template.hasDownload))) {
   test(`${slug}: gallery downloads the verified standalone document`, async ({ page }) => {
     // Embedded video exports approach 90 MB; allow their native download to finish.
     test.setTimeout(120_000);

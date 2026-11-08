@@ -2,7 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
-import { selectSlugs, LIVE_GRAPHICS_SLUGS } from "./standalone/config";
+import { selectSlugs, GRAPHICS_SLUGS } from "./standalone/config";
+import { LIVE_GRAPHICS_SLUGS } from "../tests/standalone/graphics";
 import { adaptVerificationSource } from "./standalone/verification-source";
 
 const require = createRequire(import.meta.url);
@@ -10,6 +11,7 @@ const root = process.cwd();
 const output = path.resolve(process.env.STANDALONE_VERIFICATION_DIRECTORY ?? ".openlanding-page/standalone-exports/verification");
 const args = process.argv.slice(2);
 const selected = selectSlugs(args.filter(arg => !["--smoke","--graphics-only"].includes(arg)));
+if (!selected.length) { console.log("No component templates selected."); process.exit(0); }
 fs.mkdirSync(path.join(output, "tests"), { recursive: true });
 // Only this run's suites participate; old generated suites are left as QA artifacts.
 const names: string[] = [];
@@ -40,10 +42,11 @@ if (!args.includes("--smoke") && !args.includes("--graphics-only")) for (const s
 }
 const smoke = fs.readFileSync(path.join(root, "tests/standalone/smoke.ts"), "utf8");
 if(!args.includes("--graphics-only")){
-fs.writeFileSync(path.join(output, "tests/smoke.spec.ts"), smoke.replace('"./open"', JSON.stringify(path.join(root, "tests/standalone/open"))).replace("/* SLUGS */[]", JSON.stringify(selected)).replace("/* GRAPHICS */[]",JSON.stringify(LIVE_GRAPHICS_SLUGS)));
+fs.writeFileSync(path.join(output, "tests/smoke.spec.ts"), smoke.replace('"./open"', JSON.stringify(path.join(root, "tests/standalone/open"))).replace("/* SLUGS */[]", JSON.stringify(selected)).replace("/* GRAPHICS */[]",JSON.stringify([...new Set([...GRAPHICS_SLUGS, ...LIVE_GRAPHICS_SLUGS])])));
 names.push("smoke.spec.ts");
 }
 const graphics=selected.filter(slug=>(LIVE_GRAPHICS_SLUGS as readonly string[]).includes(slug));
+if (args.includes("--graphics-only") && !graphics.length) throw new Error("No dedicated graphics probe is available for the selected templates. Omit --graphics-only to run their interaction and offline checks.");
 if(graphics.length&&!args.includes("--smoke")){
  const source=fs.readFileSync(path.join(root,"tests/standalone/graphics-run.ts"),"utf8").replace('"./open"',JSON.stringify(path.join(root,"tests/standalone/open"))).replace('"./graphics"',JSON.stringify(path.join(root,"tests/standalone/graphics"))).replace("/* SLUGS */[]",JSON.stringify(graphics));
  fs.writeFileSync(path.join(output,"tests/graphics.spec.ts"),source);names.push("graphics.spec.ts");

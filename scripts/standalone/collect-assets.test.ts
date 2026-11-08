@@ -6,6 +6,20 @@ import { collectAssets } from "./export";
 import { createHash } from "node:crypto";
 
 describe("authored media collection", () => {
+  it("embeds every authored KAIROK sequence frame from its computed URL family", async () => {
+    const root = process.cwd();
+    const assets = new AssetStore(root);
+    await collectAssets("kairok", root, assets);
+    const frames = fs.readdirSync(path.join(root, "public/templates/kairok/sequence"));
+    expect(frames).toHaveLength(120);
+    for (const frame of frames) {
+      const url = `/templates/kairok/sequence/${frame}`;
+      expect(typeof assets.entries[url], url).toBe("string");
+      const bytes = Buffer.from(assets.entries[url].split(",")[1], "base64");
+      expect(createHash("sha256").update(bytes).digest("hex")).toBe(createHash("sha256").update(fs.readFileSync(path.join(root, "public", url))).digest("hex"));
+    }
+  });
+
   it("embeds dynamically constructed HIYAS clips outside the 3D gallery category", async () => {
     const root = process.cwd();
     const assets = new AssetStore(root);

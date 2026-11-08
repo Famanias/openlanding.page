@@ -5,8 +5,8 @@ import { build, type Plugin, type PluginBuild } from "esbuild";
 import { readTemplateFiles } from "../template-files";
 import { AssetStore } from "./assets";
 import { extractDocument } from "./document";
-import { type StandaloneSlug } from "./config";
-import { rewriteAssetConsumers, assetLiterals } from "./source-assets";
+import { resolveStandaloneTemplate, type StandaloneSlug } from "./config";
+import { rewriteAssetConsumers, assetLiterals, assetPatterns } from "./source-assets";
 import { nextAdapters } from "./next-adapters";
 
 const require = createRequire(import.meta.url);
@@ -14,9 +14,10 @@ const require = createRequire(import.meta.url);
 export async function collectAssets(slug: StandaloneSlug, root: string, assets: AssetStore) {
   const optimize = ["savepoint", "synapxe", "xibalba"].includes(slug);
   const prepare = (url: string) => assets.prepare(url, optimize);
-  const media = fs.readdirSync(path.join(root, "public/templates", slug), {recursive:true, withFileTypes:true}).filter(file => file.isFile() && !/aistudio/.test(file.parentPath)).map(file => path.join(file.parentPath, file.name));
+  const mediaDirectory = path.join(root, "public/templates", slug);
+  const media = (fs.existsSync(mediaDirectory) ? fs.readdirSync(mediaDirectory, {recursive:true, withFileTypes:true}) : []).filter(file => file.isFile() && !/aistudio/.test(file.parentPath)).map(file => path.join(file.parentPath, file.name));
   for (const file of readTemplateFiles(slug, true)) {
-    if (/\/(?:layout|opengraph-image)\.tsx$/.test(file.path)) continue;
+    if (/\/(?:layout|opengraph-image)\.[jt]sx?$/.test(file.path)) continue;
     const literals=/\.[jt]sx?$/.test(file.path)?assetLiterals(file.source,file.path):[];
     for (const url of literals.filter(value=>/^\/(?:templates|assets)\//.test(value)&&!/[${}]/.test(value))) {
       if (path.extname(url)) {
@@ -34,6 +35,12 @@ export async function collectAssets(slug: StandaloneSlug, root: string, assets: 
           const url = `/templates/${slug}/${key}-${width}.${format}`;
           assets.aliases[url] = canonical;
         }
+      }
+    }
+    if (/\.[jt]sx?$/.test(file.path)) {
+      for (const pattern of assetPatterns(file.source, file.path)) for (const candidate of media) {
+        const url = "/" + path.relative(path.join(root, "public"), candidate).replace(/\\/g, "/");
+        if (pattern.test(url) && !assets.aliases[url] && !assets.entries[url]) await prepare(url);
       }
     }
     {
@@ -78,6 +85,7 @@ export function jsxs(type,props,key){return originalJsxs(type,adapt(type,props),
 
 export async function exportTemplate(slug: StandaloneSlug, outputDirectory: string) {
   const root = process.cwd();
+  const template = resolveStandaloneTemplate(slug, root);
   const routeFile = path.join(root, ".next/server/app", `${slug}.html`);
   if (!fs.existsSync(routeFile)) throw new Error(`Build the site before exporting ${slug}`);
   const sourceFiles = readTemplateFiles(slug, true);
@@ -88,7 +96,7 @@ export async function exportTemplate(slug: StandaloneSlug, outputDirectory: stri
   const fontPreloadHeader = typeof meta?.headers?.link === "string" ? meta.headers.link : "";
   const shell = extractDocument(fs.readFileSync(routeFile, "utf8"), root, assets, fontPreloadHeader);
   await collectAssets(slug, root, assets);
-  const entry = `./src/app/(${slug})/${slug}/page.tsx`;
+  const entry = template.entry;
   const common = {
     bundle: true,
     jsx: "automatic" as const,
@@ -99,7 +107,8 @@ export async function exportTemplate(slug: StandaloneSlug, outputDirectory: stri
         builder.onLoad({filter:/\.[jt]sx?$/}, async args => {
           if (!args.path.startsWith(sourceRoot)) return;
           const source=fs.readFileSync(args.path,"utf8");
-          return {contents:rewriteAssetConsumers(source,args.path),loader:path.extname(args.path).slice(1) as "ts"|"tsx"|"js"|"jsx",resolveDir:path.dirname(args.path)};
+          const loader = /\.jsx?$/.test(args.path) ? "jsx" : path.extname(args.path).slice(1) as "ts" | "tsx";
+          return {contents:rewriteAssetConsumers(source,args.path),loader,resolveDir:path.dirname(args.path)};
         });
       },
     }],

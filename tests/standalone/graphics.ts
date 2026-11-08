@@ -149,6 +149,9 @@ const scenes: Record<string, string> = {
   koji: "#dish canvas",
 };
 
+// Dedicated renderer assertions are independent of export eligibility.
+export const LIVE_GRAPHICS_SLUGS = [...Object.keys(scenes), "orrery"];
+
 async function snapshot(page: Page, selector: string): Promise<CanvasEvidence[]> {
   return page.evaluate(selector => {
     const probe = (window as ProbeWindow).__standaloneGraphicsProbe;

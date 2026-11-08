@@ -4,15 +4,21 @@ import { TEMPLATES } from "../../src/app/(index)/data/templates";
 import { TEMPLATE_METADATA } from "../generate-copy-bundles";
 import { STANDALONE_SLUGS } from "./config";
 
-describe("published standalone downloads", () => {
-  it.each(STANDALONE_SLUGS)("%s has an enabled gallery download and complete copy bundle", slug => {
-    expect(TEMPLATES.find(template => template.slug === slug)?.hasDownload).toBe(true);
-    expect(TEMPLATE_METADATA[slug].includeDownload).toBe(true);
-    expect(TEMPLATE_METADATA[slug].downloadPath).toBe(`/downloads/${slug}.html`);
+const published = STANDALONE_SLUGS.filter(slug => TEMPLATES.some(template => template.slug === slug && template.hasDownload));
+
+describe("published component template downloads", () => {
+  it.each(published)("%s has a valid HTML download and generated exports include their copy bundle", slug => {
     const html = fs.readFileSync(`public/downloads/${slug}.html`, "utf8");
-    expect(html).toMatch(/^<!DOCTYPE html>/);
-    expect(html).toContain('id="standalone-root"');
-    expect(html).not.toContain("/_next/");
-    expect(fs.readFileSync(`public/copy/${slug}.md`, "utf8")).toContain(`<file path="public/downloads/${slug}.html">`);
+    expect(/^\uFEFF?<!doctype html>/i.test(html)).toBe(true);
+    expect(/<h1[\s>]/i.test(html)).toBe(true);
+    expect(html.includes("/_next/")).toBe(false);
+    // Legacy hand-authored HTML has separate copy metadata. Generated artifacts must publish both.
+    if (html.includes("<!-- Generated from the current ")) {
+      const metadata = TEMPLATE_METADATA[slug as keyof typeof TEMPLATE_METADATA];
+      expect(metadata.includeDownload).toBe(true);
+      expect(metadata.downloadPath).toBe(`/downloads/${slug}.html`);
+      expect(fs.readFileSync(`public/copy/${slug}.md`, "utf8").includes(`<file path="public/downloads/${slug}.html">`)).toBe(true);
+      if (html.includes(`<!-- Generated from the current ${slug} components.`)) expect(html.includes('id="standalone-root"')).toBe(true);
+    }
   });
 });
