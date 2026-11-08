@@ -8,7 +8,7 @@ import { selectSlugs } from "../../scripts/standalone/config";
 export function openStandalone(page: Page, href: string, options?: Parameters<Page["goto"]>[1]) {
   if (href === "about:blank") return page.goto(href, options);
   const url = new URL(href, "http://localhost:3100");
-  const [slug] = selectSlugs([url.pathname.replace(/^\//, "")]);
+  const [slug] = selectSlugs([url.pathname.replace(/^\/(?:templates\/)?/, "")]);
   const file = pathToFileURL(path.resolve(process.env.STANDALONE_DIRECTORY ?? "public/downloads", `${slug}.html`));
   file.search = url.search;
   file.hash = url.hash;

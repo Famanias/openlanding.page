@@ -27,7 +27,11 @@ export function resolveEmbeddedAsset<T>(value: T, config: ExportConfig): T | str
 }
 
 export function normalizeNavigation<T extends string | URL | null | undefined>(url: T, slug: string): T | string {
-  if (typeof url === "string" && (url === `/${slug}` || url.startsWith(`/${slug}?`) || url.startsWith(`/${slug}#`))) return url.slice(slug.length + 1) || "#top";
+  if (typeof url === "string") {
+    for (const root of [`/${slug}`, `/templates/${slug}`]) {
+      if (url === root || url.startsWith(`${root}?`) || url.startsWith(`${root}#`)) return url.slice(root.length) || "#top";
+    }
+  }
   return url;
 }
 
@@ -50,9 +54,14 @@ export function adaptProps(type: unknown, props: Record<string, unknown> | null,
   for (const key of ["src", "poster", "href", "xlinkHref"]) {
     const value = output[key];
     if (typeof value !== "string") continue;
-    if (type === "a" && key === "href" && (value === `/${config.slug}` || value.startsWith(`/${config.slug}?`) || value.startsWith(`/${config.slug}#`))) {
-      output[key] = normalizeNavigation(value, config.slug);
-    } else output[key] = resolve(value);
+    if (type === "a" && key === "href") {
+      const navigation = normalizeNavigation(value, config.slug);
+      if (navigation !== value || /^\/templates\/[a-z0-9]+(?:-[a-z0-9]+)*(?:[?#].*)?$/.test(value)) {
+        output[key] = navigation;
+        continue;
+      }
+    }
+    output[key] = resolve(value);
   }
   if (typeof output.srcSet === "string" && !output.srcSet.startsWith("data:")) {
     output.srcSet = output.srcSet.split(",").map(candidate => {
