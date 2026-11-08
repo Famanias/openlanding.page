@@ -18,7 +18,7 @@ for (const template of imports) {
       await page.getByRole("searchbox").fill(template.title);
       const card = page.locator("article").filter({ has: page.getByRole("heading", { name: template.title, exact: true }) });
       await expect(card).toBeVisible();
-      await expect(card.getByRole("link", { name: template.title, exact: true })).toHaveAttribute("href", `/${template.slug}`);
+      await expect(card.getByRole("link", { name: template.title, exact: true })).toHaveAttribute("href", `/templates/${template.slug}`);
       await expect.poll(() => card.locator("img").evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
       await card.getByRole("button", { name: "Copy prompt", exact: true }).click();
       await expect(card.getByRole("button", { name: "Copied prompt", exact: true })).toBeVisible();
@@ -34,13 +34,13 @@ for (const template of imports) {
       const popupEvent = page.waitForEvent("popup");
       await card.getByRole("link", { name: template.title, exact: true }).click();
       const popup = await popupEvent;
-      await expect(popup).toHaveURL(new RegExp(`/${template.slug}$`));
+      await expect(popup).toHaveURL(url => url.pathname === `/templates/${template.slug}`);
       await expect(popup.locator("h1")).toBeVisible();
     });
 
     test("live route and download return the same original HTML without runtime errors", async ({ page, request }) => {
       const original = await readFile(path.join(process.cwd(), "public/downloads", `${template.slug}.html`), "utf8");
-      for (const url of [`/${template.slug}`, `/downloads/${template.slug}.html`]) {
+      for (const url of [`/templates/${template.slug}`, `/downloads/${template.slug}.html`]) {
         const response = await request.get(url);
         expect(response.ok()).toBe(true);
         expect(response.headers()["content-type"]).toContain("text/html");
@@ -48,7 +48,7 @@ for (const template of imports) {
       }
       const errors: string[] = [];
       page.on("pageerror", error => errors.push(error.message));
-      await page.goto(`/${template.slug}`);
+      await page.goto(`/templates/${template.slug}`);
       await expect(page.locator("h1")).toBeVisible();
       await page.locator("#contact, #final, #app, #plans, footer, .site-footer").first().scrollIntoViewIfNeeded();
       expect(errors).toEqual([]);
@@ -57,7 +57,7 @@ for (const template of imports) {
     test("phone navigation supports Escape and reduced motion has no horizontal overflow", async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.emulateMedia({ reducedMotion: "reduce" });
-      await page.goto(`/${template.slug}`);
+      await page.goto(`/templates/${template.slug}`);
       await expect(page.locator("h1")).toBeVisible();
       const menu = page.locator(template.menu);
       await menu.click();
@@ -71,7 +71,7 @@ for (const template of imports) {
       const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
       try {
         const page = await context.newPage();
-        await page.goto(`/${template.slug}`);
+        await page.goto(`/templates/${template.slug}`);
         await expect(page.locator("h1")).toBeVisible();
         await expect(page.locator(template.section)).toBeVisible();
       } finally {

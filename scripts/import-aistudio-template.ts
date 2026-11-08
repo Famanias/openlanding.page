@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
+import { templatePath } from "../src/lib/template-routing";
 
 // Supported Google fonts in next/font/google with standard configurations
 const KNOWN_GOOGLE_FONTS: Record<
@@ -527,21 +528,21 @@ test.describe("${meta.brandName}", () => {
   test.use({ viewport: { width: 1280, height: 800 } });
 
   test("loads landing page successfully", async ({ page }) => {
-    await page.goto("/${slug}");
+    await page.goto("${templatePath(slug)}");
     await expect(page.locator("body")).toBeVisible();
     await expect(page.locator("h1, h2").first()).toBeVisible();
   });
 
   test("responsive layout has no horizontal overflow on mobile viewports", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/${slug}");
+    await page.goto("${templatePath(slug)}");
     await expect(page.locator("body")).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
   });
 
   test("reduced motion keeps all sections visible", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/${slug}");
+    await page.goto("${templatePath(slug)}");
     await expect(page.locator("body")).toBeVisible();
   });
 });
@@ -676,8 +677,8 @@ Build a complete, responsive, interaction-rich landing page for **${meta.brandNa
   const e2eTemplatesPath = path.join(repoRoot, "tests", "e2e", "templates.ts");
   if (fs.existsSync(e2eTemplatesPath)) {
     let content = fs.readFileSync(e2eTemplatesPath, "utf-8");
-    if (!content.includes(`"/${slug}"`)) {
-      content = content.replace(/(export const TEMPLATE_PATHS: string\[] = \[[^\]]*)(];)/, `$1, "/${slug}"$2`);
+    if (!content.includes(`"${templatePath(slug)}"`)) {
+      content = content.replace(/(export const TEMPLATE_PATHS: string\[] = \[[^\]]*)(];)/, `$1, "${templatePath(slug)}"$2`);
       fs.writeFileSync(e2eTemplatesPath, content, "utf-8");
       console.log(`[import] Updated tests/e2e/templates.ts`);
     }
@@ -900,13 +901,13 @@ export function importTemplate() {
   }
 
   console.log(`\n🎉 Successfully imported template "${meta.brandName}" into:`);
-  console.log(`   - Route: /${slug}`);
+  console.log(`   - Route: ${templatePath(slug)}`);
   console.log(`   - Files: src/app/(${slug})/${slug}/`);
   console.log(`   - Assets: public/templates/${slug}/`);
   console.log(`   - Gallery card: public/gallery/${slug}.webp`);
   console.log(`\nTo test, run:`);
   console.log(`   npm run dev`);
-  console.log(`   open http://localhost:3000/${slug}`);
+  console.log(`   open http://localhost:3000${templatePath(slug)}`);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {

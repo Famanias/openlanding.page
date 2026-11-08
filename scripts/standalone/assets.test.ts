@@ -44,9 +44,24 @@ describe("standalone asset handling", () => {
     expect(() => selectSlugs(["../private"])).toThrow(/invalid.*slug/i);
   });
   it("keeps query updates on the downloaded file instead of navigating to a site-root path", () => {
+    expect(normalizeNavigation("/templates/lumen", "lumen")).toBe("#top");
+    expect(normalizeNavigation("/templates/lumen?studio=1#controls", "lumen")).toBe("?studio=1#controls");
+    expect(normalizeNavigation("/lumen?studio=1", "lumen")).toBe("?studio=1");
+    for (const href of ["/templates/lumen/art.webp", "/templates/lumen-extra", "/templates/pello", "https://example.com/templates/lumen"]) {
+      expect(normalizeNavigation(href, "lumen")).toBe(href);
+    }
     expect(normalizeNavigation("/pello?plan=steady&goal=240", "pello")).toBe("?plan=steady&goal=240");
     expect(normalizeNavigation("/pello#begin", "pello")).toBe("#begin");
     expect(normalizeNavigation("https://example.com/pello", "pello")).toBe("https://example.com/pello");
+  });
+  it("normalizes self anchors without resolving other template pages as assets", () => {
+    const config = { slug: "lumen", assets: { "/templates/lumen/art.webp": "data:image/webp;base64,YXJ0" } };
+    expect(adaptProps("a", { href: "/templates/lumen?studio=1#controls" }, config)?.href).toBe("?studio=1#controls");
+    for (const href of ["/templates/pello", "/templates/pello?plan=steady#begin"]) {
+      expect(adaptProps("a", { href }, config)?.href).toBe(href);
+    }
+    expect(adaptProps("img", { src: "/templates/lumen/art.webp" }, config)?.src).toBe("data:image/webp;base64,YXJ0");
+    expect(() => adaptProps("img", { src: "/templates/lumen/missing.webp" }, config)).toThrow(/missing/i);
   });
   it("embeds local assets, reuses entries and rejects traversal and missing files", () => {
     const store = new AssetStore(fixture());

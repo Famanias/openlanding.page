@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
-import path from "node:path";
+import { RAW_TEMPLATES } from "./src/app/(index)/data/templates";
+import { createTemplateRouting } from "./src/lib/template-routing";
+
+const templateRouting = createTemplateRouting(RAW_TEMPLATES.map(template => template.slug));
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -23,38 +26,11 @@ const nextConfig: NextConfig = {
     },
   },
   async redirects() {
-    return [
-      {
-        source: "/kinetix",
-        destination: "/synapxe",
-        permanent: true,
-      },
-      {
-        source: "/kinetix/:path*",
-        destination: "/synapxe/:path*",
-        permanent: true,
-      },
-      {
-        source: "/cyberpunk",
-        destination: "/synapxe",
-        permanent: true,
-      },
-      {
-        source: "/cyberpunk/:path*",
-        destination: "/synapxe/:path*",
-        permanent: true,
-      },
-      {
-        source: "/cairn",
-        destination: "/keytu",
-        permanent: true,
-      },
-      {
-        source: "/cairn/:path*",
-        destination: "/keytu/:path*",
-        permanent: true,
-      },
-    ];
+    return templateRouting.redirects;
+  },
+  async rewrites() {
+    // Existing public/templates media must resolve before the page mounts.
+    return { beforeFiles: [], afterFiles: templateRouting.rewrites, fallback: [] };
   },
 };
 

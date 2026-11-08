@@ -12,6 +12,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { generateCopyBundles } from "./generate-copy-bundles";
+import { templatePath } from "../src/lib/template-routing";
 
 export interface TemplateInfo {
   slug: string;
@@ -234,7 +235,7 @@ export function updateE2eTemplatesList(filePath: string, slug: string, archive: 
   let content = fs.readFileSync(filePath, "utf8");
   const original = content;
 
-  const slugPath = slug.startsWith("/") ? slug : `/${slug}`;
+  const slugPath = templatePath(slug.replace(/^\//, ""));
   const slugEntry = `"${slugPath}"`;
 
   if (archive) {
@@ -331,9 +332,9 @@ Examples:
     if (changed) {
       anyChanged = true;
       if (isArchive) {
-        console.log(`  ✓ Archived "${template.title}" (${template.slug}): hidden from gallery and disabled at /${template.slug} (404)`);
+        console.log(`  ✓ Archived "${template.title}" (${template.slug}): hidden from gallery and disabled at ${templatePath(template.slug)} (404)`);
       } else {
-        console.log(`  ✓ Restored "${template.title}" (${template.slug}): visible in gallery and accessible at /${template.slug}`);
+        console.log(`  ✓ Restored "${template.title}" (${template.slug}): visible in gallery and accessible at ${templatePath(template.slug)}`);
       }
     } else {
       if (isArchive) {

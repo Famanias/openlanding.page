@@ -25,6 +25,15 @@
 
 ## Tech Stack
 
+Templates open at `https://www.openlanding.page/templates/orrery` (locally,
+`http://localhost:3000/templates/orrery`). Legacy `/orrery` URLs permanently
+redirect with HTTP 308, preserving queries and browser fragments. Registered
+templates receive these routes automatically when the app is built.
+
+The source remains at `src/app/(orrery)/orrery/`. Media under
+`/templates/orrery/`, previews under `/gallery/`, copy bundles under `/copy/`,
+and `/downloads/orrery.html` keep their existing locations.
+
 - **Framework:** [Next.js 16](https://nextjs.org) (App Router, Server Components)
 - **Runtime &amp; Package Manager:** [Bun](https://bun.sh) (`1.3.11`+)
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com)

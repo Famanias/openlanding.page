@@ -18,7 +18,7 @@ for (const slug of STANDALONE_SLUGS.filter(slug => TEMPLATES.some(template => te
     const template = TEMPLATES.find(item => item.slug === slug)!;
     await page.goto("/");
     await page.getByRole("searchbox").fill(template.title);
-    const card = page.locator("article").filter({ has: page.locator(`h3 a[href="/${slug}"]`) });
+    const card = page.locator("article").filter({ has: page.locator(`h3 a[href="/templates/${slug}"]`) });
     const button = card.getByRole("button", { name: "Download HTML", exact: true });
     await expect(button).toBeEnabled();
     const event = page.waitForEvent("download");

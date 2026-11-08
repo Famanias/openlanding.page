@@ -96,6 +96,8 @@ describe("standalone Next module adapters", () => {
 
   it("keeps same-template anchors local and the gallery CTA reachable", async () => {
     const { Link } = await modules();
+    expect(renderToString(createElement(Link, { href: "/templates/example?plan=annual#signup" }, "Continue")))
+      .toContain('href="?plan=annual#signup"');
     const local = renderToString(createElement(Link, { href: "/example?plan=annual#signup", prefetch: false, replace: true, scroll: false, className: "cta" }, "Continue"));
     expect(local).toContain('href="?plan=annual#signup"');
     expect(local).toContain('class="cta"');

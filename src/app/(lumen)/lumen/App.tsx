@@ -66,7 +66,7 @@ export default function App() {
   const openGlassStudio = () => {
     introConsumedRef.current = true;
     try {
-      window.history.pushState({}, '', '/lumen?studio=1');
+      window.history.pushState({}, '', '/templates/lumen?studio=1');
     } catch {
       // Fallback if history pushState is restricted in iframe
     }
@@ -76,7 +76,7 @@ export default function App() {
 
   const closeGlassStudio = () => {
     try {
-      window.history.pushState({}, '', '/lumen');
+      window.history.pushState({}, '', '/templates/lumen');
     } catch {
       // Fallback
     }

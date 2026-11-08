@@ -2,13 +2,13 @@ import { expect, test } from "@playwright/test";
 
 test.describe("patchbay", () => {
   test("renders the page and defaults to Full-stack", async ({ page }) => {
-    await page.goto("/patchbay");
+    await page.goto("/templates/patchbay");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("One engineer from");
     await expect(page.getByRole("radio", { name: /Full-stack/ })).toHaveAttribute("aria-checked", "true");
   });
 
   test("clicking a jack switches the role and re-ranks projects", async ({ page }) => {
-    await page.goto("/patchbay");
+    await page.goto("/templates/patchbay");
     const aiJack = page.getByRole("radio", { name: /AI/ });
     await aiJack.click();
     await expect(aiJack).toHaveAttribute("aria-checked", "true");
@@ -28,13 +28,13 @@ test.describe("patchbay", () => {
   });
 
   test("deep link ?role=web activates web front-end role directly", async ({ page }) => {
-    await page.goto("/patchbay?role=web");
+    await page.goto("/templates/patchbay?role=web");
     await expect(page.getByRole("radio", { name: /Web/ })).toHaveAttribute("aria-checked", "true");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("Interfaces that feel");
   });
 
   test("patch bay keyboard navigation navigates with arrow keys", async ({ page }) => {
-    await page.goto("/patchbay");
+    await page.goto("/templates/patchbay");
     const fullstackJack = page.getByRole("radio", { name: /Full-stack/ });
     await fullstackJack.focus();
     await page.keyboard.press("ArrowRight");
@@ -44,7 +44,7 @@ test.describe("patchbay", () => {
   });
 
   test("contact form validates input, then displays success ticket and download", async ({ page }) => {
-    await page.goto("/patchbay#contact");
+    await page.goto("/templates/patchbay#contact");
     const submitBtn = page.getByRole("button", { name: "Prepare my brief" });
     await submitBtn.click();
     await expect(page.getByText("Tell me who's writing.")).toBeVisible();
@@ -61,7 +61,7 @@ test.describe("patchbay", () => {
   });
 
   test("reveals flip to data-in on scroll", async ({ page }) => {
-    await page.goto("/patchbay");
+    await page.goto("/templates/patchbay");
     const processStep = page.locator("#process [data-reveal]").first();
     await processStep.scrollIntoViewIfNeeded();
     await expect(processStep).toHaveAttribute("data-in", "true");
@@ -69,7 +69,7 @@ test.describe("patchbay", () => {
 
   test("renders finished layout under reduced motion", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/patchbay");
+    await page.goto("/templates/patchbay");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.locator("#work")).toBeVisible();
     await expect(page.locator("#contact")).toBeVisible();

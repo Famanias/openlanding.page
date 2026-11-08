@@ -7,7 +7,7 @@ test("gallery card opens Stillwater and downloads the standalone document", asyn
   await page.getByRole("searchbox").fill("Stillwater");
   const card = page.locator("article").filter({ hasText: "Stillwater" });
   await expect(card).toBeVisible();
-  await expect(card.getByRole("link", { name: "Stillwater", exact: true })).toHaveAttribute("href", "/stillwater");
+  await expect(card.getByRole("link", { name: "Stillwater", exact: true })).toHaveAttribute("href", "/templates/stillwater");
   await expect.poll(() => card.locator("img").evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
   await card.getByRole("button", { name: "Copy prompt", exact: true }).click();
   await expect(card.getByRole("button", { name: "Copied prompt", exact: true })).toBeVisible();
