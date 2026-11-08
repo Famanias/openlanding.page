@@ -1,0 +1,2816 @@
+<template slug="tourne" name="TOURNE">
+  <dependencies>
+    {
+      "dependencies": {
+        "three": "^0.186.1",
+        "lenis": "^1.3.27"
+      }
+    }
+  </dependencies>
+  <instructions>
+    Recreate the following files in your Next.js App Router project preserving relative paths.
+  </instructions>
+  <files>
+    <file path="src/app/(tourne)/layout.tsx">
+<![CDATA[import type { Metadata, Viewport } from "next";
+import { DM_Mono, DM_Sans, Fraunces } from "next/font/google";
+import "./tourne/tourne.css";
+
+const display = Fraunces({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-fraunces", display: "swap" });
+const body = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
+const mono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-dm-mono" });
+
+const DESCRIPTION = "Shape your own vessel on a 3D wheel, pick the glaze, and our potters throw it by hand in Tacoma. Made to order, shipped in five weeks.";
+
+export const metadata: Metadata = {
+  title: "TOURNE: hand-turned vessels, made to order",
+  description: DESCRIPTION,
+  openGraph: { title: "TOURNE: hand-turned vessels, made to order", description: DESCRIPTION, type: "website" },
+  twitter: { card: "summary_large_image" },
+};
+
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#F4EEE3" };
+
+export default function TourneLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+      <body className="tn-body">
+        <noscript>
+          <style>{`[data-reveal],.tn-word-inner{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
+        </noscript>
+        {children}
+      </body>
+    </html>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/assets.generated.ts">
+<![CDATA[export const ASSETS: Record<string, { w: number; h: number }> = {};
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/assets.tsx">
+<![CDATA[import { ASSETS } from "./assets.generated";
+
+const BASE = "/templates/tourne";
+
+export function assetSrc(key: string, width: 800 | 1600, format: "webp" | "avif" = "webp"): string | null {
+  return key in ASSETS ? `${BASE}/${key}-${width}.${format}` : null;
+}
+
+type PictureProps = { assetKey: string; alt: string; className?: string; sizes?: string; priority?: boolean };
+
+/** Responsive <picture>, or a labelled placeholder until the generated image exists. */
+export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 40vw, 100vw", priority }: PictureProps) {
+  const webp800 = assetSrc(assetKey, 800);
+  if (!webp800) {
+    return (
+      <div className={`tn-placeholder ${className ?? ""}`} role="img" aria-label={alt} data-asset={assetKey}>
+        <span className="tn-mono">{assetKey}</span>
+      </div>
+    );
+  }
+  const { w, h } = ASSETS[assetKey];
+  const set = (format: "webp" | "avif") => `${assetSrc(assetKey, 800, format)} 800w, ${assetSrc(assetKey, 1600, format)} 1600w`;
+  return (
+    <picture className={className}>
+      <source type="image/avif" srcSet={set("avif")} sizes={sizes} />
+      <img
+        src={webp800}
+        srcSet={set("webp")}
+        sizes={sizes}
+        width={w}
+        height={h}
+        alt={alt}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : undefined}
+        decoding="async"
+        data-asset={assetKey}
+      />
+    </picture>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/icon.svg">
+<![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="32" fill="#A8492D"/>
+  <path d="M25 14h14c1 0 1.5 1 1 2-1.5 3-1 5.500 1.500 9 3.500 5 5 10 3 15-1.500 4-4 6-8 6h-9c-4 0-6.500-2-8-6-2-5-.500-10 3-15 2.500-3.500 3-6 1.500-9-.500-1 0-2 1-2z" fill="#F4EEE3"/>
+  <ellipse cx="32" cy="54" rx="17" ry="3" fill="#1F1A17"/>
+</svg>
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/opengraph-image.tsx">
+<![CDATA[import { ImageResponse } from "next/og";
+
+export const alt = "TOURNE: hand-turned vessels, made to order";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+
+export default function OpengraphImage() {
+  return new ImageResponse(
+    (
+      <div style={{ display: "flex", width: "100%", height: "100%", background: "#F4EEE3", color: "#1F1A17", padding: 72, justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 28, maxWidth: 640 }}>
+          <div style={{ display: "flex", fontSize: 28, letterSpacing: 6, color: "#6B5E54" }}>TOURNE · POTTERY STUDIO</div>
+          <div style={{ display: "flex", fontSize: 108, lineHeight: 1, fontWeight: 600 }}>Shape it. We throw it.</div>
+          <div style={{ display: "flex", fontSize: 32, color: "#6B5E54" }}>Hand-turned vessels, made to order.</div>
+        </div>
+        <div style={{ display: "flex", position: "relative", width: 360, height: 460, alignItems: "flex-end", justifyContent: "center" }}>
+          <div style={{ display: "flex", position: "absolute", bottom: 0, width: 340, height: 40, borderRadius: 40, background: "#1F1A17" }} />
+          <div style={{ display: "flex", width: 250, height: 380, marginBottom: 24, background: "#A8492D", borderRadius: "90px 90px 120px 120px" }} />
+          <div style={{ display: "flex", position: "absolute", top: 36, width: 120, height: 40, background: "#F4EEE3", borderRadius: 40, opacity: 0.0 }} />
+        </div>
+      </div>
+    ),
+    size,
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/page.tsx">
+<![CDATA[import { ScrollEngine } from "./motion/ScrollEngine";
+import { SmoothScroll } from "./motion/SmoothScroll";
+import { VesselProvider } from "./vessel/VesselProvider";
+import { Collection } from "./sections/Collection";
+import { Footer } from "./sections/Footer";
+import { Header } from "./sections/Header";
+import { Hero } from "./sections/Hero";
+import { Order } from "./sections/Order";
+import { Studio } from "./sections/Studio";
+import { Workshop } from "./sections/Workshop";
+
+export default function TournePage() {
+  return (
+    <VesselProvider>
+      <a href="#main" className="tn-skip">
+        Skip to content
+      </a>
+      <div className="tn-progress" aria-hidden="true" />
+      <ScrollEngine />
+      <SmoothScroll />
+      <Header />
+      <main id="main" className="tn-main">
+        <Hero />
+        <Workshop />
+        <Studio />
+        <Collection />
+        <Order />
+      </main>
+      <Footer />
+    </VesselProvider>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/tourne.css">
+<![CDATA[@import "tailwindcss";
+
+@theme {
+  --color-bone: #F4EEE3;
+  --color-oat: #E9DFCE;
+  --color-clay: #A8492D;
+  --color-soot: #1F1A17;
+  --color-umber: #6B5E54;
+  --color-celadon: #8FB5A0;
+  --color-porcelain: #FFFDF8;
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-body: var(--font-dm-sans), system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
+
+  /* organic / analog: springy releases, long soft curves */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);
+
+  --dur-instant: 90ms;
+  --dur-fast: 180ms;
+  --dur-base: 420ms;
+  --dur-slow: 800ms;
+  --dur-hero: 1200ms;
+
+  --reveal-shift: 28px;
+  --stagger: 70ms;
+}
+
+:root {
+  --tn-radius: 28px;
+  --tn-pill: 999px;
+  --tn-gutter: clamp(20px, 5vw, 72px);
+  --tn-max: 1280px;
+  --hero-p: 0;
+  --page-progress: 0;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+.tn-body {
+  margin: 0;
+  background: var(--color-bone);
+  color: var(--color-soot);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+.tn-body *, .tn-body *::before, .tn-body *::after { box-sizing: border-box; }
+.tn-body ::selection { background: color-mix(in srgb, var(--color-clay) 30%, transparent); }
+
+.tn-display { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; line-height: 1; margin: 0; }
+.tn-mono { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.02em; }
+.tn-h2 { font-size: clamp(2.2rem, 5.2vw, 4.4rem); text-wrap: balance; }
+.tn-h3 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.1; margin: 0; }
+.tn-eyebrow { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-clay); margin: 0 0 1rem; }
+.tn-lede, .tn-body-copy { color: var(--color-umber); max-width: 52ch; margin: 0; }
+.tn-lede { font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); }
+.tn-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tn-fineprint { font-size: 0.8rem; color: var(--color-umber); margin: 0; }
+
+:where(.tn-body) a { color: inherit; }
+:where(.tn-body) :focus-visible { outline: 2px solid var(--color-soot); outline-offset: 3px; border-radius: 6px; }
+.tn-skip { position: fixed; left: 12px; top: -80px; z-index: 100; padding: 10px 18px; border-radius: var(--tn-pill); background: var(--color-soot); color: var(--color-bone); transition: top var(--dur-fast) var(--ease-out); }
+.tn-skip:focus { top: 12px; }
+
+.tn-progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 60; background: var(--color-clay); transform-origin: left; transform: scaleX(var(--page-progress)); }
+
+/* ---------- buttons ---------- */
+.tn-btn {
+  position: relative; display: inline-flex; align-items: center; gap: 0.7em; isolation: isolate; overflow: clip;
+  padding: 0.95em 1.7em; border: 1.5px solid transparent; border-radius: var(--tn-pill);
+  font: 500 1rem/1.2 var(--font-body); text-decoration: none; cursor: pointer;
+  transition: transform var(--dur-base) var(--ease-spring), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
+}
+.tn-btn::before { content: ""; position: absolute; inset: 0; z-index: -1; transform: scaleX(0); transform-origin: right; transition: transform var(--dur-base) var(--ease-out-expo); background: var(--color-soot); }
+.tn-btn-clay { background: var(--color-clay); color: var(--color-bone); }
+.tn-btn-ghost { background: transparent; color: var(--color-soot); border-color: var(--color-soot); }
+.tn-btn-small { padding: 0.6em 1.15em; font-size: 0.9rem; }
+.tn-btn-label { display: inline-block; text-shadow: 0 2.4em 0 currentColor; transition: transform var(--dur-base) var(--ease-out-expo); }
+.tn-btn-arrow { width: 1.1em; height: 1.1em; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; transition: transform var(--dur-base) var(--ease-out-expo); }
+.tn-btn:active { transform: scale(0.97); transition-duration: var(--dur-instant); }
+.tn-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.tn-btn[aria-pressed="true"] { background: var(--color-soot); color: var(--color-bone); }
+@media (hover: hover) and (pointer: fine) {
+  .tn-btn:not(:disabled):hover::before { transform: scaleX(1); transform-origin: left; }
+  .tn-btn:not(:disabled):hover .tn-btn-label { transform: translateY(-2.4em); }
+  .tn-btn:not(:disabled):hover .tn-btn-arrow { transform: translateX(4px); }
+  .tn-btn-ghost:not(:disabled):hover { color: var(--color-bone); }
+}
+.tn-magnetic { display: inline-block; will-change: transform; }
+
+.tn-link { position: relative; text-decoration: none; padding-block: 0.2em; }
+.tn-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; background: currentColor; transform: scaleX(1); transform-origin: left; transition: transform var(--dur-base) var(--ease-out-expo); }
+@media (hover: hover) and (pointer: fine) {
+  .tn-link:hover::after { animation: tn-underline var(--dur-slow) var(--ease-out-expo); }
+}
+@keyframes tn-underline { 0% { transform: scaleX(1); transform-origin: right; } 49% { transform: scaleX(0); transform-origin: right; } 50% { transform: scaleX(0); transform-origin: left; } 100% { transform: scaleX(1); transform-origin: left; } }
+
+/* ---------- logo ---------- */
+.tn-logo { display: inline-flex; align-items: center; gap: 0.55rem; }
+.tn-logo-mark { width: 34px; height: 34px; flex: none; }
+.tn-logo-word { font-family: var(--font-display); font-size: 1.55rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+
+/* ---------- header ---------- */
+.tn-header { position: fixed; inset: 12px 0 auto 0; z-index: 50; display: flex; justify-content: center; padding-inline: 12px; pointer-events: none; transition: transform var(--dur-slow) var(--ease-out-expo); }
+.tn-header[data-hidden="true"] { transform: translateY(-140%); }
+.tn-header-bar { pointer-events: auto; display: flex; align-items: center; gap: 1.5rem; width: min(100%, 980px); padding: 8px 10px 8px 18px; border-radius: var(--tn-pill); background: color-mix(in srgb, var(--color-porcelain) 78%, transparent); backdrop-filter: blur(14px); border: 1px solid color-mix(in srgb, var(--color-soot) 10%, transparent); transition: transform var(--dur-slow) var(--ease-out-expo), background var(--dur-base); position: relative; z-index: 2; }
+.tn-header[data-compact="true"] .tn-header-bar { transform: scale(0.96); background: color-mix(in srgb, var(--color-porcelain) 92%, transparent); }
+.tn-header-logo { text-decoration: none; margin-right: auto; }
+.tn-nav-list { position: relative; display: flex; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.tn-nav-pill { position: absolute; left: 0; top: 0; bottom: 0; width: var(--pill-w, 0); border-radius: var(--tn-pill); background: var(--color-oat); transform: translateX(var(--pill-x, 0)); transition: transform var(--dur-base) var(--ease-spring), width var(--dur-base) var(--ease-spring); }
+.tn-nav-link { position: relative; display: block; padding: 0.55em 1.05em; font-size: 0.92rem; text-decoration: none; border-radius: var(--tn-pill); }
+.tn-nav-link[aria-current="true"] { font-weight: 500; }
+.tn-menu-toggle { display: none; width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--color-soot); cursor: pointer; position: relative; transition: transform var(--dur-base) var(--ease-spring); }
+.tn-menu-toggle:active { transform: scale(0.92); }
+.tn-menu-bars, .tn-menu-bars::before { content: ""; position: absolute; left: 13px; right: 13px; height: 2px; border-radius: 2px; background: var(--color-bone); transition: transform var(--dur-base) var(--ease-out-expo); }
+.tn-menu-bars { top: 18px; }
+.tn-menu-bars::before { left: 0; right: 0; top: 7px; }
+.tn-menu-toggle[aria-expanded="true"] .tn-menu-bars { transform: translateY(3.5px) rotate(45deg); }
+.tn-menu-toggle[aria-expanded="true"] .tn-menu-bars::before { transform: translateY(-7px) rotate(-90deg); }
+.tn-menu { position: fixed; inset: 0; z-index: 1; display: flex; flex-direction: column; justify-content: center; padding: 96px var(--tn-gutter) 40px; background: var(--color-oat); pointer-events: auto; visibility: hidden; clip-path: circle(0 at calc(100% - 44px) 44px); transition: clip-path var(--dur-slow) var(--ease-in-out), visibility 0s linear var(--dur-slow); }
+.tn-menu[data-open="true"] { visibility: visible; clip-path: circle(150% at calc(100% - 44px) 44px); transition-delay: 0s; }
+.tn-menu ul { margin: 0; padding: 0; list-style: none; }
+.tn-menu a { display: block; padding: 0.15em 0; font-family: var(--font-display); font-size: clamp(2.6rem, 12vw, 4.5rem); text-decoration: none; line-height: 1.1; opacity: 0; transform: translateY(40px); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-slow) var(--ease-out-expo); }
+.tn-menu[data-open="true"] a { opacity: 1; transform: none; transition-delay: calc(200ms + var(--i, 0) * 70ms); }
+.tn-menu-foot { margin: 2rem 0 0; color: var(--color-umber); }
+@media (max-width: 860px) {
+  .tn-nav { display: none; }
+  .tn-menu-toggle { display: block; }
+}
+@media (max-width: 560px) { .tn-header-cta { display: none; } }
+
+/* ---------- sections shared ---------- */
+.tn-main { position: relative; }
+.tn-section-head { max-width: var(--tn-max); margin: 0 auto 3rem; display: grid; gap: 0.5rem; }
+.tn-word { display: inline-block; overflow: clip; vertical-align: top; padding-bottom: 0.12em; margin-bottom: -0.12em; }
+.tn-word:not(:last-child) { margin-right: 0.26em; }
+.tn-word-inner { display: inline-block; }
+
+/* ---------- hero ---------- */
+.tn-hero { position: relative; min-height: 100svh; display: grid; align-items: center; padding: 120px var(--tn-gutter) 96px; overflow: clip; background: var(--color-bone); }
+.tn-blobs { position: absolute; inset: -10%; pointer-events: none; }
+.tn-blob { position: absolute; display: block; border-radius: 62% 38% 54% 46% / 48% 56% 44% 52%; }
+.tn-blob-a { width: 46vmax; height: 40vmax; left: -12vmax; top: 4vmax; background: color-mix(in srgb, var(--color-clay) 14%, var(--color-bone)); }
+.tn-blob-b { width: 36vmax; height: 34vmax; right: -8vmax; top: -6vmax; background: color-mix(in srgb, var(--color-celadon) 38%, var(--color-bone)); border-radius: 44% 56% 38% 62% / 58% 42% 58% 42%; }
+.tn-blob-c { width: 30vmax; height: 26vmax; right: 12vmax; bottom: -10vmax; background: var(--color-oat); border-radius: 56% 44% 62% 38% / 42% 60% 40% 58%; }
+.tn-hero-inner { position: relative; width: min(100%, var(--tn-max)); margin: 0 auto; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; transform-origin: 50% 100%; transform: scale(calc(1 - var(--hero-p) * 0.06)); opacity: calc(1 - var(--hero-p) * 0.55); }
+.tn-hero-title { font-size: clamp(2.8rem, 6.8vw, 6rem); margin-bottom: 1.5rem; }
+.tn-line { display: block; white-space: nowrap; }
+.tn-line-clay { color: var(--color-clay); font-style: italic; }
+.tn-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 2rem; }
+.tn-hero-stats { display: flex; gap: 2.5rem; margin: 2.5rem 0 0; }
+.tn-hero-stats dt { font-family: var(--font-mono); font-size: 0.74rem; color: var(--color-umber); }
+.tn-hero-stats dd { margin: 0.2rem 0 0; font-size: clamp(2rem, 3.4vw, 2.8rem); font-variant-numeric: tabular-nums; }
+.tn-count { font-variant-numeric: tabular-nums; }
+.tn-hero-visual { position: relative; display: grid; justify-items: center; }
+.tn-hero-vessel { width: min(100%, 440px); aspect-ratio: 240 / 300; transform-origin: 50% 92%; }
+.tn-hero-vessel svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.tn-readout { display: inline-flex; align-items: center; gap: 0.55rem; margin: 1rem 0 0; padding: 0.4rem 0.9rem; border-radius: var(--tn-pill); background: var(--color-porcelain); border: 1px solid color-mix(in srgb, var(--color-soot) 12%, transparent); font-variant-numeric: tabular-nums; }
+.tn-readout-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-clay); }
+.tn-scroll-cue { position: absolute; left: 50%; bottom: 84px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-umber); transform: translateX(-50%); }
+.tn-scroll-cue i { width: 1.5px; height: 36px; background: var(--color-umber); transform-origin: top; }
+@media (max-width: 860px) {
+  .tn-hero { padding-top: 104px; }
+  .tn-hero-inner { grid-template-columns: 1fr; }
+  .tn-hero-vessel { width: min(70%, 300px); }
+  .tn-hero-stats { gap: 1.5rem; }
+  .tn-scroll-cue { display: none; }
+}
+
+/* ---------- workshop (the signature moment) ---------- */
+.tn-workshop { --throw: 1; position: relative; margin-top: -48px; border-radius: 48px 48px 0 0; background: var(--color-oat); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 4rem); padding-inline: var(--tn-gutter); z-index: 2; }
+.tn-workshop-stage { position: sticky; top: 0; align-self: start; height: 100svh; display: grid; align-content: center; gap: 1.25rem; padding-block: 72px 32px; }
+.tn-stage-card { position: relative; border-radius: var(--tn-radius); background: var(--color-porcelain); padding: 1.25rem; overflow: clip; border: 1px solid color-mix(in srgb, var(--color-soot) 8%, transparent); }
+.tn-canvas { position: relative; width: 100%; aspect-ratio: 4 / 4.4; max-height: 62svh; margin-inline: auto; }
+.tn-canvas-poster { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity var(--dur-slow) var(--ease-out); }
+.tn-canvas-gl { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity var(--dur-slow) var(--ease-out); }
+.tn-canvas-gl[data-live="true"] { opacity: 1; }
+.tn-canvas[data-phase="live"] .tn-canvas-poster { opacity: 0; }
+.tn-canvas-start { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); background: var(--color-porcelain); }
+.tn-canvas-note { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; text-align: center; font-size: 0.82rem; color: var(--color-umber); }
+.tn-stage-caption { margin: 0.75rem 0 0; text-align: center; color: var(--color-umber); }
+.tn-throw-meter { position: absolute; right: 18px; top: 18px; bottom: 18px; width: 4px; border-radius: 4px; background: color-mix(in srgb, var(--color-soot) 10%, transparent); overflow: clip; }
+.tn-throw-meter i { position: absolute; inset: 0; background: var(--color-clay); transform-origin: bottom; transform: scaleY(var(--throw)); }
+.tn-step-rail { display: flex; justify-content: center; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+.tn-step-rail a { display: flex; align-items: center; gap: 0.5rem; padding: 0.5em 1.1em; border-radius: var(--tn-pill); text-decoration: none; font-size: 0.9rem; border: 1px solid color-mix(in srgb, var(--color-soot) 18%, transparent); transition: background var(--dur-base) var(--ease-out), color var(--dur-base), transform var(--dur-base) var(--ease-spring); }
+.tn-step-rail a[aria-current="step"] { background: var(--color-soot); color: var(--color-bone); }
+.tn-step-rail a:active { transform: scale(0.96); }
+.tn-workshop-panel { padding-block: 0 12svh; }
+.tn-step { display: grid; align-content: center; gap: 1.5rem; }
+.tn-step-throw { height: 230svh; align-content: start; }
+.tn-step-sticky { position: sticky; top: 24svh; display: grid; gap: 1rem; }
+.tn-step-shape, .tn-step-glaze { min-height: 92svh; justify-items: start; padding-block: 6svh; }
+.tn-workshop .tn-eyebrow { color: var(--color-soot); }
+.tn-throw-steps { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 0; padding: 0; list-style: none; }
+.tn-throw-steps li { padding: 0.4em 1em; border-radius: var(--tn-pill); border: 1.5px solid var(--color-soot); color: var(--color-soot); background: color-mix(in srgb, var(--color-clay) calc(clamp(0, (var(--throw) - var(--at)) * 800, 100) * 1%), var(--color-porcelain)); }
+.tn-editor { width: min(100%, 440px); display: grid; gap: 1rem; padding: 1.25rem; border-radius: var(--tn-radius); background: var(--color-porcelain); border: 1px solid color-mix(in srgb, var(--color-soot) 8%, transparent); }
+.tn-editor-svg { width: 100%; height: auto; touch-action: none; overflow: visible; }
+.tn-editor-shape { fill: color-mix(in srgb, var(--color-clay) 24%, var(--color-porcelain)); stroke: var(--color-clay); stroke-width: 2; stroke-linejoin: round; }
+.tn-editor-axis, .tn-editor-guide { stroke: color-mix(in srgb, var(--color-soot) 28%, transparent); stroke-dasharray: 3 5; }
+.tn-editor-floor { stroke: var(--color-soot); stroke-width: 2; }
+.tn-editor-hint { font-family: var(--font-mono); font-size: 11px; fill: var(--color-bone); pointer-events: none; }
+.tn-handle { fill: var(--color-porcelain); stroke: var(--color-clay); stroke-width: 3; cursor: grab; transform-box: fill-box; transform-origin: center; transition: transform var(--dur-base) var(--ease-spring), fill var(--dur-fast); }
+.tn-handle:active { cursor: grabbing; transform: scale(1.18); }
+.tn-handle:focus-visible { outline: 2px solid var(--color-soot); outline-offset: 4px; }
+.tn-handle-height { fill: var(--color-soot); stroke: var(--color-soot); }
+@media (hover: hover) and (pointer: fine) { .tn-handle:hover { transform: scale(1.14); fill: var(--color-oat); } .tn-handle-height:hover { fill: var(--color-clay); } }
+.tn-spec { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin: 0; }
+.tn-spec dt { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-umber); }
+.tn-spec dd { margin: 0; font-family: var(--font-display); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.tn-glazes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; width: min(100%, 520px); }
+.tn-glaze { display: grid; grid-template-columns: auto 1fr; column-gap: 0.8rem; align-items: center; padding: 0.7rem 1.1rem 0.7rem 0.7rem; text-align: left; border-radius: var(--tn-pill); border: 1.5px solid color-mix(in srgb, var(--color-soot) 16%, transparent); background: var(--color-porcelain); font: inherit; color: inherit; cursor: pointer; transition: transform var(--dur-base) var(--ease-spring), border-color var(--dur-fast), background var(--dur-fast); }
+.tn-glaze-chip { grid-row: span 2; width: 38px; height: 38px; border-radius: 50%; background: var(--glaze); box-shadow: inset 0 -5px 8px color-mix(in srgb, var(--color-soot) 25%, transparent); transition: transform var(--dur-base) var(--ease-spring); }
+.tn-glaze-name { font-weight: 500; line-height: 1.2; }
+.tn-glaze-firing { font-family: var(--font-mono); font-size: 0.66rem; color: var(--color-umber); }
+.tn-glaze[data-selected="true"] { border-color: var(--color-soot); background: var(--color-bone); }
+.tn-glaze:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .tn-glaze:hover .tn-glaze-chip { transform: scale(1.14) rotate(-8deg); } .tn-glaze:hover { border-color: var(--color-soot); } }
+
+@media (max-width: 860px) {
+  .tn-workshop { grid-template-columns: 1fr; gap: 0; margin-top: -32px; border-radius: 32px 32px 0 0; }
+  .tn-workshop-stage { height: 52svh; padding-block: 76px 8px; z-index: 3; background: var(--color-oat); gap: 0.5rem; }
+  .tn-stage-card { padding: 0.5rem; }
+  .tn-canvas { max-height: 30svh; }
+  .tn-stage-caption { margin: 0.25rem 0 0; }
+  .tn-step-rail a { padding: 0.35em 0.8em; font-size: 0.8rem; }
+  .tn-step-throw { height: 190svh; }
+  .tn-step-sticky { top: calc(52svh + 8px); }
+  .tn-step-shape, .tn-step-glaze { min-height: 80svh; }
+  .tn-glazes { grid-template-columns: 1fr; }
+}
+
+/* ---------- studio ---------- */
+.tn-studio { position: relative; margin-top: -40px; border-radius: 48px 48px 0 0; background: var(--color-soot); color: var(--color-bone); padding: 0 var(--tn-gutter) 8rem; z-index: 3; overflow: clip; }
+.tn-studio .tn-eyebrow { color: var(--color-celadon); }
+.tn-studio .tn-body-copy { color: color-mix(in srgb, var(--color-bone) 72%, transparent); }
+.tn-marquee { margin-inline: calc(var(--tn-gutter) * -1); padding-block: 2.2rem 4rem; overflow: clip; }
+.tn-marquee-lane { display: flex; width: max-content; }
+.tn-marquee-track { display: flex; flex: none; margin: 0; padding: 0; list-style: none; }
+.tn-marquee-track li { display: flex; align-items: center; gap: 2rem; padding-right: 2rem; font-family: var(--font-display); font-size: clamp(3rem, 9vw, 7.5rem); line-height: 1; white-space: nowrap; letter-spacing: -0.02em; }
+.tn-marquee-dot { width: 0.3em; height: 0.3em; border-radius: 50%; background: var(--color-clay); display: block; font-size: clamp(3rem, 9vw, 7.5rem); }
+.tn-process { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: var(--tn-max); margin: 0 auto 6rem; padding: 0; list-style: none; }
+.tn-process-step { position: relative; padding-top: 1.5rem; display: grid; gap: 0.6rem; align-content: start; }
+.tn-process-step p { margin: 0; color: color-mix(in srgb, var(--color-bone) 72%, transparent); }
+.tn-process-rule { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--color-clay); transform-origin: left; }
+.tn-process-time { color: var(--color-celadon); }
+.tn-potters { display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 1.5rem; max-width: var(--tn-max); margin: 0 auto; align-items: start; }
+.tn-potter { margin: 0; display: grid; gap: 1rem; }
+.tn-potter figcaption { display: grid; gap: 0.3rem; }
+.tn-potter figcaption .tn-mono { color: var(--color-celadon); }
+.tn-potter-image { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--tn-radius); overflow: clip; }
+.tn-potter-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tn-placeholder { display: grid; place-items: center; background: color-mix(in srgb, var(--color-bone) 8%, var(--color-soot)); border: 1.5px dashed color-mix(in srgb, var(--color-bone) 35%, transparent); color: color-mix(in srgb, var(--color-bone) 70%, transparent); }
+.tn-facts { display: grid; gap: 2rem; padding: 2rem; border-radius: var(--tn-radius); background: color-mix(in srgb, var(--color-clay) 88%, var(--color-soot)); color: var(--color-porcelain); align-self: stretch; align-content: center; transform-origin: left center; }
+.tn-fact-value { font-size: clamp(2.4rem, 4vw, 3.6rem); margin: 0; font-variant-numeric: tabular-nums; }
+.tn-facts p { margin: 0; }
+@media (max-width: 960px) {
+  .tn-process { grid-template-columns: 1fr 1fr; }
+  .tn-potters { grid-template-columns: 1fr 1fr; }
+  .tn-facts { grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px) {
+  .tn-process, .tn-potters { grid-template-columns: 1fr; }
+  .tn-facts { grid-template-columns: 1fr; }
+}
+
+/* ---------- collection ---------- */
+.tn-collection { position: relative; margin-top: -40px; border-radius: 48px 48px 0 0; background: var(--color-bone); padding: 7rem var(--tn-gutter) 8rem; z-index: 4; }
+.tn-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 1.5rem; max-width: var(--tn-max); margin: 0 auto; padding: 0; list-style: none; }
+.tn-card-cell { display: grid; }
+.tn-card { --rx: 0deg; --ry: 0deg; position: relative; display: grid; grid-template-rows: auto 1fr; border-radius: var(--tn-radius); background: var(--color-porcelain); border: 1px solid color-mix(in srgb, var(--color-soot) 8%, transparent); overflow: clip; transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)); transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out); }
+.tn-card::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--color-clay) 14%, transparent), transparent 60%); transition: opacity var(--dur-base); z-index: 1; }
+.tn-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; box-shadow: 0 24px 48px -20px color-mix(in srgb, var(--color-soot) 40%, transparent); transition: opacity var(--dur-base); }
+.tn-card-art { display: grid; place-items: center; padding: 1.5rem 1.5rem 0.5rem; background: var(--color-oat); }
+.tn-card-art svg { width: 62%; height: auto; display: block; transition: transform var(--dur-slow) var(--ease-out-expo); }
+.tn-card-body { display: grid; gap: 0.5rem; padding: 1.4rem 1.5rem 1.6rem; align-content: start; position: relative; z-index: 2; }
+.tn-card-use { margin: 0; color: var(--color-clay); font-weight: 500; font-size: 0.92rem; }
+.tn-card-note { margin: 0; color: var(--color-umber); font-size: 0.95rem; }
+.tn-card-spec { margin: 0.4rem 0; }
+.tn-card-body .tn-btn { justify-self: start; }
+@media (hover: hover) and (pointer: fine) {
+  .tn-card:hover { transform: perspective(900px) translateY(-6px) rotateX(var(--rx)) rotateY(var(--ry)); }
+  .tn-card:hover::before, .tn-card:hover::after { opacity: 1; }
+  .tn-card:hover .tn-card-art svg { transform: scale(1.06) translateY(-4px); }
+  .tn-cards:has(.tn-card:hover) .tn-card:not(:hover) { opacity: 0.6; }
+}
+
+/* ---------- order ---------- */
+.tn-order { position: relative; margin-top: -40px; border-radius: 48px 48px 0 0; background: var(--color-oat); padding: 7rem var(--tn-gutter) 8rem; z-index: 5; }
+.tn-order-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(1.5rem, 4vw, 4rem); max-width: var(--tn-max); margin: 0 auto; align-items: start; }
+.tn-order-summary { display: grid; gap: 1rem; padding: 1.5rem; border-radius: var(--tn-radius); background: var(--color-porcelain); position: sticky; top: 96px; }
+.tn-order-art { display: grid; place-items: center; background: var(--color-oat); border-radius: calc(var(--tn-radius) - 8px); padding: 1rem; }
+.tn-order-art svg { width: min(46%, 180px); height: auto; display: block; }
+.tn-order-lines { margin: 0; display: grid; }
+.tn-order-lines > div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid color-mix(in srgb, var(--color-soot) 10%, transparent); }
+.tn-order-lines dt { color: var(--color-umber); }
+.tn-order-lines dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.tn-order-total dd { font-size: 1.8rem; }
+.tn-order-weeks { margin: 0; color: var(--color-clay); }
+.tn-order-form { position: relative; display: grid; }
+.tn-order-form > * { grid-area: 1 / 1; }
+.tn-order-form form { display: grid; gap: 1.1rem; padding: 2rem; border-radius: var(--tn-radius); background: var(--color-porcelain); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-slow) var(--ease-out-expo); }
+.tn-field { position: relative; }
+.tn-field input, .tn-field textarea { width: 100%; padding: 1.5rem 0.2rem 0.5rem; border: 0; border-bottom: 1.5px solid color-mix(in srgb, var(--color-soot) 25%, transparent); background: transparent; font: inherit; color: inherit; border-radius: 0; resize: vertical; outline: none; }
+.tn-field label { position: absolute; left: 0.2rem; top: 1.1rem; color: var(--color-umber); pointer-events: none; transform-origin: left top; transition: transform var(--dur-base) var(--ease-out-expo), color var(--dur-fast); }
+.tn-field input:focus ~ label, .tn-field input:not(:placeholder-shown) ~ label, .tn-field textarea:focus ~ label, .tn-field textarea:not(:placeholder-shown) ~ label { transform: translateY(-0.95rem) scale(0.78); color: var(--color-clay); }
+.tn-field::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--color-clay); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease-out-expo); pointer-events: none; }
+.tn-field:focus-within::after { transform: scaleX(1); }
+.tn-field-error { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-base) var(--ease-out-expo); }
+.tn-field-error[data-open="true"] { grid-template-rows: 1fr; }
+.tn-field-error p { overflow: hidden; margin: 0; color: var(--color-clay); font-size: 0.86rem; min-height: 0; }
+.tn-field-error[data-open="true"] p { padding-top: 0.35rem; }
+.tn-field[data-invalid="true"] input, .tn-field[data-invalid="true"] textarea { border-bottom-color: var(--color-clay); }
+.tn-submit { justify-self: start; }
+.tn-spinner { display: none; width: 1em; height: 1em; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--color-bone) 40%, transparent); border-top-color: var(--color-bone); }
+.tn-submit[data-loading="true"] .tn-spinner { display: block; }
+.tn-success { display: grid; align-content: center; justify-items: start; gap: 1rem; padding: 2.5rem; border-radius: var(--tn-radius); background: var(--color-soot); color: var(--color-bone); opacity: 0; pointer-events: none; transform: translateY(24px) scale(0.98); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out-expo); }
+.tn-success p { margin: 0; color: color-mix(in srgb, var(--color-bone) 80%, transparent); max-width: 44ch; }
+.tn-success .tn-btn-ghost { color: var(--color-bone); border-color: var(--color-bone); }
+.tn-success .tn-btn::before { background: var(--color-bone); }
+@media (hover: hover) and (pointer: fine) { .tn-success .tn-btn-ghost:hover { color: var(--color-soot); } }
+.tn-ref { color: var(--color-celadon); }
+.tn-stamp { width: 96px; height: 96px; fill: none; stroke: var(--color-celadon); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.tn-stamp-ring, .tn-stamp-check { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.tn-order-form[data-state="success"] form { opacity: 0; transform: translateY(-16px) scale(0.98); pointer-events: none; }
+.tn-order-form[data-state="success"] .tn-success { opacity: 1; pointer-events: auto; transform: none; }
+.tn-order-form[data-state="success"] .tn-stamp-ring { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur-slow) var(--ease-in-out) 200ms; }
+.tn-order-form[data-state="success"] .tn-stamp-check { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur-base) var(--ease-out) 800ms; }
+@media (max-width: 860px) { .tn-order-grid { grid-template-columns: 1fr; } .tn-order-summary { position: static; } .tn-order-form form { padding: 1.4rem; } }
+
+/* ---------- footer ---------- */
+.tn-footer { position: relative; margin-top: -40px; border-radius: 48px 48px 0 0; background: var(--color-soot); color: var(--color-bone); padding: 6rem var(--tn-gutter) 3rem; z-index: 6; }
+.tn-footer-inner { display: grid; gap: 1.2rem; max-width: var(--tn-max); margin: 0 auto; }
+.tn-footer-logo .tn-logo-word { font-size: clamp(3rem, 12vw, 8rem); }
+.tn-footer-logo .tn-logo-mark { width: clamp(48px, 9vw, 96px); height: auto; }
+.tn-footer-line { font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 2.2rem); margin: 0; }
+.tn-footer-address { font-style: normal; color: color-mix(in srgb, var(--color-bone) 72%, transparent); }
+.tn-footer .tn-fineprint { color: color-mix(in srgb, var(--color-bone) 62%, transparent); }
+
+/* ---------- motion: only when the visitor has not asked for less ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] { transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out), clip-path var(--dur-slow) var(--ease-in-out); transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger)); }
+  [data-reveal="rise"]:not([data-in="true"]) { opacity: 0; transform: translateY(var(--reveal-shift)); }
+  [data-reveal="scale"]:not([data-in="true"]) { opacity: 0; transform: translateY(32px) scale(0.96) rotate(-1deg); }
+  [data-reveal="wipe"]:not([data-in="true"]) { clip-path: inset(0 0 100% 0 round 28px); }
+  [data-reveal="draw"]:not([data-in="true"]) { transform: scaleX(0); transform-origin: left; }
+  [data-reveal="unfurl"]:not([data-in="true"]) { clip-path: inset(0 100% 0 0 round 28px); transform: rotate(1.5deg); }
+  [data-reveal="slide-left"]:not([data-in="true"]) { opacity: 0; transform: translateX(-24px); }
+  [data-reveal="slide-right"]:not([data-in="true"]) { opacity: 0; transform: translateX(24px); }
+  [data-reveal="mask"] .tn-word-inner { transition: transform var(--dur-slow) var(--ease-out-expo); transition-delay: calc(var(--delay, 0ms) + var(--wi, 0) * 40ms); }
+  [data-reveal="mask"]:not([data-in="true"]) .tn-word-inner { transform: translateY(115%); }
+  .tn-process-step .tn-process-rule { transition: transform var(--dur-slow) var(--ease-in-out); transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger)); }
+  .tn-process-step:not([data-in="true"]) .tn-process-rule { transform: scaleX(0); }
+
+  /* hero load choreography: CSS keyframes, so it plays before hydration and causes no layout shift */
+  [data-load] { animation: tn-load var(--dur-base) var(--ease-out-expo) both; }
+  [data-load="visual"] { animation-name: tn-settle; animation-delay: 0ms; }
+  [data-load="eyebrow"] { animation-delay: 60ms; }
+  [data-load="lede"] { animation-delay: 180ms; }
+  [data-load="actions"] { animation-delay: 240ms; }
+  [data-load="stats"] { animation-delay: 300ms; }
+  [data-load="cue"] { animation-delay: 380ms; }
+  [data-load="title"] .tn-word-inner { animation: tn-mask-rise 360ms var(--ease-out-expo) both; animation-delay: calc(60ms + var(--wi, 0) * 35ms); }
+  [data-load="title"] { animation: none; }
+  .tn-header-bar { animation: tn-drop var(--dur-base) var(--ease-out-expo) 60ms both; }
+  .tn-nav-list li:not(.tn-nav-pill) { animation: tn-drop var(--dur-fast) var(--ease-out-expo) both; animation-delay: calc(100ms + var(--i, 0) * 30ms); }
+  @keyframes tn-load { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  @keyframes tn-settle { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
+  @keyframes tn-mask-rise { from { transform: translateY(115%); } to { transform: none; } }
+  @keyframes tn-drop { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
+
+  /* ambient life (three loops at most in view) */
+  .tn-blobs { animation: tn-drift 38s ease-in-out infinite alternate; }
+  .tn-hero-vessel { animation: tn-breathe 9s ease-in-out infinite; }
+  .tn-readout-dot { animation: tn-pulse 2.4s ease-in-out infinite; }
+  .tn-scroll-cue i { animation: tn-cue 2.2s var(--ease-in-out) infinite; }
+  .tn-marquee-lane { animation: tn-marquee 46s linear infinite; }
+  .tn-marquee:hover .tn-marquee-lane, .tn-marquee:focus-within .tn-marquee-lane, .tn-marquee:focus .tn-marquee-lane { animation-play-state: paused; }
+  [data-hero-away="true"] .tn-hero * { animation-play-state: paused; }
+  .tn-spinner { animation: tn-spin 700ms linear infinite; }
+  @keyframes tn-drift { from { transform: translate3d(-2%, 0, 0) rotate(-3deg); } to { transform: translate3d(3%, 2%, 0) rotate(4deg); } }
+  @keyframes tn-breathe { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(0.992, 1.012); } }
+  @keyframes tn-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @keyframes tn-cue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+  @keyframes tn-marquee { to { transform: translateX(-50%); } }
+  @keyframes tn-spin { to { transform: rotate(360deg); } }
+  @keyframes tn-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(3px); } }
+  .tn-field[data-invalid="true"] { animation: tn-shake 280ms var(--ease-out); }
+
+  /* section handoffs: the stage dims as the next section slides over */
+  .tn-workshop-stage .tn-stage-card { transition: transform var(--dur-base) var(--ease-out); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tn-marquee-lane { transform: none; }
+  .tn-marquee-track[aria-hidden] { display: none; }
+  .tn-marquee { overflow-x: auto; }
+  .tn-btn, .tn-btn::before, .tn-btn-label, .tn-card, .tn-order-form form, .tn-success { transition-duration: 120ms; }
+  .tn-header { transition-duration: 120ms; }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 860px) {
+  .tn-hero-inner { transform: none; }
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/brand/Logo.tsx">
+<![CDATA[import type { SVGProps } from "react";
+
+/** The mark: a thrown vessel standing on its wheel inside a round seal. */
+export function LogoMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false" {...props}>
+      <circle cx="32" cy="32" r="32" fill="var(--color-clay)" />
+      <path
+        d="M25 14h14c1 0 1.5 1 1 2-1.5 3-1 5.5 1.5 9 3.5 5 5 10 3 15-1.5 4-4 6-8 6h-9c-4 0-6.5-2-8-6-2-5-.5-10 3-15 2.5-3.500 3-6 1.500-9-.5-1 0-2 1-2z"
+        fill="var(--color-bone)"
+      />
+      <ellipse cx="32" cy="54" rx="17" ry="3" fill="var(--color-soot)" />
+    </svg>
+  );
+}
+
+/** Mark plus the lowercase wordmark; the wordmark is live text in the display face. */
+export function Logo({ className }: { className?: string }) {
+  return (
+    <span className={`tn-logo ${className ?? ""}`}>
+      <LogoMark className="tn-logo-mark" />
+      <span className="tn-logo-word">tourne</span>
+    </span>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/forms/order.ts">
+<![CDATA[export type OrderFields = { name: string; email: string; postcode: string; note: string };
+export type OrderErrors = Partial<Record<keyof OrderFields, string>>;
+
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+export function validateOrder(fields: OrderFields): OrderErrors {
+  const errors: OrderErrors = {};
+  if (fields.name.trim().length < 2) errors.name = "Tell us who the vessel is for.";
+  if (!EMAIL.test(fields.email.trim())) errors.email = "That email doesn't look right.";
+  if (fields.postcode.trim().length < 3) errors.postcode = "We need a postcode to quote shipping.";
+  if (fields.note.length > 280) errors.note = "Keep the note under 280 characters.";
+  return errors;
+}
+
+export type OrderQuote = { weeks: number; shippingUsd: number; totalUsd: number };
+
+/** Taller and wider vessels take longer to dry, and cost more to ship. */
+export function quoteOrder(priceUsd: number, heightCm: number, volumeMl: number): OrderQuote {
+  const weeks = heightCm > 30 || volumeMl > 6000 ? 6 : 5;
+  const shippingUsd = 18 + Math.round(volumeMl / 500) * 2;
+  return { weeks, shippingUsd, totalUsd: priceUsd + shippingUsd };
+}
+
+/** Stable short reference derived from the order's own specification. */
+export function orderReference(parts: readonly (string | number)[]): string {
+  let hash = 2166136261;
+  for (const char of parts.join("|")) {
+    hash ^= char.charCodeAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `TN-${(hash >>> 0).toString(36).toUpperCase().padStart(6, "0").slice(0, 6)}`;
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/forms/OrderForm.tsx">
+<![CDATA["use client";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { useVessel } from "../vessel/VesselProvider";
+import { formById } from "../vessel/forms";
+import { glazeById } from "../vessel/glazes";
+import { specOf } from "../vessel/profile";
+import { VesselSvg } from "../vessel/VesselSvg";
+import { orderReference, quoteOrder, validateOrder, type OrderErrors, type OrderFields } from "./order";
+
+type Status = "idle" | "loading" | "success";
+
+const EMPTY: OrderFields = { name: "", email: "", postcode: "", note: "" };
+const FIELD_ORDER: (keyof OrderFields)[] = ["name", "email", "postcode", "note"];
+const FAKE_LATENCY_MS = 900;
+const CUSTOM_PRICE_USD = 240;
+
+const LABELS: Record<keyof OrderFields, string> = {
+  name: "Your name",
+  email: "Email",
+  postcode: "Postcode",
+  note: "A note for the potters (optional)",
+};
+
+/** Validates on the client and shows success without a network request: this is a template. */
+export function OrderForm() {
+  const { state } = useVessel();
+  const formId = useId();
+  const [fields, setFields] = useState<OrderFields>(EMPTY);
+  const [errors, setErrors] = useState<OrderErrors>({});
+  const [attempt, setAttempt] = useState(0);
+  const [status, setStatus] = useState<Status>("idle");
+  const timer = useRef<number>(0);
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  useEffect(() => {
+    if (attempt === 0) return;
+    const firstInvalid = FIELD_ORDER.find((key) => errors[key]);
+    if (firstInvalid) document.getElementById(`${formId}-${firstInvalid}`)?.focus();
+    // Focus only when a new submit attempt fails, not on every keystroke that edits `errors`.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attempt]);
+
+  const form = state.formId ? formById(state.formId) : undefined;
+  const spec = specOf(state.params);
+  const glaze = glazeById(state.glazeId);
+  const price = form?.priceUsd ?? CUSTOM_PRICE_USD;
+  const quote = quoteOrder(price, spec.heightCm, spec.volumeMl);
+  const reference = orderReference([form?.id ?? "custom", spec.heightCm, spec.widthCm, glaze.id]);
+
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    if (status !== "idle") return;
+    const found = validateOrder(fields);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      setAttempt((n) => n + 1);
+      return;
+    }
+    setStatus("loading");
+    timer.current = window.setTimeout(() => setStatus("success"), FAKE_LATENCY_MS);
+  };
+
+  const restart = () => {
+    setFields(EMPTY);
+    setErrors({});
+    setStatus("idle");
+  };
+
+  return (
+    <div className="tn-order-grid">
+      <aside className="tn-order-summary" aria-label="Your vessel">
+        <div className="tn-order-art">
+          <VesselSvg params={state.params} glazeId={state.glazeId} label={`Your ${glaze.name} vessel`} />
+        </div>
+        <dl className="tn-order-lines">
+          <div>
+            <dt>Form</dt>
+            <dd>{form?.name ?? "Your own form"}</dd>
+          </div>
+          <div>
+            <dt>Glaze</dt>
+            <dd>
+              {glaze.name} <span className="tn-mono">{glaze.firing}</span>
+            </dd>
+          </div>
+          <div>
+            <dt>Size</dt>
+            <dd>
+              {spec.heightCm} × {spec.widthCm} cm, holds {spec.volumeMl.toLocaleString("en-US")} ml
+            </dd>
+          </div>
+          <div>
+            <dt>Vessel</dt>
+            <dd>${price}</dd>
+          </div>
+          <div>
+            <dt>Shipping</dt>
+            <dd>${quote.shippingUsd}</dd>
+          </div>
+          <div className="tn-order-total">
+            <dt>Total</dt>
+            <dd className="tn-display">${quote.totalUsd}</dd>
+          </div>
+        </dl>
+        <p className="tn-mono tn-order-weeks">Ready in {quote.weeks} weeks</p>
+      </aside>
+
+      <div className="tn-order-form" data-state={status}>
+        <form onSubmit={onSubmit} noValidate aria-hidden={status === "success"} inert={status === "success"}>
+          <h3 className="tn-display tn-h3">Reserve a slot on the wheel</h3>
+          {FIELD_ORDER.map((key) => {
+            const id = `${formId}-${key}`;
+            const error = errors[key];
+            const Control = key === "note" ? "textarea" : "input";
+            return (
+              <div key={`${key}-${attempt}`} className="tn-field" data-invalid={Boolean(error)}>
+                <Control
+                  id={id}
+                  name={key}
+                  value={fields[key]}
+                  placeholder=" "
+                  rows={key === "note" ? 3 : undefined}
+                  type={key === "email" ? "email" : key === "note" ? undefined : "text"}
+                  autoComplete={key === "name" ? "name" : key === "email" ? "email" : key === "postcode" ? "postal-code" : "off"}
+                  aria-invalid={Boolean(error)}
+                  aria-describedby={error ? `${id}-error` : undefined}
+                  disabled={status === "loading"}
+                  onChange={(event) => setFields((current) => ({ ...current, [key]: event.target.value }))}
+                />
+                <label htmlFor={id}>{LABELS[key]}</label>
+                <div className="tn-field-error" data-open={Boolean(error)}>
+                  <p id={`${id}-error`} role={error ? "alert" : undefined}>
+                    {error}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+          <button type="submit" className="tn-btn tn-btn-clay tn-submit" disabled={status === "loading"} data-loading={status === "loading"}>
+            <span className="tn-btn-label" data-label="Reserve this vessel">
+              {status === "loading" ? "Holding your slot" : "Reserve this vessel"}
+            </span>
+            <span className="tn-spinner" aria-hidden="true" />
+          </button>
+          <p className="tn-fineprint">No payment is taken. This is a template: nothing is sent anywhere.</p>
+        </form>
+
+        <div className="tn-success" role="status" aria-hidden={status !== "success"} inert={status !== "success"}>
+          <svg className="tn-stamp" viewBox="0 0 120 120" aria-hidden="true">
+            <circle className="tn-stamp-ring" cx="60" cy="60" r="52" pathLength="1" />
+            <path className="tn-stamp-check" d="M36 62l16 16 32-36" pathLength="1" />
+          </svg>
+          {status === "success" ? (
+            <>
+              <h3 className="tn-display tn-h3">Your slot is held, {fields.name.split(" ")[0]}.</h3>
+              <p>
+                Reference <span className="tn-mono tn-ref">{reference}</span>. Hana or Teo will email {fields.email} to confirm the profile before throwing. Ready in {quote.weeks} weeks.
+              </p>
+              <button type="button" className="tn-btn tn-btn-ghost tn-btn-small" onClick={restart}>
+                <span className="tn-btn-label" data-label="Reserve another">
+                  Reserve another
+                </span>
+              </button>
+            </>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/CountUp.tsx">
+<![CDATA["use client";
+import { useEffect, useRef } from "react";
+import { easeOutQuint } from "./math";
+import { useInView } from "./useInView";
+import { useReducedMotion } from "./useReducedMotion";
+
+type CountUpProps = { value: number; suffix?: string; durationMs?: number };
+
+/** Tweens to `value`; DOM update via ref so React never re-renders during animation. */
+export function CountUp({ value, suffix = "", durationMs = 900 }: CountUpProps) {
+  const { ref, inView } = useInView<HTMLSpanElement>();
+  const displayRef = useRef<HTMLSpanElement>(null);
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    const node = displayRef.current;
+    if (!node || !inView || reduced) return;
+    let frame = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / durationMs);
+      node.textContent = `${Math.round(value * easeOutQuint(t)).toLocaleString("en-US")}${suffix}`;
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    node.textContent = `0${suffix}`;
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [inView, reduced, value, suffix, durationMs]);
+
+  return (
+    <span ref={ref} className="tn-count">
+      <span className="tn-sr">
+        {value.toLocaleString("en-US")}
+        {suffix}
+      </span>
+      <span ref={displayRef} aria-hidden="true">
+        {value.toLocaleString("en-US")}
+        {suffix}
+      </span>
+    </span>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/Magnetic.tsx">
+<![CDATA["use client";
+import { useEffect, useRef, type ReactNode } from "react";
+import { clamp, lerp } from "./math";
+import { useReducedMotion } from "./useReducedMotion";
+
+const MAX_PULL_PX = 12;
+const RADIUS_PX = 90;
+
+/** Pulls its child toward a fine pointer; springs back on leave. No-op on touch and under reduced motion. */
+export function Magnetic({ children, className }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || reduced || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    let x = 0;
+    let y = 0;
+    let tx = 0;
+    let ty = 0;
+    let frame = 0;
+
+    const tick = () => {
+      x = lerp(x, tx, 0.18);
+      y = lerp(y, ty, 0.18);
+      node.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
+      frame = Math.abs(x - tx) > 0.05 || Math.abs(y - ty) > 0.05 ? requestAnimationFrame(tick) : 0;
+    };
+    const kick = () => {
+      if (!frame) frame = requestAnimationFrame(tick);
+    };
+    const onMove = (event: PointerEvent) => {
+      const box = node.getBoundingClientRect();
+      const dx = event.clientX - (box.left + box.width / 2);
+      const dy = event.clientY - (box.top + box.height / 2);
+      const near = Math.hypot(dx, dy) < RADIUS_PX + box.width / 2;
+      tx = near ? clamp(dx * 0.25, -MAX_PULL_PX, MAX_PULL_PX) : 0;
+      ty = near ? clamp(dy * 0.25, -MAX_PULL_PX, MAX_PULL_PX) : 0;
+      kick();
+    };
+    const onLeave = () => {
+      tx = 0;
+      ty = 0;
+      kick();
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    node.addEventListener("pointerleave", onLeave, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      node.removeEventListener("pointerleave", onLeave);
+      cancelAnimationFrame(frame);
+    };
+  }, [reduced]);
+
+  return (
+    <span ref={ref} className={`tn-magnetic ${className ?? ""}`}>
+      {children}
+    </span>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/Marquee.tsx">
+<![CDATA[type MarqueeProps = { items: readonly string[]; label: string };
+
+/** Two identical tracks translate by one track width; paused on hover/focus and off-screen via CSS. */
+export function Marquee({ items, label }: MarqueeProps) {
+  const track = (hidden: boolean) => (
+    <ul className="tn-marquee-track" aria-hidden={hidden || undefined}>
+      {items.map((item) => (
+        <li key={item}>
+          <span>{item}</span>
+          <i className="tn-marquee-dot" aria-hidden="true" />
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <div className="tn-marquee" role="group" aria-label={label} tabIndex={0}>
+      <div className="tn-marquee-lane">
+        {track(false)}
+        {track(true)}
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/math.ts">
+<![CDATA[export function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+export function lerp(from: number, to: number, t: number): number {
+  return from + (to - from) * t;
+}
+
+/** 0 at `start`, 1 at `end`, clamped; start === end is a step. */
+export function progress(value: number, start: number, end: number): number {
+  if (end === start) return value >= end ? 1 : 0;
+  return clamp((value - start) / (end - start), 0, 1);
+}
+
+/** Scroll progress of a tall section whose sticky stage is one viewport high. */
+export function sectionProgress(scrollY: number, sectionTop: number, sectionHeight: number, viewportHeight: number): number {
+  return progress(scrollY, sectionTop, sectionTop + Math.max(1, sectionHeight - viewportHeight));
+}
+
+/** Delay for the nth child, capped so long lists never feel slow. */
+export function staggerDelay(index: number, stepMs: number, capMs = 600): number {
+  return Math.min(capMs, Math.max(0, index) * stepMs);
+}
+
+/** Pointer position inside a box mapped to a tilt in degrees (rotateX, rotateY). */
+export function tiltAngles(px: number, py: number, maxDeg: number): { rotateX: number; rotateY: number } {
+  const nx = clamp(px, 0, 1) * 2 - 1;
+  const ny = clamp(py, 0, 1) * 2 - 1;
+  return { rotateX: -ny * maxDeg, rotateY: nx * maxDeg };
+}
+
+/** Quint ease-out; used by number tweens and the throw. */
+export function easeOutQuint(t: number): number {
+  return 1 - Math.pow(1 - clamp(t, 0, 1), 5);
+}
+
+export function easeInOutCubic(t: number): number {
+  const c = clamp(t, 0, 1);
+  return c < 0.5 ? 4 * c * c * c : 1 - Math.pow(-2 * c + 2, 3) / 2;
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/Reveal.tsx">
+<![CDATA["use client";
+import type { CSSProperties, ElementType, ReactNode } from "react";
+import { useInView } from "./useInView";
+
+export type RevealVariant = "rise" | "mask" | "wipe" | "scale" | "draw" | "unfurl" | "slide-left" | "slide-right";
+
+type RevealProps = {
+  as?: ElementType;
+  variant?: RevealVariant;
+  /** Milliseconds added on top of the stagger. */
+  delay?: number;
+  /** Position in a cascade; multiplied by --stagger. */
+  index?: number;
+  className?: string;
+  children?: ReactNode;
+};
+
+/** CSS carries the visuals; React only flips `data-in` once the element is in view. */
+export function Reveal({ as: Tag = "div", variant = "rise", delay = 0, index = 0, className, children }: RevealProps) {
+  const { ref, inView } = useInView<HTMLElement>();
+  return (
+    <Tag
+      ref={ref}
+      className={className}
+      data-reveal={variant}
+      data-in={inView}
+      style={{ "--delay": `${delay}ms`, "--i": index } as CSSProperties}
+    >
+      {children}
+    </Tag>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/ScrollEngine.tsx">
+<![CDATA["use client";
+import { useEffect } from "react";
+import { clamp, lerp, progress } from "./math";
+import { useReducedMotion } from "./useReducedMotion";
+
+const COMPRESS_AFTER_PX = 80;
+const HIDE_DELTA_PX = 6;
+const MAX_VELOCITY = 1;
+
+/**
+ * The single scroll loop. It writes CSS custom properties on <html>
+ * (--page-progress, --hero-p, --vel) and the header's data-state; no React state.
+ */
+export function ScrollEngine() {
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const header = document.getElementById("tn-header");
+    let lastY = window.scrollY;
+    let velocity = 0;
+    let frame = 0;
+    let running = false;
+
+    const write = () => {
+      const y = window.scrollY;
+      const max = Math.max(1, root.scrollHeight - window.innerHeight);
+      const delta = y - lastY;
+      velocity = lerp(velocity, clamp(delta / 60, -MAX_VELOCITY, MAX_VELOCITY), 0.2);
+      root.style.setProperty("--page-progress", (y / max).toFixed(4));
+      root.dataset.heroAway = String(y > window.innerHeight * 1.2);
+      if (!reduced) {
+        root.style.setProperty("--hero-p", progress(y, 0, window.innerHeight).toFixed(4));
+        root.style.setProperty("--vel", velocity.toFixed(3));
+      }
+      if (header) {
+        const hidden = y > window.innerHeight * 0.6 && delta > HIDE_DELTA_PX;
+        const shown = delta < -HIDE_DELTA_PX || y < window.innerHeight * 0.6;
+        if (hidden) header.dataset.hidden = "true";
+        else if (shown) header.dataset.hidden = "false";
+        header.dataset.compact = String(y > COMPRESS_AFTER_PX);
+      }
+      lastY = y;
+      velocity *= 0.9;
+      running = Math.abs(velocity) > 0.002;
+      frame = running ? requestAnimationFrame(write) : 0;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(write);
+    };
+
+    write();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+      root.style.removeProperty("--vel");
+      root.style.removeProperty("--hero-p");
+    };
+  }, [reduced]);
+
+  return null;
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/SmoothScroll.tsx">
+<![CDATA["use client";
+import { useEffect } from "react";
+import { useReducedMotion } from "./useReducedMotion";
+
+/** Lenis smooth scroll, fine pointers only; loaded dynamically so it stays out of the first long task. */
+export function SmoothScroll() {
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    if (reduced || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    let cancelled = false;
+    let frame = 0;
+    let destroy: (() => void) | undefined;
+
+    void import("lenis").then(({ default: Lenis }) => {
+      if (cancelled) return;
+      const lenis = new Lenis({ lerp: 0.1, anchors: { offset: -88 } });
+      const raf = (time: number) => {
+        lenis.raf(time);
+        frame = requestAnimationFrame(raf);
+      };
+      frame = requestAnimationFrame(raf);
+      destroy = () => lenis.destroy();
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+      destroy?.();
+    };
+  }, [reduced]);
+
+  return null;
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/SplitText.tsx">
+<![CDATA[import { Fragment, type CSSProperties, type ElementType } from "react";
+
+type SplitTextProps = {
+  text: string;
+  as?: ElementType;
+  className?: string;
+  /** Index offset so several headings can continue one cascade. */
+  startIndex?: number;
+};
+
+/**
+ * Splits a heading into masked words. The words stay real text with real spaces between
+ * them, so screen readers read the heading as written. Words rise through `.tn-word` masks,
+ * driven by an ancestor `[data-in="true"]` or the hero load sequence (CSS only, so it runs
+ * before hydration).
+ */
+export function SplitText({ text, as: Tag = "span", className, startIndex = 0 }: SplitTextProps) {
+  const words = text.split(" ");
+  return (
+    <Tag className={className}>
+      {words.map((word, i) => (
+        <Fragment key={`${word}-${i}`}>
+          <span className="tn-word">
+            <span className="tn-word-inner" style={{ "--wi": startIndex + i } as CSSProperties}>
+              {word}
+            </span>
+          </span>
+          {i < words.length - 1 ? " " : ""}
+        </Fragment>
+      ))}
+    </Tag>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/TiltCard.tsx">
+<![CDATA["use client";
+import { useEffect, useRef, type ElementType, type ReactNode } from "react";
+import { tiltAngles } from "./math";
+import { useReducedMotion } from "./useReducedMotion";
+
+const MAX_TILT_DEG = 5;
+
+type TiltCardProps = { as?: ElementType; className?: string; children: ReactNode };
+
+/** Writes --rx/--ry/--mx/--my from one rAF loop; CSS turns them into tilt and a pointer spotlight. */
+export function TiltCard({ as: Tag = "div", className, children }: TiltCardProps) {
+  const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || reduced || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    let frame = 0;
+    let pending: PointerEvent | null = null;
+
+    const apply = () => {
+      frame = 0;
+      if (!pending) return;
+      const box = node.getBoundingClientRect();
+      const px = (pending.clientX - box.left) / box.width;
+      const py = (pending.clientY - box.top) / box.height;
+      const { rotateX, rotateY } = tiltAngles(px, py, MAX_TILT_DEG);
+      node.style.setProperty("--rx", `${rotateX.toFixed(2)}deg`);
+      node.style.setProperty("--ry", `${rotateY.toFixed(2)}deg`);
+      node.style.setProperty("--mx", `${(px * 100).toFixed(1)}%`);
+      node.style.setProperty("--my", `${(py * 100).toFixed(1)}%`);
+    };
+    const onMove = (event: PointerEvent) => {
+      pending = event;
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
+    const onLeave = () => {
+      pending = null;
+      node.style.setProperty("--rx", "0deg");
+      node.style.setProperty("--ry", "0deg");
+    };
+    node.addEventListener("pointermove", onMove, { passive: true });
+    node.addEventListener("pointerleave", onLeave, { passive: true });
+    return () => {
+      node.removeEventListener("pointermove", onMove);
+      node.removeEventListener("pointerleave", onLeave);
+      cancelAnimationFrame(frame);
+    };
+  }, [reduced]);
+
+  return (
+    <Tag ref={ref} className={className} data-tilt>
+      {children}
+    </Tag>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/useInView.ts">
+<![CDATA["use client";
+import { useEffect, useRef, useState } from "react";
+
+type Options = { once?: boolean; rootMargin?: string; threshold?: number };
+type Entry = { callback: (inView: boolean) => void; once: boolean };
+
+const observers = new Map<string, { observer: IntersectionObserver; entries: Map<Element, Entry> }>();
+
+function shared(rootMargin: string, threshold: number) {
+  const key = `${rootMargin}|${threshold}`;
+  let record = observers.get(key);
+  if (!record) {
+    const entries = new Map<Element, Entry>();
+    const observer = new IntersectionObserver(
+      (batch) => {
+        for (const item of batch) {
+          const entry = entries.get(item.target);
+          if (!entry) continue;
+          entry.callback(item.isIntersecting);
+          if (item.isIntersecting && entry.once) {
+            entries.delete(item.target);
+            observer.unobserve(item.target);
+          }
+        }
+      },
+      { rootMargin, threshold },
+    );
+    record = { observer, entries };
+    observers.set(key, record);
+  }
+  return record;
+}
+
+/** One shared IntersectionObserver per (margin, threshold) pair. */
+export function useInView<T extends Element>({ once = true, rootMargin = "0px 0px -12% 0px", threshold = 0 }: Options = {}) {
+  const ref = useRef<T>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const { observer, entries } = shared(rootMargin, threshold);
+    entries.set(node, { callback: setInView, once });
+    observer.observe(node);
+    return () => {
+      entries.delete(node);
+      observer.unobserve(node);
+    };
+  }, [once, rootMargin, threshold]);
+
+  return { ref, inView };
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/motion/useReducedMotion.ts">
+<![CDATA["use client";
+import { useSyncExternalStore } from "react";
+
+const QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribe(onChange: () => void): () => void {
+  const media = window.matchMedia(QUERY);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+/** Defaults to `true` on the server so heavy engines never mount before the preference is known. */
+export function useReducedMotion(): boolean {
+  return useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(QUERY).matches,
+    () => true,
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/Collection.tsx">
+<![CDATA[import { Reveal } from "../motion/Reveal";
+import { SplitText } from "../motion/SplitText";
+import { TiltCard } from "../motion/TiltCard";
+import { FORMS } from "../vessel/forms";
+import { VesselSvg } from "../vessel/VesselSvg";
+import { specOf } from "../vessel/profile";
+import { LoadFormButton } from "./LoadFormButton";
+
+export function Collection() {
+  return (
+    <section id="collection" className="tn-collection" aria-labelledby="tn-collection-title">
+      <div className="tn-section-head">
+        <Reveal as="p" variant="slide-left" className="tn-eyebrow">
+          05 · Five forms
+        </Reveal>
+        <Reveal as="h2" variant="mask" className="tn-display tn-h2">
+          <span id="tn-collection-title">
+            <SplitText text="Start from one we love." />
+          </span>
+        </Reveal>
+        <Reveal as="p" variant="rise" delay={120} className="tn-body-copy">
+          Each form is a starting point. Load it on the wheel and change anything you like.
+        </Reveal>
+      </div>
+      <ul className="tn-cards">
+        {FORMS.map((form, i) => {
+          const spec = specOf(form.params);
+          return (
+            <Reveal as="li" key={form.id} variant="scale" index={i} className="tn-card-cell">
+              <TiltCard as="article" className="tn-card">
+                <div className="tn-card-art">
+                  <VesselSvg params={form.params} glazeId={form.defaultGlaze} label={`${form.name} in the default glaze`} />
+                </div>
+                <div className="tn-card-body">
+                  <h3 className="tn-display tn-h3">{form.name}</h3>
+                  <p className="tn-card-use">{form.use}</p>
+                  <p className="tn-card-note">{form.note}</p>
+                  <p className="tn-mono tn-card-spec">
+                    {spec.heightCm} cm · {spec.volumeMl.toLocaleString("en-US")} ml · ${form.priceUsd}
+                  </p>
+                  <LoadFormButton formId={form.id} name={form.name} />
+                </div>
+              </TiltCard>
+            </Reveal>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/content.ts">
+<![CDATA[export type ProcessStep = { id: string; name: string; duration: string; detail: string };
+
+export const PROCESS: readonly ProcessStep[] = [
+  { id: "wedge", name: "Wedge", duration: "40 min", detail: "Air is the enemy. Every ball is cut, slammed and kneaded until it is the same all the way through." },
+  { id: "throw", name: "Throw", duration: "4 to 20 min", detail: "Hana or Teo centres the clay and pulls your profile up in three to six lifts, checking it against a brass template." },
+  { id: "trim", name: "Trim", duration: "2 days later", detail: "Leather-hard, the foot is carved and your signature mark is pressed into the base." },
+  { id: "fire", name: "Glaze and fire", duration: "11 hours", detail: "Bisque at 1,000 °C, then glaze and a second firing to 1,305 °C in a gas kiln that cools for two days." },
+];
+
+export type Potter = { id: string; name: string; role: string; line: string; assetKey: string };
+
+export const POTTERS: readonly Potter[] = [
+  { id: "hana", name: "Hana Ortiz", role: "Thrower, since 2014", line: "Learned on a kick wheel in Bizen. Has thrown 6,100 of the 11,482.", assetKey: "potter-hana" },
+  { id: "teo", name: "Teo Lindqvist", role: "Glazes and firing", line: "Keeps a logbook of every kiln since 2016. Never fires on a Friday.", assetKey: "potter-teo" },
+];
+
+export const STUDIO_FACTS = [
+  { id: "weeks", value: 5, suffix: " weeks", label: "From order to your door" },
+  { id: "glazes", value: 6, suffix: " glazes", label: "Each mixed in the studio" },
+  { id: "kg", value: 140, suffix: " kg", label: "Of clay thrown every week" },
+] as const;
+
+export const GLAZE_TICKER = ["Celadon", "Wood Ash", "Tenmoku", "Rust Slip", "Soot Ink", "Bare Clay", "Cone 10", "Reduction", "Hand-thrown"] as const;
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/Footer.tsx">
+<![CDATA[import { Logo } from "../brand/Logo";
+import { Reveal } from "../motion/Reveal";
+
+export function Footer() {
+  return (
+    <footer className="tn-footer">
+      <Reveal variant="rise" className="tn-footer-inner">
+        <Logo className="tn-footer-logo" />
+        <p className="tn-footer-line">Made slowly, in a converted boatyard on Foss Waterway.</p>
+        <address className="tn-footer-address tn-mono">
+          412 Dock Street, Tacoma WA
+          <br />
+          Open Thursday to Sunday, 10 to 5
+        </address>
+        <p className="tn-fineprint">TOURNE is a fictional studio. Prices, people and kilns are invented for this template.</p>
+      </Reveal>
+    </footer>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/Header.tsx">
+<![CDATA["use client";
+import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { Logo } from "../brand/Logo";
+import { Magnetic } from "../motion/Magnetic";
+import { NAV } from "./nav";
+
+/** Reactive header: compresses after 80px, hides on scroll down (ScrollEngine writes data-*), sliding active pill. */
+export function Header() {
+  const [active, setActive] = useState<string>(NAV[0].id);
+  const [open, setOpen] = useState(false);
+  const [pill, setPill] = useState({ x: 0, w: 0 });
+  const listRef = useRef<HTMLUListElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const targets = NAV.map((item) => document.getElementById(item.id)).filter((node): node is HTMLElement => node !== null);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) if (entry.isIntersecting) setActive(entry.target.id);
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const list = listRef.current;
+    const link = list?.querySelector<HTMLElement>(`[data-id="${active}"]`);
+    if (!list || !link) return;
+    setPill({ x: link.offsetLeft, w: link.offsetWidth });
+  }, [active]);
+
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.activeElement as HTMLElement | null;
+    document.body.style.overflow = "hidden";
+    panelRef.current?.querySelector<HTMLElement>("a")?.focus();
+    return () => {
+      document.body.style.overflow = "";
+      previous?.focus();
+    };
+  }, [open]);
+
+  const onPanelKey = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Escape") {
+      setOpen(false);
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const focusable = [...(panelRef.current?.querySelectorAll<HTMLElement>("a, button") ?? []), toggleRef.current].filter((node): node is HTMLElement => node !== null);
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
+  return (
+    <header id="tn-header" className="tn-header" data-compact="false" data-hidden="false" data-open={open}>
+      <div className="tn-header-bar">
+        <a href="#top" className="tn-header-logo" aria-label="Tourne, back to top">
+          <Logo />
+        </a>
+        <nav className="tn-nav" aria-label="Primary">
+          <ul ref={listRef} className="tn-nav-list">
+            <li className="tn-nav-pill" aria-hidden="true" style={{ "--pill-x": `${pill.x}px`, "--pill-w": `${pill.w}px` } as CSSProperties} />
+            {NAV.map((item, i) => (
+              <li key={item.id} style={{ "--i": i } as CSSProperties}>
+                <a href={`#${item.id}`} data-id={item.id} aria-current={active === item.id ? "true" : undefined} className="tn-nav-link">
+                  <span>{item.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <Magnetic className="tn-header-cta">
+          <a href="#order" className="tn-btn tn-btn-clay tn-btn-small">
+            <span className="tn-btn-label" data-label="Reserve a slot">
+              Reserve a slot
+            </span>
+          </a>
+        </Magnetic>
+        <button
+          ref={toggleRef}
+          type="button"
+          className="tn-menu-toggle"
+          aria-expanded={open}
+          aria-controls="tn-menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="tn-menu-bars" aria-hidden="true" />
+        </button>
+      </div>
+      <div id="tn-menu" ref={panelRef} className="tn-menu" data-open={open} onKeyDown={onPanelKey} inert={!open}>
+        <ul>
+          {NAV.map((item, i) => (
+            <li key={item.id} style={{ "--i": i } as CSSProperties}>
+              <a href={`#${item.id}`} onClick={() => setOpen(false)}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="tn-menu-foot">Studio open Thursday to Sunday, 10 to 5. Tacoma, Washington.</p>
+      </div>
+    </header>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/Hero.tsx">
+<![CDATA[import { Magnetic } from "../motion/Magnetic";
+import { CountUp } from "../motion/CountUp";
+import { SplitText } from "../motion/SplitText";
+import { FORMS } from "../vessel/forms";
+import { VesselSvg } from "../vessel/VesselSvg";
+import { WheelReadout } from "./WheelReadout";
+
+const HERO_FORM = FORMS[0];
+
+/** Load choreography is CSS keyframes (data-load) so it plays before hydration, with no flash and no CLS. */
+export function Hero() {
+  return (
+    <section id="top" className="tn-hero" aria-labelledby="tn-hero-title">
+      <div className="tn-blobs" aria-hidden="true">
+        <i className="tn-blob tn-blob-a" />
+        <i className="tn-blob tn-blob-b" />
+        <i className="tn-blob tn-blob-c" />
+      </div>
+      <div className="tn-hero-inner">
+        <div className="tn-hero-copy">
+          <p className="tn-eyebrow" data-load="eyebrow">
+            Pottery studio · Tacoma, Washington
+          </p>
+          <h1 id="tn-hero-title" className="tn-display tn-hero-title" data-load="title">
+            <SplitText text="Shape it." className="tn-line" />
+            <SplitText text="We throw it." className="tn-line tn-line-clay" startIndex={2} />
+          </h1>
+          <p className="tn-lede" data-load="lede">
+            Pull the clay up on a real wheel, move the belly, choose the glaze. Then two potters in a converted boatyard make exactly that, by hand, in five weeks.
+          </p>
+          <div className="tn-hero-actions" data-load="actions">
+            <Magnetic>
+              <a href="#workshop" className="tn-btn tn-btn-clay">
+                <span className="tn-btn-label" data-label="Start the wheel">
+                  Start the wheel
+                </span>
+                <span className="tn-btn-arrow" aria-hidden="true" />
+              </a>
+            </Magnetic>
+            <a href="#collection" className="tn-link">
+              <span>See the five forms</span>
+            </a>
+          </div>
+          <dl className="tn-hero-stats" data-load="stats">
+            <div>
+              <dt>Pieces thrown since 2014</dt>
+              <dd className="tn-display">
+                <CountUp value={11482} />
+              </dd>
+            </div>
+            <div>
+              <dt>Top firing, °C</dt>
+              <dd className="tn-display">
+                <CountUp value={1305} />
+              </dd>
+            </div>
+          </dl>
+        </div>
+        <div className="tn-hero-visual" data-load="visual">
+          <div className="tn-hero-vessel">
+            <VesselSvg params={HERO_FORM.params} glazeId="raw" label="A moon jar of raw clay on a potter's wheel" />
+          </div>
+          <WheelReadout />
+        </div>
+      </div>
+      <div className="tn-scroll-cue" data-load="cue" aria-hidden="true">
+        <span>Scroll to throw</span>
+        <i />
+      </div>
+    </section>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/LoadFormButton.tsx">
+<![CDATA["use client";
+import { useVessel } from "../vessel/VesselProvider";
+
+/** Loads a collection form onto the wheel, then returns the visitor to the shape step. */
+export function LoadFormButton({ formId, name }: { formId: string; name: string }) {
+  const { state, dispatch } = useVessel();
+  const loaded = state.formId === formId;
+  return (
+    <button
+      type="button"
+      className="tn-btn tn-btn-ghost tn-btn-small"
+      aria-pressed={loaded}
+      onClick={() => {
+        dispatch({ type: "form", id: formId });
+        document.getElementById("tn-shape")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+      }}
+    >
+      <span className="tn-btn-label" data-label={loaded ? "On the wheel" : "Put it on the wheel"}>
+        {loaded ? "On the wheel" : "Put it on the wheel"}
+        <span className="tn-sr"> ({name})</span>
+      </span>
+    </button>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/nav.ts">
+<![CDATA[export type NavItem = { id: string; label: string };
+
+export const NAV: readonly NavItem[] = [
+  { id: "workshop", label: "Workshop" },
+  { id: "studio", label: "Studio" },
+  { id: "collection", label: "Forms" },
+  { id: "order", label: "Order" },
+];
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/Order.tsx">
+<![CDATA[import { Reveal } from "../motion/Reveal";
+import { SplitText } from "../motion/SplitText";
+import { OrderForm } from "../forms/OrderForm";
+
+export function Order() {
+  return (
+    <section id="order" className="tn-order" aria-labelledby="tn-order-title">
+      <div className="tn-section-head">
+        <Reveal as="p" variant="slide-left" className="tn-eyebrow">
+          06 · Order
+        </Reveal>
+        <Reveal as="h2" variant="mask" className="tn-display tn-h2">
+          <span id="tn-order-title">
+            <SplitText text="Yours, from the wheel to your door." />
+          </span>
+        </Reveal>
+      </div>
+      <OrderForm />
+    </section>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/Studio.tsx">
+<![CDATA[import { CountUp } from "../motion/CountUp";
+import { Marquee } from "../motion/Marquee";
+import { Reveal } from "../motion/Reveal";
+import { SplitText } from "../motion/SplitText";
+import { Picture } from "../assets";
+import { GLAZE_TICKER, POTTERS, PROCESS, STUDIO_FACTS } from "./content";
+
+export function Studio() {
+  return (
+    <section id="studio" className="tn-studio" aria-labelledby="tn-studio-title">
+      <Marquee items={GLAZE_TICKER} label="Glazes and firings" />
+
+      <div className="tn-section-head">
+        <Reveal as="p" variant="slide-left" className="tn-eyebrow">
+          04 · The studio
+        </Reveal>
+        <Reveal as="h2" variant="mask" className="tn-display tn-h2" >
+          <span id="tn-studio-title">
+            <SplitText text="Two potters. One kiln. No shortcuts." />
+          </span>
+        </Reveal>
+      </div>
+
+      <ol className="tn-process">
+        {PROCESS.map((step, i) => (
+          <Reveal as="li" key={step.id} variant="rise" index={i} className="tn-process-step">
+            <span className="tn-process-rule" aria-hidden="true" />
+            <span className="tn-mono tn-process-time">{step.duration}</span>
+            <h3 className="tn-display tn-h3">{step.name}</h3>
+            <p>{step.detail}</p>
+          </Reveal>
+        ))}
+      </ol>
+
+      <div className="tn-potters">
+        {POTTERS.map((potter, i) => (
+          <Reveal as="figure" key={potter.id} variant="wipe" index={i} className="tn-potter">
+            <Picture assetKey={potter.assetKey} alt={`${potter.name} at work in the studio`} className="tn-potter-image" />
+            <figcaption>
+              <span className="tn-display tn-h3">{potter.name}</span>
+              <span className="tn-mono">{potter.role}</span>
+              <span>{potter.line}</span>
+            </figcaption>
+          </Reveal>
+        ))}
+        <Reveal variant="unfurl" className="tn-facts">
+          {STUDIO_FACTS.map((fact) => (
+            <div key={fact.id}>
+              <p className="tn-display tn-fact-value">
+                <CountUp value={fact.value} suffix={fact.suffix} />
+              </p>
+              <p className="tn-mono">{fact.label}</p>
+            </div>
+          ))}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/WheelReadout.tsx">
+<![CDATA["use client";
+import { useEffect, useRef } from "react";
+import { useReducedMotion } from "../motion/useReducedMotion";
+
+const BASE_RPM = 62;
+
+/** Live readout of the wheel; ticks every second, writes text via ref so React never re-renders. */
+export function WheelReadout() {
+  const ref = useRef<HTMLSpanElement>(null);
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || reduced) return;
+    const id = window.setInterval(() => {
+      if (document.hidden) return;
+      node.textContent = String(BASE_RPM + Math.round(Math.sin(Date.now() / 1700) * 4));
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [reduced]);
+
+  return (
+    <p className="tn-readout tn-mono">
+      <i className="tn-readout-dot" aria-hidden="true" />
+      Wheel <span ref={ref}>{BASE_RPM}</span> rpm
+    </p>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/sections/Workshop.tsx">
+<![CDATA["use client";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Reveal } from "../motion/Reveal";
+import { sectionProgress } from "../motion/math";
+import { useReducedMotion } from "../motion/useReducedMotion";
+import { GlazePicker } from "../vessel/GlazePicker";
+import { ProfileEditor } from "../vessel/ProfileEditor";
+import { VesselCanvas } from "../vessel/VesselCanvas";
+import { useVessel } from "../vessel/VesselProvider";
+import { glazeById } from "../vessel/glazes";
+import { formById } from "../vessel/forms";
+
+const STEPS = [
+  { id: "tn-throw", key: "throw", label: "Throw" },
+  { id: "tn-shape", key: "shape", label: "Shape" },
+  { id: "tn-glaze", key: "glaze", label: "Glaze" },
+] as const;
+
+type StepKey = (typeof STEPS)[number]["key"];
+
+const CLAY_GRAMS = 1240;
+
+/**
+ * The signature moment. Scrolling the throw block pulls the clay from a lump into the vessel
+ * (progress is a pure function of real offsets, written to a ref and to --throw, never to state).
+ */
+export function Workshop() {
+  const { state, dispatch, throwRef } = useVessel();
+  const reduced = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const throwBlockRef = useRef<HTMLElement>(null);
+  const [step, setStep] = useState<StepKey>("throw");
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const block = throwBlockRef.current;
+    if (!section || !block) return;
+    if (reduced) {
+      throwRef.current = 1;
+      section.style.setProperty("--throw", "1");
+      return;
+    }
+    let top = 0;
+    let height = 1;
+    let frame = 0;
+    const measure = () => {
+      const box = block.getBoundingClientRect();
+      top = box.top + window.scrollY;
+      height = box.height;
+    };
+    const update = () => {
+      frame = 0;
+      const p = sectionProgress(window.scrollY, top, height, window.innerHeight);
+      throwRef.current = p;
+      section.style.setProperty("--throw", p.toFixed(4));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    const onResize = () => {
+      measure();
+      onScroll();
+    };
+    measure();
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
+    const settle = window.setTimeout(() => {
+      measure();
+      update();
+    }, 600);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      window.clearTimeout(settle);
+      cancelAnimationFrame(frame);
+      throwRef.current = 1;
+    };
+  }, [reduced, throwRef]);
+
+  useEffect(() => {
+    const nodes = STEPS.map((s) => document.getElementById(s.id)).filter((n): n is HTMLElement => n !== null);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const match = STEPS.find((s) => s.id === entry.target.id);
+          if (match) setStep(match.key);
+        }
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+
+  const glaze = glazeById(state.glazeId);
+  const formName = state.formId ? formById(state.formId)?.name : "Your own form";
+
+  return (
+    <section id="workshop" ref={sectionRef} className="tn-workshop" data-step={step} aria-labelledby="tn-workshop-title">
+      <div className="tn-workshop-stage">
+        <div className="tn-stage-card">
+          <VesselCanvas />
+          <p className="tn-stage-caption tn-mono" aria-live="polite">
+            {formName} · {glaze.name}
+          </p>
+          <div className="tn-throw-meter" aria-hidden="true">
+            <i />
+          </div>
+        </div>
+        <ol className="tn-step-rail" aria-label="Workshop steps">
+          {STEPS.map((s, i) => (
+            <li key={s.key}>
+              <a href={`#${s.id}`} aria-current={step === s.key ? "step" : undefined}>
+                <span className="tn-mono">0{i + 1}</span>
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="tn-workshop-panel">
+        <article id="tn-throw" ref={throwBlockRef} className="tn-step tn-step-throw">
+          <div className="tn-step-sticky">
+            <p className="tn-eyebrow">01 · Throw</p>
+            <h2 id="tn-workshop-title" className="tn-display tn-h2">
+              Keep scrolling. The clay rises.
+            </h2>
+            <p className="tn-body-copy">
+              {CLAY_GRAMS.toLocaleString("en-US")} g of stoneware, centred on the wheel. Scroll to open it and pull the walls up. The wheel spins faster when you do.
+            </p>
+            <ol className="tn-throw-steps">
+              <li style={{ "--at": 0.08 } as CSSProperties}>Centre</li>
+              <li style={{ "--at": 0.3 } as CSSProperties}>Open</li>
+              <li style={{ "--at": 0.58 } as CSSProperties}>Pull</li>
+              <li style={{ "--at": 0.85 } as CSSProperties}>Shape</li>
+            </ol>
+          </div>
+        </article>
+
+        <article id="tn-shape" className="tn-step tn-step-shape">
+          <Reveal variant="rise">
+            <p className="tn-eyebrow">02 · Shape</p>
+            <h2 className="tn-display tn-h2">Drag the pinch points.</h2>
+            <p className="tn-body-copy">Four handles and a height bar. Arrow keys work on every handle. The spec below is what the potters will aim for.</p>
+          </Reveal>
+          <ProfileEditor />
+          <button type="button" className="tn-btn tn-btn-ghost tn-btn-small" onClick={() => dispatch({ type: "reset" })}>
+            <span className="tn-btn-label" data-label="Back to the Moon Jar">
+              Back to the Moon Jar
+            </span>
+          </button>
+        </article>
+
+        <article id="tn-glaze" className="tn-step tn-step-glaze">
+          <Reveal variant="rise">
+            <p className="tn-eyebrow">03 · Glaze</p>
+            <h2 className="tn-display tn-h2">Choose how it comes out of the fire.</h2>
+            <p className="tn-body-copy">Six glazes, each fired the way it was meant to be. Colours shift a little in the kiln. That is the point.</p>
+          </Reveal>
+          <GlazePicker />
+          <a href="#order" className="tn-btn tn-btn-clay">
+            <span className="tn-btn-label" data-label="Order this vessel">
+              Order this vessel
+            </span>
+            <span className="tn-btn-arrow" aria-hidden="true" />
+          </a>
+        </article>
+      </div>
+    </section>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/editorGeometry.ts">
+<![CDATA[import { sampleProfile, type VesselParams } from "./profile";
+
+/** Coordinates of the profile editor's SVG; kept apart from the component so the maths is plain. */
+export const EDITOR = {
+  width: 300,
+  height: 340,
+  centreX: 150,
+  baseY: 312,
+  radiusPx: 120,
+  minHeight: 80,
+  heightRange: 190,
+} as const;
+
+export function silhouettePathFor(params: VesselParams): string {
+  const height = EDITOR.minHeight + params.height * EDITOR.heightRange;
+  const points = sampleProfile(params, 36);
+  const right = points.map((p) => `${(EDITOR.centreX + p.r * EDITOR.radiusPx).toFixed(1)} ${(EDITOR.baseY - p.y * height).toFixed(1)}`);
+  const left = [...points].reverse().map((p) => `${(EDITOR.centreX - p.r * EDITOR.radiusPx).toFixed(1)} ${(EDITOR.baseY - p.y * height).toFixed(1)}`);
+  return `M${right.join(" L")} L${left.join(" L")} Z`;
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/forms.ts">
+<![CDATA[import type { VesselParams } from "./profile";
+
+export type Form = {
+  id: string;
+  name: string;
+  use: string;
+  note: string;
+  priceUsd: number;
+  params: VesselParams;
+  defaultGlaze: string;
+};
+
+/** The five signature forms; each one loads onto the wheel. */
+export const FORMS: readonly Form[] = [
+  {
+    id: "moon-jar",
+    name: "Moon Jar",
+    use: "Flowers, or nothing at all",
+    note: "A belly so full it needs two throws, joined at the waist and scraped smooth.",
+    priceUsd: 340,
+    params: { height: 0.72, foot: 0.3, belly: 0.98, neck: 0.5, lip: 0.52 },
+    defaultGlaze: "ash",
+  },
+  {
+    id: "tall-ewer",
+    name: "Tall Ewer",
+    use: "Water, wine, ikebana branches",
+    note: "A narrow foot and a drawn neck. Pulled in six lifts, each one slower than the last.",
+    priceUsd: 280,
+    params: { height: 0.92, foot: 0.26, belly: 0.62, neck: 0.22, lip: 0.42 },
+    defaultGlaze: "celadon",
+  },
+  {
+    id: "tea-bowl",
+    name: "Tea Bowl",
+    use: "Matcha, hot and bitter",
+    note: "Thrown wide and low so the whole palm can hold the heat.",
+    priceUsd: 96,
+    params: { height: 0.06, foot: 0.36, belly: 0.78, neck: 0.8, lip: 0.92 },
+    defaultGlaze: "tenmoku",
+  },
+  {
+    id: "bud-vase",
+    name: "Bud Vase",
+    use: "One stem, one window",
+    note: "A bottle the size of a fist with a throat you can feel with one finger.",
+    priceUsd: 74,
+    params: { height: 0.24, foot: 0.3, belly: 0.64, neck: 0.18, lip: 0.3 },
+    defaultGlaze: "rust",
+  },
+  {
+    id: "storage-crock",
+    name: "Storage Crock",
+    use: "Flour, ferments, wooden spoons",
+    note: "Straight sides, a wide mouth and a rim thick enough to take a lid.",
+    priceUsd: 190,
+    params: { height: 0.5, foot: 0.54, belly: 0.74, neck: 0.7, lip: 0.72 },
+    defaultGlaze: "ink",
+  },
+];
+
+export function formById(id: string): Form | undefined {
+  return FORMS.find((form) => form.id === id);
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/GlazePicker.tsx">
+<![CDATA["use client";
+import { GLAZES } from "./glazes";
+import { useVessel } from "./VesselProvider";
+
+export function GlazePicker() {
+  const { state, dispatch } = useVessel();
+  return (
+    <div className="tn-glazes" role="radiogroup" aria-label="Glaze">
+      {GLAZES.map((glaze) => {
+        const selected = glaze.id === state.glazeId;
+        return (
+          <button
+            key={glaze.id}
+            type="button"
+            role="radio"
+            aria-checked={selected}
+            className="tn-glaze"
+            data-selected={selected}
+            style={{ "--glaze": glaze.color } as React.CSSProperties}
+            onClick={() => dispatch({ type: "glaze", id: glaze.id })}
+          >
+            <span className="tn-glaze-chip" aria-hidden="true" />
+            <span className="tn-glaze-name">{glaze.name}</span>
+            <span className="tn-glaze-firing">{glaze.firing}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/glazes.ts">
+<![CDATA[export type Glaze = {
+  id: string;
+  name: string;
+  firing: string;
+  /** Content colours of the 3D vessel; exempt from the palette check. */
+  color: string;
+  roughness: number;
+  sheen: number;
+};
+
+export const CLAY_COLOR = "#B8613F";
+export const WHEEL_COLOR = "#2A231F";
+export const WHEEL_RIM_COLOR = "#8A7A6C";
+
+export const GLAZES: readonly Glaze[] = [
+  { id: "celadon", name: "Celadon", firing: "Cone 10, reduction", color: "#9DBFAC", roughness: 0.28, sheen: 0.6 },
+  { id: "ash", name: "Wood Ash", firing: "Cone 10, wood", color: "#E9E3D3", roughness: 0.4, sheen: 0.4 },
+  { id: "tenmoku", name: "Tenmoku", firing: "Cone 10, reduction", color: "#3B2A22", roughness: 0.18, sheen: 0.9 },
+  { id: "rust", name: "Rust Slip", firing: "Cone 6, oxidation", color: "#B24A2A", roughness: 0.5, sheen: 0.25 },
+  { id: "ink", name: "Soot Ink", firing: "Cone 6, oxidation", color: "#26211E", roughness: 0.62, sheen: 0.12 },
+  { id: "raw", name: "Bare Clay", firing: "Cone 04, bisque", color: CLAY_COLOR, roughness: 0.85, sheen: 0 },
+];
+
+export function glazeById(id: string): Glaze {
+  return GLAZES.find((glaze) => glaze.id === id) ?? GLAZES[0];
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/profile.ts">
+<![CDATA[/**
+ * The vessel is a lathe profile: five control radii at fixed heights, joined by a
+ * Catmull-Rom spline and spun around the vertical axis. Everything the page shows
+ * (SVG silhouette, 3D lathe, spec readout, collection cards) comes from this one function.
+ */
+export type VesselParams = {
+  /** 0..1, maps to MIN_HEIGHT_CM..MAX_HEIGHT_CM */
+  height: number;
+  /** radii, 0..1, where 1 is MAX_RADIUS_CM */
+  foot: number;
+  belly: number;
+  neck: number;
+  lip: number;
+};
+
+export type ParamKey = keyof VesselParams;
+export type ProfilePoint = { r: number; y: number };
+
+export const MIN_HEIGHT_CM = 12;
+export const MAX_HEIGHT_CM = 38;
+export const MAX_RADIUS_CM = 11;
+export const WALL_CM = 0.55;
+
+export const PARAM_LIMITS: Record<ParamKey, { min: number; max: number }> = {
+  height: { min: 0, max: 1 },
+  foot: { min: 0.22, max: 0.6 },
+  belly: { min: 0.4, max: 1 },
+  neck: { min: 0.16, max: 0.8 },
+  lip: { min: 0.18, max: 0.95 },
+};
+
+/** Heights of the control points as a fraction of the vessel height. */
+const CONTROL_HEIGHTS = [0, 0.38, 0.68, 0.87, 1] as const;
+/** Foot, belly, shoulder, neck, lip; the editor places its handles here. */
+export const CONTROL_FRACTIONS = CONTROL_HEIGHTS;
+
+export function clampParam(key: ParamKey, value: number): number {
+  const { min, max } = PARAM_LIMITS[key];
+  return Math.min(max, Math.max(min, value));
+}
+
+export function heightCm(params: VesselParams): number {
+  return MIN_HEIGHT_CM + (MAX_HEIGHT_CM - MIN_HEIGHT_CM) * params.height;
+}
+
+function controlRadii(p: VesselParams): number[] {
+  const shoulder = p.belly + (p.neck - p.belly) * 0.55;
+  return [p.foot, p.belly, shoulder, p.neck, p.lip];
+}
+
+/** Uniform Catmull-Rom through the control points, with endpoints duplicated. */
+function catmull(p0: number, p1: number, p2: number, p3: number, t: number): number {
+  const t2 = t * t;
+  const t3 = t2 * t;
+  return 0.5 * (2 * p1 + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 + (-p0 + 3 * p1 - 3 * p2 + p3) * t3);
+}
+
+/** Outer wall from foot (y=0) up to lip (y=1), `samples` points, y strictly increasing. */
+export function sampleProfile(params: VesselParams, samples = 40): ProfilePoint[] {
+  if (samples < 2) throw new RangeError("sampleProfile needs at least 2 samples");
+  const radii = controlRadii(params);
+  const last = radii.length - 1;
+  const points: ProfilePoint[] = [];
+  for (let i = 0; i < samples; i++) {
+    const u = i / (samples - 1);
+    const y = u;
+    let seg = 0;
+    while (seg < last - 1 && y > CONTROL_HEIGHTS[seg + 1]) seg++;
+    const y0 = CONTROL_HEIGHTS[seg];
+    const y1 = CONTROL_HEIGHTS[seg + 1];
+    const t = (y - y0) / (y1 - y0);
+    const r0 = radii[Math.max(0, seg - 1)];
+    const r1 = radii[seg];
+    const r2 = radii[seg + 1];
+    const r3 = radii[Math.min(last, seg + 2)];
+    const r = Math.max(0.05, catmull(r0, r1, r2, r3, t));
+    points.push({ r, y });
+  }
+  return points;
+}
+
+/** Interior volume in millilitres, integrating πr² over the inner wall. */
+export function volumeMl(params: VesselParams, samples = 80): number {
+  const h = heightCm(params);
+  const profile = sampleProfile(params, samples);
+  let cm3 = 0;
+  for (let i = 1; i < profile.length; i++) {
+    const innerR = Math.max(0, ((profile[i].r + profile[i - 1].r) / 2) * MAX_RADIUS_CM - WALL_CM);
+    const dy = (profile[i].y - profile[i - 1].y) * h;
+    cm3 += Math.PI * innerR * innerR * dy;
+  }
+  return Math.round(cm3);
+}
+
+export type VesselSpec = { heightCm: number; widthCm: number; volumeMl: number };
+
+export function specOf(params: VesselParams): VesselSpec {
+  const widest = Math.max(...sampleProfile(params, 60).map((p) => p.r));
+  return {
+    heightCm: Math.round(heightCm(params) * 10) / 10,
+    widthCm: Math.round(widest * MAX_RADIUS_CM * 2 * 10) / 10,
+    volumeMl: volumeMl(params),
+  };
+}
+
+/** The unworked lump on the wheel at scroll progress 0. */
+export const LUMP: VesselParams = { height: 0.04, foot: 0.58, belly: 0.62, neck: 0.5, lip: 0.34 };
+
+/** Blend lump → target. Progress is the already-eased 0..1 value. */
+export function throwParams(target: VesselParams, t: number): VesselParams {
+  const c = Math.min(1, Math.max(0, t));
+  const mix = (a: number, b: number) => a * (1 - c) + b * c;
+  return {
+    height: mix(LUMP.height, target.height),
+    foot: mix(LUMP.foot, target.foot),
+    belly: mix(LUMP.belly, target.belly),
+    neck: mix(LUMP.neck, target.neck),
+    lip: mix(LUMP.lip, target.lip),
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/ProfileEditor.tsx">
+<![CDATA["use client";
+import { useRef, type KeyboardEvent, type PointerEvent } from "react";
+import { CONTROL_FRACTIONS, PARAM_LIMITS, clampParam, specOf, type ParamKey } from "./profile";
+import { silhouettePathFor, EDITOR } from "./editorGeometry";
+import { useVessel } from "./VesselProvider";
+
+type Handle = { key: ParamKey; label: string; fraction: number };
+
+const HANDLES: readonly Handle[] = [
+  { key: "lip", label: "Lip width", fraction: CONTROL_FRACTIONS[4] },
+  { key: "neck", label: "Neck width", fraction: CONTROL_FRACTIONS[3] },
+  { key: "belly", label: "Belly width", fraction: CONTROL_FRACTIONS[1] },
+  { key: "foot", label: "Foot width", fraction: CONTROL_FRACTIONS[0] },
+];
+
+const KEY_STEP = 0.02;
+
+/** Drag the pinch points of the profile; every handle is also a keyboard slider. */
+export function ProfileEditor() {
+  const { state, dispatch } = useVessel();
+  const svgRef = useRef<SVGSVGElement>(null);
+  const spec = specOf(state.params);
+  const topY = EDITOR.baseY - (EDITOR.minHeight + state.params.height * EDITOR.heightRange);
+
+  const toLocal = (event: PointerEvent<SVGElement>) => {
+    const svg = svgRef.current;
+    const matrix = svg?.getScreenCTM();
+    if (!svg || !matrix) return null;
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    return point.matrixTransform(matrix.inverse());
+  };
+
+  const dragRadius = (key: ParamKey) => (event: PointerEvent<SVGElement>) => {
+    if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
+    const local = toLocal(event);
+    if (local) dispatch({ type: "set", key, value: Math.abs(local.x - EDITOR.centreX) / EDITOR.radiusPx });
+  };
+
+  const dragHeight = (event: PointerEvent<SVGElement>) => {
+    if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
+    const local = toLocal(event);
+    if (local) dispatch({ type: "set", key: "height", value: (EDITOR.baseY - local.y - EDITOR.minHeight) / EDITOR.heightRange });
+  };
+
+  const capture = (event: PointerEvent<SVGElement>) => event.currentTarget.setPointerCapture(event.pointerId);
+
+  const keyboard = (key: ParamKey, up: "ArrowRight" | "ArrowUp", down: "ArrowLeft" | "ArrowDown") => (event: KeyboardEvent<SVGElement>) => {
+    const direction = event.key === up ? 1 : event.key === down ? -1 : 0;
+    if (!direction) return;
+    event.preventDefault();
+    dispatch({ type: "set", key, value: clampParam(key, state.params[key] + direction * KEY_STEP) });
+  };
+
+  const valueText = (key: ParamKey) => `${Math.round(state.params[key] * 100)} percent`;
+
+  return (
+    <div className="tn-editor">
+      <svg ref={svgRef} className="tn-editor-svg" viewBox={`0 0 ${EDITOR.width} ${EDITOR.height}`} role="group" aria-label="Vessel profile editor">
+        <line className="tn-editor-axis" x1={EDITOR.centreX} x2={EDITOR.centreX} y1="12" y2={EDITOR.baseY + 8} />
+        <line className="tn-editor-floor" x1="24" x2={EDITOR.width - 24} y1={EDITOR.baseY} y2={EDITOR.baseY} />
+        <path className="tn-editor-shape" d={silhouettePathFor(state.params)} />
+        {HANDLES.map((handle) => {
+          const y = EDITOR.baseY - handle.fraction * (EDITOR.minHeight + state.params.height * EDITOR.heightRange);
+          const x = EDITOR.centreX + state.params[handle.key] * EDITOR.radiusPx;
+          return (
+            <g key={handle.key}>
+              <line className="tn-editor-guide" x1={EDITOR.centreX} x2={x} y1={y} y2={y} />
+              <circle
+                className="tn-handle"
+                cx={x}
+                cy={y}
+                r="11"
+                tabIndex={0}
+                role="slider"
+                aria-label={handle.label}
+                aria-orientation="horizontal"
+                aria-valuemin={Math.round(PARAM_LIMITS[handle.key].min * 100)}
+                aria-valuemax={Math.round(PARAM_LIMITS[handle.key].max * 100)}
+                aria-valuenow={Math.round(state.params[handle.key] * 100)}
+                aria-valuetext={valueText(handle.key)}
+                onPointerDown={capture}
+                onPointerMove={dragRadius(handle.key)}
+                onKeyDown={keyboard(handle.key, "ArrowRight", "ArrowLeft")}
+              />
+            </g>
+          );
+        })}
+        <rect
+          className="tn-handle tn-handle-height"
+          x={EDITOR.centreX - 22}
+          y={topY - 40}
+          width="44"
+          height="20"
+          rx="10"
+          tabIndex={0}
+          role="slider"
+          aria-label="Height"
+          aria-orientation="vertical"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(state.params.height * 100)}
+          aria-valuetext={`${spec.heightCm} centimetres`}
+          onPointerDown={capture}
+          onPointerMove={dragHeight}
+          onKeyDown={keyboard("height", "ArrowUp", "ArrowDown")}
+        />
+        <text className="tn-editor-hint" x={EDITOR.centreX} y={topY - 26} textAnchor="middle" aria-hidden="true">
+          height
+        </text>
+      </svg>
+      <dl className="tn-spec" aria-live="polite">
+        <div>
+          <dt>Height</dt>
+          <dd>{spec.heightCm} cm</dd>
+        </div>
+        <div>
+          <dt>Width</dt>
+          <dd>{spec.widthCm} cm</dd>
+        </div>
+        <div>
+          <dt>Holds</dt>
+          <dd>{spec.volumeMl.toLocaleString("en-US")} ml</dd>
+        </div>
+      </dl>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/state.ts">
+<![CDATA[import { clampParam, type ParamKey, type VesselParams } from "./profile";
+import { FORMS, formById } from "./forms";
+import { GLAZES } from "./glazes";
+
+export type VesselState = {
+  params: VesselParams;
+  glazeId: string;
+  /** null once the visitor edits the shape by hand */
+  formId: string | null;
+};
+
+export type VesselAction =
+  | { type: "set"; key: ParamKey; value: number }
+  | { type: "form"; id: string }
+  | { type: "glaze"; id: string }
+  | { type: "reset" };
+
+export const INITIAL_STATE: VesselState = {
+  params: FORMS[0].params,
+  glazeId: FORMS[0].defaultGlaze,
+  formId: FORMS[0].id,
+};
+
+export function vesselReducer(state: VesselState, action: VesselAction): VesselState {
+  switch (action.type) {
+    case "set": {
+      if (!Number.isFinite(action.value)) return state;
+      return { ...state, formId: null, params: { ...state.params, [action.key]: clampParam(action.key, action.value) } };
+    }
+    case "form": {
+      const form = formById(action.id);
+      if (!form) return state;
+      return { params: form.params, glazeId: form.defaultGlaze, formId: form.id };
+    }
+    case "glaze": {
+      if (!GLAZES.some((glaze) => glaze.id === action.id)) return state;
+      return { ...state, glazeId: action.id };
+    }
+    case "reset":
+      return INITIAL_STATE;
+  }
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/VesselCanvas.tsx">
+<![CDATA["use client";
+import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "../motion/useReducedMotion";
+import { glazeById } from "./glazes";
+import type { VesselScene } from "./VesselScene";
+import { useVessel } from "./VesselProvider";
+import { VesselSvg } from "./VesselSvg";
+
+type Phase = "poster" | "loading" | "live" | "lost";
+
+/**
+ * The 3D wheel. The SVG poster is always server-rendered and stays until the lathe is live,
+ * which only happens when the browser is idle on desktop, or on tap on touch screens.
+ * It never mounts under reduced motion.
+ */
+export function VesselCanvas() {
+  const { state, throwRef } = useVessel();
+  const reduced = useReducedMotion();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sceneRef = useRef<VesselScene | null>(null);
+  const [armed, setArmed] = useState(false);
+  const [phase, setPhase] = useState<Phase>("poster");
+  const [coarse, setCoarse] = useState(false);
+
+  useEffect(() => {
+    const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+    setCoarse(isCoarse);
+    if (reduced || isCoarse) return;
+    const arm = () => setArmed(true);
+    if (typeof window.requestIdleCallback === "function") {
+      const handle = window.requestIdleCallback(arm, { timeout: 3500 });
+      return () => window.cancelIdleCallback(handle);
+    }
+    const handle = globalThis.setTimeout(arm, 2000);
+    return () => globalThis.clearTimeout(handle);
+  }, [reduced]);
+
+  useEffect(() => {
+    if (reduced || !armed) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    let cancelled = false;
+    let scene: VesselScene | null = null;
+    let resizeObserver: ResizeObserver | null = null;
+    setPhase("loading");
+
+    void import("./VesselScene")
+      .then(({ VesselScene }) => {
+        if (cancelled) return;
+        scene = new VesselScene({
+          canvas,
+          getThrow: () => throwRef.current,
+          getSpinBoost: () => Number.parseFloat(document.documentElement.style.getPropertyValue("--vel")) || 0,
+          onContextLost: () => setPhase("lost"),
+        });
+        sceneRef.current = scene;
+        resizeObserver = new ResizeObserver(() => scene?.resize());
+        resizeObserver.observe(canvas);
+        setPhase("live");
+      })
+      .catch(() => {
+        if (!cancelled) setPhase("lost");
+      });
+
+    return () => {
+      cancelled = true;
+      resizeObserver?.disconnect();
+      scene?.dispose();
+      sceneRef.current = null;
+    };
+  }, [armed, reduced, throwRef]);
+
+  useEffect(() => {
+    if (phase !== "live") return;
+    sceneRef.current?.setInputs({ target: state.params, glaze: glazeById(state.glazeId) });
+    sceneRef.current?.start();
+  }, [phase, state.params, state.glazeId]);
+
+  const live = phase === "live";
+  return (
+    <div className="tn-canvas" data-phase={phase}>
+      <VesselSvg
+        className="tn-canvas-poster"
+        params={state.params}
+        glazeId={state.glazeId}
+        label={`Preview of the ${glazeById(state.glazeId).name} vessel on the wheel`}
+      />
+      <canvas ref={canvasRef} className="tn-canvas-gl" data-live={live} aria-hidden="true" />
+      {coarse && !armed && !reduced ? (
+        <button type="button" className="tn-btn tn-btn-ghost tn-canvas-start" onClick={() => setArmed(true)}>
+          <span className="tn-btn-label">Start the wheel</span>
+        </button>
+      ) : null}
+      {phase === "lost" ? <p className="tn-canvas-note">The wheel stopped. Showing the still preview.</p> : null}
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/VesselProvider.tsx">
+<![CDATA["use client";
+import { createContext, useContext, useMemo, useReducer, useRef, type Dispatch, type MutableRefObject, type ReactNode } from "react";
+import { INITIAL_STATE, vesselReducer, type VesselAction, type VesselState } from "./state";
+
+type VesselContextValue = {
+  state: VesselState;
+  dispatch: Dispatch<VesselAction>;
+  /** Scroll-driven throw progress (0 lump → 1 finished). A ref, so scrolling never re-renders React. */
+  throwRef: MutableRefObject<number>;
+};
+
+const VesselContext = createContext<VesselContextValue | null>(null);
+
+export function VesselProvider({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(vesselReducer, INITIAL_STATE);
+  const throwRef = useRef(1);
+  const value = useMemo(() => ({ state, dispatch, throwRef }), [state]);
+  return <VesselContext.Provider value={value}>{children}</VesselContext.Provider>;
+}
+
+export function useVessel(): VesselContextValue {
+  const context = useContext(VesselContext);
+  if (!context) throw new Error("useVessel must be used inside <VesselProvider>");
+  return context;
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/VesselScene.ts">
+<![CDATA[import * as THREE from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+import { easeOutQuint, progress } from "../motion/math";
+import { CLAY_COLOR, WHEEL_COLOR, WHEEL_RIM_COLOR, type Glaze } from "./glazes";
+import { MAX_RADIUS_CM, WALL_CM, heightCm, sampleProfile, throwParams, type VesselParams } from "./profile";
+
+const CM_TO_UNIT = 0.1;
+const RADIAL_SEGMENTS = 96;
+const PROFILE_SAMPLES = 44;
+const BASE_SPIN_RAD_PER_S = 0.9;
+const MAX_PIXEL_RATIO = 1.5;
+/** Rebuild the lathe only when the effective shape moved by more than this. */
+const REBUILD_EPSILON = 0.002;
+
+export type SceneInputs = {
+  /** Finished vessel the throw blends toward. */
+  target: VesselParams;
+  glaze: Glaze;
+};
+
+type SceneOptions = {
+  canvas: HTMLCanvasElement;
+  getThrow: () => number;
+  getSpinBoost: () => number;
+  onContextLost: () => void;
+};
+
+function paramsKey(params: VesselParams, hollow: number): number[] {
+  return [params.height, params.foot, params.belly, params.neck, params.lip, hollow];
+}
+
+function movedEnough(a: number[] | null, b: number[]): boolean {
+  return !a || b.some((value, i) => Math.abs(value - a[i]) > REBUILD_EPSILON);
+}
+
+function stripeTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement("canvas");
+  canvas.width = 4;
+  canvas.height = 256;
+  const ctx = canvas.getContext("2d");
+  if (ctx) {
+    for (let y = 0; y < canvas.height; y++) {
+      const v = 128 + Math.sin(y * 0.9) * 40 + Math.sin(y * 0.23) * 30;
+      ctx.fillStyle = `rgb(${v},${v},${v})`;
+      ctx.fillRect(0, y, 4, 1);
+    }
+  }
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  return texture;
+}
+
+/** Outer wall up to the lip, then the inner wall down to a floor that deepens as the clay opens. */
+function lathePoints(params: VesselParams, hollow: number): THREE.Vector2[] {
+  const heightUnits = heightCm(params) * CM_TO_UNIT;
+  const radiusUnits = MAX_RADIUS_CM * CM_TO_UNIT;
+  const wall = WALL_CM * CM_TO_UNIT;
+  const outer = sampleProfile(params, PROFILE_SAMPLES).map((p) => new THREE.Vector2(p.r * radiusUnits, p.y * heightUnits));
+  const topY = heightUnits;
+  const floorY = topY * (1 - hollow) * 0.98 + 0.12 * hollow;
+  const inner = [...outer]
+    .reverse()
+    .filter((p) => p.y > floorY)
+    .map((p) => new THREE.Vector2(Math.max(0.01, p.x - wall), p.y));
+  return [new THREE.Vector2(0, 0), ...outer, ...inner, new THREE.Vector2(0, floorY)];
+}
+
+export class VesselScene {
+  private readonly renderer: THREE.WebGLRenderer;
+  private readonly scene = new THREE.Scene();
+  private readonly camera = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
+  private readonly turntable = new THREE.Group();
+  private readonly material: THREE.MeshStandardMaterial;
+  private readonly bump: THREE.CanvasTexture;
+  private readonly envTarget: THREE.WebGLRenderTarget;
+  private readonly disposables: { dispose(): void }[] = [];
+  private mesh: THREE.Mesh | null = null;
+  private lastKey: number[] | null = null;
+  private inputs: SceneInputs | null = null;
+  private smoothed = 0;
+  private frame = 0;
+  private lastTime = 0;
+  private visible = true;
+  private readonly clayColor = new THREE.Color(CLAY_COLOR);
+  private readonly glazeColor = new THREE.Color();
+  private readonly observer: IntersectionObserver;
+
+  constructor(private readonly options: SceneOptions) {
+    const { canvas } = options;
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO));
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.05;
+
+    const pmrem = new THREE.PMREMGenerator(this.renderer);
+    const room = new RoomEnvironment();
+    this.envTarget = pmrem.fromScene(room, 0.04);
+    this.scene.environment = this.envTarget.texture;
+    this.scene.environmentIntensity = 0.55;
+    room.dispose();
+    pmrem.dispose();
+
+    const key = new THREE.DirectionalLight(0xfff1de, 2.4);
+    key.position.set(3, 5, 4);
+    this.scene.add(key, new THREE.HemisphereLight(0xfff4e6, 0x3a2a20, 0.7));
+
+    const wheelMaterial = new THREE.MeshStandardMaterial({ color: WHEEL_COLOR, roughness: 0.7, metalness: 0.15 });
+    const wheelGeometry = new THREE.CylinderGeometry(1.7, 1.78, 0.14, 72);
+    const rimMaterial = new THREE.MeshStandardMaterial({ color: WHEEL_RIM_COLOR, roughness: 0.4, metalness: 0.6 });
+    const rimGeometry = new THREE.TorusGeometry(1.7, 0.035, 12, 96);
+    const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+    const rim = new THREE.Mesh(rimGeometry, rimMaterial);
+    rim.rotation.x = Math.PI / 2;
+    rim.position.y = 0.07;
+    wheel.position.y = -0.07;
+    this.turntable.add(wheel, rim);
+    this.scene.add(this.turntable);
+    this.disposables.push(wheelMaterial, wheelGeometry, rimMaterial, rimGeometry);
+
+    this.bump = stripeTexture();
+    this.bump.repeat.set(1, 2.4);
+    this.material = new THREE.MeshStandardMaterial({
+      color: CLAY_COLOR,
+      roughness: 0.8,
+      metalness: 0,
+      side: THREE.DoubleSide,
+      bumpMap: this.bump,
+      bumpScale: 0.6,
+    });
+
+    this.camera.position.set(0, 2.5, 8.2);
+    this.camera.lookAt(0, 1.25, 0);
+
+    canvas.addEventListener("webglcontextlost", this.handleContextLost);
+    document.addEventListener("visibilitychange", this.handleVisibility);
+    this.observer = new IntersectionObserver(([entry]) => {
+      this.visible = entry.isIntersecting;
+      this.syncLoop();
+    });
+    this.observer.observe(canvas);
+    this.resize();
+  }
+
+  setInputs(inputs: SceneInputs): void {
+    this.inputs = inputs;
+    this.glazeColor.set(inputs.glaze.color);
+    this.material.roughness = inputs.glaze.roughness;
+    this.lastKey = null;
+    this.renderOnce();
+  }
+
+  resize(): void {
+    const { canvas } = this.options;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    if (!width || !height) return;
+    this.renderer.setSize(width, height, false);
+    this.camera.aspect = width / height;
+    this.camera.position.z = width / height < 0.8 ? 10.4 : 8.2;
+    this.camera.updateProjectionMatrix();
+    this.renderOnce();
+  }
+
+  start(): void {
+    this.syncLoop();
+  }
+
+  dispose(): void {
+    cancelAnimationFrame(this.frame);
+    this.frame = 0;
+    this.observer.disconnect();
+    this.options.canvas.removeEventListener("webglcontextlost", this.handleContextLost);
+    document.removeEventListener("visibilitychange", this.handleVisibility);
+    this.mesh?.geometry.dispose();
+    this.material.dispose();
+    this.bump.dispose();
+    this.envTarget.dispose();
+    for (const item of this.disposables) item.dispose();
+    this.renderer.dispose();
+  }
+
+  private readonly handleContextLost = (event: Event) => {
+    event.preventDefault();
+    cancelAnimationFrame(this.frame);
+    this.frame = 0;
+    this.options.onContextLost();
+  };
+
+  private readonly handleVisibility = () => this.syncLoop();
+
+  private syncLoop(): void {
+    const shouldRun = this.visible && !document.hidden;
+    if (shouldRun && !this.frame) {
+      this.lastTime = performance.now();
+      this.frame = requestAnimationFrame(this.tick);
+    } else if (!shouldRun && this.frame) {
+      cancelAnimationFrame(this.frame);
+      this.frame = 0;
+    }
+  }
+
+  private readonly tick = (now: number) => {
+    const dt = Math.min(0.05, (now - this.lastTime) / 1000);
+    this.lastTime = now;
+    this.turntable.rotation.y += dt * (BASE_SPIN_RAD_PER_S + this.options.getSpinBoost() * 6);
+    this.renderOnce();
+    this.frame = requestAnimationFrame(this.tick);
+  };
+
+  private renderOnce(): void {
+    if (!this.inputs) return;
+    const goal = easeOutQuint(this.options.getThrow());
+    this.smoothed += (goal - this.smoothed) * 0.14;
+    if (Math.abs(goal - this.smoothed) < 0.001) this.smoothed = goal;
+
+    const effective = throwParams(this.inputs.target, this.smoothed);
+    const hollow = progress(this.smoothed, 0.12, 0.7);
+    const key = paramsKey(effective, hollow);
+    if (movedEnough(this.lastKey, key)) {
+      this.lastKey = key;
+      this.mesh?.geometry.dispose();
+      const geometry = new THREE.LatheGeometry(lathePoints(effective, hollow), RADIAL_SEGMENTS);
+      if (!this.mesh) {
+        this.mesh = new THREE.Mesh(geometry, this.material);
+        this.turntable.add(this.mesh);
+      } else {
+        this.mesh.geometry = geometry;
+      }
+    }
+    this.material.color.copy(this.clayColor).lerp(this.glazeColor, progress(this.smoothed, 0.85, 1));
+    this.renderer.render(this.scene, this.camera);
+  }
+}
+]]>
+    </file>
+    <file path="src/app/(tourne)/tourne/vessel/VesselSvg.tsx">
+<![CDATA[import { useId } from "react";
+import { glazeById } from "./glazes";
+import { sampleProfile, type VesselParams } from "./profile";
+
+const VIEW_W = 240;
+const VIEW_H = 300;
+const CENTRE_X = VIEW_W / 2;
+const BASE_Y = 276;
+const RADIUS_PX = 96;
+const MIN_HEIGHT_PX = 70;
+const HEIGHT_RANGE_PX = 190;
+
+/** Pure: the closed silhouette path (right wall up, left wall down) for a vessel. */
+export function silhouettePath(params: VesselParams): string {
+  const height = MIN_HEIGHT_PX + params.height * HEIGHT_RANGE_PX;
+  const points = sampleProfile(params, 36);
+  const right = points.map((p) => `${(CENTRE_X + p.r * RADIUS_PX).toFixed(1)} ${(BASE_Y - p.y * height).toFixed(1)}`);
+  const left = [...points].reverse().map((p) => `${(CENTRE_X - p.r * RADIUS_PX).toFixed(1)} ${(BASE_Y - p.y * height).toFixed(1)}`);
+  return `M${right.join(" L")} L${left.join(" L")} Z`;
+}
+
+type VesselSvgProps = { params: VesselParams; glazeId: string; className?: string; label?: string };
+
+/** Server-renderable vessel: the no-JS, reduced-motion and pre-WebGL poster. */
+export function VesselSvg({ params, glazeId, className, label }: VesselSvgProps) {
+  const id = useId();
+  const glaze = glazeById(glazeId);
+  const path = silhouettePath(params);
+  const height = MIN_HEIGHT_PX + params.height * HEIGHT_RANGE_PX;
+  const rings = Array.from({ length: 9 }, (_, i) => BASE_Y - ((i + 1) / 10) * height);
+  return (
+    <svg
+      className={className}
+      viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+      role={label ? "img" : undefined}
+      aria-label={label}
+      aria-hidden={label ? undefined : true}
+      focusable="false"
+    >
+      <defs>
+        <clipPath id={`${id}-clip`}>
+          <path d={path} />
+        </clipPath>
+        <linearGradient id={`${id}-shade`} x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stopColor="#000" stopOpacity="0.28" />
+          <stop offset="0.35" stopColor="#fff" stopOpacity="0.18" />
+          <stop offset="0.7" stopColor="#000" stopOpacity="0" />
+          <stop offset="1" stopColor="#000" stopOpacity="0.32" />
+        </linearGradient>
+      </defs>
+      <ellipse cx={CENTRE_X} cy={BASE_Y + 6} rx="112" ry="14" fill="#2A231F" />
+      <ellipse cx={CENTRE_X} cy={BASE_Y + 3} rx="112" ry="14" fill="#8A7A6C" opacity="0.5" />
+      <path d={path} fill={glaze.color} />
+      <g clipPath={`url(#${id}-clip)`}>
+        {rings.map((y) => (
+          <line key={y} x1="0" x2={VIEW_W} y1={y} y2={y} stroke="#000" strokeOpacity="0.07" strokeWidth="1" />
+        ))}
+        <rect x="0" y="0" width={VIEW_W} height={VIEW_H} fill={`url(#${id}-shade)`} />
+      </g>
+    </svg>
+  );
+}
+]]>
+    </file>
+  </files>
+</template>
