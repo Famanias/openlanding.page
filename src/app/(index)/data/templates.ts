@@ -1,4 +1,4 @@
-export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra";
+export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok";
 
 export type CategoryId =
   | "all"
@@ -1005,6 +1005,16 @@ Build a complete, responsive, interaction-rich landing page for **AUREL** using 
 ## Brand & Positioning
 - **Title:** AUREL — Independent Luxury Horology
 - **Description:** An exploration of precision, permanence, and the art of making time. Discover AUREL Collection 01 — The Origin.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const KAIROK_PROMPT = `# KAIRO K-01 — Concept Mirrorless Camera — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **KAIRO K** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** KAIRO K-01 — Concept Mirrorless Camera
+- **Description:** See beyond the expected. An interactive cinematic product experience and optical exploration for the fictional KAIRO K-01 mirrorless camera concept.
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
 `;
 
@@ -2379,6 +2389,13 @@ Use the following records verbatim as the runtime content source. Artwork URLs p
 ]
 \`\`\`
 `;
+
+export const AUVEN_PROMPT = "# Rebuild AUVEN — standalone landing page\n\nRecreate the supplied AUVEN experience as one complete, self-contained HTML document at /auven. The canonical source is public/downloads/auven.html, imported from AUVEN_Standalone_Experience.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nA premium outsourcing partner combining elite global talent with seamless operational integration. The people behind what's next: a silk-inspired fullscreen depth-map hero, interactive capability explorer, team culture showcase, engagement model selector, and operational process framework.\n\n## Page structure\nSilk depth-map hero, marquee ticker, editorial introduction, interactive capabilities explorer, people and culture gallery, engagement model selector, five-stage operational framework, business impact metrics, trust indicators, and contact connection form.\n\n## Visual system\nPreserve the original composition and typography: system sans-serif, Georgia serif accents, and monospaced technical labels. Use the supplied palette: #0a151e, #111f2a, #060e14, #a2aeb6, #d7b698, #f0d7bd, #f0eee9, #e2dfd8. Preserve the original inline WebP imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the capability tab switcher with animated stats and images, interactive model selector cards, mobile drawer menu, and locally handled inquiry submission. The connection form must explicitly confirm that no message was sent without a backend.\n\nRetain the fullscreen depth-map WebGL silk canvas with pointer response, masked headline rises, staggered section reveals, ticker marquee, hover image zoom, and subtle smooth transitions. Preserve the original reduced-motion and coarse-pointer fallbacks.\n\n## Integration and verification\nServe the same document at /auven and /downloads/auven.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+export const NEMA_PROMPT = "# Rebuild NEMA — standalone landing page\n\nRecreate the supplied NEMA experience as one complete, self-contained HTML document at /nema. The canonical source is public/downloads/nema.html, imported from NEMA_Transparent_Cloud_Footer.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nA fictional conversational AI workspace for questions that become ideas, research, and creative projects. Think out loud. Go further: an editorial AI workspace combining a live conversation shell, interactive artifact studio, spatial workbench, structured research dossiers, and curated collections.\n\n## Page structure\nInteractive conversation hero, marquee ticker, editorial statement, artifact chapter with step progression, spatial workbench with draggable cards, dark research dossier, travel collection showcase with sidecard, interactive project map, prompt slips, transparent pricing table, FAQ accordion, cloudscape finale, and accessible modal dialog.\n\n## Visual system\nPreserve the original composition and typography: Arial/Helvetica sans-serif, Georgia serif italic accents, and Courier New monospace labels. Use the supplied palette: #f8f2ea, #f3ece4, #342d46, #756b7e, #e67c61, #b7cdb7, #e8d9e5, #dcd3d0, #fffdfb. Preserve the original inline WebP imagery, cloudscape backgrounds, and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the interactive conversation input and prompt chips, draggable workbench cards, research tab switcher, artifact viewer dialog, interactive map stage with connected svg nodes, collection selector, and local newsletter form. All forms must explicitly state that no details are submitted or stored.\n\nRetain smooth in-view entrance reveals, spinning orbit motifs, floating sticker transforms, ticker marquee, hover card tilts, and dialog transitions. Preserve the original reduced-motion and coarse-pointer branches.\n\n## Integration and verification\nServe the same document at /nema and /downloads/nema.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
+export const VELORA_PROMPT = "# Rebuild VELORA — standalone landing page\n\nRecreate the supplied VELORA experience as one complete, self-contained HTML document at /velora. The canonical source is public/downloads/velora.html, imported from VELORA_Standalone_Experience.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nA fictional instant global money transfer app. Money moves. You don't wait: centered copy framing a sticky interactive globe, live currency converter, seamless transfer flow breakdown, and corridor coverage map.\n\n## Page structure\nSticky globe hero runway, live exchange rates and transfer calculator, interactive 4-step transfer flow, human story showcase, app features split, corridor coverage map, security FAQ accordion, fee transparency overview, final CTA scene, footer, and sign-up dialog modal.\n\n## Visual system\nPreserve the original composition and typography: Trebuchet MS and Avenir Next type stacks, and SFMono monospace labels. Use the supplied palette: #06131c, #081925, #0d2631, #8bf4bc, #7ce9e7, #ccff9b, #f4fbf8, #a4bbc5. Preserve the original inline WebP imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve the live exchange calculator with dynamic currency conversion and currency swap, flow stage step switcher, corridor selector with speed estimates, security FAQ accordion, and native HTML dialog signup modal with local success message. The signup modal must explicitly state that no information is sent or saved.\n\nRetain the sticky scroll-linked globe shell with orbit canvas, scroll progress indicator, pulse indicators, hover card elevations, tab transitions, and smooth modal entrances. Preserve the original reduced-motion and coarse-pointer branches.\n\n## Integration and verification\nServe the same document at /velora and /downloads/velora.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
+
 RAW_TEMPLATES.push({ slug: "savepoint", createdAt: "2026-11-04", hasDownload: true, title: "SAVEPOINT.", description: "Ten strange little universes. One console. A tactile cartridge archive with a physical insertion ritual.", category: "3d", categories: ["3d", "showcase", "editorial"], industry: "Independent Games", stack: "Next.js 16 · React 19 · Three.js · GSAP · Tailwind v4", badges: ["Procedural 3D", "Physical Boot", "Interactive Archive"], previewImage: "/templates/savepoint/preview-1600.webp", promptMarkdown: SAVEPOINT_PROMPT, model: "GPT-6.1" });
 
 export const WAYPOINT_PROMPT = `# Waypoint Rebuild Prompt
@@ -2404,6 +2421,51 @@ Build a high-craft career outreach and pipeline tracking landing page for "Waypo
 `;
 
 RAW_TEMPLATES.push(
+  {
+    slug: "auven",
+    title: "AUVEN",
+    description: "A premium outsourcing partner combining elite global talent with seamless operational integration.",
+    category: "saas",
+    categories: ["saas", "showcase", "marketing"],
+    industry: "Global Talent & Operations",
+    badges: ["Standalone HTML", "Depth-Map Shader", "Interactive Capabilities"],
+    createdAt: "2026-11-08",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/auven/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: AUVEN_PROMPT,
+  },
+  {
+    slug: "nema",
+    title: "NEMA",
+    description: "A fictional conversational AI workspace for questions that become ideas, research, and creative projects.",
+    category: "ai",
+    categories: ["ai", "studio", "showcase"],
+    industry: "Conversational AI & Creative Tools",
+    badges: ["Standalone HTML", "AI Workspace", "Spatial Canvas"],
+    createdAt: "2026-11-08",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/nema/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: NEMA_PROMPT,
+  },
+  {
+    slug: "velora",
+    title: "VELORA",
+    description: "A fictional instant global money transfer app concept with interactive rates, sticky globe visual, and currency exchange calculator.",
+    category: "app",
+    categories: ["app", "saas", "showcase"],
+    industry: "Fintech & Global Payments",
+    badges: ["Standalone HTML", "Currency Calculator", "Interactive Globe"],
+    createdAt: "2026-11-08",
+    hasDownload: true,
+    stack: "HTML · CSS · JavaScript",
+    previewImage: "/templates/velora/preview-1600.webp",
+    model: "Imported HTML",
+    promptMarkdown: VELORA_PROMPT,
+  },
   {
     slug: "strata",
     createdAt: "2026-11-05",
@@ -2502,6 +2564,8 @@ export const OROVA_PROMPT = "# Rebuild OROVA — standalone landing page\n\nRecr
 
 export const VYRA_PROMPT = "# Rebuild VYRA — standalone landing page\n\nRecreate the supplied VYRA experience as one complete, self-contained HTML document at /vyra. The canonical source is public/downloads/vyra.html, imported from VYRA_Standalone_Experience.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas/WebGL, and browser APIs without npm dependencies or external asset requests.\n\n## Concept\nA sound-design concept with sculptable frequency fields, interactive presets, and a visual studio for shaping ideas. Sound you can shape: procedural wave fields become a hands-on visual sound studio with adjustable texture, intensity, spread, motion, and character.\n\n## Page structure\nWave-field hero, manifesto, interactive studio, features, frequency chapter, preset library, process, pricing, and waitlist finale.\n\n## Visual system\nPreserve the original composition and typography: system sans-serif, Georgia serif accents where present, and monospaced technical labels. Use the supplied palette: #f5f7fb, #edf2f8, #111b32, #101a31, #64718a, #d9e0ec, #39c9dd, #77ebed, #8488f4, #b9f4e7. Preserve the original inline imagery and procedural artwork rather than substituting unrelated media.\n\n## Interactions and motion\nPreserve Harmonic Drift, Glass Tide, Pulse Mesh, and Afterimage presets; Flow/Focus/Fray character selection; intensity/spread/motion sliders; field reset; library filters and previous/next controls; monthly/yearly pricing; mobile menu; and locally validated waitlist feedback. No signup data is submitted or saved.\n\nRetain the procedural hero field, animated studio canvas, scroll-linked feature selection, frequency-line transformations, process progress, library movement, and tactile control states. Keep the original background-tab, viewport, and reduced-motion guards.\n\n## Integration and verification\nServe the same document at /vyra and /downloads/vyra.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.\n";
 
+export const TOURNE_PROMPT = "# TOURNE: hand-turned vessels, made to order\n\nBuild an isolated Next.js 16 / React 19 / TypeScript / Tailwind v4 landing page at `/tourne` for a fictional pottery studio in Tacoma, Washington. Use `three` (WebGL) and `lenis`. Everything lives in `src/app/(tourne)/` and imports only npm packages or its own files (no `@/` aliases). CSS class prefix `tn-`.\n\n## Central idea\nThe wheel turns and clay rises under your hands, so the page is a real-time 3D lathe. Scrolling pulls a lump of clay into a vessel, draggable handles reshape its profile, glazes recolour it, and the same state feeds the collection and the order form.\n\n## Palette (only these hex values, tints via `color-mix()`)\nbone `#F4EEE3` (page), oat `#E9DFCE` (tint), clay `#A8492D` (the only accent), soot `#1F1A17` (ink and dark slabs), umber `#6B5E54` (muted text), celadon `#8FB5A0` (rare accent on dark slabs and glaze), porcelain `#FFFDF8` (cards). The 3D vessel's glaze and clay colours are content colours and live in `tourne/vessel/`.\n\n## Type\nFraunces (display, `SOFT` 100, opsz 144), DM Sans (body), DM Mono (readouts), through `next/font/google` with distinct CSS variables. Fluid `clamp()` sizes. Geometry is heavily curved: pills and 28 to 48 px radii. Background uses slowly drifting organic blobs.\n\n## Sections\n1. Fixed pill header: logo, nav with a sliding active pill, magnetic \"Reserve a slot\" CTA, mobile full-screen menu opening with a circle clip-path, focus trap, Escape to close. Compresses after 80 px, hides on scroll down.\n2. Hero: \"Shape it. We throw it.\" with a CSS keyframe load sequence, count-up stats (11,482 pieces, 1,305 °C), a live \"Wheel 62 rpm\" readout, an SVG moon jar over drifting blobs.\n3. Workshop (signature): sticky stage with a 3D wheel and three steps. Throw: a 230 svh block whose scroll progress pulls the lump into the vessel and speeds the wheel. Shape: SVG profile editor with four width handles (lip, neck, belly, foot) and a height bar, pointer drag plus arrow keys, live spec (height, width, volume). Glaze: six glazes.\n4. Studio: glaze marquee, four process steps with drawn rules, two potter portraits (placeholders until generated), facts with count-ups.\n5. Forms: five forms (Moon Jar, Tall Ewer, Tea Bowl, Bud Vase, Storage Crock) as tilt cards with pointer spotlight and sibling dimming; \"Put it on the wheel\" loads the form.\n6. Order: sticky summary of the live vessel with a quote, floating-label form (name, email, postcode, note), shake on invalid, loading, then a choreographed success stamp with a hashed reference. No network request.\n7. Footer.\n\n## The mechanic\n`vessel/profile.ts`: five control radii at height fractions `[0, .38, .68, .87, 1]` joined by Catmull-Rom, sampled to 44 points and passed to `THREE.LatheGeometry` (96 segments). `throwParams(target, t)` blends a `LUMP` profile into the target; `t = easeOutQuint(sectionProgress(...))`. `volumeMl` integrates πr² over the inner wall (5.5 mm wall). `vesselReducer` clamps parameters and handles `set`, `form`, `glaze`, `reset`. Scroll values go to a ref and CSS custom properties from one rAF loop, never React state.\n\n3D rules: dynamic import; start on idle for fine pointers and on tap for touch; never mount under reduced motion; pause off-screen and in hidden tabs; DPR capped at 1.5; dispose everything; context loss falls back to the server-rendered SVG poster.\n\n## Motion\nOrganic / analog, expressive. Verbs: breathe, unfurl. Tokens in `@theme` (`--ease-out`, `--ease-out-expo`, `--ease-in-out`, `--ease-spring`, `--dur-instant` 90 to `--dur-hero` 1200 ms, `--reveal-shift`, `--stagger`). At least four reveal types (mask-rise words, clip-path wipes, drawn rules, staggered scale cascades, count-ups). Buttons wipe, roll their label and press to `scale(.97)` with a spring release. Hide pre-reveal states only under `prefers-reduced-motion: no-preference` and ship a `<noscript>` override. Reduced motion: everything visible, no ambient loops, no WebGL. At most three ambient loops in view.\n\n## Quality bar\nOne `h1`, landmarks, labelled sliders and radio group, visible focus, AA contrast. Unit tests for motion math, vessel profile and reducer, order validation and content. Playwright spec for the signature interaction, form, keyboard and reduced motion. Register in the six gallery locations, add `docs/image-prompts/tourne.md` and a DESIGN.md with the motion map.\n";
+
 RAW_TEMPLATES.push(
   {
     slug: "cirro",
@@ -2547,6 +2611,40 @@ RAW_TEMPLATES.push(
     previewImage: "/templates/vyra/preview-1600.webp",
     model: "Imported HTML",
     promptMarkdown: VYRA_PROMPT,
+  }
+);
+
+RAW_TEMPLATES.push({
+  slug: "tourne",
+  title: "TOURNE",
+  description: "A pottery studio where you sculpt a vessel on a real-time 3D wheel: scroll to pull the clay, drag the profile, choose the glaze, then order it.",
+  category: "3d",
+  categories: ["3d", "commerce", "showcase"],
+  industry: "Ceramics & Pottery",
+  badges: ["Lathe Configurator", "Scroll-Pulled Clay", "Procedural 3D"],
+  createdAt: "2026-11-08",
+  hasDownload: true,
+  stack: "Next.js 16 · React 19 · Three.js · Lenis · Tailwind v4",
+  previewImage: "/templates/tourne/preview-1600.webp",
+  model: "Claude Sonnet 5.5 Low",
+  promptMarkdown: TOURNE_PROMPT,
+});
+
+RAW_TEMPLATES.push(
+  {
+    slug: "kairok",
+    createdAt: "2026-11-08",
+    hasDownload: true,
+    title: "KAIRO K",
+    description: "See beyond the expected. An interactive cinematic product experience and optical exploration for the fictional KAIRO K-01 mirrorless camera concept.",
+    category: "showcase" as TemplateCategory,
+    categories: ["showcase" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/kairok/preview-1600.webp",
+    promptMarkdown: KAIROK_PROMPT,
+    model: "Gemini 4 Argon High",
   }
 );
 

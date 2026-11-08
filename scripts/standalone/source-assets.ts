@@ -1,7 +1,11 @@
 import ts from "typescript";
 
+function scriptKind(filename: string) {
+  return /\.jsx?$/.test(filename) ? ts.ScriptKind.JSX : filename.endsWith("x") ? ts.ScriptKind.TSX : ts.ScriptKind.TS;
+}
+
 export function assetLiterals(source: string, filename: string): string[] {
-  const file=ts.createSourceFile(filename,source,ts.ScriptTarget.Latest,true,filename.endsWith("x")?ts.ScriptKind.TSX:ts.ScriptKind.TS);
+  const file=ts.createSourceFile(filename,source,ts.ScriptTarget.Latest,true,scriptKind(filename));
   const values:string[]=[];
   const visit=(node:ts.Node)=>{
     if(ts.isStringLiteralLike(node)||ts.isTemplateHead(node)||ts.isTemplateMiddle(node)||ts.isTemplateTail(node))values.push(node.text);
@@ -11,9 +15,36 @@ export function assetLiterals(source: string, filename: string): string[] {
   return values;
 }
 
+/** Match computed filenames against the owning template's local media, without evaluating source. */
+export function assetPatterns(source: string, filename: string): RegExp[] {
+  const file = ts.createSourceFile(filename, source, ts.ScriptTarget.Latest, true, scriptKind(filename));
+  const patterns = new Set<string>();
+  const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const suffix = (node: ts.Expression): string => {
+    if (ts.isStringLiteralLike(node)) return node.text;
+    if (ts.isTemplateExpression(node)) return node.templateSpans[node.templateSpans.length - 1].literal.text;
+    if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.PlusToken) return suffix(node.right);
+    return "";
+  };
+  const pattern = (node: ts.Expression, final = false): string => {
+    if (ts.isStringLiteralLike(node)) return escape(final ? node.text.split(/[?#]/)[0] : node.text);
+    if (ts.isTemplateExpression(node)) return escape(node.head.text) + node.templateSpans.map((span, i) =>
+      pattern(span.expression) + escape(final && i === node.templateSpans.length - 1 ? span.literal.text.split(/[?#]/)[0] : span.literal.text)).join("");
+    if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.PlusToken) return pattern(node.left) + pattern(node.right, final);
+    return "[^?#]*";
+  };
+  const visit = (node: ts.Node) => {
+    if ((ts.isTemplateExpression(node) || (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.PlusToken)) &&
+        /\.(?:png|jpe?g|webp|avif|svg|glb|ttf|woff2?|mp4)(?:[?#].*)?$/i.test(suffix(node))) patterns.add(`^${pattern(node, true)}$`);
+    ts.forEachChild(node, visit);
+  };
+  visit(file);
+  return [...patterns].map(value => new RegExp(value));
+}
+
 /** Adapt only URL consumer boundaries in authored source; renderer/math behavior stays original. */
 export function rewriteAssetConsumers(source: string, filename: string): string {
-  const file = ts.createSourceFile(filename, source, ts.ScriptTarget.Latest, true, filename.endsWith("x") ? ts.ScriptKind.TSX : filename.endsWith(".js") ? ts.ScriptKind.JS : ts.ScriptKind.TS);
+  const file = ts.createSourceFile(filename, source, ts.ScriptTarget.Latest, true, scriptKind(filename));
   let changed = false;
   const transformed = ts.transform(file, [context => {
     const wrap = (expression: ts.Expression) => {

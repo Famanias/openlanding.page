@@ -36,13 +36,12 @@ describe("standalone asset handling", () => {
       expect(await response.text()).toBe("glTF");
     }finally{URL.revokeObjectURL(url);}
   });
-  it("limits export targets to the supported manifest and deduplicates explicit selections", () => {
-    expect(selectSlugs([])).toHaveLength(59);
-    expect(selectSlugs(["--remaining"])).toHaveLength(17);
-    expect(selectSlugs(["--3d"])).toHaveLength(22);
+  it("discovers gallery component pages and deduplicates explicit selections", () => {
+    expect(selectSlugs([])).toEqual(expect.arrayContaining(["kairok", "tourne", "aftercart"]));
+    expect(selectSlugs(["--3d"])).toContain("tourne");
     expect(selectSlugs(["--all"])).toEqual([...STANDALONE_SLUGS]);
     expect(selectSlugs(["aftercart", "aftercart"])).toEqual(["aftercart"]);
-    expect(() => selectSlugs(["../private"])).toThrow(/unsupported/i);
+    expect(() => selectSlugs(["../private"])).toThrow(/invalid.*slug/i);
   });
   it("keeps query updates on the downloaded file instead of navigating to a site-root path", () => {
     expect(normalizeNavigation("/pello?plan=steady&goal=240", "pello")).toBe("?plan=steady&goal=240");

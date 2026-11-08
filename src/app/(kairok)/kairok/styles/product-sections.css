@@ -1,0 +1,31 @@
+/* Optical handoff mask and editorial chapter surfaces */
+.kairo-porcelain-chapter {
+  background-color: var(--porcelain);
+  color: var(--black-carbon);
+}
+
+.kairo-stone-chapter {
+  background-color: var(--stone);
+  color: var(--black-carbon);
+}
+
+.kairo-carbon-chapter {
+  background-color: var(--black-carbon);
+  color: var(--porcelain);
+}
+
+.kairo-hairline-top {
+  border-top: 1px solid var(--panel-line);
+}
+
+.kairo-hairline-dark-top {
+  border-top: 1px solid var(--panel-line-dark);
+}
+
+/* Smooth image pan for exploded camera and collection trio */
+.kairo-pan-surface {
+  transition:
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    object-position 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}

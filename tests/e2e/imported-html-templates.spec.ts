@@ -3,9 +3,12 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 const imports = [
-  { slug: "cirro", title: "CIRRO", menu: "#menuButton" },
-  { slug: "orova", title: "OROVA", menu: "#mobileToggle" },
-  { slug: "vyra", title: "VYRA", menu: "#menu-toggle" },
+  { slug: "cirro", title: "CIRRO", menu: "#menuButton", section: "#manifesto" },
+  { slug: "orova", title: "OROVA", menu: "#mobileToggle", section: "#manifesto" },
+  { slug: "vyra", title: "VYRA", menu: "#menu-toggle", section: "#manifesto" },
+  { slug: "auven", title: "AUVEN", menu: "#menuToggle", section: "#about" },
+  { slug: "nema", title: "NEMA", menu: "#navToggle", section: "#how" },
+  { slug: "velora", title: "VELORA", menu: "#menuToggle", section: "#how" },
 ] as const;
 
 for (const template of imports) {
@@ -47,7 +50,7 @@ for (const template of imports) {
       page.on("pageerror", error => errors.push(error.message));
       await page.goto(`/${template.slug}`);
       await expect(page.locator("h1")).toBeVisible();
-      await page.locator("#contact, #final").scrollIntoViewIfNeeded();
+      await page.locator("#contact, #final, #app, #plans, footer, .site-footer").first().scrollIntoViewIfNeeded();
       expect(errors).toEqual([]);
     });
 
@@ -70,7 +73,7 @@ for (const template of imports) {
         const page = await context.newPage();
         await page.goto(`/${template.slug}`);
         await expect(page.locator("h1")).toBeVisible();
-        await expect(page.locator("#manifesto")).toBeVisible();
+        await expect(page.locator(template.section)).toBeVisible();
       } finally {
         await context.close();
       }
@@ -130,4 +133,51 @@ test("VYRA studio presets, library filters, pricing, and local waitlist work", a
   await page.locator("#waitlist-email").fill("visitor@example.com");
   await page.locator('#waitlist button[type="submit"]').click();
   await expect(page.locator("#form-message")).toContainText("no details have been submitted or saved");
+});
+
+test("AUVEN capability explorer and local inquiry work", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/auven");
+  await page.locator('.cap-option[data-cap="1"]').click();
+  await expect(page.locator("#capCount")).toHaveText("02 / 04");
+  await expect(page.locator("#capName")).toHaveText("BUSINESS OPERATIONS");
+  await page.locator("#contactName").fill("Visitor");
+  await page.locator("#contactEmail").fill("visitor@example.com");
+  await page.locator("#contactInterest").fill("Global customer operations inquiry.");
+  await page.locator('#contactForm button[type="submit"]').click();
+  await expect(page.locator("#contactStatus")).toContainText("inquiry has not been sent");
+});
+
+test("NEMA conversation chips, artifact dialog, and research tabs work", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/nema");
+  await page.locator('.suggestions button[data-demo="brand"]').click();
+  await expect(page.locator("#demoQuestion")).toContainText("identity for a thoughtful new design studio");
+  await page.locator("#openArtifact").click();
+  await expect(page.locator("#artifactModal")).toHaveClass(/open/);
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#artifactModal")).not.toHaveClass(/open/);
+  await page.locator('.research-tabs button[data-research="1"]').click();
+  await expect(page.locator("#researchHeading")).toHaveText("Light changes the room.");
+  await page.locator("#earlyEmail").fill("visitor@example.com");
+  await page.locator('#earlyForm button[type="submit"]').click();
+  await expect(page.locator("#earlyFeedback")).toContainText("nothing was submitted or saved");
+});
+
+test("VELORA exchange calculator, flow steps, and local signup work", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/velora");
+  const initialReceive = await page.locator("#receiveAmount").inputValue();
+  await page.locator("#sendAmount").fill("2500");
+  await expect(page.locator("#receiveAmount")).not.toHaveValue(initialReceive);
+  await page.locator('.flow-tab[data-flow="1"]').click();
+  await expect(page.locator("#flowTitle")).toHaveText("Clarity looks good.");
+  await page.locator("[data-open-signup]").first().click();
+  await expect(page.locator("#signupModal")).toBeVisible();
+  await page.locator("#signupEmail").fill("visitor@example.com");
+  await page.locator('#signupForm button[type="submit"]').click();
+  await expect(page.locator("#signupSuccess")).toBeVisible();
+  await expect(page.locator("#signupSuccess")).toContainText("not created an account or transmitted");
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#signupModal")).toBeHidden();
 });
