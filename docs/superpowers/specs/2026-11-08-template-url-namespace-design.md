@@ -26,6 +26,8 @@ This is a URL migration, not a filesystem reorganization. Moving the template fo
 
 Routing order is essential: existing public media under `/templates/` must be served before template rewrites. Use per-template rules, not a catch-all that can capture unrelated paths. Redirects run before rewrites; production HTTP tests must demonstrate that rewriting to the original internal route does not cause a redirect loop.
 
+Compatibility exception reviewed during implementation: the namespaced legacy alias `/templates/cairn/:path*` also redirects 60 old Cairn media URLs to `/templates/keytu/`. All 60 destination files exist and are byte-identical. Those legacy asset requests gain one HTTP 308; canonical template media continues to return directly. Retain this explicit alias policy rather than adding a separate media exception mechanism.
+
 Centralize public path construction and route-rule generation in `src/lib/template-routing.ts`. Consume the gallery registry only from the config, avoiding a second hand-maintained template list. Keep template-local runtime code isolated: LUMEN and Pello use their literal new pathnames rather than importing a shared application helper.
 
 The standalone exporter continues reading the existing `.next/server/app/<slug>.html` artifacts. Extend offline URL normalization to accept both public path forms so exported interactions and the shared browser-test transport still work. Other template-root anchors remain unchanged and bypass asset resolution; genuine media URLs still resolve through the asset registry. Regenerate LUMEN's and Pello's HTML and copy bundles because their runtime sources change; do not regenerate unrelated downloads.
