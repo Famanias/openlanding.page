@@ -2,6 +2,13 @@
 
 This guide explains how to import landing pages generated in Google AI Studio into `openlanding.page` using the automated CLI tool.
 
+Imported templates open at `/templates/<slug>`, for example
+`http://localhost:3000/templates/orrery`. Registering a template automatically
+adds its public route at build time; legacy `/<slug>` links receive HTTP 308
+redirects. The source directory stays `src/app/(orrery)/orrery/`, and asset
+URLs under `/templates/orrery/` and downloads at `/downloads/orrery.html`
+remain unchanged.
+
 ---
 
 ## Google AI Studio Prompt Guidelines

@@ -61,7 +61,9 @@ describe("import-template gallery registration", () => {
       expect(updatedConfig).toContain('gamma: {');
 
       const updatedE2e = fs.readFileSync(path.join(e2eDir, "templates.ts"), "utf-8");
-      expect(updatedE2e).toContain('"/gamma"');
+      expect(updatedE2e).toContain('"/templates/gamma"');
+      expect(fs.readFileSync(path.join(e2eDir, "gamma.spec.ts"), "utf8"))
+        .toContain('page.goto("/templates/gamma")');
     } finally {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }

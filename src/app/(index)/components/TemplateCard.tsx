@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Copy, DownloadSimple, Check, ThumbsUp, ThumbsDown } from "@phosphor-icons/react/dist/ssr";
 import type { TemplateItem } from "../data/templates";
 import { downloadStandalone } from "../lib/download";
+import { templatePath } from "../../../lib/template-routing";
 
 import type { VoteCounts, VoteDirection } from "../../../lib/votes/types";
 
@@ -56,7 +57,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
     <motion.article layout={reducedMotion || instantMotion ? false : "position"} initial={false}
       transition={{ type: "spring", stiffness: 350, damping: 32 }} className="template-card">
       <div className="template-preview aspect-video" data-kind="product">
-        <a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer" tabIndex={0}
+        <a href={templatePath(template.slug)} target="_blank" rel="noopener noreferrer" tabIndex={0}
           aria-label={`Open live ${template.title} template in new tab`}>
           {/* Gallery captures show the top of each template. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -69,7 +70,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
       </div>
       <div className="card-body">
         <div className="card-title-row">
-          <h3><a href={`/${template.slug}`} target="_blank" rel="noopener noreferrer">{template.title}</a></h3>
+          <h3><a href={templatePath(template.slug)} target="_blank" rel="noopener noreferrer">{template.title}</a></h3>
           <button type="button" onClick={handleCopyPrompt} aria-live="polite" aria-label={copiedAction === "prompt" ? "Copied prompt" : "Copy prompt"}
             title="Copy prompt" data-copied={copiedAction === "prompt"} className="card-action-btn">
             <span className="copy-icon-stack" aria-hidden="true">

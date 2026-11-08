@@ -6,9 +6,9 @@ test.describe("openlandingpage gallery index", () => {
     await page.goto("/");
 
     const expectedTemplates = [
-      { name: "Orrery", href: "/orrery", model: "Claude Opus 5.5 High" },
-      { name: "KEYTU", href: "/keytu", model: "Claude Opus 5.5 High" },
-      { name: "KŌJI", href: "/koji", model: "Claude Opus 5.5 High" },
+      { name: "Orrery", href: "/templates/orrery", model: "Claude Opus 5.5 High" },
+      { name: "KEYTU", href: "/templates/keytu", model: "Claude Opus 5.5 High" },
+      { name: "KŌJI", href: "/templates/koji", model: "Claude Opus 5.5 High" },
     ];
 
     for (const { name, href, model } of expectedTemplates) {
@@ -71,7 +71,7 @@ test.describe("openlandingpage gallery index", () => {
     const pending = TEMPLATES.filter(template => !template.hasDownload);
     await expect(page.locator('button[aria-label="Download HTML"][disabled]')).toHaveCount(pending.length);
     if (pending.length) {
-      const pendingDownload = page.locator("article").filter({has:page.locator(`h3 a[href="/${pending[0].slug}"]`)}).getByRole("button",{name:"Download HTML",exact:true});
+      const pendingDownload = page.locator("article").filter({has:page.locator(`h3 a[href="/templates/${pending[0].slug}"]`)}).getByRole("button",{name:"Download HTML",exact:true});
       await expect(pendingDownload).toHaveAttribute("title","HTML coming soon");
     }
   });
@@ -86,7 +86,7 @@ test.describe("openlandingpage gallery index", () => {
       const expected=TEMPLATES.filter(template=>getTemplateCategories(template).includes(category));
       await expect(page.locator("article")).toHaveCount(expected.length);
       await expect(page.getByText(`Showing ${expected.length} of ${total} templates`)).toBeVisible();
-      await expect(page.locator(`article h3 a[href="/${expected[0].slug}"]`)).toBeVisible();
+      await expect(page.locator(`article h3 a[href="/templates/${expected[0].slug}"]`)).toBeVisible();
       await page.getByRole("button",{name:/reset category filters/i}).click();
       await expect(page.locator("article")).toHaveCount(total);
     }
@@ -115,7 +115,7 @@ test.describe("reduced motion behavior", () => {
 
   test("reduced motion keeps still previews stable on hover",async({page})=>{
     await page.goto("/");
-    const card=page.locator("article").filter({has:page.locator('h3 a[href="/koji"]')});
+    const card=page.locator("article").filter({has:page.locator('h3 a[href="/templates/koji"]')});
     const image=card.locator("img");
     const source=await image.getAttribute("src");
     await card.hover();

@@ -4,7 +4,7 @@ import { TEMPLATES } from "../../src/app/(index)/data/templates";
 test("missing gallery captures recover to the registered preview after hydration", async ({ page }) => {
   await page.route("**/gallery/cullet.webp", (route) => route.fulfill({ status: 404, body: "Missing" }));
   await page.goto("/");
-  const image = page.locator('article:has(h3 a[href="/cullet"]) img');
+  const image = page.locator('article:has(h3 a[href="/templates/cullet"]) img');
   await image.scrollIntoViewIfNeeded();
   await expect(image).toHaveAttribute("src", "/templates/cullet/preview-1600.webp");
   await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);

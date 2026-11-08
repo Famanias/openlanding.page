@@ -4,6 +4,7 @@ import sharp from "sharp";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { TEMPLATES } from "../src/app/(index)/data/templates";
+import { templatePath } from "../src/lib/template-routing";
 
 async function main() {
   const origin = new URL(process.argv[2] ?? "http://localhost:3100");
@@ -16,7 +17,7 @@ async function main() {
     for (const template of TEMPLATES) {
       const page = await browser.newPage({ viewport: { width: 880, height: 495 }, reducedMotion: template.slug === "xibalba" ? "no-preference" : "reduce" });
       try {
-        const response = await page.goto(new URL(`/${template.slug}`, origin).href, { waitUntil: "networkidle" });
+        const response = await page.goto(new URL(templatePath(template.slug), origin).href, { waitUntil: "networkidle" });
         if (!response?.ok()) throw new Error(`HTTP ${response?.status()}`);
         // Use production pages so developer overlays never enter the captures.
         if (await page.locator("nextjs-portal").count()) throw new Error("Use next start instead of next dev.");
