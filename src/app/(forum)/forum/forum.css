@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --forum-ink: #171814;
+  --forum-black: #0E100C;
+  --forum-khaki: #B9B28A;
+  --forum-khaki-dark: #8C876B;
+  --forum-ivory: #F6F3EA;
+  --forum-pale: #D7D1B8;
+  --forum-line: rgba(185, 178, 138, 0.38);
+  --forum-line-subtle: rgba(185, 178, 138, 0.18);
+  --forum-ink-line: rgba(23, 24, 20, 0.24);
+  --font-doto: 'Doto', 'IBM Plex Mono', 'Courier New', monospace;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@layer base {
+  html {
+    background-color: var(--forum-black);
+    color: var(--forum-ivory);
+    font-family: var(--font-doto);
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+.font-doto {
+  font-family: var(--font-doto);
+  font-variation-settings: "ROND" 0;
+}
+
+.font-doto-hero {
+  font-family: var(--font-doto);
+  font-weight: 850;
+  font-variation-settings: "ROND" 10;
+  letter-spacing: -0.02em;
+}
+
+.font-doto-display {
+  font-family: var(--font-doto);
+  font-weight: 800;
+  font-variation-settings: "ROND" 5;
+  letter-spacing: -0.015em;
+}
+
+.font-doto-ui {
+  font-family: var(--font-doto);
+  font-weight: 700;
+  font-variation-settings: "ROND" 0;
+  letter-spacing: 0.04em;
+}
+
+.font-doto-body {
+  font-family: var(--font-doto);
+  font-weight: 500;
+  font-variation-settings: "ROND" 15;
+}
+
+.font-mono-tech {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.font-prose-support {
+  font-family: var(--font-sans);
+}
+
+/* Registration Crosshair Marks */
+.reg-cross {
+  position: relative;
+  width: 11px;
+  height: 11px;
+  display: inline-block;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.reg-cross::before,
+.reg-cross::after {
+  content: '';
+  position: absolute;
+  background-color: currentColor;
+}
+
+.reg-cross::before {
+  top: 5px;
+  left: 0;
+  width: 11px;
+  height: 1px;
+}
+
+.reg-cross::after {
+  top: 0;
+  left: 5px;
+  width: 1px;
+  height: 11px;
+}
+
+/* Subtle dithered architectural surface pattern */
+.dither-grid-dark {
+  background-image: radial-gradient(rgba(185, 178, 138, 0.14) 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+.dither-grid-ivory {
+  background-image: radial-gradient(rgba(23, 24, 20, 0.16) 1px, transparent 0);
+  background-size: 16px 16px;
+}

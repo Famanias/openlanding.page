@@ -1,4 +1,4 @@
-export type TemplateSlug = "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone";
+export type TemplateSlug = "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum";
 
 export type CategoryId =
   | "all"
@@ -1069,6 +1069,16 @@ Build a complete, responsive, interaction-rich landing page for **HOLLOWAY** usi
 ## Brand & Positioning
 - **Title:** HOLLOWAY — Modular Living & Architectural Room Studio
 - **Description:** Objects for the spaces we live in. Explore the HOLLOWAY modular furniture collection and interactive architectural room-design studio.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const FORUM_PROMPT = `# FORUM — Revenue Intelligence System — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **FORUM** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** FORUM — Revenue Intelligence System
+- **Description:** One intelligent system for your contacts, conversations, pipeline, and next move. An OpenLanding interactive product concept.
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
 `;
 
@@ -2782,6 +2792,24 @@ RAW_TEMPLATES.push({ slug: "kinfield", createdAt: "2026-11-09", title: "KINFIELD
 
 export const FRAMEONE_PROMPT = "# FRAME/ONE — Every frame has a story\n\nBuild an isolated Next.js 16 / React 19 / TypeScript director and photographer portfolio at `/templates/frameone`. FRAME/ONE, its four projects, credits and inquiry are fictional. Do not invent real clients, awards or endorsements. The inquiry is a local demonstration and must state that nothing has been sent.\n\nThe central idea: a director discovers a story on a contact sheet, so visitors navigate the portfolio by choosing a frame that expands into a full-viewport film reel and returns to its original location. Use a dense 16-frame sheet with a larger blank exposure for “Every frame has a story.” Include “View the films” and “Start a project.” Frame titles and captions appear as projected subtitles over imagery. Use a slim perforated film-leader rail and a fixed bottom transport; do not make a conventional hero or repeat OROVA's editorial gallery.\n\nUse exactly silver paper `#DED9CF`, deep espresso `#201D1E`, projector red `#B13F32`, muted cyan `#8DA7A9` and cream `#F7F2E9`. Use League Gothic for condensed film-title display, Crimson Pro for editorial body and projected subtitles, and Anonymous Pro for frame counters and controls. Generate only tints from those colors. Repeat perforations, frame counters, red cues, projected captions and leader dividers.\n\nSections: interactive contact sheet; selected widescreen film reel with a desktop sticky scroll scene; nonfiction / fiction / commercial work switcher; staggered screenplay director notes; behind-the-scenes proof sheet; project inquiry; end credits. The projects are Where the Breakwater Ends, The Room Keeps Light, An Object in Daylight and Across the Blue Hour, each explicitly fictional and paired with two consistent stills.\n\nHover or focus a desktop frame for a muted still sequence and a pointer-tracked scanline. Never tilt every contact frame. Selecting a cell uses a transform-only shared-element expansion into an accessible full-viewport viewer, with previous/next, visible transport, director notes, opt-in muted still playback, arrow-key navigation, Escape, focus containment and restoration to the exact source cell. A phone uses a two-column mosaic and never autoplays. With JavaScript disabled, render an accessible list of all project descriptions and keep the page readable.\n\nMotion personality: cinematic analog, with the verbs expose and splice. Use a staggered irregular illumination on load, varied reveal transforms, a scroll-progress line and a small parallax shift in the pinned film. Use magnetic primary controls and restrained pointer-tracked radial illumination plus subtle perspective tilt on supporting proof-sheet elements. Press states compress. State changes use directional splices. Animate continuous movement using transform and opacity, not layout properties. Preserve static, complete content under `prefers-reduced-motion`; disable hover pointer effects on coarse devices. Use the existing browser animation capabilities without adding dependencies.\n\nBuild a client-side inquiry with name, email and project-detail validation, accessible errors, a preparing state and an unsent local confirmation. Do not issue a network request or claim a real message was delivered.\n\nUse the responsive asset helper and the image prompts in `docs/image-prompts/frameone.md`. The user will supply eight cinematic stills, two backstage photographs, a director portrait and grain; until then, render labeled abstract exposures rather than broken images. Process delivered images with `npm run images -- frameone` and review a contact sheet. Provide route metadata, favicon, Open Graph image, gallery registration, copy bundle, design notes, unit tests for navigation/geometry/validation and browser tests for viewer, touch, keyboard, no-JS and reduced motion.\n";
 RAW_TEMPLATES.push({ slug: "frameone", createdAt: "2026-11-09", title: "FRAME/ONE", description: "A fictional director portfolio navigated through an interactive film contact sheet.", category: "portfolio", categories: ["portfolio", "editorial", "showcase"], industry: "Film & photography", stack: "Next.js 16 · React 19 · TypeScript · CSS motion", badges: ["Contact sheet", "Film viewer", "Editorial motion"], previewImage: "/gallery/frameone.webp", promptMarkdown: FRAMEONE_PROMPT, model: "GPT-6" });
+
+RAW_TEMPLATES.push(
+  {
+    slug: "forum",
+    createdAt: "2026-11-09",
+    hasDownload: false,
+    title: "FORUM",
+    description: "One intelligent system for your contacts, conversations, pipeline, and next move. An OpenLanding interactive product concept.",
+    category: "showcase" as TemplateCategory,
+    categories: ["showcase" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/forum/preview-1600.webp",
+    promptMarkdown: FORUM_PROMPT,
+    model: "Gemini 4 Argon High",
+  }
+);
 
 const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
 export const ARCHIVED_TEMPLATES = registeredTemplates.filter((template) => Boolean(template.archived));
