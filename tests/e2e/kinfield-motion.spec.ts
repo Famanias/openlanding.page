@@ -22,6 +22,41 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
   test.describe("movement study at " + viewport.width + "px", () => {
     test.use({ viewport });
 
+    test("the timetable waits longer before beginning its scroll movement", async ({ page }) => {
+      await openKinfield(page);
+      const sheet = page.locator(".kf-schedule");
+      const place = async (fraction: number) => {
+        await sheet.evaluate((element, position) => {
+          const transform = getComputedStyle(element).transform;
+          const shift = transform === "none" ? 0 : new DOMMatrixReadOnly(transform).m42;
+          const top = element.getBoundingClientRect().top + scrollY - shift;
+          window.scrollTo({ top: top - innerHeight * position, behavior: "instant" });
+        }, fraction);
+        await page.waitForTimeout(120);
+        return sheet.evaluate((element) => {
+          const transform = getComputedStyle(element).transform;
+          return transform === "none" ? 0 : new DOMMatrixReadOnly(transform).m42;
+        });
+      };
+      const initial = await place(0.95);
+      const beforeTrigger = await place(0.8);
+      expect(Math.abs(beforeTrigger - initial)).toBeLessThan(1);
+      const afterTrigger = await place(0.6);
+      expect(afterTrigger).toBeLessThan(initial - 2);
+    });
+
+    test("the practice line waits longer before it starts drawing", async ({ page }) => {
+      await openKinfield(page);
+      const arc = page.locator(".kf-practice-arc path");
+      const offset = () => arc.evaluate((element) => Number.parseFloat(getComputedStyle(element).strokeDashoffset));
+      await scrollToViewportFraction(page, ".kf-practice-arc", 0.98, "bottom");
+      const initial = await offset();
+      await scrollToViewportFraction(page, ".kf-practice-arc", 0.9, "bottom");
+      expect(Math.abs(await offset() - initial)).toBeLessThan(1);
+      await scrollToViewportFraction(page, ".kf-practice-arc", 0.75, "bottom");
+      expect(await offset()).toBeLessThan(initial - 20);
+    });
+
     test("the practice annotation draws as its scene enters", async ({ page }) => {
       await openKinfield(page);
       const arc = page.locator(".kf-practice-arc path");
@@ -109,6 +144,66 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
       await page.getByLabel("02 / CHOOSE A DATE").fill("2099-12-31");
       await expect(page.getByLabel("02 / CHOOSE A DATE")).toHaveValue("2099-12-31");
     });
+
+    test("the session sheet glides across frames after a scroll step", async ({ page }) => {
+      await openKinfield(page);
+      const sheet = page.locator(".kf-booking");
+      await sheet.evaluate((element) => {
+        window.scrollTo({
+          top: element.getBoundingClientRect().top + scrollY - innerHeight * 0.64,
+          behavior: "instant",
+        });
+      });
+      await page.waitForTimeout(500);
+      const motion = await sheet.evaluate(async (element) => {
+        const angle = () => {
+          const transform = getComputedStyle(element).transform;
+          return transform === "none" ? 0 : Math.abs(new DOMMatrixReadOnly(transform).m13);
+        };
+        const initial = angle();
+        window.scrollBy({ top: innerHeight * 0.22, behavior: "instant" });
+        const frames: number[] = [];
+        for (let i = 0; i < 28; i++) {
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+          frames.push(angle());
+        }
+        return { initial, frames };
+      });
+      const changes = motion.frames.slice(1).filter((value, index) => Math.abs(value - motion.frames[index]) > 0.0001);
+      expect(motion.frames.at(-1)).toBeLessThan(motion.initial - 0.005);
+      expect(changes.length).toBeGreaterThanOrEqual(5);
+    });
+
+    test("the session sheet smoothly reverses without losing form input", async ({ page }) => {
+      await openKinfield(page);
+      const sheet = page.locator(".kf-booking");
+      const date = page.getByLabel("02 / CHOOSE A DATE");
+      await date.fill("2099-12-31");
+      await expect(date).toBeFocused();
+      await sheet.evaluate((element) => {
+        window.scrollTo({
+          top: element.getBoundingClientRect().top + scrollY - innerHeight * 0.64,
+          behavior: "instant",
+        });
+      });
+      await page.waitForTimeout(500);
+      const motion = await sheet.evaluate(async (element) => {
+        const angle = () => {
+          const transform = getComputedStyle(element).transform;
+          return transform === "none" ? 0 : Math.abs(new DOMMatrixReadOnly(transform).m13);
+        };
+        const frame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        window.scrollBy({ top: innerHeight * 0.22, behavior: "instant" });
+        for (let i = 0; i < 5; i++) await frame();
+        const atReverse = angle();
+        window.scrollBy({ top: -innerHeight * 0.22, behavior: "instant" });
+        for (let i = 0; i < 26; i++) await frame();
+        return { atReverse, afterReverse: angle() };
+      });
+      expect(motion.afterReverse).toBeGreaterThan(motion.atReverse + 0.005);
+      await expect(date).toBeFocused();
+      await expect(date).toHaveValue("2099-12-31");
+    });
   });
 }
 
@@ -139,4 +234,23 @@ test("turning on reduced motion restores the static practice illustration", asyn
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(arc).toHaveCSS("stroke-dashoffset", "0px");
   await expect(page.getByRole("button", { name: "Range", exact: true })).toBeVisible();
+});
+
+test("turning on reduced motion stops an in-flight session transition", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openKinfield(page);
+  const date = page.getByLabel("02 / CHOOSE A DATE");
+  await date.fill("2099-12-31");
+  const sheet = page.locator(".kf-booking");
+  await sheet.evaluate((element) => {
+    window.scrollTo({
+      top: element.getBoundingClientRect().top + scrollY - innerHeight * 0.64,
+      behavior: "instant",
+    });
+  });
+  await page.waitForTimeout(500);
+  await page.evaluate(() => window.scrollBy({ top: innerHeight * 0.22, behavior: "instant" }));
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(sheet).toHaveCSS("transform", "none");
+  await expect(date).toHaveValue("2099-12-31");
 });

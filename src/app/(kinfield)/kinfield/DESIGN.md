@@ -19,7 +19,7 @@ Desktop begins with an asymmetric 23/58/19 triptych and side dock; mobile recomp
 An authored SVG figure and shared pivot arc respond to shoulder, hip and spine selections. Each of three levels changes all three steps and the duration. Ledger selection flows into a locally validated preview; no data is transmitted or reservation made.
 
 ## Motion
-Personality: measured and human. Verbs: trace and unfurl. Signature: the portrait expands beyond the triptych while three movement photographs move in sequence as the visitor scrolls. Native scrolling drives the portrait directly, without delayed catch-up; short desktop viewports use the static triptych. Animate UI's calm spring brings section titles and supporting text in over 24px, beginning at 90% opacity with a 110ms stagger once they are inside the viewport. Larger scroll scenes use bounded transforms on both mobile and desktop and progress while visible; reduced-motion and no-JavaScript visitors receive visible, static content.
+Personality: measured and human. Verbs: trace and unfurl. Signature: the portrait expands beyond the triptych while three movement photographs move in sequence as the visitor scrolls. Native scrolling drives the portrait directly, with three times the original scroll lead before its first pose change and no delayed catch-up; short desktop viewports use the static triptych. Animate UI's calm spring brings section titles and supporting text in over 24px, beginning at 90% opacity with a 110ms stagger after the section reaches 30% of the viewport. The larger scroll scenes use the same later starting point, bounded transforms, and their existing motion ranges on both mobile and desktop. Reduced-motion and no-JavaScript visitors receive visible, static content without an extended sticky hero.
 
 | Scene | Entrance | Scroll | Interaction | Reduced motion |
 | --- | --- | --- | --- | --- |
@@ -28,7 +28,7 @@ Personality: measured and human. Verbs: trace and unfurl. Signature: the portrai
 | Atlas | Animate UI intro | measurement guides rotate around the figure as its sheet settles | halo travels and arc pivots, content updates | immediate |
 | Ledger | Animate UI intro | individual timetable strips hinge into place as they enter view | selected row hinges and updates booking | static |
 | Teachers | Animate UI intro | two portrait masks open in opposing directions | photo crop responds | static |
-| Session | Animate UI intro | the reservation sheet turns gently around its left edge | live summary and stamped preview | immediate |
+| Session | Animate UI intro | the reservation sheet turns gently around its left edge, with a short 0.4s catch-up to smooth wheel steps | live summary and stamped preview | immediate |
 | Closing | panel settles | closing arc draws with scroll | directional arrow | static |
 
 ## Signature details

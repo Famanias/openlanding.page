@@ -37,7 +37,8 @@
 .kf-drawer-title{font-size:clamp(45px,6vw,76px);line-height:.98;letter-spacing:-.06em;margin:50px 0!important}
 .kf-drawer nav{display:grid}.kf-drawer nav a{display:grid;grid-template-columns:45px 1fr auto;gap:10px;padding:15px 0;border-bottom:1px solid rgb(244 238 230 / .3);font-size:18px}.kf-drawer nav a span{font:10px ui-monospace,monospace;align-self:center}.kf-drawer nav a:hover{color:var(--kf-melon)}
 .kf-drawer-note{margin-top:30px!important;opacity:.75}
-.kf-hero{height:170svh;padding:16px 16px 0}
+/* Extending the scroll range preserves the hero's motion speed after its longer lead. */
+.kf-hero{height:207.63svh;padding:16px 16px 0}
 .kf-hero-sticky{position:sticky;top:16px;height:calc(100svh - 32px)}
 .kf-hero-grid{position:relative;height:100%;width:100%;isolation:isolate}
 .kf-hero-image{position:absolute;inset:0;border-radius:var(--kf-radius-xl);overflow:hidden;background:color-mix(in srgb,var(--kf-bone) 75%,var(--kf-cocoa));clip-path:inset(0 19.4% 0 23.4% round 32px);touch-action:pan-y}

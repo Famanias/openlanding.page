@@ -26,7 +26,7 @@ export function KinfieldExperience() {
       <Teachers />
       <SessionPicker selectedClass={selectedClass} onSelect={setSelectedClass} />
       <Closing />
-      <noscript><style>{".kf-scroll-copy{opacity:1!important;transform:none!important;filter:none!important}"}</style><div className="kf-noscript">This is a fictional studio. JavaScript enables the interactive atlas and session preview; no reservation is made.</div></noscript>
+      <noscript><style>{".kf-scroll-copy{opacity:1!important;transform:none!important;filter:none!important}.kf-hero{height:auto}.kf-hero-sticky{position:relative;top:auto}"}</style><div className="kf-noscript">This is a fictional studio. JavaScript enables the interactive atlas and session preview; no reservation is made.</div></noscript>
     </main>
   );
 }

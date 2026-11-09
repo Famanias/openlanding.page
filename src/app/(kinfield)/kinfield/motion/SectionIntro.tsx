@@ -17,7 +17,7 @@ export function SectionIntro({ title, description, eyebrow }: SectionIntroProps)
     <Effects
       asChild
       inView
-      inViewMargin="0px 0px -10% 0px"
+      inViewMargin="0px 0px -30% 0px"
       holdDelay={110}
       slide={{ direction: "up", offset: 24 }}
       fade={{ initialOpacity: 0.9, opacity: 1 }}

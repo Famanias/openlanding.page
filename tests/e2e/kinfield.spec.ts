@@ -3,6 +3,27 @@ import { expect, test } from "@playwright/test";
 const route = process.env.KINFIELD_TEST_PATH ?? "/templates/kinfield";
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+  test("section titles wait until they are deeper in view at " + viewport.width + "px", async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto(route);
+    const intro = page.locator(".kf-atlas-header .kf-scroll-copy").first();
+    await page.waitForTimeout(800);
+    const position = async (fraction: number) => {
+      await intro.evaluate((element, visibleFraction) => {
+        const transform = getComputedStyle(element).transform;
+        const shift = transform === "none" ? 0 : new DOMMatrixReadOnly(transform).m42;
+        const top = element.getBoundingClientRect().top + scrollY - shift;
+        window.scrollTo({ top: top - innerHeight * visibleFraction, behavior: "instant" });
+      }, fraction);
+    };
+    await position(0.8);
+    await page.waitForTimeout(800);
+    await expect(intro).toHaveCSS("opacity", "0.9");
+    await position(0.6);
+    await expect.poll(() => intro.evaluate((element) => getComputedStyle(element).transform)).toBe("none");
+    await expect(intro).toHaveCSS("opacity", "1");
+  });
+
   test("section introductions wait until they enter the viewport at " + viewport.width + "px", async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto(route);
@@ -24,7 +45,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
 
     await intro.evaluate((element) => {
       const top = element.getBoundingClientRect().top + scrollY;
-      window.scrollTo({ top: top - innerHeight * 0.72, behavior: "instant" });
+      window.scrollTo({ top: top - innerHeight * 0.55, behavior: "instant" });
     });
     await expect.poll(() => intro.evaluate((element) => getComputedStyle(element).transform)).toBe("none");
     await expect(intro).toHaveCSS("opacity", "1");
@@ -48,12 +69,26 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
         return transform === "none" ? 0 : new DOMMatrixReadOnly(transform).m42;
       });
     };
-    const early = await place(0.8);
-    const later = await place(0.4);
+    const early = await place(0.6);
+    const later = await place(0.1);
     expect(early).toBeGreaterThan(later + 8);
     expect(later).toBeLessThan(5);
   });
 }
+
+test("the hero holds its first pose for three times the previous scroll distance", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(route);
+  await page.waitForTimeout(1400);
+  const secondPose = page.locator(".kf-pose-1");
+  await page.evaluate(() => window.scrollTo({ top: innerHeight * 0.54, behavior: "instant" }));
+  await page.waitForTimeout(120);
+  expect(await secondPose.evaluate((element) => Number(getComputedStyle(element).opacity))).toBeLessThan(0.02);
+  await page.evaluate(() => window.scrollTo({ top: innerHeight * 0.59, behavior: "instant" }));
+  await expect.poll(() => secondPose.evaluate((element) => Number(getComputedStyle(element).opacity))).toBeGreaterThan(0.1);
+  await page.evaluate(() => window.scrollTo({ top: innerHeight * 0.7, behavior: "instant" }));
+  await expect.poll(() => secondPose.evaluate((element) => Number(getComputedStyle(element).opacity))).toBeGreaterThan(0.95);
+});
 
 test("atlas changes routine by zone and level, and resets", async ({ page }) => {
   await page.goto(route);
@@ -245,5 +280,16 @@ test("reduced motion and no JavaScript leave the content readable", async ({ bro
   await expect(intro).toHaveCSS("opacity", "1");
   await expect(intro).toHaveCSS("transform", "none");
   await expect(page.getByText(/no reservation is made/i).first()).toBeVisible();
+  await context.close();
+});
+
+test("without JavaScript the desktop hero does not hold a long static scroll", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(route);
+  const hero = await page.locator(".kf-hero").boundingBox();
+  expect(hero).not.toBeNull();
+  expect(hero!.height).toBeLessThanOrEqual(900);
+  await expect(page.getByRole("heading", { name: /Move in your own rhythm/ })).toBeVisible();
   await context.close();
 });
