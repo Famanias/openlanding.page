@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(89);
+    expect(TEMPLATES).toHaveLength(90);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["kinfield", "grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -117,7 +117,7 @@ describe("gallery template data", () => {
         expect(t.model).toBe("GPT-6.1 Sol");
       } else if (t.slug === "mercer") {
         expect(t.model).toBe("GPT-6.1 Sol Max");
-      } else if (t.slug === "stillwater" || t.slug === "radius" || t.slug === "daymark" || t.slug === "grandstand") {
+      } else if (t.slug === "kinfield" || t.slug === "stillwater" || t.slug === "radius" || t.slug === "daymark" || t.slug === "grandstand") {
         expect(t.model).toBe("GPT-6");
       } else if (argonSlugs.includes(t.slug)) {
         expect(t.model).toBe("Gemini 4 Argon High");

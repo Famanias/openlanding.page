@@ -1,0 +1,7 @@
+# KINFIELD — Move in your own rhythm
+
+Build an isolated Next.js and React landing page for KINFIELD, a fictional movement and recovery studio, using the supplied portrait sequence, instructor photographs and studio interior. The page should feel like a tactile contemporary dance program, with bone, olive, aubergine, melon and cocoa, softly rounded image masks and typographic annotations.
+
+Begin with a 23/58/19 triptych: manifesto, movement portrait and editorial ledger. On desktop the portrait opens outward as three coordinated poses change with scroll. On mobile recompose around a single portrait with tappable controls. Follow with a shared practice stage for Grounding, Range and Recovery; a real SVG movement atlas with shoulders, hips and spine; a three-level, nine-routine practice matrix; an illustrative class timetable; two asymmetric instructor stories; a session preview; and a closing invitation.
+
+Use one source of truth for timetable and session selection. Date validation must reject invalid or past dates. Label the timetable and confirmation as a demo with no reservation, availability, payment or data submission. Keep controls accessible by keyboard, pointer and touch; preserve no-JavaScript content and honor reduced motion. Use the locally supplied assets from public/assets/kinfield and scoped kf- styles.
