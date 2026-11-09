@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --hw-ivory: #F5F2EA;
+    --hw-stone: #EBE5D8;
+    --hw-ink: #262824;
+    --hw-oak: #B88C60;
+    --hw-blue: #A6BBC7;
+    --hw-burgundy: #874C54;
+    --hw-graphite: #777974;
+    --hw-line: rgba(38, 40, 36, 0.16);
+    --hw-line-strong: rgba(38, 40, 36, 0.42);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #F5F2EA;
+    color: #262824;
+    font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+.font-editorial {
+  font-family: var(--font-cormorant-garamond), 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-ui {
+  font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.font-drafting {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes hwFadeLift {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hw-reveal {
+  animation: hwFadeLift 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-hw-reveal-delay-1 {
+  animation: hwFadeLift 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+.animate-hw-reveal-delay-2 {
+  animation: hwFadeLift 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "name": "HOLLOWAY example room",
+  "notes": "Illustrative 12 \u00d7 8 logical-cell room; cell values are not real-world measurements. Customize to match the room photography before shipping.",
+  "grid": {
+    "columns": 12,
+    "rows": 8,
+    "cellSize": 48,
+    "originX": 96,
+    "originY": 100
+  },
+  "blockedCells": [
+    {
+      "x": 9,
+      "y": 0,
+      "reason": "fixed service fixture"
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "reason": "fixed service fixture"
+    },
+    {
+      "x": 0,
+      "y": 6,
+      "reason": "entry clearance"
+    },
+    {
+      "x": 1,
+      "y": 6,
+      "reason": "entry clearance"
+    },
+    {
+      "x": 0,
+      "y": 7,
+      "reason": "entry clearance"
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "reason": "entry clearance"
+    }
+  ],
+  "modules": [
+    {
+      "id": "sofa",
+      "label": "Modular sofa",
+      "widthCells": 3,
+      "heightCells": 2,
+      "x": 3,
+      "y": 2,
+      "rotation": 0,
+      "fill": "#B5C8DA"
+    },
+    {
+      "id": "chair",
+      "label": "Lounge chair",
+      "widthCells": 2,
+      "heightCells": 2,
+      "x": 8,
+      "y": 4,
+      "rotation": 0,
+      "fill": "#76404B"
+    },
+    {
+      "id": "table",
+      "label": "Side table",
+      "widthCells": 1,
+      "heightCells": 1,
+      "x": 7,
+      "y": 2,
+      "rotation": 0,
+      "fill": "#604431"
+    },
+    {
+      "id": "shelf",
+      "label": "Shelf",
+      "widthCells": 1,
+      "heightCells": 3,
+      "x": 11,
+      "y": 1,
+      "rotation": 0,
+      "fill": "#343536"
+    }
+  ]
+}
