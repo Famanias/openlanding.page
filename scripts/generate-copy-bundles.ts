@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  frameone: { name: "FRAME/ONE", dependencies: [] },
   kinfield: { name: "KINFIELD", dependencies: ["gsap", "@animate-ui/react", "motion"] },
   grandstand: { name: "GRANDSTAND", dependencies: [] },
   daymark: { name: "DAYMARK", dependencies: [] },
