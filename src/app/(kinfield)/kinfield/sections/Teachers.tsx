@@ -1,12 +1,13 @@
 'use client';
 
 import { assets, responsivePhoto } from "../assets";
+import { SectionIntro } from "../motion/SectionIntro";
 
 export function Teachers() {
   return (
-    <section className="kf-section kf-teachers" id="teachers">
+    <section className="kf-section kf-teachers" id="teachers" tabIndex={-1}>
       <div className="kf-section-heading"><span>04 / PEOPLE & PRACTICE</span><span>A HUMAN WAY TO MOVE</span></div>
-      <div className="kf-teachers-title"><h2>Good movement<br /><em>is a shared thing.</em></h2><p>Different rhythms. A shared belief that movement can feel like coming home.</p></div>
+      <div className="kf-teachers-title"><SectionIntro title={<>Good movement<br /><em>is a shared thing.</em></>} description="Different rhythms. A shared belief that movement can feel like coming home." /></div>
       <div className="kf-teacher-spread">
         <article className="kf-teacher kf-teacher-one">
           <div className="kf-teacher-image" tabIndex={0}><img src={assets.instructorA} srcSet={responsivePhoto(assets.instructorA)} sizes="(min-width: 701px) 50vw, 90vw" alt="A movement teacher sitting in the studio" width="896" height="1200" loading="lazy" /><span>01 / TEACHER STUDY</span></div>

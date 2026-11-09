@@ -16,6 +16,7 @@ export function Hero() {
             const delta = event.changedTouches[0].clientX - touchStart.current;
             if (Math.abs(delta) > 55) setPose((current) => Math.max(0, Math.min(2, current + (delta < 0 ? 1 : -1))));
           }}>
+            {poses.map((src, index) => <div key={"backdrop-" + src} className={"kf-hero-backdrop kf-backdrop-" + index} style={{ backgroundImage: 'url("' + src.replace(/\.webp$/, "-896.webp") + '")' }} aria-hidden="true" />)}
             {poses.map((src, index) => <img key={src} className={"kf-hero-pose kf-pose-" + index} data-active={pose === index} src={src} srcSet={responsivePhoto(src)} sizes="(min-width: 1024px) 58vw, 100vw" alt={index === 0 ? "A dancer moving slowly in a sunlit studio" : ""} width="896" height="1200" loading={index === 0 ? "eager" : "lazy"} fetchPriority={index === 0 ? "high" : "auto"} />)}
             <div className="kf-photo-caption"><span>STUDY 01 / THE BODY IN MOTION</span><span>01 — 03</span></div>
             <div className="kf-pose-controls" role="group" aria-label="Select a movement portrait">

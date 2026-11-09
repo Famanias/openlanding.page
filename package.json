@@ -29,6 +29,7 @@
     "verify:exports": "tsx scripts/verify-exports.ts"
   },
   "dependencies": {
+    "@animate-ui/react": "^2.4.2",
     "@gsap/react": "^2.1.2",
     "@phosphor-icons/react": "^2.1.10",
     "@upstash/ratelimit": "^2.2.0",

@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { classes, type ClassId } from "../study/model";
+import { SectionIntro } from "../motion/SectionIntro";
 
 export function Ledger({ selectedClass, onSelect }: { selectedClass: ClassId; onSelect: (id: ClassId) => void }) {
   const [expanded, setExpanded] = useState<ClassId | null>(null);
   return (
-    <section className="kf-section kf-programs" id="programs">
+    <section className="kf-section kf-programs" id="programs" tabIndex={-1}>
       <div className="kf-section-heading"><span>03 / THE PROGRAM</span><span>A LITTLE SOMETHING FOR EVERY BODY</span></div>
-      <div className="kf-ledger-heading"><div><p className="kf-eyebrow">FIND YOUR KIND OF MOVEMENT</p><h2>Make a date<br /><em>with yourself.</em></h2></div><p>A thoughtful mix of movement and stillness. Find the kind of practice that meets you where you are.</p></div>
+      <div className="kf-ledger-heading"><SectionIntro eyebrow="FIND YOUR KIND OF MOVEMENT" title={<>Make a date<br /><em>with yourself.</em></>} description="A thoughtful mix of movement and stillness. Find the kind of practice that meets you where you are." /></div>
       <div className="kf-schedule">
         <div className="kf-schedule-top"><div><span className="kf-small-label">KINFIELD / THE WEEKLY STUDY</span><h3>The program<span> / 01—04</span></h3></div><p>AN ILLUSTRATIVE TIMETABLE<br />DEMO ONLY — NO RESERVATION IS MADE.</p></div>
         <div className="kf-schedule-columns" aria-hidden="true"><span>DAY / TIME</span><span>THE PRACTICE</span><span>INTENSITY</span><span>MORE</span></div>

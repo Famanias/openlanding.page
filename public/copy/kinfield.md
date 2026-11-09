@@ -2,7 +2,9 @@
   <dependencies>
     {
       "dependencies": {
-        "gsap": "^3.15.0"
+        "gsap": "^3.15.0",
+        "@animate-ui/react": "^2.4.2",
+        "motion": "^14.4.0"
       }
     }
   </dependencies>
@@ -56,6 +58,7 @@ export function responsivePhoto(src: string): string {
 .kinfield button{cursor:pointer}
 .kinfield a{color:inherit;text-decoration:none}
 .kinfield button:focus-visible,.kinfield a:focus-visible,.kinfield input:focus-visible,.kinfield select:focus-visible,.kinfield [tabindex]:focus-visible{outline:3px solid var(--kf-melon);outline-offset:4px}
+.kinfield .kf-section:focus-visible,.kinfield:focus-visible{outline:2px solid var(--kf-melon);outline-offset:-2px}
 .kinfield img{display:block;max-width:100%}
 .kinfield em{font-family:Georgia,"Times New Roman",serif;font-weight:400}
 .kf-skip{position:fixed;z-index:101;top:8px;left:8px;padding:12px;background:var(--kf-bone);border-radius:12px;transform:translateY(-150%)}
@@ -88,6 +91,8 @@ export function responsivePhoto(src: string): string {
 .kf-hero-sticky{position:sticky;top:16px;height:calc(100svh - 32px)}
 .kf-hero-grid{position:relative;height:100%;width:100%;isolation:isolate}
 .kf-hero-image{position:absolute;inset:0;border-radius:var(--kf-radius-xl);overflow:hidden;background:color-mix(in srgb,var(--kf-bone) 75%,var(--kf-cocoa));clip-path:inset(0 19.4% 0 23.4% round 32px);touch-action:pan-y}
+.kf-hero-backdrop{position:absolute;left:23.4%;top:0;width:57.2%;height:100%;background-position:center 50%;background-size:cover;transform:scaleX(1.78);pointer-events:none}
+.kf-backdrop-1,.kf-backdrop-2{opacity:0}
 .kf-hero-pose{position:absolute;left:23.4%;top:0;width:57.2%;height:100%;object-fit:cover;object-position:center 50%}
 .kf-pose-1,.kf-pose-2{opacity:0}
 .kf-photo-caption{position:absolute;bottom:25px;left:26%;right:22%;display:flex;justify-content:space-between;color:var(--kf-bone);text-shadow:0 1px 6px rgb(53 44 44 / .65);font:9px ui-monospace,monospace;letter-spacing:.08em}
@@ -157,12 +162,10 @@ export function responsivePhoto(src: string): string {
 .kf-review-top span:last-child{font-size:30px;color:var(--kf-melon)}.kf-review-body,.kf-confirmation{flex:1}.kf-review-body>.kf-small-label,.kf-confirmation>.kf-small-label{display:block;margin-top:70px}.kf-review-body>p:last-child,.kf-confirmation>p:last-of-type{max-width:290px;font-size:14px;line-height:1.6}.kf-review-details{margin-top:45px}.kf-review-details div{display:flex;justify-content:space-between;gap:20px;align-items:center;border-top:1px solid rgb(244 238 230 / .35);padding:17px 0}.kf-review-details strong{font-size:13px;font-weight:500;text-align:right}.kf-review-bottom{display:flex;justify-content:space-between;border-top:1px solid rgb(244 238 230 / .35);padding-top:17px}.kf-stamp{float:right;display:grid;place-items:center;width:92px;height:92px;border:1px solid var(--kf-melon);border-radius:50%;color:var(--kf-melon);text-align:center;font:10px ui-monospace,monospace;transform:rotate(12deg)}.kf-confirmation .kf-text-link{color:var(--kf-bone);margin-top:18px}
 .kf-closing{position:relative;padding-bottom:16px}.kf-closing-arc{position:absolute;top:-100px;left:0;width:100%;height:180px;fill:none;stroke:var(--kf-melon);stroke-width:2;pointer-events:none}.kf-closing-panel{position:relative;min-height:640px;border-radius:var(--kf-radius-xl);background:var(--kf-aubergine);color:var(--kf-bone);padding:36px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}.kf-closing-top,.kf-closing-bottom{display:flex;justify-content:space-between;gap:25px}.kf-closing-copy{padding:70px 0}.kf-closing-copy h2{font-size:clamp(55px,9vw,145px);line-height:.9;font-weight:500;letter-spacing:-.075em;margin:25px 0 35px!important}.kf-closing-bottom{align-items:end}.kf-closing-bottom strong{font:bold clamp(32px,5vw,72px)/.8 "Helvetica Neue",Arial,sans-serif;letter-spacing:-.07em}.kf-closing-bottom strong span{font:10px ui-monospace,monospace;vertical-align:top}.kf-closing-bottom div{display:grid;gap:7px}.kf-noscript{padding:20px;text-align:center}
 @media (prefers-reduced-motion:no-preference){
- .kf-manifesto{animation:kf-enter-left .9s var(--kf-ease) both}.kf-hero-ledger{animation:kf-enter-right 1s var(--kf-ease) both}.kf-manifesto h1 span{animation:kf-type-in .8s var(--kf-ease) both}.kf-manifesto h1 span:nth-child(2){animation-delay:.1s}.kf-manifesto h1 span:nth-child(3){animation-delay:.2s}
+ .kf-manifesto h1 span{animation:kf-type-in .8s var(--kf-ease) both}.kf-manifesto h1 span:nth-child(2){animation-delay:.1s}.kf-manifesto h1 span:nth-child(3){animation-delay:.2s}
  .kf-hero-pose{animation:kf-photo-in 1.1s var(--kf-ease) both}.kf-hero-entries div{animation:kf-type-in .7s var(--kf-ease) both}.kf-hero-entries div:nth-child(2){animation-delay:.12s}.kf-hero-entries div:nth-child(3){animation-delay:.24s}
  .kf-drawer[open]{animation:kf-drawer-in .42s var(--kf-ease) both}.kf-drawer[open] nav a{animation:kf-nav-in .35s var(--kf-ease) both}.kf-drawer[open] nav a:nth-child(2){animation-delay:.04s}.kf-drawer[open] nav a:nth-child(3){animation-delay:.08s}.kf-drawer[open] nav a:nth-child(4){animation-delay:.12s}.kf-drawer[open] nav a:nth-child(5){animation-delay:.16s}.kf-drawer[open] nav a:nth-child(6){animation-delay:.2s}
  .kf-principle-copy,.kf-routine ol{animation:kf-baseline-in .45s var(--kf-ease) both}.kf-confirmation{animation:kf-stamp-in .45s var(--kf-ease) both}
- @keyframes kf-enter-left{from{opacity:0;transform:translateX(-25px)}to{opacity:1;transform:none}}
- @keyframes kf-enter-right{from{opacity:0;transform:translateX(25px)}to{opacity:1;transform:none}}
  @keyframes kf-type-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
  @keyframes kf-photo-in{from{transform:scale(1.04);clip-path:inset(0 8% 0 8% round 24px)}to{transform:none;clip-path:inset(0 round 0)}}
  @keyframes kf-drawer-in{from{transform:translateX(-20px);clip-path:inset(0 100% 0 0 round 24px)}to{transform:none;clip-path:inset(0 round 24px)}}
@@ -173,7 +176,7 @@ export function responsivePhoto(src: string): string {
 @media(max-width:1190px){.kf-manifesto,.kf-hero-ledger{padding:18px}.kf-manifesto{padding-left:45px}.kf-manifesto h1{font-size:clamp(36px,4.5vw,54px)}.kf-manifesto .kf-button{gap:10px;padding:0 14px;font-size:12px}.kf-atlas{grid-template-columns:1fr 1fr}.kf-atlas-still{display:none}.kf-schedule{padding:30px}}
 @media(max-width:1023px){
  .kf-dock{left:10px;top:20px;transform:none;width:46px;min-height:46px;height:46px;padding:0;justify-content:center}.kf-dock-label,.kf-dock-num{display:none}
- .kf-hero{height:auto;padding:10px 10px 0}.kf-hero-sticky{height:auto;position:relative;top:auto}.kf-hero-grid{height:72svh;min-height:520px}.kf-hero-image{clip-path:none;border-radius:24px}.kf-hero-pose{left:0;width:100%;object-fit:cover;object-position:center 52%;transition:opacity .45s}.kf-hero-pose[data-active=true]{opacity:1}.kf-hero-pose[data-active=false]{opacity:0}
+ .kf-hero{height:auto;padding:10px 10px 0}.kf-hero-sticky{height:auto;position:relative;top:auto}.kf-hero-grid{height:72svh;min-height:520px}.kf-hero-image{clip-path:none;border-radius:24px}.kf-hero-backdrop{display:none}.kf-hero-pose{left:0;width:100%;object-fit:cover;object-position:center 52%;transition:opacity .45s}.kf-hero-pose[data-active=true]{opacity:1}.kf-hero-pose[data-active=false]{opacity:0}
  .kf-manifesto,.kf-hero-ledger{display:none}.kf-sideword{left:20px;top:20px;writing-mode:horizontal-tb;font-size:15px;margin-left:55px}.kf-photo-caption{left:20px;right:20px;bottom:25px}.kf-pose-controls{display:flex;position:absolute;right:15px;top:15px;gap:3px}.kf-pose-controls button{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:rgb(244 238 230 / .8)}.kf-pose-controls button span{height:7px;width:7px;border-radius:50%;background:var(--kf-cocoa);opacity:.35}.kf-pose-controls button[aria-pressed=true] span{opacity:1;transform:scale(1.4)}
  .kf-mobile-hero-copy{display:block;padding:35px 12px 55px}.kf-mobile-hero-copy h2{font-size:clamp(60px,11vw,105px);font-weight:500;line-height:.93;letter-spacing:-.075em;margin:17px 0 25px}.kf-mobile-hero-copy>div{display:flex;align-items:center;gap:25px;flex-wrap:wrap}
  .kf-practice{padding-top:40px}.kf-practice-stage{min-height:620px}.kf-practice-card{width:45%}.kf-teacher-caption{display:block}.kf-teacher-caption p{margin-top:16px}
@@ -194,6 +197,7 @@ export function responsivePhoto(src: string): string {
 }
 @media(min-width:600px) and (max-width:1023px){.kf-hero-image::before{content:"";position:absolute;inset:-20px;background:url("/assets/kinfield/01-movement-triptych-a-480.webp") center/cover;filter:blur(18px);opacity:.65}.kf-hero-pose{object-fit:contain}}
 @media(max-width:380px){.kf-sideword{left:16px;margin-left:48px;font-size:12px;letter-spacing:.1em}}
+@media(min-width:1024px) and (max-height:699px){.kf-hero{height:auto}.kf-hero-sticky{position:relative;top:auto;height:calc(100svh - 32px)}}
 @media(prefers-reduced-motion:reduce){
  .kinfield *, .kinfield *::before,.kinfield *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
  .kf-hero{height:auto}.kf-hero-sticky{position:relative}.kf-hero-pose[data-active=false]{opacity:0!important}
@@ -222,35 +226,99 @@ export function MotionDirector() {
     if (!root) return;
     const context = gsap.context(() => {
       const media = gsap.matchMedia();
-      media.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+      media.add("(min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)", () => {
+        const handoffFocus = () => {
+          const focused = document.activeElement;
+          if (focused instanceof HTMLElement && focused.closest(".kf-manifesto, .kf-hero-ledger")) {
+            root.querySelector<HTMLButtonElement>(".kf-dock")?.focus({ preventScroll: true });
+          }
+        };
         const timeline = gsap.timeline({
-          scrollTrigger: { trigger: ".kf-hero", start: "top top", end: "bottom bottom", scrub: 0.5, invalidateOnRefresh: true },
+          scrollTrigger: { trigger: ".kf-hero", start: "top top", end: "bottom bottom", scrub: true, invalidateOnRefresh: true },
         });
         timeline
-          .to(".kf-pose-1", { opacity: 1, duration: 0.16, ease: "none" }, 0.25)
-          .to(".kf-pose-2", { opacity: 1, duration: 0.16, ease: "none" }, 0.48)
+          .to(".kf-pose-1, .kf-backdrop-1", { opacity: 1, duration: 0.16, ease: "none" }, 0.25)
+          .to(".kf-pose-2, .kf-backdrop-2", { opacity: 1, duration: 0.16, ease: "none" }, 0.48)
           .to(".kf-manifesto", { xPercent: -108, duration: 0.45, ease: "none" }, 0.48)
           .to(".kf-hero-ledger", { xPercent: 108, duration: 0.45, ease: "none" }, 0.48)
           .to(".kf-hero-image", { clipPath: "inset(0% 0% 0% 0% round 32px)", duration: 0.45, ease: "none" }, 0.48)
+          .call(handoffFocus, [], 0.84)
+          .to(".kf-manifesto, .kf-hero-ledger", { autoAlpha: 0, duration: 0.08, ease: "none", onUpdate: handoffFocus }, 0.85)
           .to(".kf-sideword", { autoAlpha: 0, duration: 0.16, ease: "none" }, 0.56);
       });
       media.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".kf-practice-stage", { clipPath: "inset(4% 10% 4% 10% round 32px)", ease: "none", scrollTrigger: { trigger: ".kf-practice-stage", start: "top 95%", end: "top 45%", scrub: true } });
-        gsap.from(".kf-atlas", { clipPath: "inset(0 5% 0 5% round 32px)", y: 35, ease: "none", scrollTrigger: { trigger: ".kf-atlas", start: "top 95%", end: "top 55%", scrub: true } });
-        gsap.from(".kf-schedule", { y: 55, rotation: -1.2, ease: "none", scrollTrigger: { trigger: ".kf-schedule", start: "top 95%", end: "top 55%", scrub: true } });
-        gsap.from(".kf-schedule-item", { y: 20, stagger: 0.08, duration: 0.55, ease: "power2.out", scrollTrigger: { trigger: ".kf-schedule-list", start: "top 88%", once: true } });
-        gsap.from(".kf-teacher-one .kf-teacher-image", { clipPath: "inset(0 0 100% 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-spread", start: "top 90%", end: "top 42%", scrub: true } });
-        gsap.from(".kf-teacher-two .kf-teacher-image", { clipPath: "inset(0 100% 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-spread", start: "top 70%", end: "top 20%", scrub: true } });
-        gsap.from(".kf-booking", { y: 45, rotate: 0.7, ease: "none", scrollTrigger: { trigger: ".kf-booking", start: "top 95%", end: "top 55%", scrub: true } });
-        gsap.from(".kf-closing-panel", { clipPath: "inset(0 100% 0 0 round 32px)", ease: "none", scrollTrigger: { trigger: ".kf-closing-panel", start: "top 98%", end: "top 55%", scrub: true } });
+        gsap.from(".kf-practice-room", { scale: 1.025, ease: "none", scrollTrigger: { trigger: ".kf-practice-stage", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-practice-person", { yPercent: 3, ease: "none", scrollTrigger: { trigger: ".kf-practice-stage", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-atlas", { y: 24, ease: "none", scrollTrigger: { trigger: ".kf-atlas", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-schedule", { y: 28, ease: "none", scrollTrigger: { trigger: ".kf-schedule", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-teacher-one .kf-teacher-image img", { clipPath: "inset(12% 0 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-spread", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-teacher-two .kf-teacher-image img", { clipPath: "inset(0 12% 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-two", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-booking", { y: 24, ease: "none", scrollTrigger: { trigger: ".kf-booking", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-closing-panel", { y: 24, ease: "none", scrollTrigger: { trigger: ".kf-closing-panel", start: "top 90%", end: "top 35%", scrub: true } });
+        const arc = root.querySelector<SVGPathElement>(".kf-closing-arc path");
+        if (arc) {
+          const length = arc.getTotalLength();
+          gsap.set(arc, { strokeDasharray: length });
+          gsap.from(arc, { strokeDashoffset: length, ease: "none", scrollTrigger: { trigger: ".kf-closing", start: "top 90%", end: "top 35%", scrub: true } });
+        }
       });
       return () => media.revert();
     }, root);
-    const refresh = () => ScrollTrigger.refresh();
-    window.addEventListener("load", refresh, { once: true });
-    return () => { window.removeEventListener("load", refresh); context.revert(); };
+    let disposed = false;
+    let refreshFrame = 0;
+    const refresh = () => {
+      if (disposed) return;
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => { if (!disposed) ScrollTrigger.refresh(); });
+    };
+    if (document.readyState === "complete") refresh();
+    else window.addEventListener("load", refresh, { once: true });
+    void document.fonts.ready.then(refresh);
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(refreshFrame);
+      window.removeEventListener("load", refresh);
+      context.revert();
+    };
   }, []);
   return null;
+}
+]]>
+    </file>
+    <file path="src/app/(kinfield)/kinfield/motion/SectionIntro.tsx">
+<![CDATA['use client';
+
+import type { ReactNode } from "react";
+import { Effects } from "@animate-ui/react/primitives/effects/effect";
+import { spring, useTempoTransition } from "@animate-ui/react/utils/motion";
+
+type SectionIntroProps = {
+  title: ReactNode;
+  description: ReactNode;
+  eyebrow?: string;
+};
+
+export function SectionIntro({ title, description, eyebrow }: SectionIntroProps) {
+  const transition = useTempoTransition(spring.dialog);
+
+  return (
+    <Effects
+      asChild
+      inView
+      inViewMargin="0px 0px -10% 0px"
+      holdDelay={110}
+      slide={{ direction: "up", offset: 24 }}
+      fade={{ initialOpacity: 0.9, opacity: 1 }}
+      transition={transition}
+    >
+      {eyebrow ? (
+        <div className="kf-scroll-copy"><p className="kf-eyebrow">{eyebrow}</p><h2>{title}</h2></div>
+      ) : (
+        <h2 className="kf-scroll-copy">{title}</h2>
+      )}
+      <p className="kf-scroll-copy">{description}</p>
+    </Effects>
+  );
 }
 ]]>
     </file>
@@ -260,6 +328,7 @@ export function MotionDirector() {
 import { useState } from "react";
 import { assets, responsivePhoto } from "../assets";
 import { levels, moveLevel, routines, zones, type Level, type Zone } from "../study/model";
+import { SectionIntro } from "../motion/SectionIntro";
 
 const figureImages: Record<Zone, string> = { shoulders: assets.poseA, hips: assets.poseC, spine: assets.poseB };
 const positions: Record<Zone, number> = { shoulders: 30, hips: 52, spine: 42 };
@@ -269,9 +338,9 @@ export function Atlas() {
   const [level, setLevel] = useState<Level>("new");
   const routine = routines[zone][level];
   return (
-    <section className="kf-section kf-atlas-section" id="atlas">
+    <section className="kf-section kf-atlas-section" id="atlas" tabIndex={-1}>
       <div className="kf-section-heading"><span>02 / MOVEMENT ATLAS</span><span>A LITTLE STUDY OF YOU</span></div>
-      <div className="kf-atlas-header"><h2>Get to know<br /><em>your movement.</em></h2><p>There is a whole world of movement in the details. Choose an area, find your level and begin gently.</p></div>
+      <div className="kf-atlas-header"><SectionIntro title={<>Get to know<br /><em>your movement.</em></>} description="There is a whole world of movement in the details. Choose an area, find your level and begin gently." /></div>
       <div className="kf-atlas">
         <div className="kf-figure-panel">
           <div className="kf-atlas-topline"><span>FIG. 01 / HUMAN FORM</span><span>SELECT A POINT ↓</span></div>
@@ -351,6 +420,7 @@ export function Hero() {
             const delta = event.changedTouches[0].clientX - touchStart.current;
             if (Math.abs(delta) > 55) setPose((current) => Math.max(0, Math.min(2, current + (delta < 0 ? 1 : -1))));
           }}>
+            {poses.map((src, index) => <div key={"backdrop-" + src} className={"kf-hero-backdrop kf-backdrop-" + index} style={{ backgroundImage: 'url("' + src.replace(/\.webp$/, "-896.webp") + '")' }} aria-hidden="true" />)}
             {poses.map((src, index) => <img key={src} className={"kf-hero-pose kf-pose-" + index} data-active={pose === index} src={src} srcSet={responsivePhoto(src)} sizes="(min-width: 1024px) 58vw, 100vw" alt={index === 0 ? "A dancer moving slowly in a sunlit studio" : ""} width="896" height="1200" loading={index === 0 ? "eager" : "lazy"} fetchPriority={index === 0 ? "high" : "auto"} />)}
             <div className="kf-photo-caption"><span>STUDY 01 / THE BODY IN MOTION</span><span>01 — 03</span></div>
             <div className="kf-pose-controls" role="group" aria-label="Select a movement portrait">
@@ -401,7 +471,7 @@ import type { ClassId } from "../study/model";
 export function KinfieldExperience() {
   const [selectedClass, setSelectedClass] = useState<ClassId>("groundwork");
   return (
-    <main className="kinfield" id="top">
+    <main className="kinfield" id="top" tabIndex={-1}>
       <a className="kf-skip" href="#practice">Skip to the practice</a>
       <MotionDirector />
       <SideDock />
@@ -412,7 +482,7 @@ export function KinfieldExperience() {
       <Teachers />
       <SessionPicker selectedClass={selectedClass} onSelect={setSelectedClass} />
       <Closing />
-      <noscript><div className="kf-noscript">This is a fictional studio. JavaScript enables the interactive atlas and session preview; no reservation is made.</div></noscript>
+      <noscript><style>{".kf-scroll-copy{opacity:1!important;transform:none!important;filter:none!important}"}</style><div className="kf-noscript">This is a fictional studio. JavaScript enables the interactive atlas and session preview; no reservation is made.</div></noscript>
     </main>
   );
 }
@@ -423,13 +493,14 @@ export function KinfieldExperience() {
 
 import { useState } from "react";
 import { classes, type ClassId } from "../study/model";
+import { SectionIntro } from "../motion/SectionIntro";
 
 export function Ledger({ selectedClass, onSelect }: { selectedClass: ClassId; onSelect: (id: ClassId) => void }) {
   const [expanded, setExpanded] = useState<ClassId | null>(null);
   return (
-    <section className="kf-section kf-programs" id="programs">
+    <section className="kf-section kf-programs" id="programs" tabIndex={-1}>
       <div className="kf-section-heading"><span>03 / THE PROGRAM</span><span>A LITTLE SOMETHING FOR EVERY BODY</span></div>
-      <div className="kf-ledger-heading"><div><p className="kf-eyebrow">FIND YOUR KIND OF MOVEMENT</p><h2>Make a date<br /><em>with yourself.</em></h2></div><p>A thoughtful mix of movement and stillness. Find the kind of practice that meets you where you are.</p></div>
+      <div className="kf-ledger-heading"><SectionIntro eyebrow="FIND YOUR KIND OF MOVEMENT" title={<>Make a date<br /><em>with yourself.</em></>} description="A thoughtful mix of movement and stillness. Find the kind of practice that meets you where you are." /></div>
       <div className="kf-schedule">
         <div className="kf-schedule-top"><div><span className="kf-small-label">KINFIELD / THE WEEKLY STUDY</span><h3>The program<span> / 01—04</span></h3></div><p>AN ILLUSTRATIVE TIMETABLE<br />DEMO ONLY — NO RESERVATION IS MADE.</p></div>
         <div className="kf-schedule-columns" aria-hidden="true"><span>DAY / TIME</span><span>THE PRACTICE</span><span>INTENSITY</span><span>MORE</span></div>
@@ -457,6 +528,7 @@ export function Ledger({ selectedClass, onSelect }: { selectedClass: ClassId; on
 
 import { useState } from "react";
 import { assets, responsivePhoto } from "../assets";
+import { SectionIntro } from "../motion/SectionIntro";
 
 const principles = [
   { name: "Grounding", number: "01", title: "Begin where<br />you are.", text: "Find your footing. Let the floor hold you as you notice the small movements that bring you back to yourself." },
@@ -468,9 +540,9 @@ export function Practice() {
   const [active, setActive] = useState(0);
   const principle = principles[active];
   return (
-    <section className="kf-section kf-practice" id="practice">
+    <section className="kf-section kf-practice" id="practice" tabIndex={-1}>
       <div className="kf-section-heading"><span>01 / THE PRACTICE</span><span>AN APPROACH, NOT A FORMULA</span></div>
-      <div className="kf-practice-intro"><h2>There is no<br /><em>one way to move.</em></h2><p>Some days call for energy. Others ask for ease. We make space for all of it.</p></div>
+      <div className="kf-practice-intro"><SectionIntro title={<>There is no<br /><em>one way to move.</em></>} description="Some days call for energy. Others ask for ease. We make space for all of it." /></div>
       <div className="kf-practice-stage">
         <img className="kf-practice-room" src={assets.studio} srcSet={responsivePhoto(assets.studio)} sizes="100vw" alt="A quiet, light-filled movement studio" width="1376" height="768" loading="lazy" />
         <img className="kf-practice-person" src={assets.poseC} srcSet={responsivePhoto(assets.poseC)} sizes="40vw" alt="A dancer exploring a gentle reach" width="896" height="1200" loading="lazy" />
@@ -490,8 +562,9 @@ export function Practice() {
     <file path="src/app/(kinfield)/kinfield/sections/SessionPicker.tsx">
 <![CDATA['use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { classes, validatePreview, type ClassId } from "../study/model";
+import { SectionIntro } from "../motion/SectionIntro";
 
 function localDate() {
   const date = new Date();
@@ -500,18 +573,29 @@ function localDate() {
 
 export function SessionPicker({ selectedClass, onSelect }: { selectedClass: ClassId; onSelect: (id: ClassId) => void }) {
   const [date, setDate] = useState("");
+  const dateInput = useRef<HTMLInputElement>(null);
+  const classInput = useRef<HTMLSelectElement>(null);
   const [today, setToday] = useState("");
   const [error, setError] = useState("");
   const [preview, setPreview] = useState<{ classId: ClassId; date: string } | null>(null);
   const selected = classes.find((item) => item.id === selectedClass) ?? classes[0];
   const confirmed = preview?.classId === selectedClass && preview.date === date;
 
-  useEffect(() => { setToday(localDate()); }, []);
+  useEffect(() => {
+    const enteredBeforeHydration = dateInput.current?.value;
+    if (enteredBeforeHydration) setDate(enteredBeforeHydration);
+    setToday(localDate());
+  }, []);
+
+  useEffect(() => {
+    const selectedBeforeHydration = classes.find((item) => item.id === classInput.current?.value);
+    if (selectedBeforeHydration && selectedBeforeHydration.id !== selectedClass) onSelect(selectedBeforeHydration.id);
+  }, [onSelect, selectedClass]);
 
   return (
-    <section className="kf-section kf-session-section" id="session">
+    <section className="kf-section kf-session-section" id="session" tabIndex={-1}>
       <div className="kf-section-heading"><span>05 / MAKE SOME SPACE</span><span>THIS ONE IS FOR YOU</span></div>
-      <div className="kf-session-heading"><div><p className="kf-eyebrow">A MOMENT, JUST FOR YOU</p><h2>Let&apos;s make<br /><em>some room.</em></h2></div><p>See how a session could fit into your day. This is a preview, with no reservation or payment.</p></div>
+      <div className="kf-session-heading"><SectionIntro eyebrow="A MOMENT, JUST FOR YOU" title={<>Let&apos;s make<br /><em>some room.</em></>} description="See how a session could fit into your day. This is a preview, with no reservation or payment." /></div>
       <div className="kf-booking">
         <div className="kf-booking-form">
           <div className="kf-booking-top"><span>KINFIELD / SESSION SHEET</span><span>NO. 085</span></div>
@@ -524,11 +608,11 @@ export function SessionPicker({ selectedClass, onSelect }: { selectedClass: Clas
             if (!problem) setPreview({ classId: selectedClass, date });
           }}>
             <label htmlFor="kf-class">01 / CHOOSE YOUR PRACTICE</label>
-            <select id="kf-class" value={selectedClass} onChange={(event) => { onSelect(event.target.value as ClassId); setPreview(null); }}>
+            <select ref={classInput} id="kf-class" value={selectedClass} onChange={(event) => { onSelect(event.target.value as ClassId); setPreview(null); }}>
               {classes.map((item) => <option value={item.id} key={item.id}>{item.name} — {item.duration}</option>)}
             </select>
             <label htmlFor="kf-date">02 / CHOOSE A DATE</label>
-            <input id="kf-date" type="date" min={today || undefined} value={date} aria-describedby={error ? "kf-date-error" : "kf-date-hint"} aria-invalid={Boolean(error)} onChange={(event) => { setDate(event.target.value); setError(""); setPreview(null); }} />
+            <input ref={dateInput} id="kf-date" type="date" min={today || undefined} value={date} aria-describedby={error ? "kf-date-error" : "kf-date-hint"} aria-invalid={Boolean(error)} onChange={(event) => { setDate(event.target.value); setError(""); setPreview(null); }} />
             <p className="kf-input-hint" id="kf-date-hint">Any date today or later. This does not indicate availability.</p>
             {error && <p className="kf-error" id="kf-date-error" role="alert">{error}</p>}
             <button className="kf-button kf-button-dark" type="submit">Review your preview <span>↗</span></button>
@@ -561,6 +645,7 @@ export function SideDock() {
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
   const previousOverflow = useRef<string | null>(null);
+  const navigationTarget = useRef<string | null>(null);
   const [active, setActive] = useState("top");
 
   useEffect(() => {
@@ -578,6 +663,7 @@ export function SideDock() {
     <>
       <button ref={opener} className="kf-dock" onClick={() => {
         if (!dialog.current) return;
+        navigationTarget.current = null;
         previousOverflow.current = document.body.style.overflow;
         dialog.current.showModal();
         document.body.style.overflow = "hidden";
@@ -588,14 +674,16 @@ export function SideDock() {
       <dialog className="kf-drawer" ref={dialog} aria-labelledby="kf-nav-title" onClose={() => {
         if (previousOverflow.current !== null) document.body.style.overflow = previousOverflow.current;
         previousOverflow.current = null;
-        opener.current?.focus();
+        const target = navigationTarget.current ? document.getElementById(navigationTarget.current) : null;
+        navigationTarget.current = null;
+        (target ?? opener.current)?.focus({ preventScroll: true });
       }} onClick={(event) => {
         if (event.target === dialog.current) dialog.current?.close();
       }}>
         <div className="kf-drawer-top"><span id="kf-nav-title">KINFIELD / INDEX</span><button className="kf-close" onClick={() => dialog.current?.close()} aria-label="Close navigation">×</button></div>
         <p className="kf-drawer-title">Find your<br /><em>way in.</em></p>
         <nav aria-label="Chapters">
-          {chapters.map(([id, label], index) => <a key={id} href={"#" + id} onClick={() => dialog.current?.close()}><span>0{index + 1}</span>{label}<span aria-hidden="true">↗</span></a>)}
+          {chapters.map(([id, label], index) => <a key={id} href={"#" + id} onClick={() => { navigationTarget.current = id; dialog.current?.close(); }}><span>0{index + 1}</span>{label}<span aria-hidden="true">↗</span></a>)}
         </nav>
         <p className="kf-drawer-note">A practice in being here. / 085</p>
       </dialog>
@@ -608,12 +696,13 @@ export function SideDock() {
 <![CDATA['use client';
 
 import { assets, responsivePhoto } from "../assets";
+import { SectionIntro } from "../motion/SectionIntro";
 
 export function Teachers() {
   return (
-    <section className="kf-section kf-teachers" id="teachers">
+    <section className="kf-section kf-teachers" id="teachers" tabIndex={-1}>
       <div className="kf-section-heading"><span>04 / PEOPLE & PRACTICE</span><span>A HUMAN WAY TO MOVE</span></div>
-      <div className="kf-teachers-title"><h2>Good movement<br /><em>is a shared thing.</em></h2><p>Different rhythms. A shared belief that movement can feel like coming home.</p></div>
+      <div className="kf-teachers-title"><SectionIntro title={<>Good movement<br /><em>is a shared thing.</em></>} description="Different rhythms. A shared belief that movement can feel like coming home." /></div>
       <div className="kf-teacher-spread">
         <article className="kf-teacher kf-teacher-one">
           <div className="kf-teacher-image" tabIndex={0}><img src={assets.instructorA} srcSet={responsivePhoto(assets.instructorA)} sizes="(min-width: 701px) 50vw, 90vw" alt="A movement teacher sitting in the studio" width="896" height="1200" loading="lazy" /><span>01 / TEACHER STUDY</span></div>

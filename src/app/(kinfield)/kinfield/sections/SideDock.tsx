@@ -11,6 +11,7 @@ export function SideDock() {
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
   const previousOverflow = useRef<string | null>(null);
+  const navigationTarget = useRef<string | null>(null);
   const [active, setActive] = useState("top");
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export function SideDock() {
     <>
       <button ref={opener} className="kf-dock" onClick={() => {
         if (!dialog.current) return;
+        navigationTarget.current = null;
         previousOverflow.current = document.body.style.overflow;
         dialog.current.showModal();
         document.body.style.overflow = "hidden";
@@ -38,14 +40,16 @@ export function SideDock() {
       <dialog className="kf-drawer" ref={dialog} aria-labelledby="kf-nav-title" onClose={() => {
         if (previousOverflow.current !== null) document.body.style.overflow = previousOverflow.current;
         previousOverflow.current = null;
-        opener.current?.focus();
+        const target = navigationTarget.current ? document.getElementById(navigationTarget.current) : null;
+        navigationTarget.current = null;
+        (target ?? opener.current)?.focus({ preventScroll: true });
       }} onClick={(event) => {
         if (event.target === dialog.current) dialog.current?.close();
       }}>
         <div className="kf-drawer-top"><span id="kf-nav-title">KINFIELD / INDEX</span><button className="kf-close" onClick={() => dialog.current?.close()} aria-label="Close navigation">×</button></div>
         <p className="kf-drawer-title">Find your<br /><em>way in.</em></p>
         <nav aria-label="Chapters">
-          {chapters.map(([id, label], index) => <a key={id} href={"#" + id} onClick={() => dialog.current?.close()}><span>0{index + 1}</span>{label}<span aria-hidden="true">↗</span></a>)}
+          {chapters.map(([id, label], index) => <a key={id} href={"#" + id} onClick={() => { navigationTarget.current = id; dialog.current?.close(); }}><span>0{index + 1}</span>{label}<span aria-hidden="true">↗</span></a>)}
         </nav>
         <p className="kf-drawer-note">A practice in being here. / 085</p>
       </dialog>

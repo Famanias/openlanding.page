@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { assets, responsivePhoto } from "../assets";
 import { levels, moveLevel, routines, zones, type Level, type Zone } from "../study/model";
+import { SectionIntro } from "../motion/SectionIntro";
 
 const figureImages: Record<Zone, string> = { shoulders: assets.poseA, hips: assets.poseC, spine: assets.poseB };
 const positions: Record<Zone, number> = { shoulders: 30, hips: 52, spine: 42 };
@@ -12,9 +13,9 @@ export function Atlas() {
   const [level, setLevel] = useState<Level>("new");
   const routine = routines[zone][level];
   return (
-    <section className="kf-section kf-atlas-section" id="atlas">
+    <section className="kf-section kf-atlas-section" id="atlas" tabIndex={-1}>
       <div className="kf-section-heading"><span>02 / MOVEMENT ATLAS</span><span>A LITTLE STUDY OF YOU</span></div>
-      <div className="kf-atlas-header"><h2>Get to know<br /><em>your movement.</em></h2><p>There is a whole world of movement in the details. Choose an area, find your level and begin gently.</p></div>
+      <div className="kf-atlas-header"><SectionIntro title={<>Get to know<br /><em>your movement.</em></>} description="There is a whole world of movement in the details. Choose an area, find your level and begin gently." /></div>
       <div className="kf-atlas">
         <div className="kf-figure-panel">
           <div className="kf-atlas-topline"><span>FIG. 01 / HUMAN FORM</span><span>SELECT A POINT ↓</span></div>

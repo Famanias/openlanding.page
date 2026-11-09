@@ -19,17 +19,17 @@ Desktop begins with an asymmetric 23/58/19 triptych and side dock; mobile recomp
 An authored SVG figure and shared pivot arc respond to shoulder, hip and spine selections. Each of three levels changes all three steps and the duration. Ledger selection flows into a locally validated preview; no data is transmitted or reservation made.
 
 ## Motion
-Personality: measured and human. Verbs: trace and unfurl. Signature: the portrait expands beyond the triptych while three movement photographs move in sequence as the visitor scrolls. Tokens: 180ms interaction, 420ms selection, 800ms section, 1.1s entrance; easing cubic-bezier(.22,1,.36,1). 
+Personality: measured and human. Verbs: trace and unfurl. Signature: the portrait expands beyond the triptych while three movement photographs move in sequence as the visitor scrolls. Native scrolling drives the portrait directly, without delayed catch-up; short desktop viewports use the static triptych. Animate UI's calm spring brings section titles and supporting text in over 24px, beginning at 90% opacity with a 110ms stagger once they are inside the viewport. Larger scroll scenes use bounded transforms on both mobile and desktop and progress while visible; reduced-motion and no-JavaScript visitors receive visible, static content.
 
 | Scene | Entrance | Scroll | Interaction | Reduced motion |
 | --- | --- | --- | --- | --- |
 | Hero | slices, headline and ledger stagger | pinned portrait crossfades and expands | pose selector and CTA feedback | first still, no pin |
-| Principles | photo mask | stage arrives from hero | annotation arc pivots with tabs | immediate |
-| Atlas | rounded sheet reveal | contained illustration | halo travels and arc pivots, content updates | immediate |
-| Ledger | page rises, rules draw | paper handoff | selected row hinges and updates booking | static |
-| Teachers | opposing portrait wipes | line traces through spread | photo crop responds | static |
-| Session | folded sheet | sheet settles | live summary and stamped preview | immediate |
-| Closing | panel unfurls | arc settles | directional arrow | static |
+| Principles | Animate UI intro | photo and portrait settle inside the stage | annotation arc pivots with tabs | immediate |
+| Atlas | Animate UI intro | whole sheet settles 24px | halo travels and arc pivots, content updates | immediate |
+| Ledger | Animate UI intro | sheet settles 28px without moving rows | selected row hinges and updates booking | static |
+| Teachers | Animate UI intro | partial, opposing image reveals | photo crop responds | static |
+| Session | Animate UI intro | sheet settles 24px | live summary and stamped preview | immediate |
+| Closing | panel settles | closing arc draws with scroll | directional arrow | static |
 
 ## Signature details
 Technical timecodes, hairline annotations, rounded die-cut frames and deliberate white space. All interactive controls expose focus states and touch equivalents.

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { assets, responsivePhoto } from "../assets";
+import { SectionIntro } from "../motion/SectionIntro";
 
 const principles = [
   { name: "Grounding", number: "01", title: "Begin where<br />you are.", text: "Find your footing. Let the floor hold you as you notice the small movements that bring you back to yourself." },
@@ -13,9 +14,9 @@ export function Practice() {
   const [active, setActive] = useState(0);
   const principle = principles[active];
   return (
-    <section className="kf-section kf-practice" id="practice">
+    <section className="kf-section kf-practice" id="practice" tabIndex={-1}>
       <div className="kf-section-heading"><span>01 / THE PRACTICE</span><span>AN APPROACH, NOT A FORMULA</span></div>
-      <div className="kf-practice-intro"><h2>There is no<br /><em>one way to move.</em></h2><p>Some days call for energy. Others ask for ease. We make space for all of it.</p></div>
+      <div className="kf-practice-intro"><SectionIntro title={<>There is no<br /><em>one way to move.</em></>} description="Some days call for energy. Others ask for ease. We make space for all of it." /></div>
       <div className="kf-practice-stage">
         <img className="kf-practice-room" src={assets.studio} srcSet={responsivePhoto(assets.studio)} sizes="100vw" alt="A quiet, light-filled movement studio" width="1376" height="768" loading="lazy" />
         <img className="kf-practice-person" src={assets.poseC} srcSet={responsivePhoto(assets.poseC)} sizes="40vw" alt="A dancer exploring a gentle reach" width="896" height="1200" loading="lazy" />
