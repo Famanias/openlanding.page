@@ -34,11 +34,21 @@ export function MotionDirector() {
       media.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.from(".kf-practice-room", { scale: 1.025, ease: "none", scrollTrigger: { trigger: ".kf-practice-stage", start: "top 90%", end: "top 35%", scrub: true } });
         gsap.from(".kf-practice-person", { yPercent: 3, ease: "none", scrollTrigger: { trigger: ".kf-practice-stage", start: "top 90%", end: "top 35%", scrub: true } });
+        const practiceArc = root.querySelector<SVGPathElement>(".kf-practice-arc path");
+        if (practiceArc) {
+          const length = practiceArc.getTotalLength();
+          gsap.set(practiceArc, { strokeDasharray: length });
+          gsap.from(practiceArc, { strokeDashoffset: length, ease: "none", scrollTrigger: { trigger: ".kf-practice-arc", start: "bottom 95%", end: "bottom 45%", scrub: true } });
+        }
         gsap.from(".kf-atlas", { y: 24, ease: "none", scrollTrigger: { trigger: ".kf-atlas", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-figure-guides", { rotation: -28, svgOrigin: "170 290", ease: "none", scrollTrigger: { trigger: ".kf-figure-wrap", start: "top 90%", end: "top 40%", scrub: true } });
         gsap.from(".kf-schedule", { y: 28, ease: "none", scrollTrigger: { trigger: ".kf-schedule", start: "top 90%", end: "top 35%", scrub: true } });
-        gsap.from(".kf-teacher-one .kf-teacher-image img", { clipPath: "inset(12% 0 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-spread", start: "top 90%", end: "top 35%", scrub: true } });
-        gsap.from(".kf-teacher-two .kf-teacher-image img", { clipPath: "inset(0 12% 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-two", start: "top 90%", end: "top 35%", scrub: true } });
-        gsap.from(".kf-booking", { y: 24, ease: "none", scrollTrigger: { trigger: ".kf-booking", start: "top 90%", end: "top 35%", scrub: true } });
+        root.querySelectorAll<HTMLElement>(".kf-schedule-item").forEach((row) => {
+          gsap.from(row, { rotationX: -14, transformPerspective: 900, transformOrigin: "50% 0%", ease: "none", scrollTrigger: { trigger: row, start: "top 90%", end: "top 45%", scrub: true } });
+        });
+        gsap.from(".kf-teacher-one .kf-teacher-image img", { clipPath: "inset(35% 0 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-spread", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-teacher-two .kf-teacher-image img", { clipPath: "inset(0 35% 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-two", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-booking", { y: 24, rotationY: 5, transformPerspective: 1200, transformOrigin: "0% 50%", ease: "none", scrollTrigger: { trigger: ".kf-booking", start: "top 90%", end: "top 35%", scrub: true } });
         gsap.from(".kf-closing-panel", { y: 24, ease: "none", scrollTrigger: { trigger: ".kf-closing-panel", start: "top 90%", end: "top 35%", scrub: true } });
         const arc = root.querySelector<SVGPathElement>(".kf-closing-arc path");
         if (arc) {

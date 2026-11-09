@@ -24,11 +24,11 @@ Personality: measured and human. Verbs: trace and unfurl. Signature: the portrai
 | Scene | Entrance | Scroll | Interaction | Reduced motion |
 | --- | --- | --- | --- | --- |
 | Hero | slices, headline and ledger stagger | pinned portrait crossfades and expands | pose selector and CTA feedback | first still, no pin |
-| Principles | Animate UI intro | photo and portrait settle inside the stage | annotation arc pivots with tabs | immediate |
-| Atlas | Animate UI intro | whole sheet settles 24px | halo travels and arc pivots, content updates | immediate |
-| Ledger | Animate UI intro | sheet settles 28px without moving rows | selected row hinges and updates booking | static |
-| Teachers | Animate UI intro | partial, opposing image reveals | photo crop responds | static |
-| Session | Animate UI intro | sheet settles 24px | live summary and stamped preview | immediate |
+| Principles | Animate UI intro | portrait counterpans while the annotation line traces itself | annotation arc pivots with tabs | immediate |
+| Atlas | Animate UI intro | measurement guides rotate around the figure as its sheet settles | halo travels and arc pivots, content updates | immediate |
+| Ledger | Animate UI intro | individual timetable strips hinge into place as they enter view | selected row hinges and updates booking | static |
+| Teachers | Animate UI intro | two portrait masks open in opposing directions | photo crop responds | static |
+| Session | Animate UI intro | the reservation sheet turns gently around its left edge | live summary and stamped preview | immediate |
 | Closing | panel settles | closing arc draws with scroll | directional arrow | static |
 
 ## Signature details

@@ -188,7 +188,7 @@ export function responsivePhoto(src: string): string {
  .kf-practice,.kf-atlas-section,.kf-programs,.kf-teachers,.kf-session-section{padding-bottom:90px}.kf-practice{padding-top:10px}
  .kf-practice-intro,.kf-atlas-header,.kf-ledger-heading,.kf-teachers-title,.kf-session-heading{display:block;padding:35px 0}.kf-practice-intro h2,.kf-atlas-header h2,.kf-ledger-heading h2,.kf-teachers-title h2,.kf-session-heading h2{font-size:clamp(47px,10.8vw,75px)}
  .kf-practice-intro>p,.kf-atlas-header>p,.kf-ledger-heading>p,.kf-teachers-title>p,.kf-session-heading>p{width:auto;max-width:320px;margin-top:22px;font-size:14px}
- .kf-practice-stage{min-height:0;height:auto;padding:210px 10px 10px}.kf-practice-stage>.kf-practice-room{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.kf-practice-stage>.kf-practice-person{top:10px;right:10px;width:42%;height:190px;object-position:center 45%;border-radius:16px}.kf-practice-card{position:relative;inset:auto;width:100%;min-height:380px;padding:22px}.kf-principle-copy{padding:42px 0}.kf-practice-arc{left:35%;top:0;width:60%;height:240px}.kf-stage-label{display:none}
+ .kf-practice-stage{min-height:0;height:auto;padding:210px 10px 10px}.kf-practice-stage>.kf-practice-room{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.kf-practice-stage>.kf-practice-person{top:10px;right:10px;width:42%;height:190px;object-position:center 45%;border-radius:16px}.kf-practice-card{position:relative;inset:auto;width:100%;min-height:380px;padding:22px}.kf-principle-copy{padding:42px 0}.kf-practice-arc{left:5%;top:0;width:50%;height:240px}.kf-stage-label{display:none}
  .kf-atlas{display:flex;flex-direction:column}.kf-figure-panel,.kf-atlas-detail{padding:18px}.kf-figure-wrap{min-height:430px;max-height:520px}.kf-atlas-detail{min-height:530px}.kf-routine-heading{margin-top:30px}.kf-atlas-detail h3{font-size:58px}.kf-routine{margin-top:28px}.kf-atlas-disclaimer{padding-top:28px}
  .kf-schedule{padding:20px 12px;border-radius:24px}.kf-schedule-top{display:block;padding:0 4px 28px}.kf-schedule-top>p{text-align:left;margin-top:15px}.kf-schedule-columns{grid-template-columns:70px 1fr 36px;font-size:8px;padding:12px 8px}.kf-schedule-columns span:nth-child(3){display:none}.kf-schedule-row{grid-template-columns:70px 1fr 36px;min-height:80px;padding:12px 8px}.kf-class-intensity{display:none}.kf-class-name{font-size:24px}.kf-class-time b{font-size:10px}.kf-class-detail{display:grid;gap:7px;padding:0 10px 15px;font-size:11px}.kf-schedule-footer{align-items:start;flex-direction:column}
  .kf-teacher-spread{grid-template-columns:1fr;gap:15px}.kf-teacher-one{width:90%}.kf-teacher-two{padding-top:0;width:82%;justify-self:end}.kf-bridge{width:45%;height:70px;margin-left:35%;overflow:hidden}.kf-bridge svg{height:50px}.kf-bridge small,.kf-bridge>span{display:none}.kf-teacher-caption{display:block}.kf-teacher-caption h3{font-size:29px}.kf-teacher-caption p{font-size:16px}.kf-fiction-note{font-size:9px}
@@ -249,11 +249,21 @@ export function MotionDirector() {
       media.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.from(".kf-practice-room", { scale: 1.025, ease: "none", scrollTrigger: { trigger: ".kf-practice-stage", start: "top 90%", end: "top 35%", scrub: true } });
         gsap.from(".kf-practice-person", { yPercent: 3, ease: "none", scrollTrigger: { trigger: ".kf-practice-stage", start: "top 90%", end: "top 35%", scrub: true } });
+        const practiceArc = root.querySelector<SVGPathElement>(".kf-practice-arc path");
+        if (practiceArc) {
+          const length = practiceArc.getTotalLength();
+          gsap.set(practiceArc, { strokeDasharray: length });
+          gsap.from(practiceArc, { strokeDashoffset: length, ease: "none", scrollTrigger: { trigger: ".kf-practice-arc", start: "bottom 95%", end: "bottom 45%", scrub: true } });
+        }
         gsap.from(".kf-atlas", { y: 24, ease: "none", scrollTrigger: { trigger: ".kf-atlas", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-figure-guides", { rotation: -28, svgOrigin: "170 290", ease: "none", scrollTrigger: { trigger: ".kf-figure-wrap", start: "top 90%", end: "top 40%", scrub: true } });
         gsap.from(".kf-schedule", { y: 28, ease: "none", scrollTrigger: { trigger: ".kf-schedule", start: "top 90%", end: "top 35%", scrub: true } });
-        gsap.from(".kf-teacher-one .kf-teacher-image img", { clipPath: "inset(12% 0 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-spread", start: "top 90%", end: "top 35%", scrub: true } });
-        gsap.from(".kf-teacher-two .kf-teacher-image img", { clipPath: "inset(0 12% 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-two", start: "top 90%", end: "top 35%", scrub: true } });
-        gsap.from(".kf-booking", { y: 24, ease: "none", scrollTrigger: { trigger: ".kf-booking", start: "top 90%", end: "top 35%", scrub: true } });
+        root.querySelectorAll<HTMLElement>(".kf-schedule-item").forEach((row) => {
+          gsap.from(row, { rotationX: -14, transformPerspective: 900, transformOrigin: "50% 0%", ease: "none", scrollTrigger: { trigger: row, start: "top 90%", end: "top 45%", scrub: true } });
+        });
+        gsap.from(".kf-teacher-one .kf-teacher-image img", { clipPath: "inset(35% 0 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-spread", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-teacher-two .kf-teacher-image img", { clipPath: "inset(0 35% 0 0 round 24px)", ease: "none", scrollTrigger: { trigger: ".kf-teacher-two", start: "top 90%", end: "top 35%", scrub: true } });
+        gsap.from(".kf-booking", { y: 24, rotationY: 5, transformPerspective: 1200, transformOrigin: "0% 50%", ease: "none", scrollTrigger: { trigger: ".kf-booking", start: "top 90%", end: "top 35%", scrub: true } });
         gsap.from(".kf-closing-panel", { y: 24, ease: "none", scrollTrigger: { trigger: ".kf-closing-panel", start: "top 90%", end: "top 35%", scrub: true } });
         const arc = root.querySelector<SVGPathElement>(".kf-closing-arc path");
         if (arc) {
