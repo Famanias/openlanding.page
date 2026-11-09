@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  glyphwork: { name: "GLYPHWORK", dependencies: ["lucide-react", "motion"] },
   radius: { name: "RADIUS", dependencies: [] },
   patchbay: { name: "Patchbay", dependencies: ["lenis"], includeDownload: true },
   kairok: { name: "KAIRO K", dependencies: ["lucide-react", "motion"], includeDownload: true },

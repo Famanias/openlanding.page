@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'GlyphworkVariable';
+  src: url('/templates/glyphwork/glyphwork/01-specimen-variable.woff2') format('woff2-variations'),
+       url('/templates/glyphwork/glyphwork/01-specimen-variable.woff2') format('woff2');
+  font-weight: 100 1000;
+  font-stretch: 25% 151%;
+  font-style: oblique -10deg 0deg;
+  font-display: swap;
+}
+
+:root {
+  --gw-milk: #F7F7F0;
+  --gw-ink: #111111;
+  --gw-magenta: #F02F83;
+  --gw-yellow: #E5F56B;
+  --gw-violet: #6E57D5;
+  --gw-font-specimen: 'GlyphworkVariable', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
+  --gw-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --gw-wght: 720;
+  --gw-wdth: 135;
+  --gw-slnt: -2.33;
+  --gw-opsz: 144;
+  --gw-tracking: -0.004em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--gw-milk);
+  color: var(--gw-ink);
+  font-family: var(--gw-font-specimen);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--gw-milk);
+  color: var(--gw-ink);
+  overflow-x: hidden;
+  selection-background-color: var(--gw-yellow);
+  selection-color: var(--gw-ink);
+}
+
+::selection {
+  background-color: var(--gw-yellow);
+  color: var(--gw-ink);
+}
+
+.gw-specimen-live {
+  font-family: var(--gw-font-specimen);
+  font-variation-settings:
+    'wght' var(--gw-wght),
+    'wdth' var(--gw-wdth),
+    'slnt' var(--gw-slnt),
+    'opsz' var(--gw-opsz);
+  letter-spacing: var(--gw-tracking);
+  font-synthesis: none;
+}
+
+.gw-mono {
+  font-family: var(--gw-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom Instrument Range Sliders */
+.gw-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+  cursor: ew-resize;
+  margin: 0;
+}
+
+.gw-slider:focus-visible {
+  outline: 2px solid var(--gw-ink);
+  outline-offset: 2px;
+}
+
+.gw-slider::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--gw-ink);
+  border: none;
+}
+
+.gw-slider::-moz-range-track {
+  height: 2px;
+  background: var(--gw-ink);
+  border: none;
+}
+
+.gw-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--gw-ink);
+  margin-top: -7px;
+  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gw-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--gw-ink);
+  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gw-slider:hover::-webkit-slider-thumb,
+.gw-slider:active::-webkit-slider-thumb {
+  transform: scale(1.18);
+}
+
+.gw-slider-magenta::-webkit-slider-thumb {
+  background-color: var(--gw-magenta);
+}
+.gw-slider-magenta::-moz-range-thumb {
+  background-color: var(--gw-magenta);
+}
+
+.gw-slider-violet::-webkit-slider-thumb {
+  background-color: var(--gw-violet);
+}
+.gw-slider-violet::-moz-range-thumb {
+  background-color: var(--gw-violet);
+}
+
+.gw-slider-ink::-webkit-slider-thumb {
+  background-color: var(--gw-ink);
+}
+.gw-slider-ink::-moz-range-thumb {
+  background-color: var(--gw-ink);
+}
+
+.gw-slider-yellow::-webkit-slider-thumb {
+  background-color: var(--gw-yellow);
+}
+.gw-slider-yellow::-moz-range-thumb {
+  background-color: var(--gw-yellow);
+}
+
+/* Vertical text utility for Right Rail */
+.gw-vertical-rl {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Hero Specimen Entrance Animation */
+@keyframes gwHeroExpand {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.72) scaleX(0.86);
+    transform-origin: center 78%;
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1) scaleX(1);
+    transform-origin: center 78%;
+  }
+}
+
+@keyframes gwGuideSweep {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.2);
+    transform-origin: left center;
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+.gw-animate-hero {
+  animation: gwHeroExpand 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.gw-animate-guide {
+  animation: gwGuideSweep 750ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .gw-animate-hero,
+  .gw-animate-guide {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,4 +1,4 @@
-export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius";
+export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork";
 
 export type CategoryId =
   | "all"
@@ -1050,6 +1050,16 @@ Strict 6-color palette:
 7. About & Timeline with career milestones.
 8. Contact Brief Generator with validation and downloadable local brief ticket.
 9. Footer with SVG jack mark.
+`;
+
+export const GLYPHWORK_PROMPT = `# GLYPHWORK — Independent Type Foundry — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **GLYPHWORK** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** GLYPHWORK — Independent Type Foundry
+- **Description:** Experimental Swiss-modernist independent type foundry and live variable typography laboratory.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
 `;
 
 export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
@@ -2714,6 +2724,24 @@ RAW_TEMPLATES.push({
   promptMarkdown: RADIUS_PROMPT,
   model: "GPT-6",
 });
+
+RAW_TEMPLATES.push(
+  {
+    slug: "glyphwork",
+    createdAt: "2026-11-09",
+    hasDownload: false,
+    title: "GLYPHWORK",
+    description: "Experimental Swiss-modernist independent type foundry and live variable typography laboratory.",
+    category: "showcase" as TemplateCategory,
+    categories: ["showcase" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/glyphwork/preview-1600.webp",
+    promptMarkdown: GLYPHWORK_PROMPT,
+    model: "Gemini 4 Argon High",
+  }
+);
 
 const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
 export const ARCHIVED_TEMPLATES = registeredTemplates.filter((template) => Boolean(template.archived));
