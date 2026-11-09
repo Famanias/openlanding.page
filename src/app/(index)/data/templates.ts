@@ -1,4 +1,4 @@
-export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway";
+export type TemplateSlug = "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway";
 
 export type CategoryId =
   | "all"
@@ -2768,6 +2768,11 @@ RAW_TEMPLATES.push(
     model: "Gemini 4 Argon High",
   }
 );
+
+export const DAYMARK_PROMPT = `# DAYMARK — A brighter way to power home
+
+Build a residential solar design landing page around an illustrative sun path over a fixed architectural photograph. Use a limestone, cobalt, copper, graphite and sunflower palette. Include a time dial, seasonal variations, roof zones, three architectural process strips, qualitative project factors, field photography and a local inquiry demonstration. Clearly disclose that all results are illustrative and that no inquiry is sent. Make every control keyboard accessible and provide reduced-motion and mobile layouts.`;
+RAW_TEMPLATES.push({ slug: "daymark", createdAt: "2026-11-09", hasDownload: false, title: "DAYMARK", description: "An architectural sunlight study for a more thoughtful approach to residential solar.", category: "showcase", categories: ["showcase", "editorial"], industry: "Residential solar", stack: "Next.js 16 · React 19 · TypeScript", badges: ["Interactive study", "Editorial", "Responsive"], previewImage: "/gallery/daymark.webp", promptMarkdown: DAYMARK_PROMPT, model: "GPT-6" });
 
 const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
 export const ARCHIVED_TEMPLATES = registeredTemplates.filter((template) => Boolean(template.archived));
