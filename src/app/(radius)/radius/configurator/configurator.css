@@ -1,0 +1,638 @@
+﻿.rd-build {
+  background: var(--rd-paper);
+  color: var(--rd-ink);
+  padding: clamp(64px, 8vw, 128px) clamp(16px, 4.5vw, 72px);
+  scroll-margin-top: 80px;
+}
+
+.rd-build__heading {
+  align-items: end;
+  display: flex;
+  gap: 32px;
+  justify-content: space-between;
+  margin: 0 auto 40px;
+  max-width: 1600px;
+}
+
+.rd-build__eyebrow,
+.rd-build__stage-meta,
+.rd-build__stage-footer,
+.rd-build__summary-label {
+  font-family: var(--rd-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+
+.rd-build__eyebrow {
+  margin: 0 0 24px;
+}
+
+.rd-build__heading h2 {
+  font-family: var(--rd-display);
+  font-size: clamp(3.75rem, 8vw, 8rem);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.84;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.rd-build__heading h2 span {
+  color: var(--rd-orange);
+}
+
+.rd-build__intro {
+  font-family: var(--rd-body-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 4px;
+  max-width: 260px;
+  text-wrap: pretty;
+}
+
+.rd-build__workbench {
+  border: 1px solid var(--rd-ink);
+  display: grid;
+  grid-template-columns: minmax(0, 1.38fr) minmax(340px, 0.72fr);
+  margin: 0 auto;
+  max-width: 1600px;
+}
+
+.rd-build__stage {
+  background: var(--rd-paper);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  padding: clamp(16px, 2vw, 32px);
+  position: relative;
+}
+
+.rd-build__stage::before,
+.rd-build__stage::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+}
+
+.rd-build__stage::before {
+  border-left: 1px solid color-mix(in srgb, var(--rd-ink) 15%, transparent);
+  height: 100%;
+  left: 50%;
+  top: 0;
+}
+
+.rd-build__stage::after {
+  border-top: 1px solid color-mix(in srgb, var(--rd-ink) 15%, transparent);
+  left: 0;
+  top: 50%;
+  width: 100%;
+}
+
+.rd-build__stage-meta,
+.rd-build__stage-footer {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.rd-build__stage-meta span:last-child,
+.rd-build__stage-footer span:last-child {
+  text-align: right;
+}
+
+.rd-build__stage-footer {
+  align-items: end;
+  border-top: 1px solid var(--rd-ink);
+  padding-top: 16px;
+}
+
+.rd-build__stage-footer span:first-child {
+  color: var(--rd-blue);
+}
+
+.rd-build__bike {
+  aspect-ratio: 3 / 2;
+  isolation: isolate;
+  margin: auto 0;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.rd-build__bike-image,
+.rd-build__bike-overlay {
+  height: 100%;
+  inset: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.rd-build__bike-image {
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  transition: clip-path 420ms var(--rd-ease-io), opacity 420ms var(--rd-ease-io);
+}
+
+.rd-build__bike-image[data-active="true"] {
+  clip-path: inset(0);
+  opacity: 1;
+  z-index: 2;
+}
+
+.rd-build__bike-image[data-previous="true"] {
+  clip-path: inset(0);
+  opacity: 1;
+  transition: none;
+  z-index: 1;
+}
+
+.rd-build__bike-image img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
+.rd-build__bike-overlay {
+  overflow: visible;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.rd-build__noscript { margin: 0 0 20px; font-size: 14px; line-height: 1.5; }
+.rd-build__field:disabled, .rd-build__reset:disabled { cursor: not-allowed; }
+.rd-build__field:nth-of-type(2) { transition-delay: 70ms; }
+.rd-build__field:nth-of-type(3) { transition-delay: 140ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-build__bike-image[data-previous="true"] { display: none; }
+}
+
+.rd-build__part {
+  opacity: 0;
+  transition: opacity 420ms var(--rd-ease-io);
+}
+
+.rd-build__part[data-active="true"] {
+  opacity: 1;
+}
+
+.rd-build__tire-base {
+  stroke: var(--rd-ink);
+  stroke-width: 20;
+}
+
+.rd-build__tire-tread {
+  stroke: color-mix(in srgb, var(--rd-ink) 85%, var(--rd-paper));
+  stroke-dasharray: 8 10;
+  stroke-width: 13;
+}
+
+.rd-build__rack-shadow {
+  opacity: 0.7;
+  stroke: var(--rd-paper);
+  stroke-width: 15;
+}
+
+.rd-build__rack-line {
+  stroke: var(--rd-ink);
+  stroke-width: 8;
+}
+
+.rd-build__rack-deck {
+  fill: var(--rd-ink);
+  stroke: var(--rd-ink);
+  stroke-width: 7;
+}
+
+.rd-build__basket-mount,
+.rd-build__basket-outline {
+  stroke: var(--rd-ink);
+  stroke-width: 10;
+}
+
+.rd-build__basket-wire {
+  stroke: var(--rd-ink);
+  stroke-width: 5;
+}
+
+.rd-build__light-mount {
+  fill: none;
+  stroke: var(--rd-ink);
+  stroke-width: 7;
+}
+
+.rd-build__light-body {
+  fill: var(--rd-ink);
+  stroke: var(--rd-paper);
+  stroke-width: 3;
+}
+
+.rd-build__light-front {
+  fill: var(--rd-mint);
+}
+
+.rd-build__light-rear {
+  fill: var(--rd-orange);
+}
+
+.rd-build__controls {
+  background: color-mix(in srgb, var(--rd-paper) 94%, var(--rd-ink));
+  border-left: 1px solid var(--rd-ink);
+  min-width: 0;
+  padding: clamp(24px, 3vw, 48px);
+}
+
+.rd-build__field {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: 0 0 32px;
+}
+
+.rd-build__field + .rd-build__field {
+  border-top: 1px solid color-mix(in srgb, var(--rd-ink) 30%, transparent);
+  padding-top: 24px;
+}
+
+.rd-build__field--accessories {
+  padding-bottom: 0;
+}
+
+.rd-build__field legend {
+  display: block;
+  float: left;
+  font-family: var(--rd-body-font);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+  padding: 0;
+  width: 100%;
+}
+
+.rd-build__field legend span {
+  color: var(--rd-blue);
+  display: inline-block;
+  font-family: var(--rd-mono);
+  font-size: 0.75rem;
+  margin-right: 12px;
+}
+
+.rd-build__finish-options,
+.rd-build__tire-options,
+.rd-build__accessories {
+  clear: both;
+}
+
+.rd-build__finish-options {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rd-build__finish-label,
+.rd-build__tire-label,
+.rd-build__accessory-label {
+  cursor: pointer;
+  display: block;
+  min-width: 0;
+  position: relative;
+}
+
+.rd-build__input {
+  cursor: pointer;
+  height: 100%;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.rd-build__finish-card,
+.rd-build__tire-card,
+.rd-build__accessory-card {
+  transition: border-color 180ms var(--rd-ease), background-color 180ms var(--rd-ease), color 180ms var(--rd-ease);
+}
+
+.rd-build__finish-card {
+  align-items: flex-start;
+  background: var(--rd-paper);
+  border: 1px solid color-mix(in srgb, var(--rd-ink) 35%, transparent);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--rd-body-font);
+  font-size: 0.75rem;
+  font-weight: 600;
+  gap: 12px;
+  min-height: 94px;
+  padding: 12px;
+}
+
+.rd-build__swatch {
+  border: 1px solid var(--rd-ink);
+  border-radius: 50%;
+  display: block;
+  height: 28px;
+  width: 28px;
+}
+
+.rd-build__swatch--graphite {
+  background: var(--rd-ink);
+}
+
+.rd-build__swatch--tangerine {
+  background: var(--rd-orange);
+}
+
+.rd-build__swatch--cream {
+  background: var(--rd-paper);
+}
+
+.rd-build__input:checked + .rd-build__finish-card,
+.rd-build__input:checked + .rd-build__tire-card {
+  border-color: var(--rd-blue);
+  box-shadow: inset 0 0 0 1px var(--rd-blue);
+}
+
+.rd-build__input:focus-visible + .rd-build__finish-card,
+.rd-build__input:focus-visible + .rd-build__tire-card,
+.rd-build__input:focus-visible + .rd-build__accessory-card {
+  outline: 3px solid var(--rd-blue);
+  outline-offset: 3px;
+}
+
+.rd-build__finish-label:hover .rd-build__finish-card,
+.rd-build__tire-label:hover .rd-build__tire-card {
+  border-color: var(--rd-blue);
+}
+
+.rd-build__tire-options {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rd-build__tire-card {
+  align-items: center;
+  background: var(--rd-paper);
+  border: 1px solid color-mix(in srgb, var(--rd-ink) 35%, transparent);
+  display: flex;
+  gap: 8px;
+  min-height: 74px;
+  padding: 12px;
+}
+
+.rd-build__tire-card strong,
+.rd-build__tire-card small {
+  display: block;
+  font-family: var(--rd-body-font);
+}
+
+.rd-build__tire-card strong {
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+
+.rd-build__tire-card small {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.rd-build__tire-icon {
+  flex: 0 0 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.rd-build__tire-icon circle {
+  fill: none;
+  stroke: var(--rd-ink);
+  stroke-width: 4;
+}
+
+.rd-build__tire-icon .rd-build__icon-city {
+  stroke: var(--rd-paper);
+  stroke-width: 1;
+}
+
+.rd-build__tire-icon .rd-build__icon-gravel {
+  stroke: var(--rd-paper);
+  stroke-dasharray: 2 4;
+  stroke-width: 3;
+}
+
+.rd-build__radio-mark {
+  border: 1px solid var(--rd-ink);
+  border-radius: 50%;
+  flex: 0 0 14px;
+  height: 14px;
+  margin-left: auto;
+  width: 14px;
+}
+
+.rd-build__input:checked + .rd-build__tire-card .rd-build__radio-mark {
+  background: var(--rd-blue);
+  box-shadow: inset 0 0 0 3px var(--rd-paper);
+}
+
+.rd-build__accessories {
+  border-top: 1px solid color-mix(in srgb, var(--rd-ink) 30%, transparent);
+}
+
+.rd-build__accessory-card {
+  align-items: center;
+  border-bottom: 1px solid color-mix(in srgb, var(--rd-ink) 30%, transparent);
+  display: flex;
+  font-family: var(--rd-body-font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 0;
+}
+
+.rd-build__accessory-number {
+  color: var(--rd-blue);
+  font-family: var(--rd-mono);
+  font-size: 0.6875rem;
+}
+
+.rd-build__accessory-label:hover .rd-build__accessory-card {
+  color: var(--rd-blue);
+}
+
+.rd-build__switch {
+  background: color-mix(in srgb, var(--rd-ink) 30%, var(--rd-paper));
+  border: 1px solid var(--rd-ink);
+  border-radius: 20px;
+  display: flex;
+  height: 24px;
+  margin-left: auto;
+  padding: 3px;
+  transition: background-color 180ms var(--rd-ease);
+  width: 42px;
+}
+
+.rd-build__switch span {
+  background: var(--rd-ink);
+  border-radius: 50%;
+  height: 16px;
+  transition: transform 180ms var(--rd-ease);
+  width: 16px;
+}
+
+.rd-build__input:checked + .rd-build__accessory-card .rd-build__switch {
+  background: var(--rd-mint);
+}
+
+.rd-build__input:checked + .rd-build__accessory-card .rd-build__switch span {
+  transform: translateX(18px);
+}
+
+.rd-build__summary {
+  align-items: center;
+  background: var(--rd-ink);
+  color: var(--rd-paper);
+  display: flex;
+  gap: 32px;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1600px;
+  padding: 24px clamp(24px, 3vw, 48px);
+}
+
+.rd-build__summary-label {
+  color: var(--rd-mint);
+  margin: 0 0 8px;
+}
+
+.rd-build__summary-text {
+  font-family: var(--rd-body-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.rd-build__reset {
+  background: transparent;
+  border: 1px solid var(--rd-paper);
+  color: var(--rd-paper);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-family: var(--rd-body-font);
+  font-size: 0.875rem;
+  font-weight: 700;
+  min-height: 48px;
+  padding: 8px 16px;
+  transition: background-color 180ms var(--rd-ease), color 180ms var(--rd-ease), transform 90ms var(--rd-ease);
+}
+
+.rd-build__reset span {
+  display: inline-block;
+  font-size: 1.25rem;
+  margin-right: 8px;
+  vertical-align: -1px;
+}
+
+.rd-build__reset:hover,
+.rd-build__reset:focus-visible {
+  background: var(--rd-orange);
+  border-color: var(--rd-orange);
+  color: var(--rd-ink);
+}
+
+.rd-build__reset:focus-visible {
+  outline: 3px solid var(--rd-mint);
+  outline-offset: 3px;
+}
+
+.rd-build__reset:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 800px) {
+  .rd-build__heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .rd-build__intro {
+    max-width: 340px;
+  }
+
+  .rd-build__workbench {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rd-build__stage {
+    border-bottom: 1px solid var(--rd-ink);
+  }
+
+  .rd-build__controls {
+    border-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .rd-build__heading h2 {
+    font-size: clamp(3rem, 14vw, 4.5rem);
+  }
+
+  .rd-build__stage {
+    padding: 16px 12px;
+  }
+
+  .rd-build__stage-meta,
+  .rd-build__stage-footer {
+    font-size: 0.625rem;
+  }
+
+  .rd-build__controls {
+    padding: 24px 16px;
+  }
+
+  .rd-build__finish-card {
+    padding: 10px;
+  }
+
+  .rd-build__tire-card {
+    gap: 4px;
+    padding: 8px;
+  }
+
+  .rd-build__tire-icon {
+    flex-basis: 32px;
+    height: 32px;
+    width: 32px;
+  }
+
+  .rd-build__summary {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-build__bike-image,
+  .rd-build__part,
+  .rd-build__finish-card,
+  .rd-build__tire-card,
+  .rd-build__accessory-card,
+  .rd-build__switch,
+  .rd-build__switch span,
+  .rd-build__reset {
+    transition: none;
+  }
+}

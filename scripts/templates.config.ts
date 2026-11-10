@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay";
+export type TemplateSlug = "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,35 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  aerune: { palette: ["#101A1D", "#F3EFE5", "#FCFAF4", "#C6D8CF", "#A6B3AC", "#ED7546", "#203631"] },
+  orbitbeyond: {
+    palette: ["#030812", "#091525", "#1E2A36", "#AAB7C4", "#EDF6FD", "#8DE9FF", "#178CFA", "#F6C98C"],
+    paletteExempt: ["src/app/(orbitbeyond)/"],
+    mediaExempt: true,
+  },
+  forum: {
+    palette: ["#171814", "#0E100C", "#B9B28A", "#8C876B", "#F6F3EA", "#D7D1B8"],
+    paletteExempt: ["src/app/(forum)/"],
+    mediaExempt: true,
+  },
+  frameone: { palette: ["#DED9CF", "#201D1E", "#B13F32", "#8DA7A9", "#F7F2E9"] },
+  kinfield: { palette: ["#F4EEE6", "#777F5E", "#554352", "#EFAE97", "#352C2C"] },
+  grandstand: { palette: ["#511C2F", "#F4E7D1", "#E45D3D", "#102F38", "#E7F584"] },
+  daymark: { palette: ["#F0E8D9", "#2C4EEA", "#C46D48", "#252821", "#F6D873"], mediaExempt: true },
+  holloway: {
+    palette: ["#F5F2EA", "#EBE5D8", "#262824", "#B88C60", "#A6BBC7", "#874C54", "#777974"],
+    paletteExempt: ["src/app/(holloway)/"],
+    mediaExempt: true,
+  },
+  glyphwork: {
+    palette: ["#F7F7F0", "#111111", "#F02F83", "#E5F56B", "#6E57D5", "#0B0B0B", "#F4F0E8"],
+    paletteExempt: ["src/app/(glyphwork)/"],
+    mediaExempt: true,
+  },
+  radius: {
+    // chalk, gunmetal, tangerine, technical blue, ice mint
+    palette: ["#F3F0E8", "#272B32", "#F26836", "#244BA8", "#B8E9DD"],
+  },
   patchbay: {
     // graphite (page), panel (cards), seam (hairlines), bone (text), steel (muted text), amber (the only signal accent)
     palette: ["#15161A", "#1E2024", "#34373D", "#ECE8DF", "#9A9CA3", "#F2A93B"],
@@ -166,7 +195,7 @@ const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDown
     paletteExempt: ["src/app/(mercer)/mercer/continuation/"],
     mediaExempt: true,
   },
-  landingx: { palette: ["#BEAA97", "#815751", "#E5DDD7", "#E8EEEE", "#4B3C2E", "#826851"] },
+  landingx: { palette: ["#F1F0E8", "#B53E2B", "#E4E6DD", "#FAF9F3", "#222622", "#899385"] },
   avel: { palette: ["#CDB3A3", "#F8F5EF", "#243A32", "#FFFFFF", "#E8DDD2", "#5A6A60"] },
   pello: { palette: ["#FFF9F1", "#F2E7E4", "#321C2D", "#653453", "#EF9A9A", "#DCE5BA", "#45624A", "#70616F"] },
   noiseclub: {

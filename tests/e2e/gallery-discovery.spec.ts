@@ -6,8 +6,8 @@ test("search, provider, category, reset and URL hydration work together", async 
   await page.goto("/");
   await page.getByRole("button", { name: "OpenAI", exact: true }).click();
   await expect(page.locator("article")).toHaveCount(TEMPLATES.filter((template) => modelFamily(template.model) === "openai").length);
-  await page.getByRole("tab", { name: "3D & WebGPU" }).click();
-  await expect(page.locator("article")).toHaveCount(4);
+  await page.getByRole("tab", { name: /^3D(?:\s|\()/ }).click();
+  await expect(page.locator("article")).toHaveCount(TEMPLATES.filter((template) => modelFamily(template.model) === "openai" && template.categories.includes("3d")).length);
   await page.getByRole("searchbox").fill("trace");
   await expect(page.locator("article")).toHaveCount(1);
   await expect(page).toHaveURL(/q=trace/);

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">Glyphwork specimen measurement overlay</title>
+<desc id="desc">Transparent vector lab grid, baseline, cap-height, ascender and descender lines, tick marks and coordinate labels designed to sit behind live editable font glyphs.</desc>
+<defs>
+ <pattern id="micro" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="#111111" stroke-opacity=".075" stroke-width="1"/></pattern>
+ <pattern id="major" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0H0V100" fill="none" stroke="#111111" stroke-opacity=".1" stroke-width="1"/></pattern>
+ <pattern id="ticks" width="20" height="14" patternUnits="userSpaceOnUse"><path d="M0 0V9" stroke="#111111" stroke-width="1" stroke-opacity=".5"/></pattern>
+</defs>
+<!-- Transparent backdrop: does not cover live text -->
+<rect width="1600" height="900" fill="url(#micro)"/>
+<rect width="1600" height="900" fill="url(#major)"/>
+<g fill="none" stroke-width="1.5">
+ <path d="M0 170H1600" stroke="#6E57D5" stroke-dasharray="8 7" opacity=".7"/>
+ <path d="M0 300H1600" stroke="#F02F83" stroke-dasharray="4 8" opacity=".8"/>
+ <path d="M0 650H1600" stroke="#111111" stroke-width="2.5"/>
+ <path d="M0 750H1600" stroke="#6E57D5" stroke-dasharray="8 7" opacity=".7"/>
+ <path d="M95 85V820M1505 85V820" stroke="#F02F83" stroke-width="1.5" opacity=".75"/>
+ <path d="M95 100H1505" stroke="#111111" stroke-opacity=".4"/>
+ <path d="M95 810H1505" stroke="#111111" stroke-opacity=".4"/>
+ <path d="M95 100V115M1505 100V115M95 795V810M1505 795V810" stroke="#111111"/>
+</g>
+<rect x="95" y="105" width="1410" height="14" fill="url(#ticks)"/>
+<rect x="95" y="792" width="1410" height="14" fill="url(#ticks)"/>
+<g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="1.5" fill="#111111">
+ <text x="110" y="152">ASCENDER</text><text x="110" y="284" fill="#F02F83">CAP HEIGHT</text>
+ <text x="110" y="635">BASELINE / 000</text><text x="110" y="737" fill="#6E57D5">DESCENDER</text>
+ <text x="110" y="92">X 000</text><text x="1450" y="92">X 1410</text>
+ <text x="110" y="840">GLYPHWORK / METRIC FIELD</text><text x="1250" y="840">LIVE TYPE OVERLAY</text>
+</g>
+<g stroke="#F02F83" fill="none" stroke-width="2"><path d="M85 640h20v20M1495 640h20v20"/></g>
+<g fill="#E5F56B" stroke="#111111" stroke-width="1.5"><circle cx="95" cy="650" r="6"/><circle cx="1505" cy="650" r="6"/></g>
+</svg>

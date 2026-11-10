@@ -1,0 +1,7 @@
+﻿# DAYMARK — A brighter way to power home
+
+Build an isolated Next.js App Router landing page for a fictional residential solar design service. Use the five supplied photographs from `/assets/daymark/`. Palette: limestone #F0E8D9, cobalt #2C4EEA, copper #C46D48, graphite #252821, sunflower #F6D873. Use editorial grotesk, serif italics and monospace details.
+
+Start with a full-height diagonal split: architectural house photograph on the right, headline “A brighter way to power home.” on the left, and a copper solar arc across the house. The “Explore your roof” action leads to a sticky sun-path study. A time slider from 06:00 to 18:00 at 15-minute steps updates an SVG sun, light warmth and daypart. Include season presets that alter arc elevation and three selectable roof zones with qualitative notes. Mark the whole study illustrative; do not make energy or savings claims. Manual dial input takes precedence over scroll-driven changes.
+
+Follow with Survey, Shape and Review as ruled architectural strips; editable qualitative orientation, shade and priority controls; a field photograph; and a consultation invitation opening a local inquiry demonstration that explicitly says nothing was sent. Include a compact footer. Ensure keyboard operation, focus indicators, a native accessible dialog, mobile flow layout, reduced motion, responsive local images, and no horizontal overflow. Register the isolated route in the gallery and test interactions and sun position calculations.

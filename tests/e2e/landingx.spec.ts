@@ -15,6 +15,16 @@ test("the work index filters real projects and keeps each empty image slot at 16
   await expect(page.locator(".lx-project")).toHaveCount(6);
 });
 
+test("all six project previews load in the work index", async ({ page }) => {
+  await page.goto("/templates/landingx#work");
+  const images = page.locator("#lx-project-grid img");
+  await expect(images).toHaveCount(6);
+  for (const image of await images.all()) {
+    await image.scrollIntoViewIfNeeded();
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
+  }
+});
+
 test("the starter brief can be copied", async ({ page, context }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.goto("/landingx#start");

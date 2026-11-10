@@ -12,8 +12,11 @@ const KNOWN_GOOGLE_FONTS: Record<
     variable: string;
     weight?: string | string[];
     style?: string[];
+    axes?: string[];
   }
 > = {
+  "Doto": { importName: "Doto", variable: "--font-doto", axes: ["ROND"] },
+  "IBM Plex Mono": { importName: "IBM_Plex_Mono", variable: "--font-ibm-plex-mono", weight: ["400", "500"] },
   "DM Sans": { importName: "DM_Sans", variable: "--font-dm-sans" },
   "JetBrains Mono": { importName: "JetBrains_Mono", variable: "--font-jetbrains-mono" },
   "Inter": { importName: "Inter", variable: "--font-inter" },
@@ -320,6 +323,9 @@ function generateLayoutTsx(meta: ParsedMeta, slug: string, pascalSlug: string): 
         }
         if (known.style) {
           options.push(`style: ${JSON.stringify(known.style)}`);
+        }
+        if (known.axes) {
+          options.push(`axes: ${JSON.stringify(known.axes)}`);
         }
         options.push(`variable: "${known.variable}"`);
         fontInstantiations.push(`const ${varName} = ${known.importName}({\n  ${options.join(",\n  ")},\n});`);

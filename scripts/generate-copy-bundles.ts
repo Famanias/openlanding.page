@@ -9,6 +9,16 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  aerune: { name: "AERUNE", dependencies: ["lenis"] },
+  orbitbeyond: { name: "ORBIT & BEYOND", dependencies: ["lucide-react", "motion"] },
+  forum: { name: "FORUM", dependencies: ["lucide-react", "motion"] },
+  frameone: { name: "FRAME/ONE", dependencies: [] },
+  kinfield: { name: "KINFIELD", dependencies: ["gsap", "@animate-ui/react", "motion"] },
+  grandstand: { name: "GRANDSTAND", dependencies: [] },
+  daymark: { name: "DAYMARK", dependencies: [] },
+  holloway: { name: "HOLLOWAY", dependencies: ["lucide-react", "motion"] },
+  glyphwork: { name: "GLYPHWORK", dependencies: ["lucide-react", "motion"] },
+  radius: { name: "RADIUS", dependencies: [] },
   patchbay: { name: "Patchbay", dependencies: ["lenis"], includeDownload: true },
   kairok: { name: "KAIRO K", dependencies: ["lucide-react", "motion"], includeDownload: true },
   auven: { name: "AUVEN", dependencies: [], includeDownload: true },
