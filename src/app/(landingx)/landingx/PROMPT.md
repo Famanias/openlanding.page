@@ -8,7 +8,7 @@ Use #F1F0E8 chalk as the primary canvas, #FAF9F3 warm white for the project inde
 
 ## Composition
 
-Begin with a full-width typographic masthead and a small strip of three project previews, then move directly into a substantial project index and 16:9 gallery. Give the work enough space to be the focus. Show Avel, Pello, Satsuma, Firstday, Rill, and Hiyas as six projects, each with a clearly labeled image placeholder until the user supplies its screenshot. Include accessible category filters and links to the existing local examples. Follow with a concise explanation of the skill, a three-step brief-to-build sequence, a copyable starter brief, and a footer. Avoid the reference website's side-by-side hero and demo layout.
+Begin with a full-width typographic masthead and a small strip of three project previews, then move directly into a substantial project index and 16:9 gallery. Give the work enough space to be the focus. Show Avel, Pello, Satsuma, Firstday, Rill, and Hiyas as six projects, using the supplied 16:9 project screenshots. Include accessible category filters and links to the existing local examples. Follow with a concise explanation of the skill, a three-step brief-to-build sequence, a copyable starter brief, and a footer. Avoid the reference website's side-by-side hero and demo layout.
 
 ## Interaction and quality
 
@@ -16,4 +16,4 @@ Use the gallery filter and staggered project sheets as the signature interaction
 
 ## Screenshots
 
-Do not generate project images. The six user-supplied 16:9 filenames and processing instructions are in docs/image-prompts/landingx.md. Use labelled, compositionally intentional placeholders until those assets are added.
+Use the six supplied project screenshots. Their filenames and processing instructions are in docs/image-prompts/landingx.md. Keep a labeled placeholder fallback for missing assets.

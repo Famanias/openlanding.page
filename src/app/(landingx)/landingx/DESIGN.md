@@ -1,7 +1,7 @@
 # Landing X — design specification
 
 ## Requirements
-An isolated Next.js 16 / React / TypeScript landing-page template at `/landingx`, advertising the create-landing-template agent skill under the name Landing X. The user will provide the project screenshots later: reserve six clearly named 16:9 image slots and do not substitute existing screenshots. The reference at impeccable.style informs visual restraint and motion only; its layout and copy are not replicated.
+An isolated Next.js 16 / React / TypeScript landing-page template at `/landingx`, advertising the create-landing-template agent skill under the name Landing X. The six project screenshots use the supplied gallery previews, cropped to 16:9 and processed into route-local assets. The reference at impeccable.style informs visual restraint and motion only; its layout and copy are not replicated.
 
 ## Concept
 Each landing page starts as a brief and becomes an individual piece of work, so Landing X presents the output as a working index of projects. Visitors can filter that index, follow a project to its actual local template, and copy a starter brief. Mood: editorial, precise, considered, open, kinetic.
@@ -41,4 +41,4 @@ The crossed X mark, specimen-style project numbers, 16:9 framed placeholders wit
 Keep the ink, chalk and vermilion palette consistent, label missing images honestly, and link only to real local examples. Do not copy the reference's layout, words, visual assets, or before/after component. Do not claim the display name is an installed command. Do not generate or source the user's screenshots.
 
 ## Files and imagery
-`showcase/` contains project data and filter logic, `sections/` contains the page, `motion/` contains the small observer runtime, and `brand/` contains the logo. Put user-provided 16:9 images in `assets/incoming/landingx/` using the filenames in `docs/image-prompts/landingx.md`, then run `npm run images -- landingx`.
+`showcase/` contains project data and filter logic, `sections/` contains the page, `motion/` contains the small observer runtime, and `brand/` contains the logo. To replace the supplied 16:9 previews, put images in `assets/incoming/landingx/` using the filenames in `docs/image-prompts/landingx.md`, then run `npm run images -- landingx`.

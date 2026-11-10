@@ -1,6 +1,6 @@
 # Landing X — user-supplied showcase images
 
-The six images are intentionally left as placeholders until the user supplies them. Each should be a 16:9 screenshot of the named landing-page template, ideally at least 1600 × 900 pixels. Save PNG, JPEG, or WebP files in `assets/incoming/landingx/` with these exact base names:
+The six project previews were supplied from `public/gallery/` and cropped to 16:9 from the top of each image. The source files are saved in `assets/incoming/landingx/` with these names:
 
 | Filename | Project |
 |---|---|
@@ -11,4 +11,11 @@ The six images are intentionally left as placeholders until the user supplies th
 | `work-rill.png` | Rill |
 | `work-hiyas.png` | Hiyas |
 
-The extension may be `.jpg` or `.webp` instead. Then run `npm run images -- landingx` to create 800/1600 AVIF and WebP variants and populate the asset manifest. The gallery will replace each matching placeholder automatically. Do not include a screenshot of this Landing X page in these slots.
+To replace a preview, use PNG, JPEG, or WebP with the same base name. Then run `npm run images -- landingx` to create 800/1600 AVIF and WebP variants and populate the asset manifest. The gallery will use each matching processed image automatically. Do not include a screenshot of this Landing X page in these slots.
+
+## Generated backgrounds
+
+- `hero-background.png`: 16:9 chalk paper and geometric drafting marks with a restrained vermilion accent, created for the hero.
+- `footer-background.png`: 16:9 dark layered printmaking paper with a small vermilion mark, created for the footer.
+
+Both original images are in `assets/incoming/landingx/` and processed by the same image command.
