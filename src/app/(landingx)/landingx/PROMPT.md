@@ -4,7 +4,7 @@ Build a complete responsive landing page for Landing X, the public-facing name o
 
 ## Identity
 
-Use #BEAA97 as the primary light brown canvas and #815751 as the complementary rust. Use #E5DDD7, #E8EEEE, #4B3C2E and #826851 for supporting surfaces and text. Derive tints from these colors and darken the ink for small text on light brown. Use Barlow Condensed for tall, light display type, Manrope for body, and IBM Plex Mono for labels. Create an original crossed-X mark.
+Use #F1F0E8 chalk as the primary canvas, #FAF9F3 warm white for the project index, #222622 ink for type and the approach section, #B53E2B vermilion for actions and emphasis, with #E4E6DD fog and #899385 sage for supporting surfaces. Derive tints from these colors. Use Barlow Condensed for display, Manrope for body, and IBM Plex Mono for labels. Create an original crossed-X mark.
 
 ## Composition
 

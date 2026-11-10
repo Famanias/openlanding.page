@@ -7,6 +7,7 @@ Save the original files in `assets/incoming/aerune/` with the exact names below.
 | `hero-atmosphere.png` | 16:9 | atmospheric backdrop behind the hero |
 | `building-at-dusk.png` | 4:3 | workplace story panel |
 | `sensor-detail.png` | 4:3 | sensing capability panel |
+| `footer-atmosphere.png` | panoramic | footer background, generated and installed |
 
 ## hero-atmosphere.png
 
@@ -19,3 +20,7 @@ Premium architectural editorial photograph of a contemporary workplace interior 
 ## sensor-detail.png
 
 Premium macro product photograph of a small rounded environmental sensor resting on a pale stone desk, restrained industrial design, soft side light and delicate shadows, deep charcoal, muted green and warm ivory palette, realistic material texture, generous negative space, no text, no logos, no people's faces, 4:3.
+
+## footer-atmosphere.png
+
+Wide cinematic photographic background: layered mountain ridges dissolve into drifting mist at blue hour, with a subtle warm ember horizon. Deep charcoal, muted forest green and slate, dark tonal texture, calm editorial composition with negative space for footer text. No people, buildings, text, logos or watermark.

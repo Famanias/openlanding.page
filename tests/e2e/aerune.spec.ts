@@ -46,3 +46,13 @@ test("reduced motion and no JavaScript keep the page readable", async ({ browser
   await expect(staticPage.getByRole("heading", { name: /air through the day/i })).toBeVisible();
   await context.close();
 });
+
+test("the timeline and workplace visuals reveal while scrolling", async ({ page }) => {
+  await page.goto("/templates/aerune");
+  for (const selector of [".ar-timeline__sticky", ".ar-workplace__visual"]) {
+    const visual = page.locator(selector);
+    await visual.scrollIntoViewIfNeeded();
+    await expect(visual).toHaveAttribute("data-in", "true");
+    await expect(visual).toHaveCSS("clip-path", "none");
+  }
+});

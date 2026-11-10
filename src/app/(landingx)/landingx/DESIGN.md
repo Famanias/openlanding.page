@@ -7,7 +7,7 @@ An isolated Next.js 16 / React / TypeScript landing-page template at `/landingx`
 Each landing page starts as a brief and becomes an individual piece of work, so Landing X presents the output as a working index of projects. Visitors can filter that index, follow a project to its actual local template, and copy a starter brief. Mood: editorial, precise, considered, open, kinetic.
 
 ## Palette
-Light brown `#BEAA97` is the primary canvas. Rust `#815751` is the complementary accent. Warm paper `#E5DDD7`, cool paper `#E8EEEE`, deep brown `#4B3C2E`, and earth `#826851` support the layout. For small text on light brown, mix deep brown with black to meet contrast; all other tints derive from the supplied colors.
+Chalk `#F1F0E8` is the main canvas, warm white `#FAF9F3` carries the project index, and ink `#222622` anchors typography and the approach section. Vermilion `#B53E2B` signals actions and emphasis; fog `#E4E6DD` and sage `#899385` support project placeholders. Tints derive from these colors.
 
 ## Type
 Barlow Condensed supplies the tall, light display voice; Manrope supplies readable body text; IBM Plex Mono carries labels, indexes, and the brief. Fonts are isolated through `next/font/google`. Headlines are large but bounded, with intentional line breaks and generous margins.
@@ -38,7 +38,7 @@ Reduced motion renders all content immediately, removes scroll-linked motion, an
 The crossed X mark, specimen-style project numbers, 16:9 framed placeholders with crop marks, small mono production notes, and strong horizontal rules.
 
 ## Do / Don't
-Keep the specific supplied palette, label missing images honestly, and link only to real local examples. Do not copy the reference's layout, words, visual assets, or before/after component. Do not claim the display name is an installed command. Do not generate or source the user's screenshots.
+Keep the ink, chalk and vermilion palette consistent, label missing images honestly, and link only to real local examples. Do not copy the reference's layout, words, visual assets, or before/after component. Do not claim the display name is an installed command. Do not generate or source the user's screenshots.
 
 ## Files and imagery
 `showcase/` contains project data and filter logic, `sections/` contains the page, `motion/` contains the small observer runtime, and `brand/` contains the logo. Put user-provided 16:9 images in `assets/incoming/landingx/` using the filenames in `docs/image-prompts/landingx.md`, then run `npm run images -- landingx`.
