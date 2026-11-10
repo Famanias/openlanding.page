@@ -179,7 +179,7 @@ export function responsivePhoto(src: string): string {
  .kf-dock{left:10px;top:20px;transform:none;width:46px;min-height:46px;height:46px;padding:0;justify-content:center}.kf-dock-label,.kf-dock-num{display:none}
  .kf-hero{height:auto;padding:10px 10px 0}.kf-hero-sticky{height:auto;position:relative;top:auto}.kf-hero-grid{height:72svh;min-height:520px}.kf-hero-image{clip-path:none;border-radius:24px}.kf-hero-backdrop{display:none}.kf-hero-pose{left:0;width:100%;object-fit:cover;object-position:center 52%;transition:opacity .45s}.kf-hero-pose[data-active=true]{opacity:1}.kf-hero-pose[data-active=false]{opacity:0}
  .kf-manifesto,.kf-hero-ledger{display:none}.kf-sideword{left:20px;top:20px;writing-mode:horizontal-tb;font-size:15px;margin-left:55px}.kf-photo-caption{left:20px;right:20px;bottom:25px}.kf-pose-controls{display:flex;position:absolute;right:15px;top:15px;gap:3px}.kf-pose-controls button{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:rgb(244 238 230 / .8)}.kf-pose-controls button span{height:7px;width:7px;border-radius:50%;background:var(--kf-cocoa);opacity:.35}.kf-pose-controls button[aria-pressed=true] span{opacity:1;transform:scale(1.4)}
- .kf-mobile-hero-copy{display:block;padding:35px 12px 55px}.kf-mobile-hero-copy h2{font-size:clamp(60px,11vw,105px);font-weight:500;line-height:.93;letter-spacing:-.075em;margin:17px 0 25px}.kf-mobile-hero-copy>div{display:flex;align-items:center;gap:25px;flex-wrap:wrap}
+ .kf-mobile-hero-copy{display:block;padding:35px 12px 55px}.kf-mobile-hero-copy h1, .kf-mobile-hero-copy h2{font-size:clamp(60px,11vw,105px);font-weight:500;line-height:.93;letter-spacing:-.075em;margin:17px 0 25px}.kf-mobile-hero-copy>div{display:flex;align-items:center;gap:25px;flex-wrap:wrap}
  .kf-practice{padding-top:40px}.kf-practice-stage{min-height:620px}.kf-practice-card{width:45%}.kf-teacher-caption{display:block}.kf-teacher-caption p{margin-top:16px}
 }
 @media(max-width:700px){
@@ -469,7 +469,7 @@ export function Hero() {
           </aside>
           <div className="kf-sideword" aria-label="Kinfield">KINFIELD<span>®</span></div>
         </div>
-        <div className="kf-mobile-hero-copy"><span className="kf-eyebrow">A MOVEMENT STUDIO / 085</span><h2>Move in your<br />own <em>rhythm.</em></h2><div><a className="kf-button kf-button-dark" href="#session">Find a session <span>↗</span></a><a className="kf-text-link" href="#practice">Explore the practice ↘</a></div></div>
+        <div className="kf-mobile-hero-copy"><span className="kf-eyebrow">A MOVEMENT STUDIO / 085</span><h1>Move in your<br />own <em>rhythm.</em></h1><div><a className="kf-button kf-button-dark" href="#session">Find a session <span>↗</span></a><a className="kf-text-link" href="#practice">Explore the practice ↘</a></div></div>
       </div>
     </section>
   );

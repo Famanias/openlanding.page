@@ -114,15 +114,15 @@ export const HeroTypeLab: React.FC<HeroTypeLabProps> = ({
               aria-hidden="true"
               className="absolute -bottom-[3px] -right-[3px] w-[5px] h-[5px] bg-[#111111]"
             />
-            <span
-              className="block text-[24px] sm:text-[28px] leading-none tracking-[-0.02em] text-[#111111] select-none"
+            <h1
+              className="block text-[24px] sm:text-[28px] leading-none tracking-[-0.02em] text-[#111111] select-none m-0 font-normal"
               style={{
                 fontFamily: 'var(--gw-font-specimen)',
                 fontVariationSettings: "'wght' 760, 'wdth' 62, 'slnt' 0, 'opsz' 144",
               }}
             >
               GLYPHWORK
-            </span>
+            </h1>
           </div>
 
           <div className="gw-mono text-[11px] sm:text-[12px] leading-[1.35] tracking-[0.03em] text-[#111111]">

@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 export { adaptProps } from "./runtime";
 
-const MIME: Record<string, string> = { ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/woff2", ".woff": "font/woff", ".ttf": "font/ttf", ".ico": "image/x-icon", ".glb": "model/gltf-binary", ".mp4": "video/mp4" };
+const MIME: Record<string, string> = { ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/woff2", ".woff": "font/woff", ".ttf": "font/ttf", ".ico": "image/x-icon", ".glb": "model/gltf-binary", ".mp4": "video/mp4", ".json": "application/json" };
 function inside(file: string, directory: string) {
   const relative = path.relative(directory, file);
   return relative !== ".." && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative);

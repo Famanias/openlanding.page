@@ -42,7 +42,7 @@ export function Hero() {
           </aside>
           <div className="kf-sideword" aria-label="Kinfield">KINFIELD<span>®</span></div>
         </div>
-        <div className="kf-mobile-hero-copy"><span className="kf-eyebrow">A MOVEMENT STUDIO / 085</span><h2>Move in your<br />own <em>rhythm.</em></h2><div><a className="kf-button kf-button-dark" href="#session">Find a session <span>↗</span></a><a className="kf-text-link" href="#practice">Explore the practice ↘</a></div></div>
+        <div className="kf-mobile-hero-copy"><span className="kf-eyebrow">A MOVEMENT STUDIO / 085</span><h1>Move in your<br />own <em>rhythm.</em></h1><div><a className="kf-button kf-button-dark" href="#session">Find a session <span>↗</span></a><a className="kf-text-link" href="#practice">Explore the practice ↘</a></div></div>
       </div>
     </section>
   );

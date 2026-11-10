@@ -14,8 +14,8 @@ const require = createRequire(import.meta.url);
 export async function collectAssets(slug: StandaloneSlug, root: string, assets: AssetStore) {
   const optimize = ["savepoint", "synapxe", "xibalba"].includes(slug);
   const prepare = (url: string) => assets.prepare(url, optimize);
-  const mediaDirectory = path.join(root, "public/templates", slug);
-  const media = (fs.existsSync(mediaDirectory) ? fs.readdirSync(mediaDirectory, {recursive:true, withFileTypes:true}) : []).filter(file => file.isFile() && !/aistudio/.test(file.parentPath)).map(file => path.join(file.parentPath, file.name));
+  const mediaDirectories = [path.join(root, "public/templates", slug), path.join(root, "public/assets", slug)];
+  const media = mediaDirectories.flatMap(dir => fs.existsSync(dir) ? fs.readdirSync(dir, {recursive:true, withFileTypes:true}) : []).filter(file => file.isFile() && !/aistudio/.test(file.parentPath)).map(file => path.join(file.parentPath, file.name));
   for (const file of readTemplateFiles(slug, true)) {
     if (/\/(?:layout|opengraph-image)\.[jt]sx?$/.test(file.path)) continue;
     const literals=/\.[jt]sx?$/.test(file.path)?assetLiterals(file.source,file.path):[];
@@ -25,6 +25,11 @@ export async function collectAssets(slug: StandaloneSlug, root: string, assets: 
         // Some authored picture components derive their PNG fallback from a WebP data URL.
         const fallback = url.replace(/\.webp$/, ".png");
         if (fallback !== url && fs.existsSync(path.join(root, "public", fallback.slice(1)))) await prepare(fallback);
+        const prefix = url.replace(/\.[a-z0-9]+$/i, "");
+        for (const candidate of media) {
+          const candidateUrl = "/" + path.relative(path.join(root, "public"), candidate).replace(/\\/g, "/");
+          if (candidateUrl.startsWith(prefix) && candidateUrl !== url) assets.aliases[candidateUrl] = url;
+        }
       }
     }
     if (file.path.endsWith("assets.generated.ts")) {
@@ -45,7 +50,7 @@ export async function collectAssets(slug: StandaloneSlug, root: string, assets: 
     }
     {
       // Authored helpers construct paths from BASE plus these literal basenames.
-      for (const [name] of literals.join("\n").matchAll(/[\w.-]+\.(?:png|jpe?g|webp|avif|svg|glb|ttf|woff2?|mp4)\b/g)) {
+      for (const [name] of literals.join("\n").matchAll(/[\w.-]+\.(?:png|jpe?g|webp|avif|svg|glb|ttf|woff2?|mp4|json)\b/g)) {
         const candidates = media.filter(file => path.basename(file) === name).sort((a,b) => a.length - b.length);
         if (candidates[0]) await prepare("/" + path.relative(path.join(root,"public"), candidates[0]).replace(/\\/g,"/"));
       }

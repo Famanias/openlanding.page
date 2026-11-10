@@ -35,7 +35,7 @@ export function assetPatterns(source: string, filename: string): RegExp[] {
   };
   const visit = (node: ts.Node) => {
     if ((ts.isTemplateExpression(node) || (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.PlusToken)) &&
-        /\.(?:png|jpe?g|webp|avif|svg|glb|ttf|woff2?|mp4)(?:[?#].*)?$/i.test(suffix(node))) patterns.add(`^${pattern(node, true)}$`);
+        /\.(?:png|jpe?g|webp|avif|svg|glb|ttf|woff2?|mp4|json)(?:[?#].*)?$/i.test(suffix(node))) patterns.add(`^${pattern(node, true)}$`);
     ts.forEachChild(node, visit);
   };
   visit(file);
