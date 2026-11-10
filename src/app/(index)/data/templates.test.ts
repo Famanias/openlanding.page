@@ -96,6 +96,14 @@ describe("gallery template data", () => {
     }
   });
 
+  it("verifies all active templates have standalone downloads that exist in public/downloads", () => {
+    for (const template of TEMPLATES) {
+      expect(template.hasDownload).toBe(true);
+      const downloadPath = path.join(process.cwd(), "public", "downloads", `${template.slug}.html`);
+      expect(fs.existsSync(downloadPath), `Missing download file for ${template.slug}`).toBe(true);
+    }
+  });
+
   it("exports the complete SAVEPOINT rebuild prompt in the gallery", () => {
     const savepoint = TEMPLATES.find((template) => template.slug === "savepoint");
     expect(savepoint?.promptMarkdown.trim()).toBe(
