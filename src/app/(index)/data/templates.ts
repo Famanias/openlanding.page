@@ -2807,7 +2807,7 @@ RAW_TEMPLATES.push(
   {
     slug: "forum",
     createdAt: "2026-11-09",
-    hasDownload: false,
+    hasDownload: true,
     title: "FORUM",
     description: "One intelligent system for your contacts, conversations, pipeline, and next move. An OpenLanding interactive product concept.",
     category: "showcase" as TemplateCategory,
