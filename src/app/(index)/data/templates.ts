@@ -2823,7 +2823,7 @@ RAW_TEMPLATES.push(
   {
     slug: "orbitbeyond",
     createdAt: "2026-11-09",
-    hasDownload: false,
+    hasDownload: true,
     title: "ORBIT & BEYOND",
     description: "Standalone cinematic concept experience for ORBIT &amp; BEYOND, a speculative 2045 lunar weekend expedition company in the OpenLanding collection.",
     category: "showcase" as TemplateCategory,
