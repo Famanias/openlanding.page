@@ -11,9 +11,9 @@
   --forum-line: rgba(185, 178, 138, 0.38);
   --forum-line-subtle: rgba(185, 178, 138, 0.18);
   --forum-ink-line: rgba(23, 24, 20, 0.24);
-  --font-doto: 'Doto', 'IBM Plex Mono', 'Courier New', monospace;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-sans: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-doto: var(--font-forum-doto), 'Doto', 'IBM Plex Mono', 'Courier New', monospace;
+  --font-mono: var(--font-forum-mono), 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: var(--font-forum-sans), var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @layer base {

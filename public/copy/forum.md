@@ -13,12 +13,28 @@
   <files>
     <file path="src/app/(forum)/layout.tsx">
 <![CDATA[import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Doto, IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./forum/forum.css";
 
-const plus_Jakarta_Sans = Plus_Jakarta_Sans({
+const doto = Doto({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta-sans",
+  variable: "--font-forum-doto",
+  axes: ["ROND"],
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-forum-mono",
+  display: "swap",
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-forum-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -46,7 +62,10 @@ export default function ForumLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark ${plus_Jakarta_Sans.variable} scroll-smooth`}>
+    <html
+      lang="en"
+      className={`dark ${doto.variable} ${ibmPlexMono.variable} ${plusJakartaSans.variable} scroll-smooth`}
+    >
       <body className="bg-[#0E100C] text-[#F6F3EA] antialiased selection:bg-[#B9B28A] selection:text-[#0E100C]">
         {children}
       </body>
@@ -121,9 +140,9 @@ export function Picture({ assetKey, alt, className }: PictureProps) {
   --forum-line: rgba(185, 178, 138, 0.38);
   --forum-line-subtle: rgba(185, 178, 138, 0.18);
   --forum-ink-line: rgba(23, 24, 20, 0.24);
-  --font-doto: 'Doto', 'IBM Plex Mono', 'Courier New', monospace;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-sans: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-doto: var(--font-forum-doto), 'Doto', 'IBM Plex Mono', 'Courier New', monospace;
+  --font-mono: var(--font-forum-mono), 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: var(--font-forum-sans), var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @layer base {
