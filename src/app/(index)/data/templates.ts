@@ -2962,7 +2962,7 @@ RAW_TEMPLATES.push(
     badges: ["Interactive Landing", "Responsive", "Accessible"],
     previewImage: "/templates/postmark/preview-1600.webp",
     promptMarkdown: POSTMARK_PROMPT,
-    model: "Gemini 4 Argon High",
+    model: "Gemini 4 Carbon High",
   }
 );
 
