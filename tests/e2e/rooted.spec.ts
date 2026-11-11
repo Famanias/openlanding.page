@@ -99,6 +99,28 @@ test.describe("ROOTED gallery card and standalone document", () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
   });
 
+  test("section display headings have bottom clearance and are not clipped by reveals", async ({ page }) => {
+    await page.goto("/templates/rooted");
+
+    // Check display headings once revealed
+    for (const id of ["#introTitle", "#labTitle", "#guidesTitle", "#breathTitle", "#finalTitle"]) {
+      const heading = page.locator(id);
+      await heading.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(600);
+
+      const metrics = await heading.evaluate((el) => {
+        const parent = el.closest(".reveal");
+        return {
+          clipPath: parent ? getComputedStyle(parent).clipPath : "none",
+          paddingBottom: parseFloat(getComputedStyle(el).paddingBottom),
+        };
+      });
+
+      expect(metrics.clipPath).toBe("none");
+      expect(metrics.paddingBottom).toBeGreaterThan(10);
+    }
+  });
+
   test("content is visible without JavaScript", async ({ browser }) => {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
     try {
