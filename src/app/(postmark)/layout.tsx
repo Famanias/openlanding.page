@@ -43,6 +43,11 @@ export default function PostmarkLayout({
 }) {
   return (
     <html lang="en" className={`${caveat.variable} ${dM_Sans.variable} ${fraunces.variable} scroll-smooth`}>
+      <head>
+        <noscript>
+          <style>{'[data-envelope-overlay] { display: none !important; }'}</style>
+        </noscript>
+      </head>
       <body className="bg-[#0b0b0b] text-[#f4f0e8] antialiased">
         {children}
       </body>

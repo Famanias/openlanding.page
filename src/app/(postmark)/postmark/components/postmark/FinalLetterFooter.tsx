@@ -53,7 +53,11 @@ export const FinalLetterFooter: React.FC = () => {
   const perforationPathRef = useRef<SVGPathElement | null>(null);
   const backToTopRef = useRef<HTMLButtonElement | null>(null);
 
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState<number>(2026);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   useEffect(() => {
     if (reducedMotion) return;

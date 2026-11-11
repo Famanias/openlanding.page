@@ -62,9 +62,7 @@ const STAGE_META: ReadonlyArray<{
 
 export const PostcardBuilderStory: React.FC = () => {
   const reducedMotion = usePrefersReducedMotion();
-  const [isDesktopPinViewport, setIsDesktopPinViewport] = useState<boolean>(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(min-width: 901px)').matches : true
-  );
+  const [isDesktopPinViewport, setIsDesktopPinViewport] = useState<boolean>(true);
 
   const [builderState, setBuilderState] = useState(() => createInitialBuilderState('lisbon'));
   const [activeStage, setActiveStage] = useState<BuilderStageIndex>(0);

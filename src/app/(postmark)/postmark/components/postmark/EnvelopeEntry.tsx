@@ -11,7 +11,7 @@ interface EnvelopeEntryProps {
 }
 
 export const EnvelopeEntry: React.FC<EnvelopeEntryProps> = ({ onHandoff, onComplete }) => {
-  const [dismissed, setDismissed] = useState<boolean>(() => shouldSkipEntryIntro());
+  const [dismissed, setDismissed] = useState<boolean>(false);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const sheetRef = useRef<HTMLDivElement | null>(null);
   const flapRef = useRef<HTMLDivElement | null>(null);
@@ -29,6 +29,11 @@ export const EnvelopeEntry: React.FC<EnvelopeEntryProps> = ({ onHandoff, onCompl
   }, [onComplete, onHandoff]);
 
   useEffect(() => {
+    if (shouldSkipEntryIntro()) {
+      finishImmediately();
+      return;
+    }
+
     if (dismissed) {
       finishImmediately();
       return;
@@ -126,6 +131,7 @@ export const EnvelopeEntry: React.FC<EnvelopeEntryProps> = ({ onHandoff, onCompl
       ref={overlayRef}
       role="region"
       aria-label="Opening travel correspondence intro"
+      data-envelope-overlay=""
       className="fixed inset-0 z-50 overflow-hidden pointer-events-auto"
     >
       <div

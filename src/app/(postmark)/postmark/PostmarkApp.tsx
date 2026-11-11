@@ -14,8 +14,8 @@ import { FinalLetterFooter } from './components/postmark/FinalLetterFooter';
 import { ensureGsapRegistered, shouldSkipEntryIntro } from './lib/postmark/motion';
 
 export default function PostmarkApp() {
-  const [introReady, setIntroReady] = useState<boolean>(() => shouldSkipEntryIntro());
-  const [introFinished, setIntroFinished] = useState<boolean>(() => shouldSkipEntryIntro());
+  const [introReady, setIntroReady] = useState<boolean>(false);
+  const [introFinished, setIntroFinished] = useState<boolean>(false);
 
   const handleIntroHandoff = useCallback(() => {
     setIntroReady(true);
@@ -24,6 +24,13 @@ export default function PostmarkApp() {
   const handleIntroComplete = useCallback(() => {
     setIntroReady(true);
     setIntroFinished(true);
+  }, []);
+
+  useEffect(() => {
+    if (shouldSkipEntryIntro()) {
+      setIntroReady(true);
+      setIntroFinished(true);
+    }
   }, []);
 
   useEffect(() => {

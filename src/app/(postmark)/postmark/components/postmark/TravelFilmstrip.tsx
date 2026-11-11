@@ -15,9 +15,7 @@ import { PostalCancellationSeal, SVGStamp } from './SVGStamp';
 
 export const TravelFilmstrip: React.FC = () => {
   const reducedMotion = usePrefersReducedMotion();
-  const [isDesktopViewport, setIsDesktopViewport] = useState<boolean>(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(min-width: 960px)').matches : true
-  );
+  const [isDesktopViewport, setIsDesktopViewport] = useState<boolean>(true);
 
   const [flippedIds, setFlippedIds] = useState<Record<string, boolean>>({});
   const [activeIndex, setActiveIndex] = useState<number>(0);

@@ -20,14 +20,18 @@ export function prefersReducedMotionNow(): boolean {
 }
 
 export function shouldSkipEntryIntro(): boolean {
-  if (typeof window === 'undefined') return true;
+  if (typeof window === 'undefined') return false;
   if (prefersReducedMotionNow()) return true;
-  const params = new URLSearchParams(window.location.search);
-  return params.get('autostart') === '1' || params.get('skipIntro') === '1';
+  try {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('autostart') === '1' || params.get('skipIntro') === '1';
+  } catch {
+    return false;
+  }
 }
 
 export function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = useState<boolean>(() => prefersReducedMotionNow());
+  const [reduced, setReduced] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return;
