@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(97);
+    expect(TEMPLATES).toHaveLength(98);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["postmark", "rooted", "echolog", "aerune", "orbitbeyond", "forum", "frameone", "kinfield", "grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["mesamarket", "postmark", "rooted", "echolog", "aerune", "orbitbeyond", "forum", "frameone", "kinfield", "grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -139,7 +139,7 @@ describe("gallery template data", () => {
         expect(t.model).toBe("GPT-6 Astra Max");
       } else if (t.slug === "savepoint" || t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
-      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "waypoint" || t.slug === "echolog" || t.slug === "rooted") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "waypoint" || t.slug === "echolog" || t.slug === "rooted" || t.slug === "mesamarket") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
