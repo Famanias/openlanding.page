@@ -50,8 +50,8 @@
     .hero__inner{width:min(1320px,calc(100% - 104px));margin:100px auto 0;position:relative;z-index:2}
     .hero__copy{width:min(50%,635px);padding-bottom:18px}
     .hero__eyebrow{font-size:13px;letter-spacing:.21em;margin-bottom:22px}
-    .hero h1{font-family:var(--serif);font-size:clamp(62px,6.15vw,105px);line-height:.92;letter-spacing:-.076em;margin:0 0 28px;text-wrap:balance;font-weight:500}
-    .hero h1 span{display:block;overflow:hidden}
+    .hero h1{font-family:var(--serif);font-size:clamp(62px,6.15vw,105px);line-height:1.02;letter-spacing:-.076em;margin:0 0 28px;text-wrap:balance;font-weight:500}
+    .hero h1 span{display:block;overflow:hidden;padding-bottom:0.18em;margin-bottom:-0.18em}
     .hero h1 span em{font-style:normal;display:block;transform:translate3d(0,110%,0);animation:heroWords 1.2s var(--ease) forwards}
     .hero h1 span:nth-child(2) em{animation-delay:.14s}.hero h1 span:nth-child(3) em{animation-delay:.28s}
     @keyframes heroWords{to{transform:translate3d(0,0,0)}}
@@ -61,11 +61,11 @@
     .hero__scroll{position:absolute;bottom:32px;right:max(52px,calc((100vw - 1320px)/2));font-size:10px;letter-spacing:.15em;text-transform:uppercase;display:flex;align-items:center;gap:13px}
     .hero__scroll svg{height:35px;width:17px;animation:scrollHint 2.4s ease-in-out infinite}
     @keyframes scrollHint{0%,100%{transform:translateY(-3px)}50%{transform:translateY(6px)}}
-    .ticker{position:relative;overflow:hidden;background:var(--ink);color:#dce6d3;padding:23px 0;white-space:nowrap}
-    .ticker__track{display:flex;width:max-content;animation:ticker 34s linear infinite}
-    .ticker__set{display:flex;align-items:center;gap:64px;padding-right:64px;font-size:12px;font-weight:650;text-transform:uppercase;letter-spacing:.23em}
-    .ticker__set svg{width:20px;height:20px;stroke:#b8d0a3;fill:none;stroke-width:1.5}
-    @keyframes ticker{to{transform:translateX(-50%)}}
+    .ticker{position:relative;overflow:hidden;background:var(--ink);color:#dce6d3;padding:23px 0;white-space:nowrap;user-select:none}
+    .ticker__track{display:flex;width:max-content;animation:ticker 40s linear infinite;will-change:transform}
+    .ticker__set{display:flex;align-items:center;gap:56px;padding-right:56px;font-size:12px;font-weight:650;text-transform:uppercase;letter-spacing:.23em}
+    .ticker__star{color:#b8d0a3;font-size:14px;line-height:1}
+    @keyframes ticker{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
     .intro{min-height:780px;padding:160px 0 120px;position:relative;background:#f8f6ec;overflow:hidden}
     .intro__grid{display:grid;grid-template-columns:1.15fr .7fr;align-items:center;gap:10vw}
     .intro h2{font-family:var(--serif);font-size:clamp(62px,6.6vw,108px);font-weight:400;letter-spacing:-.072em;line-height:.94;margin:25px 0 0;max-width:810px}
@@ -245,8 +245,14 @@
     </section>
 
     <div class="ticker" aria-hidden="true"><div class="ticker__track">
-      <div class="ticker__set"><span>Make space to grow</span><svg viewBox="0 0 24 24"><path d="M12 23V3M12 14C2 16 3 6 4 4c8 1 9 5 8 10Zm0 5c9-2 10-8 9-11-8 0-10 4-9 11Z"/></svg><span>Water with intention</span><span>✦</span><span>Notice the little things</span><span>✦</span><span>Make space to grow</span><span>✦</span></div>
-      <div class="ticker__set"><span>Make space to grow</span><svg viewBox="0 0 24 24"><path d="M12 23V3M12 14C2 16 3 6 4 4c8 1 9 5 8 10Zm0 5c9-2 10-8 9-11-8 0-10 4-9 11Z"/></svg><span>Water with intention</span><span>✦</span><span>Notice the little things</span><span>✦</span><span>Make space to grow</span><span>✦</span></div>
+      <div class="ticker__set"><span>Notice the little things</span><span class="ticker__star">✦</span><span>Make space to grow</span><span class="ticker__star">✦</span><span>Water with intention</span><span class="ticker__star">✦</span></div>
+      <div class="ticker__set"><span>Notice the little things</span><span class="ticker__star">✦</span><span>Make space to grow</span><span class="ticker__star">✦</span><span>Water with intention</span><span class="ticker__star">✦</span></div>
+      <div class="ticker__set"><span>Notice the little things</span><span class="ticker__star">✦</span><span>Make space to grow</span><span class="ticker__star">✦</span><span>Water with intention</span><span class="ticker__star">✦</span></div>
+      <div class="ticker__set"><span>Notice the little things</span><span class="ticker__star">✦</span><span>Make space to grow</span><span class="ticker__star">✦</span><span>Water with intention</span><span class="ticker__star">✦</span></div>
+      <div class="ticker__set"><span>Notice the little things</span><span class="ticker__star">✦</span><span>Make space to grow</span><span class="ticker__star">✦</span><span>Water with intention</span><span class="ticker__star">✦</span></div>
+      <div class="ticker__set"><span>Notice the little things</span><span class="ticker__star">✦</span><span>Make space to grow</span><span class="ticker__star">✦</span><span>Water with intention</span><span class="ticker__star">✦</span></div>
+      <div class="ticker__set"><span>Notice the little things</span><span class="ticker__star">✦</span><span>Make space to grow</span><span class="ticker__star">✦</span><span>Water with intention</span><span class="ticker__star">✦</span></div>
+      <div class="ticker__set"><span>Notice the little things</span><span class="ticker__star">✦</span><span>Make space to grow</span><span class="ticker__star">✦</span><span>Water with intention</span><span class="ticker__star">✦</span></div>
     </div></div>
 
     <section class="intro" id="introduction" aria-labelledby="introTitle">

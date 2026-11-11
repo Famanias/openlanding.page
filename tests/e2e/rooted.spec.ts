@@ -55,6 +55,38 @@ test.describe("ROOTED gallery card and standalone document", () => {
     // Scroll down to verify footer and absence of unhandled errors
     await page.locator("footer").scrollIntoViewIfNeeded();
     expect(errors).toEqual([]);
+
+    // Wait for hero title reveal animation to settle
+    await page.waitForTimeout(1400);
+
+    // Verify hero title descenders have bottom clearance and are not clipped
+    const titleClearance = await page.evaluate(() => {
+      const spans = Array.from(document.querySelectorAll(".hero h1 span"));
+      return spans.map((span) => {
+        const em = span.querySelector("em")!;
+        return span.getBoundingClientRect().bottom - em.getBoundingClientRect().bottom;
+      });
+    });
+    for (const clearance of titleClearance) {
+      expect(clearance).toBeGreaterThan(5);
+    }
+
+    // Verify counter-clockwise seamless carousel ticker
+    const tickerCheck = await page.evaluate(() => {
+      const ticker = document.querySelector(".ticker");
+      const track = document.querySelector(".ticker__track");
+      const sets = document.querySelectorAll(".ticker__set");
+      return {
+        exists: Boolean(ticker && track),
+        setCount: sets.length,
+        text: ticker?.textContent ?? "",
+      };
+    });
+    expect(tickerCheck.exists).toBe(true);
+    expect(tickerCheck.setCount).toBeGreaterThanOrEqual(4);
+    expect(tickerCheck.text).toContain("Notice the little things");
+    expect(tickerCheck.text).toContain("Make space to grow");
+    expect(tickerCheck.text).toContain("Water with intention");
   });
 
   test("mobile navigation and reduced motion work without overflow", async ({ page }) => {

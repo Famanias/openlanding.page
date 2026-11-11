@@ -57,6 +57,11 @@ export default function PostmarkLayout({
 }) {
   return (
     <html lang="en" className={`${caveat.variable} ${dM_Sans.variable} ${fraunces.variable} scroll-smooth`}>
+      <head>
+        <noscript>
+          <style>{'[data-envelope-overlay] { display: none !important; }'}</style>
+        </noscript>
+      </head>
       <body className="bg-[#0b0b0b] text-[#f4f0e8] antialiased">
         {children}
       </body>
@@ -499,8 +504,8 @@ import { FinalLetterFooter } from './components/postmark/FinalLetterFooter';
 import { ensureGsapRegistered, shouldSkipEntryIntro } from './lib/postmark/motion';
 
 export default function PostmarkApp() {
-  const [introReady, setIntroReady] = useState<boolean>(() => shouldSkipEntryIntro());
-  const [introFinished, setIntroFinished] = useState<boolean>(() => shouldSkipEntryIntro());
+  const [introReady, setIntroReady] = useState<boolean>(false);
+  const [introFinished, setIntroFinished] = useState<boolean>(false);
 
   const handleIntroHandoff = useCallback(() => {
     setIntroReady(true);
@@ -509,6 +514,13 @@ export default function PostmarkApp() {
   const handleIntroComplete = useCallback(() => {
     setIntroReady(true);
     setIntroFinished(true);
+  }, []);
+
+  useEffect(() => {
+    if (shouldSkipEntryIntro()) {
+      setIntroReady(true);
+      setIntroFinished(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -574,7 +586,7 @@ interface EnvelopeEntryProps {
 }
 
 export const EnvelopeEntry: React.FC<EnvelopeEntryProps> = ({ onHandoff, onComplete }) => {
-  const [dismissed, setDismissed] = useState<boolean>(() => shouldSkipEntryIntro());
+  const [dismissed, setDismissed] = useState<boolean>(false);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const sheetRef = useRef<HTMLDivElement | null>(null);
   const flapRef = useRef<HTMLDivElement | null>(null);
@@ -592,6 +604,11 @@ export const EnvelopeEntry: React.FC<EnvelopeEntryProps> = ({ onHandoff, onCompl
   }, [onComplete, onHandoff]);
 
   useEffect(() => {
+    if (shouldSkipEntryIntro()) {
+      finishImmediately();
+      return;
+    }
+
     if (dismissed) {
       finishImmediately();
       return;
@@ -689,6 +706,7 @@ export const EnvelopeEntry: React.FC<EnvelopeEntryProps> = ({ onHandoff, onCompl
       ref={overlayRef}
       role="region"
       aria-label="Opening travel correspondence intro"
+      data-envelope-overlay=""
       className="fixed inset-0 z-50 overflow-hidden pointer-events-auto"
     >
       <div
@@ -868,7 +886,11 @@ export const FinalLetterFooter: React.FC = () => {
   const perforationPathRef = useRef<SVGPathElement | null>(null);
   const backToTopRef = useRef<HTMLButtonElement | null>(null);
 
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState<number>(2026);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   useEffect(() => {
     if (reducedMotion) return;
@@ -3028,9 +3050,7 @@ const STAGE_META: ReadonlyArray<{
 
 export const PostcardBuilderStory: React.FC = () => {
   const reducedMotion = usePrefersReducedMotion();
-  const [isDesktopPinViewport, setIsDesktopPinViewport] = useState<boolean>(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(min-width: 901px)').matches : true
-  );
+  const [isDesktopPinViewport, setIsDesktopPinViewport] = useState<boolean>(true);
 
   const [builderState, setBuilderState] = useState(() => createInitialBuilderState('lisbon'));
   const [activeStage, setActiveStage] = useState<BuilderStageIndex>(0);
@@ -5209,9 +5229,7 @@ import { PostalCancellationSeal, SVGStamp } from './SVGStamp';
 
 export const TravelFilmstrip: React.FC = () => {
   const reducedMotion = usePrefersReducedMotion();
-  const [isDesktopViewport, setIsDesktopViewport] = useState<boolean>(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(min-width: 960px)').matches : true
-  );
+  const [isDesktopViewport, setIsDesktopViewport] = useState<boolean>(true);
 
   const [flippedIds, setFlippedIds] = useState<Record<string, boolean>>({});
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -5884,14 +5902,18 @@ export function prefersReducedMotionNow(): boolean {
 }
 
 export function shouldSkipEntryIntro(): boolean {
-  if (typeof window === 'undefined') return true;
+  if (typeof window === 'undefined') return false;
   if (prefersReducedMotionNow()) return true;
-  const params = new URLSearchParams(window.location.search);
-  return params.get('autostart') === '1' || params.get('skipIntro') === '1';
+  try {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('autostart') === '1' || params.get('skipIntro') === '1';
+  } catch {
+    return false;
+  }
 }
 
 export function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = useState<boolean>(() => prefersReducedMotionNow());
+  const [reduced, setReduced] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return;
