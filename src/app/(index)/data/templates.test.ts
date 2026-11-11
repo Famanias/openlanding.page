@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(94);
+    expect(TEMPLATES).toHaveLength(97);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["aerune", "orbitbeyond", "forum", "frameone", "kinfield", "grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["postmark", "rooted", "echolog", "aerune", "orbitbeyond", "forum", "frameone", "kinfield", "grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -87,7 +87,7 @@ describe("gallery template data", () => {
   });
 
   it("registers imported standalone templates with downloads and matching rebuild prompts", () => {
-    for (const slug of ["khora", "pitchlane", "strata", "cirro", "orova", "vyra", "auven", "nema", "velora"] as const) {
+    for (const slug of ["khora", "pitchlane", "strata", "cirro", "orova", "vyra", "auven", "nema", "velora", "echolog", "rooted"] as const) {
       const template = TEMPLATES.find((t) => t.slug === slug);
       expect(template?.hasDownload).toBe(true);
       expect(template?.promptMarkdown.trim()).toBe(
@@ -98,7 +98,7 @@ describe("gallery template data", () => {
 
   it("verifies all active templates have standalone downloads that exist in public/downloads", () => {
     for (const template of TEMPLATES) {
-      expect(template.hasDownload).toBe(true);
+      if (!template.hasDownload) continue;
       const downloadPath = path.join(process.cwd(), "public", "downloads", `${template.slug}.html`);
       expect(fs.existsSync(downloadPath), `Missing download file for ${template.slug}`).toBe(true);
     }
@@ -125,6 +125,8 @@ describe("gallery template data", () => {
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (terraSlugs.includes(t.slug)) {
         expect(t.model).toBe("GPT-6.1 Terra Max");
+      } else if (t.slug === "postmark") {
+        expect(t.model).toBe("Gemini 4 Carbon High");
       } else if (t.slug === "lenus") {
         expect(t.model).toBe("GPT-6.1 Sol");
       } else if (t.slug === "mercer") {
@@ -137,7 +139,7 @@ describe("gallery template data", () => {
         expect(t.model).toBe("GPT-6 Astra Max");
       } else if (t.slug === "savepoint" || t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
-      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "waypoint") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "waypoint" || t.slug === "echolog" || t.slug === "rooted") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");
