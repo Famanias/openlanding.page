@@ -1,4 +1,4 @@
-export type TemplateSlug = "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond";
 
 export type CategoryId =
   | "all"
@@ -2840,6 +2840,103 @@ RAW_TEMPLATES.push(
 
 const AERUNE_PROMPT = "# Rebuild AERUNE — make room for better air\n\nBuild a complete, isolated Next.js 16 App Router / React 19 / TypeScript landing template for the fictional AERUNE workplace air intelligence platform. All code imports must stay within `src/app/(aerune)/` or npm packages; install `lenis` for fine-pointer smooth scrolling. The public gallery route is `/templates/aerune` in this repository.\n\nThe central idea is that air changes over the course of a building's day. Give the visitor a three-stop, keyboard-accessible timeline: Arrival 08:30 (620 ppm CO₂, 38 people, 61% airflow), Meeting peak 13:15 (980 ppm, 86 people, 89% airflow), and Evening 18:40 (530 ppm, 12 people, 34% airflow). The selected moment updates the airflow trace, readings, timestamp, and suggested response together. Clearly label all data as an example; never imply real sensor data or make unsupported health claims. Use tested pure functions for bounded indexing, progress math, and inquiry validation.\n\nThe visual system is atmospheric, precise, calm, futuristic, and human. Use these seven colors: night `#101A1D`, paper `#F3EFE5`, porcelain `#FCFAF4`, mist `#C6D8CF`, slate `#A6B3AC`, ember `#ED7546`, forest `#203631`. Make additional tints with `color-mix()`. Use Geist for display and body and Geist Mono for instrument labels, loaded with `next/font/google`. Draw an original open circular airflow mark; include a favicon and 1200×630 Open Graph image.\n\nCompose a dark, generously rounded atmospheric hero with centered headline “Make room for better air.”, a clear product explanation, the action “Explore the demo”, and a layered original dashboard preview. Follow it with an editorial statement, the live timeline, three capability cards and a sensor illustration, a dark three-step process, a workplace story, six useful FAQs, a local inquiry, and a dark typographic footer. Responsive layouts stack in logical reading order. Use SVG contour lines, room grids, timetables and small status signals as the recurring graphic vocabulary. The requested brand board was explicitly waived by the user.\n\nMotion is technical and cinematic, with the verbs scan and focus. The signature moment is the airflow path redrawing as a timeline selection changes the metrics. Choreograph the hero, vary section reveals, draw lines, give cards and actions hover/focus/press states, show scroll progress and use a sticky desktop demo. Use tokenized easing and durations. Keep content visible with JavaScript off and with reduced motion; disable smooth scrolling, parallax and continuous motion for reduced motion and touch. Include visible focus, semantic landmarks, keyboard and mobile navigation, and no horizontal overflow.\n\nThe inquiry validates name and email, shows a preparing state, and then states that this local preview has not been sent or saved. It makes no network request. Media supplied later by the user is documented in `docs/image-prompts/aerune.md`: `hero-atmosphere.png`, `building-at-dusk.png`, and `sensor-detail.png` go in `assets/incoming/aerune/` and are processed with `npm run images -- aerune`. Until then, show labeled placeholders with original CSS/SVG illustration.\n\nInclude a design spec, this prompt, gallery metadata and copy bundle registration, preview screenshot, unit tests, and Playwright checks for timeline controls, inquiry, keyboard, mobile, reduced motion, and no-JS content. Run the repository's isolation, palette and media checks, unit suite, TypeScript, Playwright, and mobile accessibility/performance checks.\n";
 RAW_TEMPLATES.push({ slug: "aerune", createdAt: "2026-11-10", hasDownload: true, title: "AERUNE", description: "A fictional workplace air intelligence platform explored through an interactive building day.", category: "showcase", categories: ["showcase", "saas"], industry: "Workplace air intelligence", stack: "Next.js 16 · React 19 · TypeScript · CSS motion", badges: ["Interactive timeline", "Airflow visualisation", "Responsive"], previewImage: "/gallery/aerune.webp", promptMarkdown: AERUNE_PROMPT, model: "GPT-6.1 Terra Max" });
+
+export const ECHOLOG_PROMPT = `# Rebuild ECHOLOG — standalone landing page
+
+Recreate the supplied ECHOLOG experience as one complete, self-contained HTML document at /echolog. The canonical source is public/downloads/echolog.html, imported from ECHOLOG_threejs_revised.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Three.js, Canvas 2D, and browser APIs without external asset requests.
+
+## Concept
+A personal sonic archive application and sound journal: "Keep the moments you can hear." ECHOLOG records voice memories, ambient sounds, and fleeting thoughts in an organized personal audio library. The experience combines an authored procedural 3D Three.js handset with concentric rounded layers, live Canvas 2D sound-field visualizers with interactive mode switching, a working local audio recorder simulator, an interactive sound archive browser, and a local concept newsletter preview.
+
+## Page structure
+Sequential chapters:
+1. Hero (#hero): Sequential entrance with masked headline typography, live sound field background canvas, 3D handset stage, and bottom metadata.
+2. Memories (#memories): Sound memory vignette cards with waveform previews and duration counters.
+3. Studio / Recorder (#record): Working interactive voice recorder simulator with peak meter, simulated recording, audio state transitions, and seed samples.
+4. Journey (#journey): 3-step spatial capture walkthrough with sticky handset perspectives.
+5. Audio Journal (#journal): Interactive sonic archive entry browser with category filters, audio waveform playback triggers, and memory cards.
+6. Soundscape (#soundscape): Ambient sound field explorer with live Canvas 2D sound synthesis and Rain / City / Morning mode buttons.
+7. Download (#download): Closing call-to-action with concept reservation form, platform badges, and local confirmation feedback.
+
+## Visual system
+Continuous dark canvas: #0E0C0C background, #100D0E ink black, #2D1518 oxblood panel shadows, #DB705D coral accent, #E9715E ember glow, #F2C5AE peach highlights, #F5ECE5 ivory typography, and #B99F97 muted technical labels. Typography uses Manrope for display headlines and interface body copy paired with JetBrains Mono for timestamps, readouts, and tabular audio meters.
+
+## Interactions and motion
+- Six procedural 3D handset host stages with concentric rounded profiles, real bottom connector cutouts, and dynamic screen textures (record, playback, library).
+- Live Canvas 2D sound fields with seeded noise waveforms, glowing particle rings, and smooth 600ms mode blending across Rain, City, and Morning presets.
+- Interactive voice recorder simulator with timer counter, simulated peak animation, and local library save/delete state handling.
+- Mobile drawer navigation with Escape key dismissal and focus restoration.
+- Local concept newsletter form with inline validation feedback and no network requests.
+- Full reduced-motion and no-JavaScript fallbacks using model-derived WebP posters and complete semantic text visibility.
+
+## Integration and verification
+Serve the same document at /echolog and /downloads/echolog.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.
+`;
+
+RAW_TEMPLATES.push({
+  slug: "echolog",
+  createdAt: "2026-11-11",
+  hasDownload: true,
+  title: "ECHOLOG",
+  description: "Record voice memories, ambient sounds, and fleeting thoughts in one beautifully organized personal sonic archive.",
+  category: "showcase",
+  categories: ["showcase", "3d", "app"],
+  industry: "Audio & Sonic Archive",
+  stack: "HTML · CSS · Three.js · Canvas 2D",
+  badges: ["Standalone HTML", "Three.js Handset", "Live Sound Field"],
+  previewImage: "/templates/echolog/preview-1600.webp",
+  promptMarkdown: ECHOLOG_PROMPT,
+  model: "Gemini 3.8 Flash High",
+});
+
+export const ROOTED_PROMPT = `# Rebuild ROOTED — standalone landing page
+
+Recreate the supplied ROOTED experience as one complete, self-contained HTML document at /rooted. The canonical source is public/downloads/rooted.html, imported from ROOTED_standalone.html. Preserve its copy, responsive layouts, embedded media, inline SVG, styles, and JavaScript. Use native HTML, CSS, Canvas 2D, and browser APIs without external asset requests.
+
+## Concept
+A plant care companion and home botanical organizer: "A little greener, every day." ROOTED helps plant lovers track watering routines, sunlight exposure, growth milestones, and care notes. The experience features an upscaled hero visual of the companion handset framed by potted houseplants and botanical shadow play, an interactive Care Lab, plant profile guides, and local demonstration actions.
+
+## Page structure
+Sequential chapters:
+1. Hero: Upscaled hero visual featuring the ROOTED phone screen in a terracotta pot with monstera foliage, headline "A little greener, every day", and quick action buttons.
+2. Introduction: Editorial manifesto on mindful plant care and home botanical rituals.
+3. Story: Pinned routine walkthrough with plant care cards and schedule reminders.
+4. Care Lab: Interactive plant care simulator with moisture, light, and humidity adjustments.
+5. Guides: Plant care cards covering watering, lighting, repotting, and soil mixes.
+6. Botanical Interlude: Full-width atmospheric greenery photography and serene reflection.
+7. FAQ: Expandable accordion addressing plant care inquiries.
+8. Final CTA & Footer: App preview, download triggers, and local contact demonstration.
+
+## Visual system
+Botanical foundation: #F0EEDF warm paper background, #203725 deep botanical ink, #436948 foliage green accent, #7B9C71 soft sage highlight, #B97857 terracotta clay warm accent, #F8F6EC card background tint, #183221 deep forest shade, and #CCD2BF hairline dividers. Typography combines classic serif display headers with contemporary sans-serif interface elements.
+
+## Interactions and motion
+- High-resolution hero image scaling responsively across desktop, tablet, and mobile.
+- Interactive Care Lab with responsive slider and button feedback.
+- Mobile drawer navigation with Escape key dismissal and focus restoration.
+- Expandable botanical guide cards and accordion items.
+- Local contact form and app download triggers with instant feedback.
+- Full reduced-motion and no-JavaScript fallbacks preserving all text and botanical imagery.
+
+## Integration and verification
+Serve the same document at /rooted and /downloads/rooted.html. Keep it isolated from the gallery styles and application runtime. Register searchable gallery metadata, a real screenshot preview, the copyable rebuild prompt, and the downloadable HTML. Verify desktop and phone layouts, reduced motion, no-JavaScript content, navigation and key controls, and that the route and download return identical content. Keep all demo forms local and render user-entered strings with textContent.
+`;
+
+RAW_TEMPLATES.push({
+  slug: "rooted",
+  createdAt: "2026-11-11",
+  hasDownload: true,
+  title: "ROOTED",
+  description: "Keep track of watering, light, growth, and routines for every plant you love.",
+  category: "app",
+  categories: ["app", "showcase", "minimal"],
+  industry: "Botanical & Plant Care",
+  stack: "HTML · CSS · JavaScript",
+  badges: ["Plant Care App", "Botanical Editorial", "Standalone HTML"],
+  previewImage: "/templates/rooted/preview-1600.webp",
+  promptMarkdown: ROOTED_PROMPT,
+  model: "Gemini 3.8 Flash High",
+});
 
 const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
 export const ARCHIVED_TEMPLATES = registeredTemplates.filter((template) => Boolean(template.archived));

@@ -9,6 +9,8 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  rooted: { name: "ROOTED", dependencies: [], includeDownload: true },
+  echolog: { name: "ECHOLOG", dependencies: ["three"], includeDownload: true },
   aerune: { name: "AERUNE", dependencies: ["lenis"] },
   orbitbeyond: { name: "ORBIT & BEYOND", dependencies: ["lucide-react", "motion"] },
   forum: { name: "FORUM", dependencies: ["lucide-react", "motion"] },
