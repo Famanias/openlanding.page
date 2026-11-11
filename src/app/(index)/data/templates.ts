@@ -2952,7 +2952,7 @@ RAW_TEMPLATES.push(
   {
     slug: "postmark",
     createdAt: "2026-11-11",
-    hasDownload: false,
+    hasDownload: true,
     title: "POSTMARK",
     description: "A tactile travel-memory journal for saving photos, locations, handwritten memories, and creating collectible digital postcards.",
     category: "showcase" as TemplateCategory,

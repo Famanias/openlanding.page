@@ -9,7 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
-  postmark: { name: "POSTMARK", dependencies: ["lucide-react", "motion"] },
+  postmark: { name: "POSTMARK", dependencies: ["lucide-react", "motion"], includeDownload: true },
   rooted: { name: "ROOTED", dependencies: [], includeDownload: true },
   echolog: { name: "ECHOLOG", dependencies: ["three"], includeDownload: true },
   aerune: { name: "AERUNE", dependencies: ["lenis"] },

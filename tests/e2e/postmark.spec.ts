@@ -21,4 +21,29 @@ test.describe("POSTMARK", () => {
     await page.goto("/templates/postmark");
     await expect(page.locator("body")).toBeVisible();
   });
+
+  test("interactive widgets function without errors", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", err => errors.push(err.message));
+    page.on("console", msg => {
+      if (msg.type() === "error") errors.push(msg.text());
+    });
+
+    await page.goto("/templates/postmark");
+    await expect(page.locator("h1, h2").first()).toBeVisible();
+
+    const openBtn = page.locator('button:has-text("Open Letter"), button:has-text("Open")').first();
+    if (await openBtn.isVisible()) {
+      await openBtn.click();
+      await page.waitForTimeout(500);
+    }
+
+    const stageButtons = page.locator('button:has-text("Write"), button:has-text("Stamp")');
+    if (await stageButtons.count() > 0 && await stageButtons.first().isVisible()) {
+      await stageButtons.first().click();
+      await page.waitForTimeout(300);
+    }
+
+    expect(errors).toEqual([]);
+  });
 });
