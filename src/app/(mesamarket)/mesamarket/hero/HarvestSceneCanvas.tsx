@@ -130,8 +130,8 @@ export default function HarvestSceneCanvas({
     rimLight.position.set(5.5, 4.0, -4.0);
     scene.add(rimLight);
 
-    const baseCamOffset = new THREE.Vector3(-0.06, 4.25, 9.45);
-    const camLookTarget = new THREE.Vector3(-0.06, 0.16, 0.52);
+    const baseCamOffset = new THREE.Vector3(0.10, 4.30, 9.65);
+    const camLookTarget = new THREE.Vector3(0.10, 0.16, 0.52);
 
     const camera = new THREE.PerspectiveCamera(31, 1, 0.1, 60);
 
@@ -274,7 +274,7 @@ export default function HarvestSceneCanvas({
 
       camera.aspect = aspect;
       // Scale distance smoothly on narrower viewports so horizontal composition never clips
-      const minComfortAspect = 1.15;
+      const minComfortAspect = 1.40;
       const fitScale = aspect < minComfortAspect ? minComfortAspect / aspect : 1;
 
       camera.position
