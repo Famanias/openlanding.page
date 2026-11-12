@@ -3,7 +3,9 @@
     {
       "dependencies": {
         "lucide-react": "0.475.0",
-        "motion": "^14.4.0"
+        "motion": "^14.4.0",
+        "three": "^0.186.1",
+        "gsap": "^3.15.0"
       }
     }
   </dependencies>
@@ -145,7 +147,9 @@ export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 
   --color-mm-blueberry: #494D78;
   --color-mm-ink: #24211D;
   --font-display: var(--font-fraunces), Georgia, serif;
+  --font-serif: var(--font-fraunces), Georgia, serif;
   --font-body: var(--font-outfit), system-ui, sans-serif;
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
   --font-mono: var(--font-space-mono), ui-monospace, monospace;
 }
 
@@ -774,6 +778,3452 @@ export function calculateBasketTotals(quantities: BasketQuantities): {
         MESA MARKET
       </span>
     </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/artworkTextures.ts">
+<![CDATA[import * as THREE from 'three';
+import type { ProduceId } from './basketState';
+
+export interface AlphaMaskTexture {
+  texture: THREE.CanvasTexture;
+  alphaGrid: Uint8Array;
+  gridSize: number;
+}
+
+const INK = '#231B15';
+
+function extractAlphaGrid(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  gridSize = 64
+): Uint8Array {
+  const img = ctx.getImageData(0, 0, width, height).data;
+  const grid = new Uint8Array(gridSize * gridSize);
+  for (let gy = 0; gy < gridSize; gy++) {
+    const py = Math.min(height - 1, Math.floor(((gy + 0.5) / gridSize) * height));
+    for (let gx = 0; gx < gridSize; gx++) {
+      const px = Math.min(width - 1, Math.floor(((gx + 0.5) / gridSize) * width));
+      // Flip Y so UV.y (0 bottom -> 1 top) maps directly
+      const flippedY = height - 1 - py;
+      const idx = (flippedY * width + px) * 4 + 3;
+      grid[gy * gridSize + gx] = img[idx];
+    }
+  }
+  return grid;
+}
+
+export function sampleAlphaMask(
+  mask: AlphaMaskTexture | undefined,
+  uv: THREE.Vector2 | undefined
+): number {
+  if (!mask || !uv) return 255;
+  const gx = Math.max(
+    0,
+    Math.min(mask.gridSize - 1, Math.floor(uv.x * mask.gridSize))
+  );
+  const gy = Math.max(
+    0,
+    Math.min(mask.gridSize - 1, Math.floor(uv.y * mask.gridSize))
+  );
+  return mask.alphaGrid[gy * mask.gridSize + gx];
+}
+
+function finalizeTexture(
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+  maxAnisotropy: number
+): AlphaMaskTexture {
+  const alphaGrid = extractAlphaGrid(ctx, canvas.width, canvas.height, 64);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.anisotropy = maxAnisotropy;
+  texture.needsUpdate = true;
+  return { texture, alphaGrid, gridSize: 64 };
+}
+
+function makeCanvas(w: number, h: number): [HTMLCanvasElement, CanvasRenderingContext2D] {
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  return [canvas, ctx];
+}
+
+function setInk(ctx: CanvasRenderingContext2D, width = 6.5) {
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = width;
+}
+
+export type WoodTone =
+  | 'honey-left'
+  | 'amber-right'
+  | 'tan-inner'
+  | 'espresso-dark'
+  | 'post-ochre';
+
+export function createWoodPlankTexture(
+  tone: WoodTone,
+  maxAnisotropy: number,
+  withNails = true
+): THREE.CanvasTexture {
+  const [canvas, ctx] = makeCanvas(1024, 256);
+
+  const palettes: Record<
+    WoodTone,
+    { base: string; mid: string; grain: string; hi: string }
+  > = {
+    'honey-left': {
+      base: '#CA9660',
+      mid: '#BC844D',
+      grain: '#7E5028',
+      hi: '#DDB07E',
+    },
+    'amber-right': {
+      base: '#B8804B',
+      mid: '#A66D3B',
+      grain: '#6B411F',
+      hi: '#CB9661',
+    },
+    'tan-inner': {
+      base: '#C6925D',
+      mid: '#B57F4B',
+      grain: '#784C27',
+      hi: '#D8A978',
+    },
+    'espresso-dark': {
+      base: '#2D221B',
+      mid: '#241B15',
+      grain: '#16100C',
+      hi: '#3B2D24',
+    },
+    'post-ochre': {
+      base: '#BA834E',
+      mid: '#A56F3C',
+      grain: '#6E4421',
+      hi: '#CE9B67',
+    },
+  };
+
+  const p = palettes[tone];
+  const grad = ctx.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0, p.hi);
+  grad.addColorStop(0.22, p.base);
+  grad.addColorStop(0.82, p.mid);
+  grad.addColorStop(1, p.grain);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 1024, 256);
+
+  // Subtle hand-drawn woodgrain streaks
+  ctx.strokeStyle = p.grain;
+  ctx.globalAlpha = tone === 'espresso-dark' ? 0.45 : 0.34;
+  for (let i = 0; i < 14; i++) {
+    const y0 = 18 + i * 17 + Math.sin(i * 2.1) * 5;
+    ctx.lineWidth = i % 3 === 0 ? 3.2 : 1.9;
+    ctx.beginPath();
+    ctx.moveTo(0, y0);
+    for (let x = 64; x <= 1024; x += 64) {
+      const wave =
+        Math.sin(x * 0.009 + i * 1.4) * 6 +
+        (x > 580 && x < 740 ? Math.sin(((x - 580) / 160) * Math.PI) * (i % 2 ? 12 : -10) : 0);
+      ctx.lineTo(x, y0 + wave);
+    }
+    ctx.stroke();
+  }
+
+  // Wood knot accent
+  if (tone !== 'espresso-dark') {
+    ctx.globalAlpha = 0.32;
+    ctx.beginPath();
+    ctx.ellipse(665, 134, 42, 16, 0.08, 0, Math.PI * 2);
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  }
+
+  ctx.globalAlpha = 1;
+
+  // Hand-inked plank border
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 9;
+  ctx.strokeRect(4, 4, 1016, 248);
+
+  // Nail dots at both ends
+  if (withNails && tone !== 'espresso-dark') {
+    ctx.fillStyle = INK;
+    for (const nx of [34, 990]) {
+      for (const ny of [68, 188]) {
+        ctx.beginPath();
+        ctx.arc(nx, ny, 7.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = maxAnisotropy;
+  tex.needsUpdate = true;
+  return tex;
+}
+
+function drawSingleTomato(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  heirloom = false
+) {
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  const grad = ctx.createRadialGradient(-rx * 0.28, -ry * 0.28, rx * 0.1, 0, 0, rx * 1.05);
+  if (heirloom) {
+    grad.addColorStop(0, '#F0834A');
+    grad.addColorStop(0.45, '#D94929');
+    grad.addColorStop(0.82, '#A84824');
+    grad.addColorStop(1, '#7F6A30');
+  } else {
+    grad.addColorStop(0, '#F47E4D');
+    grad.addColorStop(0.38, '#DF4629');
+    grad.addColorStop(0.85, '#C1321C');
+    grad.addColorStop(1, '#9E2514');
+  }
+
+  ctx.beginPath();
+  ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+  ctx.fillStyle = grad;
+  ctx.fill();
+  setInk(ctx, 6.5);
+  ctx.stroke();
+
+  if (heirloom) {
+    // Olive-green shoulder ribs
+    ctx.fillStyle = 'rgba(132, 142, 58, 0.55)';
+    ctx.beginPath();
+    ctx.ellipse(0, -ry * 0.42, rx * 0.72, ry * 0.42, 0, Math.PI, Math.PI * 2);
+    ctx.fill();
+
+    setInk(ctx, 3.5);
+    for (const ang of [-0.65, -0.22, 0.22, 0.65]) {
+      ctx.beginPath();
+      ctx.moveTo(Math.sin(ang) * rx * 0.18, -ry * 0.55);
+      ctx.quadraticCurveTo(
+        Math.sin(ang) * rx * 0.75,
+        -ry * 0.05,
+        Math.sin(ang) * rx * 0.58,
+        ry * 0.62
+      );
+      ctx.stroke();
+    }
+  }
+
+  // Gouache crescent highlight
+  ctx.fillStyle = 'rgba(255, 226, 190, 0.52)';
+  ctx.beginPath();
+  ctx.ellipse(-rx * 0.36, -ry * 0.22, rx * 0.2, ry * 0.32, 0.42, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Star calyx
+  ctx.fillStyle = '#5D7E3B';
+  setInk(ctx, 4.5);
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2 - Math.PI / 2;
+    const tipX = Math.cos(a) * rx * 0.46;
+    const tipY = -ry * 0.44 + Math.sin(a) * ry * 0.28;
+    const midA = a + Math.PI / 6;
+    const inX = Math.cos(midA) * rx * 0.14;
+    const inY = -ry * 0.44 + Math.sin(midA) * ry * 0.09;
+    if (i === 0) ctx.moveTo(tipX, tipY);
+    else ctx.lineTo(tipX, tipY);
+    ctx.lineTo(inX, inY);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+export interface ProduceTextureSet {
+  sourceMain: AlphaMaskTexture;
+  sourceAccent?: AlphaMaskTexture;
+  crateMain: AlphaMaskTexture;
+  crateAccent?: AlphaMaskTexture;
+  altSourceMain?: AlphaMaskTexture;
+}
+
+export function buildAllProduceTextures(
+  maxAnisotropy: number
+): Record<ProduceId, ProduceTextureSet> {
+  // 1. VINE TOMATOES
+  const [vtCanvas, vtCtx] = makeCanvas(512, 512);
+  drawSingleTomato(vtCtx, 295, 152, 78, 72, false);
+  drawSingleTomato(vtCtx, 168, 206, 80, 74, false);
+  drawSingleTomato(vtCtx, 372, 266, 82, 76, false);
+  drawSingleTomato(vtCtx, 146, 336, 84, 78, false);
+  drawSingleTomato(vtCtx, 272, 344, 84, 78, false);
+
+  // Separate vine stem layer for 2.5D depth
+  const [vtStemC, vtStemCtx] = makeCanvas(512, 512);
+  vtStemCtx.strokeStyle = INK;
+  vtStemCtx.lineWidth = 17;
+  vtStemCtx.beginPath();
+  vtStemCtx.moveTo(395, 118);
+  vtStemCtx.quadraticCurveTo(270, 195, 156, 280);
+  vtStemCtx.stroke();
+  vtStemCtx.strokeStyle = '#6B8D45';
+  vtStemCtx.lineWidth = 9.5;
+  vtStemCtx.stroke();
+
+  // Crate heirloom + vine tomato duo
+  const [vtCrateC, vtCrateCtx] = makeCanvas(512, 512);
+  drawSingleTomato(vtCrateCtx, 175, 286, 98, 88, false);
+  drawSingleTomato(vtCrateCtx, 326, 256, 116, 102, true);
+
+  // 2. CARROTS BUNCH
+  const drawCarrotsRoots = (ctx: CanvasRenderingContext2D) => {
+    const carrots = [
+      { x0: 274, y0: 215, x1: 58, y1: 374, w: 34, col: '#EC7F35' },
+      { x0: 302, y0: 238, x1: 72, y1: 422, w: 36, col: '#E36D28' },
+      { x0: 325, y0: 262, x1: 122, y1: 468, w: 35, col: '#EE883C' },
+    ];
+    for (const c of carrots) {
+      const ang = Math.atan2(c.y1 - c.y0, c.x1 - c.x0);
+      const perp = ang + Math.PI / 2;
+      ctx.beginPath();
+      ctx.moveTo(c.x0 + Math.cos(perp) * c.w, c.y0 + Math.sin(perp) * c.w);
+      ctx.quadraticCurveTo(
+        (c.x0 + c.x1) * 0.52 + Math.cos(perp) * (c.w * 0.62),
+        (c.y0 + c.y1) * 0.52 + Math.sin(perp) * (c.w * 0.62),
+        c.x1,
+        c.y1
+      );
+      ctx.quadraticCurveTo(
+        (c.x0 + c.x1) * 0.52 - Math.cos(perp) * (c.w * 0.62),
+        (c.y0 + c.y1) * 0.52 - Math.sin(perp) * (c.w * 0.62),
+        c.x0 - Math.cos(perp) * c.w,
+        c.y0 - Math.sin(perp) * c.w
+      );
+      ctx.closePath();
+      const g = ctx.createLinearGradient(
+        c.x0 - 25,
+        c.y0 - 25,
+        c.x0 + 25,
+        c.y0 + 25
+      );
+      g.addColorStop(0, '#F7A457');
+      g.addColorStop(0.55, c.col);
+      g.addColorStop(1, '#BE4F19');
+      ctx.fillStyle = g;
+      ctx.fill();
+      setInk(ctx, 6.2);
+      ctx.stroke();
+
+      // Root crease hash lines
+      setInk(ctx, 3.6);
+      for (const f of [0.24, 0.44, 0.64, 0.8]) {
+        const mx = c.x0 + (c.x1 - c.x0) * f;
+        const my = c.y0 + (c.y1 - c.y0) * f;
+        const span = c.w * (1 - f) * 0.58;
+        ctx.beginPath();
+        ctx.moveTo(mx - Math.cos(perp) * span, my - Math.sin(perp) * span);
+        ctx.lineTo(mx + Math.cos(perp) * span * 0.4, my + Math.sin(perp) * span * 0.4);
+        ctx.stroke();
+      }
+    }
+  };
+
+  const drawCarrotGreens = (ctx: CanvasRenderingContext2D) => {
+    const fronds = [
+      { tx: 356, ty: 68, col: '#5B7B3A', r: 52 },
+      { tx: 422, ty: 98, col: '#6E8E46', r: 56 },
+      { tx: 462, ty: 158, col: '#587838', r: 54 },
+      { tx: 454, ty: 226, col: '#75954C', r: 50 },
+      { tx: 394, ty: 152, col: '#7D9D53', r: 58 },
+    ];
+    for (const f of fronds) {
+      // Scalloped parsley puff
+      ctx.fillStyle = f.col;
+      setInk(ctx, 5.8);
+      ctx.beginPath();
+      const lobes = 9;
+      for (let i = 0; i < lobes; i++) {
+        const a0 = (i / lobes) * Math.PI * 2;
+        const a1 = ((i + 0.5) / lobes) * Math.PI * 2;
+        const a2 = ((i + 1) / lobes) * Math.PI * 2;
+        const rIn = f.r * 0.65;
+        const rOut = f.r * 1.05;
+        if (i === 0) {
+          ctx.moveTo(f.tx + Math.cos(a0) * rIn, f.ty + Math.sin(a0) * rIn);
+        }
+        ctx.quadraticCurveTo(
+          f.tx + Math.cos(a1) * rOut,
+          f.ty + Math.sin(a1) * rOut,
+          f.tx + Math.cos(a2) * rIn,
+          f.ty + Math.sin(a2) * rIn
+        );
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Stem connecting to carrot crown
+      setInk(ctx, 5.2);
+      ctx.beginPath();
+      ctx.moveTo(298, 240);
+      ctx.quadraticCurveTo(335, 190, f.tx, f.ty);
+      ctx.stroke();
+    }
+  };
+
+  const [carMainC, carMainCtx] = makeCanvas(512, 512);
+  drawCarrotsRoots(carMainCtx);
+  drawCarrotGreens(carMainCtx);
+
+  const [carTopC, carTopCtx] = makeCanvas(512, 512);
+  drawCarrotGreens(carTopCtx);
+
+  // 3. LEMONS (Standard + Alt with twin leaves)
+  const drawLemon = (ctx: CanvasRenderingContext2D, twinLeaves: boolean) => {
+    ctx.save();
+    ctx.translate(242, 266);
+    ctx.rotate(twinLeaves ? -0.35 : -0.18);
+
+    // Leaf / Leaves
+    const drawLeaf = (lx: number, ly: number, rot: number) => {
+      ctx.save();
+      ctx.translate(lx, ly);
+      ctx.rotate(rot);
+      ctx.fillStyle = '#668742';
+      setInk(ctx, 6);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(48, -36, 98, 4);
+      ctx.quadraticCurveTo(46, 38, 0, 0);
+      ctx.fill();
+      ctx.stroke();
+      setInk(ctx, 3.8);
+      ctx.beginPath();
+      ctx.moveTo(8, 0);
+      ctx.lineTo(84, 3);
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    if (twinLeaves) {
+      drawLeaf(98, -38, 0.35);
+      drawLeaf(82, -62, -0.25);
+    } else {
+      drawLeaf(-132, -48, -2.5);
+    }
+
+    // Lemon body with pointed tips
+    const g = ctx.createRadialGradient(-36, -38, 16, 0, 0, 152);
+    g.addColorStop(0, '#FCF097');
+    g.addColorStop(0.45, '#F4CB3D');
+    g.addColorStop(0.88, '#DFA91E');
+    g.addColorStop(1, '#BF8A12');
+
+    ctx.fillStyle = g;
+    setInk(ctx, 7);
+    ctx.beginPath();
+    ctx.moveTo(-142, 0);
+    ctx.bezierCurveTo(-118, -28, -78, -96, 0, -96);
+    ctx.bezierCurveTo(78, -96, 118, -28, 144, 0);
+    ctx.bezierCurveTo(118, 28, 78, 96, 0, 96);
+    ctx.bezierCurveTo(-78, 96, -118, 28, -142, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Stippled citrus pores
+    ctx.fillStyle = '#8B630E';
+    for (let i = 0; i < 28; i++) {
+      const px = -75 + ((i * 37) % 150);
+      const py = 15 + ((i * 29) % 56);
+      if ((px * px) / (110 * 110) + (py * py) / (78 * 78) < 0.82) {
+        ctx.beginPath();
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    ctx.restore();
+  };
+
+  const [lemC, lemCtx] = makeCanvas(512, 512);
+  drawLemon(lemCtx, false);
+  const [lemAltC, lemAltCtx] = makeCanvas(512, 512);
+  drawLemon(lemAltCtx, true);
+
+  // 4. RED APPLE & 5. GREEN APPLE
+  const drawApple = (ctx: CanvasRenderingContext2D, isRed: boolean) => {
+    ctx.save();
+    ctx.translate(256, 276);
+
+    // Leaf
+    ctx.save();
+    ctx.translate(10, -112);
+    ctx.rotate(-0.45);
+    ctx.fillStyle = '#6A8B44';
+    setInk(ctx, 6);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.quadraticCurveTo(44, -32, 86, -4);
+    ctx.quadraticCurveTo(42, 28, 0, 0);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    // Apple silhouette
+    const g = ctx.createRadialGradient(-42, -44, 18, 10, 10, 155);
+    if (isRed) {
+      g.addColorStop(0, '#F7BE59');
+      g.addColorStop(0.38, '#EA6E36');
+      g.addColorStop(0.78, '#D94329');
+      g.addColorStop(1, '#A62B19');
+    } else {
+      g.addColorStop(0, '#DCE07E');
+      g.addColorStop(0.5, '#B2BC58');
+      g.addColorStop(0.88, '#8E9940');
+      g.addColorStop(1, '#6F7A2E');
+    }
+
+    ctx.fillStyle = g;
+    setInk(ctx, 7);
+    ctx.beginPath();
+    ctx.moveTo(0, -98);
+    ctx.bezierCurveTo(68, -128, 142, -74, 134, 12);
+    ctx.bezierCurveTo(126, 92, 68, 138, 14, 126);
+    ctx.quadraticCurveTo(0, 118, -14, 126);
+    ctx.bezierCurveTo(-68, 138, -126, 92, -134, 12);
+    ctx.bezierCurveTo(-142, -74, -68, -128, 0, -98);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Crown dimple + woody stem
+    setInk(ctx, 5.2);
+    ctx.beginPath();
+    ctx.arc(0, -92, 28, 0.25, Math.PI - 0.25);
+    ctx.stroke();
+
+    ctx.strokeStyle = INK;
+    ctx.lineWidth = 11;
+    ctx.beginPath();
+    ctx.moveTo(0, -94);
+    ctx.quadraticCurveTo(8, -134, 24, -152);
+    ctx.stroke();
+
+    // Soft highlight
+    ctx.fillStyle = 'rgba(255, 244, 205, 0.42)';
+    ctx.beginPath();
+    ctx.ellipse(-56, -28, 22, 42, 0.32, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+  };
+
+  const [redAppC, redAppCtx] = makeCanvas(512, 512);
+  drawApple(redAppCtx, true);
+  const [grnAppC, grnAppCtx] = makeCanvas(512, 512);
+  drawApple(grnAppCtx, false);
+
+  // 6. GOLDEN BELL PEPPER
+  const [pepC, pepCtx] = makeCanvas(512, 512);
+  pepCtx.save();
+  pepCtx.translate(256, 282);
+  const drawPepperLobe = (ox: number, oy: number, rx: number, ry: number, col0: string, col1: string) => {
+    const g = pepCtx.createLinearGradient(ox - rx, oy - ry, ox + rx, oy + ry);
+    g.addColorStop(0, col0);
+    g.addColorStop(1, col1);
+    pepCtx.fillStyle = g;
+    setInk(pepCtx, 6.8);
+    pepCtx.beginPath();
+    pepCtx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
+    pepCtx.fill();
+    pepCtx.stroke();
+  };
+  drawPepperLobe(-68, -4, 68, 108, '#F6C74D', '#D98E1D');
+  drawPepperLobe(68, -4, 68, 108, '#F2B538', '#CE8118');
+  drawPepperLobe(0, 8, 76, 118, '#FBD96E', '#E39B22');
+
+  // Curved green calyx & stem
+  pepCtx.fillStyle = '#5F803D';
+  setInk(pepCtx, 6.5);
+  pepCtx.beginPath();
+  pepCtx.ellipse(0, -104, 48, 20, 0, 0, Math.PI * 2);
+  pepCtx.fill();
+  pepCtx.stroke();
+
+  pepCtx.beginPath();
+  pepCtx.moveTo(-14, -106);
+  pepCtx.quadraticCurveTo(-8, -162, 34, -172);
+  pepCtx.lineTo(42, -152);
+  pepCtx.quadraticCurveTo(10, -144, 14, -104);
+  pepCtx.closePath();
+  pepCtx.fill();
+  pepCtx.stroke();
+  pepCtx.restore();
+
+  // 7. KALE & ORCHARD GREENS BUNCH
+  const drawKaleLeaf = (
+    ctx: CanvasRenderingContext2D,
+    bx: number,
+    by: number,
+    tx: number,
+    ty: number,
+    width: number,
+    fill: string
+  ) => {
+    const dx = tx - bx;
+    const dy = ty - by;
+    const len = Math.hypot(dx, dy);
+    const ang = Math.atan2(dy, dx);
+
+    ctx.save();
+    ctx.translate(bx, by);
+    ctx.rotate(ang);
+
+    ctx.fillStyle = fill;
+    setInk(ctx, 5.8);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    const steps = 7;
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      const x = t * len;
+      const w = Math.sin(t * Math.PI * 0.88) * width;
+      const cx = (t - 0.5 / steps) * len;
+      ctx.quadraticCurveTo(cx, -w * 1.24, x, -w * 0.85);
+    }
+    ctx.quadraticCurveTo(len * 1.05, 0, len, width * 0.2);
+    for (let i = steps; i >= 1; i--) {
+      const t = i / steps;
+      const x = ((i - 1) / steps) * len;
+      const w = Math.sin(t * Math.PI * 0.88) * width;
+      const cx = (t - 0.5 / steps) * len;
+      ctx.quadraticCurveTo(cx, w * 1.24, x, w * 0.78);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Pale midrib & veins
+    ctx.strokeStyle = '#ACC27B';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(len * 0.84, 0);
+    ctx.stroke();
+
+    setInk(ctx, 3.2);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(len * 0.84, 0);
+    ctx.stroke();
+
+    ctx.restore();
+  };
+
+  const [kaleC, kaleCtx] = makeCanvas(512, 512);
+  drawKaleLeaf(kaleCtx, 226, 426, 134, 118, 68, '#557437');
+  drawKaleLeaf(kaleCtx, 240, 428, 256, 74, 78, '#6B8C45');
+  drawKaleLeaf(kaleCtx, 252, 430, 386, 128, 72, '#5D7D3B');
+  drawKaleLeaf(kaleCtx, 236, 434, 168, 196, 62, '#789850');
+  drawKaleLeaf(kaleCtx, 250, 434, 344, 214, 64, '#7D9D54');
+
+  // Red farm twine band at base
+  kaleCtx.fillStyle = '#D44429';
+  setInk(kaleCtx, 5.8);
+  kaleCtx.beginPath();
+  kaleCtx.roundRect(202, 396, 76, 24, 8);
+  kaleCtx.fill();
+  kaleCtx.stroke();
+
+  const [kaleTopC, kaleTopCtx] = makeCanvas(512, 512);
+  drawKaleLeaf(kaleTopCtx, 244, 428, 220, 108, 70, '#72934B');
+  drawKaleLeaf(kaleTopCtx, 252, 430, 336, 154, 66, '#82A258');
+
+  // 8. CHILI PEPPERS (Pair)
+  const drawChili = (
+    ctx: CanvasRenderingContext2D,
+    cx: number,
+    cy: number,
+    rot: number,
+    color0: string,
+    color1: string
+  ) => {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rot);
+
+    // Stem
+    ctx.strokeStyle = '#587738';
+    ctx.lineWidth = 12;
+    ctx.beginPath();
+    ctx.moveTo(95, -18);
+    ctx.quadraticCurveTo(126, -34, 146, -20);
+    ctx.stroke();
+    setInk(ctx, 4.5);
+    ctx.stroke();
+
+    const g = ctx.createLinearGradient(-110, -25, 95, 30);
+    g.addColorStop(0, color0);
+    g.addColorStop(1, color1);
+    ctx.fillStyle = g;
+    setInk(ctx, 6.2);
+
+    ctx.beginPath();
+    ctx.moveTo(98, -22);
+    ctx.bezierCurveTo(64, -46, -35, -24, -124, 18);
+    ctx.bezierCurveTo(-40, 38, 66, 26, 102, 4);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.restore();
+  };
+
+  const [chiliC, chiliCtx] = makeCanvas(512, 512);
+  drawChili(chiliCtx, 246, 192, -0.45, '#7EA053', '#527135');
+  drawChili(chiliCtx, 268, 336, -0.35, '#F26D44', '#C8351D');
+
+  const [chiliAltC, chiliAltCtx] = makeCanvas(512, 512);
+  drawChili(chiliAltCtx, 268, 224, -0.22, '#F26D44', '#C8351D');
+  drawChili(chiliAltCtx, 236, 314, 2.95, '#7EA053', '#527135');
+
+  // 9. ARTISAN BAGUETTE IN KRAFT PAPER BAG
+  const drawBaguette = (ctx: CanvasRenderingContext2D, uprightForCrate: boolean) => {
+    ctx.save();
+    ctx.translate(256, 264);
+    ctx.rotate(uprightForCrate ? 2.06 : -0.46);
+
+    // Scored golden sourdough loaf (extends to left)
+    const loafG = ctx.createLinearGradient(-210, -68, -20, 68);
+    loafG.addColorStop(0, '#E3B079');
+    loafG.addColorStop(0.55, '#C5874D');
+    loafG.addColorStop(1, '#9C6230');
+    ctx.fillStyle = loafG;
+    setInk(ctx, 6.8);
+
+    ctx.beginPath();
+    ctx.moveTo(18, -62);
+    ctx.bezierCurveTo(-92, -74, -216, -54, -218, 4);
+    ctx.bezierCurveTo(-216, 62, -92, 74, 18, 62);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // 3 baker's slashes
+    for (const sx of [-148, -92, -36]) {
+      ctx.fillStyle = '#EED3AA';
+      setInk(ctx, 4.2);
+      ctx.beginPath();
+      ctx.ellipse(sx, -8, 22, 8, -0.52, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    // Crinkled brown kraft paper bag sleeve (right half)
+    const bagG = ctx.createLinearGradient(-24, -78, 195, 82);
+    bagG.addColorStop(0, '#DFCBB0');
+    bagG.addColorStop(0.55, '#C8AF8F');
+    bagG.addColorStop(1, '#AA8F6E');
+    ctx.fillStyle = bagG;
+    setInk(ctx, 6.8);
+
+    ctx.beginPath();
+    ctx.moveTo(-22, -68);
+    ctx.lineTo(192, -64);
+    ctx.lineTo(208, 48);
+    ctx.lineTo(-10, 72);
+    ctx.quadraticCurveTo(-32, 12, -22, -68);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Kraft crinkle lines
+    setInk(ctx, 3.8);
+    ctx.beginPath();
+    ctx.moveTo(12, -26);
+    ctx.lineTo(148, -32);
+    ctx.moveTo(28, 24);
+    ctx.lineTo(176, 14);
+    ctx.moveTo(92, -8);
+    ctx.lineTo(188, -18);
+    ctx.stroke();
+
+    ctx.restore();
+  };
+
+  const [bagSrcC, bagSrcCtx] = makeCanvas(512, 512);
+  drawBaguette(bagSrcCtx, false);
+  const [bagCrateC, bagCrateCtx] = makeCanvas(512, 512);
+  drawBaguette(bagCrateCtx, true);
+
+  // 10. PRESERVES / JAM JAR
+  const [jarC, jarCtx] = makeCanvas(512, 512);
+  jarCtx.save();
+  jarCtx.translate(256, 272);
+
+  // Glass jar outer body
+  jarCtx.fillStyle = '#F3EAD9';
+  setInk(jarCtx, 6.8);
+  jarCtx.beginPath();
+  jarCtx.roundRect(-94, -82, 188, 224, 34);
+  jarCtx.fill();
+  jarCtx.stroke();
+
+  // Rich red-apricot conserve inside
+  const jamG = jarCtx.createLinearGradient(-82, -50, 82, 130);
+  jamG.addColorStop(0, '#E3623B');
+  jamG.addColorStop(0.55, '#CD4728');
+  jamG.addColorStop(1, '#9E2E18');
+  jarCtx.fillStyle = jamG;
+  setInk(jarCtx, 5);
+  jarCtx.beginPath();
+  jarCtx.roundRect(-80, -48, 160, 176, 22);
+  jarCtx.fill();
+  jarCtx.stroke();
+
+  // Blank cream paper label
+  jarCtx.fillStyle = '#F8F2E6';
+  setInk(jarCtx, 5.2);
+  jarCtx.beginPath();
+  jarCtx.roundRect(-58, -12, 116, 86, 8);
+  jarCtx.fill();
+  jarCtx.stroke();
+
+  // Glass highlight bar
+  jarCtx.fillStyle = 'rgba(255,255,255,0.58)';
+  jarCtx.beginPath();
+  jarCtx.roundRect(54, -36, 14, 142, 7);
+  jarCtx.fill();
+
+  // Ribbed cream screw-top lid
+  jarCtx.fillStyle = '#F6EFE2';
+  setInk(jarCtx, 6.5);
+  jarCtx.beginPath();
+  jarCtx.ellipse(0, -96, 88, 30, 0, 0, Math.PI * 2);
+  jarCtx.fill();
+  jarCtx.stroke();
+
+  jarCtx.beginPath();
+  jarCtx.ellipse(0, -108, 84, 24, 0, 0, Math.PI * 2);
+  jarCtx.fill();
+  jarCtx.stroke();
+  jarCtx.restore();
+
+  return {
+    'vine-tomatoes': {
+      sourceMain: finalizeTexture(vtCanvas, vtCtx, maxAnisotropy),
+      sourceAccent: finalizeTexture(vtStemC, vtStemCtx, maxAnisotropy),
+      crateMain: finalizeTexture(vtCrateC, vtCrateCtx, maxAnisotropy),
+    },
+    carrots: {
+      sourceMain: finalizeTexture(carMainC, carMainCtx, maxAnisotropy),
+      sourceAccent: finalizeTexture(carTopC, carTopCtx, maxAnisotropy),
+      crateMain: finalizeTexture(carMainC, carMainCtx, maxAnisotropy),
+      crateAccent: finalizeTexture(carTopC, carTopCtx, maxAnisotropy),
+    },
+    lemon: {
+      sourceMain: finalizeTexture(lemC, lemCtx, maxAnisotropy),
+      altSourceMain: finalizeTexture(lemAltC, lemAltCtx, maxAnisotropy),
+      crateMain: finalizeTexture(lemC, lemCtx, maxAnisotropy),
+    },
+    'red-apple': {
+      sourceMain: finalizeTexture(redAppC, redAppCtx, maxAnisotropy),
+      crateMain: finalizeTexture(redAppC, redAppCtx, maxAnisotropy),
+    },
+    'green-apple': {
+      sourceMain: finalizeTexture(grnAppC, grnAppCtx, maxAnisotropy),
+      crateMain: finalizeTexture(grnAppC, grnAppCtx, maxAnisotropy),
+    },
+    'bell-pepper': {
+      sourceMain: finalizeTexture(pepC, pepCtx, maxAnisotropy),
+      crateMain: finalizeTexture(pepC, pepCtx, maxAnisotropy),
+    },
+    'kale-greens': {
+      sourceMain: finalizeTexture(kaleC, kaleCtx, maxAnisotropy),
+      sourceAccent: finalizeTexture(kaleTopC, kaleTopCtx, maxAnisotropy),
+      crateMain: finalizeTexture(kaleC, kaleCtx, maxAnisotropy),
+      crateAccent: finalizeTexture(kaleTopC, kaleTopCtx, maxAnisotropy),
+    },
+    'chili-peppers': {
+      sourceMain: finalizeTexture(chiliC, chiliCtx, maxAnisotropy),
+      altSourceMain: finalizeTexture(chiliAltC, chiliAltCtx, maxAnisotropy),
+      crateMain: finalizeTexture(chiliC, chiliCtx, maxAnisotropy),
+    },
+    baguette: {
+      sourceMain: finalizeTexture(bagSrcC, bagSrcCtx, maxAnisotropy),
+      crateMain: finalizeTexture(bagCrateC, bagCrateCtx, maxAnisotropy),
+    },
+    'jam-jar': {
+      sourceMain: finalizeTexture(jarC, jarCtx, maxAnisotropy),
+      crateMain: finalizeTexture(jarC, jarCtx, maxAnisotropy),
+    },
+  };
+}
+
+export interface AnnotationTextures {
+  inSeasonBadge: THREE.CanvasTexture;
+  localBadge: THREE.CanvasTexture;
+  organicBadge: THREE.CanvasTexture;
+  leftDoodles: THREE.CanvasTexture;
+  rightDoodles: THREE.CanvasTexture;
+}
+
+export function buildAnnotationTextures(maxAnisotropy: number): AnnotationTextures {
+  const mkTex = (canvas: HTMLCanvasElement) => {
+    const t = new THREE.CanvasTexture(canvas);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = maxAnisotropy;
+    t.needsUpdate = true;
+    return t;
+  };
+
+  // 1. IN SEASON Terracotta Apothecary Badge
+  const [c1, x1] = makeCanvas(512, 320);
+  x1.fillStyle = '#DB5836';
+  x1.beginPath();
+  x1.moveTo(64, 252);
+  x1.quadraticCurveTo(44, 250, 48, 224);
+  x1.lineTo(62, 134);
+  x1.quadraticCurveTo(68, 114, 118, 112);
+  x1.quadraticCurveTo(138, 52, 256, 52);
+  x1.quadraticCurveTo(374, 52, 394, 112);
+  x1.quadraticCurveTo(444, 114, 450, 134);
+  x1.lineTo(464, 224);
+  x1.quadraticCurveTo(468, 250, 444, 252);
+  x1.closePath();
+  x1.fill();
+
+  x1.strokeStyle = '#F7EFE2';
+  x1.lineWidth = 5;
+  x1.stroke();
+  setInk(x1, 4.5);
+  x1.save();
+  x1.translate(256, 158);
+  x1.scale(0.92, 0.88);
+  x1.translate(-256, -158);
+  x1.stroke();
+  x1.restore();
+
+  x1.fillStyle = INK;
+  x1.font = '700 50px ui-sans-serif, system-ui, sans-serif';
+  x1.textAlign = 'center';
+  x1.fillText('IN', 256, 146);
+  x1.fillText('SEASON', 256, 206);
+
+  // 2. LOCAL Olive-Sage Badge
+  const [c2, x2] = makeCanvas(512, 256);
+  x2.fillStyle = '#8F9C59';
+  x2.beginPath();
+  x2.moveTo(48, 154);
+  x2.quadraticCurveTo(42, 116, 128, 72);
+  x2.lineTo(384, 62);
+  x2.quadraticCurveTo(468, 86, 462, 138);
+  x2.quadraticCurveTo(454, 188, 368, 204);
+  x2.lineTo(136, 208);
+  x2.quadraticCurveTo(54, 198, 48, 154);
+  x2.closePath();
+  x2.fill();
+  setInk(x2, 4.5);
+  x2.save();
+  x2.translate(256, 136);
+  x2.scale(0.92, 0.84);
+  x2.translate(-256, -136);
+  x2.stroke();
+  x2.restore();
+  x2.fillStyle = INK;
+  x2.font = '700 54px ui-sans-serif, system-ui, sans-serif';
+  x2.textAlign = 'center';
+  x2.fillText('LOCAL', 256, 156);
+
+  // 3. 100% ORGANIC Mustard Stamp Badge
+  const [c3, x3] = makeCanvas(512, 320);
+  x3.fillStyle = '#E8BB4B';
+  x3.beginPath();
+  x3.roundRect(44, 48, 424, 224, 28);
+  x3.fill();
+  setInk(x3, 5.5);
+  x3.beginPath();
+  x3.roundRect(62, 66, 388, 188, 18);
+  x3.stroke();
+  x3.fillStyle = INK;
+  x3.font = '700 52px ui-sans-serif, system-ui, sans-serif';
+  x3.textAlign = 'center';
+  x3.fillText('100%', 256, 146);
+  x3.fillText('ORGANIC', 256, 208);
+
+  // 4. Left Hand-Inked Arrows, Dashed Arc & SEASONAL MICRO
+  const [c4, x4] = makeCanvas(768, 768);
+  setInk(x4, 5.5);
+  // Dashed arc at top-right of left canvas (from right of IN SEASON into crate)
+  x4.save();
+  x4.setLineDash([16, 18]);
+  x4.beginPath();
+  x4.moveTo(548, 42);
+  x4.quadraticCurveTo(662, 46, 726, 134);
+  x4.stroke();
+  x4.restore();
+
+  // Burst lines near crate left corner
+  x4.beginPath();
+  x4.moveTo(356, 268);
+  x4.lineTo(392, 290);
+  x4.moveTo(348, 304);
+  x4.lineTo(384, 310);
+  x4.moveTo(356, 336);
+  x4.lineTo(386, 330);
+  x4.stroke();
+
+  // Curved solid arrow pointing up into crate from above vine tomatoes
+  x4.beginPath();
+  x4.moveTo(298, 476);
+  x4.quadraticCurveTo(312, 404, 384, 372);
+  x4.stroke();
+  x4.beginPath();
+  x4.moveTo(360, 364);
+  x4.lineTo(388, 370);
+  x4.lineTo(374, 396);
+  x4.stroke();
+
+  // Motion ticks around tomatoes + SEASONAL MICRO cleanly below tomatoes
+  x4.beginPath();
+  x4.moveTo(188, 492);
+  x4.lineTo(202, 514);
+  x4.moveTo(214, 480);
+  x4.lineTo(220, 506);
+  x4.moveTo(156, 568);
+  x4.quadraticCurveTo(146, 592, 158, 614);
+  x4.stroke();
+
+  x4.save();
+  x4.translate(184, 712);
+  x4.rotate(-0.22);
+  x4.fillStyle = INK;
+  x4.font = '600 22px ui-sans-serif, system-ui, sans-serif';
+  x4.textAlign = 'center';
+  x4.fillText('SEASONAL', 0, 0);
+  x4.fillText('MICRO', 0, 24);
+  x4.restore();
+
+  // Small curved tick beside SEASONAL MICRO
+  x4.beginPath();
+  x4.moveTo(252, 694);
+  x4.quadraticCurveTo(266, 690, 272, 678);
+  x4.stroke();
+
+  // 5. Right Hand-Inked Burst Lines, Dashed Arrow & Arched SEASONAL
+  const [c5, x5] = makeCanvas(768, 768);
+  setInk(x5, 5.5);
+  // Top burst lines
+  x5.beginPath();
+  x5.moveTo(164, 98);
+  x5.lineTo(182, 62);
+  x5.moveTo(194, 112);
+  x5.lineTo(232, 82);
+  x5.moveTo(212, 134);
+  x5.lineTo(258, 120);
+  x5.stroke();
+
+  // Dashed curved arrow from 100% ORGANIC toward crate right corner
+  x5.save();
+  x5.setLineDash([15, 16]);
+  x5.beginPath();
+  x5.moveTo(518, 224);
+  x5.quadraticCurveTo(532, 304, 456, 334);
+  x5.stroke();
+  x5.restore();
+  x5.beginPath();
+  x5.moveTo(476, 314);
+  x5.lineTo(452, 335);
+  x5.lineTo(480, 344);
+  x5.stroke();
+
+  // Arched SEASONAL + curved arrow pointing down-left
+  x5.save();
+  x5.translate(546, 396);
+  x5.rotate(0.58);
+  x5.fillStyle = INK;
+  x5.font = '600 27px ui-sans-serif, system-ui, sans-serif';
+  x5.textAlign = 'center';
+  x5.fillText('SEASONAL', 0, 0);
+  x5.restore();
+
+  x5.beginPath();
+  x5.moveTo(506, 420);
+  x5.quadraticCurveTo(502, 456, 464, 476);
+  x5.stroke();
+  x5.beginPath();
+  x5.moveTo(484, 456);
+  x5.lineTo(462, 477);
+  x5.lineTo(488, 480);
+  x5.stroke();
+
+  return {
+    inSeasonBadge: mkTex(c1),
+    localBadge: mkTex(c2),
+    organicBadge: mkTex(c3),
+    leftDoodles: mkTex(c4),
+    rightDoodles: mkTex(c5),
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/basketState.ts">
+<![CDATA[export type ProduceId =
+  | 'vine-tomatoes'
+  | 'carrots'
+  | 'lemon'
+  | 'red-apple'
+  | 'green-apple'
+  | 'bell-pepper'
+  | 'kale-greens'
+  | 'chili-peppers'
+  | 'baguette'
+  | 'jam-jar';
+
+export type Vec3Tuple = [number, number, number];
+
+export interface ProduceSpec {
+  id: ProduceId;
+  name: string;
+  shortName: string;
+  farm: string;
+  unitLabel: string;
+  note: string;
+  accentHex: string;
+}
+
+export interface SourceAnchorSpec {
+  anchorId: string;
+  produceId: ProduceId;
+  label: string;
+  worldPosition: Vec3Tuple;
+  worldRotation: Vec3Tuple;
+  worldScale: number;
+  variant?: 'alt';
+}
+
+export interface CrateSlot {
+  localPosition: Vec3Tuple;
+  worldPosition: Vec3Tuple;
+  worldRotation: Vec3Tuple;
+  scale: number;
+}
+
+export interface BasketItemInstance {
+  instanceId: string;
+  produceId: ProduceId;
+  sourceAnchorId: string;
+  slot: CrateSlot;
+  addedSeq: number;
+}
+
+export interface BasketState {
+  items: BasketItemInstance[];
+  nextSeq: number;
+}
+
+export const CRATE_SPEC = {
+  center: [0.06, 0.02, -0.12] as Vec3Tuple,
+  rotationY: 0.59,
+  lengthX: 3.18,
+  widthZ: 2.26,
+  heightY: 1.62,
+  plankThickness: 0.11,
+  rimWorldY: 0.85,
+} as const;
+
+export function localCrateToWorld(lx: number, ly: number, lz: number): Vec3Tuple {
+  const cos = Math.cos(CRATE_SPEC.rotationY);
+  const sin = Math.sin(CRATE_SPEC.rotationY);
+  const wx = CRATE_SPEC.center[0] + lx * cos + lz * sin;
+  const wy = CRATE_SPEC.center[1] + ly;
+  const wz = CRATE_SPEC.center[2] - lx * sin + lz * cos;
+  return [
+    Number(wx.toFixed(4)),
+    Number(wy.toFixed(4)),
+    Number(wz.toFixed(4)),
+  ];
+}
+
+export const PRODUCE_CATALOG: Record<ProduceId, ProduceSpec> = {
+  'vine-tomatoes': {
+    id: 'vine-tomatoes',
+    name: 'Early Girl Vine Tomatoes',
+    shortName: 'Vine Tomatoes',
+    farm: 'Full Belly Farm · Capay Valley',
+    unitLabel: '1 lb cluster',
+    note: 'Dry-farmed on mineral clay soils for concentrated sweet-tart flavor.',
+    accentHex: '#DC4328',
+  },
+  carrots: {
+    id: 'carrots',
+    name: 'Nantes Bunched Carrots',
+    shortName: 'Nantes Carrots',
+    farm: 'Riverdog Farm · Guinda',
+    unitLabel: '1 bunch w/ tops',
+    note: 'Pulled at dawn with crisp, sweet cores and aromatic feathery greens.',
+    accentHex: '#E8772E',
+  },
+  lemon: {
+    id: 'lemon',
+    name: 'Meyer & Eureka Lemons',
+    shortName: 'Meyer Lemon',
+    farm: 'Gold Ridge Groves · Sebastopol',
+    unitLabel: 'Single fruit',
+    note: 'Thin, floral citrus rind bursting with bright coastal juice.',
+    accentHex: '#F0C436',
+  },
+  'red-apple': {
+    id: 'red-apple',
+    name: 'Sonoma Gala Apple',
+    shortName: 'Red Orchard Apple',
+    farm: 'Devoto Orchards · Sonoma',
+    unitLabel: 'Single fruit',
+    note: 'Honeyed crunch with sun-blushed scarlet skin straight off the tree.',
+    accentHex: '#DE4D31',
+  },
+  'green-apple': {
+    id: 'green-apple',
+    name: 'Heirloom Goldrush Apple',
+    shortName: 'Goldrush Apple',
+    farm: 'apple-a-day · Gravenstein Hwy',
+    unitLabel: 'Single fruit',
+    note: 'Crisp, effervescent cider-apple snap with warm olive-gold skin.',
+    accentHex: '#A8B251',
+  },
+  'bell-pepper': {
+    id: 'bell-pepper',
+    name: 'Sunburst Sweet Bell Pepper',
+    shortName: 'Golden Bell Pepper',
+    farm: 'Terra Firma Farm · Winters',
+    unitLabel: 'Single pepper',
+    note: 'Thick, glossy golden walls ripened on the vine for mellow sweetness.',
+    accentHex: '#F0AF32',
+  },
+  'kale-greens': {
+    id: 'kale-greens',
+    name: 'Tuscan Kale & Orchard Greens',
+    shortName: 'Harvest Greens',
+    farm: 'Star Route Farms · Bolinas',
+    unitLabel: '1 tied bunch',
+    note: 'Tender ruffled leaves bundled in red farm twine for sautés and salads.',
+    accentHex: '#618240',
+  },
+  'chili-peppers': {
+    id: 'chili-peppers',
+    name: 'Fresno & Serrano Chilis',
+    shortName: 'Farmstead Chilis',
+    farm: 'Tierra Vegetables · Santa Rosa',
+    unitLabel: '2-pepper pair',
+    note: 'Bright, fruity medium heat picked red-ripe and emerald-fresh.',
+    accentHex: '#D63F27',
+  },
+  baguette: {
+    id: 'baguette',
+    name: 'Country Sourdough Baguette',
+    shortName: 'Sourdough Baguette',
+    farm: 'Della Fattoria · Petaluma',
+    unitLabel: '1 hearth loaf',
+    note: 'Naturally leavened heritage wheat baked on stone and tucked in kraft paper.',
+    accentHex: '#C6894E',
+  },
+  'jam-jar': {
+    id: 'jam-jar',
+    name: 'Heirloom Tomato & Peach Conserve',
+    shortName: 'Pantry Conserve',
+    farm: 'Mesa Pantry · Sonoma',
+    unitLabel: '8 oz glass jar',
+    note: 'Small-batch copper-kettle preserve simmered from peak orchard fruit.',
+    accentHex: '#CF4B2C',
+  },
+};
+
+export const SOURCE_ANCHORS: SourceAnchorSpec[] = [
+  {
+    anchorId: 'src-tomatoes',
+    produceId: 'vine-tomatoes',
+    label: 'Add Early Girl Vine Tomatoes',
+    worldPosition: [-2.12, -0.58, 1.38],
+    worldRotation: [-0.26, 0.08, 0.04],
+    worldScale: 1.24,
+  },
+  {
+    anchorId: 'src-carrots',
+    produceId: 'carrots',
+    label: 'Add Nantes Bunched Carrots',
+    worldPosition: [-1.22, -0.78, 2.26],
+    worldRotation: [-0.32, 0.04, 0.02],
+    worldScale: 1.42,
+  },
+  {
+    anchorId: 'src-lemon-upper',
+    produceId: 'lemon',
+    label: 'Add Meyer Lemon',
+    worldPosition: [-0.46, -0.76, 2.42],
+    worldRotation: [-0.30, 0.02, -0.08],
+    worldScale: 0.78,
+  },
+  {
+    anchorId: 'src-lemon-lower',
+    produceId: 'lemon',
+    label: 'Add Eureka Lemon',
+    worldPosition: [-0.84, -0.84, 2.94],
+    worldRotation: [-0.32, 0.02, 0.08],
+    worldScale: 0.82,
+    variant: 'alt',
+  },
+  {
+    anchorId: 'src-red-apple',
+    produceId: 'red-apple',
+    label: 'Add Sonoma Gala Apple',
+    worldPosition: [-0.08, -0.84, 2.92],
+    worldRotation: [-0.28, 0.0, -0.03],
+    worldScale: 0.80,
+  },
+  {
+    anchorId: 'src-green-apple',
+    produceId: 'green-apple',
+    label: 'Add Heirloom Goldrush Apple',
+    worldPosition: [0.34, -0.74, 2.38],
+    worldRotation: [-0.28, -0.02, 0.04],
+    worldScale: 0.82,
+  },
+  {
+    anchorId: 'src-bell-pepper',
+    produceId: 'bell-pepper',
+    label: 'Add Sunburst Sweet Bell Pepper',
+    worldPosition: [0.78, -0.66, 2.02],
+    worldRotation: [-0.26, -0.03, 0.02],
+    worldScale: 0.90,
+  },
+  {
+    anchorId: 'src-kale-greens',
+    produceId: 'kale-greens',
+    label: 'Add Tuscan Kale & Orchard Greens',
+    worldPosition: [1.34, -0.44, 1.58],
+    worldRotation: [-0.24, -0.05, -0.06],
+    worldScale: 1.24,
+  },
+  {
+    anchorId: 'src-chili-mid',
+    produceId: 'chili-peppers',
+    label: 'Add Fresno & Serrano Chilis',
+    worldPosition: [0.82, -0.84, 2.74],
+    worldRotation: [-0.32, 0.0, 0.06],
+    worldScale: 0.92,
+  },
+  {
+    anchorId: 'src-baguette',
+    produceId: 'baguette',
+    label: 'Add Country Sourdough Baguette',
+    worldPosition: [1.94, -0.72, 2.22],
+    worldRotation: [-0.30, -0.05, -0.02],
+    worldScale: 1.56,
+  },
+  {
+    anchorId: 'src-chili-right',
+    produceId: 'chili-peppers',
+    label: 'Add Red & Green Chilis',
+    worldPosition: [2.16, -0.86, 2.84],
+    worldRotation: [-0.32, -0.04, -0.18],
+    worldScale: 0.86,
+    variant: 'alt',
+  },
+  {
+    anchorId: 'src-jam-jar',
+    produceId: 'jam-jar',
+    label: 'Add Heirloom Tomato & Peach Conserve',
+    worldPosition: [2.14, -0.34, 1.06],
+    worldRotation: [-0.22, -0.06, 0.0],
+    worldScale: 1.02,
+  },
+];
+
+interface LocalSlotTemplate {
+  local: Vec3Tuple;
+  rot: Vec3Tuple;
+  scale: number;
+}
+
+const PREFERRED_CRATE_SLOTS: Record<ProduceId, LocalSlotTemplate[]> = {
+  'kale-greens': [
+    { local: [-0.08, 0.90, -0.64], rot: [-0.18, 0.04, 0.06], scale: 1.44 },
+    { local: [-0.68, 0.84, -0.56], rot: [-0.18, 0.06, 0.16], scale: 1.30 },
+  ],
+  baguette: [
+    { local: [0.76, 0.92, -0.58], rot: [-0.18, -0.04, 0.04], scale: 1.36 },
+    { local: [0.38, 0.86, -0.44], rot: [-0.18, 0.02, -0.04], scale: 1.24 },
+  ],
+  'jam-jar': [
+    { local: [1.08, 0.70, -0.08], rot: [-0.18, -0.02, 0.04], scale: 1.02 },
+    { local: [0.80, 0.64, 0.18], rot: [-0.18, 0.02, -0.05], scale: 0.96 },
+  ],
+  carrots: [
+    { local: [0.94, 0.76, 0.46], rot: [-0.20, 0.04, 0.04], scale: 1.42 },
+    { local: [0.54, 0.72, 0.56], rot: [-0.20, 0.02, 0.12], scale: 1.30 },
+  ],
+  'vine-tomatoes': [
+    { local: [-0.42, 0.62, -0.02], rot: [-0.22, 0.02, 0.04], scale: 1.12 },
+    { local: [0.36, 0.66, -0.10], rot: [-0.20, -0.02, -0.08], scale: 1.04 },
+    { local: [-1.08, 0.64, -0.16], rot: [-0.20, 0.05, 0.12], scale: 1.08 },
+  ],
+  'bell-pepper': [
+    { local: [0.0, 0.68, -0.14], rot: [-0.20, 0.0, 0.05], scale: 0.98 },
+    { local: [-0.38, 0.64, -0.34], rot: [-0.20, 0.04, -0.08], scale: 0.92 },
+  ],
+  lemon: [
+    { local: [0.34, 0.60, 0.30], rot: [-0.22, 0.02, -0.14], scale: 0.86 },
+    { local: [-0.08, 0.56, 0.36], rot: [-0.22, -0.02, 0.12], scale: 0.84 },
+  ],
+  'red-apple': [
+    { local: [-0.64, 0.58, 0.60], rot: [-0.22, 0.02, -0.04], scale: 0.88 },
+    { local: [-1.14, 0.60, 0.18], rot: [-0.22, 0.04, 0.08], scale: 0.86 },
+  ],
+  'green-apple': [
+    { local: [-0.18, 0.60, 0.64], rot: [-0.22, -0.02, 0.06], scale: 0.88 },
+    { local: [-0.94, 0.58, 0.44], rot: [-0.22, 0.02, -0.06], scale: 0.84 },
+  ],
+  'chili-peppers': [
+    { local: [-1.16, 0.64, -0.38], rot: [-0.20, 0.04, 0.24], scale: 0.96 },
+    { local: [0.18, 0.58, 0.68], rot: [-0.22, -0.02, -0.12], scale: 0.90 },
+  ],
+};
+
+function dist3(a: Vec3Tuple, b: Vec3Tuple): number {
+  const dx = a[0] - b[0];
+  const dy = a[1] - b[1];
+  const dz = a[2] - b[2];
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+export function createInitialBasketState(): BasketState {
+  return {
+    items: [],
+    nextSeq: 1,
+  };
+}
+
+export function getDefaultAnchorForProduce(produceId: ProduceId): SourceAnchorSpec {
+  const found = SOURCE_ANCHORS.find((a) => a.produceId === produceId);
+  return found ?? SOURCE_ANCHORS[0];
+}
+
+export function allocateCrateSlot(
+  existingItems: BasketItemInstance[],
+  produceId: ProduceId,
+  seqSeed: number
+): CrateSlot {
+  const templates = PREFERRED_CRATE_SLOTS[produceId];
+  const minClearance = 0.23;
+
+  // 1. Try curated art-directed slots first if unoccupied
+  for (const tpl of templates) {
+    const collides = existingItems.some(
+      (item) => dist3(item.slot.localPosition, tpl.local) < minClearance
+    );
+    if (!collides) {
+      return {
+        localPosition: tpl.local,
+        worldPosition: localCrateToWorld(tpl.local[0], tpl.local[1], tpl.local[2]),
+        worldRotation: tpl.rot,
+        scale: tpl.scale,
+      };
+    }
+  }
+
+  // 2. Unlimited mounding allocator using deterministic golden-angle spiral inside crate bounds
+  const goldenAngle = 2.399963229728653;
+  const baseTpl = templates[0];
+  const isTall =
+    produceId === 'kale-greens' ||
+    produceId === 'baguette' ||
+    produceId === 'carrots' ||
+    produceId === 'jam-jar';
+
+  for (let attempt = 0; attempt < 160; attempt++) {
+    const idx = seqSeed + attempt * 3;
+    const angle = idx * goldenAngle;
+    const ring = ((attempt % 12) + 1) / 12;
+    const tier = Math.floor(existingItems.length / 9) + Math.floor(attempt / 14);
+
+    let lx = Math.cos(angle) * (0.98 * Math.sqrt(ring));
+    let lz = Math.sin(angle) * (0.64 * Math.sqrt(ring));
+
+    if (isTall) {
+      // Bias taller items slightly toward the back/sides so front produce stays visible
+      lz = Math.max(-0.72, Math.min(0.45, lz - 0.18));
+    }
+
+    lx = Math.max(-1.14, Math.min(1.12, lx));
+    lz = Math.max(-0.72, Math.min(0.70, lz));
+
+    const baseLy = isTall ? 0.72 : 0.52;
+    const ly = Number((baseLy + tier * 0.14 + (attempt % 3) * 0.035).toFixed(4));
+    const candidateLocal: Vec3Tuple = [
+      Number(lx.toFixed(4)),
+      ly,
+      Number(lz.toFixed(4)),
+    ];
+
+    const collides = existingItems.some(
+      (item) => dist3(item.slot.localPosition, candidateLocal) < minClearance
+    );
+    if (!collides) {
+      const tiltZ = Number(
+        (baseTpl.rot[2] + Math.sin(idx * 1.7) * 0.14).toFixed(4)
+      );
+      return {
+        localPosition: candidateLocal,
+        worldPosition: localCrateToWorld(
+          candidateLocal[0],
+          candidateLocal[1],
+          candidateLocal[2]
+        ),
+        worldRotation: [baseTpl.rot[0], baseTpl.rot[1], tiltZ],
+        scale: Number((baseTpl.scale * 0.95).toFixed(4)),
+      };
+    }
+  }
+
+  // Fallback high mound top
+  const fallbackLocal: Vec3Tuple = [
+    0,
+    Number((0.75 + existingItems.length * 0.05).toFixed(4)),
+    0,
+  ];
+  return {
+    localPosition: fallbackLocal,
+    worldPosition: localCrateToWorld(
+      fallbackLocal[0],
+      fallbackLocal[1],
+      fallbackLocal[2]
+    ),
+    worldRotation: baseTpl.rot,
+    scale: baseTpl.scale,
+  };
+}
+
+export function addProduceInstance(
+  state: BasketState,
+  produceId: ProduceId,
+  sourceAnchorId?: string
+): { nextState: BasketState; added: BasketItemInstance } {
+  const anchor =
+    SOURCE_ANCHORS.find((a) => a.anchorId === sourceAnchorId) ??
+    getDefaultAnchorForProduce(produceId);
+
+  const seq = state.nextSeq;
+  const instanceId = `crate-item-${seq}`;
+  const slot = allocateCrateSlot(state.items, produceId, seq);
+
+  const added: BasketItemInstance = {
+    instanceId,
+    produceId,
+    sourceAnchorId: anchor.anchorId,
+    slot,
+    addedSeq: seq,
+  };
+
+  return {
+    nextState: {
+      items: [...state.items, added],
+      nextSeq: seq + 1,
+    },
+    added,
+  };
+}
+
+export function removeProduceInstance(
+  state: BasketState,
+  instanceId: string
+): { nextState: BasketState; removed: BasketItemInstance | null } {
+  const target = state.items.find((item) => item.instanceId === instanceId) ?? null;
+  if (!target) {
+    return { nextState: state, removed: null };
+  }
+
+  return {
+    nextState: {
+      items: state.items.filter((item) => item.instanceId !== instanceId),
+      nextSeq: state.nextSeq,
+    },
+    removed: target,
+  };
+}
+
+export function clearBasketState(state: BasketState): BasketState {
+  return {
+    items: [],
+    nextSeq: state.nextSeq,
+  };
+}
+
+export const CURATED_FULL_BASKET_ORDER: ProduceId[] = [
+  'kale-greens',
+  'kale-greens',
+  'baguette',
+  'jam-jar',
+  'carrots',
+  'vine-tomatoes',
+  'bell-pepper',
+  'vine-tomatoes',
+  'lemon',
+  'lemon',
+  'red-apple',
+  'green-apple',
+  'vine-tomatoes',
+  'green-apple',
+  'chili-peppers',
+];
+
+export function getCuratedAdditions(state: BasketState): ProduceId[] {
+  // Count existing produce quantities
+  const counts: Partial<Record<ProduceId, number>> = {};
+  for (const item of state.items) {
+    counts[item.produceId] = (counts[item.produceId] ?? 0) + 1;
+  }
+
+  // Needed to reach the signature full-basket composition
+  const needed: ProduceId[] = [];
+  const targetCounts: Partial<Record<ProduceId, number>> = {};
+  for (const pid of CURATED_FULL_BASKET_ORDER) {
+    targetCounts[pid] = (targetCounts[pid] ?? 0) + 1;
+    const have = counts[pid] ?? 0;
+    if (targetCounts[pid]! > have) {
+      needed.push(pid);
+    }
+  }
+
+  // If user already has a full basket, add a fresh seasonal trio so the CTA always responds interactively
+  if (needed.length === 0) {
+    return ['vine-tomatoes', 'carrots', 'lemon', 'red-apple'];
+  }
+
+  return needed;
+}
+
+export interface FlightSample {
+  position: Vec3Tuple;
+  rotation: Vec3Tuple;
+  scaleMultiplier: number;
+}
+
+/**
+ * Evaluates a smooth 3D quadratic Bezier trajectory + perspective rotation + mid-air lift scale
+ * between `startPos` and `endPos` at normalized progress `t` in [0, 1].
+ */
+export function evaluateFlightArc(
+  startPos: Vec3Tuple,
+  endPos: Vec3Tuple,
+  startRot: Vec3Tuple,
+  endRot: Vec3Tuple,
+  t: number,
+  direction: 'into-basket' | 'out-of-basket' = 'into-basket'
+): FlightSample {
+  const clamped = Math.max(0, Math.min(1, t));
+  const inv = 1 - clamped;
+
+  // Compute control point Y so the true curve apex at t=0.5 reaches desiredApexY
+  const highestEndpoint = Math.max(startPos[1], endPos[1], CRATE_SPEC.rimWorldY);
+  const arcClearance = direction === 'into-basket' ? 1.05 : 0.92;
+  const desiredApexY = highestEndpoint + arcClearance;
+
+  const ctrlX = (startPos[0] + endPos[0]) * 0.5 + (endPos[0] - startPos[0]) * 0.08;
+  const ctrlY = 2 * desiredApexY - 0.5 * (startPos[1] + endPos[1]);
+  const ctrlZ = (startPos[2] + endPos[2]) * 0.5 + 0.38;
+
+  const px = inv * inv * startPos[0] + 2 * inv * clamped * ctrlX + clamped * clamped * endPos[0];
+  const py = inv * inv * startPos[1] + 2 * inv * clamped * ctrlY + clamped * clamped * endPos[1];
+  const pz = inv * inv * startPos[2] + 2 * inv * clamped * ctrlZ + clamped * clamped * endPos[2];
+
+  // Dynamic 2.5D/3D perspective rotation during flight (pitch, yaw turn, and bank)
+  const archWave = Math.sin(Math.PI * clamped);
+  const bankSign = endPos[0] >= startPos[0] ? -1 : 1;
+
+  const rx =
+    startRot[0] +
+    (endRot[0] - startRot[0]) * clamped +
+    archWave * (direction === 'into-basket' ? 0.34 : -0.28);
+  const ry =
+    startRot[1] +
+    (endRot[1] - startRot[1]) * clamped +
+    archWave * bankSign * -0.38;
+  const rz =
+    startRot[2] +
+    (endRot[2] - startRot[2]) * clamped +
+    archWave * bankSign * 0.26;
+
+  // Gentle perspective swell at apex
+  const scaleMultiplier = 1 + 0.1 * archWave;
+
+  return {
+    position: [px, py, pz],
+    rotation: [rx, ry, rz],
+    scaleMultiplier,
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/fonts.ts">
+<![CDATA[export const fraunces = {
+  className: 'font-serif',
+} as const;
+
+export const plusJakarta = {
+  className: 'font-sans',
+} as const;
+
+export const ibmPlexMono = {
+  className: 'font-mono',
+} as const;
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/HarvestCrateHero.tsx">
+<![CDATA['use client';
+
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import TopNav, { type NavTopic } from './TopNav';
+import HarvestSceneCanvas from './HarvestSceneCanvas';
+import {
+  BasketDrawer,
+  HarvestManifestModal,
+} from './HeroOverlayModals';
+import { fraunces, ibmPlexMono } from './fonts';
+import {
+  addProduceInstance,
+  clearBasketState,
+  createInitialBasketState,
+  getCuratedAdditions,
+  removeProduceInstance,
+  type BasketState,
+  type ProduceId,
+} from './basketState';
+
+export function HarvestCrateHero() {
+  const [basketState, setBasketState] = useState<BasketState>(() =>
+    createInitialBasketState()
+  );
+  const [basketDrawerOpen, setBasketDrawerOpen] = useState(false);
+  const [activeTopic, setActiveTopic] = useState<NavTopic | null>(null);
+
+  const staggerTimersRef = useRef<number[]>([]);
+
+  const clearPendingTimers = useCallback(() => {
+    for (const id of staggerTimersRef.current) {
+      window.clearTimeout(id);
+    }
+    staggerTimersRef.current = [];
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      clearPendingTimers();
+    };
+  }, [clearPendingTimers]);
+
+  const handleAddProduce = useCallback(
+    (produceId: ProduceId, sourceAnchorId?: string) => {
+      setBasketState((prev) => addProduceInstance(prev, produceId, sourceAnchorId).nextState);
+    },
+    []
+  );
+
+  const handleRemoveInstance = useCallback((instanceId: string) => {
+    setBasketState((prev) => removeProduceInstance(prev, instanceId).nextState);
+  }, []);
+
+  const handleClearBasket = useCallback(() => {
+    clearPendingTimers();
+    setBasketState((prev) => clearBasketState(prev));
+  }, [clearPendingTimers]);
+
+  const handleBuildCuratedBasket = useCallback(() => {
+    clearPendingTimers();
+    const queue = getCuratedAdditions(basketState);
+    queue.forEach((produceId, idx) => {
+      const timerId = window.setTimeout(() => {
+        setBasketState((prev) => addProduceInstance(prev, produceId).nextState);
+      }, idx * 85);
+      staggerTimersRef.current.push(timerId);
+    });
+  }, [basketState, clearPendingTimers]);
+
+  return (
+    <section
+      id="harvest-hero"
+      aria-label="Interactive Harvest Crate Hero"
+      className="w-full bg-[#F7F1E5] text-[#1A1714] flex flex-col justify-between overflow-x-hidden border-b-2 border-[#24211D]"
+    >
+      <TopNav
+        onSelectTopic={(topic) => setActiveTopic(topic)}
+        onOpenBasket={() => setBasketDrawerOpen(true)}
+      />
+
+      <div
+        data-basket-count={basketState.items.length}
+        data-produce-ids={basketState.items.map((i) => i.produceId).join(',')}
+        className="flex-1 w-full max-w-[1480px] mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 items-center gap-4 lg:gap-0 pb-6 lg:pb-8"
+      >
+        {/* Left Hero Editorial Copy & Stacked CTAs */}
+        <div className="lg:col-span-5 z-10 flex flex-col items-start justify-center pt-2 sm:pt-4 lg:pt-0 lg:pr-4">
+          <p
+            className={`${ibmPlexMono.className} text-[11px] sm:text-[13px] tracking-[0.07em] uppercase text-[#241F1B] mb-3 sm:mb-5`}
+          >
+            CAPAY &amp; SONOMA HARVEST CRATE — ILLUSTRATIVE DEMO
+          </p>
+
+          <h1
+            className={`${fraunces.className} font-bold text-[40px] sm:text-[58px] xl:text-[68px] leading-[1.03] tracking-[-0.028em] text-[#181512] mb-3.5 sm:mb-6`}
+          >
+            <span className="block">Good things</span>
+            <span className="block whitespace-nowrap">come into season.</span>
+          </h1>
+
+          <p className="text-[15.5px] sm:text-[18.5px] leading-[1.48] sm:leading-[1.52] text-[#26211C] max-w-[465px] mb-5 sm:mb-8 font-normal">
+            Build a farm-to-door box from the best of the week’s harvest —
+            vegetables, fruit, and pantry picks sourced for flavor and freshness.
+          </p>
+
+          {/* Stacked Primary & Secondary Pill CTAs matching strict reference images */}
+          <div className="flex flex-col items-start gap-2.5 sm:gap-3.5">
+            <button
+              type="button"
+              onClick={handleBuildCuratedBasket}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D85432] hover:bg-[#C44727] active:scale-[0.98] text-[#FDF9F2] px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[16px] font-medium transition-all cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E1A17]"
+            >
+              <span>Build Your Basket</span>
+              <ArrowUpRight className="w-4 h-4 stroke-[2]" aria-hidden="true" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTopic('shop')}
+              className="inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-[#1E1A17] bg-transparent hover:bg-[#1E1A17]/5 active:scale-[0.98] text-[#181512] px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[16px] font-medium transition-all cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D85432]"
+            >
+              <span>Browse This Week’s Harvest</span>
+              <ArrowUpRight className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+
+        {/* Right Interactive 2.5D Three.js Harvest Crate Scene */}
+        <div
+          aria-label="Interactive 2.5D Harvest Crate Illustration"
+          className="lg:col-span-7 relative w-full h-[335px] sm:h-[540px] lg:h-[670px] xl:h-[720px] lg:-ml-4"
+        >
+          <HarvestSceneCanvas
+            items={basketState.items}
+            onAddProduce={handleAddProduce}
+            onRemoveInstance={handleRemoveInstance}
+          />
+        </div>
+      </div>
+
+      <BasketDrawer
+        open={basketDrawerOpen}
+        items={basketState.items}
+        onClose={() => setBasketDrawerOpen(false)}
+        onAddProduce={(pid) => handleAddProduce(pid)}
+        onRemoveInstance={handleRemoveInstance}
+        onClearBasket={handleClearBasket}
+        onBuildCurated={handleBuildCuratedBasket}
+      />
+
+      <HarvestManifestModal
+        topic={activeTopic}
+        onClose={() => setActiveTopic(null)}
+        onAddProduce={(pid) => handleAddProduce(pid)}
+      />
+    </section>
+  );
+}
+
+export default HarvestCrateHero;
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/HarvestSceneCanvas.tsx">
+<![CDATA['use client';
+
+import React, { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import gsap from 'gsap';
+import {
+  CRATE_SPEC,
+  PRODUCE_CATALOG,
+  SOURCE_ANCHORS,
+  evaluateFlightArc,
+  getDefaultAnchorForProduce,
+  type BasketItemInstance,
+  type ProduceId,
+  type SourceAnchorSpec,
+} from './basketState';
+import {
+  buildAllProduceTextures,
+  buildAnnotationTextures,
+  sampleAlphaMask,
+} from './artworkTextures';
+import {
+  buildAnnotationsGroup,
+  buildProduceGroup,
+  buildWoodenCrateGroup,
+  type ProduceMeshUserData,
+} from './sceneBuilders';
+
+interface HarvestSceneCanvasProps {
+  items: BasketItemInstance[];
+  onAddProduce: (produceId: ProduceId, sourceAnchorId?: string) => void;
+  onRemoveInstance: (instanceId: string) => void;
+  onHoverHintChange?: (hint: string | null) => void;
+}
+
+interface SourceNodeRecord {
+  spec: SourceAnchorSpec;
+  group: THREE.Group;
+  shadowMesh: THREE.Mesh | null;
+  hitMeshes: THREE.Mesh[];
+}
+
+interface BasketNodeRecord {
+  item: BasketItemInstance;
+  group: THREE.Group;
+  hitMeshes: THREE.Mesh[];
+  landed: boolean;
+  exiting: boolean;
+  timeline: gsap.core.Timeline | null;
+}
+
+const isSoftwareGl = (() => {
+  if (typeof document === 'undefined') return false;
+  const gl = document.createElement('canvas').getContext('webgl2');
+  if (!gl) return true;
+  const ext = gl.getExtension('WEBGL_debug_renderer_info');
+  const param = ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER;
+  const gpu = String(gl.getParameter(param));
+  gl.getExtension('WEBGL_lose_context')?.loseContext();
+  return /SwiftShader|llvmpipe|softpipe|Software|Basic Render/i.test(gpu);
+})();
+
+const _pointerNdc = new THREE.Vector2();
+
+export default function HarvestSceneCanvas({
+  items,
+  onAddProduce,
+  onRemoveInstance,
+  onHoverHintChange,
+}: HarvestSceneCanvasProps) {
+  const mountRef = useRef<HTMLDivElement | null>(null);
+
+  const callbacksRef = useRef({
+    onAddProduce,
+    onRemoveInstance,
+    onHoverHintChange,
+  });
+  useEffect(() => {
+    callbacksRef.current = {
+      onAddProduce,
+      onRemoveInstance,
+      onHoverHintChange,
+    };
+  }, [onAddProduce, onRemoveInstance, onHoverHintChange]);
+
+  const engineRef = useRef<{
+    syncItems: (nextItems: BasketItemInstance[]) => void;
+  } | null>(null);
+
+  useEffect(() => {
+    const container = mountRef.current;
+    if (!container) return;
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: !isSoftwareGl,
+      alpha: true,
+      powerPreference: 'high-performance',
+    });
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.NoToneMapping;
+    renderer.setClearColor(0x000000, 0);
+    renderer.setPixelRatio(
+      isSoftwareGl ? 1 : Math.min(window.devicePixelRatio || 1, 2)
+    );
+    renderer.shadowMap.enabled = false;
+
+    const canvas = renderer.domElement;
+    canvas.className = 'w-full h-full block touch-none select-none';
+    canvas.setAttribute('data-testid', 'mesa-harvest-canvas');
+    container.appendChild(canvas);
+
+    const scene = new THREE.Scene();
+
+    // Subtle studio environment reflection per Three.js guidelines
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    const envRT = pmremGenerator.fromScene(new RoomEnvironment(), 0.04);
+    scene.environment = envRT.texture;
+    scene.environmentIntensity = 0.22;
+    pmremGenerator.dispose();
+
+    // Warm/cool color-temperature balanced illumination calibrated for gouache & oak planks
+    const hemiLight = new THREE.HemisphereLight(0xfffcf5, 0xe8d9be, 2.35);
+    scene.add(hemiLight);
+
+    const keyLight = new THREE.DirectionalLight(0xfff5e4, 0.75);
+    keyLight.position.set(-4.5, 8.5, 7.5);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0xf5ead6, 0.35);
+    rimLight.position.set(5.5, 4.0, -4.0);
+    scene.add(rimLight);
+
+    const baseCamOffset = new THREE.Vector3(-0.06, 4.25, 9.45);
+    const camLookTarget = new THREE.Vector3(-0.06, 0.16, 0.52);
+
+    const camera = new THREE.PerspectiveCamera(31, 1, 0.1, 60);
+
+    // Master diorama root (supports gentle 2.5D pointer parallax)
+    const stageGroup = new THREE.Group();
+    scene.add(stageGroup);
+
+    const maxAnisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+    const produceTextures = buildAllProduceTextures(maxAnisotropy);
+    const annotationTextures = buildAnnotationTextures(maxAnisotropy);
+
+    const crateGroup = buildWoodenCrateGroup(maxAnisotropy);
+    stageGroup.add(crateGroup);
+
+    const annotationsGroup = buildAnnotationsGroup(annotationTextures);
+    stageGroup.add(annotationsGroup);
+
+    const basketItemsGroup = new THREE.Group();
+    stageGroup.add(basketItemsGroup);
+
+    const foregroundSourceGroup = new THREE.Group();
+    stageGroup.add(foregroundSourceGroup);
+
+    // Occluder list (crate slats & posts) so clicks on front wooden slats don't pierce through wood
+    const crateOccluderMeshes: THREE.Object3D[] = [];
+    crateGroup.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh && child.position.y > -0.78) {
+        crateOccluderMeshes.push(child);
+      }
+    });
+
+    // Build all 12 interactive foreground source anchors
+    const sourceRecords = new Map<string, SourceNodeRecord>();
+    const sourceHitMeshes: THREE.Mesh[] = [];
+
+    for (const spec of SOURCE_ANCHORS) {
+      const texSet = produceTextures[spec.produceId];
+      const built = buildProduceGroup(spec.produceId, texSet, 'source', {
+        anchorId: spec.anchorId,
+        variant: spec.variant,
+      });
+      built.group.position.set(
+        spec.worldPosition[0],
+        spec.worldPosition[1],
+        spec.worldPosition[2]
+      );
+      built.group.rotation.set(
+        spec.worldRotation[0],
+        spec.worldRotation[1],
+        spec.worldRotation[2]
+      );
+      built.group.scale.setScalar(spec.worldScale);
+      foregroundSourceGroup.add(built.group);
+
+      sourceRecords.set(spec.anchorId, {
+        spec,
+        group: built.group,
+        shadowMesh: built.shadowMesh,
+        hitMeshes: built.hitMeshes,
+      });
+      sourceHitMeshes.push(...built.hitMeshes);
+    }
+
+    const basketRecords = new Map<string, BasketNodeRecord>();
+
+    // Coalesced on-demand renderer with software-WebGL fence pacing
+    let unmounted = false;
+    let frameId = 0;
+    let timeoutId = 0;
+    let renderBusy = false;
+    let renderDirty = false;
+
+    const targetParallax = { x: 0, y: 0 };
+    const currentParallax = { x: 0, y: 0 };
+
+    function afterDraw(cb: () => void) {
+      const gl = renderer.getContext() as WebGL2RenderingContext;
+      if (!gl || typeof gl.fenceSync !== 'function') {
+        timeoutId = window.setTimeout(cb, 80);
+        return;
+      }
+      const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+      gl.flush();
+      const poll = () => {
+        if (unmounted) return;
+        const state = sync && gl.getSyncParameter(sync, gl.SYNC_STATUS);
+        if (state === gl.UNSIGNALED) {
+          timeoutId = window.setTimeout(poll, 5);
+        } else {
+          if (sync) gl.deleteSync(sync);
+          timeoutId = window.setTimeout(cb, 80);
+        }
+      };
+      timeoutId = window.setTimeout(poll, 5);
+    }
+
+    function requestRender() {
+      if (unmounted) return;
+      if (renderBusy) {
+        renderDirty = true;
+        return;
+      }
+      renderBusy = true;
+      frameId = requestAnimationFrame(() => {
+        if (unmounted) return;
+        renderDirty = false;
+
+        // Exponentially damp subtle 2.5D stage parallax
+        const dx = targetParallax.x - currentParallax.x;
+        const dy = targetParallax.y - currentParallax.y;
+        if (Math.abs(dx) > 0.0004 || Math.abs(dy) > 0.0004) {
+          currentParallax.x += dx * 0.18;
+          currentParallax.y += dy * 0.18;
+          stageGroup.rotation.y = currentParallax.x * 0.045;
+          stageGroup.rotation.x = currentParallax.y * 0.028;
+          annotationsGroup.position.x = currentParallax.x * 0.06;
+          annotationsGroup.position.y = -currentParallax.y * 0.04;
+          renderDirty = true;
+        }
+
+        renderer.render(scene, camera);
+
+        const done = () => {
+          renderBusy = false;
+          if (renderDirty && !unmounted) {
+            requestRender();
+          }
+        };
+
+        if (isSoftwareGl) afterDraw(done);
+        else done();
+      });
+    }
+
+    function updateSize() {
+      if (!container || unmounted) return;
+      const width = Math.max(1, container.clientWidth);
+      const height = Math.max(1, container.clientHeight);
+      const aspect = width / height;
+
+      camera.aspect = aspect;
+      // Scale distance smoothly on narrower viewports so horizontal composition never clips
+      const minComfortAspect = 1.15;
+      const fitScale = aspect < minComfortAspect ? minComfortAspect / aspect : 1;
+
+      camera.position
+        .copy(camLookTarget)
+        .addScaledVector(
+          baseCamOffset.clone().sub(camLookTarget),
+          fitScale
+        );
+      camera.lookAt(camLookTarget);
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(width, height, false);
+      requestRender();
+    }
+
+    updateSize();
+    if (!isSoftwareGl) {
+      renderer.compile(scene, camera);
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateSize();
+    });
+    resizeObserver.observe(container);
+
+    // Raycasting & Hover / Click Interaction
+    const raycaster = new THREE.Raycaster();
+    let hoveredKey: string | null = null;
+
+    function getActiveRaycastTargets(): THREE.Object3D[] {
+      const targets: THREE.Object3D[] = [...sourceHitMeshes, ...crateOccluderMeshes];
+      for (const rec of basketRecords.values()) {
+        if (rec.landed && !rec.exiting) {
+          targets.push(...rec.hitMeshes);
+        }
+      }
+      return targets;
+    }
+
+    function pickInteractiveHit(clientX: number, clientY: number): ProduceMeshUserData | null {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return null;
+
+      _pointerNdc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      _pointerNdc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(_pointerNdc, camera);
+      const hits = raycaster.intersectObjects(getActiveRaycastTargets(), false);
+
+      for (const hit of hits) {
+        const uData = hit.object.userData as Partial<ProduceMeshUserData> | undefined;
+        if (!uData || !uData.interactiveRole) {
+          // Hit an opaque wooden crate wall before anything behind it!
+          return null;
+        }
+        const alpha = sampleAlphaMask(uData.alphaMask, hit.uv);
+        if (alpha > 42) {
+          return uData as ProduceMeshUserData;
+        }
+      }
+      return null;
+    }
+
+    function setHoverVisual(key: string | null, active: boolean) {
+      if (!key) return;
+      if (key.startsWith('source:')) {
+        const anchorId = key.slice('source:'.length);
+        const rec = sourceRecords.get(anchorId);
+        if (!rec) return;
+        gsap.to(rec.group.position, {
+          y: rec.spec.worldPosition[1] + (active ? 0.11 : 0),
+          duration: 0.22,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: requestRender,
+        });
+        gsap.to(rec.group.scale, {
+          x: rec.spec.worldScale * (active ? 1.07 : 1),
+          y: rec.spec.worldScale * (active ? 1.07 : 1),
+          z: rec.spec.worldScale * (active ? 1.07 : 1),
+          duration: 0.22,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: requestRender,
+        });
+        if (rec.shadowMesh) {
+          const mat = rec.shadowMesh.material as THREE.MeshBasicMaterial;
+          gsap.to(mat, {
+            opacity: active ? 0.36 : 0.65,
+            duration: 0.22,
+            overwrite: 'auto',
+            onUpdate: requestRender,
+          });
+        }
+      } else if (key.startsWith('basket:')) {
+        const instanceId = key.slice('basket:'.length);
+        const rec = basketRecords.get(instanceId);
+        if (!rec || !rec.landed || rec.exiting) return;
+        const basePos = rec.item.slot.worldPosition;
+        const baseScale = rec.item.slot.scale;
+        gsap.to(rec.group.position, {
+          y: basePos[1] + (active ? 0.12 : 0),
+          duration: 0.2,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: requestRender,
+        });
+        gsap.to(rec.group.scale, {
+          x: baseScale * (active ? 1.08 : 1),
+          y: baseScale * (active ? 1.08 : 1),
+          z: baseScale * (active ? 1.08 : 1),
+          duration: 0.2,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: requestRender,
+        });
+      }
+    }
+
+    let lastHoverStamp = 0;
+    function handlePointerMove(e: PointerEvent) {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        targetParallax.x = (((e.clientX - rect.left) / rect.width) * 2 - 1) * 0.85;
+        targetParallax.y = (((e.clientY - rect.top) / rect.height) * 2 - 1) * 0.65;
+        requestRender();
+      }
+
+      const now = performance.now();
+      if (now - lastHoverStamp < 32) return;
+      lastHoverStamp = now;
+
+      const hit = pickInteractiveHit(e.clientX, e.clientY);
+      const nextKey = hit
+        ? hit.interactiveRole === 'source'
+          ? `source:${hit.anchorId}`
+          : `basket:${hit.instanceId}`
+        : null;
+
+      if (nextKey !== hoveredKey) {
+        setHoverVisual(hoveredKey, false);
+        hoveredKey = nextKey;
+        setHoverVisual(hoveredKey, true);
+
+        canvas.classList.toggle('cursor-pointer', Boolean(hoveredKey));
+        if (hit) {
+          const spec = PRODUCE_CATALOG[hit.produceId];
+          callbacksRef.current.onHoverHintChange?.(
+            hit.interactiveRole === 'source'
+              ? `Add ${spec.shortName}`
+              : `Remove ${spec.shortName}`
+          );
+        } else {
+          callbacksRef.current.onHoverHintChange?.(null);
+        }
+      }
+    }
+
+    function handlePointerLeave() {
+      targetParallax.x = 0;
+      targetParallax.y = 0;
+      if (hoveredKey) {
+        setHoverVisual(hoveredKey, false);
+        hoveredKey = null;
+      }
+      canvas.classList.remove('cursor-pointer');
+      callbacksRef.current.onHoverHintChange?.(null);
+      requestRender();
+    }
+
+    let pointerDownPos: { x: number; y: number } | null = null;
+    function handlePointerDown(e: PointerEvent) {
+      pointerDownPos = { x: e.clientX, y: e.clientY };
+    }
+
+    function handlePointerUp(e: PointerEvent) {
+      if (pointerDownPos) {
+        const moved = Math.hypot(
+          e.clientX - pointerDownPos.x,
+          e.clientY - pointerDownPos.y
+        );
+        pointerDownPos = null;
+        if (moved > 14) return;
+      }
+
+      const hit = pickInteractiveHit(e.clientX, e.clientY);
+      if (!hit) return;
+
+      if (hit.interactiveRole === 'source' && hit.anchorId) {
+        // Tactile spring pulse on the foreground source item
+        const srcRec = sourceRecords.get(hit.anchorId);
+        if (srcRec) {
+          const s = srcRec.spec.worldScale;
+          gsap.fromTo(
+            srcRec.group.scale,
+            { x: s * 0.88, y: s * 0.88, z: s * 0.88 },
+            {
+              x: s,
+              y: s,
+              z: s,
+              duration: 0.42,
+              ease: 'back.out(2.2)',
+              overwrite: 'auto',
+              onUpdate: requestRender,
+            }
+          );
+        }
+        callbacksRef.current.onAddProduce(hit.produceId, hit.anchorId);
+      } else if (hit.interactiveRole === 'basket-instance' && hit.instanceId) {
+        const rec = basketRecords.get(hit.instanceId);
+        if (rec && rec.landed && !rec.exiting) {
+          if (hoveredKey === `basket:${hit.instanceId}`) {
+            hoveredKey = null;
+            canvas.classList.remove('cursor-pointer');
+            callbacksRef.current.onHoverHintChange?.(null);
+          }
+          callbacksRef.current.onRemoveInstance(hit.instanceId);
+        }
+      }
+    }
+
+    canvas.addEventListener('pointermove', handlePointerMove);
+    canvas.addEventListener('pointerleave', handlePointerLeave);
+    canvas.addEventListener('pointerdown', handlePointerDown);
+    canvas.addEventListener('pointerup', handlePointerUp);
+
+    function disposeGroup(group: THREE.Group) {
+      group.traverse((obj) => {
+        const mesh = obj as THREE.Mesh;
+        if (mesh.isMesh) {
+          mesh.geometry?.dispose();
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => m.dispose());
+          } else {
+            mesh.material?.dispose();
+          }
+        }
+      });
+    }
+
+    // Reconcile deterministic React BasketItemInstance[] with 2.5D Three.js + GSAP motion
+    function syncItems(nextItems: BasketItemInstance[]) {
+      const nextIds = new Set(nextItems.map((i) => i.instanceId));
+
+      // 1. Animate out any removed instances
+      for (const [id, rec] of basketRecords.entries()) {
+        if (!nextIds.has(id) && !rec.exiting) {
+          rec.exiting = true;
+          rec.landed = false;
+          rec.timeline?.kill();
+
+          const anchor =
+            sourceRecords.get(rec.item.sourceAnchorId)?.spec ??
+            getDefaultAnchorForProduce(rec.item.produceId);
+
+          const startPos: [number, number, number] = [
+            rec.group.position.x,
+            rec.group.position.y,
+            rec.group.position.z,
+          ];
+          const startRot: [number, number, number] = [
+            rec.group.rotation.x,
+            rec.group.rotation.y,
+            rec.group.rotation.z,
+          ];
+          const startScale = rec.group.scale.x || rec.item.slot.scale;
+
+          const proxy = { t: 0 };
+          const tl = gsap.timeline({
+            onUpdate: requestRender,
+            onComplete: () => {
+              basketItemsGroup.remove(rec.group);
+              disposeGroup(rec.group);
+              basketRecords.delete(id);
+              requestRender();
+            },
+          });
+
+          tl.to(proxy, {
+            t: 1,
+            duration: 0.66,
+            ease: 'power2.inOut',
+            onUpdate: () => {
+              const sample = evaluateFlightArc(
+                startPos,
+                anchor.worldPosition,
+                startRot,
+                anchor.worldRotation,
+                proxy.t,
+                'out-of-basket'
+              );
+              rec.group.position.set(
+                sample.position[0],
+                sample.position[1],
+                sample.position[2]
+              );
+              rec.group.rotation.set(
+                sample.rotation[0],
+                sample.rotation[1],
+                sample.rotation[2]
+              );
+              const fadeTail = proxy.t > 0.72 ? 1 - (proxy.t - 0.72) / 0.28 : 1;
+              const s = startScale * sample.scaleMultiplier * Math.max(0.05, fadeTail);
+              rec.group.scale.setScalar(s);
+            },
+          });
+
+          rec.timeline = tl;
+        }
+      }
+
+      // 2. Spawn and fly in any newly added instances
+      for (const item of nextItems) {
+        if (basketRecords.has(item.instanceId)) continue;
+
+        const texSet = produceTextures[item.produceId];
+        const built = buildProduceGroup(
+          item.produceId,
+          texSet,
+          'basket-instance',
+          { instanceId: item.instanceId }
+        );
+
+        const anchor =
+          sourceRecords.get(item.sourceAnchorId)?.spec ??
+          getDefaultAnchorForProduce(item.produceId);
+
+        built.group.position.set(
+          anchor.worldPosition[0],
+          anchor.worldPosition[1],
+          anchor.worldPosition[2]
+        );
+        built.group.rotation.set(
+          anchor.worldRotation[0],
+          anchor.worldRotation[1],
+          anchor.worldRotation[2]
+        );
+        built.group.scale.setScalar(anchor.worldScale);
+        basketItemsGroup.add(built.group);
+
+        const record: BasketNodeRecord = {
+          item,
+          group: built.group,
+          hitMeshes: built.hitMeshes,
+          landed: false,
+          exiting: false,
+          timeline: null,
+        };
+        basketRecords.set(item.instanceId, record);
+
+        const proxy = { t: 0 };
+        const targetPos = item.slot.worldPosition;
+        const targetRot = item.slot.worldRotation;
+        const targetScale = item.slot.scale;
+
+        const tl = gsap.timeline({
+          onUpdate: requestRender,
+        });
+
+        // Smooth lift + curved 3D trajectory + perspective rotation
+        tl.to(proxy, {
+          t: 1,
+          duration: 0.78,
+          ease: 'power2.inOut',
+          onUpdate: () => {
+            const sample = evaluateFlightArc(
+              anchor.worldPosition,
+              targetPos,
+              anchor.worldRotation,
+              targetRot,
+              proxy.t,
+              'into-basket'
+            );
+            built.group.position.set(
+              sample.position[0],
+              sample.position[1],
+              sample.position[2]
+            );
+            built.group.rotation.set(
+              sample.rotation[0],
+              sample.rotation[1],
+              sample.rotation[2]
+            );
+            const lerpedBaseScale =
+              anchor.worldScale + (targetScale - anchor.worldScale) * proxy.t;
+            built.group.scale.setScalar(lerpedBaseScale * sample.scaleMultiplier);
+          },
+          onComplete: () => {
+            record.landed = true;
+          },
+        });
+
+        // Soft cushioned landing inside the crate + subtle crate weight settle
+        tl.fromTo(
+          built.group.position,
+          { y: targetPos[1] - 0.055 },
+          {
+            y: targetPos[1],
+            duration: 0.28,
+            ease: 'back.out(2.4)',
+          }
+        );
+        tl.fromTo(
+          built.group.scale,
+          {
+            x: targetScale * 1.06,
+            y: targetScale * 0.93,
+            z: targetScale,
+          },
+          {
+            x: targetScale,
+            y: targetScale,
+            z: targetScale,
+            duration: 0.28,
+            ease: 'back.out(2.2)',
+          },
+          '<'
+        );
+
+        tl.call(
+          () => {
+            gsap.fromTo(
+              crateGroup.position,
+              { y: CRATE_SPEC.center[1] - 0.026 },
+              {
+                y: CRATE_SPEC.center[1],
+                duration: 0.26,
+                ease: 'power2.out',
+                overwrite: 'auto',
+                onUpdate: requestRender,
+              }
+            );
+          },
+          undefined,
+          '-=0.28'
+        );
+
+        record.timeline = tl;
+        requestRender();
+      }
+    }
+
+    engineRef.current = { syncItems };
+
+    return () => {
+      unmounted = true;
+      engineRef.current = null;
+      resizeObserver.disconnect();
+      cancelAnimationFrame(frameId);
+      clearTimeout(timeoutId);
+
+      canvas.removeEventListener('pointermove', handlePointerMove);
+      canvas.removeEventListener('pointerleave', handlePointerLeave);
+      canvas.removeEventListener('pointerdown', handlePointerDown);
+      canvas.removeEventListener('pointerup', handlePointerUp);
+
+      for (const rec of basketRecords.values()) {
+        rec.timeline?.kill();
+      }
+      gsap.killTweensOf(crateGroup.position);
+
+      scene.traverse((obj) => {
+        const mesh = obj as THREE.Mesh;
+        if (mesh.isMesh) {
+          mesh.geometry?.dispose();
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => m.dispose());
+          } else {
+            mesh.material?.dispose();
+          }
+        }
+      });
+      envRT.dispose();
+      renderer.dispose();
+      if (canvas.parentNode === container) {
+        container.removeChild(canvas);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    engineRef.current?.syncItems(items);
+  }, [items]);
+
+  return (
+    <div className="relative w-full h-full">
+      <div ref={mountRef} className="w-full h-full" />
+
+      {/* Keyboard & assistive-technology controls (visually hidden until keyboard-focused) */}
+      <div
+        aria-label="Interactive Harvest Crate Controls"
+        className="sr-only focus-within:not-sr-only focus-within:absolute focus-within:bottom-3 focus-within:left-3 focus-within:right-3 focus-within:z-20 focus-within:rounded-2xl focus-within:border focus-within:border-[#1E1A17] focus-within:bg-[#F7F1E5] focus-within:p-3 focus-within:shadow-md"
+      >
+        <p className="text-xs font-medium text-[#1E1A17] mb-2">
+          Add seasonal produce to your crate:
+        </p>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {SOURCE_ANCHORS.map((anchor) => (
+            <button
+              key={anchor.anchorId}
+              type="button"
+              onClick={() => onAddProduce(anchor.produceId, anchor.anchorId)}
+              className="rounded-full border border-[#1E1A17] px-2.5 py-1 text-xs font-medium text-[#1E1A17] focus-visible:outline-2 focus-visible:outline-[#D85432]"
+            >
+              {anchor.label}
+            </button>
+          ))}
+        </div>
+        {items.length > 0 && (
+          <div>
+            <p className="text-xs font-medium text-[#1E1A17] mb-1.5">
+              Items currently in crate (activate to remove):
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {items.map((inst) => (
+                <button
+                  key={inst.instanceId}
+                  type="button"
+                  onClick={() => onRemoveInstance(inst.instanceId)}
+                  className="rounded-full bg-[#D85432] px-2.5 py-1 text-xs font-medium text-[#FDF9F2] focus-visible:outline-2 focus-visible:outline-[#1E1A17]"
+                >
+                  Remove {PRODUCE_CATALOG[inst.produceId].shortName} #{inst.addedSeq}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/HeroOverlayModals.tsx">
+<![CDATA['use client';
+
+import React from 'react';
+import { ArrowUpRight, Plus, RotateCcw, Trash2, X } from 'lucide-react';
+import { fraunces, ibmPlexMono } from './fonts';
+import {
+  PRODUCE_CATALOG,
+  type BasketItemInstance,
+  type ProduceId,
+} from './basketState';
+import type { NavTopic } from './TopNav';
+
+interface BasketDrawerProps {
+  open: boolean;
+  items: BasketItemInstance[];
+  onClose: () => void;
+  onAddProduce: (produceId: ProduceId) => void;
+  onRemoveInstance: (instanceId: string) => void;
+  onClearBasket: () => void;
+  onBuildCurated: () => void;
+}
+
+export function BasketDrawer({
+  open,
+  items,
+  onClose,
+  onAddProduce,
+  onRemoveInstance,
+  onClearBasket,
+  onBuildCurated,
+}: BasketDrawerProps) {
+  if (!open) return null;
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Your Harvest Basket"
+      className="fixed inset-0 z-40 flex justify-end bg-[#1A1714]/25"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-md h-full bg-[#F7F1E5] border-l border-[#1E1A17]/20 px-6 py-7 flex flex-col justify-between shadow-xl overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div>
+          <div className="flex items-center justify-between gap-4 pb-5 border-b border-[#1E1A17]/15">
+            <div>
+              <p
+                className={`${ibmPlexMono.className} text-[11px] uppercase tracking-[0.08em] text-[#5B5248]`}
+              >
+                CAPAY &amp; SONOMA CRATE
+              </p>
+              <h2
+                className={`${fraunces.className} text-2xl font-bold text-[#181512] mt-0.5`}
+              >
+                Your Harvest Basket
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close Basket Drawer"
+              className="w-10 h-10 rounded-full border border-[#1E1A17]/25 flex items-center justify-center text-[#1E1A17] hover:bg-[#1E1A17]/5 cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          {items.length === 0 ? (
+            <div className="py-12 text-left">
+              <p className="text-[15.5px] text-[#3B342D] leading-relaxed mb-6">
+                Your wooden harvest crate is currently empty. Click any seasonal
+                produce around the crate — or build a curated assortment — to pack
+                your box.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  onBuildCurated();
+                  onClose();
+                }}
+                className="inline-flex items-center gap-2 rounded-full bg-[#D85432] hover:bg-[#C44727] text-[#FDF9F2] px-6 py-3 text-sm font-medium transition-colors cursor-pointer whitespace-nowrap"
+              >
+                <span>Fill Curated Harvest Crate</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <div className="py-4 divide-y divide-[#1E1A17]/10">
+              {items.map((inst) => {
+                const spec = PRODUCE_CATALOG[inst.produceId];
+                return (
+                  <div
+                    key={inst.instanceId}
+                    className="py-3 flex items-center justify-between gap-3"
+                  >
+                    <div className="min-w-0">
+                      <p className="text-[15px] font-semibold text-[#181512] truncate">
+                        {spec.name}
+                      </p>
+                      <p className="text-xs text-[#5B5248] truncate">
+                        {spec.farm} · {spec.unitLabel}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => onAddProduce(inst.produceId)}
+                        aria-label={`Add another ${spec.name}`}
+                        className="w-8 h-8 rounded-full border border-[#1E1A17]/25 flex items-center justify-center text-[#1E1A17] hover:bg-[#1E1A17]/5 cursor-pointer"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onRemoveInstance(inst.instanceId)}
+                        aria-label={`Remove ${spec.name} item ${inst.addedSeq}`}
+                        className="w-8 h-8 rounded-full border border-[#D85432]/40 flex items-center justify-center text-[#D85432] hover:bg-[#D85432]/10 cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {items.length > 0 && (
+          <div className="pt-4 border-t border-[#1E1A17]/15 flex items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={onClearBasket}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#1E1A17]/30 px-4 py-2.5 text-xs font-medium text-[#1E1A17] hover:bg-[#1E1A17]/5 cursor-pointer whitespace-nowrap"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Empty Crate</span>
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#D85432] hover:bg-[#C44727] text-[#FDF9F2] px-5 py-2.5 text-xs font-medium cursor-pointer whitespace-nowrap"
+            >
+              <span>Continue Packing</span>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+interface HarvestManifestModalProps {
+  topic: NavTopic | null;
+  onClose: () => void;
+  onAddProduce: (produceId: ProduceId) => void;
+}
+
+const TOPIC_COPY: Record<
+  NavTopic,
+  { kicker: string; title: string; subtitle: string }
+> = {
+  shop: {
+    kicker: 'THIS WEEK’S HARVEST MANIFEST',
+    title: 'Picked within 24 hours of delivery.',
+    subtitle:
+      'Add individual bunches, orchard fruit, or small-batch pantry staples directly into your 2.5D wooden crate.',
+  },
+  'how-it-works': {
+    kicker: 'FARM-TO-DOOR IN THREE STEPS',
+    title: 'Interactive custom crate packing.',
+    subtitle:
+      'Click any produce item around the crate to toss it in with unlimited quantities, or click any item inside the crate to remove just that piece.',
+  },
+  'our-farms': {
+    kicker: 'CAPAY VALLEY & SONOMA COUNTY',
+    title: '100% certified organic partner growers.',
+    subtitle:
+      'We partner directly with family-run orchards, dry-farmed tomato fields, and heritage hearth bakeries across Northern California.',
+  },
+  stories: {
+    kicker: 'FIELD NOTES — AUTUMN HARVEST',
+    title: 'Why dry-farmed Early Girls & Goldrush apples shine now.',
+    subtitle:
+      'Cool coastal fog paired with warm valley afternoons concentrates natural sugars in late-season tomatoes, peppers, and orchard apples.',
+  },
+};
+
+export function HarvestManifestModal({
+  topic,
+  onClose,
+  onAddProduce,
+}: HarvestManifestModalProps) {
+  if (!topic) return null;
+  const header = TOPIC_COPY[topic];
+  const allProduce = Object.values(PRODUCE_CATALOG);
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={header.title}
+      className="fixed inset-0 z-40 flex items-center justify-center bg-[#1A1714]/25 p-4 sm:p-6"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-2xl max-h-[85vh] bg-[#F7F1E5] border-[1.5px] border-[#1E1A17] rounded-3xl p-6 sm:p-8 overflow-y-auto shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4 pb-5 border-b border-[#1E1A17]/15">
+          <div>
+            <p
+              className={`${ibmPlexMono.className} text-[11.5px] uppercase tracking-[0.08em] text-[#5B5248]`}
+            >
+              {header.kicker}
+            </p>
+            <h2
+              className={`${fraunces.className} text-2xl sm:text-3xl font-bold text-[#181512] mt-1`}
+            >
+              {header.title}
+            </h2>
+            <p className="text-sm text-[#3B342D] mt-2 leading-relaxed max-w-xl">
+              {header.subtitle}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close Harvest Dialog"
+            className="w-10 h-10 rounded-full border border-[#1E1A17]/25 flex items-center justify-center text-[#1E1A17] hover:bg-[#1E1A17]/5 shrink-0 cursor-pointer"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-5">
+          {allProduce.map((prod) => (
+            <div
+              key={prod.id}
+              className="rounded-2xl border border-[#1E1A17]/15 bg-[#EFE7D6]/55 p-4 flex flex-col justify-between gap-3"
+            >
+              <div>
+                <div className="flex items-baseline justify-between gap-2">
+                  <h3 className="text-[15px] font-semibold text-[#181512]">
+                    {prod.name}
+                  </h3>
+                  <span className="text-xs text-[#5B5248] whitespace-nowrap">
+                    {prod.unitLabel}
+                  </span>
+                </div>
+                <p className="text-xs text-[#5B5248] mt-0.5">{prod.farm}</p>
+                <p className="text-xs text-[#332C26] mt-2 leading-relaxed">
+                  {prod.note}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  onAddProduce(prod.id);
+                  onClose();
+                }}
+                className="self-start inline-flex items-center gap-1.5 rounded-full border border-[#1E1A17] px-3.5 py-1.5 text-xs font-medium text-[#181512] hover:bg-[#D85432] hover:border-[#D85432] hover:text-[#FDF9F2] transition-colors cursor-pointer whitespace-nowrap"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Toss Into Crate</span>
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/sceneBuilders.ts">
+<![CDATA[import * as THREE from 'three';
+import { CRATE_SPEC, type ProduceId } from './basketState';
+import {
+  createWoodPlankTexture,
+  type AlphaMaskTexture,
+  type AnnotationTextures,
+  type ProduceTextureSet,
+} from './artworkTextures';
+
+const INK_HEX = 0x231b15;
+
+export function createReliefCardGeometry(
+  width: number,
+  height: number,
+  bulgeZ = 0.13,
+  segs = 12
+): THREE.PlaneGeometry {
+  const geo = new THREE.PlaneGeometry(width, height, segs, segs);
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const y = pos.getY(i);
+    const nx = x / (width * 0.5);
+    const ny = y / (height * 0.5);
+    const dome =
+      Math.cos(Math.min(1, Math.abs(nx)) * Math.PI * 0.5) *
+      Math.cos(Math.min(1, Math.abs(ny)) * Math.PI * 0.5);
+    pos.setZ(i, dome * bulgeZ);
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+  return geo;
+}
+
+function createSlattedPlankWithHandleGeometry(
+  width: number,
+  height: number,
+  depth: number
+): THREE.ExtrudeGeometry {
+  const hw = width * 0.5;
+  const hh = height * 0.5;
+
+  const shape = new THREE.Shape();
+  shape.moveTo(-hw, -hh);
+  shape.lineTo(hw, -hh);
+  shape.lineTo(hw, hh);
+  shape.lineTo(-hw, hh);
+  shape.closePath();
+
+  // Stadium / oval handle hole matching reference images
+  const holeHalfSpan = width * 0.17;
+  const holeRadius = height * 0.21;
+  const hole = new THREE.Path();
+  hole.absarc(holeHalfSpan, 0, holeRadius, -Math.PI * 0.5, Math.PI * 0.5, false);
+  hole.absarc(-holeHalfSpan, 0, holeRadius, Math.PI * 0.5, Math.PI * 1.5, false);
+  hole.closePath();
+  shape.holes.push(hole);
+
+  const geo = new THREE.ExtrudeGeometry(shape, {
+    depth,
+    bevelEnabled: false,
+    curveSegments: 20,
+  });
+  geo.translate(0, 0, -depth * 0.5);
+
+  // Normalize UVs into [0..1] across plank width & height
+  const uv = geo.attributes.uv;
+  const pos = geo.attributes.position;
+  for (let i = 0; i < uv.count; i++) {
+    const px = pos.getX(i);
+    const py = pos.getY(i);
+    uv.setXY(i, (px + hw) / width, (py + hh) / height);
+  }
+  uv.needsUpdate = true;
+  geo.computeVertexNormals();
+  return geo;
+}
+
+function addInkEdges(mesh: THREE.Mesh, thresholdAngle = 24) {
+  const edgesGeo = new THREE.EdgesGeometry(mesh.geometry, thresholdAngle);
+  const lineMat = new THREE.LineBasicMaterial({
+    color: INK_HEX,
+    transparent: true,
+    opacity: 0.92,
+  });
+  const lines = new THREE.LineSegments(edgesGeo, lineMat);
+  mesh.add(lines);
+}
+
+export function buildWoodenCrateGroup(maxAnisotropy: number): THREE.Group {
+  const crateGroup = new THREE.Group();
+  crateGroup.position.set(
+    CRATE_SPEC.center[0],
+    CRATE_SPEC.center[1],
+    CRATE_SPEC.center[2]
+  );
+  crateGroup.rotation.y = CRATE_SPEC.rotationY;
+
+  const { lengthX, widthZ, heightY, plankThickness } = CRATE_SPEC;
+
+  const texHoneyLeft = createWoodPlankTexture('honey-left', maxAnisotropy, true);
+  const texAmberRight = createWoodPlankTexture('amber-right', maxAnisotropy, true);
+  const texTanInner = createWoodPlankTexture('tan-inner', maxAnisotropy, false);
+  const texEspresso = createWoodPlankTexture('espresso-dark', maxAnisotropy, false);
+  const texPost = createWoodPlankTexture('post-ochre', maxAnisotropy, false);
+
+  const matHoneyLeft = new THREE.MeshStandardMaterial({
+    map: texHoneyLeft,
+    color: 0xffffff,
+    roughness: 0.85,
+    metalness: 0.02,
+  });
+  const matAmberRight = new THREE.MeshStandardMaterial({
+    map: texAmberRight,
+    color: 0xffffff,
+    roughness: 0.86,
+    metalness: 0.02,
+  });
+  const matTanInner = new THREE.MeshStandardMaterial({
+    map: texTanInner,
+    color: 0xffffff,
+    roughness: 0.86,
+    metalness: 0.02,
+  });
+  const matEspresso = new THREE.MeshStandardMaterial({
+    map: texEspresso,
+    color: 0xffffff,
+    roughness: 0.92,
+    metalness: 0.01,
+  });
+  const matPost = new THREE.MeshStandardMaterial({
+    map: texPost,
+    color: 0xffffff,
+    roughness: 0.88,
+    metalness: 0.02,
+  });
+
+  // 1. Warm angled ground cast shadow extending right-back (matching reference image)
+  const shadowShape = new THREE.Shape();
+  shadowShape.moveTo(-lengthX * 0.45, -widthZ * 0.48);
+  shadowShape.lineTo(lengthX * 0.52, -widthZ * 0.48);
+  shadowShape.lineTo(lengthX * 0.78, widthZ * 0.34);
+  shadowShape.lineTo(lengthX * 0.5, widthZ * 0.56);
+  shadowShape.lineTo(-lengthX * 0.48, widthZ * 0.48);
+  shadowShape.closePath();
+
+  const shadowGeo = new THREE.ShapeGeometry(shadowShape);
+  shadowGeo.rotateX(-Math.PI * 0.5);
+  const shadowMat = new THREE.MeshBasicMaterial({
+    color: 0xdfd1b8,
+    transparent: true,
+    opacity: 0.88,
+    depthWrite: false,
+  });
+  const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+  shadowMesh.position.set(0.12, -heightY * 0.5 - 0.03, 0.08);
+  crateGroup.add(shadowMesh);
+
+  // 2. Dark roasted-espresso interior floor
+  const floorGeo = new THREE.BoxGeometry(
+    lengthX - plankThickness * 1.4,
+    0.09,
+    widthZ - plankThickness * 1.4
+  );
+  const floorMesh = new THREE.Mesh(floorGeo, matEspresso);
+  floorMesh.position.set(0, -heightY * 0.5 + 0.05, 0);
+  addInkEdges(floorMesh);
+  crateGroup.add(floorMesh);
+
+  // 3. Four vertical interior corner posts (prominent back corner post visible when empty)
+  const postW = 0.21;
+  const postGeo = new THREE.BoxGeometry(postW, heightY - 0.04, postW);
+  const pxOff = lengthX * 0.5 - plankThickness - postW * 0.5 + 0.01;
+  const pzOff = widthZ * 0.5 - plankThickness - postW * 0.5 + 0.01;
+  const postCoords: Array<[number, number]> = [
+    [pxOff, -pzOff], // Top-back corner B (clearly visible when empty)
+    [-pxOff, -pzOff],
+    [pxOff, pzOff],
+    [-pxOff, pzOff],
+  ];
+  for (const [cx, cz] of postCoords) {
+    const post = new THREE.Mesh(postGeo, matPost);
+    post.position.set(cx, 0, cz);
+    addInkEdges(post);
+    crateGroup.add(post);
+  }
+
+  // 4. Three horizontal slats per wall
+  const slatH = 0.495;
+  const slatYs = [-0.555, 0, 0.555];
+
+  const innerShortSpan = widthZ - plankThickness * 1.96;
+  const longBoxGeo = new THREE.BoxGeometry(lengthX, slatH, plankThickness);
+  const shortBoxGeo = new THREE.BoxGeometry(innerShortSpan, slatH, plankThickness);
+  const handlePlankGeo = createSlattedPlankWithHandleGeometry(
+    innerShortSpan,
+    slatH,
+    plankThickness
+  );
+
+  for (let s = 0; s < slatYs.length; s++) {
+    const sy = slatYs[s];
+    const isTop = s === 2;
+
+    // Back-Left long wall (lz = -widthZ / 2): dark espresso interior face
+    const backLeftSlat = new THREE.Mesh(longBoxGeo, [
+      matPost,
+      matPost,
+      matPost,
+      matEspresso,
+      matEspresso, // +Z faces into crate interior toward camera
+      matHoneyLeft,
+    ]);
+    backLeftSlat.position.set(0, sy, -widthZ * 0.5 + plankThickness * 0.5);
+    addInkEdges(backLeftSlat);
+    crateGroup.add(backLeftSlat);
+
+    // Front-Right long wall (lz = +widthZ / 2): warm amber exterior face
+    const frontRightSlat = new THREE.Mesh(longBoxGeo, [
+      matAmberRight,
+      matHoneyLeft,
+      matPost,
+      matEspresso,
+      matAmberRight, // +Z faces front-right toward camera
+      matEspresso,
+    ]);
+    frontRightSlat.position.set(0, sy, widthZ * 0.5 - plankThickness * 0.5);
+    addInkEdges(frontRightSlat);
+    crateGroup.add(frontRightSlat);
+
+    // Back-Right short wall (lx = +lengthX / 2): has oval handle hole on top slat!
+    const backRightSlat = new THREE.Mesh(
+      isTop ? handlePlankGeo : shortBoxGeo,
+      isTop
+        ? [matTanInner, matPost]
+        : [matPost, matPost, matPost, matEspresso, matTanInner, matTanInner]
+    );
+    backRightSlat.rotation.y = -Math.PI * 0.5;
+    backRightSlat.position.set(lengthX * 0.5 - plankThickness * 0.5, sy, 0);
+    addInkEdges(backRightSlat);
+    crateGroup.add(backRightSlat);
+
+    // Front-Left short wall (lx = -lengthX / 2): sunlit honey oak + oval handle hole on top slat!
+    const frontLeftSlat = new THREE.Mesh(
+      isTop ? handlePlankGeo : shortBoxGeo,
+      isTop
+        ? [matHoneyLeft, matPost]
+        : [matPost, matPost, matPost, matEspresso, matHoneyLeft, matEspresso]
+    );
+    frontLeftSlat.rotation.y = -Math.PI * 0.5;
+    frontLeftSlat.position.set(-lengthX * 0.5 + plankThickness * 0.5, sy, 0);
+    addInkEdges(frontLeftSlat);
+    crateGroup.add(frontLeftSlat);
+  }
+
+  return crateGroup;
+}
+
+export function buildAnnotationsGroup(textures: AnnotationTextures): THREE.Group {
+  const group = new THREE.Group();
+
+  const makePlane = (
+    tex: THREE.CanvasTexture,
+    w: number,
+    h: number,
+    pos: [number, number, number],
+    rotZ = 0
+  ) => {
+    const geo = new THREE.PlaneGeometry(w, h);
+    const mat = new THREE.MeshBasicMaterial({
+      map: tex,
+      transparent: true,
+      alphaTest: 0.04,
+      depthWrite: false,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(pos[0], pos[1], pos[2]);
+    mesh.rotation.set(-0.22, 0, rotZ);
+    return mesh;
+  };
+
+  // IN SEASON terracotta stamp (upper-left of crate)
+  group.add(makePlane(textures.inSeasonBadge, 1.08, 0.68, [-1.48, 1.58, -0.55], -0.14));
+
+  // LOCAL olive-sage stamp (just below IN SEASON)
+  group.add(makePlane(textures.localBadge, 1.06, 0.53, [-1.64, 1.02, -0.25], 0.1));
+
+  // 100% ORGANIC mustard stamp (upper-right of crate)
+  group.add(makePlane(textures.organicBadge, 1.14, 0.72, [2.26, 1.48, -0.62], -0.15));
+
+  // Left doodle arrows & SEASONAL MICRO (cleanly separated from LOCAL & tomatoes)
+  group.add(makePlane(textures.leftDoodles, 2.7, 2.7, [-2.12, 0.24, 0.72], 0));
+
+  // Right doodle burst lines, dashed arrow & arched SEASONAL
+  group.add(makePlane(textures.rightDoodles, 2.55, 2.55, [1.84, 0.68, -0.05], 0));
+
+  return group;
+}
+
+export interface ProduceMeshUserData {
+  interactiveRole: 'source' | 'basket-instance';
+  produceId: ProduceId;
+  anchorId?: string;
+  instanceId?: string;
+  alphaMask?: AlphaMaskTexture;
+}
+
+export function buildProduceGroup(
+  produceId: ProduceId,
+  texSet: ProduceTextureSet,
+  role: 'source' | 'basket-instance',
+  options: {
+    anchorId?: string;
+    instanceId?: string;
+    variant?: 'alt';
+  } = {}
+): {
+  group: THREE.Group;
+  hitMeshes: THREE.Mesh[];
+  shadowMesh: THREE.Mesh | null;
+} {
+  const group = new THREE.Group();
+  const hitMeshes: THREE.Mesh[] = [];
+
+  const mainMask =
+    role === 'source'
+      ? options.variant === 'alt' && texSet.altSourceMain
+        ? texSet.altSourceMain
+        : texSet.sourceMain
+      : texSet.crateMain;
+
+  const accentMask =
+    role === 'source' ? texSet.sourceAccent : texSet.crateAccent;
+
+  const baseGeo = createReliefCardGeometry(1.18, 1.18, 0.14, 12);
+  const baseMat = new THREE.MeshStandardMaterial({
+    map: mainMask.texture,
+    color: 0xffffff,
+    roughness: 0.92,
+    metalness: 0.0,
+    transparent: true,
+    alphaTest: 0.08,
+    side: THREE.DoubleSide,
+  });
+
+  const mainMesh = new THREE.Mesh(baseGeo, baseMat);
+  const uData: ProduceMeshUserData = {
+    interactiveRole: role,
+    produceId,
+    anchorId: options.anchorId,
+    instanceId: options.instanceId,
+    alphaMask: mainMask,
+  };
+  mainMesh.userData = uData;
+  group.add(mainMesh);
+  hitMeshes.push(mainMesh);
+
+  // Secondary 2.5D parallax relief layer (leafy tops, vine stem, or volumetric back-relief)
+  if (accentMask) {
+    const accGeo = createReliefCardGeometry(1.18, 1.18, 0.1, 10);
+    const accMat = new THREE.MeshStandardMaterial({
+      map: accentMask.texture,
+      color: 0xffffff,
+      roughness: 0.92,
+      metalness: 0.0,
+      transparent: true,
+      alphaTest: 0.08,
+      side: THREE.DoubleSide,
+    });
+    const accMesh = new THREE.Mesh(accGeo, accMat);
+    accMesh.position.set(0, 0.02, 0.085);
+    accMesh.rotation.x = -0.06;
+    accMesh.userData = {
+      ...uData,
+      alphaMask: accentMask,
+    } satisfies ProduceMeshUserData;
+    group.add(accMesh);
+    hitMeshes.push(accMesh);
+  } else {
+    // Subtle offset depth silhouette layer so 3D turn during flight feels substantial
+    const backGeo = createReliefCardGeometry(1.13, 1.13, 0.09, 8);
+    const backMat = new THREE.MeshStandardMaterial({
+      map: mainMask.texture,
+      color: 0xeedfc8,
+      roughness: 0.95,
+      metalness: 0.0,
+      transparent: true,
+      alphaTest: 0.12,
+      side: THREE.DoubleSide,
+    });
+    const backMesh = new THREE.Mesh(backGeo, backMat);
+    backMesh.position.set(0, -0.01, -0.055);
+    group.add(backMesh);
+  }
+
+  let shadowMesh: THREE.Mesh | null = null;
+  if (role === 'source') {
+    const discGeo = new THREE.CircleGeometry(0.46, 24);
+    discGeo.rotateX(-Math.PI * 0.5);
+    const discMat = new THREE.MeshBasicMaterial({
+      color: 0xd8c8ae,
+      transparent: true,
+      opacity: 0.65,
+      depthWrite: false,
+    });
+    shadowMesh = new THREE.Mesh(discGeo, discMat);
+    shadowMesh.position.set(0.06, -0.34, -0.08);
+    shadowMesh.scale.set(1.15, 1, 0.72);
+    group.add(shadowMesh);
+  }
+
+  return { group, hitMeshes, shadowMesh };
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/TopNav.tsx">
+<![CDATA['use client';
+
+import React from 'react';
+import { ShoppingBasket } from 'lucide-react';
+import { fraunces } from './fonts';
+
+export type NavTopic = 'shop' | 'how-it-works' | 'our-farms' | 'stories';
+
+interface TopNavProps {
+  onSelectTopic: (topic: NavTopic) => void;
+  onOpenBasket: () => void;
+}
+
+const NAV_ITEMS: Array<{ id: NavTopic; label: string }> = [
+  { id: 'shop', label: 'Shop' },
+  { id: 'how-it-works', label: 'How it Works' },
+  { id: 'our-farms', label: 'Our Farms' },
+  { id: 'stories', label: 'Stories' },
+];
+
+export default function TopNav({ onSelectTopic, onOpenBasket }: TopNavProps) {
+  return (
+    <header className="w-full max-w-[1480px] mx-auto px-6 sm:px-10 lg:px-16 pt-6 sm:pt-8 pb-2 flex items-center justify-between gap-8 z-20">
+      {/* Zone 1: Brand Wordmark */}
+      <a
+        href="#top"
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+        className={`${fraunces.className} text-[25px] sm:text-[31px] font-black tracking-[-0.035em] leading-none text-[#1A1714] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#D85432] rounded-sm`}
+      >
+        MESA MARKET<span className="text-[10px] font-sans font-semibold align-baseline ml-0.5">®</span>
+      </a>
+
+      {/* Zone 2: 4 Single-Line Navigation Links */}
+      <nav
+        aria-label="Primary Navigation"
+        className="hidden md:flex items-center gap-8 lg:gap-11 text-[16px] font-normal text-[#1E1A17]"
+      >
+        {NAV_ITEMS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => onSelectTopic(item.id)}
+            className="hover:text-[#D85432] hover:underline underline-offset-4 transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#D85432] rounded-sm"
+          >
+            {item.label}
+          </button>
+        ))}
+      </nav>
+
+      {/* Zone 3: Primary Basket Action (Strictly NO numerical counter) */}
+      <div className="flex items-center shrink-0">
+        <button
+          type="button"
+          onClick={onOpenBasket}
+          aria-label="Open Basket"
+          className="inline-flex items-center gap-2.5 rounded-full border-[1.5px] border-[#1E1A17] bg-transparent hover:bg-[#1E1A17]/5 active:scale-[0.98] px-6 py-2 text-[16px] font-normal text-[#1E1A17] transition-all whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#D85432]"
+        >
+          <span>Basket</span>
+          <ShoppingBasket className="w-[19px] h-[19px] stroke-[1.6]" aria-hidden="true" />
+        </button>
+      </div>
+    </header>
   );
 }
 ]]>
