@@ -91,4 +91,20 @@ test.describe("MESA MARKET landing page", () => {
     await expect(page.locator("body")).toBeVisible();
     await expect(page.locator("h1")).toBeVisible();
   });
+
+  test("renders living landscape background in hero section", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(url);
+    const landscape = page.locator("#harvest-hero .mm-landscape");
+    await expect(landscape).toBeVisible();
+    await page.waitForTimeout(1000);
+    await page.locator("#harvest-hero").screenshot({
+      path: "C:/Users/PC/.gemini/antigravity-cli/brain/b1b93d72-37f9-4139-b1a5-0aae371b38f8/hero-landscape-1440.png",
+    });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.waitForTimeout(500);
+    await page.locator("#harvest-hero").screenshot({
+      path: "C:/Users/PC/.gemini/antigravity-cli/brain/b1b93d72-37f9-4139-b1a5-0aae371b38f8/hero-landscape-390.png",
+    });
+  });
 });

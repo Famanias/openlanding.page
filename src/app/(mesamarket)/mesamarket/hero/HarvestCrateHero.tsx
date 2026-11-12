@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import HarvestSceneCanvas from './HarvestSceneCanvas';
+import MesaMarketLandscape from './MesaMarketLandscape';
 import { fraunces, ibmPlexMono } from './fonts';
 import {
   addProduceInstance,
@@ -65,12 +66,13 @@ export function HarvestCrateHero() {
     <section
       id="harvest-hero"
       aria-label="Interactive Harvest Crate Hero"
-      className="w-full bg-[#F7F1E5] text-[#1A1714] flex flex-col justify-between overflow-x-hidden border-b-2 border-[#24211D]"
+      className="relative w-full bg-[#F7F1E5] text-[#1A1714] flex flex-col justify-between overflow-hidden border-b-2 border-[#24211D]"
     >
+      <MesaMarketLandscape />
       <div
         data-basket-count={basketState.items.length}
         data-produce-ids={basketState.items.map((i) => i.produceId).join(',')}
-        className="flex-1 w-full max-w-[1520px] mx-auto pl-6 sm:pl-10 lg:pl-16 pr-4 sm:pr-8 lg:pr-8 xl:pr-10 grid grid-cols-1 lg:grid-cols-12 items-center gap-4 lg:gap-0 pt-6 sm:pt-8 lg:pt-10 pb-6 lg:pb-8"
+        className="relative z-10 flex-1 w-full max-w-[1520px] mx-auto pl-6 sm:pl-10 lg:pl-16 pr-4 sm:pr-8 lg:pr-8 xl:pr-10 grid grid-cols-1 lg:grid-cols-12 items-center gap-4 lg:gap-0 pt-6 sm:pt-8 lg:pt-10 pb-6 lg:pb-8"
       >
         {/* Left Hero Editorial Copy & Stacked CTAs */}
         <div className="lg:col-span-5 z-10 flex flex-col items-start justify-center pt-2 sm:pt-4 lg:pt-0 lg:pr-4">

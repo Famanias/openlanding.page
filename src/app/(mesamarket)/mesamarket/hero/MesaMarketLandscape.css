@@ -1,0 +1,89 @@
+/*
+ * MESA MARKET — LIVING HARVEST LANDSCAPE
+ * Source-drawn SVG / CSS / JS. No background images or image assets.
+ * All selectors scoped to .mm-landscape so this can sit behind any hero.
+ */
+.mm-landscape {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #fbf6e9;
+  pointer-events: none; /* IMPORTANT: never intercept basket/produce clicks. */
+  isolation: isolate;
+  contain: layout paint style;
+  --mm-wind: 0deg;
+}
+.mm-landscape, .mm-landscape * { box-sizing: border-box; }
+.mm-landscape-svg {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  overflow: hidden;
+  /* Preserve the right-side farm/road scene on narrower screens. */
+}
+.mm-landscape .mm-depth,
+.mm-landscape .mm-wind-group,
+.mm-landscape .mm-tree-sway,
+.mm-landscape .mm-grass-sway { transform-box: fill-box; }
+.mm-landscape .mm-depth { will-change: transform; }
+.mm-landscape .mm-wind-group,
+.mm-landscape .mm-tree-sway,
+.mm-landscape .mm-grass-sway { transform-origin: center bottom; }
+.mm-landscape .mm-sun-disc { transform-origin: center; transform-box: fill-box; animation: mm-sunrise 2.3s cubic-bezier(.18,.75,.2,1) both, mm-sun-breathe 11s ease-in-out 2.3s infinite alternate; }
+.mm-landscape .mm-sun-glow { transform-origin: center; transform-box: fill-box; animation: mm-sun-glow 10s ease-in-out infinite alternate; }
+.mm-landscape .mm-cloud { transform-box: fill-box; animation: mm-cloud-drift 31s ease-in-out infinite alternate; }
+.mm-landscape .mm-cloud-b { animation-duration: 42s; animation-delay: -17s; }
+.mm-landscape .mm-cloud-c { animation-duration: 35s; animation-delay: -11s; animation-direction: alternate-reverse; }
+.mm-landscape .mm-hill-far { animation: mm-hill-settle 2.05s cubic-bezier(.2,.7,.15,1) both; }
+.mm-landscape .mm-hill:not(.mm-hill-far) { animation: mm-hill-settle 2.5s cubic-bezier(.2,.72,.15,1) .25s both; }
+.mm-landscape .mm-field-lines path { stroke-dasharray: 550; stroke-dashoffset: 550; animation: mm-line-draw 2.65s cubic-bezier(.25,.5,.25,1) 1.05s forwards; }
+.mm-landscape .mm-fence-line { stroke-dasharray: 850; stroke-dashoffset: 850; animation: mm-line-draw 2.35s ease-out 1.15s forwards; }
+.mm-landscape .mm-fence-post { transform-box: fill-box; transform-origin: center bottom; animation: mm-assemble-post .75s cubic-bezier(.16,1,.3,1) calc(1.1s + var(--mm-delay,0s)) both; }
+.mm-landscape .mm-farm-stand { transform-box: fill-box; transform-origin: center bottom; animation: mm-farm-enter 1.1s cubic-bezier(.16,1,.3,1) .9s both; }
+.mm-landscape .mm-tree-sway { animation: mm-tree-sway var(--mm-duration,5.8s) ease-in-out var(--mm-delay,0s) infinite alternate; }
+.mm-landscape .mm-tree { animation: mm-tree-grow 1.3s cubic-bezier(.2,1.18,.32,1) .55s both; transform-box: fill-box; transform-origin: center bottom; }
+.mm-landscape .mm-orchard-tree { animation-duration: 1s; animation-delay: .65s; }
+.mm-landscape .mm-grass-sway { animation: mm-grass-breeze 3.8s ease-in-out infinite alternate; }
+.mm-landscape .mm-sprig:nth-child(3n) .mm-grass-sway { animation-duration: 5.1s; animation-delay: -2s; }
+.mm-landscape .mm-sprig:nth-child(4n) .mm-grass-sway { animation-duration: 3.3s; animation-delay: -1.25s; }
+.mm-landscape .mm-bird { transform-box: fill-box; animation: mm-bird-float 18s linear infinite; }
+.mm-landscape .mm-bird-b { animation-delay: -6s; animation-duration: 22s; }
+.mm-landscape .mm-bird-c { animation-delay: -9s; animation-duration: 25s; }
+.mm-landscape .mm-bird-d { animation-delay: -13s; animation-duration: 19s; }
+.mm-landscape .mm-bird-e { animation-delay: -3s; animation-duration: 21s; }
+.mm-landscape .mm-paper-grain { mix-blend-mode: multiply; }
+
+@keyframes mm-sunrise { from { transform: translateY(38px) scale(.78); } to { transform: translateY(0) scale(1); } }
+@keyframes mm-sun-breathe { from { transform: translateY(0) scale(1); } to { transform: translateY(-4px) scale(1.02); } }
+@keyframes mm-sun-glow { from { opacity: .58; transform: scale(.91); } to { opacity: .96; transform: scale(1.11); } }
+@keyframes mm-cloud-drift { from { transform: translateX(-16px); } to { transform: translateX(28px); } }
+@keyframes mm-hill-settle { from { transform: translateY(22px) scaleY(.94); } to { transform: translateY(0) scaleY(1); } }
+@keyframes mm-line-draw { to { stroke-dashoffset: 0; } }
+@keyframes mm-assemble-post { from { scale: 1 .12; } to { scale: 1 1; } }
+@keyframes mm-farm-enter { from { transform: translateY(20px) scaleY(.5); } to { transform: translateY(0) scaleY(1); } }
+@keyframes mm-tree-grow { from { scale: .82 .12; } to { scale: 1 1; } }
+@keyframes mm-tree-sway { from { transform: rotate(-1.25deg); } to { transform: rotate(1.8deg); } }
+@keyframes mm-grass-breeze { from { transform: rotate(-3.1deg); } to { transform: rotate(3.8deg); } }
+@keyframes mm-bird-float { 0% { transform: translate3d(0,0,0); } 45% { transform: translate3d(-30px,-10px,0); } 100% { transform: translate3d(-65px,-1px,0); } }
+
+.mm-landscape[data-paused="true"] *,
+.mm-landscape[data-visible="false"] * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .mm-landscape *, .mm-landscape *::before, .mm-landscape *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .mm-landscape .mm-field-lines path,
+  .mm-landscape .mm-fence-line { stroke-dashoffset: 0 !important; }
+}
+@media (max-width: 767px) {
+  .mm-landscape-svg {
+    width: 125%;
+    max-width: none;
+    left: -13%;
+  }
+  .mm-landscape .mm-paper-grain { opacity: .55; }
+}
