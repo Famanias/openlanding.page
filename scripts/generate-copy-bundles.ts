@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  tessera: { name: "TESSERA", dependencies: ["lucide-react", "motion"] },
   mesamarket: { name: "MESA MARKET", dependencies: ["lucide-react", "motion", "three", "gsap"], includeDownload: true },
   postmark: { name: "POSTMARK", dependencies: ["lucide-react", "motion"], includeDownload: true },
   rooted: { name: "ROOTED", dependencies: [], includeDownload: true },
