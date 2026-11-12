@@ -49,15 +49,15 @@ export function MesaMarketApp() {
         Skip to market shelf
       </a>
 
-      {/* 00: 2.5D Interactive Harvest Crate Hero (1:1 from mesa-hero) */}
-      <HarvestCrateHero />
-
-      {/* Market Signage Header */}
+      {/* Market Signage Header (The header of the template at the very top) */}
       <Header
         totalCount={totals.totalCount}
         sampleSubtotal={totals.sampleSubtotal}
         onOpenBasket={() => setDrawerOpen(true)}
       />
+
+      {/* 00: 2.5D Interactive Harvest Crate Hero */}
+      <HarvestCrateHero />
 
       <main id="main">
         {/* 01: Flat-Lay Market Stall Collage Showcase (Moved Down) */}

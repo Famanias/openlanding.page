@@ -2,12 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import TopNav, { type NavTopic } from './TopNav';
 import HarvestSceneCanvas from './HarvestSceneCanvas';
-import {
-  BasketDrawer,
-  HarvestManifestModal,
-} from './HeroOverlayModals';
 import { fraunces, ibmPlexMono } from './fonts';
 import {
   addProduceInstance,
@@ -23,8 +18,6 @@ export function HarvestCrateHero() {
   const [basketState, setBasketState] = useState<BasketState>(() =>
     createInitialBasketState()
   );
-  const [basketDrawerOpen, setBasketDrawerOpen] = useState(false);
-  const [activeTopic, setActiveTopic] = useState<NavTopic | null>(null);
 
   const staggerTimersRef = useRef<number[]>([]);
 
@@ -74,15 +67,10 @@ export function HarvestCrateHero() {
       aria-label="Interactive Harvest Crate Hero"
       className="w-full bg-[#F7F1E5] text-[#1A1714] flex flex-col justify-between overflow-x-hidden border-b-2 border-[#24211D]"
     >
-      <TopNav
-        onSelectTopic={(topic) => setActiveTopic(topic)}
-        onOpenBasket={() => setBasketDrawerOpen(true)}
-      />
-
       <div
         data-basket-count={basketState.items.length}
         data-produce-ids={basketState.items.map((i) => i.produceId).join(',')}
-        className="flex-1 w-full max-w-[1520px] mx-auto pl-6 sm:pl-10 lg:pl-16 pr-4 sm:pr-8 lg:pr-8 xl:pr-10 grid grid-cols-1 lg:grid-cols-12 items-center gap-4 lg:gap-0 pb-6 lg:pb-8"
+        className="flex-1 w-full max-w-[1520px] mx-auto pl-6 sm:pl-10 lg:pl-16 pr-4 sm:pr-8 lg:pr-8 xl:pr-10 grid grid-cols-1 lg:grid-cols-12 items-center gap-4 lg:gap-0 pt-6 sm:pt-8 lg:pt-10 pb-6 lg:pb-8"
       >
         {/* Left Hero Editorial Copy & Stacked CTAs */}
         <div className="lg:col-span-5 z-10 flex flex-col items-start justify-center pt-2 sm:pt-4 lg:pt-0 lg:pr-4">
@@ -104,7 +92,7 @@ export function HarvestCrateHero() {
             vegetables, fruit, and pantry picks sourced for flavor and freshness.
           </p>
 
-          {/* Stacked Primary & Secondary Pill CTAs matching strict reference images */}
+          {/* Stacked Primary & Secondary Pill CTAs */}
           <div className="flex flex-col items-start gap-2.5 sm:gap-3.5">
             <button
               type="button"
@@ -117,7 +105,9 @@ export function HarvestCrateHero() {
 
             <button
               type="button"
-              onClick={() => setActiveTopic('shop')}
+              onClick={() => {
+                document.getElementById('mm-shelf')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-[#1E1A17] bg-transparent hover:bg-[#1E1A17]/5 active:scale-[0.98] text-[#181512] px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[16px] font-medium transition-all cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D85432]"
             >
               <span>Browse This Week’s Harvest</span>
@@ -138,22 +128,6 @@ export function HarvestCrateHero() {
           />
         </div>
       </div>
-
-      <BasketDrawer
-        open={basketDrawerOpen}
-        items={basketState.items}
-        onClose={() => setBasketDrawerOpen(false)}
-        onAddProduce={(pid) => handleAddProduce(pid)}
-        onRemoveInstance={handleRemoveInstance}
-        onClearBasket={handleClearBasket}
-        onBuildCurated={handleBuildCuratedBasket}
-      />
-
-      <HarvestManifestModal
-        topic={activeTopic}
-        onClose={() => setActiveTopic(null)}
-        onAddProduce={(pid) => handleAddProduce(pid)}
-      />
     </section>
   );
 }
