@@ -324,11 +324,15 @@ export function generateCopyBundles(outputDir = path.resolve(process.cwd(), "pub
     const bundleXml = formatRepomixBundle(slug, meta.name, files, meta.dependencies);
 
     const bundlePath = path.join(outputDir, `${slug}.md`);
-    fs.writeFileSync(bundlePath, bundleXml, "utf8");
+    if (!fs.existsSync(bundlePath) || fs.readFileSync(bundlePath, "utf8") !== bundleXml) {
+      fs.writeFileSync(bundlePath, bundleXml, "utf8");
+    }
 
     const promptContent = readTemplatePrompt(slug);
     const promptPath = path.join(outputDir, `${slug}-prompt.md`);
-    fs.writeFileSync(promptPath, promptContent, "utf8");
+    if (!fs.existsSync(promptPath) || fs.readFileSync(promptPath, "utf8") !== promptContent) {
+      fs.writeFileSync(promptPath, promptContent, "utf8");
+    }
   }
 }
 

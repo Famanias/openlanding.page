@@ -107,4 +107,27 @@ test.describe("MESA MARKET landing page", () => {
       path: "C:/Users/PC/.gemini/antigravity-cli/brain/b1b93d72-37f9-4139-b1a5-0aae371b38f8/hero-landscape-390.png",
     });
   });
+
+  test("renders white countryside footer with navigation and back-to-top", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(url);
+    const footer = page.locator("#mesa-footer");
+    await expect(footer).toBeVisible();
+    await expect(footer.locator(".mmf-landscape")).toBeVisible();
+    await expect(footer.locator(".mmf-giant-word")).not.toBeVisible();
+    await expect(footer.getByText("A little closer to the good stuff.")).toBeVisible();
+
+    await footer.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(600);
+
+    await footer.screenshot({
+      path: "C:/Users/PC/.gemini/antigravity-cli/brain/b1b93d72-37f9-4139-b1a5-0aae371b38f8/footer-white-landscape-1440.png",
+    });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.waitForTimeout(500);
+    await footer.screenshot({
+      path: "C:/Users/PC/.gemini/antigravity-cli/brain/b1b93d72-37f9-4139-b1a5-0aae371b38f8/footer-white-landscape-390.png",
+    });
+  });
 });
