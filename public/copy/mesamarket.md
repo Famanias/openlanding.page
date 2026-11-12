@@ -4227,7 +4227,7 @@ export const HeroStall: React.FC<HeroStallProps> = ({
       className="max-w-[1440px] mx-auto border-b-2 border-[#24211D] px-4 sm:px-8 py-8 sm:py-12"
     >
       {/* Centered Flat-Lay Stall Window with 8 Produce Cutouts Wrapping the Headline */}
-      <div className="w-full max-w-5xl mx-auto bg-[#FDF5E7] border-2 border-[#24211D] rounded-xl p-6 sm:p-10 relative overflow-hidden flex flex-col justify-between space-y-8">
+      <div className="w-full max-w-5xl mx-auto p-6 sm:p-10 relative overflow-hidden flex flex-col justify-between space-y-8">
         {/* Top Row of 4 Framed Produce Cutouts */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center">
           {PRODUCE_CATALOG.slice(0, 4).map((item) => (
