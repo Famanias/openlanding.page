@@ -120,12 +120,12 @@ describe("gallery template data", () => {
 
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
-    const argonSlugs = ["surface08", "tessera", "cirro", "orova", "vyra", "auven", "nema", "velora", "orbitbeyond", "forum", "holloway", "glyphwork", "kairok", "aurel", "arcsignal", "penumbra", "zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
+    const argonSlugs = ["rooted", "mesamarket", "echolog", "tessera", "cirro", "orova", "vyra", "auven", "nema", "velora", "orbitbeyond", "forum", "holloway", "glyphwork", "kairok", "aurel", "arcsignal", "penumbra", "zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
     const terraSlugs = ["aerune", "frameone", "kinfield", "grandstand", "daymark", "radius", "pello", "avel", "landingx"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (terraSlugs.includes(t.slug)) {
         expect(t.model).toBe("GPT-6.1 Terra Max");
-      } else if (t.slug === "postmark") {
+      } else if (t.slug === "postmark" || t.slug === "surface08") {
         expect(t.model).toBe("Gemini 4 Carbon High");
       } else if (t.slug === "lenus") {
         expect(t.model).toBe("GPT-6.1 Sol");
@@ -139,7 +139,7 @@ describe("gallery template data", () => {
         expect(t.model).toBe("GPT-6 Astra Max");
       } else if (t.slug === "savepoint" || t.slug === "amaoto" || t.slug === "flori" || t.slug === "kazeko" || t.slug === "satoyama" || t.slug === "mio") {
         expect(t.model).toBe("GPT-6.1 Sol High");
-      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "waypoint" || t.slug === "echolog" || t.slug === "rooted" || t.slug === "mesamarket") {
+      } else if (t.slug === "iridia" || t.slug === "bathys" || t.slug === "loophouse" || t.slug === "waypoint") {
         expect(t.model).toBe("Gemini 3.8 Flash High");
       } else if (t.slug === "aubade") {
         expect(t.model).toBe("Claude Opus 5.5 Medium");

@@ -2916,7 +2916,7 @@ RAW_TEMPLATES.push({
   badges: ["Standalone HTML", "Three.js Handset", "Live Sound Field"],
   previewImage: "/templates/echolog/preview-1600.webp",
   promptMarkdown: ECHOLOG_PROMPT,
-  model: "Gemini 3.8 Flash High",
+  model: "Gemini 4 Argon High",
 });
 
 export const ROOTED_PROMPT = `# Rebuild ROOTED — standalone landing page
@@ -2965,7 +2965,7 @@ RAW_TEMPLATES.push({
   badges: ["Plant Care App", "Botanical Editorial", "Standalone HTML"],
   previewImage: "/templates/rooted/preview-1600.webp",
   promptMarkdown: ROOTED_PROMPT,
-  model: "Gemini 3.8 Flash High",
+  model: "Gemini 4 Argon High",
 });
 
 RAW_TEMPLATES.push(
@@ -3017,7 +3017,7 @@ RAW_TEMPLATES.push(
     badges: ["Interactive Shelf", "Crate Builder", "Farm-to-Door"],
     previewImage: "/gallery/mesamarket.webp",
     promptMarkdown: MESAMARKET_PROMPT,
-    model: "Gemini 3.8 Flash High",
+    model: "Gemini 4 Argon High",
   }
 ,
   {
@@ -3049,7 +3049,7 @@ RAW_TEMPLATES.push(
     badges: ["Interactive Landing", "Responsive", "Accessible"],
     previewImage: "/templates/surface08/preview-1600.webp",
     promptMarkdown: SURFACE08_PROMPT,
-    model: "Gemini 4 Argon High",
+    model: "Gemini 4 Carbon High",
   }
 );
 
