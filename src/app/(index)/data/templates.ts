@@ -1,4 +1,4 @@
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08";
 
 export type CategoryId =
   | "all"
@@ -1109,6 +1109,16 @@ Build a complete, responsive, interaction-rich landing page for **TESSERA** usin
 ## Brand & Positioning
 - **Title:** TESSERA — Architectural Acoustic Wall Systems
 - **Description:** Modular sculptural acoustic wall installations engineered for architectural interiors. Sound, shaped by design.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const SURFACE08_PROMPT = `# SURFACE/08 — Interactive WebGL Background Laboratory — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **SURFACE/08** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** SURFACE/08 — Interactive WebGL Background Laboratory
+- **Description:** An interactive material study and hero-background laboratory featuring eight real-time GPU-driven Three.js surfaces: Chroma Fluid, Fluted Light, Silk Atmosphere, Glass Lens, Aurora Field, Chromatic Ribbons, Bokeh Reactor, and Refraction Field.
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
 `;
 
@@ -3023,6 +3033,22 @@ RAW_TEMPLATES.push(
     badges: ["Interactive Landing", "Responsive", "Accessible"],
     previewImage: "/templates/tessera/preview-1600.webp",
     promptMarkdown: TESSERA_PROMPT,
+    model: "Gemini 4 Argon High",
+  }
+,
+  {
+    slug: "surface08",
+    createdAt: "2026-11-12",
+    hasDownload: false,
+    title: "SURFACE/08",
+    description: "An interactive material study and hero-background laboratory featuring eight real-time GPU-driven Three.js surfaces: Chroma Fluid, Fluted Light, Silk Atmosphere, Glass Lens, Aurora Field, Chromatic Ribbons, Bokeh Reactor, and Refraction Field.",
+    category: "showcase" as TemplateCategory,
+    categories: ["showcase" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/surface08/preview-1600.webp",
+    promptMarkdown: SURFACE08_PROMPT,
     model: "Gemini 4 Argon High",
   }
 );
