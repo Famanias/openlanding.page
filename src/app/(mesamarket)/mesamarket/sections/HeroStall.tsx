@@ -111,12 +111,12 @@ export const HeroStall: React.FC<HeroStallProps> = ({
             <div className="inline-block px-3 py-1 bg-[#3F7047] text-[#FDF5E7] mm-mono text-xs font-bold rounded-full">
               CAPAY & SONOMA HARVEST CRATE · ILLUSTRATIVE DEMO
             </div>
-            <h1
+            <h2
               className="mm-display font-extrabold text-[#24211D] leading-[0.98]"
               style={{ fontSize: 'clamp(2.5rem, 4.8vw, 4.4rem)', textWrap: 'balance' }}
             >
               Good things come into season.
-            </h1>
+            </h2>
             <p className="text-sm sm:text-base text-[#24211D]/80">
               Tap any produce sticker in the window or browse the shelf below to assemble a sample farm-to-door box.
             </p>

@@ -9,6 +9,7 @@ import {
   ProduceId,
 } from './basket/model';
 import { Header } from './sections/Header';
+import { HarvestCrateHero } from './hero/HarvestCrateHero';
 import { HeroStall } from './sections/HeroStall';
 import { ProduceShelf } from './sections/ProduceShelf';
 import { MealKits } from './sections/MealKits';
@@ -48,6 +49,9 @@ export function MesaMarketApp() {
         Skip to market shelf
       </a>
 
+      {/* 00: 2.5D Interactive Harvest Crate Hero (1:1 from mesa-hero) */}
+      <HarvestCrateHero />
+
       {/* Market Signage Header */}
       <Header
         totalCount={totals.totalCount}
@@ -56,7 +60,7 @@ export function MesaMarketApp() {
       />
 
       <main id="main">
-        {/* 01: Flat-Lay Market Stall Collage Hero with Left Category Rail */}
+        {/* 01: Flat-Lay Market Stall Collage Showcase (Moved Down) */}
         <HeroStall
           activeCategory={activeCategory}
           onSelectCategory={setActiveCategory}
