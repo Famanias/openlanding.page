@@ -658,7 +658,7 @@ export const HeroCanvas3D: React.FC<HeroCanvas3DProps> = ({
     renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.setSize(initW, initH);
     renderer.shadowMap.enabled = !isSoftwareGl;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.setClearColor(0x000000, 0);
     renderer.domElement.style.display = 'block';
     renderer.domElement.style.width = '100%';
