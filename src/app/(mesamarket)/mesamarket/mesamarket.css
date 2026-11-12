@@ -8,7 +8,9 @@
   --color-mm-blueberry: #494D78;
   --color-mm-ink: #24211D;
   --font-display: var(--font-fraunces), Georgia, serif;
+  --font-serif: var(--font-fraunces), Georgia, serif;
   --font-body: var(--font-outfit), system-ui, sans-serif;
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
   --font-mono: var(--font-space-mono), ui-monospace, monospace;
 }
 

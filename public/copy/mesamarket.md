@@ -3,7 +3,9 @@
     {
       "dependencies": {
         "lucide-react": "0.475.0",
-        "motion": "^14.4.0"
+        "motion": "^14.4.0",
+        "three": "^0.186.1",
+        "gsap": "^3.15.0"
       }
     }
   </dependencies>
@@ -145,7 +147,9 @@ export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 
   --color-mm-blueberry: #494D78;
   --color-mm-ink: #24211D;
   --font-display: var(--font-fraunces), Georgia, serif;
+  --font-serif: var(--font-fraunces), Georgia, serif;
   --font-body: var(--font-outfit), system-ui, sans-serif;
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
   --font-mono: var(--font-space-mono), ui-monospace, monospace;
 }
 
@@ -220,13 +224,13 @@ import {
   ProduceId,
 } from './basket/model';
 import { Header } from './sections/Header';
+import { HarvestCrateHero } from './hero/HarvestCrateHero';
 import { HeroStall } from './sections/HeroStall';
 import { ProduceShelf } from './sections/ProduceShelf';
 import { MealKits } from './sections/MealKits';
 import { ProducerRoute } from './sections/ProducerRoute';
 import { ReceiptSection } from './sections/ReceiptSection';
 import { Footer } from './sections/Footer';
-import { BasketPill } from './sections/BasketPill';
 import { BasketDrawer } from './sections/BasketDrawer';
 
 export function MesaMarketApp() {
@@ -235,7 +239,7 @@ export function MesaMarketApp() {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [justAddedId, setJustAddedId] = useState<string | null>(null);
 
-  const basketPillRef = useRef<HTMLButtonElement | null>(null);
+  const basketButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const totals = calculateBasketTotals(basketState.quantities);
 
@@ -251,7 +255,7 @@ export function MesaMarketApp() {
   };
 
   return (
-    <div id="top" className="mesa-root min-h-screen overflow-x-hidden selection:bg-[#D94C32] selection:text-[#FDF5E7]">
+    <div id="top" className="mesa-root min-h-screen overflow-x-clip selection:bg-[#D94C32] selection:text-[#FDF5E7]">
       <a
         href="#mm-shelf"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#D94C32] focus:text-[#FDF5E7] focus:font-bold focus:rounded-md"
@@ -259,15 +263,19 @@ export function MesaMarketApp() {
         Skip to market shelf
       </a>
 
-      {/* Market Signage Header */}
+      {/* Sticky Market Signage Header (Always sticky at top of viewport) */}
       <Header
         totalCount={totals.totalCount}
         sampleSubtotal={totals.sampleSubtotal}
         onOpenBasket={() => setDrawerOpen(true)}
+        basketButtonRef={basketButtonRef}
       />
 
+      {/* 00: 2.5D Interactive Harvest Crate Hero */}
+      <HarvestCrateHero />
+
       <main id="main">
-        {/* 01: Flat-Lay Market Stall Collage Hero with Left Category Rail */}
+        {/* 01: Flat-Lay Market Stall Collage Showcase (Moved Down) */}
         <HeroStall
           activeCategory={activeCategory}
           onSelectCategory={setActiveCategory}
@@ -302,14 +310,6 @@ export function MesaMarketApp() {
       {/* Grocery-Receipt Footer */}
       <Footer />
 
-      {/* Floating Persistent Basket Pill */}
-      <BasketPill
-        buttonRef={basketPillRef}
-        totalCount={totals.totalCount}
-        sampleSubtotal={totals.sampleSubtotal}
-        onOpen={() => setDrawerOpen(true)}
-      />
-
       {/* Accessible Basket Drawer */}
       <BasketDrawer
         isOpen={drawerOpen}
@@ -321,7 +321,7 @@ export function MesaMarketApp() {
         onDecrement={(id) => dispatch({ type: 'DECREMENT', productId: id })}
         onRemove={(id) => dispatch({ type: 'REMOVE', productId: id })}
         onClear={() => dispatch({ type: 'CLEAR' })}
-        basketPillRef={basketPillRef}
+        basketButtonRef={basketButtonRef}
       />
     </div>
   );
@@ -778,6 +778,3627 @@ export function calculateBasketTotals(quantities: BasketQuantities): {
 }
 ]]>
     </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/artworkTextures.ts">
+<![CDATA[import * as THREE from 'three';
+import type { ProduceId } from './basketState';
+
+export interface AlphaMaskTexture {
+  texture: THREE.CanvasTexture;
+  alphaGrid: Uint8Array;
+  gridSize: number;
+}
+
+const INK = '#231B15';
+
+function extractAlphaGrid(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  gridSize = 64
+): Uint8Array {
+  const img = ctx.getImageData(0, 0, width, height).data;
+  const grid = new Uint8Array(gridSize * gridSize);
+  for (let gy = 0; gy < gridSize; gy++) {
+    const py = Math.min(height - 1, Math.floor(((gy + 0.5) / gridSize) * height));
+    for (let gx = 0; gx < gridSize; gx++) {
+      const px = Math.min(width - 1, Math.floor(((gx + 0.5) / gridSize) * width));
+      // Flip Y so UV.y (0 bottom -> 1 top) maps directly
+      const flippedY = height - 1 - py;
+      const idx = (flippedY * width + px) * 4 + 3;
+      grid[gy * gridSize + gx] = img[idx];
+    }
+  }
+  return grid;
+}
+
+export function sampleAlphaMask(
+  mask: AlphaMaskTexture | undefined,
+  uv: THREE.Vector2 | undefined
+): number {
+  if (!mask || !uv) return 255;
+  const gx = Math.max(
+    0,
+    Math.min(mask.gridSize - 1, Math.floor(uv.x * mask.gridSize))
+  );
+  const gy = Math.max(
+    0,
+    Math.min(mask.gridSize - 1, Math.floor(uv.y * mask.gridSize))
+  );
+  return mask.alphaGrid[gy * mask.gridSize + gx];
+}
+
+function finalizeTexture(
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+  maxAnisotropy: number
+): AlphaMaskTexture {
+  const alphaGrid = extractAlphaGrid(ctx, canvas.width, canvas.height, 64);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.anisotropy = maxAnisotropy;
+  texture.needsUpdate = true;
+  return { texture, alphaGrid, gridSize: 64 };
+}
+
+function makeCanvas(w: number, h: number): [HTMLCanvasElement, CanvasRenderingContext2D] {
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  return [canvas, ctx];
+}
+
+function setInk(ctx: CanvasRenderingContext2D, width = 6.5) {
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = width;
+}
+
+export type WoodTone =
+  | 'honey-left'
+  | 'amber-right'
+  | 'tan-inner'
+  | 'espresso-dark'
+  | 'post-ochre';
+
+export function createWoodPlankTexture(
+  tone: WoodTone,
+  maxAnisotropy: number,
+  withNails = true
+): THREE.CanvasTexture {
+  const [canvas, ctx] = makeCanvas(1024, 256);
+
+  const palettes: Record<
+    WoodTone,
+    { base: string; mid: string; grain: string; hi: string }
+  > = {
+    'honey-left': {
+      base: '#CA9660',
+      mid: '#BC844D',
+      grain: '#7E5028',
+      hi: '#DDB07E',
+    },
+    'amber-right': {
+      base: '#B8804B',
+      mid: '#A66D3B',
+      grain: '#6B411F',
+      hi: '#CB9661',
+    },
+    'tan-inner': {
+      base: '#C6925D',
+      mid: '#B57F4B',
+      grain: '#784C27',
+      hi: '#D8A978',
+    },
+    'espresso-dark': {
+      base: '#2D221B',
+      mid: '#241B15',
+      grain: '#16100C',
+      hi: '#3B2D24',
+    },
+    'post-ochre': {
+      base: '#BA834E',
+      mid: '#A56F3C',
+      grain: '#6E4421',
+      hi: '#CE9B67',
+    },
+  };
+
+  const p = palettes[tone];
+  const grad = ctx.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0, p.hi);
+  grad.addColorStop(0.22, p.base);
+  grad.addColorStop(0.82, p.mid);
+  grad.addColorStop(1, p.grain);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 1024, 256);
+
+  // Subtle hand-drawn woodgrain streaks
+  ctx.strokeStyle = p.grain;
+  ctx.globalAlpha = tone === 'espresso-dark' ? 0.45 : 0.34;
+  for (let i = 0; i < 14; i++) {
+    const y0 = 18 + i * 17 + Math.sin(i * 2.1) * 5;
+    ctx.lineWidth = i % 3 === 0 ? 3.2 : 1.9;
+    ctx.beginPath();
+    ctx.moveTo(0, y0);
+    for (let x = 64; x <= 1024; x += 64) {
+      const wave =
+        Math.sin(x * 0.009 + i * 1.4) * 6 +
+        (x > 580 && x < 740 ? Math.sin(((x - 580) / 160) * Math.PI) * (i % 2 ? 12 : -10) : 0);
+      ctx.lineTo(x, y0 + wave);
+    }
+    ctx.stroke();
+  }
+
+  // Wood knot accent
+  if (tone !== 'espresso-dark') {
+    ctx.globalAlpha = 0.32;
+    ctx.beginPath();
+    ctx.ellipse(665, 134, 42, 16, 0.08, 0, Math.PI * 2);
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  }
+
+  ctx.globalAlpha = 1;
+
+  // Hand-inked plank border
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 9;
+  ctx.strokeRect(4, 4, 1016, 248);
+
+  // Nail dots at both ends
+  if (withNails && tone !== 'espresso-dark') {
+    ctx.fillStyle = INK;
+    for (const nx of [34, 990]) {
+      for (const ny of [68, 188]) {
+        ctx.beginPath();
+        ctx.arc(nx, ny, 7.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = maxAnisotropy;
+  tex.needsUpdate = true;
+  return tex;
+}
+
+function drawSingleTomato(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  heirloom = false
+) {
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  const grad = ctx.createRadialGradient(-rx * 0.28, -ry * 0.28, rx * 0.1, 0, 0, rx * 1.05);
+  if (heirloom) {
+    grad.addColorStop(0, '#F0834A');
+    grad.addColorStop(0.45, '#D94929');
+    grad.addColorStop(0.82, '#A84824');
+    grad.addColorStop(1, '#7F6A30');
+  } else {
+    grad.addColorStop(0, '#F47E4D');
+    grad.addColorStop(0.38, '#DF4629');
+    grad.addColorStop(0.85, '#C1321C');
+    grad.addColorStop(1, '#9E2514');
+  }
+
+  ctx.beginPath();
+  ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+  ctx.fillStyle = grad;
+  ctx.fill();
+  setInk(ctx, 6.5);
+  ctx.stroke();
+
+  if (heirloom) {
+    // Olive-green shoulder ribs
+    ctx.fillStyle = 'rgba(132, 142, 58, 0.55)';
+    ctx.beginPath();
+    ctx.ellipse(0, -ry * 0.42, rx * 0.72, ry * 0.42, 0, Math.PI, Math.PI * 2);
+    ctx.fill();
+
+    setInk(ctx, 3.5);
+    for (const ang of [-0.65, -0.22, 0.22, 0.65]) {
+      ctx.beginPath();
+      ctx.moveTo(Math.sin(ang) * rx * 0.18, -ry * 0.55);
+      ctx.quadraticCurveTo(
+        Math.sin(ang) * rx * 0.75,
+        -ry * 0.05,
+        Math.sin(ang) * rx * 0.58,
+        ry * 0.62
+      );
+      ctx.stroke();
+    }
+  }
+
+  // Gouache crescent highlight
+  ctx.fillStyle = 'rgba(255, 226, 190, 0.52)';
+  ctx.beginPath();
+  ctx.ellipse(-rx * 0.36, -ry * 0.22, rx * 0.2, ry * 0.32, 0.42, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Star calyx
+  ctx.fillStyle = '#5D7E3B';
+  setInk(ctx, 4.5);
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2 - Math.PI / 2;
+    const tipX = Math.cos(a) * rx * 0.46;
+    const tipY = -ry * 0.44 + Math.sin(a) * ry * 0.28;
+    const midA = a + Math.PI / 6;
+    const inX = Math.cos(midA) * rx * 0.14;
+    const inY = -ry * 0.44 + Math.sin(midA) * ry * 0.09;
+    if (i === 0) ctx.moveTo(tipX, tipY);
+    else ctx.lineTo(tipX, tipY);
+    ctx.lineTo(inX, inY);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+export interface ProduceTextureSet {
+  sourceMain: AlphaMaskTexture;
+  sourceAccent?: AlphaMaskTexture;
+  crateMain: AlphaMaskTexture;
+  crateAccent?: AlphaMaskTexture;
+  altSourceMain?: AlphaMaskTexture;
+}
+
+export function buildAllProduceTextures(
+  maxAnisotropy: number
+): Record<ProduceId, ProduceTextureSet> {
+  // 1. VINE TOMATOES
+  const [vtCanvas, vtCtx] = makeCanvas(512, 512);
+  drawSingleTomato(vtCtx, 295, 152, 78, 72, false);
+  drawSingleTomato(vtCtx, 168, 206, 80, 74, false);
+  drawSingleTomato(vtCtx, 372, 266, 82, 76, false);
+  drawSingleTomato(vtCtx, 146, 336, 84, 78, false);
+  drawSingleTomato(vtCtx, 272, 344, 84, 78, false);
+
+  // Separate vine stem layer for 2.5D depth
+  const [vtStemC, vtStemCtx] = makeCanvas(512, 512);
+  vtStemCtx.strokeStyle = INK;
+  vtStemCtx.lineWidth = 17;
+  vtStemCtx.beginPath();
+  vtStemCtx.moveTo(395, 118);
+  vtStemCtx.quadraticCurveTo(270, 195, 156, 280);
+  vtStemCtx.stroke();
+  vtStemCtx.strokeStyle = '#6B8D45';
+  vtStemCtx.lineWidth = 9.5;
+  vtStemCtx.stroke();
+
+  // Crate heirloom + vine tomato duo
+  const [vtCrateC, vtCrateCtx] = makeCanvas(512, 512);
+  drawSingleTomato(vtCrateCtx, 175, 286, 98, 88, false);
+  drawSingleTomato(vtCrateCtx, 326, 256, 116, 102, true);
+
+  // 2. CARROTS BUNCH
+  const drawCarrotsRoots = (ctx: CanvasRenderingContext2D) => {
+    const carrots = [
+      { x0: 274, y0: 215, x1: 58, y1: 374, w: 34, col: '#EC7F35' },
+      { x0: 302, y0: 238, x1: 72, y1: 422, w: 36, col: '#E36D28' },
+      { x0: 325, y0: 262, x1: 122, y1: 468, w: 35, col: '#EE883C' },
+    ];
+    for (const c of carrots) {
+      const ang = Math.atan2(c.y1 - c.y0, c.x1 - c.x0);
+      const perp = ang + Math.PI / 2;
+      ctx.beginPath();
+      ctx.moveTo(c.x0 + Math.cos(perp) * c.w, c.y0 + Math.sin(perp) * c.w);
+      ctx.quadraticCurveTo(
+        (c.x0 + c.x1) * 0.52 + Math.cos(perp) * (c.w * 0.62),
+        (c.y0 + c.y1) * 0.52 + Math.sin(perp) * (c.w * 0.62),
+        c.x1,
+        c.y1
+      );
+      ctx.quadraticCurveTo(
+        (c.x0 + c.x1) * 0.52 - Math.cos(perp) * (c.w * 0.62),
+        (c.y0 + c.y1) * 0.52 - Math.sin(perp) * (c.w * 0.62),
+        c.x0 - Math.cos(perp) * c.w,
+        c.y0 - Math.sin(perp) * c.w
+      );
+      ctx.closePath();
+      const g = ctx.createLinearGradient(
+        c.x0 - 25,
+        c.y0 - 25,
+        c.x0 + 25,
+        c.y0 + 25
+      );
+      g.addColorStop(0, '#F7A457');
+      g.addColorStop(0.55, c.col);
+      g.addColorStop(1, '#BE4F19');
+      ctx.fillStyle = g;
+      ctx.fill();
+      setInk(ctx, 6.2);
+      ctx.stroke();
+
+      // Root crease hash lines
+      setInk(ctx, 3.6);
+      for (const f of [0.24, 0.44, 0.64, 0.8]) {
+        const mx = c.x0 + (c.x1 - c.x0) * f;
+        const my = c.y0 + (c.y1 - c.y0) * f;
+        const span = c.w * (1 - f) * 0.58;
+        ctx.beginPath();
+        ctx.moveTo(mx - Math.cos(perp) * span, my - Math.sin(perp) * span);
+        ctx.lineTo(mx + Math.cos(perp) * span * 0.4, my + Math.sin(perp) * span * 0.4);
+        ctx.stroke();
+      }
+    }
+  };
+
+  const drawCarrotGreens = (ctx: CanvasRenderingContext2D) => {
+    const fronds = [
+      { tx: 356, ty: 68, col: '#5B7B3A', r: 52 },
+      { tx: 422, ty: 98, col: '#6E8E46', r: 56 },
+      { tx: 462, ty: 158, col: '#587838', r: 54 },
+      { tx: 454, ty: 226, col: '#75954C', r: 50 },
+      { tx: 394, ty: 152, col: '#7D9D53', r: 58 },
+    ];
+    for (const f of fronds) {
+      // Scalloped parsley puff
+      ctx.fillStyle = f.col;
+      setInk(ctx, 5.8);
+      ctx.beginPath();
+      const lobes = 9;
+      for (let i = 0; i < lobes; i++) {
+        const a0 = (i / lobes) * Math.PI * 2;
+        const a1 = ((i + 0.5) / lobes) * Math.PI * 2;
+        const a2 = ((i + 1) / lobes) * Math.PI * 2;
+        const rIn = f.r * 0.65;
+        const rOut = f.r * 1.05;
+        if (i === 0) {
+          ctx.moveTo(f.tx + Math.cos(a0) * rIn, f.ty + Math.sin(a0) * rIn);
+        }
+        ctx.quadraticCurveTo(
+          f.tx + Math.cos(a1) * rOut,
+          f.ty + Math.sin(a1) * rOut,
+          f.tx + Math.cos(a2) * rIn,
+          f.ty + Math.sin(a2) * rIn
+        );
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Stem connecting to carrot crown
+      setInk(ctx, 5.2);
+      ctx.beginPath();
+      ctx.moveTo(298, 240);
+      ctx.quadraticCurveTo(335, 190, f.tx, f.ty);
+      ctx.stroke();
+    }
+  };
+
+  const [carMainC, carMainCtx] = makeCanvas(512, 512);
+  drawCarrotsRoots(carMainCtx);
+  drawCarrotGreens(carMainCtx);
+
+  const [carTopC, carTopCtx] = makeCanvas(512, 512);
+  drawCarrotGreens(carTopCtx);
+
+  // 3. LEMONS (Standard + Alt with twin leaves)
+  const drawLemon = (ctx: CanvasRenderingContext2D, twinLeaves: boolean) => {
+    ctx.save();
+    ctx.translate(242, 266);
+    ctx.rotate(twinLeaves ? -0.35 : -0.18);
+
+    // Leaf / Leaves
+    const drawLeaf = (lx: number, ly: number, rot: number) => {
+      ctx.save();
+      ctx.translate(lx, ly);
+      ctx.rotate(rot);
+      ctx.fillStyle = '#668742';
+      setInk(ctx, 6);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(48, -36, 98, 4);
+      ctx.quadraticCurveTo(46, 38, 0, 0);
+      ctx.fill();
+      ctx.stroke();
+      setInk(ctx, 3.8);
+      ctx.beginPath();
+      ctx.moveTo(8, 0);
+      ctx.lineTo(84, 3);
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    if (twinLeaves) {
+      drawLeaf(98, -38, 0.35);
+      drawLeaf(82, -62, -0.25);
+    } else {
+      drawLeaf(-132, -48, -2.5);
+    }
+
+    // Lemon body with pointed tips
+    const g = ctx.createRadialGradient(-36, -38, 16, 0, 0, 152);
+    g.addColorStop(0, '#FCF097');
+    g.addColorStop(0.45, '#F4CB3D');
+    g.addColorStop(0.88, '#DFA91E');
+    g.addColorStop(1, '#BF8A12');
+
+    ctx.fillStyle = g;
+    setInk(ctx, 7);
+    ctx.beginPath();
+    ctx.moveTo(-142, 0);
+    ctx.bezierCurveTo(-118, -28, -78, -96, 0, -96);
+    ctx.bezierCurveTo(78, -96, 118, -28, 144, 0);
+    ctx.bezierCurveTo(118, 28, 78, 96, 0, 96);
+    ctx.bezierCurveTo(-78, 96, -118, 28, -142, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Stippled citrus pores
+    ctx.fillStyle = '#8B630E';
+    for (let i = 0; i < 28; i++) {
+      const px = -75 + ((i * 37) % 150);
+      const py = 15 + ((i * 29) % 56);
+      if ((px * px) / (110 * 110) + (py * py) / (78 * 78) < 0.82) {
+        ctx.beginPath();
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    ctx.restore();
+  };
+
+  const [lemC, lemCtx] = makeCanvas(512, 512);
+  drawLemon(lemCtx, false);
+  const [lemAltC, lemAltCtx] = makeCanvas(512, 512);
+  drawLemon(lemAltCtx, true);
+
+  // 4. RED APPLE & 5. GREEN APPLE
+  const drawApple = (ctx: CanvasRenderingContext2D, isRed: boolean) => {
+    ctx.save();
+    ctx.translate(256, 276);
+
+    // Leaf
+    ctx.save();
+    ctx.translate(10, -112);
+    ctx.rotate(-0.45);
+    ctx.fillStyle = '#6A8B44';
+    setInk(ctx, 6);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.quadraticCurveTo(44, -32, 86, -4);
+    ctx.quadraticCurveTo(42, 28, 0, 0);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    // Apple silhouette
+    const g = ctx.createRadialGradient(-42, -44, 18, 10, 10, 155);
+    if (isRed) {
+      g.addColorStop(0, '#F7BE59');
+      g.addColorStop(0.38, '#EA6E36');
+      g.addColorStop(0.78, '#D94329');
+      g.addColorStop(1, '#A62B19');
+    } else {
+      g.addColorStop(0, '#DCE07E');
+      g.addColorStop(0.5, '#B2BC58');
+      g.addColorStop(0.88, '#8E9940');
+      g.addColorStop(1, '#6F7A2E');
+    }
+
+    ctx.fillStyle = g;
+    setInk(ctx, 7);
+    ctx.beginPath();
+    ctx.moveTo(0, -98);
+    ctx.bezierCurveTo(68, -128, 142, -74, 134, 12);
+    ctx.bezierCurveTo(126, 92, 68, 138, 14, 126);
+    ctx.quadraticCurveTo(0, 118, -14, 126);
+    ctx.bezierCurveTo(-68, 138, -126, 92, -134, 12);
+    ctx.bezierCurveTo(-142, -74, -68, -128, 0, -98);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Crown dimple + woody stem
+    setInk(ctx, 5.2);
+    ctx.beginPath();
+    ctx.arc(0, -92, 28, 0.25, Math.PI - 0.25);
+    ctx.stroke();
+
+    ctx.strokeStyle = INK;
+    ctx.lineWidth = 11;
+    ctx.beginPath();
+    ctx.moveTo(0, -94);
+    ctx.quadraticCurveTo(8, -134, 24, -152);
+    ctx.stroke();
+
+    // Soft highlight
+    ctx.fillStyle = 'rgba(255, 244, 205, 0.42)';
+    ctx.beginPath();
+    ctx.ellipse(-56, -28, 22, 42, 0.32, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+  };
+
+  const [redAppC, redAppCtx] = makeCanvas(512, 512);
+  drawApple(redAppCtx, true);
+  const [grnAppC, grnAppCtx] = makeCanvas(512, 512);
+  drawApple(grnAppCtx, false);
+
+  // 6. GOLDEN BELL PEPPER
+  const [pepC, pepCtx] = makeCanvas(512, 512);
+  pepCtx.save();
+  pepCtx.translate(256, 282);
+  const drawPepperLobe = (ox: number, oy: number, rx: number, ry: number, col0: string, col1: string) => {
+    const g = pepCtx.createLinearGradient(ox - rx, oy - ry, ox + rx, oy + ry);
+    g.addColorStop(0, col0);
+    g.addColorStop(1, col1);
+    pepCtx.fillStyle = g;
+    setInk(pepCtx, 6.8);
+    pepCtx.beginPath();
+    pepCtx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
+    pepCtx.fill();
+    pepCtx.stroke();
+  };
+  drawPepperLobe(-68, -4, 68, 108, '#F6C74D', '#D98E1D');
+  drawPepperLobe(68, -4, 68, 108, '#F2B538', '#CE8118');
+  drawPepperLobe(0, 8, 76, 118, '#FBD96E', '#E39B22');
+
+  // Curved green calyx & stem
+  pepCtx.fillStyle = '#5F803D';
+  setInk(pepCtx, 6.5);
+  pepCtx.beginPath();
+  pepCtx.ellipse(0, -104, 48, 20, 0, 0, Math.PI * 2);
+  pepCtx.fill();
+  pepCtx.stroke();
+
+  pepCtx.beginPath();
+  pepCtx.moveTo(-14, -106);
+  pepCtx.quadraticCurveTo(-8, -162, 34, -172);
+  pepCtx.lineTo(42, -152);
+  pepCtx.quadraticCurveTo(10, -144, 14, -104);
+  pepCtx.closePath();
+  pepCtx.fill();
+  pepCtx.stroke();
+  pepCtx.restore();
+
+  // 7. KALE & ORCHARD GREENS BUNCH
+  const drawKaleLeaf = (
+    ctx: CanvasRenderingContext2D,
+    bx: number,
+    by: number,
+    tx: number,
+    ty: number,
+    width: number,
+    fill: string
+  ) => {
+    const dx = tx - bx;
+    const dy = ty - by;
+    const len = Math.hypot(dx, dy);
+    const ang = Math.atan2(dy, dx);
+
+    ctx.save();
+    ctx.translate(bx, by);
+    ctx.rotate(ang);
+
+    ctx.fillStyle = fill;
+    setInk(ctx, 5.8);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    const steps = 7;
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      const x = t * len;
+      const w = Math.sin(t * Math.PI * 0.88) * width;
+      const cx = (t - 0.5 / steps) * len;
+      ctx.quadraticCurveTo(cx, -w * 1.24, x, -w * 0.85);
+    }
+    ctx.quadraticCurveTo(len * 1.05, 0, len, width * 0.2);
+    for (let i = steps; i >= 1; i--) {
+      const t = i / steps;
+      const x = ((i - 1) / steps) * len;
+      const w = Math.sin(t * Math.PI * 0.88) * width;
+      const cx = (t - 0.5 / steps) * len;
+      ctx.quadraticCurveTo(cx, w * 1.24, x, w * 0.78);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Pale midrib & veins
+    ctx.strokeStyle = '#ACC27B';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(len * 0.84, 0);
+    ctx.stroke();
+
+    setInk(ctx, 3.2);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(len * 0.84, 0);
+    ctx.stroke();
+
+    ctx.restore();
+  };
+
+  const [kaleC, kaleCtx] = makeCanvas(512, 512);
+  drawKaleLeaf(kaleCtx, 226, 426, 134, 118, 68, '#557437');
+  drawKaleLeaf(kaleCtx, 240, 428, 256, 74, 78, '#6B8C45');
+  drawKaleLeaf(kaleCtx, 252, 430, 386, 128, 72, '#5D7D3B');
+  drawKaleLeaf(kaleCtx, 236, 434, 168, 196, 62, '#789850');
+  drawKaleLeaf(kaleCtx, 250, 434, 344, 214, 64, '#7D9D54');
+
+  // Red farm twine band at base
+  kaleCtx.fillStyle = '#D44429';
+  setInk(kaleCtx, 5.8);
+  kaleCtx.beginPath();
+  kaleCtx.roundRect(202, 396, 76, 24, 8);
+  kaleCtx.fill();
+  kaleCtx.stroke();
+
+  const [kaleTopC, kaleTopCtx] = makeCanvas(512, 512);
+  drawKaleLeaf(kaleTopCtx, 244, 428, 220, 108, 70, '#72934B');
+  drawKaleLeaf(kaleTopCtx, 252, 430, 336, 154, 66, '#82A258');
+
+  // 8. CHILI PEPPERS (Pair)
+  const drawChili = (
+    ctx: CanvasRenderingContext2D,
+    cx: number,
+    cy: number,
+    rot: number,
+    color0: string,
+    color1: string
+  ) => {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rot);
+
+    // Stem
+    ctx.strokeStyle = '#587738';
+    ctx.lineWidth = 12;
+    ctx.beginPath();
+    ctx.moveTo(95, -18);
+    ctx.quadraticCurveTo(126, -34, 146, -20);
+    ctx.stroke();
+    setInk(ctx, 4.5);
+    ctx.stroke();
+
+    const g = ctx.createLinearGradient(-110, -25, 95, 30);
+    g.addColorStop(0, color0);
+    g.addColorStop(1, color1);
+    ctx.fillStyle = g;
+    setInk(ctx, 6.2);
+
+    ctx.beginPath();
+    ctx.moveTo(98, -22);
+    ctx.bezierCurveTo(64, -46, -35, -24, -124, 18);
+    ctx.bezierCurveTo(-40, 38, 66, 26, 102, 4);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.restore();
+  };
+
+  const [chiliC, chiliCtx] = makeCanvas(512, 512);
+  drawChili(chiliCtx, 246, 192, -0.45, '#7EA053', '#527135');
+  drawChili(chiliCtx, 268, 336, -0.35, '#F26D44', '#C8351D');
+
+  const [chiliAltC, chiliAltCtx] = makeCanvas(512, 512);
+  drawChili(chiliAltCtx, 268, 224, -0.22, '#F26D44', '#C8351D');
+  drawChili(chiliAltCtx, 236, 314, 2.95, '#7EA053', '#527135');
+
+  // 9. ARTISAN BAGUETTE IN KRAFT PAPER BAG
+  const drawBaguette = (ctx: CanvasRenderingContext2D, uprightForCrate: boolean) => {
+    ctx.save();
+    ctx.translate(256, 264);
+    ctx.rotate(uprightForCrate ? 2.06 : -0.46);
+
+    // Scored golden sourdough loaf (extends to left)
+    const loafG = ctx.createLinearGradient(-210, -68, -20, 68);
+    loafG.addColorStop(0, '#E3B079');
+    loafG.addColorStop(0.55, '#C5874D');
+    loafG.addColorStop(1, '#9C6230');
+    ctx.fillStyle = loafG;
+    setInk(ctx, 6.8);
+
+    ctx.beginPath();
+    ctx.moveTo(18, -62);
+    ctx.bezierCurveTo(-92, -74, -216, -54, -218, 4);
+    ctx.bezierCurveTo(-216, 62, -92, 74, 18, 62);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // 3 baker's slashes
+    for (const sx of [-148, -92, -36]) {
+      ctx.fillStyle = '#EED3AA';
+      setInk(ctx, 4.2);
+      ctx.beginPath();
+      ctx.ellipse(sx, -8, 22, 8, -0.52, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    // Crinkled brown kraft paper bag sleeve (right half)
+    const bagG = ctx.createLinearGradient(-24, -78, 195, 82);
+    bagG.addColorStop(0, '#DFCBB0');
+    bagG.addColorStop(0.55, '#C8AF8F');
+    bagG.addColorStop(1, '#AA8F6E');
+    ctx.fillStyle = bagG;
+    setInk(ctx, 6.8);
+
+    ctx.beginPath();
+    ctx.moveTo(-22, -68);
+    ctx.lineTo(192, -64);
+    ctx.lineTo(208, 48);
+    ctx.lineTo(-10, 72);
+    ctx.quadraticCurveTo(-32, 12, -22, -68);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Kraft crinkle lines
+    setInk(ctx, 3.8);
+    ctx.beginPath();
+    ctx.moveTo(12, -26);
+    ctx.lineTo(148, -32);
+    ctx.moveTo(28, 24);
+    ctx.lineTo(176, 14);
+    ctx.moveTo(92, -8);
+    ctx.lineTo(188, -18);
+    ctx.stroke();
+
+    ctx.restore();
+  };
+
+  const [bagSrcC, bagSrcCtx] = makeCanvas(512, 512);
+  drawBaguette(bagSrcCtx, false);
+  const [bagCrateC, bagCrateCtx] = makeCanvas(512, 512);
+  drawBaguette(bagCrateCtx, true);
+
+  // 10. PRESERVES / JAM JAR
+  const [jarC, jarCtx] = makeCanvas(512, 512);
+  jarCtx.save();
+  jarCtx.translate(256, 272);
+
+  // Glass jar outer body
+  jarCtx.fillStyle = '#F3EAD9';
+  setInk(jarCtx, 6.8);
+  jarCtx.beginPath();
+  jarCtx.roundRect(-94, -82, 188, 224, 34);
+  jarCtx.fill();
+  jarCtx.stroke();
+
+  // Rich red-apricot conserve inside
+  const jamG = jarCtx.createLinearGradient(-82, -50, 82, 130);
+  jamG.addColorStop(0, '#E3623B');
+  jamG.addColorStop(0.55, '#CD4728');
+  jamG.addColorStop(1, '#9E2E18');
+  jarCtx.fillStyle = jamG;
+  setInk(jarCtx, 5);
+  jarCtx.beginPath();
+  jarCtx.roundRect(-80, -48, 160, 176, 22);
+  jarCtx.fill();
+  jarCtx.stroke();
+
+  // Blank cream paper label
+  jarCtx.fillStyle = '#F8F2E6';
+  setInk(jarCtx, 5.2);
+  jarCtx.beginPath();
+  jarCtx.roundRect(-58, -12, 116, 86, 8);
+  jarCtx.fill();
+  jarCtx.stroke();
+
+  // Glass highlight bar
+  jarCtx.fillStyle = 'rgba(255,255,255,0.58)';
+  jarCtx.beginPath();
+  jarCtx.roundRect(54, -36, 14, 142, 7);
+  jarCtx.fill();
+
+  // Ribbed cream screw-top lid
+  jarCtx.fillStyle = '#F6EFE2';
+  setInk(jarCtx, 6.5);
+  jarCtx.beginPath();
+  jarCtx.ellipse(0, -96, 88, 30, 0, 0, Math.PI * 2);
+  jarCtx.fill();
+  jarCtx.stroke();
+
+  jarCtx.beginPath();
+  jarCtx.ellipse(0, -108, 84, 24, 0, 0, Math.PI * 2);
+  jarCtx.fill();
+  jarCtx.stroke();
+  jarCtx.restore();
+
+  return {
+    'vine-tomatoes': {
+      sourceMain: finalizeTexture(vtCanvas, vtCtx, maxAnisotropy),
+      sourceAccent: finalizeTexture(vtStemC, vtStemCtx, maxAnisotropy),
+      crateMain: finalizeTexture(vtCrateC, vtCrateCtx, maxAnisotropy),
+    },
+    carrots: {
+      sourceMain: finalizeTexture(carMainC, carMainCtx, maxAnisotropy),
+      sourceAccent: finalizeTexture(carTopC, carTopCtx, maxAnisotropy),
+      crateMain: finalizeTexture(carMainC, carMainCtx, maxAnisotropy),
+      crateAccent: finalizeTexture(carTopC, carTopCtx, maxAnisotropy),
+    },
+    lemon: {
+      sourceMain: finalizeTexture(lemC, lemCtx, maxAnisotropy),
+      altSourceMain: finalizeTexture(lemAltC, lemAltCtx, maxAnisotropy),
+      crateMain: finalizeTexture(lemC, lemCtx, maxAnisotropy),
+    },
+    'red-apple': {
+      sourceMain: finalizeTexture(redAppC, redAppCtx, maxAnisotropy),
+      crateMain: finalizeTexture(redAppC, redAppCtx, maxAnisotropy),
+    },
+    'green-apple': {
+      sourceMain: finalizeTexture(grnAppC, grnAppCtx, maxAnisotropy),
+      crateMain: finalizeTexture(grnAppC, grnAppCtx, maxAnisotropy),
+    },
+    'bell-pepper': {
+      sourceMain: finalizeTexture(pepC, pepCtx, maxAnisotropy),
+      crateMain: finalizeTexture(pepC, pepCtx, maxAnisotropy),
+    },
+    'kale-greens': {
+      sourceMain: finalizeTexture(kaleC, kaleCtx, maxAnisotropy),
+      sourceAccent: finalizeTexture(kaleTopC, kaleTopCtx, maxAnisotropy),
+      crateMain: finalizeTexture(kaleC, kaleCtx, maxAnisotropy),
+      crateAccent: finalizeTexture(kaleTopC, kaleTopCtx, maxAnisotropy),
+    },
+    'chili-peppers': {
+      sourceMain: finalizeTexture(chiliC, chiliCtx, maxAnisotropy),
+      altSourceMain: finalizeTexture(chiliAltC, chiliAltCtx, maxAnisotropy),
+      crateMain: finalizeTexture(chiliC, chiliCtx, maxAnisotropy),
+    },
+    baguette: {
+      sourceMain: finalizeTexture(bagSrcC, bagSrcCtx, maxAnisotropy),
+      crateMain: finalizeTexture(bagCrateC, bagCrateCtx, maxAnisotropy),
+    },
+    'jam-jar': {
+      sourceMain: finalizeTexture(jarC, jarCtx, maxAnisotropy),
+      crateMain: finalizeTexture(jarC, jarCtx, maxAnisotropy),
+    },
+  };
+}
+
+export interface AnnotationTextures {
+  inSeasonBadge: THREE.CanvasTexture;
+  localBadge: THREE.CanvasTexture;
+  organicBadge: THREE.CanvasTexture;
+  leftDoodles: THREE.CanvasTexture;
+  rightDoodles: THREE.CanvasTexture;
+}
+
+export function buildAnnotationTextures(maxAnisotropy: number): AnnotationTextures {
+  const mkTex = (canvas: HTMLCanvasElement) => {
+    const t = new THREE.CanvasTexture(canvas);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = maxAnisotropy;
+    t.needsUpdate = true;
+    return t;
+  };
+
+  // 1. IN SEASON Terracotta Apothecary Badge
+  const [c1, x1] = makeCanvas(512, 320);
+  x1.fillStyle = '#DB5836';
+  x1.beginPath();
+  x1.moveTo(64, 252);
+  x1.quadraticCurveTo(44, 250, 48, 224);
+  x1.lineTo(62, 134);
+  x1.quadraticCurveTo(68, 114, 118, 112);
+  x1.quadraticCurveTo(138, 52, 256, 52);
+  x1.quadraticCurveTo(374, 52, 394, 112);
+  x1.quadraticCurveTo(444, 114, 450, 134);
+  x1.lineTo(464, 224);
+  x1.quadraticCurveTo(468, 250, 444, 252);
+  x1.closePath();
+  x1.fill();
+
+  x1.strokeStyle = '#F7EFE2';
+  x1.lineWidth = 5;
+  x1.stroke();
+  setInk(x1, 4.5);
+  x1.save();
+  x1.translate(256, 158);
+  x1.scale(0.92, 0.88);
+  x1.translate(-256, -158);
+  x1.stroke();
+  x1.restore();
+
+  x1.fillStyle = INK;
+  x1.font = '700 50px ui-sans-serif, system-ui, sans-serif';
+  x1.textAlign = 'center';
+  x1.fillText('IN', 256, 146);
+  x1.fillText('SEASON', 256, 206);
+
+  // 2. LOCAL Olive-Sage Badge
+  const [c2, x2] = makeCanvas(512, 256);
+  x2.fillStyle = '#8F9C59';
+  x2.beginPath();
+  x2.moveTo(48, 154);
+  x2.quadraticCurveTo(42, 116, 128, 72);
+  x2.lineTo(384, 62);
+  x2.quadraticCurveTo(468, 86, 462, 138);
+  x2.quadraticCurveTo(454, 188, 368, 204);
+  x2.lineTo(136, 208);
+  x2.quadraticCurveTo(54, 198, 48, 154);
+  x2.closePath();
+  x2.fill();
+  setInk(x2, 4.5);
+  x2.save();
+  x2.translate(256, 136);
+  x2.scale(0.92, 0.84);
+  x2.translate(-256, -136);
+  x2.stroke();
+  x2.restore();
+  x2.fillStyle = INK;
+  x2.font = '700 54px ui-sans-serif, system-ui, sans-serif';
+  x2.textAlign = 'center';
+  x2.fillText('LOCAL', 256, 156);
+
+  // 3. 100% ORGANIC Mustard Stamp Badge
+  const [c3, x3] = makeCanvas(512, 320);
+  x3.fillStyle = '#E8BB4B';
+  x3.beginPath();
+  x3.roundRect(44, 48, 424, 224, 28);
+  x3.fill();
+  setInk(x3, 5.5);
+  x3.beginPath();
+  x3.roundRect(62, 66, 388, 188, 18);
+  x3.stroke();
+  x3.fillStyle = INK;
+  x3.font = '700 52px ui-sans-serif, system-ui, sans-serif';
+  x3.textAlign = 'center';
+  x3.fillText('100%', 256, 146);
+  x3.fillText('ORGANIC', 256, 208);
+
+  // 4. Left Hand-Inked Arrows, Dashed Arc & SEASONAL MICRO
+  const [c4, x4] = makeCanvas(768, 768);
+  setInk(x4, 5.5);
+  // Dashed arc at top-right of left canvas (from right of IN SEASON into crate)
+  x4.save();
+  x4.setLineDash([16, 18]);
+  x4.beginPath();
+  x4.moveTo(548, 42);
+  x4.quadraticCurveTo(662, 46, 726, 134);
+  x4.stroke();
+  x4.restore();
+
+  // Burst lines near crate left corner
+  x4.beginPath();
+  x4.moveTo(356, 268);
+  x4.lineTo(392, 290);
+  x4.moveTo(348, 304);
+  x4.lineTo(384, 310);
+  x4.moveTo(356, 336);
+  x4.lineTo(386, 330);
+  x4.stroke();
+
+  // Curved solid arrow pointing up into crate from above vine tomatoes
+  x4.beginPath();
+  x4.moveTo(298, 476);
+  x4.quadraticCurveTo(312, 404, 384, 372);
+  x4.stroke();
+  x4.beginPath();
+  x4.moveTo(360, 364);
+  x4.lineTo(388, 370);
+  x4.lineTo(374, 396);
+  x4.stroke();
+
+  // Motion ticks around tomatoes + SEASONAL MICRO cleanly below tomatoes
+  x4.beginPath();
+  x4.moveTo(188, 492);
+  x4.lineTo(202, 514);
+  x4.moveTo(214, 480);
+  x4.lineTo(220, 506);
+  x4.moveTo(156, 568);
+  x4.quadraticCurveTo(146, 592, 158, 614);
+  x4.stroke();
+
+  x4.save();
+  x4.translate(184, 712);
+  x4.rotate(-0.22);
+  x4.fillStyle = INK;
+  x4.font = '600 22px ui-sans-serif, system-ui, sans-serif';
+  x4.textAlign = 'center';
+  x4.fillText('SEASONAL', 0, 0);
+  x4.fillText('MICRO', 0, 24);
+  x4.restore();
+
+  // Small curved tick beside SEASONAL MICRO
+  x4.beginPath();
+  x4.moveTo(252, 694);
+  x4.quadraticCurveTo(266, 690, 272, 678);
+  x4.stroke();
+
+  // 5. Right Hand-Inked Burst Lines, Dashed Arrow & Arched SEASONAL
+  const [c5, x5] = makeCanvas(768, 768);
+  setInk(x5, 5.5);
+  // Top burst lines
+  x5.beginPath();
+  x5.moveTo(164, 98);
+  x5.lineTo(182, 62);
+  x5.moveTo(194, 112);
+  x5.lineTo(232, 82);
+  x5.moveTo(212, 134);
+  x5.lineTo(258, 120);
+  x5.stroke();
+
+  // Dashed curved arrow from 100% ORGANIC toward crate right corner
+  x5.save();
+  x5.setLineDash([15, 16]);
+  x5.beginPath();
+  x5.moveTo(518, 224);
+  x5.quadraticCurveTo(532, 304, 456, 334);
+  x5.stroke();
+  x5.restore();
+  x5.beginPath();
+  x5.moveTo(476, 314);
+  x5.lineTo(452, 335);
+  x5.lineTo(480, 344);
+  x5.stroke();
+
+  // Arched SEASONAL + curved arrow pointing down-left
+  x5.save();
+  x5.translate(546, 396);
+  x5.rotate(0.58);
+  x5.fillStyle = INK;
+  x5.font = '600 27px ui-sans-serif, system-ui, sans-serif';
+  x5.textAlign = 'center';
+  x5.fillText('SEASONAL', 0, 0);
+  x5.restore();
+
+  x5.beginPath();
+  x5.moveTo(506, 420);
+  x5.quadraticCurveTo(502, 456, 464, 476);
+  x5.stroke();
+  x5.beginPath();
+  x5.moveTo(484, 456);
+  x5.lineTo(462, 477);
+  x5.lineTo(488, 480);
+  x5.stroke();
+
+  return {
+    inSeasonBadge: mkTex(c1),
+    localBadge: mkTex(c2),
+    organicBadge: mkTex(c3),
+    leftDoodles: mkTex(c4),
+    rightDoodles: mkTex(c5),
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/basketState.ts">
+<![CDATA[export type ProduceId =
+  | 'vine-tomatoes'
+  | 'carrots'
+  | 'lemon'
+  | 'red-apple'
+  | 'green-apple'
+  | 'bell-pepper'
+  | 'kale-greens'
+  | 'chili-peppers'
+  | 'baguette'
+  | 'jam-jar';
+
+export type Vec3Tuple = [number, number, number];
+
+export interface ProduceSpec {
+  id: ProduceId;
+  name: string;
+  shortName: string;
+  farm: string;
+  unitLabel: string;
+  note: string;
+  accentHex: string;
+}
+
+export interface SourceAnchorSpec {
+  anchorId: string;
+  produceId: ProduceId;
+  label: string;
+  worldPosition: Vec3Tuple;
+  worldRotation: Vec3Tuple;
+  worldScale: number;
+  variant?: 'alt';
+}
+
+export interface CrateSlot {
+  localPosition: Vec3Tuple;
+  worldPosition: Vec3Tuple;
+  worldRotation: Vec3Tuple;
+  scale: number;
+}
+
+export interface BasketItemInstance {
+  instanceId: string;
+  produceId: ProduceId;
+  sourceAnchorId: string;
+  slot: CrateSlot;
+  addedSeq: number;
+}
+
+export interface BasketState {
+  items: BasketItemInstance[];
+  nextSeq: number;
+}
+
+export const CRATE_SPEC = {
+  center: [0.06, 0.02, -0.12] as Vec3Tuple,
+  rotationY: 0.59,
+  lengthX: 3.18,
+  widthZ: 2.26,
+  heightY: 1.62,
+  plankThickness: 0.11,
+  rimWorldY: 0.85,
+} as const;
+
+export function localCrateToWorld(lx: number, ly: number, lz: number): Vec3Tuple {
+  const cos = Math.cos(CRATE_SPEC.rotationY);
+  const sin = Math.sin(CRATE_SPEC.rotationY);
+  const wx = CRATE_SPEC.center[0] + lx * cos + lz * sin;
+  const wy = CRATE_SPEC.center[1] + ly;
+  const wz = CRATE_SPEC.center[2] - lx * sin + lz * cos;
+  return [
+    Number(wx.toFixed(4)),
+    Number(wy.toFixed(4)),
+    Number(wz.toFixed(4)),
+  ];
+}
+
+export const PRODUCE_CATALOG: Record<ProduceId, ProduceSpec> = {
+  'vine-tomatoes': {
+    id: 'vine-tomatoes',
+    name: 'Early Girl Vine Tomatoes',
+    shortName: 'Vine Tomatoes',
+    farm: 'Full Belly Farm · Capay Valley',
+    unitLabel: '1 lb cluster',
+    note: 'Dry-farmed on mineral clay soils for concentrated sweet-tart flavor.',
+    accentHex: '#DC4328',
+  },
+  carrots: {
+    id: 'carrots',
+    name: 'Nantes Bunched Carrots',
+    shortName: 'Nantes Carrots',
+    farm: 'Riverdog Farm · Guinda',
+    unitLabel: '1 bunch w/ tops',
+    note: 'Pulled at dawn with crisp, sweet cores and aromatic feathery greens.',
+    accentHex: '#E8772E',
+  },
+  lemon: {
+    id: 'lemon',
+    name: 'Meyer & Eureka Lemons',
+    shortName: 'Meyer Lemon',
+    farm: 'Gold Ridge Groves · Sebastopol',
+    unitLabel: 'Single fruit',
+    note: 'Thin, floral citrus rind bursting with bright coastal juice.',
+    accentHex: '#F0C436',
+  },
+  'red-apple': {
+    id: 'red-apple',
+    name: 'Sonoma Gala Apple',
+    shortName: 'Red Orchard Apple',
+    farm: 'Devoto Orchards · Sonoma',
+    unitLabel: 'Single fruit',
+    note: 'Honeyed crunch with sun-blushed scarlet skin straight off the tree.',
+    accentHex: '#DE4D31',
+  },
+  'green-apple': {
+    id: 'green-apple',
+    name: 'Heirloom Goldrush Apple',
+    shortName: 'Goldrush Apple',
+    farm: 'apple-a-day · Gravenstein Hwy',
+    unitLabel: 'Single fruit',
+    note: 'Crisp, effervescent cider-apple snap with warm olive-gold skin.',
+    accentHex: '#A8B251',
+  },
+  'bell-pepper': {
+    id: 'bell-pepper',
+    name: 'Sunburst Sweet Bell Pepper',
+    shortName: 'Golden Bell Pepper',
+    farm: 'Terra Firma Farm · Winters',
+    unitLabel: 'Single pepper',
+    note: 'Thick, glossy golden walls ripened on the vine for mellow sweetness.',
+    accentHex: '#F0AF32',
+  },
+  'kale-greens': {
+    id: 'kale-greens',
+    name: 'Tuscan Kale & Orchard Greens',
+    shortName: 'Harvest Greens',
+    farm: 'Star Route Farms · Bolinas',
+    unitLabel: '1 tied bunch',
+    note: 'Tender ruffled leaves bundled in red farm twine for sautés and salads.',
+    accentHex: '#618240',
+  },
+  'chili-peppers': {
+    id: 'chili-peppers',
+    name: 'Fresno & Serrano Chilis',
+    shortName: 'Farmstead Chilis',
+    farm: 'Tierra Vegetables · Santa Rosa',
+    unitLabel: '2-pepper pair',
+    note: 'Bright, fruity medium heat picked red-ripe and emerald-fresh.',
+    accentHex: '#D63F27',
+  },
+  baguette: {
+    id: 'baguette',
+    name: 'Country Sourdough Baguette',
+    shortName: 'Sourdough Baguette',
+    farm: 'Della Fattoria · Petaluma',
+    unitLabel: '1 hearth loaf',
+    note: 'Naturally leavened heritage wheat baked on stone and tucked in kraft paper.',
+    accentHex: '#C6894E',
+  },
+  'jam-jar': {
+    id: 'jam-jar',
+    name: 'Heirloom Tomato & Peach Conserve',
+    shortName: 'Pantry Conserve',
+    farm: 'Mesa Pantry · Sonoma',
+    unitLabel: '8 oz glass jar',
+    note: 'Small-batch copper-kettle preserve simmered from peak orchard fruit.',
+    accentHex: '#CF4B2C',
+  },
+};
+
+export const SOURCE_ANCHORS: SourceAnchorSpec[] = [
+  {
+    anchorId: 'src-tomatoes',
+    produceId: 'vine-tomatoes',
+    label: 'Add Early Girl Vine Tomatoes',
+    worldPosition: [-2.12, -0.58, 1.38],
+    worldRotation: [-0.26, 0.08, 0.04],
+    worldScale: 1.24,
+  },
+  {
+    anchorId: 'src-carrots',
+    produceId: 'carrots',
+    label: 'Add Nantes Bunched Carrots',
+    worldPosition: [-1.22, -0.78, 2.26],
+    worldRotation: [-0.32, 0.04, 0.02],
+    worldScale: 1.42,
+  },
+  {
+    anchorId: 'src-lemon-upper',
+    produceId: 'lemon',
+    label: 'Add Meyer Lemon',
+    worldPosition: [-0.46, -0.76, 2.42],
+    worldRotation: [-0.30, 0.02, -0.08],
+    worldScale: 0.78,
+  },
+  {
+    anchorId: 'src-lemon-lower',
+    produceId: 'lemon',
+    label: 'Add Eureka Lemon',
+    worldPosition: [-0.84, -0.84, 2.94],
+    worldRotation: [-0.32, 0.02, 0.08],
+    worldScale: 0.82,
+    variant: 'alt',
+  },
+  {
+    anchorId: 'src-red-apple',
+    produceId: 'red-apple',
+    label: 'Add Sonoma Gala Apple',
+    worldPosition: [-0.08, -0.84, 2.92],
+    worldRotation: [-0.28, 0.0, -0.03],
+    worldScale: 0.80,
+  },
+  {
+    anchorId: 'src-green-apple',
+    produceId: 'green-apple',
+    label: 'Add Heirloom Goldrush Apple',
+    worldPosition: [0.34, -0.74, 2.38],
+    worldRotation: [-0.28, -0.02, 0.04],
+    worldScale: 0.82,
+  },
+  {
+    anchorId: 'src-bell-pepper',
+    produceId: 'bell-pepper',
+    label: 'Add Sunburst Sweet Bell Pepper',
+    worldPosition: [0.78, -0.66, 2.02],
+    worldRotation: [-0.26, -0.03, 0.02],
+    worldScale: 0.90,
+  },
+  {
+    anchorId: 'src-kale-greens',
+    produceId: 'kale-greens',
+    label: 'Add Tuscan Kale & Orchard Greens',
+    worldPosition: [1.34, -0.44, 1.58],
+    worldRotation: [-0.24, -0.05, -0.06],
+    worldScale: 1.24,
+  },
+  {
+    anchorId: 'src-chili-mid',
+    produceId: 'chili-peppers',
+    label: 'Add Fresno & Serrano Chilis',
+    worldPosition: [0.82, -0.84, 2.74],
+    worldRotation: [-0.32, 0.0, 0.06],
+    worldScale: 0.92,
+  },
+  {
+    anchorId: 'src-baguette',
+    produceId: 'baguette',
+    label: 'Add Country Sourdough Baguette',
+    worldPosition: [1.94, -0.72, 2.22],
+    worldRotation: [-0.30, -0.05, -0.02],
+    worldScale: 1.56,
+  },
+  {
+    anchorId: 'src-chili-right',
+    produceId: 'chili-peppers',
+    label: 'Add Red & Green Chilis',
+    worldPosition: [2.16, -0.86, 2.84],
+    worldRotation: [-0.32, -0.04, -0.18],
+    worldScale: 0.86,
+    variant: 'alt',
+  },
+  {
+    anchorId: 'src-jam-jar',
+    produceId: 'jam-jar',
+    label: 'Add Heirloom Tomato & Peach Conserve',
+    worldPosition: [2.14, -0.34, 1.06],
+    worldRotation: [-0.22, -0.06, 0.0],
+    worldScale: 1.02,
+  },
+];
+
+interface LocalSlotTemplate {
+  local: Vec3Tuple;
+  rot: Vec3Tuple;
+  scale: number;
+}
+
+const PREFERRED_CRATE_SLOTS: Record<ProduceId, LocalSlotTemplate[]> = {
+  'kale-greens': [
+    { local: [-0.08, 0.90, -0.64], rot: [-0.18, 0.04, 0.06], scale: 1.44 },
+    { local: [-0.68, 0.84, -0.56], rot: [-0.18, 0.06, 0.16], scale: 1.30 },
+  ],
+  baguette: [
+    { local: [0.76, 0.92, -0.58], rot: [-0.18, -0.04, 0.04], scale: 1.36 },
+    { local: [0.38, 0.86, -0.44], rot: [-0.18, 0.02, -0.04], scale: 1.24 },
+  ],
+  'jam-jar': [
+    { local: [1.08, 0.70, -0.08], rot: [-0.18, -0.02, 0.04], scale: 1.02 },
+    { local: [0.80, 0.64, 0.18], rot: [-0.18, 0.02, -0.05], scale: 0.96 },
+  ],
+  carrots: [
+    { local: [0.94, 0.76, 0.46], rot: [-0.20, 0.04, 0.04], scale: 1.42 },
+    { local: [0.54, 0.72, 0.56], rot: [-0.20, 0.02, 0.12], scale: 1.30 },
+  ],
+  'vine-tomatoes': [
+    { local: [-0.42, 0.62, -0.02], rot: [-0.22, 0.02, 0.04], scale: 1.12 },
+    { local: [0.36, 0.66, -0.10], rot: [-0.20, -0.02, -0.08], scale: 1.04 },
+    { local: [-1.08, 0.64, -0.16], rot: [-0.20, 0.05, 0.12], scale: 1.08 },
+  ],
+  'bell-pepper': [
+    { local: [0.0, 0.68, -0.14], rot: [-0.20, 0.0, 0.05], scale: 0.98 },
+    { local: [-0.38, 0.64, -0.34], rot: [-0.20, 0.04, -0.08], scale: 0.92 },
+  ],
+  lemon: [
+    { local: [0.34, 0.60, 0.30], rot: [-0.22, 0.02, -0.14], scale: 0.86 },
+    { local: [-0.08, 0.56, 0.36], rot: [-0.22, -0.02, 0.12], scale: 0.84 },
+  ],
+  'red-apple': [
+    { local: [-0.64, 0.58, 0.60], rot: [-0.22, 0.02, -0.04], scale: 0.88 },
+    { local: [-1.14, 0.60, 0.18], rot: [-0.22, 0.04, 0.08], scale: 0.86 },
+  ],
+  'green-apple': [
+    { local: [-0.18, 0.60, 0.64], rot: [-0.22, -0.02, 0.06], scale: 0.88 },
+    { local: [-0.94, 0.58, 0.44], rot: [-0.22, 0.02, -0.06], scale: 0.84 },
+  ],
+  'chili-peppers': [
+    { local: [-1.16, 0.64, -0.38], rot: [-0.20, 0.04, 0.24], scale: 0.96 },
+    { local: [0.18, 0.58, 0.68], rot: [-0.22, -0.02, -0.12], scale: 0.90 },
+  ],
+};
+
+function dist3(a: Vec3Tuple, b: Vec3Tuple): number {
+  const dx = a[0] - b[0];
+  const dy = a[1] - b[1];
+  const dz = a[2] - b[2];
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+export function createInitialBasketState(): BasketState {
+  return {
+    items: [],
+    nextSeq: 1,
+  };
+}
+
+export function getDefaultAnchorForProduce(produceId: ProduceId): SourceAnchorSpec {
+  const found = SOURCE_ANCHORS.find((a) => a.produceId === produceId);
+  return found ?? SOURCE_ANCHORS[0];
+}
+
+export function allocateCrateSlot(
+  existingItems: BasketItemInstance[],
+  produceId: ProduceId,
+  seqSeed: number
+): CrateSlot {
+  const templates = PREFERRED_CRATE_SLOTS[produceId];
+  const minClearance = 0.23;
+
+  // 1. Try curated art-directed slots first if unoccupied
+  for (const tpl of templates) {
+    const collides = existingItems.some(
+      (item) => dist3(item.slot.localPosition, tpl.local) < minClearance
+    );
+    if (!collides) {
+      return {
+        localPosition: tpl.local,
+        worldPosition: localCrateToWorld(tpl.local[0], tpl.local[1], tpl.local[2]),
+        worldRotation: tpl.rot,
+        scale: tpl.scale,
+      };
+    }
+  }
+
+  // 2. Unlimited mounding allocator using deterministic golden-angle spiral inside crate bounds
+  const goldenAngle = 2.399963229728653;
+  const baseTpl = templates[0];
+  const isTall =
+    produceId === 'kale-greens' ||
+    produceId === 'baguette' ||
+    produceId === 'carrots' ||
+    produceId === 'jam-jar';
+
+  for (let attempt = 0; attempt < 160; attempt++) {
+    const idx = seqSeed + attempt * 3;
+    const angle = idx * goldenAngle;
+    const ring = ((attempt % 12) + 1) / 12;
+    const tier = Math.floor(existingItems.length / 9) + Math.floor(attempt / 14);
+
+    let lx = Math.cos(angle) * (0.98 * Math.sqrt(ring));
+    let lz = Math.sin(angle) * (0.64 * Math.sqrt(ring));
+
+    if (isTall) {
+      // Bias taller items slightly toward the back/sides so front produce stays visible
+      lz = Math.max(-0.72, Math.min(0.45, lz - 0.18));
+    }
+
+    lx = Math.max(-1.14, Math.min(1.12, lx));
+    lz = Math.max(-0.72, Math.min(0.70, lz));
+
+    const baseLy = isTall ? 0.72 : 0.52;
+    const ly = Number((baseLy + tier * 0.14 + (attempt % 3) * 0.035).toFixed(4));
+    const candidateLocal: Vec3Tuple = [
+      Number(lx.toFixed(4)),
+      ly,
+      Number(lz.toFixed(4)),
+    ];
+
+    const collides = existingItems.some(
+      (item) => dist3(item.slot.localPosition, candidateLocal) < minClearance
+    );
+    if (!collides) {
+      const tiltZ = Number(
+        (baseTpl.rot[2] + Math.sin(idx * 1.7) * 0.14).toFixed(4)
+      );
+      return {
+        localPosition: candidateLocal,
+        worldPosition: localCrateToWorld(
+          candidateLocal[0],
+          candidateLocal[1],
+          candidateLocal[2]
+        ),
+        worldRotation: [baseTpl.rot[0], baseTpl.rot[1], tiltZ],
+        scale: Number((baseTpl.scale * 0.95).toFixed(4)),
+      };
+    }
+  }
+
+  // Fallback high mound top
+  const fallbackLocal: Vec3Tuple = [
+    0,
+    Number((0.75 + existingItems.length * 0.05).toFixed(4)),
+    0,
+  ];
+  return {
+    localPosition: fallbackLocal,
+    worldPosition: localCrateToWorld(
+      fallbackLocal[0],
+      fallbackLocal[1],
+      fallbackLocal[2]
+    ),
+    worldRotation: baseTpl.rot,
+    scale: baseTpl.scale,
+  };
+}
+
+export function addProduceInstance(
+  state: BasketState,
+  produceId: ProduceId,
+  sourceAnchorId?: string
+): { nextState: BasketState; added: BasketItemInstance } {
+  const anchor =
+    SOURCE_ANCHORS.find((a) => a.anchorId === sourceAnchorId) ??
+    getDefaultAnchorForProduce(produceId);
+
+  const seq = state.nextSeq;
+  const instanceId = `crate-item-${seq}`;
+  const slot = allocateCrateSlot(state.items, produceId, seq);
+
+  const added: BasketItemInstance = {
+    instanceId,
+    produceId,
+    sourceAnchorId: anchor.anchorId,
+    slot,
+    addedSeq: seq,
+  };
+
+  return {
+    nextState: {
+      items: [...state.items, added],
+      nextSeq: seq + 1,
+    },
+    added,
+  };
+}
+
+export function removeProduceInstance(
+  state: BasketState,
+  instanceId: string
+): { nextState: BasketState; removed: BasketItemInstance | null } {
+  const target = state.items.find((item) => item.instanceId === instanceId) ?? null;
+  if (!target) {
+    return { nextState: state, removed: null };
+  }
+
+  return {
+    nextState: {
+      items: state.items.filter((item) => item.instanceId !== instanceId),
+      nextSeq: state.nextSeq,
+    },
+    removed: target,
+  };
+}
+
+export function clearBasketState(state: BasketState): BasketState {
+  return {
+    items: [],
+    nextSeq: state.nextSeq,
+  };
+}
+
+export const CURATED_FULL_BASKET_ORDER: ProduceId[] = [
+  'kale-greens',
+  'kale-greens',
+  'baguette',
+  'jam-jar',
+  'carrots',
+  'vine-tomatoes',
+  'bell-pepper',
+  'vine-tomatoes',
+  'lemon',
+  'lemon',
+  'red-apple',
+  'green-apple',
+  'vine-tomatoes',
+  'green-apple',
+  'chili-peppers',
+];
+
+export function getCuratedAdditions(state: BasketState): ProduceId[] {
+  // Count existing produce quantities
+  const counts: Partial<Record<ProduceId, number>> = {};
+  for (const item of state.items) {
+    counts[item.produceId] = (counts[item.produceId] ?? 0) + 1;
+  }
+
+  // Needed to reach the signature full-basket composition
+  const needed: ProduceId[] = [];
+  const targetCounts: Partial<Record<ProduceId, number>> = {};
+  for (const pid of CURATED_FULL_BASKET_ORDER) {
+    targetCounts[pid] = (targetCounts[pid] ?? 0) + 1;
+    const have = counts[pid] ?? 0;
+    if (targetCounts[pid]! > have) {
+      needed.push(pid);
+    }
+  }
+
+  // If user already has a full basket, add a fresh seasonal trio so the CTA always responds interactively
+  if (needed.length === 0) {
+    return ['vine-tomatoes', 'carrots', 'lemon', 'red-apple'];
+  }
+
+  return needed;
+}
+
+export interface FlightSample {
+  position: Vec3Tuple;
+  rotation: Vec3Tuple;
+  scaleMultiplier: number;
+}
+
+/**
+ * Evaluates a smooth 3D quadratic Bezier trajectory + perspective rotation + mid-air lift scale
+ * between `startPos` and `endPos` at normalized progress `t` in [0, 1].
+ */
+export function evaluateFlightArc(
+  startPos: Vec3Tuple,
+  endPos: Vec3Tuple,
+  startRot: Vec3Tuple,
+  endRot: Vec3Tuple,
+  t: number,
+  direction: 'into-basket' | 'out-of-basket' = 'into-basket'
+): FlightSample {
+  const clamped = Math.max(0, Math.min(1, t));
+  const inv = 1 - clamped;
+
+  // Compute control point Y so the true curve apex at t=0.5 reaches desiredApexY
+  const highestEndpoint = Math.max(startPos[1], endPos[1], CRATE_SPEC.rimWorldY);
+  const arcClearance = direction === 'into-basket' ? 1.05 : 0.92;
+  const desiredApexY = highestEndpoint + arcClearance;
+
+  const ctrlX = (startPos[0] + endPos[0]) * 0.5 + (endPos[0] - startPos[0]) * 0.08;
+  const ctrlY = 2 * desiredApexY - 0.5 * (startPos[1] + endPos[1]);
+  const ctrlZ = (startPos[2] + endPos[2]) * 0.5 + 0.38;
+
+  const px = inv * inv * startPos[0] + 2 * inv * clamped * ctrlX + clamped * clamped * endPos[0];
+  const py = inv * inv * startPos[1] + 2 * inv * clamped * ctrlY + clamped * clamped * endPos[1];
+  const pz = inv * inv * startPos[2] + 2 * inv * clamped * ctrlZ + clamped * clamped * endPos[2];
+
+  // Dynamic 2.5D/3D perspective rotation during flight (pitch, yaw turn, and bank)
+  const archWave = Math.sin(Math.PI * clamped);
+  const bankSign = endPos[0] >= startPos[0] ? -1 : 1;
+
+  const rx =
+    startRot[0] +
+    (endRot[0] - startRot[0]) * clamped +
+    archWave * (direction === 'into-basket' ? 0.34 : -0.28);
+  const ry =
+    startRot[1] +
+    (endRot[1] - startRot[1]) * clamped +
+    archWave * bankSign * -0.38;
+  const rz =
+    startRot[2] +
+    (endRot[2] - startRot[2]) * clamped +
+    archWave * bankSign * 0.26;
+
+  // Gentle perspective swell at apex
+  const scaleMultiplier = 1 + 0.1 * archWave;
+
+  return {
+    position: [px, py, pz],
+    rotation: [rx, ry, rz],
+    scaleMultiplier,
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/fonts.ts">
+<![CDATA[export const fraunces = {
+  className: 'font-serif',
+} as const;
+
+export const plusJakarta = {
+  className: 'font-sans',
+} as const;
+
+export const ibmPlexMono = {
+  className: 'font-mono',
+} as const;
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/HarvestCrateHero.tsx">
+<![CDATA['use client';
+
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import HarvestSceneCanvas from './HarvestSceneCanvas';
+import MesaMarketLandscape from './MesaMarketLandscape';
+import { fraunces, ibmPlexMono } from './fonts';
+import {
+  addProduceInstance,
+  clearBasketState,
+  createInitialBasketState,
+  getCuratedAdditions,
+  removeProduceInstance,
+  type BasketState,
+  type ProduceId,
+} from './basketState';
+
+export function HarvestCrateHero() {
+  const [basketState, setBasketState] = useState<BasketState>(() =>
+    createInitialBasketState()
+  );
+
+  const staggerTimersRef = useRef<number[]>([]);
+
+  const clearPendingTimers = useCallback(() => {
+    for (const id of staggerTimersRef.current) {
+      window.clearTimeout(id);
+    }
+    staggerTimersRef.current = [];
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      clearPendingTimers();
+    };
+  }, [clearPendingTimers]);
+
+  const handleAddProduce = useCallback(
+    (produceId: ProduceId, sourceAnchorId?: string) => {
+      setBasketState((prev) => addProduceInstance(prev, produceId, sourceAnchorId).nextState);
+    },
+    []
+  );
+
+  const handleRemoveInstance = useCallback((instanceId: string) => {
+    setBasketState((prev) => removeProduceInstance(prev, instanceId).nextState);
+  }, []);
+
+  const handleClearBasket = useCallback(() => {
+    clearPendingTimers();
+    setBasketState((prev) => clearBasketState(prev));
+  }, [clearPendingTimers]);
+
+  const handleBuildCuratedBasket = useCallback(() => {
+    clearPendingTimers();
+    const queue = getCuratedAdditions(basketState);
+    queue.forEach((produceId, idx) => {
+      const timerId = window.setTimeout(() => {
+        setBasketState((prev) => addProduceInstance(prev, produceId).nextState);
+      }, idx * 85);
+      staggerTimersRef.current.push(timerId);
+    });
+  }, [basketState, clearPendingTimers]);
+
+  return (
+    <section
+      id="harvest-hero"
+      aria-label="Interactive Harvest Crate Hero"
+      className="relative w-full bg-[#F7F1E5] text-[#1A1714] flex flex-col justify-between overflow-hidden border-b-2 border-[#24211D]"
+    >
+      <MesaMarketLandscape />
+      <div
+        data-basket-count={basketState.items.length}
+        data-produce-ids={basketState.items.map((i) => i.produceId).join(',')}
+        className="relative z-10 flex-1 w-full max-w-[1520px] mx-auto pl-6 sm:pl-10 lg:pl-16 pr-4 sm:pr-8 lg:pr-8 xl:pr-10 grid grid-cols-1 lg:grid-cols-12 items-center gap-4 lg:gap-0 pt-6 sm:pt-8 lg:pt-10 pb-6 lg:pb-8"
+      >
+        {/* Left Hero Editorial Copy & Stacked CTAs */}
+        <div className="lg:col-span-5 z-10 flex flex-col items-start justify-center pt-2 sm:pt-4 lg:pt-0 lg:pr-4">
+          <p
+            className={`${ibmPlexMono.className} text-[11px] sm:text-[13px] tracking-[0.07em] uppercase text-[#241F1B] mb-3 sm:mb-5`}
+          >
+            CAPAY &amp; SONOMA HARVEST CRATE — ILLUSTRATIVE DEMO
+          </p>
+
+          <h1
+            className={`${fraunces.className} font-bold text-[40px] sm:text-[58px] xl:text-[68px] leading-[1.03] tracking-[-0.028em] text-[#181512] mb-3.5 sm:mb-6`}
+          >
+            <span className="block">Good things </span>
+            <span className="block whitespace-nowrap">come into season.</span>
+          </h1>
+
+          <p className="text-[15.5px] sm:text-[18.5px] leading-[1.48] sm:leading-[1.52] text-[#26211C] max-w-[465px] mb-5 sm:mb-8 font-normal">
+            Build a farm-to-door box from the best of the week’s harvest —
+            vegetables, fruit, and pantry picks sourced for flavor and freshness.
+          </p>
+
+          {/* Stacked Primary & Secondary Pill CTAs */}
+          <div className="flex flex-col items-start gap-2.5 sm:gap-3.5">
+            <button
+              type="button"
+              onClick={handleBuildCuratedBasket}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D85432] hover:bg-[#C44727] active:scale-[0.98] text-[#FDF9F2] px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[16px] font-medium transition-all cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E1A17]"
+            >
+              <span>Build Your Basket</span>
+              <ArrowUpRight className="w-4 h-4 stroke-[2]" aria-hidden="true" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                document.getElementById('mm-shelf')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-[#1E1A17] bg-transparent hover:bg-[#1E1A17]/5 active:scale-[0.98] text-[#181512] px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[16px] font-medium transition-all cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D85432]"
+            >
+              <span>Browse This Week’s Harvest</span>
+              <ArrowUpRight className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+
+        {/* Right Interactive 2.5D Three.js Harvest Crate Scene */}
+        <div
+          aria-label="Interactive 2.5D Harvest Crate Illustration"
+          className="lg:col-span-7 relative w-full h-[335px] sm:h-[540px] lg:h-[670px] xl:h-[720px] lg:w-[calc(100%+1.5rem)] xl:w-[calc(100%+2.5rem)]"
+        >
+          <HarvestSceneCanvas
+            items={basketState.items}
+            onAddProduce={handleAddProduce}
+            onRemoveInstance={handleRemoveInstance}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default HarvestCrateHero;
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/HarvestSceneCanvas.tsx">
+<![CDATA['use client';
+
+import React, { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import gsap from 'gsap';
+import {
+  CRATE_SPEC,
+  PRODUCE_CATALOG,
+  SOURCE_ANCHORS,
+  evaluateFlightArc,
+  getDefaultAnchorForProduce,
+  type BasketItemInstance,
+  type ProduceId,
+  type SourceAnchorSpec,
+} from './basketState';
+import {
+  buildAllProduceTextures,
+  buildAnnotationTextures,
+  sampleAlphaMask,
+} from './artworkTextures';
+import {
+  buildAnnotationsGroup,
+  buildProduceGroup,
+  buildWoodenCrateGroup,
+  type ProduceMeshUserData,
+} from './sceneBuilders';
+
+interface HarvestSceneCanvasProps {
+  items: BasketItemInstance[];
+  onAddProduce: (produceId: ProduceId, sourceAnchorId?: string) => void;
+  onRemoveInstance: (instanceId: string) => void;
+  onHoverHintChange?: (hint: string | null) => void;
+}
+
+interface SourceNodeRecord {
+  spec: SourceAnchorSpec;
+  group: THREE.Group;
+  shadowMesh: THREE.Mesh | null;
+  hitMeshes: THREE.Mesh[];
+}
+
+interface BasketNodeRecord {
+  item: BasketItemInstance;
+  group: THREE.Group;
+  hitMeshes: THREE.Mesh[];
+  landed: boolean;
+  exiting: boolean;
+  timeline: gsap.core.Timeline | null;
+}
+
+const isSoftwareGl = (() => {
+  if (typeof document === 'undefined') return false;
+  const gl = document.createElement('canvas').getContext('webgl2');
+  if (!gl) return true;
+  const ext = gl.getExtension('WEBGL_debug_renderer_info');
+  const param = ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER;
+  const gpu = String(gl.getParameter(param));
+  gl.getExtension('WEBGL_lose_context')?.loseContext();
+  return /SwiftShader|llvmpipe|softpipe|Software|Basic Render/i.test(gpu);
+})();
+
+const _pointerNdc = new THREE.Vector2();
+
+export default function HarvestSceneCanvas({
+  items,
+  onAddProduce,
+  onRemoveInstance,
+  onHoverHintChange,
+}: HarvestSceneCanvasProps) {
+  const mountRef = useRef<HTMLDivElement | null>(null);
+
+  const callbacksRef = useRef({
+    onAddProduce,
+    onRemoveInstance,
+    onHoverHintChange,
+  });
+  useEffect(() => {
+    callbacksRef.current = {
+      onAddProduce,
+      onRemoveInstance,
+      onHoverHintChange,
+    };
+  }, [onAddProduce, onRemoveInstance, onHoverHintChange]);
+
+  const engineRef = useRef<{
+    syncItems: (nextItems: BasketItemInstance[]) => void;
+  } | null>(null);
+
+  useEffect(() => {
+    const container = mountRef.current;
+    if (!container) return;
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: !isSoftwareGl,
+      alpha: true,
+      powerPreference: 'high-performance',
+    });
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.NoToneMapping;
+    renderer.setClearColor(0x000000, 0);
+    renderer.setPixelRatio(
+      isSoftwareGl ? 1 : Math.min(window.devicePixelRatio || 1, 2)
+    );
+    renderer.shadowMap.enabled = false;
+
+    const canvas = renderer.domElement;
+    canvas.className = 'w-full h-full block touch-none select-none';
+    canvas.setAttribute('data-testid', 'mesa-harvest-canvas');
+    container.appendChild(canvas);
+
+    const scene = new THREE.Scene();
+
+    // Subtle studio environment reflection per Three.js guidelines
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    const envRT = pmremGenerator.fromScene(new RoomEnvironment(), 0.04);
+    scene.environment = envRT.texture;
+    scene.environmentIntensity = 0.22;
+    pmremGenerator.dispose();
+
+    // Warm/cool color-temperature balanced illumination calibrated for gouache & oak planks
+    const hemiLight = new THREE.HemisphereLight(0xfffcf5, 0xe8d9be, 2.35);
+    scene.add(hemiLight);
+
+    const keyLight = new THREE.DirectionalLight(0xfff5e4, 0.75);
+    keyLight.position.set(-4.5, 8.5, 7.5);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0xf5ead6, 0.35);
+    rimLight.position.set(5.5, 4.0, -4.0);
+    scene.add(rimLight);
+
+    const baseCamOffset = new THREE.Vector3(0.10, 4.30, 9.65);
+    const camLookTarget = new THREE.Vector3(0.10, 0.16, 0.52);
+
+    const camera = new THREE.PerspectiveCamera(31, 1, 0.1, 60);
+
+    // Master diorama root (supports gentle 2.5D pointer parallax)
+    const stageGroup = new THREE.Group();
+    scene.add(stageGroup);
+
+    const maxAnisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+    const produceTextures = buildAllProduceTextures(maxAnisotropy);
+    const annotationTextures = buildAnnotationTextures(maxAnisotropy);
+
+    const crateGroup = buildWoodenCrateGroup(maxAnisotropy);
+    stageGroup.add(crateGroup);
+
+    const annotationsGroup = buildAnnotationsGroup(annotationTextures);
+    stageGroup.add(annotationsGroup);
+
+    const basketItemsGroup = new THREE.Group();
+    stageGroup.add(basketItemsGroup);
+
+    const foregroundSourceGroup = new THREE.Group();
+    stageGroup.add(foregroundSourceGroup);
+
+    // Occluder list (crate slats & posts) so clicks on front wooden slats don't pierce through wood
+    const crateOccluderMeshes: THREE.Object3D[] = [];
+    crateGroup.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh && child.position.y > -0.78) {
+        crateOccluderMeshes.push(child);
+      }
+    });
+
+    // Build all 12 interactive foreground source anchors
+    const sourceRecords = new Map<string, SourceNodeRecord>();
+    const sourceHitMeshes: THREE.Mesh[] = [];
+
+    for (const spec of SOURCE_ANCHORS) {
+      const texSet = produceTextures[spec.produceId];
+      const built = buildProduceGroup(spec.produceId, texSet, 'source', {
+        anchorId: spec.anchorId,
+        variant: spec.variant,
+      });
+      built.group.position.set(
+        spec.worldPosition[0],
+        spec.worldPosition[1],
+        spec.worldPosition[2]
+      );
+      built.group.rotation.set(
+        spec.worldRotation[0],
+        spec.worldRotation[1],
+        spec.worldRotation[2]
+      );
+      built.group.scale.setScalar(spec.worldScale);
+      foregroundSourceGroup.add(built.group);
+
+      sourceRecords.set(spec.anchorId, {
+        spec,
+        group: built.group,
+        shadowMesh: built.shadowMesh,
+        hitMeshes: built.hitMeshes,
+      });
+      sourceHitMeshes.push(...built.hitMeshes);
+    }
+
+    const basketRecords = new Map<string, BasketNodeRecord>();
+
+    // Coalesced on-demand renderer with software-WebGL fence pacing
+    let unmounted = false;
+    let frameId = 0;
+    let timeoutId = 0;
+    let renderBusy = false;
+    let renderDirty = false;
+
+    const targetParallax = { x: 0, y: 0 };
+    const currentParallax = { x: 0, y: 0 };
+
+    function afterDraw(cb: () => void) {
+      const gl = renderer.getContext() as WebGL2RenderingContext;
+      if (!gl || typeof gl.fenceSync !== 'function') {
+        timeoutId = window.setTimeout(cb, 80);
+        return;
+      }
+      const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+      gl.flush();
+      const poll = () => {
+        if (unmounted) return;
+        const state = sync && gl.getSyncParameter(sync, gl.SYNC_STATUS);
+        if (state === gl.UNSIGNALED) {
+          timeoutId = window.setTimeout(poll, 5);
+        } else {
+          if (sync) gl.deleteSync(sync);
+          timeoutId = window.setTimeout(cb, 80);
+        }
+      };
+      timeoutId = window.setTimeout(poll, 5);
+    }
+
+    function requestRender() {
+      if (unmounted) return;
+      if (renderBusy) {
+        renderDirty = true;
+        return;
+      }
+      renderBusy = true;
+      frameId = requestAnimationFrame(() => {
+        if (unmounted) return;
+        renderDirty = false;
+
+        // Exponentially damp subtle 2.5D stage parallax
+        const dx = targetParallax.x - currentParallax.x;
+        const dy = targetParallax.y - currentParallax.y;
+        if (Math.abs(dx) > 0.0004 || Math.abs(dy) > 0.0004) {
+          currentParallax.x += dx * 0.18;
+          currentParallax.y += dy * 0.18;
+          stageGroup.rotation.y = currentParallax.x * 0.045;
+          stageGroup.rotation.x = currentParallax.y * 0.028;
+          annotationsGroup.position.x = currentParallax.x * 0.06;
+          annotationsGroup.position.y = -currentParallax.y * 0.04;
+          renderDirty = true;
+        }
+
+        renderer.render(scene, camera);
+
+        const done = () => {
+          renderBusy = false;
+          if (renderDirty && !unmounted) {
+            requestRender();
+          }
+        };
+
+        if (isSoftwareGl) afterDraw(done);
+        else done();
+      });
+    }
+
+    function updateSize() {
+      if (!container || unmounted) return;
+      const width = Math.max(1, container.clientWidth);
+      const height = Math.max(1, container.clientHeight);
+      const aspect = width / height;
+
+      camera.aspect = aspect;
+      // Scale distance smoothly on narrower viewports so horizontal composition never clips
+      const minComfortAspect = 1.40;
+      const fitScale = aspect < minComfortAspect ? minComfortAspect / aspect : 1;
+
+      camera.position
+        .copy(camLookTarget)
+        .addScaledVector(
+          baseCamOffset.clone().sub(camLookTarget),
+          fitScale
+        );
+      camera.lookAt(camLookTarget);
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(width, height, false);
+      requestRender();
+    }
+
+    updateSize();
+    if (!isSoftwareGl) {
+      renderer.compile(scene, camera);
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateSize();
+    });
+    resizeObserver.observe(container);
+
+    // Raycasting & Hover / Click Interaction
+    const raycaster = new THREE.Raycaster();
+    let hoveredKey: string | null = null;
+
+    function getActiveRaycastTargets(): THREE.Object3D[] {
+      const targets: THREE.Object3D[] = [...sourceHitMeshes, ...crateOccluderMeshes];
+      for (const rec of basketRecords.values()) {
+        if (rec.landed && !rec.exiting) {
+          targets.push(...rec.hitMeshes);
+        }
+      }
+      return targets;
+    }
+
+    function pickInteractiveHit(clientX: number, clientY: number): ProduceMeshUserData | null {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return null;
+
+      _pointerNdc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      _pointerNdc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(_pointerNdc, camera);
+      const hits = raycaster.intersectObjects(getActiveRaycastTargets(), false);
+
+      for (const hit of hits) {
+        const uData = hit.object.userData as Partial<ProduceMeshUserData> | undefined;
+        if (!uData || !uData.interactiveRole) {
+          // Hit an opaque wooden crate wall before anything behind it!
+          return null;
+        }
+        const alpha = sampleAlphaMask(uData.alphaMask, hit.uv);
+        if (alpha > 42) {
+          return uData as ProduceMeshUserData;
+        }
+      }
+      return null;
+    }
+
+    function setHoverVisual(key: string | null, active: boolean) {
+      if (!key) return;
+      if (key.startsWith('source:')) {
+        const anchorId = key.slice('source:'.length);
+        const rec = sourceRecords.get(anchorId);
+        if (!rec) return;
+        gsap.to(rec.group.position, {
+          y: rec.spec.worldPosition[1] + (active ? 0.11 : 0),
+          duration: 0.22,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: requestRender,
+        });
+        gsap.to(rec.group.scale, {
+          x: rec.spec.worldScale * (active ? 1.07 : 1),
+          y: rec.spec.worldScale * (active ? 1.07 : 1),
+          z: rec.spec.worldScale * (active ? 1.07 : 1),
+          duration: 0.22,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: requestRender,
+        });
+        if (rec.shadowMesh) {
+          const mat = rec.shadowMesh.material as THREE.MeshBasicMaterial;
+          gsap.to(mat, {
+            opacity: active ? 0.36 : 0.65,
+            duration: 0.22,
+            overwrite: 'auto',
+            onUpdate: requestRender,
+          });
+        }
+      } else if (key.startsWith('basket:')) {
+        const instanceId = key.slice('basket:'.length);
+        const rec = basketRecords.get(instanceId);
+        if (!rec || !rec.landed || rec.exiting) return;
+        const basePos = rec.item.slot.worldPosition;
+        const baseScale = rec.item.slot.scale;
+        gsap.to(rec.group.position, {
+          y: basePos[1] + (active ? 0.12 : 0),
+          duration: 0.2,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: requestRender,
+        });
+        gsap.to(rec.group.scale, {
+          x: baseScale * (active ? 1.08 : 1),
+          y: baseScale * (active ? 1.08 : 1),
+          z: baseScale * (active ? 1.08 : 1),
+          duration: 0.2,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onUpdate: requestRender,
+        });
+      }
+    }
+
+    let lastHoverStamp = 0;
+    function handlePointerMove(e: PointerEvent) {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        targetParallax.x = (((e.clientX - rect.left) / rect.width) * 2 - 1) * 0.85;
+        targetParallax.y = (((e.clientY - rect.top) / rect.height) * 2 - 1) * 0.65;
+        requestRender();
+      }
+
+      const now = performance.now();
+      if (now - lastHoverStamp < 32) return;
+      lastHoverStamp = now;
+
+      const hit = pickInteractiveHit(e.clientX, e.clientY);
+      const nextKey = hit
+        ? hit.interactiveRole === 'source'
+          ? `source:${hit.anchorId}`
+          : `basket:${hit.instanceId}`
+        : null;
+
+      if (nextKey !== hoveredKey) {
+        setHoverVisual(hoveredKey, false);
+        hoveredKey = nextKey;
+        setHoverVisual(hoveredKey, true);
+
+        canvas.classList.toggle('cursor-pointer', Boolean(hoveredKey));
+        if (hit) {
+          const spec = PRODUCE_CATALOG[hit.produceId];
+          callbacksRef.current.onHoverHintChange?.(
+            hit.interactiveRole === 'source'
+              ? `Add ${spec.shortName}`
+              : `Remove ${spec.shortName}`
+          );
+        } else {
+          callbacksRef.current.onHoverHintChange?.(null);
+        }
+      }
+    }
+
+    function handlePointerLeave() {
+      targetParallax.x = 0;
+      targetParallax.y = 0;
+      if (hoveredKey) {
+        setHoverVisual(hoveredKey, false);
+        hoveredKey = null;
+      }
+      canvas.classList.remove('cursor-pointer');
+      callbacksRef.current.onHoverHintChange?.(null);
+      requestRender();
+    }
+
+    let pointerDownPos: { x: number; y: number } | null = null;
+    function handlePointerDown(e: PointerEvent) {
+      pointerDownPos = { x: e.clientX, y: e.clientY };
+    }
+
+    function handlePointerUp(e: PointerEvent) {
+      if (pointerDownPos) {
+        const moved = Math.hypot(
+          e.clientX - pointerDownPos.x,
+          e.clientY - pointerDownPos.y
+        );
+        pointerDownPos = null;
+        if (moved > 14) return;
+      }
+
+      const hit = pickInteractiveHit(e.clientX, e.clientY);
+      if (!hit) return;
+
+      if (hit.interactiveRole === 'source' && hit.anchorId) {
+        // Tactile spring pulse on the foreground source item
+        const srcRec = sourceRecords.get(hit.anchorId);
+        if (srcRec) {
+          const s = srcRec.spec.worldScale;
+          gsap.fromTo(
+            srcRec.group.scale,
+            { x: s * 0.88, y: s * 0.88, z: s * 0.88 },
+            {
+              x: s,
+              y: s,
+              z: s,
+              duration: 0.42,
+              ease: 'back.out(2.2)',
+              overwrite: 'auto',
+              onUpdate: requestRender,
+            }
+          );
+        }
+        callbacksRef.current.onAddProduce(hit.produceId, hit.anchorId);
+      } else if (hit.interactiveRole === 'basket-instance' && hit.instanceId) {
+        const rec = basketRecords.get(hit.instanceId);
+        if (rec && rec.landed && !rec.exiting) {
+          if (hoveredKey === `basket:${hit.instanceId}`) {
+            hoveredKey = null;
+            canvas.classList.remove('cursor-pointer');
+            callbacksRef.current.onHoverHintChange?.(null);
+          }
+          callbacksRef.current.onRemoveInstance(hit.instanceId);
+        }
+      }
+    }
+
+    canvas.addEventListener('pointermove', handlePointerMove);
+    canvas.addEventListener('pointerleave', handlePointerLeave);
+    canvas.addEventListener('pointerdown', handlePointerDown);
+    canvas.addEventListener('pointerup', handlePointerUp);
+
+    function disposeGroup(group: THREE.Group) {
+      group.traverse((obj) => {
+        const mesh = obj as THREE.Mesh;
+        if (mesh.isMesh) {
+          mesh.geometry?.dispose();
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => m.dispose());
+          } else {
+            mesh.material?.dispose();
+          }
+        }
+      });
+    }
+
+    // Reconcile deterministic React BasketItemInstance[] with 2.5D Three.js + GSAP motion
+    function syncItems(nextItems: BasketItemInstance[]) {
+      const nextIds = new Set(nextItems.map((i) => i.instanceId));
+
+      // 1. Animate out any removed instances
+      for (const [id, rec] of basketRecords.entries()) {
+        if (!nextIds.has(id) && !rec.exiting) {
+          rec.exiting = true;
+          rec.landed = false;
+          rec.timeline?.kill();
+
+          const anchor =
+            sourceRecords.get(rec.item.sourceAnchorId)?.spec ??
+            getDefaultAnchorForProduce(rec.item.produceId);
+
+          const startPos: [number, number, number] = [
+            rec.group.position.x,
+            rec.group.position.y,
+            rec.group.position.z,
+          ];
+          const startRot: [number, number, number] = [
+            rec.group.rotation.x,
+            rec.group.rotation.y,
+            rec.group.rotation.z,
+          ];
+          const startScale = rec.group.scale.x || rec.item.slot.scale;
+
+          const proxy = { t: 0 };
+          const tl = gsap.timeline({
+            onUpdate: requestRender,
+            onComplete: () => {
+              basketItemsGroup.remove(rec.group);
+              disposeGroup(rec.group);
+              basketRecords.delete(id);
+              requestRender();
+            },
+          });
+
+          tl.to(proxy, {
+            t: 1,
+            duration: 0.66,
+            ease: 'power2.inOut',
+            onUpdate: () => {
+              const sample = evaluateFlightArc(
+                startPos,
+                anchor.worldPosition,
+                startRot,
+                anchor.worldRotation,
+                proxy.t,
+                'out-of-basket'
+              );
+              rec.group.position.set(
+                sample.position[0],
+                sample.position[1],
+                sample.position[2]
+              );
+              rec.group.rotation.set(
+                sample.rotation[0],
+                sample.rotation[1],
+                sample.rotation[2]
+              );
+              const fadeTail = proxy.t > 0.72 ? 1 - (proxy.t - 0.72) / 0.28 : 1;
+              const s = startScale * sample.scaleMultiplier * Math.max(0.05, fadeTail);
+              rec.group.scale.setScalar(s);
+            },
+          });
+
+          rec.timeline = tl;
+        }
+      }
+
+      // 2. Spawn and fly in any newly added instances
+      for (const item of nextItems) {
+        if (basketRecords.has(item.instanceId)) continue;
+
+        const texSet = produceTextures[item.produceId];
+        const built = buildProduceGroup(
+          item.produceId,
+          texSet,
+          'basket-instance',
+          { instanceId: item.instanceId }
+        );
+
+        const anchor =
+          sourceRecords.get(item.sourceAnchorId)?.spec ??
+          getDefaultAnchorForProduce(item.produceId);
+
+        built.group.position.set(
+          anchor.worldPosition[0],
+          anchor.worldPosition[1],
+          anchor.worldPosition[2]
+        );
+        built.group.rotation.set(
+          anchor.worldRotation[0],
+          anchor.worldRotation[1],
+          anchor.worldRotation[2]
+        );
+        built.group.scale.setScalar(anchor.worldScale);
+        basketItemsGroup.add(built.group);
+
+        const record: BasketNodeRecord = {
+          item,
+          group: built.group,
+          hitMeshes: built.hitMeshes,
+          landed: false,
+          exiting: false,
+          timeline: null,
+        };
+        basketRecords.set(item.instanceId, record);
+
+        const proxy = { t: 0 };
+        const targetPos = item.slot.worldPosition;
+        const targetRot = item.slot.worldRotation;
+        const targetScale = item.slot.scale;
+
+        const tl = gsap.timeline({
+          onUpdate: requestRender,
+        });
+
+        // Smooth lift + curved 3D trajectory + perspective rotation
+        tl.to(proxy, {
+          t: 1,
+          duration: 0.78,
+          ease: 'power2.inOut',
+          onUpdate: () => {
+            const sample = evaluateFlightArc(
+              anchor.worldPosition,
+              targetPos,
+              anchor.worldRotation,
+              targetRot,
+              proxy.t,
+              'into-basket'
+            );
+            built.group.position.set(
+              sample.position[0],
+              sample.position[1],
+              sample.position[2]
+            );
+            built.group.rotation.set(
+              sample.rotation[0],
+              sample.rotation[1],
+              sample.rotation[2]
+            );
+            const lerpedBaseScale =
+              anchor.worldScale + (targetScale - anchor.worldScale) * proxy.t;
+            built.group.scale.setScalar(lerpedBaseScale * sample.scaleMultiplier);
+          },
+          onComplete: () => {
+            record.landed = true;
+          },
+        });
+
+        // Soft cushioned landing inside the crate + subtle crate weight settle
+        tl.fromTo(
+          built.group.position,
+          { y: targetPos[1] - 0.055 },
+          {
+            y: targetPos[1],
+            duration: 0.28,
+            ease: 'back.out(2.4)',
+          }
+        );
+        tl.fromTo(
+          built.group.scale,
+          {
+            x: targetScale * 1.06,
+            y: targetScale * 0.93,
+            z: targetScale,
+          },
+          {
+            x: targetScale,
+            y: targetScale,
+            z: targetScale,
+            duration: 0.28,
+            ease: 'back.out(2.2)',
+          },
+          '<'
+        );
+
+        tl.call(
+          () => {
+            gsap.fromTo(
+              crateGroup.position,
+              { y: CRATE_SPEC.center[1] - 0.026 },
+              {
+                y: CRATE_SPEC.center[1],
+                duration: 0.26,
+                ease: 'power2.out',
+                overwrite: 'auto',
+                onUpdate: requestRender,
+              }
+            );
+          },
+          undefined,
+          '-=0.28'
+        );
+
+        record.timeline = tl;
+        requestRender();
+      }
+    }
+
+    engineRef.current = { syncItems };
+
+    return () => {
+      unmounted = true;
+      engineRef.current = null;
+      resizeObserver.disconnect();
+      cancelAnimationFrame(frameId);
+      clearTimeout(timeoutId);
+
+      canvas.removeEventListener('pointermove', handlePointerMove);
+      canvas.removeEventListener('pointerleave', handlePointerLeave);
+      canvas.removeEventListener('pointerdown', handlePointerDown);
+      canvas.removeEventListener('pointerup', handlePointerUp);
+
+      for (const rec of basketRecords.values()) {
+        rec.timeline?.kill();
+      }
+      gsap.killTweensOf(crateGroup.position);
+
+      scene.traverse((obj) => {
+        const mesh = obj as THREE.Mesh;
+        if (mesh.isMesh) {
+          mesh.geometry?.dispose();
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => m.dispose());
+          } else {
+            mesh.material?.dispose();
+          }
+        }
+      });
+      envRT.dispose();
+      renderer.dispose();
+      if (canvas.parentNode === container) {
+        container.removeChild(canvas);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    engineRef.current?.syncItems(items);
+  }, [items]);
+
+  return (
+    <div className="relative w-full h-full">
+      <div ref={mountRef} className="w-full h-full" />
+
+      {/* Keyboard & assistive-technology controls (visually hidden until keyboard-focused) */}
+      <div
+        aria-label="Interactive Harvest Crate Controls"
+        className="sr-only focus-within:not-sr-only focus-within:absolute focus-within:bottom-3 focus-within:left-3 focus-within:right-3 focus-within:z-20 focus-within:rounded-2xl focus-within:border focus-within:border-[#1E1A17] focus-within:bg-[#F7F1E5] focus-within:p-3 focus-within:shadow-md"
+      >
+        <p className="text-xs font-medium text-[#1E1A17] mb-2">
+          Add seasonal produce to your crate:
+        </p>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {SOURCE_ANCHORS.map((anchor) => (
+            <button
+              key={anchor.anchorId}
+              type="button"
+              onClick={() => onAddProduce(anchor.produceId, anchor.anchorId)}
+              className="rounded-full border border-[#1E1A17] px-2.5 py-1 text-xs font-medium text-[#1E1A17] focus-visible:outline-2 focus-visible:outline-[#D85432]"
+            >
+              {anchor.label}
+            </button>
+          ))}
+        </div>
+        {items.length > 0 && (
+          <div>
+            <p className="text-xs font-medium text-[#1E1A17] mb-1.5">
+              Items currently in crate (activate to remove):
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {items.map((inst) => (
+                <button
+                  key={inst.instanceId}
+                  type="button"
+                  onClick={() => onRemoveInstance(inst.instanceId)}
+                  className="rounded-full bg-[#D85432] px-2.5 py-1 text-xs font-medium text-[#FDF9F2] focus-visible:outline-2 focus-visible:outline-[#1E1A17]"
+                >
+                  Remove {PRODUCE_CATALOG[inst.produceId].shortName} #{inst.addedSeq}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/MesaMarketLandscape.css">
+<![CDATA[/*
+ * MESA MARKET — LIVING HARVEST LANDSCAPE
+ * Source-drawn SVG / CSS / JS. No background images or image assets.
+ * All selectors scoped to .mm-landscape so this can sit behind any hero.
+ */
+.mm-landscape {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #fbf6e9;
+  pointer-events: none; /* IMPORTANT: never intercept basket/produce clicks. */
+  isolation: isolate;
+  contain: layout paint style;
+  --mm-wind: 0deg;
+}
+.mm-landscape, .mm-landscape * { box-sizing: border-box; }
+.mm-landscape-svg {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  overflow: hidden;
+  /* Preserve the right-side farm/road scene on narrower screens. */
+}
+.mm-landscape .mm-depth,
+.mm-landscape .mm-wind-group,
+.mm-landscape .mm-tree-sway,
+.mm-landscape .mm-grass-sway { transform-box: fill-box; }
+.mm-landscape .mm-depth { will-change: transform; }
+.mm-landscape .mm-wind-group,
+.mm-landscape .mm-tree-sway,
+.mm-landscape .mm-grass-sway { transform-origin: center bottom; }
+.mm-landscape .mm-sun-disc { transform-origin: center; transform-box: fill-box; animation: mm-sunrise 2.3s cubic-bezier(.18,.75,.2,1) both, mm-sun-breathe 11s ease-in-out 2.3s infinite alternate; }
+.mm-landscape .mm-sun-glow { transform-origin: center; transform-box: fill-box; animation: mm-sun-glow 10s ease-in-out infinite alternate; }
+.mm-landscape .mm-cloud { transform-box: fill-box; animation: mm-cloud-drift 31s ease-in-out infinite alternate; }
+.mm-landscape .mm-cloud-b { animation-duration: 42s; animation-delay: -17s; }
+.mm-landscape .mm-cloud-c { animation-duration: 35s; animation-delay: -11s; animation-direction: alternate-reverse; }
+.mm-landscape .mm-hill-far { animation: mm-hill-settle 2.05s cubic-bezier(.2,.7,.15,1) both; }
+.mm-landscape .mm-hill:not(.mm-hill-far) { animation: mm-hill-settle 2.5s cubic-bezier(.2,.72,.15,1) .25s both; }
+.mm-landscape .mm-field-lines path { stroke-dasharray: 550; stroke-dashoffset: 550; animation: mm-line-draw 2.65s cubic-bezier(.25,.5,.25,1) 1.05s forwards; }
+.mm-landscape .mm-fence-line { stroke-dasharray: 850; stroke-dashoffset: 850; animation: mm-line-draw 2.35s ease-out 1.15s forwards; }
+.mm-landscape .mm-fence-post { transform-box: fill-box; transform-origin: center bottom; animation: mm-assemble-post .75s cubic-bezier(.16,1,.3,1) calc(1.1s + var(--mm-delay,0s)) both; }
+.mm-landscape .mm-farm-stand { transform-box: fill-box; transform-origin: center bottom; animation: mm-farm-enter 1.1s cubic-bezier(.16,1,.3,1) .9s both; }
+.mm-landscape .mm-tree-sway { animation: mm-tree-sway var(--mm-duration,5.8s) ease-in-out var(--mm-delay,0s) infinite alternate; }
+.mm-landscape .mm-tree { animation: mm-tree-grow 1.3s cubic-bezier(.2,1.18,.32,1) .55s both; transform-box: fill-box; transform-origin: center bottom; }
+.mm-landscape .mm-orchard-tree { animation-duration: 1s; animation-delay: .65s; }
+.mm-landscape .mm-grass-sway { animation: mm-grass-breeze 3.8s ease-in-out infinite alternate; }
+.mm-landscape .mm-sprig:nth-child(3n) .mm-grass-sway { animation-duration: 5.1s; animation-delay: -2s; }
+.mm-landscape .mm-sprig:nth-child(4n) .mm-grass-sway { animation-duration: 3.3s; animation-delay: -1.25s; }
+.mm-landscape .mm-bird { transform-box: fill-box; animation: mm-bird-float 18s linear infinite; }
+.mm-landscape .mm-bird-b { animation-delay: -6s; animation-duration: 22s; }
+.mm-landscape .mm-bird-c { animation-delay: -9s; animation-duration: 25s; }
+.mm-landscape .mm-bird-d { animation-delay: -13s; animation-duration: 19s; }
+.mm-landscape .mm-bird-e { animation-delay: -3s; animation-duration: 21s; }
+.mm-landscape .mm-paper-grain { mix-blend-mode: multiply; }
+
+@keyframes mm-sunrise { from { transform: translateY(38px) scale(.78); } to { transform: translateY(0) scale(1); } }
+@keyframes mm-sun-breathe { from { transform: translateY(0) scale(1); } to { transform: translateY(-4px) scale(1.02); } }
+@keyframes mm-sun-glow { from { opacity: .58; transform: scale(.91); } to { opacity: .96; transform: scale(1.11); } }
+@keyframes mm-cloud-drift { from { transform: translateX(-16px); } to { transform: translateX(28px); } }
+@keyframes mm-hill-settle { from { transform: translateY(22px) scaleY(.94); } to { transform: translateY(0) scaleY(1); } }
+@keyframes mm-line-draw { to { stroke-dashoffset: 0; } }
+@keyframes mm-assemble-post { from { scale: 1 .12; } to { scale: 1 1; } }
+@keyframes mm-farm-enter { from { transform: translateY(20px) scaleY(.5); } to { transform: translateY(0) scaleY(1); } }
+@keyframes mm-tree-grow { from { scale: .82 .12; } to { scale: 1 1; } }
+@keyframes mm-tree-sway { from { transform: rotate(-1.25deg); } to { transform: rotate(1.8deg); } }
+@keyframes mm-grass-breeze { from { transform: rotate(-3.1deg); } to { transform: rotate(3.8deg); } }
+@keyframes mm-bird-float { 0% { transform: translate3d(0,0,0); } 45% { transform: translate3d(-30px,-10px,0); } 100% { transform: translate3d(-65px,-1px,0); } }
+
+.mm-landscape[data-paused="true"] *,
+.mm-landscape[data-visible="false"] * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .mm-landscape *, .mm-landscape *::before, .mm-landscape *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .mm-landscape .mm-field-lines path,
+  .mm-landscape .mm-fence-line { stroke-dashoffset: 0 !important; }
+}
+@media (max-width: 767px) {
+  .mm-landscape-svg {
+    width: 125%;
+    max-width: none;
+    left: -13%;
+  }
+  .mm-landscape .mm-paper-grain { opacity: .55; }
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/MesaMarketLandscape.tsx">
+<![CDATA['use client';
+
+/**
+ * MesaMarketLandscape.tsx
+ * Reusable illustrated countryside background with entrance, ambient, wind and scroll motion.
+ * No raster image, remote asset, Three.js, or GSAP dependency.
+ * Requires React 18+ and ./MesaMarketLandscape.css.
+ * Use behind interactive hero content; pointer events are deliberately NOT intercepted.
+ */
+import { useEffect, useId, useMemo, useRef } from "react";
+import "./MesaMarketLandscape.css";
+
+export type MesaMarketLandscapeProps = {
+  className?: string;
+  /** 0–2 multiplier for gentle parallax and cursor wind; default 1. */
+  intensity?: number;
+  /** Turn off live pointer/scroll parallax, leaving CSS ambient motion intact. */
+  interactive?: boolean;
+  /** Stops all ambient animation and JS motion. */
+  paused?: boolean;
+};
+
+/**
+ * Source-authored inline SVG, intentionally not an <img> or external artwork.
+ * The only dynamic substitution is an internally generated unique ID prefix.
+ * Do not interpolate user-provided HTML into this constant.
+ */
+const svgTemplate = String.raw`<svg class="mm-landscape-svg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true" focusable="false">
+<defs>
+ <linearGradient id="__MM__-sky" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#FBF8ED"/><stop offset=".63" stop-color="#F9F1DF"/><stop offset="1" stop-color="#F4E5C6"/></linearGradient>
+ <linearGradient id="__MM__-hill" x1="0" x2=".78" y1="0" y2="1"><stop stop-color="#ECE6D0" stop-opacity=".38"/><stop offset="1" stop-color="#DCD1AE" stop-opacity=".56"/></linearGradient>
+ <linearGradient id="__MM__-mist" x1="0" x2="1" y1="0" y2="0"><stop stop-color="#FBF8ED" stop-opacity="1"/><stop offset=".56" stop-color="#FBF8ED" stop-opacity=".64"/><stop offset="1" stop-color="#FBF8ED" stop-opacity="0"/></linearGradient>
+ <radialGradient id="__MM__-sun-glow"><stop stop-color="#F7DF9D" stop-opacity=".50"/><stop offset="1" stop-color="#F7DF9D" stop-opacity="0"/></radialGradient>
+ <filter id="__MM__-paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".59" numOctaves="2" seed="17" stitchTiles="stitch"/></filter>
+ <clipPath id="__MM__-scene-clip"><rect width="1376" height="768"/></clipPath>
+</defs>
+<rect x="0" y="0" width="1376" height="768" fill="url(#__MM__-sky)"/>
+<g clip-path="url(#__MM__-scene-clip)">
+<!-- FAR SKY: sun, hand-drawn clouds, bird silhouettes. -->
+<g class="mm-depth" data-depth=".09">
+ <circle cx="292" cy="96" r="133" fill="url(#__MM__-sun-glow)" class="mm-sun-glow"/>
+ <circle cx="292" cy="96" r="47" fill="#F7E0AB" opacity=".72" class="mm-sun-disc"/>
+ <g class="mm-cloud mm-cloud-a" stroke="#C0AF8F" stroke-width="1.1" fill="none" stroke-linecap="round" opacity=".72">
+  <path d="M66 133 Q76 119 107 122 Q114 101 143 100 Q153 81 178 77 Q209 71 218 99 Q239 78 264 98 Q287 95 297 116 Q314 106 326 121 Q339 117 359 127"/><path d="M64 137 Q131 137 188 136 M194 137 Q258 134 349 134" stroke-opacity=".38"/>
+ </g>
+ <g class="mm-cloud mm-cloud-b" stroke="#C1AF91" stroke-width="1.05" fill="none" stroke-linecap="round" opacity=".65">
+  <path d="M408 85 Q432 78 458 81 Q470 65 494 68 Q512 53 529 64 Q541 43 568 46 Q592 44 600 67 Q619 55 631 76 L658 80"/><path d="M409 89 Q506 93 655 84" stroke-opacity=".32"/>
+ </g>
+ <g class="mm-cloud mm-cloud-c" stroke="#C1AF91" stroke-width="1.1" fill="none" stroke-linecap="round" opacity=".62">
+  <path d="M350 155 Q373 144 395 149 Q407 131 425 140 Q435 126 453 136 Q465 128 471 150 Q482 147 495 157"/><path d="M348 162 Q421 166 493 161" stroke-opacity=".3"/>
+ </g>
+ <g class="mm-birds" stroke="#8F8066" stroke-width="2.3" fill="none" stroke-linecap="round" opacity=".92">
+   <g class="mm-bird mm-bird-a"><path d="M989 157q9 -13 17 -2 q9 -13 17 -6"/></g><g class="mm-bird mm-bird-b"><path d="M1067 133q7 -9 14 -1 q8 -11 17 -7"/></g>
+   <g class="mm-bird mm-bird-c"><path d="M1112 104q7 -8 12 0 q7 -9 15 -7"/></g>
+   <g class="mm-bird mm-bird-d"><path d="M1183 114q7 -8 12 -1 q6 -8 12 -7"/></g>
+   <g class="mm-bird mm-bird-e"><path d="M1020 121q7 -8 12 -1 q6 -9 13 -7"/></g>
+ </g>
+</g>
+<!-- DISTANCE: quiet rolling hills, orchard rows, and paper-soft landscape. -->
+<g class="mm-depth" data-depth=".15">
+ <path class="mm-hill mm-hill-far" d="M-40 253 C87 209 111 222 194 233 C285 236 376 259 459 258 C602 245 664 215 776 203 C882 187 979 225 1096 217 C1209 201 1258 167 1410 160 L1410 505 L-40 505Z" fill="#E8DDC2" fill-opacity=".45" stroke="#C2B295" stroke-opacity=".55" stroke-width="1.25"/>
+ <path class="mm-hill" d="M-40 319 C91 287 141 280 242 301 C363 316 453 304 548 276 C672 246 770 254 864 255 C955 256 1035 259 1120 225 C1213 189 1304 167 1416 171 L1416 531 L-40 531 Z" fill="url(#__MM__-hill)"/>
+ <path d="M-20 323 Q85 305 190 330 Q235 357 310 342 Q388 328 457 333" stroke="#E2D6B9" stroke-width="2" fill="none" opacity=".6"/>
+ <path d="M417 287 Q510 262 582 266 Q651 249 720 250" stroke="#C6B79A" stroke-width="1.1" stroke-opacity=".40" fill="none"/>
+ <path class="mm-hill" d="M-20 358 Q156 335 270 345 Q385 330 465 314 Q583 297 656 291 Q807 273 904 280 Q1030 279 1168 262 L1388 217 L1393 583 L-20 584Z" fill="#F0E7CF" fill-opacity=".50"/>
+ <path d="M-10 358Q90 340 161 351 M360 351 Q458 341 549 356 M549 356 Q640 363 746 356" fill="none" stroke="#CFC09F" stroke-opacity=".39" stroke-width="1"/>
+ <g class="mm-field-lines" fill="none" stroke="#B7A787" stroke-width="1.2" stroke-opacity=".52" stroke-linecap="round">
+ <path d="M720 258 Q635 298 531 351"/><path d="M754 257 Q696 308 612 353"/><path d="M792 259 Q753 305 684 354"/><path d="M830 267 Q800 303 763 354"/><path d="M867 272 Q844 304 817 354"/><path d="M905 278 Q882 315 862 353"/><path d="M945 283 Q927 308 919 354"/>
+ <path d="M1187 294 Q1205 310 1226 334 M1232 279 Q1254 294 1300 325 M1280 263 Q1324 287 1365 310"/>
+ </g>
+ <path d="M-20 357 Q200 364 355 358 M358 361 Q482 364 534 363" stroke="#FFF9EB" stroke-width="2.5" fill="none" opacity=".72"/>
+</g>
+<!-- DISTANT ORCHARD - generated rows, each tiny crown is a real vector tree. -->
+<g class="mm-depth" data-depth=".24" opacity=".62">
+
+<g transform="translate(600 330) scale(0.180)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(634 323) scale(0.180)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(668 316) scale(0.180)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(702 309) scale(0.180)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(736 302) scale(0.180)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(770 295) scale(0.180)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(804 288) scale(0.180)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(662 310) scale(0.198)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(696 303) scale(0.198)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(730 296) scale(0.198)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(764 289) scale(0.198)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(798 282) scale(0.198)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(832 275) scale(0.198)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(866 268) scale(0.198)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(724 290) scale(0.216)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(758 283) scale(0.216)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(792 276) scale(0.216)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(826 269) scale(0.216)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(860 262) scale(0.216)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(894 255) scale(0.216)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+<g transform="translate(928 248) scale(0.216)" class="mm-orchard-tree mm-tree"><g class="mm-tree-sway"><path d="M0 0 L0 -58" fill="none" stroke="#9C8F71" stroke-width="4"/><path d="M-29 -62 Q-43 -80 -28 -103 Q-17 -111 0 -104 Q27 -116 36 -96 Q44 -69 25 -61 Q7 -50 -12 -61 Z" fill="#D7C9AA" stroke="#AA9D81" stroke-width="2"/></g></g>
+</g>
+<g class="mm-depth" data-depth=".34">
+ <path class="mm-hill" d="M-30 397 C191 362 334 372 530 358 C640 355 759 358 829 355 C965 334 1085 308 1179 302 C1284 285 1330 253 1407 252 L1414 790 L-30 790Z" fill="#F8F1E0" fill-opacity=".91"/>
+ <path d="M742 368 Q935 360 1076 333 Q1180 317 1395 293" fill="none" stroke="#C8B999" stroke-opacity=".55" stroke-width="1.3"/>
+ <g class="mm-field-lines" stroke="#A89778" stroke-opacity=".64" stroke-width="1.5" fill="none"><path d="M1118 318 Q1129 331 1142 346"/><path d="M1156 310 Q1176 325 1199 349"/><path d="M1201 302 Q1231 321 1264 353"/><path d="M1243 295 Q1287 324 1315 359"/><path d="M1287 287 Q1320 316 1355 357"/><path d="M1339 278 Q1360 313 1398 344"/></g>
+ <g transform="translate(1125 247)"><g class="mm-farm-stand" stroke="#887760" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M-2 54V23 L49 3 L91 25V53" fill="#DAD0B7" stroke-width="2"/><path d="M-4 28L45 1L91 24" fill="none" stroke-width="3"/><path d="M3 24L8 39L17 37L22 16 M25 12L27 36L39 33L44 3 M49 5L50 34L64 37L68 11 M74 17L75 40L87 38L90 26" fill="#F7EED9" stroke-width="1.6"/><path d="M4 39H90 M10 39V55 M81 38V55" fill="none" stroke-width="2.8"/><path d="M30 41L32 53 M67 42V53" stroke-width="1.2"/>
+ </g></g>
+ <g stroke="#8D8667" stroke-width="1.3" fill="#B8B89A" opacity=".76"><path d="M1308 301q-10 -19 11 -31q17 -29 40 -5q17 -11 29 10q14 -5 20 13v28h-100Z"/></g>
+</g>
+<g class="mm-depth" data-depth=".52">
+<g transform="translate(824 455) scale(0.82)" class="mm-tree" style="--mm-delay:-0.0s;--mm-duration:5.0s"><g class="mm-wind-group" data-wind="0.60"><g class="mm-tree-sway">
+        <path d="M0 0 Q-7 -34 3 -75 Q14 -99 10 -118 M2 -49 Q-29 -73 -35 -88 M7 -72 Q27 -91 39 -97 M-4 -25 Q-17 -44 -22 -55" stroke="#7D674D" stroke-width="4.3" fill="none" stroke-linecap="round"/>
+        <path d="M-5 -125 C-29 -142 -54 -130 -56 -110 C-82 -103 -78 -80 -56 -72 C-63 -45 -30 -44 -20 -55 C-4 -37 20 -44 26 -54 C52 -51 66 -76 51 -92 C65 -114 38 -135 17 -127 C7 -145 -11 -144 -5 -125 Z" fill="#D6D5A9" stroke="#7D674D" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M-57 -102 Q-46 -115 -38 -106 M-23 -126 Q-12 -134 -3 -126 M19 -125 Q36 -124 38 -111 M47 -92 Q57 -81 47 -71 M-35 -65 Q-29 -58 -21 -63 M4 -60 Q12 -55 20 -67" stroke="#A9A87C" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+        <path d="M-22 -115l3 -4 M-44 -92l4 1 M16 -109l-3 4 M27 -72l-5 -3 M-2 -83l3 -5 M-29 -78l-5 1" stroke="#A9A87C" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="-36" cy="-103" r="4" fill="#C87E5A" stroke="#7D674D" stroke-width="1"/><circle cx="18" cy="-91" r="4.2" fill="#C47655" stroke="#7D674D" stroke-width="1"/><circle cx="-8" cy="-74" r="3.3" fill="#CB8A64" stroke="#7D674D" stroke-width=".8"/><circle cx="29" cy="-111" r="3" fill="#BC6B50" stroke="#7D674D" stroke-width=".7"/>
+        <path d="M-61 1 Q-9 -9 50 0" fill="none" stroke="#B3A17C" stroke-width="2" stroke-opacity=".55"/>
+    </g></g></g>
+<g transform="translate(899 405) scale(0.8)" class="mm-tree" style="--mm-delay:-2.2s;--mm-duration:6.8s"><g class="mm-wind-group" data-wind="0.94"><g class="mm-tree-sway">
+        <path d="M0 0 Q-7 -34 3 -75 Q14 -99 10 -118 M2 -49 Q-29 -73 -35 -88 M7 -72 Q27 -91 39 -97 M-4 -25 Q-17 -44 -22 -55" stroke="#7D674D" stroke-width="4.3" fill="none" stroke-linecap="round"/>
+        <path d="M-5 -125 C-29 -142 -54 -130 -56 -110 C-82 -103 -78 -80 -56 -72 C-63 -45 -30 -44 -20 -55 C-4 -37 20 -44 26 -54 C52 -51 66 -76 51 -92 C65 -114 38 -135 17 -127 C7 -145 -11 -144 -5 -125 Z" fill="#D2C99D" stroke="#7D674D" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M-57 -102 Q-46 -115 -38 -106 M-23 -126 Q-12 -134 -3 -126 M19 -125 Q36 -124 38 -111 M47 -92 Q57 -81 47 -71 M-35 -65 Q-29 -58 -21 -63 M4 -60 Q12 -55 20 -67" stroke="#9DA679" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+        <path d="M-22 -115l3 -4 M-44 -92l4 1 M16 -109l-3 4 M27 -72l-5 -3 M-2 -83l3 -5 M-29 -78l-5 1" stroke="#9DA679" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="-36" cy="-103" r="4" fill="#C87E5A" stroke="#7D674D" stroke-width="1"/><circle cx="18" cy="-91" r="4.2" fill="#C47655" stroke="#7D674D" stroke-width="1"/><circle cx="-8" cy="-74" r="3.3" fill="#CB8A64" stroke="#7D674D" stroke-width=".8"/><circle cx="29" cy="-111" r="3" fill="#BC6B50" stroke="#7D674D" stroke-width=".7"/>
+        <path d="M-61 1 Q-9 -9 50 0" fill="none" stroke="#B3A17C" stroke-width="2" stroke-opacity=".55"/>
+    </g></g></g>
+<g transform="translate(976 466) scale(0.77)" class="mm-tree" style="--mm-delay:-1.1s;--mm-duration:5.9s"><g class="mm-wind-group" data-wind="0.77"><g class="mm-tree-sway">
+        <path d="M0 0 Q-7 -34 3 -75 Q14 -99 10 -118 M2 -49 Q-29 -73 -35 -88 M7 -72 Q27 -91 39 -97 M-4 -25 Q-17 -44 -22 -55" stroke="#7D674D" stroke-width="4.3" fill="none" stroke-linecap="round"/>
+        <path d="M-5 -125 C-29 -142 -54 -130 -56 -110 C-82 -103 -78 -80 -56 -72 C-63 -45 -30 -44 -20 -55 C-4 -37 20 -44 26 -54 C52 -51 66 -76 51 -92 C65 -114 38 -135 17 -127 C7 -145 -11 -144 -5 -125 Z" fill="#C8CAA0" stroke="#7D674D" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M-57 -102 Q-46 -115 -38 -106 M-23 -126 Q-12 -134 -3 -126 M19 -125 Q36 -124 38 -111 M47 -92 Q57 -81 47 -71 M-35 -65 Q-29 -58 -21 -63 M4 -60 Q12 -55 20 -67" stroke="#9B9F72" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+        <path d="M-22 -115l3 -4 M-44 -92l4 1 M16 -109l-3 4 M27 -72l-5 -3 M-2 -83l3 -5 M-29 -78l-5 1" stroke="#9B9F72" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="-36" cy="-103" r="4" fill="#C87E5A" stroke="#7D674D" stroke-width="1"/><circle cx="18" cy="-91" r="4.2" fill="#C47655" stroke="#7D674D" stroke-width="1"/><circle cx="-8" cy="-74" r="3.3" fill="#CB8A64" stroke="#7D674D" stroke-width=".8"/><circle cx="29" cy="-111" r="3" fill="#BC6B50" stroke="#7D674D" stroke-width=".7"/>
+        <path d="M-61 1 Q-9 -9 50 0" fill="none" stroke="#B3A17C" stroke-width="2" stroke-opacity=".55"/>
+    </g></g></g>
+<g transform="translate(1261 405) scale(0.94)" class="mm-tree" style="--mm-delay:-3.3s;--mm-duration:5.0s"><g class="mm-wind-group" data-wind="0.60"><g class="mm-tree-sway">
+        <path d="M0 0 Q-7 -34 3 -75 Q14 -99 10 -118 M2 -49 Q-29 -73 -35 -88 M7 -72 Q27 -91 39 -97 M-4 -25 Q-17 -44 -22 -55" stroke="#7D674D" stroke-width="4.3" fill="none" stroke-linecap="round"/>
+        <path d="M-5 -125 C-29 -142 -54 -130 -56 -110 C-82 -103 -78 -80 -56 -72 C-63 -45 -30 -44 -20 -55 C-4 -37 20 -44 26 -54 C52 -51 66 -76 51 -92 C65 -114 38 -135 17 -127 C7 -145 -11 -144 -5 -125 Z" fill="#C0C99E" stroke="#7D674D" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M-57 -102 Q-46 -115 -38 -106 M-23 -126 Q-12 -134 -3 -126 M19 -125 Q36 -124 38 -111 M47 -92 Q57 -81 47 -71 M-35 -65 Q-29 -58 -21 -63 M4 -60 Q12 -55 20 -67" stroke="#9B9770" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+        <path d="M-22 -115l3 -4 M-44 -92l4 1 M16 -109l-3 4 M27 -72l-5 -3 M-2 -83l3 -5 M-29 -78l-5 1" stroke="#9B9770" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="-36" cy="-103" r="4" fill="#C87E5A" stroke="#7D674D" stroke-width="1"/><circle cx="18" cy="-91" r="4.2" fill="#C47655" stroke="#7D674D" stroke-width="1"/><circle cx="-8" cy="-74" r="3.3" fill="#CB8A64" stroke="#7D674D" stroke-width=".8"/><circle cx="29" cy="-111" r="3" fill="#BC6B50" stroke="#7D674D" stroke-width=".7"/>
+        <path d="M-61 1 Q-9 -9 50 0" fill="none" stroke="#B3A17C" stroke-width="2" stroke-opacity=".55"/>
+    </g></g></g>
+<g transform="translate(1332 412) scale(1.09)" class="mm-tree" style="--mm-delay:-0.0s;--mm-duration:5.0s"><g class="mm-wind-group" data-wind="0.60"><g class="mm-tree-sway">
+        <path d="M0 0 Q-7 -34 3 -75 Q14 -99 10 -118 M2 -49 Q-29 -73 -35 -88 M7 -72 Q27 -91 39 -97 M-4 -25 Q-17 -44 -22 -55" stroke="#7D674D" stroke-width="4.3" fill="none" stroke-linecap="round"/>
+        <path d="M-5 -125 C-29 -142 -54 -130 -56 -110 C-82 -103 -78 -80 -56 -72 C-63 -45 -30 -44 -20 -55 C-4 -37 20 -44 26 -54 C52 -51 66 -76 51 -92 C65 -114 38 -135 17 -127 C7 -145 -11 -144 -5 -125 Z" fill="#D6D5A9" stroke="#7D674D" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M-57 -102 Q-46 -115 -38 -106 M-23 -126 Q-12 -134 -3 -126 M19 -125 Q36 -124 38 -111 M47 -92 Q57 -81 47 -71 M-35 -65 Q-29 -58 -21 -63 M4 -60 Q12 -55 20 -67" stroke="#A9A87C" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+        <path d="M-22 -115l3 -4 M-44 -92l4 1 M16 -109l-3 4 M27 -72l-5 -3 M-2 -83l3 -5 M-29 -78l-5 1" stroke="#A9A87C" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="-36" cy="-103" r="4" fill="#C87E5A" stroke="#7D674D" stroke-width="1"/><circle cx="18" cy="-91" r="4.2" fill="#C47655" stroke="#7D674D" stroke-width="1"/><circle cx="-8" cy="-74" r="3.3" fill="#CB8A64" stroke="#7D674D" stroke-width=".8"/><circle cx="29" cy="-111" r="3" fill="#BC6B50" stroke="#7D674D" stroke-width=".7"/>
+        <path d="M-61 1 Q-9 -9 50 0" fill="none" stroke="#B3A17C" stroke-width="2" stroke-opacity=".55"/>
+    </g></g></g>
+<g transform="translate(1409 422) scale(0.95)" class="mm-tree" style="--mm-delay:-2.2s;--mm-duration:6.8s"><g class="mm-wind-group" data-wind="0.94"><g class="mm-tree-sway">
+        <path d="M0 0 Q-7 -34 3 -75 Q14 -99 10 -118 M2 -49 Q-29 -73 -35 -88 M7 -72 Q27 -91 39 -97 M-4 -25 Q-17 -44 -22 -55" stroke="#7D674D" stroke-width="4.3" fill="none" stroke-linecap="round"/>
+        <path d="M-5 -125 C-29 -142 -54 -130 -56 -110 C-82 -103 -78 -80 -56 -72 C-63 -45 -30 -44 -20 -55 C-4 -37 20 -44 26 -54 C52 -51 66 -76 51 -92 C65 -114 38 -135 17 -127 C7 -145 -11 -144 -5 -125 Z" fill="#D2C99D" stroke="#7D674D" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M-57 -102 Q-46 -115 -38 -106 M-23 -126 Q-12 -134 -3 -126 M19 -125 Q36 -124 38 -111 M47 -92 Q57 -81 47 -71 M-35 -65 Q-29 -58 -21 -63 M4 -60 Q12 -55 20 -67" stroke="#9DA679" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+        <path d="M-22 -115l3 -4 M-44 -92l4 1 M16 -109l-3 4 M27 -72l-5 -3 M-2 -83l3 -5 M-29 -78l-5 1" stroke="#9DA679" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="-36" cy="-103" r="4" fill="#C87E5A" stroke="#7D674D" stroke-width="1"/><circle cx="18" cy="-91" r="4.2" fill="#C47655" stroke="#7D674D" stroke-width="1"/><circle cx="-8" cy="-74" r="3.3" fill="#CB8A64" stroke="#7D674D" stroke-width=".8"/><circle cx="29" cy="-111" r="3" fill="#BC6B50" stroke="#7D674D" stroke-width=".7"/>
+        <path d="M-61 1 Q-9 -9 50 0" fill="none" stroke="#B3A17C" stroke-width="2" stroke-opacity=".55"/>
+    </g></g></g>
+</g>
+<g class="mm-depth" data-depth=".57" fill="#857C5C" opacity=".70">
+<ellipse cx="1266.0" cy="639.3" rx="2.2" ry="3.3" transform="rotate(0 1266.0 639.3)"/>
+<ellipse cx="995.8" cy="433.5" rx="1.3" ry="0.9" transform="rotate(9 995.8 433.5)"/>
+<ellipse cx="844.1" cy="606.8" rx="1.2" ry="0.8" transform="rotate(18 844.1 606.8)"/>
+<ellipse cx="813.2" cy="420.5" rx="2.0" ry="3.0" transform="rotate(27 813.2 420.5)"/>
+<ellipse cx="997.7" cy="601.9" rx="2.1" ry="1.4" transform="rotate(36 997.7 601.9)"/>
+<ellipse cx="1329.1" cy="464.9" rx="2.1" ry="1.4" transform="rotate(45 1329.1 464.9)"/>
+<ellipse cx="1158.3" cy="615.2" rx="1.7" ry="2.5" transform="rotate(54 1158.3 615.2)"/>
+<ellipse cx="1161.5" cy="568.5" rx="1.1" ry="0.7" transform="rotate(63 1161.5 568.5)"/>
+<ellipse cx="742.0" cy="557.9" rx="2.0" ry="1.4" transform="rotate(0 742.0 557.9)"/>
+<ellipse cx="1386.5" cy="494.0" rx="1.3" ry="2.0" transform="rotate(9 1386.5 494.0)"/>
+<ellipse cx="1154.7" cy="534.4" rx="1.9" ry="1.3" transform="rotate(18 1154.7 534.4)"/>
+<ellipse cx="1106.6" cy="398.1" rx="1.8" ry="1.2" transform="rotate(27 1106.6 398.1)"/>
+<ellipse cx="1293.8" cy="623.3" rx="2.0" ry="3.0" transform="rotate(36 1293.8 623.3)"/>
+<ellipse cx="883.8" cy="492.3" rx="0.9" ry="0.6" transform="rotate(45 883.8 492.3)"/>
+<ellipse cx="843.9" cy="613.2" rx="1.5" ry="1.0" transform="rotate(54 843.9 613.2)"/>
+<ellipse cx="1288.1" cy="584.9" rx="2.1" ry="3.1" transform="rotate(63 1288.1 584.9)"/>
+<ellipse cx="1325.7" cy="426.1" rx="0.9" ry="0.6" transform="rotate(0 1325.7 426.1)"/>
+<ellipse cx="1377.0" cy="549.6" rx="1.6" ry="1.1" transform="rotate(9 1377.0 549.6)"/>
+<ellipse cx="962.9" cy="563.0" rx="1.5" ry="2.2" transform="rotate(18 962.9 563.0)"/>
+<ellipse cx="768.8" cy="592.5" rx="0.8" ry="0.5" transform="rotate(27 768.8 592.5)"/>
+<ellipse cx="1062.4" cy="386.9" rx="2.2" ry="1.5" transform="rotate(36 1062.4 386.9)"/>
+<ellipse cx="1069.0" cy="577.1" rx="1.8" ry="2.7" transform="rotate(45 1069.0 577.1)"/>
+<ellipse cx="1196.6" cy="520.0" rx="1.8" ry="1.2" transform="rotate(54 1196.6 520.0)"/>
+<ellipse cx="1367.9" cy="530.2" rx="0.7" ry="1.1" transform="rotate(0 1367.9 530.2)"/>
+<ellipse cx="1243.5" cy="508.1" rx="1.3" ry="0.9" transform="rotate(9 1243.5 508.1)"/>
+<ellipse cx="797.0" cy="515.1" rx="2.2" ry="1.5" transform="rotate(18 797.0 515.1)"/>
+<ellipse cx="1223.9" cy="516.0" rx="2.2" ry="3.2" transform="rotate(27 1223.9 516.0)"/>
+<ellipse cx="980.8" cy="461.7" rx="1.7" ry="1.2" transform="rotate(36 980.8 461.7)"/>
+<ellipse cx="1291.5" cy="600.5" rx="1.6" ry="1.1" transform="rotate(45 1291.5 600.5)"/>
+<ellipse cx="838.0" cy="456.5" rx="1.8" ry="2.6" transform="rotate(54 838.0 456.5)"/>
+<ellipse cx="1003.8" cy="490.8" rx="1.6" ry="1.1" transform="rotate(0 1003.8 490.8)"/>
+<ellipse cx="852.1" cy="499.7" rx="1.7" ry="2.5" transform="rotate(9 852.1 499.7)"/>
+<ellipse cx="912.7" cy="552.9" rx="1.6" ry="1.1" transform="rotate(18 912.7 552.9)"/>
+<ellipse cx="855.4" cy="444.8" rx="1.6" ry="1.1" transform="rotate(27 855.4 444.8)"/>
+<ellipse cx="971.1" cy="489.3" rx="1.9" ry="2.9" transform="rotate(36 971.1 489.3)"/>
+<ellipse cx="1114.0" cy="557.0" rx="0.8" ry="0.6" transform="rotate(45 1114.0 557.0)"/>
+<ellipse cx="1011.1" cy="385.5" rx="2.2" ry="1.5" transform="rotate(54 1011.1 385.5)"/>
+<ellipse cx="902.4" cy="588.8" rx="1.7" ry="2.6" transform="rotate(63 902.4 588.8)"/>
+<ellipse cx="1227.9" cy="448.1" rx="1.1" ry="0.8" transform="rotate(0 1227.9 448.1)"/>
+<ellipse cx="1151.5" cy="517.2" rx="2.0" ry="1.4" transform="rotate(9 1151.5 517.2)"/>
+<ellipse cx="991.8" cy="463.6" rx="1.1" ry="1.6" transform="rotate(18 991.8 463.6)"/>
+<ellipse cx="734.3" cy="547.8" rx="1.6" ry="1.1" transform="rotate(27 734.3 547.8)"/>
+<ellipse cx="968.2" cy="547.7" rx="0.8" ry="0.5" transform="rotate(36 968.2 547.7)"/>
+<ellipse cx="904.1" cy="622.7" rx="1.6" ry="2.4" transform="rotate(45 904.1 622.7)"/>
+<ellipse cx="1267.5" cy="491.3" rx="1.1" ry="0.7" transform="rotate(54 1267.5 491.3)"/>
+<ellipse cx="1334.4" cy="529.2" rx="1.4" ry="1.0" transform="rotate(63 1334.4 529.2)"/>
+<ellipse cx="1111.8" cy="625.7" rx="1.8" ry="2.7" transform="rotate(0 1111.8 625.7)"/>
+<ellipse cx="1351.8" cy="482.1" rx="1.1" ry="0.7" transform="rotate(9 1351.8 482.1)"/>
+<ellipse cx="1267.1" cy="623.6" rx="0.7" ry="0.5" transform="rotate(18 1267.1 623.6)"/>
+<ellipse cx="1245.7" cy="534.1" rx="0.8" ry="1.2" transform="rotate(27 1245.7 534.1)"/>
+<ellipse cx="1222.8" cy="437.2" rx="2.0" ry="1.4" transform="rotate(36 1222.8 437.2)"/>
+<ellipse cx="1159.7" cy="632.6" rx="0.9" ry="0.6" transform="rotate(45 1159.7 632.6)"/>
+<ellipse cx="872.4" cy="404.9" rx="2.0" ry="3.1" transform="rotate(54 872.4 404.9)"/>
+<ellipse cx="975.2" cy="557.4" rx="1.1" ry="0.8" transform="rotate(63 975.2 557.4)"/>
+<ellipse cx="1068.3" cy="558.1" rx="1.3" ry="0.9" transform="rotate(0 1068.3 558.1)"/>
+<ellipse cx="864.7" cy="568.0" rx="1.2" ry="1.8" transform="rotate(9 864.7 568.0)"/>
+<ellipse cx="956.4" cy="522.9" rx="1.1" ry="0.7" transform="rotate(18 956.4 522.9)"/>
+<ellipse cx="838.2" cy="572.7" rx="2.1" ry="1.4" transform="rotate(27 838.2 572.7)"/>
+<ellipse cx="1170.4" cy="584.2" rx="0.9" ry="1.3" transform="rotate(36 1170.4 584.2)"/>
+<ellipse cx="1323.5" cy="478.5" rx="1.0" ry="0.7" transform="rotate(45 1323.5 478.5)"/>
+<ellipse cx="812.9" cy="433.0" rx="1.1" ry="0.8" transform="rotate(54 812.9 433.0)"/>
+<ellipse cx="1081.7" cy="582.4" rx="1.9" ry="2.8" transform="rotate(63 1081.7 582.4)"/>
+<ellipse cx="1032.6" cy="397.7" rx="1.3" ry="0.9" transform="rotate(0 1032.6 397.7)"/>
+<ellipse cx="1121.6" cy="546.0" rx="1.7" ry="1.1" transform="rotate(9 1121.6 546.0)"/>
+<ellipse cx="1052.7" cy="426.6" rx="1.3" ry="2.0" transform="rotate(18 1052.7 426.6)"/>
+<ellipse cx="1024.1" cy="620.7" rx="2.2" ry="1.5" transform="rotate(27 1024.1 620.7)"/>
+<ellipse cx="983.9" cy="393.9" rx="1.7" ry="1.2" transform="rotate(36 983.9 393.9)"/>
+<ellipse cx="971.5" cy="623.3" rx="2.1" ry="3.1" transform="rotate(45 971.5 623.3)"/>
+<ellipse cx="944.5" cy="430.5" rx="2.1" ry="1.4" transform="rotate(54 944.5 430.5)"/>
+<ellipse cx="976.3" cy="443.8" rx="0.9" ry="0.6" transform="rotate(63 976.3 443.8)"/>
+<ellipse cx="1013.7" cy="449.4" rx="1.2" ry="1.9" transform="rotate(0 1013.7 449.4)"/>
+<ellipse cx="806.3" cy="641.7" rx="1.3" ry="0.9" transform="rotate(18 806.3 641.7)"/>
+<ellipse cx="1325.6" cy="612.4" rx="0.8" ry="1.3" transform="rotate(27 1325.6 612.4)"/>
+<ellipse cx="1096.4" cy="415.4" rx="1.4" ry="0.9" transform="rotate(36 1096.4 415.4)"/>
+<ellipse cx="807.1" cy="542.2" rx="0.7" ry="0.5" transform="rotate(45 807.1 542.2)"/>
+<ellipse cx="869.8" cy="409.2" rx="1.2" ry="1.9" transform="rotate(54 869.8 409.2)"/>
+<ellipse cx="796.3" cy="494.5" rx="2.0" ry="1.3" transform="rotate(63 796.3 494.5)"/>
+<ellipse cx="861.3" cy="628.8" rx="1.8" ry="1.2" transform="rotate(0 861.3 628.8)"/>
+<ellipse cx="852.0" cy="551.3" rx="1.1" ry="1.6" transform="rotate(9 852.0 551.3)"/>
+<ellipse cx="1378.1" cy="423.5" rx="2.0" ry="1.4" transform="rotate(18 1378.1 423.5)"/>
+<ellipse cx="1306.2" cy="416.1" rx="1.5" ry="1.0" transform="rotate(27 1306.2 416.1)"/>
+<ellipse cx="1137.7" cy="502.2" rx="2.2" ry="3.3" transform="rotate(36 1137.7 502.2)"/>
+</g>
+<g class="mm-depth" data-depth=".69">
+ <path d="M-30 558 Q160 530 335 561 Q505 587 664 581 Q775 560 860 571 Q955 560 1105 532 Q1224 511 1389 488 L1398 791 L-30 790Z" fill="#F6EAD1" fill-opacity=".59"/>
+ <path d="M-20 600 Q190 586 318 622 Q460 655 591 650 Q765 636 850 621 L853 800 L-20 800Z" fill="#F0E0BC" fill-opacity=".46"/>
+ <!-- Winding road: the soft geometry and ink outline use the same geometry. -->
+ <path class="mm-road" d="M1379 477 C1288 482 1180 519 1160 568 C1149 612 1170 646 1103 685 C1041 720 958 741 887 792 L1379 795Z" fill="#EBDAB6" fill-opacity=".78" stroke="#BBAB88" stroke-opacity=".65" stroke-width="1.2"/>
+ <path d="M1377 491 Q1201 516 1177 582 Q1151 636 1109 663 Q1042 710 926 771" fill="none" stroke="#988D76" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="11 15"/>
+ <path d="M1383 535 Q1245 556 1224 617 Q1194 676 1137 716" fill="none" stroke="#B1A082" stroke-opacity=".35" stroke-width="1"/>
+</g>
+<g class="mm-depth mm-fence" data-depth=".81">
+ <path d="M796 725 C869 706 942 685 1018 663 C1116 633 1142 563 1208 540 C1252 523 1314 499 1383 485" fill="none" stroke="#72563C" stroke-width="6" stroke-linecap="round"/>
+ <path class="mm-fence-line" d="M796 725 C869 706 942 685 1018 663 C1116 633 1142 563 1208 540 C1252 523 1314 499 1383 485" fill="none" stroke="#C6A886" stroke-width="3" stroke-linecap="round"/>
+ <path d="M801 756 C876 738 951 713 1028 689 C1127 658 1151 593 1219 570 C1262 551 1324 531 1392 513" fill="none" stroke="#765A40" stroke-width="5" stroke-linecap="round"/>
+ <path class="mm-fence-line" d="M801 756 C876 738 951 713 1028 689 C1127 658 1151 593 1219 570 C1262 551 1324 531 1392 513" fill="none" stroke="#C5AA87" stroke-width="2.5" stroke-linecap="round"/>
+
+<g class="mm-fence-post" style="--mm-delay:0.00s" transform="translate(810 739) rotate(-6)"><path d="M-5 -38L4 -42 L7 34L-4 37Z" fill="#9E7654" stroke="#5C4736" stroke-width="1.5"/><path d="M-3 -35 L1 -37 L4 33 L-2 34Z" fill="#CCAB84" opacity=".65"/></g>
+<g class="mm-fence-post" style="--mm-delay:0.10s" transform="translate(904 715) rotate(-5)"><path d="M-5 -38L4 -42 L7 34L-4 37Z" fill="#9E7654" stroke="#5C4736" stroke-width="1.5"/><path d="M-3 -35 L1 -37 L4 33 L-2 34Z" fill="#CCAB84" opacity=".65"/></g>
+<g class="mm-fence-post" style="--mm-delay:0.20s" transform="translate(1000 689) rotate(-3)"><path d="M-5 -38L4 -42 L7 34L-4 37Z" fill="#9E7654" stroke="#5C4736" stroke-width="1.5"/><path d="M-3 -35 L1 -37 L4 33 L-2 34Z" fill="#CCAB84" opacity=".65"/></g>
+<g class="mm-fence-post" style="--mm-delay:0.30s" transform="translate(1092 644) rotate(6)"><path d="M-5 -38L4 -42 L7 34L-4 37Z" fill="#9E7654" stroke="#5C4736" stroke-width="1.5"/><path d="M-3 -35 L1 -37 L4 33 L-2 34Z" fill="#CCAB84" opacity=".65"/></g>
+<g class="mm-fence-post" style="--mm-delay:0.40s" transform="translate(1139 587) rotate(9)"><path d="M-5 -38L4 -42 L7 34L-4 37Z" fill="#9E7654" stroke="#5C4736" stroke-width="1.5"/><path d="M-3 -35 L1 -37 L4 33 L-2 34Z" fill="#CCAB84" opacity=".65"/></g>
+<g class="mm-fence-post" style="--mm-delay:0.50s" transform="translate(1196 551) rotate(5)"><path d="M-5 -38L4 -42 L7 34L-4 37Z" fill="#9E7654" stroke="#5C4736" stroke-width="1.5"/><path d="M-3 -35 L1 -37 L4 33 L-2 34Z" fill="#CCAB84" opacity=".65"/></g>
+<g class="mm-fence-post" style="--mm-delay:0.60s" transform="translate(1266 532) rotate(0)"><path d="M-5 -38L4 -42 L7 34L-4 37Z" fill="#9E7654" stroke="#5C4736" stroke-width="1.5"/><path d="M-3 -35 L1 -37 L4 33 L-2 34Z" fill="#CCAB84" opacity=".65"/></g>
+<g class="mm-fence-post" style="--mm-delay:0.70s" transform="translate(1331 511) rotate(-4)"><path d="M-5 -38L4 -42 L7 34L-4 37Z" fill="#9E7654" stroke="#5C4736" stroke-width="1.5"/><path d="M-3 -35 L1 -37 L4 33 L-2 34Z" fill="#CCAB84" opacity=".65"/></g>
+<g class="mm-fence-post" style="--mm-delay:0.80s" transform="translate(1392 497) rotate(-6)"><path d="M-5 -38L4 -42 L7 34L-4 37Z" fill="#9E7654" stroke="#5C4736" stroke-width="1.5"/><path d="M-3 -35 L1 -37 L4 33 L-2 34Z" fill="#CCAB84" opacity=".65"/></g>
+</g>
+<g class="mm-depth" data-depth=".76">
+<g transform="translate(775 448) scale(0.85)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#77745A" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1030 551) scale(0.72)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#898267" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1049 545) scale(0.63)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#6F7563" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1093 560) scale(0.75)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#898267" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1184 386) scale(0.64)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#77745A" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1150 390) scale(0.6)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#6F7563" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1018 539) scale(0.7)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#77745A" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1290 610) scale(0.65)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#898267" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(716 377) scale(0.58)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#77745A" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(751 396) scale(0.54)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#6F7563" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1076 377) scale(0.67)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#898267" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1187 576) scale(0.56)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#77745A" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(872 516) scale(0.45)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#77745A" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1023 489) scale(0.35)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#6F7563" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(906 604) scale(0.55)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#77745A" stroke-width="1.65" stroke-linecap="round"/></g>
+<g transform="translate(1282 580) scale(0.6)" class="mm-tuft mm-wind-group" data-wind="1.3"><path d="M0 0q-7 -7 -10 -18 M0 0q-2 -12 0 -23 M0 0q10 -11 11 -18 M0 0q7 -2 13 -4" fill="none" stroke="#898267" stroke-width="1.65" stroke-linecap="round"/></g>
+</g>
+<g class="mm-depth" data-depth=".82">
+<path d="M967.0 536.0q-2.1 -12.6 9.5 -13.7q5.2 -14.7 14.7 -8.4q12.6 -16.8 23.1 -3.2q21.0 -3.2 22.1 13.7Z" fill="#B8B38C" stroke="#817A57" stroke-width="1.2"/>
+<path d="M1027.6 561.0q-1.6 -9.8 7.4 -10.7q4.1 -11.5 11.5 -6.6q9.8 -13.1 18.0 -2.5q16.4 -2.5 17.2 10.7Z" fill="#B8B38C" stroke="#817A57" stroke-width="1.2"/>
+<path d="M1265.0 625.0q-1.3 -7.8 5.9 -8.5q3.2 -9.1 9.1 -5.2q7.8 -10.4 14.3 -2.0q13.0 -2.0 13.7 8.5Z" fill="#B8B38C" stroke="#817A57" stroke-width="1.2"/>
+<g fill="none" stroke="#6E664C" stroke-width="1.5" stroke-linecap="round">
+<path d="M810 493 q-6 -7 -6 -15 M810 493 q2 -9 8 -13"/>
+<path d="M942 466 q-6 -7 -6 -15 M942 466 q2 -9 8 -13"/>
+<path d="M1037 474 q-6 -7 -6 -15 M1037 474 q2 -9 8 -13"/>
+<path d="M1087 469 q-6 -7 -6 -15 M1087 469 q2 -9 8 -13"/>
+<path d="M1128 459 q-6 -7 -6 -15 M1128 459 q2 -9 8 -13"/>
+<path d="M1311 548 q-6 -7 -6 -15 M1311 548 q2 -9 8 -13"/>
+</g></g>
+<g class="mm-depth" data-depth="1">
+<g transform="translate(3 813) rotate(-18) scale(1.4)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -105" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#9E9F6D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#9E9F6D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#9E9F6D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#9E9F6D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#9E9F6D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#9E9F6D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#9E9F6D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#9E9F6D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#9E9F6D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#9E9F6D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(39 800) rotate(22) scale(0.85)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -89" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#D09D80" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#D09D80" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#D09D80" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#D09D80" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#D09D80" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#D09D80" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#D09D80" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#D09D80" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(111 814) rotate(-8) scale(0.6)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -105" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#C78565" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#C78565" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#C78565" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#C78565" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#C78565" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#C78565" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#C78565" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#C78565" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#C78565" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#C78565" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(505 826) rotate(-3) scale(1.08)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -105" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#8F9A6F" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#8F9A6F" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#8F9A6F" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#8F9A6F" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#8F9A6F" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#8F9A6F" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#8F9A6F" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#8F9A6F" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#8F9A6F" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#8F9A6F" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(594 828) rotate(15) scale(1.4)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -121" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#A7AA77" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#A7AA77" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#A7AA77" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#A7AA77" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#A7AA77" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#A7AA77" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#A7AA77" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#A7AA77" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#A7AA77" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#A7AA77" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -85 Q-19 -95 -13 -107 Q3 -111 0 -85 Z" fill="#A7AA77" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -92 Q18 -100 14 -115 Q-4 -109 0 -92 Z" fill="#A7AA77" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(685 833) rotate(-18) scale(0.95)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -105" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#798A5E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#798A5E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#798A5E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#798A5E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#798A5E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#798A5E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#798A5E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#798A5E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#798A5E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#798A5E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(802 850) rotate(-21) scale(1.75)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -105" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#8B956D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#8B956D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#8B956D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#8B956D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#8B956D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#8B956D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#8B956D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#8B956D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#8B956D" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#8B956D" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(1256 850) rotate(-10) scale(1.15)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -105" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#A6A779" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#A6A779" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#A6A779" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#A6A779" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#A6A779" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#A6A779" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#A6A779" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#A6A779" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#A6A779" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#A6A779" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(1313 852) rotate(12) scale(1.35)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -121" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#BE9A4E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#BE9A4E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#BE9A4E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#BE9A4E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#BE9A4E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#BE9A4E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#BE9A4E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#BE9A4E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#BE9A4E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#BE9A4E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -85 Q-19 -95 -13 -107 Q3 -111 0 -85 Z" fill="#BE9A4E" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -92 Q18 -100 14 -115 Q-4 -109 0 -92 Z" fill="#BE9A4E" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(1377 813) rotate(8) scale(1.72)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -121" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#7E8A68" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#7E8A68" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#7E8A68" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#7E8A68" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#7E8A68" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#7E8A68" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#7E8A68" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#7E8A68" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#7E8A68" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#7E8A68" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -85 Q-19 -95 -13 -107 Q3 -111 0 -85 Z" fill="#7E8A68" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -92 Q18 -100 14 -115 Q-4 -109 0 -92 Z" fill="#7E8A68" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(1367 276) rotate(-20) scale(1.1)" class="mm-sprig"><g class="mm-wind-group" data-wind="1"><g class="mm-grass-sway"><path d="M0 2 Q-5 -51 0 -105" fill="none" stroke="#716D4D" stroke-width="2"/><path d="M0 -5 Q-17 -15 -11 -27 Q3 -31 0 -5 Z" fill="#93865C" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -12 Q16 -20 12 -35 Q-4 -29 0 -12 Z" fill="#93865C" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -21 Q-19 -31 -13 -43 Q3 -47 0 -21 Z" fill="#93865C" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -28 Q18 -36 14 -51 Q-4 -45 0 -28 Z" fill="#93865C" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -37 Q-17 -47 -11 -59 Q3 -63 0 -37 Z" fill="#93865C" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -44 Q16 -52 12 -67 Q-4 -61 0 -44 Z" fill="#93865C" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -53 Q-19 -63 -13 -75 Q3 -79 0 -53 Z" fill="#93865C" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -60 Q18 -68 14 -83 Q-4 -77 0 -60 Z" fill="#93865C" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -69 Q-17 -79 -11 -91 Q3 -95 0 -69 Z" fill="#93865C" fill-opacity=".64" stroke="#6A674A" stroke-width="1.6"/><path d="M0 -76 Q16 -84 12 -99 Q-4 -93 0 -76 Z" fill="#93865C" fill-opacity=".55" stroke="#6A674A" stroke-width="1.6"/></g></g></g>
+<g transform="translate(1293 666)" class="mm-grass-sway"><path d="M0 0Q-3 -22 4 -39" fill="none" stroke="#7F8063" stroke-width="1.8"/><path d="M4 -38Q-8 -50 -11 -38 Q-9 -25 4 -31 Q14 -46 19 -38 Q19 -26 5 -29Z" fill="#C78564" stroke="#966B50" stroke-width="1.1"/></g>
+<g transform="translate(1338 704)" class="mm-grass-sway"><path d="M0 0Q-3 -22 4 -39" fill="none" stroke="#7F8063" stroke-width="1.8"/><path d="M4 -38Q-8 -50 -11 -38 Q-9 -25 4 -31 Q14 -46 19 -38 Q19 -26 5 -29Z" fill="#C78564" stroke="#966B50" stroke-width="1.1"/></g>
+<g transform="translate(1198 729)" class="mm-grass-sway"><path d="M0 0Q-3 -22 4 -39" fill="none" stroke="#7F8063" stroke-width="1.8"/><path d="M4 -38Q-8 -50 -11 -38 Q-9 -25 4 -31 Q14 -46 19 -38 Q19 -26 5 -29Z" fill="#C78564" stroke="#966B50" stroke-width="1.1"/></g>
+</g>
+<rect x="0" y="0" width="1376" height="768" fill="#A08F6C" filter="url(#__MM__-paper)" opacity=".045" class="mm-paper-grain" pointer-events="none"/>
+<rect x="0" y="0" width="1376" height="768" fill="url(#__MM__-mist)" opacity=".48" pointer-events="none"/>
+</g></svg>`;
+
+const clamp = (value: number, low: number, high: number) =>
+  Math.max(low, Math.min(high, value));
+
+export default function MesaMarketLandscape({
+  className = "",
+  intensity = 1,
+  interactive = true,
+  paused = false,
+}: MesaMarketLandscapeProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const uid = useId().replace(/:/g, "");
+  const svgMarkup = useMemo(() => svgTemplate.replaceAll("__MM__", `mm${uid}`), [uid]);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    const host = root?.parentElement;
+    if (!root || !host) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const finePointer = window.matchMedia("(pointer: fine)");
+    const layers = Array.from(root.querySelectorAll<SVGGElement>(".mm-depth"));
+    const windGroups = Array.from(root.querySelectorAll<SVGGElement>(".mm-wind-group"));
+
+    let active = true;
+    let raf = 0;
+    let lastFrame = 0;
+    let prevPointerTs = 0;
+    let prevPointerX = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let windTarget = 0;
+    let windCurrent = 0;
+    let scrollY = 0;
+
+    const canMove = () => interactive && !paused && !reducedMotion.matches;
+    const updateScroll = () => {
+      const rect = host.getBoundingClientRect();
+      scrollY = clamp(-rect.top / Math.max(1, rect.height), 0, 1);
+    };
+    const onPointerMove = (ev: PointerEvent) => {
+      if (!canMove() || !finePointer.matches) return;
+      const rect = host.getBoundingClientRect();
+      targetX = clamp(((ev.clientX - rect.left) / rect.width - .5) * 2, -1, 1);
+      targetY = clamp(((ev.clientY - rect.top) / rect.height - .5) * 2, -1, 1);
+      const elapsed = Math.max(16, ev.timeStamp - prevPointerTs);
+      const speedX = prevPointerTs > 0 ? (ev.clientX - prevPointerX) / elapsed : 0;
+      windTarget = clamp(speedX * 8, -5, 5);
+      prevPointerTs = ev.timeStamp;
+      prevPointerX = ev.clientX;
+    };
+    const onPointerLeave = () => {
+      targetX = 0;
+      targetY = 0;
+      windTarget = 0;
+      prevPointerTs = 0;
+    };
+
+    const tick = (now: number) => {
+      if (!active || !canMove()) return;
+      const dt = Math.min(64, now - (lastFrame || now));
+      lastFrame = now;
+      const easePointer = 1 - Math.exp(-dt / 190);
+      const easeWind = 1 - Math.exp(-dt / 280);
+      currentX += (targetX - currentX) * easePointer;
+      currentY += (targetY - currentY) * easePointer;
+      // Wind continues briefly after a fast cursor movement, then settles.
+      windTarget *= Math.exp(-dt / 700);
+      windCurrent += (windTarget - windCurrent) * easeWind;
+      const power = clamp(intensity, 0, 2);
+
+      for (const el of layers) {
+        const depth = Number(el.dataset.depth || 0);
+        const dx = currentX * 16 * depth * power;
+        const dy = currentY * 11 * depth * power - scrollY * 13 * depth * power;
+        el.style.transform = `translate3d(${dx.toFixed(2)}px,${dy.toFixed(2)}px,0)`;
+      }
+      for (const el of windGroups) {
+        const weight = Number(el.dataset.wind || 1);
+        el.style.transform = `rotate(${(windCurrent * weight * power).toFixed(2)}deg)`;
+      }
+      raf = window.requestAnimationFrame(tick);
+    };
+    const start = () => {
+      if (!active || !canMove()) return;
+      window.cancelAnimationFrame(raf);
+      lastFrame = 0;
+      raf = window.requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      window.cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const observer = new IntersectionObserver((entries) => {
+      const isVisible = entries[0]?.isIntersecting ?? false;
+      root.dataset.visible = String(isVisible);
+      if (isVisible) { active = true; start(); }
+      else { active = false; stop(); }
+    }, { threshold: 0.01 });
+
+    root.dataset.visible = "true";
+    updateScroll();
+    observer.observe(root);
+    host.addEventListener("pointermove", onPointerMove, { passive: true });
+    host.addEventListener("pointerleave", onPointerLeave);
+    window.addEventListener("scroll", updateScroll, { passive: true });
+    window.addEventListener("resize", updateScroll, { passive: true });
+    const onMotionChange = () => {
+      stop();
+      if (!reducedMotion.matches && active) start();
+    };
+    reducedMotion.addEventListener("change", onMotionChange);
+    if (canMove()) start();
+    return () => {
+      active = false;
+      observer.disconnect();
+      stop();
+      host.removeEventListener("pointermove", onPointerMove);
+      host.removeEventListener("pointerleave", onPointerLeave);
+      window.removeEventListener("scroll", updateScroll);
+      window.removeEventListener("resize", updateScroll);
+      reducedMotion.removeEventListener("change", onMotionChange);
+    };
+  }, [intensity, interactive, paused]);
+
+  return (
+    <div
+      ref={rootRef}
+      className={`mm-landscape ${className}`.trim()}
+      aria-hidden="true"
+      data-paused={paused ? "true" : "false"}
+      // Safe: this is a fixed, code-authored SVG. No user or external content is inserted.
+      dangerouslySetInnerHTML={{ __html: svgMarkup }}
+    />
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(mesamarket)/mesamarket/hero/sceneBuilders.ts">
+<![CDATA[import * as THREE from 'three';
+import { CRATE_SPEC, type ProduceId } from './basketState';
+import {
+  createWoodPlankTexture,
+  type AlphaMaskTexture,
+  type AnnotationTextures,
+  type ProduceTextureSet,
+} from './artworkTextures';
+
+const INK_HEX = 0x231b15;
+
+export function createReliefCardGeometry(
+  width: number,
+  height: number,
+  bulgeZ = 0.13,
+  segs = 12
+): THREE.PlaneGeometry {
+  const geo = new THREE.PlaneGeometry(width, height, segs, segs);
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const y = pos.getY(i);
+    const nx = x / (width * 0.5);
+    const ny = y / (height * 0.5);
+    const dome =
+      Math.cos(Math.min(1, Math.abs(nx)) * Math.PI * 0.5) *
+      Math.cos(Math.min(1, Math.abs(ny)) * Math.PI * 0.5);
+    pos.setZ(i, dome * bulgeZ);
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+  return geo;
+}
+
+function createSlattedPlankWithHandleGeometry(
+  width: number,
+  height: number,
+  depth: number
+): THREE.ExtrudeGeometry {
+  const hw = width * 0.5;
+  const hh = height * 0.5;
+
+  const shape = new THREE.Shape();
+  shape.moveTo(-hw, -hh);
+  shape.lineTo(hw, -hh);
+  shape.lineTo(hw, hh);
+  shape.lineTo(-hw, hh);
+  shape.closePath();
+
+  // Stadium / oval handle hole matching reference images
+  const holeHalfSpan = width * 0.17;
+  const holeRadius = height * 0.21;
+  const hole = new THREE.Path();
+  hole.absarc(holeHalfSpan, 0, holeRadius, -Math.PI * 0.5, Math.PI * 0.5, false);
+  hole.absarc(-holeHalfSpan, 0, holeRadius, Math.PI * 0.5, Math.PI * 1.5, false);
+  hole.closePath();
+  shape.holes.push(hole);
+
+  const geo = new THREE.ExtrudeGeometry(shape, {
+    depth,
+    bevelEnabled: false,
+    curveSegments: 20,
+  });
+  geo.translate(0, 0, -depth * 0.5);
+
+  // Normalize UVs into [0..1] across plank width & height
+  const uv = geo.attributes.uv;
+  const pos = geo.attributes.position;
+  for (let i = 0; i < uv.count; i++) {
+    const px = pos.getX(i);
+    const py = pos.getY(i);
+    uv.setXY(i, (px + hw) / width, (py + hh) / height);
+  }
+  uv.needsUpdate = true;
+  geo.computeVertexNormals();
+  return geo;
+}
+
+function addInkEdges(mesh: THREE.Mesh, thresholdAngle = 24) {
+  const edgesGeo = new THREE.EdgesGeometry(mesh.geometry, thresholdAngle);
+  const lineMat = new THREE.LineBasicMaterial({
+    color: INK_HEX,
+    transparent: true,
+    opacity: 0.92,
+  });
+  const lines = new THREE.LineSegments(edgesGeo, lineMat);
+  mesh.add(lines);
+}
+
+export function buildWoodenCrateGroup(maxAnisotropy: number): THREE.Group {
+  const crateGroup = new THREE.Group();
+  crateGroup.position.set(
+    CRATE_SPEC.center[0],
+    CRATE_SPEC.center[1],
+    CRATE_SPEC.center[2]
+  );
+  crateGroup.rotation.y = CRATE_SPEC.rotationY;
+
+  const { lengthX, widthZ, heightY, plankThickness } = CRATE_SPEC;
+
+  const texHoneyLeft = createWoodPlankTexture('honey-left', maxAnisotropy, true);
+  const texAmberRight = createWoodPlankTexture('amber-right', maxAnisotropy, true);
+  const texTanInner = createWoodPlankTexture('tan-inner', maxAnisotropy, false);
+  const texEspresso = createWoodPlankTexture('espresso-dark', maxAnisotropy, false);
+  const texPost = createWoodPlankTexture('post-ochre', maxAnisotropy, false);
+
+  const matHoneyLeft = new THREE.MeshStandardMaterial({
+    map: texHoneyLeft,
+    color: 0xffffff,
+    roughness: 0.85,
+    metalness: 0.02,
+  });
+  const matAmberRight = new THREE.MeshStandardMaterial({
+    map: texAmberRight,
+    color: 0xffffff,
+    roughness: 0.86,
+    metalness: 0.02,
+  });
+  const matTanInner = new THREE.MeshStandardMaterial({
+    map: texTanInner,
+    color: 0xffffff,
+    roughness: 0.86,
+    metalness: 0.02,
+  });
+  const matEspresso = new THREE.MeshStandardMaterial({
+    map: texEspresso,
+    color: 0xffffff,
+    roughness: 0.92,
+    metalness: 0.01,
+  });
+  const matPost = new THREE.MeshStandardMaterial({
+    map: texPost,
+    color: 0xffffff,
+    roughness: 0.88,
+    metalness: 0.02,
+  });
+
+  // 1. Warm angled ground cast shadow extending right-back (matching reference image)
+  const shadowShape = new THREE.Shape();
+  shadowShape.moveTo(-lengthX * 0.45, -widthZ * 0.48);
+  shadowShape.lineTo(lengthX * 0.52, -widthZ * 0.48);
+  shadowShape.lineTo(lengthX * 0.78, widthZ * 0.34);
+  shadowShape.lineTo(lengthX * 0.5, widthZ * 0.56);
+  shadowShape.lineTo(-lengthX * 0.48, widthZ * 0.48);
+  shadowShape.closePath();
+
+  const shadowGeo = new THREE.ShapeGeometry(shadowShape);
+  shadowGeo.rotateX(-Math.PI * 0.5);
+  const shadowMat = new THREE.MeshBasicMaterial({
+    color: 0xdfd1b8,
+    transparent: true,
+    opacity: 0.88,
+    depthWrite: false,
+  });
+  const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+  shadowMesh.position.set(0.12, -heightY * 0.5 - 0.03, 0.08);
+  crateGroup.add(shadowMesh);
+
+  // 2. Dark roasted-espresso interior floor
+  const floorGeo = new THREE.BoxGeometry(
+    lengthX - plankThickness * 1.4,
+    0.09,
+    widthZ - plankThickness * 1.4
+  );
+  const floorMesh = new THREE.Mesh(floorGeo, matEspresso);
+  floorMesh.position.set(0, -heightY * 0.5 + 0.05, 0);
+  addInkEdges(floorMesh);
+  crateGroup.add(floorMesh);
+
+  // 3. Four vertical interior corner posts (prominent back corner post visible when empty)
+  const postW = 0.21;
+  const postGeo = new THREE.BoxGeometry(postW, heightY - 0.04, postW);
+  const pxOff = lengthX * 0.5 - plankThickness - postW * 0.5 + 0.01;
+  const pzOff = widthZ * 0.5 - plankThickness - postW * 0.5 + 0.01;
+  const postCoords: Array<[number, number]> = [
+    [pxOff, -pzOff], // Top-back corner B (clearly visible when empty)
+    [-pxOff, -pzOff],
+    [pxOff, pzOff],
+    [-pxOff, pzOff],
+  ];
+  for (const [cx, cz] of postCoords) {
+    const post = new THREE.Mesh(postGeo, matPost);
+    post.position.set(cx, 0, cz);
+    addInkEdges(post);
+    crateGroup.add(post);
+  }
+
+  // 4. Three horizontal slats per wall
+  const slatH = 0.495;
+  const slatYs = [-0.555, 0, 0.555];
+
+  const innerShortSpan = widthZ - plankThickness * 1.96;
+  const longBoxGeo = new THREE.BoxGeometry(lengthX, slatH, plankThickness);
+  const shortBoxGeo = new THREE.BoxGeometry(innerShortSpan, slatH, plankThickness);
+  const handlePlankGeo = createSlattedPlankWithHandleGeometry(
+    innerShortSpan,
+    slatH,
+    plankThickness
+  );
+
+  for (let s = 0; s < slatYs.length; s++) {
+    const sy = slatYs[s];
+    const isTop = s === 2;
+
+    // Back-Left long wall (lz = -widthZ / 2): dark espresso interior face
+    const backLeftSlat = new THREE.Mesh(longBoxGeo, [
+      matPost,
+      matPost,
+      matPost,
+      matEspresso,
+      matEspresso, // +Z faces into crate interior toward camera
+      matHoneyLeft,
+    ]);
+    backLeftSlat.position.set(0, sy, -widthZ * 0.5 + plankThickness * 0.5);
+    addInkEdges(backLeftSlat);
+    crateGroup.add(backLeftSlat);
+
+    // Front-Right long wall (lz = +widthZ / 2): warm amber exterior face
+    const frontRightSlat = new THREE.Mesh(longBoxGeo, [
+      matAmberRight,
+      matHoneyLeft,
+      matPost,
+      matEspresso,
+      matAmberRight, // +Z faces front-right toward camera
+      matEspresso,
+    ]);
+    frontRightSlat.position.set(0, sy, widthZ * 0.5 - plankThickness * 0.5);
+    addInkEdges(frontRightSlat);
+    crateGroup.add(frontRightSlat);
+
+    // Back-Right short wall (lx = +lengthX / 2): has oval handle hole on top slat!
+    const backRightSlat = new THREE.Mesh(
+      isTop ? handlePlankGeo : shortBoxGeo,
+      isTop
+        ? [matTanInner, matPost]
+        : [matPost, matPost, matPost, matEspresso, matTanInner, matTanInner]
+    );
+    backRightSlat.rotation.y = -Math.PI * 0.5;
+    backRightSlat.position.set(lengthX * 0.5 - plankThickness * 0.5, sy, 0);
+    addInkEdges(backRightSlat);
+    crateGroup.add(backRightSlat);
+
+    // Front-Left short wall (lx = -lengthX / 2): sunlit honey oak + oval handle hole on top slat!
+    const frontLeftSlat = new THREE.Mesh(
+      isTop ? handlePlankGeo : shortBoxGeo,
+      isTop
+        ? [matHoneyLeft, matPost]
+        : [matPost, matPost, matPost, matEspresso, matHoneyLeft, matEspresso]
+    );
+    frontLeftSlat.rotation.y = -Math.PI * 0.5;
+    frontLeftSlat.position.set(-lengthX * 0.5 + plankThickness * 0.5, sy, 0);
+    addInkEdges(frontLeftSlat);
+    crateGroup.add(frontLeftSlat);
+  }
+
+  return crateGroup;
+}
+
+export function buildAnnotationsGroup(textures: AnnotationTextures): THREE.Group {
+  const group = new THREE.Group();
+
+  const makePlane = (
+    tex: THREE.CanvasTexture,
+    w: number,
+    h: number,
+    pos: [number, number, number],
+    rotZ = 0
+  ) => {
+    const geo = new THREE.PlaneGeometry(w, h);
+    const mat = new THREE.MeshBasicMaterial({
+      map: tex,
+      transparent: true,
+      alphaTest: 0.04,
+      depthWrite: false,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(pos[0], pos[1], pos[2]);
+    mesh.rotation.set(-0.22, 0, rotZ);
+    return mesh;
+  };
+
+  // IN SEASON terracotta stamp (upper-left of crate)
+  group.add(makePlane(textures.inSeasonBadge, 1.08, 0.68, [-1.48, 1.58, -0.55], -0.14));
+
+  // LOCAL olive-sage stamp (just below IN SEASON)
+  group.add(makePlane(textures.localBadge, 1.06, 0.53, [-1.64, 1.02, -0.25], 0.1));
+
+  // 100% ORGANIC mustard stamp (upper-right of crate)
+  group.add(makePlane(textures.organicBadge, 1.14, 0.72, [2.26, 1.48, -0.62], -0.15));
+
+  // Left doodle arrows & SEASONAL MICRO (cleanly separated from LOCAL & tomatoes)
+  group.add(makePlane(textures.leftDoodles, 2.7, 2.7, [-2.12, 0.24, 0.72], 0));
+
+  // Right doodle burst lines, dashed arrow & arched SEASONAL
+  group.add(makePlane(textures.rightDoodles, 2.55, 2.55, [1.84, 0.68, -0.05], 0));
+
+  return group;
+}
+
+export interface ProduceMeshUserData {
+  interactiveRole: 'source' | 'basket-instance';
+  produceId: ProduceId;
+  anchorId?: string;
+  instanceId?: string;
+  alphaMask?: AlphaMaskTexture;
+}
+
+export function buildProduceGroup(
+  produceId: ProduceId,
+  texSet: ProduceTextureSet,
+  role: 'source' | 'basket-instance',
+  options: {
+    anchorId?: string;
+    instanceId?: string;
+    variant?: 'alt';
+  } = {}
+): {
+  group: THREE.Group;
+  hitMeshes: THREE.Mesh[];
+  shadowMesh: THREE.Mesh | null;
+} {
+  const group = new THREE.Group();
+  const hitMeshes: THREE.Mesh[] = [];
+
+  const mainMask =
+    role === 'source'
+      ? options.variant === 'alt' && texSet.altSourceMain
+        ? texSet.altSourceMain
+        : texSet.sourceMain
+      : texSet.crateMain;
+
+  const accentMask =
+    role === 'source' ? texSet.sourceAccent : texSet.crateAccent;
+
+  const baseGeo = createReliefCardGeometry(1.18, 1.18, 0.14, 12);
+  const baseMat = new THREE.MeshStandardMaterial({
+    map: mainMask.texture,
+    color: 0xffffff,
+    roughness: 0.92,
+    metalness: 0.0,
+    transparent: true,
+    alphaTest: 0.08,
+    side: THREE.DoubleSide,
+  });
+
+  const mainMesh = new THREE.Mesh(baseGeo, baseMat);
+  const uData: ProduceMeshUserData = {
+    interactiveRole: role,
+    produceId,
+    anchorId: options.anchorId,
+    instanceId: options.instanceId,
+    alphaMask: mainMask,
+  };
+  mainMesh.userData = uData;
+  group.add(mainMesh);
+  hitMeshes.push(mainMesh);
+
+  // Secondary 2.5D parallax relief layer (leafy tops, vine stem, or volumetric back-relief)
+  if (accentMask) {
+    const accGeo = createReliefCardGeometry(1.18, 1.18, 0.1, 10);
+    const accMat = new THREE.MeshStandardMaterial({
+      map: accentMask.texture,
+      color: 0xffffff,
+      roughness: 0.92,
+      metalness: 0.0,
+      transparent: true,
+      alphaTest: 0.08,
+      side: THREE.DoubleSide,
+    });
+    const accMesh = new THREE.Mesh(accGeo, accMat);
+    accMesh.position.set(0, 0.02, 0.085);
+    accMesh.rotation.x = -0.06;
+    accMesh.userData = {
+      ...uData,
+      alphaMask: accentMask,
+    } satisfies ProduceMeshUserData;
+    group.add(accMesh);
+    hitMeshes.push(accMesh);
+  } else {
+    // Subtle offset depth silhouette layer so 3D turn during flight feels substantial
+    const backGeo = createReliefCardGeometry(1.13, 1.13, 0.09, 8);
+    const backMat = new THREE.MeshStandardMaterial({
+      map: mainMask.texture,
+      color: 0xeedfc8,
+      roughness: 0.95,
+      metalness: 0.0,
+      transparent: true,
+      alphaTest: 0.12,
+      side: THREE.DoubleSide,
+    });
+    const backMesh = new THREE.Mesh(backGeo, backMat);
+    backMesh.position.set(0, -0.01, -0.055);
+    group.add(backMesh);
+  }
+
+  let shadowMesh: THREE.Mesh | null = null;
+  if (role === 'source') {
+    const discGeo = new THREE.CircleGeometry(0.46, 24);
+    discGeo.rotateX(-Math.PI * 0.5);
+    const discMat = new THREE.MeshBasicMaterial({
+      color: 0xd8c8ae,
+      transparent: true,
+      opacity: 0.65,
+      depthWrite: false,
+    });
+    shadowMesh = new THREE.Mesh(discGeo, discMat);
+    shadowMesh.position.set(0.06, -0.34, -0.08);
+    shadowMesh.scale.set(1.15, 1, 0.72);
+    group.add(shadowMesh);
+  }
+
+  return { group, hitMeshes, shadowMesh };
+}
+]]>
+    </file>
     <file path="src/app/(mesamarket)/mesamarket/sections/BasketDrawer.tsx">
 <![CDATA['use client';
 
@@ -795,7 +4416,7 @@ interface BasketDrawerProps {
   onDecrement: (id: ProduceId) => void;
   onRemove: (id: ProduceId) => void;
   onClear: () => void;
-  basketPillRef: React.RefObject<HTMLButtonElement | null>;
+  basketButtonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 export const BasketDrawer: React.FC<BasketDrawerProps> = ({
@@ -808,7 +4429,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
   onDecrement,
   onRemove,
   onClear,
-  basketPillRef,
+  basketButtonRef,
 }) => {
   const drawerCloseRef = useRef<HTMLButtonElement | null>(null);
 
@@ -818,7 +4439,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
-        basketPillRef.current?.focus();
+        basketButtonRef?.current?.focus();
       }
     };
     window.addEventListener('keydown', onKeyDown);
@@ -826,7 +4447,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
       window.clearTimeout(t);
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [isOpen, onClose, basketPillRef]);
+  }, [isOpen, onClose, basketButtonRef]);
 
   if (!isOpen) return null;
 
@@ -839,7 +4460,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();
-          basketPillRef.current?.focus();
+          basketButtonRef?.current?.focus();
         }
       }}
     >
@@ -859,7 +4480,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
               type="button"
               onClick={() => {
                 onClose();
-                basketPillRef.current?.focus();
+                basketButtonRef?.current?.focus();
               }}
               className="px-3 py-1 bg-[#24211D] text-[#FDF5E7] mm-mono text-xs rounded cursor-pointer hover:bg-[#3F7047] transition-colors"
             >
@@ -971,72 +4592,365 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
 };
 ]]>
     </file>
-    <file path="src/app/(mesamarket)/mesamarket/sections/BasketPill.tsx">
-<![CDATA['use client';
-
-import React from 'react';
-
-interface BasketPillProps {
-  buttonRef: React.RefObject<HTMLButtonElement | null>;
-  totalCount: number;
-  sampleSubtotal: number;
-  onOpen: () => void;
+    <file path="src/app/(mesamarket)/mesamarket/sections/Footer.css">
+<![CDATA[/* MESA MARKET — Countryside Footer v3: transparent footer with white illustrated SVG background */
+.mmf-footer {
+  --mmf-cream: #282C25;
+  --mmf-green: #385840;
+  --mmf-accent: #D85A36;
+  --mmf-far-x: 0px; --mmf-far-y: 0px;
+  --mmf-mid-x: 0px; --mmf-mid-y: 0px;
+  --mmf-near-x: 0px; --mmf-near-y: 0px;
+  --mmf-front-x: 0px; --mmf-front-y: 0px;
+  background: transparent;
+  box-sizing: border-box;
+  color: #272820;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(68px, 7vw, 105px) clamp(24px, 5vw, 100px) 25px;
+  font-family: var(--font-outfit), 'Trebuchet MS', Arial, sans-serif;
+  border-top: 2px solid #24211D;
 }
+.mmf-footer *, .mmf-footer *::before, .mmf-footer *::after { box-sizing: border-box; }
+.mmf-footer a { color: inherit; text-decoration: none; }
+.mmf-footer button { font: inherit; cursor: pointer; }
+.mmf-footer :focus-visible { outline: 2px solid var(--mmf-accent); outline-offset: 5px; }
 
-export const BasketPill: React.FC<BasketPillProps> = ({
-  buttonRef,
-  totalCount,
-  sampleSubtotal,
-  onOpen,
-}) => {
-  return (
-    <div className="fixed bottom-4 right-4 z-40">
-      <button
-        ref={buttonRef}
-        type="button"
-        onClick={onOpen}
-        aria-label={`Open sample produce basket drawer, ${totalCount} items, subtotal $${sampleSubtotal.toFixed(2)}`}
-        className="px-5 py-3 bg-[#D94C32] text-[#FDF5E7] mm-mono text-xs font-bold uppercase rounded-full border-2 border-[#24211D] shadow-[4px_4px_0px_#24211D] hover:bg-[#b83b24] transition-colors cursor-pointer flex items-center gap-2.5"
-      >
-        <span>Crate Basket ({totalCount})</span>
-        <span className="px-2 py-0.5 bg-[#F2C94D] text-[#24211D] rounded-full">
-          ${sampleSubtotal.toFixed(2)}
-        </span>
-      </button>
-    </div>
-  );
-};
+/* The illustration is the ONLY footer backdrop; no green panel or dark wash. */
+.mmf-landscape { position: absolute; z-index: 0; inset: 0; pointer-events: none; overflow: hidden; }
+.mmf-landscape-svg { display: block; position: absolute; width: 100%; height: 100%; inset: 0; overflow: hidden; }
+
+/* Separate foreground text from background linework. */
+.mmf-bottom-grid {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: minmax(260px,2.1fr) minmax(145px,.92fr) minmax(220px,1.13fr) minmax(160px,.9fr);
+  gap: clamp(25px, 4vw, 76px);
+  max-width: 1600px; margin: 0 auto clamp(65px, 6vw, 95px);
+}
+.mmf-logo { display: inline-block; font: 800 clamp(23px,2vw,32px)/1 var(--font-fraunces), Georgia,'Times New Roman',serif; letter-spacing: -.045em; white-space: nowrap; transition: color .22s ease; }
+.mmf-logo:hover { color: #D85533; }
+.mmf-logo-mark { color: var(--mmf-accent); margin: 0 .03em; display: inline-block; animation: mmf-mark-rotate 18s linear infinite; }
+.mmf-about p { color: #66614D; font-size: 14px; margin: 13px 0 0; }
+.mmf-heading { display: block; margin-bottom: 19px; font: 10px/1.6 var(--font-space-mono), 'Courier New',monospace; letter-spacing: .18em; color: #6E654D; }
+.mmf-nav-col nav { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.mmf-nav-col nav a { font-size: 14px; display: inline-flex; gap: 6px; align-items: center; transition: color .2s ease, transform .25s ease; }
+.mmf-nav-col nav a:hover { transform: translateX(5px); color: #C64E30; }
+.mmf-nav-col nav a span { font-size: 12px; color: #AC6137; }
+.mmf-info p { font-size: 13px; line-height: 1.78; max-width: 255px; margin: 0; color: #514E43; }
+.mmf-return { text-align: right; }
+.mmf-back-top { width: 69px; height: 69px; border: 1px solid rgba(48,64,40,.40); border-radius: 50%; background: rgba(255,255,255,.74); color: #263C2B; font-size: 33px; display: inline-grid; place-items: center; transition: transform .32s cubic-bezier(.16,1,.3,1), background .22s ease, color .22s ease; }
+.mmf-back-top:hover { transform: translateY(-8px); background: #385840; color: #FFFFFF; }
+.mmf-back-top span { transition: transform .28s ease; }
+.mmf-back-top:hover span { transform: translateY(-3px); }
+
+.mmf-bottom-line { position: relative; z-index: 2; max-width: 1700px; margin: 0 auto; padding-top: 21px; border-top: 1px solid rgba(60,72,52,.23); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font: 10px/1.6 var(--font-space-mono), 'Courier New',monospace; letter-spacing: .13em; color: #625E52; }
+
+/* Animated SVG scenery */
+.mmf-plane-far { transform: translate(var(--mmf-far-x), var(--mmf-far-y)); }
+.mmf-plane-mid { transform: translate(var(--mmf-mid-x), var(--mmf-mid-y)); }
+.mmf-plane-near { transform: translate(var(--mmf-near-x), var(--mmf-near-y)); }
+.mmf-plane-front { transform: translate(var(--mmf-front-x), var(--mmf-front-y)); }
+.mmf-plane { transition: transform .12s linear; }
+.mmf-cloud { animation: mmf-cloud-drift 28s ease-in-out infinite alternate; transform-box: fill-box; }
+.mmf-cloud-b { animation-duration: 37s; animation-delay: -9s; animation-direction: alternate-reverse; }
+.mmf-light { animation: mmf-light-breathe 12s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+.mmf-sun { animation: mmf-sun-breathe 12s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+.mmf-birds { animation: mmf-bird-flight 23s linear infinite; }
+.mmf-tree-sway { transform-box: fill-box; transform-origin: center bottom; animation: mmf-tree-wind 5.3s ease-in-out infinite alternate; }
+.mmf-apple-tree-b .mmf-tree-sway { animation-delay: -2.2s; animation-duration: 7s; }
+.mmf-grass { transform-box: fill-box; transform-origin: center bottom; animation: mmf-grass-wind 4s ease-in-out infinite alternate; }
+.mmf-grass-b { animation-delay: -1.5s; animation-duration: 5.2s; }
+.mmf-grass-c { animation-delay: -2.5s; animation-duration: 3.7s; }
+.mmf-fence-stroke { stroke-dasharray: 700; stroke-dashoffset: 0; }
+.mmf-footer[data-entered="true"] .mmf-crop-rows path { animation: mmf-draw-rows 1.8s cubic-bezier(.16,1,.3,1) both; }
+.mmf-footer[data-entered="true"] .mmf-fence-stroke { animation: mmf-draw-fence 2.1s .1s ease both; }
+
+@keyframes mmf-cloud-drift { from { transform: translateX(-15px); } to { transform: translateX(25px); } }
+@keyframes mmf-light-breathe { from { opacity: .62; transform: scale(.93); } to { opacity: 1; transform: scale(1.1); } }
+@keyframes mmf-sun-breathe { from { transform: translateY(5px); } to { transform: translateY(-6px); } }
+@keyframes mmf-bird-flight { from { transform: translate(0,0); } to { transform: translate(-80px, -4px); } }
+@keyframes mmf-tree-wind { from { transform: rotate(-2deg); } to { transform: rotate(2.5deg); } }
+@keyframes mmf-grass-wind { from { transform: rotate(-4deg); } to { transform: rotate(3.7deg); } }
+@keyframes mmf-draw-rows { from { stroke-dasharray: 200; stroke-dashoffset: 200; } to { stroke-dasharray: 200; stroke-dashoffset: 0; } }
+@keyframes mmf-draw-fence { from { stroke-dashoffset: 700; } to { stroke-dashoffset: 0; } }
+@keyframes mmf-mark-rotate { to { transform: rotate(360deg); } }
+
+.mmf-footer[data-inview="false"] .mmf-cloud,
+.mmf-footer[data-inview="false"] .mmf-light,
+.mmf-footer[data-inview="false"] .mmf-sun,
+.mmf-footer[data-inview="false"] .mmf-birds,
+.mmf-footer[data-inview="false"] .mmf-tree-sway,
+.mmf-footer[data-inview="false"] .mmf-grass { animation-play-state: paused; }
+
+@media (max-width: 950px) {
+  .mmf-bottom-grid { grid-template-columns: 1.7fr 1fr 1fr; gap: 38px 26px; }
+  .mmf-return { grid-column: 3; grid-row: 2; text-align: right; }
+}
+@media (max-width: 700px) {
+  .mmf-footer { padding: 58px 22px 23px; }
+  .mmf-bottom-grid { grid-template-columns: 1fr 1fr; gap: 42px 25px; margin-bottom: 66px; }
+  .mmf-about { grid-column: 1/-1; }
+  .mmf-return { grid-column: 2; grid-row: auto; text-align: left; }
+  .mmf-landscape-svg { width: 145%; max-width: none; left: -22%; }
+  .mmf-bottom-line { gap: 9px; }
+}
+@media (max-width: 450px) {
+  .mmf-logo { font-size: 26px; }
+  .mmf-heading { font-size: 9px; }
+  .mmf-info p { font-size: 12px; }
+  .mmf-nav-col nav a { font-size: 13px; }
+  .mmf-back-top { width: 59px; height: 59px; }
+  .mmf-bottom-line { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mmf-footer *, .mmf-footer *::before, .mmf-footer *::after { animation: none !important; transition: none !important; }
+  .mmf-crop-rows path, .mmf-fence-stroke { stroke-dashoffset: 0 !important; }
+}
 ]]>
     </file>
     <file path="src/app/(mesamarket)/mesamarket/sections/Footer.tsx">
 <![CDATA['use client';
 
-import React from 'react';
+/**
+ * MESA MARKET — Living Countryside Footer (white illustrated edition)
+ * A completely code-authored light countryside rendered as the entire footer background.
+ * No CTA chapter, no bitmap images, no third-party animation dependencies.
+ * React 18+; import ./Footer.css
+ */
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
+import './Footer.css';
 
-export const Footer: React.FC = () => {
+export type MesaFooterNavItem = { label: string; href: string };
+export type MesaMarketFooterProps = {
+  className?: string;
+  navigation?: MesaFooterNavItem[];
+  interactive?: boolean;
+  harvestHref?: string;
+  basketHref?: string;
+};
+
+const defaultNavigation: MesaFooterNavItem[] = [
+  { label: 'Market shelf', href: '#mm-shelf' },
+  { label: 'Meal kits', href: '#mm-kits' },
+  { label: 'Grower strip', href: '#mm-growers' },
+  { label: 'Sample receipt', href: '#mm-checkout' },
+];
+
+/** Pure hand-authored SVG geometry. No <image>, external SVG, CSS background URL, or raster asset. */
+const landscapeSVG = String.raw`<svg class="mmf-landscape-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 610" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+<defs>
+  <linearGradient id="__MMF__-ground" x1="0" x2=".1" y1="0" y2="1"><stop stop-color="#FFFFFF"/><stop offset=".65" stop-color="#FFFFFF"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
+  <radialGradient id="__MMF__-light"><stop stop-color="#F0CD78" stop-opacity=".28"/><stop offset=".35" stop-color="#F0CD78" stop-opacity=".12"/><stop offset="1" stop-color="#F0CD78" stop-opacity="0"/></radialGradient>
+  <linearGradient id="__MMF__-hillone" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#E9DEBE" stop-opacity=".57"/><stop offset="1" stop-color="#F8F1DF" stop-opacity=".78"/></linearGradient>
+  <linearGradient id="__MMF__-hilltwo" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#E5E7CB" stop-opacity=".6"/><stop offset="1" stop-color="#F0E8D0" stop-opacity=".73"/></linearGradient>
+  <linearGradient id="__MMF__-shade" x1="0" x2="1" y1="0" y2="0"><stop stop-color="#FFFFFF" stop-opacity=".30"/><stop offset=".36" stop-color="#FFFFFF" stop-opacity=".10"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
+  <filter id="__MMF__-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".52" numOctaves="2" seed="21" stitchTiles="stitch"/></filter>
+</defs>
+<rect width="1600" height="610" fill="url(#__MMF__-ground)"/>
+<!-- Far layer: soft horizon, sun, drifting clouds, migratory birds. -->
+<g class="mmf-plane mmf-plane-far">
+  <circle cx="1255" cy="188" r="255" fill="url(#__MMF__-light)" class="mmf-light"/>
+  <circle cx="1268" cy="164" r="53" fill="#F2CC81" opacity=".58" class="mmf-sun"/>
+  <g class="mmf-cloud mmf-cloud-a" fill="none" stroke="#B7A27E" stroke-opacity=".48" stroke-width="1.25" stroke-linecap="round"><path d="M924 150Q943 134 969 138Q986 109 1009 115Q1030 92 1054 113Q1081 105 1092 129Q1113 124 1122 145"/><path d="M929 156Q1030 160 1120 151" stroke-opacity=".13"/></g>
+  <g class="mmf-cloud mmf-cloud-b" fill="none" stroke="#B8A17D" stroke-opacity=".47" stroke-width="1.3" stroke-linecap="round"><path d="M1279 86Q1297 72 1314 79Q1334 56 1357 71Q1382 55 1394 80Q1413 76 1423 93"/></g>
+  <g class="mmf-birds" fill="none" stroke="#958165" stroke-opacity=".74" stroke-width="2" stroke-linecap="round"><path d="M1290 109q7 -8 15 -1q6 -10 14 -7 M1366 131q6 -8 13 0q7 -8 15 -6 M1437 105q6 -8 13 0q6 -8 14 -6"/></g>
+  <path class="mmf-hill mmf-hill-a" d="M-50 372 C85 298 165 310 264 322C400 342 470 286 611 292C771 295 821 256 960 257C1111 255 1150 218 1284 238C1412 249 1514 207 1660 226V620H-50Z" fill="url(#__MMF__-hillone)"/>
+  <path d="M-50 372 C85 298 165 310 264 322C400 342 470 286 611 292C771 295 821 256 960 257C1111 255 1150 218 1284 238C1412 249 1514 207 1660 226" fill="none" stroke="#B5A082" stroke-opacity=".49" stroke-width="1.6"/>
+</g>
+<!-- Midground: orchard hillside and softly illustrated rows of crops. -->
+<g class="mmf-plane mmf-plane-mid">
+  <path class="mmf-hill mmf-hill-b" d="M-40 458C119 429 241 367 391 385C535 406 635 365 791 347C939 327 1034 319 1136 339C1280 369 1412 323 1650 275V635H-40Z" fill="url(#__MMF__-hilltwo)"/>
+  <path d="M-40 458C119 429 241 367 391 385C535 406 635 365 791 347C939 327 1034 319 1136 339C1280 369 1412 323 1650 275" fill="none" stroke="#C8D2A6" stroke-width="1.25" stroke-opacity=".21"/>
+  <g class="mmf-crop-rows" stroke="#AB9274" stroke-opacity=".56" stroke-width="1.2" fill="none">
+    <path d="M1014 354Q975 400 899 465"/><path d="M1057 358Q1026 407 981 474"/><path d="M1101 360Q1085 412 1064 488"/><path d="M1149 362Q1146 419 1143 494"/><path d="M1197 364Q1216 421 1229 500"/><path d="M1245 361Q1290 433 1321 512"/><path d="M1299 359Q1360 433 1412 518"/>
+    <path d="M738 388Q845 363 924 386 M714 409Q827 379 920 405 M698 429Q815 397 918 425"/>
+  </g>
+  <!-- Hand-inked tiny orchard crowns -->
+  <g class="mmf-small-orchard" fill="#B7C39C" fill-opacity=".50" stroke="#85765B" stroke-opacity=".52" stroke-width="1.4">
+    <g transform="translate(837 394) scale(.72)"><path d="M0 23V0" fill="none" stroke="#917959" stroke-width="3"/><path d="M-21-1q-13-13 4-22q0-22 21-20q18-13 29 8q19 12-1 24q-8 20-32 10Z"/></g>
+    <g transform="translate(906 381) scale(.54)"><path d="M0 23V0" fill="none" stroke="#917959" stroke-width="3"/><path d="M-21-1q-13-13 4-22q0-22 21-20q18-13 29 8q19 12-1 24q-8 20-32 10Z"/></g>
+    <g transform="translate(976 374) scale(.45)"><path d="M0 23V0" fill="none" stroke="#917959" stroke-width="3"/><path d="M-21-1q-13-13 4-22q0-22 21-20q18-13 29 8q19 12-1 24q-8 20-32 10Z"/></g>
+    <g transform="translate(1035 369) scale(.4)"><path d="M0 23V0" fill="none" stroke="#917959" stroke-width="3"/><path d="M-21-1q-13-13 4-22q0-22 21-20q18-13 29 8q19 12-1 24q-8 20-32 10Z"/></g>
+    <g transform="translate(1112 373) scale(.46)"><path d="M0 23V0" fill="none" stroke="#917959" stroke-width="3"/><path d="M-21-1q-13-13 4-22q0-22 21-20q18-13 29 8q19 12-1 24q-8 20-32 10Z"/></g>
+  </g>
+</g>
+<!-- Near layer: barn, orchard and hand-drawn field fence, kept away from text. -->
+<g class="mmf-plane mmf-plane-near">
+  <g class="mmf-farmhouse" transform="translate(1410 286)" stroke="#8D7758" stroke-opacity=".62" stroke-width="2" fill="none" stroke-linejoin="round"><path d="M-42 18L0 -14L45 18M-30 16V69H32V16M-17 69V35H12V69M-40 18H44"/><path d="M-33 8L0 -27L50 8"/><path d="M-46 4L0 -32L49 6"/></g>
+  <g class="mmf-apple-tree mmf-apple-tree-a" transform="translate(1324 463)"><g class="mmf-tree-sway"><path d="M1 69Q2 34 0 4M1 31L-20 13M0 28L22 5" stroke="#84694D" stroke-opacity=".68" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M-43 6Q-59-11-42-27Q-46-52-17-56Q0-79 29-57Q59-56 56-27Q72-7 51 13Q41 32 17 26Q-13 38-30 20Q-45 20-43 6Z" fill="#C0CDA8" fill-opacity=".87" stroke="#7D7859" stroke-opacity=".62" stroke-width="1.9"/><g fill="#C86F45" fill-opacity=".92"><circle cx="-22" cy="-17" r="4"/><circle cx="25" cy="-28" r="5"/><circle cx="13" cy="12" r="4"/></g></g></g>
+  <g class="mmf-apple-tree mmf-apple-tree-b" transform="translate(1531 483) scale(1.1)"><g class="mmf-tree-sway"><path d="M1 69Q2 34 0 4M1 31L-20 13M0 28L22 5" stroke="#84694D" stroke-opacity=".68" fill="none" stroke-width="5" stroke-linecap="round"/><path d="M-43 6Q-59-11-42-27Q-46-52-17-56Q0-79 29-57Q59-56 56-27Q72-7 51 13Q41 32 17 26Q-13 38-30 20Q-45 20-43 6Z" fill="#C0CDA8" fill-opacity=".87" stroke="#7D7859" stroke-opacity=".62" stroke-width="1.9"/><g fill="#C86F45" fill-opacity=".92"><circle cx="-22" cy="-17" r="4"/><circle cx="25" cy="-28" r="5"/><circle cx="13" cy="12" r="4"/></g></g></g>
+  <g class="mmf-fence" fill="none" stroke="#876C50" stroke-opacity=".70" stroke-linecap="round" stroke-linejoin="round">
+     <path class="mmf-fence-stroke" d="M982 549Q1130 516 1286 533Q1441 550 1610 475" stroke-width="3"/><path class="mmf-fence-stroke" d="M986 566Q1128 536 1287 553Q1434 570 1614 496" stroke-width="2.1"/>
+     <path d="M1002 540L1000 582M1070 525L1068 572M1142 521L1140 562M1213 521L1210 570M1291 532L1288 574M1377 541L1375 574M1462 530L1460 567M1542 502L1541 543" stroke-width="5"/>
+  </g>
+  <path d="M1083 610Q1199 555 1287 576Q1443 599 1640 509L1640 660L1030 660Z" fill="#ECD9B5" fill-opacity=".50"/>
+  <g class="mmf-grass" transform="translate(1216 556)" fill="none" stroke="#7F936E" stroke-opacity=".65" stroke-width="2.5" stroke-linecap="round"><path d="M0 0Q-7-25-22-34M0 0Q14-35 22-40M0 0Q1-39-3-54"/></g>
+  <g class="mmf-grass mmf-grass-b" transform="translate(1471 551)" fill="none" stroke="#7F936E" stroke-opacity=".65" stroke-width="2.5" stroke-linecap="round"><path d="M0 0Q-7-25-22-34M0 0Q14-35 22-40M0 0Q1-39-3-54"/></g>
+  <g class="mmf-grass mmf-grass-c" transform="translate(1107 596)" fill="none" stroke="#7F936E" stroke-opacity=".65" stroke-width="2.3" stroke-linecap="round"><path d="M0 0Q-7-25-22-34M0 0Q14-35 22-40M0 0Q1-39-3-54"/></g>
+</g>
+<!-- Authored vegetation at lower left, deliberately very subtle to preserve clean countryside expanse. -->
+<g class="mmf-plane mmf-plane-front" stroke="#8A946D" stroke-opacity=".48" stroke-linecap="round" fill="none">
+  <g class="mmf-grass" transform="translate(59 553)"><path d="M0 0Q-18-28-35-34M0 0Q7-36 29-58M0 0Q-7-45-6-69" stroke-width="2.8"/><path d="M-10-33Q-22-40-34-39M12-39Q28-38 36-49" stroke-width="1.6"/></g>
+  <g class="mmf-grass mmf-grass-b" transform="translate(182 573)"><path d="M0 0Q-18-28-35-34M0 0Q7-36 29-58M0 0Q-7-45-6-69" stroke-width="2.8"/><path d="M-10-33Q-22-40-34-39M12-39Q28-38 36-49" stroke-width="1.6"/></g>
+</g>
+<rect width="1600" height="610" fill="url(#__MMF__-shade)" pointer-events="none"/>
+<rect width="1600" height="610" filter="url(#__MMF__-grain)" opacity=".012" style="mix-blend-mode:multiply" pointer-events="none"/>
+</svg>`;
+
+export const Footer: React.FC<MesaMarketFooterProps> = ({
+  className = '',
+  navigation = defaultNavigation,
+  interactive = true,
+}) => {
+  const rootRef = useRef<HTMLElement>(null);
+  const id = useId().replace(/[^a-zA-Z0-9_-]/g, '');
+  const svgMarkup = useMemo(() => landscapeSVG.replaceAll('__MMF__', `mmf-${id}`), [id]);
+  const [currentYear, setCurrentYear] = useState<number>(2026);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      node.dataset.inview = 'true';
+      node.dataset.entered = 'true';
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        node.dataset.inview = String(entry.isIntersecting);
+        if (entry.isIntersecting) node.dataset.entered = 'true';
+      },
+      { threshold: 0.08 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node || !interactive || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    let x = 0;
+    let y = 0;
+    let targetX = 0;
+    let targetY = 0;
+    const tick = () => {
+      x += (targetX - x) * 0.075;
+      y += (targetY - y) * 0.075;
+      node.style.setProperty('--mmf-far-x', `${(-x * 5).toFixed(2)}px`);
+      node.style.setProperty('--mmf-far-y', `${(-y * 3).toFixed(2)}px`);
+      node.style.setProperty('--mmf-mid-x', `${(-x * 10).toFixed(2)}px`);
+      node.style.setProperty('--mmf-mid-y', `${(-y * 5).toFixed(2)}px`);
+      node.style.setProperty('--mmf-near-x', `${(-x * 15).toFixed(2)}px`);
+      node.style.setProperty('--mmf-near-y', `${(-y * 8).toFixed(2)}px`);
+      node.style.setProperty('--mmf-front-x', `${(-x * 19).toFixed(2)}px`);
+      node.style.setProperty('--mmf-front-y', `${(-y * 9).toFixed(2)}px`);
+      if (Math.abs(x - targetX) + Math.abs(y - targetY) > 0.003) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = 0;
+      }
+    };
+    const request = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const pointer = (event: PointerEvent) => {
+      if (event.pointerType === 'touch') return;
+      const bounds = node.getBoundingClientRect();
+      targetX = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width) * 2 - 1));
+      targetY = Math.max(-1, Math.min(1, ((event.clientY - bounds.top) / bounds.height) * 2 - 1));
+      request();
+    };
+    const leave = () => {
+      targetX = 0;
+      targetY = 0;
+      request();
+    };
+    node.addEventListener('pointermove', pointer, { passive: true });
+    node.addEventListener('pointerleave', leave);
+    return () => {
+      node.removeEventListener('pointermove', pointer);
+      node.removeEventListener('pointerleave', leave);
+      cancelAnimationFrame(raf);
+    };
+  }, [interactive]);
+
+  const returnToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    });
+  };
+
   return (
-    <footer className="border-t-2 border-[#24211D] bg-[#F2C94D]/35 px-4 sm:px-8 py-8 pb-20">
-      <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mm-mono text-xs text-[#24211D]">
-        <div>
-          <strong className="font-bold">MESA MARKET</strong> · OpenLanding Template 089 · Farm-to-Door Grocery
-        </div>
-        <div className="flex items-center gap-4">
-          <span>All produce prices, meal kits, and receipts are illustrative demonstrations.</span>
+    <footer
+      ref={rootRef}
+      id="mesa-footer"
+      className={`mmf-footer ${className}`.trim()}
+      data-entered="false"
+      data-inview="false"
+    >
+      <div className="mmf-landscape" aria-hidden="true" dangerouslySetInnerHTML={{ __html: svgMarkup }} />
+      <div className="mmf-bottom-grid">
+        <div className="mmf-about">
           <a
+            className="mmf-logo"
             href="#top"
+            aria-label="Mesa Market, top of page"
             onClick={(e) => {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              returnToTop();
             }}
-            className="hover:text-[#D94C32] font-bold transition-colors"
           >
-            Back to Top ↑
+            MESA<span className="mmf-logo-mark">✳</span>MARKET
           </a>
+          <p>A little closer to the good stuff.</p>
         </div>
+        <div className="mmf-nav-col">
+          <span className="mmf-heading">EXPLORE</span>
+          <nav aria-label="Footer navigation">
+            {navigation.map((item) => (
+              <a key={`${item.label}-${item.href}`} href={item.href}>
+                {item.label}
+                <span aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </nav>
+        </div>
+        <div className="mmf-nav-col mmf-info">
+          <span className="mmf-heading">THE FIELD NOTES</span>
+          <p>
+            Illustrative seasonal produce market concept. Item availability and pricing shown elsewhere on this site are examples.
+          </p>
+        </div>
+        <div className="mmf-return">
+          <span className="mmf-heading">BACK TO THE BEGINNING</span>
+          <button
+            type="button"
+            onClick={returnToTop}
+            className="mmf-back-top"
+            aria-label="Scroll back to top"
+          >
+            <span aria-hidden="true">↑</span>
+          </button>
+        </div>
+      </div>
+      <div className="mmf-bottom-line">
+        <span>© {currentYear} MESA MARKET · OPENLANDING TEMPLATE 089</span>
+        <span>FRESH FROM THE FIELD · MADE WITH CARE</span>
       </div>
     </footer>
   );
 };
+
+export default Footer;
 ]]>
     </file>
     <file path="src/app/(mesamarket)/mesamarket/sections/Header.tsx">
@@ -1049,15 +4963,17 @@ interface HeaderProps {
   totalCount: number;
   sampleSubtotal: number;
   onOpenBasket: () => void;
+  basketButtonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   totalCount,
   sampleSubtotal,
   onOpenBasket,
+  basketButtonRef,
 }) => {
   return (
-    <header className="sticky top-0 z-30 bg-[#FDF5E7]/95 backdrop-blur-xs border-b-2 border-[#24211D] px-4 sm:px-8 py-3">
+    <header className="sticky top-0 z-40 bg-[#FDF5E7]/95 backdrop-blur-xs border-b-2 border-[#24211D] px-4 sm:px-8 py-3">
       <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-6">
         <a href="#top" className="flex items-center gap-2">
           <Logo />
@@ -1110,8 +5026,10 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         <button
+          ref={basketButtonRef}
           type="button"
           onClick={onOpenBasket}
+          aria-label={`Open sample produce basket drawer, ${totalCount} items, subtotal $${sampleSubtotal.toFixed(2)}`}
           className="px-4 py-2 bg-[#3F7047] text-[#FDF5E7] mm-mono text-xs font-bold rounded-full border-2 border-[#24211D] hover:bg-[#315938] transition-colors whitespace-nowrap shrink-0 cursor-pointer shadow-[2px_2px_0px_#24211D]"
         >
           Basket ({totalCount}) · ${sampleSubtotal.toFixed(2)}
@@ -1145,132 +5063,72 @@ export const HeroStall: React.FC<HeroStallProps> = ({
       aria-label="Mesa Market flat-lay produce window display"
       className="max-w-[1440px] mx-auto border-b-2 border-[#24211D] px-4 sm:px-8 py-8 sm:py-12"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-        {/* Compact Left-Hand Category Rail (3 cols) */}
-        <div className="lg:col-span-3 bg-[#F2C94D]/45 border-2 border-[#24211D] rounded-xl p-5 flex flex-col justify-between space-y-6">
-          <div className="space-y-4">
-            <div className="mm-mono text-xs font-bold uppercase text-[#D94C32] tracking-wider">
-              HARVEST WINDOW · STALL 089
-            </div>
-            <p className="text-xs text-[#24211D]/85 leading-relaxed">
-              Click any harvest cutout in the stall window or filter the shelf below to build a sample seasonal crate.
-            </p>
-
-            <div className="space-y-1.5" role="group" aria-label="Category rail filter">
-              {(
-                [
-                  { id: 'all', label: 'All Harvest (8)' },
-                  { id: 'vegetables', label: 'Field Vegetables (5)' },
-                  { id: 'fruit', label: 'Orchard Fruit (2)' },
-                  { id: 'pantry', label: 'Bakehouse Pantry (1)' },
-                ] as { id: ProduceCategory; label: string }[]
-              ).map((cat) => {
-                const active = activeCategory === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => {
-                      onSelectCategory(cat.id);
-                      document.getElementById('mm-shelf')?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    aria-pressed={active}
-                    className={`w-full text-left px-3.5 py-2.5 rounded-lg border-2 border-[#24211D] mm-mono text-xs font-bold transition-colors cursor-pointer ${
-                      active
-                        ? 'bg-[#D94C32] text-[#FDF5E7]'
-                        : 'bg-[#FDF5E7] text-[#24211D] hover:bg-white'
-                    }`}
-                  >
-                    {cat.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="pt-4 border-t border-[#24211D]/25 space-y-3">
+      {/* Centered Flat-Lay Stall Window with 8 Produce Cutouts Wrapping the Headline */}
+      <div className="w-full max-w-5xl mx-auto p-6 sm:p-10 relative overflow-hidden flex flex-col justify-between space-y-8">
+        {/* Top Row of 4 Framed Produce Cutouts */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center">
+          {PRODUCE_CATALOG.slice(0, 4).map((item) => (
             <button
+              key={item.id}
               type="button"
-              onClick={() =>
-                document.getElementById('mm-shelf')?.scrollIntoView({ behavior: 'smooth' })
-              }
-              className="w-full py-3 bg-[#D94C32] text-[#FDF5E7] mm-mono text-xs font-bold uppercase rounded-lg border-2 border-[#24211D] shadow-[3px_3px_0px_#24211D] hover:bg-[#b83b24] transition-colors cursor-pointer"
+              onClick={() => onAddProduce(item.id)}
+              aria-label={`Add ${item.name} ($${item.samplePrice.toFixed(2)} sample) to basket`}
+              className="mm-produce-cutout group flex flex-col items-center p-2 rounded-xl hover:bg-[#F2C94D]/25 cursor-pointer text-center"
             >
-              Fill your basket
+              <div className="w-24 h-24 sm:w-28 sm:h-28 mm-cutout-disc flex items-center justify-center p-1.5">
+                <SafeImage
+                  src={item.image}
+                  alt={item.name}
+                  fallbackTint="transparent"
+                  className="w-full h-full object-cover rounded-full"
+                />
+              </div>
+              <span className="-mt-2 relative z-10 px-2.5 py-0.5 bg-[#F2C94D] border-2 border-[#24211D] rounded-full mm-mono text-[11px] font-bold text-[#24211D] group-hover:bg-[#D94C32] group-hover:text-white transition-colors">
+                + {item.name.split(' ')[0]} · ${item.samplePrice.toFixed(2)}
+              </span>
             </button>
-            <p className="mm-mono text-[11px] text-[#24211D]/75">
-              Sample pricing & stock only — illustrative demonstration.
-            </p>
-          </div>
+          ))}
         </div>
 
-        {/* Right Flat-Lay Stall Window with 8 Produce Cutouts Wrapping the Headline (9 cols) */}
-        <div className="lg:col-span-9 bg-[#FDF5E7] border-2 border-[#24211D] rounded-xl p-6 sm:p-10 relative overflow-hidden flex flex-col justify-between space-y-8">
-          {/* Top Row of 4 Framed Produce Cutouts */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center">
-            {PRODUCE_CATALOG.slice(0, 4).map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onAddProduce(item.id)}
-                aria-label={`Add ${item.name} ($${item.samplePrice.toFixed(2)} sample) to basket`}
-                className="mm-produce-cutout group flex flex-col items-center p-2 rounded-xl hover:bg-[#F2C94D]/25 cursor-pointer text-center"
-              >
-                <div className="w-24 h-24 sm:w-28 sm:h-28 mm-cutout-disc flex items-center justify-center p-1.5">
-                  <SafeImage
-                    src={item.image}
-                    alt={item.name}
-                    fallbackTint="transparent"
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-                <span className="-mt-2 relative z-10 px-2.5 py-0.5 bg-[#F2C94D] border-2 border-[#24211D] rounded-full mm-mono text-[11px] font-bold text-[#24211D] group-hover:bg-[#D94C32] group-hover:text-white transition-colors">
-                  + {item.name.split(' ')[0]} · ${item.samplePrice.toFixed(2)}
-                </span>
-              </button>
-            ))}
+        {/* Center Poster Headline Wrapped Between the Cutouts */}
+        <div className="text-center max-w-2xl mx-auto py-2 space-y-3">
+          <div className="inline-block px-3 py-1 bg-[#3F7047] text-[#FDF5E7] mm-mono text-xs font-bold rounded-full">
+            CAPAY & SONOMA HARVEST CRATE · ILLUSTRATIVE DEMO
           </div>
+          <h2
+            className="mm-display font-extrabold text-[#24211D] leading-[0.98]"
+            style={{ fontSize: 'clamp(2.5rem, 4.8vw, 4.4rem)', textWrap: 'balance' }}
+          >
+            Good things come into season.
+          </h2>
+          <p className="text-sm sm:text-base text-[#24211D]/80">
+            Tap any produce sticker in the window or browse the shelf below to assemble a sample farm-to-door box.
+          </p>
+        </div>
 
-          {/* Center Poster Headline Wrapped Between the Cutouts */}
-          <div className="text-center max-w-2xl mx-auto py-2 space-y-3">
-            <div className="inline-block px-3 py-1 bg-[#3F7047] text-[#FDF5E7] mm-mono text-xs font-bold rounded-full">
-              CAPAY & SONOMA HARVEST CRATE · ILLUSTRATIVE DEMO
-            </div>
-            <h1
-              className="mm-display font-extrabold text-[#24211D] leading-[0.98]"
-              style={{ fontSize: 'clamp(2.5rem, 4.8vw, 4.4rem)', textWrap: 'balance' }}
+        {/* Bottom Row of 4 Framed Produce Cutouts */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center">
+          {PRODUCE_CATALOG.slice(4, 8).map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => onAddProduce(item.id)}
+              aria-label={`Add ${item.name} ($${item.samplePrice.toFixed(2)} sample) to basket`}
+              className="mm-produce-cutout group flex flex-col items-center p-2 rounded-xl hover:bg-[#F2C94D]/25 cursor-pointer text-center"
             >
-              Good things come into season.
-            </h1>
-            <p className="text-sm sm:text-base text-[#24211D]/80">
-              Tap any produce sticker in the window or browse the shelf below to assemble a sample farm-to-door box.
-            </p>
-          </div>
-
-          {/* Bottom Row of 4 Framed Produce Cutouts */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center">
-            {PRODUCE_CATALOG.slice(4, 8).map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onAddProduce(item.id)}
-                aria-label={`Add ${item.name} ($${item.samplePrice.toFixed(2)} sample) to basket`}
-                className="mm-produce-cutout group flex flex-col items-center p-2 rounded-xl hover:bg-[#F2C94D]/25 cursor-pointer text-center"
-              >
-                <div className="w-24 h-24 sm:w-28 sm:h-28 mm-cutout-disc flex items-center justify-center p-1.5">
-                  <SafeImage
-                    src={item.image}
-                    alt={item.name}
-                    fallbackTint="transparent"
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-                <span className="-mt-2 relative z-10 px-2.5 py-0.5 bg-[#F2C94D] border-2 border-[#24211D] rounded-full mm-mono text-[11px] font-bold text-[#24211D] group-hover:bg-[#D94C32] group-hover:text-white transition-colors">
-                  + {item.name.split(' ')[0]} · ${item.samplePrice.toFixed(2)}
-                </span>
-              </button>
-            ))}
-          </div>
+              <div className="w-24 h-24 sm:w-28 sm:h-28 mm-cutout-disc flex items-center justify-center p-1.5">
+                <SafeImage
+                  src={item.image}
+                  alt={item.name}
+                  fallbackTint="transparent"
+                  className="w-full h-full object-cover rounded-full"
+                />
+              </div>
+              <span className="-mt-2 relative z-10 px-2.5 py-0.5 bg-[#F2C94D] border-2 border-[#24211D] rounded-full mm-mono text-[11px] font-bold text-[#24211D] group-hover:bg-[#D94C32] group-hover:text-white transition-colors">
+                + {item.name.split(' ')[0]} · ${item.samplePrice.toFixed(2)}
+              </span>
+            </button>
+          ))}
         </div>
       </div>
     </section>

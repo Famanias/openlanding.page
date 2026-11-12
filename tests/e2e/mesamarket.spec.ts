@@ -34,26 +34,26 @@ test.describe("MESA MARKET landing page", () => {
     await expect(shelf.getByText("Lacinato Cavolo Nero")).not.toBeVisible();
   });
 
-  test("adding produce updates basket counter and persistent pill", async ({ page }) => {
+  test("adding produce updates basket counter in sticky header", async ({ page }) => {
     await page.goto(url);
-    const pill = page.locator("button[aria-label*='Open sample produce basket drawer']");
-    await expect(pill).toBeVisible();
+    const basketBtn = page.locator("button[aria-label*='Open sample produce basket drawer']");
+    await expect(basketBtn).toBeVisible();
 
     // Initial state has 2 items
-    await expect(pill).toContainText("Crate Basket (2)");
+    await expect(basketBtn).toContainText("Basket (2)");
 
     // Add Nantes Carrots from shelf
     const addCarrotBtn = page.getByRole("button", { name: /Add to Basket · \$4.25/i });
     await addCarrotBtn.click();
 
     // Count updates to 3
-    await expect(pill).toContainText("Crate Basket (3)");
+    await expect(basketBtn).toContainText("Basket (3)");
   });
 
-  test("opens basket drawer, adjusts quantities, and closes drawer", async ({ page }) => {
+  test("opens basket drawer from sticky header, adjusts quantities, and closes drawer", async ({ page }) => {
     await page.goto(url);
-    const pill = page.locator("button[aria-label*='Open sample produce basket drawer']");
-    await pill.click();
+    const basketBtn = page.locator("button[aria-label*='Open sample produce basket drawer']");
+    await basketBtn.click();
 
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
@@ -62,6 +62,19 @@ test.describe("MESA MARKET landing page", () => {
     // Close via Esc key
     await page.keyboard.press("Escape");
     await expect(dialog).not.toBeVisible();
+  });
+
+  test("header remains sticky at top of viewport during scroll", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(url);
+    const header = page.locator("header");
+    await expect(header).toBeVisible();
+
+    await page.evaluate(() => window.scrollTo(0, 1000));
+    await page.waitForTimeout(300);
+
+    const box = await header.boundingBox();
+    expect(box?.y).toBe(0);
   });
 
   test("responsive layout has no horizontal scroll on mobile viewport", async ({ page }) => {
@@ -77,5 +90,44 @@ test.describe("MESA MARKET landing page", () => {
     await page.goto(url);
     await expect(page.locator("body")).toBeVisible();
     await expect(page.locator("h1")).toBeVisible();
+  });
+
+  test("renders living landscape background in hero section", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(url);
+    const landscape = page.locator("#harvest-hero .mm-landscape");
+    await expect(landscape).toBeVisible();
+    await page.waitForTimeout(1000);
+    await page.locator("#harvest-hero").screenshot({
+      path: "C:/Users/PC/.gemini/antigravity-cli/brain/b1b93d72-37f9-4139-b1a5-0aae371b38f8/hero-landscape-1440.png",
+    });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.waitForTimeout(500);
+    await page.locator("#harvest-hero").screenshot({
+      path: "C:/Users/PC/.gemini/antigravity-cli/brain/b1b93d72-37f9-4139-b1a5-0aae371b38f8/hero-landscape-390.png",
+    });
+  });
+
+  test("renders white countryside footer with navigation and back-to-top", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(url);
+    const footer = page.locator("#mesa-footer");
+    await expect(footer).toBeVisible();
+    await expect(footer.locator(".mmf-landscape")).toBeVisible();
+    await expect(footer.locator(".mmf-giant-word")).not.toBeVisible();
+    await expect(footer.getByText("A little closer to the good stuff.")).toBeVisible();
+
+    await footer.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(600);
+
+    await footer.screenshot({
+      path: "C:/Users/PC/.gemini/antigravity-cli/brain/b1b93d72-37f9-4139-b1a5-0aae371b38f8/footer-white-landscape-1440.png",
+    });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.waitForTimeout(500);
+    await footer.screenshot({
+      path: "C:/Users/PC/.gemini/antigravity-cli/brain/b1b93d72-37f9-4139-b1a5-0aae371b38f8/footer-white-landscape-390.png",
+    });
   });
 });

@@ -1,0 +1,116 @@
+/* MESA MARKET — Countryside Footer v3: transparent footer with white illustrated SVG background */
+.mmf-footer {
+  --mmf-cream: #282C25;
+  --mmf-green: #385840;
+  --mmf-accent: #D85A36;
+  --mmf-far-x: 0px; --mmf-far-y: 0px;
+  --mmf-mid-x: 0px; --mmf-mid-y: 0px;
+  --mmf-near-x: 0px; --mmf-near-y: 0px;
+  --mmf-front-x: 0px; --mmf-front-y: 0px;
+  background: transparent;
+  box-sizing: border-box;
+  color: #272820;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(68px, 7vw, 105px) clamp(24px, 5vw, 100px) 25px;
+  font-family: var(--font-outfit), 'Trebuchet MS', Arial, sans-serif;
+  border-top: 2px solid #24211D;
+}
+.mmf-footer *, .mmf-footer *::before, .mmf-footer *::after { box-sizing: border-box; }
+.mmf-footer a { color: inherit; text-decoration: none; }
+.mmf-footer button { font: inherit; cursor: pointer; }
+.mmf-footer :focus-visible { outline: 2px solid var(--mmf-accent); outline-offset: 5px; }
+
+/* The illustration is the ONLY footer backdrop; no green panel or dark wash. */
+.mmf-landscape { position: absolute; z-index: 0; inset: 0; pointer-events: none; overflow: hidden; }
+.mmf-landscape-svg { display: block; position: absolute; width: 100%; height: 100%; inset: 0; overflow: hidden; }
+
+/* Separate foreground text from background linework. */
+.mmf-bottom-grid {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: minmax(260px,2.1fr) minmax(145px,.92fr) minmax(220px,1.13fr) minmax(160px,.9fr);
+  gap: clamp(25px, 4vw, 76px);
+  max-width: 1600px; margin: 0 auto clamp(65px, 6vw, 95px);
+}
+.mmf-logo { display: inline-block; font: 800 clamp(23px,2vw,32px)/1 var(--font-fraunces), Georgia,'Times New Roman',serif; letter-spacing: -.045em; white-space: nowrap; transition: color .22s ease; }
+.mmf-logo:hover { color: #D85533; }
+.mmf-logo-mark { color: var(--mmf-accent); margin: 0 .03em; display: inline-block; animation: mmf-mark-rotate 18s linear infinite; }
+.mmf-about p { color: #66614D; font-size: 14px; margin: 13px 0 0; }
+.mmf-heading { display: block; margin-bottom: 19px; font: 10px/1.6 var(--font-space-mono), 'Courier New',monospace; letter-spacing: .18em; color: #6E654D; }
+.mmf-nav-col nav { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.mmf-nav-col nav a { font-size: 14px; display: inline-flex; gap: 6px; align-items: center; transition: color .2s ease, transform .25s ease; }
+.mmf-nav-col nav a:hover { transform: translateX(5px); color: #C64E30; }
+.mmf-nav-col nav a span { font-size: 12px; color: #AC6137; }
+.mmf-info p { font-size: 13px; line-height: 1.78; max-width: 255px; margin: 0; color: #514E43; }
+.mmf-return { text-align: right; }
+.mmf-back-top { width: 69px; height: 69px; border: 1px solid rgba(48,64,40,.40); border-radius: 50%; background: rgba(255,255,255,.74); color: #263C2B; font-size: 33px; display: inline-grid; place-items: center; transition: transform .32s cubic-bezier(.16,1,.3,1), background .22s ease, color .22s ease; }
+.mmf-back-top:hover { transform: translateY(-8px); background: #385840; color: #FFFFFF; }
+.mmf-back-top span { transition: transform .28s ease; }
+.mmf-back-top:hover span { transform: translateY(-3px); }
+
+.mmf-bottom-line { position: relative; z-index: 2; max-width: 1700px; margin: 0 auto; padding-top: 21px; border-top: 1px solid rgba(60,72,52,.23); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font: 10px/1.6 var(--font-space-mono), 'Courier New',monospace; letter-spacing: .13em; color: #625E52; }
+
+/* Animated SVG scenery */
+.mmf-plane-far { transform: translate(var(--mmf-far-x), var(--mmf-far-y)); }
+.mmf-plane-mid { transform: translate(var(--mmf-mid-x), var(--mmf-mid-y)); }
+.mmf-plane-near { transform: translate(var(--mmf-near-x), var(--mmf-near-y)); }
+.mmf-plane-front { transform: translate(var(--mmf-front-x), var(--mmf-front-y)); }
+.mmf-plane { transition: transform .12s linear; }
+.mmf-cloud { animation: mmf-cloud-drift 28s ease-in-out infinite alternate; transform-box: fill-box; }
+.mmf-cloud-b { animation-duration: 37s; animation-delay: -9s; animation-direction: alternate-reverse; }
+.mmf-light { animation: mmf-light-breathe 12s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+.mmf-sun { animation: mmf-sun-breathe 12s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+.mmf-birds { animation: mmf-bird-flight 23s linear infinite; }
+.mmf-tree-sway { transform-box: fill-box; transform-origin: center bottom; animation: mmf-tree-wind 5.3s ease-in-out infinite alternate; }
+.mmf-apple-tree-b .mmf-tree-sway { animation-delay: -2.2s; animation-duration: 7s; }
+.mmf-grass { transform-box: fill-box; transform-origin: center bottom; animation: mmf-grass-wind 4s ease-in-out infinite alternate; }
+.mmf-grass-b { animation-delay: -1.5s; animation-duration: 5.2s; }
+.mmf-grass-c { animation-delay: -2.5s; animation-duration: 3.7s; }
+.mmf-fence-stroke { stroke-dasharray: 700; stroke-dashoffset: 0; }
+.mmf-footer[data-entered="true"] .mmf-crop-rows path { animation: mmf-draw-rows 1.8s cubic-bezier(.16,1,.3,1) both; }
+.mmf-footer[data-entered="true"] .mmf-fence-stroke { animation: mmf-draw-fence 2.1s .1s ease both; }
+
+@keyframes mmf-cloud-drift { from { transform: translateX(-15px); } to { transform: translateX(25px); } }
+@keyframes mmf-light-breathe { from { opacity: .62; transform: scale(.93); } to { opacity: 1; transform: scale(1.1); } }
+@keyframes mmf-sun-breathe { from { transform: translateY(5px); } to { transform: translateY(-6px); } }
+@keyframes mmf-bird-flight { from { transform: translate(0,0); } to { transform: translate(-80px, -4px); } }
+@keyframes mmf-tree-wind { from { transform: rotate(-2deg); } to { transform: rotate(2.5deg); } }
+@keyframes mmf-grass-wind { from { transform: rotate(-4deg); } to { transform: rotate(3.7deg); } }
+@keyframes mmf-draw-rows { from { stroke-dasharray: 200; stroke-dashoffset: 200; } to { stroke-dasharray: 200; stroke-dashoffset: 0; } }
+@keyframes mmf-draw-fence { from { stroke-dashoffset: 700; } to { stroke-dashoffset: 0; } }
+@keyframes mmf-mark-rotate { to { transform: rotate(360deg); } }
+
+.mmf-footer[data-inview="false"] .mmf-cloud,
+.mmf-footer[data-inview="false"] .mmf-light,
+.mmf-footer[data-inview="false"] .mmf-sun,
+.mmf-footer[data-inview="false"] .mmf-birds,
+.mmf-footer[data-inview="false"] .mmf-tree-sway,
+.mmf-footer[data-inview="false"] .mmf-grass { animation-play-state: paused; }
+
+@media (max-width: 950px) {
+  .mmf-bottom-grid { grid-template-columns: 1.7fr 1fr 1fr; gap: 38px 26px; }
+  .mmf-return { grid-column: 3; grid-row: 2; text-align: right; }
+}
+@media (max-width: 700px) {
+  .mmf-footer { padding: 58px 22px 23px; }
+  .mmf-bottom-grid { grid-template-columns: 1fr 1fr; gap: 42px 25px; margin-bottom: 66px; }
+  .mmf-about { grid-column: 1/-1; }
+  .mmf-return { grid-column: 2; grid-row: auto; text-align: left; }
+  .mmf-landscape-svg { width: 145%; max-width: none; left: -22%; }
+  .mmf-bottom-line { gap: 9px; }
+}
+@media (max-width: 450px) {
+  .mmf-logo { font-size: 26px; }
+  .mmf-heading { font-size: 9px; }
+  .mmf-info p { font-size: 12px; }
+  .mmf-nav-col nav a { font-size: 13px; }
+  .mmf-back-top { width: 59px; height: 59px; }
+  .mmf-bottom-line { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mmf-footer *, .mmf-footer *::before, .mmf-footer *::after { animation: none !important; transition: none !important; }
+  .mmf-crop-rows path, .mmf-fence-stroke { stroke-dashoffset: 0 !important; }
+}

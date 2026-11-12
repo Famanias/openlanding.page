@@ -9,7 +9,9 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
-  mesamarket: { name: "MESA MARKET", dependencies: ["lucide-react", "motion"], includeDownload: true, downloadPath: "/downloads/mesamarket.html" },
+  surface08: { name: "SURFACE/08", dependencies: ["lucide-react", "motion"] },
+  tessera: { name: "TESSERA", dependencies: ["lucide-react", "motion"] },
+  mesamarket: { name: "MESA MARKET", dependencies: ["lucide-react", "motion", "three", "gsap"], includeDownload: true },
   postmark: { name: "POSTMARK", dependencies: ["lucide-react", "motion"], includeDownload: true },
   rooted: { name: "ROOTED", dependencies: [], includeDownload: true },
   echolog: { name: "ECHOLOG", dependencies: ["three"], includeDownload: true },
@@ -322,11 +324,15 @@ export function generateCopyBundles(outputDir = path.resolve(process.cwd(), "pub
     const bundleXml = formatRepomixBundle(slug, meta.name, files, meta.dependencies);
 
     const bundlePath = path.join(outputDir, `${slug}.md`);
-    fs.writeFileSync(bundlePath, bundleXml, "utf8");
+    if (!fs.existsSync(bundlePath) || fs.readFileSync(bundlePath, "utf8") !== bundleXml) {
+      fs.writeFileSync(bundlePath, bundleXml, "utf8");
+    }
 
     const promptContent = readTemplatePrompt(slug);
     const promptPath = path.join(outputDir, `${slug}-prompt.md`);
-    fs.writeFileSync(promptPath, promptContent, "utf8");
+    if (!fs.existsSync(promptPath) || fs.readFileSync(promptPath, "utf8") !== promptContent) {
+      fs.writeFileSync(promptPath, promptContent, "utf8");
+    }
   }
 }
 
