@@ -3023,7 +3023,7 @@ RAW_TEMPLATES.push(
   {
     slug: "tessera",
     createdAt: "2026-11-12",
-    hasDownload: false,
+    hasDownload: true,
     title: "TESSERA",
     description: "Modular sculptural acoustic wall installations engineered for architectural interiors. Sound, shaped by design.",
     category: "showcase" as TemplateCategory,
