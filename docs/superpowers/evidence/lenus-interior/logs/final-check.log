@@ -1,7 +1,0 @@
-
-> openlandingpage@0.1.0 check
-> tsx scripts/check-isolation.ts && tsx scripts/check-palette.ts && tsx scripts/check-media.ts
-
-isolation: ok
-palette: ok
-media: ok
