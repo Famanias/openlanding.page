@@ -7,15 +7,17 @@ interface HeaderProps {
   totalCount: number;
   sampleSubtotal: number;
   onOpenBasket: () => void;
+  basketButtonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   totalCount,
   sampleSubtotal,
   onOpenBasket,
+  basketButtonRef,
 }) => {
   return (
-    <header className="sticky top-0 z-30 bg-[#FDF5E7]/95 backdrop-blur-xs border-b-2 border-[#24211D] px-4 sm:px-8 py-3">
+    <header className="sticky top-0 z-40 bg-[#FDF5E7]/95 backdrop-blur-xs border-b-2 border-[#24211D] px-4 sm:px-8 py-3">
       <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-6">
         <a href="#top" className="flex items-center gap-2">
           <Logo />
@@ -68,8 +70,10 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         <button
+          ref={basketButtonRef}
           type="button"
           onClick={onOpenBasket}
+          aria-label={`Open sample produce basket drawer, ${totalCount} items, subtotal $${sampleSubtotal.toFixed(2)}`}
           className="px-4 py-2 bg-[#3F7047] text-[#FDF5E7] mm-mono text-xs font-bold rounded-full border-2 border-[#24211D] hover:bg-[#315938] transition-colors whitespace-nowrap shrink-0 cursor-pointer shadow-[2px_2px_0px_#24211D]"
         >
           Basket ({totalCount}) · ${sampleSubtotal.toFixed(2)}

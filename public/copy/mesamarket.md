@@ -231,7 +231,6 @@ import { MealKits } from './sections/MealKits';
 import { ProducerRoute } from './sections/ProducerRoute';
 import { ReceiptSection } from './sections/ReceiptSection';
 import { Footer } from './sections/Footer';
-import { BasketPill } from './sections/BasketPill';
 import { BasketDrawer } from './sections/BasketDrawer';
 
 export function MesaMarketApp() {
@@ -240,7 +239,7 @@ export function MesaMarketApp() {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [justAddedId, setJustAddedId] = useState<string | null>(null);
 
-  const basketPillRef = useRef<HTMLButtonElement | null>(null);
+  const basketButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const totals = calculateBasketTotals(basketState.quantities);
 
@@ -256,7 +255,7 @@ export function MesaMarketApp() {
   };
 
   return (
-    <div id="top" className="mesa-root min-h-screen overflow-x-hidden selection:bg-[#D94C32] selection:text-[#FDF5E7]">
+    <div id="top" className="mesa-root min-h-screen overflow-x-clip selection:bg-[#D94C32] selection:text-[#FDF5E7]">
       <a
         href="#mm-shelf"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#D94C32] focus:text-[#FDF5E7] focus:font-bold focus:rounded-md"
@@ -264,11 +263,12 @@ export function MesaMarketApp() {
         Skip to market shelf
       </a>
 
-      {/* Market Signage Header (The header of the template at the very top) */}
+      {/* Sticky Market Signage Header (Always sticky at top of viewport) */}
       <Header
         totalCount={totals.totalCount}
         sampleSubtotal={totals.sampleSubtotal}
         onOpenBasket={() => setDrawerOpen(true)}
+        basketButtonRef={basketButtonRef}
       />
 
       {/* 00: 2.5D Interactive Harvest Crate Hero */}
@@ -310,14 +310,6 @@ export function MesaMarketApp() {
       {/* Grocery-Receipt Footer */}
       <Footer />
 
-      {/* Floating Persistent Basket Pill */}
-      <BasketPill
-        buttonRef={basketPillRef}
-        totalCount={totals.totalCount}
-        sampleSubtotal={totals.sampleSubtotal}
-        onOpen={() => setDrawerOpen(true)}
-      />
-
       {/* Accessible Basket Drawer */}
       <BasketDrawer
         isOpen={drawerOpen}
@@ -329,7 +321,7 @@ export function MesaMarketApp() {
         onDecrement={(id) => dispatch({ type: 'DECREMENT', productId: id })}
         onRemove={(id) => dispatch({ type: 'REMOVE', productId: id })}
         onClear={() => dispatch({ type: 'CLEAR' })}
-        basketPillRef={basketPillRef}
+        basketButtonRef={basketButtonRef}
       />
     </div>
   );
@@ -3876,7 +3868,7 @@ interface BasketDrawerProps {
   onDecrement: (id: ProduceId) => void;
   onRemove: (id: ProduceId) => void;
   onClear: () => void;
-  basketPillRef: React.RefObject<HTMLButtonElement | null>;
+  basketButtonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 export const BasketDrawer: React.FC<BasketDrawerProps> = ({
@@ -3889,7 +3881,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
   onDecrement,
   onRemove,
   onClear,
-  basketPillRef,
+  basketButtonRef,
 }) => {
   const drawerCloseRef = useRef<HTMLButtonElement | null>(null);
 
@@ -3899,7 +3891,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
-        basketPillRef.current?.focus();
+        basketButtonRef?.current?.focus();
       }
     };
     window.addEventListener('keydown', onKeyDown);
@@ -3907,7 +3899,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
       window.clearTimeout(t);
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [isOpen, onClose, basketPillRef]);
+  }, [isOpen, onClose, basketButtonRef]);
 
   if (!isOpen) return null;
 
@@ -3920,7 +3912,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();
-          basketPillRef.current?.focus();
+          basketButtonRef?.current?.focus();
         }
       }}
     >
@@ -3940,7 +3932,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
               type="button"
               onClick={() => {
                 onClose();
-                basketPillRef.current?.focus();
+                basketButtonRef?.current?.focus();
               }}
               className="px-3 py-1 bg-[#24211D] text-[#FDF5E7] mm-mono text-xs rounded cursor-pointer hover:bg-[#3F7047] transition-colors"
             >
@@ -4052,43 +4044,6 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
 };
 ]]>
     </file>
-    <file path="src/app/(mesamarket)/mesamarket/sections/BasketPill.tsx">
-<![CDATA['use client';
-
-import React from 'react';
-
-interface BasketPillProps {
-  buttonRef: React.RefObject<HTMLButtonElement | null>;
-  totalCount: number;
-  sampleSubtotal: number;
-  onOpen: () => void;
-}
-
-export const BasketPill: React.FC<BasketPillProps> = ({
-  buttonRef,
-  totalCount,
-  sampleSubtotal,
-  onOpen,
-}) => {
-  return (
-    <div className="fixed bottom-4 right-4 z-40">
-      <button
-        ref={buttonRef}
-        type="button"
-        onClick={onOpen}
-        aria-label={`Open sample produce basket drawer, ${totalCount} items, subtotal $${sampleSubtotal.toFixed(2)}`}
-        className="px-5 py-3 bg-[#D94C32] text-[#FDF5E7] mm-mono text-xs font-bold uppercase rounded-full border-2 border-[#24211D] shadow-[4px_4px_0px_#24211D] hover:bg-[#b83b24] transition-colors cursor-pointer flex items-center gap-2.5"
-      >
-        <span>Crate Basket ({totalCount})</span>
-        <span className="px-2 py-0.5 bg-[#F2C94D] text-[#24211D] rounded-full">
-          ${sampleSubtotal.toFixed(2)}
-        </span>
-      </button>
-    </div>
-  );
-};
-]]>
-    </file>
     <file path="src/app/(mesamarket)/mesamarket/sections/Footer.tsx">
 <![CDATA['use client';
 
@@ -4130,15 +4085,17 @@ interface HeaderProps {
   totalCount: number;
   sampleSubtotal: number;
   onOpenBasket: () => void;
+  basketButtonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   totalCount,
   sampleSubtotal,
   onOpenBasket,
+  basketButtonRef,
 }) => {
   return (
-    <header className="sticky top-0 z-30 bg-[#FDF5E7]/95 backdrop-blur-xs border-b-2 border-[#24211D] px-4 sm:px-8 py-3">
+    <header className="sticky top-0 z-40 bg-[#FDF5E7]/95 backdrop-blur-xs border-b-2 border-[#24211D] px-4 sm:px-8 py-3">
       <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-6">
         <a href="#top" className="flex items-center gap-2">
           <Logo />
@@ -4191,8 +4148,10 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         <button
+          ref={basketButtonRef}
           type="button"
           onClick={onOpenBasket}
+          aria-label={`Open sample produce basket drawer, ${totalCount} items, subtotal $${sampleSubtotal.toFixed(2)}`}
           className="px-4 py-2 bg-[#3F7047] text-[#FDF5E7] mm-mono text-xs font-bold rounded-full border-2 border-[#24211D] hover:bg-[#315938] transition-colors whitespace-nowrap shrink-0 cursor-pointer shadow-[2px_2px_0px_#24211D]"
         >
           Basket ({totalCount}) · ${sampleSubtotal.toFixed(2)}

@@ -16,7 +16,6 @@ import { MealKits } from './sections/MealKits';
 import { ProducerRoute } from './sections/ProducerRoute';
 import { ReceiptSection } from './sections/ReceiptSection';
 import { Footer } from './sections/Footer';
-import { BasketPill } from './sections/BasketPill';
 import { BasketDrawer } from './sections/BasketDrawer';
 
 export function MesaMarketApp() {
@@ -25,7 +24,7 @@ export function MesaMarketApp() {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [justAddedId, setJustAddedId] = useState<string | null>(null);
 
-  const basketPillRef = useRef<HTMLButtonElement | null>(null);
+  const basketButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const totals = calculateBasketTotals(basketState.quantities);
 
@@ -41,7 +40,7 @@ export function MesaMarketApp() {
   };
 
   return (
-    <div id="top" className="mesa-root min-h-screen overflow-x-hidden selection:bg-[#D94C32] selection:text-[#FDF5E7]">
+    <div id="top" className="mesa-root min-h-screen overflow-x-clip selection:bg-[#D94C32] selection:text-[#FDF5E7]">
       <a
         href="#mm-shelf"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#D94C32] focus:text-[#FDF5E7] focus:font-bold focus:rounded-md"
@@ -49,11 +48,12 @@ export function MesaMarketApp() {
         Skip to market shelf
       </a>
 
-      {/* Market Signage Header (The header of the template at the very top) */}
+      {/* Sticky Market Signage Header (Always sticky at top of viewport) */}
       <Header
         totalCount={totals.totalCount}
         sampleSubtotal={totals.sampleSubtotal}
         onOpenBasket={() => setDrawerOpen(true)}
+        basketButtonRef={basketButtonRef}
       />
 
       {/* 00: 2.5D Interactive Harvest Crate Hero */}
@@ -95,14 +95,6 @@ export function MesaMarketApp() {
       {/* Grocery-Receipt Footer */}
       <Footer />
 
-      {/* Floating Persistent Basket Pill */}
-      <BasketPill
-        buttonRef={basketPillRef}
-        totalCount={totals.totalCount}
-        sampleSubtotal={totals.sampleSubtotal}
-        onOpen={() => setDrawerOpen(true)}
-      />
-
       {/* Accessible Basket Drawer */}
       <BasketDrawer
         isOpen={drawerOpen}
@@ -114,7 +106,7 @@ export function MesaMarketApp() {
         onDecrement={(id) => dispatch({ type: 'DECREMENT', productId: id })}
         onRemove={(id) => dispatch({ type: 'REMOVE', productId: id })}
         onClear={() => dispatch({ type: 'CLEAR' })}
-        basketPillRef={basketPillRef}
+        basketButtonRef={basketButtonRef}
       />
     </div>
   );

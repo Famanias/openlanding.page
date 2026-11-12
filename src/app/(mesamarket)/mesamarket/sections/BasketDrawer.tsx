@@ -14,7 +14,7 @@ interface BasketDrawerProps {
   onDecrement: (id: ProduceId) => void;
   onRemove: (id: ProduceId) => void;
   onClear: () => void;
-  basketPillRef: React.RefObject<HTMLButtonElement | null>;
+  basketButtonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 export const BasketDrawer: React.FC<BasketDrawerProps> = ({
@@ -27,7 +27,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
   onDecrement,
   onRemove,
   onClear,
-  basketPillRef,
+  basketButtonRef,
 }) => {
   const drawerCloseRef = useRef<HTMLButtonElement | null>(null);
 
@@ -37,7 +37,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
-        basketPillRef.current?.focus();
+        basketButtonRef?.current?.focus();
       }
     };
     window.addEventListener('keydown', onKeyDown);
@@ -45,7 +45,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
       window.clearTimeout(t);
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [isOpen, onClose, basketPillRef]);
+  }, [isOpen, onClose, basketButtonRef]);
 
   if (!isOpen) return null;
 
@@ -58,7 +58,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();
-          basketPillRef.current?.focus();
+          basketButtonRef?.current?.focus();
         }
       }}
     >
@@ -78,7 +78,7 @@ export const BasketDrawer: React.FC<BasketDrawerProps> = ({
               type="button"
               onClick={() => {
                 onClose();
-                basketPillRef.current?.focus();
+                basketButtonRef?.current?.focus();
               }}
               className="px-3 py-1 bg-[#24211D] text-[#FDF5E7] mm-mono text-xs rounded cursor-pointer hover:bg-[#3F7047] transition-colors"
             >
