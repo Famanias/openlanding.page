@@ -855,9 +855,9 @@ interface HeroCanvas3DProps {
   exploded: boolean;
   reducedMotion: boolean;
   tileRotations: Record<string, TileQuarterTurns>;
-  selectedTileId: string | null;
+  selectedTileId?: string | null;
   scrollProgressRef: React.MutableRefObject<number>;
-  onSelectTile: (tileId: string | null) => void;
+  onSelectTile?: (tileId: string | null) => void;
   onCommitTileRotation: (tileId: string, nextTurns: TileQuarterTurns) => void;
   onWebGLUnavailable?: () => void;
 }
@@ -1426,7 +1426,7 @@ export const HeroCanvas3D: React.FC<HeroCanvas3DProps> = ({
   exploded,
   reducedMotion,
   tileRotations,
-  selectedTileId,
+  selectedTileId = null,
   scrollProgressRef,
   onSelectTile,
   onCommitTileRotation,
@@ -2003,7 +2003,7 @@ export const HeroCanvas3D: React.FC<HeroCanvas3DProps> = ({
       if (!hitTileId) {
         // Clicked gallery background -> clear selection without resetting any tile rotations
         if (selectedTileIdRef.current !== null) {
-          onSelectTileRef.current(null);
+          onSelectTileRef.current?.(null);
         }
         return;
       }
@@ -2087,7 +2087,7 @@ export const HeroCanvas3D: React.FC<HeroCanvas3DProps> = ({
         playTactileClick(280);
         if (entity) entity.clickPulseZ = 0.032;
         onCommitTileRotationRef.current(gesture.tileId, snappedTurns);
-        onSelectTileRef.current(gesture.tileId);
+        onSelectTileRef.current?.(gesture.tileId);
       } else {
         // Single click/tap: rotate THAT tile +90° clockwise around outward normal
         const currentTurns = tileRotationsRef.current[gesture.tileId] ?? 0;
@@ -2095,7 +2095,7 @@ export const HeroCanvas3D: React.FC<HeroCanvas3DProps> = ({
         playTactileClick(320);
         if (entity) entity.clickPulseZ = 0.055;
         onCommitTileRotationRef.current(gesture.tileId, nextTurns);
-        onSelectTileRef.current(gesture.tileId);
+        onSelectTileRef.current?.(gesture.tileId);
       }
 
       renderer.domElement.style.cursor = hoveredTileId ? 'pointer' : 'default';
@@ -2369,13 +2369,9 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import gsap from 'gsap';
 import {
   ArrowRight,
-  ChevronLeft,
-  ChevronRight,
   Layers,
   RotateCcw,
-  RotateCw,
   SlidersHorizontal,
-  X,
 } from 'lucide-react';
 import {
   HERO_COMPOSITIONS,
@@ -2391,10 +2387,8 @@ import {
   TileQuarterTurns,
   buildResonanceWallCatalog,
   createInitialPresetRotationMap,
-  getTileQuarterTurns,
   quarterTurnsToDegrees,
   resetPresetRotations,
-  rotateTileQuarterTurns,
   setTileQuarterTurnsInPreset,
 } from '../domain/resonanceWall';
 import { HeroCanvas3D } from './HeroCanvas3D';
@@ -2423,7 +2417,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const [presetRotations, setPresetRotations] = useState<PresetRotationMap>(() =>
     createInitialPresetRotationMap(),
   );
-  const [selectedTileId, setSelectedTileId] = useState<string | null>(null);
   const [liveAnnouncement, setLiveAnnouncement] = useState<string>('');
   const [webglUnavailable, setWebglUnavailable] = useState<boolean>(false);
 
@@ -2440,16 +2433,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   );
 
   const editedCountInCurrentPreset = Object.keys(activePresetRotations).length;
-
-  const selectedTileSpec = useMemo(
-    () => (selectedTileId ? catalog.find((t) => t.id === selectedTileId) ?? null : null),
-    [catalog, selectedTileId],
-  );
-
-  const selectedTileQuarterTurns: TileQuarterTurns = selectedTileId
-    ? getTileQuarterTurns(presetRotations, composition, selectedTileId)
-    : 0;
-  const selectedTileDegrees = quarterTurnsToDegrees(selectedTileQuarterTurns);
 
   const activeCompositionIndex = HERO_COMPOSITIONS.findIndex((c) => c.id === composition);
   const activeCompositionSpec =
@@ -2502,9 +2485,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
       if (e.key === 'Escape') {
-        if (selectedTileId !== null) {
-          setSelectedTileId(null);
-        } else if (modeDrawerOpen) {
+        if (modeDrawerOpen) {
           setModeDrawerOpen(false);
         }
         return;
@@ -2516,7 +2497,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [selectedTileId, modeDrawerOpen]);
+  }, [modeDrawerOpen]);
 
   const handleCommitTileRotation = useCallback(
     (tileId: string, nextTurns: TileQuarterTurns) => {
@@ -2534,37 +2515,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     [catalog, composition],
   );
 
-  const handleStepSelectedTileRotation = (delta: 1 | -1) => {
-    if (!selectedTileId) return;
-    playTactileClick(delta > 0 ? 320 : 260);
-    const current = getTileQuarterTurns(presetRotations, composition, selectedTileId);
-    const next = rotateTileQuarterTurns(current, delta);
-    handleCommitTileRotation(selectedTileId, next);
-  };
-
-  const handleResetSelectedTile = () => {
-    if (!selectedTileId) return;
-    playTactileClick(210);
-    handleCommitTileRotation(selectedTileId, 0);
-  };
-
   const handleResetCurrentWallPreset = () => {
     playTactileClick(190);
     setPresetRotations((prev) => resetPresetRotations(prev, composition));
     setLiveAnnouncement(
       `Reset all module rotations for ${activeCompositionSpec.label} to original continuous relief.`,
     );
-  };
-
-  const handleSelectNeighborModule = (step: 1 | -1) => {
-    playTactileClick(240);
-    if (!selectedTileId) {
-      setSelectedTileId(catalog[27]?.id ?? catalog[0].id);
-      return;
-    }
-    const idx = catalog.findIndex((t) => t.id === selectedTileId);
-    const nextIdx = (idx + step + catalog.length) % catalog.length;
-    setSelectedTileId(catalog[nextIdx].id);
   };
 
   const handleSelectMaterialMode = (modeId: HeroMaterialModeId) => {
@@ -2583,7 +2539,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       ref={sectionRef}
       data-composition={composition}
       data-material-mode={materialMode}
-      data-selected-tile={selectedTileId ?? ''}
       data-edited-count={editedCountInCurrentPreset}
       className="relative min-h-[100svh] w-full overflow-hidden bg-[#131311] flex flex-col justify-between pt-20 pb-28 sm:pb-24 select-none"
     >
@@ -2661,9 +2616,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           exploded={exploded}
           reducedMotion={reducedMotion}
           tileRotations={activePresetRotations}
-          selectedTileId={selectedTileId}
           scrollProgressRef={scrollProgressRef}
-          onSelectTile={setSelectedTileId}
           onCommitTileRotation={handleCommitTileRotation}
           onWebGLUnavailable={() => setWebglUnavailable(true)}
         />
@@ -2757,28 +2710,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </button>
           </div>
 
-          {/* Interactive Module Hint + Keyboard Module Selector Trigger */}
-          <div className="hero-editorial-fade mt-8 pt-4 border-t border-[#EFEAE0]/10 flex flex-wrap items-center justify-between gap-3 max-w-[430px]">
+          {/* Interactive Module Hint */}
+          <div className="hero-editorial-fade mt-8 pt-4 border-t border-[#EFEAE0]/10 max-w-[430px]">
             <span className="hero-rule-line origin-left text-[11px] font-mono-tabular tracking-[0.12em] uppercase text-[#AFA9A0]">
               Click or drag any 3D module to rotate 90°
             </span>
-
-            <button
-              type="button"
-              data-testid="hero-inspect-toggle"
-              onClick={() => {
-                playTactileClick(240);
-                if (!selectedTileId) {
-                  // Default to a central S-curve ribbon module (row 2, col 5 -> 03·06)
-                  setSelectedTileId('r02-c05');
-                } else {
-                  setSelectedTileId(null);
-                }
-              }}
-              className="text-[11px] font-mono-tabular tracking-[0.1em] uppercase text-[#C8B9A5] hover:text-[#EFEAE0] underline underline-offset-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78960] rounded-sm"
-            >
-              {selectedTileId ? 'Close Module Inspector' : 'Inspect Module'}
-            </button>
           </div>
         </div>
       </div>
@@ -2796,110 +2732,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           / 04
         </div>
       </div>
-
-      {/* Selected Tile Floating Inspector (Appears when any 3D module is clicked/selected) */}
-      {selectedTileSpec && (
-        <div
-          role="region"
-          aria-label="Selected Acoustic Module Inspector"
-          data-testid="hero-tile-inspector"
-          className="absolute bottom-28 sm:bottom-24 left-5 sm:left-10 z-30 w-[min(420px,92vw)] bg-[#171815]/95 border border-[#A78960]/55 rounded-md p-3.5 shadow-2xl pointer-events-auto select-text"
-        >
-          <div className="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-[#EFEAE0]/10">
-            <div className="flex items-center gap-2 min-w-0">
-              <span
-                data-testid="inspector-tile-id"
-                className="font-mono-tabular text-xs font-semibold tracking-[0.14em] uppercase text-[#EFEAE0] whitespace-nowrap"
-              >
-                MODULE {selectedTileSpec.displayCode}
-              </span>
-              <span aria-hidden="true" className="text-[#A78960]">
-                ·
-              </span>
-              <span
-                data-testid="inspector-tile-family"
-                className="text-xs text-[#AFA9A0] truncate"
-              >
-                {selectedTileSpec.familyLabel}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-1 shrink-0">
-              <button
-                type="button"
-                aria-label="Select previous module"
-                data-testid="inspector-prev-tile"
-                onClick={() => handleSelectNeighborModule(-1)}
-                className="p-1 rounded text-[#AFA9A0] hover:text-[#EFEAE0] hover:bg-[#252420] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#A78960]"
-              >
-                <ChevronLeft className="w-3.5 h-3.5" />
-              </button>
-              <button
-                type="button"
-                aria-label="Select next module"
-                data-testid="inspector-next-tile"
-                onClick={() => handleSelectNeighborModule(1)}
-                className="p-1 rounded text-[#AFA9A0] hover:text-[#EFEAE0] hover:bg-[#252420] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#A78960]"
-              >
-                <ChevronRight className="w-3.5 h-3.5" />
-              </button>
-              <button
-                type="button"
-                aria-label="Close module inspector"
-                data-testid="inspector-close"
-                onClick={() => setSelectedTileId(null)}
-                className="p-1 rounded text-[#AFA9A0] hover:text-[#EFEAE0] hover:bg-[#252420] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#A78960]"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between gap-2">
-            <div className="text-xs font-mono-tabular text-[#AFA9A0]">
-              Orientation:{' '}
-              <strong
-                data-testid="inspector-tile-angle"
-                className="text-[#EFEAE0] font-semibold"
-              >
-                {selectedTileDegrees}°
-              </strong>
-            </div>
-
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                data-testid="inspector-rotate-left"
-                onClick={() => handleStepSelectedTileRotation(-1)}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#23221E] border border-[#EFEAE0]/12 hover:border-[#A78960] text-[11px] font-mono-tabular text-[#EFEAE0] transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#A78960]"
-              >
-                <RotateCcw className="w-3 h-3 text-[#C8B9A5]" />
-                <span>Rotate Left</span>
-              </button>
-
-              <button
-                type="button"
-                data-testid="inspector-rotate-right"
-                onClick={() => handleStepSelectedTileRotation(1)}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#23221E] border border-[#EFEAE0]/12 hover:border-[#A78960] text-[11px] font-mono-tabular text-[#EFEAE0] transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#A78960]"
-              >
-                <span>Rotate Right</span>
-                <RotateCw className="w-3 h-3 text-[#C8B9A5]" />
-              </button>
-
-              <button
-                type="button"
-                data-testid="inspector-reset-tile"
-                disabled={selectedTileDegrees === 0}
-                onClick={handleResetSelectedTile}
-                className="px-2 py-1 rounded bg-[#1B1B18] border border-[#EFEAE0]/10 hover:border-[#A78960] disabled:opacity-40 disabled:pointer-events-none text-[11px] font-mono-tabular text-[#AFA9A0] hover:text-[#EFEAE0] transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#A78960]"
-              >
-                Reset Tile
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Lower-Right Restrained MATERIAL / MODE Control Surface + Expandable Secondary Preset Drawer */}
       <div

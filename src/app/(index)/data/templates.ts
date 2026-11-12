@@ -3023,7 +3023,7 @@ RAW_TEMPLATES.push(
   {
     slug: "tessera",
     createdAt: "2026-11-12",
-    hasDownload: false,
+    hasDownload: true,
     title: "TESSERA",
     description: "Modular sculptural acoustic wall installations engineered for architectural interiors. Sound, shaped by design.",
     category: "showcase" as TemplateCategory,
@@ -3039,7 +3039,7 @@ RAW_TEMPLATES.push(
   {
     slug: "surface08",
     createdAt: "2026-11-12",
-    hasDownload: false,
+    hasDownload: true,
     title: "SURFACE/08",
     description: "An interactive material study and hero-background laboratory featuring eight real-time GPU-driven Three.js surfaces: Chroma Fluid, Fluted Light, Silk Atmosphere, Glass Lens, Aurora Field, Chromatic Ribbons, Bokeh Reactor, and Refraction Field.",
     category: "showcase" as TemplateCategory,

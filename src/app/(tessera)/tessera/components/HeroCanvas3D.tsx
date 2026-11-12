@@ -26,9 +26,9 @@ interface HeroCanvas3DProps {
   exploded: boolean;
   reducedMotion: boolean;
   tileRotations: Record<string, TileQuarterTurns>;
-  selectedTileId: string | null;
+  selectedTileId?: string | null;
   scrollProgressRef: React.MutableRefObject<number>;
-  onSelectTile: (tileId: string | null) => void;
+  onSelectTile?: (tileId: string | null) => void;
   onCommitTileRotation: (tileId: string, nextTurns: TileQuarterTurns) => void;
   onWebGLUnavailable?: () => void;
 }
@@ -597,7 +597,7 @@ export const HeroCanvas3D: React.FC<HeroCanvas3DProps> = ({
   exploded,
   reducedMotion,
   tileRotations,
-  selectedTileId,
+  selectedTileId = null,
   scrollProgressRef,
   onSelectTile,
   onCommitTileRotation,
@@ -1174,7 +1174,7 @@ export const HeroCanvas3D: React.FC<HeroCanvas3DProps> = ({
       if (!hitTileId) {
         // Clicked gallery background -> clear selection without resetting any tile rotations
         if (selectedTileIdRef.current !== null) {
-          onSelectTileRef.current(null);
+          onSelectTileRef.current?.(null);
         }
         return;
       }
@@ -1258,7 +1258,7 @@ export const HeroCanvas3D: React.FC<HeroCanvas3DProps> = ({
         playTactileClick(280);
         if (entity) entity.clickPulseZ = 0.032;
         onCommitTileRotationRef.current(gesture.tileId, snappedTurns);
-        onSelectTileRef.current(gesture.tileId);
+        onSelectTileRef.current?.(gesture.tileId);
       } else {
         // Single click/tap: rotate THAT tile +90° clockwise around outward normal
         const currentTurns = tileRotationsRef.current[gesture.tileId] ?? 0;
@@ -1266,7 +1266,7 @@ export const HeroCanvas3D: React.FC<HeroCanvas3DProps> = ({
         playTactileClick(320);
         if (entity) entity.clickPulseZ = 0.055;
         onCommitTileRotationRef.current(gesture.tileId, nextTurns);
-        onSelectTileRef.current(gesture.tileId);
+        onSelectTileRef.current?.(gesture.tileId);
       }
 
       renderer.domElement.style.cursor = hoveredTileId ? 'pointer' : 'default';
