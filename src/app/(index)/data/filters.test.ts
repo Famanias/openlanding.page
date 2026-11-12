@@ -3,6 +3,17 @@ import { filterTemplates, modelFamily, readFilters, sortTemplates } from "./filt
 import { TEMPLATES } from "./templates";
 
 describe("gallery discovery", () => {
+  it("filters overlapping technology and effect categories and preserves URL selections", () => {
+    for (const category of ["threejs", "gsap", "motion", "scroll-animation", "shaders", "interactive-backgrounds"] as const) {
+      expect(readFilters(`?category=${category}`).category).toBe(category);
+      expect(filterTemplates(TEMPLATES, { category, model: "all", query: "" }).length).toBeGreaterThan(0);
+    }
+    for (const category of ["threejs", "shaders", "interactive-backgrounds"] as const) {
+      expect(filterTemplates(TEMPLATES, { category, model: "all", query: "surface" }).some(t => t.slug === "surface08")).toBe(true);
+    }
+    expect(readFilters("?category=webgl").category).toBe("all");
+    expect(readFilters("?category=webgpu").category).toBe("all");
+  });
   it("groups the catalog's model names by provider", () => {
     expect(modelFamily("Claude Opus 5.5 High")).toBe("claude");
     expect(modelFamily("GPT-6 Astra Max")).toBe("openai");
