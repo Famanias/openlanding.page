@@ -95,7 +95,7 @@ export function HarvestCrateHero() {
           <h1
             className={`${fraunces.className} font-bold text-[40px] sm:text-[58px] xl:text-[68px] leading-[1.03] tracking-[-0.028em] text-[#181512] mb-3.5 sm:mb-6`}
           >
-            <span className="block">Good things</span>
+            <span className="block">Good things </span>
             <span className="block whitespace-nowrap">come into season.</span>
           </h1>
 

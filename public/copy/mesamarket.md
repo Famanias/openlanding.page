@@ -224,6 +224,7 @@ import {
   ProduceId,
 } from './basket/model';
 import { Header } from './sections/Header';
+import { HarvestCrateHero } from './hero/HarvestCrateHero';
 import { HeroStall } from './sections/HeroStall';
 import { ProduceShelf } from './sections/ProduceShelf';
 import { MealKits } from './sections/MealKits';
@@ -263,6 +264,9 @@ export function MesaMarketApp() {
         Skip to market shelf
       </a>
 
+      {/* 00: 2.5D Interactive Harvest Crate Hero (1:1 from mesa-hero) */}
+      <HarvestCrateHero />
+
       {/* Market Signage Header */}
       <Header
         totalCount={totals.totalCount}
@@ -271,7 +275,7 @@ export function MesaMarketApp() {
       />
 
       <main id="main">
-        {/* 01: Flat-Lay Market Stall Collage Hero with Left Category Rail */}
+        {/* 01: Flat-Lay Market Stall Collage Showcase (Moved Down) */}
         <HeroStall
           activeCategory={activeCategory}
           onSelectCategory={setActiveCategory}
@@ -2588,7 +2592,7 @@ export function HarvestCrateHero() {
           <h1
             className={`${fraunces.className} font-bold text-[40px] sm:text-[58px] xl:text-[68px] leading-[1.03] tracking-[-0.028em] text-[#181512] mb-3.5 sm:mb-6`}
           >
-            <span className="block">Good things</span>
+            <span className="block">Good things </span>
             <span className="block whitespace-nowrap">come into season.</span>
           </h1>
 
@@ -4686,12 +4690,12 @@ export const HeroStall: React.FC<HeroStallProps> = ({
             <div className="inline-block px-3 py-1 bg-[#3F7047] text-[#FDF5E7] mm-mono text-xs font-bold rounded-full">
               CAPAY & SONOMA HARVEST CRATE · ILLUSTRATIVE DEMO
             </div>
-            <h1
+            <h2
               className="mm-display font-extrabold text-[#24211D] leading-[0.98]"
               style={{ fontSize: 'clamp(2.5rem, 4.8vw, 4.4rem)', textWrap: 'balance' }}
             >
               Good things come into season.
-            </h1>
+            </h2>
             <p className="text-sm sm:text-base text-[#24211D]/80">
               Tap any produce sticker in the window or browse the shelf below to assemble a sample farm-to-door box.
             </p>

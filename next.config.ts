@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "node:path";
 import { RAW_TEMPLATES } from "./src/app/(index)/data/templates";
 import { createTemplateRouting } from "./src/lib/template-routing";
 
@@ -10,8 +11,8 @@ const nextConfig: NextConfig = {
   experimental: { cpus: 1 },
   partialPrefetching: true,
   turbopack: {
-    // Each managed checkout has its own dependencies; avoid scanning sibling worktrees.
-    root: process.cwd(),
+    // Allow resolving dependencies when run from a worktree.
+    root: path.resolve(__dirname, ".."),
     rules: {
       "*.css": {
         // Utilities come from application components, not generated copy bundles or QA artifacts.
