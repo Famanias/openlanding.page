@@ -143,6 +143,7 @@ export const DEFAULT_DESIGN: DesignState = {
   designHex: '#4B202A',
   print: 'bloom',
   motifScale: 100,
+  tintUpload: false,
 };
 
 export const DEFAULT_VIEW: ViewState = {
@@ -262,7 +263,7 @@ export const FAQ_ITEMS = [
   {
     question: 'Can I choose my own colors and print?',
     answer:
-      'Yes. Pick any base and design hex color using the hue wheel, sliders, hex field, or curated swatches, then choose from Bloom, Stripes, Landscape, Waves, Solid, or your own browser-session image.',
+      'Yes. Pick any base felt and print hex color using the hue wheel, sliders, hex field, native picker, or curated swatches, then choose from Bloom, Stripes, Landscape, Waves, Solid, or your own browser-session image.',
   },
   {
     question: 'Is this an acoustic performance claim?',

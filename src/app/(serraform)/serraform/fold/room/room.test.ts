@@ -227,3 +227,42 @@ test('openness, view yaw, and motifScale affect spatial metrics deterministicall
   assert.ok(wide.spatial.cameraBiasX > tight.spatial.cameraBiasX);
   assert.ok(wide.spatial.horizonLiftPx > tight.spatial.horizonLiftPx);
 });
+
+test('room accent coordination reflects Print Color cleanly for Burgundy+Ivory and Sage+Terracotta', () => {
+  const burgundyIvory = deriveRoomScene({
+    design: {
+      opening: 60,
+      baseHex: '#4B202A',
+      designHex: '#FFFCF8',
+      print: 'bloom',
+      motifScale: 100,
+    },
+    view: DEFAULT_VIEW,
+  });
+  assert.equal(burgundyIvory.family, 'botanicalAtelier');
+  assert.ok(
+    hexToOklch(burgundyIvory.palette.decorPrimary).l >= 0.78,
+    'Burgundy + Ivory room should render genuine light cream/ivory ceramic accents',
+  );
+  assert.ok(
+    hexToOklch(burgundyIvory.palette.decorAccent).l >= 0.84,
+    'Burgundy + Ivory room should render soft ivory textile/ceramic highlight accents',
+  );
+
+  const sageTerracotta = deriveRoomScene({
+    design: {
+      opening: 60,
+      baseHex: '#A6B3A0',
+      designHex: '#9A463D',
+      print: 'waves',
+      motifScale: 100,
+    },
+    view: DEFAULT_VIEW,
+  });
+  assert.equal(sageTerracotta.family, 'sculptedCoastalRoom');
+  const decorHue = hexToOklch(sageTerracotta.palette.decorPrimary).h;
+  assert.ok(
+    decorHue < 55 || decorHue > 345,
+    `Expected warm terracotta accent hue on Sage + Terracotta Waves, got ${decorHue}`,
+  );
+});

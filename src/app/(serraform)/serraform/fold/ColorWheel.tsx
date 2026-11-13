@@ -2,11 +2,19 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
-import { hexToHsv, hsvToHex, normalizeHex } from './color';
-import { COLOR_PRESETS, PRINT_SPECS } from './config';
+import {
+  evaluatePrintContrast,
+  hexToHsv,
+  hsvToHex,
+  normalizeHex,
+  suggestContrastingPrintColor,
+} from './color';
+import { COLOR_PRESETS } from './config';
 import { useFold } from './FoldProvider';
+import { NativeColorInput } from './NativeColorInput';
+import { usesActivePrintColor } from './state';
 
-type ColorTarget = 'base' | 'design';
+export type ColorTarget = 'base' | 'design';
 
 const WHEEL_SIZE = 204;
 const WHEEL_CENTER = WHEEL_SIZE / 2;
@@ -16,14 +24,23 @@ const SV_HALF = Math.floor((INNER_RADIUS - 7) / Math.SQRT2);
 const SV_LEFT = Math.round(WHEEL_CENTER - SV_HALF);
 const SV_SIZE = SV_HALF * 2;
 
-export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }) => {
+export const ColorWheel: React.FC<{
+  idPrefix?: string;
+  initialTarget?: ColorTarget;
+}> = ({ idPrefix = 'srf', initialTarget }) => {
   const { design, setBaseHex, setDesignHex } = useFold();
-  const printSpec = PRINT_SPECS[design.print];
-  const designDisabled = !printSpec.usesDesignColor;
+  const designDisabled = !usesActivePrintColor(design);
+  const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
 
-  const [target, setTarget] = useState<ColorTarget>('base');
+  const [target, setTarget] = useState<ColorTarget>(initialTarget ?? 'base');
   const activeHex = target === 'base' ? design.baseHex : design.designHex;
   const activeDisabled = target === 'design' && designDisabled;
+
+  useEffect(() => {
+    if (initialTarget) {
+      setTarget(initialTarget);
+    }
+  }, [initialTarget]);
 
   // Preserve hue independently across zero-saturation edits (black/white/gray)
   const hueMemoryRef = useRef<{ base: number; design: number }>({
@@ -334,10 +351,11 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
 
   return (
     <div className="space-y-4">
-      {/* Base vs Design target selector */}
+      {/* Base vs Print color target selector */}
       <div className="grid grid-cols-2 gap-2.5">
         <button
           type="button"
+          data-testid={`${idPrefix}-target-base-btn`}
           aria-pressed={target === 'base'}
           onClick={() => setTarget('base')}
           className={`flex items-center gap-2.5 p-2.5 rounded-[8px] border text-left transition-colors min-h-[52px] ${
@@ -366,14 +384,15 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
 
         <button
           type="button"
-          disabled={designDisabled}
+          data-testid={`${idPrefix}-target-print-btn`}
+          aria-disabled={designDisabled}
           aria-pressed={!designDisabled && target === 'design'}
-          onClick={() => {
-            if (!designDisabled) setTarget('design');
-          }}
+          onClick={() => setTarget('design')}
           className={`flex items-center gap-2.5 p-2.5 rounded-[8px] border text-left transition-colors min-h-[52px] ${
             designDisabled
-              ? 'border-[var(--srf-hairline)] opacity-55 cursor-not-allowed bg-[var(--srf-rose)]'
+              ? target === 'design'
+                ? 'border-[var(--srf-oxblood)]/60 opacity-65 bg-[var(--srf-rose)] ring-1 ring-[var(--srf-oxblood)]/20'
+                : 'border-[var(--srf-hairline)] opacity-55 bg-[var(--srf-rose)] hover:opacity-75'
               : target === 'design'
                 ? 'border-[var(--srf-oxblood)] bg-[var(--srf-surface-soft)] ring-2 ring-[var(--srf-oxblood)]/25'
                 : 'border-[var(--srf-hairline)] hover:border-[var(--srf-hairline-strong)]'
@@ -386,7 +405,7 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
           />
           <span className="min-w-0 flex-1">
             <span className="block text-xs font-medium text-[var(--srf-oxblood)]">
-              Design color
+              Print color
             </span>
             <span className="block srf-mono-caption text-[var(--srf-mauve)] truncate">
               {design.designHex}
@@ -399,11 +418,36 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
       </div>
 
       {designDisabled && (
-        <p className="srf-mono-caption text-[var(--srf-mauve)]">
+        <p className="srf-mono-caption text-[var(--srf-mauve)]" data-testid={`${idPrefix}-print-color-saved-note`}>
           {design.print === 'solid'
-            ? `Design color (${design.designHex}) is saved when you pick a pattern.`
-            : `Design color (${design.designHex}) does not tint uploaded artwork, and stays saved for patterns.`}
+            ? `Print color (${design.designHex}) is inactive on Solid felt and returns when you choose a pattern.`
+            : `Print color (${design.designHex}) stays saved; enable image tint in Print options to recolor uploads.`}
         </p>
+      )}
+
+      {!designDisabled && contrast.isLowContrast && (
+        <div
+          role="status"
+          data-testid={`${idPrefix}-contrast-warning`}
+          className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-[6px] border border-[var(--srf-clay)]/40 bg-[var(--srf-porcelain)] text-xs text-[var(--srf-oxblood)]"
+        >
+          <span>Low print contrast — try a lighter or darker color.</span>
+          <button
+            type="button"
+            data-testid={`${idPrefix}-suggest-contrast-btn`}
+            onClick={() => {
+              const suggested = suggestContrastingPrintColor(design.baseHex, design.designHex);
+              setHexError(null);
+              if (target === 'design') {
+                setDraftHex(suggested);
+              }
+              setDesignHex(suggested);
+            }}
+            className="px-2.5 py-1 rounded-[4px] border border-[var(--srf-oxblood)] bg-[var(--srf-oxblood)] text-[var(--srf-porcelain)] font-medium hover:bg-[var(--srf-clay)] hover:border-[var(--srf-clay)] transition-colors shrink-0"
+          >
+            Suggest contrast
+          </button>
+        </div>
       )}
 
       {/* Wheel + Accessible HSV Sliders + Hex */}
@@ -436,35 +480,51 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
           </div>
 
           <div className="w-full min-w-0 flex-1 space-y-3">
-            {/* Hex text field */}
+            {/* Hex text field & native picker */}
             <div>
               <label
                 htmlFor={`${idPrefix}-hex-input`}
                 className="block srf-mono-caption text-[var(--srf-oxblood)] mb-1"
               >
-                Hex color ({target === 'base' ? 'Base' : 'Design'})
+                Hex color ({target === 'base' ? 'Base color' : 'Print color'})
               </label>
-              <input
-                id={`${idPrefix}-hex-input`}
-                type="text"
-                value={draftHex}
-                disabled={activeDisabled}
-                onFocus={() => {
-                  isEditingHexRef.current = true;
-                }}
-                onChange={handleHexInputChange}
-                onBlur={handleHexCommit}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleHexCommit();
-                  }
-                }}
-                aria-invalid={hexError ? 'true' : undefined}
-                aria-describedby={hexError ? `${idPrefix}-hex-error` : undefined}
-                placeholder="#9A463D"
-                className="w-full min-h-[40px] px-3 py-1.5 rounded-[4px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)] text-sm font-[family-name:var(--font-mono)] uppercase text-[var(--srf-oxblood)]"
-              />
+              <div className="flex items-center gap-2">
+                <NativeColorInput
+                  id={`${idPrefix}-color-picker`}
+                  testId={`${idPrefix}-color-picker`}
+                  value={activeHex}
+                  disabled={activeDisabled}
+                  onHexChange={(normalized) => {
+                    setHexError(null);
+                    setDraftHex(normalized);
+                    commitHexForTarget(normalized);
+                  }}
+                  ariaLabel={`Color picker for ${target === 'base' ? 'Base color' : 'Print color'}`}
+                  className="w-10 h-10 p-0.5 rounded-[4px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)] cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+                <input
+                  id={`${idPrefix}-hex-input`}
+                  data-testid={`${idPrefix}-hex-input`}
+                  type="text"
+                  value={draftHex}
+                  disabled={activeDisabled}
+                  onFocus={() => {
+                    isEditingHexRef.current = true;
+                  }}
+                  onChange={handleHexInputChange}
+                  onBlur={handleHexCommit}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleHexCommit();
+                    }
+                  }}
+                  aria-invalid={hexError ? 'true' : undefined}
+                  aria-describedby={hexError ? `${idPrefix}-hex-error` : undefined}
+                  placeholder="#9A463D"
+                  className="w-full min-h-[40px] px-3 py-1.5 rounded-[4px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)] text-sm font-[family-name:var(--font-mono)] uppercase text-[var(--srf-oxblood)] disabled:opacity-55 disabled:cursor-not-allowed"
+                />
+              </div>
               {hexError && (
                 <p
                   id={`${idPrefix}-hex-error`}
@@ -543,7 +603,7 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
         {/* 10 Curated felt swatch shortcuts (always including Clay, Flax, Sage) */}
         <div>
           <div className="srf-mono-caption text-[var(--srf-mauve)] mb-2">
-            Felt shortcuts for {target === 'base' ? 'base' : 'design'}
+            Felt shortcuts for {target === 'base' ? 'base color' : 'print color'}
           </div>
           <div className="flex flex-wrap gap-2">
             {COLOR_PRESETS.map((preset) => {
@@ -553,7 +613,7 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
                   key={preset.id}
                   type="button"
                   disabled={activeDisabled}
-                  aria-label={`${preset.name} (${preset.hex})`}
+                  aria-label={`${target === 'base' ? 'Base' : 'Print'} preset ${preset.name} (${preset.hex})`}
                   aria-pressed={matched}
                   title={`${preset.name} · ${preset.hex}`}
                   onClick={() => {
@@ -561,7 +621,7 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
                     setDraftHex(preset.hex);
                     commitHexForTarget(preset.hex);
                   }}
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 min-h-[36px] rounded-[6px] border text-xs transition-colors ${
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 min-h-[36px] rounded-[6px] border text-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
                     matched
                       ? 'border-[var(--srf-oxblood)] bg-[var(--srf-porcelain)] ring-1 ring-[var(--srf-oxblood)] text-[var(--srf-oxblood)] font-medium'
                       : 'border-[var(--srf-hairline)] bg-[var(--srf-porcelain)]/70 hover:border-[var(--srf-oxblood)] text-[var(--srf-oxblood)]'

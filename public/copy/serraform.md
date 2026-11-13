@@ -1253,7 +1253,7 @@ import { formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
 import type { AdvancedDrawerSection } from './HeroStudioDock';
 import { PrintGallery } from './PrintGallery';
-import { normalizeYawDeg, viewPresetFromAngles } from './state';
+import { normalizeYawDeg, usesActivePrintColor, viewPresetFromAngles } from './state';
 
 interface AdvancedStudioDrawerProps {
   open: boolean;
@@ -1297,7 +1297,7 @@ export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
     document.body.style.overflow = 'hidden';
 
     const scrollTarget =
-      initialSection === 'color'
+      initialSection === 'color' || initialSection === 'printColor'
         ? colorSectionRef.current
         : initialSection === 'design'
           ? designSectionRef.current
@@ -1460,7 +1460,7 @@ export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
             </div>
           </section>
 
-          {/* 2. Color (exact existing ColorWheel with Base + Design color, Hex, H/S/B, 10 swatches) */}
+          {/* 2. Color (ColorWheel with Base + Print color, Hex, H/S/B, 10 swatches) */}
           <section
             ref={colorSectionRef}
             className="pt-5 border-t border-[var(--srf-hairline)] space-y-3"
@@ -1468,15 +1468,18 @@ export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
           >
             <div className="flex items-baseline justify-between gap-2">
               <h3 id="srf-adv-color" className="text-base font-medium text-[var(--srf-oxblood)]">
-                2. Color
+                2. Base &amp; Print Color
               </h3>
               <span className="srf-mono-caption text-[var(--srf-mauve)]">
                 {design.baseHex}
-                {printSpec.usesDesignColor ? ` · ${design.designHex}` : ''}
+                {usesActivePrintColor(design) ? ` · ${design.designHex}` : ''}
               </span>
             </div>
 
-            <ColorWheel idPrefix="srf-hero" />
+            <ColorWheel
+              idPrefix="srf-hero"
+              initialTarget={initialSection === 'printColor' ? 'design' : 'base'}
+            />
           </section>
 
           {/* 3. Design (exact existing PrintGallery with Bloom/Stripes/Landscape/Waves/Solid, Upload, Motif size) */}
@@ -1615,19 +1618,21 @@ export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
                 </dd>
               </div>
 
-              {printSpec.usesDesignColor && (
-                <div>
-                  <dt className="srf-mono-caption text-[var(--srf-mauve)]">Design color</dt>
-                  <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
-                      style={{ backgroundColor: design.designHex }}
-                      aria-hidden="true"
-                    />
-                    <span>{design.designHex}</span>
-                  </dd>
-                </div>
-              )}
+              <div>
+                <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print color</dt>
+                <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
+                  <span
+                    className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
+                    style={{ backgroundColor: design.designHex }}
+                    aria-hidden="true"
+                  />
+                  <span className={!usesActivePrintColor(design) ? 'text-[var(--srf-mauve)]' : undefined}>
+                    {usesActivePrintColor(design)
+                      ? design.designHex
+                      : `${design.designHex} (${design.print === 'solid' ? 'saved' : 'original upload'})`}
+                  </span>
+                </dd>
+              </div>
 
               {printSpec.usesScale && (
                 <div>
@@ -1685,7 +1690,15 @@ export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
 ]]>
     </file>
     <file path="src/app/(serraform)/serraform/fold/artwork.ts">
-<![CDATA[import { hexToRgb, hexWithAlpha, mixHex, relativeLuminance } from './color';
+<![CDATA[import {
+  colorDistanceOklab,
+  hexToOklch,
+  hexToRgb,
+  hexWithAlpha,
+  mixHex,
+  oklchToHex,
+  relativeLuminance,
+} from './color';
 import type { DesignState } from './state';
 
 const bitmapIds = new WeakMap<ImageBitmap, number>();
@@ -1832,6 +1845,68 @@ function drawBlossom(
   ctx.restore();
 }
 
+export interface PrintTones {
+  primary: string;
+  secondary: string;
+  soft: string;
+  centerContrast: string;
+  skyWash: string;
+  distantRidge: string;
+  midRidge: string;
+  foreRidge: string;
+  foregroundInk: string;
+}
+
+/**
+ * Derives secondary tonal shades directly from the selected Print Color in OKLCH space
+ * so every print retains rich illustration depth without collapsing into the base felt.
+ */
+export function derivePrintTones(baseHex: string, printHex: string): PrintTones {
+  const p = hexToOklch(printHex);
+  const b = hexToOklch(baseHex);
+  const hue = p.c < 0.015 ? 65 : p.h;
+  const isLightPrint = p.l > 0.64;
+
+  // Pick a tonal direction for secondary motifs that separates from both primary ink and base felt.
+  const pickSeparatedTone = (deltaLight: number, chromaScale: number): string => {
+    const dir = isLightPrint ? -1 : 1;
+    const candidateL = Math.max(0.14, Math.min(0.94, p.l + dir * deltaLight));
+    const candidate = oklchToHex(candidateL, Math.max(0.004, p.c * chromaScale), hue);
+    if (colorDistanceOklab(candidate, baseHex) >= 0.12) {
+      return candidate;
+    }
+    const altDir = p.l >= b.l ? 1 : -1;
+    const altL = Math.max(0.12, Math.min(0.96, p.l + altDir * (deltaLight + 0.06)));
+    return oklchToHex(altL, Math.max(0.004, p.c * chromaScale), hue);
+  };
+
+  const secondary = pickSeparatedTone(0.14, 0.88);
+  const soft = pickSeparatedTone(0.24, 0.72);
+  const centerContrast =
+    relativeLuminance(printHex) < 0.24
+      ? oklchToHex(Math.min(0.95, p.l + 0.44), Math.max(0.008, p.c * 0.45), hue)
+      : oklchToHex(Math.max(0.18, p.l - 0.42), Math.min(0.11, p.c * 1.1), hue);
+
+  // Landscape keeps stepped separation between atmospheric hills and foreground trees/ground band.
+  const skyWash = mixHex(baseHex, soft, 0.22);
+  const distantRidge = mixHex(baseHex, soft, 0.34);
+  const midRidge = mixHex(baseHex, secondary, 0.56);
+  const foreRidge = mixHex(baseHex, secondary, 0.72);
+  const foregroundInk = printHex;
+
+  return {
+    primary: printHex,
+    secondary,
+    soft,
+    centerContrast,
+    skyWash,
+    distantRidge,
+    midRidge,
+    foreRidge,
+    foregroundInk,
+  };
+}
+
 function drawBloomPattern(
   ctx: CanvasRenderingContext2D,
   w: number,
@@ -1847,12 +1922,10 @@ function drawBloomPattern(
   const repeatsX = Math.ceil(w / unitW) + 2;
   const repeatsY = Math.ceil(h / tileH) + 1;
 
-  const primaryInk = designHex;
-  const softInk = mixHex(baseHex, designHex, 0.48);
-  const stamenContrast =
-    relativeLuminance(designHex) < 0.28
-      ? mixHex(baseHex, '#FFFCF8', 0.35)
-      : mixHex(designHex, '#2E141A', 0.45);
+  const tones = derivePrintTones(baseHex, designHex);
+  const primaryInk = tones.primary;
+  const softInk = tones.secondary;
+  const stamenContrast = tones.centerContrast;
 
   const drawSingleTile = (ox: number, oy: number, tw: number, th: number) => {
     ctx.save();
@@ -1970,14 +2043,15 @@ function drawStripesPattern(
   motifScale: number,
 ) {
   const period = (w / 5.5) * (motifScale / 100);
-  const softTone = mixHex(baseHex, designHex, 0.36);
-  const midTone = mixHex(baseHex, designHex, 0.68);
+  const tones = derivePrintTones(baseHex, designHex);
+  const softTone = tones.soft;
+  const midTone = tones.secondary;
   const count = Math.ceil(w / period) + 2;
 
   for (let i = -1; i < count; i += 1) {
     const x = i * period;
     // Wide solid band
-    ctx.fillStyle = designHex;
+    ctx.fillStyle = tones.primary;
     ctx.fillRect(x, 0, period * 0.22, h);
 
     // Soft woven companion bar
@@ -1985,7 +2059,7 @@ function drawStripesPattern(
     ctx.fillRect(x + period * 0.28, 0, period * 0.14, h);
 
     // Fine paired pinstripes
-    ctx.fillStyle = designHex;
+    ctx.fillStyle = tones.primary;
     ctx.fillRect(x + period * 0.5, 0, Math.max(1.5, period * 0.045), h);
     ctx.fillRect(x + period * 0.58, 0, Math.max(1.5, period * 0.045), h);
 
@@ -1994,7 +2068,7 @@ function drawStripesPattern(
     ctx.fillRect(x + period * 0.72, 0, period * 0.11, h);
 
     // Subtle hairline thread
-    ctx.fillStyle = hexWithAlpha(designHex, 0.55);
+    ctx.fillStyle = hexWithAlpha(tones.primary, 0.55);
     ctx.fillRect(x + period * 0.9, 0, Math.max(1, period * 0.02), h);
   }
 }
@@ -2014,16 +2088,16 @@ function drawLandscapeArtwork(
   ctx.scale(s, s);
   ctx.translate(-w * 0.5, -h * 0.5);
 
-  const skyTint = mixHex(baseHex, designHex, 0.12);
-  const distantHill = mixHex(baseHex, designHex, 0.3);
-  const midHill = mixHex(baseHex, designHex, 0.56);
-  const foreRidge = mixHex(baseHex, designHex, 0.84);
-  const darkInk = designHex;
+  const tones = derivePrintTones(baseHex, designHex);
+  const distantHill = tones.distantRidge;
+  const midHill = tones.midRidge;
+  const foreRidge = tones.foreRidge;
+  const darkInk = tones.foregroundInk;
 
-  // Soft sky wash
+  // Transparent sky wash so base felt luminescence shows through cleanly
   const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.72);
-  skyGrad.addColorStop(0, skyTint);
-  skyGrad.addColorStop(1, baseHex);
+  skyGrad.addColorStop(0, hexWithAlpha(tones.soft, 0.24));
+  skyGrad.addColorStop(1, hexWithAlpha(tones.soft, 0));
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, w, h);
 
@@ -2032,13 +2106,13 @@ function drawLandscapeArtwork(
   const sunY = h * 0.29;
   const sunR = Math.min(w, h) * 0.11;
 
-  ctx.strokeStyle = hexWithAlpha(darkInk, 0.25);
+  ctx.strokeStyle = hexWithAlpha(darkInk, 0.28);
   ctx.lineWidth = Math.max(1.5, w * 0.002);
   ctx.beginPath();
   ctx.arc(sunX, sunY, sunR * 1.38, 0, Math.PI * 2);
   ctx.stroke();
 
-  ctx.fillStyle = mixHex(baseHex, darkInk, 0.72);
+  ctx.fillStyle = tones.secondary;
   ctx.beginPath();
   ctx.arc(sunX, sunY, sunR, 0, Math.PI * 2);
   ctx.fill();
@@ -2141,8 +2215,9 @@ function drawWavesPattern(
   const s = motifScale / 100;
   const rows = 9;
   const freq = Math.max(1, Math.round(3 / Math.max(0.5, s)));
-  const softTone = mixHex(baseHex, designHex, 0.34);
-  const midTone = mixHex(baseHex, designHex, 0.65);
+  const tones = derivePrintTones(baseHex, designHex);
+  const softTone = tones.soft;
+  const midTone = tones.secondary;
 
   ctx.lineCap = 'round';
   for (let row = 0; row < rows; row += 1) {
@@ -2152,7 +2227,7 @@ function drawWavesPattern(
     const lineW =
       h * (row % 3 === 0 ? 0.032 : row % 2 === 0 ? 0.018 : 0.01) * Math.max(0.6, Math.min(1.5, s));
 
-    ctx.strokeStyle = row % 3 === 0 ? designHex : row % 2 === 0 ? midTone : softTone;
+    ctx.strokeStyle = row % 3 === 0 ? tones.primary : row % 2 === 0 ? midTone : softTone;
     ctx.lineWidth = Math.max(2, lineW);
     ctx.beginPath();
 
@@ -2177,6 +2252,7 @@ function drawUploadedImage(
   h: number,
   bitmap: ImageBitmap | null,
   motifScale: number,
+  tintHex?: string,
 ) {
   if (!bitmap || bitmap.width <= 0 || bitmap.height <= 0) return;
 
@@ -2187,33 +2263,64 @@ function drawUploadedImage(
   const dx = (w - drawW) * 0.5;
   const dy = (h - drawH) * 0.5;
 
+  if (!tintHex || typeof document === 'undefined') {
+    ctx.save();
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(bitmap, dx, dy, drawW, drawH);
+    ctx.restore();
+    return;
+  }
+
+  // Opt-in screen-print tinting preserves original transparency/alpha while mapping luminance to Print Color.
+  const buffer = document.createElement('canvas');
+  buffer.width = w;
+  buffer.height = h;
+  const bCtx = buffer.getContext('2d');
+  if (!bCtx) return;
+
+  bCtx.imageSmoothingEnabled = true;
+  bCtx.imageSmoothingQuality = 'high';
+  bCtx.drawImage(bitmap, dx, dy, drawW, drawH);
+
+  const img = bCtx.getImageData(0, 0, w, h);
+  const data = img.data;
+  const { r: tr, g: tg, b: tb } = hexToRgb(tintHex);
+  const { r: dr, g: dg, b: db } = hexToRgb(mixHex(tintHex, '#181113', 0.42));
+  const { r: lr, g: lg, b: lb } = hexToRgb(mixHex(tintHex, '#FFFCF8', 0.45));
+
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] === 0) continue;
+    const lum = (0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]) / 255;
+    if (lum < 0.5) {
+      const k = lum * 2;
+      data[i] = Math.round(dr + (tr - dr) * k);
+      data[i + 1] = Math.round(dg + (tg - dg) * k);
+      data[i + 2] = Math.round(db + (tb - db) * k);
+    } else {
+      const k = (lum - 0.5) * 2;
+      data[i] = Math.round(tr + (lr - tr) * k);
+      data[i + 1] = Math.round(tg + (lg - tg) * k);
+      data[i + 2] = Math.round(tb + (lb - tb) * k);
+    }
+  }
+  bCtx.putImageData(img, 0, 0);
+
   ctx.save();
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-  ctx.drawImage(bitmap, dx, dy, drawW, drawH);
+  ctx.drawImage(buffer, 0, 0);
   ctx.restore();
 }
 
 /**
- * Renders any Fold 16 fabric design into a target 2D canvas.
- * Shared across Three.js CanvasTexture, Canvas 2D still fallback, room study, and swatch gallery.
+ * Renders only the printed artwork layer over transparency (separate from base felt).
  */
-export function renderTextileToCanvas(
-  canvas: HTMLCanvasElement,
-  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale'>,
+export function renderPrintArtworkLayer(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale' | 'tintUpload'>,
   uploadedBitmap: ImageBitmap | null = null,
 ): void {
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  const w = canvas.width;
-  const h = canvas.height;
-
-  // 1. Solid base felt color
-  ctx.fillStyle = design.baseHex;
-  ctx.fillRect(0, 0, w, h);
-
-  // 2. Selected artwork layer
   switch (design.print) {
     case 'bloom':
       drawBloomPattern(ctx, w, h, design.baseHex, design.designHex, design.motifScale);
@@ -2229,13 +2336,43 @@ export function renderTextileToCanvas(
       break;
     case 'upload':
       if (uploadedBitmap) {
-        drawUploadedImage(ctx, w, h, uploadedBitmap, design.motifScale);
+        drawUploadedImage(
+          ctx,
+          w,
+          h,
+          uploadedBitmap,
+          design.motifScale,
+          design.tintUpload ? design.designHex : undefined,
+        );
       }
       break;
     case 'solid':
     default:
       break;
   }
+}
+
+/**
+ * Renders any Fold 16 fabric design into a target 2D canvas.
+ * Shared across Three.js CanvasTexture, Canvas 2D still fallback, room study, and swatch gallery.
+ */
+export function renderTextileToCanvas(
+  canvas: HTMLCanvasElement,
+  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale' | 'tintUpload'>,
+  uploadedBitmap: ImageBitmap | null = null,
+): void {
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const w = canvas.width;
+  const h = canvas.height;
+
+  // 1. Solid base felt color
+  ctx.fillStyle = design.baseHex;
+  ctx.fillRect(0, 0, w, h);
+
+  // 2. Selected artwork layer over base felt
+  renderPrintArtworkLayer(ctx, w, h, design, uploadedBitmap);
 
   // 3. Subtle felt wool micro-grain overlay so print integrates into textured felt even near white/black
   const lum = relativeLuminance(design.baseHex);
@@ -2247,9 +2384,6 @@ export function renderTextileToCanvas(
     ctx.fillRect(0, 0, w, h);
     ctx.restore();
   }
-
-  // Keep subtle unused ref avoided
-  void hexToRgb;
 }
 ]]>
     </file>
@@ -2405,6 +2539,211 @@ export function relativeLuminance(hex: string): number {
   };
   return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
 }
+
+export interface Oklab {
+  L: number;
+  a: number;
+  b: number;
+}
+
+export interface Oklch {
+  l: number;
+  c: number;
+  h: number;
+}
+
+export interface PrintContrastAssessment {
+  contrastRatio: number;
+  deltaE: number;
+  deltaL: number;
+  isLowContrast: boolean;
+  direction: 'lighter' | 'darker';
+}
+
+function srgbChannelToLinear(channel255: number): number {
+  const v = channel255 / 255;
+  return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+}
+
+function linearToSrgb255(linear: number): number {
+  const clamped = Math.max(0, Math.min(1, linear));
+  const encoded =
+    clamped <= 0.0031308
+      ? 12.92 * clamped
+      : 1.055 * Math.pow(clamped, 1 / 2.4) - 0.055;
+  return Math.round(Math.max(0, Math.min(1, encoded)) * 255);
+}
+
+export function hexToOklab(hex: string): Oklab {
+  const { r, g, b } = hexToRgb(hex);
+  const R = srgbChannelToLinear(r);
+  const G = srgbChannelToLinear(g);
+  const B = srgbChannelToLinear(b);
+
+  const l = Math.cbrt(0.4122214708 * R + 0.5363325363 * G + 0.0514459929 * B);
+  const m = Math.cbrt(0.2119034982 * R + 0.6806995451 * G + 0.1073969566 * B);
+  const s = Math.cbrt(0.0883024619 * R + 0.2817188376 * G + 0.6299787005 * B);
+
+  return {
+    L: 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s,
+    a: 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s,
+    b: 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s,
+  };
+}
+
+export function hexToOklch(hex: string): Oklch {
+  const { L, a, b } = hexToOklab(hex);
+  const c = Math.hypot(a, b);
+  let h = (Math.atan2(b, a) * 180) / Math.PI;
+  if (h < 0) h += 360;
+  return { l: L, c, h };
+}
+
+function oklabToLinearSrgb(L: number, a: number, b: number): [number, number, number] {
+  const l = L + 0.3963377774 * a + 0.2158037573 * b;
+  const m = L - 0.1055613458 * a - 0.0638541728 * b;
+  const s = L - 0.0894841775 * a - 1.291485548 * b;
+
+  const l3 = l * l * l;
+  const m3 = m * m * m;
+  const s3 = s * s * s;
+
+  return [
+    +4.0767416621 * l3 - 3.3077115913 * m3 + 0.2309699292 * s3,
+    -1.2684380046 * l3 + 2.6097574011 * m3 - 0.3413193965 * s3,
+    -0.0041960863 * l3 - 0.7034186147 * m3 + 1.707614701 * s3,
+  ];
+}
+
+function isInSrgbGamut(rLin: number, gLin: number, bLin: number): boolean {
+  const eps = 1e-4;
+  return (
+    rLin >= -eps &&
+    rLin <= 1 + eps &&
+    gLin >= -eps &&
+    gLin <= 1 + eps &&
+    bLin >= -eps &&
+    bLin <= 1 + eps
+  );
+}
+
+/**
+ * Converts OKLCH to the nearest in-gamut sRGB hex by binary-searching chroma
+ * at the target lightness and hue.
+ */
+export function oklchToHex(l: number, c: number, h: number): string {
+  const L = Math.max(0, Math.min(1, l));
+  const C = Math.max(0, c);
+  const rad = (h * Math.PI) / 180;
+  const cosH = Math.cos(rad);
+  const sinH = Math.sin(rad);
+
+  const [r0, g0, b0] = oklabToLinearSrgb(L, C * cosH, C * sinH);
+  if (isInSrgbGamut(r0, g0, b0)) {
+    return rgbToHex(linearToSrgb255(r0), linearToSrgb255(g0), linearToSrgb255(b0));
+  }
+
+  let lo = 0;
+  let hi = C;
+  for (let i = 0; i < 14; i += 1) {
+    const mid = (lo + hi) * 0.5;
+    const [r, g, b] = oklabToLinearSrgb(L, mid * cosH, mid * sinH);
+    if (isInSrgbGamut(r, g, b)) {
+      lo = mid;
+    } else {
+      hi = mid;
+    }
+  }
+  const [r, g, b] = oklabToLinearSrgb(L, lo * cosH, lo * sinH);
+  return rgbToHex(linearToSrgb255(r), linearToSrgb255(g), linearToSrgb255(b));
+}
+
+export function colorDistanceOklab(hexA: string, hexB: string): number {
+  const a = hexToOklab(hexA);
+  const b = hexToOklab(hexB);
+  return Math.hypot(a.L - b.L, a.a - b.a, a.b - b.b);
+}
+
+export function contrastRatio(hexA: string, hexB: string): number {
+  const l1 = relativeLuminance(hexA);
+  const l2 = relativeLuminance(hexB);
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+/**
+ * Evaluates print legibility on felt panels using both WCAG relative-luminance
+ * contrast ratio and OKLab perceptual color difference.
+ */
+export function evaluatePrintContrast(
+  baseHex: string,
+  printHex: string,
+): PrintContrastAssessment {
+  const ratio = contrastRatio(baseHex, printHex);
+  const labBase = hexToOklab(baseHex);
+  const labPrint = hexToOklab(printHex);
+  const deltaL = Math.abs(labBase.L - labPrint.L);
+  const deltaE = Math.hypot(deltaL, labBase.a - labPrint.a, labBase.b - labPrint.b);
+  const isLowContrast = ratio < 1.8 || (ratio < 2.35 && deltaE < 0.22);
+  const direction: 'lighter' | 'darker' = labBase.L < 0.58 ? 'lighter' : 'darker';
+
+  return {
+    contrastRatio: ratio,
+    deltaE,
+    deltaL,
+    isLowContrast,
+    direction,
+  };
+}
+
+const CONTRAST_SUGGESTION_POOL = [
+  '#FFFCF8', // Porcelain ivory
+  '#4B202A', // Deep oxblood plum
+  '#2B2426', // Charcoal umber
+  '#F3E8E4', // Blush ivory
+  '#E4C578', // Pale warm gold
+  '#2E5240', // Pine green
+  '#D8C4A7', // Flax oat
+  '#9A463D', // Clay terracotta
+] as const;
+
+/**
+ * Suggests a legible, editorial contrasting print pigment for the given base felt.
+ */
+export function suggestContrastingPrintColor(
+  baseHex: string,
+  currentPrintHex?: string,
+): string {
+  const baseNorm = normalizeHex(baseHex) ?? '#D8C4A7';
+  const currentNorm = (currentPrintHex ? normalizeHex(currentPrintHex) : null) ?? '';
+  const baseLab = hexToOklab(baseNorm);
+  const preferLight = baseLab.L < 0.58;
+
+  let bestHex: string = preferLight ? '#FFFCF8' : '#2B2426';
+  let bestScore = -Infinity;
+
+  for (const candidate of CONTRAST_SUGGESTION_POOL) {
+    if (candidate === baseNorm) continue;
+    const assessment = evaluatePrintContrast(baseNorm, candidate);
+    if (assessment.isLowContrast) continue;
+
+    const candLab = hexToOklab(candidate);
+    const sameDirection = preferLight ? candLab.L > baseLab.L : candLab.L < baseLab.L;
+    let score = assessment.contrastRatio + assessment.deltaE * 6;
+    if (sameDirection) score += 8;
+    if (candidate === '#FFFCF8' && preferLight) score += 1.5;
+    if (candidate === '#4B202A' && !preferLight) score += 1.2;
+    if (candidate === currentNorm) score -= 20;
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestHex = candidate;
+    }
+  }
+
+  return bestHex;
+}
 ]]>
     </file>
     <file path="src/app/(serraform)/serraform/fold/ColorWheel.tsx">
@@ -2412,11 +2751,18 @@ export function relativeLuminance(hex: string): number {
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
-import { hexToHsv, hsvToHex, normalizeHex } from './color';
-import { COLOR_PRESETS, PRINT_SPECS } from './config';
+import {
+  evaluatePrintContrast,
+  hexToHsv,
+  hsvToHex,
+  normalizeHex,
+  suggestContrastingPrintColor,
+} from './color';
+import { COLOR_PRESETS } from './config';
 import { useFold } from './FoldProvider';
+import { usesActivePrintColor } from './state';
 
-type ColorTarget = 'base' | 'design';
+export type ColorTarget = 'base' | 'design';
 
 const WHEEL_SIZE = 204;
 const WHEEL_CENTER = WHEEL_SIZE / 2;
@@ -2426,14 +2772,23 @@ const SV_HALF = Math.floor((INNER_RADIUS - 7) / Math.SQRT2);
 const SV_LEFT = Math.round(WHEEL_CENTER - SV_HALF);
 const SV_SIZE = SV_HALF * 2;
 
-export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }) => {
+export const ColorWheel: React.FC<{
+  idPrefix?: string;
+  initialTarget?: ColorTarget;
+}> = ({ idPrefix = 'srf', initialTarget }) => {
   const { design, setBaseHex, setDesignHex } = useFold();
-  const printSpec = PRINT_SPECS[design.print];
-  const designDisabled = !printSpec.usesDesignColor;
+  const designDisabled = !usesActivePrintColor(design);
+  const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
 
-  const [target, setTarget] = useState<ColorTarget>('base');
+  const [target, setTarget] = useState<ColorTarget>(initialTarget ?? 'base');
   const activeHex = target === 'base' ? design.baseHex : design.designHex;
   const activeDisabled = target === 'design' && designDisabled;
+
+  useEffect(() => {
+    if (initialTarget) {
+      setTarget(initialTarget);
+    }
+  }, [initialTarget]);
 
   // Preserve hue independently across zero-saturation edits (black/white/gray)
   const hueMemoryRef = useRef<{ base: number; design: number }>({
@@ -2744,10 +3099,11 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
 
   return (
     <div className="space-y-4">
-      {/* Base vs Design target selector */}
+      {/* Base vs Print color target selector */}
       <div className="grid grid-cols-2 gap-2.5">
         <button
           type="button"
+          data-testid={`${idPrefix}-target-base-btn`}
           aria-pressed={target === 'base'}
           onClick={() => setTarget('base')}
           className={`flex items-center gap-2.5 p-2.5 rounded-[8px] border text-left transition-colors min-h-[52px] ${
@@ -2776,14 +3132,15 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
 
         <button
           type="button"
-          disabled={designDisabled}
+          data-testid={`${idPrefix}-target-print-btn`}
+          aria-disabled={designDisabled}
           aria-pressed={!designDisabled && target === 'design'}
-          onClick={() => {
-            if (!designDisabled) setTarget('design');
-          }}
+          onClick={() => setTarget('design')}
           className={`flex items-center gap-2.5 p-2.5 rounded-[8px] border text-left transition-colors min-h-[52px] ${
             designDisabled
-              ? 'border-[var(--srf-hairline)] opacity-55 cursor-not-allowed bg-[var(--srf-rose)]'
+              ? target === 'design'
+                ? 'border-[var(--srf-oxblood)]/60 opacity-65 bg-[var(--srf-rose)] ring-1 ring-[var(--srf-oxblood)]/20'
+                : 'border-[var(--srf-hairline)] opacity-55 bg-[var(--srf-rose)] hover:opacity-75'
               : target === 'design'
                 ? 'border-[var(--srf-oxblood)] bg-[var(--srf-surface-soft)] ring-2 ring-[var(--srf-oxblood)]/25'
                 : 'border-[var(--srf-hairline)] hover:border-[var(--srf-hairline-strong)]'
@@ -2796,7 +3153,7 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
           />
           <span className="min-w-0 flex-1">
             <span className="block text-xs font-medium text-[var(--srf-oxblood)]">
-              Design color
+              Print color
             </span>
             <span className="block srf-mono-caption text-[var(--srf-mauve)] truncate">
               {design.designHex}
@@ -2809,11 +3166,36 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
       </div>
 
       {designDisabled && (
-        <p className="srf-mono-caption text-[var(--srf-mauve)]">
+        <p className="srf-mono-caption text-[var(--srf-mauve)]" data-testid={`${idPrefix}-print-color-saved-note`}>
           {design.print === 'solid'
-            ? `Design color (${design.designHex}) is saved when you pick a pattern.`
-            : `Design color (${design.designHex}) does not tint uploaded artwork, and stays saved for patterns.`}
+            ? `Print color (${design.designHex}) is inactive on Solid felt and returns when you choose a pattern.`
+            : `Print color (${design.designHex}) stays saved; enable image tint in Print options to recolor uploads.`}
         </p>
+      )}
+
+      {!designDisabled && contrast.isLowContrast && (
+        <div
+          role="status"
+          data-testid={`${idPrefix}-contrast-warning`}
+          className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-[6px] border border-[var(--srf-clay)]/40 bg-[var(--srf-porcelain)] text-xs text-[var(--srf-oxblood)]"
+        >
+          <span>Low print contrast — try a lighter or darker color.</span>
+          <button
+            type="button"
+            data-testid={`${idPrefix}-suggest-contrast-btn`}
+            onClick={() => {
+              const suggested = suggestContrastingPrintColor(design.baseHex, design.designHex);
+              setHexError(null);
+              if (target === 'design') {
+                setDraftHex(suggested);
+              }
+              setDesignHex(suggested);
+            }}
+            className="px-2.5 py-1 rounded-[4px] border border-[var(--srf-oxblood)] bg-[var(--srf-oxblood)] text-[var(--srf-porcelain)] font-medium hover:bg-[var(--srf-clay)] hover:border-[var(--srf-clay)] transition-colors shrink-0"
+          >
+            Suggest contrast
+          </button>
+        </div>
       )}
 
       {/* Wheel + Accessible HSV Sliders + Hex */}
@@ -2846,35 +3228,55 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
           </div>
 
           <div className="w-full min-w-0 flex-1 space-y-3">
-            {/* Hex text field */}
+            {/* Hex text field & native picker */}
             <div>
               <label
                 htmlFor={`${idPrefix}-hex-input`}
                 className="block srf-mono-caption text-[var(--srf-oxblood)] mb-1"
               >
-                Hex color ({target === 'base' ? 'Base' : 'Design'})
+                Hex color ({target === 'base' ? 'Base color' : 'Print color'})
               </label>
-              <input
-                id={`${idPrefix}-hex-input`}
-                type="text"
-                value={draftHex}
-                disabled={activeDisabled}
-                onFocus={() => {
-                  isEditingHexRef.current = true;
-                }}
-                onChange={handleHexInputChange}
-                onBlur={handleHexCommit}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleHexCommit();
-                  }
-                }}
-                aria-invalid={hexError ? 'true' : undefined}
-                aria-describedby={hexError ? `${idPrefix}-hex-error` : undefined}
-                placeholder="#9A463D"
-                className="w-full min-h-[40px] px-3 py-1.5 rounded-[4px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)] text-sm font-[family-name:var(--font-mono)] uppercase text-[var(--srf-oxblood)]"
-              />
+              <div className="flex items-center gap-2">
+                <input
+                  id={`${idPrefix}-color-picker`}
+                  data-testid={`${idPrefix}-color-picker`}
+                  type="color"
+                  value={activeHex}
+                  disabled={activeDisabled}
+                  onChange={(e) => {
+                    const normalized = normalizeHex(e.target.value);
+                    if (normalized) {
+                      setHexError(null);
+                      setDraftHex(normalized);
+                      commitHexForTarget(normalized);
+                    }
+                  }}
+                  aria-label={`Color picker for ${target === 'base' ? 'Base color' : 'Print color'}`}
+                  className="w-10 h-10 p-0.5 rounded-[4px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)] cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+                <input
+                  id={`${idPrefix}-hex-input`}
+                  data-testid={`${idPrefix}-hex-input`}
+                  type="text"
+                  value={draftHex}
+                  disabled={activeDisabled}
+                  onFocus={() => {
+                    isEditingHexRef.current = true;
+                  }}
+                  onChange={handleHexInputChange}
+                  onBlur={handleHexCommit}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleHexCommit();
+                    }
+                  }}
+                  aria-invalid={hexError ? 'true' : undefined}
+                  aria-describedby={hexError ? `${idPrefix}-hex-error` : undefined}
+                  placeholder="#9A463D"
+                  className="w-full min-h-[40px] px-3 py-1.5 rounded-[4px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)] text-sm font-[family-name:var(--font-mono)] uppercase text-[var(--srf-oxblood)] disabled:opacity-55 disabled:cursor-not-allowed"
+                />
+              </div>
               {hexError && (
                 <p
                   id={`${idPrefix}-hex-error`}
@@ -2953,7 +3355,7 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
         {/* 10 Curated felt swatch shortcuts (always including Clay, Flax, Sage) */}
         <div>
           <div className="srf-mono-caption text-[var(--srf-mauve)] mb-2">
-            Felt shortcuts for {target === 'base' ? 'base' : 'design'}
+            Felt shortcuts for {target === 'base' ? 'base color' : 'print color'}
           </div>
           <div className="flex flex-wrap gap-2">
             {COLOR_PRESETS.map((preset) => {
@@ -2963,7 +3365,7 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
                   key={preset.id}
                   type="button"
                   disabled={activeDisabled}
-                  aria-label={`${preset.name} (${preset.hex})`}
+                  aria-label={`${target === 'base' ? 'Base' : 'Print'} preset ${preset.name} (${preset.hex})`}
                   aria-pressed={matched}
                   title={`${preset.name} · ${preset.hex}`}
                   onClick={() => {
@@ -2971,7 +3373,7 @@ export const ColorWheel: React.FC<{ idPrefix?: string }> = ({ idPrefix = 'srf' }
                     setDraftHex(preset.hex);
                     commitHexForTarget(preset.hex);
                   }}
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 min-h-[36px] rounded-[6px] border text-xs transition-colors ${
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 min-h-[36px] rounded-[6px] border text-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
                     matched
                       ? 'border-[var(--srf-oxblood)] bg-[var(--srf-porcelain)] ring-1 ring-[var(--srf-oxblood)] text-[var(--srf-oxblood)] font-medium'
                       : 'border-[var(--srf-hairline)] bg-[var(--srf-porcelain)]/70 hover:border-[var(--srf-oxblood)] text-[var(--srf-oxblood)]'
@@ -3140,6 +3542,7 @@ export const DEFAULT_DESIGN: DesignState = {
   designHex: '#4B202A',
   print: 'bloom',
   motifScale: 100,
+  tintUpload: false,
 };
 
 export const DEFAULT_VIEW: ViewState = {
@@ -3259,7 +3662,7 @@ export const FAQ_ITEMS = [
   {
     question: 'Can I choose my own colors and print?',
     answer:
-      'Yes. Pick any base and design hex color using the hue wheel, sliders, hex field, or curated swatches, then choose from Bloom, Stripes, Landscape, Waves, Solid, or your own browser-session image.',
+      'Yes. Pick any base felt and print hex color using the hue wheel, sliders, hex field, native picker, or curated swatches, then choose from Bloom, Stripes, Landscape, Waves, Solid, or your own browser-session image.',
   },
   {
     question: 'Is this an acoustic performance claim?',
@@ -3300,7 +3703,7 @@ import {
 import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
 import { PrintGallery } from './PrintGallery';
-import { normalizeYawDeg, viewPresetFromAngles } from './state';
+import { normalizeYawDeg, usesActivePrintColor, viewPresetFromAngles } from './state';
 
 export const Configurator: React.FC = () => {
   const {
@@ -3476,15 +3879,15 @@ export const Configurator: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. Color */}
+      {/* 2. Base & Print Color */}
       <section className="pt-5 border-t border-[var(--srf-hairline)] space-y-3" aria-labelledby="srf-step-color">
         <div className="flex items-baseline justify-between gap-2">
           <h3 id="srf-step-color" className="text-base font-medium text-[var(--srf-oxblood)]">
-            2. Color
+            2. Base &amp; Print Color
           </h3>
           <span className="srf-mono-caption text-[var(--srf-mauve)]">
             {design.baseHex}
-            {printSpec.usesDesignColor ? ` · ${design.designHex}` : ''}
+            {usesActivePrintColor(design) ? ` · ${design.designHex}` : ''}
           </span>
         </div>
 
@@ -3629,19 +4032,21 @@ export const Configurator: React.FC = () => {
             </dd>
           </div>
 
-          {printSpec.usesDesignColor && (
-            <div>
-              <dt className="srf-mono-caption text-[var(--srf-mauve)]">Design color</dt>
-              <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
-                <span
-                  className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
-                  style={{ backgroundColor: design.designHex }}
-                  aria-hidden="true"
-                />
-                <span>{design.designHex}</span>
-              </dd>
-            </div>
-          )}
+          <div>
+            <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print color</dt>
+            <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
+              <span
+                className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
+                style={{ backgroundColor: design.designHex }}
+                aria-hidden="true"
+              />
+              <span className={!usesActivePrintColor(design) ? 'text-[var(--srf-mauve)]' : undefined}>
+                {usesActivePrintColor(design)
+                  ? design.designHex
+                  : `${design.designHex} (${design.print === 'solid' ? 'saved' : 'original upload'})`}
+              </span>
+            </dd>
+          </div>
 
           {printSpec.usesScale && (
             <div>
@@ -3909,6 +4314,7 @@ export interface FoldContextValue {
   setDesignHex: (hex: string) => void;
   setPrint: (print: DesignState['print']) => void;
   setMotifScale: (scale: number) => void;
+  setTintUpload: (tintUpload: boolean) => void;
   setViewPreset: (viewId: ViewId) => void;
   setViewAngles: (yawDeg: number, elevationDeg: number) => void;
   rotateViewStep: (deltaYawDeg: number) => void;
@@ -4193,52 +4599,76 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
     [cancelChoreography],
   );
 
+  const captureCurrentOpening = useCallback(() => {
+    if (choreographyRef.current !== 'idle' && chainFrameRef.current) {
+      return chainFrameRef.current.averageOpening;
+    }
+    return storyOpeningRef.current;
+  }, []);
+
   const setBaseHex = useCallback(
     (hex: string) => {
+      const currentOpening = captureCurrentOpening();
       cancelChoreography();
       dispatch({
         type: 'SET_BASE_HEX',
         hex,
-        currentOpening: storyOpeningRef.current,
+        currentOpening,
       });
     },
-    [cancelChoreography],
+    [cancelChoreography, captureCurrentOpening],
   );
 
   const setDesignHex = useCallback(
     (hex: string) => {
+      const currentOpening = captureCurrentOpening();
       cancelChoreography();
       dispatch({
         type: 'SET_DESIGN_HEX',
         hex,
-        currentOpening: storyOpeningRef.current,
+        currentOpening,
       });
     },
-    [cancelChoreography],
+    [cancelChoreography, captureCurrentOpening],
   );
 
   const setPrint = useCallback(
     (print: DesignState['print']) => {
+      const currentOpening = captureCurrentOpening();
       cancelChoreography();
       dispatch({
         type: 'SET_PRINT',
         print,
-        currentOpening: storyOpeningRef.current,
+        currentOpening,
       });
     },
-    [cancelChoreography],
+    [cancelChoreography, captureCurrentOpening],
   );
 
   const setMotifScale = useCallback(
     (motifScale: number) => {
+      const currentOpening = captureCurrentOpening();
       cancelChoreography();
       dispatch({
         type: 'SET_MOTIF_SCALE',
         motifScale,
-        currentOpening: storyOpeningRef.current,
+        currentOpening,
       });
     },
-    [cancelChoreography],
+    [cancelChoreography, captureCurrentOpening],
+  );
+
+  const setTintUpload = useCallback(
+    (tintUpload: boolean) => {
+      const currentOpening = captureCurrentOpening();
+      cancelChoreography();
+      dispatch({
+        type: 'SET_TINT_UPLOAD',
+        tintUpload,
+        currentOpening,
+      });
+    },
+    [cancelChoreography, captureCurrentOpening],
   );
 
   const setViewPreset = useCallback(
@@ -4397,6 +4827,7 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
     state.design.designHex !== DEFAULT_DESIGN.designHex ||
     state.design.print !== DEFAULT_DESIGN.print ||
     state.design.motifScale !== DEFAULT_DESIGN.motifScale ||
+    Boolean(state.design.tintUpload) !== Boolean(DEFAULT_DESIGN.tintUpload) ||
     uploadedArt !== null;
 
   const demoActive = choreographyMode === 'demo';
@@ -4425,6 +4856,7 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
       setDesignHex,
       setPrint,
       setMotifScale,
+      setTintUpload,
       setViewPreset,
       setViewAngles,
       rotateViewStep,
@@ -4466,6 +4898,7 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
       setDesignHex,
       setPrint,
       setMotifScale,
+      setTintUpload,
       setViewPreset,
       setViewAngles,
       rotateViewStep,
@@ -5163,7 +5596,8 @@ export function createFoldScene(options: CreateFoldSceneOptions): FoldSceneContr
   let targetCamDist = computeTargetCamDist();
   let currentCamDist = targetCamDist;
 
-  let lastTextureKey = `${initialDesign.baseHex}|${initialDesign.designHex}|${initialDesign.print}|${initialDesign.motifScale}|${getBitmapKey(initialUpload)}`;
+  let lastTextureKey = `${initialDesign.baseHex}|${initialDesign.designHex}|${initialDesign.print}|${initialDesign.motifScale}|${Boolean(initialDesign.tintUpload)}|${getBitmapKey(initialUpload)}`;
+  let lastOpeningTarget = normalizeOpening(initialDesign.opening);
 
   let disposed = false;
   let active = true;
@@ -5504,20 +5938,23 @@ export function createFoldScene(options: CreateFoldSceneOptions): FoldSceneContr
       uploadedBitmap: ImageBitmap | null,
       immediate = false,
     ) {
-      const nextTexKey = `${design.baseHex}|${design.designHex}|${design.print}|${design.motifScale}|${getBitmapKey(uploadedBitmap)}`;
+      const nextTexKey = `${design.baseHex}|${design.designHex}|${design.print}|${design.motifScale}|${Boolean(design.tintUpload)}|${getBitmapKey(uploadedBitmap)}`;
       if (nextTexKey !== lastTextureKey) {
         lastTextureKey = nextTexKey;
         materials.updateDesign(design, uploadedBitmap, !immediate && !isSoftwareGl);
       }
       const clamped = normalizeOpening(design.opening);
-      for (let i = 0; i < N; i += 1) {
-        targetPanelOpenings[i] = clamped;
-        if (immediate) {
-          currentPanelOpenings[i] = clamped;
+      if (immediate || Math.abs(clamped - lastOpeningTarget) > 0.001) {
+        lastOpeningTarget = clamped;
+        for (let i = 0; i < N; i += 1) {
+          targetPanelOpenings[i] = clamped;
+          if (immediate) {
+            currentPanelOpenings[i] = clamped;
+          }
         }
-      }
-      if (immediate) {
-        applyChainPose(currentPanelOpenings);
+        if (immediate) {
+          applyChainPose(currentPanelOpenings);
+        }
       }
       requestRender();
     },
@@ -5642,7 +6079,7 @@ import { StageHostId, useFold } from './FoldProvider';
 import type { FoldSceneController, RoomLightingState } from './FoldScene';
 import { FoldStillCanvas } from './FoldStillCanvas';
 import type { StageSlotRect } from './projection';
-import { normalizeElevationDeg, normalizeYawDeg } from './state';
+import { normalizeElevationDeg, normalizeYawDeg, usesActivePrintColor } from './state';
 import type { UnfoldChoreographyFrame } from './unfold';
 
 type GraphicsState = 'idle' | 'initializing' | 'live' | 'still' | 'error';
@@ -5881,6 +6318,7 @@ export const FoldStage: React.FC<FoldStageProps> = ({
     design.designHex,
     design.print,
     design.motifScale,
+    design.tintUpload,
     design.opening,
     uploadedArt,
     env.reducedMotion,
@@ -6484,7 +6922,8 @@ export const FoldStage: React.FC<FoldStageProps> = ({
               style={{ color: 'var(--room-text-secondary)' }}
               data-testid="hero-atelier-readout"
             >
-              Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex} ·{' '}
+              Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex}
+              {usesActivePrintColor(design) ? ` / ${design.designHex}` : ''} ·{' '}
               <span
                 ref={atelierReadoutSpanRef}
                 className="font-medium whitespace-nowrap"
@@ -6634,7 +7073,7 @@ import type { DesignState } from './state';
 interface FoldStillCanvasProps {
   opening: number;
   panelOpenings?: readonly number[] | null;
-  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale'>;
+  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale' | 'tintUpload'>;
   view: ViewState | ViewId;
   uploadedBitmap?: ImageBitmap | null;
   showBracket?: boolean;
@@ -6770,7 +7209,7 @@ export const FoldStillCanvas: React.FC<FoldStillCanvasProps> = ({
       textureCanvasRef.current.height = 569;
     }
 
-    const texKey = `${design.baseHex}|${design.designHex}|${design.print}|${design.motifScale}|${getBitmapKey(uploadedBitmap)}`;
+    const texKey = `${design.baseHex}|${design.designHex}|${design.print}|${design.motifScale}|${Boolean(design.tintUpload)}|${getBitmapKey(uploadedBitmap)}`;
     if (texKey !== lastTexKeyRef.current) {
       lastTexKeyRef.current = texKey;
       renderTextileToCanvas(textureCanvasRef.current, design, uploadedBitmap);
@@ -6945,7 +7384,7 @@ export const FoldStillCanvas: React.FC<FoldStillCanvasProps> = ({
 
   useEffect(() => {
     paintRef.current();
-  }, [opening, panelOpenings, design.baseHex, design.designHex, design.print, design.motifScale, view, uploadedBitmap, showBracket, atelierFraming, darkSurface, slotRect, background]);
+  }, [opening, panelOpenings, design.baseHex, design.designHex, design.print, design.motifScale, design.tintUpload, view, uploadedBitmap, showBracket, atelierFraming, darkSurface, slotRect, background]);
 
   return (
     <canvas
@@ -7244,6 +7683,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { RotateCcw, SlidersHorizontal, Upload } from 'lucide-react';
 import { renderTextileToCanvas } from './artwork';
 import {
+  evaluatePrintContrast,
+  normalizeHex,
+  suggestContrastingPrintColor,
+} from './color';
+import {
   BUILTIN_PRINT_ORDER,
   COLOR_PRESETS,
   PRINT_SPECS,
@@ -7253,9 +7697,9 @@ import {
 } from './config';
 import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
-import { viewPresetFromAngles } from './state';
+import { usesActivePrintColor, viewPresetFromAngles } from './state';
 
-export type AdvancedDrawerSection = 'all' | 'color' | 'design' | 'view';
+export type AdvancedDrawerSection = 'all' | 'color' | 'printColor' | 'design' | 'view';
 
 interface HeroStudioDockProps {
   onOpenAdvanced: (section: AdvancedDrawerSection) => void;
@@ -7271,28 +7715,43 @@ const CURATED_DOCK_SWATCH_IDS = [
   'charcoal',
 ] as const;
 
+const CURATED_PRINT_SWATCH_IDS = [
+  'oxblood',
+  'porcelain',
+  'clay',
+  'flax',
+  'charcoal',
+] as const;
+
 const DOCK_VIEW_PRESETS: readonly ViewId[] = ['front', 'quarter', 'side'];
 
 const MiniPrintThumb: React.FC<{
   printId: PrintId;
   baseHex: string;
   designHex: string;
-}> = ({ printId, baseHex, designHex }) => {
+  tintUpload?: boolean;
+  uploadedBitmap?: ImageBitmap | null;
+}> = ({ printId, baseHex, designHex, tintUpload, uploadedBitmap }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      renderTextileToCanvas(canvas, {
-        baseHex,
-        designHex,
-        print: printId,
-        motifScale: 100,
-      });
+      renderTextileToCanvas(
+        canvas,
+        {
+          baseHex,
+          designHex,
+          print: printId,
+          motifScale: 100,
+          tintUpload,
+        },
+        uploadedBitmap ?? null,
+      );
     });
     return () => cancelAnimationFrame(id);
-  }, [printId, baseHex, designHex]);
+  }, [printId, baseHex, designHex, tintUpload, uploadedBitmap]);
 
   return (
     <canvas
@@ -7300,7 +7759,7 @@ const MiniPrintThumb: React.FC<{
       width={68}
       height={38}
       aria-hidden="true"
-      className="w-[36px] h-[22px] rounded-[3px] border border-[var(--srf-oxblood)]/20 block shrink-0"
+      className="w-[34px] h-[20px] rounded-[3px] border border-[var(--srf-oxblood)]/20 block shrink-0"
     />
   );
 };
@@ -7319,6 +7778,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
     uploadedArt,
     setOpening,
     setBaseHex,
+    setDesignHex,
     setPrint,
     setViewPreset,
     resetDesign,
@@ -7397,6 +7857,13 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
     COLOR_PRESETS.find((c) => c.id === id),
   ).filter((c): c is NonNullable<typeof c> => Boolean(c));
 
+  const curatedPrintSwatches = CURATED_PRINT_SWATCH_IDS.map((id) =>
+    COLOR_PRESETS.find((c) => c.id === id),
+  ).filter((c): c is NonNullable<typeof c> => Boolean(c));
+
+  const printColorActive = usesActivePrintColor(design);
+  const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
+
   const matchedView = viewPresetFromAngles(view);
   const roundedOpening = Math.round(effectiveOpening);
   const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
@@ -7406,9 +7873,9 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
       data-testid="hero-studio-dock"
       className="srf-hero-dock rounded-[10px] border border-[var(--srf-hairline-strong)] bg-[#FAF2EE]/95 shadow-[0_14px_38px_-16px_rgba(75,32,42,0.16)] px-3.5 py-3 sm:px-5 sm:py-3.5"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-y-3 gap-x-5 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(150px,0.92fr)_minmax(195px,1.15fr)_minmax(240px,1.45fr)_minmax(205px,1.22fr)_minmax(160px,0.92fr)] gap-y-3 gap-x-3.5 items-center">
         {/* 1. Shape */}
-        <div className="xl:col-span-3 min-w-0">
+        <div className="min-w-0">
           <div className="flex items-baseline justify-between gap-2 mb-0.5">
             <label
               htmlFor="srf-hero-shape-range"
@@ -7447,8 +7914,8 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </div>
         </div>
 
-        {/* 2. Base & design color */}
-        <div className="xl:col-span-3 min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-4">
+        {/* 2. Base color */}
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
           <div className="flex items-baseline justify-between gap-2 mb-1.5">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Base color
@@ -7458,11 +7925,11 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
               onClick={() => onOpenAdvanced('color')}
               className="srf-mono-caption text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
             >
-              Advanced colors
+              Hex / wheel
             </button>
           </div>
 
-          <div className="flex flex-wrap xl:flex-nowrap items-center gap-1.5" role="group" aria-label="Base felt color presets and design accent">
+          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Base felt color presets">
             {curatedSwatches.map((preset) => {
               const active = design.baseHex.toUpperCase() === preset.hex.toUpperCase();
               return (
@@ -7471,12 +7938,12 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                   type="button"
                   aria-label={`Base color ${preset.name} (${preset.hex})`}
                   aria-pressed={active}
-                  title={`${preset.name} · ${preset.hex}`}
+                  title={`Base ${preset.name} · ${preset.hex}`}
                   onClick={() => {
                     setBaseHex(preset.hex);
                     setAnnouncement(`Base color set to ${preset.name}.`);
                   }}
-                  className={`relative w-7 h-7 xl:w-[26px] xl:h-[26px] shrink-0 rounded-full border transition-transform hover:scale-105 flex items-center justify-center ${
+                  className={`relative w-6 h-6 shrink-0 rounded-full border transition-transform hover:scale-105 flex items-center justify-center ${
                     active
                       ? 'srf-hero-active-outline'
                       : 'border-[var(--srf-oxblood)]/30 hover:border-[var(--room-ui-outline)]'
@@ -7488,32 +7955,38 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
               );
             })}
 
-            {PRINT_SPECS[design.print].usesDesignColor && (
-              <>
-                <span
-                  aria-hidden="true"
-                  className="mx-0.5 h-4 w-px bg-[var(--srf-hairline-strong)] shrink-0"
-                />
-                <button
-                  type="button"
-                  data-testid="hero-design-color-btn"
-                  aria-label={`Design color ${design.designHex} — edit motif color`}
-                  title={`Design color · ${design.designHex}`}
-                  onClick={() => onOpenAdvanced('color')}
-                  className="relative w-7 h-7 xl:w-[26px] xl:h-[26px] shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/60 p-[2px] transition-transform hover:scale-105 flex items-center justify-center"
-                >
-                  <span
-                    className="w-full h-full rounded-full border border-[var(--srf-oxblood)]/25 block"
-                    style={{ backgroundColor: design.designHex }}
-                  />
-                </button>
-              </>
-            )}
+            <label
+              title={`Custom base color · ${design.baseHex}`}
+              className="relative w-6 h-6 shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/55 p-[2px] cursor-pointer hover:scale-105 transition-transform flex items-center justify-center"
+            >
+              <span
+                className="w-full h-full rounded-full block border border-[var(--srf-oxblood)]/20"
+                style={{
+                  background:
+                    'conic-gradient(from 0deg, #9A463D, #C68D47, #A6B3A0, #4D657A, #4B202A, #9A463D)',
+                }}
+                aria-hidden="true"
+              />
+              <input
+                type="color"
+                data-testid="hero-base-color-picker"
+                aria-label="Custom base hex color picker"
+                value={design.baseHex}
+                onChange={(e) => {
+                  const hex = normalizeHex(e.target.value);
+                  if (hex) {
+                    setBaseHex(hex);
+                    setAnnouncement(`Base color set to ${hex}.`);
+                  }
+                }}
+                className="sr-only"
+              />
+            </label>
           </div>
         </div>
 
         {/* 3. Print */}
-        <div className="xl:col-span-4 min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-4">
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
           <div className="flex items-baseline justify-between gap-2 mb-1.5">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Print
@@ -7528,7 +8001,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Textile print presets">
+          <div className="flex flex-wrap items-center gap-1" role="group" aria-label="Textile print presets">
             {BUILTIN_PRINT_ORDER.map((id) => {
               const spec = PRINT_SPECS[id];
               const active = design.print === id;
@@ -7576,11 +8049,21 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                     : 'border-[var(--srf-hairline)] bg-[var(--srf-rose)]/70 hover:border-[var(--room-ui-outline)]/60'
                 }`}
               >
-                <img
-                  src={uploadedArt.previewUrl}
-                  alt=""
-                  className="w-[36px] h-[22px] object-cover rounded-[3px] border border-[var(--srf-oxblood)]/20 block"
-                />
+                {design.tintUpload ? (
+                  <MiniPrintThumb
+                    printId="upload"
+                    baseHex={design.baseHex}
+                    designHex={design.designHex}
+                    tintUpload
+                    uploadedBitmap={uploadedArt.bitmap}
+                  />
+                ) : (
+                  <img
+                    src={uploadedArt.previewUrl}
+                    alt=""
+                    className="w-[34px] h-[20px] object-cover rounded-[3px] border border-[var(--srf-oxblood)]/20 block"
+                  />
+                )}
                 <span className="text-[10px] leading-[12px] font-medium text-[var(--srf-oxblood)]">
                   Yours
                 </span>
@@ -7589,8 +8072,108 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </div>
         </div>
 
-        {/* 4. View & Advanced Studio trigger */}
-        <div className="xl:col-span-2 min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-4 flex flex-col justify-between gap-1.5">
+        {/* 4. Print color */}
+        <div
+          className={`min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 transition-opacity ${
+            printColorActive ? '' : 'opacity-55'
+          }`}
+          data-testid="hero-print-color-section"
+        >
+          <div className="flex items-baseline justify-between gap-2 mb-1.5">
+            <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
+              Print color
+            </span>
+            <button
+              type="button"
+              onClick={() => onOpenAdvanced('printColor')}
+              className="srf-mono-caption text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
+            >
+              Hex / wheel
+            </button>
+          </div>
+
+          <div
+            className="flex flex-wrap items-center gap-1.5"
+            role="group"
+            aria-label="Print pigment color presets"
+          >
+            <button
+              type="button"
+              data-testid="hero-design-color-btn"
+              aria-label={`Active print color ${design.designHex}${printColorActive ? '' : ' (saved for patterns)'}`}
+              title={`Active print color · ${design.designHex}`}
+              onClick={() => onOpenAdvanced('printColor')}
+              className="inline-flex items-center gap-1.5 px-1.5 py-0.5 h-6 rounded-full border border-[var(--srf-oxblood)]/35 bg-[var(--srf-porcelain)] text-[10px] font-[family-name:var(--font-mono)] text-[var(--srf-oxblood)] hover:border-[var(--srf-oxblood)] shrink-0"
+            >
+              <span
+                className="w-3.5 h-3.5 rounded-full border border-[var(--srf-oxblood)]/25 block shrink-0"
+                style={{ backgroundColor: design.designHex }}
+                aria-hidden="true"
+              />
+              <span>{design.designHex}</span>
+            </button>
+
+            {curatedPrintSwatches.map((preset) => {
+              const active = design.designHex.toUpperCase() === preset.hex.toUpperCase();
+              return (
+                <button
+                  key={preset.id}
+                  type="button"
+                  disabled={!printColorActive}
+                  aria-label={`Print color ${preset.name} (${preset.hex})`}
+                  aria-pressed={printColorActive && active}
+                  title={`Print ${preset.name} · ${preset.hex}`}
+                  onClick={() => {
+                    setDesignHex(preset.hex);
+                    setAnnouncement(`Print color set to ${preset.name}.`);
+                  }}
+                  className={`relative w-6 h-6 shrink-0 rounded-full border transition-transform hover:scale-105 flex items-center justify-center disabled:cursor-not-allowed disabled:hover:scale-100 ${
+                    printColorActive && active
+                      ? 'srf-hero-active-outline'
+                      : 'border-[var(--srf-oxblood)]/30 hover:border-[var(--room-ui-outline)]'
+                  }`}
+                  style={{ backgroundColor: preset.hex }}
+                >
+                  <span className="sr-only">{preset.name}</span>
+                </button>
+              );
+            })}
+
+            <label
+              title={`Custom print color · ${design.designHex}`}
+              className={`relative w-6 h-6 shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/55 p-[2px] flex items-center justify-center ${
+                printColorActive ? 'cursor-pointer hover:scale-105 transition-transform' : 'cursor-not-allowed'
+              }`}
+            >
+              <span
+                className="w-full h-full rounded-full block border border-[var(--srf-oxblood)]/20"
+                style={{
+                  background:
+                    'conic-gradient(from 0deg, #9A463D, #C68D47, #A6B3A0, #4D657A, #4B202A, #9A463D)',
+                }}
+                aria-hidden="true"
+              />
+              <input
+                type="color"
+                data-testid="hero-print-color-picker"
+                disabled={!printColorActive}
+                aria-label="Custom print hex color picker"
+                value={design.designHex}
+                onChange={(e) => {
+                  const hex = normalizeHex(e.target.value);
+                  if (hex) {
+                    setDesignHex(hex);
+                    setAnnouncement(`Print color set to ${hex}.`);
+                  }
+                }}
+                className="sr-only"
+              />
+            </label>
+          </div>
+        </div>
+
+        {/* 5. View & Advanced Studio trigger */}
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex flex-col justify-between gap-1.5">
           <div className="flex items-center justify-between gap-2">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               View
@@ -7650,6 +8233,28 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </button>
         </div>
       </div>
+
+      {printColorActive && contrast.isLowContrast && (
+        <div
+          role="status"
+          data-testid="hero-contrast-warning"
+          className="mt-2.5 pt-2 border-t border-[var(--srf-hairline)] flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--srf-oxblood)]"
+        >
+          <span>Low print contrast — try a lighter or darker color.</span>
+          <button
+            type="button"
+            data-testid="hero-suggest-contrast-btn"
+            onClick={() => {
+              const suggested = suggestContrastingPrintColor(design.baseHex, design.designHex);
+              setDesignHex(suggested);
+              setAnnouncement(`Suggested contrasting print color ${suggested}.`);
+            }}
+            className="px-2.5 py-1 rounded-[4px] border border-[var(--srf-oxblood)] bg-[var(--srf-oxblood)] text-[var(--srf-porcelain)] font-medium hover:bg-[var(--srf-clay)] hover:border-[var(--srf-clay)] transition-colors shrink-0"
+          >
+            Suggest contrast
+          </button>
+        </div>
+      )}
 
       <div className="sr-only" aria-live="polite">
         {announcement}
@@ -7806,35 +8411,45 @@ export function createSceneMaterials(
   const texW = isCompactTexture ? 1024 : 1536;
   const texH = isCompactTexture ? 569 : 853;
 
-  const texCanvas = document.createElement('canvas');
-  texCanvas.width = texW;
-  texCanvas.height = texH;
+  // Ping-pong persistent CanvasTextures allow smooth GPU shader crossfading with zero per-frame 2D uploads.
+  const canvasA = document.createElement('canvas');
+  canvasA.width = texW;
+  canvasA.height = texH;
 
-  const prevCanvas = document.createElement('canvas');
-  prevCanvas.width = texW;
-  prevCanvas.height = texH;
+  const canvasB = document.createElement('canvas');
+  canvasB.width = texW;
+  canvasB.height = texH;
 
-  const nextCanvas = document.createElement('canvas');
-  nextCanvas.width = texW;
-  nextCanvas.height = texH;
+  renderTextileToCanvas(canvasA, initialDesign, initialUpload);
+  renderTextileToCanvas(canvasB, initialDesign, initialUpload);
 
-  renderTextileToCanvas(texCanvas, initialDesign, initialUpload);
+  const createConfiguredMap = (sourceCanvas: HTMLCanvasElement): THREE.CanvasTexture => {
+    const map = new THREE.CanvasTexture(sourceCanvas);
+    map.colorSpace = THREE.SRGBColorSpace;
+    map.wrapS = THREE.ClampToEdgeWrapping;
+    map.wrapT = THREE.ClampToEdgeWrapping;
+    map.generateMipmaps = true;
+    map.anisotropy = Math.min(8, maxAnisotropy);
+    map.needsUpdate = true;
+    return map;
+  };
 
-  const texCtx = texCanvas.getContext('2d');
-  const prevCtx = prevCanvas.getContext('2d');
+  const mapA = createConfiguredMap(canvasA);
+  const mapB = createConfiguredMap(canvasB);
+  let activeSlot: 0 | 1 = 0;
 
-  const faceMap = new THREE.CanvasTexture(texCanvas);
-  faceMap.colorSpace = THREE.SRGBColorSpace;
-  faceMap.wrapS = THREE.ClampToEdgeWrapping;
-  faceMap.wrapT = THREE.ClampToEdgeWrapping;
-  faceMap.generateMipmaps = true;
-  faceMap.anisotropy = Math.min(8, maxAnisotropy);
-  faceMap.needsUpdate = true;
+  const getSlotCanvas = (slot: 0 | 1) => (slot === 0 ? canvasA : canvasB);
+  const getSlotMap = (slot: 0 | 1) => (slot === 0 ? mapA : mapB);
+
+  const crossfadeUniforms = {
+    uPrevMap: { value: mapB as THREE.Texture },
+    uCrossfade: { value: 1 },
+  };
 
   // Tactile wool felt / washi material with restrained low sheen (never plastic/emissive)
   const feltFace = new THREE.MeshPhysicalMaterial({
     color: new THREE.Color('#FFFFFF'),
-    map: faceMap,
+    map: mapA,
     bumpMap,
     bumpScale: 0.0028,
     roughness: 0.92,
@@ -7844,6 +8459,31 @@ export function createSceneMaterials(
     sheenColor: new THREE.Color('#FFF8F3'),
     envMapIntensity: 0.14,
   });
+
+  feltFace.customProgramCacheKey = () => 'serraform-felt-crossfade-v1';
+  feltFace.onBeforeCompile = (shader) => {
+    shader.uniforms.uPrevMap = crossfadeUniforms.uPrevMap;
+    shader.uniforms.uCrossfade = crossfadeUniforms.uCrossfade;
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        '#include <map_pars_fragment>',
+        `#include <map_pars_fragment>
+        uniform sampler2D uPrevMap;
+        uniform float uCrossfade;`,
+      )
+      .replace(
+        '#include <map_fragment>',
+        `#ifdef USE_MAP
+          vec4 sampledDiffuseColor = texture2D( map, vMapUv );
+          vec4 prevSampledDiffuseColor = texture2D( uPrevMap, vMapUv );
+          #ifdef DECODE_VIDEO_TEXTURE
+            sampledDiffuseColor = sRGBTransferEOTF( sampledDiffuseColor );
+            prevSampledDiffuseColor = sRGBTransferEOTF( prevSampledDiffuseColor );
+          #endif
+          diffuseColor *= mix( prevSampledDiffuseColor, sampledDiffuseColor, uCrossfade );
+        #endif`,
+      );
+  };
 
   // Narrow top/bottom/end felt edges stay clean base felt color
   const feltEdge = new THREE.MeshPhysicalMaterial({
@@ -7924,20 +8564,52 @@ export function createSceneMaterials(
     contactShadow,
 
     updateDesign(design: DesignState, uploadedBitmap: ImageBitmap | null, animate = false) {
-      if (!animate || !texCtx || !prevCtx) {
-        renderTextileToCanvas(texCanvas, design, uploadedBitmap);
-        faceMap.needsUpdate = true;
+      if (!animate) {
+        const currCanvas = getSlotCanvas(activeSlot);
+        const currMap = getSlotMap(activeSlot);
+        renderTextileToCanvas(currCanvas, design, uploadedBitmap);
+        currMap.needsUpdate = true;
+        feltFace.map = currMap;
+        crossfadeUniforms.uPrevMap.value = currMap;
+        crossfadeUniforms.uCrossfade.value = 1;
         feltEdge.color.set(design.baseHex);
         edgeCrease.color.set(mixHex(design.baseHex, '#201014', 0.34));
         transitionProgress = 1;
         return;
       }
 
-      // Snapshot current canvas and prepare smooth directional cross-wash
-      prevCtx.clearRect(0, 0, texW, texH);
-      prevCtx.drawImage(texCanvas, 0, 0);
-      renderTextileToCanvas(nextCanvas, design, uploadedBitmap);
+      const prevSlot: 0 | 1 = activeSlot === 0 ? 1 : 0;
 
+      // If interrupting an in-flight crossfade (e.g. live wheel drag), freeze the blended frame into prevSlot once.
+      if (transitionProgress < 1) {
+        const currCanvas = getSlotCanvas(activeSlot);
+        const prevCanvas = getSlotCanvas(prevSlot);
+        const prevCtx = prevCanvas.getContext('2d');
+        const prevMap = getSlotMap(prevSlot);
+        if (prevCtx) {
+          const u = 1 - Math.pow(1 - transitionProgress, 3);
+          prevCtx.save();
+          prevCtx.globalAlpha = u;
+          prevCtx.drawImage(currCanvas, 0, 0);
+          prevCtx.restore();
+          prevMap.needsUpdate = true;
+        }
+        renderTextileToCanvas(currCanvas, design, uploadedBitmap);
+        getSlotMap(activeSlot).needsUpdate = true;
+        feltFace.map = getSlotMap(activeSlot);
+        crossfadeUniforms.uPrevMap.value = prevMap;
+      } else {
+        const oldSlot = activeSlot;
+        activeSlot = prevSlot;
+        const nextCanvas = getSlotCanvas(activeSlot);
+        const nextMap = getSlotMap(activeSlot);
+        renderTextileToCanvas(nextCanvas, design, uploadedBitmap);
+        nextMap.needsUpdate = true;
+        feltFace.map = nextMap;
+        crossfadeUniforms.uPrevMap.value = getSlotMap(oldSlot);
+      }
+
+      crossfadeUniforms.uCrossfade.value = 0;
       startEdgeColor.copy(feltEdge.color);
       targetEdgeColor.set(design.baseHex);
       startCreaseColor.copy(edgeCrease.color);
@@ -7946,31 +8618,21 @@ export function createSceneMaterials(
     },
 
     stepTransition(dt: number): boolean {
-      if (transitionProgress >= 1 || !texCtx) return false;
+      if (transitionProgress >= 1) return false;
       transitionProgress = Math.min(1, transitionProgress + dt / TRANSITION_DUR);
 
-      texCtx.clearRect(0, 0, texW, texH);
+      const u = transitionProgress >= 1 ? 1 : 1 - Math.pow(1 - transitionProgress, 3);
+      crossfadeUniforms.uCrossfade.value = u;
+
       if (transitionProgress >= 1) {
-        texCtx.drawImage(nextCanvas, 0, 0);
         feltEdge.color.copy(targetEdgeColor);
         edgeCrease.color.copy(targetCreaseColor);
-      } else {
-        const u = 1 - Math.pow(1 - transitionProgress, 3);
-        texCtx.drawImage(prevCanvas, 0, 0);
-
-        // Soft directional veil + crossfade across the 16-panel sheet
-        texCtx.save();
-        texCtx.globalAlpha = u;
-        texCtx.drawImage(nextCanvas, 0, 0);
-        texCtx.restore();
-
-        feltEdge.color.copy(startEdgeColor).lerp(targetEdgeColor, u);
-        edgeCrease.color.copy(startCreaseColor).lerp(targetCreaseColor, u);
+        return false;
       }
 
-      faceMap.needsUpdate = true;
-
-      return transitionProgress < 1;
+      feltEdge.color.copy(startEdgeColor).lerp(targetEdgeColor, u);
+      edgeCrease.color.copy(startCreaseColor).lerp(targetCreaseColor, u);
+      return true;
     },
 
     setHoverHighlight(hovered: boolean, dt: number): boolean {
@@ -7986,7 +8648,8 @@ export function createSceneMaterials(
     },
 
     dispose: () => {
-      faceMap.dispose();
+      mapA.dispose();
+      mapB.dispose();
       bumpMap.dispose();
       shadowTex.dispose();
       floorGlowTex.dispose();
@@ -8018,22 +8681,29 @@ const SwatchPreviewCanvas: React.FC<{
   baseHex: string;
   designHex: string;
   motifScale: number;
-}> = ({ printId, baseHex, designHex, motifScale }) => {
+  tintUpload?: boolean;
+  uploadedBitmap?: ImageBitmap | null;
+}> = ({ printId, baseHex, designHex, motifScale, tintUpload, uploadedBitmap }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      renderTextileToCanvas(canvas, {
-        baseHex,
-        designHex,
-        print: printId,
-        motifScale,
-      });
+      renderTextileToCanvas(
+        canvas,
+        {
+          baseHex,
+          designHex,
+          print: printId,
+          motifScale,
+          tintUpload,
+        },
+        uploadedBitmap ?? null,
+      );
     });
     return () => cancelAnimationFrame(id);
-  }, [printId, baseHex, designHex, motifScale]);
+  }, [printId, baseHex, designHex, motifScale, tintUpload, uploadedBitmap]);
 
   return (
     <canvas
@@ -8057,6 +8727,7 @@ export const PrintGallery: React.FC<{
     isUploading,
     setPrint,
     setMotifScale,
+    setTintUpload,
     uploadFile,
     clearUpload,
     clearUploadError,
@@ -8137,11 +8808,22 @@ export const PrintGallery: React.FC<{
           }`}
         >
           {uploadedArt ? (
-            <img
-              src={uploadedArt.previewUrl}
-              alt=""
-              className="w-full h-14 object-cover rounded-[4px] border border-[var(--srf-oxblood)]/15 block"
-            />
+            design.tintUpload ? (
+              <SwatchPreviewCanvas
+                printId="upload"
+                baseHex={design.baseHex}
+                designHex={design.designHex}
+                motifScale={design.motifScale}
+                tintUpload
+                uploadedBitmap={uploadedArt.bitmap}
+              />
+            ) : (
+              <img
+                src={uploadedArt.previewUrl}
+                alt=""
+                className="w-full h-14 object-cover rounded-[4px] border border-[var(--srf-oxblood)]/15 block"
+              />
+            )
           ) : (
             <div className="w-full h-14 rounded-[4px] border border-dashed border-[var(--srf-hairline-strong)] bg-[var(--srf-surface-soft)] flex flex-col items-center justify-center gap-1 text-[var(--srf-mauve)]">
               <ImagePlus className="w-4 h-4 text-[var(--srf-oxblood)]" aria-hidden="true" />
@@ -8172,7 +8854,7 @@ export const PrintGallery: React.FC<{
         aria-label="Upload custom artwork image (PNG, JPEG, or WebP)"
       />
 
-      {/* Uploaded artwork active session details + Replace/Remove controls */}
+      {/* Uploaded artwork active session details + opt-in tint + Replace/Remove controls */}
       {uploadedArt && (
         <div className="p-3.5 rounded-[8px] border border-[var(--srf-hairline)] bg-[var(--srf-surface-soft)] space-y-2.5">
           <div className="flex items-center justify-between gap-3">
@@ -8185,6 +8867,30 @@ export const PrintGallery: React.FC<{
               </div>
             </div>
           </div>
+
+          <label className="flex items-start gap-2.5 pt-0.5 cursor-pointer select-none">
+            <input
+              id={`${idPrefix}-tint-upload-toggle`}
+              data-testid={`${idPrefix}-tint-upload-toggle`}
+              type="checkbox"
+              checked={Boolean(design.tintUpload)}
+              onChange={(e) => {
+                setTintUpload(e.target.checked);
+                onAnnounce?.(
+                  e.target.checked
+                    ? 'Applied Print Color tint to uploaded artwork.'
+                    : 'Restored original colors on uploaded artwork.',
+                );
+              }}
+              className="mt-0.5 h-4 w-4 accent-[var(--srf-oxblood)] rounded shrink-0"
+            />
+            <span className="text-xs text-[var(--srf-oxblood)] leading-snug">
+              <span className="font-medium block">Tint uploaded image with Print color</span>
+              <span className="srf-mono-caption text-[var(--srf-mauve)] block">
+                Off by default — preserves original colors unless enabled.
+              </span>
+            </span>
+          </label>
 
           <div className="flex flex-wrap gap-2">
             <button
@@ -8933,6 +9639,7 @@ export interface DesignState {
   designHex: string; // normalized #RRGGBB
   print: PrintId;
   motifScale: number; // 50..200, default 100
+  tintUpload?: boolean; // opt-in print-color tinting for uploaded images
 }
 
 export interface FoldStudioState {
@@ -8947,6 +9654,7 @@ export type FoldAction =
   | { type: 'SET_DESIGN_HEX'; hex: string; currentOpening?: number }
   | { type: 'SET_PRINT'; print: PrintId; currentOpening?: number }
   | { type: 'SET_MOTIF_SCALE'; motifScale: number; currentOpening?: number }
+  | { type: 'SET_TINT_UPLOAD'; tintUpload: boolean; currentOpening?: number }
   | { type: 'SET_VIEW_PRESET'; viewId: ViewId; currentOpening?: number }
   | {
       type: 'SET_VIEW_ANGLES';
@@ -9007,6 +9715,14 @@ export function viewDirectionFromAngles(view: ViewState): [number, number, numbe
     Math.sin(elevRad),
     Math.cos(yawRad) * cosElev,
   ];
+}
+
+export function usesActivePrintColor(
+  design: Pick<DesignState, 'print' | 'tintUpload'>,
+): boolean {
+  if (design.print === 'solid') return false;
+  if (design.print === 'upload') return Boolean(design.tintUpload);
+  return true;
 }
 
 export function createInitialFoldState(enhanced = true): FoldStudioState {
@@ -9090,6 +9806,17 @@ export function foldReducer(
         },
       };
     }
+    case 'SET_TINT_UPLOAD': {
+      return {
+        ...state,
+        mode: 'manual',
+        design: {
+          ...state.design,
+          opening: resolveOpeningEnteringManual(state, action.currentOpening),
+          tintUpload: Boolean(action.tintUpload),
+        },
+      };
+    }
     case 'SET_VIEW_PRESET': {
       const preset = VIEW_PRESETS[action.viewId];
       return {
@@ -9161,6 +9888,7 @@ export function foldReducer(
           designHex: DEFAULT_DESIGN.designHex,
           print: DEFAULT_DESIGN.print,
           motifScale: DEFAULT_DESIGN.motifScale,
+          tintUpload: Boolean(DEFAULT_DESIGN.tintUpload),
         },
       };
     }
@@ -9804,7 +10532,12 @@ export async function loadValidatedImageFile(
   ViewState,
 } from '../fold/config';
 import { FoldMetrics, formatMeters } from '../fold/geometry';
-import { DesignState, normalizeYawDeg, viewPresetFromAngles } from '../fold/state';
+import {
+  DesignState,
+  normalizeYawDeg,
+  usesActivePrintColor,
+  viewPresetFromAngles,
+} from '../fold/state';
 
 export const ROOM_OPTIONS = [
   'Living space',
@@ -9891,8 +10624,8 @@ export function buildBriefText(
     `Print: ${printSpec.name}`,
   ];
 
-  if (printSpec.usesDesignColor) {
-    lines.push(`Design color: ${formatColorWithPreset(design.designHex)}`);
+  if (usesActivePrintColor(design)) {
+    lines.push(`Print color: ${formatColorWithPreset(design.designHex)}`);
   }
   if (printSpec.usesScale) {
     lines.push(`${printSpec.scaleLabel}: ${Math.round(design.motifScale)}%`);
@@ -9931,6 +10664,7 @@ import { ArrowRight, Check, Download, Pencil } from 'lucide-react';
 import { FOLD_CONSTANTS, PRINT_SPECS } from '../fold/config';
 import { deriveFold, FoldMetrics, formatMeters } from '../fold/geometry';
 import { useFold } from '../fold/FoldProvider';
+import { usesActivePrintColor } from '../fold/state';
 import {
   BriefDesignSnapshot,
   BriefErrors,
@@ -10136,9 +10870,9 @@ export const BriefForm: React.FC = () => {
               {snapPrintSpec.name}
             </dd>
           </div>
-          {snapPrintSpec.usesDesignColor && (
+          {usesActivePrintColor(snapDesign) && (
             <div>
-              <dt className="srf-mono-caption text-[var(--srf-mauve)]">Design color</dt>
+              <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print color</dt>
               <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
                 <span
                   className="w-3.5 h-3.5 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
@@ -10397,9 +11131,9 @@ export const BriefForm: React.FC = () => {
               {formatColorWithPreset(design.baseHex)}
             </dd>
           </div>
-          {printSpec.usesDesignColor && (
+          {usesActivePrintColor(design) && (
             <div className="flex justify-between gap-4">
-              <dt className="text-[var(--srf-mauve)]">Design color</dt>
+              <dt className="text-[var(--srf-mauve)]">Print color</dt>
               <dd className="srf-mono-dim text-[var(--srf-oxblood)]">
                 {formatColorWithPreset(design.designHex)}
               </dd>
@@ -11814,7 +12548,11 @@ export const RoomStudies: React.FC = () => {
 
   const [reading, studio, morning] = ROOM_STUDIES;
   const livePrintSpec = PRINT_SPECS[design.print];
-  const liveCaption = `Live study · ${livePrintSpec.name} · ${design.baseHex} at ${reading.opening}%`;
+  const livePrintHexNote =
+    design.print === 'solid' || (design.print === 'upload' && !design.tintUpload)
+      ? ''
+      : ` / ${design.designHex}`;
+  const liveCaption = `Live study · ${livePrintSpec.name} · ${design.baseHex}${livePrintHexNote} at ${reading.opening}%`;
 
   return (
     <section
@@ -12574,25 +13312,36 @@ export function harmonizeRoomPalette(
     // Contrasting warm/tinted woven rug & drapery keep silhouette of dark divider unmistakable
     rug = clampOklch(0.42, Math.min(0.032, envChroma * 1.1 + 0.008), stoneHue);
     rugTrim = clampOklch(
-      Math.max(0.56, Math.min(0.76, accent.l + 0.16)),
-      Math.min(0.085, accent.c * 0.7 + 0.016),
-      accentHue,
+      isAchromaticAccent && accent.l > 0.78
+        ? Math.min(0.88, accent.l * 0.85)
+        : Math.max(0.56, Math.min(0.82, accent.l * 0.7 + 0.16)),
+      isAchromaticAccent ? 0.014 : Math.min(0.09, accent.c * 0.7 + 0.016),
+      isAchromaticAccent ? 68 : accentHue,
     );
     textilePrimary = clampOklch(0.37, Math.min(0.038, envChroma * 1.15 + 0.006), baseHue);
-    textileSecondary = clampOklch(0.5, Math.min(0.036, envChroma + 0.01), stoneHue);
+    textileSecondary = clampOklch(
+      isAchromaticAccent && accent.l > 0.78 ? 0.64 : 0.5,
+      Math.min(0.036, envChroma + 0.01),
+      blendHue(stoneHue, baseHue, 0.28),
+    );
 
     furniture = clampOklch(0.44, Math.min(0.038, envChroma + 0.012), stoneHue);
     furnitureLeg = clampOklch(0.62, Math.min(0.042, accent.c * 0.38 + 0.014), blendHue(stoneHue, accentHue, 0.35));
 
-    decorPrimary = clampOklch(
-      Math.max(0.5, Math.min(0.74, accent.l * 0.65 + 0.26)),
-      Math.min(0.1, accent.c * 0.72 + 0.022),
-      accentHue,
-    );
+    const darkEnvDecorL =
+      isAchromaticAccent && accent.l > 0.78
+        ? Math.min(0.9, accent.l * 0.88)
+        : Math.max(0.52, Math.min(0.8, accent.l * 0.74 + 0.2));
+    const darkEnvDecorC = isAchromaticAccent
+      ? 0.014
+      : Math.min(0.105, accent.c * 0.74 + 0.022);
+    const darkEnvDecorHue = isAchromaticAccent ? 68 : accentHue;
+
+    decorPrimary = clampOklch(darkEnvDecorL, darkEnvDecorC, darkEnvDecorHue);
     decorAccent = clampOklch(
-      Math.max(0.6, Math.min(0.82, accent.l * 0.55 + 0.38)),
-      Math.min(0.11, accent.c * 0.78 + 0.024),
-      accentHue,
+      Math.min(0.95, Math.max(0.62, darkEnvDecorL + 0.08)),
+      isAchromaticAccent ? 0.012 : Math.min(0.115, darkEnvDecorC * 1.1),
+      darkEnvDecorHue,
     );
 
     architecturalTrim = clampOklch(0.56, Math.min(0.055, accent.c * 0.5 + 0.016), blendHue(baseHue, accentHue, 0.45));
@@ -12640,8 +13389,12 @@ export function harmonizeRoomPalette(
     const rugL = isNearWhite ? 0.97 : Math.max(0.87, Math.min(0.95, baseWallL + 0.028));
     rug = clampOklch(rugL, Math.min(0.032, wallChroma * 0.56), baseHue);
     rugTrim = isAchromaticAccent
-      ? clampOklch(0.62, Math.min(0.05, wallChroma * 1.2), baseHue)
-      : clampOklch(Math.max(0.46, Math.min(0.68, accent.l * 0.65 + 0.18)), Math.min(0.075, accent.c * 0.58 + 0.014), accentHue);
+      ? clampOklch(
+          accent.l > 0.8 ? Math.min(0.93, accent.l * 0.91) : 0.42,
+          Math.min(0.024, wallChroma * 0.8),
+          accent.l > 0.8 ? 68 : baseHue,
+        )
+      : clampOklch(Math.max(0.46, Math.min(0.76, accent.l * 0.68 + 0.16)), Math.min(0.08, accent.c * 0.6 + 0.014), accentHue);
 
     textilePrimary = clampOklch(
       Math.max(0.79, baseWallL - 0.035),
@@ -12668,19 +13421,20 @@ export function harmonizeRoomPalette(
 
     // Design-color-driven intentional 10% decorative accents (vases, art bars, cushions, swatch chips)
     const accentTargetL = accent.l < 0.24
-      ? 0.34
-      : accent.l > 0.82
-        ? 0.66
-        : Math.max(0.36, Math.min(0.68, accent.l * 0.72 + 0.14));
+      ? 0.32
+      : accent.l > 0.84
+        ? Math.min(0.94, accent.l * 0.92)
+        : Math.max(0.36, Math.min(0.78, accent.l * 0.74 + 0.14));
     const accentTargetC = isAchromaticAccent
-      ? Math.min(0.045, baseChromaNorm * 0.4 + 0.012)
-      : Math.min(0.115, accent.c * 0.68 + 0.02);
+      ? (accent.l > 0.8 ? 0.01 : Math.min(0.032, baseChromaNorm * 0.3 + 0.008))
+      : Math.min(0.12, accent.c * 0.7 + 0.02);
+    const daylightAccentHue = isAchromaticAccent ? 68 : accentHue;
 
-    decorPrimary = clampOklch(accentTargetL, accentTargetC, accentHue);
+    decorPrimary = clampOklch(accentTargetL, accentTargetC, daylightAccentHue);
     decorAccent = clampOklch(
-      Math.max(0.42, Math.min(0.74, accentTargetL + 0.09)),
-      Math.min(0.125, accentTargetC * 1.15),
-      accentHue,
+      Math.max(0.38, Math.min(0.96, accentTargetL > 0.8 ? accentTargetL - 0.06 : accentTargetL + 0.09)),
+      isAchromaticAccent ? accentTargetC : Math.min(0.13, accentTargetC * 1.15),
+      daylightAccentHue,
     );
 
     // Trim & baseboard: mid-tone architectural bridge between wall hue and accent hue

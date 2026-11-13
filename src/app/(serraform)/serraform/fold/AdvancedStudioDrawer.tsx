@@ -13,7 +13,7 @@ import { formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
 import type { AdvancedDrawerSection } from './HeroStudioDock';
 import { PrintGallery } from './PrintGallery';
-import { normalizeYawDeg, viewPresetFromAngles } from './state';
+import { normalizeYawDeg, usesActivePrintColor, viewPresetFromAngles } from './state';
 
 interface AdvancedStudioDrawerProps {
   open: boolean;
@@ -57,7 +57,7 @@ export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
     document.body.style.overflow = 'hidden';
 
     const scrollTarget =
-      initialSection === 'color'
+      initialSection === 'color' || initialSection === 'printColor'
         ? colorSectionRef.current
         : initialSection === 'design'
           ? designSectionRef.current
@@ -220,7 +220,7 @@ export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
             </div>
           </section>
 
-          {/* 2. Color (exact existing ColorWheel with Base + Design color, Hex, H/S/B, 10 swatches) */}
+          {/* 2. Color (ColorWheel with Base + Print color, Hex, H/S/B, 10 swatches) */}
           <section
             ref={colorSectionRef}
             className="pt-5 border-t border-[var(--srf-hairline)] space-y-3"
@@ -228,15 +228,18 @@ export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
           >
             <div className="flex items-baseline justify-between gap-2">
               <h3 id="srf-adv-color" className="text-base font-medium text-[var(--srf-oxblood)]">
-                2. Color
+                2. Base &amp; Print Color
               </h3>
               <span className="srf-mono-caption text-[var(--srf-mauve)]">
                 {design.baseHex}
-                {printSpec.usesDesignColor ? ` · ${design.designHex}` : ''}
+                {usesActivePrintColor(design) ? ` · ${design.designHex}` : ''}
               </span>
             </div>
 
-            <ColorWheel idPrefix="srf-hero" />
+            <ColorWheel
+              idPrefix="srf-hero"
+              initialTarget={initialSection === 'printColor' ? 'design' : 'base'}
+            />
           </section>
 
           {/* 3. Design (exact existing PrintGallery with Bloom/Stripes/Landscape/Waves/Solid, Upload, Motif size) */}
@@ -375,19 +378,21 @@ export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
                 </dd>
               </div>
 
-              {printSpec.usesDesignColor && (
-                <div>
-                  <dt className="srf-mono-caption text-[var(--srf-mauve)]">Design color</dt>
-                  <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
-                      style={{ backgroundColor: design.designHex }}
-                      aria-hidden="true"
-                    />
-                    <span>{design.designHex}</span>
-                  </dd>
-                </div>
-              )}
+              <div>
+                <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print color</dt>
+                <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
+                  <span
+                    className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
+                    style={{ backgroundColor: design.designHex }}
+                    aria-hidden="true"
+                  />
+                  <span className={!usesActivePrintColor(design) ? 'text-[var(--srf-mauve)]' : undefined}>
+                    {usesActivePrintColor(design)
+                      ? design.designHex
+                      : `${design.designHex} (${design.print === 'solid' ? 'saved' : 'original upload'})`}
+                  </span>
+                </dd>
+              </div>
 
               {printSpec.usesScale && (
                 <div>

@@ -43,7 +43,7 @@ test('buildBriefText captures custom colors, print, motif scale, and optional up
   assert.match(text, /Room: Workspace/);
   assert.match(text, /Base color: #32AA77/);
   assert.match(text, /Print: Landscape/);
-  assert.match(text, /Design color: #4B202A \(Oxblood\)/);
+  assert.match(text, /Print color: #4B202A \(Oxblood\)/);
   assert.match(text, /Artwork zoom: 125%/);
   assert.match(text, /Opening: 75%/);
   assert.match(text, /Outer span: 2\.24 m/);
@@ -67,5 +67,23 @@ test('buildBriefText captures custom colors, print, motif scale, and optional up
     deriveFold(50).metrics,
   );
   assert.match(uploadText, /Your image: botanical-print\.png \(local session only\)/);
-  assert.doesNotMatch(uploadText, /Design color:/);
+  assert.doesNotMatch(uploadText, /Print color:/);
+
+  const tintedUploadText = buildBriefText(
+    { projectName: 'Atelier', room: 'Living space', notes: '' },
+    {
+      design: {
+        opening: 50,
+        baseHex: '#D8C4A7',
+        designHex: '#4B202A',
+        print: 'upload',
+        motifScale: 100,
+        tintUpload: true,
+      },
+      view: { yawDeg: 34, elevationDeg: 20 },
+      uploadedImageName: 'botanical-print.png',
+    },
+    deriveFold(50).metrics,
+  );
+  assert.match(tintedUploadText, /Print color: #4B202A \(Oxblood\)/);
 });

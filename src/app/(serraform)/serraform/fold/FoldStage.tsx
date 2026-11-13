@@ -8,7 +8,7 @@ import { StageHostId, useFold } from './FoldProvider';
 import type { FoldSceneController, RoomLightingState } from './FoldScene';
 import { FoldStillCanvas } from './FoldStillCanvas';
 import type { StageSlotRect } from './projection';
-import { normalizeElevationDeg, normalizeYawDeg } from './state';
+import { normalizeElevationDeg, normalizeYawDeg, usesActivePrintColor } from './state';
 import type { UnfoldChoreographyFrame } from './unfold';
 
 type GraphicsState = 'idle' | 'initializing' | 'live' | 'still' | 'error';
@@ -247,6 +247,7 @@ export const FoldStage: React.FC<FoldStageProps> = ({
     design.designHex,
     design.print,
     design.motifScale,
+    design.tintUpload,
     design.opening,
     uploadedArt,
     env.reducedMotion,
@@ -850,7 +851,8 @@ export const FoldStage: React.FC<FoldStageProps> = ({
               style={{ color: 'var(--room-text-secondary)' }}
               data-testid="hero-atelier-readout"
             >
-              Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex} ·{' '}
+              Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex}
+              {usesActivePrintColor(design) ? ` / ${design.designHex}` : ''} ·{' '}
               <span
                 ref={atelierReadoutSpanRef}
                 className="font-medium whitespace-nowrap"

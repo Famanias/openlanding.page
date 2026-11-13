@@ -4,6 +4,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { RotateCcw, SlidersHorizontal, Upload } from 'lucide-react';
 import { renderTextileToCanvas } from './artwork';
 import {
+  evaluatePrintContrast,
+  suggestContrastingPrintColor,
+} from './color';
+import {
   BUILTIN_PRINT_ORDER,
   COLOR_PRESETS,
   PRINT_SPECS,
@@ -13,9 +17,10 @@ import {
 } from './config';
 import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
-import { viewPresetFromAngles } from './state';
+import { NativeColorInput } from './NativeColorInput';
+import { usesActivePrintColor, viewPresetFromAngles } from './state';
 
-export type AdvancedDrawerSection = 'all' | 'color' | 'design' | 'view';
+export type AdvancedDrawerSection = 'all' | 'color' | 'printColor' | 'design' | 'view';
 
 interface HeroStudioDockProps {
   onOpenAdvanced: (section: AdvancedDrawerSection) => void;
@@ -31,28 +36,43 @@ const CURATED_DOCK_SWATCH_IDS = [
   'charcoal',
 ] as const;
 
+const CURATED_PRINT_SWATCH_IDS = [
+  'oxblood',
+  'porcelain',
+  'clay',
+  'flax',
+  'charcoal',
+] as const;
+
 const DOCK_VIEW_PRESETS: readonly ViewId[] = ['front', 'quarter', 'side'];
 
 const MiniPrintThumb: React.FC<{
   printId: PrintId;
   baseHex: string;
   designHex: string;
-}> = ({ printId, baseHex, designHex }) => {
+  tintUpload?: boolean;
+  uploadedBitmap?: ImageBitmap | null;
+}> = ({ printId, baseHex, designHex, tintUpload, uploadedBitmap }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      renderTextileToCanvas(canvas, {
-        baseHex,
-        designHex,
-        print: printId,
-        motifScale: 100,
-      });
+      renderTextileToCanvas(
+        canvas,
+        {
+          baseHex,
+          designHex,
+          print: printId,
+          motifScale: 100,
+          tintUpload,
+        },
+        uploadedBitmap ?? null,
+      );
     });
     return () => cancelAnimationFrame(id);
-  }, [printId, baseHex, designHex]);
+  }, [printId, baseHex, designHex, tintUpload, uploadedBitmap]);
 
   return (
     <canvas
@@ -60,7 +80,7 @@ const MiniPrintThumb: React.FC<{
       width={68}
       height={38}
       aria-hidden="true"
-      className="w-[36px] h-[22px] rounded-[3px] border border-[var(--srf-oxblood)]/20 block shrink-0"
+      className="w-[34px] h-[20px] rounded-[3px] border border-[var(--srf-oxblood)]/20 block shrink-0"
     />
   );
 };
@@ -79,6 +99,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
     uploadedArt,
     setOpening,
     setBaseHex,
+    setDesignHex,
     setPrint,
     setViewPreset,
     resetDesign,
@@ -157,6 +178,13 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
     COLOR_PRESETS.find((c) => c.id === id),
   ).filter((c): c is NonNullable<typeof c> => Boolean(c));
 
+  const curatedPrintSwatches = CURATED_PRINT_SWATCH_IDS.map((id) =>
+    COLOR_PRESETS.find((c) => c.id === id),
+  ).filter((c): c is NonNullable<typeof c> => Boolean(c));
+
+  const printColorActive = usesActivePrintColor(design);
+  const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
+
   const matchedView = viewPresetFromAngles(view);
   const roundedOpening = Math.round(effectiveOpening);
   const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
@@ -166,9 +194,9 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
       data-testid="hero-studio-dock"
       className="srf-hero-dock rounded-[10px] border border-[var(--srf-hairline-strong)] bg-[#FAF2EE]/95 shadow-[0_14px_38px_-16px_rgba(75,32,42,0.16)] px-3.5 py-3 sm:px-5 sm:py-3.5"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-y-3 gap-x-5 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(150px,0.92fr)_minmax(195px,1.15fr)_minmax(240px,1.45fr)_minmax(205px,1.22fr)_minmax(160px,0.92fr)] gap-y-3 gap-x-3.5 items-center">
         {/* 1. Shape */}
-        <div className="xl:col-span-3 min-w-0">
+        <div className="min-w-0">
           <div className="flex items-baseline justify-between gap-2 mb-0.5">
             <label
               htmlFor="srf-hero-shape-range"
@@ -207,8 +235,8 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </div>
         </div>
 
-        {/* 2. Base & design color */}
-        <div className="xl:col-span-3 min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-4">
+        {/* 2. Base color */}
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
           <div className="flex items-baseline justify-between gap-2 mb-1.5">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Base color
@@ -218,11 +246,11 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
               onClick={() => onOpenAdvanced('color')}
               className="srf-mono-caption text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
             >
-              Advanced colors
+              Hex / wheel
             </button>
           </div>
 
-          <div className="flex flex-wrap xl:flex-nowrap items-center gap-1.5" role="group" aria-label="Base felt color presets and design accent">
+          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Base felt color presets">
             {curatedSwatches.map((preset) => {
               const active = design.baseHex.toUpperCase() === preset.hex.toUpperCase();
               return (
@@ -231,12 +259,12 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                   type="button"
                   aria-label={`Base color ${preset.name} (${preset.hex})`}
                   aria-pressed={active}
-                  title={`${preset.name} · ${preset.hex}`}
+                  title={`Base ${preset.name} · ${preset.hex}`}
                   onClick={() => {
                     setBaseHex(preset.hex);
                     setAnnouncement(`Base color set to ${preset.name}.`);
                   }}
-                  className={`relative w-7 h-7 xl:w-[26px] xl:h-[26px] shrink-0 rounded-full border transition-transform hover:scale-105 flex items-center justify-center ${
+                  className={`relative w-6 h-6 shrink-0 rounded-full border transition-transform hover:scale-105 flex items-center justify-center ${
                     active
                       ? 'srf-hero-active-outline'
                       : 'border-[var(--srf-oxblood)]/30 hover:border-[var(--room-ui-outline)]'
@@ -248,32 +276,34 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
               );
             })}
 
-            {PRINT_SPECS[design.print].usesDesignColor && (
-              <>
-                <span
-                  aria-hidden="true"
-                  className="mx-0.5 h-4 w-px bg-[var(--srf-hairline-strong)] shrink-0"
-                />
-                <button
-                  type="button"
-                  data-testid="hero-design-color-btn"
-                  aria-label={`Design color ${design.designHex} — edit motif color`}
-                  title={`Design color · ${design.designHex}`}
-                  onClick={() => onOpenAdvanced('color')}
-                  className="relative w-7 h-7 xl:w-[26px] xl:h-[26px] shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/60 p-[2px] transition-transform hover:scale-105 flex items-center justify-center"
-                >
-                  <span
-                    className="w-full h-full rounded-full border border-[var(--srf-oxblood)]/25 block"
-                    style={{ backgroundColor: design.designHex }}
-                  />
-                </button>
-              </>
-            )}
+            <label
+              title={`Custom base color · ${design.baseHex}`}
+              className="relative w-6 h-6 shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/55 p-[2px] cursor-pointer hover:scale-105 transition-transform flex items-center justify-center"
+            >
+              <span
+                className="w-full h-full rounded-full block border border-[var(--srf-oxblood)]/20"
+                style={{
+                  background:
+                    'conic-gradient(from 0deg, #9A463D, #C68D47, #A6B3A0, #4D657A, #4B202A, #9A463D)',
+                }}
+                aria-hidden="true"
+              />
+              <NativeColorInput
+                testId="hero-base-color-picker"
+                ariaLabel="Custom base hex color picker"
+                value={design.baseHex}
+                onHexChange={(hex) => {
+                  setBaseHex(hex);
+                  setAnnouncement(`Base color set to ${hex}.`);
+                }}
+                className="sr-only"
+              />
+            </label>
           </div>
         </div>
 
         {/* 3. Print */}
-        <div className="xl:col-span-4 min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-4">
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
           <div className="flex items-baseline justify-between gap-2 mb-1.5">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Print
@@ -288,7 +318,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Textile print presets">
+          <div className="flex flex-wrap items-center gap-1" role="group" aria-label="Textile print presets">
             {BUILTIN_PRINT_ORDER.map((id) => {
               const spec = PRINT_SPECS[id];
               const active = design.print === id;
@@ -336,11 +366,21 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                     : 'border-[var(--srf-hairline)] bg-[var(--srf-rose)]/70 hover:border-[var(--room-ui-outline)]/60'
                 }`}
               >
-                <img
-                  src={uploadedArt.previewUrl}
-                  alt=""
-                  className="w-[36px] h-[22px] object-cover rounded-[3px] border border-[var(--srf-oxblood)]/20 block"
-                />
+                {design.tintUpload ? (
+                  <MiniPrintThumb
+                    printId="upload"
+                    baseHex={design.baseHex}
+                    designHex={design.designHex}
+                    tintUpload
+                    uploadedBitmap={uploadedArt.bitmap}
+                  />
+                ) : (
+                  <img
+                    src={uploadedArt.previewUrl}
+                    alt=""
+                    className="w-[34px] h-[20px] object-cover rounded-[3px] border border-[var(--srf-oxblood)]/20 block"
+                  />
+                )}
                 <span className="text-[10px] leading-[12px] font-medium text-[var(--srf-oxblood)]">
                   Yours
                 </span>
@@ -349,8 +389,104 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </div>
         </div>
 
-        {/* 4. View & Advanced Studio trigger */}
-        <div className="xl:col-span-2 min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-4 flex flex-col justify-between gap-1.5">
+        {/* 4. Print color */}
+        <div
+          className={`min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 transition-opacity ${
+            printColorActive ? '' : 'opacity-55'
+          }`}
+          data-testid="hero-print-color-section"
+        >
+          <div className="flex items-baseline justify-between gap-2 mb-1.5">
+            <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
+              Print color
+            </span>
+            <button
+              type="button"
+              onClick={() => onOpenAdvanced('printColor')}
+              className="srf-mono-caption text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
+            >
+              Hex / wheel
+            </button>
+          </div>
+
+          <div
+            className="flex flex-wrap items-center gap-1.5"
+            role="group"
+            aria-label="Print pigment color presets"
+          >
+            <button
+              type="button"
+              data-testid="hero-design-color-btn"
+              aria-label={`Active print color ${design.designHex}${printColorActive ? '' : ' (saved for patterns)'}`}
+              title={`Active print color · ${design.designHex}`}
+              onClick={() => onOpenAdvanced('printColor')}
+              className="inline-flex items-center gap-1.5 px-1.5 py-0.5 h-6 rounded-full border border-[var(--srf-oxblood)]/35 bg-[var(--srf-porcelain)] text-[10px] font-[family-name:var(--font-mono)] text-[var(--srf-oxblood)] hover:border-[var(--srf-oxblood)] shrink-0"
+            >
+              <span
+                className="w-3.5 h-3.5 rounded-full border border-[var(--srf-oxblood)]/25 block shrink-0"
+                style={{ backgroundColor: design.designHex }}
+                aria-hidden="true"
+              />
+              <span>{design.designHex}</span>
+            </button>
+
+            {curatedPrintSwatches.map((preset) => {
+              const active = design.designHex.toUpperCase() === preset.hex.toUpperCase();
+              return (
+                <button
+                  key={preset.id}
+                  type="button"
+                  disabled={!printColorActive}
+                  aria-label={`Print color ${preset.name} (${preset.hex})`}
+                  aria-pressed={printColorActive && active}
+                  title={`Print ${preset.name} · ${preset.hex}`}
+                  onClick={() => {
+                    setDesignHex(preset.hex);
+                    setAnnouncement(`Print color set to ${preset.name}.`);
+                  }}
+                  className={`relative w-6 h-6 shrink-0 rounded-full border transition-transform hover:scale-105 flex items-center justify-center disabled:cursor-not-allowed disabled:hover:scale-100 ${
+                    printColorActive && active
+                      ? 'srf-hero-active-outline'
+                      : 'border-[var(--srf-oxblood)]/30 hover:border-[var(--room-ui-outline)]'
+                  }`}
+                  style={{ backgroundColor: preset.hex }}
+                >
+                  <span className="sr-only">{preset.name}</span>
+                </button>
+              );
+            })}
+
+            <label
+              title={`Custom print color · ${design.designHex}`}
+              className={`relative w-6 h-6 shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/55 p-[2px] flex items-center justify-center ${
+                printColorActive ? 'cursor-pointer hover:scale-105 transition-transform' : 'cursor-not-allowed'
+              }`}
+            >
+              <span
+                className="w-full h-full rounded-full block border border-[var(--srf-oxblood)]/20"
+                style={{
+                  background:
+                    'conic-gradient(from 0deg, #9A463D, #C68D47, #A6B3A0, #4D657A, #4B202A, #9A463D)',
+                }}
+                aria-hidden="true"
+              />
+              <NativeColorInput
+                testId="hero-print-color-picker"
+                disabled={!printColorActive}
+                ariaLabel="Custom print hex color picker"
+                value={design.designHex}
+                onHexChange={(hex) => {
+                  setDesignHex(hex);
+                  setAnnouncement(`Print color set to ${hex}.`);
+                }}
+                className="sr-only"
+              />
+            </label>
+          </div>
+        </div>
+
+        {/* 5. View & Advanced Studio trigger */}
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex flex-col justify-between gap-1.5">
           <div className="flex items-center justify-between gap-2">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               View
@@ -410,6 +546,28 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </button>
         </div>
       </div>
+
+      {printColorActive && contrast.isLowContrast && (
+        <div
+          role="status"
+          data-testid="hero-contrast-warning"
+          className="mt-2.5 pt-2 border-t border-[var(--srf-hairline)] flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--srf-oxblood)]"
+        >
+          <span>Low print contrast — try a lighter or darker color.</span>
+          <button
+            type="button"
+            data-testid="hero-suggest-contrast-btn"
+            onClick={() => {
+              const suggested = suggestContrastingPrintColor(design.baseHex, design.designHex);
+              setDesignHex(suggested);
+              setAnnouncement(`Suggested contrasting print color ${suggested}.`);
+            }}
+            className="px-2.5 py-1 rounded-[4px] border border-[var(--srf-oxblood)] bg-[var(--srf-oxblood)] text-[var(--srf-porcelain)] font-medium hover:bg-[var(--srf-clay)] hover:border-[var(--srf-clay)] transition-colors shrink-0"
+          >
+            Suggest contrast
+          </button>
+        </div>
+      )}
 
       <div className="sr-only" aria-live="polite">
         {announcement}

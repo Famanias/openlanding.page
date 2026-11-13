@@ -6,7 +6,12 @@ import {
   ViewState,
 } from '../fold/config';
 import { FoldMetrics, formatMeters } from '../fold/geometry';
-import { DesignState, normalizeYawDeg, viewPresetFromAngles } from '../fold/state';
+import {
+  DesignState,
+  normalizeYawDeg,
+  usesActivePrintColor,
+  viewPresetFromAngles,
+} from '../fold/state';
 
 export const ROOM_OPTIONS = [
   'Living space',
@@ -93,8 +98,8 @@ export function buildBriefText(
     `Print: ${printSpec.name}`,
   ];
 
-  if (printSpec.usesDesignColor) {
-    lines.push(`Design color: ${formatColorWithPreset(design.designHex)}`);
+  if (usesActivePrintColor(design)) {
+    lines.push(`Print color: ${formatColorWithPreset(design.designHex)}`);
   }
   if (printSpec.usesScale) {
     lines.push(`${printSpec.scaleLabel}: ${Math.round(design.motifScale)}%`);

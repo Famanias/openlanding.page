@@ -63,6 +63,7 @@ export interface FoldContextValue {
   setDesignHex: (hex: string) => void;
   setPrint: (print: DesignState['print']) => void;
   setMotifScale: (scale: number) => void;
+  setTintUpload: (tintUpload: boolean) => void;
   setViewPreset: (viewId: ViewId) => void;
   setViewAngles: (yawDeg: number, elevationDeg: number) => void;
   rotateViewStep: (deltaYawDeg: number) => void;
@@ -347,52 +348,76 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
     [cancelChoreography],
   );
 
+  const captureCurrentOpening = useCallback(() => {
+    if (choreographyRef.current !== 'idle' && chainFrameRef.current) {
+      return chainFrameRef.current.averageOpening;
+    }
+    return storyOpeningRef.current;
+  }, []);
+
   const setBaseHex = useCallback(
     (hex: string) => {
+      const currentOpening = captureCurrentOpening();
       cancelChoreography();
       dispatch({
         type: 'SET_BASE_HEX',
         hex,
-        currentOpening: storyOpeningRef.current,
+        currentOpening,
       });
     },
-    [cancelChoreography],
+    [cancelChoreography, captureCurrentOpening],
   );
 
   const setDesignHex = useCallback(
     (hex: string) => {
+      const currentOpening = captureCurrentOpening();
       cancelChoreography();
       dispatch({
         type: 'SET_DESIGN_HEX',
         hex,
-        currentOpening: storyOpeningRef.current,
+        currentOpening,
       });
     },
-    [cancelChoreography],
+    [cancelChoreography, captureCurrentOpening],
   );
 
   const setPrint = useCallback(
     (print: DesignState['print']) => {
+      const currentOpening = captureCurrentOpening();
       cancelChoreography();
       dispatch({
         type: 'SET_PRINT',
         print,
-        currentOpening: storyOpeningRef.current,
+        currentOpening,
       });
     },
-    [cancelChoreography],
+    [cancelChoreography, captureCurrentOpening],
   );
 
   const setMotifScale = useCallback(
     (motifScale: number) => {
+      const currentOpening = captureCurrentOpening();
       cancelChoreography();
       dispatch({
         type: 'SET_MOTIF_SCALE',
         motifScale,
-        currentOpening: storyOpeningRef.current,
+        currentOpening,
       });
     },
-    [cancelChoreography],
+    [cancelChoreography, captureCurrentOpening],
+  );
+
+  const setTintUpload = useCallback(
+    (tintUpload: boolean) => {
+      const currentOpening = captureCurrentOpening();
+      cancelChoreography();
+      dispatch({
+        type: 'SET_TINT_UPLOAD',
+        tintUpload,
+        currentOpening,
+      });
+    },
+    [cancelChoreography, captureCurrentOpening],
   );
 
   const setViewPreset = useCallback(
@@ -551,6 +576,7 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
     state.design.designHex !== DEFAULT_DESIGN.designHex ||
     state.design.print !== DEFAULT_DESIGN.print ||
     state.design.motifScale !== DEFAULT_DESIGN.motifScale ||
+    Boolean(state.design.tintUpload) !== Boolean(DEFAULT_DESIGN.tintUpload) ||
     uploadedArt !== null;
 
   const demoActive = choreographyMode === 'demo';
@@ -579,6 +605,7 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
       setDesignHex,
       setPrint,
       setMotifScale,
+      setTintUpload,
       setViewPreset,
       setViewAngles,
       rotateViewStep,
@@ -620,6 +647,7 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
       setDesignHex,
       setPrint,
       setMotifScale,
+      setTintUpload,
       setViewPreset,
       setViewAngles,
       rotateViewStep,

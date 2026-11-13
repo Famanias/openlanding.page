@@ -662,7 +662,8 @@ export function createFoldScene(options: CreateFoldSceneOptions): FoldSceneContr
   let targetCamDist = computeTargetCamDist();
   let currentCamDist = targetCamDist;
 
-  let lastTextureKey = `${initialDesign.baseHex}|${initialDesign.designHex}|${initialDesign.print}|${initialDesign.motifScale}|${getBitmapKey(initialUpload)}`;
+  let lastTextureKey = `${initialDesign.baseHex}|${initialDesign.designHex}|${initialDesign.print}|${initialDesign.motifScale}|${Boolean(initialDesign.tintUpload)}|${getBitmapKey(initialUpload)}`;
+  let lastOpeningTarget = normalizeOpening(initialDesign.opening);
 
   let disposed = false;
   let active = true;
@@ -1003,20 +1004,23 @@ export function createFoldScene(options: CreateFoldSceneOptions): FoldSceneContr
       uploadedBitmap: ImageBitmap | null,
       immediate = false,
     ) {
-      const nextTexKey = `${design.baseHex}|${design.designHex}|${design.print}|${design.motifScale}|${getBitmapKey(uploadedBitmap)}`;
+      const nextTexKey = `${design.baseHex}|${design.designHex}|${design.print}|${design.motifScale}|${Boolean(design.tintUpload)}|${getBitmapKey(uploadedBitmap)}`;
       if (nextTexKey !== lastTextureKey) {
         lastTextureKey = nextTexKey;
         materials.updateDesign(design, uploadedBitmap, !immediate && !isSoftwareGl);
       }
       const clamped = normalizeOpening(design.opening);
-      for (let i = 0; i < N; i += 1) {
-        targetPanelOpenings[i] = clamped;
-        if (immediate) {
-          currentPanelOpenings[i] = clamped;
+      if (immediate || Math.abs(clamped - lastOpeningTarget) > 0.001) {
+        lastOpeningTarget = clamped;
+        for (let i = 0; i < N; i += 1) {
+          targetPanelOpenings[i] = clamped;
+          if (immediate) {
+            currentPanelOpenings[i] = clamped;
+          }
         }
-      }
-      if (immediate) {
-        applyChainPose(currentPanelOpenings);
+        if (immediate) {
+          applyChainPose(currentPanelOpenings);
+        }
       }
       requestRender();
     },

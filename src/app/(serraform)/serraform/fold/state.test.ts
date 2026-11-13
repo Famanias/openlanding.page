@@ -5,6 +5,7 @@ import {
   createInitialFoldState,
   foldReducer,
   getEffectiveOpening,
+  usesActivePrintColor,
   viewPresetFromAngles,
 } from './state';
 
@@ -91,4 +92,60 @@ test('camera angle presets match within tolerance and un-press after free rotati
   assert.equal(state.view.elevationDeg, 30);
   state = foldReducer(state, { type: 'SET_VIEW_ANGLES', yawDeg: 180, elevationDeg: -20 });
   assert.equal(state.view.elevationDeg, 5);
+});
+
+test('baseHex and designHex operate independently and survive Solid / Upload print switches', () => {
+  let state = createInitialFoldState(false);
+
+  // Set opening 0% (folded) and pick custom print color
+  state = foldReducer(state, { type: 'SET_OPENING', opening: 0 });
+  state = foldReducer(state, { type: 'SET_DESIGN_HEX', hex: '#E4C578' });
+  assert.equal(state.design.designHex, '#E4C578');
+  assert.equal(state.design.baseHex, DEFAULT_DESIGN.baseHex);
+  assert.equal(state.design.opening, 0);
+
+  // Changing base color preserves print color and openness
+  state = foldReducer(state, { type: 'SET_BASE_HEX', hex: '#2B2426' });
+  assert.equal(state.design.baseHex, '#2B2426');
+  assert.equal(state.design.designHex, '#E4C578');
+  assert.equal(state.design.opening, 0);
+
+  // Switching Bloom -> Solid disables active print color cleanly while preserving designHex
+  state = foldReducer(state, { type: 'SET_PRINT', print: 'solid' });
+  assert.equal(usesActivePrintColor(state.design), false);
+  assert.equal(state.design.designHex, '#E4C578');
+
+  // Switching Solid -> Waves restores active print color immediately
+  state = foldReducer(state, { type: 'SET_PRINT', print: 'waves' });
+  assert.equal(usesActivePrintColor(state.design), true);
+  assert.equal(state.design.designHex, '#E4C578');
+
+  // Upload keeps original colors by default; SET_TINT_UPLOAD is explicit opt-in
+  state = foldReducer(state, { type: 'SET_PRINT', print: 'upload' });
+  assert.equal(Boolean(state.design.tintUpload), false);
+  assert.equal(usesActivePrintColor(state.design), false);
+  state = foldReducer(state, { type: 'SET_TINT_UPLOAD', tintUpload: true });
+  assert.equal(usesActivePrintColor(state.design), true);
+  assert.equal(state.design.designHex, '#E4C578');
+
+  // Reset restores defaults including tintUpload: false
+  state = foldReducer(state, { type: 'RESET_DESIGN' });
+  assert.equal(state.design.baseHex, DEFAULT_DESIGN.baseHex);
+  assert.equal(state.design.designHex, DEFAULT_DESIGN.designHex);
+  assert.equal(state.design.print, DEFAULT_DESIGN.print);
+  assert.equal(Boolean(state.design.tintUpload), false);
+  assert.equal(state.design.opening, 0);
+});
+
+test('redundant SET_BASE_HEX and SET_DESIGN_HEX in manual mode are referential no-ops', () => {
+  let state = createInitialFoldState(false);
+  state = foldReducer(state, { type: 'SET_BASE_HEX', hex: '#4B202A' });
+  assert.equal(state.mode, 'manual');
+
+  const sameBase = foldReducer(state, { type: 'SET_BASE_HEX', hex: '#4b202a' });
+  assert.equal(sameBase, state);
+
+  state = foldReducer(state, { type: 'SET_DESIGN_HEX', hex: '#E4C578' });
+  const sameDesign = foldReducer(state, { type: 'SET_DESIGN_HEX', hex: '#e4c578' });
+  assert.equal(sameDesign, state);
 });

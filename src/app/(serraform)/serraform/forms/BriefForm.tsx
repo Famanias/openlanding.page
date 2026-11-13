@@ -5,6 +5,7 @@ import { ArrowRight, Check, Download, Pencil } from 'lucide-react';
 import { FOLD_CONSTANTS, PRINT_SPECS } from '../fold/config';
 import { deriveFold, FoldMetrics, formatMeters } from '../fold/geometry';
 import { useFold } from '../fold/FoldProvider';
+import { usesActivePrintColor } from '../fold/state';
 import {
   BriefDesignSnapshot,
   BriefErrors,
@@ -210,9 +211,9 @@ export const BriefForm: React.FC = () => {
               {snapPrintSpec.name}
             </dd>
           </div>
-          {snapPrintSpec.usesDesignColor && (
+          {usesActivePrintColor(snapDesign) && (
             <div>
-              <dt className="srf-mono-caption text-[var(--srf-mauve)]">Design color</dt>
+              <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print color</dt>
               <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
                 <span
                   className="w-3.5 h-3.5 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
@@ -471,9 +472,9 @@ export const BriefForm: React.FC = () => {
               {formatColorWithPreset(design.baseHex)}
             </dd>
           </div>
-          {printSpec.usesDesignColor && (
+          {usesActivePrintColor(design) && (
             <div className="flex justify-between gap-4">
-              <dt className="text-[var(--srf-mauve)]">Design color</dt>
+              <dt className="text-[var(--srf-mauve)]">Print color</dt>
               <dd className="srf-mono-dim text-[var(--srf-oxblood)]">
                 {formatColorWithPreset(design.designHex)}
               </dd>

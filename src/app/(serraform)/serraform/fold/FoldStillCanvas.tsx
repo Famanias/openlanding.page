@@ -11,7 +11,7 @@ import type { DesignState } from './state';
 interface FoldStillCanvasProps {
   opening: number;
   panelOpenings?: readonly number[] | null;
-  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale'>;
+  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale' | 'tintUpload'>;
   view: ViewState | ViewId;
   uploadedBitmap?: ImageBitmap | null;
   showBracket?: boolean;
@@ -147,7 +147,7 @@ export const FoldStillCanvas: React.FC<FoldStillCanvasProps> = ({
       textureCanvasRef.current.height = 569;
     }
 
-    const texKey = `${design.baseHex}|${design.designHex}|${design.print}|${design.motifScale}|${getBitmapKey(uploadedBitmap)}`;
+    const texKey = `${design.baseHex}|${design.designHex}|${design.print}|${design.motifScale}|${Boolean(design.tintUpload)}|${getBitmapKey(uploadedBitmap)}`;
     if (texKey !== lastTexKeyRef.current) {
       lastTexKeyRef.current = texKey;
       renderTextileToCanvas(textureCanvasRef.current, design, uploadedBitmap);
@@ -322,7 +322,7 @@ export const FoldStillCanvas: React.FC<FoldStillCanvasProps> = ({
 
   useEffect(() => {
     paintRef.current();
-  }, [opening, panelOpenings, design.baseHex, design.designHex, design.print, design.motifScale, view, uploadedBitmap, showBracket, atelierFraming, darkSurface, slotRect, background]);
+  }, [opening, panelOpenings, design.baseHex, design.designHex, design.print, design.motifScale, design.tintUpload, view, uploadedBitmap, showBracket, atelierFraming, darkSurface, slotRect, background]);
 
   return (
     <canvas

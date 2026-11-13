@@ -144,35 +144,45 @@ export function createSceneMaterials(
   const texW = isCompactTexture ? 1024 : 1536;
   const texH = isCompactTexture ? 569 : 853;
 
-  const texCanvas = document.createElement('canvas');
-  texCanvas.width = texW;
-  texCanvas.height = texH;
+  // Ping-pong persistent CanvasTextures allow smooth GPU shader crossfading with zero per-frame 2D uploads.
+  const canvasA = document.createElement('canvas');
+  canvasA.width = texW;
+  canvasA.height = texH;
 
-  const prevCanvas = document.createElement('canvas');
-  prevCanvas.width = texW;
-  prevCanvas.height = texH;
+  const canvasB = document.createElement('canvas');
+  canvasB.width = texW;
+  canvasB.height = texH;
 
-  const nextCanvas = document.createElement('canvas');
-  nextCanvas.width = texW;
-  nextCanvas.height = texH;
+  renderTextileToCanvas(canvasA, initialDesign, initialUpload);
+  renderTextileToCanvas(canvasB, initialDesign, initialUpload);
 
-  renderTextileToCanvas(texCanvas, initialDesign, initialUpload);
+  const createConfiguredMap = (sourceCanvas: HTMLCanvasElement): THREE.CanvasTexture => {
+    const map = new THREE.CanvasTexture(sourceCanvas);
+    map.colorSpace = THREE.SRGBColorSpace;
+    map.wrapS = THREE.ClampToEdgeWrapping;
+    map.wrapT = THREE.ClampToEdgeWrapping;
+    map.generateMipmaps = true;
+    map.anisotropy = Math.min(8, maxAnisotropy);
+    map.needsUpdate = true;
+    return map;
+  };
 
-  const texCtx = texCanvas.getContext('2d');
-  const prevCtx = prevCanvas.getContext('2d');
+  const mapA = createConfiguredMap(canvasA);
+  const mapB = createConfiguredMap(canvasB);
+  let activeSlot: 0 | 1 = 0;
 
-  const faceMap = new THREE.CanvasTexture(texCanvas);
-  faceMap.colorSpace = THREE.SRGBColorSpace;
-  faceMap.wrapS = THREE.ClampToEdgeWrapping;
-  faceMap.wrapT = THREE.ClampToEdgeWrapping;
-  faceMap.generateMipmaps = true;
-  faceMap.anisotropy = Math.min(8, maxAnisotropy);
-  faceMap.needsUpdate = true;
+  const getSlotCanvas = (slot: 0 | 1) => (slot === 0 ? canvasA : canvasB);
+  const getSlotMap = (slot: 0 | 1) => (slot === 0 ? mapA : mapB);
+
+  const crossfadeUniforms = {
+    uPrevMap: { value: mapB as THREE.Texture },
+    uCrossfade: { value: 1 },
+  };
 
   // Tactile wool felt / washi material with restrained low sheen (never plastic/emissive)
   const feltFace = new THREE.MeshPhysicalMaterial({
     color: new THREE.Color('#FFFFFF'),
-    map: faceMap,
+    map: mapA,
     bumpMap,
     bumpScale: 0.0028,
     roughness: 0.92,
@@ -182,6 +192,31 @@ export function createSceneMaterials(
     sheenColor: new THREE.Color('#FFF8F3'),
     envMapIntensity: 0.14,
   });
+
+  feltFace.customProgramCacheKey = () => 'serraform-felt-crossfade-v1';
+  feltFace.onBeforeCompile = (shader) => {
+    shader.uniforms.uPrevMap = crossfadeUniforms.uPrevMap;
+    shader.uniforms.uCrossfade = crossfadeUniforms.uCrossfade;
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        '#include <map_pars_fragment>',
+        `#include <map_pars_fragment>
+        uniform sampler2D uPrevMap;
+        uniform float uCrossfade;`,
+      )
+      .replace(
+        '#include <map_fragment>',
+        `#ifdef USE_MAP
+          vec4 sampledDiffuseColor = texture2D( map, vMapUv );
+          vec4 prevSampledDiffuseColor = texture2D( uPrevMap, vMapUv );
+          #ifdef DECODE_VIDEO_TEXTURE
+            sampledDiffuseColor = sRGBTransferEOTF( sampledDiffuseColor );
+            prevSampledDiffuseColor = sRGBTransferEOTF( prevSampledDiffuseColor );
+          #endif
+          diffuseColor *= mix( prevSampledDiffuseColor, sampledDiffuseColor, uCrossfade );
+        #endif`,
+      );
+  };
 
   // Narrow top/bottom/end felt edges stay clean base felt color
   const feltEdge = new THREE.MeshPhysicalMaterial({
@@ -262,20 +297,52 @@ export function createSceneMaterials(
     contactShadow,
 
     updateDesign(design: DesignState, uploadedBitmap: ImageBitmap | null, animate = false) {
-      if (!animate || !texCtx || !prevCtx) {
-        renderTextileToCanvas(texCanvas, design, uploadedBitmap);
-        faceMap.needsUpdate = true;
+      if (!animate) {
+        const currCanvas = getSlotCanvas(activeSlot);
+        const currMap = getSlotMap(activeSlot);
+        renderTextileToCanvas(currCanvas, design, uploadedBitmap);
+        currMap.needsUpdate = true;
+        feltFace.map = currMap;
+        crossfadeUniforms.uPrevMap.value = currMap;
+        crossfadeUniforms.uCrossfade.value = 1;
         feltEdge.color.set(design.baseHex);
         edgeCrease.color.set(mixHex(design.baseHex, '#201014', 0.34));
         transitionProgress = 1;
         return;
       }
 
-      // Snapshot current canvas and prepare smooth directional cross-wash
-      prevCtx.clearRect(0, 0, texW, texH);
-      prevCtx.drawImage(texCanvas, 0, 0);
-      renderTextileToCanvas(nextCanvas, design, uploadedBitmap);
+      const prevSlot: 0 | 1 = activeSlot === 0 ? 1 : 0;
 
+      // If interrupting an in-flight crossfade (e.g. live wheel drag), freeze the blended frame into prevSlot once.
+      if (transitionProgress < 1) {
+        const currCanvas = getSlotCanvas(activeSlot);
+        const prevCanvas = getSlotCanvas(prevSlot);
+        const prevCtx = prevCanvas.getContext('2d');
+        const prevMap = getSlotMap(prevSlot);
+        if (prevCtx) {
+          const u = 1 - Math.pow(1 - transitionProgress, 3);
+          prevCtx.save();
+          prevCtx.globalAlpha = u;
+          prevCtx.drawImage(currCanvas, 0, 0);
+          prevCtx.restore();
+          prevMap.needsUpdate = true;
+        }
+        renderTextileToCanvas(currCanvas, design, uploadedBitmap);
+        getSlotMap(activeSlot).needsUpdate = true;
+        feltFace.map = getSlotMap(activeSlot);
+        crossfadeUniforms.uPrevMap.value = prevMap;
+      } else {
+        const oldSlot = activeSlot;
+        activeSlot = prevSlot;
+        const nextCanvas = getSlotCanvas(activeSlot);
+        const nextMap = getSlotMap(activeSlot);
+        renderTextileToCanvas(nextCanvas, design, uploadedBitmap);
+        nextMap.needsUpdate = true;
+        feltFace.map = nextMap;
+        crossfadeUniforms.uPrevMap.value = getSlotMap(oldSlot);
+      }
+
+      crossfadeUniforms.uCrossfade.value = 0;
       startEdgeColor.copy(feltEdge.color);
       targetEdgeColor.set(design.baseHex);
       startCreaseColor.copy(edgeCrease.color);
@@ -284,31 +351,21 @@ export function createSceneMaterials(
     },
 
     stepTransition(dt: number): boolean {
-      if (transitionProgress >= 1 || !texCtx) return false;
+      if (transitionProgress >= 1) return false;
       transitionProgress = Math.min(1, transitionProgress + dt / TRANSITION_DUR);
 
-      texCtx.clearRect(0, 0, texW, texH);
+      const u = transitionProgress >= 1 ? 1 : 1 - Math.pow(1 - transitionProgress, 3);
+      crossfadeUniforms.uCrossfade.value = u;
+
       if (transitionProgress >= 1) {
-        texCtx.drawImage(nextCanvas, 0, 0);
         feltEdge.color.copy(targetEdgeColor);
         edgeCrease.color.copy(targetCreaseColor);
-      } else {
-        const u = 1 - Math.pow(1 - transitionProgress, 3);
-        texCtx.drawImage(prevCanvas, 0, 0);
-
-        // Soft directional veil + crossfade across the 16-panel sheet
-        texCtx.save();
-        texCtx.globalAlpha = u;
-        texCtx.drawImage(nextCanvas, 0, 0);
-        texCtx.restore();
-
-        feltEdge.color.copy(startEdgeColor).lerp(targetEdgeColor, u);
-        edgeCrease.color.copy(startCreaseColor).lerp(targetCreaseColor, u);
+        return false;
       }
 
-      faceMap.needsUpdate = true;
-
-      return transitionProgress < 1;
+      feltEdge.color.copy(startEdgeColor).lerp(targetEdgeColor, u);
+      edgeCrease.color.copy(startCreaseColor).lerp(targetCreaseColor, u);
+      return true;
     },
 
     setHoverHighlight(hovered: boolean, dt: number): boolean {
@@ -324,7 +381,8 @@ export function createSceneMaterials(
     },
 
     dispose: () => {
-      faceMap.dispose();
+      mapA.dispose();
+      mapB.dispose();
       bumpMap.dispose();
       shadowTex.dispose();
       floorGlowTex.dispose();

@@ -219,7 +219,11 @@ export const RoomStudies: React.FC = () => {
 
   const [reading, studio, morning] = ROOM_STUDIES;
   const livePrintSpec = PRINT_SPECS[design.print];
-  const liveCaption = `Live study · ${livePrintSpec.name} · ${design.baseHex} at ${reading.opening}%`;
+  const livePrintHexNote =
+    design.print === 'solid' || (design.print === 'upload' && !design.tintUpload)
+      ? ''
+      : ` / ${design.designHex}`;
+  const liveCaption = `Live study · ${livePrintSpec.name} · ${design.baseHex}${livePrintHexNote} at ${reading.opening}%`;
 
   return (
     <section

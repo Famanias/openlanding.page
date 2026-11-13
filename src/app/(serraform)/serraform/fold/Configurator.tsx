@@ -12,7 +12,7 @@ import {
 import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
 import { PrintGallery } from './PrintGallery';
-import { normalizeYawDeg, viewPresetFromAngles } from './state';
+import { normalizeYawDeg, usesActivePrintColor, viewPresetFromAngles } from './state';
 
 export const Configurator: React.FC = () => {
   const {
@@ -188,15 +188,15 @@ export const Configurator: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. Color */}
+      {/* 2. Base & Print Color */}
       <section className="pt-5 border-t border-[var(--srf-hairline)] space-y-3" aria-labelledby="srf-step-color">
         <div className="flex items-baseline justify-between gap-2">
           <h3 id="srf-step-color" className="text-base font-medium text-[var(--srf-oxblood)]">
-            2. Color
+            2. Base &amp; Print Color
           </h3>
           <span className="srf-mono-caption text-[var(--srf-mauve)]">
             {design.baseHex}
-            {printSpec.usesDesignColor ? ` · ${design.designHex}` : ''}
+            {usesActivePrintColor(design) ? ` · ${design.designHex}` : ''}
           </span>
         </div>
 
@@ -341,19 +341,21 @@ export const Configurator: React.FC = () => {
             </dd>
           </div>
 
-          {printSpec.usesDesignColor && (
-            <div>
-              <dt className="srf-mono-caption text-[var(--srf-mauve)]">Design color</dt>
-              <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
-                <span
-                  className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
-                  style={{ backgroundColor: design.designHex }}
-                  aria-hidden="true"
-                />
-                <span>{design.designHex}</span>
-              </dd>
-            </div>
-          )}
+          <div>
+            <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print color</dt>
+            <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
+              <span
+                className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
+                style={{ backgroundColor: design.designHex }}
+                aria-hidden="true"
+              />
+              <span className={!usesActivePrintColor(design) ? 'text-[var(--srf-mauve)]' : undefined}>
+                {usesActivePrintColor(design)
+                  ? design.designHex
+                  : `${design.designHex} (${design.print === 'solid' ? 'saved' : 'original upload'})`}
+              </span>
+            </dd>
+          </div>
 
           {printSpec.usesScale && (
             <div>

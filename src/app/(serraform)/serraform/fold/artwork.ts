@@ -1,4 +1,12 @@
-import { hexToRgb, hexWithAlpha, mixHex, relativeLuminance } from './color';
+import {
+  colorDistanceOklab,
+  hexToOklch,
+  hexToRgb,
+  hexWithAlpha,
+  mixHex,
+  oklchToHex,
+  relativeLuminance,
+} from './color';
 import type { DesignState } from './state';
 
 const bitmapIds = new WeakMap<ImageBitmap, number>();
@@ -145,6 +153,68 @@ function drawBlossom(
   ctx.restore();
 }
 
+export interface PrintTones {
+  primary: string;
+  secondary: string;
+  soft: string;
+  centerContrast: string;
+  skyWash: string;
+  distantRidge: string;
+  midRidge: string;
+  foreRidge: string;
+  foregroundInk: string;
+}
+
+/**
+ * Derives secondary tonal shades directly from the selected Print Color in OKLCH space
+ * so every print retains rich illustration depth without collapsing into the base felt.
+ */
+export function derivePrintTones(baseHex: string, printHex: string): PrintTones {
+  const p = hexToOklch(printHex);
+  const b = hexToOklch(baseHex);
+  const hue = p.c < 0.015 ? 65 : p.h;
+  const isLightPrint = p.l > 0.64;
+
+  // Pick a tonal direction for secondary motifs that separates from both primary ink and base felt.
+  const pickSeparatedTone = (deltaLight: number, chromaScale: number): string => {
+    const dir = isLightPrint ? -1 : 1;
+    const candidateL = Math.max(0.14, Math.min(0.94, p.l + dir * deltaLight));
+    const candidate = oklchToHex(candidateL, Math.max(0.004, p.c * chromaScale), hue);
+    if (colorDistanceOklab(candidate, baseHex) >= 0.12) {
+      return candidate;
+    }
+    const altDir = p.l >= b.l ? 1 : -1;
+    const altL = Math.max(0.12, Math.min(0.96, p.l + altDir * (deltaLight + 0.06)));
+    return oklchToHex(altL, Math.max(0.004, p.c * chromaScale), hue);
+  };
+
+  const secondary = pickSeparatedTone(0.14, 0.88);
+  const soft = pickSeparatedTone(0.24, 0.72);
+  const centerContrast =
+    relativeLuminance(printHex) < 0.24
+      ? oklchToHex(Math.min(0.95, p.l + 0.44), Math.max(0.008, p.c * 0.45), hue)
+      : oklchToHex(Math.max(0.18, p.l - 0.42), Math.min(0.11, p.c * 1.1), hue);
+
+  // Landscape keeps stepped separation between atmospheric hills and foreground trees/ground band.
+  const skyWash = mixHex(baseHex, soft, 0.22);
+  const distantRidge = mixHex(baseHex, soft, 0.34);
+  const midRidge = mixHex(baseHex, secondary, 0.56);
+  const foreRidge = mixHex(baseHex, secondary, 0.72);
+  const foregroundInk = printHex;
+
+  return {
+    primary: printHex,
+    secondary,
+    soft,
+    centerContrast,
+    skyWash,
+    distantRidge,
+    midRidge,
+    foreRidge,
+    foregroundInk,
+  };
+}
+
 function drawBloomPattern(
   ctx: CanvasRenderingContext2D,
   w: number,
@@ -160,12 +230,10 @@ function drawBloomPattern(
   const repeatsX = Math.ceil(w / unitW) + 2;
   const repeatsY = Math.ceil(h / tileH) + 1;
 
-  const primaryInk = designHex;
-  const softInk = mixHex(baseHex, designHex, 0.48);
-  const stamenContrast =
-    relativeLuminance(designHex) < 0.28
-      ? mixHex(baseHex, '#FFFCF8', 0.35)
-      : mixHex(designHex, '#2E141A', 0.45);
+  const tones = derivePrintTones(baseHex, designHex);
+  const primaryInk = tones.primary;
+  const softInk = tones.secondary;
+  const stamenContrast = tones.centerContrast;
 
   const drawSingleTile = (ox: number, oy: number, tw: number, th: number) => {
     ctx.save();
@@ -283,14 +351,15 @@ function drawStripesPattern(
   motifScale: number,
 ) {
   const period = (w / 5.5) * (motifScale / 100);
-  const softTone = mixHex(baseHex, designHex, 0.36);
-  const midTone = mixHex(baseHex, designHex, 0.68);
+  const tones = derivePrintTones(baseHex, designHex);
+  const softTone = tones.soft;
+  const midTone = tones.secondary;
   const count = Math.ceil(w / period) + 2;
 
   for (let i = -1; i < count; i += 1) {
     const x = i * period;
     // Wide solid band
-    ctx.fillStyle = designHex;
+    ctx.fillStyle = tones.primary;
     ctx.fillRect(x, 0, period * 0.22, h);
 
     // Soft woven companion bar
@@ -298,7 +367,7 @@ function drawStripesPattern(
     ctx.fillRect(x + period * 0.28, 0, period * 0.14, h);
 
     // Fine paired pinstripes
-    ctx.fillStyle = designHex;
+    ctx.fillStyle = tones.primary;
     ctx.fillRect(x + period * 0.5, 0, Math.max(1.5, period * 0.045), h);
     ctx.fillRect(x + period * 0.58, 0, Math.max(1.5, period * 0.045), h);
 
@@ -307,7 +376,7 @@ function drawStripesPattern(
     ctx.fillRect(x + period * 0.72, 0, period * 0.11, h);
 
     // Subtle hairline thread
-    ctx.fillStyle = hexWithAlpha(designHex, 0.55);
+    ctx.fillStyle = hexWithAlpha(tones.primary, 0.55);
     ctx.fillRect(x + period * 0.9, 0, Math.max(1, period * 0.02), h);
   }
 }
@@ -327,16 +396,16 @@ function drawLandscapeArtwork(
   ctx.scale(s, s);
   ctx.translate(-w * 0.5, -h * 0.5);
 
-  const skyTint = mixHex(baseHex, designHex, 0.12);
-  const distantHill = mixHex(baseHex, designHex, 0.3);
-  const midHill = mixHex(baseHex, designHex, 0.56);
-  const foreRidge = mixHex(baseHex, designHex, 0.84);
-  const darkInk = designHex;
+  const tones = derivePrintTones(baseHex, designHex);
+  const distantHill = tones.distantRidge;
+  const midHill = tones.midRidge;
+  const foreRidge = tones.foreRidge;
+  const darkInk = tones.foregroundInk;
 
-  // Soft sky wash
+  // Transparent sky wash so base felt luminescence shows through cleanly
   const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.72);
-  skyGrad.addColorStop(0, skyTint);
-  skyGrad.addColorStop(1, baseHex);
+  skyGrad.addColorStop(0, hexWithAlpha(tones.soft, 0.24));
+  skyGrad.addColorStop(1, hexWithAlpha(tones.soft, 0));
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, w, h);
 
@@ -345,13 +414,13 @@ function drawLandscapeArtwork(
   const sunY = h * 0.29;
   const sunR = Math.min(w, h) * 0.11;
 
-  ctx.strokeStyle = hexWithAlpha(darkInk, 0.25);
+  ctx.strokeStyle = hexWithAlpha(darkInk, 0.28);
   ctx.lineWidth = Math.max(1.5, w * 0.002);
   ctx.beginPath();
   ctx.arc(sunX, sunY, sunR * 1.38, 0, Math.PI * 2);
   ctx.stroke();
 
-  ctx.fillStyle = mixHex(baseHex, darkInk, 0.72);
+  ctx.fillStyle = tones.secondary;
   ctx.beginPath();
   ctx.arc(sunX, sunY, sunR, 0, Math.PI * 2);
   ctx.fill();
@@ -454,8 +523,9 @@ function drawWavesPattern(
   const s = motifScale / 100;
   const rows = 9;
   const freq = Math.max(1, Math.round(3 / Math.max(0.5, s)));
-  const softTone = mixHex(baseHex, designHex, 0.34);
-  const midTone = mixHex(baseHex, designHex, 0.65);
+  const tones = derivePrintTones(baseHex, designHex);
+  const softTone = tones.soft;
+  const midTone = tones.secondary;
 
   ctx.lineCap = 'round';
   for (let row = 0; row < rows; row += 1) {
@@ -465,7 +535,7 @@ function drawWavesPattern(
     const lineW =
       h * (row % 3 === 0 ? 0.032 : row % 2 === 0 ? 0.018 : 0.01) * Math.max(0.6, Math.min(1.5, s));
 
-    ctx.strokeStyle = row % 3 === 0 ? designHex : row % 2 === 0 ? midTone : softTone;
+    ctx.strokeStyle = row % 3 === 0 ? tones.primary : row % 2 === 0 ? midTone : softTone;
     ctx.lineWidth = Math.max(2, lineW);
     ctx.beginPath();
 
@@ -490,6 +560,7 @@ function drawUploadedImage(
   h: number,
   bitmap: ImageBitmap | null,
   motifScale: number,
+  tintHex?: string,
 ) {
   if (!bitmap || bitmap.width <= 0 || bitmap.height <= 0) return;
 
@@ -500,33 +571,64 @@ function drawUploadedImage(
   const dx = (w - drawW) * 0.5;
   const dy = (h - drawH) * 0.5;
 
+  if (!tintHex || typeof document === 'undefined') {
+    ctx.save();
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(bitmap, dx, dy, drawW, drawH);
+    ctx.restore();
+    return;
+  }
+
+  // Opt-in screen-print tinting preserves original transparency/alpha while mapping luminance to Print Color.
+  const buffer = document.createElement('canvas');
+  buffer.width = w;
+  buffer.height = h;
+  const bCtx = buffer.getContext('2d');
+  if (!bCtx) return;
+
+  bCtx.imageSmoothingEnabled = true;
+  bCtx.imageSmoothingQuality = 'high';
+  bCtx.drawImage(bitmap, dx, dy, drawW, drawH);
+
+  const img = bCtx.getImageData(0, 0, w, h);
+  const data = img.data;
+  const { r: tr, g: tg, b: tb } = hexToRgb(tintHex);
+  const { r: dr, g: dg, b: db } = hexToRgb(mixHex(tintHex, '#181113', 0.42));
+  const { r: lr, g: lg, b: lb } = hexToRgb(mixHex(tintHex, '#FFFCF8', 0.45));
+
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] === 0) continue;
+    const lum = (0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]) / 255;
+    if (lum < 0.5) {
+      const k = lum * 2;
+      data[i] = Math.round(dr + (tr - dr) * k);
+      data[i + 1] = Math.round(dg + (tg - dg) * k);
+      data[i + 2] = Math.round(db + (tb - db) * k);
+    } else {
+      const k = (lum - 0.5) * 2;
+      data[i] = Math.round(tr + (lr - tr) * k);
+      data[i + 1] = Math.round(tg + (lg - tg) * k);
+      data[i + 2] = Math.round(tb + (lb - tb) * k);
+    }
+  }
+  bCtx.putImageData(img, 0, 0);
+
   ctx.save();
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-  ctx.drawImage(bitmap, dx, dy, drawW, drawH);
+  ctx.drawImage(buffer, 0, 0);
   ctx.restore();
 }
 
 /**
- * Renders any Fold 16 fabric design into a target 2D canvas.
- * Shared across Three.js CanvasTexture, Canvas 2D still fallback, room study, and swatch gallery.
+ * Renders only the printed artwork layer over transparency (separate from base felt).
  */
-export function renderTextileToCanvas(
-  canvas: HTMLCanvasElement,
-  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale'>,
+export function renderPrintArtworkLayer(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale' | 'tintUpload'>,
   uploadedBitmap: ImageBitmap | null = null,
 ): void {
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  const w = canvas.width;
-  const h = canvas.height;
-
-  // 1. Solid base felt color
-  ctx.fillStyle = design.baseHex;
-  ctx.fillRect(0, 0, w, h);
-
-  // 2. Selected artwork layer
   switch (design.print) {
     case 'bloom':
       drawBloomPattern(ctx, w, h, design.baseHex, design.designHex, design.motifScale);
@@ -542,13 +644,43 @@ export function renderTextileToCanvas(
       break;
     case 'upload':
       if (uploadedBitmap) {
-        drawUploadedImage(ctx, w, h, uploadedBitmap, design.motifScale);
+        drawUploadedImage(
+          ctx,
+          w,
+          h,
+          uploadedBitmap,
+          design.motifScale,
+          design.tintUpload ? design.designHex : undefined,
+        );
       }
       break;
     case 'solid':
     default:
       break;
   }
+}
+
+/**
+ * Renders any Fold 16 fabric design into a target 2D canvas.
+ * Shared across Three.js CanvasTexture, Canvas 2D still fallback, room study, and swatch gallery.
+ */
+export function renderTextileToCanvas(
+  canvas: HTMLCanvasElement,
+  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale' | 'tintUpload'>,
+  uploadedBitmap: ImageBitmap | null = null,
+): void {
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const w = canvas.width;
+  const h = canvas.height;
+
+  // 1. Solid base felt color
+  ctx.fillStyle = design.baseHex;
+  ctx.fillRect(0, 0, w, h);
+
+  // 2. Selected artwork layer over base felt
+  renderPrintArtworkLayer(ctx, w, h, design, uploadedBitmap);
 
   // 3. Subtle felt wool micro-grain overlay so print integrates into textured felt even near white/black
   const lum = relativeLuminance(design.baseHex);
@@ -560,7 +692,4 @@ export function renderTextileToCanvas(
     ctx.fillRect(0, 0, w, h);
     ctx.restore();
   }
-
-  // Keep subtle unused ref avoided
-  void hexToRgb;
 }

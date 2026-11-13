@@ -19,6 +19,7 @@ export interface DesignState {
   designHex: string; // normalized #RRGGBB
   print: PrintId;
   motifScale: number; // 50..200, default 100
+  tintUpload?: boolean; // opt-in print-color tinting for uploaded images
 }
 
 export interface FoldStudioState {
@@ -33,6 +34,7 @@ export type FoldAction =
   | { type: 'SET_DESIGN_HEX'; hex: string; currentOpening?: number }
   | { type: 'SET_PRINT'; print: PrintId; currentOpening?: number }
   | { type: 'SET_MOTIF_SCALE'; motifScale: number; currentOpening?: number }
+  | { type: 'SET_TINT_UPLOAD'; tintUpload: boolean; currentOpening?: number }
   | { type: 'SET_VIEW_PRESET'; viewId: ViewId; currentOpening?: number }
   | {
       type: 'SET_VIEW_ANGLES';
@@ -95,6 +97,14 @@ export function viewDirectionFromAngles(view: ViewState): [number, number, numbe
   ];
 }
 
+export function usesActivePrintColor(
+  design: Pick<DesignState, 'print' | 'tintUpload'>,
+): boolean {
+  if (design.print === 'solid') return false;
+  if (design.print === 'upload') return Boolean(design.tintUpload);
+  return true;
+}
+
 export function createInitialFoldState(enhanced = true): FoldStudioState {
   return {
     mode: enhanced ? 'story' : 'manual',
@@ -131,6 +141,9 @@ export function foldReducer(
     case 'SET_BASE_HEX': {
       const hex = normalizeHex(action.hex);
       if (!hex) return state;
+      if (state.mode === 'manual' && state.design.baseHex === hex) {
+        return state;
+      }
       return {
         ...state,
         mode: 'manual',
@@ -144,6 +157,9 @@ export function foldReducer(
     case 'SET_DESIGN_HEX': {
       const hex = normalizeHex(action.hex);
       if (!hex) return state;
+      if (state.mode === 'manual' && state.design.designHex === hex) {
+        return state;
+      }
       return {
         ...state,
         mode: 'manual',
@@ -173,6 +189,17 @@ export function foldReducer(
           ...state.design,
           opening: resolveOpeningEnteringManual(state, action.currentOpening),
           motifScale: normalizeMotifScale(action.motifScale),
+        },
+      };
+    }
+    case 'SET_TINT_UPLOAD': {
+      return {
+        ...state,
+        mode: 'manual',
+        design: {
+          ...state.design,
+          opening: resolveOpeningEnteringManual(state, action.currentOpening),
+          tintUpload: Boolean(action.tintUpload),
         },
       };
     }
@@ -247,6 +274,7 @@ export function foldReducer(
           designHex: DEFAULT_DESIGN.designHex,
           print: DEFAULT_DESIGN.print,
           motifScale: DEFAULT_DESIGN.motifScale,
+          tintUpload: Boolean(DEFAULT_DESIGN.tintUpload),
         },
       };
     }

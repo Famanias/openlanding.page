@@ -420,25 +420,36 @@ export function harmonizeRoomPalette(
     // Contrasting warm/tinted woven rug & drapery keep silhouette of dark divider unmistakable
     rug = clampOklch(0.42, Math.min(0.032, envChroma * 1.1 + 0.008), stoneHue);
     rugTrim = clampOklch(
-      Math.max(0.56, Math.min(0.76, accent.l + 0.16)),
-      Math.min(0.085, accent.c * 0.7 + 0.016),
-      accentHue,
+      isAchromaticAccent && accent.l > 0.78
+        ? Math.min(0.88, accent.l * 0.85)
+        : Math.max(0.56, Math.min(0.82, accent.l * 0.7 + 0.16)),
+      isAchromaticAccent ? 0.014 : Math.min(0.09, accent.c * 0.7 + 0.016),
+      isAchromaticAccent ? 68 : accentHue,
     );
     textilePrimary = clampOklch(0.37, Math.min(0.038, envChroma * 1.15 + 0.006), baseHue);
-    textileSecondary = clampOklch(0.5, Math.min(0.036, envChroma + 0.01), stoneHue);
+    textileSecondary = clampOklch(
+      isAchromaticAccent && accent.l > 0.78 ? 0.64 : 0.5,
+      Math.min(0.036, envChroma + 0.01),
+      blendHue(stoneHue, baseHue, 0.28),
+    );
 
     furniture = clampOklch(0.44, Math.min(0.038, envChroma + 0.012), stoneHue);
     furnitureLeg = clampOklch(0.62, Math.min(0.042, accent.c * 0.38 + 0.014), blendHue(stoneHue, accentHue, 0.35));
 
-    decorPrimary = clampOklch(
-      Math.max(0.5, Math.min(0.74, accent.l * 0.65 + 0.26)),
-      Math.min(0.1, accent.c * 0.72 + 0.022),
-      accentHue,
-    );
+    const darkEnvDecorL =
+      isAchromaticAccent && accent.l > 0.78
+        ? Math.min(0.9, accent.l * 0.88)
+        : Math.max(0.52, Math.min(0.8, accent.l * 0.74 + 0.2));
+    const darkEnvDecorC = isAchromaticAccent
+      ? 0.014
+      : Math.min(0.105, accent.c * 0.74 + 0.022);
+    const darkEnvDecorHue = isAchromaticAccent ? 68 : accentHue;
+
+    decorPrimary = clampOklch(darkEnvDecorL, darkEnvDecorC, darkEnvDecorHue);
     decorAccent = clampOklch(
-      Math.max(0.6, Math.min(0.82, accent.l * 0.55 + 0.38)),
-      Math.min(0.11, accent.c * 0.78 + 0.024),
-      accentHue,
+      Math.min(0.95, Math.max(0.62, darkEnvDecorL + 0.08)),
+      isAchromaticAccent ? 0.012 : Math.min(0.115, darkEnvDecorC * 1.1),
+      darkEnvDecorHue,
     );
 
     architecturalTrim = clampOklch(0.56, Math.min(0.055, accent.c * 0.5 + 0.016), blendHue(baseHue, accentHue, 0.45));
@@ -486,8 +497,12 @@ export function harmonizeRoomPalette(
     const rugL = isNearWhite ? 0.97 : Math.max(0.87, Math.min(0.95, baseWallL + 0.028));
     rug = clampOklch(rugL, Math.min(0.032, wallChroma * 0.56), baseHue);
     rugTrim = isAchromaticAccent
-      ? clampOklch(0.62, Math.min(0.05, wallChroma * 1.2), baseHue)
-      : clampOklch(Math.max(0.46, Math.min(0.68, accent.l * 0.65 + 0.18)), Math.min(0.075, accent.c * 0.58 + 0.014), accentHue);
+      ? clampOklch(
+          accent.l > 0.8 ? Math.min(0.93, accent.l * 0.91) : 0.42,
+          Math.min(0.024, wallChroma * 0.8),
+          accent.l > 0.8 ? 68 : baseHue,
+        )
+      : clampOklch(Math.max(0.46, Math.min(0.76, accent.l * 0.68 + 0.16)), Math.min(0.08, accent.c * 0.6 + 0.014), accentHue);
 
     textilePrimary = clampOklch(
       Math.max(0.79, baseWallL - 0.035),
@@ -514,19 +529,20 @@ export function harmonizeRoomPalette(
 
     // Design-color-driven intentional 10% decorative accents (vases, art bars, cushions, swatch chips)
     const accentTargetL = accent.l < 0.24
-      ? 0.34
-      : accent.l > 0.82
-        ? 0.66
-        : Math.max(0.36, Math.min(0.68, accent.l * 0.72 + 0.14));
+      ? 0.32
+      : accent.l > 0.84
+        ? Math.min(0.94, accent.l * 0.92)
+        : Math.max(0.36, Math.min(0.78, accent.l * 0.74 + 0.14));
     const accentTargetC = isAchromaticAccent
-      ? Math.min(0.045, baseChromaNorm * 0.4 + 0.012)
-      : Math.min(0.115, accent.c * 0.68 + 0.02);
+      ? (accent.l > 0.8 ? 0.01 : Math.min(0.032, baseChromaNorm * 0.3 + 0.008))
+      : Math.min(0.12, accent.c * 0.7 + 0.02);
+    const daylightAccentHue = isAchromaticAccent ? 68 : accentHue;
 
-    decorPrimary = clampOklch(accentTargetL, accentTargetC, accentHue);
+    decorPrimary = clampOklch(accentTargetL, accentTargetC, daylightAccentHue);
     decorAccent = clampOklch(
-      Math.max(0.42, Math.min(0.74, accentTargetL + 0.09)),
-      Math.min(0.125, accentTargetC * 1.15),
-      accentHue,
+      Math.max(0.38, Math.min(0.96, accentTargetL > 0.8 ? accentTargetL - 0.06 : accentTargetL + 0.09)),
+      isAchromaticAccent ? accentTargetC : Math.min(0.13, accentTargetC * 1.15),
+      daylightAccentHue,
     );
 
     // Trim & baseboard: mid-tone architectural bridge between wall hue and accent hue

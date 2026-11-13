@@ -11,22 +11,29 @@ const SwatchPreviewCanvas: React.FC<{
   baseHex: string;
   designHex: string;
   motifScale: number;
-}> = ({ printId, baseHex, designHex, motifScale }) => {
+  tintUpload?: boolean;
+  uploadedBitmap?: ImageBitmap | null;
+}> = ({ printId, baseHex, designHex, motifScale, tintUpload, uploadedBitmap }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      renderTextileToCanvas(canvas, {
-        baseHex,
-        designHex,
-        print: printId,
-        motifScale,
-      });
+      renderTextileToCanvas(
+        canvas,
+        {
+          baseHex,
+          designHex,
+          print: printId,
+          motifScale,
+          tintUpload,
+        },
+        uploadedBitmap ?? null,
+      );
     });
     return () => cancelAnimationFrame(id);
-  }, [printId, baseHex, designHex, motifScale]);
+  }, [printId, baseHex, designHex, motifScale, tintUpload, uploadedBitmap]);
 
   return (
     <canvas
@@ -50,6 +57,7 @@ export const PrintGallery: React.FC<{
     isUploading,
     setPrint,
     setMotifScale,
+    setTintUpload,
     uploadFile,
     clearUpload,
     clearUploadError,
@@ -130,11 +138,22 @@ export const PrintGallery: React.FC<{
           }`}
         >
           {uploadedArt ? (
-            <img
-              src={uploadedArt.previewUrl}
-              alt=""
-              className="w-full h-14 object-cover rounded-[4px] border border-[var(--srf-oxblood)]/15 block"
-            />
+            design.tintUpload ? (
+              <SwatchPreviewCanvas
+                printId="upload"
+                baseHex={design.baseHex}
+                designHex={design.designHex}
+                motifScale={design.motifScale}
+                tintUpload
+                uploadedBitmap={uploadedArt.bitmap}
+              />
+            ) : (
+              <img
+                src={uploadedArt.previewUrl}
+                alt=""
+                className="w-full h-14 object-cover rounded-[4px] border border-[var(--srf-oxblood)]/15 block"
+              />
+            )
           ) : (
             <div className="w-full h-14 rounded-[4px] border border-dashed border-[var(--srf-hairline-strong)] bg-[var(--srf-surface-soft)] flex flex-col items-center justify-center gap-1 text-[var(--srf-mauve)]">
               <ImagePlus className="w-4 h-4 text-[var(--srf-oxblood)]" aria-hidden="true" />
@@ -165,7 +184,7 @@ export const PrintGallery: React.FC<{
         aria-label="Upload custom artwork image (PNG, JPEG, or WebP)"
       />
 
-      {/* Uploaded artwork active session details + Replace/Remove controls */}
+      {/* Uploaded artwork active session details + opt-in tint + Replace/Remove controls */}
       {uploadedArt && (
         <div className="p-3.5 rounded-[8px] border border-[var(--srf-hairline)] bg-[var(--srf-surface-soft)] space-y-2.5">
           <div className="flex items-center justify-between gap-3">
@@ -178,6 +197,30 @@ export const PrintGallery: React.FC<{
               </div>
             </div>
           </div>
+
+          <label className="flex items-start gap-2.5 pt-0.5 cursor-pointer select-none">
+            <input
+              id={`${idPrefix}-tint-upload-toggle`}
+              data-testid={`${idPrefix}-tint-upload-toggle`}
+              type="checkbox"
+              checked={Boolean(design.tintUpload)}
+              onChange={(e) => {
+                setTintUpload(e.target.checked);
+                onAnnounce?.(
+                  e.target.checked
+                    ? 'Applied Print Color tint to uploaded artwork.'
+                    : 'Restored original colors on uploaded artwork.',
+                );
+              }}
+              className="mt-0.5 h-4 w-4 accent-[var(--srf-oxblood)] rounded shrink-0"
+            />
+            <span className="text-xs text-[var(--srf-oxblood)] leading-snug">
+              <span className="font-medium block">Tint uploaded image with Print color</span>
+              <span className="srf-mono-caption text-[var(--srf-mauve)] block">
+                Off by default — preserves original colors unless enabled.
+              </span>
+            </span>
+          </label>
 
           <div className="flex flex-wrap gap-2">
             <button
