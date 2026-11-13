@@ -2829,7 +2829,7 @@ export default function PlanYourWalk() {
 <![CDATA['use client';
 
 import { MouseEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowDown, Pause, Play, RotateCcw, Sparkles, Waves } from 'lucide-react';
+import { ArrowDown, Play, RotateCcw } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useMotionPreference } from '../hooks/useMotionPreference';
 import { useInView } from '../hooks/useInView';
@@ -2875,7 +2875,6 @@ export default function PondStage({
 
   const [mode, setMode] = useState<StageMode>('poster');
   const [liveReady, setLiveReady] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [staticRing, setStaticRing] = useState<StaticRing | null>(null);
   const [announcement, setAnnouncement] = useState('');
   const announceSeqRef = useRef(0);
@@ -2900,7 +2899,6 @@ export default function PondStage({
       controllerRef.current = null;
     }
     setLiveReady(false);
-    setPaused(false);
   }, []);
 
   const startScene = useCallback(async () => {
@@ -3071,23 +3069,6 @@ export default function PondStage({
     }
   };
 
-  const togglePaused = () => {
-    const ctrl = controllerRef.current;
-    if (!ctrl) return;
-    const next = !paused;
-    setPaused(next);
-    ctrl.setPaused(next);
-    announce(next ? 'Pond paused' : 'Pond resumed');
-  };
-
-  const handleFeedKoi = () => {
-    controllerRef.current?.feedKoi();
-  };
-
-  const handleMakeRipple = () => {
-    controllerRef.current?.triggerRipple();
-  };
-
   return (
     <div ref={stageRef} className="mnw-stage-wrap" data-pond-mode={displayMode}>
       {/* Full-hero 3D stage & static fallback backdrop */}
@@ -3178,40 +3159,8 @@ export default function PondStage({
             <ArrowDown size={13} aria-hidden="true" />
           </a>
 
-          {(isRunning3D || displayMode === 'opt-in' || displayMode === 'reduced' || displayMode === 'error') && (
+          {(displayMode === 'opt-in' || displayMode === 'reduced' || displayMode === 'error') && (
             <div className="mnw-stage-controls mnw-js-only">
-              {isRunning3D && (
-                <>
-                  <button
-                    type="button"
-                    className="mnw-stage-btn"
-                    aria-pressed={paused}
-                    onClick={togglePaused}
-                  >
-                    {paused ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}
-                    <span>{paused ? 'Resume pond' : 'Pause pond'}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    className="mnw-stage-btn"
-                    onClick={handleFeedKoi}
-                  >
-                    <Sparkles size={14} aria-hidden="true" />
-                    <span>Feed koi</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    className="mnw-stage-btn"
-                    onClick={handleMakeRipple}
-                  >
-                    <Waves size={14} aria-hidden="true" />
-                    <span>Make a ripple</span>
-                  </button>
-                </>
-              )}
-
               {displayMode === 'opt-in' && (
                 <button
                   type="button"
@@ -3827,7 +3776,7 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
   {
     question: 'Can I interact with the pond?',
     answer:
-      'Yes. Click or touch the pond water directly, or use Feed koi and Make a ripple in the lower controls to drop food and send ripples across the surface.',
+      'Yes. Click or touch the pond water directly to drop food and send ripples across the surface.',
   },
   {
     question: 'What if my device cannot run the 3D scene?',
@@ -3837,7 +3786,7 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
   {
     question: 'Can I pause the movement?',
     answer:
-      'Yes. Use Pause pond in the bottom-right controls at any time, or rely on your device’s reduced-motion setting for a composed still view automatically.',
+      'Yes. Rely on your device’s reduced-motion setting for a composed still view automatically.',
   },
   {
     question: 'Are the koi real fish?',

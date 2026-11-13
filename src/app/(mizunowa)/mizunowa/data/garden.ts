@@ -162,7 +162,7 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
   {
     question: 'Can I interact with the pond?',
     answer:
-      'Yes. Click or touch the pond water directly, or use Feed koi and Make a ripple in the lower controls to drop food and send ripples across the surface.',
+      'Yes. Click or touch the pond water directly to drop food and send ripples across the surface.',
   },
   {
     question: 'What if my device cannot run the 3D scene?',
@@ -172,7 +172,7 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
   {
     question: 'Can I pause the movement?',
     answer:
-      'Yes. Use Pause pond in the bottom-right controls at any time, or rely on your device’s reduced-motion setting for a composed still view automatically.',
+      'Yes. Rely on your device’s reduced-motion setting for a composed still view automatically.',
   },
   {
     question: 'Are the koi real fish?',
