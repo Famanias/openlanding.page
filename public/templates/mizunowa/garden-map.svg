@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" fill="none">
+  <rect width="1200" height="900" fill="#F4EFE2"/>
+
+  <!-- Subtle topographic / paper contours -->
+  <ellipse cx="560" cy="510" rx="455" ry="270" stroke="#D6C7A9" stroke-width="1.2" stroke-dasharray="4 6"/>
+  <ellipse cx="560" cy="510" rx="520" ry="325" stroke="#D6C7A9" stroke-width="1" opacity="0.65"/>
+
+  <!-- Pond water -->
+  <path d="M180 510 C180 355, 340 285, 560 285 C775 285, 935 360, 935 510 C935 660, 775 735, 560 735 C340 735, 180 665, 180 510 Z" fill="#112C2A"/>
+  <ellipse cx="558" cy="510" rx="340" ry="198" stroke="#526E58" stroke-opacity="0.35" stroke-width="2"/>
+
+  <!-- Subtle Koi path traces inside pond -->
+  <ellipse cx="558" cy="510" rx="260" ry="150" stroke="#D6C7A9" stroke-opacity="0.22" stroke-width="1.2" stroke-dasharray="6 8"/>
+  <ellipse cx="558" cy="510" rx="145" ry="76" stroke="#D6C7A9" stroke-opacity="0.22" stroke-width="1.2" stroke-dasharray="5 7"/>
+
+  <!-- Ripple motif inside pond -->
+  <circle cx="590" cy="495" r="24" stroke="#F4EFE2" stroke-opacity="0.45" stroke-width="1.5"/>
+  <circle cx="590" cy="495" r="48" stroke="#F4EFE2" stroke-opacity="0.24" stroke-width="1.2"/>
+
+  <!-- Bank stones along perimeter -->
+  <g fill="#D6C7A9" stroke="#526E58" stroke-width="1.2">
+    <ellipse cx="195" cy="442" rx="30" ry="18" transform="rotate(-28 195 442)"/>
+    <ellipse cx="268" cy="356" rx="28" ry="16" transform="rotate(-18 268 356)"/>
+    <ellipse cx="395" cy="296" rx="32" ry="15" transform="rotate(-6 395 296)"/>
+    <ellipse cx="560" cy="274" rx="36" ry="15"/>
+    <ellipse cx="732" cy="298" rx="32" ry="15" transform="rotate(10 732 298)"/>
+    <ellipse cx="868" cy="368" rx="30" ry="17" transform="rotate(28 868 368)"/>
+    <ellipse cx="928" cy="505" rx="30" ry="18" transform="rotate(86 928 505)"/>
+    <ellipse cx="852" cy="656" rx="34" ry="17" transform="rotate(-24 852 656)"/>
+    <ellipse cx="695" cy="726" rx="38" ry="16" transform="rotate(-8 695 726)"/>
+    <ellipse cx="520" cy="744" rx="40" ry="16"/>
+    <ellipse cx="342" cy="718" rx="34" ry="16" transform="rotate(12 342 718)"/>
+    <ellipse cx="218" cy="638" rx="32" ry="17" transform="rotate(28 218 638)"/>
+  </g>
+
+  <!-- Sakura grove (upper left) -->
+  <g transform="translate(226 248)">
+    <circle cx="0" cy="0" r="88" fill="#C7A6A2" fill-opacity="0.42"/>
+    <circle cx="-46" cy="24" r="52" fill="#C7A6A2" fill-opacity="0.58"/>
+    <circle cx="48" cy="-24" r="56" fill="#C7A6A2" fill-opacity="0.55"/>
+    <circle cx="14" cy="36" r="44" fill="#C7A6A2" fill-opacity="0.5"/>
+    <path d="M-6 40 C-2 10, 6 -12, 24 -32 M0 8 C-26 -8, -42 -12, -62 -10" stroke="#1E2320" stroke-width="3.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Garden walk path (pond edge -> sakura grove -> shrine courtyard) -->
+  <path id="mnw-walk-route" d="M292 678 C178 620, 128 450, 210 315 C284 195, 480 158, 690 198 C808 220, 882 252, 956 205" stroke="#526E58" stroke-width="2.5" stroke-dasharray="7 7" stroke-linecap="round"/>
+
+  <!-- Stepping stones along the path -->
+  <g fill="#D6C7A9" stroke="#526E58" stroke-width="1">
+    <ellipse cx="272" cy="666" rx="14" ry="9" transform="rotate(34 272 666)"/>
+    <ellipse cx="204" cy="596" rx="13" ry="9" transform="rotate(65 204 596)"/>
+    <ellipse cx="164" cy="495" rx="13" ry="9" transform="rotate(86 164 495)"/>
+    <ellipse cx="176" cy="390" rx="14" ry="9" transform="rotate(-64 176 390)"/>
+    <ellipse cx="268" cy="258" rx="14" ry="9" transform="rotate(-36 268 258)"/>
+    <ellipse cx="388" cy="192" rx="15" ry="9" transform="rotate(-14 388 192)"/>
+    <ellipse cx="524" cy="174" rx="15" ry="9"/>
+    <ellipse cx="662" cy="192" rx="15" ry="9" transform="rotate(10 662 192)"/>
+    <ellipse cx="792" cy="222" rx="15" ry="9" transform="rotate(-8 792 222)"/>
+    <ellipse cx="892" cy="224" rx="15" ry="9" transform="rotate(-22 892 224)"/>
+  </g>
+
+  <!-- Stop markers (01, 02, 03) -->
+  <circle cx="312" cy="688" r="10" fill="#9E3F32"/>
+  <circle cx="312" cy="688" r="18" stroke="#9E3F32" stroke-opacity="0.4" stroke-width="1.5"/>
+  <circle cx="240" cy="296" r="10" fill="#9E3F32"/>
+  <circle cx="240" cy="296" r="18" stroke="#9E3F32" stroke-opacity="0.4" stroke-width="1.5"/>
+  <circle cx="910" cy="218" r="10" fill="#9E3F32"/>
+  <circle cx="910" cy="218" r="18" stroke="#9E3F32" stroke-opacity="0.4" stroke-width="1.5"/>
+
+  <!-- Land-based Vermilion Torii in plan/axonometric view -->
+  <g transform="translate(888 214) rotate(-26)">
+    <rect x="-26" y="-8" width="52" height="10" rx="2" fill="#9E3F32"/>
+    <rect x="-18" y="-3" width="6" height="18" fill="#1E2320"/>
+    <rect x="12" y="-3" width="6" height="18" fill="#1E2320"/>
+  </g>
+
+  <!-- Shrine hall footprint & roof ridge (upper right) -->
+  <g transform="translate(998 168) rotate(-22)">
+    <rect x="-78" y="-48" width="156" height="96" rx="3" fill="#203D33" stroke="#1E2320" stroke-width="2"/>
+    <line x1="-82" y1="0" x2="82" y2="0" stroke="#CB9462" stroke-width="4" stroke-linecap="round"/>
+    <rect x="-24" y="42" width="48" height="14" fill="#D6C7A9" stroke="#1E2320" stroke-width="1.5"/>
+  </g>
+
+  <!-- Moss clusters -->
+  <g fill="#526E58" fill-opacity="0.32">
+    <ellipse cx="835" cy="145" rx="64" ry="38"/>
+    <ellipse cx="1095" cy="282" rx="52" ry="34"/>
+    <ellipse cx="118" cy="692" rx="58" ry="32"/>
+    <ellipse cx="975" cy="675" rx="68" ry="40"/>
+  </g>
+</svg>
