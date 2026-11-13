@@ -707,7 +707,7 @@ html {
 
 .mnw-stage-wrap {
   position: relative;
-  min-height: clamp(680px, 92vh, 880px);
+  min-height: max(680px, 100svh);
   display: flex;
   flex-direction: column;
 }
@@ -1034,7 +1034,7 @@ html:not(.mnw-js) .mnw-js-only {
 
 @media (max-width: 899px) {
   .mnw-stage-wrap {
-    min-height: clamp(610px, 88svh, 780px);
+    min-height: max(610px, 100svh);
   }
 
   .mnw-hero-foreground {
