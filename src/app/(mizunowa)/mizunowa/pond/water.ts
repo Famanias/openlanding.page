@@ -22,6 +22,7 @@ import {
   createSubmergedStoneMaterial,
   createWaterSurfaceMaterial,
 } from './materials';
+import type { ExclusionFootprint } from './placement';
 import type { PondQuality, PondTextureSuite } from './textures';
 
 interface RippleSlot {
@@ -34,6 +35,72 @@ interface RippleSlot {
   mesh: THREE.Mesh;
   material: THREE.MeshBasicNodeMaterial;
   opacityUniform: FloatUniform;
+}
+
+export interface SubmergedStoneSpec {
+  x: number;
+  z: number;
+  sx: number;
+  sy: number;
+  sz: number;
+  seed: number;
+  rot: number;
+}
+
+/**
+ * Single source of truth for submerged river stones inside the pond basin.
+ * Positioned strictly clear of the right-bank waterfall landing channel around (2.24, 0.46)
+ * and seated deep enough that stone crowns remain submerged beneath y = 0.
+ */
+export const SUBMERGED_STONE_SPECS: readonly SubmergedStoneSpec[] = [
+  { x: -1.42, z: 1.05, sx: 0.42, sy: 0.2, sz: 0.36, seed: 1.4, rot: 0.4 },
+  { x: 1.32, z: -0.88, sx: 0.38, sy: 0.19, sz: 0.32, seed: 2.8, rot: 1.7 },
+  { x: 0.46, z: 1.92, sx: 0.35, sy: 0.17, sz: 0.29, seed: 4.1, rot: 2.3 },
+  { x: -1.18, z: -1.42, sx: 0.36, sy: 0.18, sz: 0.3, seed: 5.5, rot: 0.9 },
+  { x: 1.42, z: 1.18, sx: 0.36, sy: 0.18, sz: 0.29, seed: 6.7, rot: 2.9 },
+  { x: -0.28, z: -2.42, sx: 0.32, sy: 0.17, sz: 0.28, seed: 8.2, rot: 1.1 },
+  // Shallow submerged river stones pulled inward into deep basin zones so none breach water surface
+  { x: -1.68, z: 1.72, sx: 0.4, sy: 0.15, sz: 0.34, seed: 9.4, rot: 0.3 },
+  { x: -1.52, z: 2.38, sx: 0.36, sy: 0.14, sz: 0.3, seed: 10.7, rot: 2.1 },
+  { x: -1.72, z: 0.14, sx: 0.38, sy: 0.15, sz: 0.32, seed: 11.9, rot: 1.5 },
+  { x: 1.88, z: -0.34, sx: 0.3, sy: 0.14, sz: 0.26, seed: 13.1, rot: 2.6 },
+  { x: 1.84, z: 1.44, sx: 0.28, sy: 0.14, sz: 0.24, seed: 16.2, rot: 0.9 },
+  { x: 0.78, z: -2.62, sx: 0.3, sy: 0.14, sz: 0.25, seed: 14.3, rot: 0.7 },
+  { x: -0.78, z: 2.58, sx: 0.32, sy: 0.14, sz: 0.26, seed: 15.6, rot: 1.9 },
+];
+
+export function computeSubmergedStonePlacement(spec: SubmergedStoneSpec): {
+  centerY: number;
+  topY: number;
+  baseY: number;
+} {
+  const baseBedY = pondBedElevation(spec.x, spec.z);
+  const maxCrownOffset = spec.sy * 0.76;
+  const maxAllowedCenterY = -0.065 - maxCrownOffset;
+  const centerY = Math.min(baseBedY + spec.sy * 0.2, maxAllowedCenterY);
+  return {
+    centerY,
+    topY: centerY + maxCrownOffset,
+    baseY: centerY - spec.sy * 0.6,
+  };
+}
+
+export function getSubmergedStoneFootprints(): ExclusionFootprint[] {
+  return SUBMERGED_STONE_SPECS.map((spec, idx) => {
+    const { topY, baseY } = computeSubmergedStonePlacement(spec);
+    return {
+      id: `submerged-stone-${idx}`,
+      kind: 'submergedRock',
+      x: spec.x,
+      z: spec.z,
+      rx: spec.sx * 1.32,
+      rz: spec.sz * 1.32,
+      yaw: spec.rot,
+      margin: 0.06,
+      baseY,
+      topY,
+    };
+  });
 }
 
 export const SUBMERGED_OBSTACLES: readonly SubmergedObstacle[] = [
@@ -202,38 +269,13 @@ export function createPondWaterRig(
   const subStoneMat = createSubmergedStoneMaterial(textures, elapsedUniform);
   disposables.push(subStoneMat);
 
-  const subStoneSpecs: Array<{
-    x: number;
-    z: number;
-    sx: number;
-    sy: number;
-    sz: number;
-    seed: number;
-    rot: number;
-  }> = [
-    { x: -1.42, z: 1.05, sx: 0.42, sy: 0.22, sz: 0.36, seed: 1.4, rot: 0.4 },
-    { x: 1.32, z: -0.88, sx: 0.38, sy: 0.2, sz: 0.32, seed: 2.8, rot: 1.7 },
-    { x: 0.46, z: 1.92, sx: 0.35, sy: 0.18, sz: 0.29, seed: 4.1, rot: 2.3 },
-    { x: -1.18, z: -1.42, sx: 0.36, sy: 0.19, sz: 0.3, seed: 5.5, rot: 0.9 },
-    { x: 1.48, z: 1.15, sx: 0.38, sy: 0.2, sz: 0.3, seed: 6.7, rot: 2.9 },
-    { x: -0.28, z: -2.42, sx: 0.32, sy: 0.18, sz: 0.28, seed: 8.2, rot: 1.1 },
-    // Shallow left-edge submerged stepping ledges bridging bank boulders into clear turquoise water
-    { x: -1.96, z: 1.88, sx: 0.44, sy: 0.17, sz: 0.36, seed: 9.4, rot: 0.3 },
-    { x: -1.78, z: 2.65, sx: 0.38, sy: 0.15, sz: 0.32, seed: 10.7, rot: 2.1 },
-    { x: -1.92, z: 0.12, sx: 0.4, sy: 0.18, sz: 0.34, seed: 11.9, rot: 1.5 },
-    { x: 2.38, z: 0.48, sx: 0.32, sy: 0.16, sz: 0.28, seed: 13.1, rot: 2.6 },
-    { x: 2.12, z: 0.92, sx: 0.28, sy: 0.14, sz: 0.24, seed: 16.2, rot: 0.9 },
-    { x: 0.88, z: -2.85, sx: 0.3, sy: 0.15, sz: 0.26, seed: 14.3, rot: 0.7 },
-    { x: -0.85, z: 2.85, sx: 0.32, sy: 0.15, sz: 0.26, seed: 15.6, rot: 1.9 },
-  ];
-
-  subStoneSpecs.forEach((spec) => {
+  SUBMERGED_STONE_SPECS.forEach((spec) => {
     const geo = sculptBoulderGeometry(1, 2, spec.seed);
     const mesh = new THREE.Mesh(geo, subStoneMat);
-    const baseBedY = pondBedElevation(spec.x, spec.z);
-    mesh.position.set(spec.x, baseBedY + spec.sy * 0.35, spec.z);
+    const { centerY } = computeSubmergedStonePlacement(spec);
+    mesh.position.set(spec.x, centerY, spec.z);
     mesh.scale.set(spec.sx, spec.sy, spec.sz);
-    mesh.rotation.set(0.05, spec.rot, -0.04);
+    mesh.rotation.set(0.04, spec.rot, -0.03);
     mesh.receiveShadow = true;
     mesh.castShadow = true;
     group.add(mesh);

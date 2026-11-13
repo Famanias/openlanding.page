@@ -854,9 +854,9 @@ function buildLitterGravelMaps(
       heights[y * size + x] = h;
 
       // Compacted warm Kyoto Shirakawa decomposed granite gravel & fallen dry litter tones
-      let r = 104 + (bed - 0.5) * 28 + (grit - 0.5) * 34 + chip * 32;
-      let g = 97 + (bed - 0.5) * 25 + (grit - 0.5) * 30 + chip * 28;
-      let b = 81 + (bed - 0.5) * 22 + (grit - 0.5) * 26 + chip * 22;
+      const r = 104 + (bed - 0.5) * 28 + (grit - 0.5) * 34 + chip * 32;
+      const g = 97 + (bed - 0.5) * 25 + (grit - 0.5) * 30 + chip * 28;
+      const b = 81 + (bed - 0.5) * 22 + (grit - 0.5) * 26 + chip * 22;
 
       const idx = (y * size + x) * 4;
       img.data[idx] = Math.max(0, Math.min(255, Math.round(r)));
@@ -1124,41 +1124,47 @@ function buildBroadLeafTexture(size: number): THREE.CanvasTexture {
     return (seed - 1) / 2147483646;
   };
 
-  ctx.strokeStyle = 'rgba(66, 54, 40, 0.78)';
-  ctx.lineWidth = Math.max(1.5, size * 0.015);
+  // Forked slender twigs so spray feels botanically anchored
+  ctx.strokeStyle = 'rgba(72, 56, 40, 0.78)';
+  ctx.lineWidth = Math.max(1.5, size * 0.014);
   ctx.beginPath();
   ctx.moveTo(size * 0.5, size * 0.94);
-  ctx.quadraticCurveTo(size * 0.46, size * 0.52, size * 0.52, size * 0.18);
+  ctx.quadraticCurveTo(size * 0.46, size * 0.54, size * 0.52, size * 0.18);
+  ctx.moveTo(size * 0.48, size * 0.62);
+  ctx.quadraticCurveTo(size * 0.3, size * 0.48, size * 0.22, size * 0.34);
+  ctx.moveTo(size * 0.5, size * 0.54);
+  ctx.quadraticCurveTo(size * 0.7, size * 0.42, size * 0.8, size * 0.28);
   ctx.stroke();
 
-  for (let i = 0; i < 20; i++) {
+  // Soft curved palmate Japanese maple leaf clusters instead of rigid polygon stars
+  for (let i = 0; i < 24; i++) {
     const angle = rand() * Math.PI * 2;
-    const dist = (0.05 + Math.pow(rand(), 0.75) * 0.31) * size;
+    const dist = (0.04 + Math.pow(rand(), 0.72) * 0.32) * size;
     const cx = size * 0.5 + Math.cos(angle) * dist;
-    const cy = size * 0.48 + Math.sin(angle) * dist * 0.86;
-    const r = (0.078 + rand() * 0.062) * size;
+    const cy = size * 0.47 + Math.sin(angle) * dist * 0.84;
+    const r = (0.068 + rand() * 0.056) * size;
     const warmTip = rand();
 
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(rand() * Math.PI * 2);
     const fillHex =
-      warmTip > 0.72 ? '#B88450' : warmTip > 0.38 ? '#7CA14F' : '#5B7C3B';
+      warmTip > 0.78 ? '#B27A48' : warmTip > 0.4 ? '#6F9346' : '#4E7034';
     ctx.fillStyle = fillHex;
-    ctx.beginPath();
-    for (let l = 0; l < 5; l++) {
-      const la = (l / 5) * Math.PI * 2 - Math.PI / 2;
-      const tipX = Math.cos(la) * r;
-      const tipY = Math.sin(la) * r;
-      const midA = la + Math.PI / 5;
-      const valleyX = Math.cos(midA) * r * 0.36;
-      const valleyY = Math.sin(midA) * r * 0.36;
-      if (l === 0) ctx.moveTo(tipX, tipY);
-      else ctx.lineTo(tipX, tipY);
-      ctx.lineTo(valleyX, valleyY);
+    const lobes = 5;
+    for (let l = 0; l < lobes; l++) {
+      const la = (l / lobes - 0.5) * 1.9 - Math.PI * 0.5;
+      const lobeLen = r * (0.72 + (l === 2 ? 0.34 : (l === 1 || l === 3) ? 0.18 : 0));
+      const lobeWid = lobeLen * 0.28;
+      ctx.save();
+      ctx.rotate(la + Math.PI * 0.5);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(-lobeWid, -lobeLen * 0.48, 0, -lobeLen);
+      ctx.quadraticCurveTo(lobeWid, -lobeLen * 0.48, 0, 0);
+      ctx.fill();
+      ctx.restore();
     }
-    ctx.closePath();
-    ctx.fill();
     ctx.restore();
   }
 
@@ -1277,16 +1283,22 @@ function buildClayMaps(
     const v = y / size;
     for (let x = 0; x < size; x++) {
       const u = x / size;
-      const wheel = Math.sin(v * Math.PI * 28) * 0.5 + 0.5;
+      // Subtle irregular wheel-throwing ribbing + mineral stoneware iron flecks + natural ash shoulder glaze
+      const wheelWave = Math.sin(v * Math.PI * 16 + Math.sin(u * Math.PI * 4) * 0.45) * 0.5 + 0.5;
       const speckle = periodicFbm(u, v, 14, 3, 2503);
-      const glazeFlow = Math.max(0, 1 - v * 1.45);
-      const h = wheel * 0.25 + speckle * 0.45;
+      const ironFleck = periodicFbm(u, v, 32, 2, 7109);
+      const darkFleck = ironFleck > 0.74 ? (ironFleck - 0.74) * 3.4 : 0;
+      const shoulderAsh = Math.max(0, 1 - v * 1.65) * 0.65;
+      const h = wheelWave * 0.08 + speckle * 0.48 - darkFleck * 0.14;
       heights[y * size + x] = h;
 
-      // Warm glazed Kyoto Shigaraki stoneware terracotta
-      const baseR = 138 + (speckle - 0.5) * 44 + wheel * 12 - glazeFlow * 26;
-      const baseG = 112 + (speckle - 0.5) * 36 + wheel * 10 - glazeFlow * 18;
-      const baseB = 86 + (speckle - 0.5) * 28 + wheel * 8 - glazeFlow * 14;
+      // Earthy Kyoto Shigaraki stoneware clay fading softly into moss-grey wood-ash glaze near rim
+      const clayR = 132 + (speckle - 0.5) * 36 + wheelWave * 4 - darkFleck * 46;
+      const clayG = 104 + (speckle - 0.5) * 30 + wheelWave * 3 - darkFleck * 38;
+      const clayB = 78 + (speckle - 0.5) * 24 + wheelWave * 2 - darkFleck * 28;
+      const baseR = clayR * (1 - shoulderAsh * 0.32) + 86 * shoulderAsh * 0.32;
+      const baseG = clayG * (1 - shoulderAsh * 0.25) + 94 * shoulderAsh * 0.25;
+      const baseB = clayB * (1 - shoulderAsh * 0.2) + 74 * shoulderAsh * 0.2;
 
       const idx = (y * size + x) * 4;
       img.data[idx] = Math.max(0, Math.min(255, Math.round(baseR)));

@@ -4504,7 +4504,7 @@ import {
   createSunbeamMaterial,
   createTrickleStreamMaterial,
 } from './materials';
-import { sculptBoulderGeometry } from './water';
+import { getSubmergedStoneFootprints, sculptBoulderGeometry } from './water';
 import type { PondQuality, PondTextureSuite } from './textures';
 
 export interface GardenEnvironment {
@@ -4715,6 +4715,41 @@ function createTerrainGrounder(terrainMesh: THREE.Mesh): TerrainGrounder {
   };
 }
 
+function smoothstepScalar(edge0: number, edge1: number, x: number): number {
+  const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0 || 1)));
+  return t * t * (3 - 2 * t);
+}
+
+interface BoulderExtents {
+  maxRx: number;
+  maxRz: number;
+  minY: number;
+  maxY: number;
+}
+
+function measureGeometryExtents(geo: THREE.BufferGeometry): BoulderExtents {
+  const pos = geo.attributes.position;
+  let maxRx = 0;
+  let maxRz = 0;
+  let minY = Number.POSITIVE_INFINITY;
+  let maxY = Number.NEGATIVE_INFINITY;
+  for (let i = 0; i < pos.count; i++) {
+    const x = Math.abs(pos.getX(i));
+    const y = pos.getY(i);
+    const z = Math.abs(pos.getZ(i));
+    if (x > maxRx) maxRx = x;
+    if (z > maxRz) maxRz = z;
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+  }
+  return {
+    maxRx,
+    maxRz,
+    minY: Number.isFinite(minY) ? minY : -0.25,
+    maxY: Number.isFinite(maxY) ? maxY : 0.25,
+  };
+}
+
 function createFlaredTubeGeometry(
   curve: THREE.CatmullRomCurve3,
   segs: number,
@@ -4722,10 +4757,13 @@ function createFlaredTubeGeometry(
   taperRatio: number,
   flareStrength: number,
   radialSegs = 9,
+  flareHeightMeters = 0.72,
 ): THREE.BufferGeometry {
   const geo = new THREE.TubeGeometry(curve, segs, baseRadius, radialSegs, false);
   const pos = geo.attributes.position;
   const uvAttr = geo.attributes.uv;
+  const totalLen = Math.max(0.5, curve.getLength());
+  const flareZone = Math.min(0.45, Math.max(0.1, flareHeightMeters / totalLen));
   const v = new THREE.Vector3();
 
   for (let i = 0; i < pos.count; i++) {
@@ -4733,10 +4771,9 @@ function createFlaredTubeGeometry(
     const t = Math.min(1, ringIdx / segs);
     const center = curve.getPointAt(t);
     const taper = 1 - t * taperRatio;
-    const flareZone = 0.34;
     const flare =
       t < flareZone && flareStrength > 0
-        ? 1 + flareStrength * Math.pow(1 - t / flareZone, 1.75)
+        ? 1 + flareStrength * Math.pow(1 - t / flareZone, 1.8)
         : 1;
     v.fromBufferAttribute(pos, i)
       .sub(center)
@@ -4744,6 +4781,117 @@ function createFlaredTubeGeometry(
       .add(center);
     pos.setXYZ(i, v.x, v.y, v.z);
     uvAttr.setXY(i, uvAttr.getX(i) * 2.0, uvAttr.getY(i) * 4.0);
+  }
+  geo.computeVertexNormals();
+  return geo;
+}
+
+/**
+ * Generates a unified terrain-conforming root buttress flare collar in tree-local space
+ * so every root rib swells directly out of the trunk and dives seamlessly beneath sloped soil.
+ */
+function createTerrainRootFlareGeometry(
+  grounder: TerrainGrounder,
+  worldOriginX: number,
+  worldOriginY: number,
+  worldOriginZ: number,
+  yaw: number,
+  worldScale: number,
+  trunkRadius: number,
+  flareScale: number,
+  flareHeight: number,
+  lobeCount: number,
+  seed: number,
+): THREE.BufferGeometry {
+  const rings = 10;
+  const radSegs = 28;
+  const positions: number[] = [];
+  const uvs: number[] = [];
+  const indices: number[] = [];
+  const cosY = Math.cos(yaw);
+  const sinY = Math.sin(yaw);
+
+  for (let r = 0; r <= rings; r++) {
+    const s = r / rings; // 0 = trunk collar top, 1 = soil-buried outer root apron
+    const sCurve = Math.pow(s, 1.48);
+    for (let a = 0; a <= radSegs; a++) {
+      const theta = (a / radSegs) * Math.PI * 2;
+      const rootWave = Math.pow(
+        0.5 +
+          0.5 * Math.cos(lobeCount * theta + seed + Math.sin(theta * 2 + seed) * 0.42),
+        2.3,
+      );
+      const radialRadius =
+        trunkRadius * (0.94 + sCurve * (flareScale * (0.04 + rootWave * 1.15)));
+
+      const lx = Math.cos(theta) * radialRadius;
+      const lz = Math.sin(theta) * radialRadius;
+      // Mirror Three.js Group transform (scale -> rotY -> translate)
+      const wx = worldOriginX + (lx * cosY + lz * sinY) * worldScale;
+      const wz = worldOriginZ + (-lx * sinY + lz * cosY) * worldScale;
+      const groundWorldY = grounder.raycastSurface(wx, wz).y;
+      const localGroundY = (groundWorldY - worldOriginY) / worldScale;
+
+      const buttressCrown = rootWave * Math.sin(s * Math.PI) * flareHeight * 0.42;
+      const soilEmbedDip = smoothstepScalar(0.68, 1.0, s) * 0.14;
+      const baseSlopeY = flareHeight * (1 - s) + localGroundY * s;
+      const ly = Math.max(
+        localGroundY - 0.16,
+        baseSlopeY + buttressCrown - soilEmbedDip,
+      );
+
+      positions.push(lx, ly, lz);
+      uvs.push(s * 0.9, (a / radSegs) * 2.5);
+    }
+  }
+
+  const stride = radSegs + 1;
+  for (let r = 0; r < rings; r++) {
+    for (let a = 0; a < radSegs; a++) {
+      const i0 = r * stride + a;
+      const i1 = r * stride + (a + 1);
+      const i2 = (r + 1) * stride + a;
+      const i3 = (r + 1) * stride + (a + 1);
+      indices.push(i0, i1, i2);
+      indices.push(i1, i3, i2);
+    }
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
+  return geo;
+}
+
+/**
+ * Builds a tapered organic water tube along a CubicBezierCurve3 with slight elliptical
+ * cross-section flattening and accelerating stream taper.
+ */
+function createTaperedStreamGeometry(
+  curve: THREE.Curve<THREE.Vector3>,
+  segs: number,
+  radiusStart: number,
+  radiusEnd: number,
+  radialSegs = 10,
+): THREE.BufferGeometry {
+  const geo = new THREE.TubeGeometry(curve, segs, 1, radialSegs, false);
+  const pos = geo.attributes.position;
+  const v = new THREE.Vector3();
+
+  for (let i = 0; i < pos.count; i++) {
+    const ringIdx = Math.floor(i / (radialSegs + 1));
+    const t = Math.min(1, ringIdx / segs);
+    const center = curve.getPointAt(t);
+    // Gentle pinch just past lip, slight ribbon spread mid-flight, cohesive plunge
+    const r = radiusStart * (1 - t) + radiusEnd * t + Math.sin(t * Math.PI) * 0.002;
+    v.fromBufferAttribute(pos, i).sub(center);
+    v.x *= r * 1.18;
+    v.y *= r * 0.88;
+    v.z *= r * 1.18;
+    v.add(center);
+    pos.setXYZ(i, v.x, v.y, v.z);
   }
   geo.computeVertexNormals();
   return geo;
@@ -4765,7 +4913,7 @@ function createNaturalBankStones(
   const boulderPrototypes = [0, 1, 2, 3, 4].map((seed) => {
     const geo = sculptBoulderGeometry(0.46, 2, seed * 2.37 + 0.8);
     disposables.push(geo);
-    return geo;
+    return { geo, extents: measureGeometryExtents(geo) };
   });
 
   // Art-directed shoreline rock clusters:
@@ -4865,29 +5013,32 @@ function createNaturalBankStones(
       const idx = stoneIndex++;
       const angle = cluster.angle + dAngle;
       const pt = pondBoundaryPoint(angle, radScale);
-      const footprintRadius = 0.44 * Math.max(sx, sz);
+      const proto = boulderPrototypes[idx % boulderPrototypes.length];
+      const footprintRadius = 0.56 * Math.max(sx, sz);
       const isWaterSide = naturalPondNormalizedRadius(pt) < 1.0;
 
-      const mesh = new THREE.Mesh(boulderPrototypes[idx % boulderPrototypes.length], shoreMat);
+      const mesh = new THREE.Mesh(proto.geo, shoreMat);
       const yaw = -angle + 0.45 * Math.cos(idx * 2.3);
+      const grounded = grounder.groundPropFootprint(
+        pt.x,
+        pt.z,
+        footprintRadius * 0.65,
+        0.2,
+        0.04,
+      );
+      const supportY = isWaterSide
+        ? Math.min(grounded.minY, pondBedElevation(pt.x, pt.z))
+        : grounded.minY;
+      // Guarantee lowest displaced underside sits strictly beneath downhill rim
+      const safeAnchorY = Math.min(
+        grounded.y,
+        supportY - proto.extents.minY * sy - 0.032,
+      );
 
-      if (isWaterSide) {
-        const bedY = pondBedElevation(pt.x, pt.z);
-        mesh.position.set(pt.x, Math.max(-0.14, bedY + sy * 0.12) - sy * 0.06, pt.z);
-        mesh.rotation.set(0.06 * Math.sin(idx * 1.9), yaw, 0.05 * Math.cos(idx * 2.1));
-      } else {
-        const grounded = grounder.groundPropFootprint(
-          pt.x,
-          pt.z,
-          footprintRadius * 0.65,
-          0.22,
-          0.46 * sy * 0.26,
-        );
-        mesh.position.set(pt.x, grounded.y, pt.z);
-        baseEuler.set(0.06 * Math.sin(idx * 1.9), yaw, 0.05 * Math.cos(idx * 2.1));
-        baseQuat.setFromEuler(baseEuler);
-        mesh.quaternion.copy(grounded.tiltQuat).multiply(baseQuat);
-      }
+      mesh.position.set(pt.x, safeAnchorY, pt.z);
+      baseEuler.set(0.05 * Math.sin(idx * 1.9), yaw, 0.04 * Math.cos(idx * 2.1));
+      baseQuat.setFromEuler(baseEuler);
+      mesh.quaternion.copy(grounded.tiltQuat).multiply(baseQuat);
 
       mesh.scale.set(sx, sy, sz);
       mesh.castShadow = true;
@@ -4899,12 +5050,12 @@ function createNaturalBankStones(
         kind: 'rock',
         x: pt.x,
         z: pt.z,
-        rx: 0.46 * sx,
-        rz: 0.46 * sz,
+        rx: proto.extents.maxRx * sx,
+        rz: proto.extents.maxRz * sz,
         yaw,
         margin: 0.1,
-        baseY: mesh.position.y - 0.42 * sy,
-        topY: mesh.position.y + 0.42 * sy,
+        baseY: mesh.position.y + proto.extents.minY * sy,
+        topY: mesh.position.y + proto.extents.maxY * sy,
       });
     });
   });
@@ -4913,33 +5064,35 @@ function createNaturalBankStones(
   const cobbleCount = 36;
   for (let i = 0; i < cobbleCount; i++) {
     const angle = (i / cobbleCount) * Math.PI * 2 + 0.09 * Math.sin(i * 4.3);
-    const pt = pondBoundaryPoint(angle, 0.965 + (i % 3) * 0.032);
+    const pt = pondBoundaryPoint(angle, 0.97 + (i % 3) * 0.03);
 
     // Keep the waterfall inlet opening unobstructed
     const dStream = Math.hypot(
       pt.x - (WATERFALL_SOURCE_POINT.x + WATERFALL_IMPACT_POINT.x) * 0.5,
       pt.z - (WATERFALL_SOURCE_POINT.z + WATERFALL_IMPACT_POINT.z) * 0.5,
     );
-    if (dStream < 0.78) continue;
+    if (dStream < 0.85) continue;
 
-    const mesh = new THREE.Mesh(boulderPrototypes[(i + 2) % boulderPrototypes.length], shoreMat);
-    const s = 0.24 + (i % 4) * 0.075;
+    const proto = boulderPrototypes[(i + 2) % boulderPrototypes.length];
+    const mesh = new THREE.Mesh(proto.geo, shoreMat);
+    const s = 0.24 + (i % 4) * 0.07;
+    const csx = s * 1.25;
+    const csy = s * 0.42;
+    const csz = s * 0.94;
     const isWaterSide = naturalPondNormalizedRadius(pt) < 1.0;
     const yaw = i * 1.35;
+    const grounded = grounder.groundPropFootprint(pt.x, pt.z, s * 0.45, 0.22, s * 0.12);
+    const supportY = isWaterSide
+      ? Math.min(grounded.minY, pondBedElevation(pt.x, pt.z))
+      : grounded.minY;
+    const safeY = Math.min(grounded.y, supportY - proto.extents.minY * csy - 0.015);
 
-    if (isWaterSide) {
-      const bedY = pondBedElevation(pt.x, pt.z);
-      mesh.position.set(pt.x, Math.max(-0.08, bedY + s * 0.04), pt.z);
-      mesh.rotation.set(0.08 * Math.sin(i), yaw, 0.06 * Math.cos(i));
-    } else {
-      const grounded = grounder.groundPropFootprint(pt.x, pt.z, s * 0.42, 0.24, s * 0.16);
-      mesh.position.set(pt.x, grounded.y, pt.z);
-      baseEuler.set(0.06 * Math.sin(i), yaw, 0.05 * Math.cos(i));
-      baseQuat.setFromEuler(baseEuler);
-      mesh.quaternion.copy(grounded.tiltQuat).multiply(baseQuat);
-    }
+    mesh.position.set(pt.x, safeY, pt.z);
+    baseEuler.set(0.05 * Math.sin(i), yaw, 0.04 * Math.cos(i));
+    baseQuat.setFromEuler(baseEuler);
+    mesh.quaternion.copy(grounded.tiltQuat).multiply(baseQuat);
 
-    mesh.scale.set(s * 1.25, s * 0.42, s * 0.94);
+    mesh.scale.set(csx, csy, csz);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     group.add(mesh);
@@ -4949,11 +5102,12 @@ function createNaturalBankStones(
       kind: 'cobble',
       x: pt.x,
       z: pt.z,
-      rx: 0.46 * s * 1.25,
-      rz: 0.46 * s * 0.94,
+      rx: proto.extents.maxRx * csx,
+      rz: proto.extents.maxRz * csz,
       yaw,
       margin: 0.06,
-      topY: mesh.position.y + 0.42 * s * 0.42,
+      baseY: mesh.position.y + proto.extents.minY * csy,
+      topY: mesh.position.y + proto.extents.maxY * csy,
     });
   }
 
@@ -5027,7 +5181,7 @@ function createSakuraTree(
       r: 0.23,
       segs: 26,
       taper: 0.58,
-      flare: 0.72,
+      flare: 0.24,
     },
     {
       pts: [
@@ -5104,7 +5258,15 @@ function createSakuraTree(
     const curve = new THREE.CatmullRomCurve3(
       spec.pts.map(([x, y, z]) => new THREE.Vector3(x, y, z)),
     );
-    const tubeGeo = createFlaredTubeGeometry(curve, spec.segs, spec.r, spec.taper, spec.flare, 9);
+    const tubeGeo = createFlaredTubeGeometry(
+      curve,
+      spec.segs,
+      spec.r,
+      spec.taper,
+      spec.flare,
+      9,
+      spec.flare > 0 ? 0.42 : 0.72,
+    );
     const mesh = new THREE.Mesh(tubeGeo, barkMat);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
@@ -5112,76 +5274,74 @@ function createSakuraTree(
     disposables.push(tubeGeo);
   });
 
-  // 5 terrain-raycasted buttress roots emerging right at the soil collar and gripping downward with zero air gap
-  const rootOriginLocal = new THREE.Vector3(0.11, 0.04, 0.08);
+  // Unified terrain-conforming root buttress collar directly integrated into the main trunk bark
+  const rootOriginLocal = new THREE.Vector3(0.09, 0.0, 0.07);
   const rootOriginWorld = rootOriginLocal.clone().applyMatrix4(group.matrixWorld);
-  const rootAngles = [0.22, 1.48, 2.74, 4.05, 5.28];
-  const worldVec = new THREE.Vector3();
+  const flareCollarGeo = createTerrainRootFlareGeometry(
+    grounder,
+    rootOriginWorld.x,
+    baseHit.y,
+    rootOriginWorld.z,
+    treeYaw,
+    treeScale,
+    0.225,
+    0.68,
+    0.42,
+    5,
+    1.15,
+  );
+  const flareCollarMesh = new THREE.Mesh(flareCollarGeo, barkMat);
+  flareCollarMesh.position.set(rootOriginLocal.x, 0, rootOriginLocal.z);
+  flareCollarMesh.castShadow = true;
+  flareCollarMesh.receiveShadow = true;
+  group.add(flareCollarMesh);
+  disposables.push(flareCollarGeo);
 
-  rootAngles.forEach((ang, rIdx) => {
-    const midDist = 0.36 + (rIdx % 2) * 0.06;
-    const tipDist = 0.72 + (rIdx % 3) * 0.1;
-
-    const midLocal = new THREE.Vector3(
-      rootOriginLocal.x + Math.cos(ang) * midDist,
-      0,
-      rootOriginLocal.z + Math.sin(ang) * midDist,
-    );
-    const midWorld = midLocal.clone().applyMatrix4(group.matrixWorld);
-    const midGroundY = grounder.raycastSurface(midWorld.x, midWorld.z).y;
-    worldVec.set(midWorld.x, midGroundY + 0.015, midWorld.z);
-    group.worldToLocal(worldVec);
-    midLocal.y = worldVec.y;
-
-    const tipLocal = new THREE.Vector3(
-      rootOriginLocal.x + Math.cos(ang + 0.14 * Math.sin(rIdx)) * tipDist,
-      0,
-      rootOriginLocal.z + Math.sin(ang + 0.14 * Math.sin(rIdx)) * tipDist,
-    );
-    const tipWorld = tipLocal.clone().applyMatrix4(group.matrixWorld);
-    const tipGroundY = grounder.raycastSurface(tipWorld.x, tipWorld.z).y;
-    worldVec.set(tipWorld.x, tipGroundY - 0.18, tipWorld.z);
-    group.worldToLocal(worldVec);
-    tipLocal.y = worldVec.y;
-
-    const rootCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(
-        rootOriginLocal.x + Math.cos(ang) * 0.08,
-        0.04,
-        rootOriginLocal.z + Math.sin(ang) * 0.08,
-      ),
-      midLocal,
-      tipLocal,
-    ]);
-    const rootGeo = createFlaredTubeGeometry(rootCurve, 10, 0.125, 0.8, 0.25, 7);
-    const rootMesh = new THREE.Mesh(rootGeo, barkMat);
-    rootMesh.castShadow = true;
-    rootMesh.receiveShadow = true;
-    group.add(rootMesh);
-    disposables.push(rootGeo);
-
-    registry.registerCapsule(
-      'tree',
-      rootOriginWorld.x,
-      rootOriginWorld.z,
-      tipWorld.x,
-      tipWorld.z,
-      0.16,
-      0.08,
-      undefined,
-      `sakura-root-${rIdx}`,
-    );
+  // Asymmetric irregular velvet moss creeping into root valleys at soil contact
+  const rootMossMat = new THREE.MeshStandardNodeMaterial({
+    map: textures.mossAlbedo,
+    normalMap: textures.mossNormal,
+    roughness: 0.96,
+    metalness: 0.0,
+    color: 0x44582a,
   });
+  const rootMossGeo = new THREE.SphereGeometry(0.18, 12, 8);
+  const rmPos = rootMossGeo.attributes.position;
+  for (let i = 0; i < rmPos.count; i++) {
+    const vx = rmPos.getX(i);
+    const vy = rmPos.getY(i);
+    const vz = rmPos.getZ(i);
+    const ang = Math.atan2(vz, vx);
+    const lobe = 1 + 0.24 * Math.sin(ang * 3 + 0.5) + 0.14 * Math.cos(ang * 2 - 0.8);
+    rmPos.setXYZ(i, vx * lobe * 1.15, vy * 0.22, vz * lobe * 0.78);
+  }
+  rootMossGeo.computeVertexNormals();
+  disposables.push(rootMossMat, rootMossGeo);
+  for (let m = 0; m < 4; m++) {
+    const ang = m * 1.55 + 0.92;
+    const dist = 0.29 + (m % 2) * 0.06;
+    const wx = rootOriginWorld.x + Math.cos(ang) * dist;
+    const wz = rootOriginWorld.z + Math.sin(ang) * dist;
+    const gm = grounder.groundPropFootprint(wx, wz, 0.18, 0.34, 0.03);
+    const localM = new THREE.Vector3(wx, Math.min(gm.y, gm.minY - 0.025), wz);
+    group.worldToLocal(localM);
+    const pillow = new THREE.Mesh(rootMossGeo, rootMossMat);
+    pillow.position.copy(localM);
+    pillow.rotation.y = ang + 0.4;
+    pillow.scale.setScalar(0.76 + (m % 2) * 0.22);
+    pillow.receiveShadow = true;
+    group.add(pillow);
+  }
 
-  // Register sakura main trunk footprint
+  // Register full sakura trunk & root flare footprint so grass clears cleanly around roots
   registry.register({
     id: 'sakura-trunk',
     kind: 'tree',
     x: rootOriginWorld.x,
     z: rootOriginWorld.z,
-    rx: 0.62,
-    rz: 0.62,
-    margin: 0.18,
+    rx: 0.78,
+    rz: 0.78,
+    margin: 0.16,
   });
 
   // Soft rounded blossom cores + delicate cherry blossom spray cards
@@ -5330,6 +5490,7 @@ function createSakuraTree(
   // Individually terrain-raycasted root-collar accent stones cradling the flared cherry roots
   const collarMat = createShoreStoneMaterial(textures);
   const collarGeo = sculptBoulderGeometry(0.24, 1, 7.7);
+  const collarExtents = measureGeometryExtents(collarGeo);
   const collarSpecs: Array<[number, number, number, number, number]> = [
     [-0.44, 0.36, 1.05, 0.56, 0.88],
     [0.52, 0.28, 0.92, 0.48, 0.82],
@@ -5337,13 +5498,14 @@ function createSakuraTree(
   ];
   collarSpecs.forEach(([cx, cz, sx, sy, sz], idx) => {
     const worldPt = new THREE.Vector3(cx, 0, cz).applyMatrix4(group.matrixWorld);
-    const grounded = grounder.groundPropFootprint(worldPt.x, worldPt.z, 0.22 * sx, 0.18, 0.24 * sy * 0.32);
-    const localAnchor = new THREE.Vector3(worldPt.x, grounded.y, worldPt.z);
+    const grounded = grounder.groundPropFootprint(worldPt.x, worldPt.z, 0.25 * sx, 0.18, 0.03);
+    const safeWorldY = Math.min(grounded.y, grounded.minY - collarExtents.minY * sy * treeScale - 0.02);
+    const localAnchor = new THREE.Vector3(worldPt.x, safeWorldY, worldPt.z);
     group.worldToLocal(localAnchor);
 
     const stone = new THREE.Mesh(collarGeo, collarMat);
     stone.position.set(cx, localAnchor.y, cz);
-    stone.rotation.set(0.06 * Math.sin(idx), idx * 1.4, 0.06 * Math.cos(idx));
+    stone.rotation.set(0.05 * Math.sin(idx), idx * 1.4, 0.05 * Math.cos(idx));
     stone.scale.set(sx, sy, sz);
     stone.castShadow = true;
     stone.receiveShadow = true;
@@ -5354,11 +5516,12 @@ function createSakuraTree(
       kind: 'rock',
       x: worldPt.x,
       z: worldPt.z,
-      rx: 0.24 * sx * treeScale,
-      rz: 0.24 * sz * treeScale,
+      rx: collarExtents.maxRx * sx * treeScale,
+      rz: collarExtents.maxRz * sz * treeScale,
       yaw: idx * 1.4 + treeYaw,
       margin: 0.08,
-      topY: grounded.y + 0.22 * sy * treeScale,
+      baseY: safeWorldY + collarExtents.minY * sy * treeScale,
+      topY: safeWorldY + collarExtents.maxY * sy * treeScale,
     });
   });
   disposables.push(collarGeo, collarMat);
@@ -5389,44 +5552,44 @@ function createShrineHall(
   const plinthMat = new THREE.MeshStandardNodeMaterial({
     map: textures.stoneAlbedo,
     normalMap: textures.stoneNormal,
-    roughness: 0.88,
+    roughness: 0.86,
     metalness: 0.02,
-    color: 0xa49c88,
+    color: 0xb5ad98,
   });
   const agedTimberMat = new THREE.MeshStandardNodeMaterial({
     map: textures.woodAlbedo,
     normalMap: textures.woodNormal,
-    roughness: 0.78,
+    roughness: 0.76,
     metalness: 0.03,
-    color: 0x766450,
+    color: 0x8b755d,
   });
   const darkTimberMat = new THREE.MeshStandardNodeMaterial({
     map: textures.woodAlbedo,
     normalMap: textures.woodNormal,
-    roughness: 0.82,
+    roughness: 0.8,
     metalness: 0.03,
-    color: 0x524538,
+    color: 0x625242,
   });
   const shojiMat = new THREE.MeshStandardNodeMaterial({
-    color: 0xc9b492,
-    emissive: 0xd9a15b,
-    emissiveIntensity: 0.24,
-    roughness: 0.75,
+    color: 0xd6c09d,
+    emissive: 0xe3a85f,
+    emissiveIntensity: 0.34,
+    roughness: 0.72,
   });
   const roofMat = new THREE.MeshStandardNodeMaterial({
     map: textures.roofAlbedo,
     normalMap: textures.roofNormal,
     normalScale: new THREE.Vector2(1.2, 1.2),
-    roughness: 0.64,
+    roughness: 0.62,
     metalness: 0.06,
-    color: 0x6f675a,
+    color: 0x7a7162,
   });
   disposables.push(plinthMat, agedTimberMat, darkTimberMat, shojiMat, roofMat);
 
-  // Stone foundation masonry retaining wall extended downward (-0.42m) so sloped edges stay sealed
-  const plinthGeo = new THREE.BoxGeometry(2.68, 0.74, 2.08);
+  // Stone foundation masonry retaining wall extended downward (-0.64m) so sloped outer edges stay sealed
+  const plinthGeo = new THREE.BoxGeometry(2.68, 0.96, 2.08);
   const plinth = new THREE.Mesh(plinthGeo, plinthMat);
-  plinth.position.set(0, -0.06, 0);
+  plinth.position.set(0, -0.17, 0);
   plinth.receiveShadow = true;
   plinth.castShadow = true;
 
@@ -5601,16 +5764,136 @@ function createShrineHall(
     finialGeo,
   );
 
-  // Register full shrine plinth + stair apron exclusion zone
+  // Register full shrine plinth + extended front stair apron exclusion zone
+  const stairForwardX = Math.sin(shrineYaw) * 0.24;
+  const stairForwardZ = Math.cos(shrineYaw) * 0.24;
   registry.register({
     id: 'shrine-hall',
     kind: 'shrine',
-    x: SHRINE_CENTER.x,
-    z: SHRINE_CENTER.z,
-    rx: 1.56,
-    rz: 1.52,
+    x: SHRINE_CENTER.x + stairForwardX,
+    z: SHRINE_CENTER.z + stairForwardZ,
+    rx: 1.62,
+    rz: 1.72,
     yaw: shrineYaw,
-    margin: 0.22,
+    margin: 0.24,
+  });
+
+  return {
+    group,
+    dispose: () => disposables.forEach((d) => d.dispose()),
+  };
+}
+
+/**
+ * Grounded carved Yukimi-doro (snow-viewing granite stone lantern) overlooking the rear cove & shrine stairs.
+ */
+function createStoneLantern(
+  textures: PondTextureSuite,
+  grounder: TerrainGrounder,
+  registry: PlacementRegistry,
+): {
+  group: THREE.Group;
+  dispose: () => void;
+} {
+  const group = new THREE.Group();
+  const disposables: Array<{ dispose: () => void }> = [];
+
+  const graniteMat = new THREE.MeshStandardNodeMaterial({
+    map: textures.stoneAlbedo,
+    normalMap: textures.stoneNormal,
+    normalScale: new THREE.Vector2(0.95, 0.95),
+    roughness: 0.88,
+    metalness: 0.02,
+    color: 0xa4a092,
+  });
+  const fireboxGlowMat = new THREE.MeshStandardNodeMaterial({
+    color: 0xe8c488,
+    emissive: 0xf2a64c,
+    emissiveIntensity: 0.72,
+    roughness: 0.6,
+  });
+  disposables.push(graniteMat, fireboxGlowMat);
+
+  const lanternX = -0.82;
+  const lanternZ = -4.28;
+  const lanternYaw = 0.32;
+  const grounded = grounder.groundPropFootprint(lanternX, lanternZ, 0.3, 0.06, 0.02);
+  group.position.set(lanternX, grounded.y, lanternZ);
+  group.rotation.y = lanternYaw;
+
+  // Grounded stone foundation plinth extending below downhill edge
+  const plinthBot = grounded.minY - grounded.y - 0.14;
+  const plinthTop = 0.04;
+  const plinthH = Math.max(0.16, plinthTop - plinthBot);
+  const plinthGeo = new THREE.CylinderGeometry(0.27, 0.31, plinthH, 12);
+  const plinth = new THREE.Mesh(plinthGeo, graniteMat);
+  plinth.position.y = plinthBot + plinthH * 0.5;
+  plinth.castShadow = true;
+  plinth.receiveShadow = true;
+  group.add(plinth);
+  disposables.push(plinthGeo);
+
+  // Carved curving stone pedestal legs (3 splayed Yukimi feet meeting basal ring)
+  const legGeo = new THREE.BoxGeometry(0.065, 0.22, 0.08);
+  for (let l = 0; l < 3; l++) {
+    const a = (l / 3) * Math.PI * 2 + 0.3;
+    const leg = new THREE.Mesh(legGeo, graniteMat);
+    leg.position.set(Math.cos(a) * 0.12, 0.12, Math.sin(a) * 0.12);
+    leg.rotation.set(Math.sin(a) * 0.28, -a, -Math.cos(a) * 0.28);
+    leg.castShadow = true;
+    group.add(leg);
+  }
+  disposables.push(legGeo);
+
+  const chudaiGeo = new THREE.CylinderGeometry(0.22, 0.16, 0.08, 6);
+  const chudai = new THREE.Mesh(chudaiGeo, graniteMat);
+  chudai.position.y = 0.24;
+  chudai.castShadow = true;
+  group.add(chudai);
+  disposables.push(chudaiGeo);
+
+  const glowGeo = new THREE.CylinderGeometry(0.095, 0.095, 0.16, 6);
+  const glow = new THREE.Mesh(glowGeo, fireboxGlowMat);
+  glow.position.y = 0.35;
+  group.add(glow);
+  disposables.push(glowGeo);
+
+  const pillarGeo = new THREE.BoxGeometry(0.042, 0.17, 0.042);
+  for (let p = 0; p < 6; p++) {
+    const a = (p / 6) * Math.PI * 2 + 0.5;
+    const bar = new THREE.Mesh(pillarGeo, graniteMat);
+    bar.position.set(Math.cos(a) * 0.125, 0.355, Math.sin(a) * 0.125);
+    bar.castShadow = true;
+    group.add(bar);
+  }
+  disposables.push(pillarGeo);
+
+  // Broad curved hexagonal Yukimi parasol stone roof + lotus finial (hoju)
+  const kasaGeo = new THREE.ConeGeometry(0.36, 0.18, 6);
+  const kasa = new THREE.Mesh(kasaGeo, graniteMat);
+  kasa.position.y = 0.52;
+  kasa.castShadow = true;
+  group.add(kasa);
+  disposables.push(kasaGeo);
+
+  const hojuGeo = new THREE.SphereGeometry(0.052, 8, 6);
+  const hoju = new THREE.Mesh(hojuGeo, graniteMat);
+  hoju.scale.set(1, 1.32, 1);
+  hoju.position.y = 0.63;
+  group.add(hoju);
+  disposables.push(hojuGeo);
+
+  registry.register({
+    id: 'garden-stone-lantern',
+    kind: 'lantern',
+    x: lanternX,
+    z: lanternZ,
+    rx: 0.38,
+    rz: 0.38,
+    yaw: lanternYaw,
+    margin: 0.14,
+    baseY: grounded.y + plinthBot,
+    topY: grounded.y + 0.69,
   });
 
   return {
@@ -5624,32 +5907,26 @@ function createSculptedGardenTerrain(textures: PondTextureSuite): {
   dispose: () => void;
 } {
   const angularSegs = 128;
-  const radialRings = 56;
+  const radialRings = 64;
   const positions: number[] = [];
   const uvs: number[] = [];
   const colors: number[] = [];
   const indices: number[] = [];
 
   for (let r = 0; r <= radialRings; r++) {
-    let radScale = 0.94;
-    if (r === 1) {
-      radScale = 0.985;
-    } else if (r >= 2) {
-      const u = (r - 1) / (radialRings - 1);
-      radScale = 0.985 + 0.36 * u + 18.0 * Math.pow(u, 2.75);
-    }
+    const u = r / radialRings;
+    const radScale =
+      r === 0
+        ? 0.915
+        : 0.94 +
+          0.34 * u +
+          1.4 * Math.pow(u, 2.2) +
+          17.5 * Math.pow(Math.max(0, u - 0.16), 3.1);
 
     for (let a = 0; a <= angularSegs; a++) {
       const theta = (a / angularSegs) * Math.PI * 2;
       const pt = pondBoundaryPoint(theta, radScale);
-      let y = 0;
-      if (r === 0) {
-        y = pondBedElevation(pt.x, pt.z) - 0.06;
-      } else if (r === 1) {
-        y = pondBedElevation(pt.x, pt.z) - 0.015;
-      } else {
-        y = terrainElevation(pt.x, pt.z);
-      }
+      const y = r === 0 ? terrainElevation(pt.x, pt.z) - 0.014 : terrainElevation(pt.x, pt.z);
 
       positions.push(pt.x, y, pt.z);
       uvs.push(pt.x * 0.45, pt.z * 0.45);
@@ -5753,60 +6030,61 @@ function createWaterfallBasin(
   const dz = WATERFALL_IMPACT_POINT.z - WATERFALL_SOURCE_POINT.z;
   const dirAngle = Math.atan2(dx, dz);
 
-  // Ground pedestal base on the leveled Tsukubai terrace with deep foundation skirt
+  // Ground hearth terrace base using footprint raycast so the entire feature sits firmly on land
   const baseSample = grounder.groundPropFootprint(
     WATERFALL_SOURCE_POINT.x,
     WATERFALL_SOURCE_POINT.z,
-    0.55,
-    0.04,
+    0.58,
+    0.05,
     0.0,
   );
-  const anchorY = baseSample.avgY;
-  group.position.set(WATERFALL_SOURCE_POINT.x, anchorY, WATERFALL_SOURCE_POINT.z);
+  const hearthAnchorY = baseSample.minY * 0.55 + baseSample.avgY * 0.45;
+  group.position.set(WATERFALL_SOURCE_POINT.x, hearthAnchorY, WATERFALL_SOURCE_POINT.z);
   group.rotation.y = dirAngle;
   group.updateMatrixWorld(true);
 
-  // 1. Flat-topped river-stone pedestal seated deeply so rim never floats and top stays cleanly above grade
-  const pedestalTopLocalY = 0.065;
-  const pedestalBotLocalY = baseSample.minY - anchorY - 0.16;
-  const pedestalHeight = Math.max(0.24, pedestalTopLocalY - pedestalBotLocalY);
-  const pedestalGeo = new THREE.CylinderGeometry(0.42, 0.5, pedestalHeight, 20, 3);
-  const pPos = pedestalGeo.attributes.position;
-  const pv = new THREE.Vector3();
-  for (let i = 0; i < pPos.count; i++) {
-    pv.fromBufferAttribute(pPos, i);
-    const yNorm = (pv.y + pedestalHeight * 0.5) / pedestalHeight;
-    // Keep top seating surface flat (yNorm > 0.88) while chiseling natural irregular river-stone flanks
-    if (yNorm < 0.88) {
-      const ang = Math.atan2(pv.z, pv.x);
-      const chis = 1 + 0.08 * Math.sin(ang * 3 + 0.5) + 0.05 * Math.cos(ang * 5 - 0.4);
-      pv.x *= chis;
-      pv.z *= chis;
+  // 1. Hand-split natural flat-cleaved granite hearth slab (replacing geometric cake-drum cylinders)
+  const hearthGeo = sculptBoulderGeometry(0.46, 2, 13.7);
+  const hPos = hearthGeo.attributes.position;
+  const hv = new THREE.Vector3();
+  for (let i = 0; i < hPos.count; i++) {
+    hv.fromBufferAttribute(hPos, i);
+    // Broad flat granite shelf table top for pot stability while preserving rugged stone flanks & deep anchor skirt
+    if (hv.y > 0.1) {
+      hv.y = 0.1 + (hv.y - 0.1) * 0.1;
+    } else if (hv.y < -0.1) {
+      hv.y *= 1.45;
     }
-    pPos.setXYZ(i, pv.x, pv.y, pv.z);
+    hPos.setXYZ(i, hv.x * 1.12, hv.y, hv.z * 1.06);
   }
-  pedestalGeo.computeVertexNormals();
-  const pedestal = new THREE.Mesh(pedestalGeo, stoneMat);
-  pedestal.position.set(0, pedestalBotLocalY + pedestalHeight * 0.5, -0.02);
-  pedestal.castShadow = true;
-  pedestal.receiveShadow = true;
-  group.add(pedestal);
-  disposables.push(pedestalGeo);
+  hearthGeo.computeVertexNormals();
+  const hearthExtents = measureGeometryExtents(hearthGeo);
+  const hearthTopLocalY = 0.044;
+  const hearthScaleY = 0.38;
+  const hearthMesh = new THREE.Mesh(hearthGeo, stoneMat);
+  hearthMesh.position.set(0, hearthTopLocalY - hearthExtents.maxY * hearthScaleY, -0.02);
+  hearthMesh.scale.set(1.22, hearthScaleY, 1.18);
+  hearthMesh.castShadow = true;
+  hearthMesh.receiveShadow = true;
+  group.add(hearthMesh);
+  disposables.push(hearthGeo);
 
-  // Side & rear framing rocks grounded individually in world space, leaving front pouring channel completely clear
+  // Curated framing granite stones hugging the Tsukubai hearth flanks, leaving front pouring sightline clear
   const sideRockGeo = sculptBoulderGeometry(0.24, 2, 9.7);
+  const sideRockExtents = measureGeometryExtents(sideRockGeo);
   const framingRocks: Array<{ lx: number; lz: number; sx: number; sy: number; sz: number; ry: number }> = [
-    { lx: -0.56, lz: 0.06, sx: 0.92, sy: 0.62, sz: 1.04, ry: 0.3 },
-    { lx: 0.56, lz: 0.08, sx: 0.88, sy: 0.58, sz: 0.98, ry: 1.2 },
-    { lx: -0.38, lz: 0.24, sx: 0.64, sy: 0.42, sz: 0.68, ry: 0.85 },
-    { lx: 0.38, lz: 0.22, sx: 0.62, sy: 0.42, sz: 0.66, ry: 2.3 },
-    { lx: -0.34, lz: -0.44, sx: 0.76, sy: 0.52, sz: 0.82, ry: 2.1 },
-    { lx: 0.34, lz: -0.44, sx: 0.74, sy: 0.5, sz: 0.8, ry: 0.9 },
+    { lx: -0.58, lz: 0.08, sx: 1.06, sy: 0.72, sz: 1.12, ry: 0.32 },
+    { lx: 0.58, lz: 0.1, sx: 1.02, sy: 0.68, sz: 1.06, ry: 1.24 },
+    { lx: -0.44, lz: 0.34, sx: 0.72, sy: 0.48, sz: 0.76, ry: 0.85 },
+    { lx: 0.44, lz: 0.32, sx: 0.7, sy: 0.46, sz: 0.74, ry: 2.3 },
+    { lx: -0.36, lz: -0.46, sx: 0.86, sy: 0.62, sz: 0.9, ry: 2.1 },
+    { lx: 0.36, lz: -0.46, sx: 0.84, sy: 0.58, sz: 0.88, ry: 0.9 },
   ];
   framingRocks.forEach((rk, rIdx) => {
     const worldPt = new THREE.Vector3(rk.lx, 0, rk.lz).applyMatrix4(group.matrixWorld);
-    const rg = grounder.groundPropFootprint(worldPt.x, worldPt.z, 0.24 * rk.sx, 0.18, 0.24 * rk.sy * 0.32);
-    const localAnchor = new THREE.Vector3(worldPt.x, rg.y, worldPt.z);
+    const rg = grounder.groundPropFootprint(worldPt.x, worldPt.z, 0.28 * rk.sx, 0.18, 0.03);
+    const safeWorldY = Math.min(rg.y, rg.minY - sideRockExtents.minY * rk.sy - 0.028);
+    const localAnchor = new THREE.Vector3(worldPt.x, safeWorldY, worldPt.z);
     group.worldToLocal(localAnchor);
 
     const rockMesh = new THREE.Mesh(sideRockGeo, stoneMat);
@@ -5822,30 +6100,31 @@ function createWaterfallBasin(
       kind: 'rock',
       x: worldPt.x,
       z: worldPt.z,
-      rx: 0.24 * rk.sx,
-      rz: 0.24 * rk.sz,
+      rx: sideRockExtents.maxRx * rk.sx,
+      rz: sideRockExtents.maxRz * rk.sz,
       yaw: dirAngle + rk.ry,
       margin: 0.08,
-      topY: rg.y + 0.22 * rk.sy,
+      baseY: safeWorldY + sideRockExtents.minY * rk.sy,
+      topY: safeWorldY + sideRockExtents.maxY * rk.sy,
     });
   });
   disposables.push(sideRockGeo);
 
-  // 2. Hand-thrown Shigaraki-style ceramic jar seated cleanly ON TOP of the pedestal (base y = 0)
+  // 2. Hand-thrown Shigaraki-style ceramic jar resting visibly atop the flat granite hearth stone
   const lathePts = [
     new THREE.Vector2(0.0, 0.0),
-    new THREE.Vector2(0.22, 0.0),
-    new THREE.Vector2(0.32, 0.11),
-    new THREE.Vector2(0.36, 0.25),
-    new THREE.Vector2(0.32, 0.37),
-    new THREE.Vector2(0.265, 0.37),
-    new THREE.Vector2(0.245, 0.22),
+    new THREE.Vector2(0.19, 0.0),
+    new THREE.Vector2(0.31, 0.11),
+    new THREE.Vector2(0.35, 0.24),
+    new THREE.Vector2(0.31, 0.36),
+    new THREE.Vector2(0.255, 0.36),
+    new THREE.Vector2(0.235, 0.22),
     new THREE.Vector2(0.0, 0.19),
   ];
   const vesselGeo = new THREE.LatheGeometry(lathePts, 32);
   const vessel = new THREE.Mesh(vesselGeo, ceramicMat);
-  const vesselBaseLocalY = pedestalTopLocalY - 0.012;
-  const vesselTiltX = 0.09;
+  const vesselBaseLocalY = hearthTopLocalY - 0.01;
+  const vesselTiltX = 0.085;
   vessel.position.set(0, vesselBaseLocalY, 0.02);
   vessel.rotation.x = vesselTiltX;
   vessel.castShadow = true;
@@ -5853,91 +6132,109 @@ function createWaterfallBasin(
   group.add(vessel);
   disposables.push(vesselGeo);
 
-  // Small ceramic overflow lip extending subtly from front rim so stream exit is anatomically crisp
+  // Ceramic pouring spout lip resting cleanly across front vessel rim
   const lipGeo = new THREE.CylinderGeometry(0.032, 0.044, 0.1, 10, 1, true, -Math.PI * 0.45, Math.PI * 0.9);
   lipGeo.rotateZ(Math.PI / 2);
   lipGeo.rotateY(Math.PI / 2);
   const lip = new THREE.Mesh(lipGeo, ceramicMat);
-  lip.position.set(0, vesselBaseLocalY + 0.345, 0.335);
+  lip.position.set(0, vesselBaseLocalY + 0.338, 0.325);
   lip.rotation.x = 0.22;
   group.add(lip);
   disposables.push(lipGeo);
 
-  const diskGeo = new THREE.CircleGeometry(0.255, 24);
+  const diskGeo = new THREE.CircleGeometry(0.245, 24);
   diskGeo.rotateX(-Math.PI / 2);
   const basinWater = new THREE.Mesh(diskGeo, basinWaterMat);
-  basinWater.position.set(0, vesselBaseLocalY + 0.325, 0.045);
+  basinWater.position.set(0, vesselBaseLocalY + 0.316, 0.042);
   basinWater.rotation.x = vesselTiltX;
   group.add(basinWater);
   disposables.push(diskGeo);
 
-  // 3. Aged bamboo supply post & spout (kakei) grounded cleanly into rear collar
-  const postWorld = new THREE.Vector3(0, 0, -0.42).applyMatrix4(group.matrixWorld);
+  // 3. Aged hollow bamboo supply standpipe & kakei spout bound with black palm twine
+  const postWorld = new THREE.Vector3(0, 0, -0.4).applyMatrix4(group.matrixWorld);
   const postGroundY = grounder.raycastSurface(postWorld.x, postWorld.z).y;
-  const postBotLocalY = postGroundY - anchorY - 0.14;
-  const postTopLocalY = vesselBaseLocalY + 0.68;
+  const postBotLocalY = postGroundY - hearthAnchorY - 0.16;
+  const postTopLocalY = vesselBaseLocalY + 0.67;
   const postHeight = Math.max(0.75, postTopLocalY - postBotLocalY);
 
-  const postGeo = new THREE.CylinderGeometry(0.048, 0.058, postHeight, 14);
+  const postGeo = new THREE.CylinderGeometry(0.046, 0.056, postHeight, 14);
   const post = new THREE.Mesh(postGeo, bambooMat);
-  post.position.set(0, postBotLocalY + postHeight * 0.5, -0.42);
+  post.position.set(0, postBotLocalY + postHeight * 0.5, -0.4);
   post.castShadow = true;
   post.receiveShadow = true;
 
-  const nodeGeo = new THREE.TorusGeometry(0.054, 0.0085, 8, 16);
+  const nodeGeo = new THREE.TorusGeometry(0.052, 0.008, 8, 16);
   nodeGeo.rotateX(Math.PI / 2);
   const node1 = new THREE.Mesh(nodeGeo, bambooMat);
-  node1.position.set(0, vesselBaseLocalY + 0.2, -0.42);
+  node1.position.set(0, vesselBaseLocalY + 0.2, -0.4);
   const node2 = new THREE.Mesh(nodeGeo, bambooMat);
-  node2.position.set(0, vesselBaseLocalY + 0.48, -0.42);
+  node2.position.set(0, vesselBaseLocalY + 0.48, -0.4);
 
-  const spoutGeo = new THREE.CylinderGeometry(0.03, 0.034, 0.54, 12);
-  spoutGeo.rotateX(Math.PI / 2 - 0.2);
-  const spout = new THREE.Mesh(spoutGeo, bambooMat);
-  spout.position.set(0, vesselBaseLocalY + 0.55, -0.18);
+  // Hollow open-ended bamboo delivery tube + dark inner bore + slanted water-cut lip
+  const spoutOuterGeo = new THREE.CylinderGeometry(0.028, 0.032, 0.52, 14, 1, true);
+  spoutOuterGeo.rotateX(Math.PI / 2 - 0.22);
+  const spout = new THREE.Mesh(spoutOuterGeo, bambooMat);
+  spout.position.set(0, vesselBaseLocalY + 0.54, -0.17);
   spout.castShadow = true;
 
-  const twineGeo = new THREE.TorusGeometry(0.058, 0.012, 8, 16);
+  const boreMat = new THREE.MeshStandardNodeMaterial({
+    color: 0x1f2618,
+    roughness: 0.9,
+    metalness: 0.02,
+    side: THREE.BackSide,
+  });
+  const spoutBoreGeo = new THREE.CylinderGeometry(0.021, 0.024, 0.515, 12, 1, true);
+  spoutBoreGeo.rotateX(Math.PI / 2 - 0.22);
+  const spoutBore = new THREE.Mesh(spoutBoreGeo, boreMat);
+  spoutBore.position.copy(spout.position);
+
+  const spoutRimGeo = new THREE.RingGeometry(0.02, 0.028, 14);
+  const spoutRim = new THREE.Mesh(spoutRimGeo, bambooMat);
+  spoutRim.position.set(0, vesselBaseLocalY + 0.484, 0.084);
+  spoutRim.rotation.x = -0.22;
+
+  const twineGeo = new THREE.TorusGeometry(0.056, 0.011, 8, 16);
   const twine = new THREE.Mesh(twineGeo, twineMat);
-  twine.position.set(0, vesselBaseLocalY + 0.59, -0.4);
+  twine.position.set(0, vesselBaseLocalY + 0.585, -0.385);
   twine.rotation.y = Math.PI / 2;
 
-  group.add(post, node1, node2, spout, twine);
-  disposables.push(postGeo, nodeGeo, spoutGeo, twineGeo);
+  group.add(post, node1, node2, spout, spoutBore, spoutRim, twine);
+  disposables.push(postGeo, nodeGeo, spoutOuterGeo, spoutBoreGeo, boreMat, spoutRimGeo, twineGeo);
 
-  // Register primary Tsukubai water feature footprint
+  // Register primary Tsukubai stone hearth & pot footprint
   registry.register({
     id: 'tsukubai-pedestal-pot',
     kind: 'waterFeature',
     x: WATERFALL_SOURCE_POINT.x,
     z: WATERFALL_SOURCE_POINT.z,
-    rx: 0.62,
-    rz: 0.62,
+    rx: 0.66,
+    rz: 0.66,
     yaw: dirAngle,
     margin: 0.14,
-    topY: anchorY + vesselBaseLocalY + 0.39,
+    baseY: hearthAnchorY - 0.12,
+    topY: hearthAnchorY + vesselBaseLocalY + 0.38,
   });
 
-  // 4. Arched translucent water streams (bamboo spout -> jar, jar lip -> verified open-water impact point)
+  // 4. Tapered translucent water streams (hollow bamboo spout -> pot bowl -> collision-free open water)
   const upperCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, vesselBaseLocalY + 0.5, 0.06),
-    new THREE.Vector3(0, vesselBaseLocalY + 0.43, 0.095),
-    new THREE.Vector3(0, vesselBaseLocalY + 0.35, 0.105),
-    new THREE.Vector3(0, vesselBaseLocalY + 0.31, 0.105),
+    new THREE.Vector3(0, vesselBaseLocalY + 0.485, 0.075),
+    new THREE.Vector3(0, vesselBaseLocalY + 0.42, 0.105),
+    new THREE.Vector3(0, vesselBaseLocalY + 0.35, 0.115),
+    new THREE.Vector3(0, vesselBaseLocalY + 0.312, 0.115),
   ]);
-  const upperStreamGeo = new THREE.TubeGeometry(upperCurve, 12, 0.016, 8, false);
+  const upperStreamGeo = createTaperedStreamGeometry(upperCurve, 12, 0.014, 0.009, 8);
   const upperStream = new THREE.Mesh(upperStreamGeo, streamMat);
   upperStream.renderOrder = 3;
 
-  const lipWorld = new THREE.Vector3(0, vesselBaseLocalY + 0.328, 0.345).applyMatrix4(group.matrixWorld);
+  const lipWorld = new THREE.Vector3(0, vesselBaseLocalY + 0.322, 0.335).applyMatrix4(group.matrixWorld);
   const streamTraj = computeCollisionFreeStreamTrajectory({
     source: { x: lipWorld.x, y: lipWorld.y, z: lipWorld.z },
     target: { x: WATERFALL_IMPACT_POINT.x, y: 0.004, z: WATERFALL_IMPACT_POINT.z },
     obstacles: registry.getFootprints(),
     terrainHeightFn: (x, z) => grounder.raycastSurface(x, z).y,
     isInsideWaterFn: isInsideNaturalPond,
-    streamRadius: 0.02,
-    samples: 24,
+    streamRadius: 0.022,
+    samples: 28,
   });
 
   const localCurvePts = streamTraj.controlPoints.map((pt) => {
@@ -5951,31 +6248,52 @@ function createWaterfallBasin(
     localCurvePts[2],
     localCurvePts[3],
   );
-  const lowerStreamGeo = new THREE.TubeGeometry(lowerBezier, 22, 0.012, 8, false);
+  const lowerStreamGeo = createTaperedStreamGeometry(lowerBezier, 26, 0.017, 0.009, 10);
   const lowerStream = new THREE.Mesh(lowerStreamGeo, streamMat);
   lowerStream.renderOrder = 3;
 
-  // Delicate animated splash foam ring at open-water landing point
+  // Delicate aerated plunge foam & fine droplet collar at open-water landing point
   const landingLocal = new THREE.Vector3(
     streamTraj.landing.x,
     0.009,
     streamTraj.landing.z,
   );
   group.worldToLocal(landingLocal);
-  const splashGeo = new THREE.RingGeometry(0.02, 0.095, 24);
+  const splashGeo = new THREE.RingGeometry(0.016, 0.11, 24);
   splashGeo.rotateX(-Math.PI / 2);
   const splashMat = new THREE.MeshBasicNodeMaterial({
-    color: 0xdff0e8,
+    color: 0xe6f4ed,
     transparent: true,
-    opacity: 0.36,
+    opacity: 0.38,
     depthWrite: false,
   });
   const splashRing = new THREE.Mesh(splashGeo, splashMat);
   splashRing.position.copy(landingLocal);
   splashRing.renderOrder = 3;
 
+  const bubbleGeo = new THREE.SphereGeometry(0.016, 6, 5);
+  const bubbleMat = new THREE.MeshBasicNodeMaterial({
+    color: 0xf4faf7,
+    transparent: true,
+    opacity: 0.56,
+    depthWrite: false,
+  });
+  for (let b = 0; b < 5; b++) {
+    const ang = (b / 5) * Math.PI * 2 + 0.4;
+    const bubble = new THREE.Mesh(bubbleGeo, bubbleMat);
+    const rad = 0.024 + (b % 2) * 0.028;
+    bubble.position.set(
+      landingLocal.x + Math.cos(ang) * rad,
+      landingLocal.y + 0.006 + (b % 2) * 0.008,
+      landingLocal.z + Math.sin(ang) * rad,
+    );
+    bubble.scale.setScalar(0.65 + (b % 3) * 0.25);
+    bubble.renderOrder = 3;
+    group.add(bubble);
+  }
+
   group.add(upperStream, lowerStream, splashRing);
-  disposables.push(upperStreamGeo, lowerStreamGeo, splashGeo, splashMat);
+  disposables.push(upperStreamGeo, lowerStreamGeo, splashGeo, splashMat, bubbleGeo, bubbleMat);
 
   // Exclude vegetation along the stream splash corridor
   registry.registerCapsule(
@@ -5995,6 +6313,31 @@ function createWaterfallBasin(
     impactPoint: { x: streamTraj.landing.x, z: streamTraj.landing.z },
     dispose: () => disposables.forEach((d) => d.dispose()),
   };
+}
+
+/**
+ * Finalizes instanced botanical card geometry with upward-blended normals so grass,
+ * ferns, and groundcover catch sky/sun illumination cleanly without harsh dark self-creases.
+ */
+function finalizeFoliageCardGeometry(
+  positions: number[],
+  uvs: number[],
+  indices: number[],
+  upWeight = 0.78,
+): THREE.BufferGeometry {
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
+  const nAttr = geo.attributes.normal;
+  const nVec = new THREE.Vector3();
+  const up = new THREE.Vector3(0, 1, 0);
+  for (let i = 0; i < nAttr.count; i++) {
+    nVec.fromBufferAttribute(nAttr, i).lerp(up, upWeight).normalize();
+    nAttr.setXYZ(i, nVec.x, nVec.y, nVec.z);
+  }
+  return geo;
 }
 
 function createArchingFernGeometry(length: number, width: number): THREE.BufferGeometry {
@@ -6023,12 +6366,7 @@ function createArchingFernGeometry(length: number, width: number): THREE.BufferG
     indices.push(i1, i2, i3);
   }
 
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-  geo.setIndex(indices);
-  geo.computeVertexNormals();
-  return geo;
+  return finalizeFoliageCardGeometry(positions, uvs, indices, 0.72);
 }
 
 function createGrassTuftGeometry(
@@ -6077,12 +6415,7 @@ function createGrassTuftGeometry(
     }
   }
 
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-  geo.setIndex(indices);
-  geo.computeVertexNormals();
-  return geo;
+  return finalizeFoliageCardGeometry(positions, uvs, indices, 0.76);
 }
 
 function createCrossedClumpGeometry(width: number, height: number): THREE.BufferGeometry {
@@ -6124,14 +6457,60 @@ function createCrossedClumpGeometry(width: number, height: number): THREE.Buffer
     }
   }
 
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-  geo.setIndex(indices);
-  geo.computeVertexNormals();
-  return geo;
+  return finalizeFoliageCardGeometry(positions, uvs, indices, 0.84);
 }
 
+/**
+ * Builds a rounded, softly arched botanical foliage mound (curved frond cards at gentle
+ * dome pitches instead of harsh flat intersecting crosses).
+ */
+function createUnderstoryMoundGeometry(width: number, height: number): THREE.BufferGeometry {
+  const positions: number[] = [];
+  const uvs: number[] = [];
+  const indices: number[] = [];
+  const fronds = 6;
+  const segs = 3;
+
+  for (let p = 0; p < fronds; p++) {
+    const yaw = (p / fronds) * Math.PI * 2 + (p % 2) * 0.22;
+    const cosY = Math.cos(yaw);
+    const sinY = Math.sin(yaw);
+    const fLen = width * (0.48 + (p % 2) * 0.09);
+    const fWid = width * 0.36;
+    const archH = height * (0.76 + (p % 3) * 0.14);
+    const baseVert = positions.length / 3;
+
+    for (let s = 0; s <= segs; s++) {
+      const t = s / segs;
+      const radial = t * fLen;
+      const cup = Math.sin(t * Math.PI) * archH * 0.85 + (1 - t) * archH * 0.42 - 0.04;
+      const hw = fWid * Math.sin(0.28 + t * 0.72 * Math.PI * 0.85);
+      // Local (+Z radial outward, +X lateral width)
+      const lxL = -hw;
+      const lxR = hw;
+      positions.push(lxL * cosY - radial * sinY, cup, lxL * sinY + radial * cosY);
+      uvs.push(0, t);
+      positions.push(lxR * cosY - radial * sinY, cup, lxR * sinY + radial * cosY);
+      uvs.push(1, t);
+    }
+
+    for (let s = 0; s < segs; s++) {
+      const i0 = baseVert + s * 2;
+      const i1 = i0 + 1;
+      const i2 = i0 + 2;
+      const i3 = i0 + 3;
+      indices.push(i0, i2, i1);
+      indices.push(i1, i2, i3);
+    }
+  }
+
+  return finalizeFoliageCardGeometry(positions, uvs, indices, 0.8);
+}
+
+/**
+ * Attaches a seamless terrain-conforming root-flare collar + registers exclusion footprint
+ * so tree bases plant naturally into slopes without dangling tubular leg cutoffs.
+ */
 function addGroundedButtressRoots(
   parent: THREE.Group,
   barkMat: THREE.Material,
@@ -6147,47 +6526,37 @@ function addGroundedButtressRoots(
   disposables: Array<{ dispose: () => void }>,
 ): void {
   const baseY = grounder.raycastSurface(originX, originZ).y;
-  for (let r = 0; r < rootCount; r++) {
-    const ang = angleOffset + (r / rootCount) * Math.PI * 2 + 0.16 * Math.sin(r * 2.1);
-    const midDist = rootSpread * 0.55;
-    const tipDist = rootSpread * (0.92 + (r % 2) * 0.18);
+  const collarGeo = createTerrainRootFlareGeometry(
+    grounder,
+    originX,
+    baseY,
+    originZ,
+    angleOffset,
+    1.0,
+    Math.max(0.11, rootRadius * 2.05),
+    0.52,
+    0.26,
+    Math.max(4, rootCount),
+    angleOffset + 0.5,
+  );
+  const collarMesh = new THREE.Mesh(collarGeo, barkMat);
+  collarMesh.position.set(originX, baseY, originZ);
+  collarMesh.rotation.y = angleOffset;
+  collarMesh.castShadow = true;
+  collarMesh.receiveShadow = true;
+  parent.add(collarMesh);
+  disposables.push(collarGeo);
 
-    const mx = originX + Math.cos(ang) * midDist;
-    const mz = originZ + Math.sin(ang) * midDist;
-    const midY = grounder.raycastSurface(mx, mz).y + 0.02;
-
-    const tx = originX + Math.cos(ang + 0.12 * Math.cos(r)) * tipDist;
-    const tz = originZ + Math.sin(ang + 0.12 * Math.cos(r)) * tipDist;
-    const tipY = grounder.raycastSurface(tx, tz).y - 0.14;
-
-    const rootCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(
-        originX + Math.cos(ang) * rootRadius * 0.4,
-        baseY + 0.06,
-        originZ + Math.sin(ang) * rootRadius * 0.4,
-      ),
-      new THREE.Vector3(mx, midY, mz),
-      new THREE.Vector3(tx, tipY, tz),
-    ]);
-    const rootGeo = createFlaredTubeGeometry(rootCurve, 9, rootRadius * 1.15, 0.78, 0.24, 7);
-    const rootMesh = new THREE.Mesh(rootGeo, barkMat);
-    rootMesh.castShadow = true;
-    rootMesh.receiveShadow = true;
-    parent.add(rootMesh);
-    disposables.push(rootGeo);
-
-    registry.registerCapsule(
-      'tree',
-      originX,
-      originZ,
-      tx,
-      tz,
-      rootRadius * 1.4,
-      0.08,
-      undefined,
-      `${idPrefix}-root-${r}`,
-    );
-  }
+  const footRadius = Math.max(rootSpread * 0.85, rootRadius * 2.2);
+  registry.register({
+    id: `${idPrefix}-root-collar`,
+    kind: 'tree',
+    x: originX,
+    z: originZ,
+    rx: footRadius,
+    rz: footRadius,
+    margin: 0.14,
+  });
 }
 
 function createWoodlandTrees(
@@ -6249,7 +6618,7 @@ function createWoodlandTrees(
       new THREE.Vector3(tr.x + tr.leanX * 0.85, gy + tr.h * 0.72, tr.z - 0.04),
       new THREE.Vector3(tr.x + tr.leanX, gy + tr.h, tr.z),
     ]);
-    const trunkGeo = createFlaredTubeGeometry(trunkCurve, 18, tr.r, 0.35, 0.54, 9);
+    const trunkGeo = createFlaredTubeGeometry(trunkCurve, 18, tr.r, 0.35, 0.24, 9, 0.46);
     const trunk = new THREE.Mesh(trunkGeo, barkMat);
     trunk.castShadow = true;
     trunk.receiveShadow = true;
@@ -6297,7 +6666,7 @@ function createWoodlandTrees(
         [0.95, 2.85, 0.38],
       ],
       r: 0.15,
-      flare: 0.56,
+      flare: 0.22,
     },
     {
       pts: [
@@ -6322,7 +6691,15 @@ function createWoodlandTrees(
     const curve = new THREE.CatmullRomCurve3(
       b.pts.map(([x, y, z]) => new THREE.Vector3(mapleOrigin.x + x, mapleOrigin.y + y, mapleOrigin.z + z)),
     );
-    const geo = createFlaredTubeGeometry(curve, 14, b.r, 0.55, b.flare, 8);
+    const geo = createFlaredTubeGeometry(
+      curve,
+      14,
+      b.r,
+      0.55,
+      b.flare,
+      8,
+      b.flare > 0 ? 0.44 : 0.72,
+    );
     const mesh = new THREE.Mesh(geo, barkMat);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
@@ -6368,7 +6745,7 @@ function createWoodlandTrees(
     new THREE.Vector3(midTreePos.x + 0.12, midTreePos.y + 1.2, midTreePos.z + 0.05),
     new THREE.Vector3(midTreePos.x + 0.34, midTreePos.y + 2.35, midTreePos.z + 0.18),
   ]);
-  const midTrunkGeo = createFlaredTubeGeometry(midCurve, 14, 0.125, 0.5, 0.48, 8);
+  const midTrunkGeo = createFlaredTubeGeometry(midCurve, 14, 0.125, 0.5, 0.22, 8, 0.46);
   const midTrunk = new THREE.Mesh(midTrunkGeo, barkMat);
   midTrunk.castShadow = true;
   midTrunk.receiveShadow = true;
@@ -6470,8 +6847,19 @@ function createBambooForest(
   const group = new THREE.Group();
   const disposables: Array<{ dispose: () => void }> = [];
 
-  const culmGeo = new THREE.CylinderGeometry(0.052, 0.088, 1, 8, 1);
-  culmGeo.translate(0, 0.5, 0);
+  const culmGeo = new THREE.CylinderGeometry(0.052, 0.088, 1, 8, 9);
+  const culmPos = culmGeo.attributes.position;
+  for (let i = 0; i < culmPos.count; i++) {
+    const cx = culmPos.getX(i);
+    const cy = culmPos.getY(i);
+    const cz = culmPos.getZ(i);
+    const yNorm = cy + 0.5;
+    // Swell subtly at regular bamboo internode rings so close/mid culms look jointed
+    const nodePhase = Math.abs(((yNorm * 7) % 1) - 0.5) * 2;
+    const nodeBulge = nodePhase > 0.84 ? 1.1 : 1.0;
+    culmPos.setXYZ(i, cx * nodeBulge, yNorm, cz * nodeBulge);
+  }
+  culmGeo.computeVertexNormals();
 
   const culmMat = new THREE.MeshStandardNodeMaterial({
     map: textures.bambooAlbedo,
@@ -6602,12 +6990,12 @@ function createBambooForest(
   if (leafInst.instanceColor) leafInst.instanceColor.needsUpdate = true;
   leafInst.computeBoundingSphere();
 
-  // Grounded 3D crossed broadleaf understory clumps filtered against all trunks, rocks, and path exclusions
-  const shrubGeo = createCrossedClumpGeometry(0.86, 0.58);
+  // Grounded low woodland fern/hosta groundcover cushions filtered against trunks, rocks, and open lawns
+  const shrubGeo = createUnderstoryMoundGeometry(1.02, 0.26);
   const shrubMat = new THREE.MeshStandardNodeMaterial({
     map: textures.understoryLeafMap,
     alphaTest: 0.3,
-    roughness: 0.8,
+    roughness: 0.82,
     metalness: 0.0,
     color: 0xffffff,
     side: THREE.DoubleSide,
@@ -6615,41 +7003,54 @@ function createBambooForest(
   const shrubSway = sin(
     elapsedUniform.mul(1.05).add(positionWorld.x.mul(0.85)).add(positionWorld.z.mul(0.75)),
   )
-    .mul(0.022)
-    .mul(smoothstep(0.05, 0.55, positionLocal.y));
+    .mul(0.016)
+    .mul(smoothstep(0.04, 0.28, positionLocal.y));
   shrubMat.positionNode = positionLocal.add(vec3(shrubSway, float(0.0), shrubSway.mul(0.45)));
 
   const shrubSpecs: Array<{ x: number; z: number; sc: number; rot: number; shade: number }> = [];
-  const targetShrubs = quality === 'desktop' ? 112 : 52;
-  const shrubTints = [0x9eb678, 0xb0c888, 0x8ea668, 0xbad094, 0x829c5e];
+  const targetShrubs = quality === 'desktop' ? 128 : 62;
+  const shrubTints = [0xc4dc96, 0xd0e4a4, 0xb6ce88, 0xdcebb2];
   let shrubTries = 0;
-  while (shrubSpecs.length < targetShrubs && shrubTries < 2600) {
+  while (shrubSpecs.length < targetShrubs && shrubTries < 3200) {
     shrubTries++;
     const sx = -16.5 + rand() * 36.0;
-    const sz = -4.2 - rand() * 12.8;
+    const sz = -3.8 - rand() * 14.5;
+    if (sz > -5.8 && sx > -3.2) continue;
     const sample = sampleTerrain({ x: sx, z: sz });
-    if (sz > -8.2 && Math.abs(sx - SHRINE_CENTER.x) < 1.95) continue;
-    if (Math.abs(sx - shrinePathCenterX(sz)) < 0.92 && sz > -6.4) continue;
+    if (sz > -8.4 && Math.abs(sx - SHRINE_CENTER.x) < 2.05) continue;
+    if (Math.abs(sx - shrinePathCenterX(sz)) < 0.96 && sz > -6.4) continue;
     if (
       !registry.isVegetationValid({
         x: sx,
         z: sz,
-        clearance: 0.24,
+        clearance: 0.28,
         shoreDistance: sample.shoreDistance,
         slope: sample.slope,
-        minShoreDistance: 0.35,
-        maxSlope: 0.42,
+        minShoreDistance: 0.38,
+        maxSlope: 0.44,
       })
     ) {
       continue;
     }
 
+    const sc = 0.72 + rand() * 0.72;
+    const rot = rand() * Math.PI * 2;
     shrubSpecs.push({
       x: sx,
       z: sz,
-      sc: 0.72 + rand() * 0.74,
-      rot: rand() * Math.PI * 2,
+      sc,
+      rot,
       shade: shrubTints[shrubSpecs.length % shrubTints.length],
+    });
+    registry.register({
+      id: `understory-shrub-${shrubSpecs.length}`,
+      kind: 'shrub',
+      x: sx,
+      z: sz,
+      rx: 0.34 * sc,
+      rz: 0.34 * sc,
+      yaw: rot,
+      margin: 0.08,
     });
   }
 
@@ -6660,7 +7061,7 @@ function createBambooForest(
     [-4.85, -3.35, 0.82],
     [-3.45, -4.45, 0.78],
     [1.15, -6.25, 0.86],
-    [2.65, -5.05, 0.92],
+    [2.85, -5.85, 0.88],
   ];
   collarShrubSpots.forEach(([sx, sz, sc], k) => {
     const sample = sampleTerrain({ x: sx, z: sz });
@@ -6668,30 +7069,41 @@ function createBambooForest(
       !registry.isVegetationValid({
         x: sx,
         z: sz,
-        clearance: 0.14,
+        clearance: 0.18,
         shoreDistance: sample.shoreDistance,
         slope: sample.slope,
-        minShoreDistance: 0.3,
-        maxSlope: 0.45,
+        minShoreDistance: 0.32,
+        maxSlope: 0.46,
       })
     ) {
       return;
     }
+    const rot = k * 1.15;
     shrubSpecs.push({
       x: sx,
       z: sz,
       sc,
-      rot: k * 1.15,
-      shade: sx < -3.8 ? 0x9eb47e : shrubTints[k % shrubTints.length],
+      rot,
+      shade: sx < -3.8 ? 0xa2bc78 : shrubTints[k % shrubTints.length],
+    });
+    registry.register({
+      id: `collar-shrub-${k}`,
+      kind: 'shrub',
+      x: sx,
+      z: sz,
+      rx: 0.34 * sc,
+      rz: 0.34 * sc,
+      yaw: rot,
+      margin: 0.08,
     });
   });
 
   const shrubInst = new THREE.InstancedMesh(shrubGeo, shrubMat, shrubSpecs.length);
-  shrubInst.castShadow = quality === 'desktop';
+  shrubInst.castShadow = false;
   shrubInst.receiveShadow = true;
   shrubSpecs.forEach((sp, i) => {
     const gy = grounder.raycastSurface(sp.x, sp.z).y;
-    dummy.position.set(sp.x, gy - 0.04, sp.z);
+    dummy.position.set(sp.x, gy - 0.02, sp.z);
     dummy.rotation.set(0.06 * Math.sin(i), sp.rot, 0.06 * Math.cos(i));
     dummy.scale.set(sp.sc, sp.sc * (0.88 + (i % 3) * 0.1), sp.sc);
     dummy.updateMatrix();
@@ -6740,6 +7152,11 @@ function createGardenEnvironment(
   const disposables: Array<{ dispose: () => void }> = [];
   const registry = new PlacementRegistry(1.25);
 
+  // Register submerged pond river stones first so Tsukubai trajectory & bank placement clear them
+  getSubmergedStoneFootprints().forEach((fp) => {
+    registry.register(fp);
+  });
+
   // 1. Continuous 55m+ sculpted perspective garden terrain + raycast grounder
   const terrain = createSculptedGardenTerrain(textures);
   group.add(terrain.mesh);
@@ -6748,6 +7165,7 @@ function createGardenEnvironment(
 
   // 2. Stepping stones curving cleanly from foreground-left onto the shrine lower step
   const stepStoneGeo = sculptBoulderGeometry(0.36, 2, 11.4);
+  const stepExtents = measureGeometryExtents(stepStoneGeo);
   const stepStoneMat = new THREE.MeshStandardNodeMaterial({
     map: textures.stoneAlbedo,
     normalMap: textures.stoneNormal,
@@ -6756,8 +7174,9 @@ function createGardenEnvironment(
     metalness: 0.02,
     color: 0xbcb5a2,
   });
+  // Stops cleanly at z = -5.42 right ahead of shrine front stepLower south edge (-5.72)
   const stepZValues = [
-    4.25, 3.6, 2.92, 2.24, 1.54, 0.84, 0.14, -0.56, -1.26, -1.96, -2.66, -3.36, -4.06, -4.72, -5.28, -5.75,
+    4.25, 3.6, 2.94, 2.28, 1.62, 0.96, 0.3, -0.36, -1.02, -1.68, -2.34, -3.0, -3.66, -4.32, -4.88, -5.42,
   ];
   const stepInst = new THREE.InstancedMesh(stepStoneGeo, stepStoneMat, stepZValues.length);
   stepInst.receiveShadow = true;
@@ -6770,18 +7189,21 @@ function createGardenEnvironment(
   let prevStepZ = stepZValues[0];
 
   stepZValues.forEach((z, idx) => {
-    const jitterX = (idx % 2 === 0 ? -0.06 : 0.07) * Math.sin(idx * 1.7);
+    const jitterX = (idx % 2 === 0 ? -0.05 : 0.06) * Math.sin(idx * 1.7);
     const x = shrinePathCenterX(z) + jitterX;
-    const sx = 1.08 + (idx % 3) * 0.16;
-    const sz = 0.82 + ((idx + 1) % 3) * 0.12;
+    const sx = 1.08 + (idx % 3) * 0.15;
+    const sy = 0.34;
+    const sz = 0.84 + ((idx + 1) % 3) * 0.12;
     const yaw = idx * 0.72;
-    const grounded = grounder.groundPropFootprint(x, z, 0.32, 0.14, -0.012);
+    // Positive embed seats stepping stone base cleanly into compacted earth so rims never float
+    const grounded = grounder.groundPropFootprint(x, z, 0.34, 0.14, 0.028);
+    const safeY = Math.min(grounded.y, grounded.minY - stepExtents.minY * sy - 0.022);
 
-    dummy.position.set(x, grounded.y, z);
+    dummy.position.set(x, safeY, z);
     baseEuler.set(0, yaw, 0);
     baseQuat.setFromEuler(baseEuler);
     dummy.quaternion.copy(grounded.tiltQuat).multiply(baseQuat);
-    dummy.scale.set(sx, 0.28, sz);
+    dummy.scale.set(sx, sy, sz);
     dummy.updateMatrix();
     stepInst.setMatrixAt(idx, dummy.matrix);
 
@@ -6790,10 +7212,12 @@ function createGardenEnvironment(
       kind: 'stepStone',
       x,
       z,
-      rx: 0.36 * sx,
-      rz: 0.36 * sz,
+      rx: stepExtents.maxRx * sx,
+      rz: stepExtents.maxRz * sz,
       yaw,
       margin: 0.08,
+      baseY: safeY + stepExtents.minY * sy,
+      topY: safeY + stepExtents.maxY * sy,
     });
     if (idx > 0) {
       registry.registerCapsule(
@@ -6816,14 +7240,16 @@ function createGardenEnvironment(
   group.add(stepInst);
   disposables.push(stepStoneGeo, stepStoneMat);
 
-  // Register foreground pebble beach pocket so vegetation respects the gravel shore transition
+  // Register foreground pebble beach pocket right on the genuine foreground shoreline edge
+  const beachCenter = pondBoundaryPoint(Math.PI * 0.56, 1.05);
   registry.register({
     id: 'fg-pebble-beach',
     kind: 'pebbleBeach',
-    x: -0.95,
-    z: 3.42,
-    rx: 0.85,
-    rz: 0.68,
+    x: beachCenter.x,
+    z: beachCenter.z,
+    rx: 0.82,
+    rz: 0.54,
+    yaw: -0.25,
     margin: 0.06,
   });
 
@@ -6832,10 +7258,14 @@ function createGardenEnvironment(
   group.add(bankStones.group);
   disposables.push(bankStones);
 
-  // 4. Traditional aged timber shrine in upper-middle-left background
+  // 4. Traditional aged timber shrine + carved Yukimi granite lantern in upper-mid-left background
   const shrine = createShrineHall(textures, grounder, registry);
   group.add(shrine.group);
   disposables.push(shrine);
+
+  const lantern = createStoneLantern(textures, grounder, registry);
+  group.add(lantern.group);
+  disposables.push(lantern);
 
   // 5. Right-bank stoneware ceramic water vessel (Tsukubai) pouring collision-free into open water
   const waterfall = createWaterfallBasin(textures, elapsedUniform, grounder, registry);
@@ -6911,6 +7341,7 @@ function createGardenEnvironment(
     const sample = sampleTerrain({ x, z });
     return (
       sample.shoreDistance >= 0.34 &&
+      sample.slope <= 0.22 &&
       !registry.isExcluded(x, z, 0.16, new Set<FootprintKind>(['moss']))
     );
   });
@@ -6921,12 +7352,12 @@ function createGardenEnvironment(
   const mColor = new THREE.Color();
   const mossTones = [0x657b3d, 0x586f36, 0x708647, 0x526632, 0x62783c];
   validMoss.forEach(([x, z, sx, sy, sz], idx) => {
-    const grounded = grounder.groundPropFootprint(x, z, 0.42 * sx, 0.28, sy * 0.36);
-    dummy.position.set(x, grounded.y, z);
+    const grounded = grounder.groundPropFootprint(x, z, 0.42 * sx, 0.38, sy * 0.28);
+    dummy.position.set(x, Math.min(grounded.y, grounded.minY - 0.02), z);
     baseEuler.set(0, idx * 0.85, 0);
     baseQuat.setFromEuler(baseEuler);
     dummy.quaternion.copy(grounded.tiltQuat).multiply(baseQuat);
-    dummy.scale.set(sx, sy * 0.86, sz);
+    dummy.scale.set(sx * 0.88, sy * 0.92, sz * 0.88);
     dummy.updateMatrix();
     mossInst.setMatrixAt(idx, dummy.matrix);
     mColor.setHex(x < -3.0 ? 0x45582b : mossTones[idx % mossTones.length]);
@@ -6966,36 +7397,41 @@ function createGardenEnvironment(
   };
 
   const fgPebbleCoords: Array<[number, number, number]> = [];
-  const fgCount = quality === 'desktop' ? 128 : 64;
+  const fgCount = quality === 'desktop' ? 140 : 72;
   const ignoreForPebbles = new Set<FootprintKind>(['pebbleBeach', 'stepStone', 'moss', 'negativeSpace']);
-  for (let i = 0; i < fgCount * 2 && fgPebbleCoords.length < fgCount; i++) {
+  for (let i = 0; i < fgCount * 3 && fgPebbleCoords.length < fgCount; i++) {
     let px = 0;
     let pz = 0;
     let ps = 0.6;
-    if (fgPebbleCoords.length < fgCount * 0.5) {
-      px = -1.64 + gRand() * 1.4;
-      pz = 2.75 + gRand() * 1.4;
-      ps = 0.55 + gRand() * 0.85;
+    if (fgPebbleCoords.length < fgCount * 0.52) {
+      // Shoreline pocket hugging damp foreground shingle contour (angle ~ 0.50*PI .. 0.63*PI)
+      const angle = Math.PI * (0.49 + gRand() * 0.14);
+      const rad = 0.995 + gRand() * 0.11;
+      const pt = pondBoundaryPoint(angle, rad);
+      px = pt.x + (gRand() - 0.5) * 0.18;
+      pz = pt.z + (gRand() - 0.5) * 0.16;
+      ps = 0.55 + gRand() * 0.82;
     } else if (fgPebbleCoords.length < fgCount * 0.76) {
-      pz = -5.4 + gRand() * 9.0;
+      pz = -5.2 + gRand() * 8.8;
       px = shrinePathCenterX(pz) + (gRand() > 0.5 ? 1 : -1) * (0.44 + gRand() * 0.34);
       ps = 0.42 + gRand() * 0.56;
     } else if (fgPebbleCoords.length < fgCount * 0.88) {
-      // Gravel collar behind & around Tsukubai base (outside pedestal and front stream channel)
-      const ang = (gRand() - 0.5) * Math.PI * 1.2 + Math.PI * 0.25;
-      const rad = 0.56 + gRand() * 0.36;
+      // Gravel collar behind & around Tsukubai hearth (strictly outside boulders & front channel)
+      const ang = (gRand() - 0.5) * Math.PI * 1.15 + Math.PI * 0.25;
+      const rad = 0.66 + gRand() * 0.38;
       px = WATERFALL_SOURCE_POINT.x + Math.cos(ang) * rad;
       pz = WATERFALL_SOURCE_POINT.z + Math.sin(ang) * rad;
       ps = 0.42 + gRand() * 0.52;
     } else {
       const angle = gRand() * Math.PI * 2;
-      const pt = pondBoundaryPoint(angle, 0.98 + gRand() * 0.14);
+      const pt = pondBoundaryPoint(angle, 0.995 + gRand() * 0.12);
       px = pt.x;
       pz = pt.z;
       ps = 0.48 + gRand() * 0.68;
     }
 
-    if (registry.isExcluded(px, pz, 0.04, ignoreForPebbles)) continue;
+    if (signedDistanceToPond({ x: px, z: pz }) < -0.06) continue;
+    if (registry.isExcluded(px, pz, 0.05, ignoreForPebbles)) continue;
     fgPebbleCoords.push([px, pz, ps]);
   }
   const pebbleInst = new THREE.InstancedMesh(pebbleGeo, pebbleMat, fgPebbleCoords.length);
@@ -7037,31 +7473,64 @@ function createGardenEnvironment(
   fernMat.positionNode = positionLocal.add(vec3(grassSway, float(0.0), grassSway.mul(0.5)));
 
   const ignoreMossForFerns = new Set<FootprintKind>(['moss']);
-  const fernCandidates: Array<[number, number, number]> = [
-    [-2.48, 2.48, 1.02],
-    [-3.95, 3.05, 1.15],
-    [-4.5, 1.55, 1.2],
-    [-3.68, -1.15, 1.02],
-    [-3.45, -3.55, 0.96],
-    [2.78, 2.86, 1.22],
-    [3.92, 1.48, 1.04], // beside Tsukubai bank without intersecting pot or framing rocks
-    [3.15, -1.78, 1.02],
-    [-1.42, -5.68, 0.95],
-    [0.58, -4.18, 0.96],
+  // Art-directed fern pockets around woodland banks, shrine flanks, and Tsukubai backdrop (validated via registry)
+  const fernSeeds: Array<[number, number, number]> = [
+    [-2.52, 2.52, 0.96],
+    [-4.12, 2.85, 1.05],
+    [-4.65, 1.35, 1.12],
+    [-3.75, -1.25, 1.02],
+    [-3.52, -3.55, 0.98],
+    [2.78, 2.95, 1.16],
+    [3.88, 1.68, 1.04],
+    [4.38, 1.18, 0.96],
+    [3.28, -2.18, 1.04],
+    [-1.45, -5.65, 0.92],
+    [0.58, -4.18, 0.98],
+    [-0.18, -4.75, 0.92],
+    [1.62, -5.25, 1.06],
+    [2.95, -4.45, 1.08],
+    [4.45, -3.25, 1.12],
+    [-2.85, -4.85, 0.94],
+    [-4.95, -2.15, 1.08],
+    [1.42, 4.18, 1.04],
   ];
-  const fernSpots = fernCandidates.filter(([fx, fz]) => {
+  // Fill additional validated fern pockets in woodland margins & right bank shadows
+  for (let fTry = 0; fTry < 140 && fernSeeds.length < 30; fTry++) {
+    const fx = -5.4 + gRand() * 11.2;
+    const fz = -7.2 + gRand() * 11.2;
+    if (xInLeftHeroQuietZone(fx, fz)) continue;
+    fernSeeds.push([fx, fz, 0.84 + gRand() * 0.34]);
+  }
+  function xInLeftHeroQuietZone(x: number, z: number): boolean {
+    return x < -2.35 && z > 1.25;
+  }
+
+  const fernSpots: Array<[number, number, number]> = [];
+  for (const [fx, fz, sc] of fernSeeds) {
+    if (fernSpots.length >= (quality === 'desktop' ? 24 : 16)) break;
     const sample = sampleTerrain({ x: fx, z: fz });
-    return registry.isVegetationValid({
-      x: fx,
-      z: fz,
-      clearance: 0.14,
-      shoreDistance: sample.shoreDistance,
-      slope: sample.slope,
-      minShoreDistance: 0.16,
-      maxSlope: 0.42,
-      ignoreKinds: ignoreMossForFerns,
-    });
-  });
+    if (
+      registry.isVegetationValid({
+        x: fx,
+        z: fz,
+        clearance: 0.18,
+        shoreDistance: sample.shoreDistance,
+        slope: sample.slope,
+        minShoreDistance: 0.22,
+        maxSlope: 0.44,
+        ignoreKinds: ignoreMossForFerns,
+      })
+    ) {
+      let tooClose = false;
+      for (const [ox, oz] of fernSpots) {
+        if (Math.hypot(fx - ox, fz - oz) < 0.72) {
+          tooClose = true;
+          break;
+        }
+      }
+      if (!tooClose) fernSpots.push([fx, fz, sc]);
+    }
+  }
   const frondsPerRosette = quality === 'desktop' ? 7 : 5;
   const fernInst = new THREE.InstancedMesh(
     fernFrondGeo,
@@ -7104,7 +7573,7 @@ function createGardenEnvironment(
   disposables.push(fernFrondGeo, fernMat);
 
   // Upright pond-edge reeds / water iris clusters placed strictly in clear shoreline earth pockets
-  const reedGeo = createGrassTuftGeometry(8, 0.88, 0.24, 0.028);
+  const reedGeo = createGrassTuftGeometry(10, 1.04, 0.26, 0.032);
   const reedMat = new THREE.MeshStandardNodeMaterial({
     color: 0xffffff,
     roughness: 0.68,
@@ -7118,35 +7587,66 @@ function createGardenEnvironment(
     .mul(smoothstep(0.08, 0.85, positionLocal.y));
   reedMat.positionNode = positionLocal.add(vec3(reedSway, float(0.0), reedSway.mul(0.6)));
 
-  const reedCandidates: Array<[number, number, number]> = [
-    [-2.06, 2.52, 1.12],
-    [-2.32, 2.18, 1.0],
-    [2.16, 2.48, 1.05], // foreground-right shore pocket clear of camera sightline to ceramic Tsukubai pot
-    [2.4, 2.22, 0.94],
-    [1.76, -3.55, 0.96],
-    [2.05, -3.18, 0.88],
-    [-2.05, -3.35, 0.92],
+  // Art-directed shoreline reed pockets around foreground, lantern cove, and north-east sakura shoreline
+  const reedAngleBands: Array<[number, number]> = [
+    [Math.PI * 0.14, Math.PI * 0.26], // lower-right foreground shore cove below Tsukubai
+    [Math.PI * 0.65, Math.PI * 0.77], // lower-left foreground cove (calm botanical accent)
+    [-Math.PI * 0.66, -Math.PI * 0.54], // back-left reed cove near lantern
+    [-Math.PI * 0.36, -Math.PI * 0.24], // back-right shoreline cove under sakura
+    [-Math.PI * 0.5, -Math.PI * 0.39], // far-back serene reed pocket
   ];
-  const reedSpots = reedCandidates.filter(([rx, rz]) => {
-    const sample = sampleTerrain({ x: rx, z: rz });
-    return registry.isVegetationValid({
-      x: rx,
-      z: rz,
-      clearance: 0.12,
-      shoreDistance: sample.shoreDistance,
-      slope: sample.slope,
-      minShoreDistance: 0.06,
-      maxSlope: 0.44,
-      ignoreKinds: ignoreMossForFerns,
-    });
-  });
+  const reedSpots: Array<[number, number, number]> = [];
+  for (let bIdx = 0; bIdx < reedAngleBands.length; bIdx++) {
+    const [a0, a1] = reedAngleBands[bIdx];
+    let placedInBand = 0;
+    for (let step = 0; step < 44 && placedInBand < 4; step++) {
+      const ang = a0 + ((step + 0.5) / 44) * (a1 - a0);
+      const rad = 1.03 + ((step * 7) % 5) * 0.024;
+      const pt = pondBoundaryPoint(ang, rad);
+      const sample = sampleTerrain(pt);
+      if (
+        !registry.isVegetationValid({
+          x: pt.x,
+          z: pt.z,
+          clearance: 0.14,
+          shoreDistance: sample.shoreDistance,
+          slope: sample.slope,
+          minShoreDistance: 0.04,
+          maxSlope: 0.48,
+          ignoreKinds: ignoreMossForFerns,
+        })
+      ) {
+        continue;
+      }
+      let spaced = true;
+      for (const [rx, rz] of reedSpots) {
+        if (Math.hypot(pt.x - rx, pt.z - rz) < 0.28) {
+          spaced = false;
+          break;
+        }
+      }
+      if (!spaced) continue;
+      const sc = 0.88 + (placedInBand % 2) * 0.16;
+      reedSpots.push([pt.x, pt.z, sc]);
+      registry.register({
+        id: `shore-reed-${reedSpots.length}`,
+        kind: 'moss',
+        x: pt.x,
+        z: pt.z,
+        rx: 0.14 * sc,
+        rz: 0.14 * sc,
+        margin: 0.03,
+      });
+      placedInBand++;
+    }
+  }
 
   const reedInst = new THREE.InstancedMesh(reedGeo, reedMat, Math.max(1, reedSpots.length));
   reedInst.castShadow = true;
   reedInst.receiveShadow = true;
   reedSpots.forEach(([x, z, sc], idx) => {
     const gy = grounder.raycastSurface(x, z).y;
-    dummy.position.set(x, gy - 0.02, z);
+    dummy.position.set(x, gy - 0.025, z);
     dummy.rotation.set(0, idx * 1.1, 0);
     dummy.scale.setScalar(sc);
     dummy.updateMatrix();
@@ -7161,50 +7661,34 @@ function createGardenEnvironment(
   group.add(reedInst);
   disposables.push(reedGeo, reedMat);
 
-  // Subtle brown cattail spikes nestled inside the validated reed clumps
-  const spikeStemGeo = new THREE.CylinderGeometry(0.008, 0.011, 0.92, 5);
-  spikeStemGeo.translate(0, 0.46, 0);
+  // Subtle brown cattail spikes anchored directly within validated reed clumps (never floating orphans)
+  const spikeStemGeo = new THREE.CylinderGeometry(0.008, 0.011, 1.02, 5);
+  spikeStemGeo.translate(0, 0.51, 0);
   const spikeHeadGeo = new THREE.CylinderGeometry(0.022, 0.022, 0.16, 7);
-  spikeHeadGeo.translate(0, 0.84, 0);
+  spikeHeadGeo.translate(0, 0.93, 0);
   const spikeStemMat = createMatteNodeMaterial(0x5d8040, 0.78, 0.01);
   const spikeHeadMat = createMatteNodeMaterial(0x523624, 0.92, 0.01);
-  const spikeCandidates: Array<[number, number, number]> = [
-    [-2.1, 2.48, 0.98],
-    [-2.02, 2.58, 1.06],
-    [-2.28, 2.24, 0.9],
-    [2.18, 2.44, 0.96],
-    [2.38, 2.24, 0.88],
-  ];
-  spikeCandidates.forEach(([x, z, s], idx) => {
-    const sample = sampleTerrain({ x, z });
-    if (
-      !registry.isVegetationValid({
-        x,
-        z,
-        clearance: 0.1,
-        shoreDistance: sample.shoreDistance,
-        slope: sample.slope,
-        minShoreDistance: 0.06,
-        maxSlope: 0.44,
-        ignoreKinds: ignoreMossForFerns,
-      })
-    ) {
-      return;
+  reedSpots.slice(0, 8).forEach(([rx, rz, sc], idx) => {
+    for (let s = 0; s < 2; s++) {
+      const ang = idx * 1.3 + s * 2.1;
+      const x = rx + Math.cos(ang) * 0.045;
+      const z = rz + Math.sin(ang) * 0.045;
+      const gy = grounder.raycastSurface(x, z).y;
+      const st = new THREE.Mesh(spikeStemGeo, spikeStemMat);
+      const hd = new THREE.Mesh(spikeHeadGeo, spikeHeadMat);
+      st.position.set(x, gy - 0.025, z);
+      hd.position.set(x, gy - 0.025, z);
+      st.rotation.set(0.05 * Math.sin(idx + s), idx + s, 0.05 * Math.cos(idx + s));
+      hd.rotation.copy(st.rotation);
+      const sScale = sc * (0.9 + s * 0.12);
+      st.scale.setScalar(sScale);
+      hd.scale.setScalar(sScale);
+      group.add(st, hd);
     }
-    const gy = grounder.raycastSurface(x, z).y;
-    const st = new THREE.Mesh(spikeStemGeo, spikeStemMat);
-    const hd = new THREE.Mesh(spikeHeadGeo, spikeHeadMat);
-    st.position.set(x, gy - 0.02, z);
-    hd.position.set(x, gy - 0.02, z);
-    st.rotation.set(0.06 * Math.sin(idx), idx, 0.05 * Math.cos(idx));
-    hd.rotation.copy(st.rotation);
-    st.scale.setScalar(s);
-    hd.scale.setScalar(s);
-    group.add(st, hd);
   });
   disposables.push(spikeStemGeo, spikeHeadGeo, spikeStemMat, spikeHeadMat);
 
-  // 12. Continuous organic grass & sedge drifts across open garden zones (clustered pockets, zero clipping)
+  // 12. Continuous organic grass & sedge drifts across foreground, midground & forest backdrop
   const grassGeo = createCrossedClumpGeometry(0.32, 0.22);
   const grassMat = new THREE.MeshStandardNodeMaterial({
     map: textures.grassBladeMap,
@@ -7221,18 +7705,20 @@ function createGardenEnvironment(
     .mul(smoothstep(0.02, 0.22, positionLocal.y));
   grassMat.positionNode = positionLocal.add(vec3(clumpWindSway, float(0.0), clumpWindSway.mul(0.5)));
 
-  // Broad organic garden zones (overlapping ranges produce natural continuous ground-cover drifts)
+  // Continuous world-spanning groundcover zones from foreground pond border back into bamboo hills
   const grassZones: Array<{ minX: number; maxX: number; minZ: number; maxZ: number; weight: number }> = [
     // Right foreground & sunny right bank around pond & sakura fringe
-    { minX: 1.2, maxX: 5.8, minZ: 1.1, maxZ: 5.0, weight: 3 },
+    { minX: 1.2, maxX: 6.2, minZ: 1.0, maxZ: 5.1, weight: 3 },
     // Right-mid ridge behind sakura & north bank
-    { minX: 1.4, maxX: 6.2, minZ: -5.4, maxZ: -1.4, weight: 3 },
+    { minX: 1.4, maxX: 6.8, minZ: -5.6, maxZ: -1.4, weight: 3 },
     // Mid-back terrace between shrine & right bamboo ridge
-    { minX: -1.6, maxX: 4.6, minZ: -6.8, maxZ: -3.6, weight: 3 },
-    // Left mossy woodland flanks (outside stepping path & behind foreground hero space)
-    { minX: -5.6, maxX: -2.2, minZ: -5.4, maxZ: 4.5, weight: 2 },
-    // Foreground center-left border beside pebble beach
-    { minX: -0.4, maxX: 2.8, minZ: 3.1, maxZ: 5.2, weight: 2 },
+    { minX: -2.2, maxX: 5.4, minZ: -8.6, maxZ: -3.6, weight: 3 },
+    // Continuous background forest floor drifts beneath bamboo grove
+    { minX: -11.5, maxX: 11.5, minZ: -14.2, maxZ: -6.8, weight: 3 },
+    // Left mossy woodland flanks (quiet calm texture behind left hero typography)
+    { minX: -6.2, maxX: -2.4, minZ: -6.5, maxZ: 3.4, weight: 2 },
+    // Foreground center-right apron beside pebble beach
+    { minX: 0.1, maxX: 2.8, minZ: 3.2, maxZ: 5.2, weight: 2 },
   ];
   const zoneBag: typeof grassZones = [];
   grassZones.forEach((zone) => {
@@ -7240,13 +7726,15 @@ function createGardenEnvironment(
   });
 
   const grassCoords: Array<[number, number, number, number, number, number]> = [];
-  const targetGrass = quality === 'desktop' ? 680 : 280;
+  const targetGrass = quality === 'desktop' ? 880 : 380;
   let attempts = 0;
-  while (grassCoords.length < targetGrass && attempts < 7500) {
+  while (grassCoords.length < targetGrass && attempts < 11000) {
     attempts++;
     const zone = zoneBag[attempts % zoneBag.length];
     const cx = zone.minX + gRand() * (zone.maxX - zone.minX);
     const cz = zone.minZ + gRand() * (zone.maxZ - zone.minZ);
+    // Keep calm negative space behind bottom-left hero CTA/copy
+    if (cx < -2.2 && cz > 1.8 && gRand() < 0.85) continue;
     // Keep natural moss carpet breaks so ground doesn't look uniformly blanketed
     const patchWave = Math.sin(cx * 0.95 + 0.4) * Math.cos(cz * 0.85 - 0.3);
     if (patchWave < -0.48 && gRand() < 0.72) continue;
@@ -7263,32 +7751,33 @@ function createGardenEnvironment(
         !registry.isVegetationValid({
           x,
           z,
-          clearance: 0.14,
+          clearance: 0.15,
           shoreDistance: sample.shoreDistance,
           slope: sample.slope,
-          minShoreDistance: 0.22,
-          maxSlope: 0.36,
+          minShoreDistance: 0.24,
+          maxSlope: 0.38,
         })
       ) {
         continue;
       }
 
       const gy = grounder.raycastSurface(x, z).y;
-      const leftShorten = x < -2.6 ? 0.76 : 1.0;
-      const scale = (0.68 + gRand() * 0.56) * leftShorten;
+      const leftShorten = x < -2.6 ? 0.72 : 1.0;
+      const bgShorten = z < -7.5 ? 0.86 : 1.0;
+      const scale = (0.68 + gRand() * 0.56) * leftShorten * bgShorten;
       grassCoords.push([x, gy, z, scale, gRand() * Math.PI * 2, sample.normal.x]);
     }
   }
   const grassInst = new THREE.InstancedMesh(grassGeo, grassMat, Math.max(1, grassCoords.length));
   grassInst.receiveShadow = true;
-  const gPalette = [0x9eb476, 0xb2c684, 0x8ea466, 0xc0d292];
+  const gPalette = [0xcce09c, 0xd8eaab, 0xbfd490, 0xe2f0b8];
   grassCoords.forEach(([x, gy, z, sc, rot, nx], idx) => {
     dummy.position.set(x, gy - 0.025, z);
     dummy.rotation.set(0, rot, -nx * 0.35);
     dummy.scale.set(sc, sc * (0.85 + (idx % 3) * 0.12), sc);
     dummy.updateMatrix();
     grassInst.setMatrixAt(idx, dummy.matrix);
-    mColor.setHex(x < -3.0 ? 0x768a58 : gPalette[idx % gPalette.length]);
+    mColor.setHex(x < -3.0 ? 0x9ab078 : gPalette[idx % gPalette.length]);
     grassInst.setColorAt(idx, mColor);
   });
   grassInst.count = grassCoords.length;
@@ -7548,7 +8037,6 @@ import {
   uv,
   vec2,
   vec3,
-  vec4,
   vertexColor,
   viewportSharedTexture,
 } from 'three/tsl';
@@ -7627,14 +8115,14 @@ export function createSubmergedStoneMaterial(
 ): THREE.MeshStandardNodeMaterial {
   const mat = new THREE.MeshStandardNodeMaterial();
   const stoneUv = uv().mul(2.2);
-  const albedo = texture(textures.stoneAlbedo, stoneUv).rgb.mul(vec3(0.54, 0.62, 0.58));
+  const albedo = texture(textures.stoneAlbedo, stoneUv).rgb.mul(vec3(0.4, 0.49, 0.45));
   const caustic = computeWaterCaustics(positionWorld.xz, elapsedUniform);
   const upFacing = smoothstep(0.15, 0.75, normalWorld.y);
 
-  mat.colorNode = albedo.add(vec3(0.92, 0.88, 0.74).mul(caustic.mul(upFacing).mul(0.38)));
+  mat.colorNode = albedo.add(vec3(0.88, 0.85, 0.72).mul(caustic.mul(upFacing).mul(0.24)));
   mat.normalMap = textures.stoneNormal;
   mat.normalScale = new THREE.Vector2(0.9, 0.9);
-  mat.roughnessNode = float(0.58);
+  mat.roughnessNode = float(0.62);
   mat.metalnessNode = float(0.03);
   return mat;
 }
@@ -7703,10 +8191,10 @@ export function createGroundTerraceMaterial(
 
   // 1. Rich damp garden loam & dark mineral slope earth (calibrated for linear-space ACES rendering)
   const soilMix = mix(mix(soilMacro, soilMicro, 0.55), soilFine, 0.32);
-  const baseSoil = mix(soilMix, stoneGrit, 0.16).mul(vec3(0.96, 0.85, 0.68));
-  const slopeMask = smoothstep(0.92, 0.72, normalWorld.y);
+  const baseSoil = mix(soilMix, stoneGrit, 0.18).mul(vec3(0.78, 0.69, 0.54));
+  const slopeMask = smoothstep(0.92, 0.7, normalWorld.y);
 
-  // 2. Multi-scale velvety moss carpets (rich emerald-olive depth with warm moss shoulders)
+  // 2. Multi-scale velvety moss carpets (deep Kyoto cedar-moss emerald with warm sunlit variations)
   const mossNoiseA = sin(positionWorld.x.mul(1.12).add(0.45)).mul(
     cos(positionWorld.z.mul(0.92).sub(0.35)),
   );
@@ -7717,52 +8205,52 @@ export function createGroundTerraceMaterial(
     0.0,
     1.0,
   );
-  const heightMossBias = smoothstep(0.04, 0.28, positionWorld.y);
+  const heightMossBias = smoothstep(0.03, 0.24, positionWorld.y);
   const mossWeight = clamp(
     organicMossMask
-      .mul(mix(0.42, 0.96, heightMossBias))
-      .mul(float(1.0).sub(pathWeight.mul(0.9)))
-      .mul(float(1.0).sub(slopeMask.mul(0.42)))
-      .mul(float(1.0).sub(forestWeight.mul(0.38))),
-    0.1,
-    0.92,
+      .mul(mix(0.38, 0.94, heightMossBias))
+      .mul(float(1.0).sub(pathWeight.mul(0.92)))
+      .mul(float(1.0).sub(slopeMask.mul(0.58)))
+      .mul(float(1.0).sub(forestWeight.mul(0.45))),
+    0.08,
+    0.9,
   );
 
-  const layeredMoss = mix(mossMacro, mossMed, 0.64).mul(vec3(0.76, 0.96, 0.48));
+  const layeredMoss = mix(mossMacro, mossMed, 0.64).mul(vec3(0.58, 0.78, 0.38));
   const soilAndMoss = mix(baseSoil, layeredMoss, mossWeight);
 
-  // 3. Woodland / bamboo forest floor (deep mossy humus, fallen leaves, rich shaded loam)
+  // 3. Woodland / bamboo forest floor (deep shaded humus, fallen bamboo leaves, damp earth)
   const forestFloor = mix(
-    soilAndMoss.mul(vec3(0.64, 0.74, 0.52)),
-    litterTex.mul(vec3(0.68, 0.64, 0.46)),
-    0.42,
+    soilAndMoss.mul(vec3(0.52, 0.6, 0.42)),
+    litterTex.mul(vec3(0.58, 0.54, 0.38)),
+    0.54,
   );
-  const withForest = mix(soilAndMoss, forestFloor, forestWeight.mul(0.72));
+  const withForest = mix(soilAndMoss, forestFloor, forestWeight.mul(0.78));
 
-  // 4. Compacted dark soil & weathered granite grit along winding shrine approach path
+  // 4. Compacted warm sand-earth & weathered granite grit along winding shrine approach path
   const pathBed = mix(
-    litterTex.mul(vec3(0.92, 0.86, 0.72)),
-    stoneGrit.mul(vec3(0.84, 0.82, 0.74)),
-    0.42,
+    litterTex.mul(vec3(0.84, 0.78, 0.65)),
+    stoneGrit.mul(vec3(0.78, 0.76, 0.68)),
+    0.46,
   );
-  const withPath = mix(withForest, pathBed, pathWeight.mul(0.82));
+  const withPath = mix(withForest, pathBed, pathWeight.mul(0.84));
 
-  // 5. Damp dark pond shoreline collar (organic edge moisture broken up by noise)
+  // 5. Damp dark pond shoreline collar (organic edge moisture & wet earth)
   const shoreNoise = sin(positionWorld.x.mul(2.9).add(positionWorld.z.mul(2.5)))
     .mul(0.5)
     .add(0.5);
   const wetShore = float(1.0).sub(smoothstep(-0.04, 0.14, positionWorld.y));
   const wetness = clamp(
-    max(wetShore.mul(0.78), rimWeight.mul(mix(0.42, 0.82, shoreNoise))),
+    max(wetShore.mul(0.82), rimWeight.mul(mix(0.45, 0.86, shoreNoise))),
     0.0,
     1.0,
   );
   const wetMineral = mix(
-    stoneGrit.mul(vec3(0.36, 0.4, 0.36)),
-    withPath.mul(vec3(0.42, 0.46, 0.38)),
-    0.45,
+    stoneGrit.mul(vec3(0.32, 0.36, 0.32)),
+    withPath.mul(vec3(0.36, 0.39, 0.31)),
+    0.42,
   );
-  const dampGround = mix(withPath, wetMineral, wetness.mul(0.82));
+  const dampGround = mix(withPath, wetMineral, wetness.mul(0.85));
 
   // 6. Physically restrained morning sun warmth + quiet dark left woodland beneath typography
   const dappleA = sin(positionWorld.x.mul(0.82).add(positionWorld.z.mul(0.44)).add(0.5));
@@ -7798,25 +8286,32 @@ export function createTrickleStreamMaterial(
 ): THREE.MeshPhysicalNodeMaterial {
   const mat = new THREE.MeshPhysicalNodeMaterial();
   const uvCoord = uv();
-  // Flow runs along U (spout/lip -> basin/pond)
-  const flowUvA = vec2(uvCoord.x.mul(1.8).sub(elapsedUniform.mul(2.1)), uvCoord.y.mul(2.4));
-  const flowUvB = vec2(uvCoord.x.mul(3.1).sub(elapsedUniform.mul(3.2)), uvCoord.y.mul(1.5).add(0.35));
+  // Seamless periodic flow along U (spout/lip -> basin/pond) accelerating toward plunge
+  const uSpeed = uvCoord.x.mul(1.85).sub(elapsedUniform.mul(2.55));
+  const vWrap = sin(uvCoord.y.mul(Math.PI * 2)).mul(0.25);
+  const flowUvA = vec2(uSpeed, vWrap.add(0.5));
+  const flowUvB = vec2(uvCoord.x.mul(3.4).sub(elapsedUniform.mul(3.75)), vWrap.negate().add(0.35));
 
-  const streakA = sin(flowUvA.x.mul(9.0).add(texture(textures.waterNormalA, flowUvA).r.mul(3.2)))
+  const streakA = sin(flowUvA.x.mul(10.0).add(texture(textures.waterNormalA, flowUvA).r.mul(3.0)))
     .mul(0.5)
     .add(0.5);
-  const streakB = sin(flowUvB.x.mul(14.0).add(texture(textures.waterNormalB, flowUvB).g.mul(2.6)))
+  const streakB = sin(flowUvB.x.mul(15.0).add(texture(textures.waterNormalB, flowUvB).g.mul(2.6)))
     .mul(0.5)
     .add(0.5);
 
-  const foamStreak = pow(clamp(streakA.mul(0.62).add(streakB.mul(0.48)), 0.0, 1.0), 2.4);
-  const waterTint = mix(vec3(0.36, 0.58, 0.54), vec3(0.86, 0.93, 0.9), foamStreak.mul(0.55));
+  const eyeDir = cameraPosition.sub(positionWorld).normalize();
+  const edgeFresnel = pow(float(1.0).sub(abs(dot(normalWorld, eyeDir))), 1.6);
+
+  const foamStreak = pow(clamp(streakA.mul(0.58).add(streakB.mul(0.52)), 0.0, 1.0), 2.1);
+  const splashTipFoam = smoothstep(0.75, 1.0, uvCoord.x).mul(0.28);
+  const foamMix = clamp(foamStreak.mul(0.68).add(edgeFresnel.mul(0.55)).add(splashTipFoam), 0.0, 1.0);
+  const waterTint = mix(vec3(0.48, 0.72, 0.67), vec3(0.95, 0.98, 0.96), foamMix);
 
   mat.colorNode = waterTint;
-  mat.emissiveNode = vec3(0.12, 0.19, 0.17).mul(foamStreak.mul(0.24));
-  mat.roughnessNode = float(0.06);
-  mat.metalnessNode = float(0.04);
-  mat.opacityNode = float(0.22).add(foamStreak.mul(0.44));
+  mat.emissiveNode = vec3(0.24, 0.34, 0.32).mul(foamMix.mul(0.36));
+  mat.roughnessNode = float(0.05);
+  mat.metalnessNode = float(0.02);
+  mat.opacityNode = clamp(float(0.18).add(foamStreak.mul(0.36)).add(edgeFresnel.mul(0.38)), 0.14, 0.82);
   mat.transparent = true;
   mat.depthWrite = false;
   mat.side = THREE.DoubleSide;
@@ -8262,21 +8757,35 @@ export function isInsideNaturalPond(point: PointXZ, margin = 0): boolean {
   return rho <= maxRho;
 }
 
-export function pondBedElevation(x: number, z: number): number {
-  if (!Number.isFinite(x) || !Number.isFinite(z)) return -0.3;
-  const rho = naturalPondNormalizedRadius({ x, z });
-  if (rho >= 1.05) return 0.02;
+function smoothstep01(t: number): number {
+  const c = Math.max(0, Math.min(1, t));
+  return c * c * (3 - 2 * c);
+}
+
+function continuousBasinDepth(x: number, z: number, rho: number): number {
   const clamped = Math.max(0, Math.min(1, rho));
   const shelf = 1 - clamped * clamped;
   // Clear shallow shelf near banks transitioning to a rich jade depth center
-  const basinDepth = -0.09 - 0.58 * Math.pow(shelf, 1.32);
-  const microContour = 0.024 * Math.sin(x * 1.2 + 0.5) * Math.cos(z * 1.15 - 0.4);
-  return Math.min(-0.04, basinDepth + microContour);
+  const basinDepth = -0.068 - 0.6 * Math.pow(shelf, 1.35);
+  const microContour = 0.022 * Math.sin(x * 1.2 + 0.5) * Math.cos(z * 1.15 - 0.4);
+  return basinDepth + microContour;
+}
+
+export function pondBedElevation(x: number, z: number): number {
+  if (!Number.isFinite(x) || !Number.isFinite(z)) return -0.3;
+  const rho = naturalPondNormalizedRadius({ x, z });
+  const base = continuousBasinDepth(x, z, rho);
+  if (rho <= 0.92) {
+    return Math.min(-0.04, base);
+  }
+  // Smoothly shoal up to water surface near rho = 1.02 for a seam-free basin bowl
+  const rimT = smoothstep01((rho - 0.92) / 0.14);
+  return base * (1 - rimT) + 0.025 * rimT;
 }
 
 // Right-shoreline ceramic tsukubai vessel on leveled bank terrace pouring westward into open pond water
-export const WATERFALL_SOURCE_POINT: PointXZ = { x: 3.46, z: 0.54 };
-export const WATERFALL_IMPACT_POINT: PointXZ = { x: 2.34, z: 0.48 };
+export const WATERFALL_SOURCE_POINT: PointXZ = { x: 3.38, z: 0.52 };
+export const WATERFALL_IMPACT_POINT: PointXZ = { x: 2.24, z: 0.46 };
 
 export const SHRINE_CENTER: PointXZ = { x: -2.15, z: -7.15 };
 export const SAKURA_CENTER: PointXZ = { x: 3.74, z: -1.16 };
@@ -8289,7 +8798,8 @@ export function shrinePathCenterX(z: number): number {
   if (z >= -2.5) return -3.12 - 0.36 * ((z + 2.5) / 3.7);
   const u = Math.max(0, Math.min(1, (-2.5 - z) / 3.45));
   const s = u * u * (3 - 2 * u);
-  return -3.12 + 0.97 * s;
+  // Aligns cleanly with the rotated shrine front stairs (~x = -1.92 at z = -5.85)
+  return -3.12 + 1.2 * s;
 }
 
 /**
@@ -8317,91 +8827,105 @@ export function signedDistanceToPond(point: PointXZ): number {
 export function terrainElevation(x: number, z: number): number {
   if (!Number.isFinite(x) || !Number.isFinite(z)) return 0;
   const rho = naturalPondNormalizedRadius({ x, z });
-  if (rho < 0.985) {
-    return pondBedElevation(x, z);
+  const bedY = pondBedElevation(x, z);
+  if (rho <= 0.92) {
+    return bedY;
   }
 
-  // Gentle organic shoreline transition across rho in [0.985 .. 1.245] (~0.78m natural slope)
-  const shoreT = Math.max(0, Math.min(1, (rho - 0.985) / 0.26));
-  const bankBlend = shoreT * shoreT * (3 - 2 * shoreT);
+  // Broad, C1-continuous bank collar (rho 0.94..1.48) preventing sudden rim cliffs
+  const bankBlend = smoothstep01((rho - 0.94) / 0.54);
+  // Attenuates steep mounds close to the waterline so shoreline stones seat on gentle banks
+  const shoreCollarEase = smoothstep01((rho - 1.02) / 0.48);
 
   // Level corridor along the curving stepping-stone path from foreground up to shrine steps
   const pathX = shrinePathCenterX(z);
   const distToPath = Math.abs(x - pathX);
   const onPathZ = z <= 5.8 && z >= -7.4;
-  const pathClearance = onPathZ ? Math.max(0, Math.min(1, (distToPath - 0.52) / 1.05)) : 1;
+  const pathClearance = onPathZ ? Math.max(0, Math.min(1, (distToPath - 0.56) / 1.15)) : 1;
 
-  // Raised level shrine terrace in upper-mid-left background
+  // Raised level shrine terrace in upper-mid-left background with smooth broad apron
   const shrineDist = Math.hypot(x - SHRINE_CENTER.x, z - SHRINE_CENTER.z);
-  const shrinePlateauBlend = Math.max(0, 1 - Math.max(0, (shrineDist - 1.65) / 2.9));
-  const shrineRise = Math.max(0, Math.min(1, (-z - 2.3) / 4.3)) * 0.92;
+  const shrineRaw = 1 - Math.max(0, (shrineDist - 1.95) / 3.45);
+  const shrinePlateauBlend = smoothstep01(shrineRaw);
+  const shrineRise = smoothstep01((-z - 3.1) / 5.2) * 0.9;
 
-  // Leveled right-bank shelf under the Tsukubai ceramic water pot blending softly toward sakura shoulder
+  // Gentle low right-bank shelf under the Tsukubai hearth stone, keeping water pour at natural low relief
   const tsukubaiDist = Math.hypot(x - WATERFALL_SOURCE_POINT.x, z - WATERFALL_SOURCE_POINT.z);
-  const tsukubaiRaw = Math.max(0, 1 - Math.max(0, (tsukubaiDist - 0.65) / 1.45));
-  const tsukubaiPlateauBlend = tsukubaiRaw * tsukubaiRaw * (3 - 2 * tsukubaiRaw);
+  const tsukubaiPlateauBlend = smoothstep01(1 - Math.max(0, (tsukubaiDist - 0.72) / 1.75));
 
   // Left woodland mossy rise (natural dark backdrop behind left editorial typography)
   const leftWoodlandRise =
-    Math.exp(-((x + 5.7) * (x + 5.7) * 0.042 + (z + 0.4) * (z + 0.4) * 0.032)) * 1.12;
+    Math.exp(-((x + 5.75) * (x + 5.75) * 0.042 + (z + 0.4) * (z + 0.4) * 0.032)) * 1.12;
 
-  // Sunlit mossy ridge behind right-center bank & sakura roots
+  // Sunlit mossy ridge set further back behind north bank & shrine spur so shoreline slopes gently
   const rightMidRidge =
-    Math.exp(-((x - 3.75) * (x - 3.75) * 0.068 + (z + 3.95) * (z + 3.95) * 0.055)) * 0.78;
+    Math.exp(-((x - 4.05) * (x - 4.05) * 0.055 + (z + 5.55) * (z + 5.55) * 0.048)) * 0.82;
 
-  // Gentle right shoreline mossy knoll supporting ceramic water vessel & sakura trunk
+  // Gentle right shoreline shoulder supporting sakura & tsukubai garden cluster
   const rightBankRise =
-    Math.exp(-((x - 3.72) * (x - 3.72) * 0.1 + (z + 0.85) * (z + 0.85) * 0.085)) * 0.28;
+    Math.exp(-((x - 3.95) * (x - 3.95) * 0.085 + (z + 1.05) * (z + 1.05) * 0.075)) * 0.16;
 
-  // Gentle broad organic soil root-mounds under hero Sakura & Japanese Maple trunks
+  // Broad, low root-collar soil swells so tree trunks flare cleanly without unnatural volcano cones
   const sakuraRootMound =
-    Math.exp(-((x - SAKURA_CENTER.x) * (x - SAKURA_CENTER.x) * 0.65 + (z - SAKURA_CENTER.z) * (z - SAKURA_CENTER.z) * 0.65)) * 0.16;
+    Math.exp(
+      -((x - SAKURA_CENTER.x) * (x - SAKURA_CENTER.x) * 0.24 + (z - SAKURA_CENTER.z) * (z - SAKURA_CENTER.z) * 0.24),
+    ) * 0.065;
   const mapleRootMound =
-    Math.exp(-((x + 4.25) * (x + 4.25) * 0.95 + (z + 3.95) * (z + 3.95) * 0.95)) * 0.12;
+    Math.exp(-((x + 4.25) * (x + 4.25) * 0.3 + (z + 3.95) * (z + 3.95) * 0.3)) * 0.055;
 
-  // Gentle organic garden mounds framing midground & far forest floor without sharp ridges
+  // Flowing multi-hill woodland topography extending across foreground, midground, and 55m backdrop
   const farBackdropRise =
-    Math.max(0, Math.min(1, (-z - 6.8) / 9.5)) * 1.75 +
-    Math.max(0, Math.min(1, (Math.hypot(x, z) - 9.5) / 16.0)) * 0.82;
+    smoothstep01((-z - 6.6) / 10.5) * 1.85 +
+    smoothstep01((Math.hypot(x, z) - 9.5) / 16.5) * 0.92;
+  const woodlandHills =
+    (0.28 * Math.sin(x * 0.28 + 0.7) * Math.cos(z * 0.24 - 0.5) +
+      0.16 * Math.sin(x * 0.52 - z * 0.38)) *
+    smoothstep01((-z - 4.5) / 6.0);
 
   const fgLeftMound =
-    Math.exp(-((x + 4.45) * (x + 4.45) * 0.14 + (z - 3.85) * (z - 3.85) * 0.14)) * 0.4;
+    Math.exp(-((x + 4.5) * (x + 4.5) * 0.12 + (z - 3.95) * (z - 3.95) * 0.12)) * 0.34;
   const fgRightMound =
-    Math.exp(-((x - 2.85) * (x - 2.85) * 0.18 + (z - 3.65) * (z - 3.65) * 0.2)) * 0.3;
+    Math.exp(-((x - 2.95) * (x - 2.95) * 0.14 + (z - 3.85) * (z - 3.85) * 0.15)) * 0.22;
   const backLeftMound =
-    Math.exp(-((x + 6.8) * (x + 6.8) * 0.06 + (z + 6.4) * (z + 6.4) * 0.06)) * 0.84;
+    Math.exp(-((x + 6.9) * (x + 6.9) * 0.055 + (z + 6.6) * (z + 6.6) * 0.055)) * 0.86;
 
   const microUndulation =
-    (0.056 * Math.sin(x * 0.62 + 0.4) * Math.cos(z * 0.56 - 0.3) +
-      0.028 * Math.sin(x * 1.25 - z * 0.95) +
-      0.015 * Math.cos(x * 2.1 + z * 1.85)) *
+    (0.048 * Math.sin(x * 0.62 + 0.4) * Math.cos(z * 0.56 - 0.3) +
+      0.022 * Math.sin(x * 1.25 - z * 0.95) +
+      0.012 * Math.cos(x * 2.1 + z * 1.85)) *
     pathClearance *
-    (1 - tsukubaiPlateauBlend * 0.85);
+    (1 - tsukubaiPlateauBlend * 0.88) *
+    (1 - shrinePlateauBlend * 0.72);
 
+  const northBankEase = smoothstep01((rho - 1.06) / 0.62);
   const rawHeight =
-    shrineRise +
-    leftWoodlandRise * pathClearance +
-    rightMidRidge +
-    rightBankRise +
+    0.085 +
+    shrineRise * northBankEase +
+    (leftWoodlandRise * pathClearance +
+      rightMidRidge * northBankEase +
+      rightBankRise +
+      fgLeftMound * pathClearance +
+      fgRightMound) *
+      (0.28 + 0.72 * shoreCollarEase) +
     sakuraRootMound +
     mapleRootMound +
-    farBackdropRise * (1 - shrinePlateauBlend * 0.35) +
-    fgLeftMound * pathClearance +
-    fgRightMound +
+    farBackdropRise * (1 - shrinePlateauBlend * 0.3) +
+    woodlandHills +
     backLeftMound +
     microUndulation;
 
-  // Blend smoothly to flat terrace level directly under the shrine pad and Tsukubai shelf
-  const shrinePadHeight = 0.94;
-  const tsukubaiPadHeight = 0.32;
+  // Blend smoothly onto leveled shrine apron and low right-bank Tsukubai garden terrace
+  const shrinePadHeight = 0.88;
+  const tsukubaiPadHeight = 0.15;
   let blended =
-    rawHeight * (1 - shrinePlateauBlend * 0.8) + shrinePadHeight * (shrinePlateauBlend * 0.8);
+    rawHeight * (1 - shrinePlateauBlend * 0.84) + shrinePadHeight * (shrinePlateauBlend * 0.84);
   blended =
-    blended * (1 - tsukubaiPlateauBlend * 0.8) + tsukubaiPadHeight * (tsukubaiPlateauBlend * 0.8);
+    blended * (1 - tsukubaiPlateauBlend * 0.82) + tsukubaiPadHeight * (tsukubaiPlateauBlend * 0.82);
 
-  const rimHeight = -0.02;
-  const landHeight = Math.max(0.095, blended);
-  return rimHeight * (1 - bankBlend) + landHeight * bankBlend;
+  // Subtle shoulder lift around rho in [0.99..1.06] so waterline at y=0 seats right at rho ≈ 1.00
+  const shoreLipLift = smoothstep01((rho - 0.97) / 0.16) * 0.032;
+  const landHeight = Math.max(0.065, blended);
+  return bedY * (1 - bankBlend) + landHeight * bankBlend + shoreLipLift * (1 - bankBlend);
 }
 
 export type TerrainBiome = 'shore' | 'moss' | 'forest' | 'path' | 'planted';
@@ -8932,10 +9456,13 @@ export class PondClock {
     <file path="src/app/(mizunowa)/mizunowa/pond/placement.ts">
 <![CDATA[export type FootprintKind =
   | 'rock'
+  | 'submergedRock'
   | 'cobble'
   | 'tree'
   | 'waterFeature'
   | 'shrine'
+  | 'lantern'
+  | 'shrub'
   | 'stepStone'
   | 'stream'
   | 'pebbleBeach'
@@ -9214,20 +9741,26 @@ export function computeCollisionFreeStreamTrajectory(
   const dirZ = forwardDz / forwardLen;
 
   const relevantObstacles = obstacles.filter((obs) => {
-    if (obs.kind !== 'rock' && obs.kind !== 'cobble' && obs.kind !== 'waterFeature') {
+    if (
+      obs.kind !== 'rock' &&
+      obs.kind !== 'submergedRock' &&
+      obs.kind !== 'cobble' &&
+      obs.kind !== 'waterFeature'
+    ) {
       return false;
     }
     const along = (obs.x - source.x) * dirX + (obs.z - source.z) * dirZ;
-    // Ignore features behind or directly supporting the pot's rear collar
-    return along > 0.24;
+    // Ignore features behind or directly supporting the pot's rear hearth
+    return along > 0.26;
   });
 
-  // Ensure landing sits cleanly in open water clear of submerged/shore rocks
+  // Ensure landing sits cleanly in open water well clear of shoreline rocks and submerged pond stones
   const landing: Point3D = { ...target };
   const landingBlocked = (lx: number, lz: number) => {
-    if (!isInsideWaterFn({ x: lx, z: lz }, 0.22)) return true;
+    if (!isInsideWaterFn({ x: lx, z: lz }, 0.28)) return true;
     for (const obs of relevantObstacles) {
-      if (pointInRotatedEllipse(lx, lz, obs, streamRadius + 0.16)) {
+      const clearance = obs.kind === 'submergedRock' ? streamRadius + 0.24 : streamRadius + 0.18;
+      if (pointInRotatedEllipse(lx, lz, obs, clearance)) {
         return true;
       }
     }
@@ -9283,20 +9816,21 @@ export function computeCollisionFreeStreamTrajectory(
       sampledPoints.push(pt);
 
       // Skip source lip exit and final water entry immersion window
-      if (t >= 0.1 && t <= 0.94) {
+      if (t >= 0.08 && t <= 0.94) {
         const groundY = terrainHeightFn(pt.x, pt.z);
         const terrainGap = pt.y - streamRadius - groundY;
         minTerrainClearance = Math.min(minTerrainClearance, terrainGap);
-        if (terrainGap < 0.045) {
+        if (terrainGap < 0.05) {
           clearedAll = false;
         }
 
         for (const obs of relevantObstacles) {
-          if (pointInRotatedEllipse(pt.x, pt.z, obs, streamRadius + 0.04)) {
-            const obsTop = obs.topY ?? groundY + 0.18;
+          const lateralMargin = obs.kind === 'submergedRock' ? streamRadius + 0.12 : streamRadius + 0.05;
+          if (pointInRotatedEllipse(pt.x, pt.z, obs, lateralMargin)) {
+            const obsTop = obs.topY ?? (obs.kind === 'submergedRock' ? -0.05 : groundY + 0.18);
             const obsGap = pt.y - streamRadius - obsTop;
             minObstacleClearance = Math.min(minObstacleClearance, obsGap);
-            if (obsGap < 0.035) {
+            if (obsGap < 0.045) {
               clearedAll = false;
             }
           }
@@ -10915,9 +11449,9 @@ function buildLitterGravelMaps(
       heights[y * size + x] = h;
 
       // Compacted warm Kyoto Shirakawa decomposed granite gravel & fallen dry litter tones
-      let r = 104 + (bed - 0.5) * 28 + (grit - 0.5) * 34 + chip * 32;
-      let g = 97 + (bed - 0.5) * 25 + (grit - 0.5) * 30 + chip * 28;
-      let b = 81 + (bed - 0.5) * 22 + (grit - 0.5) * 26 + chip * 22;
+      const r = 104 + (bed - 0.5) * 28 + (grit - 0.5) * 34 + chip * 32;
+      const g = 97 + (bed - 0.5) * 25 + (grit - 0.5) * 30 + chip * 28;
+      const b = 81 + (bed - 0.5) * 22 + (grit - 0.5) * 26 + chip * 22;
 
       const idx = (y * size + x) * 4;
       img.data[idx] = Math.max(0, Math.min(255, Math.round(r)));
@@ -11185,41 +11719,47 @@ function buildBroadLeafTexture(size: number): THREE.CanvasTexture {
     return (seed - 1) / 2147483646;
   };
 
-  ctx.strokeStyle = 'rgba(66, 54, 40, 0.78)';
-  ctx.lineWidth = Math.max(1.5, size * 0.015);
+  // Forked slender twigs so spray feels botanically anchored
+  ctx.strokeStyle = 'rgba(72, 56, 40, 0.78)';
+  ctx.lineWidth = Math.max(1.5, size * 0.014);
   ctx.beginPath();
   ctx.moveTo(size * 0.5, size * 0.94);
-  ctx.quadraticCurveTo(size * 0.46, size * 0.52, size * 0.52, size * 0.18);
+  ctx.quadraticCurveTo(size * 0.46, size * 0.54, size * 0.52, size * 0.18);
+  ctx.moveTo(size * 0.48, size * 0.62);
+  ctx.quadraticCurveTo(size * 0.3, size * 0.48, size * 0.22, size * 0.34);
+  ctx.moveTo(size * 0.5, size * 0.54);
+  ctx.quadraticCurveTo(size * 0.7, size * 0.42, size * 0.8, size * 0.28);
   ctx.stroke();
 
-  for (let i = 0; i < 20; i++) {
+  // Soft curved palmate Japanese maple leaf clusters instead of rigid polygon stars
+  for (let i = 0; i < 24; i++) {
     const angle = rand() * Math.PI * 2;
-    const dist = (0.05 + Math.pow(rand(), 0.75) * 0.31) * size;
+    const dist = (0.04 + Math.pow(rand(), 0.72) * 0.32) * size;
     const cx = size * 0.5 + Math.cos(angle) * dist;
-    const cy = size * 0.48 + Math.sin(angle) * dist * 0.86;
-    const r = (0.078 + rand() * 0.062) * size;
+    const cy = size * 0.47 + Math.sin(angle) * dist * 0.84;
+    const r = (0.068 + rand() * 0.056) * size;
     const warmTip = rand();
 
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(rand() * Math.PI * 2);
     const fillHex =
-      warmTip > 0.72 ? '#B88450' : warmTip > 0.38 ? '#7CA14F' : '#5B7C3B';
+      warmTip > 0.78 ? '#B27A48' : warmTip > 0.4 ? '#6F9346' : '#4E7034';
     ctx.fillStyle = fillHex;
-    ctx.beginPath();
-    for (let l = 0; l < 5; l++) {
-      const la = (l / 5) * Math.PI * 2 - Math.PI / 2;
-      const tipX = Math.cos(la) * r;
-      const tipY = Math.sin(la) * r;
-      const midA = la + Math.PI / 5;
-      const valleyX = Math.cos(midA) * r * 0.36;
-      const valleyY = Math.sin(midA) * r * 0.36;
-      if (l === 0) ctx.moveTo(tipX, tipY);
-      else ctx.lineTo(tipX, tipY);
-      ctx.lineTo(valleyX, valleyY);
+    const lobes = 5;
+    for (let l = 0; l < lobes; l++) {
+      const la = (l / lobes - 0.5) * 1.9 - Math.PI * 0.5;
+      const lobeLen = r * (0.72 + (l === 2 ? 0.34 : (l === 1 || l === 3) ? 0.18 : 0));
+      const lobeWid = lobeLen * 0.28;
+      ctx.save();
+      ctx.rotate(la + Math.PI * 0.5);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(-lobeWid, -lobeLen * 0.48, 0, -lobeLen);
+      ctx.quadraticCurveTo(lobeWid, -lobeLen * 0.48, 0, 0);
+      ctx.fill();
+      ctx.restore();
     }
-    ctx.closePath();
-    ctx.fill();
     ctx.restore();
   }
 
@@ -11338,16 +11878,22 @@ function buildClayMaps(
     const v = y / size;
     for (let x = 0; x < size; x++) {
       const u = x / size;
-      const wheel = Math.sin(v * Math.PI * 28) * 0.5 + 0.5;
+      // Subtle irregular wheel-throwing ribbing + mineral stoneware iron flecks + natural ash shoulder glaze
+      const wheelWave = Math.sin(v * Math.PI * 16 + Math.sin(u * Math.PI * 4) * 0.45) * 0.5 + 0.5;
       const speckle = periodicFbm(u, v, 14, 3, 2503);
-      const glazeFlow = Math.max(0, 1 - v * 1.45);
-      const h = wheel * 0.25 + speckle * 0.45;
+      const ironFleck = periodicFbm(u, v, 32, 2, 7109);
+      const darkFleck = ironFleck > 0.74 ? (ironFleck - 0.74) * 3.4 : 0;
+      const shoulderAsh = Math.max(0, 1 - v * 1.65) * 0.65;
+      const h = wheelWave * 0.08 + speckle * 0.48 - darkFleck * 0.14;
       heights[y * size + x] = h;
 
-      // Warm glazed Kyoto Shigaraki stoneware terracotta
-      const baseR = 138 + (speckle - 0.5) * 44 + wheel * 12 - glazeFlow * 26;
-      const baseG = 112 + (speckle - 0.5) * 36 + wheel * 10 - glazeFlow * 18;
-      const baseB = 86 + (speckle - 0.5) * 28 + wheel * 8 - glazeFlow * 14;
+      // Earthy Kyoto Shigaraki stoneware clay fading softly into moss-grey wood-ash glaze near rim
+      const clayR = 132 + (speckle - 0.5) * 36 + wheelWave * 4 - darkFleck * 46;
+      const clayG = 104 + (speckle - 0.5) * 30 + wheelWave * 3 - darkFleck * 38;
+      const clayB = 78 + (speckle - 0.5) * 24 + wheelWave * 2 - darkFleck * 28;
+      const baseR = clayR * (1 - shoulderAsh * 0.32) + 86 * shoulderAsh * 0.32;
+      const baseG = clayG * (1 - shoulderAsh * 0.25) + 94 * shoulderAsh * 0.25;
+      const baseB = clayB * (1 - shoulderAsh * 0.2) + 74 * shoulderAsh * 0.2;
 
       const idx = (y * size + x) * 4;
       img.data[idx] = Math.max(0, Math.min(255, Math.round(baseR)));
@@ -11509,6 +12055,7 @@ import {
   createSubmergedStoneMaterial,
   createWaterSurfaceMaterial,
 } from './materials';
+import type { ExclusionFootprint } from './placement';
 import type { PondQuality, PondTextureSuite } from './textures';
 
 interface RippleSlot {
@@ -11521,6 +12068,72 @@ interface RippleSlot {
   mesh: THREE.Mesh;
   material: THREE.MeshBasicNodeMaterial;
   opacityUniform: FloatUniform;
+}
+
+export interface SubmergedStoneSpec {
+  x: number;
+  z: number;
+  sx: number;
+  sy: number;
+  sz: number;
+  seed: number;
+  rot: number;
+}
+
+/**
+ * Single source of truth for submerged river stones inside the pond basin.
+ * Positioned strictly clear of the right-bank waterfall landing channel around (2.24, 0.46)
+ * and seated deep enough that stone crowns remain submerged beneath y = 0.
+ */
+export const SUBMERGED_STONE_SPECS: readonly SubmergedStoneSpec[] = [
+  { x: -1.42, z: 1.05, sx: 0.42, sy: 0.2, sz: 0.36, seed: 1.4, rot: 0.4 },
+  { x: 1.32, z: -0.88, sx: 0.38, sy: 0.19, sz: 0.32, seed: 2.8, rot: 1.7 },
+  { x: 0.46, z: 1.92, sx: 0.35, sy: 0.17, sz: 0.29, seed: 4.1, rot: 2.3 },
+  { x: -1.18, z: -1.42, sx: 0.36, sy: 0.18, sz: 0.3, seed: 5.5, rot: 0.9 },
+  { x: 1.42, z: 1.18, sx: 0.36, sy: 0.18, sz: 0.29, seed: 6.7, rot: 2.9 },
+  { x: -0.28, z: -2.42, sx: 0.32, sy: 0.17, sz: 0.28, seed: 8.2, rot: 1.1 },
+  // Shallow submerged river stones pulled inward into deep basin zones so none breach water surface
+  { x: -1.68, z: 1.72, sx: 0.4, sy: 0.15, sz: 0.34, seed: 9.4, rot: 0.3 },
+  { x: -1.52, z: 2.38, sx: 0.36, sy: 0.14, sz: 0.3, seed: 10.7, rot: 2.1 },
+  { x: -1.72, z: 0.14, sx: 0.38, sy: 0.15, sz: 0.32, seed: 11.9, rot: 1.5 },
+  { x: 1.88, z: -0.34, sx: 0.3, sy: 0.14, sz: 0.26, seed: 13.1, rot: 2.6 },
+  { x: 1.84, z: 1.44, sx: 0.28, sy: 0.14, sz: 0.24, seed: 16.2, rot: 0.9 },
+  { x: 0.78, z: -2.62, sx: 0.3, sy: 0.14, sz: 0.25, seed: 14.3, rot: 0.7 },
+  { x: -0.78, z: 2.58, sx: 0.32, sy: 0.14, sz: 0.26, seed: 15.6, rot: 1.9 },
+];
+
+export function computeSubmergedStonePlacement(spec: SubmergedStoneSpec): {
+  centerY: number;
+  topY: number;
+  baseY: number;
+} {
+  const baseBedY = pondBedElevation(spec.x, spec.z);
+  const maxCrownOffset = spec.sy * 0.76;
+  const maxAllowedCenterY = -0.065 - maxCrownOffset;
+  const centerY = Math.min(baseBedY + spec.sy * 0.2, maxAllowedCenterY);
+  return {
+    centerY,
+    topY: centerY + maxCrownOffset,
+    baseY: centerY - spec.sy * 0.6,
+  };
+}
+
+export function getSubmergedStoneFootprints(): ExclusionFootprint[] {
+  return SUBMERGED_STONE_SPECS.map((spec, idx) => {
+    const { topY, baseY } = computeSubmergedStonePlacement(spec);
+    return {
+      id: `submerged-stone-${idx}`,
+      kind: 'submergedRock',
+      x: spec.x,
+      z: spec.z,
+      rx: spec.sx * 1.32,
+      rz: spec.sz * 1.32,
+      yaw: spec.rot,
+      margin: 0.06,
+      baseY,
+      topY,
+    };
+  });
 }
 
 export const SUBMERGED_OBSTACLES: readonly SubmergedObstacle[] = [
@@ -11689,38 +12302,13 @@ export function createPondWaterRig(
   const subStoneMat = createSubmergedStoneMaterial(textures, elapsedUniform);
   disposables.push(subStoneMat);
 
-  const subStoneSpecs: Array<{
-    x: number;
-    z: number;
-    sx: number;
-    sy: number;
-    sz: number;
-    seed: number;
-    rot: number;
-  }> = [
-    { x: -1.42, z: 1.05, sx: 0.42, sy: 0.22, sz: 0.36, seed: 1.4, rot: 0.4 },
-    { x: 1.32, z: -0.88, sx: 0.38, sy: 0.2, sz: 0.32, seed: 2.8, rot: 1.7 },
-    { x: 0.46, z: 1.92, sx: 0.35, sy: 0.18, sz: 0.29, seed: 4.1, rot: 2.3 },
-    { x: -1.18, z: -1.42, sx: 0.36, sy: 0.19, sz: 0.3, seed: 5.5, rot: 0.9 },
-    { x: 1.48, z: 1.15, sx: 0.38, sy: 0.2, sz: 0.3, seed: 6.7, rot: 2.9 },
-    { x: -0.28, z: -2.42, sx: 0.32, sy: 0.18, sz: 0.28, seed: 8.2, rot: 1.1 },
-    // Shallow left-edge submerged stepping ledges bridging bank boulders into clear turquoise water
-    { x: -1.96, z: 1.88, sx: 0.44, sy: 0.17, sz: 0.36, seed: 9.4, rot: 0.3 },
-    { x: -1.78, z: 2.65, sx: 0.38, sy: 0.15, sz: 0.32, seed: 10.7, rot: 2.1 },
-    { x: -1.92, z: 0.12, sx: 0.4, sy: 0.18, sz: 0.34, seed: 11.9, rot: 1.5 },
-    { x: 2.38, z: 0.48, sx: 0.32, sy: 0.16, sz: 0.28, seed: 13.1, rot: 2.6 },
-    { x: 2.12, z: 0.92, sx: 0.28, sy: 0.14, sz: 0.24, seed: 16.2, rot: 0.9 },
-    { x: 0.88, z: -2.85, sx: 0.3, sy: 0.15, sz: 0.26, seed: 14.3, rot: 0.7 },
-    { x: -0.85, z: 2.85, sx: 0.32, sy: 0.15, sz: 0.26, seed: 15.6, rot: 1.9 },
-  ];
-
-  subStoneSpecs.forEach((spec) => {
+  SUBMERGED_STONE_SPECS.forEach((spec) => {
     const geo = sculptBoulderGeometry(1, 2, spec.seed);
     const mesh = new THREE.Mesh(geo, subStoneMat);
-    const baseBedY = pondBedElevation(spec.x, spec.z);
-    mesh.position.set(spec.x, baseBedY + spec.sy * 0.35, spec.z);
+    const { centerY } = computeSubmergedStonePlacement(spec);
+    mesh.position.set(spec.x, centerY, spec.z);
     mesh.scale.set(spec.sx, spec.sy, spec.sz);
-    mesh.rotation.set(0.05, spec.rot, -0.04);
+    mesh.rotation.set(0.04, spec.rot, -0.03);
     mesh.receiveShadow = true;
     mesh.castShadow = true;
     group.add(mesh);

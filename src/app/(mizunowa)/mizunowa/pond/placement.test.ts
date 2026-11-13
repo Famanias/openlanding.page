@@ -13,6 +13,7 @@ import {
   sampleTerrain,
   terrainElevation,
 } from './model';
+import { getSubmergedStoneFootprints } from './water';
 
 test('pointInRotatedEllipse accurately tests rotated ellipses with clearance', () => {
   const fp: ExclusionFootprint = {
@@ -145,4 +146,70 @@ test('computeCollisionFreeStreamTrajectory clears terrain and bank boulders and 
   assert.equal(traj.clearedAll, true, `Expected unobstructed stream clearance, got terrainGap=${traj.minTerrainClearance}, obsGap=${traj.minObstacleClearance}`);
   assert.ok(traj.minTerrainClearance >= 0.045);
   assert.equal(isInsideNaturalPond({ x: traj.landing.x, z: traj.landing.z }, 0.22), true);
+});
+
+test('submerged pond stones remain strictly beneath water surface and clear of waterfall landing impact', () => {
+  const submerged = getSubmergedStoneFootprints();
+  assert.ok(submerged.length >= 10);
+
+  for (const stone of submerged) {
+    assert.ok(
+      (stone.topY ?? 0) <= -0.055,
+      `Submerged stone ${stone.id} topY=${stone.topY} breaks/grazes water surface`,
+    );
+    assert.equal(
+      pointInRotatedEllipse(WATERFALL_IMPACT_POINT.x, WATERFALL_IMPACT_POINT.z, stone, 0.22),
+      false,
+      `Submerged stone ${stone.id} lies inside waterfall landing basin`,
+    );
+  }
+
+  // Passing all submerged stones plus a hypothetical blocking stone forces collision avoidance to steer clear
+  const sourceHeight = terrainElevation(WATERFALL_SOURCE_POINT.x, WATERFALL_SOURCE_POINT.z);
+  const blocker: ExclusionFootprint = {
+    id: 'hypothetical-sub-blocker',
+    kind: 'submergedRock',
+    x: WATERFALL_IMPACT_POINT.x,
+    z: WATERFALL_IMPACT_POINT.z,
+    rx: 0.28,
+    rz: 0.28,
+    topY: -0.06,
+  };
+  const diverted = computeCollisionFreeStreamTrajectory({
+    source: { x: WATERFALL_SOURCE_POINT.x - 0.3, y: sourceHeight + 0.38, z: WATERFALL_SOURCE_POINT.z },
+    target: { x: WATERFALL_IMPACT_POINT.x, y: 0.004, z: WATERFALL_IMPACT_POINT.z },
+    obstacles: [...submerged, blocker],
+    terrainHeightFn: terrainElevation,
+    isInsideWaterFn: isInsideNaturalPond,
+  });
+
+  assert.equal(pointInRotatedEllipse(diverted.landing.x, diverted.landing.z, blocker, 0.18), false);
+  assert.equal(isInsideNaturalPond({ x: diverted.landing.x, z: diverted.landing.z }, 0.28), true);
+});
+
+test('PlacementRegistry enforces lantern and shrub exclusions alongside rocks and trees', () => {
+  const registry = new PlacementRegistry(1.25);
+  registry.register({ id: 'lantern-1', kind: 'lantern', x: -0.82, z: -4.28, rx: 0.38, rz: 0.38, margin: 0.14 });
+  registry.register({ id: 'shrub-1', kind: 'shrub', x: 2.65, z: -5.05, rx: 0.32, rz: 0.32, margin: 0.08 });
+
+  assert.equal(
+    registry.isVegetationValid({
+      x: -0.9,
+      z: -4.22,
+      clearance: 0.12,
+      shoreDistance: 0.9,
+      slope: 0.08,
+    }),
+    false,
+  );
+  assert.equal(
+    registry.isVegetationValid({
+      x: 2.7,
+      z: -5.02,
+      clearance: 0.12,
+      shoreDistance: 1.8,
+      slope: 0.1,
+    }),
+    false,
+  );
 });

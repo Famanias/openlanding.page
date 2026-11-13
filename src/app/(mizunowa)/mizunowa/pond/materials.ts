@@ -27,7 +27,6 @@ import {
   uv,
   vec2,
   vec3,
-  vec4,
   vertexColor,
   viewportSharedTexture,
 } from 'three/tsl';
@@ -106,14 +105,14 @@ export function createSubmergedStoneMaterial(
 ): THREE.MeshStandardNodeMaterial {
   const mat = new THREE.MeshStandardNodeMaterial();
   const stoneUv = uv().mul(2.2);
-  const albedo = texture(textures.stoneAlbedo, stoneUv).rgb.mul(vec3(0.54, 0.62, 0.58));
+  const albedo = texture(textures.stoneAlbedo, stoneUv).rgb.mul(vec3(0.4, 0.49, 0.45));
   const caustic = computeWaterCaustics(positionWorld.xz, elapsedUniform);
   const upFacing = smoothstep(0.15, 0.75, normalWorld.y);
 
-  mat.colorNode = albedo.add(vec3(0.92, 0.88, 0.74).mul(caustic.mul(upFacing).mul(0.38)));
+  mat.colorNode = albedo.add(vec3(0.88, 0.85, 0.72).mul(caustic.mul(upFacing).mul(0.24)));
   mat.normalMap = textures.stoneNormal;
   mat.normalScale = new THREE.Vector2(0.9, 0.9);
-  mat.roughnessNode = float(0.58);
+  mat.roughnessNode = float(0.62);
   mat.metalnessNode = float(0.03);
   return mat;
 }
@@ -182,10 +181,10 @@ export function createGroundTerraceMaterial(
 
   // 1. Rich damp garden loam & dark mineral slope earth (calibrated for linear-space ACES rendering)
   const soilMix = mix(mix(soilMacro, soilMicro, 0.55), soilFine, 0.32);
-  const baseSoil = mix(soilMix, stoneGrit, 0.16).mul(vec3(0.96, 0.85, 0.68));
-  const slopeMask = smoothstep(0.92, 0.72, normalWorld.y);
+  const baseSoil = mix(soilMix, stoneGrit, 0.18).mul(vec3(0.78, 0.69, 0.54));
+  const slopeMask = smoothstep(0.92, 0.7, normalWorld.y);
 
-  // 2. Multi-scale velvety moss carpets (rich emerald-olive depth with warm moss shoulders)
+  // 2. Multi-scale velvety moss carpets (deep Kyoto cedar-moss emerald with warm sunlit variations)
   const mossNoiseA = sin(positionWorld.x.mul(1.12).add(0.45)).mul(
     cos(positionWorld.z.mul(0.92).sub(0.35)),
   );
@@ -196,52 +195,52 @@ export function createGroundTerraceMaterial(
     0.0,
     1.0,
   );
-  const heightMossBias = smoothstep(0.04, 0.28, positionWorld.y);
+  const heightMossBias = smoothstep(0.03, 0.24, positionWorld.y);
   const mossWeight = clamp(
     organicMossMask
-      .mul(mix(0.42, 0.96, heightMossBias))
-      .mul(float(1.0).sub(pathWeight.mul(0.9)))
-      .mul(float(1.0).sub(slopeMask.mul(0.42)))
-      .mul(float(1.0).sub(forestWeight.mul(0.38))),
-    0.1,
-    0.92,
+      .mul(mix(0.38, 0.94, heightMossBias))
+      .mul(float(1.0).sub(pathWeight.mul(0.92)))
+      .mul(float(1.0).sub(slopeMask.mul(0.58)))
+      .mul(float(1.0).sub(forestWeight.mul(0.45))),
+    0.08,
+    0.9,
   );
 
-  const layeredMoss = mix(mossMacro, mossMed, 0.64).mul(vec3(0.76, 0.96, 0.48));
+  const layeredMoss = mix(mossMacro, mossMed, 0.64).mul(vec3(0.58, 0.78, 0.38));
   const soilAndMoss = mix(baseSoil, layeredMoss, mossWeight);
 
-  // 3. Woodland / bamboo forest floor (deep mossy humus, fallen leaves, rich shaded loam)
+  // 3. Woodland / bamboo forest floor (deep shaded humus, fallen bamboo leaves, damp earth)
   const forestFloor = mix(
-    soilAndMoss.mul(vec3(0.64, 0.74, 0.52)),
-    litterTex.mul(vec3(0.68, 0.64, 0.46)),
-    0.42,
+    soilAndMoss.mul(vec3(0.52, 0.6, 0.42)),
+    litterTex.mul(vec3(0.58, 0.54, 0.38)),
+    0.54,
   );
-  const withForest = mix(soilAndMoss, forestFloor, forestWeight.mul(0.72));
+  const withForest = mix(soilAndMoss, forestFloor, forestWeight.mul(0.78));
 
-  // 4. Compacted dark soil & weathered granite grit along winding shrine approach path
+  // 4. Compacted warm sand-earth & weathered granite grit along winding shrine approach path
   const pathBed = mix(
-    litterTex.mul(vec3(0.92, 0.86, 0.72)),
-    stoneGrit.mul(vec3(0.84, 0.82, 0.74)),
-    0.42,
+    litterTex.mul(vec3(0.84, 0.78, 0.65)),
+    stoneGrit.mul(vec3(0.78, 0.76, 0.68)),
+    0.46,
   );
-  const withPath = mix(withForest, pathBed, pathWeight.mul(0.82));
+  const withPath = mix(withForest, pathBed, pathWeight.mul(0.84));
 
-  // 5. Damp dark pond shoreline collar (organic edge moisture broken up by noise)
+  // 5. Damp dark pond shoreline collar (organic edge moisture & wet earth)
   const shoreNoise = sin(positionWorld.x.mul(2.9).add(positionWorld.z.mul(2.5)))
     .mul(0.5)
     .add(0.5);
   const wetShore = float(1.0).sub(smoothstep(-0.04, 0.14, positionWorld.y));
   const wetness = clamp(
-    max(wetShore.mul(0.78), rimWeight.mul(mix(0.42, 0.82, shoreNoise))),
+    max(wetShore.mul(0.82), rimWeight.mul(mix(0.45, 0.86, shoreNoise))),
     0.0,
     1.0,
   );
   const wetMineral = mix(
-    stoneGrit.mul(vec3(0.36, 0.4, 0.36)),
-    withPath.mul(vec3(0.42, 0.46, 0.38)),
-    0.45,
+    stoneGrit.mul(vec3(0.32, 0.36, 0.32)),
+    withPath.mul(vec3(0.36, 0.39, 0.31)),
+    0.42,
   );
-  const dampGround = mix(withPath, wetMineral, wetness.mul(0.82));
+  const dampGround = mix(withPath, wetMineral, wetness.mul(0.85));
 
   // 6. Physically restrained morning sun warmth + quiet dark left woodland beneath typography
   const dappleA = sin(positionWorld.x.mul(0.82).add(positionWorld.z.mul(0.44)).add(0.5));
@@ -277,25 +276,32 @@ export function createTrickleStreamMaterial(
 ): THREE.MeshPhysicalNodeMaterial {
   const mat = new THREE.MeshPhysicalNodeMaterial();
   const uvCoord = uv();
-  // Flow runs along U (spout/lip -> basin/pond)
-  const flowUvA = vec2(uvCoord.x.mul(1.8).sub(elapsedUniform.mul(2.1)), uvCoord.y.mul(2.4));
-  const flowUvB = vec2(uvCoord.x.mul(3.1).sub(elapsedUniform.mul(3.2)), uvCoord.y.mul(1.5).add(0.35));
+  // Seamless periodic flow along U (spout/lip -> basin/pond) accelerating toward plunge
+  const uSpeed = uvCoord.x.mul(1.85).sub(elapsedUniform.mul(2.55));
+  const vWrap = sin(uvCoord.y.mul(Math.PI * 2)).mul(0.25);
+  const flowUvA = vec2(uSpeed, vWrap.add(0.5));
+  const flowUvB = vec2(uvCoord.x.mul(3.4).sub(elapsedUniform.mul(3.75)), vWrap.negate().add(0.35));
 
-  const streakA = sin(flowUvA.x.mul(9.0).add(texture(textures.waterNormalA, flowUvA).r.mul(3.2)))
+  const streakA = sin(flowUvA.x.mul(10.0).add(texture(textures.waterNormalA, flowUvA).r.mul(3.0)))
     .mul(0.5)
     .add(0.5);
-  const streakB = sin(flowUvB.x.mul(14.0).add(texture(textures.waterNormalB, flowUvB).g.mul(2.6)))
+  const streakB = sin(flowUvB.x.mul(15.0).add(texture(textures.waterNormalB, flowUvB).g.mul(2.6)))
     .mul(0.5)
     .add(0.5);
 
-  const foamStreak = pow(clamp(streakA.mul(0.62).add(streakB.mul(0.48)), 0.0, 1.0), 2.4);
-  const waterTint = mix(vec3(0.36, 0.58, 0.54), vec3(0.86, 0.93, 0.9), foamStreak.mul(0.55));
+  const eyeDir = cameraPosition.sub(positionWorld).normalize();
+  const edgeFresnel = pow(float(1.0).sub(abs(dot(normalWorld, eyeDir))), 1.6);
+
+  const foamStreak = pow(clamp(streakA.mul(0.58).add(streakB.mul(0.52)), 0.0, 1.0), 2.1);
+  const splashTipFoam = smoothstep(0.75, 1.0, uvCoord.x).mul(0.28);
+  const foamMix = clamp(foamStreak.mul(0.68).add(edgeFresnel.mul(0.55)).add(splashTipFoam), 0.0, 1.0);
+  const waterTint = mix(vec3(0.48, 0.72, 0.67), vec3(0.95, 0.98, 0.96), foamMix);
 
   mat.colorNode = waterTint;
-  mat.emissiveNode = vec3(0.12, 0.19, 0.17).mul(foamStreak.mul(0.24));
-  mat.roughnessNode = float(0.06);
-  mat.metalnessNode = float(0.04);
-  mat.opacityNode = float(0.22).add(foamStreak.mul(0.44));
+  mat.emissiveNode = vec3(0.24, 0.34, 0.32).mul(foamMix.mul(0.36));
+  mat.roughnessNode = float(0.05);
+  mat.metalnessNode = float(0.02);
+  mat.opacityNode = clamp(float(0.18).add(foamStreak.mul(0.36)).add(edgeFresnel.mul(0.38)), 0.14, 0.82);
   mat.transparent = true;
   mat.depthWrite = false;
   mat.side = THREE.DoubleSide;

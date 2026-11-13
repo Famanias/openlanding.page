@@ -20,6 +20,7 @@ import {
   isInsidePond,
   maxRippleRadius,
   pondBedElevation,
+  pondBoundaryPoint,
   sampleTerrain,
   shrinePathCenterX,
   signedDistanceToPond,
@@ -177,7 +178,7 @@ test('autonomous koi steering stays submerged, bounded, smooth, and converges on
 
   let pelletEaten = false;
   let totalWakeRipples = 0;
-  let prevYaws = agents.map((a) => a.yaw);
+  const prevYaws = agents.map((a) => a.yaw);
 
   for (let step = 0; step < 900; step++) {
     const elapsed = step * (1 / 30);
@@ -282,4 +283,22 @@ test('first-visit intro choreography settles monotonically from back-elevated st
 
   const mobileEnd = introCameraState(HERO_INTRO_DURATION, 0.55);
   assert.ok(mobileEnd.lookAt.x > -0.2, 'Narrow mobile camera centers pond horizontally');
+});
+
+test('pond basin transitions continuously across shoreline boundary without vertical rim seam or cliff', () => {
+  const angles = [0, Math.PI * 0.25, Math.PI * 0.55, Math.PI, -Math.PI * 0.5];
+  for (const angle of angles) {
+    const startPt = pondBoundaryPoint(angle, 0.825);
+    let prevY = terrainElevation(startPt.x, startPt.z);
+    for (let s = 0.85; s <= 1.25; s += 0.025) {
+      const pt = pondBoundaryPoint(angle, s);
+      const y = terrainElevation(pt.x, pt.z);
+      const jump = Math.abs(y - prevY);
+      assert.ok(
+        jump < 0.065,
+        `Detected abrupt shoreline step (${jump.toFixed(4)}m) at angle=${angle.toFixed(2)} scale=${s.toFixed(3)}`,
+      );
+      prevY = y;
+    }
+  }
 });

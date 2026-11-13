@@ -1,9 +1,12 @@
 export type FootprintKind =
   | 'rock'
+  | 'submergedRock'
   | 'cobble'
   | 'tree'
   | 'waterFeature'
   | 'shrine'
+  | 'lantern'
+  | 'shrub'
   | 'stepStone'
   | 'stream'
   | 'pebbleBeach'
@@ -282,20 +285,26 @@ export function computeCollisionFreeStreamTrajectory(
   const dirZ = forwardDz / forwardLen;
 
   const relevantObstacles = obstacles.filter((obs) => {
-    if (obs.kind !== 'rock' && obs.kind !== 'cobble' && obs.kind !== 'waterFeature') {
+    if (
+      obs.kind !== 'rock' &&
+      obs.kind !== 'submergedRock' &&
+      obs.kind !== 'cobble' &&
+      obs.kind !== 'waterFeature'
+    ) {
       return false;
     }
     const along = (obs.x - source.x) * dirX + (obs.z - source.z) * dirZ;
-    // Ignore features behind or directly supporting the pot's rear collar
-    return along > 0.24;
+    // Ignore features behind or directly supporting the pot's rear hearth
+    return along > 0.26;
   });
 
-  // Ensure landing sits cleanly in open water clear of submerged/shore rocks
+  // Ensure landing sits cleanly in open water well clear of shoreline rocks and submerged pond stones
   const landing: Point3D = { ...target };
   const landingBlocked = (lx: number, lz: number) => {
-    if (!isInsideWaterFn({ x: lx, z: lz }, 0.22)) return true;
+    if (!isInsideWaterFn({ x: lx, z: lz }, 0.28)) return true;
     for (const obs of relevantObstacles) {
-      if (pointInRotatedEllipse(lx, lz, obs, streamRadius + 0.16)) {
+      const clearance = obs.kind === 'submergedRock' ? streamRadius + 0.24 : streamRadius + 0.18;
+      if (pointInRotatedEllipse(lx, lz, obs, clearance)) {
         return true;
       }
     }
@@ -351,20 +360,21 @@ export function computeCollisionFreeStreamTrajectory(
       sampledPoints.push(pt);
 
       // Skip source lip exit and final water entry immersion window
-      if (t >= 0.1 && t <= 0.94) {
+      if (t >= 0.08 && t <= 0.94) {
         const groundY = terrainHeightFn(pt.x, pt.z);
         const terrainGap = pt.y - streamRadius - groundY;
         minTerrainClearance = Math.min(minTerrainClearance, terrainGap);
-        if (terrainGap < 0.045) {
+        if (terrainGap < 0.05) {
           clearedAll = false;
         }
 
         for (const obs of relevantObstacles) {
-          if (pointInRotatedEllipse(pt.x, pt.z, obs, streamRadius + 0.04)) {
-            const obsTop = obs.topY ?? groundY + 0.18;
+          const lateralMargin = obs.kind === 'submergedRock' ? streamRadius + 0.12 : streamRadius + 0.05;
+          if (pointInRotatedEllipse(pt.x, pt.z, obs, lateralMargin)) {
+            const obsTop = obs.topY ?? (obs.kind === 'submergedRock' ? -0.05 : groundY + 0.18);
             const obsGap = pt.y - streamRadius - obsTop;
             minObstacleClearance = Math.min(minObstacleClearance, obsGap);
-            if (obsGap < 0.035) {
+            if (obsGap < 0.045) {
               clearedAll = false;
             }
           }

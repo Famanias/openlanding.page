@@ -135,21 +135,35 @@ export function isInsideNaturalPond(point: PointXZ, margin = 0): boolean {
   return rho <= maxRho;
 }
 
-export function pondBedElevation(x: number, z: number): number {
-  if (!Number.isFinite(x) || !Number.isFinite(z)) return -0.3;
-  const rho = naturalPondNormalizedRadius({ x, z });
-  if (rho >= 1.05) return 0.02;
+function smoothstep01(t: number): number {
+  const c = Math.max(0, Math.min(1, t));
+  return c * c * (3 - 2 * c);
+}
+
+function continuousBasinDepth(x: number, z: number, rho: number): number {
   const clamped = Math.max(0, Math.min(1, rho));
   const shelf = 1 - clamped * clamped;
   // Clear shallow shelf near banks transitioning to a rich jade depth center
-  const basinDepth = -0.09 - 0.58 * Math.pow(shelf, 1.32);
-  const microContour = 0.024 * Math.sin(x * 1.2 + 0.5) * Math.cos(z * 1.15 - 0.4);
-  return Math.min(-0.04, basinDepth + microContour);
+  const basinDepth = -0.068 - 0.6 * Math.pow(shelf, 1.35);
+  const microContour = 0.022 * Math.sin(x * 1.2 + 0.5) * Math.cos(z * 1.15 - 0.4);
+  return basinDepth + microContour;
+}
+
+export function pondBedElevation(x: number, z: number): number {
+  if (!Number.isFinite(x) || !Number.isFinite(z)) return -0.3;
+  const rho = naturalPondNormalizedRadius({ x, z });
+  const base = continuousBasinDepth(x, z, rho);
+  if (rho <= 0.92) {
+    return Math.min(-0.04, base);
+  }
+  // Smoothly shoal up to water surface near rho = 1.02 for a seam-free basin bowl
+  const rimT = smoothstep01((rho - 0.92) / 0.14);
+  return base * (1 - rimT) + 0.025 * rimT;
 }
 
 // Right-shoreline ceramic tsukubai vessel on leveled bank terrace pouring westward into open pond water
-export const WATERFALL_SOURCE_POINT: PointXZ = { x: 3.46, z: 0.54 };
-export const WATERFALL_IMPACT_POINT: PointXZ = { x: 2.34, z: 0.48 };
+export const WATERFALL_SOURCE_POINT: PointXZ = { x: 3.38, z: 0.52 };
+export const WATERFALL_IMPACT_POINT: PointXZ = { x: 2.24, z: 0.46 };
 
 export const SHRINE_CENTER: PointXZ = { x: -2.15, z: -7.15 };
 export const SAKURA_CENTER: PointXZ = { x: 3.74, z: -1.16 };
@@ -162,7 +176,8 @@ export function shrinePathCenterX(z: number): number {
   if (z >= -2.5) return -3.12 - 0.36 * ((z + 2.5) / 3.7);
   const u = Math.max(0, Math.min(1, (-2.5 - z) / 3.45));
   const s = u * u * (3 - 2 * u);
-  return -3.12 + 0.97 * s;
+  // Aligns cleanly with the rotated shrine front stairs (~x = -1.92 at z = -5.85)
+  return -3.12 + 1.2 * s;
 }
 
 /**
@@ -190,91 +205,105 @@ export function signedDistanceToPond(point: PointXZ): number {
 export function terrainElevation(x: number, z: number): number {
   if (!Number.isFinite(x) || !Number.isFinite(z)) return 0;
   const rho = naturalPondNormalizedRadius({ x, z });
-  if (rho < 0.985) {
-    return pondBedElevation(x, z);
+  const bedY = pondBedElevation(x, z);
+  if (rho <= 0.92) {
+    return bedY;
   }
 
-  // Gentle organic shoreline transition across rho in [0.985 .. 1.245] (~0.78m natural slope)
-  const shoreT = Math.max(0, Math.min(1, (rho - 0.985) / 0.26));
-  const bankBlend = shoreT * shoreT * (3 - 2 * shoreT);
+  // Broad, C1-continuous bank collar (rho 0.94..1.48) preventing sudden rim cliffs
+  const bankBlend = smoothstep01((rho - 0.94) / 0.54);
+  // Attenuates steep mounds close to the waterline so shoreline stones seat on gentle banks
+  const shoreCollarEase = smoothstep01((rho - 1.02) / 0.48);
 
   // Level corridor along the curving stepping-stone path from foreground up to shrine steps
   const pathX = shrinePathCenterX(z);
   const distToPath = Math.abs(x - pathX);
   const onPathZ = z <= 5.8 && z >= -7.4;
-  const pathClearance = onPathZ ? Math.max(0, Math.min(1, (distToPath - 0.52) / 1.05)) : 1;
+  const pathClearance = onPathZ ? Math.max(0, Math.min(1, (distToPath - 0.56) / 1.15)) : 1;
 
-  // Raised level shrine terrace in upper-mid-left background
+  // Raised level shrine terrace in upper-mid-left background with smooth broad apron
   const shrineDist = Math.hypot(x - SHRINE_CENTER.x, z - SHRINE_CENTER.z);
-  const shrinePlateauBlend = Math.max(0, 1 - Math.max(0, (shrineDist - 1.65) / 2.9));
-  const shrineRise = Math.max(0, Math.min(1, (-z - 2.3) / 4.3)) * 0.92;
+  const shrineRaw = 1 - Math.max(0, (shrineDist - 1.95) / 3.45);
+  const shrinePlateauBlend = smoothstep01(shrineRaw);
+  const shrineRise = smoothstep01((-z - 3.1) / 5.2) * 0.9;
 
-  // Leveled right-bank shelf under the Tsukubai ceramic water pot blending softly toward sakura shoulder
+  // Gentle low right-bank shelf under the Tsukubai hearth stone, keeping water pour at natural low relief
   const tsukubaiDist = Math.hypot(x - WATERFALL_SOURCE_POINT.x, z - WATERFALL_SOURCE_POINT.z);
-  const tsukubaiRaw = Math.max(0, 1 - Math.max(0, (tsukubaiDist - 0.65) / 1.45));
-  const tsukubaiPlateauBlend = tsukubaiRaw * tsukubaiRaw * (3 - 2 * tsukubaiRaw);
+  const tsukubaiPlateauBlend = smoothstep01(1 - Math.max(0, (tsukubaiDist - 0.72) / 1.75));
 
   // Left woodland mossy rise (natural dark backdrop behind left editorial typography)
   const leftWoodlandRise =
-    Math.exp(-((x + 5.7) * (x + 5.7) * 0.042 + (z + 0.4) * (z + 0.4) * 0.032)) * 1.12;
+    Math.exp(-((x + 5.75) * (x + 5.75) * 0.042 + (z + 0.4) * (z + 0.4) * 0.032)) * 1.12;
 
-  // Sunlit mossy ridge behind right-center bank & sakura roots
+  // Sunlit mossy ridge set further back behind north bank & shrine spur so shoreline slopes gently
   const rightMidRidge =
-    Math.exp(-((x - 3.75) * (x - 3.75) * 0.068 + (z + 3.95) * (z + 3.95) * 0.055)) * 0.78;
+    Math.exp(-((x - 4.05) * (x - 4.05) * 0.055 + (z + 5.55) * (z + 5.55) * 0.048)) * 0.82;
 
-  // Gentle right shoreline mossy knoll supporting ceramic water vessel & sakura trunk
+  // Gentle right shoreline shoulder supporting sakura & tsukubai garden cluster
   const rightBankRise =
-    Math.exp(-((x - 3.72) * (x - 3.72) * 0.1 + (z + 0.85) * (z + 0.85) * 0.085)) * 0.28;
+    Math.exp(-((x - 3.95) * (x - 3.95) * 0.085 + (z + 1.05) * (z + 1.05) * 0.075)) * 0.16;
 
-  // Gentle broad organic soil root-mounds under hero Sakura & Japanese Maple trunks
+  // Broad, low root-collar soil swells so tree trunks flare cleanly without unnatural volcano cones
   const sakuraRootMound =
-    Math.exp(-((x - SAKURA_CENTER.x) * (x - SAKURA_CENTER.x) * 0.65 + (z - SAKURA_CENTER.z) * (z - SAKURA_CENTER.z) * 0.65)) * 0.16;
+    Math.exp(
+      -((x - SAKURA_CENTER.x) * (x - SAKURA_CENTER.x) * 0.24 + (z - SAKURA_CENTER.z) * (z - SAKURA_CENTER.z) * 0.24),
+    ) * 0.065;
   const mapleRootMound =
-    Math.exp(-((x + 4.25) * (x + 4.25) * 0.95 + (z + 3.95) * (z + 3.95) * 0.95)) * 0.12;
+    Math.exp(-((x + 4.25) * (x + 4.25) * 0.3 + (z + 3.95) * (z + 3.95) * 0.3)) * 0.055;
 
-  // Gentle organic garden mounds framing midground & far forest floor without sharp ridges
+  // Flowing multi-hill woodland topography extending across foreground, midground, and 55m backdrop
   const farBackdropRise =
-    Math.max(0, Math.min(1, (-z - 6.8) / 9.5)) * 1.75 +
-    Math.max(0, Math.min(1, (Math.hypot(x, z) - 9.5) / 16.0)) * 0.82;
+    smoothstep01((-z - 6.6) / 10.5) * 1.85 +
+    smoothstep01((Math.hypot(x, z) - 9.5) / 16.5) * 0.92;
+  const woodlandHills =
+    (0.28 * Math.sin(x * 0.28 + 0.7) * Math.cos(z * 0.24 - 0.5) +
+      0.16 * Math.sin(x * 0.52 - z * 0.38)) *
+    smoothstep01((-z - 4.5) / 6.0);
 
   const fgLeftMound =
-    Math.exp(-((x + 4.45) * (x + 4.45) * 0.14 + (z - 3.85) * (z - 3.85) * 0.14)) * 0.4;
+    Math.exp(-((x + 4.5) * (x + 4.5) * 0.12 + (z - 3.95) * (z - 3.95) * 0.12)) * 0.34;
   const fgRightMound =
-    Math.exp(-((x - 2.85) * (x - 2.85) * 0.18 + (z - 3.65) * (z - 3.65) * 0.2)) * 0.3;
+    Math.exp(-((x - 2.95) * (x - 2.95) * 0.14 + (z - 3.85) * (z - 3.85) * 0.15)) * 0.22;
   const backLeftMound =
-    Math.exp(-((x + 6.8) * (x + 6.8) * 0.06 + (z + 6.4) * (z + 6.4) * 0.06)) * 0.84;
+    Math.exp(-((x + 6.9) * (x + 6.9) * 0.055 + (z + 6.6) * (z + 6.6) * 0.055)) * 0.86;
 
   const microUndulation =
-    (0.056 * Math.sin(x * 0.62 + 0.4) * Math.cos(z * 0.56 - 0.3) +
-      0.028 * Math.sin(x * 1.25 - z * 0.95) +
-      0.015 * Math.cos(x * 2.1 + z * 1.85)) *
+    (0.048 * Math.sin(x * 0.62 + 0.4) * Math.cos(z * 0.56 - 0.3) +
+      0.022 * Math.sin(x * 1.25 - z * 0.95) +
+      0.012 * Math.cos(x * 2.1 + z * 1.85)) *
     pathClearance *
-    (1 - tsukubaiPlateauBlend * 0.85);
+    (1 - tsukubaiPlateauBlend * 0.88) *
+    (1 - shrinePlateauBlend * 0.72);
 
+  const northBankEase = smoothstep01((rho - 1.06) / 0.62);
   const rawHeight =
-    shrineRise +
-    leftWoodlandRise * pathClearance +
-    rightMidRidge +
-    rightBankRise +
+    0.085 +
+    shrineRise * northBankEase +
+    (leftWoodlandRise * pathClearance +
+      rightMidRidge * northBankEase +
+      rightBankRise +
+      fgLeftMound * pathClearance +
+      fgRightMound) *
+      (0.28 + 0.72 * shoreCollarEase) +
     sakuraRootMound +
     mapleRootMound +
-    farBackdropRise * (1 - shrinePlateauBlend * 0.35) +
-    fgLeftMound * pathClearance +
-    fgRightMound +
+    farBackdropRise * (1 - shrinePlateauBlend * 0.3) +
+    woodlandHills +
     backLeftMound +
     microUndulation;
 
-  // Blend smoothly to flat terrace level directly under the shrine pad and Tsukubai shelf
-  const shrinePadHeight = 0.94;
-  const tsukubaiPadHeight = 0.32;
+  // Blend smoothly onto leveled shrine apron and low right-bank Tsukubai garden terrace
+  const shrinePadHeight = 0.88;
+  const tsukubaiPadHeight = 0.15;
   let blended =
-    rawHeight * (1 - shrinePlateauBlend * 0.8) + shrinePadHeight * (shrinePlateauBlend * 0.8);
+    rawHeight * (1 - shrinePlateauBlend * 0.84) + shrinePadHeight * (shrinePlateauBlend * 0.84);
   blended =
-    blended * (1 - tsukubaiPlateauBlend * 0.8) + tsukubaiPadHeight * (tsukubaiPlateauBlend * 0.8);
+    blended * (1 - tsukubaiPlateauBlend * 0.82) + tsukubaiPadHeight * (tsukubaiPlateauBlend * 0.82);
 
-  const rimHeight = -0.02;
-  const landHeight = Math.max(0.095, blended);
-  return rimHeight * (1 - bankBlend) + landHeight * bankBlend;
+  // Subtle shoulder lift around rho in [0.99..1.06] so waterline at y=0 seats right at rho ≈ 1.00
+  const shoreLipLift = smoothstep01((rho - 0.97) / 0.16) * 0.032;
+  const landHeight = Math.max(0.065, blended);
+  return bedY * (1 - bankBlend) + landHeight * bankBlend + shoreLipLift * (1 - bankBlend);
 }
 
 export type TerrainBiome = 'shore' | 'moss' | 'forest' | 'path' | 'planted';
