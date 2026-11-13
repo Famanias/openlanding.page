@@ -92,19 +92,12 @@ export const MaterialsSection: React.FC<MaterialsSectionProps> = ({
         {/* Editorial Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 mb-14 border-b border-slate-200/10 items-end">
           <div className="lg:col-span-7 space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-              <span>04. Material Atelier &amp; Provenance</span>
-              <span aria-hidden="true">·</span>
-              <span>Five Architectural Surfaces</span>
-            </div>
             <h2 className="font-display text-[clamp(2.1rem,3.5vw,3.25rem)] leading-[1.1] font-normal text-[#F8FAFC]">
-              Tactile permanence that absorbs sound without synthetic sheen.
+              Find your finish.
             </h2>
           </div>
           <p className="lg:col-span-5 text-[15px] leading-[1.68] text-[#94A3B8]">
-            Every surface is calibrated for open-pore or micro-perforated acoustic
-            transparency—allowing sound pressure waves to pass effortlessly into the
-            internal damping core.
+            Five finishes. Choose the texture and tone for your space.
           </p>
         </div>
 
@@ -150,7 +143,7 @@ export const MaterialsSection: React.FC<MaterialsSectionProps> = ({
                   }`}
                 >
                   <Volume2 className="w-3.5 h-3.5 text-[#94A3B8]" />
-                  <span>Untreated Echo (1.75s)</span>
+                  <span>Hear untreated</span>
                 </button>
                 <button
                   type="button"
@@ -162,7 +155,7 @@ export const MaterialsSection: React.FC<MaterialsSectionProps> = ({
                   }`}
                 >
                   <Volume2 className="w-3.5 h-3.5 text-current" />
-                  <span>Tessera Damped (0.42s)</span>
+                  <span>Hear with Tessera</span>
                 </button>
               </div>
             </div>
@@ -239,7 +232,7 @@ export const MaterialsSection: React.FC<MaterialsSectionProps> = ({
                             }}
                             className="py-1.5 px-3.5 text-xs"
                           >
-                            Apply {mat.name} in Configurator
+                            Use this finish
                             <ArrowUpRight className="w-3.5 h-3.5 text-[#C89D66]" />
                           </MagneticButton>
                         </div>

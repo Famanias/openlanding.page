@@ -165,7 +165,7 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
   {
     id: 'raw-limestone',
     name: 'Raw Limestone',
-    origin: 'Sintered Jura Mineral Composite',
+    origin: 'Sintered mineral',
     primaryHex: '#C9C4BA',
     highlightHex: '#E5E1D8',
     shadowHex: '#7A756C',
@@ -175,12 +175,12 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.82,
     metalness: 0.05,
     description:
-      'Open-pore sintered mineral aggregate offering monolithic stone permanence with engineered micro-porosity.',
+      'A textured mineral finish with a natural stone appearance.',
   },
   {
     id: 'charcoal-felt',
     name: 'Charcoal Felt',
-    origin: 'Compressed Nordic Merino & Recycled PET',
+    origin: 'Wool and recycled PET',
     primaryHex: '#2A2F37',
     highlightHex: '#464E5B',
     shadowHex: '#14171C',
@@ -190,12 +190,12 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.92,
     metalness: 0.02,
     description:
-      'Dense 9mm thermo-formed wool-blend felt delivering maximum vocal band absorption and velvety shadow transitions.',
+      'Soft wool-blend felt for a muted, sound-absorbing surface.',
   },
   {
     id: 'smoked-walnut',
     name: 'Smoked Walnut',
-    origin: 'FSC-Certified Kiln-Fumed Timber Veneer',
+    origin: 'Smoked timber veneer',
     primaryHex: '#6E4E3A',
     highlightHex: '#966E54',
     shadowHex: '#3B281D',
@@ -205,12 +205,12 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.58,
     metalness: 0.08,
     description:
-      'Micro-perforated quarter-sawn European walnut over an acoustic fleece membrane for warm chamber timbre.',
+      'Warm walnut veneer over an acoustic backing.',
   },
   {
     id: 'anodized-bronze',
     name: 'Anodized Bronze',
-    origin: 'Micro-Perforated Architectural Aluminum',
+    origin: 'Perforated aluminum',
     primaryHex: '#9A7853',
     highlightHex: '#C8A378',
     shadowHex: '#4F3C28',
@@ -220,12 +220,12 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.34,
     metalness: 0.76,
     description:
-      '0.4mm laser-perforated brushed bronze skin backed by high-density acoustic mineral wool for luminous raking highlights.',
+      'A brushed metallic finish with an acoustic backing.',
   },
   {
     id: 'nordic-sage',
     name: 'Nordic Sage',
-    origin: 'Botanical-Dyed Acoustic Wool Felt',
+    origin: 'Dyed wool felt',
     primaryHex: '#687A71',
     highlightHex: '#8BA095',
     shadowHex: '#39453F',
@@ -235,7 +235,7 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.88,
     metalness: 0.03,
     description:
-      'Muted celadon-mineral wool felt calibrated for biophilic libraries, boardrooms, and Nordic daylight interiors.',
+      'Sage-green wool felt for a softer, natural palette.',
   },
 ];
 

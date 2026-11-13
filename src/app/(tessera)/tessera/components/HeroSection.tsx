@@ -269,6 +269,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
       )}
 
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[var(--bg-canvas)] opacity-60 lg:hidden" />
+
       {/* Slight Atmospheric Gallery Haze & Grazing Light Mist for Interior Depth */}
       <div
         aria-hidden="true"
@@ -291,15 +293,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Left Editorial Column (Matches 01_APPROVED_RESONANCE_WALL_HERO.png) */}
       <div className="relative z-10 max-w-[1440px] w-full mx-auto px-5 sm:px-10 my-auto pt-4 pb-8 pointer-events-none">
         <div className="max-w-[500px] pointer-events-auto select-text">
-          {/* Small Uppercase Project Descriptor */}
-          <div className="hero-editorial-fade flex flex-wrap items-center gap-2 text-[11px] font-mono-tabular tracking-[0.18em] uppercase text-[#AFA9A0] mb-5">
-            <span>Resonance Wall Prototype</span>
-            <span aria-hidden="true" className="text-[#A78960]">
-              ·
-            </span>
-            <span>Architectural Acoustic Relief</span>
-          </div>
-
           {/* Immense High-Contrast Serif Display Headline */}
           <h1 className="font-display text-[clamp(3rem,5.4vw,5.25rem)] font-normal leading-[0.98] tracking-[-0.015em] text-[#EFEAE0] mb-6">
             <span className="line-mask block pb-1">
@@ -312,9 +305,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Restrained Supporting Copy */}
           <p className="hero-editorial-fade text-[15px] sm:text-base leading-[1.68] text-[#AFA9A0] max-w-[40ch] mb-8">
-            A modular acoustic surface system engineered as sculptural
-            architecture—layering absorption, depth, and rhythm into one
-            configurable wall.
+            Sculptural acoustic panels that bring quiet to your space.
           </p>
 
           {/* Primary CTA & Secondary Text Action */}
@@ -324,7 +315,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               onClick={() => playTactileClick(250)}
               className="inline-flex items-center gap-3 px-5 py-3 rounded-[4px] bg-[#23201B]/95 border border-[#A78960]/55 text-xs sm:text-[13px] font-medium tracking-[0.04em] text-[#EFEAE0] hover:border-[#E4DBCC] hover:bg-[#2C2822] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78960]"
             >
-              <span>Launch Configurator</span>
+              <span>Design your wall</span>
               <ArrowRight className="w-3.5 h-3.5 text-[#C8B9A5]" />
             </a>
 
@@ -340,7 +331,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               aria-controls="hero-sculpture-mode-drawer"
               className="inline-flex items-center gap-2 py-2 text-xs sm:text-[13px] font-medium tracking-[0.04em] text-[#CBC5BB] hover:text-[#EFEAE0] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78960] rounded-sm"
             >
-              <span>View Acoustic Modes</span>
+              <span>Explore patterns</span>
               <ArrowRight className="w-3.5 h-3.5 text-[#A78960]" />
             </button>
           </div>
@@ -348,7 +339,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Interactive Module Hint */}
           <div className="hero-editorial-fade mt-8 pt-4 border-t border-[#EFEAE0]/10 max-w-[430px]">
             <span className="hero-rule-line origin-left text-[11px] font-mono-tabular tracking-[0.12em] uppercase text-[#AFA9A0]">
-              Click or drag any 3D module to rotate 90°
+              Click or drag a tile to rotate it.
             </span>
           </div>
         </div>

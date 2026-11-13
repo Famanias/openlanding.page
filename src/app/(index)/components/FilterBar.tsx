@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { CATEGORIES, type CategoryId } from "../data/templates";
 import { MODEL_FILTERS, type ModelFilter, type SortKey, type SortDirection } from "../data/filters";
@@ -22,11 +23,42 @@ export interface FilterBarProps {
   onSortChange?: (sort: SortKey, dir: SortDirection) => void;
 }
 
+function revealSelectedCategory(tabs: HTMLDivElement | null) {
+  const selected = tabs?.querySelector<HTMLElement>('[aria-selected="true"]');
+  if (!tabs || !selected) return;
+  const bounds = tabs.getBoundingClientRect();
+  const chip = selected.getBoundingClientRect();
+  // Reveal the selected chip without moving the page vertically.
+  if (chip.left < bounds.left + 44) tabs.scrollBy({ left: chip.left - bounds.left - 44, behavior: "instant" });
+  else if (chip.right > bounds.right - 44) tabs.scrollBy({ left: chip.right - bounds.right + 44, behavior: "instant" });
+}
+
 export function FilterBar({ activeCategory, onSelectCategory, totalCount, filteredCount, onReset,
   categoryCounts, className = "", activeModel = "all", onSelectModel, hasQuery = false, instantMotion = false,
   sort = "date", dir = "desc", onSortChange }: FilterBarProps) {
   const reducedMotion = useReducedMotion();
   const instant = reducedMotion || instantMotion;
+  const tabsId = useId();
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [edges, setEdges] = useState({ left: false, right: false });
+  useEffect(() => {
+    const tabs = tabsRef.current;
+    if (!tabs) return;
+    const measure = () => setEdges({ left: tabs.scrollLeft > 1, right: tabs.scrollLeft + tabs.clientWidth < tabs.scrollWidth - 1 });
+    const observer = new ResizeObserver(() => { revealSelectedCategory(tabs); measure(); });
+    observer.observe(tabs);
+    for (const child of tabs.children) observer.observe(child);
+    tabs.addEventListener("scroll", measure, { passive: true });
+    measure();
+    return () => { observer.disconnect(); tabs.removeEventListener("scroll", measure); };
+  }, []);
+  useEffect(() => {
+    revealSelectedCategory(tabsRef.current);
+  }, [activeCategory]);
+  const scrollCategories = (direction: number) => {
+    const tabs = tabsRef.current;
+    if (tabs) tabs.scrollBy({ left: direction * tabs.clientWidth * 0.7, behavior: instant ? "instant" : "smooth" });
+  };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
     const buttons = e.currentTarget.closest<HTMLElement>('[role="tablist"]')?.querySelectorAll<HTMLButtonElement>('[role="tab"]');
     let targetIndex = -1;
@@ -37,14 +69,16 @@ export function FilterBar({ activeCategory, onSelectCategory, totalCount, filter
     if (targetIndex >= 0) {
       e.preventDefault();
       onSelectCategory(CATEGORIES[targetIndex].id);
-      buttons?.[targetIndex]?.focus();
-      buttons?.[targetIndex]?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
+      buttons?.[targetIndex]?.focus({ preventScroll: true });
     }
   };
 
   return (
     <div className={`filter-panel ${className}`}>
-      <div role="tablist" aria-label="Filter templates by category" className="category-tabs">
+      <div className="category-rail">
+        <button type="button" className="category-arrow category-arrow-left" aria-label="Scroll categories left"
+          aria-controls={tabsId} hidden={!edges.left} onClick={() => scrollCategories(-1)}><ChevronLeft size={16} aria-hidden="true" /></button>
+      <div ref={tabsRef} id={tabsId} role="tablist" aria-label="Filter templates by category" className="category-tabs">
         {CATEGORIES.map((cat, index) => (
           <button key={cat.id} type="button" role="tab" aria-selected={activeCategory === cat.id}
             tabIndex={activeCategory === cat.id ? 0 : -1} onClick={() => onSelectCategory(cat.id)}
@@ -55,6 +89,9 @@ export function FilterBar({ activeCategory, onSelectCategory, totalCount, filter
             {categoryCounts?.[cat.id] !== undefined && <span className="category-count">({categoryCounts[cat.id]})</span>}
           </button>
         ))}
+      </div>
+        <button type="button" className="category-arrow category-arrow-right" aria-label="Scroll categories right"
+          aria-controls={tabsId} hidden={!edges.right} onClick={() => scrollCategories(1)}><ChevronRight size={16} aria-hidden="true" /></button>
       </div>
       <div className="filter-bottom">
         <div className="model-filters" role="group" aria-label="Filter by AI model">

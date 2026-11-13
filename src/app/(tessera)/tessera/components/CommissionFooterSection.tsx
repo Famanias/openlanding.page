@@ -121,29 +121,20 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
           >
             {/* Left Architectural Proposition */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-                <span>07. Architectural Specification Desk</span>
-                <span aria-hidden="true">·</span>
-                <span>BIM &amp; Material Box</span>
-              </div>
-
               <h2 className="font-display text-[clamp(2.1rem,3.6vw,3.4rem)] leading-[1.08] font-normal text-[#F8FAFC]">
-                Shape the acoustic signature of your next space.
+                Plan your space.
               </h2>
 
               <p className="text-[15px] leading-[1.7] text-[#94A3B8]">
-                Request a physical sample presentation box containing honed mineral,
-                kiln-fumed timber, and merino wool specimens—alongside Revit BIM
-                families, ISO 354 laboratory test reports, and a custom room-mode
-                simulation from our Zürich acoustic engineers.
+                Choose your finishes and prepare a sample request with your wall specification.
               </p>
 
-              <div className="pt-4 border-t border-slate-200/10 space-y-2 text-xs font-mono-tabular text-[#94A3B8]">
-                <div className="text-[#E2C399]">Active Specification Attached:</div>
-                <p className="leading-relaxed whitespace-pre-line text-[#CBD5E1]">
+              <details className="pt-4 border-t border-slate-200/10 text-xs font-mono-tabular text-[#94A3B8]">
+                <summary className="text-[#E2C399] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Your wall specification</summary>
+                <p className="mt-3 leading-relaxed whitespace-pre-line text-[#CBD5E1]">
                   {attachedSpecSummary.split('\n').slice(1, 5).join('\n')}
                 </p>
-              </div>
+              </details>
             </div>
 
             {/* Right Validated Architectural Request Form */}
@@ -157,7 +148,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                   <div className="flex items-center gap-3 text-[#E2C399]">
                     <CheckCircle2 className="w-6 h-6 shrink-0" />
                     <span className="font-mono-tabular text-xs tracking-wider">
-                      SPECIFICATION DOSSIER REGISTERED · {submittedDossier.referenceCode}
+                      Sample request prepared: {submittedDossier.referenceCode}
                     </span>
                   </div>
 
@@ -166,14 +157,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                   </h3>
 
                   <p className="text-sm leading-relaxed text-[#94A3B8]">
-                    Our Zürich architectural desk has logged your {submittedDossier.input.targetAreaSqM}&nbsp;m²{' '}
-                    {submittedDossier.input.projectTypology.toLowerCase()} specification for{' '}
-                    <strong className="text-[#F1F5F9] font-medium">
-                      {submittedDossier.input.firmOrStudio}
-                    </strong>
-                    . Acoustic simulation files and physical finish specimens will be
-                    dispatched to{' '}
-                    <span className="text-[#F1F5F9]">{submittedDossier.input.workEmail}</span>.
+                    Your request is ready below. This demo does not send emails or ship samples.
                   </p>
 
                   <pre className="bg-[#111419] border border-slate-200/10 rounded-lg p-4 text-xs font-mono-tabular text-[#CBD5E1] whitespace-pre-wrap">
@@ -185,7 +169,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                     onClick={() => setSubmittedDossier(null)}
                     className="px-4 py-2 text-xs font-medium rounded-md border border-slate-200/15 text-[#CBD5E1] hover:border-[#C89D66] transition-colors cursor-pointer"
                   >
-                    Prepare Another Specification
+                    Start another request
                   </button>
                 </div>
               ) : (
@@ -221,7 +205,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                         htmlFor="firm-studio"
                         className="block text-xs font-medium text-[#CBD5E1] mb-1.5"
                       >
-                        Architecture Practice / Studio *
+                        Studio *
                       </label>
                       <input
                         id="firm-studio"
@@ -273,7 +257,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                         htmlFor="target-area"
                         className="block text-xs font-medium text-[#CBD5E1] mb-1.5"
                       >
-                        Estimated Wall Area (m²) *
+                        Wall area (m²) *
                       </label>
                       <input
                         id="target-area"
@@ -300,7 +284,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                       htmlFor="project-typology"
                       className="block text-xs font-medium text-[#CBD5E1] mb-1.5"
                     >
-                      Interior Typology *
+                      Space type *
                     </label>
                     <select
                       id="project-typology"
@@ -323,7 +307,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                       htmlFor="project-notes"
                       className="block text-xs font-medium text-[#CBD5E1] mb-1.5"
                     >
-                      Acoustic Challenges or Elevation Notes (Optional)
+                      Project notes (optional)
                     </label>
                     <textarea
                       id="project-notes"
@@ -332,18 +316,19 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                       onChange={(e) =>
                         setForm((prev) => ({ ...prev, notes: e.target.value }))
                       }
-                      placeholder="E.g., 6.5m board-formed concrete lobby opposite curtain wall glazing..."
+                      placeholder="Tell us about your space."
                       className="w-full px-3.5 py-2.5 text-sm rounded-md bg-[#111419] border border-slate-200/15 text-[#F8FAFC] placeholder:text-[#64748B] focus:outline-none focus:border-[#C89D66]"
                     />
                   </div>
 
                   <div className="pt-2">
+                    <p className="mb-3 text-xs text-[#94A3B8]">Demo form. No request is sent.</p>
                     <MagneticButton
                       type="submit"
                       variant="primary"
                       className="w-full sm:w-auto justify-center"
                     >
-                      Request Sample Box &amp; BIM Dossier
+                      Prepare sample request
                       <ArrowRight className="w-4 h-4" />
                     </MagneticButton>
                   </div>
@@ -365,7 +350,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
               TESSERA
             </a>
             <p className="text-xs text-[#94A3B8]">
-              Sound, shaped by design. Modular architectural acoustic wall systems.
+              Sound, shaped by design.
             </p>
           </div>
 

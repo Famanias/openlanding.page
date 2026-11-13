@@ -12,7 +12,6 @@ interface ChapterMeta {
   index: string;
   id: 'form' | 'function' | 'freedom';
   title: string;
-  kicker: string;
   headline: string;
   body: string;
   metrics: { label: string; value: string }[];
@@ -23,9 +22,8 @@ const CHAPTERS: ChapterMeta[] = [
     index: '01',
     id: 'form',
     title: '01. Form',
-    kicker: 'Sculpted Four-Layer Anatomy',
-    headline: 'Precision-milled relief engineered to the millimeter.',
-    body: 'Each 600 × 600 mm Tessera unit is a composite four-stage assembly. Beveled exterior facets establish architectural shadow rhythm while concealing tuned micro-apertures and zero-clearance magnetic cleats.',
+    headline: 'Sculpted to quiet a room.',
+    body: 'Each 600 × 600 mm panel combines a sculpted face, an acoustic core, and concealed mounting.',
     metrics: [
       { label: 'Module Tolerance', value: '±0.15 mm' },
       { label: 'Relief Depth', value: '58 – 82 mm' },
@@ -36,9 +34,8 @@ const CHAPTERS: ChapterMeta[] = [
     index: '02',
     id: 'function',
     title: '02. Function',
-    kicker: 'Broadband Helmholtz & Specular Control',
-    headline: 'Oblique geometry scatters echo; porous plenums absorb energy.',
-    body: 'When incident sound waves strike Tessera’s 22-degree facets, high-frequency flutter is dispersed across non-parallel vectors while mid-band vocal energy enters the micro-slotted Helmholtz chamber and dissipates as trace thermal motion.',
+    headline: 'Less echo. Clearer conversation.',
+    body: 'Angled surfaces scatter sound. The porous core absorbs it.',
     metrics: [
       { label: 'Verified Absorption', value: '0.95 NRC' },
       { label: 'Speech Band (500–2k Hz)', value: '0.98 αw' },
@@ -49,9 +46,8 @@ const CHAPTERS: ChapterMeta[] = [
     index: '03',
     id: 'freedom',
     title: '03. Freedom',
-    kicker: 'Interchangeable Modular Choreography',
-    headline: 'Reconfigure entire wall elevations without tools or dust.',
-    body: 'Anchored on anodized aluminum calibration rails with neodymium quick-lock cleats, individual tiles rotate in 90-degree increments or swap finishes in seconds—allowing architects to compose bespoke sculptural murals.',
+    headline: 'A wall you can change.',
+    body: 'Rotate tiles or swap finishes to create a new pattern.',
     metrics: [
       { label: 'Rotational States', value: '4 × 90° Axes' },
       { label: 'Tile Swap Time', value: '< 8 Seconds' },
@@ -253,7 +249,7 @@ export const PinnedChaptersSection: React.FC = () => {
       return (
         <div className="w-full h-full flex flex-col justify-between bg-[#111419] border border-slate-200/12 rounded-xl p-5 sm:p-7">
           <div className="flex items-center justify-between text-xs font-mono-tabular text-[#94A3B8]">
-            <span>ISOMETRIC EXPLODED SECTION · SCALE 1:5</span>
+            <span>Panel layers</span>
             <span className="text-[#E2C399]">600 × 600 × 74 mm</span>
           </div>
 
@@ -374,7 +370,7 @@ export const PinnedChaptersSection: React.FC = () => {
       return (
         <div className="w-full h-full flex flex-col justify-between bg-[#111419] border border-slate-200/12 rounded-xl p-5 sm:p-7 space-y-5">
           <div className="flex items-center justify-between text-xs font-mono-tabular text-[#94A3B8]">
-            <span>RAY-TRACED DIFFUSION &amp; IMPEDANCE CHAMBER</span>
+            <span>Sound absorption</span>
             <span className="text-[#E2C399]">ISO 354 · αw = 0.95 (Class A)</span>
           </div>
 
@@ -444,7 +440,7 @@ export const PinnedChaptersSection: React.FC = () => {
           {/* 6-Band Octave Absorption Comparison */}
           <div className="space-y-2.5">
             <div className="flex items-center justify-between text-[11px] font-mono-tabular text-[#94A3B8]">
-              <span>Octave Band Sound Absorption Coefficient (αs)</span>
+              <span>Absorption by frequency</span>
               <span>Tessera vs. Raw Concrete</span>
             </div>
             <div className="grid grid-cols-6 gap-2 sm:gap-3 pt-1">
@@ -581,9 +577,7 @@ export const PinnedChaptersSection: React.FC = () => {
           {/* Top Chapter Progress & Direct Jump Bar */}
           <div className="flex items-center justify-between gap-8 pb-4 border-b border-slate-200/10 shrink-0">
             <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-              <span>Architectural System Exploration</span>
-              <span aria-hidden="true">·</span>
-              <span>Three Chapters</span>
+              <span>How it works</span>
             </div>
 
             <div
@@ -625,12 +619,6 @@ export const PinnedChaptersSection: React.FC = () => {
                     idx === 0 ? 'relative' : 'absolute inset-0 flex flex-col justify-center'
                   } space-y-5`}
                 >
-                  <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#E2C399]">
-                    <span>{ch.title}</span>
-                    <span aria-hidden="true">·</span>
-                    <span>{ch.kicker}</span>
-                  </div>
-
                   <h2 className="font-display text-[clamp(2rem,3vw,2.85rem)] leading-[1.1] font-normal text-[#F8FAFC]">
                     {ch.headline}
                   </h2>
@@ -673,7 +661,7 @@ export const PinnedChaptersSection: React.FC = () => {
             <span>
               Active Chapter: <strong className="text-[#F1F5F9] font-normal">{CHAPTERS[activeChapter].title}</strong>
             </span>
-            <span>Scroll vertically to inspect Form, Function &amp; Freedom</span>
+            <span>Scroll to explore</span>
           </div>
         </div>
       </section>
@@ -689,7 +677,7 @@ export const PinnedChaptersSection: React.FC = () => {
       <div className="max-w-[1360px] mx-auto px-5 sm:px-8 space-y-20">
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-200/10">
           <span className="text-xs font-mono-tabular text-[#94A3B8]">
-            Architectural System Exploration · Three Chapters
+            How it works
           </span>
           <div className="flex items-center gap-2 overflow-x-auto">
             {CHAPTERS.map((ch, idx) => (
@@ -712,11 +700,6 @@ export const PinnedChaptersSection: React.FC = () => {
             className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pb-16 last:pb-0 border-b last:border-b-0 border-slate-200/10"
           >
             <div className="lg:col-span-5 space-y-5">
-              <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#E2C399]">
-                <span>{ch.title}</span>
-                <span aria-hidden="true">·</span>
-                <span>{ch.kicker}</span>
-              </div>
               <h2 className="font-display text-3xl sm:text-4xl leading-[1.12] text-[#F8FAFC]">
                 {ch.headline}
               </h2>

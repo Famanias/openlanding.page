@@ -81,18 +81,11 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-slate-200/10">
           <div className="space-y-3 max-w-2xl">
-            <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-              <span>05. Built Commissions &amp; Acoustic Verification</span>
-              <span aria-hidden="true">·</span>
-              <span>Field-Measured ISO 3382</span>
-            </div>
             <h2 className="font-display text-[clamp(2.1rem,3.5vw,3.25rem)] leading-[1.1] font-normal text-[#F8FAFC]">
-              Proven in Europe’s most demanding reverberant volumes.
+              See it in a space.
             </h2>
           </div>
-          <div className="text-xs font-mono-tabular text-[#94A3B8]">
-            280+ Cultural &amp; Civic Installations Since 2022
-          </div>
+          <p className="text-sm text-[#94A3B8]">Two concept interiors to explore.</p>
         </div>
 
         {/* Commission 01: Panoramic 16:9 Oslo Recital Hall */}
@@ -114,10 +107,6 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
                 <span>Oslo, Norway</span>
-                <span aria-hidden="true">·</span>
-                <span>1,420 m³ Volume</span>
-                <span aria-hidden="true">·</span>
-                <span>Completed 2025</span>
               </div>
 
               <h3 className="font-display text-3xl text-[#F8FAFC] leading-tight">
@@ -125,36 +114,9 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
               </h3>
 
               <p className="text-sm leading-[1.7] text-[#94A3B8]">
-                Tasked with preserving early lateral warmth for solo strings while
-                eliminating harsh rear-wall slapback opposite triple-glazed fjord
-                windows, 310 Tessera modules were arrayed in an alternating walnut and
-                botanical wool elevation.
+                Walnut and sage panels bring warmth and acoustic relief to a recital hall.
               </p>
 
-              {/* Quantified Outcome Strip */}
-              <dl className="grid grid-cols-2 gap-4 py-4 border-y border-slate-200/10">
-                <div>
-                  <dt className="text-[11px] text-[#64748B]">Mid-Band Decay Shift</dt>
-                  <dd className="font-mono-tabular text-lg font-medium text-[#E2C399] mt-0.5">
-                    1.32s → 0.41s RT60
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-[11px] text-[#64748B]">Clarity Gain (C80)</dt>
-                  <dd className="font-mono-tabular text-lg font-medium text-[#F1F5F9] mt-0.5">
-                    +6.4 dB Verified
-                  </dd>
-                </div>
-              </dl>
-
-              <blockquote className="text-sm italic text-[#CBD5E1] leading-relaxed">
-                “Before Tessera, our glazed west gallery blurred rapid cello passages.
-                Installing the beveled walnut and sage array cut mid-frequency overhang
-                by 68% while giving the hall its defining architectural sculpture.”
-                <footer className="not-italic text-xs text-[#94A3B8] mt-2">
-                  — Henrik Solberg, Principal Acoustic Architect, Solberg &amp; Viken Oslo
-                </footer>
-              </blockquote>
             </div>
 
             <div>
@@ -169,7 +131,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                 }
                 className="w-full sm:w-auto"
               >
-                Load Oslo Palette in Configurator
+                Try this palette
                 <ArrowUpRight className="w-4 h-4 text-[#C89D66]" />
               </MagneticButton>
             </div>
@@ -182,10 +144,6 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
                 <span>Zürich, Switzerland</span>
-                <span aria-hidden="true">·</span>
-                <span>2,850 m³ Concrete Atrium</span>
-                <span aria-hidden="true">·</span>
-                <span>Completed 2026</span>
               </div>
 
               <h3 className="font-display text-3xl text-[#F8FAFC] leading-tight">
@@ -193,35 +151,9 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
               </h3>
 
               <p className="text-sm leading-[1.7] text-[#94A3B8]">
-                Board-formed concrete columns and polished terrazzo floors generated a
-                2.4-second reverberation tail during exhibition openings. A two-story
-                radial tessellation of Charcoal Felt and Anodized Bronze restored calm
-                conversational intimacy at the reception desk.
+                Charcoal felt and bronze relief soften a concrete gallery foyer.
               </p>
 
-              <dl className="grid grid-cols-2 gap-4 py-4 border-y border-slate-200/10">
-                <div>
-                  <dt className="text-[11px] text-[#64748B]">Speech Transmission (STI)</dt>
-                  <dd className="font-mono-tabular text-lg font-medium text-[#E2C399] mt-0.5">
-                    0.48 → 0.76 STI
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-[11px] text-[#64748B]">Ambient Crowd Drop</dt>
-                  <dd className="font-mono-tabular text-lg font-medium text-[#F1F5F9] mt-0.5">
-                    -9.2 dBA Peak
-                  </dd>
-                </div>
-              </dl>
-
-              <blockquote className="text-sm italic text-[#CBD5E1] leading-relaxed">
-                “Visitors used to raise their voices just to purchase tickets in our
-                concrete lobby. Tessera raised speech intelligibility by 58% within a
-                single weekend installation—with zero wet trades.”
-                <footer className="not-italic text-xs text-[#94A3B8] mt-2">
-                  — Dr. Clara Meier, Head of Spatial Design, Kunsthalle Zürich
-                </footer>
-              </blockquote>
             </div>
 
             <div>
@@ -236,7 +168,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                 }
                 className="w-full sm:w-auto"
               >
-                Load Zürich Palette in Configurator
+                Try this palette
                 <ArrowUpRight className="w-4 h-4 text-[#C89D66]" />
               </MagneticButton>
             </div>
