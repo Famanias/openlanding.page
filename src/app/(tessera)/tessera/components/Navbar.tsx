@@ -96,7 +96,7 @@ export const Navbar: React.FC = () => {
             href="#inquire"
             className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 text-[11px] font-medium tracking-[0.16em] uppercase text-[#EFEAE0]/90 hover:text-[#EFEAE0] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78960] rounded-sm"
           >
-            <span>Request Portfolio</span>
+            <span>Plan your space</span>
             <ArrowUpRight className="w-3.5 h-3.5 text-[#A78960]" />
           </a>
 
@@ -136,7 +136,7 @@ export const Navbar: React.FC = () => {
               onClick={() => setMobileOpen(false)}
               className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-md bg-[#25231F] border border-[#A78960]/45 text-xs font-medium tracking-widest uppercase text-[#EFEAE0]"
             >
-              <span>Request Portfolio</span>
+              <span>Plan your space</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-[#A78960]" />
             </a>
           </div>

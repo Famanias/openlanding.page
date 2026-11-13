@@ -1,4 +1,6 @@
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "mizunowa" | "serraform";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform";
+
+import { TECHNOLOGY_TAGS } from "./technology-tags";
 
 export type CategoryId =
   | "all"
@@ -16,7 +18,8 @@ export type CategoryId =
   | "glass"
   | "minimal"
   | "brutalist"
-  | "studio";
+  | "studio"
+  | keyof typeof TECHNOLOGY_TAGS;
 
 export type TemplateCategory = Exclude<CategoryId, "all">;
 
@@ -44,7 +47,7 @@ export interface TemplateItem {
   archived?: boolean;
 }
 
-export function getTemplateCategories(template: TemplateItem): TemplateCategory[] {
+export function getTemplateCategories(template: Pick<TemplateItem, "category" | "categories">): TemplateCategory[] {
   if (template.categories && template.categories.length > 0) {
     return template.categories;
   }
@@ -68,6 +71,12 @@ export const CATEGORIES: Category[] = [
   { id: "minimal", label: "Minimal" },
   { id: "brutalist", label: "Brutalist" },
   { id: "studio", label: "Studio" },
+  { id: "threejs", label: "Three.js" },
+  { id: "gsap", label: "GSAP" },
+  { id: "motion", label: "Motion / Framer Motion" },
+  { id: "scroll-animation", label: "Scroll Animation" },
+  { id: "shaders", label: "Shaders" },
+  { id: "interactive-backgrounds", label: "Interactive Backgrounds" },
 ];
 
 export const LENUS_PROMPT = "# LENUS — Reality is just the start\n\nBuild an isolated Next.js 16 / React 19 / TypeScript / Tailwind CSS creative-studio hero at `/lenus`. Use `three` and `lucide-react`. All imports must remain inside `src/app/(lenus)/` or npm packages. No external 3D assets or HDR downloads.\n\nMatch this composition: a floating translucent header, tall stacked headline on the left, and a large oblique optical lens on the right. Exact headline: REALITY / IS JUST / THE START. Make REALITY lime, IS JUST and THE white, START. violet. Subtitle: “We build experiences that move brands beyond the expected.” Primary pill action: “STEP INSIDE” with an arrow. Header: original geometric LENUS wordmark, WORK, EXPERTISE, TECHNOLOGY, ABOUT, and GET IN TOUCH.\n\nPalette: #08090D midnight, #10131C cosmos, #161924 glass surface, #F8FAFC white, #9499A6 muted text, #D2F802 lime, #A855F7 violet, #00E599 emerald, #0A0B0E button ink. Typography: Archivo 800 with condensed width axis; Plus Jakarta Sans; JetBrains Mono. Load through next/font using distinct CSS variables.\n\nThe central idea is optical depth: STEP INSIDE separates an explodable lens. Keep a 44/56 desktop copy/stage grid, stack below 960px, and prevent overflow at 390px. CSS radial aperture architecture, sparse stars and restrained violet glow sit behind an alpha-transparent canvas. Keep the complete ring inside its stage and reserve room for the horizontal glass HUD, up to 720px wide and approximately 108px tall on desktop, stacking within the viewport on phones.\n\nPreserve the procedural model in `model/`: 19 named components, including two fluted glass annuli, stepped titanium collars, front emerald convex lens, rear mount and cooling fins, screws, gold contacts, retaining beads and twelve beveled prism shards. The original design plan's 16-part count is stale. Outer radius 2.49. Glass uses MeshPhysicalMaterial, transmission .98, roughness .03, IOR 1.52, dispersion .08. Titanium has metalness .85 and roughness .25. Normal, roughness and emissive data fields are independent. A procedural HalfFloat PMREM studio with lime and violet strips supplies reflections. Do not paint reflections into albedo.\n\nBuild a lifecycle-guarded `LenusSceneController`: orthographic half-height max(2.75,2.75/aspect), yaw −.46 rad, pitch +.14 rad, bounded drag inspection, pointer parallax, part raycasting, reversible explosion and focus-collar rotation. Animate the complete lens on a seamless 24-second cycle: a full turn around its optical axis, gentle bounded pitch/yaw, an oscillating inner collar and counter-orbiting glass shards. Drive every channel with harmonics of one clock, compose parallax separately and hold the clock while dragging. Use real elapsed time for the loop and delta-time damping for user controls. Pause/resume and renderer reconstruction retain the loop phase. Cap DPR at 1.5 and lower buffer scale by 15% to a 75% floor after two seconds below 55 FPS. Rebuild environment resources after context restoration. Dispose every context, texture, geometry, listener and observer on unmount.\n\nThe HUD includes part selection and material information, explosion toggle and slider, focus-collar slider, pause/resume and reset. Keyboard: arrows rotate, E separates, R/Home resets; do not intercept slider keys. Pause ambient rendering offscreen, in hidden tabs, behind dialogs, and manually, while explicit geometry controls still render their requested pose. Replay the current separation and focus values when a new scene initializes. Start desktop rendering at idle; on coarse-pointer or narrow screens, keep the SVG until a tap, Enter or STEP INSIDE activates live 3D. Mount no WebGL under reduced motion, including a runtime preference change. Always server-render a complete procedural SVG preview for no-JS, reduced motion, unavailable graphics and context loss.\n\nNavigation opens accessible native dialogs with Escape/backdrop dismissal, trapped focus and focus restoration. Work, expertise and about explain the fictional studio's practice. Technology explains the interactive optical system. GET IN TOUCH validates a name, email and project description and prepares a downloadable local brief, explicitly stating it has not been sent. Never pretend to deliver a message without a backend.\n\nUse masked headline entrances, staggered copy, responsive button/arrow feedback, smooth interruptible separation and restrained ambient motion. Reduced motion is a complete still composition. Add scoped CSS, favicon, 1200×630 Open Graph image and DESIGN.md. Register in all six gallery locations and capture a real 1600px WebP hero preview. Verify unit tests, production build, isolation/palette/media checks, TypeScript, lint, and browser guarantees for WebGL, controls, dialogs, context recovery, mobile, reduced motion and no-JS.\n";
@@ -3071,7 +3080,80 @@ RAW_TEMPLATES.push(
     promptMarkdown: SURFACE08_PROMPT,
     model: "Gemini 4 Carbon High",
   }
-,
+);
+
+export const DATUM_PROMPT = `# DATUM — Spatial GPU Frame & Scene-Graph Debugger
+
+Build an isolated Next.js 16 / React 19 / TypeScript landing page for **DATUM** at \`/templates/datum\` (with a permanent redirect from \`/datum\`). DATUM is a fictional browser-native 3D scene-graph debugger and GPU render-pass profiler engineered for WebGL2 and WebGPU graphics teams.
+
+## Creative Direction & Media Policy
+- **Swiss Drafting Instrument Aesthetic:** Precision crosshair reticles, 1px hairline drafting rules, crisp 4px-6px technical radii, and tabular millisecond readouts over an Alabaster drafting-grid canvas paired with a dark Graphite Ink architectural slab.
+- **No Photographs:** Zero raster photographs (\`mediaExempt: true\`). Every visual is constructed from crisp inline vector schematics, custom CSS drafting surfaces, and an interactive procedural Three.js WebGL2 3D stack.
+- **Folder Isolation & Prefix:** Prefix all component styles with \`dt-\`. Keep all template code self-contained inside \`src/app/(datum)/\` using only relative internal imports and npm dependencies (\`three\`, \`lenis\`).
+
+## Palette & Typography
+- **Paper (Alabaster Lab):** \`#F3F4F0\` — primary page canvas and hairline drafting-grid ground
+- **Ceramic (Pure Ceramic):** \`#FFFFFF\` — stage enclosure, floating pass cards, simulator panel, form container
+- **Ink (Graphite Ink):** \`#111418\` — primary display type, copy, hairline frames, overlapping Architecture slab, and Footer
+- **Slate (Anodized Slate):** \`#4A525C\` — secondary copy, specification tables, metadata labels
+- **Rule (Drafting Rule):** \`#D3D7CF\` — 1px structural rules and table seams
+- **Emerald (Laser Emerald):** \`#007A4D\` — primary light-mode CTAs, accessible accents, focus rings
+- **Phosphor (Phosphor Signal):** \`#10D98E\` — high-contrast signal accents, active pass telemetry on \`#111418\` dark surfaces, and 3D emissive edge highlights
+- **Amber (Telemetry Amber):** \`#B35000\` — frame-budget overload indicator when estimated GPU time exceeds the refresh target
+- **Typography (\`next/font/google\`):**
+  - Display: \`Syne\` (\`600\`, \`700\`, \`800\`, \`--font-syne\`) for geometric architectural headlines sized with \`clamp()\`
+  - Body: \`Instrument Sans\` (\`400\`, \`500\`, \`600\`, \`--font-instrument-sans\`) for crisp technical exposition and UI controls
+  - Mono: \`Space Mono\` (\`400\`, \`700\`, \`--font-space-mono\`) with \`tabular-nums\` for millisecond telemetry, pass IDs, draw-call counts, and GLSL shader snippets
+
+## Page Architecture
+1. **Fixed Instrument Header (\`#dt-header\`):** Hairline glass bar with the DATUM stacked-slab vector mark, sliding spring-animated active section pill (\`Dissection\`, \`Budget Lab\`, \`Architecture\`, \`Access\`), live GPU frame-budget badge updating dynamically from the shared state, magnetic \`SDK Access\` CTA, and an accessible full-screen clip-path drawer on viewports \`<= 860px\` (\`Open menu\` / \`Close menu\`, \`Esc\` and focus-trap support).
+2. **Drafting-Grid Hero (\`#top\`):** Split composition featuring the eyebrow (\`SPATIAL GPU PROFILER · WEBGL2 / WEBGPU\`), word-masked \`<h1>\` (*"Every frame, dissected."*), concise lede, dual CTAs (\`Dissect 3D Stack\`, \`Open Budget Lab\`), and three \`CountUp\` telemetry stats (\`5\` Z-Separated Passes, \`444\` Draw Batches, \`16.6 ms\` Frame Lock Target). The right column renders a compact isometric SVG blueprint preview of the five render passes with live budget indicator and clickable pass selector pills.
+3. **02 // Z-Axis Pipeline Dissection (\`#dissection\`, Signature Mechanic):** Tall \`220svh\` asymmetric split layout pairing a sticky 3D stage (\`PipelineCanvas\` + always-SSR \`PipelineSvg\` vector fallback) and 5-step vertical rail (\`01 Geometry\`, \`02 Normals\`, \`03 Shadows\`, \`04 Bloom/FX\`, \`05 Composite\`) with five inspectable pass cards (\`#dt-pass-geometry\` through \`#dt-pass-composite\`). Scrolling through \`#dissection\` drives CSS variable \`--explode\` and a shared ref that separates the five 3D render-pass slabs along the Z-axis in real time. Includes interactive HUD toolbar buttons (\`Explode Z-Stack\` / \`Collapse Z-Stack\`, \`Wireframe\`, \`Pause Loop\` / \`Resume Loop\`, \`Reset View\`), drag-to-orbit camera damped with \`easeOutExpo\`, slab raycast clicking, and keyboard navigation (\`ArrowLeft\`/\`ArrowRight\`/\`ArrowUp\`/\`ArrowDown\`, \`e\`, \`w\`, \`r\`, \`Home\`).
+4. **03 // Frame Budget & Bottleneck Lab (\`#budget\`):** Interactive GPU simulation workbench synchronized with global pipeline state. Features individual \`role="switch"\` toggles for all five passes, a \`Resolution scale\` slider (\`0.50x\` to \`2.00x\`), target refresh buttons (\`60 Hz (16.6 ms)\` vs \`120 Hz (8.3 ms)\`), animated meter bar scaling with Emerald/Amber budget-status pill (\`WITHIN ...\` vs \`OVER BUDGET ...\`), draw-call and VRAM totals, detected bottleneck pass, and a 5-tab GLSL shader kernel disassembly inspector (\`01\`..\`05\`).
+5. **04 // Architecture & SDK (\`#architecture\`):** Overlapping \`#111418\` Graphite Ink architectural slab with \`Phosphor Signal\` accents. Contains a dual-track engineering telemetry marquee (pausing cleanly on hover/focus-within), four capture workflow stages with hairline draw rules, three pointer-reactive \`TiltCard\` pillars (\`Zero-Overhead Hook\`, \`Deterministic Snapshots\`, \`WebGL2 & WebGPU\`) with neighbor dimming on hover, and live \`CountUp\` runtime metrics.
+6. **05 // Early Access & Local Brief (\`#access\`):** Split layout pairing the live Pinned Pipeline Snapshot summary card with an accessible client-validated \`AccessForm\` (\`WebGL2\` / \`WebGPU\` / \`Both\` API selector, floating-label fields for \`Engineer name\`, \`Work email\`, \`Target scene or bottleneck\`, invalid shake + inline \`grid-template-rows\` error expansion). Submitting transitions through a loading morph to a local SVG stamp-drawn receipt (\`DT-XXXXXX\`) with explicit browser-local disclosure (*"it has not been sent"*) and a working \`Download Brief (.txt)\` generator.
+7. **06 // Architectural Footer:** Dark Graphite Ink closing band with local telemetry disclaimer, section links, DATUM mark, and full-width architectural wordmark lockup.
+
+## Motion & Technical Standards
+- **Clockwork Motion Identity:** Fast \`expo-out\` settles (\`cubic-bezier(0.16, 1, 0.3, 1)\`), tight spring pills, crisp **Snap** and **Separate** verbs, and strictly GPU-composited animations (\`transform\`, \`opacity\`, \`clip-path\`). Zero layout-property animations (\`width\`, \`height\`, \`top\`, \`left\`).
+- **Continuous Scroll Coupling:** Smooth wheel scrolling via \`Lenis\` on fine-pointer non-reduced viewports alongside a single passive rAF scroll engine writing \`--page-progress\`, \`--hero-p\`, and \`--explode\` without per-scroll React re-renders.
+- **Performance & Graceful Fallback:** Always server-render the \`PipelineSvg\` vector stack for immediate First Contentful Paint and zero-JS completeness. Load Three.js dynamically on desktop idle (or on first pointer entry into the stage), show an explicit \`Launch 3D Stack\` button on coarse touch viewports (\`pointer: coarse\`) before initializing WebGL2, cap DPR at \`1.5\`, pause WebGL when offscreen or hidden, handle \`webglcontextlost\`/\`webglcontextrestored\`, and never mount WebGL when \`prefers-reduced-motion: reduce\` is active.`;
+
+RAW_TEMPLATES.push({
+  slug: "datum",
+  createdAt: "2026-11-13",
+  hasDownload: false,
+  title: "DATUM",
+  description: "Spatial 3D scene-graph debugger and GPU render-pass profiler featuring a scroll-linked Z-axis pipeline dissection, live frame-budget lab, and schematic SVG fallback.",
+  category: "3d" as TemplateCategory,
+  categories: ["3d" as TemplateCategory, "saas" as TemplateCategory, "showcase" as TemplateCategory],
+  industry: "Developer Tools & 3D Graphics",
+  stack: "Next.js 16 · React 19 · Three.js · Lenis · TypeScript",
+  badges: ["3D Z-Stack", "GPU Profiler", "No-Photo Precision"],
+  previewImage: "/templates/datum/preview-1600.webp",
+  promptMarkdown: DATUM_PROMPT,
+  model: "Gemini 4 Hydrogen xHigh",
+});
+
+export const AFTERWALK_PROMPT = "# AFTERWALK — a little more outside\n\nBuild an isolated Next.js 16 / React 19 / TypeScript landing page for a fictional neighborhood walking club. Use Motion for React (`motion/react`) and no 3D. The central idea is that a good walk is a line between small discoveries: use original two-dimensional route maps and photographs as the visual thread, with a filterable walk finder and a local walk-card preview.\n\nUse ink #1E3529, paper #F7F5EB, white #FBFAF3, lime #DAE870, sage #ABC6A2, peach #E9BA9F, butter #F3E7B6 and muted green #607168. Set Fraunces for display, DM Sans for reading and IBM Plex Mono for field notes. Create an original sunburst mark and a warm editorial art direction with five original, locally served walking photographs.\n\nBuild a split hero headed “Good things happen on foot.” with a photo, large typography and the primary “Find your kind of walk” anchor. Follow it with a plain green band, a draggable five-photo reel, a generous introduction, three sample routes with photographs and illustrated map details, filters for all walks, an hour or less, and after work, a photographic company section, a local walk-card form, a native FAQ and an oversized closing invitation. Selecting a route must preselect it in the form. The form validates a name and creates a local preview; it never claims to send a message or book a real meetup. Clearly label the club and routes as fictional.\n\nUse expressive 2D motion: on wide, tall screens the hero pins and recedes as the next sheet and plain green band cover it; the photo reel loops continuously in one direction, accepts drag gestures, and offers pause and previous/next buttons; photographs parallax gently, filters reflow their cards and the local receipt transitions into view. Use mask and wipe reveals, tactile hover/press feedback, and a responsive mobile menu. Pause ambient motion offscreen or in hidden tabs and provide a still, native-scroll reel when reduced motion is requested or JavaScript is absent. Use semantic controls, visible focus, responsive images, accessible labels, no horizontal overflow and no cross-template imports. Include an icon, Open Graph image, design notes, a gallery preview, and tests for route filtering, scroll/drag, validation and the principal browser flow.";
+
+RAW_TEMPLATES.push({
+  slug: "afterwalk",
+  createdAt: "2026-11-13",
+  hasDownload: false,
+  title: "AFTERWALK",
+  description: "A neighborhood walking club with original photography, a draggable postcard reel, and a local walk-card maker.",
+  category: "showcase",
+  categories: ["showcase", "editorial"],
+  industry: "Community & outdoors",
+  stack: "Next.js 16 · React 19 · TypeScript · Motion",
+  badges: ["Draggable photo reel", "Scroll storytelling", "Local demo"],
+  previewImage: "/gallery/afterwalk.webp",
+  promptMarkdown: AFTERWALK_PROMPT,
+  model: "GPT-6.1 Terra",
+});
+
+RAW_TEMPLATES.push(
   {
     slug: "mizunowa",
     createdAt: "2026-11-13",
@@ -3086,8 +3168,7 @@ RAW_TEMPLATES.push(
     previewImage: "/templates/mizunowa/preview-1600.webp",
     promptMarkdown: MIZUNOWA_PROMPT,
     model: "Gemini 4 Hydrogen xHigh",
-  }
-,
+  },
   {
     slug: "serraform",
     createdAt: "2026-11-13",
@@ -3102,10 +3183,18 @@ RAW_TEMPLATES.push(
     previewImage: "/templates/serraform/preview-1600.webp",
     promptMarkdown: SERRAFORM_PROMPT,
     model: "Gemini 4 Hydrogen xHigh",
-  }
+  },
 );
 
-const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({ ...template, registrationOrder }));
+const registeredTemplates: TemplateItem[] = RAW_TEMPLATES.map((template, registrationOrder) => ({
+  ...template,
+  registrationOrder,
+  categories: [...new Set<TemplateCategory>([
+    ...getTemplateCategories(template),
+    ...(Object.keys(TECHNOLOGY_TAGS) as (keyof typeof TECHNOLOGY_TAGS)[])
+      .filter(tag => (TECHNOLOGY_TAGS[tag] as readonly string[]).includes(template.slug)),
+  ])],
+}));
 export const ARCHIVED_TEMPLATES = registeredTemplates.filter((template) => Boolean(template.archived));
 
 // Latest creation date first; later appended registrations break same-day ties.

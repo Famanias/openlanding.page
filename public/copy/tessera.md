@@ -547,29 +547,20 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
           >
             {/* Left Architectural Proposition */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-                <span>07. Architectural Specification Desk</span>
-                <span aria-hidden="true">·</span>
-                <span>BIM &amp; Material Box</span>
-              </div>
-
               <h2 className="font-display text-[clamp(2.1rem,3.6vw,3.4rem)] leading-[1.08] font-normal text-[#F8FAFC]">
-                Shape the acoustic signature of your next space.
+                Plan your space.
               </h2>
 
               <p className="text-[15px] leading-[1.7] text-[#94A3B8]">
-                Request a physical sample presentation box containing honed mineral,
-                kiln-fumed timber, and merino wool specimens—alongside Revit BIM
-                families, ISO 354 laboratory test reports, and a custom room-mode
-                simulation from our Zürich acoustic engineers.
+                Choose your finishes and prepare a sample request with your wall specification.
               </p>
 
-              <div className="pt-4 border-t border-slate-200/10 space-y-2 text-xs font-mono-tabular text-[#94A3B8]">
-                <div className="text-[#E2C399]">Active Specification Attached:</div>
-                <p className="leading-relaxed whitespace-pre-line text-[#CBD5E1]">
+              <details className="pt-4 border-t border-slate-200/10 text-xs font-mono-tabular text-[#94A3B8]">
+                <summary className="text-[#E2C399] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Your wall specification</summary>
+                <p className="mt-3 leading-relaxed whitespace-pre-line text-[#CBD5E1]">
                   {attachedSpecSummary.split('\n').slice(1, 5).join('\n')}
                 </p>
-              </div>
+              </details>
             </div>
 
             {/* Right Validated Architectural Request Form */}
@@ -583,7 +574,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                   <div className="flex items-center gap-3 text-[#E2C399]">
                     <CheckCircle2 className="w-6 h-6 shrink-0" />
                     <span className="font-mono-tabular text-xs tracking-wider">
-                      SPECIFICATION DOSSIER REGISTERED · {submittedDossier.referenceCode}
+                      Sample request prepared: {submittedDossier.referenceCode}
                     </span>
                   </div>
 
@@ -592,14 +583,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                   </h3>
 
                   <p className="text-sm leading-relaxed text-[#94A3B8]">
-                    Our Zürich architectural desk has logged your {submittedDossier.input.targetAreaSqM}&nbsp;m²{' '}
-                    {submittedDossier.input.projectTypology.toLowerCase()} specification for{' '}
-                    <strong className="text-[#F1F5F9] font-medium">
-                      {submittedDossier.input.firmOrStudio}
-                    </strong>
-                    . Acoustic simulation files and physical finish specimens will be
-                    dispatched to{' '}
-                    <span className="text-[#F1F5F9]">{submittedDossier.input.workEmail}</span>.
+                    Your request is ready below. This demo does not send emails or ship samples.
                   </p>
 
                   <pre className="bg-[#111419] border border-slate-200/10 rounded-lg p-4 text-xs font-mono-tabular text-[#CBD5E1] whitespace-pre-wrap">
@@ -611,7 +595,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                     onClick={() => setSubmittedDossier(null)}
                     className="px-4 py-2 text-xs font-medium rounded-md border border-slate-200/15 text-[#CBD5E1] hover:border-[#C89D66] transition-colors cursor-pointer"
                   >
-                    Prepare Another Specification
+                    Start another request
                   </button>
                 </div>
               ) : (
@@ -647,7 +631,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                         htmlFor="firm-studio"
                         className="block text-xs font-medium text-[#CBD5E1] mb-1.5"
                       >
-                        Architecture Practice / Studio *
+                        Studio *
                       </label>
                       <input
                         id="firm-studio"
@@ -699,7 +683,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                         htmlFor="target-area"
                         className="block text-xs font-medium text-[#CBD5E1] mb-1.5"
                       >
-                        Estimated Wall Area (m²) *
+                        Wall area (m²) *
                       </label>
                       <input
                         id="target-area"
@@ -726,7 +710,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                       htmlFor="project-typology"
                       className="block text-xs font-medium text-[#CBD5E1] mb-1.5"
                     >
-                      Interior Typology *
+                      Space type *
                     </label>
                     <select
                       id="project-typology"
@@ -749,7 +733,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                       htmlFor="project-notes"
                       className="block text-xs font-medium text-[#CBD5E1] mb-1.5"
                     >
-                      Acoustic Challenges or Elevation Notes (Optional)
+                      Project notes (optional)
                     </label>
                     <textarea
                       id="project-notes"
@@ -758,18 +742,19 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
                       onChange={(e) =>
                         setForm((prev) => ({ ...prev, notes: e.target.value }))
                       }
-                      placeholder="E.g., 6.5m board-formed concrete lobby opposite curtain wall glazing..."
+                      placeholder="Tell us about your space."
                       className="w-full px-3.5 py-2.5 text-sm rounded-md bg-[#111419] border border-slate-200/15 text-[#F8FAFC] placeholder:text-[#64748B] focus:outline-none focus:border-[#C89D66]"
                     />
                   </div>
 
                   <div className="pt-2">
+                    <p className="mb-3 text-xs text-[#94A3B8]">Demo form. No request is sent.</p>
                     <MagneticButton
                       type="submit"
                       variant="primary"
                       className="w-full sm:w-auto justify-center"
                     >
-                      Request Sample Box &amp; BIM Dossier
+                      Prepare sample request
                       <ArrowRight className="w-4 h-4" />
                     </MagneticButton>
                   </div>
@@ -791,7 +776,7 @@ export const CommissionFooterSection: React.FC<CommissionFooterSectionProps> = (
               TESSERA
             </a>
             <p className="text-xs text-[#94A3B8]">
-              Sound, shaped by design. Modular architectural acoustic wall systems.
+              Sound, shaped by design.
             </p>
           </div>
 
@@ -2634,6 +2619,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
       )}
 
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[var(--bg-canvas)] opacity-60 lg:hidden" />
+
       {/* Slight Atmospheric Gallery Haze & Grazing Light Mist for Interior Depth */}
       <div
         aria-hidden="true"
@@ -2656,15 +2643,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Left Editorial Column (Matches 01_APPROVED_RESONANCE_WALL_HERO.png) */}
       <div className="relative z-10 max-w-[1440px] w-full mx-auto px-5 sm:px-10 my-auto pt-4 pb-8 pointer-events-none">
         <div className="max-w-[500px] pointer-events-auto select-text">
-          {/* Small Uppercase Project Descriptor */}
-          <div className="hero-editorial-fade flex flex-wrap items-center gap-2 text-[11px] font-mono-tabular tracking-[0.18em] uppercase text-[#AFA9A0] mb-5">
-            <span>Resonance Wall Prototype</span>
-            <span aria-hidden="true" className="text-[#A78960]">
-              ·
-            </span>
-            <span>Architectural Acoustic Relief</span>
-          </div>
-
           {/* Immense High-Contrast Serif Display Headline */}
           <h1 className="font-display text-[clamp(3rem,5.4vw,5.25rem)] font-normal leading-[0.98] tracking-[-0.015em] text-[#EFEAE0] mb-6">
             <span className="line-mask block pb-1">
@@ -2677,9 +2655,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Restrained Supporting Copy */}
           <p className="hero-editorial-fade text-[15px] sm:text-base leading-[1.68] text-[#AFA9A0] max-w-[40ch] mb-8">
-            A modular acoustic surface system engineered as sculptural
-            architecture—layering absorption, depth, and rhythm into one
-            configurable wall.
+            Sculptural acoustic panels that bring quiet to your space.
           </p>
 
           {/* Primary CTA & Secondary Text Action */}
@@ -2689,7 +2665,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               onClick={() => playTactileClick(250)}
               className="inline-flex items-center gap-3 px-5 py-3 rounded-[4px] bg-[#23201B]/95 border border-[#A78960]/55 text-xs sm:text-[13px] font-medium tracking-[0.04em] text-[#EFEAE0] hover:border-[#E4DBCC] hover:bg-[#2C2822] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78960]"
             >
-              <span>Launch Configurator</span>
+              <span>Design your wall</span>
               <ArrowRight className="w-3.5 h-3.5 text-[#C8B9A5]" />
             </a>
 
@@ -2705,7 +2681,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               aria-controls="hero-sculpture-mode-drawer"
               className="inline-flex items-center gap-2 py-2 text-xs sm:text-[13px] font-medium tracking-[0.04em] text-[#CBC5BB] hover:text-[#EFEAE0] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78960] rounded-sm"
             >
-              <span>View Acoustic Modes</span>
+              <span>Explore patterns</span>
               <ArrowRight className="w-3.5 h-3.5 text-[#A78960]" />
             </button>
           </div>
@@ -2713,7 +2689,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Interactive Module Hint */}
           <div className="hero-editorial-fade mt-8 pt-4 border-t border-[#EFEAE0]/10 max-w-[430px]">
             <span className="hero-rule-line origin-left text-[11px] font-mono-tabular tracking-[0.12em] uppercase text-[#AFA9A0]">
-              Click or drag any 3D module to rotate 90°
+              Click or drag a tile to rotate it.
             </span>
           </div>
         </div>
@@ -3373,58 +3349,31 @@ export const ManifestoSection: React.FC = () => {
       className="relative py-24 sm:py-32 lg:py-36 bg-[#0B0D10] border-t border-slate-200/10"
     >
       <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
-        {/* Editorial Section Kicker */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-10 mb-12 border-b border-slate-200/10">
-          <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-            <span>00. Architectural Manifesto</span>
-            <span aria-hidden="true">·</span>
-            <span>Acoustic Spatiality</span>
-          </div>
-          <div className="text-xs font-mono-tabular text-[#94A3B8]">
-            Reverberation Target: <span className="text-[#F1F5F9]">0.38s RT60</span>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
           {/* Left Editorial Statement + Scroll-Morphing Acoustic Waveform */}
           <div className="lg:col-span-7 space-y-8">
             <h2 className="font-display text-[clamp(2rem,3.6vw,3.35rem)] leading-[1.12] font-normal text-[#F8FAFC]">
               <span className="line-mask">
                 <span className="manifesto-line-inner block">
-                  Modern architecture celebrates glass,
+                  Less echo.
                 </span>
               </span>
               <span className="line-mask">
-                <span className="manifesto-line-inner block">
-                  board-formed concrete, and raw stone—
-                </span>
-              </span>
-              <span className="line-mask">
-                <span className="manifesto-line-inner block italic text-[#E2C399]">
-                  yet forgets how those surfaces sound.
+                <span className="manifesto-line-inner block text-[#E2C399]">
+                  More room to listen.
                 </span>
               </span>
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 text-[15px] leading-[1.7] text-[#94A3B8]">
-              <p>
-                Conventional acoustic treatment forces architects into an artificial
-                compromise: conceal flat ceiling foam out of sight, or surrender the
-                visual gravity of an elevation to utilitarian fabric panels.
-              </p>
-              <p>
-                Tessera treats acoustic physics as architectural relief. Every
-                600&nbsp;×&nbsp;600&nbsp;mm module pairs sintered stone, kiln-fumed
-                timber, or compressed merino wool with tuned Helmholtz cavities that
-                quiet reverberation on contact.
-              </p>
-            </div>
+            <p className="text-[15px] leading-[1.7] text-[#94A3B8] max-w-[46ch]">
+              Modular relief panels soften reverberation without hiding the architecture.
+            </p>
 
             {/* Scroll-Morphing SVG Reverberation Attenuation Trace */}
             <div className="pt-6 border-t border-slate-200/10">
               <div className="flex items-center justify-between text-xs font-mono-tabular mb-3">
                 <span className="text-[#94A3B8]">
-                  Scroll-Driven Impulse Attenuation Trace (500–2000 Hz)
+                  Reverberation demo
                 </span>
                 <span className="text-[#E2C399] font-medium">
                   RT60: {liveRt60}s
@@ -3455,8 +3404,8 @@ export const ManifestoSection: React.FC = () => {
                   />
                 </svg>
                 <div className="flex items-center justify-between text-[11px] font-mono-tabular text-[#64748B] mt-2">
-                  <span>Untreated Specular Echo (2.10s)</span>
-                  <span>Laminar Acoustic Clarity (0.38s)</span>
+                  <span>Untreated</span>
+                  <span>With Tessera</span>
                 </div>
               </div>
             </div>
@@ -3480,8 +3429,8 @@ export const ManifestoSection: React.FC = () => {
               </div>
             </TiltSurface>
             <div className="mt-3 flex items-center justify-between text-xs font-mono-tabular text-[#94A3B8]">
-              <span>Atrium Relief Study No. 04</span>
-              <span>Sintered Limestone · Smoked Walnut</span>
+              <span>Atrium concept</span>
+              <span>Limestone and walnut</span>
             </div>
           </div>
         </div>
@@ -3586,19 +3535,12 @@ export const MaterialsSection: React.FC<MaterialsSectionProps> = ({
         {/* Editorial Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 mb-14 border-b border-slate-200/10 items-end">
           <div className="lg:col-span-7 space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-              <span>04. Material Atelier &amp; Provenance</span>
-              <span aria-hidden="true">·</span>
-              <span>Five Architectural Surfaces</span>
-            </div>
             <h2 className="font-display text-[clamp(2.1rem,3.5vw,3.25rem)] leading-[1.1] font-normal text-[#F8FAFC]">
-              Tactile permanence that absorbs sound without synthetic sheen.
+              Find your finish.
             </h2>
           </div>
           <p className="lg:col-span-5 text-[15px] leading-[1.68] text-[#94A3B8]">
-            Every surface is calibrated for open-pore or micro-perforated acoustic
-            transparency—allowing sound pressure waves to pass effortlessly into the
-            internal damping core.
+            Five finishes. Choose the texture and tone for your space.
           </p>
         </div>
 
@@ -3644,7 +3586,7 @@ export const MaterialsSection: React.FC<MaterialsSectionProps> = ({
                   }`}
                 >
                   <Volume2 className="w-3.5 h-3.5 text-[#94A3B8]" />
-                  <span>Untreated Echo (1.75s)</span>
+                  <span>Hear untreated</span>
                 </button>
                 <button
                   type="button"
@@ -3656,7 +3598,7 @@ export const MaterialsSection: React.FC<MaterialsSectionProps> = ({
                   }`}
                 >
                   <Volume2 className="w-3.5 h-3.5 text-current" />
-                  <span>Tessera Damped (0.42s)</span>
+                  <span>Hear with Tessera</span>
                 </button>
               </div>
             </div>
@@ -3733,7 +3675,7 @@ export const MaterialsSection: React.FC<MaterialsSectionProps> = ({
                             }}
                             className="py-1.5 px-3.5 text-xs"
                           >
-                            Apply {mat.name} in Configurator
+                            Use this finish
                             <ArrowUpRight className="w-3.5 h-3.5 text-[#C89D66]" />
                           </MagneticButton>
                         </div>
@@ -3936,7 +3878,7 @@ export const Navbar: React.FC = () => {
             href="#inquire"
             className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 text-[11px] font-medium tracking-[0.16em] uppercase text-[#EFEAE0]/90 hover:text-[#EFEAE0] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78960] rounded-sm"
           >
-            <span>Request Portfolio</span>
+            <span>Plan your space</span>
             <ArrowUpRight className="w-3.5 h-3.5 text-[#A78960]" />
           </a>
 
@@ -3976,7 +3918,7 @@ export const Navbar: React.FC = () => {
               onClick={() => setMobileOpen(false)}
               className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-md bg-[#25231F] border border-[#A78960]/45 text-xs font-medium tracking-widest uppercase text-[#EFEAE0]"
             >
-              <span>Request Portfolio</span>
+              <span>Plan your space</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-[#A78960]" />
             </a>
           </div>
@@ -4002,7 +3944,6 @@ interface ChapterMeta {
   index: string;
   id: 'form' | 'function' | 'freedom';
   title: string;
-  kicker: string;
   headline: string;
   body: string;
   metrics: { label: string; value: string }[];
@@ -4013,9 +3954,8 @@ const CHAPTERS: ChapterMeta[] = [
     index: '01',
     id: 'form',
     title: '01. Form',
-    kicker: 'Sculpted Four-Layer Anatomy',
-    headline: 'Precision-milled relief engineered to the millimeter.',
-    body: 'Each 600 × 600 mm Tessera unit is a composite four-stage assembly. Beveled exterior facets establish architectural shadow rhythm while concealing tuned micro-apertures and zero-clearance magnetic cleats.',
+    headline: 'Sculpted to quiet a room.',
+    body: 'Each 600 × 600 mm panel combines a sculpted face, an acoustic core, and concealed mounting.',
     metrics: [
       { label: 'Module Tolerance', value: '±0.15 mm' },
       { label: 'Relief Depth', value: '58 – 82 mm' },
@@ -4026,9 +3966,8 @@ const CHAPTERS: ChapterMeta[] = [
     index: '02',
     id: 'function',
     title: '02. Function',
-    kicker: 'Broadband Helmholtz & Specular Control',
-    headline: 'Oblique geometry scatters echo; porous plenums absorb energy.',
-    body: 'When incident sound waves strike Tessera’s 22-degree facets, high-frequency flutter is dispersed across non-parallel vectors while mid-band vocal energy enters the micro-slotted Helmholtz chamber and dissipates as trace thermal motion.',
+    headline: 'Less echo. Clearer conversation.',
+    body: 'Angled surfaces scatter sound. The porous core absorbs it.',
     metrics: [
       { label: 'Verified Absorption', value: '0.95 NRC' },
       { label: 'Speech Band (500–2k Hz)', value: '0.98 αw' },
@@ -4039,9 +3978,8 @@ const CHAPTERS: ChapterMeta[] = [
     index: '03',
     id: 'freedom',
     title: '03. Freedom',
-    kicker: 'Interchangeable Modular Choreography',
-    headline: 'Reconfigure entire wall elevations without tools or dust.',
-    body: 'Anchored on anodized aluminum calibration rails with neodymium quick-lock cleats, individual tiles rotate in 90-degree increments or swap finishes in seconds—allowing architects to compose bespoke sculptural murals.',
+    headline: 'A wall you can change.',
+    body: 'Rotate tiles or swap finishes to create a new pattern.',
     metrics: [
       { label: 'Rotational States', value: '4 × 90° Axes' },
       { label: 'Tile Swap Time', value: '< 8 Seconds' },
@@ -4243,7 +4181,7 @@ export const PinnedChaptersSection: React.FC = () => {
       return (
         <div className="w-full h-full flex flex-col justify-between bg-[#111419] border border-slate-200/12 rounded-xl p-5 sm:p-7">
           <div className="flex items-center justify-between text-xs font-mono-tabular text-[#94A3B8]">
-            <span>ISOMETRIC EXPLODED SECTION · SCALE 1:5</span>
+            <span>Panel layers</span>
             <span className="text-[#E2C399]">600 × 600 × 74 mm</span>
           </div>
 
@@ -4364,7 +4302,7 @@ export const PinnedChaptersSection: React.FC = () => {
       return (
         <div className="w-full h-full flex flex-col justify-between bg-[#111419] border border-slate-200/12 rounded-xl p-5 sm:p-7 space-y-5">
           <div className="flex items-center justify-between text-xs font-mono-tabular text-[#94A3B8]">
-            <span>RAY-TRACED DIFFUSION &amp; IMPEDANCE CHAMBER</span>
+            <span>Sound absorption</span>
             <span className="text-[#E2C399]">ISO 354 · αw = 0.95 (Class A)</span>
           </div>
 
@@ -4434,7 +4372,7 @@ export const PinnedChaptersSection: React.FC = () => {
           {/* 6-Band Octave Absorption Comparison */}
           <div className="space-y-2.5">
             <div className="flex items-center justify-between text-[11px] font-mono-tabular text-[#94A3B8]">
-              <span>Octave Band Sound Absorption Coefficient (αs)</span>
+              <span>Absorption by frequency</span>
               <span>Tessera vs. Raw Concrete</span>
             </div>
             <div className="grid grid-cols-6 gap-2 sm:gap-3 pt-1">
@@ -4571,9 +4509,7 @@ export const PinnedChaptersSection: React.FC = () => {
           {/* Top Chapter Progress & Direct Jump Bar */}
           <div className="flex items-center justify-between gap-8 pb-4 border-b border-slate-200/10 shrink-0">
             <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-              <span>Architectural System Exploration</span>
-              <span aria-hidden="true">·</span>
-              <span>Three Chapters</span>
+              <span>How it works</span>
             </div>
 
             <div
@@ -4615,12 +4551,6 @@ export const PinnedChaptersSection: React.FC = () => {
                     idx === 0 ? 'relative' : 'absolute inset-0 flex flex-col justify-center'
                   } space-y-5`}
                 >
-                  <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#E2C399]">
-                    <span>{ch.title}</span>
-                    <span aria-hidden="true">·</span>
-                    <span>{ch.kicker}</span>
-                  </div>
-
                   <h2 className="font-display text-[clamp(2rem,3vw,2.85rem)] leading-[1.1] font-normal text-[#F8FAFC]">
                     {ch.headline}
                   </h2>
@@ -4663,7 +4593,7 @@ export const PinnedChaptersSection: React.FC = () => {
             <span>
               Active Chapter: <strong className="text-[#F1F5F9] font-normal">{CHAPTERS[activeChapter].title}</strong>
             </span>
-            <span>Scroll vertically to inspect Form, Function &amp; Freedom</span>
+            <span>Scroll to explore</span>
           </div>
         </div>
       </section>
@@ -4679,7 +4609,7 @@ export const PinnedChaptersSection: React.FC = () => {
       <div className="max-w-[1360px] mx-auto px-5 sm:px-8 space-y-20">
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-200/10">
           <span className="text-xs font-mono-tabular text-[#94A3B8]">
-            Architectural System Exploration · Three Chapters
+            How it works
           </span>
           <div className="flex items-center gap-2 overflow-x-auto">
             {CHAPTERS.map((ch, idx) => (
@@ -4702,11 +4632,6 @@ export const PinnedChaptersSection: React.FC = () => {
             className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pb-16 last:pb-0 border-b last:border-b-0 border-slate-200/10"
           >
             <div className="lg:col-span-5 space-y-5">
-              <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#E2C399]">
-                <span>{ch.title}</span>
-                <span aria-hidden="true">·</span>
-                <span>{ch.kicker}</span>
-              </div>
               <h2 className="font-display text-3xl sm:text-4xl leading-[1.12] text-[#F8FAFC]">
                 {ch.headline}
               </h2>
@@ -4983,13 +4908,8 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-slate-200/10">
           <div className="space-y-3 max-w-2xl">
-            <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-              <span>06. Interactive Architectural Studio</span>
-              <span aria-hidden="true">·</span>
-              <span>CSI 09 84 33 Specification Builder</span>
-            </div>
             <h2 className="font-display text-[clamp(2.1rem,3.5vw,3.25rem)] leading-[1.1] font-normal text-[#F8FAFC]">
-              Compose your elevation and verify acoustic absorption in real time.
+              Design your wall.
             </h2>
           </div>
 
@@ -5004,7 +4924,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
               className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-md bg-[#0B0D10] text-[#CBD5E1] border border-slate-200/15 hover:border-[#C89D66] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C89D66]"
             >
               <RotateCcw className="w-3.5 h-3.5 text-[#C89D66]" />
-              <span>Reset Installation</span>
+              <span>Reset</span>
             </button>
 
             <MagneticButton
@@ -5015,12 +4935,12 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
               {copied ? (
                 <>
                   <Check className="w-4 h-4" />
-                  <span>Specification Copied</span>
+                  <span>Copied</span>
                 </>
               ) : (
                 <>
                   <Copy className="w-4 h-4" />
-                  <span>Copy Configuration</span>
+                  <span>Copy specification</span>
                 </>
               )}
             </MagneticButton>
@@ -5109,15 +5029,14 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
 
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#94A3B8] pt-3 border-t border-slate-200/10">
                 <span>
-                  Tip: Click or select any individual module above to rotate its facet
-                  by 90°.
+                  Click a tile to rotate it.
                 </span>
                 <button
                   type="button"
                   onClick={() => setShowSpecPreview((prev) => !prev)}
                   className="text-xs font-mono-tabular text-[#E2C399] hover:underline whitespace-nowrap shrink-0 cursor-pointer"
                 >
-                  {showSpecPreview ? 'Hide CSI Summary' : 'Preview CSI Summary'}
+                  {showSpecPreview ? 'Hide specification' : 'View specification'}
                 </button>
               </div>
 
@@ -5136,7 +5055,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             <div className="bg-[#0B0D10] border border-slate-200/12 rounded-xl p-5 sm:p-6 space-y-5">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div>
-                  <div className="text-[11px] text-[#64748B]">System NRC Rating</div>
+                  <div className="text-[11px] text-[#64748B]">Sound absorption (NRC)</div>
                   <div
                     data-testid="metric-nrc"
                     className="font-mono-tabular text-2xl font-medium text-[#E2C399] mt-0.5"
@@ -5154,7 +5073,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
                   </div>
                 </div>
                 <div>
-                  <div className="text-[11px] text-[#64748B]">Chamber RT60 Shift</div>
+                  <div className="text-[11px] text-[#64748B]">Reverberation</div>
                   <div className="font-mono-tabular text-lg sm:text-xl font-medium text-[#F8FAFC] mt-1">
                     {metrics.rt60UntreatedSec}s → {metrics.rt60TreatedSec}s
                   </div>
@@ -5168,9 +5087,10 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
               </div>
 
               {/* Live 6-Band Frequency Bar Strip */}
-              <div className="pt-4 border-t border-slate-200/10">
+              <details className="pt-4 border-t border-slate-200/10">
+                <summary className="mb-3 text-xs text-[#E2C399] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Acoustic details</summary>
                 <div className="flex items-center justify-between text-[11px] font-mono-tabular text-[#94A3B8] mb-2.5">
-                  <span>Predicted Sound Absorption by Octave Band (ISO 354)</span>
+                  <span>Estimated absorption</span>
                   <span>-{metrics.rt60ReductionPercent}% Reverberation</span>
                 </div>
                 <div className="grid grid-cols-6 gap-2">
@@ -5189,7 +5109,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
                     </div>
                   ))}
                 </div>
-              </div>
+              </details>
             </div>
           </div>
 
@@ -5199,7 +5119,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono-tabular text-[#94A3B8]">
-                  01. MODULE GEOMETRY
+                  Shape
                 </span>
                 <span className="text-xs font-mono-tabular text-[#E2C399]">
                   {shapeSpec.depthMm} mm Relief
@@ -5231,9 +5151,6 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
                       <div className="text-sm font-semibold text-[#F8FAFC]">
                         {shape.name}
                       </div>
-                      <div className="text-[11px] text-[#94A3B8] mt-0.5 line-clamp-1">
-                        {shape.subtitle}
-                      </div>
                     </button>
                   );
                 })}
@@ -5244,7 +5161,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             <div className="space-y-3 pt-5 border-t border-slate-200/10">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono-tabular text-[#94A3B8]">
-                  02. ARCHITECTURAL FINISH
+                  Finish
                 </span>
                 <span className="text-xs font-medium text-[#F1F5F9]">
                   {materialSpec.name}
@@ -5295,7 +5212,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             <div className="space-y-3 pt-5 border-t border-slate-200/10">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono-tabular text-[#94A3B8]">
-                  03. TESSELLATION PATTERN
+                  Pattern
                 </span>
               </div>
 
@@ -5329,9 +5246,6 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
                       <div className="text-xs sm:text-sm font-semibold text-[#F8FAFC]">
                         {pat.name}
                       </div>
-                      <div className="text-[11px] text-[#94A3B8] mt-0.5 line-clamp-1">
-                        {pat.architecturalIntent}
-                      </div>
                     </button>
                   );
                 })}
@@ -5341,7 +5255,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             {/* Step 4: Elevation Matrix Dimensions */}
             <div className="space-y-4 pt-5 border-t border-slate-200/10">
               <span className="block text-xs font-mono-tabular text-[#94A3B8]">
-                04. WALL MATRIX DIMENSIONS (600 MM MODULES)
+                Wall size (600 mm tiles)
               </span>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -5503,18 +5417,11 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-slate-200/10">
           <div className="space-y-3 max-w-2xl">
-            <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-              <span>05. Built Commissions &amp; Acoustic Verification</span>
-              <span aria-hidden="true">·</span>
-              <span>Field-Measured ISO 3382</span>
-            </div>
             <h2 className="font-display text-[clamp(2.1rem,3.5vw,3.25rem)] leading-[1.1] font-normal text-[#F8FAFC]">
-              Proven in Europe’s most demanding reverberant volumes.
+              See it in a space.
             </h2>
           </div>
-          <div className="text-xs font-mono-tabular text-[#94A3B8]">
-            280+ Cultural &amp; Civic Installations Since 2022
-          </div>
+          <p className="text-sm text-[#94A3B8]">Two concept interiors to explore.</p>
         </div>
 
         {/* Commission 01: Panoramic 16:9 Oslo Recital Hall */}
@@ -5536,10 +5443,6 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
                 <span>Oslo, Norway</span>
-                <span aria-hidden="true">·</span>
-                <span>1,420 m³ Volume</span>
-                <span aria-hidden="true">·</span>
-                <span>Completed 2025</span>
               </div>
 
               <h3 className="font-display text-3xl text-[#F8FAFC] leading-tight">
@@ -5547,36 +5450,9 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
               </h3>
 
               <p className="text-sm leading-[1.7] text-[#94A3B8]">
-                Tasked with preserving early lateral warmth for solo strings while
-                eliminating harsh rear-wall slapback opposite triple-glazed fjord
-                windows, 310 Tessera modules were arrayed in an alternating walnut and
-                botanical wool elevation.
+                Walnut and sage panels bring warmth and acoustic relief to a recital hall.
               </p>
 
-              {/* Quantified Outcome Strip */}
-              <dl className="grid grid-cols-2 gap-4 py-4 border-y border-slate-200/10">
-                <div>
-                  <dt className="text-[11px] text-[#64748B]">Mid-Band Decay Shift</dt>
-                  <dd className="font-mono-tabular text-lg font-medium text-[#E2C399] mt-0.5">
-                    1.32s → 0.41s RT60
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-[11px] text-[#64748B]">Clarity Gain (C80)</dt>
-                  <dd className="font-mono-tabular text-lg font-medium text-[#F1F5F9] mt-0.5">
-                    +6.4 dB Verified
-                  </dd>
-                </div>
-              </dl>
-
-              <blockquote className="text-sm italic text-[#CBD5E1] leading-relaxed">
-                “Before Tessera, our glazed west gallery blurred rapid cello passages.
-                Installing the beveled walnut and sage array cut mid-frequency overhang
-                by 68% while giving the hall its defining architectural sculpture.”
-                <footer className="not-italic text-xs text-[#94A3B8] mt-2">
-                  — Henrik Solberg, Principal Acoustic Architect, Solberg &amp; Viken Oslo
-                </footer>
-              </blockquote>
             </div>
 
             <div>
@@ -5591,7 +5467,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                 }
                 className="w-full sm:w-auto"
               >
-                Load Oslo Palette in Configurator
+                Try this palette
                 <ArrowUpRight className="w-4 h-4 text-[#C89D66]" />
               </MagneticButton>
             </div>
@@ -5604,10 +5480,6 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
                 <span>Zürich, Switzerland</span>
-                <span aria-hidden="true">·</span>
-                <span>2,850 m³ Concrete Atrium</span>
-                <span aria-hidden="true">·</span>
-                <span>Completed 2026</span>
               </div>
 
               <h3 className="font-display text-3xl text-[#F8FAFC] leading-tight">
@@ -5615,35 +5487,9 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
               </h3>
 
               <p className="text-sm leading-[1.7] text-[#94A3B8]">
-                Board-formed concrete columns and polished terrazzo floors generated a
-                2.4-second reverberation tail during exhibition openings. A two-story
-                radial tessellation of Charcoal Felt and Anodized Bronze restored calm
-                conversational intimacy at the reception desk.
+                Charcoal felt and bronze relief soften a concrete gallery foyer.
               </p>
 
-              <dl className="grid grid-cols-2 gap-4 py-4 border-y border-slate-200/10">
-                <div>
-                  <dt className="text-[11px] text-[#64748B]">Speech Transmission (STI)</dt>
-                  <dd className="font-mono-tabular text-lg font-medium text-[#E2C399] mt-0.5">
-                    0.48 → 0.76 STI
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-[11px] text-[#64748B]">Ambient Crowd Drop</dt>
-                  <dd className="font-mono-tabular text-lg font-medium text-[#F1F5F9] mt-0.5">
-                    -9.2 dBA Peak
-                  </dd>
-                </div>
-              </dl>
-
-              <blockquote className="text-sm italic text-[#CBD5E1] leading-relaxed">
-                “Visitors used to raise their voices just to purchase tickets in our
-                concrete lobby. Tessera raised speech intelligibility by 58% within a
-                single weekend installation—with zero wet trades.”
-                <footer className="not-italic text-xs text-[#94A3B8] mt-2">
-                  — Dr. Clara Meier, Head of Spatial Design, Kunsthalle Zürich
-                </footer>
-              </blockquote>
             </div>
 
             <div>
@@ -5658,7 +5504,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                 }
                 className="w-full sm:w-auto"
               >
-                Load Zürich Palette in Configurator
+                Try this palette
                 <ArrowUpRight className="w-4 h-4 text-[#C89D66]" />
               </MagneticButton>
             </div>
@@ -6324,7 +6170,7 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
   {
     id: 'raw-limestone',
     name: 'Raw Limestone',
-    origin: 'Sintered Jura Mineral Composite',
+    origin: 'Sintered mineral',
     primaryHex: '#C9C4BA',
     highlightHex: '#E5E1D8',
     shadowHex: '#7A756C',
@@ -6334,12 +6180,12 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.82,
     metalness: 0.05,
     description:
-      'Open-pore sintered mineral aggregate offering monolithic stone permanence with engineered micro-porosity.',
+      'A textured mineral finish with a natural stone appearance.',
   },
   {
     id: 'charcoal-felt',
     name: 'Charcoal Felt',
-    origin: 'Compressed Nordic Merino & Recycled PET',
+    origin: 'Wool and recycled PET',
     primaryHex: '#2A2F37',
     highlightHex: '#464E5B',
     shadowHex: '#14171C',
@@ -6349,12 +6195,12 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.92,
     metalness: 0.02,
     description:
-      'Dense 9mm thermo-formed wool-blend felt delivering maximum vocal band absorption and velvety shadow transitions.',
+      'Soft wool-blend felt for a muted, sound-absorbing surface.',
   },
   {
     id: 'smoked-walnut',
     name: 'Smoked Walnut',
-    origin: 'FSC-Certified Kiln-Fumed Timber Veneer',
+    origin: 'Smoked timber veneer',
     primaryHex: '#6E4E3A',
     highlightHex: '#966E54',
     shadowHex: '#3B281D',
@@ -6364,12 +6210,12 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.58,
     metalness: 0.08,
     description:
-      'Micro-perforated quarter-sawn European walnut over an acoustic fleece membrane for warm chamber timbre.',
+      'Warm walnut veneer over an acoustic backing.',
   },
   {
     id: 'anodized-bronze',
     name: 'Anodized Bronze',
-    origin: 'Micro-Perforated Architectural Aluminum',
+    origin: 'Perforated aluminum',
     primaryHex: '#9A7853',
     highlightHex: '#C8A378',
     shadowHex: '#4F3C28',
@@ -6379,12 +6225,12 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.34,
     metalness: 0.76,
     description:
-      '0.4mm laser-perforated brushed bronze skin backed by high-density acoustic mineral wool for luminous raking highlights.',
+      'A brushed metallic finish with an acoustic backing.',
   },
   {
     id: 'nordic-sage',
     name: 'Nordic Sage',
-    origin: 'Botanical-Dyed Acoustic Wool Felt',
+    origin: 'Dyed wool felt',
     primaryHex: '#687A71',
     highlightHex: '#8BA095',
     shadowHex: '#39453F',
@@ -6394,7 +6240,7 @@ export const MATERIAL_FINISHES: MaterialFinishSpec[] = [
     roughness: 0.88,
     metalness: 0.03,
     description:
-      'Muted celadon-mineral wool felt calibrated for biophilic libraries, boardrooms, and Nordic daylight interiors.',
+      'Sage-green wool felt for a softer, natural palette.',
   },
 ];
 
