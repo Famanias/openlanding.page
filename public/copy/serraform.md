@@ -2760,6 +2760,7 @@ import {
 } from './color';
 import { COLOR_PRESETS } from './config';
 import { useFold } from './FoldProvider';
+import { NativeColorInput } from './NativeColorInput';
 import { usesActivePrintColor } from './state';
 
 export type ColorTarget = 'base' | 'design';
@@ -3237,21 +3238,17 @@ export const ColorWheel: React.FC<{
                 Hex color ({target === 'base' ? 'Base color' : 'Print color'})
               </label>
               <div className="flex items-center gap-2">
-                <input
+                <NativeColorInput
                   id={`${idPrefix}-color-picker`}
-                  data-testid={`${idPrefix}-color-picker`}
-                  type="color"
+                  testId={`${idPrefix}-color-picker`}
                   value={activeHex}
                   disabled={activeDisabled}
-                  onChange={(e) => {
-                    const normalized = normalizeHex(e.target.value);
-                    if (normalized) {
-                      setHexError(null);
-                      setDraftHex(normalized);
-                      commitHexForTarget(normalized);
-                    }
+                  onHexChange={(normalized) => {
+                    setHexError(null);
+                    setDraftHex(normalized);
+                    commitHexForTarget(normalized);
                   }}
-                  aria-label={`Color picker for ${target === 'base' ? 'Base color' : 'Print color'}`}
+                  ariaLabel={`Color picker for ${target === 'base' ? 'Base color' : 'Print color'}`}
                   className="w-10 h-10 p-0.5 rounded-[4px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)] cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <input
@@ -7684,7 +7681,6 @@ import { RotateCcw, SlidersHorizontal, Upload } from 'lucide-react';
 import { renderTextileToCanvas } from './artwork';
 import {
   evaluatePrintContrast,
-  normalizeHex,
   suggestContrastingPrintColor,
 } from './color';
 import {
@@ -7697,6 +7693,7 @@ import {
 } from './config';
 import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
+import { NativeColorInput } from './NativeColorInput';
 import { usesActivePrintColor, viewPresetFromAngles } from './state';
 
 export type AdvancedDrawerSection = 'all' | 'color' | 'printColor' | 'design' | 'view';
@@ -7967,17 +7964,13 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 }}
                 aria-hidden="true"
               />
-              <input
-                type="color"
-                data-testid="hero-base-color-picker"
-                aria-label="Custom base hex color picker"
+              <NativeColorInput
+                testId="hero-base-color-picker"
+                ariaLabel="Custom base hex color picker"
                 value={design.baseHex}
-                onChange={(e) => {
-                  const hex = normalizeHex(e.target.value);
-                  if (hex) {
-                    setBaseHex(hex);
-                    setAnnouncement(`Base color set to ${hex}.`);
-                  }
+                onHexChange={(hex) => {
+                  setBaseHex(hex);
+                  setAnnouncement(`Base color set to ${hex}.`);
                 }}
                 className="sr-only"
               />
@@ -8153,18 +8146,14 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 }}
                 aria-hidden="true"
               />
-              <input
-                type="color"
-                data-testid="hero-print-color-picker"
+              <NativeColorInput
+                testId="hero-print-color-picker"
                 disabled={!printColorActive}
-                aria-label="Custom print hex color picker"
+                ariaLabel="Custom print hex color picker"
                 value={design.designHex}
-                onChange={(e) => {
-                  const hex = normalizeHex(e.target.value);
-                  if (hex) {
-                    setDesignHex(hex);
-                    setAnnouncement(`Print color set to ${hex}.`);
-                  }
+                onHexChange={(hex) => {
+                  setDesignHex(hex);
+                  setAnnouncement(`Print color set to ${hex}.`);
                 }}
                 className="sr-only"
               />
@@ -8664,6 +8653,141 @@ export function createSceneMaterials(
       contactShadow.dispose();
     },
   };
+}
+]]>
+    </file>
+    <file path="src/app/(serraform)/serraform/fold/NativeColorInput.tsx">
+<![CDATA['use client';
+
+import { useEffect, useRef, type ChangeEvent } from 'react';
+import { normalizeHex } from './color';
+
+export interface NativeColorInputProps {
+  id?: string;
+  testId?: string;
+  value: string;
+  disabled?: boolean;
+  ariaLabel: string;
+  className?: string;
+  onHexChange: (hex: string) => void;
+}
+
+/**
+ * Uncontrolled wrapper around `<input type="color">` to prevent React 19 / Chromium
+ * feedback loops caused by uppercase `#RRGGBB` props vs. lowercase `#rrggbb` DOM values
+ * and synchronous native picker drag events.
+ */
+export function NativeColorInput({
+  id,
+  testId,
+  value,
+  disabled = false,
+  ariaLabel,
+  className,
+  onHexChange,
+}: NativeColorInputProps) {
+  const normalizedUpper = normalizeHex(value) ?? '#000000';
+  const normalizedLower = normalizedUpper.toLowerCase();
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const lastEmittedRef = useRef<string>(normalizedUpper);
+  const pendingHexRef = useRef<string | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const onHexChangeRef = useRef(onHexChange);
+  const propLowerRef = useRef(normalizedLower);
+  const propUpperRef = useRef(normalizedUpper);
+
+  onHexChangeRef.current = onHexChange;
+  propLowerRef.current = normalizedLower;
+  propUpperRef.current = normalizedUpper;
+
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    // Never write `.value` while the native picker owns focus; Chromium can re-fire `input`.
+    if (document.activeElement === el) return;
+    if (el.value.toLowerCase() !== normalizedLower) {
+      el.value = normalizedLower;
+    }
+    if (pendingHexRef.current === null) {
+      lastEmittedRef.current = normalizedUpper;
+    }
+  }, [normalizedLower, normalizedUpper]);
+
+  useEffect(() => {
+    if (disabled && rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      pendingHexRef.current = null;
+    }
+  }, [disabled]);
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+  }, []);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (disabled) return;
+    const next = normalizeHex(e.target.value);
+    if (!next || next === lastEmittedRef.current) return;
+    lastEmittedRef.current = next;
+    pendingHexRef.current = next;
+
+    if (typeof requestAnimationFrame === 'function') {
+      if (rafRef.current === null) {
+        rafRef.current = requestAnimationFrame(() => {
+          rafRef.current = null;
+          const pending = pendingHexRef.current;
+          pendingHexRef.current = null;
+          if (pending) {
+            onHexChangeRef.current(pending);
+          }
+        });
+      }
+    } else {
+      pendingHexRef.current = null;
+      onHexChangeRef.current(next);
+    }
+  };
+
+  const handleBlur = () => {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      const pending = pendingHexRef.current;
+      pendingHexRef.current = null;
+      if (pending && !disabled) {
+        onHexChangeRef.current(pending);
+        return;
+      }
+    }
+
+    const el = inputRef.current;
+    if (el && el.value.toLowerCase() !== propLowerRef.current) {
+      el.value = propLowerRef.current;
+      lastEmittedRef.current = propUpperRef.current;
+    }
+  };
+
+  return (
+    <input
+      ref={inputRef}
+      id={id}
+      data-testid={testId}
+      type="color"
+      defaultValue={normalizedLower}
+      disabled={disabled}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      aria-label={ariaLabel}
+      className={className}
+    />
+  );
 }
 ]]>
     </file>
@@ -9761,6 +9885,9 @@ export function foldReducer(
     case 'SET_BASE_HEX': {
       const hex = normalizeHex(action.hex);
       if (!hex) return state;
+      if (state.mode === 'manual' && state.design.baseHex === hex) {
+        return state;
+      }
       return {
         ...state,
         mode: 'manual',
@@ -9774,6 +9901,9 @@ export function foldReducer(
     case 'SET_DESIGN_HEX': {
       const hex = normalizeHex(action.hex);
       if (!hex) return state;
+      if (state.mode === 'manual' && state.design.designHex === hex) {
+        return state;
+      }
       return {
         ...state,
         mode: 'manual',
