@@ -121,58 +121,31 @@ export const ManifestoSection: React.FC = () => {
       className="relative py-24 sm:py-32 lg:py-36 bg-[#0B0D10] border-t border-slate-200/10"
     >
       <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
-        {/* Editorial Section Kicker */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-10 mb-12 border-b border-slate-200/10">
-          <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-            <span>00. Architectural Manifesto</span>
-            <span aria-hidden="true">·</span>
-            <span>Acoustic Spatiality</span>
-          </div>
-          <div className="text-xs font-mono-tabular text-[#94A3B8]">
-            Reverberation Target: <span className="text-[#F1F5F9]">0.38s RT60</span>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
           {/* Left Editorial Statement + Scroll-Morphing Acoustic Waveform */}
           <div className="lg:col-span-7 space-y-8">
             <h2 className="font-display text-[clamp(2rem,3.6vw,3.35rem)] leading-[1.12] font-normal text-[#F8FAFC]">
               <span className="line-mask">
                 <span className="manifesto-line-inner block">
-                  Modern architecture celebrates glass,
+                  Less echo.
                 </span>
               </span>
               <span className="line-mask">
-                <span className="manifesto-line-inner block">
-                  board-formed concrete, and raw stone—
-                </span>
-              </span>
-              <span className="line-mask">
-                <span className="manifesto-line-inner block italic text-[#E2C399]">
-                  yet forgets how those surfaces sound.
+                <span className="manifesto-line-inner block text-[#E2C399]">
+                  More room to listen.
                 </span>
               </span>
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 text-[15px] leading-[1.7] text-[#94A3B8]">
-              <p>
-                Conventional acoustic treatment forces architects into an artificial
-                compromise: conceal flat ceiling foam out of sight, or surrender the
-                visual gravity of an elevation to utilitarian fabric panels.
-              </p>
-              <p>
-                Tessera treats acoustic physics as architectural relief. Every
-                600&nbsp;×&nbsp;600&nbsp;mm module pairs sintered stone, kiln-fumed
-                timber, or compressed merino wool with tuned Helmholtz cavities that
-                quiet reverberation on contact.
-              </p>
-            </div>
+            <p className="text-[15px] leading-[1.7] text-[#94A3B8] max-w-[46ch]">
+              Modular relief panels soften reverberation without hiding the architecture.
+            </p>
 
             {/* Scroll-Morphing SVG Reverberation Attenuation Trace */}
             <div className="pt-6 border-t border-slate-200/10">
               <div className="flex items-center justify-between text-xs font-mono-tabular mb-3">
                 <span className="text-[#94A3B8]">
-                  Scroll-Driven Impulse Attenuation Trace (500–2000 Hz)
+                  Reverberation demo
                 </span>
                 <span className="text-[#E2C399] font-medium">
                   RT60: {liveRt60}s
@@ -203,8 +176,8 @@ export const ManifestoSection: React.FC = () => {
                   />
                 </svg>
                 <div className="flex items-center justify-between text-[11px] font-mono-tabular text-[#64748B] mt-2">
-                  <span>Untreated Specular Echo (2.10s)</span>
-                  <span>Laminar Acoustic Clarity (0.38s)</span>
+                  <span>Untreated</span>
+                  <span>With Tessera</span>
                 </div>
               </div>
             </div>
@@ -228,8 +201,8 @@ export const ManifestoSection: React.FC = () => {
               </div>
             </TiltSurface>
             <div className="mt-3 flex items-center justify-between text-xs font-mono-tabular text-[#94A3B8]">
-              <span>Atrium Relief Study No. 04</span>
-              <span>Sintered Limestone · Smoked Walnut</span>
+              <span>Atrium concept</span>
+              <span>Limestone and walnut</span>
             </div>
           </div>
         </div>

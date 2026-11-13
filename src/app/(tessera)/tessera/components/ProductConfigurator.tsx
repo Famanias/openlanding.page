@@ -249,13 +249,8 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-slate-200/10">
           <div className="space-y-3 max-w-2xl">
-            <div className="flex items-center gap-2 text-xs font-mono-tabular text-[#94A3B8]">
-              <span>06. Interactive Architectural Studio</span>
-              <span aria-hidden="true">·</span>
-              <span>CSI 09 84 33 Specification Builder</span>
-            </div>
             <h2 className="font-display text-[clamp(2.1rem,3.5vw,3.25rem)] leading-[1.1] font-normal text-[#F8FAFC]">
-              Compose your elevation and verify acoustic absorption in real time.
+              Design your wall.
             </h2>
           </div>
 
@@ -270,7 +265,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
               className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-md bg-[#0B0D10] text-[#CBD5E1] border border-slate-200/15 hover:border-[#C89D66] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C89D66]"
             >
               <RotateCcw className="w-3.5 h-3.5 text-[#C89D66]" />
-              <span>Reset Installation</span>
+              <span>Reset</span>
             </button>
 
             <MagneticButton
@@ -281,12 +276,12 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
               {copied ? (
                 <>
                   <Check className="w-4 h-4" />
-                  <span>Specification Copied</span>
+                  <span>Copied</span>
                 </>
               ) : (
                 <>
                   <Copy className="w-4 h-4" />
-                  <span>Copy Configuration</span>
+                  <span>Copy specification</span>
                 </>
               )}
             </MagneticButton>
@@ -375,15 +370,14 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
 
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#94A3B8] pt-3 border-t border-slate-200/10">
                 <span>
-                  Tip: Click or select any individual module above to rotate its facet
-                  by 90°.
+                  Click a tile to rotate it.
                 </span>
                 <button
                   type="button"
                   onClick={() => setShowSpecPreview((prev) => !prev)}
                   className="text-xs font-mono-tabular text-[#E2C399] hover:underline whitespace-nowrap shrink-0 cursor-pointer"
                 >
-                  {showSpecPreview ? 'Hide CSI Summary' : 'Preview CSI Summary'}
+                  {showSpecPreview ? 'Hide specification' : 'View specification'}
                 </button>
               </div>
 
@@ -402,7 +396,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             <div className="bg-[#0B0D10] border border-slate-200/12 rounded-xl p-5 sm:p-6 space-y-5">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div>
-                  <div className="text-[11px] text-[#64748B]">System NRC Rating</div>
+                  <div className="text-[11px] text-[#64748B]">Sound absorption (NRC)</div>
                   <div
                     data-testid="metric-nrc"
                     className="font-mono-tabular text-2xl font-medium text-[#E2C399] mt-0.5"
@@ -420,7 +414,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
                   </div>
                 </div>
                 <div>
-                  <div className="text-[11px] text-[#64748B]">Chamber RT60 Shift</div>
+                  <div className="text-[11px] text-[#64748B]">Reverberation</div>
                   <div className="font-mono-tabular text-lg sm:text-xl font-medium text-[#F8FAFC] mt-1">
                     {metrics.rt60UntreatedSec}s → {metrics.rt60TreatedSec}s
                   </div>
@@ -434,9 +428,10 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
               </div>
 
               {/* Live 6-Band Frequency Bar Strip */}
-              <div className="pt-4 border-t border-slate-200/10">
+              <details className="pt-4 border-t border-slate-200/10">
+                <summary className="mb-3 text-xs text-[#E2C399] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Acoustic details</summary>
                 <div className="flex items-center justify-between text-[11px] font-mono-tabular text-[#94A3B8] mb-2.5">
-                  <span>Predicted Sound Absorption by Octave Band (ISO 354)</span>
+                  <span>Estimated absorption</span>
                   <span>-{metrics.rt60ReductionPercent}% Reverberation</span>
                 </div>
                 <div className="grid grid-cols-6 gap-2">
@@ -455,7 +450,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
                     </div>
                   ))}
                 </div>
-              </div>
+              </details>
             </div>
           </div>
 
@@ -465,7 +460,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono-tabular text-[#94A3B8]">
-                  01. MODULE GEOMETRY
+                  Shape
                 </span>
                 <span className="text-xs font-mono-tabular text-[#E2C399]">
                   {shapeSpec.depthMm} mm Relief
@@ -497,9 +492,6 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
                       <div className="text-sm font-semibold text-[#F8FAFC]">
                         {shape.name}
                       </div>
-                      <div className="text-[11px] text-[#94A3B8] mt-0.5 line-clamp-1">
-                        {shape.subtitle}
-                      </div>
                     </button>
                   );
                 })}
@@ -510,7 +502,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             <div className="space-y-3 pt-5 border-t border-slate-200/10">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono-tabular text-[#94A3B8]">
-                  02. ARCHITECTURAL FINISH
+                  Finish
                 </span>
                 <span className="text-xs font-medium text-[#F1F5F9]">
                   {materialSpec.name}
@@ -561,7 +553,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             <div className="space-y-3 pt-5 border-t border-slate-200/10">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono-tabular text-[#94A3B8]">
-                  03. TESSELLATION PATTERN
+                  Pattern
                 </span>
               </div>
 
@@ -595,9 +587,6 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
                       <div className="text-xs sm:text-sm font-semibold text-[#F8FAFC]">
                         {pat.name}
                       </div>
-                      <div className="text-[11px] text-[#94A3B8] mt-0.5 line-clamp-1">
-                        {pat.architecturalIntent}
-                      </div>
                     </button>
                   );
                 })}
@@ -607,7 +596,7 @@ export const ProductConfigurator: React.FC<ProductConfiguratorProps> = ({
             {/* Step 4: Elevation Matrix Dimensions */}
             <div className="space-y-4 pt-5 border-t border-slate-200/10">
               <span className="block text-xs font-mono-tabular text-[#94A3B8]">
-                04. WALL MATRIX DIMENSIONS (600 MM MODULES)
+                Wall size (600 mm tiles)
               </span>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
