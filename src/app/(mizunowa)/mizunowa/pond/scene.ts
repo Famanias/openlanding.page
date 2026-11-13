@@ -324,39 +324,24 @@ export async function createPondScene(
   const spawnPelletsAt = (x: number, z: number): boolean => {
     if (!isInsideNaturalPond({ x, z }, 0.25)) return false;
 
-    const offsets: Array<[number, number]> = [
-      [0, 0],
-      [0.2, -0.14],
-      [-0.18, 0.16],
-    ];
-    let spawnedAny = false;
-    for (const [ox, oz] of offsets) {
-      const px = x + ox;
-      const pz = z + oz;
-      if (isInsideNaturalPond({ x: px, z: pz }, 0.2)) {
-        if (activePellets.length >= 8) {
-          activePellets.shift();
-        }
-        activePellets.push({
-          id: nextPelletId++,
-          x: px,
-          z: pz,
-          createdAt: clock.elapsed,
-          eaten: false,
-        });
-        spawnedAny = true;
-      }
+    if (activePellets.length >= 8) {
+      activePellets.shift();
     }
+    activePellets.push({
+      id: nextPelletId++,
+      x,
+      z,
+      createdAt: clock.elapsed,
+      eaten: false,
+    });
 
-    if (spawnedAny) {
-      waterRig.spawnRipple(x, z, clock.elapsed, !clock.isAdvancing, 0.92, true);
-      waterRig.syncPellets(activePellets, clock.elapsed);
-      options.onPelletAdded?.();
-      if (!clock.isAdvancing) {
-        renderFrame();
-      }
+    waterRig.spawnRipple(x, z, clock.elapsed, !clock.isAdvancing, 0.92, true);
+    waterRig.syncPellets(activePellets, clock.elapsed);
+    options.onPelletAdded?.();
+    if (!clock.isAdvancing) {
+      renderFrame();
     }
-    return spawnedAny;
+    return true;
   };
 
   const spawnDisturbanceRipple = (x: number, z: number, strength = 1.0): boolean => {
