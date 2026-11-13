@@ -29,7 +29,8 @@ export const TECHNOLOGY_TAGS = {
     "echolog",
     "mesamarket",
     "tessera",
-    "surface08"
+    "surface08",
+    "datum"
   ],
   "gsap": [
     "amaoto",
@@ -92,7 +93,8 @@ export const TECHNOLOGY_TAGS = {
     "orbitbeyond",
     "echolog",
     "postmark",
-    "tessera"
+    "tessera",
+    "datum"
   ],
   "shaders": [
     "amaoto",

@@ -16,9 +16,9 @@ describe("gallery template data", () => {
     }
   });
   it("contains all templates with required metadata", () => {
-    expect(TEMPLATES).toHaveLength(100);
+    expect(TEMPLATES).toHaveLength(101);
     const slugs = TEMPLATES.map((t) => t.slug);
-    expect(slugs).toEqual(["surface08", "tessera", "mesamarket", "postmark", "rooted", "echolog", "aerune", "orbitbeyond", "forum", "frameone", "kinfield", "grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
+    expect(slugs).toEqual(["datum", "surface08", "tessera", "mesamarket", "postmark", "rooted", "echolog", "aerune", "orbitbeyond", "forum", "frameone", "kinfield", "grandstand", "daymark", "holloway", "glyphwork", "radius", "patchbay", "kairok", "tourne", "velora", "nema", "auven", "vyra", "orova", "cirro", "aurel", "arcsignal", "waypoint", "khora", "pitchlane", "strata", "savepoint", "lenus", "penumbra", "zeno", "starriot","nexus","razorline","poppypatch","nicopark","inesvale","riff","halodesk","stillwater","mercer","landingx","avel","pello","ctrlroom","noiseclub","parallel","warpwander","lumen","morta","synapxe","xibalba","perigee","loam","lowtide","firstday","assemblage","cullet","nightline","understudy","flori","amaoto","nulo","serein","pipkin","valence","chinagraph","fixture","aftercart","tally","satoyama","mio","hiyas","rill","alpine-reel","kazeko","nomi","truecut","handoff","openhouse","volume-zero","kinetic","satsuma","aubade","bathys","iridia","noctiluca","verane","wowflutter","loophouse","vector","calder","trace","keytu","koji","orrery"]);
   });
 
   it("archives the specified templates and hides them from the gallery", () => {
@@ -125,7 +125,7 @@ describe("gallery template data", () => {
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (terraSlugs.includes(t.slug)) {
         expect(t.model).toBe("GPT-6.1 Terra Max");
-      } else if (t.slug === "postmark" || t.slug === "surface08") {
+      } else if (t.slug === "datum" || t.slug === "postmark" || t.slug === "surface08") {
         expect(t.model).toBe("Gemini 4 Carbon High");
       } else if (t.slug === "lenus") {
         expect(t.model).toBe("GPT-6.1 Sol");
@@ -289,5 +289,13 @@ describe("gallery template data", () => {
     expect(mercer?.category).toBe("portfolio");
     expect(mercer?.promptMarkdown).toContain("Jules Mercer");
     expect(mercer?.promptMarkdown).toContain("#0A0D10");
+  });
+
+  it("files DATUM under 3D with its rebuild prompt inlined", () => {
+    const datum = TEMPLATES.find((t) => t.slug === "datum");
+    expect(datum?.category).toBe("3d");
+    expect(datum?.promptMarkdown.trim()).toBe(
+      fs.readFileSync(path.join(process.cwd(), "src/app/(datum)/datum/PROMPT.md"), "utf8").replace(/\r\n/g, "\n").trim(),
+    );
   });
 });

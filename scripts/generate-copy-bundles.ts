@@ -219,6 +219,10 @@ tally: { includeDownload: true,
     name: "Assemblage",
     dependencies: ["three"],
   },
+  datum: {
+    name: "DATUM",
+    dependencies: ["three", "lenis"],
+  },
 };
 
 export const TEMPLATE_METADATA = Object.fromEntries(Object.entries(COPY_METADATA).map(([slug, meta]) => [slug, {
