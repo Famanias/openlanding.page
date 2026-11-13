@@ -23,9 +23,9 @@
   --mnw-stagger: 70ms;
 
   /* Typography (wired to next/font variables loaded on <html>) */
-  --mnw-font-serif: var(--font-mnw-serif), 'Newsreader', Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
-  --mnw-font-sans: var(--font-mnw-sans), 'Manrope', -apple-system, BlinkMacSystemFont, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
-  --mnw-font-mono: var(--font-mnw-mono), 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --mnw-font-serif: var(--font-mnw-serif, 'Newsreader', Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --mnw-font-sans: var(--font-mnw-sans, 'Manrope', -apple-system, BlinkMacSystemFont, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  --mnw-font-mono: var(--font-mnw-mono, 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Layout */
   --mnw-max-width: 1320px;

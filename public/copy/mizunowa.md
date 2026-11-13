@@ -13,7 +13,27 @@
   <files>
     <file path="src/app/(mizunowa)/layout.tsx">
 <![CDATA[import type { Metadata, Viewport } from "next";
+import { IBM_Plex_Mono, Manrope, Newsreader } from "next/font/google";
 import "./mizunowa/mizunowa.css";
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-mnw-serif",
+  display: "swap",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-mnw-sans",
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mnw-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "MIZUNOWA — An imagined garden in motion",
@@ -40,7 +60,10 @@ export default function MizunowaLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`scroll-smooth`}>
+    <html
+      lang="en"
+      className={`scroll-smooth ${newsreader.variable} ${manrope.variable} ${ibmPlexMono.variable}`}
+    >
       <body className="bg-[#0b0b0b] text-[#f4f0e8] antialiased">
         {children}
       </body>
@@ -134,9 +157,9 @@ export function Picture({ assetKey, alt, className }: PictureProps) {
   --mnw-stagger: 70ms;
 
   /* Typography (wired to next/font variables loaded on <html>) */
-  --mnw-font-serif: var(--font-mnw-serif), 'Newsreader', Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
-  --mnw-font-sans: var(--font-mnw-sans), 'Manrope', -apple-system, BlinkMacSystemFont, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
-  --mnw-font-mono: var(--font-mnw-mono), 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --mnw-font-serif: var(--font-mnw-serif, 'Newsreader', Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --mnw-font-sans: var(--font-mnw-sans, 'Manrope', -apple-system, BlinkMacSystemFont, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  --mnw-font-mono: var(--font-mnw-mono, 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Layout */
   --mnw-max-width: 1320px;
