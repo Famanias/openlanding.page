@@ -120,10 +120,13 @@ describe("gallery template data", () => {
 
   it("assigns the exact specified model tag to each template", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
-    const argonSlugs = ["serraform", "mizunowa", "rooted", "mesamarket", "echolog", "tessera", "cirro", "orova", "vyra", "auven", "nema", "velora", "orbitbeyond", "forum", "holloway", "glyphwork", "kairok", "aurel", "arcsignal", "penumbra", "zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
+    const hydrogenSlugs = ["serraform", "mizunowa"];
+    const argonSlugs = ["rooted", "mesamarket", "echolog", "tessera", "cirro", "orova", "vyra", "auven", "nema", "velora", "orbitbeyond", "forum", "holloway", "glyphwork", "kairok", "aurel", "arcsignal", "penumbra", "zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
     const terraSlugs = ["aerune", "frameone", "kinfield", "grandstand", "daymark", "radius", "pello", "avel", "landingx"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
-      if (terraSlugs.includes(t.slug)) {
+      if (hydrogenSlugs.includes(t.slug)) {
+        expect(t.model).toBe("Gemini 4 Hydrogen xHigh");
+      } else if (terraSlugs.includes(t.slug)) {
         expect(t.model).toBe("GPT-6.1 Terra Max");
       } else if (t.slug === "postmark" || t.slug === "surface08") {
         expect(t.model).toBe("Gemini 4 Carbon High");

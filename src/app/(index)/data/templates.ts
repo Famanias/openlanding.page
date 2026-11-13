@@ -3085,7 +3085,7 @@ RAW_TEMPLATES.push(
     badges: ["Interactive Landing", "Responsive", "Accessible"],
     previewImage: "/templates/mizunowa/preview-1600.webp",
     promptMarkdown: MIZUNOWA_PROMPT,
-    model: "Gemini 4 Argon High",
+    model: "Gemini 4 Hydrogen xHigh",
   }
 ,
   {
@@ -3101,7 +3101,7 @@ RAW_TEMPLATES.push(
     badges: ["Interactive Landing", "Responsive", "Accessible"],
     previewImage: "/templates/serraform/preview-1600.webp",
     promptMarkdown: SERRAFORM_PROMPT,
-    model: "Gemini 4 Argon High",
+    model: "Gemini 4 Hydrogen xHigh",
   }
 );
 
