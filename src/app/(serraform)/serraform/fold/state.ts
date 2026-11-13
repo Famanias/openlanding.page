@@ -95,7 +95,7 @@ export function viewDirectionFromAngles(view: ViewState): [number, number, numbe
   ];
 }
 
-export function createInitialFoldState(enhanced = false): FoldStudioState {
+export function createInitialFoldState(enhanced = true): FoldStudioState {
   return {
     mode: enhanced ? 'story' : 'manual',
     design: { ...DEFAULT_DESIGN },

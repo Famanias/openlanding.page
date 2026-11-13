@@ -8,7 +8,7 @@ export function getInitialReducedMotion(): boolean {
 }
 
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState<boolean>(getInitialReducedMotion);
+  const [reduced, setReduced] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {

@@ -3930,12 +3930,17 @@ export interface FoldContextValue {
 
 const FoldContext = createContext<FoldContextValue | null>(null);
 
+const DEFAULT_ENV: EnvironmentFlags = {
+  enhancedDesktop: true,
+  isCoarsePointer: false,
+  saveData: false,
+  reducedMotion: false,
+};
+
 function readEnvFlags(reducedMotion: boolean): EnvironmentFlags {
   if (typeof window === 'undefined') {
     return {
-      enhancedDesktop: false,
-      isCoarsePointer: false,
-      saveData: false,
+      ...DEFAULT_ENV,
       reducedMotion,
     };
   }
@@ -3956,13 +3961,11 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const reducedMotion = useReducedMotion();
-  const [env, setEnv] = useState<EnvironmentFlags>(() =>
-    readEnvFlags(reducedMotion),
-  );
+  const [env, setEnv] = useState<EnvironmentFlags>(DEFAULT_ENV);
 
   const [state, dispatch] = useReducer(
     foldReducer,
-    env.enhancedDesktop,
+    DEFAULT_ENV.enhancedDesktop,
     (enhanced) => createInitialFoldState(enhanced),
   );
 
@@ -9006,7 +9009,7 @@ export function viewDirectionFromAngles(view: ViewState): [number, number, numbe
   ];
 }
 
-export function createInitialFoldState(enhanced = false): FoldStudioState {
+export function createInitialFoldState(enhanced = true): FoldStudioState {
   return {
     mode: enhanced ? 'story' : 'manual',
     design: { ...DEFAULT_DESIGN },
@@ -10557,7 +10560,7 @@ export function getInitialReducedMotion(): boolean {
 }
 
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState<boolean>(getInitialReducedMotion);
+  const [reduced, setReduced] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {

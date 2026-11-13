@@ -21,4 +21,27 @@ test.describe("SERRAFORM", () => {
     await page.goto("/templates/serraform");
     await expect(page.locator("body")).toBeVisible();
   });
+
+  test("hydrates without hydration mismatch error", async ({ page }) => {
+    const hydrationErrors: string[] = [];
+    page.on("console", (msg) => {
+      const text = msg.text();
+      if (
+        text.includes("Hydration failed") ||
+        text.includes("hydration-mismatch") ||
+        text.includes("didn't match the client")
+      ) {
+        hydrationErrors.push(text);
+      }
+    });
+    page.on("pageerror", (err) => {
+      if (err.message.includes("Hydration failed") || err.message.includes("hydration")) {
+        hydrationErrors.push(err.message);
+      }
+    });
+    await page.goto("/templates/serraform");
+    await expect(page.locator("body")).toBeVisible();
+    await expect(page.locator("h1, h2").first()).toBeVisible();
+    expect(hydrationErrors).toEqual([]);
+  });
 });

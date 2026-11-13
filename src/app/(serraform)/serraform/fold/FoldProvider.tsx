@@ -84,12 +84,17 @@ export interface FoldContextValue {
 
 const FoldContext = createContext<FoldContextValue | null>(null);
 
+const DEFAULT_ENV: EnvironmentFlags = {
+  enhancedDesktop: true,
+  isCoarsePointer: false,
+  saveData: false,
+  reducedMotion: false,
+};
+
 function readEnvFlags(reducedMotion: boolean): EnvironmentFlags {
   if (typeof window === 'undefined') {
     return {
-      enhancedDesktop: false,
-      isCoarsePointer: false,
-      saveData: false,
+      ...DEFAULT_ENV,
       reducedMotion,
     };
   }
@@ -110,13 +115,11 @@ export const FoldProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const reducedMotion = useReducedMotion();
-  const [env, setEnv] = useState<EnvironmentFlags>(() =>
-    readEnvFlags(reducedMotion),
-  );
+  const [env, setEnv] = useState<EnvironmentFlags>(DEFAULT_ENV);
 
   const [state, dispatch] = useReducer(
     foldReducer,
-    env.enhancedDesktop,
+    DEFAULT_ENV.enhancedDesktop,
     (enhanced) => createInitialFoldState(enhanced),
   );
 
