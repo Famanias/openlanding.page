@@ -1,6 +1,10 @@
+import { ScrollBand } from "../motion/ScrollBand";
+import { PhotoReel } from "../motion/PhotoReel";
+
 export function Intro() {
   return <>
-    <div className="aw-band" aria-label="Less scrolling, more strolling"><div className="aw-band-track" aria-hidden="true"><span>LESS SCROLLING</span><b>✳</b><span>MORE STROLLING</span><b>✳</b><span>GOOD COMPANY</span><b>✳</b><span>LESS SCROLLING</span><b>✳</b><span>MORE STROLLING</span><b>✳</b><span>GOOD COMPANY</span><b>✳</b></div></div>
+    <ScrollBand />
+    <PhotoReel />
     <section className="aw-intro aw-section" id="about">
       <div className="aw-container">
         <div className="aw-section-head" data-reveal="rise"><span className="aw-kicker">01 / THE IDEA</span><span>GOOD WALKS. BETTER COMPANY.</span></div>

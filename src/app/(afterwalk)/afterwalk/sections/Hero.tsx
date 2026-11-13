@@ -12,6 +12,7 @@ export function Hero() {
       </div>
       <div className="aw-hero-visual">
         <div className="aw-photo-mat"><Picture assetKey="hero" alt="Two friends walking together beside a leafy city river" className="aw-hero-photo" priority sizes="(max-width: 760px) 100vw, 55vw" /><div className="aw-photo-caption"><span>THE WORLD CAN WAIT A MINUTE.</span><span>NO. 001 / THE RIVER</span></div></div>
+        <div className="aw-hero-peek" aria-hidden="true"><Picture assetKey="walk-park" alt="" sizes="180px" /><span>WEEKEND PLANS / 02</span></div>
         <div className="aw-stamp" aria-label="Good company, easy pace"><span>GOOD COMPANY</span><b>✳</b><span>EASY PACE</span></div>
         <div className="aw-hero-note"><span>TAKE THE<br />SCENIC ROUTE</span><svg viewBox="0 0 48 45" fill="none" aria-hidden="true"><path d="M3 3c21 0 29 11 32 30m-9-5 9 8 8-10" stroke="currentColor" strokeWidth="1.6"/></svg></div>
       </div>

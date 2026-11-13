@@ -2,4 +2,7 @@
 export const ASSETS: Record<string, { w: number; h: number }> = {
   "hero": { "w": 1536, "h": 1024 },
   "together": { "w": 1536, "h": 1024 },
+  "walk-park": { "w": 1536, "h": 1024 },
+  "walk-river": { "w": 1536, "h": 1024 },
+  "walk-sunset": { "w": 1536, "h": 1024 },
 };

@@ -1,7 +1,9 @@
 <template slug="afterwalk" name="AFTERWALK">
   <dependencies>
     {
-      "dependencies": {}
+      "dependencies": {
+        "motion": "^14.4.0"
+      }
     }
   </dependencies>
   <instructions>
@@ -66,6 +68,12 @@ html { scroll-behavior: smooth; }
 .aw-body section { scroll-margin-top: 24px; }
 .aw-container { width: min(100% - 112px, 1360px); margin-inline: auto; }
 .aw-section { padding-block: 128px; }
+.aw-scroll-progress { position: fixed; inset: 0 0 auto; z-index: 80; height: 3px; background: var(--aw-lime); transform-origin: left; pointer-events: none; }
+.aw-hero-marker { display: block; height: 0; }
+.aw-hero-stage { position: relative; z-index: 0; }
+.aw-hero-stage[data-pinned="true"] { position: sticky; top: 0; }
+.aw-hero-frame { transform-origin: 50% 45%; }
+.aw-sheet { position: relative; z-index: 2; }
 .aw-skip { position: fixed; z-index: 100; top: 8px; left: 8px; background: var(--aw-lime); padding: 12px; transform: translateY(-160%); }
 .aw-skip:focus { transform: translateY(0); }
 .aw-header { position: relative; z-index: 20; background: var(--aw-paper); }
@@ -113,6 +121,11 @@ html { scroll-behavior: smooth; }
 .aw-hero-photo img, .aw-together-image picture img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .aw-hero-photo img { object-position: 48% 50%; }
 .aw-photo-caption { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; font-size: 9px; color: var(--aw-muted); }
+.aw-hero-peek { position: absolute; left: -38px; bottom: 48px; width: clamp(120px, 12vw, 165px); padding: 7px 7px 9px; background: var(--aw-paper); color: var(--aw-ink); transform: rotate(-6deg); box-shadow: 0 8px 24px color-mix(in srgb, var(--aw-ink) 18%, transparent); }
+.aw-hero-peek picture, .aw-hero-peek img { display: block; width: 100%; }
+.aw-hero-peek picture { aspect-ratio: 1.05; overflow: hidden; }
+.aw-hero-peek img { height: 100%; object-fit: cover; }
+.aw-hero-peek span { display: block; padding-top: 7px; font-family: var(--aw-font-mono), monospace; font-size: 8px; letter-spacing: .03em; }
 .aw-stamp { position: absolute; right: -22px; bottom: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 124px; height: 124px; border: 1px solid var(--aw-ink); border-radius: 50%; background: var(--aw-lime); color: var(--aw-ink); transform: rotate(11deg); font-family: var(--aw-font-mono), monospace; font-size: 8px; letter-spacing: .06em; text-align: center; }
 .aw-stamp b { font-size: 38px; line-height: 1.2; font-weight: 400; }
 .aw-hero-note { position: absolute; left: 40px; top: 24px; display: flex; align-items: center; gap: 4px; color: var(--aw-paper); font-family: var(--aw-font-mono), monospace; font-size: 9px; line-height: 1.5; letter-spacing: .06em; }
@@ -120,9 +133,29 @@ html { scroll-behavior: smooth; }
 .aw-hero-bottom { display: flex; justify-content: space-between; gap: 20px; padding-block: 39px 23px; color: var(--aw-muted); font-size: 9px; }
 .aw-hero-bottom a { color: var(--aw-ink); }
 .aw-hero-bottom a span { padding-left: 12px; }
-.aw-band { overflow: hidden; background: var(--aw-ink); color: var(--aw-paper); }
-.aw-band-track { width: max-content; display: flex; align-items: center; gap: 44px; padding: 17px 30px; font-family: var(--aw-font-mono), monospace; font-size: 11px; letter-spacing: .12em; }
-.aw-band b { color: var(--aw-lime); font-family: sans-serif; font-size: 23px; font-weight: 400; line-height: 1; }
+.aw-band { position: relative; height: 57px; overflow: hidden; border-radius: 24px 24px 0 0; background: var(--aw-ink); }
+.aw-reel-section { padding: 96px 0 88px; overflow: clip; background: var(--aw-paper); }
+.aw-reel-heading { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 38px; }
+.aw-reel-heading h2 { margin-top: 17px; font-family: var(--aw-font-fraunces), Georgia, serif; font-size: clamp(40px, 4vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -.05em; text-wrap: balance; }
+.aw-reel-heading h2 em { color: var(--aw-muted); font-style: normal; }
+.aw-reel-heading p { flex: 0 0 auto; color: var(--aw-muted); font-size: 13px; line-height: 1.65; }
+.aw-reel-heading p span { color: var(--aw-ink); font-weight: 700; }
+.aw-reel-viewport { width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; scrollbar-color: var(--aw-muted) transparent; }
+.aw-reel-viewport[data-live="true"] { overflow: hidden; touch-action: pan-y; cursor: grab; }
+.aw-reel-viewport[data-live="true"]:active { cursor: grabbing; }
+.aw-reel-track { display: flex; width: max-content; gap: 16px; padding: 12px max(56px, calc((100vw - 1360px) / 2)) 14px; }
+.aw-reel-card { flex: 0 0 auto; width: clamp(270px, 25vw, 380px); margin: 0; user-select: none; }
+.aw-reel-picture { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--aw-sage); }
+.aw-reel-picture picture, .aw-reel-picture img { display: block; width: 100%; height: 100%; }
+.aw-reel-picture img { object-fit: cover; pointer-events: none; }
+.aw-reel-number { position: absolute; top: 14px; left: 14px; padding: 7px 9px; background: var(--aw-paper); color: var(--aw-ink); font-family: var(--aw-font-mono), monospace; font-size: 9px; letter-spacing: .06em; }
+.aw-reel-card figcaption { display: flex; justify-content: space-between; gap: 16px; padding: 13px 0 0; font-family: var(--aw-font-mono), monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+.aw-reel-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 25px; color: var(--aw-muted); font-family: var(--aw-font-mono), monospace; font-size: 9px; letter-spacing: .08em; }
+.aw-reel-actions { display: flex; align-items: center; gap: 8px; }
+.aw-reel-pause { min-height: 42px; margin-right: 8px; padding: 0 4px; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--aw-ink); font-size: 10px; white-space: nowrap; }
+.aw-reel-arrow { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--aw-ink); border-radius: 50%; background: transparent; color: var(--aw-ink); font-family: var(--aw-font-dm), sans-serif; font-size: 19px; transition: color var(--aw-duration-fast), background var(--aw-duration-fast), transform var(--aw-duration-fast); }
+.aw-reel-arrow:hover { color: var(--aw-paper); background: var(--aw-ink); }
+.aw-reel-arrow:active { transform: scale(.93); }
 .aw-section-head { display: flex; justify-content: space-between; gap: 20px; align-items: center; border-top: 1px solid color-mix(in srgb, var(--aw-ink) 30%, transparent); padding-top: 16px; color: var(--aw-muted); }
 .aw-kicker { color: var(--aw-ink); }
 .aw-intro { background: var(--aw-white); }
@@ -147,22 +180,25 @@ html { scroll-behavior: smooth; }
 .aw-filters button { min-height: 40px; padding: 0 17px; border: 1px solid color-mix(in srgb, var(--aw-ink) 25%, transparent); border-radius: 100px; background: transparent; color: var(--aw-ink); font-size: 12px; font-weight: 600; transition: background var(--aw-duration-fast), color var(--aw-duration-fast); }
 .aw-filters button:hover, .aw-filters button.is-active { color: var(--aw-paper); background: var(--aw-ink); border-color: var(--aw-ink); }
 .aw-filter-note { color: var(--aw-muted); white-space: nowrap; }
-.aw-walk-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
-.aw-walk-card { display: flex; flex-direction: column; min-width: 0; background: var(--aw-white); border: 1px solid color-mix(in srgb, var(--aw-ink) 15%, transparent); transition: transform var(--aw-duration-base) var(--aw-ease); }
-@media (hover: hover) and (pointer: fine) { .aw-walk-card:hover { transform: translateY(-5px); } }
+.aw-walk-grid { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.aw-walk-card { display: flex; flex-direction: column; min-width: 0; background: var(--aw-white); border: 1px solid color-mix(in srgb, var(--aw-ink) 15%, transparent); }
 .aw-walk-art { position: relative; height: clamp(190px, 20vw, 260px); overflow: hidden; padding: 18px; }
 .aw-walk-art-green { background: var(--aw-sage); }
 .aw-walk-art-peach { background: var(--aw-peach); }
 .aw-walk-art-yellow { background: var(--aw-butter); }
-.aw-walk-art-top { position: relative; z-index: 1; display: flex; justify-content: space-between; color: var(--aw-ink); font-size: 9px; }
+.aw-walk-photo { position: absolute; inset: 0; display: block; }
+.aw-walk-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 700ms var(--aw-ease); }
+@media (hover: hover) and (pointer: fine) { .aw-walk-card:hover .aw-walk-photo img { transform: scale(1.06); } }
+.aw-walk-art-top { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; color: var(--aw-ink); font-size: 9px; }
+.aw-walk-art-top span { padding: 6px 8px; background: var(--aw-paper); }
 .aw-walk-art-top span:last-child { font-size: 16px; line-height: 1; }
-.aw-route-art { position: absolute; inset: 22px 0 0; width: 100%; height: 85%; color: var(--aw-ink); }
+.aw-route-art { position: absolute; inset: auto 14px 14px auto; width: 112px; height: 72px; padding: 4px; background: var(--aw-paper); color: var(--aw-ink); }
 .aw-map-block { fill: color-mix(in srgb, var(--aw-white) 35%, transparent); }
 .aw-map-street { stroke: color-mix(in srgb, var(--aw-ink) 20%, transparent); stroke-width: 1.4; }
 .aw-map-route { stroke: var(--aw-ink); stroke-width: 3.3; stroke-linecap: round; stroke-dasharray: 5 6; }
 .aw-map-point { fill: var(--aw-ink); stroke: var(--aw-white); stroke-width: 3; }
 .aw-map-spark { stroke: var(--aw-ink); stroke-width: 1.5; }
-.aw-map-label { position: absolute; right: 18px; bottom: 12px; font-size: 8px; }
+.aw-map-label { position: absolute; left: 14px; right: auto; bottom: 14px; width: max-content; padding: 6px 8px; background: var(--aw-paper); font-size: 8px; }
 .aw-walk-body { display: flex; flex: 1; flex-direction: column; padding: 24px; }
 .aw-walk-meta { display: flex; justify-content: space-between; gap: 8px; color: var(--aw-muted); font-size: 9px; text-transform: uppercase; }
 .aw-walk-body h3 { margin-top: 19px; font-family: var(--aw-font-fraunces), Georgia, serif; font-size: clamp(25px, 2.3vw, 33px); font-weight: 500; line-height: 1.1; letter-spacing: -.04em; }
@@ -201,6 +237,8 @@ html { scroll-behavior: smooth; }
 .aw-together { background: var(--aw-white); }
 .aw-together-grid { display: grid; grid-template-columns: 1.08fr .8fr; gap: 10%; align-items: center; padding-top: 70px; }
 .aw-together-image { position: relative; align-self: stretch; min-height: 560px; background: var(--aw-sage); overflow: hidden; }
+.aw-parallax-frame { position: absolute; inset: 0; overflow: hidden; }
+.aw-parallax-photo { position: absolute; inset: 0; }
 .aw-together-image picture { display: block; width: 100%; height: 100%; position: absolute; inset: 0; }
 .aw-together-image img { object-position: 50% 50%; }
 .aw-image-label { position: absolute; left: 20px; bottom: 20px; background: var(--aw-paper); padding: 10px 12px; font-size: 9px; }
@@ -238,14 +276,24 @@ html { scroll-behavior: smooth; }
 .aw-photo-placeholder { display: grid; place-items: center; min-height: 300px; background: var(--aw-sage); font-family: var(--aw-font-mono), monospace; font-size: 12px; }
 
 @media (prefers-reduced-motion: no-preference) {
-  [data-reveal][data-motion-ready="true"] { transition: opacity var(--aw-duration-slow) var(--aw-ease), transform var(--aw-duration-slow) var(--aw-ease), clip-path var(--aw-duration-slow) var(--aw-ease-sweep); }
-  [data-reveal="rise"][data-motion-ready="true"]:not([data-in="true"]) { opacity: 0; transform: translateY(24px); }
-  [data-reveal="mask"][data-motion-ready="true"]:not([data-in="true"]) { opacity: 0; transform: translateY(24px); clip-path: inset(0 0 35% 0); }
+  [data-reveal][data-motion-ready="true"] { transition: transform var(--aw-duration-slow) var(--aw-ease), clip-path var(--aw-duration-slow) var(--aw-ease-sweep); }
+  [data-reveal="rise"][data-motion-ready="true"]:not([data-in="true"]) { transform: translateY(24px); }
+  [data-reveal="mask"][data-motion-ready="true"]:not([data-in="true"]) { transform: translateY(24px); clip-path: inset(0 0 20% 0); }
   [data-reveal="wipe"][data-motion-ready="true"]:not([data-in="true"]) { clip-path: inset(0 0 100% 0); }
-  .aw-hero-copy { animation: aw-hero-in var(--aw-duration-slow) var(--aw-ease) both; }
-  .aw-hero-visual { animation: aw-hero-photo-in 1s var(--aw-ease) both; }
-  @keyframes aw-hero-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes aw-hero-photo-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .aw-walk-art[data-motion-ready="true"] { transition-delay: calc(var(--aw-reveal-order, 0) * 90ms); }
+  .aw-hero-eyebrow { animation: aw-hero-in 600ms var(--aw-ease) both; }
+  .aw-hero h1 { animation: aw-hero-mask 850ms var(--aw-ease) 100ms both; }
+  .aw-hero-lede { animation: aw-hero-in 700ms var(--aw-ease) 280ms both; }
+  .aw-hero-actions { animation: aw-hero-in 700ms var(--aw-ease) 400ms both; }
+  .aw-hero-foot { animation: aw-hero-in 700ms var(--aw-ease) 500ms both; }
+  .aw-hero-visual { animation: aw-hero-photo-in 1s var(--aw-ease) 120ms both; }
+  .aw-hero-photo img { animation: aw-photo-settle 1200ms var(--aw-ease) 120ms both; }
+  .aw-hero-peek { animation: aw-postcard-in 900ms var(--aw-ease) 450ms both; }
+  @keyframes aw-hero-in { from { transform: translateY(18px); } to { transform: translateY(0); } }
+  @keyframes aw-hero-mask { from { clip-path: inset(0 0 100% 0); transform: translateY(22px); } to { clip-path: inset(0); transform: translateY(0); } }
+  @keyframes aw-hero-photo-in { from { transform: translateY(16px); } to { transform: translateY(0); } }
+  @keyframes aw-photo-settle { from { transform: scale(1.08); } to { transform: scale(1); } }
+  @keyframes aw-postcard-in { from { opacity: 0; transform: translate(-22px, 28px) rotate(-12deg) scale(.92); } to { opacity: 1; transform: translate(0, 0) rotate(-6deg) scale(1); } }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 
@@ -264,6 +312,7 @@ html { scroll-behavior: smooth; }
   .aw-nav { gap: 22px; }
   .aw-hero-grid { gap: 28px; }
   .aw-hero h1 { font-size: clamp(58px, 7vw, 80px); }
+  .aw-hero-peek { left: 24px; width: 120px; }
   .aw-stamp { width: 100px; height: 100px; right: -14px; font-size: 7px; }
   .aw-intro-grid { gap: 5%; }
   .aw-doodle { width: 115px; right: 3%; }
@@ -278,10 +327,12 @@ html { scroll-behavior: smooth; }
   .aw-logo { font-size: 23px; }
   .aw-header-cta { display: none; }
   .aw-menu { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; border: 1px solid var(--aw-ink); border-radius: 50%; background: transparent; align-items: center; }
-  .aw-menu span { display: block; width: 17px; height: 1.5px; background: var(--aw-ink); }
+  .aw-menu span { display: block; width: 17px; height: 1.5px; background: var(--aw-ink); transition: transform var(--aw-duration-base) var(--aw-ease); }
+  .aw-menu[aria-expanded="true"] span:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .aw-menu[aria-expanded="true"] span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
   .aw-nav { position: static; order: 3; display: flex; flex-basis: 100%; flex-wrap: wrap; gap: 14px; padding: 8px 0 18px; font-size: 12px; }
-  .aw-enhanced .aw-nav { display: none; position: absolute; top: 72px; left: 0; right: 0; padding: 24px 20px 30px; background: var(--aw-paper); border-bottom: 1px solid var(--aw-ink); }
-  .aw-enhanced .aw-nav.is-open { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .aw-enhanced .aw-nav { display: flex; position: absolute; top: 72px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 24px 20px 30px; background: var(--aw-paper); border-bottom: 1px solid var(--aw-ink); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-12px); clip-path: inset(0 0 100% 0); transition: opacity var(--aw-duration-base) var(--aw-ease), transform var(--aw-duration-base) var(--aw-ease), clip-path var(--aw-duration-base) var(--aw-ease-sweep), visibility 0s linear var(--aw-duration-base); }
+  .aw-enhanced .aw-nav.is-open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); clip-path: inset(0); transition-delay: 0s; }
   .aw-enhanced .aw-nav.is-open > a { padding: 13px 0; font-size: 18px; }
   .aw-enhanced .aw-nav.is-open .aw-nav-mobile-cta { display: flex; justify-content: space-between; margin-top: 14px; padding: 16px 20px; border-radius: 60px; color: var(--aw-paper); background: var(--aw-ink); font-size: 14px; }
   .aw-hero-grid { grid-template-columns: 1fr; gap: 34px; padding-top: 28px; }
@@ -295,10 +346,18 @@ html { scroll-behavior: smooth; }
   .aw-hero-photo { aspect-ratio: 1.1; }
   .aw-stamp { right: -8px; bottom: 33px; width: 96px; height: 96px; }
   .aw-stamp b { font-size: 29px; }
+  .aw-hero-peek { left: -8px; bottom: 36px; width: 110px; }
   .aw-hero-note { left: 14px; top: 14px; }
   .aw-hero-bottom { padding-block: 24px; }
   .aw-hero-bottom > span { max-width: 150px; }
-  .aw-band-track { gap: 28px; padding: 14px 20px; }
+  .aw-reel-section { padding-block: 72px 68px; }
+  .aw-reel-heading { align-items: start; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+  .aw-reel-heading h2 { font-size: clamp(38px, 9vw, 54px); }
+  .aw-reel-heading p { font-size: 12px; }
+  .aw-reel-track { padding-inline: 20px; }
+  .aw-reel-card { width: min(74vw, 330px); }
+  .aw-reel-footer > span { max-width: 115px; }
+  .aw-band { height: 51px; }
   .aw-section-head { font-size: 9px; }
   .aw-section-head > span:last-child { text-align: right; }
   .aw-intro-grid { grid-template-columns: 1fr; gap: 26px; padding-top: 58px; }
@@ -329,6 +388,11 @@ html { scroll-behavior: smooth; }
   .aw-footer-bottom { align-items: flex-start; flex-wrap: wrap; gap: 20px 25px; }
   .aw-footer-bottom .aw-logo { flex-basis: 100%; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .aw-enhanced .aw-nav { transition: none; }
+  .aw-scroll-progress { display: none; }
+}
 ]]>
     </file>
     <file path="src/app/(afterwalk)/afterwalk/assets.generated.ts">
@@ -336,6 +400,9 @@ html { scroll-behavior: smooth; }
 export const ASSETS: Record<string, { w: number; h: number }> = {
   "hero": { "w": 1536, "h": 1024 },
   "together": { "w": 1536, "h": 1024 },
+  "walk-park": { "w": 1536, "h": 1024 },
+  "walk-river": { "w": 1536, "h": 1024 },
+  "walk-sunset": { "w": 1536, "h": 1024 },
 };
 ]]>
     </file>
@@ -383,17 +450,18 @@ import { WalkFinder } from "./walks/WalkFinder";
 import { FAQ } from "./sections/FAQ";
 import { Footer } from "./sections/Footer";
 import { MotionEffects } from "./motion/MotionEffects";
+import { HeroStage } from "./motion/HeroStage";
+import { ScrollProgress } from "./motion/ScrollProgress";
 
 export default function AfterwalkPage() {
   return <>
     <a className="aw-skip" href="#main">Skip to content</a>
     <MotionEffects />
+    <ScrollProgress />
     <Header />
     <main id="main">
-      <Hero />
-      <Intro />
-      <WalkFinder />
-      <FAQ />
+      <HeroStage><Hero /></HeroStage>
+      <div className="aw-sheet"><Intro /><WalkFinder /><FAQ /></div>
     </main>
     <Footer />
   </>;
@@ -409,6 +477,56 @@ export default function AfterwalkPage() {
 }
 ]]>
     </file>
+    <file path="src/app/(afterwalk)/afterwalk/motion/HeroStage.tsx">
+<![CDATA["use client";
+import { motion, useMotionValue, useScroll, useTransform } from "motion/react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useMotionAllowed } from "./useMotionAllowed";
+import { heroProgress } from "./scrollMath";
+
+/** A native sticky handoff: the next sheet covers the hero while it settles back. */
+export function HeroStage({ children }: { children: ReactNode }) {
+  const stage = useRef<HTMLDivElement>(null);
+  const marker = useRef<HTMLSpanElement>(null);
+  const [largeScreen, setLargeScreen] = useState(false);
+  const [fitsViewport, setFitsViewport] = useState(false);
+  const allowed = useMotionAllowed();
+  const { scrollY } = useScroll();
+  const start = useMotionValue(0);
+  const distance = useMotionValue(1);
+  const progress = useTransform(() => heroProgress(scrollY.get(), start.get(), distance.get()));
+  const scale = useTransform(progress, [0, 1], [1, 0.955]);
+  const opacity = useTransform(progress, [0, 1], [1, 0.7]);
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 900px) and (min-height: 700px)");
+    const sync = () => setLargeScreen(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    const measure = () => {
+      if (!marker.current || !stage.current) return;
+      start.set(marker.current.getBoundingClientRect().top + window.scrollY);
+      distance.set(Math.max(1, stage.current.offsetHeight * 0.9));
+      setFitsViewport(stage.current.offsetHeight <= window.innerHeight);
+    };
+    measure();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    if (stage.current) observer?.observe(stage.current);
+    window.addEventListener("resize", measure);
+    return () => { observer?.disconnect(); window.removeEventListener("resize", measure); };
+  }, [start, distance]);
+
+  const live = largeScreen && fitsViewport && allowed;
+  return <><span ref={marker} className="aw-hero-marker" aria-hidden="true" /><div ref={stage} className="aw-hero-stage" data-pinned={live ? "true" : "false"}>
+    <motion.div className="aw-hero-frame" style={{ scale: live ? scale : 1, opacity: live ? opacity : 1 }}>{children}</motion.div>
+  </div></>;
+}
+]]>
+    </file>
     <file path="src/app/(afterwalk)/afterwalk/motion/MotionEffects.tsx">
 <![CDATA["use client";
 import { useEffect } from "react";
@@ -417,21 +535,258 @@ export function MotionEffects() {
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+    const revealsByTarget = new Map<Element, HTMLElement[]>();
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          (entry.target as HTMLElement).dataset.in = "true";
+          revealsByTarget.get(entry.target)?.forEach((element) => { element.dataset.in = "true"; });
           observer.unobserve(entry.target);
+          revealsByTarget.delete(entry.target);
         }
       });
     }, { threshold: 0.12 });
     elements.forEach((element) => {
       if (element.getBoundingClientRect().top >= window.innerHeight) element.dataset.motionReady = "true";
-      observer.observe(element);
+      // An element clipped to zero has no intersection. Observe its visible wrapper instead.
+      const target = element.dataset.reveal === "wipe" ? element.parentElement ?? element : element;
+      const reveals = revealsByTarget.get(target);
+      if (reveals) reveals.push(element);
+      else {
+        revealsByTarget.set(target, [element]);
+        observer.observe(target);
+      }
     });
     return () => observer.disconnect();
   }, []);
   return null;
+}
+]]>
+    </file>
+    <file path="src/app/(afterwalk)/afterwalk/motion/ParallaxPhoto.tsx">
+<![CDATA["use client";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef, type ReactNode } from "react";
+import { useMotionAllowed } from "./useMotionAllowed";
+
+export function ParallaxPhoto({ children }: { children: ReactNode }) {
+  const frame = useRef<HTMLDivElement>(null);
+  const allowed = useMotionAllowed();
+  const { scrollYProgress } = useScroll({ target: frame, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
+  return <div className="aw-parallax-frame" ref={frame}><motion.div className="aw-parallax-photo" style={{ y: allowed ? y : 0, scale: allowed ? 1.1 : 1 }}>{children}</motion.div></div>;
+}
+]]>
+    </file>
+    <file path="src/app/(afterwalk)/afterwalk/motion/PhotoReel.tsx">
+<![CDATA["use client";
+import { animate, motion, useInView, useMotionValue, useTransform } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { Picture } from "../assets";
+import { nextStaticReelOffset, rescaleReelPhase, wrapReelOffset } from "./reelMath";
+import { useMotionAllowed } from "./useMotionAllowed";
+
+const PHOTOS = [
+  { key: "walk-river", label: "A little water", number: "01" },
+  { key: "walk-park", label: "Something sweet", number: "02" },
+  { key: "hero", label: "The scenic route", number: "03" },
+  { key: "walk-sunset", label: "The long way home", number: "04" },
+  { key: "together", label: "Better together", number: "05" },
+];
+
+/** A continuous, flat filmstrip. Native horizontal scrolling is the complete fallback. */
+export function PhotoReel() {
+  const viewport = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+  const controls = useRef<{ stop: () => void } | null>(null);
+  const lastPeriod = useRef(0);
+  const wasLive = useRef(false);
+  const x = useMotionValue(0);
+  const periodValue = useMotionValue(0);
+  const wrappedX = useTransform(() => wrapReelOffset(x.get(), periodValue.get()));
+  const inView = useInView(viewport, { amount: 0.1 });
+  const allowed = useMotionAllowed();
+  const [live, setLive] = useState(false);
+  const [period, setPeriod] = useState(0);
+  const [copies, setCopies] = useState(3);
+  const [paused, setPaused] = useState(false);
+  const [interacting, setInteracting] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [playRequested, setPlayRequested] = useState(false);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (allowed) {
+      if (viewport.current) {
+        x.set(-viewport.current.scrollLeft);
+        viewport.current.scrollLeft = 0;
+      }
+      wasLive.current = true;
+      setLive(true);
+    } else if (wasLive.current) {
+      const position = lastPeriod.current ? -wrapReelOffset(x.get(), lastPeriod.current) - lastPeriod.current : 0;
+      controls.current?.stop();
+      x.stop();
+      setInteracting(false);
+      wasLive.current = false;
+      setLive(false);
+      const frame = requestAnimationFrame(() => {
+        if (viewport.current) viewport.current.scrollLeft = Math.min(position, Math.max(0, viewport.current.scrollWidth - viewport.current.clientWidth));
+        x.set(0);
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+  }, [allowed, x]);
+
+  useEffect(() => () => controls.current?.stop(), []);
+
+  useEffect(() => {
+    const measure = () => {
+      if (!viewport.current || !track.current) return;
+      const card = track.current.querySelector<HTMLElement>(".aw-reel-card");
+      if (!card) return;
+      const gap = Number.parseFloat(getComputedStyle(track.current).columnGap) || 0;
+      const next = (card.getBoundingClientRect().width + gap) * PHOTOS.length;
+      if (!Number.isFinite(next) || next <= 0) return;
+      if (Math.abs(next - lastPeriod.current) > 0.01) {
+        controls.current?.stop();
+        x.stop();
+        setInteracting(false);
+        if (lastPeriod.current > 0) x.set(rescaleReelPhase(x.get(), lastPeriod.current, next));
+        lastPeriod.current = next;
+        periodValue.set(next);
+        setPeriod(next);
+      }
+      setCopies(Math.max(3, Math.ceil(viewport.current.clientWidth / next) + 2));
+    };
+    measure();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    if (viewport.current) observer?.observe(viewport.current);
+    if (track.current) observer?.observe(track.current);
+    window.addEventListener("resize", measure);
+    return () => { observer?.disconnect(); window.removeEventListener("resize", measure); };
+  }, [x, periodValue]);
+
+  useEffect(() => {
+    const sync = () => setVisible(!document.hidden);
+    sync();
+    document.addEventListener("visibilitychange", sync);
+    return () => document.removeEventListener("visibilitychange", sync);
+  }, []);
+
+  useEffect(() => {
+    if (!live || !inView || !visible || paused || interacting || ((hovered || focused) && !playRequested) || period <= 0) return;
+    const animation = animate(x, x.get() - period, { duration: period / 24, ease: "linear", repeat: Infinity, repeatType: "loop" });
+    controls.current = animation;
+    return () => { animation.stop(); if (controls.current === animation) controls.current = null; };
+  }, [live, inView, visible, paused, interacting, hovered, focused, playRequested, period, x]);
+
+  function step(direction: 1 | -1) {
+    controls.current?.stop();
+    setPlayRequested(false);
+    const first = track.current?.querySelector<HTMLElement>(".aw-reel-card");
+    const gap = track.current ? Number.parseFloat(getComputedStyle(track.current).columnGap) || 0 : 16;
+    const distance = (first?.getBoundingClientRect().width ?? 280) + gap;
+    if (!live) {
+      const element = viewport.current;
+      if (element) element.scrollTo({ left: nextStaticReelOffset(element.scrollLeft, distance, element.scrollWidth - element.clientWidth, direction), behavior: "instant" });
+      return;
+    }
+    setInteracting(true);
+    controls.current = animate(x, x.get() - distance * direction, { type: "spring", stiffness: 230, damping: 32, onComplete: () => setInteracting(false) });
+  }
+
+  return <section className="aw-reel-section" aria-labelledby="aw-reel-title" onMouseEnter={() => { setHovered(true); setPlayRequested(false); }} onMouseLeave={() => { setHovered(false); setPlayRequested(false); }} onFocusCapture={(event) => setFocused(event.target.matches(":focus-visible"))} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) { setFocused(false); setPlayRequested(false); } }}>
+    <div className="aw-container aw-reel-heading"><div><span className="aw-kicker">A LITTLE LIFE, OUTSIDE</span><h2 id="aw-reel-title">The long way <em>looks good on you.</em></h2></div><p>Little moments from the walks we love.<br /><span>Scroll or drag to wander through →</span></p></div>
+    <div className="aw-reel-viewport" ref={viewport} role="region" data-live={live ? "true" : "false"} data-period={period} tabIndex={live ? -1 : 0} aria-label="Walking photographs">
+      <motion.div ref={track} className="aw-reel-track" style={{ x: live ? wrappedX : 0 }}
+        onPanStart={live ? () => { controls.current?.stop(); x.stop(); setInteracting(true); setPlayRequested(false); } : undefined}
+        onPan={live ? (_event, info) => x.set(x.get() + info.delta.x) : undefined}
+        onPanEnd={live ? (event, info) => {
+          const coast = Math.max(-150, Math.min(150, info.velocity.x * 0.12));
+          if (event.type !== "pointercancel" && Math.abs(coast) > 2) controls.current = animate(x, x.get() + coast, { type: "spring", stiffness: 180, damping: 30, onComplete: () => setInteracting(false) });
+          else setInteracting(false);
+        } : undefined}>
+        {Array.from({ length: live ? copies : 1 }, (_, copy) => PHOTOS.map((photo) => <figure className="aw-reel-card" key={`${copy}-${photo.key}`} data-original={copy === (live ? 1 : 0) ? "true" : undefined} aria-hidden={copy !== (live ? 1 : 0) ? true : undefined} inert={copy !== (live ? 1 : 0) ? true : undefined}>
+          <div className="aw-reel-picture"><Picture assetKey={photo.key} alt="" sizes="(max-width: 760px) 75vw, 340px" /><span className="aw-reel-number">{photo.number} / 05</span></div>
+          <figcaption><span>{photo.label}</span><span aria-hidden="true">↗</span></figcaption>
+        </figure>))}
+      </motion.div>
+    </div>
+    <div className="aw-container aw-reel-footer"><span>SMALL MOMENTS. GOOD COMPANY.</span><div className="aw-reel-actions aw-js-only">{live && period > 0 && <button className="aw-reel-pause" type="button" onClick={() => { if (!paused) { controls.current?.stop(); x.stop(); setInteracting(false); } setPlayRequested(paused); setPaused(!paused); }}>{paused ? "Play gallery" : "Pause gallery"}</button>}<button className="aw-reel-arrow" type="button" aria-label="Previous photo" onClick={() => step(-1)}>←</button><button className="aw-reel-arrow" type="button" aria-label="Next photo" onClick={() => step(1)}>→</button></div></div>
+  </section>;
+}
+]]>
+    </file>
+    <file path="src/app/(afterwalk)/afterwalk/motion/reelMath.ts">
+<![CDATA[/** The canonical cycle starts after the first, decorative copy. */
+export function wrapReelOffset(position: number, period: number): number {
+  if (!Number.isFinite(period) || period <= 0) return 0;
+  const offset = Number.isFinite(position) ? position : 0;
+  const phase = ((-offset % period) + period) % period;
+  return -period - phase;
+}
+
+/** Keep the same part of the filmstrip in view when its card sizes change. */
+export function rescaleReelPhase(position: number, oldPeriod: number, newPeriod: number): number {
+  if (![position, oldPeriod, newPeriod].every(Number.isFinite) || oldPeriod <= 0 || newPeriod <= 0) return 0;
+  const phase = ((-position % oldPeriod) + oldPeriod) % oldPeriod;
+  return phase === 0 ? 0 : -(phase / oldPeriod) * newPeriod;
+}
+
+/** In the still native-scroll view, buttons wrap without starting autoplay. */
+export function nextStaticReelOffset(current: number, step: number, max: number, direction: 1 | -1): number {
+  const limit = Number.isFinite(max) ? Math.max(0, max) : 0;
+  if (!limit) return 0;
+  const position = Number.isFinite(current) ? Math.min(limit, Math.max(0, current)) : 0;
+  const distance = Number.isFinite(step) ? Math.max(0, step) : 0;
+  if (direction === 1 && position >= limit - 1) return 0;
+  if (direction === -1 && position <= 1) return limit;
+  return Math.min(limit, Math.max(0, position + distance * direction));
+}
+]]>
+    </file>
+    <file path="src/app/(afterwalk)/afterwalk/motion/ScrollBand.tsx">
+<![CDATA[export function ScrollBand() {
+  return <div className="aw-band" aria-hidden="true" />;
+}
+]]>
+    </file>
+    <file path="src/app/(afterwalk)/afterwalk/motion/scrollMath.ts">
+<![CDATA[export function heroProgress(scrollY: number, start: number, distance: number): number {
+  if (![scrollY, start, distance].every(Number.isFinite) || distance <= 0) return 0;
+  return Math.max(0, Math.min(1, (scrollY - start) / distance));
+}
+]]>
+    </file>
+    <file path="src/app/(afterwalk)/afterwalk/motion/ScrollProgress.tsx">
+<![CDATA["use client";
+import { motion, useScroll } from "motion/react";
+import { useMotionAllowed } from "./useMotionAllowed";
+
+export function ScrollProgress() {
+  const allowed = useMotionAllowed();
+  const { scrollYProgress } = useScroll();
+  if (!allowed) return null;
+  return <motion.div className="aw-scroll-progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" />;
+}
+]]>
+    </file>
+    <file path="src/app/(afterwalk)/afterwalk/motion/useMotionAllowed.ts">
+<![CDATA["use client";
+import { useEffect, useState } from "react";
+
+/** Default to the finished, still layout until the browser reports its preference. */
+export function useMotionAllowed() {
+  const [allowed, setAllowed] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: no-preference)");
+    const sync = () => setAllowed(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+  return allowed;
 }
 ]]>
     </file>
@@ -459,32 +814,41 @@ export function Footer() {
     </file>
     <file path="src/app/(afterwalk)/afterwalk/sections/Header.tsx">
 <![CDATA["use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "../brand/Logo";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [mobile, setMobile] = useState(false);
+  const menu = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     document.documentElement.classList.add("aw-enhanced");
     return () => document.documentElement.classList.remove("aw-enhanced");
   }, []);
   useEffect(() => {
+    const query = window.matchMedia("(max-width: 760px)");
+    const sync = () => setMobile(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+  useEffect(() => {
     if (!open) return;
-    const close = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    const close = (event: KeyboardEvent) => { if (event.key === "Escape") { setOpen(false); menu.current?.focus(); } };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
   }, [open]);
   return <header className="aw-header">
     <div className="aw-header-inner aw-container">
       <Logo />
-      <nav className={`aw-nav${open ? " is-open" : ""}`} id="aw-nav" aria-label="Main navigation">
+      <nav className={`aw-nav${open ? " is-open" : ""}`} id="aw-nav" aria-label="Main navigation" inert={mobile && !open ? true : undefined}>
         <a href="#about" onClick={() => setOpen(false)}>The idea</a>
         <a href="#walks" onClick={() => setOpen(false)}>The walks</a>
         <a href="#together" onClick={() => setOpen(false)}>The company</a>
         <a className="aw-nav-mobile-cta" href="#walks" onClick={() => setOpen(false)}>Find a walk <span aria-hidden="true">↗</span></a>
       </nav>
       <a className="aw-header-cta aw-button aw-button-outline" href="#walks">Find a walk <span aria-hidden="true">↗</span></a>
-      <button className="aw-menu aw-js-only" type="button" aria-expanded={open} aria-controls="aw-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}><span /><span /></button>
+      <button ref={menu} className="aw-menu aw-js-only" type="button" aria-expanded={open} aria-controls="aw-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}><span /><span /></button>
     </div>
   </header>;
 }
@@ -505,6 +869,7 @@ export function Hero() {
       </div>
       <div className="aw-hero-visual">
         <div className="aw-photo-mat"><Picture assetKey="hero" alt="Two friends walking together beside a leafy city river" className="aw-hero-photo" priority sizes="(max-width: 760px) 100vw, 55vw" /><div className="aw-photo-caption"><span>THE WORLD CAN WAIT A MINUTE.</span><span>NO. 001 / THE RIVER</span></div></div>
+        <div className="aw-hero-peek" aria-hidden="true"><Picture assetKey="walk-park" alt="" sizes="180px" /><span>WEEKEND PLANS / 02</span></div>
         <div className="aw-stamp" aria-label="Good company, easy pace"><span>GOOD COMPANY</span><b>✳</b><span>EASY PACE</span></div>
         <div className="aw-hero-note"><span>TAKE THE<br />SCENIC ROUTE</span><svg viewBox="0 0 48 45" fill="none" aria-hidden="true"><path d="M3 3c21 0 29 11 32 30m-9-5 9 8 8-10" stroke="currentColor" strokeWidth="1.6"/></svg></div>
       </div>
@@ -515,9 +880,13 @@ export function Hero() {
 ]]>
     </file>
     <file path="src/app/(afterwalk)/afterwalk/sections/Intro.tsx">
-<![CDATA[export function Intro() {
+<![CDATA[import { ScrollBand } from "../motion/ScrollBand";
+import { PhotoReel } from "../motion/PhotoReel";
+
+export function Intro() {
   return <>
-    <div className="aw-band" aria-label="Less scrolling, more strolling"><div className="aw-band-track" aria-hidden="true"><span>LESS SCROLLING</span><b>✳</b><span>MORE STROLLING</span><b>✳</b><span>GOOD COMPANY</span><b>✳</b><span>LESS SCROLLING</span><b>✳</b><span>MORE STROLLING</span><b>✳</b><span>GOOD COMPANY</span><b>✳</b></div></div>
+    <ScrollBand />
+    <PhotoReel />
     <section className="aw-intro aw-section" id="about">
       <div className="aw-container">
         <div className="aw-section-head" data-reveal="rise"><span className="aw-kicker">01 / THE IDEA</span><span>GOOD WALKS. BETTER COMPANY.</span></div>
@@ -534,11 +903,12 @@ export function Hero() {
     </file>
     <file path="src/app/(afterwalk)/afterwalk/sections/Together.tsx">
 <![CDATA[import { Picture } from "../assets";
+import { ParallaxPhoto } from "../motion/ParallaxPhoto";
 
 export function Together() {
   return <section className="aw-together aw-section" id="together">
     <div className="aw-container"><div className="aw-section-head" data-reveal="rise"><span className="aw-kicker">03 / THE GOOD COMPANY</span><span>COME AS YOU ARE</span></div>
-      <div className="aw-together-grid"><div className="aw-together-image" data-reveal="wipe"><Picture assetKey="together" alt="Friends sitting together after a walk in the park" sizes="(max-width: 760px) 100vw, 55vw" /><span className="aw-image-label">A GOOD DAY, OUTSIDE ↗</span></div>
+      <div className="aw-together-grid"><div className="aw-together-image" data-reveal="wipe"><ParallaxPhoto><Picture assetKey="together" alt="Friends sitting together after a walk in the park" sizes="(max-width: 760px) 100vw, 55vw" /></ParallaxPhoto><span className="aw-image-label">A GOOD DAY, OUTSIDE ↗</span></div>
         <div className="aw-together-copy" data-reveal="rise"><span className="aw-kicker">A CLUB WITH ROOM FOR EVERYONE</span><h2>The best part<br />isn&apos;t the <em>destination.</em></h2><p>It&apos;s the tiny discoveries, the conversations that wander, and getting home feeling a little more like yourself.</p><div className="aw-values"><div><span>01</span><p><strong>Come as you are.</strong><br />No fancy gear or fast pace required.</p></div><div><span>02</span><p><strong>Walk your own way.</strong><br />Easy routes and plenty of room to pause.</p></div><div><span>03</span><p><strong>Leave with a story.</strong><br />And maybe a new favorite corner of town.</p></div></div><a className="aw-text-link" href="#walks">Find a walk that fits <span aria-hidden="true">↗</span></a></div></div>
     </div>
   </section>;
@@ -547,9 +917,12 @@ export function Together() {
     </file>
     <file path="src/app/(afterwalk)/afterwalk/walks/WalkFinder.tsx">
 <![CDATA["use client";
-import { useRef, useState, type FormEvent } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { filterWalks, makeWalkCard, WALKS, type Walk, type WalkFilter } from "./walks";
 import { Together } from "../sections/Together";
+import { Picture } from "../assets";
+import { useMotionAllowed } from "../motion/useMotionAllowed";
 
 const FILTERS: { value: WalkFilter; label: string }[] = [
   { value: "all", label: "All walks" },
@@ -568,6 +941,7 @@ function RouteArt({ color }: { color: Walk["color"] }) {
 }
 
 export function WalkFinder() {
+  const animateChanges = useMotionAllowed();
   const [filter, setFilter] = useState<WalkFilter>("all");
   const [selected, setSelected] = useState("river");
   const [name, setName] = useState("");
@@ -603,13 +977,13 @@ export function WalkFinder() {
         <div className="aw-section-head" data-reveal="rise"><span className="aw-kicker">02 / FIND YOUR FEET</span><span>YOUR NEXT GOOD IDEA →</span></div>
         <div className="aw-walks-heading" data-reveal="rise"><div><h2>A walk for<br /><em>any kind of day.</em></h2><p>Whether you have an hour or an entire afternoon, there&apos;s a little outside with your name on it.</p></div><div className="aw-walks-scribble" aria-hidden="true">the best part<br />is showing up <span>↙</span></div></div>
         <div className="aw-filter-row"><div className="aw-filters aw-js-only" aria-label="Filter walks">
-          {FILTERS.map((item) => <button key={item.value} type="button" className={filter === item.value ? "is-active" : ""} aria-pressed={filter === item.value} onClick={() => setFilter(item.value)}>{item.label}</button>)}
+          {FILTERS.map((item) => <motion.button key={item.value} type="button" className={filter === item.value ? "is-active" : ""} aria-pressed={filter === item.value} whileTap={animateChanges ? { scale: 0.96 } : undefined} onClick={() => setFilter(item.value)}>{item.label}</motion.button>)}
         </div><span className="aw-filter-note" aria-live="polite">{visible.length} sample {visible.length === 1 ? "walk" : "walks"}</span></div>
         <div className="aw-walk-grid">
-          {visible.map((walk) => <article className="aw-walk-card" key={walk.id}>
-            <div className={`aw-walk-art aw-walk-art-${walk.color}`}><div className="aw-walk-art-top"><span>THE WALK FILES / {walk.number}</span><span>↗</span></div><RouteArt color={walk.color} /><div className="aw-map-label">A GOOD WAY TO GET THERE</div></div>
+          <AnimatePresence initial={false} mode="popLayout">{visible.map((walk, index) => <motion.article className="aw-walk-card" key={walk.id} layout={animateChanges} whileHover={animateChanges ? { y: -5 } : undefined} initial={animateChanges ? { opacity: 0, y: 24, scale: 0.97 } : false} animate={{ opacity: 1, y: 0, scale: 1 }} exit={animateChanges ? { opacity: 0, y: -12, scale: 0.97 } : { opacity: 0 }} transition={animateChanges ? { type: "spring", stiffness: 240, damping: 28 } : { duration: 0 }}>
+            <div className={`aw-walk-art aw-walk-art-${walk.color}`} data-reveal="wipe" style={{ "--aw-reveal-order": index } as CSSProperties}><Picture assetKey={`walk-${walk.id}`} alt="" className="aw-walk-photo" sizes="(max-width: 760px) 100vw, 33vw" /><div className="aw-walk-art-top"><span>THE WALK FILES / {walk.number}</span><span>↗</span></div><RouteArt color={walk.color} /><div className="aw-map-label">A GOOD WAY TO GET THERE</div></div>
             <div className="aw-walk-body"><div className="aw-walk-meta"><span>{walk.when}</span><span>{walk.duration} MIN</span></div><h3>{walk.name}</h3><p>{walk.description}</p><div className="aw-walk-bottom"><span>{walk.distance} <i>·</i> {walk.terrain}</span><button className="aw-card-action aw-js-only" type="button" aria-label={`Choose ${walk.name}`} onClick={() => choose(walk.id)}>Choose <span aria-hidden="true">↗</span></button></div></div>
-          </article>)}
+          </motion.article>)}</AnimatePresence>
         </div>
         <p className="aw-sample-note">These are sample walks for a fictional club. No actual meetups are scheduled.</p>
       </div>
@@ -620,14 +994,14 @@ export function WalkFinder() {
         <div className="aw-plan-intro" data-reveal="rise"><span className="aw-kicker">A LITTLE SOMETHING TO LOOK FORWARD TO</span><h2>Shall we<br /><em>take a walk?</em></h2><p>Pick a route and make yourself a little reminder. Your shoes can take it from there.</p><div className="aw-plan-doodle" aria-hidden="true">✳</div></div>
         <div className="aw-plan-form-wrap" data-reveal="rise">
           <div className="aw-ticket-top"><span>AFTERWALK / YOUR WALK CARD</span><span>NO. 001</span></div>
-          {card ? <div className="aw-success" role="status"><span className="aw-success-mark" aria-hidden="true">✳</span><span className="aw-kicker">ALL SET FOR A LITTLE OUTSIDE</span><h3>See you out there, {card.name}.</h3><p>Your sample pick: <strong>{card.walk.name}</strong>. {card.walk.when} · {card.walk.distance}.</p><p className="aw-local-note">This card is a local preview. No meetup is booked and nothing was sent.</p><button className="aw-text-button" type="button" onClick={() => setCard(null)}>Make another card ↗</button></div> : <form className="aw-js-only" onSubmit={submit} noValidate>
+          <AnimatePresence initial={false} mode="wait">{card ? <motion.div key="success" className="aw-success" role="status" initial={animateChanges ? { opacity: 0, y: 18, clipPath: "inset(0 0 18% 0)" } : false} animate={{ opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)" }} exit={animateChanges ? { opacity: 0, y: -10 } : { opacity: 0 }} transition={{ duration: animateChanges ? 0.32 : 0 }}><span className="aw-success-mark" aria-hidden="true">✳</span><span className="aw-kicker">ALL SET FOR A LITTLE OUTSIDE</span><h3>See you out there, {card.name}.</h3><p>Your sample pick: <strong>{card.walk.name}</strong>. {card.walk.when} · {card.walk.distance}.</p><p className="aw-local-note">This card is a local preview. No meetup is booked and nothing was sent.</p><button className="aw-text-button" type="button" onClick={() => setCard(null)}>Make another card ↗</button></motion.div> : <motion.form key="form" className="aw-js-only" onSubmit={submit} noValidate initial={false} exit={animateChanges ? { opacity: 0, y: -12 } : { opacity: 0 }} transition={{ duration: animateChanges ? 0.2 : 0 }}>
             <h3>Make it a walk date.</h3><p className="aw-form-intro">A small reminder to take the long way.</p>
             <label htmlFor="aw-name">Your first name</label><input ref={nameRef} id="aw-name" name="name" value={name} maxLength={81} onChange={(event) => setName(event.target.value)} placeholder="e.g. Sam" aria-invalid={!!error} aria-describedby={error ? "aw-form-error" : undefined} />
             <label htmlFor="aw-walk">Your kind of walk</label><select id="aw-walk" value={selected} onChange={(event) => setSelected(event.target.value)}>{WALKS.map((walk) => <option key={walk.id} value={walk.id}>{walk.name} · {walk.duration} min</option>)}</select>
             {error && <p className="aw-form-error" id="aw-form-error" role="alert">{error}</p>}
             <button className="aw-button aw-button-dark aw-form-button" type="submit">Make my walk card <span aria-hidden="true">↗</span></button>
             <p className="aw-local-note">Just a demo: your card stays in this browser. No booking, no messages, no data sent.</p>
-          </form>}
+          </motion.form>}</AnimatePresence>
           <noscript><p className="aw-local-note">The walk card needs JavaScript. You can still read all the sample walks above.</p></noscript>
           <div className="aw-ticket-bottom"><span>FRESH AIR IS A GOOD IDEA.</span><span>✳</span></div>
         </div>

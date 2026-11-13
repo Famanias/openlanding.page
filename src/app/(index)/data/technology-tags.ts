@@ -57,6 +57,7 @@ export const TECHNOLOGY_TAGS = {
     "tessera"
   ],
   "motion": [
+    "afterwalk",
     "keytu",
     "ctrlroom",
     "forum",
@@ -64,6 +65,7 @@ export const TECHNOLOGY_TAGS = {
     "postmark"
   ],
   "scroll-animation": [
+    "afterwalk",
     "amaoto",
     "orrery",
     "keytu",
