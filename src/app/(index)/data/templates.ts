@@ -1,4 +1,4 @@
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "mizunowa";
 
 export type CategoryId =
   | "all"
@@ -1119,6 +1119,16 @@ Build a complete, responsive, interaction-rich landing page for **SURFACE/08** u
 ## Brand & Positioning
 - **Title:** SURFACE/08 — Interactive WebGL Background Laboratory
 - **Description:** An interactive material study and hero-background laboratory featuring eight real-time GPU-driven Three.js surfaces: Chroma Fluid, Fluted Light, Silk Atmosphere, Glass Lens, Aurora Field, Chromatic Ribbons, Bokeh Reactor, and Refraction Field.
+- **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
+`;
+
+export const MIZUNOWA_PROMPT = `# MIZUNOWA — An imagined garden in motion — Landing Page
+
+Build a complete, responsive, interaction-rich landing page for **MIZUNOWA** using Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v4.
+
+## Brand & Positioning
+- **Title:** MIZUNOWA — An imagined garden in motion
+- **Description:** Explore an imagined Japanese garden through a living koi pond, a sakura grove, and a quiet shrine courtyard.
 - **Stack:** Next.js 16 · React 19 · Motion · Tailwind v4
 `;
 
@@ -3050,6 +3060,22 @@ RAW_TEMPLATES.push(
     previewImage: "/templates/surface08/preview-1600.webp",
     promptMarkdown: SURFACE08_PROMPT,
     model: "Gemini 4 Carbon High",
+  }
+,
+  {
+    slug: "mizunowa",
+    createdAt: "2026-11-13",
+    hasDownload: false,
+    title: "MIZUNOWA",
+    description: "Explore an imagined Japanese garden through a living koi pond, a sakura grove, and a quiet shrine courtyard.",
+    category: "showcase" as TemplateCategory,
+    categories: ["showcase" as TemplateCategory],
+    industry: "Digital Experience & Technology",
+    stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
+    badges: ["Interactive Landing", "Responsive", "Accessible"],
+    previewImage: "/templates/mizunowa/preview-1600.webp",
+    promptMarkdown: MIZUNOWA_PROMPT,
+    model: "Gemini 4 Argon High",
   }
 );
 

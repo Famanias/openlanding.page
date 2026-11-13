@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "mizunowa";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,11 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  mizunowa: {
+    palette: ["#112C2A", "#F4EFE2", "#203D33", "#9E3F32", "#C7A6A2", "#D6C7A9", "#526E58", "#1E2320", "#FDFBF5", "#CB9462"],
+    paletteExempt: ["src/app/(mizunowa)/"],
+    mediaExempt: true,
+  },
   surface08: {
     palette: ["#0B0B0B", "#F4F0E8"],
     paletteExempt: ["src/app/(surface08)/"],
