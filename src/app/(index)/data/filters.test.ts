@@ -32,6 +32,33 @@ describe("gallery discovery", () => {
     expect(readFilters("?model=invalid&category=invalid&q=%3Cscript%3E")).toEqual({ model: "all", category: "all", query: "<script>", sort: "date", dir: "desc" });
     expect(readFilters(`?q=${"a".repeat(300)}`).query).toHaveLength(160);
   });
+  it("filters brutalist, glass, gradient, and studio according to re-categorization specifications", () => {
+    const brutalistSlugs = filterTemplates(TEMPLATES, { category: "brutalist", model: "all", query: "" }).map((t) => t.slug);
+    expect(brutalistSlugs).toEqual(["datum", "glyphwork", "riff", "noiseclub", "chinagraph"]);
+
+    const glassSlugs = filterTemplates(TEMPLATES, { category: "glass", model: "all", query: "" }).map((t) => t.slug);
+    expect(glassSlugs).toEqual(["lumen", "lowtide", "cullet", "valence", "orrery"]);
+    expect(glassSlugs).not.toContain("starriot");
+    expect(glassSlugs).not.toContain("trace");
+
+    const gradientSlugs = filterTemplates(TEMPLATES, { category: "gradient", model: "all", query: "" }).map((t) => t.slug);
+    expect(gradientSlugs).toContain("starriot");
+    expect(gradientSlugs).toContain("iridia");
+    expect(gradientSlugs).not.toContain("wowflutter");
+    expect(gradientSlugs).not.toContain("kinetic");
+    expect(gradientSlugs).not.toContain("xibalba");
+    expect(gradientSlugs).not.toContain("landingx");
+
+    const studioSlugs = filterTemplates(TEMPLATES, { category: "studio", model: "all", query: "" }).map((t) => t.slug);
+    expect(studioSlugs).toContain("volume-zero");
+    expect(studioSlugs).toContain("tessera");
+    expect(studioSlugs).toContain("noiseclub");
+    expect(studioSlugs).toContain("understudy");
+    expect(studioSlugs).toContain("holloway");
+    expect(studioSlugs).not.toContain("calder");
+    expect(studioSlugs).not.toContain("koji");
+    expect(studioSlugs).not.toContain("kinetic");
+  });
 });
 
 describe("gallery sorting", () => {
