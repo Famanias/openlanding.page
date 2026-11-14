@@ -98,7 +98,7 @@ export const Header: React.FC = () => {
         </nav>
 
         <div className="hidden min-[900px]:flex items-center shrink-0">
-          <a href="#configure" className="srf-btn-primary">
+          <a href="#top" className="srf-btn-primary">
             <span>Design your divider</span>
             <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
           </a>
@@ -157,7 +157,7 @@ export const Header: React.FC = () => {
 
           <div className="pb-4">
             <a
-              href="#configure"
+              href="#top"
               onClick={handleNavClick}
               className="srf-btn-primary w-full"
             >

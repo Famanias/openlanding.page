@@ -182,7 +182,6 @@ export const VIEW_ORDER: ViewId[] = ['front', 'quarter', 'side', 'back'];
 
 export const NAV_ITEMS = [
   { href: '#fold', label: 'The fold' },
-  { href: '#configure', label: 'Studio' },
   { href: '#rooms', label: 'In a room' },
   { href: '#questions', label: 'Questions' },
 ] as const;
