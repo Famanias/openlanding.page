@@ -41,8 +41,8 @@ export default function Hero({ sceneLoader }: HeroProps) {
           <div className="mnw-hero-mask">
             <motion.p
               className="mnw-hero-eyebrow"
-              initial={{ opacity: 0, y: 18, clipPath: 'inset(0 0 100% 0)' }}
-              animate={{ opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)' }}
+              initial={{ opacity: 0, y: 18, clipPath: 'inset(0 -20px 100% 0)' }}
+              animate={{ opacity: 1, y: 0, clipPath: 'inset(0 -20px 0% 0)' }}
               transition={{
                 duration: reducedMotion ? 0 : 0.8,
                 delay: reducedMotion ? 0 : 0.55,
@@ -57,8 +57,8 @@ export default function Hero({ sceneLoader }: HeroProps) {
             <span className="mnw-hero-mask">
               <motion.span
                 className="mnw-hero-line"
-                initial={{ opacity: 0, y: '105%', clipPath: 'inset(0 0 100% 0)' }}
-                animate={{ opacity: 1, y: '0%', clipPath: 'inset(0 0 0% 0)' }}
+                initial={{ opacity: 0, y: '105%', clipPath: 'inset(0 -20px 100% 0)' }}
+                animate={{ opacity: 1, y: '0%', clipPath: 'inset(0 -20px 0% 0)' }}
                 transition={{
                   duration: reducedMotion ? 0 : 1.05,
                   delay: reducedMotion ? 0 : 0.78,
@@ -71,8 +71,8 @@ export default function Hero({ sceneLoader }: HeroProps) {
             <span className="mnw-hero-mask">
               <motion.span
                 className="mnw-hero-line"
-                initial={{ opacity: 0, y: '105%', clipPath: 'inset(0 0 100% 0)' }}
-                animate={{ opacity: 1, y: '0%', clipPath: 'inset(0 0 0% 0)' }}
+                initial={{ opacity: 0, y: '105%', clipPath: 'inset(0 -20px 100% 0)' }}
+                animate={{ opacity: 1, y: '0%', clipPath: 'inset(0 -20px 0% 0)' }}
                 transition={{
                   duration: reducedMotion ? 0 : 1.05,
                   delay: reducedMotion ? 0 : 0.98,

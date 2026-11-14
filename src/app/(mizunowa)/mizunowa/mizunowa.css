@@ -28,9 +28,9 @@
   --mnw-font-mono: var(--font-mnw-mono, 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace);
 
   /* Layout */
-  --mnw-max-width: 1320px;
+  --mnw-max-width: 1600px;
   --mnw-gutter: 24px;
-  --mnw-margin: 64px;
+  --mnw-margin: 48px;
 }
 
 @media (max-width: 1024px) {
@@ -689,7 +689,7 @@ html {
 
 .mnw-hero-copy {
   position: relative;
-  max-width: 560px;
+  max-width: 720px;
   margin-top: auto;
   margin-bottom: auto;
   padding: 24px 0 32px;
@@ -730,6 +730,7 @@ html {
 
 .mnw-hero-line {
   display: block;
+  padding-right: 6px;
 }
 
 @media (min-width: 900px) {
@@ -933,7 +934,7 @@ html:not(.mnw-js) .mnw-js-only {
   }
 
   .mnw-hero-copy {
-    max-width: 520px;
+    max-width: 580px;
     margin-top: 0;
     margin-bottom: auto;
     padding: 8px 0 18px;

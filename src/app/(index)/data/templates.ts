@@ -3150,7 +3150,7 @@ RAW_TEMPLATES.push({
   badges: ["Draggable photo reel", "Scroll storytelling", "Local demo"],
   previewImage: "/gallery/afterwalk.webp",
   promptMarkdown: AFTERWALK_PROMPT,
-  model: "GPT-6.1 Terra",
+  model: "GPT-6.1 Terra Max",
 });
 
 RAW_TEMPLATES.push(
