@@ -889,13 +889,15 @@ export const FoldStage: React.FC<FoldStageProps> = ({
 
       {isAtelier && (
         <span
-          ref={atelierReadoutSpanRef}
           data-testid="hero-atelier-readout"
           className="sr-only"
         >
           Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex}
           {usesActivePrintColor(design) ? ` / ${design.designHex}` : ''} ·{' '}
-          {formatMeters(currentPose.metrics.outerSpan)} span
+          <span ref={atelierReadoutSpanRef}>
+            {formatMeters(currentPose.metrics.outerSpan)}
+          </span>{' '}
+          span
         </span>
       )}
 
