@@ -182,7 +182,6 @@ export const VIEW_ORDER: ViewId[] = ['front', 'quarter', 'side', 'back'];
 
 export const NAV_ITEMS = [
   { href: '#fold', label: 'The fold' },
-  { href: '#rooms', label: 'In a room' },
   { href: '#questions', label: 'Questions' },
 ] as const;
 
@@ -204,47 +203,6 @@ export const STORY_CHAPTERS = [
     title: 'Make it yours.',
     body: 'Choose your base felt color, layer a printed pattern or artwork, and orbit around the result.',
     sampleOpening: 50,
-  },
-] as const;
-
-export const ROOM_STUDIES = [
-  {
-    id: 'reading',
-    title: 'Your design in a corner',
-    copy: 'A soft edge shaped with your current colors and artwork.',
-    opening: 35,
-    live: true,
-    fixedDesign: null,
-  },
-  {
-    id: 'studio',
-    title: 'Shared studio',
-    copy: 'A little separation where two working days overlap.',
-    opening: 75,
-    live: false,
-    fixedDesign: {
-      opening: 75,
-      baseHex: '#9A463D',
-      designHex: '#FFFCF8',
-      print: 'stripes' as PrintId,
-      motifScale: 100,
-    },
-    caption: 'Example study · Clay #9A463D · Stripes at 75%',
-  },
-  {
-    id: 'morning',
-    title: 'Slow morning',
-    copy: 'A boundary you can change when the day changes.',
-    opening: 60,
-    live: false,
-    fixedDesign: {
-      opening: 60,
-      baseHex: '#A6B3A0',
-      designHex: '#4B202A',
-      print: 'waves' as PrintId,
-      motifScale: 100,
-    },
-    caption: 'Example study · Sage #A6B3A0 · Waves at 60%',
   },
 ] as const;
 

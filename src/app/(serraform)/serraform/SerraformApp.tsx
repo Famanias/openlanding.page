@@ -9,7 +9,6 @@ import { Footer } from './sections/Footer';
 import { Header } from './sections/Header';
 import { Hero } from './sections/Hero';
 import { Questions } from './sections/Questions';
-import { RoomStudies } from './sections/RoomStudies';
 
 export default function SerraformApp() {
   const [revealReady, setRevealReady] = useState(false);
@@ -35,7 +34,6 @@ export default function SerraformApp() {
         <main id="main-content">
           <Hero />
           <FoldingExperience />
-          <RoomStudies />
           <Construction />
           <Questions />
           <BriefSection />
