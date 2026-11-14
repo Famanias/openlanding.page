@@ -299,10 +299,10 @@ html {
 
 .mnw-h2 {
   font-family: var(--mnw-font-serif);
-  font-size: clamp(36px, 4vw, 56px);
-  line-height: 1.08;
+  font-size: clamp(38px, 4.5vw, 66px);
+  line-height: 1.05;
   font-weight: 400;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   text-wrap: balance;
   margin: 0;
 }
@@ -1143,52 +1143,15 @@ html:not(.mnw-js) .mnw-js-only {
   }
 }
 
-/* Ripple-to-rule handoff transition */
-.mnw-handoff {
-  position: relative;
-  background-color: var(--mnw-paper);
-  padding-top: 44px;
+/* ==========================================================================
+   Below the hero: shared pieces
+   ========================================================================== */
+:root {
+  --mnw-shore-h: clamp(48px, 6.6vw, 96px);
 }
 
-.mnw-handoff-rule-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 56px;
-}
-
-.mnw-handoff-line {
-  width: 100%;
-  height: 1px;
-  background-color: color-mix(in srgb, var(--mnw-stone) 75%, var(--mnw-leaf) 25%);
-}
-
-.mnw-handoff-ring {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 56px;
-  height: 56px;
-  background-color: var(--mnw-paper);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Section base spacing */
 section[id] {
   scroll-margin-top: 84px;
-}
-
-.mnw-section {
-  padding: 96px 0;
-}
-
-@media (max-width: 640px) {
-  .mnw-section {
-    padding: 60px 0;
-  }
 }
 
 .mnw-section-paper {
@@ -1206,108 +1169,548 @@ section[id] {
   margin-bottom: 18px;
 }
 
-.mnw-section-moss .mnw-chapter-label {
+.mnw-surface-dark .mnw-chapter-label {
   color: var(--mnw-sakura);
 }
 
-/* Section 02: Koi Field Notes */
+.mnw-lead {
+  margin: 0;
+  max-width: 46ch;
+  color: color-mix(in srgb, currentColor 86%, transparent);
+}
+
 .mnw-section-head {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--mnw-gutter);
-  margin-bottom: 48px;
+  margin-bottom: 56px;
 }
 
 .mnw-section-head-left {
-  grid-column: 1 / span 6;
+  grid-column: 1 / span 7;
 }
 
 .mnw-section-head-right {
-  grid-column: 8 / span 5;
+  grid-column: 9 / span 4;
   align-self: end;
 }
 
-.mnw-koi-strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--mnw-stone);
-  border-bottom: 1px solid var(--mnw-stone);
-}
-
-.mnw-koi-cell {
-  padding: 28px 22px 30px;
-  border-right: 1px solid var(--mnw-stone);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.mnw-koi-cell:last-child {
-  border-right: none;
-}
-
-.mnw-koi-figure {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 0;
-}
-
-.mnw-koi-name {
-  font-family: var(--mnw-font-serif);
-  font-size: 24px;
-  line-height: 1.2;
-  margin: 0;
-  color: var(--mnw-ink);
-}
-
-.mnw-koi-pattern {
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--mnw-leaf);
-  margin: 0;
-}
-
-.mnw-koi-caption {
-  font-size: 15px;
-  line-height: 23px;
-  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
-  margin: 0;
-}
-
 @media (max-width: 1024px) {
+  .mnw-section-head {
+    margin-bottom: 40px;
+  }
+
   .mnw-section-head-left,
   .mnw-section-head-right {
     grid-column: 1 / -1;
   }
+}
 
-  .mnw-koi-strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+/* Content that only makes sense with or without scripting, decided before first paint */
+.mnw-nojs-only {
+  display: none;
+}
+
+@media (scripting: none) {
+  .mnw-nojs-only {
+    display: block;
   }
 
-  .mnw-koi-cell:nth-child(2n) {
-    border-right: none;
-  }
-
-  .mnw-koi-cell:nth-child(1),
-  .mnw-koi-cell:nth-child(2) {
-    border-bottom: 1px solid var(--mnw-stone);
+  .mnw-scripted {
+    display: none !important;
   }
 }
 
-@media (max-width: 520px) {
-  .mnw-koi-cell {
-    padding: 20px 14px 22px;
+/* Headings split into masked words (SplitWords inside Reveal variant="words") */
+.mnw-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.08em 0 0.16em;
+  margin: -0.08em 0 -0.16em;
+}
+
+.mnw-word > span {
+  display: inline-block;
+}
+
+.mnw-word-accent {
+  color: var(--mnw-sakura);
+}
+
+html.mnw-js .mnw-reveal[data-reveal="words"] .mnw-word > span {
+  transition: transform 1000ms var(--mnw-ease-out);
+  transition-delay: calc(var(--mnw-delay, 0ms) + var(--i, 0) * 60ms);
+}
+
+html.mnw-js .mnw-reveal[data-reveal="words"]:not(.is-visible) .mnw-word > span {
+  transform: translateY(112%);
+}
+
+@keyframes mnw-ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
   }
 
-  .mnw-koi-name {
-    font-size: 20px;
+  80%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
   }
 }
 
-/* Section 03: The Garden Walk */
+@keyframes mnw-ring {
+  0% {
+    transform: scale(0.15);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+/* Shoreline: the curved water's edge between two grounds */
+.mnw-shore {
+  --shore-from: var(--mnw-pond);
+  --shore-to: var(--mnw-paper);
+  position: relative;
+  z-index: 2;
+  height: var(--mnw-shore-h);
+  margin-bottom: -1px;
+  background-color: var(--shore-from);
+  pointer-events: none;
+}
+
+/* Laid over the end of the section before it, so that section's scene runs right up to the shore */
+.mnw-shore.is-overlap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(1px - var(--mnw-shore-h));
+  margin: 0;
+  background-color: transparent;
+}
+
+.mnw-shore svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.mnw-shore.is-flipped svg {
+  transform: scaleX(-1);
+}
+
+.mnw-shore-fill {
+  fill: var(--shore-to);
+}
+
+.mnw-shore-line {
+  fill: none;
+  stroke: var(--shore-to);
+  stroke-opacity: 0.5;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.mnw-shore-line-far {
+  stroke-opacity: 0.22;
+}
+
+.mnw-shore-from-paper {
+  --shore-from: var(--mnw-paper);
+}
+
+.mnw-shore-from-moss {
+  --shore-from: var(--mnw-moss);
+}
+
+.mnw-shore-to-pond {
+  --shore-to: var(--mnw-pond);
+}
+
+.mnw-shore-to-moss {
+  --shore-to: var(--mnw-moss);
+}
+
+/* ==========================================================================
+   01 Koi: a pond of field notes
+   ========================================================================== */
+.mnw-koi {
+  position: relative;
+  background-color: var(--mnw-pond);
+  color: var(--mnw-paper);
+  padding-top: 150px;
+  /* The seam rings grow wider than a phone; clip them sideways but let them rise over the hero */
+  overflow-x: clip;
+}
+
+/* Fades the lower edge of the hero scene into the pond ground, beneath the hero copy */
+.mnw-koi::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -150px;
+  height: 150px;
+  z-index: 2;
+  background: linear-gradient(to bottom, transparent, var(--mnw-pond));
+  pointer-events: none;
+}
+
+.mnw-seam {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  width: min(900px, 92vw);
+  transform: translate(-50%, -50%) scale(calc(0.3 + var(--seam, 1) * 0.85));
+  opacity: calc(var(--seam, 1) * 0.9);
+  pointer-events: none;
+}
+
+.mnw-seam svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.mnw-seam ellipse {
+  stroke: var(--mnw-stone);
+  stroke-width: 1.2;
+  stroke-opacity: 0.16;
+  vector-effect: non-scaling-stroke;
+}
+
+.mnw-seam ellipse:nth-child(2) {
+  stroke-opacity: 0.26;
+}
+
+.mnw-seam ellipse:nth-child(3) {
+  stroke-opacity: 0.4;
+}
+
+.mnw-seam ellipse:nth-child(4) {
+  stroke-opacity: 0.6;
+}
+
+.mnw-koi-head {
+  position: relative;
+  z-index: 3;
+}
+
+/* The water starts behind the heading, so the title reads as sitting on the pond */
+.mnw-koi-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(640px, 86vh, 860px);
+  margin-top: -130px;
+}
+
+.mnw-koi-water {
+  position: absolute;
+  inset: 0;
+}
+
+/* Sunlit patch in the open water */
+.mnw-koi-water::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 58% 60% at 36% 52%,
+    color-mix(in srgb, var(--mnw-leaf) 36%, transparent),
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.mnw-koi-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 18%);
+}
+
+.mnw-koi-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--mnw-shore-h) + 22px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  pointer-events: none;
+}
+
+.mnw-koi-hint p {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: color-mix(in srgb, var(--mnw-stone) 90%, transparent);
+  text-transform: uppercase;
+}
+
+.mnw-koi-hint-ring {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--mnw-sakura);
+  animation: mnw-ping 2.4s var(--mnw-ease-out) infinite;
+}
+
+.mnw-chip {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--mnw-stone) 40%, transparent);
+  background-color: color-mix(in srgb, var(--mnw-pond) 82%, transparent);
+  color: var(--mnw-paper);
+  font-family: var(--mnw-font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    border-color var(--mnw-fast) var(--mnw-ease-out),
+    background-color var(--mnw-fast) var(--mnw-ease-out),
+    transform var(--mnw-fast) var(--mnw-ease-out);
+}
+
+.mnw-chip:hover {
+  border-color: var(--mnw-sakura);
+  background-color: var(--mnw-moss);
+}
+
+.mnw-chip:active {
+  transform: scale(0.97);
+}
+
+.mnw-koi-notes-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 32px;
+  padding-bottom: calc(var(--mnw-shore-h) + 40px);
+  pointer-events: none;
+}
+
+.mnw-koi-notes-wrap > div {
+  width: min(100%, 400px);
+}
+
+.mnw-koi-notes {
+  list-style: none;
+  margin: 0;
+  padding: 6px 24px;
+  border: 1px solid color-mix(in srgb, var(--mnw-stone) 22%, transparent);
+  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--mnw-pond) 92%, transparent);
+  pointer-events: auto;
+}
+
+.mnw-koi-notes li + li {
+  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 16%, transparent);
+}
+
+.mnw-koi-note {
+  display: block;
+  width: 100%;
+  padding: 18px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mnw-koi-note-top {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.mnw-koi-note-num {
+  color: var(--mnw-sakura);
+}
+
+.mnw-koi-note-name {
+  font-family: var(--mnw-font-serif);
+  font-size: 26px;
+  line-height: 1.15;
+  transition: transform var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-koi-note:hover .mnw-koi-note-name,
+.mnw-koi-note.is-selected .mnw-koi-note-name {
+  transform: translateX(6px);
+}
+
+.mnw-koi-note-line {
+  align-self: center;
+}
+
+.mnw-koi-note-more {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.mnw-koi-note-more-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  overflow: hidden;
+  padding-left: 38px;
+}
+
+.mnw-koi-note-figure {
+  margin-top: 10px;
+}
+
+.mnw-koi-note-figure svg {
+  display: block;
+  width: 150px;
+  height: auto;
+  margin-left: -8px;
+}
+
+.mnw-koi-note-pattern {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--mnw-sakura);
+}
+
+.mnw-koi-note-caption {
+  font-size: 15px;
+  line-height: 23px;
+  color: color-mix(in srgb, var(--mnw-paper) 88%, transparent);
+}
+
+.mnw-koi-note-linecopy {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--mnw-stone) 26%, transparent);
+  font-size: 14px;
+  line-height: 21px;
+  color: color-mix(in srgb, var(--mnw-stone) 94%, transparent);
+}
+
+.mnw-koi-note-linecopy .mnw-mono {
+  flex-shrink: 0;
+  color: var(--mnw-sakura);
+  text-transform: uppercase;
+}
+
+/* With scripting, a note stays folded until its koi is picked */
+@media (scripting: enabled) {
+  .mnw-koi-note-more {
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 520ms var(--mnw-ease-out);
+  }
+
+  .mnw-koi-note-more-inner {
+    opacity: 0;
+    transition: opacity 320ms var(--mnw-ease-out);
+  }
+
+  .mnw-koi-note.is-selected .mnw-koi-note-more {
+    grid-template-rows: 1fr;
+  }
+
+  .mnw-koi-note.is-selected .mnw-koi-note-more-inner {
+    opacity: 1;
+    transition-delay: 120ms;
+  }
+}
+
+@media (scripting: none) {
+  .mnw-koi-water {
+    display: none;
+  }
+
+  .mnw-koi-stage {
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .mnw-koi-notes-wrap > div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 899px) {
+  .mnw-koi {
+    padding-top: 110px;
+  }
+
+  .mnw-koi-stage {
+    display: block;
+    min-height: 0;
+    margin-top: -40px;
+  }
+
+  .mnw-koi-water {
+    position: relative;
+    inset: auto;
+    height: 460px;
+  }
+
+  .mnw-koi-hint {
+    bottom: 16px;
+  }
+
+  .mnw-koi-notes-wrap {
+    display: block;
+    padding-top: 8px;
+    padding-bottom: calc(var(--mnw-shore-h) + 48px);
+  }
+
+  .mnw-koi-notes-wrap > div {
+    width: 100%;
+  }
+
+  .mnw-koi-note-name {
+    font-size: 23px;
+  }
+}
+
+/* ==========================================================================
+   02 The walk: a map that is walked by scrolling
+   ========================================================================== */
+.mnw-walk {
+  position: relative;
+  padding-bottom: 120px;
+}
+
+.mnw-walk > .mnw-container {
+  padding-top: 64px;
+}
+
 .mnw-walk-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -1317,333 +1720,980 @@ section[id] {
 
 .mnw-walk-map-col {
   grid-column: 1 / span 7;
+  position: sticky;
+  top: 108px;
 }
 
 .mnw-walk-map-frame {
   position: relative;
+  width: min(100%, calc((100vh - 156px) * 4 / 3));
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  overflow: hidden;
   border: 1px solid var(--mnw-stone);
   border-radius: 8px;
-  overflow: hidden;
   background-color: var(--mnw-paper);
 }
 
-.mnw-walk-map-img {
+.mnw-walk-camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+
+.mnw-walk-map-art {
+  display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+}
+
+.mnw-walk-route-drawn {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+/* A ring opening on the pond */
+.mnw-walk-pulse {
+  position: absolute;
+  left: 49.2%;
+  top: 55%;
+  width: 9%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.mnw-walk-pulse::before,
+.mnw-walk-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--mnw-paper) 72%, transparent);
+  animation: mnw-ring 4.8s linear infinite;
+}
+
+.mnw-walk-pulse::after {
+  animation-delay: -2.4s;
+}
+
+.mnw-walk-walker {
+  display: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+[data-live] .mnw-walk-walker {
   display: block;
 }
 
-.mnw-walk-map-labels {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 24px;
-  padding: 14px 18px;
-  border-top: 1px solid var(--mnw-stone);
-  background-color: color-mix(in srgb, var(--mnw-paper) 92%, var(--mnw-stone) 8%);
-}
-
-.mnw-walk-rows-col {
-  grid-column: 8 / span 5;
-  display: flex;
-  flex-direction: column;
-}
-
-.mnw-walk-row {
-  padding: 26px 0;
-  border-top: 1px solid var(--mnw-stone);
-}
-
-.mnw-walk-row:last-child {
-  border-bottom: 1px solid var(--mnw-stone);
-}
-
-.mnw-walk-row-title {
-  font-family: var(--mnw-font-serif);
-  font-size: 28px;
-  line-height: 1.2;
-  margin: 8px 0 10px;
-  color: var(--mnw-ink);
-}
-
-.mnw-walk-row-desc {
-  margin: 0;
-  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
-}
-
-.mnw-walk-segment-line {
-  width: 100%;
-  height: 2px;
-  margin-top: 16px;
-  background-color: color-mix(in srgb, var(--mnw-stone) 55%, transparent);
-  position: relative;
-  overflow: hidden;
-}
-
-.mnw-walk-segment-fill {
+.mnw-walk-walker span,
+.mnw-walk-walker::after {
+  content: "";
   position: absolute;
-  inset: 0;
-  background-color: var(--mnw-vermilion);
-  transform-origin: left;
-  transform: scaleX(1);
-  transition: transform 900ms var(--mnw-ease-out);
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
 }
 
-html.mnw-js .mnw-walk-row:not(.is-visible) .mnw-walk-segment-fill {
-  transform: scaleX(0);
+.mnw-walk-walker span {
+  border: 4px solid var(--mnw-vermilion);
+  background-color: var(--mnw-porcelain);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--mnw-pond) 34%, transparent);
 }
 
-@media (max-width: 899px) {
-  .mnw-walk-map-col,
-  .mnw-walk-rows-col {
-    grid-column: 1 / -1;
-  }
+.mnw-walk-walker::after {
+  border: 1px solid var(--mnw-vermilion);
+  animation: mnw-ping 2s var(--mnw-ease-out) infinite;
 }
 
-/* Section 04: Seasonal Notes */
-.mnw-statement-wrap {
-  margin-bottom: 56px;
-}
-
-.mnw-statement {
-  position: relative;
-  font-family: var(--mnw-font-serif);
-  font-size: clamp(32px, 4.2vw, 56px);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-  margin: 0;
-  color: var(--mnw-paper);
-  max-width: 24ch;
-}
-
-.mnw-statement-word {
-  display: inline-block;
-  transition: color 500ms var(--mnw-ease-out);
-}
-
-.mnw-statement-word.is-lit {
-  color: var(--mnw-sakura);
-}
-
-.mnw-seasons-grid {
+.mnw-walk-marker {
+  position: absolute;
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--mnw-gutter);
-  align-items: start;
-}
-
-.mnw-seasons-art-col {
-  grid-column: 1 / span 6;
-}
-
-.mnw-seasons-art-frame {
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--mnw-stone) 24%, transparent);
-  background-color: var(--mnw-pond);
-}
-
-.mnw-seasons-list-col {
-  grid-column: 7 / span 6;
-}
-
-.mnw-season-details {
-  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 26%, transparent);
-}
-
-.mnw-season-details:last-child {
-  border-bottom: 1px solid color-mix(in srgb, var(--mnw-stone) 26%, transparent);
-}
-
-.mnw-season-summary {
-  list-style: none;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 22px 4px;
-  min-height: 60px;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
   cursor: pointer;
-  color: var(--mnw-paper);
 }
 
-.mnw-season-summary::-webkit-details-marker {
+.mnw-walk-marker-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--mnw-vermilion);
+  background-color: var(--mnw-paper);
+  transition:
+    transform var(--mnw-base) var(--mnw-ease-out),
+    background-color var(--mnw-base) var(--mnw-ease-out),
+    box-shadow var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-walk-marker.is-reached .mnw-walk-marker-dot {
+  background-color: var(--mnw-vermilion);
+}
+
+[data-live] .mnw-walk-marker.is-active .mnw-walk-marker-dot {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--mnw-vermilion) 22%, transparent);
+}
+
+.mnw-walk-marker:hover .mnw-walk-marker-dot {
+  transform: scale(1.4);
+}
+
+.mnw-walk-marker-label {
+  position: absolute;
+  padding: 3px 8px;
+  border: 1px solid var(--mnw-stone);
+  border-radius: 4px;
+  background-color: var(--mnw-paper);
+  color: var(--mnw-pond);
+  white-space: nowrap;
+  transition: opacity var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-walk-marker-east .mnw-walk-marker-label {
+  left: 40px;
+}
+
+.mnw-walk-marker-north .mnw-walk-marker-label {
+  bottom: 40px;
+}
+
+.mnw-walk-marker-south .mnw-walk-marker-label {
+  top: 40px;
+}
+
+[data-live] .mnw-walk-marker:not(.is-reached) .mnw-walk-marker-label {
+  opacity: 0;
+}
+
+.mnw-walk-count {
+  position: absolute;
+  left: 14px;
+  top: 14px;
   display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid var(--mnw-stone);
+  border-radius: 4px;
+  background-color: var(--mnw-paper);
+  color: var(--mnw-pond);
+  text-transform: uppercase;
 }
 
-.mnw-season-title-group {
+[data-live] .mnw-walk-count {
+  display: inline-flex;
+}
+
+.mnw-walk-count-window {
+  display: inline-block;
+  height: 18px;
+  overflow: hidden;
+}
+
+.mnw-walk-count-reel {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  color: var(--mnw-vermilion);
+  transform: translateY(calc(var(--active, 0) * -18px));
+  transition: transform 520ms var(--mnw-ease-out);
 }
 
-.mnw-season-name {
-  font-family: var(--mnw-font-serif);
-  font-size: 28px;
-  line-height: 1.15;
+.mnw-walk-count-reel span {
+  height: 18px;
 }
 
-.mnw-season-summary-copy {
-  font-size: 15px;
-  line-height: 22px;
-  color: color-mix(in srgb, var(--mnw-stone) 90%, transparent);
+.mnw-walk-stops-col {
+  grid-column: 9 / span 4;
+  position: relative;
+  padding-left: 36px;
 }
 
-.mnw-season-body {
-  padding: 0 4px 22px;
-  color: color-mix(in srgb, var(--mnw-paper) 88%, transparent);
-  font-size: 16px;
-  line-height: 26px;
+.mnw-walk-rail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--mnw-stone);
 }
 
-.mnw-season-indicator {
-  font-family: var(--mnw-font-mono);
-  font-size: 12px;
-  color: var(--mnw-sakura);
-  white-space: nowrap;
-  flex-shrink: 0;
+.mnw-walk-rail-fill {
+  position: absolute;
+  left: -0.5px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--mnw-vermilion);
+  transform-origin: top;
 }
 
-@media (max-width: 899px) {
-  .mnw-seasons-art-col,
-  .mnw-seasons-list-col {
-    grid-column: 1 / -1;
-  }
-}
-
-/* Section 05: A simple route (#plan) */
-.mnw-plan-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--mnw-gutter);
-  align-items: start;
-}
-
-.mnw-plan-left {
-  grid-column: 1 / span 6;
-}
-
-.mnw-plan-right {
-  grid-column: 8 / span 5;
-}
-
-.mnw-plan-steps {
+.mnw-walk-stops {
   list-style: none;
-  margin: 0 0 32px;
+  margin: 0;
   padding: 0;
 }
 
-.mnw-plan-step {
+.mnw-walk-stop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 62vh;
+  transition: opacity 520ms var(--mnw-ease-out);
+}
+
+[data-live] .mnw-walk-stop:not(.is-active) {
+  opacity: 0.4;
+}
+
+.mnw-walk-stop-meta {
   display: flex;
   align-items: baseline;
-  gap: 20px;
-  padding: 20px 0;
-  border-top: 1px solid var(--mnw-stone);
-}
-
-.mnw-plan-step:last-child {
-  border-bottom: 1px solid var(--mnw-stone);
-}
-
-.mnw-plan-step-num {
-  color: var(--mnw-vermilion);
-  flex-shrink: 0;
-}
-
-.mnw-plan-step-label {
-  font-family: var(--mnw-font-serif);
-  font-size: 26px;
-  line-height: 1.25;
-  color: var(--mnw-ink);
-}
-
-.mnw-plan-disclosure {
-  margin-top: 20px;
+  gap: 10px;
+  margin: 0 0 14px;
   color: var(--mnw-leaf);
-  font-size: 14px;
-  line-height: 22px;
+  text-transform: uppercase;
+}
+
+.mnw-walk-stop-num {
+  color: var(--mnw-vermilion);
+}
+
+.mnw-walk-stop-meta .mnw-ja {
+  font-size: 16px;
+  letter-spacing: 0;
+  color: var(--mnw-pond);
+}
+
+.mnw-walk-stop-title {
+  margin: 0 0 16px;
+  font-family: var(--mnw-font-serif);
+  font-size: clamp(34px, 3.4vw, 50px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+
+.mnw-walk-stop-desc {
+  margin: 0 0 22px;
+  max-width: 34ch;
+  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
+}
+
+.mnw-walk-stop-notice {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  max-width: 38ch;
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--mnw-stone);
+  font-size: 15px;
+  line-height: 23px;
+  color: var(--mnw-leaf);
+}
+
+.mnw-walk-stop-notice .mnw-mono {
+  flex-shrink: 0;
+  color: var(--mnw-vermilion);
+  text-transform: uppercase;
 }
 
 @media (max-width: 899px) {
-  .mnw-plan-left,
-  .mnw-plan-right {
+  .mnw-walk {
+    padding-bottom: 72px;
+  }
+
+  .mnw-walk > .mnw-container {
+    padding-top: 40px;
+  }
+
+  .mnw-walk-map-col {
     grid-column: 1 / -1;
+    top: 64px;
+    z-index: 2;
+    margin: 0 calc(var(--mnw-margin) * -1);
+    padding: 10px var(--mnw-margin) 12px;
+    border-bottom: 1px solid var(--mnw-stone);
+    background-color: var(--mnw-paper);
+  }
+
+  .mnw-walk-map-frame {
+    width: min(100%, calc(40svh * 4 / 3));
+    margin-inline: auto;
+  }
+
+  /* The map is small here and each stop is named directly beneath it */
+  .mnw-walk-marker-label {
+    display: none;
+  }
+
+  .mnw-walk-stops-col {
+    grid-column: 1 / -1;
+    padding-left: 24px;
+  }
+
+  .mnw-walk-stop {
+    min-height: 46svh;
   }
 }
 
-/* Section 06: Questions (#questions) */
+/* ==========================================================================
+   03 The seasons: one view of the garden, four kinds of light
+   ========================================================================== */
+.mnw-seasons {
+  position: relative;
+}
+
+.mnw-seasons-head {
+  padding-top: 64px;
+  padding-bottom: 72px;
+}
+
+.mnw-statement {
+  margin: 0;
+  font-family: var(--mnw-font-serif);
+  font-size: clamp(36px, 5.6vw, 84px);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--mnw-paper);
+}
+
+.mnw-statement-line {
+  display: block;
+}
+
+/* Each word lights as --p (scroll progress) passes its place in the sentence; unset, every word is lit */
+.mnw-statement-word {
+  opacity: clamp(0.26, calc(0.26 + (var(--p, 1) * (var(--n) + 1) - var(--i)) * 0.74), 1);
+}
+
+.mnw-statement-word.is-accent {
+  color: var(--mnw-sakura);
+}
+
+.mnw-season-band {
+  --px: 0;
+  --py: 0;
+  position: relative;
+  display: flex;
+  min-height: clamp(620px, 90vh, 900px);
+  overflow: hidden;
+}
+
+.mnw-season-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--mnw-pond);
+}
+
+.mnw-scene,
+.mnw-season-wipe {
+  position: absolute;
+  inset: 0;
+}
+
+.mnw-scene-layer {
+  position: absolute;
+  left: -4%;
+  top: -4%;
+  display: block;
+  width: 108%;
+  height: 108%;
+  transform: translate3d(calc(var(--px) * var(--d) * -1px), calc(var(--py) * var(--d) * -0.5px), 0);
+}
+
+.mnw-season-wave {
+  background-color: color-mix(in srgb, var(--mnw-paper) 18%, transparent);
+}
+
+.mnw-season-ring {
+  background-color: color-mix(in srgb, var(--mnw-paper) 76%, transparent);
+}
+
+.mnw-season-air {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Keeps the note legible on the left and eases the scene in from the moss ground above */
+.mnw-season-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, var(--mnw-moss) 0, transparent 13%),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mnw-pond) 94%, transparent) 0%,
+      color-mix(in srgb, var(--mnw-pond) 80%, transparent) 24%,
+      color-mix(in srgb, var(--mnw-pond) 34%, transparent) 44%,
+      transparent 60%
+    );
+  pointer-events: none;
+}
+
+.mnw-season-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 36px;
+  padding-top: 110px;
+  padding-bottom: calc(var(--mnw-shore-h) + 56px);
+  pointer-events: none;
+}
+
+.mnw-season-content > * {
+  max-width: 460px;
+  pointer-events: auto;
+}
+
+/* Holds the picker still while notes of different lengths swap */
+.mnw-season-note {
+  min-height: 340px;
+}
+
+.mnw-season-kicker {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 10px;
+  color: var(--mnw-sakura);
+  text-transform: uppercase;
+}
+
+.mnw-season-kicker .mnw-ja {
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.mnw-season-name {
+  margin: 0 0 18px;
+  font-family: var(--mnw-font-serif);
+  font-size: clamp(64px, 8vw, 120px);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--mnw-porcelain);
+}
+
+.mnw-season-summary {
+  margin: 0 0 12px;
+  font-family: var(--mnw-font-serif);
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--mnw-paper);
+}
+
+.mnw-season-detail {
+  margin: 0 0 18px;
+  font-size: 16px;
+  line-height: 26px;
+  color: color-mix(in srgb, var(--mnw-paper) 88%, transparent);
+}
+
+.mnw-season-light {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 28%, transparent);
+  color: var(--mnw-stone);
+  text-transform: uppercase;
+}
+
+.mnw-season-light span {
+  color: var(--mnw-sakura);
+}
+
+.mnw-season-picker {
+  display: flex;
+  gap: 20px;
+}
+
+.mnw-season-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: color-mix(in srgb, var(--mnw-paper) 82%, transparent);
+  font-family: var(--mnw-font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--mnw-fast) var(--mnw-ease-out);
+}
+
+.mnw-season-seal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--mnw-paper) 46%, transparent);
+  background-color: color-mix(in srgb, var(--mnw-pond) 62%, transparent);
+  color: var(--mnw-paper);
+  font-size: 26px;
+  letter-spacing: 0;
+  transition:
+    background-color var(--mnw-base) var(--mnw-ease-out),
+    color var(--mnw-base) var(--mnw-ease-out),
+    border-color var(--mnw-fast) var(--mnw-ease-out),
+    transform var(--mnw-fast) var(--mnw-ease-out);
+}
+
+/* The chosen season wears a ring of water */
+.mnw-season-seal::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1px solid var(--mnw-sakura);
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity var(--mnw-base) var(--mnw-ease-out),
+    transform var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-season-pick:hover .mnw-season-seal {
+  border-color: var(--mnw-paper);
+  transform: translateY(-2px);
+}
+
+.mnw-season-pick.is-checked {
+  color: var(--mnw-porcelain);
+}
+
+.mnw-season-pick.is-checked .mnw-season-seal {
+  border-color: var(--mnw-paper);
+  background-color: var(--mnw-paper);
+  color: var(--mnw-pond);
+}
+
+.mnw-season-pick.is-checked .mnw-season-seal::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mnw-season-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 40px 0 calc(var(--mnw-shore-h) + 40px);
+}
+
+.mnw-season-list dt {
+  font-family: var(--mnw-font-serif);
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.mnw-season-list dd {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 26px;
+  color: color-mix(in srgb, var(--mnw-paper) 88%, transparent);
+}
+
+/* Below this width the tree would sit under the note, so the scene stacks above it instead */
+@media (max-width: 1099px) {
+  .mnw-seasons-head {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .mnw-season-band {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+    background-color: var(--mnw-moss);
+  }
+
+  .mnw-season-stage {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .mnw-season-scrim {
+    background: linear-gradient(to bottom, var(--mnw-moss) 0, transparent 14%, transparent 82%, var(--mnw-moss) 100%);
+  }
+
+  .mnw-season-content {
+    gap: 28px;
+    padding-top: 20px;
+    padding-bottom: calc(var(--mnw-shore-h) + 56px);
+  }
+
+  .mnw-season-note {
+    min-height: 300px;
+  }
+
+  .mnw-season-picker {
+    gap: 14px;
+  }
+
+  .mnw-season-seal {
+    width: 56px;
+    height: 56px;
+    font-size: 23px;
+  }
+
+  .mnw-season-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 1099px) {
+  .mnw-season-stage {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ==========================================================================
+   Questions
+   ========================================================================== */
+.mnw-questions {
+  position: relative;
+  padding-bottom: 120px;
+}
+
 .mnw-faq-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--mnw-gutter);
+  align-items: start;
+  padding-top: 64px;
 }
 
 .mnw-faq-head {
   grid-column: 1 / span 4;
+  position: sticky;
+  top: 120px;
+}
+
+.mnw-faq-lead {
+  margin-top: 22px;
+  max-width: 30ch;
 }
 
 .mnw-faq-list {
-  grid-column: 5 / span 8;
-}
-
-.mnw-faq-item {
+  grid-column: 6 / span 7;
   border-top: 1px solid var(--mnw-stone);
 }
 
-.mnw-faq-item:last-child {
+.mnw-faq-item {
   border-bottom: 1px solid var(--mnw-stone);
+  interpolate-size: allow-keywords;
+}
+
+/* Where the browser can animate to an intrinsic height, the answer eases open */
+.mnw-faq-item::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size 480ms var(--mnw-ease-out),
+    content-visibility 480ms allow-discrete;
+}
+
+.mnw-faq-item[open]::details-content {
+  block-size: auto;
 }
 
 .mnw-faq-summary {
   list-style: none;
-  display: flex;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 22px 4px;
+  gap: 14px;
   min-height: 60px;
-  cursor: pointer;
-  font-family: var(--mnw-font-serif);
-  font-size: 24px;
-  line-height: 1.3;
+  padding: 24px 4px;
   color: var(--mnw-ink);
+  cursor: pointer;
 }
 
 .mnw-faq-summary::-webkit-details-marker {
   display: none;
 }
 
-.mnw-faq-answer {
-  padding: 0 4px 22px;
-  margin: 0;
-  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
-  max-width: 60ch;
+.mnw-faq-num {
+  color: var(--mnw-leaf);
+  transition: color var(--mnw-fast) var(--mnw-ease-out);
 }
 
-.mnw-faq-plus {
-  font-family: var(--mnw-font-mono);
-  font-size: 18px;
+.mnw-faq-question {
+  font-family: var(--mnw-font-serif);
+  font-size: clamp(21px, 1.9vw, 27px);
+  line-height: 1.25;
+  transition: transform var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-faq-summary:hover .mnw-faq-question {
+  transform: translateX(8px);
+}
+
+.mnw-faq-summary:hover .mnw-faq-num,
+.mnw-faq-item[open] .mnw-faq-num {
   color: var(--mnw-vermilion);
-  transition: transform var(--mnw-fast) var(--mnw-ease-out);
-  flex-shrink: 0;
 }
 
-.mnw-faq-item[open] .mnw-faq-plus {
-  transform: rotate(45deg);
+/* A ring that fills when its answer is open; the plus settles into a minus */
+.mnw-faq-ring {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--mnw-vermilion);
+  transition: background-color var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-faq-ring::before,
+.mnw-faq-ring::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 1.5px;
+  margin: -0.75px 0 0 -5px;
+  background-color: var(--mnw-vermilion);
+  transition:
+    transform var(--mnw-base) var(--mnw-ease-out),
+    background-color var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-faq-ring::after {
+  transform: rotate(90deg);
+}
+
+.mnw-faq-item[open] .mnw-faq-ring {
+  background-color: var(--mnw-vermilion);
+}
+
+.mnw-faq-item[open] .mnw-faq-ring::before,
+.mnw-faq-item[open] .mnw-faq-ring::after {
+  background-color: var(--mnw-porcelain);
+}
+
+.mnw-faq-item[open] .mnw-faq-ring::after {
+  transform: rotate(0deg);
+}
+
+.mnw-faq-answer {
+  max-width: 62ch;
+  margin: 0;
+  padding: 0 4px 26px 52px;
+  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
 }
 
 @media (max-width: 899px) {
+  .mnw-questions {
+    padding-bottom: 72px;
+  }
+
+  .mnw-faq-grid {
+    padding-top: 40px;
+  }
+
   .mnw-faq-head,
   .mnw-faq-list {
     grid-column: 1 / -1;
   }
+
+  .mnw-faq-head {
+    position: static;
+    margin-bottom: 20px;
+  }
+
+  .mnw-faq-summary {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 20px 0;
+  }
+
+  .mnw-faq-answer {
+    padding: 0 0 22px 38px;
+  }
 }
 
-/* Footer */
+/* ==========================================================================
+   Finale: a simple route
+   ========================================================================== */
+.mnw-finale {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--mnw-pond);
+  color: var(--mnw-paper);
+  text-align: center;
+}
+
+.mnw-finale-rings {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.mnw-finale-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 96px;
+  padding-bottom: 150px;
+}
+
+.mnw-finale-title {
+  max-width: 13ch;
+  font-size: clamp(44px, 6.4vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.mnw-finale-lead {
+  max-width: 46ch;
+  margin: 28px auto 0;
+}
+
+.mnw-finale-steps {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 56px 0 52px;
+  padding: 0;
+}
+
+.mnw-finale-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0 46px;
+}
+
+/* Dashed path between one step and the next */
+.mnw-finale-step + .mnw-finale-step::before {
+  content: "";
+  position: absolute;
+  left: -34px;
+  top: 28px;
+  width: 68px;
+  border-top: 1px dashed color-mix(in srgb, var(--mnw-stone) 52%, transparent);
+}
+
+.mnw-finale-step-ring {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--mnw-stone) 60%, transparent);
+  background-color: color-mix(in srgb, var(--mnw-pond) 84%, transparent);
+  color: var(--mnw-sakura);
+  transition:
+    transform var(--mnw-base) var(--mnw-ease-out),
+    border-color var(--mnw-base) var(--mnw-ease-out),
+    background-color var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-finale-step:hover .mnw-finale-step-ring {
+  transform: scale(1.1);
+  border-color: var(--mnw-sakura);
+  background-color: var(--mnw-moss);
+}
+
+.mnw-finale-step-label {
+  font-family: var(--mnw-font-serif);
+  font-size: 24px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.mnw-finale-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px 28px;
+}
+
+.mnw-finale-actions .mnw-link-underline {
+  color: var(--mnw-paper);
+}
+
+/* Padding widens the area in which the button leans toward the pointer */
+.mnw-magnetic {
+  display: inline-block;
+  padding: 14px;
+  margin: -14px;
+}
+
+.mnw-finale-disclosure {
+  margin: 26px 0 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: color-mix(in srgb, var(--mnw-stone) 86%, transparent);
+}
+
+@media (max-width: 899px) {
+  .mnw-finale-inner {
+    padding-top: 64px;
+    padding-bottom: 96px;
+  }
+
+  .mnw-finale-steps {
+    flex-direction: column;
+    gap: 34px;
+    margin: 44px 0;
+  }
+
+  .mnw-finale-step + .mnw-finale-step::before {
+    left: 50%;
+    top: -26px;
+    width: 0;
+    height: 18px;
+    border-top: 0;
+    border-left: 1px dashed color-mix(in srgb, var(--mnw-stone) 52%, transparent);
+  }
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 .mnw-footer {
   background-color: var(--mnw-pond);
   color: var(--mnw-paper);
-  padding: 72px 0 56px;
-  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 18%, transparent);
+  padding: 0 0 48px;
 }
 
 .mnw-footer-grid {
@@ -1652,8 +2702,14 @@ html.mnw-js .mnw-walk-row:not(.is-visible) .mnw-walk-segment-fill {
   align-items: flex-start;
   justify-content: space-between;
   gap: 32px 48px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid color-mix(in srgb, var(--mnw-stone) 20%, transparent);
+  padding-top: 40px;
+  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 20%, transparent);
+}
+
+.mnw-footer-tagline {
+  margin: 10px 0 0;
+  font-size: 16px;
+  color: color-mix(in srgb, var(--mnw-paper) 84%, transparent);
 }
 
 .mnw-footer-links {
@@ -1663,18 +2719,80 @@ html.mnw-js .mnw-walk-row:not(.is-visible) .mnw-walk-segment-fill {
   gap: 12px 28px;
 }
 
+/* Half-submerged wordmark: an outline above the waterline, filled below it */
+.mnw-footer-mark {
+  position: relative;
+  margin: 48px 0 12px;
+}
+
+.mnw-footer-mark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: var(--mnw-font-serif);
+  font-size: 270px;
+}
+
+.mnw-footer-mark-outline {
+  fill: none;
+  stroke: color-mix(in srgb, var(--mnw-stone) 48%, transparent);
+  stroke-width: 1.4;
+}
+
+.mnw-footer-mark-fill {
+  position: absolute;
+  inset: 0;
+  fill: color-mix(in srgb, var(--mnw-leaf) 62%, var(--mnw-pond));
+  clip-path: inset(54% 0 0 0);
+  transition: clip-path 2200ms var(--mnw-ease-tide);
+}
+
+.mnw-footer-mark-waterline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--mnw-stone) 62%, transparent) 14%,
+    color-mix(in srgb, var(--mnw-stone) 62%, transparent) 86%,
+    transparent
+  );
+  transition: transform 1600ms var(--mnw-ease-out);
+}
+
+html.mnw-js .mnw-reveal[data-reveal="water"]:not(.is-visible) .mnw-footer-mark-fill {
+  clip-path: inset(100% 0 0 0);
+}
+
+html.mnw-js .mnw-reveal[data-reveal="water"]:not(.is-visible) .mnw-footer-mark-waterline {
+  transform: scaleX(0);
+}
+
 .mnw-footer-bottom {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 20%, transparent);
   color: color-mix(in srgb, var(--mnw-stone) 84%, transparent);
   font-size: 14px;
 }
 
-/* Reveal system: always visible by default; enhanced only when html.mnw-js is active */
+@media (max-width: 640px) {
+  .mnw-footer-mark {
+    margin: 36px 0 8px;
+  }
+}
+
+/* ==========================================================================
+   Reveal system: always visible by default; enhanced only when html.mnw-js is active
+   ========================================================================== */
 .mnw-reveal {
   opacity: 1;
   transform: none;
@@ -1720,12 +2838,57 @@ html.mnw-js .mnw-reveal[data-reveal="line"]:not(.is-visible) {
     transition: none;
   }
 
+  html.mnw-js .mnw-reveal[data-reveal="words"] .mnw-word > span,
+  html.mnw-js .mnw-reveal[data-reveal="words"]:not(.is-visible) .mnw-word > span {
+    transform: none;
+    transition: none;
+  }
+
+  html.mnw-js .mnw-reveal[data-reveal="water"]:not(.is-visible) .mnw-footer-mark-fill {
+    clip-path: inset(54% 0 0 0);
+  }
+
+  html.mnw-js .mnw-reveal[data-reveal="water"]:not(.is-visible) .mnw-footer-mark-waterline {
+    transform: none;
+  }
+
   .mnw-stage-poster,
   .mnw-stage-canvas-host,
-  .mnw-walk-segment-fill,
-  .mnw-statement-word,
-  .mnw-mobile-drawer {
+  .mnw-mobile-drawer,
+  .mnw-koi-note-name,
+  .mnw-koi-note-more,
+  .mnw-koi-note-more-inner,
+  .mnw-walk-stop,
+  .mnw-walk-marker-dot,
+  .mnw-walk-marker-label,
+  .mnw-walk-count-reel,
+  .mnw-season-seal,
+  .mnw-season-seal::after,
+  .mnw-faq-item::details-content,
+  .mnw-faq-question,
+  .mnw-faq-ring,
+  .mnw-faq-ring::before,
+  .mnw-faq-ring::after,
+  .mnw-finale-step-ring,
+  .mnw-footer-mark-fill,
+  .mnw-footer-mark-waterline {
     transition: none;
+  }
+
+  .mnw-koi-hint-ring,
+  .mnw-walk-walker::after,
+  .mnw-walk-pulse::before,
+  .mnw-walk-pulse::after {
+    animation: none;
+  }
+
+  .mnw-walk-pulse::before {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+
+  .mnw-walk-pulse::after {
+    opacity: 0;
   }
 }
 ]]>
@@ -1759,8 +2922,8 @@ export default function MizunowaApp() {
         <KoiGallery />
         <GardenWalk />
         <Seasons />
-        <PlanYourWalk />
         <Questions />
+        <PlanYourWalk />
       </main>
       <Footer />
     </div>
@@ -1872,6 +3035,18 @@ export default function BrandMark({ size = 32 }: BrandMarkProps) {
 
 import { NAV_LINKS } from '../data/garden';
 import BrandMark from './BrandMark';
+import Reveal from './Reveal';
+
+/** The wordmark, drawn as SVG text so one string can be stacked as outline and waterline fill. */
+function Wordmark({ className }: { className: string }) {
+  return (
+    <svg className={className} viewBox="0 0 1600 300" focusable="false">
+      <text x="800" y="248" textAnchor="middle" textLength="1540" lengthAdjust="spacingAndGlyphs">
+        MIZUNOWA
+      </text>
+    </svg>
+  );
+}
 
 export default function Footer() {
   return (
@@ -1888,15 +3063,7 @@ export default function Footer() {
                 </span>
               </span>
             </a>
-            <p
-              style={{
-                margin: '10px 0 0',
-                color: 'color-mix(in srgb, var(--mnw-paper) 84%, transparent)',
-                fontSize: 16,
-              }}
-            >
-              An imagined garden in motion.
-            </p>
+            <p className="mnw-footer-tagline">An imagined garden in motion.</p>
           </div>
 
           <nav className="mnw-footer-links" aria-label="Footer navigation">
@@ -1911,6 +3078,15 @@ export default function Footer() {
           </nav>
         </div>
 
+        {/* Half-submerged wordmark: the fill rises to the waterline when the footer arrives */}
+        <Reveal variant="water">
+          <div className="mnw-footer-mark" aria-hidden="true">
+            <Wordmark className="mnw-footer-mark-outline" />
+            <Wordmark className="mnw-footer-mark-fill" />
+            <span className="mnw-footer-mark-waterline" />
+          </div>
+        </Reveal>
+
         <div className="mnw-footer-bottom">
           <span>MIZUNOWA is a fictional Japanese garden created for this template.</span>
           <span className="mnw-mono">01 — 03 / FIELD GUIDE</span>
@@ -1924,95 +3100,328 @@ export default function Footer() {
     <file path="src/app/(mizunowa)/mizunowa/components/GardenWalk.tsx">
 <![CDATA['use client';
 
-import { useRef } from 'react';
+import { CSSProperties, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { useMotionValueEvent, useScroll, useSpring } from 'motion/react';
 import { GARDEN_STOPS } from '../data/garden';
-import { useInView } from '../hooks/useInView';
+import { clamp, prefersReducedMotion } from '../field/mount';
 import Reveal from './Reveal';
+import Shoreline from './Shoreline';
+import SplitWords from './SplitWords';
 
-function WalkRow({
-  number,
-  title,
-  description,
-  delayMs,
+/** Scroll progress at which the page start, each stop, and the page end sit in view. */
+const SCROLL_KEYS = [0, 1 / 6, 1 / 2, 5 / 6, 1];
+/** Where each marker's label sits, so it stays clear of the map edge and the route. */
+const LABEL_SIDES = ['east', 'north', 'south'] as const;
+
+interface RouteGeometry {
+  length: number;
+  /** Route fractions matching SCROLL_KEYS: start, the three stops, end. */
+  keys: number[];
+}
+
+function WalkMapArt({
+  routeRef,
+  drawnRef,
 }: {
-  number: string;
-  title: string;
-  description: string;
-  delayMs: number;
+  routeRef: RefObject<SVGPathElement | null>;
+  drawnRef: RefObject<SVGPathElement | null>;
 }) {
-  const rowRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(rowRef, { threshold: 0.05, once: true });
+  const route =
+    'M292 678 C178 620, 128 450, 210 315 C284 195, 480 158, 690 198 C808 220, 882 252, 956 205';
 
   return (
-    <div
-      ref={rowRef}
-      className={`mnw-walk-row ${inView ? 'is-visible' : ''}`}
-      style={{ transitionDelay: `${delayMs}ms` }}
+    <svg
+      viewBox="0 0 1200 900"
+      className="mnw-walk-map-art"
+      fill="none"
+      role="img"
+      aria-label="Route map of the garden: the walk begins at the pond edge, climbs to the sakura grove on the upper left, then follows stepping stones through the torii to the shrine courtyard on the upper right."
     >
-      <span className="mnw-mono" style={{ color: 'var(--mnw-vermilion)' }}>
-        {number}
-      </span>
-      <h3 className="mnw-walk-row-title">{title}</h3>
-      <p className="mnw-walk-row-desc">{description}</p>
-      <div className="mnw-walk-segment-line" aria-hidden="true">
-        <div className="mnw-walk-segment-fill" />
-      </div>
-    </div>
+      {/* Subtle topographic / paper contours */}
+      <ellipse cx="560" cy="510" rx="455" ry="270" stroke="#D6C7A9" strokeWidth="1.2" strokeDasharray="4 6" />
+      <ellipse cx="560" cy="510" rx="520" ry="325" stroke="#D6C7A9" strokeWidth="1" opacity="0.65" />
+
+      {/* Pond water */}
+      <path
+        d="M180 510 C180 355, 340 285, 560 285 C775 285, 935 360, 935 510 C935 660, 775 735, 560 735 C340 735, 180 665, 180 510 Z"
+        fill="#112C2A"
+      />
+      <ellipse cx="558" cy="510" rx="340" ry="198" stroke="#526E58" strokeOpacity="0.35" strokeWidth="2" />
+
+      {/* Koi path traces inside pond */}
+      <ellipse cx="558" cy="510" rx="260" ry="150" stroke="#D6C7A9" strokeOpacity="0.22" strokeWidth="1.2" strokeDasharray="6 8" />
+      <ellipse cx="558" cy="510" rx="145" ry="76" stroke="#D6C7A9" strokeOpacity="0.22" strokeWidth="1.2" strokeDasharray="5 7" />
+
+      {/* Bank stones along perimeter */}
+      <g fill="#D6C7A9" stroke="#526E58" strokeWidth="1.2">
+        <ellipse cx="195" cy="442" rx="30" ry="18" transform="rotate(-28 195 442)" />
+        <ellipse cx="268" cy="356" rx="28" ry="16" transform="rotate(-18 268 356)" />
+        <ellipse cx="395" cy="296" rx="32" ry="15" transform="rotate(-6 395 296)" />
+        <ellipse cx="560" cy="274" rx="36" ry="15" />
+        <ellipse cx="732" cy="298" rx="32" ry="15" transform="rotate(10 732 298)" />
+        <ellipse cx="868" cy="368" rx="30" ry="17" transform="rotate(28 868 368)" />
+        <ellipse cx="928" cy="505" rx="30" ry="18" transform="rotate(86 928 505)" />
+        <ellipse cx="852" cy="656" rx="34" ry="17" transform="rotate(-24 852 656)" />
+        <ellipse cx="695" cy="726" rx="38" ry="16" transform="rotate(-8 695 726)" />
+        <ellipse cx="520" cy="744" rx="40" ry="16" />
+        <ellipse cx="342" cy="718" rx="34" ry="16" transform="rotate(12 342 718)" />
+        <ellipse cx="218" cy="638" rx="32" ry="17" transform="rotate(28 218 638)" />
+      </g>
+
+      {/* Sakura grove (upper left) */}
+      <g transform="translate(226 248)">
+        <circle cx="0" cy="0" r="88" fill="#C7A6A2" fillOpacity="0.42" />
+        <circle cx="-46" cy="24" r="52" fill="#C7A6A2" fillOpacity="0.58" />
+        <circle cx="48" cy="-24" r="56" fill="#C7A6A2" fillOpacity="0.55" />
+        <circle cx="14" cy="36" r="44" fill="#C7A6A2" fillOpacity="0.5" />
+        <path
+          d="M-6 40 C-2 10, 6 -12, 24 -32 M0 8 C-26 -8, -42 -12, -62 -10"
+          stroke="#1E2320"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+        />
+      </g>
+
+      {/* Garden walk path: the faint route still to come, and the stretch already walked */}
+      <path
+        ref={routeRef}
+        d={route}
+        stroke="#526E58"
+        strokeOpacity="0.5"
+        strokeWidth="2.5"
+        strokeDasharray="7 7"
+        strokeLinecap="round"
+      />
+      <path
+        ref={drawnRef}
+        className="mnw-walk-route-drawn"
+        d={route}
+        pathLength={1}
+        stroke="#9E3F32"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+
+      {/* Stepping stones along the path */}
+      <g fill="#D6C7A9" stroke="#526E58" strokeWidth="1">
+        <ellipse cx="272" cy="666" rx="14" ry="9" transform="rotate(34 272 666)" />
+        <ellipse cx="204" cy="596" rx="13" ry="9" transform="rotate(65 204 596)" />
+        <ellipse cx="164" cy="495" rx="13" ry="9" transform="rotate(86 164 495)" />
+        <ellipse cx="176" cy="390" rx="14" ry="9" transform="rotate(-64 176 390)" />
+        <ellipse cx="268" cy="258" rx="14" ry="9" transform="rotate(-36 268 258)" />
+        <ellipse cx="388" cy="192" rx="15" ry="9" transform="rotate(-14 388 192)" />
+        <ellipse cx="524" cy="174" rx="15" ry="9" />
+        <ellipse cx="662" cy="192" rx="15" ry="9" transform="rotate(10 662 192)" />
+        <ellipse cx="792" cy="222" rx="15" ry="9" transform="rotate(-8 792 222)" />
+        <ellipse cx="892" cy="224" rx="15" ry="9" transform="rotate(-22 892 224)" />
+      </g>
+
+      {/* Land-based vermilion torii in plan view */}
+      <g transform="translate(888 214) rotate(-26)">
+        <rect x="-26" y="-8" width="52" height="10" rx="2" fill="#9E3F32" />
+        <rect x="-18" y="-3" width="6" height="18" fill="#1E2320" />
+        <rect x="12" y="-3" width="6" height="18" fill="#1E2320" />
+      </g>
+
+      {/* Shrine hall footprint and roof ridge (upper right) */}
+      <g transform="translate(998 168) rotate(-22)">
+        <rect x="-78" y="-48" width="156" height="96" rx="3" fill="#203D33" stroke="#1E2320" strokeWidth="2" />
+        <line x1="-82" y1="0" x2="82" y2="0" stroke="#CB9462" strokeWidth="4" strokeLinecap="round" />
+        <rect x="-24" y="42" width="48" height="14" fill="#D6C7A9" stroke="#1E2320" strokeWidth="1.5" />
+      </g>
+
+      {/* Moss clusters */}
+      <g fill="#526E58" fillOpacity="0.32">
+        <ellipse cx="835" cy="145" rx="64" ry="38" />
+        <ellipse cx="1095" cy="282" rx="52" ry="34" />
+        <ellipse cx="118" cy="692" rx="58" ry="32" />
+        <ellipse cx="975" cy="675" rx="68" ry="40" />
+      </g>
+    </svg>
   );
 }
 
 export default function GardenWalk() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const stopsRef = useRef<HTMLDivElement>(null);
+  const stopEls = useRef<(HTMLLIElement | null)[]>([]);
+  const routeRef = useRef<SVGPathElement>(null);
+  const drawnRef = useRef<SVGPathElement>(null);
+  const cameraRef = useRef<HTMLDivElement>(null);
+  const walkerRef = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const geometryRef = useRef<RouteGeometry | null>(null);
+
+  const [active, setActive] = useState(0);
+  // Everything counts as reached until the scroll-driven walk takes over.
+  const [reached, setReached] = useState(GARDEN_STOPS.length);
+
+  const { scrollYProgress } = useScroll({ target: stopsRef, offset: ['start 0.62', 'end 0.62'] });
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 26, mass: 0.5 });
+
+  const apply = useCallback((raw: number) => {
+    const geometry = geometryRef.current;
+    const route = routeRef.current;
+    if (!geometry || !route) return;
+
+    const q = clamp(raw, 0, 1);
+    let segment = 0;
+    while (segment < SCROLL_KEYS.length - 2 && q > SCROLL_KEYS[segment + 1]) segment += 1;
+    const local = (q - SCROLL_KEYS[segment]) / (SCROLL_KEYS[segment + 1] - SCROLL_KEYS[segment]);
+    const walked = geometry.keys[segment] + (geometry.keys[segment + 1] - geometry.keys[segment]) * local;
+
+    drawnRef.current?.style.setProperty('stroke-dashoffset', String(1 - walked));
+
+    const point = route.getPointAtLength(walked * geometry.length);
+    const walker = walkerRef.current;
+    if (walker) {
+      walker.style.left = `${point.x / 12}%`;
+      walker.style.top = `${point.y / 9}%`;
+    }
+
+    // The map leans in toward the walker mid-route and settles back to the whole garden at each end.
+    const scale = 1 + 0.36 * Math.pow(Math.sin(Math.PI * q), 0.7);
+    const slack = (scale - 1) / 2;
+    const shiftX = clamp(-(point.x / 1200 - 0.5) * scale, -slack, slack);
+    const shiftY = clamp(-(point.y / 900 - 0.5) * scale, -slack, slack);
+    if (cameraRef.current) {
+      cameraRef.current.style.transform = `translate(${(shiftX * 100).toFixed(3)}%, ${(shiftY * 100).toFixed(3)}%) scale(${scale.toFixed(4)})`;
+    }
+    if (railRef.current) {
+      railRef.current.style.transform = `scaleY(${q.toFixed(4)})`;
+    }
+
+    setActive(q < 1 / 3 ? 0 : q < 2 / 3 ? 1 : 2);
+    setReached(geometry.keys.slice(1, -1).filter((key) => walked >= key - 0.015).length);
+  }, []);
+
+  useMotionValueEvent(progress, 'change', apply);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const route = routeRef.current;
+    if (!section || !route || prefersReducedMotion()) return;
+
+    const length = route.getTotalLength();
+    const stopKeys = GARDEN_STOPS.map((stop) => {
+      let best = 0;
+      let bestDistance = Infinity;
+      for (let i = 0; i <= 240; i++) {
+        const point = route.getPointAtLength((length * i) / 240);
+        const distance = Math.hypot(point.x - stop.x, point.y - stop.y);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = i / 240;
+        }
+      }
+      return best;
+    }).sort((a, b) => a - b);
+
+    geometryRef.current = { length, keys: [0, ...stopKeys, 1] };
+    section.dataset.live = 'true';
+    apply(progress.get());
+
+    return () => {
+      geometryRef.current = null;
+      delete section.dataset.live;
+    };
+  }, [apply, progress]);
+
   return (
-    <section id="walk" className="mnw-section mnw-section-paper mnw-surface-light">
+    <section id="walk" ref={sectionRef} className="mnw-walk mnw-section-paper mnw-surface-light">
+      <Shoreline from="pond" to="paper" overlap />
+
       <div className="mnw-container">
         <div className="mnw-section-head">
           <div className="mnw-section-head-left">
             <Reveal variant="rise">
               <p className="mnw-eyebrow mnw-chapter-label">02 / THE WALK</p>
             </Reveal>
-            <Reveal variant="mask" delayMs={70}>
-              <h2 className="mnw-h2">Three places, one slow path.</h2>
+            <Reveal variant="words" delayMs={70}>
+              <h2 className="mnw-h2">
+                <SplitWords text="Three places, one slow path." />
+              </h2>
+            </Reveal>
+          </div>
+          <div className="mnw-section-head-right">
+            <Reveal variant="rise" delayMs={140}>
+              <p className="mnw-lead mnw-scripted">
+                Scroll to walk the route, or pick a marker on the map to step ahead.
+              </p>
             </Reveal>
           </div>
         </div>
 
         <div className="mnw-walk-grid">
           <div className="mnw-walk-map-col">
-            <Reveal variant="wipe">
-              <figure className="mnw-walk-map-frame" style={{ margin: 0 }}>
-                <img
-                  src="/templates/mizunowa/garden-map.svg"
-                  alt="Editorial route map showing the pond edge, the sakura grove on the upper left, and the stepping stone path through the torii to the shrine courtyard on the upper right."
-                  width={1200}
-                  height={900}
-                  className="mnw-walk-map-img"
-                  referrerPolicy="no-referrer"
-                />
-                <figcaption className="mnw-walk-map-labels">
-                  {GARDEN_STOPS.map((stop) => (
-                    <span
-                      key={stop.number}
-                      className="mnw-mono"
-                      style={{ color: 'var(--mnw-pond)' }}
-                    >
+            <figure className="mnw-walk-map-frame">
+              <div ref={cameraRef} className="mnw-walk-camera">
+                <WalkMapArt routeRef={routeRef} drawnRef={drawnRef} />
+                <div className="mnw-walk-pulse" aria-hidden="true" />
+                <div ref={walkerRef} className="mnw-walk-walker" aria-hidden="true">
+                  <span />
+                </div>
+                {GARDEN_STOPS.map((stop, index) => (
+                  <button
+                    key={stop.number}
+                    type="button"
+                    className={`mnw-walk-marker mnw-walk-marker-${LABEL_SIDES[index]} ${
+                      index < reached ? 'is-reached' : ''
+                    } ${index === active ? 'is-active' : ''}`}
+                    style={{ left: `${stop.x / 12}%`, top: `${stop.y / 9}%` }}
+                    aria-label={`Go to stop ${stop.number}, ${stop.title}`}
+                    onClick={() => stopEls.current[index]?.scrollIntoView({ block: 'center' })}
+                  >
+                    <span className="mnw-walk-marker-dot" aria-hidden="true" />
+                    <span className="mnw-mono mnw-walk-marker-label" aria-hidden="true">
                       {stop.mapLabel}
                     </span>
-                  ))}
-                </figcaption>
-              </figure>
-            </Reveal>
+                  </button>
+                ))}
+              </div>
+              <figcaption className="mnw-mono mnw-walk-count" aria-hidden="true">
+                <span>Stop</span>
+                <span className="mnw-walk-count-window">
+                  <span className="mnw-walk-count-reel" style={{ '--active': active } as CSSProperties}>
+                    {GARDEN_STOPS.map((stop) => (
+                      <span key={stop.number}>{stop.number}</span>
+                    ))}
+                  </span>
+                </span>
+                <span>/ 03</span>
+              </figcaption>
+            </figure>
           </div>
 
-          <div className="mnw-walk-rows-col">
-            {GARDEN_STOPS.map((stop, idx) => (
-              <WalkRow
-                key={stop.number}
-                number={stop.number}
-                title={stop.title}
-                description={stop.description}
-                delayMs={idx * 80}
-              />
-            ))}
+          <div ref={stopsRef} className="mnw-walk-stops-col">
+            <div className="mnw-walk-rail" aria-hidden="true">
+              <div ref={railRef} className="mnw-walk-rail-fill" />
+            </div>
+            <ol className="mnw-walk-stops">
+              {GARDEN_STOPS.map((stop, index) => (
+                <li
+                  key={stop.number}
+                  ref={(el) => {
+                    stopEls.current[index] = el;
+                  }}
+                  className={`mnw-walk-stop ${index === active ? 'is-active' : ''}`}
+                >
+                  <p className="mnw-mono mnw-walk-stop-meta">
+                    <span className="mnw-walk-stop-num">{stop.number}</span>
+                    <span className="mnw-ja" lang="ja">
+                      {stop.japanese}
+                    </span>
+                    <span>/ {stop.reading}</span>
+                  </p>
+                  <h3 className="mnw-walk-stop-title">{stop.title}</h3>
+                  <p className="mnw-walk-stop-desc">{stop.description}</p>
+                  <p className="mnw-walk-stop-notice">
+                    <span className="mnw-mono">Notice</span>
+                    {stop.notice}
+                  </p>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </div>
@@ -2445,8 +3854,13 @@ export default function Hero({ sceneLoader }: HeroProps) {
     <file path="src/app/(mizunowa)/mizunowa/components/KoiGallery.tsx">
 <![CDATA['use client';
 
-import { KOI_SPECIMENS, KoiSpecimen } from '../data/garden';
+import { useEffect, useRef, useState } from 'react';
+import { useMotionValueEvent, useScroll } from 'motion/react';
+import { KOI_SPECIMENS, KoiId, KoiSpecimen } from '../data/garden';
+import { createKoiField, KoiFieldController } from '../field/koiField';
+import { mountField, prefersReducedMotion } from '../field/mount';
 import Reveal from './Reveal';
+import SplitWords from './SplitWords';
 
 function KoiSilhouette({ specimen }: { specimen: KoiSpecimen }) {
   const { id, primaryColor, secondaryColor, accentColor } = specimen;
@@ -2537,72 +3951,172 @@ function KoiSilhouette({ specimen }: { specimen: KoiSpecimen }) {
   );
 }
 
-export default function KoiGallery() {
+/** The wake each koi draws on the water, shown as a short sample beside its name. */
+function LineSample({ specimen }: { specimen: KoiSpecimen }) {
   return (
-    <section
-      id="koi"
-      className="mnw-section-paper mnw-surface-light"
-    >
+    <svg className="mnw-koi-note-line" viewBox="0 0 56 12" width="56" height="12" fill="none" aria-hidden="true">
+      <path
+        d="M2 7 C 12 1, 20 11, 30 6 S 46 2, 54 6"
+        stroke={specimen.trailColor}
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeDasharray={specimen.trailDash.map((dash) => dash * 0.45).join(' ') || undefined}
+      />
+    </svg>
+  );
+}
+
+export default function KoiGallery() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const seamRef = useRef<HTMLDivElement>(null);
+  const waterRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hintRef = useRef<HTMLParagraphElement>(null);
+  const fieldRef = useRef<KoiFieldController | null>(null);
+
+  const [selected, setSelected] = useState<KoiId | null>(null);
+  const [feedCount, setFeedCount] = useState(0);
+
+  // The rings on the seam open as the hero scrolls away.
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'start 0.3'] });
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    seamRef.current?.style.setProperty('--seam', value.toFixed(3));
+  });
+
+  useEffect(() => {
+    const water = waterRef.current;
+    const canvas = canvasRef.current;
+    if (!water || !canvas) return;
+
+    const reducedMotion = prefersReducedMotion();
+    if (!reducedMotion) {
+      seamRef.current?.style.setProperty('--seam', scrollYProgress.get().toFixed(3));
+    }
+
+    const field = createKoiField(canvas, water, {
+      specimens: KOI_SPECIMENS,
+      reducedMotion,
+      labelFont: hintRef.current ? getComputedStyle(hintRef.current).fontFamily : 'monospace',
+      onPick: (id) => setSelected((current) => (current === id ? null : id)),
+      onFeed: () => setFeedCount((count) => count + 1),
+    });
+    fieldRef.current = field;
+    const unmount = mountField(water, field);
+
+    return () => {
+      fieldRef.current = null;
+      unmount();
+    };
+  }, [scrollYProgress]);
+
+  useEffect(() => {
+    fieldRef.current?.setSelected(selected);
+  }, [selected]);
+
+  const selectedSpecimen = KOI_SPECIMENS.find((specimen) => specimen.id === selected);
+
+  return (
+    <section id="koi" ref={sectionRef} className="mnw-koi mnw-surface-dark">
       <div id="garden" className="sr-only" aria-hidden="true" />
-      {/* Ripple-to-rule graphic handoff */}
-      <div className="mnw-handoff">
-        <div className="mnw-container">
-          <div className="mnw-handoff-rule-wrap" aria-hidden="true">
-            <div className="mnw-handoff-line" />
-            <div className="mnw-handoff-ring">
-              <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                <circle cx="22" cy="22" r="19" stroke="#D6C7A9" strokeWidth="1.2" />
-                <circle cx="22" cy="22" r="10.5" stroke="#9E3F32" strokeWidth="1.2" strokeOpacity="0.65" />
-                <circle cx="22" cy="22" r="2.5" fill="#9E3F32" />
-              </svg>
-            </div>
+
+      {/* Ripple handoff: rings spread from the bottom edge of the pond into the first chapter */}
+      <div ref={seamRef} className="mnw-seam" aria-hidden="true">
+        <svg viewBox="0 0 900 260" fill="none" focusable="false">
+          <ellipse cx="450" cy="130" rx="446" ry="127" />
+          <ellipse cx="450" cy="130" rx="330" ry="94" />
+          <ellipse cx="450" cy="130" rx="214" ry="61" />
+          <ellipse cx="450" cy="130" rx="98" ry="28" />
+        </svg>
+      </div>
+
+      <div className="mnw-container mnw-koi-head">
+        <div className="mnw-section-head">
+          <div className="mnw-section-head-left">
+            <Reveal variant="rise">
+              <p className="mnw-eyebrow mnw-chapter-label">
+                01 / <span className="mnw-ja" lang="ja">錦鯉</span> / NISHIKIGOI
+              </p>
+            </Reveal>
+            <Reveal variant="words" delayMs={70}>
+              <h2 className="mnw-h2">
+                <SplitWords text="Each one leaves a different line." />
+              </h2>
+            </Reveal>
+          </div>
+          <div className="mnw-section-head-right">
+            <Reveal variant="rise" delayMs={140}>
+              <p className="mnw-lead">
+                Look closely and each fish has its own pattern. Their paths cross the same water
+                at their own pace.
+              </p>
+            </Reveal>
           </div>
         </div>
       </div>
 
-      <div className="mnw-section" style={{ paddingTop: 32 }}>
-        <div className="mnw-container">
-          <div className="mnw-section-head">
-            <div className="mnw-section-head-left">
-              <Reveal variant="rise">
-                <p className="mnw-eyebrow mnw-chapter-label">
-                  01 / <span className="mnw-ja" lang="ja">錦鯉</span> / NISHIKIGOI
-                </p>
-              </Reveal>
-              <Reveal variant="mask" delayMs={70}>
-                <h2 className="mnw-h2">Each one leaves a different line.</h2>
-              </Reveal>
-            </div>
-            <div className="mnw-section-head-right">
-              <Reveal variant="rise" delayMs={140}>
-                <p style={{ margin: 0, color: 'color-mix(in srgb, var(--mnw-ink) 86%, transparent)' }}>
-                  Look closely and each fish has its own pattern. Their paths cross the same water
-                  at their own pace.
-                </p>
-              </Reveal>
-            </div>
-          </div>
-
-          <div className="mnw-koi-strip">
-            {KOI_SPECIMENS.map((specimen, idx) => (
-              <Reveal key={specimen.id} variant="rise" delayMs={idx * 70}>
-                <article className="mnw-koi-cell">
-                  <span className="mnw-mono" style={{ color: 'var(--mnw-vermilion)' }}>
-                    {specimen.number}
-                  </span>
-                  <div className="mnw-koi-figure">
-                    <KoiSilhouette specimen={specimen} />
-                  </div>
-                  <div>
-                    <h3 className="mnw-koi-name">{specimen.label}</h3>
-                    <p className="mnw-koi-pattern">{specimen.visiblePattern}</p>
-                  </div>
-                  <p className="mnw-koi-caption">{specimen.caption}</p>
-                </article>
-              </Reveal>
-            ))}
+      <div className="mnw-koi-stage">
+        <div ref={waterRef} className="mnw-koi-water">
+          <canvas ref={canvasRef} className="mnw-koi-canvas" aria-hidden="true" />
+          <div className="mnw-container mnw-koi-hint">
+            <p ref={hintRef} className="mnw-mono">
+              <span className="mnw-koi-hint-ring" aria-hidden="true" />
+              Click the water to feed · pick a koi to follow its line
+            </p>
+            <button type="button" className="mnw-chip" onClick={() => fieldRef.current?.feed()}>
+              Feed the koi
+            </button>
           </div>
         </div>
+
+        <div className="mnw-container mnw-koi-notes-wrap">
+          <Reveal variant="rise" delayMs={120}>
+            <ul className="mnw-koi-notes" aria-label="Koi field notes">
+              {KOI_SPECIMENS.map((specimen) => {
+                const isSelected = specimen.id === selected;
+                return (
+                  <li key={specimen.id}>
+                    <button
+                      type="button"
+                      className={`mnw-koi-note ${isSelected ? 'is-selected' : ''}`}
+                      aria-pressed={isSelected}
+                      onClick={() => setSelected(isSelected ? null : specimen.id)}
+                      onPointerEnter={() => fieldRef.current?.setHighlighted(specimen.id)}
+                      onPointerLeave={() => fieldRef.current?.setHighlighted(null)}
+                      onFocus={() => fieldRef.current?.setHighlighted(specimen.id)}
+                      onBlur={() => fieldRef.current?.setHighlighted(null)}
+                    >
+                      <span className="mnw-koi-note-top">
+                        <span className="mnw-mono mnw-koi-note-num">{specimen.number}</span>
+                        <span className="mnw-koi-note-name">{specimen.label}</span>
+                        <LineSample specimen={specimen} />
+                      </span>
+                      <span className="mnw-koi-note-more">
+                        <span className="mnw-koi-note-more-inner">
+                          <span className="mnw-koi-note-figure">
+                            <KoiSilhouette specimen={specimen} />
+                          </span>
+                          <span className="mnw-koi-note-pattern">{specimen.visiblePattern}</span>
+                          <span className="mnw-koi-note-caption">{specimen.caption}</span>
+                          <span className="mnw-koi-note-linecopy">
+                            <span className="mnw-mono">Its line</span>
+                            {specimen.line}
+                          </span>
+                        </span>
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="mnw-sr-only" aria-live="polite" aria-atomic="true">
+        {selectedSpecimen ? `Following ${selectedSpecimen.label}` : ''}
+      </div>
+      <div className="mnw-sr-only" aria-live="polite" aria-atomic="true">
+        {feedCount === 0 ? '' : feedCount % 2 === 0 ? 'Koi food dropped​' : 'Koi food dropped'}
       </div>
     </section>
   );
@@ -2612,66 +4126,124 @@ export default function KoiGallery() {
     <file path="src/app/(mizunowa)/mizunowa/components/PlanYourWalk.tsx">
 <![CDATA['use client';
 
+import { PointerEvent, ReactNode, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'motion/react';
 import { PLAN_STEPS } from '../data/garden';
+import { mountField, prefersReducedMotion } from '../field/mount';
+import { createRippleField, RippleFieldController } from '../field/rippleField';
 import Reveal from './Reveal';
+import Shoreline from './Shoreline';
+import SplitWords from './SplitWords';
+
+/** Lets its child lean a little toward a nearby mouse pointer. */
+function Magnetic({ children }: { children: ReactNode }) {
+  const reducedMotion = useReducedMotion();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const pullX = useSpring(x, { stiffness: 180, damping: 16, mass: 0.4 });
+  const pullY = useSpring(y, { stiffness: 180, damping: 16, mass: 0.4 });
+
+  const handleMove = (event: PointerEvent<HTMLSpanElement>) => {
+    if (reducedMotion || event.pointerType !== 'mouse') return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    x.set((event.clientX - (rect.left + rect.width / 2)) * 0.26);
+    y.set((event.clientY - (rect.top + rect.height / 2)) * 0.34);
+  };
+
+  const handleLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.span
+      className="mnw-magnetic"
+      style={{ x: pullX, y: pullY }}
+      onPointerMove={handleMove}
+      onPointerLeave={handleLeave}
+    >
+      {children}
+    </motion.span>
+  );
+}
 
 export default function PlanYourWalk() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fieldRef = useRef<RippleFieldController | null>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const canvas = canvasRef.current;
+    if (!section || !canvas) return;
+
+    const field = createRippleField(canvas, section, {
+      reducedMotion: prefersReducedMotion(),
+      rgb: '214, 199, 169',
+      origin: [0.5, 0.44],
+    });
+    fieldRef.current = field;
+    const unmount = mountField(section, field);
+
+    return () => {
+      fieldRef.current = null;
+      unmount();
+    };
+  }, []);
+
   return (
-    <section id="plan" className="mnw-section mnw-section-paper mnw-surface-light">
-      <div className="mnw-container mnw-plan-grid">
-        <div className="mnw-plan-left">
-          <Reveal variant="rise">
-            <p className="mnw-eyebrow mnw-chapter-label">A SIMPLE ROUTE</p>
-          </Reveal>
-          <Reveal variant="mask" delayMs={70}>
-            <h2 className="mnw-h2">Make a little room for the journey.</h2>
-          </Reveal>
-          <Reveal variant="rise" delayMs={140}>
-            <p
-              style={{
-                marginTop: 22,
-                marginBottom: 0,
-                maxWidth: '46ch',
-                color: 'color-mix(in srgb, var(--mnw-ink) 86%, transparent)',
-              }}
-            >
-              Start at the pond, walk beneath the sakura, and finish at the shrine courtyard. This
-              is an imagined route, ready to explore on this page.
-            </p>
-          </Reveal>
-        </div>
+    <section id="plan" ref={sectionRef} className="mnw-finale mnw-surface-dark">
+      <Shoreline from="paper" to="pond" flip />
+      <canvas ref={canvasRef} className="mnw-finale-rings" aria-hidden="true" />
 
-        <div className="mnw-plan-right">
-          <Reveal variant="rise" delayMs={100}>
-            <ol className="mnw-plan-steps">
-              {PLAN_STEPS.map((step) => (
-                <li key={step.number} className="mnw-plan-step">
-                  <span className="mnw-mono mnw-plan-step-num">{step.number}</span>
-                  <span className="mnw-plan-step-label">{step.label}</span>
-                </li>
-              ))}
-            </ol>
+      <div className="mnw-container mnw-finale-inner">
+        <Reveal variant="rise">
+          <p className="mnw-eyebrow mnw-chapter-label">A SIMPLE ROUTE</p>
+        </Reveal>
+        <Reveal variant="words" delayMs={70}>
+          <h2 className="mnw-h2 mnw-finale-title">
+            <SplitWords text="Make a little room for the journey." />
+          </h2>
+        </Reveal>
+        <Reveal variant="rise" delayMs={180}>
+          <p className="mnw-lead mnw-finale-lead">
+            Start at the pond, walk beneath the sakura, and finish at the shrine courtyard. This is
+            an imagined route, ready to explore on this page.
+          </p>
+        </Reveal>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px 24px' }}>
+        <Reveal variant="rise" delayMs={240}>
+          <ol className="mnw-finale-steps">
+            {PLAN_STEPS.map((step) => (
+              <li
+                key={step.number}
+                className="mnw-finale-step"
+                onPointerEnter={(event) => fieldRef.current?.emitAt(event.clientX, event.clientY)}
+              >
+                <span className="mnw-mono mnw-finale-step-ring">{step.number}</span>
+                <span className="mnw-finale-step-label">{step.label}</span>
+              </li>
+            ))}
+          </ol>
+        </Reveal>
+
+        <Reveal variant="rise" delayMs={300}>
+          <div className="mnw-finale-actions">
+            <Magnetic>
               <a href="#koi" className="mnw-btn-primary">
                 <span>Explore the garden</span>
                 <ArrowRight size={16} aria-hidden="true" />
               </a>
-              <a
-                href="#top"
-                className="mnw-link-underline"
-                style={{ color: 'var(--mnw-pond)' }}
-              >
-                Back to the pond
-              </a>
-            </div>
-
-            <p className="mnw-plan-disclosure">
-              MIZUNOWA is a fictional garden created for this template.
-            </p>
-          </Reveal>
-        </div>
+            </Magnetic>
+            <a href="#top" className="mnw-link-underline">
+              Back to the pond
+            </a>
+          </div>
+          <p className="mnw-finale-disclosure">
+            MIZUNOWA is a fictional garden created for this template.
+          </p>
+        </Reveal>
       </div>
     </section>
   );
@@ -3055,33 +4627,40 @@ export default function PondStage({
 
 import { FAQ_ITEMS } from '../data/garden';
 import Reveal from './Reveal';
+import Shoreline from './Shoreline';
+import SplitWords from './SplitWords';
 
 export default function Questions() {
   return (
-    <section
-      id="questions"
-      className="mnw-section mnw-section-paper mnw-surface-light"
-      style={{ borderTop: '1px solid var(--mnw-stone)' }}
-    >
+    <section id="questions" className="mnw-questions mnw-section-paper mnw-surface-light">
+      <Shoreline from="moss" to="paper" overlap />
+
       <div className="mnw-container mnw-faq-grid">
         <div className="mnw-faq-head">
           <Reveal variant="rise">
             <p className="mnw-eyebrow mnw-chapter-label">QUESTIONS</p>
           </Reveal>
-          <Reveal variant="mask" delayMs={70}>
-            <h2 className="mnw-h2">Notes before you begin.</h2>
+          <Reveal variant="words" delayMs={70}>
+            <h2 className="mnw-h2">
+              <SplitWords text="Notes before you begin." />
+            </h2>
+          </Reveal>
+          <Reveal variant="rise" delayMs={160}>
+            <p className="mnw-lead mnw-faq-lead">
+              Six short answers about the garden, the pond and the koi.
+            </p>
           </Reveal>
         </div>
 
         <div className="mnw-faq-list">
           {FAQ_ITEMS.map((item, idx) => (
             <Reveal key={item.question} variant="rise" delayMs={idx * 45}>
-              <details className="mnw-faq-item">
+              {/* Sharing a name makes the six disclosures open one at a time, natively */}
+              <details className="mnw-faq-item" name="mnw-faq">
                 <summary className="mnw-faq-summary">
-                  <span>{item.question}</span>
-                  <span className="mnw-faq-plus" aria-hidden="true">
-                    +
-                  </span>
+                  <span className="mnw-mono mnw-faq-num">0{idx + 1}</span>
+                  <span className="mnw-faq-question">{item.question}</span>
+                  <span className="mnw-faq-ring" aria-hidden="true" />
                 </summary>
                 <p className="mnw-faq-answer">{item.answer}</p>
               </details>
@@ -3101,7 +4680,11 @@ import { CSSProperties, ReactNode, useEffect, useRef } from 'react';
 
 interface RevealProps {
   children: ReactNode;
-  variant?: 'rise' | 'mask' | 'wipe' | 'line';
+  /**
+   * `words` leaves the block in place and lifts each `SplitWords` word from behind its own mask.
+   * `water` leaves the block in place and raises the footer wordmark's fill to its waterline.
+   */
+  variant?: 'rise' | 'mask' | 'wipe' | 'line' | 'words' | 'water';
   delayMs?: number;
   className?: string;
 }
@@ -3189,283 +4772,751 @@ export default function Reveal({
     <file path="src/app/(mizunowa)/mizunowa/components/Seasons.tsx">
 <![CDATA['use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { CSSProperties, KeyboardEvent, PointerEvent, useEffect, useRef, useState } from 'react';
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+} from 'motion/react';
 import { SEASON_NOTES, SeasonId } from '../data/garden';
-import { useInView } from '../hooks/useInView';
+import { mountField, prefersReducedMotion } from '../field/mount';
+import { createSeasonParticles, SeasonParticlesController } from '../field/seasonParticles';
+import SeasonScene from './SeasonScene';
+import Shoreline from './Shoreline';
 
 const STATEMENT_LINES = [
   ['The', 'garden', 'keeps', 'its', 'shape.'],
   ['The', 'light', 'keeps', 'changing.'],
 ];
+const STATEMENT_ACCENTS = ['shape.', 'light', 'changing.'];
+const STATEMENT_WORDS = STATEMENT_LINES.flat().length;
 
-const SEASON_PALETTES: Record<
-  SeasonId,
-  {
-    sky: string;
-    bank: string;
-    water: string;
-    foliagePrimary: string;
-    foliageSecondary: string;
-    pathAccent: string;
-    showCanopy: boolean;
-    showPetals: boolean;
-    showBareBranches: boolean;
-  }
-> = {
-  spring: {
-    sky: '#112C2A',
-    bank: '#203D33',
-    water: '#173A36',
-    foliagePrimary: '#C7A6A2',
-    foliageSecondary: '#526E58',
-    pathAccent: '#D6C7A9',
-    showCanopy: true,
-    showPetals: true,
-    showBareBranches: false,
-  },
-  summer: {
-    sky: '#112C2A',
-    bank: '#1E3A30',
-    water: '#133532',
-    foliagePrimary: '#526E58',
-    foliageSecondary: '#2F523C',
-    pathAccent: '#D6C7A9',
-    showCanopy: true,
-    showPetals: false,
-    showBareBranches: false,
-  },
-  autumn: {
-    sky: '#162B28',
-    bank: '#2C3D31',
-    water: '#15322F',
-    foliagePrimary: '#CB9462',
-    foliageSecondary: '#D6C7A9',
-    pathAccent: '#CB9462',
-    showCanopy: true,
-    showPetals: true,
-    showBareBranches: false,
-  },
-  winter: {
-    sky: '#112C2A',
-    bank: '#1C332D',
-    water: '#102826',
-    foliagePrimary: '#F4EFE2',
-    foliageSecondary: '#D6C7A9',
-    pathAccent: '#F4EFE2',
-    showCanopy: false,
-    showPetals: false,
-    showBareBranches: true,
-  },
-};
+/** The new season spreads from the pond, like a ring on the water. */
+const WIPE_FROM = 'circle(0% at 70% 86%)';
+/** Just past the far corner, so the ring is still crossing the scene for the whole duration. */
+const WIPE_REACH = 112;
+const WIPE_EASE: [number, number, number, number] = [0.5, 0, 0.3, 1];
+const NOTE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-function SeasonalPaperCut({ season }: { season: SeasonId }) {
-  const pal = SEASON_PALETTES[season];
-
-  return (
-    <svg
-      viewBox="0 0 680 480"
-      width={680}
-      height={480}
-      style={{ width: '100%', height: 'auto', display: 'block' }}
-      role="img"
-      aria-label={`Paper-cut garden diagram in ${season}`}
-    >
-      <rect width="680" height="480" fill={pal.sky} />
-      {/* Layered paper-cut hills & mossy bank */}
-      <path
-        d="M0 240 C160 190, 340 205, 680 185 L680 480 L0 480 Z"
-        fill={pal.bank}
-      />
-      <path
-        d="M0 325 C170 295, 420 295, 680 320 L680 480 L0 480 Z"
-        fill={pal.foliageSecondary}
-        fillOpacity="0.32"
-      />
-
-      {/* Pond cutout */}
-      <ellipse cx="330" cy="348" rx="220" ry="96" fill={pal.water} stroke={pal.pathAccent} strokeWidth="1.5" strokeOpacity="0.4" />
-      <ellipse cx="350" cy="342" rx="46" ry="20" fill="none" stroke="#F4EFE2" strokeOpacity="0.32" strokeWidth="1.2" />
-
-      {/* Stepping stone path & shrine courtyard on right */}
-      <g fill={pal.pathAccent}>
-        <ellipse cx="445" cy="252" rx="14" ry="7" transform="rotate(-18 445 252)" />
-        <ellipse cx="478" cy="232" rx="15" ry="7" transform="rotate(-22 478 232)" />
-        <ellipse cx="512" cy="212" rx="15" ry="7" transform="rotate(-20 512 212)" />
-        <ellipse cx="546" cy="192" rx="16" ry="7" transform="rotate(-16 546 192)" />
-      </g>
-
-      {/* Torii on approach */}
-      <g transform="translate(520 192)">
-        <rect x="-24" y="-44" width="6" height="46" fill="#9E3F32" />
-        <rect x="18" y="-44" width="6" height="46" fill="#9E3F32" />
-        <rect x="-30" y="-32" width="60" height="5" fill="#9E3F32" />
-        <rect x="-36" y="-48" width="72" height="7" rx="1.5" fill="#9E3F32" />
-        <rect x="-38" y="-51" width="76" height="3.5" fill="#1E2320" />
-      </g>
-
-      {/* Timber hall behind torii */}
-      <g transform="translate(592 152)">
-        <rect x="-46" y="4" width="92" height="28" fill="#F4EFE2" fillOpacity="0.92" />
-        <rect x="-46" y="4" width="6" height="28" fill="#1E2320" />
-        <rect x="40" y="4" width="6" height="28" fill="#1E2320" />
-        <rect x="-10" y="10" width="20" height="22" fill="#1E2320" />
-        <polygon points="-58,6 0,-26 58,6" fill="#1E2320" />
-        <rect x="-48" y="32" width="96" height="7" fill={pal.pathAccent} />
-      </g>
-
-      {/* Sakura tree silhouette on left */}
-      <g transform="translate(135 258)">
-        <path
-          d="M-8 10 C-6 -24, 4 -54, 16 -84 C26 -108, 48 -126, 76 -140 M6 -52 C-24 -78, -56 -96, -86 -106 M18 -92 C-8 -124, -26 -148, -32 -174 M36 -112 C68 -124, 102 -122, 132 -110"
-          stroke="#1E2320"
-          strokeWidth={pal.showBareBranches ? '8' : '11'}
-          strokeLinecap="round"
-          fill="none"
-        />
-        {pal.showBareBranches && (
-          <path
-            d="M-54 -95 C-72 -112, -90 -122, -108 -124 M48 -126 C72 -148, 96 -160, 118 -164 M-22 -142 C-38 -162, -48 -182, -48 -198"
-            stroke="#F4EFE2"
-            strokeOpacity="0.55"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
-          />
-        )}
-        {pal.showCanopy && (
-          <g>
-            <circle cx="-82" cy="-112" r="38" fill={pal.foliagePrimary} fillOpacity="0.9" />
-            <circle cx="-26" cy="-168" r="44" fill={pal.foliagePrimary} fillOpacity="0.92" />
-            <circle cx="42" cy="-152" r="40" fill={pal.foliagePrimary} fillOpacity="0.88" />
-            <circle cx="114" cy="-116" r="36" fill={pal.foliagePrimary} fillOpacity="0.9" />
-            <circle cx="24" cy="-108" r="30" fill={pal.foliageSecondary} fillOpacity="0.55" />
-          </g>
-        )}
-      </g>
-
-      {/* Fallen petals / autumn leaves on water */}
-      {pal.showPetals && (
-        <g fill={pal.foliagePrimary} fillOpacity="0.85">
-          <ellipse cx="215" cy="336" rx="6" ry="3" transform="rotate(20 215 336)" />
-          <ellipse cx="245" cy="358" rx="5" ry="2.6" transform="rotate(-14 245 358)" />
-          <ellipse cx="282" cy="322" rx="5.5" ry="2.8" transform="rotate(30 282 322)" />
-        </g>
-      )}
-    </svg>
-  );
+function wipeTo(radius: number): string {
+  return `circle(${radius}% at 70% 86%)`;
 }
 
 export default function Seasons() {
-  const [activeSeason, setActiveSeason] = useState<SeasonId>('spring');
-  const statementRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(statementRef, { threshold: 0.35, once: true });
-  const [litCount, setLitCount] = useState(0);
+  const [season, setSeason] = useState<SeasonId>('spring');
+  // The scene underneath while the next season spreads over it.
+  const [base, setBase] = useState<SeasonId>('spring');
+  const [wipe, setWipe] = useState(0);
+
+  const statementRef = useRef<HTMLHeadingElement>(null);
+  const bandRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particlesRef = useRef<SeasonParticlesController | null>(null);
+  const pickRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const reducedMotion = useReducedMotion();
+  const note = SEASON_NOTES.find((item) => item.id === season) ?? SEASON_NOTES[0];
+
+  // The statement is read in as it scrolls up the page.
+  const { scrollYProgress } = useScroll({ target: statementRef, offset: ['start 0.9', 'end 0.5'] });
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    statementRef.current?.style.setProperty('--p', value.toFixed(3));
+  });
+
+  // Pointer parallax across the paper-cut layers.
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const driftX = useSpring(pointerX, { stiffness: 60, damping: 18 });
+  const driftY = useSpring(pointerY, { stiffness: 60, damping: 18 });
+  useMotionValueEvent(driftX, 'change', (value) => {
+    bandRef.current?.style.setProperty('--px', value.toFixed(4));
+  });
+  useMotionValueEvent(driftY, 'change', (value) => {
+    bandRef.current?.style.setProperty('--py', value.toFixed(4));
+  });
 
   useEffect(() => {
-    if (!inView) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const doneTimer = window.setTimeout(() => setLitCount(99), 0);
-      return () => window.clearTimeout(doneTimer);
+    const stage = stageRef.current;
+    const canvas = canvasRef.current;
+    if (!stage || !canvas) return;
+
+    const still = prefersReducedMotion();
+    if (!still) {
+      statementRef.current?.style.setProperty('--p', scrollYProgress.get().toFixed(3));
     }
 
-    let count = 0;
-    const totalWords = 9;
-    const timer = window.setInterval(() => {
-      count += 1;
-      setLitCount(count);
-      if (count >= totalWords) {
-        window.clearInterval(timer);
-      }
-    }, 110);
+    const particles = createSeasonParticles(canvas, stage, still, 'spring');
+    particlesRef.current = particles;
+    const unmount = mountField(stage, particles);
 
-    return () => window.clearInterval(timer);
-  }, [inView]);
+    return () => {
+      particlesRef.current = null;
+      unmount();
+    };
+  }, [scrollYProgress]);
 
-  const handleToggle = (seasonId: SeasonId, e: React.SyntheticEvent<HTMLDetailsElement>) => {
-    const detailsEl = e.currentTarget;
-    if (detailsEl.open) {
-      setActiveSeason(seasonId);
-    } else {
-      // Check if any sibling details remain open; if none, restore spring
-      const parent = detailsEl.parentElement;
-      if (!parent) return;
-      const openEls = Array.from(parent.querySelectorAll<HTMLDetailsElement>('details[open]'));
-      if (openEls.length === 0) {
-        setActiveSeason('spring');
-      } else {
-        const lastOpen = openEls[openEls.length - 1];
-        const fallbackId = (lastOpen.dataset.season as SeasonId | undefined) ?? 'spring';
-        setActiveSeason(fallbackId);
-      }
-    }
+  const choose = (next: SeasonId) => {
+    if (next === season) return;
+    setBase(season);
+    setSeason(next);
+    setWipe((count) => count + 1);
+    particlesRef.current?.setSeason(next);
   };
 
+  const handlePickerKey = (event: KeyboardEvent<HTMLDivElement>) => {
+    const current = SEASON_NOTES.findIndex((item) => item.id === season);
+    let next = current;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (current + 1) % SEASON_NOTES.length;
+    else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
+      next = (current + SEASON_NOTES.length - 1) % SEASON_NOTES.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = SEASON_NOTES.length - 1;
+    else return;
+
+    event.preventDefault();
+    choose(SEASON_NOTES[next].id);
+    pickRefs.current[next]?.focus();
+  };
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (reducedMotion || event.pointerType !== 'mouse') return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    pointerX.set(((event.clientX - rect.left) / rect.width - 0.5) * 2);
+    pointerY.set(((event.clientY - rect.top) / rect.height - 0.5) * 2);
+  };
+
+  const handlePointerLeave = () => {
+    pointerX.set(0);
+    pointerY.set(0);
+  };
+
+  const wipeDuration = reducedMotion ? 0 : 1.9;
+
   return (
-    <section id="seasons" className="mnw-section mnw-section-moss mnw-surface-dark">
-      <div className="mnw-container">
-        <div ref={statementRef} className="mnw-statement-wrap">
-          <p className="mnw-eyebrow mnw-chapter-label">SEASONAL NOTES</p>
-          <h2 className="mnw-statement">
-            {STATEMENT_LINES.map((words, lineIdx) => (
-              <span key={lineIdx} style={{ display: 'block' }}>
-                {words.map((word, wordIdx) => {
-                  const flatIndex = (lineIdx === 0 ? 0 : STATEMENT_LINES[0].length) + wordIdx + 1;
-                  const isLit =
-                    flatIndex <= litCount &&
-                    (word === 'shape.' || word === 'light' || word === 'changing.');
-                  return (
-                    <span
-                      key={`${lineIdx}-${word}`}
-                      className={`mnw-statement-word ${isLit ? 'is-lit' : ''}`}
-                      style={{ marginRight: '0.28em' }}
-                    >
-                      {word}
-                    </span>
-                  );
-                })}
-              </span>
-            ))}
-          </h2>
-        </div>
+    <section id="seasons" className="mnw-seasons mnw-section-moss mnw-surface-dark">
+      <Shoreline from="paper" to="moss" flip />
 
-        <div className="mnw-seasons-grid">
-          <div className="mnw-seasons-art-col">
-            <div className="mnw-seasons-art-frame">
-              <SeasonalPaperCut season={activeSeason} />
-            </div>
-          </div>
+      <div className="mnw-container mnw-seasons-head">
+        <p className="mnw-eyebrow mnw-chapter-label">
+          03 / <span className="mnw-ja" lang="ja">四季</span> / THE SEASONS
+        </p>
+        <h2
+          ref={statementRef}
+          className="mnw-statement"
+          style={{ '--n': STATEMENT_WORDS } as CSSProperties}
+        >
+          {STATEMENT_LINES.map((words, lineIndex) => (
+            <span key={lineIndex} className="mnw-statement-line">
+              {words.map((word, wordIndex) => {
+                const flatIndex = (lineIndex === 0 ? 0 : STATEMENT_LINES[0].length) + wordIndex;
+                return (
+                  <span
+                    key={`${lineIndex}-${word}`}
+                    className={`mnw-statement-word ${STATEMENT_ACCENTS.includes(word) ? 'is-accent' : ''}`}
+                    style={{ '--i': flatIndex } as CSSProperties}
+                  >
+                    {word}{' '}
+                  </span>
+                );
+              })}
+            </span>
+          ))}
+        </h2>
+      </div>
 
-          <div className="mnw-seasons-list-col">
-            {SEASON_NOTES.map((note) => (
-              <details
-                key={note.id}
-                data-season={note.id}
-                open={note.id === 'spring'}
-                className="mnw-season-details"
-                onToggle={(e) => handleToggle(note.id, e)}
+      <div
+        ref={bandRef}
+        className="mnw-season-band"
+        data-season={season}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+      >
+        <div
+          ref={stageRef}
+          className="mnw-season-stage"
+          role="img"
+          aria-label={`Paper-cut view of the garden in ${note.season.toLowerCase()}: the sakura tree, the pond, and the torii before the timber hall.`}
+        >
+          <SeasonScene season={base} />
+          {wipe > 0 && (
+            <>
+              {/* A soft wave front and a crisp ring lead the incoming season */}
+              <motion.div
+                key={`wave-${wipe}`}
+                className="mnw-season-wipe mnw-season-wave"
+                initial={{ clipPath: WIPE_FROM }}
+                animate={{ clipPath: wipeTo(WIPE_REACH + 3) }}
+                transition={{ duration: wipeDuration, ease: WIPE_EASE }}
+              />
+              <motion.div
+                key={`ring-${wipe}`}
+                className="mnw-season-wipe mnw-season-ring"
+                initial={{ clipPath: WIPE_FROM }}
+                animate={{ clipPath: wipeTo(WIPE_REACH + 0.3) }}
+                transition={{ duration: wipeDuration, ease: WIPE_EASE }}
+              />
+              <motion.div
+                key={`scene-${wipe}`}
+                className="mnw-season-wipe"
+                initial={{ clipPath: WIPE_FROM }}
+                animate={{ clipPath: wipeTo(WIPE_REACH) }}
+                transition={{ duration: wipeDuration, ease: WIPE_EASE }}
+                onAnimationComplete={() => setBase(season)}
               >
-                <summary className="mnw-season-summary">
-                  <span className="mnw-season-title-group">
-                    <span className="mnw-season-name">{note.season}</span>
-                    <span className="mnw-season-summary-copy">{note.summary}</span>
+                <SeasonScene season={season} />
+              </motion.div>
+            </>
+          )}
+          <canvas ref={canvasRef} className="mnw-season-air" aria-hidden="true" />
+          <div className="mnw-season-scrim" aria-hidden="true" />
+        </div>
+
+        <div className="mnw-container mnw-season-content">
+          <div className="mnw-season-note" aria-live="polite">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={season}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: reducedMotion ? 0 : 0.42, ease: NOTE_EASE }}
+              >
+                <p className="mnw-mono mnw-season-kicker">
+                  <span className="mnw-ja" lang="ja">
+                    {note.kanji}
                   </span>
-                  <span className="mnw-season-indicator mnw-ja" lang="ja">
-                    {note.japanese}
+                  <span>/ {note.reading}</span>
+                </p>
+                <h3 className="mnw-season-name">{note.season}</h3>
+                <p className="mnw-season-summary">{note.summary}</p>
+                <p className="mnw-season-detail">{note.detail}</p>
+                <p className="mnw-mono mnw-season-light">
+                  <span>Light</span>
+                  {note.light}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div
+            className="mnw-season-picker mnw-scripted"
+            role="radiogroup"
+            aria-label="Choose a season"
+            onKeyDown={handlePickerKey}
+          >
+            {SEASON_NOTES.map((item, index) => {
+              const checked = item.id === season;
+              return (
+                <button
+                  key={item.id}
+                  ref={(el) => {
+                    pickRefs.current[index] = el;
+                  }}
+                  type="button"
+                  role="radio"
+                  aria-checked={checked}
+                  tabIndex={checked ? 0 : -1}
+                  className={`mnw-season-pick ${checked ? 'is-checked' : ''}`}
+                  onClick={() => choose(item.id)}
+                >
+                  <span className="mnw-season-seal mnw-ja" lang="ja" aria-hidden="true">
+                    {item.kanji}
                   </span>
-                </summary>
-                <div className="mnw-season-body">{note.detail}</div>
-              </details>
-            ))}
+                  <span className="mnw-season-pick-name">{item.season}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
+      </div>
+
+      {/* Without JavaScript the picker cannot run, so the other three notes are simply listed */}
+      <div className="mnw-container mnw-nojs-only">
+        <dl className="mnw-season-list">
+          {SEASON_NOTES.filter((item) => item.id !== 'spring').map((item) => (
+            <div key={item.id}>
+              <dt>
+                {item.season} <span className="mnw-ja" lang="ja">{item.kanji}</span>
+              </dt>
+              <dd>
+                {item.summary} {item.detail}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );
 }
 ]]>
     </file>
+    <file path="src/app/(mizunowa)/mizunowa/components/SeasonScene.tsx">
+<![CDATA['use client';
+
+import { CSSProperties } from 'react';
+import { SeasonId } from '../data/garden';
+
+interface SeasonLook {
+  skyTop: string;
+  skyBottom: string;
+  haze: string;
+  /** The sun, or the pale winter moon: its place in the sky is what changes the light. */
+  disc: { x: number; y: number; r: number; color: string };
+  far: string;
+  ridge: string;
+  cedar: string;
+  bank: string;
+  bankEdge: string;
+  water: string;
+  waterLight: string;
+  /** Three tones for the tree canopy; empty when the branches are bare. */
+  canopy: readonly string[];
+  overhang: string | null;
+  floating: string | null;
+  snow: boolean;
+}
+
+const LOOKS: Record<SeasonId, SeasonLook> = {
+  spring: {
+    skyTop: '#0F2927',
+    skyBottom: '#3D5650',
+    haze: '#C7A6A2',
+    disc: { x: 1010, y: 262, r: 62, color: '#F4E3D7' },
+    far: '#1D3D37',
+    ridge: '#21423A',
+    cedar: '#17332E',
+    bank: '#2A4A3B',
+    bankEdge: '#3D6149',
+    water: '#163B37',
+    waterLight: '#2A5A52',
+    canopy: ['#C7A6A2', '#DDC2BD', '#B38C89'],
+    overhang: '#B08B88',
+    floating: '#D9BDB8',
+    snow: false,
+  },
+  summer: {
+    skyTop: '#0C2A25',
+    skyBottom: '#2C5C47',
+    haze: '#6E9070',
+    disc: { x: 1130, y: 150, r: 50, color: '#F7F1DC' },
+    far: '#1A4236',
+    ridge: '#1E4836',
+    cedar: '#12352B',
+    bank: '#28563A',
+    bankEdge: '#3E7449',
+    water: '#11393B',
+    waterLight: '#1F5A54',
+    canopy: ['#526E58', '#3D6247', '#6F8F66'],
+    overhang: '#35593F',
+    floating: null,
+    snow: false,
+  },
+  autumn: {
+    skyTop: '#1B2B26',
+    skyBottom: '#6A5238',
+    haze: '#CB9462',
+    disc: { x: 900, y: 340, r: 80, color: '#EBB57D' },
+    far: '#2C3A2E',
+    ridge: '#35402E',
+    cedar: '#25322A',
+    bank: '#3E4730',
+    bankEdge: '#6A5B33',
+    water: '#1B3531',
+    waterLight: '#4A5340',
+    canopy: ['#CB9462', '#9E3F32', '#DDB07A'],
+    overhang: '#9E3F32',
+    floating: '#CB9462',
+    snow: false,
+  },
+  winter: {
+    skyTop: '#132D2D',
+    skyBottom: '#5B706A',
+    haze: '#F4EFE2',
+    disc: { x: 1190, y: 214, r: 44, color: '#FDFBF5' },
+    far: '#2D4945',
+    ridge: '#35544E',
+    cedar: '#21403B',
+    bank: '#3F5E58',
+    bankEdge: '#DDE2D6',
+    water: '#152F2E',
+    waterLight: '#6C8782',
+    canopy: [],
+    overhang: null,
+    floating: null,
+    snow: true,
+  },
+};
+
+const SNOW = '#F4EFE2';
+const INK = '#141D1A';
+const VERMILION = '#9E3F32';
+/** A koi seen from the bank: nose at the origin, forked tail trailing along +x. */
+const KOI_SHAPE = 'M0 0 C 10 -9, 34 -10, 48 -2 L 64 -10 L 59 0 L 64 10 L 48 2 C 34 10, 10 9, 0 0 Z';
+
+/** Canopy clusters: centre, radius, tone index. */
+const CANOPY: readonly [number, number, number, number][] = [
+  [546, 440, 70, 0],
+  [490, 400, 48, 1],
+  [580, 370, 56, 2],
+  [650, 300, 78, 0],
+  [700, 236, 62, 1],
+  [776, 262, 58, 2],
+  [790, 330, 54, 0],
+  [860, 300, 62, 1],
+  [910, 236, 60, 0],
+  [960, 318, 56, 2],
+  [1032, 330, 58, 0],
+  [1070, 290, 40, 1],
+  [750, 400, 46, 1],
+  [640, 430, 44, 1],
+];
+
+/** Conifers along the far ridge: x, base y, height, width. */
+const CEDARS: readonly [number, number, number, number][] = [
+  [70, 548, 190, 62],
+  [150, 540, 150, 54],
+  [236, 532, 214, 66],
+  [330, 528, 160, 52],
+  [416, 532, 126, 46],
+  [1512, 512, 196, 62],
+  [1584, 516, 150, 52],
+];
+
+const BRANCHES: readonly { d: string; width: number }[] = [
+  { d: 'M708 706 C 700 628, 712 560, 750 492 C 776 446, 820 408, 878 380', width: 28 },
+  { d: 'M724 560 C 672 512, 616 472, 546 448', width: 15 },
+  { d: 'M754 486 C 736 420, 708 356, 676 286', width: 14 },
+  { d: 'M810 418 C 866 366, 940 344, 1028 350', width: 12 },
+  { d: 'M878 380 C 906 330, 912 290, 906 244', width: 10 },
+  { d: 'M616 472 C 596 440, 580 418, 560 380', width: 6 },
+  { d: 'M708 356 C 750 320, 780 290, 790 250', width: 6 },
+  { d: 'M940 344 C 970 316, 990 300, 1020 270', width: 5 },
+];
+
+const LAYER_PROPS = {
+  viewBox: '0 0 1600 900',
+  preserveAspectRatio: 'xMidYMid slice',
+  focusable: 'false' as const,
+  'aria-hidden': true,
+};
+
+function depth(value: number): CSSProperties {
+  return { '--d': value } as CSSProperties;
+}
+
+/** A point on a circle, rounded so server and client markup agree to the digit. */
+function orbit(centre: number, radius: number, angle: number, axis: 'x' | 'y'): number {
+  const offset = (axis === 'x' ? Math.cos(angle) : Math.sin(angle)) * radius;
+  return Math.round((centre + offset) * 10) / 10;
+}
+
+/** A layered paper-cut view of the garden. Each layer is its own SVG so pointer parallax stays on the compositor. */
+export default function SeasonScene({ season }: { season: SeasonId }) {
+  const look = LOOKS[season];
+  const id = `mnw-season-${season}`;
+
+  return (
+    <div className="mnw-scene" data-season={season}>
+      {/* Sky, light and the far hills */}
+      <svg className="mnw-scene-layer" style={depth(4)} {...LAYER_PROPS}>
+        <defs>
+          <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor={look.skyTop} />
+            <stop offset="0.66" stopColor={look.skyBottom} />
+          </linearGradient>
+          <radialGradient id={`${id}-glow`}>
+            <stop offset="0" stopColor={look.disc.color} stopOpacity="0.5" />
+            <stop offset="1" stopColor={look.disc.color} stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <rect x="-80" y="-60" width="1760" height="1020" fill={`url(#${id}-sky)`} />
+        <circle cx={look.disc.x} cy={look.disc.y} r={look.disc.r * 3.6} fill={`url(#${id}-glow)`} />
+        <circle cx={look.disc.x} cy={look.disc.y} r={look.disc.r} fill={look.disc.color} opacity="0.94" />
+        <path
+          d="M-80 520 C 120 430, 260 400, 420 450 C 560 380, 700 360, 860 430 C 1000 390, 1180 330, 1320 400 C 1440 370, 1560 400, 1680 440 L1680 960 L-80 960 Z"
+          fill={look.far}
+        />
+        <ellipse cx="800" cy="548" rx="1000" ry="64" fill={look.haze} opacity="0.16" />
+      </svg>
+
+      {/* Ridge, conifers, torii and the timber hall */}
+      <svg className="mnw-scene-layer" style={depth(10)} {...LAYER_PROPS}>
+        {CEDARS.map(([x, base, tall, wide]) => (
+          <g key={x}>
+            <path d={`M${x} ${base - tall} L${x + wide / 2} ${base + 20} L${x - wide / 2} ${base + 20} Z`} fill={look.cedar} />
+            {look.snow && (
+              <path
+                d={`M${x} ${base - tall} L${x + wide * 0.17} ${base - tall * 0.62} L${x - wide * 0.17} ${base - tall * 0.62} Z`}
+                fill={SNOW}
+                opacity="0.85"
+              />
+            )}
+          </g>
+        ))}
+        <path
+          d="M-80 560 C 200 500, 420 520, 640 540 C 860 500, 1040 470, 1240 500 C 1400 480, 1560 500, 1680 520 L1680 960 L-80 960 Z"
+          fill={look.ridge}
+        />
+
+        {/* Timber hall, set back from the gate */}
+        <g>
+          <rect x="1246" y="504" width="248" height="14" fill="#D6C7A9" />
+          <rect x="1268" y="440" width="204" height="64" fill="#EFE8D8" />
+          <rect x="1268" y="440" width="9" height="64" fill={INK} />
+          <rect x="1463" y="440" width="9" height="64" fill={INK} />
+          <rect x="1330" y="440" width="6" height="64" fill={INK} />
+          <rect x="1404" y="440" width="6" height="64" fill={INK} />
+          <rect x="1346" y="452" width="48" height="52" fill={INK} />
+          <rect x="1350" y="456" width="40" height="44" fill="#CB9462" opacity="0.5" />
+          <path d="M1216 450 Q 1296 420 1370 364 Q 1444 420 1524 450 L 1516 460 L 1224 460 Z" fill={INK} />
+          <rect x="1354" y="360" width="32" height="7" rx="2" fill="#CB9462" />
+          {look.snow && (
+            <path
+              d="M1234 446 Q 1302 418 1370 370 Q 1438 418 1506 446 Q 1438 430 1370 386 Q 1302 430 1234 446 Z"
+              fill={SNOW}
+            />
+          )}
+        </g>
+
+        {/* Torii on the approach, in line with the hall */}
+        <g>
+          <rect x="1136" y="470" width="13" height="96" fill={VERMILION} />
+          <rect x="1211" y="470" width="13" height="96" fill={VERMILION} />
+          <rect x="1124" y="496" width="112" height="9" fill={VERMILION} />
+          <path d="M1106 472 Q 1180 458 1254 472 L 1252 485 Q 1180 473 1108 485 Z" fill={VERMILION} />
+          <path d="M1100 463 Q 1180 447 1260 463 L 1258 472 Q 1180 458 1102 472 Z" fill={look.snow ? SNOW : INK} />
+        </g>
+      </svg>
+
+      {/* Bank, pond and the sakura tree */}
+      <svg className="mnw-scene-layer" style={depth(18)} {...LAYER_PROPS}>
+        <path
+          d="M-80 650 C 180 600, 420 610, 700 640 C 900 600, 1150 590, 1400 610 C 1500 615, 1600 625, 1680 640 L1680 960 L-80 960 Z"
+          fill={look.bank}
+        />
+        <path
+          d="M-80 650 C 180 600, 420 610, 700 640 C 900 600, 1150 590, 1400 610 C 1500 615, 1600 625, 1680 640"
+          fill="none"
+          stroke={look.bankEdge}
+          strokeWidth={look.snow ? 10 : 5}
+          strokeLinecap="round"
+          opacity={look.snow ? 0.9 : 0.7}
+        />
+
+        {/* Stepping stones from the gate down to the water */}
+        <g fill={look.snow ? SNOW : '#D6C7A9'}>
+          <ellipse cx="1176" cy="598" rx="20" ry="7" />
+          <ellipse cx="1160" cy="622" rx="22" ry="8" />
+          <ellipse cx="1140" cy="648" rx="24" ry="9" />
+          <ellipse cx="1118" cy="676" rx="26" ry="10" />
+        </g>
+
+        {/* Pond: it runs off the bottom of the scene, where the next section's shoreline becomes its near bank */}
+        <ellipse cx="1160" cy="824" rx="528" ry="130" fill={INK} opacity="0.35" />
+        <ellipse cx="1160" cy="818" rx="520" ry="126" fill={look.water} />
+        <ellipse cx="1210" cy="800" rx="360" ry="70" fill={look.waterLight} opacity="0.42" />
+        <g fill="none" stroke="#F4EFE2" strokeWidth="1.6">
+          <ellipse cx="1090" cy="792" rx="54" ry="13" opacity="0.5" />
+          <ellipse cx="1090" cy="792" rx="108" ry="26" opacity="0.3" />
+          <ellipse cx="1090" cy="792" rx="170" ry="41" opacity="0.16" />
+        </g>
+        {!look.snow && (
+          <g>
+            <g transform="translate(1262 770) rotate(-8)">
+              <path d={KOI_SHAPE} fill="#FDFBF5" />
+              <ellipse cx="20" cy="0" rx="9" ry="5" fill={VERMILION} />
+            </g>
+            <g transform="translate(960 800) rotate(172)">
+              <path d={KOI_SHAPE} fill="#CB9462" />
+            </g>
+          </g>
+        )}
+        {look.floating && (
+          <g fill={look.floating} opacity="0.9">
+            <ellipse cx="900" cy="760" rx="8" ry="3.4" transform="rotate(18 900 760)" />
+            <ellipse cx="974" cy="750" rx="7" ry="3" transform="rotate(-14 974 750)" />
+            <ellipse cx="1040" cy="738" rx="7.5" ry="3.2" transform="rotate(28 1040 738)" />
+            <ellipse cx="1190" cy="752" rx="7" ry="3" transform="rotate(-22 1190 752)" />
+            <ellipse cx="1340" cy="776" rx="8" ry="3.2" transform="rotate(12 1340 776)" />
+          </g>
+        )}
+        <g fill={look.snow ? '#C9D0C4' : '#8D947F'}>
+          <ellipse cx="770" cy="760" rx="34" ry="13" />
+          <ellipse cx="1470" cy="736" rx="32" ry="12" />
+          <ellipse cx="1420" cy="760" rx="22" ry="9" />
+        </g>
+
+        {/* Stone lantern at the water's edge */}
+        <g transform="translate(-140 8)">
+          <rect x="826" y="690" width="36" height="9" fill="#8D947F" />
+          <rect x="838" y="654" width="12" height="36" fill="#8D947F" />
+          <rect x="828" y="628" width="32" height="26" fill="#A3A894" />
+          <rect x="836" y="634" width="16" height="15" fill="#E8C27E" />
+          <path d="M818 630 L844 606 L870 630 Z" fill={look.snow ? SNOW : '#6F7566'} />
+        </g>
+
+        {/* Sakura tree, drawn about its own base then set to the right of the note */}
+        <g transform="translate(216.2 105.9) scale(0.85)">
+          <path d="M680 712 C 696 690, 700 670, 702 650 L 732 650 C 732 676, 744 698, 766 712 Z" fill={INK} />
+          <g fill="none" stroke={INK} strokeLinecap="round">
+            {BRANCHES.map((branch) => (
+              <path key={branch.d} d={branch.d} strokeWidth={branch.width} />
+            ))}
+          </g>
+          {look.snow && (
+            <g fill="none" stroke={SNOW} strokeLinecap="round" opacity="0.9">
+              <path d="M720 548 C 668 500, 612 462, 548 440" strokeWidth="4" />
+              <path d="M812 406 C 866 356, 940 334, 1026 340" strokeWidth="4" />
+              <path d="M762 474 C 778 440, 816 404, 872 372" strokeWidth="5" />
+              <path
+                d="M574 380 C 566 350, 552 330, 536 312 M 790 250 C 800 226, 802 210, 800 190 M 1020 270 C 1040 252, 1052 240, 1066 220 M 906 244 C 906 220, 900 200, 890 182"
+                strokeWidth="2.5"
+                stroke={INK}
+                opacity="0.8"
+              />
+            </g>
+          )}
+          {look.canopy.length > 0 && (
+            <g>
+              {CANOPY.map(([cx, cy, r]) => (
+                <circle key={`shade-${cx}-${cy}`} cx={cx + 7} cy={cy + 10} r={r} fill={INK} opacity="0.16" />
+              ))}
+              {CANOPY.map(([cx, cy, r, tone], index) => (
+                <g key={`leaf-${cx}-${cy}`} fill={look.canopy[tone]}>
+                  <circle cx={cx} cy={cy} r={r} opacity="0.94" />
+                  <circle cx={orbit(cx, r * 0.7, index * 2.4, 'x')} cy={orbit(cy, r * 0.7, index * 2.4, 'y')} r={r * 0.5} opacity="0.94" />
+                  <circle cx={orbit(cx, r * 0.72, index * 2.4 + 2.2, 'x')} cy={orbit(cy, r * 0.72, index * 2.4 + 2.2, 'y')} r={r * 0.44} opacity="0.94" />
+                </g>
+              ))}
+            </g>
+          )}
+        </g>
+      </svg>
+
+      {/* Foreground foliage, closest to the viewer */}
+      <svg className="mnw-scene-layer" style={depth(34)} {...LAYER_PROPS}>
+        <g fill="#0B1F1D">
+          <path d="M-100 960 L-100 800 C 60 770, 160 800, 260 850 C 300 870, 340 890, 380 960 Z" />
+          <path d="M1700 960 L1700 770 C 1560 760, 1470 800, 1400 850 C 1370 872, 1350 890, 1320 960 Z" />
+          <path d="M1420 960 C 1430 860, 1450 810, 1486 772 C 1466 816, 1456 866, 1452 960 Z" />
+          <path d="M1470 960 C 1486 880, 1520 820, 1568 786 C 1534 832, 1512 890, 1506 960 Z" />
+          <path d="M1380 960 C 1376 890, 1362 850, 1334 818 C 1366 846, 1396 892, 1412 960 Z" />
+        </g>
+        <g fill="none" stroke="#0B1F1D" strokeLinecap="round">
+          <path d="M1700 44 C 1590 80, 1490 92, 1384 150" strokeWidth="13" />
+          <path d="M1560 82 C 1520 120, 1500 150, 1486 196" strokeWidth="6" />
+          <path d="M1470 104 C 1430 100, 1400 84, 1370 60" strokeWidth="5" />
+        </g>
+        {look.overhang && (
+          <g fill={look.overhang}>
+            <circle cx="1384" cy="152" r="46" />
+            <circle cx="1440" cy="118" r="38" />
+            <circle cx="1486" cy="200" r="42" />
+            <circle cx="1366" cy="64" r="34" />
+            <circle cx="1530" cy="126" r="40" />
+            <circle cx="1600" cy="86" r="44" />
+            <circle cx="1432" cy="196" r="30" />
+          </g>
+        )}
+        {look.snow && (
+          <g fill="none" stroke={SNOW} strokeLinecap="round" opacity="0.9">
+            <path d="M1700 36 C 1590 72, 1490 84, 1390 138" strokeWidth="4" />
+          </g>
+        )}
+      </svg>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(mizunowa)/mizunowa/components/Shoreline.tsx">
+<![CDATA['use client';
+
+type Ground = 'pond' | 'paper' | 'moss';
+
+interface ShorelineProps {
+  from: Ground;
+  to: Ground;
+  /** Mirror the curve so consecutive shorelines do not repeat. */
+  flip?: boolean;
+  /** Lay the shore over the end of the previous section instead of on a band of its ground colour. */
+  overlap?: boolean;
+}
+
+/** A curved water's-edge between two section grounds, with ripple lines lapping against it. */
+export default function Shoreline({ from, to, flip = false, overlap = false }: ShorelineProps) {
+  return (
+    <div
+      className={`mnw-shore mnw-shore-from-${from} mnw-shore-to-${to} ${flip ? 'is-flipped' : ''} ${
+        overlap ? 'is-overlap' : ''
+      }`}
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 1440 96" preserveAspectRatio="none" focusable="false">
+        <path
+          className="mnw-shore-line"
+          d="M0 40 C 220 4, 470 66, 720 34 C 960 4, 1210 58, 1440 22"
+        />
+        <path
+          className="mnw-shore-line mnw-shore-line-far"
+          d="M0 24 C 220 -10, 470 50, 720 18 C 960 -10, 1210 42, 1440 8"
+        />
+        <path
+          className="mnw-shore-fill"
+          d="M0 58 C 220 22, 470 84, 720 52 C 960 22, 1210 76, 1440 40 L1440 97 L0 97 Z"
+        />
+      </svg>
+    </div>
+  );
+}
+]]>
+    </file>
+    <file path="src/app/(mizunowa)/mizunowa/components/SplitWords.tsx">
+<![CDATA['use client';
+
+import { CSSProperties, Fragment } from 'react';
+
+interface SplitWordsProps {
+  text: string;
+  /** Words to set in the accent colour, matched without trailing punctuation. */
+  accent?: readonly string[];
+}
+
+/** Splits a heading into masked words. Animate it by wrapping the heading in `<Reveal variant="words">`. */
+export default function SplitWords({ text, accent = [] }: SplitWordsProps) {
+  const words = text.split(' ');
+
+  return (
+    <>
+      {words.map((word, index) => {
+        const isAccent = accent.includes(word.replace(/[.,]$/, ''));
+        return (
+          <Fragment key={`${index}-${word}`}>
+            <span className="mnw-word">
+              <span
+                className={isAccent ? 'mnw-word-accent' : undefined}
+                style={{ '--i': index } as CSSProperties}
+              >
+                {word}
+              </span>
+            </span>
+            {index < words.length - 1 ? ' ' : null}
+          </Fragment>
+        );
+      })}
+    </>
+  );
+}
+]]>
+    </file>
     <file path="src/app/(mizunowa)/mizunowa/data/garden.ts">
 <![CDATA[export type SeasonId = 'spring' | 'summer' | 'autumn' | 'winter';
+export type KoiId = 'kohaku' | 'yamabuki' | 'shiro' | 'sanke';
 
 export interface NavItem {
   label: string;
@@ -3473,14 +5524,19 @@ export interface NavItem {
 }
 
 export interface KoiSpecimen {
-  id: 'kohaku' | 'yamabuki' | 'shiro' | 'sanke';
+  id: KoiId;
   number: string;
   label: string;
   visiblePattern: string;
   caption: string;
+  /** How this fish moves through the note pond, and so the line it leaves. */
+  line: string;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
+  /** Colour and dash pattern of the wake drawn behind the fish. */
+  trailColor: string;
+  trailDash: readonly number[];
 }
 
 export interface GardenStop {
@@ -3488,14 +5544,23 @@ export interface GardenStop {
   title: string;
   description: string;
   mapLabel: string;
+  japanese: string;
+  reading: string;
+  notice: string;
+  /** Marker position in the 1200 x 900 map viewBox. */
+  x: number;
+  y: number;
 }
 
 export interface SeasonNote {
   id: SeasonId;
   season: string;
+  kanji: string;
+  reading: string;
   japanese: string;
   summary: string;
   detail: string;
+  light: string;
 }
 
 export interface FaqItem {
@@ -3516,9 +5581,12 @@ export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
     label: 'Red and white',
     visiblePattern: 'Porcelain body, vermilion islands',
     caption: 'Warm patches on a pale body.',
+    line: 'Wide, slow circuits of the whole pond.',
     primaryColor: '#FDFBF5',
     secondaryColor: '#9E3F32',
     accentColor: '#9E3F32',
+    trailColor: '#C7A6A2',
+    trailDash: [],
   },
   {
     id: 'yamabuki',
@@ -3526,9 +5594,12 @@ export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
     label: 'Gold',
     visiblePattern: 'Gold body with a porcelain underside',
     caption: 'A warm glint beneath the water.',
+    line: 'A figure of eight, crossing its own wake.',
     primaryColor: '#CB9462',
     secondaryColor: '#FDFBF5',
     accentColor: '#CB9462',
+    trailColor: '#CB9462',
+    trailDash: [14, 9],
   },
   {
     id: 'shiro',
@@ -3536,9 +5607,12 @@ export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
     label: 'Ink and white',
     visiblePattern: 'Porcelain with irregular charcoal patches',
     caption: 'Dark markings, softly defined.',
+    line: 'Tight turns, close to the near bank.',
     primaryColor: '#FDFBF5',
     secondaryColor: '#1E2320',
     accentColor: '#1E2320',
+    trailColor: '#D6C7A9',
+    trailDash: [2, 8],
   },
   {
     id: 'sanke',
@@ -3546,9 +5620,12 @@ export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
     label: 'Three colours',
     visiblePattern: 'Porcelain, vermilion and charcoal',
     caption: 'A pattern made of light and shadow.',
+    line: 'A long wander that never quite repeats.',
     primaryColor: '#FDFBF5',
     secondaryColor: '#9E3F32',
     accentColor: '#1E2320',
+    trailColor: '#F4EFE2',
+    trailDash: [26, 7, 3, 7],
   },
 ];
 
@@ -3558,18 +5635,33 @@ export const GARDEN_STOPS: readonly GardenStop[] = [
     title: 'Pond edge',
     description: 'Begin where the koi move through the clear green water.',
     mapLabel: '01 · Pond edge',
+    japanese: '池',
+    reading: 'Ike',
+    notice: 'Four koi, each keeping to its own line.',
+    x: 312,
+    y: 688,
   },
   {
     number: '02',
     title: 'Sakura grove',
     description: 'Follow the path beneath a canopy of pale spring blossoms.',
     mapLabel: '02 · Sakura grove',
+    japanese: '桜',
+    reading: 'Sakura',
+    notice: 'Petals resting on the water below the branches.',
+    x: 240,
+    y: 296,
   },
   {
     number: '03',
     title: 'Shrine courtyard',
     description: 'Pass the torii and arrive at a small timber hall set back among the trees.',
     mapLabel: '03 · Shrine courtyard',
+    japanese: '参道',
+    reading: 'Sandō',
+    notice: 'The path, the gate and the hall, set in one line.',
+    x: 910,
+    y: 218,
   },
 ];
 
@@ -3577,34 +5669,46 @@ export const SEASON_NOTES: readonly SeasonNote[] = [
   {
     id: 'spring',
     season: 'Spring',
+    kanji: '春',
+    reading: 'Haru',
     japanese: '春 / Haru',
     summary: 'Soft blossoms gather over the water.',
     detail:
-      'Pale pink sakura clusters frame the upper-right bank while stray petals drift quietly over the jade surface.',
+      'Pale pink sakura clusters frame the bank while stray petals drift quietly over the jade surface.',
+    light: 'Low and rose-tinted',
   },
   {
     id: 'summer',
     season: 'Summer',
+    kanji: '夏',
+    reading: 'Natsu',
     japanese: '夏 / Natsu',
     summary: 'Deep green leaves make a little shade.',
     detail:
       'Blossoms give way to full leaf canopies and dense moss along the stepping stones, cooling the edges of the pond.',
+    light: 'High and green-gold',
   },
   {
     id: 'autumn',
     season: 'Autumn',
+    kanji: '秋',
+    reading: 'Aki',
     japanese: '秋 / Aki',
     summary: 'The path takes on warmer colors.',
     detail:
       'Ochre foliage and warm stone tones settle along the shrine approach, echoing the gold koi moving underneath.',
+    light: 'Long and amber',
   },
   {
     id: 'winter',
     season: 'Winter',
+    kanji: '冬',
+    reading: 'Fuyu',
     japanese: '冬 / Fuyu',
     summary: 'Bare branches let the shape of the garden show.',
     detail:
       'With leaves cleared away, the dark timber uprights, gabled roof, and curving stone bank read in crisp silhouette.',
+    light: 'Pale and clear',
   },
 ];
 
@@ -3645,6 +5749,1395 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
       'No. The garden is fictional, and this template does not make bookings or collect personal information.',
   },
 ];
+]]>
+    </file>
+    <file path="src/app/(mizunowa)/mizunowa/field/koiField.ts">
+<![CDATA[import type { KoiId, KoiSpecimen } from '../data/garden';
+import { clamp, NOOP_FIELD, seededRandom, type FieldController } from './mount';
+
+export interface KoiFieldOptions {
+  specimens: readonly KoiSpecimen[];
+  reducedMotion: boolean;
+  /** Resolved font-family for the label that follows the chosen koi. */
+  labelFont: string;
+  onPick: (id: KoiId) => void;
+  onFeed: () => void;
+}
+
+export interface KoiFieldController extends FieldController {
+  setSelected(id: KoiId | null): void;
+  setHighlighted(id: KoiId | null): void;
+  /** Keyboard equivalent of clicking the water. */
+  feed(): void;
+}
+
+const TAU = Math.PI * 2;
+const JOINTS = 12;
+/** Half body width at each joint, nose to tail root, as a fraction of body length. */
+const HALF_W = [0.036, 0.074, 0.094, 0.104, 0.104, 0.097, 0.084, 0.067, 0.05, 0.035, 0.023, 0.014];
+const TRAIL_SAMPLES = 250;
+const TRAIL_INTERVAL = 0.07;
+const TRAIL_CHUNKS = 10;
+const MAX_PELLETS = 5;
+
+/** Each koi's unhurried route, as a point in the unit square over time. */
+const ROUTES: Record<KoiId, (t: number) => [number, number]> = {
+  kohaku: (t) => {
+    const a = (TAU * t) / 44;
+    return [0.5 + 0.44 * Math.cos(a), 0.5 + 0.38 * Math.sin(a)];
+  },
+  yamabuki: (t) => {
+    const a = (TAU * t) / 34 + 1.2;
+    return [0.52 + 0.36 * Math.sin(a), 0.48 + 0.34 * Math.sin(2 * a)];
+  },
+  shiro: (t) => {
+    const a = -(TAU * t) / 25 + 0.6;
+    return [0.3 + 0.2 * Math.cos(a), 0.62 + 0.28 * Math.sin(a)];
+  },
+  sanke: (t) => {
+    const a = (TAU * t) / 96;
+    return [0.56 + 0.4 * Math.sin(3 * a + 0.5), 0.48 + 0.36 * Math.sin(2 * a + 2.1)];
+  },
+};
+
+type BlobTone = 'secondary' | 'accent';
+interface PatternBlob {
+  /** Position along the spine, 0 nose to 1 tail root. */
+  t: number;
+  /** Sideways offset in half-widths. */
+  lat: number;
+  rx: number;
+  ry: number;
+  tone: BlobTone;
+}
+
+const PATTERNS: Record<KoiId, readonly PatternBlob[]> = {
+  kohaku: [
+    { t: 0.1, lat: 0.1, rx: 0.07, ry: 0.066, tone: 'secondary' },
+    { t: 0.4, lat: -0.25, rx: 0.115, ry: 0.082, tone: 'secondary' },
+    { t: 0.52, lat: 0.6, rx: 0.06, ry: 0.045, tone: 'secondary' },
+    { t: 0.76, lat: 0.15, rx: 0.058, ry: 0.04, tone: 'secondary' },
+  ],
+  yamabuki: [],
+  shiro: [
+    { t: 0.16, lat: -0.45, rx: 0.06, ry: 0.05, tone: 'secondary' },
+    { t: 0.36, lat: 0.4, rx: 0.075, ry: 0.058, tone: 'secondary' },
+    { t: 0.58, lat: -0.3, rx: 0.085, ry: 0.06, tone: 'secondary' },
+    { t: 0.8, lat: 0.3, rx: 0.05, ry: 0.034, tone: 'secondary' },
+  ],
+  sanke: [
+    { t: 0.11, lat: 0, rx: 0.066, ry: 0.07, tone: 'secondary' },
+    { t: 0.44, lat: 0.2, rx: 0.105, ry: 0.08, tone: 'secondary' },
+    { t: 0.3, lat: -0.55, rx: 0.045, ry: 0.036, tone: 'accent' },
+    { t: 0.56, lat: 0.6, rx: 0.04, ry: 0.032, tone: 'accent' },
+    { t: 0.7, lat: -0.35, rx: 0.052, ry: 0.036, tone: 'accent' },
+    { t: 0.84, lat: 0.1, rx: 0.036, ry: 0.026, tone: 'secondary' },
+  ],
+};
+
+/** Lily pads resting on the surface: unit-square position, radius in body lengths. */
+const PADS = [
+  { u: 0.045, v: 0.2, r: 0.4, rot: 0.6 },
+  { u: 0.105, v: 0.31, r: 0.27, rot: 2.4 },
+  { u: 0.4, v: 0.9, r: 0.36, rot: 4.1 },
+  { u: 0.47, v: 0.955, r: 0.22, rot: 1.2 },
+  { u: 0.6, v: 0.085, r: 0.3, rot: 5.2 },
+] as const;
+
+interface Koi {
+  spec: KoiSpecimen;
+  route: (t: number) => [number, number];
+  jx: Float64Array;
+  jy: Float64Array;
+  heading: number;
+  speed: number;
+  phase: number;
+  trailX: number[];
+  trailY: number[];
+  /** Length already dropped off the old end, so dashes stay fixed on the water. */
+  trailDropped: number;
+  trailClock: number;
+}
+
+interface Ripple {
+  x: number;
+  y: number;
+  age: number;
+  life: number;
+  radius: number;
+  alpha: number;
+}
+
+interface Petal {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  rot: number;
+  spin: number;
+}
+
+function wrapAngle(angle: number): number {
+  let a = angle;
+  while (a > Math.PI) a -= TAU;
+  while (a < -Math.PI) a += TAU;
+  return a;
+}
+
+export function createKoiField(
+  canvas: HTMLCanvasElement,
+  host: HTMLElement,
+  options: KoiFieldOptions,
+): KoiFieldController {
+  const maybeCtx = canvas.getContext('2d');
+  if (!maybeCtx) {
+    return { ...NOOP_FIELD, setSelected: () => {}, setHighlighted: () => {}, feed: () => {} };
+  }
+  const ctx: CanvasRenderingContext2D = maybeCtx;
+  const { reducedMotion } = options;
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  /** Koi body length in CSS pixels. */
+  let bodyLength = 150;
+  let baseSpeed = 60;
+  const zone = { x0: 0, y0: 0, x1: 1, y1: 1 };
+  let bed: HTMLCanvasElement | null = null;
+
+  let raf = 0;
+  let active = false;
+  let destroyed = false;
+  let lastFrame = 0;
+  let time = 0;
+  let nextSurfacing = 4;
+  let feedTurn = 0;
+
+  let selected: KoiId | null = null;
+  let highlighted: KoiId | null = null;
+  let hovered: KoiId | null = null;
+
+  const pointer = { x: 0, y: 0, inside: false, wakeX: 0, wakeY: 0 };
+  const pellets: { x: number; y: number }[] = [];
+  const ripples: Ripple[] = [];
+  const petals: Petal[] = [];
+
+  const koi: Koi[] = options.specimens.map((spec) => ({
+    spec,
+    route: ROUTES[spec.id],
+    jx: new Float64Array(JOINTS),
+    jy: new Float64Array(JOINTS),
+    heading: 0,
+    speed: 0,
+    phase: 0,
+    trailX: [],
+    trailY: [],
+    trailDropped: 0,
+    trailClock: 0,
+  }));
+
+  // Scratch buffers reused every frame.
+  const spX = new Float64Array(JOINTS);
+  const spY = new Float64Array(JOINTS);
+  const dirX = new Float64Array(JOINTS);
+  const dirY = new Float64Array(JOINTS);
+  const norX = new Float64Array(JOINTS);
+  const norY = new Float64Array(JOINTS);
+  const outline = new Float64Array((JOINTS * 2 + 2) * 2);
+  const trailLen = new Float64Array(TRAIL_SAMPLES + 1);
+
+  function routePoint(k: Koi, t: number): [number, number] {
+    const [u, v] = k.route(t);
+    return [zone.x0 + u * (zone.x1 - zone.x0), zone.y0 + v * (zone.y1 - zone.y0)];
+  }
+
+  function placeKoi() {
+    const segment = bodyLength / (JOINTS - 1);
+    koi.forEach((k, index) => {
+      const [x, y] = routePoint(k, time);
+      const [ax, ay] = routePoint(k, time + 0.6);
+      k.heading = Math.atan2(ay - y, ax - x);
+      k.speed = baseSpeed * 0.7;
+      k.phase = index * 1.7;
+      for (let i = 0; i < JOINTS; i++) {
+        k.jx[i] = x - Math.cos(k.heading) * segment * i;
+        k.jy[i] = y - Math.sin(k.heading) * segment * i;
+      }
+      k.trailX.length = 0;
+      k.trailY.length = 0;
+      k.trailDropped = 0;
+      k.trailClock = 0;
+    });
+  }
+
+  function paintBed() {
+    const sheet = document.createElement('canvas');
+    sheet.width = Math.max(1, Math.round(width * dpr));
+    sheet.height = Math.max(1, Math.round(height * dpr));
+    const b = sheet.getContext('2d');
+    if (!b) return;
+    b.scale(dpr, dpr);
+    const random = seededRandom(11);
+
+    const stones = Math.round((width * height) / 30000);
+    for (let i = 0; i < stones; i++) {
+      const x = random() * width;
+      const y = random() * height;
+      const rx = 16 + random() * 46;
+      const ry = rx * (0.55 + random() * 0.3);
+      const rot = random() * Math.PI;
+      b.fillStyle = 'rgba(6, 20, 19, 0.38)';
+      b.beginPath();
+      b.ellipse(x + 4, y + 7, rx, ry, rot, 0, TAU);
+      b.fill();
+      b.fillStyle = `rgba(82, 110, 88, ${(0.15 + random() * 0.15).toFixed(3)})`;
+      b.beginPath();
+      b.ellipse(x, y, rx, ry, rot, 0, TAU);
+      b.fill();
+      b.strokeStyle = 'rgba(214, 199, 169, 0.06)';
+      b.lineWidth = 1;
+      b.beginPath();
+      b.ellipse(x - 1, y - 2, rx * 0.86, ry * 0.8, rot, Math.PI * 1.05, Math.PI * 1.75);
+      b.stroke();
+    }
+
+    for (let i = 0; i < stones * 4; i++) {
+      b.fillStyle = `rgba(214, 199, 169, ${(0.04 + random() * 0.07).toFixed(3)})`;
+      b.beginPath();
+      b.arc(random() * width, random() * height, 1.2 + random() * 3.2, 0, TAU);
+      b.fill();
+    }
+    bed = sheet;
+  }
+
+  function seedPetals() {
+    const random = seededRandom(5);
+    petals.length = 0;
+    const count = width < 700 ? 5 : 9;
+    for (let i = 0; i < count; i++) {
+      petals.push({
+        x: random() * width,
+        y: random() * height,
+        vx: 3 + random() * 5,
+        vy: 1 + random() * 2.5,
+        rot: random() * TAU,
+        spin: (random() - 0.5) * 0.3,
+      });
+    }
+  }
+
+  function resize() {
+    const rect = host.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return;
+    const nextWidth = Math.round(rect.width);
+    const nextHeight = Math.round(rect.height);
+    if (nextWidth === width && nextHeight === height) return;
+
+    const scaleX = width > 0 ? nextWidth / width : 0;
+    const scaleY = height > 0 ? nextHeight / height : 0;
+    width = nextWidth;
+    height = nextHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+
+    bodyLength = clamp(width * 0.105, 84, 168);
+    baseSpeed = bodyLength * 0.4;
+    // On wide layouts the field notes sit over the right-hand third, so keep the routes clear of it.
+    const wide = width >= 900;
+    zone.x0 = bodyLength * 0.7;
+    zone.x1 = wide ? width * 0.69 : width - bodyLength * 0.6;
+    zone.y0 = height * 0.17;
+    zone.y1 = height * 0.85;
+
+    paintBed();
+    seedPetals();
+    ripples.length = 0;
+    pellets.length = 0;
+
+    if (reducedMotion || scaleX === 0) {
+      placeKoi();
+      settle();
+    } else {
+      // A live pond keeps swimming through a resize: carry the koi and their lines across.
+      for (const k of koi) {
+        for (let i = 0; i < JOINTS; i++) {
+          k.jx[i] *= scaleX;
+          k.jy[i] *= scaleY;
+        }
+        for (let i = 0; i < k.trailX.length; i++) {
+          k.trailX[i] *= scaleX;
+          k.trailY[i] *= scaleY;
+        }
+      }
+    }
+    draw();
+  }
+
+  /** Advance the pond unseen, so it is first shown with koi mid-route and their lines already drawn. */
+  function settle() {
+    for (let i = 0; i < 520; i++) step(1 / 30);
+    ripples.length = 0;
+  }
+
+  function addRipple(x: number, y: number, radius: number, life: number, alpha: number) {
+    if (ripples.length > 14) ripples.shift();
+    // A still ripple is held part-way open instead of travelling.
+    ripples.push({ x, y, age: reducedMotion ? life * 0.5 : 0, life, radius, alpha });
+  }
+
+  function dropFood(x: number, y: number) {
+    const px = clamp(x, bodyLength * 0.4, width - bodyLength * 0.4);
+    const py = clamp(y, height * 0.1, height * 0.9);
+    addRipple(px, py, bodyLength * 0.55, 1.9, 0.6);
+    if (reducedMotion) {
+      if (ripples.length > 3) ripples.shift();
+      draw();
+    } else {
+      if (pellets.length >= MAX_PELLETS) pellets.shift();
+      pellets.push({ x: px, y: py });
+    }
+    options.onFeed();
+  }
+
+  function step(dt: number) {
+    time += dt;
+    const segment = bodyLength / (JOINTS - 1);
+    const feeding = pellets.length > 0;
+
+    for (let index = 0; index < koi.length; index++) {
+      const k = koi[index];
+      const hx = k.jx[0];
+      const hy = k.jy[0];
+      let [tx, ty] = routePoint(k, time);
+      let boost = 1;
+
+      if (feeding) {
+        let best = Infinity;
+        for (const pellet of pellets) {
+          const d = Math.hypot(pellet.x - hx, pellet.y - hy);
+          if (d < best) {
+            best = d;
+            tx = pellet.x;
+            ty = pellet.y;
+          }
+        }
+        boost = 1.8;
+      }
+
+      let dx = tx - hx;
+      let dy = ty - hy;
+      const dist = Math.hypot(dx, dy) || 1;
+      dx /= dist;
+      dy /= dist;
+
+      // Koi give the pointer a little room unless there is food on the water.
+      if (pointer.inside && !feeding) {
+        const shy = bodyLength * 0.95;
+        const pd = Math.hypot(hx - pointer.x, hy - pointer.y) || 1;
+        if (pd < shy) {
+          const force = 1 - pd / shy;
+          dx += ((hx - pointer.x) / pd) * force * 1.9;
+          dy += ((hy - pointer.y) / pd) * force * 1.9;
+          boost += force * 0.9;
+        }
+      }
+
+      // And keep a little room from each other.
+      for (let other = 0; other < koi.length; other++) {
+        if (other === index) continue;
+        const ox = hx - koi[other].jx[0];
+        const oy = hy - koi[other].jy[0];
+        const od = Math.hypot(ox, oy) || 1;
+        const personal = bodyLength * 0.5;
+        if (od < personal) {
+          const force = (1 - od / personal) * 0.8;
+          dx += (ox / od) * force;
+          dy += (oy / od) * force;
+        }
+      }
+
+      const desired = Math.atan2(dy, dx);
+      const maxTurn = (feeding ? 2.7 : 1.7) * dt;
+      k.heading += clamp(wrapAngle(desired - k.heading), -maxTurn, maxTurn);
+
+      const targetSpeed = baseSpeed * clamp(dist / (bodyLength * 0.9), 0.5, 1.9) * boost;
+      k.speed += (targetSpeed - k.speed) * Math.min(1, dt * 2.2);
+
+      k.jx[0] = hx + Math.cos(k.heading) * k.speed * dt;
+      k.jy[0] = hy + Math.sin(k.heading) * k.speed * dt;
+      for (let i = 1; i < JOINTS; i++) {
+        let sx = k.jx[i] - k.jx[i - 1];
+        let sy = k.jy[i] - k.jy[i - 1];
+        const sd = Math.hypot(sx, sy) || 1;
+        sx /= sd;
+        sy /= sd;
+        k.jx[i] = k.jx[i - 1] + sx * segment;
+        k.jy[i] = k.jy[i - 1] + sy * segment;
+      }
+      k.phase += dt * (3.6 + 4.8 * (k.speed / baseSpeed));
+
+      k.trailClock += dt;
+      if (k.trailClock >= TRAIL_INTERVAL) {
+        k.trailClock = 0;
+        k.trailX.push(k.jx[JOINTS - 1]);
+        k.trailY.push(k.jy[JOINTS - 1]);
+        if (k.trailX.length > TRAIL_SAMPLES) {
+          k.trailDropped += Math.hypot(k.trailX[1] - k.trailX[0], k.trailY[1] - k.trailY[0]);
+          k.trailX.shift();
+          k.trailY.shift();
+        }
+      }
+
+      if (feeding) {
+        for (let p = pellets.length - 1; p >= 0; p--) {
+          if (Math.hypot(pellets[p].x - k.jx[0], pellets[p].y - k.jy[0]) < bodyLength * 0.14) {
+            addRipple(pellets[p].x, pellets[p].y, bodyLength * 0.3, 1.1, 0.5);
+            pellets.splice(p, 1);
+          }
+        }
+      }
+    }
+
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      ripples[i].age += dt;
+      if (ripples[i].age >= ripples[i].life) ripples.splice(i, 1);
+    }
+
+    for (const petal of petals) {
+      petal.x += petal.vx * dt;
+      petal.y += petal.vy * dt;
+      petal.rot += petal.spin * dt;
+      if (petal.x > width + 12) petal.x = -12;
+      if (petal.y > height + 12) petal.y = -12;
+    }
+
+    // Now and then a koi breaks the surface.
+    if (time > nextSurfacing) {
+      const k = koi[Math.floor(time * 7.3) % koi.length];
+      addRipple(k.jx[0], k.jy[0], bodyLength * 0.34, 1.6, 0.34);
+      nextSurfacing = time + 4.5 + ((time * 13.7) % 4);
+    }
+
+    if (pointer.inside) {
+      const moved = Math.hypot(pointer.x - pointer.wakeX, pointer.y - pointer.wakeY);
+      if (moved > 54) {
+        pointer.wakeX = pointer.x;
+        pointer.wakeY = pointer.y;
+        addRipple(pointer.x, pointer.y, 22, 1.1, 0.22);
+      }
+    }
+  }
+
+  function computeSpine(k: Koi) {
+    const amplitude = bodyLength * 0.036 * (0.55 + 0.6 * Math.min(1.6, k.speed / baseSpeed));
+    for (let i = 0; i < JOINTS; i++) {
+      const a = i === 0 ? 0 : i - 1;
+      const b = i === JOINTS - 1 ? i : i + 1;
+      let dx = k.jx[a] - k.jx[b];
+      let dy = k.jy[a] - k.jy[b];
+      const d = Math.hypot(dx, dy) || 1;
+      dx /= d;
+      dy /= d;
+      const sway = Math.sin(k.phase - i * 0.62) * amplitude * Math.pow(i / (JOINTS - 1), 1.5);
+      dirX[i] = dx;
+      dirY[i] = dy;
+      norX[i] = -dy;
+      norY[i] = dx;
+      spX[i] = k.jx[i] - dy * sway;
+      spY[i] = k.jy[i] + dx * sway;
+    }
+  }
+
+  /** Smooth closed body outline from the current spine, optionally offset (for the shadow). */
+  function bodyPath(ox: number, oy: number) {
+    let n = 0;
+    outline[n++] = spX[0] + dirX[0] * bodyLength * 0.035;
+    outline[n++] = spY[0] + dirY[0] * bodyLength * 0.035;
+    for (let i = 0; i < JOINTS; i++) {
+      outline[n++] = spX[i] + norX[i] * HALF_W[i] * bodyLength;
+      outline[n++] = spY[i] + norY[i] * HALF_W[i] * bodyLength;
+    }
+    outline[n++] = spX[JOINTS - 1] - dirX[JOINTS - 1] * bodyLength * 0.012;
+    outline[n++] = spY[JOINTS - 1] - dirY[JOINTS - 1] * bodyLength * 0.012;
+    for (let i = JOINTS - 1; i >= 0; i--) {
+      outline[n++] = spX[i] - norX[i] * HALF_W[i] * bodyLength;
+      outline[n++] = spY[i] - norY[i] * HALF_W[i] * bodyLength;
+    }
+
+    const count = n / 2;
+    ctx.beginPath();
+    ctx.moveTo(
+      (outline[(count - 1) * 2] + outline[0]) / 2 + ox,
+      (outline[(count - 1) * 2 + 1] + outline[1]) / 2 + oy,
+    );
+    for (let i = 0; i < count; i++) {
+      const x = outline[i * 2];
+      const y = outline[i * 2 + 1];
+      const next = ((i + 1) % count) * 2;
+      ctx.quadraticCurveTo(x + ox, y + oy, (x + outline[next]) / 2 + ox, (y + outline[next + 1]) / 2 + oy);
+    }
+    ctx.closePath();
+  }
+
+  function fin(rootX: number, rootY: number, angle: number, length: number, spread: number) {
+    const cx = Math.cos(angle);
+    const cy = Math.sin(angle);
+    const midX = rootX + cx * length * 0.5;
+    const midY = rootY + cy * length * 0.5;
+    ctx.beginPath();
+    ctx.moveTo(rootX, rootY);
+    ctx.quadraticCurveTo(midX - cy * spread, midY + cx * spread, rootX + cx * length, rootY + cy * length);
+    ctx.quadraticCurveTo(midX + cy * spread * 0.3, midY - cx * spread * 0.3, rootX, rootY);
+    ctx.fill();
+  }
+
+  function drawKoi(k: Koi, alpha: number) {
+    computeSpine(k);
+    const L = bodyLength;
+    const gold = k.spec.id === 'yamabuki';
+    const tailIndex = JOINTS - 1;
+
+    // Shadow on the pond bed.
+    ctx.globalAlpha = alpha * 0.3;
+    ctx.fillStyle = '#04100F';
+    bodyPath(L * 0.07, L * 0.11);
+    ctx.fill();
+
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = gold ? 'rgba(226, 180, 128, 0.82)' : 'rgba(244, 239, 226, 0.74)';
+
+    // Forked tail, swaying with the last of the body wave.
+    const tailBack =
+      Math.atan2(-dirY[tailIndex], -dirX[tailIndex]) + Math.sin(k.phase - JOINTS * 0.62) * 0.42;
+    fin(spX[tailIndex], spY[tailIndex], tailBack - 0.36, L * 0.3, L * 0.075);
+    fin(spX[tailIndex], spY[tailIndex], tailBack + 0.36, L * 0.3, -L * 0.075);
+
+    // Paired pectoral and pelvic fins.
+    for (const side of [1, -1]) {
+      const flap = Math.sin(k.phase * 0.5 + side) * 0.16;
+      const pectoralBack = Math.atan2(-dirY[3], -dirX[3]);
+      fin(
+        spX[3] + norX[3] * side * HALF_W[3] * L * 0.8,
+        spY[3] + norY[3] * side * HALF_W[3] * L * 0.8,
+        pectoralBack - side * (0.92 + flap),
+        L * 0.21,
+        side * L * 0.075,
+      );
+      const pelvicBack = Math.atan2(-dirY[7], -dirX[7]);
+      fin(
+        spX[7] + norX[7] * side * HALF_W[7] * L * 0.8,
+        spY[7] + norY[7] * side * HALF_W[7] * L * 0.8,
+        pelvicBack - side * 0.7,
+        L * 0.11,
+        side * L * 0.04,
+      );
+    }
+
+    ctx.fillStyle = k.spec.primaryColor;
+    bodyPath(0, 0);
+    ctx.fill();
+
+    ctx.save();
+    ctx.clip();
+    for (const blob of PATTERNS[k.spec.id]) {
+      const at = blob.t * (JOINTS - 1);
+      const i0 = Math.min(JOINTS - 2, Math.floor(at));
+      const f = at - i0;
+      const halfWidth = (HALF_W[i0] + (HALF_W[i0 + 1] - HALF_W[i0]) * f) * L;
+      const cx = spX[i0] + (spX[i0 + 1] - spX[i0]) * f + norX[i0] * blob.lat * halfWidth;
+      const cy = spY[i0] + (spY[i0 + 1] - spY[i0]) * f + norY[i0] * blob.lat * halfWidth;
+      ctx.fillStyle = blob.tone === 'accent' ? k.spec.accentColor : k.spec.secondaryColor;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, blob.rx * L, blob.ry * L, Math.atan2(dirY[i0], dirX[i0]), 0, TAU);
+      ctx.fill();
+    }
+    // Soft rim so the body reads as rounded under the water.
+    bodyPath(0, 0);
+    ctx.strokeStyle = 'rgba(17, 44, 42, 0.26)';
+    ctx.lineWidth = L * 0.04;
+    ctx.stroke();
+    ctx.restore();
+
+    // Dorsal ridge.
+    ctx.strokeStyle = gold ? 'rgba(253, 251, 245, 0.5)' : 'rgba(214, 199, 169, 0.75)';
+    ctx.lineWidth = L * 0.022;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(spX[3], spY[3]);
+    for (let i = 4; i <= 7; i++) ctx.lineTo(spX[i], spY[i]);
+    ctx.stroke();
+
+    // Eyes.
+    ctx.fillStyle = '#1E2320';
+    for (const side of [1, -1]) {
+      ctx.beginPath();
+      ctx.arc(
+        spX[1] + dirX[1] * L * 0.03 + norX[1] * side * HALF_W[1] * L * 0.78,
+        spY[1] + dirY[1] * L * 0.03 + norY[1] * side * HALF_W[1] * L * 0.78,
+        L * 0.013,
+        0,
+        TAU,
+      );
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawTrail(k: Koi, alpha: number, emphasised: boolean) {
+    const n = k.trailX.length;
+    if (n < 2) return;
+
+    trailLen[0] = 0;
+    for (let i = 1; i < n; i++) {
+      trailLen[i] =
+        trailLen[i - 1] + Math.hypot(k.trailX[i] - k.trailX[i - 1], k.trailY[i] - k.trailY[i - 1]);
+    }
+
+    ctx.strokeStyle = k.spec.trailColor;
+    ctx.lineWidth = emphasised ? 2.2 : 1.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.setLineDash(k.spec.trailDash as number[]);
+
+    const per = Math.ceil(n / TRAIL_CHUNKS);
+    for (let chunk = 0; chunk < TRAIL_CHUNKS; chunk++) {
+      const start = chunk * per;
+      if (start >= n - 1) break;
+      const end = Math.min(n - 1, start + per);
+      ctx.globalAlpha = alpha * Math.pow((chunk + 1) / TRAIL_CHUNKS, 1.5);
+      ctx.lineDashOffset = -(k.trailDropped + trailLen[start]);
+      ctx.beginPath();
+      ctx.moveTo(k.trailX[start], k.trailY[start]);
+      for (let i = start + 1; i <= end; i++) ctx.lineTo(k.trailX[i], k.trailY[i]);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.lineDashOffset = 0;
+    ctx.globalAlpha = 1;
+  }
+
+  function drawPad(index: number, shadow: boolean) {
+    const pad = PADS[index];
+    const radius = pad.r * bodyLength;
+    const x = pad.u * width + Math.sin(time * 0.31 + index * 2.1) * 2.5;
+    const y = pad.v * height + Math.cos(time * 0.27 + index * 1.3) * 2;
+    const rot = pad.rot + Math.sin(time * 0.16 + index) * 0.07;
+
+    ctx.save();
+    ctx.translate(x + (shadow ? radius * 0.12 : 0), y + (shadow ? radius * 0.2 : 0));
+    ctx.rotate(rot);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, radius, 0.17, TAU - 0.17);
+    ctx.closePath();
+    if (shadow) {
+      ctx.fillStyle = 'rgba(4, 16, 15, 0.3)';
+      ctx.fill();
+    } else {
+      ctx.fillStyle = '#3F6049';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(244, 239, 226, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(17, 44, 42, 0.3)';
+      ctx.beginPath();
+      for (let vein = 1; vein <= 5; vein++) {
+        const angle = 0.17 + ((TAU - 0.34) * vein) / 6;
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos(angle) * radius * 0.86, Math.sin(angle) * radius * 0.86);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawFocus(k: Koi) {
+    const cx = k.jx[5];
+    const cy = k.jy[5];
+    const radius = bodyLength * 0.66;
+
+    ctx.strokeStyle = 'rgba(199, 166, 162, 0.85)';
+    ctx.lineWidth = 1.2;
+    ctx.setLineDash([3, 7]);
+    ctx.lineDashOffset = -time * 9;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, TAU);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.lineDashOffset = 0;
+
+    const label = `${k.spec.number} · ${k.spec.label.toUpperCase()}`;
+    ctx.font = `500 11px ${options.labelFont}`;
+    if ('letterSpacing' in ctx) {
+      (ctx as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = '1.2px';
+    }
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+    // Keep the tag on the canvas when the koi swims along the top edge.
+    const above = cy - radius - 12 > 16;
+    const labelY = above ? cy - radius - 12 : cy + radius + 22;
+    ctx.fillStyle = 'rgba(244, 239, 226, 0.95)';
+    ctx.fillText(label, clamp(cx, 90, width - 90), labelY);
+  }
+
+  function draw() {
+    if (width === 0) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, width, height);
+    if (bed) ctx.drawImage(bed, 0, 0, width, height);
+
+    for (let i = 0; i < PADS.length; i++) drawPad(i, true);
+
+    const focusId = selected ?? highlighted ?? hovered;
+    for (const k of koi) {
+      const isFocus = k.spec.id === focusId;
+      drawTrail(k, focusId ? (isFocus ? 1 : 0.16) : 0.78, isFocus);
+    }
+    for (const k of koi) {
+      if (k.spec.id !== focusId) drawKoi(k, focusId ? 0.4 : 1);
+    }
+    const focus = focusId ? koi.find((k) => k.spec.id === focusId) : undefined;
+    if (focus) drawKoi(focus, 1);
+
+    ctx.fillStyle = '#CB9462';
+    for (const pellet of pellets) {
+      ctx.beginPath();
+      ctx.arc(pellet.x, pellet.y, 3, 0, TAU);
+      ctx.fill();
+    }
+
+    ctx.lineWidth = 1.2;
+    for (const ripple of ripples) {
+      const progress = ripple.age / ripple.life;
+      const eased = 1 - Math.pow(1 - progress, 3);
+      for (let ring = 0; ring < 2; ring++) {
+        const radius = ripple.radius * eased * (ring === 0 ? 1 : 0.58);
+        if (radius < 1) continue;
+        ctx.strokeStyle = `rgba(244, 239, 226, ${(ripple.alpha * (1 - progress) * (ring === 0 ? 1 : 0.6)).toFixed(3)})`;
+        ctx.beginPath();
+        ctx.arc(ripple.x, ripple.y, radius, 0, TAU);
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 0; i < PADS.length; i++) drawPad(i, false);
+
+    ctx.fillStyle = 'rgba(199, 166, 162, 0.85)';
+    for (const petal of petals) {
+      ctx.beginPath();
+      ctx.ellipse(petal.x, petal.y, bodyLength * 0.04, bodyLength * 0.022, petal.rot, 0, TAU);
+      ctx.fill();
+    }
+
+    if (focus) drawFocus(focus);
+  }
+
+  function koiAt(x: number, y: number): KoiId | null {
+    for (let index = koi.length - 1; index >= 0; index--) {
+      const k = koi[index];
+      for (let i = 0; i < JOINTS; i++) {
+        if (Math.hypot(k.jx[i] - x, k.jy[i] - y) < HALF_W[i] * bodyLength + 12) return k.spec.id;
+      }
+    }
+    return null;
+  }
+
+  function frame(now: number) {
+    if (!active || destroyed) return;
+    const dt = Math.min(0.05, (now - lastFrame) / 1000 || 0.016);
+    lastFrame = now;
+    step(dt);
+
+    const nextHovered = pointer.inside ? koiAt(pointer.x, pointer.y) : null;
+    if (nextHovered !== hovered) {
+      hovered = nextHovered;
+      canvas.style.cursor = hovered ? 'pointer' : '';
+    }
+
+    draw();
+    raf = requestAnimationFrame(frame);
+  }
+
+  function localPoint(event: PointerEvent | MouseEvent): [number, number] {
+    const rect = canvas.getBoundingClientRect();
+    return [event.clientX - rect.left, event.clientY - rect.top];
+  }
+
+  const onPointerMove = (event: PointerEvent) => {
+    const [x, y] = localPoint(event);
+    if (!pointer.inside) {
+      pointer.wakeX = x;
+      pointer.wakeY = y;
+    }
+    pointer.x = x;
+    pointer.y = y;
+    // A resting finger should not keep pushing the koi away.
+    pointer.inside = event.pointerType !== 'touch';
+  };
+
+  const onPointerLeave = () => {
+    pointer.inside = false;
+  };
+
+  const onClick = (event: MouseEvent) => {
+    const [x, y] = localPoint(event);
+    const picked = koiAt(x, y);
+    if (picked) {
+      options.onPick(picked);
+    } else {
+      dropFood(x, y);
+    }
+  };
+
+  canvas.addEventListener('pointermove', onPointerMove);
+  canvas.addEventListener('pointerleave', onPointerLeave);
+  canvas.addEventListener('click', onClick);
+
+  resize();
+
+  return {
+    setActive(next) {
+      if (reducedMotion || next === active) return;
+      active = next;
+      cancelAnimationFrame(raf);
+      if (active) {
+        lastFrame = performance.now();
+        raf = requestAnimationFrame(frame);
+      }
+    },
+    resize,
+    destroy() {
+      destroyed = true;
+      active = false;
+      cancelAnimationFrame(raf);
+      canvas.removeEventListener('pointermove', onPointerMove);
+      canvas.removeEventListener('pointerleave', onPointerLeave);
+      canvas.removeEventListener('click', onClick);
+    },
+    setSelected(id) {
+      selected = id;
+      if (reducedMotion) draw();
+    },
+    setHighlighted(id) {
+      highlighted = id;
+      if (reducedMotion) draw();
+    },
+    feed() {
+      // Cycle through a few spots so repeated presses do not stack on one point.
+      const spots: [number, number][] = [
+        [0.5, 0.5],
+        [0.3, 0.38],
+        [0.66, 0.62],
+      ];
+      const [u, v] = spots[feedTurn % spots.length];
+      feedTurn += 1;
+      dropFood(zone.x0 + u * (zone.x1 - zone.x0), zone.y0 + v * (zone.y1 - zone.y0));
+    },
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(mizunowa)/mizunowa/field/mount.ts">
+<![CDATA[export interface FieldController {
+  /** Runs the animation loop only while the host is on screen. */
+  setActive(active: boolean): void;
+  resize(): void;
+  destroy(): void;
+}
+
+export const NOOP_FIELD: FieldController = {
+  setActive: () => {},
+  resize: () => {},
+  destroy: () => {},
+};
+
+/** Wires a canvas field to its host: pause off screen, re-fit on resize, tear down on cleanup. */
+export function mountField(host: HTMLElement, controller: FieldController): () => void {
+  const visibility = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[entries.length - 1];
+      if (entry) controller.setActive(entry.isIntersecting);
+    },
+    { rootMargin: '120px 0px' },
+  );
+  const size = new ResizeObserver(() => controller.resize());
+
+  visibility.observe(host);
+  size.observe(host);
+
+  return () => {
+    visibility.disconnect();
+    size.disconnect();
+    controller.destroy();
+  };
+}
+
+export function prefersReducedMotion(): boolean {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+export function clamp(value: number, min: number, max: number): number {
+  return value < min ? min : value > max ? max : value;
+}
+
+/** Small deterministic generator so drawn scenery is identical on every visit. */
+export function seededRandom(seed: number): () => number {
+  let state = seed >>> 0;
+  return () => {
+    state = (state + 0x6d2b79f5) >>> 0;
+    let t = state;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(mizunowa)/mizunowa/field/rippleField.ts">
+<![CDATA[import { NOOP_FIELD, type FieldController } from './mount';
+
+export interface RippleFieldOptions {
+  reducedMotion: boolean;
+  /** RGB triplet for the ring stroke, e.g. "214, 199, 169". */
+  rgb: string;
+  /** Where the slow ambient rings start, in the unit square. */
+  origin: [number, number];
+}
+
+export interface RippleFieldController extends FieldController {
+  /** Start a ring at a viewport position (client coordinates). */
+  emitAt(clientX: number, clientY: number): void;
+}
+
+interface Ring {
+  x: number;
+  y: number;
+  age: number;
+  life: number;
+  radius: number;
+  alpha: number;
+}
+
+const TAU = Math.PI * 2;
+const AMBIENT_EVERY = 2.4;
+const MAX_RINGS = 40;
+
+/** Rings of water that spread from a fixed origin and from wherever the pointer travels. */
+export function createRippleField(
+  canvas: HTMLCanvasElement,
+  host: HTMLElement,
+  options: RippleFieldOptions,
+): RippleFieldController {
+  const maybeCtx = canvas.getContext('2d');
+  if (!maybeCtx) return { ...NOOP_FIELD, emitAt: () => {} };
+  const ctx: CanvasRenderingContext2D = maybeCtx;
+  const { reducedMotion, rgb, origin } = options;
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let raf = 0;
+  let active = false;
+  let destroyed = false;
+  let lastFrame = 0;
+  let ambientClock = AMBIENT_EVERY;
+  let lastX = 0;
+  let lastY = 0;
+  let pointerSeen = false;
+  const rings: Ring[] = [];
+
+  function reach(): number {
+    return Math.hypot(width, height) * 0.62;
+  }
+
+  function push(ring: Ring) {
+    if (rings.length >= MAX_RINGS) rings.shift();
+    rings.push(ring);
+  }
+
+  function drawStill() {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, width, height);
+    ctx.lineWidth = 1;
+    const span = reach();
+    for (let i = 1; i <= 7; i++) {
+      ctx.strokeStyle = `rgba(${rgb}, ${(0.2 * (1 - i / 8)).toFixed(3)})`;
+      ctx.beginPath();
+      ctx.arc(origin[0] * width, origin[1] * height, (span * i) / 7, 0, TAU);
+      ctx.stroke();
+    }
+  }
+
+  function draw() {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, width, height);
+    ctx.lineWidth = 1;
+    for (const ring of rings) {
+      const progress = ring.age / ring.life;
+      // Rings queued with a negative age have not started yet.
+      if (progress <= 0) continue;
+      const eased = 1 - Math.pow(1 - progress, 2.2);
+      // Fade in quickly, then out over the rest of the ring's life.
+      const fade = Math.min(1, progress * 8) * (1 - progress);
+      ctx.strokeStyle = `rgba(${rgb}, ${(ring.alpha * fade).toFixed(3)})`;
+      ctx.beginPath();
+      ctx.arc(ring.x, ring.y, Math.max(0.5, ring.radius * eased), 0, TAU);
+      ctx.stroke();
+    }
+  }
+
+  function frame(now: number) {
+    if (!active || destroyed) return;
+    const dt = Math.min(0.05, (now - lastFrame) / 1000 || 0.016);
+    lastFrame = now;
+
+    ambientClock += dt;
+    if (ambientClock >= AMBIENT_EVERY) {
+      ambientClock = 0;
+      push({ x: origin[0] * width, y: origin[1] * height, age: 0, life: 11, radius: reach(), alpha: 0.34 });
+    }
+    for (let i = rings.length - 1; i >= 0; i--) {
+      rings[i].age += dt;
+      if (rings[i].age >= rings[i].life) rings.splice(i, 1);
+    }
+
+    draw();
+    raf = requestAnimationFrame(frame);
+  }
+
+  function resize() {
+    const rect = host.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return;
+    width = Math.round(rect.width);
+    height = Math.round(rect.height);
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    if (reducedMotion) drawStill();
+    else draw();
+  }
+
+  function local(clientX: number, clientY: number): [number, number] {
+    const rect = canvas.getBoundingClientRect();
+    return [clientX - rect.left, clientY - rect.top];
+  }
+
+  const onPointerMove = (event: PointerEvent) => {
+    if (reducedMotion || event.pointerType === 'touch') return;
+    const [x, y] = local(event.clientX, event.clientY);
+    if (!pointerSeen) {
+      pointerSeen = true;
+      lastX = x;
+      lastY = y;
+      return;
+    }
+    if (Math.hypot(x - lastX, y - lastY) > 72) {
+      lastX = x;
+      lastY = y;
+      push({ x, y, age: 0, life: 2.6, radius: 120, alpha: 0.38 });
+    }
+  };
+
+  const onPointerDown = (event: PointerEvent) => {
+    if (reducedMotion) return;
+    const [x, y] = local(event.clientX, event.clientY);
+    for (let i = 0; i < 3; i++) {
+      push({ x, y, age: -i * 0.22, life: 3.4, radius: 180 + i * 90, alpha: 0.5 });
+    }
+  };
+
+  // Listen on the host so rings follow the pointer across the copy laid over the canvas.
+  host.addEventListener('pointermove', onPointerMove);
+  host.addEventListener('pointerdown', onPointerDown);
+
+  resize();
+
+  return {
+    setActive(next) {
+      if (reducedMotion || next === active) return;
+      active = next;
+      cancelAnimationFrame(raf);
+      if (active) {
+        lastFrame = performance.now();
+        raf = requestAnimationFrame(frame);
+      }
+    },
+    resize,
+    destroy() {
+      destroyed = true;
+      active = false;
+      cancelAnimationFrame(raf);
+      host.removeEventListener('pointermove', onPointerMove);
+      host.removeEventListener('pointerdown', onPointerDown);
+    },
+    emitAt(clientX, clientY) {
+      if (reducedMotion) return;
+      const [x, y] = local(clientX, clientY);
+      push({ x, y, age: 0, life: 2.8, radius: 150, alpha: 0.45 });
+    },
+  };
+}
+]]>
+    </file>
+    <file path="src/app/(mizunowa)/mizunowa/field/seasonParticles.ts">
+<![CDATA[import type { SeasonId } from '../data/garden';
+import { NOOP_FIELD, seededRandom, type FieldController } from './mount';
+
+export interface SeasonParticlesController extends FieldController {
+  setSeason(season: SeasonId): void;
+}
+
+interface Particle {
+  season: SeasonId;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  rot: number;
+  spin: number;
+  phase: number;
+  color: string;
+  /** 0 to 1 presence, so one season's air can hand over to the next. */
+  fade: number;
+  leaving: boolean;
+}
+
+const TAU = Math.PI * 2;
+
+/** Particles per million square pixels of scene. */
+const DENSITY: Record<SeasonId, number> = { spring: 46, summer: 26, autumn: 32, winter: 90 };
+
+const COLORS: Record<SeasonId, readonly string[]> = {
+  spring: ['#C7A6A2', '#DCC3BE', '#F4EFE2'],
+  summer: ['#E8C27E', '#F4EFE2'],
+  autumn: ['#CB9462', '#9E3F32', '#DDB07A'],
+  winter: ['#FDFBF5', '#F4EFE2'],
+};
+
+/** What is in the air each season: petals, fireflies, leaves, snow. */
+export function createSeasonParticles(
+  canvas: HTMLCanvasElement,
+  host: HTMLElement,
+  reducedMotion: boolean,
+  initial: SeasonId,
+): SeasonParticlesController {
+  const maybeCtx = canvas.getContext('2d');
+  if (!maybeCtx) return { ...NOOP_FIELD, setSeason: () => {} };
+  const ctx: CanvasRenderingContext2D = maybeCtx;
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let raf = 0;
+  let active = false;
+  let destroyed = false;
+  let lastFrame = 0;
+  let time = 0;
+  let season = initial;
+  let random = seededRandom(3);
+  const particles: Particle[] = [];
+
+  function spawn(kind: SeasonId, scatter: boolean): Particle {
+    const palette = COLORS[kind];
+    const firefly = kind === 'summer';
+    return {
+      season: kind,
+      x: random() * width,
+      // Fireflies keep to the lower garden; everything else falls from above.
+      y: firefly ? height * (0.34 + random() * 0.62) : scatter ? random() * height : -12,
+      vx: firefly ? (random() - 0.5) * 14 : kind === 'winter' ? -4 - random() * 8 : -8 - random() * 22,
+      vy: firefly
+        ? (random() - 0.5) * 10
+        : kind === 'winter'
+          ? 14 + random() * 22
+          : kind === 'autumn'
+            ? 26 + random() * 34
+            : 16 + random() * 24,
+      size: firefly
+        ? 1.3 + random() * 1.3
+        : kind === 'winter'
+          ? 1 + random() * 1.8
+          : kind === 'autumn'
+            ? 5 + random() * 4
+            : 3.4 + random() * 3,
+      rot: random() * TAU,
+      spin: (random() - 0.5) * (kind === 'autumn' ? 2.4 : 1.4),
+      phase: random() * TAU,
+      color: palette[Math.floor(random() * palette.length)],
+      fade: 0,
+      leaving: false,
+    };
+  }
+
+  function populate(kind: SeasonId) {
+    const count = Math.round(((width * height) / 1_000_000) * DENSITY[kind]);
+    for (let i = 0; i < count; i++) particles.push(spawn(kind, true));
+  }
+
+  function step(dt: number) {
+    time += dt;
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.fade += (p.leaving ? -dt : dt) / 0.9;
+      if (p.fade > 1) p.fade = 1;
+      if (p.fade <= 0 && p.leaving) {
+        particles.splice(i, 1);
+        continue;
+      }
+
+      if (p.season === 'summer') {
+        // Fireflies wander and turn back before leaving the scene.
+        p.vx += Math.sin(time * 0.7 + p.phase) * 6 * dt;
+        p.vy += Math.cos(time * 0.9 + p.phase * 1.3) * 5 * dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < height * 0.3 || p.y > height) p.vy *= -1;
+        continue;
+      }
+
+      const sway = p.season === 'winter' ? 8 : p.season === 'autumn' ? 30 : 20;
+      p.x += (p.vx + Math.sin(time * 1.1 + p.phase) * sway) * dt;
+      p.y += p.vy * dt;
+      p.rot += p.spin * dt;
+      if (p.y > height + 14 || p.x < -20) {
+        if (p.leaving) {
+          particles.splice(i, 1);
+        } else {
+          const fresh = spawn(p.season, false);
+          fresh.fade = 1;
+          // Re-enter along the top and the right edge, since everything drifts left.
+          if (random() < 0.3) {
+            fresh.x = width + 10;
+            fresh.y = random() * height * 0.7;
+          }
+          particles[i] = fresh;
+        }
+      }
+    }
+  }
+
+  function draw() {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, width, height);
+
+    for (const p of particles) {
+      if (p.fade <= 0) continue;
+      ctx.fillStyle = p.color;
+
+      if (p.season === 'summer') {
+        const glow = 0.35 + 0.65 * Math.max(0, Math.sin(time * 1.6 + p.phase));
+        ctx.globalAlpha = p.fade * glow * 0.16;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 4.5, 0, TAU);
+        ctx.fill();
+        ctx.globalAlpha = p.fade * glow;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, TAU);
+        ctx.fill();
+        continue;
+      }
+
+      if (p.season === 'winter') {
+        ctx.globalAlpha = p.fade * 0.85;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, TAU);
+        ctx.fill();
+        continue;
+      }
+
+      ctx.globalAlpha = p.fade * 0.9;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      // Tumbling: the petal or leaf narrows as it turns edge-on.
+      ctx.scale(1, 0.45 + 0.4 * Math.abs(Math.sin(time * 1.3 + p.phase)));
+      ctx.beginPath();
+      if (p.season === 'autumn') {
+        ctx.moveTo(-p.size, 0);
+        ctx.quadraticCurveTo(0, -p.size * 0.8, p.size, 0);
+        ctx.quadraticCurveTo(0, p.size * 0.8, -p.size, 0);
+      } else {
+        ctx.ellipse(0, 0, p.size, p.size * 0.62, 0, 0, TAU);
+      }
+      ctx.fill();
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function frame(now: number) {
+    if (!active || destroyed) return;
+    const dt = Math.min(0.05, (now - lastFrame) / 1000 || 0.016);
+    lastFrame = now;
+    step(dt);
+    draw();
+    raf = requestAnimationFrame(frame);
+  }
+
+  /** Reduced motion: one composed scatter per season, nothing falling. */
+  function drawStill() {
+    random = seededRandom(3);
+    particles.length = 0;
+    populate(season);
+    for (const p of particles) p.fade = 1;
+    time = 1.2;
+    draw();
+  }
+
+  function resize() {
+    const rect = host.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return;
+    const nextWidth = Math.round(rect.width);
+    const nextHeight = Math.round(rect.height);
+    if (nextWidth === width && nextHeight === height) return;
+    width = nextWidth;
+    height = nextHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+
+    if (reducedMotion) {
+      drawStill();
+      return;
+    }
+    particles.length = 0;
+    populate(season);
+    draw();
+  }
+
+  resize();
+
+  return {
+    setActive(next) {
+      if (reducedMotion || next === active) return;
+      active = next;
+      cancelAnimationFrame(raf);
+      if (active) {
+        lastFrame = performance.now();
+        raf = requestAnimationFrame(frame);
+      }
+    },
+    resize,
+    destroy() {
+      destroyed = true;
+      active = false;
+      cancelAnimationFrame(raf);
+    },
+    setSeason(next) {
+      if (next === season) return;
+      season = next;
+      if (reducedMotion) {
+        drawStill();
+        return;
+      }
+      for (const p of particles) p.leaving = true;
+      populate(next);
+    },
+  };
+}
 ]]>
     </file>
     <file path="src/app/(mizunowa)/mizunowa/hooks/useInView.ts">
