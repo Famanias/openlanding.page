@@ -99,7 +99,7 @@ export const Hero: React.FC = () => {
       data-dark-envelope={isDarkRoom ? 'true' : 'false'}
       onPointerMove={handleSectionPointerMove}
       onPointerLeave={handleSectionPointerLeave}
-      className="srf-hero-section relative pt-3 pb-6 lg:pt-4 lg:pb-6 border-b border-[var(--srf-hairline)] overflow-x-clip"
+      className="srf-hero-section relative min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] flex flex-col justify-between pt-3 pb-4 lg:pt-4 lg:pb-5 border-b border-[var(--srf-hairline)] overflow-x-clip"
     >
       {/* Dynamic coded 2.5D architectural living-room studio driven by the divider */}
       <RoomScene2D5 />
@@ -111,9 +111,9 @@ export const Hero: React.FC = () => {
         className="pointer-events-none absolute inset-0 z-[2] overflow-hidden"
       />
 
-      <div className="srf-container relative z-10 pointer-events-none">
+      <div className="srf-container relative z-10 pointer-events-none flex-1 flex flex-col justify-between">
         {/* Main Atelier Composition: Editorial Column (~33%) + Large Frameless 3D Centerpiece (~67%) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center flex-1 my-auto">
           {/* Top/Left: Editorial Headline, Copy, Primary & Secondary CTAs */}
           <div className="lg:col-span-4 min-w-0 flex flex-col justify-center pointer-events-auto">
             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-2">
@@ -190,7 +190,7 @@ export const Hero: React.FC = () => {
 
           {/* Center-Right: Large, Unboxed 3D Fold 16 Centerpiece integrated in living room */}
           <div className="lg:col-span-8 min-w-0">
-            <div className="h-[340px] sm:h-[440px] lg:h-[min(610px,calc(100svh-236px))] lg:min-h-[480px] w-full">
+            <div className="h-[340px] sm:h-[440px] lg:h-[min(680px,calc(100svh-200px))] lg:min-h-[480px] w-full">
               <FoldStage
                 hostId="hero"
                 variant="atelier"
@@ -232,7 +232,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Floating Atelier Studio Control Dock (Shape, Base Color, Print, View + Advanced Drawer trigger) */}
-        <div className="mt-3.5 lg:mt-3 pointer-events-auto">
+        <div className="mt-auto pt-3 lg:pt-3 pointer-events-auto">
           <HeroStudioDock
             onOpenAdvanced={openDrawer}
             shapeInputRef={shapeInputRef}

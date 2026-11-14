@@ -601,6 +601,12 @@ details[open] .srf-faq-icon {
    ============================================================================ */
 
 .srf-hero-section {
+  position: relative;
+  min-height: calc(100vh - 4rem);
+  min-height: calc(100svh - 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   --room-wall-base: #F4EAE4;
   --room-wall-highlight: #FAF4F0;
   --room-wall-shadow: #E4CFC7;
@@ -635,6 +641,13 @@ details[open] .srf-faq-icon {
   --room-light-warm: #FFF8F0;
   --room-shadow: #4B202A;
   background-color: var(--room-wall-base);
+}
+
+@media (min-width: 768px) {
+  .srf-hero-section {
+    min-height: calc(100vh - 5rem);
+    min-height: calc(100svh - 5rem);
+  }
 }
 
 .srf-hero-section .srf-btn-primary {
