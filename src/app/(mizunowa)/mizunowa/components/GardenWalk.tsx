@@ -44,7 +44,7 @@ export default function GardenWalk() {
         <div className="mnw-section-head">
           <div className="mnw-section-head-left">
             <Reveal variant="rise">
-              <p className="mnw-eyebrow mnw-chapter-label">03 / THE WALK</p>
+              <p className="mnw-eyebrow mnw-chapter-label">02 / THE WALK</p>
             </Reveal>
             <Reveal variant="mask" delayMs={70}>
               <h2 className="mnw-h2">Three places, one slow path.</h2>

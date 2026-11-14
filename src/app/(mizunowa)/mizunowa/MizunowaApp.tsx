@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import GardenIntro from './components/GardenIntro';
 import KoiGallery from './components/KoiGallery';
 import GardenWalk from './components/GardenWalk';
 import Seasons from './components/Seasons';
@@ -24,7 +23,6 @@ export default function MizunowaApp() {
       <Header />
       <main id="main">
         <Hero />
-        <GardenIntro />
         <KoiGallery />
         <GardenWalk />
         <Seasons />

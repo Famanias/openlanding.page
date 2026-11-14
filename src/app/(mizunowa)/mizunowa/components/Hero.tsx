@@ -108,7 +108,7 @@ export default function Hero({ sceneLoader }: HeroProps) {
               ease: EASE_HERO,
             }}
           >
-            <a href="#garden" className="mnw-btn-cream">
+            <a href="#koi" className="mnw-btn-cream">
               EXPLORE THE GARDEN
             </a>
             <button

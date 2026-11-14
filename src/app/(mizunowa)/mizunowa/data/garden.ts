@@ -37,17 +37,10 @@ export interface FaqItem {
 }
 
 export const NAV_LINKS: readonly NavItem[] = [
-  { label: 'THE EXPERIENCE', href: '#garden' },
   { label: 'PHILOSOPHY', href: '#koi' },
   { label: 'VIRTUAL TOUR', href: '#walk' },
   { label: 'ABOUT', href: '#seasons' },
 ];
-
-export const GARDEN_INLINE_NOTES = [
-  { term: 'WATER', meaning: 'the koi pond' },
-  { term: 'BLOSSOM', meaning: 'the sakura grove' },
-  { term: 'THRESHOLD', meaning: 'the shrine approach' },
-] as const;
 
 export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
   {

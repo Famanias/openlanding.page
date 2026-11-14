@@ -42,7 +42,7 @@ export default function PlanYourWalk() {
             </ol>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px 24px' }}>
-              <a href="#garden" className="mnw-btn-primary">
+              <a href="#koi" className="mnw-btn-primary">
                 <span>Explore the garden</span>
                 <ArrowRight size={16} aria-hidden="true" />
               </a>

@@ -96,49 +96,67 @@ export default function KoiGallery() {
   return (
     <section
       id="koi"
-      className="mnw-section mnw-section-paper mnw-surface-light"
-      style={{ paddingTop: 24 }}
+      className="mnw-section-paper mnw-surface-light"
     >
-      <div className="mnw-container">
-        <div className="mnw-section-head">
-          <div className="mnw-section-head-left">
-            <Reveal variant="rise">
-              <p className="mnw-eyebrow mnw-chapter-label">
-                02 / <span className="mnw-ja" lang="ja">錦鯉</span> / NISHIKIGOI
-              </p>
-            </Reveal>
-            <Reveal variant="mask" delayMs={70}>
-              <h2 className="mnw-h2">Each one leaves a different line.</h2>
-            </Reveal>
-          </div>
-          <div className="mnw-section-head-right">
-            <Reveal variant="rise" delayMs={140}>
-              <p style={{ margin: 0, color: 'color-mix(in srgb, var(--mnw-ink) 86%, transparent)' }}>
-                Look closely and each fish has its own pattern. Their paths cross the same water
-                at their own pace.
-              </p>
-            </Reveal>
+      <div id="garden" className="sr-only" aria-hidden="true" />
+      {/* Ripple-to-rule graphic handoff */}
+      <div className="mnw-handoff">
+        <div className="mnw-container">
+          <div className="mnw-handoff-rule-wrap" aria-hidden="true">
+            <div className="mnw-handoff-line" />
+            <div className="mnw-handoff-ring">
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+                <circle cx="22" cy="22" r="19" stroke="#D6C7A9" strokeWidth="1.2" />
+                <circle cx="22" cy="22" r="10.5" stroke="#9E3F32" strokeWidth="1.2" strokeOpacity="0.65" />
+                <circle cx="22" cy="22" r="2.5" fill="#9E3F32" />
+              </svg>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="mnw-koi-strip">
-          {KOI_SPECIMENS.map((specimen, idx) => (
-            <Reveal key={specimen.id} variant="rise" delayMs={idx * 70}>
-              <article className="mnw-koi-cell">
-                <span className="mnw-mono" style={{ color: 'var(--mnw-vermilion)' }}>
-                  {specimen.number}
-                </span>
-                <div className="mnw-koi-figure">
-                  <KoiSilhouette specimen={specimen} />
-                </div>
-                <div>
-                  <h3 className="mnw-koi-name">{specimen.label}</h3>
-                  <p className="mnw-koi-pattern">{specimen.visiblePattern}</p>
-                </div>
-                <p className="mnw-koi-caption">{specimen.caption}</p>
-              </article>
-            </Reveal>
-          ))}
+      <div className="mnw-section" style={{ paddingTop: 32 }}>
+        <div className="mnw-container">
+          <div className="mnw-section-head">
+            <div className="mnw-section-head-left">
+              <Reveal variant="rise">
+                <p className="mnw-eyebrow mnw-chapter-label">
+                  01 / <span className="mnw-ja" lang="ja">錦鯉</span> / NISHIKIGOI
+                </p>
+              </Reveal>
+              <Reveal variant="mask" delayMs={70}>
+                <h2 className="mnw-h2">Each one leaves a different line.</h2>
+              </Reveal>
+            </div>
+            <div className="mnw-section-head-right">
+              <Reveal variant="rise" delayMs={140}>
+                <p style={{ margin: 0, color: 'color-mix(in srgb, var(--mnw-ink) 86%, transparent)' }}>
+                  Look closely and each fish has its own pattern. Their paths cross the same water
+                  at their own pace.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+
+          <div className="mnw-koi-strip">
+            {KOI_SPECIMENS.map((specimen, idx) => (
+              <Reveal key={specimen.id} variant="rise" delayMs={idx * 70}>
+                <article className="mnw-koi-cell">
+                  <span className="mnw-mono" style={{ color: 'var(--mnw-vermilion)' }}>
+                    {specimen.number}
+                  </span>
+                  <div className="mnw-koi-figure">
+                    <KoiSilhouette specimen={specimen} />
+                  </div>
+                  <div>
+                    <h3 className="mnw-koi-name">{specimen.label}</h3>
+                    <p className="mnw-koi-pattern">{specimen.visiblePattern}</p>
+                  </div>
+                  <p className="mnw-koi-caption">{specimen.caption}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

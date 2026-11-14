@@ -165,7 +165,7 @@ export default function Header() {
                 <span>{soundEnabled ? 'SOUND ON' : 'SOUND OFF'}</span>
               </button>
 
-              <a href="#garden" className="mnw-header-enter-pill">
+              <a href="#koi" className="mnw-header-enter-pill">
                 ENTER
               </a>
             </motion.div>
@@ -272,7 +272,7 @@ export default function Header() {
 
         <div>
           <a
-            href="#garden"
+            href="#koi"
             className="mnw-btn-cream"
             style={{ width: '100%' }}
             onClick={() => setMenuOpen(false)}

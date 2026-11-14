@@ -326,7 +326,7 @@ export default function PondStage({
             ease: STAGE_EASE,
           }}
         >
-          <a href="#garden" className="mnw-scroll-cue">
+          <a href="#koi" className="mnw-scroll-cue">
             <span>SCROLL TO ENTER</span>
             <ArrowDown size={13} aria-hidden="true" />
           </a>
