@@ -182,6 +182,7 @@ describe("gallery template data", () => {
     expect(categoryIds).toContain("minimal");
     expect(categoryIds).toContain("brutalist");
     expect(categoryIds).toContain("studio");
+    expect(categoryIds).toContain("food");
   });
 
   it("files WOWFLUTTER under Editorial with its rebuild prompt inlined", () => {
