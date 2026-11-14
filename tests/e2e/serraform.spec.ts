@@ -120,7 +120,7 @@ test.describe("SERRAFORM", () => {
     await expect(dock.getByText("Base color", { exact: true })).toBeVisible();
     await expect(dock.getByText("Print", { exact: true })).toBeVisible();
     await expect(dock.getByText("Print color", { exact: true })).toBeVisible();
-    await expect(dock.getByText("More options", { exact: true })).toBeVisible();
+    await expect(dock.getByRole("button", { name: "Reset design and shape defaults" })).toBeVisible();
     await expect(dock.getByText("Shape", { exact: true })).toBeVisible();
 
     const readout = page.getByTestId("hero-atelier-readout");
@@ -159,37 +159,27 @@ test.describe("SERRAFORM", () => {
     await dock.getByRole("button", { name: /^Print Bloom$/i }).click();
     await expect(readout).toContainText("#D8C4A7 / #9A463D");
 
-    // 4. Low contrast detection + one-click Suggest contrast via Advanced Drawer ColorWheel
-    await dock.getByTestId("hero-design-color-btn").click();
-    const drawer = page.getByTestId("hero-advanced-drawer");
-    await expect(drawer).toBeVisible();
+    // 4. Low contrast detection + one-click Suggest contrast via Hero Studio Dock
+    const basePicker = page.getByTestId("hero-base-color-picker");
+    const printPicker = page.getByTestId("hero-print-color-picker");
 
-    const baseTargetBtn = page.getByTestId("srf-hero-target-base-btn");
-    const printTargetBtn = page.getByTestId("srf-hero-target-print-btn");
-    const hexInput = page.getByTestId("srf-hero-hex-input");
+    await basePicker.fill("#b82925");
+    await basePicker.dispatchEvent("change");
+    await printPicker.fill("#6b1515");
+    await printPicker.dispatchEvent("change");
 
-    await baseTargetBtn.click();
-    await hexInput.fill("#B82925");
-    await hexInput.press("Enter");
-
-    await printTargetBtn.click();
-    await hexInput.fill("#6B1515");
-    await hexInput.press("Enter");
-
-    const drawerWarning = page.getByTestId("srf-hero-contrast-warning");
-    await expect(drawerWarning).toContainText("Low print contrast — try a lighter or darker color.");
-    await page.getByTestId("srf-hero-suggest-contrast-btn").click();
-    await expect(drawerWarning).toBeHidden();
+    const heroWarning = page.getByTestId("hero-contrast-warning");
+    await expect(heroWarning).toContainText("Low print contrast — try a lighter or darker color.");
+    await page.getByTestId("hero-suggest-contrast-btn").click();
+    await expect(heroWarning).toBeHidden();
     await expect(readout).toContainText("#B82925 / #FFFCF8");
 
     // Verify legible Sage + Dark plum produces no low-contrast warning
-    await baseTargetBtn.click();
-    await hexInput.fill("#A6B3A0");
-    await hexInput.press("Enter");
-    await printTargetBtn.click();
-    await hexInput.fill("#4B202A");
-    await hexInput.press("Enter");
-    await expect(drawerWarning).toBeHidden();
+    await basePicker.fill("#a6b3a0");
+    await basePicker.dispatchEvent("change");
+    await printPicker.fill("#4b202a");
+    await printPicker.dispatchEvent("change");
+    await expect(heroWarning).toBeHidden();
 
     // 5. Test all 7 required Base + Print + Print-Type matrix combinations & room CSS coordination
     const matrix: Array<{
@@ -206,24 +196,16 @@ test.describe("SERRAFORM", () => {
       { base: "#FFFFFF", printColor: "#2B2426", printName: "Bloom" },
     ];
 
-    // Close drawer first so Print buttons on Hero dock are unimpeded
-    await drawer.getByRole("button", { name: /close/i }).click();
-    await expect(drawer).toBeHidden();
-
     const heroSection = page.getByTestId("hero-section");
     let firstRoomAccent = "";
 
     for (const row of matrix) {
       await dock.getByRole("button", { name: new RegExp(`^Print ${row.printName}$`, "i") }).click();
-      await dock.getByTestId("hero-design-color-btn").click();
-      await baseTargetBtn.click();
-      await hexInput.fill(row.base);
-      await hexInput.press("Enter");
-      await printTargetBtn.click();
-      await hexInput.fill(row.printColor);
-      await hexInput.press("Enter");
-      await expect(drawerWarning).toBeHidden();
-      await drawer.getByRole("button", { name: /close/i }).click();
+      await basePicker.fill(row.base.toLowerCase());
+      await basePicker.dispatchEvent("change");
+      await printPicker.fill(row.printColor.toLowerCase());
+      await printPicker.dispatchEvent("change");
+      await expect(heroWarning).toBeHidden();
       await expect(readout).toContainText(`${row.printName} · ${row.base} / ${row.printColor}`);
 
       if (row.base === "#4B202A") {
@@ -263,29 +245,7 @@ test.describe("SERRAFORM", () => {
     expect(finalRoomAccent).toMatch(/^#[0-9A-Fa-f]{6}$/);
     expect(finalRoomAccent).not.toEqual(firstRoomAccent);
 
-    // 6. Custom upload preserves original colors by default & supports opt-in tinting
-    const samplePng = createMulticolorTestPng(12, 12);
-    await dock.getByRole("button", { name: /More \/ Upload/i }).click();
-    await expect(drawer).toBeVisible();
-    await page.getByTestId("srf-hero-upload-input").setInputFiles({
-      name: "motif-sample.png",
-      mimeType: "image/png",
-      buffer: samplePng,
-    });
-    const tintToggle = page.getByTestId("srf-hero-tint-upload-toggle");
-    await expect(tintToggle).toBeVisible();
-    await expect(tintToggle).not.toBeChecked();
-    await expect(readout).toContainText("Your image · #FFFFFF");
-
-    await tintToggle.check();
-    await expect(tintToggle).toBeChecked();
-    await expect(readout).toContainText("Your image · #FFFFFF / #2B2426");
-
-    await tintToggle.uncheck();
-    await expect(tintToggle).not.toBeChecked();
-    await drawer.getByRole("button", { name: /close/i }).click();
-
-    // 7. Reset restores default Base Color (#D8C4A7), Print Color (#4B202A), and Bloom
+    // 6. Reset restores default Base Color (#D8C4A7), Print Color (#4B202A), and Bloom
     await dock.getByRole("button", { name: /Reset design and shape defaults/i }).click();
     await expect(readout).toContainText("Bloom · #D8C4A7 / #4B202A");
     await expect(stageCanvas).toBeVisible();
@@ -333,16 +293,9 @@ test.describe("SERRAFORM", () => {
     await basePicker.blur();
     await expect(readout).toContainText("Bloom · #3A5A40 / #904466");
 
-    // Open Advanced Studio ColorWheel picker and drag across 65 shades while focused
-    await dock.getByTestId("hero-design-color-btn").click();
-    const drawer = page.getByTestId("hero-advanced-drawer");
-    await expect(drawer).toBeVisible();
-    await page.getByTestId("srf-hero-target-print-btn").click();
-
-    const wheelPicker = page.getByTestId("srf-hero-color-picker");
-    await expect(wheelPicker).toBeVisible();
-    await wheelPicker.focus();
-    await wheelPicker.evaluate((el) => {
+    // Rapid dragging on base color picker directly
+    await basePicker.focus();
+    await basePicker.evaluate((el) => {
       const input = el as HTMLInputElement;
       const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!;
       for (let i = 0; i < 65; i += 1) {
@@ -352,13 +305,12 @@ test.describe("SERRAFORM", () => {
       }
       input.dispatchEvent(new Event("change", { bubbles: true }));
     });
-    await wheelPicker.blur();
-    await expect(readout).toContainText("/ #A088AA");
+    await basePicker.blur();
+    await expect(readout).toContainText("#A088AA / #904466");
 
     // Clicking an external preset swatch should re-sync DOM <input type="color"> cleanly
-    await drawer.getByRole("button", { name: /Print preset Oxblood/i }).click();
+    await dock.getByRole("button", { name: /^Print color Oxblood/i }).click();
     await expect(readout).toContainText("/ #4B202A");
-    await expect(wheelPicker).toHaveValue("#4b202a");
     await expect(printPicker).toHaveValue("#4b202a");
 
     expect(errors).toEqual([]);

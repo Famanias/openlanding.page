@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { ArrowRight, Play } from 'lucide-react';
-import { AdvancedStudioDrawer } from '../fold/AdvancedStudioDrawer';
 import { useFold } from '../fold/FoldProvider';
 import { FoldStage } from '../fold/FoldStage';
-import { AdvancedDrawerSection, HeroStudioDock } from '../fold/HeroStudioDock';
+import { HeroStudioDock } from '../fold/HeroStudioDock';
 import { RoomScene2D5 } from '../fold/room/RoomScene2D5';
 import { deriveRoomScene } from '../fold/room/deriveRoomScene';
 import { useHarmonizedRoomVars } from '../fold/room/paletteCssVars';
@@ -14,8 +13,6 @@ import type { RoomLightingState } from '../fold/FoldScene';
 export const Hero: React.FC = () => {
   const { demoActive, design, view, effectiveOpening, uploadedArt, env, replayFoldSequence } =
     useFold();
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [drawerSection, setDrawerSection] = useState<AdvancedDrawerSection>('all');
   const [heroAnnouncement, setHeroAnnouncement] = useState('');
   const [fullBleedHostEl, setFullBleedHostEl] = useState<HTMLDivElement | null>(null);
   const shapeInputRef = useRef<HTMLInputElement>(null);
@@ -55,13 +52,8 @@ export const Hero: React.FC = () => {
     ],
   );
 
-  const openDrawer = useCallback((section: AdvancedDrawerSection = 'all') => {
-    setDrawerSection(section);
-    setDrawerOpen(true);
-  }, []);
-
   const handleDesignInHero = () => {
-    openDrawer('all');
+    shapeInputRef.current?.focus();
   };
 
   const handleSeeHowItFolds = () => {
@@ -231,21 +223,13 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Floating Atelier Studio Control Dock (Shape, Base Color, Print, View + Advanced Drawer trigger) */}
+        {/* Floating Atelier Studio Control Dock */}
         <div className="mt-auto pt-3 lg:pt-3 pointer-events-auto">
           <HeroStudioDock
-            onOpenAdvanced={openDrawer}
             shapeInputRef={shapeInputRef}
           />
         </div>
       </div>
-
-      {/* Expandable Advanced Studio Drawer sharing live FoldProvider state */}
-      <AdvancedStudioDrawer
-        open={drawerOpen}
-        initialSection={drawerSection}
-        onClose={() => setDrawerOpen(false)}
-      />
 
       <div className="sr-only" aria-live="polite">
         {heroAnnouncement}
