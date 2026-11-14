@@ -58,6 +58,9 @@ describe("gallery discovery", () => {
     expect(studioSlugs).not.toContain("calder");
     expect(studioSlugs).not.toContain("koji");
     expect(studioSlugs).not.toContain("kinetic");
+
+    const foodSlugs = filterTemplates(TEMPLATES, { category: "food", model: "all", query: "" }).map((t) => t.slug);
+    expect(foodSlugs).toEqual(["mesamarket", "poppypatch", "pipkin", "koji"]);
   });
 });
 

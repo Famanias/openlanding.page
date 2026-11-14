@@ -19,6 +19,7 @@ export type CategoryId =
   | "minimal"
   | "brutalist"
   | "studio"
+  | "food"
   | keyof typeof TECHNOLOGY_TAGS;
 
 export type TemplateCategory = Exclude<CategoryId, "all">;
@@ -71,6 +72,7 @@ export const CATEGORIES: Category[] = [
   { id: "minimal", label: "Minimal" },
   { id: "brutalist", label: "Brutalist" },
   { id: "studio", label: "Studio" },
+  { id: "food", label: "Food & Drink" },
   { id: "threejs", label: "Three.js" },
   { id: "gsap", label: "GSAP" },
   { id: "motion", label: "Motion / Framer Motion" },
@@ -1208,7 +1210,7 @@ export const RAW_TEMPLATES: Omit<TemplateItem, "registrationOrder">[] = [
     description:
       "Fermentation kitchen in Tokyo with 3D WebGPU dish showcase, brutalist aesthetics, and scroll-scrubbed video.",
     category: "3d",
-    categories: ["3d","commerce"],
+    categories: ["3d","commerce","food"],
     industry: "Hospitality & Dining",
     stack: "Next.js 16 · Three.js (WebGPU/TSL) · Scroll-World",
     badges: ["WebGPU 3D", "Scroll Video", "TSL Shaders"],
@@ -1660,7 +1662,7 @@ slug: "tally",
     title: "Pipkin",
     description: "Cooked Tuesday, at your door Friday. A pastel jam-shop page that follows one jar from order to doorstep through five illustrated scenes, then lets you build a box.",
     category: "commerce",
-    categories: ["commerce","editorial","minimal"],
+    categories: ["commerce","editorial","minimal","food"],
     industry: "Small Shop & E-commerce",
     stack: "Next.js 16 · React 19 · Original SVG · CSS Motion · Lenis",
     badges: ["Order-to-Doorstep Scroll", "Live Box Builder", "Pastel SVG World"],
@@ -2096,7 +2098,7 @@ slug: "tally",
     title: "Poppy Patch",
     description: "Playful, tactile starter kits for growing edible mushrooms at home. Easy to grow, impossible not to love.",
     category: "commerce",
-    categories: ["commerce","marketing","minimal","gradient"],
+    categories: ["commerce","marketing","minimal","gradient","food"],
     industry: "Food & Agriculture",
     stack: "Next.js 16 · React 19 · Tailwind v4 · Motion",
     badges: ["Tactile UI", "Mushroom Kits", "Interactive Drawer"],
@@ -3040,7 +3042,7 @@ RAW_TEMPLATES.push(
     title: "MESA MARKET",
     description: "A farm-to-door grocery landing page with an interactive harvest stall, live crate builder, and sample receipt review.",
     category: "showcase" as TemplateCategory,
-    categories: ["showcase" as TemplateCategory, "editorial" as TemplateCategory],
+    categories: ["showcase" as TemplateCategory, "editorial" as TemplateCategory, "food"],
     industry: "Produce & Grocery",
     stack: "Next.js 16 · React 19 · Motion · Tailwind v4",
     badges: ["Interactive Shelf", "Crate Builder", "Farm-to-Door"],
