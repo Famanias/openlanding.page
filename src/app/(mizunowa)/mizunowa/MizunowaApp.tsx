@@ -26,8 +26,8 @@ export default function MizunowaApp() {
         <KoiGallery />
         <GardenWalk />
         <Seasons />
-        <PlanYourWalk />
         <Questions />
+        <PlanYourWalk />
       </main>
       <Footer />
     </div>

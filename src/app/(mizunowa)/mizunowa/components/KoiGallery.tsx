@@ -1,7 +1,12 @@
 'use client';
 
-import { KOI_SPECIMENS, KoiSpecimen } from '../data/garden';
+import { useEffect, useRef, useState } from 'react';
+import { useMotionValueEvent, useScroll } from 'motion/react';
+import { KOI_SPECIMENS, KoiId, KoiSpecimen } from '../data/garden';
+import { createKoiField, KoiFieldController } from '../field/koiField';
+import { mountField, prefersReducedMotion } from '../field/mount';
 import Reveal from './Reveal';
+import SplitWords from './SplitWords';
 
 function KoiSilhouette({ specimen }: { specimen: KoiSpecimen }) {
   const { id, primaryColor, secondaryColor, accentColor } = specimen;
@@ -92,72 +97,172 @@ function KoiSilhouette({ specimen }: { specimen: KoiSpecimen }) {
   );
 }
 
-export default function KoiGallery() {
+/** The wake each koi draws on the water, shown as a short sample beside its name. */
+function LineSample({ specimen }: { specimen: KoiSpecimen }) {
   return (
-    <section
-      id="koi"
-      className="mnw-section-paper mnw-surface-light"
-    >
+    <svg className="mnw-koi-note-line" viewBox="0 0 56 12" width="56" height="12" fill="none" aria-hidden="true">
+      <path
+        d="M2 7 C 12 1, 20 11, 30 6 S 46 2, 54 6"
+        stroke={specimen.trailColor}
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeDasharray={specimen.trailDash.map((dash) => dash * 0.45).join(' ') || undefined}
+      />
+    </svg>
+  );
+}
+
+export default function KoiGallery() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const seamRef = useRef<HTMLDivElement>(null);
+  const waterRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hintRef = useRef<HTMLParagraphElement>(null);
+  const fieldRef = useRef<KoiFieldController | null>(null);
+
+  const [selected, setSelected] = useState<KoiId | null>(null);
+  const [feedCount, setFeedCount] = useState(0);
+
+  // The rings on the seam open as the hero scrolls away.
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'start 0.3'] });
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    seamRef.current?.style.setProperty('--seam', value.toFixed(3));
+  });
+
+  useEffect(() => {
+    const water = waterRef.current;
+    const canvas = canvasRef.current;
+    if (!water || !canvas) return;
+
+    const reducedMotion = prefersReducedMotion();
+    if (!reducedMotion) {
+      seamRef.current?.style.setProperty('--seam', scrollYProgress.get().toFixed(3));
+    }
+
+    const field = createKoiField(canvas, water, {
+      specimens: KOI_SPECIMENS,
+      reducedMotion,
+      labelFont: hintRef.current ? getComputedStyle(hintRef.current).fontFamily : 'monospace',
+      onPick: (id) => setSelected((current) => (current === id ? null : id)),
+      onFeed: () => setFeedCount((count) => count + 1),
+    });
+    fieldRef.current = field;
+    const unmount = mountField(water, field);
+
+    return () => {
+      fieldRef.current = null;
+      unmount();
+    };
+  }, [scrollYProgress]);
+
+  useEffect(() => {
+    fieldRef.current?.setSelected(selected);
+  }, [selected]);
+
+  const selectedSpecimen = KOI_SPECIMENS.find((specimen) => specimen.id === selected);
+
+  return (
+    <section id="koi" ref={sectionRef} className="mnw-koi mnw-surface-dark">
       <div id="garden" className="sr-only" aria-hidden="true" />
-      {/* Ripple-to-rule graphic handoff */}
-      <div className="mnw-handoff">
-        <div className="mnw-container">
-          <div className="mnw-handoff-rule-wrap" aria-hidden="true">
-            <div className="mnw-handoff-line" />
-            <div className="mnw-handoff-ring">
-              <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                <circle cx="22" cy="22" r="19" stroke="#D6C7A9" strokeWidth="1.2" />
-                <circle cx="22" cy="22" r="10.5" stroke="#9E3F32" strokeWidth="1.2" strokeOpacity="0.65" />
-                <circle cx="22" cy="22" r="2.5" fill="#9E3F32" />
-              </svg>
-            </div>
+
+      {/* Ripple handoff: rings spread from the bottom edge of the pond into the first chapter */}
+      <div ref={seamRef} className="mnw-seam" aria-hidden="true">
+        <svg viewBox="0 0 900 260" fill="none" focusable="false">
+          <ellipse cx="450" cy="130" rx="446" ry="127" />
+          <ellipse cx="450" cy="130" rx="330" ry="94" />
+          <ellipse cx="450" cy="130" rx="214" ry="61" />
+          <ellipse cx="450" cy="130" rx="98" ry="28" />
+        </svg>
+      </div>
+
+      <div className="mnw-container mnw-koi-head">
+        <div className="mnw-section-head">
+          <div className="mnw-section-head-left">
+            <Reveal variant="rise">
+              <p className="mnw-eyebrow mnw-chapter-label">
+                01 / <span className="mnw-ja" lang="ja">錦鯉</span> / NISHIKIGOI
+              </p>
+            </Reveal>
+            <Reveal variant="words" delayMs={70}>
+              <h2 className="mnw-h2">
+                <SplitWords text="Each one leaves a different line." />
+              </h2>
+            </Reveal>
+          </div>
+          <div className="mnw-section-head-right">
+            <Reveal variant="rise" delayMs={140}>
+              <p className="mnw-lead">
+                Look closely and each fish has its own pattern. Their paths cross the same water
+                at their own pace.
+              </p>
+            </Reveal>
           </div>
         </div>
       </div>
 
-      <div className="mnw-section" style={{ paddingTop: 32 }}>
-        <div className="mnw-container">
-          <div className="mnw-section-head">
-            <div className="mnw-section-head-left">
-              <Reveal variant="rise">
-                <p className="mnw-eyebrow mnw-chapter-label">
-                  01 / <span className="mnw-ja" lang="ja">錦鯉</span> / NISHIKIGOI
-                </p>
-              </Reveal>
-              <Reveal variant="mask" delayMs={70}>
-                <h2 className="mnw-h2">Each one leaves a different line.</h2>
-              </Reveal>
-            </div>
-            <div className="mnw-section-head-right">
-              <Reveal variant="rise" delayMs={140}>
-                <p style={{ margin: 0, color: 'color-mix(in srgb, var(--mnw-ink) 86%, transparent)' }}>
-                  Look closely and each fish has its own pattern. Their paths cross the same water
-                  at their own pace.
-                </p>
-              </Reveal>
-            </div>
-          </div>
-
-          <div className="mnw-koi-strip">
-            {KOI_SPECIMENS.map((specimen, idx) => (
-              <Reveal key={specimen.id} variant="rise" delayMs={idx * 70}>
-                <article className="mnw-koi-cell">
-                  <span className="mnw-mono" style={{ color: 'var(--mnw-vermilion)' }}>
-                    {specimen.number}
-                  </span>
-                  <div className="mnw-koi-figure">
-                    <KoiSilhouette specimen={specimen} />
-                  </div>
-                  <div>
-                    <h3 className="mnw-koi-name">{specimen.label}</h3>
-                    <p className="mnw-koi-pattern">{specimen.visiblePattern}</p>
-                  </div>
-                  <p className="mnw-koi-caption">{specimen.caption}</p>
-                </article>
-              </Reveal>
-            ))}
+      <div className="mnw-koi-stage">
+        <div ref={waterRef} className="mnw-koi-water">
+          <canvas ref={canvasRef} className="mnw-koi-canvas" aria-hidden="true" />
+          <div className="mnw-container mnw-koi-hint">
+            <p ref={hintRef} className="mnw-mono">
+              <span className="mnw-koi-hint-ring" aria-hidden="true" />
+              Click the water to feed · pick a koi to follow its line
+            </p>
+            <button type="button" className="mnw-chip" onClick={() => fieldRef.current?.feed()}>
+              Feed the koi
+            </button>
           </div>
         </div>
+
+        <div className="mnw-container mnw-koi-notes-wrap">
+          <Reveal variant="rise" delayMs={120}>
+            <ul className="mnw-koi-notes" aria-label="Koi field notes">
+              {KOI_SPECIMENS.map((specimen) => {
+                const isSelected = specimen.id === selected;
+                return (
+                  <li key={specimen.id}>
+                    <button
+                      type="button"
+                      className={`mnw-koi-note ${isSelected ? 'is-selected' : ''}`}
+                      aria-pressed={isSelected}
+                      onClick={() => setSelected(isSelected ? null : specimen.id)}
+                      onPointerEnter={() => fieldRef.current?.setHighlighted(specimen.id)}
+                      onPointerLeave={() => fieldRef.current?.setHighlighted(null)}
+                      onFocus={() => fieldRef.current?.setHighlighted(specimen.id)}
+                      onBlur={() => fieldRef.current?.setHighlighted(null)}
+                    >
+                      <span className="mnw-koi-note-top">
+                        <span className="mnw-mono mnw-koi-note-num">{specimen.number}</span>
+                        <span className="mnw-koi-note-name">{specimen.label}</span>
+                        <LineSample specimen={specimen} />
+                      </span>
+                      <span className="mnw-koi-note-more">
+                        <span className="mnw-koi-note-more-inner">
+                          <span className="mnw-koi-note-figure">
+                            <KoiSilhouette specimen={specimen} />
+                          </span>
+                          <span className="mnw-koi-note-pattern">{specimen.visiblePattern}</span>
+                          <span className="mnw-koi-note-caption">{specimen.caption}</span>
+                          <span className="mnw-koi-note-linecopy">
+                            <span className="mnw-mono">Its line</span>
+                            {specimen.line}
+                          </span>
+                        </span>
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="mnw-sr-only" aria-live="polite" aria-atomic="true">
+        {selectedSpecimen ? `Following ${selectedSpecimen.label}` : ''}
+      </div>
+      <div className="mnw-sr-only" aria-live="polite" aria-atomic="true">
+        {feedCount === 0 ? '' : feedCount % 2 === 0 ? 'Koi food dropped​' : 'Koi food dropped'}
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 export type SeasonId = 'spring' | 'summer' | 'autumn' | 'winter';
+export type KoiId = 'kohaku' | 'yamabuki' | 'shiro' | 'sanke';
 
 export interface NavItem {
   label: string;
@@ -6,14 +7,19 @@ export interface NavItem {
 }
 
 export interface KoiSpecimen {
-  id: 'kohaku' | 'yamabuki' | 'shiro' | 'sanke';
+  id: KoiId;
   number: string;
   label: string;
   visiblePattern: string;
   caption: string;
+  /** How this fish moves through the note pond, and so the line it leaves. */
+  line: string;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
+  /** Colour and dash pattern of the wake drawn behind the fish. */
+  trailColor: string;
+  trailDash: readonly number[];
 }
 
 export interface GardenStop {
@@ -21,14 +27,23 @@ export interface GardenStop {
   title: string;
   description: string;
   mapLabel: string;
+  japanese: string;
+  reading: string;
+  notice: string;
+  /** Marker position in the 1200 x 900 map viewBox. */
+  x: number;
+  y: number;
 }
 
 export interface SeasonNote {
   id: SeasonId;
   season: string;
+  kanji: string;
+  reading: string;
   japanese: string;
   summary: string;
   detail: string;
+  light: string;
 }
 
 export interface FaqItem {
@@ -49,9 +64,12 @@ export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
     label: 'Red and white',
     visiblePattern: 'Porcelain body, vermilion islands',
     caption: 'Warm patches on a pale body.',
+    line: 'Wide, slow circuits of the whole pond.',
     primaryColor: '#FDFBF5',
     secondaryColor: '#9E3F32',
     accentColor: '#9E3F32',
+    trailColor: '#C7A6A2',
+    trailDash: [],
   },
   {
     id: 'yamabuki',
@@ -59,9 +77,12 @@ export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
     label: 'Gold',
     visiblePattern: 'Gold body with a porcelain underside',
     caption: 'A warm glint beneath the water.',
+    line: 'A figure of eight, crossing its own wake.',
     primaryColor: '#CB9462',
     secondaryColor: '#FDFBF5',
     accentColor: '#CB9462',
+    trailColor: '#CB9462',
+    trailDash: [14, 9],
   },
   {
     id: 'shiro',
@@ -69,9 +90,12 @@ export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
     label: 'Ink and white',
     visiblePattern: 'Porcelain with irregular charcoal patches',
     caption: 'Dark markings, softly defined.',
+    line: 'Tight turns, close to the near bank.',
     primaryColor: '#FDFBF5',
     secondaryColor: '#1E2320',
     accentColor: '#1E2320',
+    trailColor: '#D6C7A9',
+    trailDash: [2, 8],
   },
   {
     id: 'sanke',
@@ -79,9 +103,12 @@ export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
     label: 'Three colours',
     visiblePattern: 'Porcelain, vermilion and charcoal',
     caption: 'A pattern made of light and shadow.',
+    line: 'A long wander that never quite repeats.',
     primaryColor: '#FDFBF5',
     secondaryColor: '#9E3F32',
     accentColor: '#1E2320',
+    trailColor: '#F4EFE2',
+    trailDash: [26, 7, 3, 7],
   },
 ];
 
@@ -91,18 +118,33 @@ export const GARDEN_STOPS: readonly GardenStop[] = [
     title: 'Pond edge',
     description: 'Begin where the koi move through the clear green water.',
     mapLabel: '01 · Pond edge',
+    japanese: '池',
+    reading: 'Ike',
+    notice: 'Four koi, each keeping to its own line.',
+    x: 312,
+    y: 688,
   },
   {
     number: '02',
     title: 'Sakura grove',
     description: 'Follow the path beneath a canopy of pale spring blossoms.',
     mapLabel: '02 · Sakura grove',
+    japanese: '桜',
+    reading: 'Sakura',
+    notice: 'Petals resting on the water below the branches.',
+    x: 240,
+    y: 296,
   },
   {
     number: '03',
     title: 'Shrine courtyard',
     description: 'Pass the torii and arrive at a small timber hall set back among the trees.',
     mapLabel: '03 · Shrine courtyard',
+    japanese: '参道',
+    reading: 'Sandō',
+    notice: 'The path, the gate and the hall, set in one line.',
+    x: 910,
+    y: 218,
   },
 ];
 
@@ -110,34 +152,46 @@ export const SEASON_NOTES: readonly SeasonNote[] = [
   {
     id: 'spring',
     season: 'Spring',
+    kanji: '春',
+    reading: 'Haru',
     japanese: '春 / Haru',
     summary: 'Soft blossoms gather over the water.',
     detail:
-      'Pale pink sakura clusters frame the upper-right bank while stray petals drift quietly over the jade surface.',
+      'Pale pink sakura clusters frame the bank while stray petals drift quietly over the jade surface.',
+    light: 'Low and rose-tinted',
   },
   {
     id: 'summer',
     season: 'Summer',
+    kanji: '夏',
+    reading: 'Natsu',
     japanese: '夏 / Natsu',
     summary: 'Deep green leaves make a little shade.',
     detail:
       'Blossoms give way to full leaf canopies and dense moss along the stepping stones, cooling the edges of the pond.',
+    light: 'High and green-gold',
   },
   {
     id: 'autumn',
     season: 'Autumn',
+    kanji: '秋',
+    reading: 'Aki',
     japanese: '秋 / Aki',
     summary: 'The path takes on warmer colors.',
     detail:
       'Ochre foliage and warm stone tones settle along the shrine approach, echoing the gold koi moving underneath.',
+    light: 'Long and amber',
   },
   {
     id: 'winter',
     season: 'Winter',
+    kanji: '冬',
+    reading: 'Fuyu',
     japanese: '冬 / Fuyu',
     summary: 'Bare branches let the shape of the garden show.',
     detail:
       'With leaves cleared away, the dark timber uprights, gabled roof, and curving stone bank read in crisp silhouette.',
+    light: 'Pale and clear',
   },
 ];
 
