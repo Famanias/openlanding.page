@@ -28,9 +28,9 @@
   --mnw-font-mono: var(--font-mnw-mono, 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace);
 
   /* Layout */
-  --mnw-max-width: 1320px;
+  --mnw-max-width: 1600px;
   --mnw-gutter: 24px;
-  --mnw-margin: 64px;
+  --mnw-margin: 48px;
 }
 
 @media (max-width: 1024px) {
@@ -165,10 +165,10 @@ html {
 
 .mnw-h2 {
   font-family: var(--mnw-font-serif);
-  font-size: clamp(36px, 4vw, 56px);
-  line-height: 1.08;
+  font-size: clamp(38px, 4.5vw, 66px);
+  line-height: 1.05;
   font-weight: 400;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   text-wrap: balance;
   margin: 0;
 }
@@ -689,7 +689,7 @@ html {
 
 .mnw-hero-copy {
   position: relative;
-  max-width: 560px;
+  max-width: 720px;
   margin-top: auto;
   margin-bottom: auto;
   padding: 24px 0 32px;
@@ -730,6 +730,7 @@ html {
 
 .mnw-hero-line {
   display: block;
+  padding-right: 6px;
 }
 
 @media (min-width: 900px) {
@@ -933,7 +934,7 @@ html:not(.mnw-js) .mnw-js-only {
   }
 
   .mnw-hero-copy {
-    max-width: 520px;
+    max-width: 580px;
     margin-top: 0;
     margin-bottom: auto;
     padding: 8px 0 18px;
@@ -1008,52 +1009,15 @@ html:not(.mnw-js) .mnw-js-only {
   }
 }
 
-/* Ripple-to-rule handoff transition */
-.mnw-handoff {
-  position: relative;
-  background-color: var(--mnw-paper);
-  padding-top: 44px;
+/* ==========================================================================
+   Below the hero: shared pieces
+   ========================================================================== */
+:root {
+  --mnw-shore-h: clamp(48px, 6.6vw, 96px);
 }
 
-.mnw-handoff-rule-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 56px;
-}
-
-.mnw-handoff-line {
-  width: 100%;
-  height: 1px;
-  background-color: color-mix(in srgb, var(--mnw-stone) 75%, var(--mnw-leaf) 25%);
-}
-
-.mnw-handoff-ring {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 56px;
-  height: 56px;
-  background-color: var(--mnw-paper);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Section base spacing */
 section[id] {
   scroll-margin-top: 84px;
-}
-
-.mnw-section {
-  padding: 96px 0;
-}
-
-@media (max-width: 640px) {
-  .mnw-section {
-    padding: 60px 0;
-  }
 }
 
 .mnw-section-paper {
@@ -1071,185 +1035,548 @@ section[id] {
   margin-bottom: 18px;
 }
 
-.mnw-section-moss .mnw-chapter-label {
+.mnw-surface-dark .mnw-chapter-label {
   color: var(--mnw-sakura);
 }
 
-/* Section 01: Garden Intro */
-.mnw-intro-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--mnw-gutter);
-  align-items: start;
+.mnw-lead {
+  margin: 0;
+  max-width: 46ch;
+  color: color-mix(in srgb, currentColor 86%, transparent);
 }
 
-.mnw-intro-index {
-  grid-column: 1 / span 4;
-}
-
-.mnw-intro-body {
-  grid-column: 5 / span 8;
-}
-
-.mnw-intro-copy {
-  margin: 24px 0 36px;
-  max-width: 52ch;
-  color: color-mix(in srgb, var(--mnw-ink) 88%, transparent);
-}
-
-.mnw-inline-notes {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  padding: 24px 0;
-  border-top: 1px solid var(--mnw-stone);
-  border-bottom: 1px solid var(--mnw-stone);
-  margin-bottom: 36px;
-}
-
-.mnw-inline-note-term {
-  display: block;
-  color: var(--mnw-vermilion);
-  margin-bottom: 4px;
-}
-
-.mnw-inline-note-meaning {
-  display: block;
-  font-family: var(--mnw-font-serif);
-  font-size: 20px;
-  line-height: 28px;
-  color: var(--mnw-ink);
-}
-
-.mnw-route-preview {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding-top: 8px;
-}
-
-.mnw-route-svg {
-  width: min(460px, 100%);
-  height: auto;
-  display: block;
-}
-
-@media (max-width: 899px) {
-  .mnw-intro-index,
-  .mnw-intro-body {
-    grid-column: 1 / -1;
-  }
-
-  .mnw-inline-notes {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .mnw-route-preview {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-/* Section 02: Koi Field Notes */
 .mnw-section-head {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--mnw-gutter);
-  margin-bottom: 48px;
+  margin-bottom: 56px;
 }
 
 .mnw-section-head-left {
-  grid-column: 1 / span 6;
+  grid-column: 1 / span 7;
 }
 
 .mnw-section-head-right {
-  grid-column: 8 / span 5;
+  grid-column: 9 / span 4;
   align-self: end;
 }
 
-.mnw-koi-strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--mnw-stone);
-  border-bottom: 1px solid var(--mnw-stone);
-}
-
-.mnw-koi-cell {
-  padding: 28px 22px 30px;
-  border-right: 1px solid var(--mnw-stone);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.mnw-koi-cell:last-child {
-  border-right: none;
-}
-
-.mnw-koi-figure {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 0;
-}
-
-.mnw-koi-name {
-  font-family: var(--mnw-font-serif);
-  font-size: 24px;
-  line-height: 1.2;
-  margin: 0;
-  color: var(--mnw-ink);
-}
-
-.mnw-koi-pattern {
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--mnw-leaf);
-  margin: 0;
-}
-
-.mnw-koi-caption {
-  font-size: 15px;
-  line-height: 23px;
-  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
-  margin: 0;
-}
-
 @media (max-width: 1024px) {
+  .mnw-section-head {
+    margin-bottom: 40px;
+  }
+
   .mnw-section-head-left,
   .mnw-section-head-right {
     grid-column: 1 / -1;
   }
+}
 
-  .mnw-koi-strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+/* Content that only makes sense with or without scripting, decided before first paint */
+.mnw-nojs-only {
+  display: none;
+}
+
+@media (scripting: none) {
+  .mnw-nojs-only {
+    display: block;
   }
 
-  .mnw-koi-cell:nth-child(2n) {
-    border-right: none;
-  }
-
-  .mnw-koi-cell:nth-child(1),
-  .mnw-koi-cell:nth-child(2) {
-    border-bottom: 1px solid var(--mnw-stone);
+  .mnw-scripted {
+    display: none !important;
   }
 }
 
-@media (max-width: 520px) {
-  .mnw-koi-cell {
-    padding: 20px 14px 22px;
+/* Headings split into masked words (SplitWords inside Reveal variant="words") */
+.mnw-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.08em 0 0.16em;
+  margin: -0.08em 0 -0.16em;
+}
+
+.mnw-word > span {
+  display: inline-block;
+}
+
+.mnw-word-accent {
+  color: var(--mnw-sakura);
+}
+
+html.mnw-js .mnw-reveal[data-reveal="words"] .mnw-word > span {
+  transition: transform 1000ms var(--mnw-ease-out);
+  transition-delay: calc(var(--mnw-delay, 0ms) + var(--i, 0) * 60ms);
+}
+
+html.mnw-js .mnw-reveal[data-reveal="words"]:not(.is-visible) .mnw-word > span {
+  transform: translateY(112%);
+}
+
+@keyframes mnw-ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
   }
 
-  .mnw-koi-name {
-    font-size: 20px;
+  80%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
   }
 }
 
-/* Section 03: The Garden Walk */
+@keyframes mnw-ring {
+  0% {
+    transform: scale(0.15);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+/* Shoreline: the curved water's edge between two grounds */
+.mnw-shore {
+  --shore-from: var(--mnw-pond);
+  --shore-to: var(--mnw-paper);
+  position: relative;
+  z-index: 2;
+  height: var(--mnw-shore-h);
+  margin-bottom: -1px;
+  background-color: var(--shore-from);
+  pointer-events: none;
+}
+
+/* Laid over the end of the section before it, so that section's scene runs right up to the shore */
+.mnw-shore.is-overlap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(1px - var(--mnw-shore-h));
+  margin: 0;
+  background-color: transparent;
+}
+
+.mnw-shore svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.mnw-shore.is-flipped svg {
+  transform: scaleX(-1);
+}
+
+.mnw-shore-fill {
+  fill: var(--shore-to);
+}
+
+.mnw-shore-line {
+  fill: none;
+  stroke: var(--shore-to);
+  stroke-opacity: 0.5;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.mnw-shore-line-far {
+  stroke-opacity: 0.22;
+}
+
+.mnw-shore-from-paper {
+  --shore-from: var(--mnw-paper);
+}
+
+.mnw-shore-from-moss {
+  --shore-from: var(--mnw-moss);
+}
+
+.mnw-shore-to-pond {
+  --shore-to: var(--mnw-pond);
+}
+
+.mnw-shore-to-moss {
+  --shore-to: var(--mnw-moss);
+}
+
+/* ==========================================================================
+   01 Koi: a pond of field notes
+   ========================================================================== */
+.mnw-koi {
+  position: relative;
+  background-color: var(--mnw-pond);
+  color: var(--mnw-paper);
+  padding-top: 150px;
+  /* The seam rings grow wider than a phone; clip them sideways but let them rise over the hero */
+  overflow-x: clip;
+}
+
+/* Fades the lower edge of the hero scene into the pond ground, beneath the hero copy */
+.mnw-koi::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -150px;
+  height: 150px;
+  z-index: 2;
+  background: linear-gradient(to bottom, transparent, var(--mnw-pond));
+  pointer-events: none;
+}
+
+.mnw-seam {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  width: min(900px, 92vw);
+  transform: translate(-50%, -50%) scale(calc(0.3 + var(--seam, 1) * 0.85));
+  opacity: calc(var(--seam, 1) * 0.9);
+  pointer-events: none;
+}
+
+.mnw-seam svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.mnw-seam ellipse {
+  stroke: var(--mnw-stone);
+  stroke-width: 1.2;
+  stroke-opacity: 0.16;
+  vector-effect: non-scaling-stroke;
+}
+
+.mnw-seam ellipse:nth-child(2) {
+  stroke-opacity: 0.26;
+}
+
+.mnw-seam ellipse:nth-child(3) {
+  stroke-opacity: 0.4;
+}
+
+.mnw-seam ellipse:nth-child(4) {
+  stroke-opacity: 0.6;
+}
+
+.mnw-koi-head {
+  position: relative;
+  z-index: 3;
+}
+
+/* The water starts behind the heading, so the title reads as sitting on the pond */
+.mnw-koi-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(640px, 86vh, 860px);
+  margin-top: -130px;
+}
+
+.mnw-koi-water {
+  position: absolute;
+  inset: 0;
+}
+
+/* Sunlit patch in the open water */
+.mnw-koi-water::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 58% 60% at 36% 52%,
+    color-mix(in srgb, var(--mnw-leaf) 36%, transparent),
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.mnw-koi-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 18%);
+}
+
+.mnw-koi-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--mnw-shore-h) + 22px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  pointer-events: none;
+}
+
+.mnw-koi-hint p {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: color-mix(in srgb, var(--mnw-stone) 90%, transparent);
+  text-transform: uppercase;
+}
+
+.mnw-koi-hint-ring {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--mnw-sakura);
+  animation: mnw-ping 2.4s var(--mnw-ease-out) infinite;
+}
+
+.mnw-chip {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--mnw-stone) 40%, transparent);
+  background-color: color-mix(in srgb, var(--mnw-pond) 82%, transparent);
+  color: var(--mnw-paper);
+  font-family: var(--mnw-font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    border-color var(--mnw-fast) var(--mnw-ease-out),
+    background-color var(--mnw-fast) var(--mnw-ease-out),
+    transform var(--mnw-fast) var(--mnw-ease-out);
+}
+
+.mnw-chip:hover {
+  border-color: var(--mnw-sakura);
+  background-color: var(--mnw-moss);
+}
+
+.mnw-chip:active {
+  transform: scale(0.97);
+}
+
+.mnw-koi-notes-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 32px;
+  padding-bottom: calc(var(--mnw-shore-h) + 40px);
+  pointer-events: none;
+}
+
+.mnw-koi-notes-wrap > div {
+  width: min(100%, 400px);
+}
+
+.mnw-koi-notes {
+  list-style: none;
+  margin: 0;
+  padding: 6px 24px;
+  border: 1px solid color-mix(in srgb, var(--mnw-stone) 22%, transparent);
+  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--mnw-pond) 92%, transparent);
+  pointer-events: auto;
+}
+
+.mnw-koi-notes li + li {
+  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 16%, transparent);
+}
+
+.mnw-koi-note {
+  display: block;
+  width: 100%;
+  padding: 18px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mnw-koi-note-top {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.mnw-koi-note-num {
+  color: var(--mnw-sakura);
+}
+
+.mnw-koi-note-name {
+  font-family: var(--mnw-font-serif);
+  font-size: 26px;
+  line-height: 1.15;
+  transition: transform var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-koi-note:hover .mnw-koi-note-name,
+.mnw-koi-note.is-selected .mnw-koi-note-name {
+  transform: translateX(6px);
+}
+
+.mnw-koi-note-line {
+  align-self: center;
+}
+
+.mnw-koi-note-more {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.mnw-koi-note-more-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  overflow: hidden;
+  padding-left: 38px;
+}
+
+.mnw-koi-note-figure {
+  margin-top: 10px;
+}
+
+.mnw-koi-note-figure svg {
+  display: block;
+  width: 150px;
+  height: auto;
+  margin-left: -8px;
+}
+
+.mnw-koi-note-pattern {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--mnw-sakura);
+}
+
+.mnw-koi-note-caption {
+  font-size: 15px;
+  line-height: 23px;
+  color: color-mix(in srgb, var(--mnw-paper) 88%, transparent);
+}
+
+.mnw-koi-note-linecopy {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--mnw-stone) 26%, transparent);
+  font-size: 14px;
+  line-height: 21px;
+  color: color-mix(in srgb, var(--mnw-stone) 94%, transparent);
+}
+
+.mnw-koi-note-linecopy .mnw-mono {
+  flex-shrink: 0;
+  color: var(--mnw-sakura);
+  text-transform: uppercase;
+}
+
+/* With scripting, a note stays folded until its koi is picked */
+@media (scripting: enabled) {
+  .mnw-koi-note-more {
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 520ms var(--mnw-ease-out);
+  }
+
+  .mnw-koi-note-more-inner {
+    opacity: 0;
+    transition: opacity 320ms var(--mnw-ease-out);
+  }
+
+  .mnw-koi-note.is-selected .mnw-koi-note-more {
+    grid-template-rows: 1fr;
+  }
+
+  .mnw-koi-note.is-selected .mnw-koi-note-more-inner {
+    opacity: 1;
+    transition-delay: 120ms;
+  }
+}
+
+@media (scripting: none) {
+  .mnw-koi-water {
+    display: none;
+  }
+
+  .mnw-koi-stage {
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .mnw-koi-notes-wrap > div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 899px) {
+  .mnw-koi {
+    padding-top: 110px;
+  }
+
+  .mnw-koi-stage {
+    display: block;
+    min-height: 0;
+    margin-top: -40px;
+  }
+
+  .mnw-koi-water {
+    position: relative;
+    inset: auto;
+    height: 460px;
+  }
+
+  .mnw-koi-hint {
+    bottom: 16px;
+  }
+
+  .mnw-koi-notes-wrap {
+    display: block;
+    padding-top: 8px;
+    padding-bottom: calc(var(--mnw-shore-h) + 48px);
+  }
+
+  .mnw-koi-notes-wrap > div {
+    width: 100%;
+  }
+
+  .mnw-koi-note-name {
+    font-size: 23px;
+  }
+}
+
+/* ==========================================================================
+   02 The walk: a map that is walked by scrolling
+   ========================================================================== */
+.mnw-walk {
+  position: relative;
+  padding-bottom: 120px;
+}
+
+.mnw-walk > .mnw-container {
+  padding-top: 64px;
+}
+
 .mnw-walk-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -1259,333 +1586,980 @@ section[id] {
 
 .mnw-walk-map-col {
   grid-column: 1 / span 7;
+  position: sticky;
+  top: 108px;
 }
 
 .mnw-walk-map-frame {
   position: relative;
+  width: min(100%, calc((100vh - 156px) * 4 / 3));
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  overflow: hidden;
   border: 1px solid var(--mnw-stone);
   border-radius: 8px;
-  overflow: hidden;
   background-color: var(--mnw-paper);
 }
 
-.mnw-walk-map-img {
+.mnw-walk-camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+
+.mnw-walk-map-art {
+  display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+}
+
+.mnw-walk-route-drawn {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+/* A ring opening on the pond */
+.mnw-walk-pulse {
+  position: absolute;
+  left: 49.2%;
+  top: 55%;
+  width: 9%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.mnw-walk-pulse::before,
+.mnw-walk-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--mnw-paper) 72%, transparent);
+  animation: mnw-ring 4.8s linear infinite;
+}
+
+.mnw-walk-pulse::after {
+  animation-delay: -2.4s;
+}
+
+.mnw-walk-walker {
+  display: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+[data-live] .mnw-walk-walker {
   display: block;
 }
 
-.mnw-walk-map-labels {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 24px;
-  padding: 14px 18px;
-  border-top: 1px solid var(--mnw-stone);
-  background-color: color-mix(in srgb, var(--mnw-paper) 92%, var(--mnw-stone) 8%);
-}
-
-.mnw-walk-rows-col {
-  grid-column: 8 / span 5;
-  display: flex;
-  flex-direction: column;
-}
-
-.mnw-walk-row {
-  padding: 26px 0;
-  border-top: 1px solid var(--mnw-stone);
-}
-
-.mnw-walk-row:last-child {
-  border-bottom: 1px solid var(--mnw-stone);
-}
-
-.mnw-walk-row-title {
-  font-family: var(--mnw-font-serif);
-  font-size: 28px;
-  line-height: 1.2;
-  margin: 8px 0 10px;
-  color: var(--mnw-ink);
-}
-
-.mnw-walk-row-desc {
-  margin: 0;
-  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
-}
-
-.mnw-walk-segment-line {
-  width: 100%;
-  height: 2px;
-  margin-top: 16px;
-  background-color: color-mix(in srgb, var(--mnw-stone) 55%, transparent);
-  position: relative;
-  overflow: hidden;
-}
-
-.mnw-walk-segment-fill {
+.mnw-walk-walker span,
+.mnw-walk-walker::after {
+  content: "";
   position: absolute;
-  inset: 0;
-  background-color: var(--mnw-vermilion);
-  transform-origin: left;
-  transform: scaleX(1);
-  transition: transform 900ms var(--mnw-ease-out);
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
 }
 
-html.mnw-js .mnw-walk-row:not(.is-visible) .mnw-walk-segment-fill {
-  transform: scaleX(0);
+.mnw-walk-walker span {
+  border: 4px solid var(--mnw-vermilion);
+  background-color: var(--mnw-porcelain);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--mnw-pond) 34%, transparent);
 }
 
-@media (max-width: 899px) {
-  .mnw-walk-map-col,
-  .mnw-walk-rows-col {
-    grid-column: 1 / -1;
-  }
+.mnw-walk-walker::after {
+  border: 1px solid var(--mnw-vermilion);
+  animation: mnw-ping 2s var(--mnw-ease-out) infinite;
 }
 
-/* Section 04: Seasonal Notes */
-.mnw-statement-wrap {
-  margin-bottom: 56px;
-}
-
-.mnw-statement {
-  position: relative;
-  font-family: var(--mnw-font-serif);
-  font-size: clamp(32px, 4.2vw, 56px);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-  margin: 0;
-  color: var(--mnw-paper);
-  max-width: 24ch;
-}
-
-.mnw-statement-word {
-  display: inline-block;
-  transition: color 500ms var(--mnw-ease-out);
-}
-
-.mnw-statement-word.is-lit {
-  color: var(--mnw-sakura);
-}
-
-.mnw-seasons-grid {
+.mnw-walk-marker {
+  position: absolute;
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--mnw-gutter);
-  align-items: start;
-}
-
-.mnw-seasons-art-col {
-  grid-column: 1 / span 6;
-}
-
-.mnw-seasons-art-frame {
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--mnw-stone) 24%, transparent);
-  background-color: var(--mnw-pond);
-}
-
-.mnw-seasons-list-col {
-  grid-column: 7 / span 6;
-}
-
-.mnw-season-details {
-  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 26%, transparent);
-}
-
-.mnw-season-details:last-child {
-  border-bottom: 1px solid color-mix(in srgb, var(--mnw-stone) 26%, transparent);
-}
-
-.mnw-season-summary {
-  list-style: none;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 22px 4px;
-  min-height: 60px;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
   cursor: pointer;
-  color: var(--mnw-paper);
 }
 
-.mnw-season-summary::-webkit-details-marker {
+.mnw-walk-marker-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--mnw-vermilion);
+  background-color: var(--mnw-paper);
+  transition:
+    transform var(--mnw-base) var(--mnw-ease-out),
+    background-color var(--mnw-base) var(--mnw-ease-out),
+    box-shadow var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-walk-marker.is-reached .mnw-walk-marker-dot {
+  background-color: var(--mnw-vermilion);
+}
+
+[data-live] .mnw-walk-marker.is-active .mnw-walk-marker-dot {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--mnw-vermilion) 22%, transparent);
+}
+
+.mnw-walk-marker:hover .mnw-walk-marker-dot {
+  transform: scale(1.4);
+}
+
+.mnw-walk-marker-label {
+  position: absolute;
+  padding: 3px 8px;
+  border: 1px solid var(--mnw-stone);
+  border-radius: 4px;
+  background-color: var(--mnw-paper);
+  color: var(--mnw-pond);
+  white-space: nowrap;
+  transition: opacity var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-walk-marker-east .mnw-walk-marker-label {
+  left: 40px;
+}
+
+.mnw-walk-marker-north .mnw-walk-marker-label {
+  bottom: 40px;
+}
+
+.mnw-walk-marker-south .mnw-walk-marker-label {
+  top: 40px;
+}
+
+[data-live] .mnw-walk-marker:not(.is-reached) .mnw-walk-marker-label {
+  opacity: 0;
+}
+
+.mnw-walk-count {
+  position: absolute;
+  left: 14px;
+  top: 14px;
   display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid var(--mnw-stone);
+  border-radius: 4px;
+  background-color: var(--mnw-paper);
+  color: var(--mnw-pond);
+  text-transform: uppercase;
 }
 
-.mnw-season-title-group {
+[data-live] .mnw-walk-count {
+  display: inline-flex;
+}
+
+.mnw-walk-count-window {
+  display: inline-block;
+  height: 18px;
+  overflow: hidden;
+}
+
+.mnw-walk-count-reel {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  color: var(--mnw-vermilion);
+  transform: translateY(calc(var(--active, 0) * -18px));
+  transition: transform 520ms var(--mnw-ease-out);
 }
 
-.mnw-season-name {
-  font-family: var(--mnw-font-serif);
-  font-size: 28px;
-  line-height: 1.15;
+.mnw-walk-count-reel span {
+  height: 18px;
 }
 
-.mnw-season-summary-copy {
-  font-size: 15px;
-  line-height: 22px;
-  color: color-mix(in srgb, var(--mnw-stone) 90%, transparent);
+.mnw-walk-stops-col {
+  grid-column: 9 / span 4;
+  position: relative;
+  padding-left: 36px;
 }
 
-.mnw-season-body {
-  padding: 0 4px 22px;
-  color: color-mix(in srgb, var(--mnw-paper) 88%, transparent);
-  font-size: 16px;
-  line-height: 26px;
+.mnw-walk-rail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--mnw-stone);
 }
 
-.mnw-season-indicator {
-  font-family: var(--mnw-font-mono);
-  font-size: 12px;
-  color: var(--mnw-sakura);
-  white-space: nowrap;
-  flex-shrink: 0;
+.mnw-walk-rail-fill {
+  position: absolute;
+  left: -0.5px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--mnw-vermilion);
+  transform-origin: top;
 }
 
-@media (max-width: 899px) {
-  .mnw-seasons-art-col,
-  .mnw-seasons-list-col {
-    grid-column: 1 / -1;
-  }
-}
-
-/* Section 05: A simple route (#plan) */
-.mnw-plan-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--mnw-gutter);
-  align-items: start;
-}
-
-.mnw-plan-left {
-  grid-column: 1 / span 6;
-}
-
-.mnw-plan-right {
-  grid-column: 8 / span 5;
-}
-
-.mnw-plan-steps {
+.mnw-walk-stops {
   list-style: none;
-  margin: 0 0 32px;
+  margin: 0;
   padding: 0;
 }
 
-.mnw-plan-step {
+.mnw-walk-stop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 62vh;
+  transition: opacity 520ms var(--mnw-ease-out);
+}
+
+[data-live] .mnw-walk-stop:not(.is-active) {
+  opacity: 0.4;
+}
+
+.mnw-walk-stop-meta {
   display: flex;
   align-items: baseline;
-  gap: 20px;
-  padding: 20px 0;
-  border-top: 1px solid var(--mnw-stone);
-}
-
-.mnw-plan-step:last-child {
-  border-bottom: 1px solid var(--mnw-stone);
-}
-
-.mnw-plan-step-num {
-  color: var(--mnw-vermilion);
-  flex-shrink: 0;
-}
-
-.mnw-plan-step-label {
-  font-family: var(--mnw-font-serif);
-  font-size: 26px;
-  line-height: 1.25;
-  color: var(--mnw-ink);
-}
-
-.mnw-plan-disclosure {
-  margin-top: 20px;
+  gap: 10px;
+  margin: 0 0 14px;
   color: var(--mnw-leaf);
-  font-size: 14px;
-  line-height: 22px;
+  text-transform: uppercase;
+}
+
+.mnw-walk-stop-num {
+  color: var(--mnw-vermilion);
+}
+
+.mnw-walk-stop-meta .mnw-ja {
+  font-size: 16px;
+  letter-spacing: 0;
+  color: var(--mnw-pond);
+}
+
+.mnw-walk-stop-title {
+  margin: 0 0 16px;
+  font-family: var(--mnw-font-serif);
+  font-size: clamp(34px, 3.4vw, 50px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+
+.mnw-walk-stop-desc {
+  margin: 0 0 22px;
+  max-width: 34ch;
+  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
+}
+
+.mnw-walk-stop-notice {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  max-width: 38ch;
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--mnw-stone);
+  font-size: 15px;
+  line-height: 23px;
+  color: var(--mnw-leaf);
+}
+
+.mnw-walk-stop-notice .mnw-mono {
+  flex-shrink: 0;
+  color: var(--mnw-vermilion);
+  text-transform: uppercase;
 }
 
 @media (max-width: 899px) {
-  .mnw-plan-left,
-  .mnw-plan-right {
+  .mnw-walk {
+    padding-bottom: 72px;
+  }
+
+  .mnw-walk > .mnw-container {
+    padding-top: 40px;
+  }
+
+  .mnw-walk-map-col {
     grid-column: 1 / -1;
+    top: 64px;
+    z-index: 2;
+    margin: 0 calc(var(--mnw-margin) * -1);
+    padding: 10px var(--mnw-margin) 12px;
+    border-bottom: 1px solid var(--mnw-stone);
+    background-color: var(--mnw-paper);
+  }
+
+  .mnw-walk-map-frame {
+    width: min(100%, calc(40svh * 4 / 3));
+    margin-inline: auto;
+  }
+
+  /* The map is small here and each stop is named directly beneath it */
+  .mnw-walk-marker-label {
+    display: none;
+  }
+
+  .mnw-walk-stops-col {
+    grid-column: 1 / -1;
+    padding-left: 24px;
+  }
+
+  .mnw-walk-stop {
+    min-height: 46svh;
   }
 }
 
-/* Section 06: Questions (#questions) */
+/* ==========================================================================
+   03 The seasons: one view of the garden, four kinds of light
+   ========================================================================== */
+.mnw-seasons {
+  position: relative;
+}
+
+.mnw-seasons-head {
+  padding-top: 64px;
+  padding-bottom: 72px;
+}
+
+.mnw-statement {
+  margin: 0;
+  font-family: var(--mnw-font-serif);
+  font-size: clamp(36px, 5.6vw, 84px);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--mnw-paper);
+}
+
+.mnw-statement-line {
+  display: block;
+}
+
+/* Each word lights as --p (scroll progress) passes its place in the sentence; unset, every word is lit */
+.mnw-statement-word {
+  opacity: clamp(0.26, calc(0.26 + (var(--p, 1) * (var(--n) + 1) - var(--i)) * 0.74), 1);
+}
+
+.mnw-statement-word.is-accent {
+  color: var(--mnw-sakura);
+}
+
+.mnw-season-band {
+  --px: 0;
+  --py: 0;
+  position: relative;
+  display: flex;
+  min-height: clamp(620px, 90vh, 900px);
+  overflow: hidden;
+}
+
+.mnw-season-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--mnw-pond);
+}
+
+.mnw-scene,
+.mnw-season-wipe {
+  position: absolute;
+  inset: 0;
+}
+
+.mnw-scene-layer {
+  position: absolute;
+  left: -4%;
+  top: -4%;
+  display: block;
+  width: 108%;
+  height: 108%;
+  transform: translate3d(calc(var(--px) * var(--d) * -1px), calc(var(--py) * var(--d) * -0.5px), 0);
+}
+
+.mnw-season-wave {
+  background-color: color-mix(in srgb, var(--mnw-paper) 18%, transparent);
+}
+
+.mnw-season-ring {
+  background-color: color-mix(in srgb, var(--mnw-paper) 76%, transparent);
+}
+
+.mnw-season-air {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Keeps the note legible on the left and eases the scene in from the moss ground above */
+.mnw-season-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, var(--mnw-moss) 0, transparent 13%),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mnw-pond) 94%, transparent) 0%,
+      color-mix(in srgb, var(--mnw-pond) 80%, transparent) 24%,
+      color-mix(in srgb, var(--mnw-pond) 34%, transparent) 44%,
+      transparent 60%
+    );
+  pointer-events: none;
+}
+
+.mnw-season-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 36px;
+  padding-top: 110px;
+  padding-bottom: calc(var(--mnw-shore-h) + 56px);
+  pointer-events: none;
+}
+
+.mnw-season-content > * {
+  max-width: 460px;
+  pointer-events: auto;
+}
+
+/* Holds the picker still while notes of different lengths swap */
+.mnw-season-note {
+  min-height: 340px;
+}
+
+.mnw-season-kicker {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 10px;
+  color: var(--mnw-sakura);
+  text-transform: uppercase;
+}
+
+.mnw-season-kicker .mnw-ja {
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.mnw-season-name {
+  margin: 0 0 18px;
+  font-family: var(--mnw-font-serif);
+  font-size: clamp(64px, 8vw, 120px);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--mnw-porcelain);
+}
+
+.mnw-season-summary {
+  margin: 0 0 12px;
+  font-family: var(--mnw-font-serif);
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--mnw-paper);
+}
+
+.mnw-season-detail {
+  margin: 0 0 18px;
+  font-size: 16px;
+  line-height: 26px;
+  color: color-mix(in srgb, var(--mnw-paper) 88%, transparent);
+}
+
+.mnw-season-light {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 28%, transparent);
+  color: var(--mnw-stone);
+  text-transform: uppercase;
+}
+
+.mnw-season-light span {
+  color: var(--mnw-sakura);
+}
+
+.mnw-season-picker {
+  display: flex;
+  gap: 20px;
+}
+
+.mnw-season-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: color-mix(in srgb, var(--mnw-paper) 82%, transparent);
+  font-family: var(--mnw-font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--mnw-fast) var(--mnw-ease-out);
+}
+
+.mnw-season-seal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--mnw-paper) 46%, transparent);
+  background-color: color-mix(in srgb, var(--mnw-pond) 62%, transparent);
+  color: var(--mnw-paper);
+  font-size: 26px;
+  letter-spacing: 0;
+  transition:
+    background-color var(--mnw-base) var(--mnw-ease-out),
+    color var(--mnw-base) var(--mnw-ease-out),
+    border-color var(--mnw-fast) var(--mnw-ease-out),
+    transform var(--mnw-fast) var(--mnw-ease-out);
+}
+
+/* The chosen season wears a ring of water */
+.mnw-season-seal::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1px solid var(--mnw-sakura);
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity var(--mnw-base) var(--mnw-ease-out),
+    transform var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-season-pick:hover .mnw-season-seal {
+  border-color: var(--mnw-paper);
+  transform: translateY(-2px);
+}
+
+.mnw-season-pick.is-checked {
+  color: var(--mnw-porcelain);
+}
+
+.mnw-season-pick.is-checked .mnw-season-seal {
+  border-color: var(--mnw-paper);
+  background-color: var(--mnw-paper);
+  color: var(--mnw-pond);
+}
+
+.mnw-season-pick.is-checked .mnw-season-seal::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mnw-season-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 40px 0 calc(var(--mnw-shore-h) + 40px);
+}
+
+.mnw-season-list dt {
+  font-family: var(--mnw-font-serif);
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.mnw-season-list dd {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 26px;
+  color: color-mix(in srgb, var(--mnw-paper) 88%, transparent);
+}
+
+/* Below this width the tree would sit under the note, so the scene stacks above it instead */
+@media (max-width: 1099px) {
+  .mnw-seasons-head {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .mnw-season-band {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+    background-color: var(--mnw-moss);
+  }
+
+  .mnw-season-stage {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .mnw-season-scrim {
+    background: linear-gradient(to bottom, var(--mnw-moss) 0, transparent 14%, transparent 82%, var(--mnw-moss) 100%);
+  }
+
+  .mnw-season-content {
+    gap: 28px;
+    padding-top: 20px;
+    padding-bottom: calc(var(--mnw-shore-h) + 56px);
+  }
+
+  .mnw-season-note {
+    min-height: 300px;
+  }
+
+  .mnw-season-picker {
+    gap: 14px;
+  }
+
+  .mnw-season-seal {
+    width: 56px;
+    height: 56px;
+    font-size: 23px;
+  }
+
+  .mnw-season-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 1099px) {
+  .mnw-season-stage {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ==========================================================================
+   Questions
+   ========================================================================== */
+.mnw-questions {
+  position: relative;
+  padding-bottom: 120px;
+}
+
 .mnw-faq-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--mnw-gutter);
+  align-items: start;
+  padding-top: 64px;
 }
 
 .mnw-faq-head {
   grid-column: 1 / span 4;
+  position: sticky;
+  top: 120px;
+}
+
+.mnw-faq-lead {
+  margin-top: 22px;
+  max-width: 30ch;
 }
 
 .mnw-faq-list {
-  grid-column: 5 / span 8;
-}
-
-.mnw-faq-item {
+  grid-column: 6 / span 7;
   border-top: 1px solid var(--mnw-stone);
 }
 
-.mnw-faq-item:last-child {
+.mnw-faq-item {
   border-bottom: 1px solid var(--mnw-stone);
+  interpolate-size: allow-keywords;
+}
+
+/* Where the browser can animate to an intrinsic height, the answer eases open */
+.mnw-faq-item::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size 480ms var(--mnw-ease-out),
+    content-visibility 480ms allow-discrete;
+}
+
+.mnw-faq-item[open]::details-content {
+  block-size: auto;
 }
 
 .mnw-faq-summary {
   list-style: none;
-  display: flex;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 22px 4px;
+  gap: 14px;
   min-height: 60px;
-  cursor: pointer;
-  font-family: var(--mnw-font-serif);
-  font-size: 24px;
-  line-height: 1.3;
+  padding: 24px 4px;
   color: var(--mnw-ink);
+  cursor: pointer;
 }
 
 .mnw-faq-summary::-webkit-details-marker {
   display: none;
 }
 
-.mnw-faq-answer {
-  padding: 0 4px 22px;
-  margin: 0;
-  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
-  max-width: 60ch;
+.mnw-faq-num {
+  color: var(--mnw-leaf);
+  transition: color var(--mnw-fast) var(--mnw-ease-out);
 }
 
-.mnw-faq-plus {
-  font-family: var(--mnw-font-mono);
-  font-size: 18px;
+.mnw-faq-question {
+  font-family: var(--mnw-font-serif);
+  font-size: clamp(21px, 1.9vw, 27px);
+  line-height: 1.25;
+  transition: transform var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-faq-summary:hover .mnw-faq-question {
+  transform: translateX(8px);
+}
+
+.mnw-faq-summary:hover .mnw-faq-num,
+.mnw-faq-item[open] .mnw-faq-num {
   color: var(--mnw-vermilion);
-  transition: transform var(--mnw-fast) var(--mnw-ease-out);
-  flex-shrink: 0;
 }
 
-.mnw-faq-item[open] .mnw-faq-plus {
-  transform: rotate(45deg);
+/* A ring that fills when its answer is open; the plus settles into a minus */
+.mnw-faq-ring {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--mnw-vermilion);
+  transition: background-color var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-faq-ring::before,
+.mnw-faq-ring::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 1.5px;
+  margin: -0.75px 0 0 -5px;
+  background-color: var(--mnw-vermilion);
+  transition:
+    transform var(--mnw-base) var(--mnw-ease-out),
+    background-color var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-faq-ring::after {
+  transform: rotate(90deg);
+}
+
+.mnw-faq-item[open] .mnw-faq-ring {
+  background-color: var(--mnw-vermilion);
+}
+
+.mnw-faq-item[open] .mnw-faq-ring::before,
+.mnw-faq-item[open] .mnw-faq-ring::after {
+  background-color: var(--mnw-porcelain);
+}
+
+.mnw-faq-item[open] .mnw-faq-ring::after {
+  transform: rotate(0deg);
+}
+
+.mnw-faq-answer {
+  max-width: 62ch;
+  margin: 0;
+  padding: 0 4px 26px 52px;
+  color: color-mix(in srgb, var(--mnw-ink) 86%, transparent);
 }
 
 @media (max-width: 899px) {
+  .mnw-questions {
+    padding-bottom: 72px;
+  }
+
+  .mnw-faq-grid {
+    padding-top: 40px;
+  }
+
   .mnw-faq-head,
   .mnw-faq-list {
     grid-column: 1 / -1;
   }
+
+  .mnw-faq-head {
+    position: static;
+    margin-bottom: 20px;
+  }
+
+  .mnw-faq-summary {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 20px 0;
+  }
+
+  .mnw-faq-answer {
+    padding: 0 0 22px 38px;
+  }
 }
 
-/* Footer */
+/* ==========================================================================
+   Finale: a simple route
+   ========================================================================== */
+.mnw-finale {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--mnw-pond);
+  color: var(--mnw-paper);
+  text-align: center;
+}
+
+.mnw-finale-rings {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.mnw-finale-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 96px;
+  padding-bottom: 150px;
+}
+
+.mnw-finale-title {
+  max-width: 13ch;
+  font-size: clamp(44px, 6.4vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.mnw-finale-lead {
+  max-width: 46ch;
+  margin: 28px auto 0;
+}
+
+.mnw-finale-steps {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 56px 0 52px;
+  padding: 0;
+}
+
+.mnw-finale-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0 46px;
+}
+
+/* Dashed path between one step and the next */
+.mnw-finale-step + .mnw-finale-step::before {
+  content: "";
+  position: absolute;
+  left: -34px;
+  top: 28px;
+  width: 68px;
+  border-top: 1px dashed color-mix(in srgb, var(--mnw-stone) 52%, transparent);
+}
+
+.mnw-finale-step-ring {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--mnw-stone) 60%, transparent);
+  background-color: color-mix(in srgb, var(--mnw-pond) 84%, transparent);
+  color: var(--mnw-sakura);
+  transition:
+    transform var(--mnw-base) var(--mnw-ease-out),
+    border-color var(--mnw-base) var(--mnw-ease-out),
+    background-color var(--mnw-base) var(--mnw-ease-out);
+}
+
+.mnw-finale-step:hover .mnw-finale-step-ring {
+  transform: scale(1.1);
+  border-color: var(--mnw-sakura);
+  background-color: var(--mnw-moss);
+}
+
+.mnw-finale-step-label {
+  font-family: var(--mnw-font-serif);
+  font-size: 24px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.mnw-finale-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px 28px;
+}
+
+.mnw-finale-actions .mnw-link-underline {
+  color: var(--mnw-paper);
+}
+
+/* Padding widens the area in which the button leans toward the pointer */
+.mnw-magnetic {
+  display: inline-block;
+  padding: 14px;
+  margin: -14px;
+}
+
+.mnw-finale-disclosure {
+  margin: 26px 0 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: color-mix(in srgb, var(--mnw-stone) 86%, transparent);
+}
+
+@media (max-width: 899px) {
+  .mnw-finale-inner {
+    padding-top: 64px;
+    padding-bottom: 96px;
+  }
+
+  .mnw-finale-steps {
+    flex-direction: column;
+    gap: 34px;
+    margin: 44px 0;
+  }
+
+  .mnw-finale-step + .mnw-finale-step::before {
+    left: 50%;
+    top: -26px;
+    width: 0;
+    height: 18px;
+    border-top: 0;
+    border-left: 1px dashed color-mix(in srgb, var(--mnw-stone) 52%, transparent);
+  }
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 .mnw-footer {
   background-color: var(--mnw-pond);
   color: var(--mnw-paper);
-  padding: 72px 0 56px;
-  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 18%, transparent);
+  padding: 0 0 48px;
 }
 
 .mnw-footer-grid {
@@ -1594,8 +2568,14 @@ html.mnw-js .mnw-walk-row:not(.is-visible) .mnw-walk-segment-fill {
   align-items: flex-start;
   justify-content: space-between;
   gap: 32px 48px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid color-mix(in srgb, var(--mnw-stone) 20%, transparent);
+  padding-top: 40px;
+  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 20%, transparent);
+}
+
+.mnw-footer-tagline {
+  margin: 10px 0 0;
+  font-size: 16px;
+  color: color-mix(in srgb, var(--mnw-paper) 84%, transparent);
 }
 
 .mnw-footer-links {
@@ -1605,18 +2585,80 @@ html.mnw-js .mnw-walk-row:not(.is-visible) .mnw-walk-segment-fill {
   gap: 12px 28px;
 }
 
+/* Half-submerged wordmark: an outline above the waterline, filled below it */
+.mnw-footer-mark {
+  position: relative;
+  margin: 48px 0 12px;
+}
+
+.mnw-footer-mark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: var(--mnw-font-serif);
+  font-size: 270px;
+}
+
+.mnw-footer-mark-outline {
+  fill: none;
+  stroke: color-mix(in srgb, var(--mnw-stone) 48%, transparent);
+  stroke-width: 1.4;
+}
+
+.mnw-footer-mark-fill {
+  position: absolute;
+  inset: 0;
+  fill: color-mix(in srgb, var(--mnw-leaf) 62%, var(--mnw-pond));
+  clip-path: inset(54% 0 0 0);
+  transition: clip-path 2200ms var(--mnw-ease-tide);
+}
+
+.mnw-footer-mark-waterline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--mnw-stone) 62%, transparent) 14%,
+    color-mix(in srgb, var(--mnw-stone) 62%, transparent) 86%,
+    transparent
+  );
+  transition: transform 1600ms var(--mnw-ease-out);
+}
+
+html.mnw-js .mnw-reveal[data-reveal="water"]:not(.is-visible) .mnw-footer-mark-fill {
+  clip-path: inset(100% 0 0 0);
+}
+
+html.mnw-js .mnw-reveal[data-reveal="water"]:not(.is-visible) .mnw-footer-mark-waterline {
+  transform: scaleX(0);
+}
+
 .mnw-footer-bottom {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--mnw-stone) 20%, transparent);
   color: color-mix(in srgb, var(--mnw-stone) 84%, transparent);
   font-size: 14px;
 }
 
-/* Reveal system: always visible by default; enhanced only when html.mnw-js is active */
+@media (max-width: 640px) {
+  .mnw-footer-mark {
+    margin: 36px 0 8px;
+  }
+}
+
+/* ==========================================================================
+   Reveal system: always visible by default; enhanced only when html.mnw-js is active
+   ========================================================================== */
 .mnw-reveal {
   opacity: 1;
   transform: none;
@@ -1662,11 +2704,56 @@ html.mnw-js .mnw-reveal[data-reveal="line"]:not(.is-visible) {
     transition: none;
   }
 
+  html.mnw-js .mnw-reveal[data-reveal="words"] .mnw-word > span,
+  html.mnw-js .mnw-reveal[data-reveal="words"]:not(.is-visible) .mnw-word > span {
+    transform: none;
+    transition: none;
+  }
+
+  html.mnw-js .mnw-reveal[data-reveal="water"]:not(.is-visible) .mnw-footer-mark-fill {
+    clip-path: inset(54% 0 0 0);
+  }
+
+  html.mnw-js .mnw-reveal[data-reveal="water"]:not(.is-visible) .mnw-footer-mark-waterline {
+    transform: none;
+  }
+
   .mnw-stage-poster,
   .mnw-stage-canvas-host,
-  .mnw-walk-segment-fill,
-  .mnw-statement-word,
-  .mnw-mobile-drawer {
+  .mnw-mobile-drawer,
+  .mnw-koi-note-name,
+  .mnw-koi-note-more,
+  .mnw-koi-note-more-inner,
+  .mnw-walk-stop,
+  .mnw-walk-marker-dot,
+  .mnw-walk-marker-label,
+  .mnw-walk-count-reel,
+  .mnw-season-seal,
+  .mnw-season-seal::after,
+  .mnw-faq-item::details-content,
+  .mnw-faq-question,
+  .mnw-faq-ring,
+  .mnw-faq-ring::before,
+  .mnw-faq-ring::after,
+  .mnw-finale-step-ring,
+  .mnw-footer-mark-fill,
+  .mnw-footer-mark-waterline {
     transition: none;
+  }
+
+  .mnw-koi-hint-ring,
+  .mnw-walk-walker::after,
+  .mnw-walk-pulse::before,
+  .mnw-walk-pulse::after {
+    animation: none;
+  }
+
+  .mnw-walk-pulse::before {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+
+  .mnw-walk-pulse::after {
+    opacity: 0;
   }
 }

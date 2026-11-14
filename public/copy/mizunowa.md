@@ -162,9 +162,9 @@ export function Picture({ assetKey, alt, className }: PictureProps) {
   --mnw-font-mono: var(--font-mnw-mono, 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace);
 
   /* Layout */
-  --mnw-max-width: 1320px;
+  --mnw-max-width: 1600px;
   --mnw-gutter: 24px;
-  --mnw-margin: 64px;
+  --mnw-margin: 48px;
 }
 
 @media (max-width: 1024px) {
@@ -823,7 +823,7 @@ html {
 
 .mnw-hero-copy {
   position: relative;
-  max-width: 560px;
+  max-width: 720px;
   margin-top: auto;
   margin-bottom: auto;
   padding: 24px 0 32px;
@@ -864,6 +864,7 @@ html {
 
 .mnw-hero-line {
   display: block;
+  padding-right: 6px;
 }
 
 @media (min-width: 900px) {
@@ -1067,7 +1068,7 @@ html:not(.mnw-js) .mnw-js-only {
   }
 
   .mnw-hero-copy {
-    max-width: 520px;
+    max-width: 580px;
     margin-top: 0;
     margin-bottom: auto;
     padding: 8px 0 18px;
@@ -1207,83 +1208,6 @@ section[id] {
 
 .mnw-section-moss .mnw-chapter-label {
   color: var(--mnw-sakura);
-}
-
-/* Section 01: Garden Intro */
-.mnw-intro-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--mnw-gutter);
-  align-items: start;
-}
-
-.mnw-intro-index {
-  grid-column: 1 / span 4;
-}
-
-.mnw-intro-body {
-  grid-column: 5 / span 8;
-}
-
-.mnw-intro-copy {
-  margin: 24px 0 36px;
-  max-width: 52ch;
-  color: color-mix(in srgb, var(--mnw-ink) 88%, transparent);
-}
-
-.mnw-inline-notes {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  padding: 24px 0;
-  border-top: 1px solid var(--mnw-stone);
-  border-bottom: 1px solid var(--mnw-stone);
-  margin-bottom: 36px;
-}
-
-.mnw-inline-note-term {
-  display: block;
-  color: var(--mnw-vermilion);
-  margin-bottom: 4px;
-}
-
-.mnw-inline-note-meaning {
-  display: block;
-  font-family: var(--mnw-font-serif);
-  font-size: 20px;
-  line-height: 28px;
-  color: var(--mnw-ink);
-}
-
-.mnw-route-preview {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding-top: 8px;
-}
-
-.mnw-route-svg {
-  width: min(460px, 100%);
-  height: auto;
-  display: block;
-}
-
-@media (max-width: 899px) {
-  .mnw-intro-index,
-  .mnw-intro-body {
-    grid-column: 1 / -1;
-  }
-
-  .mnw-inline-notes {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .mnw-route-preview {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
 /* Section 02: Koi Field Notes */
@@ -1812,7 +1736,6 @@ html.mnw-js .mnw-reveal[data-reveal="line"]:not(.is-visible) {
 import { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import GardenIntro from './components/GardenIntro';
 import KoiGallery from './components/KoiGallery';
 import GardenWalk from './components/GardenWalk';
 import Seasons from './components/Seasons';
@@ -1833,7 +1756,6 @@ export default function MizunowaApp() {
       <Header />
       <main id="main">
         <Hero />
-        <GardenIntro />
         <KoiGallery />
         <GardenWalk />
         <Seasons />
@@ -1999,116 +1921,6 @@ export default function Footer() {
 }
 ]]>
     </file>
-    <file path="src/app/(mizunowa)/mizunowa/components/GardenIntro.tsx">
-<![CDATA['use client';
-
-import { ArrowRight } from 'lucide-react';
-import { GARDEN_INLINE_NOTES } from '../data/garden';
-import Reveal from './Reveal';
-
-export default function GardenIntro() {
-  return (
-    <section id="garden" className="mnw-section-paper mnw-surface-light">
-      {/* Ripple-to-rule graphic handoff */}
-      <div className="mnw-handoff">
-        <div className="mnw-container">
-          <div className="mnw-handoff-rule-wrap" aria-hidden="true">
-            <div className="mnw-handoff-line" />
-            <div className="mnw-handoff-ring">
-              <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                <circle cx="22" cy="22" r="19" stroke="#D6C7A9" strokeWidth="1.2" />
-                <circle cx="22" cy="22" r="10.5" stroke="#9E3F32" strokeWidth="1.2" strokeOpacity="0.65" />
-                <circle cx="22" cy="22" r="2.5" fill="#9E3F32" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mnw-section">
-        <div className="mnw-container mnw-intro-grid">
-          <div className="mnw-intro-index">
-            <Reveal variant="rise">
-              <p className="mnw-eyebrow mnw-chapter-label">01 / THE GARDEN</p>
-            </Reveal>
-          </div>
-
-          <div className="mnw-intro-body">
-            <Reveal variant="mask" delayMs={70}>
-              <h2 className="mnw-h2">Take the long way around.</h2>
-            </Reveal>
-
-            <Reveal variant="rise" delayMs={140}>
-              <p className="mnw-intro-copy">
-                The pond is the beginning of this imagined walk. A path follows the water, passes
-                beneath the blossoms, and arrives at a quiet shrine courtyard.
-              </p>
-            </Reveal>
-
-            <Reveal variant="rise" delayMs={210}>
-              <div className="mnw-inline-notes">
-                {GARDEN_INLINE_NOTES.map((note) => (
-                  <div key={note.term}>
-                    <span className="mnw-mono mnw-inline-note-term">{note.term}</span>
-                    <span className="mnw-inline-note-meaning">{note.meaning}</span>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-
-            <Reveal variant="wipe" delayMs={260}>
-              <div className="mnw-route-preview">
-                <svg
-                  className="mnw-route-svg"
-                  viewBox="0 0 460 150"
-                  fill="none"
-                  aria-label="Line diagram showing the route from the koi pond past the sakura tree and torii to the shrine hall"
-                >
-                  {/* Pond outline */}
-                  <ellipse cx="185" cy="92" rx="112" ry="44" stroke="#526E58" strokeWidth="1.5" />
-                  <circle cx="205" cy="90" r="14" stroke="#D6C7A9" strokeWidth="1.2" />
-                  <circle cx="205" cy="90" r="26" stroke="#D6C7A9" strokeWidth="1" strokeOpacity="0.6" />
-                  {/* Sakura grove */}
-                  <circle cx="76" cy="48" r="24" stroke="#C7A6A2" strokeWidth="1.6" strokeDasharray="3 3" />
-                  <circle cx="64" cy="54" r="14" stroke="#C7A6A2" strokeWidth="1.2" />
-                  {/* Connecting top-down route */}
-                  <path
-                    d="M110 124 C56 108, 44 64, 88 40 C142 12, 244 16, 336 42 L392 26"
-                    stroke="#9E3F32"
-                    strokeWidth="1.8"
-                    strokeDasharray="5 5"
-                    strokeLinecap="round"
-                  />
-                  {/* Torii mark */}
-                  <line x1="330" y1="30" x2="344" y2="52" stroke="#9E3F32" strokeWidth="2.4" strokeLinecap="round" />
-                  {/* Shrine hall plan */}
-                  <rect
-                    x="378"
-                    y="12"
-                    width="44"
-                    height="28"
-                    rx="2"
-                    transform="rotate(-14 378 12)"
-                    stroke="#1E2320"
-                    strokeWidth="1.6"
-                    fill="#F4EFE2"
-                  />
-                </svg>
-
-                <a href="#walk" className="mnw-link-underline" style={{ color: 'var(--mnw-pond)' }}>
-                  <span>Follow the route</span>
-                  <ArrowRight size={15} aria-hidden="true" />
-                </a>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-]]>
-    </file>
     <file path="src/app/(mizunowa)/mizunowa/components/GardenWalk.tsx">
 <![CDATA['use client';
 
@@ -2156,7 +1968,7 @@ export default function GardenWalk() {
         <div className="mnw-section-head">
           <div className="mnw-section-head-left">
             <Reveal variant="rise">
-              <p className="mnw-eyebrow mnw-chapter-label">03 / THE WALK</p>
+              <p className="mnw-eyebrow mnw-chapter-label">02 / THE WALK</p>
             </Reveal>
             <Reveal variant="mask" delayMs={70}>
               <h2 className="mnw-h2">Three places, one slow path.</h2>
@@ -2377,7 +2189,7 @@ export default function Header() {
                 <span>{soundEnabled ? 'SOUND ON' : 'SOUND OFF'}</span>
               </button>
 
-              <a href="#garden" className="mnw-header-enter-pill">
+              <a href="#koi" className="mnw-header-enter-pill">
                 ENTER
               </a>
             </motion.div>
@@ -2484,7 +2296,7 @@ export default function Header() {
 
         <div>
           <a
-            href="#garden"
+            href="#koi"
             className="mnw-btn-cream"
             style={{ width: '100%' }}
             onClick={() => setMenuOpen(false)}
@@ -2544,8 +2356,8 @@ export default function Hero({ sceneLoader }: HeroProps) {
           <div className="mnw-hero-mask">
             <motion.p
               className="mnw-hero-eyebrow"
-              initial={{ opacity: 0, y: 18, clipPath: 'inset(0 0 100% 0)' }}
-              animate={{ opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)' }}
+              initial={{ opacity: 0, y: 18, clipPath: 'inset(0 -20px 100% 0)' }}
+              animate={{ opacity: 1, y: 0, clipPath: 'inset(0 -20px 0% 0)' }}
               transition={{
                 duration: reducedMotion ? 0 : 0.8,
                 delay: reducedMotion ? 0 : 0.55,
@@ -2560,8 +2372,8 @@ export default function Hero({ sceneLoader }: HeroProps) {
             <span className="mnw-hero-mask">
               <motion.span
                 className="mnw-hero-line"
-                initial={{ opacity: 0, y: '105%', clipPath: 'inset(0 0 100% 0)' }}
-                animate={{ opacity: 1, y: '0%', clipPath: 'inset(0 0 0% 0)' }}
+                initial={{ opacity: 0, y: '105%', clipPath: 'inset(0 -20px 100% 0)' }}
+                animate={{ opacity: 1, y: '0%', clipPath: 'inset(0 -20px 0% 0)' }}
                 transition={{
                   duration: reducedMotion ? 0 : 1.05,
                   delay: reducedMotion ? 0 : 0.78,
@@ -2574,8 +2386,8 @@ export default function Hero({ sceneLoader }: HeroProps) {
             <span className="mnw-hero-mask">
               <motion.span
                 className="mnw-hero-line"
-                initial={{ opacity: 0, y: '105%', clipPath: 'inset(0 0 100% 0)' }}
-                animate={{ opacity: 1, y: '0%', clipPath: 'inset(0 0 0% 0)' }}
+                initial={{ opacity: 0, y: '105%', clipPath: 'inset(0 -20px 100% 0)' }}
+                animate={{ opacity: 1, y: '0%', clipPath: 'inset(0 -20px 0% 0)' }}
                 transition={{
                   duration: reducedMotion ? 0 : 1.05,
                   delay: reducedMotion ? 0 : 0.98,
@@ -2611,7 +2423,7 @@ export default function Hero({ sceneLoader }: HeroProps) {
               ease: EASE_HERO,
             }}
           >
-            <a href="#garden" className="mnw-btn-cream">
+            <a href="#koi" className="mnw-btn-cream">
               EXPLORE THE GARDEN
             </a>
             <button
@@ -2729,49 +2541,67 @@ export default function KoiGallery() {
   return (
     <section
       id="koi"
-      className="mnw-section mnw-section-paper mnw-surface-light"
-      style={{ paddingTop: 24 }}
+      className="mnw-section-paper mnw-surface-light"
     >
-      <div className="mnw-container">
-        <div className="mnw-section-head">
-          <div className="mnw-section-head-left">
-            <Reveal variant="rise">
-              <p className="mnw-eyebrow mnw-chapter-label">
-                02 / <span className="mnw-ja" lang="ja">錦鯉</span> / NISHIKIGOI
-              </p>
-            </Reveal>
-            <Reveal variant="mask" delayMs={70}>
-              <h2 className="mnw-h2">Each one leaves a different line.</h2>
-            </Reveal>
-          </div>
-          <div className="mnw-section-head-right">
-            <Reveal variant="rise" delayMs={140}>
-              <p style={{ margin: 0, color: 'color-mix(in srgb, var(--mnw-ink) 86%, transparent)' }}>
-                Look closely and each fish has its own pattern. Their paths cross the same water
-                at their own pace.
-              </p>
-            </Reveal>
+      <div id="garden" className="sr-only" aria-hidden="true" />
+      {/* Ripple-to-rule graphic handoff */}
+      <div className="mnw-handoff">
+        <div className="mnw-container">
+          <div className="mnw-handoff-rule-wrap" aria-hidden="true">
+            <div className="mnw-handoff-line" />
+            <div className="mnw-handoff-ring">
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+                <circle cx="22" cy="22" r="19" stroke="#D6C7A9" strokeWidth="1.2" />
+                <circle cx="22" cy="22" r="10.5" stroke="#9E3F32" strokeWidth="1.2" strokeOpacity="0.65" />
+                <circle cx="22" cy="22" r="2.5" fill="#9E3F32" />
+              </svg>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="mnw-koi-strip">
-          {KOI_SPECIMENS.map((specimen, idx) => (
-            <Reveal key={specimen.id} variant="rise" delayMs={idx * 70}>
-              <article className="mnw-koi-cell">
-                <span className="mnw-mono" style={{ color: 'var(--mnw-vermilion)' }}>
-                  {specimen.number}
-                </span>
-                <div className="mnw-koi-figure">
-                  <KoiSilhouette specimen={specimen} />
-                </div>
-                <div>
-                  <h3 className="mnw-koi-name">{specimen.label}</h3>
-                  <p className="mnw-koi-pattern">{specimen.visiblePattern}</p>
-                </div>
-                <p className="mnw-koi-caption">{specimen.caption}</p>
-              </article>
-            </Reveal>
-          ))}
+      <div className="mnw-section" style={{ paddingTop: 32 }}>
+        <div className="mnw-container">
+          <div className="mnw-section-head">
+            <div className="mnw-section-head-left">
+              <Reveal variant="rise">
+                <p className="mnw-eyebrow mnw-chapter-label">
+                  01 / <span className="mnw-ja" lang="ja">錦鯉</span> / NISHIKIGOI
+                </p>
+              </Reveal>
+              <Reveal variant="mask" delayMs={70}>
+                <h2 className="mnw-h2">Each one leaves a different line.</h2>
+              </Reveal>
+            </div>
+            <div className="mnw-section-head-right">
+              <Reveal variant="rise" delayMs={140}>
+                <p style={{ margin: 0, color: 'color-mix(in srgb, var(--mnw-ink) 86%, transparent)' }}>
+                  Look closely and each fish has its own pattern. Their paths cross the same water
+                  at their own pace.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+
+          <div className="mnw-koi-strip">
+            {KOI_SPECIMENS.map((specimen, idx) => (
+              <Reveal key={specimen.id} variant="rise" delayMs={idx * 70}>
+                <article className="mnw-koi-cell">
+                  <span className="mnw-mono" style={{ color: 'var(--mnw-vermilion)' }}>
+                    {specimen.number}
+                  </span>
+                  <div className="mnw-koi-figure">
+                    <KoiSilhouette specimen={specimen} />
+                  </div>
+                  <div>
+                    <h3 className="mnw-koi-name">{specimen.label}</h3>
+                    <p className="mnw-koi-pattern">{specimen.visiblePattern}</p>
+                  </div>
+                  <p className="mnw-koi-caption">{specimen.caption}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -2824,7 +2654,7 @@ export default function PlanYourWalk() {
             </ol>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px 24px' }}>
-              <a href="#garden" className="mnw-btn-primary">
+              <a href="#koi" className="mnw-btn-primary">
                 <span>Explore the garden</span>
                 <ArrowRight size={16} aria-hidden="true" />
               </a>
@@ -3177,7 +3007,7 @@ export default function PondStage({
             ease: STAGE_EASE,
           }}
         >
-          <a href="#garden" className="mnw-scroll-cue">
+          <a href="#koi" className="mnw-scroll-cue">
             <span>SCROLL TO ENTER</span>
             <ArrowDown size={13} aria-hidden="true" />
           </a>
@@ -3674,17 +3504,10 @@ export interface FaqItem {
 }
 
 export const NAV_LINKS: readonly NavItem[] = [
-  { label: 'THE EXPERIENCE', href: '#garden' },
   { label: 'PHILOSOPHY', href: '#koi' },
   { label: 'VIRTUAL TOUR', href: '#walk' },
   { label: 'ABOUT', href: '#seasons' },
 ];
-
-export const GARDEN_INLINE_NOTES = [
-  { term: 'WATER', meaning: 'the koi pond' },
-  { term: 'BLOSSOM', meaning: 'the sakura grove' },
-  { term: 'THRESHOLD', meaning: 'the shrine approach' },
-] as const;
 
 export const KOI_SPECIMENS: readonly KoiSpecimen[] = [
   {

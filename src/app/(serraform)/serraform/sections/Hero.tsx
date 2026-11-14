@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Play, SlidersHorizontal } from 'lucide-react';
-import { AdvancedStudioDrawer } from '../fold/AdvancedStudioDrawer';
+import React, { useMemo, useRef, useState } from 'react';
+import { ArrowRight, Play } from 'lucide-react';
 import { useFold } from '../fold/FoldProvider';
 import { FoldStage } from '../fold/FoldStage';
-import { AdvancedDrawerSection, HeroStudioDock } from '../fold/HeroStudioDock';
+import { HeroStudioDock } from '../fold/HeroStudioDock';
 import { RoomScene2D5 } from '../fold/room/RoomScene2D5';
 import { deriveRoomScene } from '../fold/room/deriveRoomScene';
 import { useHarmonizedRoomVars } from '../fold/room/paletteCssVars';
@@ -14,8 +13,6 @@ import type { RoomLightingState } from '../fold/FoldScene';
 export const Hero: React.FC = () => {
   const { demoActive, design, view, effectiveOpening, uploadedArt, env, replayFoldSequence } =
     useFold();
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [drawerSection, setDrawerSection] = useState<AdvancedDrawerSection>('all');
   const [heroAnnouncement, setHeroAnnouncement] = useState('');
   const [fullBleedHostEl, setFullBleedHostEl] = useState<HTMLDivElement | null>(null);
   const shapeInputRef = useRef<HTMLInputElement>(null);
@@ -55,13 +52,8 @@ export const Hero: React.FC = () => {
     ],
   );
 
-  const openDrawer = useCallback((section: AdvancedDrawerSection = 'all') => {
-    setDrawerSection(section);
-    setDrawerOpen(true);
-  }, []);
-
   const handleDesignInHero = () => {
-    openDrawer('all');
+    shapeInputRef.current?.focus();
   };
 
   const handleSeeHowItFolds = () => {
@@ -99,7 +91,7 @@ export const Hero: React.FC = () => {
       data-dark-envelope={isDarkRoom ? 'true' : 'false'}
       onPointerMove={handleSectionPointerMove}
       onPointerLeave={handleSectionPointerLeave}
-      className="srf-hero-section relative pt-3 pb-6 lg:pt-4 lg:pb-6 border-b border-[var(--srf-hairline)] overflow-x-clip"
+      className="srf-hero-section relative min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] flex flex-col justify-between pt-3 pb-4 lg:pt-4 lg:pb-5 border-b border-[var(--srf-hairline)] overflow-x-clip"
     >
       {/* Dynamic coded 2.5D architectural living-room studio driven by the divider */}
       <RoomScene2D5 />
@@ -111,9 +103,9 @@ export const Hero: React.FC = () => {
         className="pointer-events-none absolute inset-0 z-[2] overflow-hidden"
       />
 
-      <div className="srf-container relative z-10 pointer-events-none">
+      <div className="srf-container relative z-10 pointer-events-none flex-1 flex flex-col justify-between">
         {/* Main Atelier Composition: Editorial Column (~33%) + Large Frameless 3D Centerpiece (~67%) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center flex-1 my-auto">
           {/* Top/Left: Editorial Headline, Copy, Primary & Secondary CTAs */}
           <div className="lg:col-span-4 min-w-0 flex flex-col justify-center pointer-events-auto">
             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-2">
@@ -159,14 +151,6 @@ export const Hero: React.FC = () => {
               at home in your space.
             </p>
 
-            {/* Concise architectural room-setting note */}
-            <p
-              data-testid="hero-room-subtitle"
-              className="hidden sm:block srf-mono-caption mb-5 max-w-[44ch] opacity-90"
-              style={{ color: 'var(--room-text-secondary)' }}
-            >
-              {roomRecipe.subtitle}
-            </p>
 
             {/* Primary CTA + Secondary mechanical fold demo CTA */}
             <div className="srf-hero-actions hidden lg:flex flex-wrap items-center gap-3 mb-4">
@@ -194,27 +178,11 @@ export const Hero: React.FC = () => {
               </button>
             </div>
 
-            <div className="hidden lg:flex flex-wrap items-center gap-x-3 gap-y-1">
-              <p
-                className="srf-mono-caption"
-                style={{ color: 'var(--room-text-secondary)' }}
-              >
-                16 connected panels · Custom colors · Original prints
-              </p>
-              <button
-                type="button"
-                onClick={() => openDrawer('all')}
-                className="srf-hero-link inline-flex items-center gap-1 srf-mono-caption underline underline-offset-4 min-h-[28px] transition-colors duration-200"
-              >
-                <SlidersHorizontal className="w-3 h-3" aria-hidden="true" />
-                <span>Customize your own</span>
-              </button>
-            </div>
           </div>
 
           {/* Center-Right: Large, Unboxed 3D Fold 16 Centerpiece integrated in living room */}
           <div className="lg:col-span-8 min-w-0">
-            <div className="h-[340px] sm:h-[440px] lg:h-[min(610px,calc(100svh-236px))] lg:min-h-[480px] w-full">
+            <div className="h-[340px] sm:h-[440px] lg:h-[min(680px,calc(100svh-200px))] lg:min-h-[480px] w-full">
               <FoldStage
                 hostId="hero"
                 variant="atelier"
@@ -255,21 +223,13 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Floating Atelier Studio Control Dock (Shape, Base Color, Print, View + Advanced Drawer trigger) */}
-        <div className="mt-3.5 lg:mt-3 pointer-events-auto">
+        {/* Floating Atelier Studio Control Dock */}
+        <div className="mt-auto pt-3 lg:pt-3 pointer-events-auto">
           <HeroStudioDock
-            onOpenAdvanced={openDrawer}
             shapeInputRef={shapeInputRef}
           />
         </div>
       </div>
-
-      {/* Expandable Advanced Studio Drawer sharing live FoldProvider state */}
-      <AdvancedStudioDrawer
-        open={drawerOpen}
-        initialSection={drawerSection}
-        onClose={() => setDrawerOpen(false)}
-      />
 
       <div className="sr-only" aria-live="polite">
         {heroAnnouncement}

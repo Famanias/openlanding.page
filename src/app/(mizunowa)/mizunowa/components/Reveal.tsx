@@ -4,7 +4,11 @@ import { CSSProperties, ReactNode, useEffect, useRef } from 'react';
 
 interface RevealProps {
   children: ReactNode;
-  variant?: 'rise' | 'mask' | 'wipe' | 'line';
+  /**
+   * `words` leaves the block in place and lifts each `SplitWords` word from behind its own mask.
+   * `water` leaves the block in place and raises the footer wordmark's fill to its waterline.
+   */
+  variant?: 'rise' | 'mask' | 'wipe' | 'line' | 'words' | 'water';
   delayMs?: number;
   className?: string;
 }

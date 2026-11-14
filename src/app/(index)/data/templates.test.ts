@@ -122,12 +122,10 @@ describe("gallery template data", () => {
     const opusSlugs = ["lowtide", "orrery", "keytu", "koji", "verane", "noctiluca", "kinetic", "fixture", "chinagraph", "understudy", "cullet"];
     const hydrogenSlugs = ["serraform", "mizunowa"];
     const argonSlugs = ["rooted", "mesamarket", "echolog", "tessera", "cirro", "orova", "vyra", "auven", "nema", "velora", "orbitbeyond", "forum", "holloway", "glyphwork", "kairok", "aurel", "arcsignal", "penumbra", "zeno", "loam", "tally", "perigee", "valence", "ctrlroom", "noiseclub", "parallel", "warpwander", "lumen", "morta", "synapxe", "xibalba", "halodesk", "riff", "inesvale", "nicopark", "poppypatch", "razorline", "nexus", "starriot"];
-    const terraSlugs = ["aerune", "frameone", "kinfield", "grandstand", "daymark", "radius", "pello", "avel", "landingx"];
+    const terraSlugs = ["aerune", "frameone", "kinfield", "grandstand", "daymark", "radius", "pello", "avel", "landingx", "afterwalk"];
     for (const t of [...TEMPLATES, ...ARCHIVED_TEMPLATES]) {
       if (hydrogenSlugs.includes(t.slug) || t.slug === "datum") {
         expect(t.model).toBe("Gemini 4 Hydrogen xHigh");
-      } else if (t.slug === "afterwalk") {
-        expect(t.model).toBe("GPT-6.1 Terra");
       } else if (terraSlugs.includes(t.slug)) {
         expect(t.model).toBe("GPT-6.1 Terra Max");
       } else if (t.slug === "postmark" || t.slug === "surface08") {

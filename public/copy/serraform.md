@@ -276,7 +276,7 @@ body {
 /* Editorial container */
 .srf-container {
   width: 100%;
-  max-width: 1344px;
+  max-width: 1600px;
   margin-inline: auto;
   padding-inline: 20px;
 }
@@ -773,6 +773,12 @@ details[open] .srf-faq-icon {
    ============================================================================ */
 
 .srf-hero-section {
+  position: relative;
+  min-height: calc(100vh - 4rem);
+  min-height: calc(100svh - 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   --room-wall-base: #F4EAE4;
   --room-wall-highlight: #FAF4F0;
   --room-wall-shadow: #E4CFC7;
@@ -807,6 +813,13 @@ details[open] .srf-faq-icon {
   --room-light-warm: #FFF8F0;
   --room-shadow: #4B202A;
   background-color: var(--room-wall-base);
+}
+
+@media (min-width: 768px) {
+  .srf-hero-section {
+    min-height: calc(100vh - 5rem);
+    min-height: calc(100svh - 5rem);
+  }
 }
 
 .srf-hero-section .srf-btn-primary {
@@ -1134,7 +1147,6 @@ import { Footer } from './sections/Footer';
 import { Header } from './sections/Header';
 import { Hero } from './sections/Hero';
 import { Questions } from './sections/Questions';
-import { RoomStudies } from './sections/RoomStudies';
 
 export default function SerraformApp() {
   const [revealReady, setRevealReady] = useState(false);
@@ -1160,7 +1172,6 @@ export default function SerraformApp() {
         <main id="main-content">
           <Hero />
           <FoldingExperience />
-          <RoomStudies />
           <Construction />
           <Questions />
           <BriefSection />
@@ -1235,458 +1246,6 @@ export const CreaseMarker: React.FC<{ index: string; className?: string }> = ({
     <span>{index}</span>
   </span>
 );
-]]>
-    </file>
-    <file path="src/app/(serraform)/serraform/fold/AdvancedStudioDrawer.tsx">
-<![CDATA['use client';
-
-import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, RotateCcw, RotateCw, X } from 'lucide-react';
-import { ColorWheel } from './ColorWheel';
-import {
-  FOLD_CONSTANTS,
-  PRINT_SPECS,
-  VIEW_ORDER,
-  VIEW_PRESETS,
-} from './config';
-import { formatMeters } from './geometry';
-import { useFold } from './FoldProvider';
-import type { AdvancedDrawerSection } from './HeroStudioDock';
-import { PrintGallery } from './PrintGallery';
-import { normalizeYawDeg, usesActivePrintColor, viewPresetFromAngles } from './state';
-
-interface AdvancedStudioDrawerProps {
-  open: boolean;
-  initialSection: AdvancedDrawerSection;
-  onClose: () => void;
-}
-
-export const AdvancedStudioDrawer: React.FC<AdvancedStudioDrawerProps> = ({
-  open,
-  initialSection,
-  onClose,
-}) => {
-  const {
-    design,
-    view,
-    effectiveOpening,
-    effectivePose,
-    env,
-    uploadedArt,
-    setOpening,
-    setViewPreset,
-    rotateViewStep,
-    resetView,
-    resetShape,
-    resetDesign,
-  } = useFold();
-
-  const drawerRef = useRef<HTMLDivElement>(null);
-  const closeBtnRef = useRef<HTMLButtonElement>(null);
-  const colorSectionRef = useRef<HTMLElement>(null);
-  const designSectionRef = useRef<HTMLElement>(null);
-  const viewSectionRef = useRef<HTMLElement>(null);
-  const [announcement, setAnnouncement] = useState('');
-
-  // Handle Escape key, body scroll lock, and initial section scroll/focus
-  useEffect(() => {
-    if (!open) return;
-
-    const prevFocused = document.activeElement as HTMLElement | null;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    const scrollTarget =
-      initialSection === 'color' || initialSection === 'printColor'
-        ? colorSectionRef.current
-        : initialSection === 'design'
-          ? designSectionRef.current
-          : initialSection === 'view'
-            ? viewSectionRef.current
-            : null;
-
-    if (scrollTarget) {
-      requestAnimationFrame(() => {
-        scrollTarget.scrollIntoView({ block: 'start', behavior: 'auto' });
-      });
-    }
-
-    requestAnimationFrame(() => {
-      closeBtnRef.current?.focus();
-    });
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        onClose();
-        return;
-      }
-
-      if (e.key === 'Tab' && drawerRef.current) {
-        const focusables = drawerRef.current.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
-        );
-        if (focusables.length === 0) return;
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-
-    window.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      window.removeEventListener('keydown', onKeyDown);
-      if (prevFocused && typeof prevFocused.focus === 'function') {
-        prevFocused.focus();
-      }
-    };
-  }, [open, initialSection, onClose]);
-
-  if (!open) return null;
-
-  const roundedOpening = Math.round(effectiveOpening);
-  const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
-  const printSpec = PRINT_SPECS[design.print];
-  const matchedPreset = viewPresetFromAngles(view);
-  const roundedYaw = Math.round(normalizeYawDeg(view.yawDeg));
-
-  const handleUseInBrief = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    onClose();
-    requestAnimationFrame(() => {
-      const target = document.getElementById('brief-heading');
-      if (target) {
-        target.scrollIntoView({
-          behavior: env.reducedMotion ? 'auto' : 'smooth',
-          block: 'start',
-        });
-        if (target instanceof HTMLElement) {
-          target.focus({ preventScroll: true });
-        }
-      }
-    });
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex justify-end bg-[#4B202A]/28"
-      role="presentation"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div
-        ref={drawerRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="srf-adv-drawer-title"
-        data-testid="hero-advanced-drawer"
-        className="w-full max-w-[520px] h-full bg-[#FAF2EE] border-l border-[var(--srf-hairline-strong)] shadow-[0_20px_60px_rgba(75,32,42,0.22)] flex flex-col"
-      >
-        {/* Drawer Header */}
-        <div className="shrink-0 flex items-center justify-between gap-4 px-5 py-4 border-b border-[var(--srf-hairline)] bg-[var(--srf-rose)]">
-          <div>
-            <div className="srf-mono-caption text-[var(--srf-mauve)]">
-              SERRAFORM / FOLD {FOLD_CONSTANTS.panels}
-            </div>
-            <h2
-              id="srf-adv-drawer-title"
-              className="text-lg font-medium text-[var(--srf-oxblood)]"
-            >
-              Advanced studio
-            </h2>
-          </div>
-
-          <button
-            ref={closeBtnRef}
-            type="button"
-            onClick={onClose}
-            aria-label="Close advanced studio"
-            className="inline-flex items-center justify-center w-10 h-10 rounded-[8px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 text-[var(--srf-oxblood)] hover:border-[var(--srf-oxblood)]"
-          >
-            <X className="w-5 h-5" aria-hidden="true" />
-          </button>
-        </div>
-
-        {/* Scrollable Full Customization Rail */}
-        <div className="flex-1 overflow-y-auto px-5 py-5 space-y-6">
-          {/* 1. Shape */}
-          <section className="space-y-2.5" aria-labelledby="srf-adv-shape">
-            <div className="flex items-baseline justify-between gap-4">
-              <h3 id="srf-adv-shape" className="text-base font-medium text-[var(--srf-oxblood)]">
-                1. Shape
-              </h3>
-              <span className="srf-mono-dim text-[var(--srf-oxblood)]">
-                {roundedOpening}% · {formattedSpan}
-              </span>
-            </div>
-
-            <div>
-              <label htmlFor="srf-adv-opening-range" className="sr-only">
-                Opening percentage
-              </label>
-              <input
-                id="srf-adv-opening-range"
-                type="range"
-                min={0}
-                max={100}
-                step={1}
-                value={roundedOpening}
-                onChange={(e) => setOpening(Number(e.target.value))}
-                aria-valuetext={`${roundedOpening} percent, outer span ${formattedSpan}`}
-                className="srf-range"
-              />
-              <div className="flex items-center justify-between srf-mono-caption text-[var(--srf-mauve)]">
-                <span>Gathered</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    resetShape();
-                    setAnnouncement('Shape reset to 50 percent opening.');
-                  }}
-                  className="text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[32px] px-1"
-                >
-                  Reset shape
-                </button>
-                <span>Open</span>
-              </div>
-            </div>
-          </section>
-
-          {/* 2. Color (ColorWheel with Base + Print color, Hex, H/S/B, 10 swatches) */}
-          <section
-            ref={colorSectionRef}
-            className="pt-5 border-t border-[var(--srf-hairline)] space-y-3"
-            aria-labelledby="srf-adv-color"
-          >
-            <div className="flex items-baseline justify-between gap-2">
-              <h3 id="srf-adv-color" className="text-base font-medium text-[var(--srf-oxblood)]">
-                2. Base &amp; Print Color
-              </h3>
-              <span className="srf-mono-caption text-[var(--srf-mauve)]">
-                {design.baseHex}
-                {usesActivePrintColor(design) ? ` · ${design.designHex}` : ''}
-              </span>
-            </div>
-
-            <ColorWheel
-              idPrefix="srf-hero"
-              initialTarget={initialSection === 'printColor' ? 'design' : 'base'}
-            />
-          </section>
-
-          {/* 3. Design (exact existing PrintGallery with Bloom/Stripes/Landscape/Waves/Solid, Upload, Motif size) */}
-          <section
-            ref={designSectionRef}
-            className="pt-5 border-t border-[var(--srf-hairline)] space-y-3"
-            aria-labelledby="srf-adv-design"
-          >
-            <div className="flex items-baseline justify-between gap-2">
-              <h3 id="srf-adv-design" className="text-base font-medium text-[var(--srf-oxblood)]">
-                3. Design
-              </h3>
-              <span className="srf-mono-caption text-[var(--srf-mauve)]">
-                {printSpec.name}
-                {printSpec.usesScale ? ` · ${design.motifScale}%` : ''}
-              </span>
-            </div>
-
-            <PrintGallery idPrefix="srf-hero" onAnnounce={setAnnouncement} />
-          </section>
-
-          {/* 4. View */}
-          <section
-            ref={viewSectionRef}
-            className="pt-5 border-t border-[var(--srf-hairline)] space-y-3"
-            aria-labelledby="srf-adv-view"
-          >
-            <div className="flex items-baseline justify-between gap-2">
-              <h3 id="srf-adv-view" className="text-base font-medium text-[var(--srf-oxblood)]">
-                4. View
-              </h3>
-              <span className="srf-mono-caption text-[var(--srf-mauve)]">
-                View: {roundedYaw}°
-              </span>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                aria-label="Rotate divider left"
-                onClick={() => {
-                  rotateViewStep(-FOLD_CONSTANTS.rotateStepDeg);
-                  setAnnouncement('Rotated divider left 15 degrees.');
-                }}
-                className="srf-btn-secondary !px-3 text-sm"
-              >
-                <RotateCcw className="w-4 h-4" aria-hidden="true" />
-                <span>Rotate left</span>
-              </button>
-
-              <button
-                type="button"
-                aria-label="Rotate divider right"
-                onClick={() => {
-                  rotateViewStep(FOLD_CONSTANTS.rotateStepDeg);
-                  setAnnouncement('Rotated divider right 15 degrees.');
-                }}
-                className="srf-btn-secondary !px-3 text-sm"
-              >
-                <RotateCw className="w-4 h-4" aria-hidden="true" />
-                <span>Rotate right</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  resetView();
-                  setAnnouncement('Camera reset to default three-quarter angle.');
-                }}
-                className="srf-btn-secondary !px-3 text-sm"
-              >
-                Reset view
-              </button>
-            </div>
-
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Camera view presets">
-              {VIEW_ORDER.map((viewId) => {
-                const preset = VIEW_PRESETS[viewId];
-                const active = matchedPreset === viewId;
-                return (
-                  <button
-                    key={viewId}
-                    type="button"
-                    aria-pressed={active}
-                    onClick={() => {
-                      setViewPreset(viewId);
-                      setAnnouncement(`Camera view changed to ${preset.label}.`);
-                    }}
-                    className="srf-btn-secondary !min-h-[40px] !py-1.5 !px-3 text-sm"
-                  >
-                    {preset.label}
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* 5. Live Specification Summary + Actions */}
-          <section className="pt-5 border-t border-[var(--srf-hairline)] space-y-4">
-            <div className="flex items-center justify-between gap-3">
-              <h3 className="text-base font-medium text-[var(--srf-oxblood)]">
-                Design summary
-              </h3>
-              <button
-                type="button"
-                onClick={() => {
-                  resetDesign();
-                  setAnnouncement('Design reset to Flax #D8C4A7, Oxblood #4B202A, Bloom at 100 percent.');
-                }}
-                className="srf-btn-secondary !min-h-[38px] !py-1 !px-3 text-xs"
-              >
-                Reset design
-              </button>
-            </div>
-
-            <dl
-              data-testid="hero-drawer-summary"
-              className="p-3.5 rounded-[8px] border border-[var(--srf-hairline)] bg-[var(--srf-surface-soft)] grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm"
-            >
-              <div>
-                <dt className="srf-mono-caption text-[var(--srf-mauve)]">Base color</dt>
-                <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
-                  <span
-                    className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
-                    style={{ backgroundColor: design.baseHex }}
-                    aria-hidden="true"
-                  />
-                  <span>{design.baseHex}</span>
-                </dd>
-              </div>
-
-              <div>
-                <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print</dt>
-                <dd className="font-medium text-[var(--srf-oxblood)]">
-                  {printSpec.name}
-                </dd>
-              </div>
-
-              <div>
-                <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print color</dt>
-                <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
-                  <span
-                    className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
-                    style={{ backgroundColor: design.designHex }}
-                    aria-hidden="true"
-                  />
-                  <span className={!usesActivePrintColor(design) ? 'text-[var(--srf-mauve)]' : undefined}>
-                    {usesActivePrintColor(design)
-                      ? design.designHex
-                      : `${design.designHex} (${design.print === 'solid' ? 'saved' : 'original upload'})`}
-                  </span>
-                </dd>
-              </div>
-
-              {printSpec.usesScale && (
-                <div>
-                  <dt className="srf-mono-caption text-[var(--srf-mauve)]">
-                    {printSpec.scaleLabel}
-                  </dt>
-                  <dd className="font-medium text-[var(--srf-oxblood)]">
-                    {design.motifScale}%
-                  </dd>
-                </div>
-              )}
-
-              <div>
-                <dt className="srf-mono-caption text-[var(--srf-mauve)]">Opening</dt>
-                <dd className="font-medium text-[var(--srf-oxblood)]">
-                  {roundedOpening}%
-                </dd>
-              </div>
-
-              <div>
-                <dt className="srf-mono-caption text-[var(--srf-mauve)]">Outer span</dt>
-                <dd className="font-medium text-[var(--srf-oxblood)]">
-                  {formattedSpan}
-                </dd>
-              </div>
-
-              {design.print === 'upload' && uploadedArt && (
-                <div className="col-span-2">
-                  <dt className="srf-mono-caption text-[var(--srf-mauve)]">Your image</dt>
-                  <dd className="font-medium text-[var(--srf-oxblood)] truncate">
-                    {uploadedArt.filename} (local session only)
-                  </dd>
-                </div>
-              )}
-            </dl>
-
-            <a
-              href="#brief"
-              onClick={handleUseInBrief}
-              className="srf-btn-primary w-full"
-            >
-              <span>Use this design in my brief</span>
-              <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
-            </a>
-          </section>
-        </div>
-
-        <div className="sr-only" aria-live="polite">
-          {announcement}
-        </div>
-      </div>
-    </div>
-  );
-};
 ]]>
     </file>
     <file path="src/app/(serraform)/serraform/fold/artwork.ts">
@@ -2746,653 +2305,6 @@ export function suggestContrastingPrintColor(
 }
 ]]>
     </file>
-    <file path="src/app/(serraform)/serraform/fold/ColorWheel.tsx">
-<![CDATA['use client';
-
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Check } from 'lucide-react';
-import {
-  evaluatePrintContrast,
-  hexToHsv,
-  hsvToHex,
-  normalizeHex,
-  suggestContrastingPrintColor,
-} from './color';
-import { COLOR_PRESETS } from './config';
-import { useFold } from './FoldProvider';
-import { NativeColorInput } from './NativeColorInput';
-import { usesActivePrintColor } from './state';
-
-export type ColorTarget = 'base' | 'design';
-
-const WHEEL_SIZE = 204;
-const WHEEL_CENTER = WHEEL_SIZE / 2;
-const OUTER_RADIUS = 96;
-const INNER_RADIUS = 72;
-const SV_HALF = Math.floor((INNER_RADIUS - 7) / Math.SQRT2);
-const SV_LEFT = Math.round(WHEEL_CENTER - SV_HALF);
-const SV_SIZE = SV_HALF * 2;
-
-export const ColorWheel: React.FC<{
-  idPrefix?: string;
-  initialTarget?: ColorTarget;
-}> = ({ idPrefix = 'srf', initialTarget }) => {
-  const { design, setBaseHex, setDesignHex } = useFold();
-  const designDisabled = !usesActivePrintColor(design);
-  const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
-
-  const [target, setTarget] = useState<ColorTarget>(initialTarget ?? 'base');
-  const activeHex = target === 'base' ? design.baseHex : design.designHex;
-  const activeDisabled = target === 'design' && designDisabled;
-
-  useEffect(() => {
-    if (initialTarget) {
-      setTarget(initialTarget);
-    }
-  }, [initialTarget]);
-
-  // Preserve hue independently across zero-saturation edits (black/white/gray)
-  const hueMemoryRef = useRef<{ base: number; design: number }>({
-    base: hexToHsv(design.baseHex, 34).h,
-    design: hexToHsv(design.designHex, 346).h,
-  });
-
-  const activeHsv = hexToHsv(activeHex, hueMemoryRef.current[target]);
-
-  const [draftHex, setDraftHex] = useState<string>(activeHex);
-  const [hexError, setHexError] = useState<string | null>(null);
-  const isEditingHexRef = useRef(false);
-
-  // Sync draft field when switching target or dragging wheel/sliders/chips
-  useEffect(() => {
-    if (!isEditingHexRef.current) {
-      setDraftHex(activeHex);
-      setHexError(null);
-    }
-    const parsed = hexToHsv(activeHex, hueMemoryRef.current[target]);
-    if (parsed.s > 0) {
-      hueMemoryRef.current[target] = parsed.h;
-    }
-  }, [activeHex, target]);
-
-  const commitHexForTarget = useCallback(
-    (nextHex: string, explicitTarget: ColorTarget = target) => {
-      if (explicitTarget === 'base') {
-        setBaseHex(nextHex);
-      } else if (!designDisabled) {
-        setDesignHex(nextHex);
-      }
-    },
-    [target, designDisabled, setBaseHex, setDesignHex],
-  );
-
-  const commitHsv = useCallback(
-    (h: number, s: number, v: number) => {
-      const normH = ((Math.round(h) % 360) + 360) % 360;
-      const clampS = Math.max(0, Math.min(100, Math.round(s)));
-      const clampV = Math.max(0, Math.min(100, Math.round(v)));
-      hueMemoryRef.current[target] = normH;
-      const nextHex = hsvToHex(normH, clampS, clampV);
-      commitHexForTarget(nextHex);
-    },
-    [target, commitHexForTarget],
-  );
-
-  // Draw the HSV wheel canvas (hue ring + current hue SV square + crisp crosshairs)
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const ringTileRef = useRef<HTMLCanvasElement | null>(null);
-
-  const renderWheel = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const pxSize = WHEEL_SIZE * dpr;
-    if (canvas.width !== pxSize || canvas.height !== pxSize) {
-      canvas.width = pxSize;
-      canvas.height = pxSize;
-    }
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Cache static hue ring once at 1x resolution and draw smoothly
-    if (!ringTileRef.current) {
-      const tile = document.createElement('canvas');
-      tile.width = pxSize;
-      tile.height = pxSize;
-      const tCtx = tile.getContext('2d');
-      if (tCtx) {
-        tCtx.scale(dpr, dpr);
-        for (let deg = 0; deg < 360; deg += 1) {
-          const a0 = ((deg - 0.6 - 90) * Math.PI) / 180;
-          const a1 = ((deg + 0.9 - 90) * Math.PI) / 180;
-          tCtx.beginPath();
-          tCtx.arc(WHEEL_CENTER, WHEEL_CENTER, OUTER_RADIUS, a0, a1);
-          tCtx.arc(WHEEL_CENTER, WHEEL_CENTER, INNER_RADIUS, a1, a0, true);
-          tCtx.closePath();
-          tCtx.fillStyle = hsvToHex(deg, 100, 100);
-          tCtx.fill();
-        }
-        // Subtle hairline framing for crisp separation on warm rose background
-        tCtx.strokeStyle = 'rgba(75, 32, 42, 0.22)';
-        tCtx.lineWidth = 1;
-        tCtx.beginPath();
-        tCtx.arc(WHEEL_CENTER, WHEEL_CENTER, OUTER_RADIUS, 0, Math.PI * 2);
-        tCtx.stroke();
-        tCtx.beginPath();
-        tCtx.arc(WHEEL_CENTER, WHEEL_CENTER, INNER_RADIUS, 0, Math.PI * 2);
-        tCtx.stroke();
-      }
-      ringTileRef.current = tile;
-    }
-
-    ctx.save();
-    ctx.clearRect(0, 0, pxSize, pxSize);
-    ctx.drawImage(ringTileRef.current, 0, 0);
-    ctx.scale(dpr, dpr);
-
-    // Inner S/V square: pure white -> hue horizontal gradient overlaid with transparent -> black vertical gradient
-    const huePure = hsvToHex(activeHsv.h, 100, 100);
-    const gradX = ctx.createLinearGradient(SV_LEFT, 0, SV_LEFT + SV_SIZE, 0);
-    gradX.addColorStop(0, '#FFFFFF');
-    gradX.addColorStop(1, huePure);
-    ctx.fillStyle = gradX;
-    ctx.fillRect(SV_LEFT, SV_LEFT, SV_SIZE, SV_SIZE);
-
-    const gradY = ctx.createLinearGradient(0, SV_LEFT, 0, SV_LEFT + SV_SIZE);
-    gradY.addColorStop(0, 'rgba(0, 0, 0, 0)');
-    gradY.addColorStop(1, 'rgba(0, 0, 0, 1)');
-    ctx.fillStyle = gradY;
-    ctx.fillRect(SV_LEFT, SV_LEFT, SV_SIZE, SV_SIZE);
-
-    ctx.strokeStyle = 'rgba(75, 32, 42, 0.28)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(SV_LEFT + 0.5, SV_LEFT + 0.5, SV_SIZE - 1, SV_SIZE - 1);
-
-    // Hue ring marker (0° red at top, increasing clockwise)
-    const hueRad = ((activeHsv.h - 90) * Math.PI) / 180;
-    const midR = (OUTER_RADIUS + INNER_RADIUS) * 0.5;
-    const hx = WHEEL_CENTER + Math.cos(hueRad) * midR;
-    const hy = WHEEL_CENTER + Math.sin(hueRad) * midR;
-
-    ctx.beginPath();
-    ctx.arc(hx, hy, 7, 0, Math.PI * 2);
-    ctx.fillStyle = huePure;
-    ctx.fill();
-    ctx.lineWidth = 2.5;
-    ctx.strokeStyle = '#FFFCF8';
-    ctx.stroke();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = '#4B202A';
-    ctx.stroke();
-
-    // Inner SV reticle
-    const sx = SV_LEFT + (activeHsv.s / 100) * SV_SIZE;
-    const sy = SV_LEFT + (1 - activeHsv.v / 100) * SV_SIZE;
-    ctx.beginPath();
-    ctx.arc(sx, sy, 6.5, 0, Math.PI * 2);
-    ctx.fillStyle = activeHex;
-    ctx.fill();
-    ctx.lineWidth = 2.5;
-    ctx.strokeStyle = '#FFFCF8';
-    ctx.stroke();
-    ctx.lineWidth = 1.25;
-    ctx.strokeStyle = '#2B2426';
-    ctx.stroke();
-
-    ctx.restore();
-  }, [activeHex, activeHsv.h, activeHsv.s, activeHsv.v]);
-
-  useEffect(() => {
-    renderWheel();
-  }, [renderWheel]);
-
-  // Wheel pointer interaction with capture & rAF throttling
-  const dragRef = useRef<{
-    pointerId: number | null;
-    zone: 'hue' | 'sv' | null;
-    rafId: number;
-    pendingHsv: { h: number; s: number; v: number } | null;
-  }>({
-    pointerId: null,
-    zone: null,
-    rafId: 0,
-    pendingHsv: null,
-  });
-
-  const pointToHsv = (clientX: number, clientY: number, zone: 'hue' | 'sv') => {
-    const canvas = canvasRef.current;
-    if (!canvas) return null;
-    const rect = canvas.getBoundingClientRect();
-    const x = ((clientX - rect.left) / rect.width) * WHEEL_SIZE;
-    const y = ((clientY - rect.top) / rect.height) * WHEEL_SIZE;
-
-    if (zone === 'hue') {
-      const dx = x - WHEEL_CENTER;
-      const dy = y - WHEEL_CENTER;
-      // 0° top (negative Y), increasing clockwise
-      let deg = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
-      deg = ((deg % 360) + 360) % 360;
-      return {
-        h: Math.round(deg) % 360,
-        s: activeHsv.s,
-        v: activeHsv.v,
-      };
-    }
-
-    const s = Math.max(0, Math.min(100, ((x - SV_LEFT) / SV_SIZE) * 100));
-    const v = Math.max(0, Math.min(100, (1 - (y - SV_LEFT) / SV_SIZE) * 100));
-    return {
-      h: hueMemoryRef.current[target],
-      s: Math.round(s),
-      v: Math.round(v),
-    };
-  };
-
-  const endWheelDrag = useCallback(
-    (commit: boolean) => {
-      const d = dragRef.current;
-      if (d.rafId) {
-        cancelAnimationFrame(d.rafId);
-        d.rafId = 0;
-      }
-      if (commit && d.pendingHsv) {
-        commitHsv(d.pendingHsv.h, d.pendingHsv.s, d.pendingHsv.v);
-      }
-      if (d.pointerId !== null && canvasRef.current) {
-        try {
-          if (canvasRef.current.hasPointerCapture(d.pointerId)) {
-            canvasRef.current.releasePointerCapture(d.pointerId);
-          }
-        } catch {
-          // ignore
-        }
-      }
-      d.pointerId = null;
-      d.zone = null;
-      d.pendingHsv = null;
-    },
-    [commitHsv],
-  );
-
-  useEffect(() => {
-    return () => endWheelDrag(false);
-  }, [endWheelDrag]);
-
-  const handleWheelPointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (activeDisabled) return;
-    if (e.pointerType === 'mouse' && e.button !== 0) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * WHEEL_SIZE;
-    const y = ((e.clientY - rect.top) / rect.height) * WHEEL_SIZE;
-    const dist = Math.hypot(x - WHEEL_CENTER, y - WHEEL_CENTER);
-
-    let zone: 'hue' | 'sv' | null = null;
-    if (dist >= INNER_RADIUS - 4 && dist <= OUTER_RADIUS + 8) {
-      zone = 'hue';
-    } else if (
-      x >= SV_LEFT - 4 &&
-      x <= SV_LEFT + SV_SIZE + 4 &&
-      y >= SV_LEFT - 4 &&
-      y <= SV_LEFT + SV_SIZE + 4
-    ) {
-      zone = 'sv';
-    }
-    if (!zone) return;
-
-    const d = dragRef.current;
-    d.pointerId = e.pointerId;
-    d.zone = zone;
-    try {
-      canvas.setPointerCapture(e.pointerId);
-    } catch {
-      // ignore
-    }
-
-    const next = pointToHsv(e.clientX, e.clientY, zone);
-    if (next) {
-      d.pendingHsv = next;
-      commitHsv(next.h, next.s, next.v);
-    }
-  };
-
-  const handleWheelPointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    const d = dragRef.current;
-    if (d.pointerId !== e.pointerId || !d.zone) return;
-    const next = pointToHsv(e.clientX, e.clientY, d.zone);
-    if (!next) return;
-    d.pendingHsv = next;
-
-    if (d.rafId === 0) {
-      d.rafId = requestAnimationFrame(() => {
-        d.rafId = 0;
-        if (d.pendingHsv) {
-          commitHsv(d.pendingHsv.h, d.pendingHsv.s, d.pendingHsv.v);
-        }
-      });
-    }
-  };
-
-  const handleHexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setDraftHex(val);
-    const normalized = normalizeHex(val);
-    if (normalized) {
-      setHexError(null);
-      commitHexForTarget(normalized);
-    }
-  };
-
-  const handleHexCommit = () => {
-    isEditingHexRef.current = false;
-    const normalized = normalizeHex(draftHex);
-    if (normalized) {
-      setDraftHex(normalized);
-      setHexError(null);
-      commitHexForTarget(normalized);
-    } else {
-      setHexError('Enter a hex color such as #9A463D.');
-    }
-  };
-
-  return (
-    <div className="space-y-4">
-      {/* Base vs Print color target selector */}
-      <div className="grid grid-cols-2 gap-2.5">
-        <button
-          type="button"
-          data-testid={`${idPrefix}-target-base-btn`}
-          aria-pressed={target === 'base'}
-          onClick={() => setTarget('base')}
-          className={`flex items-center gap-2.5 p-2.5 rounded-[8px] border text-left transition-colors min-h-[52px] ${
-            target === 'base'
-              ? 'border-[var(--srf-oxblood)] bg-[var(--srf-surface-soft)] ring-2 ring-[var(--srf-oxblood)]/25'
-              : 'border-[var(--srf-hairline)] hover:border-[var(--srf-hairline-strong)]'
-          }`}
-        >
-          <span
-            className="w-7 h-7 rounded-full border border-[var(--srf-oxblood)]/25 shrink-0"
-            style={{ backgroundColor: design.baseHex }}
-            aria-hidden="true"
-          />
-          <span className="min-w-0 flex-1">
-            <span className="block text-xs font-medium text-[var(--srf-oxblood)]">
-              Base color
-            </span>
-            <span className="block srf-mono-caption text-[var(--srf-mauve)] truncate">
-              {design.baseHex}
-            </span>
-          </span>
-          {target === 'base' && (
-            <Check className="w-4 h-4 text-[var(--srf-oxblood)] shrink-0" aria-hidden="true" />
-          )}
-        </button>
-
-        <button
-          type="button"
-          data-testid={`${idPrefix}-target-print-btn`}
-          aria-disabled={designDisabled}
-          aria-pressed={!designDisabled && target === 'design'}
-          onClick={() => setTarget('design')}
-          className={`flex items-center gap-2.5 p-2.5 rounded-[8px] border text-left transition-colors min-h-[52px] ${
-            designDisabled
-              ? target === 'design'
-                ? 'border-[var(--srf-oxblood)]/60 opacity-65 bg-[var(--srf-rose)] ring-1 ring-[var(--srf-oxblood)]/20'
-                : 'border-[var(--srf-hairline)] opacity-55 bg-[var(--srf-rose)] hover:opacity-75'
-              : target === 'design'
-                ? 'border-[var(--srf-oxblood)] bg-[var(--srf-surface-soft)] ring-2 ring-[var(--srf-oxblood)]/25'
-                : 'border-[var(--srf-hairline)] hover:border-[var(--srf-hairline-strong)]'
-          }`}
-        >
-          <span
-            className="w-7 h-7 rounded-full border border-[var(--srf-oxblood)]/25 shrink-0"
-            style={{ backgroundColor: design.designHex }}
-            aria-hidden="true"
-          />
-          <span className="min-w-0 flex-1">
-            <span className="block text-xs font-medium text-[var(--srf-oxblood)]">
-              Print color
-            </span>
-            <span className="block srf-mono-caption text-[var(--srf-mauve)] truncate">
-              {design.designHex}
-            </span>
-          </span>
-          {!designDisabled && target === 'design' && (
-            <Check className="w-4 h-4 text-[var(--srf-oxblood)] shrink-0" aria-hidden="true" />
-          )}
-        </button>
-      </div>
-
-      {designDisabled && (
-        <p className="srf-mono-caption text-[var(--srf-mauve)]" data-testid={`${idPrefix}-print-color-saved-note`}>
-          {design.print === 'solid'
-            ? `Print color (${design.designHex}) is inactive on Solid felt and returns when you choose a pattern.`
-            : `Print color (${design.designHex}) stays saved; enable image tint in Print options to recolor uploads.`}
-        </p>
-      )}
-
-      {!designDisabled && contrast.isLowContrast && (
-        <div
-          role="status"
-          data-testid={`${idPrefix}-contrast-warning`}
-          className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-[6px] border border-[var(--srf-clay)]/40 bg-[var(--srf-porcelain)] text-xs text-[var(--srf-oxblood)]"
-        >
-          <span>Low print contrast — try a lighter or darker color.</span>
-          <button
-            type="button"
-            data-testid={`${idPrefix}-suggest-contrast-btn`}
-            onClick={() => {
-              const suggested = suggestContrastingPrintColor(design.baseHex, design.designHex);
-              setHexError(null);
-              if (target === 'design') {
-                setDraftHex(suggested);
-              }
-              setDesignHex(suggested);
-            }}
-            className="px-2.5 py-1 rounded-[4px] border border-[var(--srf-oxblood)] bg-[var(--srf-oxblood)] text-[var(--srf-porcelain)] font-medium hover:bg-[var(--srf-clay)] hover:border-[var(--srf-clay)] transition-colors shrink-0"
-          >
-            Suggest contrast
-          </button>
-        </div>
-      )}
-
-      {/* Wheel + Accessible HSV Sliders + Hex */}
-      <div className="p-4 rounded-[8px] border border-[var(--srf-hairline)] bg-[var(--srf-surface-soft)] space-y-4">
-        <div className="flex flex-col sm:flex-row items-center gap-5">
-          <div className="shrink-0 flex flex-col items-center">
-            <canvas
-              ref={canvasRef}
-              width={WHEEL_SIZE}
-              height={WHEEL_SIZE}
-              data-testid="srf-color-wheel-canvas"
-              onPointerDown={handleWheelPointerDown}
-              onPointerMove={handleWheelPointerMove}
-              onPointerUp={(e) => {
-                if (dragRef.current.pointerId === e.pointerId) endWheelDrag(true);
-              }}
-              onPointerCancel={(e) => {
-                if (dragRef.current.pointerId === e.pointerId) endWheelDrag(false);
-              }}
-              onLostPointerCapture={() => endWheelDrag(false)}
-              style={{
-                width: 'min(204px, 100%)',
-                height: 'auto',
-                aspectRatio: '1 / 1',
-                touchAction: 'none',
-              }}
-              className={activeDisabled ? 'opacity-50 pointer-events-none' : 'cursor-crosshair'}
-              aria-hidden="true"
-            />
-          </div>
-
-          <div className="w-full min-w-0 flex-1 space-y-3">
-            {/* Hex text field & native picker */}
-            <div>
-              <label
-                htmlFor={`${idPrefix}-hex-input`}
-                className="block srf-mono-caption text-[var(--srf-oxblood)] mb-1"
-              >
-                Hex color ({target === 'base' ? 'Base color' : 'Print color'})
-              </label>
-              <div className="flex items-center gap-2">
-                <NativeColorInput
-                  id={`${idPrefix}-color-picker`}
-                  testId={`${idPrefix}-color-picker`}
-                  value={activeHex}
-                  disabled={activeDisabled}
-                  onHexChange={(normalized) => {
-                    setHexError(null);
-                    setDraftHex(normalized);
-                    commitHexForTarget(normalized);
-                  }}
-                  ariaLabel={`Color picker for ${target === 'base' ? 'Base color' : 'Print color'}`}
-                  className="w-10 h-10 p-0.5 rounded-[4px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)] cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
-                />
-                <input
-                  id={`${idPrefix}-hex-input`}
-                  data-testid={`${idPrefix}-hex-input`}
-                  type="text"
-                  value={draftHex}
-                  disabled={activeDisabled}
-                  onFocus={() => {
-                    isEditingHexRef.current = true;
-                  }}
-                  onChange={handleHexInputChange}
-                  onBlur={handleHexCommit}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleHexCommit();
-                    }
-                  }}
-                  aria-invalid={hexError ? 'true' : undefined}
-                  aria-describedby={hexError ? `${idPrefix}-hex-error` : undefined}
-                  placeholder="#9A463D"
-                  className="w-full min-h-[40px] px-3 py-1.5 rounded-[4px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)] text-sm font-[family-name:var(--font-mono)] uppercase text-[var(--srf-oxblood)] disabled:opacity-55 disabled:cursor-not-allowed"
-                />
-              </div>
-              {hexError && (
-                <p
-                  id={`${idPrefix}-hex-error`}
-                  className="mt-1 text-xs font-medium text-[var(--srf-clay)]"
-                >
-                  {hexError}
-                </p>
-              )}
-            </div>
-
-            {/* Labeled keyboard-accessible HSV sliders */}
-            <div className="space-y-2">
-              <div>
-                <div className="flex justify-between srf-mono-caption text-[var(--srf-oxblood)]">
-                  <label htmlFor={`${idPrefix}-hue-slider`}>Hue</label>
-                  <span>{activeHsv.h}°</span>
-                </div>
-                <input
-                  id={`${idPrefix}-hue-slider`}
-                  type="range"
-                  min={0}
-                  max={359}
-                  step={1}
-                  disabled={activeDisabled}
-                  value={activeHsv.h}
-                  onChange={(e) =>
-                    commitHsv(Number(e.target.value), activeHsv.s, activeHsv.v)
-                  }
-                  className="srf-range !h-8"
-                />
-              </div>
-
-              <div>
-                <div className="flex justify-between srf-mono-caption text-[var(--srf-oxblood)]">
-                  <label htmlFor={`${idPrefix}-sat-slider`}>Saturation</label>
-                  <span>{activeHsv.s}%</span>
-                </div>
-                <input
-                  id={`${idPrefix}-sat-slider`}
-                  type="range"
-                  min={0}
-                  max={100}
-                  step={1}
-                  disabled={activeDisabled}
-                  value={activeHsv.s}
-                  onChange={(e) =>
-                    commitHsv(hueMemoryRef.current[target], Number(e.target.value), activeHsv.v)
-                  }
-                  className="srf-range !h-8"
-                />
-              </div>
-
-              <div>
-                <div className="flex justify-between srf-mono-caption text-[var(--srf-oxblood)]">
-                  <label htmlFor={`${idPrefix}-val-slider`}>Brightness</label>
-                  <span>{activeHsv.v}%</span>
-                </div>
-                <input
-                  id={`${idPrefix}-val-slider`}
-                  type="range"
-                  min={0}
-                  max={100}
-                  step={1}
-                  disabled={activeDisabled}
-                  value={activeHsv.v}
-                  onChange={(e) =>
-                    commitHsv(hueMemoryRef.current[target], activeHsv.s, Number(e.target.value))
-                  }
-                  className="srf-range !h-8"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 10 Curated felt swatch shortcuts (always including Clay, Flax, Sage) */}
-        <div>
-          <div className="srf-mono-caption text-[var(--srf-mauve)] mb-2">
-            Felt shortcuts for {target === 'base' ? 'base color' : 'print color'}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {COLOR_PRESETS.map((preset) => {
-              const matched = activeHex.toUpperCase() === preset.hex.toUpperCase();
-              return (
-                <button
-                  key={preset.id}
-                  type="button"
-                  disabled={activeDisabled}
-                  aria-label={`${target === 'base' ? 'Base' : 'Print'} preset ${preset.name} (${preset.hex})`}
-                  aria-pressed={matched}
-                  title={`${preset.name} · ${preset.hex}`}
-                  onClick={() => {
-                    setHexError(null);
-                    setDraftHex(preset.hex);
-                    commitHexForTarget(preset.hex);
-                  }}
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 min-h-[36px] rounded-[6px] border text-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-                    matched
-                      ? 'border-[var(--srf-oxblood)] bg-[var(--srf-porcelain)] ring-1 ring-[var(--srf-oxblood)] text-[var(--srf-oxblood)] font-medium'
-                      : 'border-[var(--srf-hairline)] bg-[var(--srf-porcelain)]/70 hover:border-[var(--srf-oxblood)] text-[var(--srf-oxblood)]'
-                  }`}
-                >
-                  <span
-                    className="w-3.5 h-3.5 rounded-full border border-[var(--srf-oxblood)]/25 shrink-0"
-                    style={{ backgroundColor: preset.hex }}
-                    aria-hidden="true"
-                  />
-                  <span>{preset.name}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-]]>
-    </file>
     <file path="src/app/(serraform)/serraform/fold/config.ts">
 <![CDATA[import type { DesignState } from './state';
 
@@ -3578,8 +2490,6 @@ export const VIEW_ORDER: ViewId[] = ['front', 'quarter', 'side', 'back'];
 
 export const NAV_ITEMS = [
   { href: '#fold', label: 'The fold' },
-  { href: '#configure', label: 'Studio' },
-  { href: '#rooms', label: 'In a room' },
   { href: '#questions', label: 'Questions' },
 ] as const;
 
@@ -3601,47 +2511,6 @@ export const STORY_CHAPTERS = [
     title: 'Make it yours.',
     body: 'Choose your base felt color, layer a printed pattern or artwork, and orbit around the result.',
     sampleOpening: 50,
-  },
-] as const;
-
-export const ROOM_STUDIES = [
-  {
-    id: 'reading',
-    title: 'Your design in a corner',
-    copy: 'A soft edge shaped with your current colors and artwork.',
-    opening: 35,
-    live: true,
-    fixedDesign: null,
-  },
-  {
-    id: 'studio',
-    title: 'Shared studio',
-    copy: 'A little separation where two working days overlap.',
-    opening: 75,
-    live: false,
-    fixedDesign: {
-      opening: 75,
-      baseHex: '#9A463D',
-      designHex: '#FFFCF8',
-      print: 'stripes' as PrintId,
-      motifScale: 100,
-    },
-    caption: 'Example study · Clay #9A463D · Stripes at 75%',
-  },
-  {
-    id: 'morning',
-    title: 'Slow morning',
-    copy: 'A boundary you can change when the day changes.',
-    opening: 60,
-    live: false,
-    fixedDesign: {
-      opening: 60,
-      baseHex: '#A6B3A0',
-      designHex: '#4B202A',
-      print: 'waves' as PrintId,
-      motifScale: 100,
-    },
-    caption: 'Example study · Sage #A6B3A0 · Waves at 60%',
   },
 ] as const;
 
@@ -3683,421 +2552,6 @@ export function findColorPresetName(hex: string): string | null {
   const match = COLOR_PRESETS.find((c) => c.hex.toUpperCase() === upper);
   return match ? match.name : null;
 }
-]]>
-    </file>
-    <file path="src/app/(serraform)/serraform/fold/Configurator.tsx">
-<![CDATA['use client';
-
-import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, RotateCcw, RotateCw } from 'lucide-react';
-import { ColorWheel } from './ColorWheel';
-import {
-  FOLD_CONSTANTS,
-  PRINT_SPECS,
-  VIEW_ORDER,
-  VIEW_PRESETS,
-} from './config';
-import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
-import { useFold } from './FoldProvider';
-import { PrintGallery } from './PrintGallery';
-import { normalizeYawDeg, usesActivePrintColor, viewPresetFromAngles } from './state';
-
-export const Configurator: React.FC = () => {
-  const {
-    mode,
-    design,
-    view,
-    effectiveOpening,
-    effectivePose,
-    env,
-    uploadedArt,
-    setOpening,
-    setViewPreset,
-    rotateViewStep,
-    resetView,
-    resetShape,
-    resetDesign,
-    followStory,
-    subscribeStoryFrame,
-    subscribeChainFrame,
-    getLiveChainFrame,
-  } = useFold();
-
-  const rangeRef = useRef<HTMLInputElement>(null);
-  const percentRef = useRef<HTMLSpanElement>(null);
-  const spanRef = useRef<HTMLSpanElement>(null);
-  const summarySpanRef = useRef<HTMLSpanElement>(null);
-
-  const [announcement, setAnnouncement] = useState('');
-
-  // Keep shape slider and readouts synced cleanly during manual edits, story scrub, and chain choreography
-  useEffect(() => {
-    const syncDom = (val: number, spanMeters?: number) => {
-      const rounded = Math.round(val);
-      const formattedSpan = formatMeters(
-        typeof spanMeters === 'number' ? spanMeters : deriveFold(val).metrics.outerSpan,
-      );
-      if (rangeRef.current) {
-        rangeRef.current.value = String(rounded);
-      }
-      if (percentRef.current) {
-        percentRef.current.textContent = `${rounded}%`;
-      }
-      if (spanRef.current) {
-        spanRef.current.textContent = formattedSpan;
-      }
-      if (summarySpanRef.current) {
-        summarySpanRef.current.textContent = formattedSpan;
-      }
-    };
-
-    const liveChain = getLiveChainFrame();
-    if (liveChain) {
-      syncDom(liveChain.averageOpening, deriveFoldChain(liveChain.panelOpenings).metrics.outerSpan);
-    } else {
-      syncDom(effectiveOpening);
-    }
-
-    const unsubChain = subscribeChainFrame((frame) => {
-      if (frame) {
-        syncDom(frame.averageOpening, deriveFoldChain(frame.panelOpenings).metrics.outerSpan);
-      } else {
-        syncDom(effectiveOpening);
-      }
-    });
-
-    const unsubStory =
-      mode === 'story'
-        ? subscribeStoryFrame((nextOpening) => {
-            if (!getLiveChainFrame()) {
-              syncDom(nextOpening);
-            }
-          })
-        : undefined;
-
-    return () => {
-      unsubChain();
-      unsubStory?.();
-    };
-  }, [mode, effectiveOpening, subscribeStoryFrame, subscribeChainFrame, getLiveChainFrame]);
-
-  const handleRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOpening(Number(e.target.value));
-  };
-
-  const handleRangeCommit = () => {
-    const pose = deriveFold(effectiveOpening);
-    setAnnouncement(
-      `Opening ${Math.round(effectiveOpening)} percent, span ${formatMeters(pose.metrics.outerSpan)}.`,
-    );
-  };
-
-  const handleUseInBrief = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const target = document.getElementById('brief-heading');
-    if (target) {
-      target.scrollIntoView({
-        behavior: env.reducedMotion ? 'auto' : 'smooth',
-        block: 'start',
-      });
-      if (target instanceof HTMLElement) {
-        target.focus({ preventScroll: true });
-      }
-    }
-  };
-
-  const roundedOpening = Math.round(effectiveOpening);
-  const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
-  const printSpec = PRINT_SPECS[design.print];
-  const matchedPreset = viewPresetFromAngles(view);
-  const roundedYaw = Math.round(normalizeYawDeg(view.yawDeg));
-
-  return (
-    <div className="space-y-7">
-      <div>
-        <div className="mb-2 srf-mono-caption text-[var(--srf-mauve)]">
-          Divider design studio
-        </div>
-        <h2 className="srf-h3 text-[var(--srf-oxblood)] text-balance mb-2">
-          Tailor the fold, palette, and textile.
-        </h2>
-        <p className="text-sm text-[var(--srf-mauve)] max-w-[46ch]">
-          Every change updates Fold {FOLD_CONSTANTS.panels} continuously across all sixteen panels and flows straight into your room brief.
-        </p>
-      </div>
-
-      {/* 1. Shape */}
-      <section className="pt-5 border-t border-[var(--srf-hairline)] space-y-3" aria-labelledby="srf-step-shape">
-        <div className="flex items-baseline justify-between gap-4">
-          <h3 id="srf-step-shape" className="text-base font-medium text-[var(--srf-oxblood)]">
-            1. Shape
-          </h3>
-          <div className="srf-mono-dim text-[var(--srf-oxblood)]">
-            <span ref={percentRef}>{roundedOpening}%</span>
-            <span className="mx-1.5 text-[var(--srf-mauve)]" aria-hidden="true">
-              ·
-            </span>
-            <span ref={spanRef}>{formattedSpan}</span>
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="srf-opening-range" className="sr-only">
-            Opening percentage
-          </label>
-          <input
-            ref={rangeRef}
-            id="srf-opening-range"
-            type="range"
-            min={0}
-            max={100}
-            step={1}
-            defaultValue={roundedOpening}
-            onChange={handleRangeChange}
-            onPointerUp={handleRangeCommit}
-            onKeyUp={handleRangeCommit}
-            aria-valuetext={`${roundedOpening} percent, outer span ${formattedSpan}`}
-            className="srf-range"
-          />
-          <div className="flex items-center justify-between srf-mono-caption text-[var(--srf-mauve)]">
-            <span>Gathered</span>
-            <button
-              type="button"
-              onClick={() => {
-                resetShape();
-                setAnnouncement('Shape reset to 50 percent opening.');
-              }}
-              className="text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[32px] px-1"
-            >
-              Reset shape
-            </button>
-            <span>Open</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. Base & Print Color */}
-      <section className="pt-5 border-t border-[var(--srf-hairline)] space-y-3" aria-labelledby="srf-step-color">
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 id="srf-step-color" className="text-base font-medium text-[var(--srf-oxblood)]">
-            2. Base &amp; Print Color
-          </h3>
-          <span className="srf-mono-caption text-[var(--srf-mauve)]">
-            {design.baseHex}
-            {usesActivePrintColor(design) ? ` · ${design.designHex}` : ''}
-          </span>
-        </div>
-
-        <ColorWheel />
-      </section>
-
-      {/* 3. Design */}
-      <section className="pt-5 border-t border-[var(--srf-hairline)] space-y-3" aria-labelledby="srf-step-design">
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 id="srf-step-design" className="text-base font-medium text-[var(--srf-oxblood)]">
-            3. Design
-          </h3>
-          <span className="srf-mono-caption text-[var(--srf-mauve)]">
-            {printSpec.name}
-            {printSpec.usesScale ? ` · ${design.motifScale}%` : ''}
-          </span>
-        </div>
-
-        <PrintGallery onAnnounce={setAnnouncement} />
-      </section>
-
-      {/* 4. View */}
-      <section className="pt-5 border-t border-[var(--srf-hairline)] space-y-3" aria-labelledby="srf-step-view">
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 id="srf-step-view" className="text-base font-medium text-[var(--srf-oxblood)]">
-            4. View
-          </h3>
-          <span className="srf-mono-caption text-[var(--srf-mauve)]" data-testid="srf-view-readout">
-            View: {roundedYaw}°
-          </span>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            aria-label="Rotate divider left"
-            onClick={() => {
-              rotateViewStep(-FOLD_CONSTANTS.rotateStepDeg);
-              setAnnouncement(`Rotated divider left 15 degrees.`);
-            }}
-            className="srf-btn-secondary !px-3.5 text-sm"
-          >
-            <RotateCcw className="w-4 h-4" aria-hidden="true" />
-            <span>Rotate left</span>
-          </button>
-
-          <button
-            type="button"
-            aria-label="Rotate divider right"
-            onClick={() => {
-              rotateViewStep(FOLD_CONSTANTS.rotateStepDeg);
-              setAnnouncement(`Rotated divider right 15 degrees.`);
-            }}
-            className="srf-btn-secondary !px-3.5 text-sm"
-          >
-            <RotateCw className="w-4 h-4" aria-hidden="true" />
-            <span>Rotate right</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              resetView();
-              setAnnouncement('Camera reset to default three-quarter angle.');
-            }}
-            className="srf-btn-secondary !px-3.5 text-sm"
-          >
-            Reset view
-          </button>
-        </div>
-
-        <div className="flex flex-wrap gap-2" role="group" aria-label="Camera presets">
-          {VIEW_ORDER.map((viewId) => {
-            const preset = VIEW_PRESETS[viewId];
-            const active = matchedPreset === viewId;
-            return (
-              <button
-                key={viewId}
-                type="button"
-                aria-pressed={active}
-                onClick={() => {
-                  setViewPreset(viewId);
-                  setAnnouncement(`Camera view changed to ${preset.label}.`);
-                }}
-                className="srf-btn-secondary !min-h-[40px] !py-1.5 !px-3 text-sm"
-              >
-                {preset.label}
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Reset design & live configuration summary */}
-      <section className="pt-5 border-t border-[var(--srf-hairline)] space-y-4">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <button
-            type="button"
-            onClick={() => {
-              resetDesign();
-              setAnnouncement('Design reset to Flax #D8C4A7, Oxblood #4B202A, Bloom at 100 percent.');
-            }}
-            className="srf-btn-secondary !min-h-[40px] !py-1.5 !px-3.5 text-sm"
-          >
-            Reset design
-          </button>
-
-          {env.enhancedDesktop && mode === 'manual' && (
-            <button
-              type="button"
-              onClick={() => {
-                followStory();
-                setAnnouncement('Following story opening.');
-              }}
-              className="srf-btn-secondary !min-h-[40px] !py-1.5 !px-3.5 text-sm"
-            >
-              Follow the story
-            </button>
-          )}
-        </div>
-
-        <dl
-          data-testid="srf-studio-summary"
-          className="p-4 rounded-[8px] border border-[var(--srf-hairline)] bg-[var(--srf-surface-soft)] grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm"
-        >
-          <div>
-            <dt className="srf-mono-caption text-[var(--srf-mauve)]">Base color</dt>
-            <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
-              <span
-                className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
-                style={{ backgroundColor: design.baseHex }}
-                aria-hidden="true"
-              />
-              <span>{design.baseHex}</span>
-            </dd>
-          </div>
-
-          <div>
-            <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print</dt>
-            <dd className="font-medium text-[var(--srf-oxblood)]">
-              {printSpec.name}
-            </dd>
-          </div>
-
-          <div>
-            <dt className="srf-mono-caption text-[var(--srf-mauve)]">Print color</dt>
-            <dd className="font-medium text-[var(--srf-oxblood)] flex items-center gap-2">
-              <span
-                className="w-3 h-3 rounded-full border border-[var(--srf-oxblood)]/25 inline-block shrink-0"
-                style={{ backgroundColor: design.designHex }}
-                aria-hidden="true"
-              />
-              <span className={!usesActivePrintColor(design) ? 'text-[var(--srf-mauve)]' : undefined}>
-                {usesActivePrintColor(design)
-                  ? design.designHex
-                  : `${design.designHex} (${design.print === 'solid' ? 'saved' : 'original upload'})`}
-              </span>
-            </dd>
-          </div>
-
-          {printSpec.usesScale && (
-            <div>
-              <dt className="srf-mono-caption text-[var(--srf-mauve)]">
-                {printSpec.scaleLabel}
-              </dt>
-              <dd className="font-medium text-[var(--srf-oxblood)]">
-                {design.motifScale}%
-              </dd>
-            </div>
-          )}
-
-          <div>
-            <dt className="srf-mono-caption text-[var(--srf-mauve)]">Opening</dt>
-            <dd className="font-medium text-[var(--srf-oxblood)]">
-              {roundedOpening}%
-            </dd>
-          </div>
-
-          <div>
-            <dt className="srf-mono-caption text-[var(--srf-mauve)]">Outer span</dt>
-            <dd className="font-medium text-[var(--srf-oxblood)]">
-              <span ref={summarySpanRef}>{formattedSpan}</span>
-            </dd>
-          </div>
-
-          {design.print === 'upload' && uploadedArt && (
-            <div className="col-span-2">
-              <dt className="srf-mono-caption text-[var(--srf-mauve)]">Your image</dt>
-              <dd className="font-medium text-[var(--srf-oxblood)] truncate">
-                {uploadedArt.filename} (local session only)
-              </dd>
-            </div>
-          )}
-        </dl>
-
-        <div>
-          <a
-            href="#brief"
-            onClick={handleUseInBrief}
-            className="srf-btn-primary w-full"
-          >
-            <span>Use this design in my brief</span>
-            <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
-          </a>
-        </div>
-      </section>
-
-      <div className="sr-only" aria-live="polite">
-        {announcement}
-      </div>
-    </div>
-  );
-};
 ]]>
     </file>
     <file path="src/app/(serraform)/serraform/fold/FoldPoster.tsx">
@@ -6888,50 +5342,15 @@ export const FoldStage: React.FC<FoldStageProps> = ({
         {accessibleDescription}
       </p>
 
-      {/* Top instrumentation & mode control */}
-      <div
-        className={`relative z-10 flex items-center justify-between gap-3 shrink-0 pointer-events-none ${
-          isAtelier
-            ? 'px-1 pt-1 sm:px-2 sm:pt-1.5'
-            : compact
+      {/* Top instrumentation & mode control (hidden in hero/atelier) */}
+      {!isAtelier && (
+        <div
+          className={`relative z-10 flex items-center justify-between gap-3 shrink-0 pointer-events-none ${
+            compact
               ? 'px-3 pt-2'
               : 'px-3 pt-2 sm:px-5 sm:pt-4'
-        }`}
-      >
-        {isAtelier ? (
-          <div
-            className="min-w-0 flex flex-wrap items-center gap-x-2 gap-y-0.5 srf-mono-caption select-none"
-            style={{ color: 'var(--room-text-primary)' }}
-          >
-            <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-              <CircularDragHintSvg />
-              <span>Drag to rotate</span>
-            </span>
-            <span
-              className="hidden sm:inline opacity-65"
-              style={{ color: 'var(--room-text-secondary)' }}
-              aria-hidden="true"
-            >
-              ·
-            </span>
-            <span
-              className="uppercase tracking-[0.04em] text-[11px] sm:text-xs"
-              style={{ color: 'var(--room-text-secondary)' }}
-              data-testid="hero-atelier-readout"
-            >
-              Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex}
-              {usesActivePrintColor(design) ? ` / ${design.designHex}` : ''} ·{' '}
-              <span
-                ref={atelierReadoutSpanRef}
-                className="font-medium whitespace-nowrap"
-                style={{ color: 'var(--room-text-primary)' }}
-              >
-                {formatMeters(currentPose.metrics.outerSpan)}
-              </span>{' '}
-              span
-            </span>
-          </div>
-        ) : (
+          }`}
+        >
           <div className="inline-flex items-center gap-1.5 srf-mono-caption text-[var(--srf-mauve)] pointer-events-none select-none">
             <CircularDragHintSvg />
             <span>Drag to rotate</span>
@@ -6942,65 +5361,67 @@ export const FoldStage: React.FC<FoldStageProps> = ({
               </>
             )}
           </div>
-        )}
 
-        <div className="pointer-events-auto flex items-center gap-2 shrink-0">
-          {!env.reducedMotion && (
-            <>
-              {showWebglCanvas ? (
-                <button
-                  type="button"
-                  onClick={handleUseStill}
-                  className={`srf-btn-secondary ${
-                    isAtelier && darkSurface
-                      ? 'bg-[#2B2426]/90 !text-[#F8F2EE] !border-[#F8F2EE]/30 hover:!border-[#F8F2EE]'
-                      : 'bg-[var(--srf-rose)]/92'
-                  } ${
-                    compact || isAtelier
-                      ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
-                      : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
-                  }`}
-                >
-                  Use still view
-                </button>
-              ) : graphicsState === 'error' ? (
-                <button
-                  type="button"
-                  onClick={handleExplore3D}
-                  className={`srf-btn-secondary ${
-                    isAtelier && darkSurface
-                      ? 'bg-[#2B2426]/90 !text-[#F8F2EE] !border-[#F8F2EE]/30 hover:!border-[#F8F2EE]'
-                      : 'bg-[var(--srf-rose)]/92'
-                  } ${
-                    compact || isAtelier
-                      ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
-                      : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
-                  }`}
-                >
-                  Try 3D again
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleExplore3D}
-                  disabled={graphicsState === 'initializing'}
-                  className={`srf-btn-secondary ${
-                    isAtelier && darkSurface
-                      ? 'bg-[#2B2426]/90 !text-[#F8F2EE] !border-[#F8F2EE]/30 hover:!border-[#F8F2EE]'
-                      : 'bg-[var(--srf-rose)]/92'
-                  } ${
-                    compact || isAtelier
-                      ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
-                      : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
-                  }`}
-                >
-                  {graphicsState === 'initializing' ? 'Opening 3D…' : 'Explore in 3D'}
-                </button>
-              )}
-            </>
-          )}
+          <div className="pointer-events-auto flex items-center gap-2 shrink-0">
+            {!env.reducedMotion && (
+              <>
+                {showWebglCanvas ? (
+                  <button
+                    type="button"
+                    onClick={handleUseStill}
+                    className={`srf-btn-secondary bg-[var(--srf-rose)]/92 ${
+                      compact
+                        ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
+                        : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
+                    }`}
+                  >
+                    Use still view
+                  </button>
+                ) : graphicsState === 'error' ? (
+                  <button
+                    type="button"
+                    onClick={handleExplore3D}
+                    className={`srf-btn-secondary bg-[var(--srf-rose)]/92 ${
+                      compact
+                        ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
+                        : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
+                    }`}
+                  >
+                    Try 3D again
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleExplore3D}
+                    disabled={graphicsState === 'initializing'}
+                    className={`srf-btn-secondary bg-[var(--srf-rose)]/92 ${
+                      compact
+                        ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
+                        : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
+                    }`}
+                  >
+                    {graphicsState === 'initializing' ? 'Opening 3D…' : 'Explore in 3D'}
+                  </button>
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
+      {isAtelier && (
+        <span
+          data-testid="hero-atelier-readout"
+          className="sr-only"
+        >
+          Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex}
+          {usesActivePrintColor(design) ? ` / ${design.designHex}` : ''} ·{' '}
+          <span ref={atelierReadoutSpanRef}>
+            {formatMeters(currentPose.metrics.outerSpan)}
+          </span>{' '}
+          span
+        </span>
+      )}
 
       {/* Direct drag viewport containing synced 2D still renderer & active WebGL host (or portal to full-bleed Hero layer) */}
       <div
@@ -7677,7 +6098,7 @@ export function computePanelUVSpan(
 <![CDATA['use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { RotateCcw, SlidersHorizontal, Upload } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { renderTextileToCanvas } from './artwork';
 import {
   evaluatePrintContrast,
@@ -7688,18 +6109,13 @@ import {
   COLOR_PRESETS,
   PRINT_SPECS,
   PrintId,
-  VIEW_PRESETS,
-  ViewId,
 } from './config';
 import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
 import { NativeColorInput } from './NativeColorInput';
-import { usesActivePrintColor, viewPresetFromAngles } from './state';
-
-export type AdvancedDrawerSection = 'all' | 'color' | 'printColor' | 'design' | 'view';
+import { usesActivePrintColor } from './state';
 
 interface HeroStudioDockProps {
-  onOpenAdvanced: (section: AdvancedDrawerSection) => void;
   shapeInputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
@@ -7719,8 +6135,6 @@ const CURATED_PRINT_SWATCH_IDS = [
   'flax',
   'charcoal',
 ] as const;
-
-const DOCK_VIEW_PRESETS: readonly ViewId[] = ['front', 'quarter', 'side'];
 
 const MiniPrintThumb: React.FC<{
   printId: PrintId;
@@ -7762,7 +6176,6 @@ const MiniPrintThumb: React.FC<{
 };
 
 export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
-  onOpenAdvanced,
   shapeInputRef,
 }) => {
   const {
@@ -7777,7 +6190,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
     setBaseHex,
     setDesignHex,
     setPrint,
-    setViewPreset,
     resetDesign,
     resetShape,
     subscribeStoryFrame,
@@ -7861,7 +6273,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
   const printColorActive = usesActivePrintColor(design);
   const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
 
-  const matchedView = viewPresetFromAngles(view);
   const roundedOpening = Math.round(effectiveOpening);
   const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
 
@@ -7870,7 +6281,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
       data-testid="hero-studio-dock"
       className="srf-hero-dock rounded-[10px] border border-[var(--srf-hairline-strong)] bg-[#FAF2EE]/95 shadow-[0_14px_38px_-16px_rgba(75,32,42,0.16)] px-3.5 py-3 sm:px-5 sm:py-3.5"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(150px,0.92fr)_minmax(195px,1.15fr)_minmax(240px,1.45fr)_minmax(205px,1.22fr)_minmax(160px,0.92fr)] gap-y-3 gap-x-3.5 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(150px,1fr)_minmax(195px,1.2fr)_minmax(240px,1.4fr)_minmax(205px,1.2fr)_auto] gap-y-3 gap-x-3.5 items-center">
         {/* 1. Shape */}
         <div className="min-w-0">
           <div className="flex items-baseline justify-between gap-2 mb-0.5">
@@ -7917,13 +6328,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Base color
             </span>
-            <button
-              type="button"
-              onClick={() => onOpenAdvanced('color')}
-              className="srf-mono-caption text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
-            >
-              Hex / wheel
-            </button>
           </div>
 
           <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Base felt color presets">
@@ -7984,14 +6388,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Print
             </span>
-            <button
-              type="button"
-              onClick={() => onOpenAdvanced('design')}
-              className="srf-mono-caption inline-flex items-center gap-1 text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
-            >
-              <Upload className="w-3 h-3" aria-hidden="true" />
-              <span>More / Upload</span>
-            </button>
           </div>
 
           <div className="flex flex-wrap items-center gap-1" role="group" aria-label="Textile print presets">
@@ -8076,13 +6472,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Print color
             </span>
-            <button
-              type="button"
-              onClick={() => onOpenAdvanced('printColor')}
-              className="srf-mono-caption text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
-            >
-              Hex / wheel
-            </button>
           </div>
 
           <div
@@ -8090,13 +6479,11 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             role="group"
             aria-label="Print pigment color presets"
           >
-            <button
-              type="button"
+            <div
               data-testid="hero-design-color-btn"
               aria-label={`Active print color ${design.designHex}${printColorActive ? '' : ' (saved for patterns)'}`}
               title={`Active print color · ${design.designHex}`}
-              onClick={() => onOpenAdvanced('printColor')}
-              className="inline-flex items-center gap-1.5 px-1.5 py-0.5 h-6 rounded-full border border-[var(--srf-oxblood)]/35 bg-[var(--srf-porcelain)] text-[10px] font-[family-name:var(--font-mono)] text-[var(--srf-oxblood)] hover:border-[var(--srf-oxblood)] shrink-0"
+              className="inline-flex items-center gap-1.5 px-1.5 py-0.5 h-6 rounded-full border border-[var(--srf-oxblood)]/35 bg-[var(--srf-porcelain)] text-[10px] font-[family-name:var(--font-mono)] text-[var(--srf-oxblood)] shrink-0 select-none"
             >
               <span
                 className="w-3.5 h-3.5 rounded-full border border-[var(--srf-oxblood)]/25 block shrink-0"
@@ -8104,7 +6491,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 aria-hidden="true"
               />
               <span>{design.designHex}</span>
-            </button>
+            </div>
 
             {curatedPrintSwatches.map((preset) => {
               const active = design.designHex.toUpperCase() === preset.hex.toUpperCase();
@@ -8161,64 +6548,21 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </div>
         </div>
 
-        {/* 5. View & Advanced Studio trigger */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex flex-col justify-between gap-1.5">
-          <div className="flex items-center justify-between gap-2">
-            <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
-              View
-            </span>
-            {isCustomized && (
-              <button
-                type="button"
-                onClick={() => {
-                  resetDesign();
-                  resetShape();
-                  setAnnouncement('Divider design and shape reset to defaults.');
-                }}
-                aria-label="Reset design and shape defaults"
-                className="srf-mono-caption inline-flex items-center gap-1 text-[var(--srf-clay)] hover:text-[var(--srf-oxblood)] underline underline-offset-4 min-h-[24px]"
-              >
-                <RotateCcw className="w-3 h-3" aria-hidden="true" />
-                <span>Reset</span>
-              </button>
-            )}
-          </div>
-
-          <div className="flex flex-wrap xl:flex-nowrap items-center gap-1" role="group" aria-label="Quick camera views">
-            {DOCK_VIEW_PRESETS.map((vId) => {
-              const preset = VIEW_PRESETS[vId];
-              const active = matchedView === vId;
-              const shortLabel = vId === 'quarter' ? '3/4' : preset.label;
-              return (
-                <button
-                  key={vId}
-                  type="button"
-                  aria-pressed={active}
-                  aria-label={`View ${preset.label}`}
-                  onClick={() => {
-                    setViewPreset(vId);
-                    setAnnouncement(`Camera angle set to ${preset.label}.`);
-                  }}
-                  className={`px-2 py-1 min-h-[32px] rounded-[5px] border text-xs font-medium transition-colors whitespace-nowrap ${
-                    active
-                      ? 'srf-hero-active-view'
-                      : 'border-[var(--srf-hairline-strong)] text-[var(--srf-oxblood)] hover:border-[var(--room-ui-outline)]'
-                  }`}
-                >
-                  {shortLabel}
-                </button>
-              );
-            })}
-          </div>
-
+        {/* 5. Reset */}
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex items-center justify-end">
           <button
             type="button"
-            data-testid="hero-more-options-btn"
-            onClick={() => onOpenAdvanced('all')}
-            className="inline-flex items-center justify-between gap-1.5 w-full px-2.5 py-1.5 min-h-[34px] rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors"
+            disabled={!isCustomized}
+            onClick={() => {
+              resetDesign();
+              resetShape();
+              setAnnouncement('Divider design and shape reset to defaults.');
+            }}
+            aria-label="Reset design and shape defaults"
+            className="srf-mono-caption inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors min-h-[36px] disabled:opacity-35 disabled:cursor-not-allowed"
           >
-            <span>More options</span>
-            <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+            <RotateCcw className="w-3 h-3 shrink-0" aria-hidden="true" />
+            <span>Reset</span>
           </button>
         </div>
       </div>
@@ -8789,304 +7133,6 @@ export function NativeColorInput({
     />
   );
 }
-]]>
-    </file>
-    <file path="src/app/(serraform)/serraform/fold/PrintGallery.tsx">
-<![CDATA['use client';
-
-import React, { useEffect, useRef } from 'react';
-import { Check, ImagePlus, RefreshCw, Trash2 } from 'lucide-react';
-import { renderTextileToCanvas } from './artwork';
-import { BUILTIN_PRINT_ORDER, PRINT_SPECS, PrintId } from './config';
-import { useFold } from './FoldProvider';
-
-const SwatchPreviewCanvas: React.FC<{
-  printId: PrintId;
-  baseHex: string;
-  designHex: string;
-  motifScale: number;
-  tintUpload?: boolean;
-  uploadedBitmap?: ImageBitmap | null;
-}> = ({ printId, baseHex, designHex, motifScale, tintUpload, uploadedBitmap }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const id = requestAnimationFrame(() => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      renderTextileToCanvas(
-        canvas,
-        {
-          baseHex,
-          designHex,
-          print: printId,
-          motifScale,
-          tintUpload,
-        },
-        uploadedBitmap ?? null,
-      );
-    });
-    return () => cancelAnimationFrame(id);
-  }, [printId, baseHex, designHex, motifScale, tintUpload, uploadedBitmap]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      width={192}
-      height={108}
-      aria-hidden="true"
-      className="w-full h-14 object-cover rounded-[4px] border border-[var(--srf-oxblood)]/15 block"
-    />
-  );
-};
-
-export const PrintGallery: React.FC<{
-  idPrefix?: string;
-  onAnnounce?: (msg: string) => void;
-}> = ({ idPrefix = 'srf', onAnnounce }) => {
-  const {
-    design,
-    uploadedArt,
-    uploadError,
-    isUploading,
-    setPrint,
-    setMotifScale,
-    setTintUpload,
-    uploadFile,
-    clearUpload,
-    clearUploadError,
-  } = useFold();
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const printSpec = PRINT_SPECS[design.print];
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    // Reset input value so re-choosing the same file works cleanly
-    e.target.value = '';
-    if (!file) return;
-    await uploadFile(file);
-    onAnnounce?.(`Processed image selection.`);
-  };
-
-  const triggerFilePicker = () => {
-    clearUploadError();
-    fileInputRef.current?.click();
-  };
-
-  return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5" role="group" aria-label="Textile print library">
-        {BUILTIN_PRINT_ORDER.map((id) => {
-          const spec = PRINT_SPECS[id];
-          const active = design.print === id;
-          return (
-            <button
-              key={id}
-              type="button"
-              aria-pressed={active}
-              onClick={() => {
-                setPrint(id);
-                onAnnounce?.(`Print set to ${spec.name}.`);
-              }}
-              className={`group flex flex-col gap-2 p-2 rounded-[8px] border text-left transition-colors ${
-                active
-                  ? 'border-[var(--srf-oxblood)] bg-[var(--srf-surface-soft)] ring-2 ring-[var(--srf-oxblood)]/25'
-                  : 'border-[var(--srf-hairline)] hover:border-[var(--srf-hairline-strong)] bg-[var(--srf-rose)]'
-              }`}
-            >
-              <SwatchPreviewCanvas
-                printId={id}
-                baseHex={design.baseHex}
-                designHex={design.designHex}
-                motifScale={id === design.print ? design.motifScale : 100}
-              />
-              <div className="flex items-center justify-between gap-1 px-0.5">
-                <span className="text-xs font-medium text-[var(--srf-oxblood)] truncate">
-                  {spec.name}
-                </span>
-                {active && (
-                  <Check className="w-3.5 h-3.5 text-[var(--srf-oxblood)] shrink-0" aria-hidden="true" />
-                )}
-              </div>
-            </button>
-          );
-        })}
-
-        {/* Your image tile */}
-        <button
-          type="button"
-          aria-pressed={design.print === 'upload' && Boolean(uploadedArt)}
-          onClick={() => {
-            if (uploadedArt) {
-              setPrint('upload');
-              onAnnounce?.(`Print set to Your image.`);
-            } else {
-              triggerFilePicker();
-            }
-          }}
-          className={`flex flex-col gap-2 p-2 rounded-[8px] border text-left transition-colors ${
-            design.print === 'upload' && uploadedArt
-              ? 'border-[var(--srf-oxblood)] bg-[var(--srf-surface-soft)] ring-2 ring-[var(--srf-oxblood)]/25'
-              : 'border-[var(--srf-hairline)] hover:border-[var(--srf-hairline-strong)] bg-[var(--srf-rose)]'
-          }`}
-        >
-          {uploadedArt ? (
-            design.tintUpload ? (
-              <SwatchPreviewCanvas
-                printId="upload"
-                baseHex={design.baseHex}
-                designHex={design.designHex}
-                motifScale={design.motifScale}
-                tintUpload
-                uploadedBitmap={uploadedArt.bitmap}
-              />
-            ) : (
-              <img
-                src={uploadedArt.previewUrl}
-                alt=""
-                className="w-full h-14 object-cover rounded-[4px] border border-[var(--srf-oxblood)]/15 block"
-              />
-            )
-          ) : (
-            <div className="w-full h-14 rounded-[4px] border border-dashed border-[var(--srf-hairline-strong)] bg-[var(--srf-surface-soft)] flex flex-col items-center justify-center gap-1 text-[var(--srf-mauve)]">
-              <ImagePlus className="w-4 h-4 text-[var(--srf-oxblood)]" aria-hidden="true" />
-              <span className="srf-mono-caption text-[11px]">
-                {isUploading ? 'Opening…' : 'PNG / JPEG / WebP'}
-              </span>
-            </div>
-          )}
-          <div className="flex items-center justify-between gap-1 px-0.5">
-            <span className="text-xs font-medium text-[var(--srf-oxblood)] truncate">
-              Your image
-            </span>
-            {design.print === 'upload' && uploadedArt && (
-              <Check className="w-3.5 h-3.5 text-[var(--srf-oxblood)] shrink-0" aria-hidden="true" />
-            )}
-          </div>
-        </button>
-      </div>
-
-      {/* Hidden native file input strictly filtered to PNG/JPEG/WebP */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        data-testid={`${idPrefix}-upload-input`}
-        accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp"
-        onChange={handleFileChange}
-        className="sr-only"
-        aria-label="Upload custom artwork image (PNG, JPEG, or WebP)"
-      />
-
-      {/* Uploaded artwork active session details + opt-in tint + Replace/Remove controls */}
-      {uploadedArt && (
-        <div className="p-3.5 rounded-[8px] border border-[var(--srf-hairline)] bg-[var(--srf-surface-soft)] space-y-2.5">
-          <div className="flex items-center justify-between gap-3">
-            <div className="min-w-0">
-              <div className="text-xs font-medium text-[var(--srf-oxblood)] truncate">
-                {uploadedArt.filename}
-              </div>
-              <div className="srf-mono-caption text-[var(--srf-mauve)]">
-                Your image stays in this browser session.
-              </div>
-            </div>
-          </div>
-
-          <label className="flex items-start gap-2.5 pt-0.5 cursor-pointer select-none">
-            <input
-              id={`${idPrefix}-tint-upload-toggle`}
-              data-testid={`${idPrefix}-tint-upload-toggle`}
-              type="checkbox"
-              checked={Boolean(design.tintUpload)}
-              onChange={(e) => {
-                setTintUpload(e.target.checked);
-                onAnnounce?.(
-                  e.target.checked
-                    ? 'Applied Print Color tint to uploaded artwork.'
-                    : 'Restored original colors on uploaded artwork.',
-                );
-              }}
-              className="mt-0.5 h-4 w-4 accent-[var(--srf-oxblood)] rounded shrink-0"
-            />
-            <span className="text-xs text-[var(--srf-oxblood)] leading-snug">
-              <span className="font-medium block">Tint uploaded image with Print color</span>
-              <span className="srf-mono-caption text-[var(--srf-mauve)] block">
-                Off by default — preserves original colors unless enabled.
-              </span>
-            </span>
-          </label>
-
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={triggerFilePicker}
-              className="srf-btn-secondary !min-h-[38px] !py-1.5 !px-3 text-xs"
-            >
-              <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>Replace image</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                clearUpload();
-                onAnnounce?.('Removed uploaded image and returned to Solid.');
-              }}
-              className="srf-btn-secondary !min-h-[38px] !py-1.5 !px-3 text-xs"
-            >
-              <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>Remove image</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {uploadError && (
-        <p
-          role="alert"
-          data-testid={`${idPrefix}-upload-error`}
-          className="text-xs font-medium text-[var(--srf-clay)] bg-[var(--srf-porcelain)] border border-[var(--srf-clay)]/35 rounded-[6px] px-3 py-2"
-        >
-          {uploadError}
-        </p>
-      )}
-
-      {/* Scale range: Motif size or Artwork zoom (50–200%, step 5%) */}
-      <div className="pt-1">
-        <div className="flex items-baseline justify-between gap-4 mb-1">
-          <label
-            htmlFor={`${idPrefix}-scale-range`}
-            className="text-sm font-medium text-[var(--srf-oxblood)]"
-          >
-            {printSpec.scaleLabel}
-          </label>
-          <span className="srf-mono-dim text-[var(--srf-oxblood)]">
-            {design.motifScale}%
-          </span>
-        </div>
-
-        <input
-          id={`${idPrefix}-scale-range`}
-          type="range"
-          min={50}
-          max={200}
-          step={5}
-          disabled={!printSpec.usesScale}
-          value={design.motifScale}
-          onChange={(e) => setMotifScale(Number(e.target.value))}
-          className={`srf-range !h-9 ${!printSpec.usesScale ? 'opacity-45 cursor-not-allowed' : ''}`}
-        />
-
-        <p className="srf-mono-caption text-[var(--srf-mauve)]">
-          {!printSpec.usesScale
-            ? 'Motif size is unavailable on Solid felt.'
-            : design.print === 'landscape' || design.print === 'upload'
-              ? '100% fits across all 16 panels; higher zooms in evenly.'
-              : 'Adjust pattern repeat scale across the continuous sheet.'}
-        </p>
-      </div>
-    </div>
-  );
-};
 ]]>
     </file>
     <file path="src/app/(serraform)/serraform/fold/projection.ts">
@@ -11765,10 +9811,8 @@ export const Construction: React.FC = () => {
 
 import React, { useEffect, useRef } from 'react';
 import { CreaseMarker } from '../brand/Logo';
-import { Configurator } from '../fold/Configurator';
 import { FOLD_CONSTANTS, PRINT_SPECS, STORY_CHAPTERS } from '../fold/config';
 import { useFold } from '../fold/FoldProvider';
-import { FoldStage } from '../fold/FoldStage';
 import { FoldStillCanvas } from '../fold/FoldStillCanvas';
 import { storyChapter, storyOpening, storyProgress } from '../fold/story';
 
@@ -11816,83 +9860,54 @@ export const FoldingExperience: React.FC = () => {
   const printName = PRINT_SPECS[design.print].name;
 
   return (
-    <>
-      {/* Concise editorial story strip (#fold) without oversized scroll spacers */}
-      <section
-        id="fold"
-        ref={foldSectionRef}
-        className="py-12 lg:py-16 border-b border-[var(--srf-hairline)] scroll-mt-20"
-      >
-        <div className="srf-container">
-          <div className="mb-8 max-w-[660px]">
-            <div className="mb-2 srf-mono-caption text-[var(--srf-mauve)]">
-              The fold
-            </div>
-            <h2 className="srf-h2 text-[var(--srf-oxblood)] text-balance">
-              One continuous surface. Sixteen pleats.
-            </h2>
+    <section
+      id="fold"
+      ref={foldSectionRef}
+      className="py-12 lg:py-16 border-b border-[var(--srf-hairline)] scroll-mt-20"
+    >
+      <div className="srf-container">
+        <div className="mb-8 max-w-[660px]">
+          <div className="mb-2 srf-mono-caption text-[var(--srf-mauve)]">
+            The fold
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {STORY_CHAPTERS.map((item) => (
-              <article
-                key={item.index}
-                className="flex flex-col border-t border-[var(--srf-hairline)] pt-4"
-              >
-                <div className="aspect-[16/10] w-full rounded-[8px] border border-[var(--srf-hairline)] overflow-hidden mb-3.5 bg-[var(--srf-rose)]">
-                  <FoldStillCanvas
-                    opening={item.sampleOpening}
-                    design={design}
-                    view={view}
-                    uploadedBitmap={uploadedArt?.bitmap ?? null}
-                    showBracket={false}
-                  />
-                </div>
-                <CreaseMarker
-                  index={item.index}
-                  className="text-[var(--srf-mauve)] mb-1.5"
-                />
-                <h3 className="text-lg font-medium text-[var(--srf-oxblood)] mb-1.5">
-                  {item.title}
-                </h3>
-                <p className="text-sm leading-6 text-[var(--srf-mauve)]">
-                  {item.body}
-                </p>
-                <span className="mt-2 srf-mono-caption text-[var(--srf-mauve)]">
-                  {item.sampleOpening}% open · {printName}
-                </span>
-              </article>
-            ))}
-          </div>
+          <h2 className="srf-h2 text-[var(--srf-oxblood)] text-balance">
+            One continuous surface. Sixteen pleats.
+          </h2>
         </div>
-      </section>
 
-      {/* Primary Divider Design Studio workspace (#configure) */}
-      <section
-        id="configure"
-        className="py-10 lg:py-16 border-b border-[var(--srf-hairline)] scroll-mt-20"
-      >
-        <div className="srf-container">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-            {/* Stage: 60% desktop sticky left, tablet normal stacked, mobile 216px sticky below 64px header (disabled <=580px tall) */}
-            <div className="lg:col-span-7 srf-studio-stage-wrap">
-              <div className="h-full w-full">
-                <FoldStage
-                  hostId="studio"
-                  showStoryBadge={true}
-                  showSpanBracket={true}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {STORY_CHAPTERS.map((item) => (
+            <article
+              key={item.index}
+              className="flex flex-col border-t border-[var(--srf-hairline)] pt-4"
+            >
+              <div className="aspect-[16/10] w-full rounded-[8px] border border-[var(--srf-hairline)] overflow-hidden mb-3.5 bg-[var(--srf-rose)]">
+                <FoldStillCanvas
+                  opening={item.sampleOpening}
+                  design={design}
+                  view={view}
+                  uploadedBitmap={uploadedArt?.bitmap ?? null}
+                  showBracket={false}
                 />
               </div>
-            </div>
-
-            {/* Compact interactive control rail */}
-            <div className="lg:col-span-5">
-              <Configurator />
-            </div>
-          </div>
+              <CreaseMarker
+                index={item.index}
+                className="text-[var(--srf-mauve)] mb-1.5"
+              />
+              <h3 className="text-lg font-medium text-[var(--srf-oxblood)] mb-1.5">
+                {item.title}
+              </h3>
+              <p className="text-sm leading-6 text-[var(--srf-mauve)]">
+                {item.body}
+              </p>
+              <span className="mt-2 srf-mono-caption text-[var(--srf-mauve)]">
+                {item.sampleOpening}% open · {printName}
+              </span>
+            </article>
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 ]]>
@@ -12050,7 +10065,7 @@ export const Header: React.FC = () => {
         </nav>
 
         <div className="hidden min-[900px]:flex items-center shrink-0">
-          <a href="#configure" className="srf-btn-primary">
+          <a href="#top" className="srf-btn-primary">
             <span>Design your divider</span>
             <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
           </a>
@@ -12109,7 +10124,7 @@ export const Header: React.FC = () => {
 
           <div className="pb-4">
             <a
-              href="#configure"
+              href="#top"
               onClick={handleNavClick}
               className="srf-btn-primary w-full"
             >
@@ -12127,12 +10142,11 @@ export const Header: React.FC = () => {
     <file path="src/app/(serraform)/serraform/sections/Hero.tsx">
 <![CDATA['use client';
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Play, SlidersHorizontal } from 'lucide-react';
-import { AdvancedStudioDrawer } from '../fold/AdvancedStudioDrawer';
+import React, { useMemo, useRef, useState } from 'react';
+import { ArrowRight, Play } from 'lucide-react';
 import { useFold } from '../fold/FoldProvider';
 import { FoldStage } from '../fold/FoldStage';
-import { AdvancedDrawerSection, HeroStudioDock } from '../fold/HeroStudioDock';
+import { HeroStudioDock } from '../fold/HeroStudioDock';
 import { RoomScene2D5 } from '../fold/room/RoomScene2D5';
 import { deriveRoomScene } from '../fold/room/deriveRoomScene';
 import { useHarmonizedRoomVars } from '../fold/room/paletteCssVars';
@@ -12141,8 +10155,6 @@ import type { RoomLightingState } from '../fold/FoldScene';
 export const Hero: React.FC = () => {
   const { demoActive, design, view, effectiveOpening, uploadedArt, env, replayFoldSequence } =
     useFold();
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [drawerSection, setDrawerSection] = useState<AdvancedDrawerSection>('all');
   const [heroAnnouncement, setHeroAnnouncement] = useState('');
   const [fullBleedHostEl, setFullBleedHostEl] = useState<HTMLDivElement | null>(null);
   const shapeInputRef = useRef<HTMLInputElement>(null);
@@ -12182,13 +10194,8 @@ export const Hero: React.FC = () => {
     ],
   );
 
-  const openDrawer = useCallback((section: AdvancedDrawerSection = 'all') => {
-    setDrawerSection(section);
-    setDrawerOpen(true);
-  }, []);
-
   const handleDesignInHero = () => {
-    openDrawer('all');
+    shapeInputRef.current?.focus();
   };
 
   const handleSeeHowItFolds = () => {
@@ -12226,7 +10233,7 @@ export const Hero: React.FC = () => {
       data-dark-envelope={isDarkRoom ? 'true' : 'false'}
       onPointerMove={handleSectionPointerMove}
       onPointerLeave={handleSectionPointerLeave}
-      className="srf-hero-section relative pt-3 pb-6 lg:pt-4 lg:pb-6 border-b border-[var(--srf-hairline)] overflow-x-clip"
+      className="srf-hero-section relative min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] flex flex-col justify-between pt-3 pb-4 lg:pt-4 lg:pb-5 border-b border-[var(--srf-hairline)] overflow-x-clip"
     >
       {/* Dynamic coded 2.5D architectural living-room studio driven by the divider */}
       <RoomScene2D5 />
@@ -12238,9 +10245,9 @@ export const Hero: React.FC = () => {
         className="pointer-events-none absolute inset-0 z-[2] overflow-hidden"
       />
 
-      <div className="srf-container relative z-10 pointer-events-none">
+      <div className="srf-container relative z-10 pointer-events-none flex-1 flex flex-col justify-between">
         {/* Main Atelier Composition: Editorial Column (~33%) + Large Frameless 3D Centerpiece (~67%) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center flex-1 my-auto">
           {/* Top/Left: Editorial Headline, Copy, Primary & Secondary CTAs */}
           <div className="lg:col-span-4 min-w-0 flex flex-col justify-center pointer-events-auto">
             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-2">
@@ -12286,14 +10293,6 @@ export const Hero: React.FC = () => {
               at home in your space.
             </p>
 
-            {/* Concise architectural room-setting note */}
-            <p
-              data-testid="hero-room-subtitle"
-              className="hidden sm:block srf-mono-caption mb-5 max-w-[44ch] opacity-90"
-              style={{ color: 'var(--room-text-secondary)' }}
-            >
-              {roomRecipe.subtitle}
-            </p>
 
             {/* Primary CTA + Secondary mechanical fold demo CTA */}
             <div className="srf-hero-actions hidden lg:flex flex-wrap items-center gap-3 mb-4">
@@ -12321,27 +10320,11 @@ export const Hero: React.FC = () => {
               </button>
             </div>
 
-            <div className="hidden lg:flex flex-wrap items-center gap-x-3 gap-y-1">
-              <p
-                className="srf-mono-caption"
-                style={{ color: 'var(--room-text-secondary)' }}
-              >
-                16 connected panels · Custom colors · Original prints
-              </p>
-              <button
-                type="button"
-                onClick={() => openDrawer('all')}
-                className="srf-hero-link inline-flex items-center gap-1 srf-mono-caption underline underline-offset-4 min-h-[28px] transition-colors duration-200"
-              >
-                <SlidersHorizontal className="w-3 h-3" aria-hidden="true" />
-                <span>Customize your own</span>
-              </button>
-            </div>
           </div>
 
           {/* Center-Right: Large, Unboxed 3D Fold 16 Centerpiece integrated in living room */}
           <div className="lg:col-span-8 min-w-0">
-            <div className="h-[340px] sm:h-[440px] lg:h-[min(610px,calc(100svh-236px))] lg:min-h-[480px] w-full">
+            <div className="h-[340px] sm:h-[440px] lg:h-[min(680px,calc(100svh-200px))] lg:min-h-[480px] w-full">
               <FoldStage
                 hostId="hero"
                 variant="atelier"
@@ -12382,21 +10365,13 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Floating Atelier Studio Control Dock (Shape, Base Color, Print, View + Advanced Drawer trigger) */}
-        <div className="mt-3.5 lg:mt-3 pointer-events-auto">
+        {/* Floating Atelier Studio Control Dock */}
+        <div className="mt-auto pt-3 lg:pt-3 pointer-events-auto">
           <HeroStudioDock
-            onOpenAdvanced={openDrawer}
             shapeInputRef={shapeInputRef}
           />
         </div>
       </div>
-
-      {/* Expandable Advanced Studio Drawer sharing live FoldProvider state */}
-      <AdvancedStudioDrawer
-        open={drawerOpen}
-        initialSection={drawerSection}
-        onClose={() => setDrawerOpen(false)}
-      />
 
       <div className="sr-only" aria-live="polite">
         {heroAnnouncement}
@@ -12449,348 +10424,6 @@ export const Questions: React.FC = () => {
               ))}
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-]]>
-    </file>
-    <file path="src/app/(serraform)/serraform/sections/RoomStudies.tsx">
-<![CDATA['use client';
-
-import React, { useEffect, useRef, useState } from 'react';
-import { PALETTE, PRINT_SPECS, ROOM_STUDIES } from '../fold/config';
-import { useFold } from '../fold/FoldProvider';
-import { FoldStillCanvas } from '../fold/FoldStillCanvas';
-import type { DesignState } from '../fold/state';
-import { Reveal } from '../motion/Reveal';
-
-const RoomSceneFrame: React.FC<{
-  studyId: (typeof ROOM_STUDIES)[number]['id'];
-  opening: number;
-  design: Pick<DesignState, 'baseHex' | 'designHex' | 'print' | 'motifScale'>;
-  uploadedBitmap?: ImageBitmap | null;
-  ariaLabel: string;
-}> = ({ studyId, opening, design, uploadedBitmap = null, ariaLabel }) => {
-  const width = 960;
-  const height = 720;
-
-  return (
-    <div
-      className="relative w-full h-full bg-[#EFE2DD] overflow-hidden"
-      role="img"
-      aria-label={ariaLabel}
-    >
-      {/* Architectural room backdrop layer */}
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        preserveAspectRatio="xMidYMid slice"
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full block pointer-events-none"
-      >
-        <rect width={width} height={height} fill="#EFE2DD" />
-        <rect
-          x="0"
-          y={height * 0.56}
-          width={width}
-          height={height * 0.44}
-          fill={PALETTE.rose}
-        />
-        <line
-          x1="0"
-          y1={height * 0.56}
-          x2={width}
-          y2={height * 0.56}
-          stroke={PALETTE.oxblood}
-          strokeOpacity="0.14"
-          strokeWidth="1"
-        />
-
-        {studyId === 'morning' && (
-          <polygon
-            points={`${width * 0.14},${height * 0.08} ${width * 0.52},${height * 0.08} ${width * 0.76},${height * 0.88} ${width * 0.24},${height * 0.88}`}
-            fill={PALETTE.porcelain}
-            fillOpacity="0.46"
-          />
-        )}
-
-        {studyId === 'reading' && (
-          <g>
-            <rect
-              x={width * 0.07}
-              y={height * 0.67}
-              width={width * 0.13}
-              height={height * 0.075}
-              rx="4"
-              fill={PALETTE.porcelain}
-              stroke={PALETTE.oxblood}
-              strokeOpacity="0.22"
-            />
-            <rect
-              x={width * 0.10}
-              y={height * 0.63}
-              width={width * 0.07}
-              height={height * 0.04}
-              rx="2"
-              fill={PALETTE.clay}
-              fillOpacity="0.65"
-            />
-            <rect
-              x={width * 0.76}
-              y={height * 0.48}
-              width={width * 0.17}
-              height={height * 0.21}
-              rx="24"
-              fill={PALETTE.porcelain}
-              stroke={PALETTE.oxblood}
-              strokeOpacity="0.24"
-            />
-            <rect
-              x={width * 0.74}
-              y={height * 0.58}
-              width={width * 0.20}
-              height={height * 0.12}
-              rx="14"
-              fill="#E7D8D3"
-              stroke={PALETTE.oxblood}
-              strokeOpacity="0.24"
-            />
-            <line
-              x1={width * 0.78}
-              y1={height * 0.70}
-              x2={width * 0.78}
-              y2={height * 0.77}
-              stroke={PALETTE.oxblood}
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-            <line
-              x1={width * 0.90}
-              y1={height * 0.70}
-              x2={width * 0.90}
-              y2={height * 0.77}
-              stroke={PALETTE.oxblood}
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-          </g>
-        )}
-
-        {studyId === 'studio' && (
-          <g>
-            <rect
-              x={width * 0.05}
-              y={height * 0.56}
-              width={width * 0.24}
-              height={9}
-              rx="2"
-              fill={PALETTE.porcelain}
-              stroke={PALETTE.oxblood}
-              strokeOpacity="0.28"
-            />
-            <line
-              x1={width * 0.08}
-              y1={height * 0.56 + 9}
-              x2={width * 0.08}
-              y2={height * 0.69}
-              stroke={PALETTE.oxblood}
-              strokeWidth="2.5"
-            />
-            <line
-              x1={width * 0.26}
-              y1={height * 0.56 + 9}
-              x2={width * 0.26}
-              y2={height * 0.69}
-              stroke={PALETTE.oxblood}
-              strokeWidth="2.5"
-            />
-            <rect
-              x={width * 0.70}
-              y={height * 0.68}
-              width={width * 0.24}
-              height={10}
-              rx="2"
-              fill={PALETTE.porcelain}
-              stroke={PALETTE.oxblood}
-              strokeOpacity="0.28"
-            />
-            <line
-              x1={width * 0.73}
-              y1={height * 0.68 + 10}
-              x2={width * 0.73}
-              y2={height * 0.82}
-              stroke={PALETTE.oxblood}
-              strokeWidth="2.5"
-            />
-            <line
-              x1={width * 0.91}
-              y1={height * 0.68 + 10}
-              x2={width * 0.91}
-              y2={height * 0.82}
-              stroke={PALETTE.oxblood}
-              strokeWidth="2.5"
-            />
-          </g>
-        )}
-      </svg>
-
-      {/* Live / example textured Fold 16 composite */}
-      <div className="absolute inset-x-[6%] top-[6%] bottom-[8%] pointer-events-none">
-        <FoldStillCanvas
-          opening={opening}
-          design={design}
-          view="quarter"
-          uploadedBitmap={uploadedBitmap}
-          showBracket={false}
-          background={null}
-        />
-      </div>
-    </div>
-  );
-};
-
-export const RoomStudies: React.FC = () => {
-  const { design, uploadedArt } = useFold();
-  const statementRef = useRef<HTMLDivElement>(null);
-  const [emphasisProgress, setEmphasisProgress] = useState(0);
-
-  useEffect(() => {
-    const el = statementRef.current;
-    if (!el) return;
-
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-      setEmphasisProgress(1);
-      return;
-    }
-
-    const onScroll = () => {
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight || 900;
-      const p = Math.min(1, Math.max(0, (vh * 0.75 - rect.top) / (vh * 0.4)));
-      setEmphasisProgress(p);
-    };
-
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const [reading, studio, morning] = ROOM_STUDIES;
-  const livePrintSpec = PRINT_SPECS[design.print];
-  const livePrintHexNote =
-    design.print === 'solid' || (design.print === 'upload' && !design.tintUpload)
-      ? ''
-      : ` / ${design.designHex}`;
-  const liveCaption = `Live study · ${livePrintSpec.name} · ${design.baseHex}${livePrintHexNote} at ${reading.opening}%`;
-
-  return (
-    <section
-      id="rooms"
-      className="py-16 lg:py-24 border-b border-[var(--srf-hairline)] scroll-mt-20"
-    >
-      <div className="srf-container">
-        <div className="mb-3 srf-mono-caption text-[var(--srf-mauve)]">
-          In a room · Concept room studies
-        </div>
-
-        <div ref={statementRef} className="relative mb-12 lg:mb-16 max-w-[900px]">
-          <h2 className="srf-h2 text-[var(--srf-oxblood)]">
-            <span className="block">Keep the room open.</span>
-            <span className="block">Give each moment a place.</span>
-          </h2>
-          <p
-            aria-hidden="true"
-            className="srf-h2 text-[var(--srf-clay)] absolute inset-0 pointer-events-none select-none transition-opacity duration-300"
-            style={{
-              clipPath: `inset(0 ${Math.round((1 - emphasisProgress) * 100)}% 0 0)`,
-            }}
-          >
-            <span className="block">Keep the room open.</span>
-            <span className="block">Give each moment a place.</span>
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6">
-          {/* 1. Live custom user design study */}
-          <Reveal role="clip" className="lg:col-span-8">
-            <figure data-testid="room-study-live">
-              <div className="aspect-[4/3] rounded-[8px] border border-[var(--srf-hairline)] overflow-hidden">
-                <RoomSceneFrame
-                  studyId={reading.id}
-                  opening={reading.opening}
-                  design={design}
-                  uploadedBitmap={uploadedArt?.bitmap ?? null}
-                  ariaLabel={`Concept room study: ${reading.title}, showing your live Fold 16 design (${livePrintSpec.name}, base ${design.baseHex}) at ${reading.opening}% opening`}
-                />
-              </div>
-              <figcaption className="mt-4 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
-                <div>
-                  <h3 className="text-xl font-medium text-[var(--srf-oxblood)]">
-                    {reading.title}
-                  </h3>
-                  <p className="text-[var(--srf-mauve)] text-base">
-                    {reading.copy}
-                  </p>
-                </div>
-                <span className="srf-mono-caption text-[var(--srf-oxblood)] shrink-0">
-                  {liveCaption}
-                </span>
-              </figcaption>
-            </figure>
-          </Reveal>
-
-          {/* 2. Fixed architectural example study (Stripes) */}
-          <Reveal role="clip" delayMs={80} className="lg:col-span-4">
-            <figure className="h-full flex flex-col">
-              <div className="aspect-[3/4] rounded-[8px] border border-[var(--srf-hairline)] overflow-hidden flex-1">
-                <RoomSceneFrame
-                  studyId={studio.id}
-                  opening={studio.opening}
-                  design={studio.fixedDesign}
-                  ariaLabel={`Concept room example: ${studio.title}, Fold 16 in Stripes at ${studio.opening}% opening`}
-                />
-              </div>
-              <figcaption className="mt-4">
-                <div className="srf-mono-caption text-[var(--srf-mauve)] mb-1">
-                  {studio.caption}
-                </div>
-                <h3 className="text-xl font-medium text-[var(--srf-oxblood)]">
-                  {studio.title}
-                </h3>
-                <p className="text-[var(--srf-mauve)] text-base">
-                  {studio.copy}
-                </p>
-              </figcaption>
-            </figure>
-          </Reveal>
-
-          {/* 3. Fixed architectural example study (Waves) */}
-          <Reveal role="clip" delayMs={120} className="lg:col-span-12 pt-4">
-            <figure>
-              <div className="aspect-[16/9] lg:aspect-[21/9] rounded-[8px] border border-[var(--srf-hairline)] overflow-hidden">
-                <RoomSceneFrame
-                  studyId={morning.id}
-                  opening={morning.opening}
-                  design={morning.fixedDesign}
-                  ariaLabel={`Concept room example: ${morning.title}, Fold 16 in Waves at ${morning.opening}% opening`}
-                />
-              </div>
-              <figcaption className="mt-4 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
-                <div>
-                  <h3 className="text-xl font-medium text-[var(--srf-oxblood)]">
-                    {morning.title}
-                  </h3>
-                  <p className="text-[var(--srf-mauve)] text-base">
-                    {morning.copy}
-                  </p>
-                </div>
-                <span className="srf-mono-caption text-[var(--srf-mauve)] shrink-0">
-                  {morning.caption}
-                </span>
-              </figcaption>
-            </figure>
-          </Reveal>
         </div>
       </div>
     </section>

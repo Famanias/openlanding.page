@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { RotateCcw, SlidersHorizontal, Upload } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { renderTextileToCanvas } from './artwork';
 import {
   evaluatePrintContrast,
@@ -12,18 +12,13 @@ import {
   COLOR_PRESETS,
   PRINT_SPECS,
   PrintId,
-  VIEW_PRESETS,
-  ViewId,
 } from './config';
 import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
 import { NativeColorInput } from './NativeColorInput';
-import { usesActivePrintColor, viewPresetFromAngles } from './state';
-
-export type AdvancedDrawerSection = 'all' | 'color' | 'printColor' | 'design' | 'view';
+import { usesActivePrintColor } from './state';
 
 interface HeroStudioDockProps {
-  onOpenAdvanced: (section: AdvancedDrawerSection) => void;
   shapeInputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
@@ -43,8 +38,6 @@ const CURATED_PRINT_SWATCH_IDS = [
   'flax',
   'charcoal',
 ] as const;
-
-const DOCK_VIEW_PRESETS: readonly ViewId[] = ['front', 'quarter', 'side'];
 
 const MiniPrintThumb: React.FC<{
   printId: PrintId;
@@ -86,7 +79,6 @@ const MiniPrintThumb: React.FC<{
 };
 
 export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
-  onOpenAdvanced,
   shapeInputRef,
 }) => {
   const {
@@ -101,7 +93,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
     setBaseHex,
     setDesignHex,
     setPrint,
-    setViewPreset,
     resetDesign,
     resetShape,
     subscribeStoryFrame,
@@ -185,7 +176,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
   const printColorActive = usesActivePrintColor(design);
   const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
 
-  const matchedView = viewPresetFromAngles(view);
   const roundedOpening = Math.round(effectiveOpening);
   const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
 
@@ -194,7 +184,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
       data-testid="hero-studio-dock"
       className="srf-hero-dock rounded-[10px] border border-[var(--srf-hairline-strong)] bg-[#FAF2EE]/95 shadow-[0_14px_38px_-16px_rgba(75,32,42,0.16)] px-3.5 py-3 sm:px-5 sm:py-3.5"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(150px,0.92fr)_minmax(195px,1.15fr)_minmax(240px,1.45fr)_minmax(205px,1.22fr)_minmax(160px,0.92fr)] gap-y-3 gap-x-3.5 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(150px,1fr)_minmax(195px,1.2fr)_minmax(240px,1.4fr)_minmax(205px,1.2fr)_auto] gap-y-3 gap-x-3.5 items-center">
         {/* 1. Shape */}
         <div className="min-w-0">
           <div className="flex items-baseline justify-between gap-2 mb-0.5">
@@ -241,13 +231,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Base color
             </span>
-            <button
-              type="button"
-              onClick={() => onOpenAdvanced('color')}
-              className="srf-mono-caption text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
-            >
-              Hex / wheel
-            </button>
           </div>
 
           <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Base felt color presets">
@@ -308,14 +291,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Print
             </span>
-            <button
-              type="button"
-              onClick={() => onOpenAdvanced('design')}
-              className="srf-mono-caption inline-flex items-center gap-1 text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
-            >
-              <Upload className="w-3 h-3" aria-hidden="true" />
-              <span>More / Upload</span>
-            </button>
           </div>
 
           <div className="flex flex-wrap items-center gap-1" role="group" aria-label="Textile print presets">
@@ -400,13 +375,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Print color
             </span>
-            <button
-              type="button"
-              onClick={() => onOpenAdvanced('printColor')}
-              className="srf-mono-caption text-[var(--srf-oxblood)] underline underline-offset-4 hover:text-[var(--srf-clay)] min-h-[28px] px-1"
-            >
-              Hex / wheel
-            </button>
           </div>
 
           <div
@@ -414,13 +382,11 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             role="group"
             aria-label="Print pigment color presets"
           >
-            <button
-              type="button"
+            <div
               data-testid="hero-design-color-btn"
               aria-label={`Active print color ${design.designHex}${printColorActive ? '' : ' (saved for patterns)'}`}
               title={`Active print color · ${design.designHex}`}
-              onClick={() => onOpenAdvanced('printColor')}
-              className="inline-flex items-center gap-1.5 px-1.5 py-0.5 h-6 rounded-full border border-[var(--srf-oxblood)]/35 bg-[var(--srf-porcelain)] text-[10px] font-[family-name:var(--font-mono)] text-[var(--srf-oxblood)] hover:border-[var(--srf-oxblood)] shrink-0"
+              className="inline-flex items-center gap-1.5 px-1.5 py-0.5 h-6 rounded-full border border-[var(--srf-oxblood)]/35 bg-[var(--srf-porcelain)] text-[10px] font-[family-name:var(--font-mono)] text-[var(--srf-oxblood)] shrink-0 select-none"
             >
               <span
                 className="w-3.5 h-3.5 rounded-full border border-[var(--srf-oxblood)]/25 block shrink-0"
@@ -428,7 +394,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 aria-hidden="true"
               />
               <span>{design.designHex}</span>
-            </button>
+            </div>
 
             {curatedPrintSwatches.map((preset) => {
               const active = design.designHex.toUpperCase() === preset.hex.toUpperCase();
@@ -485,64 +451,21 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </div>
         </div>
 
-        {/* 5. View & Advanced Studio trigger */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex flex-col justify-between gap-1.5">
-          <div className="flex items-center justify-between gap-2">
-            <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
-              View
-            </span>
-            {isCustomized && (
-              <button
-                type="button"
-                onClick={() => {
-                  resetDesign();
-                  resetShape();
-                  setAnnouncement('Divider design and shape reset to defaults.');
-                }}
-                aria-label="Reset design and shape defaults"
-                className="srf-mono-caption inline-flex items-center gap-1 text-[var(--srf-clay)] hover:text-[var(--srf-oxblood)] underline underline-offset-4 min-h-[24px]"
-              >
-                <RotateCcw className="w-3 h-3" aria-hidden="true" />
-                <span>Reset</span>
-              </button>
-            )}
-          </div>
-
-          <div className="flex flex-wrap xl:flex-nowrap items-center gap-1" role="group" aria-label="Quick camera views">
-            {DOCK_VIEW_PRESETS.map((vId) => {
-              const preset = VIEW_PRESETS[vId];
-              const active = matchedView === vId;
-              const shortLabel = vId === 'quarter' ? '3/4' : preset.label;
-              return (
-                <button
-                  key={vId}
-                  type="button"
-                  aria-pressed={active}
-                  aria-label={`View ${preset.label}`}
-                  onClick={() => {
-                    setViewPreset(vId);
-                    setAnnouncement(`Camera angle set to ${preset.label}.`);
-                  }}
-                  className={`px-2 py-1 min-h-[32px] rounded-[5px] border text-xs font-medium transition-colors whitespace-nowrap ${
-                    active
-                      ? 'srf-hero-active-view'
-                      : 'border-[var(--srf-hairline-strong)] text-[var(--srf-oxblood)] hover:border-[var(--room-ui-outline)]'
-                  }`}
-                >
-                  {shortLabel}
-                </button>
-              );
-            })}
-          </div>
-
+        {/* 5. Reset */}
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex items-center justify-end">
           <button
             type="button"
-            data-testid="hero-more-options-btn"
-            onClick={() => onOpenAdvanced('all')}
-            className="inline-flex items-center justify-between gap-1.5 w-full px-2.5 py-1.5 min-h-[34px] rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors"
+            disabled={!isCustomized}
+            onClick={() => {
+              resetDesign();
+              resetShape();
+              setAnnouncement('Divider design and shape reset to defaults.');
+            }}
+            aria-label="Reset design and shape defaults"
+            className="srf-mono-caption inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors min-h-[36px] disabled:opacity-35 disabled:cursor-not-allowed"
           >
-            <span>More options</span>
-            <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+            <RotateCcw className="w-3 h-3 shrink-0" aria-hidden="true" />
+            <span>Reset</span>
           </button>
         </div>
       </div>

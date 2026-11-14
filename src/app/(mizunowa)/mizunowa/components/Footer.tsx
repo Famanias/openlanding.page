@@ -2,6 +2,18 @@
 
 import { NAV_LINKS } from '../data/garden';
 import BrandMark from './BrandMark';
+import Reveal from './Reveal';
+
+/** The wordmark, drawn as SVG text so one string can be stacked as outline and waterline fill. */
+function Wordmark({ className }: { className: string }) {
+  return (
+    <svg className={className} viewBox="0 0 1600 300" focusable="false">
+      <text x="800" y="248" textAnchor="middle" textLength="1540" lengthAdjust="spacingAndGlyphs">
+        MIZUNOWA
+      </text>
+    </svg>
+  );
+}
 
 export default function Footer() {
   return (
@@ -18,15 +30,7 @@ export default function Footer() {
                 </span>
               </span>
             </a>
-            <p
-              style={{
-                margin: '10px 0 0',
-                color: 'color-mix(in srgb, var(--mnw-paper) 84%, transparent)',
-                fontSize: 16,
-              }}
-            >
-              An imagined garden in motion.
-            </p>
+            <p className="mnw-footer-tagline">An imagined garden in motion.</p>
           </div>
 
           <nav className="mnw-footer-links" aria-label="Footer navigation">
@@ -40,6 +44,15 @@ export default function Footer() {
             </a>
           </nav>
         </div>
+
+        {/* Half-submerged wordmark: the fill rises to the waterline when the footer arrives */}
+        <Reveal variant="water">
+          <div className="mnw-footer-mark" aria-hidden="true">
+            <Wordmark className="mnw-footer-mark-outline" />
+            <Wordmark className="mnw-footer-mark-fill" />
+            <span className="mnw-footer-mark-waterline" />
+          </div>
+        </Reveal>
 
         <div className="mnw-footer-bottom">
           <span>MIZUNOWA is a fictional Japanese garden created for this template.</span>
