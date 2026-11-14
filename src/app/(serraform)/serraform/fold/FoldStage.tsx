@@ -820,50 +820,15 @@ export const FoldStage: React.FC<FoldStageProps> = ({
         {accessibleDescription}
       </p>
 
-      {/* Top instrumentation & mode control */}
-      <div
-        className={`relative z-10 flex items-center justify-between gap-3 shrink-0 pointer-events-none ${
-          isAtelier
-            ? 'px-1 pt-1 sm:px-2 sm:pt-1.5'
-            : compact
+      {/* Top instrumentation & mode control (hidden in hero/atelier) */}
+      {!isAtelier && (
+        <div
+          className={`relative z-10 flex items-center justify-between gap-3 shrink-0 pointer-events-none ${
+            compact
               ? 'px-3 pt-2'
               : 'px-3 pt-2 sm:px-5 sm:pt-4'
-        }`}
-      >
-        {isAtelier ? (
-          <div
-            className="min-w-0 flex flex-wrap items-center gap-x-2 gap-y-0.5 srf-mono-caption select-none"
-            style={{ color: 'var(--room-text-primary)' }}
-          >
-            <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-              <CircularDragHintSvg />
-              <span>Drag to rotate</span>
-            </span>
-            <span
-              className="hidden sm:inline opacity-65"
-              style={{ color: 'var(--room-text-secondary)' }}
-              aria-hidden="true"
-            >
-              ·
-            </span>
-            <span
-              className="uppercase tracking-[0.04em] text-[11px] sm:text-xs"
-              style={{ color: 'var(--room-text-secondary)' }}
-              data-testid="hero-atelier-readout"
-            >
-              Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex}
-              {usesActivePrintColor(design) ? ` / ${design.designHex}` : ''} ·{' '}
-              <span
-                ref={atelierReadoutSpanRef}
-                className="font-medium whitespace-nowrap"
-                style={{ color: 'var(--room-text-primary)' }}
-              >
-                {formatMeters(currentPose.metrics.outerSpan)}
-              </span>{' '}
-              span
-            </span>
-          </div>
-        ) : (
+          }`}
+        >
           <div className="inline-flex items-center gap-1.5 srf-mono-caption text-[var(--srf-mauve)] pointer-events-none select-none">
             <CircularDragHintSvg />
             <span>Drag to rotate</span>
@@ -874,65 +839,65 @@ export const FoldStage: React.FC<FoldStageProps> = ({
               </>
             )}
           </div>
-        )}
 
-        <div className="pointer-events-auto flex items-center gap-2 shrink-0">
-          {!env.reducedMotion && (
-            <>
-              {showWebglCanvas ? (
-                <button
-                  type="button"
-                  onClick={handleUseStill}
-                  className={`srf-btn-secondary ${
-                    isAtelier && darkSurface
-                      ? 'bg-[#2B2426]/90 !text-[#F8F2EE] !border-[#F8F2EE]/30 hover:!border-[#F8F2EE]'
-                      : 'bg-[var(--srf-rose)]/92'
-                  } ${
-                    compact || isAtelier
-                      ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
-                      : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
-                  }`}
-                >
-                  Use still view
-                </button>
-              ) : graphicsState === 'error' ? (
-                <button
-                  type="button"
-                  onClick={handleExplore3D}
-                  className={`srf-btn-secondary ${
-                    isAtelier && darkSurface
-                      ? 'bg-[#2B2426]/90 !text-[#F8F2EE] !border-[#F8F2EE]/30 hover:!border-[#F8F2EE]'
-                      : 'bg-[var(--srf-rose)]/92'
-                  } ${
-                    compact || isAtelier
-                      ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
-                      : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
-                  }`}
-                >
-                  Try 3D again
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleExplore3D}
-                  disabled={graphicsState === 'initializing'}
-                  className={`srf-btn-secondary ${
-                    isAtelier && darkSurface
-                      ? 'bg-[#2B2426]/90 !text-[#F8F2EE] !border-[#F8F2EE]/30 hover:!border-[#F8F2EE]'
-                      : 'bg-[var(--srf-rose)]/92'
-                  } ${
-                    compact || isAtelier
-                      ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
-                      : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
-                  }`}
-                >
-                  {graphicsState === 'initializing' ? 'Opening 3D…' : 'Explore in 3D'}
-                </button>
-              )}
-            </>
-          )}
+          <div className="pointer-events-auto flex items-center gap-2 shrink-0">
+            {!env.reducedMotion && (
+              <>
+                {showWebglCanvas ? (
+                  <button
+                    type="button"
+                    onClick={handleUseStill}
+                    className={`srf-btn-secondary bg-[var(--srf-rose)]/92 ${
+                      compact
+                        ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
+                        : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
+                    }`}
+                  >
+                    Use still view
+                  </button>
+                ) : graphicsState === 'error' ? (
+                  <button
+                    type="button"
+                    onClick={handleExplore3D}
+                    className={`srf-btn-secondary bg-[var(--srf-rose)]/92 ${
+                      compact
+                        ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
+                        : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
+                    }`}
+                  >
+                    Try 3D again
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleExplore3D}
+                    disabled={graphicsState === 'initializing'}
+                    className={`srf-btn-secondary bg-[var(--srf-rose)]/92 ${
+                      compact
+                        ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
+                        : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
+                    }`}
+                  >
+                    {graphicsState === 'initializing' ? 'Opening 3D…' : 'Explore in 3D'}
+                  </button>
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
+      {isAtelier && (
+        <span
+          ref={atelierReadoutSpanRef}
+          data-testid="hero-atelier-readout"
+          className="sr-only"
+        >
+          Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex}
+          {usesActivePrintColor(design) ? ` / ${design.designHex}` : ''} ·{' '}
+          {formatMeters(currentPose.metrics.outerSpan)} span
+        </span>
+      )}
 
       {/* Direct drag viewport containing synced 2D still renderer & active WebGL host (or portal to full-bleed Hero layer) */}
       <div

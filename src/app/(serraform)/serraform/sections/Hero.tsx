@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Play, SlidersHorizontal } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import { AdvancedStudioDrawer } from '../fold/AdvancedStudioDrawer';
 import { useFold } from '../fold/FoldProvider';
 import { FoldStage } from '../fold/FoldStage';
@@ -159,14 +159,6 @@ export const Hero: React.FC = () => {
               at home in your space.
             </p>
 
-            {/* Concise architectural room-setting note */}
-            <p
-              data-testid="hero-room-subtitle"
-              className="hidden sm:block srf-mono-caption mb-5 max-w-[44ch] opacity-90"
-              style={{ color: 'var(--room-text-secondary)' }}
-            >
-              {roomRecipe.subtitle}
-            </p>
 
             {/* Primary CTA + Secondary mechanical fold demo CTA */}
             <div className="srf-hero-actions hidden lg:flex flex-wrap items-center gap-3 mb-4">
@@ -194,22 +186,6 @@ export const Hero: React.FC = () => {
               </button>
             </div>
 
-            <div className="hidden lg:flex flex-wrap items-center gap-x-3 gap-y-1">
-              <p
-                className="srf-mono-caption"
-                style={{ color: 'var(--room-text-secondary)' }}
-              >
-                16 connected panels · Custom colors · Original prints
-              </p>
-              <button
-                type="button"
-                onClick={() => openDrawer('all')}
-                className="srf-hero-link inline-flex items-center gap-1 srf-mono-caption underline underline-offset-4 min-h-[28px] transition-colors duration-200"
-              >
-                <SlidersHorizontal className="w-3 h-3" aria-hidden="true" />
-                <span>Customize your own</span>
-              </button>
-            </div>
           </div>
 
           {/* Center-Right: Large, Unboxed 3D Fold 16 Centerpiece integrated in living room */}

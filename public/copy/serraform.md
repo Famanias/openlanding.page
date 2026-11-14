@@ -276,7 +276,7 @@ body {
 /* Editorial container */
 .srf-container {
   width: 100%;
-  max-width: 1344px;
+  max-width: 1600px;
   margin-inline: auto;
   padding-inline: 20px;
 }
@@ -6888,50 +6888,15 @@ export const FoldStage: React.FC<FoldStageProps> = ({
         {accessibleDescription}
       </p>
 
-      {/* Top instrumentation & mode control */}
-      <div
-        className={`relative z-10 flex items-center justify-between gap-3 shrink-0 pointer-events-none ${
-          isAtelier
-            ? 'px-1 pt-1 sm:px-2 sm:pt-1.5'
-            : compact
+      {/* Top instrumentation & mode control (hidden in hero/atelier) */}
+      {!isAtelier && (
+        <div
+          className={`relative z-10 flex items-center justify-between gap-3 shrink-0 pointer-events-none ${
+            compact
               ? 'px-3 pt-2'
               : 'px-3 pt-2 sm:px-5 sm:pt-4'
-        }`}
-      >
-        {isAtelier ? (
-          <div
-            className="min-w-0 flex flex-wrap items-center gap-x-2 gap-y-0.5 srf-mono-caption select-none"
-            style={{ color: 'var(--room-text-primary)' }}
-          >
-            <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-              <CircularDragHintSvg />
-              <span>Drag to rotate</span>
-            </span>
-            <span
-              className="hidden sm:inline opacity-65"
-              style={{ color: 'var(--room-text-secondary)' }}
-              aria-hidden="true"
-            >
-              ·
-            </span>
-            <span
-              className="uppercase tracking-[0.04em] text-[11px] sm:text-xs"
-              style={{ color: 'var(--room-text-secondary)' }}
-              data-testid="hero-atelier-readout"
-            >
-              Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex}
-              {usesActivePrintColor(design) ? ` / ${design.designHex}` : ''} ·{' '}
-              <span
-                ref={atelierReadoutSpanRef}
-                className="font-medium whitespace-nowrap"
-                style={{ color: 'var(--room-text-primary)' }}
-              >
-                {formatMeters(currentPose.metrics.outerSpan)}
-              </span>{' '}
-              span
-            </span>
-          </div>
-        ) : (
+          }`}
+        >
           <div className="inline-flex items-center gap-1.5 srf-mono-caption text-[var(--srf-mauve)] pointer-events-none select-none">
             <CircularDragHintSvg />
             <span>Drag to rotate</span>
@@ -6942,65 +6907,65 @@ export const FoldStage: React.FC<FoldStageProps> = ({
               </>
             )}
           </div>
-        )}
 
-        <div className="pointer-events-auto flex items-center gap-2 shrink-0">
-          {!env.reducedMotion && (
-            <>
-              {showWebglCanvas ? (
-                <button
-                  type="button"
-                  onClick={handleUseStill}
-                  className={`srf-btn-secondary ${
-                    isAtelier && darkSurface
-                      ? 'bg-[#2B2426]/90 !text-[#F8F2EE] !border-[#F8F2EE]/30 hover:!border-[#F8F2EE]'
-                      : 'bg-[var(--srf-rose)]/92'
-                  } ${
-                    compact || isAtelier
-                      ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
-                      : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
-                  }`}
-                >
-                  Use still view
-                </button>
-              ) : graphicsState === 'error' ? (
-                <button
-                  type="button"
-                  onClick={handleExplore3D}
-                  className={`srf-btn-secondary ${
-                    isAtelier && darkSurface
-                      ? 'bg-[#2B2426]/90 !text-[#F8F2EE] !border-[#F8F2EE]/30 hover:!border-[#F8F2EE]'
-                      : 'bg-[var(--srf-rose)]/92'
-                  } ${
-                    compact || isAtelier
-                      ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
-                      : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
-                  }`}
-                >
-                  Try 3D again
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleExplore3D}
-                  disabled={graphicsState === 'initializing'}
-                  className={`srf-btn-secondary ${
-                    isAtelier && darkSurface
-                      ? 'bg-[#2B2426]/90 !text-[#F8F2EE] !border-[#F8F2EE]/30 hover:!border-[#F8F2EE]'
-                      : 'bg-[var(--srf-rose)]/92'
-                  } ${
-                    compact || isAtelier
-                      ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
-                      : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
-                  }`}
-                >
-                  {graphicsState === 'initializing' ? 'Opening 3D…' : 'Explore in 3D'}
-                </button>
-              )}
-            </>
-          )}
+          <div className="pointer-events-auto flex items-center gap-2 shrink-0">
+            {!env.reducedMotion && (
+              <>
+                {showWebglCanvas ? (
+                  <button
+                    type="button"
+                    onClick={handleUseStill}
+                    className={`srf-btn-secondary bg-[var(--srf-rose)]/92 ${
+                      compact
+                        ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
+                        : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
+                    }`}
+                  >
+                    Use still view
+                  </button>
+                ) : graphicsState === 'error' ? (
+                  <button
+                    type="button"
+                    onClick={handleExplore3D}
+                    className={`srf-btn-secondary bg-[var(--srf-rose)]/92 ${
+                      compact
+                        ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
+                        : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
+                    }`}
+                  >
+                    Try 3D again
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleExplore3D}
+                    disabled={graphicsState === 'initializing'}
+                    className={`srf-btn-secondary bg-[var(--srf-rose)]/92 ${
+                      compact
+                        ? '!min-h-[34px] !py-1 !px-2.5 text-xs'
+                        : '!min-h-[34px] sm:!min-h-[38px] !py-1 sm:!py-1.5 !px-2.5 sm:!px-3 text-xs'
+                    }`}
+                  >
+                    {graphicsState === 'initializing' ? 'Opening 3D…' : 'Explore in 3D'}
+                  </button>
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
+      {isAtelier && (
+        <span
+          ref={atelierReadoutSpanRef}
+          data-testid="hero-atelier-readout"
+          className="sr-only"
+        >
+          Fold {FOLD_CONSTANTS.panels} · {printSpec.name} · {design.baseHex}
+          {usesActivePrintColor(design) ? ` / ${design.designHex}` : ''} ·{' '}
+          {formatMeters(currentPose.metrics.outerSpan)} span
+        </span>
+      )}
 
       {/* Direct drag viewport containing synced 2D still renderer & active WebGL host (or portal to full-bleed Hero layer) */}
       <div
@@ -7688,13 +7653,11 @@ import {
   COLOR_PRESETS,
   PRINT_SPECS,
   PrintId,
-  VIEW_PRESETS,
-  ViewId,
 } from './config';
 import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
 import { NativeColorInput } from './NativeColorInput';
-import { usesActivePrintColor, viewPresetFromAngles } from './state';
+import { usesActivePrintColor } from './state';
 
 export type AdvancedDrawerSection = 'all' | 'color' | 'printColor' | 'design' | 'view';
 
@@ -7719,8 +7682,6 @@ const CURATED_PRINT_SWATCH_IDS = [
   'flax',
   'charcoal',
 ] as const;
-
-const DOCK_VIEW_PRESETS: readonly ViewId[] = ['front', 'quarter', 'side'];
 
 const MiniPrintThumb: React.FC<{
   printId: PrintId;
@@ -7777,7 +7738,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
     setBaseHex,
     setDesignHex,
     setPrint,
-    setViewPreset,
     resetDesign,
     resetShape,
     subscribeStoryFrame,
@@ -7861,7 +7821,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
   const printColorActive = usesActivePrintColor(design);
   const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
 
-  const matchedView = viewPresetFromAngles(view);
   const roundedOpening = Math.round(effectiveOpening);
   const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
 
@@ -8161,13 +8120,10 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </div>
         </div>
 
-        {/* 5. View & Advanced Studio trigger */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex flex-col justify-between gap-1.5">
-          <div className="flex items-center justify-between gap-2">
-            <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
-              View
-            </span>
-            {isCustomized && (
+        {/* 5. Advanced Studio trigger */}
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex flex-col justify-center gap-1.5">
+          {isCustomized && (
+            <div className="flex justify-end">
               <button
                 type="button"
                 onClick={() => {
@@ -8181,41 +8137,14 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 <RotateCcw className="w-3 h-3" aria-hidden="true" />
                 <span>Reset</span>
               </button>
-            )}
-          </div>
-
-          <div className="flex flex-wrap xl:flex-nowrap items-center gap-1" role="group" aria-label="Quick camera views">
-            {DOCK_VIEW_PRESETS.map((vId) => {
-              const preset = VIEW_PRESETS[vId];
-              const active = matchedView === vId;
-              const shortLabel = vId === 'quarter' ? '3/4' : preset.label;
-              return (
-                <button
-                  key={vId}
-                  type="button"
-                  aria-pressed={active}
-                  aria-label={`View ${preset.label}`}
-                  onClick={() => {
-                    setViewPreset(vId);
-                    setAnnouncement(`Camera angle set to ${preset.label}.`);
-                  }}
-                  className={`px-2 py-1 min-h-[32px] rounded-[5px] border text-xs font-medium transition-colors whitespace-nowrap ${
-                    active
-                      ? 'srf-hero-active-view'
-                      : 'border-[var(--srf-hairline-strong)] text-[var(--srf-oxblood)] hover:border-[var(--room-ui-outline)]'
-                  }`}
-                >
-                  {shortLabel}
-                </button>
-              );
-            })}
-          </div>
+            </div>
+          )}
 
           <button
             type="button"
             data-testid="hero-more-options-btn"
             onClick={() => onOpenAdvanced('all')}
-            className="inline-flex items-center justify-between gap-1.5 w-full px-2.5 py-1.5 min-h-[34px] rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors"
+            className="inline-flex items-center justify-between gap-1.5 w-full px-2.5 py-1.5 min-h-[36px] rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors"
           >
             <span>More options</span>
             <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
@@ -12128,7 +12057,7 @@ export const Header: React.FC = () => {
 <![CDATA['use client';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Play, SlidersHorizontal } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import { AdvancedStudioDrawer } from '../fold/AdvancedStudioDrawer';
 import { useFold } from '../fold/FoldProvider';
 import { FoldStage } from '../fold/FoldStage';
@@ -12286,14 +12215,6 @@ export const Hero: React.FC = () => {
               at home in your space.
             </p>
 
-            {/* Concise architectural room-setting note */}
-            <p
-              data-testid="hero-room-subtitle"
-              className="hidden sm:block srf-mono-caption mb-5 max-w-[44ch] opacity-90"
-              style={{ color: 'var(--room-text-secondary)' }}
-            >
-              {roomRecipe.subtitle}
-            </p>
 
             {/* Primary CTA + Secondary mechanical fold demo CTA */}
             <div className="srf-hero-actions hidden lg:flex flex-wrap items-center gap-3 mb-4">
@@ -12321,22 +12242,6 @@ export const Hero: React.FC = () => {
               </button>
             </div>
 
-            <div className="hidden lg:flex flex-wrap items-center gap-x-3 gap-y-1">
-              <p
-                className="srf-mono-caption"
-                style={{ color: 'var(--room-text-secondary)' }}
-              >
-                16 connected panels · Custom colors · Original prints
-              </p>
-              <button
-                type="button"
-                onClick={() => openDrawer('all')}
-                className="srf-hero-link inline-flex items-center gap-1 srf-mono-caption underline underline-offset-4 min-h-[28px] transition-colors duration-200"
-              >
-                <SlidersHorizontal className="w-3 h-3" aria-hidden="true" />
-                <span>Customize your own</span>
-              </button>
-            </div>
           </div>
 
           {/* Center-Right: Large, Unboxed 3D Fold 16 Centerpiece integrated in living room */}

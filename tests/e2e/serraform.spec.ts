@@ -120,7 +120,7 @@ test.describe("SERRAFORM", () => {
     await expect(dock.getByText("Base color", { exact: true })).toBeVisible();
     await expect(dock.getByText("Print", { exact: true })).toBeVisible();
     await expect(dock.getByText("Print color", { exact: true })).toBeVisible();
-    await expect(dock.getByText("View", { exact: true })).toBeVisible();
+    await expect(dock.getByText("More options", { exact: true })).toBeVisible();
     await expect(dock.getByText("Shape", { exact: true })).toBeVisible();
 
     const readout = page.getByTestId("hero-atelier-readout");

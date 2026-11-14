@@ -12,13 +12,11 @@ import {
   COLOR_PRESETS,
   PRINT_SPECS,
   PrintId,
-  VIEW_PRESETS,
-  ViewId,
 } from './config';
 import { deriveFold, deriveFoldChain, formatMeters } from './geometry';
 import { useFold } from './FoldProvider';
 import { NativeColorInput } from './NativeColorInput';
-import { usesActivePrintColor, viewPresetFromAngles } from './state';
+import { usesActivePrintColor } from './state';
 
 export type AdvancedDrawerSection = 'all' | 'color' | 'printColor' | 'design' | 'view';
 
@@ -43,8 +41,6 @@ const CURATED_PRINT_SWATCH_IDS = [
   'flax',
   'charcoal',
 ] as const;
-
-const DOCK_VIEW_PRESETS: readonly ViewId[] = ['front', 'quarter', 'side'];
 
 const MiniPrintThumb: React.FC<{
   printId: PrintId;
@@ -101,7 +97,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
     setBaseHex,
     setDesignHex,
     setPrint,
-    setViewPreset,
     resetDesign,
     resetShape,
     subscribeStoryFrame,
@@ -185,7 +180,6 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
   const printColorActive = usesActivePrintColor(design);
   const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
 
-  const matchedView = viewPresetFromAngles(view);
   const roundedOpening = Math.round(effectiveOpening);
   const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
 
@@ -485,13 +479,10 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
           </div>
         </div>
 
-        {/* 5. View & Advanced Studio trigger */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex flex-col justify-between gap-1.5">
-          <div className="flex items-center justify-between gap-2">
-            <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
-              View
-            </span>
-            {isCustomized && (
+        {/* 5. Advanced Studio trigger */}
+        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex flex-col justify-center gap-1.5">
+          {isCustomized && (
+            <div className="flex justify-end">
               <button
                 type="button"
                 onClick={() => {
@@ -505,41 +496,14 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 <RotateCcw className="w-3 h-3" aria-hidden="true" />
                 <span>Reset</span>
               </button>
-            )}
-          </div>
-
-          <div className="flex flex-wrap xl:flex-nowrap items-center gap-1" role="group" aria-label="Quick camera views">
-            {DOCK_VIEW_PRESETS.map((vId) => {
-              const preset = VIEW_PRESETS[vId];
-              const active = matchedView === vId;
-              const shortLabel = vId === 'quarter' ? '3/4' : preset.label;
-              return (
-                <button
-                  key={vId}
-                  type="button"
-                  aria-pressed={active}
-                  aria-label={`View ${preset.label}`}
-                  onClick={() => {
-                    setViewPreset(vId);
-                    setAnnouncement(`Camera angle set to ${preset.label}.`);
-                  }}
-                  className={`px-2 py-1 min-h-[32px] rounded-[5px] border text-xs font-medium transition-colors whitespace-nowrap ${
-                    active
-                      ? 'srf-hero-active-view'
-                      : 'border-[var(--srf-hairline-strong)] text-[var(--srf-oxblood)] hover:border-[var(--room-ui-outline)]'
-                  }`}
-                >
-                  {shortLabel}
-                </button>
-              );
-            })}
-          </div>
+            </div>
+          )}
 
           <button
             type="button"
             data-testid="hero-more-options-btn"
             onClick={() => onOpenAdvanced('all')}
-            className="inline-flex items-center justify-between gap-1.5 w-full px-2.5 py-1.5 min-h-[34px] rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors"
+            className="inline-flex items-center justify-between gap-1.5 w-full px-2.5 py-1.5 min-h-[36px] rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors"
           >
             <span>More options</span>
             <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
