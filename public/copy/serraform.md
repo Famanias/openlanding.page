@@ -951,8 +951,348 @@ details[open] .srf-faq-icon {
   transition: transform 280ms var(--ease-out);
 }
 
+/* ----------------------------------------------------------------------------
+   Room decor detail: mouldings, perspective floors, light, and ambient props.
+   Everything is tinted from the --room-* palette, so it follows the base color.
+   ---------------------------------------------------------------------------- */
+.srf-room-stage {
+  --room-mote: color-mix(in srgb, var(--room-trim) 58%, var(--room-light-tint));
+  --room-glow: 1;
+}
+
+.srf-room-stage[data-dark-envelope='true'] {
+  --room-mote: var(--room-light-tint);
+  --room-glow: 0.5;
+}
+
+/* Loops rest while the hero is scrolled out of view */
+.srf-room-stage[data-room-idle='true'] * {
+  animation-play-state: paused !important;
+}
+
+/* Stepped plaster cornice along the ceiling line */
+.srf-room-crown {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 22px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--room-wall-highlight) 90%, var(--room-shadow-tint)) 0 7px,
+    color-mix(in srgb, var(--room-shadow-tint) 20%, var(--room-wall-base)) 7px 8px,
+    color-mix(in srgb, var(--room-wall-highlight) 66%, var(--room-wall-base)) 8px 14px,
+    color-mix(in srgb, var(--room-shadow-tint) 14%, var(--room-wall-base)) 14px 15px,
+    color-mix(in srgb, var(--room-shadow-tint) 7%, transparent) 15px,
+    transparent 22px
+  );
+}
+
+/* Skirting board riding the wall/floor line (wall band is 66% of the hero) */
+.srf-room-skirting {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 13px;
+  top: calc(87.88% + var(--room-horizon-lift, 0px) - 13px);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--room-shadow-tint) 20%, var(--room-wall-base)) 0 1px,
+    color-mix(in srgb, var(--room-wall-highlight) 58%, var(--room-wall-base)) 1px 100%
+  );
+  transition: top 260ms var(--ease-out);
+}
+
+@media (min-width: 1024px) {
+  .srf-room-skirting {
+    top: calc(96.97% + var(--room-horizon-lift, 0px) - 13px);
+  }
+}
+
+/* Floor finish laid on a tilted plane so boards and joints converge with depth */
+.srf-room-floor-persp {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 700px;
+  perspective-origin: 60% 0%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 34%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 34%);
+}
+
+.srf-room-floor-plane {
+  position: absolute;
+  left: -12%;
+  right: -12%;
+  top: 0;
+  height: 540px;
+  transform-origin: 50% 0;
+  transform: rotateX(60deg);
+}
+
+/* Window light thrown across the floor in panes */
+.srf-room-floor-light {
+  position: absolute;
+  inset: 0;
+  opacity: calc(0.46 * var(--room-glow, 1));
+  background: linear-gradient(
+    96deg,
+    transparent 0%,
+    var(--room-light-tint) 24%,
+    var(--room-light-tint) 76%,
+    transparent 100%
+  );
+  -webkit-mask-image:
+    repeating-linear-gradient(90deg, #000 0 21.5%, transparent 21.5% 25%),
+    repeating-linear-gradient(180deg, #000 0 45%, transparent 45% 51%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    repeating-linear-gradient(90deg, #000 0 21.5%, transparent 21.5% 25%),
+    repeating-linear-gradient(180deg, #000 0 45%, transparent 45% 51%);
+  mask-composite: intersect;
+  transform: skewX(-38deg);
+}
+
+.srf-room-glow-pool {
+  position: absolute;
+  border-radius: 50%;
+  opacity: calc(0.5 * var(--room-glow, 1));
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    var(--room-light-tint) 0%,
+    color-mix(in srgb, var(--room-light-tint) 42%, transparent) 46%,
+    transparent 100%
+  );
+}
+
+.srf-room-lamp-glow {
+  position: absolute;
+  opacity: calc(0.62 * var(--room-glow, 1));
+  background: radial-gradient(
+    ellipse 50% 100% at 50% 0%,
+    var(--room-light-tint) 0%,
+    color-mix(in srgb, var(--room-light-tint) 38%, transparent) 44%,
+    transparent 100%
+  );
+}
+
+.srf-room-spot-cone {
+  position: absolute;
+  opacity: calc(0.36 * var(--room-glow, 1));
+  background: linear-gradient(180deg, var(--room-light-tint) 0%, transparent 94%);
+  clip-path: polygon(47% 0, 53% 0, 100% 100%, 0 100%);
+}
+
+.srf-room-pleats {
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--room-textile-primary) 86%, transparent) 0px,
+    color-mix(in srgb, var(--room-light-tint) 52%, var(--room-textile-primary)) 12px,
+    color-mix(in srgb, var(--room-textile-secondary) 72%, var(--room-wall-shadow)) 22px
+  );
+}
+
+.srf-room-mote {
+  position: absolute;
+  border-radius: 9999px;
+  background: var(--room-mote);
+  opacity: 0;
+}
+
+.srf-room-petal {
+  position: absolute;
+  width: 9px;
+  height: 6px;
+  border-radius: 80% 20% 70% 30%;
+  background: var(--room-decor-accent);
+  opacity: 0;
+}
+
+.srf-room-shimmer {
+  position: absolute;
+  left: -48px;
+  right: -48px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--room-light-tint) 0 14px,
+    transparent 14px 48px
+  );
+}
+
+.srf-room-caustic {
+  position: absolute;
+  border-radius: 50%;
+  opacity: calc(0.55 * var(--room-glow, 1));
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    var(--room-light-tint) 0%,
+    transparent 72%
+  );
+}
+
 /* Structural Room-Family Switch & Entrance Choreography (Compositor-only) */
 @media (prefers-reduced-motion: no-preference) {
+  /* Ambient loops: transform/opacity on whole elements only, literal keyframes */
+  @keyframes srf-room-sway {
+    0%, 100% { transform: rotate(-1.5deg); }
+    50% { transform: rotate(1.5deg); }
+  }
+
+  @keyframes srf-room-sway-soft {
+    0%, 100% { transform: rotate(-0.7deg); }
+    50% { transform: rotate(0.8deg); }
+  }
+
+  @keyframes srf-room-breathe {
+    0%, 100% { opacity: 0.56; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes srf-room-drape {
+    0%, 100% { transform: skewX(0deg) scaleX(1); }
+    50% { transform: skewX(-0.9deg) scaleX(1.045); }
+  }
+
+  @keyframes srf-room-mote-a {
+    0% { transform: translate3d(0, 0, 0); opacity: 0; }
+    18% { opacity: 0.72; }
+    70% { opacity: 0.5; }
+    100% { transform: translate3d(26px, -64px, 0); opacity: 0; }
+  }
+
+  @keyframes srf-room-mote-b {
+    0% { transform: translate3d(0, 0, 0); opacity: 0; }
+    25% { opacity: 0.6; }
+    100% { transform: translate3d(-22px, -48px, 0); opacity: 0; }
+  }
+
+  @keyframes srf-room-mote-c {
+    0% { transform: translate3d(0, 0, 0); opacity: 0; }
+    30% { opacity: 0.55; }
+    60% { transform: translate3d(14px, -20px, 0); opacity: 0.45; }
+    100% { transform: translate3d(36px, -30px, 0); opacity: 0; }
+  }
+
+  @keyframes srf-room-petal {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+    12% { opacity: 0.85; }
+    84% { opacity: 0.7; }
+    100% { transform: translate3d(-40px, 168px, 0) rotate(260deg); opacity: 0; }
+  }
+
+  @keyframes srf-room-cloud {
+    0% { transform: translate3d(-24%, 0, 0); }
+    100% { transform: translate3d(104%, 0, 0); }
+  }
+
+  @keyframes srf-room-glide-rev {
+    0% { transform: translate3d(104%, 0, 0); }
+    100% { transform: translate3d(-12%, -14px, 0); }
+  }
+
+  @keyframes srf-room-shimmer {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-48px, 0, 0); }
+  }
+
+  @keyframes srf-room-wave-a {
+    0%, 100% { transform: translate3d(-1.4%, 0, 0); }
+    50% { transform: translate3d(1.4%, 4px, 0); }
+  }
+
+  @keyframes srf-room-wave-b {
+    0%, 100% { transform: translate3d(1.6%, 2px, 0); }
+    50% { transform: translate3d(-1.6%, -3px, 0); }
+  }
+
+  @keyframes srf-room-caustic {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }
+    50% { transform: translate3d(16px, 5px, 0) scale(1.1); opacity: 1; }
+  }
+
+  @keyframes srf-room-blade-sweep {
+    0%, 100% { transform: translate3d(-18px, 0, 0); opacity: 0.78; }
+    50% { transform: translate3d(28px, 0, 0); opacity: 1; }
+  }
+
+  @keyframes srf-room-prop-settle-left {
+    0% { opacity: 0; transform: translate3d(-20px, 10px, 0); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  @keyframes srf-room-drop-in {
+    0% { opacity: 0; transform: translate3d(0, -22px, 0); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  .srf-room-sway {
+    transform-origin: 50% 0;
+    animation: srf-room-sway 7.5s ease-in-out infinite;
+  }
+
+  .srf-room-sway-soft {
+    transform-origin: 50% 0;
+    animation: srf-room-sway-soft 10s ease-in-out infinite;
+  }
+
+  .srf-room-sway-base {
+    transform-origin: 50% 100%;
+    animation: srf-room-sway-soft 9s ease-in-out infinite;
+  }
+
+  .srf-room-leafshade {
+    transform-origin: 100% 0;
+    animation: srf-room-sway 11s ease-in-out infinite;
+  }
+
+  .srf-room-breathe {
+    animation: srf-room-breathe 9s ease-in-out infinite;
+  }
+
+  .srf-room-drape-sway {
+    transform-origin: 50% 0;
+    animation: srf-room-drape 12s ease-in-out infinite;
+  }
+
+  .srf-room-mote-a { animation: srf-room-mote-a 13s linear infinite; }
+  .srf-room-mote-b { animation: srf-room-mote-b 17s linear infinite; }
+  .srf-room-mote-c { animation: srf-room-mote-c 15s linear infinite; }
+
+  .srf-room-petal {
+    animation: srf-room-petal 12s ease-in infinite;
+  }
+
+  .srf-room-cloud-track {
+    animation: srf-room-cloud 90s linear infinite;
+  }
+
+  .srf-room-glide-track {
+    animation: srf-room-glide-rev 52s linear infinite;
+  }
+
+  .srf-room-shimmer {
+    animation: srf-room-shimmer 5s linear infinite;
+  }
+
+  .srf-room-wave-a { animation: srf-room-wave-a 14s ease-in-out infinite; }
+  .srf-room-wave-b { animation: srf-room-wave-b 19s ease-in-out infinite; }
+
+  .srf-room-caustic-drift {
+    animation: srf-room-caustic 10s ease-in-out infinite;
+  }
+
+  .srf-room-blade-sweep {
+    animation: srf-room-blade-sweep 14s ease-in-out infinite;
+  }
+
+  .srf-room-prop-left {
+    animation: srf-room-prop-settle-left 540ms var(--ease-out-expo) 180ms both;
+  }
+
+  .srf-room-drop-in {
+    animation: srf-room-drop-in 620ms var(--ease-out-expo) 220ms both;
+  }
+
   @keyframes srf-room-initial-clip {
     0% {
       opacity: 0.01;
@@ -1112,6 +1452,7 @@ details[open] .srf-faq-icon {
   .srf-room-rug-spread,
   .srf-room-horizon-floor,
   .srf-room-horizon-props,
+  .srf-room-skirting,
   .srf-room-pano-layer-1,
   .srf-room-pano-layer-2,
   .srf-room-pano-layer-3,
@@ -11531,6 +11872,17 @@ export const RoomScene2D5: React.FC<RoomScene2D5Props> = ({
     });
   }, [effectiveOpening, getLiveChainFrame, subscribeChainFrame]);
 
+  // Rest the ambient decor loops while the hero is scrolled out of view
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(([entry]) => {
+      el.dataset.roomIdle = entry.isIntersecting ? 'false' : 'true';
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const combinedBiasX = env.reducedMotion
     ? 0
     : Math.max(-1.25, Math.min(1.25, recipe.spatial.cameraBiasX + pointerOffset.x * 0.35));
@@ -11665,29 +12017,53 @@ export const ROOM_FAMILIES: Record<RoomFamilyId, RoomFamilyMeta> = {
 <![CDATA['use client';
 
 import React from 'react';
+import { DustMotes, FloorPlane, RectRug, WallBase } from './shared';
+
+// [left % across the mid layer, breathing duration s, delay s]
+const SPOTS: ReadonlyArray<readonly [number, number, number]> = [
+  [49, 9, 0],
+  [64, 11, -4],
+  [79, 10, -7],
+];
+
+const SWATCHES = [
+  'var(--room-decor-primary)',
+  'var(--room-furniture)',
+  'var(--room-decor-accent)',
+  'var(--room-textile-secondary)',
+  'var(--room-rug-trim)',
+  'var(--room-foliage)',
+] as const;
 
 export const ArchitecturalShowroom: React.FC = () => {
   return (
     <div className="srf-room-layer-root" data-room-family="architecturalShowroom">
       {/* Layer 1: Honed plaster architectural showroom — sculptural color-harmonized monolith */}
       <div className="srf-room-depth-far absolute inset-x-0 top-0 bottom-[34%] overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(176deg, var(--room-wall-highlight) 0%, var(--room-wall-base) 64%, var(--room-ambient-tint) 100%)',
-          }}
-        />
+        <WallBase angle={176} quiet={0.78} crown={false} />
 
-        {/* Quiet-zone left ambient illumination behind editorial headline */}
+        {/* Offset rear slab giving the monolith a second plane of depth */}
         <div
-          className="hidden lg:block absolute inset-y-0 left-0 w-[44%] pointer-events-none"
+          className="hidden lg:block absolute left-[36.6%] w-[9%] top-[17%] bottom-0 border-t border-l"
           style={{
             background:
-              'radial-gradient(ellipse 84% 88% at 24% 48%, var(--room-quiet-bg) 0%, transparent 78%)',
-            opacity: 0.78,
+              'linear-gradient(180deg, color-mix(in srgb, var(--room-wall-shadow) 74%, var(--room-ambient-tint)) 0%, color-mix(in srgb, var(--room-wall-shadow) 88%, var(--room-shadow-tint)) 100%)',
+            borderColor: 'color-mix(in srgb, var(--room-trim) 24%, transparent)',
           }}
-        />
+        >
+          {/* Specimen placard */}
+          <div
+            className="hidden xl:block absolute left-[14%] top-[25%] w-[42px] h-[30px] rounded-[1px] border px-[6px] py-[6px] space-y-[4px]"
+            style={{
+              backgroundColor: 'var(--room-wall-highlight)',
+              borderColor: 'color-mix(in srgb, var(--room-trim) 34%, transparent)',
+            }}
+          >
+            <span className="block h-[2px] w-full" style={{ backgroundColor: 'var(--room-text-secondary)', opacity: 0.6 }} />
+            <span className="block h-[2px] w-[70%]" style={{ backgroundColor: 'var(--room-text-secondary)', opacity: 0.4 }} />
+            <span className="block h-[2px] w-[46%]" style={{ backgroundColor: 'var(--room-decor-accent)', opacity: 0.7 }} />
+          </div>
+        </div>
 
         {/* Asymmetric gallery monolith plane offsetting divider cleanly */}
         <div
@@ -11699,10 +12075,22 @@ export const ArchitecturalShowroom: React.FC = () => {
             boxShadow:
               '-24px 0 42px -28px color-mix(in srgb, var(--room-shadow-tint) 24%, transparent)',
           }}
-        />
+        >
+          {/* Honed stone panel joints */}
+          <div className="absolute inset-y-0 left-1/3 w-px" style={{ backgroundColor: 'color-mix(in srgb, var(--room-trim) 18%, transparent)' }} />
+          <div className="absolute inset-y-0 left-2/3 w-px" style={{ backgroundColor: 'color-mix(in srgb, var(--room-trim) 18%, transparent)' }} />
+          <div className="absolute inset-x-0 top-[46%] h-px" style={{ backgroundColor: 'color-mix(in srgb, var(--room-trim) 18%, transparent)' }} />
+          <div
+            className="absolute inset-y-0 right-0 w-[10px] hidden lg:block"
+            style={{
+              background:
+                'linear-gradient(90deg, transparent, color-mix(in srgb, var(--room-shadow-tint) 16%, transparent))',
+            }}
+          />
+        </div>
       </div>
 
-      {/* Layer 2: Focused overhead gallery spotlight wash & tactile swatch pin-up board */}
+      {/* Layer 2: Track spots washing the monolith, swatch board */}
       <div className="srf-room-depth-mid absolute inset-x-0 top-0 bottom-[34%] overflow-hidden pointer-events-none">
         <div
           className="absolute left-[44%] right-[14%] top-0 bottom-0 opacity-62"
@@ -11712,39 +12100,98 @@ export const ArchitecturalShowroom: React.FC = () => {
           }}
         />
 
+        {/* Lighting track: each head's cone brightens and dims on its own rhythm */}
+        <div
+          className="hidden lg:block absolute top-[13px] left-[43%] right-[14%] h-[3px] rounded-full"
+          style={{ backgroundColor: 'var(--room-furniture-leg)' }}
+        />
+        {SPOTS.map(([left, duration, delay]) => (
+          <div key={left} className="hidden lg:block absolute top-[16px] bottom-0 w-[17%]" style={{ left: `${left - 8.5}%` }}>
+            <div
+              className="srf-room-breathe absolute inset-x-0 top-[14px] h-[76%]"
+              style={{ animationDuration: `${duration}s`, animationDelay: `${delay}s` }}
+            >
+              <div className="srf-room-spot-cone inset-0" />
+            </div>
+            <span
+              className="absolute left-1/2 -ml-[5px] top-0 w-[10px] h-[17px] rounded-b-[4px]"
+              style={{ backgroundColor: 'var(--room-furniture-leg)' }}
+            >
+              <span
+                className="absolute inset-x-[2px] bottom-0 h-[3px] rounded-full"
+                style={{ backgroundColor: 'var(--room-light-tint)', opacity: 0.9 }}
+              />
+            </span>
+          </div>
+        ))}
+
         {/* Tactile material swatch pin-up sample board on far right */}
         <div
-          className="srf-room-prop-right hidden xl:flex flex-col gap-2 absolute right-[3.8%] top-[18%] p-3 rounded-[4px] border"
+          className="srf-room-prop-right hidden xl:flex flex-col gap-2 absolute right-[3.4%] top-[16%] p-3 rounded-[4px] border"
           style={{
             backgroundColor: 'color-mix(in srgb, var(--room-textile-primary) 72%, var(--room-wall-highlight))',
             borderColor: 'color-mix(in srgb, var(--room-trim) 32%, transparent)',
             boxShadow: '0 14px 28px -18px color-mix(in srgb, var(--room-shadow-tint) 28%, transparent)',
           }}
         >
-          <div className="flex gap-1.5">
-            <span
-              className="w-7 h-9 rounded-[2px] border"
-              style={{
-                backgroundColor: 'var(--room-decor-primary)',
-                borderColor: 'color-mix(in srgb, var(--room-shadow-tint) 24%, transparent)',
-              }}
-            />
-            <span
-              className="w-7 h-9 rounded-[2px] border"
-              style={{
-                backgroundColor: 'var(--room-furniture)',
-                borderColor: 'color-mix(in srgb, var(--room-shadow-tint) 24%, transparent)',
-              }}
-            />
+          <div className="grid grid-cols-3 gap-1.5">
+            {SWATCHES.map((color) => (
+              <span
+                key={color}
+                className="relative w-7 h-9 rounded-[2px] border"
+                style={{
+                  backgroundColor: color,
+                  borderColor: 'color-mix(in srgb, var(--room-shadow-tint) 24%, transparent)',
+                }}
+              >
+                <span
+                  className="absolute left-1/2 -ml-[2px] top-[3px] w-[4px] h-[4px] rounded-full"
+                  style={{ backgroundColor: 'var(--room-wall-highlight)', opacity: 0.85 }}
+                />
+              </span>
+            ))}
           </div>
           <span
             className="w-full h-3 rounded-[2px]"
             style={{ backgroundColor: 'var(--room-decor-accent)', opacity: 0.78 }}
           />
+          <span className="block h-[2px] w-[64%]" style={{ backgroundColor: 'var(--room-text-secondary)', opacity: 0.45 }} />
         </div>
+
+        {/* Hanging mobile: the whole piece turns one way, the lower arm answers the other */}
+        <div className="srf-room-drop-in hidden xl:block absolute top-0 left-[33.6%] w-[150px]">
+          <div className="srf-room-sway" style={{ animationDuration: '9s' }}>
+            <div
+              className="mx-auto w-px h-[58px]"
+              style={{ backgroundColor: 'color-mix(in srgb, var(--room-furniture-leg) 78%, transparent)' }}
+            />
+            <svg viewBox="0 0 150 72" className="block w-full h-auto" aria-hidden="true">
+              <path d="M18 12 Q75 -2 132 12" fill="none" stroke="var(--room-furniture-leg)" strokeWidth="1.4" />
+              <line x1="18" y1="12" x2="18" y2="42" stroke="var(--room-furniture-leg)" strokeWidth="1" />
+              <circle cx="18" cy="56" r="14" fill="var(--room-decor-primary)" />
+              <line x1="75" y1="5" x2="75" y2="34" stroke="var(--room-furniture-leg)" strokeWidth="1" />
+              <path d="M61 34 H89 A14 14 0 0 1 61 34 Z" fill="var(--room-textile-secondary)" stroke="var(--room-trim)" strokeOpacity="0.4" />
+              <line x1="132" y1="12" x2="132" y2="26" stroke="var(--room-furniture-leg)" strokeWidth="1" />
+            </svg>
+            <div
+              className="srf-room-sway absolute right-0 top-[84px] w-[50px]"
+              style={{ animationDuration: '6.5s', animationDelay: '-2s', transformOrigin: '64% 0' }}
+            >
+              <svg viewBox="0 0 50 64" className="block w-full h-auto" aria-hidden="true">
+                <path d="M8 6 Q28 -2 46 6" fill="none" stroke="var(--room-furniture-leg)" strokeWidth="1.4" />
+                <line x1="8" y1="6" x2="8" y2="30" stroke="var(--room-furniture-leg)" strokeWidth="1" />
+                <rect x="-2" y="30" width="20" height="20" rx="3" fill="var(--room-decor-accent)" transform="rotate(8 8 40)" />
+                <line x1="46" y1="6" x2="46" y2="20" stroke="var(--room-furniture-leg)" strokeWidth="1" />
+                <ellipse cx="46" cy="31" rx="6" ry="11" fill="var(--room-furniture)" stroke="var(--room-trim)" strokeOpacity="0.4" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <DustMotes className="left-[4%] right-[2%] lg:left-[36%] top-[34%] lg:top-[5%] bottom-[26%]" count={8} />
       </div>
 
-      {/* Layer 3 & 4: Clean honed terrazzo gallery floor + architectural woven mat */}
+      {/* Layer 3 & 4: Terrazzo gallery floor + architectural woven mat */}
       <div
         className="srf-room-horizon-floor absolute inset-x-0 bottom-0 overflow-hidden"
         style={{
@@ -11752,23 +12199,55 @@ export const ArchitecturalShowroom: React.FC = () => {
             'linear-gradient(180deg, var(--room-floor-far) 0%, var(--room-floor-base) 52%, color-mix(in srgb, var(--room-floor-detail) 52%, var(--room-floor-base)) 100%)',
         }}
       >
+        <FloorPlane variant="terrazzo" opacity={0.44} />
         <div
           className="absolute inset-x-0 top-0 h-[2px] opacity-32"
           style={{ backgroundColor: 'var(--room-trim)' }}
         />
 
+        {/* Spot pool landing on the floor beside the pedestal */}
         <div
-          className="srf-room-rug-spread absolute left-[10%] right-[10%] lg:left-[43%] lg:right-[9%] top-[12%] h-[50%] border-2"
-          style={{
-            background:
-              'linear-gradient(180deg, var(--room-rug) 0%, color-mix(in srgb, var(--room-rug) 76%, var(--room-textile-secondary)) 100%)',
-            borderColor: 'color-mix(in srgb, var(--room-rug-trim) 38%, transparent)',
-          }}
+          className="srf-room-breathe hidden lg:block absolute left-[30%] w-[20%] top-[1%] h-[30%]"
+          style={{ animationDuration: '9s' }}
+        >
+          <div className="srf-room-glow-pool inset-0" />
+        </div>
+
+        <RectRug
+          className="left-[10%] right-[10%] lg:left-[43%] lg:right-[9%] top-[12%] h-[50%]"
+          fringe={false}
         />
       </div>
 
-      {/* Layer 5: Sharp low stone gallery plinth + sculptural object */}
+      {/* Layer 5: Tall pedestal + arch form on the left, stone plinth + sample blocks on the right */}
       <div className="srf-room-depth-near srf-room-horizon-props hidden md:block absolute inset-x-0 pointer-events-none">
+        <svg
+          viewBox="0 0 110 250"
+          className="srf-room-prop-left hidden xl:block absolute left-[37.4%] bottom-[-10px] w-[96px] h-auto"
+          aria-hidden="true"
+        >
+          <polygon points="18,238 82,238 96,246 32,246" fill="var(--room-shadow-tint)" opacity="0.2" />
+          <rect x="26" y="98" width="46" height="142" fill="var(--room-furniture)" />
+          <polygon points="26,98 36,89 82,89 72,98" fill="var(--room-wall-highlight)" opacity="0.7" />
+          <polygon points="72,98 82,89 82,231 72,240" fill="var(--room-furniture-leg)" opacity="0.58" />
+          <rect x="26" y="98" width="6" height="142" fill="var(--room-light-tint)" opacity="0.16" />
+          {/* Arch form with a resting sphere */}
+          <path
+            d="M34 93 L34 60 Q34 36 52 36 Q70 36 70 60 L70 93 L60 93 L60 62 Q60 48 52 48 Q44 48 44 62 L44 93 Z"
+            fill="var(--room-decor-primary)"
+          />
+          <path
+            d="M37 86 L37 60 Q37 42 50 39"
+            fill="none"
+            stroke="var(--room-light-tint)"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            opacity="0.28"
+          />
+          <circle cx="52" cy="25" r="10" fill="var(--room-decor-accent)" />
+          <circle cx="48.5" cy="21.5" r="3" fill="var(--room-light-tint)" opacity="0.4" />
+        </svg>
+
         <svg
           viewBox="0 0 220 140"
           className="srf-room-prop-right absolute right-[2.5%] lg:right-[4%] bottom-[-12px] w-[112px] lg:w-[138px] h-auto"
@@ -11781,6 +12260,13 @@ export const ArchitecturalShowroom: React.FC = () => {
           {/* Minimalist matte gallery sculpture resting on monolith plinth */}
           <rect x="106" y="48" width="26" height="32" rx="13" fill="var(--room-decor-primary)" />
           <circle cx="136" cy="70" r="8" fill="var(--room-decor-accent)" opacity="0.88" />
+          <rect x="150" y="62" width="14" height="18" fill="var(--room-textile-secondary)" stroke="var(--room-trim)" strokeOpacity="0.4" />
+          {/* Felt sample blocks stacked at the foot of the plinth */}
+          <polygon points="10,130 58,130 64,136 16,136" fill="var(--room-shadow-tint)" opacity="0.18" />
+          <rect x="14" y="112" width="42" height="18" fill="var(--room-furniture-leg)" opacity="0.7" />
+          <rect x="18" y="98" width="20" height="14" fill="var(--room-decor-accent)" />
+          <rect x="38" y="102" width="15" height="10" fill="var(--room-textile-secondary)" stroke="var(--room-trim)" strokeOpacity="0.4" />
+          <rect x="22" y="88" width="12" height="10" fill="var(--room-decor-primary)" />
         </svg>
       </div>
     </div>
@@ -11792,29 +12278,108 @@ export const ArchitecturalShowroom: React.FC = () => {
 <![CDATA['use client';
 
 import React from 'react';
+import { DustMotes, FloorLight, FloorPlane, WallBase } from './shared';
+
+// [cx, cy, rotation, rx] — leaf shadows cast on the wall by the window branch
+const SHADE_LEAVES: ReadonlyArray<readonly [number, number, number, number]> = [
+  [352, 40, -30, 30],
+  [300, 62, -12, 34],
+  [250, 48, -40, 28],
+  [330, 104, -55, 30],
+  [272, 118, -20, 36],
+  [212, 96, -34, 30],
+  [176, 140, -10, 32],
+  [236, 170, -48, 30],
+  [300, 168, -25, 34],
+  [150, 82, -28, 26],
+  [120, 128, -42, 28],
+  [196, 214, -18, 30],
+  [262, 232, -36, 28],
+  [96, 180, -8, 24],
+];
+
+// [cx, cy, rotation] — trailing vine leaves on the hanging planter
+const VINE_LEAVES: ReadonlyArray<readonly [number, number, number]> = [
+  [30, 128, -50],
+  [24, 152, 30],
+  [28, 174, -40],
+  [20, 196, 20],
+  [92, 124, 50],
+  [94, 148, -30],
+  [92, 170, 45],
+  [100, 188, -20],
+  [58, 140, -30],
+  [64, 162, 35],
+  [58, 186, -35],
+  [62, 212, 20],
+];
+
+// [cx, cy, rotation, rx] — fronds spilling over the planter rim
+const PLANTER_FRONDS: ReadonlyArray<readonly [number, number, number, number]> = [
+  [44, 80, -60, 12],
+  [56, 72, -80, 13],
+  [70, 74, -100, 13],
+  [80, 82, -125, 12],
+  [36, 88, -30, 10],
+  [88, 90, -150, 10],
+];
+
+// [cx, cy, rotation] — olive canopy
+const OLIVE_LEAVES: ReadonlyArray<readonly [number, number, number]> = [
+  [62, 98, -50],
+  [52, 90, 20],
+  [70, 86, -70],
+  [58, 76, -30],
+  [46, 72, 40],
+  [66, 66, -80],
+  [54, 58, -20],
+  [40, 56, 60],
+  [62, 48, -60],
+  [50, 40, 10],
+  [112, 110, -40],
+  [122, 100, 30],
+  [104, 98, -75],
+  [118, 88, -20],
+  [128, 82, 50],
+  [108, 80, -60],
+  [120, 70, -10],
+  [132, 64, 40],
+  [112, 60, -70],
+  [86, 68, -50],
+  [96, 58, 20],
+  [78, 54, -80],
+  [90, 44, -30],
+  [100, 38, 45],
+  [82, 34, -65],
+  [92, 24, -10],
+  [74, 26, 35],
+  [86, 14, -45],
+  [68, 42, 15],
+  [100, 50, -25],
+];
+
+const Blossom: React.FC<{ x: number; y: number; r?: number }> = ({ x, y, r = 5 }) => (
+  <g>
+    {[0, 72, 144, 216, 288].map((deg) => (
+      <circle
+        key={deg}
+        cx={x + Math.round(Math.cos((deg * Math.PI) / 180) * r * 100) / 100}
+        cy={y + Math.round(Math.sin((deg * Math.PI) / 180) * r * 100) / 100}
+        r={r * 0.78}
+        fill="var(--room-decor-accent)"
+        opacity="0.9"
+      />
+    ))}
+    <circle cx={x} cy={y} r={r * 0.5} fill="var(--room-light-tint)" opacity="0.9" />
+  </g>
+);
 
 export const BotanicalAtelier: React.FC = () => {
   return (
     <div className="srf-room-layer-root" data-room-family="botanicalAtelier">
-      {/* Layer 1: Mineral plaster wall + soft center-right recessed plaster arch */}
+      {/* Layer 1: Mineral plaster wall, cornice + soft center-right recessed plaster arch */}
       <div className="srf-room-depth-far absolute inset-x-0 top-0 bottom-[34%] overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(165deg, var(--room-wall-highlight) 0%, var(--room-wall-base) 62%, var(--room-ambient-tint) 100%)',
-          }}
-        />
-
-        {/* Quiet-zone left ambient illumination behind editorial headline */}
-        <div
-          className="hidden lg:block absolute inset-y-0 left-0 w-[44%] pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(ellipse 85% 90% at 24% 46%, var(--room-quiet-bg) 0%, transparent 78%)',
-            opacity: 0.72,
-          }}
-        />
+        <WallBase angle={165} quiet={0.72} />
 
         {/* Recessed architectural half-arch niche framing center-right divider */}
         <div
@@ -11824,12 +12389,22 @@ export const BotanicalAtelier: React.FC = () => {
               'linear-gradient(180deg, var(--room-wall-shadow) 0%, color-mix(in srgb, var(--room-wall-shadow) 68%, var(--room-wall-base)) 76%, color-mix(in srgb, var(--room-ambient-tint) 82%, var(--room-shadow-tint)) 100%)',
             borderColor: 'color-mix(in srgb, var(--room-trim) 32%, transparent)',
             boxShadow:
-              'inset 14px 16px 36px -22px color-mix(in srgb, var(--room-shadow-tint) 24%, transparent)',
+              'inset 14px 16px 36px -22px color-mix(in srgb, var(--room-shadow-tint) 24%, transparent), 0 0 0 9px color-mix(in srgb, var(--room-wall-highlight) 46%, transparent)',
           }}
-        />
+        >
+          {/* Stepped reveal lines inside the niche */}
+          <div
+            className="absolute inset-x-[16px] top-[16px] bottom-0 rounded-t-[160px] lg:rounded-t-[999px] border-t border-x"
+            style={{ borderColor: 'color-mix(in srgb, var(--room-trim) 20%, transparent)' }}
+          />
+          <div
+            className="absolute inset-x-[30px] top-[30px] bottom-0 rounded-t-[150px] lg:rounded-t-[999px] border-t border-x border-dashed"
+            style={{ borderColor: 'color-mix(in srgb, var(--room-light-tint) 46%, transparent)' }}
+          />
+        </div>
       </div>
 
-      {/* Layer 2: Pleated textile curtain drape on right edge + afternoon dappled leaf shadows */}
+      {/* Layer 2: Sun beam, swaying leaf shadows, curtain on its rod, hanging planter */}
       <div className="srf-room-depth-mid absolute inset-x-0 top-0 bottom-[34%] overflow-hidden pointer-events-none">
         <svg
           viewBox="0 0 1440 620"
@@ -11845,28 +12420,123 @@ export const BotanicalAtelier: React.FC = () => {
             </linearGradient>
           </defs>
           <polygon points="560,0 1080,0 1280,620 420,620" fill="url(#srf-botanical-beam)" />
-          <g fill="var(--room-shadow-tint)" opacity="0.24">
-            <ellipse cx="940" cy="145" rx="46" ry="18" transform="rotate(-24 940 145)" />
-            <ellipse cx="1010" cy="188" rx="54" ry="20" transform="rotate(-14 1010 188)" />
-            <ellipse cx="892" cy="210" rx="38" ry="14" transform="rotate(-36 892 210)" />
-            <ellipse cx="965" cy="252" rx="44" ry="16" transform="rotate(-18 965 252)" />
+        </svg>
+
+        {/* Branch + leaf shadows thrown on the wall, stirring in a breeze */}
+        <svg
+          viewBox="0 0 420 320"
+          className="srf-room-leafshade hidden lg:block absolute right-[8%] top-0 w-[31%] h-auto opacity-[0.13]"
+          aria-hidden="true"
+        >
+          <g fill="none" stroke="var(--room-shadow-tint)" strokeLinecap="round">
+            <path d="M420 0 C340 40, 250 80, 90 190" strokeWidth="5" />
+            <path d="M360 30 C330 110, 290 180, 250 250" strokeWidth="4" />
+          </g>
+          <g fill="var(--room-shadow-tint)">
+            {SHADE_LEAVES.map(([cx, cy, rot, rx]) => (
+              <ellipse
+                key={`${cx}-${cy}`}
+                cx={cx}
+                cy={cy}
+                rx={rx}
+                ry={rx * 0.36}
+                transform={`rotate(${rot} ${cx} ${cy})`}
+              />
+            ))}
           </g>
         </svg>
 
-        {/* Translucent pleated textile drape on right edge */}
-        <div
-          className="srf-room-drape hidden sm:block absolute top-0 bottom-0 right-0 w-[13%] lg:w-[11%] opacity-90"
-          style={{
-            background:
-              'repeating-linear-gradient(90deg, color-mix(in srgb, var(--room-textile-primary) 86%, transparent) 0px, color-mix(in srgb, var(--room-light-tint) 52%, var(--room-textile-primary)) 12px, color-mix(in srgb, var(--room-textile-secondary) 72%, var(--room-wall-shadow)) 22px)',
-            borderLeft: '1px solid color-mix(in srgb, var(--room-trim) 34%, transparent)',
-            maskImage: 'linear-gradient(90deg, transparent 0%, black 22%, black 100%)',
-            WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 22%, black 100%)',
-          }}
-        />
+        {/* Linen curtain on a rod: a sheer under-layer and a pleated drape that breathe out of phase */}
+        <div className="hidden sm:block absolute top-0 bottom-0 right-0 w-[13%] lg:w-[11%]">
+          <div
+            className="srf-room-drape-sway absolute top-[34px] bottom-0 -left-[34%] w-[62%] opacity-50"
+            style={{
+              animationDelay: '-5s',
+              background:
+                'repeating-linear-gradient(90deg, color-mix(in srgb, var(--room-light-tint) 70%, transparent) 0px, color-mix(in srgb, var(--room-textile-primary) 60%, transparent) 9px, color-mix(in srgb, var(--room-light-tint) 60%, transparent) 17px)',
+              maskImage: 'linear-gradient(90deg, transparent 0%, black 40%, black 100%)',
+              WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 40%, black 100%)',
+            }}
+          />
+          <div
+            className="srf-room-drape srf-room-drape-sway srf-room-pleats absolute top-[34px] bottom-0 inset-x-0 opacity-90"
+            style={{
+              borderLeft: '1px solid color-mix(in srgb, var(--room-trim) 34%, transparent)',
+              maskImage: 'linear-gradient(90deg, transparent 0%, black 22%, black 100%)',
+              WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 22%, black 100%)',
+            }}
+          />
+          <div
+            className="absolute top-[28px] -left-[42%] right-0 h-[5px] rounded-full"
+            style={{ backgroundColor: 'var(--room-furniture-leg)' }}
+          >
+            <span
+              className="absolute -left-[6px] -top-[4px] w-[13px] h-[13px] rounded-full"
+              style={{ backgroundColor: 'var(--room-furniture-leg)' }}
+            />
+          </div>
+          <div
+            className="absolute top-[33px] -left-[30%] right-0 h-[7px] opacity-70"
+            style={{
+              background:
+                'repeating-linear-gradient(90deg, var(--room-furniture-leg) 0 3px, transparent 3px 21px)',
+            }}
+          />
+        </div>
+
+        {/* Hanging planter with trailing vines, swinging on its cords */}
+        <div className="srf-room-drop-in hidden xl:block absolute top-0 left-[32.2%] w-[104px]">
+          <svg viewBox="0 0 120 230" className="srf-room-sway block w-full h-auto" aria-hidden="true">
+            <g stroke="var(--room-furniture-leg)" strokeWidth="1.2" opacity="0.8">
+              <line x1="60" y1="0" x2="36" y2="92" />
+              <line x1="60" y1="0" x2="84" y2="92" />
+              <line x1="60" y1="0" x2="60" y2="84" />
+            </g>
+            <g fill="none" stroke="var(--room-foliage)" strokeWidth="1.6" strokeLinecap="round">
+              <path d="M40 100 C24 130, 30 160, 22 196" />
+              <path d="M82 100 C98 126, 90 158, 100 186" />
+              <path d="M60 110 C56 150, 66 176, 60 214" />
+            </g>
+            <g fill="var(--room-foliage)">
+              {VINE_LEAVES.map(([cx, cy, rot]) => (
+                <ellipse
+                  key={`${cx}-${cy}`}
+                  cx={cx}
+                  cy={cy}
+                  rx="8.5"
+                  ry="5"
+                  transform={`rotate(${rot} ${cx} ${cy})`}
+                  opacity="0.92"
+                />
+              ))}
+              {PLANTER_FRONDS.map(([cx, cy, rot, rx]) => (
+                <ellipse
+                  key={`f-${cx}-${cy}`}
+                  cx={cx}
+                  cy={cy}
+                  rx={rx}
+                  ry={rx * 0.42}
+                  transform={`rotate(${rot} ${cx} ${cy})`}
+                />
+              ))}
+            </g>
+            <path d="M32 92 L88 92 L80 128 Q60 136 40 128 Z" fill="var(--room-decor-primary)" />
+            <rect x="29" y="87" width="62" height="9" rx="3" fill="var(--room-decor-accent)" opacity="0.9" />
+            <path
+              d="M40 100 L45 124"
+              fill="none"
+              stroke="var(--room-light-tint)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              opacity="0.3"
+            />
+          </svg>
+        </div>
+
+        <DustMotes className="left-[4%] right-[2%] lg:left-[35%] top-[34%] lg:top-[5%] bottom-[28%]" />
       </div>
 
-      {/* Layer 3 & 4: Unified horizon baseboard, mineral floor plane & spread-responsive boucle rug */}
+      {/* Layer 3 & 4: Unified horizon baseboard, chevron parquet & spread-responsive boucle rug */}
       <div
         className="srf-room-horizon-floor absolute inset-x-0 bottom-0 overflow-hidden"
         style={{
@@ -11874,10 +12544,14 @@ export const BotanicalAtelier: React.FC = () => {
             'linear-gradient(180deg, var(--room-floor-far) 0%, var(--room-floor-base) 44%, color-mix(in srgb, var(--room-floor-detail) 55%, var(--room-floor-base)) 100%)',
         }}
       >
+        <FloorPlane variant="chevron" opacity={0.42} />
         <div
           className="absolute inset-x-0 top-0 h-[2px] opacity-40"
           style={{ backgroundColor: 'var(--room-trim)' }}
         />
+
+        {/* Window panes of sun on the boards */}
+        <FloorLight className="hidden lg:block left-[6%] w-[26%] top-[14%] h-[52%]" duration={12} />
 
         {/* Woven boucle elliptical rug centered beneath the 16-panel divider */}
         <div
@@ -11889,11 +12563,77 @@ export const BotanicalAtelier: React.FC = () => {
             boxShadow:
               '0 18px 34px -22px color-mix(in srgb, var(--room-shadow-tint) 38%, transparent)',
           }}
-        />
+        >
+          <div
+            className="absolute inset-[7%] rounded-[999px] border"
+            style={{ borderColor: 'color-mix(in srgb, var(--room-rug-trim) 26%, transparent)' }}
+          />
+          <div
+            className="absolute inset-[16%] rounded-[999px] border border-dashed"
+            style={{ borderColor: 'color-mix(in srgb, var(--room-rug-trim) 20%, transparent)' }}
+          />
+        </div>
       </div>
 
-      {/* Layer 5: Grounded ceramic ikebana vessel + foliage + upholstered studio bench */}
+      {/* Layer 5: Potted olive tree, ikebana vessel in bloom, upholstered bench, drifting petals */}
       <div className="srf-room-depth-near srf-room-horizon-props hidden md:block absolute inset-x-0 pointer-events-none">
+        {/* Olive tree standing in the niche, left of the divider */}
+        <div className="srf-room-prop-left hidden xl:block absolute left-[36.6%] bottom-[-12px] w-[150px]">
+          <div className="relative">
+            <svg viewBox="0 0 160 330" className="block w-full h-auto" aria-hidden="true">
+              <ellipse cx="86" cy="318" rx="58" ry="8" fill="var(--room-shadow-tint)" opacity="0.2" />
+              <g fill="none" stroke="var(--room-furniture-leg)" strokeLinecap="round">
+                <path d="M80 256 C78 220, 84 190, 78 160 C74 140, 70 120, 62 100" strokeWidth="4" />
+                <path d="M79 172 C90 150, 100 132, 112 112" strokeWidth="3" />
+                <path d="M76 138 C72 118, 80 94, 86 70" strokeWidth="2.6" />
+              </g>
+              <path d="M52 258 L108 258 L102 314 Q80 322 58 314 Z" fill="var(--room-decor-primary)" />
+              <rect x="48" y="252" width="64" height="10" rx="4" fill="var(--room-decor-accent)" opacity="0.9" />
+              <path
+                d="M62 270 L66 306"
+                fill="none"
+                stroke="var(--room-light-tint)"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+                opacity="0.3"
+              />
+              {/* Low planter of upright blades at the tree's foot */}
+              <g fill="var(--room-foliage)">
+                <path d="M128 292 C125 272, 127 256, 131 244 C134 258, 135 276, 134 292 Z" />
+                <path d="M136 292 C137 276, 141 264, 147 256 C147 270, 144 282, 142 292 Z" opacity="0.85" />
+                <path d="M124 292 C120 280, 118 270, 114 262 C120 268, 126 280, 129 292 Z" opacity="0.8" />
+              </g>
+              <path d="M118 290 L152 290 L148 316 L122 316 Z" fill="var(--room-furniture)" />
+              <rect x="116" y="287" width="38" height="5" rx="2" fill="var(--room-furniture-leg)" opacity="0.6" />
+            </svg>
+            <svg
+              viewBox="0 0 160 330"
+              className="srf-room-sway-base absolute inset-0 w-full h-full"
+              style={{ transformOrigin: '50% 52%' }}
+              aria-hidden="true"
+            >
+              <g fill="none" stroke="var(--room-furniture-leg)" strokeWidth="1.6" strokeLinecap="round">
+                <path d="M62 100 C56 80, 54 60, 50 40" />
+                <path d="M112 112 C118 96, 122 80, 130 64" />
+                <path d="M86 70 C88 50, 88 30, 86 14" />
+              </g>
+              <g fill="var(--room-foliage)">
+                {OLIVE_LEAVES.map(([cx, cy, rot], idx) => (
+                  <ellipse
+                    key={`${cx}-${cy}`}
+                    cx={cx}
+                    cy={cy}
+                    rx="11"
+                    ry="3.6"
+                    transform={`rotate(${rot} ${cx} ${cy})`}
+                    opacity={idx % 3 === 0 ? 0.78 : 0.95}
+                  />
+                ))}
+              </g>
+            </svg>
+          </div>
+        </div>
+
         <svg
           viewBox="0 0 260 150"
           className="srf-room-prop-right hidden xl:block absolute right-[2.5%] bottom-[-14px] w-[150px] h-auto"
@@ -11914,6 +12654,9 @@ export const BotanicalAtelier: React.FC = () => {
           />
           {/* Accent throw bolster cushion */}
           <rect x="78" y="76" width="44" height="14" rx="7" fill="var(--room-decor-accent)" opacity="0.88" />
+          {/* Folded linen + pruning shears left on the seat */}
+          <rect x="176" y="78" width="36" height="7" rx="2" fill="var(--room-textile-primary)" stroke="var(--room-trim)" strokeOpacity="0.3" />
+          <rect x="179" y="72" width="30" height="7" rx="2" fill="var(--room-wall-highlight)" stroke="var(--room-trim)" strokeOpacity="0.3" />
         </svg>
 
         <svg
@@ -11954,6 +12697,13 @@ export const BotanicalAtelier: React.FC = () => {
             <ellipse cx="168" cy="46" rx="17" ry="7" transform="rotate(28 168 46)" opacity="0.9" />
             <ellipse cx="148" cy="92" rx="14" ry="6" transform="rotate(42 148 92)" opacity="0.82" />
             <ellipse cx="186" cy="122" rx="15" ry="6.5" transform="rotate(-14 186 122)" opacity="0.88" />
+            <ellipse cx="100" cy="150" rx="13" ry="5.5" transform="rotate(-62 100 150)" opacity="0.8" />
+            <ellipse cx="138" cy="140" rx="12" ry="5" transform="rotate(50 138 140)" opacity="0.8" />
+            <Blossom x={52} y={56} />
+            <Blossom x={176} y={34} r={5.5} />
+            <Blossom x={198} y={114} r={4.5} />
+            <Blossom x={92} y={126} r={4} />
+            <Blossom x={156} y={74} r={4} />
           </g>
 
           <path
@@ -11975,6 +12725,17 @@ export const BotanicalAtelier: React.FC = () => {
             opacity="0.4"
           />
         </svg>
+
+        {/* Petals letting go of the arrangement */}
+        <span className="srf-room-petal" style={{ right: '9%', top: '60%', animationDelay: '-2s' }} />
+        <span
+          className="srf-room-petal"
+          style={{ right: '5.5%', top: '56%', animationDuration: '15s', animationDelay: '-9s' }}
+        />
+        <span
+          className="srf-room-petal"
+          style={{ right: '12%', top: '66%', animationDuration: '18s', animationDelay: '-13s' }}
+        />
       </div>
     </div>
   );
@@ -11985,51 +12746,189 @@ export const BotanicalAtelier: React.FC = () => {
 <![CDATA['use client';
 
 import React from 'react';
+import { DustMotes, FloorPlane, RectRug, WallBase } from './shared';
+
+const CHIPS = [
+  'var(--room-decor-primary)',
+  'var(--room-decor-accent)',
+  'var(--room-furniture)',
+  'var(--room-foliage)',
+] as const;
+
+const TAPE = 'color-mix(in srgb, var(--room-light-tint) 62%, var(--room-trim))';
+const CARD_SHADOW = '0 8px 16px -10px color-mix(in srgb, var(--room-shadow-tint) 46%, transparent)';
+const CARD_BORDER = 'color-mix(in srgb, var(--room-trim) 30%, transparent)';
+
+const CROP_MARKS = [
+  '-top-[15px] -left-[15px] border-r border-b',
+  '-top-[15px] -right-[15px] border-l border-b',
+] as const;
 
 export const CuratedStudio: React.FC = () => {
   return (
     <div className="srf-room-layer-root" data-room-family="curatedStudio">
       {/* Layer 1: Tailored harmonized atelier backdrop framing uploaded user artwork cleanly */}
       <div className="srf-room-depth-far absolute inset-x-0 top-0 bottom-[34%] overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(172deg, var(--room-wall-highlight) 0%, var(--room-wall-base) 64%, var(--room-ambient-tint) 100%)',
-          }}
-        />
+        <WallBase angle={172} quiet={0.78} crown={false} />
 
-        {/* Quiet-zone left ambient illumination behind editorial headline */}
+        {/* Backdrop paper roll hung above the alcove */}
         <div
-          className="hidden lg:block absolute inset-y-0 left-0 w-[44%] pointer-events-none"
+          className="hidden lg:block absolute left-[37.4%] right-[10.4%] top-[4.6%] h-[13px] rounded-full"
           style={{
             background:
-              'radial-gradient(ellipse 84% 88% at 24% 48%, var(--room-quiet-bg) 0%, transparent 78%)',
-            opacity: 0.78,
+              'linear-gradient(180deg, var(--room-wall-highlight) 0%, color-mix(in srgb, var(--room-textile-primary) 70%, var(--room-wall-shadow)) 100%)',
+            boxShadow: '0 6px 12px -6px color-mix(in srgb, var(--room-shadow-tint) 40%, transparent)',
           }}
-        />
+        >
+          <span className="absolute -left-[5px] top-[2px] w-[9px] h-[9px] rounded-full" style={{ backgroundColor: 'var(--room-furniture-leg)' }} />
+          <span className="absolute -right-[5px] top-[2px] w-[9px] h-[9px] rounded-full" style={{ backgroundColor: 'var(--room-furniture-leg)' }} />
+        </div>
 
         {/* Soft vertical textile studio alcove behind divider */}
         <div
-          className="srf-room-alcove-panel absolute left-[8%] right-[8%] top-[28%] lg:left-[38%] lg:right-[11%] lg:top-[8%] bottom-0 rounded-t-[24px] border-t border-x"
+          className="srf-room-alcove-panel absolute left-[8%] right-[8%] top-[28%] lg:left-[38%] lg:right-[11%] lg:top-[8%] bottom-0 rounded-t-[24px] lg:rounded-t-[6px] border-t border-x"
           style={{
             background:
               'linear-gradient(180deg, color-mix(in srgb, var(--room-textile-primary) 46%, var(--room-wall-shadow)) 0%, var(--room-wall-shadow) 100%)',
             borderColor: 'color-mix(in srgb, var(--room-trim) 28%, transparent)',
           }}
-        />
+        >
+          {/* Registration crop marks + a measuring scale down the edge */}
+          {CROP_MARKS.map((cls) => (
+            <span
+              key={cls}
+              className={`hidden lg:block absolute w-[10px] h-[10px] ${cls}`}
+              style={{ borderColor: 'color-mix(in srgb, var(--room-trim) 60%, transparent)' }}
+            />
+          ))}
+          <div
+            className="absolute left-[9px] top-[26px] bottom-0 w-[7px]"
+            style={{
+              background:
+                'repeating-linear-gradient(180deg, color-mix(in srgb, var(--room-trim) 42%, transparent) 0 1px, transparent 1px 12px)',
+            }}
+          />
+          <div
+            className="absolute left-[9px] top-[26px] bottom-0 w-[13px]"
+            style={{
+              background:
+                'repeating-linear-gradient(180deg, color-mix(in srgb, var(--room-trim) 42%, transparent) 0 1px, transparent 1px 60px)',
+            }}
+          />
+        </div>
       </div>
 
-      {/* Layer 2: Balanced studio daylight */}
-      <div
-        className="srf-room-depth-mid absolute inset-x-0 top-0 bottom-[34%] pointer-events-none opacity-55"
-        style={{
-          background:
-            'radial-gradient(ellipse 64% 68% at 64% 42%, var(--room-light-tint) 0%, transparent 74%)',
-        }}
-      />
+      {/* Layer 2: Balanced studio daylight, softbox throw, pinned reference wall */}
+      <div className="srf-room-depth-mid absolute inset-x-0 top-0 bottom-[34%] overflow-hidden pointer-events-none">
+        <div
+          className="absolute inset-0 opacity-55"
+          style={{
+            background:
+              'radial-gradient(ellipse 64% 68% at 64% 42%, var(--room-light-tint) 0%, transparent 74%)',
+          }}
+        />
 
-      {/* Layer 3 & 4: Mineral studio floor & woven studio mat */}
+        {/* Light thrown from the softbox toward the divider */}
+        <div
+          className="srf-room-breathe hidden xl:block absolute left-[43%] w-[30%] top-[30%] h-[58%]"
+          style={{ animationDuration: '8s' }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              opacity: 'calc(0.34 * var(--room-glow, 1))',
+              background: 'linear-gradient(90deg, var(--room-light-tint) 0%, transparent 92%)',
+              clipPath: 'polygon(0 30%, 100% 0, 100% 100%, 0 52%)',
+            }}
+          />
+        </div>
+
+        {/* Reference wall: taped cards and palette chips that lift slightly in the air */}
+        <div className="srf-room-prop-right hidden xl:block absolute right-[1.5%] top-[10%] w-[122px] h-[206px]">
+          <div className="absolute left-0 top-0 w-[66px] rotate-[-4deg]">
+            <div
+              className="srf-room-sway-soft p-[5px] pb-[14px] border"
+              style={{ backgroundColor: 'var(--room-wall-highlight)', borderColor: CARD_BORDER, boxShadow: CARD_SHADOW }}
+            >
+              <div
+                className="h-[56px]"
+                style={{
+                  background:
+                    'linear-gradient(160deg, var(--room-decor-primary) 0%, var(--room-decor-accent) 100%)',
+                }}
+              />
+            </div>
+            <span className="absolute left-1/2 -ml-[13px] -top-[5px] w-[26px] h-[9px] rotate-[3deg]" style={{ backgroundColor: TAPE, opacity: 0.85 }} />
+          </div>
+
+          <div className="absolute left-[54px] top-[34px] w-[62px] rotate-[5deg]">
+            <div
+              className="srf-room-sway-soft p-[5px] border"
+              style={{
+                backgroundColor: 'var(--room-wall-highlight)',
+                borderColor: CARD_BORDER,
+                boxShadow: CARD_SHADOW,
+                animationDuration: '13s',
+                animationDelay: '-4s',
+              }}
+            >
+              <div
+                className="h-[48px]"
+                style={{
+                  background:
+                    'radial-gradient(circle at 68% 36%, var(--room-light-tint) 0 9px, transparent 10px), linear-gradient(180deg, var(--room-textile-secondary) 0 58%, var(--room-furniture) 58% 78%, var(--room-foliage) 78%)',
+                }}
+              />
+            </div>
+            <span className="absolute left-1/2 -ml-[12px] -top-[5px] w-[24px] h-[9px] rotate-[-6deg]" style={{ backgroundColor: TAPE, opacity: 0.85 }} />
+          </div>
+
+          <div
+            className="absolute left-[4px] top-[108px] w-[108px] p-[6px] border flex gap-[4px]"
+            style={{ backgroundColor: 'var(--room-wall-highlight)', borderColor: CARD_BORDER, boxShadow: CARD_SHADOW }}
+          >
+            {CHIPS.map((color) => (
+              <span key={color} className="flex-1 h-[30px] rounded-[1px]" style={{ backgroundColor: color }} />
+            ))}
+          </div>
+
+          <div className="absolute left-[56px] top-[160px] w-[52px] rotate-[-3deg]">
+            <div
+              className="srf-room-sway-soft p-[7px] space-y-[5px] border"
+              style={{
+                backgroundColor: 'color-mix(in srgb, var(--room-textile-primary) 70%, var(--room-wall-highlight))',
+                borderColor: CARD_BORDER,
+                boxShadow: CARD_SHADOW,
+                animationDuration: '11s',
+                animationDelay: '-7s',
+              }}
+            >
+              <span className="block h-[2px] w-full" style={{ backgroundColor: 'var(--room-text-secondary)', opacity: 0.55 }} />
+              <span className="block h-[2px] w-[76%]" style={{ backgroundColor: 'var(--room-text-secondary)', opacity: 0.4 }} />
+              <span className="block h-[2px] w-[52%]" style={{ backgroundColor: 'var(--room-decor-accent)', opacity: 0.7 }} />
+            </div>
+            <span className="absolute left-[8px] -top-[5px] w-[20px] h-[8px] rotate-[8deg]" style={{ backgroundColor: TAPE, opacity: 0.85 }} />
+          </div>
+
+          <div className="absolute left-[6px] top-[158px] w-[40px] h-[40px] rotate-[6deg]">
+            <div
+              className="srf-room-sway-soft w-full h-full border"
+              style={{
+                backgroundColor: 'var(--room-decor-accent)',
+                borderColor: CARD_BORDER,
+                boxShadow: CARD_SHADOW,
+                animationDuration: '9s',
+                animationDelay: '-2s',
+              }}
+            />
+            <span className="absolute left-1/2 -ml-[10px] -top-[5px] w-[20px] h-[8px] rotate-[-4deg]" style={{ backgroundColor: TAPE, opacity: 0.85 }} />
+          </div>
+        </div>
+
+        <DustMotes className="left-[4%] right-[2%] lg:left-[36%] top-[34%] lg:top-[5%] bottom-[26%]" count={10} />
+      </div>
+
+      {/* Layer 3 & 4: Mineral studio floor, position tape & woven studio mat */}
       <div
         className="srf-room-horizon-floor absolute inset-x-0 bottom-0 overflow-hidden"
         style={{
@@ -12037,23 +12936,70 @@ export const CuratedStudio: React.FC = () => {
             'linear-gradient(180deg, var(--room-floor-far) 0%, var(--room-floor-base) 50%, color-mix(in srgb, var(--room-floor-detail) 52%, var(--room-floor-base)) 100%)',
         }}
       >
+        <FloorPlane variant="planks" opacity={0.36} />
         <div
           className="absolute inset-x-0 top-0 h-[2px] opacity-28"
           style={{ backgroundColor: 'var(--room-trim)' }}
         />
 
-        <div
-          className="srf-room-rug-spread absolute left-[10%] right-[10%] lg:left-[41%] lg:right-[8%] top-[12%] h-[54%] rounded-[8px] border-2"
-          style={{
-            background:
-              'linear-gradient(180deg, var(--room-rug) 0%, color-mix(in srgb, var(--room-rug) 78%, var(--room-textile-secondary)) 100%)',
-            borderColor: 'color-mix(in srgb, var(--room-rug-trim) 34%, transparent)',
-          }}
+        {/* Studio marks taped to the floor */}
+        <svg
+          viewBox="0 0 40 16"
+          className="hidden lg:block absolute left-[33%] top-[26%] w-[40px] h-auto"
+          aria-hidden="true"
+        >
+          <path d="M4 3 L36 13 M36 3 L4 13" fill="none" stroke="var(--room-rug-trim)" strokeWidth="3" strokeLinecap="round" opacity="0.5" />
+        </svg>
+        <svg
+          viewBox="0 0 40 16"
+          className="hidden lg:block absolute left-[18%] top-[54%] w-[52px] h-auto"
+          aria-hidden="true"
+        >
+          <path d="M4 12 H30 M30 12 L36 3" fill="none" stroke="var(--room-rug-trim)" strokeWidth="3" strokeLinecap="round" opacity="0.4" />
+        </svg>
+
+        <RectRug
+          className="left-[10%] right-[10%] lg:left-[41%] lg:right-[8%] top-[12%] h-[54%]"
+          fringe={false}
         />
       </div>
 
-      {/* Layer 5: Restrained studio plinth & matte vessel */}
+      {/* Layer 5: Softbox on a stand, studio plinth + vessel, rolled backdrops */}
       <div className="srf-room-depth-near srf-room-horizon-props hidden md:block absolute inset-x-0 pointer-events-none">
+        <div className="srf-room-prop-left hidden xl:block absolute left-[36.4%] bottom-[-10px] w-[150px]">
+          {/* Softbox glow */}
+          <div
+            className="srf-room-breathe absolute left-[55%] top-[27%] w-[210px] h-[210px] -ml-[105px] -mt-[105px]"
+            style={{ animationDuration: '8s' }}
+          >
+            <div className="srf-room-glow-pool inset-0" />
+          </div>
+          <svg viewBox="0 0 160 320" className="relative block w-full h-auto" aria-hidden="true">
+            <ellipse cx="72" cy="312" rx="50" ry="6" fill="var(--room-shadow-tint)" opacity="0.2" />
+            <g fill="none" stroke="var(--room-furniture-leg)" strokeLinecap="round">
+              <line x1="70" y1="122" x2="70" y2="300" strokeWidth="3.4" />
+              <line x1="70" y1="262" x2="34" y2="310" strokeWidth="3" />
+              <line x1="70" y1="262" x2="106" y2="310" strokeWidth="3" />
+              <line x1="70" y1="262" x2="76" y2="312" strokeWidth="3" />
+            </g>
+            <circle cx="70" cy="122" r="6" fill="var(--room-furniture-leg)" />
+            <polygon points="40,60 100,42 112,120 54,138" fill="var(--room-furniture-leg)" />
+            <polygon
+              points="56,56 108,40 120,116 70,132"
+              fill="color-mix(in srgb, var(--room-light-tint) 90%, var(--room-decor-accent))"
+              stroke="var(--room-trim)"
+              strokeOpacity="0.5"
+            />
+            <g fill="none" stroke="var(--room-trim)" strokeOpacity="0.22">
+              <path d="M73.3 50.7 L86.7 126.7 M90.7 45.3 L103.3 121.3" />
+              <path d="M60.7 81.3 L112 65.3 M65.3 106.7 L116 90.7" />
+            </g>
+            {/* Sandbag steadying the stand */}
+            <ellipse cx="96" cy="306" rx="17" ry="7" fill="var(--room-decor-accent)" opacity="0.85" />
+            <path d="M84 304 Q96 298 108 304" fill="none" stroke="var(--room-shadow-tint)" strokeOpacity="0.3" />
+          </svg>
+        </div>
+
         <svg
           viewBox="0 0 210 190"
           className="srf-room-prop-right absolute right-[2.5%] lg:right-[4%] bottom-[-12px] w-[112px] lg:w-[136px] h-auto"
@@ -12061,12 +13007,37 @@ export const CuratedStudio: React.FC = () => {
         >
           <ellipse cx="110" cy="176" rx="64" ry="8" fill="var(--room-shadow-tint)" opacity="0.2" />
           <rect x="66" y="118" width="88" height="58" rx="4" fill="var(--room-furniture)" />
+          <rect x="66" y="118" width="7" height="58" fill="var(--room-light-tint)" opacity="0.16" />
           <rect x="66" y="170" width="88" height="6" rx="2" fill="var(--room-furniture-leg)" opacity="0.68" />
           <path
             d="M95 72 C92 86, 86 96, 86 108 C86 114, 96 118, 110 118 C124 118, 134 114, 134 108 C134 96, 128 86, 125 72 Z"
             fill="var(--room-decor-primary)"
           />
           <ellipse cx="110" cy="98" rx="18" ry="3.5" fill="var(--room-decor-accent)" opacity="0.65" />
+          {/* Brushes standing in the vessel */}
+          <g strokeLinecap="round">
+            <line x1="104" y1="72" x2="96" y2="34" stroke="var(--room-furniture-leg)" strokeWidth="2.4" />
+            <line x1="110" y1="72" x2="112" y2="28" stroke="var(--room-furniture-leg)" strokeWidth="2.4" />
+            <line x1="116" y1="72" x2="126" y2="38" stroke="var(--room-furniture-leg)" strokeWidth="2.4" />
+            <line x1="96" y1="34" x2="94.4" y2="26" stroke="var(--room-decor-accent)" strokeWidth="4" />
+            <line x1="112" y1="28" x2="112.4" y2="20" stroke="var(--room-textile-secondary)" strokeWidth="4" />
+            <line x1="126" y1="38" x2="128.2" y2="30" stroke="var(--room-decor-primary)" strokeWidth="4" />
+          </g>
+          {/* Colour-test tiles leaning on the plinth */}
+          <rect x="30" y="150" width="24" height="26" fill="var(--room-decor-accent)" transform="rotate(-8 42 176)" />
+          <rect x="44" y="154" width="20" height="22" fill="var(--room-wall-highlight)" stroke="var(--room-trim)" strokeOpacity="0.4" transform="rotate(-3 54 176)" />
+        </svg>
+
+        {/* Rolled backdrops leaning in the corner */}
+        <svg
+          viewBox="0 0 60 176"
+          className="srf-room-prop-right hidden xl:block absolute right-[0.4%] bottom-[-10px] w-[50px] h-auto"
+          aria-hidden="true"
+        >
+          <ellipse cx="30" cy="170" rx="26" ry="4" fill="var(--room-shadow-tint)" opacity="0.18" />
+          <rect x="10" y="18" width="10" height="152" rx="5" fill="var(--room-textile-primary)" stroke="var(--room-trim)" strokeOpacity="0.4" transform="rotate(-6 15 170)" />
+          <rect x="27" y="42" width="10" height="128" rx="5" fill="var(--room-decor-accent)" opacity="0.9" transform="rotate(4 32 170)" />
+          <rect x="41" y="62" width="9" height="108" rx="4.5" fill="var(--room-wall-highlight)" stroke="var(--room-trim)" strokeOpacity="0.4" transform="rotate(10 45 170)" />
         </svg>
       </div>
     </div>
@@ -12078,12 +13049,14 @@ export const CuratedStudio: React.FC = () => {
 <![CDATA['use client';
 
 import React from 'react';
+import { DustMotes, FloorPlane, Pendant, RectRug, WallBase } from './shared';
 
 interface EditorialLoftProps {
   motifRatio: number;
 }
 
 const FIN_INDICES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+const TRACK_HEADS = [10, 37, 64, 90] as const;
 
 export const EditorialLoft: React.FC<EditorialLoftProps> = ({ motifRatio }) => {
   const finGapFactor = Math.max(0.84, Math.min(1.18, 0.92 + (motifRatio - 1) * 0.24));
@@ -12092,23 +13065,7 @@ export const EditorialLoft: React.FC<EditorialLoftProps> = ({ motifRatio }) => {
     <div className="srf-room-layer-root" data-room-family="editorialLoft">
       {/* Layer 1: Architectural concrete / limewash back wall (supports dark loft mood) */}
       <div className="srf-room-depth-far absolute inset-x-0 top-0 bottom-[34%] overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(178deg, var(--room-wall-highlight) 0%, var(--room-wall-base) 64%, var(--room-ambient-tint) 100%)',
-          }}
-        />
-
-        {/* Quiet-zone left soft wash behind headline */}
-        <div
-          className="hidden lg:block absolute inset-y-0 left-0 w-[44%] pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(ellipse 84% 88% at 24% 48%, var(--room-quiet-bg) 0%, transparent 78%)',
-            opacity: 0.78,
-          }}
-        />
+        <WallBase angle={178} quiet={0.78} crown={false} />
 
         {/* Repeating vertical architectural wall fins / timber ribs in center-right bay */}
         <div
@@ -12129,30 +13086,52 @@ export const EditorialLoft: React.FC<EditorialLoftProps> = ({ motifRatio }) => {
             />
           ))}
         </div>
+
+        {/* Ceiling lighting track with adjustable spot heads */}
+        <div
+          className="hidden lg:block absolute top-[14px] left-[40%] right-[4%] h-[3px] rounded-full"
+          style={{ backgroundColor: 'var(--room-furniture-leg)' }}
+        >
+          {TRACK_HEADS.map((left) => (
+            <span
+              key={left}
+              className="absolute top-[3px] w-[9px] h-[16px] rounded-b-[3px] origin-top rotate-[14deg]"
+              style={{ left: `${left}%`, backgroundColor: 'var(--room-furniture-leg)' }}
+            >
+              <span
+                className="absolute inset-x-[2px] bottom-0 h-[3px] rounded-full"
+                style={{ backgroundColor: 'var(--room-light-tint)', opacity: 0.85 }}
+              />
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* Layer 2: Crisp diagonal architectural daylight blade sweeping across loft wall */}
       <div className="srf-room-depth-mid absolute inset-x-0 top-0 bottom-[34%] overflow-hidden pointer-events-none">
-        <svg
-          viewBox="0 0 1440 620"
-          preserveAspectRatio="xMidYMid slice"
-          className="srf-room-light-blade absolute inset-0 w-full h-full"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="srf-loft-blade" x1="15%" y1="0%" x2="85%" y2="100%">
-              <stop offset="0%" stopColor="var(--room-light-tint)" stopOpacity="0.36" />
-              <stop offset="52%" stopColor="var(--room-ambient-tint)" stopOpacity="0.16" />
-              <stop offset="100%" stopColor="var(--room-light-tint)" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <polygon points="730,0 990,0 1380,620 960,620" fill="url(#srf-loft-blade)" />
-          <polygon
-            points="1030,0 1135,0 1430,620 1310,620"
-            fill="var(--room-light-tint)"
-            opacity="0.14"
-          />
-        </svg>
+        <div className="srf-room-blade-sweep absolute inset-0">
+          <svg
+            viewBox="0 0 1440 620"
+            preserveAspectRatio="xMidYMid slice"
+            className="srf-room-light-blade absolute inset-0 w-full h-full"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="srf-loft-blade" x1="15%" y1="0%" x2="85%" y2="100%">
+                <stop offset="0%" stopColor="var(--room-light-tint)" stopOpacity="0.36" />
+                <stop offset="52%" stopColor="var(--room-ambient-tint)" stopOpacity="0.16" />
+                <stop offset="100%" stopColor="var(--room-light-tint)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <polygon points="730,0 990,0 1380,620 960,620" fill="url(#srf-loft-blade)" />
+            <polygon
+              points="1030,0 1135,0 1430,620 1310,620"
+              fill="var(--room-light-tint)"
+              opacity="0.14"
+            />
+            <polygon points="640,0 672,0 900,620 846,620" fill="var(--room-light-tint)" opacity="0.1" />
+          </svg>
+        </div>
 
         {/* Minimal rectilinear gallery relief frame tucked right of rib bay */}
         <div
@@ -12168,6 +13147,10 @@ export const EditorialLoft: React.FC<EditorialLoftProps> = ({ motifRatio }) => {
             style={{ borderColor: 'color-mix(in srgb, var(--room-decor-primary) 48%, transparent)' }}
           >
             <div
+              className="absolute inset-y-4 left-[22%] w-[5px]"
+              style={{ backgroundColor: 'var(--room-decor-primary)', opacity: 0.78 }}
+            />
+            <div
               className="absolute inset-y-4 left-[36%] w-[2px]"
               style={{ backgroundColor: 'var(--room-decor-primary)', opacity: 0.72 }}
             />
@@ -12175,11 +13158,47 @@ export const EditorialLoft: React.FC<EditorialLoftProps> = ({ motifRatio }) => {
               className="absolute inset-y-4 left-[58%] w-[2px]"
               style={{ backgroundColor: 'var(--room-decor-accent)', opacity: 0.56 }}
             />
+            <div
+              className="absolute inset-y-4 left-[70%] w-[8px]"
+              style={{ backgroundColor: 'var(--room-decor-accent)', opacity: 0.5 }}
+            />
           </div>
         </div>
+
+        {/* Small landscape proof hung beneath it */}
+        <div
+          className="hidden xl:block absolute right-[5.7%] top-[46.5%] w-[78px] h-[56px] border"
+          style={{
+            backgroundColor: 'var(--room-wall-highlight)',
+            borderColor: 'color-mix(in srgb, var(--room-trim) 48%, transparent)',
+            boxShadow: '8px 12px 20px -14px color-mix(in srgb, var(--room-shadow-tint) 46%, transparent)',
+          }}
+        >
+          <div
+            className="absolute inset-[7px]"
+            style={{
+              background:
+                'repeating-linear-gradient(180deg, var(--room-decor-primary) 0 4px, transparent 4px 9px, var(--room-decor-accent) 9px 11px, transparent 11px 17px)',
+              opacity: 0.7,
+            }}
+          />
+        </div>
+
+        {/* Two pendants on long cords, swinging slightly out of step */}
+        <Pendant className="hidden xl:block left-[33.4%]" shade="dome" cord={92} width={66} />
+        <Pendant
+          className="hidden xl:block left-[38.6%]"
+          shade="globe"
+          cord={148}
+          width={48}
+          duration={9}
+          delay={-3}
+        />
+
+        <DustMotes className="left-[4%] right-[2%] lg:left-[36%] top-[34%] lg:top-[5%] bottom-[26%]" count={10} />
       </div>
 
-      {/* Layer 3 & 4: Scored architectural floor slab + runner rug */}
+      {/* Layer 3 & 4: Scored architectural floor slab + striped runner rug */}
       <div
         className="srf-room-horizon-floor absolute inset-x-0 bottom-0 overflow-hidden"
         style={{
@@ -12187,37 +13206,68 @@ export const EditorialLoft: React.FC<EditorialLoftProps> = ({ motifRatio }) => {
             'linear-gradient(180deg, var(--room-floor-far) 0%, var(--room-floor-base) 52%, color-mix(in srgb, var(--room-floor-detail) 52%, var(--room-floor-base)) 100%)',
         }}
       >
+        <FloorPlane variant="slab" opacity={0.42} />
         <div
           className="absolute inset-x-0 top-0 h-[3px] opacity-42"
           style={{ backgroundColor: 'var(--room-shadow-tint)' }}
         />
 
-        {/* Perspective architectural slab seams */}
-        <svg
-          viewBox="0 0 1440 320"
-          preserveAspectRatio="none"
-          className="absolute inset-0 w-full h-full opacity-24 pointer-events-none"
-          aria-hidden="true"
-        >
-          <line x1="0" y1="92" x2="1440" y2="92" stroke="var(--room-floor-detail)" strokeWidth="1" />
-          <line x1="0" y1="205" x2="1440" y2="205" stroke="var(--room-floor-detail)" strokeWidth="1" />
-          <line x1="560" y1="0" x2="360" y2="320" stroke="var(--room-floor-detail)" strokeWidth="1" />
-          <line x1="920" y1="0" x2="1120" y2="320" stroke="var(--room-floor-detail)" strokeWidth="1" />
-          <line x1="1180" y1="0" x2="1430" y2="320" stroke="var(--room-floor-detail)" strokeWidth="1" />
-        </svg>
+        {/* Polished-slab sheen under the light blade */}
+        <div className="srf-room-breathe absolute left-[56%] w-[40%] top-0 h-[70%]" style={{ animationDuration: '14s' }}>
+          <div
+            className="absolute inset-0"
+            style={{
+              opacity: 'calc(0.3 * var(--room-glow, 1))',
+              background:
+                'linear-gradient(180deg, var(--room-light-tint) 0%, transparent 86%)',
+              clipPath: 'polygon(6% 0, 46% 0, 100% 100%, 52% 100%)',
+            }}
+          />
+        </div>
 
         {/* Linear studio woven runner beneath divider */}
-        <div
-          className="srf-room-rug-spread absolute left-[10%] right-[10%] lg:left-[41%] lg:right-[8%] top-[11%] h-[54%] border-t-2 border-b-2"
-          style={{
-            backgroundColor: 'color-mix(in srgb, var(--room-rug) 78%, transparent)',
-            borderColor: 'color-mix(in srgb, var(--room-rug-trim) 42%, transparent)',
-          }}
+        <RectRug
+          className="left-[10%] right-[10%] lg:left-[41%] lg:right-[8%] top-[11%] h-[54%]"
+          variant="stripes"
         />
       </div>
 
-      {/* Layer 5: Grounded minimal bench + cylindrical vessel */}
+      {/* Layer 5: Leaning print + reading stack on the left, bench + vessel on the right */}
       <div className="srf-room-depth-near srf-room-horizon-props hidden md:block absolute inset-x-0 pointer-events-none">
+        {/* Oversized framed stripe study leaning against the ribs */}
+        <svg
+          viewBox="0 0 170 230"
+          className="srf-room-prop-left hidden xl:block absolute left-[36.8%] bottom-[-10px] w-[146px] h-auto"
+          aria-hidden="true"
+        >
+          <polygon points="30,18 152,12 162,224 22,224" fill="var(--room-shadow-tint)" opacity="0.16" />
+          <polygon points="20,14 142,8 150,220 12,220" fill="var(--room-furniture-leg)" />
+          <polygon points="28,22 135,17 142,212 20,212" fill="var(--room-wall-highlight)" />
+          <polygon points="38,34 126,30 132,200 31,200" fill="var(--room-textile-primary)" />
+          <polygon points="45,33.7 55.6,33.2 51.2,200 39.1,200" fill="var(--room-decor-primary)" />
+          <polygon points="64.4,32.8 69.7,32.6 67.4,200 61.3,200" fill="var(--room-decor-accent)" opacity="0.85" />
+          <polygon points="78.5,32.2 94.3,31.4 95.6,200 77.5,200" fill="var(--room-decor-primary)" />
+          <polygon points="101.4,31.1 106.6,30.9 109.8,200 103.7,200" fill="var(--room-decor-accent)" opacity="0.85" />
+          <polygon points="113.7,30.6 120.7,30.2 125.9,200 117.9,200" fill="var(--room-decor-primary)" opacity="0.7" />
+          <polygon points="20,14 30,14 22,220 12,220" fill="var(--room-light-tint)" opacity="0.14" />
+        </svg>
+
+        {/* Stack of magazines with a cup resting on top */}
+        <svg
+          viewBox="0 0 76 56"
+          className="srf-room-prop-left hidden xl:block absolute left-[47.4%] bottom-[-10px] w-[66px] h-auto"
+          aria-hidden="true"
+        >
+          <ellipse cx="38" cy="50" rx="34" ry="4" fill="var(--room-shadow-tint)" opacity="0.2" />
+          <rect x="6" y="40" width="64" height="9" rx="1.5" fill="var(--room-furniture)" />
+          <rect x="6" y="40" width="5" height="9" fill="var(--room-furniture-leg)" opacity="0.5" />
+          <rect x="10" y="31" width="58" height="9" rx="1.5" fill="var(--room-decor-accent)" />
+          <rect x="4" y="22" width="60" height="9" rx="1.5" fill="var(--room-textile-secondary)" stroke="var(--room-trim)" strokeOpacity="0.3" />
+          <rect x="4" y="22" width="5" height="9" fill="var(--room-decor-primary)" opacity="0.7" />
+          <rect x="24" y="8" width="17" height="14" rx="2" fill="var(--room-wall-highlight)" stroke="var(--room-trim)" strokeOpacity="0.4" />
+          <path d="M41 11 Q48 12 41 18" fill="none" stroke="var(--room-trim)" strokeOpacity="0.5" strokeWidth="1.6" />
+        </svg>
+
         <svg
           viewBox="0 0 240 190"
           className="srf-room-prop-right absolute right-[2%] lg:right-[3.5%] bottom-[-12px] w-[124px] lg:w-[152px] h-auto"
@@ -12225,14 +13275,30 @@ export const EditorialLoft: React.FC<EditorialLoftProps> = ({ motifRatio }) => {
         >
           <ellipse cx="122" cy="176" rx="82" ry="9" fill="var(--room-shadow-tint)" opacity="0.24" />
           <rect x="44" y="138" width="156" height="14" fill="var(--room-furniture)" />
+          <rect x="44" y="149" width="156" height="3" fill="var(--room-furniture-leg)" opacity="0.4" />
           <rect x="56" y="152" width="12" height="24" fill="var(--room-furniture-leg)" />
           <rect x="176" y="152" width="12" height="24" fill="var(--room-furniture-leg)" />
-          {/* Textile throw */}
+          {/* Textile throw + two slim catalogues */}
           <rect x="58" y="128" width="48" height="10" rx="2" fill="var(--room-textile-secondary)" opacity="0.92" />
+          <rect x="62" y="122" width="40" height="6" rx="1" fill="var(--room-decor-accent)" opacity="0.8" />
+          <rect x="60" y="117" width="38" height="5" rx="1" fill="var(--room-wall-highlight)" stroke="var(--room-trim)" strokeOpacity="0.3" />
           {/* Cylindrical matte vessel on right edge of bench */}
           <rect x="136" y="76" width="38" height="62" rx="3" fill="var(--room-decor-primary)" />
           <rect x="136" y="96" width="38" height="8" fill="var(--room-decor-accent)" opacity="0.82" />
           <rect x="140" y="78" width="8" height="58" fill="var(--room-light-tint)" opacity="0.22" />
+          {/* Dried stems standing in the vessel */}
+          <g fill="none" stroke="var(--room-furniture-leg)" strokeWidth="1.6" strokeLinecap="round">
+            <path d="M152 78 C150 54, 144 36, 136 18" />
+            <path d="M156 78 C158 52, 164 34, 174 20" />
+            <path d="M154 78 C154 56, 155 40, 156 26" />
+          </g>
+          <g fill="var(--room-decor-accent)" opacity="0.85">
+            <circle cx="136" cy="18" r="4" />
+            <circle cx="174" cy="20" r="4" />
+            <circle cx="156" cy="26" r="3.5" />
+            <circle cx="142" cy="34" r="3" />
+            <circle cx="167" cy="36" r="3" />
+          </g>
         </svg>
       </div>
     </div>
@@ -12244,36 +13310,69 @@ export const EditorialLoft: React.FC<EditorialLoftProps> = ({ motifRatio }) => {
 <![CDATA['use client';
 
 import React from 'react';
+import { DustMotes, FloorLight, FloorPlane, RectRug, WallBase } from './shared';
+
+const CLOUD_PATH =
+  'M10 30 Q10 18 24 18 Q28 6 44 8 Q56 0 68 12 Q84 10 86 22 Q98 24 96 32 Q90 38 80 36 L18 36 Q8 36 10 30 Z';
+
+// [top %, width px, duration s, delay s, resting offset %, opacity]
+const CLOUDS: ReadonlyArray<readonly [number, number, number, number, number, number]> = [
+  [7, 132, 96, -18, 10, 0.78],
+  [20, 92, 128, -74, 46, 0.6],
+  [12, 68, 150, -112, 72, 0.5],
+];
+
+// [top %, width px, duration s, delay s, resting offset %]
+const BIRDS: ReadonlyArray<readonly [number, number, number, number, number]> = [
+  [22, 20, 52, -8, 34],
+  [27, 14, 52, -6.6, 38],
+  [16, 16, 71, -40, 58],
+];
+
+// [cx, base y, scale] — cypress and round trees dotted along the nearer hills
+const HILL_TREES: ReadonlyArray<readonly [number, number, number]> = [
+  [176, 244, 1],
+  [204, 250, 0.8],
+  [596, 228, 1.1],
+  [628, 232, 0.85],
+  [796, 238, 0.9],
+];
+
+const Curtain: React.FC<{ className: string; delay: number; fadeFrom: 'left' | 'right' }> = ({
+  className,
+  delay,
+  fadeFrom,
+}) => {
+  const mask =
+    fadeFrom === 'left'
+      ? 'linear-gradient(90deg, black 0%, black 62%, transparent 100%)'
+      : 'linear-gradient(270deg, black 0%, black 62%, transparent 100%)';
+  return (
+    <div
+      className={`srf-room-drape-sway srf-room-pleats hidden lg:block absolute top-[3.6%] bottom-[5%] opacity-85 ${className}`}
+      style={{ animationDelay: `${delay}s`, maskImage: mask, WebkitMaskImage: mask }}
+    />
+  );
+};
 
 export const PanoramaSalon: React.FC = () => {
   return (
     <div className="srf-room-layer-root" data-room-family="panoramaSalon">
-      {/* Layer 1: Plaster wall + architectural dado rail */}
+      {/* Layer 1: Plaster wall, cornice + architectural dado rail */}
       <div className="srf-room-depth-far absolute inset-x-0 top-0 bottom-[34%] overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(172deg, var(--room-wall-highlight) 0%, var(--room-wall-base) 64%, var(--room-ambient-tint) 100%)',
-          }}
-        />
+        <WallBase angle={172} quiet={0.74} />
 
-        {/* Quiet-zone left ambient illumination behind editorial headline */}
-        <div
-          className="hidden lg:block absolute inset-y-0 left-0 w-[44%] pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(ellipse 84% 88% at 24% 48%, var(--room-quiet-bg) 0%, transparent 78%)',
-            opacity: 0.74,
-          }}
-        />
-
+        {/* Dado rail, held clear of the headline column */}
         <div
           className="absolute inset-x-0 top-[76%] h-[2px] opacity-28"
-          style={{ backgroundColor: 'var(--room-trim)' }}
+          style={{
+            backgroundColor: 'var(--room-trim)',
+            maskImage: 'linear-gradient(90deg, transparent 0%, transparent 33%, black 37%)',
+            WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, transparent 33%, black 37%)',
+          }}
         />
 
-        {/* Wide inset panoramic scenic window niche framed cleanly behind divider */}
+        {/* Wide inset panoramic scenic window framed cleanly behind divider */}
         <div
           className="srf-room-panorama-frame absolute left-[6%] right-[6%] top-[34%] bottom-[8%] lg:left-[37.5%] lg:right-[4.5%] lg:top-[8%] lg:bottom-[12%] rounded-[4px] overflow-hidden border"
           style={{
@@ -12281,23 +13380,47 @@ export const PanoramaSalon: React.FC = () => {
               'linear-gradient(180deg, color-mix(in srgb, var(--room-light-tint) 68%, var(--room-ambient-tint)) 0%, color-mix(in srgb, var(--room-wall-shadow) 72%, var(--room-light-tint)) 100%)',
             borderColor: 'color-mix(in srgb, var(--room-trim) 34%, transparent)',
             boxShadow:
-              'inset 0 18px 42px -24px color-mix(in srgb, var(--room-shadow-tint) 22%, transparent)',
+              '0 0 0 7px color-mix(in srgb, var(--room-wall-highlight) 82%, var(--room-trim)), 0 0 0 8px color-mix(in srgb, var(--room-trim) 34%, transparent), 12px 16px 30px -16px color-mix(in srgb, var(--room-shadow-tint) 34%, transparent)',
           }}
         >
+          {/* Sun with a slow halo, sitting just behind the far ridge */}
+          <div className="absolute left-[72%] lg:left-[88%] top-[36%]">
+            <div
+              className="srf-room-breathe absolute -left-[130px] -top-[130px] w-[260px] h-[260px]"
+              style={{ animationDuration: '13s' }}
+            >
+              <div className="srf-room-glow-pool inset-0" />
+            </div>
+            <div
+              className="srf-room-pano-layer-1 absolute -left-[32px] -top-[32px] w-[64px] h-[64px] lg:-left-[54px] lg:-top-[54px] lg:w-[108px] lg:h-[108px] rounded-full"
+              style={{ backgroundColor: 'var(--room-light-tint)', opacity: 0.82 }}
+            />
+          </div>
+
+          {/* Clouds crossing the sky */}
+          {CLOUDS.map(([top, width, duration, delay, rest, opacity]) => (
+            <div
+              key={top}
+              className="srf-room-cloud-track absolute inset-x-0"
+              style={{
+                top: `${top}%`,
+                transform: `translate3d(${rest}%, 0, 0)`,
+                animationDuration: `${duration}s`,
+                animationDelay: `${delay}s`,
+              }}
+            >
+              <svg viewBox="0 0 100 40" className="block h-auto" style={{ width, opacity }} aria-hidden="true">
+                <path d={CLOUD_PATH} fill="var(--room-light-tint)" />
+              </svg>
+            </div>
+          ))}
+
           <svg
             viewBox="0 0 920 380"
             preserveAspectRatio="xMidYMid slice"
-            className="w-full h-full"
+            className="absolute inset-0 w-full h-full"
             aria-hidden="true"
           >
-            <circle
-              cx="660"
-              cy="128"
-              r="52"
-              fill="var(--room-light-tint)"
-              opacity="0.78"
-              className="srf-room-pano-layer-1"
-            />
             <path
               d="M-40 250 Q160 155, 360 210 T740 175 T960 218 L960 390 L-40 390 Z"
               fill="var(--room-wall-shadow)"
@@ -12310,10 +13433,28 @@ export const PanoramaSalon: React.FC = () => {
               opacity="0.74"
               className="srf-room-pano-layer-2"
             />
+            <g className="srf-room-pano-layer-2" fill="var(--room-decor-primary)" opacity="0.62">
+              {HILL_TREES.map(([cx, baseY, s]) => (
+                <g key={cx}>
+                  <rect x={cx - 1} y={baseY - 10 * s} width="2" height={12 * s} />
+                  <ellipse cx={cx} cy={baseY - 20 * s} rx={7 * s} ry={15 * s} />
+                </g>
+              ))}
+            </g>
             <path
               d="M-40 315 Q220 264, 490 296 T960 276 L960 390 L-40 390 Z"
               fill="var(--room-decor-primary)"
               opacity="0.52"
+              className="srf-room-pano-layer-3"
+            />
+            {/* A lane winding across the near field */}
+            <path
+              d="M330 392 C360 352, 430 340, 470 318 C500 302, 520 296, 560 290"
+              fill="none"
+              stroke="var(--room-light-tint)"
+              strokeWidth="5"
+              strokeLinecap="round"
+              opacity="0.4"
               className="srf-room-pano-layer-3"
             />
             <path
@@ -12323,19 +13464,92 @@ export const PanoramaSalon: React.FC = () => {
               className="srf-room-pano-layer-4"
             />
           </svg>
+
+          {/* Birds gliding back the other way */}
+          {BIRDS.map(([top, width, duration, delay, rest]) => (
+            <div
+              key={`${top}-${width}`}
+              className="srf-room-glide-track absolute inset-x-0"
+              style={{
+                top: `${top}%`,
+                transform: `translate3d(${rest}%, 0, 0)`,
+                animationDuration: `${duration}s`,
+                animationDelay: `${delay}s`,
+              }}
+            >
+              <svg viewBox="0 0 20 8" className="block h-auto" style={{ width }} aria-hidden="true">
+                <path
+                  d="M1 6 Q5 0 10 5 Q15 0 19 6"
+                  fill="none"
+                  stroke="var(--room-shadow-tint)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  opacity="0.6"
+                />
+              </svg>
+            </div>
+          ))}
+
+          {/* Window mullions + transom */}
+          {[33.33, 66.66].map((left) => (
+            <div
+              key={left}
+              className="absolute inset-y-0 w-[5px] -translate-x-1/2"
+              style={{
+                left: `${left}%`,
+                backgroundColor: 'color-mix(in srgb, var(--room-wall-highlight) 82%, var(--room-trim))',
+                boxShadow: '1px 0 0 color-mix(in srgb, var(--room-shadow-tint) 16%, transparent)',
+              }}
+            />
+          ))}
+          <div
+            className="absolute inset-x-0 top-[17%] h-[4px]"
+            style={{
+              backgroundColor: 'color-mix(in srgb, var(--room-wall-highlight) 82%, var(--room-trim))',
+              boxShadow: '0 1px 0 color-mix(in srgb, var(--room-shadow-tint) 16%, transparent)',
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              boxShadow:
+                'inset 0 18px 42px -24px color-mix(in srgb, var(--room-shadow-tint) 26%, transparent)',
+            }}
+          />
         </div>
+
+        {/* Stone sill under the window */}
+        <div
+          className="absolute left-[4.6%] right-[4.6%] bottom-[calc(8%-19px)] lg:left-[36.7%] lg:right-[3.7%] lg:bottom-[calc(12%-19px)] h-[11px] rounded-[2px]"
+          style={{
+            background:
+              'linear-gradient(180deg, var(--room-wall-highlight) 0%, color-mix(in srgb, var(--room-furniture) 70%, var(--room-wall-highlight)) 100%)',
+            boxShadow: '0 8px 14px -8px color-mix(in srgb, var(--room-shadow-tint) 40%, transparent)',
+          }}
+        />
+
+        {/* Curtain pole + linen side panels */}
+        <div
+          className="hidden lg:block absolute left-[35.2%] right-[1.8%] top-[3%] h-[4px] rounded-full"
+          style={{ backgroundColor: 'var(--room-furniture-leg)' }}
+        />
+        <Curtain className="left-[35.6%] w-[3.8%]" delay={0} fadeFrom="left" />
+        <Curtain className="right-[2.2%] w-[3.8%]" delay={-6} fadeFrom="right" />
       </div>
 
       {/* Layer 2: Soft horizontal horizon glow wash */}
-      <div
-        className="srf-room-depth-mid absolute inset-x-0 top-[26%] bottom-[34%] pointer-events-none opacity-42"
-        style={{
-          background:
-            'radial-gradient(ellipse 68% 55% at 68% 60%, var(--room-light-tint) 0%, transparent 74%)',
-        }}
-      />
+      <div className="srf-room-depth-mid absolute inset-x-0 top-0 bottom-[34%] pointer-events-none">
+        <div
+          className="absolute inset-x-0 top-[26%] bottom-0 opacity-42"
+          style={{
+            background:
+              'radial-gradient(ellipse 68% 55% at 68% 60%, var(--room-light-tint) 0%, transparent 74%)',
+          }}
+        />
+        <DustMotes className="left-[4%] right-[2%] lg:left-[35%] top-[34%] lg:top-[5%] bottom-[20%]" count={9} />
+      </div>
 
-      {/* Layer 3 & 4: Wide-plank floor + woven salon rug */}
+      {/* Layer 3 & 4: Wide-plank floor, woven salon rug, window light across both */}
       <div
         className="srf-room-horizon-floor absolute inset-x-0 bottom-0 overflow-hidden"
         style={{
@@ -12343,29 +13557,56 @@ export const PanoramaSalon: React.FC = () => {
             'linear-gradient(180deg, var(--room-floor-far) 0%, var(--room-floor-base) 52%, color-mix(in srgb, var(--room-floor-detail) 52%, var(--room-floor-base)) 100%)',
         }}
       >
-        <svg
-          viewBox="0 0 1440 300"
-          preserveAspectRatio="none"
-          className="absolute inset-0 w-full h-full opacity-22 pointer-events-none"
-          aria-hidden="true"
-        >
-          <line x1="0" y1="68" x2="1440" y2="68" stroke="var(--room-floor-detail)" strokeWidth="1" />
-          <line x1="0" y1="158" x2="1440" y2="158" stroke="var(--room-floor-detail)" strokeWidth="1" />
-          <line x1="0" y1="248" x2="1440" y2="248" stroke="var(--room-floor-detail)" strokeWidth="1" />
-        </svg>
+        <FloorPlane variant="planks" opacity={0.46} />
 
-        <div
-          className="srf-room-rug-spread absolute left-[10%] right-[10%] lg:left-[42%] lg:right-[7%] top-[12%] h-[52%] rounded-[4px] border-2"
-          style={{
-            background:
-              'linear-gradient(180deg, var(--room-rug) 0%, color-mix(in srgb, var(--room-rug) 74%, var(--room-textile-secondary)) 100%)',
-            borderColor: 'color-mix(in srgb, var(--room-rug-trim) 34%, transparent)',
-          }}
-        />
+        <RectRug className="left-[10%] right-[10%] lg:left-[42%] lg:right-[7%] top-[12%] h-[52%]" />
+
+        <FloorLight className="left-[14%] w-[62%] lg:left-[33%] lg:w-[44%] top-[3%] h-[62%]" duration={13} />
       </div>
 
-      {/* Layer 5: Grounded low bench ledge + ceramic vessel */}
+      {/* Layer 5: Spyglass + pouf by the window, low bench ledge + ceramic vessel */}
       <div className="srf-room-depth-near srf-room-horizon-props hidden md:block absolute inset-x-0 pointer-events-none">
+        {/* Upholstered pouf */}
+        <svg
+          viewBox="0 0 84 54"
+          className="srf-room-prop-left hidden xl:block absolute left-[36.2%] bottom-[-11px] w-[78px] h-auto"
+          aria-hidden="true"
+        >
+          <ellipse cx="42" cy="48" rx="38" ry="5" fill="var(--room-shadow-tint)" opacity="0.2" />
+          <path
+            d="M8 22 Q8 8 42 8 Q76 8 76 22 L76 34 Q76 46 42 46 Q8 46 8 34 Z"
+            fill="var(--room-textile-secondary)"
+            stroke="var(--room-trim)"
+            strokeOpacity="0.34"
+          />
+          <path d="M9 24 Q42 34 75 24" fill="none" stroke="var(--room-trim)" strokeOpacity="0.4" />
+          <path d="M26 30 V44 M42 32 V46 M58 30 V44" fill="none" stroke="var(--room-trim)" strokeOpacity="0.22" />
+          <ellipse cx="42" cy="15" rx="5" ry="2" fill="var(--room-decor-accent)" opacity="0.8" />
+        </svg>
+
+        {/* Brass-banded spyglass on a tripod, trained on the hills */}
+        <svg
+          viewBox="0 0 150 200"
+          className="srf-room-prop-left hidden xl:block absolute left-[41.2%] bottom-[-10px] w-[128px] h-auto"
+          aria-hidden="true"
+        >
+          <ellipse cx="75" cy="190" rx="52" ry="6" fill="var(--room-shadow-tint)" opacity="0.2" />
+          <g fill="none" stroke="var(--room-furniture-leg)" strokeWidth="3.5" strokeLinecap="round">
+            <line x1="75" y1="98" x2="38" y2="188" />
+            <line x1="75" y1="98" x2="112" y2="188" />
+            <line x1="75" y1="98" x2="80" y2="184" />
+          </g>
+          <line x1="52" y1="152" x2="98" y2="152" stroke="var(--room-furniture-leg)" strokeWidth="2" opacity="0.7" />
+          <g transform="rotate(-22 75 88)">
+            <rect x="12" y="83" width="16" height="10" rx="4" fill="var(--room-furniture-leg)" />
+            <rect x="24" y="79" width="100" height="18" rx="9" fill="var(--room-decor-primary)" />
+            <rect x="62" y="79" width="7" height="18" fill="var(--room-decor-accent)" />
+            <rect x="114" y="74" width="18" height="28" rx="5" fill="var(--room-decor-accent)" />
+            <rect x="30" y="82" width="78" height="3" rx="1.5" fill="var(--room-light-tint)" opacity="0.3" />
+          </g>
+          <circle cx="75" cy="98" r="6.5" fill="var(--room-furniture-leg)" />
+        </svg>
+
         <svg
           viewBox="0 0 260 170"
           className="srf-room-prop-right absolute right-[2%] lg:right-[3.5%] bottom-[-12px] w-[140px] lg:w-[168px] h-auto"
@@ -12373,14 +13614,27 @@ export const PanoramaSalon: React.FC = () => {
         >
           <ellipse cx="145" cy="158" rx="92" ry="9" fill="var(--room-shadow-tint)" opacity="0.2" />
           <rect x="28" y="130" width="210" height="12" rx="2" fill="var(--room-furniture)" opacity="0.95" />
+          <rect x="28" y="139" width="210" height="3" fill="var(--room-furniture-leg)" opacity="0.35" />
           <rect x="46" y="142" width="14" height="18" fill="var(--room-furniture-leg)" opacity="0.88" />
           <rect x="206" y="142" width="14" height="18" fill="var(--room-furniture-leg)" opacity="0.88" />
           <rect x="52" y="122" width="58" height="8" rx="4" fill="var(--room-textile-primary)" opacity="0.9" />
+          {/* Travel books + a small framed postcard */}
+          <rect x="58" y="116" width="44" height="6" rx="1" fill="var(--room-decor-accent)" opacity="0.8" />
+          <rect x="62" y="111" width="36" height="5" rx="1" fill="var(--room-wall-highlight)" stroke="var(--room-trim)" strokeOpacity="0.3" />
+          <rect x="116" y="100" width="24" height="30" rx="1" fill="var(--room-wall-highlight)" stroke="var(--room-furniture-leg)" strokeWidth="2" />
+          <path d="M119 124 Q126 114 131 120 T137 118 V127 H119 Z" fill="var(--room-decor-primary)" opacity="0.6" />
+          <circle cx="133" cy="108" r="2.5" fill="var(--room-decor-accent)" opacity="0.8" />
           <path
             d="M168 78 C164 84, 150 96, 150 114 C150 124, 158 130, 178 130 C198 130, 206 124, 206 114 C206 96, 192 84, 188 78 Z"
             fill="var(--room-decor-primary)"
           />
           <ellipse cx="178" cy="108" rx="22" ry="4" fill="var(--room-decor-accent)" opacity="0.58" />
+          {/* Wild grasses in the vessel */}
+          <g fill="none" stroke="var(--room-foliage)" strokeWidth="1.8" strokeLinecap="round">
+            <path d="M174 78 C170 58, 162 44, 150 32" />
+            <path d="M178 78 C178 54, 180 38, 184 22" />
+            <path d="M182 78 C188 60, 198 48, 210 40" />
+          </g>
         </svg>
       </div>
     </div>
@@ -12392,44 +13646,131 @@ export const PanoramaSalon: React.FC = () => {
 <![CDATA['use client';
 
 import React from 'react';
+import { DustMotes, FloorPlane, Pendant, WallBase } from './shared';
+
+// [top % of the sea band, duration s, delay s, opacity]
+const SEA_SHIMMER: ReadonlyArray<readonly [number, number, number, number]> = [
+  [10, 7, 0, 0.5],
+  [30, 5, -2, 0.62],
+  [54, 6, -1, 0.5],
+  [78, 4.4, -3, 0.42],
+];
+
+// [left %, top %, width px, height px, rotation deg, duration s, delay s]
+const CAUSTICS: ReadonlyArray<readonly [number, number, number, number, number, number, number]> = [
+  [50, 7, 190, 54, -10, 10, 0],
+  [63, 20, 240, 62, -6, 13, -4],
+  [76, 4, 150, 44, -14, 9, -7],
+  [56, 33, 170, 46, -8, 12, -2],
+];
+
+// [tip x, tip y, lean deg] — pampas plumes
+const PLUMES: ReadonlyArray<readonly [number, number, number]> = [
+  [40, 78, -24],
+  [62, 50, -10],
+  [84, 38, 2],
+  [106, 54, 14],
+  [128, 88, 26],
+];
 
 export const SculptedCoastalRoom: React.FC = () => {
   return (
     <div className="srf-room-layer-root" data-room-family="sculptedCoastalRoom">
-      {/* Layer 1: Limewash coastal wall + tall narrow right doorway arch */}
+      {/* Layer 1: Limewash coastal wall + arched window onto the sea */}
       <div className="srf-room-depth-far absolute inset-x-0 top-0 bottom-[34%] overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(170deg, var(--room-wall-highlight) 0%, var(--room-wall-base) 64%, var(--room-ambient-tint) 100%)',
-          }}
-        />
+        <WallBase angle={170} quiet={0.76} crown={false} />
 
-        {/* Quiet-zone left ambient illumination behind editorial headline */}
+        {/* Deep-set arched window: sky, sun, a moving sea and one small sail */}
         <div
-          className="hidden lg:block absolute inset-y-0 left-0 w-[44%] pointer-events-none"
+          className="srf-room-coastal-arch hidden sm:block absolute right-[4%] top-[9%] w-[130px] lg:w-[168px] h-[58%] rounded-t-[999px] overflow-hidden border"
           style={{
             background:
-              'radial-gradient(ellipse 84% 88% at 24% 48%, var(--room-quiet-bg) 0%, transparent 78%)',
-            opacity: 0.76,
-          }}
-        />
-
-        {/* Narrow tall coastal doorway arch tucked on center-right edge */}
-        <div
-          className="srf-room-coastal-arch hidden sm:block absolute right-[10%] top-[10%] w-[150px] lg:w-[190px] bottom-0 rounded-t-[999px] border-t border-x"
-          style={{
-            background:
-              'linear-gradient(180deg, color-mix(in srgb, var(--room-light-tint) 42%, var(--room-wall-shadow)) 0%, var(--room-wall-shadow) 100%)',
+              'linear-gradient(180deg, color-mix(in srgb, var(--room-light-tint) 62%, var(--room-ambient-tint)) 0%, var(--room-light-tint) 62%)',
             borderColor: 'color-mix(in srgb, var(--room-trim) 34%, transparent)',
             boxShadow:
-              'inset 16px 12px 32px -18px color-mix(in srgb, var(--room-shadow-tint) 28%, transparent)',
+              '0 0 0 8px color-mix(in srgb, var(--room-wall-highlight) 70%, var(--room-wall-shadow)), 0 0 0 9px color-mix(in srgb, var(--room-trim) 26%, transparent)',
+          }}
+        >
+          <div className="absolute left-[58%] top-[24%]">
+            <div className="srf-room-breathe absolute -left-[60px] -top-[60px] w-[120px] h-[120px]">
+              <div className="srf-room-glow-pool inset-0" />
+            </div>
+            <div
+              className="absolute -left-[15px] -top-[15px] w-[30px] h-[30px] rounded-full"
+              style={{
+                backgroundColor: 'color-mix(in srgb, var(--room-light-tint) 70%, var(--room-decor-accent))',
+              }}
+            />
+          </div>
+
+          {/* Far headland */}
+          <svg
+            viewBox="0 0 168 30"
+            preserveAspectRatio="none"
+            className="absolute inset-x-0 bottom-[36%] w-full h-[26px]"
+            aria-hidden="true"
+          >
+            <path
+              d="M0 30 L0 22 Q20 10 44 18 Q60 22 78 30 Z"
+              fill="var(--room-furniture)"
+              opacity="0.7"
+            />
+          </svg>
+
+          <div
+            className="absolute inset-x-0 bottom-0 h-[36%] overflow-hidden"
+            style={{
+              background:
+                'linear-gradient(180deg, color-mix(in srgb, var(--room-decor-primary) 36%, var(--room-ambient-tint)) 0%, color-mix(in srgb, var(--room-decor-primary) 58%, var(--room-ambient-tint)) 100%)',
+            }}
+          >
+            {SEA_SHIMMER.map(([top, duration, delay, opacity]) => (
+              <div
+                key={top}
+                className="absolute inset-x-0"
+                style={{ top: `${top}%`, opacity }}
+              >
+                <div
+                  className="srf-room-shimmer"
+                  style={{ animationDuration: `${duration}s`, animationDelay: `${delay}s` }}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Sailboat easing along the horizon */}
+          <div
+            className="srf-room-cloud-track absolute inset-x-0 bottom-[36%]"
+            style={{ transform: 'translate3d(44%, 0, 0)', animationDuration: '120s', animationDelay: '-50s' }}
+          >
+            <svg viewBox="0 0 22 22" className="block w-[20px] h-auto translate-y-[5px]" aria-hidden="true">
+              <polygon points="11,2 11,16 20,16" fill="var(--room-wall-highlight)" />
+              <polygon points="10,5 10,16 3,16" fill="var(--room-wall-highlight)" opacity="0.8" />
+              <polygon points="2,17 20,17 17,21 5,21" fill="var(--room-decor-accent)" />
+            </svg>
+          </div>
+
+          <div
+            className="absolute inset-0 rounded-t-[999px]"
+            style={{
+              boxShadow:
+                'inset 16px 12px 32px -18px color-mix(in srgb, var(--room-shadow-tint) 32%, transparent)',
+            }}
+          />
+        </div>
+
+        {/* Plaster sill beneath the window */}
+        <div
+          className="hidden sm:block absolute right-[calc(4%-12px)] top-[67%] w-[154px] lg:w-[192px] h-[10px] rounded-[5px]"
+          style={{
+            background:
+              'linear-gradient(180deg, var(--room-wall-highlight) 0%, color-mix(in srgb, var(--room-wall-shadow) 70%, var(--room-wall-highlight)) 100%)',
+            boxShadow: '0 8px 14px -8px color-mix(in srgb, var(--room-shadow-tint) 40%, transparent)',
           }}
         />
       </div>
 
-      {/* Layer 2: Sculpted undulating spline plaster relief band */}
+      {/* Layer 2: Sculpted plaster relief in two bands that slide against each other */}
       <div
         className="srf-room-depth-mid absolute inset-x-0 top-0 bottom-[34%] overflow-hidden pointer-events-none"
         style={{
@@ -12441,7 +13782,7 @@ export const SculptedCoastalRoom: React.FC = () => {
         <svg
           viewBox="0 0 1440 620"
           preserveAspectRatio="none"
-          className="srf-room-coastal-waves absolute inset-0 w-full h-full"
+          className="srf-room-coastal-waves srf-room-wave-a absolute -left-[3%] top-0 w-[106%] h-full"
           aria-hidden="true"
         >
           <defs>
@@ -12455,11 +13796,6 @@ export const SculptedCoastalRoom: React.FC = () => {
             fill="url(#srf-coastal-wave-grad)"
           />
           <path
-            d="M0 370 C260 335, 520 385, 880 345 C1030 292, 1180 385, 1440 338 L1440 620 L0 620 Z"
-            fill="var(--room-textile-primary)"
-            opacity="0.34"
-          />
-          <path
             d="M0 280 C220 240, 460 285, 680 248 C900 210, 1110 295, 1260 245 L1440 260"
             fill="none"
             stroke="var(--room-light-tint)"
@@ -12467,6 +13803,54 @@ export const SculptedCoastalRoom: React.FC = () => {
             opacity="0.58"
           />
         </svg>
+        <svg
+          viewBox="0 0 1440 620"
+          preserveAspectRatio="none"
+          className="srf-room-wave-b absolute -left-[3%] top-0 w-[106%] h-full"
+          aria-hidden="true"
+        >
+          <path
+            d="M0 370 C260 335, 520 385, 880 345 C1030 292, 1180 385, 1440 338 L1440 620 L0 620 Z"
+            fill="var(--room-textile-primary)"
+            opacity="0.34"
+          />
+          <path
+            d="M0 370 C260 335, 520 385, 880 345 C1030 292, 1180 385, 1440 338"
+            fill="none"
+            stroke="var(--room-light-tint)"
+            strokeWidth="1.8"
+            opacity="0.5"
+          />
+          <path
+            d="M0 452 C300 424, 610 470, 900 436 C1100 410, 1260 462, 1440 428"
+            fill="none"
+            stroke="var(--room-wall-shadow)"
+            strokeWidth="1.6"
+            opacity="0.5"
+          />
+        </svg>
+
+        {/* Water light rippling across the upper wall */}
+        {CAUSTICS.map(([left, top, width, height, rot, duration, delay]) => (
+          <div
+            key={`${left}-${top}`}
+            className="absolute"
+            style={{ left: `${left}%`, top: `${top}%`, width, height, transform: `rotate(${rot}deg)` }}
+          >
+            <div
+              className="srf-room-caustic-drift absolute inset-0"
+              style={{ animationDuration: `${duration}s`, animationDelay: `${delay}s` }}
+            >
+              <div className="srf-room-caustic inset-0" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Woven rattan pendant + sea-light specks (kept outside the relief mask) */}
+      <div className="srf-room-depth-mid absolute inset-x-0 top-0 bottom-[34%] overflow-hidden pointer-events-none">
+        <Pendant className="hidden xl:block left-[33%]" shade="rattan" cord={104} width={84} duration={8.5} />
+        <DustMotes className="left-[4%] right-[2%] lg:left-[36%] top-[34%] lg:top-[5%] bottom-[26%]" count={9} />
       </div>
 
       {/* Layer 3 & 4: Mineral stone floor + organic flowing contoured rug */}
@@ -12477,10 +13861,16 @@ export const SculptedCoastalRoom: React.FC = () => {
             'linear-gradient(180deg, var(--room-floor-far) 0%, var(--room-floor-base) 52%, color-mix(in srgb, var(--room-floor-detail) 52%, var(--room-floor-base)) 100%)',
         }}
       >
+        <FloorPlane variant="tile" opacity={0.4} />
         <div
           className="absolute inset-x-0 top-0 h-[2px] opacity-28"
           style={{ backgroundColor: 'var(--room-trim)' }}
         />
+
+        {/* Pool of sea light on the stone */}
+        <div className="srf-room-breathe absolute left-[8%] w-[30%] top-[10%] h-[48%]" style={{ animationDuration: '11s' }}>
+          <div className="srf-room-glow-pool inset-0" />
+        </div>
 
         <div
           className="srf-room-rug-spread absolute left-[10%] right-[10%] lg:left-[40%] lg:right-[6%] top-[8%] h-[62%]"
@@ -12490,31 +13880,563 @@ export const SculptedCoastalRoom: React.FC = () => {
               'radial-gradient(ellipse 88% 82% at 50% 48%, var(--room-rug) 0%, color-mix(in srgb, var(--room-rug) 74%, var(--room-textile-secondary)) 100%)',
             border: '2px solid color-mix(in srgb, var(--room-rug-trim) 34%, transparent)',
           }}
-        />
+        >
+          {/* Tide-line contours woven into the rug */}
+          {[8, 17, 27].map((inset, idx) => (
+            <div
+              key={inset}
+              className="absolute"
+              style={{
+                inset: `${inset}%`,
+                borderRadius: '44% 56% 48% 52% / 58% 46% 54% 42%',
+                border: `1px solid color-mix(in srgb, var(--room-rug-trim) ${26 - idx * 6}%, transparent)`,
+              }}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Layer 5: Rounded organic plinth & coastal shell table lamp */}
+      {/* Layer 5: Urn of pampas grass on the left, rounded plinth + glowing shell lamp on the right */}
       <div className="srf-room-depth-near srf-room-horizon-props hidden md:block absolute inset-x-0 pointer-events-none">
-        <svg
-          viewBox="0 0 210 220"
-          className="srf-room-prop-right absolute right-[2%] lg:right-[4%] bottom-[-12px] w-[112px] lg:w-[138px] h-auto"
-          aria-hidden="true"
-        >
-          <ellipse cx="110" cy="206" rx="64" ry="9" fill="var(--room-shadow-tint)" opacity="0.22" />
-          <rect x="64" y="138" width="92" height="68" rx="18" fill="var(--room-furniture)" />
-          <rect x="64" y="196" width="92" height="10" rx="5" fill="var(--room-furniture-leg)" opacity="0.72" />
-          <ellipse cx="110" cy="140" rx="44" ry="7" fill="var(--room-light-tint)" opacity="0.34" />
+        <div className="srf-room-prop-left hidden xl:block absolute left-[36.6%] bottom-[-12px] w-[150px]">
+          <div className="relative">
+            <svg viewBox="0 0 160 330" className="block w-full h-auto" aria-hidden="true">
+              <ellipse cx="82" cy="318" rx="50" ry="8" fill="var(--room-shadow-tint)" opacity="0.2" />
+              <path
+                d="M62 226 C62 234, 44 248, 44 278 C44 304, 58 318, 80 318 C102 318, 116 304, 116 278 C116 248, 98 234, 98 226 Z"
+                fill="var(--room-furniture)"
+              />
+              <rect x="58" y="218" width="44" height="10" rx="5" fill="var(--room-furniture-leg)" opacity="0.7" />
+              <path
+                d="M46 268 Q80 280 114 268 L115 280 Q80 292 45 280 Z"
+                fill="var(--room-decor-accent)"
+                opacity="0.6"
+              />
+              <path
+                d="M56 250 C52 268, 52 290, 62 306"
+                fill="none"
+                stroke="var(--room-light-tint)"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+                opacity="0.4"
+              />
+              {/* Smooth beach stones at its foot */}
+              <ellipse cx="134" cy="312" rx="15" ry="6" fill="var(--room-furniture-leg)" opacity="0.6" />
+              <ellipse cx="128" cy="304" rx="10" ry="4.5" fill="var(--room-wall-highlight)" stroke="var(--room-trim)" strokeOpacity="0.3" />
+            </svg>
+            <svg
+              viewBox="0 0 160 330"
+              className="srf-room-sway-base absolute inset-0 w-full h-full"
+              style={{ transformOrigin: '50% 68%', animationDuration: '8s' }}
+              aria-hidden="true"
+            >
+              <g fill="none" stroke="var(--room-furniture-leg)" strokeWidth="1.6" strokeLinecap="round" opacity="0.8">
+                <path d="M76 222 C68 170, 54 120, 40 82" />
+                <path d="M78 222 C74 160, 68 100, 62 54" />
+                <path d="M80 222 C82 150, 84 90, 84 42" />
+                <path d="M82 222 C90 160, 100 104, 106 58" />
+                <path d="M84 222 C96 172, 114 128, 128 92" />
+              </g>
+              {PLUMES.map(([x, y, lean]) => (
+                <g key={x} transform={`rotate(${lean} ${x} ${y})`}>
+                  <ellipse
+                    cx={x}
+                    cy={y}
+                    rx="9"
+                    ry="36"
+                    fill="color-mix(in srgb, var(--room-furniture) 84%, var(--room-decor-accent))"
+                    stroke="var(--room-trim)"
+                    strokeOpacity="0.34"
+                  />
+                  <path
+                    d={`M${x} ${y - 30} V${y + 32}`}
+                    fill="none"
+                    stroke="var(--room-decor-accent)"
+                    strokeOpacity="0.3"
+                    strokeWidth="1.4"
+                  />
+                </g>
+              ))}
+            </svg>
+          </div>
+        </div>
+
+        <div className="srf-room-prop-right absolute right-[2%] lg:right-[4%] bottom-[-12px] w-[112px] lg:w-[138px]">
+          {/* Lamp glow breathing against the wall */}
+          <div
+            className="srf-room-breathe absolute left-[52%] top-[49%] w-[190px] h-[190px] -ml-[95px] -mt-[95px]"
+            style={{ animationDuration: '7s' }}
+          >
+            <div className="srf-room-glow-pool inset-0" />
+          </div>
+          <svg viewBox="0 0 210 220" className="relative block w-full h-auto" aria-hidden="true">
+            <ellipse cx="110" cy="206" rx="64" ry="9" fill="var(--room-shadow-tint)" opacity="0.22" />
+            <rect x="64" y="138" width="92" height="68" rx="18" fill="var(--room-furniture)" />
+            <rect x="64" y="196" width="92" height="10" rx="5" fill="var(--room-furniture-leg)" opacity="0.72" />
+            <ellipse cx="110" cy="140" rx="44" ry="7" fill="var(--room-light-tint)" opacity="0.34" />
+            <path
+              d="M84 138 C78 118, 86 98, 110 92 C134 98, 142 118, 136 138 Z"
+              fill="var(--room-decor-primary)"
+            />
+            {/* Scallop ribs on the shell shade */}
+            <g fill="none" stroke="var(--room-light-tint)" strokeOpacity="0.3" strokeWidth="1.4">
+              <path d="M110 94 V136" />
+              <path d="M110 94 Q96 112 94 136" />
+              <path d="M110 94 Q124 112 126 136" />
+            </g>
+            <circle cx="110" cy="108" r="14" fill="var(--room-decor-accent)" opacity="0.65" />
+            <circle cx="110" cy="108" r="8" fill="var(--room-light-tint)" opacity="0.55" />
+            {/* Coral branch + sea-smoothed pebbles beside the plinth */}
+            <g fill="none" stroke="var(--room-decor-accent)" strokeWidth="3" strokeLinecap="round" opacity="0.75">
+              <path d="M34 204 C34 190, 30 180, 24 170" />
+              <path d="M34 194 C38 184, 44 178, 46 168" />
+              <path d="M30 184 C26 180, 20 180, 16 184" />
+            </g>
+            <ellipse cx="184" cy="204" rx="14" ry="5" fill="var(--room-furniture-leg)" opacity="0.6" />
+            <ellipse cx="178" cy="197" rx="9" ry="4" fill="var(--room-wall-highlight)" stroke="var(--room-trim)" strokeOpacity="0.3" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+};
+]]>
+    </file>
+    <file path="src/app/(serraform)/serraform/fold/room/layers/shared.tsx">
+<![CDATA['use client';
+
+import React, { useId } from 'react';
+
+/**
+ * Shared decor parts for the six room families. Every fill and stroke reads a
+ * `--room-*` palette variable, so the pieces recolor with the divider's base
+ * and print colors. Looping motion lives on whole HTML/SVG boxes (never on
+ * SVG children) and is transform/opacity only.
+ */
+
+function useSvgId(prefix: string): string {
+  return `${prefix}-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+}
+
+/* ------------------------------------------------------------------ walls */
+
+interface WallBaseProps {
+  angle: number;
+  quiet?: number;
+  crown?: boolean;
+  skirting?: boolean;
+}
+
+export const WallBase: React.FC<WallBaseProps> = ({
+  angle,
+  quiet = 0.76,
+  crown = true,
+  skirting = true,
+}) => (
+  <>
+    <div
+      className="absolute inset-0"
+      style={{
+        background: `linear-gradient(${angle}deg, var(--room-wall-highlight) 0%, var(--room-wall-base) 62%, var(--room-ambient-tint) 100%)`,
+      }}
+    />
+    {skirting && <div className="srf-room-skirting" />}
+    {/* Quiet-zone left ambient illumination behind editorial headline */}
+    <div
+      className="hidden lg:block absolute inset-y-0 left-0 w-[44%] pointer-events-none"
+      style={{
+        background:
+          'radial-gradient(ellipse 85% 90% at 24% 46%, var(--room-quiet-bg) 0%, transparent 78%)',
+        opacity: quiet,
+      }}
+    />
+    {crown && <div className="srf-room-crown" />}
+  </>
+);
+
+/* ----------------------------------------------------------------- floors */
+
+export type FloorVariant = 'chevron' | 'planks' | 'slab' | 'tile' | 'terrazzo';
+
+const TERRAZZO_CHIPS: ReadonlyArray<[string, string, number]> = [
+  ['14,18 30,12 36,24 22,32', 'var(--room-decor-primary)', 0.5],
+  ['70,8 84,14 80,26 66,22', 'var(--room-wall-highlight)', 0.85],
+  ['118,22 134,16 142,30 126,36', 'var(--room-furniture)', 0.8],
+  ['160,44 172,40 176,54 162,58', 'var(--room-decor-accent)', 0.5],
+  ['40,58 56,52 62,66 46,72', 'var(--room-wall-highlight)', 0.8],
+  ['92,54 104,60 98,72 86,66', 'var(--room-floor-detail)', 0.7],
+  ['132,74 150,70 152,84 136,88', 'var(--room-decor-primary)', 0.42],
+  ['10,96 24,90 30,104 16,110', 'var(--room-furniture)', 0.75],
+  ['62,100 78,96 82,110 68,116', 'var(--room-decor-accent)', 0.45],
+  ['108,108 120,102 128,114 114,122', 'var(--room-wall-highlight)', 0.85],
+  ['156,116 170,112 174,126 160,130', 'var(--room-floor-detail)', 0.65],
+  ['30,138 46,134 50,148 34,152', 'var(--room-decor-primary)', 0.45],
+  ['84,146 98,140 104,154 90,160', 'var(--room-furniture)', 0.8],
+  ['134,150 148,146 152,160 138,166', 'var(--room-wall-highlight)', 0.8],
+  ['4,160 14,156 18,168 8,172', 'var(--room-decor-accent)', 0.4],
+];
+
+function renderFloorPattern(variant: FloorVariant, id: string): React.ReactNode {
+  const line = 'var(--room-floor-detail)';
+  switch (variant) {
+    case 'chevron':
+      return (
+        <pattern id={id} width="96" height="48" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="48" height="48" fill={line} opacity="0.1" />
           <path
-            d="M84 138 C78 118, 86 98, 110 92 C134 98, 142 118, 136 138 Z"
-            fill="var(--room-decor-primary)"
+            d="M0 0 L48 48 L96 0 M0 -48 L48 0 L96 -48 M0 48 L48 96 L96 48"
+            fill="none"
+            stroke={line}
+            strokeWidth="1.4"
           />
-          <circle cx="110" cy="108" r="14" fill="var(--room-decor-accent)" opacity="0.65" />
-          <circle cx="110" cy="108" r="8" fill="var(--room-light-tint)" opacity="0.45" />
+          <path d="M0 0 V48 M48 0 V48" fill="none" stroke={line} strokeWidth="1.6" />
+        </pattern>
+      );
+    case 'planks':
+      return (
+        <pattern id={id} width="192" height="420" patternUnits="userSpaceOnUse">
+          <rect x="64" y="0" width="64" height="420" fill={line} opacity="0.1" />
+          <rect x="128" y="0" width="64" height="150" fill={line} opacity="0.05" />
+          <path d="M0 0 V420 M64 0 V420 M128 0 V420" fill="none" stroke={line} strokeWidth="1.5" />
+          <path
+            d="M0 132 H64 M64 318 H128 M128 150 H192 M0 380 H64"
+            fill="none"
+            stroke={line}
+            strokeWidth="1.5"
+          />
+        </pattern>
+      );
+    case 'slab':
+      return (
+        <pattern id={id} width="230" height="230" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="230" height="230" fill={line} opacity="0.04" />
+          <path d="M0 0 H230 M0 0 V230" fill="none" stroke={line} strokeWidth="2" />
+          <circle cx="0" cy="0" r="3" fill={line} />
+          <circle cx="230" cy="0" r="3" fill={line} />
+          <circle cx="0" cy="230" r="3" fill={line} />
+          <circle cx="230" cy="230" r="3" fill={line} />
+        </pattern>
+      );
+    case 'tile':
+      return (
+        <pattern id={id} width="280" height="280" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="140" height="140" fill={line} opacity="0.1" />
+          <rect x="140" y="140" width="140" height="140" fill={line} opacity="0.1" />
+          <path
+            d="M0 0 H280 M0 140 H280 M0 0 V280 M140 0 V280"
+            fill="none"
+            stroke={line}
+            strokeWidth="1.6"
+          />
+        </pattern>
+      );
+    case 'terrazzo':
+    default:
+      return (
+        <pattern
+          id={id}
+          width="180"
+          height="180"
+          patternUnits="userSpaceOnUse"
+          patternTransform="scale(0.5)"
+        >
+          {TERRAZZO_CHIPS.map(([points, fill, opacity]) => (
+            <polygon key={points} points={points} fill={fill} opacity={opacity} />
+          ))}
+        </pattern>
+      );
+  }
+}
+
+interface FloorPlaneProps {
+  variant: FloorVariant;
+  opacity?: number;
+}
+
+/** Floor finish drawn once and tilted into depth so joints converge toward the wall. */
+export const FloorPlane: React.FC<FloorPlaneProps> = ({ variant, opacity = 0.5 }) => {
+  const id = useSvgId(`srf-floor-${variant}`);
+  return (
+    <div className="srf-room-floor-persp" aria-hidden="true">
+      <div className="srf-room-floor-plane" style={{ opacity }}>
+        <svg width="100%" height="100%" aria-hidden="true">
+          <defs>{renderFloorPattern(variant, id)}</defs>
+          <rect width="100%" height="100%" fill={`url(#${id})`} />
         </svg>
       </div>
     </div>
   );
 };
+
+interface FloorLightProps {
+  /** Position/size utility classes for the lit patch. */
+  className: string;
+  duration?: number;
+  delay?: number;
+}
+
+/** Paned window light on the floor that brightens and dims as if clouds pass. */
+export const FloorLight: React.FC<FloorLightProps> = ({ className, duration = 11, delay = 0 }) => (
+  <div
+    className={`srf-room-breathe absolute pointer-events-none ${className}`}
+    style={{ animationDuration: `${duration}s`, animationDelay: `${delay}s` }}
+  >
+    <div className="srf-room-floor-light" />
+  </div>
+);
+
+/* ------------------------------------------------------------------- rugs */
+
+interface RectRugProps {
+  /** Position/size utility classes (the rug still scales with --room-spread). */
+  className: string;
+  variant?: 'plain' | 'stripes';
+  fringe?: boolean;
+}
+
+const RUG_STRIPES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
+
+/** Rectangular rug foreshortened into a trapezoid, with a woven border, optional stripes and fringe. */
+export const RectRug: React.FC<RectRugProps> = ({ className, variant = 'plain', fringe = true }) => {
+  const gradId = useSvgId('srf-rug');
+  return (
+    <div className={`srf-room-rug-spread absolute ${className}`}>
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="absolute inset-0 w-full h-full overflow-visible"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--room-rug)" />
+            <stop
+              offset="100%"
+              stopColor="color-mix(in srgb, var(--room-rug) 76%, var(--room-textile-secondary))"
+            />
+          </linearGradient>
+        </defs>
+        <polygon points="5,0 95,0 100,100 0,100" fill={`url(#${gradId})`} />
+        {variant === 'stripes' &&
+          RUG_STRIPES.filter((i) => i % 2 === 1).map((i) => {
+            const t0 = i / RUG_STRIPES.length;
+            const t1 = (i + 1) / RUG_STRIPES.length;
+            const points = [
+              `${5 + 90 * t0},0`,
+              `${5 + 90 * t1},0`,
+              `${100 * t1},100`,
+              `${100 * t0},100`,
+            ].join(' ');
+            return (
+              <polygon
+                key={i}
+                points={points}
+                fill="var(--room-rug-trim)"
+                opacity={i % 4 === 1 ? 0.3 : 0.16}
+              />
+            );
+          })}
+        <polygon
+          points="5,0 95,0 100,100 0,100"
+          fill="none"
+          stroke="var(--room-rug-trim)"
+          strokeOpacity="0.46"
+          strokeWidth="2"
+          vectorEffect="non-scaling-stroke"
+        />
+        <polygon
+          points="8.6,8 91.4,8 95.4,92 4.6,92"
+          fill="none"
+          stroke="var(--room-rug-trim)"
+          strokeOpacity="0.3"
+          strokeWidth="1"
+          vectorEffect="non-scaling-stroke"
+        />
+        {fringe && (
+          <g stroke="var(--room-rug-trim)" strokeOpacity="0.5" strokeWidth="1.3" strokeDasharray="1.3 1.6">
+            <line x1="4.25" y1="1" x2="-0.75" y2="99" />
+            <line x1="95.75" y1="1" x2="100.75" y2="99" />
+          </g>
+        )}
+      </svg>
+    </div>
+  );
+};
+
+/* ------------------------------------------------------------------ light */
+
+type MoteSeed = readonly [left: number, top: number, size: number, duration: number, delay: number, kind: 'a' | 'b' | 'c'];
+
+// Weighted toward the edges: the divider stands in front of the middle of the region.
+const MOTE_SEEDS: readonly MoteSeed[] = [
+  [5, 64, 3, 13, -1, 'a'],
+  [11, 30, 2, 17, -6, 'b'],
+  [17, 78, 2, 15, -11, 'c'],
+  [24, 14, 3, 19, -3, 'a'],
+  [38, 6, 2, 14, -9, 'b'],
+  [56, 4, 3, 18, -13, 'c'],
+  [72, 8, 2, 16, -4, 'a'],
+  [84, 20, 3, 20, -15, 'b'],
+  [90, 48, 2, 13, -7, 'c'],
+  [95, 70, 3, 17, -2, 'a'],
+  [98, 32, 2, 15, -10, 'b'],
+  [8, 46, 2, 21, -16, 'c'],
+];
+
+interface DustMotesProps {
+  /** Position utility classes for the drifting region. */
+  className: string;
+  count?: number;
+}
+
+/** Specks drifting through a shaft of light. Invisible when motion is reduced. */
+export const DustMotes: React.FC<DustMotesProps> = ({ className, count = MOTE_SEEDS.length }) => (
+  <div className={`absolute pointer-events-none ${className}`} aria-hidden="true">
+    {MOTE_SEEDS.slice(0, count).map(([left, top, size, duration, delay, kind]) => (
+      <span
+        key={`${left}-${top}`}
+        className={`srf-room-mote srf-room-mote-${kind}`}
+        style={{
+          left: `${left}%`,
+          top: `${top}%`,
+          width: size,
+          height: size,
+          animationDuration: `${duration}s`,
+          animationDelay: `${delay}s`,
+        }}
+      />
+    ))}
+  </div>
+);
+
+/* ---------------------------------------------------------------- pendant */
+
+export type PendantShade = 'dome' | 'globe' | 'cone' | 'rattan';
+
+interface PendantProps {
+  /** Horizontal position + visibility utility classes. */
+  className: string;
+  shade: PendantShade;
+  cord: number;
+  width?: number;
+  duration?: number;
+  delay?: number;
+}
+
+function renderShade(shade: PendantShade): React.ReactNode {
+  switch (shade) {
+    case 'globe':
+      return (
+        <>
+          <rect x="31" y="2" width="10" height="9" rx="2" fill="var(--room-furniture-leg)" />
+          <circle
+            cx="36"
+            cy="30"
+            r="20"
+            fill="color-mix(in srgb, var(--room-light-tint) 86%, var(--room-decor-accent))"
+            stroke="var(--room-trim)"
+            strokeOpacity="0.4"
+          />
+          <path
+            d="M24 22 C27 15, 33 13, 38 13"
+            fill="none"
+            stroke="var(--room-wall-highlight)"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            opacity="0.9"
+          />
+        </>
+      );
+    case 'cone':
+      return (
+        <>
+          <rect x="31" y="2" width="10" height="8" rx="2" fill="var(--room-furniture-leg)" />
+          <polygon points="28,9 44,9 64,46 8,46" fill="var(--room-decor-primary)" />
+          <polygon points="28,9 33,9 20,46 8,46" fill="var(--room-light-tint)" opacity="0.2" />
+          <rect x="8" y="44" width="56" height="4" rx="2" fill="var(--room-decor-accent)" opacity="0.9" />
+        </>
+      );
+    case 'rattan':
+      return (
+        <>
+          <rect x="32" y="4" width="8" height="12" rx="2" fill="var(--room-furniture-leg)" />
+          <path
+            d="M6 46 C6 14, 66 14, 66 46 Z"
+            fill="color-mix(in srgb, var(--room-furniture) 82%, var(--room-wall-highlight))"
+            stroke="var(--room-furniture-leg)"
+            strokeOpacity="0.6"
+          />
+          <g fill="none" stroke="var(--room-furniture-leg)" strokeOpacity="0.5" strokeWidth="1">
+            <path d="M36 22 Q20 30 12 46" />
+            <path d="M36 22 Q27 32 24 46" />
+            <path d="M36 22 V46" />
+            <path d="M36 22 Q45 32 48 46" />
+            <path d="M36 22 Q52 30 60 46" />
+            <path d="M13 34 Q36 26 59 34" />
+            <path d="M8.5 41 Q36 33 63.5 41" />
+          </g>
+        </>
+      );
+    case 'dome':
+    default:
+      return (
+        <>
+          <rect x="32" y="4" width="8" height="12" rx="2" fill="var(--room-furniture-leg)" />
+          <path d="M8 44 C8 14, 64 14, 64 44 Z" fill="var(--room-decor-primary)" />
+          <path
+            d="M15 38 C17 26, 25 20, 34 19"
+            fill="none"
+            stroke="var(--room-light-tint)"
+            strokeWidth="2.6"
+            strokeLinecap="round"
+            opacity="0.3"
+          />
+          <rect x="7" y="42" width="58" height="4" rx="2" fill="var(--room-decor-accent)" opacity="0.9" />
+        </>
+      );
+  }
+}
+
+/** Ceiling pendant on a cord: the whole fitting swings a degree or two and its glow breathes. */
+export const Pendant: React.FC<PendantProps> = ({
+  className,
+  shade,
+  cord,
+  width = 68,
+  duration = 7.5,
+  delay = 0,
+}) => (
+  <div className={`srf-room-drop-in absolute top-0 pointer-events-none ${className}`} style={{ width }}>
+    <div
+      className="srf-room-sway relative"
+      style={{ animationDuration: `${duration}s`, animationDelay: `${delay}s` }}
+    >
+      <div
+        className="mx-auto w-px"
+        style={{
+          height: cord,
+          backgroundColor: 'color-mix(in srgb, var(--room-furniture-leg) 78%, transparent)',
+        }}
+      />
+      <svg viewBox="0 0 72 52" className="block w-full h-auto" aria-hidden="true">
+        {renderShade(shade)}
+      </svg>
+      <div
+        className="srf-room-breathe absolute left-1/2 top-full"
+        style={{
+          width: width * 2.4,
+          height: width * 1.5,
+          marginLeft: -(width * 1.2),
+          marginTop: -6,
+          animationDuration: `${duration * 1.3}s`,
+          animationDelay: `${delay}s`,
+        }}
+      >
+        <div className="srf-room-lamp-glow inset-0" />
+      </div>
+    </div>
+  </div>
+);
 ]]>
     </file>
   </files>

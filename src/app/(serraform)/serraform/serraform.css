@@ -779,8 +779,348 @@ details[open] .srf-faq-icon {
   transition: transform 280ms var(--ease-out);
 }
 
+/* ----------------------------------------------------------------------------
+   Room decor detail: mouldings, perspective floors, light, and ambient props.
+   Everything is tinted from the --room-* palette, so it follows the base color.
+   ---------------------------------------------------------------------------- */
+.srf-room-stage {
+  --room-mote: color-mix(in srgb, var(--room-trim) 58%, var(--room-light-tint));
+  --room-glow: 1;
+}
+
+.srf-room-stage[data-dark-envelope='true'] {
+  --room-mote: var(--room-light-tint);
+  --room-glow: 0.5;
+}
+
+/* Loops rest while the hero is scrolled out of view */
+.srf-room-stage[data-room-idle='true'] * {
+  animation-play-state: paused !important;
+}
+
+/* Stepped plaster cornice along the ceiling line */
+.srf-room-crown {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 22px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--room-wall-highlight) 90%, var(--room-shadow-tint)) 0 7px,
+    color-mix(in srgb, var(--room-shadow-tint) 20%, var(--room-wall-base)) 7px 8px,
+    color-mix(in srgb, var(--room-wall-highlight) 66%, var(--room-wall-base)) 8px 14px,
+    color-mix(in srgb, var(--room-shadow-tint) 14%, var(--room-wall-base)) 14px 15px,
+    color-mix(in srgb, var(--room-shadow-tint) 7%, transparent) 15px,
+    transparent 22px
+  );
+}
+
+/* Skirting board riding the wall/floor line (wall band is 66% of the hero) */
+.srf-room-skirting {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 13px;
+  top: calc(87.88% + var(--room-horizon-lift, 0px) - 13px);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--room-shadow-tint) 20%, var(--room-wall-base)) 0 1px,
+    color-mix(in srgb, var(--room-wall-highlight) 58%, var(--room-wall-base)) 1px 100%
+  );
+  transition: top 260ms var(--ease-out);
+}
+
+@media (min-width: 1024px) {
+  .srf-room-skirting {
+    top: calc(96.97% + var(--room-horizon-lift, 0px) - 13px);
+  }
+}
+
+/* Floor finish laid on a tilted plane so boards and joints converge with depth */
+.srf-room-floor-persp {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 700px;
+  perspective-origin: 60% 0%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 34%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 34%);
+}
+
+.srf-room-floor-plane {
+  position: absolute;
+  left: -12%;
+  right: -12%;
+  top: 0;
+  height: 540px;
+  transform-origin: 50% 0;
+  transform: rotateX(60deg);
+}
+
+/* Window light thrown across the floor in panes */
+.srf-room-floor-light {
+  position: absolute;
+  inset: 0;
+  opacity: calc(0.46 * var(--room-glow, 1));
+  background: linear-gradient(
+    96deg,
+    transparent 0%,
+    var(--room-light-tint) 24%,
+    var(--room-light-tint) 76%,
+    transparent 100%
+  );
+  -webkit-mask-image:
+    repeating-linear-gradient(90deg, #000 0 21.5%, transparent 21.5% 25%),
+    repeating-linear-gradient(180deg, #000 0 45%, transparent 45% 51%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    repeating-linear-gradient(90deg, #000 0 21.5%, transparent 21.5% 25%),
+    repeating-linear-gradient(180deg, #000 0 45%, transparent 45% 51%);
+  mask-composite: intersect;
+  transform: skewX(-38deg);
+}
+
+.srf-room-glow-pool {
+  position: absolute;
+  border-radius: 50%;
+  opacity: calc(0.5 * var(--room-glow, 1));
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    var(--room-light-tint) 0%,
+    color-mix(in srgb, var(--room-light-tint) 42%, transparent) 46%,
+    transparent 100%
+  );
+}
+
+.srf-room-lamp-glow {
+  position: absolute;
+  opacity: calc(0.62 * var(--room-glow, 1));
+  background: radial-gradient(
+    ellipse 50% 100% at 50% 0%,
+    var(--room-light-tint) 0%,
+    color-mix(in srgb, var(--room-light-tint) 38%, transparent) 44%,
+    transparent 100%
+  );
+}
+
+.srf-room-spot-cone {
+  position: absolute;
+  opacity: calc(0.36 * var(--room-glow, 1));
+  background: linear-gradient(180deg, var(--room-light-tint) 0%, transparent 94%);
+  clip-path: polygon(47% 0, 53% 0, 100% 100%, 0 100%);
+}
+
+.srf-room-pleats {
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--room-textile-primary) 86%, transparent) 0px,
+    color-mix(in srgb, var(--room-light-tint) 52%, var(--room-textile-primary)) 12px,
+    color-mix(in srgb, var(--room-textile-secondary) 72%, var(--room-wall-shadow)) 22px
+  );
+}
+
+.srf-room-mote {
+  position: absolute;
+  border-radius: 9999px;
+  background: var(--room-mote);
+  opacity: 0;
+}
+
+.srf-room-petal {
+  position: absolute;
+  width: 9px;
+  height: 6px;
+  border-radius: 80% 20% 70% 30%;
+  background: var(--room-decor-accent);
+  opacity: 0;
+}
+
+.srf-room-shimmer {
+  position: absolute;
+  left: -48px;
+  right: -48px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--room-light-tint) 0 14px,
+    transparent 14px 48px
+  );
+}
+
+.srf-room-caustic {
+  position: absolute;
+  border-radius: 50%;
+  opacity: calc(0.55 * var(--room-glow, 1));
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    var(--room-light-tint) 0%,
+    transparent 72%
+  );
+}
+
 /* Structural Room-Family Switch & Entrance Choreography (Compositor-only) */
 @media (prefers-reduced-motion: no-preference) {
+  /* Ambient loops: transform/opacity on whole elements only, literal keyframes */
+  @keyframes srf-room-sway {
+    0%, 100% { transform: rotate(-1.5deg); }
+    50% { transform: rotate(1.5deg); }
+  }
+
+  @keyframes srf-room-sway-soft {
+    0%, 100% { transform: rotate(-0.7deg); }
+    50% { transform: rotate(0.8deg); }
+  }
+
+  @keyframes srf-room-breathe {
+    0%, 100% { opacity: 0.56; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes srf-room-drape {
+    0%, 100% { transform: skewX(0deg) scaleX(1); }
+    50% { transform: skewX(-0.9deg) scaleX(1.045); }
+  }
+
+  @keyframes srf-room-mote-a {
+    0% { transform: translate3d(0, 0, 0); opacity: 0; }
+    18% { opacity: 0.72; }
+    70% { opacity: 0.5; }
+    100% { transform: translate3d(26px, -64px, 0); opacity: 0; }
+  }
+
+  @keyframes srf-room-mote-b {
+    0% { transform: translate3d(0, 0, 0); opacity: 0; }
+    25% { opacity: 0.6; }
+    100% { transform: translate3d(-22px, -48px, 0); opacity: 0; }
+  }
+
+  @keyframes srf-room-mote-c {
+    0% { transform: translate3d(0, 0, 0); opacity: 0; }
+    30% { opacity: 0.55; }
+    60% { transform: translate3d(14px, -20px, 0); opacity: 0.45; }
+    100% { transform: translate3d(36px, -30px, 0); opacity: 0; }
+  }
+
+  @keyframes srf-room-petal {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+    12% { opacity: 0.85; }
+    84% { opacity: 0.7; }
+    100% { transform: translate3d(-40px, 168px, 0) rotate(260deg); opacity: 0; }
+  }
+
+  @keyframes srf-room-cloud {
+    0% { transform: translate3d(-24%, 0, 0); }
+    100% { transform: translate3d(104%, 0, 0); }
+  }
+
+  @keyframes srf-room-glide-rev {
+    0% { transform: translate3d(104%, 0, 0); }
+    100% { transform: translate3d(-12%, -14px, 0); }
+  }
+
+  @keyframes srf-room-shimmer {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-48px, 0, 0); }
+  }
+
+  @keyframes srf-room-wave-a {
+    0%, 100% { transform: translate3d(-1.4%, 0, 0); }
+    50% { transform: translate3d(1.4%, 4px, 0); }
+  }
+
+  @keyframes srf-room-wave-b {
+    0%, 100% { transform: translate3d(1.6%, 2px, 0); }
+    50% { transform: translate3d(-1.6%, -3px, 0); }
+  }
+
+  @keyframes srf-room-caustic {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }
+    50% { transform: translate3d(16px, 5px, 0) scale(1.1); opacity: 1; }
+  }
+
+  @keyframes srf-room-blade-sweep {
+    0%, 100% { transform: translate3d(-18px, 0, 0); opacity: 0.78; }
+    50% { transform: translate3d(28px, 0, 0); opacity: 1; }
+  }
+
+  @keyframes srf-room-prop-settle-left {
+    0% { opacity: 0; transform: translate3d(-20px, 10px, 0); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  @keyframes srf-room-drop-in {
+    0% { opacity: 0; transform: translate3d(0, -22px, 0); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  .srf-room-sway {
+    transform-origin: 50% 0;
+    animation: srf-room-sway 7.5s ease-in-out infinite;
+  }
+
+  .srf-room-sway-soft {
+    transform-origin: 50% 0;
+    animation: srf-room-sway-soft 10s ease-in-out infinite;
+  }
+
+  .srf-room-sway-base {
+    transform-origin: 50% 100%;
+    animation: srf-room-sway-soft 9s ease-in-out infinite;
+  }
+
+  .srf-room-leafshade {
+    transform-origin: 100% 0;
+    animation: srf-room-sway 11s ease-in-out infinite;
+  }
+
+  .srf-room-breathe {
+    animation: srf-room-breathe 9s ease-in-out infinite;
+  }
+
+  .srf-room-drape-sway {
+    transform-origin: 50% 0;
+    animation: srf-room-drape 12s ease-in-out infinite;
+  }
+
+  .srf-room-mote-a { animation: srf-room-mote-a 13s linear infinite; }
+  .srf-room-mote-b { animation: srf-room-mote-b 17s linear infinite; }
+  .srf-room-mote-c { animation: srf-room-mote-c 15s linear infinite; }
+
+  .srf-room-petal {
+    animation: srf-room-petal 12s ease-in infinite;
+  }
+
+  .srf-room-cloud-track {
+    animation: srf-room-cloud 90s linear infinite;
+  }
+
+  .srf-room-glide-track {
+    animation: srf-room-glide-rev 52s linear infinite;
+  }
+
+  .srf-room-shimmer {
+    animation: srf-room-shimmer 5s linear infinite;
+  }
+
+  .srf-room-wave-a { animation: srf-room-wave-a 14s ease-in-out infinite; }
+  .srf-room-wave-b { animation: srf-room-wave-b 19s ease-in-out infinite; }
+
+  .srf-room-caustic-drift {
+    animation: srf-room-caustic 10s ease-in-out infinite;
+  }
+
+  .srf-room-blade-sweep {
+    animation: srf-room-blade-sweep 14s ease-in-out infinite;
+  }
+
+  .srf-room-prop-left {
+    animation: srf-room-prop-settle-left 540ms var(--ease-out-expo) 180ms both;
+  }
+
+  .srf-room-drop-in {
+    animation: srf-room-drop-in 620ms var(--ease-out-expo) 220ms both;
+  }
+
   @keyframes srf-room-initial-clip {
     0% {
       opacity: 0.01;
@@ -940,6 +1280,7 @@ details[open] .srf-faq-icon {
   .srf-room-rug-spread,
   .srf-room-horizon-floor,
   .srf-room-horizon-props,
+  .srf-room-skirting,
   .srf-room-pano-layer-1,
   .srf-room-pano-layer-2,
   .srf-room-pano-layer-3,
