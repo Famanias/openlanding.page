@@ -36,7 +36,7 @@ describe("generate-copy-bundles", () => {
     expect(resolved["non-existent-pkg-xyz"]).toBe("*");
   });
 
-  it("generates copy bundles and prompt files for all templates in a directory", () => {
+  it("generates prompt files without creating legacy slug.md source bundles", () => {
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "copy-bundles-test-"));
     try {
       generateCopyBundles(tempDir);
@@ -45,41 +45,13 @@ describe("generate-copy-bundles", () => {
         const bundlePath = path.join(tempDir, `${slug}.md`);
         const promptPath = path.join(tempDir, `${slug}-prompt.md`);
 
-        expect(fs.existsSync(bundlePath)).toBe(true);
+        expect(fs.existsSync(bundlePath)).toBe(false);
         expect(fs.existsSync(promptPath)).toBe(true);
 
-        const bundleContent = fs.readFileSync(bundlePath, "utf8");
         const promptContent = fs.readFileSync(promptPath, "utf8");
-
-        expect(bundleContent).toContain(`<template slug="${slug}"`);
-        expect(bundleContent).toContain("</template>");
-        expect(bundleContent).toContain("<files>");
-        expect(bundleContent.length).toBeGreaterThan(500);
-
         expect(promptContent).toContain("# Prompt:");
         expect(promptContent.length).toBeGreaterThan(100);
       }
-
-      // Verify specific accurate dependencies per template
-      const orreryBundle = fs.readFileSync(path.join(tempDir, "orrery.md"), "utf8");
-      expect(orreryBundle).toContain('"gsap"');
-      expect(orreryBundle).toContain('"motion"');
-      expect(orreryBundle).toContain('"@phosphor-icons/react"');
-
-      const keytuBundle = fs.readFileSync(path.join(tempDir, "keytu.md"), "utf8");
-      expect(keytuBundle).toContain('"gsap"');
-      expect(keytuBundle).toContain('"lenis"');
-      expect(keytuBundle).toContain('"motion"');
-      expect(keytuBundle).toContain('"@phosphor-icons/react"');
-
-      const kojiBundle = fs.readFileSync(path.join(tempDir, "koji.md"), "utf8");
-      expect(kojiBundle).toContain('"three"');
-      expect(kojiBundle).not.toContain('"motion"');
-
-      const stillwaterBundle = fs.readFileSync(path.join(tempDir, "stillwater.md"), "utf8");
-      expect(stillwaterBundle).toContain('<file path="src/app/(stillwater)/stillwater/route.ts">');
-      expect(stillwaterBundle).toContain('<file path="public/downloads/stillwater.html">');
-      expect(stillwaterBundle).toContain('id="inquiry-form"');
     } finally {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }

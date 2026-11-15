@@ -58,15 +58,21 @@ export function resolveStandaloneTemplate(slug: string, root = process.cwd(), te
 export const STANDALONE_SLUGS = discoverStandaloneTemplates().map(template => template.slug);
 export const GRAPHICS_SLUGS = discoverStandaloneTemplates().filter(template => template.categories.includes("3d")).map(template => template.slug);
 
-export function selectSlugs(args: string[], options: { root?: string; templates?: readonly TemplateRegistration[] } = {}): string[] {
+export function selectSlugs(args: string[], options: { root?: string; outputDirectory?: string; templates?: readonly TemplateRegistration[] } = {}): string[] {
   const root = options.root ?? process.cwd();
+  const outputDirectory = options.outputDirectory ?? path.join(root, "public/downloads");
   const templates = options.templates ?? RAW_TEMPLATES;
   if (!args.length || args[0].startsWith("--")) {
     const selector = args[0] ?? "--all";
-    if (!["--all", "--3d", "--remaining"].includes(selector)) throw new Error(`Unknown export option: ${selector}`);
+    if (!["--all", "--3d", "--remaining", "--missing"].includes(selector)) throw new Error(`Unknown export option: ${selector}`);
     if (args.length > 1) throw new Error("Use one selector by itself, or provide template slugs.");
     return discoverStandaloneTemplates(root, templates)
-      .filter(template => selector === "--3d" ? template.categories.includes("3d") : selector === "--remaining" ? !template.hasDownload : true)
+      .filter(template => {
+        if (selector === "--3d") return template.categories.includes("3d");
+        if (selector === "--remaining") return !template.hasDownload;
+        if (selector === "--missing") return !fs.existsSync(path.join(outputDirectory, `${template.slug}.html`));
+        return true;
+      })
       .map(template => template.slug);
   }
   return [...new Set(args)].map(slug => resolveStandaloneTemplate(slug, root, templates).slug);

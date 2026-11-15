@@ -2,10 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { build, type Plugin } from "esbuild";
-import {
-  formatRepomixBundle,
-  TEMPLATE_METADATA,
-} from "./generate-copy-bundles";
 import { readTemplateFiles } from "./template-files";
 
 const root = process.cwd();
@@ -196,20 +192,8 @@ async function exportWaypoint() {
       "The standalone download must contain real content and no Next runtime paths.",
     );
   fs.writeFileSync(outputFile, html);
-  const meta = TEMPLATE_METADATA.waypoint;
-  const files = readTemplateFiles("waypoint");
-  files.push({ path: "public/downloads/waypoint.html", source: html });
-  fs.writeFileSync(
-    path.join(publicRoot, "copy/waypoint.md"),
-    formatRepomixBundle(
-      "waypoint",
-      meta.name,
-      files,
-      meta.dependencies,
-    ).replace(/\r\n/g, "\n"),
-  );
   console.log(
-    `Exported ${outputFile} (${fs.statSync(outputFile).size.toLocaleString()} bytes); updated the Waypoint copy bundle.`,
+    `Exported ${outputFile} (${fs.statSync(outputFile).size.toLocaleString()} bytes).`,
   );
 }
 

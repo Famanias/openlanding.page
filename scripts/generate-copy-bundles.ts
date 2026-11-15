@@ -2,7 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import fg from "fast-glob";
-import { readTemplateFiles } from "./template-files";
 import { TEMPLATES, type TemplateSlug } from "./templates.config";
 
 const COPY_METADATA: Record<
@@ -317,26 +316,6 @@ export function generateCopyBundles(outputDir = path.resolve(process.cwd(), "pub
 
   const slugs = Object.keys(TEMPLATES) as TemplateSlug[];
   for (const slug of slugs) {
-    const meta = TEMPLATE_METADATA[slug] ?? {
-      name: slug.charAt(0).toUpperCase() + slug.slice(1),
-      dependencies: [],
-      downloadPath: null,
-      includeDownload: false,
-    };
-    const files = readTemplateFiles(slug, true);
-    if (meta.includeDownload && meta.downloadPath) {
-      const downloadPath = path.join("public", "downloads", `${slug}.html`);
-      if (fs.existsSync(downloadPath)) {
-        files.push({ path: downloadPath, source: fs.readFileSync(downloadPath, "utf8") });
-      }
-    }
-    const bundleXml = formatRepomixBundle(slug, meta.name, files, meta.dependencies);
-
-    const bundlePath = path.join(outputDir, `${slug}.md`);
-    if (!fs.existsSync(bundlePath) || fs.readFileSync(bundlePath, "utf8") !== bundleXml) {
-      fs.writeFileSync(bundlePath, bundleXml, "utf8");
-    }
-
     const promptContent = readTemplatePrompt(slug);
     const promptPath = path.join(outputDir, `${slug}-prompt.md`);
     if (!fs.existsSync(promptPath) || fs.readFileSync(promptPath, "utf8") !== promptContent) {
