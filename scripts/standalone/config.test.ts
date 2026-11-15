@@ -44,6 +44,10 @@ describe("automatic standalone template discovery", () => {
     expect(selectSlugs(["--all"], options)).toEqual(selectSlugs([], options));
     expect(selectSlugs(["--3d"], options)).toEqual(["fresh-scene", "published"]);
     expect(selectSlugs(["--remaining"], options)).toEqual(["fresh-scene", "fresh-shop"]);
+    const downloads = path.join(root, "public/downloads");
+    fs.mkdirSync(downloads, { recursive: true });
+    fs.writeFileSync(path.join(downloads, "published.html"), "<!doctype html>");
+    expect(selectSlugs(["--missing"], options)).toEqual(["fresh-scene", "fresh-shop"]);
   });
   it("leaves imported HTML route handlers out of component generation and explains explicit requests", () => {
     const root = fixture(); page(root, "provided-html", "route.ts");

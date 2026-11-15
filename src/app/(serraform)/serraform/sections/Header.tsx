@@ -3,7 +3,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { Logo } from '../brand/Logo';
+import { animate, stagger, utils } from 'animejs';
 import { NAV_ITEMS } from '../fold/config';
+
+const CREASE_PATH = `M0 5 ${Array.from({ length: 64 }, (_, i) => `L${i * 10 + 5} 1 L${i * 10 + 10} 5`).join(' ')}`;
 
 export const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -61,12 +64,44 @@ export const Header: React.FC = () => {
     };
   }, [menuOpen]);
 
+  // Drawer opens like a fold: the sheet drops from the top crease, links hinge in after it
+  useEffect(() => {
+    const drawer = drawerRef.current;
+    if (!menuOpen || !drawer) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const items = drawer.querySelectorAll<HTMLElement>('[data-drawer-item]');
+    utils.set(items, { opacity: 0, perspective: 700, rotateX: -80, y: 18 });
+    for (const item of items) item.style.transformOrigin = '50% 0%';
+    const sheet = animate(drawer, {
+      clipPath: ['inset(0% 0% 100% 0%)', 'inset(0% 0% 0% 0%)'],
+      duration: 620,
+      ease: 'outExpo',
+      onComplete: (self) => self.revert(),
+    });
+    const links = animate(items, {
+      opacity: 1,
+      rotateX: 0,
+      y: 0,
+      duration: 900,
+      ease: 'outElastic(1, 0.8)',
+      delay: stagger(80, { start: 160 }),
+      onComplete: () => {
+        for (const item of items) item.removeAttribute('style');
+      },
+    });
+    return () => {
+      sheet.revert();
+      links.revert();
+    };
+  }, [menuOpen]);
+
   const handleNavClick = () => {
     if (menuOpen) setMenuOpen(false);
   };
 
   return (
     <header
+      data-header=""
       className={`sticky top-0 z-40 w-full bg-[var(--srf-rose)] transition-colors duration-200 ${
         scrolled
           ? 'border-b border-[var(--srf-hairline)]'
@@ -76,9 +111,9 @@ export const Header: React.FC = () => {
       <div className="srf-container h-16 md:h-20 flex items-center justify-between gap-6">
         <a
           href="#top"
-          className="inline-flex items-center min-h-[44px] focus-visible:rounded-[4px]"
+          className="srf-logo-link inline-flex items-center min-h-[44px] focus-visible:rounded-[4px]"
         >
-          <Logo tone="dark" />
+          <Logo tone="dark" draw />
         </a>
 
         <nav
@@ -90,6 +125,7 @@ export const Header: React.FC = () => {
               key={item.href}
               href={item.href}
               onClick={handleNavClick}
+              data-header-item=""
               className="srf-text-link text-[15px] whitespace-nowrap shrink-0"
             >
               {item.label}
@@ -97,7 +133,7 @@ export const Header: React.FC = () => {
           ))}
         </nav>
 
-        <div className="hidden min-[900px]:flex items-center shrink-0">
+        <div data-header-item="" className="hidden min-[900px]:flex items-center shrink-0">
           <a href="#top" className="srf-btn-primary">
             <span>Design your divider</span>
             <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
@@ -116,6 +152,23 @@ export const Header: React.FC = () => {
           <Menu className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
+
+      {/* Page progress drawn as a crease that unfolds along the header */}
+      <svg
+        data-crease=""
+        aria-hidden="true"
+        viewBox="0 0 640 6"
+        preserveAspectRatio="none"
+        className="srf-crease"
+      >
+        <path
+          d={CREASE_PATH}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
 
       {menuOpen && (
         <div
@@ -148,6 +201,7 @@ export const Header: React.FC = () => {
                 key={item.href}
                 href={item.href}
                 onClick={handleNavClick}
+                data-drawer-item=""
                 className="py-3 border-b border-[var(--srf-hairline)] font-[family-name:var(--font-display)] text-2xl font-medium text-[var(--srf-oxblood)]"
               >
                 {item.label}
@@ -155,7 +209,7 @@ export const Header: React.FC = () => {
             ))}
           </nav>
 
-          <div className="pb-4">
+          <div data-drawer-item="" className="pb-4">
             <a
               href="#top"
               onClick={handleNavClick}

@@ -20,7 +20,7 @@ npm run export:templates -- --remaining
 npm run verify:exports -- --remaining
 ```
 
-`--all` (also the default without arguments) selects all discovered component pages. `--3d` uses current gallery categories; `--remaining` selects component pages not yet marked `hasDownload: true`. `--list` prints the selection without building or writing HTML and can be combined with those selectors. In Windows PowerShell use `npm.cmd` when forwarding flags if the `npm.ps1` shim consumes them, for example `npm.cmd run export:templates -- --list --remaining`.
+`--all` (also the default without arguments) selects all discovered component pages. `--3d` uses current gallery categories; `--remaining` selects component pages not yet marked `hasDownload: true`; `--missing` selects discovered component pages whose `public/downloads/<slug>.html` output does not yet exist on disk. `npm run build` automatically runs `postbuild` (`export:templates -- --missing`) so new component templates generate their standalone HTML on build. `--list` prints the selection without building or writing HTML and can be combined with those selectors. In Windows PowerShell use `npm.cmd` when forwarding flags if the `npm.ps1` shim consumes them, for example `npm.cmd run export:templates -- --list --remaining`.
 
 The exporter rejects unregistered/invalid slugs, missing component pages, escaping source symlinks, stale production builds, missing media and assets outside `public/` or `.next/`. Outputs go to `public/downloads/<slug>.html`. The Waypoint-specific exporter remains available as `npm run export:waypoint`.
 
@@ -57,7 +57,7 @@ All local demo forms retain their current behavior; an export does not add a sub
 
 Some supplied image files have misleading extensions; the exporter detects their actual MIME type. Large JPEG artwork in SAVEPOINT, Synapxe and Xibalba is encoded as high-quality WebP in the export without changing source files. Media-heavy exports can still be large (up to about 90 MB). The gallery checks file availability with HEAD and lets the browser stream the download directly, avoiding a full JavaScript text/Blob copy.
 
-After publishing newly verified files, set their `hasDownload` flags, include the HTML in `COPY_METADATA`, and run `npm run prebuild` to regenerate copy bundles. `npm run check` ensures download flags match files on disk. Downloads are generated artifacts; update their source components and regenerate them rather than editing their HTML manually.
+After publishing newly verified files, set their `hasDownload` flags. `npm run check` ensures download flags match files on disk. Downloads are generated artifacts; update their source components and regenerate them rather than editing their HTML manually. Legacy `<slug>.md` bundles in `public/copy/` have been retired; `npm run prebuild` now generates only `public/copy/<slug>-prompt.md`.
 
 ## 3D rollout verification (2026-11-08)
 

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
+import { animate } from 'animejs';
 import { renderTextileToCanvas } from './artwork';
 import {
   evaluatePrintContrast,
@@ -176,17 +177,38 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
   const printColorActive = usesActivePrintColor(design);
   const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
 
+  const showContrastWarning = printColorActive && contrast.isLowContrast;
+  const warningRef = useRef<HTMLDivElement>(null);
+
+  // The low-contrast hint unfolds into the dock instead of popping in
+  useEffect(() => {
+    const el = warningRef.current;
+    if (!showContrastWarning || !el) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const reveal = animate(el, {
+      opacity: [0, 1],
+      y: [-8, 0],
+      duration: 420,
+      ease: 'outExpo',
+      onComplete: (self) => self.revert(),
+    });
+    return () => {
+      reveal.revert();
+    };
+  }, [showContrastWarning]);
+
   const roundedOpening = Math.round(effectiveOpening);
   const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
 
   return (
     <div
       data-testid="hero-studio-dock"
+      data-hm="dock"
       className="srf-hero-dock rounded-[10px] border border-[var(--srf-hairline-strong)] bg-[#FAF2EE]/95 shadow-[0_14px_38px_-16px_rgba(75,32,42,0.16)] px-3.5 py-3 sm:px-5 sm:py-3.5"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(150px,1fr)_minmax(195px,1.2fr)_minmax(240px,1.4fr)_minmax(205px,1.2fr)_auto] gap-y-3 gap-x-3.5 items-center">
         {/* 1. Shape */}
-        <div className="min-w-0">
+        <div data-hm="dock-group" className="min-w-0">
           <div className="flex items-baseline justify-between gap-2 mb-0.5">
             <label
               htmlFor="srf-hero-shape-range"
@@ -226,7 +248,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
         </div>
 
         {/* 2. Base color */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
+        <div data-hm="dock-group" className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
           <div className="flex items-baseline justify-between gap-2 mb-1.5">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Base color
@@ -240,6 +262,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 <button
                   key={preset.id}
                   type="button"
+                  data-hm="chip"
                   aria-label={`Base color ${preset.name} (${preset.hex})`}
                   aria-pressed={active}
                   title={`Base ${preset.name} · ${preset.hex}`}
@@ -260,6 +283,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             })}
 
             <label
+              data-hm="chip"
               title={`Custom base color · ${design.baseHex}`}
               className="relative w-6 h-6 shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/55 p-[2px] cursor-pointer hover:scale-105 transition-transform flex items-center justify-center"
             >
@@ -286,7 +310,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
         </div>
 
         {/* 3. Print */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
+        <div data-hm="dock-group" className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
           <div className="flex items-baseline justify-between gap-2 mb-1.5">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Print
@@ -301,6 +325,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 <button
                   key={id}
                   type="button"
+                  data-hm="chip"
                   aria-pressed={active}
                   aria-label={`Print ${spec.name}`}
                   title={spec.name}
@@ -329,6 +354,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             {uploadedArt && (
               <button
                 type="button"
+                data-hm="chip"
                 aria-pressed={design.print === 'upload'}
                 aria-label={`Print Your image (${uploadedArt.filename})`}
                 onClick={() => {
@@ -366,6 +392,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
 
         {/* 4. Print color */}
         <div
+          data-hm="dock-group"
           className={`min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 transition-opacity ${
             printColorActive ? '' : 'opacity-55'
           }`}
@@ -402,6 +429,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 <button
                   key={preset.id}
                   type="button"
+                  data-hm="chip"
                   disabled={!printColorActive}
                   aria-label={`Print color ${preset.name} (${preset.hex})`}
                   aria-pressed={printColorActive && active}
@@ -423,6 +451,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             })}
 
             <label
+              data-hm="chip"
               title={`Custom print color · ${design.designHex}`}
               className={`relative w-6 h-6 shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/55 p-[2px] flex items-center justify-center ${
                 printColorActive ? 'cursor-pointer hover:scale-105 transition-transform' : 'cursor-not-allowed'
@@ -452,7 +481,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
         </div>
 
         {/* 5. Reset */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex items-center justify-end">
+        <div data-hm="dock-group" className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex items-center justify-end">
           <button
             type="button"
             disabled={!isCustomized}
@@ -462,6 +491,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
               setAnnouncement('Divider design and shape reset to defaults.');
             }}
             aria-label="Reset design and shape defaults"
+            data-hm-reset=""
             className="srf-mono-caption inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors min-h-[36px] disabled:opacity-35 disabled:cursor-not-allowed"
           >
             <RotateCcw className="w-3 h-3 shrink-0" aria-hidden="true" />
@@ -470,8 +500,9 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
         </div>
       </div>
 
-      {printColorActive && contrast.isLowContrast && (
+      {showContrastWarning && (
         <div
+          ref={warningRef}
           role="status"
           data-testid="hero-contrast-warning"
           className="mt-2.5 pt-2 border-t border-[var(--srf-hairline)] flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--srf-oxblood)]"

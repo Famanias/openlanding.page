@@ -5,9 +5,14 @@ import React from 'react';
 interface LogoProps {
   tone?: 'dark' | 'light';
   className?: string;
+  /** Marks the fold mark as a stroke the motion system draws on load. */
+  draw?: boolean;
 }
 
-export const FoldMark: React.FC<{ className?: string }> = ({ className = 'w-6 h-6' }) => (
+export const FoldMark: React.FC<{ className?: string; draw?: boolean }> = ({
+  className = 'w-6 h-6',
+  draw = false,
+}) => (
   <svg
     viewBox="0 0 32 32"
     fill="none"
@@ -15,6 +20,7 @@ export const FoldMark: React.FC<{ className?: string }> = ({ className = 'w-6 h-
     className={className}
   >
     <path
+      data-draw={draw ? '' : undefined}
       d="M3 25L9 7L15 25L21 7L29 25"
       stroke="currentColor"
       strokeWidth="2.5"
@@ -24,16 +30,16 @@ export const FoldMark: React.FC<{ className?: string }> = ({ className = 'w-6 h-
   </svg>
 );
 
-export const Logo: React.FC<LogoProps> = ({ tone = 'dark', className = '' }) => {
+export const Logo: React.FC<LogoProps> = ({ tone = 'dark', className = '', draw = false }) => {
   const textColor = tone === 'light' ? 'text-[var(--srf-porcelain)]' : 'text-[var(--srf-oxblood)]';
   return (
     <span
       className={`inline-flex items-center gap-3 select-none whitespace-nowrap shrink-0 ${textColor} ${className}`}
       aria-label="SERRAFORM"
     >
-      <FoldMark className="w-6 h-6 shrink-0" />
+      <FoldMark className="w-6 h-6 shrink-0" draw={draw} />
       <span
-        className="font-[family-name:var(--font-display)] font-medium text-[20px] leading-none tracking-[-0.025em]"
+        className="srf-logo-word font-[family-name:var(--font-display)] font-medium text-[20px] leading-none tracking-[-0.025em]"
         aria-hidden="true"
       >
         SERRAFORM
@@ -49,6 +55,7 @@ export const CreaseMarker: React.FC<{ index: string; className?: string }> = ({
   <span className={`inline-flex items-center gap-2 srf-mono-caption ${className}`}>
     <svg viewBox="0 0 22 10" fill="none" aria-hidden="true" className="w-5 h-2.5 shrink-0">
       <path
+        data-draw=""
         d="M1 9L6 1L11 9L16 1L21 9"
         stroke="currentColor"
         strokeWidth="1.4"

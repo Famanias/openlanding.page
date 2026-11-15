@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { describe, it, expect } from "vitest";
-import { updateGalleryRegistrations, type ParsedMeta } from "../import-aistudio-template";
+import { enableTemplateDownload, updateGalleryRegistrations, type ParsedMeta } from "../import-aistudio-template";
 
 describe("import-template gallery registration", () => {
   const sampleMeta: ParsedMeta = {
@@ -109,6 +109,25 @@ describe("import-template gallery registration", () => {
       expect(updatedTemplatesTs).toContain('export type TemplateSlug = "alpha" | "beta";');
       expect(updatedTemplatesTs).toContain('export const BETA_PROMPT =');
       expect(updatedTemplatesTs).toContain('slug: "beta",');
+    } finally {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  it("flips hasDownload to true for the matching template slug", () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "import-test-dl-"));
+    try {
+      const dataDir = path.join(tempDir, "src", "app", "(index)", "data");
+      fs.mkdirSync(dataDir, { recursive: true });
+      const file = path.join(dataDir, "templates.ts");
+      fs.writeFileSync(
+        file,
+        `export const RAW_TEMPLATES = [\n  {\n    slug: "alpha",\n    hasDownload: false,\n  },\n  {\n    slug: "beta",\n    hasDownload: false,\n  },\n];\n`
+      );
+      expect(enableTemplateDownload("beta", tempDir)).toBe(true);
+      const updated = fs.readFileSync(file, "utf8");
+      expect(updated).toContain('slug: "alpha",\n    hasDownload: false,');
+      expect(updated).toContain('slug: "beta",\n    hasDownload: true,');
     } finally {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }

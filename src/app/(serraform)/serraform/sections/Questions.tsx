@@ -13,18 +13,18 @@ export const Questions: React.FC = () => {
       <div className="srf-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-start">
           <div className="lg:col-span-4">
-            <div className="mb-3 srf-mono-caption text-[var(--srf-mauve)]">
+            <div data-m="scramble" className="mb-3 srf-mono-caption text-[var(--srf-mauve)]">
               Questions
             </div>
-            <h2 className="srf-h2 text-[var(--srf-oxblood)] text-balance">
+            <h2 data-m="heading" className="srf-h2 text-[var(--srf-oxblood)] text-balance">
               Practical notes.
             </h2>
           </div>
 
           <div className="lg:col-start-6 lg:col-span-7">
-            <div>
+            <div data-m="unfold">
               {FAQ_ITEMS.map((item) => (
-                <details key={item.question} className="srf-faq-item group">
+                <details key={item.question} data-m-item="" className="srf-faq-item group">
                   <summary className="srf-faq-summary">
                     <span>{item.question}</span>
                     <Plus
@@ -32,8 +32,10 @@ export const Questions: React.FC = () => {
                       aria-hidden="true"
                     />
                   </summary>
-                  <div className="srf-faq-answer">
-                    <p>{item.answer}</p>
+                  <div className="srf-faq-panel">
+                    <div className="srf-faq-answer">
+                      <p>{item.answer}</p>
+                    </div>
                   </div>
                 </details>
               ))}

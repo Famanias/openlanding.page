@@ -62,6 +62,7 @@ bun run import-template ../path-to-downloaded-repo --slug mytemplate
 | `--dry-run` | Inspect and simulate the import without writing any files or editing registries. |
 | `--force` | Overwrite existing template files if the target slug directory already exists. |
 | `--no-register` | Copy and convert the files without updating the 6 gallery registration files. |
+| `--no-export` | Skip running the production build and standalone HTML export after registration. |
 
 ---
 
@@ -77,7 +78,8 @@ The importer handles all conversion steps in 2–3 seconds:
 6. **Migrates Assets:** Copies `public/assets/` into `public/templates/<slug>/` and sets up the gallery thumbnail `public/gallery/<slug>.webp`.
 7. **Updates All 6 Gallery Registration Points:**
    - Adds slug to `TemplateSlug` and palette to `PALETTES` in `scripts/templates.config.ts`.
-   - Adds entry to `COPY_METADATA` in `scripts/generate-copy-bundles.ts`.
+   - Updates metadata in `scripts/generate-copy-bundles.ts` and writes `public/copy/<slug>-prompt.md`.
+   - Builds the site and exports `public/downloads/<slug>.html` (setting `hasDownload: true` when exported), unless `--no-export` is passed.
    - Adds slug, prompt constant, and gallery record in `src/app/(index)/data/templates.ts`.
    - Updates template counts and slug lists in `src/app/(index)/data/templates.test.ts`.
    - Adds `/<slug>` route to `tests/e2e/templates.ts`.

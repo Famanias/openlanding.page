@@ -3124,7 +3124,7 @@ Build an isolated Next.js 16 / React 19 / TypeScript landing page for **DATUM** 
 RAW_TEMPLATES.push({
   slug: "datum",
   createdAt: "2026-11-13",
-  hasDownload: false,
+  hasDownload: true,
   title: "DATUM",
   description: "Spatial 3D scene-graph debugger and GPU render-pass profiler featuring a scroll-linked Z-axis pipeline dissection, live frame-budget lab, and schematic SVG fallback.",
   category: "3d" as TemplateCategory,
@@ -3142,7 +3142,7 @@ export const AFTERWALK_PROMPT = "# AFTERWALK — a little more outside\n\nBuild 
 RAW_TEMPLATES.push({
   slug: "afterwalk",
   createdAt: "2026-11-13",
-  hasDownload: false,
+  hasDownload: true,
   title: "AFTERWALK",
   description: "A neighborhood walking club with original photography, a draggable postcard reel, and a local walk-card maker.",
   category: "showcase",
@@ -3159,7 +3159,7 @@ RAW_TEMPLATES.push(
   {
     slug: "mizunowa",
     createdAt: "2026-11-13",
-    hasDownload: false,
+    hasDownload: true,
     title: "MIZUNOWA",
     description: "Explore an imagined Japanese garden through a living koi pond, a sakura grove, and a quiet shrine courtyard.",
     category: "showcase" as TemplateCategory,
@@ -3174,7 +3174,7 @@ RAW_TEMPLATES.push(
   {
     slug: "serraform",
     createdAt: "2026-11-13",
-    hasDownload: false,
+    hasDownload: true,
     title: "SERRAFORM",
     description: "Design Fold 16 in your browser: shape sixteen connected felt panels, mix custom colors with an interactive wheel, choose original prints or local artwork, and prepare a room brief.",
     category: "showcase" as TemplateCategory,
@@ -3193,7 +3193,7 @@ export const ELSEWHERE_PROMPT = "# Prompt: rebuild \"ELSEWHERE\" (a cabin landin
 RAW_TEMPLATES.push({
   slug: "elsewhere",
   createdAt: "2026-11-15",
-  hasDownload: false,
+  hasDownload: true,
   title: "ELSEWHERE",
   description: "One cabin past the last bar of signal. Scrolling walks the 1,900 m trail while the header loses signal, then the camera pushes through the glass door into the room.",
   category: "showcase",

@@ -107,5 +107,12 @@ export function adaptVerificationSource(source: string, filename: string): strin
       'test.skip("preserves session choices made before client hydration completes"'
     );
   }
+  if (name === "datum.spec.ts") {
+    // A downloaded file opens datum.html directly rather than redirecting /datum -> /templates/datum.
+    return source.replace(
+      "await expect(page).toHaveURL(/\\/templates\\/datum$/);",
+      "await expect(page).toHaveURL(/\\/datum\\.html(?:#top)?$/);"
+    );
+  }
   return source;
 }

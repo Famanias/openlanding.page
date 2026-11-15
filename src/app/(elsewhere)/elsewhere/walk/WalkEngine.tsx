@@ -168,7 +168,18 @@ export function WalkEngine() {
         last.page = page;
         root.style.setProperty("--ew-page", String(page));
       }
-      if (reduced) return;
+      if (reduced) {
+        if (last.hero !== -1) {
+          last.hero = -1;
+          hero?.removeAttribute("data-away");
+          approach?.style.removeProperty("--ew-hero");
+        }
+        if (last.trail !== -1) {
+          last.trail = -1;
+          walk?.style.removeProperty("--ew-trail");
+        }
+        return;
+      }
       const heroP = round(progress(y, heroBox.top, heroBox.top + heroBox.height), 4);
       if (heroP !== last.hero) {
         // the hero is pinned beneath the walk section: once fully covered it stops painting

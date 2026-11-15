@@ -74,6 +74,7 @@ function parseCliArgs() {
   let dryRun = false;
   let force = false;
   let noRegister = false;
+  let noExport = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -89,12 +90,14 @@ function parseCliArgs() {
       force = true;
     } else if (arg === "--no-register") {
       noRegister = true;
+    } else if (arg === "--no-export") {
+      noExport = true;
     } else if (!arg.startsWith("-") && !repoOrPath) {
       repoOrPath = arg;
     }
   }
 
-  return { repoOrPath, slug, title, category, dryRun, force, noRegister };
+  return { repoOrPath, slug, title, category, dryRun, force, noRegister, noExport };
 }
 
 function toPascalCase(str: string): string {
@@ -697,17 +700,30 @@ Build a complete, responsive, interaction-rich landing page for **${meta.brandNa
     console.log(`[import] Generated tests/e2e/${slug}.spec.ts`);
   }
 
-  // 7. Auto-generate copy bundle public/copy/<slug>.md
-  try {
-    console.log(`[import] Generating copy bundle public/copy/${slug}.md...`);
-    execSync("npx tsx scripts/generate-copy-bundles.ts", { cwd: repoRoot, stdio: "inherit" });
-  } catch (err) {
-    console.warn(`[import] Note: Failed to generate copy bundles automatically:`, err);
+  // 7. Auto-generate prompt file public/copy/<slug>-prompt.md
+  if (path.resolve(repoRoot) === path.resolve(__dirname, "..")) {
+    try {
+      console.log(`[import] Generating prompt file public/copy/${slug}-prompt.md...`);
+      execSync("npx tsx scripts/generate-copy-bundles.ts", { cwd: repoRoot, stdio: "inherit" });
+    } catch (err) {
+      console.warn(`[import] Note: Failed to generate prompt file automatically:`, err);
+    }
   }
 }
 
+export function enableTemplateDownload(slug: string, repoRoot: string): boolean {
+  const templatesDataPath = path.join(repoRoot, "src", "app", "(index)", "data", "templates.ts");
+  if (!fs.existsSync(templatesDataPath)) return false;
+  const content = fs.readFileSync(templatesDataPath, "utf8");
+  const entryPattern = new RegExp(`(slug:\\s*"${slug}",[\\s\\S]*?hasDownload:\\s*)false`);
+  const updated = content.replace(entryPattern, "$1true");
+  if (updated === content) return false;
+  fs.writeFileSync(templatesDataPath, updated, "utf8");
+  return true;
+}
+
 export function importTemplate() {
-  const { repoOrPath, slug: cliSlug, title: cliTitle, category, dryRun, force, noRegister } = parseCliArgs();
+  const { repoOrPath, slug: cliSlug, title: cliTitle, category, dryRun, force, noRegister, noExport } = parseCliArgs();
 
   if (!repoOrPath) {
     console.error("Usage: tsx scripts/import-aistudio-template.ts <repo-or-path> [--slug <slug>] [--title <title>] [--category <category>] [--dry-run] [--force]");
@@ -901,9 +917,22 @@ export function importTemplate() {
     }
   }
 
-  // 10. Automatic Gallery Registration
+  // 10. Automatic Gallery Registration & Standalone HTML Export
   if (!noRegister) {
     updateGalleryRegistrations(meta, slug, category, repoRoot);
+
+    if (!noExport) {
+      const downloadFile = path.join(repoRoot, "public", "downloads", `${slug}.html`);
+      try {
+        console.log(`[import] Building site and exporting standalone HTML to public/downloads/${slug}.html...`);
+        execSync("npm run build", { cwd: repoRoot, stdio: "inherit" });
+        if (fs.existsSync(downloadFile) && enableTemplateDownload(slug, repoRoot)) {
+          console.log(`[import] Enabled hasDownload: true for ${slug}.`);
+        }
+      } catch (err) {
+        console.warn(`[import] Note: Standalone HTML export skipped (build failed); fix any issues and run "npm run build" to generate public/downloads/${slug}.html:`, err);
+      }
+    }
   }
 
   console.log(`\n🎉 Successfully imported template "${meta.brandName}" into:`);

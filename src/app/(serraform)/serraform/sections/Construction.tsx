@@ -4,7 +4,6 @@ import React, { useId } from 'react';
 import { CreaseMarker } from '../brand/Logo';
 import { PALETTE } from '../fold/config';
 import { deriveFold } from '../fold/geometry';
-import { Reveal } from '../motion/Reveal';
 
 const TopDownDiagram: React.FC = () => {
   const pose = deriveFold(50);
@@ -24,6 +23,7 @@ const TopDownDiagram: React.FC = () => {
 
   return (
     <svg
+      data-plan=""
       viewBox={`0 0 ${w} ${h}`}
       className="w-full h-full block"
       role="img"
@@ -31,6 +31,7 @@ const TopDownDiagram: React.FC = () => {
     >
       <rect width={w} height={h} rx="6" fill="#3D1821" />
       <line
+        data-draw=""
         x1="40"
         y1={cy}
         x2={w - 40}
@@ -40,6 +41,7 @@ const TopDownDiagram: React.FC = () => {
         strokeDasharray="4 4"
       />
       <polygon
+        data-plan-poly=""
         points={polygonPoints}
         fill={PALETTE.clay}
         stroke={PALETTE.porcelain}
@@ -48,6 +50,7 @@ const TopDownDiagram: React.FC = () => {
       />
       {pose.hinges.map((pt, i) => (
         <circle
+          data-hinge=""
           key={i}
           cx={cx + pt.x * scale}
           cy={cy + pt.z * scale}
@@ -63,7 +66,7 @@ const TopDownDiagram: React.FC = () => {
         fontSize="11"
         fontFamily="var(--font-mono)"
       >
-        Plan view · 16 panels · 180 mm pitch
+        Plan view · 16 panels · <tspan data-plan-open="">50% open</tspan>
       </text>
     </svg>
   );
@@ -91,16 +94,17 @@ const MacroPleatDetail: React.FC = () => {
         </pattern>
       </defs>
       <rect width={w} height={h} rx="6" fill="#3D1821" />
-      <polygon points="70,40 200,28 200,220 70,220" fill="#7D362F" />
-      <polygon points="200,28 330,68 330,220 200,220" fill={PALETTE.clay} />
-      <polygon points="330,68 450,34 450,220 330,220" fill="#AF594F" />
+      <polygon data-face="" points="70,40 200,28 200,220 70,220" fill="#7D362F" />
+      <polygon data-face="" points="200,28 330,68 330,220 200,220" fill={PALETTE.clay} />
+      <polygon data-face="" points="330,68 450,34 450,220 330,220" fill="#AF594F" />
       <polygon
+        data-fade=""
         points="70,40 200,28 330,68 450,34 450,24 330,58 200,18 70,30"
         fill="#C97368"
       />
-      <rect width={w} height={h} fill={`url(#${weaveId})`} />
-      <line x1="200" y1="28" x2="200" y2="220" stroke={PALETTE.oxblood} strokeOpacity="0.45" strokeWidth="1.5" />
-      <line x1="330" y1="68" x2="330" y2="220" stroke={PALETTE.oxblood} strokeOpacity="0.35" strokeWidth="1.5" />
+      <rect data-fade="" width={w} height={h} fill={`url(#${weaveId})`} />
+      <line data-draw="" x1="200" y1="28" x2="200" y2="220" stroke={PALETTE.oxblood} strokeOpacity="0.45" strokeWidth="1.5" />
+      <line data-draw="" x1="330" y1="68" x2="330" y2="220" stroke={PALETTE.oxblood} strokeOpacity="0.35" strokeWidth="1.5" />
       <text
         x="24"
         y={h - 18}
@@ -127,6 +131,7 @@ const SupportSectionDiagram: React.FC = () => {
     >
       <rect width={w} height={h} rx="6" fill="#3D1821" />
       <line
+        data-draw=""
         x1="36"
         y1="168"
         x2={w - 36}
@@ -136,6 +141,7 @@ const SupportSectionDiagram: React.FC = () => {
         strokeWidth="1.2"
       />
       <rect
+        data-panel=""
         x="244"
         y="24"
         width="32"
@@ -146,6 +152,7 @@ const SupportSectionDiagram: React.FC = () => {
         strokeWidth="1"
       />
       <rect
+        data-base=""
         x="110"
         y="154"
         width="300"
@@ -156,10 +163,11 @@ const SupportSectionDiagram: React.FC = () => {
         stroke={PALETTE.porcelain}
         strokeWidth="1.4"
       />
-      <line x1="110" y1="184" x2="410" y2="184" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
-      <line x1="110" y1="178" x2="110" y2="190" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
-      <line x1="410" y1="178" x2="410" y2="190" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
+      <line data-draw="" x1="110" y1="184" x2="410" y2="184" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
+      <line data-draw="" x1="110" y1="178" x2="110" y2="190" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
+      <line data-draw="" x1="410" y1="178" x2="410" y2="190" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
       <text
+        data-fade=""
         x="260"
         y="202"
         textAnchor="middle"
@@ -174,32 +182,37 @@ const SupportSectionDiagram: React.FC = () => {
   );
 };
 
+const TEETH_PATH = `M0 0 H160 ${Array.from({ length: 16 }, (_, i) => `L${155 - i * 10} 10 L${150 - i * 10} 0`).join(' ')} Z`;
+
 const CONSTRUCTION_ROWS = [
   {
     index: '01',
     title: 'A continuous profile.',
     body: 'Sixteen connected panels make one continuous silhouette where patterns travel across every fold.',
     Diagram: TopDownDiagram,
+    diagram: 'plan',
   },
   {
     index: '02',
     title: 'A tactile surface.',
     body: 'A matte felt grain keeps custom colors and printed illustrations soft and sculptural.',
     Diagram: MacroPleatDetail,
+    diagram: 'pleat',
   },
   {
     index: '03',
     title: 'A grounded stance.',
     body: 'Slim floor supports sit beneath the first and last folds.',
     Diagram: SupportSectionDiagram,
+    diagram: 'support',
   },
 ] as const;
 
 const SPEC_ITEMS = [
-  { label: 'Height', value: '1,600 mm' },
-  { label: 'Panel pitch', value: '180 mm' },
-  { label: 'Developed length', value: '2,880 mm' },
-  { label: 'Model thickness', value: '12 mm' },
+  { label: 'Height', value: '1,600 mm', count: 1600 },
+  { label: 'Panel pitch', value: '180 mm', count: 180 },
+  { label: 'Developed length', value: '2,880 mm', count: 2880 },
+  { label: 'Model thickness', value: '12 mm', count: 12 },
 ] as const;
 
 export const Construction: React.FC = () => {
@@ -208,44 +221,59 @@ export const Construction: React.FC = () => {
       id="construction"
       className="srf-dark-surface relative bg-[var(--srf-oxblood)] text-[var(--srf-porcelain)] pt-20 pb-24 lg:pt-28 lg:pb-32 scroll-mt-20"
     >
+      {/* Pleated edge: the light page above gathers away as the dark room scrolls in */}
+      <svg
+        data-teeth=""
+        aria-hidden="true"
+        viewBox="0 0 160 10"
+        preserveAspectRatio="none"
+        className="srf-teeth"
+      >
+        <path d={TEETH_PATH} fill="var(--srf-rose)" />
+      </svg>
+
       <div className="srf-container">
         <div className="mb-14 max-w-[680px]">
-          <div className="mb-3 srf-mono-caption text-[var(--srf-rose)]/75">
+          <div data-m="scramble" className="mb-3 srf-mono-caption text-[var(--srf-rose)]/75">
             Construction
           </div>
-          <h2 className="srf-h2 text-[var(--srf-porcelain)] text-balance">
+          <h2 data-m="heading" className="srf-h2 text-[var(--srf-porcelain)] text-balance">
             The detail is in the fold.
           </h2>
         </div>
 
         <div className="divide-y divide-[var(--srf-hairline-dark)] border-t border-b border-[var(--srf-hairline-dark)]">
-          {CONSTRUCTION_ROWS.map((row, idx) => {
+          {CONSTRUCTION_ROWS.map((row) => {
             const Diagram = row.Diagram;
             return (
-              <Reveal
+              <div
                 key={row.index}
-                role="rise"
-                delayMs={idx * 60}
                 className="py-10 lg:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
               >
                 <div className="lg:col-span-5">
-                  <CreaseMarker
-                    index={row.index}
-                    className="text-[var(--srf-flax)] mb-3"
-                  />
-                  <h3 className="srf-h3 text-[var(--srf-porcelain)] mb-3">
+                  <div data-m="draw">
+                    <CreaseMarker
+                      index={row.index}
+                      className="text-[var(--srf-flax)] mb-3"
+                    />
+                  </div>
+                  <h3 data-m="heading" className="srf-h3 text-[var(--srf-porcelain)] mb-3">
                     {row.title}
                   </h3>
-                  <p className="text-[var(--srf-rose)]/85 max-w-[42ch]">
+                  <p data-m="lines" data-m-delay="180" className="text-[var(--srf-rose)]/85 max-w-[42ch]">
                     {row.body}
                   </p>
                 </div>
                 <div className="lg:col-span-7">
-                  <div className="aspect-[21/9] rounded-[8px] border border-[var(--srf-hairline-dark)] overflow-hidden">
+                  <div
+                    data-m="frame"
+                    data-diagram={row.diagram}
+                    className="aspect-[21/9] rounded-[8px] border border-[var(--srf-hairline-dark)] overflow-hidden"
+                  >
                     <Diagram />
                   </div>
                 </div>
-              </Reveal>
+              </div>
             );
           })}
         </div>
@@ -253,17 +281,23 @@ export const Construction: React.FC = () => {
         <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6 pb-8 border-b border-[var(--srf-hairline-dark)]">
           {SPEC_ITEMS.map((spec) => (
             <div key={spec.label}>
-              <div className="srf-mono-caption text-[var(--srf-rose)]/75 mb-1">
+              <span data-m="rule" className="srf-spec-rule" />
+              <div data-m="scramble" className="srf-mono-caption text-[var(--srf-rose)]/75 mb-1">
                 {spec.label}
               </div>
-              <div className="font-[family-name:var(--font-display)] text-2xl font-medium text-[var(--srf-porcelain)] tabular-nums">
+              <div
+                data-m="count"
+                data-count={spec.count}
+                data-suffix=" mm"
+                className="font-[family-name:var(--font-display)] text-2xl lg:text-4xl font-medium text-[var(--srf-porcelain)] tabular-nums"
+              >
                 {spec.value}
               </div>
             </div>
           ))}
         </div>
 
-        <p className="mt-5 srf-mono-caption text-[var(--srf-rose)]/75 max-w-[64ch]">
+        <p data-m="lines" className="mt-5 srf-mono-caption text-[var(--srf-rose)]/75 max-w-[64ch]">
           Outer span is calculated directly from opening across the constant 2,880 mm developed length. These are concept parameters.
         </p>
       </div>

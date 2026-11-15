@@ -7,6 +7,8 @@ import { useFold } from '../fold/FoldProvider';
 import { FoldStillCanvas } from '../fold/FoldStillCanvas';
 import { storyChapter, storyOpening, storyProgress } from '../fold/story';
 
+const RULER_TICKS = Array.from({ length: 16 }, (_, i) => i + 1);
+
 export const FoldingExperience: React.FC = () => {
   const { design, view, uploadedArt, env, pushStoryFrame } = useFold();
   const foldSectionRef = useRef<HTMLElement>(null);
@@ -58,18 +60,28 @@ export const FoldingExperience: React.FC = () => {
     >
       <div className="srf-container">
         <div className="mb-8 max-w-[660px]">
-          <div className="mb-2 srf-mono-caption text-[var(--srf-mauve)]">
+          <div data-m="scramble" className="mb-2 srf-mono-caption text-[var(--srf-mauve)]">
             The fold
           </div>
-          <h2 className="srf-h2 text-[var(--srf-oxblood)] text-balance">
+          <h2 data-m="heading" className="srf-h2 text-[var(--srf-oxblood)] text-balance">
             One continuous surface. Sixteen pleats.
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Pleat ruler: sixteen ticks, one per panel */}
+        <div data-m="unfold" data-m-fx="tick" aria-hidden="true" className="srf-ruler mb-8">
+          {RULER_TICKS.map((n) => (
+            <span key={n} data-m-item="" className="srf-ruler-tick">
+              <i>{String(n).padStart(2, '0')}</i>
+            </span>
+          ))}
+        </div>
+
+        <div data-trifold="" className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {STORY_CHAPTERS.map((item) => (
             <article
               key={item.index}
+              data-trifold-panel=""
               className="flex flex-col border-t border-[var(--srf-hairline)] pt-4"
             >
               <div className="aspect-[16/10] w-full rounded-[8px] border border-[var(--srf-hairline)] overflow-hidden mb-3.5 bg-[var(--srf-rose)]">

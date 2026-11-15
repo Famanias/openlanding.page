@@ -1,5 +1,27 @@
 import type { Metadata, Viewport } from "next";
+import { Anybody, Commissioner, Victor_Mono } from "next/font/google";
 import "./serraform/serraform.css";
+
+const display = Anybody({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  variable: "--font-anybody",
+  display: "swap",
+});
+
+const body = Commissioner({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-commissioner",
+  display: "swap",
+});
+
+const mono = Victor_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-victor-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "SERRAFORM — Fold 16",
@@ -26,12 +48,7 @@ export default function SerraformLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`scroll-smooth`}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Anybody:wght@500;600&family=Commissioner:wght@400;500;600&family=Victor+Mono:wght@400;500&display=swap" rel="stylesheet" precedence="default" />
-      </head>
+    <html lang="en" className={`scroll-smooth ${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="bg-[#0b0b0b] text-[#f4f0e8] antialiased">
         {children}
       </body>

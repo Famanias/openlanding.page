@@ -124,6 +124,17 @@ export const RoomScene2D5: React.FC<RoomScene2D5Props> = ({
     });
   }, [effectiveOpening, getLiveChainFrame, subscribeChainFrame]);
 
+  // Rest the ambient decor loops while the hero is scrolled out of view
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(([entry]) => {
+      el.dataset.roomIdle = entry.isIntersecting ? 'false' : 'true';
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const combinedBiasX = env.reducedMotion
     ? 0
     : Math.max(-1.25, Math.min(1.25, recipe.spatial.cameraBiasX + pointerOffset.x * 0.35));
