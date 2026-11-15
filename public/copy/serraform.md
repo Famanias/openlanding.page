@@ -655,41 +655,6 @@ details[open] .srf-faq-icon {
     }
   }
 
-  @keyframes srf-rise-in {
-    from {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes srf-mask-line {
-    from {
-      opacity: 0;
-      transform: translateY(104%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes srf-dock-unfurl {
-    from {
-      opacity: 0;
-      transform: translateY(18px);
-      clip-path: inset(100% 0 0 0 round 10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-      clip-path: inset(0 0 0 0 round 10px);
-    }
-  }
-
   @keyframes srf-draw-arc {
     from {
       stroke-dashoffset: 68;
@@ -703,30 +668,66 @@ details[open] .srf-faq-icon {
     animation: srf-studio-veil 420ms var(--ease-out) 0ms both;
   }
 
-  .srf-hero-line-1 {
-    animation: srf-mask-line var(--dur-slow) var(--ease-out-expo) 420ms both;
+  /* Entrance targets wait for the anime.js timeline. If scripting never arrives, the
+     failsafe reveals them so the hero is never left blank. */
+  @keyframes srf-hm-failsafe {
+    to {
+      opacity: 1;
+    }
   }
 
-  .srf-hero-line-2 {
-    animation: srf-mask-line var(--dur-slow) var(--ease-out-expo) 540ms both;
+  .srf-hero-section:is([data-hero-motion='pending'], [data-hero-motion='run']) :is(
+    [data-hm='eyebrow'],
+    [data-hm='rule'],
+    [data-hm='word'],
+    [data-hm='lead'],
+    [data-hm='cta'],
+    [data-hm='dock'],
+    [data-hm='chip']
+  ) {
+    opacity: 0;
   }
 
-  .srf-hero-lead {
-    animation: srf-rise-in var(--dur-base) var(--ease-out) 700ms both;
-  }
-
-  .srf-hero-actions {
-    animation: srf-rise-in var(--dur-base) cubic-bezier(0.22, 1.18, 0.36, 1) 820ms both;
-  }
-
-  .srf-hero-dock {
-    animation: srf-dock-unfurl 560ms var(--ease-out-expo) 1050ms both;
+  .srf-hero-section[data-hero-motion='pending'] [data-hm] {
+    animation: srf-hm-failsafe 1ms linear 3400ms forwards;
   }
 
   .srf-drag-arc path {
     stroke-dasharray: 68;
     animation: srf-draw-arc 780ms var(--ease-out-expo) 1300ms both;
   }
+}
+
+/* Hero motion hooks (driven by motion/useHeroMotion.ts) */
+/* Per-word mask: clip-path keeps the baseline intact and leaves room for descenders */
+.srf-hm-mask {
+  display: inline-block;
+  clip-path: inset(-0.12em -0.08em -0.2em -0.08em);
+}
+
+.srf-hm-word {
+  display: inline-block;
+  transform-origin: 0% 100%;
+  will-change: transform;
+}
+
+.srf-hm-rule {
+  display: block;
+  width: 44px;
+  height: 1px;
+  background: var(--room-ui-accent);
+  transform-origin: 0% 50%;
+}
+
+.srf-hero-section [data-hm='chip'] {
+  position: relative;
+}
+
+.srf-hm-ripple {
+  position: absolute;
+  inset: -2px;
+  border: 1.5px solid var(--room-ui-outline);
+  pointer-events: none;
 }
 
 /* Reveal classes (only prepared when observer active) */
@@ -6440,6 +6441,7 @@ export function computePanelUVSpan(
 
 import React, { useEffect, useRef, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
+import { animate } from 'animejs';
 import { renderTextileToCanvas } from './artwork';
 import {
   evaluatePrintContrast,
@@ -6614,17 +6616,38 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
   const printColorActive = usesActivePrintColor(design);
   const contrast = evaluatePrintContrast(design.baseHex, design.designHex);
 
+  const showContrastWarning = printColorActive && contrast.isLowContrast;
+  const warningRef = useRef<HTMLDivElement>(null);
+
+  // The low-contrast hint unfolds into the dock instead of popping in
+  useEffect(() => {
+    const el = warningRef.current;
+    if (!showContrastWarning || !el) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const reveal = animate(el, {
+      opacity: [0, 1],
+      y: [-8, 0],
+      duration: 420,
+      ease: 'outExpo',
+      onComplete: (self) => self.revert(),
+    });
+    return () => {
+      reveal.revert();
+    };
+  }, [showContrastWarning]);
+
   const roundedOpening = Math.round(effectiveOpening);
   const formattedSpan = formatMeters(effectivePose.metrics.outerSpan);
 
   return (
     <div
       data-testid="hero-studio-dock"
+      data-hm="dock"
       className="srf-hero-dock rounded-[10px] border border-[var(--srf-hairline-strong)] bg-[#FAF2EE]/95 shadow-[0_14px_38px_-16px_rgba(75,32,42,0.16)] px-3.5 py-3 sm:px-5 sm:py-3.5"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(150px,1fr)_minmax(195px,1.2fr)_minmax(240px,1.4fr)_minmax(205px,1.2fr)_auto] gap-y-3 gap-x-3.5 items-center">
         {/* 1. Shape */}
-        <div className="min-w-0">
+        <div data-hm="dock-group" className="min-w-0">
           <div className="flex items-baseline justify-between gap-2 mb-0.5">
             <label
               htmlFor="srf-hero-shape-range"
@@ -6664,7 +6687,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
         </div>
 
         {/* 2. Base color */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
+        <div data-hm="dock-group" className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
           <div className="flex items-baseline justify-between gap-2 mb-1.5">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Base color
@@ -6678,6 +6701,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 <button
                   key={preset.id}
                   type="button"
+                  data-hm="chip"
                   aria-label={`Base color ${preset.name} (${preset.hex})`}
                   aria-pressed={active}
                   title={`Base ${preset.name} · ${preset.hex}`}
@@ -6698,6 +6722,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             })}
 
             <label
+              data-hm="chip"
               title={`Custom base color · ${design.baseHex}`}
               className="relative w-6 h-6 shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/55 p-[2px] cursor-pointer hover:scale-105 transition-transform flex items-center justify-center"
             >
@@ -6724,7 +6749,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
         </div>
 
         {/* 3. Print */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
+        <div data-hm="dock-group" className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5">
           <div className="flex items-baseline justify-between gap-2 mb-1.5">
             <span className="srf-mono-caption uppercase tracking-[0.06em] text-[var(--srf-oxblood)] font-medium">
               Print
@@ -6739,6 +6764,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 <button
                   key={id}
                   type="button"
+                  data-hm="chip"
                   aria-pressed={active}
                   aria-label={`Print ${spec.name}`}
                   title={spec.name}
@@ -6767,6 +6793,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             {uploadedArt && (
               <button
                 type="button"
+                data-hm="chip"
                 aria-pressed={design.print === 'upload'}
                 aria-label={`Print Your image (${uploadedArt.filename})`}
                 onClick={() => {
@@ -6804,6 +6831,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
 
         {/* 4. Print color */}
         <div
+          data-hm="dock-group"
           className={`min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 transition-opacity ${
             printColorActive ? '' : 'opacity-55'
           }`}
@@ -6840,6 +6868,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
                 <button
                   key={preset.id}
                   type="button"
+                  data-hm="chip"
                   disabled={!printColorActive}
                   aria-label={`Print color ${preset.name} (${preset.hex})`}
                   aria-pressed={printColorActive && active}
@@ -6861,6 +6890,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
             })}
 
             <label
+              data-hm="chip"
               title={`Custom print color · ${design.designHex}`}
               className={`relative w-6 h-6 shrink-0 rounded-full border border-dashed border-[var(--srf-oxblood)]/55 p-[2px] flex items-center justify-center ${
                 printColorActive ? 'cursor-pointer hover:scale-105 transition-transform' : 'cursor-not-allowed'
@@ -6890,7 +6920,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
         </div>
 
         {/* 5. Reset */}
-        <div className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex items-center justify-end">
+        <div data-hm="dock-group" className="min-w-0 xl:border-l xl:border-[var(--srf-hairline)] xl:pl-3.5 flex items-center justify-end">
           <button
             type="button"
             disabled={!isCustomized}
@@ -6900,6 +6930,7 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
               setAnnouncement('Divider design and shape reset to defaults.');
             }}
             aria-label="Reset design and shape defaults"
+            data-hm-reset=""
             className="srf-mono-caption inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] border border-[var(--srf-hairline-strong)] bg-[var(--srf-porcelain)]/75 hover:border-[var(--srf-oxblood)] text-xs font-medium text-[var(--srf-oxblood)] transition-colors min-h-[36px] disabled:opacity-35 disabled:cursor-not-allowed"
           >
             <RotateCcw className="w-3 h-3 shrink-0" aria-hidden="true" />
@@ -6908,8 +6939,9 @@ export const HeroStudioDock: React.FC<HeroStudioDockProps> = ({
         </div>
       </div>
 
-      {printColorActive && contrast.isLowContrast && (
+      {showContrastWarning && (
         <div
+          ref={warningRef}
           role="status"
           data-testid="hero-contrast-warning"
           className="mt-2.5 pt-2 border-t border-[var(--srf-hairline)] flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--srf-oxblood)]"
@@ -9800,6 +9832,311 @@ export const Reveal: React.FC<RevealProps> = ({
 };
 ]]>
     </file>
+    <file path="src/app/(serraform)/serraform/motion/useHeroMotion.ts">
+<![CDATA['use client';
+
+import { useEffect, useLayoutEffect, useRef, type RefObject } from 'react';
+import { animate, createAnimatable, createScope, createTimeline, stagger } from 'animejs';
+
+/**
+ * Hero motion system (anime.js).
+ *
+ * Markup hooks, all inside the hero section:
+ *   data-hm="eyebrow" | "rule" | "word" | "lead" | "cta" | "dock" | "dock-group" | "chip"
+ *   data-hm-mood  (room name label, re-animated when the room changes)
+ *   data-hm-play  (play glyph, pulses while the fold demo runs)
+ *   data-hm-reset (reset button)
+ *
+ * The section ships with data-hero-motion="pending"; CSS keeps the entrance targets hidden
+ * in that state (motion-safe only, with a timed failsafe) so nothing flashes before hydration.
+ */
+
+interface HeroMotionOptions {
+  roomCode: string;
+  demoActive: boolean;
+}
+
+const MAGNET_PULL = 0.16;
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+}
+
+function hasFinePointer(): boolean {
+  return (
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  );
+}
+
+/** CSS transitions on a target smear a per-frame JS tween, so rest them while it runs. */
+function holdTransitions(els: Iterable<HTMLElement>): () => void {
+  const list = [...els];
+  for (const el of list) el.style.transition = 'none';
+  return () => {
+    for (const el of list) el.style.removeProperty('transition');
+  };
+}
+
+function spawnRipple(host: HTMLElement) {
+  const ring = document.createElement('span');
+  ring.setAttribute('aria-hidden', 'true');
+  ring.className = 'srf-hm-ripple';
+  ring.style.borderRadius = getComputedStyle(host).borderRadius;
+  host.appendChild(ring);
+  animate(ring, {
+    scale: [1, 1.9],
+    opacity: [0.55, 0],
+    duration: 620,
+    ease: 'outExpo',
+    onComplete: () => ring.remove(),
+  });
+}
+
+export function useHeroMotion(
+  sectionRef: RefObject<HTMLElement | null>,
+  { roomCode, demoActive }: HeroMotionOptions,
+) {
+  const motionOnRef = useRef(false);
+  const firstRoomRef = useRef(true);
+
+  // Entrance choreography + pointer feedback
+  useLayoutEffect(() => {
+    const root = sectionRef.current;
+    if (!root) return;
+
+    if (prefersReducedMotion()) {
+      root.dataset.heroMotion = 'done';
+      return;
+    }
+    motionOnRef.current = true;
+
+    const q = (sel: string) => Array.from(root.querySelectorAll<HTMLElement>(sel));
+    const listeners: Array<() => void> = [];
+    const listen = <K extends keyof HTMLElementEventMap>(
+      el: HTMLElement,
+      type: K,
+      handler: (e: HTMLElementEventMap[K]) => void,
+    ) => {
+      el.addEventListener(type, handler as EventListener);
+      listeners.push(() => el.removeEventListener(type, handler as EventListener));
+    };
+
+    const scope = createScope({ root }).add(() => {
+      /* ---------- Entrance ---------- */
+      const pending = root.dataset.heroMotion === 'pending';
+      const probe = root.querySelector('[data-hm="word"]');
+      const failsafeFired = pending && probe !== null && getComputedStyle(probe).opacity !== '0';
+      if (failsafeFired) {
+        // Hydrated after the CSS failsafe already revealed everything: skip the entrance.
+        root.dataset.heroMotion = 'done';
+      } else if (pending) {
+        root.dataset.heroMotion = 'run';
+        const chips = q('[data-hm="chip"]');
+        const release = holdTransitions(chips);
+        const tl = createTimeline({
+          defaults: { ease: 'outExpo' },
+          onComplete: () => {
+            root.dataset.heroMotion = 'done';
+            requestAnimationFrame(() => {
+              tl.revert();
+              release();
+            });
+          },
+        });
+
+        tl.add('[data-hm="eyebrow"]', { opacity: [0, 1], x: [-14, 0], duration: 620 }, 180)
+          .add(
+            '[data-hm="rule"]',
+            { opacity: [0, 1], scaleX: [0, 1], duration: 760, ease: 'inOutQuart' },
+            260,
+          )
+          .add(
+            '[data-hm="word"]',
+            {
+              opacity: [0, 1],
+              y: ['112%', '0%'],
+              rotate: [5, 0],
+              duration: 980,
+              delay: stagger(75),
+            },
+            340,
+          )
+          .add('[data-hm="lead"]', { opacity: [0, 1], y: [18, 0], duration: 720 }, 800)
+          .add(
+            '[data-hm="cta"]',
+            {
+              opacity: [0, 1],
+              y: [16, 0],
+              scale: [0.94, 1],
+              duration: 820,
+              ease: 'outBack(1.4)',
+              delay: stagger(90),
+            },
+            920,
+          )
+          .add(
+            '[data-hm="dock"]',
+            { opacity: [0, 1], y: [26, 0], scale: [0.985, 1], duration: 860 },
+            1040,
+          )
+          .add('[data-hm="dock-group"]', { y: [12, 0], duration: 640, delay: stagger(70) }, 1100)
+          .add(
+            '[data-hm="chip"]',
+            {
+              opacity: [0, 1],
+              scale: [0.55, 1],
+              duration: 520,
+              ease: 'outBack(1.8)',
+              delay: stagger(24),
+            },
+            1260,
+          );
+      }
+
+      /* ---------- Control feedback (delegated) ---------- */
+      const dock = root.querySelector<HTMLElement>('[data-hm="dock"]');
+      if (dock) {
+        listen(dock, 'click', (e) => {
+          const target = e.target as HTMLElement;
+
+          const chip = target.closest<HTMLElement>('[data-hm="chip"]');
+          if (chip && dock.contains(chip)) {
+            const release = holdTransitions([chip]);
+            spawnRipple(chip);
+            animate(chip, {
+              scale: [
+                { to: 0.84, duration: 90, ease: 'out(2)' },
+                { to: 1, duration: 620, ease: 'outElastic(1, 0.55)' },
+              ],
+              onComplete: (self) => {
+                self.revert();
+                release();
+              },
+            });
+            return;
+          }
+
+          const reset = target.closest<HTMLElement>('[data-hm-reset]');
+          if (reset && dock.contains(reset)) {
+            const icon = reset.querySelector('svg');
+            if (icon) {
+              animate(icon, {
+                rotate: [0, -360],
+                duration: 760,
+                ease: 'outExpo',
+                onComplete: (self) => self.revert(),
+              });
+            }
+            const chips = q('[data-hm="chip"]');
+            const release = holdTransitions(chips);
+            animate(chips, {
+              scale: [
+                { to: 0.86, duration: 110, ease: 'out(2)' },
+                { to: 1, duration: 460, ease: 'outBack(2)' },
+              ],
+              delay: stagger(16),
+              onComplete: (self) => {
+                self.revert();
+                release();
+              },
+            });
+          }
+        });
+      }
+
+      /* ---------- Magnetic call-to-action pull (mouse only) ---------- */
+      if (hasFinePointer()) {
+        for (const cta of q('[data-hm="cta"]')) {
+          // Created on first use so it never competes with the entrance tween on the same node.
+          let pull: ReturnType<typeof createAnimatable> | null = null;
+          listen(cta, 'pointermove', (e) => {
+            if (e.pointerType !== 'mouse' || root.dataset.heroMotion !== 'done') return;
+            pull ??= createAnimatable(cta, { x: 420, y: 420, ease: 'out(4)' });
+            const rect = cta.getBoundingClientRect();
+            const dx = e.clientX - (rect.left + rect.width / 2);
+            const dy = e.clientY - (rect.top + rect.height / 2);
+            pull.x(Math.max(-7, Math.min(7, dx * MAGNET_PULL)));
+            pull.y(Math.max(-5, Math.min(5, dy * MAGNET_PULL)));
+          });
+          listen(cta, 'pointerleave', () => {
+            pull?.x(0);
+            pull?.y(0);
+          });
+        }
+      }
+    });
+
+    return () => {
+      for (const off of listeners) off();
+      scope.revert();
+      if (root.dataset.heroMotion === 'run') root.dataset.heroMotion = 'pending';
+      motionOnRef.current = false;
+    };
+  }, [sectionRef]);
+
+  // Room change: the mood label rolls over and the accent rule redraws
+  useEffect(() => {
+    if (firstRoomRef.current) {
+      firstRoomRef.current = false;
+      return;
+    }
+    const root = sectionRef.current;
+    if (!root || !motionOnRef.current || root.dataset.heroMotion !== 'done') return;
+
+    const mood = root.querySelector<HTMLElement>('[data-hm-mood]');
+    const rule = root.querySelector<HTMLElement>('[data-hm="rule"]');
+    const running: Array<ReturnType<typeof animate>> = [];
+    if (mood) {
+      running.push(
+        animate(mood, {
+          opacity: [0, 1],
+          y: ['90%', '0%'],
+          duration: 640,
+          ease: 'outExpo',
+          onComplete: (self) => self.revert(),
+        }),
+      );
+    }
+    if (rule) {
+      running.push(
+        animate(rule, {
+          scaleX: [0, 1],
+          duration: 820,
+          ease: 'inOutQuart',
+          onComplete: (self) => self.revert(),
+        }),
+      );
+    }
+    return () => {
+      for (const anim of running) anim.revert();
+    };
+  }, [roomCode, sectionRef]);
+
+  // Fold demo: the play glyph breathes while the divider is unfolding
+  useEffect(() => {
+    const root = sectionRef.current;
+    if (!root || !demoActive || !motionOnRef.current) return;
+    const glyphs = root.querySelectorAll('[data-hm-play]');
+    if (!glyphs.length) return;
+    const pulse = animate(glyphs, {
+      scale: [1, 1.28],
+      opacity: [1, 0.6],
+      duration: 520,
+      ease: 'inOutSine',
+      alternate: true,
+      loop: true,
+    });
+    return () => {
+      pulse.revert();
+    };
+  }, [demoActive, sectionRef]);
+}
+]]>
+    </file>
     <file path="src/app/(serraform)/serraform/motion/useReducedMotion.ts">
 <![CDATA[import { useEffect, useState } from 'react';
 
@@ -10492,6 +10829,7 @@ import { RoomScene2D5 } from '../fold/room/RoomScene2D5';
 import { deriveRoomScene } from '../fold/room/deriveRoomScene';
 import { useHarmonizedRoomVars } from '../fold/room/paletteCssVars';
 import type { RoomLightingState } from '../fold/FoldScene';
+import { useHeroMotion } from '../motion/useHeroMotion';
 
 export const Hero: React.FC = () => {
   const { demoActive, design, view, effectiveOpening, uploadedArt, env, replayFoldSequence } =
@@ -10517,6 +10855,7 @@ export const Hero: React.FC = () => {
   const isDarkRoom = roomRecipe.palette.isDarkEnvelope;
 
   useHarmonizedRoomVars(sectionRef, roomRecipe.palette, env.reducedMotion);
+  useHeroMotion(sectionRef, { roomCode: roomRecipe.code, demoActive });
 
   const roomLighting = useMemo<RoomLightingState>(
     () => ({
@@ -10571,6 +10910,7 @@ export const Hero: React.FC = () => {
       ref={sectionRef}
       id="top"
       data-testid="hero-section"
+      data-hero-motion="pending"
       data-dark-envelope={isDarkRoom ? 'true' : 'false'}
       onPointerMove={handleSectionPointerMove}
       onPointerLeave={handleSectionPointerLeave}
@@ -10591,7 +10931,7 @@ export const Hero: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center flex-1 my-auto">
           {/* Top/Left: Editorial Headline, Copy, Primary & Secondary CTAs */}
           <div className="lg:col-span-4 min-w-0 flex flex-col justify-center pointer-events-auto">
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-2">
+            <div data-hm="eyebrow" className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-2">
               <p
                 className="srf-mono-caption tracking-[0.06em]"
                 style={{ color: 'var(--room-text-secondary)' }}
@@ -10607,27 +10947,38 @@ export const Hero: React.FC = () => {
               </span>
               <p
                 data-testid="hero-room-mood"
-                className="srf-mono-caption uppercase tracking-[0.05em] font-medium"
+                className="srf-mono-caption uppercase tracking-[0.05em] font-medium overflow-hidden"
                 style={{ color: 'var(--room-text-primary)' }}
               >
-                {roomRecipe.code} / {roomRecipe.name}
+                <span data-hm-mood className="block">
+                  {roomRecipe.code} / {roomRecipe.name}
+                </span>
               </p>
             </div>
+            <span data-hm="rule" aria-hidden="true" className="srf-hm-rule mb-3" />
 
             <h1
               className="srf-h1-studio mb-3.5 text-balance"
               style={{ color: 'var(--room-text-primary)' }}
             >
               <span className="block overflow-hidden">
-                <span className="block srf-hero-line-1">Make room</span>
+                <span className="block">
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">Make</span></span>{' '}
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">room</span></span>
+                </span>
               </span>
               <span className="block overflow-hidden">
-                <span className="block srf-hero-line-2">for your imagination.</span>
+                <span className="block">
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">for</span></span>{' '}
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">your</span></span>{' '}
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">imagination.</span></span>
+                </span>
               </span>
             </h1>
 
             <p
-              className="srf-hero-lead text-[15px] leading-6 sm:text-[17px] sm:leading-[26px] max-w-[40ch] mb-4"
+              data-hm="lead"
+              className="text-[15px] leading-6 sm:text-[17px] sm:leading-[26px] max-w-[40ch] mb-4"
               style={{ color: 'var(--room-text-secondary)' }}
             >
               Shape the fold, choose your colors, and make a divider that feels
@@ -10636,29 +10987,33 @@ export const Hero: React.FC = () => {
 
 
             {/* Primary CTA + Secondary mechanical fold demo CTA */}
-            <div className="srf-hero-actions hidden lg:flex flex-wrap items-center gap-3 mb-4">
-              <button
-                type="button"
-                onClick={handleDesignInHero}
-                className="srf-btn-primary"
-              >
-                <span>Design your divider</span>
-                <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
-              </button>
+            <div className="hidden lg:flex flex-wrap items-center gap-3 mb-4">
+              <span data-hm="cta" className="inline-flex">
+                <button
+                  type="button"
+                  onClick={handleDesignInHero}
+                  className="srf-btn-primary"
+                >
+                  <span>Design your divider</span>
+                  <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
+                </button>
+              </span>
 
-              <button
-                type="button"
-                aria-pressed={demoActive}
-                onClick={handleSeeHowItFolds}
-                className={`srf-btn-secondary !min-h-[48px] ${
-                  isDarkRoom
-                    ? '!text-[#F8F2EE] !border-[#F8F2EE]/35 hover:!border-[#F8F2EE] hover:!bg-white/10'
-                    : ''
-                }`}
-              >
-                <Play className="w-3.5 h-3.5 fill-current shrink-0" aria-hidden="true" />
-                <span>{demoActive ? 'Unfolding divider…' : 'See how it folds'}</span>
-              </button>
+              <span data-hm="cta" className="inline-flex">
+                <button
+                  type="button"
+                  aria-pressed={demoActive}
+                  onClick={handleSeeHowItFolds}
+                  className={`srf-btn-secondary !min-h-[48px] ${
+                    isDarkRoom
+                      ? '!text-[#F8F2EE] !border-[#F8F2EE]/35 hover:!border-[#F8F2EE] hover:!bg-white/10'
+                      : ''
+                  }`}
+                >
+                  <Play data-hm-play className="w-3.5 h-3.5 fill-current shrink-0" aria-hidden="true" />
+                  <span>{demoActive ? 'Unfolding divider…' : 'See how it folds'}</span>
+                </button>
+              </span>
             </div>
 
           </div>
@@ -10681,28 +11036,32 @@ export const Hero: React.FC = () => {
 
           {/* Mobile/Tablet CTA row placed directly beneath the dedicated model stage */}
           <div className="lg:hidden flex flex-wrap items-center gap-2.5 pt-1 pointer-events-auto">
-            <button
-              type="button"
-              onClick={handleDesignInHero}
-              className="srf-btn-primary flex-1 sm:flex-initial"
-            >
-              <span>Design your divider</span>
-              <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
-            </button>
+            <span data-hm="cta" className="flex flex-1 sm:flex-initial">
+              <button
+                type="button"
+                onClick={handleDesignInHero}
+                className="srf-btn-primary w-full"
+              >
+                <span>Design your divider</span>
+                <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
+              </button>
+            </span>
 
-            <button
-              type="button"
-              aria-pressed={demoActive}
-              onClick={handleSeeHowItFolds}
-              className={`srf-btn-secondary !min-h-[48px] ${
-                isDarkRoom
-                  ? '!text-[#F8F2EE] !border-[#F8F2EE]/35 hover:!border-[#F8F2EE] hover:!bg-white/10'
-                  : ''
-              }`}
-            >
-              <Play className="w-3.5 h-3.5 fill-current shrink-0" aria-hidden="true" />
-              <span>{demoActive ? 'Unfolding…' : 'See how it folds'}</span>
-            </button>
+            <span data-hm="cta" className="inline-flex">
+              <button
+                type="button"
+                aria-pressed={demoActive}
+                onClick={handleSeeHowItFolds}
+                className={`srf-btn-secondary !min-h-[48px] ${
+                  isDarkRoom
+                    ? '!text-[#F8F2EE] !border-[#F8F2EE]/35 hover:!border-[#F8F2EE] hover:!bg-white/10'
+                    : ''
+                }`}
+              >
+                <Play data-hm-play className="w-3.5 h-3.5 fill-current shrink-0" aria-hidden="true" />
+                <span>{demoActive ? 'Unfolding…' : 'See how it folds'}</span>
+              </button>
+            </span>
           </div>
         </div>
 

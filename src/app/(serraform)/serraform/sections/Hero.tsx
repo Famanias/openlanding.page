@@ -9,6 +9,7 @@ import { RoomScene2D5 } from '../fold/room/RoomScene2D5';
 import { deriveRoomScene } from '../fold/room/deriveRoomScene';
 import { useHarmonizedRoomVars } from '../fold/room/paletteCssVars';
 import type { RoomLightingState } from '../fold/FoldScene';
+import { useHeroMotion } from '../motion/useHeroMotion';
 
 export const Hero: React.FC = () => {
   const { demoActive, design, view, effectiveOpening, uploadedArt, env, replayFoldSequence } =
@@ -34,6 +35,7 @@ export const Hero: React.FC = () => {
   const isDarkRoom = roomRecipe.palette.isDarkEnvelope;
 
   useHarmonizedRoomVars(sectionRef, roomRecipe.palette, env.reducedMotion);
+  useHeroMotion(sectionRef, { roomCode: roomRecipe.code, demoActive });
 
   const roomLighting = useMemo<RoomLightingState>(
     () => ({
@@ -88,6 +90,7 @@ export const Hero: React.FC = () => {
       ref={sectionRef}
       id="top"
       data-testid="hero-section"
+      data-hero-motion="pending"
       data-dark-envelope={isDarkRoom ? 'true' : 'false'}
       onPointerMove={handleSectionPointerMove}
       onPointerLeave={handleSectionPointerLeave}
@@ -108,7 +111,7 @@ export const Hero: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center flex-1 my-auto">
           {/* Top/Left: Editorial Headline, Copy, Primary & Secondary CTAs */}
           <div className="lg:col-span-4 min-w-0 flex flex-col justify-center pointer-events-auto">
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-2">
+            <div data-hm="eyebrow" className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-2">
               <p
                 className="srf-mono-caption tracking-[0.06em]"
                 style={{ color: 'var(--room-text-secondary)' }}
@@ -124,27 +127,38 @@ export const Hero: React.FC = () => {
               </span>
               <p
                 data-testid="hero-room-mood"
-                className="srf-mono-caption uppercase tracking-[0.05em] font-medium"
+                className="srf-mono-caption uppercase tracking-[0.05em] font-medium overflow-hidden"
                 style={{ color: 'var(--room-text-primary)' }}
               >
-                {roomRecipe.code} / {roomRecipe.name}
+                <span data-hm-mood className="block">
+                  {roomRecipe.code} / {roomRecipe.name}
+                </span>
               </p>
             </div>
+            <span data-hm="rule" aria-hidden="true" className="srf-hm-rule mb-3" />
 
             <h1
               className="srf-h1-studio mb-3.5 text-balance"
               style={{ color: 'var(--room-text-primary)' }}
             >
               <span className="block overflow-hidden">
-                <span className="block srf-hero-line-1">Make room</span>
+                <span className="block">
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">Make</span></span>{' '}
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">room</span></span>
+                </span>
               </span>
               <span className="block overflow-hidden">
-                <span className="block srf-hero-line-2">for your imagination.</span>
+                <span className="block">
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">for</span></span>{' '}
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">your</span></span>{' '}
+                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">imagination.</span></span>
+                </span>
               </span>
             </h1>
 
             <p
-              className="srf-hero-lead text-[15px] leading-6 sm:text-[17px] sm:leading-[26px] max-w-[40ch] mb-4"
+              data-hm="lead"
+              className="text-[15px] leading-6 sm:text-[17px] sm:leading-[26px] max-w-[40ch] mb-4"
               style={{ color: 'var(--room-text-secondary)' }}
             >
               Shape the fold, choose your colors, and make a divider that feels
@@ -153,29 +167,33 @@ export const Hero: React.FC = () => {
 
 
             {/* Primary CTA + Secondary mechanical fold demo CTA */}
-            <div className="srf-hero-actions hidden lg:flex flex-wrap items-center gap-3 mb-4">
-              <button
-                type="button"
-                onClick={handleDesignInHero}
-                className="srf-btn-primary"
-              >
-                <span>Design your divider</span>
-                <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
-              </button>
+            <div className="hidden lg:flex flex-wrap items-center gap-3 mb-4">
+              <span data-hm="cta" className="inline-flex">
+                <button
+                  type="button"
+                  onClick={handleDesignInHero}
+                  className="srf-btn-primary"
+                >
+                  <span>Design your divider</span>
+                  <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
+                </button>
+              </span>
 
-              <button
-                type="button"
-                aria-pressed={demoActive}
-                onClick={handleSeeHowItFolds}
-                className={`srf-btn-secondary !min-h-[48px] ${
-                  isDarkRoom
-                    ? '!text-[#F8F2EE] !border-[#F8F2EE]/35 hover:!border-[#F8F2EE] hover:!bg-white/10'
-                    : ''
-                }`}
-              >
-                <Play className="w-3.5 h-3.5 fill-current shrink-0" aria-hidden="true" />
-                <span>{demoActive ? 'Unfolding divider…' : 'See how it folds'}</span>
-              </button>
+              <span data-hm="cta" className="inline-flex">
+                <button
+                  type="button"
+                  aria-pressed={demoActive}
+                  onClick={handleSeeHowItFolds}
+                  className={`srf-btn-secondary !min-h-[48px] ${
+                    isDarkRoom
+                      ? '!text-[#F8F2EE] !border-[#F8F2EE]/35 hover:!border-[#F8F2EE] hover:!bg-white/10'
+                      : ''
+                  }`}
+                >
+                  <Play data-hm-play className="w-3.5 h-3.5 fill-current shrink-0" aria-hidden="true" />
+                  <span>{demoActive ? 'Unfolding divider…' : 'See how it folds'}</span>
+                </button>
+              </span>
             </div>
 
           </div>
@@ -198,28 +216,32 @@ export const Hero: React.FC = () => {
 
           {/* Mobile/Tablet CTA row placed directly beneath the dedicated model stage */}
           <div className="lg:hidden flex flex-wrap items-center gap-2.5 pt-1 pointer-events-auto">
-            <button
-              type="button"
-              onClick={handleDesignInHero}
-              className="srf-btn-primary flex-1 sm:flex-initial"
-            >
-              <span>Design your divider</span>
-              <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
-            </button>
+            <span data-hm="cta" className="flex flex-1 sm:flex-initial">
+              <button
+                type="button"
+                onClick={handleDesignInHero}
+                className="srf-btn-primary w-full"
+              >
+                <span>Design your divider</span>
+                <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
+              </button>
+            </span>
 
-            <button
-              type="button"
-              aria-pressed={demoActive}
-              onClick={handleSeeHowItFolds}
-              className={`srf-btn-secondary !min-h-[48px] ${
-                isDarkRoom
-                  ? '!text-[#F8F2EE] !border-[#F8F2EE]/35 hover:!border-[#F8F2EE] hover:!bg-white/10'
-                  : ''
-              }`}
-            >
-              <Play className="w-3.5 h-3.5 fill-current shrink-0" aria-hidden="true" />
-              <span>{demoActive ? 'Unfolding…' : 'See how it folds'}</span>
-            </button>
+            <span data-hm="cta" className="inline-flex">
+              <button
+                type="button"
+                aria-pressed={demoActive}
+                onClick={handleSeeHowItFolds}
+                className={`srf-btn-secondary !min-h-[48px] ${
+                  isDarkRoom
+                    ? '!text-[#F8F2EE] !border-[#F8F2EE]/35 hover:!border-[#F8F2EE] hover:!bg-white/10'
+                    : ''
+                }`}
+              >
+                <Play data-hm-play className="w-3.5 h-3.5 fill-current shrink-0" aria-hidden="true" />
+                <span>{demoActive ? 'Unfolding…' : 'See how it folds'}</span>
+              </button>
+            </span>
           </div>
         </div>
 

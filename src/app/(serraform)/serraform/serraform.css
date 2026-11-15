@@ -483,41 +483,6 @@ details[open] .srf-faq-icon {
     }
   }
 
-  @keyframes srf-rise-in {
-    from {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes srf-mask-line {
-    from {
-      opacity: 0;
-      transform: translateY(104%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes srf-dock-unfurl {
-    from {
-      opacity: 0;
-      transform: translateY(18px);
-      clip-path: inset(100% 0 0 0 round 10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-      clip-path: inset(0 0 0 0 round 10px);
-    }
-  }
-
   @keyframes srf-draw-arc {
     from {
       stroke-dashoffset: 68;
@@ -531,30 +496,66 @@ details[open] .srf-faq-icon {
     animation: srf-studio-veil 420ms var(--ease-out) 0ms both;
   }
 
-  .srf-hero-line-1 {
-    animation: srf-mask-line var(--dur-slow) var(--ease-out-expo) 420ms both;
+  /* Entrance targets wait for the anime.js timeline. If scripting never arrives, the
+     failsafe reveals them so the hero is never left blank. */
+  @keyframes srf-hm-failsafe {
+    to {
+      opacity: 1;
+    }
   }
 
-  .srf-hero-line-2 {
-    animation: srf-mask-line var(--dur-slow) var(--ease-out-expo) 540ms both;
+  .srf-hero-section:is([data-hero-motion='pending'], [data-hero-motion='run']) :is(
+    [data-hm='eyebrow'],
+    [data-hm='rule'],
+    [data-hm='word'],
+    [data-hm='lead'],
+    [data-hm='cta'],
+    [data-hm='dock'],
+    [data-hm='chip']
+  ) {
+    opacity: 0;
   }
 
-  .srf-hero-lead {
-    animation: srf-rise-in var(--dur-base) var(--ease-out) 700ms both;
-  }
-
-  .srf-hero-actions {
-    animation: srf-rise-in var(--dur-base) cubic-bezier(0.22, 1.18, 0.36, 1) 820ms both;
-  }
-
-  .srf-hero-dock {
-    animation: srf-dock-unfurl 560ms var(--ease-out-expo) 1050ms both;
+  .srf-hero-section[data-hero-motion='pending'] [data-hm] {
+    animation: srf-hm-failsafe 1ms linear 3400ms forwards;
   }
 
   .srf-drag-arc path {
     stroke-dasharray: 68;
     animation: srf-draw-arc 780ms var(--ease-out-expo) 1300ms both;
   }
+}
+
+/* Hero motion hooks (driven by motion/useHeroMotion.ts) */
+/* Per-word mask: clip-path keeps the baseline intact and leaves room for descenders */
+.srf-hm-mask {
+  display: inline-block;
+  clip-path: inset(-0.12em -0.08em -0.2em -0.08em);
+}
+
+.srf-hm-word {
+  display: inline-block;
+  transform-origin: 0% 100%;
+  will-change: transform;
+}
+
+.srf-hm-rule {
+  display: block;
+  width: 44px;
+  height: 1px;
+  background: var(--room-ui-accent);
+  transform-origin: 0% 50%;
+}
+
+.srf-hero-section [data-hm='chip'] {
+  position: relative;
+}
+
+.srf-hm-ripple {
+  position: absolute;
+  inset: -2px;
+  border: 1.5px solid var(--room-ui-outline);
+  pointer-events: none;
 }
 
 /* Reveal classes (only prepared when observer active) */
