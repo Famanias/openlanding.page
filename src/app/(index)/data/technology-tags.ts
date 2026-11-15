@@ -96,7 +96,8 @@ export const TECHNOLOGY_TAGS = {
     "echolog",
     "postmark",
     "tessera",
-    "datum"
+    "datum",
+    "elsewhere"
   ],
   "shaders": [
     "amaoto",
