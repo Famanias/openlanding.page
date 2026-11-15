@@ -6166,6 +6166,7 @@ export const FoldStillCanvas: React.FC<FoldStillCanvasProps> = ({
   const textureCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const lastTexKeyRef = useRef<string>('');
   const sizeRef = useRef<{ w: number; h: number }>({ w: 640, h: 460 });
+  const hasMeasuredRef = useRef(false);
   const paintRef = useRef<() => void>(() => {});
 
   // Draw function kept cleanly reusable for both state changes and resize events
@@ -6173,9 +6174,18 @@ export const FoldStillCanvas: React.FC<FoldStillCanvasProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const liveRect = canvas.getBoundingClientRect();
-    if (liveRect.width >= 4 && liveRect.height >= 4) {
-      sizeRef.current = { w: liveRect.width, h: liveRect.height };
+    // Read untransformed CSS layout dimensions so ancestor 3D transforms (e.g. rotateY(84deg)) never squash the canvas
+    const layoutW = canvas.clientWidth;
+    const layoutH = canvas.clientHeight;
+    if (
+      layoutW >= 4 &&
+      layoutH >= 4 &&
+      (!hasMeasuredRef.current ||
+        Math.abs(layoutW - sizeRef.current.w) >= 1 ||
+        Math.abs(layoutH - sizeRef.current.h) >= 1)
+    ) {
+      sizeRef.current = { w: layoutW, h: layoutH };
+      hasMeasuredRef.current = true;
     }
 
     const cssW = Math.max(8, sizeRef.current.w);
@@ -6347,10 +6357,12 @@ export const FoldStillCanvas: React.FC<FoldStillCanvasProps> = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const measure = () => {
-      const rect = canvas.getBoundingClientRect();
-      if (rect.width >= 4 && rect.height >= 4) {
-        sizeRef.current = { w: rect.width, h: rect.height };
+    const measure = (entry?: ResizeObserverEntry) => {
+      const w = entry?.contentRect.width || canvas.clientWidth;
+      const h = entry?.contentRect.height || canvas.clientHeight;
+      if (w >= 4 && h >= 4) {
+        sizeRef.current = { w, h };
+        hasMeasuredRef.current = true;
         paintRef.current();
       }
     };
@@ -6358,13 +6370,14 @@ export const FoldStillCanvas: React.FC<FoldStillCanvasProps> = ({
 
     const ro =
       typeof ResizeObserver !== 'undefined'
-        ? new ResizeObserver(() => measure())
+        ? new ResizeObserver((entries) => measure(entries[0]))
         : null;
     ro?.observe(canvas);
-    window.addEventListener('resize', measure, { passive: true });
+    const onResize = () => measure();
+    window.addEventListener('resize', onResize, { passive: true });
     return () => {
       ro?.disconnect();
-      window.removeEventListener('resize', measure);
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 
