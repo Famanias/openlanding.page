@@ -31,7 +31,7 @@ export function Hero() {
         </div>
         <div className="ew-hero-mist" aria-hidden="true" />
         <div className="ew-hero-boughs" aria-hidden="true">
-          <Picture assetKey="boughs-soft" alt="" sizes="150vw" className="ew-hero-boughs-img" />
+          <Picture assetKey="boughs-soft" alt="" sizes="(min-width: 900px) 150vw, 100vw" className="ew-hero-boughs-img" />
         </div>
         <div className="ew-hero-scrim" aria-hidden="true" />
       </div>

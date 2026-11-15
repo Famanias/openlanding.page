@@ -107,7 +107,7 @@ export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 
         alt={alt}
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : undefined}
-        decoding="async"
+        decoding={priority ? "sync" : "async"}
         draggable={false}
         data-asset={assetKey}
       />
@@ -117,7 +117,7 @@ export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 
 ]]>
     </file>
     <file path="src/app/(elsewhere)/elsewhere/elsewhere.css">
-<![CDATA[@import "tailwindcss";
+<![CDATA[@import "tailwindcss" source(none);
 
 @theme {
   --color-mist: #E4E7E1;   /* cool fog paper: the page outside */
@@ -768,11 +768,12 @@ html.ew-locked { overflow: hidden; }
 }
 
 /* ---------- rendering budget ----------
-   Everything past the door is skipped by layout and paint until it nears the viewport, which keeps the first
-   paint to the hero, the walk and the threshold. `auto` remembers each section's real height once rendered.
-   An in-page link switches it off first (the engine sets data-ew-layout), so anchor scrolls aim at true offsets. */
-:is(.ew-room, .ew-seasons, .ew-logbook, .ew-stay, .ew-footer) { content-visibility: auto; contain-intrinsic-block-size: auto 1500px; }
-:root[data-ew-layout="all"] :is(.ew-room, .ew-seasons, .ew-logbook, .ew-stay, .ew-footer) { content-visibility: visible; }
+   Everything past the walk is skipped by layout and paint until it nears the viewport, which keeps the first
+   paint to the hero and the walk and avoids eagerly fetching the threshold plates before scrolling. `auto`
+   remembers each section's real height once rendered. An in-page link switches it off first (the engine sets
+   data-ew-layout), so anchor scrolls aim at true offsets. */
+:is(.ew-threshold, .ew-room, .ew-seasons, .ew-logbook, .ew-stay, .ew-footer) { content-visibility: auto; contain-intrinsic-block-size: auto 1500px; }
+:root[data-ew-layout="all"] :is(.ew-threshold, .ew-room, .ew-seasons, .ew-logbook, .ew-stay, .ew-footer) { content-visibility: visible; }
 /* the overlook stays pinned under the forest for the length of the walk: once covered, stop painting it */
 .ew-hero[data-away="true"] { visibility: hidden; }
 
@@ -875,7 +876,7 @@ html.ew-locked { overflow: hidden; }
 @keyframes ew-settle { from { opacity: 0; transform: translate3d(0, 16px, 0); } }
 @keyframes ew-lift { from { transform: translate3d(0, 22px, 0); } }
 @keyframes ew-draw-down { from { transform: scaleY(0); } }
-@keyframes ew-pop { from { opacity: 0; transform: scale(0); } }
+@keyframes ew-pop { from { opacity: 0; transform: scale(0.45); } }
 @keyframes ew-ping { 0% { opacity: 0.9; transform: scale(0.4); } 70%, 100% { opacity: 0; transform: scale(1.5); } }
 @keyframes ew-mist { to { transform: translate3d(-50%, 0, 0); } }
 @keyframes ew-marquee { to { transform: translate3d(-50%, 0, 0); } }
@@ -2317,7 +2318,7 @@ export function Hero() {
         </div>
         <div className="ew-hero-mist" aria-hidden="true" />
         <div className="ew-hero-boughs" aria-hidden="true">
-          <Picture assetKey="boughs-soft" alt="" sizes="150vw" className="ew-hero-boughs-img" />
+          <Picture assetKey="boughs-soft" alt="" sizes="(min-width: 900px) 150vw, 100vw" className="ew-hero-boughs-img" />
         </div>
         <div className="ew-hero-scrim" aria-hidden="true" />
       </div>

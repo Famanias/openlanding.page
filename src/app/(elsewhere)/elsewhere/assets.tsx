@@ -42,7 +42,7 @@ export function Picture({ assetKey, alt, className, sizes = "(min-width: 900px) 
         alt={alt}
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : undefined}
-        decoding="async"
+        decoding={priority ? "sync" : "async"}
         draggable={false}
         data-asset={assetKey}
       />
