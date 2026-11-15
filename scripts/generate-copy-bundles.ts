@@ -9,10 +9,10 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
-  elsewhere: { name: "ELSEWHERE", dependencies: ["lenis"] },
-  serraform: { name: "SERRAFORM", dependencies: ["lucide-react", "motion"] },
-  mizunowa: { name: "MIZUNOWA", dependencies: ["lucide-react", "motion"] },
-  afterwalk: { name: "AFTERWALK", dependencies: ["motion"] },
+  elsewhere: { name: "ELSEWHERE", dependencies: ["lenis"], includeDownload: true },
+  serraform: { name: "SERRAFORM", dependencies: ["lucide-react", "motion"], includeDownload: true },
+  mizunowa: { name: "MIZUNOWA", dependencies: ["lucide-react", "motion"], includeDownload: true },
+  afterwalk: { name: "AFTERWALK", dependencies: ["motion"], includeDownload: true },
   surface08: { name: "SURFACE/08", dependencies: ["lucide-react", "motion"] },
   tessera: { name: "TESSERA", dependencies: ["lucide-react", "motion"] },
   mesamarket: { name: "MESA MARKET", dependencies: ["lucide-react", "motion", "three", "gsap"], includeDownload: true },
@@ -226,6 +226,7 @@ tally: { includeDownload: true,
   datum: {
     name: "DATUM",
     dependencies: ["three", "lenis"],
+    includeDownload: true,
   },
 };
 

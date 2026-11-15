@@ -9,9 +9,9 @@
   --color-srf-sage: #A6B3A0;
   --color-srf-porcelain: #FFFCF8;
 
-  --font-display: "Anybody", system-ui, -apple-system, sans-serif;
-  --font-body: "Commissioner", system-ui, -apple-system, sans-serif;
-  --font-mono: "Victor Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-anybody), "Anybody", system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-commissioner), "Commissioner", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-victor-mono), "Victor Mono", ui-monospace, SFMono-Regular, monospace;
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

@@ -135,6 +135,12 @@ describe("standalone verification source adaptations", () => {
     expect(adapted).not.toContain("test.skip(");
   });
 
+  it("adapts DATUM's server redirect URL check for standalone file verification", () => {
+    const adapted = adaptVerificationSource(readSuite("datum"), "datum.spec.ts");
+    expect(adapted).toContain("toHaveURL(/\\/datum\\.html(?:#top)?$/)");
+    expect(adapted).not.toContain("toHaveURL(/\\/templates\\/datum$/)");
+  });
+
   it("releases the real LENUS idle callback and still honors cancellation", async () => {
     const source = readSuite("lenus");
     const start = source.indexOf("  let release=()=>{};", source.indexOf('test("a STEP INSIDE command queued'));

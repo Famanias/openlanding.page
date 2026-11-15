@@ -147,6 +147,7 @@ const scenes: Record<string, string> = {
   iridia: '[aria-label="Interactive 3D Prism Light Dispersion Model"] canvas',
   noctiluca: "canvas.nl-light",
   koji: "#dish canvas",
+  datum: 'canvas[data-datum-renderer="true"]',
 };
 
 // Dedicated renderer assertions are independent of export eligibility.
@@ -230,6 +231,8 @@ export async function verifyGraphics(page: Page, slug: string): Promise<void> {
     await scrollTo(page, '[data-testid="fabric-lab-3d-container"]');
   } else if (slug === "iridia") {
     await scrollTo(page, '[aria-label="Interactive 3D Prism Light Dispersion Model"]');
+  } else if (slug === "datum") {
+    await scrollTo(page, "#dissection");
   }
   const markers: Record<string, [string, string, string]> = {
     assemblage: [".as-studio--hero", "data-as-scene-ready", "true"],
@@ -244,6 +247,7 @@ export async function verifyGraphics(page: Page, slug: string): Promise<void> {
     amaoto: [".am-canvas", "data-ready", "true"],
     noctiluca: [selector, "data-ready", "true"],
     koji: [selector, "data-ready", "true"],
+    datum: [selector, "data-live", "true"],
   };
   const marker = markers[slug];
   if (marker) await expect(page.locator(marker[0])).toHaveAttribute(marker[1], marker[2], { timeout });

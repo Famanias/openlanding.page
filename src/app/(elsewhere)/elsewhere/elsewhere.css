@@ -655,8 +655,6 @@ html.ew-locked { overflow: hidden; }
    data-ew-layout), so anchor scrolls aim at true offsets. */
 :is(.ew-threshold, .ew-room, .ew-seasons, .ew-logbook, .ew-stay, .ew-footer) { content-visibility: auto; contain-intrinsic-block-size: auto 1500px; }
 :root[data-ew-layout="all"] :is(.ew-threshold, .ew-room, .ew-seasons, .ew-logbook, .ew-stay, .ew-footer) { content-visibility: visible; }
-/* the overlook stays pinned under the forest for the length of the walk: once covered, stop painting it */
-.ew-hero[data-away="true"] { visibility: hidden; }
 
 /* ---------- pointer feedback: fine pointers only ---------- */
 @media (hover: hover) and (pointer: fine) {
@@ -727,6 +725,8 @@ html.ew-locked { overflow: hidden; }
 
 @media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
   .ew-hero { position: sticky; top: 0; }
+  /* the overlook stays pinned under the forest for the length of the walk: once covered, stop painting it */
+  .ew-hero[data-away="true"] { visibility: hidden; }
 
   [data-reveal] { transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger)); }
   [data-reveal="settle"]:not([data-in="true"]) { opacity: 0; transform: translate3d(0, 14px, 0); }
