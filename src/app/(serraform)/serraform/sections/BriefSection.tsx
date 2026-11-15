@@ -11,22 +11,25 @@ export const BriefSection: React.FC = () => {
     >
       <div className="srf-container">
         <div className="max-w-[660px] mb-10">
-          <div className="mb-3 srf-mono-caption text-[var(--srf-mauve)]">
+          <div data-m="scramble" className="mb-3 srf-mono-caption text-[var(--srf-mauve)]">
             Room brief
           </div>
           <h2
             id="brief-heading"
+            data-m="heading"
             tabIndex={-1}
             className="srf-h2 text-[var(--srf-oxblood)] text-balance mb-4 focus:outline-none"
           >
             Start with the room you have.
           </h2>
-          <p className="text-[var(--srf-mauve)] max-w-[50ch]">
+          <p data-m="lines" data-m-delay="200" className="text-[var(--srf-mauve)] max-w-[50ch]">
             Keep your chosen shape, custom palette, print, and placement notes together in a local room brief.
           </p>
         </div>
 
-        <BriefForm />
+        <div data-m="reveal">
+          <BriefForm />
+        </div>
       </div>
     </section>
   );

@@ -30,7 +30,7 @@ export default function SerraformLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Anybody:wght@500;600&family=Commissioner:wght@400;500;600&family=Victor+Mono:wght@400;500&display=swap" rel="stylesheet" precedence="default" />
+        <link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,500..600&family=Commissioner:wght@400;500;600&family=Victor+Mono:wght@400;500&display=swap" rel="stylesheet" precedence="default" />
       </head>
       <body className="bg-[#0b0b0b] text-[#f4f0e8] antialiased">
         {children}

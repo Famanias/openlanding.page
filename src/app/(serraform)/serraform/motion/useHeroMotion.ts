@@ -2,12 +2,14 @@
 
 import { useEffect, useLayoutEffect, useRef, type RefObject } from 'react';
 import { animate, createAnimatable, createScope, createTimeline, stagger } from 'animejs';
+import { CURTAIN_LEAD_MS } from './usePageMotion';
 
 /**
  * Hero motion system (anime.js).
  *
  * Markup hooks, all inside the hero section:
- *   data-hm="eyebrow" | "rule" | "word" | "lead" | "cta" | "dock" | "dock-group" | "chip"
+ *   data-hm="eyebrow" | "rule" | "char" | "lead" | "cta" | "dock" | "dock-group" | "chip"
+ *   data-hm-stretch (headline word whose width axis opens like a pleat)
  *   data-hm-mood  (room name label, re-animated when the room changes)
  *   data-hm-play  (play glyph, pulses while the fold demo runs)
  *   data-hm-reset (reset button)
@@ -93,7 +95,7 @@ export function useHeroMotion(
     const scope = createScope({ root }).add(() => {
       /* ---------- Entrance ---------- */
       const pending = root.dataset.heroMotion === 'pending';
-      const probe = root.querySelector('[data-hm="word"]');
+      const probe = root.querySelector('[data-hm="char"]');
       const failsafeFired = pending && probe !== null && getComputedStyle(probe).opacity !== '0';
       if (failsafeFired) {
         // Hydrated after the CSS failsafe already revealed everything: skip the entrance.
@@ -113,24 +115,42 @@ export function useHeroMotion(
           },
         });
 
-        tl.add('[data-hm="eyebrow"]', { opacity: [0, 1], x: [-14, 0], duration: 620 }, 180)
+        // Let the pleat curtain start gathering before the hero moves underneath it
+        const curtain = document.querySelector('[data-curtain]');
+        const lead =
+          curtain && getComputedStyle(curtain).visibility !== 'hidden' ? CURTAIN_LEAD_MS - 120 : 0;
+
+        tl.add('[data-hm="eyebrow"]', { opacity: [0, 1], x: [-14, 0], duration: 620 }, lead + 180)
           .add(
             '[data-hm="rule"]',
             { opacity: [0, 1], scaleX: [0, 1], duration: 760, ease: 'inOutQuart' },
-            260,
+            lead + 260,
           )
+          // Letters stand up from the baseline crease, one pleat after another
           .add(
-            '[data-hm="word"]',
+            '[data-hm="char"]',
             {
-              opacity: [0, 1],
-              y: ['112%', '0%'],
-              rotate: [5, 0],
-              duration: 980,
-              delay: stagger(75),
+              opacity: { from: 0, to: 1, duration: 240, ease: 'out(2)' },
+              rotateX: [-96, 0],
+              y: ['0.22em', '0em'],
+              duration: 1150,
+              ease: 'outElastic(1, 0.82)',
+              delay: stagger(30),
             },
-            340,
+            lead + 300,
           )
-          .add('[data-hm="lead"]', { opacity: [0, 1], y: [18, 0], duration: 720 }, 800)
+          // "room" literally makes room: its width axis opens past rest, then settles
+          .add(
+            '[data-hm-stretch]',
+            {
+              fontStretch: [
+                { from: '50%', to: '142%', duration: 620, ease: 'inOutQuart' },
+                { to: '100%', duration: 900, ease: 'outElastic(1, 0.55)' },
+              ],
+            },
+            lead + 560,
+          )
+          .add('[data-hm="lead"]', { opacity: [0, 1], y: [18, 0], duration: 720 }, lead + 900)
           .add(
             '[data-hm="cta"]',
             {
@@ -141,14 +161,25 @@ export function useHeroMotion(
               ease: 'outBack(1.4)',
               delay: stagger(90),
             },
-            920,
+            lead + 1020,
           )
           .add(
             '[data-hm="dock"]',
-            { opacity: [0, 1], y: [26, 0], scale: [0.985, 1], duration: 860 },
-            1040,
+            { opacity: [0, 1], y: [30, 0], duration: 860 },
+            lead + 1100,
           )
-          .add('[data-hm="dock-group"]', { y: [12, 0], duration: 640, delay: stagger(70) }, 1100)
+          // Dock sections hinge down like pleats being let out
+          .add(
+            '[data-hm="dock-group"]',
+            {
+              perspective: [900, 900],
+              rotateX: [-82, 0],
+              duration: 1100,
+              ease: 'outElastic(1, 0.8)',
+              delay: stagger(85),
+            },
+            lead + 1160,
+          )
           .add(
             '[data-hm="chip"]',
             {
@@ -158,7 +189,7 @@ export function useHeroMotion(
               ease: 'outBack(1.8)',
               delay: stagger(24),
             },
-            1260,
+            lead + 1420,
           );
       }
 
@@ -211,6 +242,22 @@ export function useHeroMotion(
             });
           }
         });
+      }
+
+      /* ---------- Headline: "room" opens wider while the pointer rests on it ---------- */
+      const stretchWord = root.querySelector<HTMLElement>('[data-hm-stretch]');
+      const headline = stretchWord?.closest('h1');
+      if (stretchWord && headline && hasFinePointer()) {
+        const openTo = (pct: number, bounce: number) => {
+          if (root.dataset.heroMotion !== 'done') return;
+          animate(stretchWord, {
+            fontStretch: `${pct}%`,
+            duration: 900,
+            ease: `outElastic(1, ${bounce})`,
+          });
+        };
+        listen(headline as HTMLElement, 'pointerenter', () => openTo(136, 0.5));
+        listen(headline as HTMLElement, 'pointerleave', () => openTo(100, 0.7));
       }
 
       /* ---------- Magnetic call-to-action pull (mouse only) ---------- */

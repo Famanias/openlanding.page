@@ -11,6 +11,17 @@ import { useHarmonizedRoomVars } from '../fold/room/paletteCssVars';
 import type { RoomLightingState } from '../fold/FoldScene';
 import { useHeroMotion } from '../motion/useHeroMotion';
 
+/** A word whose letters hinge up from the baseline crease (see useHeroMotion). */
+const HingeWord: React.FC<{ text: string; stretch?: boolean }> = ({ text, stretch = false }) => (
+  <span className="srf-hm-wordbox" data-hm-stretch={stretch ? '' : undefined}>
+    {Array.from(text).map((ch, i) => (
+      <span key={i} data-hm="char" className="srf-hm-char">
+        {ch}
+      </span>
+    ))}
+  </span>
+);
+
 export const Hero: React.FC = () => {
   const { demoActive, design, view, effectiveOpening, uploadedArt, env, replayFoldSequence } =
     useFold();
@@ -138,21 +149,16 @@ export const Hero: React.FC = () => {
             <span data-hm="rule" aria-hidden="true" className="srf-hm-rule mb-3" />
 
             <h1
-              className="srf-h1-studio mb-3.5 text-balance"
+              aria-label="Make room for your imagination."
+              className="srf-h1-studio mb-3.5"
               style={{ color: 'var(--room-text-primary)' }}
             >
-              <span className="block overflow-hidden">
-                <span className="block">
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">Make</span></span>{' '}
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">room</span></span>
-                </span>
+              <span aria-hidden="true" className="block whitespace-nowrap">
+                <HingeWord text="Make" /> <HingeWord text="room" stretch />
               </span>
-              <span className="block overflow-hidden">
-                <span className="block">
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">for</span></span>{' '}
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">your</span></span>{' '}
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">imagination.</span></span>
-                </span>
+              <span aria-hidden="true" className="block">
+                <HingeWord text="for" /> <HingeWord text="your" />{' '}
+                <HingeWord text="imagination." />
               </span>
             </h1>
 

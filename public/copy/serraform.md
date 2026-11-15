@@ -44,7 +44,7 @@ export default function SerraformLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Anybody:wght@500;600&family=Commissioner:wght@400;500;600&family=Victor+Mono:wght@400;500&display=swap" rel="stylesheet" precedence="default" />
+        <link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,500..600&family=Commissioner:wght@400;500;600&family=Victor+Mono:wght@400;500&display=swap" rel="stylesheet" precedence="default" />
       </head>
       <body className="bg-[#0b0b0b] text-[#f4f0e8] antialiased">
         {children}
@@ -618,21 +618,16 @@ details[open] .srf-faq-icon {
   line-height: 26px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  details[open] .srf-faq-answer {
-    animation: srf-answer-rise var(--dur-fast) var(--ease-out) both;
-  }
+.srf-faq-panel {
+  overflow: hidden;
+}
 
-  @keyframes srf-answer-rise {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+details[data-closing] .srf-faq-icon {
+  transform: none;
+}
+
+.srf-faq-icon {
+  transition: transform 520ms var(--ease-out-expo);
 }
 
 /* Studio lighting backdrop & Hero entrance sequence (compositor only, honors reduced motion) */
@@ -679,7 +674,7 @@ details[open] .srf-faq-icon {
   .srf-hero-section:is([data-hero-motion='pending'], [data-hero-motion='run']) :is(
     [data-hm='eyebrow'],
     [data-hm='rule'],
-    [data-hm='word'],
+    [data-hm='char'],
     [data-hm='lead'],
     [data-hm='cta'],
     [data-hm='dock'],
@@ -699,16 +694,20 @@ details[open] .srf-faq-icon {
 }
 
 /* Hero motion hooks (driven by motion/useHeroMotion.ts) */
-/* Per-word mask: clip-path keeps the baseline intact and leaves room for descenders */
-.srf-hm-mask {
+.srf-hm-wordbox {
   display: inline-block;
-  clip-path: inset(-0.12em -0.08em -0.2em -0.08em);
+  perspective: 700px;
+  white-space: nowrap;
 }
 
-.srf-hm-word {
+.srf-hm-char {
   display: inline-block;
-  transform-origin: 0% 100%;
-  will-change: transform;
+  transform-origin: 50% 100%;
+  backface-visibility: hidden;
+}
+
+.srf-hero-section [data-hm='dock-group'] {
+  transform-origin: 50% 0%;
 }
 
 .srf-hm-rule {
@@ -730,43 +729,265 @@ details[open] .srf-faq-icon {
   pointer-events: none;
 }
 
-/* Reveal classes (only prepared when observer active) */
-.srf-reveal-ready [data-reveal="rise"] {
+/* ============================================================================
+   Page motion system (driven by motion/usePageMotion.ts)
+   ============================================================================ */
+
+/* Anything waiting for its scroll-in stays hidden only once scripting has taken over */
+.srf-motion-ready [data-m]:not([data-m-in]) {
   opacity: 0;
-  transform: translateY(var(--reveal-shift));
-  transition:
-    opacity var(--dur-base) var(--ease-out),
-    transform var(--dur-base) var(--ease-out);
 }
 
-.srf-reveal-ready [data-reveal="rise"][data-revealed="true"] {
-  opacity: 1;
-  transform: translateY(0);
+[data-m='rule'] {
+  transform-origin: 0% 50%;
 }
 
-.srf-reveal-ready [data-reveal="clip"] {
-  clip-path: inset(0 0 12% 0 round 8px);
-  opacity: 0.01;
-  transform: scale(1.03);
-  transition:
-    clip-path var(--dur-slow) var(--ease-out-expo),
-    opacity var(--dur-base) var(--ease-out),
-    transform var(--dur-slow) var(--ease-out-expo);
+[data-hinge],
+[data-base] {
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-.srf-reveal-ready [data-reveal="clip"][data-revealed="true"] {
-  clip-path: inset(0 0 0 0 round 8px);
-  opacity: 1;
-  transform: scale(1);
+/* --- Opening pleat curtain --- */
+.srf-curtain {
+  display: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .srf-reveal-ready [data-reveal] {
-    opacity: 1 !important;
-    transform: none !important;
-    clip-path: none !important;
-    transition: none !important;
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes srf-curtain-failsafe {
+    to {
+      visibility: hidden;
+    }
   }
+
+  .srf-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: block;
+    pointer-events: none;
+    color: var(--srf-flax);
+  }
+
+  .srf-curtain[data-curtain=''] {
+    animation: srf-curtain-failsafe 1ms linear 4200ms forwards;
+  }
+
+  .srf-curtain[data-curtain='done'] {
+    display: none;
+  }
+
+  .srf-curtain-panels {
+    position: absolute;
+    inset: 0;
+    display: flex;
+  }
+
+  .srf-curtain-panel {
+    flex: 1 1 0;
+    /* 1px overlap hides hairline seams between panels */
+    margin-inline: -0.5px;
+    background: linear-gradient(90deg, #3D1821 0%, #4B202A 55%, #57262F 100%);
+    transform-origin: 0% 50%;
+    will-change: transform;
+  }
+
+  .srf-curtain-panel:nth-child(even) {
+    background: linear-gradient(90deg, #57262F 0%, #4B202A 45%, #3D1821 100%);
+    transform-origin: 100% 50%;
+  }
+
+  .srf-curtain-core {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .srf-curtain-zig {
+    width: min(420px, 62vw);
+    height: auto;
+  }
+
+  .srf-curtain-word {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(34px, 6.4vw, 88px);
+    line-height: 1;
+    font-stretch: 50%;
+    color: var(--srf-porcelain);
+    white-space: nowrap;
+  }
+
+  .srf-curtain-meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    font-variant-numeric: tabular-nums;
+    color: var(--srf-flax);
+  }
+}
+
+/* --- Header crease (page progress) --- */
+.srf-crease {
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 6px;
+  color: var(--srf-clay);
+  transform-origin: 0% 50%;
+  pointer-events: none;
+  display: none;
+}
+
+.srf-motion-ready .srf-crease {
+  display: block;
+}
+
+.srf-logo-word {
+  font-stretch: 100%;
+  transition: font-stretch 520ms var(--ease-out-expo), letter-spacing 520ms var(--ease-out-expo);
+}
+
+.srf-logo-link:hover .srf-logo-word {
+  font-stretch: 150%;
+}
+
+/* --- Velocity ticker --- */
+.srf-ticker {
+  overflow: hidden;
+  padding-block: 18px;
+  background: var(--srf-oxblood);
+  color: var(--srf-rose);
+  border-bottom: 1px solid var(--srf-hairline);
+}
+
+.srf-ticker-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.srf-ticker-set {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+  padding-right: clamp(20px, 3vw, 44px);
+}
+
+.srf-ticker-word {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: 125%;
+  font-size: clamp(30px, 4.6vw, 68px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.srf-ticker-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--srf-flax);
+  font-stretch: 62%;
+}
+
+.srf-ticker-zig {
+  width: clamp(34px, 4vw, 56px);
+  height: auto;
+  flex-shrink: 0;
+  color: var(--srf-clay);
+}
+
+/* --- Pleat ruler --- */
+.srf-ruler {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  align-items: end;
+  height: 46px;
+  max-width: 660px;
+  border-bottom: 1px solid var(--srf-hairline-strong);
+}
+
+.srf-ruler-tick {
+  position: relative;
+  display: block;
+  height: 14px;
+  border-left: 1px solid var(--srf-hairline-strong);
+  transform-origin: 50% 100%;
+}
+
+.srf-ruler-tick:nth-child(4n + 1) {
+  height: 26px;
+  border-left-color: var(--srf-oxblood);
+}
+
+.srf-ruler-tick i {
+  display: none;
+  position: absolute;
+  left: 5px;
+  top: -4px;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--srf-mauve);
+}
+
+.srf-ruler-tick:nth-child(4n + 1) i {
+  display: block;
+}
+
+/* --- Construction: pleated top edge + spec rules --- */
+.srf-teeth {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: clamp(28px, 4.5vw, 64px);
+  transform-origin: 50% 0%;
+  pointer-events: none;
+  display: none;
+}
+
+.srf-motion-ready .srf-teeth {
+  display: block;
+}
+
+.srf-spec-rule {
+  display: block;
+  height: 1px;
+  margin-bottom: 12px;
+  background: var(--srf-hairline-dark);
+}
+
+/* --- Footer wordmark --- */
+.srf-wordmark-wrap {
+  overflow: hidden;
+  margin-bottom: 28px;
+  padding-bottom: 0.04em;
+}
+
+.srf-wordmark {
+  width: max-content;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13vw;
+  font-stretch: 112%;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: var(--srf-oxblood);
+  cursor: default;
+  user-select: none;
+}
+
+.srf-wordmark span {
+  display: inline-block;
 }
 
 /* ============================================================================
@@ -1480,31 +1701,28 @@ details[open] .srf-faq-icon {
     <file path="src/app/(serraform)/serraform/SerraformApp.tsx">
 <![CDATA['use client';
 
-import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 import { FoldProvider } from './fold/FoldProvider';
+import { PleatCurtain } from './motion/PleatCurtain';
+import { usePageMotion } from './motion/usePageMotion';
 import { BriefSection } from './sections/BriefSection';
 import { Construction } from './sections/Construction';
 import { FoldingExperience } from './sections/FoldingExperience';
 import { Footer } from './sections/Footer';
 import { Header } from './sections/Header';
 import { Hero } from './sections/Hero';
+import { PleatTicker } from './sections/PleatTicker';
 import { Questions } from './sections/Questions';
 
 export default function SerraformApp() {
-  const [revealReady, setRevealReady] = useState(false);
-
-  useEffect(() => {
-    if (
-      typeof IntersectionObserver !== 'undefined' &&
-      !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    ) {
-      setRevealReady(true);
-    }
-  }, []);
+  const rootRef = useRef<HTMLDivElement>(null);
+  usePageMotion(rootRef);
 
   return (
     <FoldProvider>
-      <div className={revealReady ? 'srf-reveal-ready' : undefined}>
+      <div ref={rootRef}>
+        <PleatCurtain />
+
         <a href="#main-content" className="srf-skip-link">
           Skip to content
         </a>
@@ -1513,6 +1731,7 @@ export default function SerraformApp() {
 
         <main id="main-content">
           <Hero />
+          <PleatTicker />
           <FoldingExperience />
           <Construction />
           <Questions />
@@ -1534,9 +1753,14 @@ import React from 'react';
 interface LogoProps {
   tone?: 'dark' | 'light';
   className?: string;
+  /** Marks the fold mark as a stroke the motion system draws on load. */
+  draw?: boolean;
 }
 
-export const FoldMark: React.FC<{ className?: string }> = ({ className = 'w-6 h-6' }) => (
+export const FoldMark: React.FC<{ className?: string; draw?: boolean }> = ({
+  className = 'w-6 h-6',
+  draw = false,
+}) => (
   <svg
     viewBox="0 0 32 32"
     fill="none"
@@ -1544,6 +1768,7 @@ export const FoldMark: React.FC<{ className?: string }> = ({ className = 'w-6 h-
     className={className}
   >
     <path
+      data-draw={draw ? '' : undefined}
       d="M3 25L9 7L15 25L21 7L29 25"
       stroke="currentColor"
       strokeWidth="2.5"
@@ -1553,16 +1778,16 @@ export const FoldMark: React.FC<{ className?: string }> = ({ className = 'w-6 h-
   </svg>
 );
 
-export const Logo: React.FC<LogoProps> = ({ tone = 'dark', className = '' }) => {
+export const Logo: React.FC<LogoProps> = ({ tone = 'dark', className = '', draw = false }) => {
   const textColor = tone === 'light' ? 'text-[var(--srf-porcelain)]' : 'text-[var(--srf-oxblood)]';
   return (
     <span
       className={`inline-flex items-center gap-3 select-none whitespace-nowrap shrink-0 ${textColor} ${className}`}
       aria-label="SERRAFORM"
     >
-      <FoldMark className="w-6 h-6 shrink-0" />
+      <FoldMark className="w-6 h-6 shrink-0" draw={draw} />
       <span
-        className="font-[family-name:var(--font-display)] font-medium text-[20px] leading-none tracking-[-0.025em]"
+        className="srf-logo-word font-[family-name:var(--font-display)] font-medium text-[20px] leading-none tracking-[-0.025em]"
         aria-hidden="true"
       >
         SERRAFORM
@@ -1578,6 +1803,7 @@ export const CreaseMarker: React.FC<{ index: string; className?: string }> = ({
   <span className={`inline-flex items-center gap-2 srf-mono-caption ${className}`}>
     <svg viewBox="0 0 22 10" fill="none" aria-hidden="true" className="w-5 h-2.5 shrink-0">
       <path
+        data-draw=""
         d="M1 9L6 1L11 9L16 1L21 9"
         stroke="currentColor"
         strokeWidth="1.4"
@@ -9767,69 +9993,45 @@ export function boundedProgress(value: number, start: number, end: number): numb
 }
 ]]>
     </file>
-    <file path="src/app/(serraform)/serraform/motion/Reveal.tsx">
-<![CDATA['use client';
+    <file path="src/app/(serraform)/serraform/motion/PleatCurtain.tsx">
+<![CDATA[import React from 'react';
 
-import React, { useEffect, useRef, useState } from 'react';
+const PANELS = Array.from({ length: 16 }, (_, i) => i);
+// Sixteen pleats drawn as one continuous zigzag
+const ZIGZAG = PANELS.map((i) => `L${i * 10 + 5} ${i % 2 ? 22 : 2} L${i * 10 + 10} 12`).join(' ');
 
-interface RevealProps {
-  children: React.ReactNode;
-  role?: 'rise' | 'clip';
-  delayMs?: number;
-  className?: string;
-}
-
-export const Reveal: React.FC<RevealProps> = ({
-  children,
-  role = 'rise',
-  delayMs = 0,
-  className = '',
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [revealed, setRevealed] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    if (
-      typeof window === 'undefined' ||
-      typeof IntersectionObserver === 'undefined' ||
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    ) {
-      setRevealed(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setRevealed(true);
-            observer.disconnect();
-            break;
-          }
-        }
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      data-reveal={role}
-      data-revealed={revealed ? 'true' : 'false'}
-      style={delayMs > 0 ? { transitionDelay: `${delayMs}ms` } : undefined}
-      className={className}
-    >
-      {children}
+/**
+ * Opening curtain: sixteen pleat panels cover the page, the mark draws, then the panels
+ * gather into their creases. Driven by usePageMotion; hidden entirely for reduced motion,
+ * and CSS retires it on its own if scripting never starts.
+ */
+export const PleatCurtain: React.FC = () => (
+  <div data-curtain="" aria-hidden="true" className="srf-curtain">
+    <div className="srf-curtain-panels">
+      {PANELS.map((i) => (
+        <span key={i} data-curtain-panel="" className="srf-curtain-panel" />
+      ))}
     </div>
-  );
-};
+    <div data-curtain-core="" className="srf-curtain-core">
+      <svg viewBox="0 0 160 24" fill="none" className="srf-curtain-zig">
+        <path
+          data-draw=""
+          d={`M0 12 ${ZIGZAG}`}
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      <div data-curtain-word="" className="srf-curtain-word">
+        SERRAFORM
+      </div>
+      <div className="srf-curtain-meta">
+        FOLD <span data-curtain-count="">00</span> / 16
+      </div>
+    </div>
+  </div>
+);
 ]]>
     </file>
     <file path="src/app/(serraform)/serraform/motion/useHeroMotion.ts">
@@ -9837,12 +10039,14 @@ export const Reveal: React.FC<RevealProps> = ({
 
 import { useEffect, useLayoutEffect, useRef, type RefObject } from 'react';
 import { animate, createAnimatable, createScope, createTimeline, stagger } from 'animejs';
+import { CURTAIN_LEAD_MS } from './usePageMotion';
 
 /**
  * Hero motion system (anime.js).
  *
  * Markup hooks, all inside the hero section:
- *   data-hm="eyebrow" | "rule" | "word" | "lead" | "cta" | "dock" | "dock-group" | "chip"
+ *   data-hm="eyebrow" | "rule" | "char" | "lead" | "cta" | "dock" | "dock-group" | "chip"
+ *   data-hm-stretch (headline word whose width axis opens like a pleat)
  *   data-hm-mood  (room name label, re-animated when the room changes)
  *   data-hm-play  (play glyph, pulses while the fold demo runs)
  *   data-hm-reset (reset button)
@@ -9928,7 +10132,7 @@ export function useHeroMotion(
     const scope = createScope({ root }).add(() => {
       /* ---------- Entrance ---------- */
       const pending = root.dataset.heroMotion === 'pending';
-      const probe = root.querySelector('[data-hm="word"]');
+      const probe = root.querySelector('[data-hm="char"]');
       const failsafeFired = pending && probe !== null && getComputedStyle(probe).opacity !== '0';
       if (failsafeFired) {
         // Hydrated after the CSS failsafe already revealed everything: skip the entrance.
@@ -9948,24 +10152,42 @@ export function useHeroMotion(
           },
         });
 
-        tl.add('[data-hm="eyebrow"]', { opacity: [0, 1], x: [-14, 0], duration: 620 }, 180)
+        // Let the pleat curtain start gathering before the hero moves underneath it
+        const curtain = document.querySelector('[data-curtain]');
+        const lead =
+          curtain && getComputedStyle(curtain).visibility !== 'hidden' ? CURTAIN_LEAD_MS - 120 : 0;
+
+        tl.add('[data-hm="eyebrow"]', { opacity: [0, 1], x: [-14, 0], duration: 620 }, lead + 180)
           .add(
             '[data-hm="rule"]',
             { opacity: [0, 1], scaleX: [0, 1], duration: 760, ease: 'inOutQuart' },
-            260,
+            lead + 260,
           )
+          // Letters stand up from the baseline crease, one pleat after another
           .add(
-            '[data-hm="word"]',
+            '[data-hm="char"]',
             {
-              opacity: [0, 1],
-              y: ['112%', '0%'],
-              rotate: [5, 0],
-              duration: 980,
-              delay: stagger(75),
+              opacity: { from: 0, to: 1, duration: 240, ease: 'out(2)' },
+              rotateX: [-96, 0],
+              y: ['0.22em', '0em'],
+              duration: 1150,
+              ease: 'outElastic(1, 0.82)',
+              delay: stagger(30),
             },
-            340,
+            lead + 300,
           )
-          .add('[data-hm="lead"]', { opacity: [0, 1], y: [18, 0], duration: 720 }, 800)
+          // "room" literally makes room: its width axis opens past rest, then settles
+          .add(
+            '[data-hm-stretch]',
+            {
+              fontStretch: [
+                { from: '50%', to: '142%', duration: 620, ease: 'inOutQuart' },
+                { to: '100%', duration: 900, ease: 'outElastic(1, 0.55)' },
+              ],
+            },
+            lead + 560,
+          )
+          .add('[data-hm="lead"]', { opacity: [0, 1], y: [18, 0], duration: 720 }, lead + 900)
           .add(
             '[data-hm="cta"]',
             {
@@ -9976,14 +10198,25 @@ export function useHeroMotion(
               ease: 'outBack(1.4)',
               delay: stagger(90),
             },
-            920,
+            lead + 1020,
           )
           .add(
             '[data-hm="dock"]',
-            { opacity: [0, 1], y: [26, 0], scale: [0.985, 1], duration: 860 },
-            1040,
+            { opacity: [0, 1], y: [30, 0], duration: 860 },
+            lead + 1100,
           )
-          .add('[data-hm="dock-group"]', { y: [12, 0], duration: 640, delay: stagger(70) }, 1100)
+          // Dock sections hinge down like pleats being let out
+          .add(
+            '[data-hm="dock-group"]',
+            {
+              perspective: [900, 900],
+              rotateX: [-82, 0],
+              duration: 1100,
+              ease: 'outElastic(1, 0.8)',
+              delay: stagger(85),
+            },
+            lead + 1160,
+          )
           .add(
             '[data-hm="chip"]',
             {
@@ -9993,7 +10226,7 @@ export function useHeroMotion(
               ease: 'outBack(1.8)',
               delay: stagger(24),
             },
-            1260,
+            lead + 1420,
           );
       }
 
@@ -10046,6 +10279,22 @@ export function useHeroMotion(
             });
           }
         });
+      }
+
+      /* ---------- Headline: "room" opens wider while the pointer rests on it ---------- */
+      const stretchWord = root.querySelector<HTMLElement>('[data-hm-stretch]');
+      const headline = stretchWord?.closest('h1');
+      if (stretchWord && headline && hasFinePointer()) {
+        const openTo = (pct: number, bounce: number) => {
+          if (root.dataset.heroMotion !== 'done') return;
+          animate(stretchWord, {
+            fontStretch: `${pct}%`,
+            duration: 900,
+            ease: `outElastic(1, ${bounce})`,
+          });
+        };
+        listen(headline as HTMLElement, 'pointerenter', () => openTo(136, 0.5));
+        listen(headline as HTMLElement, 'pointerleave', () => openTo(100, 0.7));
       }
 
       /* ---------- Magnetic call-to-action pull (mouse only) ---------- */
@@ -10137,6 +10386,773 @@ export function useHeroMotion(
 }
 ]]>
     </file>
+    <file path="src/app/(serraform)/serraform/motion/usePageMotion.ts">
+<![CDATA['use client';
+
+import { useLayoutEffect, type RefObject } from 'react';
+import {
+  animate,
+  createScope,
+  createTimeline,
+  createTimer,
+  onScroll,
+  splitText,
+  stagger,
+  svg,
+  utils,
+} from 'animejs';
+import { deriveFold } from '../fold/geometry';
+
+/**
+ * SERRAFORM page motion system (anime.js).
+ *
+ * One idea runs through all of it: everything behaves like the divider. Type hinges open
+ * along a crease, panels unfold like pleats, lines are drawn like a plan, and scrolling
+ * opens and closes folds.
+ *
+ * Declarative hooks (played once when scrolled into view):
+ *   data-m="heading"   characters hinge up from the baseline crease
+ *   data-m="lines"     paragraph lines rise out of masks
+ *   data-m="scramble"  mono captions resolve out of pleat glyphs
+ *   data-m="rule"      hairline draws from the left
+ *   data-m="unfold"    [data-m-item] children hinge open like pleats (data-m-fx="tick" for ruler ticks)
+ *   data-m="reveal"    block opens like a curtain
+ *   data-m="draw"      [data-draw] strokes draw
+ *   data-m="count"     number counts up to data-count
+ *   data-m="frame"     diagram frame opens from its centre crease, then plays data-diagram
+ *
+ * Scroll-scrubbed pieces: [data-crease], [data-trifold], [data-teeth], [data-plan],
+ * [data-wordmark]. Continuous pieces: [data-ticker], [data-curtain], FAQ accordion.
+ */
+
+/** Time the pleat curtain needs before the page underneath should start moving. */
+export const CURTAIN_LEAD_MS = 1050;
+
+const SCRAMBLE_GLYPHS = '/\\|<>^v-_=+';
+
+export function motionAllowed(): boolean {
+  return !(
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+}
+
+/** Drop the inline styles a finished reveal leaves behind so the stylesheet owns the element again. */
+function clearStyles(targets: Iterable<Element>, ...props: string[]) {
+  for (const target of targets) {
+    for (const prop of props) (target as HTMLElement).style.removeProperty(prop);
+  }
+}
+
+function hasFinePointer(): boolean {
+  return (
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* One-shot reveals                                                            */
+/* -------------------------------------------------------------------------- */
+
+function playHeading(el: HTMLElement, delay = 0) {
+  const split = splitText(el, { words: true, chars: true });
+  for (const word of split.words as HTMLElement[]) {
+    word.style.perspective = '700px';
+  }
+  const chars = split.chars as HTMLElement[];
+  for (const ch of chars) {
+    ch.style.transformOrigin = '50% 100%';
+    ch.style.backfaceVisibility = 'hidden';
+  }
+  utils.set(chars, { opacity: 0, rotateX: -94, y: '0.18em' });
+  el.dataset.mIn = '';
+  animate(chars, {
+    opacity: { to: 1, duration: 260, ease: 'out(2)' },
+    rotateX: 0,
+    y: 0,
+    duration: 1050,
+    ease: 'outExpo',
+    delay: stagger(24, { start: delay }),
+    onComplete: () => split.revert(),
+  });
+}
+
+function playLines(el: HTMLElement, delay = 0) {
+  // Line boxes are only known once the splitter has measured, so the reveal runs as its effect
+  const split = splitText(el, { lines: { wrap: 'clip' } });
+  let played = false;
+  split.addEffect((self: { lines: HTMLElement[] }) => {
+    if (played) return;
+    played = true;
+    const lines = self.lines;
+    if (!lines.length) {
+      el.dataset.mIn = '';
+      return;
+    }
+    for (const line of lines) line.style.transformOrigin = '0% 100%';
+    utils.set(lines, { y: '108%', rotate: 2.5 });
+    el.dataset.mIn = '';
+    animate(lines, {
+      y: '0%',
+      rotate: 0,
+      duration: 900,
+      ease: 'outExpo',
+      delay: stagger(70, { start: delay }),
+      onComplete: () => split.revert(),
+    });
+  });
+}
+
+function playScramble(el: HTMLElement, delay = 0) {
+  const finalText = el.textContent ?? '';
+  const total = finalText.length;
+  if (!total) {
+    el.dataset.mIn = '';
+    return;
+  }
+  const state = { p: 0 };
+  const render = () => {
+    const settled = Math.floor(state.p * total);
+    let out = finalText.slice(0, settled);
+    for (let i = settled; i < total; i += 1) {
+      const ch = finalText[i];
+      out +=
+        ch === ' ' || i > settled + 5
+          ? ' '
+          : SCRAMBLE_GLYPHS[Math.floor(Math.random() * SCRAMBLE_GLYPHS.length)];
+    }
+    el.textContent = out;
+  };
+  el.setAttribute('aria-label', finalText);
+  // Hold the box so the caption never reflows while it resolves
+  el.style.whiteSpace = 'pre';
+  render();
+  el.dataset.mIn = '';
+  animate(state, {
+    p: 1,
+    duration: Math.min(1100, 260 + total * 22),
+    delay,
+    ease: 'inOut(2)',
+    onUpdate: render,
+    onComplete: () => {
+      el.textContent = finalText;
+      el.style.removeProperty('white-space');
+      el.removeAttribute('aria-label');
+    },
+  });
+}
+
+function playRule(el: HTMLElement, delay = 0) {
+  utils.set(el, { scaleX: 0 });
+  el.dataset.mIn = '';
+  animate(el, {
+    scaleX: 1,
+    duration: 1100,
+    delay,
+    ease: 'inOutQuart',
+    onComplete: () => clearStyles([el], 'transform'),
+  });
+}
+
+function playUnfold(el: HTMLElement, delay = 0) {
+  const nested = Array.from(el.querySelectorAll<HTMLElement>('[data-m-item]'));
+  const items = nested.length ? nested : [el];
+  const fx = el.dataset.mFx;
+
+  if (fx === 'tick') {
+    utils.set(items, { scaleY: 0, opacity: 0 });
+    el.dataset.mIn = '';
+    animate(items, {
+      scaleY: [
+        { to: 1.5, duration: 260, ease: 'out(3)' },
+        { to: 1, duration: 420, ease: 'outElastic(1, 0.6)' },
+      ],
+      opacity: { to: 1, duration: 120 },
+      delay: stagger(38, { start: delay }),
+      onComplete: () => clearStyles(items, 'transform', 'opacity'),
+    });
+    return;
+  }
+
+  // Pleats alternate: odd items hinge forward, even items hinge back
+  items.forEach((item, i) => {
+    utils.set(item, { opacity: 0, perspective: 900, rotateX: i % 2 ? 78 : -78, y: 26 });
+  });
+  for (const [i, item] of items.entries()) {
+    item.style.transformOrigin = i % 2 ? '50% 100%' : '50% 0%';
+  }
+  el.dataset.mIn = '';
+  animate(items, {
+    opacity: { to: 1, duration: 320, ease: 'out(2)' },
+    rotateX: 0,
+    y: 0,
+    duration: 1100,
+    ease: 'outElastic(1, 0.78)',
+    delay: stagger(95, { start: delay }),
+    onComplete: () => clearStyles(items, 'transform', 'opacity', 'transform-origin'),
+  });
+}
+
+function playReveal(el: HTMLElement, delay = 0) {
+  utils.set(el, { clipPath: 'inset(0% 0% 100% 0%)', y: 48 });
+  el.dataset.mIn = '';
+  animate(el, {
+    clipPath: 'inset(0% 0% 0% 0%)',
+    y: 0,
+    duration: 1200,
+    delay,
+    ease: 'outExpo',
+    onComplete: () => clearStyles([el], 'clip-path', 'transform'),
+  });
+}
+
+function playDraw(el: Element, delay = 0, duration = 1100) {
+  const strokes = el.matches('[data-draw]')
+    ? [el]
+    : Array.from(el.querySelectorAll('[data-draw]'));
+  if (!strokes.length) return;
+  const drawables = svg.createDrawable(strokes as unknown as SVGGeometryElement[]);
+  utils.set(drawables, { draw: '0 0' });
+  if (el instanceof HTMLElement || el instanceof SVGElement) el.dataset.mIn = '';
+  animate(drawables, {
+    draw: '0 1',
+    duration,
+    ease: 'inOutQuart',
+    delay: stagger(110, { start: delay }),
+  });
+}
+
+function playCount(el: HTMLElement, delay = 0) {
+  const target = Number(el.dataset.count ?? '0');
+  const suffix = el.dataset.suffix ?? '';
+  const state = { v: 0 };
+  const fmt = new Intl.NumberFormat('en-US');
+  const render = () => {
+    el.textContent = `${fmt.format(Math.round(state.v))}${suffix}`;
+  };
+  render();
+  el.dataset.mIn = '';
+  animate(state, {
+    v: target,
+    duration: 1500,
+    delay,
+    ease: 'outExpo',
+    onUpdate: render,
+    onComplete: render,
+  });
+}
+
+function playDiagram(frame: HTMLElement) {
+  const kind = frame.dataset.diagram;
+  const q = <T extends Element = SVGElement>(sel: string) =>
+    Array.from(frame.querySelectorAll<T>(sel));
+
+  if (kind === 'pleat') {
+    const faces = q('[data-face]');
+    utils.set(faces, { translateY: 230 });
+    utils.set(q('[data-fade]'), { opacity: 0 });
+    createTimeline({ defaults: { ease: 'outExpo' } })
+      .add(faces, { translateY: 0, duration: 1100, delay: stagger(130) }, 250)
+      .add(q('[data-fade]'), { opacity: 1, duration: 700, delay: stagger(120) }, 900);
+    playDraw(frame, 900, 800);
+    return;
+  }
+
+  if (kind === 'support') {
+    const panel = q('[data-panel]');
+    const base = q('[data-base]');
+    utils.set(panel, { translateY: -170 });
+    utils.set(base, { scaleX: 0 });
+    utils.set(q('[data-fade]'), { opacity: 0 });
+    createTimeline({ defaults: { ease: 'outExpo' } })
+      .add(base, { scaleX: 1, duration: 900 }, 300)
+      .add(panel, { translateY: 0, duration: 900, ease: 'outBounce' }, 620)
+      .add(q('[data-fade]'), { opacity: 1, duration: 500 }, 1300);
+    playDraw(frame, 250, 900);
+    return;
+  }
+
+  // plan: hinge dots pop once the frame is open; the folding itself is scroll-scrubbed
+  const dots = q('[data-hinge]');
+  utils.set(dots, { scale: 0 });
+  animate(dots, {
+    scale: [
+      { to: 1.9, duration: 220, ease: 'out(3)' },
+      { to: 1, duration: 380, ease: 'outElastic(1, 0.6)' },
+    ],
+    delay: stagger(34, { start: 420 }),
+  });
+  playDraw(frame, 200, 1000);
+}
+
+function playFrame(el: HTMLElement, delay = 0) {
+  utils.set(el, { clipPath: 'inset(0% 50% 0% 50% round 8px)' });
+  el.dataset.mIn = '';
+  animate(el, {
+    clipPath: 'inset(0% 0% 0% 0% round 8px)',
+    duration: 1300,
+    delay,
+    ease: 'inOutQuart',
+    onComplete: () => clearStyles([el], 'clip-path'),
+  });
+  playDiagram(el);
+}
+
+function play(el: HTMLElement) {
+  const delay = Number(el.dataset.mDelay ?? '0');
+  switch (el.dataset.m) {
+    case 'heading':
+      return playHeading(el, delay);
+    case 'lines':
+      return playLines(el, delay);
+    case 'scramble':
+      return playScramble(el, delay);
+    case 'rule':
+      return playRule(el, delay);
+    case 'unfold':
+      return playUnfold(el, delay);
+    case 'reveal':
+      return playReveal(el, delay);
+    case 'draw':
+      return playDraw(el, delay);
+    case 'count':
+      return playCount(el, delay);
+    case 'frame':
+      return playFrame(el, delay);
+    default:
+      el.dataset.mIn = '';
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Hook                                                                        */
+/* -------------------------------------------------------------------------- */
+
+export function usePageMotion(rootRef: RefObject<HTMLElement | null>) {
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    if (!motionAllowed()) return;
+
+    const cleanups: Array<() => void> = [];
+    const listen = <K extends keyof HTMLElementEventMap>(
+      el: HTMLElement | Window,
+      type: K | 'scroll' | 'resize',
+      handler: (e: HTMLElementEventMap[K]) => void,
+      opts?: AddEventListenerOptions,
+    ) => {
+      el.addEventListener(type, handler as EventListener, opts);
+      cleanups.push(() => el.removeEventListener(type, handler as EventListener, opts));
+    };
+    const q = <T extends Element = HTMLElement>(sel: string) =>
+      Array.from(root.querySelectorAll<T>(sel));
+    const desktop = window.matchMedia('(min-width: 768px)').matches;
+
+    root.classList.add('srf-motion-ready');
+    cleanups.push(() => root.classList.remove('srf-motion-ready'));
+
+    const scope = createScope({ root }).add(() => {
+      /* ---------- Pleat curtain ---------- */
+      const curtain = root.querySelector<HTMLElement>('[data-curtain]');
+      const hasCurtain = curtain !== null && getComputedStyle(curtain).visibility !== 'hidden';
+      const lead = hasCurtain ? CURTAIN_LEAD_MS : 0;
+
+      if (curtain && hasCurtain) {
+        curtain.dataset.curtain = 'run';
+        const panels = Array.from(curtain.querySelectorAll<HTMLElement>('[data-curtain-panel]'));
+        const core = curtain.querySelector<HTMLElement>('[data-curtain-core]');
+        const word = curtain.querySelector<HTMLElement>('[data-curtain-word]');
+        const count = curtain.querySelector<HTMLElement>('[data-curtain-count]');
+        const zig = svg.createDrawable(
+          Array.from(curtain.querySelectorAll('[data-draw]')) as unknown as SVGGeometryElement[],
+        );
+        const counter = { n: 0 };
+        utils.set(zig, { draw: '0 0' });
+
+        const tl = createTimeline({
+          onComplete: () => {
+            curtain.dataset.curtain = 'done';
+          },
+        });
+        tl.add(zig, { draw: '0 1', duration: 820, ease: 'inOutQuart' }, 0);
+        if (word) {
+          tl.add(
+            word,
+            {
+              fontStretch: ['50%', '150%'],
+              letterSpacing: ['0.3em', '-0.02em'],
+              opacity: [0, 1],
+              duration: 900,
+              ease: 'inOutExpo',
+            },
+            0,
+          );
+        }
+        if (count) {
+          tl.add(
+            counter,
+            {
+              n: 16,
+              duration: 820,
+              ease: 'inOut(2)',
+              onUpdate: () => {
+                count.textContent = String(Math.round(counter.n)).padStart(2, '0');
+              },
+            },
+            0,
+          );
+        }
+        if (core) {
+          tl.add(
+            core,
+            { opacity: 0, scale: 1.08, duration: 300, ease: 'in(2)' },
+            CURTAIN_LEAD_MS - 180,
+          );
+        }
+        // Panels close up into their creases, pair by pair, like the divider being gathered
+        tl.add(
+          panels,
+          {
+            scaleX: 0,
+            duration: 780,
+            ease: 'inOutQuart',
+            delay: stagger(26, { from: 'center' }),
+          },
+          CURTAIN_LEAD_MS - 100,
+        );
+      }
+
+      /* ---------- Header: mark draws, nav drops in, crease tracks page progress ---------- */
+      const header = root.querySelector<HTMLElement>('[data-header]');
+      if (header) {
+        const items = Array.from(header.querySelectorAll<HTMLElement>('[data-header-item]'));
+        const mark = svg.createDrawable(
+          Array.from(header.querySelectorAll('[data-draw]')) as unknown as SVGGeometryElement[],
+        );
+        utils.set(items, { y: -34, opacity: 0 });
+        utils.set(mark, { draw: '0 0' });
+        createTimeline({ defaults: { ease: 'outExpo' } })
+          .add(mark, { draw: '0 1', duration: 1100, ease: 'inOutQuart' }, lead)
+          .add(
+            items,
+            {
+              y: 0,
+              opacity: 1,
+              duration: 900,
+              delay: stagger(70),
+              onComplete: () => clearStyles(items, 'transform', 'opacity'),
+            },
+            lead + 80,
+          );
+      }
+
+      const crease = root.querySelector<HTMLElement>('[data-crease]');
+      if (crease) {
+        utils.set(crease, { scaleX: 0 });
+        animate(crease, {
+          scaleX: 1,
+          ease: 'linear',
+          duration: 1000,
+          autoplay: onScroll({
+            target: root,
+            enter: { target: 'top', container: 'top' },
+            leave: { target: 'bottom', container: 'bottom' },
+            sync: 0.35,
+          }),
+        });
+      }
+
+      /* ---------- Velocity ticker ---------- */
+      let scrollVelocity = 0;
+      let lastScrollY = window.scrollY;
+      const ticker = root.querySelector<HTMLElement>('[data-ticker]');
+      const track = ticker?.querySelector<HTMLElement>('[data-ticker-track]');
+      if (ticker && track) {
+        let x = 0;
+        let dir = -1;
+        let skew = 0;
+        let visible = true;
+        const io = new IntersectionObserver(([entry]) => {
+          visible = entry.isIntersecting;
+        });
+        io.observe(ticker);
+        cleanups.push(() => io.disconnect());
+        let lastTick = performance.now();
+        createTimer({
+          onUpdate: () => {
+            const now = performance.now();
+            const dt = Math.max(0, Math.min(64, now - lastTick)) / 1000;
+            lastTick = now;
+            if (dt === 0) return;
+            const y = window.scrollY;
+            const raw = (y - lastScrollY) / Math.max(dt, 0.001);
+            lastScrollY = y;
+            scrollVelocity += (raw - scrollVelocity) * Math.min(1, dt * 8);
+            if (!visible) return;
+            if (Math.abs(scrollVelocity) > 40) dir = scrollVelocity > 0 ? -1 : 1;
+            const half = track.scrollWidth / 2;
+            if (half <= 0) return;
+            x += dir * (70 + Math.min(1400, Math.abs(scrollVelocity)) * 0.55) * dt;
+            if (x <= -half) x += half;
+            if (x > 0) x -= half;
+            const targetSkew = Math.max(-14, Math.min(14, scrollVelocity * -0.012));
+            skew += (targetSkew - skew) * Math.min(1, dt * 7);
+            track.style.transform = `translate3d(${x.toFixed(2)}px,0,0) skewX(${skew.toFixed(2)}deg)`;
+          },
+        });
+      }
+
+      /* ---------- Tri-fold chapters: the three cards open flat as you scroll in ---------- */
+      const trifold = root.querySelector<HTMLElement>('[data-trifold]');
+      if (trifold) {
+        const cards = Array.from(trifold.querySelectorAll<HTMLElement>('[data-trifold-panel]'));
+        const axis = desktop ? 'rotateY' : 'rotateX';
+        const tl = createTimeline({
+          defaults: { ease: 'linear' },
+          autoplay: onScroll({
+            target: trifold,
+            enter: { target: 'top', container: '96%' },
+            leave: { target: 'top', container: '38%' },
+            sync: 0.5,
+          }),
+        });
+        cards.forEach((card, i) => {
+          const even = i % 2 === 0;
+          card.style.transformOrigin = desktop
+            ? even
+              ? '100% 50%'
+              : '0% 50%'
+            : even
+              ? '50% 0%'
+              : '50% 100%';
+          const from = (desktop ? (even ? 1 : -1) : even ? -1 : 1) * 84;
+          utils.set(card, { perspective: 1400, [axis]: from, opacity: 0.15 });
+          tl.add(
+            card,
+            {
+              [axis]: 0,
+              opacity: { to: 1, duration: 500 },
+              duration: 1000,
+              ease: 'out(2)',
+            },
+            i * 180,
+          );
+        });
+      }
+
+      /* ---------- Pleated edge between the light page and the dark construction room ---------- */
+      for (const teeth of q('[data-teeth]')) {
+        const section = teeth.parentElement ?? teeth;
+        utils.set(teeth, { scaleY: 1 });
+        animate(teeth, {
+          scaleY: 0,
+          ease: 'inOut(2)',
+          duration: 1000,
+          autoplay: onScroll({
+            target: section,
+            enter: { target: 'top', container: 'bottom' },
+            leave: { target: 'top', container: '30%' },
+            sync: 0.4,
+          }),
+        });
+      }
+
+      /* ---------- Plan diagram folds from a flat line into the zigzag as it scrolls by ---------- */
+      const plan = root.querySelector<SVGSVGElement>('[data-plan]');
+      if (plan) {
+        const poly = plan.querySelector<SVGPolygonElement>('[data-plan-poly]');
+        const dots = Array.from(plan.querySelectorAll<SVGCircleElement>('[data-hinge]'));
+        const label = plan.querySelector<SVGTSpanElement>('[data-plan-open]');
+        const w = 520;
+        const h = 220;
+        const state = { o: 100 };
+        const render = () => {
+          const pose = deriveFold(state.o);
+          const scale = 168 + (100 - state.o) * 1.24;
+          const pt = (p: { x: number; z: number }) =>
+            `${(w / 2 + p.x * scale).toFixed(1)},${(h / 2 + p.z * scale).toFixed(1)}`;
+          poly?.setAttribute(
+            'points',
+            [...pose.front.map(pt), ...[...pose.back].reverse().map(pt)].join(' '),
+          );
+          pose.hinges.forEach((p, i) => {
+            const dot = dots[i];
+            if (!dot) return;
+            dot.setAttribute('cx', (w / 2 + p.x * scale).toFixed(1));
+            dot.setAttribute('cy', (h / 2 + p.z * scale).toFixed(1));
+          });
+          if (label) label.textContent = `${Math.round(state.o)}% open`;
+        };
+        render();
+        animate(state, {
+          o: 50,
+          ease: 'linear',
+          duration: 1000,
+          onUpdate: render,
+          autoplay: onScroll({
+            target: plan,
+            enter: { target: 'top', container: '88%' },
+            leave: { target: 'bottom', container: '52%' },
+            sync: 0.45,
+          }),
+        });
+      }
+
+      /* ---------- Footer wordmark: stretches open like the divider, then follows the cursor ---------- */
+      const wordmark = root.querySelector<HTMLElement>('[data-wordmark]');
+      if (wordmark) {
+        const letters = Array.from(wordmark.querySelectorAll<HTMLElement>('span'));
+        const REST = 112;
+        const fit = () => {
+          wordmark.style.fontSize = '100px';
+          wordmark.style.fontStretch = `${REST}%`;
+          const natural = wordmark.scrollWidth;
+          const room = wordmark.parentElement?.clientWidth ?? natural;
+          if (natural > 0) wordmark.style.fontSize = `${((100 * room) / natural) * 0.985}px`;
+          wordmark.style.removeProperty('font-stretch');
+        };
+        fit();
+        document.fonts?.ready.then(fit).catch(() => undefined);
+        listen(window, 'resize', fit, { passive: true });
+
+        animate(wordmark, {
+          fontStretch: ['50%', `${REST}%`],
+          ease: 'out(2)',
+          duration: 1000,
+          autoplay: onScroll({
+            target: wordmark,
+            enter: { target: 'top', container: 'bottom' },
+            leave: { target: 'bottom', container: 'bottom' },
+            sync: 0.4,
+          }),
+        });
+
+        if (hasFinePointer()) {
+          const current = letters.map(() => REST);
+          const target = letters.map(() => REST);
+          let hovering = false;
+          const settle = createTimer({
+            autoplay: false,
+            onUpdate: () => {
+              let moving = false;
+              letters.forEach((letter, i) => {
+                current[i] += (target[i] - current[i]) * 0.14;
+                if (Math.abs(target[i] - current[i]) > 0.15) moving = true;
+                letter.style.fontStretch = `${current[i].toFixed(1)}%`;
+              });
+              if (!moving && !hovering) {
+                for (const letter of letters) letter.style.removeProperty('font-stretch');
+                settle.pause();
+              }
+            },
+          });
+          listen(wordmark, 'pointermove', (e) => {
+            hovering = true;
+            const gains = letters.map((letter) => {
+              const r = letter.getBoundingClientRect();
+              const d = Math.abs(e.clientX - (r.left + r.width / 2)) / Math.max(1, r.width * 1.6);
+              return Math.exp(-d * d);
+            });
+            const mean = gains.reduce((a, b) => a + b, 0) / gains.length;
+            // Width is conserved: the pleat under the cursor opens, its neighbours gather
+            gains.forEach((g, i) => {
+              target[i] = Math.max(50, Math.min(150, REST + (g - mean) * 62));
+            });
+            settle.play();
+          });
+          listen(wordmark, 'pointerleave', () => {
+            hovering = false;
+            target.fill(REST);
+            settle.play();
+          });
+        }
+      }
+
+      /* ---------- FAQ: a real accordion ---------- */
+      const faqRuns = new WeakMap<Element, Array<{ cancel: () => unknown }>>();
+      for (const summary of q('.srf-faq-summary')) {
+        listen(summary, 'click', (e) => {
+          const item = summary.parentElement as HTMLDetailsElement | null;
+          const panel = item?.querySelector<HTMLElement>('.srf-faq-panel');
+          const body = panel?.firstElementChild as HTMLElement | null;
+          if (!item || !panel || !body) return;
+          e.preventDefault();
+
+          // Latest input wins: stop whatever this item was doing and carry on from where it is
+          for (const run of faqRuns.get(item) ?? []) run.cancel();
+          const interrupted = item.dataset.closing !== undefined;
+          body.style.transformOrigin = '50% 0%';
+
+          if (!item.open || interrupted) {
+            delete item.dataset.closing;
+            item.open = true;
+            const from = interrupted ? panel.getBoundingClientRect().height : 0;
+            panel.style.height = 'auto';
+            const to = panel.getBoundingClientRect().height;
+            panel.style.height = `${from}px`;
+            if (!interrupted) utils.set(body, { perspective: 800, rotateX: -72, opacity: 0 });
+            faqRuns.set(item, [
+              animate(panel, {
+                height: to,
+                duration: 760,
+                ease: 'outExpo',
+                onComplete: () => panel.style.removeProperty('height'),
+              }),
+              // The answer hinges down from the question's crease
+              animate(body, {
+                rotateX: 0,
+                opacity: 1,
+                duration: 980,
+                ease: 'outElastic(1, 0.8)',
+                onComplete: () => body.removeAttribute('style'),
+              }),
+            ]);
+          } else {
+            item.dataset.closing = '';
+            panel.style.height = `${panel.getBoundingClientRect().height}px`;
+            if (!body.style.transform) utils.set(body, { perspective: 800, rotateX: 0 });
+            faqRuns.set(item, [
+              animate(body, { rotateX: -64, opacity: 0, duration: 380, ease: 'in(2)' }),
+              animate(panel, {
+                height: 0,
+                duration: 460,
+                ease: 'inOutQuart',
+                onComplete: () => {
+                  item.open = false;
+                  delete item.dataset.closing;
+                  panel.style.removeProperty('height');
+                  body.removeAttribute('style');
+                },
+              }),
+            ]);
+          }
+        });
+      }
+
+      /* ---------- One-shot reveals ---------- */
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            io.unobserve(entry.target);
+            play(entry.target as HTMLElement);
+          }
+        },
+        { threshold: 0.18, rootMargin: '0px 0px -7% 0px' },
+      );
+      for (const el of q('[data-m]:not([data-m-in])')) io.observe(el);
+      cleanups.push(() => io.disconnect());
+    });
+
+    return () => {
+      for (const off of cleanups) off();
+      scope.revert();
+    };
+  }, [rootRef]);
+}
+]]>
+    </file>
     <file path="src/app/(serraform)/serraform/motion/useReducedMotion.ts">
 <![CDATA[import { useEffect, useState } from 'react';
 
@@ -10179,22 +11195,25 @@ export const BriefSection: React.FC = () => {
     >
       <div className="srf-container">
         <div className="max-w-[660px] mb-10">
-          <div className="mb-3 srf-mono-caption text-[var(--srf-mauve)]">
+          <div data-m="scramble" className="mb-3 srf-mono-caption text-[var(--srf-mauve)]">
             Room brief
           </div>
           <h2
             id="brief-heading"
+            data-m="heading"
             tabIndex={-1}
             className="srf-h2 text-[var(--srf-oxblood)] text-balance mb-4 focus:outline-none"
           >
             Start with the room you have.
           </h2>
-          <p className="text-[var(--srf-mauve)] max-w-[50ch]">
+          <p data-m="lines" data-m-delay="200" className="text-[var(--srf-mauve)] max-w-[50ch]">
             Keep your chosen shape, custom palette, print, and placement notes together in a local room brief.
           </p>
         </div>
 
-        <BriefForm />
+        <div data-m="reveal">
+          <BriefForm />
+        </div>
       </div>
     </section>
   );
@@ -10208,7 +11227,6 @@ import React, { useId } from 'react';
 import { CreaseMarker } from '../brand/Logo';
 import { PALETTE } from '../fold/config';
 import { deriveFold } from '../fold/geometry';
-import { Reveal } from '../motion/Reveal';
 
 const TopDownDiagram: React.FC = () => {
   const pose = deriveFold(50);
@@ -10228,6 +11246,7 @@ const TopDownDiagram: React.FC = () => {
 
   return (
     <svg
+      data-plan=""
       viewBox={`0 0 ${w} ${h}`}
       className="w-full h-full block"
       role="img"
@@ -10235,6 +11254,7 @@ const TopDownDiagram: React.FC = () => {
     >
       <rect width={w} height={h} rx="6" fill="#3D1821" />
       <line
+        data-draw=""
         x1="40"
         y1={cy}
         x2={w - 40}
@@ -10244,6 +11264,7 @@ const TopDownDiagram: React.FC = () => {
         strokeDasharray="4 4"
       />
       <polygon
+        data-plan-poly=""
         points={polygonPoints}
         fill={PALETTE.clay}
         stroke={PALETTE.porcelain}
@@ -10252,6 +11273,7 @@ const TopDownDiagram: React.FC = () => {
       />
       {pose.hinges.map((pt, i) => (
         <circle
+          data-hinge=""
           key={i}
           cx={cx + pt.x * scale}
           cy={cy + pt.z * scale}
@@ -10267,7 +11289,7 @@ const TopDownDiagram: React.FC = () => {
         fontSize="11"
         fontFamily="var(--font-mono)"
       >
-        Plan view · 16 panels · 180 mm pitch
+        Plan view · 16 panels · <tspan data-plan-open="">50% open</tspan>
       </text>
     </svg>
   );
@@ -10295,16 +11317,17 @@ const MacroPleatDetail: React.FC = () => {
         </pattern>
       </defs>
       <rect width={w} height={h} rx="6" fill="#3D1821" />
-      <polygon points="70,40 200,28 200,220 70,220" fill="#7D362F" />
-      <polygon points="200,28 330,68 330,220 200,220" fill={PALETTE.clay} />
-      <polygon points="330,68 450,34 450,220 330,220" fill="#AF594F" />
+      <polygon data-face="" points="70,40 200,28 200,220 70,220" fill="#7D362F" />
+      <polygon data-face="" points="200,28 330,68 330,220 200,220" fill={PALETTE.clay} />
+      <polygon data-face="" points="330,68 450,34 450,220 330,220" fill="#AF594F" />
       <polygon
+        data-fade=""
         points="70,40 200,28 330,68 450,34 450,24 330,58 200,18 70,30"
         fill="#C97368"
       />
-      <rect width={w} height={h} fill={`url(#${weaveId})`} />
-      <line x1="200" y1="28" x2="200" y2="220" stroke={PALETTE.oxblood} strokeOpacity="0.45" strokeWidth="1.5" />
-      <line x1="330" y1="68" x2="330" y2="220" stroke={PALETTE.oxblood} strokeOpacity="0.35" strokeWidth="1.5" />
+      <rect data-fade="" width={w} height={h} fill={`url(#${weaveId})`} />
+      <line data-draw="" x1="200" y1="28" x2="200" y2="220" stroke={PALETTE.oxblood} strokeOpacity="0.45" strokeWidth="1.5" />
+      <line data-draw="" x1="330" y1="68" x2="330" y2="220" stroke={PALETTE.oxblood} strokeOpacity="0.35" strokeWidth="1.5" />
       <text
         x="24"
         y={h - 18}
@@ -10331,6 +11354,7 @@ const SupportSectionDiagram: React.FC = () => {
     >
       <rect width={w} height={h} rx="6" fill="#3D1821" />
       <line
+        data-draw=""
         x1="36"
         y1="168"
         x2={w - 36}
@@ -10340,6 +11364,7 @@ const SupportSectionDiagram: React.FC = () => {
         strokeWidth="1.2"
       />
       <rect
+        data-panel=""
         x="244"
         y="24"
         width="32"
@@ -10350,6 +11375,7 @@ const SupportSectionDiagram: React.FC = () => {
         strokeWidth="1"
       />
       <rect
+        data-base=""
         x="110"
         y="154"
         width="300"
@@ -10360,10 +11386,11 @@ const SupportSectionDiagram: React.FC = () => {
         stroke={PALETTE.porcelain}
         strokeWidth="1.4"
       />
-      <line x1="110" y1="184" x2="410" y2="184" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
-      <line x1="110" y1="178" x2="110" y2="190" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
-      <line x1="410" y1="178" x2="410" y2="190" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
+      <line data-draw="" x1="110" y1="184" x2="410" y2="184" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
+      <line data-draw="" x1="110" y1="178" x2="110" y2="190" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
+      <line data-draw="" x1="410" y1="178" x2="410" y2="190" stroke={PALETTE.porcelain} strokeOpacity="0.65" />
       <text
+        data-fade=""
         x="260"
         y="202"
         textAnchor="middle"
@@ -10378,32 +11405,37 @@ const SupportSectionDiagram: React.FC = () => {
   );
 };
 
+const TEETH_PATH = `M0 0 H160 ${Array.from({ length: 16 }, (_, i) => `L${155 - i * 10} 10 L${150 - i * 10} 0`).join(' ')} Z`;
+
 const CONSTRUCTION_ROWS = [
   {
     index: '01',
     title: 'A continuous profile.',
     body: 'Sixteen connected panels make one continuous silhouette where patterns travel across every fold.',
     Diagram: TopDownDiagram,
+    diagram: 'plan',
   },
   {
     index: '02',
     title: 'A tactile surface.',
     body: 'A matte felt grain keeps custom colors and printed illustrations soft and sculptural.',
     Diagram: MacroPleatDetail,
+    diagram: 'pleat',
   },
   {
     index: '03',
     title: 'A grounded stance.',
     body: 'Slim floor supports sit beneath the first and last folds.',
     Diagram: SupportSectionDiagram,
+    diagram: 'support',
   },
 ] as const;
 
 const SPEC_ITEMS = [
-  { label: 'Height', value: '1,600 mm' },
-  { label: 'Panel pitch', value: '180 mm' },
-  { label: 'Developed length', value: '2,880 mm' },
-  { label: 'Model thickness', value: '12 mm' },
+  { label: 'Height', value: '1,600 mm', count: 1600 },
+  { label: 'Panel pitch', value: '180 mm', count: 180 },
+  { label: 'Developed length', value: '2,880 mm', count: 2880 },
+  { label: 'Model thickness', value: '12 mm', count: 12 },
 ] as const;
 
 export const Construction: React.FC = () => {
@@ -10412,44 +11444,59 @@ export const Construction: React.FC = () => {
       id="construction"
       className="srf-dark-surface relative bg-[var(--srf-oxblood)] text-[var(--srf-porcelain)] pt-20 pb-24 lg:pt-28 lg:pb-32 scroll-mt-20"
     >
+      {/* Pleated edge: the light page above gathers away as the dark room scrolls in */}
+      <svg
+        data-teeth=""
+        aria-hidden="true"
+        viewBox="0 0 160 10"
+        preserveAspectRatio="none"
+        className="srf-teeth"
+      >
+        <path d={TEETH_PATH} fill="var(--srf-rose)" />
+      </svg>
+
       <div className="srf-container">
         <div className="mb-14 max-w-[680px]">
-          <div className="mb-3 srf-mono-caption text-[var(--srf-rose)]/75">
+          <div data-m="scramble" className="mb-3 srf-mono-caption text-[var(--srf-rose)]/75">
             Construction
           </div>
-          <h2 className="srf-h2 text-[var(--srf-porcelain)] text-balance">
+          <h2 data-m="heading" className="srf-h2 text-[var(--srf-porcelain)] text-balance">
             The detail is in the fold.
           </h2>
         </div>
 
         <div className="divide-y divide-[var(--srf-hairline-dark)] border-t border-b border-[var(--srf-hairline-dark)]">
-          {CONSTRUCTION_ROWS.map((row, idx) => {
+          {CONSTRUCTION_ROWS.map((row) => {
             const Diagram = row.Diagram;
             return (
-              <Reveal
+              <div
                 key={row.index}
-                role="rise"
-                delayMs={idx * 60}
                 className="py-10 lg:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
               >
                 <div className="lg:col-span-5">
-                  <CreaseMarker
-                    index={row.index}
-                    className="text-[var(--srf-flax)] mb-3"
-                  />
-                  <h3 className="srf-h3 text-[var(--srf-porcelain)] mb-3">
+                  <div data-m="draw">
+                    <CreaseMarker
+                      index={row.index}
+                      className="text-[var(--srf-flax)] mb-3"
+                    />
+                  </div>
+                  <h3 data-m="heading" className="srf-h3 text-[var(--srf-porcelain)] mb-3">
                     {row.title}
                   </h3>
-                  <p className="text-[var(--srf-rose)]/85 max-w-[42ch]">
+                  <p data-m="lines" data-m-delay="180" className="text-[var(--srf-rose)]/85 max-w-[42ch]">
                     {row.body}
                   </p>
                 </div>
                 <div className="lg:col-span-7">
-                  <div className="aspect-[21/9] rounded-[8px] border border-[var(--srf-hairline-dark)] overflow-hidden">
+                  <div
+                    data-m="frame"
+                    data-diagram={row.diagram}
+                    className="aspect-[21/9] rounded-[8px] border border-[var(--srf-hairline-dark)] overflow-hidden"
+                  >
                     <Diagram />
                   </div>
                 </div>
-              </Reveal>
+              </div>
             );
           })}
         </div>
@@ -10457,17 +11504,23 @@ export const Construction: React.FC = () => {
         <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6 pb-8 border-b border-[var(--srf-hairline-dark)]">
           {SPEC_ITEMS.map((spec) => (
             <div key={spec.label}>
-              <div className="srf-mono-caption text-[var(--srf-rose)]/75 mb-1">
+              <span data-m="rule" className="srf-spec-rule" />
+              <div data-m="scramble" className="srf-mono-caption text-[var(--srf-rose)]/75 mb-1">
                 {spec.label}
               </div>
-              <div className="font-[family-name:var(--font-display)] text-2xl font-medium text-[var(--srf-porcelain)] tabular-nums">
+              <div
+                data-m="count"
+                data-count={spec.count}
+                data-suffix=" mm"
+                className="font-[family-name:var(--font-display)] text-2xl lg:text-4xl font-medium text-[var(--srf-porcelain)] tabular-nums"
+              >
                 {spec.value}
               </div>
             </div>
           ))}
         </div>
 
-        <p className="mt-5 srf-mono-caption text-[var(--srf-rose)]/75 max-w-[64ch]">
+        <p data-m="lines" className="mt-5 srf-mono-caption text-[var(--srf-rose)]/75 max-w-[64ch]">
           Outer span is calculated directly from opening across the constant 2,880 mm developed length. These are concept parameters.
         </p>
       </div>
@@ -10493,6 +11546,8 @@ import { FOLD_CONSTANTS, PRINT_SPECS, STORY_CHAPTERS } from '../fold/config';
 import { useFold } from '../fold/FoldProvider';
 import { FoldStillCanvas } from '../fold/FoldStillCanvas';
 import { storyChapter, storyOpening, storyProgress } from '../fold/story';
+
+const RULER_TICKS = Array.from({ length: 16 }, (_, i) => i + 1);
 
 export const FoldingExperience: React.FC = () => {
   const { design, view, uploadedArt, env, pushStoryFrame } = useFold();
@@ -10545,18 +11600,28 @@ export const FoldingExperience: React.FC = () => {
     >
       <div className="srf-container">
         <div className="mb-8 max-w-[660px]">
-          <div className="mb-2 srf-mono-caption text-[var(--srf-mauve)]">
+          <div data-m="scramble" className="mb-2 srf-mono-caption text-[var(--srf-mauve)]">
             The fold
           </div>
-          <h2 className="srf-h2 text-[var(--srf-oxblood)] text-balance">
+          <h2 data-m="heading" className="srf-h2 text-[var(--srf-oxblood)] text-balance">
             One continuous surface. Sixteen pleats.
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Pleat ruler: sixteen ticks, one per panel */}
+        <div data-m="unfold" data-m-fx="tick" aria-hidden="true" className="srf-ruler mb-8">
+          {RULER_TICKS.map((n) => (
+            <span key={n} data-m-item="" className="srf-ruler-tick">
+              <i>{String(n).padStart(2, '0')}</i>
+            </span>
+          ))}
+        </div>
+
+        <div data-trifold="" className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {STORY_CHAPTERS.map((item) => (
             <article
               key={item.index}
+              data-trifold-panel=""
               className="flex flex-col border-t border-[var(--srf-hairline)] pt-4"
             >
               <div className="aspect-[16/10] w-full rounded-[8px] border border-[var(--srf-hairline)] overflow-hidden mb-3.5 bg-[var(--srf-rose)]">
@@ -10601,10 +11666,19 @@ export const Footer: React.FC = () => {
   return (
     <footer className="py-12 lg:py-16 bg-[var(--srf-rose)] text-[var(--srf-oxblood)]">
       <div className="srf-container">
+        {/* Wordmark stretches open with the scroll, then its letters follow the cursor */}
+        <div aria-hidden="true" className="srf-wordmark-wrap">
+          <div data-wordmark="" className="srf-wordmark">
+            {Array.from('SERRAFORM').map((ch, i) => (
+              <span key={i}>{ch}</span>
+            ))}
+          </div>
+        </div>
+
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-[var(--srf-hairline)]">
           <div>
             <Logo tone="dark" />
-            <p className="mt-2 text-sm text-[var(--srf-mauve)]">
+            <p data-m="lines" className="mt-2 text-sm text-[var(--srf-mauve)]">
               A little fold. A different room.
             </p>
           </div>
@@ -10648,7 +11722,10 @@ export const Footer: React.FC = () => {
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { Logo } from '../brand/Logo';
+import { animate, stagger, utils } from 'animejs';
 import { NAV_ITEMS } from '../fold/config';
+
+const CREASE_PATH = `M0 5 ${Array.from({ length: 64 }, (_, i) => `L${i * 10 + 5} 1 L${i * 10 + 10} 5`).join(' ')}`;
 
 export const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -10706,12 +11783,44 @@ export const Header: React.FC = () => {
     };
   }, [menuOpen]);
 
+  // Drawer opens like a fold: the sheet drops from the top crease, links hinge in after it
+  useEffect(() => {
+    const drawer = drawerRef.current;
+    if (!menuOpen || !drawer) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const items = drawer.querySelectorAll<HTMLElement>('[data-drawer-item]');
+    utils.set(items, { opacity: 0, perspective: 700, rotateX: -80, y: 18 });
+    for (const item of items) item.style.transformOrigin = '50% 0%';
+    const sheet = animate(drawer, {
+      clipPath: ['inset(0% 0% 100% 0%)', 'inset(0% 0% 0% 0%)'],
+      duration: 620,
+      ease: 'outExpo',
+      onComplete: (self) => self.revert(),
+    });
+    const links = animate(items, {
+      opacity: 1,
+      rotateX: 0,
+      y: 0,
+      duration: 900,
+      ease: 'outElastic(1, 0.8)',
+      delay: stagger(80, { start: 160 }),
+      onComplete: () => {
+        for (const item of items) item.removeAttribute('style');
+      },
+    });
+    return () => {
+      sheet.revert();
+      links.revert();
+    };
+  }, [menuOpen]);
+
   const handleNavClick = () => {
     if (menuOpen) setMenuOpen(false);
   };
 
   return (
     <header
+      data-header=""
       className={`sticky top-0 z-40 w-full bg-[var(--srf-rose)] transition-colors duration-200 ${
         scrolled
           ? 'border-b border-[var(--srf-hairline)]'
@@ -10721,9 +11830,9 @@ export const Header: React.FC = () => {
       <div className="srf-container h-16 md:h-20 flex items-center justify-between gap-6">
         <a
           href="#top"
-          className="inline-flex items-center min-h-[44px] focus-visible:rounded-[4px]"
+          className="srf-logo-link inline-flex items-center min-h-[44px] focus-visible:rounded-[4px]"
         >
-          <Logo tone="dark" />
+          <Logo tone="dark" draw />
         </a>
 
         <nav
@@ -10735,6 +11844,7 @@ export const Header: React.FC = () => {
               key={item.href}
               href={item.href}
               onClick={handleNavClick}
+              data-header-item=""
               className="srf-text-link text-[15px] whitespace-nowrap shrink-0"
             >
               {item.label}
@@ -10742,7 +11852,7 @@ export const Header: React.FC = () => {
           ))}
         </nav>
 
-        <div className="hidden min-[900px]:flex items-center shrink-0">
+        <div data-header-item="" className="hidden min-[900px]:flex items-center shrink-0">
           <a href="#top" className="srf-btn-primary">
             <span>Design your divider</span>
             <ArrowRight className="w-4 h-4 srf-btn-arrow" aria-hidden="true" />
@@ -10761,6 +11871,23 @@ export const Header: React.FC = () => {
           <Menu className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
+
+      {/* Page progress drawn as a crease that unfolds along the header */}
+      <svg
+        data-crease=""
+        aria-hidden="true"
+        viewBox="0 0 640 6"
+        preserveAspectRatio="none"
+        className="srf-crease"
+      >
+        <path
+          d={CREASE_PATH}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
 
       {menuOpen && (
         <div
@@ -10793,6 +11920,7 @@ export const Header: React.FC = () => {
                 key={item.href}
                 href={item.href}
                 onClick={handleNavClick}
+                data-drawer-item=""
                 className="py-3 border-b border-[var(--srf-hairline)] font-[family-name:var(--font-display)] text-2xl font-medium text-[var(--srf-oxblood)]"
               >
                 {item.label}
@@ -10800,7 +11928,7 @@ export const Header: React.FC = () => {
             ))}
           </nav>
 
-          <div className="pb-4">
+          <div data-drawer-item="" className="pb-4">
             <a
               href="#top"
               onClick={handleNavClick}
@@ -10830,6 +11958,17 @@ import { deriveRoomScene } from '../fold/room/deriveRoomScene';
 import { useHarmonizedRoomVars } from '../fold/room/paletteCssVars';
 import type { RoomLightingState } from '../fold/FoldScene';
 import { useHeroMotion } from '../motion/useHeroMotion';
+
+/** A word whose letters hinge up from the baseline crease (see useHeroMotion). */
+const HingeWord: React.FC<{ text: string; stretch?: boolean }> = ({ text, stretch = false }) => (
+  <span className="srf-hm-wordbox" data-hm-stretch={stretch ? '' : undefined}>
+    {Array.from(text).map((ch, i) => (
+      <span key={i} data-hm="char" className="srf-hm-char">
+        {ch}
+      </span>
+    ))}
+  </span>
+);
 
 export const Hero: React.FC = () => {
   const { demoActive, design, view, effectiveOpening, uploadedArt, env, replayFoldSequence } =
@@ -10958,21 +12097,16 @@ export const Hero: React.FC = () => {
             <span data-hm="rule" aria-hidden="true" className="srf-hm-rule mb-3" />
 
             <h1
-              className="srf-h1-studio mb-3.5 text-balance"
+              aria-label="Make room for your imagination."
+              className="srf-h1-studio mb-3.5"
               style={{ color: 'var(--room-text-primary)' }}
             >
-              <span className="block overflow-hidden">
-                <span className="block">
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">Make</span></span>{' '}
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">room</span></span>
-                </span>
+              <span aria-hidden="true" className="block whitespace-nowrap">
+                <HingeWord text="Make" /> <HingeWord text="room" stretch />
               </span>
-              <span className="block overflow-hidden">
-                <span className="block">
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">for</span></span>{' '}
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">your</span></span>{' '}
-                  <span className="srf-hm-mask"><span data-hm="word" className="srf-hm-word">imagination.</span></span>
-                </span>
+              <span aria-hidden="true" className="block">
+                <HingeWord text="for" /> <HingeWord text="your" />{' '}
+                <HingeWord text="imagination." />
               </span>
             </h1>
 
@@ -11082,6 +12216,50 @@ export const Hero: React.FC = () => {
 
 ]]>
     </file>
+    <file path="src/app/(serraform)/serraform/sections/PleatTicker.tsx">
+<![CDATA[import React from 'react';
+
+const PHRASES = [
+  'Sixteen pleats',
+  'One continuous surface',
+  '2,880 mm unfolded',
+  'Any colour, any print',
+  'Gather it or give it room',
+] as const;
+
+const Zig: React.FC = () => (
+  <svg viewBox="0 0 44 20" fill="none" className="srf-ticker-zig">
+    <path
+      d="M2 18L10 2L18 18L26 2L34 18L42 2"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+/** Marquee band whose speed, direction and lean follow the scroll (see usePageMotion). */
+export const PleatTicker: React.FC = () => (
+  <div data-ticker="" aria-hidden="true" className="srf-ticker">
+    <div data-ticker-track="" className="srf-ticker-track">
+      {[0, 1].map((copy) => (
+        <div key={copy} className="srf-ticker-set">
+          {PHRASES.map((phrase, i) => (
+            <React.Fragment key={phrase}>
+              <span className={i % 2 ? 'srf-ticker-word srf-ticker-outline' : 'srf-ticker-word'}>
+                {phrase}
+              </span>
+              <Zig />
+            </React.Fragment>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+);
+]]>
+    </file>
     <file path="src/app/(serraform)/serraform/sections/Questions.tsx">
 <![CDATA['use client';
 
@@ -11098,18 +12276,18 @@ export const Questions: React.FC = () => {
       <div className="srf-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-start">
           <div className="lg:col-span-4">
-            <div className="mb-3 srf-mono-caption text-[var(--srf-mauve)]">
+            <div data-m="scramble" className="mb-3 srf-mono-caption text-[var(--srf-mauve)]">
               Questions
             </div>
-            <h2 className="srf-h2 text-[var(--srf-oxblood)] text-balance">
+            <h2 data-m="heading" className="srf-h2 text-[var(--srf-oxblood)] text-balance">
               Practical notes.
             </h2>
           </div>
 
           <div className="lg:col-start-6 lg:col-span-7">
-            <div>
+            <div data-m="unfold">
               {FAQ_ITEMS.map((item) => (
-                <details key={item.question} className="srf-faq-item group">
+                <details key={item.question} data-m-item="" className="srf-faq-item group">
                   <summary className="srf-faq-summary">
                     <span>{item.question}</span>
                     <Plus
@@ -11117,8 +12295,10 @@ export const Questions: React.FC = () => {
                       aria-hidden="true"
                     />
                   </summary>
-                  <div className="srf-faq-answer">
-                    <p>{item.answer}</p>
+                  <div className="srf-faq-panel">
+                    <div className="srf-faq-answer">
+                      <p>{item.answer}</p>
+                    </div>
                   </div>
                 </details>
               ))}

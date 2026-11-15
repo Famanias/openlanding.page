@@ -8,10 +8,19 @@ export const Footer: React.FC = () => {
   return (
     <footer className="py-12 lg:py-16 bg-[var(--srf-rose)] text-[var(--srf-oxblood)]">
       <div className="srf-container">
+        {/* Wordmark stretches open with the scroll, then its letters follow the cursor */}
+        <div aria-hidden="true" className="srf-wordmark-wrap">
+          <div data-wordmark="" className="srf-wordmark">
+            {Array.from('SERRAFORM').map((ch, i) => (
+              <span key={i}>{ch}</span>
+            ))}
+          </div>
+        </div>
+
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-[var(--srf-hairline)]">
           <div>
             <Logo tone="dark" />
-            <p className="mt-2 text-sm text-[var(--srf-mauve)]">
+            <p data-m="lines" className="mt-2 text-sm text-[var(--srf-mauve)]">
               A little fold. A different room.
             </p>
           </div>
