@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { filterTemplates, modelFamily, readFilters, sortTemplates } from "./filters";
-import { TEMPLATES } from "./templates";
+import { CATEGORIES, TEMPLATES } from "./templates";
 
 describe("gallery discovery", () => {
   it("filters overlapping technology and effect categories and preserves URL selections", () => {
-    for (const category of ["threejs", "gsap", "motion", "scroll-animation", "shaders", "interactive-backgrounds"] as const) {
+    for (const category of ["threejs", "gsap", "motion", "shaders", "interactive-backgrounds"] as const) {
       expect(readFilters(`?category=${category}`).category).toBe(category);
       expect(filterTemplates(TEMPLATES, { category, model: "all", query: "" }).length).toBeGreaterThan(0);
     }
@@ -48,6 +48,9 @@ describe("gallery discovery", () => {
     expect(gradientSlugs).not.toContain("kinetic");
     expect(gradientSlugs).not.toContain("xibalba");
     expect(gradientSlugs).not.toContain("landingx");
+    expect(gradientSlugs).not.toContain("lumen");
+    expect(gradientSlugs).not.toContain("valence");
+    expect(gradientSlugs).not.toContain("tally");
 
     const studioSlugs = filterTemplates(TEMPLATES, { category: "studio", model: "all", query: "" }).map((t) => t.slug);
     expect(studioSlugs).toContain("volume-zero");
@@ -61,6 +64,40 @@ describe("gallery discovery", () => {
 
     const foodSlugs = filterTemplates(TEMPLATES, { category: "food", model: "all", query: "" }).map((t) => t.slug);
     expect(foodSlugs).toEqual(["mesamarket", "poppypatch", "pipkin", "koji"]);
+  });
+  it("removes the specified templates from the commerce category without deleting them", () => {
+    const removedSlugs = ["loophouse", "iridia", "satsuma", "volume-zero", "openhouse", "nomi", "aftercart", "fixture", "valence", "halodesk", "avel", "pello", "cullet", "chinagraph"] as const;
+    const commerceSlugs = filterTemplates(TEMPLATES, { category: "commerce", model: "all", query: "" }).map((t) => t.slug);
+    for (const slug of removedSlugs) {
+      expect(commerceSlugs).not.toContain(slug);
+      expect(TEMPLATES.some((t) => t.slug === slug)).toBe(true);
+    }
+  });
+  it("files Chinagraph and Alpine Reel under portfolio", () => {
+    const portfolioSlugs = filterTemplates(TEMPLATES, { category: "portfolio", model: "all", query: "" }).map((t) => t.slug);
+    expect(portfolioSlugs).toContain("chinagraph");
+    expect(portfolioSlugs).toContain("alpine-reel");
+  });
+  it("removes showcase and scroll-animation categories entirely", () => {
+    expect(CATEGORIES.map((category) => category.id)).not.toContain("showcase");
+    expect(CATEGORIES.map((category) => category.id)).not.toContain("scroll-animation");
+    expect(readFilters("?category=showcase").category).toBe("all");
+    expect(readFilters("?category=scroll-animation").category).toBe("all");
+    for (const template of TEMPLATES) {
+      expect(template.category).not.toBe("showcase");
+      expect(template.categories).not.toContain("showcase");
+      expect(template.categories).not.toContain("scroll-animation");
+    }
+  });
+  it("renames minimal to minimalistic and removes the specified templates", () => {
+    expect(readFilters("?category=minimal").category).toBe("all");
+    expect(readFilters("?category=minimalistic").category).toBe("minimalistic");
+    const removedSlugs = ["loam", "rill", "volume-zero", "chinagraph", "pipkin", "understudy", "amaoto", "hiyas"] as const;
+    const minimalisticSlugs = filterTemplates(TEMPLATES, { category: "minimalistic", model: "all", query: "" }).map((t) => t.slug);
+    for (const slug of removedSlugs) {
+      expect(minimalisticSlugs).not.toContain(slug);
+      expect(TEMPLATES.some((t) => t.slug === slug)).toBe(true);
+    }
   });
 });
 

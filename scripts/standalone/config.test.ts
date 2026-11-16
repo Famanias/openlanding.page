@@ -35,7 +35,7 @@ describe("automatic standalone template discovery", () => {
   it("derives selectors from the current registry, independently of export publication", () => {
     const root = fixture(); for (const slug of ["fresh-scene", "published", "fresh-shop"]) page(root, slug);
     const templates = [
-      { slug: "fresh-scene", categories: ["showcase", "3d"], hasDownload: false },
+      { slug: "fresh-scene", categories: ["editorial", "3d"], hasDownload: false },
       { slug: "published", category: "3d", hasDownload: true },
       { slug: "fresh-shop", categories: ["commerce"] },
     ];

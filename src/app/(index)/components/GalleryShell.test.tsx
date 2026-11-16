@@ -15,7 +15,7 @@ describe("GalleryShell", () => {
     const html = renderToStaticMarkup(<GalleryShell />);
     expect(html).toContain('role="tablist"');
     expect(html).toContain("All");
-    expect(html).toContain("Showcase");
+    expect(html).toContain("Studio");
     expect(html).toContain("3D");
     expect(html).toContain("Editorial");
     expect(html).toContain("Commerce");
