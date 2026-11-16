@@ -8,6 +8,7 @@ const COPY_METADATA: Record<
   TemplateSlug,
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
+  tolvar: { name: "TOLVAR EARTHWORKS", dependencies: ["lenis"], includeDownload: true },
   elsewhere: { name: "ELSEWHERE", dependencies: ["lenis"], includeDownload: true },
   serraform: { name: "SERRAFORM", dependencies: ["lucide-react", "motion"], includeDownload: true },
   mizunowa: { name: "MIZUNOWA", dependencies: ["lucide-react", "motion"], includeDownload: true },
