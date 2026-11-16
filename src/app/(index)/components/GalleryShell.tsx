@@ -49,7 +49,6 @@ export function GalleryShell() {
         <GalleryTabs
           activeTab={view.tab}
           onSelect={(tab) => setGalleryView({ tab })}
-          onOpenSubmit={requestOpenCommunitySubmission}
         />
 
         {view.tab === "community" ? (
