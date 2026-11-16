@@ -6,7 +6,6 @@ import type { GalleryView } from "../data/gallery-view";
 export interface GalleryTabsProps {
   activeTab: GalleryView["tab"];
   onSelect: (tab: GalleryView["tab"]) => void;
-  onOpenSubmit?: () => void;
 }
 
 const TABS: ReadonlyArray<{ id: GalleryView["tab"]; label: string; panelId: string }> = [
@@ -17,7 +16,6 @@ const TABS: ReadonlyArray<{ id: GalleryView["tab"]; label: string; panelId: stri
 export function GalleryTabs({
   activeTab,
   onSelect,
-  onOpenSubmit,
 }: GalleryTabsProps): React.ReactNode {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
     const buttons = event.currentTarget
@@ -63,16 +61,6 @@ export function GalleryTabs({
           );
         })}
       </div>
-
-      {onOpenSubmit && (
-        <button
-          type="button"
-          onClick={onOpenSubmit}
-          className="community-submit-trigger"
-        >
-          Add your website
-        </button>
-      )}
     </div>
   );
 }
