@@ -13,10 +13,7 @@ export function Crew() {
           </Reveal>
           <Reveal as="h2" variant="lines" className="tv-title" id="tv-crew-title">
             <span className="tv-line">
-              <span>Three seats</span>
-            </span>{" "}
-            <span className="tv-line">
-              <span>open.</span>
+              <span>We&apos;re Hiring!</span>
             </span>
           </Reveal>
           <Reveal as="p" className="tv-lede" delay={100}>

@@ -15,7 +15,7 @@ export function Yard() {
           </Reveal>
           <Reveal as="h2" variant="lines" className="tv-title" id="tv-yard-title">
             <span className="tv-line">
-              <span>We own the iron.</span>
+              <span>Our Equipment</span>
             </span>
           </Reveal>
           <Reveal as="p" className="tv-lede" delay={120}>

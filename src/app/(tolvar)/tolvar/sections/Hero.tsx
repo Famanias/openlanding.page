@@ -27,10 +27,10 @@ export function Hero() {
           <p className="tv-eyebrow tv-gauge tv-hero-eyebrow">Excavating · Grading · Hauling · Est. {COMPANY.founded}</p>
           <h1 className="tv-hero-title" id="tv-hero-title">
             <span className="tv-line">
-              <span>Dig it right.</span>
+              <span>20+ Years of</span>
             </span>{" "}
             <span className="tv-line">
-              <span className="tv-blade-text">Move it once.</span>
+              <span className="tv-blade-text">Reliable Excavation.</span>
             </span>
           </h1>
           <p className="tv-hero-lead">

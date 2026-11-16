@@ -23,7 +23,7 @@ async function fillEstimate(page: Page, values: Partial<typeof good>) {
 test.describe("tolvar", () => {
   test("opens on the hero with one h1, the renamed brand and no trace of the source business", async ({ page }) => {
     await page.goto(ROUTE);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Dig it right\.\s+Move it once\./);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/20\+ Years of\s+Reliable Excavation\./);
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator("[data-tv-header]")).toHaveAttribute("data-state", "top");
     await expect(page.getByRole("link", { name: /\(218\) 555-0142/ }).first()).toHaveAttribute("href", "tel:+12185550142");

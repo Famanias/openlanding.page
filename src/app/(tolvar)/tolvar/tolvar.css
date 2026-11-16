@@ -410,7 +410,7 @@ html.tv-locked { overflow: hidden; }
 /* ── Footer ─────────────────────────────────────────── */
 .tv-footer { position: relative; padding-bottom: 28px; overflow: clip; }
 .tv-footer-hatch { height: 28px; border-bottom: 2px solid currentColor; opacity: 0.85; }
-.tv-footer-big { font: 900 clamp(4.4rem, 19vw, 17rem)/0.8 var(--font-plate); text-transform: uppercase; white-space: nowrap; color: color-mix(in srgb, var(--color-blade) 92%, var(--color-topsoil)); margin: clamp(36px, 5vw, 72px) 0 clamp(28px, 4vw, 56px); }
+.tv-footer-big { font: 900 clamp(3rem, 7.6vw, 7.25rem)/0.88 var(--font-plate); text-transform: uppercase; letter-spacing: 0.002em; text-wrap: balance; color: color-mix(in srgb, var(--color-blade) 92%, var(--color-topsoil)); margin: clamp(36px, 5vw, 72px) 0 clamp(28px, 4vw, 56px); }
 .tv-footer-grid { display: grid; gap: 32px; padding-block: 28px; border-top: 1px solid color-mix(in srgb, var(--color-limestone) 30%, transparent); }
 .tv-footer-grid ul { display: grid; gap: 8px; }
 .tv-footer-label { color: var(--color-blade); margin-bottom: 12px; }

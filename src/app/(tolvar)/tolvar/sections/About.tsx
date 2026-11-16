@@ -20,10 +20,10 @@ export function About() {
           </Reveal>
           <Reveal as="h2" variant="lines" className="tv-title" id="tv-about-title">
             <span className="tv-line">
-              <span>{COMPANY.owner},</span>
+              <span>Excavating</span>
             </span>{" "}
             <span className="tv-line">
-              <span>owner and operator.</span>
+              <span>Since 2002</span>
             </span>
           </Reveal>
           <Reveal as="p" className="tv-lede" delay={100}>

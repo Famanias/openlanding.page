@@ -13,10 +13,7 @@ export function Work() {
           </Reveal>
           <Reveal as="h2" variant="lines" className="tv-title" id="tv-work-title">
             <span className="tv-line">
-              <span>Dirt only moves</span>
-            </span>{" "}
-            <span className="tv-line">
-              <span>four ways.</span>
+              <span>Our Services</span>
             </span>
           </Reveal>
           <Reveal as="p" className="tv-lede" delay={120}>

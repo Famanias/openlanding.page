@@ -7,7 +7,7 @@ export function Footer() {
       <div className="tv-footer-hatch" aria-hidden="true" />
       <div className="tv-wrap">
         <p className="tv-footer-big" aria-hidden="true">
-          Move it once.
+          Licensed, Insured, and Built on Integrity.
         </p>
         <div className="tv-footer-grid">
           <div>

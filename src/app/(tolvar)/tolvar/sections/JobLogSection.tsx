@@ -13,10 +13,7 @@ export function JobLogSection() {
           </Reveal>
           <Reveal as="h2" variant="lines" className="tv-title" id="tv-log-title">
             <span className="tv-line">
-              <span>Shot from the cab,</span>
-            </span>{" "}
-            <span className="tv-line">
-              <span>not a studio.</span>
+              <span>Work Gallery</span>
             </span>
           </Reveal>
           <Reveal as="p" className="tv-lede" delay={120}>
