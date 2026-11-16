@@ -10,7 +10,7 @@ export const ASSETS: Record<string, { w: number; h: number }> = {
   "fill-wall": { "w": 1280, "h": 1920 },
   "haul-dump": { "w": 1280, "h": 960 },
   "haul-lowboy": { "w": 1280, "h": 960 },
-  "hero-loader": { "w": 1280, "h": 960 },
+  "hero-loader": { "w": 2000, "h": 1116 },
   "log-bridge": { "w": 480, "h": 640 },
   "log-deck-1": { "w": 640, "h": 480 },
   "log-deck-2": { "w": 640, "h": 480 },

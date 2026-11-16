@@ -20,7 +20,7 @@ Paste this before any prompt:
 
 | Asset key | Aspect | Where used |
 |---|---|---|
-| `hero-loader` | 4:3 (1280 × 960) | Hero photo |
+| `hero-loader` | 16:9 (2000 × 1116) | Full-bleed hero background |
 | `cut-excavator` | 4:3 (1280 × 960) | The work: Cut panel |
 | `fill-dozer` | 4:3 (1280 × 960) | The work: Fill panel |
 | `pipe-chambers-1` | 3:4 (480 × 640) | The work: Pipe panel |
@@ -54,15 +54,15 @@ Paste this before any prompt:
 
 ## Rules the set has to keep
 
-- Photos are small. Layouts show them at or below their native width; do not use any of them full bleed on desktop.
+- Jobsite phone photos (`cut-*`, `fill-*`, `pipe-*`, `haul-*`, `yard-*`, `about-*`, `log-*`) are small (`<= 1,280 px`); keep them at or below their native width rather than full-bleed on desktop.
 - No readable company name, phone number or licence plate in any frame.
-- The hero photo needs the machine in the right two thirds and sky above it: it is cropped to roughly 5:4.
+- `hero-loader` is 16:9 (`2000 × 1116`) for the full-bleed hero background, with the machine on the right and darker sky/cut-bank space on the left for left-aligned copy.
 
 ## Prompts
 
 Each prompt is the preamble plus one line.
 
-- `hero-loader`: A yellow track loader seen side-on, pushing a full bucket of red clay across a raised building pad, broken cloud behind it.
+- `hero-loader`: Wide 16:9 horizontal jobsite photograph on a rural northern Minnesota construction site, overcast daylight, weathered yellow track loader on the right pushing a bucket of dark topsoil and red clay across a muddy cut pad, darker shadowed earth and pine treeline under a moody slate-grey sky on the left.
 - `cut-excavator`: A yellow excavator small on the horizon above a wide foreground of freshly cut red clay, overcast sky, a row of young pines.
 - `fill-dozer`: A yellow dozer with its blade down in the middle of a huge flat stubble field, grey winter sky.
 - `pipe-chambers-1`, `pipe-chambers-2`, `pipe-chambers-3`: Orange arched plastic storm-water chambers in rows on crushed rock inside a fabric-lined excavation, black corrugated pipe and a round concrete structure, shot from the trench edge.

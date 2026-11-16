@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Picture } from "../assets";
+import { ASSETS } from "../assets.generated";
 import { staggerDelay } from "../motion/math";
 import { FILTERS, JOBS, countByFilter, countLabel, filterJobs, jobLabel, stepIndex, type JobFilter } from "./jobs";
 
@@ -59,7 +60,10 @@ export function JobLog() {
         {shown.map((item, index) => (
           <li key={item.no} className="tv-job" style={{ "--d": `${staggerDelay(index, 45, 540)}ms` } as CSSProperties}>
             <button type="button" className="tv-job-open" onClick={() => setViewing(index)} aria-label={`${jobLabel(item.no)}: ${item.title}. Open photo.`}>
-              <span className="tv-job-photo">
+              <span
+                className="tv-job-photo"
+                style={ASSETS[item.assetKey] ? { aspectRatio: `${ASSETS[item.assetKey].w} / ${ASSETS[item.assetKey].h}` } : undefined}
+              >
                 <Picture assetKey={item.assetKey} alt={item.alt} sizes="(min-width: 1100px) 24vw, (min-width: 700px) 32vw, 48vw" />
               </span>
               <span className="tv-job-meta">

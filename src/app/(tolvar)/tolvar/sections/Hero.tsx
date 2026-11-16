@@ -10,6 +10,18 @@ import { COMPANY } from "./content";
 export function Hero() {
   return (
     <section className="tv-hero" id="top" data-tv-hero aria-labelledby="tv-hero-title">
+      <div className="tv-hero-bg">
+        <div className="tv-hero-frame">
+          <Picture
+            assetKey="hero-loader"
+            alt="A weathered yellow track loader pushing a bucket of dark topsoil and red clay across a muddy cut pad under an overcast sky, with pines behind"
+            sizes="100vw"
+            priority
+          />
+        </div>
+        <span className="tv-hero-scrim" aria-hidden="true" />
+      </div>
+
       <div className="tv-hero-inner">
         <div className="tv-hero-copy">
           <p className="tv-eyebrow tv-gauge tv-hero-eyebrow">Excavating · Grading · Hauling · Est. {COMPANY.founded}</p>
@@ -45,20 +57,10 @@ export function Hero() {
           </ul>
         </div>
 
-        <figure className="tv-hero-photo">
-          <div className="tv-hero-frame">
-            <Picture
-              assetKey="hero-loader"
-              alt="A yellow track loader pushing a bucket of red clay across a building pad under a cloudy sky"
-              sizes="(min-width: 1000px) 56vw, 100vw"
-              priority
-            />
-          </div>
-          <figcaption className="tv-hero-tag tv-gauge">
-            <span>Job 0219</span>
-            <span>Pad build, 1,150 yd placed</span>
-          </figcaption>
-        </figure>
+        <p className="tv-hero-tag tv-gauge">
+          <span>Job 0219</span>
+          <span>Pad build, 1,150 yd placed</span>
+        </p>
       </div>
       <span className="tv-grade" aria-hidden="true" />
     </section>

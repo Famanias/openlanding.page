@@ -166,7 +166,8 @@ tolvar/sections/            content.ts (tested), Header, Hero, Ticker, Work, Job
 
 ## Imagery
 
-31 photographs, listed in `docs/image-prompts/tolvar.md`. They are real jobsite phone photos, most 1,280 px wide or
-smaller, so layouts keep them at or below their native width: the hero photo sits in half the screen, not full bleed.
-Lettering that named the original business was painted out with a median filter before processing
+31 photographs, listed in `docs/image-prompts/tolvar.md`. `hero-loader` is a 16:9 (`2000 × 1116`) full-bleed hero
+background with a directional diesel scrim on the left for type legibility. The remaining 30 photos are real jobsite
+phone photos, most 1,280 px wide or smaller, so section layouts keep them at or below their native width. Lettering
+that named the original business was painted out with a median filter before processing
 (`.openlanding-page/tolvar/media/prepare-photos.cjs`). Equipment makers' own badges are left as shot.
