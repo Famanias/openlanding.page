@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Picture } from "../assets";
 import { staggerDelay } from "../motion/math";
 import { FILTERS, JOBS, countByFilter, countLabel, filterJobs, jobLabel, stepIndex, type JobFilter } from "./jobs";
@@ -24,7 +24,7 @@ export function JobLog() {
     setFiltered(true);
   };
 
-  const step = useCallback((delta: number) => setViewing((index) => (index === null ? index : stepIndex(index, delta, shown.length))), [shown.length]);
+  const step = (delta: number) => setViewing((index) => (index === null ? index : stepIndex(index, delta, shown.length)));
 
   useEffect(() => {
     const node = dialog.current;

@@ -146,6 +146,7 @@ test.describe("tolvar", () => {
   test("scrolling moves the level bubble, hides the bar going down and brings it back going up", async ({ page }) => {
     await page.goto(ROUTE);
     const header = page.locator("[data-tv-header]");
+    await expect.poll(() => page.evaluate(() => document.documentElement.style.getPropertyValue("--tv-progress"))).toBe("0");
     await page.evaluate(() => window.scrollTo({ top: 1600, behavior: "instant" }));
     await expect(header).toHaveAttribute("data-state", "hidden");
     await expect.poll(() => page.evaluate(() => Number(getComputedStyle(document.documentElement).getPropertyValue("--tv-progress")))).toBeGreaterThan(0.05);

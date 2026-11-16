@@ -6,7 +6,7 @@ import "./tolvar/tolvar.css";
 const plate = Sofia_Sans_Extra_Condensed({ subsets: ["latin"], variable: "--font-sofia-condensed", display: "swap" });
 const work = Work_Sans({ subsets: ["latin"], variable: "--font-work-sans", display: "swap" });
 // B612 Mono was drawn for instrument panels: readouts, tickets, phone numbers.
-const gauge = B612_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-b612-mono", display: "swap" });
+const gauge = B612_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-b612-mono", display: "swap", preload: false });
 
 const TITLE = "Tolvar Earthworks: excavating, grading and hauling in Aitkin, Minnesota";
 const DESCRIPTION =
