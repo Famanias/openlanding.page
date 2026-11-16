@@ -1,11 +1,16 @@
+import { Picture } from "../assets";
 import { Logo } from "../brand/Logo";
 import { COMPANY, NAV } from "./content";
 
 export function Footer() {
   return (
     <footer className="tv-footer tv-dark">
+      <div className="tv-footer-bg" aria-hidden="true">
+        <Picture assetKey="footer-yard" alt="" sizes="100vw" />
+        <span className="tv-footer-scrim" />
+      </div>
       <div className="tv-footer-hatch" aria-hidden="true" />
-      <div className="tv-wrap">
+      <div className="tv-wrap tv-footer-inner">
         <p className="tv-footer-big" aria-hidden="true">
           Licensed, Insured, and Built on Integrity.
         </p>

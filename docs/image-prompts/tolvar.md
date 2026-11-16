@@ -51,6 +51,7 @@ Paste this before any prompt:
 | `log-framing` | 3:2 (1280 × 853) | Job log 0143 |
 | `log-deck-1` | 4:3 (640 × 480) | Job log 0139 |
 | `log-pond-4` | 4:3 (640 × 480) | Job log 0134 |
+| `footer-yard` | 16:9 (2000 × 1116) | Full-bleed footer background |
 
 ## Rules the set has to keep
 
@@ -78,3 +79,4 @@ Each prompt is the preamble plus one line.
 - `fill-drive`: A new pale gravel driveway forking through green woods.
 - `log-riprap`: A pile of large white riprap stone beside a cracked rural road, an orange cone.
 - `log-stairs`, `log-deck-1`, `log-deck-2`, `log-framing`, `log-pavilion`, `log-firepit`, `log-bridge`: Finish work on graded ground: a raised cedar deck and stair on a wooded slope, braced posts in a rocky cut, an open timber pavilion on a gravel pad, a gravel path to a stone fire ring, a steel truss trail bridge.
+- `footer-yard`: Wide 16:9 horizontal photograph of a quiet rural northern Minnesota excavating yard at dusk after rain, dark wet gravel and topsoil, dark pine treeline against a slate-charcoal evening sky, silhouettes of a parked yellow excavator and dump truck on the right.

@@ -8,6 +8,7 @@ export const ASSETS: Record<string, { w: number; h: number }> = {
   "fill-drive": { "w": 640, "h": 480 },
   "fill-shaping": { "w": 640, "h": 480 },
   "fill-wall": { "w": 1280, "h": 1920 },
+  "footer-yard": { "w": 2000, "h": 1116 },
   "haul-dump": { "w": 1280, "h": 960 },
   "haul-lowboy": { "w": 1280, "h": 960 },
   "hero-loader": { "w": 2000, "h": 1116 },

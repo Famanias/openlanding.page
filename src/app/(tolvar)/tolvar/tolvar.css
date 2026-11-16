@@ -409,7 +409,12 @@ html.tv-locked { overflow: hidden; }
 
 /* ── Footer ─────────────────────────────────────────── */
 .tv-footer { position: relative; padding-bottom: 28px; overflow: clip; }
-.tv-footer-hatch { height: 28px; border-bottom: 2px solid currentColor; opacity: 0.85; }
+.tv-footer-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.tv-footer-bg picture, .tv-footer-bg img { width: 100%; height: 100%; }
+.tv-footer-bg img { object-fit: cover; object-position: 75% 55%; }
+.tv-footer-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--color-topsoil) 72%, transparent) 0%, color-mix(in srgb, var(--color-diesel) 82%, transparent) 100%); }
+.tv-footer-hatch { position: relative; z-index: 1; height: 28px; border-bottom: 2px solid currentColor; opacity: 0.85; }
+.tv-footer-inner { position: relative; z-index: 1; }
 .tv-footer-big { font: 900 clamp(3rem, 7.6vw, 7.25rem)/0.88 var(--font-plate); text-transform: uppercase; letter-spacing: 0.002em; text-wrap: balance; color: color-mix(in srgb, var(--color-blade) 92%, var(--color-topsoil)); margin: clamp(36px, 5vw, 72px) 0 clamp(28px, 4vw, 56px); }
 .tv-footer-grid { display: grid; gap: 32px; padding-block: 28px; border-top: 1px solid color-mix(in srgb, var(--color-limestone) 30%, transparent); }
 .tv-footer-grid ul { display: grid; gap: 8px; }

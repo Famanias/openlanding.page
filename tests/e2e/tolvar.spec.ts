@@ -180,7 +180,7 @@ test.describe("tolvar on a phone", () => {
     const menu = page.locator("#tv-menu");
     await expect(menu).toHaveAttribute("data-open", "true");
     await expect(page.locator("html")).toHaveClass(/tv-locked/);
-    await menu.getByRole("link", { name: /Job log/ }).click();
+    await menu.getByRole("link", { name: /Gallery/ }).click();
     await expect(menu).toHaveAttribute("data-open", "false");
     await expect(page.locator("html")).not.toHaveClass(/tv-locked/);
   });

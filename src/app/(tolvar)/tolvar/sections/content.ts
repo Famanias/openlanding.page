@@ -1,9 +1,9 @@
 /** Page copy that is not service or job data. Everything about the company here is invented. */
 
 export const NAV = [
-  { id: "work", label: "The work" },
-  { id: "log", label: "Job log" },
-  { id: "yard", label: "The yard" },
+  { id: "work", label: "Services" },
+  { id: "log", label: "Gallery" },
+  { id: "yard", label: "Equipment" },
   { id: "about", label: "About" },
   { id: "crew", label: "Crew" },
 ] as const;
