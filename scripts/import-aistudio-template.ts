@@ -70,7 +70,7 @@ function parseCliArgs() {
   let repoOrPath = "";
   let slug = "";
   let title = "";
-  let category = "showcase";
+  let category = "studio";
   let dryRun = false;
   let force = false;
   let noRegister = false;

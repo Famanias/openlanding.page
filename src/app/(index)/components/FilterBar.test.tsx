@@ -105,7 +105,7 @@ describe("FilterBar", () => {
         categoryCounts={{
           all: 3,
           deck: 1,
-          showcase: 1,
+          threejs: 1,
           "3d": 1,
         }}
       />

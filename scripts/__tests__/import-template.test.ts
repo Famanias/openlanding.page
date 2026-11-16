@@ -49,7 +49,7 @@ describe("import-template gallery registration", () => {
         `export const TEMPLATE_PATHS: string[] = ["/alpha", "/beta"];\n`
       );
 
-      updateGalleryRegistrations(sampleMeta, "gamma", "showcase", tempDir);
+      updateGalleryRegistrations(sampleMeta, "gamma", "studio", tempDir);
 
       const updatedTemplatesTs = fs.readFileSync(path.join(dataDir, "templates.ts"), "utf-8");
       expect(updatedTemplatesTs).toContain('export type TemplateSlug = "alpha" | "beta" | "gamma";');
@@ -103,7 +103,7 @@ describe("import-template gallery registration", () => {
         `export const TEMPLATE_PATHS: string[] = ["/alpha"];\n`
       );
 
-      updateGalleryRegistrations(sampleMeta, "beta", "showcase", tempDir);
+      updateGalleryRegistrations(sampleMeta, "beta", "studio", tempDir);
 
       const updatedTemplatesTs = fs.readFileSync(path.join(dataDir, "templates.ts"), "utf-8");
       expect(updatedTemplatesTs).toContain('export type TemplateSlug = "alpha" | "beta";');
