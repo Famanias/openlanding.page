@@ -1,12 +1,25 @@
-# OpenLandingPage
+# OpenLandingPage: free landing page templates, from header to footer
 
-> **Landing Pages your Agent can build.**  
+> **Landing Pages your Agent can build.**
 > An open-source collection of landing page templates engineered for all to use.
+
+**Live gallery: [www.openlanding.page](https://www.openlanding.page)**
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8)
 ![Bun](https://img.shields.io/badge/Bun-1.3+-fbf0df)
+
+**OpenLandingPage is a free, MIT-licensed gallery of 100+ complete landing page templates.** Each one is designed from header to footer, not just a hero section, and comes with a live page, its Next.js source, and an AI rebuild prompt you can paste into Claude Code, Cursor, Codex or Antigravity.
+
+| | | |
+| --- | --- | --- |
+| [![Orrery template](public/gallery/orrery.webp)](https://www.openlanding.page/templates/orrery) | [![Tolvar Earthworks template](public/gallery/tolvar.webp)](https://www.openlanding.page/templates/tolvar) | [![KEYTU template](public/gallery/keytu.webp)](https://www.openlanding.page/templates/keytu) |
+| [Orrery](https://www.openlanding.page/templates/orrery): AI agent orchestration keynote | [Tolvar Earthworks](https://www.openlanding.page/templates/tolvar): excavation contractor | [KEYTU](https://www.openlanding.page/templates/keytu): showcase landing page |
+| [![KŌJI template](public/gallery/koji.webp)](https://www.openlanding.page/templates/koji) | [![Calder & Rowe template](public/gallery/calder.webp)](https://www.openlanding.page/templates/calder) | [![Aubade template](public/gallery/aubade.webp)](https://www.openlanding.page/templates/aubade) |
+| [KŌJI](https://www.openlanding.page/templates/koji): 3D-focused landing page | [Calder & Rowe](https://www.openlanding.page/templates/calder): law firm | [Aubade](https://www.openlanding.page/templates/aubade): overnight sleeper train |
+
+**Using a template:** open it at `https://www.openlanding.page/templates/<slug>`, copy its prompt from `https://www.openlanding.page/copy/<slug>-prompt.md` (or the copy button in the gallery), or download the standalone HTML where offered. A machine-readable index of every template is at [`/llms.txt`](https://www.openlanding.page/llms.txt), with full prompts at [`/llms-full.txt`](https://www.openlanding.page/llms-full.txt).
 
 ---
 
@@ -20,6 +33,7 @@
 - **AI-Agent Ready:** Each template includes full prompt files (`docs/prompts/` and `public/copy/`) and design specifications so AI coding agents (Claude Code, Antigravity, Cursor, Codex) or developers can rebuild, adapt, or one-shot them from scratch.
 - **Built-in accessibility:** Automatic fallbacks and adaptations for `prefers-reduced-motion` across every template.
 - **Agent Skill:** this repository also has an agent skill located in  `skills/create-landing-template`.
+- **Discoverable:** sitemap, robots, `llms.txt`, JSON-LD and canonical URLs are generated from the template registry. See [docs/seo.md](docs/seo.md).
 
 ---
 

@@ -57,3 +57,7 @@ The hero, gallery cards (title, description, stack), FAQ and footer are all in t
 - The `(index)` layout metadata sets `twitter.card = "summary_large_image"`, `openGraph.siteName` and `openGraph.url`.
 - `src/app/manifest.ts` serves `/manifest.webmanifest` (name, description, `/icon.svg`, gallery theme colour). It sits at the `app/` root, so Next links it from every root layout, templates included. That's harmless: they're pages on the same site.
 - Colours are duplicated as hex in these two files because neither can read CSS variables. Keep them in step with `tokens.css`.
+
+## README
+
+The README opens with a keyword-bearing H1, the live link, and a one-sentence bold definition that answer engines can quote. Below that are a screenshot grid (from `public/gallery/*.webp`) linking to live template pages, and instructions for using a template and the `llms.txt` index. Keep the "100+" count roughly current.
