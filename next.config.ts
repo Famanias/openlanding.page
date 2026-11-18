@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import path from "node:path";
 import { RAW_TEMPLATES } from "./src/app/(index)/data/templates";
 import { createTemplateRouting } from "./src/lib/template-routing";
+import { templateCanonicalHeaders } from "./src/lib/seo";
 
 const templateRouting = createTemplateRouting(RAW_TEMPLATES.map(template => template.slug));
 
@@ -25,6 +26,9 @@ const nextConfig: NextConfig = {
         as: "*.css",
       },
     },
+  },
+  async headers() {
+    return templateCanonicalHeaders(RAW_TEMPLATES.filter(template => !template.archived).map(template => template.slug));
   },
   async redirects() {
     return templateRouting.redirects;

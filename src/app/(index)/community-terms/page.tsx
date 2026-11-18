@@ -3,6 +3,7 @@ import Link from "next/link";
 import { HTML_CONSENT, LISTING_CONSENT } from "../../../lib/community/contracts";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/community-terms" },
   title: "Community submission terms — openlandingpage",
   description:
     "Terms for submitting live website listings and optional MIT-licensed HTML templates to OpenLandingPage.",

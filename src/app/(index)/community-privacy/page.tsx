@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/community-privacy" },
   title: "Community privacy notice — openlandingpage",
   description:
     "How OpenLandingPage handles community submission metadata, optional contact emails, and retention.",
