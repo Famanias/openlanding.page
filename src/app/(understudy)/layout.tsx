@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Google_Sans_Code, Google_Sans_Flex, Literata } from "next/font/google";
 import "./understudy/understudy.css";
+import "./understudy/understudy-subpages.css";
 
 const sans = Google_Sans_Flex({ subsets: ["latin"], axes: ["ROND"], variable: "--font-us-flex" });
 const code = Google_Sans_Code({ subsets: ["latin"], variable: "--font-us-code", preload: false });

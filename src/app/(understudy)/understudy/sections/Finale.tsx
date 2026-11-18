@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Mark } from "../brand/Logo";
 import { StageFloor } from "../brand/StageFloor";
 
@@ -31,28 +32,28 @@ export function Finale() {
             <div className="us-finale__col">
               <span className="us-mono">Rehearsal Stages</span>
               <ul className="us-finale__list">
-                <li><a href="#parts" data-us-go="parts">Engineering Repertoire</a></li>
-                <li><a href="#parts" data-us-go="parts">Design & Product Parts</a></li>
-                <li><a href="#parts" data-us-go="parts">Growth & Operations</a></li>
-                <li><a href="#parts" data-us-go="parts">18 Partner Companies</a></li>
+                <li><Link href="/templates/understudy/parts">All 10 Repertoire Parts</Link></li>
+                <li><Link href="/templates/understudy/parts/product-designer">Product Design Brief</Link></li>
+                <li><Link href="/templates/understudy/parts/ai-engineer">AI Engineer Brief</Link></li>
+                <li><Link href="/templates/understudy/casting">18 Partner Companies</Link></li>
               </ul>
             </div>
             <div className="us-finale__col">
               <span className="us-mono">The Method</span>
               <ul className="us-finale__list">
-                <li><a href="#rehearsal" data-us-go="rehearsal">Act I: The Lot</a></li>
-                <li><a href="#rehearsal" data-us-go="rehearsal">Act II: The Cast</a></li>
-                <li><a href="#rehearsal" data-us-go="rehearsal">Act III: The Notes</a></li>
-                <li><a href="#rehearsal" data-us-go="rehearsal">Act IV: The Reel</a></li>
+                <li><Link href="/templates/understudy/method">Four-Act Production Method</Link></li>
+                <li><Link href="/templates/understudy/method#faq">Studio &amp; Director FAQ</Link></li>
+                <li><Link href="/templates/understudy#rehearsal">Rehearsal Stage</Link></li>
+                <li><Link href="/templates/understudy">Studio Home</Link></li>
               </ul>
             </div>
             <div className="us-finale__col">
               <span className="us-mono">Studio Cast</span>
               <ul className="us-finale__list">
-                <li><a href="#casting" data-us-go="casting">3,400+ Casting Studios</a></li>
-                <li><a href="#pricing" data-us-go="pricing">Tuition & Term Sheet</a></li>
+                <li><Link href="/templates/understudy/casting">3,400+ Casting Studios</Link></li>
+                <li><Link href="/templates/understudy/tuition">Tuition &amp; Term Sheet</Link></li>
                 <li><a href="mailto:director@understudy.example" data-us-ask>Audition Inquiries</a></li>
-                <li><a href="https://example.com/understudy/jobs">Directors Wanted</a></li>
+                <li><button type="button" data-us-start style={{ textAlign: "left" }}>Book Opening Night</button></li>
               </ul>
             </div>
           </div>
@@ -60,12 +61,13 @@ export function Finale() {
             <nav className="us-finale__legal" aria-label="Legal">
               <a href="#top" data-us-go="top">Back to the top</a>
               <a href="mailto:hello@understudy.example">hello@understudy.example</a>
-              <span>© 2026 Understudy · a fictional brand for a landing-page template</span>
+              <span>© 2026 Understudy · a fictional brand for a multi-page studio showcase</span>
             </nav>
-            <nav className="us-finale__social" aria-label="Understudy elsewhere">
-              <a href="https://example.com/understudy/letters">Letters</a>
-              <a href="https://example.com/understudy/press">Press</a>
-              <a href="https://example.com/understudy/jobs">Directors wanted</a>
+            <nav className="us-finale__social" aria-label="Understudy pages">
+              <Link href="/templates/understudy/parts">Parts</Link>
+              <Link href="/templates/understudy/method">Method</Link>
+              <Link href="/templates/understudy/casting">Casting</Link>
+              <Link href="/templates/understudy/tuition">Tuition</Link>
             </nav>
           </div>
         </div>
