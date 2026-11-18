@@ -6,6 +6,7 @@ import { Copy, DownloadSimple, Check, ThumbsUp, ThumbsDown } from "@phosphor-ico
 import type { TemplateItem } from "../data/templates";
 import { downloadStandalone } from "../lib/download";
 import { templatePath } from "../../../lib/template-routing";
+import { templateDetailPath } from "../../../lib/catalog-routes";
 
 import type { VoteCounts, VoteDirection } from "../../../lib/votes/types";
 
@@ -71,6 +72,7 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
       <div className="card-body">
         <div className="card-title-row">
           <h3><a href={templatePath(template.slug)} target="_blank" rel="noopener noreferrer">{template.title}</a></h3>
+          <a href={templateDetailPath(template.slug)} className="card-details-link" aria-label={`Details: ${template.title} landing page template`}>Details</a>
           <button type="button" onClick={handleCopyPrompt} aria-live="polite" aria-label={copiedAction === "prompt" ? "Copied prompt" : "Copy prompt"}
             title="Copy prompt" data-copied={copiedAction === "prompt"} className="card-action-btn">
             <span className="copy-icon-stack" aria-hidden="true">
