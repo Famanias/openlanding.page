@@ -27,6 +27,7 @@
     "process-clips": "tsx scripts/process-clips.ts",
     "export:waypoint": "tsx scripts/export-waypoint.ts",
     "export:templates": "tsx scripts/export-templates.ts",
+    "watermark:downloads": "tsx scripts/watermark-downloads.ts",
     "verify:exports": "tsx scripts/verify-exports.ts"
   },
   "dependencies": {
