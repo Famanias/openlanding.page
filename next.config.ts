@@ -9,7 +9,7 @@ const templateRouting = createTemplateRouting(RAW_TEMPLATES.map(template => temp
 const nextConfig: NextConfig = {
   cacheComponents: true,
   // Cap static-generation workers: the default (one per core) ran out of memory on shared dev machines.
-  experimental: { cpus: 1 },
+  experimental: { cpus: 1, agentUpgrade: "security" },
   partialPrefetching: true,
   turbopack: {
     // Allow resolving dependencies when run from a worktree.
