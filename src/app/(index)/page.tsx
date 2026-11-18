@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { GalleryShell } from "./components/GalleryShell";
+import { CategoryLinks } from "./components/CategoryLinks";
 import { Faq } from "./components/Faq";
 import { Footer } from "./components/Footer";
 import { buildFaq } from "./data/faq";
@@ -23,6 +24,7 @@ export default async function IndexPage() {
       <main className="flex-1">
         <Hero />
         <GalleryShell />
+        <CategoryLinks />
         <Faq entries={faq} />
       </main>
       <Footer />

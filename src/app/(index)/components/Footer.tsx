@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { catalogIndexPath } from "../../../lib/catalog-routes";
 import { FooterScene } from "./FooterScene";
 import { Contribute } from "./Contribute";
 import "./footer/footer-scene.css";
@@ -18,6 +19,10 @@ export function Footer() {
         </p>
         <p className="footer-meta-links">
           <span>Curated with craft for modern AI pair programming.</span>{" "}
+          <Link href={catalogIndexPath()} className="community-credit-link">
+            All templates
+          </Link>{" "}
+          ·{" "}
           <Link href="/community-terms" className="community-credit-link">
             Community terms
           </Link>{" "}
