@@ -106,3 +106,5 @@ auven, cirro, echolog, khora, nema, orova, pitchlane, rooted, stillwater, strata
 Tests: `src/lib/template-bar.test.ts` (path matching, title map, runtime against a fake DOM, serialised script, `<` escaping) and `tests/e2e/template-bar.spec.ts` (calder and orrery as React templates, rooted as a static one; the bar shows, links, dismisses, stays dismissed on reload, dismisses with Escape, is absent from raw template HTML and from `/` and catalog pages; desktop and phone screenshots go to `.openlanding-page/template-bar/`).
 
 Existing template e2e suites now see the bar after `load`. It is a small pill at the bottom of the viewport, so a test that clicks something underneath it can set `localStorage["olp:template-bar:dismissed"] = "1"` with `page.addInitScript` first.
+
+The static templates' "live route equals download" e2e checks (rooted, echolog, stillwater, `imported-html-templates`, `template-routing`) now expect `withTemplateBar(download)` from `tests/e2e/template-bar.helpers.ts` for `/templates/<slug>`, and still require `/downloads/<slug>.html` to be byte-identical.
