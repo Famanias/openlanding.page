@@ -1,5 +1,7 @@
 # SEO, AEO and GEO
 
+What you need to do after deploying: [`seo-launch-checklist.md`](seo-launch-checklist.md).
+
 How openlandingpage is made discoverable by search engines (SEO), answer engines (AEO) and generative/LLM engines (GEO).
 
 ## Canonical origin
