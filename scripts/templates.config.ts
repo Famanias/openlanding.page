@@ -1,6 +1,6 @@
 import { RAW_TEMPLATES } from "../src/app/(index)/data/templates";
 
-export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar";
+export type TemplateSlug = "rooted" | "echolog" | "aerune" | "kinfield" | "grandstand" | "daymark" | "waypoint" | "lenus" | "savepoint" | "stillwater" | "mercer" | "landingx" | "avel" | "noiseclub" | "warpwander" | "ctrlroom" | "parallel" | "lumen" | "morta" | "orrery" | "keytu" | "koji" | "trace" | "calder" | "vector" | "loophouse" | "wowflutter" | "verane" | "noctiluca" | "iridia" | "bathys" | "aubade" | "satsuma" | "kinetic" | "volume-zero" | "openhouse" | "handoff" | "truecut" | "nomi" | "kazeko" | "alpine-reel" | "rill" | "hiyas" | "mio" | "satoyama" | "tally" | "aftercart" | "fixture" | "chinagraph" | "valence" | "pipkin" | "serein" | "nulo" | "flori" | "understudy" | "nightline" | "cullet" | "amaoto" | "assemblage" | "firstday" | "lowtide" | "loam" | "perigee" | "xibalba" | "synapxe" | "pello" | "halodesk" | "riff" | "inesvale" | "nicopark" | "poppypatch" | "razorline" | "nexus" | "starriot" | "zeno" | "penumbra" | "khora" | "pitchlane" | "strata" | "arcsignal" | "aurel" | "cirro" | "orova" | "vyra" | "auven" | "nema" | "velora" | "tourne" | "kairok" | "patchbay" | "radius" | "glyphwork" | "holloway" | "frameone" | "forum" | "orbitbeyond" | "postmark" | "mesamarket" | "tessera" | "surface08" | "datum" | "afterwalk" | "mizunowa" | "serraform" | "elsewhere" | "tolvar" | "snoot";
 
 export type TemplateConfig = {
   createdAt: string;
@@ -13,6 +13,11 @@ export type TemplateConfig = {
 };
 
 const PALETTES: Record<TemplateSlug, Omit<TemplateConfig, "createdAt" | "hasDownload">> = {
+  snoot: {
+    // ink (indigo text, dark slabs), biscuit (page), milk (cards), boop pink (the nose, primary accent),
+    // collar blue (bold slabs, links), yolk (tags, highlights), mint (all-clear, success), frank (the dachshund coat)
+    palette: ["#1F1B3A", "#FFF4E4", "#FFFCF6", "#FF6B8B", "#3550F0", "#FFC23D", "#6FD3B0", "#C9773F"],
+  },
   tolvar: {
     // diesel (ink), limestone (page), chalk (cards, marking paint), blade (machine yellow: the only accent),
     // topsoil (dark slabs), clay (rare red-dirt secondary), gravel (muted text), locate blue (water and pipe flags only)

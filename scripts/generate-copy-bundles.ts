@@ -9,6 +9,7 @@ const COPY_METADATA: Record<
   { name: string; dependencies: string[]; includeDownload?: boolean }
 > = {
   tolvar: { name: "TOLVAR EARTHWORKS", dependencies: ["lenis"], includeDownload: true },
+  snoot: { name: "Snoot", dependencies: ["lenis", "three"], includeDownload: true },
   elsewhere: { name: "ELSEWHERE", dependencies: ["lenis"], includeDownload: true },
   serraform: { name: "SERRAFORM", dependencies: ["lucide-react", "motion"], includeDownload: true },
   mizunowa: { name: "MIZUNOWA", dependencies: ["lucide-react", "motion"], includeDownload: true },
@@ -21,7 +22,7 @@ const COPY_METADATA: Record<
   echolog: { name: "ECHOLOG", dependencies: ["three"], includeDownload: true },
   aerune: { name: "AERUNE", dependencies: ["lenis"] },
   orbitbeyond: { name: "ORBIT & BEYOND", dependencies: ["lucide-react", "motion"] },
-  forum: { name: "FORUM", dependencies: ["lucide-react", "motion"] },
+  forum: { name: "FORUM", dependencies: ["lucide-react", "motion", "three"] },
   frameone: { name: "FRAME/ONE", dependencies: [] },
   kinfield: { name: "KINFIELD", dependencies: ["gsap", "@animate-ui/react", "motion"] },
   grandstand: { name: "GRANDSTAND", dependencies: [] },
