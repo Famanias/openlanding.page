@@ -62,18 +62,77 @@ The hero, gallery cards (title, description, stack), FAQ and footer are all in t
 
 The README opens with a keyword-bearing H1, the live link, and a one-sentence bold definition that answer engines can quote. Below that are a screenshot grid (from `public/gallery/*.webp`) linking to live template pages, and instructions for using a template and the `llms.txt` index. Keep the "100+" count roughly current.
 
+## Search engine submission and IndexNow
+
+Ownership verification tags are injected into `src/app/(index)/layout.tsx` at build time when `GOOGLE_SITE_VERIFICATION` and/or `BING_SITE_VERIFICATION` are set (see `docs/community-env.example`). When unset, no empty verification `<meta>` tags are emitted.
+
+### Google Search Console checklist
+
+1. Add a **Domain** property for `openlanding.page` (or verify ownership by setting `GOOGLE_SITE_VERIFICATION` in the production environment, redeploying so `<meta name="google-site-verification" content="...">` is rendered on `/`, and choosing the HTML tag verification method).
+2. Confirm `https://www.openlanding.page` is the canonical host (non-`www` redirects to `www`, and `SITE_URL` / canonicals / sitemap all point to `https://www.openlanding.page`).
+3. Open **Sitemaps** and submit `https://www.openlanding.page/sitemap.xml`.
+4. Use **URL Inspection** on `https://www.openlanding.page/` and click **Request indexing** after major releases.
+
+### Bing Webmaster Tools checklist
+
+1. Either import the verified property directly from Google Search Console, or set `BING_SITE_VERIFICATION` in the production environment, redeploy so `<meta name="msvalidate.01" content="...">` is rendered on `/`, and verify via HTML meta tag.
+2. Open **Sitemaps** and submit `https://www.openlanding.page/sitemap.xml`.
+3. IndexNow verification requires no extra account setup once `public/e48297be6111ba712e37419eeaae877d.txt` is live at `https://www.openlanding.page/e48297be6111ba712e37419eeaae877d.txt` (`src/lib/indexnow.ts` exports `INDEXNOW_KEY` and `INDEXNOW_KEY_URL`).
+
+### Submitting URLs via IndexNow
+
+`scripts/indexnow.ts` (`bun run indexnow`) reads every URL from `src/app/sitemap.ts`, verifies all URLs are on `SITE_URL`, batches them into chunks of up to 10,000, and POSTs them to `https://api.indexnow.org/indexnow` (which notifies Bing/ChatGPT search/Copilot, Yandex, and participating engines).
+
+- **Preview payload without network requests**: `bun run indexnow --dry-run`
+- **Submit after a production deploy** (never run during `next build` or before the deploy is live, so IndexNow can immediately fetch `/e48297be6111ba712e37419eeaae877d.txt` and the updated pages): `bun run indexnow`
+
+Optional post-deploy GitHub Actions workflow example (documentation only; not committed as a workflow file):
+
+```yaml
+# .github/workflows/indexnow.yml
+# name: Notify IndexNow
+# on:
+#   deployment_status:
+# jobs:
+#   indexnow:
+#     if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: oven-sh/setup-bun@v2
+#       - run: bun install --frozen-lockfile
+#       - run: bun run indexnow
+```
+
+### Verify after deploy
+
+- `curl -fsS https://www.openlanding.page/robots.txt`
+- `curl -fsS https://www.openlanding.page/sitemap.xml`
+- `curl -fsS https://www.openlanding.page/llms.txt`
+- `curl -fsS https://www.openlanding.page/e48297be6111ba712e37419eeaae877d.txt` (must return `e48297be6111ba712e37419eeaae877d` verbatim)
+- Run Google's Rich Results Test against `https://www.openlanding.page/` to confirm `Organization`, `WebSite`, `CollectionPage`/`ItemList`, and `FAQPage` JSON-LD parse cleanly.
+- Check the HTTP canonical header on a template route: `curl -I https://www.openlanding.page/templates/orrery` (expect `Link: <https://www.openlanding.page/templates/orrery>; rel="canonical"`).
+
+## Catalog and category hubs
+
+- **Catalog index (`/landing-page-templates`)**: `src/app/(index)/landing-page-templates/page.tsx` renders an indexable directory of all `PUBLIC_TEMPLATES` (`catalogIndexPath()`), with an answer-first intro citing the live count, MIT license, and AI rebuild prompts, a grid of category hub cards, and a full template directory linking to `templateDetailPath(slug)`.
+- **Category hubs (`/landing-page-templates/category/[id]`)**: `src/app/(index)/landing-page-templates/category/[id]/page.tsx` statically generates (`generateStaticParams`) one hub page for every category in `CATEGORIES` (except `"all"`) that has at least one public template via `getTemplateCategories`, calling `notFound()` for unknown ids.
+- **Category copy (`src/app/(index)/data/category-copy.ts`)**: Hand-authored SEO H1, one-line blurb, 2–3 sentence answer-first intro, and meta description per category id, validated by `category-copy.test.ts`.
+- **Metadata & JSON-LD**: `generateMetadata` sets unique `"<H1> (free, MIT) | openlandingpage"` titles, descriptions, canonicals, and Open Graph fields. `src/lib/hub-json-ld.ts` uses `serializeJsonLd` to emit one `@graph` containing `CollectionPage`, `ItemList` (items pointing at absolute `templateDetailPath(slug)` URLs), and `BreadcrumbList`.
+- **Internal links & discovery**: `src/app/(index)/components/CategoryLinks.tsx` renders a compact "Browse by category" list on the homepage between `<GalleryShell />` and `<Faq />`, `Footer.tsx` links to `catalogIndexPath()`, `src/app/sitemap.ts` includes the index (`0.7`) and category hubs (`0.6`), and `buildLlmsTxt` in `src/lib/seo.ts` adds a `## Categories` section.
+
 ## Template detail pages
 
 The live template at `/templates/<slug>` is a fictional brand page (e.g. "CALDER & ROWE"), so it can't rank for "law firm landing page template". Each public template also gets an indexable, server-rendered detail page at `templateDetailPath(slug)` = `/landing-page-templates/<slug>`. This is the page meant for search and answer engines.
 
-- **Route**: `src/app/(index)/landing-page-templates/[slug]/page.tsx`, inside the gallery route group, so it uses the gallery root layout and tokens. Styles live in `template-detail.css` next to it. `generateStaticParams` returns every `PUBLIC_TEMPLATES` slug, so all pages are prerendered. `dynamicParams` isn't available with `cacheComponents`, so the page calls `notFound()` for unknown or archived slugs (and `category`) before rendering. The body is a `"use cache"` component, as on the homepage, because the shared `Footer` reads the current year.
+- **Route**: `src/app/(index)/landing-page-templates/[slug]/page.tsx`, inside the gallery route group, so it uses the gallery root layout and tokens. It renders inside the shared `CatalogChrome` (header, breadcrumb nav, footer; `catalog.css`) from the catalog and category hubs, plus its own `template-detail.css`. `generateStaticParams` returns every `PUBLIC_TEMPLATES` slug, so all pages are prerendered. `dynamicParams` isn't available with `cacheComponents`, so the page calls `notFound()` for unknown or archived slugs (and `category`) before rendering. Nothing in the page reads request data or the clock, so it needs no `"use cache"`. It avoids the gallery `Footer`, whose `new Date()` blocks prerendering.
 - **Copy**: `src/app/(index)/components/detail/detail-content.ts` holds pure functions of the registry: title, H1, summary, meta description, how-to steps, FAQ and related templates. The visible page, the metadata and the JSON-LD all come from these same strings, so they can't drift apart. Tests: `detail-content.test.ts`.
   - Title: `detailTitle()` tries `<Title>: free <industry> landing page template (Next.js|HTML, MIT) | openlandingpage`. If that's over 65 characters, it drops the stack note, then the brand suffix, then swaps a long industry for the primary category label. Nearly every title ends up as `<Title>: free <industry> landing page template`, which keeps the keyword. Titles are unique across templates (tested).
   - Description: the answer-first summary (`<Title> is a free, MIT-licensed <industry> landing page template built with <stack>.`), then whole sentences only while they fit in 160 characters.
   - Related templates: up to 6 others ranked by how many categories they share, then same industry, then registry order (newest first). If fewer than 4 share a category, the list is topped up with the newest templates.
 - **Metadata**: `alternates.canonical` is the detail path. `openGraph`/`twitter` use the template's `previewImage` as an absolute URL. When the preview is an SVG (social cards don't support it), they fall back to the raster gallery capture `/gallery/<slug>.webp`.
 - **Page content** (all in the prerendered HTML):
-  - breadcrumb (Home › Landing page templates › Title)
+  - breadcrumb (Home › Landing page templates › Title), rendered by `CatalogChrome`
   - H1 `<Title> landing page template` and the summary
   - the gallery capture (1600×900 attributes, cropped 16:9 from the top like the cards) with descriptive alt text
   - a facts list: industry, stack, categories linking to `categoryHubPath(id)`, badges as "Features", created date, AI model, MIT license
@@ -81,10 +140,9 @@ The live template at `/templates/<slug>` is a fictional brand page (e.g. "CALDER
   - the numbered "How to use this template with an AI coding agent" steps
   - a 4-question FAQ
   - related templates linking to their detail pages
-  - A server-rendered `DetailHeader` replaces the homepage header, whose search only works on the gallery.
 - **JSON-LD** (`templateDetailJsonLd` in `src/lib/json-ld.ts`, one `@graph`). All nodes are cross-linked by `@id` under the detail URL:
   - `ItemPage` (`#webpage`)
-  - `BreadcrumbList` (`#breadcrumb`)
+  - `BreadcrumbList` (`#breadcrumb`, built with the hubs' `hubBreadcrumbJsonLd` from the same items as the visible breadcrumb)
   - the template entity (`#template`)
   - `FAQPage` (`#faq`, built from the visible FAQ)
   - `HowTo` (`#howto`, built from the visible steps, each step with `url` `#step-N`). Google no longer shows HowTo rich results, but the markup is valid schema.org and answer engines can use it.

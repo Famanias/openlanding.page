@@ -1,5 +1,6 @@
+import { getCategoryHubSummaries } from "../app/(index)/data/category-copy";
 import { TEMPLATES, type TemplateItem } from "../app/(index)/data/templates";
-import { templateDetailPath } from "./catalog-routes";
+import { categoryHubPath, templateDetailPath } from "./catalog-routes";
 import { absoluteUrl, SITE_NAME, SITE_URL } from "./site";
 import { templatePath } from "./template-routing";
 
@@ -48,7 +49,24 @@ const HEADER = [
 ];
 
 export function buildLlmsTxt(templates: readonly TemplateItem[] = PUBLIC_TEMPLATES): string {
-  return [...HEADER, "## Templates", "", ...templates.map(templateLine), "", "## Optional", "", `- [Full index with prompts](${absoluteUrl("/llms-full.txt")})`, ""].join("\n");
+  const categoryLines = getCategoryHubSummaries(templates).map(
+    ({ id, label, count, copy }) => `- [${label} (${count})](${absoluteUrl(categoryHubPath(id))}): ${copy.blurb}`,
+  );
+  return [
+    ...HEADER,
+    "## Categories",
+    "",
+    ...categoryLines,
+    "",
+    "## Templates",
+    "",
+    ...templates.map(templateLine),
+    "",
+    "## Optional",
+    "",
+    `- [Full index with prompts](${absoluteUrl("/llms-full.txt")})`,
+    "",
+  ].join("\n");
 }
 
 export function buildLlmsFullTxt(templates: readonly TemplateItem[] = PUBLIC_TEMPLATES): string {

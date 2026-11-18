@@ -23,8 +23,11 @@ describe("IndexPage", () => {
     expect(html).toContain("OpenLanding.page. MIT Licensed.");
   });
 
-  it("server-renders the FAQ and matching structured data", async () => {
+  it("server-renders the category links, FAQ, and matching structured data", async () => {
     const html = renderToStaticMarkup(await IndexPage());
+    expect(html).toContain("Browse by category");
+    expect(html).toContain('href="/landing-page-templates"');
+    expect(html).toContain('href="/landing-page-templates/category/3d"');
     expect(html).toContain('id="faq"');
     expect(html).toContain("What is openlandingpage?");
     expect(html).toContain('type="application/ld+json"');

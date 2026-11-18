@@ -13,6 +13,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
+const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim();
+const siteVerification: Metadata["verification"] | undefined =
+  googleSiteVerification || bingSiteVerification
+    ? {
+        ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
+        ...(bingSiteVerification ? { other: { "msvalidate.01": bingSiteVerification } } : {}),
+      }
+    : undefined;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "openlandingpage — Landing Pages, from Header to Footer.",
@@ -35,6 +45,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
   },
+  ...(siteVerification ? { verification: siteVerification } : {}),
 };
 
 export default function IndexLayout({ children }: { children: React.ReactNode }) {
