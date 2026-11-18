@@ -6,7 +6,7 @@ const mincho = Shippori_Mincho({ subsets: ["latin"], weight: "400", preload: fal
 const sans = DM_Sans({ subsets: ["latin"], variable: "--font-sato-sans" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "里山日和 — A slower kind of day",
   description: "An illustrated, six-chapter picture book about the landscape, seasons, and little joys of rural Japan. Take the slow way through Satoyama.",
 };

@@ -18,7 +18,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "Poppy Patch — At-Home Mushroom Growing Kits",
   description:
     "Playful, tactile starter kits for growing edible mushrooms at home. Easy to grow, impossible not to love.",

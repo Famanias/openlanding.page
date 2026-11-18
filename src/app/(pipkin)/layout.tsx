@@ -7,7 +7,7 @@ const body = Nunito({ subsets: ["latin"], variable: "--font-nunito" });
 const mono = Sometype_Mono({ subsets: ["latin"], variable: "--font-sometype" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "Pipkin — small-batch jam, cooked Tuesday, at your door Friday",
   description: "A pastel landing page for a two-person jam shop: scroll to follow one jar from order to doorstep, then build your own box.",
 };

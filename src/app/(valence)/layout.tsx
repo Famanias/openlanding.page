@@ -25,7 +25,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "Valence — Progressive Value-Exchange & Lead Capture Intelligence",
   description:
     "The 2026 Funnel Architecture Benchmark. Experience how top B2B teams unify Splash gates, 1-field Squeeze pages, and multi-field Lead Capture dossiers.",

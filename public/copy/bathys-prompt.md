@@ -8,7 +8,7 @@ Build a landing page and oceanographic telemetry showcase in **Next.js (App Rout
 
 **The central metaphor: The ocean is stratified into vertical bathymetric depth zones where light vanishes and hydrostatic pressure reaches 1,100 bar, so the page is an instrumented vertical dive to 10,928 metres.** A pinned hydrostatic telemetry stage scrubs depth, pressure in bar ($P = \rho g h$), solar irradiance extinction, and live procedural active sonar returns as the visitor dives through the Epipelagic, Mesopelagic, Bathypelagic, Abyssopelagic, and Hadopelagic zones.
 
-**Reference:** The live template at https://openlandingpage.vercel.app/bathys and the brand board palette below.
+**Reference:** The live template at https://www.openlanding.page/bathys and the brand board palette below.
 
 ## Brand Rules
 

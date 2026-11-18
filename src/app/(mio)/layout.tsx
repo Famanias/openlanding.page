@@ -7,7 +7,7 @@ const body = Karla({ subsets: ["latin"], variable: "--font-mh-karla" });
 const utility = Inconsolata({ subsets: ["latin"], variable: "--font-mh-inconsolata" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "Mio Hazuki — Little worlds, made just for you",
   description: "Original characters, quiet adventures, and a little everyday magic. Explore Mio Hazuki's illustrations and find a commission to call your own.",
 };

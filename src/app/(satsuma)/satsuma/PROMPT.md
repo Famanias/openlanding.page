@@ -8,7 +8,7 @@ Build a landing page in **Next.js (App Router) + React + TypeScript + Tailwind C
 
 **The central idea: the reels sit on the inside of a cylinder, so the hero is a curved video wheel.** Ten tall cards drift right to left, you can fling them with the pointer or a finger, and each card's width, edge heights and lean come from where it sits on the curve. The look is soft, airy, handmade, juicy and confident.
 
-**Reference (look and feel only; build your own):** the live template at https://openlandingpage.vercel.app/satsuma.
+**Reference (look and feel only; build your own):** the live template at https://www.openlanding.page/satsuma.
 
 ## Brand rules
 

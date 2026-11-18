@@ -8,7 +8,7 @@ Build a one-page landing site in **Next.js (App Router) + React + TypeScript + T
 
 **The central idea: a law firm's product is a well-reasoned argument, so the page is a bound brief being drafted and filed.** A pinned section writes a memorandum word by word as you scroll; the form "files a matter" and a gold seal presses onto a docket number. Name everything in the brief's terms: practice areas are *Counts I–IV*, sections are *§ I–VI*, outcomes are *Authorities* written like citations, the address is *Chambers*.
 
-**Reference (look and feel only; build your own):** the live template at https://openlandingpage.vercel.app/calder.
+**Reference (look and feel only; build your own):** the live template at https://www.openlanding.page/calder.
 
 ## Brand rules
 

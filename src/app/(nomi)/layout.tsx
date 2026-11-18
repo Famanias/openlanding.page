@@ -7,7 +7,7 @@ const body = Instrument_Sans({ subsets: ["latin"], weight: ["400", "500"], varia
 const mono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-nomi-mono" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "NOMI — lessons, made lighter.",
   description: "A calm mobile workspace for independent tutoring studios.",
   icons: { icon: "/templates/nomi/icon.svg" },

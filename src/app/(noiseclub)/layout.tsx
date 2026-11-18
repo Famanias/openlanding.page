@@ -21,7 +21,7 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "NOISE CLUB® — NC-001 / The World Is Your Sample Pack",
   description:
     "Ordinary noises are unfinished music. An interactive sound-culture publication featuring the Teenage Engineering PO-33 K.O! micro-sampler.",

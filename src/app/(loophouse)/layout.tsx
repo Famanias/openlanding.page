@@ -22,7 +22,7 @@ const chivoMono = Chivo_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "LOOPHOUSE — Tools in circulation, work in common.",
   description:
     "Community tool library and shared workshop with 420+ calibrated trade tools, heavy equipment kits, and shared workbench bays.",

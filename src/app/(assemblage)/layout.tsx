@@ -15,7 +15,7 @@ const mono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "Assemblage — Make the idea visible",
   description:
     "Material studies for independent brands who want a launch direction they can feel before production starts.",

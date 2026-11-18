@@ -8,7 +8,7 @@ Build a landing page in **Next.js (App Router) + React + TypeScript + Tailwind C
 
 **The page must not contain a 3D model. The page itself is the 3D space.** The visitor walks down the house's corridor: scrolling moves a camera through rooms, doorways and wall labels, and every wall is a live, moving gradient (think animated mesh gradients with grain).
 
-**Reference** (look and feel only): the live template at https://openlandingpage.vercel.app/noctiluca.
+**Reference** (look and feel only): the live template at https://www.openlanding.page/noctiluca.
 
 ## Brand
 

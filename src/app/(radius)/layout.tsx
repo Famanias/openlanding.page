@@ -9,7 +9,7 @@ const body = Space_Grotesk({ subsets: ["latin"], variable: "--font-rd-space", di
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-rd-plex", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "RADIUS — Every street is yours",
   description: "Meet RADIUS, an electric urban bicycle for the everyday route and the unexpected turn.",
   openGraph: { title: "RADIUS — Every street is yours", description: "An electric urban bicycle for the way you move through the city.", type: "website" },

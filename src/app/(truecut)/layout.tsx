@@ -21,7 +21,7 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "TRUECUT Works — Field engineering, shown clearly",
   description: "A proof-first conversion landing page for field engineering and commissioning crews.",
   icons: { icon: "/templates/truecut/icon.svg" },

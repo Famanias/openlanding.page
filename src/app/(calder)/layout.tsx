@@ -24,7 +24,7 @@ const cutive = Cutive_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "Calder & Rowe — Hard decisions, argued well",
   description:
     "A New York law firm of eleven attorneys for business, disputes, employment and estates. When the matter is consequential, you work directly with the partners who argue it.",
