@@ -61,3 +61,48 @@ The hero, gallery cards (title, description, stack), FAQ and footer are all in t
 ## README
 
 The README opens with a keyword-bearing H1, the live link, and a one-sentence bold definition that answer engines can quote. Below that are a screenshot grid (from `public/gallery/*.webp`) linking to live template pages, and instructions for using a template and the `llms.txt` index. Keep the "100+" count roughly current.
+
+## Live template info bar
+
+Live template pages (`/templates/<slug>`) show a small, dismissible bar: "This is CALDER & ROWE, a free MIT landing page template from openlanding.page · Get the code →". "Get the code" links to the template's detail page (`templateDetailPath(slug)`), and "openlanding.page" links to the gallery. Without it a template page is a dead end, and a visitor, search engine or AI crawler that renders JavaScript can't tell it is a free template rather than a real business. It never appears on `/`, `/landing-page-templates/**` or community pages.
+
+### Mechanism: client-side only, from one place
+
+Template route groups are isolated (no imports from outside their folder) and each has its own root layout, so editing ~100 layouts was ruled out. Options considered:
+
+| Option | Verdict |
+| --- | --- |
+| Server-render it in each template layout | Rejected. It breaks isolation, and server-rendered markup would end up in prerendered HTML, which the standalone exporter reads. |
+| `proxy.ts` (Next 16's middleware) | Rejected. Proxy can rewrite, redirect, set headers or respond directly, but it can't edit a rendered page's HTML body. The only way would be to fetch the page and splice the HTML on every request, which defeats prerendering and partial prefetching. |
+| Rewrites or headers | Can't add visible UI. |
+| **`src/instrumentation-client.ts` loading one shared script** | **Chosen.** |
+
+How it works:
+
+1. `src/instrumentation-client.ts` runs on every App Router page. When `location.pathname` matches `/templates/<slug>` (`templateSlugFromPath` in `src/lib/template-bar.ts`), it waits for `load` (so hydration is done) and appends `<script src="/olp-template-bar.js" async data-olp-chrome>`. On any other page it does nothing, and it ships no template data: just a regex and a few lines.
+2. `src/app/olp-template-bar.js/route.ts` serves that script. It is prerendered at build, like `llms.txt`. It contains a slug→title map of `PUBLIC_TEMPLATES` (about 2 KB; prompts and descriptions are never shipped) plus the runtime `runTemplateBar` from `src/lib/template-bar-runtime.ts`, serialised with `Function.prototype.toString`. The runtime must therefore stay self-contained, with no imports or module-level bindings. A unit test runs the serialised copy to enforce this.
+3. The runtime checks the slug against the map and checks the dismissal flag, then mounts once (idempotent; `window.__olpTemplateBar()` re-runs it).
+
+Nothing is server-rendered into template pages, so this is unaffected by `cacheComponents` and `partialPrefetching`: prerendered template HTML, PPR shells and prefetch payloads are byte-identical with or without the bar. No `onRouterTransitionStart` hook is needed, because moving between the gallery and a template, or between templates, crosses root layouts and is always a full page load (so instrumentation runs again). Soft navigation inside one template keeps the mounted bar.
+
+### Never in downloads
+
+- `scripts/standalone/export.ts` re-renders each page from source and copies only styles, metadata and inline `document.documentElement` initialisation scripts from the prerendered HTML. Next `<script src>` chunks, instrumentation included, are not copied. The bar exists only in the live browser DOM, so exports cannot contain it.
+- The bar's host element and the injected `<script>` both carry `data-olp-chrome`, so the exporter's `[data-olp-chrome]` stripping (Task C) is a second line of defence.
+- Verified by exporting `orrery` after a build and grepping `public/downloads/orrery.html` for `olp-template-bar` and `data-olp-chrome` (no matches). The regenerated file was then restored with `git checkout`.
+
+### Static-HTML templates
+
+auven, cirro, echolog, khora, nema, orova, pitchlane, rooted, stillwater, strata, velora and vyra are `route.ts` handlers that return `public/downloads/<slug>.html` as-is, so Next's client instrumentation never runs there. Each handler now inserts `<script src="/olp-template-bar.js" defer data-olp-chrome></script>` before `</body>` in the response. That's a string constant, so isolation holds (no imports). The file on disk, which is also the download, is never modified, and the same shared script renders the bar. A new static template should copy those three lines.
+
+### Behaviour and robustness
+
+- **Placement:** a floating pill fixed at the bottom centre (full width minus 12px gutters on phones, with the close button beside the text and the CTA below it). It is an overlay, so it causes no layout shift, and it slides in after `load`. The host has `pointer-events: none`; only the pill takes clicks.
+- **Stacking:** `z-index: 48`. That is above typical template content and fixed decoration (mostly ≤ 45), and below the template modal/overlay layers (mostly 50 to 1000). Native `<dialog>` modals use the top layer and always sit above it.
+- **Isolation:** the host is a `<olp-template-bar>` custom element with an open shadow root. Its inline `all: initial !important` plus fixed positioning beat any template stylesheet and stop inherited fonts and colours. All styles live in the shadow root (system font stack, own colours), so the bar doesn't need the gallery CSS and can't restyle the template.
+- **Accessibility:** `role="region"` with `aria-label="About this template"`; a real `<button>` labelled "Dismiss template info"; Escape inside the bar also dismisses. Text is #f5f5f2 on #111214 (about 17:1) with visible focus rings. Under `prefers-reduced-motion` there is no slide or fade, and the bar is hidden when printing.
+- **Dismissal:** stored in `localStorage["olp:template-bar:dismissed"] = "1"` for all templates in that browser, wrapped in try/catch. When storage is blocked, the bar shows by default and dismisses for that page view only.
+
+Tests: `src/lib/template-bar.test.ts` (path matching, title map, runtime against a fake DOM, serialised script, `<` escaping) and `tests/e2e/template-bar.spec.ts` (calder and orrery as React templates, rooted as a static one; the bar shows, links, dismisses, stays dismissed on reload, dismisses with Escape, is absent from raw template HTML and from `/` and catalog pages; desktop and phone screenshots go to `.openlanding-page/template-bar/`).
+
+Existing template e2e suites now see the bar after `load`. It is a small pill at the bottom of the viewport, so a test that clicks something underneath it can set `localStorage["olp:template-bar:dismissed"] = "1"` with `page.addInitScript` first.
