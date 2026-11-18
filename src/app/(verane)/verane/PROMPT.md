@@ -8,7 +8,7 @@ Build a landing page in **Next.js (App Router) + React + TypeScript + Tailwind C
 
 The central metaphor: **A perfume isn't one smell; it changes on skin over twelve hours. So the page is a dry-down:** a pinned time scrubber runs from Hour 0 to Hour 12, and as it moves, top notes dissipate first, then the heart, until only the base resins cling to skin. The architectural flacon's liquid tiers drain to match. The perfumer's organ configurator uses the same clock to test custom formulas.
 
-**Reference** (look and feel): the live template at https://openlandingpage.vercel.app/verane.
+**Reference** (look and feel): the live template at https://www.openlanding.page/verane.
 
 ## Brand rules
 

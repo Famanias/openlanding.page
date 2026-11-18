@@ -7,7 +7,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "Alpine Reel — Fourteen peaks. One moving frame.",
   description: "A cinematic horizontal reel through the fourteen eight-thousanders.",
   icons: { icon: "/templates/alpine-reel/icon.svg" },

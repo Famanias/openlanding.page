@@ -7,7 +7,7 @@ const body = DM_Sans({ subsets: ["latin"], variable: "--font-gs-dm", display: "s
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-gs-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "GRANDSTAND — Tonight begins here",
   description: "A fictional repertory theatre season. Explore the productions and try the interactive seat picker.",
   openGraph: { title: "GRANDSTAND — Tonight begins here", description: "A little closer to the story.", type: "website" },

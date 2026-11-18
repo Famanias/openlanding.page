@@ -8,7 +8,7 @@ Build a landing page in **Next.js (App Router) + React + TypeScript + Tailwind C
 
 **The central idea: a night train is seen through its window, so the page is the window.** In the signature section, vertical scroll becomes the train moving sideways. Four landscape layers drawn as **flat SVG colour fields** slide past at different rates, and five legs of the night take over the glass in turn: claret dusk over Burgundy, the Jura's fir forest, the Simplon tunnel, Lago Maggiore by moon, and apricot dawn on the lagoon. The mood is hushed, nocturnal, saturated, unhurried and tailored: luxury quiet, built from bold colour fields.
 
-**Reference (look and feel only):** the live template at https://openlandingpage.vercel.app/aubade.
+**Reference (look and feel only):** the live template at https://www.openlanding.page/aubade.
 
 ## Brand rules
 

@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { withTemplateBar } from "./template-bar.helpers";
 
 const imports = [
   { slug: "cirro", title: "CIRRO", menu: "#menuButton", section: "#manifesto" },
@@ -40,11 +41,12 @@ for (const template of imports) {
 
     test("live route and download return the same original HTML without runtime errors", async ({ page, request }) => {
       const original = await readFile(path.join(process.cwd(), "public/downloads", `${template.slug}.html`), "utf8");
-      for (const url of [`/templates/${template.slug}`, `/downloads/${template.slug}.html`]) {
+      // The live route only adds the openlanding.page info bar script; the download stays byte-identical.
+      for (const [url, expected] of [[`/templates/${template.slug}`, withTemplateBar(original)], [`/downloads/${template.slug}.html`, original]] as const) {
         const response = await request.get(url);
         expect(response.ok()).toBe(true);
         expect(response.headers()["content-type"]).toContain("text/html");
-        expect(await response.text()).toBe(original);
+        expect(await response.text()).toBe(expected);
       }
       const errors: string[] = [];
       page.on("pageerror", error => errors.push(error.message));

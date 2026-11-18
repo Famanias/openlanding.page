@@ -15,7 +15,7 @@ const openhouseMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "OPENHOUSE — Make the next step easy",
   description: "A focused conversion page for small businesses that want more good conversations.",
   icons: { icon: "/templates/openhouse/icon.svg" },

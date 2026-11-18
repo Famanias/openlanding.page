@@ -8,6 +8,7 @@ import { extractDocument } from "./document";
 import { resolveStandaloneTemplate, type StandaloneSlug } from "./config";
 import { rewriteAssetConsumers, assetLiterals, assetPatterns } from "./source-assets";
 import { nextAdapters } from "./next-adapters";
+import { watermarkHtml } from "./watermark";
 
 const require = createRequire(import.meta.url);
 
@@ -137,12 +138,13 @@ export async function exportTemplate(slug: StandaloneSlug, outputDirectory: stri
   const script = browser.outputFiles[0].text.replace(/<\/script/gi, "<\\/script");
   const icon = path.join(root, `src/app/(${slug})/${slug}/icon.svg`);
   const favicon = fs.existsSync(icon) ? `<link rel="icon" href="data:image/svg+xml;base64,${fs.readFileSync(icon).toString("base64")}">` : "";
-  const html = `<!DOCTYPE html>
+  const rawHtml = `<!DOCTYPE html>
 <!-- Generated from the current ${slug} components. Regenerate with npm run export:templates -- ${slug}. -->
 <html${shell.htmlAttributes}><head><meta charset="utf-8"><title>${shell.title}</title>
 ${shell.metadata}${favicon}${shell.fontPreloads}<style>${shell.css}</style>${shell.noscript}</head>
 <body${shell.bodyAttributes}>${shell.initialization}<div id="standalone-root" style="display:contents">${markup}</div>
 <script>${script}</script></body></html>\n`;
+  const html = watermarkHtml(rawHtml, { slug });
   if (!/<h1[\s>]/i.test(html) || /\/_next\//.test(html) || /<base[\s>]/i.test(html)) throw new Error(`Invalid standalone output for ${slug}`);
   fs.mkdirSync(outputDirectory, { recursive: true });
   const outputFile = path.join(outputDirectory, `${slug}.html`);

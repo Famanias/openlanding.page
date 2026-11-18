@@ -60,6 +60,7 @@ describe("landing page sections", () => {
     expect(html).not.toContain('href="#gallery"');
     expect(html).not.toContain('href="#how-it-works"');
     expect(html).not.toContain("<span>openlandingpage</span>");
+    expect(html).toContain("/landing-page-templates");
     expect(html).toContain("/community-terms");
     expect(html).toContain("/community-privacy");
     expect(html).toContain("External community websites keep their own terms.");

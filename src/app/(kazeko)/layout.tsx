@@ -7,7 +7,7 @@ const body = DM_Sans({ subsets: ["latin"], weight: ["400", "500"], variable: "--
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: "400", variable: "--font-kazeko-plex" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "Studio Kazeko — A little wonder. A world of feeling.",
   description: "An independent animation studio for hand-drawn stories, imagined worlds, and the little things that move us.",
 };

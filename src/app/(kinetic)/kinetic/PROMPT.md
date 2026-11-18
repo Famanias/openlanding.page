@@ -8,7 +8,7 @@ Build a landing page in **Next.js (App Router) + React + TypeScript + Tailwind C
 
 The page features an interactive **3D Delivery Journey** inspired by HighwayTMS and a smooth, tactile aesthetic inspired by Satsuma and Fallow: a real-time procedural 3D electric delivery truck (**Unit 104**) travels a 1,400-meter paved highway route from the origin distribution yard in Chicago to a Dallas doorstep delivery. Five pinned presentation chapters synchronize narrative copy, catalog deals, and order telemetry with the moving 3D vehicle, accompanied by a projected 3D pill HUD tag and dynamic SVG bezier connector curve.
 
-**Reference:** The live template at `https://openlandingpage.vercel.app/kinetic`.
+**Reference:** The live template at `https://www.openlanding.page/kinetic`.
 
 ## Brand rules
 

@@ -27,7 +27,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "Nico Park — Product Design Portfolio",
   description:
     "Playful, modular, tactile industrial and digital product design portfolio for independent product designer Nico Park, featuring LOOP personal audio hardware, FORMA workspace, and interactive design experiments.",

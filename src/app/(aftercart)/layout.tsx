@@ -20,7 +20,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "AFTERCART — Shopify care after launch",
   description: "A living care console for small Shopify shops that want a store ready for the next customer.",
   icons: { icon: "/templates/aftercart/icon.svg" },

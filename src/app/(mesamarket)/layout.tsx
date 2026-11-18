@@ -22,7 +22,7 @@ const mono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "MESA MARKET — Good things come into season",
   description:
     "A farm-to-door grocery landing page with an interactive market shelf and live crate builder. All pricing and produce are illustrative demonstrations.",

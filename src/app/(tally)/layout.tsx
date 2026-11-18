@@ -23,7 +23,7 @@ const overpassMono = Overpass_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlandingpage.vercel.app"),
+  metadataBase: new URL("https://www.openlanding.page"),
   title: "TALLY — Sell your hours like your goods · Service Counter for Shopify",
   description:
     "The service-counter layer for small Shopify businesses. Turn standard product checkouts into booked appointments, repair intakes, partial deposits, and perforated bench-tracked claim tickets.",
