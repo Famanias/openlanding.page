@@ -6,6 +6,7 @@
  */
 import { CATEGORIES, type TemplateCategory, type TemplateItem } from "../../data/templates";
 import type { FaqEntry } from "../../data/faq";
+import { SITE_NAME } from "../../../../lib/site";
 
 export const DETAIL_TITLE_MAX = 65;
 export const DETAIL_DESCRIPTION_MAX = 160;
@@ -38,13 +39,13 @@ export function categoryLabel(id: TemplateCategory): string {
 }
 
 /**
- * Keyword-bearing <title>: "<Title>: free <industry> landing page template (Next.js, MIT) | openlandingpage",
+ * Keyword-bearing <title>: "<Title>: free <industry> landing page template (Next.js, MIT) | OpenLandingPage",
  * dropping the least important parts until it fits in DETAIL_TITLE_MAX characters
  * (stack/license note, then the brand suffix, then swapping a long industry for the primary category).
  */
 export function detailTitle(t: Pick<TemplateItem, "title" | "industry" | "category" | "stack">): string {
   const note = `(${templatePlatform(t)}, MIT)`;
-  const brand = "| openlandingpage";
+  const brand = `| ${SITE_NAME}`;
   const base = (topic: string) => `${t.title}: free ${topic} landing page template`;
   const candidates = [
     `${base(t.industry)} ${note} ${brand}`,

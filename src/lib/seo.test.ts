@@ -42,7 +42,7 @@ describe("discovery surfaces", () => {
 
   it("llms.txt links every category hub, template, and existing prompt file", () => {
     const txt = buildLlmsTxt();
-    expect(txt.startsWith("# openlandingpage")).toBe(true);
+    expect(txt.startsWith("# OpenLandingPage")).toBe(true);
     expect(txt).toContain("## Categories");
     for (const hub of getCategoryHubSummaries(PUBLIC_TEMPLATES)) {
       expect(txt).toContain(`https://www.openlanding.page${categoryHubPath(hub.id)}`);
@@ -68,8 +68,17 @@ describe("manifest", () => {
   it("names the site and uses the shared icon", async () => {
     const { default: manifest } = await import("../app/manifest");
     const result = manifest();
-    expect(result.short_name).toBe("openlandingpage");
+    expect(result.short_name).toBe("OpenLandingPage");
     expect(result.start_url).toBe("/");
     expect(result.icons?.[0].src).toBe("/icon.svg");
+  });
+});
+
+describe("brand and about discovery", () => {
+  it("lists the About page in the sitemap and name variants in llms.txt", () => {
+    expect(sitemap().map(entry => entry.url)).toContain("https://www.openlanding.page/about");
+    const txt = buildLlmsTxt();
+    expect(txt).toContain("- Also written as: Open Landing Page, openlandingpage, OpenLanding.page, openlanding page");
+    expect(txt).toContain("- About: https://www.openlanding.page/about");
   });
 });

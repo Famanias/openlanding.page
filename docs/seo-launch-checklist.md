@@ -49,6 +49,16 @@ What a human has to do, in order, for the SEO / GEO / AEO work on this branch to
 - [ ] **When adding a template:** give its layout a unique `title`/`description` (never the gallery's), and after `bun run build` run `bun run export:templates -- <slug>` as usual. The export watermarks the download automatically; `bun run watermark:downloads -- --check` confirms every download is watermarked. Detail page, sitemap, llms.txt, category pages and the live bar pick up new templates automatically.
 - [ ] **Keep the README's "100+" count and the hex colours** in `src/app/(index)/opengraph-image.tsx` and `src/app/manifest.ts` in step with reality and `tokens.css`.
 
+## 6. Brand-name searches ("openlandingpage", "open landing page")
+
+The site declares every spelling of its name (see "Brand name and About page" in [`seo.md`](seo.md)), but rankings for a brand query mostly come from other sites using that name and linking to you:
+
+- [ ] **GitHub repo "About" box:** set the website to `https://www.openlanding.page`, start the description with "Open Landing Page (OpenLandingPage): free, MIT-licensed landing page templates…", and add topics such as `landing-page`, `landing-page-template`, `nextjs`, `tailwindcss`, `templates`.
+- [ ] **Launch posts that use the name as link text:** Show HN, Product Hunt, Reddit (r/webdev, r/nextjs, r/SideProject), dev.to or Hashnode write-ups, and relevant "awesome" lists. Link to `https://www.openlanding.page` (or `/about`) with "Open Landing Page" or "OpenLandingPage" as the link text.
+- [ ] **Public profiles (X, Product Hunt, etc.):** when you create any, add their URLs to `sameAs` in `organizationJsonLd()` (`src/lib/json-ld.ts`) so Google connects them to the site.
+- [ ] **Optional: register `openlandingpage.com`** and redirect it (308) to `https://www.openlanding.page`. A matching domain barely helps rankings, but it catches people who type the one-word name and stops anyone else taking it.
+- [ ] **Search Console → Performance:** after a few weeks, check impressions and position for "openlandingpage" and "open landing page". Brand queries for a new domain usually settle within weeks to a couple of months.
+
 ## Known issues not caused by this branch (optional follow-ups)
 
 - **Next.js security notice:** `bun run build` compiles and prerenders everything, then exits 1 with `SecurityFatalError: Your version of Next.js is affected by a known security vulnerability`. Next recommends upgrading (`next upgrade --agent=security`). Production deploys may hit the same stop, so handle this before or with the merge if Vercel builds fail.

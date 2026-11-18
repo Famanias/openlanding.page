@@ -1,16 +1,16 @@
-# OpenLandingPage: free landing page templates, from header to footer
+# OpenLandingPage (Open Landing Page): free landing page templates, from header to footer
 
 > **Landing Pages your Agent can build.**
 > An open-source collection of landing page templates engineered for all to use.
 
-**Live gallery: [www.openlanding.page](https://www.openlanding.page)**
+**Live gallery: [www.openlanding.page](https://www.openlanding.page)** · [About](https://www.openlanding.page/about)
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8)
 ![Bun](https://img.shields.io/badge/Bun-1.3+-fbf0df)
 
-**OpenLandingPage is a free, MIT-licensed gallery of 100+ complete landing page templates.** Each one is designed from header to footer, not just a hero section, and comes with a live page, its Next.js source, and an AI rebuild prompt you can paste into Claude Code, Cursor, Codex or Antigravity.
+**OpenLandingPage (Open Landing Page) is a free, MIT-licensed gallery of 100+ complete landing page templates.** Each one is designed from header to footer, not just a hero section, and comes with a live page, its Next.js source, and an AI rebuild prompt you can paste into Claude Code, Cursor, Codex or Antigravity.
 
 | | | |
 | --- | --- | --- |

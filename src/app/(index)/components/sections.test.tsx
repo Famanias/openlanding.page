@@ -41,7 +41,7 @@ describe("landing page sections", () => {
   it("renders the template request offer and email form", () => {
     const html = renderToStaticMarkup(<Contribute />);
     expect(html).toContain("Your site, templated.");
-    expect(html).toContain("official OpenLanding.page gallery template, open source under the MIT license");
+    expect(html).toContain("official OpenLandingPage gallery template, open source under the MIT license");
     expect(html).toContain("Paid private commission");
     expect(html).toContain("You own the code, and your design stays out of the gallery.");
     expect(html).toContain('name="project_type"');
@@ -55,7 +55,7 @@ describe("landing page sections", () => {
     const html = renderToStaticMarkup(<Footer />);
     expect(html).toContain('id="contact"');
     expect(html).toContain("Your site, templated.");
-    expect(html).toContain("OpenLanding.page. MIT Licensed.");
+    expect(html).toContain("OpenLandingPage. MIT Licensed.");
     expect(html).not.toContain("Award-grade web designs");
     expect(html).not.toContain('href="#gallery"');
     expect(html).not.toContain('href="#how-it-works"');

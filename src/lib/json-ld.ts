@@ -1,7 +1,7 @@
 import type { TemplateItem } from "../app/(index)/data/templates";
 import type { FaqEntry } from "../app/(index)/data/faq";
 import { SITE_DESCRIPTION, templateDetailUrl, templatePromptUrl, templateUrl } from "./seo";
-import { absoluteUrl, SITE_NAME, SITE_URL } from "./site";
+import { absoluteUrl, SITE_ALTERNATE_NAMES, SITE_NAME, SITE_URL } from "./site";
 
 export const REPO_URL = "https://github.com/Famanias/openlanding.page";
 const MIT = "https://opensource.org/licenses/MIT";
@@ -11,7 +11,33 @@ const SITE_ID = `${SITE_URL}/#website`;
 type JsonLdObject = Record<string, unknown>;
 
 export function organizationJsonLd(): JsonLdObject {
-  return { "@type": "Organization", "@id": ORG_ID, name: SITE_NAME, url: SITE_URL, logo: absoluteUrl("/icon.svg"), sameAs: [REPO_URL] };
+  return {
+    "@type": "Organization",
+    "@id": ORG_ID,
+    name: SITE_NAME,
+    alternateName: [...SITE_ALTERNATE_NAMES],
+    url: SITE_URL,
+    logo: absoluteUrl("/icon.svg"),
+    description: SITE_DESCRIPTION,
+    sameAs: [REPO_URL],
+  };
+}
+
+/** About page describing the site; its subject is the Organization (same @id as on the homepage). */
+export function aboutPageJsonLd(options: { path: string; name: string; description: string }): JsonLdObject {
+  const url = absoluteUrl(options.path);
+  return {
+    "@type": "AboutPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: options.name,
+    description: options.description,
+    isPartOf: { "@id": SITE_ID },
+    about: { "@id": ORG_ID },
+    mainEntity: organizationJsonLd(),
+    breadcrumb: { "@id": `${url}#breadcrumb` },
+    inLanguage: "en",
+  };
 }
 
 export function websiteJsonLd(): JsonLdObject {
@@ -19,7 +45,7 @@ export function websiteJsonLd(): JsonLdObject {
     "@type": "WebSite",
     "@id": SITE_ID,
     name: SITE_NAME,
-    alternateName: "OpenLanding.page",
+    alternateName: [...SITE_ALTERNATE_NAMES],
     url: SITE_URL,
     description: SITE_DESCRIPTION,
     publisher: { "@id": ORG_ID },

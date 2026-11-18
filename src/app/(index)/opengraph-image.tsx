@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { PUBLIC_TEMPLATES } from "../../lib/seo";
 
-export const alt = "openlandingpage: free MIT-licensed landing page templates, from header to footer";
+export const alt = "OpenLandingPage (Open Landing Page): free MIT-licensed landing page templates, from header to footer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

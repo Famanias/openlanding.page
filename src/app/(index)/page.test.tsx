@@ -20,7 +20,7 @@ describe("IndexPage", () => {
     expect(html).not.toContain("MORROW");
     expect(html).toContain("LOOPHOUSE");
     expect(html).toContain("GitHub");
-    expect(html).toContain("OpenLanding.page. MIT Licensed.");
+    expect(html).toContain("OpenLandingPage. MIT Licensed.");
   });
 
   it("server-renders the category links, FAQ, and matching structured data", async () => {
@@ -29,7 +29,7 @@ describe("IndexPage", () => {
     expect(html).toContain('href="/landing-page-templates"');
     expect(html).toContain('href="/landing-page-templates/category/3d"');
     expect(html).toContain('id="faq"');
-    expect(html).toContain("What is openlandingpage?");
+    expect(html).toContain("What is Open Landing Page?");
     expect(html).toContain('type="application/ld+json"');
     for (const type of ["Organization", "WebSite", "CollectionPage", "ItemList", "SoftwareSourceCode", "FAQPage"]) {
       expect(html).toContain(`"${type}"`);

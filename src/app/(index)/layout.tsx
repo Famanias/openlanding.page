@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_NAME_SPACED, SITE_URL } from "@/lib/site";
 import "./index.css";
 
 const geistSans = Geist({
@@ -23,24 +23,28 @@ const siteVerification: Metadata["verification"] | undefined =
       }
     : undefined;
 
+// The spaced name is in the title so "open landing page" searches can match it; see docs/seo.md, "Brand name".
+const HOME_TITLE = `${SITE_NAME_SPACED} (${SITE_NAME}): Free Landing Page Templates`;
+const HOME_DESCRIPTION = `${SITE_NAME} (${SITE_NAME_SPACED}): free, MIT-licensed landing page templates from header to footer, not just a hero section. One-click download, AI rebuild prompts, no paywalls.`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "openlandingpage — Landing Pages, from Header to Footer.",
+  title: HOME_TITLE,
   description:
-    "Not Just A Hero Section. One Click Download, 100% Free, No Paywalls. · MIT-licensed templates & contributed HTML; linked community websites keep their own terms.",
+    HOME_DESCRIPTION,
   openGraph: {
-    title: "openlandingpage — Landing Pages, from Header to Footer.",
+    title: HOME_TITLE,
     description:
-      "Not Just A Hero Section. One Click Download, 100% Free, No Paywalls. · MIT-licensed templates & contributed HTML; linked community websites keep their own terms.",
+      HOME_DESCRIPTION,
     type: "website",
-    siteName: "openlandingpage",
+    siteName: SITE_NAME,
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: "openlandingpage — Landing Pages, from Header to Footer.",
+    title: HOME_TITLE,
     description:
-      "Not Just A Hero Section. One Click Download, 100% Free, No Paywalls. · MIT-licensed templates & contributed HTML; linked community websites keep their own terms.",
+      HOME_DESCRIPTION,
   },
   icons: {
     icon: "/icon.svg",
