@@ -85,8 +85,11 @@ describe("download watermarking", () => {
     expect(out).toContain("<!-- Optional attribution: MIT License does not require this credit");
     expect(out).toContain("data-olp-credit");
     expect(out).toContain(
-      '<a href="https://www.openlanding.page/templates/orbitbeyond" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">ORBIT &amp; BEYOND template</a>',
+      '<a href="https://www.openlanding.page/templates/orbitbeyond" title="ORBIT &amp; BEYOND on openlanding.page" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">free landing page template</a>',
     );
+    // The template name must not appear in the credit's visible text (strict selectors, duplicate copy).
+    const visible = out.slice(out.indexOf("<p data-olp-credit")).replace(/<[^>]+>/g, "");
+    expect(visible).not.toMatch(/ORBIT/);
     expect(out).toContain(
       '<a href="https://www.openlanding.page/" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">openlanding.page</a>',
     );

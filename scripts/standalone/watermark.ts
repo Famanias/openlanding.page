@@ -110,13 +110,17 @@ export function buildLicenseComment(slug: string, title: string): string {
   ].join("\n");
 }
 
-/** Build the optional visible attribution block placed right before `</body>`. */
+/**
+ * Build the optional visible attribution block placed right before `</body>`.
+ * The template's own name stays out of the visible text (it is only in `title`) so the credit never
+ * duplicates an accessible name or copy inside the template, which would break strict selectors.
+ */
 export function buildFooterCredit(slug: string, title: string): string {
   const url = `${SITE_URL}/templates/${slug}`;
   const safeTitle = escapeHtml(title);
   return [
     CREDIT_COMMENT,
-    `<p ${CREDIT_ATTRIBUTE} style="margin:0;padding:14px 16px;text-align:center;font-family:inherit;font-size:12px;line-height:1.5;color:inherit;opacity:.7;background:transparent;width:100%;box-sizing:border-box;">Built from the <a href="${url}" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">${safeTitle} template</a> on <a href="${SITE_URL}/" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">openlanding.page</a>.</p>`,
+    `<p ${CREDIT_ATTRIBUTE} style="margin:0;padding:14px 16px;text-align:center;font-family:inherit;font-size:12px;line-height:1.5;color:inherit;opacity:.7;background:transparent;width:100%;box-sizing:border-box;">Built from a <a href="${url}" title="${safeTitle} on openlanding.page" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">free landing page template</a> on <a href="${SITE_URL}/" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">openlanding.page</a>.</p>`,
   ].join("\n");
 }
 
