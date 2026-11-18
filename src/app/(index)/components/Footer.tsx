@@ -14,13 +14,17 @@ export function Footer() {
       </div>
       <div className="page-container footer-inner">
         <p>
-          © {new Date().getFullYear()} OpenLanding.page. MIT Licensed. Templates and contributed
+          © {new Date().getFullYear()} OpenLandingPage. MIT Licensed. Templates and contributed
           HTML downloads use the MIT License. External community websites keep their own terms.
         </p>
         <p className="footer-meta-links">
           <span>Curated with craft for modern AI pair programming.</span>{" "}
           <Link href={catalogIndexPath()} className="community-credit-link">
             All templates
+          </Link>{" "}
+          ·{" "}
+          <Link href="/about" className="community-credit-link">
+            About
           </Link>{" "}
           ·{" "}
           <Link href="/community-terms" className="community-credit-link">

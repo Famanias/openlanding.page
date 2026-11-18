@@ -9,6 +9,8 @@ vi.mock("./index.css", () => ({}));
 
 vi.mock("@/lib/site", () => ({
   SITE_URL: "https://www.openlanding.page",
+  SITE_NAME: "OpenLandingPage",
+  SITE_NAME_SPACED: "Open Landing Page",
 }));
 
 describe("IndexLayout metadata verification", () => {

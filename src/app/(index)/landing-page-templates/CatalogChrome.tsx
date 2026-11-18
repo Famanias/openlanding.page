@@ -10,7 +10,7 @@ export function CatalogChrome({
   children,
 }: {
   breadcrumbs: readonly HubBreadcrumbItem[];
-  currentNav?: "index" | "category";
+  currentNav?: "index" | "category" | "about";
   children: React.ReactNode;
 }) {
   return (
@@ -30,6 +30,9 @@ export function CatalogChrome({
               All templates
             </Link>
             <Link href="/#faq">FAQ</Link>
+            <Link href="/about" aria-current={currentNav === "about" ? "page" : undefined}>
+              About
+            </Link>
             <a
               href="https://github.com/Famanias/openlanding.page"
               target="_blank"
@@ -73,12 +76,13 @@ export function CatalogChrome({
       <footer className="catalog-footer">
         <div className="page-container catalog-container catalog-footer-inner">
           <p className="m-0">
-            OpenLanding.page — Free, MIT-licensed landing page templates with full source and AI
+            OpenLandingPage (Open Landing Page): free, MIT-licensed landing page templates with full source and AI
             rebuild prompts.
           </p>
           <div className="catalog-footer-links">
             <Link href="/">Gallery</Link>
             <Link href={catalogIndexPath()}>All templates</Link>
+            <Link href="/about">About</Link>
             <Link href="/community-terms">Community terms</Link>
             <Link href="/community-privacy">Privacy</Link>
           </div>

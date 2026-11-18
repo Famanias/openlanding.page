@@ -19,7 +19,7 @@ export function Contribute() {
             <div className="request-options-grid">
               <label className="request-option">
                 <input type="radio" name="project_type" value="Free gallery template" defaultChecked />
-                <span><strong>Free gallery template</strong><small>Your design becomes an official OpenLanding.page gallery template, open source under the MIT license for everyone to use.</small></span>
+                <span><strong>Free gallery template</strong><small>Your design becomes an official OpenLandingPage gallery template, open source under the MIT license for everyone to use.</small></span>
               </label>
               <label className="request-option">
                 <input type="radio" name="project_type" value="Paid private commission" />

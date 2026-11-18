@@ -57,7 +57,7 @@ export default async function CatalogIndexPage() {
         <p className="catalog-kicker">TEMPLATE CATALOG</p>
         <h1 className="catalog-title">{INDEX_H1}</h1>
         <p className="catalog-intro">
-          openlandingpage includes {PUBLIC_TEMPLATES.length} free, MIT-licensed landing page
+          OpenLandingPage includes {PUBLIC_TEMPLATES.length} free, MIT-licensed landing page
           templates built from header to footer with full source code and plain-Markdown AI rebuild
           prompts. Explore the {categories.length} category hubs below or browse the complete
           directory to inspect each template&apos;s stack, live demo, and prompt.

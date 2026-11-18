@@ -14,7 +14,7 @@ import CategoryHubPage, {
 describe("catalog index page", () => {
   it("generates metadata with canonical and openGraph", async () => {
     const meta = await generateIndexMetadata();
-    expect(meta.title).toBe("Free landing page templates (MIT) | openlandingpage");
+    expect(meta.title).toBe("Free landing page templates (MIT) | OpenLandingPage");
     expect(meta.alternates?.canonical).toBe(catalogIndexPath());
     expect(meta.openGraph?.url).toBe(catalogIndexPath());
   });
@@ -50,7 +50,7 @@ describe("category hub pages", () => {
 
   it("generates unique metadata and renders breadcrumb, cards, live demo links, other hubs, and JSON-LD", async () => {
     const meta = await generateCategoryMetadata({ params: Promise.resolve({ id: "3d" }) });
-    expect(meta.title).toBe("3D landing page templates (free, MIT) | openlandingpage");
+    expect(meta.title).toBe("3D landing page templates (free, MIT) | OpenLandingPage");
     expect(meta.alternates?.canonical).toBe(categoryHubPath("3d"));
     expect(meta.openGraph?.url).toBe(categoryHubPath("3d"));
 

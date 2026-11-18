@@ -1,14 +1,14 @@
 import { getCategoryHubSummaries } from "../app/(index)/data/category-copy";
 import { TEMPLATES, type TemplateItem } from "../app/(index)/data/templates";
 import { categoryHubPath, templateDetailPath } from "./catalog-routes";
-import { absoluteUrl, SITE_NAME, SITE_URL } from "./site";
+import { absoluteUrl, SITE_ALTERNATE_NAMES, SITE_NAME, SITE_NAME_SPACED, SITE_URL } from "./site";
 import { templatePath } from "./template-routing";
 
 /** Templates that are publicly listed (archived ones are excluded from discovery surfaces). */
 export const PUBLIC_TEMPLATES: readonly TemplateItem[] = TEMPLATES;
 
 export const SITE_DESCRIPTION =
-  "openlandingpage is a free, MIT-licensed gallery of complete landing page templates, from header to footer. Every template ships with its source and an AI rebuild prompt.";
+  `${SITE_NAME} (${SITE_NAME_SPACED}) is a free, MIT-licensed gallery of complete landing page templates, from header to footer. Every template ships with its source and an AI rebuild prompt.`;
 
 export function templateUrl(slug: string): string {
   return absoluteUrl(templatePath(slug));
@@ -41,6 +41,8 @@ const HEADER = [
   `> ${SITE_DESCRIPTION}`,
   "",
   `- Site: ${SITE_URL}`,
+  `- Also written as: ${SITE_ALTERNATE_NAMES.join(", ")}`,
+  `- About: ${absoluteUrl("/about")}`,
   "- License: MIT for templates and contributed HTML; linked community websites keep their own terms.",
   "- Template pages live at /templates/<slug>; each rebuild prompt is plain Markdown at /copy/<slug>-prompt.md.",
   "- Each template is described (stack, license, how to use it with an AI coding agent, FAQ) at /landing-page-templates/<slug>.",

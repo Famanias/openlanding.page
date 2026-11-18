@@ -7,8 +7,8 @@ export interface FaqEntry {
 export function buildFaq(templateCount: number): FaqEntry[] {
   return [
     {
-      question: "What is openlandingpage?",
-      answer: `openlandingpage is a free, open-source gallery of ${templateCount} complete landing page templates, each designed from header to footer rather than just a hero section. Every template has a live page, its source code and an AI rebuild prompt.`,
+      question: "What is Open Landing Page?",
+      answer: `Open Landing Page (also written OpenLandingPage, openlandingpage or OpenLanding.page) is a free, open-source gallery of ${templateCount} complete landing page templates, each designed from header to footer rather than just a hero section. Every template has a live page, its source code and an AI rebuild prompt.`,
     },
     {
       question: "Are the templates really free?",

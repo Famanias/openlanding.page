@@ -50,3 +50,12 @@ describe("json-ld", () => {
     expect(parsed["@graph"].map((n: { "@type": string }) => n["@type"])).toEqual(["Organization", "WebSite", "Thing"]);
   });
 });
+
+describe("brand names", () => {
+  it("declares every spelling of the name on WebSite and Organization", () => {
+    const expected = ["Open Landing Page", "openlandingpage", "OpenLanding.page", "openlanding page"];
+    expect(websiteJsonLd().name).toBe("OpenLandingPage");
+    expect(websiteJsonLd().alternateName).toEqual(expected);
+    expect(organizationJsonLd().alternateName).toEqual(expected);
+  });
+});
