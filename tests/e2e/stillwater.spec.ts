@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { withTemplateBar } from "./template-bar.helpers";
 
 test("gallery card opens Stillwater and downloads the standalone document", async ({ page }) => {
   await page.goto("/");
@@ -26,7 +27,8 @@ test("live route serves the downloadable page and keeps the inquiry local", asyn
   const response = await request.get("/stillwater");
   expect(response.ok()).toBe(true);
   expect(response.headers()["content-type"]).toContain("text/html");
-  expect(await response.text()).toBe(await readFile(path.join(process.cwd(), "public/downloads/stillwater.html"), "utf8"));
+  // The live route only adds the openlanding.page info bar script to the download's HTML.
+  expect(await response.text()).toBe(withTemplateBar(await readFile(path.join(process.cwd(), "public/downloads/stillwater.html"), "utf8")));
 
   await page.goto("/stillwater");
   await expect(page.locator("h1")).toContainText("Another");
