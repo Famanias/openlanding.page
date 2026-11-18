@@ -3,6 +3,7 @@
 export const TECHNOLOGY_TAGS = {
   "interactive-backgrounds": ["surface08", "vector", "lumen"],
   "threejs": [
+    "snoot",
     "amaoto",
     "koji",
     "trace",
