@@ -22,7 +22,7 @@ const COPY_METADATA: Record<
   echolog: { name: "ECHOLOG", dependencies: ["three"], includeDownload: true },
   aerune: { name: "AERUNE", dependencies: ["lenis"] },
   orbitbeyond: { name: "ORBIT & BEYOND", dependencies: ["lucide-react", "motion"] },
-  forum: { name: "FORUM", dependencies: ["lucide-react", "motion"] },
+  forum: { name: "FORUM", dependencies: ["lucide-react", "motion", "three"] },
   frameone: { name: "FRAME/ONE", dependencies: [] },
   kinfield: { name: "KINFIELD", dependencies: ["gsap", "@animate-ui/react", "motion"] },
   grandstand: { name: "GRANDSTAND", dependencies: [] },

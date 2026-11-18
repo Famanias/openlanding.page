@@ -10,6 +10,7 @@ import { scrollToSectionId, motionTokens } from '../../lib/forum/motion';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { MagneticButton } from './MagneticButton';
 import { ResilientImage } from './ResilientImage';
+import { HeroMonolith } from './HeroMonolith';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -88,6 +89,8 @@ export const ForumHero: React.FC = () => {
           priority
           className="h-full w-full object-[68%_42%] md:object-[72%_50%] lg:object-[76%_50%]"
         />
+        {/* Real-time 2.5D monolith and eclipse (fine-pointer desktops); the plate stays the LCP image and fallback */}
+        <HeroMonolith />
         {/* Measured contrast scrim on the left for crisp Doto legibility while keeping monolith & eclipse luminous on right */}
         <div
           aria-hidden="true"
