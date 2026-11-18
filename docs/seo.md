@@ -27,3 +27,26 @@ New files under `src/app/` and `src/lib/seo.ts` use relative imports: `next.conf
 
 - Gallery: `alternates.canonical` on `src/app/(index)/page.tsx` (`/`) and on the community terms/privacy pages. Not set in the `(index)` layout, which would make every child page canonicalise to `/`.
 - Templates: each template has its own isolated root layout, so the canonical is sent as an HTTP header instead, `Link: <https://www.openlanding.page/templates/<slug>>; rel="canonical"`, from `headers()` in `next.config.ts` (`templateCanonicalHeaders`). Legacy `/<slug>` URLs already 308 to `/templates/<slug>`.
+
+## Structured data (JSON-LD)
+
+`src/lib/json-ld.ts` builds the nodes. `src/app/(index)/page.tsx` renders them as one `@graph` in a `<script type="application/ld+json">`, following the Next.js JSON-LD guide (`<` is escaped as `\u003c`).
+
+- `Organization` (`/#organization`): name, logo `/icon.svg`, `sameAs` the GitHub repo.
+- `WebSite` (`/#website`): with a `SearchAction` on `/?q={search_term_string}`, the gallery's real search parameter.
+- `CollectionPage` (`/#gallery`) whose `mainEntity` is an `ItemList` of every public template. Each item is a `SoftwareSourceCode` + `CreativeWork` with an MIT `license`, `isAccessibleForFree`, `codeRepository`, preview `image`, `dateCreated`, keywords, and `subjectOf` pointing at its Markdown rebuild prompt.
+- `FAQPage` (`/#faq`): built from the same `buildFaq()` data that renders the visible FAQ, so the markup always matches the copy.
+
+Template pages have no per-page JSON-LD. Their layouts are isolated and exported standalone, so the entities are described from the gallery's `ItemList` and linked by URL. Tests: `src/lib/json-ld.test.ts` and `src/app/(index)/page.test.tsx`.
+
+## Answer-first FAQ (AEO)
+
+`src/app/(index)/data/faq.ts` holds the questions. Each answer opens with a direct one-sentence reply, then gives detail, so answer engines can quote the first sentence on its own. `components/Faq.tsx` is a server component using `<details>`/`<summary>`: all answers are in the initial HTML, and it works without JavaScript. The template count in the first answer comes from the registry.
+
+## Per-template titles and descriptions
+
+Every template already ships a unique `<title>` and meta description. Some come from its route-group layout (`metadata`), and the static-HTML templates (auven, cirro, echolog, khora, nema, orova, pitchlane, rooted, stillwater, strata, velora, vyra) carry them inside `public/downloads/<slug>.html`. When adding a template, give its layout a distinctive `title` and `description`, and never the gallery's title.
+
+## Server-rendered content
+
+The hero, gallery cards (title, description, stack), FAQ and footer are all in the prerendered `/` HTML. The gallery components are client components but render on the server first, and the page is cached with `"use cache"`.

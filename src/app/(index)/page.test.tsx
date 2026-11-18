@@ -22,4 +22,14 @@ describe("IndexPage", () => {
     expect(html).toContain("GitHub");
     expect(html).toContain("OpenLanding.page. MIT Licensed.");
   });
+
+  it("server-renders the FAQ and matching structured data", async () => {
+    const html = renderToStaticMarkup(await IndexPage());
+    expect(html).toContain('id="faq"');
+    expect(html).toContain("What is openlandingpage?");
+    expect(html).toContain('type="application/ld+json"');
+    for (const type of ["Organization", "WebSite", "CollectionPage", "ItemList", "SoftwareSourceCode", "FAQPage"]) {
+      expect(html).toContain(`"${type}"`);
+    }
+  });
 });
