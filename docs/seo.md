@@ -50,3 +50,10 @@ Every template already ships a unique `<title>` and meta description. Some come 
 ## Server-rendered content
 
 The hero, gallery cards (title, description, stack), FAQ and footer are all in the prerendered `/` HTML. The gallery components are client components but render on the server first, and the page is cached with `"use cache"`.
+
+## Social cards and manifest
+
+- `src/app/(index)/opengraph-image.tsx`: a 1200×630 PNG made with `next/og`, using the gallery's palette and the live template count. `twitter-image.tsx` re-exports it. They apply to `/` and the community pages. Templates keep their own `opengraph-image` files.
+- The `(index)` layout metadata sets `twitter.card = "summary_large_image"`, `openGraph.siteName` and `openGraph.url`.
+- `src/app/manifest.ts` serves `/manifest.webmanifest` (name, description, `/icon.svg`, gallery theme colour). It sits at the `app/` root, so Next links it from every root layout, templates included. That's harmless: they're pages on the same site.
+- Colours are duplicated as hex in these two files because neither can read CSS variables. Keep them in step with `tokens.css`.

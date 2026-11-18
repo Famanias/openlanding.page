@@ -37,3 +37,13 @@ describe("discovery surfaces", () => {
     ]);
   });
 });
+
+describe("manifest", () => {
+  it("names the site and uses the shared icon", async () => {
+    const { default: manifest } = await import("../app/manifest");
+    const result = manifest();
+    expect(result.short_name).toBe("openlandingpage");
+    expect(result.start_url).toBe("/");
+    expect(result.icons?.[0].src).toBe("/icon.svg");
+  });
+});

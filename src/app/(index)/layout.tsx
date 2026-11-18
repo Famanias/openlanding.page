@@ -23,6 +23,14 @@ export const metadata: Metadata = {
     description:
       "Not Just A Hero Section. One Click Download, 100% Free, No Paywalls. · MIT-licensed templates & contributed HTML; linked community websites keep their own terms.",
     type: "website",
+    siteName: "openlandingpage",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "openlandingpage — Landing Pages, from Header to Footer.",
+    description:
+      "Not Just A Hero Section. One Click Download, 100% Free, No Paywalls. · MIT-licensed templates & contributed HTML; linked community websites keep their own terms.",
   },
   icons: {
     icon: "/icon.svg",
