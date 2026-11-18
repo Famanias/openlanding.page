@@ -1,6 +1,6 @@
 import type { TemplateItem } from "../app/(index)/data/templates";
 import type { FaqEntry } from "../app/(index)/data/faq";
-import { SITE_DESCRIPTION, templatePromptUrl, templateUrl } from "./seo";
+import { SITE_DESCRIPTION, templateDetailUrl, templatePromptUrl, templateUrl } from "./seo";
 import { absoluteUrl, SITE_NAME, SITE_URL } from "./site";
 
 export const REPO_URL = "https://github.com/Famanias/openlanding.page";
@@ -28,13 +28,28 @@ export function websiteJsonLd(): JsonLdObject {
   };
 }
 
+/** @id of the template entity; it lives on the detail page, which describes it. */
+export function templateEntityId(slug: string): string {
+  return `${templateDetailUrl(slug)}#template`;
+}
+
+function detailPageId(slug: string): string {
+  return `${templateDetailUrl(slug)}#webpage`;
+}
+
+/**
+ * The template as source code. `url`/`mainEntityOfPage` are its detail page (the indexable description);
+ * the fictional live page at /templates/<slug> is the `workExample`, a rendered instance of the code.
+ */
 export function templateJsonLd(t: TemplateItem): JsonLdObject {
   return {
     "@type": ["SoftwareSourceCode", "CreativeWork"],
-    "@id": `${templateUrl(t.slug)}#template`,
+    "@id": templateEntityId(t.slug),
     name: t.title,
     description: t.description,
-    url: templateUrl(t.slug),
+    url: templateDetailUrl(t.slug),
+    mainEntityOfPage: { "@id": detailPageId(t.slug) },
+    workExample: { "@type": "WebPage", name: `${t.title} live demo`, url: templateUrl(t.slug) },
     image: absoluteUrl(t.previewImage),
     dateCreated: t.createdAt,
     license: MIT,
@@ -61,17 +76,75 @@ export function galleryJsonLd(templates: readonly TemplateItem[]): JsonLdObject 
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: templates.length,
-      itemListElement: templates.map((t, i) => ({ "@type": "ListItem", position: i + 1, url: templateUrl(t.slug), item: templateJsonLd(t) })),
+      itemListElement: templates.map((t, i) => ({ "@type": "ListItem", position: i + 1, url: templateDetailUrl(t.slug), item: templateJsonLd(t) })),
     },
   };
 }
 
-export function faqJsonLd(faq: readonly FaqEntry[]): JsonLdObject {
+export function faqJsonLd(faq: readonly FaqEntry[], id = `${SITE_URL}/#faq`): JsonLdObject {
   return {
     "@type": "FAQPage",
-    "@id": `${SITE_URL}/#faq`,
+    "@id": id,
     mainEntity: faq.map(entry => ({ "@type": "Question", name: entry.question, acceptedAnswer: { "@type": "Answer", text: entry.answer } })),
   };
+}
+
+export interface BreadcrumbItem {
+  name: string;
+  path: string;
+}
+
+export function breadcrumbJsonLd(id: string, items: readonly BreadcrumbItem[]): JsonLdObject {
+  return {
+    "@type": "BreadcrumbList",
+    "@id": id,
+    itemListElement: items.map((item, i) => ({ "@type": "ListItem", position: i + 1, name: item.name, item: absoluteUrl(item.path) })),
+  };
+}
+
+export interface TemplateDetailJsonLdInput {
+  template: TemplateItem;
+  heading: string;
+  summary: string;
+  breadcrumbs: readonly BreadcrumbItem[];
+  faq: readonly FaqEntry[];
+  howTo?: { name: string; description: string; steps: readonly { name: string; text: string }[] };
+}
+
+/**
+ * Nodes for one template detail page: the ItemPage, its BreadcrumbList, the template entity,
+ * the visible FAQ as FAQPage and, when given, the visible steps as HowTo. All cross-linked by @id.
+ */
+export function templateDetailJsonLd({ template: t, heading, summary, breadcrumbs, faq, howTo }: TemplateDetailJsonLdInput): JsonLdObject[] {
+  const url = templateDetailUrl(t.slug);
+  const pageId = detailPageId(t.slug);
+  const image = absoluteUrl(t.previewImage);
+  const page: JsonLdObject = {
+    "@type": "ItemPage",
+    "@id": pageId,
+    url,
+    name: heading,
+    description: summary,
+    inLanguage: "en",
+    isPartOf: { "@id": SITE_ID },
+    breadcrumb: { "@id": `${url}#breadcrumb` },
+    mainEntity: { "@id": templateEntityId(t.slug) },
+    primaryImageOfPage: { "@type": "ImageObject", url: image },
+    datePublished: t.createdAt,
+  };
+  const nodes = [page, breadcrumbJsonLd(`${url}#breadcrumb`, breadcrumbs), templateJsonLd(t), faqJsonLd(faq, `${url}#faq`)];
+  if (howTo) {
+    nodes.push({
+      "@type": "HowTo",
+      "@id": `${url}#howto`,
+      name: howTo.name,
+      description: howTo.description,
+      tool: [{ "@type": "HowToTool", name: "AI coding agent (Claude Code, Cursor, Codex or Antigravity)" }],
+      supply: [{ "@type": "HowToSupply", name: `${t.title} rebuild prompt`, url: templatePromptUrl(t.slug) }],
+      step: howTo.steps.map((step, i) => ({ "@type": "HowToStep", position: i + 1, name: step.name, text: step.text, url: `${url}#step-${i + 1}` })),
+    });
+  }
+  return nodes;
 }
 
 /** One @graph document; `<` is escaped so template copy can never close the script tag. */

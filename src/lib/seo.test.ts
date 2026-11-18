@@ -9,9 +9,19 @@ describe("discovery surfaces", () => {
   it("sitemap lists home and every public template on the canonical origin", () => {
     const urls = sitemap().map(entry => entry.url);
     expect(urls[0]).toBe("https://www.openlanding.page/");
-    for (const t of PUBLIC_TEMPLATES) expect(urls).toContain(`https://www.openlanding.page/templates/${t.slug}`);
+    for (const t of PUBLIC_TEMPLATES) {
+      expect(urls).toContain(`https://www.openlanding.page/templates/${t.slug}`);
+      expect(urls).toContain(`https://www.openlanding.page/landing-page-templates/${t.slug}`);
+    }
     expect(urls.every(url => url.startsWith("https://www.openlanding.page/"))).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
+  });
+
+  it("sitemap gives each detail page priority 0.7, its creation date and its images", () => {
+    const t = PUBLIC_TEMPLATES.find(x => x.slug === "calder")!;
+    const entry = sitemap().find(e => e.url === "https://www.openlanding.page/landing-page-templates/calder");
+    expect(entry).toMatchObject({ priority: 0.7, lastModified: t.createdAt });
+    expect(entry?.images).toEqual(["https://www.openlanding.page/gallery/calder.webp", "https://www.openlanding.page/templates/calder/preview-1600.webp"]);
   });
 
   it("robots allows AI crawlers and points at the sitemap", () => {
@@ -26,9 +36,12 @@ describe("discovery surfaces", () => {
     expect(txt.startsWith("# openlandingpage")).toBe(true);
     for (const t of PUBLIC_TEMPLATES) {
       expect(txt).toContain(`/templates/${t.slug})`);
+      expect(txt).toContain(`Details: https://www.openlanding.page/landing-page-templates/${t.slug}`);
       expect(fs.existsSync(path.join("public/copy", `${t.slug}-prompt.md`)), t.slug).toBe(true);
     }
-    expect(buildLlmsFullTxt().length).toBeGreaterThan(txt.length);
+    const full = buildLlmsFullTxt();
+    expect(full.length).toBeGreaterThan(txt.length);
+    for (const t of PUBLIC_TEMPLATES) expect(full).toContain(`- Details: https://www.openlanding.page/landing-page-templates/${t.slug}`);
   });
 
   it("emits a canonical Link header per template page", () => {
