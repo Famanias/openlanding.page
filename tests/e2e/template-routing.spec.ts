@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { TEMPLATES } from "../../src/app/(index)/data/templates";
+import { withTemplateBar } from "./template-bar.helpers";
 
 for (const template of TEMPLATES) {
   test(`${template.slug}: new URL is direct and old URL redirects once`, async ({ request }) => {
@@ -60,12 +61,13 @@ test("public media wins over the template rewrite", async ({ request }) => {
 
 for (const slug of ["stillwater", "cirro"]) {
   test(`${slug}: imported HTML bytes and downloads stay intact`, async ({ request }) => {
-    const original = await readFile(`public/downloads/${slug}.html`);
-    for (const href of [`/templates/${slug}`, `/downloads/${slug}.html`]) {
+    const original = await readFile(`public/downloads/${slug}.html`, "utf8");
+    // The live route only adds the openlanding.page info bar script; the download stays byte-identical.
+    for (const [href, expected] of [[`/templates/${slug}`, withTemplateBar(original)], [`/downloads/${slug}.html`, original]] as const) {
       const response = await request.get(href, { maxRedirects: 0 });
       expect(response.status()).toBe(200);
       expect(response.headers()["content-type"]).toContain("text/html");
-      expect(await response.body()).toEqual(original);
+      expect(await response.text()).toEqual(expected);
     }
   });
 }

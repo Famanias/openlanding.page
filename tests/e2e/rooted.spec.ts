@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { withTemplateBar } from "./template-bar.helpers";
 
 test.describe("ROOTED gallery card and standalone document", () => {
   test("gallery search, prompt, preview, live link, and HTML download work", async ({ page }) => {
@@ -35,11 +36,12 @@ test.describe("ROOTED gallery card and standalone document", () => {
 
   test("live route serves the downloadable page identically without errors", async ({ page, request }) => {
     const original = await readFile(path.join(process.cwd(), "public/downloads/rooted.html"), "utf8");
-    for (const url of ["/templates/rooted", "/downloads/rooted.html"]) {
+    // The live route only adds the openlanding.page info bar script; the download stays byte-identical.
+    for (const [url, expected] of [["/templates/rooted", withTemplateBar(original)], ["/downloads/rooted.html", original]] as const) {
       const response = await request.get(url);
       expect(response.ok()).toBe(true);
       expect(response.headers()["content-type"]).toContain("text/html");
-      expect(await response.text()).toBe(original);
+      expect(await response.text()).toBe(expected);
     }
 
     const errors: string[] = [];
