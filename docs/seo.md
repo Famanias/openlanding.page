@@ -61,3 +61,11 @@ The hero, gallery cards (title, description, stack), FAQ and footer are all in t
 ## README
 
 The README opens with a keyword-bearing H1, the live link, and a one-sentence bold definition that answer engines can quote. Below that are a screenshot grid (from `public/gallery/*.webp`) linking to live template pages, and instructions for using a template and the `llms.txt` index. Keep the "100+" count roughly current.
+
+## Catalog and category hubs
+
+- **Catalog index (`/landing-page-templates`)**: `src/app/(index)/landing-page-templates/page.tsx` renders an indexable directory of all `PUBLIC_TEMPLATES` (`catalogIndexPath()`), with an answer-first intro citing the live count, MIT license, and AI rebuild prompts, a grid of category hub cards, and a full template directory linking to `templateDetailPath(slug)`.
+- **Category hubs (`/landing-page-templates/category/[id]`)**: `src/app/(index)/landing-page-templates/category/[id]/page.tsx` statically generates (`generateStaticParams`) one hub page for every category in `CATEGORIES` (except `"all"`) that has at least one public template via `getTemplateCategories`, calling `notFound()` for unknown ids.
+- **Category copy (`src/app/(index)/data/category-copy.ts`)**: Hand-authored SEO H1, one-line blurb, 2–3 sentence answer-first intro, and meta description per category id, validated by `category-copy.test.ts`.
+- **Metadata & JSON-LD**: `generateMetadata` sets unique `"<H1> (free, MIT) | openlandingpage"` titles, descriptions, canonicals, and Open Graph fields. `src/lib/hub-json-ld.ts` uses `serializeJsonLd` to emit one `@graph` containing `CollectionPage`, `ItemList` (items pointing at absolute `templateDetailPath(slug)` URLs), and `BreadcrumbList`.
+- **Internal links & discovery**: `src/app/(index)/components/CategoryLinks.tsx` renders a compact "Browse by category" list on the homepage between `<GalleryShell />` and `<Faq />`, `Footer.tsx` links to `catalogIndexPath()`, `src/app/sitemap.ts` includes the index (`0.7`) and category hubs (`0.6`), and `buildLlmsTxt` in `src/lib/seo.ts` adds a `## Categories` section.
