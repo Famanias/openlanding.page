@@ -167,3 +167,38 @@ Tests: `src/lib/template-bar.test.ts` (path matching, title map, runtime against
 Existing template e2e suites now see the bar after `load`. It is a small pill at the bottom of the viewport, so a test that clicks something underneath it can set `localStorage["olp:template-bar:dismissed"] = "1"` with `page.addInitScript` first.
 
 The static templates' "live route equals download" e2e checks (rooted, echolog, stillwater, `imported-html-templates`, `template-routing`) now expect `withTemplateBar(download)` from `tests/e2e/template-bar.helpers.ts` for `/templates/<slug>`, and still require `/downloads/<slug>.html` to be byte-identical.
+
+## Template detail pages
+
+The live template at `/templates/<slug>` is a fictional brand page (e.g. "CALDER & ROWE"), so it can't rank for "law firm landing page template". Each public template also gets an indexable, server-rendered detail page at `templateDetailPath(slug)` = `/landing-page-templates/<slug>`. This is the page meant for search and answer engines.
+
+- **Route**: `src/app/(index)/landing-page-templates/[slug]/page.tsx`, inside the gallery route group, so it uses the gallery root layout and tokens. It renders inside the shared `CatalogChrome` (header, breadcrumb nav, footer; `catalog.css`) from the catalog and category hubs, plus its own `template-detail.css`. `generateStaticParams` returns every `PUBLIC_TEMPLATES` slug, so all pages are prerendered. `dynamicParams` isn't available with `cacheComponents`, so the page calls `notFound()` for unknown or archived slugs (and `category`) before rendering. Nothing in the page reads request data or the clock, so it needs no `"use cache"`. It avoids the gallery `Footer`, whose `new Date()` blocks prerendering.
+- **Copy**: `src/app/(index)/components/detail/detail-content.ts` holds pure functions of the registry: title, H1, summary, meta description, how-to steps, FAQ and related templates. The visible page, the metadata and the JSON-LD all come from these same strings, so they can't drift apart. Tests: `detail-content.test.ts`.
+  - Title: `detailTitle()` tries `<Title>: free <industry> landing page template (Next.js|HTML, MIT) | openlandingpage`. If that's over 65 characters, it drops the stack note, then the brand suffix, then swaps a long industry for the primary category label. Nearly every title ends up as `<Title>: free <industry> landing page template`, which keeps the keyword. Titles are unique across templates (tested).
+  - Description: the answer-first summary (`<Title> is a free, MIT-licensed <industry> landing page template built with <stack>.`), then whole sentences only while they fit in 160 characters.
+  - Related templates: up to 6 others ranked by how many categories they share, then same industry, then registry order (newest first). If fewer than 4 share a category, the list is topped up with the newest templates.
+- **Metadata**: `alternates.canonical` is the detail path. `openGraph`/`twitter` use the template's `previewImage` as an absolute URL. When the preview is an SVG (social cards don't support it), they fall back to the raster gallery capture `/gallery/<slug>.webp`.
+- **Page content** (all in the prerendered HTML):
+  - breadcrumb (Home › Landing page templates › Title), rendered by `CatalogChrome`
+  - H1 `<Title> landing page template` and the summary
+  - the gallery capture (1600×900 attributes, cropped 16:9 from the top like the cards) with descriptive alt text
+  - a facts list: industry, stack, categories linking to `categoryHubPath(id)`, badges as "Features", created date, AI model, MIT license
+  - actions: View live template, Copy prompt (a small client island whose label is server-rendered), Open prompt (Markdown) at `/copy/<slug>-prompt.md`, and Download HTML at `/downloads/<slug>.html` only when `hasDownload`. Download is a plain `download` link, so it works without JavaScript and is crawlable.
+  - the numbered "How to use this template with an AI coding agent" steps
+  - a 4-question FAQ
+  - related templates linking to their detail pages
+- **JSON-LD** (`templateDetailJsonLd` in `src/lib/json-ld.ts`, one `@graph`). All nodes are cross-linked by `@id` under the detail URL:
+  - `ItemPage` (`#webpage`)
+  - `BreadcrumbList` (`#breadcrumb`, built with the hubs' `hubBreadcrumbJsonLd` from the same items as the visible breadcrumb)
+  - the template entity (`#template`)
+  - `FAQPage` (`#faq`, built from the visible FAQ)
+  - `HowTo` (`#howto`, built from the visible steps, each step with `url` `#step-N`). Google no longer shows HowTo rich results, but the markup is valid schema.org and answer engines can use it.
+- **Template entity decision**: `templateJsonLd(t)` now uses the detail page as its home. `@id` is `<detail>#template`, `url` is the detail URL, and `mainEntityOfPage` is the detail `ItemPage`. The live `/templates/<slug>` page becomes `workExample` (a `WebPage` named "<Title> live demo"): it's a rendered instance of the source code, not the description of it.
+- **Homepage ItemList**: `galleryJsonLd` items now point their `ListItem.url` at the detail pages, because those describe the template. The live page is still reachable from each item through `workExample`.
+- **Internal links**: each `TemplateCard` has a small, crawlable "Details" link (`<a href="/landing-page-templates/<slug>">`, same tab) next to the title. The title and preview still open the live template in a new tab.
+- **Discovery**:
+  - `sitemap.ts` adds one `...detailEntries()` line (helper at the bottom): priority 0.7, `lastModified` = `createdAt`, and as images the gallery capture shown on the page plus the preview when it isn't an SVG.
+  - `buildLlmsTxt` appends `Details: <detail URL>` to each template line.
+  - `buildLlmsFullTxt` adds a `- Details:` line to each section.
+  - The llms header explains the `/landing-page-templates/<slug>` pages.
+- **Tests**: `[slug]/page.test.tsx` covers params, 404s, metadata, the rendered HTML and JSON-LD matching the visible copy, plus updates to `src/lib/json-ld.test.ts`, `src/lib/seo.test.ts` and `TemplateCard.test.tsx`.

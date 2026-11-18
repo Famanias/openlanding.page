@@ -1,6 +1,6 @@
 import { getCategoryHubSummaries } from "../app/(index)/data/category-copy";
 import { TEMPLATES, type TemplateItem } from "../app/(index)/data/templates";
-import { categoryHubPath } from "./catalog-routes";
+import { categoryHubPath, templateDetailPath } from "./catalog-routes";
 import { absoluteUrl, SITE_NAME, SITE_URL } from "./site";
 import { templatePath } from "./template-routing";
 
@@ -12,6 +12,11 @@ export const SITE_DESCRIPTION =
 
 export function templateUrl(slug: string): string {
   return absoluteUrl(templatePath(slug));
+}
+
+/** Indexable detail page describing a template (the search and answer-engine target, unlike the fictional live page). */
+export function templateDetailUrl(slug: string): string {
+  return absoluteUrl(templateDetailPath(slug));
 }
 
 export function templatePromptUrl(slug: string): string {
@@ -27,7 +32,7 @@ export function templateCanonicalHeaders(slugs: readonly string[]) {
 }
 
 function templateLine(t: TemplateItem): string {
-  return `- [${t.title}](${templateUrl(t.slug)}): ${t.description} Industry: ${t.industry}. Stack: ${t.stack}. Rebuild prompt: ${templatePromptUrl(t.slug)}`;
+  return `- [${t.title}](${templateUrl(t.slug)}): ${t.description} Industry: ${t.industry}. Stack: ${t.stack}. Rebuild prompt: ${templatePromptUrl(t.slug)} Details: ${templateDetailUrl(t.slug)}`;
 }
 
 const HEADER = [
@@ -38,6 +43,7 @@ const HEADER = [
   `- Site: ${SITE_URL}`,
   "- License: MIT for templates and contributed HTML; linked community websites keep their own terms.",
   "- Template pages live at /templates/<slug>; each rebuild prompt is plain Markdown at /copy/<slug>-prompt.md.",
+  "- Each template is described (stack, license, how to use it with an AI coding agent, FAQ) at /landing-page-templates/<slug>.",
   "- Source: https://github.com/Famanias/openlanding.page",
   "",
 ];
@@ -65,7 +71,7 @@ export function buildLlmsTxt(templates: readonly TemplateItem[] = PUBLIC_TEMPLAT
 
 export function buildLlmsFullTxt(templates: readonly TemplateItem[] = PUBLIC_TEMPLATES): string {
   const sections = templates.map(t =>
-    [`## ${t.title}`, "", `- URL: ${templateUrl(t.slug)}`, `- Prompt: ${templatePromptUrl(t.slug)}`, `- Industry: ${t.industry}`, `- Stack: ${t.stack}`, `- Categories: ${t.categories.join(", ")}`, "", t.description, "", t.promptMarkdown.trim(), ""].join("\n"),
+    [`## ${t.title}`, "", `- URL: ${templateUrl(t.slug)}`, `- Details: ${templateDetailUrl(t.slug)}`, `- Prompt: ${templatePromptUrl(t.slug)}`, `- Industry: ${t.industry}`, `- Stack: ${t.stack}`, `- Categories: ${t.categories.join(", ")}`, "", t.description, "", t.promptMarkdown.trim(), ""].join("\n"),
   );
   return [...HEADER, ...sections].join("\n");
 }

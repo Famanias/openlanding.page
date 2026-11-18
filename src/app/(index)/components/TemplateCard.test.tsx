@@ -13,6 +13,14 @@ describe("TemplateCard", () => {
       expect(html).toContain(`/gallery/${template.slug}.webp`);
     }
   });
+  it("links each card to its crawlable detail page in the same tab", () => {
+    for (const template of TEMPLATES) {
+      const html = renderToStaticMarkup(<TemplateCard template={template} />);
+      expect(html).toContain(`<a href="/landing-page-templates/${template.slug}" class="card-details-link"`);
+    }
+    const html = renderToStaticMarkup(<TemplateCard template={TEMPLATES.find(t => t.slug === "orrery")!} />);
+    expect(html).toContain('<a href="/landing-page-templates/orrery" class="card-details-link" aria-label="Details: Orrery landing page template">Details</a>');
+  });
   it("keeps Download HTML visible when the standalone export is not ready", () => {
     const template = TEMPLATES.find(t => t.slug === "orrery")!;
     const html = renderToStaticMarkup(<TemplateCard template={{...template,hasDownload:false}} />);
