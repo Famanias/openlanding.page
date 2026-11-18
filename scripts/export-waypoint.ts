@@ -3,6 +3,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { build, type Plugin } from "esbuild";
 import { readTemplateFiles } from "./template-files";
+import { watermarkHtml } from "./standalone/watermark";
 
 const root = process.cwd();
 const nextRoot = path.join(root, ".next");
@@ -176,7 +177,7 @@ async function exportWaypoint() {
     "<\\/script",
   );
   const favicon = `data:image/svg+xml;base64,${fs.readFileSync(path.join(root, "src/app/(waypoint)/waypoint/icon.svg")).toString("base64")}`;
-  const html = `<!DOCTYPE html>
+  const rawHtml = `<!DOCTYPE html>
 <!-- Generated from the current Waypoint React components. Rebuild with npm run build && npm run export:waypoint. -->
 <html lang="en" class="${htmlClass}">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#EDE6DF">
@@ -187,6 +188,7 @@ async function exportWaypoint() {
 <body class="${bodyClass}"><div id="waypoint-root">${markup}</div>
 <script>${javascript}</script></body></html>
 `;
+  const html = watermarkHtml(rawHtml, { slug: "waypoint" });
   if (/\/_next\//.test(html) || !/<h1[\s>]/.test(html))
     throw new Error(
       "The standalone download must contain real content and no Next runtime paths.",

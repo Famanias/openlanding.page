@@ -202,3 +202,14 @@ The live template at `/templates/<slug>` is a fictional brand page (e.g. "CALDER
   - `buildLlmsFullTxt` adds a `- Details:` line to each section.
   - The llms header explains the `/landing-page-templates/<slug>` pages.
 - **Tests**: `[slug]/page.test.tsx` covers params, 404s, metadata, the rendered HTML and JSON-LD matching the visible copy, plus updates to `src/lib/json-ld.test.ts`, `src/lib/seo.test.ts` and `TemplateCard.test.tsx`.
+
+## Download watermark and attribution
+
+Standalone HTML files in `public/downloads/<slug>.html` are automatically watermarked by `scripts/standalone/watermark.ts` (`watermarkHtml`), invoked both during export (`scripts/standalone/export.ts`, `scripts/export-waypoint.ts`) and across all committed downloads via `bun run watermark:downloads` (`scripts/watermark-downloads.ts`):
+
+- **MIT license header:** Inserted immediately after `<!DOCTYPE html>` (above any existing generator comment) with the template title from `TEMPLATES` (falling back to `<title>`), canonical template URL (`https://www.openlanding.page/templates/<slug>`), `Copyright (c) 2026 Famanias`, and the full MIT permission text from `LICENSE`.
+- **Generator meta:** Ensures `<head>` contains exactly one `<meta name="generator" content="openlanding.page">`.
+- **Optional footer attribution:** Injects a small, centred, font- and color-inheriting `<p data-olp-credit>` right before `</body>` linking plainly (no `rel="nofollow"`) to `/templates/<slug>` and `https://www.openlanding.page/`, preceded by an HTML comment noting that attribution is optional under MIT and may be removed.
+- **Gallery chrome stripping:** `stripOlpChrome` removes any element carrying `data-olp-chrome` (and its nested contents) while ignoring occurrences inside comments, `<script>`, `<style>`, or unrelated attributes, so live-page gallery bars never ship in downloaded HTML.
+- **Idempotency & download paths:** Markers (`openlanding.page:license`, `name="generator"`, `data-olp-credit`) update in place so running twice produces identical output. Gallery downloads in `src/app/(index)/lib/download.ts` stream `/downloads/<slug>.html` directly without producing zip or source bundles.
+
