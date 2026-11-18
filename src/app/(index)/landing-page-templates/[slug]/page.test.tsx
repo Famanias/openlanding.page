@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { ReactElement } from "react";
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import TemplateDetailPage, { generateMetadata, generateStaticParams } from "./page";
@@ -9,11 +8,8 @@ import { PUBLIC_TEMPLATES } from "../../../../lib/seo";
 
 const params = (slug: string) => ({ params: Promise.resolve({ slug }) });
 
-/** The page returns its cached async body; resolve it so react-dom/server can render it. */
 async function render(slug: string): Promise<string> {
-  const page = (await TemplateDetailPage(params(slug))) as ReactElement<{ slug: string }>;
-  const body = (page.type as (props: { slug: string }) => Promise<ReactElement>)(page.props);
-  return renderToStaticMarkup(await body);
+  return renderToStaticMarkup(await TemplateDetailPage(params(slug)));
 }
 
 function jsonLdGraph(html: string): { "@type": string | string[]; [key: string]: unknown }[] {
@@ -56,6 +52,8 @@ describe("template detail page", () => {
     const html = await render("calder");
     expect(html).toContain('<nav aria-label="Breadcrumb"');
     expect(html).toContain('href="/landing-page-templates">Landing page templates</a>');
+    expect(html).toContain('class="catalog-header"');
+    expect(html).toContain('<span aria-current="page">CALDER &amp; ROWE</span>');
     expect(html).toContain('<h1 class="detail-title">CALDER &amp; ROWE landing page template</h1>');
     expect(html).toContain("CALDER &amp; ROWE is a free, MIT-licensed Law &amp; Advisory landing page template built with Next.js 16, Tailwind v4, React 19, SVG and Lenis.");
     expect(html).toMatch(/<img src="\/gallery\/calder\.webp" width="1600" height="900"[^>]*alt="Screenshot of the CALDER &amp; ROWE landing page template/);

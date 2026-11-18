@@ -89,24 +89,12 @@ export function faqJsonLd(faq: readonly FaqEntry[], id = `${SITE_URL}/#faq`): Js
   };
 }
 
-export interface BreadcrumbItem {
-  name: string;
-  path: string;
-}
-
-export function breadcrumbJsonLd(id: string, items: readonly BreadcrumbItem[]): JsonLdObject {
-  return {
-    "@type": "BreadcrumbList",
-    "@id": id,
-    itemListElement: items.map((item, i) => ({ "@type": "ListItem", position: i + 1, name: item.name, item: absoluteUrl(item.path) })),
-  };
-}
-
 export interface TemplateDetailJsonLdInput {
   template: TemplateItem;
   heading: string;
   summary: string;
-  breadcrumbs: readonly BreadcrumbItem[];
+  /** BreadcrumbList node whose @id is "<detail URL>#breadcrumb" (build it with hubBreadcrumbJsonLd). */
+  breadcrumb: JsonLdObject;
   faq: readonly FaqEntry[];
   howTo?: { name: string; description: string; steps: readonly { name: string; text: string }[] };
 }
@@ -115,7 +103,7 @@ export interface TemplateDetailJsonLdInput {
  * Nodes for one template detail page: the ItemPage, its BreadcrumbList, the template entity,
  * the visible FAQ as FAQPage and, when given, the visible steps as HowTo. All cross-linked by @id.
  */
-export function templateDetailJsonLd({ template: t, heading, summary, breadcrumbs, faq, howTo }: TemplateDetailJsonLdInput): JsonLdObject[] {
+export function templateDetailJsonLd({ template: t, heading, summary, breadcrumb, faq, howTo }: TemplateDetailJsonLdInput): JsonLdObject[] {
   const url = templateDetailUrl(t.slug);
   const pageId = detailPageId(t.slug);
   const image = absoluteUrl(t.previewImage);
@@ -132,7 +120,7 @@ export function templateDetailJsonLd({ template: t, heading, summary, breadcrumb
     primaryImageOfPage: { "@type": "ImageObject", url: image },
     datePublished: t.createdAt,
   };
-  const nodes = [page, breadcrumbJsonLd(`${url}#breadcrumb`, breadcrumbs), templateJsonLd(t), faqJsonLd(faq, `${url}#faq`)];
+  const nodes = [page, breadcrumb, templateJsonLd(t), faqJsonLd(faq, `${url}#faq`)];
   if (howTo) {
     nodes.push({
       "@type": "HowTo",

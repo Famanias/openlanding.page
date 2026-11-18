@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildFaq } from "../app/(index)/data/faq";
-import { breadcrumbJsonLd, faqJsonLd, galleryJsonLd, organizationJsonLd, serializeJsonLd, templateDetailJsonLd, templateJsonLd, websiteJsonLd } from "./json-ld";
+import { faqJsonLd, galleryJsonLd, organizationJsonLd, serializeJsonLd, templateDetailJsonLd, templateJsonLd, websiteJsonLd } from "./json-ld";
 import { PUBLIC_TEMPLATES } from "./seo";
 
 describe("json-ld", () => {
@@ -21,21 +21,10 @@ describe("json-ld", () => {
     expect(item.workExample).toEqual({ "@type": "WebPage", name: "CALDER & ROWE live demo", url: "https://www.openlanding.page/templates/calder" });
   });
 
-  it("builds absolute breadcrumbs", () => {
-    expect(breadcrumbJsonLd("x#breadcrumb", [{ name: "Home", path: "/" }, { name: "Orrery", path: "/landing-page-templates/orrery" }])).toEqual({
-      "@type": "BreadcrumbList",
-      "@id": "x#breadcrumb",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.openlanding.page/" },
-        { "@type": "ListItem", position: 2, name: "Orrery", item: "https://www.openlanding.page/landing-page-templates/orrery" },
-      ],
-    });
-  });
-
   it("cross-links the detail page graph by @id and includes HowTo only when given", () => {
     const template = PUBLIC_TEMPLATES.find(t => t.slug === "calder")!;
     const base = "https://www.openlanding.page/landing-page-templates/calder";
-    const input = { template, heading: "H", summary: "S", breadcrumbs: [{ name: "Home", path: "/" }], faq: [{ question: "Q?", answer: "A." }] };
+    const input = { template, heading: "H", summary: "S", breadcrumb: { "@type": "BreadcrumbList", "@id": `${base}#breadcrumb` }, faq: [{ question: "Q?", answer: "A." }] };
     const [page, crumbs, entity, faq] = templateDetailJsonLd(input);
     expect(page).toMatchObject({ "@type": "ItemPage", "@id": `${base}#webpage`, url: base, name: "H", description: "S", breadcrumb: { "@id": `${base}#breadcrumb` }, mainEntity: { "@id": `${base}#template` } });
     expect(crumbs["@id"]).toBe(`${base}#breadcrumb`);
