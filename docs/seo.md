@@ -61,3 +61,54 @@ The hero, gallery cards (title, description, stack), FAQ and footer are all in t
 ## README
 
 The README opens with a keyword-bearing H1, the live link, and a one-sentence bold definition that answer engines can quote. Below that are a screenshot grid (from `public/gallery/*.webp`) linking to live template pages, and instructions for using a template and the `llms.txt` index. Keep the "100+" count roughly current.
+
+## Search engine submission and IndexNow
+
+Ownership verification tags are injected into `src/app/(index)/layout.tsx` at build time when `GOOGLE_SITE_VERIFICATION` and/or `BING_SITE_VERIFICATION` are set (see `docs/community-env.example`). When unset, no empty verification `<meta>` tags are emitted.
+
+### Google Search Console checklist
+
+1. Add a **Domain** property for `openlanding.page` (or verify ownership by setting `GOOGLE_SITE_VERIFICATION` in the production environment, redeploying so `<meta name="google-site-verification" content="...">` is rendered on `/`, and choosing the HTML tag verification method).
+2. Confirm `https://www.openlanding.page` is the canonical host (non-`www` redirects to `www`, and `SITE_URL` / canonicals / sitemap all point to `https://www.openlanding.page`).
+3. Open **Sitemaps** and submit `https://www.openlanding.page/sitemap.xml`.
+4. Use **URL Inspection** on `https://www.openlanding.page/` and click **Request indexing** after major releases.
+
+### Bing Webmaster Tools checklist
+
+1. Either import the verified property directly from Google Search Console, or set `BING_SITE_VERIFICATION` in the production environment, redeploy so `<meta name="msvalidate.01" content="...">` is rendered on `/`, and verify via HTML meta tag.
+2. Open **Sitemaps** and submit `https://www.openlanding.page/sitemap.xml`.
+3. IndexNow verification requires no extra account setup once `public/e48297be6111ba712e37419eeaae877d.txt` is live at `https://www.openlanding.page/e48297be6111ba712e37419eeaae877d.txt` (`src/lib/indexnow.ts` exports `INDEXNOW_KEY` and `INDEXNOW_KEY_URL`).
+
+### Submitting URLs via IndexNow
+
+`scripts/indexnow.ts` (`bun run indexnow`) reads every URL from `src/app/sitemap.ts`, verifies all URLs are on `SITE_URL`, batches them into chunks of up to 10,000, and POSTs them to `https://api.indexnow.org/indexnow` (which notifies Bing/ChatGPT search/Copilot, Yandex, and participating engines).
+
+- **Preview payload without network requests**: `bun run indexnow --dry-run`
+- **Submit after a production deploy** (never run during `next build` or before the deploy is live, so IndexNow can immediately fetch `/e48297be6111ba712e37419eeaae877d.txt` and the updated pages): `bun run indexnow`
+
+Optional post-deploy GitHub Actions workflow example (documentation only; not committed as a workflow file):
+
+```yaml
+# .github/workflows/indexnow.yml
+# name: Notify IndexNow
+# on:
+#   deployment_status:
+# jobs:
+#   indexnow:
+#     if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: oven-sh/setup-bun@v2
+#       - run: bun install --frozen-lockfile
+#       - run: bun run indexnow
+```
+
+### Verify after deploy
+
+- `curl -fsS https://www.openlanding.page/robots.txt`
+- `curl -fsS https://www.openlanding.page/sitemap.xml`
+- `curl -fsS https://www.openlanding.page/llms.txt`
+- `curl -fsS https://www.openlanding.page/e48297be6111ba712e37419eeaae877d.txt` (must return `e48297be6111ba712e37419eeaae877d` verbatim)
+- Run Google's Rich Results Test against `https://www.openlanding.page/` to confirm `Organization`, `WebSite`, `CollectionPage`/`ItemList`, and `FAQPage` JSON-LD parse cleanly.
+- Check the HTTP canonical header on a template route: `curl -I https://www.openlanding.page/templates/orrery` (expect `Link: <https://www.openlanding.page/templates/orrery>; rel="canonical"`).
