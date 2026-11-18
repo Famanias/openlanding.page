@@ -3,6 +3,7 @@ import { Exo_2, IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
 import "./radius/radius-styles.css";
 import "./radius/configurator/configurator.css";
 import "./radius/experience/experience.css";
+import "./radius/radius-subpages.css";
 
 const display = Exo_2({ subsets: ["latin"], weight: ["600", "800", "900"], style: "italic", variable: "--font-rd-exo", display: "swap" });
 const body = Space_Grotesk({ subsets: ["latin"], variable: "--font-rd-space", display: "swap" });

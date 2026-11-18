@@ -1,19 +1,48 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 import { Logo } from "../brand/Logo";
 
-export function Header() {
+export type RadiusPageId = "home" | "bike" | "accessories" | "journal" | "fit" | "reserve";
+
+const DESKTOP_LINKS: { id: Exclude<RadiusPageId, "home" | "reserve">; href: string; label: string }[] = [
+  { id: "bike", href: "/templates/radius/bike", label: "The bike" },
+  { id: "accessories", href: "/templates/radius/accessories", label: "Accessories" },
+  { id: "journal", href: "/templates/radius/journal", label: "Field notes" },
+  { id: "fit", href: "/templates/radius/fit-service", label: "Fit & service" },
+];
+
+const MOBILE_LINKS: { id: RadiusPageId; href: string; label: string; n: string }[] = [
+  { id: "home", href: "/templates/radius", label: "Overview", n: "01" },
+  { id: "bike", href: "/templates/radius/bike", label: "The bike", n: "02" },
+  { id: "accessories", href: "/templates/radius/accessories", label: "Accessories", n: "03" },
+  { id: "journal", href: "/templates/radius/journal", label: "Field notes", n: "04" },
+  { id: "fit", href: "/templates/radius/fit-service", label: "Fit & service", n: "05" },
+  { id: "reserve", href: "/templates/radius/reserve", label: "Reserve preview", n: "06" },
+];
+
+export function Header({ activePage = "home" }: { activePage?: RadiusPageId }) {
   const menu = useRef<HTMLDetailsElement>(null);
   const closeMenu = () => { if (menu.current) menu.current.open = false; };
 
   return (
     <header className="rd-header">
-      <a className="rd-home" href="#top" aria-label="RADIUS home"><Logo /></a>
+      <Link className="rd-home" href="/templates/radius" aria-label="RADIUS home"><Logo /></Link>
       <nav className="rd-desktop-nav" aria-label="Primary navigation">
-        <a href="#bike">The bike</a><a href="#build">Build</a><a href="#ride">The ride</a><a href="#fit">Fit &amp; service</a>
+        {DESKTOP_LINKS.map((item) => (
+          <Link
+            key={item.id}
+            href={item.href}
+            aria-current={activePage === item.id ? "page" : undefined}
+          >
+            {item.label}
+          </Link>
+        ))}
       </nav>
-      <a className="rd-header-cta" href="#build">Build your ride <span aria-hidden="true">↗</span></a>
+      <Link className="rd-header-cta" href={activePage === "home" ? "#build" : "/templates/radius#build"}>
+        Build your ride <span aria-hidden="true">↗</span>
+      </Link>
       <details className="rd-mobile-menu" ref={menu} onKeyDown={event => {
         if (event.key === "Escape" && menu.current?.open) {
           closeMenu();
@@ -22,10 +51,11 @@ export function Header() {
       }}>
         <summary aria-label="Menu"><span /><span /><span /></summary>
         <nav aria-label="Mobile navigation">
-          <a onClick={closeMenu} href="#bike">The bike <span>01</span></a>
-          <a onClick={closeMenu} href="#build">Build your ride <span>02</span></a>
-          <a onClick={closeMenu} href="#ride">The ride <span>03</span></a>
-          <a onClick={closeMenu} href="#fit">Fit &amp; service <span>04</span></a>
+          {MOBILE_LINKS.map((item) => (
+            <Link key={item.id} onClick={closeMenu} href={item.href} aria-current={activePage === item.id ? "page" : undefined}>
+              {item.label} <span>{item.n}</span>
+            </Link>
+          ))}
         </nav>
       </details>
       <div className="rd-progress" aria-hidden="true"><span /></div>
