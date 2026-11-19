@@ -1,0 +1,479 @@
+{
+  "slug": "satoyama",
+  "title": "里山日和 — Satoyama",
+  "industry": "Culture & Rural Life",
+  "description": "A slower kind of day. A fully code-illustrated picture book about rural Japan, with living landscapes, six chapters and a little wandering.",
+  "stack": "Next.js 16 · React 19 · SVG · CSS Animation",
+  "liveUrl": "https://www.openlanding.page/templates/satoyama",
+  "downloadUrl": "https://www.openlanding.page/downloads/satoyama.html",
+  "manifestUrl": "https://www.openlanding.page/copy/satoyama-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/satoyama-webflow-prompt.md",
+  "variables": {
+    "collectionName": "里山日和 — Satoyama Tokens",
+    "colors": [
+      {
+        "name": "Color / St Paper",
+        "cssVar": "--color-st-paper",
+        "value": "#F6F3E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Sage",
+        "cssVar": "--color-st-sage",
+        "value": "#ADC3A1",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Rose",
+        "cssVar": "--color-st-rose",
+        "value": "#D7AAA0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Ink",
+        "cssVar": "--color-st-ink",
+        "value": "#2F4438",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Paper",
+        "cssVar": "--st-paper",
+        "value": "#F6F3E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Sage",
+        "cssVar": "--st-sage",
+        "value": "#ADC3A1",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Rose",
+        "cssVar": "--st-rose",
+        "value": "#D7AAA0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Ink",
+        "cssVar": "--st-ink",
+        "value": "#2F4438",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Muted",
+        "cssVar": "--st-muted",
+        "value": "color-mix(in srgb, var(--st-ink) 78%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Border",
+        "cssVar": "--st-border",
+        "value": "color-mix(in srgb, var(--st-ink) 18%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Sky",
+        "cssVar": "--st-sky",
+        "value": "color-mix(in srgb, var(--st-sage) 25%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Mountain Far",
+        "cssVar": "--st-mountain-far",
+        "value": "color-mix(in srgb, var(--st-sage) 39%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Mountain",
+        "cssVar": "--st-mountain",
+        "value": "color-mix(in srgb, var(--st-sage) 68%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Hill",
+        "cssVar": "--st-hill",
+        "value": "color-mix(in srgb, var(--st-sage) 87%, var(--st-ink))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Leaf",
+        "cssVar": "--st-leaf",
+        "value": "color-mix(in srgb, var(--st-sage) 85%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Forest",
+        "cssVar": "--st-forest",
+        "value": "color-mix(in srgb, var(--st-sage) 41%, var(--st-ink))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Midgreen",
+        "cssVar": "--st-midgreen",
+        "value": "color-mix(in srgb, var(--st-sage) 73%, var(--st-ink))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Field",
+        "cssVar": "--st-field",
+        "value": "color-mix(in srgb, var(--st-sage) 64%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Water",
+        "cssVar": "--st-water",
+        "value": "color-mix(in srgb, var(--st-sage) 36%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Path",
+        "cssVar": "--st-path",
+        "value": "color-mix(in srgb, var(--st-rose) 25%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Wall",
+        "cssVar": "--st-wall",
+        "value": "color-mix(in srgb, var(--st-rose) 18%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Wallshade",
+        "cssVar": "--st-wallshade",
+        "value": "color-mix(in srgb, var(--st-rose) 42%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Timber",
+        "cssVar": "--st-timber",
+        "value": "color-mix(in srgb, var(--st-ink) 64%, var(--st-rose))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Window",
+        "cssVar": "--st-window",
+        "value": "color-mix(in srgb, var(--st-ink) 77%, var(--st-sage))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Roof",
+        "cssVar": "--st-roof",
+        "value": "color-mix(in srgb, var(--st-ink) 78%, var(--st-sage))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Roofshade",
+        "cssVar": "--st-roofshade",
+        "value": "color-mix(in srgb, var(--st-ink) 86%, var(--st-sage))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Roof Rose",
+        "cssVar": "--st-roof-rose",
+        "value": "color-mix(in srgb, var(--st-rose) 76%, var(--st-ink))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Blue",
+        "cssVar": "--st-blue",
+        "value": "#9CC4D6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Sun",
+        "cssVar": "--st-sun",
+        "value": "#F1D9A2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Ember",
+        "cssVar": "--st-ember",
+        "value": "#C8714F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / St Sky Top",
+        "cssVar": "--st-sky-top",
+        "value": "color-mix(in srgb, var(--st-blue) 78%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Sky Mid",
+        "cssVar": "--st-sky-mid",
+        "value": "color-mix(in srgb, var(--st-blue) 42%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Sky Low",
+        "cssVar": "--st-sky-low",
+        "value": "color-mix(in srgb, var(--st-sun) 38%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Sky Warm",
+        "cssVar": "--st-sky-warm",
+        "value": "color-mix(in srgb, var(--st-sun) 55%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Cloud",
+        "cssVar": "--st-cloud",
+        "value": "color-mix(in srgb, white 55%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Cloud Lit",
+        "cssVar": "--st-cloud-lit",
+        "value": "color-mix(in srgb, var(--st-sun) 14%, white)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Cloud Shade",
+        "cssVar": "--st-cloud-shade",
+        "value": "color-mix(in srgb, var(--st-rose) 26%, color-mix(in srgb, var(--st-blue) 60%, var(--st-paper)))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Mtn Far",
+        "cssVar": "--st-mtn-far",
+        "value": "color-mix(in srgb, var(--st-blue) 52%, var(--st-sage))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Mtn Mid",
+        "cssVar": "--st-mtn-mid",
+        "value": "color-mix(in srgb, var(--st-sage) 62%, var(--st-blue))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Mtn Haze",
+        "cssVar": "--st-mtn-haze",
+        "value": "color-mix(in srgb, var(--st-paper) 58%, var(--st-mtn-far))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Meadow Lit",
+        "cssVar": "--st-meadow-lit",
+        "value": "color-mix(in srgb, var(--st-sun) 30%, var(--st-leaf))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Meadow",
+        "cssVar": "--st-meadow",
+        "value": "color-mix(in srgb, var(--st-sage) 66%, var(--st-ink))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Tree Lit",
+        "cssVar": "--st-tree-lit",
+        "value": "color-mix(in srgb, var(--st-sun) 24%, var(--st-leaf))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Bank",
+        "cssVar": "--st-bank",
+        "value": "color-mix(in srgb, var(--st-timber) 70%, var(--st-sage))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Water Deep",
+        "cssVar": "--st-water-deep",
+        "value": "color-mix(in srgb, var(--st-blue) 50%, var(--st-sage))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Water Canal",
+        "cssVar": "--st-water-canal",
+        "value": "color-mix(in srgb, var(--st-blue) 66%, var(--st-sage))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Stone",
+        "cssVar": "--st-stone",
+        "value": "color-mix(in srgb, var(--st-ink) 28%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Bamboo",
+        "cssVar": "--st-bamboo",
+        "value": "color-mix(in srgb, var(--st-sage) 70%, var(--st-ink))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Bamboo Lit",
+        "cssVar": "--st-bamboo-lit",
+        "value": "color-mix(in srgb, var(--st-sun) 30%, var(--st-leaf))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Bamboo Far",
+        "cssVar": "--st-bamboo-far",
+        "value": "color-mix(in srgb, var(--st-sage) 50%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Forest Sky",
+        "cssVar": "--st-forest-sky",
+        "value": "color-mix(in srgb, var(--st-sage) 35%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Persimmon Dark",
+        "cssVar": "--st-persimmon-dark",
+        "value": "color-mix(in srgb, var(--st-rose) 20%, var(--st-forest))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Persimmon",
+        "cssVar": "--st-persimmon",
+        "value": "color-mix(in srgb, var(--st-rose) 35%, var(--st-midgreen))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Persimmon Lit",
+        "cssVar": "--st-persimmon-lit",
+        "value": "color-mix(in srgb, var(--st-sun) 45%, var(--st-leaf))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Persimmon Fruit",
+        "cssVar": "--st-persimmon-fruit",
+        "value": "color-mix(in srgb, var(--st-ember) 70%, var(--st-sun))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Snow",
+        "cssVar": "--st-snow",
+        "value": "color-mix(in srgb, var(--st-blue) 10%, white)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Snow Shade",
+        "cssVar": "--st-snow-shade",
+        "value": "color-mix(in srgb, var(--st-blue) 35%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Blossom Dark",
+        "cssVar": "--st-blossom-dark",
+        "value": "color-mix(in srgb, var(--st-rose) 70%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Blossom Mid",
+        "cssVar": "--st-blossom-mid",
+        "value": "color-mix(in srgb, var(--st-rose) 40%, var(--st-paper))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Blossom Lit",
+        "cssVar": "--st-blossom-lit",
+        "value": "color-mix(in srgb, var(--st-rose) 22%, white)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Maple Dark",
+        "cssVar": "--st-maple-dark",
+        "value": "color-mix(in srgb, var(--st-ember) 62%, var(--st-ink))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Maple Mid",
+        "cssVar": "--st-maple-mid",
+        "value": "color-mix(in srgb, var(--st-ember) 88%, var(--st-sun))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / St Maple Lit",
+        "cssVar": "--st-maple-lit",
+        "value": "color-mix(in srgb, var(--st-sun) 62%, var(--st-ember))",
+        "isCustomExpression": true
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / St Display",
+        "cssVar": "--font-st-display",
+        "family": "var(--font-sato-mincho)",
+        "fallback": "Georgia, serif"
+      },
+      {
+        "name": "Font / St Body",
+        "cssVar": "--font-st-body",
+        "family": "var(--font-sato-sans)",
+        "fallback": "var(--font-sato-japanese), sans-serif"
+      },
+      {
+        "name": "Font / Sato Japanese",
+        "cssVar": "--font-sato-japanese",
+        "family": "var(--font-sato-mincho)",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / DM Sans",
+        "cssVar": "--font-dm-sans",
+        "family": "DM Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "DM Sans"
+      },
+      {
+        "name": "Font / Shippori Mincho",
+        "cssVar": "--font-shippori-mincho",
+        "family": "Shippori Mincho",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Shippori Mincho"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / St Gap",
+        "cssVar": "--st-gap",
+        "value": "25px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "satoyama.webp",
+      "publicPath": "https://www.openlanding.page/gallery/satoyama.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Build an original illustrated rural-Japan presentation in Next.js 16 App Router, React 19 and TypeScript. Brand: 里山日和 / Satoyama Biyori. It is a six-page picture book, with persistent chapter navigation, page dots, a counter, and previous/n",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".st-body",
+        ".175",
+        ".st-primary",
+        ".st-text-link",
+        ".st-sr-only",
+        ".st-skip",
+        ".st-book",
+        ".st-header",
+        ".st-logo",
+        ".st-logo-mark",
+        ".st-wordmark",
+        ".11em"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "satoyama-styles-1",
+      "location": "head",
+      "title": "里山日和 — Satoyama Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 44510,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": ".st-body {\n  --color-st-paper: #F6F3E8;\n  --color-st-sage: #ADC3A1;\n  --color-st-rose: #D7AAA0;\n  --color-st-ink: #2F4438;\n  --font-st-display: var(--font-sato-mincho), Georgia, serif;\n  --font-st-body: var(--font-sato-sans), var(--font-sato-japanese), sans-serif;\n  --font-sato-japanese: var(--font-sato-mincho);\n  --ease-st-out: cubic-bezier(.23, 1, .32, 1);\n  --ease-st-turn: cubic-bezier(.77, 0, .175, 1);\n  --dur-st-press: 90ms;\n  --dur-st-hover: 180ms;\n  --dur-st-content: 420ms;\n  --dur-st-page: 800ms;\n  --dur-st-load: 1200ms;\n}\n\n.st-body {\n  --st-paper: #F6F3E8; --st-sage: #ADC3A1; --st-rose: #D7AAA0; --st-ink: #2F4438;\n  --st-muted: color-mix(in srgb, var(--st-ink) 78%, var(--st-paper));\n  --st-border: color-mix(in srgb, var(--st-ink) 18%, var(--st-paper));\n  --st-sky: color-mix(in srgb, var(--st-sage) 25%, var(--st-paper));\n  --st-mountain-far: color-mix(in srgb, var(--st-sage) 39%, var(--st-paper));\n  --st-mountain: color-mix(in srgb, var(--st-sage) 68%, var(--st-paper));\n  --st-hill: color-mix(in srgb, var(--st-sage) 87%, var(--st-ink));\n  --st-leaf: color-mix(in srgb, var(--st-sage) 85%, var(--st-paper));\n  --st-forest: color-mix(in srgb, var(--st-sage) 41%, var(--st-ink));\n  --st-midgreen: color-mix(in srgb, var(--st-sage) 73%, var(--st-ink));\n  --st-field: color-mix(in srgb, var(--st-sage) 64%, var(--st-paper));\n  --st-water: color-mix(in srgb, var(--st-sage) 36%, var(--st-paper));\n  --st-path: color-mix(in srgb, var(--st-rose) 25%, var(--st-paper));\n  --st-wall: color-mix(in srgb, var(--st-rose) 18%, var(--st-paper));\n  --st-wallshade: color-mix(in srgb, var(--st-rose) 42%, var(--st-paper));\n  --st-timber: color-mix(in srgb, var(--st-ink) 64%, var(--st-rose));\n  --st-window: color-mix(in srgb, var(--st-ink) 77%, var(--st-sage));\n  --st-roof: color-mix(in srgb, var(--st-ink) 78%, var(--st-sage));\n  --st-roofshade: color-mix(in srgb, var(--st-ink) 86%, var(--st-sage));\n  --st-roof-rose: color-mix(in srgb, var(--st-rose) 76%, var(--st-ink));\n  --st-blue: #9CC4D6; --st-sun: #F1D9A2; --st-ember: #C8714F;\n  margin: 0; background: var(--st-paper); color: var(--st-ink); font-family: var(--font-st-body); font-size: 15px; -webkit-font-smoothing: antialiased;\n}\n.st-body *, .st-body *::before, .st-body *::after { box-sizing: border-box; }\n.st-body ::selection { color: var(--st-ink); background: var(--st-rose); }\n.st-body a { color: inherit; text-decoration: none; }\n.st-body button { font: inherit; color: inherit; cursor: pointer; }\n.st-body button, .st-body a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }\n.st-body button { border: 0; background: transparent; }\n.st-body :focus-visible { outline: 2px solid var(--st-ink); outline-offset: 5px; border-radius: 3px; }\n.st-body h1, .st-body h2, .st-body h3, .st-body p { margin: 0; }\n.st-body em { font-weight: inherit; }\n.st-body svg { display: block; }\n.st-body button:disabled { cursor: default; opacity: .3; }\n.st-body button:active:not(:disabled), .st-primary:active, .st-text-link:active { transform: scale(.97); transition-duration: var(--dur-st-press); }\n.st-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }\n.st-skip { position: fixed; top: -90px; left: 24px; z-index: 100; padding: 14px 22px; background: var(--st-paper); }\n.st-skip:focus { top: 10px; }\n.st-book { height: 100svh; min-height: 620px; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 104px minmax(0, 1fr) 76px; padding: 0 30px; overflow: hidden; }\n.st-header { display: flex; min-width: 0; width: 100%; align-items: center; justify-content: space-between; gap: 28px; padding: 0 9px; position: relative; z-index: 5; }\n.st-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }\n.st-logo-mark { width: 41px; height: 38px; }\n.st-wordmark { font-family: var(--font-st-display); font-size: 27px; font-weight: 600; letter-spacing: .11em; display: flex; align-items: center; gap: 7px; line-height: 1.3; }\n.st-seal { background: var(--st-rose); color: var(--st-ink); font-family: var(--font-sato-japanese); font-size: 9px; padding: 3px 4px; letter-spacing: 0; border-radius: 2px; transform: rotate(-6deg); }\n.st-logo-caption { display: block; font-size: 8px; font-weight: 500; letter-spacing: .25em; margin-top: 4px; }\n.st-navigation { display: flex; align-items: center; justify-content: center; gap: 25px; white-space: nowrap; scrollbar-width: none; position: relative; }\n.st-navigation::-webkit-scrollbar { display: none; }\n.st-navigation a { position: relative; font-size: 11px; padding: 15px 0; color: var(--st-muted); transition: color var(--dur-st-hover); }\n.st-navigation a::after { content: \"\"; position: absolute; bottom: 4px; left: 0; right: 0; height: 2px; background: var(--st-ink); transform: scaleX(0); transition: transform var(--dur-st-content) var(--ease-st-out); transform-origin: left; }\n.st-navigation a[aria-current] { color: var(--st-ink); }\n.st-navigation a[aria-current]::after { transform: scaleX(1); }\n.st-nav-number { font-size: 8px; margin-right: 5px; opacity: .7; }\n.st-header-note { display: flex; align-items: center; gap: 8px; font-size: 10px; white-space: nowrap; }\n.st-header-note > svg:first-child { width: 22px; height: 22px; }\n.st-header-note > svg:last-child { width: 17px; margin-left: 8px; transition: transform var(--dur-st-content) var(--ease-st-out); }\n.st-stage { position: relative; overflow: hidden; overflow: clip; border-radius: 4px; background: var(--st-sky); isolation: isolate; }\n.st-stage:focus { outline: none; }\n.st-chapter { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--st-sage) var(--st-paper); opacity: 1; visibility: hidden; content-visibility: visible; pointer-events: none; transform: translateX(100%); transition: transform var(--dur-st-page) var(--ease-st-turn), visibility 0s var(--ease-st-turn) var(--dur-st-page); background: var(--st-paper); }\n.st-chapter[data-state=\"active\"] { visibility: visible; content-visibility: visible; pointer-events: auto; opacity: 1; transform: translateX(0); z-index: 2; transition-delay: 0s; }\n.st-chapter[data-state=\"past\"] { transform: translateX(-100%); }\n.st-chapter[data-state=\"future\"] { transform: translateX(100%); }\n.st-scene { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 100%; }\n.st-scene, .st-activity-art {\n  --st-sky-top: color-mix(in srgb, var(--st-blue) 78%, var(--st-paper));\n  --st-sky-mid: color-mix(in srgb, var(--st-blue) 42%, var(--st-paper));\n  --st-sky-low: color-mix(in srgb, var(--st-sun) 38%, var(--st-paper));\n  --st-sky-warm: color-mix(in srgb, var(--st-sun) 55%, var(--st-paper));\n  --st-cloud: color-mix(in srgb, white 55%, var(--st-paper));\n  --st-cloud-lit: color-mix(in srgb, var(--st-sun) 14%, white);\n  --st-cloud-shade: color-mix(in srgb, var(--st-rose) 26%, color-mix(in srgb, var(--st-blue) 60%, var(--st-paper)));\n  --st-mtn-far: color-mix(in srgb, var(--st-blue) 52%, var(--st-sage));\n  --st-mtn-mid: color-mix(in srgb, var(--st-sage) 62%, var(--st-blue));\n  --st-mtn-haze: color-mix(in srgb, var(--st-paper) 58%, var(--st-mtn-far));\n  --st-meadow-lit: color-mix(in srgb, var(--st-sun) 30%, var(--st-leaf));\n  --st-meadow: color-mix(in srgb, var(--st-sage) 66%, var(--st-ink));\n  --st-tree-dark: var(--st-forest);\n  --st-tree-mid: var(--st-midgreen);\n  --st-tree-lit: color-mix(in srgb, var(--st-sun) 24%, var(--st-leaf));\n  --st-bank: color-mix(in srgb, var(--st-timber) 70%, var(--st-sage));\n  --st-water-deep: color-mix(in srgb, var(--st-blue) 50%, var(--st-sage));\n  --st-water-canal: color-mix(in srgb, var(--st-blue) 66%, var(--st-sage));\n  --st-stone: color-mix(in srgb, var(--st-ink) 28%, var(--st-paper));\n  --st-bamboo: color-mix(in srgb, var(--st-sage) 70%, var(--st-ink));\n  --st-bamboo-lit: color-mix(in srgb, var(--st-sun) 30%, var(--st-leaf));\n  --st-bamboo-far: color-mix(in srgb, var(--st-sage) 50%, var(--st-paper));\n  --st-forest-sky: color-mix(in srgb, var(--st-sage) 35%, var(--st-paper));\n  --st-persimmon-dark: color-mix(in srgb, var(--st-rose) 20%, var(--st-forest));\n  --st-persimmon: color-mix(in srgb, var(--st-rose) 35%, var(--st-midgreen));\n  --st-persimmon-lit: color-mix(in srgb, var(--st-sun) 45%, var(--st-leaf));\n  --st-persimmon-fruit: color-mix(in srgb, var(--st-ember) 70%, var(--st-sun));\n  --st-snow: color-mix(in srgb, var(--st-blue) 10%, white);\n  --st-snow-shade: color-mix(in srgb, var(--st-blue) 35%, var(--st-paper));\n  --st-blossom-dark: color-mix(in srgb, var(--st-rose) 70%, var(--st-paper));\n  --st-blossom-mid: color-mix(in srgb, var(--st-rose) 40%, var(--st-paper));\n  --st-blossom-lit: color-mix(in srgb, var(--st-rose) 22%, white);\n  --st-maple-dark: color-mix(in srgb, var(--st-ember) 62%, var(--st-ink));\n  --st-maple-mid: color-mix(in srgb, var(--st-ember) 88%, var(--st-sun));\n  --st-maple-lit: color-mix(in srgb, var(--st-sun) 62%, var(--st-ember));\n}\n.st-scene-spring {\n  --st-sky-top: color-mix(in srgb, var(--st-rose) 28%, color-mix(in srgb, var(--st-blue) 50%, var(--st-paper)));\n  --st-sky-mid: color-mix(in srgb, var(--st-rose) 38%, var(--st-paper));\n  --st-sky-low: color-mix(in srgb, var(--st-sun) 50%, var(--st-paper));\n  --st-cloud-shade: color-mix(in srgb, var(--st-rose) 55%, var(--st-paper));\n  --st-mtn-far: color-mix(in srgb, var(--st-rose) 40%, var(--st-blue));\n  --st-mtn-mid: color-mix(in srgb, var(--st-sage) 55%, var(--st-rose));\n  --st-meadow-lit: color-mix(in srgb, var(--st-sun) 38%, var(--st-leaf));\n}\n.st-scene-summer {\n  --st-sky-top: color-mix(in srgb, var(--st-blue) 84%, var(--st-ink));\n  --st-sky-mid: color-mix(in srgb, var(--st-blue) 72%, var(--st-paper));\n  --st-sky-low: color-mix(in srgb, var(--st-blue) 26%, var(--st-paper));\n  --st-mtn-mid: color-mix(in srgb, var(--st-sage) 58%, var(--st-blue));\n  --st-meadow-lit: color-mix(in srgb, var(--st-sun) 22%, var(--st-leaf));\n  --st-meadow: color-mix(in srgb, var(--st-sage) 58%, var(--st-ink));\n}\n.st-scene-autumn {\n  --st-sky-top: color-mix(in srgb, var(--st-rose) 40%, color-mix(in srgb, var(--st-blue) 40%, var(--st-paper)));\n  --st-sky-mid: color-mix(in srgb, var(--st-sun) 50%, color-mix(in srgb, var(--st-rose) 40%, var(--st-paper)));\n  --st-sky-low: color-mix(in srgb, var(--st-sun) 70%, var(--st-paper));\n  --st-cloud-shade: color-mix(in srgb, var(--st-rose) 62%, var(--st-paper));\n  --st-mtn-far: color-mix(in srgb, var(--st-rose) 55%, var(--st-sun));\n  --st-mtn-mid: color-mix(in srgb, var(--st-ember) 40%, color-mix(in srgb, var(--st-rose) 70%, var(--st-ink)));\n  --st-meadow-lit: color-mix(in srgb, var(--st-sun) 70%, var(--st-sage));\n  --st-meadow: color-mix(in srgb, var(--st-sun) 40%, var(--st-midgreen));\n  --st-hill: color-mix(in srgb, var(--st-rose) 30%, var(--st-midgreen));\n  --st-forest: color-mix(in srgb, var(--st-rose) 25%, color-mix(in srgb, var(--st-sage) 41%, var(--st-ink)));\n}\n.st-scene-winter {\n  --st-sky-top: color-mix(in srgb, var(--st-rose) 18%, color-mix(in srgb, var(--st-blue) 45%, var(--st-paper)));\n  --st-sky-mid: color-mix(in srgb, var(--st-blue) 28%, var(--st-paper));\n  --st-sky-low: color-mix(in srgb, var(--st-rose) 15%, var(--st-paper));\n  --st-mtn-haze: color-mix(in srgb, var(--st-blue) 25%, var(--st-paper));\n  --st-tree-dark: color-mix(in srgb, var(--st-sage) 45%, var(--st-ink));\n  --st-tree-mid: color-mix(in srgb, var(--st-sage) 60%, var(--st-ink));\n}\n.st-scene-dusk {\n  --st-sky-top: color-mix(in srgb, var(--st-rose) 35%, color-mix(in srgb, var(--st-blue) 45%, var(--st-paper)));\n  --st-sky-mid: color-mix(in srgb, var(--st-rose) 62%, var(--st-paper));\n  --st-sky-low: color-mix(in srgb, var(--st-sun) 70%, var(--st-rose));\n  --st-cloud: color-mix(in srgb, var(--st-rose) 40%, white);\n  --st-cloud-lit: color-mix(in srgb, var(--st-sun) 55%, var(--st-paper));\n  --st-cloud-shade: color-mix(in srgb, var(--st-rose) 80%, var(--st-blue));\n  --st-mtn-far: color-mix(in srgb, var(--st-rose) 50%, var(--st-blue));\n  --st-mtn-mid: color-mix(in srgb, var(--st-rose) 45%, var(--st-ink));\n  --st-mtn-haze: color-mix(in srgb, var(--st-sun) 60%, var(--st-rose));\n  --st-meadow: color-mix(in srgb, var(--st-ink) 55%, var(--st-sage));\n  --st-meadow-lit: color-mix(in srgb, var(--st-rose) 35%, var(--st-sage));\n  --st-water-deep: color-mix(in srgb, var(--st-rose) 60%, var(--st-ink));\n  --st-hill: color-mix(in srgb, var(--st-ink) 62%, var(--st-rose));\n  --st-forest: color-mix(in srgb, var(--st-ink) 85%, var(--st-rose));\n  --st-tree-dark: color-mix(in srgb, var(--st-ink) 78%, var(--st-rose));\n  --st-tree-mid: color-mix(in srgb, var(--st-ink) 55%, var(--st-rose));\n}\n.st-chapter::before { content: \"\"; position: absolute; inset: 0; z-index: 1; pointer-events: none; }\n#welcome::before, #the-landscape::before, #the-seasons::before { background: linear-gradient(98deg, color-mix(in srgb, var(--st-paper) 74%, transparent) 0%, color-mix(in srgb, var(--st-paper) 30%, transparent) 38%, transparent 58%); }\n#until-next-time::before { background: radial-gradient(ellipse 52% 46% at 50% 24%, color-mix(in srgb, var(--st-paper) 62%, transparent), transparent 80%); }\n.st-chapter > :not(.st-scene), .st-rhythm-layout > :not(.st-scene), .st-adventures > :not(.st-scene), .st-seasons > :not(.st-season-stack) { position: relative; z-index: 2; }\n.st-seasons > .st-season-kanji, .st-goodbye-stamp, .st-vertical-poem, .st-landscape-label, .st-field-note { position: absolute !important; }\n.st-season-stack { position: absolute; inset: 0; }\n.st-season-layer { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity var(--dur-st-page) var(--ease-st-out), visibility 0s linear var(--dur-st-page); }\n.st-season-layer[data-on=\"true\"] { opacity: 1; visibility: visible; transition-delay: 0s; }\n.st-adventures { position: relative; }\n.st-adventures > .st-scene { height: 64%; min-height: 0; }\n.st-adventures::before { content: \"\"; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, transparent 0%, transparent 18%, color-mix(in srgb, var(--st-rose) 7%, var(--st-paper)) 52%); }\n.st-rhythm-layout > .st-scene { position: absolute; }\n.st-hero-copy { position: relative; z-index: 2; padding: clamp(42px, 6.4vh, 72px) 0 0 7.3%; width: fit-content; }\n.st-kicker { display: flex; gap: 13px; align-items: center; font-size: 9px; letter-spacing: .17em; font-weight: 500; margin-bottom: 22px; }\n.st-kicker > span:last-child { font-family: var(--font-sato-japanese); font-size: 10px; letter-spacing: .22em; margin-left: 1px; }\n.st-small-rule { width: 26px; height: 1px; background: currentColor; }\n.st-hero-copy h1 { font-family: var(--font-st-display); font-size: clamp(40px, min(4.8vw, 7.3vh), 83px); font-weight: 400; line-height: 1.26; letter-spacing: -.055em; }\n.st-hero-copy h1 > span { display: block; }\n.st-hero-copy h1 em { font-family: Georgia, var(--font-st-display); letter-spacing: -.055em; font-size: 1.06em; }\n.st-hero-copy > p { margin-top: 23px; font-size: 13px; line-height: 1.85; color: var(--st-muted); }\n.st-primary { display: inline-flex; align-items: center; gap: 13px; background: var(--st-ink); color: var(--st-paper) !important; border-radius: 50px; padding: 14px 22px 14px 17px; margin-top: 26px; font-size: 11px; position: relative; isolation: isolate; overflow: hidden; transition: transform var(--dur-st-content) var(--ease-st-out); }\n.st-primary::before { content: \"\"; position: absolute; inset: 0; background: color-mix(in srgb, var(--st-ink) 80%, var(--st-sage)); z-index: -1; transform: translateY(102%); transition: transform var(--dur-st-content) var(--ease-st-out); }\n.st-primary > svg:first-child { width: 21px; height: 21px; }\n.st-primary > svg:last-child { width: 17px; height: 17px; margin-left: 13px; transition: transform var(--dur-st-content) var(--ease-st-out); }\n.st-reading-note { margin-top: 17px; font-size: 9px; color: var(--st-muted); }\n.st-reading-note > span { padding: 0 3px; }\n.st-vertical-poem { position: absolute; top: 15%; right: 8%; display: flex; flex-direction: row-reverse; gap: 17px; font-family: var(--font-st-display); font-size: 16px; line-height: 2; letter-spacing: .2em; }\n.st-vertical-poem span { writing-mode: vertical-rl; }\n.st-vertical-poem span:last-child { margin-top: 30px; }\n.st-landscape-label { position: absolute; z-index: 2; right: 21%; bottom: 19%; display: flex; flex-direction: column; gap: 7px; text-align: center; color: var(--st-ink); transform: rotate(-4deg); }\n.st-label-line { width: 1px; height: 35px; background: var(--st-ink); opacity: .6; margin: 0 auto 5px; }\n.st-landscape-label > span:nth-child(2) { font-family: var(--font-st-display); font-size: 11px; letter-spacing: .06em; }\n.st-landscape-label > span:last-child { font-size: 8px; letter-spacing: .02em; }\n.st-scene-caption { position: absolute; z-index: 5; bottom: 22px; left: 28px; display: flex; align-items: center; gap: 8px; font-size: 7px; letter-spacing: .13em; background: color-mix(in srgb, var(--st-paper) 92%, transparent); padding: 9px 11px; border-radius: 3px; pointer-events: none; }\n.st-caption-dot { height: 4px; width: 4px; border-radius: 50%; background: var(--st-ink); }\n.st-caption-jp { margin-left: 8px; font-size: 8px; letter-spacing: .08em; }\n.st-ambient { position: absolute; right: 24px; bottom: 22px; z-index: 5; display: flex; align-items: center; gap: 6px; background: var(--st-paper) !important; border-radius: 30px; padding: 9px 12px; font-size: 8px !important; }\n.st-ambient svg { height: 12px; width: 12px; }\n.st-bottom { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; padding: 0 9px; }\n.st-page-label { display: flex; align-items: center; gap: 13px; font-size: 11px; }\n.st-page-numeral { font-family: var(--font-st-display); font-size: 23px; line-height: 1; font-variant-numeric: tabular-nums; }\n.st-page-line { width: 22px; height: 1px; background: var(--st-border); }\n.st-page-label > span[lang] { font-family: var(--font-sato-japanese); font-size: 10px; letter-spacing: .08em; }\n.st-page-total { font-size: 9px; margin-left: 7px; color: var(--st-muted); }\n.st-page-dots { display: flex; gap: 3px; align-items: center; }\n.st-page-dots button { width: 28px; height: 36px; display: grid; place-items: center; }\n.st-page-dots button span { width: 5px; height: 5px; border-radius: 50%; background: color-mix(in srgb, var(--st-ink) 25%, var(--st-paper)); transition: transform var(--dur-st-content) var(--ease-st-out), background var(--dur-st-hover); }\n.st-page-dots button[aria-current] span { background: var(--st-ink); transform: scale(1.4); }\n.st-page-actions { display: flex; align-items: center; gap: 9px; justify-self: end; }\n.st-key-hint { font-size: 9px; color: var(--st-muted); margin-right: 13px; white-space: nowrap; }\n.st-key-hint > span { margin: 0 5px; }\n.st-key-hint kbd { font-family: inherit; font-size: 12px; margin: 0 2px; }\n.st-arrow-button { border: 1px solid var(--st-border) !important; border-radius: 50%; width: 38px; height: 38px; display: inline-grid; place-items: center; flex-shrink: 0; transition: transform var(--dur-st-content) var(--ease-st-out), background var(--dur-st-hover); }\n.st-arrow-button svg { width: 17px; height: 17px; }\n.st-japanese-title { font-family: var(--font-st-display); font-size: 13px; letter-spacing: .1em; display: block; margin-bottom: 19px; }\n.st-body h2 { font-family: var(--font-st-display); font-size: clamp(34px, min(4vw, 6vh), 63px); line-height: 1.3; font-weight: 400; letter-spacing: -.05em; }\n.st-body h2 em { font-family: Georgia, var(--font-st-display); letter-spacing: -.045em; }\n.st-essay { position: relative; z-index: 2; margin: 6% 0 0 7.3%; max-width: 580px; }\n.st-essay > p { font-size: 13px; color: var(--st-muted); line-height: 1.9; max-width: 410px; margin-top: 19px; }\n.st-text-link { display: inline-flex; align-items: center; gap: 24px; font-size: 11px; margin-top: 25px; border-bottom: 1px solid var(--st-ink); padding-bottom: 8px; transition: transform var(--dur-st-content) var(--ease-st-out); }\n.st-text-link > svg { width: 17px; }\n.st-field-note { position: absolute; top: 22%; right: 9%; transform: rotate(4deg); }\n.st-field-note > span { font-family: var(--font-st-display); font-size: 15px; }\n.st-field-note > p { font-size: 11px; line-height: 1.7; margin-top: 14px; }\n.st-field-note > svg { width: 120px; margin-left: 25px; margin-top: 20px; }\n.st-rhythm-layout { min-height: 100%; position: relative; display: grid; grid-template-columns: 1.1fr 1fr; gap: 8%; padding: 5% 8% 80px; overflow: hidden; }\n.st-rhythm-intro > p { font-size: 13px; line-height: 1.9; color: var(--st-muted); margin-top: 20px; max-width: 390px; }\n.st-tea-picture { width: 280px; position: relative; margin-top: 25px; transform: rotate(-3deg); border: 9px solid color-mix(in srgb, var(--st-sage) 14%, var(--st-paper)); border-bottom-width: 36px; }\n.st-tea-picture > span { position: absolute; bottom: -29px; left: 0; right: 0; font-family: var(--font-st-display); font-size: 10px; text-align: center; }\n.st-tea-picture small { font-family: var(--font-st-body); margin-left: 10px; font-size: 8px; }\n.st-journal { padding: 6px 30px 8px; align-self: start; background: color-mix(in srgb, var(--st-paper) 90%, transparent); border-radius: 4px; box-shadow: 0 18px 40px -26px color-mix(in srgb, var(--st-ink) 55%, transparent); }\n.st-journal-entry:first-child { border-top: 0; }\n.st-journal-entry { border-top: 1px solid var(--st-border); padding: 19px 0 24px; }\n.st-journal-time { display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--st-muted); }\n.st-journal-time > span[lang] { font-family: var(--font-st-display); font-size: 22px; line-height: 1; }\n.st-journal-entry h3 { font-family: var(--font-st-display); font-size: 25px; letter-spacing: -.03em; margin-top: 9px; }\n.st-journal-entry p { max-width: 380px; font-size: 12px; line-height: 1.8; color: var(--st-muted); margin-top: 9px; }\n.st-adventures { padding: 4% 7.3% 65px; min-height: 100%; background: color-mix(in srgb, var(--st-rose) 7%, var(--st-paper)); overflow: hidden; }\n.st-adventure-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 30px; }\n.st-adventure-heading h2 { font-size: clamp(36px, min(3.7vw, 5.8vh), 58px); }\n.st-adventure-heading p { font-size: 12px; line-height: 1.9; color: var(--st-muted); padding-right: 7%; padding-bottom: 7px; }\n.st-carousel { --st-cards: 3; --st-gap: 25px; touch-action: pan-y; }\n.st-carousel-window { overflow: hidden; padding-top: 7px; margin-top: -7px; }\n.st-carousel-track { display: flex; gap: var(--st-gap); transform: translateX(calc(var(--st-card-index) * (100% + var(--st-gap)) / var(--st-cards) * -1)); transition: transform var(--dur-st-page) var(--ease-st-out); }\n.st-activity { flex: 0 0 calc((100% - (var(--st-cards) - 1) * var(--st-gap)) / var(--st-cards)); min-width: 0; }\n.st-activity-picture { aspect-ratio: 1.6; overflow: hidden; position: relative; transition: transform var(--dur-st-content) var(--ease-st-out); }\n.st-activity-art { width: 100%; height: 100%; object-fit: cover; }\n.st-activity-picture > svg { transition: transform var(--dur-st-page) var(--ease-st-out); }\n.st-activity-ja { position: absolute; right: 11px; top: 13px; writing-mode: vertical-rl; font-family: var(--font-st-display); font-size: 11px; letter-spacing: .12em; }\n.st-postcard-number { position: absolute; bottom: 10px; left: 13px; font-family: var(--font-st-display); font-size: 19px; }\n.st-activity-tag { display: block; font-size: 7px; letter-spacing: .16em; margin-top: 20px; }\n.st-activity h3 { font-family: var(--font-st-display); font-size: clamp(20px, 1.7vw, 27px); letter-spacing: -.04em; margin-top: 8px; }\n.st-activity p { font-size: 11px; line-height: 1.85; margin-top: 10px; color: var(--st-muted); max-width: 32ch; }\n.st-carousel-controls { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--st-border); margin-top: 24px; padding-top: 13px; }\n.st-carousel-controls > div { display: flex; align-items: center; gap: 8px; }\n.st-carousel-caption { font-size: 9px; color: var(--st-muted); }\n.st-carousel-caption > span { font-family: var(--font-st-display); font-size: 10px; margin-left: 20px; }\n.st-carousel-count { font-size: 11px; font-variant-numeric: tabular-nums; margin-right: 13px; }\n.st-carousel-count > span { color: var(--st-muted); font-size: 9px; margin-left: 5px; }\n.st-seasons { position: relative; min-height: 100%; }\n.st-season-copy { position: relative; z-index: 2; padding: 5% 0 80px 7.3%; }\n.st-season-tabs { display: flex; gap: 7px; margin-top: 28px; }\n.st-season-tabs button { display: flex; align-items: center; gap: 10px; padding: 9px 15px; border-radius: 3px; border: 1px solid var(--st-border); font-size: 10px; transition: background var(--dur-st-hover), transform var(--dur-st-content) var(--ease-st-out); }\n.st-season-tabs button[aria-selected=\"true\"] { color: var(--st-paper); background: var(--st-ink); border-color: var(--st-ink); }\n.st-season-tabs button > span { font-family: var(--font-st-display); font-size: 18px; }\n.st-season-panel { margin-top: 24px; max-width: 410px; }\n.st-season-panel h3 { font-family: var(--font-st-display); font-size: 21px; letter-spacing: -.025em; }\n.st-season-panel p { font-size: 12px; line-height: 1.9; color: var(--st-muted); margin-top: 10px; }\n.st-season-kanji { position: absolute; right: 12%; top: 15%; font-family: var(--font-st-display); font-size: 160px; color: var(--st-ink); opacity: .2; }\n.st-farewell-copy { position: relative; z-index: 2; text-align: center; padding-top: 6%; }\n.st-farewell-copy h2 { font-size: clamp(40px, min(4.8vw, 7vh), 76px); }\n.st-farewell-copy > p { font-size: 12px; line-height: 1.85; color: var(--st-muted); margin-top: 17px; }\n.st-farewell-note { font-size: 9px; display: block; margin-top: 16px; }\n.st-farewell-note > span { font-family: var(--font-st-display); margin-left: 8px; }\n.st-goodbye-stamp { position: absolute; top: 12%; right: 12%; padding: 12px 9px; border: 2px solid var(--st-roof-rose); color: var(--st-roof-rose); border-radius: 6px; font-family: var(--font-st-display); font-size: 25px; line-height: 1.2; letter-spacing: .16em; transform: rotate(8deg); opacity: .8; }\n\n@media (hover: hover) and (pointer: fine) {\n  .st-navigation a:hover::after { transform: scaleX(1); }\n  .st-header-note:hover > svg:last-child, .st-primary:hover > svg:last-child { transform: translateX(4px); }\n  .st-primary:hover::before { transform: translateY(0); }\n  .st-text-link:hover { transform: translateX(4px); }\n  .st-arrow-button:hover:not(:disabled) { background: color-mix(in srgb, var(--st-sage) 35%, var(--st-paper)); transform: translateY(-2px); }\n  .st-page-dots button:hover span { transform: scale(1.7); }\n  .st-activity:hover .st-activity-picture { transform: translateY(-5px); }\n  .st-activity:hover .st-activity-picture > svg { transform: scale(1.035); }\n  .st-season-tabs button:hover { transform: translateY(-3px); }\n}\n@keyframes st-wash-sky {\n  0% {\n    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);\n    opacity: 0;\n    filter: blur(8px) saturate(1.25);\n  }\n  20% {\n    opacity: 0.85;\n    filter: blur(5px) saturate(1.2);\n  }\n  85% {\n    clip-path: polygon(0 0, 100% 0, 100% 102%, 0 98%);\n    filter: blur(1.5px) saturate(1.05);\n  }\n  100% {\n    clip-path: polygon(0 0, 100% 0, 100% 105%, 0 105%);\n    opacity: 1;\n    filter: blur(0px) saturate(1);\n  }\n}\n@keyframes st-wash-brush-ltr {\n  0% {\n    clip-path: polygon(-5% -5%, -5% -5%, -10% 105%, -10% 105%);\n    opacity: 0;\n    filter: blur(7px) saturate(1.3);\n  }\n  20% {\n    opacity: 0.9;\n    filter: blur(4px) saturate(1.2);\n  }\n  85% {\n    clip-path: polygon(-5% -5%, 108% -5%, 96% 105%, -10% 105%);\n    filter: blur(1px) saturate(1.05);\n  }\n  100% {\n    clip-path: polygon(-5% -5%, 115% -5%, 115% 105%, -10% 105%);\n    opacity: 1;\n    filter: blur(0px) saturate(1);\n  }\n}\n@keyframes st-wash-brush-rtl {\n  0% {\n    clip-path: polygon(105% -5%, 105% -5%, 110% 105%, 110% 105%);\n    opacity: 0;\n    filter: blur(7px) saturate(1.3);\n  }\n  20% {\n    opacity: 0.9;\n    filter: blur(4px) saturate(1.2);\n  }\n  85% {\n    clip-path: polygon(-8% -5%, 105% -5%, 110% 105%, 4% 105%);\n    filter: blur(1px) saturate(1.05);\n  }\n  100% {\n    clip-path: polygon(-15% -5%, 105% -5%, 110% 105%, -15% 105%);\n    opacity: 1;\n    filter: blur(0px) saturate(1);\n  }\n}\n@keyframes st-wash-in {\n  0% { opacity: 0; filter: blur(3px) saturate(0.85); }\n  25% { opacity: 0.35; filter: blur(2px) saturate(0.9); }\n  100% { opacity: 1; filter: blur(0px) saturate(1); }\n}\n@keyframes st-cloud-drift { 0%, 100% { transform: translateX(-30px); } 50% { transform: translateX(56px); } }\n@keyframes st-mist-drift { 0%, 100% { transform: translateX(-36px); } 50% { transform: translateX(36px); } }\n@keyframes st-fall { 0% { opacity: 0; transform: translate(50px, -200px); } 14%, 86% { opacity: .95; } 100% { opacity: 0; transform: translate(-170px, 280px); } }\n@keyframes st-firefly { 0%, 100% { opacity: .2; transform: translate(0, 0); } 50% { opacity: 1; transform: translate(10px, -14px); } }\n@keyframes st-beams { 0%, 100% { opacity: .28; } 50% { opacity: .5; } }\n@keyframes st-sway { 0%, 100% { transform: rotate(-.5deg); } 50% { transform: rotate(.6deg); } }\n@keyframes st-birds-glide { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(34px, -10px); } }\n@keyframes st-motes { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }\n@keyframes st-smoke-rise { 0%, 100% { transform: translateY(2px); opacity: .4; } 50% { transform: translateY(-11px); opacity: .65; } }\n@keyframes st-grass-sway { 0%, 100% { transform: rotate(-.6deg); } 50% { transform: rotate(.7deg); } }\n@keyframes st-copy-enter { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }\n@keyframes st-title-enter { from { clip-path: inset(0 0 100% 0); transform: translateY(18px); } to { clip-path: inset(0); transform: none; } }\n@keyframes st-scene-enter { from { transform: scale(1.025); } to { transform: scale(1); } }\n@media (prefers-reduced-motion: no-preference) {\n  .st-clouds { animation: st-cloud-drift 26s ease-in-out 1.6s infinite; }\n  .st-smoke { animation: st-smoke-rise 9s ease-in-out 1.6s infinite; }\n  .st-mist { animation: st-mist-drift 18s ease-in-out 1.6s infinite; }\n  .st-fall { animation: st-fall 16s linear 1.6s infinite; }\n  .st-fall-b { animation-duration: 22s; animation-delay: -6s; }\n  .st-firefly { animation: st-firefly 5s ease-in-out 1.6s infinite; }\n  .st-beams { animation: st-beams 18s ease-in-out 1.2s infinite; }\n  .st-bamboo-sway { transform-origin: 50% 100%; animation: st-sway 18s ease-in-out 1.2s infinite; }\n  .st-birds { animation: st-birds-glide 9s ease-in-out 1.2s infinite; }\n  .st-motes { animation: st-motes 9s ease-in-out 1.2s infinite; }\n  .st-grasses { transform-origin: 50% 100%; animation: st-grass-sway 18s ease-in-out 1.2s infinite; }\n\n  /* Only the first visit paints. Outgoing and revisited chapters stay complete. */\n  .st-paint-wash, .st-paint-layer { opacity: 1; }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-paint-layer[data-depth=\"sky\"] {\n    animation: st-wash-sky .65s var(--ease-st-out) .04s both;\n  }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-paint-layer[data-depth=\"far\"] {\n    animation: st-wash-brush-ltr .62s var(--ease-st-out) .22s both;\n  }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-paint-layer[data-depth=\"mid\"] {\n    animation: st-wash-brush-rtl .62s var(--ease-st-out) .4s both;\n  }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-paint-layer[data-depth=\"near\"] {\n    animation: st-wash-brush-ltr .62s var(--ease-st-out) .58s both;\n  }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-paint-wash:not(:has(.st-paint-layer)) {\n    animation: st-wash-in .85s var(--ease-st-out) .1s both;\n  }\n  /* The forest sits behind a masked heading area. Paint it after the 800ms\n     chapter slide, with enough time for the bamboo brushwork to be visible. */\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-adventures > .st-scene .st-paint-layer[data-depth=\"sky\"] { animation-delay: .84s; }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-adventures > .st-scene .st-paint-layer[data-depth=\"far\"] { animation-delay: 1.04s; animation-duration: 1s; }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-adventures > .st-scene .st-paint-layer[data-depth=\"mid\"] { animation-delay: 1.24s; animation-duration: 1s; }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-adventures > .st-scene .st-paint-layer[data-depth=\"near\"] { animation-delay: 1.44s; animation-duration: 1s; }\n  /* Activity cards enter at .95s; paint their illustrations while visible. */\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-adventures .st-activity-art .st-paint-layer[data-depth=\"sky\"] { animation-delay: 1s; }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-adventures .st-activity-art .st-paint-layer[data-depth=\"far\"] { animation-delay: 1.18s; }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-adventures .st-activity-art .st-paint-layer[data-depth=\"mid\"] { animation-delay: 1.36s; }\n  .st-chapter[data-state=\"active\"][data-first-visit=\"true\"] .st-adventures .st-activity-art .st-paint-layer[data-depth=\"near\"] { animation-delay: 1.54s; }\n  /* Hold the first frame until hydration has resolved the opening chapter. */\n  .st-book[data-ready=\"false\"] .st-paint-layer,\n  .st-book[data-ready=\"false\"] .st-paint-wash {\n    animation-play-state: paused;\n  }\n  .st-chapter .st-season-layer[data-on=\"false\"] .st-paint-layer,\n  .st-chapter .st-season-layer[data-on=\"false\"] .st-paint-wash {\n    animation: none;\n  }\n\n  .st-chapter:not([data-state=\"active\"]) .st-hero-copy h1 > span,\n  .st-chapter:not([data-state=\"active\"]) h2,\n  .st-chapter:not([data-state=\"active\"]) .st-hero-copy > p,\n  .st-chapter:not([data-state=\"active\"]) .st-primary,\n  .st-chapter:not([data-state=\"active\"]) .st-essay > p,\n  .st-chapter:not([data-state=\"active\"]) .st-kicker,\n  .st-chapter:not([data-state=\"active\"]) .st-japanese-title,\n  .st-chapter:not([data-state=\"active\"]) .st-vertical-poem,\n  .st-chapter:not([data-state=\"active\"]) .st-field-note,\n  .st-chapter:not([data-state=\"active\"]) .st-adventure-heading,\n  .st-chapter:not([data-state=\"active\"]) .st-carousel,\n  .st-chapter:not([data-state=\"active\"]) .st-farewell-copy > p,\n  .st-chapter:not([data-state=\"active\"]) .st-farewell-note,\n  .st-chapter:not([data-state=\"active\"]) .st-goodbye-stamp,\n  .st-season-panel,\n  .st-chapter:not([data-state=\"active\"]) .st-journal-entry {\n    animation: none !important;\n  }\n\n  .st-season-layer[data-on=\"false\"] .st-scene * { animation-play-state: paused; }\n  .st-chapter:not([data-state=\"active\"]) .st-scene *, .st-book[data-paused=\"true\"] :is(.st-scene, .st-activity-art) * { animation-play-state: paused; }\n  .st-header { animation: st-copy-enter var(--dur-st-content) var(--ease-st-out) both; }\n\n  /* Text entrances follow the chapter slide. */\n  .st-chapter[data-state=\"active\"] .st-hero-copy h1 > span,\n  .st-chapter[data-state=\"active\"] h2 {\n    animation: st-title-enter var(--dur-st-load) var(--ease-st-out) 0.85s both;\n  }\n  .st-hero-copy h1 > span:nth-child(2) { animation-delay: 0.93s !important; }\n  .st-chapter[data-state=\"active\"] .st-hero-copy > p,\n  .st-chapter[data-state=\"active\"] .st-primary,\n  .st-chapter[data-state=\"active\"] .st-essay > p,\n  .st-chapter[data-state=\"active\"] .st-kicker,\n  .st-chapter[data-state=\"active\"] .st-japanese-title,\n  .st-chapter[data-state=\"active\"] .st-vertical-poem,\n  .st-chapter[data-state=\"active\"] .st-field-note,\n  .st-chapter[data-state=\"active\"] .st-adventure-heading,\n  .st-chapter[data-state=\"active\"] .st-carousel,\n  .st-chapter[data-state=\"active\"] .st-farewell-copy > p,\n  .st-chapter[data-state=\"active\"] .st-farewell-note,\n  .st-chapter[data-state=\"active\"] .st-goodbye-stamp,\n  .st-season-panel {\n    animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) 0.95s both;\n  }\n  .st-chapter[data-state=\"active\"] .st-primary { animation-delay: 1.05s; }\n  .st-chapter[data-state=\"active\"] > .st-scene { animation: st-scene-enter var(--dur-st-load) var(--ease-st-out) both; }\n  .st-chapter[data-state=\"active\"] .st-journal-entry {\n    animation: st-copy-enter var(--dur-st-page) var(--ease-st-out) both;\n    animation-delay: calc(0.85s + var(--st-i) * 60ms);\n  }\n}\n@media (prefers-reduced-motion: reduce) {\n  .st-body *, .st-body *::before, .st-body *::after { animation: none !important; transition-duration: 0s !important; scroll-behavior: auto !important; }\n  .st-paint-wash, .st-paint-layer { opacity: 1 !important; filter: none !important; clip-path: none !important; }\n  .st-book { height: auto !important; min-height: 0; overflow: visible; grid-template-rows: auto auto auto; }\n  .st-header { min-height: 104px; background: var(--st-paper); }\n  .st-stage { height: auto; overflow: visible; }\n  .st-chapter { transform: none !important; position: relative; min-height: 850px; visibility: visible; content-visibility: visible; opacity: 1; pointer-events: auto; overflow: hidden; }\n  .st-bottom { position: sticky; bottom: 0; z-index: 10; min-height: 76px; background: var(--st-paper); }\n  .st-ambient, .st-scene-caption { display: none; }\n}\n\n@media (min-width: 1650px) {\n  .st-book { grid-template-rows: 116px minmax(0, 1fr) 85px; padding: 0 40px; }\n  .st-navigation { gap: 31px; }\n  .st-navigation a { font-size: 12px; }\n  .st-header-note { font-size: 12px; }\n  .st-hero-copy { padding-top: 7%; }\n  .st-hero-copy > p { font-size: 15px; }\n  .st-primary { font-size: 12px; padding: 16px 24px 16px 19px; }\n  .st-reading-note { font-size: 10px; }\n}\n@media (max-width: 1190px) {\n  .st-book { padding: 0 20px; grid-template-rows: 95px minmax(0, 1fr) 70px; }\n  .st-navigation { gap: 17px; }\n  .st-nav-number { display: none; }\n  .st-header-note { display: none; }\n  .st-hero-copy { padding-left: 6%; }\n  .st-hero-copy h1 { font-size: clamp(43px, 5.3vw, 65px); }\n  .st-vertical-poem { right: 5%; font-size: 14px; }\n  .st-key-hint { font-size: 8px; margin-right: 3px; }\n  .st-essay { max-width: 500px; }\n  .st-field-note { right: 7%; }\n  .st-body h2 { font-size: 43px; }\n  .st-rhythm-layout { gap: 6%; padding-left: 6%; padding-right: 6%; }\n  .st-journal-entry { padding: 15px 0 19px; }\n}\n@media (max-width: 760px) {\n  .st-book { height: 100svh; min-height: 620px; grid-template-rows: 123px minmax(0, 1fr) 70px; padding: 0 13px; }\n  .st-header { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 70px 53px; gap: 0; padding: 0 8px; align-content: start; }\n  .st-logo { width: fit-content; gap: 7px; }\n  .st-logo-mark { width: 32px; height: 30px; }\n  .st-wordmark { font-size: 23px; }\n  .st-logo-caption { font-size: 7px; }\n  .st-header-note { display: flex; position: absolute; right: 10px; top: 27px; font-size: 12px; gap: 5px; }\n  .st-header-note > svg:first-child { width: 17px; height: 17px; }\n  .st-header-note > svg:last-child { display: none; }\n  .st-navigation { overflow-x: auto; width: calc(100vw - 42px); justify-content: start; padding: 0 0 6px; gap: 24px; }\n  .st-navigation a { padding: 12px 0; font-size: 12px; }\n  .st-hero-copy { padding: 34px 25px 0; width: 100%; }\n  .st-kicker { font-size: 7px; gap: 10px; margin-bottom: 17px; letter-spacing: .12em; }\n  .st-kicker > span:last-child { font-size: 8px; }\n  .st-small-rule { width: 18px; }\n  .st-hero-copy h1 { font-size: clamp(30px, 7.1vw, 50px); line-height: 1.35; letter-spacing: -.05em; }\n  .st-hero-copy h1 em { letter-spacing: -.06em; }\n  .st-hero-copy > p { font-size: 13px; line-height: 1.8; margin-top: 17px; }\n  .st-primary { font-size: 12px; padding: 12px 17px 12px 13px; gap: 9px; margin-top: 21px; }\n  .st-primary > svg:first-child { width: 18px; height: 18px; }\n  .st-primary > svg:last-child { width: 15px; margin-left: 8px; }\n  .st-reading-note { display: none; }\n  .st-vertical-poem { display: none; }\n  .st-scene { width: 155%; max-width: none; left: -27.5%; }\n  .st-landscape-label { display: none; }\n  .st-landscape-label > span:nth-child(2) { font-size: 8px; }\n  .st-landscape-label > span:last-child { font-size: 6px; }\n  .st-label-line { height: 22px; }\n  .st-scene-caption { display: none; }\n  .st-caption-jp { display: none; }\n  .st-ambient { right: 12px; bottom: 16px; padding: 8px; font-size: 7px !important; }\n  .st-ambient > span { display: none; }\n  .st-bottom { padding: 0 5px; gap: 7px; grid-template-columns: 1fr auto 1fr; }\n  .st-page-label { gap: 7px; }\n  .st-page-numeral { font-size: 21px; }\n  .st-page-line { width: 12px; }\n  .st-page-label > span[lang] { font-size: 10px; white-space: nowrap; }\n  .st-page-total { display: none; }\n  .st-page-dots { gap: 0; }\n  .st-page-dots button { width: 24px; height: 36px; }\n  .st-page-dots button span { width: 4px; height: 4px; }\n  .st-page-actions { gap: 6px; }\n  .st-arrow-button { width: 33px; height: 33px; }\n  .st-arrow-button svg { width: 15px; height: 15px; }\n  .st-key-hint { display: none; }\n  .st-body h2 { font-size: clamp(31px, 7.8vw, 49px); }\n  .st-japanese-title { font-size: 11px; margin-bottom: 15px; }\n  .st-essay { margin: 35px 27px 0; max-width: 430px; }\n  .st-essay > p { font-size: 13px; margin-top: 16px; max-width: 32ch; }\n  .st-text-link { margin-top: 18px; font-size: 10px; }\n  .st-field-note { display: none; }\n  .st-rhythm-layout { grid-template-columns: 1fr; gap: 25px; padding: 30px 27px 80px; }\n  .st-rhythm-intro > p { font-size: 13px; margin-top: 16px; }\n  .st-tea-picture { display: none; }\n  .st-journal-entry { padding: 14px 0 18px; }\n  .st-journal-entry h3 { font-size: 23px; }\n  .st-journal-entry p { font-size: 13px; }\n  .st-journal-time { font-size: 8px; }\n  .st-adventures { padding: 30px 25px 75px; }\n  .st-adventure-heading { display: block; margin-bottom: 22px; }\n  .st-adventure-heading h2 { font-size: 34px; }\n  .st-adventure-heading p { font-size: 10px; line-height: 1.7; padding: 0; margin-top: 13px; }\n  .st-adventure-heading p br { display: none; }\n  .st-carousel { --st-cards: 1; --st-gap: 18px; }\n  .st-activity-picture { aspect-ratio: 1.6; }\n  .st-activity-tag { margin-top: 14px; }\n  .st-activity h3 { font-size: 25px; }\n  .st-activity p { font-size: 13px; max-width: none; margin-top: 8px; }\n  .st-carousel-controls { margin-top: 19px; padding-top: 11px; }\n  .st-carousel-caption { font-size: 7px; max-width: 100px; }\n  .st-carousel-caption > span { display: none; }\n  .st-carousel-count { margin-right: 3px; font-size: 10px; }\n  .st-carousel-controls > div { gap: 6px; }\n  .st-season-copy { padding: 34px 25px 80px; }\n  .st-season-tabs { gap: 5px; margin-top: 23px; }\n  .st-season-tabs button { padding: 8px 9px; gap: 5px; font-size: 8px; }\n  .st-season-tabs button > span { font-size: 16px; }\n  .st-season-panel { margin-top: 20px; max-width: 300px; }\n  .st-season-panel h3 { font-size: 18px; }\n  .st-season-panel p { font-size: 13px; }\n  .st-season-kanji { top: auto; bottom: 21%; right: 10%; font-size: 80px; }\n  .st-farewell-copy { padding: 40px 24px 0; }\n  .st-farewell-copy h2 { font-size: 40px; }\n  .st-farewell-copy > p { font-size: 13px; }\n  .st-farewell-note { font-size: 8px; }\n  .st-goodbye-stamp { display: none; }\n}\n@media (max-width: 760px) and (prefers-reduced-motion: no-preference) {\n  .st-chapter[data-state=\"active\"] .st-hero-copy h1 > span { animation-duration: var(--dur-st-content); }\n}\n@media (max-width: 360px) {\n  .st-page-label > span[lang] { display: none; }\n}\n@media (max-height: 760px) and (min-width: 761px) {\n  .st-book { grid-template-rows: 82px minmax(0, 1fr) 62px; }\n  .st-hero-copy { padding-top: 30px; }\n  .st-hero-copy h1 { font-size: clamp(40px, 6.5vh, 58px); }\n  .st-kicker { margin-bottom: 14px; }\n  .st-hero-copy > p { margin-top: 16px; font-size: 11px; }\n  .st-primary { margin-top: 18px; padding-top: 11px; padding-bottom: 11px; }\n  .st-reading-note { margin-top: 10px; }\n  .st-essay { margin-top: 30px; }\n  .st-essay h2 { font-size: 37px; }\n  .st-essay > p { font-size: 11px; margin-top: 13px; }\n  .st-rhythm-layout { padding-top: 30px; }\n  .st-journal-entry { padding-top: 12px; padding-bottom: 14px; }\n  .st-tea-picture { width: 210px; margin-top: 20px; }\n  .st-adventures { padding-top: 25px; }\n  .st-adventure-heading h2 { font-size: 38px; }\n  .st-adventure-heading { margin-bottom: 20px; }\n  .st-activity-picture { aspect-ratio: 2; }\n  .st-activity-tag { margin-top: 13px; }\n  .st-carousel-controls { margin-top: 17px; }\n  .st-season-copy { padding-top: 30px; }\n  .st-farewell-copy { padding-top: 30px; }\n}"
+    }
+  ]
+}

@@ -1,0 +1,437 @@
+{
+  "slug": "kinetic",
+  "title": "KINETIC",
+  "industry": "Freight & Autonomous Logistics",
+  "description": "Autonomous 3D delivery journey and freight operations. Pinned 5-chapter route narrative with procedural electric truck Unit 104 travelling a 1,400-meter highway, live HUD telemetry tags, and interactive command center console.",
+  "stack": "Next.js 16 · Tailwind v4 · React 19 · Three.js WebGL · Lenis",
+  "liveUrl": "https://www.openlanding.page/templates/kinetic",
+  "downloadUrl": "https://www.openlanding.page/downloads/kinetic.html",
+  "manifestUrl": "https://www.openlanding.page/copy/kinetic-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/kinetic-webflow-prompt.md",
+  "variables": {
+    "collectionName": "KINETIC Tokens",
+    "colors": [
+      {
+        "name": "Color / Paper",
+        "cssVar": "--color-paper",
+        "value": "#FAF7F2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink",
+        "cssVar": "--color-ink",
+        "value": "#1B1522",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent",
+        "cssVar": "--color-accent",
+        "value": "#FF6B2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Apricot",
+        "cssVar": "--color-apricot",
+        "value": "#FFE6D2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mint",
+        "cssVar": "--color-mint",
+        "value": "#00D4B2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Carbon",
+        "cssVar": "--color-carbon",
+        "value": "#2A1E30",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Steel",
+        "cssVar": "--color-steel",
+        "value": "#8E8294",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Canvas",
+        "cssVar": "--canvas",
+        "value": "#FAF7F2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Surface",
+        "cssVar": "--surface",
+        "value": "#FAF7F2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Surface Alt",
+        "cssVar": "--surface-alt",
+        "value": "#FFE6D2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Surface Nested",
+        "cssVar": "--surface-nested",
+        "value": "color-mix(in srgb, #FAF7F2 90%, #1B1522)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Text",
+        "cssVar": "--text",
+        "value": "#1B1522",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text Secondary",
+        "cssVar": "--text-secondary",
+        "value": "color-mix(in srgb, #1B1522 75%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Text Muted",
+        "cssVar": "--text-muted",
+        "value": "#8E8294",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text Faint",
+        "cssVar": "--text-faint",
+        "value": "color-mix(in srgb, #8E8294 65%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Text On Brand",
+        "cssVar": "--text-on-brand",
+        "value": "#FAF7F2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text On Deep",
+        "cssVar": "--text-on-deep",
+        "value": "#FAF7F2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text On Accent",
+        "cssVar": "--text-on-accent",
+        "value": "#FAF7F2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Border",
+        "cssVar": "--border",
+        "value": "color-mix(in srgb, #8E8294 25%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Border Strong",
+        "cssVar": "--border-strong",
+        "value": "color-mix(in srgb, #8E8294 45%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Divider",
+        "cssVar": "--divider",
+        "value": "color-mix(in srgb, #8E8294 15%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Brand Deep",
+        "cssVar": "--brand-deep",
+        "value": "#1B1522",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Brand Route",
+        "cssVar": "--brand-route",
+        "value": "#FF6B2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Brand Route Hover",
+        "cssVar": "--brand-route-hover",
+        "value": "color-mix(in srgb, #FF6B2B 85%, #1B1522)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Brand Route Pressed",
+        "cssVar": "--brand-route-pressed",
+        "value": "color-mix(in srgb, #FF6B2B 70%, #1B1522)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Brand Route Soft",
+        "cssVar": "--brand-route-soft",
+        "value": "#FFE6D2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent",
+        "cssVar": "--accent",
+        "value": "#FF6B2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent Hover",
+        "cssVar": "--accent-hover",
+        "value": "color-mix(in srgb, #FF6B2B 85%, #1B1522)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Accent Pressed",
+        "cssVar": "--accent-pressed",
+        "value": "color-mix(in srgb, #FF6B2B 70%, #1B1522)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Accent Soft",
+        "cssVar": "--accent-soft",
+        "value": "#FFE6D2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Brand Cyan",
+        "cssVar": "--brand-cyan",
+        "value": "#00D4B2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Brand Cyan Soft",
+        "cssVar": "--brand-cyan-soft",
+        "value": "color-mix(in srgb, #00D4B2 15%, #FAF7F2)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Success",
+        "cssVar": "--success",
+        "value": "#00D4B2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Success Soft",
+        "cssVar": "--success-soft",
+        "value": "color-mix(in srgb, #00D4B2 15%, #FAF7F2)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Success Border",
+        "cssVar": "--success-border",
+        "value": "color-mix(in srgb, #00D4B2 35%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Warning",
+        "cssVar": "--warning",
+        "value": "#FF6B2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Warning Highlight",
+        "cssVar": "--warning-highlight",
+        "value": "#FF6B2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Warning Soft",
+        "cssVar": "--warning-soft",
+        "value": "#FFE6D2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Warning Border",
+        "cssVar": "--warning-border",
+        "value": "color-mix(in srgb, #FF6B2B 35%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Danger",
+        "cssVar": "--danger",
+        "value": "#FF6B2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Danger Soft",
+        "cssVar": "--danger-soft",
+        "value": "#FFE6D2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Danger Border",
+        "cssVar": "--danger-border",
+        "value": "color-mix(in srgb, #FF6B2B 35%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Neutral Status",
+        "cssVar": "--neutral-status",
+        "value": "#8E8294",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Neutral Status Soft",
+        "cssVar": "--neutral-status-soft",
+        "value": "color-mix(in srgb, #8E8294 15%, #FAF7F2)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Neutral Status Border",
+        "cssVar": "--neutral-status-border",
+        "value": "color-mix(in srgb, #8E8294 30%, transparent)",
+        "isCustomExpression": true
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-bricolage)",
+        "fallback": "system-ui, -apple-system, sans-serif"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "Inter",
+        "fallback": "system-ui, -apple-system, sans-serif",
+        "googleFont": "Inter"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "var(--font-jetbrains)",
+        "fallback": "ui-monospace, monospace"
+      },
+      {
+        "name": "Font / Roboto Mono",
+        "cssVar": "--font-roboto-mono",
+        "family": "var(--font-jetbrains)",
+        "fallback": "ui-monospace, monospace"
+      },
+      {
+        "name": "Font / Ui",
+        "cssVar": "--font-ui",
+        "family": "var(--font-inter)",
+        "fallback": "system-ui, -apple-system, sans-serif"
+      },
+      {
+        "name": "Font / Bricolage Grotesque",
+        "cssVar": "--font-bricolage-grotesque",
+        "family": "Bricolage Grotesque",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Bricolage Grotesque"
+      },
+      {
+        "name": "Font / JetBrains Mono",
+        "cssVar": "--font-jetbrains-mono",
+        "family": "JetBrains Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "JetBrains Mono"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Reveal Shift",
+        "cssVar": "--reveal-shift",
+        "value": "28px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Shadow Low",
+        "cssVar": "--shadow-low",
+        "value": "0 1px 3px rgba(27, 21, 34, 0.06)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Shadow Panel",
+        "cssVar": "--shadow-panel",
+        "value": "0 6px 18px -12px rgba(27, 21, 34, 0.22)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Nav H",
+        "cssVar": "--nav-h",
+        "value": "72px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "kinetic.webp",
+      "publicPath": "https://www.openlanding.page/gallery/kinetic.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "01 Ingestion (Hero)",
+      "summary": "Origin DC yard. Headline *\"From One Click to Your Hands in 24 Minutes.\"*, live market ticker, and primary pill CTA *\"DISPATCH ORDER #KX-9042\"*.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "02 Sortation",
+      "summary": "Optical induction scanning archway. Interactive item routing demo and live weight verification.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "03 Transit",
+      "summary": "Arterial highway bridge at twilight. Live speedometer, battery level, route elevation grade, and countdown telemetry.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "04 Megamarket Deals",
+      "summary": "Metropolitan distribution corridor. Flash-drop marketplace cards (Audio, Apparel, Battery) with live SVG connector curves linking items directly to the traveling truck.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "05 Doorstep Arrival",
+      "summary": "Destination dock bay. Interactive tamper-seal unboxing demo verifying delivery handoff, plus client-side VIP Express instant dispatch form.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".arrival",
+        ".arrivalDot"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "kinetic-styles-1",
+      "location": "head",
+      "title": "KINETIC Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 42059,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-paper: #FAF7F2;\n  --color-ink: #1B1522;\n  --color-accent: #FF6B2B;\n  --color-apricot: #FFE6D2;\n  --color-mint: #00D4B2;\n  --color-carbon: #2A1E30;\n  --color-steel: #8E8294;\n\n  --font-display: var(--font-bricolage), system-ui, -apple-system, sans-serif;\n  --font-body: var(--font-inter), system-ui, -apple-system, sans-serif;\n  --font-mono: var(--font-jetbrains), ui-monospace, monospace;\n\n  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);\n  --ease-spring: linear(0, 0.4 9%, 0.86 22%, 1.04 33%, 1.01 46%, 0.995 62%, 1);\n\n  --dur-instant: 90ms;\n  --dur-fast: 180ms;\n  --dur-base: 420ms;\n  --dur-slow: 850ms;\n  --dur-hero: 1200ms;\n\n  --reveal-shift: 28px;\n  --stagger: 75ms;\n}\n\n:root {\n  --canvas: #FAF7F2;\n  --surface: #FAF7F2;\n  --surface-alt: #FFE6D2;\n  --surface-nested: color-mix(in srgb, #FAF7F2 90%, #1B1522);\n\n  --text: #1B1522;\n  --text-secondary: color-mix(in srgb, #1B1522 75%, transparent);\n  --text-muted: #8E8294;\n  --text-faint: color-mix(in srgb, #8E8294 65%, transparent);\n  --text-on-brand: #FAF7F2;\n  --text-on-deep: #FAF7F2;\n  --text-on-accent: #FAF7F2;\n\n  --border: color-mix(in srgb, #8E8294 25%, transparent);\n  --border-strong: color-mix(in srgb, #8E8294 45%, transparent);\n  --divider: color-mix(in srgb, #8E8294 15%, transparent);\n\n  --brand-deep: #1B1522;\n  --brand-route: #FF6B2B;\n  --brand-route-hover: color-mix(in srgb, #FF6B2B 85%, #1B1522);\n  --brand-route-pressed: color-mix(in srgb, #FF6B2B 70%, #1B1522);\n  --brand-route-soft: #FFE6D2;\n  --accent: #FF6B2B;\n  --accent-hover: color-mix(in srgb, #FF6B2B 85%, #1B1522);\n  --accent-pressed: color-mix(in srgb, #FF6B2B 70%, #1B1522);\n  --accent-soft: #FFE6D2;\n  --brand-cyan: #00D4B2;\n  --brand-cyan-soft: color-mix(in srgb, #00D4B2 15%, #FAF7F2);\n\n  --success: #00D4B2;\n  --success-soft: color-mix(in srgb, #00D4B2 15%, #FAF7F2);\n  --success-border: color-mix(in srgb, #00D4B2 35%, transparent);\n  --warning: #FF6B2B;\n  --warning-highlight: #FF6B2B;\n  --warning-soft: #FFE6D2;\n  --warning-border: color-mix(in srgb, #FF6B2B 35%, transparent);\n  --danger: #FF6B2B;\n  --danger-soft: #FFE6D2;\n  --danger-border: color-mix(in srgb, #FF6B2B 35%, transparent);\n  --neutral-status: #8E8294;\n  --neutral-status-soft: color-mix(in srgb, #8E8294 15%, #FAF7F2);\n  --neutral-status-border: color-mix(in srgb, #8E8294 30%, transparent);\n\n  --font-roboto-mono: var(--font-jetbrains), ui-monospace, monospace;\n  --font-ui: var(--font-inter), system-ui, -apple-system, sans-serif;\n  --font-display: var(--font-bricolage), system-ui, -apple-system, sans-serif;\n\n  --shadow-low: 0 1px 3px rgba(27, 21, 34, 0.06);\n  --shadow-panel: 0 6px 18px -12px rgba(27, 21, 34, 0.22);\n}\n\n/* Base resets & typography */\nhtml {\n  background-color: var(--canvas);\n  color: var(--text);\n  font-family: var(--font-ui);\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n}\n\nbody.kn-body {\n  margin: 0;\n  padding: 0;\n  min-height: 100vh;\n  background-color: var(--canvas);\n  color: var(--text);\n  overflow-x: clip;\n}\n\n/* Halftone Warm Background Texture */\n.landing-warm {\n  isolation: isolate;\n}\n\n.landing-warm::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  z-index: -1;\n  pointer-events: none;\n  background-image: radial-gradient(circle at center, color-mix(in srgb, var(--accent) 34%, transparent) 1.3px, transparent 1.9px);\n  background-size: 14px 14px;\n  -webkit-mask-image:\n    radial-gradient(ellipse 55% 700px at 100% 0%, black 0%, transparent 72%),\n    radial-gradient(ellipse 45% 620px at 0% 46%, black 0%, transparent 72%),\n    radial-gradient(ellipse 55% 700px at 100% 100%, black 0%, transparent 72%);\n  mask-image:\n    radial-gradient(ellipse 55% 700px at 100% 0%, black 0%, transparent 72%),\n    radial-gradient(ellipse 45% 620px at 0% 46%, black 0%, transparent 72%),\n    radial-gradient(ellipse 55% 700px at 100% 100%, black 0%, transparent 72%);\n}\n\n.kn-wrap {\n  width: 100%;\n  max-width: 1260px;\n  margin-left: auto;\n  margin-right: auto;\n  padding-left: clamp(16px, 4vw, 48px);\n  padding-right: clamp(16px, 4vw, 48px);\n}\n\n\n/* ==================================================================\n   FLASHLIGHT (CURSOR TRAIL)\n   ================================================================== */\n\n/* Orange paint trail for the landing page. Above the sticky nav (z-50) and page content,\n   below the cookie notice (z-1000); pointer-events: none so it never blocks a click. */\n.flashlightTrail {\n  position: fixed;\n  inset: 0;\n  width: 100vw;\n  height: 100vh;\n  z-index: 60;\n  pointer-events: none;\n}\n\n/* Night Route: additive light on dark surfaces. */\n:where(html[data-theme=\"dark\"]) .flashlightTrail {\n  mix-blend-mode: screen;\n}\n\n/* No cursor to follow on touch, and no moving trail for reduced-motion users. */\n@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {\n  .flashlightTrail {\n    display: none;\n  }\n}\n\n\n/* ==================================================================\n   JOURNEY (3D BACKGROUND ENGINE STAGE)\n   ================================================================== */\n\n/*\n * Delivery journey layers.\n *\n * Stacking (inside the landing root, which is `isolation: isolate`):\n *   stage (fixed, z 0): painted fallback sky, WebGL canvas on top of it\n *   page content: positioned after the stage in DOM order, so it paints above\n *\n * No ancestor of the stage may gain a transform/filter (that would re-parent\n * the fixed layer). Content \"plates\" frost the scene behind reading areas.\n */\n\n.journeyStage {\n  position: fixed;\n  inset: 0;\n  height: 100lvh;\n  z-index: 0;\n  pointer-events: none;\n  overflow: hidden;\n}\n\n.journeyCanvasHost {\n  position: absolute;\n  inset: 0;\n}\n\n.journeyCanvas {\n  display: block;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  transition: opacity 1400ms var(--ease-out, ease-out);\n}\n\n:where([data-journey=\"live\"]) .journeyCanvas {\n  opacity: 1;\n}\n\n/* Painted dawn sky + horizon: shown before WebGL starts, without WebGL,\n   and with scripting off. Tuned to the scene's opening colors so the\n   crossfade into the canvas is seamless. */\n.journeyFallback {\n  position: absolute;\n  inset: 0;\n  background:\n    radial-gradient(ellipse 60% 38% at 78% 64%, rgba(255, 196, 140, 0.55), transparent 70%),\n    linear-gradient(to bottom, #FAF7F2 0%, #FFE6D2 45%, #8E8294 61%, #2A1E30 100%);\n}\n\n:where(html[data-theme=\"dark\"]) .journeyFallback {\n  background:\n    radial-gradient(ellipse 50% 30% at 78% 64%, rgba(255, 170, 90, 0.18), transparent 70%),\n    linear-gradient(to bottom, #1B1522 0%, #2A1E30 40%, #1B1522 100%);\n}\n\n/* Solid footer plate, feathered only at the top. */\n.journeyFooterPlate {\n  position: relative;\n}\n\n.journeyFooterPlate > * {\n  position: relative;\n}\n\n.journeyFooterPlate::before {\n  content: \"\";\n  position: absolute;\n  inset: -60px 0 0;\n  pointer-events: none;\n  background: color-mix(in srgb, var(--canvas) 90%, transparent);\n  -webkit-backdrop-filter: blur(12px);\n  backdrop-filter: blur(12px);\n  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 60px);\n  mask-image: linear-gradient(to bottom, transparent 0, black 60px);\n}\n\n.arrival {\n  display: inline-flex;\n  align-items: center;\n  gap: 9px;\n  margin-bottom: 16px;\n  padding: 6px 12px 6px 9px;\n  border: 1px solid var(--border);\n  border-radius: 999px;\n  background: var(--surface-alt);\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.05em;\n  text-transform: uppercase;\n  color: var(--text-secondary);\n  transition:\n    color 400ms var(--ease-out, ease-out),\n    border-color 400ms var(--ease-out, ease-out),\n    background-color 400ms var(--ease-out, ease-out);\n}\n\n.arrivalDot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  background: var(--accent);\n  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);\n  animation: blip 1.6s ease-in-out infinite;\n}\n\n.arrival[data-arrived=\"true\"] {\n  color: var(--success);\n  border-color: var(--success-border);\n  background: var(--success-soft);\n}\n\n.arrival[data-arrived=\"true\"] .arrivalDot {\n  background: var(--success);\n  box-shadow: 0 0 0 4px color-mix(in srgb, var(--success) 25%, transparent);\n  animation: none;\n}\n\n@keyframes blip {\n  50% {\n    opacity: 0.35;\n  }\n}\n\n/* ------------------------------------------------------------------ */\n/* Nav telemetry                                                       */\n/* ------------------------------------------------------------------ */\n\n.telemetry {\n  position: absolute;\n  inset: 0;\n  pointer-events: none;\n}\n\n.navPill {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  translate: -50% -50%;\n  display: none;\n  align-items: center;\n  gap: 10px;\n  padding: 7px 14px 7px 11px;\n  border: 1px solid var(--border);\n  border-radius: 999px;\n  background: color-mix(in srgb, var(--surface) 86%, transparent);\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.05em;\n  text-transform: uppercase;\n  color: var(--text-secondary);\n  white-space: nowrap;\n  font-variant-numeric: tabular-nums;\n  opacity: 0;\n  transition: opacity 600ms var(--ease-out, ease-out);\n}\n\n.telemetry[data-live=\"true\"] .navPill {\n  opacity: 1;\n}\n\n.navPillDot {\n  width: 7px;\n  height: 7px;\n  border-radius: 50%;\n  background: var(--accent);\n  animation: blip 1.6s ease-in-out infinite;\n}\n\n.telemetry[data-arrived=\"true\"] .navPillDot {\n  background: var(--success);\n  animation: none;\n}\n\n.navPillStage {\n  color: var(--text);\n}\n\n@media (min-width: 1100px) {\n  .navPill {\n    display: inline-flex;\n  }\n}\n\n.routeLine {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: -1px;\n  height: 2px;\n  background: transparent;\n  opacity: 0;\n  transition: opacity 600ms var(--ease-out, ease-out);\n}\n\n.telemetry[data-live=\"true\"] .routeLine {\n  opacity: 1;\n}\n\n.routeFill {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 40%, transparent), var(--accent));\n  transform: scaleX(0);\n  transform-origin: left;\n}\n\n.routeTick {\n  position: absolute;\n  top: -2px;\n  width: 6px;\n  height: 6px;\n  margin-left: -3px;\n  border-radius: 50%;\n  background: var(--canvas);\n  border: 1.5px solid var(--accent);\n}\n\n.routeTruck {\n  position: absolute;\n  bottom: 3px;\n  left: 0;\n  translate: -50% 0;\n  color: var(--accent);\n  line-height: 0;\n}\n\n.routeTruck svg {\n  fill: currentColor;\n}\n\n/* ------------------------------------------------------------------ */\n/* Responsive + motion preferences                                      */\n/* ------------------------------------------------------------------ */\n\n@media (prefers-reduced-motion: reduce) {\n  .journeyCanvas {\n    transition: none;\n  }\n\n  .arrivalDot,\n  .navPillDot {\n    animation: none;\n  }\n}\n\n\n/* ==================================================================\n   PRESENTATION (PINNED CHAPTER STAGES & INTERACTIVE DEMOS)\n   ================================================================== */\n\n/*\n * Landing presentation: five pinned scenes over the 3D journey.\n *\n * Layers: the WebGL world (fixed, behind) -> truck tag / connector (fixed,\n * z 0, painted before the page) -> the presentation stage (in flow, sticky).\n * Each stage is one composed frame; beats inside it cross-fade in place.\n *\n * Without scripting, or on very short screens, stages flow as ordinary\n * sections and every beat is shown (see the end of the file).\n */\n\nhtml:has(.kn-body) {\n  scroll-snap-type: y mandatory;\n  scroll-behavior: smooth;\n}\n\n.chapter {\n  --nav-h: 72px;\n  position: relative;\n  height: 100svh;\n  min-height: 100svh;\n  max-height: 100svh;\n  scroll-margin-top: 0;\n  scroll-snap-align: start;\n  scroll-snap-stop: always;\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  overflow: hidden;\n}\n\n.presentationStage {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding-top: var(--nav-h);\n  box-sizing: border-box;\n  overflow: hidden;\n}\n\n.frame {\n  position: relative;\n  height: 100%;\n  width: min(1240px, calc(100% - 64px));\n  margin-inline: auto;\n}\n\n/*\n * Soft legibility wash behind text that sits on the scene. One fixed layer\n * for the whole viewport (see SceneScrim): washes cross-fade between beats\n * instead of ending at a stage's edge.\n */\n.sceneScrim {\n  position: fixed;\n  inset: 0;\n  z-index: 0;\n  pointer-events: none;\n}\n\n.scrim {\n  position: absolute;\n  inset: 0;\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity 900ms var(--ease-in-out);\n}\n\n.scrim[data-on=\"true\"] {\n  opacity: 1;\n}\n\n.scrim[data-scrim=\"left\"] {\n  background: radial-gradient(\n    ellipse 52% 78% at 14% 54%,\n    color-mix(in srgb, var(--canvas) 82%, transparent) 0%,\n    color-mix(in srgb, var(--canvas) 52%, transparent) 46%,\n    transparent 74%\n  );\n}\n\n.scrim[data-scrim=\"left-wide\"] {\n  background: radial-gradient(\n    ellipse 64% 92% at 18% 50%,\n    color-mix(in srgb, var(--canvas) 84%, transparent) 0%,\n    color-mix(in srgb, var(--canvas) 58%, transparent) 50%,\n    transparent 78%\n  );\n}\n\n.scrim[data-scrim=\"column-left\"] {\n  background: linear-gradient(\n    90deg,\n    color-mix(in srgb, var(--canvas) 84%, transparent) 0%,\n    color-mix(in srgb, var(--canvas) 62%, transparent) 30%,\n    transparent 52%\n  );\n}\n\n.scrim[data-scrim=\"right-top\"] {\n  background:\n    radial-gradient(ellipse 46% 44% at 14% 14%, color-mix(in srgb, var(--canvas) 86%, transparent) 0%, transparent 76%),\n    radial-gradient(ellipse 42% 70% at 86% 52%, color-mix(in srgb, var(--canvas) 80%, transparent) 0%, transparent 74%);\n}\n\n.scrim[data-scrim=\"top\"] {\n  background: radial-gradient(\n    ellipse 70% 58% at 50% 20%,\n    color-mix(in srgb, var(--canvas) 84%, transparent) 0%,\n    color-mix(in srgb, var(--canvas) 50%, transparent) 52%,\n    transparent 78%\n  );\n}\n\n/* ------------------------------------------------------------------ */\n/* Type                                                                  */\n/* ------------------------------------------------------------------ */\n\n.label {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 10px;\n  margin: 0;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 12px;\n  font-weight: 700;\n  letter-spacing: 0.14em;\n  text-transform: uppercase;\n  color: var(--text-secondary);\n}\n\n.labelNum {\n  color: var(--accent);\n  font-weight: 800;\n}\n\n.labelRule {\n  width: 26px;\n  height: 2px;\n  border-radius: 2px;\n  background: var(--accent);\n}\n\n.labelName {\n  color: var(--text);\n}\n\n.labelMeta {\n  color: var(--text-muted);\n  font-weight: 600;\n  letter-spacing: 0.08em;\n}\n\n.labelMeta::before {\n  content: \"·\";\n  margin-right: 10px;\n  color: var(--text-muted);\n}\n\n.display {\n  margin: 20px 0 22px;\n  max-width: 11.2ch;\n  font-size: clamp(48px, 6.1vw, 92px);\n  font-weight: 800;\n  line-height: 0.94;\n  letter-spacing: -0.052em;\n  color: var(--brand-deep);\n  text-wrap: balance;\n}\n\n.title {\n  margin: 14px 0 14px;\n  max-width: 14ch;\n  font-size: clamp(34px, 3.7vw, 56px);\n  font-weight: 800;\n  line-height: 0.99;\n  letter-spacing: -0.045em;\n  color: var(--brand-deep);\n  text-wrap: balance;\n}\n\n:where(html[data-theme=\"dark\"]) .display,\n:where(html[data-theme=\"dark\"]) .title,\n:where(html[data-theme=\"dark\"]) .finaleTitle {\n  color: var(--text);\n}\n\n.lead {\n  margin: 0;\n  max-width: 40ch;\n  font-size: 18px;\n  line-height: 1.55;\n  color: var(--text-secondary);\n}\n\n.beatTitle {\n  margin: 0 0 8px;\n  font-size: 24px;\n  font-weight: 800;\n  line-height: 1.12;\n  letter-spacing: -0.03em;\n  color: var(--text);\n}\n\n.beatBody {\n  margin: 0 0 18px;\n  max-width: 42ch;\n  font-size: 15.5px;\n  line-height: 1.55;\n  color: var(--text-secondary);\n}\n\n/* ------------------------------------------------------------------ */\n/* Actions                                                               */\n/* ------------------------------------------------------------------ */\n\n.actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 12px;\n  margin-top: 30px;\n}\n\n.actionsCenter {\n  justify-content: center;\n}\n\n.primary,\n.secondary {\n  display: inline-flex;\n  min-height: 52px;\n  align-items: center;\n  justify-content: center;\n  gap: 10px;\n  padding: 0 24px;\n  border-radius: 10px;\n  font-size: 15px;\n  font-weight: 700;\n  text-decoration: none;\n  transition:\n    transform 160ms var(--ease-out),\n    box-shadow 160ms var(--ease-out),\n    background-color 160ms var(--ease-out),\n    border-color 160ms var(--ease-out);\n}\n\n.primary {\n  border: 1px solid var(--accent);\n  background: var(--accent);\n  color: var(--text-on-accent);\n  box-shadow: 0 12px 28px -12px color-mix(in srgb, var(--accent) 80%, transparent);\n}\n\n.primary:hover {\n  transform: translateY(-2px);\n  background: var(--accent-hover);\n  border-color: var(--accent-hover);\n}\n\n.primaryIcon {\n  transition: transform 200ms var(--ease-out);\n}\n\n.primary:hover .primaryIcon {\n  transform: translateX(3px);\n}\n\n.secondary {\n  border: 1px solid var(--border);\n  background: color-mix(in srgb, var(--surface) 82%, transparent);\n  -webkit-backdrop-filter: blur(12px);\n  backdrop-filter: blur(12px);\n  color: var(--text);\n}\n\n.secondary:hover {\n  transform: translateY(-2px);\n  border-color: var(--border-strong);\n}\n\n.primary:focus-visible,\n.secondary:focus-visible,\n.tab:focus-visible,\n.railLink:focus-visible {\n  outline: 2px solid var(--accent);\n  outline-offset: 3px;\n}\n\n/* ------------------------------------------------------------------ */\n/* Beats                                                                 */\n/* ------------------------------------------------------------------ */\n\n.beat {\n  opacity: 0;\n  transform: translate3d(0, 14px, 0);\n  pointer-events: none;\n  transition:\n    opacity 420ms var(--ease-out),\n    transform 560ms var(--ease-out);\n}\n\n.beat[data-active=\"true\"] {\n  opacity: 1;\n  transform: none;\n  pointer-events: auto;\n}\n\n/* Scrolling back up: beats arrive from above, mirroring the way down. */\n:where(html[data-story-dir=\"up\"]) .beat:not([data-active=\"true\"]) {\n  transform: translate3d(0, -14px, 0);\n}\n\n.beatLines {\n  display: grid;\n}\n\n.beatLines > * {\n  grid-area: 1 / 1;\n  margin: 0;\n  max-width: 44ch;\n  font-size: 17px;\n  line-height: 1.55;\n  color: var(--text-secondary);\n}\n\n/* ------------------------------------------------------------------ */\n/* Scenes                                                                */\n/* ------------------------------------------------------------------ */\n\n.head {\n  display: grid;\n}\n\n/* 01: one statement, left third, vertically centered. */\n.departCopy {\n  position: absolute;\n  left: 0;\n  top: 50%;\n  transform: translateY(-52%);\n  max-width: 660px;\n}\n\n.cue {\n  position: absolute;\n  left: 50%;\n  bottom: 22px;\n  translate: -50% 0;\n  display: inline-flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 10px;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 10px;\n  font-weight: 700;\n  letter-spacing: 0.18em;\n  text-transform: uppercase;\n  color: var(--text-secondary);\n}\n\n.cue::after {\n  content: \"\";\n  width: 1.5px;\n  height: 36px;\n  border-radius: 2px;\n  background: linear-gradient(to bottom, var(--accent), transparent);\n  transform-origin: top;\n  animation: cue 2.2s var(--ease-in-out) infinite;\n}\n\n@keyframes cue {\n  0% {\n    transform: scaleY(0);\n    opacity: 1;\n  }\n  60% {\n    transform: scaleY(1);\n    opacity: 1;\n  }\n  100% {\n    transform: scaleY(1);\n    opacity: 0;\n  }\n}\n\n/* 02: headline + the load record stacked on the left, yard on the right. */\n.prepareColumn {\n  position: absolute;\n  left: 0;\n  top: 50%;\n  transform: translateY(-50%);\n  display: grid;\n  gap: 26px;\n  width: min(500px, 44%);\n}\n\n/* 03: header pinned top-left; each record takes its own corner. */\n.connectedHead {\n  position: absolute;\n  left: 0;\n  top: 5.5%;\n  max-width: 600px;\n}\n\n.connectedHead .title {\n  max-width: 16ch;\n}\n\n.tabs {\n  display: flex;\n  gap: 8px;\n  margin: 6px 0 0;\n  padding: 0;\n  list-style: none;\n}\n\n.tab {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  padding: 6px 12px 6px 7px;\n  border: 1px solid var(--border);\n  border-radius: 999px;\n  background: color-mix(in srgb, var(--surface) 70%, transparent);\n  font-size: 13px;\n  font-weight: 700;\n  color: var(--text-secondary);\n  text-decoration: none;\n  transition:\n    background-color 240ms var(--ease-out),\n    color 240ms var(--ease-out),\n    border-color 240ms var(--ease-out);\n}\n\n.tabNum {\n  display: grid;\n  width: 20px;\n  height: 20px;\n  place-items: center;\n  border-radius: 50%;\n  background: var(--surface-alt);\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 11px;\n}\n\n.tab[aria-current=\"step\"] {\n  border-color: var(--brand-deep);\n  background: var(--brand-deep);\n  color: #FAF7F2;\n}\n\n.tab[aria-current=\"step\"] .tabNum {\n  background: var(--accent);\n  color: #FAF7F2;\n}\n\n:where(html[data-theme=\"dark\"]) .tab[aria-current=\"step\"] {\n  border-color: var(--brand-route);\n  background: var(--brand-route);\n}\n\n.connectedBeats {\n  position: absolute;\n  inset: 0;\n  pointer-events: none;\n}\n\n.connectedBeats > .beat {\n  position: absolute;\n  width: min(430px, 40%);\n}\n\n.connectedBeats > .beat[data-side=\"left\"] {\n  left: 0;\n  bottom: 6%;\n}\n\n.connectedBeats > .beat[data-side=\"right\"] {\n  right: 0;\n  top: 30%;\n}\n\n/* 04: a large dashboard fills the left 60%, the aerial frames the truck right. */\n.workspaceColumn {\n  position: absolute;\n  left: 0;\n  top: 50%;\n  transform: translateY(-50%);\n  display: grid;\n  gap: 20px;\n  width: min(780px, 62%);\n}\n\n.workspaceColumn .title {\n  max-width: 18ch;\n}\n\n/* 05: closeout on the left, then the finale centered above the docked truck. */\n.arriveBeats {\n  position: absolute;\n  inset: 0;\n}\n\n.closeout {\n  position: absolute;\n  left: 0;\n  top: 50%;\n  display: grid;\n  gap: 24px;\n  width: min(500px, 44%);\n  transform: translate3d(0, calc(-50% + 14px), 0);\n}\n\n.closeout[data-active=\"true\"] {\n  transform: translate3d(0, -50%, 0);\n}\n\n:where(html[data-story-dir=\"up\"]) .closeout:not([data-active=\"true\"]) {\n  transform: translate3d(0, calc(-50% - 14px), 0);\n}\n\n.finale {\n  position: absolute;\n  left: 50%;\n  top: 7%;\n  width: min(900px, 100%);\n  text-align: center;\n  transform: translate3d(-50%, 14px, 0);\n}\n\n.finale[data-active=\"true\"] {\n  transform: translate3d(-50%, 0, 0);\n}\n\n:where(html[data-story-dir=\"up\"]) .finale:not([data-active=\"true\"]) {\n  transform: translate3d(-50%, -14px, 0);\n}\n\n.finaleTitle {\n  margin: 18px auto 16px;\n  max-width: 19ch;\n  font-size: clamp(38px, 4.6vw, 68px);\n  font-weight: 800;\n  line-height: 0.98;\n  letter-spacing: -0.048em;\n  color: var(--brand-deep);\n  text-wrap: balance;\n}\n\n.finaleLead {\n  margin: 0 auto;\n  max-width: 48ch;\n  font-size: 18px;\n  line-height: 1.55;\n  color: var(--text-secondary);\n}\n\n.finale .actions {\n  margin-top: 26px;\n}\n\n/* ------------------------------------------------------------------ */\n/* Demonstrations                                                        */\n/* ------------------------------------------------------------------ */\n\n.card {\n  margin: 0;\n  padding: 20px 22px 16px;\n  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);\n  border-radius: 18px;\n  background: color-mix(in srgb, var(--surface) 90%, transparent);\n  -webkit-backdrop-filter: blur(18px) saturate(1.2);\n  backdrop-filter: blur(18px) saturate(1.2);\n  box-shadow:\n    0 30px 70px -30px rgba(16, 38, 61, 0.42),\n    0 2px 6px rgba(16, 38, 61, 0.06);\n  color: var(--text);\n  text-align: left;\n}\n\n:where(html[data-theme=\"dark\"]) .card {\n  box-shadow:\n    0 30px 70px -30px rgba(0, 0, 0, 0.7),\n    0 2px 6px rgba(0, 0, 0, 0.3);\n}\n\n.cardHead {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 16px;\n}\n\n.kicker {\n  display: block;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 10.5px;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  text-transform: uppercase;\n  color: var(--text-muted);\n}\n\n.cardTitle {\n  display: block;\n  margin-top: 3px;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 22px;\n  font-weight: 800;\n  letter-spacing: -0.02em;\n}\n\n.cardFoot {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px 14px;\n  margin-top: 14px;\n  padding-top: 12px;\n  border-top: 1px solid var(--divider, var(--border));\n}\n\n.footItem {\n  display: inline-flex;\n  align-items: center;\n  gap: 7px;\n  font-size: 12.5px;\n  color: var(--text-secondary);\n}\n\n.illustrative {\n  margin-left: auto;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 9.5px;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  text-transform: uppercase;\n  white-space: nowrap;\n  color: var(--text-muted);\n}\n\n.pill {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  padding: 3px 10px;\n  border: 1px solid transparent;\n  border-radius: 999px;\n  font-size: 12px;\n  font-weight: 700;\n  white-space: nowrap;\n  transition:\n    background-color 360ms var(--ease-out),\n    color 360ms var(--ease-out),\n    border-color 360ms var(--ease-out);\n}\n\n.pill[data-tone=\"ok\"] {\n  border-color: var(--success-border);\n  background: var(--success-soft);\n  color: var(--success);\n}\n\n.pill[data-tone=\"warn\"] {\n  border-color: var(--warning-border);\n  background: var(--warning-soft);\n  color: var(--warning);\n}\n\n.pill[data-tone=\"info\"] {\n  border-color: color-mix(in srgb, var(--brand-route) 30%, transparent);\n  background: var(--brand-route-soft);\n  color: var(--brand-route);\n}\n\n.pill[data-tone=\"muted\"] {\n  border-color: var(--border);\n  background: var(--surface-alt);\n  color: var(--text-secondary);\n}\n\n.unit {\n  display: inline-block;\n  padding: 1px 8px;\n  border-radius: 6px;\n  background: var(--accent);\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-weight: 800;\n  color: var(--text-on-accent);\n}\n\n.mono {\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n}\n\n.via {\n  margin-left: 6px;\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--text-muted);\n}\n\n.alignEnd {\n  text-align: right;\n}\n\n/* Load record */\n.lane {\n  display: grid;\n  grid-template-columns: 1fr auto 1fr;\n  align-items: end;\n  gap: 12px;\n  margin: 18px 0 14px;\n}\n\n.lane strong {\n  display: block;\n  margin-top: 4px;\n  font-size: 17px;\n  font-weight: 800;\n  letter-spacing: -0.01em;\n}\n\n.laneLine {\n  display: grid;\n  width: 64px;\n  height: 22px;\n  place-items: center;\n  color: var(--accent);\n  background: linear-gradient(90deg, transparent, var(--border-strong) 20%, var(--border-strong) 80%, transparent) center / 100% 1.5px no-repeat;\n}\n\n.laneLine svg {\n  padding: 2px;\n  border-radius: 50%;\n  background: var(--surface);\n}\n\n.assign {\n  display: grid;\n  gap: 4px;\n  margin: 0;\n}\n\n.assign > div {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 9px 12px;\n  border: 1px solid transparent;\n  border-radius: 10px;\n}\n\n.assign > div[data-highlight=\"true\"] {\n  border-color: color-mix(in srgb, var(--accent) 45%, transparent);\n  background: color-mix(in srgb, var(--accent-soft) 80%, transparent);\n}\n\n.assign dt {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  font-size: 14px;\n  color: var(--text-secondary);\n}\n\n.assign dd {\n  margin: 0;\n  font-size: 15px;\n  font-weight: 700;\n}\n\n/* Entity records */\n.recordId {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.recordIcon {\n  display: grid;\n  width: 42px;\n  height: 42px;\n  place-items: center;\n  border-radius: 12px;\n  background: var(--accent-soft);\n  color: var(--accent);\n}\n\n.owner {\n  margin: 14px 0 4px;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 10.5px;\n  font-weight: 700;\n  letter-spacing: 0.1em;\n  text-transform: uppercase;\n  color: var(--text-muted);\n}\n\n.docList {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n\n.docList li {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  padding: 10px 0;\n  border-top: 1px solid var(--divider, var(--border));\n}\n\n.docName {\n  display: inline-flex;\n  align-items: center;\n  gap: 9px;\n  font-size: 14.5px;\n  font-weight: 600;\n}\n\n.docName svg {\n  color: var(--text-muted);\n}\n\n/* Command center */\n.console {\n  padding: 0;\n  overflow: hidden;\n}\n\n.consoleBar {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 16px;\n  padding: 16px 20px;\n  border-bottom: 1px solid var(--divider, var(--border));\n}\n\n.consoleTitle {\n  display: block;\n  white-space: nowrap;\n  font-size: 17px;\n  font-weight: 800;\n  letter-spacing: -0.02em;\n}\n\n.roleSwitch {\n  display: inline-flex;\n  padding: 3px;\n  border: 1px solid var(--border);\n  border-radius: 10px;\n  background: var(--surface-alt);\n}\n\n.roleSwitch button {\n  padding: 6px 12px;\n  border: 0;\n  border-radius: 7px;\n  background: transparent;\n  font: inherit;\n  font-size: 12.5px;\n  font-weight: 700;\n  color: var(--text-secondary);\n  cursor: pointer;\n  transition:\n    background-color 360ms var(--ease-out),\n    color 360ms var(--ease-out);\n}\n\n.roleSwitch button:hover {\n  color: var(--text);\n}\n\n.roleSwitch button:focus-visible {\n  outline: 2px solid var(--accent);\n  outline-offset: 2px;\n}\n\n.roleSwitch button[data-on=\"true\"] {\n  background: var(--brand-deep);\n  color: #FAF7F2;\n  cursor: default;\n}\n\n:where(html[data-theme=\"dark\"]) .roleSwitch button[data-on=\"true\"] {\n  background: var(--brand-route);\n}\n\n.stats {\n  display: grid;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n  gap: 10px;\n  padding: 14px 20px;\n}\n\n.stats > div {\n  padding: 10px 12px;\n  border-radius: 10px;\n  background: var(--surface-alt);\n}\n\n.stats strong {\n  display: flex;\n  align-items: center;\n  min-height: 30px;\n  margin-top: 4px;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 21px;\n  font-weight: 800;\n}\n\n.table {\n  width: 100%;\n  border-collapse: collapse;\n  font-size: 13.5px;\n}\n\n.table th {\n  padding: 9px 12px;\n  border-top: 1px solid var(--divider, var(--border));\n  border-bottom: 1px solid var(--divider, var(--border));\n  background: var(--surface-alt);\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 10.5px;\n  font-weight: 700;\n  letter-spacing: 0.08em;\n  text-align: left;\n  text-transform: uppercase;\n  color: var(--text-muted);\n}\n\n.table td {\n  padding: 11px 12px;\n  border-bottom: 1px solid var(--divider, var(--border));\n  white-space: nowrap;\n}\n\n.table th:first-child,\n.table td:first-child {\n  padding-left: 20px;\n}\n\n.table th:last-child,\n.table td:last-child {\n  padding-right: 20px;\n}\n\n.table tr[data-focus=\"true\"] td {\n  background: color-mix(in srgb, var(--accent-soft) 70%, transparent);\n  font-weight: 700;\n}\n\n.table tr[data-focus=\"true\"] td:first-child {\n  box-shadow: inset 3px 0 0 var(--accent);\n}\n\n.num {\n  text-align: right !important;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n}\n\n.locked {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--text-muted);\n  animation: lockIn 420ms var(--ease-out);\n}\n\n@keyframes lockIn {\n  from {\n    opacity: 0;\n  }\n}\n\n.console .cardFoot {\n  margin: 0;\n  padding: 11px 20px 13px;\n  border-top: 0;\n}\n\n/* Closeout */\n.steps {\n  display: grid;\n  margin: 14px 0 0;\n  padding: 0;\n  list-style: none;\n}\n\n.steps li {\n  display: grid;\n  grid-template-columns: 38px minmax(0, 1fr) auto;\n  align-items: center;\n  gap: 12px;\n  padding: 11px 0;\n  border-top: 1px solid var(--divider, var(--border));\n}\n\n.stepIcon {\n  display: grid;\n  width: 38px;\n  height: 38px;\n  place-items: center;\n  border-radius: 50%;\n  background: var(--surface-alt);\n  color: var(--text-secondary);\n}\n\n.stepIcon[data-tone=\"ok\"] {\n  background: var(--success-soft);\n  color: var(--success);\n}\n\n.stepIcon[data-tone=\"info\"] {\n  background: var(--brand-route-soft);\n  color: var(--brand-route);\n}\n\n.stepText strong {\n  display: block;\n  font-size: 15px;\n  font-weight: 700;\n}\n\n.stepText span {\n  display: block;\n  font-size: 13px;\n  line-height: 1.4;\n  color: var(--text-secondary);\n}\n\n/* ------------------------------------------------------------------ */\n/* Truck tag, connector, chapter rail                                    */\n/* ------------------------------------------------------------------ */\n\n.truckTag {\n  position: fixed;\n  left: 0;\n  top: 0;\n  z-index: 0;\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity 320ms var(--ease-out);\n  will-change: transform;\n}\n\n.truckTag[data-show=\"true\"] {\n  opacity: 1;\n}\n\n.truckTagInner {\n  position: absolute;\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  background: color-mix(in srgb, var(--brand-deep) 92%, transparent);\n  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.5);\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: 0.04em;\n  white-space: nowrap;\n  color: #FAF7F2;\n  transform: translate(-50%, calc(-100% - 12px));\n}\n\n.truckTagInner::after {\n  content: \"\";\n  position: absolute;\n  left: 50%;\n  top: 100%;\n  width: 1.5px;\n  height: 12px;\n  background: color-mix(in srgb, var(--brand-deep) 70%, transparent);\n}\n\n.truckTagUnit {\n  padding: 1px 6px;\n  border-radius: 4px;\n  background: var(--accent);\n}\n\n.truckTagStatus {\n  color: color-mix(in srgb, #FAF7F2 80%, #1B1522);\n}\n\n.connector {\n  position: fixed;\n  inset: 0;\n  z-index: 0;\n  width: 100vw;\n  height: 100vh;\n  pointer-events: none;\n  overflow: visible;\n  opacity: 0;\n  transition: opacity 360ms var(--ease-out);\n}\n\n.connector[data-show=\"true\"] {\n  opacity: 1;\n}\n\n.connector path {\n  fill: none;\n  stroke: var(--accent);\n  stroke-width: 1.6;\n  stroke-dasharray: 4 5;\n  stroke-linecap: round;\n}\n\n.rail {\n  position: fixed;\n  right: 22px;\n  top: 50%;\n  z-index: 40;\n  display: none;\n  translate: 0 -50%;\n}\n\n.rail ol {\n  display: grid;\n  gap: 6px;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n\n.railLink {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 10px;\n  padding: 5px 0 5px 8px;\n  border-radius: 6px;\n  font-family: var(--font-roboto-mono), ui-monospace, monospace;\n  font-size: 11px;\n  font-weight: 700;\n  letter-spacing: 0.08em;\n  text-decoration: none;\n  text-transform: uppercase;\n  color: var(--text-muted);\n}\n\n.railLink::after {\n  content: \"\";\n  width: 14px;\n  height: 2px;\n  border-radius: 2px;\n  background: var(--border-strong);\n  transition:\n    width 300ms var(--ease-out),\n    background-color 300ms var(--ease-out);\n}\n\n.railName {\n  max-width: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  opacity: 0;\n  transition:\n    max-width 300ms var(--ease-out),\n    opacity 300ms var(--ease-out);\n}\n\n.railLink:hover .railName,\n.railLink:focus-visible .railName {\n  max-width: 220px;\n  opacity: 1;\n}\n\n.railLink[aria-current=\"step\"] {\n  color: var(--accent);\n}\n\n.railLink[aria-current=\"step\"]::after {\n  width: 30px;\n  background: var(--accent);\n}\n\n@media (min-width: 1100px) {\n  .rail {\n    display: block;\n  }\n}\n\n/* ------------------------------------------------------------------ */\n/* Shorter laptop screens                                                */\n/* ------------------------------------------------------------------ */\n\n@media (max-height: 820px) and (min-width: 661px) {\n  .display {\n    font-size: clamp(44px, 5.4vw, 78px);\n  }\n\n  .title {\n    font-size: clamp(30px, 3.2vw, 46px);\n  }\n\n  .lead,\n  .finaleLead {\n    font-size: 16.5px;\n  }\n\n  .card {\n    padding: 16px 18px 12px;\n  }\n\n  .lane {\n    margin: 12px 0 10px;\n  }\n\n  .assign > div {\n    padding: 7px 12px;\n  }\n\n  .docList li,\n  .steps li {\n    padding: 8px 0;\n  }\n\n  .stats {\n    padding: 10px 20px;\n  }\n\n  .table td {\n    padding: 8px 12px;\n  }\n\n  .beatTitle {\n    font-size: 21px;\n  }\n\n  .beatBody {\n    margin-bottom: 12px;\n    font-size: 14.5px;\n  }\n}\n\n/* ------------------------------------------------------------------ */\n/* Tablet                                                                */\n/* ------------------------------------------------------------------ */\n\n@media (max-width: 980px) and (min-width: 661px) {\n  .prepareColumn,\n  .closeout {\n    width: min(460px, 56%);\n  }\n\n  .workspaceColumn {\n    width: 100%;\n    top: 4%;\n    transform: none;\n  }\n\n  .connectedBeats > .beat {\n    width: min(420px, 56%);\n  }\n\n  .hideNarrow {\n    display: none;\n  }\n}\n\n/* ------------------------------------------------------------------ */\n/* Phones: text and demo on top, the truck framed in the lower band      */\n/* ------------------------------------------------------------------ */\n\n@media (max-width: 660px) {\n  .chapter {\n    --nav-h: 64px;\n  }\n\n  .frame {\n    width: calc(100% - 28px);\n  }\n\n  .scrim[data-scrim] {\n    background: linear-gradient(\n      to bottom,\n      color-mix(in srgb, var(--canvas) 86%, transparent) 0%,\n      color-mix(in srgb, var(--canvas) 70%, transparent) 50%,\n      transparent 72%\n    );\n  }\n\n  .display {\n    margin: 14px 0 14px;\n    font-size: clamp(38px, 11vw, 50px);\n  }\n\n  .title {\n    margin: 10px 0 10px;\n    font-size: clamp(28px, 8.2vw, 36px);\n  }\n\n  .lead,\n  .finaleLead,\n  .beatLines > * {\n    font-size: 15px;\n  }\n\n  .departCopy,\n  .prepareColumn,\n  .workspaceColumn,\n  .closeout {\n    top: 18px;\n    width: 100%;\n    transform: none;\n  }\n\n  .closeout,\n  .closeout[data-active=\"true\"] {\n    transform: none;\n  }\n\n  :where(html[data-story-dir=\"up\"]) .closeout:not([data-active=\"true\"]) {\n    transform: translate3d(0, -14px, 0);\n  }\n\n  .prepareColumn,\n  .workspaceColumn,\n  .closeout {\n    gap: 14px;\n  }\n\n  .actions {\n    flex-direction: column;\n    margin-top: 22px;\n  }\n\n  .cue {\n    display: none;\n  }\n\n  .connectedHead {\n    top: 14px;\n  }\n\n  .tabs {\n    margin-top: 2px;\n  }\n\n  .connectedBeats > .beat,\n  .connectedBeats > .beat[data-side=\"left\"],\n  .connectedBeats > .beat[data-side=\"right\"] {\n    top: 176px;\n    bottom: auto;\n    left: 0;\n    right: 0;\n    width: 100%;\n  }\n\n  .beatTitle {\n    font-size: 19px;\n  }\n\n  .beatBody {\n    margin-bottom: 12px;\n    font-size: 14px;\n  }\n\n  .finale {\n    top: 20px;\n  }\n\n  .finaleTitle {\n    font-size: clamp(30px, 8.6vw, 38px);\n  }\n\n  .card {\n    padding: 14px 15px 10px;\n    border-radius: 16px;\n  }\n\n  /* The console's bar, table and footer carry their own insets. */\n  .console {\n    padding: 0;\n  }\n\n  .cardTitle {\n    font-size: 18px;\n  }\n\n  .lane {\n    margin: 12px 0 8px;\n  }\n\n  .lane strong {\n    font-size: 15px;\n  }\n\n  .laneLine {\n    width: 36px;\n  }\n\n  .assign > div {\n    padding: 6px 10px;\n  }\n\n  .docList li,\n  .steps li {\n    padding: 7px 0;\n  }\n\n  .recordIcon {\n    width: 36px;\n    height: 36px;\n  }\n\n  .owner {\n    margin-top: 8px;\n  }\n\n  /* Wrap rather than push the role switch past the card edge on narrow phones. */\n  .consoleBar {\n    flex-wrap: wrap;\n    gap: 10px;\n    padding: 12px 14px;\n  }\n\n  .consoleBar > div:first-child {\n    flex: 1 1 0%;\n  }\n\n  .roleSwitch button {\n    padding: 5px 9px;\n    font-size: 12px;\n  }\n\n  /* The table carries the story on phones; the stat tiles would push the\n     truck out of frame. */\n  .stats {\n    display: none;\n  }\n\n  .stats > div {\n    padding: 7px 10px;\n  }\n\n  .stats strong {\n    min-height: 24px;\n    font-size: 17px;\n  }\n\n  .table {\n    font-size: 12.5px;\n  }\n\n  .table td,\n  .table th {\n    padding: 7px 8px;\n  }\n\n  .table th:first-child,\n  .table td:first-child {\n    padding-left: 14px;\n  }\n\n  .table th:last-child,\n  .table td:last-child {\n    padding-right: 14px;\n  }\n\n  .hideNarrow,\n  .table th:nth-child(2),\n  .table td:nth-child(2) {\n    display: none;\n  }\n\n  .console .cardFoot {\n    padding: 8px 14px 10px;\n  }\n\n  .steps li {\n    grid-template-columns: 32px minmax(0, 1fr) auto;\n    gap: 10px;\n  }\n\n  .stepIcon {\n    width: 32px;\n    height: 32px;\n  }\n\n  .stepText strong {\n    font-size: 14px;\n  }\n\n  .stepText span {\n    font-size: 12px;\n  }\n\n  .footItem {\n    font-size: 11.5px;\n  }\n}\n\n/* ------------------------------------------------------------------ */\n/* Motion and scripting fallbacks                                        */\n/* ------------------------------------------------------------------ */\n\n@media (prefers-reduced-motion: reduce) {\n  .beat,\n  .beat[data-active=\"true\"],\n  .scrim,\n  .truckTag,\n  .connector {\n    transition: none;\n  }\n\n  .beat {\n    transform: none;\n  }\n\n  .closeout {\n    transform: translate3d(0, -50%, 0);\n  }\n\n  .finale {\n    transform: translate3d(-50%, 0, 0);\n  }\n\n  .cue::after,\n  .locked {\n    animation: none;\n  }\n}\n\n/*\n * No scripting, reduced motion, or a screen too short to pin a composed frame:\n * every chapter flows as a normal section and every beat is visible in order,\n * so alternate beats (the arrival finale) are never left at opacity 0.\n */\n@media (scripting: none), (prefers-reduced-motion: reduce), (max-height: 540px) {\n  .chapter {\n    height: auto;\n  }\n\n  .presentationStage {\n    position: relative;\n    top: auto;\n    height: auto;\n    min-height: calc(100svh - var(--nav-h));\n    padding: 56px 0 72px;\n    overflow: visible;\n  }\n\n  .frame {\n    height: auto;\n  }\n\n  .departCopy,\n  .prepareColumn,\n  .connectedHead,\n  .connectedBeats,\n  .connectedBeats > .beat[data-side],\n  .workspaceColumn,\n  .arriveBeats,\n  .closeout,\n  .closeout[data-active],\n  .finale,\n  .finale[data-active] {\n    position: relative;\n    inset: auto;\n    width: auto;\n    max-width: 760px;\n    transform: none;\n  }\n\n  .connectedBeats,\n  .arriveBeats {\n    display: grid;\n    gap: 40px;\n    margin-top: 32px;\n  }\n\n  .beat,\n  :where(html[data-story-dir]) .beat:not([data-active=\"true\"]),\n  :where(html[data-story-dir]) .closeout:not([data-active=\"true\"]),\n  :where(html[data-story-dir]) .finale:not([data-active=\"true\"]) {\n    opacity: 1;\n    transform: none;\n    pointer-events: auto;\n  }\n\n  .beatLines {\n    gap: 12px;\n  }\n\n  .beatLines > * {\n    grid-area: auto;\n  }\n\n  /* Flowed, the finale sits over the docked-truck still, so give it a readable plate. */\n  .finale {\n    margin-inline: auto;\n    padding: 28px 32px 36px;\n    border: 1px solid var(--border);\n    border-radius: 28px;\n    background: color-mix(in srgb, var(--surface) 90%, transparent);\n    -webkit-backdrop-filter: blur(18px);\n    backdrop-filter: blur(18px);\n  }\n}"
+    },
+    {
+      "id": "kinetic-runtime-1",
+      "location": "footer",
+      "title": "KINETIC Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 425,
+      "description": "Loads three, lenis in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three",
+        "lenis"
+      ],
+      "code": "// KINETIC — Webflow Custom Code Runtime Bridge\n// Dependencies: three, lenis\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

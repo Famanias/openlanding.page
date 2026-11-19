@@ -1,0 +1,145 @@
+{
+  "slug": "pitchlane",
+  "title": "Pitchlane",
+  "industry": "AI & Presentation Design",
+  "description": "From the first idea to the final slide. A richly interactive product concept for AI-powered presentation design.",
+  "stack": "HTML · CSS · JavaScript",
+  "liveUrl": "https://www.openlanding.page/templates/pitchlane",
+  "downloadUrl": "https://www.openlanding.page/downloads/pitchlane.html",
+  "manifestUrl": "https://www.openlanding.page/copy/pitchlane-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/pitchlane-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Pitchlane Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#F7F8FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#17182B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 3",
+        "cssVar": "--color-palette-3",
+        "value": "#687085",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#F8F9FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#7654DF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#E6DFFB",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#FF716C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#61BBFA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 9",
+        "cssVar": "--color-palette-9",
+        "value": "#7A66E9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 10",
+        "cssVar": "--color-palette-10",
+        "value": "#DDD3FF",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "pitchlane.webp",
+      "publicPath": "https://www.openlanding.page/gallery/pitchlane.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Hero",
+      "summary": "High-impact value proposition *\"Present ideas that actually land\"*, call-to-action buttons, and an interactive slide preview deck.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Slide Deck Showcase",
+      "summary": "Interactive carousel of modern presentation templates (Architectural Geometry, Iridescent Forms, Clear Structure, Momentum, Fresh Perspective, Design Studio).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Workflow & Features",
+      "summary": "Intelligent slide layout, kinetic narrative structuring, real-time styling, and team collaboration tooling.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Interactive Studio Demonstration",
+      "summary": "Tabbed interface demonstrating prompt-to-deck transformation, slide editing, and export workflows.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Social Proof & Testimonials",
+      "summary": "Customer stories and quantitative performance metrics.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Pricing & Sign-up",
+      "summary": "Transparent tier comparison and newsletter/trial signup form with client-side validation.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Footer",
+      "summary": "Comprehensive site navigation links, social handles, and copyright information.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": []
+}

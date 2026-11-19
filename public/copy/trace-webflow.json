@@ -1,0 +1,138 @@
+{
+  "slug": "trace",
+  "title": "TRACE",
+  "industry": "Urban Systems",
+  "description": "Spatial intelligence for the moving city. A parallax field guide with a scroll-reactive Three.js signal orb.",
+  "stack": "Next.js 16 · Three.js · Scroll Parallax · IntersectionObserver",
+  "liveUrl": "https://www.openlanding.page/templates/trace",
+  "downloadUrl": "https://www.openlanding.page/downloads/trace.html",
+  "manifestUrl": "https://www.openlanding.page/copy/trace-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/trace-webflow-prompt.md",
+  "variables": {
+    "collectionName": "TRACE Tokens",
+    "colors": [
+      {
+        "name": "Color / Trace Ink",
+        "cssVar": "--color-trace-ink",
+        "value": "#081115",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Trace Paper",
+        "cssVar": "--color-trace-paper",
+        "value": "#e7ece7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Trace Accent",
+        "cssVar": "--color-trace-accent",
+        "value": "#c9f458",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Trace Muted",
+        "cssVar": "--color-trace-muted",
+        "value": "#849694",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Trace Display",
+        "cssVar": "--font-trace-display",
+        "family": "var(--font-trace-sans)",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Trace Mono",
+        "cssVar": "--font-trace-mono",
+        "family": "var(--font-trace-mono-source)",
+        "fallback": "ui-monospace, monospace"
+      },
+      {
+        "name": "Font / DM Mono",
+        "cssVar": "--font-dm-mono",
+        "family": "DM Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "DM Mono"
+      },
+      {
+        "name": "Font / Space Grotesk",
+        "cssVar": "--font-space-grotesk",
+        "family": "Space Grotesk",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Space Grotesk"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Trace Gutter",
+        "cssVar": "--trace-gutter",
+        "value": "clamp(20px, 5vw, 84px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Trace Topbar",
+        "cssVar": "--trace-topbar",
+        "value": "76px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "trace.webp",
+      "publicPath": "https://www.openlanding.page/gallery/trace.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Build a one-page landing site in Next.js App Router + React + TypeScript + Tailwind CSS v4 for TRACE, a spatial-intelligence studio that helps teams read what a city is becoming.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".trace-body",
+        ".trace-experience",
+        ".trace-wrap",
+        ".trace-scene-shell",
+        ".trace-scene",
+        ".trace-scene-hud",
+        ".13em",
+        ".trace-topbar",
+        ".trace-wordmark",
+        ".16em",
+        ".trace-wordmark-dot",
+        ".trace-mark"
+      ],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "trace-styles-1",
+      "location": "head",
+      "title": "TRACE Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 13304,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-trace-ink: #081115;\n  --color-trace-paper: #e7ece7;\n  --color-trace-accent: #c9f458;\n  --color-trace-muted: #849694;\n  --font-trace-display: var(--font-trace-sans), system-ui, sans-serif;\n  --font-trace-mono: var(--font-trace-mono-source), ui-monospace, monospace;\n}\n\n:root { --trace-gutter: clamp(20px, 5vw, 84px); --trace-topbar: 76px; }\nhtml:has(.trace-body) { scroll-behavior: smooth; scroll-padding-top: var(--trace-topbar); }\n.trace-body { margin: 0; background: #081115; color: #e7ece7; font-family: var(--font-trace-display); -webkit-font-smoothing: antialiased; overflow-x: hidden; }\n.trace-body ::selection { color: #081115; background: #c9f458; }\n.trace-body :focus-visible { outline: 2px solid #c9f458; outline-offset: 4px; }\n.trace-experience { min-height: 100vh; position: relative; overflow: clip; }\n.trace-wrap { width: min(1400px, calc(100% - (var(--trace-gutter) * 2))); margin: 0 auto; position: relative; z-index: 2; }\n.trace-scene-shell { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: #081115; }\n.trace-scene { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9; }\n.trace-scene-shell::after { content: \"\"; position: absolute; inset: 0; background: radial-gradient(circle at 70% 45%, transparent 0 15%, rgba(8,17,21,.18) 45%, rgba(8,17,21,.86) 100%); }\n.trace-scene-hud { position: absolute; right: var(--trace-gutter); bottom: 24px; display: flex; gap: 18px; color: rgba(231,236,231,.46); font-family: var(--font-trace-mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; }\n.trace-topbar { position: fixed; inset: 0 0 auto; z-index: 20; height: var(--trace-topbar); display: flex; align-items: center; gap: 26px; padding: 0 var(--trace-gutter); border-bottom: 1px solid rgba(231,236,231,.16); background: rgba(8,17,21,.76); backdrop-filter: blur(18px); }\n.trace-wordmark { display: inline-flex; align-items: center; gap: 11px; color: #e7ece7; text-decoration: none; font-size: 18px; font-weight: 700; letter-spacing: .16em; }\n.trace-wordmark-dot { color: #c9f458; }\n.trace-mark { width: 24px; height: 24px; display: inline-grid; place-items: center; position: relative; }\n.trace-mark::before, .trace-mark::after { content: \"\"; position: absolute; border: 1px solid #c9f458; border-radius: 50%; transform: rotate(-28deg); }\n.trace-mark::before { width: 18px; height: 9px; }\n.trace-mark::after { width: 9px; height: 18px; }\n.trace-mark span { width: 4px; height: 4px; border-radius: 50%; background: #c9f458; }\n.trace-nav { display: flex; align-items: center; gap: 22px; margin-left: auto; }\n.trace-nav a, .trace-nav-cta, .trace-chapter-rail a, .trace-footer, .trace-kicker, .trace-hero-index, .trace-coordinate, .trace-hero-type { font-family: var(--font-trace-mono); text-transform: uppercase; letter-spacing: .11em; }\n.trace-nav a { color: rgba(231,236,231,.58); text-decoration: none; font-size: 10px; transition: color 180ms ease; }\n.trace-nav a span { color: #c9f458; margin-right: 6px; }\n.trace-nav a:hover { color: #e7ece7; }\n.trace-nav-cta, .trace-button { border: 1px solid rgba(231,236,231,.4); color: #e7ece7; text-decoration: none; font-family: var(--font-trace-mono); text-transform: uppercase; letter-spacing: .1em; font-size: 10px; transition: transform 180ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease; }\n.trace-nav-cta { padding: 12px 15px; }\n.trace-nav-cta:hover, .trace-button:hover { border-color: #c9f458; color: #c9f458; }\n.trace-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; width: fit-content; padding: 16px 18px; }\n.trace-button:hover { transform: translateY(-3px); }\n.trace-button-solid { background: #c9f458; border-color: #c9f458; color: #081115; }\n.trace-button-solid:hover { background: #e7ece7; border-color: #e7ece7; color: #081115; }\n.trace-button-outline { background: transparent; }\n.trace-chapter-rail { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 15; display: grid; gap: 13px; }\n.trace-chapter-rail a { display: flex; align-items: center; gap: 9px; color: rgba(231,236,231,.48); text-decoration: none; font-size: 9px; }\n.trace-chapter-rail a::before { content: \"\"; width: 16px; height: 1px; background: currentColor; transition: width 180ms ease, background-color 180ms ease; }\n.trace-chapter-rail a:hover { color: #c9f458; }\n.trace-chapter-rail a:hover::before { width: 27px; background: #c9f458; }\n.trace-chapter-rail b { display: none; font-weight: 400; }\n\n.trace-hero { min-height: 138svh; position: relative; padding-top: var(--trace-topbar); display: grid; align-items: center; }\n.trace-hero-grid { min-height: calc(100svh - var(--trace-topbar)); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(230px, .9fr); align-items: center; gap: 8vw; padding: 10vh 0 22vh; }\n.trace-kicker { margin: 0; color: #c9f458; font-size: 10px; line-height: 1.5; }\n.trace-hero-copy { max-width: 760px; }\n.trace-hero-index { margin: 0 0 28px; color: rgba(231,236,231,.45); font-size: 10px; }\n.trace-hero h1, .trace-section h2 { margin: 0; font-weight: 500; letter-spacing: -.075em; line-height: .92; text-wrap: balance; }\n.trace-hero h1 { max-width: 760px; font-size: clamp(4.2rem, 10vw, 10.3rem); }\n.trace-hero h1 em, .trace-section h2 em { color: #c9f458; font-style: normal; }\n.trace-hero-lead { max-width: 42ch; margin: 34px 0 34px; color: rgba(231,236,231,.7); font-size: clamp(1.05rem, 1.4vw, 1.3rem); line-height: 1.5; }\n.trace-hero-note { align-self: end; justify-self: end; display: flex; align-items: center; gap: 11px; color: rgba(231,236,231,.48); font-family: var(--font-trace-mono); text-transform: uppercase; letter-spacing: .1em; font-size: 10px; }\n.trace-note-line { display: inline-block; width: 38px; height: 1px; background: #c9f458; }\n.trace-coordinate, .trace-hero-type { position: absolute; color: rgba(231,236,231,.32); font-size: 10px; }\n.trace-coordinate { left: var(--trace-gutter); bottom: 10vh; }\n.trace-hero-type { right: var(--trace-gutter); bottom: 13vh; writing-mode: vertical-rl; }\n.trace-reveal { opacity: 0; transform: translateY(30px); transition: opacity 700ms cubic-bezier(.23,1,.32,1), transform 900ms cubic-bezier(.23,1,.32,1); }\n.trace-reveal.is-visible { opacity: 1; transform: translateY(0); }\n\n.trace-section { min-height: 112svh; position: relative; padding: 18vh 0 18vh; overflow: hidden; }\n.trace-section-dark { background: rgba(8,17,21,.9); border-top: 1px solid rgba(231,236,231,.12); border-bottom: 1px solid rgba(231,236,231,.12); }\n.trace-section-paper { background: #e7ece7; color: #081115; }\n.trace-section-system { min-height: 122svh; background: rgba(8,17,21,.9); }\n.trace-section-cta { min-height: 86svh; background: #c9f458; color: #081115; }\n.trace-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, .72fr); gap: 12vw; align-items: start; }\n.trace-section-intro { position: relative; padding-top: 10px; }\n.trace-section h2 { font-size: clamp(3.4rem, 7vw, 7.8rem); max-width: 840px; }\n.trace-section-intro h2 { margin-top: 34px; }\n.trace-section-body { padding-top: 14vh; }\n.trace-large-number { margin: 0; font-size: clamp(5rem, 13vw, 13rem); line-height: .75; letter-spacing: -.1em; color: #c9f458; }\n.trace-large-number span { font-size: .28em; letter-spacing: -.02em; margin-left: 10px; }\n.trace-body-copy { max-width: 34ch; margin: 44px 0 54px; color: rgba(231,236,231,.66); font-size: 1.1rem; line-height: 1.55; }\n.trace-readout { border-top: 1px solid rgba(231,236,231,.22); display: grid; grid-template-columns: repeat(3, 1fr); }\n.trace-readout div { padding: 14px 12px 0 0; border-right: 1px solid rgba(231,236,231,.22); }\n.trace-readout div + div { padding-left: 12px; }\n.trace-readout div:last-child { border-right: 0; }\n.trace-readout span, .trace-readout strong, .trace-system-stats span, .trace-system-stats small { display: block; font-family: var(--font-trace-mono); text-transform: uppercase; letter-spacing: .1em; font-size: 9px; }\n.trace-readout span, .trace-system-stats span, .trace-system-stats small { color: rgba(231,236,231,.45); }\n.trace-readout strong { margin-top: 10px; color: #e7ece7; font-size: 14px; font-weight: 400; }\n.trace-band { position: absolute; inset: auto 0 11vh; white-space: nowrap; overflow: hidden; color: rgba(201,244,88,.12); font-size: clamp(3rem, 12vw, 14rem); letter-spacing: .02em; line-height: .7; }\n\n.trace-shape-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 8vw; }\n.trace-shape-heading { position: sticky; top: 18vh; align-self: start; }\n.trace-section-paper h2 em { color: #849694; }\n.trace-method-list { border-top: 1px solid rgba(8,17,21,.24); }\n.trace-method { display: grid; grid-template-columns: 48px 1fr 34px; gap: 18px; align-items: start; padding: 25px 0 30px; border-bottom: 1px solid rgba(8,17,21,.24); }\n.trace-method-number, .trace-method-arrow { color: #849694; font-family: var(--font-trace-mono); font-size: 11px; }\n.trace-method h3 { margin: 0 0 9px; font-size: clamp(1.4rem, 2vw, 2.2rem); font-weight: 500; letter-spacing: -.04em; }\n.trace-method p { max-width: 36ch; margin: 0; color: rgba(8,17,21,.64); line-height: 1.5; }\n.trace-method-arrow { justify-self: end; font-size: 20px; }\n.trace-contour { position: absolute; left: -5vw; bottom: 9vh; display: grid; gap: 9px; color: rgba(8,17,21,.18); font-family: var(--font-trace-mono); font-size: 9px; letter-spacing: .12em; transform: rotate(-13deg); }\n\n.trace-system-layout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(280px, .7fr); gap: 10vw; align-items: end; min-height: 72vh; }\n.trace-system-copy h2 { margin: 34px 0; }\n.trace-system-copy > p:not(.trace-kicker) { max-width: 39ch; color: rgba(231,236,231,.66); line-height: 1.55; margin: 0 0 32px; }\n.trace-system-stats { border-top: 1px solid rgba(231,236,231,.22); }\n.trace-system-stats div { display: grid; grid-template-columns: 38px 1fr auto; gap: 15px; align-items: baseline; padding: 19px 0; border-bottom: 1px solid rgba(231,236,231,.22); }\n.trace-system-stats strong { font-size: clamp(1.45rem, 3vw, 3rem); font-weight: 500; letter-spacing: -.06em; }\n.trace-system-stamp { position: absolute; right: 10vw; top: 16vh; color: rgba(201,244,88,.18); font-family: var(--font-trace-mono); font-size: 10px; letter-spacing: .16em; writing-mode: vertical-rl; }\n\n.trace-cta-layout { min-height: 70svh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }\n.trace-section-cta .trace-kicker { color: #081115; opacity: .55; }\n.trace-section-cta h2 { max-width: 920px; margin: 28px 0 24px; font-size: clamp(4rem, 11vw, 11rem); }\n.trace-section-cta h2 em { color: #081115; text-decoration: underline; text-decoration-thickness: .045em; text-underline-offset: .1em; }\n.trace-cta-copy { margin: 0 0 34px; max-width: 36ch; font-size: 1.15rem; line-height: 1.5; }\n.trace-section-cta .trace-button-solid { background: #081115; border-color: #081115; color: #c9f458; }\n.trace-section-cta .trace-button-solid:hover { background: #e7ece7; border-color: #e7ece7; color: #081115; }\n.trace-footer { width: 100%; display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-top: auto; padding-top: 22px; border-top: 1px solid rgba(8,17,21,.26); color: rgba(8,17,21,.64); font-size: 9px; }\n.trace-footer a { color: inherit; text-decoration: none; }\n.trace-footer a:hover { color: #081115; }\n\n@media (min-width: 1050px) { .trace-chapter-rail b { display: inline; } }\n@media (max-width: 900px) {\n  :root { --trace-topbar: 66px; }\n  .trace-topbar { gap: 14px; }\n  .trace-nav { display: none; }\n  .trace-nav-cta { margin-left: auto; padding: 10px 12px; }\n  .trace-scene { opacity: .7; }\n  .trace-scene-hud { right: 20px; bottom: 14px; flex-direction: column; align-items: flex-end; gap: 5px; }\n  .trace-chapter-rail { right: 16px; }\n  .trace-chapter-rail b { display: none; }\n  .trace-hero { min-height: 120svh; }\n  .trace-hero-grid, .trace-split, .trace-shape-layout, .trace-system-layout { grid-template-columns: 1fr; gap: 48px; }\n  .trace-hero-grid { align-content: center; padding-bottom: 18vh; }\n  .trace-hero h1 { max-width: 620px; }\n  .trace-hero-note { justify-self: start; }\n  .trace-section-body { padding-top: 0; }\n  .trace-shape-heading { position: static; }\n  .trace-system-layout { min-height: auto; }\n  .trace-system-stamp { right: 16vw; top: 18vh; }\n  .trace-footer { flex-wrap: wrap; }\n}\n@media (max-width: 540px) {\n  .trace-coordinate { bottom: 9vh; font-size: 8px; }\n  .trace-hero-type { display: none; }\n  .trace-section { padding: 14vh 0; }\n  .trace-section h2 { max-width: 13ch; }\n  .trace-readout { grid-template-columns: 1fr; }\n  .trace-readout div, .trace-readout div + div { padding: 12px 0; border-right: 0; border-bottom: 1px solid rgba(231,236,231,.22); }\n  .trace-readout div:last-child { border-bottom: 0; }\n  .trace-method { grid-template-columns: 34px 1fr; }\n  .trace-method-arrow { display: none; }\n  .trace-footer { display: grid; gap: 10px; }\n}\n@media (prefers-reduced-motion: reduce) {\n  html:has(.trace-body) { scroll-behavior: auto; }\n  .trace-reveal { opacity: 1; transform: none; transition: none; }\n  .trace-button, .trace-nav a, .trace-chapter-rail a::before { transition: none; }\n  .trace-scene-shell::after { background: rgba(8,17,21,.48); }\n}"
+    },
+    {
+      "id": "trace-runtime-1",
+      "location": "footer",
+      "title": "TRACE Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 342,
+      "description": "Loads three in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three"
+      ],
+      "code": "// TRACE — Webflow Custom Code Runtime Bridge\n// Dependencies: three\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

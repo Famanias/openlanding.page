@@ -1,0 +1,161 @@
+{
+  "slug": "strata",
+  "title": "STRATA",
+  "industry": "Ceramics & Contemporary Objects",
+  "description": "Contemporary ceramic vessels. A study of earth, form, and considered living with interactive material finishes.",
+  "stack": "HTML · CSS · JavaScript",
+  "liveUrl": "https://www.openlanding.page/templates/strata",
+  "downloadUrl": "https://www.openlanding.page/downloads/strata.html",
+  "manifestUrl": "https://www.openlanding.page/copy/strata-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/strata-webflow-prompt.md",
+  "variables": {
+    "collectionName": "STRATA Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#24221F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#292620",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 3",
+        "cssVar": "--color-palette-3",
+        "value": "#E9E1D6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#EFE9DF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#BDA78F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#AF765D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#B89C81",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#1F1D19",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 9",
+        "cssVar": "--color-palette-9",
+        "value": "#C58E6A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 10",
+        "cssVar": "--color-palette-10",
+        "value": "#F2E8DC",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "strata.webp",
+      "publicPath": "https://www.openlanding.page/gallery/strata.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Hero (Centered Gallery Composition)",
+      "summary": "Distinct vertical hierarchy featuring collection identifier `CONTEMPORARY CERAMICS / COLLECTION 001`, fully readable headline `FORMED BY EARTH.` in upper 17–28%, centered ceramic vessel (55–65svh) with warm spotlight bloom and atmospheric concentric rings, and lower italic subtitle *Defined by time.* Breathing scroll indicator and collection metadata.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Manifesto",
+      "summary": "Editorial statement on architectural permanence and considered living.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Macro Immersion",
+      "summary": "Scroll-driven circular zoom into raw clay mineral grain and surface texture.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Object Anatomy",
+      "summary": "Dimensional specifications, batch numbers, firing temperatures, and silhouette study.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Craft Journey",
+      "summary": "Step-by-step kiln, wheel, and hand-finishing processes with atmospheric background imagery.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Interior Living",
+      "summary": "Architectural placement and interior scale exploration.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Collection Switcher",
+      "summary": "Interactive finish selector (Limestone, Volcanic, Terracotta) updating vessel imagery, background tint, and technical notes in real time.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Consultation Dialog",
+      "summary": "Accessible modal dialog for private commissions with client-side form validation.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-9",
+      "index": 9,
+      "title": "Colophon Footer",
+      "summary": "Massive sculptural wordmark, studio directory links, and legal colophon.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": []
+}

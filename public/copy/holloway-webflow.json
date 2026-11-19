@@ -1,0 +1,140 @@
+{
+  "slug": "holloway",
+  "title": "HOLLOWAY",
+  "industry": "Digital Experience & Technology",
+  "description": "Objects for the spaces we live in. Explore the HOLLOWAY modular furniture collection and interactive architectural room-design studio.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/holloway",
+  "downloadUrl": "https://www.openlanding.page/downloads/holloway.html",
+  "manifestUrl": "https://www.openlanding.page/copy/holloway-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/holloway-webflow-prompt.md",
+  "variables": {
+    "collectionName": "HOLLOWAY Tokens",
+    "colors": [
+      {
+        "name": "Color / Hw Ivory",
+        "cssVar": "--hw-ivory",
+        "value": "#F5F2EA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hw Stone",
+        "cssVar": "--hw-stone",
+        "value": "#EBE5D8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hw Ink",
+        "cssVar": "--hw-ink",
+        "value": "#262824",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hw Oak",
+        "cssVar": "--hw-oak",
+        "value": "#B88C60",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hw Blue",
+        "cssVar": "--hw-blue",
+        "value": "#A6BBC7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hw Burgundy",
+        "cssVar": "--hw-burgundy",
+        "value": "#874C54",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hw Graphite",
+        "cssVar": "--hw-graphite",
+        "value": "#777974",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hw Line",
+        "cssVar": "--hw-line",
+        "value": "rgba(38, 40, 36, 0.16)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hw Line Strong",
+        "cssVar": "--hw-line-strong",
+        "value": "rgba(38, 40, 36, 0.42)",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Cormorant Garamond",
+        "cssVar": "--font-cormorant-garamond",
+        "family": "Cormorant Garamond",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Cormorant Garamond"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "holloway.webp",
+      "publicPath": "https://www.openlanding.page/gallery/holloway.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Objects for the spaces we live in. Explore the HOLLOWAY modular furniture collection and interactive architectural room-design studio.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".01ms",
+        ".font-editorial",
+        ".font-ui",
+        ".font-drafting",
+        ".animate-hw-reveal",
+        ".animate-hw-reveal-delay-1",
+        ".75s",
+        ".12s",
+        ".animate-hw-reveal-delay-2",
+        ".24s"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "holloway-styles-1",
+      "location": "head",
+      "title": "HOLLOWAY Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 1692,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@layer base {\r\n  :root {\r\n    --hw-ivory: #F5F2EA;\r\n    --hw-stone: #EBE5D8;\r\n    --hw-ink: #262824;\r\n    --hw-oak: #B88C60;\r\n    --hw-blue: #A6BBC7;\r\n    --hw-burgundy: #874C54;\r\n    --hw-graphite: #777974;\r\n    --hw-line: rgba(38, 40, 36, 0.16);\r\n    --hw-line-strong: rgba(38, 40, 36, 0.42);\r\n  }\r\n\r\n  html {\r\n    scroll-behavior: smooth;\r\n    background-color: #F5F2EA;\r\n    color: #262824;\r\n    font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;\r\n  }\r\n\r\n  @media (prefers-reduced-motion: reduce) {\r\n    html {\r\n      scroll-behavior: auto;\r\n    }\r\n    *,\r\n    *::before,\r\n    *::after {\r\n      animation-duration: 0.01ms !important;\r\n      animation-iteration-count: 1 !important;\r\n      transition-duration: 0.01ms !important;\r\n      scroll-behavior: auto !important;\r\n    }\r\n  }\r\n}\r\n\r\n.font-editorial {\r\n  font-family: var(--font-cormorant-garamond), 'Cormorant Garamond', Georgia, serif;\r\n}\r\n\r\n.font-ui {\r\n  font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;\r\n}\r\n\r\n.font-drafting {\r\n  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;\r\n  font-variant-numeric: tabular-nums;\r\n}\r\n\r\n@keyframes hwFadeLift {\r\n  from {\r\n    opacity: 0;\r\n    transform: translateY(10px);\r\n  }\r\n  to {\r\n    opacity: 1;\r\n    transform: translateY(0);\r\n  }\r\n}\r\n\r\n.animate-hw-reveal {\r\n  animation: hwFadeLift 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;\r\n}\r\n\r\n.animate-hw-reveal-delay-1 {\r\n  animation: hwFadeLift 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;\r\n}\r\n\r\n.animate-hw-reveal-delay-2 {\r\n  animation: hwFadeLift 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;\r\n}"
+    },
+    {
+      "id": "holloway-runtime-1",
+      "location": "footer",
+      "title": "HOLLOWAY Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 272,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// HOLLOWAY — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

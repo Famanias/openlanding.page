@@ -1,0 +1,156 @@
+{
+  "slug": "razorline",
+  "title": "RAZORLINE",
+  "industry": "Performance Footwear & Athletics",
+  "description": "Uncompromising velocity. Engineered rebellion. Direct-to-consumer launch flagship for the RAZORLINE RL-01 performance running series.",
+  "stack": "Next.js 16 · React 19 · Tailwind v4 · Lucide",
+  "liveUrl": "https://www.openlanding.page/templates/razorline",
+  "downloadUrl": "https://www.openlanding.page/downloads/razorline.html",
+  "manifestUrl": "https://www.openlanding.page/copy/razorline-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/razorline-webflow-prompt.md",
+  "variables": {
+    "collectionName": "RAZORLINE Tokens",
+    "colors": [
+      {
+        "name": "Color / Carbon",
+        "cssVar": "--carbon",
+        "value": "#0B0B0A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Chalk",
+        "cssVar": "--chalk",
+        "value": "#F1F0E9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lime",
+        "cssVar": "--lime",
+        "value": "#D3FF35",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Cobalt",
+        "cssVar": "--cobalt",
+        "value": "#375CFF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Steel",
+        "cssVar": "--steel",
+        "value": "#777A7A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#1C1C1A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#262624",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-display",
+        "fallback": "Barlow Condensed, Impact, Arial Narrow, sans-serif)"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "var(--font-sans",
+        "fallback": "Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, sans-serif)"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "var(--font-mono",
+        "fallback": "JetBrains Mono, monospace)"
+      },
+      {
+        "name": "Font / Barlow Condensed",
+        "cssVar": "--font-barlow-condensed",
+        "family": "Barlow Condensed",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Barlow Condensed"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      },
+      {
+        "name": "Font / JetBrains Mono",
+        "cssVar": "--font-jetbrains-mono",
+        "family": "JetBrains Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "JetBrains Mono"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "razorline.webp",
+      "publicPath": "https://www.openlanding.page/gallery/razorline.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Act as a Principal Design Technologist and Senior Frontend Architect. Build a complete, responsive, interaction-rich performance athletics DTC storefront for **RAZORLINE** featuring the **RL-01 Performance Footwear** series.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".dark",
+        ".font-display",
+        ".font-mono-tech",
+        ".hero-headline-word",
+        ".02em",
+        ".clip-slant-cta",
+        ".clip-slant-card",
+        ".clip-diagonal-frame",
+        ".bg-blueprint-grid",
+        ".bg-halftone-dots",
+        ".25px",
+        ".2em"
+      ],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "razorline-styles-1",
+      "location": "head",
+      "title": "RAZORLINE Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 3773,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@custom-variant dark (&:where(.dark, .dark *));\n\n@layer base {\n  :root {\n    --carbon: #0B0B0A;\n    --chalk: #F1F0E9;\n    --lime: #D3FF35;\n    --cobalt: #375CFF;\n    --steel: #777A7A;\n    --font-display: var(--font-display, 'Barlow Condensed', 'Impact', 'Arial Narrow', sans-serif);\n    --font-sans: var(--font-sans, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif);\n    --font-mono: var(--font-mono, 'JetBrains Mono', monospace);\n  }\n\n  body {\n    background-color: #0B0B0A;\n    color: #F1F0E9;\n    font-family: var(--font-sans);\n    overflow-x: hidden;\n  }\n}\n\n.font-display {\n  font-family: var(--font-display);\n}\n\n.font-mono-tech {\n  font-family: var(--font-mono);\n  font-variant-numeric: tabular-nums;\n}\n\n/* Slanted Hero Display Headline matching reference geometry */\n.hero-headline-word {\n  font-family: var(--font-display);\n  font-weight: 900;\n  font-style: italic;\n  text-transform: uppercase;\n  line-height: 0.84;\n  letter-spacing: -0.02em;\n  transform: skewX(-6deg);\n  display: inline-block;\n}\n\n/* Slanted Parallelogram CTA clip */\n.clip-slant-cta {\n  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);\n}\n\n.clip-slant-card {\n  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));\n}\n\n.clip-diagonal-frame {\n  clip-path: polygon(0 0, 100% 0, 96% 100%, 0% 100%);\n}\n\n/* Architectural Blueprint Grid & Halftone Matrix */\n.bg-blueprint-grid {\n  background-size: 40px 40px;\n  background-image:\n    linear-gradient(to right, rgba(241, 240, 233, 0.04) 1px, transparent 1px),\n    linear-gradient(to bottom, rgba(241, 240, 233, 0.04) 1px, transparent 1px);\n}\n\n.bg-halftone-dots {\n  background-image: radial-gradient(rgba(241, 240, 233, 0.22) 1.25px, transparent 1.25px);\n  background-size: 9px 9px;\n}\n\n/* Opening Choreographed Keyframes (0 - 1800ms) */\n@keyframes maskSlideReveal {\n  0% {\n    clip-path: inset(-0.2em 100% -0.2em -0.5em);\n    transform: translateX(-28px) skewX(-10deg);\n  }\n  100% {\n    clip-path: inset(-0.2em -0.5em -0.2em -0.5em);\n    transform: translateX(0) skewX(-6deg);\n  }\n}\n\n@keyframes slashShoot {\n  0% {\n    clip-path: inset(100% 100% 0 0);\n    transform: translate(-36px, 36px) scale(0.92);\n  }\n  100% {\n    clip-path: inset(0 0 0 0);\n    transform: translate(0, 0) scale(1);\n  }\n}\n\n@keyframes shoeLaunchSettle {\n  0% {\n    opacity: 0;\n    transform: translate(42px, 28px) rotate(-4deg) scale(0.94);\n  }\n  68% {\n    opacity: 1;\n    transform: translate(-6px, -5px) rotate(1.2deg) scale(1.015);\n  }\n  100% {\n    opacity: 1;\n    transform: translate(0, 0) rotate(0deg) scale(1);\n  }\n}\n\n@keyframes orbitTrace {\n  0% {\n    stroke-dashoffset: 1400;\n  }\n  100% {\n    stroke-dashoffset: 0;\n  }\n}\n\n@keyframes subtleFloat {\n  0%, 100% {\n    transform: translateY(0px);\n  }\n  50% {\n    transform: translateY(-6px);\n  }\n}\n\n.animate-mask-word-1 {\n  animation: maskSlideReveal 680ms cubic-bezier(0.16, 1, 0.3, 1) 80ms both;\n}\n.animate-mask-word-2 {\n  animation: maskSlideReveal 680ms cubic-bezier(0.16, 1, 0.3, 1) 230ms both;\n}\n.animate-mask-word-3 {\n  animation: maskSlideReveal 680ms cubic-bezier(0.16, 1, 0.3, 1) 380ms both;\n}\n.animate-slash-shoot {\n  animation: slashShoot 620ms cubic-bezier(0.16, 1, 0.3, 1) 260ms both;\n}\n.animate-shoe-enter {\n  animation: shoeLaunchSettle 950ms cubic-bezier(0.16, 1, 0.3, 1) 340ms both;\n}\n.animate-orbit-trace {\n  stroke-dasharray: 1400;\n  animation: orbitTrace 1350ms cubic-bezier(0.16, 1, 0.3, 1) 420ms both;\n}\n.animate-shoe-idle {\n  animation: subtleFloat 5.5s ease-in-out infinite;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  *, *::before, *::after {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n}"
+    },
+    {
+      "id": "razorline-runtime-1",
+      "location": "footer",
+      "title": "RAZORLINE Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 273,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// RAZORLINE — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

@@ -1,0 +1,443 @@
+{
+  "slug": "openhouse",
+  "title": "OPENHOUSE",
+  "industry": "Small Business Services",
+  "description": "A single-action conversion page for small businesses, built around a threshold form that turns a first click into a clear next step.",
+  "stack": "Next.js 16 · Tailwind v4 · Local Form State · CSS Motion",
+  "liveUrl": "https://www.openlanding.page/templates/openhouse",
+  "downloadUrl": "https://www.openlanding.page/downloads/openhouse.html",
+  "manifestUrl": "https://www.openlanding.page/copy/openhouse-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/openhouse-webflow-prompt.md",
+  "variables": {
+    "collectionName": "OPENHOUSE Tokens",
+    "colors": [
+      {
+        "name": "Color / Paper",
+        "cssVar": "--color-paper",
+        "value": "#f7f2e9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Paper 2",
+        "cssVar": "--color-paper-2",
+        "value": "#eee6d9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Paper 3",
+        "cssVar": "--color-paper-3",
+        "value": "#e6dacb",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink",
+        "cssVar": "--color-ink",
+        "value": "#171414",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink 2",
+        "cssVar": "--color-ink-2",
+        "value": "#2a2521",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Muted",
+        "cssVar": "--color-muted",
+        "value": "#6b6359",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rule",
+        "cssVar": "--color-rule",
+        "value": "#d7cdbf",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Rule 2",
+        "cssVar": "--color-rule-2",
+        "value": "#c7b9a8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent",
+        "cssVar": "--color-accent",
+        "value": "#d86b4a",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent Ink",
+        "cssVar": "--color-accent-ink",
+        "value": "#171414",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent 2",
+        "cssVar": "--color-accent-2",
+        "value": "#a9472e",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Focus",
+        "cssVar": "--color-focus",
+        "value": "#a9472e",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Cotton",
+        "cssVar": "--color-cotton",
+        "value": "#fff9f0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Desk",
+        "cssVar": "--color-desk",
+        "value": "#ede5da",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Print",
+        "cssVar": "--color-print",
+        "value": "#1d1917",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Board",
+        "cssVar": "--color-board",
+        "value": "#344a3e",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Board Type",
+        "cssVar": "--color-board-type",
+        "value": "#f7f2e9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Error",
+        "cssVar": "--color-error",
+        "value": "#a9472e",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Success",
+        "cssVar": "--color-success",
+        "value": "#3e7658",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-openhouse-sans)",
+        "fallback": "ui-sans-serif, system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-openhouse-sans)",
+        "fallback": "ui-sans-serif, system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Outlier",
+        "cssVar": "--font-outlier",
+        "family": "var(--font-openhouse-mono)",
+        "fallback": "ui-monospace, monospace"
+      },
+      {
+        "name": "Font / DM Sans",
+        "cssVar": "--font-dm-sans",
+        "family": "DM Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "DM Sans"
+      },
+      {
+        "name": "Font / Geist Mono",
+        "cssVar": "--font-geist-mono",
+        "family": "Geist Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Geist Mono"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Gutter",
+        "cssVar": "--gutter",
+        "value": "24px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Section Gap S",
+        "cssVar": "--section-gap-s",
+        "value": "80px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Section Gap",
+        "cssVar": "--section-gap",
+        "value": "96px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Section Gap L",
+        "cssVar": "--section-gap-l",
+        "value": "120px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Gap Columns",
+        "cssVar": "--gap-columns",
+        "value": "16px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 3xs",
+        "cssVar": "--space-3xs",
+        "value": "2px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 2xs",
+        "cssVar": "--space-2xs",
+        "value": "4px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Xs",
+        "cssVar": "--space-xs",
+        "value": "8px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Sm",
+        "cssVar": "--space-sm",
+        "value": "12px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Md",
+        "cssVar": "--space-md",
+        "value": "16px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Lg",
+        "cssVar": "--space-lg",
+        "value": "24px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Xl",
+        "cssVar": "--space-xl",
+        "value": "40px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 2xl",
+        "cssVar": "--space-2xl",
+        "value": "64px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 3xl",
+        "cssVar": "--space-3xl",
+        "value": "96px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / 4xl",
+        "cssVar": "--space-4xl",
+        "value": "144px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Xs",
+        "cssVar": "--text-xs",
+        "value": "0.8125rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Sm",
+        "cssVar": "--text-sm",
+        "value": "0.875rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Md",
+        "cssVar": "--text-md",
+        "value": "1rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Lg",
+        "cssVar": "--text-lg",
+        "value": "1.25rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Xl",
+        "cssVar": "--text-xl",
+        "value": "1.5625rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text 2xl",
+        "cssVar": "--text-2xl",
+        "value": "1.953rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text 3xl",
+        "cssVar": "--text-3xl",
+        "value": "2.441rem",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Text Display S",
+        "cssVar": "--text-display-s",
+        "value": "clamp(2.25rem, 4vw + 0.5rem, 3.75rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Text Display",
+        "cssVar": "--text-display",
+        "value": "clamp(2.75rem, 5vw + 1rem, 5.25rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Text Section",
+        "cssVar": "--text-section",
+        "value": "clamp(2rem, 2.5vw + 1rem, 3.5rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Text Title",
+        "cssVar": "--text-title",
+        "value": "clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Text Lead",
+        "cssVar": "--text-lead",
+        "value": "clamp(1.125rem, 0.35vw + 1rem, 1.375rem)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Reveal Shift",
+        "cssVar": "--reveal-shift",
+        "value": "28px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Container",
+        "cssVar": "--container",
+        "value": "1440px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Radius Card",
+        "cssVar": "--radius-card",
+        "value": "8px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Radius Input",
+        "cssVar": "--radius-input",
+        "value": "6px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Radius Pill",
+        "cssVar": "--radius-pill",
+        "value": "999px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Radius Stock",
+        "cssVar": "--radius-stock",
+        "value": "8px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Rule Hair",
+        "cssVar": "--rule-hair",
+        "value": "1px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Shadow Card",
+        "cssVar": "--shadow-card",
+        "value": "0 1px 2px rgb(23 20 20 / 5%)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Shadow Stock",
+        "cssVar": "--shadow-stock",
+        "value": "6px 5px 10px -6px rgb(23 20 20 / 30%)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Shadow Stock Lift",
+        "cssVar": "--shadow-stock-lift",
+        "value": "12px 10px 18px -8px rgb(23 20 20 / 30%)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Press Groove",
+        "cssVar": "--press-groove",
+        "value": "inset 1px 1.5px 2px rgb(23 20 20 / 16%), inset -1px -1px 0 rgb(255 249 240 / 90%), 0 0 0 0.5px rgb(23 20 20 / 20%)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Tracking Display",
+        "cssVar": "--tracking-display",
+        "value": "-0.03em",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "openhouse.webp",
+      "publicPath": "https://www.openlanding.page/gallery/openhouse.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Build a landing page in Next.js App Router + React + TypeScript for the fictional conversion studio OPENHOUSE. The page has one job: book a 20-minute growth call for an owner-led small business.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".16em",
+        ".lead",
+        ".container",
+        ".num",
+        ".figure",
+        ".visually-hidden",
+        ".keep-motion",
+        ".01ms",
+        ".css",
+        ".openhouse-body",
+        ".oh-site",
+        ".oh-container"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "openhouse-styles-1",
+      "location": "head",
+      "title": "OPENHOUSE Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 24147,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "*, *::before, *::after { box-sizing: border-box; }\nhtml, body { overflow-x: clip; }\nhtml { scrollbar-color: var(--color-muted) var(--color-paper); scroll-padding-top: var(--space-3xl); }\nbody { margin: 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-size: var(--text-md); line-height: 1.55; -webkit-font-smoothing: antialiased; caret-color: var(--color-accent); }\n::selection { background: color-mix(in oklab, var(--color-accent) 22%, transparent); color: var(--color-ink); }\n:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }\na { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.16em; }\nh1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: var(--display-weight, 700); font-synthesis: none; letter-spacing: var(--tracking-display); line-height: 1.05; overflow-wrap: break-word; min-width: 0; text-wrap: pretty; }\nh1 { max-width: 20ch; font-size: var(--text-display); } h2 { max-width: 30ch; font-size: var(--text-section); } h3 { max-width: 40ch; font-size: var(--text-title); line-height: 1.2; }\n.lead { font-size: var(--text-lead); line-height: 1.45; max-width: 52ch; }\np { margin: 0; text-wrap: pretty; }\np:not([class]) { max-width: 65ch; }\nimg, video { max-width: 100%; height: auto; display: block; }\nsvg { display: block; }\n[hidden] { display: none !important; }\nbutton, input, select, textarea { font: inherit; }\n.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); box-sizing: border-box; }\n.num, .figure, td.num { font-variant-numeric: tabular-nums; }\n.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }\n[data-slot] { position: relative; overflow: hidden; background: linear-gradient(160deg, var(--color-paper-2, var(--color-paper)), var(--color-paper-3, var(--color-paper))); }\n[data-slot] > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }\n[data-slot]:has(> img) > :not(img):not([data-keep]) { display: none !important; }\n@media (max-width: 60rem) { :root { --gutter: 24px; --section-gap-s: 80px; --section-gap: 96px; --section-gap-l: 120px; } }\n@media (max-width: 40rem) { :root { --gutter: 16px; --section-gap-s: 56px; --section-gap: 72px; --section-gap-l: 96px; --gap-columns: 16px; } }\n@media (prefers-reduced-motion: reduce) { *:not(.keep-motion), *:not(.keep-motion)::before, *:not(.keep-motion)::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }\n/* photographs: muted sepia=8 */\n[data-slot] > img { filter: saturate(0.65) contrast(0.97) sepia(0.08); }\n\n/* Hallmark · shape: Workbench · genre: modern-minimal · theme: Coral (deal 1/3, seed ac6d2332) · job: book · draw: ac6d2332\n * hero: Banner with a threshold form · nav: wordmark and trust line · footer: colophon block · imagery: built stationery, no photographs · signature: the door sign settles open\n * axes: light/grotesk-sans/warm · posture: restrained · contrast: pass · fold: pass · v2.0.0 */\n/* Hallmark · pre-emit critique: P4 H4 E5 S4 R5 V5 · weakest: S, the form is the visual anchor and stays compact so the hero can hold one action without turning into a dashboard */\n/* Hallmark · answered F3 · display heads use pretty wrapping so the seven-word hero stays stable on narrow screens */\n\n\n\nhtml, body { overflow-x: clip; }\n\nhtml:has(.openhouse-body) {\n  scroll-behavior: smooth;\n  scroll-padding-top: 72px;\n}\n\n.openhouse-body {\n  min-width: 320px;\n  background: var(--color-paper);\n  color: var(--color-ink);\n}\n\n.oh-site {\n  overflow: clip;\n}\n\n.oh-container {\n  width: min(var(--container), calc(100% - (var(--gutter) * 2)));\n  margin-inline: auto;\n}\n\n.oh-skip {\n  position: fixed;\n  top: -80px;\n  left: var(--space-md);\n  z-index: var(--z-toast);\n  padding: var(--space-xs) var(--space-md);\n  background: var(--color-ink);\n  color: var(--color-paper);\n  text-decoration: none;\n}\n\n.oh-skip:focus-visible {\n  top: var(--space-md);\n}\n\n.oh-progress {\n  position: fixed;\n  inset: 0 auto auto 0;\n  z-index: var(--z-toast);\n  width: 100%;\n  height: 3px;\n  border-top: 3px solid var(--color-accent-2);\n  background: transparent;\n  transform: scaleX(var(--oh-progress, 0));\n  transform-origin: left;\n  pointer-events: none;\n}\n\n.oh-header {\n  position: sticky;\n  top: 0;\n  z-index: var(--z-sticky-nav);\n  border-bottom: var(--rule-hair) solid color-mix(in oklab, var(--color-rule) 76%, transparent);\n  background: color-mix(in oklab, var(--color-paper) 92%, transparent);\n  backdrop-filter: blur(14px);\n}\n\n.oh-header-inner {\n  min-height: 72px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: var(--space-lg);\n}\n\n.oh-header-logo {\n  color: var(--color-ink);\n  text-decoration: none;\n}\n\n.oh-header-note {\n  color: var(--color-muted);\n  font-size: var(--text-sm);\n}\n\n.oh-logo {\n  display: inline-flex;\n  align-items: center;\n  gap: var(--space-xs);\n  color: var(--color-ink);\n}\n\n.oh-logo-mark {\n  width: 30px;\n  height: 30px;\n  flex: none;\n}\n\n.oh-logo-word {\n  font-size: 1.08rem;\n  font-weight: 700;\n  letter-spacing: -0.04em;\n}\n\n.oh-logo--compact .oh-logo-mark {\n  width: 24px;\n  height: 24px;\n}\n\n.oh-logo--compact .oh-logo-word {\n  font-size: var(--text-sm);\n}\n\n.oh-hero {\n  position: relative;\n  min-height: calc(100svh - 72px);\n  display: grid;\n  align-content: center;\n  padding: var(--section-gap-s) 0 var(--space-2xl);\n  background-color: var(--color-desk);\n  background-image: radial-gradient(88% 100% at 0% 28%, var(--color-cotton), transparent 64%);\n}\n\n.oh-hero-grid {\n  display: grid;\n  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.78fr);\n  gap: clamp(48px, 8vw, 132px);\n  align-items: center;\n}\n\n.oh-hero-copy {\n  max-width: 680px;\n}\n\n.oh-context,\n.oh-section-label,\n.oh-threshold-label,\n.oh-door-status,\n.oh-outcome-number,\n.oh-fit-marker,\n.oh-process-number {\n  color: var(--color-accent-2);\n  font-size: var(--text-sm);\n  line-height: 1.2;\n}\n\n.oh-context {\n  margin-bottom: var(--space-lg);\n}\n\n.oh-hero h1 {\n  max-width: 10ch;\n  font-size: clamp(3.5rem, 7vw, 7.75rem);\n  line-height: 0.95;\n  letter-spacing: -0.06em;\n}\n\n.oh-lead {\n  max-width: 36ch;\n  margin-top: var(--space-lg);\n  font-size: var(--text-lead);\n  line-height: 1.4;\n}\n\n.oh-hero-note {\n  max-width: 34ch;\n  margin-top: var(--space-xl);\n  padding-top: var(--space-md);\n  border-top: var(--rule-hair) solid var(--color-rule-2);\n  color: var(--color-muted);\n  font-size: var(--text-sm);\n}\n\n.oh-threshold {\n  position: relative;\n  isolation: isolate;\n  overflow: hidden;\n  padding: var(--space-lg);\n  border: var(--rule-hair) solid var(--color-rule-2);\n  border-radius: var(--radius-card);\n  background: var(--color-cotton);\n  box-shadow: var(--shadow-stock);\n}\n\n.oh-threshold-light {\n  position: absolute;\n  inset: 0 auto 0 0;\n  z-index: -1;\n  width: 2px;\n  border-left: 0;\n  background: transparent;\n  box-shadow: inset 2px 0 0 var(--color-accent);\n  transform: scaleY(0.12);\n  transform-origin: bottom;\n  transition: transform var(--dur-long) var(--ease-out-expo);\n}\n\n.oh-threshold:focus-within .oh-threshold-light,\n.oh-threshold:has(input:checked) .oh-threshold-light {\n  transform: scaleY(1);\n}\n\n.oh-threshold-head,\n.oh-sticky-inner,\n.oh-footer-inner {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: var(--space-md);\n}\n\n.oh-threshold-label {\n  color: var(--color-ink-2);\n}\n\n.oh-door-status {\n  display: inline-flex;\n  align-items: center;\n  gap: var(--space-2xs);\n  color: var(--color-muted);\n  font-size: var(--text-xs);\n}\n\n.oh-door-status i {\n  width: 7px;\n  height: 7px;\n  border-radius: 50%;\n  background: var(--color-rule-2);\n}\n\n.oh-threshold:focus-within .oh-door-status i,\n.oh-threshold:has(input:checked) .oh-door-status i {\n  background: var(--color-accent);\n}\n\n.oh-threshold-copy {\n  margin: var(--space-xl) 0 var(--space-lg);\n}\n\n.oh-threshold-copy h2 {\n  font-size: clamp(2rem, 3vw, 3rem);\n  letter-spacing: -0.05em;\n}\n\n.oh-threshold-copy p {\n  max-width: 45ch;\n  margin-top: var(--space-sm);\n  color: var(--color-muted);\n  font-size: var(--text-sm);\n}\n\n.oh-booking-form {\n  display: grid;\n  gap: var(--space-md);\n}\n\n.oh-goal-fieldset {\n  min-width: 0;\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.oh-goal-fieldset legend {\n  margin-bottom: var(--space-sm);\n  color: var(--color-ink-2);\n  font-size: var(--text-sm);\n  font-weight: 600;\n}\n\n.oh-goals {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: var(--space-2xs);\n  padding: var(--space-2xs);\n  border-radius: var(--radius-input);\n  background: var(--color-paper-2);\n  box-shadow: var(--press-groove);\n}\n\n.oh-goal {\n  position: relative;\n  min-width: 0;\n}\n\n.oh-goal input {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  opacity: 0;\n}\n\n.oh-goal label {\n  display: flex;\n  min-height: 48px;\n  align-items: center;\n  justify-content: center;\n  padding: var(--space-2xs);\n  border: var(--rule-hair) solid transparent;\n  border-radius: var(--radius-input);\n  color: var(--color-muted);\n  font-size: 0.78rem;\n  line-height: 1.15;\n  text-align: center;\n  cursor: pointer;\n}\n\n.oh-goal label:hover {\n  color: var(--color-ink);\n}\n\n.oh-goal input:checked + label {\n  border-color: var(--color-rule-2);\n  background: var(--color-cotton);\n  color: var(--color-ink);\n  box-shadow: var(--shadow-card);\n}\n\n.oh-goal input:focus-visible + label {\n  outline: 2px solid var(--color-focus);\n  outline-offset: 2px;\n}\n\n.oh-helper,\n.oh-field small,\n.oh-form-status {\n  display: block;\n  min-height: 1lh;\n  color: var(--color-muted);\n  font-size: 0.75rem;\n  line-height: 1.35;\n}\n\n.oh-helper {\n  margin-top: var(--space-2xs);\n}\n\n.oh-field-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: var(--space-sm);\n}\n\n.oh-field {\n  display: grid;\n  min-width: 0;\n  gap: var(--space-2xs);\n}\n\n.oh-field > span {\n  color: var(--color-ink-2);\n  font-size: var(--text-sm);\n  font-weight: 600;\n}\n\n.oh-field b {\n  color: var(--color-muted);\n  font-size: 0.72rem;\n  font-weight: 400;\n}\n\n.oh-field input {\n  width: 100%;\n  min-height: 48px;\n  padding: 0 var(--space-sm);\n  border: var(--rule-hair) solid var(--color-muted);\n  border-radius: var(--radius-input);\n  outline: 2px solid transparent;\n  outline-offset: -3px;\n  background: var(--color-cotton);\n  color: var(--color-ink);\n}\n\n.oh-field input:hover {\n  background: var(--color-paper-2);\n}\n\n.oh-field input:focus-visible {\n  border-color: var(--color-ink-2);\n  outline-color: var(--color-focus);\n}\n\n.oh-field input[aria-invalid=\"true\"] {\n  border-color: var(--color-error);\n}\n\n.oh-field input:disabled {\n  cursor: not-allowed;\n  opacity: 0.55;\n}\n\n.oh-field small:not(:empty),\n.oh-form-status--error {\n  color: var(--color-error);\n}\n\n.oh-form-status--success {\n  color: var(--color-success);\n}\n\n.oh-button {\n  display: inline-flex;\n  min-height: 48px;\n  align-items: center;\n  justify-content: center;\n  gap: var(--space-sm);\n  padding: 0 var(--space-lg);\n  border: var(--rule-hair) solid var(--color-ink);\n  border-radius: var(--radius-stock);\n  color: var(--color-ink);\n  font-size: var(--text-sm);\n  font-weight: 600;\n  line-height: 1;\n  text-decoration: none;\n  white-space: nowrap;\n  cursor: pointer;\n  transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-spring);\n}\n\n.oh-button--primary {\n  background: var(--color-ink);\n  color: var(--color-paper);\n  box-shadow: var(--shadow-stock);\n}\n\n.oh-button--primary:hover {\n  background: var(--color-ink-2);\n  box-shadow: var(--shadow-stock-lift);\n  transform: translateY(-1px);\n}\n\n.oh-button:active {\n  transform: translateY(1px);\n}\n\n.oh-button:focus-visible {\n  outline: 2px solid var(--color-focus);\n  outline-offset: 3px;\n}\n\n.oh-button:disabled,\n.oh-button[aria-disabled=\"true\"] {\n  cursor: not-allowed;\n  opacity: 0.55;\n  transform: none;\n}\n\n.oh-hero-foot {\n  display: flex;\n  justify-content: space-between;\n  gap: var(--space-md);\n  margin-top: var(--space-2xl);\n  padding-top: var(--space-md);\n  border-top: var(--rule-hair) solid var(--color-rule-2);\n  color: var(--color-muted);\n  font-size: var(--text-sm);\n}\n\n.oh-section {\n  padding: var(--section-gap-l) 0;\n}\n\n.oh-section--paper {\n  background: var(--color-paper);\n}\n\n.oh-section--desk {\n  background: var(--color-desk);\n}\n\n.oh-section--board {\n  background: var(--color-board);\n  color: var(--color-board-type);\n}\n\n.oh-section-grid {\n  display: grid;\n  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);\n  gap: clamp(48px, 10vw, 160px);\n  align-items: start;\n}\n\n.oh-section-label {\n  margin-bottom: var(--space-lg);\n}\n\n.oh-section h2,\n.oh-close h2 {\n  max-width: 12ch;\n  font-size: var(--text-section);\n  line-height: 0.98;\n  letter-spacing: -0.06em;\n}\n\n.oh-section-lead {\n  max-width: 34ch;\n  margin-top: var(--space-lg);\n  color: var(--color-muted);\n  font-size: var(--text-md);\n}\n\n.oh-outcome-list {\n  border-top: var(--rule-hair) solid var(--color-rule-2);\n}\n\n.oh-outcome {\n  display: grid;\n  grid-template-columns: 48px minmax(0, 1fr) 24px;\n  gap: var(--space-md);\n  align-items: start;\n  padding: var(--space-lg) 0;\n  border-bottom: var(--rule-hair) solid var(--color-rule-2);\n}\n\n.oh-outcome h3,\n.oh-fit-item h3,\n.oh-process-item h3 {\n  margin-bottom: var(--space-xs);\n  font-size: var(--text-title);\n  line-height: 1.1;\n  letter-spacing: -0.04em;\n}\n\n.oh-outcome p,\n.oh-fit-item p,\n.oh-process-item p {\n  max-width: 45ch;\n  color: var(--color-muted);\n}\n\n.oh-outcome-arrow {\n  color: var(--color-accent-2);\n  font-size: var(--text-lg);\n  transition: transform var(--dur-base) var(--ease-out);\n}\n\n.oh-outcome:hover .oh-outcome-arrow {\n  transform: translate(3px, -3px);\n}\n\n.oh-fit-grid {\n  display: grid;\n  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);\n  gap: var(--space-2xl) clamp(48px, 10vw, 160px);\n}\n\n.oh-section--board .oh-section-label,\n.oh-section--board .oh-fit-marker {\n  color: var(--color-accent);\n}\n\n.oh-fit-grid h2 {\n  max-width: 10ch;\n}\n\n.oh-fit-side {\n  align-self: end;\n  max-width: 34ch;\n  color: color-mix(in oklab, var(--color-board-type) 72%, transparent);\n}\n\n.oh-fit-rule {\n  margin-top: var(--space-xl);\n  padding-top: var(--space-md);\n  border-top: var(--rule-hair) solid color-mix(in oklab, var(--color-board-type) 38%, transparent);\n}\n\n.oh-fit-list {\n  grid-column: 1 / -1;\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: var(--rule-hair);\n  background: color-mix(in oklab, var(--color-board-type) 30%, transparent);\n}\n\n.oh-fit-item {\n  min-height: 220px;\n  display: grid;\n  align-content: space-between;\n  gap: var(--space-xl);\n  padding: var(--space-lg);\n  background: var(--color-board);\n}\n\n.oh-fit-item p {\n  color: color-mix(in oklab, var(--color-board-type) 72%, transparent);\n}\n\n.oh-process-head {\n  max-width: 760px;\n  margin-bottom: var(--space-2xl);\n}\n\n.oh-process-list {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: var(--gap-columns);\n  border-top: var(--rule-hair) solid var(--color-rule-2);\n}\n\n.oh-process-item {\n  min-height: 280px;\n  display: grid;\n  align-content: space-between;\n  gap: var(--space-lg);\n  padding: var(--space-lg) 0;\n  border-bottom: var(--rule-hair) solid var(--color-rule-2);\n}\n\n.oh-process-item + .oh-process-item {\n  padding-left: var(--space-lg);\n  border-left: var(--rule-hair) solid var(--color-rule-2);\n}\n\n.oh-close {\n  padding: var(--section-gap-l) 0 var(--space-2xl);\n  background: var(--color-ink);\n  color: var(--color-paper);\n}\n\n.oh-close-grid {\n  display: grid;\n  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.74fr);\n  gap: clamp(48px, 10vw, 160px);\n  align-items: start;\n}\n\n.oh-close .oh-section-label {\n  color: var(--color-accent);\n}\n\n.oh-close-copy > p:last-child {\n  max-width: 45ch;\n  margin-top: var(--space-lg);\n  color: color-mix(in oklab, var(--color-paper) 72%, transparent);\n}\n\n.oh-close-card {\n  padding: var(--space-lg);\n  border: var(--rule-hair) solid color-mix(in oklab, var(--color-paper) 40%, transparent);\n  border-radius: var(--radius-card);\n  background: var(--color-board);\n  color: var(--color-paper);\n  box-shadow: var(--shadow-stock);\n}\n\n.oh-close-card .oh-field > span,\n.oh-close-card .oh-goal-fieldset legend {\n  color: var(--color-paper);\n}\n\n.oh-close-card .oh-goals {\n  background: color-mix(in oklab, var(--color-ink) 30%, var(--color-board));\n}\n\n.oh-close-card .oh-goal label {\n  color: color-mix(in oklab, var(--color-paper) 74%, transparent);\n}\n\n.oh-close-card .oh-goal input:checked + label {\n  border-color: color-mix(in oklab, var(--color-paper) 56%, transparent);\n  background: var(--color-ink);\n  color: var(--color-paper);\n}\n\n.oh-close-card .oh-field input {\n  border-color: color-mix(in oklab, var(--color-paper) 58%, transparent);\n  background: var(--color-paper);\n}\n\n.oh-close-card .oh-helper,\n.oh-close-card .oh-field small,\n.oh-close-card .oh-form-status {\n  color: color-mix(in oklab, var(--color-paper) 72%, transparent);\n}\n\n.oh-close-card .oh-form-status--error,\n.oh-close-card .oh-field small:not(:empty) {\n  color: var(--color-accent);\n}\n\n.oh-close-card .oh-form-status--success {\n  color: var(--color-paper);\n}\n\n.oh-close-card .oh-button--primary {\n  background: var(--color-paper);\n  color: var(--color-ink);\n}\n\n.oh-close-card .oh-button--primary:hover {\n  background: var(--color-cotton);\n}\n\n.oh-sticky-cta {\n  position: sticky;\n  bottom: 0;\n  z-index: var(--z-sticky);\n  margin-top: var(--section-gap);\n  padding: var(--space-md) 0;\n  border-top: var(--rule-hair) solid color-mix(in oklab, var(--color-paper) 28%, transparent);\n  background: color-mix(in oklab, var(--color-ink) 94%, transparent);\n}\n\n.oh-sticky-inner {\n  color: color-mix(in oklab, var(--color-paper) 72%, transparent);\n  font-size: var(--text-sm);\n}\n\n.oh-footer {\n  padding: var(--space-xl) 0;\n  background: var(--color-ink);\n  color: color-mix(in oklab, var(--color-paper) 72%, transparent);\n}\n\n.oh-footer-inner p {\n  max-width: 48ch;\n  font-size: var(--text-sm);\n  text-align: right;\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  html.has-js [data-oh-reveal]:not([data-oh-in=\"true\"]) {\n    opacity: 0;\n  }\n\n  html.has-js [data-oh-reveal=\"rise\"]:not([data-oh-in=\"true\"]) {\n    transform: translateY(var(--reveal-shift));\n  }\n\n  html.has-js [data-oh-reveal=\"mask\"]:not([data-oh-in=\"true\"]) {\n    clip-path: inset(0 0 100% 0);\n    transform: translateY(12px);\n  }\n\n  html.has-js [data-oh-reveal=\"settle\"]:not([data-oh-in=\"true\"]) {\n    transform: translateY(24px) scale(0.97);\n  }\n\n  html.has-js [data-oh-reveal=\"draw\"]:not([data-oh-in=\"true\"]) {\n    transform: translateY(18px);\n  }\n\n  [data-oh-reveal] {\n    transition: opacity var(--dur-long) var(--ease-out-expo), transform var(--dur-long) var(--ease-out-expo), clip-path var(--dur-long) var(--ease-in-out);\n    transition-delay: calc(var(--oh-index, 0) * var(--stagger));\n  }\n\n  [data-oh-reveal][data-oh-in=\"true\"] {\n    opacity: 1;\n    clip-path: inset(0);\n    transform: none;\n  }\n\n  [data-oh-hero=\"context\"] { animation: oh-hero-rise var(--dur-hero) var(--ease-out-expo) both; }\n  [data-oh-hero=\"headline\"] { animation: oh-hero-rise var(--dur-hero) var(--ease-out-expo) 90ms both; }\n  [data-oh-hero=\"lead\"] { animation: oh-hero-rise var(--dur-hero) var(--ease-out-expo) 180ms both; }\n  [data-oh-hero=\"note\"] { animation: oh-hero-rise var(--dur-hero) var(--ease-out-expo) 260ms both; }\n  [data-oh-hero=\"form\"] { animation: oh-hero-settle var(--dur-hero) var(--ease-out-expo) 180ms both; }\n\n  @keyframes oh-hero-rise {\n    from { opacity: 0; transform: translateY(24px); }\n    to { opacity: 1; transform: none; }\n  }\n\n  @keyframes oh-hero-settle {\n    from { opacity: 0; transform: translateY(30px) rotate(1deg); }\n    to { opacity: 1; transform: none; }\n  }\n}\n\n@media (max-width: 60rem) {\n  :root {\n    --gutter: 24px;\n    --section-gap-s: 80px;\n    --section-gap: 96px;\n    --section-gap-l: 120px;\n  }\n\n  .oh-hero-grid,\n  .oh-close-grid {\n    grid-template-columns: 1fr;\n  }\n\n  .oh-hero {\n    min-height: auto;\n  }\n\n  .oh-section-grid,\n  .oh-fit-grid {\n    grid-template-columns: 1fr;\n    gap: var(--space-2xl);\n  }\n\n  .oh-fit-list {\n    grid-column: auto;\n  }\n}\n\n@media (max-width: 40rem) {\n  :root {\n    --gutter: 16px;\n    --section-gap-s: 56px;\n    --section-gap: 72px;\n    --section-gap-l: 96px;\n    --gap-columns: 16px;\n  }\n\n  html:has(.openhouse-body) {\n    scroll-padding-top: 64px;\n  }\n\n  .oh-header-inner {\n    min-height: 64px;\n  }\n\n  .oh-header-note {\n    max-width: 16ch;\n    font-size: 0.75rem;\n    line-height: 1.25;\n    text-align: right;\n  }\n\n  .oh-hero h1 {\n    max-width: 9ch;\n    font-size: clamp(3.25rem, 15vw, 5.5rem);\n  }\n\n  .oh-goals,\n  .oh-field-grid,\n  .oh-fit-list,\n  .oh-process-list {\n    grid-template-columns: 1fr;\n  }\n\n  .oh-process-item + .oh-process-item {\n    padding-left: 0;\n    border-left: 0;\n  }\n\n  .oh-hero-foot {\n    display: grid;\n    gap: var(--space-xs);\n  }\n\n  .oh-sticky-inner {\n    align-items: stretch;\n    flex-direction: column;\n  }\n\n  .oh-sticky-inner .oh-button {\n    width: 100%;\n  }\n\n  .oh-footer-inner {\n    align-items: flex-start;\n    flex-direction: column;\n  }\n\n  .oh-footer-inner p {\n    text-align: left;\n  }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  html:has(.openhouse-body) {\n    scroll-behavior: auto;\n  }\n\n  .oh-progress {\n    transform: none;\n  }\n\n  [data-oh-reveal],\n  [data-oh-hero] {\n    opacity: 1;\n    clip-path: none;\n    transform: none;\n    animation: none;\n    transition: none;\n  }\n\n  .oh-threshold-light {\n    transition: none;\n  }\n}\n\n:root {\n  color-scheme: light;\n  --space-3xs: 2px;\n  --space-2xs: 4px;\n  --space-xs: 8px;\n  --space-sm: 12px;\n  --space-md: 16px;\n  --space-lg: 24px;\n  --space-xl: 40px;\n  --space-2xl: 64px;\n  --space-3xl: 96px;\n  --space-4xl: 144px;\n  --text-xs: 0.8125rem;\n  --text-sm: 0.875rem;\n  --text-md: 1rem;\n  --text-lg: 1.25rem;\n  --text-xl: 1.5625rem;\n  --text-2xl: 1.953rem;\n  --text-3xl: 2.441rem;\n  --text-display-s: clamp(2.25rem, 4vw + 0.5rem, 3.75rem);\n  --text-display: clamp(2.75rem, 5vw + 1rem, 5.25rem);\n  --text-section: clamp(2rem, 2.5vw + 1rem, 3.5rem);\n  --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem);\n  --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.375rem);\n  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);\n  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);\n  --dur-micro: 90ms;\n  --dur-short: 220ms;\n  --dur-base: 420ms;\n  --dur-long: 800ms;\n  --dur-hero: 1200ms;\n  --reveal-shift: 28px;\n  --stagger: 70ms;\n  --container: 1440px;\n  --gutter: 64px;\n  --gap-columns: 32px;\n  --section-gap-s: 120px;\n  --section-gap: 144px;\n  --section-gap-l: 176px;\n  --z-base: 1;\n  --z-raised: 10;\n  --z-sticky: 200;\n  --z-sticky-nav: 300;\n  --z-toast: 500;\n\n  /* Hallmark palette: paper, ink, one warm signal, and the desk material. */\n  --color-paper: #f7f2e9;\n  --color-paper-2: #eee6d9;\n  --color-paper-3: #e6dacb;\n  --color-ink: #171414;\n  --color-ink-2: #2a2521;\n  --color-muted: #6b6359;\n  --color-rule: #d7cdbf;\n  --color-rule-2: #c7b9a8;\n  --color-accent: #d86b4a;\n  --color-accent-ink: #171414;\n  --color-accent-2: #a9472e;\n  --color-focus: #a9472e;\n  --color-cotton: #fff9f0;\n  --color-desk: #ede5da;\n  --color-print: #1d1917;\n  --color-board: #344a3e;\n  --color-board-type: #f7f2e9;\n  --color-error: #a9472e;\n  --color-success: #3e7658;\n  --radius-card: 8px;\n  --radius-input: 6px;\n  --radius-pill: 999px;\n  --radius-stock: 8px;\n  --rule-hair: 1px;\n  --shadow-card: 0 1px 2px rgb(23 20 20 / 5%);\n  --shadow-stock: 6px 5px 10px -6px rgb(23 20 20 / 30%);\n  --shadow-stock-lift: 12px 10px 18px -8px rgb(23 20 20 / 30%);\n  --press-groove: inset 1px 1.5px 2px rgb(23 20 20 / 16%), inset -1px -1px 0 rgb(255 249 240 / 90%), 0 0 0 0.5px rgb(23 20 20 / 20%);\n  --tracking-display: -0.03em;\n  --display-weight: 600;\n  --font-display: var(--font-openhouse-sans), ui-sans-serif, system-ui, sans-serif;\n  --font-body: var(--font-openhouse-sans), ui-sans-serif, system-ui, sans-serif;\n  --font-outlier: var(--font-openhouse-mono), ui-monospace, monospace;\n}"
+    }
+  ]
+}

@@ -1,0 +1,327 @@
+{
+  "slug": "tolvar",
+  "title": "TOLVAR EARTHWORKS",
+  "industry": "Excavation & Site Work",
+  "description": "Dig it right. Move it once. A family excavating outfit's site sorted by where the dirt goes: cut, fill, pipe and haul, with a real job log and a spirit-level scroll bar.",
+  "stack": "Next.js 16 · React 19 · Lenis · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/tolvar",
+  "downloadUrl": "https://www.openlanding.page/downloads/tolvar.html",
+  "manifestUrl": "https://www.openlanding.page/copy/tolvar-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/tolvar-webflow-prompt.md",
+  "variables": {
+    "collectionName": "TOLVAR EARTHWORKS Tokens",
+    "colors": [
+      {
+        "name": "Color / Diesel",
+        "cssVar": "--color-diesel",
+        "value": "#1B1A17",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Limestone",
+        "cssVar": "--color-limestone",
+        "value": "#ECE7DC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Chalk",
+        "cssVar": "--color-chalk",
+        "value": "#F8F5EE",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Blade",
+        "cssVar": "--color-blade",
+        "value": "#F2B31B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Topsoil",
+        "cssVar": "--color-topsoil",
+        "value": "#2F261E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Clay",
+        "cssVar": "--color-clay",
+        "value": "#9A4A2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Gravel",
+        "cssVar": "--color-gravel",
+        "value": "#6A645A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Locate",
+        "cssVar": "--color-locate",
+        "value": "#1F5FA8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Plate",
+        "cssVar": "--font-plate",
+        "family": "var(--font-sofia-condensed)",
+        "fallback": "Arial Narrow, Impact, sans-serif"
+      },
+      {
+        "name": "Font / Work",
+        "cssVar": "--font-work",
+        "family": "Work Sans",
+        "fallback": "system-ui, -apple-system, Segoe UI, sans-serif",
+        "googleFont": "Work Sans"
+      },
+      {
+        "name": "Font / Gauge",
+        "cssVar": "--font-gauge",
+        "family": "B612 Mono",
+        "fallback": "ui-monospace, SFMono-Regular, Consolas, monospace",
+        "googleFont": "B612 Mono"
+      },
+      {
+        "name": "Font / Sofia Sans Extra Condensed",
+        "cssVar": "--font-sofia-sans-extra-condensed",
+        "family": "Sofia Sans Extra Condensed",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Sofia Sans Extra Condensed"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Reveal Shift",
+        "cssVar": "--reveal-shift",
+        "value": "22px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Tv Gutter",
+        "cssVar": "--tv-gutter",
+        "value": "clamp(18px, 4.6vw, 72px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Tv Max",
+        "cssVar": "--tv-max",
+        "value": "1360px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Tv Radius",
+        "cssVar": "--tv-radius",
+        "value": "2px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Tv Level H",
+        "cssVar": "--tv-level-h",
+        "value": "10px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Tv Bar H",
+        "cssVar": "--tv-bar-h",
+        "value": "64px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Tv Head",
+        "cssVar": "--tv-head",
+        "value": "calc(var(--tv-level-h) + var(--tv-bar-h))",
+        "isCustomExpression": true
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "tolvar.webp",
+      "publicPath": "https://www.openlanding.page/gallery/tolvar.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Header",
+      "summary": "level bar, logo, nav (The work, Job log, The yard, About, Crew), phone chip `(218) 555-0142`, \"Free estimate\" button. Hides on scroll down, returns on scroll up. One marker slides to the section being read. Full-screen phone menu with a focus trap and scroll lock.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tv-header",
+        ".tv-header-cta"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Hero",
+      "summary": "diesel slab, two-line headline, lede, two buttons, two tickets (\"Free estimates\", \"Licensed & insured\"), a photo in the right half with a yellow job tag, a yellow grade line across the bottom.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tv-hero",
+        ".tv-hero-bg",
+        ".tv-hero-frame",
+        ".tv-hero-scrim",
+        ".tv-hero-inner",
+        ".tv-hero-copy",
+        ".tv-hero-eyebrow",
+        ".tv-hero-title",
+        ".tv-hero-lead",
+        ".tv-hero-actions",
+        ".tv-hero-tickets",
+        ".tv-hero-tag"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Ticker",
+      "summary": "a yellow band of all 20 service names, drifting.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tv-ticker",
+        ".tv-ticker-item"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "The work",
+      "summary": "\"Dirt only moves four ways.\" Four tabs with a sliding yellow marker; each panel has a photo, a verb headline (\"Dig it out.\", \"Build it up.\", \"Lay it in.\", \"Truck it.\"), a blurb, its services with one line each, and a \"Get ___ work quoted\" button that pre-selects that kind in the form. Services: Cut (Basements, Footers, Piers, Ponds & Waterfalls, Demolition, Clearing), Fill (Building Pads, Terraces, Yard Grades, Top Soil, Rock Walls, Excavating & Grading), Pipe (Water Lines, Storm Drains, Underground Utilities, Drainage Improvements), Haul (Hauling, Trucking Services, Dirt Work, Concrete).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Job log",
+      "summary": "topsoil slab, filter chips (All, Cut, Fill, Pipe, Haul, Built on it) with counts, a multi-column grid of 22 photo tickets (job number, kind, title), and a native `<dialog>` viewer with previous, next, close and arrow keys.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tv-logo",
+        ".tv-logo-text",
+        ".tv-logo-word",
+        ".tv-logo-sub",
+        ".tv-logo-link",
+        ".tv-log-count",
+        ".tv-log-grid",
+        ".tv-job",
+        ".tv-job-open",
+        ".tv-job-photo",
+        ".tv-job-meta",
+        ".tv-job-no"
+      ]
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "The yard",
+      "summary": "\"We own the iron.\" Three photos and a fleet table (quantity, unit, size, what it does), ten units.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tv-yard-grid",
+        ".tv-yard-photos",
+        ".tv-yard-photo",
+        ".tv-yard-photo-a",
+        ".tv-yard-photo-b",
+        ".tv-yard-photo-c"
+      ]
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "About",
+      "summary": "owner photo and story, three tickets, four count-up stats (25 years in the seat, 20 kinds of work, 10 machines, 3 counties).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tv-about",
+        ".tv-about-grid",
+        ".tv-about-photo",
+        ".tv-about-copy",
+        ".tv-about-text",
+        ".tv-about-tickets"
+      ]
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Crew",
+      "summary": "diesel slab, \"Three seats open.\" Accordion of Laborer, Operator, Foreman with requirements; terms; mailto button.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tv-crew",
+        ".tv-crew-grid",
+        ".tv-crew-copy",
+        ".tv-crew-mail"
+      ]
+    },
+    {
+      "id": "section-9",
+      "index": 9,
+      "title": "Estimate",
+      "summary": "phones, email, address (4410 Tamarack Pit Road, Aitkin, MN 56431), hours, counties, an 811 note; a form with kind-of-work chips, first name, last name, email, mobile phone (all required), company and comments. Local validation, a short \"writing the ticket\" state, then a ticket confirmation. No network request.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tv-estimate",
+        ".tv-estimate-grid",
+        ".tv-estimate-copy"
+      ]
+    },
+    {
+      "id": "section-10",
+      "index": 10,
+      "title": "Footer",
+      "summary": "hatch strip, oversized \"Move it once.\", nav, contacts, a line saying the company is fictional.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".tv-footer-hatch",
+        ".tv-footer",
+        ".tv-footer-bg",
+        ".tv-footer-scrim",
+        ".tv-footer-inner",
+        ".tv-footer-big",
+        ".tv-footer-grid",
+        ".tv-footer-label",
+        ".tv-footer-line",
+        ".tv-footer-fine"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "tolvar-styles-1",
+      "location": "head",
+      "title": "TOLVAR EARTHWORKS Scoped Styles (Part 1/2)",
+      "maxChars": 45000,
+      "charCount": 44947,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@import \"tailwindcss\" source(none);\n\n@theme {\n  --color-diesel: #1B1A17;     /* ink, type, the darkest slab */\n  --color-limestone: #ECE7DC;  /* the page */\n  --color-chalk: #F8F5EE;      /* cards, marking-paint outlines */\n  --color-blade: #F2B31B;      /* machine yellow: the only accent, always a fill behind diesel type */\n  --color-topsoil: #2F261E;    /* dark slabs: job log, footer */\n  --color-clay: #9A4A2B;       /* rare secondary: errors, the live dot */\n  --color-gravel: #6A645A;     /* muted text, hairlines */\n  --color-locate: #1F5FA8;     /* locate-flag blue: water and pipe only */\n\n  --font-plate: var(--font-sofia-condensed), \"Arial Narrow\", Impact, sans-serif;\n  --font-work: var(--font-work-sans), system-ui, -apple-system, \"Segoe UI\", sans-serif;\n  --font-gauge: var(--font-b612-mono), ui-monospace, \"SFMono-Regular\", Consolas, monospace;\n\n  /* weighted, like iron: things are pushed in sideways or dropped from above and settle a hair past level */\n  --ease-out: cubic-bezier(0.2, 0.9, 0.25, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.7, 0, 0.2, 1);\n  --ease-settle: linear(0, 0.5 10%, 0.92 22%, 1.05 32%, 1.01 46%, 0.995 60%, 1);\n\n  --dur-instant: 90ms;\n  --dur-fast: 160ms;\n  --dur-base: 380ms;\n  --dur-slow: 700ms;\n  --dur-hero: 1100ms;\n\n  --reveal-shift: 22px;\n  --stagger: 60ms;\n}\n\n:root {\n  --tv-gutter: clamp(18px, 4.6vw, 72px);\n  --tv-max: 1360px;\n  --tv-radius: 2px;\n  --tv-level-h: 10px;\n  --tv-bar-h: 64px;\n  --tv-head: calc(var(--tv-level-h) + var(--tv-bar-h));\n  --tv-progress: 0;\n  --tv-hero: 0;\n}\n\nhtml { scroll-behavior: smooth; scroll-padding-top: 88px; }\n@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }\nhtml.lenis, html.lenis body { height: auto; }\n.lenis.lenis-smooth { scroll-behavior: auto !important; }\nhtml.tv-locked { overflow: hidden; }\n\n.tv-body {\n  margin: 0;\n  background: var(--color-limestone);\n  color: var(--color-diesel);\n  font-family: var(--font-work);\n  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);\n  line-height: 1.55;\n  -webkit-font-smoothing: antialiased;\n  text-rendering: optimizeLegibility;\n  overflow-x: clip;\n}\n.tv-body *, .tv-body *::before, .tv-body *::after { box-sizing: border-box; }\n.tv-body ::selection { background: var(--color-blade); color: var(--color-diesel); }\n:where(.tv-body) :is(h1, h2, h3, p, ul, ol, dl, dd, figure, fieldset, table) { margin: 0; padding: 0; }\n:where(.tv-body) :is(ul, ol) { list-style: none; }\n:where(.tv-body) fieldset { border: 0; min-width: 0; }\n:where(.tv-body) a { color: inherit; text-decoration: none; }\n:where(.tv-body) button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }\n:where(.tv-body) picture { display: block; }\n:where(.tv-body) img { display: block; max-width: 100%; height: auto; }\n/* a diesel line inside a blade ring: visible on limestone, on the dark slabs and on yellow */\n:where(.tv-body) :focus-visible { outline: 2px solid var(--color-diesel); outline-offset: 2px; box-shadow: 0 0 0 5px var(--color-blade); border-radius: var(--tv-radius); }\n\n.tv-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }\n.tv-skip { position: fixed; top: 16px; left: 10px; z-index: 90; padding: 10px 16px; background: var(--color-diesel); color: var(--color-blade); font: 800 1.2rem/1 var(--font-plate); text-transform: uppercase; letter-spacing: 0.04em; transform: translateY(-220%); }\n.tv-skip:focus { transform: none; }\n.tv-gauge { font-family: var(--font-gauge); font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.4; }\n.tv-wrap { width: 100%; max-width: calc(var(--tv-max) + var(--tv-gutter) * 2); margin-inline: auto; padding-inline: var(--tv-gutter); }\n.tv-placeholder { display: grid; place-items: center; min-height: 220px; background: color-mix(in srgb, var(--color-gravel) 22%, var(--color-limestone)); outline: 2px dashed var(--color-gravel); outline-offset: -10px; color: var(--color-diesel); }\n\n/* ── Type ───────────────────────────────────────────── */\n.tv-title { font: 900 clamp(3rem, 7.6vw, 7.25rem)/0.88 var(--font-plate); text-transform: uppercase; letter-spacing: 0.002em; text-wrap: balance; }\n.tv-line { display: block; overflow: clip; padding-top: 0.06em; }\n.tv-line > span { display: block; }\n.tv-lede { font-size: clamp(1.1rem, 1rem + 0.5vw, 1.36rem); line-height: 1.45; max-width: 54ch; }\n.tv-eyebrow { display: flex; align-items: center; gap: 10px; color: var(--color-gravel); }\n.tv-eyebrow::before { content: \"\"; width: 10px; height: 10px; background: var(--color-blade); border: 1.5px solid var(--color-diesel); flex: none; }\n.tv-eyebrow:has(.tv-flag, .tv-chip, .tv-live)::before { content: none; }\n.tv-dark .tv-eyebrow { color: color-mix(in srgb, var(--color-limestone) 72%, transparent); }\n.tv-dark .tv-eyebrow::before { border-color: var(--color-blade); }\n.tv-blade-text { color: var(--color-blade); }\n.tv-chip { width: 10px; height: 10px; background: var(--color-blade); border: 1.5px solid var(--color-diesel); flex: none; }\n.tv-flag { width: 12px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; }\n.tv-flag-cloth { fill: var(--color-locate); stroke: var(--color-locate); }\n.tv-live { width: 9px; height: 9px; border-radius: 50%; background: var(--color-blade); flex: none; }\n\n.tv-section { position: relative; padding-block: clamp(72px, 9.5vw, 148px) 0; }\n.tv-head { display: grid; gap: clamp(14px, 1.6vw, 22px); margin-bottom: clamp(32px, 4.6vw, 64px); max-width: 980px; }\n.tv-dark { background: var(--color-topsoil); color: var(--color-limestone); }\n.tv-diesel { background: var(--color-diesel); }\n\n/* ── Brand marks ────────────────────────────────────── */\n.tv-logo { display: inline-flex; align-items: center; gap: 10px; }\n.tv-mark { width: 38px; height: 38px; flex: none; }\n.tv-mark-block { fill: var(--color-blade); }\n.tv-logo-text { display: grid; line-height: 1; }\n.tv-logo-word { font: 900 2.05rem/0.82 var(--font-plate); text-transform: uppercase; letter-spacing: 0.01em; }\n.tv-logo-sub { font-size: 0.5rem; letter-spacing: 0.42em; font-weight: 700; margin-top: 3px; }\n.tv-logo-link { display: inline-flex; }\n\n.tv-ticket { display: inline-flex; align-items: center; gap: 8px; padding: 8px 11px 7px; border: 1.5px dashed currentColor; font-size: 0.7rem; white-space: nowrap; }\n.tv-ticket svg { width: 12px; height: 12px; fill: none; stroke: var(--color-blade); stroke-width: 2.2; flex: none; }\n\n.tv-hatch { display: block; height: 28px; margin-top: clamp(72px, 9.5vw, 148px); border-top: 2px solid currentColor; transform-origin: left; }\n.tv-hatch-earth, .tv-footer-hatch { background: repeating-linear-gradient(135deg, transparent 0 9px, currentColor 9px 10.5px, transparent 10.5px 13px, currentColor 13px 14.5px, transparent 14.5px 17px, currentColor 17px 18.5px, transparent 18.5px 34px); }\n.tv-hatch-gravel { background-image: radial-gradient(currentColor 1.3px, transparent 1.7px), radial-gradient(currentColor 2px, transparent 2.5px); background-size: 14px 13px, 23px 19px; background-position: 2px 3px, 9px 8px; }\n.tv-hatch-rock { background: repeating-linear-gradient(90deg, transparent 0 38px, currentColor 38px 39.5px), repeating-linear-gradient(0deg, transparent 0 12.5px, currentColor 12.5px 14px); }\n\n/* ── Buttons and links ──────────────────────────────── */\n.tv-btn {\n  --btn-bg: var(--color-blade); --btn-fg: var(--color-diesel); --btn-edge: var(--color-blade);\n  --btn-wipe: var(--color-diesel); --btn-fg-on: var(--color-blade);\n  position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center;\n  padding: 17px 26px 15px; min-height: 54px; background: var(--btn-bg); color: var(--btn-fg); border: 2px solid var(--btn-edge);\n  border-radius: var(--tv-radius); font: 800 1.42rem/1 var(--font-plate); letter-spacing: 0.035em; text-transform: uppercase; white-space: nowrap;\n  transition: transform var(--dur-base) var(--ease-settle), color var(--dur-fast) var(--ease-out);\n}\n/* the fill is a blade pass: pushed across from the left */\n.tv-btn::before { content: \"\"; position: absolute; inset: -1px; z-index: -1; background: var(--btn-wipe); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease-in-out); }\n.tv-btn-label { position: relative; }\n.tv-btn:active { transform: translateY(3px); transition-duration: var(--dur-instant); transition-timing-function: var(--ease-out); }\n.tv-btn-small { padding: 11px 16px 9px; min-height: 42px; font-size: 1.16rem; }\n.tv-btn-dark { --btn-bg: var(--color-diesel); --btn-fg: var(--color-limestone); --btn-edge: var(--color-diesel); --btn-wipe: var(--color-blade); --btn-fg-on: var(--color-diesel); }\n.tv-btn-ghost { --btn-bg: transparent; --btn-fg: var(--color-limestone); --btn-edge: var(--color-limestone); --btn-wipe: var(--color-limestone); --btn-fg-on: var(--color-diesel); }\n.tv-btn-onlight { --btn-fg: var(--color-diesel); --btn-edge: var(--color-diesel); --btn-wipe: var(--color-diesel); --btn-fg-on: var(--color-limestone); }\n.tv-btn[aria-disabled=\"true\"] { cursor: progress; }\n.tv-magnet { display: inline-block; transform: translate(var(--tv-mx, 0px), var(--tv-my, 0px)); transition: transform var(--dur-base) var(--ease-settle); }\n.tv-magnet[data-pulled=\"true\"] { transition: transform 120ms var(--ease-out); }\n\n.tv-link { background: linear-gradient(currentColor, currentColor) 100% 100% / 0% 1.5px no-repeat; transition: background-size var(--dur-base) var(--ease-in-out); padding-bottom: 2px; }\n\n@media (hover: hover) and (pointer: fine) {\n  .tv-btn:hover { color: var(--btn-fg-on); }\n  .tv-btn:hover::before { transform: none; }\n  /* draws in from the left, leaves to the right */\n  .tv-link:hover { background-size: 100% 1.5px; background-position: 0 100%; }\n}\n\n/* ── Header ─────────────────────────────────────────── */\n.tv-header { position: fixed; inset: 0 0 auto 0; z-index: 60; display: flex; flex-direction: column; pointer-events: none; }\n.tv-level { order: -1; position: relative; z-index: 2; height: var(--tv-level-h); background: color-mix(in srgb, var(--color-blade) 82%, var(--color-chalk)); border-bottom: 1.5px solid var(--color-diesel); pointer-events: none; }\n/* the two lines a bubble sits between when it is level: halfway down the page */\n.tv-level::before, .tv-level::after { content: \"\"; position: absolute; top: 0; bottom: 0; width: 1.5px; background: var(--color-diesel); left: calc(50% - 21px); }\n.tv-level::after { left: calc(50% + 20px); }\n.tv-level-bubble { position: absolute; top: 1px; bottom: 1px; left: 0; width: 34px; background: var(--color-chalk); border: 1.5px solid var(--color-diesel); border-radius: 999px; transform: translateX(calc(var(--tv-progress) * (100vw - 34px))); }\n\n.tv-bar { position: relative; z-index: 1; pointer-events: auto; display: flex; align-items: center; gap: clamp(12px, 2vw, 28px); height: var(--tv-bar-h); padding-inline: var(--tv-gutter); background: var(--color-limestone); border-bottom: 1.5px solid var(--color-diesel); transition: transform var(--dur-base) var(--ease-in-out); }\n.tv-header[data-state=\"hidden\"][data-menu=\"false\"] .tv-bar { transform: translateY(-102%); pointer-events: none; }\n.tv-bar .tv-logo { transform-origin: left center; transition: transform var(--dur-base) var(--ease-out); }\n.tv-header:not([data-state=\"top\"]) .tv-bar .tv-logo { transform: scale(0.9); }\n.tv-nav { position: relative; margin-left: auto; display: none; }\n.tv-nav ul { display: flex; gap: clamp(14px, 1.8vw, 28px); }\n.tv-nav-link { display: block; padding: 12px 0; color: var(--color-diesel); transition: color var(--dur-fast) var(--ease-out); }\n.tv-nav-link[aria-current=\"true\"] { font-weight: 700; }\n/* one marker that slides between links, instead of an underline per link */\n.tv-nav-marker { position: absolute; left: 0; bottom: 4px; width: 1px; height: 3px; background: var(--color-blade); outline: 1px solid var(--color-diesel); transform-origin: left; transform: translateX(var(--tv-nav-x, 0px)) scaleX(var(--tv-nav-w, 0)); opacity: 0; transition: transform var(--dur-base) var(--ease-in-out), opacity var(--dur-fast) var(--ease-out); }\n.tv-nav[data-active=\"true\"] .tv-nav-marker { opacity: 1; }\n.tv-phone { display: none; padding: 10px 12px 9px; background: var(--color-diesel); color: var(--color-blade); font-weight: 700; font-size: 0.78rem; border-radius: var(--tv-radius); transition: transform var(--dur-base) var(--ease-settle); }\n.tv-phone:active { transform: translateY(2px); transition-duration: var(--dur-instant); }\n.tv-header-cta { display: none; --btn-wipe: var(--color-diesel); --btn-edge: var(--color-diesel); }\n.tv-menu-toggle { margin-left: auto; width: 46px; height: 46px; display: grid; place-items: center; border: 1.5px solid var(--color-diesel); border-radius: var(--tv-radius); background: var(--color-blade); }\n.tv-menu-icon { display: grid; gap: 5px; width: 20px; }\n.tv-menu-icon i { height: 2.5px; background: var(--color-diesel); transition: transform var(--dur-base) var(--ease-in-out), opacity var(--dur-fast) var(--ease-out); transform-origin: center; }\n[aria-expanded=\"true\"] > .tv-menu-icon i:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }\n[aria-expanded=\"true\"] > .tv-menu-icon i:nth-child(2) { opacity: 0; transform: scaleX(0); }\n[aria-expanded=\"true\"] > .tv-menu-icon i:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }\n\n.tv-menu { position: fixed; inset: var(--tv-head) 0 0 0; z-index: 0; pointer-events: auto; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; padding: 28px var(--tv-gutter) 32px; background: var(--color-diesel); color: var(--color-limestone); overflow-y: auto; visibility: hidden; clip-path: inset(0 0 0 100%); transition: clip-path var(--dur-slow) var(--ease-in-out), visibility 0s linear var(--dur-slow); }\n.tv-menu[data-open=\"true\"] { visibility: visible; clip-path: inset(0); transition-delay: 0s; }\n.tv-menu-list { display: grid; }\n.tv-menu-list a { display: flex; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-limestone) 22%, transparent); font: 900 clamp(2.8rem, 13vw, 4.4rem)/0.95 var(--font-plate); text-transform: uppercase; }\n.tv-menu-list a .tv-gauge { color: var(--color-blade); }\n.tv-menu-foot { display: grid; gap: 16px; justify-items: start; }\n.tv-menu-phone { color: var(--color-blade); font-size: 1rem; font-weight: 700; padding: 6px 0; }\n.tv-menu-list li, .tv-menu-foot { opacity: 0; transform: translateX(28px); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-slow) var(--ease-out); }\n.tv-menu[data-open=\"true\"] :is(.tv-menu-list li, .tv-menu-foot) { opacity: 1; transform: none; transition-delay: calc(140ms + var(--i) * var(--stagger)); }\n\n@media (min-width: 620px) { .tv-phone { display: block; margin-left: auto; } .tv-menu-toggle { margin-left: 0; } }\n@media (min-width: 1000px) {\n  .tv-nav { display: block; }\n  .tv-phone { margin-left: 0; }\n  .tv-header-cta { display: inline-flex; }\n  .tv-menu-toggle, .tv-menu { display: none; }\n}\n@media (hover: hover) and (pointer: fine) {\n  .tv-nav-link:hover { color: var(--color-gravel); }\n}\n\n/* ── Hero ───────────────────────────────────────────── */\n.tv-hero { position: relative; background: var(--color-diesel); color: var(--color-limestone); padding-top: var(--tv-head); overflow: clip; }\n.tv-hero-bg { position: absolute; inset: var(--tv-head) 0 0 0; z-index: 0; overflow: hidden; background: var(--color-topsoil); }\n.tv-hero-frame { width: 100%; height: 100%; overflow: hidden; background: var(--color-topsoil); }\n.tv-hero-frame picture, .tv-hero-frame img { width: 100%; height: 100%; }\n.tv-hero-frame img { object-fit: cover; object-position: 72% 48%; transform: translateY(calc(var(--tv-hero) * 4%)) scale(1.06); }\n.tv-hero-scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, color-mix(in srgb, var(--color-diesel) 82%, transparent) 0%, color-mix(in srgb, var(--color-diesel) 64%, transparent) 52%, color-mix(in srgb, var(--color-diesel) 86%, transparent) 100%); }\n.tv-hero-inner { position: relative; z-index: 2; display: grid; gap: clamp(20px, 3vw, 40px); max-width: calc(var(--tv-max) + var(--tv-gutter) * 2); margin-inline: auto; padding: clamp(32px, 5vw, 72px) var(--tv-gutter) clamp(44px, 6vw, 76px); align-items: end; }\n.tv-hero-copy { position: relative; display: grid; gap: clamp(16px, 1.8vw, 24px); justify-items: start; max-width: 620px; }\n.tv-hero-eyebrow { color: var(--color-blade); }\n.tv-hero-eyebrow::before { border-color: var(--color-blade); background: transparent; }\n.tv-hero-title { font: 900 clamp(4.1rem, 17.5vw, 8rem)/0.84 var(--font-plate); text-transform: uppercase; letter-spacing: 0.002em; }\n.tv-hero-lead { font-size: clamp(1.08rem, 1rem + 0.45vw, 1.32rem); line-height: 1.45; max-width: 44ch; color: color-mix(in srgb, var(--color-limestone) 92%, transparent); }\n.tv-hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }\n.tv-hero-tickets { display: flex; flex-wrap: wrap; gap: 8px; }\n.tv-hero-tag { justify-self: start; display: inline-flex; gap: 14px; padding: 9px 12px 8px; background: var(--color-blade); color: var(--color-diesel); font-size: 0.68rem; font-weight: 700; border-radius: var(--tv-radius); outline: 2px dashed color-mix(in srgb, var(--color-chalk) 70%, transparent); outline-offset: 4px; }\n.tv-hero-tag span + span { font-weight: 400; }\n.tv-grade { position: absolute; inset: auto 0 0 0; z-index: 2; height: 6px; background: var(--color-blade); transform-origin: left; }\n\n@media (min-width: 1000px) {\n  .tv-hero-scrim { background: linear-gradient(90deg, color-mix(in srgb, var(--color-diesel) 92%, transparent) 0%, color-mix(in srgb, var(--color-diesel) 76%, transparent) 40%, color-mix(in srgb, var(--color-diesel) 20%, transparent) 70%, transparent 100%); }\n  .tv-hero-inner { grid-template-columns: minmax(0, 1fr) auto; min-height: clamp(580px, 56.25vw, min(860px, calc(100svh - 62px))); align-items: center; gap: clamp(32px, 4vw, 64px); }\n  .tv-hero-title { font-size: clamp(4.4rem, 7.1vw, 7.6rem); white-space: nowrap; }\n  .tv-hero-tag { align-self: end; justify-self: end; }\n}\n\n/* ── Ticker ─────────────────────────────────────────── */\n.tv-ticker { background: var(--color-blade); color: var(--color-diesel); border-block: 2px solid var(--color-diesel); }\n.tv-marquee { overflow: hidden; }\n.tv-marquee-track { display: flex; width: max-content; }\n.tv-marquee-set { display: flex; flex: none; }\n.tv-ticker-item { display: inline-flex; align-items: center; gap: clamp(18px, 2.4vw, 34px); padding: 13px 0 10px clamp(18px, 2.4vw, 34px); font: 900 clamp(1.7rem, 3vw, 2.6rem)/1 var(--font-plate); text-transform: uppercase; white-space: nowrap; }\n.tv-ticker-item i { width: 12px; height: 12px; background: var(--color-diesel); flex: none; }\n\n/* ── The work: Cut / Fill / Pipe / Haul ─────────────── */\n.tv-tabs { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 2px solid var(--color-diesel); background: var(--color-chalk); }\n.tv-tab-marker { position: absolute; inset: 0 auto 0 0; width: 25%; background: var(--color-blade); transform: translateX(calc(var(--tv-tab) * 100%)); transition: transform var(--dur-slow) var(--ease-in-out); }\n.tv-tab { position: relative; display: grid; gap: 2px; align-content: start; padding: clamp(10px, 1.6vw, 22px) clamp(8px, 1.6vw, 22px) clamp(8px, 1.3vw, 18px); border-left: 2px solid var(--color-diesel); transition: transform var(--dur-base) var(--ease-settle); }\n.tv-tab:first-of-type { border-left: 0; }\n.tv-tab:active { transform: translateY(2px); transition-duration: var(--dur-instant); }\n.tv-tab-no { color: var(--color-gravel); font-size: 0.66rem; }\n.tv-tab[aria-selected=\"true\"] .tv-tab-no { color: var(--color-diesel); font-weight: 700; }\n.tv-tab-name { font: 900 clamp(2.1rem, 6.4vw, 5.6rem)/0.86 var(--font-plate); text-transform: uppercase; }\n.tv-tab-move { display: none; font-size: 0.66rem; color: var(--color-gravel); }\n.tv-tab[aria-selected=\"true\"] .tv-tab-move { color: var(--color-diesel); }\n.tv-tab:focus-visible { z-index: 2; }\n\n.tv-panels { display: grid; border: 2px solid var(--color-diesel); border-top: 0; background: var(--color-chalk); overflow: clip; }\n.tv-panel { grid-area: 1 / 1; display: grid; gap: clamp(20px, 3vw, 44px); padding: clamp(16px, 2.6vw, 36px); align-items: start; }\n.tv-panel:not([data-state=\"active\"]) { visibility: hidden; opacity: 0; }\n.tv-panel-photo { position: relative; align-self: stretch; }\n.tv-panel-photo picture { overflow: hidden; height: 100%; min-height: 240px; background: var(--color-limestone); }\n.tv-panel-photo img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }\n.tv-panel-photo figcaption { position: absolute; left: 0; bottom: 0; padding: 8px 11px 7px; background: var(--color-diesel); color: var(--color-limestone); font-size: 0.66rem; }\n.tv-panel-copy { display: grid; gap: clamp(12px, 1.4vw, 18px); justify-items: start; }\n.tv-panel-verb { font: 900 clamp(2.8rem, 5.4vw, 5rem)/0.88 var(--font-plate); text-transform: uppercase; }\n.tv-panel-blurb { max-width: 50ch; }\n.tv-services { width: 100%; border-top: 2px solid var(--color-diesel); margin-block: 6px 10px; }\n.tv-services li { display: grid; gap: 2px 20px; padding: 11px 0 10px; border-bottom: 1px solid color-mix(in srgb, var(--color-gravel) 45%, transparent); }\n.tv-service-name { font: 800 1.5rem/1 var(--font-plate); text-transform: uppercase; letter-spacing: 0.02em; }\n.tv-service-line { color: var(--color-gravel); font-size: 0.95rem; line-height: 1.4; }\n@media (min-width: 560px) { .tv-services li { grid-template-columns: minmax(150px, 0.42fr) 1fr; align-items: baseline; } }\n@media (min-width: 760px) { .tv-tab-move { display: block; } }\n@media (min-width: 1000px) { .tv-panel { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); } }\n\n/* ── Job log ────────────────────────────────────────── */\n.tv-filters { display: flex; flex-wrap: wrap; gap: 8px; }\n.tv-filter { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 14px 9px; border: 1.5px solid color-mix(in srgb, var(--color-limestone) 55%, transparent); border-radius: var(--tv-radius); color: var(--color-limestone); transition: transform var(--dur-base) var(--ease-settle), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }\n.tv-filter:active { transform: translateY(2px); transition-duration: var(--dur-instant); }\n.tv-filter[aria-pressed=\"true\"] { background: var(--color-blade); border-color: var(--color-blade); color: var(--color-diesel); font-weight: 700; }\n.tv-filter-count { opacity: 0.7; }\n.tv-log-count { margin: 18px 0 20px; color: color-mix(in srgb, var(--color-limestone) 70%, transparent); }\n.tv-log-grid { columns: 2; column-gap: clamp(10px, 1.4vw, 18px); }\n.tv-job { break-inside: avoid; margin-bottom: clamp(10px, 1.4vw, 18px); }\n.tv-job-open { position: relative; display: block; width: 100%; background: var(--color-diesel); border-radius: var(--tv-radius); overflow: hidden; transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out); }\n.tv-job-open:active { transform: translateY(2px); transition-duration: var(--dur-instant); }\n.tv-job-photo { display: block; overflow: hidden; content-visibility: auto; }\n.tv-job-photo img { width: 100%; transition: transform var(--dur-slow) var(--ease-out); }\n.tv-job-meta { display: grid; gap: 3px; padding: 11px 12px 12px; }\n.tv-job-no { font-size: 0.62rem; color: var(--color-blade); }\n.tv-job-title { font: 800 clamp(1.2rem, 1.9vw, 1.55rem)/1 var(--font-plate); text-transform: uppercase; letter-spacing: 0.02em; }\n@media (min-width: 700px) { .tv-log-grid { columns: 3; } }\n@media (min-width: 1100px) { .tv-log-grid { columns: 4; } }\n\n.tv-viewer { border: 0; padding: 0; margin: 0; background: transparent; color: var(--color-limestone); width: 100vw; height: 100dvh; max-width: none; max-height: none; }\n.tv-viewer[open] { display: grid; place-items: center; padding: clamp(10px, 3vw, 40px); }\n.tv-viewer::backdrop { background: color-mix(in srgb, var(--color-diesel) 93%, transparent); }\n.tv-viewer-card { display: grid; gap: 0; width: min(100%, 1100px); max-height: 100%; background: var(--color-topsoil); border: 2px solid var(--color-blade); }\n.tv-viewer-photo { overflow: hidden; background: var(--color-diesel); }\n.tv-viewer-photo img { width: 100%; max-height: min(68dvh, 760px); object-fit: contain; }\n.tv-viewer-foot { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px; padding: 14px 16px 16px; }\n.tv-viewer-no { color: var(--color-blade); }\n.tv-viewer-title { font: 900 clamp(1.7rem, 3.4vw, 2.6rem)/0.95 var(--font-plate); text-transform: uppercase; margin-top: 4px; }\n.tv-viewer-note { color: color-mix(in srgb, var(--color-limestone) 80%, transparent); font-size: 0.98rem; margin-top: 4px; }\n.tv-viewer-keys { display: flex; gap: 8px; }\n.tv-key { width: 48px; height: 48px; display: grid; place-items: center; border: 1.5px solid var(--color-limestone); border-radius: var(--tv-radius); transition: transform var(--dur-base) var(--ease-settle), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }\n.tv-key svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }\n.tv-key:active { transform: translateY(2px); transition-duration: var(--dur-instant); }\n.tv-key-close { background: var(--color-blade); border-color: var(--color-blade); color: var(--color-diesel); }\n\n/* ── The yard ───────────────────────────────────────── */\n.tv-yard-grid { display: grid; gap: clamp(28px, 4vw, 64px); align-items: start; }\n.tv-yard-photos { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 1vw, 14px); }\n.tv-yard-photo { overflow: hidden; background: var(--color-chalk); }\n.tv-yard-photo img { width: 100%; height: 100%; object-fit: cover; }\n.tv-yard-photo-a { grid-column: 1 / -1; aspect-ratio: 16 / 10; }\n.tv-yard-photo-b, .tv-yard-photo-c { aspect-ratio: 4 / 3; }\n.tv-fleet { width: 100%; border-collapse: collapse; border-top: 2px solid var(--color-diesel); }\n.tv-fleet thead th { text-align: left; padding: 10px 12px 8px 0; color: var(--color-gravel); font-weight: 400; border-bottom: 1px solid var(--color-diesel); }\n.tv-fleet tbody :is(td, th) { padding: 14px 12px 12px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-gravel) 45%, transparent); text-align: left; vertical-align: baseline; }\n.tv-fleet tbody th { font: 800 clamp(1.5rem, 2.4vw, 2.1rem)/1 var(--font-plate); text-transform: uppercase; letter-spacing: 0.01em; }\n.tv-fleet-count { font: 900 clamp(1.5rem, 2.4vw, 2.1rem)/1 var(--font-plate); width: 3.2ch; }\n.tv-fleet tbody .tv-gauge { color: var(--color-diesel); white-space: nowrap; }\n.tv-fleet-job { display: none; color: var(--color-gravel); font-size: 0.95rem; }\n.tv-fleet tbody tr { transition: background-color var(--dur-fast) var(--ease-out); }\n@media (min-width: 640px) { .tv-fleet-job { display: table-cell; } }\n@media (min-width: 1000px) { .tv-yard-grid { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr); } }\n\n/* ── About ──────────────────────────────────────────── */\n.tv-about { padding-bottom: clamp(72px, 9.5vw, 148px); }\n.tv-about-grid { display: grid; gap: clamp(28px, 4vw, 72px); align-items: center; }\n.tv-about-photo { position: relative; overflow: hidden; background: var(--color-chalk); }\n.tv-about-photo img { width: 100%; aspect-ratio: 16 / 11; object-fit: cover; }\n.tv-about-photo figcaption { position: absolute; left: 0; bottom: 0; padding: 8px 11px 7px; background: var(--color-blade); color: var(--color-diesel); font-size: 0.66rem; font-weight: 700; }\n.tv-about-copy { display: grid; gap: clamp(14px, 1.6vw, 22px); }\n.tv-about-text { max-width: 56ch; color: color-mix(in srgb, var(--color-diesel) 86%, var(--color-limestone)); }\n.tv-about-tickets { display: flex; flex-wrap: wrap; gap: 8px; }\n.tv-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(8px, 1.2vw, 16px); margin-top: clamp(40px, 5.4vw, 84px); }\n.tv-stat { position: relative; display: grid; gap: 6px; height: 100%; padding: clamp(16px, 2vw, 26px); background: var(--color-chalk); border: 2px solid var(--color-diesel); border-top-width: 10px; border-radius: var(--tv-radius); overflow: hidden; transition: transform var(--dur-base) var(--ease-out); }\n.tv-stat-value { font: 900 clamp(4rem, 8vw, 7.4rem)/0.8 var(--font-plate); font-variant-numeric: tabular-nums; }\n.tv-stat-label { max-width: 20ch; font-size: 0.98rem; line-height: 1.3; color: var(--color-gravel); }\n/* a pointer-following highlight; --tv-px / --tv-py come from Spotlight */\n.tv-spot::after { content: \"\"; position: absolute; inset: 0; pointer-events: none; opacity: 0; background: radial-gradient(220px circle at var(--tv-px, 50%) var(--tv-py, 50%), color-mix(in srgb, var(--color-blade) 50%, transparent), transparent 70%); transition: opacity var(--dur-fast) var(--ease-out); }\n.tv-spot > * { position: relative; z-index: 1; }\n@media (min-width: 860px) { .tv-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }\n@media (min-width: 1000px) { .tv-about-grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); } }\n\n/* ── Crew ───────────────────────────────────────────── */\n.tv-crew { padding-bottom: clamp(72px, 9.5vw, 148px); }\n.tv-crew-grid { display: grid; gap: clamp(32px, 4.6vw, 80px); align-items: start; }\n.tv-crew-copy { display: grid; gap: clamp(14px, 1.6vw, 22px); justify-items: start; }\n.tv-terms { display: grid; gap: 8px; }\n.tv-terms li { position: relative; padding-left: 22px; }\n.tv-terms li::before { content: \"\"; position: absolute; left: 0; top: 0.55em; width: 10px; height: 10px; background: var(--color-blade); }\n.tv-crew-mail { margin-top: 12px; color: color-mix(in srgb, var(--color-limestone) 72%, transparent); text-transform: none; letter-spacing: 0.04em; }\n.tv-acc { border-top: 2px solid var(--color-limestone); }\n.tv-acc-item { border-bottom: 1px solid color-mix(in srgb, var(--color-limestone) 35%, transparent); }\n.tv-acc-toggle { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 16px; align-items: baseline; width: 100%; padding: clamp(16px, 2vw, 24px) 0; }\n.tv-acc-no { color: var(--color-blade); }\n.tv-acc-title { font: 900 clamp(2.6rem, 5vw, 4.4rem)/0.88 var(--font-plate); text-transform: uppercase; transition: transform var(--dur-base) var(--ease-out); }\n.tv-acc-summary { grid-column: 2; color: color-mix(in srgb, var(--color-limestone) 78%, transparent); font-size: 1rem; }\n.tv-acc-icon { grid-column: 3; grid-row: 1; position: relative; width: 26px; height: 26px; align-self: center; border: 1.5px solid var(--color-limestone); border-radius: var(--tv-radius); transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }\n.tv-acc-icon::before, .tv-acc-icon::after { content: \"\"; position: absolute; left: 6px; right: 6px; top: 50%; height: 2px; margin-top: -1px; background: currentColor; transition: transform var(--dur-base) var(--ease-in-out); }\n.tv-acc-icon::after { transform: rotate(90deg); }\n.tv-acc-item[data-open=\"true\"] .tv-acc-icon { background: var(--color-blade); border-color: var(--color-blade); color: var(--color-diesel); }\n.tv-acc-item[data-open=\"true\"] .tv-acc-icon::after { transform: rotate(0deg); }\n.tv-acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-slow) var(--ease-in-out); }\n.tv-acc-item[data-open=\"true\"] .tv-acc-panel { grid-template-rows: 1fr; }\n.tv-acc-inner { overflow: hidden; min-height: 0; }\n.tv-acc-needs { display: grid; gap: 8px; padding: 0 0 22px 0; max-width: 52ch; }\n.tv-acc-needs li { position: relative; padding-left: 22px; color: color-mix(in srgb, var(--color-limestone) 90%, transparent); }\n.tv-acc-needs li::before { content: \"\"; position: absolute; left: 0; top: 0.72em; width: 12px; height: 2px; background: var(--color-blade); }\n@media (min-width: 1000px) { .tv-crew-grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); } }\n\n/* ── Estimate ───────────────────────────────────────── */\n.tv-estimate { padding-bottom: clamp(72px, 9.5vw, 148px); }\n.tv-estimate-grid { display: grid; gap: clamp(32px, 4.6vw, 80px); align-items: start; }\n.tv-estimate-copy { display: grid; gap: clamp(14px, 1.6vw, 22px); }\n.tv-contact { display: grid; gap: 0; border-top: 2px solid var(--color-diesel); margin-top: 8px; }\n.tv-contact > div { display: grid; grid-template-columns: 96px 1fr; gap: 14px; padding: 12px 0 11px; border-bottom: 1px solid color-mix(in srgb, var(--color-gravel) 45%, transparent); align-items: baseline; }\n.tv-contact dt { color: var(--color-gravel); }\n.tv-contact-big { font: 900 clamp(2.2rem, 4vw, 3.2rem)/0.9 var(--font-plate); }\n.tv-locate { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1.5px dashed var(--color-locate); font-size: 0.96rem; max-width: 52ch; }\n.tv-locate .tv-flag { margin-top: 2px; color: var(--color-diesel); }\n\n.tv-form-shell { position: relative; display: grid; background: var(--color-chalk); border: 2px solid var(--color-diesel); border-radius: var(--tv-radius); box-shadow: 10px 10px 0 var(--color-diesel); }\n.tv-form, .tv-done { grid-area: 1 / 1; }\n.tv-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 14px; padding: clamp(18px, 2.6vw, 34px); transition: clip-path var(--dur-slow) var(--ease-in-out), opacity var(--dur-base) var(--ease-out); clip-path: inset(0); }\n.tv-form > * { grid-column: 1 / -1; }\n.tv-label { display: block; margin-bottom: 7px; color: var(--color-diesel); font-size: 0.7rem; }\n.tv-kind-row { display: flex; flex-wrap: wrap; gap: 6px; }\n.tv-kind { position: relative; cursor: pointer; }\n.tv-kind input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }\n.tv-kind span { display: block; padding: 11px 15px 8px; min-height: 44px; border: 1.5px solid var(--color-diesel); border-radius: var(--tv-radius); font: 800 1.3rem/1.1 var(--font-plate); text-transform: uppercase; letter-spacing: 0.03em; transition: transform var(--dur-base) var(--ease-settle), background-color var(--dur-fast) var(--ease-out); }\n.tv-kind input:checked + span { background: var(--color-blade); }\n.tv-kind input:active + span { transform: translateY(2px); transition-duration: var(--dur-instant); }\n.tv-kind input:focus-visible + span { outline: 2px solid var(--color-diesel); outline-offset: 2px; box-shadow: 0 0 0 5px var(--color-blade); }\n.tv-field input, .tv-field textarea { width: 100%; padding: 13px 13px 12px; background: var(--color-limestone); border: 1.5px solid var(--color-gravel); border-radius: var(--tv-radius); font: inherit; color: var(--color-diesel); transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out); }\n.tv-field textarea { resize: vertical; min-height: 112px; }\n.tv-field ::placeholder { color: var(--color-gravel); opacity: 1; }\n.tv-field :is(input, textarea):focus { border-color: var(--color-diesel); background: var(--color-chalk); }\n.tv-field[data-invalid=\"true\"] :is(input, textarea) { border-color: var(--color-clay); border-width: 2px; }\n.tv-error { color: var(--color-clay); font-size: 0.88rem; font-weight: 500; line-height: 1.3; min-height: 0; }\n.tv-error:not(:empty) { margin-top: 6px; }\n.tv-form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 4px; }\n.tv-form-note { font-size: 0.9rem; color: var(--color-gravel); }\n.tv-busy { position: absolute; left: 0; bottom: 0; height: 5px; width: 100%; background: var(--color-blade); transform: scaleX(0); transform-origin: left; }\n.tv-submit[data-busy=\"true\"] .tv-busy { transform: scaleX(1); transition: transform 780ms linear; }\n.tv-done { display: grid; gap: 14px; align-content: center; justify-items: start; padding: clamp(22px, 3vw, 44px); visibility: hidden; }\n.tv-done:focus { outline: none; box-shadow: none; }\n.tv-done-ticket { color: var(--color-diesel); }\n.tv-done-ticket svg { stroke: var(--color-diesel); }\n.tv-done-title { font: 900 clamp(2.8rem, 5vw, 4.4rem)/0.88 var(--font-plate); text-transform: uppercase; }\n.tv-done-text { max-width: 44ch; }\n.tv-done-list { display: grid; width: 100%; border-top: 2px solid var(--color-diesel); }\n.tv-done-list div { display: grid; grid-template-columns: 96px 1fr; padding: 10px 0 9px; border-bottom: 1px solid color-mix(in srgb, var(--color-gravel) 45%, transparent); }\n.tv-done-list dt { color: var(--color-gravel); }\n.tv-form-shell[data-status=\"sent\"] .tv-form { visibility: hidden; opacity: 0; clip-path: inset(0 0 0 100%); }\n.tv-form-shell[data-status=\"sent\"] .tv-done { visibility: visible; }\n@media (min-width: 560px) { .tv-field[data-half=\"true\"] { grid-column: span 1; } }\n@media (min-width: 1000px) { .tv-estimate-grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); } }\n\n/* ── Footer ─────────────────────────────────────────── */\n.tv-footer { position: relative; padding-bottom: 28px; overflow: clip; }\n.tv-footer-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }\n.tv-footer-bg picture, .tv-footer-bg img { width: 100%; height: 100%; }\n.tv-footer-bg img { object-fit: cover; object-position: 75% 55%; }\n.tv-footer-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--color-topsoil) 72%, transparent) 0%, color-mix(in srgb, var(--color-diesel) 82%, transparent) 100%); }\n.tv-footer-hatch { position: relative; z-index: 1; height: 28px; border-bottom: 2px solid currentColor; opacity: 0.85; }\n.tv-footer-inner { position: relative; z-index: 1; }\n.tv-footer-big { font: 900 clamp(3rem, 7.6vw, 7.25rem)/0.88 var(--font-plate); text-transform: uppercase; letter-spacing: 0.002em; text-wrap: balance; color: color-mix(in srgb, var(--color-blade) 92%, var(--color-topsoil)); margin: clamp(36px, 5vw, 72px) 0 clamp(28px, 4vw, 56px); }\n.tv-footer-grid { display: grid; gap: 32px; padding-block: 28px; border-top: 1px solid color-mix(in srgb, var(--color-limestone) 30%, transparent); }\n.tv-footer-grid ul { display: grid; gap: 8px; }\n.tv-footer-label { color: var(--color-blade); margin-bottom: 12px; }\n.tv-footer-line { margin-top: 14px; max-width: 34ch; color: color-mix(in srgb, var(--color-limestone) 80%, transparent); }\n.tv-footer-fine { padding-top: 20px; border-top: 1px solid color-mix(in srgb, var(--color-limestone) 30%, transparent); color: color-mix(in srgb, var(--color-limestone) 66%, transparent); text-transform: none; letter-spacing: 0.02em; font-size: 0.72rem; }\n@media (min-width: 800px) { .tv-footer-grid { grid-template-columns: 1.3fr 0.7fr 1fr; } }\n\n/* ── Hover and pointer effects (fine pointers only) ─── */\n@media (hover: hover) and (pointer: fine) {\n  .tv-tab:not([aria-selected=\"true\"]):hover .tv-tab-name { transform: translateY(-3px); }\n  .tv-tab-name { transition: transform var(--dur-base) var(--ease-out); }\n  .tv-filter:not([aria-pressed=\"true\"]):hover { border-color: var(--color-blade); color: var(--color-blade); }\n  .tv-job-open:hover { transform: translateY(-6px); }\n  .tv-job-open:hover .tv-job-photo img { transform: scale(1.06); }\n  /* the rest of the log steps back while one ticket is lifted */\n  .tv-log-grid:has(.tv-job-open:hover) .tv-job-open:not(:hover) { opacity: 0.5; }\n  .tv-key:hover { background: var(--color-limestone); color: var(--color-diesel); }\n  .tv-key-close:hover { background: var(--color-chalk); border-color: var(--color-chalk); }\n  .tv-fleet tbody tr:hover { background: color-mix(in srgb, var(--color-blade) 26%, transparent); }\n  .tv-stat:hover { transform: translateY(-6px); }\n  .tv-spot:hover::after { opacity: 1; }\n  .tv-acc-toggle:hover .tv-acc-title { transform: translateX(10px); }\n  .tv-acc-toggle:hover .tv-acc-icon { border-color: var(--color-blade); }\n  .tv-kind:hover input:not(:checked) + span { background: color-mix(in srgb, var(--color-blade) 30%, transparent); }\n  .tv-phone:hover { transform: translateY(-2px); }\n  .tv-yard-photo img, .tv-panel-photo img, .tv-about-photo img { transition: transform var(--dur-slow) var(--ease-out); }\n  .tv-yard-photo:hover img, .tv-about-photo:hover img { transform: scale(1.05); }\n}\n\n/* ── Motion: everything below only runs when motion is welcome ── */\n@keyframes tv-marquee { to { transform: translateX(-50%); } }\n@keyframes tv-rise-line { from { transform: translateY(110%); } }\n@keyframes tv-rise { from { opacity: 0; transform: translateY(var(--reveal-shift)); } }\n@keyframes tv-slide { from { opacity: 0; transform: translateX(-22px); } }\n@keyframes tv-drop { from { opacity: 0; transform: translateY(-34px); } }\n@keyframes tv-draw { from { transform: scaleX(0); } }\n@keyframes tv-push { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }\n@keyframes tv-bar-drop { from { opacity: 0; transform: translateY(-14px); } }\n@keyframes tv-shake-a { 20% { transform: translateX(-6px); } 45% { transform: translateX(6px); } 70% { transform: translateX(-3px); } }\n@keyframes tv-shake-b { 20% { transform: translateX(-6px); } 45% { transform: translateX(6px); } 70% { transform: translateX(-3px); } }\n@keyframes tv-pulse { 50% { opacity: 0.25; } }\n\n@media (prefers-reduced-motion: no-preference) {\n  /* reveals: the hidden state only exists here, so reduced-motion and no-JS visitors see everything */\n  [data-reveal] { transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-slow) var(--ease-out), clip-path var(--dur-slow) var(--ease-in-out); transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger)); }\n  [data-reveal=\"rise\"]:not([data-in=\"true\"]) { opacity: 0; transform: translateY(var(--reveal-shift)); }\n  [data-reveal=\"slide\"]:not([data-in=\"true\"]) { opacity: 0; transform: translateX(-22px); }\n  [data-reveal=\"drop\"] { transition-timing-function: var(--ease-out), var(--ease-settle), var(--ease-in-out); }\n  [data-reveal=\"drop\"]:not([data-in=\"true\"]) { opacity: 0; transform: translateY(-34px); }\n  [data-reveal=\"draw\"]:not([data-in=\"true\"]) { transform: scaleX(0); }\n  /* the wipe clips the children, never the observed element: a fully clipped target would not intersect */\n  [data-reveal=\"push\"] > * { clip-path: inset(0); transition: clip-path var(--dur-slow) var(--ease-in-out); transition-delay: inherit; }\n  [data-reveal=\"push\"]:not([data-in=\"true\"]) > * { clip-path: inset(0 100% 0 0); }\n  [data-reveal=\"push\"] img { transition: transform 1200ms var(--ease-out); transition-delay: inherit; }\n  [data-reveal=\"push\"]:not([data-in=\"true\"]) img { transform: scale(1.14); }\n  [data-reveal=\"lines\"] { transition: none; }\n  [data-reveal=\"lines\"] .tv-line > span { transition: transform var(--dur-slow) var(--ease-out-expo); transition-delay: calc(var(--delay, 0ms) + var(--l, 0) * 90ms); }\n  [data-reveal=\"lines\"] .tv-line:nth-of-type(2) > span { --l: 1; }\n  [data-reveal=\"lines\"]:not([data-in=\"true\"]) .tv-line > span { transform: translateY(110%); }\n\n  /* hero load sequence: CSS keyframes, so it plays before hydration */\n  .tv-bar > * { animation: tv-bar-drop var(--dur-base) var(--ease-settle) both; }\n  .tv-bar > :nth-child(1) { animation-delay: 150ms; }\n  .tv-bar > :nth-child(2) { animation-delay: 200ms; }\n  .tv-bar > :nth-child(3) { animation-delay: 250ms; }\n  .tv-bar > :nth-child(4) { animation-delay: 300ms; }\n  .tv-bar > :nth-child(5) { animation-delay: 300ms; }\n  .tv-hero-eyebrow { animation: tv-slide var(--dur-slow) var(--ease-out) 200ms both; }\n  .tv-hero-title .tv-line > span { animation: tv-rise-line var(--dur-slow) var(--ease-out-expo) 250ms both; }\n  .tv-hero-title .tv-line:nth-of-type(2) > span { animation-delay: 340ms; }\n  .tv-hero-lead { animation: tv-rise var(--dur-slow) var(--ease-out) 600ms both; }\n  .tv-hero-actions { animation: tv-rise var(--dur-slow) var(--ease-out) 700ms both; }\n  .tv-hero-tickets li { animation: tv-drop var(--dur-base) var(--ease-settle) 820ms both; }\n  .tv-hero-tickets li:nth-child(2) { animation-delay: 900ms; }\n  .tv-hero-tag { animation: tv-drop var(--dur-base) var(--ease-settle) 980ms both; }\n  .tv-grade { animation: tv-draw var(--dur-hero) var(--ease-in-out) 900ms both; }\n\n  /* ambient: the ticker and the hiring dot, both paused off screen */\n  .tv-marquee-track { animation: tv-marquee 46s linear infinite; animation-play-state: paused; }\n  .tv-marquee[data-running=\"true\"] .tv-marquee-track { animation-play-state: running; }\n  .tv-live { animation: tv-pulse 2.4s var(--ease-in-out) infinite; }\n\n  /* work panels: the old one is pushed out to the left, the new one comes in from the right */\n  .tv-panel { transition: transform var(--dur-slow) var(--ease-in-out), opacity var(--dur-base) var(--ease-out), visibility 0s linear var(--dur-slow); }\n  .tv-panel[data-state=\"active\"] { transition-delay: 0s; }\n  .tv-panel[data-state=\"before\"] { transform: translateX(-7%); }\n  .tv-panel[data-state=\"after\"] { transform: translateX(7%); }"
+    },
+    {
+      "id": "tolvar-styles-2",
+      "location": "head",
+      "title": "TOLVAR EARTHWORKS Scoped Styles (Part 2/2)",
+      "maxChars": 45000,
+      "charCount": 1816,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "  .tv-panel-photo picture { clip-path: inset(0 100% 0 0); transition: clip-path var(--dur-slow) var(--ease-in-out) 80ms; }\n  .tv-panel[data-state=\"active\"] .tv-panel-photo picture { clip-path: inset(0); }\n  .tv-services li { opacity: 0; transform: translateY(12px); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }\n  .tv-panel[data-state=\"active\"] .tv-services li { opacity: 1; transform: none; transition-delay: calc(160ms + var(--i) * 45ms); }\n\n  /* job log: after a filter change the matching tickets drop back in */\n  .tv-log-grid[data-filtered=\"true\"] .tv-job { animation: tv-drop var(--dur-base) var(--ease-settle) var(--d, 0ms) both; }\n  .tv-viewer[open] .tv-viewer-card { animation: tv-drop var(--dur-base) var(--ease-settle) both; }\n  .tv-viewer-photo img { animation: tv-push var(--dur-slow) var(--ease-in-out) both; }\n\n  /* form: invalid fields shake once, the sent ticket drops in */\n  .tv-field[data-shake=\"0\"] { animation: tv-shake-a 280ms var(--ease-out); }\n  .tv-field[data-shake=\"1\"] { animation: tv-shake-b 280ms var(--ease-out); }\n  .tv-form-shell[data-status=\"sent\"] .tv-done > * { animation: tv-drop var(--dur-base) var(--ease-settle) both; animation-delay: calc(260ms + var(--n, 0) * 70ms); }\n  .tv-done > :nth-child(2) { --n: 1; }\n  .tv-done > :nth-child(3) { --n: 2; }\n  .tv-done > :nth-child(4) { --n: 3; }\n  .tv-done > :nth-child(5) { --n: 4; }\n}\n\n@media (hover: hover) and (pointer: fine) {\n  .tv-marquee:hover .tv-marquee-track { animation-play-state: paused; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .tv-body *, .tv-body *::before, .tv-body *::after { transition-duration: 1ms !important; transition-delay: 0ms !important; animation: none !important; }\n  .tv-hero-frame img { transform: none; }\n  .tv-magnet { transform: none; }\n}"
+    },
+    {
+      "id": "tolvar-runtime-1",
+      "location": "footer",
+      "title": "TOLVAR EARTHWORKS Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 354,
+      "description": "Loads lenis in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "lenis"
+      ],
+      "code": "// TOLVAR EARTHWORKS — Webflow Custom Code Runtime Bridge\n// Dependencies: lenis\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

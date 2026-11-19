@@ -1,0 +1,259 @@
+{
+  "slug": "orrery",
+  "title": "Orrery",
+  "industry": "AI & DevTools",
+  "description": "The orchestration layer for teams of AI agents. A 10-slide keynote experience with clockwork motion.",
+  "stack": "Next.js 16 · Tailwind v4 · GSAP Observer · Motion",
+  "liveUrl": "https://www.openlanding.page/templates/orrery",
+  "downloadUrl": "https://www.openlanding.page/downloads/orrery.html",
+  "manifestUrl": "https://www.openlanding.page/copy/orrery-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/orrery-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Orrery Tokens",
+    "colors": [
+      {
+        "name": "Color / Ink",
+        "cssVar": "--color-ink",
+        "value": "#0E0F13",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bone",
+        "cssVar": "--color-bone",
+        "value": "#F2EFE8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ultramarine",
+        "cssVar": "--color-ultramarine",
+        "value": "#2F3BFF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Amber",
+        "cssVar": "--color-amber",
+        "value": "#FFB000",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ink Muted",
+        "cssVar": "--ink-muted",
+        "value": "color-mix(in oklab, var(--color-ink) 62%, var(--color-bone))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Ink Line",
+        "cssVar": "--ink-line",
+        "value": "color-mix(in oklab, var(--color-ink) 16%, var(--color-bone))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Bone Muted",
+        "cssVar": "--bone-muted",
+        "value": "color-mix(in oklab, var(--color-bone) 62%, var(--color-ink))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Bone Line",
+        "cssVar": "--bone-line",
+        "value": "color-mix(in oklab, var(--color-bone) 18%, var(--color-ink))",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Rail Muted",
+        "cssVar": "--rail-muted",
+        "value": "color-mix(in oklab, var(--color-ink) 34%, var(--color-bone))",
+        "isCustomExpression": true
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Instrument Serif",
+        "fallback": "Times New Roman, serif",
+        "googleFont": "Instrument Serif"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "Inter Tight",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Inter Tight"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "Geist Mono",
+        "fallback": "ui-monospace, monospace",
+        "googleFont": "Geist Mono"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Gutter",
+        "cssVar": "--gutter",
+        "value": "clamp(20px, 5vw, 80px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Topbar",
+        "cssVar": "--topbar",
+        "value": "76px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "orrery.webp",
+      "publicPath": "https://www.openlanding.page/gallery/orrery.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Title",
+      "summary": "- Mono kicker \"The orchestration layer for AI agents\" in ultramarine.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".orr-art--title",
+        ".orr-title__copy",
+        ".orr-title__kicker",
+        ".orr-title__actions",
+        ".orr-title__art",
+        ".orr-title__hint",
+        ".orr-numbered__title",
+        ".orr-claims__title",
+        ".orr-cta__title",
+        ".orr-how__title",
+        ".orr-cases__title",
+        ".orr-results__title"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Problem",
+      "summary": "a portrait photo of a lone brass sphere at left, then the h2 \"One agent *isn't* a team.\" and three numbered failures: \"It loses the thread.\" / \"It does everything at one depth.\" / \"Nobody checks its work.\"",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".orr-problem__art",
+        ".orr-problem__copy"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "The orrery (ink)",
+      "summary": "- h2 \"Specialists on their own orbits, *kept in time.*\" with a 5-row legend: The conductor, Researchers, Builders, Shared memory, The hand-off (in amber).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".orr-orrery__copy",
+        ".orr-orrery__diagram",
+        ".orr-orbit__links",
+        ".orr-orrery"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "How it works",
+      "summary": "h2 \"Three steps from brief *to finished work.*\" Then three columns, each with a big ultramarine serif numeral, an h3 and a line of text: Describe the work / Orrery assembles the team / Review, approve, ship.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".orr-how__title"
+      ]
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Use cases",
+      "summary": "h2 \"Where teams put *it to work.*\" Three cards (a 4:3 image, an h3, text): Customer operations / Research and analysis / Software engineering.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".orr-cases__list",
+        ".orr-cases__item",
+        ".orr-cases__title"
+      ]
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Results",
+      "summary": "h2 \"Measured in work *that ships.*\" Three huge serif figures with ultramarine units that count up when the slide is active: 4.2×, 63%, 99.6%. Short labels and a mono footnote.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".orr-results__grid",
+        ".orr-results__note",
+        ".orr-results__title"
+      ]
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Customers",
+      "summary": "a large italic serif pull quote over a faint ink-wash circle texture, plus two smaller quotes with names and roles.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Pricing",
+      "summary": "h2 \"Priced by the team, *not the token.*\" Three tiers: Starter $49, Team $390 (ink-filled, amber \"Most teams\" badge) and Enterprise Custom. Each has check-mark features.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".orr-pricing__title"
+      ]
+    },
+    {
+      "id": "section-9",
+      "index": 9,
+      "title": "Security (ink)",
+      "summary": "h2 \"Built for teams that *answer to auditors.*\" A 2×3 grid of claims (SOC 2 Type II, data residency, every hand-off logged, approval gates, no training on your work, SSO and SCIM) and a guilloché-texture image column.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".orr-orbit__links",
+        ".orr-security__texture",
+        ".orr-security__title"
+      ]
+    },
+    {
+      "id": "section-10",
+      "index": 10,
+      "title": "Book a demo",
+      "summary": "- Display \"Put your agents *in orbit.*\" and a lead paragraph.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "orrery-styles-1",
+      "location": "head",
+      "title": "Orrery Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 23102,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "/* ───────────────────────── Orrery design tokens ───────────────────────── */\r\n@theme {\r\n  --color-ink: #0E0F13;\r\n  --color-bone: #F2EFE8;\r\n  --color-ultramarine: #2F3BFF;\r\n  --color-amber: #FFB000;\r\n\r\n  --font-display: var(--font-instrument-serif), \"Times New Roman\", serif;\r\n  --font-body: var(--font-inter-tight), system-ui, sans-serif;\r\n  --font-mono: var(--font-geist-mono), ui-monospace, monospace;\r\n\r\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\r\n  --ease-deck: cubic-bezier(0.77, 0, 0.175, 1);\r\n}\r\n\r\n:root {\r\n  --ink-muted: color-mix(in oklab, var(--color-ink) 62%, var(--color-bone));\r\n  --ink-line: color-mix(in oklab, var(--color-ink) 16%, var(--color-bone));\r\n  --bone-muted: color-mix(in oklab, var(--color-bone) 62%, var(--color-ink));\r\n  --bone-line: color-mix(in oklab, var(--color-bone) 18%, var(--color-ink));\r\n  --gutter: clamp(20px, 5vw, 80px);\r\n  --topbar: 76px;\r\n  --deck-duration: 700ms;\r\n}\r\n\r\n/* ───────────────────────── Base ───────────────────────── */\r\n.orr-body {\r\n  margin: 0;\r\n  background: var(--color-bone);\r\n  color: var(--color-ink);\r\n  font-family: var(--font-body);\r\n  font-size: 1.0625rem;\r\n  line-height: 1.55;\r\n  -webkit-font-smoothing: antialiased;\r\n  text-rendering: optimizeLegibility;\r\n}\r\n\r\n.orr-body ::selection {\r\n  background: var(--color-ultramarine);\r\n  color: var(--color-bone);\r\n}\r\n\r\n.orr-body :focus-visible {\r\n  outline: 2px solid var(--color-ultramarine);\r\n  outline-offset: 3px;\r\n}\r\n\r\n/* ───────────────────────── Type ───────────────────────── */\r\n.orr-display {\r\n  font-family: var(--font-display);\r\n  font-weight: 400;\r\n  font-size: clamp(3.5rem, min(11vw, 17vh), 11.5rem);\r\n  line-height: 0.88;\r\n  letter-spacing: -0.025em;\r\n  margin: 0;\r\n}\r\n\r\n.orr-h2 {\r\n  font-family: var(--font-display);\r\n  font-weight: 400;\r\n  font-size: clamp(2.75rem, min(6.2vw, 9vh), 6.75rem);\r\n  line-height: 0.95;\r\n  letter-spacing: -0.02em;\r\n  margin: 0;\r\n  text-wrap: balance;\r\n}\r\n\r\n.orr-h2 em,\r\n.orr-display em {\r\n  font-style: italic;\r\n}\r\n\r\n/* Explicit headline lines never re-wrap, so the fallback font can't change the line count (no layout shift). */\r\n.orr-line {\r\n  display: block;\r\n  white-space: nowrap;\r\n}\r\n\r\n.orr-h3 {\r\n  font-family: var(--font-display);\r\n  font-weight: 400;\r\n  font-size: clamp(1.6rem, 2.2vw, 2.25rem);\r\n  line-height: 1.05;\r\n  margin: 0;\r\n}\r\n\r\n.orr-lead {\r\n  font-size: clamp(1.125rem, 1.35vw, 1.375rem);\r\n  line-height: 1.5;\r\n  max-width: 34ch;\r\n  margin: 0;\r\n  text-wrap: pretty;\r\n}\r\n\r\n.orr-label {\r\n  font-family: var(--font-mono);\r\n  font-size: 0.75rem;\r\n  letter-spacing: 0.08em;\r\n  text-transform: uppercase;\r\n}\r\n\r\n.orr-accent {\r\n  color: var(--color-ultramarine);\r\n}\r\n\r\n/* ───────────────────────── Top bar ───────────────────────── */\r\n.orr-topbar {\r\n  position: fixed;\r\n  inset: 0 0 auto 0;\r\n  z-index: 20;\r\n  height: var(--topbar);\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  padding: 0 var(--gutter);\r\n  pointer-events: none;\r\n  color: var(--topbar-color, var(--color-ink));\r\n  background: var(--topbar-bg, var(--color-bone));\r\n  border-bottom: 1px solid var(--topbar-line, var(--ink-line));\r\n  transition:\r\n    color 300ms var(--ease-out),\r\n    background-color 300ms var(--ease-out);\r\n}\r\n\r\n.orr-topbar > * {\r\n  pointer-events: auto;\r\n}\r\n\r\n.orr-logo {\r\n  font-family: var(--font-display);\r\n  font-size: 1.875rem;\r\n  line-height: 1;\r\n  color: inherit;\r\n  text-decoration: none;\r\n  letter-spacing: -0.01em;\r\n}\r\n\r\n.orr-logo span {\r\n  color: var(--color-ultramarine);\r\n}\r\n\r\n.orr-btn {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  gap: 10px;\r\n  height: 44px;\r\n  padding: 0 20px;\r\n  border-radius: 999px;\r\n  border: 1px solid currentColor;\r\n  color: inherit;\r\n  background: transparent;\r\n  font-family: var(--font-mono);\r\n  font-size: 0.75rem;\r\n  letter-spacing: 0.08em;\r\n  text-transform: uppercase;\r\n  text-decoration: none;\r\n  cursor: pointer;\r\n  transition:\r\n    background-color 200ms var(--ease-out),\r\n    color 200ms var(--ease-out),\r\n    border-color 200ms var(--ease-out),\r\n    transform 160ms var(--ease-out);\r\n}\r\n\r\n.orr-btn:active {\r\n  transform: scale(0.97);\r\n}\r\n\r\n.orr-btn--solid {\r\n  background: var(--color-ultramarine);\r\n  border-color: var(--color-ultramarine);\r\n  color: var(--color-bone);\r\n}\r\n\r\n@media (hover: hover) and (pointer: fine) {\r\n  .orr-btn:hover {\r\n    background: var(--color-ink);\r\n    border-color: var(--color-ink);\r\n    color: var(--color-bone);\r\n  }\r\n  [data-tone=\"ink\"] .orr-btn:hover,\r\n  .orr-topbar[data-tone=\"ink\"] .orr-btn:hover {\r\n    background: var(--color-bone);\r\n    border-color: var(--color-bone);\r\n    color: var(--color-ink);\r\n  }\r\n  .orr-btn--solid:hover {\r\n    background: var(--color-ink);\r\n    border-color: var(--color-ink);\r\n  }\r\n}\r\n\r\n.orr-topbar[data-tone=\"ink\"] {\r\n  --topbar-color: var(--color-bone);\r\n  --topbar-bg: var(--color-ink);\r\n  --topbar-line: var(--bone-line);\r\n}\r\n\r\n/* ───────────────────────── Deck ───────────────────────── */\r\n.orr-deck {\r\n  position: relative;\r\n}\r\n\r\n.orr-slide {\r\n  position: relative;\r\n  min-height: 100svh;\r\n  box-sizing: border-box;\r\n  padding: calc(var(--topbar) + 24px) var(--gutter) 88px;\r\n  display: flex;\r\n  flex-direction: column;\r\n  background: var(--color-bone);\r\n  color: var(--color-ink);\r\n}\r\n\r\n.orr-slide[data-tone=\"ink\"] {\r\n  background: var(--color-ink);\r\n  color: var(--color-bone);\r\n}\r\n\r\n.orr-slide-inner {\r\n  flex: 1;\r\n  display: grid;\r\n  grid-template-columns: repeat(12, minmax(0, 1fr));\r\n  column-gap: 24px;\r\n  row-gap: 32px;\r\n  align-content: center;\r\n}\r\n\r\n.orr-eyebrow {\r\n  grid-column: 1 / -1;\r\n  display: flex;\r\n  gap: 12px;\r\n  align-items: center;\r\n  color: var(--ink-muted);\r\n}\r\n\r\n.orr-slide[data-tone=\"ink\"] .orr-eyebrow {\r\n  color: var(--bone-muted);\r\n}\r\n\r\n.orr-eyebrow::before {\r\n  content: \"\";\r\n  width: 28px;\r\n  height: 1px;\r\n  background: currentColor;\r\n}\r\n\r\n/* Counter + chapter rail (colours follow the active slide's tone) */\r\n.orr-counter {\r\n  position: fixed;\r\n  left: var(--gutter);\r\n  bottom: 24px;\r\n  z-index: 20;\r\n  margin: 0;\r\n  padding: 6px 12px;\r\n  border-radius: 999px;\r\n  border: 1px solid var(--ink-line);\r\n  background: var(--color-bone);\r\n  color: var(--color-ink);\r\n  font-family: var(--font-mono);\r\n  font-size: 0.75rem;\r\n  letter-spacing: 0.08em;\r\n  font-variant-numeric: tabular-nums;\r\n  transition:\r\n    color 300ms var(--ease-out),\r\n    background-color 300ms var(--ease-out),\r\n    border-color 300ms var(--ease-out);\r\n}\r\n\r\n@media (max-width: 599px) {\r\n  .orr-counter {\r\n    display: none;\r\n  }\r\n}\r\n\r\n.orr-counter[data-tone=\"ink\"] {\r\n  background: var(--color-ink);\r\n  border-color: var(--bone-line);\r\n  color: var(--color-bone);\r\n}\r\n\r\n.orr-rail {\r\n  position: fixed;\r\n  right: var(--gutter);\r\n  top: 50%;\r\n  transform: translateY(-50%);\r\n  z-index: 20;\r\n  display: none;\r\n  --rail-fg: var(--color-ink);\r\n  --rail-muted: color-mix(in oklab, var(--color-ink) 34%, var(--color-bone));\r\n}\r\n\r\n.orr-rail[data-tone=\"ink\"] {\r\n  --rail-fg: var(--color-bone);\r\n  --rail-muted: color-mix(in oklab, var(--color-bone) 34%, var(--color-ink));\r\n}\r\n\r\n.orr-rail ol {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n  display: grid;\r\n  gap: 2px;\r\n}\r\n\r\n.orr-rail button {\r\n  all: unset;\r\n  box-sizing: border-box;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: flex-end;\r\n  gap: 12px;\r\n  min-height: 28px;\r\n  cursor: pointer;\r\n  font-family: var(--font-mono);\r\n  font-size: 0.6875rem;\r\n  letter-spacing: 0.08em;\r\n  text-transform: uppercase;\r\n  color: var(--rail-muted);\r\n  transition: color 300ms var(--ease-out);\r\n}\r\n\r\n.orr-rail button span {\r\n  opacity: 0;\r\n  transform: translateX(6px);\r\n  transition:\r\n    opacity 200ms var(--ease-out),\r\n    transform 200ms var(--ease-out);\r\n}\r\n\r\n.orr-rail button::after {\r\n  content: \"\";\r\n  width: 14px;\r\n  height: 1px;\r\n  background: currentColor;\r\n  transition: width 240ms var(--ease-out);\r\n}\r\n\r\n.orr-rail button[aria-current=\"step\"] {\r\n  color: var(--rail-fg);\r\n}\r\n\r\n.orr-rail button[aria-current=\"step\"] span,\r\n.orr-rail:hover button span,\r\n.orr-rail button:focus-visible span {\r\n  opacity: 1;\r\n  transform: none;\r\n}\r\n\r\n.orr-rail:hover button {\r\n  color: var(--rail-fg);\r\n}\r\n\r\n.orr-rail button[aria-current=\"step\"]::after {\r\n  width: 34px;\r\n}\r\n\r\n/* Desktop keynote mode: slides stack in place and wipe in. */\r\n/* KEYNOTE: keep in sync with KEYNOTE_QUERY in deck/Deck.tsx */\r\n@media (min-width: 900px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {\r\n  html:has(.orr-deck) {\r\n    overflow: hidden;\r\n    overscroll-behavior: none;\r\n  }\r\n\r\n  .orr-deck {\r\n    position: fixed;\r\n    inset: 0;\r\n    overflow: hidden;\r\n  }\r\n\r\n  .orr-slide {\r\n    position: absolute;\r\n    inset: 0;\r\n    min-height: 0;\r\n    will-change: clip-path, transform;\r\n    transition:\r\n      clip-path var(--deck-duration) var(--ease-deck),\r\n      transform var(--deck-duration) var(--ease-deck);\r\n  }\r\n\r\n  .orr-deck:not([data-ready]) .orr-slide {\r\n    transition: none;\r\n  }\r\n\r\n  .orr-slide[data-state=\"past\"] {\r\n    z-index: 1;\r\n    clip-path: inset(0 0 0 0);\r\n    transform: translateY(-7vh);\r\n  }\r\n\r\n  .orr-slide[data-state=\"active\"] {\r\n    z-index: 2;\r\n    clip-path: inset(0 0 0 0);\r\n    transform: none;\r\n  }\r\n\r\n  .orr-slide[data-state=\"future\"] {\r\n    z-index: 3;\r\n    clip-path: inset(100% 0 0 0);\r\n    transform: none;\r\n  }\r\n\r\n  .orr-rail {\r\n    display: block;\r\n  }\r\n\r\n  /* Keynote mode: transparent bar, and room on the right for the chapter rail. */\r\n  .orr-topbar {\r\n    --topbar-bg: transparent;\r\n    --topbar-line: transparent;\r\n  }\r\n\r\n  .orr-slide {\r\n    padding-right: calc(var(--gutter) + 150px);\r\n  }\r\n}\r\n\r\n/* ───────────────────────── Shared slide pieces ───────────────────────── */\r\n.orr-placeholder {\r\n  display: grid;\r\n  place-items: center;\r\n  background:\r\n    repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in oklab, currentColor 5%, transparent) 14px 15px),\r\n    color-mix(in oklab, currentColor 4%, transparent);\r\n  border: 1px dashed color-mix(in oklab, currentColor 28%, transparent);\r\n  color: inherit;\r\n}\r\n\r\n.orr-placeholder .orr-label {\r\n  opacity: 0.6;\r\n  align-self: start;\r\n  justify-self: start;\r\n  padding: 12px 14px;\r\n}\r\n\r\n.orr-art {\r\n  display: block;\r\n  width: 100%;\r\n  overflow: hidden;\r\n  border-radius: 2px;\r\n}\r\n\r\n.orr-art img {\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  object-fit: cover;\r\n}\r\n\r\n.orr-art--title {\r\n  aspect-ratio: 4 / 3.4;\r\n}\r\n\r\n.orr-art--portrait {\r\n  aspect-ratio: 4 / 5;\r\n}\r\n\r\n.orr-art--card {\r\n  aspect-ratio: 4 / 3;\r\n}\r\n\r\nkbd {\r\n  font-family: var(--font-mono);\r\n  font-size: 0.85em;\r\n  padding: 1px 6px;\r\n  border: 1px solid currentColor;\r\n  border-radius: 4px;\r\n}\r\n\r\n/* Mobile/flow default: every block spans the full width. */\r\n.orr-slide-inner > * {\r\n  grid-column: 1 / -1;\r\n  min-width: 0;\r\n}\r\n\r\n/* ───────────────────────── 01 Title ───────────────────────── */\r\n.orr-title__copy {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 28px;\r\n}\r\n\r\n.orr-title__kicker {\r\n  color: var(--color-ultramarine);\r\n}\r\n\r\n.orr-title__actions {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 12px;\r\n}\r\n\r\n.orr-title__art {\r\n  margin: 0;\r\n}\r\n\r\n.orr-title__hint {\r\n  color: var(--ink-muted);\r\n  display: none;\r\n}\r\n\r\n/* ───────────────────────── 02 Problem ───────────────────────── */\r\n.orr-problem__art {\r\n  margin: 0;\r\n}\r\n\r\n.orr-problem__copy {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 40px;\r\n}\r\n\r\n.orr-numbered {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n  border-top: 1px solid var(--ink-line);\r\n}\r\n\r\n.orr-numbered li {\r\n  display: grid;\r\n  grid-template-columns: 56px 1fr;\r\n  gap: 16px;\r\n  padding: 20px 0;\r\n  border-bottom: 1px solid var(--ink-line);\r\n}\r\n\r\n.orr-numbered__n {\r\n  color: var(--color-ultramarine);\r\n  padding-top: 4px;\r\n}\r\n\r\n.orr-numbered__title {\r\n  font-family: var(--font-body);\r\n  font-weight: 600;\r\n  font-size: 1.125rem;\r\n  margin: 0 0 4px;\r\n}\r\n\r\n.orr-numbered p {\r\n  margin: 0;\r\n  color: var(--ink-muted);\r\n  max-width: 46ch;\r\n}\r\n\r\n/* ───────────────────────── 03 The orrery ───────────────────────── */\r\n.orr-orrery__copy {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 36px;\r\n}\r\n\r\n.orr-legend {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n  display: grid;\r\n  gap: 14px;\r\n}\r\n\r\n.orr-legend li {\r\n  display: grid;\r\n  grid-template-columns: 9.5rem 1fr;\r\n  gap: 16px;\r\n  align-items: baseline;\r\n  transition: opacity 400ms var(--ease-out);\r\n}\r\n\r\n.orr-legend li[data-lit=\"off\"] {\r\n  opacity: 0.28;\r\n}\r\n\r\n.orr-legend .orr-label {\r\n  color: var(--color-bone);\r\n}\r\n\r\n.orr-legend li:last-child .orr-label {\r\n  color: var(--color-amber);\r\n}\r\n\r\n.orr-legend p {\r\n  margin: 0;\r\n  color: var(--bone-muted);\r\n  font-size: 0.975rem;\r\n}\r\n\r\n.orr-orrery__diagram {\r\n  display: grid;\r\n  place-items: center;\r\n}\r\n\r\n.orr-orbit {\r\n  width: min(100%, 64vh, 620px);\r\n  height: auto;\r\n  overflow: visible;\r\n}\r\n\r\n.orr-orbit [data-show] {\r\n  transition:\r\n    opacity 500ms var(--ease-out),\r\n    transform 500ms var(--ease-out),\r\n    stroke-dashoffset 900ms var(--ease-out);\r\n  transform-box: fill-box;\r\n  transform-origin: center;\r\n}\r\n\r\n.orr-orbit [data-show=\"off\"] {\r\n  opacity: 0;\r\n  transform: scale(0.6);\r\n}\r\n\r\n.orr-orbit__ring {\r\n  fill: none;\r\n  stroke: var(--bone-line);\r\n  stroke-width: 1.5;\r\n  stroke-dasharray: 1;\r\n  stroke-dashoffset: 0;\r\n}\r\n\r\n.orr-orbit__ring[data-show=\"off\"] {\r\n  stroke-dashoffset: 1;\r\n  transform: none;\r\n}\r\n\r\n.orr-orbit__ring--outer {\r\n  stroke-dasharray: 0.006 0.008;\r\n}\r\n\r\n.orr-orbit__links line {\r\n  stroke: color-mix(in oklab, var(--color-bone) 32%, var(--color-ink));\r\n  stroke-width: 1;\r\n}\r\n\r\n.orr-orbit__links[data-show=\"off\"] {\r\n  transform: none;\r\n}\r\n\r\n.orr-orbit__agent {\r\n  fill: var(--color-bone);\r\n}\r\n\r\n.orr-orbit__agent--accent {\r\n  fill: var(--color-ultramarine);\r\n}\r\n\r\n.orr-orbit__core {\r\n  fill: var(--color-bone);\r\n}\r\n\r\n.orr-orbit__pulse circle {\r\n  fill: var(--color-amber);\r\n}\r\n\r\n/* ───────────────────────── 04 How it works ───────────────────────── */\r\n.orr-steps {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n  display: grid;\r\n  gap: 24px;\r\n}\r\n\r\n.orr-steps__item {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 14px;\r\n  padding: 28px 0 0;\r\n  border-top: 1px solid var(--color-ink);\r\n}\r\n\r\n.orr-steps__n {\r\n  font-family: var(--font-display);\r\n  font-size: 4.5rem;\r\n  line-height: 0.8;\r\n  color: var(--color-ultramarine);\r\n}\r\n\r\n.orr-steps__item p {\r\n  margin: 0;\r\n  color: var(--ink-muted);\r\n  max-width: 34ch;\r\n}\r\n\r\n/* ───────────────────────── 05 Use cases ───────────────────────── */\r\n.orr-cases__list {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n  display: grid;\r\n  gap: 32px;\r\n}\r\n\r\n.orr-cases__item {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 14px;\r\n}\r\n\r\n.orr-cases__item p {\r\n  margin: 0;\r\n  color: var(--ink-muted);\r\n  font-size: 0.975rem;\r\n}\r\n\r\n\r\n/* ───────────────────────── 06 Results ───────────────────────── */\r\n.orr-results__grid {\r\n  display: grid;\r\n  gap: 32px;\r\n}\r\n\r\n.orr-figure {\r\n  border-top: 1px solid var(--color-ink);\r\n  padding-top: 20px;\r\n}\r\n\r\n.orr-figure__value {\r\n  margin: 0;\r\n  font-family: var(--font-display);\r\n  font-size: clamp(4.5rem, min(9vw, 13vh), 9rem);\r\n  line-height: 0.9;\r\n  letter-spacing: -0.03em;\r\n  font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.orr-figure__label {\r\n  margin: 14px 0 0;\r\n  max-width: 26ch;\r\n  color: var(--ink-muted);\r\n}\r\n\r\n.orr-results__note {\r\n  color: var(--ink-muted);\r\n}\r\n\r\n/* ───────────────────────── 07 Quotes ───────────────────────── */\r\n.orr-visually-hidden {\r\n  position: absolute;\r\n  width: 1px;\r\n  height: 1px;\r\n  overflow: hidden;\r\n  clip-path: inset(50%);\r\n  white-space: nowrap;\r\n}\r\n\r\n.orr-quotes__lead {\r\n  position: relative;\r\n  margin: 0;\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 28px;\r\n}\r\n\r\n.orr-quotes__texture {\r\n  position: absolute;\r\n  top: 50%;\r\n  left: -6%;\r\n  transform: translateY(-50%);\r\n  width: min(42vw, 520px, 58vh); /* capped by height too, so it never hangs past the slide */\r\n  aspect-ratio: 1;\r\n  opacity: 0.22;\r\n  z-index: 0;\r\n  pointer-events: none;\r\n}\r\n\r\n.orr-quotes__lead blockquote,\r\n.orr-quotes__lead figcaption {\r\n  position: relative;\r\n  z-index: 1;\r\n  margin: 0;\r\n}\r\n\r\n.orr-quotes__big {\r\n  margin: 0;\r\n  font-family: var(--font-display);\r\n  font-style: italic;\r\n  font-size: clamp(2rem, 3.8vw, 3.75rem);\r\n  line-height: 1.08;\r\n  letter-spacing: -0.01em;\r\n  text-wrap: balance;\r\n}\r\n\r\n.orr-quotes figcaption {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 4px;\r\n}\r\n\r\n.orr-quotes figcaption .orr-label {\r\n  color: var(--ink-muted);\r\n}\r\n\r\n.orr-quotes__name {\r\n  font-weight: 600;\r\n}\r\n\r\n.orr-quotes__rest {\r\n  display: grid;\r\n  gap: 28px;\r\n}\r\n\r\n.orr-quotes__small {\r\n  margin: 0;\r\n  padding-top: 20px;\r\n  border-top: 1px solid var(--ink-line);\r\n}\r\n\r\n.orr-quotes__small blockquote {\r\n  margin: 0 0 16px;\r\n}\r\n\r\n.orr-quotes__small p {\r\n  margin: 0;\r\n  font-size: 1.125rem;\r\n}\r\n\r\n/* ───────────────────────── 08 Pricing ───────────────────────── */\r\n.orr-tiers {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n  display: grid;\r\n  gap: 16px;\r\n}\r\n\r\n.orr-tier {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 16px;\r\n  padding: 28px;\r\n  border: 1px solid var(--ink-line);\r\n  border-radius: 4px;\r\n}\r\n\r\n.orr-tier[data-featured] {\r\n  background: var(--color-ink);\r\n  color: var(--color-bone);\r\n  border-color: var(--color-ink);\r\n}\r\n\r\n.orr-tier__head {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n}\r\n\r\n.orr-tier__head h3 {\r\n  margin: 0;\r\n}\r\n\r\n.orr-tier__badge {\r\n  color: var(--color-amber);\r\n}\r\n\r\n.orr-tier__price {\r\n  margin: 0;\r\n  font-family: var(--font-display);\r\n  font-size: clamp(3rem, 4.4vw, 4.5rem);\r\n  line-height: 1;\r\n}\r\n\r\n.orr-tier__price .orr-label {\r\n  font-family: var(--font-mono);\r\n  color: var(--ink-muted);\r\n  margin-left: 6px;\r\n  vertical-align: middle;\r\n}\r\n\r\n.orr-tier[data-featured] .orr-tier__price .orr-label,\r\n.orr-tier[data-featured] .orr-tier__blurb {\r\n  color: var(--bone-muted);\r\n}\r\n\r\n.orr-tier__blurb {\r\n  margin: 0;\r\n  color: var(--ink-muted);\r\n}\r\n\r\n.orr-tier__features {\r\n  list-style: none;\r\n  margin: 0 0 8px;\r\n  padding: 0;\r\n  display: grid;\r\n  gap: 8px;\r\n  flex: 1;\r\n}\r\n\r\n.orr-tier__features li {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10px;\r\n}\r\n\r\n.orr-tier__features svg {\r\n  color: var(--color-ultramarine);\r\n  flex: none;\r\n}\r\n\r\n.orr-tier[data-featured] .orr-tier__features svg {\r\n  color: var(--color-amber);\r\n}\r\n\r\n.orr-tier .orr-btn {\r\n  align-self: flex-start;\r\n}\r\n\r\n/* ───────────────────────── 09 Security ───────────────────────── */\r\n.orr-claims {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n  display: grid;\r\n  gap: 0 32px;\r\n}\r\n\r\n.orr-claims li {\r\n  padding: 18px 0;\r\n  border-top: 1px solid var(--bone-line);\r\n}\r\n\r\n.orr-claims__title {\r\n  margin: 0 0 4px;\r\n  font-family: var(--font-body);\r\n  font-weight: 600;\r\n  font-size: 1.0625rem;\r\n}\r\n\r\n.orr-claims p {\r\n  margin: 0;\r\n  color: var(--bone-muted);\r\n}\r\n\r\n.orr-security__texture {\r\n  display: none;\r\n}\r\n\r\n/* ───────────────────────── 10 CTA ───────────────────────── */\r\n.orr-cta__copy {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 28px;\r\n}\r\n\r\n.orr-cta__title {\r\n  font-size: clamp(3.5rem, min(8vw, 12vh), 8.5rem);\r\n}\r\n\r\n.orr-form {\r\n  display: grid;\r\n  gap: 18px;\r\n  padding: 28px;\r\n  border: 1px solid var(--color-ink);\r\n  border-radius: 4px;\r\n  background: var(--color-bone);\r\n}\r\n\r\n.orr-form--sent {\r\n  gap: 12px;\r\n  min-height: 260px;\r\n  align-content: center;\r\n}\r\n\r\n.orr-field {\r\n  display: grid;\r\n  gap: 8px;\r\n}\r\n\r\n.orr-field label {\r\n  color: var(--ink-muted);\r\n}\r\n\r\n.orr-field input {\r\n  height: 48px;\r\n  padding: 0 14px;\r\n  border: 1px solid var(--ink-line);\r\n  border-radius: 2px;\r\n  background: transparent;\r\n  color: var(--color-ink);\r\n  font: inherit;\r\n  transition: border-color 160ms var(--ease-out);\r\n}\r\n\r\n.orr-field input:focus-visible {\r\n  outline: none;\r\n  border-color: var(--color-ultramarine);\r\n  box-shadow: 0 0 0 1px var(--color-ultramarine);\r\n}\r\n\r\n.orr-field[data-invalid] input {\r\n  border-color: var(--color-ink);\r\n}\r\n\r\n.orr-field__error {\r\n  margin: 0;\r\n  font-family: var(--font-mono);\r\n  font-size: 0.75rem;\r\n  color: var(--color-ultramarine);\r\n}\r\n\r\n.orr-form__submit {\r\n  justify-self: start;\r\n  margin-top: 6px;\r\n}\r\n\r\n.orr-cta__footer {\r\n  display: flex;\r\n  align-items: center;\r\n  flex-wrap: wrap;\r\n  gap: 20px;\r\n  color: var(--ink-muted);\r\n  padding-top: 20px;\r\n  border-top: 1px solid var(--ink-line);\r\n}\r\n\r\n.orr-cta__footer a {\r\n  color: inherit;\r\n  text-decoration: none;\r\n}\r\n\r\n.orr-cta__footer a:hover {\r\n  color: var(--color-ink);\r\n}\r\n\r\n/* ───────────────────────── Desktop layouts ───────────────────────── */\r\n@media (min-width: 900px) {\r\n  .orr-title__copy {\r\n    grid-column: 1 / span 7;\r\n    grid-row: 1;\r\n    align-self: center;\r\n  }\r\n  .orr-title__art {\r\n    grid-column: 8 / -1;\r\n    grid-row: 1;\r\n    align-self: center;\r\n  }\r\n  .orr-title__hint {\r\n    display: block;\r\n    grid-row: 2;\r\n  }\r\n\r\n  .orr-problem__art {\r\n    grid-column: 1 / span 4;\r\n    align-self: center;\r\n  }\r\n  .orr-problem__copy {\r\n    grid-column: 6 / -1;\r\n    align-self: center;\r\n  }\r\n\r\n  .orr-orrery__copy {\r\n    grid-column: 1 / span 5;\r\n    align-self: center;\r\n  }\r\n  .orr-orrery__diagram {\r\n    grid-column: 6 / -1;\r\n  }\r\n  .orr-orrery .orr-eyebrow {\r\n    grid-row: 1;\r\n  }\r\n\r\n  .orr-how__title {\r\n    grid-column: 1 / span 9;\r\n  }\r\n  .orr-steps {\r\n    grid-template-columns: repeat(3, 1fr);\r\n    gap: 24px;\r\n  }\r\n\r\n  .orr-cases__title {\r\n    grid-column: 1 / span 8;\r\n  }\r\n  .orr-cases__list {\r\n    grid-template-columns: repeat(3, 1fr);\r\n    gap: 24px;\r\n  }\r\n\r\n  .orr-results__title {\r\n    grid-column: 1 / span 9;\r\n  }\r\n  .orr-results__grid {\r\n    grid-template-columns: repeat(3, 1fr);\r\n    gap: 24px;\r\n  }\r\n\r\n  .orr-quotes__lead {\r\n    grid-column: 1 / span 7;\r\n    align-self: center;\r\n  }\r\n  .orr-quotes__rest {\r\n    grid-column: 9 / -1;\r\n    align-self: center;\r\n  }\r\n\r\n  .orr-pricing__title {\r\n    grid-column: 1 / span 9;\r\n  }\r\n  .orr-tiers {\r\n    grid-template-columns: repeat(3, 1fr);\r\n  }\r\n\r\n  .orr-security__title {\r\n    grid-column: 1 / span 7;\r\n  }\r\n  .orr-claims {\r\n    grid-column: 1 / span 8;\r\n    grid-template-columns: repeat(2, 1fr);\r\n  }\r\n  .orr-security__texture {\r\n    display: block;\r\n    grid-column: 9 / -1;\r\n    grid-row: 2 / span 2;\r\n    align-self: stretch;\r\n    min-height: 100%;\r\n  }\r\n  .orr-security__texture img {\r\n    height: 100%;\r\n    object-fit: cover;\r\n  }\r\n\r\n  .orr-cta__copy {\r\n    grid-column: 1 / span 6;\r\n    align-self: center;\r\n  }\r\n  .orr-cta__form {\r\n    grid-column: 8 / -1;\r\n    align-self: center;\r\n  }\r\n}\r\n\r\n/* Keynote mode: slide content builds in after the wipe. */\r\n/* KEYNOTE: keep in sync with KEYNOTE_QUERY in deck/Deck.tsx */\r\n@media (min-width: 900px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {\r\n  .orr-reveal {\r\n    transition:\r\n      opacity 600ms var(--ease-out),\r\n      transform 600ms var(--ease-out);\r\n    transition-delay: calc(var(--i, 0) * 80ms + 280ms);\r\n  }\r\n  .orr-slide:not([data-state=\"active\"]) .orr-reveal {\r\n    opacity: 0;\r\n    transform: translateY(18px);\r\n    transition-delay: 0ms;\r\n    transition-duration: 200ms;\r\n  }\r\n  /* Before the deck is ready (first paint), don't hide the first slide's content. */\r\n  .orr-deck:not([data-ready]) .orr-reveal {\r\n    transition: none;\r\n  }\r\n}"
+    },
+    {
+      "id": "orrery-runtime-1",
+      "location": "footer",
+      "title": "Orrery Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 342,
+      "description": "Loads gsap, motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "gsap",
+        "motion"
+      ],
+      "code": "// Orrery — Webflow Custom Code Runtime Bridge\n// Dependencies: gsap, motion\nimport gsap from \"https://cdn.jsdelivr.net/npm/gsap@3.15.0/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

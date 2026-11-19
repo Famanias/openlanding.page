@@ -1,0 +1,265 @@
+{
+  "slug": "halodesk",
+  "title": "Halo Desk",
+  "industry": "Productivity & Desktop Software",
+  "description": "A desktop productivity app for focused planning, clear priorities, and beautifully structured days.",
+  "stack": "Next.js 16 · React 19 · Tailwind v4 · Lucide",
+  "liveUrl": "https://www.openlanding.page/templates/halodesk",
+  "downloadUrl": "https://www.openlanding.page/downloads/halodesk.html",
+  "manifestUrl": "https://www.openlanding.page/copy/halodesk-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/halodesk-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Halo Desk Tokens",
+    "colors": [
+      {
+        "name": "Color / Halo Ivory",
+        "cssVar": "--color-halo-ivory",
+        "value": "#F8F5EE",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Cloud",
+        "cssVar": "--color-halo-cloud",
+        "value": "#FCFBF7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Ink",
+        "cssVar": "--color-halo-ink",
+        "value": "#29313E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Muted",
+        "cssVar": "--color-halo-muted",
+        "value": "#66717F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Powder",
+        "cssVar": "--color-halo-powder",
+        "value": "#CFDFEF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Lavender",
+        "cssVar": "--color-halo-lavender",
+        "value": "#DCD5F6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Peach",
+        "cssVar": "--color-halo-peach",
+        "value": "#F7D9CB",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Mint",
+        "cssVar": "--color-halo-mint",
+        "value": "#D0EFE2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Butter",
+        "cssVar": "--color-halo-butter",
+        "value": "#FFF1AE",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Slate",
+        "cssVar": "--color-halo-slate",
+        "value": "#6C798F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Ivory",
+        "cssVar": "--halo-ivory",
+        "value": "#F8F5EE",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Cloud",
+        "cssVar": "--halo-cloud",
+        "value": "#FCFBF7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Ink",
+        "cssVar": "--halo-ink",
+        "value": "#29313E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Muted",
+        "cssVar": "--halo-muted",
+        "value": "#66717F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Powder",
+        "cssVar": "--halo-powder",
+        "value": "#CFDFEF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Lavender",
+        "cssVar": "--halo-lavender",
+        "value": "#DCD5F6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Peach",
+        "cssVar": "--halo-peach",
+        "value": "#F7D9CB",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Mint",
+        "cssVar": "--halo-mint",
+        "value": "#D0EFE2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Butter",
+        "cssVar": "--halo-butter",
+        "value": "#FFF1AE",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Slate Button",
+        "cssVar": "--halo-slate-button",
+        "value": "#6C798F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Halo Line",
+        "cssVar": "--halo-line",
+        "value": "rgba(58, 68, 83, 0.13)",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "DM Sans",
+        "fallback": "DM Sans, -apple-system, BlinkMacSystemFont, sans-serif",
+        "googleFont": "DM Sans"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-dm-sans)",
+        "fallback": "DM Sans, -apple-system, BlinkMacSystemFont, sans-serif"
+      },
+      {
+        "name": "Font / Mono Tabular",
+        "cssVar": "--font-mono-tabular",
+        "family": "JetBrains Mono",
+        "fallback": "JetBrains Mono, monospace",
+        "googleFont": "JetBrains Mono"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "halodesk.webp",
+      "publicPath": "https://www.openlanding.page/gallery/halodesk.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Navbar",
+      "summary": "Refined top navigation bar with custom animated Halo logo icon, navigation anchors, and early-access download actions.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Hero & Desktop in Miniature",
+      "summary": "Left column editorial copy with feature selector chips (Tasks, Calendar, Focus Mode, Notes); Right column interactive desktop window simulating the live Halo Desk application with task toggles, quick task creation, weekday calendar navigation, focus timer with progress circle, and realistic sticky notes.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".hero-micro-dots"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "The Calm System",
+      "summary": "Interactive card showcase breaking down the 4 pillars of mindful productivity (Spatial Day Structuring, Timebox Alignment, Low-Cognitive Friction, Local-First Privacy).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Workflow Storyboard",
+      "summary": "Step-by-step visual progression demonstrating how a peaceful day unfolds from morning planning to afternoon flow and evening reflection.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Feature Lab",
+      "summary": "Hands-on sandbox letting visitors test drive the four key application modules (Tasks, Calendar, Focus, Notes) with interactive controls.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Curated Templates",
+      "summary": "One-click rhythm presets (Deep Focus Sprint, Balanced Product Flow, Executive Alignment) that instantly reconfigure the hero simulation.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Meaningful Details",
+      "summary": "Tactile micro-features including keyboard shortcuts, sensory feedback toggles, and notification shields.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Pricing & Early Access",
+      "summary": "Transparent pricing tier comparison with an accessible modal supporting email validation and desktop download.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "halodesk-styles-1",
+      "location": "head",
+      "title": "Halo Desk Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 7273,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-halo-ivory: #F8F5EE;\n  --color-halo-cloud: #FCFBF7;\n  --color-halo-ink: #29313E;\n  --color-halo-muted: #66717F;\n  --color-halo-powder: #CFDFEF;\n  --color-halo-lavender: #DCD5F6;\n  --color-halo-peach: #F7D9CB;\n  --color-halo-mint: #D0EFE2;\n  --color-halo-butter: #FFF1AE;\n  --color-halo-slate: #6C798F;\n\n  --font-display: var(--font-dm-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;\n  --font-body: var(--font-dm-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;\n  --font-mono-tabular: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;\n\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-spring: cubic-bezier(0.22, 1.15, 0.36, 1);\n}\n\n:root {\n  --halo-ivory: #F8F5EE;\n  --halo-cloud: #FCFBF7;\n  --halo-ink: #29313E;\n  --halo-muted: #66717F;\n  --halo-powder: #CFDFEF;\n  --halo-lavender: #DCD5F6;\n  --halo-peach: #F7D9CB;\n  --halo-mint: #D0EFE2;\n  --halo-butter: #FFF1AE;\n  --halo-slate-button: #6C798F;\n  --halo-line: rgba(58, 68, 83, 0.13);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-spring: cubic-bezier(0.22, 1.15, 0.36, 1);\n}\n\n@layer base {\n  html {\n    font-family: var(--font-dm-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;\n    background-color: var(--halo-ivory);\n    color: var(--halo-ink);\n  }\n\n  .font-mono-tabular {\n    font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;\n    font-variant-numeric: tabular-nums;\n  }\n}\n\n/* Continuous atmospheric canvas — no hard section seams */\n.halo-atmosphere {\n  background-color: var(--halo-ivory);\n  background-image:\n    radial-gradient(ellipse 46% 36% at 24% 4.5%, rgba(190, 214, 244, 0.72) 0%, rgba(207, 223, 239, 0.25) 52%, transparent 80%),\n    radial-gradient(ellipse 36% 28% at 68% 10%, rgba(215, 204, 250, 0.80) 0%, rgba(220, 213, 246, 0.28) 56%, transparent 82%),\n    radial-gradient(ellipse 32% 26% at 51% 16.5%, rgba(246, 207, 190, 0.75) 0%, rgba(247, 217, 203, 0.24) 55%, transparent 80%),\n    radial-gradient(ellipse 38% 28% at 82% 17.5%, rgba(192, 236, 219, 0.76) 0%, rgba(208, 239, 226, 0.25) 55%, transparent 82%),\n    radial-gradient(ellipse 45% 22% at 20% 42%, rgba(220, 213, 246, 0.30) 0%, transparent 75%),\n    radial-gradient(ellipse 45% 24% at 78% 58%, rgba(207, 223, 239, 0.32) 0%, transparent 75%),\n    radial-gradient(ellipse 44% 22% at 28% 76%, rgba(247, 217, 203, 0.28) 0%, transparent 75%),\n    radial-gradient(ellipse 50% 25% at 50% 96%, rgba(215, 204, 250, 0.38) 0%, rgba(192, 236, 219, 0.24) 50%, transparent 80%);\n}\n\n/* Faint dotted micro-texture in the lit hero region */\n.hero-micro-dots {\n  background-image: radial-gradient(rgba(65, 76, 94, 0.11) 1px, transparent 1px);\n  background-size: 14px 14px;\n  mask-image: radial-gradient(ellipse 58% 54% at 69% 47%, rgba(0, 0, 0, 0.7) 10%, transparent 78%);\n  -webkit-mask-image: radial-gradient(ellipse 58% 54% at 69% 47%, rgba(0, 0, 0, 0.7) 10%, transparent 78%);\n}\n\n/* Choreographed Hero Entrance Animations */\n@keyframes haloTrace {\n  0% {\n    stroke-dashoffset: 120;\n    transform: rotate(-18deg) scale(0.92);\n  }\n  100% {\n    stroke-dashoffset: 0;\n    transform: rotate(0deg) scale(1);\n  }\n}\n\n@keyframes clipLineReveal {\n  0% {\n    clip-path: inset(0 -10% 100% -10%);\n    transform: translateY(18px);\n    letter-spacing: -0.005em;\n  }\n  100% {\n    clip-path: inset(-15% -15% -15% -15%);\n    transform: translateY(0);\n    letter-spacing: -0.025em;\n  }\n}\n\n@keyframes windowUnfold {\n  0% {\n    clip-path: inset(8% 12% 14% 12% round 20px);\n    transform: translateY(16px) scale(0.965);\n  }\n  100% {\n    clip-path: inset(-15% -15% -15% -15% round 20px);\n    transform: translateY(0) scale(1);\n  }\n}\n\n@keyframes widgetCalendarArrive {\n  0% {\n    transform: translate3d(14px, -18px, 0) scale(0.94);\n  }\n  100% {\n    transform: translate3d(0, 0, 0) scale(1);\n  }\n}\n\n@keyframes widgetStickyArrive {\n  0% {\n    transform: translate3d(16px, 18px, 0) rotate(6deg) scale(0.95);\n  }\n  100% {\n    transform: translate3d(0, 0, 0) rotate(2.2deg) scale(1);\n  }\n}\n\n@keyframes widgetQuickTaskArrive {\n  0% {\n    transform: translate3d(-18px, 12px, 0) scale(0.95);\n  }\n  100% {\n    transform: translate3d(0, 0, 0) scale(1);\n  }\n}\n\n@keyframes taskSlideTrack {\n  0% {\n    transform: translateX(22px) scaleX(0.97);\n  }\n  100% {\n    transform: translateX(0) scaleX(1);\n  }\n}\n\n@keyframes ambientDrift {\n  0%, 100% {\n    transform: translate3d(0, 0, 0) scale(1);\n  }\n  50% {\n    transform: translate3d(8px, -6px, 0) scale(1.03);\n  }\n}\n\n.animate-halo-trace {\n  stroke-dasharray: 120;\n  animation: haloTrace 1.1s var(--ease-out-expo) forwards;\n}\n\n.animate-headline-line-1 {\n  animation: clipLineReveal 0.72s var(--ease-out-expo) 0.05s both;\n}\n\n.animate-headline-line-2 {\n  animation: clipLineReveal 0.78s var(--ease-out-expo) 0.16s both;\n}\n\n.animate-window-unfold {\n  animation: windowUnfold 0.85s var(--ease-out-expo) 0.12s both;\n}\n\n.animate-widget-calendar {\n  animation: widgetCalendarArrive 0.75s var(--ease-spring) 0.28s both;\n}\n\n.animate-widget-sticky {\n  animation: widgetStickyArrive 0.82s var(--ease-spring) 0.36s both;\n}\n\n.animate-widget-quicktask {\n  animation: widgetQuickTaskArrive 0.78s var(--ease-spring) 0.32s both;\n}\n\n.animate-task-row-1 {\n  animation: taskSlideTrack 0.55s var(--ease-out-expo) 0.2s both;\n}\n.animate-task-row-2 {\n  animation: taskSlideTrack 0.55s var(--ease-out-expo) 0.27s both;\n}\n.animate-task-row-3 {\n  animation: taskSlideTrack 0.55s var(--ease-out-expo) 0.34s both;\n}\n.animate-task-row-4 {\n  animation: taskSlideTrack 0.55s var(--ease-out-expo) 0.41s both;\n}\n\n.animate-ambient-slow {\n  animation: ambientDrift 14s ease-in-out infinite;\n}\n\n/* Sticky Note Realism */\n.sticky-note-paper {\n  background: linear-gradient(168deg, #FFF3B8 0%, #F9E699 100%);\n  box-shadow:\n    0 14px 28px -10px rgba(41, 49, 62, 0.16),\n    0 3px 8px -2px rgba(41, 49, 62, 0.08),\n    inset 0 1px 0 rgba(255, 255, 255, 0.65);\n  transition: transform 240ms var(--ease-spring), box-shadow 240ms var(--ease-out-expo);\n}\n\n.sticky-note-paper:hover {\n  transform: rotate(0.6deg) translateY(-3px);\n  box-shadow:\n    0 18px 32px -10px rgba(41, 49, 62, 0.2),\n    0 4px 10px -2px rgba(41, 49, 62, 0.1);\n}\n\n/* App Window Surface */\n.halo-app-window {\n  background: rgba(250, 249, 252, 0.94);\n  box-shadow:\n    0 28px 60px -18px rgba(41, 49, 62, 0.14),\n    0 10px 24px -8px rgba(41, 49, 62, 0.07),\n    inset 0 1px 0 rgba(255, 255, 255, 0.9);\n  border: 1px solid rgba(255, 255, 255, 0.85);\n}\n\n.halo-widget-surface {\n  background: rgba(252, 251, 254, 0.95);\n  box-shadow:\n    0 16px 34px -12px rgba(41, 49, 62, 0.13),\n    0 4px 12px -3px rgba(41, 49, 62, 0.06),\n    inset 0 1px 0 rgba(255, 255, 255, 0.95);\n  border: 1px solid rgba(255, 255, 255, 0.9);\n}\n\n@media (min-width: 1024px) {\n  .halo-app-window {\n    background: rgba(250, 249, 252, 0.88);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n  }\n  .halo-widget-surface {\n    background: rgba(252, 251, 254, 0.92);\n    backdrop-filter: blur(12px);\n    -webkit-backdrop-filter: blur(12px);\n  }\n}\n\n/* Respect Reduced Motion */\n@media (prefers-reduced-motion: reduce) {\n  *,\n  *::before,\n  *::after {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n}"
+    },
+    {
+      "id": "halodesk-runtime-1",
+      "location": "footer",
+      "title": "Halo Desk Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 273,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// Halo Desk — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

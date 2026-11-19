@@ -1,0 +1,264 @@
+{
+  "slug": "patchbay",
+  "title": "PATCHBAY",
+  "industry": "Developer Portfolio & Software Engineering",
+  "description": "A developer portfolio that re-routes itself. Plug into Web, Full-stack, AI, or UX/UI to re-compose the page around that discipline.",
+  "stack": "Next.js 16 · React 19 · Lenis · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/patchbay",
+  "downloadUrl": "https://www.openlanding.page/downloads/patchbay.html",
+  "manifestUrl": "https://www.openlanding.page/copy/patchbay-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/patchbay-webflow-prompt.md",
+  "variables": {
+    "collectionName": "PATCHBAY Tokens",
+    "colors": [
+      {
+        "name": "Color / Ink",
+        "cssVar": "--color-ink",
+        "value": "#15161A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Panel",
+        "cssVar": "--color-panel",
+        "value": "#1E2024",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Seam",
+        "cssVar": "--color-seam",
+        "value": "#34373D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bone",
+        "cssVar": "--color-bone",
+        "value": "#ECE8DF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Steel",
+        "cssVar": "--color-steel",
+        "value": "#9A9CA3",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Amber",
+        "cssVar": "--color-amber",
+        "value": "#F2A93B",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-familjen)",
+        "fallback": "Helvetica Neue, Arial, sans-serif"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-hanken)",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "var(--font-plex-mono)",
+        "fallback": "ui-monospace, monospace"
+      },
+      {
+        "name": "Font / Familjen Grotesk",
+        "cssVar": "--font-familjen-grotesk",
+        "family": "Familjen Grotesk",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Familjen Grotesk"
+      },
+      {
+        "name": "Font / Hanken Grotesk",
+        "cssVar": "--font-hanken-grotesk",
+        "family": "Hanken Grotesk",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Hanken Grotesk"
+      },
+      {
+        "name": "Font / IBM Plex Mono",
+        "cssVar": "--font-ibm-plex-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "IBM Plex Mono"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Reveal Shift",
+        "cssVar": "--reveal-shift",
+        "value": "28px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Plug Y",
+        "cssVar": "--plug-y",
+        "value": "84px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Lift",
+        "cssVar": "--lift",
+        "value": "-6px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "patchbay.webp",
+      "publicPath": "https://www.openlanding.page/gallery/patchbay.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Fixed Header",
+      "summary": "Brand lockup with SVG jack mark, desktop navigation with animated sliding pill indicator, role switcher chips, and mobile drawer with circular clip-path reveal. Blurs and compresses on scroll down.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".pby-header",
+        ".pby-header-inner",
+        ".pby-header-logo",
+        ".pby-chips-header"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Hero",
+      "summary": "Mask-revealed headline with height reservation to prevent layout shift during role switches, magnetic CTA buttons, the interactive Patch Bay, live count-up metrics, and an availability marquee.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".pby-hero",
+        ".pby-hero-inner",
+        ".pby-hero-ticker"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Selected Work",
+      "summary": "Responsive grid of project cards with 3D cursor tilt (±5°), radial spotlight illumination, media scaling, sibling card dimming, technology tags, and animated relevance fit meters.",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Contains interactive 3D/WebGL, procedural canvas, or pinned scroll-scrubbed stage requiring an HtmlEmbed + page footer script."
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Signal Flow (Stack)",
+      "summary": "Three-stage pipeline (Signal In, Patched Through, Signal Out) connected by horizontal signal wires with travelling pulse particles.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".pby-flow",
+        ".pby-flow-col",
+        ".pby-flow-title",
+        ".pby-flow-list",
+        ".pby-flow-item",
+        ".pby-flow-port",
+        ".pby-flow-wire",
+        ".pby-flow-wire-line",
+        ".pby-flow-pulse"
+      ]
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Process",
+      "summary": "Four-stage execution roadmap with numbered badges and expanding amber rules.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Case Study",
+      "summary": "Split technical deep dive displaying project visual, problem statement, architectural approach, and key result counters.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".pby-case",
+        ".pby-case-grid",
+        ".pby-case-media-wrap",
+        ".pby-case-media",
+        ".pby-case-copy",
+        ".pby-case-label",
+        ".pby-case-problem",
+        ".pby-case-list",
+        ".pby-case-results",
+        ".pby-case-result"
+      ]
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "About & Timeline",
+      "summary": "Career trajectory and philosophy with year markers and verified external links.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".pby-about",
+        ".pby-timeline",
+        ".pby-about-copy",
+        ".pby-timeline-row",
+        ".pby-timeline-year"
+      ]
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Contact Brief Generator",
+      "summary": "Accessible form with floating labels and client-side validation. On submission, generates a formatted local brief file with a deterministic hashed ticket reference (`PB-XXXXXX`) for the visitor to download. No mock backend network calls.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".pby-contact"
+      ]
+    },
+    {
+      "id": "section-9",
+      "index": 9,
+      "title": "Footer",
+      "summary": "Monospaced technical attribution and copyright.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".pby-footer",
+        ".pby-footer-inner",
+        ".pby-footer-brand",
+        ".pby-footer-links",
+        ".pby-footer-note"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "patchbay-styles-1",
+      "location": "head",
+      "title": "PATCHBAY Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 32378,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-ink: #15161A; /* page */\n  --color-panel: #1E2024; /* cards, bay, case-study slab */\n  --color-seam: #34373D; /* hairlines, empty jack holes */\n  --color-bone: #ECE8DF; /* text */\n  --color-steel: #9A9CA3; /* muted text, labels */\n  --color-amber: #F2A93B; /* the only signal accent */\n\n  --font-display: var(--font-familjen), \"Helvetica Neue\", Arial, sans-serif;\n  --font-body: var(--font-hanken), system-ui, sans-serif;\n  --font-mono: var(--font-plex-mono), ui-monospace, monospace;\n\n  /* technical / cinematic: scrubbed, exact, no wobble except the plug seating */\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);\n  --ease-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);\n\n  --dur-instant: 90ms;\n  --dur-fast: 180ms;\n  --dur-base: 420ms;\n  --dur-slow: 800ms;\n  --dur-hero: 1200ms;\n\n  --reveal-shift: 28px;\n  --stagger: 70ms;\n}\n\n/* ---------- base ---------- */\n.pby-body {\n  margin: 0;\n  background: var(--color-ink);\n  color: var(--color-bone);\n  font-family: var(--font-body);\n  font-size: 1.0625rem;\n  line-height: 1.6;\n  -webkit-font-smoothing: antialiased;\n  overflow-x: clip;\n}\nhtml {\n  scroll-padding-top: 72px;\n  background: var(--color-ink);\n  overflow-x: clip;\n}\n.pby-shell {\n  width: 100%;\n  max-width: 1200px;\n  margin-inline: auto;\n  padding-inline: clamp(20px, 4vw, 48px);\n}\n.pby-sr {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  margin: -1px;\n  overflow: hidden;\n  clip-path: inset(50%);\n  white-space: nowrap;\n}\n.pby-mono {\n  font-family: var(--font-mono);\n  font-size: 0.72rem;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n}\n.pby-tabular {\n  font-variant-numeric: tabular-nums;\n}\n.pby-amber {\n  color: var(--color-amber);\n}\n:where(.pby-body) :focus-visible {\n  outline: 2px solid var(--color-amber);\n  outline-offset: 3px;\n}\n.pby-link {\n  color: var(--color-bone);\n  text-decoration: none;\n  background: linear-gradient(var(--color-amber), var(--color-amber)) 0 100% / 100% 1px no-repeat;\n  padding-bottom: 2px;\n}\n\n/* ---------- type ---------- */\n.pby-h1,\n.pby-h2,\n.pby-h3 {\n  font-family: var(--font-display);\n  font-weight: 600;\n  letter-spacing: -0.02em;\n  margin: 0;\n}\n.pby-h1 {\n  font-size: clamp(2.5rem, 7.2vw, 6.25rem);\n  line-height: 1.02;\n  min-height: 2.12em; /* two lines reserved, so swapping roles never shifts the page */\n}\n.pby-h2 {\n  font-size: clamp(1.85rem, 4vw, 3.25rem);\n  line-height: 1.08;\n  text-wrap: balance;\n}\n.pby-h3 {\n  font-size: 1.35rem;\n  line-height: 1.2;\n}\n.pby-line {\n  display: block;\n  overflow: clip;\n  padding-bottom: 0.12em;\n  margin-bottom: -0.12em;\n}\n.pby-line-inner {\n  display: block;\n}\n.pby-eyebrow {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  color: var(--color-steel);\n  margin: 0 0 20px;\n}\n.pby-eyebrow-dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  background: var(--color-amber);\n}\n.pby-sub,\n.pby-lede {\n  color: var(--color-steel);\n  max-width: 58ch;\n  margin: 24px 0 0;\n  font-size: clamp(1.05rem, 1.6vw, 1.25rem);\n}\n\n/* ---------- buttons ---------- */\n.pby-magnetic {\n  display: inline-block;\n  transform: translate(var(--mag-x, 0), var(--mag-y, 0));\n}\n.pby-btn {\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  gap: 12px;\n  padding: 15px 24px;\n  border: 1px solid var(--color-seam);\n  border-radius: 2px;\n  background: transparent;\n  color: var(--color-bone);\n  font: 600 0.98rem var(--font-body);\n  text-decoration: none;\n  cursor: pointer;\n  overflow: hidden;\n  isolation: isolate;\n  transition: transform var(--dur-base) var(--ease-spring), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);\n}\n.pby-btn::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  z-index: -1;\n  background: var(--color-amber);\n  transform: scaleX(0);\n  transform-origin: left;\n  transition: transform var(--dur-base) var(--ease-out-expo);\n}\n.pby-btn-primary {\n  background: var(--color-amber);\n  color: var(--color-ink);\n  border-color: var(--color-amber);\n}\n.pby-btn-primary::before {\n  background: var(--color-bone);\n}\n.pby-btn-arrow {\n  display: inline-block;\n  transition: transform var(--dur-base) var(--ease-out);\n}\n.pby-btn:active {\n  transform: scale(0.97);\n  transition-duration: var(--dur-instant);\n}\n.pby-btn:disabled {\n  opacity: 0.7;\n  cursor: progress;\n}\n@media (hover: hover) and (pointer: fine) {\n  .pby-btn:hover:not(:disabled)::before {\n    transform: scaleX(1);\n  }\n  .pby-btn-ghost:hover:not(:disabled) {\n    color: var(--color-ink);\n    border-color: var(--color-amber);\n  }\n  .pby-btn:hover .pby-btn-arrow {\n    transform: translateX(5px);\n  }\n}\n.pby-cta-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 14px;\n  margin-top: 32px;\n}\n.pby-spinner {\n  width: 14px;\n  height: 14px;\n  border: 2px solid var(--color-ink);\n  border-top-color: transparent;\n  border-radius: 50%;\n  display: block;\n}\n\n/* ---------- header ---------- */\n.pby-header {\n  position: fixed;\n  inset: 0 0 auto 0;\n  z-index: 50;\n}\n.pby-header::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  background: color-mix(in srgb, var(--color-ink) 82%, transparent);\n  border-bottom: 1px solid var(--color-seam);\n  backdrop-filter: blur(14px);\n  opacity: 0;\n  transition: opacity var(--dur-base) var(--ease-out);\n}\n.pby-header[data-state=\"compact\"]::before,\n.pby-header[data-menu=\"open\"]::before {\n  opacity: 1;\n}\n.pby-header-inner {\n  position: relative;\n  z-index: 2;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 24px;\n  height: 64px;\n  max-width: 1200px;\n  margin-inline: auto;\n  padding-inline: clamp(20px, 4vw, 48px);\n}\n.pby-logo {\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n}\n.pby-logo-mark {\n  width: 28px;\n  height: 28px;\n  flex: none;\n}\n.pby-logo-name {\n  font: 600 1.02rem var(--font-display);\n  letter-spacing: -0.01em;\n}\n.pby-header-logo {\n  color: var(--color-bone);\n  text-decoration: none;\n  transform-origin: left center;\n  transition: transform var(--dur-base) var(--ease-out);\n}\n.pby-header[data-state=\"compact\"] .pby-header-logo {\n  transform: scale(0.92);\n}\n.pby-nav {\n  position: relative;\n  display: none;\n  gap: 4px;\n}\n.pby-nav-link {\n  padding: 8px 12px;\n  color: var(--color-steel);\n  font-size: 0.92rem;\n  text-decoration: none;\n  transition: color var(--dur-fast) var(--ease-out);\n}\n.pby-nav-link[aria-current=\"true\"],\n.pby-nav-link:hover {\n  color: var(--color-bone);\n}\n.pby-nav-indicator {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  width: 1px;\n  height: 2px;\n  background: var(--color-amber);\n  transform-origin: left;\n  transform: translateX(var(--ind-x, 0px)) scaleX(var(--ind-w, 0));\n  opacity: var(--ind-o, 0);\n  transition: transform var(--dur-base) var(--ease-out-expo), opacity var(--dur-fast) var(--ease-out);\n}\n.pby-chips {\n  display: inline-flex;\n  gap: 4px;\n}\n.pby-chip {\n  padding: 7px 11px;\n  border: 1px solid var(--color-seam);\n  border-radius: 2px;\n  background: transparent;\n  color: var(--color-steel);\n  cursor: pointer;\n  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-spring);\n}\n.pby-chip[aria-pressed=\"true\"] {\n  background: var(--color-amber);\n  border-color: var(--color-amber);\n  color: var(--color-ink);\n}\n.pby-chip:active {\n  transform: scale(0.95);\n  transition-duration: var(--dur-instant);\n}\n@media (hover: hover) and (pointer: fine) {\n  .pby-chip:hover:not([aria-pressed=\"true\"]) {\n    color: var(--color-bone);\n    border-color: var(--color-steel);\n  }\n}\n.pby-chips-header {\n  display: none;\n}\n.pby-menu-toggle {\n  position: relative;\n  width: 44px;\n  height: 44px;\n  border: 1px solid var(--color-seam);\n  border-radius: 2px;\n  background: transparent;\n  cursor: pointer;\n}\n.pby-menu-bars,\n.pby-menu-bars::before {\n  position: absolute;\n  left: 12px;\n  width: 18px;\n  height: 2px;\n  background: var(--color-bone);\n  transition: transform var(--dur-base) var(--ease-out-expo);\n}\n.pby-menu-bars {\n  top: 16px;\n}\n.pby-menu-bars::before {\n  content: \"\";\n  left: 0;\n  top: 8px;\n}\n.pby-header[data-menu=\"open\"] .pby-menu-bars {\n  transform: translateY(4px) rotate(45deg);\n}\n.pby-header[data-menu=\"open\"] .pby-menu-bars::before {\n  transform: translateY(-8px) rotate(-90deg);\n}\n.pby-menu {\n  position: fixed;\n  inset: 0;\n  z-index: 1;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  gap: 32px;\n  padding: 96px clamp(20px, 6vw, 48px) 40px;\n  background: var(--color-ink);\n  clip-path: circle(0 at calc(100% - 42px) 32px);\n  transition: clip-path var(--dur-slow) var(--ease-in-out);\n}\n.pby-menu[data-open=\"true\"] {\n  clip-path: circle(150vmax at calc(100% - 42px) 32px);\n}\n.pby-menu nav {\n  display: flex;\n  flex-direction: column;\n}\n.pby-menu-link {\n  display: flex;\n  align-items: baseline;\n  gap: 16px;\n  padding: 12px 0;\n  border-bottom: 1px solid var(--color-seam);\n  color: var(--color-bone);\n  font: 600 clamp(1.8rem, 8vw, 2.6rem) var(--font-display);\n  text-decoration: none;\n}\n.pby-menu-link .pby-mono {\n  color: var(--color-amber);\n}\n@media (min-width: 900px) {\n  .pby-nav,\n  .pby-chips-header {\n    display: flex;\n  }\n  .pby-menu-toggle,\n  .pby-menu {\n    display: none;\n  }\n}\n\n/* ---------- progress + pulse ---------- */\n.pby-progress {\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 60;\n  width: 100%;\n  height: 2px;\n  background: var(--color-amber);\n  transform: scaleX(var(--progress, 0));\n  transform-origin: left;\n  pointer-events: none;\n}\n.pby-pulse {\n  position: fixed;\n  inset: 0 0 auto 0;\n  z-index: 55;\n  height: 2px;\n  background: linear-gradient(90deg, transparent, var(--color-amber) 30%, var(--color-amber) 70%, transparent);\n  pointer-events: none;\n  opacity: 0;\n}\n\n/* ---------- hero ---------- */\n.pby-hero {\n  position: relative;\n  min-height: 100svh;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  padding-top: 112px;\n  overflow: clip;\n}\n.pby-grid-bg {\n  position: absolute;\n  inset: 0;\n  background-image: linear-gradient(color-mix(in srgb, var(--color-bone) 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-bone) 6%, transparent) 1px, transparent 1px);\n  background-size: 64px 64px;\n  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent);\n}\n.pby-hero-inner {\n  position: relative;\n  padding-bottom: 56px;\n}\n.pby-metrics {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: 16px;\n  margin: 40px 0 0;\n  max-width: 760px;\n}\n@media (max-width: 540px) {\n  .pby-metrics {\n    grid-template-columns: 1fr;\n    gap: 20px;\n  }\n}\n.pby-metric dt {\n  color: var(--color-steel);\n  margin-bottom: 6px;\n  line-height: 1.35;\n}\n.pby-metric dd {\n  margin: 0;\n  font: 600 clamp(1.7rem, 3.4vw, 2.6rem) var(--font-display);\n}\n.pby-hero-ticker {\n  border-block: 1px solid var(--color-seam);\n  background: var(--color-ink);\n  position: relative;\n}\n.pby-marquee {\n  overflow: hidden;\n}\n.pby-marquee-track {\n  display: flex;\n  width: max-content;\n}\n.pby-marquee-set {\n  display: flex;\n  flex: none;\n}\n.pby-tick {\n  padding: 14px 28px;\n  color: var(--color-steel);\n  white-space: nowrap;\n}\n.pby-tick::after {\n  content: \"/\";\n  margin-left: 56px;\n  color: var(--color-amber);\n}\n\n/* ---------- patch bay ---------- */\n.pby-bay-wrap {\n  margin-top: 44px;\n  max-width: 760px;\n}\n.pby-bay-head {\n  display: flex;\n  justify-content: space-between;\n  color: var(--color-steel);\n  margin-bottom: 10px;\n}\n.pby-led-row {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n}\n.pby-led {\n  width: 6px;\n  height: 6px;\n  border-radius: 50%;\n  background: var(--color-amber);\n}\n.pby-bay {\n  position: relative;\n  width: 100%;\n  background: var(--color-panel);\n  border: 1px solid var(--color-seam);\n  border-radius: 2px;\n  --plug-y: 84px;\n}\n.pby-bay::before {\n  content: \"\";\n  position: absolute;\n  left: 22px;\n  top: 16px;\n  width: 16px;\n  height: 16px;\n  border: 1.5px solid var(--color-seam);\n  border-radius: 50%;\n  background: radial-gradient(circle, var(--color-amber) 0 3px, transparent 3.5px);\n}\n.pby-bay-in {\n  position: absolute;\n  left: 48px;\n  top: 16px;\n  line-height: 16px;\n  color: var(--color-steel);\n}\n.pby-cable {\n  position: absolute;\n  inset: 0;\n  z-index: 2;\n  overflow: visible;\n  pointer-events: none;\n}\n.pby-cable path {\n  fill: none;\n  stroke: var(--color-amber);\n  stroke-width: 3;\n  stroke-linecap: round;\n}\n.pby-plug {\n  position: absolute;\n  left: 0;\n  top: 0;\n  z-index: 3;\n  width: 26px;\n  height: 26px;\n  margin: -13px 0 0 -13px;\n  border: 3px solid var(--color-amber);\n  border-radius: 50%;\n  background: var(--color-ink);\n  transform: translate(var(--plug-x, 0px), var(--plug-y));\n  pointer-events: none;\n}\n.pby-plug::before {\n  content: \"\";\n  position: absolute;\n  inset: -3px;\n  border: 2px solid var(--color-amber);\n  border-radius: 50%;\n  opacity: 0;\n}\n.pby-bay[data-ready=\"false\"] .pby-cable,\n.pby-bay[data-ready=\"false\"] .pby-plug {\n  opacity: 0;\n}\n.pby-jacks {\n  position: absolute;\n  inset: 0;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n}\n.pby-jack {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 2px;\n  padding: 0 4px 14px;\n  border: 0;\n  border-left: 1px solid var(--color-seam);\n  background: transparent;\n  color: var(--color-bone);\n  font: 600 0.98rem var(--font-body);\n  cursor: pointer;\n  transition: background var(--dur-fast) var(--ease-out);\n}\n.pby-jack:first-child {\n  border-left: 0;\n}\n.pby-jack-hole {\n  position: absolute;\n  top: 72px;\n  left: 50%;\n  width: 24px;\n  height: 24px;\n  margin-left: -12px;\n  border: 2px solid var(--color-seam);\n  border-radius: 50%;\n  background: var(--color-ink);\n  transition: border-color var(--dur-fast) var(--ease-out);\n}\n.pby-jack-code {\n  color: var(--color-steel);\n  font-size: 0.64rem;\n}\n.pby-jack[data-active=\"true\"] .pby-jack-hole {\n  border-color: var(--color-amber);\n}\n.pby-jack[data-active=\"true\"] .pby-jack-code {\n  color: var(--color-amber);\n}\n.pby-jack:active .pby-jack-hole {\n  transform: scale(0.9);\n}\n@media (hover: hover) and (pointer: fine) {\n  .pby-jack:hover {\n    background: color-mix(in srgb, var(--color-bone) 4%, transparent);\n  }\n  .pby-jack:hover:not([data-active=\"true\"]) .pby-jack-hole {\n    border-color: var(--color-steel);\n  }\n}\n\n/* ---------- sections ---------- */\n.pby-section {\n  padding-block: clamp(80px, 12vw, 160px);\n}\n.pby-section-head {\n  max-width: 760px;\n  margin-bottom: clamp(36px, 6vw, 72px);\n}\n.pby-section-head .pby-lede {\n  margin-top: 20px;\n}\n\n/* work */\n.pby-cards {\n  display: grid;\n  gap: 20px;\n  grid-template-columns: 1fr;\n}\n@media (min-width: 640px) {\n  .pby-cards {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n}\n@media (min-width: 1000px) {\n  .pby-cards {\n    grid-template-columns: repeat(3, minmax(0, 1fr));\n  }\n}\n.pby-card-slot {\n  display: flex;\n}\n.pby-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  overflow: hidden;\n  background: var(--color-panel);\n  border: 1px solid var(--color-seam);\n  border-radius: 2px;\n  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));\n  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out), border-color var(--dur-fast) var(--ease-out);\n}\n.pby-card::after {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--color-amber) 16%, transparent), transparent 60%);\n  opacity: 0;\n  pointer-events: none;\n  transition: opacity var(--dur-base) var(--ease-out);\n}\n.pby-card-media {\n  display: block;\n  overflow: hidden;\n}\n.pby-card-media img {\n  display: block;\n  width: 100%;\n  height: auto;\n  transition: transform var(--dur-slow) var(--ease-out);\n}\n.pby-placeholder {\n  display: grid;\n  place-items: center;\n  aspect-ratio: 16 / 10;\n  background: repeating-linear-gradient(135deg, var(--color-ink) 0 10px, var(--color-panel) 10px 20px);\n  border-bottom: 1px solid var(--color-seam);\n  color: var(--color-steel);\n}\n.pby-card-body {\n  display: flex;\n  flex: 1;\n  flex-direction: column;\n  gap: 8px;\n  padding: 22px;\n}\n.pby-card-meta {\n  display: flex;\n  justify-content: space-between;\n  color: var(--color-steel);\n  margin: 0;\n}\n.pby-card-kind {\n  margin: 0;\n  color: var(--color-amber);\n  font-size: 0.9rem;\n}\n.pby-card-blurb {\n  margin: 4px 0 0;\n  color: var(--color-steel);\n  font-size: 0.98rem;\n}\n.pby-tags {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 6px;\n  margin: 8px 0 0;\n  padding: 0;\n  list-style: none;\n}\n.pby-tag {\n  padding: 4px 8px;\n  border: 1px solid var(--color-seam);\n  color: var(--color-steel);\n}\n.pby-card-proof {\n  margin: auto 0 0;\n  padding-top: 14px;\n  font: 600 1.05rem var(--font-display);\n}\n.pby-fit {\n  height: 3px;\n  margin-top: 10px;\n  background: var(--color-seam);\n  overflow: hidden;\n}\n.pby-fit-bar {\n  display: block;\n  height: 100%;\n  background: var(--color-amber);\n  transform: scaleX(var(--fit, 0));\n  transform-origin: left;\n  transition: transform var(--dur-slow) var(--ease-out-expo) 300ms;\n}\n@media (hover: hover) and (pointer: fine) {\n  .pby-card:hover {\n    --lift: -6px;\n    border-color: color-mix(in srgb, var(--color-amber) 55%, var(--color-seam));\n  }\n  .pby-card:hover::after {\n    opacity: 1;\n  }\n  .pby-card:hover .pby-card-media img {\n    transform: scale(1.06);\n  }\n  .pby-cards:has(.pby-card:hover) .pby-card:not(:hover) {\n    opacity: 0.6;\n  }\n}\n\n/* stack / signal flow */\n.pby-flow {\n  display: grid;\n  gap: 28px;\n  grid-template-columns: 1fr;\n}\n@media (min-width: 860px) {\n  .pby-flow {\n    grid-template-columns: repeat(3, minmax(0, 1fr));\n    gap: 96px;\n  }\n}\n.pby-flow-col {\n  position: relative;\n}\n.pby-flow-title {\n  margin: 0 0 14px;\n  color: var(--color-steel);\n}\n.pby-flow-list {\n  display: grid;\n  gap: 10px;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.pby-flow-item {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 16px 18px;\n  background: var(--color-panel);\n  border: 1px solid var(--color-seam);\n  border-radius: 2px;\n}\n[data-col=\"core\"] .pby-flow-item {\n  border-color: color-mix(in srgb, var(--color-amber) 45%, var(--color-seam));\n}\n.pby-flow-port {\n  width: 10px;\n  height: 10px;\n  flex: none;\n  border: 2px solid var(--color-amber);\n  border-radius: 50%;\n}\n.pby-flow-wire {\n  display: none;\n}\n@media (min-width: 860px) {\n  .pby-flow-wire {\n    position: absolute;\n    top: 50%;\n    right: -96px;\n    display: block;\n    width: 96px;\n    height: 2px;\n  }\n  .pby-flow-wire-line {\n    width: 100%;\n    height: 2px;\n    background: var(--color-amber);\n    opacity: 0.55;\n  }\n  .pby-flow-pulse {\n    position: absolute;\n    top: -3px;\n    left: 0;\n    width: 8px;\n    height: 8px;\n    border-radius: 50%;\n    background: var(--color-amber);\n  }\n}\n\n/* process */\n.pby-steps {\n  display: grid;\n  gap: 32px;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  grid-template-columns: 1fr;\n}\n@media (min-width: 640px) {\n  .pby-steps {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n}\n@media (min-width: 1000px) {\n  .pby-steps {\n    grid-template-columns: repeat(4, minmax(0, 1fr));\n  }\n}\n.pby-step-rule {\n  height: 2px;\n  background: var(--color-amber);\n  margin-bottom: 18px;\n}\n.pby-step-num {\n  color: var(--color-amber);\n  margin-bottom: 10px;\n}\n.pby-step-body {\n  margin: 10px 0 0;\n  color: var(--color-steel);\n  font-size: 0.98rem;\n}\n\n/* case study */\n.pby-case {\n  position: relative;\n  padding-block: clamp(80px, 12vw, 160px);\n  border-block: 1px solid var(--color-seam);\n  isolation: isolate;\n}\n.pby-case::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  z-index: -1;\n  background: var(--color-panel);\n  transform-origin: top;\n}\n.pby-case-grid {\n  display: grid;\n  gap: 40px;\n  grid-template-columns: 1fr;\n}\n@media (min-width: 900px) {\n  .pby-case-grid {\n    grid-template-columns: 1fr 1fr;\n    gap: 64px;\n    align-items: start;\n  }\n}\n.pby-case-media-wrap {\n  overflow: hidden;\n  border: 1px solid var(--color-seam);\n}\n.pby-case-media {\n  display: block;\n}\n.pby-case-media.pby-placeholder {\n  aspect-ratio: 4 / 3;\n  border-bottom: 0;\n}\n.pby-case-copy {\n  display: grid;\n  gap: 28px;\n}\n.pby-case-label {\n  margin: 0 0 8px;\n  color: var(--color-amber);\n}\n.pby-case-problem {\n  margin: 0;\n  font: 500 1.35rem/1.35 var(--font-display);\n}\n.pby-case-list {\n  margin: 0;\n  padding-left: 1.1em;\n  color: var(--color-steel);\n}\n.pby-case-list li + li {\n  margin-top: 6px;\n}\n.pby-case-results {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 16px;\n  margin: 0;\n}\n.pby-case-result {\n  display: flex;\n  flex-direction: column-reverse;\n  gap: 6px;\n  padding: 18px;\n  border: 1px solid var(--color-seam);\n  background: var(--color-ink);\n}\n.pby-case-result dd {\n  margin: 0;\n  font: 600 clamp(1.5rem, 3vw, 2.2rem) var(--font-display);\n  color: var(--color-amber);\n}\n.pby-case-result dt {\n  color: var(--color-steel);\n}\n\n/* about */\n.pby-about {\n  display: grid;\n  gap: 40px;\n  grid-template-columns: 1fr;\n}\n@media (min-width: 900px) {\n  .pby-about {\n    grid-template-columns: 1fr 1fr;\n    gap: 64px;\n  }\n  .pby-about .pby-section-head,\n  .pby-about .pby-timeline {\n    grid-column: 2;\n  }\n  .pby-about .pby-section-head {\n    grid-row: 1;\n    margin-bottom: 0;\n  }\n  .pby-about-copy {\n    grid-column: 1;\n    grid-row: 1 / span 2;\n  }\n  .pby-about .pby-timeline {\n    grid-row: 2;\n  }\n}\n.pby-about-copy .pby-lede:first-child {\n  margin-top: 0;\n}\n.pby-timeline {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  border-top: 1px solid var(--color-seam);\n}\n.pby-timeline-row {\n  display: grid;\n  grid-template-columns: 80px 1fr;\n  gap: 16px;\n  padding: 16px 0;\n  border-bottom: 1px solid var(--color-seam);\n}\n.pby-timeline-year {\n  color: var(--color-amber);\n  padding-top: 4px;\n}\n\n/* contact */\n.pby-contact {\n  display: grid;\n  gap: 40px;\n  grid-template-columns: 1fr;\n}\n@media (min-width: 900px) {\n  .pby-contact {\n    grid-template-columns: 5fr 7fr;\n    gap: 64px;\n  }\n  .pby-contact .pby-section-head {\n    margin-bottom: 0;\n  }\n}\n.pby-form-stage {\n  display: grid;\n}\n.pby-form-stage > * {\n  grid-area: 1 / 1;\n}\n.pby-form {\n  display: grid;\n  gap: 18px;\n  grid-template-columns: 1fr;\n  align-content: start;\n}\n@media (min-width: 640px) {\n  .pby-form {\n    grid-template-columns: 1fr 1fr;\n  }\n  .pby-form .pby-field-wide {\n    grid-column: 1 / -1;\n  }\n}\n.pby-field {\n  position: relative;\n}\n.pby-field input,\n.pby-field select,\n.pby-field textarea {\n  width: 100%;\n  padding: 26px 14px 10px;\n  border: 1px solid var(--color-seam);\n  border-radius: 2px;\n  background: var(--color-panel);\n  color: var(--color-bone);\n  font: 1rem var(--font-body);\n  appearance: none;\n  transition: border-color var(--dur-fast) var(--ease-out);\n}\n.pby-field textarea {\n  resize: vertical;\n  min-height: 140px;\n}\n.pby-field label {\n  position: absolute;\n  left: 15px;\n  top: 17px;\n  color: var(--color-steel);\n  font-size: 1rem;\n  pointer-events: none;\n  transform-origin: left top;\n  transition: transform var(--dur-base) var(--ease-out);\n}\n.pby-field input:focus ~ label,\n.pby-field input:not(:placeholder-shown) ~ label,\n.pby-field textarea:focus ~ label,\n.pby-field textarea:not(:placeholder-shown) ~ label,\n.pby-field select ~ label {\n  transform: translateY(-11px) scale(0.78);\n}\n.pby-field::after {\n  content: \"\";\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 2px;\n  background: var(--color-amber);\n  transform: scaleX(0);\n  transform-origin: left;\n  transition: transform var(--dur-base) var(--ease-out-expo);\n  pointer-events: none;\n}\n.pby-field:focus-within::after {\n  transform: scaleX(1);\n}\n.pby-field input:focus,\n.pby-field select:focus,\n.pby-field textarea:focus {\n  outline: none;\n}\n.pby-field[data-invalid=\"true\"] input,\n.pby-field[data-invalid=\"true\"] select,\n.pby-field[data-invalid=\"true\"] textarea {\n  border-color: var(--color-amber);\n}\n.pby-field-select::before {\n  content: \"▾\";\n  position: absolute;\n  right: 14px;\n  top: 22px;\n  color: var(--color-steel);\n  pointer-events: none;\n}\n.pby-count {\n  position: absolute;\n  right: 12px;\n  bottom: 10px;\n  color: var(--color-steel);\n}\n.pby-error {\n  margin: 6px 0 0;\n  color: var(--color-amber);\n  font-size: 0.88rem;\n}\n.pby-error::before {\n  content: \"↳ \";\n}\n.pby-form[aria-busy=\"true\"] .pby-field {\n  opacity: 0.6;\n}\n.pby-success {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  justify-content: center;\n  gap: 8px;\n  padding: 32px;\n  border: 1px solid var(--color-amber);\n  background: var(--color-panel);\n  border-radius: 2px;\n  opacity: 0;\n  pointer-events: none;\n}\n.pby-form-stage[data-status=\"success\"] .pby-success {\n  opacity: 1;\n  pointer-events: auto;\n}\n.pby-form-stage[data-status=\"success\"] .pby-form {\n  opacity: 0;\n  pointer-events: none;\n}\n.pby-check {\n  width: 56px;\n  height: 56px;\n}\n.pby-check circle,\n.pby-check path {\n  stroke: var(--color-amber);\n  stroke-width: 2.5;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n.pby-success-ref {\n  color: var(--color-steel);\n  margin: 8px 0 0;\n}\n.pby-success .pby-lede {\n  margin-top: 4px;\n}\n\n/* footer */\n.pby-footer {\n  border-top: 1px solid var(--color-seam);\n  padding-block: 40px;\n}\n.pby-footer-inner {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: 20px;\n}\n.pby-footer-brand {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  margin: 0;\n  color: var(--color-steel);\n}\n.pby-footer-links {\n  display: flex;\n  gap: 24px;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.pby-footer-note {\n  flex-basis: 100%;\n  margin: 0;\n  color: var(--color-steel);\n}\n\n/* ---------- motion (no-preference only: hidden pre-reveal states live here, so no-JS and reduced-motion users see everything) ---------- */\n@media (prefers-reduced-motion: no-preference) {\n  @keyframes pby-in {\n    from {\n      opacity: 0;\n      transform: translateY(16px);\n    }\n  }\n  @keyframes pby-line-rise {\n    from {\n      transform: translateY(110%);\n    }\n  }\n  @keyframes pby-settle {\n    from {\n      opacity: 0;\n      transform: scale(1.06);\n    }\n  }\n  @keyframes pby-swap-in {\n    from {\n      opacity: 0;\n      transform: translateY(10px);\n    }\n  }\n  @keyframes pby-sweep {\n    0% {\n      opacity: 0;\n      transform: translateY(0);\n    }\n    12% {\n      opacity: 1;\n    }\n    100% {\n      opacity: 0;\n      transform: translateY(100vh);\n    }\n  }\n  @keyframes pby-latch {\n    0% {\n      opacity: 0.9;\n      transform: scale(0.8);\n    }\n    100% {\n      opacity: 0;\n      transform: scale(2);\n    }\n  }\n  @keyframes pby-blink {\n    50% {\n      opacity: 0.25;\n    }\n  }\n  @keyframes pby-marquee {\n    to {\n      transform: translateX(-50%);\n    }\n  }\n  @keyframes pby-travel {\n    from {\n      transform: translateX(0);\n      opacity: 0;\n    }\n    20%,\n    80% {\n      opacity: 1;\n    }\n    to {\n      transform: translateX(88px);\n      opacity: 0;\n    }\n  }\n  @keyframes pby-spin {\n    to {\n      transform: rotate(360deg);\n    }\n  }\n  @keyframes pby-drop {\n    from {\n      opacity: 0;\n      transform: translateY(-6px);\n    }\n  }\n  @keyframes pby-draw {\n    from {\n      stroke-dashoffset: 140;\n    }\n  }\n  @keyframes pby-success-rise {\n    from {\n      opacity: 0;\n      transform: translateY(14px);\n    }\n  }\n\n  .pby-load {\n    animation: pby-in var(--dur-hero) var(--ease-out-expo) both;\n    animation-delay: var(--d, 0ms);\n  }\n  .pby-grid-bg {\n    animation: pby-settle var(--dur-hero) var(--ease-out-expo) both;\n  }\n  .pby-line-inner {\n    animation: pby-line-rise var(--dur-hero) var(--ease-out-expo) both;\n    animation-delay: calc(250ms + var(--i, 0) * 90ms);\n  }\n  .pby-swap {\n    animation: pby-swap-in var(--dur-base) var(--ease-out) both;\n  }\n  /* After the first route the page is already loaded: replays start immediately. */\n  html[data-routed] .pby-line-inner {\n    animation-delay: calc(var(--i, 0) * 70ms);\n    animation-duration: var(--dur-slow);\n  }\n  html[data-routed] .pby-load {\n    animation-name: pby-swap-in;\n    animation-delay: 0ms;\n    animation-duration: var(--dur-base);\n  }\n\n  .pby-pulse {\n    animation: pby-sweep 900ms var(--ease-in-out) both;\n  }\n  .pby-plug {\n    transition: none;\n  }\n  .pby-plug[data-seated=\"true\"]::before {\n    animation: pby-latch 520ms var(--ease-out) both;\n  }\n  .pby-led {\n    animation: pby-blink 2.4s ease-in-out infinite;\n  }\n  .pby-marquee-track {\n    animation: pby-marquee 48s linear infinite;\n  }\n  .pby-marquee:hover .pby-marquee-track,\n  .pby-marquee:focus-within .pby-marquee-track {\n    animation-play-state: paused;\n  }\n  .pby-flow-pulse {\n    animation: pby-travel 2.6s linear infinite;\n  }\n  .pby-spinner {\n    animation: pby-spin 700ms linear infinite;\n  }\n  .pby-error {\n    animation: pby-drop var(--dur-base) var(--ease-out) both;\n  }\n  .pby-check circle,\n  .pby-check path {\n    stroke-dasharray: 140;\n    animation: pby-draw 700ms var(--ease-out-expo) 120ms both;\n  }\n  .pby-success > * {\n    animation: pby-success-rise var(--dur-slow) var(--ease-out-expo) both;\n  }\n  .pby-success > :nth-child(2) {\n    animation-delay: 120ms;\n  }\n  .pby-success > :nth-child(3) {\n    animation-delay: 200ms;\n  }\n  .pby-success > :nth-child(4) {\n    animation-delay: 280ms;\n  }\n  .pby-success > :nth-child(5) {\n    animation-delay: 360ms;\n  }\n  .pby-form-stage .pby-form,\n  .pby-form-stage .pby-success {\n    transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-slow) var(--ease-out-expo);\n  }\n  .pby-form-stage[data-status=\"success\"] .pby-form {\n    transform: translateY(-12px);\n  }\n\n  /* handoff: the hero lifts and dims as the work slab slides in */\n  .pby-hero-inner {\n    transform: translateY(calc(var(--hero-p, 0) * -48px)) scale(calc(1 - var(--hero-p, 0) * 0.04));\n    opacity: calc(1 - var(--hero-p, 0) * 0.55);\n    transform-origin: 50% 0;\n  }\n  .pby-grid-bg {\n    transform: translateY(calc(var(--hero-p, 0) * 40px));\n  }\n\n  .pby-menu-link {\n    opacity: 0;\n    transform: translateY(24px);\n    transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-slow) var(--ease-out-expo);\n  }\n  .pby-menu[data-open=\"true\"] .pby-menu-link {\n    opacity: 1;\n    transform: none;\n    transition-delay: calc(240ms + var(--i, 0) * 60ms);\n  }\n\n  [data-reveal] {\n    transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out), clip-path var(--dur-slow) var(--ease-in-out);\n    transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger));\n  }\n  [data-reveal=\"rise\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translateY(var(--reveal-shift));\n  }\n  [data-reveal=\"scale\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translateY(32px) scale(0.96);\n  }\n  [data-reveal=\"wipe\"]:not([data-in=\"true\"]) {\n    clip-path: inset(0 0 100% 0);\n  }\n  [data-reveal=\"draw\"]:not([data-in=\"true\"]) {\n    transform: scaleX(0);\n    transform-origin: left;\n  }\n  [data-reveal=\"draw\"] {\n    transform-origin: left;\n  }\n  [data-reveal=\"slide-left\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translateX(-24px);\n  }\n  [data-reveal=\"slide-right\"]:not([data-in=\"true\"]) {\n    opacity: 0;\n    transform: translateX(24px);\n  }\n  [data-reveal=\"wipe\"] .pby-placeholder,\n  [data-reveal=\"wipe\"] img {\n    transition: transform var(--dur-slow) var(--ease-out);\n  }\n  [data-reveal=\"wipe\"]:not([data-in=\"true\"]) .pby-placeholder,\n  [data-reveal=\"wipe\"]:not([data-in=\"true\"]) img {\n    transform: scale(1.12);\n  }\n  [data-reveal]:not([data-in=\"true\"]) .pby-fit-bar {\n    transform: scaleX(0);\n  }\n\n  @supports (animation-timeline: view()) {\n    @keyframes pby-slab {\n      from {\n        transform: scaleY(0);\n      }\n      to {\n        transform: scaleY(1);\n      }\n    }\n    .pby-case::before {\n      animation: pby-slab linear both;\n      animation-timeline: view();\n      animation-range: entry 0% entry 70%;\n    }\n  }\n}\n\n/* ---------- reduced motion: a finished static page ---------- */\n@media (prefers-reduced-motion: reduce) {\n  .pby-progress,\n  .pby-pulse {\n    display: none;\n  }\n  .pby-marquee-track {\n    flex-wrap: wrap;\n    width: auto;\n  }\n  .pby-marquee-set:nth-child(2) {\n    display: none;\n  }\n  .pby-form-stage[data-status=\"success\"] .pby-form {\n    visibility: hidden;\n  }\n  .pby-menu {\n    clip-path: none;\n    opacity: 0;\n    visibility: hidden;\n    transition: opacity 120ms linear;\n  }\n  .pby-menu[data-open=\"true\"] {\n    opacity: 1;\n    visibility: visible;\n  }\n}"
+    },
+    {
+      "id": "patchbay-runtime-1",
+      "location": "footer",
+      "title": "PATCHBAY Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 345,
+      "description": "Loads lenis in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "lenis"
+      ],
+      "code": "// PATCHBAY — Webflow Custom Code Runtime Bridge\n// Dependencies: lenis\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

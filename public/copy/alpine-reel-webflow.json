@@ -1,0 +1,156 @@
+{
+  "slug": "alpine-reel",
+  "title": "ALPINE REEL",
+  "industry": "Mountain Cinema",
+  "description": "Fourteen eight-thousanders as one moving film frame. A cold-blue horizontal reel with snap physics, parallax and a door-tilt peak dossier.",
+  "stack": "Next.js 16 · React 19 · Horizontal Reel · Pointer Physics",
+  "liveUrl": "https://www.openlanding.page/templates/alpine-reel",
+  "downloadUrl": "https://www.openlanding.page/downloads/alpine-reel.html",
+  "manifestUrl": "https://www.openlanding.page/copy/alpine-reel-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/alpine-reel-webflow-prompt.md",
+  "variables": {
+    "collectionName": "ALPINE REEL Tokens",
+    "colors": [
+      {
+        "name": "Color / Arl Abyss",
+        "cssVar": "--arl-abyss",
+        "value": "#040B16",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Arl Navy",
+        "cssVar": "--arl-navy",
+        "value": "#08162A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Arl Ice",
+        "cssVar": "--arl-ice",
+        "value": "#6EA8D2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Arl Snow",
+        "cssVar": "--arl-snow",
+        "value": "#FFFFFF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Arl Ink Soft",
+        "cssVar": "--arl-ink-soft",
+        "value": "color-mix(in srgb, var(--arl-snow) 78%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Arl Ink Muted",
+        "cssVar": "--arl-ink-muted",
+        "value": "color-mix(in srgb, var(--arl-snow) 56%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Arl Ink Faint",
+        "cssVar": "--arl-ink-faint",
+        "value": "color-mix(in srgb, var(--arl-snow) 24%, transparent)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Color / Arl Line",
+        "cssVar": "--arl-line",
+        "value": "color-mix(in srgb, var(--arl-snow) 15%, transparent)",
+        "isCustomExpression": true
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Arl Display",
+        "cssVar": "--font-arl-display",
+        "family": "var(--font-playfair)",
+        "fallback": "Georgia, serif"
+      },
+      {
+        "name": "Font / Arl Body",
+        "cssVar": "--font-arl-body",
+        "family": "Geist",
+        "fallback": "ui-sans-serif, sans-serif",
+        "googleFont": "Geist"
+      },
+      {
+        "name": "Font / Arl Mono",
+        "cssVar": "--font-arl-mono",
+        "family": "Geist Mono",
+        "fallback": "ui-monospace, monospace",
+        "googleFont": "Geist Mono"
+      },
+      {
+        "name": "Font / Outlier",
+        "cssVar": "--font-outlier",
+        "family": "var(--font-geist-mono)",
+        "fallback": "ui-monospace, monospace"
+      },
+      {
+        "name": "Font / Playfair Display",
+        "cssVar": "--font-playfair-display",
+        "family": "Playfair Display",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Playfair Display"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Arl Pad Y",
+        "cssVar": "--arl-pad-y",
+        "value": "7.5dvh",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Arl Initial Transform",
+        "cssVar": "--arl-initial-transform",
+        "value": "translate3d(calc(10vw - 29 * 85vw), 0, 0)",
+        "isCustomExpression": true
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "alpine-reel.webp",
+      "publicPath": "https://www.openlanding.page/gallery/alpine-reel.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Build a Next.js 16 App Router page for the fictional editorial brand **Alpine Reel**. The page is a full viewport horizontal reel of the fourteen eight-thousanders from `slides/data.ts`. Its central idea is: the peaks are a film reel, so la",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".5dvh",
+        ".arl-reel",
+        ".arl-visually-hidden",
+        ".arl-defs",
+        ".arl-header",
+        ".2dvh",
+        ".arl-logo",
+        ".8vw",
+        ".03em",
+        ".arl-logo__text",
+        ".arl-mark",
+        ".arl-mark--compact"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "alpine-reel-styles-1",
+      "location": "head",
+      "title": "ALPINE REEL Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 20129,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "/* Hallmark · shape: horizontal reel · genre: atmospheric · theme: Cold Cinema · hero: full-bleed stage · surface: absolute · posture: committed · signature: door-tilt peak dossier · v2.0.0 */\n/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: E, remote stills are supplied by the brief until local processed media arrives */\n/* Hallmark · answered F8 · the reel is the scroll story; the panel is the only modal and the only high-intensity handoff */\n/* Hallmark · waive 7b · pure snow ink is the material specification · high contrast keeps facts legible on abyss */\n/* Hallmark · waive 24b · half-step offsets are intentional · the supplied art direction uses film-frame rhythm */\n/* Hallmark · waive 38iii · ice-blue second line is intentional · it identifies the active peak signature */\n\n:root {\n  --arl-abyss: #040B16;\n  --arl-navy: #08162A;\n  --arl-ice: #6EA8D2;\n  --arl-snow: #FFFFFF;\n  --arl-ink-soft: color-mix(in srgb, var(--arl-snow) 78%, transparent);\n  --arl-ink-muted: color-mix(in srgb, var(--arl-snow) 56%, transparent);\n  --arl-ink-faint: color-mix(in srgb, var(--arl-snow) 24%, transparent);\n  --arl-line: color-mix(in srgb, var(--arl-snow) 15%, transparent);\n  --arl-pad-y: 7.5dvh;\n  --arl-ease-out: cubic-bezier(0.16, 1, 0.3, 1);\n  --arl-ease-door: cubic-bezier(0.22, 1, 0.36, 1);\n  --arl-ease-settle: cubic-bezier(0.65, 0, 0.35, 1);\n  --arl-dur-fast: 180ms;\n  --arl-dur-base: 420ms;\n  --arl-dur-door: 700ms;\n  --arl-dur-reveal: 900ms;\n  --arl-scan-opacity: 0;\n  --arl-initial-transform: translate3d(calc(10vw - 29 * 85vw), 0, 0);\n  --font-arl-display: var(--font-playfair), Georgia, serif;\n  --font-arl-body: var(--font-geist-sans), ui-sans-serif, sans-serif;\n  --font-arl-mono: var(--font-geist-mono), ui-monospace, monospace;\n  --font-outlier: var(--font-geist-mono), ui-monospace, monospace;\n}\n\nhtml,\nbody {\n  overflow-x: clip;\n}\n\nbody {\n  margin: 0;\n  background: var(--arl-abyss);\n  color: var(--arl-snow);\n  font-family: var(--font-arl-body);\n  -webkit-font-smoothing: antialiased;\n  font-synthesis: none;\n}\n\nbody[data-arl-modal=\"open\"] {\n  overflow: clip;\n}\n\nbutton,\na {\n  -webkit-tap-highlight-color: transparent;\n}\n\nbutton:disabled {\n  cursor: not-allowed;\n  opacity: 0.45;\n}\n\nbutton:focus-visible,\na:focus-visible {\n  outline: 2px solid var(--arl-ice);\n  outline-offset: 4px;\n}\n\n.arl-reel {\n  position: relative;\n  width: 100%;\n  min-height: 100dvh;\n  isolation: isolate;\n  overflow: clip;\n  background: var(--arl-abyss);\n  color: var(--arl-snow);\n  cursor: none;\n  user-select: none;\n  touch-action: none;\n}\n\n.arl-visually-hidden {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: clip;\n  clip-path: inset(50%);\n  white-space: nowrap;\n  border: 0;\n}\n\n.arl-defs {\n  position: absolute;\n  pointer-events: none;\n}\n\n.arl-header {\n  position: absolute;\n  inset: 0 0 auto;\n  z-index: 50;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 24px;\n  padding: 3.2dvh 5dvh;\n  color: var(--arl-ink-soft);\n  pointer-events: none;\n}\n\n.arl-logo {\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n  color: var(--arl-snow);\n  font-family: var(--font-arl-display);\n  font-size: clamp(17px, 1.8vw, 24px);\n  line-height: 1;\n  letter-spacing: -0.03em;\n}\n\n.arl-logo__text span {\n  font-style: italic;\n}\n\n.arl-mark {\n  width: 36px;\n  height: 36px;\n  color: currentColor;\n  fill: none;\n  stroke: currentColor;\n  stroke-width: 2.2;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n\n.arl-mark circle:last-child {\n  fill: var(--arl-ice);\n  stroke: var(--arl-ice);\n}\n\n.arl-mark--compact {\n  width: 28px;\n  height: 28px;\n}\n\n.arl-header__right {\n  display: flex;\n  align-items: center;\n  gap: 24px;\n  font: 500 10px/1 var(--font-arl-mono);\n}\n\n.arl-header__hint {\n  color: var(--arl-ink-muted);\n}\n\n.arl-stage {\n  position: absolute;\n  inset: 0;\n  overflow: clip;\n}\n\n.arl-reel[data-intro=\"true\"][data-enhanced=\"true\"] .arl-stage {\n  filter: url(#arl-motion-blur);\n}\n\n.arl-track {\n  position: absolute;\n  inset: var(--arl-pad-y) auto var(--arl-pad-y) 0;\n  display: flex;\n  align-items: stretch;\n  width: max-content;\n  will-change: transform;\n  transform: var(--arl-initial-transform);\n}\n\n.arl-slide {\n  position: relative;\n  flex: 0 0 80vw;\n  width: 80vw;\n  height: 100%;\n  margin-right: 5vw;\n  perspective: 2000px;\n  content-visibility: auto;\n  contain-intrinsic-size: auto 80vw auto 100dvh;\n}\n\n.arl-slide__inner {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  overflow: clip;\n  border: 1px solid var(--arl-line);\n  border-radius: clamp(24px, 3.3vw, 48px);\n  background: var(--arl-navy);\n  transform-origin: 0% 50%;\n  transition: transform var(--arl-dur-door) var(--arl-ease-door), box-shadow var(--arl-dur-door) var(--arl-ease-door);\n}\n\n.arl-slide[data-open=\"true\"] .arl-slide__inner {\n  transform: rotateY(15deg);\n}\n\n.arl-slide__image {\n  position: absolute;\n  inset: 0;\n  width: 120vw;\n  height: 100%;\n  margin-left: -20vw;\n  transform: translate3d(var(--arl-parallax, 0px), 0, 0) scale(1.03);\n}\n\n.arl-slide[data-active=\"true\"] .arl-slide__image {\n  will-change: transform;\n}\n\n.arl-slide__image img {\n  display: block;\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  object-position: center;\n  filter: grayscale(100%) contrast(1.12) brightness(0.84);\n  user-select: none;\n  pointer-events: none;\n}\n\n.arl-slide__tint,\n.arl-slide__vignette {\n  position: absolute;\n  inset: 0;\n  pointer-events: none;\n}\n\n.arl-slide__tint {\n  background: color-mix(in srgb, var(--arl-navy) 62%, transparent);\n  mix-blend-mode: color;\n}\n\n.arl-slide__vignette {\n  background:\n    linear-gradient(180deg, color-mix(in srgb, var(--arl-abyss) 70%, transparent) 0%, transparent 30%, color-mix(in srgb, var(--arl-abyss) 58%, transparent) 100%),\n    radial-gradient(ellipse at 50% 48%, transparent 10%, color-mix(in srgb, var(--arl-abyss) 44%, transparent) 100%);\n}\n\n.arl-slide__content {\n  position: absolute;\n  inset: 0;\n  display: block;\n  opacity: 1;\n  filter: blur(0);\n  transform: translate3d(0, 0, 0);\n  transition: opacity var(--arl-dur-reveal) var(--arl-ease-out), transform var(--arl-dur-reveal) var(--arl-ease-out), filter var(--arl-dur-reveal) var(--arl-ease-out);\n  pointer-events: none;\n}\n\n.arl-reel[data-enhanced=\"true\"] .arl-slide[data-active=\"true\"] .arl-slide__content {\n  opacity: var(--arl-content-opacity, 1);\n  transform: translate3d(var(--arl-content-x, 0px), 0, 0);\n  filter: blur(var(--arl-content-blur, 0px));\n}\n\n.arl-reel[data-intro=\"true\"][data-js] .arl-slide .arl-slide__content {\n  opacity: 0;\n}\n\n.arl-slide__topline {\n  position: absolute;\n  top: 5.5dvh;\n  left: 6dvh;\n  display: flex;\n  align-items: flex-start;\n  gap: 16px;\n}\n\n.arl-year {\n  color: var(--arl-snow);\n  font: italic 600 clamp(1.35rem, 2.3dvh, 2.5rem)/1 var(--font-arl-display);\n}\n\n.arl-eyebrow {\n  display: grid;\n  gap: 3px;\n  max-width: 20ch;\n  color: var(--arl-ink-soft);\n  font: 500 10px/1.3 var(--font-arl-mono);\n}\n\n.arl-badge {\n  display: grid;\n  gap: 2px;\n  margin-left: 5px;\n  padding: 8px 10px 7px;\n  border: 1px solid var(--arl-ink-faint);\n  border-radius: 999px;\n  color: var(--arl-snow);\n  font: 500 10px/1 var(--font-arl-mono);\n  text-align: center;\n}\n\n.arl-badge small {\n  color: var(--arl-ink-muted);\n  font-size: 8px;\n}\n\n.arl-slide__title-block {\n  position: absolute;\n  left: 6dvh;\n  bottom: 9dvh;\n  max-width: min(45vw, 620px);\n}\n\n.arl-range {\n  margin: 0 0 14px;\n  color: var(--arl-ink-muted);\n  font: 500 10px/1 var(--font-arl-mono);\n}\n\n.arl-slide h2 {\n  display: grid;\n  gap: 0;\n  margin: 0;\n  color: var(--arl-snow);\n  font: 600 clamp(3.25rem, 9.2dvh, 9rem)/0.86 var(--font-arl-display);\n  letter-spacing: -0.045em;\n  text-transform: uppercase;\n  text-wrap: balance;\n  overflow-wrap: break-word;\n  min-width: 0;\n}\n\n.arl-slide h2 span:last-child {\n  color: var(--arl-ice);\n}\n\n.arl-ascent-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 12px 24px;\n  margin-top: 22px;\n  color: var(--arl-ink-soft);\n  font: 500 10px/1.45 var(--font-arl-mono);\n}\n\n.arl-ascent-row span {\n  display: grid;\n  gap: 4px;\n}\n\n.arl-ascent-row b {\n  color: var(--arl-ink-muted);\n  font-weight: 400;\n}\n\n.arl-slide__awards {\n  position: absolute;\n  top: 50%;\n  right: 6dvh;\n  display: grid;\n  gap: 15px;\n  width: min(26vw, 330px);\n  transform: translateY(-50%);\n}\n\n.arl-award {\n  display: grid;\n  grid-template-columns: auto 1fr;\n  gap: 5px 10px;\n  align-items: baseline;\n  min-width: 0;\n}\n\n.arl-stars {\n  display: inline-flex;\n  gap: 2px;\n  color: var(--arl-ink-faint);\n  font-size: 10px;\n}\n\n.arl-stars span[data-filled=\"true\"] {\n  color: var(--arl-ice);\n}\n\n.arl-award__label {\n  color: var(--arl-ink-soft);\n  font: 500 9px/1.2 var(--font-arl-mono);\n}\n\n.arl-award__quote {\n  grid-column: 2;\n  color: var(--arl-ink-muted);\n  font: italic 400 12px/1.25 var(--font-arl-display);\n}\n\n.arl-explore {\n  position: absolute;\n  right: 6dvh;\n  bottom: 5dvh;\n  display: inline-flex;\n  align-items: center;\n  gap: 15px;\n  min-height: 48px;\n  padding: 0 22px;\n  border: 1px solid var(--arl-ink-faint);\n  border-radius: 999px;\n  background: color-mix(in srgb, var(--arl-navy) 50%, transparent);\n  color: var(--arl-snow);\n  font: 500 10px/1 var(--font-arl-mono);\n  pointer-events: auto;\n  cursor: pointer;\n  transition: transform var(--arl-dur-fast) var(--arl-ease-out), border-color var(--arl-dur-fast) var(--arl-ease-out), background-color var(--arl-dur-fast) var(--arl-ease-out), box-shadow var(--arl-dur-base) var(--arl-ease-out);\n}\n\n.arl-explore span:last-child {\n  color: var(--arl-ice);\n  font-size: 18px;\n  line-height: 1;\n  transition: transform var(--arl-dur-fast) var(--arl-ease-out);\n}\n\n.arl-explore:hover {\n  transform: translateY(-4px);\n  border-color: var(--arl-snow);\n  background: color-mix(in srgb, var(--arl-snow) 12%, transparent);\n  box-shadow: 0 10px 30px color-mix(in srgb, var(--arl-abyss) 65%, transparent);\n}\n\n.arl-explore:hover span:last-child {\n  transform: translate(3px, -3px);\n}\n\n.arl-explore:active {\n  transform: translateY(0) scale(0.96);\n}\n\n.arl-mask {\n  position: absolute;\n  inset-block: 0;\n  z-index: 30;\n  width: 10vw;\n  pointer-events: none;\n}\n\n.arl-mask--left {\n  left: 0;\n  background: linear-gradient(90deg, var(--arl-abyss) 0%, color-mix(in srgb, var(--arl-abyss) 0%, transparent) 100%);\n}\n\n.arl-mask--right {\n  right: 0;\n  background: linear-gradient(270deg, var(--arl-abyss) 0%, color-mix(in srgb, var(--arl-abyss) 0%, transparent) 100%);\n}\n\n.arl-scanlines {\n  position: absolute;\n  inset: 0;\n  z-index: 35;\n  pointer-events: none;\n  opacity: var(--arl-scan-opacity);\n  background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--arl-snow) 6%, transparent) 0 1px, transparent 1px 3px);\n  mix-blend-mode: screen;\n}\n\n.arl-cursor {\n  position: fixed;\n  z-index: 80;\n  top: -52px;\n  left: -52px;\n  display: grid;\n  width: 104px;\n  height: 104px;\n  place-items: center;\n  border: 1px solid color-mix(in srgb, var(--arl-snow) 45%, transparent);\n  border-radius: 50%;\n  color: var(--arl-snow);\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity var(--arl-dur-fast) ease, transform 90ms linear;\n}\n\n.arl-cursor[data-visible=\"true\"] {\n  opacity: 1;\n}\n\n.arl-reel:has(.arl-details[data-open=\"true\"]) .arl-cursor,\nbody[data-arl-modal=\"open\"] .arl-cursor {\n  opacity: 0;\n  display: none;\n}\n\n.arl-reel:has(.arl-details[data-open=\"true\"]),\nbody[data-arl-modal=\"open\"] .arl-reel {\n  cursor: default;\n}\n\n.arl-cursor[data-pressed=\"true\"] {\n  transform: translate3d(var(--cursor-x, -100px), var(--cursor-y, -100px), 0) scale(1.12);\n}\n\n.arl-cursor__label {\n  font: 500 9px/1 var(--font-arl-mono);\n  transition: opacity var(--arl-dur-fast) var(--arl-ease-out);\n}\n\n.arl-cursor[data-zone=\"left\"] .arl-cursor__label,\n.arl-cursor[data-zone=\"right\"] .arl-cursor__label {\n  opacity: 0;\n}\n\n.arl-cursor__chevron {\n  position: absolute;\n  top: 50%;\n  color: var(--arl-ice);\n  font: 400 26px/1 var(--font-arl-display);\n  opacity: 1;\n  color: transparent;\n  transform: translateY(-50%);\n  transition: opacity var(--arl-dur-fast) var(--arl-ease-out), transform var(--arl-dur-fast) var(--arl-ease-out);\n}\n\n.arl-cursor__chevron--left { left: 12px; }\n.arl-cursor__chevron--right { right: 12px; }\n.arl-cursor[data-zone=\"left\"] .arl-cursor__chevron--left,\n.arl-cursor[data-zone=\"right\"] .arl-cursor__chevron--right { opacity: 1; color: var(--arl-ice); }\n\n.arl-indicator {\n  position: absolute;\n  left: 50%;\n  bottom: 2.5dvh;\n  z-index: 45;\n  display: flex;\n  align-items: center;\n  gap: 14px;\n  color: var(--arl-ink-muted);\n  font: italic 400 12px/1 var(--font-arl-display);\n  pointer-events: none;\n  transform: translateX(-50%);\n  transition: opacity var(--arl-dur-base) var(--arl-ease-out);\n}\n\n.arl-indicator[data-hidden=\"true\"] {\n  opacity: 0;\n}\n\n.arl-indicator__pips {\n  display: flex;\n  align-items: center;\n  gap: 0;\n  pointer-events: auto;\n}\n\n.arl-indicator button {\n  display: grid;\n  width: 18px;\n  height: 20px;\n  place-items: center;\n  padding: 0;\n  border: 0;\n  background: transparent;\n  cursor: pointer;\n}\n\n.arl-indicator i {\n  display: block;\n  width: 6px;\n  height: 6px;\n  border-radius: 50%;\n  background: var(--arl-ink-faint);\n  transform: scale(0.66);\n  transition: transform var(--arl-dur-base) var(--arl-ease-out), background-color var(--arl-dur-base) var(--arl-ease-out);\n}\n\n.arl-indicator i[data-active=\"true\"] {\n  transform: scale(1);\n  background: var(--arl-snow);\n}\n\n.arl-readout {\n  position: absolute;\n  right: 5dvh;\n  bottom: 2.7dvh;\n  z-index: 44;\n  display: flex;\n  align-items: baseline;\n  gap: 10px;\n  color: var(--arl-ink-muted);\n  font: 500 10px/1 var(--font-arl-mono);\n}\n\n.arl-readout span,\n.arl-readout small {\n  color: var(--arl-ice);\n}\n\n.arl-readout b {\n  color: var(--arl-snow);\n  font-weight: 500;\n}\n\n.arl-readout small {\n  font-size: 9px;\n}\n\n.arl-backdrop {\n  position: absolute;\n  inset: var(--arl-pad-y) 10vw var(--arl-pad-y) 10vw;\n  z-index: 60;\n  width: 80vw;\n  padding: 0;\n  border: 0;\n  border-radius: clamp(24px, 3.3vw, 48px);\n  background: color-mix(in srgb, var(--arl-abyss) 48%, transparent);\n  opacity: 0;\n  pointer-events: none;\n  backdrop-filter: blur(0);\n  cursor: pointer;\n  transition: opacity 600ms var(--arl-ease-door), backdrop-filter 600ms var(--arl-ease-door);\n}\n\n.arl-backdrop[data-open=\"true\"] {\n  opacity: 1;\n  pointer-events: auto;\n  backdrop-filter: blur(14px);\n}\n\n.arl-details {\n  position: absolute;\n  inset: var(--arl-pad-y) var(--arl-pad-y) var(--arl-pad-y) auto;\n  z-index: 70;\n  width: min(640px, 52%);\n  overflow: clip;\n  border: 0;\n  border-radius: clamp(24px, 3.3vw, 48px);\n  background: linear-gradient(180deg, color-mix(in srgb, var(--arl-navy) 90%, transparent) 0%, color-mix(in srgb, var(--arl-abyss) 96%, transparent) 100%);\n  box-shadow: -30px 0 80px color-mix(in srgb, var(--arl-abyss) 80%, transparent);\n  transform: translate3d(calc(100% + 10vw), 0, 0);\n  transition: transform var(--arl-dur-door) var(--arl-ease-door);\n  pointer-events: none;\n  cursor: default;\n  user-select: text;\n}\n\n.arl-details[data-open=\"true\"] {\n  transform: translate3d(0, 0, 0);\n  pointer-events: auto;\n}\n\n.arl-details__scroll {\n  width: 100%;\n  height: 100%;\n  overflow-y: auto;\n  overscroll-behavior: contain;\n  touch-action: pan-y;\n  cursor: default;\n}\n\n.arl-details__scroll:focus {\n  outline: none;\n}\n\n.arl-details__scroll:focus-visible {\n  outline: 1px solid var(--arl-line);\n  outline-offset: -1px;\n}\n\n.arl-details,\n.arl-details *,\n.arl-details__scroll,\n.arl-details__scroll * {\n  cursor: default;\n}\n\n.arl-details button,\n.arl-details button *,\n.arl-details a,\n.arl-details a *,\n.arl-details__close,\n.arl-details__close * {\n  cursor: pointer;\n}\n\n.arl-details__image {\n  position: relative;\n  height: 35dvh;\n  flex: none;\n}\n\n.arl-details__image img {\n  display: block;\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  filter: grayscale(100%) contrast(1.12) brightness(0.9);\n}\n\n.arl-details__image div {\n  position: absolute;\n  inset: 0;\n  background: linear-gradient(180deg, transparent 20%, var(--arl-abyss) 100%);\n}\n\n.arl-details__body {\n  padding: 1dvh 3.5dvh 4dvh;\n}\n\n.arl-details__eyebrow {\n  margin: 0;\n  color: var(--arl-ink-muted);\n  font: 500 10px/1.35 var(--font-arl-mono);\n}\n\n.arl-details h2 {\n  display: grid;\n  margin: 12px 0 0;\n  color: var(--arl-snow);\n  font: 600 clamp(2.5rem, 5.8dvh, 4rem)/0.88 var(--font-arl-display);\n  letter-spacing: -0.045em;\n  text-transform: uppercase;\n  text-wrap: balance;\n}\n\n.arl-details h2 span:last-child {\n}\n\n.arl-details__meta {\n  margin: 16px 0 0;\n  color: var(--arl-ink-soft);\n  font: 500 10px/1.4 var(--font-arl-mono);\n}\n\n.arl-details hr {\n  height: 1px;\n  margin: 24px 0;\n  border: 0;\n  background: var(--arl-line);\n}\n\n.arl-details__description {\n  margin: 0;\n  color: var(--arl-ink-soft);\n  font: italic 400 16px/1.65 var(--font-arl-display);\n}\n\n.arl-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: 20px 18px;\n}\n\n.arl-stat {\n  display: grid;\n  gap: 7px;\n  min-width: 0;\n}\n\n.arl-stat span {\n  color: var(--arl-ink-muted);\n  font: 500 9px/1.2 var(--font-arl-mono);\n}\n\n.arl-stat strong {\n  color: var(--arl-snow);\n  font: 500 18px/1 var(--font-arl-display);\n  overflow-wrap: anywhere;\n}\n\n.arl-stat--country {\n  margin-top: 20px;\n}\n\n.arl-stat--country strong {\n  font-family: var(--font-arl-mono);\n  font-size: 11px;\n}\n\n.arl-awards-list {\n  display: grid;\n  gap: 13px;\n}\n\n.arl-awards-list .arl-award__quote {\n  color: var(--arl-ink-soft);\n}\n\n.arl-details__close {\n  position: absolute;\n  top: 3dvh;\n  right: 3dvh;\n  z-index: 2;\n  display: grid;\n  width: 40px;\n  height: 40px;\n  place-items: center;\n  padding: 0;\n  border: 1px solid var(--arl-ink-faint);\n  border-radius: 50%;\n  background: color-mix(in srgb, var(--arl-abyss) 65%, transparent);\n  cursor: pointer;\n  transition: transform var(--arl-dur-fast) var(--arl-ease-out), background-color var(--arl-dur-fast) var(--arl-ease-out);\n}\n\n.arl-details__close:hover {\n  transform: rotate(90deg);\n  background: color-mix(in srgb, var(--arl-ice) 22%, transparent);\n}\n\n.arl-details__close span {\n  position: absolute;\n  width: 14px;\n  height: 1px;\n  background: var(--arl-snow);\n  transform: rotate(45deg);\n}\n\n.arl-details__close span:last-child {\n  transform: rotate(-45deg);\n}\n\n@media (max-width: 800px) {\n  :root { --arl-pad-y: 2dvh; --arl-initial-transform: translate3d(calc(7vw - 29 * 90vw), 0, 0); }\n  .arl-header { padding: 2.4dvh 3dvh; }\n  .arl-header__hint { display: none; }\n  .arl-slide { flex-basis: 86vw; width: 86vw; margin-right: 4vw; }\n  .arl-slide__topline { top: 3dvh; left: 3dvh; gap: 10px; }\n  .arl-slide__title-block { left: 3dvh; bottom: 9dvh; max-width: 76vw; }\n  .arl-slide h2 { font-size: clamp(2rem, 6.4dvh, 3.7rem); }\n  .arl-range { margin-bottom: 10px; font-size: 8px; }\n  .arl-eyebrow { font-size: 8px; }\n  .arl-badge { display: none; }\n  .arl-slide__awards { display: none; }\n  .arl-explore { right: 3dvh; bottom: 3dvh; min-height: 44px; padding-inline: 17px; font-size: 9px; }\n  .arl-readout { right: 3dvh; bottom: 2.8dvh; display: none; }\n  .arl-indicator { bottom: 2.2dvh; gap: 8px; }\n  .arl-indicator__pips button { width: 24px; height: 24px; }\n  .arl-header__right,\n  .arl-eyebrow,\n  .arl-range,\n  .arl-ascent-row,\n  .arl-award__label,\n  .arl-explore,\n  .arl-cursor__label,\n  .arl-readout,\n  .arl-details__eyebrow,\n  .arl-details__meta,\n  .arl-stat span,\n  .arl-stat--country strong { font-size: 12px; }\n  .arl-cursor { display: none; }\n  .arl-details { inset: var(--arl-pad-y) 3dvh var(--arl-pad-y) auto; width: 80vw; }\n  .arl-details__body { padding-inline: 3dvh; }\n  .arl-details__description { font-size: 15px; }\n  .arl-stats-grid { gap: 16px 12px; }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .arl-reel { cursor: auto; touch-action: auto; }\n  .arl-track { transform: var(--arl-initial-transform); }\n  .arl-reel[data-reduced=\"true\"] .arl-slide__content,\n  .arl-reel[data-enhanced=\"true\"] .arl-slide[data-active=\"true\"] .arl-slide__content { opacity: 1; transform: none; filter: none; }\n  .arl-cursor { display: none; }\n  .arl-slide[data-open=\"true\"] .arl-slide__inner { transform: none; }\n  .arl-slide__inner,\n  .arl-slide__content,\n  .arl-details,\n  .arl-backdrop,\n  .arl-explore,\n  .arl-indicator,\n  .arl-indicator i { transition-duration: 1ms; }\n  .arl-scanlines { display: none; }\n}"
+    }
+  ]
+}

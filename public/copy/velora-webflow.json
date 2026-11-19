@@ -1,0 +1,86 @@
+{
+  "slug": "velora",
+  "title": "VELORA",
+  "industry": "Fintech & Global Payments",
+  "description": "A fictional instant global money transfer app concept with interactive rates, sticky globe visual, and currency exchange calculator.",
+  "stack": "HTML · CSS · JavaScript",
+  "liveUrl": "https://www.openlanding.page/templates/velora",
+  "downloadUrl": "https://www.openlanding.page/downloads/velora.html",
+  "manifestUrl": "https://www.openlanding.page/copy/velora-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/velora-webflow-prompt.md",
+  "variables": {
+    "collectionName": "VELORA Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#06131c",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#081925",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 3",
+        "cssVar": "--color-palette-3",
+        "value": "#0d2631",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#8bf4bc",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#7ce9e7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#ccff9b",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#f4fbf8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#a4bbc5",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "velora.webp",
+      "publicPath": "https://www.openlanding.page/gallery/velora.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Recreate the supplied VELORA experience as one complete, self-contained HTML document at /velora. The canonical source is public/downloads/velora.html, imported from VELORA_Standalone_Experience.html. Preserve its copy, responsive layouts, ",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": []
+}

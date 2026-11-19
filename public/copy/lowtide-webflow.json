@@ -1,0 +1,207 @@
+{
+  "slug": "lowtide",
+  "title": "LOWTIDE",
+  "industry": "Sleep Tech & Wearables",
+  "description": "Let the tide go out. A sleep ring told as one night on a moonlit tidal flat: scroll is the clock, five low tides tell the story.",
+  "stack": "Next.js 16 · React 19 · Three.js WebGL · GSAP · Lenis · Tone.js",
+  "liveUrl": "https://www.openlanding.page/templates/lowtide",
+  "downloadUrl": "https://www.openlanding.page/downloads/lowtide.html",
+  "manifestUrl": "https://www.openlanding.page/copy/lowtide-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/lowtide-webflow-prompt.md",
+  "variables": {
+    "collectionName": "LOWTIDE Tokens",
+    "colors": [
+      {
+        "name": "Color / Lt Night",
+        "cssVar": "--color-lt-night",
+        "value": "#0A0D16",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lt Foam",
+        "cssVar": "--color-lt-foam",
+        "value": "#ECEFF0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lt Moon",
+        "cssVar": "--color-lt-moon",
+        "value": "#EBD9A6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lt Plankton",
+        "cssVar": "--color-lt-plankton",
+        "value": "#8FD3FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lt Dusk",
+        "cssVar": "--color-lt-dusk",
+        "value": "#7A8494",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lt Dawn",
+        "cssVar": "--color-lt-dawn",
+        "value": "#F2B28C",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Lt Display",
+        "cssVar": "--font-lt-display",
+        "family": "Imbue",
+        "fallback": "Times New Roman, serif",
+        "googleFont": "Imbue"
+      },
+      {
+        "name": "Font / Lt Body",
+        "cssVar": "--font-lt-body",
+        "family": "Onest",
+        "fallback": "ui-sans-serif, system-ui, sans-serif",
+        "googleFont": "Onest"
+      },
+      {
+        "name": "Font / Lt Mono",
+        "cssVar": "--font-lt-mono",
+        "family": "var(--font-lt-xanh)",
+        "fallback": "ui-monospace, monospace"
+      },
+      {
+        "name": "Font / Xanh Mono",
+        "cssVar": "--font-xanh-mono",
+        "family": "Xanh Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Xanh Mono"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Lt Shift",
+        "cssVar": "--lt-shift",
+        "value": "24px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Lt Gutter",
+        "cssVar": "--lt-gutter",
+        "value": "clamp(18px, 5vw, 72px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Lt Max",
+        "cssVar": "--lt-max",
+        "value": "1180px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "lowtide.webp",
+      "publicPath": "https://www.openlanding.page/gallery/lowtide.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "23:04, high tide (hook)",
+      "summary": "\"Let the tide go out.\" — quiet line \"A sleep ring for people who can't put the phone down.\"",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lt-poster__tideline",
+        ".lt-tide",
+        ".lt-tide__rail",
+        ".lt-tide__time",
+        ".lt-tide__label",
+        ".lt-tide__body"
+      ]
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "00:40 (problem)",
+      "summary": "\"The scroll doesn't end. The night does.\" Bioluminescent plankton (GPU particles, ~37k) swarm into sourced figures: **1 in 3** US adults sleep under seven hours (CDC MMWR 2016), **7h** minimum (CDC), **95%** use a screen in the hour before bed (National Sleep Foundation 2011).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "02:15 (how it works)",
+      "summary": "\"Three pools, read all night.\" Three rock pools: heart rate (rings at 60 bpm), skin temperature (water warms/cools over 8 s), breathing (a rim swells 12×/min).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "03:50 (smart wake)",
+      "summary": "\"We wake you on the outgoing tide.\" A post-process ink melt bleeds the frame while arriving and resolves at rest.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lt-calc__wake"
+      ]
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "05:25 (proof)",
+      "summary": "three testimonials beside footprint trails pressed in wet sand; after the low tide the water returns and washes each trail away.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "06:40 (signature)",
+      "summary": "\"The moon, on your hand.\" The moon's reflection in the last pool ripples, bends into a ring outline, and a procedural titanium ring (lathe of a rounded-rectangle profile, `MeshPhysicalMaterial`, `RoomEnvironment`) rises out of the water. Specs and \"$279 · no subscription\" etched in the sand.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "07:00 dawn (conversion)",
+      "summary": "\"Your night\": bedtime + wake time → a glowing tide line over the water (one dip per 90-min cycle, smart-wake marker), drag/arrow keys to walk it, \"Keep your night\" downloads a PNG; pre-order form (email, ring size 6–13, finish Moonstone / Tidewater / Driftwood) with a tide-wash success \"See you at low tide.\"",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".lt-dawn",
+        ".lt-dawn__block",
+        ".lt-dawn__title"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "lowtide-styles-1",
+      "location": "head",
+      "title": "LOWTIDE Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 20433,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-lt-night: #0A0D16;\n  --color-lt-foam: #ECEFF0;\n  --color-lt-moon: #EBD9A6;\n  --color-lt-plankton: #8FD3FF;\n  --color-lt-dusk: #7A8494;\n  --color-lt-dawn: #F2B28C;\n  --font-lt-display: var(--font-lt-imbue), \"Times New Roman\", serif;\n  --font-lt-body: var(--font-lt-onest), ui-sans-serif, system-ui, sans-serif;\n  --font-lt-mono: var(--font-lt-xanh), ui-monospace, monospace;\n  --ease-lt-out: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-lt-tide: cubic-bezier(0.65, 0, 0.35, 1);\n  --ease-lt-spring: linear(0, 0.35 8%, 0.82 20%, 1.06 30%, 1.02 42%, 0.99 58%, 1);\n  --dur-lt-instant: 90ms;\n  --dur-lt-fast: 180ms;\n  --dur-lt-base: 420ms;\n  --dur-lt-slow: 900ms;\n  --dur-lt-tide: 1600ms;\n  --lt-shift: 24px;\n  --lt-stagger: 80ms;\n}\n\n:root { --lt-gutter: clamp(18px, 5vw, 72px); --lt-max: 1180px; }\n* { box-sizing: border-box; }\nhtml { background: var(--color-lt-night); }\nbody { margin: 0; }\n:where(button, input, select, textarea) { font: inherit; color: inherit; }\n:where(h1, h2, h3, p, ul, ol, figure, blockquote, dl, dd) { margin: 0; padding: 0; }\n:where(ul, ol) { list-style: none; }\n:focus-visible { outline: 2px solid var(--color-lt-moon); outline-offset: 4px; }\n::selection { background: color-mix(in oklab, var(--color-lt-plankton) 35%, transparent); }\n\n.lt-body { min-height: 100vh; background: var(--color-lt-night); color: var(--color-lt-foam); font-family: var(--font-lt-body); -webkit-font-smoothing: antialiased; overflow-x: clip; }\n.lt-mono { font-family: var(--font-lt-mono); font-size: 13px; letter-spacing: .06em; }\n.lt-sr { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }\n\n/* Logo */\n.lt-logo { display: inline-flex; align-items: center; gap: 10px; color: var(--color-lt-foam); }\n.lt-logo__mark { width: 28px; height: 28px; flex: 0 0 auto; }\n.lt-logo__moon { fill: var(--color-lt-moon); }\n.lt-logo__wave { fill: none; stroke: var(--color-lt-plankton); stroke-width: 1.8; stroke-linecap: round; }\n.lt-logo__word { font-family: var(--font-lt-display); font-size: 22px; letter-spacing: .02em; line-height: 1; }\n\n.lt-placeholder { display: grid; place-items: center; min-height: 240px; background: color-mix(in oklab, var(--color-lt-foam) 6%, var(--color-lt-night)); color: var(--color-lt-dusk); }\n\n/* ── Shared type ─────────────────────────────────────────────── */\n.lt-display { font-family: var(--font-lt-display); font-weight: 420; font-variation-settings: \"opsz\" 100; font-size: clamp(3.4rem, 9vw, 8.5rem); line-height: .92; letter-spacing: -.01em; text-wrap: balance; }\n.lt-display--2 { font-size: clamp(2.6rem, 6vw, 5.6rem); }\n.lt-quiet { margin-top: 18px; max-width: 34ch; font-family: var(--font-lt-mono); font-style: italic; font-size: clamp(1.05rem, 1.6vw, 1.3rem); line-height: 1.5; color: color-mix(in oklab, var(--color-lt-foam) 72%, var(--color-lt-night)); }\n.lt-eyebrow { display: flex; gap: 12px; align-items: baseline; margin-bottom: 18px; color: var(--color-lt-dusk); font-size: 14px; letter-spacing: .04em; }\n.lt-eyebrow .lt-mono { color: var(--color-lt-moon); }\n\n/* ── Tide table (the static page and the a11y mirror) ────────── */\n.lt-table { position: relative; padding-bottom: 80px; }\n.lt-hero { position: relative; min-height: 100svh; display: grid; align-content: end; padding: 0 var(--lt-gutter) clamp(48px, 10vh, 110px); overflow: hidden; }\n.lt-hero__logo { position: absolute; top: 26px; left: var(--lt-gutter); z-index: 2; }\n.lt-hero__copy { position: relative; z-index: 1; max-width: var(--lt-max); }\n.lt-poster { position: absolute; inset: 0; width: 100%; height: 100%; }\n.lt-poster__sky { fill: var(--color-lt-night); }\n.lt-poster__glow-a { stop-color: color-mix(in oklab, var(--color-lt-moon) 22%, var(--color-lt-night)); }\n.lt-poster__glow-b { stop-color: var(--color-lt-night); stop-opacity: 0; }\n.lt-poster__moon { fill: var(--color-lt-moon); }\n.lt-poster__headland { fill: color-mix(in oklab, var(--color-lt-dusk) 22%, var(--color-lt-night)); }\n.lt-poster__sand { fill: color-mix(in oklab, var(--color-lt-dusk) 12%, var(--color-lt-night)); }\n.lt-poster__streak-a { stop-color: var(--color-lt-moon); stop-opacity: .45; }\n.lt-poster__streak-b { stop-color: var(--color-lt-moon); stop-opacity: 0; }\n.lt-poster__tideline { fill: none; stroke: var(--color-lt-plankton); stroke-width: 1.4; }\n.lt-hero::after { content: \"\"; position: absolute; inset: 40% 0 0; background: linear-gradient(to bottom, transparent, var(--color-lt-night) 85%); pointer-events: none; }\n\n.lt-tide { display: grid; grid-template-columns: minmax(120px, 200px) 1fr; gap: clamp(20px, 5vw, 80px); width: min(var(--lt-max), calc(100% - var(--lt-gutter) * 2)); margin: 0 auto; padding: clamp(64px, 12vh, 140px) 0; border-top: 1px solid color-mix(in oklab, var(--color-lt-foam) 12%, transparent); }\n.lt-tide__rail { display: grid; align-content: start; gap: 6px; position: sticky; top: 32px; }\n.lt-tide__time { font-size: 28px; color: var(--color-lt-moon); }\n.lt-tide__label { color: var(--color-lt-dusk); font-size: 14px; }\n.lt-tide__body > * + * { margin-top: 22px; }\n.lt-note { max-width: 52ch; line-height: 1.7; color: color-mix(in oklab, var(--color-lt-foam) 80%, var(--color-lt-night)); }\n\n.lt-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 28px; margin-top: 40px !important; }\n.lt-stat { display: grid; gap: 10px; }\n.lt-stat__value { font-family: var(--font-lt-display); font-size: clamp(3rem, 6vw, 4.6rem); line-height: 1; color: var(--color-lt-plankton); }\n.lt-stat__label { max-width: 26ch; color: color-mix(in oklab, var(--color-lt-foam) 78%, var(--color-lt-night)); line-height: 1.5; }\n\n.lt-pools { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 40px !important; }\n.lt-pool { display: grid; gap: 10px; padding: 22px; border-radius: 999px 999px 28px 28px; background: radial-gradient(120% 90% at 50% 0%, color-mix(in oklab, var(--color-lt-plankton) 14%, var(--color-lt-night)), var(--color-lt-night)); border: 1px solid color-mix(in oklab, var(--color-lt-plankton) 22%, transparent); }\n.lt-pool__ring { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--color-lt-plankton); }\n.lt-pool__name { font-family: var(--font-lt-display); font-size: 1.8rem; }\n.lt-pool__line { color: color-mix(in oklab, var(--color-lt-foam) 78%, var(--color-lt-night)); line-height: 1.55; }\n\n.lt-quotes { display: grid; gap: 28px; margin-top: 40px !important; }\n.lt-quote p { font-family: var(--font-lt-display); font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.15; max-width: 30ch; }\n.lt-quote footer { margin-top: 10px; color: var(--color-lt-dusk); }\n\n.lt-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0 32px; margin-top: 40px !important; }\n.lt-specs > div { display: grid; gap: 4px; padding: 16px 0; border-bottom: 1px solid color-mix(in oklab, var(--color-lt-foam) 12%, transparent); }\n.lt-specs dt { font-family: var(--font-lt-mono); color: var(--color-lt-dusk); font-size: 13px; }\n.lt-specs dd { margin: 0; }\n\n.lt-dawn { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-top: 40px !important; }\n.lt-dawn__block { padding: clamp(20px, 3vw, 32px); border-radius: 24px; background: color-mix(in oklab, var(--color-lt-dawn) 8%, var(--color-lt-night)); border: 1px solid color-mix(in oklab, var(--color-lt-dawn) 24%, transparent); }\n.lt-dawn__title { font-family: var(--font-lt-display); font-size: 2rem; margin-bottom: 18px; }\n\n.lt-foot { display: grid; gap: 18px; width: min(var(--lt-max), calc(100% - var(--lt-gutter) * 2)); margin: 40px auto 0; padding-top: 40px; border-top: 1px solid color-mix(in oklab, var(--color-lt-foam) 12%, transparent); color: var(--color-lt-dusk); font-size: 14px; }\n.lt-foot a { color: inherit; text-underline-offset: 3px; }\n.lt-foot a:hover { color: var(--color-lt-foam); }\n.lt-foot__sources { display: grid; gap: 6px; }\n.lt-foot__note { font-size: 12px; }\n\n/* ── Fields, calculator, form ────────────────────────────────── */\n.lt-field { display: grid; gap: 8px; min-width: 0; border: 0; padding: 0; margin: 0; }\n.lt-field--wide { grid-column: 1 / -1; }\n.lt-field__label { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; letter-spacing: .03em; color: var(--color-lt-dusk); }\n.lt-field__error { color: var(--color-lt-dawn); font-size: 14px; }\n.lt-input { width: 100%; min-height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid color-mix(in oklab, var(--color-lt-foam) 22%, transparent); background: color-mix(in oklab, var(--color-lt-foam) 5%, var(--color-lt-night)); color: var(--color-lt-foam); color-scheme: dark; transition: border-color var(--dur-lt-fast) var(--ease-lt-out), background var(--dur-lt-fast) var(--ease-lt-out); }\n.lt-input:hover { border-color: color-mix(in oklab, var(--color-lt-foam) 40%, transparent); }\n.lt-input:focus-visible { outline: none; border-color: var(--color-lt-moon); background: color-mix(in oklab, var(--color-lt-moon) 8%, var(--color-lt-night)); }\n.lt-input[aria-invalid=\"true\"] { border-color: var(--color-lt-dawn); }\n.lt-range { width: 100%; accent-color: var(--color-lt-moon); }\n\n.lt-calc { display: grid; gap: 20px; }\n.lt-calc__fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }\n.lt-calc__line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }\n.lt-calc__line .lt-mono { color: var(--color-lt-dusk); }\n.lt-calc__wake { font-family: var(--font-lt-display); font-size: 1.8rem; color: var(--color-lt-moon); }\n.lt-calc__chart { width: 100%; height: auto; margin-top: 12px; overflow: visible; }\n.lt-calc__chart polyline { fill: none; stroke: var(--color-lt-plankton); stroke-width: 1.6; }\n.lt-calc__chart circle { fill: var(--color-lt-moon); }\n.lt-calc__error { color: var(--color-lt-dawn); }\n\n.lt-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }\n.lt-form__title { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-family: var(--font-lt-display); font-size: 2rem; }\n.lt-form__title .lt-mono { font-family: var(--font-lt-mono); font-size: 13px; color: var(--color-lt-moon); align-self: center; }\n.lt-finishes__row { display: flex; flex-wrap: wrap; gap: 10px; }\n.lt-finish { position: relative; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px 0 10px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--color-lt-foam) 22%, transparent); cursor: pointer; transition: border-color var(--dur-lt-fast) var(--ease-lt-out), transform var(--dur-lt-instant) var(--ease-lt-spring); }\n.lt-finish input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }\n.lt-finish:hover { border-color: color-mix(in oklab, var(--color-lt-foam) 45%, transparent); }\n.lt-finish:has(input:checked) { border-color: var(--color-lt-moon); background: color-mix(in oklab, var(--color-lt-moon) 10%, transparent); }\n.lt-finish:has(input:focus-visible) { outline: 2px solid var(--color-lt-moon); outline-offset: 3px; }\n.lt-finish:active { transform: scale(.97); }\n.lt-finish__swatch { width: 22px; height: 22px; border-radius: 50%; border: 1px solid color-mix(in oklab, var(--color-lt-foam) 30%, transparent); }\n.lt-finish[data-finish=\"moonstone\"] .lt-finish__swatch { background: radial-gradient(circle at 35% 30%, var(--color-lt-foam), var(--color-lt-dusk)); }\n.lt-finish[data-finish=\"tidewater\"] .lt-finish__swatch { background: radial-gradient(circle at 35% 30%, var(--color-lt-plankton), color-mix(in oklab, var(--color-lt-plankton) 30%, var(--color-lt-night))); }\n.lt-finish[data-finish=\"driftwood\"] .lt-finish__swatch { background: radial-gradient(circle at 35% 30%, var(--color-lt-dawn), color-mix(in oklab, var(--color-lt-dawn) 40%, var(--color-lt-night))); }\n\n.lt-btn { grid-column: 1 / -1; position: relative; isolation: isolate; overflow: hidden; display: inline-flex; justify-content: center; align-items: center; min-height: 50px; border: 0; border-radius: 999px; background: var(--color-lt-moon); color: var(--color-lt-night); font-weight: 600; cursor: pointer; transition: transform var(--dur-lt-instant) var(--ease-lt-spring); }\n.lt-btn::before { content: \"\"; position: absolute; inset: 0; z-index: -1; background: var(--color-lt-foam); transform: translateY(102%); border-radius: 999px 999px 0 0; transition: transform var(--dur-lt-base) var(--ease-lt-out); }\n.lt-btn:hover::before { transform: none; border-radius: 0; }\n.lt-btn:active { transform: scale(.98); }\n.lt-btn:disabled { cursor: progress; opacity: .7; }\n.lt-form[data-state=\"submitting\"] .lt-btn span { animation: lt-breathe 1.2s var(--ease-lt-tide) infinite; }\n.lt-form--done { display: grid; gap: 10px; place-items: start; }\n.lt-form__sand { font-family: var(--font-lt-display); font-size: clamp(2.4rem, 4vw, 3.4rem); color: var(--color-lt-moon); }\n.lt-form__note { color: var(--color-lt-dusk); }\n\n@keyframes lt-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }\n\n/* ── Experience mode: the 3D night owns the screen ───────────── */\nhtml[data-lt-mode=\"experience\"] .lt-table { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }\nhtml[data-lt-mode=\"experience\"] { scrollbar-width: none; }\nhtml[data-lt-mode=\"experience\"]::-webkit-scrollbar { display: none; }\nhtml.lenis, html.lenis body { height: auto; }\n.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }\n\n.lt-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100lvh; display: block; z-index: 0; opacity: 0; transition: opacity var(--dur-lt-tide) var(--ease-lt-out); touch-action: pan-y; }\n/* while booting the canvas is invisible and must not swallow clicks meant for the tide table */\n.lt-xp:not([data-ready=\"true\"]) .lt-canvas { visibility: hidden; pointer-events: none; }\n.lt-xp[data-ready=\"true\"] .lt-canvas { opacity: 1; }\n.lt-track { position: relative; height: 700vh; pointer-events: none; }\n\n.lt-hud { position: fixed; inset: 0; z-index: 2; pointer-events: none; }\n.lt-hud > * { pointer-events: auto; }\n.lt-hud__logo { position: absolute; top: 24px; left: var(--lt-gutter); }\n\n.lt-sound { position: absolute; top: 20px; right: var(--lt-gutter); display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--color-lt-foam) 22%, transparent); background: color-mix(in oklab, var(--color-lt-night) 55%, transparent); backdrop-filter: blur(10px); color: var(--color-lt-foam); font-size: 13px; cursor: pointer; transition: border-color var(--dur-lt-fast) var(--ease-lt-out), transform var(--dur-lt-instant) var(--ease-lt-spring); }\n.lt-sound:hover { border-color: color-mix(in oklab, var(--color-lt-moon) 60%, transparent); }\n.lt-sound:active { transform: scale(.96); }\n.lt-sound__bars { display: inline-flex; align-items: end; gap: 2px; height: 12px; }\n.lt-sound__bars i { width: 2px; height: 3px; border-radius: 2px; background: currentColor; transition: height var(--dur-lt-base) var(--ease-lt-out); }\n.lt-sound[aria-pressed=\"true\"] { border-color: var(--color-lt-moon); color: var(--color-lt-moon); }\n.lt-sound[aria-pressed=\"true\"] .lt-sound__bars i { animation: lt-bars 1.4s var(--ease-lt-tide) infinite; }\n.lt-sound[aria-pressed=\"true\"] .lt-sound__bars i:nth-child(2) { animation-delay: -.3s; }\n.lt-sound[aria-pressed=\"true\"] .lt-sound__bars i:nth-child(3) { animation-delay: -.7s; }\n.lt-sound[aria-pressed=\"true\"] .lt-sound__bars i:nth-child(4) { animation-delay: -1s; }\n@keyframes lt-bars { 0%, 100% { height: 3px; } 50% { height: 12px; } }\n\n.lt-dial { position: absolute; right: var(--lt-gutter); bottom: clamp(18px, 4vh, 40px); width: 132px; height: 132px; }\n.lt-dial__face { position: absolute; inset: 0; border-radius: 50%; cursor: grab; touch-action: none; outline-offset: 6px; }\n.lt-dial__face:active { cursor: grabbing; }\n.lt-dial__face svg { width: 100%; height: 100%; overflow: visible; }\n.lt-dial__disc { fill: color-mix(in oklab, var(--color-lt-night) 62%, transparent); stroke: color-mix(in oklab, var(--color-lt-foam) 12%, transparent); }\n.lt-dial__arc { fill: none; stroke: color-mix(in oklab, var(--color-lt-foam) 18%, transparent); stroke-width: 1.5; stroke-linecap: round; }\n.lt-dial__fill { fill: none; stroke: var(--color-lt-moon); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }\n.lt-dial__moon { fill: var(--color-lt-moon); filter: drop-shadow(0 0 6px color-mix(in oklab, var(--color-lt-moon) 70%, transparent)); }\n.lt-dial__readout { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 2px; pointer-events: none; }\n.lt-dial__time { font-family: var(--font-lt-mono); font-size: 20px; color: var(--color-lt-foam); }\n.lt-dial__label { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--color-lt-dusk); }\n.lt-dial__notch { position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; padding: 0; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }\n.lt-dial__notch::before { content: \"\"; position: absolute; inset: 6px; border-radius: 50%; background: color-mix(in oklab, var(--color-lt-foam) 40%, transparent); transition: transform var(--dur-lt-fast) var(--ease-lt-spring), background var(--dur-lt-fast) var(--ease-lt-out); }\n.lt-dial__notch:hover::before, .lt-dial__notch:focus-visible::before { transform: scale(1.6); background: var(--color-lt-moon); }\n\n/* ── Dawn finale ─────────────────────────────────────────────── */\n.lt-finale { position: fixed; inset: 0; z-index: 1; display: grid; grid-template-rows: 1fr auto; pointer-events: none; transition: opacity var(--dur-lt-base) var(--ease-lt-out), visibility 0s; }\n.lt-finale[data-active=\"false\"] { opacity: 0; visibility: hidden; transition: opacity var(--dur-lt-base) var(--ease-lt-out), visibility 0s var(--dur-lt-base); }\n.lt-finale__panels, .lt-finale__strip { overscroll-behavior: contain; }\n.lt-finale > * { pointer-events: auto; }\n.lt-finale__strip { position: relative; margin: 14vh var(--lt-gutter) 0; border-radius: 28px; cursor: grab; touch-action: none; outline-offset: -6px; }\n.lt-finale__strip:active { cursor: grabbing; }\n.lt-finale__hint { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); padding: 6px 12px; border-radius: 999px; background: color-mix(in oklab, var(--color-lt-night) 45%, transparent); color: var(--color-lt-foam); font-family: var(--font-lt-mono); font-size: 12px; letter-spacing: .04em; white-space: nowrap; }\n.lt-finale__panels { display: grid; grid-template-columns: repeat(2, minmax(0, 460px)); gap: 18px; padding: 0 calc(var(--lt-gutter) + 150px) clamp(18px, 4vh, 40px) var(--lt-gutter); align-items: end; }\n.lt-finale__panel { position: relative; overflow: hidden; display: grid; gap: 16px; padding: 22px; border-radius: 22px; background: color-mix(in oklab, var(--color-lt-night) 72%, transparent); border: 1px solid color-mix(in oklab, var(--color-lt-dawn) 30%, transparent); backdrop-filter: blur(16px) saturate(1.2); }\n.lt-finale__title { font-family: var(--font-lt-display); font-size: 2rem; line-height: 1; }\n.lt-finale__wash { position: absolute; inset: -10% 0; pointer-events: none; opacity: 0; transform: translateY(105%); background: linear-gradient(to bottom, transparent, color-mix(in oklab, var(--color-lt-plankton) 35%, var(--color-lt-night)) 30%, color-mix(in oklab, var(--color-lt-foam) 30%, var(--color-lt-night)) 50%, color-mix(in oklab, var(--color-lt-plankton) 35%, var(--color-lt-night)) 70%, transparent); }\n.lt-btn--ghost { background: transparent; color: var(--color-lt-foam); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-lt-foam) 40%, transparent); }\n.lt-btn--ghost::before { background: var(--color-lt-moon); }\n.lt-btn--ghost:hover { color: var(--color-lt-night); }\n@media (max-width: 860px) {\n  .lt-finale__panels { grid-template-columns: 1fr; padding-right: var(--lt-gutter); padding-bottom: 170px; max-height: 70vh; overflow-y: auto; }\n}\n\n@media (max-width: 700px) {\n  .lt-tide { grid-template-columns: 1fr; }\n  .lt-tide__rail { position: static; grid-auto-flow: column; justify-content: start; gap: 14px; align-items: baseline; }\n  .lt-calc__fields, .lt-form { grid-template-columns: 1fr; }\n}"
+    },
+    {
+      "id": "lowtide-runtime-1",
+      "location": "footer",
+      "title": "LOWTIDE Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 503,
+      "description": "Loads three, gsap, lenis, tone in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three",
+        "gsap",
+        "lenis",
+        "tone"
+      ],
+      "code": "// LOWTIDE — Webflow Custom Code Runtime Bridge\n// Dependencies: three, gsap, lenis, tone\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nimport gsap from \"https://cdn.jsdelivr.net/npm/gsap@3.15.0/+esm\";\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

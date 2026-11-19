@@ -1,0 +1,63 @@
+{
+  "slug": "surface08",
+  "title": "SURFACE/08",
+  "industry": "Digital Experience & Technology",
+  "description": "An interactive material study and hero-background laboratory featuring eight real-time GPU-driven Three.js surfaces: Chroma Fluid, Fluted Light, Silk Atmosphere, Glass Lens, Aurora Field, Chromatic Ribbons, Bokeh Reactor, and Refraction Field.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/surface08",
+  "downloadUrl": "https://www.openlanding.page/downloads/surface08.html",
+  "manifestUrl": "https://www.openlanding.page/copy/surface08-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/surface08-webflow-prompt.md",
+  "variables": {
+    "collectionName": "SURFACE/08 Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "surface08.webp",
+      "publicPath": "https://www.openlanding.page/gallery/surface08.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "An interactive material study and hero-background laboratory featuring eight real-time GPU-driven Three.js surfaces: Chroma Fluid, Fluted Light, Silk Atmosphere, Glass Lens, Aurora Field, Chromatic Ribbons, Bokeh Reactor, and Refraction Fie",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "surface08-runtime-1",
+      "location": "footer",
+      "title": "SURFACE/08 Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 274,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// SURFACE/08 — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

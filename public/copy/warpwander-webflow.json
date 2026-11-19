@@ -1,0 +1,264 @@
+{
+  "slug": "warpwander",
+  "title": "WARP & WANDER",
+  "industry": "Gaming & Hardware",
+  "description": "An original 16-bit-inspired side-scrolling pixel adventure and interactive concept showcasing the Analogue Pocket multi-format handheld.",
+  "stack": "Next.js 16 · React 19 · Canvas 2D · GSAP · Web Audio",
+  "liveUrl": "https://www.openlanding.page/templates/warpwander",
+  "downloadUrl": "https://www.openlanding.page/downloads/warpwander.html",
+  "manifestUrl": "https://www.openlanding.page/copy/warpwander-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/warpwander-webflow-prompt.md",
+  "variables": {
+    "collectionName": "WARP & WANDER Tokens",
+    "colors": [
+      {
+        "name": "Color / Ww Indigo",
+        "cssVar": "--color-ww-indigo",
+        "value": "#23244F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Forest",
+        "cssVar": "--color-ww-forest",
+        "value": "#2F644F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Nectar",
+        "cssVar": "--color-ww-nectar",
+        "value": "#FFD06A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Coral",
+        "cssVar": "--color-ww-coral",
+        "value": "#FF907A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Cream",
+        "cssVar": "--color-ww-cream",
+        "value": "#FFF1D3",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Lagoon",
+        "cssVar": "--color-ww-lagoon",
+        "value": "#6DDCC5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Mulberry",
+        "cssVar": "--color-ww-mulberry",
+        "value": "#604A79",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Twilight Indigo",
+        "cssVar": "--twilight-indigo",
+        "value": "#23244F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Fern Forest",
+        "cssVar": "--fern-forest",
+        "value": "#2F644F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Golden Nectar",
+        "cssVar": "--golden-nectar",
+        "value": "#FFD06A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Coral Bloom",
+        "cssVar": "--coral-bloom",
+        "value": "#FF907A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Daylight Cream",
+        "cssVar": "--daylight-cream",
+        "value": "#FFF1D3",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lagoon Mist",
+        "cssVar": "--lagoon-mist",
+        "value": "#6DDCC5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mulberry Shadow",
+        "cssVar": "--mulberry-shadow",
+        "value": "#604A79",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Twilight Indigo",
+        "cssVar": "--ww-twilight-indigo",
+        "value": "#23244F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Fern Forest",
+        "cssVar": "--ww-fern-forest",
+        "value": "#2F644F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Golden Nectar",
+        "cssVar": "--ww-golden-nectar",
+        "value": "#FFD06A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Coral Bloom",
+        "cssVar": "--ww-coral-bloom",
+        "value": "#FF907A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Daylight Cream",
+        "cssVar": "--ww-daylight-cream",
+        "value": "#FFF1D3",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Lagoon Mist",
+        "cssVar": "--ww-lagoon-mist",
+        "value": "#6DDCC5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ww Mulberry Shadow",
+        "cssVar": "--ww-mulberry-shadow",
+        "value": "#604A79",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#151633",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 9",
+        "cssVar": "--color-palette-9",
+        "value": "#171838",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 10",
+        "cssVar": "--color-palette-10",
+        "value": "#191A3B",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Ww Display",
+        "cssVar": "--font-ww-display",
+        "family": "var(--font-pixelify",
+        "fallback": "Pixelify Sans, monospace)"
+      },
+      {
+        "name": "Font / Ww Body",
+        "cssVar": "--font-ww-body",
+        "family": "DM Sans",
+        "fallback": "DM Sans, -apple-system, BlinkMacSystemFont, sans-serif)",
+        "googleFont": "DM Sans"
+      },
+      {
+        "name": "Font / Ww Hud",
+        "cssVar": "--font-ww-hud",
+        "family": "JetBrains Mono",
+        "fallback": "JetBrains Mono, monospace)",
+        "googleFont": "JetBrains Mono"
+      },
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "var(--font-pixelify",
+        "fallback": "Pixelify Sans, monospace)"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "var(--font-dm-sans",
+        "fallback": "DM Sans, -apple-system, BlinkMacSystemFont, sans-serif)"
+      },
+      {
+        "name": "Font / Hud",
+        "cssVar": "--font-hud",
+        "family": "var(--font-jetbrains-mono",
+        "fallback": "JetBrains Mono, monospace)"
+      },
+      {
+        "name": "Font / Pixelify Sans",
+        "cssVar": "--font-pixelify-sans",
+        "family": "Pixelify Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Pixelify Sans"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "warpwander.webp",
+      "publicPath": "https://www.openlanding.page/gallery/warpwander.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "> **Project:** Original 2D pixel-art, side-scrolling product landing page",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [
+        ".ww-body",
+        ".ww-font-pixel",
+        ".font-pixel",
+        ".02em",
+        ".ww-font-body",
+        ".font-body",
+        ".ww-font-hud",
+        ".font-hud",
+        ".ww-pixelated",
+        ".pixelated",
+        ".ww-btn-tactile",
+        ".btn-tactile"
+      ],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "warpwander-styles-1",
+      "location": "head",
+      "title": "WARP & WANDER Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 3910,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-ww-indigo: #23244F;\n  --color-ww-forest: #2F644F;\n  --color-ww-nectar: #FFD06A;\n  --color-ww-coral: #FF907A;\n  --color-ww-cream: #FFF1D3;\n  --color-ww-lagoon: #6DDCC5;\n  --color-ww-mulberry: #604A79;\n\n  --font-ww-display: var(--font-pixelify, 'Pixelify Sans', monospace);\n  --font-ww-body: var(--font-dm-sans, 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif);\n  --font-ww-hud: var(--font-jetbrains-mono, 'JetBrains Mono', monospace);\n}\n\n:root {\n  --twilight-indigo: #23244F;\n  --fern-forest: #2F644F;\n  --golden-nectar: #FFD06A;\n  --coral-bloom: #FF907A;\n  --daylight-cream: #FFF1D3;\n  --lagoon-mist: #6DDCC5;\n  --mulberry-shadow: #604A79;\n\n  --ww-twilight-indigo: #23244F;\n  --ww-fern-forest: #2F644F;\n  --ww-golden-nectar: #FFD06A;\n  --ww-coral-bloom: #FF907A;\n  --ww-daylight-cream: #FFF1D3;\n  --ww-lagoon-mist: #6DDCC5;\n  --ww-mulberry-shadow: #604A79;\n\n  --font-display: var(--font-pixelify, 'Pixelify Sans', monospace);\n  --font-body: var(--font-dm-sans, 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif);\n  --font-hud: var(--font-jetbrains-mono, 'JetBrains Mono', monospace);\n\n  --ww-font-display: var(--font-pixelify, 'Pixelify Sans', monospace);\n  --ww-font-body: var(--font-dm-sans, 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif);\n  --ww-font-hud: var(--font-jetbrains-mono, 'JetBrains Mono', monospace);\n}\n\n.ww-body {\n  scroll-behavior: smooth;\n  font-family: var(--ww-font-body);\n  background-color: var(--ww-twilight-indigo);\n  color: var(--ww-daylight-cream);\n  min-height: 100vh;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .ww-body {\n    scroll-behavior: auto;\n  }\n}\n\n.ww-font-pixel,\n.font-pixel {\n  font-family: var(--ww-font-display);\n  letter-spacing: 0.02em;\n}\n\n.ww-font-body,\n.font-body {\n  font-family: var(--ww-font-body);\n}\n\n.ww-font-hud,\n.font-hud {\n  font-family: var(--ww-font-hud);\n  font-variant-numeric: tabular-nums;\n}\n\n.ww-pixelated,\n.pixelated {\n  image-rendering: pixelated;\n  image-rendering: crisp-edges;\n}\n\n/* Tactile pixel button press micro-interaction (100-160ms, 2px depress, shadow compression) */\n.ww-btn-tactile,\n.btn-tactile {\n  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 120ms cubic-bezier(0.16, 1, 0.3, 1), background-color 120ms ease;\n  box-shadow: 0 4px 0 0 #151633;\n}\n\n.ww-btn-tactile:hover:not(:disabled),\n.btn-tactile:hover:not(:disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 0 0 #151633;\n}\n\n.ww-btn-tactile:active:not(:disabled),\n.btn-tactile:active:not(:disabled) {\n  transform: translateY(2px);\n  box-shadow: 0 1px 0 0 #151633;\n}\n\n/* Collectible hotspot 3-frame pulse and 2-4px lift */\n@keyframes ww-hotspot-pulse {\n  0%, 100% {\n    transform: translateY(0px);\n  }\n  50% {\n    transform: translateY(-4px);\n  }\n}\n\n.ww-hotspot-float,\n.hotspot-float {\n  animation: ww-hotspot-pulse 1.8s steps(3, end) infinite;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .ww-hotspot-float,\n  .hotspot-float {\n    animation: none;\n  }\n}\n\n/* Stepped tile reveal for headings */\n@keyframes ww-tile-step-in {\n  0% {\n    opacity: 0;\n    transform: translateY(8px);\n  }\n  50% {\n    opacity: 0.6;\n    transform: translateY(4px);\n  }\n  100% {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ww-tile-reveal,\n.tile-reveal {\n  animation: ww-tile-step-in 650ms steps(4, end) forwards;\n}\n\n/* Accessible focus ring in Golden Nectar / Lagoon Mist */\n*:focus-visible {\n  outline: 3px solid var(--ww-golden-nectar);\n  outline-offset: 3px;\n}\n\n/* Custom subtle storybook border */\n.ww-storybook-panel,\n.storybook-panel {\n  background-color: rgba(35, 36, 79, 0.92);\n  border: 2px solid var(--ww-golden-nectar);\n  box-shadow: 0 8px 0 0 rgba(21, 22, 51, 0.75);\n}\n\n.ww-storybook-panel-cream,\n.storybook-panel-cream {\n  background-color: var(--ww-daylight-cream);\n  color: var(--ww-twilight-indigo);\n  border: 2px solid var(--ww-twilight-indigo);\n  box-shadow: 0 6px 0 0 rgba(35, 36, 79, 0.45);\n}"
+    },
+    {
+      "id": "warpwander-runtime-1",
+      "location": "footer",
+      "title": "WARP & WANDER Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 341,
+      "description": "Loads gsap in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "gsap"
+      ],
+      "code": "// WARP & WANDER — Webflow Custom Code Runtime Bridge\n// Dependencies: gsap\nimport gsap from \"https://cdn.jsdelivr.net/npm/gsap@3.15.0/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

@@ -1,0 +1,297 @@
+{
+  "slug": "mesamarket",
+  "title": "MESA MARKET",
+  "industry": "Produce & Grocery",
+  "description": "A farm-to-door grocery landing page with an interactive harvest stall, live crate builder, and sample receipt review.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/mesamarket",
+  "downloadUrl": "https://www.openlanding.page/downloads/mesamarket.html",
+  "manifestUrl": "https://www.openlanding.page/copy/mesamarket-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/mesamarket-webflow-prompt.md",
+  "variables": {
+    "collectionName": "MESA MARKET Tokens",
+    "colors": [
+      {
+        "name": "Color / Mm Tomato",
+        "cssVar": "--color-mm-tomato",
+        "value": "#D94C32",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Leaf",
+        "cssVar": "--color-mm-leaf",
+        "value": "#3F7047",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Butter",
+        "cssVar": "--color-mm-butter",
+        "value": "#F2C94D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Cream",
+        "cssVar": "--color-mm-cream",
+        "value": "#FDF5E7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Blueberry",
+        "cssVar": "--color-mm-blueberry",
+        "value": "#494D78",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Ink",
+        "cssVar": "--color-mm-ink",
+        "value": "#24211D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Tomato",
+        "cssVar": "--mm-tomato",
+        "value": "#D94C32",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Leaf",
+        "cssVar": "--mm-leaf",
+        "value": "#3F7047",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Butter",
+        "cssVar": "--mm-butter",
+        "value": "#F2C94D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Cream",
+        "cssVar": "--mm-cream",
+        "value": "#FDF5E7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Blueberry",
+        "cssVar": "--mm-blueberry",
+        "value": "#494D78",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mm Ink",
+        "cssVar": "--mm-ink",
+        "value": "#24211D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mmf Cream",
+        "cssVar": "--mmf-cream",
+        "value": "#282C25",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mmf Green",
+        "cssVar": "--mmf-green",
+        "value": "#385840",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Mmf Accent",
+        "cssVar": "--mmf-accent",
+        "value": "#D85A36",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Fraunces",
+        "fallback": "Georgia, serif",
+        "googleFont": "Fraunces"
+      },
+      {
+        "name": "Font / Serif",
+        "cssVar": "--font-serif",
+        "family": "var(--font-fraunces)",
+        "fallback": "Georgia, serif"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "Outfit",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Outfit"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "var(--font-outfit)",
+        "fallback": "system-ui, sans-serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "Space Mono",
+        "fallback": "ui-monospace, monospace",
+        "googleFont": "Space Mono"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Mmf Far X",
+        "cssVar": "--mmf-far-x",
+        "value": "0px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Mmf Far Y",
+        "cssVar": "--mmf-far-y",
+        "value": "0px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Mmf Mid X",
+        "cssVar": "--mmf-mid-x",
+        "value": "0px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Mmf Mid Y",
+        "cssVar": "--mmf-mid-y",
+        "value": "0px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Mmf Near X",
+        "cssVar": "--mmf-near-x",
+        "value": "0px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Mmf Near Y",
+        "cssVar": "--mmf-near-y",
+        "value": "0px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Mmf Front X",
+        "cssVar": "--mmf-front-x",
+        "value": "0px",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Size / Mmf Front Y",
+        "cssVar": "--mmf-front-y",
+        "value": "0px",
+        "isCustomExpression": false
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "mesamarket.webp",
+      "publicPath": "https://www.openlanding.page/gallery/mesamarket.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Market Signage Header",
+      "summary": "Fixed/sticky navigation with brand mark, anchor jumps to all key sections, and a live basket summary button.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Flat-Lay Market Stall Hero",
+      "summary": "Floating produce stickers arranged like a curated storefront window, with headline **“Good things come into season.”** wrapping through the negative spaces. Includes a left-hand harvest category rail and primary CTA **“Fill your basket”**.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".mm-display"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Interactive Produce Shelf",
+      "summary": "Live category filters (All / Vegetables / Fruit / Pantry) that reorder and filter eight produce products (Early Girl tomatoes, Nantes carrots, Meyer lemons, Lacinato kale, Jimmy Nardello peppers, Rosa Bianca eggplant, Sebastopol apples, Red Fife sourdough). Each card features sample price, origin details, seasonal notes, and interactive increment/decrement crate controls.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".mm-produce-cutout"
+      ]
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Seasonal Recipe Crates",
+      "summary": "Three seasonal recipe meal kits that add all required ingredients to the crate atomically in a single tap, accompanied by warm editorial kitchen photography.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Producer Story & Delivery Loop",
+      "summary": "Comic-style label strips detailing field harvest, packing shed, and electric van routes, paired with a smallholder grower portrait and an illustrated inline SVG delivery map.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Sample Checkout / Grocery Receipt",
+      "summary": "An itemized grocery receipt reflecting the live crate items, line totals, illustrative subtotal, and demonstration notice, alongside harvest table photography.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Grocery-Receipt Footer",
+      "summary": "Clear disclosure notice, brand credits, and quick jump back to top.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".mmf-footer"
+      ]
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Floating Basket Pill & Drawer",
+      "summary": "Persistent bottom-right crate counter opening a full-featured accessible drawer dialog with keyboard navigation (Esc to close), line item quantity adjustments, clear crate action, and direct jump to the receipt review.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "mesamarket-styles-1",
+      "location": "head",
+      "title": "MESA MARKET Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 14784,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-mm-tomato: #D94C32;\n  --color-mm-leaf: #3F7047;\n  --color-mm-butter: #F2C94D;\n  --color-mm-cream: #FDF5E7;\n  --color-mm-blueberry: #494D78;\n  --color-mm-ink: #24211D;\n  --font-display: var(--font-fraunces), Georgia, serif;\n  --font-serif: var(--font-fraunces), Georgia, serif;\n  --font-body: var(--font-outfit), system-ui, sans-serif;\n  --font-sans: var(--font-outfit), system-ui, sans-serif;\n  --font-mono: var(--font-space-mono), ui-monospace, monospace;\n}\n\n:root {\n  --mm-tomato: #D94C32;\n  --mm-leaf: #3F7047;\n  --mm-butter: #F2C94D;\n  --mm-cream: #FDF5E7;\n  --mm-blueberry: #494D78;\n  --mm-ink: #24211D;\n}\n\nhtml {\n  scroll-behavior: smooth;\n  background-color: var(--mm-cream);\n  color: var(--mm-ink);\n}\n\n.mesa-root {\n  background-color: var(--mm-cream);\n  color: var(--mm-ink);\n  font-family: var(--font-outfit), -apple-system, BlinkMacSystemFont, sans-serif;\n  min-height: 100vh;\n}\n\n.mesa-root .mm-display {\n  font-family: var(--font-fraunces), Georgia, serif;\n  letter-spacing: -0.02em;\n}\n\n.mesa-root .mm-mono {\n  font-family: var(--font-space-mono), monospace;\n  font-variant-numeric: tabular-nums;\n}\n\n.mesa-root .mm-produce-cutout {\n  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);\n}\n\n.mesa-root .mm-produce-cutout:hover,\n.mesa-root .mm-produce-cutout:focus-within {\n  transform: rotate(-3.5deg) scale(1.04);\n}\n\n.mesa-root .mm-cutout-disc {\n  border-radius: 9999px;\n  background-color: #f6ebd8;\n  border: 2px solid var(--mm-ink);\n  box-shadow: 3px 3px 0px var(--mm-ink);\n  overflow: hidden;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .mesa-root .mm-produce-cutout,\n  .mesa-root .mm-produce-cutout:hover,\n  .mesa-root .mm-produce-cutout:focus-within {\n    transition: none !important;\n    transform: none !important;\n  }\n}\n\n/*\n * MESA MARKET — LIVING HARVEST LANDSCAPE\n * Source-drawn SVG / CSS / JS. No background images or image assets.\n * All selectors scoped to .mm-landscape so this can sit behind any hero.\n */\n.mm-landscape {\n  position: absolute;\n  inset: 0;\n  z-index: 0;\n  overflow: hidden;\n  background: #fbf6e9;\n  pointer-events: none; /* IMPORTANT: never intercept basket/produce clicks. */\n  isolation: isolate;\n  contain: layout paint style;\n  --mm-wind: 0deg;\n}\n.mm-landscape, .mm-landscape * { box-sizing: border-box; }\n.mm-landscape-svg {\n  display: block;\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  inset: 0;\n  overflow: hidden;\n  /* Preserve the right-side farm/road scene on narrower screens. */\n}\n.mm-landscape .mm-depth,\n.mm-landscape .mm-wind-group,\n.mm-landscape .mm-tree-sway,\n.mm-landscape .mm-grass-sway { transform-box: fill-box; }\n.mm-landscape .mm-depth { will-change: transform; }\n.mm-landscape .mm-wind-group,\n.mm-landscape .mm-tree-sway,\n.mm-landscape .mm-grass-sway { transform-origin: center bottom; }\n.mm-landscape .mm-sun-disc { transform-origin: center; transform-box: fill-box; animation: mm-sunrise 2.3s cubic-bezier(.18,.75,.2,1) both, mm-sun-breathe 11s ease-in-out 2.3s infinite alternate; }\n.mm-landscape .mm-sun-glow { transform-origin: center; transform-box: fill-box; animation: mm-sun-glow 10s ease-in-out infinite alternate; }\n.mm-landscape .mm-cloud { transform-box: fill-box; animation: mm-cloud-drift 31s ease-in-out infinite alternate; }\n.mm-landscape .mm-cloud-b { animation-duration: 42s; animation-delay: -17s; }\n.mm-landscape .mm-cloud-c { animation-duration: 35s; animation-delay: -11s; animation-direction: alternate-reverse; }\n.mm-landscape .mm-hill-far { animation: mm-hill-settle 2.05s cubic-bezier(.2,.7,.15,1) both; }\n.mm-landscape .mm-hill:not(.mm-hill-far) { animation: mm-hill-settle 2.5s cubic-bezier(.2,.72,.15,1) .25s both; }\n.mm-landscape .mm-field-lines path { stroke-dasharray: 550; stroke-dashoffset: 550; animation: mm-line-draw 2.65s cubic-bezier(.25,.5,.25,1) 1.05s forwards; }\n.mm-landscape .mm-fence-line { stroke-dasharray: 850; stroke-dashoffset: 850; animation: mm-line-draw 2.35s ease-out 1.15s forwards; }\n.mm-landscape .mm-fence-post { transform-box: fill-box; transform-origin: center bottom; animation: mm-assemble-post .75s cubic-bezier(.16,1,.3,1) calc(1.1s + var(--mm-delay,0s)) both; }\n.mm-landscape .mm-farm-stand { transform-box: fill-box; transform-origin: center bottom; animation: mm-farm-enter 1.1s cubic-bezier(.16,1,.3,1) .9s both; }\n.mm-landscape .mm-tree-sway { animation: mm-tree-sway var(--mm-duration,5.8s) ease-in-out var(--mm-delay,0s) infinite alternate; }\n.mm-landscape .mm-tree { animation: mm-tree-grow 1.3s cubic-bezier(.2,1.18,.32,1) .55s both; transform-box: fill-box; transform-origin: center bottom; }\n.mm-landscape .mm-orchard-tree { animation-duration: 1s; animation-delay: .65s; }\n.mm-landscape .mm-grass-sway { animation: mm-grass-breeze 3.8s ease-in-out infinite alternate; }\n.mm-landscape .mm-sprig:nth-child(3n) .mm-grass-sway { animation-duration: 5.1s; animation-delay: -2s; }\n.mm-landscape .mm-sprig:nth-child(4n) .mm-grass-sway { animation-duration: 3.3s; animation-delay: -1.25s; }\n.mm-landscape .mm-bird { transform-box: fill-box; animation: mm-bird-float 18s linear infinite; }\n.mm-landscape .mm-bird-b { animation-delay: -6s; animation-duration: 22s; }\n.mm-landscape .mm-bird-c { animation-delay: -9s; animation-duration: 25s; }\n.mm-landscape .mm-bird-d { animation-delay: -13s; animation-duration: 19s; }\n.mm-landscape .mm-bird-e { animation-delay: -3s; animation-duration: 21s; }\n.mm-landscape .mm-paper-grain { mix-blend-mode: multiply; }\n\n@keyframes mm-sunrise { from { transform: translateY(38px) scale(.78); } to { transform: translateY(0) scale(1); } }\n@keyframes mm-sun-breathe { from { transform: translateY(0) scale(1); } to { transform: translateY(-4px) scale(1.02); } }\n@keyframes mm-sun-glow { from { opacity: .58; transform: scale(.91); } to { opacity: .96; transform: scale(1.11); } }\n@keyframes mm-cloud-drift { from { transform: translateX(-16px); } to { transform: translateX(28px); } }\n@keyframes mm-hill-settle { from { transform: translateY(22px) scaleY(.94); } to { transform: translateY(0) scaleY(1); } }\n@keyframes mm-line-draw { to { stroke-dashoffset: 0; } }\n@keyframes mm-assemble-post { from { scale: 1 .12; } to { scale: 1 1; } }\n@keyframes mm-farm-enter { from { transform: translateY(20px) scaleY(.5); } to { transform: translateY(0) scaleY(1); } }\n@keyframes mm-tree-grow { from { scale: .82 .12; } to { scale: 1 1; } }\n@keyframes mm-tree-sway { from { transform: rotate(-1.25deg); } to { transform: rotate(1.8deg); } }\n@keyframes mm-grass-breeze { from { transform: rotate(-3.1deg); } to { transform: rotate(3.8deg); } }\n@keyframes mm-bird-float { 0% { transform: translate3d(0,0,0); } 45% { transform: translate3d(-30px,-10px,0); } 100% { transform: translate3d(-65px,-1px,0); } }\n\n.mm-landscape[data-paused=\"true\"] *,\n.mm-landscape[data-visible=\"false\"] * { animation-play-state: paused !important; }\n@media (prefers-reduced-motion: reduce) {\n  .mm-landscape *, .mm-landscape *::before, .mm-landscape *::after {\n    animation: none !important;\n    transition: none !important;\n  }\n  .mm-landscape .mm-field-lines path,\n  .mm-landscape .mm-fence-line { stroke-dashoffset: 0 !important; }\n}\n@media (max-width: 767px) {\n  .mm-landscape-svg {\n    width: 125%;\n    max-width: none;\n    left: -13%;\n  }\n  .mm-landscape .mm-paper-grain { opacity: .55; }\n}\n\n/* MESA MARKET — Countryside Footer v3: transparent footer with white illustrated SVG background */\n.mmf-footer {\n  --mmf-cream: #282C25;\n  --mmf-green: #385840;\n  --mmf-accent: #D85A36;\n  --mmf-far-x: 0px; --mmf-far-y: 0px;\n  --mmf-mid-x: 0px; --mmf-mid-y: 0px;\n  --mmf-near-x: 0px; --mmf-near-y: 0px;\n  --mmf-front-x: 0px; --mmf-front-y: 0px;\n  background: transparent;\n  box-sizing: border-box;\n  color: #272820;\n  position: relative;\n  z-index: 1;\n  width: 100%;\n  isolation: isolate;\n  overflow: hidden;\n  padding: clamp(68px, 7vw, 105px) clamp(24px, 5vw, 100px) 25px;\n  font-family: var(--font-outfit), 'Trebuchet MS', Arial, sans-serif;\n  border-top: 2px solid #24211D;\n}\n.mmf-footer *, .mmf-footer *::before, .mmf-footer *::after { box-sizing: border-box; }\n.mmf-footer a { color: inherit; text-decoration: none; }\n.mmf-footer button { font: inherit; cursor: pointer; }\n.mmf-footer :focus-visible { outline: 2px solid var(--mmf-accent); outline-offset: 5px; }\n\n/* The illustration is the ONLY footer backdrop; no green panel or dark wash. */\n.mmf-landscape { position: absolute; z-index: 0; inset: 0; pointer-events: none; overflow: hidden; }\n.mmf-landscape-svg { display: block; position: absolute; width: 100%; height: 100%; inset: 0; overflow: hidden; }\n\n/* Separate foreground text from background linework. */\n.mmf-bottom-grid {\n  position: relative; z-index: 2;\n  display: grid; grid-template-columns: minmax(260px,2.1fr) minmax(145px,.92fr) minmax(220px,1.13fr) minmax(160px,.9fr);\n  gap: clamp(25px, 4vw, 76px);\n  max-width: 1600px; margin: 0 auto clamp(65px, 6vw, 95px);\n}\n.mmf-logo { display: inline-block; font: 800 clamp(23px,2vw,32px)/1 var(--font-fraunces), Georgia,'Times New Roman',serif; letter-spacing: -.045em; white-space: nowrap; transition: color .22s ease; }\n.mmf-logo:hover { color: #D85533; }\n.mmf-logo-mark { color: var(--mmf-accent); margin: 0 .03em; display: inline-block; animation: mmf-mark-rotate 18s linear infinite; }\n.mmf-about p { color: #66614D; font-size: 14px; margin: 13px 0 0; }\n.mmf-heading { display: block; margin-bottom: 19px; font: 10px/1.6 var(--font-space-mono), 'Courier New',monospace; letter-spacing: .18em; color: #6E654D; }\n.mmf-nav-col nav { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }\n.mmf-nav-col nav a { font-size: 14px; display: inline-flex; gap: 6px; align-items: center; transition: color .2s ease, transform .25s ease; }\n.mmf-nav-col nav a:hover { transform: translateX(5px); color: #C64E30; }\n.mmf-nav-col nav a span { font-size: 12px; color: #AC6137; }\n.mmf-info p { font-size: 13px; line-height: 1.78; max-width: 255px; margin: 0; color: #514E43; }\n.mmf-return { text-align: right; }\n.mmf-back-top { width: 69px; height: 69px; border: 1px solid rgba(48,64,40,.40); border-radius: 50%; background: rgba(255,255,255,.74); color: #263C2B; font-size: 33px; display: inline-grid; place-items: center; transition: transform .32s cubic-bezier(.16,1,.3,1), background .22s ease, color .22s ease; }\n.mmf-back-top:hover { transform: translateY(-8px); background: #385840; color: #FFFFFF; }\n.mmf-back-top span { transition: transform .28s ease; }\n.mmf-back-top:hover span { transform: translateY(-3px); }\n\n.mmf-bottom-line { position: relative; z-index: 2; max-width: 1700px; margin: 0 auto; padding-top: 21px; border-top: 1px solid rgba(60,72,52,.23); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font: 10px/1.6 var(--font-space-mono), 'Courier New',monospace; letter-spacing: .13em; color: #625E52; }\n\n/* Animated SVG scenery */\n.mmf-plane-far { transform: translate(var(--mmf-far-x), var(--mmf-far-y)); }\n.mmf-plane-mid { transform: translate(var(--mmf-mid-x), var(--mmf-mid-y)); }\n.mmf-plane-near { transform: translate(var(--mmf-near-x), var(--mmf-near-y)); }\n.mmf-plane-front { transform: translate(var(--mmf-front-x), var(--mmf-front-y)); }\n.mmf-plane { transition: transform .12s linear; }\n.mmf-cloud { animation: mmf-cloud-drift 28s ease-in-out infinite alternate; transform-box: fill-box; }\n.mmf-cloud-b { animation-duration: 37s; animation-delay: -9s; animation-direction: alternate-reverse; }\n.mmf-light { animation: mmf-light-breathe 12s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }\n.mmf-sun { animation: mmf-sun-breathe 12s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }\n.mmf-birds { animation: mmf-bird-flight 23s linear infinite; }\n.mmf-tree-sway { transform-box: fill-box; transform-origin: center bottom; animation: mmf-tree-wind 5.3s ease-in-out infinite alternate; }\n.mmf-apple-tree-b .mmf-tree-sway { animation-delay: -2.2s; animation-duration: 7s; }\n.mmf-grass { transform-box: fill-box; transform-origin: center bottom; animation: mmf-grass-wind 4s ease-in-out infinite alternate; }\n.mmf-grass-b { animation-delay: -1.5s; animation-duration: 5.2s; }\n.mmf-grass-c { animation-delay: -2.5s; animation-duration: 3.7s; }\n.mmf-fence-stroke { stroke-dasharray: 700; stroke-dashoffset: 0; }\n.mmf-footer[data-entered=\"true\"] .mmf-crop-rows path { animation: mmf-draw-rows 1.8s cubic-bezier(.16,1,.3,1) both; }\n.mmf-footer[data-entered=\"true\"] .mmf-fence-stroke { animation: mmf-draw-fence 2.1s .1s ease both; }\n\n@keyframes mmf-cloud-drift { from { transform: translateX(-15px); } to { transform: translateX(25px); } }\n@keyframes mmf-light-breathe { from { opacity: .62; transform: scale(.93); } to { opacity: 1; transform: scale(1.1); } }\n@keyframes mmf-sun-breathe { from { transform: translateY(5px); } to { transform: translateY(-6px); } }\n@keyframes mmf-bird-flight { from { transform: translate(0,0); } to { transform: translate(-80px, -4px); } }\n@keyframes mmf-tree-wind { from { transform: rotate(-2deg); } to { transform: rotate(2.5deg); } }\n@keyframes mmf-grass-wind { from { transform: rotate(-4deg); } to { transform: rotate(3.7deg); } }\n@keyframes mmf-draw-rows { from { stroke-dasharray: 200; stroke-dashoffset: 200; } to { stroke-dasharray: 200; stroke-dashoffset: 0; } }\n@keyframes mmf-draw-fence { from { stroke-dashoffset: 700; } to { stroke-dashoffset: 0; } }\n@keyframes mmf-mark-rotate { to { transform: rotate(360deg); } }\n\n.mmf-footer[data-inview=\"false\"] .mmf-cloud,\n.mmf-footer[data-inview=\"false\"] .mmf-light,\n.mmf-footer[data-inview=\"false\"] .mmf-sun,\n.mmf-footer[data-inview=\"false\"] .mmf-birds,\n.mmf-footer[data-inview=\"false\"] .mmf-tree-sway,\n.mmf-footer[data-inview=\"false\"] .mmf-grass { animation-play-state: paused; }\n\n@media (max-width: 950px) {\n  .mmf-bottom-grid { grid-template-columns: 1.7fr 1fr 1fr; gap: 38px 26px; }\n  .mmf-return { grid-column: 3; grid-row: 2; text-align: right; }\n}\n@media (max-width: 700px) {\n  .mmf-footer { padding: 58px 22px 23px; }\n  .mmf-bottom-grid { grid-template-columns: 1fr 1fr; gap: 42px 25px; margin-bottom: 66px; }\n  .mmf-about { grid-column: 1/-1; }\n  .mmf-return { grid-column: 2; grid-row: auto; text-align: left; }\n  .mmf-landscape-svg { width: 145%; max-width: none; left: -22%; }\n  .mmf-bottom-line { gap: 9px; }\n}\n@media (max-width: 450px) {\n  .mmf-logo { font-size: 26px; }\n  .mmf-heading { font-size: 9px; }\n  .mmf-info p { font-size: 12px; }\n  .mmf-nav-col nav a { font-size: 13px; }\n  .mmf-back-top { width: 59px; height: 59px; }\n  .mmf-bottom-line { font-size: 9px; }\n}\n@media (prefers-reduced-motion: reduce) {\n  .mmf-footer *, .mmf-footer *::before, .mmf-footer *::after { animation: none !important; transition: none !important; }\n  .mmf-crop-rows path, .mmf-fence-stroke { stroke-dashoffset: 0 !important; }\n}"
+    },
+    {
+      "id": "mesamarket-runtime-1",
+      "location": "footer",
+      "title": "MESA MARKET Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 428,
+      "description": "Loads motion, three, gsap in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion",
+        "three",
+        "gsap"
+      ],
+      "code": "// MESA MARKET — Webflow Custom Code Runtime Bridge\n// Dependencies: motion, three, gsap\nimport gsap from \"https://cdn.jsdelivr.net/npm/gsap@3.15.0/+esm\";\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

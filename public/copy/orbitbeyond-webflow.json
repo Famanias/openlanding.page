@@ -1,0 +1,137 @@
+{
+  "slug": "orbitbeyond",
+  "title": "ORBIT & BEYOND",
+  "industry": "Digital Experience & Technology",
+  "description": "Standalone cinematic concept experience for ORBIT &amp; BEYOND, a speculative 2045 lunar weekend expedition company in the OpenLanding collection.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/orbitbeyond",
+  "downloadUrl": "https://www.openlanding.page/downloads/orbitbeyond.html",
+  "manifestUrl": "https://www.openlanding.page/copy/orbitbeyond-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/orbitbeyond-webflow-prompt.md",
+  "variables": {
+    "collectionName": "ORBIT & BEYOND Tokens",
+    "colors": [
+      {
+        "name": "Color / Bg Deep Space",
+        "cssVar": "--bg-deep-space",
+        "value": "#030812",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Midnight Navy",
+        "cssVar": "--bg-midnight-navy",
+        "value": "#091525",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Lunar Shadow",
+        "cssVar": "--bg-lunar-shadow",
+        "value": "#1E2A36",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text Regolith Silver",
+        "cssVar": "--text-regolith-silver",
+        "value": "#AAB7C4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text Frost White",
+        "cssVar": "--text-frost-white",
+        "value": "#EDF6FD",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent Earth Cyan",
+        "cssVar": "--accent-earth-cyan",
+        "value": "#8DE9FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent Mission Blue",
+        "cssVar": "--accent-mission-blue",
+        "value": "#178CFA",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Accent Habitat Warmth",
+        "cssVar": "--accent-habitat-warmth",
+        "value": "#F6C98C",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      },
+      {
+        "name": "Font / Serif",
+        "cssVar": "--font-serif",
+        "family": "Instrument Serif",
+        "fallback": "Instrument Serif, Georgia, Cambria, Times New Roman, serif",
+        "googleFont": "Instrument Serif"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "orbitbeyond.webp",
+      "publicPath": "https://www.openlanding.page/gallery/orbitbeyond.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Standalone cinematic concept experience for ORBIT &amp; BEYOND, a speculative 2045 lunar weekend expedition company in the OpenLanding collection.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".dark",
+        ".liquid-glass",
+        ".035",
+        ".4px",
+        ".font-display-sans",
+        ".font-editorial-serif",
+        ".font-hud-mono"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "orbitbeyond-styles-1",
+      "location": "head",
+      "title": "ORBIT & BEYOND Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 2433,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@custom-variant dark (&:where(.dark, .dark *));\r\n\r\n@layer base {\r\n  :root {\r\n    --bg-deep-space: #030812;\r\n    --bg-midnight-navy: #091525;\r\n    --bg-lunar-shadow: #1E2A36;\r\n    --text-regolith-silver: #AAB7C4;\r\n    --text-frost-white: #EDF6FD;\r\n    --accent-earth-cyan: #8DE9FF;\r\n    --accent-mission-blue: #178CFA;\r\n    --accent-habitat-warmth: #F6C98C;\r\n    --font-sans: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\r\n    --font-serif: var(--font-instrument-serif), 'Instrument Serif', Georgia, Cambria, 'Times New Roman', serif;\r\n    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;\r\n  }\r\n\r\n  html {\r\n    background-color: #030812;\r\n    color: #EDF6FD;\r\n    font-family: var(--font-sans);\r\n    overflow-x: clip;\r\n  }\r\n\r\n  body {\r\n    background-color: #030812;\r\n    color: #EDF6FD;\r\n    overflow-x: clip;\r\n    min-height: 100svh;\r\n  }\r\n}\r\n\r\n@layer components {\r\n  .liquid-glass {\r\n    position: relative;\r\n    overflow: hidden;\r\n    background: rgba(9, 21, 37, 0.58);\r\n    background: rgba(255, 255, 255, 0.035);\r\n    background-blend-mode: luminosity;\r\n    -webkit-backdrop-filter: blur(10px) saturate(1.12);\r\n    backdrop-filter: blur(10px) saturate(1.12);\r\n    border: 1px solid rgba(255, 255, 255, 0.10);\r\n    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.13), 0 12px 35px rgba(0, 0, 0, 0.12);\r\n  }\r\n\r\n  @supports not ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {\r\n    .liquid-glass {\r\n      background: rgba(9, 21, 37, 0.88);\r\n    }\r\n  }\r\n\r\n  .liquid-glass::before {\r\n    content: '';\r\n    position: absolute;\r\n    inset: 0;\r\n    border-radius: inherit;\r\n    padding: 1.4px;\r\n    background: linear-gradient(\r\n      180deg,\r\n      rgba(255, 255, 255, 0.42) 0%,\r\n      rgba(255, 255, 255, 0.14) 20%,\r\n      rgba(255, 255, 255, 0) 40%,\r\n      rgba(255, 255, 255, 0) 60%,\r\n      rgba(255, 255, 255, 0.14) 80%,\r\n      rgba(255, 255, 255, 0.42) 100%\r\n    );\r\n    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);\r\n    -webkit-mask-composite: xor;\r\n    mask-composite: exclude;\r\n    pointer-events: none;\r\n  }\r\n\r\n  .font-display-sans {\r\n    font-family: var(--font-sans);\r\n  }\r\n\r\n  .font-editorial-serif {\r\n    font-family: var(--font-serif);\r\n  }\r\n\r\n  .font-hud-mono {\r\n    font-family: var(--font-mono);\r\n    font-variant-numeric: tabular-nums;\r\n  }\r\n}"
+    },
+    {
+      "id": "orbitbeyond-runtime-1",
+      "location": "footer",
+      "title": "ORBIT & BEYOND Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 278,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// ORBIT & BEYOND — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

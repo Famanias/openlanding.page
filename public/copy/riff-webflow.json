@@ -1,0 +1,197 @@
+{
+  "slug": "riff",
+  "title": "Riff",
+  "industry": "Music & Dating",
+  "description": "Fall for the sound before the selfie. A music-first 18+ dating app that matches people through playlists, genres, favorite artists, and listening chemistry.",
+  "stack": "Next.js 16 · Tailwind v4 · Lucide · Motion",
+  "liveUrl": "https://www.openlanding.page/templates/riff",
+  "downloadUrl": "https://www.openlanding.page/downloads/riff.html",
+  "manifestUrl": "https://www.openlanding.page/copy/riff-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/riff-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Riff Tokens",
+    "colors": [
+      {
+        "name": "Color / Riff Black",
+        "cssVar": "--riff-black",
+        "value": "#0B0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Riff Ink",
+        "cssVar": "--riff-ink",
+        "value": "#141414",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Riff Paper",
+        "cssVar": "--riff-paper",
+        "value": "#F4F0E8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Riff Crimson",
+        "cssVar": "--riff-crimson",
+        "value": "#C92533",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Riff Deep Red",
+        "cssVar": "--riff-deep-red",
+        "value": "#741B24",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Riff Grey",
+        "cssVar": "--riff-grey",
+        "value": "#AAA8A6",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Riff Dim",
+        "cssVar": "--riff-dim",
+        "value": "#777575",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Riff Rule",
+        "cssVar": "--riff-rule",
+        "value": "rgba(244, 240, 232, 0.22)",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Barlow Condensed",
+        "cssVar": "--font-barlow-condensed",
+        "family": "Barlow Condensed",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Barlow Condensed"
+      },
+      {
+        "name": "Font / Bodoni Moda",
+        "cssVar": "--font-bodoni-moda",
+        "family": "Bodoni Moda",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Bodoni Moda"
+      },
+      {
+        "name": "Font / JetBrains Mono",
+        "cssVar": "--font-jetbrains-mono",
+        "family": "JetBrains Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "JetBrains Mono"
+      },
+      {
+        "name": "Font / Plus Jakarta Sans",
+        "cssVar": "--font-plus-jakarta-sans",
+        "family": "Plus Jakarta Sans",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Plus Jakarta Sans"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "riff.webp",
+      "publicPath": "https://www.openlanding.page/gallery/riff.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Sticky Header",
+      "summary": "Custom SVG waveform logo, navigation links (`How It Works`, `Matches`, `Playlists`, `Stories`), mobile hamburger menu, and screenprint red \"Join Riff\" button.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Hero Section (Two Phones, One Chemistry)",
+      "summary": "- Dual-phone mockup showcasing real profile cards (Mila, 24 and Julian, 26).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".halftone-patch",
+        ".halftone-patch-crimson",
+        ".halftone-patch-fine"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Manifesto Section",
+      "summary": "- Wheat-pasted torn paper banners: *\"THERE'S MORE TO A PERSON THAN A PHOTO\"*.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "How It Works (Three Tracks)",
+      "summary": "- Interactive tape-head progress rail scrubbable across Track 01 (Drop your favorites), Track 02 (Find your overlap), and Track 03 (Start a conversation).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Interactive Taste Matcher",
+      "summary": "- Left panel: clickable underground genres (Shoegaze, Post-Punk, Midwest Emo, Darkwave, etc.) and listening rituals (Night drives, Live gigs, Vinyl digging, Late-night headphones).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Music Chemistry Case Study",
+      "summary": "- Segmented control toggling between Favorite Records, Concert Energy, and Late-Night Mixes.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "The Scene Playlist Wall",
+      "summary": "- Six mood-curated playlists with custom art sleeves and rotational offsets.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Stories & Backstage Pass",
+      "summary": "- Carousel of real connection stories from East London, Glasgow, and Chicago.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "riff-styles-1",
+      "location": "head",
+      "title": "Riff Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 6659,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@custom-variant dark (&:where(.dark, .dark *));\n\n:root {\n  --riff-black: #0B0B0B;\n  --riff-ink: #141414;\n  --riff-paper: #F4F0E8;\n  --riff-crimson: #C92533;\n  --riff-deep-red: #741B24;\n  --riff-grey: #AAA8A6;\n  --riff-dim: #777575;\n  --riff-rule: rgba(244, 240, 232, 0.22);\n}\n\n@layer base {\n  html {\n    background-color: var(--riff-black);\n    color: var(--riff-paper);\n    font-family: var(--font-plus-jakarta), \"Plus Jakarta Sans\", -apple-system, BlinkMacSystemFont, sans-serif;\n    scroll-behavior: smooth;\n  }\n\n  body {\n    background-color: var(--riff-black);\n    color: var(--riff-paper);\n    overflow-x: hidden;\n  }\n\n  /* High-visibility accessible focus rings on dark print canvas */\n  *:focus-visible {\n    outline: 2px solid var(--riff-crimson);\n    outline-offset: 3px;\n  }\n}\n\n.font-editorial {\n  font-family: var(--font-bodoni-moda), \"Bodoni Moda\", Georgia, serif;\n}\n\n.font-condensed {\n  font-family: var(--font-barlow-condensed), \"Barlow Condensed\", Impact, sans-serif;\n}\n\n.font-sans-ui {\n  font-family: var(--font-plus-jakarta), \"Plus Jakarta Sans\", -apple-system, BlinkMacSystemFont, sans-serif;\n}\n\n.font-mono-code {\n  font-family: var(--font-jetbrains-mono), \"JetBrains Mono\", monospace;\n}\n\n/* Analog photographic grain overlay */\n.riff-grain-overlay {\n  background-image: url(\"/assets/noise-tile.png\");\n  background-repeat: repeat;\n  background-size: 160px 160px;\n  opacity: 0.24;\n  pointer-events: none;\n}\n\n/* Concentrated halftone dot patches matching reference corners and collage backings */\n.halftone-patch {\n  background-image: radial-gradient(rgba(244, 240, 232, 0.16) 1.25px, transparent 1.35px);\n  background-size: 7px 7px;\n}\n\n.halftone-patch-crimson {\n  background-image: radial-gradient(rgba(201, 37, 51, 0.28) 1.5px, transparent 1.6px);\n  background-size: 8px 8px;\n}\n\n.halftone-patch-fine {\n  background-image: radial-gradient(rgba(244, 240, 232, 0.11) 1px, transparent 1.1px);\n  background-size: 5px 5px;\n}\n\n/* Torn zine edge clip paths */\n.torn-paper-top {\n  clip-path: polygon(\n    0% 6%, 4% 2%, 9% 7%, 15% 1%, 22% 5%, 28% 0%, 35% 6%, 42% 2%,\n    49% 7%, 56% 1%, 63% 5%, 71% 0%, 78% 6%, 85% 2%, 92% 7%, 97% 1%,\n    100% 5%, 100% 100%, 0% 100%\n  );\n}\n\n.torn-paper-strip {\n  clip-path: polygon(\n    0% 4%, 5% 0%, 12% 5%, 19% 1%, 27% 4%, 36% 0%, 44% 5%, 53% 1%,\n    61% 4%, 70% 0%, 79% 5%, 88% 1%, 95% 4%, 100% 1%,\n    99% 96%, 93% 100%, 85% 95%, 76% 99%, 67% 95%, 58% 100%,\n    49% 95%, 40% 99%, 31% 95%, 22% 100%, 14% 96%, 6% 99%, 0% 95%\n  );\n}\n\n/* Perforated concert ticket edge */\n.ticket-perforated {\n  clip-path: polygon(\n    0% 6%, 3% 0%, 97% 0%, 100% 6%,\n    100% 22%, 97% 26%, 100% 30%,\n    100% 48%, 97% 52%, 100% 56%,\n    100% 74%, 97% 78%, 100% 82%,\n    100% 94%, 97% 100%, 3% 100%, 0% 94%,\n    0% 82%, 3% 78%, 0% 74%,\n    0% 56%, 3% 52%, 0% 48%,\n    0% 30%, 3% 26%, 0% 22%\n  );\n}\n\n/* Screen-print misregistration button hover */\n.btn-screenprint {\n  position: relative;\n  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1);\n}\n\n.btn-screenprint:hover {\n  transform: translate(-2px, -2px);\n  box-shadow: 4px 4px 0px rgba(244, 240, 232, 0.28);\n}\n\n.btn-screenprint:active {\n  transform: translate(0px, 0px);\n  box-shadow: 1px 1px 0px rgba(244, 240, 232, 0.2);\n}\n\n/* Slow ambient vinyl rotation */\n@keyframes riff-spin-slow {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.animate-vinyl-slow {\n  animation: riff-spin-slow 24s linear infinite;\n}\n\n.animate-vinyl-fast {\n  animation: riff-spin-slow 3.2s linear infinite;\n}\n\n/* On-load paper-slit shutter reveal */\n@keyframes paper-slit-reveal {\n  0% {\n    clip-path: inset(0 100% 0 0);\n    transform: translateY(8px);\n    opacity: 0.2;\n  }\n  100% {\n    clip-path: inset(0 0% 0 0);\n    transform: translateY(0);\n    opacity: 1;\n  }\n}\n\n.reveal-paper-slit-1 {\n  animation: paper-slit-reveal 550ms cubic-bezier(0.16, 1, 0.3, 1) forwards;\n}\n\n.reveal-paper-slit-2 {\n  animation: paper-slit-reveal 700ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both;\n}\n\n.reveal-paper-slit-3 {\n  animation: paper-slit-reveal 820ms cubic-bezier(0.16, 1, 0.3, 1) 180ms both;\n}\n\n/* Section 01-04 Art-Directed Motion Choreography */\n@keyframes riff-sleeve-wipe {\n  0% {\n    clip-path: inset(0 100% 0 0);\n    transform: translateX(12px) scale(0.985);\n    opacity: 0.35;\n  }\n  100% {\n    clip-path: inset(0 0% 0 0);\n    transform: translateX(0) scale(1);\n    opacity: 1;\n  }\n}\n\n@keyframes riff-ring-expand {\n  0% {\n    clip-path: circle(14% at 68% 30%);\n    transform: scale(0.98);\n    opacity: 0.4;\n  }\n  100% {\n    clip-path: circle(140% at 68% 30%);\n    transform: scale(1);\n    opacity: 1;\n  }\n}\n\n@keyframes riff-band-sweep {\n  0% {\n    clip-path: circle(18% at 50% 44%);\n    opacity: 0.45;\n  }\n  100% {\n    clip-path: circle(135% at 50% 44%);\n    opacity: 1;\n  }\n}\n\n@keyframes riff-ticket-whip {\n  0% {\n    clip-path: inset(0 0 0 100%);\n    transform: translateX(-14px) rotate(-1.2deg);\n    opacity: 0.3;\n  }\n  100% {\n    clip-path: inset(0 0 0 0%);\n    transform: translateX(0) rotate(0deg);\n    opacity: 1;\n  }\n}\n\n@keyframes riff-gatefold-unfold {\n  0% {\n    clip-path: inset(0 48% 0 0);\n    transform: perspective(1100px) rotateY(-8deg) scale(0.98);\n    opacity: 0.35;\n  }\n  100% {\n    clip-path: inset(0 0% 0 0);\n    transform: perspective(1100px) rotateY(0deg) scale(1);\n    opacity: 1;\n  }\n}\n\n.anim-sleeve-wipe {\n  animation: riff-sleeve-wipe 460ms cubic-bezier(0.22, 1, 0.36, 1) both;\n}\n\n.anim-ring-expand {\n  animation: riff-ring-expand 520ms cubic-bezier(0.22, 1, 0.36, 1) both;\n}\n\n.anim-band-sweep {\n  animation: riff-band-sweep 440ms cubic-bezier(0.22, 1, 0.36, 1) both;\n}\n\n.anim-ticket-whip {\n  animation: riff-ticket-whip 420ms cubic-bezier(0.22, 1, 0.36, 1) both;\n}\n\n.anim-gatefold-unfold {\n  animation: riff-gatefold-unfold 480ms cubic-bezier(0.22, 1, 0.36, 1) both;\n}\n\n/* Pause animations when user toggles motion off or prefers reduced motion */\n.motion-paused .animate-vinyl-slow,\n.motion-paused .animate-vinyl-fast,\n.motion-paused .anim-sleeve-wipe,\n.motion-paused .anim-ring-expand,\n.motion-paused .anim-band-sweep,\n.motion-paused .anim-ticket-whip,\n.motion-paused .anim-gatefold-unfold {\n  animation: none !important;\n  clip-path: none !important;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  html {\n    scroll-behavior: auto;\n  }\n  .animate-vinyl-slow,\n  .animate-vinyl-fast,\n  .reveal-paper-slit-1,\n  .reveal-paper-slit-2,\n  .reveal-paper-slit-3,\n  .anim-sleeve-wipe,\n  .anim-ring-expand,\n  .anim-band-sweep,\n  .anim-ticket-whip,\n  .anim-gatefold-unfold {\n    animation: none !important;\n    clip-path: none !important;\n    transform: none !important;\n    opacity: 1 !important;\n  }\n}"
+    },
+    {
+      "id": "riff-runtime-1",
+      "location": "footer",
+      "title": "Riff Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 268,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// Riff — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

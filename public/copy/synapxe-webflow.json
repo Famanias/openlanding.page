@@ -1,0 +1,270 @@
+{
+  "slug": "synapxe",
+  "title": "Synapxe",
+  "industry": "Cyberpunk Techwear & Apparel",
+  "description": "Cyberpunk Technical Apparel Storefront — Engineered Urban Shell Systems, 3-Layer ePTFE Storm Shells, and Modular Techwear.",
+  "stack": "Next.js 16 · React 19 · Three.js 3D · Tailwind v4 · Canvas Rain",
+  "liveUrl": "https://www.openlanding.page/templates/synapxe",
+  "downloadUrl": "https://www.openlanding.page/downloads/synapxe.html",
+  "manifestUrl": "https://www.openlanding.page/copy/synapxe-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/synapxe-webflow-prompt.md",
+  "variables": {
+    "collectionName": "Synapxe Tokens",
+    "colors": [
+      {
+        "name": "Color / Knx Obsidian",
+        "cssVar": "--color-knx-obsidian",
+        "value": "#090B0E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Knx Slate",
+        "cssVar": "--color-knx-slate",
+        "value": "#11161D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Knx Tyvek",
+        "cssVar": "--color-knx-tyvek",
+        "value": "#F1F5F9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Knx Primary",
+        "cssVar": "--color-knx-primary",
+        "value": "#F8FAFC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Knx Muted",
+        "cssVar": "--color-knx-muted",
+        "value": "#94A3B8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Knx Cyan",
+        "cssVar": "--color-knx-cyan",
+        "value": "#00F0FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Knx Magenta",
+        "cssVar": "--color-knx-magenta",
+        "value": "#FF007F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Knx Amber",
+        "cssVar": "--color-knx-amber",
+        "value": "#FF7A00",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Knx Volt",
+        "cssVar": "--color-knx-volt",
+        "value": "#D4FF00",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Obsidian",
+        "cssVar": "--bg-obsidian",
+        "value": "#090B0E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Slate",
+        "cssVar": "--bg-slate",
+        "value": "#11161D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Panel",
+        "cssVar": "--bg-panel",
+        "value": "rgba(17, 22, 29, 0.82)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Tyvek White",
+        "cssVar": "--tyvek-white",
+        "value": "#F1F5F9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text Primary",
+        "cssVar": "--text-primary",
+        "value": "#F8FAFC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Text Muted",
+        "cssVar": "--text-muted",
+        "value": "#94A3B8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Border Hairline",
+        "cssVar": "--border-hairline",
+        "value": "rgba(226, 232, 240, 0.14)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Neon Cyan",
+        "cssVar": "--neon-cyan",
+        "value": "#00F0FF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Neon Magenta",
+        "cssVar": "--neon-magenta",
+        "value": "#FF007F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Hazard Amber",
+        "cssVar": "--hazard-amber",
+        "value": "#FF7A00",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Acid Volt",
+        "cssVar": "--acid-volt",
+        "value": "#D4FF00",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#18222F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#475569",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#E2E8F0",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Oswald",
+        "fallback": "sans-serif",
+        "googleFont": "Oswald"
+      },
+      {
+        "name": "Font / Body",
+        "cssVar": "--font-body",
+        "family": "Manrope",
+        "fallback": "-apple-system, BlinkMacSystemFont, sans-serif",
+        "googleFont": "Manrope"
+      },
+      {
+        "name": "Font / Mono Tech",
+        "cssVar": "--font-mono-tech",
+        "family": "var(--font-jetbrains)",
+        "fallback": "monospace"
+      },
+      {
+        "name": "Font / JetBrains Mono",
+        "cssVar": "--font-jetbrains-mono",
+        "family": "JetBrains Mono",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "JetBrains Mono"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "synapxe.webp",
+      "publicPath": "https://www.openlanding.page/gallery/synapxe.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Quick-Size Matrix",
+      "summary": "Selectable \\`[S] [M] [L] [XL]\\` buttons directly on the card. Clicking a size updates a live stock badge (e.g., \\`STATUS: 2 UNITS LEFT IN SECTOR\\`) and enables the \\`+ ADD TO LOADOUT\\` button.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Colorway Swatch Pill",
+      "summary": "Toggle between \\`STEALTH BLACK\\`, \\`OXIDE SLATE\\`, and \\`NEON NOIR\\` (applies a subtle CSS hue/contrast shift to the product image and updates the variant SKU).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".swatch-stealth-black",
+        ".swatch-oxide-slate",
+        ".swatch-neon-noir"
+      ]
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Spec Telemetry Bars",
+      "summary": "3 mini progress bars at the bottom of each card visualizing Waterproof rating, Breathability, and Weight.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "Layer 01 (Outer)",
+      "summary": "\\`200D Ballistic Cordura® + DWR Fluorocarbon-Free Coating\\` (Deflects external rain/wind).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Layer 02 (Core)",
+      "summary": "\\`Microporous Black ePTFE Hydrophobic Membrane\\` (9 billion pores per sq inch).",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Layer 03 (Inner)",
+      "summary": "\\`Tricot Micro-Grid Thermal & Moisture Wicking Backing\\`.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "synapxe-styles-1",
+      "location": "head",
+      "title": "Synapxe Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 7843,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@custom-variant dark (&:where(.dark, .dark *));\n\n@theme {\n  --color-knx-obsidian: #090B0E;\n  --color-knx-slate: #11161D;\n  --color-knx-tyvek: #F1F5F9;\n  --color-knx-primary: #F8FAFC;\n  --color-knx-muted: #94A3B8;\n  --color-knx-cyan: #00F0FF;\n  --color-knx-magenta: #FF007F;\n  --color-knx-amber: #FF7A00;\n  --color-knx-volt: #D4FF00;\n\n  --font-display: var(--font-oswald), sans-serif;\n  --font-body: var(--font-manrope), -apple-system, BlinkMacSystemFont, sans-serif;\n  --font-mono-tech: var(--font-jetbrains), monospace;\n\n  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);\n  --dur-fast: 180ms;\n  --dur-base: 420ms;\n  --dur-slow: 800ms;\n}\n\n:root {\n  --bg-obsidian: #090B0E;\n  --bg-slate: #11161D;\n  --bg-panel: rgba(17, 22, 29, 0.82);\n  --tyvek-white: #F1F5F9;\n  --text-primary: #F8FAFC;\n  --text-muted: #94A3B8;\n  --border-hairline: rgba(226, 232, 240, 0.14);\n\n  /* Cyberpunk Lighting & UI Accents */\n  --neon-cyan: #00F0FF;\n  --neon-magenta: #FF007F;\n  --hazard-amber: #FF7A00;\n  --acid-volt: #D4FF00;\n}\n\n/* Let the telemetry text shrink before applying its existing ellipsis. */\n.synapxe-root [data-testid=\"fabric-weather-control-bar\"] > div > div {\n  min-width: 0;\n  max-width: 100%;\n}\n\n@media (max-width: 639px) {\n  /* Keep every header action available without compressing the wordmark. */\n  .synapxe-root > header > div {\n    height: auto;\n    flex-wrap: wrap;\n    padding-block: 12px;\n  }\n\n  .synapxe-root > header > div > div:last-child {\n    width: 100%;\n    flex-wrap: wrap;\n    justify-content: space-between;\n  }\n}\n\n.chamfer-btn {\n  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));\n}\n\n.chamfer-sm {\n  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));\n}\n\n.chamfer-card {\n  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));\n}\n\n/* Optical Shader Modes for Hero */\n.shader-optical {\n  filter: contrast(1.06) saturate(1.12);\n}\n\n.shader-thermal {\n  filter: contrast(1.35) saturate(1.6);\n}\n\n.shader-uv-lumen {\n  filter: contrast(1.45) brightness(0.95) saturate(1.8);\n}\n\n/* Colorway Swatch Image Filters */\n.swatch-stealth-black {\n  filter: contrast(1.04) brightness(0.98) saturate(0.95);\n}\n\n.swatch-oxide-slate {\n  filter: sepia(0.22) hue-rotate(155deg) saturate(1.35) contrast(1.08) brightness(1.05);\n}\n\n.swatch-neon-noir {\n  filter: hue-rotate(275deg) saturate(1.85) contrast(1.18) brightness(1.04);\n}\n\n/* The interface powers on like an LED sign, then settles into its steady state. */\n@media (prefers-reduced-motion: no-preference) {\n  .synapxe-root [data-sx-reveal][data-sx-state] {\n    transition: border-color 300ms cubic-bezier(0.22, 1, 0.36, 1);\n  }\n\n  .synapxe-root [data-sx-state=\"pending\"]:not(:focus-within) {\n    opacity: 0;\n  }\n  .synapxe-root [data-sx-activated=\"true\"] {\n    animation: sx-power-on 620ms steps(1, end) var(--sx-delay, 0ms) both;\n  }\n  .synapxe-root [data-sx-reveal]:focus-within {\n    opacity: 1;\n    transform: none;\n    transition: none;\n    animation: none;\n  }\n\n  .synapxe-root [data-sx-reveal=\"heading\"] {\n    position: relative;\n  }\n  .synapxe-root [data-sx-reveal=\"heading\"]::after {\n    content: \"\";\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    width: 72px;\n    height: 1px;\n    background: currentColor;\n    color: var(--neon-cyan);\n    transform-origin: left;\n    transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1) 100ms;\n    pointer-events: none;\n  }\n  .synapxe-root [data-sx-reveal=\"heading\"][data-sx-state=\"pending\"]::after {\n    transform: scaleX(0);\n  }\n\n  .synapxe-root .sx-product:nth-child(4n + 2) { --sx-delay: 70ms; }\n  .synapxe-root .sx-product:nth-child(4n + 3) { --sx-delay: 140ms; }\n  .synapxe-root .sx-product:nth-child(4n + 4) { --sx-delay: 210ms; }\n\n  .sx-hero-load {\n    animation: sx-power-on 620ms steps(1, end) both;\n  }\n  .sx-hero-sign { animation: sx-sign-on 680ms steps(1, end) both; }\n  .sx-hero-load--eyebrow { animation-delay: 80ms; }\n  .sx-hero-load--copy { animation-delay: 160ms; }\n  .sx-hero-load--actions { animation-delay: 240ms; }\n  .sx-hero-load--hud { animation-delay: 320ms; }\n  .sx-hero-load:focus-within { animation: none; }\n}\n\n@keyframes sx-power-on {\n  0% { opacity: 0; }\n  12% { opacity: 0.85; }\n  22% { opacity: 0.12; }\n  36% { opacity: 1; }\n  45% { opacity: 0.25; }\n  59% { opacity: 1; }\n  66% { opacity: 0.65; }\n  75%, 100% { opacity: 1; }\n}\n@keyframes sx-sign-on {\n  0%, 22% { opacity: 0.7; }\n  12%, 36%, 59%, 75%, 100% { opacity: 1; }\n  45% { opacity: 0.45; }\n  66% { opacity: 0.8; }\n}\n\n@media (prefers-reduced-motion: no-preference) and (max-width: 1279px) {\n  .synapxe-root .sx-product:nth-child(n) { --sx-delay: 0ms; }\n  .synapxe-root .sx-product:nth-child(3n + 2) { --sx-delay: 70ms; }\n  .synapxe-root .sx-product:nth-child(3n + 3) { --sx-delay: 140ms; }\n}\n@media (prefers-reduced-motion: no-preference) and (max-width: 1023px) {\n  .synapxe-root .sx-product:nth-child(n) { --sx-delay: 0ms; }\n  .synapxe-root .sx-product:nth-child(2n) { --sx-delay: 70ms; }\n}\n@media (prefers-reduced-motion: no-preference) and (max-width: 639px) {\n  .synapxe-root .sx-product:nth-child(n) { --sx-delay: 0ms; }\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  .synapxe-root :is(button, a, select, input[type=\"range\"]) {\n    transition: color 220ms cubic-bezier(0.22, 1, 0.36, 1),\n      background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),\n      border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),\n      filter 220ms cubic-bezier(0.22, 1, 0.36, 1),\n      scale 180ms cubic-bezier(0.22, 1, 0.36, 1);\n  }\n  .synapxe-root :is(button, a):active { scale: 0.97; }\n  .sx-cart-enter { animation: sx-panel-enter 400ms cubic-bezier(0.22, 1, 0.36, 1) both; }\n  .sx-disclosure-enter { animation: sx-power-on 350ms steps(1, end) both; }\n}\n@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {\n  .synapxe-root :is(button, a, select):hover { filter: brightness(1.18); }\n}\n@keyframes sx-panel-enter {\n  from { opacity: 0.6; transform: translateX(16px); }\n  to { opacity: 1; transform: translateX(0); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .synapxe-root .sx-product img { transition: none; }\n  .synapxe-root .sx-product:hover img { transform: none; }\n}\n\n/* Custom Range Input for Fabric Lab & Biometric Sliders */\ninput[type=\"range\"].synapxe-slider {\n  -webkit-appearance: none;\n  appearance: none;\n  background: rgba(226, 232, 240, 0.14);\n  height: 6px;\n  outline: none;\n}\n\ninput[type=\"range\"].synapxe-slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 18px;\n  height: 18px;\n  background: #00F0FF;\n  border: 2px solid #090B0E;\n  cursor: pointer;\n  clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));\n  box-shadow: 0 0 12px rgba(0, 240, 255, 0.65);\n}\n\ninput[type=\"range\"].synapxe-slider::-moz-range-thumb {\n  width: 18px;\n  height: 18px;\n  background: #00F0FF;\n  border: 2px solid #090B0E;\n  cursor: pointer;\n  border-radius: 0;\n  box-shadow: 0 0 12px rgba(0, 240, 255, 0.65);\n}\n\n/* Tyvek paper noise subtle pattern */\n.tyvek-surface {\n  background-color: #F1F5F9;\n  background-image: \n    linear-gradient(135deg, rgba(15, 23, 42, 0.03) 25%, transparent 25%),\n    linear-gradient(225deg, rgba(15, 23, 42, 0.03) 25%, transparent 25%),\n    linear-gradient(45deg, rgba(15, 23, 42, 0.02) 25%, transparent 25%),\n    linear-gradient(315deg, rgba(15, 23, 42, 0.03) 25%, #F1F5F9 25%);\n  background-size: 24px 24px;\n}\n\n/* Scenic closing frame: the image stays still while rain passes over it. */\n.scenic-footer-image {\n  background: linear-gradient(180deg, rgba(9, 11, 14, .8), rgba(9, 11, 14, .18) 48%, rgba(9, 11, 14, .88)), url('/templates/synapxe/footer-scene.webp') center / cover no-repeat;\n}"
+    },
+    {
+      "id": "synapxe-runtime-1",
+      "location": "footer",
+      "title": "Synapxe Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 344,
+      "description": "Loads three in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "three"
+      ],
+      "code": "// Synapxe — Webflow Custom Code Runtime Bridge\n// Dependencies: three\nimport * as THREE from \"https://cdn.jsdelivr.net/npm/three@0.186.1/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

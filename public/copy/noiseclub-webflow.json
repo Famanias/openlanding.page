@@ -1,0 +1,526 @@
+{
+  "slug": "noiseclub",
+  "title": "NOISE CLUB",
+  "industry": "Sound Culture & Portable Instruments",
+  "description": "An independent sound-culture collective and interactive concept zine featuring the Teenage Engineering PO-33 K.O! micro-sampler.",
+  "stack": "Next.js 16 · React 19 · Web Audio API · Tailwind v4 · GSAP · Lenis",
+  "liveUrl": "https://www.openlanding.page/templates/noiseclub",
+  "downloadUrl": "https://www.openlanding.page/downloads/noiseclub.html",
+  "manifestUrl": "https://www.openlanding.page/copy/noiseclub-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/noiseclub-webflow-prompt.md",
+  "variables": {
+    "collectionName": "NOISE CLUB Tokens",
+    "colors": [
+      {
+        "name": "Color / Nc Ink",
+        "cssVar": "--color-nc-ink",
+        "value": "#111313",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Nc Paper",
+        "cssVar": "--color-nc-paper",
+        "value": "#F1EEE5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Nc Acid",
+        "cssVar": "--color-nc-acid",
+        "value": "#CBFF49",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Nc Red",
+        "cssVar": "--color-nc-red",
+        "value": "#FF6748",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Nc Ink Black",
+        "cssVar": "--nc-ink-black",
+        "value": "#111313",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Nc Paper Bone",
+        "cssVar": "--nc-paper-bone",
+        "value": "#F1EEE5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Nc Signal Acid",
+        "cssVar": "--nc-signal-acid",
+        "value": "#CBFF49",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Nc Record Red",
+        "cssVar": "--nc-record-red",
+        "value": "#FF6748",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#050505",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#070808",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 3",
+        "cssVar": "--color-palette-3",
+        "value": "#090A0A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#090B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#0A0B0B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#0B0C0C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#0B0D0D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#0C0E0E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 9",
+        "cssVar": "--color-palette-9",
+        "value": "#0D0F0F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 10",
+        "cssVar": "--color-palette-10",
+        "value": "#0E1010",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 12",
+        "cssVar": "--color-palette-12",
+        "value": "#121414",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 13",
+        "cssVar": "--color-palette-13",
+        "value": "#131616",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 14",
+        "cssVar": "--color-palette-14",
+        "value": "#141717",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 15",
+        "cssVar": "--color-palette-15",
+        "value": "#151818",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 16",
+        "cssVar": "--color-palette-16",
+        "value": "#161919",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 17",
+        "cssVar": "--color-palette-17",
+        "value": "#171A1A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 18",
+        "cssVar": "--color-palette-18",
+        "value": "#171B1A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 19",
+        "cssVar": "--color-palette-19",
+        "value": "#181B1B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 20",
+        "cssVar": "--color-palette-20",
+        "value": "#181C1C",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 21",
+        "cssVar": "--color-palette-21",
+        "value": "#191D1D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 22",
+        "cssVar": "--color-palette-22",
+        "value": "#191E16",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 23",
+        "cssVar": "--color-palette-23",
+        "value": "#1A1D1D",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 24",
+        "cssVar": "--color-palette-24",
+        "value": "#1A1E1E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 25",
+        "cssVar": "--color-palette-25",
+        "value": "#1B1E1E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 26",
+        "cssVar": "--color-palette-26",
+        "value": "#1B2018",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 27",
+        "cssVar": "--color-palette-27",
+        "value": "#1C2020",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 28",
+        "cssVar": "--color-palette-28",
+        "value": "#1D2020",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 29",
+        "cssVar": "--color-palette-29",
+        "value": "#1D2121",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 30",
+        "cssVar": "--color-palette-30",
+        "value": "#1E2121",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 31",
+        "cssVar": "--color-palette-31",
+        "value": "#1E2222",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 32",
+        "cssVar": "--color-palette-32",
+        "value": "#202424",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 33",
+        "cssVar": "--color-palette-33",
+        "value": "#232727",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 34",
+        "cssVar": "--color-palette-34",
+        "value": "#252A2A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 35",
+        "cssVar": "--color-palette-35",
+        "value": "#262929",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 36",
+        "cssVar": "--color-palette-36",
+        "value": "#262A2A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 37",
+        "cssVar": "--color-palette-37",
+        "value": "#262B2B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 38",
+        "cssVar": "--color-palette-38",
+        "value": "#282E22",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 39",
+        "cssVar": "--color-palette-39",
+        "value": "#2A2E2E",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 40",
+        "cssVar": "--color-palette-40",
+        "value": "#2B3024",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 41",
+        "cssVar": "--color-palette-41",
+        "value": "#2C3030",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 42",
+        "cssVar": "--color-palette-42",
+        "value": "#2D3131",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 43",
+        "cssVar": "--color-palette-43",
+        "value": "#2E3333",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 44",
+        "cssVar": "--color-palette-44",
+        "value": "#2E3434",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 45",
+        "cssVar": "--color-palette-45",
+        "value": "#323737",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 46",
+        "cssVar": "--color-palette-46",
+        "value": "#3A4040",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 47",
+        "cssVar": "--color-palette-47",
+        "value": "#525757",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 48",
+        "cssVar": "--color-palette-48",
+        "value": "#8A6619",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 49",
+        "cssVar": "--color-palette-49",
+        "value": "#8F6B1A",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 50",
+        "cssVar": "--color-palette-50",
+        "value": "#B4B2A8",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 51",
+        "cssVar": "--color-palette-51",
+        "value": "#BDBAAD",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 52",
+        "cssVar": "--color-palette-52",
+        "value": "#C49A38",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 53",
+        "cssVar": "--color-palette-53",
+        "value": "#C79B3B",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 54",
+        "cssVar": "--color-palette-54",
+        "value": "#C8C6BC",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 56",
+        "cssVar": "--color-palette-56",
+        "value": "#D6D3C9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 57",
+        "cssVar": "--color-palette-57",
+        "value": "#E6C365",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 58",
+        "cssVar": "--color-palette-58",
+        "value": "#F0CE73",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Anton",
+        "fallback": "Impact, Arial Narrow, sans-serif",
+        "googleFont": "Anton"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "Public Sans",
+        "fallback": "-apple-system, BlinkMacSystemFont, sans-serif",
+        "googleFont": "Public Sans"
+      },
+      {
+        "name": "Font / Mono",
+        "cssVar": "--font-mono",
+        "family": "IBM Plex Mono",
+        "fallback": "ui-monospace, SFMono-Regular, monospace",
+        "googleFont": "IBM Plex Mono"
+      }
+    ],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "noiseclub.webp",
+      "publicPath": "https://www.openlanding.page/gallery/noiseclub.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Make the physical object matter",
+      "summary": "The actual PO-33 must be recognizable and technically accurate.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-2",
+      "index": 2,
+      "title": "Motion expresses sound editing",
+      "summary": "Capture → isolate → repeat → transform → release.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-3",
+      "index": 3,
+      "title": "Every scene has a narrative purpose",
+      "summary": "No motion exclusively to show off an animation library.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-4",
+      "index": 4,
+      "title": "One continuous publication",
+      "summary": "The page should feel like exploring a single long experimental music zine, not seven unrelated backgrounds.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".nc-halftone-strip",
+        ".nc-paper-halftone"
+      ]
+    },
+    {
+      "id": "section-5",
+      "index": 5,
+      "title": "Silent by default",
+      "summary": "Never autoplay audible sound or automatically request microphone access.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-6",
+      "index": 6,
+      "title": "Interactions are real",
+      "summary": "Tabs, effects, buttons, playback, and sequence edits must affect actual state.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-7",
+      "index": 7,
+      "title": "Desktop can be cinematic; mobile must remain usable",
+      "summary": "Maintain story coherence with reduced complexity.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    },
+    {
+      "id": "section-8",
+      "index": 8,
+      "title": "Accessible without motion",
+      "summary": "Information and actions remain available with reduced motion, keyboard input, touch, and without audio.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": []
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "noiseclub-styles-1",
+      "location": "head",
+      "title": "NOISE CLUB Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 3201,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@theme {\n  --color-nc-ink: #111313;\n  --color-nc-paper: #F1EEE5;\n  --color-nc-acid: #CBFF49;\n  --color-nc-red: #FF6748;\n\n  --ease-nc-out: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-nc-travel: cubic-bezier(0.77, 0, 0.175, 1);\n  --ease-nc-feedback: cubic-bezier(0.23, 1, 0.32, 1);\n\n  --dur-nc-press: 120ms;\n  --dur-nc-hover: 260ms;\n  --dur-nc-state: 420ms;\n  --dur-nc-reveal: 850ms;\n  --dur-nc-scene: 1100ms;\n\n  --font-display: var(--font-anton), Impact, 'Arial Narrow', sans-serif;\n  --font-sans: var(--font-public-sans), -apple-system, BlinkMacSystemFont, sans-serif;\n  --font-mono: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, monospace;\n}\n\n:root {\n  --nc-ink-black: #111313;\n  --nc-paper-bone: #F1EEE5;\n  --nc-signal-acid: #CBFF49;\n  --nc-record-red: #FF6748;\n\n  --nc-ease-out: cubic-bezier(0.16, 1, 0.3, 1);\n  --nc-ease-travel: cubic-bezier(0.77, 0, 0.175, 1);\n  --nc-ease-feedback: cubic-bezier(0.23, 1, 0.32, 1);\n\n  --nc-duration-press: 120ms;\n  --nc-duration-hover: 260ms;\n  --nc-duration-state: 420ms;\n  --nc-duration-reveal: 850ms;\n  --nc-duration-scene: 1100ms;\n\n  --font-display: var(--font-anton), Impact, 'Arial Narrow', sans-serif;\n  --font-sans: var(--font-public-sans), -apple-system, BlinkMacSystemFont, sans-serif;\n  --font-mono: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, monospace;\n}\n\n.nc-body {\n  background-color: #111313;\n  color: #F1EEE5;\n  font-family: var(--font-sans);\n  letter-spacing: 0.01em;\n  margin: 0;\n  overflow-x: hidden;\n}\n\n.font-display {\n  font-family: var(--font-display);\n  letter-spacing: -0.01em;\n  line-height: 0.94;\n  text-transform: uppercase;\n}\n\n.font-sans-body {\n  font-family: var(--font-sans);\n}\n\n.font-mono-meta {\n  font-family: var(--font-mono);\n  font-variant-numeric: tabular-nums;\n}\n\n/* Tactile print grain & subtle halftone surface without repaint jank */\n.nc-print-grain {\n  background-image: radial-gradient(rgba(241, 238, 229, 0.055) 1px, transparent 0);\n  background-size: 24px 24px;\n}\n\n.nc-halftone-strip {\n  background-image: radial-gradient(rgba(203, 255, 73, 0.18) 1px, transparent 0);\n  background-size: 6px 6px;\n}\n\n.nc-paper-halftone {\n  background-image: radial-gradient(rgba(17, 19, 19, 0.12) 1px, transparent 0);\n  background-size: 8px 8px;\n}\n\n/* Editorial irregular cut mask */\n.nc-cut-corner {\n  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));\n}\n\n/* Button tactile feedback */\n.nc-btn-interactive {\n  transition: transform var(--nc-duration-press) var(--nc-ease-feedback),\n              background-color var(--nc-duration-hover) var(--nc-ease-out),\n              color var(--nc-duration-hover) var(--nc-ease-out),\n              border-color var(--nc-duration-hover) var(--nc-ease-out);\n}\n\n.nc-btn-interactive:active {\n  transform: scale(0.97);\n}\n\n/* Accessible focus ring matching NOISE CLUB Signal Acid */\n:focus-visible {\n  outline: 2px solid #CBFF49;\n  outline-offset: 3px;\n}\n\n/* Respect reduced motion */\n@media (prefers-reduced-motion: reduce) {\n  *,\n  *::before,\n  *::after {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n    scroll-behavior: auto !important;\n  }\n}"
+    },
+    {
+      "id": "noiseclub-runtime-1",
+      "location": "footer",
+      "title": "NOISE CLUB Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 419,
+      "description": "Loads gsap, lenis in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "gsap",
+        "lenis"
+      ],
+      "code": "// NOISE CLUB — Webflow Custom Code Runtime Bridge\n// Dependencies: gsap, lenis\nimport Lenis from \"https://cdn.jsdelivr.net/npm/lenis@1.3.27/+esm\";\nimport gsap from \"https://cdn.jsdelivr.net/npm/gsap@3.15.0/+esm\";\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  const lenis = new Lenis({ autoRaf: true });\n  window.__openlandingLenis = lenis;\n}"
+    }
+  ]
+}

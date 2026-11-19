@@ -1,0 +1,169 @@
+{
+  "slug": "zeno",
+  "title": "ZENO.",
+  "industry": "Digital Experience & Technology",
+  "description": "ZENO is an independent creative practice building identities, campaigns, and digital experiences for brands ready to challenge convention.",
+  "stack": "Next.js 16 · React 19 · Motion · Tailwind v4",
+  "liveUrl": "https://www.openlanding.page/templates/zeno",
+  "downloadUrl": "https://www.openlanding.page/downloads/zeno.html",
+  "manifestUrl": "https://www.openlanding.page/copy/zeno-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/zeno-webflow-prompt.md",
+  "variables": {
+    "collectionName": "ZENO. Tokens",
+    "colors": [
+      {
+        "name": "Color / Bg",
+        "cssVar": "--bg",
+        "value": "#111117",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Bg Soft",
+        "cssVar": "--bg-soft",
+        "value": "#17171e",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Ivory",
+        "cssVar": "--ivory",
+        "value": "#F2F0EB",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Violet",
+        "cssVar": "--violet",
+        "value": "#A58AFF",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Cobalt",
+        "cssVar": "--cobalt",
+        "value": "#5367F9",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Lilac",
+        "cssVar": "--lilac",
+        "value": "#D8CFF2",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Muted",
+        "cssVar": "--muted",
+        "value": "#96939F",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Line",
+        "cssVar": "--line",
+        "value": "rgba(242, 240, 235, 0.20)",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Line Strong",
+        "cssVar": "--line-strong",
+        "value": "rgba(242, 240, 235, 0.38)",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [
+      {
+        "name": "Font / Display",
+        "cssVar": "--font-display",
+        "family": "Cormorant Garamond",
+        "fallback": "Cormorant Garamond, var(--font-bodoni-moda), Bodoni Moda, Georgia, serif",
+        "googleFont": "Cormorant Garamond"
+      },
+      {
+        "name": "Font / Sans",
+        "cssVar": "--font-sans",
+        "family": "DM Sans",
+        "fallback": "DM Sans, -apple-system, BlinkMacSystemFont, sans-serif",
+        "googleFont": "DM Sans"
+      },
+      {
+        "name": "Font / Bodoni Moda",
+        "cssVar": "--font-bodoni-moda",
+        "family": "Bodoni Moda",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Bodoni Moda"
+      },
+      {
+        "name": "Font / Playfair Display",
+        "cssVar": "--font-playfair-display",
+        "family": "Playfair Display",
+        "fallback": "system-ui, sans-serif",
+        "googleFont": "Playfair Display"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "Size / Section Pad X",
+        "cssVar": "--section-pad-x",
+        "value": "clamp(22px, 3vw, 58px)",
+        "isCustomExpression": true
+      },
+      {
+        "name": "Size / Header H",
+        "cssVar": "--header-h",
+        "value": "clamp(68px, 7vw, 104px)",
+        "isCustomExpression": true
+      }
+    ]
+  },
+  "assets": [
+    {
+      "fileName": "zeno.webp",
+      "publicPath": "https://www.openlanding.page/gallery/zeno.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "ZENO is an independent creative practice building identities, campaigns, and digital experiences for brands ready to challenge convention.",
+      "deliveryMode": "native-whtml",
+      "cssSelectors": [
+        ".dark",
+        ".032",
+        ".org",
+        ".font-editorial",
+        ".font-grotesk",
+        ".zeno-display-hero",
+        ".3rem",
+        ".1vw",
+        ".2rem",
+        ".022em",
+        ".zeno-display-section",
+        ".1rem"
+      ]
+    }
+  ],
+  "customCodeBlocks": [
+    {
+      "id": "zeno-styles-1",
+      "location": "head",
+      "title": "ZENO. Scoped Styles",
+      "maxChars": 45000,
+      "charCount": 3715,
+      "description": "Authored custom CSS variables, pseudo-elements, and keyframe rules that supplement native Webflow styles.",
+      "dependencies": [],
+      "code": "@custom-variant dark (&:where(.dark, .dark *));\r\n\r\n:root {\r\n  --bg: #111117;\r\n  --bg-soft: #17171e;\r\n  --ivory: #F2F0EB;\r\n  --violet: #A58AFF;\r\n  --cobalt: #5367F9;\r\n  --lilac: #D8CFF2;\r\n  --muted: #96939F;\r\n  --line: rgba(242, 240, 235, 0.20);\r\n  --line-strong: rgba(242, 240, 235, 0.38);\r\n  --section-pad-x: clamp(22px, 3vw, 58px);\r\n  --header-h: clamp(68px, 7vw, 104px);\r\n  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);\r\n\r\n  --font-display: var(--font-cormorant-garamond), 'Cormorant Garamond', var(--font-bodoni-moda), 'Bodoni Moda', Georgia, serif;\r\n  --font-sans: var(--font-dm-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;\r\n}\r\n\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nhtml {\r\n  background-color: var(--bg);\r\n  color: var(--ivory);\r\n  font-family: var(--font-sans);\r\n  scroll-behavior: smooth;\r\n}\r\n\r\n@media (prefers-reduced-motion: reduce) {\r\n  html {\r\n    scroll-behavior: auto;\r\n  }\r\n}\r\n\r\nbody {\r\n  background-color: var(--bg);\r\n  color: var(--ivory);\r\n  margin: 0;\r\n  padding: 0;\r\n  overflow-x: hidden;\r\n  position: relative;\r\n}\r\n\r\n/* Continuous subtle editorial print grain overlay across all sections */\r\nbody::before {\r\n  content: \"\";\r\n  position: fixed;\r\n  inset: 0;\r\n  pointer-events: none;\r\n  z-index: 45;\r\n  opacity: 0.032;\r\n  background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\");\r\n}\r\n\r\n/* Editorial Display Typography */\r\n.font-editorial {\r\n  font-family: var(--font-display);\r\n  font-feature-settings: \"liga\" 1, \"kern\" 1;\r\n}\r\n\r\n.font-grotesk {\r\n  font-family: var(--font-sans);\r\n}\r\n\r\n/* Oversized statement scale matching 16:9 references */\r\n.zeno-display-hero {\r\n  font-family: var(--font-display);\r\n  font-size: clamp(3.3rem, 7.1vw, 8.2rem);\r\n  line-height: 0.89;\r\n  letter-spacing: -0.022em;\r\n  font-weight: 600;\r\n}\r\n\r\n.zeno-display-section {\r\n  font-family: var(--font-display);\r\n  font-size: clamp(3.1rem, 6.6vw, 7.6rem);\r\n  line-height: 0.90;\r\n  letter-spacing: -0.022em;\r\n  font-weight: 600;\r\n}\r\n\r\n.zeno-display-work {\r\n  font-family: var(--font-display);\r\n  font-size: clamp(2.85rem, 6.0vw, 6.9rem);\r\n  line-height: 0.91;\r\n  letter-spacing: -0.02em;\r\n  font-weight: 600;\r\n}\r\n\r\n/* Expressive Violet Italic Accent with subtle registration echo */\r\n.zeno-accent-italic {\r\n  font-family: var(--font-display);\r\n  font-style: italic;\r\n  font-weight: 600;\r\n  color: var(--violet);\r\n  letter-spacing: -0.01em;\r\n  text-shadow: 3px 2px 0px rgba(165, 138, 255, 0.2), -1.5px -1px 0px rgba(83, 103, 249, 0.18);\r\n}\r\n\r\n/* Transparent Cutout Contour Shadows & 3D Depth Layering */\r\n.cutout-shadow-hero {\r\n  filter: drop-shadow(0 28px 52px rgba(0, 0, 0, 0.78))\r\n          drop-shadow(0 6px 18px rgba(83, 103, 249, 0.16));\r\n  will-change: transform;\r\n}\r\n\r\n.cutout-shadow-card {\r\n  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.76))\r\n          drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));\r\n  will-change: transform;\r\n}\r\n\r\n.cutout-shadow-card-active {\r\n  filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.86))\r\n          drop-shadow(0 0 26px rgba(165, 138, 255, 0.22));\r\n  will-change: transform;\r\n}\r\n\r\n.cutout-shadow-world {\r\n  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.22));\r\n  will-change: transform;\r\n}\r\n\r\n.perspective-stage {\r\n  perspective: 1200px;\r\n}\r\n\r\n/* Focus accessibility ring */\r\n.zeno-focus:focus-visible {\r\n  outline: 2px solid var(--violet);\r\n  outline-offset: 4px;\r\n}\r\n\r\n/* Vertical archive micro-labels */\r\n.writing-vertical {\r\n  writing-mode: vertical-rl;\r\n  text-orientation: mixed;\r\n}"
+    },
+    {
+      "id": "zeno-runtime-1",
+      "location": "footer",
+      "title": "ZENO. Interactive Runtime Bridge",
+      "maxChars": 45000,
+      "charCount": 269,
+      "description": "Loads motion in page footer custom code with prefers-reduced-motion guard.",
+      "dependencies": [
+        "motion"
+      ],
+      "code": "// ZENO. — Webflow Custom Code Runtime Bridge\n// Dependencies: motion\nconst prefersReducedMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif (!prefersReducedMotion) {\n  // Attach interactive stage controllers to [data-webflow-embed] containers\n}"
+    }
+  ]
+}

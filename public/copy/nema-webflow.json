@@ -1,0 +1,92 @@
+{
+  "slug": "nema",
+  "title": "NEMA",
+  "industry": "Conversational AI & Creative Tools",
+  "description": "A fictional conversational AI workspace for questions that become ideas, research, and creative projects.",
+  "stack": "HTML · CSS · JavaScript",
+  "liveUrl": "https://www.openlanding.page/templates/nema",
+  "downloadUrl": "https://www.openlanding.page/downloads/nema.html",
+  "manifestUrl": "https://www.openlanding.page/copy/nema-webflow.json",
+  "webflowPromptUrl": "https://www.openlanding.page/copy/nema-webflow-prompt.md",
+  "variables": {
+    "collectionName": "NEMA Tokens",
+    "colors": [
+      {
+        "name": "Color / Palette 1",
+        "cssVar": "--color-palette-1",
+        "value": "#f8f2ea",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 2",
+        "cssVar": "--color-palette-2",
+        "value": "#f3ece4",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 3",
+        "cssVar": "--color-palette-3",
+        "value": "#342d46",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 4",
+        "cssVar": "--color-palette-4",
+        "value": "#756b7e",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 5",
+        "cssVar": "--color-palette-5",
+        "value": "#e67c61",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 6",
+        "cssVar": "--color-palette-6",
+        "value": "#b7cdb7",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 7",
+        "cssVar": "--color-palette-7",
+        "value": "#e8d9e5",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 8",
+        "cssVar": "--color-palette-8",
+        "value": "#dcd3d0",
+        "isCustomExpression": false
+      },
+      {
+        "name": "Color / Palette 9",
+        "cssVar": "--color-palette-9",
+        "value": "#fffdfb",
+        "isCustomExpression": false
+      }
+    ],
+    "fonts": [],
+    "sizes": []
+  },
+  "assets": [
+    {
+      "fileName": "nema.webp",
+      "publicPath": "https://www.openlanding.page/gallery/nema.webp",
+      "contentType": "image/webp",
+      "role": "Gallery preview capture"
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "index": 1,
+      "title": "Main Landing Page",
+      "summary": "Recreate the supplied NEMA experience as one complete, self-contained HTML document at /nema. The canonical source is public/downloads/nema.html, imported from NEMA_Transparent_Cloud_Footer.html. Preserve its copy, responsive layouts, embed",
+      "deliveryMode": "hybrid-embed",
+      "cssSelectors": [],
+      "customCodeReason": "Uses custom motion or 3D runtime dependencies alongside native Webflow layout elements."
+    }
+  ],
+  "customCodeBlocks": []
+}
