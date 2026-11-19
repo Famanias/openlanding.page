@@ -75,14 +75,16 @@ export function TemplateCard({ template, isEager = false, instantMotion = false,
           <div className="card-title-row">
             <h3><a href={templatePath(template.slug)} target="_blank" rel="noopener noreferrer">{template.title}</a></h3>
             <a href={templateDetailPath(template.slug)} className="card-details-link" aria-label={`Details: ${template.title} landing page template`}>Details</a>
-            <button type="button" onClick={() => setPromptDialogOpen(true)} aria-live="polite"
-              aria-label={copyButtonLabel} aria-haspopup="dialog" aria-expanded={promptDialogOpen}
-              title="Copy prompt" data-copied={isPromptCopied} className="card-action-btn">
-              <span className="copy-icon-stack" aria-hidden="true">
-                <Copy className="copy-icon-default" size={16} />
-                <Check className="copy-icon-success" size={16} />
-              </span>
-            </button>
+            <div className="card-copy-menu-wrap" style={{ display: "inline-flex", flexShrink: 0 }}>
+              <button type="button" onClick={() => setPromptDialogOpen(true)} aria-live="polite"
+                aria-label={copyButtonLabel} aria-haspopup="dialog" aria-expanded={promptDialogOpen}
+                title="Copy prompt" data-copied={isPromptCopied} className="card-action-btn">
+                <span className="copy-icon-stack" aria-hidden="true">
+                  <Copy className="copy-icon-default" size={16} />
+                  <Check className="copy-icon-success" size={16} />
+                </span>
+              </button>
+            </div>
             <button type="button" onClick={handleDownloadTemplate} aria-live="polite" aria-label={copiedAction === "template" ? "Downloaded HTML" : "Download HTML"}
               aria-description={template.hasDownload ? undefined : "The standalone HTML export is coming soon."}
               title={!template.hasDownload ? "HTML coming soon" : copiedAction === "template" ? "Downloaded HTML" : "Download HTML"}
